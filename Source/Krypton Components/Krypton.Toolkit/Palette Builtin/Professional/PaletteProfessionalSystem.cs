@@ -181,21 +181,21 @@ namespace Krypton.Toolkit
 
         #region Instance Fields
         private KryptonProfessionalKCT _table;
-        private Font _header1ShortFont;
-        private Font _header2ShortFont;
-        private Font _header1LongFont;
-        private Font _header2LongFont;
-        private Font _superToolFont;
-        private Font _headerFormFont;
-        private Font _buttonFont;
-        private Font _buttonFontNavigatorMini;
-        private Font _tabFontNormal;
-        private Font _tabFontSelected;
-        private Font _gridFont;
-        private Font _calendarFont;
-        private Font _calendarBoldFont;
-        private Font _boldFont;
-        private Font _italicFont;
+        private Font? _header1ShortFont;
+        private Font? _header2ShortFont;
+        private Font? _header1LongFont;
+        private Font? _header2LongFont;
+        private Font? _superToolFont;
+        private Font? _headerFormFont;
+        private Font? _buttonFont;
+        private Font? _buttonFontNavigatorMini;
+        private Font? _tabFontNormal;
+        private Font? _tabFontSelected;
+        private Font? _gridFont;
+        private Font? _calendarFont;
+        private Font? _calendarBoldFont;
+        private Font? _boldFont;
+        private Font? _italicFont;
         private Image _disabledDropDownImage;
         private Image _normalDropDownImage;
         //private Color _disabledDropDownColor;
@@ -4396,35 +4396,80 @@ namespace Krypton.Toolkit
         protected override void DefineFonts()
         {
             // Release existing resources
-            _header1ShortFont?.Dispose();
+            if (_header1ShortFont != null)
+            {
+                _header1ShortFont.Dispose();
+            }
 
-            _header2ShortFont?.Dispose();
+            if (_header2ShortFont != null)
+            {
+                _header2ShortFont.Dispose();
+            }
 
-            _headerFormFont?.Dispose();
+            if (_headerFormFont != null)
+            {
+                _headerFormFont.Dispose();
+            }
 
-            _header1LongFont?.Dispose();
+            if (_header1LongFont != null)
+            {
+                _header1LongFont.Dispose();
+            }
 
-            _header2LongFont?.Dispose();
+            if (_header2LongFont != null)
+            {
+                _header2LongFont.Dispose();
+            }
 
-            _buttonFont?.Dispose();
+            if (_buttonFont != null)
+            {
+                _buttonFont.Dispose();
+            }
 
-            _buttonFontNavigatorMini?.Dispose();
+            if (_buttonFontNavigatorMini != null)
+            {
+                _buttonFontNavigatorMini.Dispose();
+            }
 
-            _tabFontSelected?.Dispose();
+            if (_tabFontSelected != null)
+            {
+                _tabFontSelected.Dispose();
+            }
 
-            _tabFontNormal?.Dispose();
+            if (_tabFontNormal != null)
+            {
+                _tabFontNormal.Dispose();
+            }
 
-            _gridFont?.Dispose();
+            if (_gridFont != null)
+            {
+                _gridFont.Dispose();
+            }
 
-            _calendarFont?.Dispose();
+            if (_calendarFont != null)
+            {
+                _calendarFont.Dispose();
+            }
 
-            _calendarBoldFont?.Dispose();
+            if (_calendarBoldFont != null)
+            {
+                _calendarBoldFont.Dispose();
+            }
 
-            _superToolFont?.Dispose();
+            if (_superToolFont != null)
+            {
+                _superToolFont.Dispose();
+            }
 
-            _boldFont?.Dispose();
+            if (_boldFont != null)
+            {
+                _boldFont.Dispose();
+            }
 
-            _italicFont?.Dispose();
+            if (_italicFont != null)
+            {
+                _italicFont.Dispose();
+            }
 
             _header1ShortFont = SystemFonts.IconTitleFont; //new Font("Arial", baseFontSize + 4.5f, FontStyle.Bold);
             _header2ShortFont = SystemFonts.DefaultFont;

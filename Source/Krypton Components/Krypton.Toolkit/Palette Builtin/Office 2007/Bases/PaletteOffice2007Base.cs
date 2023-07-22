@@ -190,23 +190,23 @@ namespace Krypton.Toolkit
         private readonly ImageList _checkBoxList;
         private readonly ImageList _galleryButtonList;
         private readonly Image[] _radioButtonArray;
-        private Font _boldFont;
-        private Font _italicFont;
-        private Font _header1ShortFont;
-        private Font _header2ShortFont;
-        private Font _header1LongFont;
-        private Font _header2LongFont;
-        private Font _superToolFont;
-        private Font _headerFormFont;
-        private Font _buttonFont;
-        private Font _buttonFontNavigatorStack;
-        private Font _buttonFontNavigatorMini;
-        private Font _tabFontNormal;
-        private Font _tabFontSelected;
-        private Font _ribbonTabFont;
-        private Font _gridFont;
-        private Font _calendarFont;
-        private Font _calendarBoldFont;
+        private Font? _boldFont;
+        private Font? _italicFont;
+        private Font? _header1ShortFont;
+        private Font? _header2ShortFont;
+        private Font? _header1LongFont;
+        private Font? _header2LongFont;
+        private Font? _superToolFont;
+        private Font? _headerFormFont;
+        private Font? _buttonFont;
+        private Font? _buttonFontNavigatorStack;
+        private Font? _buttonFontNavigatorMini;
+        private Font? _tabFontNormal;
+        private Font? _tabFontSelected;
+        private Font? _ribbonTabFont;
+        private Font? _gridFont;
+        private Font? _calendarFont;
+        private Font? _calendarBoldFont;
         private string _baseFontName;
         private string _themeName;
         #endregion
@@ -5714,39 +5714,90 @@ namespace Krypton.Toolkit
         protected override void DefineFonts()
         {
             // Release existing resources
-            _header1ShortFont?.Dispose();
+            if (_header1ShortFont != null)
+            {
+                _header1ShortFont.Dispose();
+            }
 
-            _header2ShortFont?.Dispose();
+            if (_header2ShortFont != null)
+            {
+                _header2ShortFont.Dispose();
+            }
 
-            _headerFormFont?.Dispose();
+            if (_headerFormFont != null)
+            {
+                _headerFormFont.Dispose();
+            }
 
-            _header1LongFont?.Dispose();
+            if (_header1LongFont != null)
+            {
+                _header1LongFont.Dispose();
+            }
 
-            _header2LongFont?.Dispose();
+            if (_header2LongFont != null)
+            {
+                _header2LongFont.Dispose();
+            }
 
-            _buttonFont?.Dispose();
+            if (_buttonFont != null)
+            {
+                _buttonFont.Dispose();
+            }
 
-            _buttonFontNavigatorStack?.Dispose();
+            if (_buttonFontNavigatorStack != null)
+            {
+                _buttonFontNavigatorStack.Dispose();
+            }
 
-            _buttonFontNavigatorMini?.Dispose();
+            if (_buttonFontNavigatorMini != null)
+            {
+                _buttonFontNavigatorMini.Dispose();
+            }
 
-            _tabFontSelected?.Dispose();
+            if (_tabFontSelected != null)
+            {
+                _tabFontSelected.Dispose();
+            }
 
-            _tabFontNormal?.Dispose();
+            if (_tabFontNormal != null)
+            {
+                _tabFontNormal.Dispose();
+            }
 
-            _ribbonTabFont?.Dispose();
+            if (_ribbonTabFont != null)
+            {
+                _ribbonTabFont.Dispose();
+            }
 
-            _gridFont?.Dispose();
+            if (_gridFont != null)
+            {
+                _gridFont.Dispose();
+            }
 
-            _calendarFont?.Dispose();
+            if (_calendarFont != null)
+            {
+                _calendarFont.Dispose();
+            }
 
-            _calendarBoldFont?.Dispose();
+            if (_calendarBoldFont != null)
+            {
+                _calendarBoldFont.Dispose();
+            }
 
-            _superToolFont?.Dispose();
+            if (_superToolFont != null)
+            {
+                _superToolFont.Dispose();
+            }
 
-            _boldFont?.Dispose();
+            if (_boldFont != null)
+            {
+                _boldFont.Dispose();
+            }
 
-            _italicFont?.Dispose();
+            if (_italicFont != null)
+            {
+                _italicFont.Dispose();
+            }
 
             var baseFontSize = BaseFontSize;
             var baseFontName = BaseFontName;

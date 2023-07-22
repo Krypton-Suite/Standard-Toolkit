@@ -26,6 +26,7 @@ namespace Krypton.Toolkit
         private Padding? _inputControlPadding;
         private PaletteDragFeedback _dragFeedback;
         private string? _themeName;
+        private Font? _baseFont;
 
         #endregion
 
@@ -1224,6 +1225,13 @@ namespace Krypton.Toolkit
                     OnPalettePaint(this, new PaletteLayoutEventArgs(true, false));
                 }
             }
+        }
+
+        public virtual Font? BaseFont
+        {
+            get => _baseFont ?? new("Segoe UI", 11f, FontStyle.Regular);
+
+            set => _baseFont = value;
         }
 
         public virtual string? ThemeName { get => _themeName; set => _themeName = value; }
