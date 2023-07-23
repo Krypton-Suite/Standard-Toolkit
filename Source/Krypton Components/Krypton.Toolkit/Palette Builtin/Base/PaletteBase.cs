@@ -29,7 +29,7 @@ namespace Krypton.Toolkit
 
         #region Font Stuff
 
-        private Font? _baseFont;
+        private Font _baseFont;
         public Font? _boldFont;
         public Font? _italicFont;
         public Font? _header1ShortFont;
