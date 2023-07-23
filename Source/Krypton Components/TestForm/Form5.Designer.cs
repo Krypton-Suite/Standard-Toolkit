@@ -79,10 +79,6 @@
             this.kryptonThemeComboBox1.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.kryptonThemeComboBox1.TabIndex = 0;
             // 
-            // kryptonManager1
-            // 
-            this.kryptonManager1.GlobalPaletteMode = Krypton.Toolkit.PaletteMode.Office2013White;
-            // 
             // buttonSpecAny1
             // 
             this.buttonSpecAny1.Style = Krypton.Toolkit.PaletteButtonStyle.Inherit;
@@ -106,11 +102,8 @@
             // 
             // kryptonIntegratedToolBarManager1
             // 
-            this.kryptonIntegratedToolBarManager1.AllowFormIntegration = true;
             this.kryptonIntegratedToolBarManager1.IntegratedToolBarButtonAlignment = Krypton.Toolkit.PaletteRelativeEdgeAlign.Far;
-            this.kryptonIntegratedToolBarManager1.IntegratedToolBarButtonOrientation = Krypton.Toolkit.PaletteButtonOrientation.Auto;
-            this.kryptonIntegratedToolBarManager1.ParentForm = this;
-            this.kryptonIntegratedToolBarManager1.ShowCopyButton = true;
+            this.kryptonIntegratedToolBarManager1.IntegratedToolBarButtonOrientation = Krypton.Toolkit.PaletteButtonOrientation.FixedTop;
             // 
             // Form5
             // 
@@ -124,7 +117,6 @@
             this.Controls.Add(this.kryptonPanel1);
             this.Name = "Form5";
             this.Text = "Form5";
-            this.ToolBarManager = this.kryptonIntegratedToolBarManager1;
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).EndInit();
             this.kryptonPanel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.kryptonThemeComboBox1)).EndInit();
