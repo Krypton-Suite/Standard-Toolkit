@@ -699,7 +699,7 @@ namespace Krypton.Toolkit
         /// <summary>Gets or sets the tool bar manager.</summary>
         /// <value>The tool bar manager.</value>
         [AllowNull, Category(@"Visuals"), Description(@"Gets or sets the tool bar manager.")]
-        public KryptonIntegratedToolBarManager ToolBarManager { get; set; }
+        public KryptonIntegratedToolBarManager? ToolBarManager { get; set; }
 
         #endregion
 
