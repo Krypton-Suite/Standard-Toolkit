@@ -10,8 +10,6 @@
  */
 #endregion
 
-using Krypton.Toolkit.ResourceFiles.Toolbars;
-
 namespace Krypton.Toolkit
 {
     /// <summary>
@@ -436,21 +434,6 @@ namespace Krypton.Toolkit
 
         #region Instance Fields
         private KryptonProfessionalKCT _table;
-        private Font? _header1ShortFont;
-        private Font? _header2ShortFont;
-        private Font? _header1LongFont;
-        private Font? _header2LongFont;
-        private Font? _superToolFont;
-        private Font? _headerFormFont;
-        private Font? _buttonFont;
-        private Font? _buttonFontNavigatorMini;
-        private Font? _tabFontNormal;
-        private Font? _tabFontSelected;
-        private Font? _gridFont;
-        private Font? _calendarFont;
-        private Font? _calendarBoldFont;
-        private Font? _boldFont;
-        private Font? _italicFont;
         private Image _disabledDropDownImage;
         private Image _normalDropDownImage;
         //private Color _disabledDropDownColor;
@@ -4647,106 +4630,6 @@ namespace Krypton.Toolkit
             DefineRibbonColors();
 
             base.OnUserPreferenceChanged(sender, e);
-        }
-        #endregion
-
-        #region Protected
-        /// <summary>
-        /// Update the fonts to reflect system or user defined changes.
-        /// </summary>
-        protected override void DefineFonts()
-        {
-            // Release existing resources
-            if (_header1ShortFont != null)
-            {
-                _header1ShortFont.Dispose();
-            }
-
-            if (_header2ShortFont != null)
-            {
-                _header2ShortFont.Dispose();
-            }
-
-            if (_headerFormFont != null)
-            {
-                _headerFormFont.Dispose();
-            }
-
-            if (_header1LongFont != null)
-            {
-                _header1LongFont.Dispose();
-            }
-
-            if (_header2LongFont != null)
-            {
-                _header2LongFont.Dispose();
-            }
-
-            if (_buttonFont != null)
-            {
-                _buttonFont.Dispose();
-            }
-
-            if (_buttonFontNavigatorMini != null)
-            {
-                _buttonFontNavigatorMini.Dispose();
-            }
-
-            if (_tabFontSelected != null)
-            {
-                _tabFontSelected.Dispose();
-            }
-
-            if (_tabFontNormal != null)
-            {
-                _tabFontNormal.Dispose();
-            }
-
-            if (_gridFont != null)
-            {
-                _gridFont.Dispose();
-            }
-
-            if (_calendarFont != null)
-            {
-                _calendarFont.Dispose();
-            }
-
-            if (_calendarBoldFont != null)
-            {
-                _calendarBoldFont.Dispose();
-            }
-
-            if (_superToolFont != null)
-            {
-                _superToolFont.Dispose();
-            }
-
-            if (_boldFont != null)
-            {
-                _boldFont.Dispose();
-            }
-
-            if (_italicFont != null)
-            {
-                _italicFont.Dispose();
-            }
-
-            _header1ShortFont = SystemFonts.IconTitleFont; //new Font("Arial", baseFontSize + 4.5f, FontStyle.Bold);
-            _header2ShortFont = SystemFonts.DefaultFont;
-            _header1LongFont = SystemFonts.MenuFont;
-            _header2LongFont = SystemFonts.IconTitleFont;
-            _headerFormFont = SystemFonts.CaptionFont;
-            _buttonFont = SystemFonts.IconTitleFont;
-            _buttonFontNavigatorMini = SystemFonts.SmallCaptionFont;
-            _tabFontNormal = SystemFonts.IconTitleFont;
-            _tabFontSelected = new Font(_tabFontNormal, FontStyle.Bold);
-            _gridFont = SystemFonts.IconTitleFont;
-            _superToolFont = SystemFonts.SmallCaptionFont;
-            _calendarFont = SystemFonts.DialogFont;
-            _calendarBoldFont = new Font(SystemFonts.DialogFont, FontStyle.Bold);
-            _boldFont = new Font(SystemFonts.DialogFont, FontStyle.Bold);
-            _italicFont = new Font(SystemFonts.DialogFont, FontStyle.Italic);
         }
         #endregion
 
