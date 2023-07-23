@@ -8,10 +8,8 @@ namespace Krypton.Toolkit
 {
     internal class KryptonIntegratedToolBarManagerActionList : DesignerActionList
     {
-        //public KryptonIntegratedToolBarManagerActionList(KryptonIntegratedToolBarManager owner) : base(owner.Component)
-        //{
-        //}
-        public KryptonIntegratedToolBarManagerActionList(IComponent component) : base(component)
+
+        public KryptonIntegratedToolBarManagerActionList(KryptonIntegratedToolBarManager owner) : base(owner)
         {
         }
     }
