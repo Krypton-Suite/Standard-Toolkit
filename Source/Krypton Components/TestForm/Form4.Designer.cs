@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.kryptonNavigator1 = new Krypton.Navigator.KryptonNavigator();
             this.kryptonCommand1 = new Krypton.Toolkit.KryptonCommand();
             this.kryptonGroupBox1 = new Krypton.Toolkit.KryptonGroupBox();
@@ -63,7 +64,7 @@
             // kryptonGroupBox1
             // 
             this.kryptonGroupBox1.Location = new System.Drawing.Point(49, 54);
-            this.kryptonGroupBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.kryptonGroupBox1.Margin = new System.Windows.Forms.Padding(2);
             this.kryptonGroupBox1.Name = "kryptonGroupBox1";
             // 
             // kryptonGroupBox1.Panel
@@ -78,7 +79,7 @@
             this.kryptonComboBox1.DropDownWidth = 121;
             this.kryptonComboBox1.IntegralHeight = false;
             this.kryptonComboBox1.Location = new System.Drawing.Point(21, 80);
-            this.kryptonComboBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.kryptonComboBox1.Margin = new System.Windows.Forms.Padding(2);
             this.kryptonComboBox1.Name = "kryptonComboBox1";
             this.kryptonComboBox1.Size = new System.Drawing.Size(91, 21);
             this.kryptonComboBox1.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
@@ -88,7 +89,7 @@
             // kryptonCheckBox1
             // 
             this.kryptonCheckBox1.Location = new System.Drawing.Point(34, 19);
-            this.kryptonCheckBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.kryptonCheckBox1.Margin = new System.Windows.Forms.Padding(2);
             this.kryptonCheckBox1.Name = "kryptonCheckBox1";
             this.kryptonCheckBox1.Size = new System.Drawing.Size(125, 20);
             this.kryptonCheckBox1.TabIndex = 0;
