@@ -185,27 +185,9 @@ namespace Krypton.Toolkit
         private readonly ImageList _checkBoxList;
         private readonly ImageList _galleryButtonList;
         private readonly Image[] _radioButtonArray;
-        private Font _header1ShortFont;
-        private Font _header2ShortFont;
-        private Font _header1LongFont;
-        private Font _header2LongFont;
-        private Font _superToolFont;
-        private Font _headerFormFont;
-        private Font _buttonFont;
-        private Font _buttonFontNavigatorStack;
-        private Font _buttonFontNavigatorMini;
-        private Font _tabFontNormal;
-        private Font _tabFontSelected;
-        private Font _ribbonTabFont;
-        private Font _ribbonTabContextFont;
-        private Font _gridFont;
-        private Font _calendarFont;
-        private Font _calendarBoldFont;
-        private Font _boldFont;
-        private Font _italicFont;
         private string _baseFontName;
 
-        //TODO rendre dynamique
+        //TODO Dynamically render
         //public static Color baseUserColor = Color.FromArgb(255, 248, 56);
         #endregion
 
@@ -4541,72 +4523,6 @@ namespace Krypton.Toolkit
                     OnPalettePaint(this, new PaletteLayoutEventArgs(true, false));
                 }
             }
-        }
-        #endregion
-
-        #region Protected
-        /// <summary>
-        /// Update the fonts to reflect system or user defined changes.
-        /// </summary>
-        protected override void DefineFonts()
-        {
-            // Release existing resources
-            _header1ShortFont?.Dispose();
-
-            _header2ShortFont?.Dispose();
-
-            _headerFormFont?.Dispose();
-
-            _header1LongFont?.Dispose();
-
-            _header2LongFont?.Dispose();
-
-            _buttonFont?.Dispose();
-
-            _buttonFontNavigatorStack?.Dispose();
-
-            _buttonFontNavigatorMini?.Dispose();
-
-            _tabFontSelected?.Dispose();
-
-            _tabFontNormal?.Dispose();
-
-            _ribbonTabFont?.Dispose();
-
-            _ribbonTabContextFont?.Dispose();
-
-            _gridFont?.Dispose();
-
-            _calendarFont?.Dispose();
-
-            _calendarBoldFont?.Dispose();
-
-            _superToolFont?.Dispose();
-
-            _boldFont?.Dispose();
-
-            _italicFont?.Dispose();
-
-            var baseFontSize = BaseFontSize;
-            var baseFontName = BaseFontName;
-            _header1ShortFont = new Font(baseFontName, baseFontSize + 4.5f, FontStyle.Bold);
-            _header2ShortFont = new Font(baseFontName, baseFontSize, FontStyle.Regular);
-            _headerFormFont = new Font(baseFontName, SystemFonts.CaptionFont.SizeInPoints, FontStyle.Regular);
-            _header1LongFont = new Font(baseFontName, baseFontSize + 1.5f, FontStyle.Regular);
-            _header2LongFont = new Font(baseFontName, baseFontSize, FontStyle.Regular);
-            _buttonFont = new Font(baseFontName, baseFontSize, FontStyle.Regular);
-            _buttonFontNavigatorStack = new Font(_buttonFont, FontStyle.Bold);
-            _buttonFontNavigatorMini = new Font(baseFontName, baseFontSize + 3.0f, FontStyle.Bold);
-            _tabFontNormal = new Font(baseFontName, baseFontSize, FontStyle.Regular);
-            _tabFontSelected = new Font(_tabFontNormal, FontStyle.Bold);
-            _ribbonTabFont = new Font(baseFontName, baseFontSize, FontStyle.Regular);
-            _ribbonTabContextFont = new Font(_ribbonTabFont, FontStyle.Bold);
-            _gridFont = new Font(baseFontName, baseFontSize, FontStyle.Regular);
-            _superToolFont = new Font(baseFontName, baseFontSize, FontStyle.Bold);
-            _calendarFont = new Font(baseFontName, baseFontSize, FontStyle.Regular);
-            _calendarBoldFont = new Font(baseFontName, baseFontSize, FontStyle.Bold);
-            _boldFont = new Font(baseFontName, baseFontSize, FontStyle.Bold);
-            _italicFont = new Font(baseFontName, baseFontSize, FontStyle.Italic);
         }
         #endregion
 

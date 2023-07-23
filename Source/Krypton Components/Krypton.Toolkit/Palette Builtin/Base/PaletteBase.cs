@@ -27,14 +27,29 @@ namespace Krypton.Toolkit
         private PaletteDragFeedback _dragFeedback;
         private string? _themeName;
 
+        #region Font Stuff
+
+        private Font _baseFont;
+        public Font? _boldFont;
+        public Font? _italicFont;
+        public Font? _header1ShortFont;
+        public Font? _header2ShortFont;
+        public Font? _header1LongFont;
+        public Font? _header2LongFont;
+        public Font? _superToolFont;
+        public Font? _headerFormFont;
+        public Font? _buttonFont;
+        public Font? _buttonFontNavigatorStack;
+        public Font? _buttonFontNavigatorMini;
+        public Font? _tabFontNormal;
+        public Font? _tabFontSelected;
+        public Font? _ribbonTabFont;
+        public Font? _gridFont;
+        public Font? _calendarFont;
+        public Font? _calendarBoldFont;
+        public Font? _ribbonTabContextFont;
+
         #endregion
-
-        #region Public
-
-        /// <summary>Gets or sets a value indicating whether [use krypton file dialogs].</summary>
-        /// <value><c>true</c> if [use krypton file dialogs]; otherwise, <c>false</c>.</value>
-        [DefaultValue(false), Description(@"Use Krypton style file dialogs for exporting/importing palettes.")]
-        public bool UseKryptonFileDialogs { get => _useKryptonFileDialogs; set => _useKryptonFileDialogs = value; }
 
         #endregion
 
@@ -1188,6 +1203,12 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Public
+
+        /// <summary>Gets or sets a value indicating whether [use krypton file dialogs].</summary>
+        /// <value><c>true</c> if [use krypton file dialogs]; otherwise, <c>false</c>.</value>
+        [DefaultValue(false), Description(@"Use Krypton style file dialogs for exporting/importing palettes.")]
+        public bool UseKryptonFileDialogs { get => _useKryptonFileDialogs; set => _useKryptonFileDialogs = value; }
+
         /// <summary>
         /// Gets and sets the base font size used when defining fonts.
         /// </summary>
@@ -1226,6 +1247,22 @@ namespace Krypton.Toolkit
             }
         }
 
+        [AllowNull]
+        public virtual Font? BaseFont
+        {
+            get => _baseFont ?? new("Segoe UI", BaseFontSize, FontStyle.Regular);
+
+            set
+            {
+                _baseFont = value;
+
+                if (value == null)
+                {
+                    _baseFont = new("Segoe UI", BaseFontSize, FontStyle.Regular);
+                }
+            }
+        }
+
         public virtual string? ThemeName { get => _themeName; set => _themeName = value; }
 
         public virtual BasePaletteType BasePaletteType { get => _basePaletteType; set => _basePaletteType = value; }
@@ -1233,10 +1270,60 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Protected
+
         /// <summary>
         /// Update the fonts to reflect system or user defined changes.
         /// </summary>
-        protected abstract void DefineFonts();
+        protected virtual void DefineFonts()
+        {
+            // Release resources
+            DisposeFonts();
+
+            var temporaryFont = BaseFont;
+
+            _header1ShortFont = new Font(temporaryFont.Name, temporaryFont.Size + 4.5f, FontStyle.Bold);
+            _header2ShortFont = new Font(temporaryFont.Name, temporaryFont.Size, FontStyle.Regular);
+            _headerFormFont = new Font(temporaryFont.Name, SystemFonts.CaptionFont.SizeInPoints, FontStyle.Regular);
+            _header1LongFont = new Font(temporaryFont.Name, temporaryFont.Size + 1.5f, FontStyle.Regular);
+            _header2LongFont = new Font(temporaryFont.Name, temporaryFont.Size, FontStyle.Regular);
+            _buttonFont = new Font(temporaryFont.Name, temporaryFont.Size, FontStyle.Regular);
+            _buttonFontNavigatorStack = new Font(_buttonFont, FontStyle.Bold);
+            _buttonFontNavigatorMini = new Font(temporaryFont.Name, temporaryFont.Size + 3.5f, FontStyle.Bold);
+            _tabFontNormal = new Font(temporaryFont.Name, temporaryFont.Size, FontStyle.Regular);
+            _tabFontSelected = new Font(_tabFontNormal, FontStyle.Bold);
+            _ribbonTabFont = new Font(temporaryFont.Name, temporaryFont.Size, FontStyle.Regular);
+            _gridFont = new Font(temporaryFont.Name, temporaryFont.Size, FontStyle.Regular);
+            _superToolFont = new Font(temporaryFont.Name, temporaryFont.Size, FontStyle.Bold);
+            _calendarFont = new Font(temporaryFont.Name, temporaryFont.Size, FontStyle.Regular);
+            _calendarBoldFont = new Font(temporaryFont.Name, temporaryFont.Size, FontStyle.Bold);
+            _boldFont = new Font(temporaryFont.Name, temporaryFont.Size, FontStyle.Bold);
+            _italicFont = new Font(temporaryFont.Name, temporaryFont.Size, FontStyle.Italic);
+
+            _ribbonTabContextFont = new Font(_ribbonTabFont, FontStyle.Bold);
+        }
+
+        protected virtual void DisposeFonts()
+        {
+            _header1ShortFont?.Dispose();
+            _header2ShortFont?.Dispose();
+            _header1LongFont?.Dispose();
+            _header2LongFont?.Dispose();
+            _headerFormFont?.Dispose();
+            _buttonFont?.Dispose();
+            _buttonFontNavigatorStack?.Dispose();
+            _buttonFontNavigatorMini?.Dispose();
+            _tabFontNormal?.Dispose();
+            _tabFontSelected?.Dispose();
+            _ribbonTabFont?.Dispose();
+            _gridFont?.Dispose();
+            _calendarFont?.Dispose();
+            _calendarBoldFont?.Dispose();
+            _superToolFont?.Dispose();
+            _boldFont?.Dispose();
+            _italicFont?.Dispose();
+            _ribbonTabContextFont?.Dispose();
+        }
+
         #endregion
 
         #region ColorTable
