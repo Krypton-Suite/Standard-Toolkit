@@ -23,14 +23,14 @@ namespace Krypton.Toolkit
         private readonly ViewDrawMenuImageCanvas _imageCanvas;
         private readonly ViewDrawContent _imageContent;
         private readonly ViewDrawMenuItemContent _textContent;
-        private readonly FixedContentValue _fixedImage;
-        private VisualContextMenu _contextMenu;
-        private readonly ViewDrawMenuItemContent _shortcutContent;
+        private readonly FixedContentValue? _fixedImage;
+        private VisualContextMenu? _contextMenu;
+        private readonly ViewDrawMenuItemContent? _shortcutContent;
         private readonly ViewDrawMenuItemContent _subMenuContent;
         private readonly FixedContentValue _fixedTextExtraText;
-        private KryptonCommand _cachedCommand;
+        private KryptonCommand? _cachedCommand;
         private readonly bool _imageColumn;
-        private readonly bool _standardStyle;
+        private VisualPopupToolTip? _visualPopupToolTip;
 
         #endregion
 
@@ -60,7 +60,6 @@ namespace Krypton.Toolkit
             _provider = provider;
             KryptonContextMenuItem = menuItem;
             _imageColumn = imageColumn;
-            _standardStyle = standardStyle;
 
             // Give the item object the redirector to use when inheriting values
             KryptonContextMenuItem.SetPaletteRedirect(provider);
@@ -162,6 +161,11 @@ namespace Krypton.Toolkit
                 _cachedCommand = KryptonContextMenuItem.KryptonCommand;
                 KryptonContextMenuItem.KryptonCommand.PropertyChanged += OnCommandPropertyChanged;
             }
+
+            // Create the manager for handling tooltips
+            ToolTipManager = new ToolTipManager(KryptonContextMenuItem.ToolTipValues);
+            ToolTipManager.ShowToolTip += OnShowToolTip;
+            ToolTipManager.CancelToolTip += OnCancelToolTip;
         }
 
         /// <summary>
@@ -171,6 +175,13 @@ namespace Krypton.Toolkit
         public override string ToString() =>
             // Return the class name and instance identifier
             $"ViewDrawMenuItem:{Id}";
+
+        /// <summary>
+        /// Gets access to the ToolTipManager used for displaying tool tips.
+        /// </summary>
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public ToolTipManager ToolTipManager { get; }
 
         /// <summary>
         /// Clean up any resources being used.
@@ -246,7 +257,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resolves the correct image to use from the menu item.
         /// </summary>
-        public Image ResolveImage
+        public Image? ResolveImage
         {
             get
             {
@@ -502,7 +513,7 @@ namespace Krypton.Toolkit
             // If we have image display
             if (_fixedImage != null)
             {
-                Image itemColumnImage = ResolveImage;
+                Image? itemColumnImage = ResolveImage;
                 Color itemImageTransparent = ResolveImageTransparentColor;
 
                 // If no image found then...
@@ -582,7 +593,7 @@ namespace Krypton.Toolkit
                 case @"Text":
                 case @"ExtraText":
                 case nameof(Enabled):
-                case nameof(Image):
+                case @"Image":
                 case @"ImageTransparentColor":
                 case @"Checked":
                 case nameof(CheckState):
@@ -630,13 +641,14 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnContextMenuDisposed(object sender, EventArgs e)
+        internal void OnContextMenuDisposed(object sender, EventArgs e)
         {
             // Should still be caching a reference to actual display control
             if (_contextMenu != null)
             {
                 // Unhook from control, so it can be garbage collected
                 _contextMenu.Disposed -= OnContextMenuDisposed;
+                OnCancelToolTip(sender, e);
 
                 // No longer need to cache reference
                 _contextMenu = null;
@@ -644,6 +656,53 @@ namespace Krypton.Toolkit
                 // Tell our view manager that we no longer show a sub menu
                 _provider.ProviderViewManager.ClearTargetSubMenu((IContextMenuTarget)KeyController);
             }
+        }
+
+        internal void OnShowToolTip(object sender, ToolTipEventArgs e)
+        {
+            if (!IsDisposed)
+            {
+                // Do not show tooltips when the form we are in does not have focus
+                //Form? topForm = FindForm();
+                //if (topForm is { ContainsFocus: false })
+                //{
+                //    return;
+                //}
+
+                // Never show tooltips are design time
+                //if (!DesignMode)
+                {
+                    // Remove any currently showing tooltip
+                    _visualPopupToolTip?.Dispose();
+
+                    // Create the actual tooltip popup object
+                    var renderer = _provider.ProviderPalette?.GetRenderer();
+                    _visualPopupToolTip = new VisualPopupToolTip(_provider.ProviderRedirector,
+                        KryptonContextMenuItem.ToolTipValues,
+                        renderer,
+                        PaletteBackStyle.ControlToolTip,
+                        PaletteBorderStyle.ControlToolTip,
+                        CommonHelper.ContentStyleFromLabelStyle(KryptonContextMenuItem.ToolTipValues.ToolTipStyle),
+                        KryptonContextMenuItem.ToolTipValues.ToolTipShadow);
+
+                    _visualPopupToolTip.Disposed += OnVisualPopupToolTipDisposed;
+                    _visualPopupToolTip.ShowRelativeTo(e.Target, e.ControlMousePosition);
+                }
+            }
+        }
+
+        internal void OnCancelToolTip(object sender, EventArgs e) =>
+            // Remove any currently showing tooltip
+            _visualPopupToolTip?.Dispose();
+
+        internal void OnVisualPopupToolTipDisposed(object sender, EventArgs e)
+        {
+            // Unhook events from the specific instance that generated event
+            var popupToolTip = (VisualPopupToolTip)sender;
+            popupToolTip.Disposed -= OnVisualPopupToolTipDisposed;
+
+            // Not showing a popup page any more
+            _visualPopupToolTip = null;
         }
         #endregion
     }

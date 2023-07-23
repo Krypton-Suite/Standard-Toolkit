@@ -295,7 +295,7 @@ namespace Krypton.Ribbon
             var splitRectangle = Controller.SplitRectangle;
             var aboveSplitRect = new Rectangle(ClientLocation, new Size(ClientWidth, splitRectangle.Y - ClientLocation.Y));
             var splitterRect = new Rectangle(splitRectangle.Location, new Size(ClientWidth, 1));
-            var belowSplitRect = new Rectangle(ClientLocation.X, splitRectangle.Y, ClientWidth, splitRectangle.Height);
+            var belowSplitRect = splitRectangle with { X = ClientLocation.X, Width = ClientWidth };
 
             var splitWithFading = SplitWithFading(drawState);
             switch (drawState)
@@ -327,8 +327,7 @@ namespace Krypton.Ribbon
                             }
                         }
 
-                        var belowSplitRect1 = new Rectangle(belowSplitRect.X, belowSplitRect.Y + 1,
-                            belowSplitRect.Width, belowSplitRect.Height - 1);
+                        var belowSplitRect1 = belowSplitRect with { Y = belowSplitRect.Y + 1, Height = belowSplitRect.Height - 1 };
                         using (var clipToSplitter = new Clipping(context.Graphics, belowSplitRect1))
                         {
                             DrawBackground(_paletteBack, context, ClientRectangle, PaletteState.Tracking);
@@ -375,7 +374,7 @@ namespace Krypton.Ribbon
                     // Draw the single pixel splitter line
                     using (var clipToSplitter = new Clipping(context.Graphics, splitterRect))
                     {
-                        DrawBorder(_paletteBorderAll, context, new Rectangle(splitRectangle.X, splitRectangle.Y, splitRectangle.Width, 2), PaletteState.Tracking);
+                        DrawBorder(_paletteBorderAll, context, splitRectangle with { Height = 2 }, PaletteState.Tracking);
                     }
 
                     // Draw the entire border around the button
@@ -400,8 +399,7 @@ namespace Krypton.Ribbon
                             }
                         }
 
-                        var belowSplitRect1 = new Rectangle(belowSplitRect.X, belowSplitRect.Y + 1,
-                            belowSplitRect.Width, belowSplitRect.Height - 1);
+                        var belowSplitRect1 = belowSplitRect with { Y = belowSplitRect.Y + 1, Height = belowSplitRect.Height - 1 };
                         using (var clipToSplitter = new Clipping(context.Graphics, belowSplitRect1))
                         {
                             DrawBackground(_paletteBack, context, ClientRectangle, PaletteState.Pressed);
@@ -451,7 +449,7 @@ namespace Krypton.Ribbon
                     // Draw the single pixel splitter line
                     using (var clipToSplitter = new Clipping(context.Graphics, splitterRect))
                     {
-                        DrawBorder(_paletteBorderAll, context, new Rectangle(splitRectangle.X, splitRectangle.Y, splitRectangle.Width, 2), PaletteState.Pressed);
+                        DrawBorder(_paletteBorderAll, context, splitRectangle with { Height = 2 }, PaletteState.Pressed);
                     }
 
                     // Draw the border for the click and split areas
@@ -479,7 +477,7 @@ namespace Krypton.Ribbon
             var splitRectangle = Controller.SplitRectangle;
             var beforeSplitRect = new Rectangle(ClientLocation, new Size(splitRectangle.X - ClientLocation.X, ClientHeight));
             var splitterRect = new Rectangle(splitRectangle.Location, new Size(1, ClientHeight));
-            var afterSplitRect = new Rectangle(splitRectangle.X, ClientLocation.Y, splitRectangle.Width, ClientHeight);
+            var afterSplitRect = splitRectangle with { Y = ClientLocation.Y, Height = ClientHeight };
 
             var splitWithFading = SplitWithFading(drawState);
             switch (drawState)
@@ -511,8 +509,7 @@ namespace Krypton.Ribbon
                             }
                         }
 
-                        var afterSplitRect1 = new Rectangle(afterSplitRect.X + 1, afterSplitRect.Y,
-                            afterSplitRect.Width - 1, afterSplitRect.Height);
+                        var afterSplitRect1 = afterSplitRect with { X = afterSplitRect.X + 1, Width = afterSplitRect.Width - 1 };
                         using (var clipToSplitter = new Clipping(context.Graphics, afterSplitRect1))
                         {
                             DrawBackground(_paletteBack, context, ClientRectangle, PaletteState.Tracking);
@@ -559,7 +556,7 @@ namespace Krypton.Ribbon
                     // Draw the single pixel splitter line
                     using (var clipToSplitter = new Clipping(context.Graphics, splitterRect))
                     {
-                        DrawBorder(_paletteBorderAll, context, new Rectangle(splitRectangle.X, splitRectangle.Y, 2, splitRectangle.Height), PaletteState.Tracking);
+                        DrawBorder(_paletteBorderAll, context, splitRectangle with { Width = 2 }, PaletteState.Tracking);
                     }
 
                     // Draw the entire border around the button
@@ -594,8 +591,7 @@ namespace Krypton.Ribbon
                             }
                         }
 
-                        var afterSplitRect1 = new Rectangle(afterSplitRect.X + 1, afterSplitRect.Y,
-                            afterSplitRect.Width - 1, afterSplitRect.Height);
+                        var afterSplitRect1 = afterSplitRect with { X = afterSplitRect.X + 1, Width = afterSplitRect.Width - 1 };
                         using (var clipToSplitter = new Clipping(context.Graphics, afterSplitRect1))
                         {
                             DrawBackground(_paletteBack, context, ClientRectangle, PaletteState.Pressed);
@@ -642,7 +638,7 @@ namespace Krypton.Ribbon
                     // Draw the single pixel splitter line
                     using (var clipToSplitter = new Clipping(context.Graphics, splitterRect))
                     {
-                        DrawBorder(_paletteBorderAll, context, new Rectangle(splitRectangle.X, splitRectangle.Y, 2, splitRectangle.Height), PaletteState.Pressed);
+                        DrawBorder(_paletteBorderAll, context, splitRectangle with { Width = 2 }, PaletteState.Pressed);
                     }
 
                     // Draw the entire border around the button

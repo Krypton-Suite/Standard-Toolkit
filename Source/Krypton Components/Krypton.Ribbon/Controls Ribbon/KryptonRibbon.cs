@@ -65,7 +65,7 @@ namespace Krypton.Ribbon
         private int _altUpCount;
         private int _keyboardAltUpCount;
         private ViewBase? _focusView;
-        private KeyTipControl _keyTipControlE;
+        private KeyTipControl? _keyTipControlE;
         private KeyTipControl? _keyTipControlD;
         private KeyTipMode _keyTipMode;
         private Button _hiddenFocusTarget;
@@ -1504,7 +1504,7 @@ namespace Krypton.Ribbon
                 // We only want letters and digits and not control keys such as arrow left/right
                 if (char.IsLetterOrDigit(key))
                 {
-                    _keyTipControlE.AppendKeyPress(key);
+                    _keyTipControlE?.AppendKeyPress(key);
                     return true;
                 }
             }
@@ -1632,7 +1632,7 @@ namespace Krypton.Ribbon
             // If we want to intercept key pressed for use with key tips
             if (KeyboardMode && InKeyTipsMode)
             {
-                _keyTipControlE.AppendKeyPress(char.ToUpper(e.KeyChar));
+                _keyTipControlE?.AppendKeyPress(char.ToUpper(e.KeyChar));
             }
             else
             {
@@ -2533,7 +2533,7 @@ namespace Krypton.Ribbon
 
         internal Rectangle KeyTipToScreen(ViewBase view) => view.OwningControl.RectangleToScreen(view.ClientRectangle);
 
-        internal ViewBase FocusView
+        internal ViewBase? FocusView
         {
             get => _focusView;
 
@@ -2561,7 +2561,7 @@ namespace Krypton.Ribbon
 
         internal PaletteRedirect? GetRedirector() => Redirector;
 
-        internal Control GetControllerControl(Control c)
+        internal Control? GetControllerControl(Control c)
         {
             // Keep searching till we get to the top of the hierarchy
             while (c != null)

@@ -897,7 +897,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Description(@"Occurs when the list format has changed.")]
         [Category(@"PropertyChanged")]
-        public event ListControlConvertEventHandler Format;
+        public event ListControlConvertEventHandler? Format;
 
         /// <summary>
         /// Occurs when the value of the FormatInfo property changed.
@@ -3122,7 +3122,7 @@ namespace Krypton.Toolkit
             VisualPopupToolTip tip = GetToolTip();
             // Needed to make Krypton update the tooltip data with the data of the spec.
             tip.PerformNeedPaint(true);
-            var point = new Point(location.X + DropDownWidth, location.Y);
+            var point = location with { X = location.X + DropDownWidth };
             tip.ShowCalculatingSize(PointToScreen(point));
         }
 

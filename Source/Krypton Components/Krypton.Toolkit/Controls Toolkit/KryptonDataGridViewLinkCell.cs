@@ -296,9 +296,7 @@ namespace Krypton.Toolkit
                     _viewLabel.Render(renderContext);
 
                     // Remember the current drawing bounds
-                    _contentBounds = new Rectangle(cellBounds.X - startBounds.X,
-                        cellBounds.Y - startBounds.Y,
-                        cellBounds.Width, cellBounds.Height);
+                    _contentBounds = cellBounds with { X = cellBounds.X - startBounds.X, Y = cellBounds.Y - startBounds.Y };
                 }
             }
             else

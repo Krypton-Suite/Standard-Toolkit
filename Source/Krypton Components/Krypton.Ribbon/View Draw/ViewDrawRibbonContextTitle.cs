@@ -207,8 +207,8 @@ namespace Krypton.Ribbon
             // Office 2010 draws a shadow effect of the text
             if (_ribbon.RibbonShape is PaletteRibbonShape.Office2010 or PaletteRibbonShape.Office2013 or PaletteRibbonShape.Microsoft365)
             {
-                var shadowTextRect1 = new Rectangle(_textRect.X - 1, _textRect.Y + 1, _textRect.Width, _textRect.Height);
-                var shadowTextRect2 = new Rectangle(_textRect.X + 1, _textRect.Y + 1, _textRect.Width, _textRect.Height);
+                var shadowTextRect1 = _textRect with { X = _textRect.X - 1, Y = _textRect.Y + 1 };
+                var shadowTextRect2 = _textRect with { X = _textRect.X + 1, Y = _textRect.Y + 1 };
 
                 _contentProvider.OverrideTextColor = Color.FromArgb(128, ControlPaint.Dark(GetRibbonBackColor1(PaletteState.Normal)));
 
@@ -254,8 +254,8 @@ namespace Krypton.Ribbon
                 // Use renderer to draw the tab background
                 _mementoBack = context.Renderer.RenderRibbon.DrawRibbonTabContextTitle(_ribbon.RibbonShape, context, ClientRectangle, _ribbon.StateCommon.RibbonGeneral, this, _mementoBack);
 
-                var shadowTextRect1 = new Rectangle(_textRect.X - 1, _textRect.Y + 1, _textRect.Width, _textRect.Height);
-                var shadowTextRect2 = new Rectangle(_textRect.X + 1, _textRect.Y + 1, _textRect.Width, _textRect.Height);
+                var shadowTextRect1 = _textRect with { X = _textRect.X - 1, Y = _textRect.Y + 1 };
+                var shadowTextRect2 = _textRect with { X = _textRect.X + 1, Y = _textRect.Y + 1 };
 
                 _contentProvider.OverrideTextColor = Color.FromArgb(128, ControlPaint.Dark(GetRibbonBackColor1(PaletteState.Normal)));
 

@@ -2024,7 +2024,7 @@ namespace Krypton.Toolkit
             var kryptonNode = e.Node as KryptonTreeNode;
 
             // Work out if we need to draw a state image
-            Image drawStateImage = null;
+            Image? drawStateImage = null;
             if (StateImageList != null)
             {
                 try
@@ -2119,7 +2119,7 @@ namespace Krypton.Toolkit
 
                 // Create indent rectangle and adjust bounds for remainder
                 var nodeIndent = NodeIndent(e.Node) + 2;
-                var indentBounds = new Rectangle(bounds.X + nodeIndent - indent, bounds.Y, indent, bounds.Height);
+                var indentBounds = bounds with { X = bounds.X + nodeIndent - indent, Width = indent };
                 bounds.X += nodeIndent;
                 bounds.Width -= nodeIndent;
 

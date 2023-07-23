@@ -1172,7 +1172,7 @@ namespace Krypton.Toolkit
             var rtl = RightToLeftInternal;
 
             // Use an offscreen bitmap to draw onto before blitting it to the screen
-            var tempCellBounds = new Rectangle(0, 0, e.CellBounds.Width, e.CellBounds.Height);
+            var tempCellBounds = e.CellBounds with { X = 0, Y = 0 };
             using (var tempBitmap = new Bitmap(e.CellBounds.Width, e.CellBounds.Height, e.Graphics))
             {
                 using (Graphics tempG = Graphics.FromImage(tempBitmap))
@@ -1234,8 +1234,8 @@ namespace Krypton.Toolkit
                                                 ? 5
                                                 : width), tempCellBounds.Y + 3, spec.Icon.Width, spec.Icon.Height);
                                         renderContext.Graphics.DrawImage(spec.Icon, iconBounds);
-                                        tempCellBounds = new Rectangle(tempCellBounds.X +
-                                                                       (spec.Alignment == IconSpec.IconAlignment.Left ? iconWidth : 0), tempCellBounds.Y, width, tempCellBounds.Height);
+                                        tempCellBounds = tempCellBounds with { X = tempCellBounds.X +
+                                            (spec.Alignment == IconSpec.IconAlignment.Left ? iconWidth : 0), Width = width };
                                     }
                                 }
 
@@ -1343,8 +1343,8 @@ namespace Krypton.Toolkit
                                                 ? 5
                                                 : width), tempCellBounds.Y + 3, spec.Icon.Width, spec.Icon.Height);
                                         renderContext.Graphics.DrawImage(spec.Icon, iconBounds);
-                                        tempCellBounds = new Rectangle(tempCellBounds.X +
-                                                                       (spec.Alignment == IconSpec.IconAlignment.Left ? iconWidth : 0), tempCellBounds.Y, width, tempCellBounds.Height);
+                                        tempCellBounds = tempCellBounds with { X = tempCellBounds.X +
+                                            (spec.Alignment == IconSpec.IconAlignment.Left ? iconWidth : 0), Width = width };
                                     }
                                 }
 

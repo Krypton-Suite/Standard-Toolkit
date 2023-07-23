@@ -137,7 +137,7 @@ namespace Krypton.Toolkit
         public override Size GetPreferredSize([DisallowNull] ViewLayoutContext context)
         {
             Debug.Assert(context != null);
-            return new Size(_months.SizeDay.Width, _months.SizeDays.Height * WEEKS);
+            return _months.SizeDay with { Height = _months.SizeDays.Height * WEEKS };
         }
         
         /// <summary>

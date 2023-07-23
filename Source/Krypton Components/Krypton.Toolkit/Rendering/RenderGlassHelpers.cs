@@ -1126,11 +1126,11 @@ namespace Krypton.Toolkit
 
                 RectangleF mainRect = orientation switch
                 {
-                    VisualOrientation.Right => new RectangleF(drawRect.X, drawRect.Y, drawRect.Width - glassRect.Width - 1, drawRect.Height),
-                    VisualOrientation.Left => new RectangleF(glassRect.Right + 1, drawRect.Y, drawRect.Width - glassRect.Width - 1, drawRect.Height),
-                    VisualOrientation.Bottom => new RectangleF(drawRect.X, drawRect.Y, drawRect.Width, drawRect.Height - glassRect.Height - 1),
-                    VisualOrientation.Top => new RectangleF(drawRect.X, glassRect.Bottom + 1, drawRect.Width, drawRect.Height - glassRect.Height - 1),
-                    _ => new RectangleF(drawRect.X, glassRect.Bottom + 1, drawRect.Width, drawRect.Height - glassRect.Height - 1)
+                    VisualOrientation.Right => drawRect with { Width = drawRect.Width - glassRect.Width - 1 },
+                    VisualOrientation.Left => drawRect with { X = glassRect.Right + 1, Width = drawRect.Width - glassRect.Width - 1 },
+                    VisualOrientation.Bottom => drawRect with { Height = drawRect.Height - glassRect.Height - 1 },
+                    VisualOrientation.Top => drawRect with { Y = glassRect.Bottom + 1, Height = drawRect.Height - glassRect.Height - 1 },
+                    _ => drawRect with { Y = glassRect.Bottom + 1, Height = drawRect.Height - glassRect.Height - 1 }
                 };
 
                 RectangleF doubleRect;
@@ -1354,19 +1354,19 @@ namespace Krypton.Toolkit
                     switch (orientation)
                     {
                         case VisualOrientation.Left:
-                            glassRect = new RectangleF(drawRect.X, drawRect.Y, glassLength, drawRect.Height);
+                            glassRect = drawRect with { Width = glassLength };
                             break;
                         case VisualOrientation.Right:
-                            mainRect = new RectangleF(drawRect.X, drawRect.Y, drawRect.Width - glassLength, drawRect.Height);
-                            glassRect = new RectangleF(mainRect.Right, drawRect.Y, glassLength, drawRect.Height);
+                            mainRect = drawRect with { Width = drawRect.Width - glassLength };
+                            glassRect = drawRect with { X = mainRect.Right, Width = glassLength };
                             break;
                         case VisualOrientation.Top:
                         default:
-                            glassRect = new RectangleF(drawRect.X, drawRect.Y, drawRect.Width, glassLength);
+                            glassRect = drawRect with { Height = glassLength };
                             break;
                         case VisualOrientation.Bottom:
-                            mainRect = new RectangleF(drawRect.X, drawRect.Y, drawRect.Width, drawRect.Height - glassLength);
-                            glassRect = new RectangleF(drawRect.X, mainRect.Bottom, drawRect.Width, glassLength);
+                            mainRect = drawRect with { Height = drawRect.Height - glassLength };
+                            glassRect = drawRect with { Y = mainRect.Bottom, Height = glassLength };
                             break;
                     }
 
@@ -1456,21 +1456,21 @@ namespace Krypton.Toolkit
                     switch (orientation)
                     {
                         case VisualOrientation.Left:
-                            glassRect = new RectangleF(drawRect.X, drawRect.Y, glassLength, drawRect.Height);
-                            mainRect = new RectangleF(glassRect.Right + 1, drawRect.Y, drawRect.Width - glassRect.Width - 1, drawRect.Height);
+                            glassRect = drawRect with { Width = glassLength };
+                            mainRect = drawRect with { X = glassRect.Right + 1, Width = drawRect.Width - glassRect.Width - 1 };
                             break;
                         case VisualOrientation.Right:
-                            mainRect = new RectangleF(drawRect.X, drawRect.Y, drawRect.Width - glassLength, drawRect.Height);
-                            glassRect = new RectangleF(mainRect.Right, drawRect.Y, glassLength, drawRect.Height);
+                            mainRect = drawRect with { Width = drawRect.Width - glassLength };
+                            glassRect = drawRect with { X = mainRect.Right, Width = glassLength };
                             break;
                         case VisualOrientation.Top:
                         default:
-                            glassRect = new RectangleF(drawRect.X, drawRect.Y, drawRect.Width, glassLength);
-                            mainRect = new RectangleF(drawRect.X, glassRect.Bottom + 1, drawRect.Width, drawRect.Height - glassRect.Height - 1);
+                            glassRect = drawRect with { Height = glassLength };
+                            mainRect = drawRect with { Y = glassRect.Bottom + 1, Height = drawRect.Height - glassRect.Height - 1 };
                             break;
                         case VisualOrientation.Bottom:
-                            mainRect = new RectangleF(drawRect.X, drawRect.Y, drawRect.Width, drawRect.Height - glassLength);
-                            glassRect = new RectangleF(drawRect.X, mainRect.Bottom, drawRect.Width, glassLength);
+                            mainRect = drawRect with { Height = drawRect.Height - glassLength };
+                            glassRect = drawRect with { Y = mainRect.Bottom, Height = glassLength };
                             break;
                     }
 
@@ -1568,10 +1568,10 @@ namespace Krypton.Toolkit
 
                     var glassRect = orientation switch
                     {
-                        VisualOrientation.Left => new RectangleF(drawRect.X, drawRect.Y, length, drawRect.Height),
-                        VisualOrientation.Right => new RectangleF(drawRect.Right - length, drawRect.Y, length, drawRect.Height),
-                        VisualOrientation.Bottom => new RectangleF(drawRect.X, drawRect.Bottom - length, drawRect.Width, length),
-                        _ => new RectangleF(drawRect.X, drawRect.Y, drawRect.Width, length)
+                        VisualOrientation.Left => drawRect with { Width = length },
+                        VisualOrientation.Right => drawRect with { X = drawRect.Right - length, Width = length },
+                        VisualOrientation.Bottom => drawRect with { Y = drawRect.Bottom - length, Height = length },
+                        _ => drawRect with { Height = length }
                     };
 
                     // Gradient rectangle is always a little bigger to prevent tiling at edges

@@ -239,7 +239,7 @@ namespace Krypton.Toolkit
                             break;
                         case VisualOrientation.Left:
                             // Invert the dimensions of the rectangle for drawing upwards
-                            rect = new Rectangle(rect.X, rect.Y, rect.Height, rect.Width);
+                            rect = rect with { Width = rect.Height, Height = rect.Width };
 
                             // Translate back from a quarter left turn to the original place 
                             translateX = rect.X - rect.Y - 1;
@@ -248,7 +248,7 @@ namespace Krypton.Toolkit
                             break;
                         case VisualOrientation.Right:
                             // Invert the dimensions of the rectangle for drawing upwards
-                            rect = new Rectangle(rect.X, rect.Y, rect.Height, rect.Width);
+                            rect = rect with { Width = rect.Height, Height = rect.Width };
 
                             // Translate back from a quarter right turn to the original place 
                             translateX = rect.X + rect.Y + rect.Height + 1;

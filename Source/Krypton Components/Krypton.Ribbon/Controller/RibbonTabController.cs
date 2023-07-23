@@ -224,7 +224,7 @@ namespace Krypton.Ribbon
         /// <param name="e">A KeyEventArgs that contains the event data.</param>
         public void KeyDown(Control c, KeyEventArgs e)
         {
-            ViewBase newView = null;
+            ViewBase? newView = null;
             Keys keyData = e.KeyData;
 
             // When there is no selected tab then tab and shift+tab become right and left

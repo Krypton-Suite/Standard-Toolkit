@@ -75,7 +75,7 @@ namespace Krypton.Toolkit
         {
             get
             {
-                ArrayList snapLines = null;
+                ArrayList? snapLines = null;
 
                 // ReSharper disable RedundantBaseQualifier
                 // Let the base class generate snap lines

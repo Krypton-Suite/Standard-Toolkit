@@ -577,7 +577,7 @@ namespace Krypton.Toolkit
             using (Graphics g = CreateGraphics())
             {
                 // Find size of the label, with a max of 2/3 screen width
-                Screen screen = showOwner != null ? Screen.FromHandle(showOwner.Handle) : Screen.PrimaryScreen;
+                Screen? screen = showOwner != null ? Screen.FromHandle(showOwner.Handle) : Screen.PrimaryScreen;
                 SizeF scaledMonitorSize = screen.Bounds.Size;
                 scaledMonitorSize.Width *= 2 / 3.0f;
                 scaledMonitorSize.Height *= 0.95f;
@@ -610,7 +610,7 @@ namespace Krypton.Toolkit
 
             // Button1 is always visible
             Size button1Size = _button1.GetPreferredSize(Size.Empty);
-            var maxButtonSize = new Size(button1Size.Width + GAP, button1Size.Height);
+            var maxButtonSize = button1Size with { Width = button1Size.Width + GAP };
 
             // If Button2 is visible
             if (_button2.Enabled)

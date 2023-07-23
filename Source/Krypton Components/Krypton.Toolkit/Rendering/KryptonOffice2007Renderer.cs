@@ -1186,8 +1186,8 @@ namespace Krypton.Toolkit
             backRect.Inflate(-1, -1);
 
             var y2 = backRect.Height / 2;
-            var backRect1 = new Rectangle(backRect.X, backRect.Y, backRect.Width, y2);
-            var backRect2 = new Rectangle(backRect.X, backRect.Y + y2, backRect.Width, backRect.Height - y2);
+            var backRect1 = backRect with { Height = y2 };
+            var backRect2 = backRect with { Y = backRect.Y + y2, Height = backRect.Height - y2 };
             Rectangle backRect1I = backRect1;
             Rectangle backRect2I = backRect2;
             backRect1I.Inflate(1, 1);
@@ -1203,8 +1203,8 @@ namespace Krypton.Toolkit
             }
 
             y2 = backRect.Height / 2;
-            backRect1 = new Rectangle(backRect.X, backRect.Y, backRect.Width, y2);
-            backRect2 = new Rectangle(backRect.X, backRect.Y + y2, backRect.Width, backRect.Height - y2);
+            backRect1 = backRect with { Height = y2 };
+            backRect2 = backRect with { Y = backRect.Y + y2, Height = backRect.Height - y2 };
             backRect1I = backRect1;
             backRect2I = backRect2;
             backRect1I.Inflate(1, 1);
@@ -1219,8 +1219,8 @@ namespace Krypton.Toolkit
                 backRect.Inflate(-1, -1);
 
                 y2 = backRect.Height / 2;
-                backRect1 = new Rectangle(backRect.X, backRect.Y, backRect.Width, y2);
-                backRect2 = new Rectangle(backRect.X, backRect.Y + y2, backRect.Width, backRect.Height - y2);
+                backRect1 = backRect with { Height = y2 };
+                backRect2 = backRect with { Y = backRect.Y + y2, Height = backRect.Height - y2 };
 
                 g.FillRectangle(fillBrush1, backRect1);
                 g.FillRectangle(fillBrush2, backRect2);

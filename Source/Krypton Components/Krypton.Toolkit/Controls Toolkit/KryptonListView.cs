@@ -472,7 +472,7 @@ namespace Krypton.Toolkit
             }
 
             // Work out if we need to draw a state image
-            Image drawStateImage = null;
+            Image? drawStateImage = null;
             if (StateImageList != null)
             {
                 try
@@ -604,7 +604,7 @@ namespace Krypton.Toolkit
                         // Do we draw an image for the node?
                         if (imgList != null)
                         {
-                            Image drawImage = null;
+                            Image? drawImage = null;
                             var imageCount = imgList.Images.Count;
 
                             try

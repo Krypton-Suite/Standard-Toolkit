@@ -68,7 +68,7 @@ namespace Krypton.Ribbon
                 Control c = _ribbon.GetControllerControl(this);
 
                 // Grab the view manager handling the focus view
-                ViewBase focusView = null;
+                ViewBase? focusView = null;
                 switch (c)
                 {
                     case VisualPopupGroup popGroup:
@@ -339,7 +339,7 @@ namespace Krypton.Ribbon
         /// <returns>ViewBase of item; otherwise false.</returns>
         public ViewBase? GetFirstFocusItem()
         {
-            ViewBase view = null;
+            ViewBase? view = null;
 
             // If we contain a groups layout
             if (_viewFiller is ViewLayoutRibbonGroups groups)
@@ -365,7 +365,7 @@ namespace Krypton.Ribbon
         /// <returns>ViewBase of item; otherwise false.</returns>
         public ViewBase? GetLastFocusItem()
         {
-            ViewBase view = null;
+            ViewBase? view = null;
 
             // If we contain a groups layout
             if (_viewFiller is ViewLayoutRibbonGroups groups)
@@ -392,7 +392,7 @@ namespace Krypton.Ribbon
         /// <returns>ViewBase of item; otherwise false.</returns>
         public ViewBase? GetNextFocusItem(ViewBase current)
         {
-            ViewBase view = null;
+            ViewBase? view = null;
 
             // If we contain a groups layout
             if (_viewFiller is ViewLayoutRibbonGroups groups)
@@ -419,7 +419,7 @@ namespace Krypton.Ribbon
         /// <returns>ViewBase of item; otherwise false.</returns>
         public ViewBase? GetPreviousFocusItem(ViewBase current)
         {
-            ViewBase view = null;
+            ViewBase? view = null;
 
             // If we contain a groups layout
             if (_viewFiller is ViewLayoutRibbonGroups groups)
@@ -516,7 +516,7 @@ namespace Krypton.Ribbon
                     // Find layout position of the near scroller
                     if (Orientation == Orientation.Horizontal)
                     {
-                        context.DisplayRectangle = new Rectangle(layoutRect.X, layoutRect.Y, nearSize.Width, layoutRect.Height);
+                        context.DisplayRectangle = layoutRect with { Width = nearSize.Width };
                         layoutRect.Width -= nearSize.Width;
                         layoutRect.X += nearSize.Width;
                         controlRect.Width -= nearSize.Width;
@@ -524,7 +524,7 @@ namespace Krypton.Ribbon
                     }
                     else
                     {
-                        context.DisplayRectangle = new Rectangle(layoutRect.X, layoutRect.Y, layoutRect.Width, nearSize.Height);
+                        context.DisplayRectangle = layoutRect with { Height = nearSize.Height };
                         layoutRect.Height -= nearSize.Height;
                         layoutRect.Y += nearSize.Height;
                         controlRect.Height -= nearSize.Height;
@@ -554,13 +554,13 @@ namespace Krypton.Ribbon
                     // Find layout position of the far scroller
                     if (Orientation == Orientation.Horizontal)
                     {
-                        context.DisplayRectangle = new Rectangle(layoutRect.Right - farSize.Width, layoutRect.Y, farSize.Width, layoutRect.Height);
+                        context.DisplayRectangle = layoutRect with { X = layoutRect.Right - farSize.Width, Width = farSize.Width };
                         layoutRect.Width -= farSize.Width;
                         controlRect.Width -= farSize.Width;
                     }
                     else
                     {
-                        context.DisplayRectangle = new Rectangle(layoutRect.X, layoutRect.Bottom - farSize.Height, layoutRect.Width, farSize.Height);
+                        context.DisplayRectangle = layoutRect with { Y = layoutRect.Bottom - farSize.Height, Height = farSize.Height };
                         layoutRect.Height -= farSize.Height;
                         controlRect.Height -= farSize.Height;
                     }

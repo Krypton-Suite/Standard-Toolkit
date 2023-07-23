@@ -149,7 +149,7 @@ namespace Krypton.Toolkit
 
                 // Find size of the child
                 Size childSize = this[i].GetPreferredSize(context);
-                context.DisplayRectangle = new Rectangle(offset, layoutRect.Y, childSize.Width, layoutRect.Height);
+                context.DisplayRectangle = layoutRect with { X = offset, Width = childSize.Width };
 
                 // Position the child
                 this[i].Layout(context);
@@ -185,7 +185,7 @@ namespace Krypton.Toolkit
 
                         // Recover the already calculated size
                         Size childSize = this[i].GetPreferredSize(context);
-                        context.DisplayRectangle = new Rectangle(offset, layoutRect.Y, childSize.Width, layoutRect.Height);
+                        context.DisplayRectangle = layoutRect with { X = offset, Width = childSize.Width };
 
                         // Position the child
                         this[i].Layout(context);
@@ -458,10 +458,7 @@ namespace Krypton.Toolkit
 
                         // Show the context menu so user can select the next item for selection
                         bcma.KryptonContextMenu.Closed += OnKryptonContextMenuClosed;
-                        bcma.KryptonContextMenu.Show(_kryptonBreadCrumb, _kryptonBreadCrumb.RectangleToScreen(new Rectangle(viewButton.SplitRectangle.X - viewButton.SplitRectangle.Width,
-                                                                                                                            viewButton.SplitRectangle.Y,
-                                                                                                                            viewButton.SplitRectangle.Width * 2,
-                                                                                                                            viewButton.SplitRectangle.Height)),
+                        bcma.KryptonContextMenu.Show(_kryptonBreadCrumb, _kryptonBreadCrumb.RectangleToScreen(viewButton.SplitRectangle with { X = viewButton.SplitRectangle.X - viewButton.SplitRectangle.Width, Width = viewButton.SplitRectangle.Width * 2 }),
                                                      bcma.PositionH,
                                                      bcma.PositionV);
 
@@ -607,10 +604,7 @@ namespace Krypton.Toolkit
 
                     // Show the context menu so user can select the next item for selection
                     cpma.KryptonContextMenu.Closed += OnKryptonContextMenuClosed;
-                    cpma.KryptonContextMenu.Show(_kryptonBreadCrumb, _kryptonBreadCrumb.RectangleToScreen(new Rectangle(viewButton.ClientRectangle.X,
-                                                                                                                        viewButton.ClientRectangle.Y,
-                                                                                                                        viewButton.ClientRectangle.Width * 2,
-                                                                                                                        viewButton.ClientRectangle.Height)),
+                    cpma.KryptonContextMenu.Show(_kryptonBreadCrumb, _kryptonBreadCrumb.RectangleToScreen(viewButton.ClientRectangle with { Width = viewButton.ClientRectangle.Width * 2 }),
                                                  cpma.PositionH,
                                                  cpma.PositionV);
 

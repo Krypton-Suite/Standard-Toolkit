@@ -541,7 +541,7 @@ namespace Krypton.Toolkit
                 // Never show tooltips are design time
                 if (!DesignMode)
                 {
-                    IContentValues sourceContent = null;
+                    IContentValues? sourceContent = null;
                     var toolTipStyle = LabelStyle.ToolTip;
 
                     var shadow = true;

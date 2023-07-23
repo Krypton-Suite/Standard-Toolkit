@@ -130,22 +130,22 @@ namespace Krypton.Ribbon
                             : Color.White;
 
                         using var backBrush = new LinearGradientBrush(
-                            new Rectangle(rect.X, rect.Y - 1, rect.Width, rect.Height + 1), Color.Transparent,
+                            rect with { Y = rect.Y - 1, Height = rect.Height + 1 }, Color.Transparent,
                             gradientColor, 90f);
                         backBrush.Blend = _compBlend;
-                        g.FillRectangle(backBrush, new Rectangle(rect.X, rect.Y, rect.Width, rect.Height - 1));
+                        g.FillRectangle(backBrush, rect with { Height = rect.Height - 1 });
                         break;
                     }
                     case PaletteRibbonShape.Office2013:
                     {
                         using var backBrush = new SolidBrush(Color.White);
-                        g.FillRectangle(backBrush, new Rectangle(rect.X, rect.Y, rect.Width, rect.Height - 1));
+                        g.FillRectangle(backBrush, rect with { Height = rect.Height - 1 });
                         break;
                     }
                     case PaletteRibbonShape.Microsoft365:
                     {
                         using var backBrush = new SolidBrush(Color.White);
-                        g.FillRectangle(backBrush, new Rectangle(rect.X, rect.Y, rect.Width, rect.Height - 1));
+                        g.FillRectangle(backBrush, rect with { Height = rect.Height - 1 });
                         break;
                     }
                 }

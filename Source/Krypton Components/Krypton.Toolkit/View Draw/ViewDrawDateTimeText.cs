@@ -546,8 +546,7 @@ namespace Krypton.Toolkit
                                 totalWidth = rect.Width;
                             }
 
-                            Rectangle drawText = new Rectangle(rect.X + lastTotalWidth, rect.Y,
-                                totalWidth - lastTotalWidth, rect.Height);
+                            Rectangle drawText = rect with { X = rect.X + lastTotalWidth, Width = totalWidth - lastTotalWidth };
                             if (drawText.Width > 0)
                             {
                                 // If we need to draw a focus indication?
@@ -559,7 +558,7 @@ namespace Krypton.Toolkit
                                         // Draw background in the highlight color
                                         if (enabled)
                                         {
-                                            context.Graphics.FillRectangle(SystemBrushes.Highlight, new Rectangle(drawText.X - 1, drawText.Y, drawText.Width + 2, drawText.Height));
+                                            context.Graphics.FillRectangle(SystemBrushes.Highlight, drawText with { X = drawText.X - 1, Width = drawText.Width + 2 });
                                             foreColor = SystemColors.HighlightText;
                                         }
                                         else
@@ -1255,7 +1254,7 @@ namespace Krypton.Toolkit
             #endregion
         }
 
-        private class FormatFragmentList : List<FormatFragment> { }
+        private class FormatFragmentList : List<FormatFragment>;
         #endregion
 
         #region Static Fields

@@ -7363,7 +7363,7 @@ namespace Krypton.Toolkit
                         new Point(innerRect.X, innerRect.Bottom), new Point(innerRect.Right, innerRect.Bottom),
                         new Point(innerRect.Right, innerRect.Top) };
                     cache.BackRect1 = new Rectangle(innerRect.X, innerRect.Y, rect.Width, halfHeight);
-                    cache.BackRect2 = new Rectangle(innerRect.X, innerRect.Y + halfHeight, innerRect.Width, innerRect.Height - halfHeight);
+                    cache.BackRect2 = innerRect with { Y = innerRect.Y + halfHeight, Height = innerRect.Height - halfHeight };
                     cache.BackBrush1 = new LinearGradientBrush(new RectangleF(cache.BackRect1.X - 1, cache.BackRect1.Y - 1, cache.BackRect1.Width + 2, cache.BackRect1.Height + 1), c3, c4, 90f);
                     cache.BackBrush2 = new LinearGradientBrush(new RectangleF(cache.BackRect2.X - 1, cache.BackRect2.Y - 1, cache.BackRect2.Width + 2, cache.BackRect2.Height + 1), c4, c5, 90f);
                     cache.BackBrush3 = new SolidBrush(c5);
@@ -10293,7 +10293,7 @@ namespace Krypton.Toolkit
                     cache.BorderMain1 = new RectangleF(rect.X + 1, rect.Y + 1, rect.Width - 2, rect.Height - 2);
                     cache.BorderMain2 = new RectangleF(cache.BorderMain1.X + 1, cache.BorderMain1.Y + 1, cache.BorderMain1.Width - 2, cache.BorderMain1.Height - 2);
                     cache.BorderMain3 = new RectangleF(cache.BorderMain1.X + 1, cache.BorderMain1.Y + 1, cache.BorderMain1.Width - 2, cache.BorderMain1.Height - 2);
-                    cache.BorderMain4 = new RectangleF(cache.BorderMain2.X, cache.BorderMain2.Y + 1, cache.BorderMain2.Width, cache.BorderMain2.Height - 2);
+                    cache.BorderMain4 = cache.BorderMain2 with { Y = cache.BorderMain2.Y + 1, Height = cache.BorderMain2.Height - 2 };
                     cache.RectBottomGlow = new RectangleF(0, 0, rect.Width * 0.75f, rect.Height * 0.75f);
                     cache.RectLower = new RectangleF(rect.X, rect.Y - 1, rect.Width, rect.Height + 1);
                     cache.RectUpperGlow = new RectangleF
@@ -10712,7 +10712,7 @@ namespace Krypton.Toolkit
                     cache.Dispose();
 
                     GraphicsPath trackingPath = new GraphicsPath();
-                    trackingPath.AddEllipse(new Rectangle(rect.X, rect.Y + (rect.Height / 2), rect.Width - 3, rect.Height));
+                    trackingPath.AddEllipse(rect with { Y = rect.Y + (rect.Height / 2), Width = rect.Width - 3 });
                     cache.TrackHighlightBrush = new PathGradientBrush(trackingPath)
                     {
                         SurroundColors = new[] { Color.Transparent },
@@ -11735,8 +11735,8 @@ namespace Krypton.Toolkit
 
                 // Draw entire background in solid brush
                 context.Graphics.FillPath(cache.WholeBrush, cache.BackPath);
-                context.Graphics.FillRectangle(cache.BottomDarkGradient, new Rectangle(rect.X, rect.Bottom - 14, rect.Width, 13));
-                context.Graphics.FillRectangle(cache.TopLightenGradient, new Rectangle(rect.X, rect.Y, rect.Width, 6));
+                context.Graphics.FillRectangle(cache.BottomDarkGradient, rect with { Y = rect.Bottom - 14, Height = 13 });
+                context.Graphics.FillRectangle(cache.TopLightenGradient, rect with { Height = 6 });
             }
 
             return memento;

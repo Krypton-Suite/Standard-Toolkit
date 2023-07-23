@@ -159,7 +159,7 @@ namespace Krypton.Ribbon
         #region Implementation
         private void KeyDownRibbon(KeyEventArgs e)
         {
-            ViewBase newView = null;
+            ViewBase? newView = null;
 
             switch (e.KeyData)
             {

@@ -172,6 +172,9 @@ namespace Krypton.Toolkit
             set => _clientRectF = value;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public virtual RectangleF ClientRectangleF
         {
             [DebuggerStepThrough]

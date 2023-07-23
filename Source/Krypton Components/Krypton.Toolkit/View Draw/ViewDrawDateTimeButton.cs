@@ -140,12 +140,9 @@ namespace Krypton.Toolkit
             Rectangle beforeRect = context.DisplayRectangle;
             context.DisplayRectangle = _glyph switch
             {
-                DrawDateTimeGlyph.DropDownButton => new Rectangle(beforeRect.X, beforeRect.Y + 1, beforeRect.Width,
-                    beforeRect.Height - 2),
-                DrawDateTimeGlyph.UpButton => new Rectangle(beforeRect.X, beforeRect.Y + 1, beforeRect.Width,
-                    beforeRect.Height - 1),
-                DrawDateTimeGlyph.DownButton => new Rectangle(beforeRect.X, beforeRect.Y, beforeRect.Width,
-                    beforeRect.Height - 1),
+                DrawDateTimeGlyph.DropDownButton => beforeRect with { Y = beforeRect.Y + 1, Height = beforeRect.Height - 2 },
+                DrawDateTimeGlyph.UpButton => beforeRect with { Y = beforeRect.Y + 1, Height = beforeRect.Height - 1 },
+                DrawDateTimeGlyph.DownButton => beforeRect with { Height = beforeRect.Height - 1 },
                 _ => context.DisplayRectangle
             };
 

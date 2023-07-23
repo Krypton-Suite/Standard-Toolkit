@@ -54,7 +54,7 @@ namespace Krypton.Toolkit
         /// <param name="borderStyle">Style for the tooltip border.</param>
         /// <param name="contentStyle">Style for the tooltip content.</param>
         /// <param name="shadow">Does the Tooltip need a shadow effect.</param>
-        public VisualPopupToolTip(PaletteRedirect? redirector,
+        public VisualPopupToolTip([DisallowNull] PaletteRedirect redirector,
             [DisallowNull] IContentValues contentValues,
                                     IRenderer? renderer,
                                     PaletteBackStyle backStyle,
@@ -66,7 +66,7 @@ namespace Krypton.Toolkit
             Debug.Assert(contentValues != null);
 
             // Remember references needed later
-            _contentValues = contentValues;
+            _contentValues = contentValues!;
 
             // Create the triple redirector needed by view elements
             _palette = new PaletteTripleMetricRedirect(redirector, backStyle, borderStyle, contentStyle, NeedPaintDelegate);

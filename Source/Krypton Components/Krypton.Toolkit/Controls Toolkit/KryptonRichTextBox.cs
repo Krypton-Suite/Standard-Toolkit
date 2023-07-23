@@ -302,7 +302,7 @@ namespace Krypton.Toolkit
 
         #region Instance Fields
 
-        private VisualPopupToolTip _visualPopupToolTip;
+        private VisualPopupToolTip? _visualPopupToolTip;
         private readonly ButtonSpecManagerLayout _buttonManager;
         private readonly ViewLayoutDocker _drawDockerInner;
         private readonly ViewDrawDocker _drawDockerOuter;

@@ -69,17 +69,11 @@ namespace Krypton.Toolkit
                     // Size child to our relevant dimension
                     if (_orientation == Orientation.Vertical)
                     {
-                        context.DisplayRectangle = new Rectangle(ClientRectangle.X,
-                                                                 ClientRectangle.Y,
-                                                                 childPreferred.Width,
-                                                                 ClientRectangle.Height);
+                        context.DisplayRectangle = ClientRectangle with { Width = childPreferred.Width };
                     }
                     else
                     {
-                        context.DisplayRectangle = new Rectangle(ClientRectangle.X,
-                                                                 ClientRectangle.Y,
-                                                                 childPreferred.Width,
-                                                                 ClientRectangle.Height);
+                        context.DisplayRectangle = ClientRectangle with { Width = childPreferred.Width };
                     }
 
                     // Finally ask the child to layout

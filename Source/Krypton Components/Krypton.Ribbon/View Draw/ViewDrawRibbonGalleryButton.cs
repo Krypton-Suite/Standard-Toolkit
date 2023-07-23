@@ -241,7 +241,7 @@ namespace Krypton.Ribbon
         public virtual Image? GetImage(PaletteState state)
         {
             // Find the correct collection of images
-            GalleryButtonImages images = null;
+            GalleryButtonImages? images = null;
             switch (_button)
             {
                 case PaletteRibbonGalleryButton.Up:
@@ -256,7 +256,7 @@ namespace Krypton.Ribbon
             }
 
             // Get image based on state
-            Image image = null;
+            Image? image = null;
             if (images != null)
             {
                 switch (State)
