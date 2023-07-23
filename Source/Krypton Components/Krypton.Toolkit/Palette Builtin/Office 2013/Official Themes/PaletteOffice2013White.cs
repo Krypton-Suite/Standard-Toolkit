@@ -624,7 +624,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Instance Fields
-        private KryptonColorTable2013 _table;
+        private KryptonColorTable2013? _table;
         private readonly Color[] _ribbonColors;
         private readonly Color[] _trackBarColors;
         private readonly ImageList _checkBoxList;
