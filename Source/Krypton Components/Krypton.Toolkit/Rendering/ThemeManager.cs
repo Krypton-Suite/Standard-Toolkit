@@ -228,13 +228,6 @@ namespace Krypton.Toolkit
             }
         }
 
-        /// <summary>
-        /// Propagates the theme selector.
-        /// </summary>
-        /// <param name="target">The target.</param>
-        /// <param name="excludePartials">do not include any string containing</param>
-        public static void PropagateThemeSelector(KryptonComboBox target, params string[] excludePartials) => AddToCollection(target.Items, excludePartials);
-
         private static void AddToCollection(IList target, string[] excludes)
         {
             try
@@ -253,6 +246,12 @@ namespace Krypton.Toolkit
             }
         }
 
+        /// <summary>
+        /// Propagates the theme selector.
+        /// </summary>
+        /// <param name="target">The target.</param>
+        /// <param name="excludePartials">do not include any string containing</param>
+        public static void PropagateThemeSelector(KryptonComboBox target, params string[] excludePartials) => AddToCollection(target.Items, excludePartials);
 
         /// <summary>
         /// Propagates the theme selector.

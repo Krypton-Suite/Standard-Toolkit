@@ -130,7 +130,7 @@
             this.kryptonPage3.Size = new System.Drawing.Size(248, 123);
             this.kryptonPage3.Text = "kryptonPage3";
             this.kryptonPage3.ToolTipTitle = "Page ToolTip";
-            this.kryptonPage3.UniqueName = "f28cce2aaf494d3193ca85e9679192b5";
+            this.kryptonPage3.UniqueName = "a9189fdf28634a62853973875dd71869";
             // 
             // kryptonPage4
             // 
@@ -142,7 +142,7 @@
             this.kryptonPage4.Size = new System.Drawing.Size(150, 100);
             this.kryptonPage4.Text = "kryptonPage4";
             this.kryptonPage4.ToolTipTitle = "Page ToolTip";
-            this.kryptonPage4.UniqueName = "7b72a14c227249b5b6b7429d39b1f801";
+            this.kryptonPage4.UniqueName = "801c2ddef54f4384b79d26af7bf1e74a";
             // 
             // kryptonPage5
             // 
@@ -154,7 +154,7 @@
             this.kryptonPage5.Size = new System.Drawing.Size(150, 100);
             this.kryptonPage5.Text = "kryptonPage5";
             this.kryptonPage5.ToolTipTitle = "Page ToolTip";
-            this.kryptonPage5.UniqueName = "cbca72909b024997a507a419ec42363f";
+            this.kryptonPage5.UniqueName = "cb41c8b434b24d5cb168a330b0a8b375";
             // 
             // Form4
             // 
