@@ -12,10 +12,8 @@
 
 namespace Krypton.Toolkit
 {
-    /// <summary>
-    /// Allows the user to change themes using a <see cref="KryptonComboBox"/>.
-    /// </summary>
-    /// <seealso cref="Krypton.Toolkit.KryptonComboBox" />
+    /// <summary>Allows the user to change themes using a <see cref="KryptonComboBox"/>.</summary>
+    /// <seealso cref="KryptonComboBox" />
     public class KryptonThemeComboBox : KryptonComboBox
     {
         #region Instance Fields
