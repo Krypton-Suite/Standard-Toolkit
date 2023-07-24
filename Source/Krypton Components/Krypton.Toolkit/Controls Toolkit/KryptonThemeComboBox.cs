@@ -17,11 +17,13 @@ namespace Krypton.Toolkit
     public class KryptonThemeComboBox : KryptonComboBox
     {
         #region Instance Fields
+
         private readonly ICollection<string> _supportedThemesNames;
         private int _selectedIndex;
+
         #endregion
 
-        #region Properties
+        #region Public
 
         /// <summary>
         /// Helper, to return a new list of names
@@ -64,7 +66,7 @@ namespace Krypton.Toolkit
 
         #endregion
 
-        #region Constructor
+        #region Identity
 
         /// <summary>Initializes a new instance of the <see cref="KryptonThemeComboBox" /> class.</summary>
         public KryptonThemeComboBox()
@@ -76,7 +78,7 @@ namespace Krypton.Toolkit
         }
         #endregion
 
-        #region Methods
+        #region Implementation
 
         /// <summary>Returns the palette mode.</summary>
         /// <returns>
@@ -117,7 +119,7 @@ namespace Krypton.Toolkit
 
         #endregion
 
-        #region Removed Designer visibility
+        #region Removed Designer Visibility
         /// <summary>
         /// Gets and sets the text associated associated with the control.
         /// </summary>
