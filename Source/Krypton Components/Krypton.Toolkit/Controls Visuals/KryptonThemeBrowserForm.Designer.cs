@@ -111,7 +111,7 @@
             // 
             // kryptonCustomPaletteBase1
             // 
-            this.kryptonCustomPaletteBase1.BaseFont = new System.Drawing.Font("Segoe UI", 11F);
+            this.kryptonCustomPaletteBase1.BaseFont = new System.Drawing.Font("Segoe UI", 9F);
             this.kryptonCustomPaletteBase1.BaseFontSize = 9F;
             this.kryptonCustomPaletteBase1.BasePaletteMode = Krypton.Toolkit.PaletteMode.Microsoft365Blue;
             this.kryptonCustomPaletteBase1.BasePaletteType = Krypton.Toolkit.BasePaletteType.Custom;
