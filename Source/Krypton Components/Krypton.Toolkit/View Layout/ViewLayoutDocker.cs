@@ -396,24 +396,24 @@ namespace Krypton.Toolkit
                 switch (CalculateDock(OrientateDock(GetDock(child)), context.Control))
                 {
                     case ViewDockStyle.Top:
-                        context.DisplayRectangle = new Rectangle(fillerRect.X, fillerRect.Y, fillerRect.Width, childSize.Height);
+                        context.DisplayRectangle = fillerRect with { Height = childSize.Height };
                         fillerRect.Height -= childSize.Height;
                         fillerRect.Y += childSize.Height;
                         break;
 
                     case ViewDockStyle.Bottom:
-                        context.DisplayRectangle = new Rectangle(fillerRect.X, fillerRect.Bottom - childSize.Height, fillerRect.Width, childSize.Height);
+                        context.DisplayRectangle = fillerRect with { Y = fillerRect.Bottom - childSize.Height, Height = childSize.Height };
                         fillerRect.Height -= childSize.Height;
                         break;
 
                     case ViewDockStyle.Left:
-                        context.DisplayRectangle = new Rectangle(fillerRect.X, fillerRect.Y, childSize.Width, fillerRect.Height);
+                        context.DisplayRectangle = fillerRect with { Width = childSize.Width };
                         fillerRect.Width -= childSize.Width;
                         fillerRect.X += childSize.Width;
                         break;
 
                     case ViewDockStyle.Right:
-                        context.DisplayRectangle = new Rectangle(fillerRect.Right - childSize.Width, fillerRect.Y, childSize.Width, fillerRect.Height);
+                        context.DisplayRectangle = fillerRect with { X = fillerRect.Right - childSize.Width, Width = childSize.Width };
                         fillerRect.Width -= childSize.Width;
                         break;
                 }

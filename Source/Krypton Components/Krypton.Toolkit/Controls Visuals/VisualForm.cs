@@ -814,10 +814,7 @@ namespace Krypton.Toolkit
                     Padding realWindowBorders = RealWindowBorders;
                     Rectangle realWindowRectangle = RealWindowRectangle;
 
-                    invalidRect = new Rectangle(-realWindowBorders.Left,
-                                                -realWindowBorders.Top,
-                                                realWindowRectangle.Width,
-                                                realWindowRectangle.Height);
+                    invalidRect = realWindowRectangle with { X = -realWindowBorders.Left, Y = -realWindowBorders.Top };
                 }
 
                 using var invalidRegion = new Region(invalidRect);

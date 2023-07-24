@@ -702,8 +702,8 @@ namespace Krypton.Ribbon
                             // Find screen location of the application button lower half
                             Rectangle appButtonRect = _ribbon.RectangleToScreen(LayoutAppButton.AppButton.ClientRectangle);
                             var localHalf = (int)(21 * FactorDpiY);
-                            appRectBottom = new Rectangle(appButtonRect.X, appButtonRect.Y + localHalf, appButtonRect.Width, appButtonRect.Height - localHalf);
-                            appRectTop = new Rectangle(appRectBottom.X, appRectBottom.Y - localHalf, appRectBottom.Width, localHalf);
+                            appRectBottom = appButtonRect with { Y = appButtonRect.Y + localHalf, Height = appButtonRect.Height - localHalf };
+                            appRectTop = appRectBottom with { Y = appRectBottom.Y - localHalf, Height = localHalf };
                             appRectShow = appRectBottom;
                         }
                         else
@@ -712,7 +712,7 @@ namespace Krypton.Ribbon
                             Rectangle appButtonRect = _ribbon.RectangleToScreen(LayoutAppTab.AppTab.ClientRectangle);
                             appRectBottom = Rectangle.Empty;
                             appRectTop = appButtonRect;
-                            appRectShow = new Rectangle(appButtonRect.X, appButtonRect.Bottom - 1, appButtonRect.Width, 0);
+                            appRectShow = appButtonRect with { Y = appButtonRect.Bottom - 1, Height = 0 };
                         }
 
                         // Create the actual control used to show the context menu

@@ -100,7 +100,7 @@ namespace Krypton.Ribbon
         {
             get
             {
-                Image newImage;
+                Image? newImage;
                 if (_ribbonColorButton.KryptonCommand != null)
                 {
                     newImage = _large ? _ribbonColorButton.KryptonCommand.ImageLarge : _ribbonColorButton.KryptonCommand.ImageSmall;
@@ -128,10 +128,7 @@ namespace Krypton.Ribbon
                             // the selected color area, thus indicating the area inside the
                             // block is blank/empty.
                             using var borderPen = new Pen(_emptyBorderColor);
-                            g.DrawRectangle(borderPen, new Rectangle(selectedRect.X,
-                                selectedRect.Y,
-                                selectedRect.Width - 1,
-                                selectedRect.Height - 1));
+                            g.DrawRectangle(borderPen, selectedRect with { Width = selectedRect.Width - 1, Height = selectedRect.Height - 1 });
                         }
                         else
                         {

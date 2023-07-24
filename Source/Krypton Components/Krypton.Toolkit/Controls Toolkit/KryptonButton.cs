@@ -1121,7 +1121,7 @@ namespace Krypton.Toolkit
             { 
                 new Point(midPoint.X - 2, midPoint.Y - 1),
                 new Point(midPoint.X + 3, midPoint.Y - 1), 
-                new Point(midPoint.X, midPoint.Y + 2)
+                midPoint with { Y = midPoint.Y + 2 }
             };
 
             graphics.FillPolygon(SystemBrushes.ControlText, arrow);

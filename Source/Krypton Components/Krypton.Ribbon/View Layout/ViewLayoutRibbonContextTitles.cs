@@ -20,7 +20,11 @@ namespace Krypton.Ribbon
     internal class ViewLayoutRibbonContextTitles : ViewLayoutDocker
     {
         #region Classes
-        private class ViewDrawRibbonContextTitleList : List<ViewDrawRibbonContextTitle> { }
+
+        private class ViewDrawRibbonContextTitleList : List<ViewDrawRibbonContextTitle>
+        {
+        };
+
         #endregion
 
         #region Instance Fields
@@ -178,7 +182,7 @@ namespace Krypton.Ribbon
         private void SyncChildrenToContexts()
         {
             // Find any filler child
-            ViewBase filler = null;
+            ViewBase? filler = null;
 
             foreach (ViewBase child in this)
             {

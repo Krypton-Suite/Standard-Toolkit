@@ -476,8 +476,8 @@ namespace Krypton.Toolkit
                 OnSplitterMoveRect(args);
 
                 return Orientation == Orientation.Horizontal
-                    ? new Rectangle(0, args.MoveRect.Y, 0, args.MoveRect.Height)
-                    : new Rectangle(args.MoveRect.X, 0, args.MoveRect.Width, 0);
+                    ? args.MoveRect with { X = 0, Width = 0 }
+                    : args.MoveRect with { Y = 0, Height = 0 };
             }
         }
 

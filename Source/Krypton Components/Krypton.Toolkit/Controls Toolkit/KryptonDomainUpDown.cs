@@ -568,8 +568,7 @@ namespace Krypton.Toolkit
 
                                         // Draw the actual up and down buttons split inside the client rectangle
                                         DrawUpDownButtons(g,
-                                            new Rectangle(clientRect.X, clientRect.Y, clientRect.Width,
-                                                clientRect.Height - 1));
+                                            clientRect with { Height = clientRect.Height - 1 });
 
                                         // Now blit from the bitmap from the screen to the real dc
                                         PI.BitBlt(hdc, clientRect.X, clientRect.Y, clientRect.Width, clientRect.Height,
@@ -622,9 +621,8 @@ namespace Krypton.Toolkit
                 _palette.SetStyles(DomainUpDown.UpDownButtonStyle);
 
                 // Find button rectangles
-                var upRect = new Rectangle(clientRect.X, clientRect.Y, clientRect.Width, clientRect.Height / 2);
-                var downRect = new Rectangle(clientRect.X, upRect.Bottom, clientRect.Width,
-                    clientRect.Bottom - upRect.Bottom);
+                var upRect = clientRect with { Height = clientRect.Height / 2 };
+                var downRect = clientRect with { Y = upRect.Bottom, Height = clientRect.Bottom - upRect.Bottom };
 
                 // Position and draw the up/down buttons
                 using var layoutContext = new ViewLayoutContext(DomainUpDown, DomainUpDown.Renderer);

@@ -161,21 +161,24 @@ namespace Krypton.Toolkit
             Debug.Assert(context != null);
 
             // Perform rendering before any children
-            RenderBefore(context!);
-
-            var ordering = ReverseRenderOrder ? Reverse() : this;
-
-            // Ask each child to render in turn
-            foreach (ViewBase child in ordering
-                .Where(child => child.Visible 
-                                && child.ClientRectangle.IntersectsWith(context.ClipRect))
-                )
+            if (context != null)
             {
-                child.Render(context);
-            }
+                RenderBefore(context);
 
-            // Perform rendering after that of children
-            RenderAfter(context);
+                var ordering = ReverseRenderOrder ? Reverse() : this;
+
+                // Ask each child to render in turn
+                foreach (ViewBase child in ordering
+                             .Where(child => child.Visible
+                                             && child.ClientRectangle.IntersectsWith(context.ClipRect))
+                        )
+                {
+                    child.Render(context);
+                }
+
+                // Perform rendering after that of children
+                RenderAfter(context);
+            }
         }
         #endregion
 
@@ -245,15 +248,7 @@ namespace Krypton.Toolkit
             }
 
             // Check against all children
-            foreach (ViewBase child in this)
-            {
-                if (child.ContainsRecurse(item))
-                {
-                    return true;
-                }
-            }
-
-            return false;
+            return this.Any(child => child.ContainsRecurse(item));
         }
 
         /// <summary>

@@ -504,8 +504,7 @@ namespace Krypton.Ribbon
                 Color sepColor = _paletteGeneral.GetRibbonTabSeparatorContextColor(PaletteState.Normal);
 
                 Rectangle parentRect = Parent.ClientRectangle;
-                var contextRect = new Rectangle(ClientRectangle.X - 1, parentRect.Y, ClientRectangle.Width + 2,
-                    parentRect.Height);
+                var contextRect = parentRect with { X = ClientRectangle.X - 1, Width = ClientRectangle.Width + 2 };
                 var gradientRect = new Rectangle(ClientRectangle.X - 1, parentRect.Y - 1,
                     ClientRectangle.Width + 2, parentRect.Height + 2);
 

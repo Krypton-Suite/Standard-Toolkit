@@ -228,9 +228,7 @@ namespace Krypton.Toolkit
                     cellBounds.Height = checkBoxSize.Height;
 
                     // Remember the current drawing bounds
-                    _contentBounds = new Rectangle(cellBounds.X - startBounds.X,
-                        cellBounds.Y - startBounds.Y,
-                        cellBounds.Width, cellBounds.Height);
+                    _contentBounds = cellBounds with { X = cellBounds.X - startBounds.X, Y = cellBounds.Y - startBounds.Y };
 
                     // Perform actual drawing of the check box
                     renderContext.Renderer.RenderGlyph.DrawCheckBox(renderContext,

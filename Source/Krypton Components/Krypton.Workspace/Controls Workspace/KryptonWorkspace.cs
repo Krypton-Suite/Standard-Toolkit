@@ -3239,12 +3239,12 @@ namespace Krypton.Workspace
                             if (seq.Orientation == Orientation.Vertical)
                             {
                                 viewSeparator.Orientation = Orientation.Horizontal;
-                                layoutContext.DisplayRectangle = new Rectangle(client.X, client.Y + offset, client.Width, SplitterWidth);
+                                layoutContext.DisplayRectangle = client with { Y = client.Y + offset, Height = SplitterWidth };
                             }
                             else
                             {
                                 viewSeparator.Orientation = Orientation.Vertical;
-                                layoutContext.DisplayRectangle = new Rectangle(client.X + offset, client.Y, SplitterWidth, client.Height);
+                                layoutContext.DisplayRectangle = client with { X = client.X + offset, Width = SplitterWidth };
                             }
 
                             // Ask the separator to position itself
@@ -3262,8 +3262,8 @@ namespace Krypton.Workspace
 
                         // Calculate the display rect for the item
                         info[i].DisplayRect = seq.Orientation == Orientation.Vertical
-                            ? new Rectangle(client.X, client.Y + offset, client.Width, info[i].DisplaySpace)
-                            : new Rectangle(client.X + offset, client.Y, info[i].DisplaySpace, client.Height);
+                            ? client with { Y = client.Y + offset, Height = info[i].DisplaySpace }
+                            : client with { X = client.X + offset, Width = info[i].DisplaySpace };
 
                         // Move over the cell
                         offset += info[i].DisplaySpace;
@@ -3667,10 +3667,10 @@ namespace Krypton.Workspace
 
             // Find the left, right, top, bottom, center rectangles
             return new Rectangle[]{
-                new Rectangle(area.X, area.Y, length, area.Height),
-                new Rectangle(area.Right - length, area.Y, length, area.Height),
-                new Rectangle(area.X, area.Y, area.Width, length),
-                new Rectangle(area.X, area.Bottom - length, area.Width, length),
+                area with { Width = length },
+                area with { X = area.Right - length, Width = length },
+                area with { Height = length },
+                area with { Y = area.Bottom - length, Height = length },
                 new Rectangle(area.X + length, area.Y + length, area.Width - (length * 2), area.Height - (length * 2))};
         }
 

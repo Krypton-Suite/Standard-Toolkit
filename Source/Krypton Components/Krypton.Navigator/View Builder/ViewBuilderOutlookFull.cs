@@ -227,7 +227,7 @@ namespace Krypton.Navigator
         protected override void BringPageIntoView(KryptonPage page)
         {
             // Remember the view for the requested page
-            ViewDrawNavCheckButtonBase viewPage = null;
+            ViewDrawNavCheckButtonBase? viewPage = null;
 
             // Make sure only the selected page is checked
             foreach (ViewDrawNavCheckButtonBase child in _pageStackLookup.Values)

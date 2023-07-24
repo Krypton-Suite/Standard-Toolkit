@@ -339,7 +339,7 @@ namespace Krypton.Toolkit
                 }
 
                 // Size to the contained command controls
-                _panelMainRadio.Size = new Size(maxButtonSize.Width, offset.Y);
+                _panelMainRadio.Size = maxButtonSize with { Height = offset.Y };
             }
         }
 
@@ -394,7 +394,7 @@ namespace Krypton.Toolkit
                 }
 
                 // Size to the contained command controls
-                _panelMainCommands.Size = new Size(maxButtonSize.Width, offset.Y);
+                _panelMainCommands.Size = maxButtonSize with { Height = offset.Y };
             }
         }
 
@@ -687,7 +687,7 @@ namespace Krypton.Toolkit
                 return Size.Empty;
             }
 
-            return new Size(_panelMainRadio.Size.Width + BUTTON_GAP + 2, _panelMainRadio.Size.Height);
+            return _panelMainRadio.Size with { Width = _panelMainRadio.Size.Width + BUTTON_GAP + 2 };
         }
 
         private Size UpdateCommandSizing()
@@ -700,7 +700,7 @@ namespace Krypton.Toolkit
                 return Size.Empty;
             }
 
-            return new Size(_panelMainCommands.Size.Width + BUTTON_GAP + 2, _panelMainCommands.Size.Height);
+            return _panelMainCommands.Size with { Width = _panelMainCommands.Size.Width + BUTTON_GAP + 2 };
         }
 
         private Size UpdateSpacerSizing()

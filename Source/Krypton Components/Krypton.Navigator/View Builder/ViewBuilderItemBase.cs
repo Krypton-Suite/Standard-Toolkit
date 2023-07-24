@@ -94,7 +94,7 @@ namespace Krypton.Navigator
         public override void SelectedPageChanged()
         {
             // Remember the newly selected page
-            ViewBase selected = null;
+            ViewBase? selected = null;
 
             // Make sure only the selected page is checked
             foreach (ViewBase child in _layoutBar)
@@ -1070,7 +1070,7 @@ namespace Krypton.Navigator
         private void BringPageIntoView()
         {
             // Remember the view for the requested page
-            ViewBase viewPage = null;
+            ViewBase? viewPage = null;
 
             // Make sure only the selected page is checked
             foreach (ViewBase child in _layoutBar)

@@ -195,7 +195,7 @@ namespace Krypton.Navigator
             Point pt = Control.MousePosition;
 
             // Show the context menu just below the mouse cursor
-            return new Point(pt.X, pt.Y + 18);
+            return pt with { Y = pt.Y + 18 };
         }
 
         /// <summary>

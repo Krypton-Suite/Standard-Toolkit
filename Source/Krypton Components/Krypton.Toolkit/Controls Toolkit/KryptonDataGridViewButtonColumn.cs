@@ -165,7 +165,7 @@ namespace Krypton.Toolkit
                         var count = rows.Count;
                         for (var i = 0; i < count; i++)
                         {
-                            DataGridViewButtonCell cell = rows.SharedRow(i).Cells[Index] as KryptonDataGridViewButtonCell;
+                            DataGridViewButtonCell? cell = rows.SharedRow(i).Cells[Index] as KryptonDataGridViewButtonCell;
                             if (cell != null)
                             {
                                 SetUseColumnTextForButtonValueInternal(cell, value);

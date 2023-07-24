@@ -102,28 +102,28 @@ namespace Krypton.Toolkit
                         if (captionRect.Height > 0)
                         {
                             var reduce = (int)(captionRect.Height * CaptionOverlap);
-                            ClientRectangle = new Rectangle(_cacheClientRect.X, _cacheClientRect.Y + reduce, _cacheClientRect.Width, _cacheClientRect.Height - reduce);
+                            ClientRectangle = _cacheClientRect with { Y = _cacheClientRect.Y + reduce, Height = _cacheClientRect.Height - reduce };
                         }
                         break;
                     case ViewDockStyle.Left:
                         if (captionRect.Width > 0)
                         {
                             var reduce = (int)(captionRect.Width * CaptionOverlap);
-                            ClientRectangle = new Rectangle(_cacheClientRect.X + reduce, _cacheClientRect.Y, _cacheClientRect.Width - reduce, _cacheClientRect.Height);
+                            ClientRectangle = _cacheClientRect with { X = _cacheClientRect.X + reduce, Width = _cacheClientRect.Width - reduce };
                         }
                         break;
                     case ViewDockStyle.Bottom:
                         if (captionRect.Height > 0)
                         {
                             var reduce = (int)(captionRect.Height * CaptionOverlap);
-                            ClientRectangle = new Rectangle(_cacheClientRect.X, _cacheClientRect.Y, _cacheClientRect.Width, _cacheClientRect.Height - reduce);
+                            ClientRectangle = _cacheClientRect with { Height = _cacheClientRect.Height - reduce };
                         }
                         break;
                     case ViewDockStyle.Right:
                         if (captionRect.Width > 0)
                         {
                             var reduce = (int)(captionRect.Width * CaptionOverlap);
-                            ClientRectangle = new Rectangle(_cacheClientRect.X, _cacheClientRect.Y, _cacheClientRect.Width - reduce, _cacheClientRect.Height);
+                            ClientRectangle = _cacheClientRect with { Width = _cacheClientRect.Width - reduce };
                         }
                         break;
                 }

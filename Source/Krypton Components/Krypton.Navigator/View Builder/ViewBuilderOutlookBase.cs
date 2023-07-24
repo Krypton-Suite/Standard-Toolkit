@@ -2251,12 +2251,12 @@ namespace Krypton.Navigator
             if (SeparatorOrientation == Orientation.Horizontal)
             {
                 var reduce = _viewSeparator.ClientRectangle.Bottom - e.DragRect.Y;
-                e.DragRect = new Rectangle(e.DragRect.X, e.DragRect.Y + reduce, e.DragRect.Width, e.DragRect.Height - reduce);
+                e.DragRect = e.DragRect with { Y = e.DragRect.Y + reduce, Height = e.DragRect.Height - reduce };
             }
             else
             {
                 var reduce = _viewSeparator.ClientRectangle.Right - e.DragRect.X;
-                e.DragRect = new Rectangle(e.DragRect.X + reduce, e.DragRect.Y, e.DragRect.Width - reduce, e.DragRect.Height);
+                e.DragRect = e.DragRect with { X = e.DragRect.X + reduce, Width = e.DragRect.Width - reduce };
             }
         }
 

@@ -112,7 +112,7 @@ namespace Krypton.Toolkit
 
         internal static Rectangle GetTargetRectangle(Point clientLocation, Rectangle windowBounds)
         {
-            var rect = new Rectangle(0, 0, windowBounds.Width, windowBounds.Height);
+            var rect = windowBounds with { X = 0, Y = 0 };
             rect.Offset(clientLocation);
             return rect;
         }

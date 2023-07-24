@@ -100,9 +100,9 @@ namespace Krypton.Workspace
                 var host = (IDesignerHost)GetService(typeof(IDesignerHost));
 
                 // Climb the workspace item tree to get the top most sequence
-                KryptonWorkspace workspace = null;
+                KryptonWorkspace? workspace = null;
                 IWorkspaceItem workspaceItem = _sequence;
-                while (workspaceItem.WorkspaceParent != null)
+                while (workspaceItem?.WorkspaceParent != null)
                 {
                     workspaceItem = workspaceItem.WorkspaceParent;
                 }

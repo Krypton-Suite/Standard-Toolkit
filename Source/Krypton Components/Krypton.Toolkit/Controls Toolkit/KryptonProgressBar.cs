@@ -40,7 +40,7 @@ namespace Krypton.Toolkit
             {
                 if (ProgressBarRenderer.IsSupported)
                 {
-                    KryptonProfessionalRenderer kpr = null;
+                    KryptonProfessionalRenderer? kpr = null;
 
                     // Note: Is this correct?
                     Color color = kpr.KCT.StatusStripGradientEnd;

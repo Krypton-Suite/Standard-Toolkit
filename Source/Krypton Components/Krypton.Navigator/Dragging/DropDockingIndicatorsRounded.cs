@@ -216,7 +216,7 @@ namespace Krypton.Navigator
                 var memoryBitmap = new Bitmap(rect.Width, rect.Height, PixelFormat.Format32bppArgb);
                 using Graphics g = Graphics.FromImage(memoryBitmap);
                 // Perform actual painting onto the bitmap
-                var area = new Rectangle(0, 0, rect.Width, rect.Height);
+                var area = rect with { X = 0, Y = 0 };
                 using (var context = new RenderContext(null, g, area, _renderer))
                 {
                     _renderer?.RenderGlyph.DrawDragDropDockingGlyph(context, _dragData, _paletteDragDrop,
