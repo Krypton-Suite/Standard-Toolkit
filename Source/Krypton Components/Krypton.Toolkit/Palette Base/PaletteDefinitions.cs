@@ -3192,7 +3192,7 @@ namespace Krypton.Toolkit
     /// <summary>
     /// Specifies the style of button spec.
     /// </summary>
-    [TypeConverter(typeof(PaletteButtonSpecStyleConverter)), Flags]
+    [TypeConverter(typeof(PaletteButtonSpecStyleConverter))]
     public enum PaletteButtonSpecStyle
     {
         /// <summary>
