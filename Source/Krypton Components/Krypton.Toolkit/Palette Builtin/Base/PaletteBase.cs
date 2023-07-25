@@ -29,6 +29,8 @@ namespace Krypton.Toolkit
 
         private const string DEFAULT_FONT_TYPE = @"Segoe UI, 9f, FontStyle.Regular";
 
+        //private const Font DEFAULT_FONT_STYLE = new Font("Segoe UI", 9f, FontStyle.Regular);
+
         #region Font Stuff
 
         private Font _baseFont;
@@ -96,7 +98,7 @@ namespace Krypton.Toolkit
 
             _useKryptonFileDialogs = false;
 
-            _baseFont = new("Segoe UI", 9f, FontStyle.Regular);
+            _baseFont = (Font)new FontConverter().ConvertFromString(DEFAULT_FONT_TYPE);
 
             _baseFontSize = 9f;
         }
