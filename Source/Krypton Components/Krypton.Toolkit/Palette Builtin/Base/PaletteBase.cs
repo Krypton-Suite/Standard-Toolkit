@@ -27,7 +27,7 @@ namespace Krypton.Toolkit
         private PaletteDragFeedback _dragFeedback;
         private string? _themeName;
 
-        private const string DEFAULT_FONT_TYPE = @"Segoe UI, 9f, FontStyle.Regular";
+        private const string DEFAULT_FONT_STYLE = @"Segoe UI, 9f, FontStyle.Regular";
 
         //private const Font DEFAULT_FONT_STYLE = new Font("Segoe UI", 9f, FontStyle.Regular);
 
@@ -98,7 +98,7 @@ namespace Krypton.Toolkit
 
             _useKryptonFileDialogs = false;
 
-            _baseFont = (Font)new FontConverter().ConvertFromString(DEFAULT_FONT_TYPE);
+            _baseFont = (Font)new FontConverter().ConvertFromString(DEFAULT_FONT_STYLE);
 
             _baseFontSize = 9f;
         }
@@ -1743,10 +1743,10 @@ namespace Krypton.Toolkit
             }
         }
 
-        [AllowNull, DefaultValue(typeof(Font), DEFAULT_FONT_TYPE)]
+        [AllowNull, DefaultValue(typeof(Font), DEFAULT_FONT_STYLE)]
         public virtual Font? BaseFont
         {
-            get => _baseFont ?? (Font)new FontConverter().ConvertFromString(DEFAULT_FONT_TYPE);
+            get => _baseFont ?? (Font)new FontConverter().ConvertFromString(DEFAULT_FONT_STYLE);
 
             set
             {
@@ -1754,7 +1754,7 @@ namespace Krypton.Toolkit
 
                 if (value == null)
                 {
-                    _baseFont = (Font)new FontConverter().ConvertFromString(DEFAULT_FONT_TYPE);
+                    _baseFont = (Font)new FontConverter().ConvertFromString(DEFAULT_FONT_STYLE);
                 }
             }
         }
