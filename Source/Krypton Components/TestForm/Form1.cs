@@ -92,5 +92,12 @@ namespace TestForm
 
             integratedToolBar.Show();
         }
+
+        private void kryptonButton3_Click(object sender, EventArgs e)
+        {
+            KryptonThemeBrowserForm themeBrowser = new();
+
+            themeBrowser.Show();
+        }
     }
 }

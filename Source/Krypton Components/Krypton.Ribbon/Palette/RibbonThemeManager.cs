@@ -22,8 +22,8 @@ namespace Krypton.Ribbon
         /// The supported themes
         /// </summary>
         // TODO: This should use the list from Z:\GitHub\Krypton-Suite\Standard-Toolkit\Source\Krypton Components\Krypton.Toolkit\Converters\PaletteModeConverter.cs
-        private static readonly BiDictionary<string, PaletteMode> _supportedThemes =
-            new BiDictionary<string, PaletteMode>(new Dictionary<string, PaletteMode>
+        private static readonly BiDictionary<string?, PaletteMode> _supportedThemes =
+            new BiDictionary<string?, PaletteMode>(new Dictionary<string, PaletteMode>
             {
                 { @"Professional - System", PaletteMode.ProfessionalSystem },
                 { @"Professional - Office 2003", PaletteMode.ProfessionalOffice2003 },
@@ -82,7 +82,7 @@ namespace Krypton.Ribbon
         /// <value>
         /// The supported theme array.
         /// </value>
-        public static ICollection<string> SupportedInternalThemeNames => _supportedThemes.GetAllFirsts();
+        public static ICollection<string?> SupportedInternalThemeNames => _supportedThemes.GetAllFirsts();
 
         #endregion
 
@@ -114,14 +114,14 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="themeName">Name of the theme.</param>
         /// <param name="manager">The manager.</param>
-        public static void ApplyTheme(string themeName, KryptonManager manager) => ApplyTheme(_supportedThemes.GetByFirst(themeName), manager);
+        public static void ApplyTheme(string? themeName, KryptonManager manager) => ApplyTheme(_supportedThemes.GetByFirst(themeName), manager);
 
         /// <summary>
         /// Sets the theme.
         /// </summary>
         /// <param name="themeName">Name of the theme.</param>
         /// <param name="manager">The manager.</param>
-        public static void SetTheme(string themeName, KryptonManager manager)
+        public static void SetTheme(string? themeName, KryptonManager manager)
         {
             try
             {
@@ -141,7 +141,7 @@ namespace Krypton.Ribbon
         /// <param name="paletteMode">The palette mode manager.</param>
         /// <param name="manager">The manager.</param>
         /// <returns>The chosen theme as a string.</returns>
-        public static string ReturnPaletteModeAsString(PaletteMode paletteMode, KryptonManager manager = null)
+        public static string? ReturnPaletteModeAsString(PaletteMode paletteMode, KryptonManager manager = null)
         {
             var mode = manager?.GlobalPaletteMode ?? paletteMode;
 
@@ -244,7 +244,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="themeName">Name of the theme.</param>
         /// <returns>The <see cref="PaletteMode"/> equivalent.</returns>
-        public static PaletteMode GetThemeManagerMode(string themeName) => _supportedThemes.GetByFirst(themeName);
+        public static PaletteMode GetThemeManagerMode(string? themeName) => _supportedThemes.GetByFirst(themeName);
 
         /// <summary>
         /// Propagates the theme selector.

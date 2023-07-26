@@ -27,9 +27,9 @@ namespace Krypton.Toolkit
         private PaletteDragFeedback _dragFeedback;
         private string? _themeName;
 
-        private const string DEFAULT_FONT_STYLE = @"Segoe UI, 9f, FontStyle.Regular";
+        private const string DEFAULT_FONT_STRING = @"Segoe UI, 9f, FontStyle.Regular";
 
-        //private const Font DEFAULT_FONT_STYLE = new Font("Segoe UI", 9f, FontStyle.Regular);
+        private readonly Font DEFAULT_FONT_STYLE = new Font("Segoe UI", 9f, FontStyle.Regular);
 
         #region Font Stuff
 
@@ -98,7 +98,7 @@ namespace Krypton.Toolkit
 
             _useKryptonFileDialogs = false;
 
-            _baseFont = (Font)new FontConverter().ConvertFromString(DEFAULT_FONT_STYLE);
+            _baseFont = DEFAULT_FONT_STYLE;
 
             _baseFontSize = 9f;
         }
@@ -1705,9 +1705,8 @@ namespace Krypton.Toolkit
         [DefaultValue(false), Description(@"Use Krypton style file dialogs for exporting/importing palettes.")]
         public bool UseKryptonFileDialogs { get => _useKryptonFileDialogs; set => _useKryptonFileDialogs = value; }
 
-        /// <summary>
-        /// Gets and sets the base font size used when defining fonts.
-        /// </summary>
+        /// <summary>Gets and sets the base font size used when defining fonts.</summary>
+        [Description(@"Gets and sets the base font size used when defining fonts.")]
         public virtual float BaseFontSize
         {
             get => _baseFontSize ?? SystemFonts.MenuFont.SizeInPoints;
@@ -1743,24 +1742,36 @@ namespace Krypton.Toolkit
             }
         }
 
-        [AllowNull, DefaultValue(typeof(Font), DEFAULT_FONT_STYLE)]
+        /// <summary>Gets or sets the base palette font.</summary>
+        /// <value>The base palette font.</value>
+        [AllowNull, Description(@"Gets or sets the base palette font."), DefaultValue(null)]
         public virtual Font? BaseFont
         {
-            get => _baseFont ?? (Font)new FontConverter().ConvertFromString(DEFAULT_FONT_STYLE);
+            get => _baseFont ?? DEFAULT_FONT_STYLE;
 
             set
             {
-                _baseFont = value;
-
-                if (value == null)
+                if (value != null)
                 {
-                    _baseFont = (Font)new FontConverter().ConvertFromString(DEFAULT_FONT_STYLE);
+                    _baseFont = value;
+
+                    // Note: Might be overkill
+                    if (value == null)
+                    {
+                        _baseFont = DEFAULT_FONT_STYLE;
+                    }
                 }
             }
         }
 
+        /// <summary>Gets or sets the name of the theme.</summary>
+        /// <value>The name of the theme.</value>
+        [Description(@"Gets or sets the name of the theme.")]
         public virtual string? ThemeName { get => _themeName; set => _themeName = value; }
 
+        /// <summary>Gets or sets the type of the base palette.</summary>
+        /// <value>The type of the base palette.</value>
+        [Description(@"Gets or sets the type of the base palette.")]
         public virtual BasePaletteType BasePaletteType { get => _basePaletteType; set => _basePaletteType = value; }
 
         #endregion

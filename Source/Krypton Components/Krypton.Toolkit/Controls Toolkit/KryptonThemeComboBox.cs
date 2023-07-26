@@ -18,7 +18,7 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
 
-        private readonly ICollection<string> _supportedThemesNames;
+        private readonly ICollection<string?> _supportedThemesNames;
         private int _selectedIndex;
 
         #endregion
@@ -29,7 +29,7 @@ namespace Krypton.Toolkit
         /// Helper, to return a new list of names
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public List<string> SupportedThemesList => _supportedThemesNames.ToList();
+        public List<string?> SupportedThemesList => _supportedThemesNames.ToList();
 
         //private set { _supportedThemesNames = value.ToArray(); }
         /// <summary>
@@ -126,7 +126,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         [AllowNull]
-        public override string Text
+        public override string? Text
         {
             get => base.Text;
             set => base.Text = value;

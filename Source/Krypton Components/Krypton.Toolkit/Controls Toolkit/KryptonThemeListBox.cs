@@ -16,7 +16,7 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
 
-        private readonly ICollection<string> _supportedThemeNames;
+        private readonly ICollection<string?> _supportedThemeNames;
 
         private int _selectedThemeIndex;
 
@@ -28,7 +28,7 @@ namespace Krypton.Toolkit
         /// Helper, to return a new list of names
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public List<string> SupportedThemesList => _supportedThemeNames.ToList();
+        public List<string?> SupportedThemesList => _supportedThemeNames.ToList();
 
         //private set { _supportedThemesNames = value.ToArray(); }
         /// <summary>
@@ -99,13 +99,13 @@ namespace Krypton.Toolkit
         /// <inheritdoc />
         protected override void OnSelectedIndexChanged(EventArgs e)
         {
-            ThemeManager.ApplyTheme(Text, Manager);
+            ThemeManager.ApplyTheme(GetItemText(SelectedItem), Manager);
 
             ThemeSelectedIndex = SelectedIndex;
 
             base.OnSelectedIndexChanged(e);
 
-            if ((ThemeManager.GetThemeManagerMode(Text) == PaletteMode.Custom) && (KryptonCustomPalette != null))
+            if ((ThemeManager.GetThemeManagerMode(GetItemText(SelectedItem)) == PaletteMode.Custom) && (KryptonCustomPalette != null))
             {
                 Manager.GlobalPalette = KryptonCustomPalette;
             }
@@ -119,7 +119,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         [AllowNull]
-        public override string Text
+        public override string? Text
         {
             get => base.Text;
             set => base.Text = value;
