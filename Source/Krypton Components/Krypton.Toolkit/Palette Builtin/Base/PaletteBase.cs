@@ -1743,9 +1743,9 @@ namespace Krypton.Toolkit
         /// <summary>Gets or sets the base palette font.</summary>
         /// <value>The base palette font.</value>
         [AllowNull, Description(@"Gets or sets the base palette font.")]
-        public virtual Font? BaseFont
+        public virtual Font BaseFont
         {
-            get => _baseFont ?? _defaultFontStyle;
+            get => _baseFont;
 
             set => _baseFont = value ?? _defaultFontStyle;
         }
