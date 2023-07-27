@@ -88,14 +88,14 @@ namespace TestForm
 
         private void kbtnIntegratedToolbar_Click(object sender, EventArgs e)
         {
-            Form5 integratedToolBar = new();
+            Form5 integratedToolBar = new Form5();
 
             integratedToolBar.Show();
         }
 
         private void kryptonButton3_Click(object sender, EventArgs e)
         {
-            KryptonThemeBrowserForm themeBrowser = new();
+            KryptonThemeBrowserForm themeBrowser = new KryptonThemeBrowserForm();
 
             themeBrowser.Show();
         }

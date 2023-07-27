@@ -25,11 +25,9 @@ namespace Krypton.Toolkit
         private float? _baseFontSize;
         private Padding? _inputControlPadding;
         private PaletteDragFeedback _dragFeedback;
-        private string? _themeName;
+        private string _themeName;
 
-        private const string DEFAULT_FONT_STRING = @"Segoe UI, 9f, FontStyle.Regular";
-
-        private readonly Font DEFAULT_FONT_STYLE = new Font("Segoe UI", 9f, FontStyle.Regular);
+        private readonly Font _defaultFontStyle = new Font("Segoe UI", 9f, FontStyle.Regular);
 
         #region Font Stuff
 
@@ -98,7 +96,7 @@ namespace Krypton.Toolkit
 
             _useKryptonFileDialogs = false;
 
-            _baseFont = DEFAULT_FONT_STYLE;
+            _baseFont = _defaultFontStyle;
 
             _baseFontSize = 9f;
         }
@@ -1744,30 +1742,18 @@ namespace Krypton.Toolkit
 
         /// <summary>Gets or sets the base palette font.</summary>
         /// <value>The base palette font.</value>
-        [AllowNull, Description(@"Gets or sets the base palette font."), DefaultValue(null)]
+        [AllowNull, Description(@"Gets or sets the base palette font.")]
         public virtual Font? BaseFont
         {
-            get => _baseFont ?? DEFAULT_FONT_STYLE;
+            get => _baseFont ?? _defaultFontStyle;
 
-            set
-            {
-                if (value != null)
-                {
-                    _baseFont = value;
-
-                    // Note: Might be overkill
-                    if (value == null)
-                    {
-                        _baseFont = DEFAULT_FONT_STYLE;
-                    }
-                }
-            }
+            set => _baseFont = value ?? _defaultFontStyle;
         }
 
         /// <summary>Gets or sets the name of the theme.</summary>
         /// <value>The name of the theme.</value>
-        [Description(@"Gets or sets the name of the theme.")]
-        public virtual string? ThemeName { get => _themeName; set => _themeName = value; }
+        [DisallowNull, Description(@"Gets or sets the name of the theme.")]
+        public virtual string ThemeName { get => _themeName; set => _themeName = value; }
 
         /// <summary>Gets or sets the type of the base palette.</summary>
         /// <value>The type of the base palette.</value>

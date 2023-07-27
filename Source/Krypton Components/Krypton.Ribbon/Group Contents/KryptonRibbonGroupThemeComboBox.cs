@@ -13,7 +13,7 @@ namespace Krypton.Ribbon
     public class KryptonRibbonGroupThemeComboBox : KryptonRibbonGroupComboBox
     {
         #region Instance Fields
-        private readonly ICollection<string?> _supportedThemesNames;
+        private readonly ICollection<string> _supportedThemesNames;
         private int _selectedIndex;
         #endregion
 
