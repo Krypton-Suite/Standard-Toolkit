@@ -12,24 +12,24 @@
 
 namespace Krypton.Toolkit
 {
-    /// <summary>
-    /// Allows the user to change themes using a <see cref="KryptonComboBox"/>.
-    /// </summary>
-    /// <seealso cref="Krypton.Toolkit.KryptonComboBox" />
+    /// <summary>Allows the user to change themes using a <see cref="KryptonComboBox"/>.</summary>
+    /// <seealso cref="KryptonComboBox" />
     public class KryptonThemeComboBox : KryptonComboBox
     {
         #region Instance Fields
-        private readonly ICollection<string> _supportedThemesNames;
+
+        private readonly ICollection<string?> _supportedThemesNames;
         private int _selectedIndex;
+
         #endregion
 
-        #region Properties
+        #region Public
 
         /// <summary>
         /// Helper, to return a new list of names
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public List<string> SupportedThemesList => _supportedThemesNames.ToList();
+        public List<string?> SupportedThemesList => _supportedThemesNames.ToList();
 
         //private set { _supportedThemesNames = value.ToArray(); }
         /// <summary>
@@ -66,7 +66,7 @@ namespace Krypton.Toolkit
 
         #endregion
 
-        #region Constructor
+        #region Identity
 
         /// <summary>Initializes a new instance of the <see cref="KryptonThemeComboBox" /> class.</summary>
         public KryptonThemeComboBox()
@@ -78,7 +78,7 @@ namespace Krypton.Toolkit
         }
         #endregion
 
-        #region Methods
+        #region Implementation
 
         /// <summary>Returns the palette mode.</summary>
         /// <returns>
@@ -119,14 +119,14 @@ namespace Krypton.Toolkit
 
         #endregion
 
-        #region Removed Designer visibility
+        #region Removed Designer Visibility
         /// <summary>
         /// Gets and sets the text associated associated with the control.
         /// </summary>
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         [AllowNull]
-        public override string Text
+        public override string? Text
         {
             get => base.Text;
             set => base.Text = value;

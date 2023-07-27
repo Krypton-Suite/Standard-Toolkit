@@ -15,7 +15,7 @@ namespace Krypton.Toolkit
     /// <summary>
     /// 
     /// </summary>
-    public class PaletteMicrosoft365Black : PaletteMicrosoft365BlackThemeBase
+    public class PaletteMicrosoft365Black : PaletteMicrosoft365Base
     {
         #region Static Fields
 

@@ -82,7 +82,7 @@ namespace Krypton.Ribbon
         /// <value>
         /// The supported theme array.
         /// </value>
-        public static ICollection<string> SupportedInternalThemeNames => _supportedThemes.GetAllFirsts();
+        public static ICollection<string?> SupportedInternalThemeNames => _supportedThemes.GetAllFirsts();
 
         #endregion
 
@@ -141,7 +141,7 @@ namespace Krypton.Ribbon
         /// <param name="paletteMode">The palette mode manager.</param>
         /// <param name="manager">The manager.</param>
         /// <returns>The chosen theme as a string.</returns>
-        public static string ReturnPaletteModeAsString(PaletteMode paletteMode, KryptonManager manager = null)
+        public static string? ReturnPaletteModeAsString(PaletteMode paletteMode, KryptonManager manager = null)
         {
             var mode = manager?.GlobalPaletteMode ?? paletteMode;
 
@@ -244,7 +244,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="themeName">Name of the theme.</param>
         /// <returns>The <see cref="PaletteMode"/> equivalent.</returns>
-        public static PaletteMode GetThemeManagerMode(string themeName) => _supportedThemes.GetByFirst(themeName);
+        public static PaletteMode GetThemeManagerMode(string? themeName) => _supportedThemes.GetByFirst(themeName);
 
         /// <summary>
         /// Propagates the theme selector.

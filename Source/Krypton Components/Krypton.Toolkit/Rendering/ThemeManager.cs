@@ -82,17 +82,19 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Properties        
-        /// <summary>
-        /// Gets the supported theme array.
-        /// </summary>
-        /// <value>
-        /// The supported theme array.
-        /// </value>
-        public static ICollection<string> SupportedInternalThemeNames => _supportedThemes.GetAllFirsts();
+
+        /// <summary>Gets the supported theme array.</summary>
+        /// <value>The supported theme array.</value>
+        public static ICollection<string?> SupportedInternalThemeNames => _supportedThemes.GetAllFirsts();
+
+        /// <summary>Gets or sets the index of the theme.</summary>
+        /// <value>The index of the theme.</value>
+        public static int ThemeIndex { get; set; } = 33;
 
         #endregion
 
         #region Implementation
+
         /// <summary>
         /// Applies the theme.
         /// </summary>
@@ -204,7 +206,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="paletteMode">The palette mode.</param>
         /// <returns></returns>
-        public static string? ReturnPaletteModeAsString(PaletteMode paletteMode)
+        public static string ReturnPaletteModeAsString(PaletteMode paletteMode)
         {
             var modeConverter = new PaletteModeConverter();
 
@@ -228,13 +230,6 @@ namespace Krypton.Toolkit
             }
         }
 
-        /// <summary>
-        /// Propagates the theme selector.
-        /// </summary>
-        /// <param name="target">The target.</param>
-        /// <param name="excludePartials">do not include any string containing</param>
-        public static void PropagateThemeSelector(KryptonComboBox target, params string[] excludePartials) => AddToCollection(target.Items, excludePartials);
-
         private static void AddToCollection(IList target, string[] excludes)
         {
             try
@@ -253,6 +248,12 @@ namespace Krypton.Toolkit
             }
         }
 
+        /// <summary>
+        /// Propagates the theme selector.
+        /// </summary>
+        /// <param name="target">The target.</param>
+        /// <param name="excludePartials">do not include any string containing</param>
+        public static void PropagateThemeSelector(KryptonComboBox target, params string[] excludePartials) => AddToCollection(target.Items, excludePartials);
 
         /// <summary>
         /// Propagates the theme selector.
@@ -295,6 +296,15 @@ namespace Krypton.Toolkit
         /// <param name="themeName">Name of the theme.</param>
         /// <returns>The <see cref="PaletteMode"/> equivalent.</returns>
         public static PaletteMode GetThemeManagerMode(string themeName) => _supportedThemes.GetByFirst(themeName);
+
+        /// <summary>Sets the index of the theme.</summary>
+        /// <param name="value">The value.</param>
+        public static void SetThemeIndex(int? value) => ThemeIndex = value ?? 33;
+
+        /// <summary>Gets the index of the theme.</summary>
+        /// <returns></returns>
+        public static int GetThemeIndex() => ThemeIndex;
+
         #endregion
     }
 }

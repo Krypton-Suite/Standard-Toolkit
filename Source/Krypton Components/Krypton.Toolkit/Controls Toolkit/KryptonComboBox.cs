@@ -1366,7 +1366,7 @@ namespace Krypton.Toolkit
         /// Gets and sets the text associated associated with the control.
         /// </summary>
         [AllowNull]
-        public override string Text
+        public override string? Text
         {
             get => _comboBox.Text;
             set => _comboBox.Text = value;

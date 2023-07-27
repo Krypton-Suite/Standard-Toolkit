@@ -32,11 +32,11 @@
             this.kryptonPanel1 = new Krypton.Toolkit.KryptonPanel();
             this.kryptonPropertyGrid1 = new Krypton.Toolkit.KryptonPropertyGrid();
             this.kryptonThemeComboBox1 = new Krypton.Toolkit.KryptonThemeComboBox();
-            this.kryptonIntegratedToolBarManager1 = new Krypton.Toolkit.KryptonIntegratedToolBarManager();
             this.kryptonManager1 = new Krypton.Toolkit.KryptonManager(this.components);
             this.buttonSpecAny1 = new Krypton.Toolkit.ButtonSpecAny();
             this.buttonSpecAny2 = new Krypton.Toolkit.ButtonSpecAny();
             this.buttonSpecAny3 = new Krypton.Toolkit.ButtonSpecAny();
+            this.kryptonIntegratedToolBarManager1 = new Krypton.Toolkit.KryptonIntegratedToolBarManager();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
             this.kryptonPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonThemeComboBox1)).BeginInit();
@@ -79,46 +79,27 @@
             this.kryptonThemeComboBox1.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.kryptonThemeComboBox1.TabIndex = 0;
             // 
-            // kryptonIntegratedToolBarManager1
-            // 
-            this.kryptonIntegratedToolBarManager1.IntegratedToolBarButtonAlignment = Krypton.Toolkit.PaletteRelativeEdgeAlign.Far;
-            this.kryptonIntegratedToolBarManager1.IntegratedToolBarButtonOrientation = Krypton.Toolkit.PaletteButtonOrientation.Auto;
-            this.kryptonIntegratedToolBarManager1.ParentForm = this;
-            this.kryptonIntegratedToolBarManager1.ShowCopyButton = true;
-            this.kryptonIntegratedToolBarManager1.ShowCutButton = true;
-            this.kryptonIntegratedToolBarManager1.ShowNewButton = true;
-            this.kryptonIntegratedToolBarManager1.ShowOpenButton = true;
-            this.kryptonIntegratedToolBarManager1.ShowPageSetupButton = true;
-            this.kryptonIntegratedToolBarManager1.ShowPasteButton = true;
-            this.kryptonIntegratedToolBarManager1.ShowPrintButton = true;
-            this.kryptonIntegratedToolBarManager1.ShowPrintPreviewButton = true;
-            this.kryptonIntegratedToolBarManager1.ShowQuickPrintButton = true;
-            this.kryptonIntegratedToolBarManager1.ShowRedoButton = true;
-            this.kryptonIntegratedToolBarManager1.ShowSaveAllButton = true;
-            this.kryptonIntegratedToolBarManager1.ShowSaveAsButton = true;
-            this.kryptonIntegratedToolBarManager1.ShowSaveButton = true;
-            this.kryptonIntegratedToolBarManager1.ShowUndoButton = true;
-            // 
             // buttonSpecAny1
             // 
-            this.buttonSpecAny1.Style = Krypton.Toolkit.PaletteButtonStyle.Inherit;
-            this.buttonSpecAny1.ToolTipStyle = Krypton.Toolkit.LabelStyle.ToolTip;
             this.buttonSpecAny1.Type = Krypton.Toolkit.PaletteButtonSpecStyle.Previous;
             this.buttonSpecAny1.UniqueName = "4cb7c96cbdba4cfebc468a3149d6cc4c";
             // 
             // buttonSpecAny2
             // 
-            this.buttonSpecAny2.Style = Krypton.Toolkit.PaletteButtonStyle.Inherit;
-            this.buttonSpecAny2.ToolTipStyle = Krypton.Toolkit.LabelStyle.ToolTip;
             this.buttonSpecAny2.Type = Krypton.Toolkit.PaletteButtonSpecStyle.Next;
             this.buttonSpecAny2.UniqueName = "229ede385c5b4d98ab13f3464707d87d";
             // 
             // buttonSpecAny3
             // 
-            this.buttonSpecAny3.Style = Krypton.Toolkit.PaletteButtonStyle.Inherit;
-            this.buttonSpecAny3.ToolTipStyle = Krypton.Toolkit.LabelStyle.ToolTip;
             this.buttonSpecAny3.Type = Krypton.Toolkit.PaletteButtonSpecStyle.Context;
             this.buttonSpecAny3.UniqueName = "0943ca091e624724a0d729320faa85a5";
+            // 
+            // kryptonIntegratedToolBarManager1
+            // 
+            this.kryptonIntegratedToolBarManager1.AllowFormIntegration = false;
+            this.kryptonIntegratedToolBarManager1.IntegratedToolBarButtonAlignment = Krypton.Toolkit.PaletteRelativeEdgeAlign.Far;
+            this.kryptonIntegratedToolBarManager1.IntegratedToolBarButtonOrientation = Krypton.Toolkit.PaletteButtonOrientation.FixedTop;
+            this.kryptonIntegratedToolBarManager1.ParentForm = this;
             // 
             // Form5
             // 
@@ -131,6 +112,7 @@
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.kryptonPanel1);
             this.Name = "Form5";
+            this.PaletteMode = Krypton.Toolkit.PaletteMode.Microsoft365DarkGray;
             this.Text = "Form5";
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).EndInit();
             this.kryptonPanel1.ResumeLayout(false);
@@ -143,10 +125,10 @@
         private Krypton.Toolkit.KryptonPanel kryptonPanel1;
         private Krypton.Toolkit.KryptonThemeComboBox kryptonThemeComboBox1;
         private Krypton.Toolkit.KryptonPropertyGrid kryptonPropertyGrid1;
-        private Krypton.Toolkit.KryptonIntegratedToolBarManager kryptonIntegratedToolBarManager1;
         private Krypton.Toolkit.KryptonManager kryptonManager1;
         private Krypton.Toolkit.ButtonSpecAny buttonSpecAny1;
         private Krypton.Toolkit.ButtonSpecAny buttonSpecAny2;
         private Krypton.Toolkit.ButtonSpecAny buttonSpecAny3;
+        private Krypton.Toolkit.KryptonIntegratedToolBarManager kryptonIntegratedToolBarManager1;
     }
 }

@@ -25,29 +25,31 @@ namespace Krypton.Toolkit
         private float? _baseFontSize;
         private Padding? _inputControlPadding;
         private PaletteDragFeedback _dragFeedback;
-        private string? _themeName;
+        private string _themeName;
+
+        private readonly Font _defaultFontStyle = new Font("Segoe UI", 9f, FontStyle.Regular);
 
         #region Font Stuff
 
         private Font _baseFont;
-        public Font? _boldFont;
-        public Font? _italicFont;
-        public Font? _header1ShortFont;
-        public Font? _header2ShortFont;
-        public Font? _header1LongFont;
-        public Font? _header2LongFont;
-        public Font? _superToolFont;
-        public Font? _headerFormFont;
-        public Font? _buttonFont;
-        public Font? _buttonFontNavigatorStack;
-        public Font? _buttonFontNavigatorMini;
-        public Font? _tabFontNormal;
-        public Font? _tabFontSelected;
-        public Font? _ribbonTabFont;
-        public Font? _gridFont;
-        public Font? _calendarFont;
-        public Font? _calendarBoldFont;
-        public Font? _ribbonTabContextFont;
+        public Font? BoldFont;
+        public Font? ItalicFont;
+        public Font? Header1ShortFont;
+        public Font? Header2ShortFont;
+        public Font? Header1LongFont;
+        public Font? Header2LongFont;
+        public Font? SuperToolFont;
+        public Font? HeaderFormFont;
+        public Font? ButtonFont;
+        public Font? ButtonFontNavigatorStack;
+        public Font? ButtonFontNavigatorMini;
+        public Font? TabFontNormal;
+        public Font? TabFontSelected;
+        public Font? RibbonTabFont;
+        public Font? GridFont;
+        public Font? CalendarFont;
+        public Font? CalendarBoldFont;
+        public Font? RibbonTabContextFont;
 
         #endregion
 
@@ -93,6 +95,10 @@ namespace Krypton.Toolkit
             _themeName = null;
 
             _useKryptonFileDialogs = false;
+
+            _baseFont = _defaultFontStyle;
+
+            _baseFontSize = 9f;
         }
         #endregion
 
@@ -744,12 +750,61 @@ namespace Krypton.Toolkit
         #endregion
 
         #region ButtonSpec
+
         /// <summary>
         /// Gets the icon to display for the button.
         /// </summary>
         /// <param name="style">Style of button spec.</param>
         /// <returns>Icon value.</returns>
-        public abstract Icon? GetButtonSpecIcon(PaletteButtonSpecStyle style);
+        public virtual Icon? GetButtonSpecIcon(PaletteButtonSpecStyle style)
+        {
+            switch (style)
+            {
+                case PaletteButtonSpecStyle.Generic:
+                case PaletteButtonSpecStyle.Close:
+                case PaletteButtonSpecStyle.Context:
+                case PaletteButtonSpecStyle.Next:
+                case PaletteButtonSpecStyle.Previous:
+                case PaletteButtonSpecStyle.ArrowLeft:
+                case PaletteButtonSpecStyle.ArrowRight:
+                case PaletteButtonSpecStyle.ArrowUp:
+                case PaletteButtonSpecStyle.ArrowDown:
+                case PaletteButtonSpecStyle.DropDown:
+                case PaletteButtonSpecStyle.PinVertical:
+                case PaletteButtonSpecStyle.PinHorizontal:
+                case PaletteButtonSpecStyle.FormClose:
+                case PaletteButtonSpecStyle.FormMin:
+                case PaletteButtonSpecStyle.FormMax:
+                case PaletteButtonSpecStyle.FormRestore:
+                case PaletteButtonSpecStyle.FormHelp:
+                case PaletteButtonSpecStyle.PendantClose:
+                case PaletteButtonSpecStyle.PendantMin:
+                case PaletteButtonSpecStyle.PendantRestore:
+                case PaletteButtonSpecStyle.WorkspaceMaximize:
+                case PaletteButtonSpecStyle.WorkspaceRestore:
+                case PaletteButtonSpecStyle.RibbonMinimize:
+                case PaletteButtonSpecStyle.RibbonExpand:
+                    return null;
+                case PaletteButtonSpecStyle.New:
+                case PaletteButtonSpecStyle.Open:
+                case PaletteButtonSpecStyle.SaveAll:
+                case PaletteButtonSpecStyle.SaveAs:
+                case PaletteButtonSpecStyle.Save:
+                case PaletteButtonSpecStyle.Cut:
+                case PaletteButtonSpecStyle.Copy:
+                case PaletteButtonSpecStyle.Paste:
+                case PaletteButtonSpecStyle.Undo:
+                case PaletteButtonSpecStyle.Redo:
+                case PaletteButtonSpecStyle.PageSetup:
+                case PaletteButtonSpecStyle.PrintPreview:
+                case PaletteButtonSpecStyle.Print:
+                case PaletteButtonSpecStyle.QuickPrint:
+                default:
+                    // Should never happen!
+                    Debug.Assert(false);
+                    return null;
+            }
+        }
 
         /// <summary>
         /// Gets the image to display for the button.
@@ -764,21 +819,167 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="style">Style of button spec.</param>
         /// <returns>Color value.</returns>
-        public abstract Color GetButtonSpecImageTransparentColor(PaletteButtonSpecStyle style);
+        public virtual Color GetButtonSpecImageTransparentColor(PaletteButtonSpecStyle style)
+        {
+            switch (style)
+            {
+                case PaletteButtonSpecStyle.Generic:
+                    return Color.Empty;
+                case PaletteButtonSpecStyle.Close:
+                case PaletteButtonSpecStyle.Context:
+                case PaletteButtonSpecStyle.Next:
+                case PaletteButtonSpecStyle.Previous:
+                case PaletteButtonSpecStyle.ArrowLeft:
+                case PaletteButtonSpecStyle.ArrowRight:
+                case PaletteButtonSpecStyle.ArrowUp:
+                case PaletteButtonSpecStyle.ArrowDown:
+                case PaletteButtonSpecStyle.DropDown:
+                case PaletteButtonSpecStyle.PinVertical:
+                case PaletteButtonSpecStyle.PinHorizontal:
+                case PaletteButtonSpecStyle.FormClose:
+                case PaletteButtonSpecStyle.FormMin:
+                case PaletteButtonSpecStyle.FormMax:
+                case PaletteButtonSpecStyle.FormRestore:
+                case PaletteButtonSpecStyle.FormHelp:
+                case PaletteButtonSpecStyle.PendantClose:
+                case PaletteButtonSpecStyle.PendantMin:
+                case PaletteButtonSpecStyle.PendantRestore:
+                case PaletteButtonSpecStyle.WorkspaceMaximize:
+                case PaletteButtonSpecStyle.WorkspaceRestore:
+                case PaletteButtonSpecStyle.RibbonMinimize:
+                case PaletteButtonSpecStyle.RibbonExpand:
+                    return Color.Magenta;
+                case PaletteButtonSpecStyle.New:
+                case PaletteButtonSpecStyle.Open:
+                case PaletteButtonSpecStyle.SaveAll:
+                case PaletteButtonSpecStyle.SaveAs:
+                case PaletteButtonSpecStyle.Save:
+                case PaletteButtonSpecStyle.Cut:
+                case PaletteButtonSpecStyle.Copy:
+                case PaletteButtonSpecStyle.Paste:
+                case PaletteButtonSpecStyle.Undo:
+                case PaletteButtonSpecStyle.Redo:
+                case PaletteButtonSpecStyle.PageSetup:
+                case PaletteButtonSpecStyle.PrintPreview:
+                case PaletteButtonSpecStyle.Print:
+                case PaletteButtonSpecStyle.QuickPrint:
+                    return Color.Empty;
+                default:
+                    // Should never happen!
+                    Debug.Assert(false);
+                    return Color.Empty;
+            }
+        }
 
         /// <summary>
         /// Gets the short text to display for the button.
         /// </summary>
         /// <param name="style">Style of button spec.</param>
         /// <returns>String value.</returns>
-        public abstract string? GetButtonSpecShortText(PaletteButtonSpecStyle style);
+        public virtual string? GetButtonSpecShortText(PaletteButtonSpecStyle style)
+        {
+            switch (style)
+            {
+                case PaletteButtonSpecStyle.Generic:
+                case PaletteButtonSpecStyle.Close:
+                case PaletteButtonSpecStyle.Context:
+                case PaletteButtonSpecStyle.Next:
+                case PaletteButtonSpecStyle.Previous:
+                case PaletteButtonSpecStyle.ArrowLeft:
+                case PaletteButtonSpecStyle.ArrowRight:
+                case PaletteButtonSpecStyle.ArrowUp:
+                case PaletteButtonSpecStyle.ArrowDown:
+                case PaletteButtonSpecStyle.DropDown:
+                case PaletteButtonSpecStyle.PinVertical:
+                case PaletteButtonSpecStyle.PinHorizontal:
+                case PaletteButtonSpecStyle.FormClose:
+                case PaletteButtonSpecStyle.FormMin:
+                case PaletteButtonSpecStyle.FormMax:
+                case PaletteButtonSpecStyle.FormRestore:
+                case PaletteButtonSpecStyle.FormHelp:
+                case PaletteButtonSpecStyle.PendantClose:
+                case PaletteButtonSpecStyle.PendantMin:
+                case PaletteButtonSpecStyle.PendantRestore:
+                case PaletteButtonSpecStyle.WorkspaceMaximize:
+                case PaletteButtonSpecStyle.WorkspaceRestore:
+                case PaletteButtonSpecStyle.RibbonMinimize:
+                case PaletteButtonSpecStyle.RibbonExpand:
+                case PaletteButtonSpecStyle.New:
+                case PaletteButtonSpecStyle.Open:
+                case PaletteButtonSpecStyle.SaveAll:
+                case PaletteButtonSpecStyle.SaveAs:
+                case PaletteButtonSpecStyle.Save:
+                case PaletteButtonSpecStyle.Cut:
+                case PaletteButtonSpecStyle.Copy:
+                case PaletteButtonSpecStyle.Paste:
+                case PaletteButtonSpecStyle.Undo:
+                case PaletteButtonSpecStyle.Redo:
+                case PaletteButtonSpecStyle.PageSetup:
+                case PaletteButtonSpecStyle.PrintPreview:
+                case PaletteButtonSpecStyle.Print:
+                case PaletteButtonSpecStyle.QuickPrint:
+                    return string.Empty;
+                default:
+                    // Should never happen!
+                    Debug.Assert(false);
+                    return null;
+            }
+        }
 
         /// <summary>
         /// Gets the long text to display for the button.
         /// </summary>
         /// <param name="style">Style of button spec.</param>
         /// <returns>String value.</returns>
-        public abstract string? GetButtonSpecLongText(PaletteButtonSpecStyle style);
+        public virtual string? GetButtonSpecLongText(PaletteButtonSpecStyle style)
+        {
+            switch (style)
+            {
+                case PaletteButtonSpecStyle.Generic:
+                case PaletteButtonSpecStyle.Close:
+                case PaletteButtonSpecStyle.Context:
+                case PaletteButtonSpecStyle.Next:
+                case PaletteButtonSpecStyle.Previous:
+                case PaletteButtonSpecStyle.ArrowLeft:
+                case PaletteButtonSpecStyle.ArrowRight:
+                case PaletteButtonSpecStyle.ArrowUp:
+                case PaletteButtonSpecStyle.ArrowDown:
+                case PaletteButtonSpecStyle.DropDown:
+                case PaletteButtonSpecStyle.PinVertical:
+                case PaletteButtonSpecStyle.PinHorizontal:
+                case PaletteButtonSpecStyle.FormClose:
+                case PaletteButtonSpecStyle.FormMin:
+                case PaletteButtonSpecStyle.FormMax:
+                case PaletteButtonSpecStyle.FormRestore:
+                case PaletteButtonSpecStyle.FormHelp:
+                case PaletteButtonSpecStyle.PendantClose:
+                case PaletteButtonSpecStyle.PendantMin:
+                case PaletteButtonSpecStyle.PendantRestore:
+                case PaletteButtonSpecStyle.WorkspaceMaximize:
+                case PaletteButtonSpecStyle.WorkspaceRestore:
+                case PaletteButtonSpecStyle.RibbonMinimize:
+                case PaletteButtonSpecStyle.RibbonExpand:
+                case PaletteButtonSpecStyle.New:
+                case PaletteButtonSpecStyle.Open:
+                case PaletteButtonSpecStyle.SaveAll:
+                case PaletteButtonSpecStyle.SaveAs:
+                case PaletteButtonSpecStyle.Save:
+                case PaletteButtonSpecStyle.Cut:
+                case PaletteButtonSpecStyle.Copy:
+                case PaletteButtonSpecStyle.Paste:
+                case PaletteButtonSpecStyle.Undo:
+                case PaletteButtonSpecStyle.Redo:
+                case PaletteButtonSpecStyle.PageSetup:
+                case PaletteButtonSpecStyle.PrintPreview:
+                case PaletteButtonSpecStyle.Print:
+                case PaletteButtonSpecStyle.QuickPrint:
+                    return string.Empty;
+                default:
+                    // Should never happen!
+                    Debug.Assert(false);
+                    return null;
+            }
+        }
 
         /// <summary>
         /// Gets the tooltip title text to display for the button.
@@ -849,42 +1050,335 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="style">Style of button spec.</param>
         /// <returns>Color value.</returns>
-        public abstract Color GetButtonSpecColorMap(PaletteButtonSpecStyle style);
+        public virtual Color GetButtonSpecColorMap(PaletteButtonSpecStyle style)
+        {
+            switch (style)
+            {
+                case PaletteButtonSpecStyle.FormClose:
+                case PaletteButtonSpecStyle.FormMin:
+                case PaletteButtonSpecStyle.FormMax:
+                case PaletteButtonSpecStyle.FormRestore:
+                case PaletteButtonSpecStyle.FormHelp:
+                case PaletteButtonSpecStyle.PendantClose:
+                case PaletteButtonSpecStyle.PendantMin:
+                case PaletteButtonSpecStyle.PendantRestore:
+                case PaletteButtonSpecStyle.Generic:
+                case PaletteButtonSpecStyle.New:
+                case PaletteButtonSpecStyle.Open:
+                case PaletteButtonSpecStyle.SaveAll:
+                case PaletteButtonSpecStyle.SaveAs:
+                case PaletteButtonSpecStyle.Save:
+                case PaletteButtonSpecStyle.Cut:
+                case PaletteButtonSpecStyle.Copy:
+                case PaletteButtonSpecStyle.Paste:
+                case PaletteButtonSpecStyle.Undo:
+                case PaletteButtonSpecStyle.Redo:
+                case PaletteButtonSpecStyle.PageSetup:
+                case PaletteButtonSpecStyle.PrintPreview:
+                case PaletteButtonSpecStyle.Print:
+                case PaletteButtonSpecStyle.QuickPrint:
+                    return Color.Empty;
+                case PaletteButtonSpecStyle.Close:
+                case PaletteButtonSpecStyle.Context:
+                case PaletteButtonSpecStyle.Next:
+                case PaletteButtonSpecStyle.Previous:
+                case PaletteButtonSpecStyle.ArrowLeft:
+                case PaletteButtonSpecStyle.ArrowRight:
+                case PaletteButtonSpecStyle.ArrowUp:
+                case PaletteButtonSpecStyle.ArrowDown:
+                case PaletteButtonSpecStyle.DropDown:
+                case PaletteButtonSpecStyle.PinVertical:
+                case PaletteButtonSpecStyle.PinHorizontal:
+                case PaletteButtonSpecStyle.WorkspaceMaximize:
+                case PaletteButtonSpecStyle.WorkspaceRestore:
+                case PaletteButtonSpecStyle.RibbonMinimize:
+                case PaletteButtonSpecStyle.RibbonExpand:
+                    return Color.Black;
+                default:
+                    // Should never happen!
+                    Debug.Assert(false);
+                    return Color.Empty;
+            }
+        }
 
         /// <summary>
         /// Gets the color to remap to transparent.
         /// </summary>
         /// <param name="style">Style of button spec.</param>
         /// <returns>Color value.</returns>
-        public abstract Color GetButtonSpecColorTransparent(PaletteButtonSpecStyle style);
+        public virtual Color GetButtonSpecColorTransparent(PaletteButtonSpecStyle style)
+        {
+            switch (style)
+            {
+                case PaletteButtonSpecStyle.Generic:
+                case PaletteButtonSpecStyle.New:
+                case PaletteButtonSpecStyle.Open:
+                case PaletteButtonSpecStyle.SaveAll:
+                case PaletteButtonSpecStyle.SaveAs:
+                case PaletteButtonSpecStyle.Save:
+                case PaletteButtonSpecStyle.Cut:
+                case PaletteButtonSpecStyle.Copy:
+                case PaletteButtonSpecStyle.Paste:
+                case PaletteButtonSpecStyle.Undo:
+                case PaletteButtonSpecStyle.Redo:
+                case PaletteButtonSpecStyle.PageSetup:
+                case PaletteButtonSpecStyle.PrintPreview:
+                case PaletteButtonSpecStyle.Print:
+                case PaletteButtonSpecStyle.QuickPrint:
+                    return Color.Empty;
+                case PaletteButtonSpecStyle.Close:
+                case PaletteButtonSpecStyle.Context:
+                case PaletteButtonSpecStyle.Next:
+                case PaletteButtonSpecStyle.Previous:
+                case PaletteButtonSpecStyle.ArrowLeft:
+                case PaletteButtonSpecStyle.ArrowRight:
+                case PaletteButtonSpecStyle.ArrowUp:
+                case PaletteButtonSpecStyle.DropDown:
+                case PaletteButtonSpecStyle.PinVertical:
+                case PaletteButtonSpecStyle.PinHorizontal:
+                case PaletteButtonSpecStyle.FormClose:
+                case PaletteButtonSpecStyle.FormMin:
+                case PaletteButtonSpecStyle.FormMax:
+                case PaletteButtonSpecStyle.FormRestore:
+                case PaletteButtonSpecStyle.FormHelp:
+                case PaletteButtonSpecStyle.PendantClose:
+                case PaletteButtonSpecStyle.PendantMin:
+                case PaletteButtonSpecStyle.PendantRestore:
+                case PaletteButtonSpecStyle.WorkspaceMaximize:
+                case PaletteButtonSpecStyle.WorkspaceRestore:
+                case PaletteButtonSpecStyle.RibbonMinimize:
+                case PaletteButtonSpecStyle.RibbonExpand:
+                    return Color.Magenta;
+                default:
+                    // Should never happen!
+                    Debug.Assert(false);
+                    return Color.Empty;
+            }
+        }
 
         /// <summary>
         /// Gets the button style used for drawing the button.
         /// </summary>
         /// <param name="style">Style of button spec.</param>
         /// <returns>PaletteButtonStyle value.</returns>
-        public abstract PaletteButtonStyle GetButtonSpecStyle(PaletteButtonSpecStyle style);
+        public virtual PaletteButtonStyle GetButtonSpecStyle(PaletteButtonSpecStyle style)
+        {
+            switch (style)
+            {
+                case PaletteButtonSpecStyle.FormMin:
+                case PaletteButtonSpecStyle.FormMax:
+                case PaletteButtonSpecStyle.FormRestore:
+                case PaletteButtonSpecStyle.FormHelp:
+                    return PaletteButtonStyle.Form;
+                case PaletteButtonSpecStyle.FormClose:
+                    return PaletteButtonStyle.FormClose;
+                case PaletteButtonSpecStyle.Generic:
+                case PaletteButtonSpecStyle.Close:
+                case PaletteButtonSpecStyle.Context:
+                case PaletteButtonSpecStyle.Next:
+                case PaletteButtonSpecStyle.Previous:
+                case PaletteButtonSpecStyle.ArrowLeft:
+                case PaletteButtonSpecStyle.ArrowRight:
+                case PaletteButtonSpecStyle.ArrowUp:
+                case PaletteButtonSpecStyle.ArrowDown:
+                case PaletteButtonSpecStyle.DropDown:
+                case PaletteButtonSpecStyle.PinVertical:
+                case PaletteButtonSpecStyle.PinHorizontal:
+                case PaletteButtonSpecStyle.PendantClose:
+                case PaletteButtonSpecStyle.PendantMin:
+                case PaletteButtonSpecStyle.PendantRestore:
+                case PaletteButtonSpecStyle.WorkspaceMaximize:
+                case PaletteButtonSpecStyle.WorkspaceRestore:
+                case PaletteButtonSpecStyle.RibbonMinimize:
+                case PaletteButtonSpecStyle.RibbonExpand:
+                case PaletteButtonSpecStyle.New:
+                case PaletteButtonSpecStyle.Open:
+                case PaletteButtonSpecStyle.SaveAll:
+                case PaletteButtonSpecStyle.SaveAs:
+                case PaletteButtonSpecStyle.Save:
+                case PaletteButtonSpecStyle.Cut:
+                case PaletteButtonSpecStyle.Copy:
+                case PaletteButtonSpecStyle.Paste:
+                case PaletteButtonSpecStyle.Undo:
+                case PaletteButtonSpecStyle.Redo:
+                case PaletteButtonSpecStyle.PageSetup:
+                case PaletteButtonSpecStyle.PrintPreview:
+                case PaletteButtonSpecStyle.Print:
+                case PaletteButtonSpecStyle.QuickPrint:
+                    return PaletteButtonStyle.ButtonSpec;
+                default:
+                    // Should never happen!
+                    Debug.Assert(false);
+                    return PaletteButtonStyle.ButtonSpec;
+            }
+        }
 
         /// <summary>
         /// Get the location for the button.
         /// </summary>
         /// <param name="style">Style of button spec.</param>
         /// <returns>HeaderLocation value.</returns>
-        public abstract HeaderLocation GetButtonSpecLocation(PaletteButtonSpecStyle style);
+        public virtual HeaderLocation GetButtonSpecLocation(PaletteButtonSpecStyle style)
+        {
+            switch (style)
+            {
+                case PaletteButtonSpecStyle.Generic:
+                case PaletteButtonSpecStyle.Close:
+                case PaletteButtonSpecStyle.Context:
+                case PaletteButtonSpecStyle.Next:
+                case PaletteButtonSpecStyle.Previous:
+                case PaletteButtonSpecStyle.ArrowLeft:
+                case PaletteButtonSpecStyle.ArrowRight:
+                case PaletteButtonSpecStyle.ArrowUp:
+                case PaletteButtonSpecStyle.ArrowDown:
+                case PaletteButtonSpecStyle.DropDown:
+                case PaletteButtonSpecStyle.PinVertical:
+                case PaletteButtonSpecStyle.PinHorizontal:
+                case PaletteButtonSpecStyle.FormClose:
+                case PaletteButtonSpecStyle.FormMin:
+                case PaletteButtonSpecStyle.FormMax:
+                case PaletteButtonSpecStyle.FormRestore:
+                case PaletteButtonSpecStyle.FormHelp:
+                case PaletteButtonSpecStyle.PendantClose:
+                case PaletteButtonSpecStyle.PendantMin:
+                case PaletteButtonSpecStyle.PendantRestore:
+                case PaletteButtonSpecStyle.WorkspaceMaximize:
+                case PaletteButtonSpecStyle.WorkspaceRestore:
+                case PaletteButtonSpecStyle.RibbonMinimize:
+                case PaletteButtonSpecStyle.RibbonExpand:
+                case PaletteButtonSpecStyle.New:
+                case PaletteButtonSpecStyle.Open:
+                case PaletteButtonSpecStyle.SaveAll:
+                case PaletteButtonSpecStyle.SaveAs:
+                case PaletteButtonSpecStyle.Save:
+                case PaletteButtonSpecStyle.Cut:
+                case PaletteButtonSpecStyle.Copy:
+                case PaletteButtonSpecStyle.Paste:
+                case PaletteButtonSpecStyle.Undo:
+                case PaletteButtonSpecStyle.Redo:
+                case PaletteButtonSpecStyle.PageSetup:
+                case PaletteButtonSpecStyle.PrintPreview:
+                case PaletteButtonSpecStyle.Print:
+                case PaletteButtonSpecStyle.QuickPrint:
+                    return HeaderLocation.PrimaryHeader;
+                default:
+                    // Should never happen!
+                    Debug.Assert(false);
+                    return HeaderLocation.PrimaryHeader;
+            }
+        }
 
         /// <summary>
         /// Gets the edge to position the button against.
         /// </summary>
         /// <param name="style">Style of button spec.</param>
         /// <returns>PaletteRelativeEdgeAlign value.</returns>
-        public abstract PaletteRelativeEdgeAlign GetButtonSpecEdge(PaletteButtonSpecStyle style);
+        public virtual PaletteRelativeEdgeAlign GetButtonSpecEdge(PaletteButtonSpecStyle style)
+        {
+            switch (style)
+            {
+                case PaletteButtonSpecStyle.Generic:
+                case PaletteButtonSpecStyle.Close:
+                case PaletteButtonSpecStyle.Context:
+                case PaletteButtonSpecStyle.Next:
+                case PaletteButtonSpecStyle.Previous:
+                case PaletteButtonSpecStyle.ArrowLeft:
+                case PaletteButtonSpecStyle.ArrowRight:
+                case PaletteButtonSpecStyle.ArrowUp:
+                case PaletteButtonSpecStyle.ArrowDown:
+                case PaletteButtonSpecStyle.DropDown:
+                case PaletteButtonSpecStyle.PinVertical:
+                case PaletteButtonSpecStyle.PinHorizontal:
+                case PaletteButtonSpecStyle.FormClose:
+                case PaletteButtonSpecStyle.FormMin:
+                case PaletteButtonSpecStyle.FormMax:
+                case PaletteButtonSpecStyle.FormRestore:
+                case PaletteButtonSpecStyle.FormHelp:
+                case PaletteButtonSpecStyle.PendantClose:
+                case PaletteButtonSpecStyle.PendantMin:
+                case PaletteButtonSpecStyle.PendantRestore:
+                case PaletteButtonSpecStyle.WorkspaceMaximize:
+                case PaletteButtonSpecStyle.WorkspaceRestore:
+                case PaletteButtonSpecStyle.RibbonMinimize:
+                case PaletteButtonSpecStyle.RibbonExpand:
+                case PaletteButtonSpecStyle.New:
+                case PaletteButtonSpecStyle.Open:
+                case PaletteButtonSpecStyle.SaveAll:
+                case PaletteButtonSpecStyle.SaveAs:
+                case PaletteButtonSpecStyle.Save:
+                case PaletteButtonSpecStyle.Cut:
+                case PaletteButtonSpecStyle.Copy:
+                case PaletteButtonSpecStyle.Paste:
+                case PaletteButtonSpecStyle.Undo:
+                case PaletteButtonSpecStyle.Redo:
+                case PaletteButtonSpecStyle.PageSetup:
+                case PaletteButtonSpecStyle.PrintPreview:
+                case PaletteButtonSpecStyle.Print:
+                case PaletteButtonSpecStyle.QuickPrint:
+                    return PaletteRelativeEdgeAlign.Far;
+                default:
+                    // Should never happen!
+                    Debug.Assert(false);
+                    return PaletteRelativeEdgeAlign.Far;
+            }
+        }
 
         /// <summary>
         /// Gets the button orientation.
         /// </summary>
         /// <param name="style">Style of button spec.</param>
         /// <returns>PaletteButtonOrientation value.</returns>
-        public abstract PaletteButtonOrientation GetButtonSpecOrientation(PaletteButtonSpecStyle style);
+        public virtual PaletteButtonOrientation GetButtonSpecOrientation(PaletteButtonSpecStyle style)
+        {
+            switch (style)
+            {
+                case PaletteButtonSpecStyle.Close:
+                case PaletteButtonSpecStyle.Context:
+                case PaletteButtonSpecStyle.ArrowLeft:
+                case PaletteButtonSpecStyle.ArrowRight:
+                case PaletteButtonSpecStyle.ArrowUp:
+                case PaletteButtonSpecStyle.ArrowDown:
+                case PaletteButtonSpecStyle.DropDown:
+                case PaletteButtonSpecStyle.PinVertical:
+                case PaletteButtonSpecStyle.PinHorizontal:
+                case PaletteButtonSpecStyle.FormClose:
+                case PaletteButtonSpecStyle.FormMin:
+                case PaletteButtonSpecStyle.FormMax:
+                case PaletteButtonSpecStyle.FormRestore:
+                case PaletteButtonSpecStyle.FormHelp:
+                case PaletteButtonSpecStyle.PendantClose:
+                case PaletteButtonSpecStyle.PendantMin:
+                case PaletteButtonSpecStyle.PendantRestore:
+                case PaletteButtonSpecStyle.WorkspaceMaximize:
+                case PaletteButtonSpecStyle.WorkspaceRestore:
+                case PaletteButtonSpecStyle.RibbonMinimize:
+                case PaletteButtonSpecStyle.RibbonExpand:
+                case PaletteButtonSpecStyle.New:
+                case PaletteButtonSpecStyle.Open:
+                case PaletteButtonSpecStyle.SaveAll:
+                case PaletteButtonSpecStyle.SaveAs:
+                case PaletteButtonSpecStyle.Save:
+                case PaletteButtonSpecStyle.Cut:
+                case PaletteButtonSpecStyle.Copy:
+                case PaletteButtonSpecStyle.Paste:
+                case PaletteButtonSpecStyle.Undo:
+                case PaletteButtonSpecStyle.Redo:
+                case PaletteButtonSpecStyle.PageSetup:
+                case PaletteButtonSpecStyle.PrintPreview:
+                case PaletteButtonSpecStyle.Print:
+                case PaletteButtonSpecStyle.QuickPrint:
+                    return PaletteButtonOrientation.FixedTop;
+                case PaletteButtonSpecStyle.Generic:
+                case PaletteButtonSpecStyle.Next:
+                case PaletteButtonSpecStyle.Previous:
+                    return PaletteButtonOrientation.Auto;
+                default:
+                    // Should never happen!
+                    Debug.Assert(false);
+                    return PaletteButtonOrientation.Auto;
+            }
+        }
+
         #endregion
 
         #region RibbonGeneral
@@ -1209,9 +1703,8 @@ namespace Krypton.Toolkit
         [DefaultValue(false), Description(@"Use Krypton style file dialogs for exporting/importing palettes.")]
         public bool UseKryptonFileDialogs { get => _useKryptonFileDialogs; set => _useKryptonFileDialogs = value; }
 
-        /// <summary>
-        /// Gets and sets the base font size used when defining fonts.
-        /// </summary>
+        /// <summary>Gets and sets the base font size used when defining fonts.</summary>
+        [Description(@"Gets and sets the base font size used when defining fonts.")]
         public virtual float BaseFontSize
         {
             get => _baseFontSize ?? SystemFonts.MenuFont.SizeInPoints;
@@ -1247,24 +1740,24 @@ namespace Krypton.Toolkit
             }
         }
 
-        [AllowNull]
-        public virtual Font? BaseFont
+        /// <summary>Gets or sets the base palette font.</summary>
+        /// <value>The base palette font.</value>
+        [DisallowNull, Description(@"Gets or sets the base palette font.")]
+        public virtual Font BaseFont
         {
-            get => _baseFont ?? new("Segoe UI", BaseFontSize, FontStyle.Regular);
+            get => _baseFont ?? _defaultFontStyle;
 
-            set
-            {
-                _baseFont = value;
-
-                if (value == null)
-                {
-                    _baseFont = new("Segoe UI", BaseFontSize, FontStyle.Regular);
-                }
-            }
+            set => _baseFont = value ?? _defaultFontStyle;
         }
 
-        public virtual string? ThemeName { get => _themeName; set => _themeName = value; }
+        /// <summary>Gets or sets the name of the theme.</summary>
+        /// <value>The name of the theme.</value>
+        [DisallowNull, Description(@"Gets or sets the name of the theme.")]
+        public virtual string ThemeName { get => _themeName; set => _themeName = value; }
 
+        /// <summary>Gets or sets the type of the base palette.</summary>
+        /// <value>The type of the base palette.</value>
+        [Description(@"Gets or sets the type of the base palette.")]
         public virtual BasePaletteType BasePaletteType { get => _basePaletteType; set => _basePaletteType = value; }
 
         #endregion
@@ -1281,47 +1774,47 @@ namespace Krypton.Toolkit
 
             var temporaryFont = BaseFont;
 
-            _header1ShortFont = new Font(temporaryFont.Name, temporaryFont.Size + 4.5f, FontStyle.Bold);
-            _header2ShortFont = new Font(temporaryFont.Name, temporaryFont.Size, FontStyle.Regular);
-            _headerFormFont = new Font(temporaryFont.Name, SystemFonts.CaptionFont.SizeInPoints, FontStyle.Regular);
-            _header1LongFont = new Font(temporaryFont.Name, temporaryFont.Size + 1.5f, FontStyle.Regular);
-            _header2LongFont = new Font(temporaryFont.Name, temporaryFont.Size, FontStyle.Regular);
-            _buttonFont = new Font(temporaryFont.Name, temporaryFont.Size, FontStyle.Regular);
-            _buttonFontNavigatorStack = new Font(_buttonFont, FontStyle.Bold);
-            _buttonFontNavigatorMini = new Font(temporaryFont.Name, temporaryFont.Size + 3.5f, FontStyle.Bold);
-            _tabFontNormal = new Font(temporaryFont.Name, temporaryFont.Size, FontStyle.Regular);
-            _tabFontSelected = new Font(_tabFontNormal, FontStyle.Bold);
-            _ribbonTabFont = new Font(temporaryFont.Name, temporaryFont.Size, FontStyle.Regular);
-            _gridFont = new Font(temporaryFont.Name, temporaryFont.Size, FontStyle.Regular);
-            _superToolFont = new Font(temporaryFont.Name, temporaryFont.Size, FontStyle.Bold);
-            _calendarFont = new Font(temporaryFont.Name, temporaryFont.Size, FontStyle.Regular);
-            _calendarBoldFont = new Font(temporaryFont.Name, temporaryFont.Size, FontStyle.Bold);
-            _boldFont = new Font(temporaryFont.Name, temporaryFont.Size, FontStyle.Bold);
-            _italicFont = new Font(temporaryFont.Name, temporaryFont.Size, FontStyle.Italic);
+            Header1ShortFont = new Font(temporaryFont.Name, temporaryFont.Size + 4.5f, FontStyle.Bold);
+            Header2ShortFont = new Font(temporaryFont.Name, temporaryFont.Size, FontStyle.Regular);
+            HeaderFormFont = new Font(temporaryFont.Name, SystemFonts.CaptionFont.SizeInPoints, FontStyle.Regular);
+            Header1LongFont = new Font(temporaryFont.Name, temporaryFont.Size + 1.5f, FontStyle.Regular);
+            Header2LongFont = new Font(temporaryFont.Name, temporaryFont.Size, FontStyle.Regular);
+            ButtonFont = new Font(temporaryFont.Name, temporaryFont.Size, FontStyle.Regular);
+            ButtonFontNavigatorStack = new Font(ButtonFont, FontStyle.Bold);
+            ButtonFontNavigatorMini = new Font(temporaryFont.Name, temporaryFont.Size + 3.5f, FontStyle.Bold);
+            TabFontNormal = new Font(temporaryFont.Name, temporaryFont.Size, FontStyle.Regular);
+            TabFontSelected = new Font(TabFontNormal, FontStyle.Bold);
+            RibbonTabFont = new Font(temporaryFont.Name, temporaryFont.Size, FontStyle.Regular);
+            GridFont = new Font(temporaryFont.Name, temporaryFont.Size, FontStyle.Regular);
+            SuperToolFont = new Font(temporaryFont.Name, temporaryFont.Size, FontStyle.Bold);
+            CalendarFont = new Font(temporaryFont.Name, temporaryFont.Size, FontStyle.Regular);
+            CalendarBoldFont = new Font(temporaryFont.Name, temporaryFont.Size, FontStyle.Bold);
+            BoldFont = new Font(temporaryFont.Name, temporaryFont.Size, FontStyle.Bold);
+            ItalicFont = new Font(temporaryFont.Name, temporaryFont.Size, FontStyle.Italic);
 
-            _ribbonTabContextFont = new Font(_ribbonTabFont, FontStyle.Bold);
+            RibbonTabContextFont = new Font(RibbonTabFont, FontStyle.Bold);
         }
 
         protected virtual void DisposeFonts()
         {
-            _header1ShortFont?.Dispose();
-            _header2ShortFont?.Dispose();
-            _header1LongFont?.Dispose();
-            _header2LongFont?.Dispose();
-            _headerFormFont?.Dispose();
-            _buttonFont?.Dispose();
-            _buttonFontNavigatorStack?.Dispose();
-            _buttonFontNavigatorMini?.Dispose();
-            _tabFontNormal?.Dispose();
-            _tabFontSelected?.Dispose();
-            _ribbonTabFont?.Dispose();
-            _gridFont?.Dispose();
-            _calendarFont?.Dispose();
-            _calendarBoldFont?.Dispose();
-            _superToolFont?.Dispose();
-            _boldFont?.Dispose();
-            _italicFont?.Dispose();
-            _ribbonTabContextFont?.Dispose();
+            Header1ShortFont?.Dispose();
+            Header2ShortFont?.Dispose();
+            Header1LongFont?.Dispose();
+            Header2LongFont?.Dispose();
+            HeaderFormFont?.Dispose();
+            ButtonFont?.Dispose();
+            ButtonFontNavigatorStack?.Dispose();
+            ButtonFontNavigatorMini?.Dispose();
+            TabFontNormal?.Dispose();
+            TabFontSelected?.Dispose();
+            RibbonTabFont?.Dispose();
+            GridFont?.Dispose();
+            CalendarFont?.Dispose();
+            CalendarBoldFont?.Dispose();
+            SuperToolFont?.Dispose();
+            BoldFont?.Dispose();
+            ItalicFont?.Dispose();
+            RibbonTabContextFont?.Dispose();
         }
 
         #endregion

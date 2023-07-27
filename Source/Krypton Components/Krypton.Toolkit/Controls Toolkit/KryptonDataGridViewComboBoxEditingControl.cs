@@ -51,7 +51,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Property which represents the current formatted value of the editing control
         /// </summary>
-        public virtual object EditingControlFormattedValue
+        public virtual object? EditingControlFormattedValue
         {
             get => GetEditingControlFormattedValue(DataGridViewDataErrorContexts.Formatting);
             set => Text = (string)value;
@@ -103,7 +103,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Returns the current value of the editing control.
         /// </summary>
-        public virtual object GetEditingControlFormattedValue(DataGridViewDataErrorContexts context) => Text;
+        public virtual object? GetEditingControlFormattedValue(DataGridViewDataErrorContexts context) => Text;
 
         /// <summary>
         /// Called by the grid to give the editing control a chance to prepare itself for the editing session.

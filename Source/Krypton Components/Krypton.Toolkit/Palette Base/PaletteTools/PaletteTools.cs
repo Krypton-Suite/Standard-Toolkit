@@ -17,7 +17,7 @@ namespace Krypton.Toolkit
         #region Properties
         /// <summary>Gets the theme list.</summary>
         /// <value>The theme list.</value>
-        public static List<string> ThemeList1 => ThemeManager.SupportedInternalThemeNames.ToList();
+        public static List<string?> ThemeList1 => ThemeManager.SupportedInternalThemeNames.ToList();
 
         #endregion
 
