@@ -965,8 +965,8 @@ namespace Krypton.Toolkit
 
             private void UpdateButtons()
             {
-                KryptonContextMenuItemBase item = null;
-                KryptonContextMenuItemBase parent = null;
+                KryptonContextMenuItemBase? item = null;
+                KryptonContextMenuItemBase? parent = null;
                 var parentNodeCount = _treeView.Nodes.Count;
                 var nodeIndex = -1;
 
