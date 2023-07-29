@@ -63,6 +63,13 @@ namespace Krypton.Toolkit
         [Category(@"Property Changed")]
         [Description(@"Occurs when the check state property changes.")]
         public event EventHandler? CheckStateChanged;
+
+        /// <summary>
+        /// Occurs when the <see cref="KryptonContextMenuItem"/> wants to display a tooltip.
+        /// </summary>
+        [Description(@"Occurs when the KryptonContextMenuItem wants to display a tooltip.")]
+        [Category(@"Behavior")]
+        public event EventHandler<ToolTipNeededEventArgs>? ToolTipNeeded;
         #endregion
 
         #region Identity
@@ -162,6 +169,9 @@ namespace Krypton.Toolkit
             StateDisabled = new PaletteContextMenuItemState(_stateRedirect);
             StateHighlight = new PaletteContextMenuItemStateHighlight(_stateRedirect);
             StateChecked = new PaletteContextMenuItemStateChecked(_stateRedirect);
+            // Do the Tooltip Magic
+            ToolTipValues = new ToolTipValues(null);
+
         }
 
         /// <summary>
@@ -244,6 +254,22 @@ namespace Krypton.Toolkit
                 }
             }
         }
+
+        /// <summary>
+        /// Gets access to the button content.
+        /// </summary>
+        [KryptonPersist]
+        [Category(@"Behavior")]
+        [Description(@"ToolTip")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        public ToolTipValues ToolTipValues { get; set; }
+
+        private bool ShouldSerializeToolTipValues() => !ToolTipValues.IsDefault;
+
+        /// <summary>
+        /// Resets the ToolTipValues property to its default value.
+        /// </summary>
+        public void ResetToolTipValues() => ToolTipValues.Reset();
 
         /// <summary>
         /// Gets and sets the standard menu item extra text.
@@ -696,6 +722,11 @@ namespace Krypton.Toolkit
         /// <param name="e">An EventArgs that contains the event data.</param>
         protected virtual void OnCheckStateChanged(EventArgs e) => CheckStateChanged?.Invoke(this, e);
 
+        /// <summary>
+        /// Raises the ToolTipNeeded event.
+        /// </summary>
+        /// <param name="e"></param>
+        protected virtual void OnToolTipNeeded(ToolTipNeededEventArgs e) => ToolTipNeeded?.Invoke(this, e);
         #endregion
 
         #region Internal

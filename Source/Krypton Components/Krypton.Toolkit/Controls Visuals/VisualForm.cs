@@ -830,12 +830,21 @@ namespace Krypton.Toolkit
                 }
 
                 using Graphics g = Graphics.FromHwnd(Handle);
-                var hRgn = invalidRegion.GetHrgn(g);
+                IntPtr? hRgn = null;
+                try
+                {
+                    hRgn = invalidRegion.GetHrgn(g);
 
-                PI.RedrawWindow(Handle, IntPtr.Zero, hRgn,
-                    PI.RDW_FRAME | PI.RDW_UPDATENOW | PI.RDW_INVALIDATE);
-
-                PI.DeleteObject(hRgn);
+                    PI.RedrawWindow(Handle, IntPtr.Zero, hRgn.Value,
+                        PI.RDW_FRAME | PI.RDW_UPDATENOW | PI.RDW_INVALIDATE);
+                }
+                finally
+                {
+                    if (hRgn != null)
+                    {
+                        PI.DeleteObject(hRgn.Value);
+                    }
+                }
             }
         }
 
