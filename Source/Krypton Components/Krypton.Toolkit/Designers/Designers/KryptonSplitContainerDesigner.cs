@@ -18,7 +18,7 @@ namespace Krypton.Toolkit
         private KryptonSplitContainer? _splitContainer;
         private IDesignerHost _designerHost;
         private ISelectionService _selectionService;
-        private BehaviorService _behaviorService;
+        private BehaviorService? _behaviorService;
         private Adorner _adorner;
         #endregion
 

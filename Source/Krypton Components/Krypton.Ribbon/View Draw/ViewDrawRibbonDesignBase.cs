@@ -48,7 +48,7 @@ namespace Krypton.Ribbon
 
             // Use a controller to change state because of mouse movement
             var controller = new ViewHightlightController(this, needPaint);
-            controller.Click += OnClick!;
+            controller.Click += OnClick;
             MouseController = controller;
         }
 

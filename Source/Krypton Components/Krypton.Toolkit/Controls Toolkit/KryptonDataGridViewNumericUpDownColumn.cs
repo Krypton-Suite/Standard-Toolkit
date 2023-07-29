@@ -393,7 +393,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Small utility function that returns the template cell as a KryptonDataGridViewNumericUpDownCell
         /// </summary>
-        private KryptonDataGridViewNumericUpDownCell NumericUpDownCellTemplate => (KryptonDataGridViewNumericUpDownCell)CellTemplate;
+        private KryptonDataGridViewNumericUpDownCell? NumericUpDownCellTemplate => (KryptonDataGridViewNumericUpDownCell)CellTemplate;
 
         #endregion
 

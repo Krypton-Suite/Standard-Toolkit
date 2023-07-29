@@ -65,14 +65,14 @@ namespace Krypton.Ribbon
         {
             if (disposing)
             {
-                if (_mementos != null)
+                if (_mementos != null!)
                 {
                     foreach (IDisposable memento in _mementos)
                     {
-                        memento?.Dispose();
+                        memento.Dispose();
                     }
 
-                    _mementos = null;
+                    _mementos = null!;
                 }
             }
 

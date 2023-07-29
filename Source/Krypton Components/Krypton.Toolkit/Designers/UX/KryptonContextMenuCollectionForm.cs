@@ -902,7 +902,7 @@ namespace Krypton.Toolkit
                         {
                             var treeSelectedNode = selectedNode as MenuTreeNode;
                             var items = treeSelectedNode?.Item as KryptonContextMenuItems;
-                            items.Items.Add(item);
+                            items!.Items.Add(item);
                             selectedNode.Nodes.Add(newNode);
                         }
                         else
@@ -929,8 +929,8 @@ namespace Krypton.Toolkit
                                 {
                                     var treeSelectedNode = selectedNode as MenuTreeNode;
                                     Debug.Assert(treeSelectedNode?.Item is KryptonContextMenuItem);
-                                    var items = treeSelectedNode?.Item as KryptonContextMenuItem;
-                                    items.Items.Add(item);
+                                    var items = treeSelectedNode.Item as KryptonContextMenuItem;
+                                    items!.Items.Add(item);
                                     selectedNode.Nodes.Add(newNode);
                                 }
                                 break;
@@ -944,8 +944,8 @@ namespace Krypton.Toolkit
                                 {
                                     var treeSelectedNode = selectedNode as MenuTreeNode;
                                     Debug.Assert(treeSelectedNode?.Item is KryptonContextMenuItems);
-                                    var items = treeSelectedNode?.Item as KryptonContextMenuItems;
-                                    items.Items.Add(item);
+                                    var items = treeSelectedNode.Item as KryptonContextMenuItems;
+                                    items!.Items.Add(item);
                                     selectedNode.Nodes.Add(newNode);
                                 }
                                 break;
@@ -954,11 +954,8 @@ namespace Krypton.Toolkit
                 }
 
                 // Select the newly added node
-                if (newNode != null)
-                {
-                    _treeView.SelectedNode = newNode;
-                    _treeView.Focus();
-                }
+                _treeView.SelectedNode = newNode;
+                _treeView.Focus();
 
                 UpdateButtons();
             }

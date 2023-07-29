@@ -19,7 +19,7 @@ namespace Krypton.Navigator
     {
         #region Instance Fields
         private ViewBase _oldRoot;
-        private ViewletHeaderGroup _headerGroup;
+        private ViewletHeaderGroup? _headerGroup;
         #endregion
 
         #region Public
@@ -193,7 +193,7 @@ namespace Krypton.Navigator
         public override void UpdateStatePalettes()
         {
             // Ask the header group to update its palettes
-            _headerGroup.UpdateStatePalettes();
+            _headerGroup?.UpdateStatePalettes();
 
             // Let base class do standard work
             base.UpdateStatePalettes();
@@ -205,7 +205,7 @@ namespace Krypton.Navigator
         /// <returns>Point in screen coordinates.</returns>
         public override Point GetContextShowPoint() =>
             // Ask the header group for screen point of context button
-            _headerGroup.GetContextShowPoint();
+            _headerGroup!.GetContextShowPoint();
 
         /// <summary>
         /// Is the provided over a part of the view that wants the mouse.

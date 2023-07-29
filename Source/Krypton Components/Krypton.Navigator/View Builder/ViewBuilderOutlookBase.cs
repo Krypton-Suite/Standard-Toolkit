@@ -387,7 +387,7 @@ namespace Krypton.Navigator
             UpdateStatePalettes();
 
             // Ask the header group to update the 
-            _headerGroup?.UpdateButtons();
+            _headerGroup.UpdateButtons();
 
             // Let base class perform common actions
             base.SelectedPageChanged();
@@ -400,7 +400,7 @@ namespace Krypton.Navigator
         {
             UpdateStatePalettes();
 
-            _headerGroup?.UpdateButtons();
+            _headerGroup.UpdateButtons();
 
             // Let base class do standard work
             base.PageCollectionChanged();
@@ -429,7 +429,7 @@ namespace Krypton.Navigator
             }
 
             // Ensure buttons are recreated to reflect different visible state
-            _headerGroup?.UpdateButtons();
+            _headerGroup.UpdateButtons();
 
             // Need to repaint to show the change
             Navigator.PerformNeedPaint(true);
@@ -456,7 +456,7 @@ namespace Krypton.Navigator
             }
 
             // Ensure buttons are recreated to reflect different enabled state
-            _headerGroup?.UpdateButtons();
+            _headerGroup.UpdateButtons();
 
             // Need to repaint to show the change
             Navigator.PerformNeedPaint(true);
@@ -577,7 +577,7 @@ namespace Krypton.Navigator
                 _viewSeparator.Enabled = enabled;
 
                 // Update palettes for the header group
-                _headerGroup?.UpdateStatePalettes();
+                _headerGroup.UpdateStatePalettes();
             }
 
             // Let base class perform common actions

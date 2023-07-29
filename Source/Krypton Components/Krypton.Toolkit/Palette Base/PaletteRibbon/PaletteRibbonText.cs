@@ -19,7 +19,7 @@ namespace Krypton.Toolkit
                                      IPaletteRibbonText
     {
         #region Instance Fields
-        private IPaletteRibbonText _inheritText;
+        private IPaletteRibbonText? _inheritText;
         private Color _textColor;
         #endregion
 

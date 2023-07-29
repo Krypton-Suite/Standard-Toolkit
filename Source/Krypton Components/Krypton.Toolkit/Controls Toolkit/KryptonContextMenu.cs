@@ -181,7 +181,8 @@ namespace Krypton.Toolkit
         [Description(@"User-defined data associated with the object.")]
         [TypeConverter(typeof(StringConverter))]
         [Bindable(true)]
-        public object Tag { get; set; }
+        [DefaultValue(null)]
+        public object? Tag { get; set; }
 
         private bool ShouldSerializeTag() => Tag != null;
 
@@ -336,7 +337,7 @@ namespace Krypton.Toolkit
                          bool keyboardActivated,
                          bool constrain)
         {
-            var Displayed = false;
+            var displayed = false;
 
             // Only need to show if not already displaying it
             if (VisualContextMenu == null)
@@ -345,7 +346,7 @@ namespace Krypton.Toolkit
                 Caller = caller;
 
                 // Give event handler a change to cancel the open request
-                CancelEventArgs cea = new CancelEventArgs();
+                var cea = new CancelEventArgs();
                 OnOpening(cea);
 
                 if (!cea.Cancel)
@@ -372,11 +373,11 @@ namespace Krypton.Toolkit
                     OnOpened(EventArgs.Empty);
 
                     // The menu has actually become Displayed
-                    Displayed = true;
+                    displayed = true;
                 }
             }
 
-            return Displayed;
+            return displayed;
         }
 
         /// <summary>
@@ -461,7 +462,7 @@ namespace Krypton.Toolkit
         #region Internal
         internal ToolStripDropDownCloseReason CloseReason { get; set; }
 
-        internal VisualContextMenu VisualContextMenu { get; private set; }
+        internal VisualContextMenu? VisualContextMenu { get; private set; }
 
         #endregion
 

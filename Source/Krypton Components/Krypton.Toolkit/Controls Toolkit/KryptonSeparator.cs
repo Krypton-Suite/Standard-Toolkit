@@ -31,7 +31,7 @@ namespace Krypton.Toolkit
         private readonly ViewDrawSeparator _drawSeparator;
         private readonly SeparatorController _separatorController;
         private Orientation _orientation;
-        private System.Windows.Forms.Timer _redrawTimer;
+        private System.Windows.Forms.Timer? _redrawTimer;
         private Point _designLastPt;
         private int _splitterWidth;
 

@@ -30,7 +30,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Occurs when a tooltip is required to be shown.
         /// </summary>
-        public event EventHandler<ToolTipEventArgs> ShowToolTip;
+        public event EventHandler<ToolTipEventArgs>? ShowToolTip;
 
         /// <summary>
         /// Occurs when the showing tooltip is no longer required.

@@ -19,7 +19,7 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
 
-        private readonly IContextMenuProvider _parent;
+        private readonly IContextMenuProvider? _parent;
         private ToolStripDropDownCloseReason? _closeReason;
 
         #endregion
@@ -222,7 +222,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="menuItem">Menu item that needs to show sub menu.</param>
         /// <returns>True if the sub menu should be a fixed size.</returns>
-        public bool ProviderShowSubMenuFixed(KryptonContextMenuItem menuItem) => HasParentProvider && _parent.ProviderShowSubMenuFixed(menuItem);
+        public bool ProviderShowSubMenuFixed(KryptonContextMenuItem menuItem) => HasParentProvider && _parent!.ProviderShowSubMenuFixed(menuItem);
 
         /// <summary>
         /// Should the sub menu be shown at fixed screen location for this menu item.
@@ -230,7 +230,7 @@ namespace Krypton.Toolkit
         /// <param name="menuItem">Menu item that needs to show sub menu.</param>
         /// <returns>Screen rectangle to use as display rectangle.</returns>
         public Rectangle ProviderShowSubMenuFixedRect(KryptonContextMenuItem menuItem) =>
-            HasParentProvider ? _parent.ProviderShowSubMenuFixedRect(menuItem) : Rectangle.Empty;
+            HasParentProvider ? _parent!.ProviderShowSubMenuFixedRect(menuItem) : Rectangle.Empty;
 
         /// <summary>
         /// Sets the reason for the context menu being closed.

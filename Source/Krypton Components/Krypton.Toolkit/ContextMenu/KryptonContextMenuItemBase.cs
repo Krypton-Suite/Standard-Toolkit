@@ -85,7 +85,7 @@ namespace Krypton.Toolkit
         [TypeConverter(typeof(StringConverter))]
         [DefaultValue(null)]
         [Bindable(true)]
-        public object Tag { get; set; }
+        public object? Tag { get; set; }
 
         /// <summary>
         /// Gets and sets if the item is visible in the context menu.
@@ -108,6 +108,23 @@ namespace Krypton.Toolkit
                 }
             }
         }
+
+        /// <summary>
+        /// Gets access to the button content.
+        /// </summary>
+        [KryptonPersist]
+        [Category(@"Behavior")]
+        [Description(@"ToolTip")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        public ToolTipValues ToolTipValues { get; set; } = new ToolTipValues(null);
+        
+        private bool ShouldSerializeToolTipValues() => !ToolTipValues.IsDefault;
+
+        /// <summary>
+        /// Resets the ToolTipValues property to its default value.
+        /// </summary>
+        public void ResetToolTipValues() => ToolTipValues.Reset();
+
         #endregion
 
         #region Protected

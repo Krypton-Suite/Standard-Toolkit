@@ -659,7 +659,7 @@ namespace Krypton.Ribbon
                 {
                     if (_command != null)
                     {
-                        _command.PropertyChanged -= OnCommandPropertyChanged!;
+                        _command.PropertyChanged -= OnCommandPropertyChanged;
                     }
 
                     _command = value;
@@ -667,7 +667,7 @@ namespace Krypton.Ribbon
 
                     if (_command != null)
                     {
-                        _command.PropertyChanged += OnCommandPropertyChanged!;
+                        _command.PropertyChanged += OnCommandPropertyChanged;
                     }
                 }
             }
@@ -936,7 +936,7 @@ namespace Krypton.Ribbon
                                     HookContextMenuEvents(_kryptonContextMenu.Items, true);
 
                                     // Show at location we were provided, but need to convert to screen coordinates
-                                    contextArgs.KryptonContextMenu.Closed += OnKryptonContextMenuClosed!;
+                                    contextArgs.KryptonContextMenu.Closed += OnKryptonContextMenuClosed;
                                     if (contextArgs.KryptonContextMenu.Show(this, new Point(screenRect.X, screenRect.Bottom + 1)))
                                     {
                                         fireDelegate = false;
@@ -1047,13 +1047,13 @@ namespace Krypton.Ribbon
 
                     if (hook)
                     {
-                        columns.TrackingColor += OnColumnsTrackingColor!;
-                        columns.SelectedColorChanged += OnColumnsSelectedColorChanged!;
+                        columns.TrackingColor += OnColumnsTrackingColor;
+                        columns.SelectedColorChanged += OnColumnsSelectedColorChanged;
                     }
                     else
                     {
-                        columns.TrackingColor -= OnColumnsTrackingColor!;
-                        columns.SelectedColorChanged -= OnColumnsSelectedColorChanged!;
+                        columns.TrackingColor -= OnColumnsTrackingColor;
+                        columns.SelectedColorChanged -= OnColumnsSelectedColorChanged;
                     }
                 }
             }
@@ -1224,7 +1224,7 @@ namespace Krypton.Ribbon
         private void OnKryptonContextMenuClosed(object sender, EventArgs e)
         {
             var kcm = (KryptonContextMenu)sender;
-            kcm.Closed -= OnKryptonContextMenuClosed!;
+            kcm.Closed -= OnKryptonContextMenuClosed;
 
             // Fire any associated finish delegate
             if (_kcmFinishDelegate != null)

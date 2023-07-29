@@ -22,7 +22,7 @@ namespace Krypton.Toolkit
                                            IContextMenuTarget
     {
         #region Instance Fields
-        private readonly KryptonContextMenuMonthCalendar _monthCalendar;
+        private readonly KryptonContextMenuMonthCalendar? _monthCalendar;
         private readonly ViewLayoutMonths _months;
         private readonly NeedPaintHandler _needPaint;
         private DateTime _selectionStart;
@@ -523,7 +523,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Implementation
-        private ViewContextMenuManager ViewManager { get; }
+        private ViewContextMenuManager? ViewManager { get; }
 
         #endregion
     }

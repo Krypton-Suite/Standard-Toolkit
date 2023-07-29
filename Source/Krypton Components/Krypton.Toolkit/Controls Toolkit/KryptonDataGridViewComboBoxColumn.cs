@@ -493,7 +493,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Small utility function that returns the template cell as a KryptonDataGridViewComboBoxCell
         /// </summary>
-        private KryptonDataGridViewComboBoxCell ComboBoxCellTemplate => (KryptonDataGridViewComboBoxCell)CellTemplate;
+        private KryptonDataGridViewComboBoxCell? ComboBoxCellTemplate => (KryptonDataGridViewComboBoxCell)CellTemplate;
 
         #endregion
 

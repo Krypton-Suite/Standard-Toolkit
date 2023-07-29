@@ -27,7 +27,7 @@ namespace Krypton.Ribbon
         private DesignerVerb _moveNextVerb;
         private DesignerVerb _moveLastVerb;
         private DesignerVerb _deleteGalleryVerb;
-        private ContextMenuStrip _cms;
+        private ContextMenuStrip? _cms;
         private ToolStripMenuItem _toggleHelpersMenu;
         private ToolStripMenuItem _visibleMenu;
         private ToolStripMenuItem _enabledMenu;
@@ -212,7 +212,7 @@ namespace Krypton.Ribbon
             var moveNext = false;
             var moveLast = false;
 
-            if ((_ribbonGallery?.Ribbon != null) && _ribbonGallery.RibbonGroup.Items.Contains(_ribbonGallery))
+            if ((_ribbonGallery.Ribbon != null) && _ribbonGallery.RibbonGroup.Items.Contains(_ribbonGallery))
             {
                 moveFirst = _ribbonGallery.RibbonGroup.Items.IndexOf(_ribbonGallery) > 0;
                 movePrev = _ribbonGallery.RibbonGroup.Items.IndexOf(_ribbonGallery) > 0;
@@ -229,7 +229,7 @@ namespace Krypton.Ribbon
         private void OnToggleHelpers(object sender, EventArgs e)
         {
             // Invert the current toggle helper mode
-            if (_ribbonGallery?.Ribbon != null)
+            if (_ribbonGallery.Ribbon != null)
             {
                 _ribbonGallery.Ribbon.InDesignHelperMode = !_ribbonGallery.Ribbon.InDesignHelperMode;
             }
@@ -237,7 +237,7 @@ namespace Krypton.Ribbon
 
         private void OnMoveFirst(object sender, EventArgs e)
         {
-            if ((_ribbonGallery?.Ribbon != null) && _ribbonGallery.RibbonGroup.Items.Contains(_ribbonGallery))
+            if ((_ribbonGallery.Ribbon != null) && _ribbonGallery.RibbonGroup.Items.Contains(_ribbonGallery))
             {
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupGallery MoveFirst");
@@ -267,7 +267,7 @@ namespace Krypton.Ribbon
 
         private void OnMovePrevious(object sender, EventArgs e)
         {
-            if ((_ribbonGallery?.Ribbon != null) && _ribbonGallery.RibbonGroup.Items.Contains(_ribbonGallery))
+            if ((_ribbonGallery.Ribbon != null) && _ribbonGallery.RibbonGroup.Items.Contains(_ribbonGallery))
             {
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupGallery MovePrevious");
@@ -299,7 +299,7 @@ namespace Krypton.Ribbon
 
         private void OnMoveNext(object sender, EventArgs e)
         {
-            if ((_ribbonGallery?.Ribbon != null) && _ribbonGallery.RibbonGroup.Items.Contains(_ribbonGallery))
+            if ((_ribbonGallery.Ribbon != null) && _ribbonGallery.RibbonGroup.Items.Contains(_ribbonGallery))
             {
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupGallery MoveNext");
@@ -331,7 +331,7 @@ namespace Krypton.Ribbon
 
         private void OnMoveLast(object sender, EventArgs e)
         {
-            if ((_ribbonGallery?.Ribbon != null) && _ribbonGallery.RibbonGroup.Items.Contains(_ribbonGallery))
+            if ((_ribbonGallery.Ribbon != null) && _ribbonGallery.RibbonGroup.Items.Contains(_ribbonGallery))
             {
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupGallery MoveLast");
@@ -361,7 +361,7 @@ namespace Krypton.Ribbon
 
         private void OnDeleteGallery(object sender, EventArgs e)
         {
-            if ((_ribbonGallery?.Ribbon != null) && _ribbonGallery.RibbonGroup.Items.Contains(_ribbonGallery))
+            if ((_ribbonGallery.Ribbon != null) && _ribbonGallery.RibbonGroup.Items.Contains(_ribbonGallery))
             {
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupGallery DeleteGallery");
@@ -394,7 +394,7 @@ namespace Krypton.Ribbon
 
         private void OnEnabled(object sender, EventArgs e)
         {
-            if (_ribbonGallery?.Ribbon != null)
+            if (_ribbonGallery.Ribbon != null)
             {
                 PropertyDescriptor propertyEnabled = TypeDescriptor.GetProperties(_ribbonGallery)[nameof(Enabled)];
                 var oldValue = (bool)propertyEnabled.GetValue(_ribbonGallery);
@@ -406,7 +406,7 @@ namespace Krypton.Ribbon
 
         private void OnVisible(object sender, EventArgs e)
         {
-            if (_ribbonGallery?.Ribbon != null)
+            if (_ribbonGallery.Ribbon != null)
             {
                 PropertyDescriptor propertyVisible = TypeDescriptor.GetProperties(_ribbonGallery)[nameof(Visible)];
                 var oldValue = (bool)propertyVisible.GetValue(_ribbonGallery);
@@ -418,7 +418,7 @@ namespace Krypton.Ribbon
 
         private void OnMaxLarge(object sender, EventArgs e)
         {
-            if (_ribbonGallery?.Ribbon != null)
+            if (_ribbonGallery.Ribbon != null)
             {
                 _changeService.OnComponentChanged(_ribbonGallery, null, _ribbonGallery.MaximumSize, GroupItemSize.Large);
                 _ribbonGallery.MaximumSize = GroupItemSize.Large;
@@ -427,7 +427,7 @@ namespace Krypton.Ribbon
 
         private void OnMaxMedium(object sender, EventArgs e)
         {
-            if (_ribbonGallery?.Ribbon != null)
+            if (_ribbonGallery.Ribbon != null)
             {
                 _changeService.OnComponentChanged(_ribbonGallery, null, _ribbonGallery.MaximumSize, GroupItemSize.Medium);
                 _ribbonGallery.MaximumSize = GroupItemSize.Medium;
@@ -436,7 +436,7 @@ namespace Krypton.Ribbon
 
         private void OnMaxSmall(object sender, EventArgs e)
         {
-            if (_ribbonGallery?.Ribbon != null)
+            if (_ribbonGallery.Ribbon != null)
             {
                 _changeService.OnComponentChanged(_ribbonGallery, null, _ribbonGallery.MaximumSize, GroupItemSize.Small);
                 _ribbonGallery.MaximumSize = GroupItemSize.Small;
@@ -445,7 +445,7 @@ namespace Krypton.Ribbon
 
         private void OnMinLarge(object sender, EventArgs e)
         {
-            if (_ribbonGallery?.Ribbon != null)
+            if (_ribbonGallery.Ribbon != null)
             {
                 _changeService.OnComponentChanged(_ribbonGallery, null, _ribbonGallery.MinimumSize, GroupItemSize.Large);
                 _ribbonGallery.MinimumSize = GroupItemSize.Large;
@@ -454,7 +454,7 @@ namespace Krypton.Ribbon
 
         private void OnMinMedium(object sender, EventArgs e)
         {
-            if (_ribbonGallery?.Ribbon != null)
+            if (_ribbonGallery.Ribbon != null)
             {
                 _changeService.OnComponentChanged(_ribbonGallery, null, _ribbonGallery.MinimumSize, GroupItemSize.Medium);
                 _ribbonGallery.MinimumSize = GroupItemSize.Medium;
@@ -463,7 +463,7 @@ namespace Krypton.Ribbon
 
         private void OnMinSmall(object sender, EventArgs e)
         {
-            if (_ribbonGallery?.Ribbon != null)
+            if (_ribbonGallery.Ribbon != null)
             {
                 _changeService.OnComponentChanged(_ribbonGallery, null, _ribbonGallery.MinimumSize, GroupItemSize.Small);
                 _ribbonGallery.MinimumSize = GroupItemSize.Small;
@@ -474,7 +474,7 @@ namespace Krypton.Ribbon
 
         private void OnContextMenu(object sender, MouseEventArgs e)
         {
-            if (_ribbonGallery?.Ribbon != null)
+            if (_ribbonGallery.Ribbon != null)
             {
                 // Create the menu strip the first time around
                 if (_cms == null)

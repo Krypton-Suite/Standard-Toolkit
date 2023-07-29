@@ -27,7 +27,7 @@ namespace Krypton.Ribbon
         private DesignerVerb _moveNextVerb;
         private DesignerVerb _moveLastVerb;
         private DesignerVerb _deleteButtonVerb;
-        private ContextMenuStrip _cms;
+        private ContextMenuStrip? _cms;
         private ToolStripMenuItem _toggleHelpersMenu;
         private ToolStripMenuItem _visibleMenu;
         private ToolStripMenuItem _enabledMenu;
@@ -139,7 +139,7 @@ namespace Krypton.Ribbon
             var moveNext = false;
             var moveLast = false;
 
-            if (_ribbonColorButton?.Ribbon != null)
+            if (_ribbonColorButton.Ribbon != null)
             {
                 // Cast container to the correct type
                 var cluster = (KryptonRibbonGroupCluster)_ribbonColorButton.RibbonContainer;
@@ -159,7 +159,7 @@ namespace Krypton.Ribbon
         private void OnToggleHelpers(object sender, EventArgs e)
         {
             // Invert the current toggle helper mode
-            if (_ribbonColorButton?.Ribbon != null)
+            if (_ribbonColorButton.Ribbon != null)
             {
                 _ribbonColorButton.Ribbon.InDesignHelperMode = !_ribbonColorButton.Ribbon.InDesignHelperMode;
             }
@@ -167,7 +167,7 @@ namespace Krypton.Ribbon
 
         private void OnMoveFirst(object sender, EventArgs e)
         {
-            if (_ribbonColorButton?.Ribbon != null)
+            if (_ribbonColorButton.Ribbon != null)
             {
                 // Cast container to the correct type
                 var cluster = (KryptonRibbonGroupCluster)_ribbonColorButton.RibbonContainer;
@@ -199,7 +199,7 @@ namespace Krypton.Ribbon
 
         private void OnMovePrevious(object sender, EventArgs e)
         {
-            if (_ribbonColorButton?.Ribbon != null)
+            if (_ribbonColorButton.Ribbon != null)
             {
                 // Cast container to the correct type
                 var cluster = (KryptonRibbonGroupCluster)_ribbonColorButton.RibbonContainer;
@@ -233,7 +233,7 @@ namespace Krypton.Ribbon
 
         private void OnMoveNext(object sender, EventArgs e)
         {
-            if (_ribbonColorButton?.Ribbon != null)
+            if (_ribbonColorButton.Ribbon != null)
             {
                 // Cast container to the correct type
                 var cluster = (KryptonRibbonGroupCluster)_ribbonColorButton.RibbonContainer;
@@ -267,7 +267,7 @@ namespace Krypton.Ribbon
 
         private void OnMoveLast(object sender, EventArgs e)
         {
-            if (_ribbonColorButton?.Ribbon != null)
+            if (_ribbonColorButton.Ribbon != null)
             {
                 // Cast container to the correct type
                 var cluster = (KryptonRibbonGroupCluster)_ribbonColorButton.RibbonContainer;
@@ -299,7 +299,7 @@ namespace Krypton.Ribbon
 
         private void OnDeleteButton(object sender, EventArgs e)
         {
-            if (_ribbonColorButton?.Ribbon != null)
+            if (_ribbonColorButton.Ribbon != null)
             {
                 // Cast container to the correct type
                 var cluster = (KryptonRibbonGroupCluster)_ribbonColorButton.RibbonContainer;
@@ -335,7 +335,7 @@ namespace Krypton.Ribbon
 
         private void OnVisible(object sender, EventArgs e)
         {
-            if (_ribbonColorButton?.Ribbon != null)
+            if (_ribbonColorButton.Ribbon != null)
             {
                 _changeService.OnComponentChanged(_ribbonColorButton, null, _ribbonColorButton.Visible, !_ribbonColorButton.Visible);
                 _ribbonColorButton.Visible = !_ribbonColorButton.Visible;
@@ -344,7 +344,7 @@ namespace Krypton.Ribbon
 
         private void OnEnabled(object sender, EventArgs e)
         {
-            if (_ribbonColorButton?.Ribbon != null)
+            if (_ribbonColorButton.Ribbon != null)
             {
                 _changeService.OnComponentChanged(_ribbonColorButton, null, _ribbonColorButton.Enabled, !_ribbonColorButton.Enabled);
                 _ribbonColorButton.Enabled = !_ribbonColorButton.Enabled;
@@ -353,7 +353,7 @@ namespace Krypton.Ribbon
 
         private void OnChecked(object sender, EventArgs e)
         {
-            if (_ribbonColorButton?.Ribbon != null)
+            if (_ribbonColorButton.Ribbon != null)
             {
                 _changeService.OnComponentChanged(_ribbonColorButton, null, _ribbonColorButton.Checked, !_ribbonColorButton.Checked);
                 _ribbonColorButton.Checked = !_ribbonColorButton.Checked;
@@ -362,7 +362,7 @@ namespace Krypton.Ribbon
 
         private void OnTypePush(object sender, EventArgs e)
         {
-            if (_ribbonColorButton?.Ribbon != null)
+            if (_ribbonColorButton.Ribbon != null)
             {
                 _changeService.OnComponentChanged(_ribbonColorButton, null, _ribbonColorButton.ButtonType, GroupButtonType.Push);
                 _ribbonColorButton.ButtonType = GroupButtonType.Push;
@@ -371,7 +371,7 @@ namespace Krypton.Ribbon
 
         private void OnTypeCheck(object sender, EventArgs e)
         {
-            if (_ribbonColorButton?.Ribbon != null)
+            if (_ribbonColorButton.Ribbon != null)
             {
                 _changeService.OnComponentChanged(_ribbonColorButton, null, _ribbonColorButton.ButtonType, GroupButtonType.Check);
                 _ribbonColorButton.ButtonType = GroupButtonType.Check;
@@ -380,7 +380,7 @@ namespace Krypton.Ribbon
 
         private void OnTypeDropDown(object sender, EventArgs e)
         {
-            if (_ribbonColorButton?.Ribbon != null)
+            if (_ribbonColorButton.Ribbon != null)
             {
                 _changeService.OnComponentChanged(_ribbonColorButton, null, _ribbonColorButton.ButtonType, GroupButtonType.DropDown);
                 _ribbonColorButton.ButtonType = GroupButtonType.DropDown;
@@ -389,7 +389,7 @@ namespace Krypton.Ribbon
 
         private void OnTypeSplit(object sender, EventArgs e)
         {
-            if (_ribbonColorButton?.Ribbon != null)
+            if (_ribbonColorButton.Ribbon != null)
             {
                 _changeService.OnComponentChanged(_ribbonColorButton, null, _ribbonColorButton.ButtonType, GroupButtonType.Split);
                 _ribbonColorButton.ButtonType = GroupButtonType.Split;
@@ -400,7 +400,7 @@ namespace Krypton.Ribbon
 
         private void OnContextMenu(object sender, MouseEventArgs e)
         {
-            if (_ribbonColorButton?.Ribbon != null)
+            if (_ribbonColorButton.Ribbon != null)
             {
                 // Create the menu strip the first time around
                 if (_cms == null)

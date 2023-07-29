@@ -39,7 +39,7 @@ namespace Krypton.Toolkit
         private readonly Color _inputFontColour;
         private readonly Font _labelFont;
         private bool _embeddingDone;
-        internal KryptonForm _wrapperForm;
+        internal KryptonForm? _wrapperForm;
         private bool _isResizable;
         private IntPtr _resizeHandle;
         private System.Timers.Timer _resizeTimer;
@@ -291,7 +291,7 @@ namespace Krypton.Toolkit
                 case PI.WM_.DESTROY:
                     if (_embeddingDone)
                     {
-                        _wrapperForm.Close();
+                        _wrapperForm?.Close();
                     }
                     break;
 
@@ -399,7 +399,7 @@ namespace Krypton.Toolkit
             return (false, IntPtr.Zero);
         }
 
-        internal Action<Attributes /*control*/> ClickCallback { get; set; }
+        internal Action<Attributes /*control*/>? ClickCallback { get; set; }
 
         internal IReadOnlyList<Attributes> Controls => _controls.AsReadOnly();
 
@@ -456,7 +456,7 @@ namespace Krypton.Toolkit
             else
             {
                 _resizeHandle = hWnd;
-                _wrapperForm.Resize += FormResize;
+                _wrapperForm.Resize += FormResize!;
             }
 
             var wrapperParent = PI.GetParent(hWnd);
@@ -481,22 +481,28 @@ namespace Krypton.Toolkit
         private void OnResizeTimedEvent(object sender, ElapsedEventArgs e)
         {
             _resizeTimer.Dispose();
-            var clientSize = _wrapperForm.Size;
-            // Delay Send a WM_SIZE; Maybe due to the caching in the "Desktop Window Manager"
-            _wrapperForm.BeginInvoke((MethodInvoker)(() =>
-                PI.SetWindowPos(_wrapperForm.Handle, IntPtr.Zero, 0, 0, clientSize.Width + 1, clientSize.Height,
-                    PI.SWP_.NOACTIVATE | PI.SWP_.NOMOVE |
-                    PI.SWP_.NOZORDER | PI.SWP_.NOCOPYBITS |
-                    PI.SWP_.NOOWNERZORDER | PI.SWP_.ASYNCWINDOWPOS)
-            ));
+            if (_wrapperForm != null)
+            {
+                var clientSize = _wrapperForm.Size;
+                // Delay Send a WM_SIZE; Maybe due to the caching in the "Desktop Window Manager"
+                _wrapperForm.BeginInvoke((MethodInvoker)(() =>
+                        PI.SetWindowPos(_wrapperForm.Handle, IntPtr.Zero, 0, 0, clientSize.Width + 1, clientSize.Height,
+                            PI.SWP_.NOACTIVATE | PI.SWP_.NOMOVE |
+                            PI.SWP_.NOZORDER | PI.SWP_.NOCOPYBITS |
+                            PI.SWP_.NOOWNERZORDER | PI.SWP_.ASYNCWINDOWPOS)
+                    ));
+            }
         }
 
         private void FormResize(object sender, EventArgs e)
         {
             if (_resizeHandle != IntPtr.Zero)
             {
-                var clientSize = _wrapperForm.ClientSize;
-                PI.MoveWindow(_resizeHandle, 0, 0, clientSize.Width, clientSize.Height, false);
+                if (_wrapperForm != null)
+                {
+                    var clientSize = _wrapperForm.ClientSize;
+                    PI.MoveWindow(_resizeHandle, 0, 0, clientSize.Width, clientSize.Height, false);
+                }
             }
         }
 
@@ -528,8 +534,12 @@ namespace Krypton.Toolkit
                 return false; // Probably already been triggered !
             }
 
-            _wrapperForm.Location = loc;
-            _wrapperForm.ClientSize = size;
+            if (_wrapperForm != null)
+            {
+                _wrapperForm.Location = loc;
+                _wrapperForm.ClientSize = size;
+            }
+
             return true;
         }
 

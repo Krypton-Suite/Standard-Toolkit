@@ -1016,7 +1016,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Description(@"Indicates that an item is about to have its check state changed. The value is not updated until after the event occurs.")]
         [Category(@"Behavior")]
-        public event ItemCheckEventHandler ItemCheck;
+        public event ItemCheckEventHandler? ItemCheck;
 
         /// <summary>
         /// Occurs when the value of the BackColor property changes.

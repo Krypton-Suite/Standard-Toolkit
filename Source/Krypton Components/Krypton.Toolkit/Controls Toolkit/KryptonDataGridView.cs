@@ -122,7 +122,7 @@ namespace Krypton.Toolkit
 
         // Implementation fields
         private ShortTextValue _shortTextValue;
-        private VisualPopupToolTip _visualPopupToolTip;
+        private VisualPopupToolTip? _visualPopupToolTip;
         private PaletteBorderInheritForced _borderForced;
         private PaletteDataGridViewBackInherit _backInherit;
         private PaletteDataGridViewContentInherit _contentInherit;
@@ -130,7 +130,7 @@ namespace Krypton.Toolkit
         private RowHeaderCache _rowCache;
         private Point _cellOver;
         private Point _cellDown;
-        private System.Windows.Forms.Timer _showTimer;
+        private System.Windows.Forms.Timer? _showTimer;
         private bool _hideOuterBorders;
         private string _toolTipText;
         private byte _oldLocation;

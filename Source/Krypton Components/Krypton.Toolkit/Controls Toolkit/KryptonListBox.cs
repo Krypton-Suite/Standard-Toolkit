@@ -660,7 +660,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         [EditorBrowsable(EditorBrowsableState.Always)]
         [Browsable(false)]
-        public ListBox ListBox => _listBox;
+        public ListBox? ListBox => _listBox;
 
         /// <summary>
         /// Gets access to the contained input control.

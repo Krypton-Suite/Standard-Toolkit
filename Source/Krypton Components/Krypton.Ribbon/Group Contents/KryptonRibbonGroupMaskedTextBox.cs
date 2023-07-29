@@ -955,9 +955,9 @@ namespace Krypton.Ribbon
         #region Internal
         internal Control LastParentControl { get; set; }
 
-        internal KryptonMaskedTextBox LastMaskedTextBox { get; set; }
+        internal KryptonMaskedTextBox? LastMaskedTextBox { get; set; }
 
-        internal NeedPaintHandler ViewPaintDelegate { get; set; }
+        internal NeedPaintHandler? ViewPaintDelegate { get; set; }
 
         internal void OnDesignTimeContextMenu(MouseEventArgs e) => DesignTimeContextMenu?.Invoke(this, e);
 

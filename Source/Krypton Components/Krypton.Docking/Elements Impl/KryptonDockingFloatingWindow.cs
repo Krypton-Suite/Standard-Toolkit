@@ -186,7 +186,7 @@ namespace Krypton.Docking
             xmlWriter.WriteAttributeString(@"N", Name);
             xmlWriter.WriteAttributeString(@"C", Count.ToString());
             xmlWriter.WriteAttributeString(@"L", CommonHelper.PointToString(FloatingWindow.Location)!);
-            xmlWriter.WriteAttributeString(@"S", CommonHelper.SizeToString(FloatingWindow.ClientSize)!);
+            xmlWriter.WriteAttributeString(@"S", CommonHelper.SizeToString(FloatingWindow.ClientSize));
 
             // Output an element per child
             foreach (IDockingElement child in this)
@@ -278,7 +278,7 @@ namespace Krypton.Docking
         {
             // Cast to correct type and unhook event handlers so garbage collection can occur
             var floatspaceElement = (KryptonDockingFloatspace)sender;
-            floatspaceElement.Disposed -= OnDockingFloatspaceDisposed!;
+            floatspaceElement.Disposed -= OnDockingFloatspaceDisposed;
 
             // Kill the floatspace window
             if (!FloatingWindow.IsDisposed)
@@ -290,7 +290,7 @@ namespace Krypton.Docking
         private void OnFloatingWindowDisposed(object sender, EventArgs e)
         {
             // Unhook from events so the control can be garbage collected
-            FloatingWindow.Disposed -= OnFloatingWindowDisposed!;
+            FloatingWindow.Disposed -= OnFloatingWindowDisposed;
 
             // Events are generated from the parent docking manager
             KryptonDockingManager? dockingManager = DockingManager;

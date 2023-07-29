@@ -27,7 +27,7 @@ namespace Krypton.Ribbon
         private DesignerVerb _moveNextVerb;
         private DesignerVerb _moveLastVerb;
         private DesignerVerb _deleteTrackBarVerb;
-        private ContextMenuStrip _cms;
+        private ContextMenuStrip? _cms;
         private ToolStripMenuItem _toggleHelpersMenu;
         private ToolStripMenuItem _visibleMenu;
         private ToolStripMenuItem _moveFirstMenu;
@@ -203,7 +203,7 @@ namespace Krypton.Ribbon
             var moveNext = false;
             var moveLast = false;
 
-            if (_ribbonTrackBar?.Ribbon != null)
+            if (_ribbonTrackBar.Ribbon != null)
             {
                 var items = ParentItems;
                 moveFirst = items.IndexOf(_ribbonTrackBar) > 0;
@@ -221,7 +221,7 @@ namespace Krypton.Ribbon
         private void OnToggleHelpers(object sender, EventArgs e)
         {
             // Invert the current toggle helper mode
-            if (_ribbonTrackBar?.Ribbon != null)
+            if (_ribbonTrackBar.Ribbon != null)
             {
                 _ribbonTrackBar.Ribbon.InDesignHelperMode = !_ribbonTrackBar.Ribbon.InDesignHelperMode;
             }
@@ -229,7 +229,7 @@ namespace Krypton.Ribbon
 
         private void OnMoveFirst(object sender, EventArgs e)
         {
-            if (_ribbonTrackBar?.Ribbon != null)
+            if (_ribbonTrackBar.Ribbon != null)
             {
                 // Get access to the parent collection of items
                 var items = ParentItems;
@@ -261,7 +261,7 @@ namespace Krypton.Ribbon
 
         private void OnMovePrevious(object sender, EventArgs e)
         {
-            if (_ribbonTrackBar?.Ribbon != null)
+            if (_ribbonTrackBar.Ribbon != null)
             {
                 // Get access to the parent collection of items
                 var items = ParentItems;
@@ -295,7 +295,7 @@ namespace Krypton.Ribbon
 
         private void OnMoveNext(object sender, EventArgs e)
         {
-            if (_ribbonTrackBar?.Ribbon != null)
+            if (_ribbonTrackBar.Ribbon != null)
             {
                 // Get access to the parent collection of items
                 var items = ParentItems;
@@ -329,7 +329,7 @@ namespace Krypton.Ribbon
 
         private void OnMoveLast(object sender, EventArgs e)
         {
-            if (_ribbonTrackBar?.Ribbon != null)
+            if (_ribbonTrackBar.Ribbon != null)
             {
                 // Get access to the parent collection of items
                 var items = ParentItems;
@@ -361,7 +361,7 @@ namespace Krypton.Ribbon
 
         private void OnDeleteTrackBar(object sender, EventArgs e)
         {
-            if (_ribbonTrackBar?.Ribbon != null)
+            if (_ribbonTrackBar.Ribbon != null)
             {
                 // Get access to the parent collection of items
                 var items = ParentItems;
@@ -396,7 +396,7 @@ namespace Krypton.Ribbon
 
         private void OnEnabled(object sender, EventArgs e)
         {
-            if (_ribbonTrackBar?.Ribbon != null)
+            if (_ribbonTrackBar.Ribbon != null)
             {
                 PropertyDescriptor propertyEnabled = TypeDescriptor.GetProperties(_ribbonTrackBar)[nameof(Enabled)];
                 var oldValue = (bool)propertyEnabled.GetValue(_ribbonTrackBar);
@@ -408,7 +408,7 @@ namespace Krypton.Ribbon
 
         private void OnVisible(object sender, EventArgs e)
         {
-            if (_ribbonTrackBar?.Ribbon != null)
+            if (_ribbonTrackBar.Ribbon != null)
             {
                 PropertyDescriptor propertyVisible = TypeDescriptor.GetProperties(_ribbonTrackBar)[nameof(Visible)];
                 var oldValue = (bool)propertyVisible.GetValue(_ribbonTrackBar);
@@ -422,7 +422,7 @@ namespace Krypton.Ribbon
 
         private void OnContextMenu(object sender, MouseEventArgs e)
         {
-            if (_ribbonTrackBar?.Ribbon != null)
+            if (_ribbonTrackBar.Ribbon != null)
             {
                 // Create the menu strip the first time around
                 if (_cms == null)

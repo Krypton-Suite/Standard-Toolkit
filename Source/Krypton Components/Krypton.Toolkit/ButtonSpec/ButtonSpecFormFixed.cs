@@ -30,7 +30,7 @@ namespace Krypton.Toolkit
             Debug.Assert(form != null);
 
             // Remember back reference to owning navigator.
-            KryptonForm = form!;
+            KryptonForm = form;
 
             // Fix the type
             ProtectedType = fixedStyle;

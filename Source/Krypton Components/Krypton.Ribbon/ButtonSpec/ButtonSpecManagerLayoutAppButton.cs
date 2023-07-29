@@ -36,9 +36,9 @@ namespace Krypton.Ribbon
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
         public ButtonSpecManagerLayoutAppButton(ViewContextMenuManager viewManager,
                                                 Control control,
-                                                PaletteRedirect? redirector,
+                                                [DisallowNull] PaletteRedirect? redirector,
                                                 ButtonSpecCollectionBase variableSpecs,
-                                                ButtonSpecCollectionBase fixedSpecs,
+                                                ButtonSpecCollectionBase? fixedSpecs,
                                                 ViewLayoutDocker[] viewDockers,
                                                 IPaletteMetric[] viewMetrics,
                                                 PaletteMetricInt[] viewMetricInt,

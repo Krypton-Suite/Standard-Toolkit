@@ -44,7 +44,7 @@ namespace Krypton.Ribbon
         private readonly PaletteRibbonContextDouble _paletteContextCurrent;
         private readonly RibbonTabToContent _contentProvider;
         private readonly NeedPaintHandler _needPaint;
-        private IDisposable[]? _mementos;
+        private IDisposable[] _mementos;
         private Size _preferredSize;
         private Rectangle _displayRect;
         private int _dirtyPaletteSize;
@@ -107,8 +107,8 @@ namespace Krypton.Ribbon
 
             // Use a controller to change state because of mouse movement
             var controller = new RibbonTabController(Ribbon, this, _needPaint);
-            controller.Click += OnTabClicked!;
-            controller.ContextClick += OnTabContextClicked!;
+            controller.Click += OnTabClicked;
+            controller.ContextClick += OnTabContextClicked;
             MouseController = controller;
             SourceController = controller;
             KeyController = controller;
@@ -150,15 +150,15 @@ namespace Krypton.Ribbon
                     _ribbonTab.TabView = null;
                 }
 
-                if (_mementos != null)
+                if (_mementos != null!)
                 {
                     // Dispose of all the mementos in the array
                     foreach (IDisposable memento in _mementos)
                     {
-                        memento?.Dispose();
+                        memento.Dispose();
                     }
 
-                    _mementos = null;
+                    _mementos = null!;
                 }
             }
 

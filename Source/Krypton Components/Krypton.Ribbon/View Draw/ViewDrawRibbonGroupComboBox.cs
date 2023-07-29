@@ -23,7 +23,7 @@ namespace Krypton.Ribbon
         #region Instance Fields
         private readonly int NULL_CONTROL_WIDTH; // = 50;
         private readonly KryptonRibbon _ribbon;
-        private ViewDrawRibbonGroup _activeGroup;
+        private ViewDrawRibbonGroup? _activeGroup;
         private readonly ComboBoxController? _controller;
         private readonly NeedPaintHandler _needPaint;
         private GroupItemSize _currentSize;
@@ -61,7 +61,7 @@ namespace Krypton.Ribbon
             {
                 // At design time we need to know when the user right clicks the combobox
                 var controller = new ContextClickController();
-                controller.ContextClick += OnContextClick!;
+                controller.ContextClick += OnContextClick;
                 MouseController = controller;
             }
 
@@ -71,8 +71,8 @@ namespace Krypton.Ribbon
             KeyController = _controller;
 
             // We need to rest visibility of the combobox for each layout cycle
-            _ribbon.ViewRibbonManager.LayoutBefore += OnLayoutAction!;
-            _ribbon.ViewRibbonManager.LayoutAfter += OnLayoutAction!;
+            _ribbon.ViewRibbonManager.LayoutBefore += OnLayoutAction;
+            _ribbon.ViewRibbonManager.LayoutAfter += OnLayoutAction;
 
             // Define back reference to view for the combo box definition
             GroupComboBox.ComboBoxView = this;
@@ -81,7 +81,7 @@ namespace Krypton.Ribbon
             GroupComboBox.ViewPaintDelegate = needPaint;
 
             // Hook into changes in the ribbon custom definition
-            GroupComboBox.PropertyChanged += OnComboBoxPropertyChanged!;
+            GroupComboBox.PropertyChanged += OnComboBoxPropertyChanged;
 
             NULL_CONTROL_WIDTH = (int)(50 * FactorDpiX);
         }
@@ -105,12 +105,12 @@ namespace Krypton.Ribbon
                 if (GroupComboBox != null)
                 {
                     // Must unhook to prevent memory leaks
-                    GroupComboBox.MouseEnterControl -= OnMouseEnterControl!;
-                    GroupComboBox.MouseLeaveControl -= OnMouseLeaveControl!;
+                    GroupComboBox.MouseEnterControl -= OnMouseEnterControl;
+                    GroupComboBox.MouseLeaveControl -= OnMouseLeaveControl;
                     GroupComboBox.ViewPaintDelegate = null;
-                    GroupComboBox.PropertyChanged -= OnComboBoxPropertyChanged!;
-                    _ribbon.ViewRibbonManager.LayoutAfter -= OnLayoutAction!;
-                    _ribbon.ViewRibbonManager.LayoutBefore -= OnLayoutAction!;
+                    GroupComboBox.PropertyChanged -= OnComboBoxPropertyChanged;
+                    _ribbon.ViewRibbonManager.LayoutAfter -= OnLayoutAction;
+                    _ribbon.ViewRibbonManager.LayoutBefore -= OnLayoutAction;
 
                     // Remove association with definition
                     GroupComboBox.ComboBoxView = null; 
@@ -424,15 +424,15 @@ namespace Krypton.Ribbon
 #pragma warning restore 162
         }
 
-        private Control LastParentControl
+        private Control? LastParentControl
         {
-            get => GroupComboBox.LastParentControl;
+            get => GroupComboBox?.LastParentControl;
             set => GroupComboBox.LastParentControl = value;
         }
 
-        private KryptonComboBox LastComboBox
+        private KryptonComboBox? LastComboBox
         {
-            get => GroupComboBox.LastComboBox;
+            get => GroupComboBox?.LastComboBox;
             set => GroupComboBox.LastComboBox = value;
         }
 
@@ -441,13 +441,13 @@ namespace Krypton.Ribbon
             // Is there a change in the combobox or a change in 
             // the parent control that is hosting the control...
             if ((parentControl != LastParentControl) ||
-                (LastComboBox != GroupComboBox.ComboBox))
+                (LastComboBox != GroupComboBox?.ComboBox))
             {
                 // We only modify the parent and visible state if processing for correct container
                 if ((GroupComboBox.RibbonContainer.RibbonGroup.ShowingAsPopup && (parentControl is VisualPopupGroup)) ||
                     (!GroupComboBox.RibbonContainer.RibbonGroup.ShowingAsPopup && parentControl is not VisualPopupGroup))
                 {
-                    // If we have added the custrom control to a parent before
+                    // If we have added the custom control to a parent before
                     if ((LastComboBox != null) && (LastParentControl != null))
                     {
                         // If that control is still a child of the old parent
@@ -479,7 +479,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void UpdateEnabled(Control c)
+        private void UpdateEnabled(Control? c)
         {
             if (c != null)
             {
@@ -497,7 +497,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private bool ActualVisible(Control c)
+        private bool ActualVisible(Control? c)
         {
             if (c != null)
             {
@@ -517,7 +517,7 @@ namespace Krypton.Ribbon
             return false;
         }
 
-        private void UpdateVisible(Control c)
+        private void UpdateVisible(Control? c)
         {
             if (c != null)
             {
@@ -600,7 +600,7 @@ namespace Krypton.Ribbon
             _activeGroup = null;
 
             // Find the parent group instance
-            ViewBase parent = Parent;
+            ViewBase? parent = Parent;
 
             // Keep going till we get to the top or find a group
             while (parent != null)

@@ -76,9 +76,9 @@ namespace Krypton.Ribbon
                                                   _viewColumns, palette, paletteMode,
                                                   redirector, NeedPaintDelegate);
 
-            _provider.Closing += OnProviderClosing!;
-            _provider.Close += OnProviderClose!;
-            _provider.Dispose += OnProviderClose!;
+            _provider.Closing += OnProviderClosing;
+            _provider.Close += OnProviderClose;
+            _provider.Dispose += OnProviderClose;
 
             CreateAppButtonBottom();
             CreateButtonSpecView();
@@ -113,7 +113,7 @@ namespace Krypton.Ribbon
             {
                 topItems.Items.Add(item);
             }
-            topCollection.GenerateView(_provider, this, _viewColumns, true, true);
+            topCollection.GenerateView(_provider, this, _viewColumns, true, true, NeedPaintDelegate);
         }
 
         private void CreateRecentDocumentsView()
@@ -242,10 +242,10 @@ namespace Krypton.Ribbon
                     _palette.BaseRendererChanged -= OnBaseChanged;
                 }
 
-                if (_buttonManager != null)
+                if (_buttonManager != null!)
                 {
                     _buttonManager.Destruct();
-                    _buttonManager = null;
+                    _buttonManager = null!;
                 }
             }
 
@@ -434,7 +434,7 @@ namespace Krypton.Ribbon
         /// <param name="levent">An EventArgs that contains the event data.</param>
         protected override void OnLayout(LayoutEventArgs levent)
         {
-            // Let base class calulcate fill rectangle
+            // Let base class calculate fill rectangle
             base.OnLayout(levent);
 
             // Need a render context for accessing the renderer
@@ -490,9 +490,9 @@ namespace Krypton.Ribbon
                 // Unhook from current palette events
                 if (_palette != null)
                 {
-                    _palette.PalettePaint -= OnPaletteNeedPaint!;
-                    _palette.BasePaletteChanged -= OnBaseChanged!;
-                    _palette.BaseRendererChanged -= OnBaseChanged!;
+                    _palette.PalettePaint -= OnPaletteNeedPaint;
+                    _palette.BasePaletteChanged -= OnBaseChanged;
+                    _palette.BaseRendererChanged -= OnBaseChanged;
                 }
 
                 // Remember the new palette
@@ -501,26 +501,25 @@ namespace Krypton.Ribbon
                 // Update redirector to use palette as source for obtaining values
                 Redirector.Target = _palette;
 
-                // Get the renderer associated with the palette
-                Renderer = _palette.GetRenderer();
-
                 // Hook to new palette events
                 if (_palette != null)
                 {
-                    _palette.PalettePaint += OnPaletteNeedPaint!;
-                    _palette.BasePaletteChanged += OnBaseChanged!;
-                    _palette.BaseRendererChanged += OnBaseChanged!;
+                    // Get the renderer associated with the palette
+                    Renderer = _palette.GetRenderer();
+                    _palette.PalettePaint += OnPaletteNeedPaint;
+                    _palette.BasePaletteChanged += OnBaseChanged;
+                    _palette.BaseRendererChanged += OnBaseChanged;
                 }
             }
         }
 
         private void OnBaseChanged(object sender, EventArgs e) =>
             // Change in base renderer or base palette require we fetch the latest renderer
-            Renderer = _palette.GetRenderer();
+            Renderer = _palette?.GetRenderer();
 
         private void OnButtonSpecPaint(object sender, NeedLayoutEventArgs e) => OnNeedPaint(sender, new NeedLayoutEventArgs(false));
 
-        private void OnProviderClosing(object sender, CancelEventArgs e) => _ribbon?.OnAppButtonMenuClosing(e);
+        private void OnProviderClosing(object sender, CancelEventArgs e) => _ribbon.OnAppButtonMenuClosing(e);
 
         private void OnProviderClose(object sender, CloseReasonEventArgs e) =>
             // Remove ourself from being shown
@@ -529,10 +528,10 @@ namespace Krypton.Ribbon
         private void OnProviderClose(object sender, EventArgs e)
         {
             // Unhook from event source
-            var provider = (IContextMenuProvider)sender;
-            _provider.Dispose -= OnProviderClose!;
+            //var provider = (IContextMenuProvider)sender;
+            _provider.Dispose -= OnProviderClose;
 
-            // Kill this poup window
+            // Kill this popup window
             Dispose();
         }
         #endregion

@@ -600,7 +600,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         [EditorBrowsable(EditorBrowsableState.Always)]
         [Browsable(false)]
-        public RichTextBox RichTextBox => _richTextBox;
+        public RichTextBox? RichTextBox => _richTextBox;
 
         /// <summary>
         /// Gets access to the contained input control.

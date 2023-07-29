@@ -1272,9 +1272,9 @@ namespace Krypton.Ribbon
             // Cannot process a message for a disposed control
             if (!IsDisposed && !Disposing)
             {
-                TabsArea?.AppButtonVisibleChanged();
+                TabsArea.AppButtonVisibleChanged();
 
-                CaptionArea?.AppButtonVisibleChanged();
+                CaptionArea.AppButtonVisibleChanged();
             }
 
             // If we have a parent form then ask it to check for a change in composition height
@@ -1310,7 +1310,7 @@ namespace Krypton.Ribbon
                     }
                 }
 
-                if (TabsArea?.LayoutTabs?.GetViewForSpare != null)
+                if (TabsArea.LayoutTabs.GetViewForSpare != null)
                 {
                     // Convert the spare tabs area from child control coordinates to ribbon control coordinates
                     Rectangle spareRect = TabsArea.LayoutTabs.GetViewForSpare.ClientRectangle;
@@ -1814,7 +1814,7 @@ namespace Krypton.Ribbon
 
         internal ViewLayoutRibbonGroupsArea GroupsArea { get; private set; }
 
-        internal ViewDrawRibbonCaptionArea CaptionArea { get; private set; }
+        internal ViewDrawRibbonCaptionArea? CaptionArea { get; private set; }
 
         internal CalculatedValues CalculatedValues { get; private set; }
 
@@ -2401,7 +2401,7 @@ namespace Krypton.Ribbon
             KillKeyboardMode();
         }
 
-        internal void UpdateQAT() => CaptionArea?.UpdateQAT();
+        internal void UpdateQAT() => CaptionArea.UpdateQAT();
 
         internal KeyTipMode KeyTipMode
         {
@@ -3001,7 +3001,7 @@ namespace Krypton.Ribbon
             // Unhook from all the context instances
             foreach (KryptonRibbonContext context in RibbonContexts)
             {
-                context.PropertyChanged -= OnContextPropertyChanged!;
+                context.PropertyChanged -= OnContextPropertyChanged;
             }
         }
 
@@ -3015,7 +3015,7 @@ namespace Krypton.Ribbon
         private void OnRibbonContextsInserted(object sender, TypedCollectionEventArgs<KryptonRibbonContext> e)
         {
             // Hook into property changes for the context
-            e.Item.PropertyChanged += OnContextPropertyChanged!;
+            e.Item.PropertyChanged += OnContextPropertyChanged;
             CaptionArea.UpdateVisible();
             PerformNeedPaint(true);
         }
@@ -3023,7 +3023,7 @@ namespace Krypton.Ribbon
         private void OnRibbonContextsRemoved(object sender, TypedCollectionEventArgs<KryptonRibbonContext> e)
         {
             // Remove context instance hook
-            e.Item.PropertyChanged -= OnContextPropertyChanged!;
+            e.Item.PropertyChanged -= OnContextPropertyChanged;
             CaptionArea.UpdateVisible();
             PerformNeedPaint(true);
         }
@@ -3038,7 +3038,7 @@ namespace Krypton.Ribbon
             foreach (KryptonRibbonTab tab in RibbonTabs)
             {
                 // Unhook from tab property change event
-                tab.PropertyChanged -= OnTabPropertyChanged!;
+                tab.PropertyChanged -= OnTabPropertyChanged;
 
                 // Remove back reference
                 tab.Ribbon = null;
@@ -3063,7 +3063,7 @@ namespace Krypton.Ribbon
             e.Item.Ribbon = this;
 
             // Need to monitor tab in case its properties change
-            e.Item.PropertyChanged += OnTabPropertyChanged!;
+            e.Item.PropertyChanged += OnTabPropertyChanged;
 
             // Update selection to match ribbon settings
             ValidateSelectedTab();
@@ -3075,7 +3075,7 @@ namespace Krypton.Ribbon
         private void OnRibbonTabsRemoved(object sender, TypedCollectionEventArgs<KryptonRibbonTab> e)
         {
             // Unhook from tab property change event
-            e.Item.PropertyChanged -= OnTabPropertyChanged!;
+            e.Item.PropertyChanged -= OnTabPropertyChanged;
 
             // Remove the backreference
             e.Item.Ribbon = null;
@@ -3114,7 +3114,7 @@ namespace Krypton.Ribbon
             // Stop tracking changes in button properties
             foreach (IQuickAccessToolbarButton qatButton in QATButtons)
             {
-                qatButton.PropertyChanged -= OnQATButtonPropertyChanged!;
+                qatButton.PropertyChanged -= OnQATButtonPropertyChanged;
             }
         }
 
@@ -3137,7 +3137,7 @@ namespace Krypton.Ribbon
             {
                 qatButton.SetRibbon(this);
                 // Track changes in button properties
-                qatButton.PropertyChanged += OnQATButtonPropertyChanged!;
+                qatButton.PropertyChanged += OnQATButtonPropertyChanged;
             }
 
             // Display not updated until a layout occurs
@@ -3153,7 +3153,7 @@ namespace Krypton.Ribbon
             Debug.Assert(qatButton != null);
 
             // Stop tracking changes in button properties
-            qatButton.PropertyChanged -= OnQATButtonPropertyChanged!;
+            qatButton.PropertyChanged -= OnQATButtonPropertyChanged;
 
             // Remove the backreference
             qatButton.SetRibbon(null);
@@ -3223,7 +3223,7 @@ namespace Krypton.Ribbon
             var popupManager = new ViewRibbonMinimizedManager(this, GroupsArea.ViewGroups,
                 _drawMinimizedPanel, true, _needPaintGroups);
             _minimizedPopup = new VisualPopupMinimized(this, popupManager, CaptionArea, Renderer);
-            _minimizedPopup.Disposed += OnMinimizedPopupDisposed!;
+            _minimizedPopup.Disposed += OnMinimizedPopupDisposed;
             popupManager.Attach(_minimizedPopup, _drawMinimizedPanel);
 
             // Show the groups area as a popup!

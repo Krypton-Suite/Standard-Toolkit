@@ -56,7 +56,7 @@ namespace Krypton.Ribbon
             {
                 // At design time we need to know when the user right clicks the label
                 var controller = new ContextClickController();
-                controller.ContextClick += OnContextClick!;
+                controller.ContextClick += OnContextClick;
                 MouseController = controller;
             }
 
@@ -64,7 +64,7 @@ namespace Krypton.Ribbon
             _ribbonSeparator.SeparatorView = this;
 
             // Hook into changes in the ribbon separator definition
-            _ribbonSeparator.PropertyChanged += OnSeparatorPropertyChanged!;
+            _ribbonSeparator.PropertyChanged += OnSeparatorPropertyChanged;
 
             _preferredSize2007 = new Size((int)(4 * FactorDpiX), (int)(4 * FactorDpiY));
             _preferredSize2010 = new Size((int)(7 * FactorDpiX), (int)(4 * FactorDpiY));

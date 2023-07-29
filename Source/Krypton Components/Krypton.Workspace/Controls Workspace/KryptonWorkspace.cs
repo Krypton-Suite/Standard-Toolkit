@@ -1661,8 +1661,7 @@ namespace Krypton.Workspace
             var visibleCells = 0;
             var numPages = 0;
 
-            if (MaximizedCell is { AllowDroppingPages: true }
-                )
+            if (MaximizedCell is { AllowDroppingPages: true } )
             {
                 // Generate targets for maximized cell only
                 visibleCells = CellVisibleCount;

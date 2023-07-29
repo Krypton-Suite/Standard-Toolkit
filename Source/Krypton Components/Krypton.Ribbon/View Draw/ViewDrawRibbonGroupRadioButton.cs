@@ -58,9 +58,9 @@ namespace Krypton.Ribbon
             Debug.Assert(needPaint != null);
 
             // Remember incoming references
-            _ribbon = ribbon!;
-            GroupRadioButton = ribbonRadioButton!;
-            _needPaint = needPaint!;
+            _ribbon = ribbon;
+            GroupRadioButton = ribbonRadioButton;
+            _needPaint = needPaint;
             _currentSize = GroupRadioButton.ItemSizeCurrent;
 
             // Create delegate used to process end of click action

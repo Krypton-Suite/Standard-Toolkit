@@ -63,7 +63,8 @@ namespace Krypton.Toolkit
                                  object parent,
                                  ViewLayoutStack columns,
                                  bool standardStyle,
-                                 bool imageColumn)
+                                 bool imageColumn,
+                                 NeedPaintHandler? needPaint)
         {
             // Create the initial column
             ViewLayoutStack column = AddColumn(columns);
@@ -71,6 +72,7 @@ namespace Krypton.Toolkit
             // Process each item in the collection in turn
             foreach (KryptonContextMenuItemBase item in this.Where(static item => item.Visible))
             {
+                item.ToolTipValues.NeedPaint = needPaint;
                 // Special handling of separator items
                 if (item is KryptonContextMenuSeparator separator)
                 {

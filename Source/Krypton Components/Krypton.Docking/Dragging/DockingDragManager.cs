@@ -46,7 +46,7 @@ namespace Krypton.Docking
             {
                 Interval = 10
             };
-            _moveTimer.Tick += OnFloatingWindowMove!;
+            _moveTimer.Tick += OnFloatingWindowMove;
         }
 
         /// <summary>
@@ -61,7 +61,7 @@ namespace Krypton.Docking
             _manager.PropogateAction(DockingPropogateAction.ClearStoredPages, new[] { "TemporaryPage" });
 
             // Remember to unhook event and dispose timer to prevent resource leak
-            _moveTimer.Tick -= OnFloatingWindowMove!;
+            _moveTimer.Tick -= OnFloatingWindowMove;
             _moveTimer.Stop();
             _moveTimer.Dispose();
 

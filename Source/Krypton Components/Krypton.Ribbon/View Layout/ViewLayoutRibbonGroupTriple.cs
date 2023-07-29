@@ -72,14 +72,14 @@ namespace Krypton.Ribbon
             SetCurrentSize(ribbonTriple.ItemSizeCurrent);
 
             // Hook into changes in the ribbon triple definition
-            _ribbonTriple.PropertyChanged += OnTriplePropertyChanged!;
+            _ribbonTriple.PropertyChanged += OnTriplePropertyChanged;
             _ribbonTriple.TripleView = this;
 
             // At design time we want to track the mouse and show feedback
             if (_ribbon.InDesignMode)
             {
                 var controller = new ViewHightlightController(this, needPaint);
-                controller.ContextClick += OnContextClick!;
+                controller.ContextClick += OnContextClick;
                 MouseController = controller;
             }
         }

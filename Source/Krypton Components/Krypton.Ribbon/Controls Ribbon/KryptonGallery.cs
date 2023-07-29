@@ -34,7 +34,7 @@ namespace Krypton.Ribbon
         private readonly ViewDrawRibbonGalleryButton _buttonDown;
         private readonly ViewDrawRibbonGalleryButton _buttonContext;
         private readonly ViewLayoutRibbonGalleryItems _drawItems;
-        private ImageList _imageList;
+        private ImageList? _imageList;
         private readonly ViewLayoutDocker _layoutDocker;
         private readonly ViewDrawDocker _drawDocker;
         private bool? _fixedActive;
@@ -425,7 +425,7 @@ namespace Krypton.Ribbon
         public void BringIntoView(int index)
         {
             // Get number of images available
-            var images = _imageList?.Images.Count ?? 0;
+            var images = _imageList != null ? _imageList.Images.Count : 0;
 
             // Check the index is within range of what we actually have
             if ((index >= 0) && (index < images))

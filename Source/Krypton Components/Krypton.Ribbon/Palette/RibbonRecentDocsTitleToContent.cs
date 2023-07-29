@@ -22,7 +22,7 @@ namespace Krypton.Ribbon
 
         #region Instance Fields
         private readonly IPaletteRibbonText _ribbonRecentTitleText;
-        private Font _shortTextFont;
+        private Font? _shortTextFont;
         #endregion
 
         #region Identity

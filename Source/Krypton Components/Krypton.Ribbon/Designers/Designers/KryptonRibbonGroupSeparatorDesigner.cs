@@ -20,14 +20,14 @@ namespace Krypton.Ribbon
         private IDesignerHost _designerHost;
         private IComponentChangeService _changeService;
         private KryptonRibbonGroupSeparator _ribbonSeparator;
-        private DesignerVerbCollection _verbs;
+        private DesignerVerbCollection? _verbs;
         private DesignerVerb _toggleHelpersVerb;
         private DesignerVerb _moveFirstVerb;
         private DesignerVerb _movePrevVerb;
         private DesignerVerb _moveNextVerb;
         private DesignerVerb _moveLastVerb;
         private DesignerVerb _deleteSeparatorVerb;
-        private ContextMenuStrip _cms;
+        private ContextMenuStrip? _cms;
         private ToolStripMenuItem _toggleHelpersMenu;
         private ToolStripMenuItem _moveFirstMenu;
         private ToolStripMenuItem _movePreviousMenu;
@@ -134,7 +134,7 @@ namespace Krypton.Ribbon
                 var moveNext = false;
                 var moveLast = false;
 
-                if ((_ribbonSeparator?.Ribbon != null) && _ribbonSeparator.RibbonGroup.Items.Contains(_ribbonSeparator))
+                if ((_ribbonSeparator.Ribbon != null) && _ribbonSeparator.RibbonGroup.Items.Contains(_ribbonSeparator))
                 {
                     moveFirst = _ribbonSeparator.RibbonGroup.Items.IndexOf(_ribbonSeparator) > 0;
                     movePrev = _ribbonSeparator.RibbonGroup.Items.IndexOf(_ribbonSeparator) > 0;
@@ -152,7 +152,7 @@ namespace Krypton.Ribbon
         private void OnToggleHelpers(object sender, EventArgs e)
         {
             // Invert the current toggle helper mode
-            if (_ribbonSeparator?.Ribbon != null)
+            if (_ribbonSeparator.Ribbon != null)
             {
                 _ribbonSeparator.Ribbon.InDesignHelperMode = !_ribbonSeparator.Ribbon.InDesignHelperMode;
             }
@@ -160,7 +160,7 @@ namespace Krypton.Ribbon
 
         private void OnMoveFirst(object sender, EventArgs e)
         {
-            if ((_ribbonSeparator?.Ribbon != null) && _ribbonSeparator.RibbonGroup.Items.Contains(_ribbonSeparator))
+            if ((_ribbonSeparator.Ribbon != null) && _ribbonSeparator.RibbonGroup.Items.Contains(_ribbonSeparator))
             {
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupSeparator MoveFirst");
@@ -190,7 +190,7 @@ namespace Krypton.Ribbon
 
         private void OnMovePrevious(object sender, EventArgs e)
         {
-            if ((_ribbonSeparator?.Ribbon != null) && _ribbonSeparator.RibbonGroup.Items.Contains(_ribbonSeparator))
+            if ((_ribbonSeparator.Ribbon != null) && _ribbonSeparator.RibbonGroup.Items.Contains(_ribbonSeparator))
             {
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupSeparator MovePrevious");
@@ -222,7 +222,7 @@ namespace Krypton.Ribbon
 
         private void OnMoveNext(object sender, EventArgs e)
         {
-            if ((_ribbonSeparator?.Ribbon != null) && _ribbonSeparator.RibbonGroup.Items.Contains(_ribbonSeparator))
+            if ((_ribbonSeparator.Ribbon != null) && _ribbonSeparator.RibbonGroup.Items.Contains(_ribbonSeparator))
             {
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupSeparator MoveNext");
@@ -254,7 +254,7 @@ namespace Krypton.Ribbon
 
         private void OnMoveLast(object sender, EventArgs e)
         {
-            if ((_ribbonSeparator?.Ribbon != null) && _ribbonSeparator.RibbonGroup.Items.Contains(_ribbonSeparator))
+            if ((_ribbonSeparator.Ribbon != null) && _ribbonSeparator.RibbonGroup.Items.Contains(_ribbonSeparator))
             {
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupSeparator MoveLast");
@@ -284,7 +284,7 @@ namespace Krypton.Ribbon
 
         private void OnDeleteSeparator(object sender, EventArgs e)
         {
-            if ((_ribbonSeparator?.Ribbon != null) && _ribbonSeparator.RibbonGroup.Items.Contains(_ribbonSeparator))
+            if ((_ribbonSeparator.Ribbon != null) && _ribbonSeparator.RibbonGroup.Items.Contains(_ribbonSeparator))
             {
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupSeparator DeleteSeparator");
@@ -319,7 +319,7 @@ namespace Krypton.Ribbon
 
         private void OnContextMenu(object sender, MouseEventArgs e)
         {
-            if ((_ribbonSeparator?.Ribbon != null) && _ribbonSeparator.RibbonGroup.Items.Contains(_ribbonSeparator))
+            if ((_ribbonSeparator.Ribbon != null) && _ribbonSeparator.RibbonGroup.Items.Contains(_ribbonSeparator))
             {
                 // Create the menu strip the first time around
                 if (_cms == null)
@@ -382,7 +382,7 @@ namespace Krypton.Ribbon
                         };
 
                         // Hook into selection of the menu item
-                        groupMenuItem.Click += OnMoveToGroup!;
+                        groupMenuItem.Click += OnMoveToGroup;
 
                         // Add to end of the list of options
                         _moveToGroupMenu.DropDownItems.Add(groupMenuItem);
@@ -393,7 +393,7 @@ namespace Krypton.Ribbon
 
         private void OnMoveToGroup(object sender, EventArgs e)
         {
-            if ((_ribbonSeparator?.Ribbon != null) && _ribbonSeparator.RibbonGroup.Items.Contains(_ribbonSeparator))
+            if ((_ribbonSeparator.Ribbon != null) && _ribbonSeparator.RibbonGroup.Items.Contains(_ribbonSeparator))
             {
                 // Cast to correct type
                 var groupMenuItem = (ToolStripMenuItem)sender;

@@ -18,7 +18,7 @@ namespace Krypton.Toolkit
     public class VisualContextMenu : VisualPopup
     {
         #region Instance Fields
-        private readonly KryptonContextMenu _contextMenu;
+        private readonly KryptonContextMenu? _contextMenu;
         private PaletteBase _palette;
         private readonly ContextMenuProvider _provider;
         private ViewDrawDocker _drawDocker;
@@ -419,7 +419,7 @@ namespace Krypton.Toolkit
                                bool keyboardActivated)
         {
             // Ask the top level collection to generate the child view elements
-            items.GenerateView(_provider, this, _viewColumns, true, true);
+            items.GenerateView(_provider, this, _viewColumns, true, true, NeedPaintDelegate);
 
             // Create the control panel canvas
             var mainBackground = new ViewDrawCanvas(_provider.ProviderStateCommon.ControlInner.Back,

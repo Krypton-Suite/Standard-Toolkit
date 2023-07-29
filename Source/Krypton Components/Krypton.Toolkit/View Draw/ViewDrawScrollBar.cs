@@ -18,7 +18,7 @@ namespace Krypton.Toolkit
     public class ViewDrawScrollBar : ViewLeaf
     {
         #region Instance Fields
-        private ScrollBar _scrollBar;
+        private ScrollBar? _scrollBar;
         private bool _vertical;
         private bool _removing;
         private int _min;

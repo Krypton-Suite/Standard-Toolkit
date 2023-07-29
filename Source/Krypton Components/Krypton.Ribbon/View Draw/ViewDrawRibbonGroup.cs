@@ -608,7 +608,7 @@ namespace Krypton.Ribbon
             {
                 // At design time we need to know when the user right clicks the group
                 var controller = new ContextClickController();
-                controller.ContextClick += OnContextClick!;
+                controller.ContextClick += OnContextClick;
                 _layoutNormalMain.MouseController = controller;
             }
 
@@ -651,7 +651,7 @@ namespace Krypton.Ribbon
 
             // Add a mouse controller so we know when it has been pressed
             _collapsedController = new CollapsedGroupController(_ribbon, _layoutCollapsedMain, _needPaint);
-            _collapsedController.Click += OnCollapsedClick!;
+            _collapsedController.Click += OnCollapsedClick;
             _layoutCollapsedMain.MouseController = _collapsedController;
             _layoutCollapsedMain.SourceController = _collapsedController;
             _layoutCollapsedMain.KeyController = _collapsedController;

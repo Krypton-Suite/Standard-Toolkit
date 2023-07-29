@@ -51,8 +51,8 @@ namespace Krypton.Ribbon
             _currentSize = GroupCustomControl.ItemSizeCurrent;
 
             // Hook into the custom control events
-            GroupCustomControl.MouseEnterControl += OnMouseEnterControl!;
-            GroupCustomControl.MouseLeaveControl += OnMouseLeaveControl!;
+            GroupCustomControl.MouseEnterControl += OnMouseEnterControl;
+            GroupCustomControl.MouseLeaveControl += OnMouseLeaveControl;
 
             // Associate this view with the source component (required for design time selection)
             Component = GroupCustomControl;
@@ -61,7 +61,7 @@ namespace Krypton.Ribbon
             {
                 // At design time we need to know when the user right clicks the label
                 var controller = new ContextClickController();
-                controller.ContextClick += OnContextClick!;
+                controller.ContextClick += OnContextClick;
                 MouseController = controller;
             }
 
@@ -71,8 +71,8 @@ namespace Krypton.Ribbon
             KeyController = _controller;
 
             // We need to rest visibility of the custom control for each layout cycle
-            _ribbon.ViewRibbonManager.LayoutBefore += OnLayoutAction!;
-            _ribbon.ViewRibbonManager.LayoutAfter += OnLayoutAction!;
+            _ribbon.ViewRibbonManager.LayoutBefore += OnLayoutAction;
+            _ribbon.ViewRibbonManager.LayoutAfter += OnLayoutAction;
 
             // Provide back reference to the custom control definition
             GroupCustomControl.CustomControlView = this;
@@ -429,7 +429,7 @@ namespace Krypton.Ribbon
             set => GroupCustomControl.LastParentControl = value;
         }
 
-        private Control LastCustomControl
+        private Control? LastCustomControl
         {
             get => GroupCustomControl.LastCustomControl;
             set => GroupCustomControl.LastCustomControl = value;

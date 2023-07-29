@@ -713,7 +713,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         [EditorBrowsable(EditorBrowsableState.Always)]
         [Browsable(false)]
-        public TreeView TreeView => _treeView;
+        public TreeView? TreeView => _treeView;
 
         /// <summary>
         /// Gets access to the contained input control.

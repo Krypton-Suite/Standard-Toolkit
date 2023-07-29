@@ -64,8 +64,8 @@ namespace Krypton.Ribbon
             CreateLargeButtonView();
 
             // Hook into the gallery events
-            GroupGallery.MouseEnterControl += OnMouseEnterControl!;
-            GroupGallery.MouseLeaveControl += OnMouseLeaveControl!;
+            GroupGallery.MouseEnterControl += OnMouseEnterControl;
+            GroupGallery.MouseLeaveControl += OnMouseLeaveControl;
 
             // Associate this view with the source component (required for design time selection)
             Component = GroupGallery;
@@ -74,7 +74,7 @@ namespace Krypton.Ribbon
             {
                 // At design time we need to know when the user right clicks the gallery
                 var controller = new ContextClickController();
-                controller.ContextClick += OnContextClick!;
+                controller.ContextClick += OnContextClick;
                 MouseController = controller;
             }
 
@@ -84,8 +84,8 @@ namespace Krypton.Ribbon
             KeyController = _controller;
 
             // We need to rest visibility of the gallery for each layout cycle
-            _ribbon.ViewRibbonManager.LayoutBefore += OnLayoutAction!;
-            _ribbon.ViewRibbonManager.LayoutAfter += OnLayoutAction!;
+            _ribbon.ViewRibbonManager.LayoutBefore += OnLayoutAction;
+            _ribbon.ViewRibbonManager.LayoutAfter += OnLayoutAction;
 
             // Define back reference to view for the gallery definition
             GroupGallery.GalleryView = this;

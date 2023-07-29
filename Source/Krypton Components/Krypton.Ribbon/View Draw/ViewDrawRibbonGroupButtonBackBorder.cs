@@ -89,13 +89,13 @@ namespace Krypton.Ribbon
             DrawNonTrackingAreas = true;
 
             // Create delegate used to process end of click action
-            FinishDelegate = ActionFinished!;
+            FinishDelegate = ActionFinished;
 
             // Attach a controller to this element for the pressing of the button
             Controller = new GroupButtonController(_ribbon, this, needPaint);
-            Controller.Click += OnClick!;
-            Controller.ContextClick += OnContextClick!;
-            Controller.DropDown += OnDropDown!;
+            Controller.Click += OnClick;
+            Controller.ContextClick += OnContextClick;
+            Controller.DropDown += OnDropDown;
             MouseController = Controller;
             SourceController = Controller;
             KeyController = Controller;

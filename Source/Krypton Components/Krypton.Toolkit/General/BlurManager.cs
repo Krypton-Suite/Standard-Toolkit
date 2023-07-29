@@ -22,7 +22,7 @@ namespace Krypton.Toolkit
         private readonly BlurValues _blurValues;
         private VisualBlur _visualBlur;
         private readonly System.Windows.Forms.Timer _detectIsActiveTimer;
-        private Bitmap _currentFormDisplay;
+        private Bitmap? _currentFormDisplay;
         private double? _parentBeforeOpacity;
         #endregion
 

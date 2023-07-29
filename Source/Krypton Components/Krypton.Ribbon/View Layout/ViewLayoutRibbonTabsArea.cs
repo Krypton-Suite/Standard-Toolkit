@@ -444,7 +444,7 @@ namespace Krypton.Ribbon
         {
             // Use a controller to initiate context menu when using right mouse click
             var controller = new RibbonTabsController(_ribbon);
-            controller.ContextClick += OnContextClicked!;
+            controller.ContextClick += OnContextClicked;
             MouseController = controller;
         }
 
@@ -491,8 +491,8 @@ namespace Krypton.Ribbon
             if (_appButtonController != null)
             {
                 _appButtonController.Target3 = LayoutAppButton.AppButton;
-                _appButtonController.Click += OnAppButtonClicked!;
-                _appButtonController.MouseReleased += OnAppButtonReleased!;
+                _appButtonController.Click += OnAppButtonClicked;
+                _appButtonController.MouseReleased += OnAppButtonReleased;
                 LayoutAppButton.MouseController = _appButtonController;
                 LayoutAppButton.SourceController = _appButtonController;
                 LayoutAppButton.KeyController = _appButtonController;
@@ -501,8 +501,8 @@ namespace Krypton.Ribbon
             if (_appTabController != null)
             {
                 _appTabController.Target1 = LayoutAppTab.AppTab;
-                _appTabController.Click += OnAppButtonClicked!;
-                _appTabController.MouseReleased += OnAppButtonReleased!;
+                _appTabController.Click += OnAppButtonClicked;
+                _appTabController.MouseReleased += OnAppButtonReleased;
                 LayoutAppTab.MouseController = _appTabController;
                 LayoutAppTab.SourceController = _appTabController;
                 LayoutAppTab.KeyController = _appTabController;
@@ -909,7 +909,7 @@ namespace Krypton.Ribbon
                                                                      CommonHelper.ContentStyleFromLabelStyle(toolTipStyle),
                                                                      shadow);
 
-                        _visualPopupToolTip.Disposed += OnVisualPopupToolTipDisposed!;
+                        _visualPopupToolTip.Disposed += OnVisualPopupToolTipDisposed;
 
                         // The popup tooltip control always adds on a border above/below so we negate that here.
                         screenRect.Height -= 20;
@@ -927,7 +927,7 @@ namespace Krypton.Ribbon
         {
             // Unhook events from the specific instance that generated event
             var popupToolTip = (VisualPopupToolTip)sender;
-            popupToolTip.Disposed -= OnVisualPopupToolTipDisposed!;
+            popupToolTip.Disposed -= OnVisualPopupToolTipDisposed;
 
             // Not showing a popup page any more
             _visualPopupToolTip = null;

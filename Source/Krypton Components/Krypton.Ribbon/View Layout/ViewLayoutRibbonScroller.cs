@@ -63,7 +63,7 @@ namespace Krypton.Ribbon
 
             // Create button controller for clicking the button
             var rbc = new RepeatButtonController(ribbon, _button, needPaintDelegate);
-            rbc.Click += OnButtonClick!;
+            rbc.Click += OnButtonClick;
             _button.MouseController = rbc;
 
             // Add as child elements

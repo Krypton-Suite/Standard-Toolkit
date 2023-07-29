@@ -20,11 +20,11 @@ namespace Krypton.Ribbon
         private readonly KryptonRibbon _ribbon;
         private readonly ViewDrawRibbonGroupsBorderSynch _viewGroups;
         private ViewDrawRibbonGroup _activeGroup;
-        private readonly NeedPaintHandler _needPaintDelegate;
+        private readonly NeedPaintHandler? _needPaintDelegate;
         private readonly bool _minimizedMode;
         private bool _active;
         private bool _layingOut;
-        private ViewBase _focusView;
+        private ViewBase? _focusView;
         #endregion
 
         #region Identity
@@ -291,7 +291,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets the view that has the focus.
         /// </summary>
-        public ViewBase FocusView
+        public ViewBase? FocusView
         {
             get => _focusView;
 

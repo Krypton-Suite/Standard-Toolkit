@@ -67,8 +67,8 @@ namespace Krypton.Ribbon
             Debug.Assert(target != null);
             Debug.Assert(needPaint != null);
 
-            _ribbon = ribbon!;
-            _target = target!;
+            _ribbon = ribbon;
+            _target = target;
             NeedPaint = needPaint;
 
             // Default other fields
@@ -374,7 +374,7 @@ namespace Krypton.Ribbon
         /// Source control has lost the focus.
         /// </summary>
         /// <param name="c">Reference to the source control instance.</param>
-        public virtual void LostFocus(Control c)
+        public virtual void LostFocus([DisallowNull] Control c)
         {
             _hasFocus = false;
             UpdateTargetState(Point.Empty);

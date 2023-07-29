@@ -399,7 +399,7 @@ namespace Krypton.Ribbon
         #endregion
 
         #region Internal
-        internal NeedPaintHandler ViewPaintDelegate { get; set; }
+        internal NeedPaintHandler? ViewPaintDelegate { get; set; }
 
         internal void OnDesignTimeContextMenu(MouseEventArgs e) => DesignTimeContextMenu?.Invoke(this, e);
 

@@ -461,7 +461,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the ViewManager instance.
         /// </summary>
-        protected ViewManager ViewManager
+        protected ViewManager? ViewManager
         {
             [DebuggerStepThrough]
             get;

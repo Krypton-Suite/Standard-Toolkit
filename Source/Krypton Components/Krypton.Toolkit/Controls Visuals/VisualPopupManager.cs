@@ -132,7 +132,7 @@ namespace Krypton.Toolkit
         public void StartTracking([DisallowNull] VisualPopup popup)
         {
             Debug.Assert(popup != null);
-            Debug.Assert(!popup!.IsDisposed);
+            Debug.Assert(!popup.IsDisposed);
             Debug.Assert(popup.IsHandleCreated);
             Debug.Assert(_suspended == 0);
 

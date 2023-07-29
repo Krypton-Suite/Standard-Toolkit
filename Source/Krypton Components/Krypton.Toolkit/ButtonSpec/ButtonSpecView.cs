@@ -46,8 +46,8 @@ namespace Krypton.Toolkit
 
             // Remember references
             _redirector = redirector;
-            Manager = manager!;
-            ButtonSpec = buttonSpec!;
+            Manager = manager;
+            ButtonSpec = buttonSpec;
             _finishDelegate = OnFinishDelegate;
 
             // Create delegate for paint notifications

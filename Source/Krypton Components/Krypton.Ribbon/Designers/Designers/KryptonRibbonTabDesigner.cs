@@ -73,8 +73,8 @@ namespace Krypton.Ribbon
             _changeService = (IComponentChangeService)GetService(typeof(IComponentChangeService));
 
             // We need to know when we are being removed/changed
-            _changeService.ComponentRemoving += OnComponentRemoving!;
-            _changeService.ComponentChanged += OnComponentChanged!;
+            _changeService.ComponentRemoving += OnComponentRemoving;
+            _changeService.ComponentChanged += OnComponentChanged;
         }
 
         /// <summary>

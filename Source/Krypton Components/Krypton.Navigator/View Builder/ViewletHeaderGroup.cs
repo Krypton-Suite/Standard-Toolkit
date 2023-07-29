@@ -117,7 +117,7 @@ namespace Krypton.Navigator
         /// </summary>
         public void UpdateButtons() =>
             // Ensure buttons are recreated to reflect different page
-            _buttonManager?.RecreateButtons();
+            _buttonManager.RecreateButtons();
 
         /// <summary>
         /// Ensure the correct state palettes are being used.
