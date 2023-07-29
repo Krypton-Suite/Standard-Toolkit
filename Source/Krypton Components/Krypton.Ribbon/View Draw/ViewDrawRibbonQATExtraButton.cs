@@ -49,7 +49,7 @@ namespace Krypton.Ribbon
             Debug.Assert(ribbon != null);
 
             // Remember incoming references
-            _ribbon = ribbon!;
+            _ribbon = ribbon;
 
             // Create delegate used to process end of click action
             _finishDelegate = ClickFinished;
@@ -133,7 +133,7 @@ namespace Krypton.Ribbon
             Debug.Assert(context != null);
 
             // We take on all the available display area
-            ClientRectangle = context!.DisplayRectangle;
+            ClientRectangle = context.DisplayRectangle;
         }
         #endregion
 

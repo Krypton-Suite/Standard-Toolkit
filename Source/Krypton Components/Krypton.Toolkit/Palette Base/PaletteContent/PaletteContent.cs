@@ -49,7 +49,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Instance Fields
-        private InternalStorage _storage;
+        private InternalStorage? _storage;
         private readonly PaletteContentImage _image;
         private readonly PaletteContentText _shortText;
         private readonly PaletteContentText _longText;

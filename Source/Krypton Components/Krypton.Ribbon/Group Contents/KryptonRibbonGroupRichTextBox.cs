@@ -243,13 +243,13 @@ namespace Krypton.Ribbon
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public override KryptonRibbon Ribbon
+        public override KryptonRibbon? Ribbon
         {
             set
             {
                 base.Ribbon = value;
 
-                if (value != null)
+                if (Ribbon != null)
                 {
                     // Use the same palette in the text box as the ribbon, plus we need
                     // to know when the ribbon palette changes so we can reflect that change
@@ -1314,9 +1314,9 @@ namespace Krypton.Ribbon
         #region Internal
         internal Control LastParentControl { get; set; }
 
-        internal KryptonRichTextBox LastRichTextBox { get; set; }
+        internal KryptonRichTextBox? LastRichTextBox { get; set; }
 
-        internal NeedPaintHandler ViewPaintDelegate { get; set; }
+        internal NeedPaintHandler? ViewPaintDelegate { get; set; }
 
         internal void OnDesignTimeContextMenu(MouseEventArgs e) => DesignTimeContextMenu?.Invoke(this, e);
 

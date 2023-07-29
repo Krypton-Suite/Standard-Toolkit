@@ -294,7 +294,7 @@ namespace Krypton.Ribbon
         /// <param name="needLayout">Does the palette change require a layout.</param>
         /// <param name="invalidRect">Client area to be invalidated.</param>
         protected virtual void OnNeedPaint(bool needLayout,
-                                           Rectangle invalidRect) => _needPaint?.Invoke(this, new NeedLayoutEventArgs(needLayout, invalidRect));
+                                           Rectangle invalidRect) => _needPaint.Invoke(this, new NeedLayoutEventArgs(needLayout, invalidRect));
 
         /// <summary>
         /// Raises the Click event.

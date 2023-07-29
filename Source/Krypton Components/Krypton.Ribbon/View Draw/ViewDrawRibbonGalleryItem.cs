@@ -50,7 +50,7 @@ namespace Krypton.Ribbon
 
             // Need controller to handle tracking/pressing etc
             _controller = new GalleryItemController(this, layout, needPaint);
-            _controller.Click += OnItemClick!;
+            _controller.Click += OnItemClick;
             MouseController = _controller;
             SourceController = _controller;
             KeyController = _controller;

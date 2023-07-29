@@ -169,9 +169,6 @@ namespace Krypton.Toolkit
             StateDisabled = new PaletteContextMenuItemState(_stateRedirect);
             StateHighlight = new PaletteContextMenuItemStateHighlight(_stateRedirect);
             StateChecked = new PaletteContextMenuItemStateChecked(_stateRedirect);
-            // Do the Tooltip Magic
-            ToolTipValues = new ToolTipValues(null);
-
         }
 
         /// <summary>
@@ -254,22 +251,6 @@ namespace Krypton.Toolkit
                 }
             }
         }
-
-        /// <summary>
-        /// Gets access to the button content.
-        /// </summary>
-        [KryptonPersist]
-        [Category(@"Behavior")]
-        [Description(@"ToolTip")]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public ToolTipValues ToolTipValues { get; set; }
-
-        private bool ShouldSerializeToolTipValues() => !ToolTipValues.IsDefault;
-
-        /// <summary>
-        /// Resets the ToolTipValues property to its default value.
-        /// </summary>
-        public void ResetToolTipValues() => ToolTipValues.Reset();
 
         /// <summary>
         /// Gets and sets the standard menu item extra text.

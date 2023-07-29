@@ -61,7 +61,7 @@ namespace Krypton.Toolkit
         /// 
         /// </summary>
         [Description(@"The element relative to which the Popup is positioned when it opens.")]
-        public ViewBase PlacementTarget { get; set; }
+        public ViewBase? PlacementTarget { get; set; }
 
         private bool ShouldSerializePlacementTarget() => PlacementTarget != null;
 

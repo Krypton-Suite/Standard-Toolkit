@@ -304,7 +304,7 @@ namespace Krypton.Toolkit
         /// Source control has lost the focus.
         /// </summary>
         /// <param name="c">Reference to the source control instance.</param>
-        public virtual void LostFocus(Control c)
+        public virtual void LostFocus([DisallowNull] Control c)
         {
             // If we are capturing mouse input
             if (Captured)

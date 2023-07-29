@@ -889,7 +889,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Small utility function that returns the template cell as a KryptonDataGridViewDateTimePickerCell
         /// </summary>
-        private KryptonDataGridViewDateTimePickerCell DateTimePickerCellTemplate => (KryptonDataGridViewDateTimePickerCell)CellTemplate;
+        private KryptonDataGridViewDateTimePickerCell? DateTimePickerCellTemplate => (KryptonDataGridViewDateTimePickerCell)CellTemplate;
 
         #endregion
 

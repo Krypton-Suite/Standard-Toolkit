@@ -252,7 +252,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Private
-        private KryptonDataGridViewTextBoxCell TextBoxCellTemplate => (KryptonDataGridViewTextBoxCell)CellTemplate;
+        private KryptonDataGridViewTextBoxCell? TextBoxCellTemplate => (KryptonDataGridViewTextBoxCell)CellTemplate;
 
         #endregion
 

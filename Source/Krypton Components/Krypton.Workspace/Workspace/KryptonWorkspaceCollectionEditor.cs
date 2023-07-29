@@ -10,6 +10,8 @@
  */
 #endregion
 
+using System.Linq;
+
 namespace Krypton.Workspace
 {
     internal class KryptonWorkspaceCollectionEditor : CollectionEditor
@@ -1497,7 +1499,7 @@ namespace Krypton.Workspace
 
             private void NodeToType(TreeNode node, out bool isPage, out bool isCell, out bool isSequence) => NodeToType((MenuTreeNode)node, out isPage, out isCell, out isSequence);
 
-            private static void NodeToType(MenuTreeNode node, out bool isPage, out bool isCell, out bool isSequence)
+            private static void NodeToType(MenuTreeNode? node, out bool isPage, out bool isCell, out bool isSequence)
             {
                 isPage = node?.PageItem != null;
                 isCell = node?.CellItem != null;
@@ -1506,22 +1508,7 @@ namespace Krypton.Workspace
 
             private bool ContainsNode(TreeNode node, TreeNode find)
             {
-                if (node.Nodes.Contains(find))
-                {
-                    return true;
-                }
-                else
-                {
-                    foreach (TreeNode child in node.Nodes)
-                    {
-                        if (ContainsNode(child, find))
-                        {
-                            return true;
-                        }
-                    }
-                }
-
-                return false;
+                return node.Nodes.Contains(find) || node.Nodes.Cast<TreeNode>().Any(child => ContainsNode(child, find));
             }
 
             private TreeNode? NextNode(TreeNode? currentNode)
@@ -1661,7 +1648,7 @@ namespace Krypton.Workspace
 
             private static void SeparatorToItems(ViewDrawWorkspaceSeparator separator,
                                           out IWorkspaceItem after,
-                                          out IWorkspaceItem before)
+                                          out IWorkspaceItem? before)
             {
                 // Workspace item after the separator (to the right or below)
                 after = separator.WorkspaceItem;
@@ -1821,17 +1808,13 @@ namespace Krypton.Workspace
                     }
                 }
 
-                var changeService = (IComponentChangeService)GetService(typeof(IComponentChangeService));
-                if (changeService != null)
+                if (GetService(typeof(IComponentChangeService)) is IComponentChangeService changeService)
                 {
                     // Mark components as changed when not added or removed
-                    foreach (Component item in after.Values)
+                    foreach (Component item in after.Values.Where(before.ContainsKey))
                     {
-                        if (before.ContainsKey(item))
-                        {
-                            changeService.OnComponentChanging(item, null);
-                            changeService.OnComponentChanged(item, null, null, null);
-                        }
+                        changeService.OnComponentChanging(item, null);
+                        changeService.OnComponentChanged(item, null, null, null);
                     }
                 }
             }

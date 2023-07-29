@@ -49,7 +49,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets access to the view manager instance.
         /// </summary>
-        public ViewManager ViewManager
+        public ViewManager? ViewManager
         {
             [DebuggerStepThrough]
             get;

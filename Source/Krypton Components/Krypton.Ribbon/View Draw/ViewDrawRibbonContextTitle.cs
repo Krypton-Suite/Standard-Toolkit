@@ -24,7 +24,7 @@ namespace Krypton.Ribbon
 
         #region Instance Fields
         private readonly KryptonRibbon _ribbon;
-        private ContextTabSet _context;
+        private ContextTabSet? _context;
         private readonly IPaletteRibbonBack _inherit;
         private readonly ContextToContent _contentProvider;
         private IDisposable? _mementoBack;

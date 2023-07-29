@@ -69,7 +69,7 @@ namespace Krypton.Navigator
         {
             // If is possible the header group has not been created yet
             // Ensure buttons are recreated to reflect different previous/next visibility
-            _headerGroup?.UpdateButtons();
+            _headerGroup.UpdateButtons();
 
             // Let base class do standard work
             base.PageVisibleStateChanged(page);
@@ -105,7 +105,7 @@ namespace Krypton.Navigator
         public override void UpdateStatePalettes()
         {
             // Update palettes for the header group
-            _headerGroup?.UpdateStatePalettes();
+            _headerGroup.UpdateStatePalettes();
 
             // Let base class do standard work
             base.UpdateStatePalettes();

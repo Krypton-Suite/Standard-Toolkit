@@ -55,12 +55,12 @@ namespace Krypton.Docking
 
             // Create a control that will draw tabs for auto hidden pages
             AutoHiddenGroupControl = new KryptonAutoHiddenGroup(edge);
-            AutoHiddenGroupControl.StoringPage += OnAutoHiddenGroupStoringPage!;
-            AutoHiddenGroupControl.TabClicked += OnAutoHiddenGroupTabClicked!;
-            AutoHiddenGroupControl.TabMouseHoverStart += OnAutoHiddenGroupHoverStart!;
-            AutoHiddenGroupControl.TabMouseHoverEnd += OnAutoHiddenGroupHoverEnd!;
-            AutoHiddenGroupControl.TabVisibleCountChanged += OnAutoHiddenGroupTabVisibleCountChanged!;
-            AutoHiddenGroupControl.Disposed += OnAutoHiddenGroupDisposed!;
+            AutoHiddenGroupControl.StoringPage += OnAutoHiddenGroupStoringPage;
+            AutoHiddenGroupControl.TabClicked += OnAutoHiddenGroupTabClicked;
+            AutoHiddenGroupControl.TabMouseHoverStart += OnAutoHiddenGroupHoverStart;
+            AutoHiddenGroupControl.TabMouseHoverEnd += OnAutoHiddenGroupHoverEnd;
+            AutoHiddenGroupControl.TabVisibleCountChanged += OnAutoHiddenGroupTabVisibleCountChanged;
+            AutoHiddenGroupControl.Disposed += OnAutoHiddenGroupDisposed;
         }
         #endregion
 
@@ -442,8 +442,8 @@ namespace Krypton.Docking
                 {
                     xmlWriter.WriteStartElement("KP");
                     xmlWriter.WriteAttributeString(@"UN", page.UniqueName);
-                    xmlWriter.WriteAttributeString(@"V", CommonHelper.BoolToString(page.LastVisibleSet)!);
-                    xmlWriter.WriteAttributeString(@"S", CommonHelper.BoolToString(page is KryptonStorePage)!);
+                    xmlWriter.WriteAttributeString(@"V", CommonHelper.BoolToString(page.LastVisibleSet));
+                    xmlWriter.WriteAttributeString(@"S", CommonHelper.BoolToString(page is KryptonStorePage));
 
                     // Give event handlers a chance to save custom data with the page
                     xmlWriter.WriteStartElement("CPD");

@@ -718,7 +718,7 @@ namespace Krypton.Toolkit
 
         #region Instance Fields
 
-        private VisualPopupToolTip _visualPopupToolTip;
+        private VisualPopupToolTip? _visualPopupToolTip;
         private readonly ButtonSpecManagerLayout _buttonManager;
         private readonly ViewLayoutDocker _drawDockerInner;
         private readonly ViewDrawDocker _drawDockerOuter;
@@ -727,7 +727,7 @@ namespace Krypton.Toolkit
         private InputControlStyle _inputControlStyle;
         private ButtonStyle _upDownButtonStyle;
         private SubclassEdit _subclassEdit;
-        private SubclassButtons _subclassButtons;
+        private SubclassButtons? _subclassButtons;
         private bool? _fixedActive;
         private bool _forcedLayout;
         private bool _mouseOver;
@@ -951,7 +951,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         [EditorBrowsable(EditorBrowsableState.Always)]
         [Browsable(false)]
-        public NumericUpDown NumericUpDown => _numericUpDown;
+        public NumericUpDown? NumericUpDown => _numericUpDown;
 
         /// <summary>
         /// Gets access to the contained input control.

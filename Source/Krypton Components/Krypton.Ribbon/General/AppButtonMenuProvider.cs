@@ -21,7 +21,7 @@ namespace Krypton.Ribbon
     {
         #region Instance Fields
 
-        private readonly IContextMenuProvider _parent;
+        private readonly IContextMenuProvider? _parent;
         private ToolStripDropDownCloseReason? _closeReason;
         private readonly KryptonContextMenuItemCollection _menuCollection;
 

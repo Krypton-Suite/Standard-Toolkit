@@ -765,8 +765,8 @@ namespace Krypton.Docking
             {
                 xmlWriter.WriteStartElement("KP");
                 XmlHelper.TextToXmlAttribute(xmlWriter, @"UN", page.UniqueName);
-                XmlHelper.TextToXmlAttribute(xmlWriter, @"S", CommonHelper.BoolToString(page is KryptonStorePage)!);
-                XmlHelper.TextToXmlAttribute(xmlWriter, @"V", CommonHelper.BoolToString(page.LastVisibleSet)!, @"True");
+                XmlHelper.TextToXmlAttribute(xmlWriter, @"S", CommonHelper.BoolToString(page is KryptonStorePage));
+                XmlHelper.TextToXmlAttribute(xmlWriter, @"V", CommonHelper.BoolToString(page.LastVisibleSet), @"True");
                 xmlWriter.WriteStartElement(@"CPD");
                 var args = new DockPageSavingEventArgs(dockingManager, xmlWriter, page);
                 dockingManager?.RaisePageSaving(args);

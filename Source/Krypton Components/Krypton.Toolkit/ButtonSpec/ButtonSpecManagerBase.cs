@@ -78,7 +78,7 @@ namespace Krypton.Toolkit
             _viewMetricIntOutside = viewMetricIntOutside;
             _viewMetricIntInside = viewMetricIntInside;
             _viewMetricPaddings = viewMetricPaddings;
-            _getRenderer = getRenderer!;
+            _getRenderer = getRenderer;
 
             if (_viewMetrics != null)
             {
@@ -631,7 +631,7 @@ namespace Krypton.Toolkit
         /// <param name="buttonView">Associated ButtonSpecView instance.</param>
         /// <param name="viewDockerIndex">Index of view docker button is placed onto.</param>
         protected virtual void ButtonSpecCreated(ButtonSpec buttonSpec,
-                                                 ButtonSpecView buttonView,
+                                                 ButtonSpecView? buttonView,
                                                  int viewDockerIndex)
         {
             // Cast the remapping palette to the correct type

@@ -20,7 +20,7 @@ namespace Krypton.Toolkit
 
         #region Instance Fields
         private readonly IContextMenuProvider _provider;
-        private readonly ViewDrawMenuImageCanvas _imageCanvas;
+        private readonly ViewDrawMenuImageCanvas? _imageCanvas;
         private readonly ViewDrawContent _imageContent;
         private readonly ViewDrawMenuItemContent _textContent;
         private readonly FixedContentValue? _fixedImage;
@@ -568,7 +568,7 @@ namespace Krypton.Toolkit
 
             }
 
-            SplitSeparator?.SetPalettes(splitPalette.Back, splitPalette.Border);
+            SplitSeparator.SetPalettes(splitPalette.Back, splitPalette.Border);
 
             return base.GetPreferredSize(context);
         }

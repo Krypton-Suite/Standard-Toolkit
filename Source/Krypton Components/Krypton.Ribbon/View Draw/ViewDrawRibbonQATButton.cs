@@ -55,7 +55,7 @@ namespace Krypton.Ribbon
 
             // Attach a controller to this element for the pressing of the button
             var controller = new QATButtonController(ribbon, this, needPaint);
-            controller.Click += OnClick!;
+            controller.Click += OnClick;
             SourceController = controller;
             KeyController = controller;
 

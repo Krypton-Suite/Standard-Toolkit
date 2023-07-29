@@ -64,7 +64,7 @@ namespace Krypton.Toolkit
         private readonly ViewDrawDateTimeText _drawText;
         private readonly ViewLayoutCenter _layoutCheckBox;
         private readonly ButtonSpecManagerDraw _buttonManager;
-        private VisualPopupToolTip _visualPopupToolTip;
+        private VisualPopupToolTip? _visualPopupToolTip;
         private KryptonContextMenuMonthCalendar? _kmc;
         private InputControlStyle _inputControlStyle;
         private ButtonStyle _upDownButtonStyle;
@@ -120,14 +120,14 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Action")]
         [Description(@"Event raised when the drop down is shown.")]
-        public event EventHandler<DateTimePickerDropArgs> DropDown;
+        public event EventHandler<DateTimePickerDropArgs>? DropDown;
 
         /// <summary>
         /// Occurs when the drop down has been closed.
         /// </summary>
         [Category(@"Action")]
         [Description(@"Event raised when the drop down has been closed.")]
-        public event EventHandler<DateTimePickerCloseArgs> CloseUp;
+        public event EventHandler<DateTimePickerCloseArgs>? CloseUp;
 
         /// <summary>
         /// Occurs when the month calendar date changed whilst dropped down.
@@ -2283,7 +2283,7 @@ namespace Krypton.Toolkit
         {
             // Unhook events from the specific instance that generated event
             var popupToolTip = (VisualPopupToolTip)sender;
-            popupToolTip.Disposed -= OnVisualPopupToolTipDisposed;
+            popupToolTip.Disposed -= OnVisualPopupToolTipDisposed!;
 
             // Not showing a popup page any more
             _visualPopupToolTip = null;

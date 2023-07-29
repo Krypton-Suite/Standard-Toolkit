@@ -57,7 +57,7 @@ namespace Krypton.Toolkit
         {
             if (_disposeFont)
             {
-                Font?.Dispose();
+                Font.Dispose();
             }
             GC.SuppressFinalize(this);
         }
@@ -72,6 +72,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the drawing font.
         /// </summary>
+        [DisallowNull]
         public Font Font { get; set; }
 
         /// <summary>

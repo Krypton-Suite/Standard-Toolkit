@@ -51,8 +51,8 @@ namespace Krypton.Ribbon
             _currentSize = GroupNumericUpDown.ItemSizeCurrent;
 
             // Hook into the numeric up-down events
-            GroupNumericUpDown.MouseEnterControl += OnMouseEnterControl!;
-            GroupNumericUpDown.MouseLeaveControl += OnMouseLeaveControl!;
+            GroupNumericUpDown.MouseEnterControl += OnMouseEnterControl;
+            GroupNumericUpDown.MouseLeaveControl += OnMouseLeaveControl;
 
             // Associate this view with the source component (required for design time selection)
             Component = GroupNumericUpDown;
@@ -61,7 +61,7 @@ namespace Krypton.Ribbon
             {
                 // At design time we need to know when the user right clicks the numeric up-down
                 var controller = new ContextClickController();
-                controller.ContextClick += OnContextClick!;
+                controller.ContextClick += OnContextClick;
                 MouseController = controller;
             }
 
@@ -71,8 +71,8 @@ namespace Krypton.Ribbon
             KeyController = _controller;
 
             // We need to rest visibility of the numeric up-down for each layout cycle
-            _ribbon.ViewRibbonManager.LayoutBefore += OnLayoutAction!;
-            _ribbon.ViewRibbonManager.LayoutAfter += OnLayoutAction!;
+            _ribbon.ViewRibbonManager.LayoutBefore += OnLayoutAction;
+            _ribbon.ViewRibbonManager.LayoutAfter += OnLayoutAction;
 
             // Define back reference to view for the numeric up-down definition
             GroupNumericUpDown.NumericUpDownView = this;
@@ -81,7 +81,7 @@ namespace Krypton.Ribbon
             GroupNumericUpDown.ViewPaintDelegate = needPaint;
 
             // Hook into changes in the ribbon custom definition
-            GroupNumericUpDown.PropertyChanged += OnNumericUpDownPropertyChanged!;
+            GroupNumericUpDown.PropertyChanged += OnNumericUpDownPropertyChanged;
             NULL_CONTROL_WIDTH = (int)(50 * FactorDpiX);
         }
 
@@ -429,7 +429,7 @@ namespace Krypton.Ribbon
             set => GroupNumericUpDown.LastParentControl = value;
         }
 
-        private KryptonNumericUpDown LastNumericUpDown
+        private KryptonNumericUpDown? LastNumericUpDown
         {
             get => GroupNumericUpDown.LastNumericUpDown;
             set => GroupNumericUpDown.LastNumericUpDown = value;

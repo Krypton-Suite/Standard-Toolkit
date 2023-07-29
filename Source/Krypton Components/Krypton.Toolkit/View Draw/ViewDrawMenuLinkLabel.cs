@@ -20,7 +20,7 @@ namespace Krypton.Toolkit
         private readonly ViewDrawContent _drawContent;
         private readonly ViewLayoutDocker _outerDocker;
         private readonly ViewLayoutDocker _innerDocker;
-        private KryptonCommand _cachedCommand;
+        private KryptonCommand? _cachedCommand;
 
         #endregion
 

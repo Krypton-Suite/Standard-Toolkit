@@ -51,7 +51,7 @@ namespace Krypton.Toolkit
         private readonly ViewDrawContent _drawContent;
         private readonly ButtonSpecManagerDraw _buttonManager;
         private float _cornerRoundingRadius;
-        private VisualPopupToolTip _visualPopupToolTip;
+        private VisualPopupToolTip? _visualPopupToolTip;
 
         #endregion
 
@@ -587,7 +587,7 @@ namespace Krypton.Toolkit
                                                                      CommonHelper.ContentStyleFromLabelStyle(toolTipStyle),
                                                                      shadow);
 
-                        _visualPopupToolTip.Disposed += OnVisualPopupToolTipDisposed;
+                        _visualPopupToolTip.Disposed += OnVisualPopupToolTipDisposed!;
                         _visualPopupToolTip.ShowRelativeTo(e.Target, e.ControlMousePosition);
                     }
                 }
@@ -602,7 +602,7 @@ namespace Krypton.Toolkit
         {
             // Unhook events from the specific instance that generated event
             var popupToolTip = (VisualPopupToolTip)sender;
-            popupToolTip.Disposed -= OnVisualPopupToolTipDisposed;
+            popupToolTip.Disposed -= OnVisualPopupToolTipDisposed!;
 
             // Not showing a popup page any more
             _visualPopupToolTip = null;

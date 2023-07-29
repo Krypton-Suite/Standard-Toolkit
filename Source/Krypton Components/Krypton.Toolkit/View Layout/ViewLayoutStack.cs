@@ -73,7 +73,7 @@ namespace Krypton.Toolkit
                 if (child.Visible)
                 {
                     // Get the preferred size of the child
-                    Size childSize = child.GetPreferredSize(context!);
+                    Size childSize = child.GetPreferredSize(context);
 
                     // Depending on orientation, add up child sizes
                     if (Horizontal)
@@ -101,7 +101,7 @@ namespace Krypton.Toolkit
             Debug.Assert(context != null);
 
             // We take on all the available display area
-            ClientRectangle = context!.DisplayRectangle;
+            ClientRectangle = context.DisplayRectangle;
 
             // Maximum space available for the next child
             Rectangle childRectangle = ClientRectangle;

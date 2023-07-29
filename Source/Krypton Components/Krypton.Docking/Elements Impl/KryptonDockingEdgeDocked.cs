@@ -165,16 +165,16 @@ namespace Krypton.Docking
         {
             // Create a dockspace separator do the dockspace can be resized
             var separatorControl = new KryptonDockspaceSeparator(Edge, false);
-            separatorControl.SplitterMoveRect += OnDockspaceSeparatorMoveRect!;
-            separatorControl.SplitterMoved += OnDockspaceSeparatorMoved!;
-            separatorControl.SplitterNotMoved += OnDockspaceSeparatorNotMoved!;
-            separatorControl.Disposed += OnDockspaceSeparatorDisposed!;
+            separatorControl.SplitterMoveRect += OnDockspaceSeparatorMoveRect;
+            separatorControl.SplitterMoved += OnDockspaceSeparatorMoved;
+            separatorControl.SplitterNotMoved += OnDockspaceSeparatorNotMoved;
+            separatorControl.Disposed += OnDockspaceSeparatorDisposed;
 
             // Create and add the dockspace to the collection
             var dockspaceElement = new KryptonDockingDockspace(name, Edge, size);
-            dockspaceElement.HasVisibleCells += OnDockingDockspaceHasVisibleCells!;
-            dockspaceElement.HasNoVisibleCells += OnDockingDockspaceHasNoVisibleCells!;
-            dockspaceElement.Disposed += OnDockingDockspaceDisposed!;
+            dockspaceElement.HasVisibleCells += OnDockingDockspaceHasVisibleCells;
+            dockspaceElement.HasNoVisibleCells += OnDockingDockspaceHasNoVisibleCells;
+            dockspaceElement.Disposed += OnDockingDockspaceDisposed;
             InternalInsert(index, dockspaceElement);
 
             // Create lookup associations
@@ -308,9 +308,9 @@ namespace Krypton.Docking
         {
             // Cast to correct type and unhook event handlers so garbage collection can occur
             var dockspaceElement = (KryptonDockingDockspace)sender;
-            dockspaceElement.HasVisibleCells -= OnDockingDockspaceHasVisibleCells!;
-            dockspaceElement.HasNoVisibleCells -= OnDockingDockspaceHasNoVisibleCells!;
-            dockspaceElement.Disposed -= OnDockingDockspaceDisposed!;
+            dockspaceElement.HasVisibleCells -= OnDockingDockspaceHasVisibleCells;
+            dockspaceElement.HasNoVisibleCells -= OnDockingDockspaceHasNoVisibleCells;
+            dockspaceElement.Disposed -= OnDockingDockspaceDisposed;
 
             // Remove the element from our child collection as it is no longer valid
             InternalRemove(dockspaceElement);
@@ -330,10 +330,10 @@ namespace Krypton.Docking
         {
             // Unhook from events so the control can be garbage collected
             var separatorControl = (KryptonDockspaceSeparator)sender;
-            separatorControl.SplitterMoveRect -= OnDockspaceSeparatorMoveRect!;
-            separatorControl.SplitterMoved -= OnDockspaceSeparatorMoved!;
-            separatorControl.SplitterNotMoved -= OnDockspaceSeparatorNotMoved!;
-            separatorControl.Disposed -= OnDockspaceSeparatorDisposed!;
+            separatorControl.SplitterMoveRect -= OnDockspaceSeparatorMoveRect;
+            separatorControl.SplitterMoved -= OnDockspaceSeparatorMoved;
+            separatorControl.SplitterNotMoved -= OnDockspaceSeparatorNotMoved;
+            separatorControl.Disposed -= OnDockspaceSeparatorDisposed;
 
             // Events are generated from the parent docking manager
             KryptonDockingManager? dockingManager = DockingManager;

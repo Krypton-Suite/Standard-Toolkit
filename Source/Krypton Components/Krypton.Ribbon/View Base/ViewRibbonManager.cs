@@ -20,7 +20,7 @@ namespace Krypton.Ribbon
         private readonly KryptonRibbon _ribbon;
         private readonly ViewDrawRibbonGroupsBorderSynch _viewGroups;
         private ViewDrawRibbonGroup _activeGroup;
-        private readonly NeedPaintHandler _needPaintDelegate;
+        private readonly NeedPaintHandler? _needPaintDelegate;
         private readonly bool _minimizedMode;
         private bool _active;
         private bool _layingOut;

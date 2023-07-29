@@ -16,7 +16,7 @@ namespace Krypton.Toolkit
                                                IKryptonDesignerSelect
     {
         #region Instance Fields
-        private KryptonGroupPanel _panel;
+        private KryptonGroupPanel? _panel;
         private ISelectionService _selectionService;
         #endregion
 

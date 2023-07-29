@@ -19,8 +19,8 @@ namespace Krypton.Ribbon
         #region Instance Fields
         private readonly KryptonRibbon _ribbon;
         private readonly ViewDrawRibbonGroup _viewGroup;
-        private readonly NeedPaintHandler _needPaintDelegate;
-        private ViewBase _focusView;
+        private readonly NeedPaintHandler? _needPaintDelegate;
+        private ViewBase? _focusView;
         private bool _layingOut;
         #endregion
 
@@ -192,7 +192,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets the view that has the focus.
         /// </summary>
-        public ViewBase FocusView
+        public ViewBase? FocusView
         {
             get => _focusView;
 
@@ -202,7 +202,7 @@ namespace Krypton.Ribbon
                 if (_focusView != value)
                 {
                     // Remove focus from existing view
-                    _focusView?.LostFocus(Root.OwningControl);
+                    _focusView?.LostFocus(Root?.OwningControl);
 
                     _focusView = value;
 

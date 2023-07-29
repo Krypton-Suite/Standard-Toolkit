@@ -694,7 +694,7 @@ namespace Krypton.Docking
             xmlWriter.WriteAttributeString(@"O", Order.ToString());
             if (SpaceControl != null)
             {
-                xmlWriter.WriteAttributeString(@"S", CommonHelper.SizeToString(SpaceControl.Size)!);
+                xmlWriter.WriteAttributeString(@"S", CommonHelper.SizeToString(SpaceControl.Size));
 
                 // Output an xml for the contained workspace
                 SpaceControl.PageSaving += OnSpaceControlPageSaving;

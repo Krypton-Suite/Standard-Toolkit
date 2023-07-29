@@ -19,7 +19,7 @@ namespace Krypton.Navigator
     {
         #region Instance Fields
         private ViewDrawDocker _viewGroup;
-        private ViewletHeaderGroup _headerGroup;
+        private ViewletHeaderGroup? _headerGroup;
         #endregion
 
         #region Public
@@ -261,7 +261,7 @@ namespace Krypton.Navigator
         public override void UpdateStatePalettes()
         {
             // Update palettes for the header group
-            _headerGroup.UpdateStatePalettes();
+            _headerGroup?.UpdateStatePalettes();
 
             // Let base class do standard work
             base.UpdateStatePalettes();
@@ -273,7 +273,7 @@ namespace Krypton.Navigator
         /// <returns>Point in screen coordinates.</returns>
         public override Point GetContextShowPoint() =>
             // Ask the header group for screen point of context button
-            _headerGroup.GetContextShowPoint();
+            _headerGroup!.GetContextShowPoint();
 
         /// <summary>
         /// Is the provided over a part of the view that wants the mouse.
@@ -282,7 +282,7 @@ namespace Krypton.Navigator
         /// <returns>True if the view wants the mouse position; otherwise false.</returns>
         public override bool DesignerGetHitTest(Point pt) =>
             // Check if any of the button specs want the point
-            _headerGroup.DesignerGetHitTest(pt) || base.DesignerGetHitTest(pt);
+            _headerGroup!.DesignerGetHitTest(pt) || base.DesignerGetHitTest(pt);
 
         // Let base class search individual stack items
         /// <summary>
@@ -293,7 +293,7 @@ namespace Krypton.Navigator
         public override ButtonEnabled NextActionEnabled(DirectionButtonAction action)
         {
             // Ask the header group to update the action
-            action = _headerGroup.NextActionEnabled(action);
+            action = _headerGroup!.NextActionEnabled(action);
 
             // Let base class perform basic action calculations
             return base.NextActionEnabled(action);
@@ -307,7 +307,7 @@ namespace Krypton.Navigator
         public override void PerformNextAction(DirectionButtonAction action, KryptonPage? page)
         {
             // Ask the header group to update the action
-            action = _headerGroup.NextActionEnabled(action);
+            action = _headerGroup!.NextActionEnabled(action);
 
             // Let base class perform basic actions
             base.PerformNextAction(action, page);
@@ -321,7 +321,7 @@ namespace Krypton.Navigator
         public override ButtonEnabled PreviousActionEnabled(DirectionButtonAction action)
         {
             // Ask the header group to update the action
-            action = _headerGroup.PreviousActionEnabled(action);
+            action = _headerGroup!.PreviousActionEnabled(action);
 
             // Let base class perform basic action calculations
             return base.PreviousActionEnabled(action);
@@ -335,7 +335,7 @@ namespace Krypton.Navigator
         public override void PerformPreviousAction(DirectionButtonAction action, KryptonPage? page)
         {
             // Ask the header group to update the action
-            action = _headerGroup.PreviousActionEnabled(action);
+            action = _headerGroup!.PreviousActionEnabled(action);
 
             // Let base class perform basic actions
             base.PerformPreviousAction(action, page);

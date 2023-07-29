@@ -184,7 +184,7 @@ namespace Krypton.Toolkit
             int rowIndex,
             DataGridViewElementStates cellState,
             object value,
-            object formattedValue,
+            object? formattedValue,
             string errorText,
             DataGridViewCellStyle cellStyle,
             DataGridViewAdvancedBorderStyle advancedBorderStyle,

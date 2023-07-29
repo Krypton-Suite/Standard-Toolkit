@@ -266,7 +266,7 @@ namespace Krypton.Ribbon
             {
                 // At design time we need to know when the user right clicks the label
                 var controller = new ContextClickController();
-                controller.ContextClick += OnContextClick!;
+                controller.ContextClick += OnContextClick;
                 _viewLarge.MouseController = controller;
             }
 
@@ -303,7 +303,7 @@ namespace Krypton.Ribbon
             {
                 // At design time we need to know when the user right clicks the label
                 var controller = new ContextClickController();
-                controller.ContextClick += OnContextClick!;
+                controller.ContextClick += OnContextClick;
                 _viewMediumSmall.MouseController = controller;
             }
 

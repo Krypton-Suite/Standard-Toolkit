@@ -51,8 +51,8 @@ namespace Krypton.Ribbon
             _currentSize = GroupDateTimePicker.ItemSizeCurrent;
 
             // Hook into the date time picker events
-            GroupDateTimePicker.MouseEnterControl += OnMouseEnterControl!;
-            GroupDateTimePicker.MouseLeaveControl += OnMouseLeaveControl!;
+            GroupDateTimePicker.MouseEnterControl += OnMouseEnterControl;
+            GroupDateTimePicker.MouseLeaveControl += OnMouseLeaveControl;
 
             // Associate this view with the source component (required for design time selection)
             Component = GroupDateTimePicker;
@@ -61,7 +61,7 @@ namespace Krypton.Ribbon
             {
                 // At design time we need to know when the user right clicks the date time picker
                 var controller = new ContextClickController();
-                controller.ContextClick += OnContextClick!;
+                controller.ContextClick += OnContextClick;
                 MouseController = controller;
             }
 
@@ -71,8 +71,8 @@ namespace Krypton.Ribbon
             KeyController = _controller;
 
             // We need to rest visibility of the date time picker for each layout cycle
-            _ribbon.ViewRibbonManager.LayoutBefore += OnLayoutAction!;
-            _ribbon.ViewRibbonManager.LayoutAfter += OnLayoutAction!;
+            _ribbon.ViewRibbonManager.LayoutBefore += OnLayoutAction;
+            _ribbon.ViewRibbonManager.LayoutAfter += OnLayoutAction;
 
             // Define back reference to view for the text box definition
             GroupDateTimePicker.DateTimePickerView = this;
@@ -429,7 +429,7 @@ namespace Krypton.Ribbon
             set => GroupDateTimePicker.LastParentControl = value;
         }
 
-        private KryptonDateTimePicker LastDateTimePicker
+        private KryptonDateTimePicker? LastDateTimePicker
         {
             get => GroupDateTimePicker.LastDateTimePicker;
             set => GroupDateTimePicker.LastDateTimePicker = value;

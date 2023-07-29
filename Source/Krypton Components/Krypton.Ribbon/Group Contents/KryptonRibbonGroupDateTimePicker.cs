@@ -66,14 +66,14 @@ namespace Krypton.Ribbon
         /// </summary>
         [Category(@"Action")]
         [Description(@"Event raised when the drop down is shown.")]
-        public event EventHandler<DateTimePickerDropArgs> DropDown;
+        public event EventHandler<DateTimePickerDropArgs>? DropDown;
 
         /// <summary>
         /// Occurs when the drop down has been closed.
         /// </summary>
         [Category(@"Action")]
         [Description(@"Event raised when the drop down has been closed.")]
-        public event EventHandler<DateTimePickerCloseArgs> CloseUp;
+        public event EventHandler<DateTimePickerCloseArgs>? CloseUp;
 
         /// <summary>
         /// Occurs when the Checked property has changed value.
@@ -931,9 +931,9 @@ namespace Krypton.Ribbon
         #region Internal
         internal Control LastParentControl { get; set; }
 
-        internal KryptonDateTimePicker LastDateTimePicker { get; set; }
+        internal KryptonDateTimePicker? LastDateTimePicker { get; set; }
 
-        internal NeedPaintHandler ViewPaintDelegate { get; set; }
+        internal NeedPaintHandler? ViewPaintDelegate { get; set; }
 
         internal void OnDesignTimeContextMenu(MouseEventArgs e) => DesignTimeContextMenu?.Invoke(this, e);
 

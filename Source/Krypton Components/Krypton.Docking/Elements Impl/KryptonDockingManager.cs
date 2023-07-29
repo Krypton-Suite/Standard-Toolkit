@@ -1856,7 +1856,7 @@ namespace Krypton.Docking
                     {
                         Tag = page.UniqueName
                     };
-                    floatingItem.Click += OnDropDownFloatingClicked!;
+                    floatingItem.Click += OnDropDownFloatingClicked;
                     floatingItem.Enabled = ((location != DockingLocation.Floating) && (page.AreFlagsSet(KryptonPageFlags.DockingAllowFloating)));
                     options.Items.Add(floatingItem);
                     retDisplay = true;
@@ -1870,7 +1870,7 @@ namespace Krypton.Docking
                     {
                         Tag = page.UniqueName
                     };
-                    dockedItem.Click += OnDropDownDockedClicked!;
+                    dockedItem.Click += OnDropDownDockedClicked;
                     dockedItem.Enabled = ((location != DockingLocation.Docked) && (page.AreFlagsSet(KryptonPageFlags.DockingAllowDocked)));
                     options.Items.Add(dockedItem);
                     retDisplay = true;
@@ -1884,7 +1884,7 @@ namespace Krypton.Docking
                     {
                         Tag = page.UniqueName
                     };
-                    workspaceItem.Click += OnDropDownWorkspaceClicked!;
+                    workspaceItem.Click += OnDropDownWorkspaceClicked;
                     workspaceItem.Enabled = ((location != DockingLocation.Workspace) && (page.AreFlagsSet(KryptonPageFlags.DockingAllowWorkspace)));
                     options.Items.Add(workspaceItem);
                     retDisplay = true;
@@ -1899,7 +1899,7 @@ namespace Krypton.Docking
                         {
                             Tag = page.UniqueName
                         };
-                        workspaceItem.Click += OnDropDownNavigatorClicked!;
+                        workspaceItem.Click += OnDropDownNavigatorClicked;
                         workspaceItem.Enabled = ((location != DockingLocation.Navigator) && (page.AreFlagsSet(KryptonPageFlags.DockingAllowNavigator)));
                         options.Items.Add(workspaceItem);
                         retDisplay = true;
@@ -1914,7 +1914,7 @@ namespace Krypton.Docking
                     {
                         Tag = page.UniqueName
                     };
-                    autoHiddenItem.Click += OnDropDownAutoHiddenClicked!;
+                    autoHiddenItem.Click += OnDropDownAutoHiddenClicked;
                     autoHiddenItem.Enabled = ((location != DockingLocation.AutoHidden) && (page.AreFlagsSet(KryptonPageFlags.DockingAllowAutoHidden)));
                     options.Items.Add(autoHiddenItem);
                     retDisplay = true;
@@ -1928,7 +1928,7 @@ namespace Krypton.Docking
                     {
                         Tag = page.UniqueName
                     };
-                    closeItem.Click += OnDropDownCloseClicked!;
+                    closeItem.Click += OnDropDownCloseClicked;
                     options.Items.Add(closeItem);
                     retDisplay = true;
                 }
@@ -4033,7 +4033,7 @@ namespace Krypton.Docking
         private void InitializeManager()
         {
             Strings = new DockingManagerStrings(this);
-            Strings.PropertyChanged += OnStringPropertyChanged!;
+            Strings.PropertyChanged += OnStringPropertyChanged;
             DefaultCloseRequest = DockingCloseRequest.HidePage;
         }
 

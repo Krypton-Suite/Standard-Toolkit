@@ -532,7 +532,7 @@ namespace Krypton.Toolkit
                 {
                     Control control = FromHandle(_showOwner.Handle);
 
-                    MethodInfo mInfoMethod = control.GetType().GetMethod(nameof(OnHelpRequested), BindingFlags.Instance | BindingFlags.NonPublic,
+                    MethodInfo? mInfoMethod = control.GetType().GetMethod(nameof(OnHelpRequested), BindingFlags.Instance | BindingFlags.NonPublic,
                         Type.DefaultBinder, new[] { typeof(HelpEventArgs) }, null)!;
                     mInfoMethod?.Invoke(control, new object[] { new HelpEventArgs(MousePosition) });
                     if (_helpInfo != null)

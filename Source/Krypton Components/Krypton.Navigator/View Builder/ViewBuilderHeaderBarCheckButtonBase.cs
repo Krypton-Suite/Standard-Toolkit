@@ -114,8 +114,11 @@ namespace Krypton.Navigator
             }
 
             // Update with correct state specific palettes
-            _viewHeadingBar.SetPalettes(paletteState.HeaderGroup.HeaderBar.Back,
-                                        paletteState.HeaderGroup.HeaderBar.Border);
+            if (paletteState?.HeaderGroup != null)
+            {
+                _viewHeadingBar.SetPalettes(paletteState.HeaderGroup.HeaderBar.Back,
+                    paletteState.HeaderGroup.HeaderBar.Border);
+            }
 
             // Update with correct enabled state
             _viewHeadingBar.Enabled = enabled;
@@ -145,7 +148,7 @@ namespace Krypton.Navigator
                 case @"HeaderPositionBar":
                     UpdateOrientation();
                     UpdateItemOrientation();
-                    _buttonManager?.RecreateButtons();
+                    _buttonManager.RecreateButtons();
                     Navigator.PerformNeedPaint(true);
                     break;
                 default:
@@ -156,7 +159,7 @@ namespace Krypton.Navigator
         }
 
         /// <summary>
-        /// Gets the visual orientation of the check buttton.
+        /// Gets the visual orientation of the check button.
         /// </summary>
         /// <returns>Visual orientation.</returns>
         protected override VisualOrientation ConvertButtonBorderBackOrientation() => ResolveButtonContentOrientation(Navigator.Header.HeaderPositionBar);

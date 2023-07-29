@@ -25,8 +25,8 @@ namespace Krypton.Navigator
         /// <param name="dragEndData">Pages data being dragged.</param>
         public void AddRange(IDragTargetProvider provider, PageDragEndData? dragEndData)
         {
-            DragTargetList? targets = provider?.GenerateDragTargets(dragEndData);
-            if (targets is { Count: > 0 })
+            DragTargetList targets = provider.GenerateDragTargets(dragEndData);
+            if (targets.Count > 0)
             {
                 AddRange(targets);
             }

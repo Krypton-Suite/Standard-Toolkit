@@ -74,7 +74,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Static Fields
-        private ObscurerForm _obscurer;
+        private ObscurerForm? _obscurer;
         #endregion
 
         #region Identity

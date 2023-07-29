@@ -17,9 +17,9 @@ namespace Krypton.Toolkit
     /// </summary>
     [ToolboxItem(false)]
     [DesignerCategory(@"code")]
+    [TypeConverter(typeof(ExpandableObjectConverter))]
     public class ToolTipValues : HeaderValues
     {
-        private LabelStyle _toolTipStyle = LabelStyle.SuperTip;
         private int _showIntervalDelay = 500;
         private int _closeIntervalDelay = 5000;
 
@@ -49,8 +49,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// 
         /// </summary>
-        public void ResetEnableToolTips()
-        => EnableToolTips = false;
+        public void ResetEnableToolTips() => EnableToolTips = false;
         #endregion
 
         #region ToolTipShadow
@@ -90,11 +89,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Description(@"Button tooltip label style.")]
         [DefaultValue(typeof(LabelStyle), "SuperTip")]
-        public LabelStyle ToolTipStyle
-        {
-            get => _toolTipStyle;
-            set => _toolTipStyle = value;
-        }
+        public LabelStyle ToolTipStyle { get; set; } = LabelStyle.SuperTip;
 
         private bool ShouldSerializeToolTipStyle() => ToolTipStyle != LabelStyle.SuperTip;
 

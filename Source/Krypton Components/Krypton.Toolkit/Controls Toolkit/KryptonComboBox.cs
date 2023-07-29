@@ -799,7 +799,7 @@ namespace Krypton.Toolkit
 
         #region Instance Fields
 
-        private VisualPopupToolTip _visualPopupToolTip;
+        private VisualPopupToolTip? _visualPopupToolTip;
         private readonly ButtonSpecManagerLayout _buttonManager;
         private readonly ViewLayoutDocker _drawDockerInner;
         private readonly ViewDrawDocker _drawDockerOuter;
@@ -1298,7 +1298,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         [EditorBrowsable(EditorBrowsableState.Always)]
         [Browsable(false)]
-        public ComboBox ComboBox => _comboBox;
+        public ComboBox? ComboBox => _comboBox;
 
         /// <summary>
         /// Gets access to the contained input control.
@@ -3079,7 +3079,7 @@ namespace Krypton.Toolkit
                                                                      CommonHelper.ContentStyleFromLabelStyle(toolTipStyle),
                                                                      shadow);
 
-                        _visualPopupToolTip.Disposed += OnVisualPopupToolTipDisposed;
+                        _visualPopupToolTip.Disposed += OnVisualPopupToolTipDisposed!;
                         _visualPopupToolTip.ShowRelativeTo(e.Target, e.ControlMousePosition);
                     }
                 }
@@ -3093,7 +3093,7 @@ namespace Krypton.Toolkit
         {
             // Unhook events from the specific instance that generated event
             var popupToolTip = (VisualPopupToolTip)sender;
-            popupToolTip.Disposed -= OnVisualPopupToolTipDisposed;
+            popupToolTip.Disposed -= OnVisualPopupToolTipDisposed!;
 
             // Not showing a popup page any more
             _visualPopupToolTip = null;

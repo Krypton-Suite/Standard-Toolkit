@@ -51,8 +51,8 @@ namespace Krypton.Ribbon
             _currentSize = GroupRichTextBox.ItemSizeCurrent;
 
             // Hook into the richtextbox events
-            GroupRichTextBox.MouseEnterControl += OnMouseEnterControl!;
-            GroupRichTextBox.MouseLeaveControl += OnMouseLeaveControl!;
+            GroupRichTextBox.MouseEnterControl += OnMouseEnterControl;
+            GroupRichTextBox.MouseLeaveControl += OnMouseLeaveControl;
 
             // Associate this view with the source component (required for design time selection)
             Component = GroupRichTextBox;
@@ -61,7 +61,7 @@ namespace Krypton.Ribbon
             {
                 // At design time we need to know when the user right clicks the textbox
                 var controller = new ContextClickController();
-                controller.ContextClick += OnContextClick!;
+                controller.ContextClick += OnContextClick;
                 MouseController = controller;
             }
 
@@ -71,8 +71,8 @@ namespace Krypton.Ribbon
             KeyController = _controller;
 
             // We need to rest visibility of the richtextbox for each layout cycle
-            _ribbon.ViewRibbonManager.LayoutBefore += OnLayoutAction!;
-            _ribbon.ViewRibbonManager.LayoutAfter += OnLayoutAction!;
+            _ribbon.ViewRibbonManager.LayoutBefore += OnLayoutAction;
+            _ribbon.ViewRibbonManager.LayoutAfter += OnLayoutAction;
 
             // Define back reference to view for the rich text box definition
             GroupRichTextBox.RichTextBoxView = this;
@@ -81,7 +81,7 @@ namespace Krypton.Ribbon
             GroupRichTextBox.ViewPaintDelegate = needPaint;
 
             // Hook into changes in the ribbon custom definition
-            GroupRichTextBox.PropertyChanged += OnRichTextBoxPropertyChanged!;
+            GroupRichTextBox.PropertyChanged += OnRichTextBoxPropertyChanged;
             NULL_CONTROL_WIDTH = (int)(50 * FactorDpiX);
         }
 
@@ -429,7 +429,7 @@ namespace Krypton.Ribbon
             set => GroupRichTextBox.LastParentControl = value;
         }
 
-        private KryptonRichTextBox LastRichTextBox
+        private KryptonRichTextBox? LastRichTextBox
         {
             get => GroupRichTextBox.LastRichTextBox;
             set => GroupRichTextBox.LastRichTextBox = value;

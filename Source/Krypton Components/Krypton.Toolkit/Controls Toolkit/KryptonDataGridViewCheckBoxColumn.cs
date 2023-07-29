@@ -243,11 +243,11 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Private
-        private KryptonDataGridViewCheckBoxCell CheckBoxCellTemplate => (KryptonDataGridViewCheckBoxCell)CellTemplate;
+        private KryptonDataGridViewCheckBoxCell? CheckBoxCellTemplate => (KryptonDataGridViewCheckBoxCell)CellTemplate;
 
         private bool ShouldSerializeCellTemplate()
         {
-            KryptonDataGridViewCheckBoxCell cellTemplate = CheckBoxCellTemplate;
+            KryptonDataGridViewCheckBoxCell? cellTemplate = CheckBoxCellTemplate;
             if (cellTemplate != null)
             {
                 object indeterminate;

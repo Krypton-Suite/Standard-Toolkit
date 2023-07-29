@@ -634,9 +634,9 @@ namespace Krypton.Ribbon
         #region Internal
         internal Control LastParentControl { get; set; }
 
-        internal KryptonDomainUpDown LastDomainUpDown { get; set; }
+        internal KryptonDomainUpDown? LastDomainUpDown { get; set; }
 
-        internal NeedPaintHandler ViewPaintDelegate { get; set; }
+        internal NeedPaintHandler? ViewPaintDelegate { get; set; }
 
         internal void OnDesignTimeContextMenu(MouseEventArgs e) => DesignTimeContextMenu?.Invoke(this, e);
 

@@ -23,7 +23,7 @@ namespace Krypton.Toolkit
     public class KryptonTaskDialog : Component, INotifyPropertyChanged
     {
         #region Instance Fields
-        private VisualTaskDialog _taskDialog;
+        private VisualTaskDialog? _taskDialog;
         private string _windowTitle;
         private string _mainInstruction;
         private string _content;

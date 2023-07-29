@@ -724,7 +724,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Small utility function that returns the template cell as a KryptonDataGridViewMaskedTextBoxCell
         /// </summary>
-        private KryptonDataGridViewMaskedTextBoxCell MaskedTextBoxCellTemplate => (KryptonDataGridViewMaskedTextBoxCell)CellTemplate;
+        private KryptonDataGridViewMaskedTextBoxCell? MaskedTextBoxCellTemplate => (KryptonDataGridViewMaskedTextBoxCell)CellTemplate;
 
         #endregion
 

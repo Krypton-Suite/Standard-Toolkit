@@ -36,7 +36,7 @@ namespace Krypton.Toolkit
         /// <param name="getRenderer">Delegate for returning a tool strip renderer.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
         public ButtonSpecManagerLayout(Control control,
-                                       PaletteRedirect? redirector,
+            [DisallowNull] PaletteRedirect? redirector,
                                        ButtonSpecCollectionBase? variableSpecs,
                                        ButtonSpecCollectionBase? fixedSpecs,
                                        ViewLayoutDocker[] viewDockers,

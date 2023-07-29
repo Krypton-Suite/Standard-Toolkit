@@ -67,7 +67,7 @@ namespace Krypton.Docking
 
             // By default the new cell does not have focus and so should have standard looking tabs
             cell.Bar.TabStyle = TabStyle.StandardProfile;
-            cell.CloseAction += OnCellCloseAction!;
+            cell.CloseAction += OnCellCloseAction;
         }
 
         /// <summary>

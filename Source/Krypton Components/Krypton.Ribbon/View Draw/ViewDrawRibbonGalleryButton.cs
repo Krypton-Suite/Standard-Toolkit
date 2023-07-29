@@ -64,7 +64,7 @@ namespace Krypton.Ribbon
             _paletteBorder = new PaletteBorderToPalette(palette, PaletteBorderStyle.ButtonGallery);
             _paletteContent = new PaletteContentToPalette(palette, PaletteContentStyle.ButtonGallery);
             _controller = new GalleryButtonController(this, needPaint, alignment != PaletteRelativeAlign.Far);
-            _controller.Click += OnButtonClick!;
+            _controller.Click += OnButtonClick;
             base.MouseController = _controller;
         }
 

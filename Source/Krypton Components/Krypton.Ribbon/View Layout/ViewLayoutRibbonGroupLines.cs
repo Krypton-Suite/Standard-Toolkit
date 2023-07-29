@@ -100,14 +100,14 @@ namespace Krypton.Ribbon
             ApplySize(ribbonLines.ItemSizeCurrent);
 
             // Hook into changes in the ribbon triple definition
-            _ribbonLines.PropertyChanged += OnLinesPropertyChanged!;
+            _ribbonLines.PropertyChanged += OnLinesPropertyChanged;
             _ribbonLines.LinesView = this;
 
             // At design time we want to track the mouse and show feedback
             if (_ribbon.InDesignMode)
             {
                 var controller = new ViewHightlightController(this, needPaint);
-                controller.ContextClick += OnContextClick!;
+                controller.ContextClick += OnContextClick;
                 MouseController = controller;
             }
         }
