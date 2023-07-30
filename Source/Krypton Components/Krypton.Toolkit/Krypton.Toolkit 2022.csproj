@@ -404,6 +404,11 @@
             <AutoGen>True</AutoGen>
             <DependentUpon>SystemToolbarImageResources.resx</DependentUpon>
         </Compile>
+        <Compile Update="ResourceFiles\Toolbars\VisualStudioToolbarImageResources.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>VisualStudioToolbarImageResources.resx</DependentUpon>
+        </Compile>
         <Compile Update="ResourceFiles\TreeItems\TreeItemImageResources.Designer.cs">
             <DesignTime>True</DesignTime>
             <AutoGen>True</AutoGen>
@@ -777,6 +782,10 @@
         <EmbeddedResource Update="ResourceFiles\Toolbars\SystemToolbarImageResources.resx">
             <Generator>ResXFileCodeGenerator</Generator>
             <LastGenOutput>SystemToolbarImageResources.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="ResourceFiles\Toolbars\VisualStudioToolbarImageResources.resx">
+          <Generator>ResXFileCodeGenerator</Generator>
+          <LastGenOutput>VisualStudioToolbarImageResources.Designer.cs</LastGenOutput>
         </EmbeddedResource>
         <EmbeddedResource Update="ResourceFiles\TreeItems\TreeItemImageResources.resx">
             <Generator>ResXFileCodeGenerator</Generator>
