@@ -89,9 +89,7 @@
         <Compile Update="Controls Toolkit\KryptonListItem.cs">
             <SubType>Component</SubType>
         </Compile>
-        <Compile Update="ContextMenu\KryptonContextMenuItemBase.cs">
-            <SubType>Component</SubType>
-        </Compile>
+        <Compile Update="ContextMenu\KryptonContextMenuItemBase.cs" />
         <Compile Update="ButtonSpec\ButtonSpecAny.cs">
             <SubType>Component</SubType>
         </Compile>

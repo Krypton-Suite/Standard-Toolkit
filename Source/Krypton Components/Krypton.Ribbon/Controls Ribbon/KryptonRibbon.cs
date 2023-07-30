@@ -2739,7 +2739,7 @@ namespace Krypton.Ribbon
             };
             _qatBelowRibbon.Add(_qatBelowContents);
 
-            // Separator used at bottom of tabs when ribbon is minized
+            // Separator used at bottom of tabs when ribbon is minimized
             _minimizeBar = new ViewDrawRibbonMinimizeBar(StateCommon.RibbonGeneral)
             {
                 Visible = false
