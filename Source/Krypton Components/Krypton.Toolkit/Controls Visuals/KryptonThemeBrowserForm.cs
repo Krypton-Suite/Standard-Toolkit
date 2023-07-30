@@ -14,6 +14,7 @@ namespace Krypton.Toolkit
 
         /// <summary>Initializes a new instance of the <see cref="KryptonThemeBrowserForm" /> class.</summary>
         /// <param name="startPosition">The start position.</param>
+        /// <param name="startIndex"></param>
         public KryptonThemeBrowserForm(FormStartPosition? startPosition = FormStartPosition.CenterScreen, int? startIndex = 33)
         {
             InitializeComponent();
@@ -21,6 +22,14 @@ namespace Krypton.Toolkit
             StartPosition = startPosition ?? FormStartPosition.CenterScreen;
 
             klbThemeList.SelectedItem = startIndex ?? ThemeManager.GetThemeIndex();
+
+            kbtnImport.Text = KryptonLanguageManager.CustomToolkitStrings.Import;
+
+            kbtnOK.Text = KryptonLanguageManager.GeneralToolkitStrings.OK;
+
+            kbtnCancel.Text = KryptonLanguageManager.GeneralToolkitStrings.Cancel;
+
+            Text = KryptonLanguageManager.CustomThemeStrings.ThemeBrowserWindowTitleText;
         }
 
         #endregion

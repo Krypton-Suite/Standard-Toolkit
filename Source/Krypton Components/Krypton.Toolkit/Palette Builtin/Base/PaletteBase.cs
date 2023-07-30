@@ -26,6 +26,7 @@ namespace Krypton.Toolkit
         private Padding? _inputControlPadding;
         private PaletteDragFeedback _dragFeedback;
         private string _themeName;
+        private Image[] _buttonSpecImages;
 
         private readonly Font _defaultFontStyle = new Font("Segoe UI", 9f, FontStyle.Regular);
 
@@ -92,7 +93,33 @@ namespace Krypton.Toolkit
             // Inherit means we need to calculate the value next time it is requested
             _dragFeedback = PaletteDragFeedback.Inherit;
 
-            _themeName = null;
+            _themeName = string.Empty;
+
+            _useKryptonFileDialogs = false;
+
+            _baseFont = _defaultFontStyle;
+
+            _baseFontSize = 9f;
+        }
+
+        /// <summary>Initializes a new instance of the <see cref="PaletteBase" /> class.</summary>
+        /// <param name="buttonSpecImages">The button spec images.</param>
+        protected PaletteBase([DisallowNull] Image[] buttonSpecImages)
+        {
+            Debug.Assert(buttonSpecImages != null);
+
+            if (buttonSpecImages != null)
+            {
+                _buttonSpecImages = buttonSpecImages;
+            }
+
+            // We need to notice when system color settings change
+            SystemEvents.UserPreferenceChanged += OnUserPreferenceChanged;
+
+            // Inherit means we need to calculate the value next time it is requested
+            _dragFeedback = PaletteDragFeedback.Inherit;
+
+            _themeName = string.Empty;
 
             _useKryptonFileDialogs = false;
 
@@ -806,13 +833,89 @@ namespace Krypton.Toolkit
             }
         }
 
+        // TODO: Use 'PaletteButtonSpecStyle' values as indices instead of numbers
         /// <summary>
         /// Gets the image to display for the button.
         /// </summary>
         /// <param name="style">Style of button spec.</param>
         /// <param name="state">State for which image is required.</param>
         /// <returns>Image value.</returns>
-        public abstract Image? GetButtonSpecImage(PaletteButtonSpecStyle style, PaletteState state);
+        public virtual Image? GetButtonSpecImage(PaletteButtonSpecStyle style, PaletteState state)
+        {
+            switch (style)
+            {
+                case PaletteButtonSpecStyle.Close:
+                    return ReturnButtonSpecImageArray()[0];
+                case PaletteButtonSpecStyle.Context:
+                    return ReturnButtonSpecImageArray()[1];
+                case PaletteButtonSpecStyle.Next:
+                    return ReturnButtonSpecImageArray()[2];
+                case PaletteButtonSpecStyle.Previous:
+                    return ReturnButtonSpecImageArray()[3];
+                case PaletteButtonSpecStyle.ArrowLeft:
+                    return ReturnButtonSpecImageArray()[4];
+                case PaletteButtonSpecStyle.ArrowRight:
+                    return ReturnButtonSpecImageArray()[5];
+                case PaletteButtonSpecStyle.ArrowUp:
+                    return ReturnButtonSpecImageArray()[6];
+                case PaletteButtonSpecStyle.ArrowDown:
+                    return ReturnButtonSpecImageArray()[7];
+                case PaletteButtonSpecStyle.DropDown:
+                    return ReturnButtonSpecImageArray()[8];
+                case PaletteButtonSpecStyle.PinVertical:
+                    return ReturnButtonSpecImageArray()[9];
+                case PaletteButtonSpecStyle.PinHorizontal:
+                    return ReturnButtonSpecImageArray()[10];
+                case PaletteButtonSpecStyle.PendantClose:
+                    return ReturnButtonSpecImageArray()[11];
+                case PaletteButtonSpecStyle.PendantMin:
+                    return ReturnButtonSpecImageArray()[12];
+                case PaletteButtonSpecStyle.PendantRestore:
+                    return ReturnButtonSpecImageArray()[13];
+                case PaletteButtonSpecStyle.WorkspaceMaximize:
+                    return ReturnButtonSpecImageArray()[14];
+                case PaletteButtonSpecStyle.WorkspaceRestore:
+                    return ReturnButtonSpecImageArray()[15];
+                case PaletteButtonSpecStyle.RibbonMinimize:
+                    return ReturnButtonSpecImageArray()[16];
+                case PaletteButtonSpecStyle.RibbonExpand:
+                    return ReturnButtonSpecImageArray()[17];
+                case PaletteButtonSpecStyle.New:
+                    return ReturnButtonSpecImageArray()[18];
+                case PaletteButtonSpecStyle.Open:
+                    return ReturnButtonSpecImageArray()[19];
+                case PaletteButtonSpecStyle.Save:
+                    return ReturnButtonSpecImageArray()[20];
+                case PaletteButtonSpecStyle.SaveAs:
+                    return ReturnButtonSpecImageArray()[21];
+                case PaletteButtonSpecStyle.SaveAll:
+                    return ReturnButtonSpecImageArray()[22];
+                case PaletteButtonSpecStyle.Cut:
+                    return ReturnButtonSpecImageArray()[23];
+                case PaletteButtonSpecStyle.Copy:
+                    return ReturnButtonSpecImageArray()[24];
+                case PaletteButtonSpecStyle.Paste:
+                    return ReturnButtonSpecImageArray()[25];
+                case PaletteButtonSpecStyle.Undo:
+                    return ReturnButtonSpecImageArray()[26];
+                case PaletteButtonSpecStyle.Redo:
+                    return ReturnButtonSpecImageArray()[27];
+                case PaletteButtonSpecStyle.PageSetup:
+                    return ReturnButtonSpecImageArray()[28];
+                case PaletteButtonSpecStyle.PrintPreview:
+                    return ReturnButtonSpecImageArray()[29];
+                case PaletteButtonSpecStyle.Print:
+                    return ReturnButtonSpecImageArray()[30];
+                case PaletteButtonSpecStyle.QuickPrint:
+                    return ReturnButtonSpecImageArray()[31];
+                case PaletteButtonSpecStyle.Generic:
+                    return null;
+                default:
+                    // Should never happen!
+                    Debug.Assert(false);
+                    return null;
+            }
+        }
 
         /// <summary>
         /// Gets the image transparent color.
@@ -1378,6 +1481,10 @@ namespace Krypton.Toolkit
                     return PaletteButtonOrientation.Auto;
             }
         }
+
+        /// <summary>Returns the button spec image array.</summary>
+        /// <returns></returns>
+        private Image[] ReturnButtonSpecImageArray() => _buttonSpecImages;
 
         #endregion
 

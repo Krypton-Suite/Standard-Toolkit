@@ -25,6 +25,7 @@ namespace Krypton.Ribbon
         private readonly Padding _borderPadding2010; // = new(1, 1, 1, 3);
         private readonly Padding _borderPadding2013; // = new(1, 1, 1, 0);
         private readonly Padding _borderPadding365; // = new(1, 1, 1, 0);
+        private readonly Padding _borderPaddingVisualStudio;
         private IPaletteRibbonBack _inherit;
         private IDisposable _memento;
         private readonly bool _borderOutside;
@@ -52,6 +53,7 @@ namespace Krypton.Ribbon
             _borderPadding2010 = new Padding((int)(1 * FactorDpiX), (int)(1 * FactorDpiY), (int)(1 * FactorDpiX), (int)(3 * FactorDpiY));
             _borderPadding2013 = new Padding((int)(1 * FactorDpiX), (int)(1 * FactorDpiY), (int)(1 * FactorDpiX), 0);
             _borderPadding365 = new Padding((int)(1 * FactorDpiX), (int)(1 * FactorDpiY), (int)(1 * FactorDpiX), 0);
+            _borderPaddingVisualStudio = new Padding((int)(1 * FactorDpiX), (int)(1 * FactorDpiY), (int)(1 * FactorDpiX), 0);
         }
 
         /// <summary>
@@ -100,6 +102,7 @@ namespace Krypton.Ribbon
                     PaletteRibbonShape.Office2010 => _borderPadding2010,
                     PaletteRibbonShape.Office2013 => _borderPadding2013,
                     PaletteRibbonShape.Microsoft365 => _borderPadding365,
+                    PaletteRibbonShape.VisualStudio => _borderPaddingVisualStudio,
                     _ => _borderPadding2007
                 };
             }

@@ -382,6 +382,20 @@ namespace Krypton.Toolkit
         /// <summary>Resets the tab style strings.</summary>
         public void ResetTabStyleStrings() => TabStyles.Reset();
 
+        /// <summary>Gets the custom theme strings.</summary>
+        /// <value>The custom theme strings.</value>
+        [Category(@"Visuals")]
+        [Description(@"Collection of custom theme strings.")]
+        [MergableProperty(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        [Localizable(true)]
+        public CustomThemeStrings ThemeStrings => CustomThemeStrings;
+
+        private bool ShouldSerializeThemeStrings() => !CustomThemeStrings.IsDefault;
+
+        /// <summary>Resets the theme strings.</summary>
+        public void ResetThemeStrings() => CustomThemeStrings.ResetValues();
+
         /// <summary>Gets the scrollbar strings.</summary>
         /// <value>The scrollbar strings.</value>
         [Category(@"Visuals")]
@@ -408,6 +422,8 @@ namespace Krypton.Toolkit
         /// <value>The spec style strings.</value>
         public static ButtonStyleStrings ButtonStyles { get; } = new ButtonStyleStrings();
 
+        /// <summary>Gets the custom toolkit strings.</summary>
+        /// <value>The custom toolkit strings.</value>
         public static CustomToolkitStrings CustomToolkitStrings { get; } = new CustomToolkitStrings();
 
         /// <summary>Gets the strings.</summary>
@@ -505,9 +521,14 @@ namespace Krypton.Toolkit
         /// <value>The tab styles.</value>
         public static TabStyleStrings TabStyles { get; } = new TabStyleStrings();
 
+        /// <summary>Gets the custom theme strings.</summary>
+        /// <value>The custom theme strings.</value>
+        public static CustomThemeStrings CustomThemeStrings { get; } = new CustomThemeStrings();
+
         /// <summary>Gets the scroll bar strings.</summary>
         /// <value>The scroll bar strings.</value>
-        public static KryptonScrollBarStrings ScrollBarStrings { get; } = new KryptonScrollBarStrings();
+        public static KryptonScrollBarStrings ScrollBarStrings
+        { get; } = new KryptonScrollBarStrings();
 
         #endregion
 
@@ -553,6 +574,7 @@ namespace Krypton.Toolkit
                                    ShouldSerializeSeparatorStyleStrings() ||
                                    ShouldSerializeTabBorderStyleStrings() ||
                                    ShouldSerializeTabStyleStrings() ||
+                                   ShouldSerializeThemeStrings() ||
                                    ShouldSerializeKryptonScrollBarStrings());
 
         /// <summary>Resets this instance.</summary>
@@ -607,6 +629,8 @@ namespace Krypton.Toolkit
             ResetTabBorderStyleStrings();
 
             ResetTabStyleStrings();
+
+            ResetThemeStrings();
 
             ResetKryptonScrollBarStrings();
         }

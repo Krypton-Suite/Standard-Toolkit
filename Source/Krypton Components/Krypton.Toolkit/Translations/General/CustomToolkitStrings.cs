@@ -33,10 +33,9 @@ namespace Krypton.Toolkit
         private const string DEFAULT_NO_TO_ALL = @"No t&o All"; // Accelerator key - O
         private const string DEFAULT_OK_TO_ALL = @"O&k to All"; // Accelerator key - K
         private const string DEFAULT_RESET = @"&Reset"; // Accelerator key - R
-
-        // Note: The following may not be needed...
-        /*private const string DEFAULT_MORE_DETAILS = "M&ore Details...";
-        private const string DEFAULT_LESS_DETAILS = "Les&s Details...";*/
+        private const string DEFAULT_IMPORT = @"I&mport"; // Accelerator key - M
+        private const string DEFAULT_MORE_DETAILS = "M&ore Details..."; // Accelerator key - O
+        private const string DEFAULT_LESS_DETAILS = "Les&s Details..."; // Accelerator key - S
 
         #endregion
 
@@ -78,7 +77,10 @@ namespace Krypton.Toolkit
                                  YesToAll.Equals(DEFAULT_YES_TO_ALL) &&
                                  NoToAll.Equals(DEFAULT_NO_TO_ALL) &&
                                  OkToAll.Equals(DEFAULT_OK_TO_ALL) &&
-                                 Reset.Equals(DEFAULT_RESET);
+                                 Reset.Equals(DEFAULT_RESET) &&
+                                 Import.Equals(DEFAULT_IMPORT) &&
+                                 MoreDetails.Equals(DEFAULT_MORE_DETAILS) &&
+                                 LessDetails.Equals(DEFAULT_LESS_DETAILS);
 
         public void ResetValues()
         {
@@ -100,6 +102,9 @@ namespace Krypton.Toolkit
             NoToAll = DEFAULT_NO_TO_ALL;
             OkToAll = DEFAULT_OK_TO_ALL;
             Reset = DEFAULT_RESET;
+            Import = DEFAULT_IMPORT;
+            MoreDetails = DEFAULT_MORE_DETAILS;
+            LessDetails = DEFAULT_LESS_DETAILS;
         }
 
         /// <summary>Gets or sets the collapse string used in expandable footers.</summary>
@@ -249,6 +254,26 @@ namespace Krypton.Toolkit
         [DefaultValue(DEFAULT_RESET)]
         public string Reset { get; set; }
 
+        /// <summary>Gets or sets the import string used for custom situations.</summary>
+        [Localizable(true)]
+        [Category(@"Visuals")]
+        [Description(@"Import string used for custom situations.")]
+        [DefaultValue(DEFAULT_IMPORT)]
+        public string Import { get; set; }
+
+        /// <summary>Gets or sets the more details string used for custom situations.</summary>
+        [Localizable(true)]
+        [Category(@"Visuals")]
+        [Description(@"More details string used for custom situations.")]
+        [DefaultValue(DEFAULT_MORE_DETAILS)]
+        public string MoreDetails { get; set; }
+
+        /// <summary>Gets or sets the less details string used for custom situations.</summary>
+        [Localizable(true)]
+        [Category(@"Visuals")]
+        [Description(@"Less details string used for custom situations.")]
+        [DefaultValue(DEFAULT_LESS_DETAILS)]
+        public string LessDetails { get; set; }
 
         #endregion
     }

@@ -205,7 +205,7 @@ namespace Krypton.Ribbon
             }
 
             // Office 2010 draws a shadow effect of the text
-            if (_ribbon.RibbonShape is PaletteRibbonShape.Office2010 or PaletteRibbonShape.Office2013 or PaletteRibbonShape.Microsoft365)
+            if (_ribbon.RibbonShape is PaletteRibbonShape.Office2010 or PaletteRibbonShape.Office2013 or PaletteRibbonShape.Microsoft365 or PaletteRibbonShape.VisualStudio)
             {
                 var shadowTextRect1 = _textRect with { X = _textRect.X - 1, Y = _textRect.Y + 1 };
                 var shadowTextRect2 = _textRect with { X = _textRect.X + 1, Y = _textRect.Y + 1 };

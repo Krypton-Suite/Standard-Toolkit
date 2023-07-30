@@ -1262,7 +1262,7 @@ namespace Krypton.Ribbon
                 var newAllowIconDisplay = !_integrated
                                            || !_ribbon.RibbonAppButton.AppButtonVisible
                                            || (_ribbon.RibbonAppButton.AppButtonVisible
-                                               && _ribbon.RibbonShape is PaletteRibbonShape.Office2010 or PaletteRibbonShape.Office2013 or PaletteRibbonShape.Microsoft365
+                                               && _ribbon.RibbonShape is PaletteRibbonShape.Office2010 or PaletteRibbonShape.Office2013 or PaletteRibbonShape.Microsoft365 or PaletteRibbonShape.VisualStudio
                                            )
                                             ;
                 if (_kryptonForm.AllowIconDisplay != newAllowIconDisplay)
@@ -1311,8 +1311,8 @@ namespace Krypton.Ribbon
         private void OnWindowActiveChanged(object sender, EventArgs e)
         {
             if (_kryptonForm is { ApplyCustomChrome: true, ApplyComposition: true })
-                // When integrated into composition we need to repaint whenever the
-                // owning form changes active status, as we are drawing the caption
+            // When integrated into composition we need to repaint whenever the
+            // owning form changes active status, as we are drawing the caption
             {
                 PerformNeedPaint(true);
             }

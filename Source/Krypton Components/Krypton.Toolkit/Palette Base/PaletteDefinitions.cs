@@ -4165,7 +4165,12 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Specifies the Microsoft 365 ribbon shape.
         /// </summary>
-        Microsoft365
+        Microsoft365,
+
+        /// <summary>
+        /// Specifies the Visual Studio ribbon shape.
+        /// </summary>
+        VisualStudio
     }
     #endregion
 

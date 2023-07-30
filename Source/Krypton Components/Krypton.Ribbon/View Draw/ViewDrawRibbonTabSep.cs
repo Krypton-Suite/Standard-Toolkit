@@ -94,6 +94,9 @@ namespace Krypton.Ribbon
                     case PaletteRibbonShape.Microsoft365:
                         context.Graphics.FillRectangle(sepBrush, ClientLocation.X + 2, ClientLocation.Y, 1, ClientHeight - 1);
                         break;
+                    case PaletteRibbonShape.VisualStudio:
+                        context.Graphics.FillRectangle(sepBrush, ClientLocation.X + 2, ClientLocation.Y, 1, ClientHeight - 1);
+                        break;
                     case PaletteRibbonShape.Office2010:
                         context.Graphics.FillRectangle(sepBrush, ClientLocation.X + 1, ClientLocation.Y, 1, ClientHeight - 1);
 

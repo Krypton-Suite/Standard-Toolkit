@@ -96,10 +96,8 @@
             // 
             // kryptonIntegratedToolBarManager1
             // 
-            this.kryptonIntegratedToolBarManager1.AllowFormIntegration = false;
             this.kryptonIntegratedToolBarManager1.IntegratedToolBarButtonAlignment = Krypton.Toolkit.PaletteRelativeEdgeAlign.Far;
             this.kryptonIntegratedToolBarManager1.IntegratedToolBarButtonOrientation = Krypton.Toolkit.PaletteButtonOrientation.FixedTop;
-            this.kryptonIntegratedToolBarManager1.ParentForm = this;
             // 
             // Form5
             // 

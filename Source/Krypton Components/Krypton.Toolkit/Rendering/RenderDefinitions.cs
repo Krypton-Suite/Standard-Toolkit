@@ -879,6 +879,11 @@ namespace Krypton.Toolkit
         Microsoft365,
 
         /// <summary>
+        /// Specifies the RenderVisualStudio be used.
+        /// </summary>
+        VisualStudio,
+
+        /// <summary>
         /// Specifies the RenderProfessional be used.
         /// </summary>
         Professional,
