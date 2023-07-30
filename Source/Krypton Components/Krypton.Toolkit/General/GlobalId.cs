@@ -25,7 +25,7 @@ namespace Krypton.Toolkit
     /// <summary>
     /// Contains a global identifier that is unique among objects.
     /// </summary>
-    public class GlobalId : IGlobalId
+    public class GlobalId : ExpandableObjectConverter, IGlobalId
     {
         #region Identity
         /// <summary>

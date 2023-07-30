@@ -167,7 +167,7 @@ namespace Krypton.Toolkit
         {
             if ((renderer == null) || (Root == null))
             {
-                return Size.Empty;
+                return proposedSize;
             }
 
             var retSize = Size.Empty;
