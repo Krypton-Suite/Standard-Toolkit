@@ -393,4 +393,3 @@ namespace Krypton.Toolkit
     }
     #endregion
 }
-}
