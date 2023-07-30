@@ -12,6 +12,7 @@
 
 namespace Krypton.Toolkit
 {
+    // TODO: Review
     /// <summary>Provide KryptonColorTableVisualStudio values using an array of Color values as the source.</summary>
     /// <seealso cref="KryptonColorTable" />
     public class KryptonColorTableVisualStudio : KryptonColorTable

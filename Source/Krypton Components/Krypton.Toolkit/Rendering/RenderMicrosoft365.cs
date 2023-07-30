@@ -40,9 +40,9 @@ namespace Krypton.Toolkit
         /// <param name="displayRect">Display area available for drawing.</param>
         /// <param name="paletteBack">Palette used for recovering drawing details.</param>
         /// <param name="state">State associated with rendering.</param>
-        public override void DrawRibbonClusterEdge(PaletteRibbonShape shape, 
-            [DisallowNull] RenderContext context, 
-            Rectangle displayRect, 
+        public override void DrawRibbonClusterEdge(PaletteRibbonShape shape,
+            [DisallowNull] RenderContext context,
+            Rectangle displayRect,
             [DisallowNull] IPaletteBack paletteBack, PaletteState state)
         {
             Debug.Assert(context != null);
