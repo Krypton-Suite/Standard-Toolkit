@@ -162,7 +162,7 @@ namespace Krypton.Toolkit
                 context.Graphics.DrawLine(cache.BorderInnerPen, rect.X + 1, rect.Y, rect.X + 1, rect.Bottom - 1);
                 context.Graphics.DrawLine(cache.BorderOuterPen, rect.Right - 1, rect.Y, rect.Right - 1, rect.Bottom - 1);
                 context.Graphics.DrawLine(cache.BorderInnerPen, rect.Right - 2, rect.Y, rect.Right - 2, rect.Bottom - 1);
-            
+
                 // Draw the solid block of colour at the top
                 context.Graphics.FillRectangle(cache.TopBrush, rect.X + 2, rect.Y, rect.Width - 4, 4);
 
