@@ -2,7 +2,8 @@
 
 	<PropertyGroup>
 		<OutputType>WinExe</OutputType>
-		<TargetFrameworks>net48;net6.0-windows</TargetFrameworks>
+		<!--<TargetFrameworks>net48;net6.0-windows</TargetFrameworks>-->
+        <TargetFrameworks>net48</TargetFrameworks>
 		<Nullable>enable</Nullable>
 		<UseWindowsForms>true</UseWindowsForms>
 	</PropertyGroup>

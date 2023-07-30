@@ -15,11 +15,14 @@ namespace Krypton.Toolkit
     /// <summary>
     /// Base class that all menu types must derive from and implement.
     /// </summary>
+    [DesignerCategory(@"code")]
     public abstract class KryptonContextMenuItemBase : Component, INotifyPropertyChanged
     {
         #region Instance Fields
 
         private bool _visible;
+        private ToolTipValues _toolTipValues = new ToolTipValues(null);
+
         #endregion
 
         #region Events
@@ -116,8 +119,13 @@ namespace Krypton.Toolkit
         [Category(@"Behavior")]
         [Description(@"ToolTip")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public ToolTipValues ToolTipValues { get; set; } = new ToolTipValues(null);
-        
+        [TypeConverter(typeof(ExpandableObjectConverter))]
+        public ToolTipValues ToolTipValues
+        {
+            get => _toolTipValues;
+            set => _toolTipValues = value;
+        }
+
         private bool ShouldSerializeToolTipValues() => !ToolTipValues.IsDefault;
 
         /// <summary>

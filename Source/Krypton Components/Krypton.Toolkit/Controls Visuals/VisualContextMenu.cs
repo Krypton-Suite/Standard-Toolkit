@@ -19,7 +19,7 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
         private readonly KryptonContextMenu? _contextMenu;
-        private PaletteBase _palette;
+        private PaletteBase? _palette;
         private readonly ContextMenuProvider _provider;
         private ViewDrawDocker _drawDocker;
         private readonly ViewLayoutStack _viewColumns;
@@ -469,7 +469,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void SetPalette(PaletteBase palette)
+        private void SetPalette(PaletteBase? palette)
         {
             if (palette != _palette)
             {

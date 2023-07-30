@@ -154,7 +154,7 @@ namespace Krypton.Toolkit
             }
 
             // Get the size the popup would like to be
-            Size popupSize = ViewManager.GetPreferredSize(Renderer, Size.Empty);
+            Size popupSize = ViewManager.GetPreferredSize(Renderer, new Size(100, 10));
             Point popupLocation;
 
             switch (position.PlacementMode)

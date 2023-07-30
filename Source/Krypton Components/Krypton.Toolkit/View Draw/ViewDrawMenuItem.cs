@@ -149,7 +149,7 @@ namespace Krypton.Toolkit
 
             // Add a controller for handing mouse and keyboard events
             var mic = new MenuItemController(provider.ProviderViewManager, this, provider.ProviderNeedPaintDelegate);
-            MouseController = mic;
+            //MouseController = mic;
             KeyController = mic;
 
             // Want to know when a property changes whilst displayed
@@ -166,6 +166,7 @@ namespace Krypton.Toolkit
             ToolTipManager = new ToolTipManager(KryptonContextMenuItem.ToolTipValues);
             ToolTipManager.ShowToolTip += OnShowToolTip;
             ToolTipManager.CancelToolTip += OnCancelToolTip;
+            MouseController = new ToolTipController(ToolTipManager, this, mic);
         }
 
         /// <summary>
@@ -671,12 +672,13 @@ namespace Krypton.Toolkit
 
                 // Never show tooltips are design time
                 //if (!DesignMode)
+                if (KryptonContextMenuItem.ToolTipValues.EnableToolTips)
                 {
                     // Remove any currently showing tooltip
                     _visualPopupToolTip?.Dispose();
 
                     // Create the actual tooltip popup object
-                    var renderer = _provider.ProviderPalette?.GetRenderer();
+                    var renderer = _provider.ProviderRedirector.Target.GetRenderer();
                     _visualPopupToolTip = new VisualPopupToolTip(_provider.ProviderRedirector,
                         KryptonContextMenuItem.ToolTipValues,
                         renderer,
