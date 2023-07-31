@@ -99,7 +99,7 @@ namespace Krypton.Ribbon
             // of ribbon then we need to draw the tabs area as part of the window chrome
             // Not for 2007
             if (DrawOnComposition
-                && _ribbon.RibbonShape is PaletteRibbonShape.Office2010 or PaletteRibbonShape.Office2013 or PaletteRibbonShape.Microsoft365 or PaletteRibbonShape.VisualStudio
+                && _ribbon.RibbonShape is PaletteRibbonShape.Office2010 or PaletteRibbonShape.VisualStudio2010 or PaletteRibbonShape.Office2013 or PaletteRibbonShape.Microsoft365 or PaletteRibbonShape.VisualStudio
                 )
             {
                 if (edges)
@@ -123,6 +123,7 @@ namespace Krypton.Ribbon
                 switch (_ribbon.RibbonShape)
                 {
                     case PaletteRibbonShape.Office2010:
+                    case PaletteRibbonShape.VisualStudio2010:
                         {
                             //Adjust Color of the gradient
                             Color gradientColor = KryptonManager.CurrentGlobalPalette == KryptonManager.PaletteOffice2010Black
@@ -137,23 +138,13 @@ namespace Krypton.Ribbon
                             break;
                         }
                     case PaletteRibbonShape.Office2013:
-                        {
-                            using var backBrush = new SolidBrush(Color.White);
-                            g.FillRectangle(backBrush, rect with { Height = rect.Height - 1 });
-                            break;
-                        }
                     case PaletteRibbonShape.Microsoft365:
+                    case PaletteRibbonShape.VisualStudio:
                         {
                             using var backBrush = new SolidBrush(Color.White);
                             g.FillRectangle(backBrush, rect with { Height = rect.Height - 1 });
                             break;
                         }
-                    case PaletteRibbonShape.VisualStudio:
-                    {
-                        using var backBrush = new SolidBrush(Color.White);
-                        g.FillRectangle(backBrush, rect with { Height = rect.Height - 1 });
-                        break;
-                    }
                 }
             }
         }

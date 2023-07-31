@@ -4158,6 +4158,11 @@ namespace Krypton.Toolkit
         Office2010,
 
         /// <summary>
+        /// Specifies the Visual Studio 2010 ribbon shape.
+        /// </summary>
+        VisualStudio2010,
+
+        /// <summary>
         /// Specifies the Office 2013 ribbon shape.
         /// </summary>
         Office2013,

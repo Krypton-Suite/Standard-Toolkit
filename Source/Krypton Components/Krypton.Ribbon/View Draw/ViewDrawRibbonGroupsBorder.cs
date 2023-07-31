@@ -25,6 +25,7 @@ namespace Krypton.Ribbon
         private readonly Padding _borderPadding2010; // = new(1, 1, 1, 3);
         private readonly Padding _borderPadding2013; // = new(1, 1, 1, 0);
         private readonly Padding _borderPadding365; // = new(1, 1, 1, 0);
+        private readonly Padding _borderPaddingVisualStudio2010;
         private readonly Padding _borderPaddingVisualStudio;
         private IPaletteRibbonBack _inherit;
         private IDisposable _memento;
@@ -51,6 +52,7 @@ namespace Krypton.Ribbon
             _borderOutside = borderOutside;
             _borderPadding2007 = new Padding((int)(3 * FactorDpiX), (int)(3 * FactorDpiY), (int)(3 * FactorDpiX), (int)(2 * FactorDpiY));
             _borderPadding2010 = new Padding((int)(1 * FactorDpiX), (int)(1 * FactorDpiY), (int)(1 * FactorDpiX), (int)(3 * FactorDpiY));
+            _borderPaddingVisualStudio2010 = new Padding((int)(1 * FactorDpiX), (int)(1 * FactorDpiY), (int)(1 * FactorDpiX), (int)(3 * FactorDpiY));
             _borderPadding2013 = new Padding((int)(1 * FactorDpiX), (int)(1 * FactorDpiY), (int)(1 * FactorDpiX), 0);
             _borderPadding365 = new Padding((int)(1 * FactorDpiX), (int)(1 * FactorDpiY), (int)(1 * FactorDpiX), 0);
             _borderPaddingVisualStudio = new Padding((int)(1 * FactorDpiX), (int)(1 * FactorDpiY), (int)(1 * FactorDpiX), 0);
@@ -100,6 +102,7 @@ namespace Krypton.Ribbon
                 return Ribbon.RibbonShape switch
                 {
                     PaletteRibbonShape.Office2010 => _borderPadding2010,
+                    PaletteRibbonShape.VisualStudio2010 => _borderPaddingVisualStudio2010,
                     PaletteRibbonShape.Office2013 => _borderPadding2013,
                     PaletteRibbonShape.Microsoft365 => _borderPadding365,
                     PaletteRibbonShape.VisualStudio => _borderPaddingVisualStudio,

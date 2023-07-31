@@ -89,15 +89,12 @@ namespace Krypton.Ribbon
                     default:
                     case PaletteRibbonShape.Office2007:
                     case PaletteRibbonShape.Office2013:
-                        context.Graphics.FillRectangle(sepBrush, ClientLocation.X + 2, ClientLocation.Y, 1, ClientHeight - 1);
-                        break;
                     case PaletteRibbonShape.Microsoft365:
-                        context.Graphics.FillRectangle(sepBrush, ClientLocation.X + 2, ClientLocation.Y, 1, ClientHeight - 1);
-                        break;
                     case PaletteRibbonShape.VisualStudio:
                         context.Graphics.FillRectangle(sepBrush, ClientLocation.X + 2, ClientLocation.Y, 1, ClientHeight - 1);
                         break;
                     case PaletteRibbonShape.Office2010:
+                    case PaletteRibbonShape.VisualStudio2010:
                         context.Graphics.FillRectangle(sepBrush, ClientLocation.X + 1, ClientLocation.Y, 1, ClientHeight - 1);
 
                         using (var sepLightBrush = new LinearGradientBrush(rectF, Color.Transparent, _lighten1, 90f))
