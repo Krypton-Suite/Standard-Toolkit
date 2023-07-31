@@ -26,7 +26,7 @@ namespace Krypton.Toolkit
         private Padding? _inputControlPadding;
         private PaletteDragFeedback _dragFeedback;
         private string _themeName;
-        private Image[] _buttonSpecImages;
+        private Image[] /*ICollection<Image?>*/ _buttonSpecImages;
 
         private readonly Font _defaultFontStyle = new Font("Segoe UI", 9f, FontStyle.Regular);
 
@@ -95,7 +95,7 @@ namespace Krypton.Toolkit
 
             _themeName = string.Empty;
 
-            _useKryptonFileDialogs = false;
+            _useKryptonFileDialogs = true;
 
             _baseFont = _defaultFontStyle;
 
@@ -104,7 +104,7 @@ namespace Krypton.Toolkit
 
         /// <summary>Initializes a new instance of the <see cref="PaletteBase" /> class.</summary>
         /// <param name="buttonSpecImages">The button spec images.</param>
-        protected PaletteBase([DisallowNull] Image[] buttonSpecImages)
+        protected PaletteBase([DisallowNull] Image[] /*ICollection<Image>*/ buttonSpecImages)
         {
             Debug.Assert(buttonSpecImages != null);
 
@@ -121,7 +121,7 @@ namespace Krypton.Toolkit
 
             _themeName = string.Empty;
 
-            _useKryptonFileDialogs = false;
+            _useKryptonFileDialogs = true;
 
             _baseFont = _defaultFontStyle;
 
@@ -833,7 +833,6 @@ namespace Krypton.Toolkit
             }
         }
 
-        // TODO: Use 'PaletteButtonSpecStyle' values as indices instead of numbers
         /// <summary>
         /// Gets the image to display for the button.
         /// </summary>
@@ -845,69 +844,69 @@ namespace Krypton.Toolkit
             switch (style)
             {
                 case PaletteButtonSpecStyle.Close:
-                    return ReturnButtonSpecImageArray()[0];
+                    return ReturnButtonSpecImageArray()[(int)PaletteButtonSpecStyle.Close];
                 case PaletteButtonSpecStyle.Context:
-                    return ReturnButtonSpecImageArray()[1];
+                    return ReturnButtonSpecImageArray()[(int)PaletteButtonSpecStyle.Context];
                 case PaletteButtonSpecStyle.Next:
-                    return ReturnButtonSpecImageArray()[2];
+                    return ReturnButtonSpecImageArray()[(int)PaletteButtonSpecStyle.Next];
                 case PaletteButtonSpecStyle.Previous:
-                    return ReturnButtonSpecImageArray()[3];
+                    return ReturnButtonSpecImageArray()[(int)PaletteButtonSpecStyle.Previous];
                 case PaletteButtonSpecStyle.ArrowLeft:
-                    return ReturnButtonSpecImageArray()[4];
+                    return ReturnButtonSpecImageArray()[(int)PaletteButtonSpecStyle.ArrowLeft];
                 case PaletteButtonSpecStyle.ArrowRight:
-                    return ReturnButtonSpecImageArray()[5];
+                    return ReturnButtonSpecImageArray()[(int)PaletteButtonSpecStyle.ArrowRight];
                 case PaletteButtonSpecStyle.ArrowUp:
-                    return ReturnButtonSpecImageArray()[6];
+                    return ReturnButtonSpecImageArray()[(int)PaletteButtonSpecStyle.ArrowUp];
                 case PaletteButtonSpecStyle.ArrowDown:
-                    return ReturnButtonSpecImageArray()[7];
+                    return ReturnButtonSpecImageArray()[(int)PaletteButtonSpecStyle.ArrowDown];
                 case PaletteButtonSpecStyle.DropDown:
-                    return ReturnButtonSpecImageArray()[8];
+                    return ReturnButtonSpecImageArray()[(int)PaletteButtonSpecStyle.DropDown];
                 case PaletteButtonSpecStyle.PinVertical:
-                    return ReturnButtonSpecImageArray()[9];
+                    return ReturnButtonSpecImageArray()[(int)PaletteButtonSpecStyle.PinVertical];
                 case PaletteButtonSpecStyle.PinHorizontal:
-                    return ReturnButtonSpecImageArray()[10];
+                    return ReturnButtonSpecImageArray()[(int)PaletteButtonSpecStyle.PinHorizontal];
                 case PaletteButtonSpecStyle.PendantClose:
-                    return ReturnButtonSpecImageArray()[11];
+                    return ReturnButtonSpecImageArray()[(int)PaletteButtonSpecStyle.PendantClose];
                 case PaletteButtonSpecStyle.PendantMin:
-                    return ReturnButtonSpecImageArray()[12];
+                    return ReturnButtonSpecImageArray()[(int)PaletteButtonSpecStyle.PendantMin];
                 case PaletteButtonSpecStyle.PendantRestore:
-                    return ReturnButtonSpecImageArray()[13];
+                    return ReturnButtonSpecImageArray()[(int)PaletteButtonSpecStyle.PendantRestore];
                 case PaletteButtonSpecStyle.WorkspaceMaximize:
-                    return ReturnButtonSpecImageArray()[14];
+                    return ReturnButtonSpecImageArray()[(int)PaletteButtonSpecStyle.WorkspaceMaximize];
                 case PaletteButtonSpecStyle.WorkspaceRestore:
-                    return ReturnButtonSpecImageArray()[15];
+                    return ReturnButtonSpecImageArray()[(int)PaletteButtonSpecStyle.WorkspaceRestore];
                 case PaletteButtonSpecStyle.RibbonMinimize:
-                    return ReturnButtonSpecImageArray()[16];
+                    return ReturnButtonSpecImageArray()[(int)PaletteButtonSpecStyle.RibbonMinimize];
                 case PaletteButtonSpecStyle.RibbonExpand:
-                    return ReturnButtonSpecImageArray()[17];
+                    return ReturnButtonSpecImageArray()[(int)PaletteButtonSpecStyle.RibbonExpand];
                 case PaletteButtonSpecStyle.New:
-                    return ReturnButtonSpecImageArray()[18];
+                    return ReturnButtonSpecImageArray()[(int)PaletteButtonSpecStyle.New];
                 case PaletteButtonSpecStyle.Open:
-                    return ReturnButtonSpecImageArray()[19];
+                    return ReturnButtonSpecImageArray()[(int)PaletteButtonSpecStyle.Open];
                 case PaletteButtonSpecStyle.Save:
-                    return ReturnButtonSpecImageArray()[20];
+                    return ReturnButtonSpecImageArray()[(int)PaletteButtonSpecStyle.Save];
                 case PaletteButtonSpecStyle.SaveAs:
-                    return ReturnButtonSpecImageArray()[21];
+                    return ReturnButtonSpecImageArray()[(int)PaletteButtonSpecStyle.SaveAs];
                 case PaletteButtonSpecStyle.SaveAll:
-                    return ReturnButtonSpecImageArray()[22];
+                    return ReturnButtonSpecImageArray()[(int)PaletteButtonSpecStyle.SaveAll];
                 case PaletteButtonSpecStyle.Cut:
-                    return ReturnButtonSpecImageArray()[23];
+                    return ReturnButtonSpecImageArray()[(int)PaletteButtonSpecStyle.Cut];
                 case PaletteButtonSpecStyle.Copy:
-                    return ReturnButtonSpecImageArray()[24];
+                    return ReturnButtonSpecImageArray()[(int)PaletteButtonSpecStyle.Copy];
                 case PaletteButtonSpecStyle.Paste:
-                    return ReturnButtonSpecImageArray()[25];
+                    return ReturnButtonSpecImageArray()[(int)PaletteButtonSpecStyle.Paste];
                 case PaletteButtonSpecStyle.Undo:
-                    return ReturnButtonSpecImageArray()[26];
+                    return ReturnButtonSpecImageArray()[(int)PaletteButtonSpecStyle.Undo];
                 case PaletteButtonSpecStyle.Redo:
-                    return ReturnButtonSpecImageArray()[27];
+                    return ReturnButtonSpecImageArray()[(int)PaletteButtonSpecStyle.Redo];
                 case PaletteButtonSpecStyle.PageSetup:
-                    return ReturnButtonSpecImageArray()[28];
+                    return ReturnButtonSpecImageArray()[(int)PaletteButtonSpecStyle.PageSetup];
                 case PaletteButtonSpecStyle.PrintPreview:
-                    return ReturnButtonSpecImageArray()[29];
+                    return ReturnButtonSpecImageArray()[(int)PaletteButtonSpecStyle.PrintPreview];
                 case PaletteButtonSpecStyle.Print:
-                    return ReturnButtonSpecImageArray()[30];
+                    return ReturnButtonSpecImageArray()[(int)PaletteButtonSpecStyle.Print];
                 case PaletteButtonSpecStyle.QuickPrint:
-                    return ReturnButtonSpecImageArray()[31];
+                    return ReturnButtonSpecImageArray()[(int)PaletteButtonSpecStyle.QuickPrint];
                 case PaletteButtonSpecStyle.Generic:
                     return null;
                 default:
@@ -1484,7 +1483,7 @@ namespace Krypton.Toolkit
 
         /// <summary>Returns the button spec image array.</summary>
         /// <returns></returns>
-        private Image[] ReturnButtonSpecImageArray() => _buttonSpecImages;
+        private /*ICollection<Image>*/ Image[] ReturnButtonSpecImageArray() => _buttonSpecImages; //.ToArray();
 
         #endregion
 
@@ -1807,7 +1806,7 @@ namespace Krypton.Toolkit
 
         /// <summary>Gets or sets a value indicating whether [use krypton file dialogs].</summary>
         /// <value><c>true</c> if [use krypton file dialogs]; otherwise, <c>false</c>.</value>
-        [DefaultValue(false), Description(@"Use Krypton style file dialogs for exporting/importing palettes.")]
+        [DefaultValue(true), Description(@"Use Krypton style file dialogs for exporting/importing palettes.")]
         public bool UseKryptonFileDialogs { get => _useKryptonFileDialogs; set => _useKryptonFileDialogs = value; }
 
         /// <summary>Gets and sets the base font size used when defining fonts.</summary>

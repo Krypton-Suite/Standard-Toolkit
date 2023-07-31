@@ -869,6 +869,11 @@ namespace Krypton.Toolkit
         Office2010,
 
         /// <summary>
+        /// Specifies the RenderVisualStudio2010 be used.
+        /// </summary>
+        VisualStudio2010,
+
+        /// <summary>
         /// Specifies the RenderOffice2013 be used.
         /// </summary>
         Office2013,

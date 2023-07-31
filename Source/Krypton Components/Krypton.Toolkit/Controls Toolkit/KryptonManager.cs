@@ -112,6 +112,7 @@ namespace Krypton.Toolkit
         private static RenderOffice2013? _renderOffice2013;
         private static RenderMicrosoft365? _renderMicrosoft365;
         private static RenderVisualStudio? _renderVisualStudio;
+        private static RenderVisualStudio2010? _renderVisualStudio2010;
         private static RenderSparkle? _renderSparkle;
 
         private static KryptonCustomPaletteManager? _customPaletteManager;
@@ -929,6 +930,8 @@ namespace Krypton.Toolkit
                     return RenderOffice2007;
                 case RendererMode.Office2010:
                     return RenderOffice2010;
+                case RendererMode.VisualStudio2010:
+                    return RenderVisualStudio2010;
                 case RendererMode.Office2013:
                     return RenderOffice2013;
                 case RendererMode.Microsoft365:
@@ -962,6 +965,8 @@ namespace Krypton.Toolkit
         /// Gets the single instance of the Office 2010 renderer.
         /// </summary>
         public static RenderOffice2010 RenderOffice2010 => _renderOffice2010 ??= new RenderOffice2010();
+
+        public static RenderVisualStudio2010 RenderVisualStudio2010 => _renderVisualStudio2010 ??= new RenderVisualStudio2010();
 
         /// <summary>
         /// Gets the single instance of the Office 2013 renderer.

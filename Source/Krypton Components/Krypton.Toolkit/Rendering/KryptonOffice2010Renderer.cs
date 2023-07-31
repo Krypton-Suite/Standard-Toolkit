@@ -581,7 +581,7 @@ namespace Krypton.Toolkit
                 }
 
                 // Status strips under XP cannot use clear type because it ends up being cut off at edges
-                if ((e.ToolStrip is StatusStrip) 
+                if ((e.ToolStrip is StatusStrip)
                     // TODO: Remove checks for Below Vista as no longer supporting old TFM's
                     && (Environment.OSVersion.Version.Major < 6))
                 {

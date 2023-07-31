@@ -64,14 +64,8 @@ namespace Krypton.Toolkit
                 { KryptonLanguageManager.ModeStrings.Microsoft365BlueDarkMode, PaletteMode.Microsoft365BlueDarkMode },
                 { KryptonLanguageManager.ModeStrings.Microsoft365BlueLightMode, PaletteMode.Microsoft365BlueLightMode },
                 { KryptonLanguageManager.ModeStrings.Microsoft365Silver, PaletteMode.Microsoft365Silver },
-                {
-                    KryptonLanguageManager.ModeStrings.Microsoft365SilverDarkMode,
-                    PaletteMode.Microsoft365SilverDarkMode
-                },
-                {
-                    KryptonLanguageManager.ModeStrings.Microsoft365SilverLightMode,
-                    PaletteMode.Microsoft365SilverLightMode
-                },
+                { KryptonLanguageManager.ModeStrings.Microsoft365SilverDarkMode, PaletteMode.Microsoft365SilverDarkMode},
+                { KryptonLanguageManager.ModeStrings.Microsoft365SilverLightMode, PaletteMode.Microsoft365SilverLightMode},
                 { KryptonLanguageManager.ModeStrings.Microsoft365White, PaletteMode.Microsoft365White },
                 { KryptonLanguageManager.ModeStrings.Microsoft365Black, PaletteMode.Microsoft365Black },
                 { KryptonLanguageManager.ModeStrings.Microsoft365BlackDarkMode, PaletteMode.Microsoft365BlackDarkMode },

@@ -74,7 +74,7 @@ namespace Krypton.Toolkit
                 throw new ArgumentNullException(nameof(colourPalette));
             }
 
-            var renderer = new KryptoMicrosoft365Renderer(colourPalette.ColorTable)
+            var renderer = new KryptonMicrosoft365Renderer(colourPalette.ColorTable)
             {
                 RoundedEdges = colourPalette.ColorTable.UseRoundedEdges != InheritBool.False
             };
