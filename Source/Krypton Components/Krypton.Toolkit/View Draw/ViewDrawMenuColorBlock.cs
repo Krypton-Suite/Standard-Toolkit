@@ -54,8 +54,10 @@ namespace Krypton.Toolkit
             var mcbc = new MenuColorBlockController(provider.ProviderViewManager, this, this,
                 provider.ProviderNeedPaintDelegate);
             mcbc.Click += OnClick;
-            MouseController = mcbc;
+            //MouseController = mcbc;
             KeyController = mcbc;
+            // Create the manager for handling tooltips
+            MouseController = new ToolTipController(KryptonContextMenuColorColumns.ToolTipManager, this, mcbc);
         }
 
         /// <summary>
@@ -215,7 +217,7 @@ namespace Krypton.Toolkit
             var inside = Color.Empty;
 
             // Is this element selected?
-            var selected = (KryptonContextMenuColorColumns.SelectedColor != null) && KryptonContextMenuColorColumns.SelectedColor.Equals(Color);
+            var selected = (KryptonContextMenuColorColumns.SelectedColor != Color.Empty) && KryptonContextMenuColorColumns.SelectedColor.Equals(Color);
 
             switch (ElementState)
             {

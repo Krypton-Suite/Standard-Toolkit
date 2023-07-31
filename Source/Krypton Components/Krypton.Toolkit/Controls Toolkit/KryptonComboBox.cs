@@ -3117,8 +3117,8 @@ namespace Krypton.Toolkit
 
         private void ShowToolTip(ToolTipNeededEventArgs e, Point location)
         {
-            _toolTipSpec.ToolTipTitle = e.Title;
-            _toolTipSpec.ToolTipBody = e.Body;
+            _toolTipSpec.ToolTipTitle = e.Heading;
+            _toolTipSpec.ToolTipBody = e.Description;
             _toolTipSpec.ToolTipImage = e.Icon;
             VisualPopupToolTip tip = GetToolTip();
             // Needed to make Krypton update the tooltip data with the data of the spec.

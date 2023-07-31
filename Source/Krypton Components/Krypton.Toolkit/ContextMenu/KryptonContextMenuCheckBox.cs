@@ -149,8 +149,12 @@ namespace Krypton.Toolkit
                                               object parent,
                                               ViewLayoutStack columns,
                                               bool standardStyle,
-                                              bool imageColumn) =>
-            new ViewDrawMenuCheckBox(provider, this);
+                                              bool imageColumn)
+        {
+            SetProvider(provider);
+
+            return new ViewDrawMenuCheckBox(provider, this);
+        }
 
         /// <summary>
         /// Gets and sets if clicking the check box automatically closes the context menu.
@@ -247,6 +251,7 @@ namespace Krypton.Toolkit
         [Category(@"Appearance")]
         [Description(@"Check box image color to make transparent.")]
         [Localizable(true)]
+        [DisallowNull]
         public Color ImageTransparentColor
         {
             get => _imageTransparentColor;
@@ -261,7 +266,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeImageTransparentColor() => (_imageTransparentColor == null) || !_imageTransparentColor.Equals(Color.Empty);
+        private bool ShouldSerializeImageTransparentColor() => !_imageTransparentColor.Equals(Color.Empty);
 
         /// <summary>
         /// Gets and sets the check box label style.

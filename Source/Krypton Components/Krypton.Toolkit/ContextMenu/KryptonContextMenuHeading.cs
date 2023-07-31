@@ -30,6 +30,12 @@ namespace Krypton.Toolkit
         private readonly PaletteRedirectTriple? _redirectHeading;
         #endregion
 
+        /// <summary>
+        /// Occurs when the <see cref="KryptonContextMenuItem"/> wants to display a tooltip.
+        /// </summary>
+        [Browsable(false)]
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        private new event EventHandler<ToolTipNeededEventArgs>? ToolTipNeeded = null;
         #region Identity
         /// <summary>
         /// Initialize a new instance of the KryptonContextMenuHeading class.
@@ -104,8 +110,23 @@ namespace Krypton.Toolkit
                                               object parent,
                                               ViewLayoutStack columns,
                                               bool standardStyle,
-                                              bool imageColumn) =>
-            new ViewDrawMenuHeading(this, provider.ProviderStateCommon.Heading);
+                                              bool imageColumn)
+        {
+            // SetProvider(provider); ,_ no tooltips for headers, as there is no provider
+            return new ViewDrawMenuHeading(this, provider.ProviderStateCommon.Heading);
+        }
+
+        /// <summary>
+        /// Remove access to the ToolTipValues content.
+        /// </summary>
+        [Browsable(false)]
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        private new ToolTipValues ToolTipValues
+        {
+            get => base.ToolTipValues;
+            set => base.ToolTipValues = value;
+        }
+        private bool ShouldSerializeToolTipValues() => false;
 
         /// <summary>
         /// Gets and sets the heading menu item text.

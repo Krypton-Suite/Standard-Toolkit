@@ -208,8 +208,11 @@ namespace Krypton.Toolkit
                                               object parent,
                                               ViewLayoutStack columns,
                                               bool standardStyle,
-                                              bool imageColumn) =>
-            new ViewDrawMenuMonthCalendar(provider, this);
+                                              bool imageColumn)
+        {
+            SetProvider(provider);
+            return new ViewDrawMenuMonthCalendar(provider, this);
+        }
 
         /// <summary>
         /// Gets and sets if selecting a day automatically closes the context menu.

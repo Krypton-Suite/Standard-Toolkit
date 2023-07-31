@@ -161,8 +161,11 @@ namespace Krypton.Toolkit
                                               object parent,
                                               ViewLayoutStack columns,
                                               bool standardStyle,
-                                              bool imageColumn) =>
-            new ViewDrawMenuColorColumns(provider, this);
+                                              bool imageColumn)
+        {
+            SetProvider(provider);
+            return new ViewDrawMenuColorColumns(provider, this);
+        }
 
         /// <summary>
         /// Gets and sets if clicking a color entry automatically closes the context menu.
@@ -212,7 +215,7 @@ namespace Krypton.Toolkit
         [KryptonPersist]
         [Category(@"Appearance")]
         [Description(@"Color that has been selected by the user.")]
-        [DefaultValue(typeof(Color), "")]
+        [DefaultValue(typeof(Color), "Empty")]
         public Color SelectedColor
         {
             get => _selectedColor;

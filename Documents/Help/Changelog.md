@@ -3,7 +3,8 @@
 =======
 
 ## 2023-11-xx - Build 2311 - November 2023
-* Implemented [#1015](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1057), Show a tooltips on a `KryptonContextMenuItem`
+* Implemented [#1069](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1069), Include Tooltips for other "Krypton Menu item" types (i.e. not just text!)
+* Implemented [#1015](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1015), Show a tooltips on a `KryptonContextMenuItem`
 * Implemented [#1057](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1057), Move `DefineFonts` etc up to `PaletteBase`
 * Implemented [#981](https://github.com/Krypton-Suite/Standard-Toolkit/issues/981), "ReadMe.md" landing page could do with a "Table of contents" at the beginning
 * New `KryptonLanguageManager.Strings` is now `KryptonLanguageManager.GeneralToolkitStrings`

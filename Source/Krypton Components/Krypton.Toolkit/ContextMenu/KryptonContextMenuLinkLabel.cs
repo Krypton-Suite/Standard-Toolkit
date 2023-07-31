@@ -141,8 +141,11 @@ namespace Krypton.Toolkit
                                               object parent,
                                               ViewLayoutStack columns,
                                               bool standardStyle,
-                                              bool imageColumn) =>
-            new ViewDrawMenuLinkLabel(provider, this);
+                                              bool imageColumn)
+        {
+            SetProvider(provider);
+            return new ViewDrawMenuLinkLabel(provider, this);
+        }
 
         /// <summary>
         /// Gets and sets the link label style.

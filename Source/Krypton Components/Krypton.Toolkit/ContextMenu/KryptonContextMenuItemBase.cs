@@ -22,7 +22,8 @@ namespace Krypton.Toolkit
 
         private bool _visible;
         private ToolTipValues _toolTipValues = new ToolTipValues(null);
-
+        private VisualPopupToolTip? _visualPopupToolTip;
+        private IContextMenuProvider _provider;
         #endregion
 
         #region Events
@@ -32,13 +33,26 @@ namespace Krypton.Toolkit
         [Category(@"Property Changed")]
         [Description(@"Occurs when the value of property has changed.")]
         public event PropertyChangedEventHandler? PropertyChanged;
+
+        /// <summary>
+        /// Occurs when the <see cref="KryptonContextMenuItem"/> wants to display a tooltip.
+        /// </summary>
+        [Description(@"Occurs when the KryptonContextMenuItem wants to display a tooltip.")]
+        [Category(@"Behavior")]
+        public event EventHandler<ToolTipNeededEventArgs>? ToolTipNeeded;
         #endregion
 
         #region Identity
         /// <summary>
         /// Initialize a new instance of the KryptonContextMenuItem class.
         /// </summary>
-        protected KryptonContextMenuItemBase() => _visible = true;
+        protected KryptonContextMenuItemBase()
+        {
+            _visible = true;
+            ToolTipManager = new ToolTipManager(_toolTipValues);
+            ToolTipManager.ShowToolTip += OnShowToolTip;
+            ToolTipManager.CancelToolTip += OnCancelToolTip;
+        }
 
         #endregion
 
@@ -73,11 +87,23 @@ namespace Krypton.Toolkit
         /// <param name="standardStyle">Draw items with standard or alternate style.</param>
         /// <param name="imageColumn">Draw an image background for the item images.</param>
         /// <returns>ViewBase that is the root of the view hierarchy being added.</returns>
+        /// <remarks>Make sure to call `SetProvider(provider);`
+        /// </remarks>
         public abstract ViewBase GenerateView(IContextMenuProvider provider,
-                                              object parent,
-                                              ViewLayoutStack columns,
-                                              bool standardStyle,
-                                              bool imageColumn);
+            object parent,
+            ViewLayoutStack columns,
+            bool standardStyle,
+            bool imageColumn);
+
+        internal void SetProvider([DisallowNull] IContextMenuProvider provider)
+        {
+            Debug.Assert(provider.ProviderRedirector != null);
+            _provider = provider;
+            for (var idx = 0; idx < ItemChildCount; ++idx)
+            {
+                this[idx]?.SetProvider(provider);
+            }
+        }
 
         /// <summary>
         /// Gets and sets user-defined data associated with the object.
@@ -102,7 +128,7 @@ namespace Krypton.Toolkit
         {
             get => _visible;
 
-            set 
+            set
             {
                 if (_visible != value)
                 {
@@ -113,7 +139,7 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>
-        /// Gets access to the button content.
+        /// Gets access to the ToolTipValues content.
         /// </summary>
         [KryptonPersist]
         [Category(@"Behavior")]
@@ -142,6 +168,85 @@ namespace Krypton.Toolkit
         /// <param name="e">A PropertyChangedEventArgs containing the event data.</param>
         protected virtual void OnPropertyChanged(PropertyChangedEventArgs e) => PropertyChanged?.Invoke(this, e);
 
+        /// <summary>
+        /// Raises the ToolTipNeeded event.
+        /// </summary>
+        /// <param name="e"></param>
+        protected virtual void OnToolTipNeeded(ToolTipNeededEventArgs e) => ToolTipNeeded?.Invoke(this, e);
+        #endregion
+
+        #region Internal
+        /// <summary>
+        /// Gets access to the ToolTipManager used for displaying tool tips.
+        /// </summary>
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        internal ToolTipManager ToolTipManager { get; }
+
+        internal void OnShowToolTip(object sender, ToolTipEventArgs e)
+        {
+            //if (!IsDisposed)
+            {
+                // Do not show tooltips when the form we are in does not have focus
+                //Form? topForm = FindForm();
+                //if (topForm is { ContainsFocus: false })
+                //{
+                //    return;
+                //}
+
+                // Never show tooltips are design time
+                //if (!DesignMode)
+                if (_toolTipValues.EnableToolTips)
+                {
+                    // Remove any currently showing tooltip
+                    _visualPopupToolTip?.Dispose();
+
+                    // See if there is a tooltip to display for the new selection.
+                    var args = new ToolTipNeededEventArgs(0, this)
+                    {
+                        Heading = _toolTipValues.Heading,
+                        Description = _toolTipValues.Description,
+                        Icon = _toolTipValues.Image
+                    };
+                    OnToolTipNeeded(args);
+                    if (args.IsEmpty)
+                    {
+                        return;
+                    }
+
+                    _toolTipValues.Heading = args.Heading;
+                    _toolTipValues.Description = args.Description;
+                    _toolTipValues.Image = args.Icon;
+
+                    // Create the actual tooltip popup object
+                    var renderer = _provider.ProviderRedirector.Target?.GetRenderer();
+                    _visualPopupToolTip = new VisualPopupToolTip(_provider.ProviderRedirector,
+                        _toolTipValues,
+                        renderer,
+                        PaletteBackStyle.ControlToolTip,
+                        PaletteBorderStyle.ControlToolTip,
+                        CommonHelper.ContentStyleFromLabelStyle(_toolTipValues.ToolTipStyle),
+                        _toolTipValues.ToolTipShadow);
+
+                    _visualPopupToolTip.Disposed += OnVisualPopupToolTipDisposed;
+                    _visualPopupToolTip.ShowRelativeTo(e.Target, e.ControlMousePosition);
+                }
+            }
+        }
+
+        internal void OnCancelToolTip(object sender, EventArgs e) =>
+            // Remove any currently showing tooltip
+            _visualPopupToolTip?.Dispose();
+
+        internal void OnVisualPopupToolTipDisposed(object sender, EventArgs e)
+        {
+            // Unhook events from the specific instance that generated event
+            var popupToolTip = (VisualPopupToolTip)sender;
+            popupToolTip.Disposed -= OnVisualPopupToolTipDisposed;
+
+            // Not showing a popup page any more
+            _visualPopupToolTip = null;
+        }
         #endregion
     }
 }

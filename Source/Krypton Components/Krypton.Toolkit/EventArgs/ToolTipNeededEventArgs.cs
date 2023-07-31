@@ -16,28 +16,32 @@
 namespace Krypton.Toolkit
 {
     /// <summary>
-    /// Event arguments for the ToolTipNeeded event raised by a KryptonComboBox when it
-    /// needs to render a tooltip.
+    /// Event arguments for the ToolTipNeeded event raised by
+    /// - KryptonComboBox
+    /// -  MenuItemBase
+    /// when they needs to render a tooltip. Allowing App, to change various details of the tip.
+    /// To cancel, then set `Heading`, `Description` and `Icon` to null(empty)
     /// </summary>
     public class ToolTipNeededEventArgs : EventArgs
     {
         /// <summary>
         /// The title of the tooltip.
         /// </summary>
-        public string Title { get; set; }
+        public string Heading { get; set; }
         /// <summary>
         /// The body of the tooltip.
         /// </summary>
-        public string Body { get; set; }
+        public string Description { get; set; }
+
         /// <summary>
         /// The icon of the tooltip.
         /// </summary>
-        public Image Icon { get; set; }
+        public Image? Icon { get; set; }
 
         /// <summary>
         /// Gets whether the instance is empty.
         /// </summary>
-        public bool IsEmpty => string.IsNullOrEmpty(Title) && string.IsNullOrEmpty(Body) && Icon == null;
+        public bool IsEmpty => string.IsNullOrEmpty(Heading) && string.IsNullOrEmpty(Description) && Icon == null;
 
         /// <summary>
         /// Initializes a new instance of the ToolTipNeededEventArgs class.
