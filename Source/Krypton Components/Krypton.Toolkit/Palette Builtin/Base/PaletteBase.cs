@@ -26,7 +26,7 @@ namespace Krypton.Toolkit
         private Padding? _inputControlPadding;
         private PaletteDragFeedback _dragFeedback;
         private string _themeName;
-        private Image[] /*ICollection<Image?>*/ _buttonSpecImages;
+        protected static Image[] /*ICollection<Image?>*/ _buttonSpecImages;
 
         private readonly Font _defaultFontStyle = new Font("Segoe UI", 9f, FontStyle.Regular);
 
