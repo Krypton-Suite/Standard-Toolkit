@@ -144,8 +144,11 @@ namespace Krypton.Toolkit
                                               object parent,
                                               ViewLayoutStack columns,
                                               bool standardStyle,
-                                              bool imageColumn) =>
-            new ViewDrawMenuCheckButton(provider, this);
+                                              bool imageColumn)
+        {
+            SetProvider(provider);
+            return new ViewDrawMenuCheckButton(provider, this);
+        }
 
         /// <summary>
         /// Gets and sets if clicking the check box automatically closes the context menu.

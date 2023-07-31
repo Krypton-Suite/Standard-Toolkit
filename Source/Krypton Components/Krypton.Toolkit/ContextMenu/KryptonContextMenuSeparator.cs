@@ -90,6 +90,7 @@ namespace Krypton.Toolkit
                                               bool standardStyle,
                                               bool imageColumn)
         {
+            SetProvider(provider);
             if (Horizontal && (parent is KryptonContextMenuItemCollection))
             {
                 // Create a stack of horizontal items inside the item

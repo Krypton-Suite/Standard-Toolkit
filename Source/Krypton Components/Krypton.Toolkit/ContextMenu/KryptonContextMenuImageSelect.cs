@@ -129,8 +129,11 @@ namespace Krypton.Toolkit
                                               object parent,
                                               ViewLayoutStack columns,
                                               bool standardStyle,
-                                              bool imageColumn) =>
-            new ViewLayoutMenuItemSelect(this, provider);
+                                              bool imageColumn)
+        {
+            SetProvider(provider);
+            return new ViewLayoutMenuItemSelect(this, provider);
+        }
 
         /// <summary>
         /// Gets and sets padding around the image selection area.

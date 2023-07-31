@@ -76,8 +76,10 @@ namespace Krypton.Toolkit
             var mllc = new MenuLinkLabelController(provider.ProviderViewManager, _drawContent, this,
                 provider.ProviderNeedPaintDelegate);
             mllc.Click += OnClick;
-            _drawContent.MouseController = mllc;
+            //_drawContent.MouseController = mllc;
             _drawContent.KeyController = mllc;
+            // Create the manager for handling tooltips
+            _drawContent.MouseController = new ToolTipController(KryptonContextMenuLinkLabel.ToolTipManager, this, mllc);
 
             // Add docker as the composite content
             Add(_outerDocker);

@@ -91,6 +91,8 @@ namespace Krypton.Toolkit
             mcbc.Click += OnClick;
             _innerDocker.MouseController = mcbc;
             _innerDocker.KeyController = mcbc;
+            // Create the manager for handling tooltips
+            _innerDocker.MouseController = new ToolTipController(KryptonContextMenuCheckBox.ToolTipManager, this, mcbc);
 
             // Add docker as the composite content
             Add(_outerDocker);

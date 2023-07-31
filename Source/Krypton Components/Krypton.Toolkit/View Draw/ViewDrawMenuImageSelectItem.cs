@@ -54,9 +54,12 @@ namespace Krypton.Toolkit
             // Need controller to handle tracking/pressing etc
             _controller = new MenuImageSelectController(viewManager, this, layout, needPaint);
             _controller.Click += OnItemClick;
-            MouseController = _controller;
+            //MouseController = _controller;
             SourceController = _controller;
             KeyController = _controller;
+            // Create the manager for handling tooltips
+            MouseController = new ToolTipController(imageSelect.ToolTipManager, this, _controller);
+
         }
 
         /// <summary>

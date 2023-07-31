@@ -33,7 +33,7 @@ namespace Krypton.Toolkit
         private Image? _image;
         private Color _imageTransparentColor;
         private readonly PaletteContentInheritRedirect _stateCommonRedirect;
-        private KryptonCommand _command;
+        private KryptonCommand? _command;
         private LabelStyle _style;
         #endregion
 
@@ -138,8 +138,11 @@ namespace Krypton.Toolkit
                                               object parent,
                                               ViewLayoutStack columns,
                                               bool standardStyle,
-                                              bool imageColumn) =>
-            new ViewDrawMenuRadioButton(provider, this);
+                                              bool imageColumn)
+        {
+            SetProvider(provider);
+            return new ViewDrawMenuRadioButton(provider, this);
+        }
 
         /// <summary>
         /// Gets and sets if clicking the radio button automatically closes the context menu.

@@ -63,13 +63,6 @@ namespace Krypton.Toolkit
         [Category(@"Property Changed")]
         [Description(@"Occurs when the check state property changes.")]
         public event EventHandler? CheckStateChanged;
-
-        /// <summary>
-        /// Occurs when the <see cref="KryptonContextMenuItem"/> wants to display a tooltip.
-        /// </summary>
-        [Description(@"Occurs when the KryptonContextMenuItem wants to display a tooltip.")]
-        [Category(@"Behavior")]
-        public event EventHandler<ToolTipNeededEventArgs>? ToolTipNeeded;
         #endregion
 
         #region Identity
@@ -702,12 +695,6 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="e">An EventArgs that contains the event data.</param>
         protected virtual void OnCheckStateChanged(EventArgs e) => CheckStateChanged?.Invoke(this, e);
-
-        /// <summary>
-        /// Raises the ToolTipNeeded event.
-        /// </summary>
-        /// <param name="e"></param>
-        protected virtual void OnToolTipNeeded(ToolTipNeededEventArgs e) => ToolTipNeeded?.Invoke(this, e);
         #endregion
 
         #region Internal

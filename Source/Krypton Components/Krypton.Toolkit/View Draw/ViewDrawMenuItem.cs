@@ -30,7 +30,6 @@ namespace Krypton.Toolkit
         private readonly FixedContentValue _fixedTextExtraText;
         private KryptonCommand? _cachedCommand;
         private readonly bool _imageColumn;
-        private VisualPopupToolTip? _visualPopupToolTip;
 
         #endregion
 
@@ -163,10 +162,7 @@ namespace Krypton.Toolkit
             }
 
             // Create the manager for handling tooltips
-            ToolTipManager = new ToolTipManager(KryptonContextMenuItem.ToolTipValues);
-            ToolTipManager.ShowToolTip += OnShowToolTip;
-            ToolTipManager.CancelToolTip += OnCancelToolTip;
-            MouseController = new ToolTipController(ToolTipManager, this, mic);
+            MouseController = new ToolTipController(KryptonContextMenuItem.ToolTipManager, this, mic);
         }
 
         /// <summary>
@@ -176,13 +172,6 @@ namespace Krypton.Toolkit
         public override string ToString() =>
             // Return the class name and instance identifier
             $"ViewDrawMenuItem:{Id}";
-
-        /// <summary>
-        /// Gets access to the ToolTipManager used for displaying tool tips.
-        /// </summary>
-        [Browsable(false)]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public ToolTipManager ToolTipManager { get; }
 
         /// <summary>
         /// Clean up any resources being used.
@@ -649,7 +638,7 @@ namespace Krypton.Toolkit
             {
                 // Unhook from control, so it can be garbage collected
                 _contextMenu.Disposed -= OnContextMenuDisposed;
-                OnCancelToolTip(sender, e);
+                KryptonContextMenuItem.OnCancelToolTip(sender, e);
 
                 // No longer need to cache reference
                 _contextMenu = null;
@@ -657,54 +646,6 @@ namespace Krypton.Toolkit
                 // Tell our view manager that we no longer show a sub menu
                 _provider.ProviderViewManager.ClearTargetSubMenu((IContextMenuTarget)KeyController);
             }
-        }
-
-        internal void OnShowToolTip(object sender, ToolTipEventArgs e)
-        {
-            if (!IsDisposed)
-            {
-                // Do not show tooltips when the form we are in does not have focus
-                //Form? topForm = FindForm();
-                //if (topForm is { ContainsFocus: false })
-                //{
-                //    return;
-                //}
-
-                // Never show tooltips are design time
-                //if (!DesignMode)
-                if (KryptonContextMenuItem.ToolTipValues.EnableToolTips)
-                {
-                    // Remove any currently showing tooltip
-                    _visualPopupToolTip?.Dispose();
-
-                    // Create the actual tooltip popup object
-                    var renderer = _provider.ProviderRedirector.Target.GetRenderer();
-                    _visualPopupToolTip = new VisualPopupToolTip(_provider.ProviderRedirector,
-                        KryptonContextMenuItem.ToolTipValues,
-                        renderer,
-                        PaletteBackStyle.ControlToolTip,
-                        PaletteBorderStyle.ControlToolTip,
-                        CommonHelper.ContentStyleFromLabelStyle(KryptonContextMenuItem.ToolTipValues.ToolTipStyle),
-                        KryptonContextMenuItem.ToolTipValues.ToolTipShadow);
-
-                    _visualPopupToolTip.Disposed += OnVisualPopupToolTipDisposed;
-                    _visualPopupToolTip.ShowRelativeTo(e.Target, e.ControlMousePosition);
-                }
-            }
-        }
-
-        internal void OnCancelToolTip(object sender, EventArgs e) =>
-            // Remove any currently showing tooltip
-            _visualPopupToolTip?.Dispose();
-
-        internal void OnVisualPopupToolTipDisposed(object sender, EventArgs e)
-        {
-            // Unhook events from the specific instance that generated event
-            var popupToolTip = (VisualPopupToolTip)sender;
-            popupToolTip.Disposed -= OnVisualPopupToolTipDisposed;
-
-            // Not showing a popup page any more
-            _visualPopupToolTip = null;
         }
         #endregion
     }
