@@ -22,7 +22,10 @@
 * Implemented [#1007](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1007), A way to alter all of the strings in the toolkit to language specific strings
 * Implemented [#1006](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1006), Make converter strings localisable
     - **Note:** Components that use these strings may need to be 'refreshed' once changes have been made
+* Implemented [#969](https://github.com/Krypton-Suite/Standard-Toolkit/issues/969), Specialised `KryptonCommand`'s for integrated toolbar
+* Implemented [#940](https://github.com/Krypton-Suite/Standard-Toolkit/issues/940), `KryptonManager` - Localised strings for 'Colors'
 * Implemented [#894](https://github.com/Krypton-Suite/Standard-Toolkit/issues/894), `KryptonPropertyGrid` needs to have full Krypton support
+* Implemented [#872](https://github.com/Krypton-Suite/Standard-Toolkit/issues/872), ToolStrips in the non client area of a `KryptonForm`
 * Resolved [#999](https://github.com/Krypton-Suite/Standard-Toolkit/issues/999), Incorrect project file names while building
 * Part resolved [#66](https://github.com/Krypton-Suite/Standard-Toolkit/issues/66), to allow ribbon designer in vs 17.5x and .net48 project types.
 * Resolved [#838](https://github.com/Krypton-Suite/Standard-Toolkit/issues/838),
