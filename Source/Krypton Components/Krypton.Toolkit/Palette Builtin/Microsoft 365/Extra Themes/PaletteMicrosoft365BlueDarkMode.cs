@@ -618,7 +618,6 @@ namespace Krypton.Toolkit
         private static readonly Image _buttonSpecRibbonExpand = RibbonArrowImageResources.RibbonDown2010;
         private static readonly Image _contextMenuChecked = GenericOffice2007ImageResources.Office2007Checked;
         private static readonly Image _contextMenuIndeterminate = GenericOffice2007ImageResources.Office2007Indeterminate;
-        private static readonly Image[] _buttonSpecImages;
 
         #region Integrated Tool Bar Images
 
@@ -651,6 +650,46 @@ namespace Krypton.Toolkit
         private static readonly Image _integratedToolbarQuickPrintNormal = Office2019ToolbarImageResources.Office2019ToolbarQuickPrintNormal;
 
         #endregion
+
+        #endregion
+
+        #region Image Array
+
+        private static readonly Image[] _buttonSpecImages = new Image[]
+        {
+            _buttonSpecClose,
+            _buttonSpecContext,
+            _buttonSpecNext,
+            _buttonSpecPrevious,
+            _buttonSpecArrowLeft,
+            _buttonSpecArrowRight,
+            _buttonSpecArrowUp,
+            _buttonSpecArrowDown,
+            _buttonSpecDropDown,
+            _buttonSpecPinVertical,
+            _buttonSpecPinHorizontal,
+            _buttonSpecPendantClose,
+            _buttonSpecPendantMin,
+            _buttonSpecPendantRestore,
+            _buttonSpecWorkspaceMaximize,
+            _buttonSpecWorkspaceRestore,
+            _buttonSpecRibbonMinimize,
+            _buttonSpecRibbonExpand,
+            _integratedToolbarNewNormal,
+            _integratedToolbarOpenNormal,
+            _integratedToolbarSaveNormal,
+            _integratedToolbarSaveAsNormal,
+            _integratedToolbarSaveAllNormal,
+            _integratedToolbarCutNormal,
+            _integratedToolbarCopyNormal,
+            _integratedToolbarPasteNormal,
+            _integratedToolbarUndoNormal,
+            _integratedToolbarRedoNormal,
+            _integratedToolbarPageSetupNormal,
+            _integratedToolbarPrintPreviewNormal,
+            _integratedToolbarPrintNormal,
+            _integratedToolbarQuickPrintNormal
+        };
 
         #endregion
 
@@ -762,45 +801,6 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Identity
-
-        static PaletteMicrosoft365BlueDarkModeBase()
-        {
-            _buttonSpecImages = new Image[]
-            {
-                _buttonSpecClose,
-                _buttonSpecContext,
-                _buttonSpecNext,
-                _buttonSpecPrevious,
-                _buttonSpecArrowLeft,
-                _buttonSpecArrowRight,
-                _buttonSpecArrowUp,
-                _buttonSpecArrowDown,
-                _buttonSpecDropDown,
-                _buttonSpecPinVertical,
-                _buttonSpecPinHorizontal,
-                _buttonSpecPendantClose,
-                _buttonSpecPendantMin,
-                _buttonSpecPendantRestore,
-                _buttonSpecWorkspaceMaximize,
-                _buttonSpecWorkspaceRestore,
-                _buttonSpecRibbonMinimize,
-                _buttonSpecRibbonExpand,
-                _integratedToolbarNewNormal,
-                _integratedToolbarOpenNormal,
-                _integratedToolbarSaveNormal,
-                _integratedToolbarSaveAsNormal,
-                _integratedToolbarSaveAllNormal,
-                _integratedToolbarCutNormal,
-                _integratedToolbarCopyNormal,
-                _integratedToolbarPasteNormal,
-                _integratedToolbarUndoNormal,
-                _integratedToolbarRedoNormal,
-                _integratedToolbarPageSetupNormal,
-                _integratedToolbarPrintPreviewNormal,
-                _integratedToolbarPrintNormal,
-                _integratedToolbarQuickPrintNormal
-            };
-        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PaletteMicrosoft365BlueDarkModeBase"/> class.

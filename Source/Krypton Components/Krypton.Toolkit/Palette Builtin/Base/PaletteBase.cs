@@ -26,7 +26,7 @@ namespace Krypton.Toolkit
         private Padding? _inputControlPadding;
         private PaletteDragFeedback _dragFeedback;
         private string _themeName;
-        protected static Image[] /*ICollection<Image?>*/ _buttonSpecImages;
+        private Image[] /*ICollection<Image?>*/ _buttonSpecImages;
 
         private readonly Font _defaultFontStyle = new Font("Segoe UI", 9f, FontStyle.Regular);
 
@@ -135,6 +135,14 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <returns>InheritBool value.</returns>
         public abstract InheritBool GetAllowFormChrome();
+        #endregion
+
+        #region Dictionary
+
+        /// <summary>Buttons the spec style dictionary.</summary>
+        /// <returns>An <seealso cref="IDictionary"/> containing <seealso cref="PaletteButtonSpecStyle"/>, <seealso cref="Image"/> pairs.</returns>
+        protected abstract IDictionary<PaletteButtonSpecStyle, Image> ButtonSpecStyleDictionary();
+
         #endregion
 
         #region Renderer

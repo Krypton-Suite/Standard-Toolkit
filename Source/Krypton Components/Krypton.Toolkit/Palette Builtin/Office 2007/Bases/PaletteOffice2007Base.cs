@@ -121,6 +121,46 @@ namespace Krypton.Toolkit
 
         #endregion
 
+        #region Image Array
+
+        private static readonly Image[] _buttonSpecImages = new Image[]
+        {
+            _buttonSpecClose,
+            _buttonSpecContext,
+            _buttonSpecNext,
+            _buttonSpecPrevious,
+            _buttonSpecArrowLeft,
+            _buttonSpecArrowRight,
+            _buttonSpecArrowUp,
+            _buttonSpecArrowDown,
+            _buttonSpecDropDown,
+            _buttonSpecPinVertical,
+            _buttonSpecPinHorizontal,
+            _buttonSpecPendantClose,
+            _buttonSpecPendantMin,
+            _buttonSpecPendantRestore,
+            _buttonSpecWorkspaceMaximize,
+            _buttonSpecWorkspaceRestore,
+            _buttonSpecRibbonMinimize,
+            _buttonSpecRibbonExpand,
+            _integratedToolbarNewNormal,
+            _integratedToolbarOpenNormal,
+            _integratedToolbarSaveNormal,
+            _integratedToolbarSaveAsNormal,
+            _integratedToolbarSaveAllNormal,
+            _integratedToolbarCutNormal,
+            _integratedToolbarCopyNormal,
+            _integratedToolbarPasteNormal,
+            _integratedToolbarUndoNormal,
+            _integratedToolbarRedoNormal,
+            _integratedToolbarPageSetupNormal,
+            _integratedToolbarPrintPreviewNormal,
+            _integratedToolbarPrintNormal,
+            _integratedToolbarQuickPrintNormal
+        };
+
+        #endregion
+
         #region Colours
 
         private static readonly Color _gridTextColor = Color.Black;
@@ -152,31 +192,96 @@ namespace Krypton.Toolkit
         private static readonly Color _contextMenuHeadingBorder = Color.FromArgb(197, 197, 197);
         private static readonly Color _contextMenuImageBackChecked = Color.FromArgb(255, 227, 149);
         private static readonly Color _contextMenuImageBorderChecked = Color.FromArgb(242, 149, 54);
-        private static readonly Color[] _ribbonGroupCollapsedBackContext = { Color.FromArgb(48, 255, 255, 255), Color.FromArgb(235, 235, 235) };
-        private static readonly Color[] _ribbonGroupCollapsedBackContextTracking = { Color.FromArgb(48, 255, 255, 255), Color.FromArgb(235, 235, 235) };
-        private static readonly Color[] _ribbonGroupCollapsedBorderContext = { Color.FromArgb(128, 199, 199, 199), Color.FromArgb(199, 199, 199), Color.FromArgb(48, 255, 255, 255), Color.FromArgb(235, 235, 235) };
-        private static readonly Color[] _ribbonGroupCollapsedBorderContextTracking = { Color.FromArgb(128, 168, 184, 196), Color.FromArgb(168, 184, 196), Color.FromArgb(48, 255, 255, 255), Color.FromArgb(192, 207, 220) };
-        private static readonly Color[] _appButtonNormal = { Color.FromArgb(243, 245, 248), Color.FromArgb(214, 220, 231), Color.FromArgb(188, 198, 211), Color.FromArgb(254, 254, 255), Color.FromArgb(206, 213, 225) };
-        private static readonly Color[] _appButtonTrack = { Color.FromArgb(255, 251, 230), Color.FromArgb(248, 230, 143), Color.FromArgb(238, 213, 126), Color.FromArgb(254, 247, 129), Color.FromArgb(240, 201, 41) };
-        private static readonly Color[] _appButtonPressed = { Color.FromArgb(235, 227, 196), Color.FromArgb(228, 198, 149), Color.FromArgb(166, 97, 7), Color.FromArgb(242, 155, 57), Color.FromArgb(236, 136, 9) };
-        private static readonly Color[] _buttonBorderColors = { Color.FromArgb(212, 212, 212), // Button, Disabled, Border
+
+        #endregion
+
+        #region Colour Arrays
+
+        private static readonly Color[] _ribbonGroupCollapsedBackContext =
+        {
+            Color.FromArgb(48, 255, 255, 255),
+            Color.FromArgb(235, 235, 235)
+        };
+
+
+        private static readonly Color[] _ribbonGroupCollapsedBackContextTracking =
+            {
+                Color.FromArgb(48, 255, 255, 255),
+                Color.FromArgb(235, 235, 235)
+            };
+
+
+        private static readonly Color[] _ribbonGroupCollapsedBorderContext =
+        {
+            Color.FromArgb(128, 199, 199, 199),
+            Color.FromArgb(199, 199, 199),
+            Color.FromArgb(48, 255, 255, 255),
+            Color.FromArgb(235, 235, 235)
+        };
+
+
+        private static readonly Color[] _ribbonGroupCollapsedBorderContextTracking =
+        {
+            Color.FromArgb(128, 168, 184, 196),
+            Color.FromArgb(168, 184, 196),
+            Color.FromArgb(48, 255, 255, 255),
+            Color.FromArgb(192, 207, 220)
+        };
+
+
+        private static readonly Color[] _appButtonNormal =
+        {
+            Color.FromArgb(243, 245, 248),
+            Color.FromArgb(214, 220, 231),
+            Color.FromArgb(188, 198, 211),
+            Color.FromArgb(254, 254, 255),
+            Color.FromArgb(206, 213, 225)
+        };
+
+
+        private static readonly Color[] _appButtonTrack =
+        {
+            Color.FromArgb(255, 251, 230),
+            Color.FromArgb(248, 230, 143),
+            Color.FromArgb(238, 213, 126),
+            Color.FromArgb(254, 247, 129),
+            Color.FromArgb(240, 201, 41)
+        };
+
+
+        private static readonly Color[] _appButtonPressed =
+        {
+            Color.FromArgb(235, 227, 196),
+            Color.FromArgb(228, 198, 149),
+            Color.FromArgb(166, 97, 7),
+            Color.FromArgb(242, 155, 57),
+            Color.FromArgb(236, 136, 9)
+        };
+
+        private static readonly Color[] _buttonBorderColors =
+        {
+            Color.FromArgb(212, 212, 212), // Button, Disabled, Border
             Color.FromArgb(221, 207, 155), // Button, Tracking, Border 1
             Color.FromArgb(192, 167, 119), // Button, Tracking, Border 2
-            Color.FromArgb(147, 125,  90), // Button, Pressed, Border 1
-            Color.FromArgb(255, 196,  68), // Button, Pressed, Border 2
-            Color.FromArgb(158, 130,  85), // Button, Checked, Border 1
-            Color.FromArgb(254, 218, 144)  // Button, Checked, Border 2
+            Color.FromArgb(147, 125, 90), // Button, Pressed, Border 1
+            Color.FromArgb(255, 196, 68), // Button, Pressed, Border 2
+            Color.FromArgb(158, 130, 85), // Button, Checked, Border 1
+            Color.FromArgb(254, 218, 144) // Button, Checked, Border 2
         };
-        private static readonly Color[] _buttonBackColors = { Color.FromArgb(221, 221, 221), // Button, Disabled, Back 1
+
+
+        private static readonly Color[] _buttonBackColors =
+        {
+            Color.FromArgb(221, 221, 221), // Button, Disabled, Back 1
             Color.FromArgb(236, 236, 236), // Button, Disabled, Back 2
-            Color.FromArgb(255, 213,  77), // Button, Tracking, Back 1
+            Color.FromArgb(255, 213, 77), // Button, Tracking, Back 1
             Color.FromArgb(255, 239, 177), // Button, Tracking, Back 2
-            Color.FromArgb(235, 122,   5), // Button, Pressed, Back 1
+            Color.FromArgb(235, 122, 5), // Button, Pressed, Back 1
             Color.FromArgb(254, 195, 108), // Button, Pressed, Back 2
-            Color.FromArgb(254, 175,  77), // Button, Checked, Back 1
+            Color.FromArgb(254, 175, 77), // Button, Checked, Back 1
             Color.FromArgb(254, 230, 136), // Button, Checked, Back 2
-            Color.FromArgb(232, 142,  49), // Button, Checked Tracking, Back 1
-            Color.FromArgb(252, 207, 100)  // Button, Checked Tracking, Back 2
+            Color.FromArgb(232, 142, 49), // Button, Checked Tracking, Back 1
+            Color.FromArgb(252, 207, 100) // Button, Checked Tracking, Back 2
         };
 
         #endregion
@@ -206,11 +311,11 @@ namespace Krypton.Toolkit
         /// <param name="radioButtonArray">Array of images for radio button.</param>
         /// <param name="trackBarColors">Array of track bar specific colors.</param>
         protected PaletteOffice2007Base(string themeName,
-            [DisallowNull] Color[] schemeColors,
-            [DisallowNull] ImageList checkBoxList,
-            [DisallowNull] ImageList galleryButtonList,
-            [DisallowNull] Image[] radioButtonArray,
-                                        Color[] trackBarColors)
+                                        [DisallowNull] Color[] schemeColors,
+                                        [DisallowNull] ImageList checkBoxList,
+                                        [DisallowNull] ImageList galleryButtonList,
+                                        [DisallowNull] Image[] radioButtonArray,
+                                        Color[] trackBarColors) : base(_buttonSpecImages)
         {
             Debug.Assert(schemeColors != null);
             Debug.Assert(checkBoxList != null);
@@ -3743,94 +3848,6 @@ namespace Krypton.Toolkit
         #region ThemeName
 
         public new virtual string ThemeName { get => _themeName; set => _themeName = value; }
-
-        #endregion
-
-        #region ButtonSpec
-
-        /// <summary>
-        /// Gets the image to display for the button.
-        /// </summary>
-        /// <param name="style">Style of button spec.</param>
-        /// <param name="state">State for which image is required.</param>
-        /// <returns>Image value.</returns>
-        public override Image? GetButtonSpecImage(PaletteButtonSpecStyle style,
-                                                 PaletteState state)
-        {
-            switch (style)
-            {
-                case PaletteButtonSpecStyle.Close:
-                    return _buttonSpecClose;
-                case PaletteButtonSpecStyle.Context:
-                    return _buttonSpecContext;
-                case PaletteButtonSpecStyle.Next:
-                    return _buttonSpecNext;
-                case PaletteButtonSpecStyle.Previous:
-                    return _buttonSpecPrevious;
-                case PaletteButtonSpecStyle.ArrowLeft:
-                    return _buttonSpecArrowLeft;
-                case PaletteButtonSpecStyle.ArrowRight:
-                    return _buttonSpecArrowRight;
-                case PaletteButtonSpecStyle.ArrowUp:
-                    return _buttonSpecArrowUp;
-                case PaletteButtonSpecStyle.ArrowDown:
-                    return _buttonSpecArrowDown;
-                case PaletteButtonSpecStyle.DropDown:
-                    return _buttonSpecDropDown;
-                case PaletteButtonSpecStyle.PinVertical:
-                    return _buttonSpecPinVertical;
-                case PaletteButtonSpecStyle.PinHorizontal:
-                    return _buttonSpecPinHorizontal;
-                case PaletteButtonSpecStyle.PendantClose:
-                    return _buttonSpecPendantClose;
-                case PaletteButtonSpecStyle.PendantMin:
-                    return _buttonSpecPendantMin;
-                case PaletteButtonSpecStyle.PendantRestore:
-                    return _buttonSpecPendantRestore;
-                case PaletteButtonSpecStyle.WorkspaceMaximize:
-                    return _buttonSpecWorkspaceMaximize;
-                case PaletteButtonSpecStyle.WorkspaceRestore:
-                    return _buttonSpecWorkspaceRestore;
-                case PaletteButtonSpecStyle.RibbonMinimize:
-                    return _buttonSpecRibbonMinimize;
-                case PaletteButtonSpecStyle.RibbonExpand:
-                    return _buttonSpecRibbonExpand;
-                case PaletteButtonSpecStyle.New:
-                    return _integratedToolbarNewNormal;
-                case PaletteButtonSpecStyle.Open:
-                    return _integratedToolbarOpenNormal;
-                case PaletteButtonSpecStyle.Save:
-                    return _integratedToolbarSaveNormal;
-                case PaletteButtonSpecStyle.SaveAs:
-                    return _integratedToolbarSaveAsNormal;
-                case PaletteButtonSpecStyle.SaveAll:
-                    return _integratedToolbarSaveAllNormal;
-                case PaletteButtonSpecStyle.Cut:
-                    return _integratedToolbarCutNormal;
-                case PaletteButtonSpecStyle.Copy:
-                    return _integratedToolbarCopyNormal;
-                case PaletteButtonSpecStyle.Paste:
-                    return _integratedToolbarPasteNormal;
-                case PaletteButtonSpecStyle.Undo:
-                    return _integratedToolbarUndoNormal;
-                case PaletteButtonSpecStyle.Redo:
-                    return _integratedToolbarRedoNormal;
-                case PaletteButtonSpecStyle.PageSetup:
-                    return _integratedToolbarPageSetupNormal;
-                case PaletteButtonSpecStyle.PrintPreview:
-                    return _integratedToolbarPrintPreviewNormal;
-                case PaletteButtonSpecStyle.Print:
-                    return _integratedToolbarPrintNormal;
-                case PaletteButtonSpecStyle.QuickPrint:
-                    return _integratedToolbarQuickPrintNormal;
-                case PaletteButtonSpecStyle.Generic:
-                    return null;
-                default:
-                    // Should never happen!
-                    Debug.Assert(false);
-                    return null;
-            }
-        }
 
         #endregion
 

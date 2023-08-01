@@ -27,7 +27,7 @@ namespace Krypton.Toolkit
                                              (UseAsUACShieldButton == false) &&
                                              (UseOSStyleImage == false) &&
                                              (ShieldIconSize == UACShieldIconSize.ExtraSmall) &&
-                                             (CustomImageSize == null);
+                                             (CustomImageSize == new Size(24, 24));
 
         #region Identity
 

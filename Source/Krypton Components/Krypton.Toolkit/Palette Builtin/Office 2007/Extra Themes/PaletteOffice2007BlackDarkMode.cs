@@ -690,6 +690,46 @@ namespace Krypton.Toolkit
 
         #endregion
 
+        #region Image Array
+
+        private static readonly Image[] _buttonSpecImages = new Image[]
+        {
+            _buttonSpecClose,
+            _buttonSpecContext,
+            _buttonSpecNext,
+            _buttonSpecPrevious,
+            _buttonSpecArrowLeft,
+            _buttonSpecArrowRight,
+            _buttonSpecArrowUp,
+            _buttonSpecArrowDown,
+            _buttonSpecDropDown,
+            _buttonSpecPinVertical,
+            _buttonSpecPinHorizontal,
+            _buttonSpecPendantClose,
+            _buttonSpecPendantMin,
+            _buttonSpecPendantRestore,
+            _buttonSpecWorkspaceMaximize,
+            _buttonSpecWorkspaceRestore,
+            _buttonSpecRibbonMinimize,
+            _buttonSpecRibbonExpand,
+            _integratedToolbarNewNormal,
+            _integratedToolbarOpenNormal,
+            _integratedToolbarSaveNormal,
+            _integratedToolbarSaveAsNormal,
+            _integratedToolbarSaveAllNormal,
+            _integratedToolbarCutNormal,
+            _integratedToolbarCopyNormal,
+            _integratedToolbarPasteNormal,
+            _integratedToolbarUndoNormal,
+            _integratedToolbarRedoNormal,
+            _integratedToolbarPageSetupNormal,
+            _integratedToolbarPrintPreviewNormal,
+            _integratedToolbarPrintNormal,
+            _integratedToolbarQuickPrintNormal
+        };
+
+        #endregion
+
         #region Colours
         private static readonly Color _gridTextColor = Color.White;
         private static readonly Color _calendarTextColor = Color.White;
@@ -817,10 +857,10 @@ namespace Krypton.Toolkit
         /// <param name="radioButtonArray">Array of images for radio button.</param>
         /// <param name="trackBarColors">Array of track bar specific colors.</param>
         protected PaletteOffice2007BlackDarkModeBase([DisallowNull] Color[] schemeColors,
-                                     [DisallowNull] ImageList checkBoxList,
-                                     [DisallowNull] ImageList galleryButtonList,
-                                     [DisallowNull] Image[] radioButtonArray,
-                                     Color[] trackBarColors)
+                                                     [DisallowNull] ImageList checkBoxList,
+                                                     [DisallowNull] ImageList galleryButtonList,
+                                                     [DisallowNull] Image[] radioButtonArray,
+                                                     Color[] trackBarColors) : base(_buttonSpecImages)
         {
             Debug.Assert(schemeColors != null);
             Debug.Assert(checkBoxList != null);
@@ -4456,94 +4496,6 @@ namespace Krypton.Toolkit
             PaletteRibbonGalleryButton.DropDown => _galleryButtonList.Images[2],
             _ => _galleryButtonList.Images[0]
         };
-        #endregion
-
-        #region ButtonSpec
-
-        /// <summary>
-        /// Gets the image to display for the button.
-        /// </summary>
-        /// <param name="style">Style of button spec.</param>
-        /// <param name="state">State for which image is required.</param>
-        /// <returns>Image value.</returns>
-        public override Image? GetButtonSpecImage(PaletteButtonSpecStyle style,
-                                                 PaletteState state)
-        {
-            switch (style)
-            {
-                case PaletteButtonSpecStyle.Close:
-                    return _buttonSpecClose;
-                case PaletteButtonSpecStyle.Context:
-                    return _buttonSpecContext;
-                case PaletteButtonSpecStyle.Next:
-                    return _buttonSpecNext;
-                case PaletteButtonSpecStyle.Previous:
-                    return _buttonSpecPrevious;
-                case PaletteButtonSpecStyle.ArrowLeft:
-                    return _buttonSpecArrowLeft;
-                case PaletteButtonSpecStyle.ArrowRight:
-                    return _buttonSpecArrowRight;
-                case PaletteButtonSpecStyle.ArrowUp:
-                    return _buttonSpecArrowUp;
-                case PaletteButtonSpecStyle.ArrowDown:
-                    return _buttonSpecArrowDown;
-                case PaletteButtonSpecStyle.DropDown:
-                    return _buttonSpecDropDown;
-                case PaletteButtonSpecStyle.PinVertical:
-                    return _buttonSpecPinVertical;
-                case PaletteButtonSpecStyle.PinHorizontal:
-                    return _buttonSpecPinHorizontal;
-                case PaletteButtonSpecStyle.PendantClose:
-                    return _buttonSpecPendantClose;
-                case PaletteButtonSpecStyle.PendantMin:
-                    return _buttonSpecPendantMin;
-                case PaletteButtonSpecStyle.PendantRestore:
-                    return _buttonSpecPendantRestore;
-                case PaletteButtonSpecStyle.WorkspaceMaximize:
-                    return _buttonSpecWorkspaceMaximize;
-                case PaletteButtonSpecStyle.WorkspaceRestore:
-                    return _buttonSpecWorkspaceRestore;
-                case PaletteButtonSpecStyle.RibbonMinimize:
-                    return _buttonSpecRibbonMinimize;
-                case PaletteButtonSpecStyle.RibbonExpand:
-                    return _buttonSpecRibbonExpand;
-                case PaletteButtonSpecStyle.New:
-                    return _integratedToolbarNewNormal;
-                case PaletteButtonSpecStyle.Open:
-                    return _integratedToolbarOpenNormal;
-                case PaletteButtonSpecStyle.Save:
-                    return _integratedToolbarSaveNormal;
-                case PaletteButtonSpecStyle.SaveAs:
-                    return _integratedToolbarSaveAsNormal;
-                case PaletteButtonSpecStyle.SaveAll:
-                    return _integratedToolbarSaveAllNormal;
-                case PaletteButtonSpecStyle.Cut:
-                    return _integratedToolbarCutNormal;
-                case PaletteButtonSpecStyle.Copy:
-                    return _integratedToolbarCopyNormal;
-                case PaletteButtonSpecStyle.Paste:
-                    return _integratedToolbarPasteNormal;
-                case PaletteButtonSpecStyle.Undo:
-                    return _integratedToolbarUndoNormal;
-                case PaletteButtonSpecStyle.Redo:
-                    return _integratedToolbarRedoNormal;
-                case PaletteButtonSpecStyle.PageSetup:
-                    return _integratedToolbarPageSetupNormal;
-                case PaletteButtonSpecStyle.PrintPreview:
-                    return _integratedToolbarPrintPreviewNormal;
-                case PaletteButtonSpecStyle.Print:
-                    return _integratedToolbarPrintNormal;
-                case PaletteButtonSpecStyle.QuickPrint:
-                    return _integratedToolbarQuickPrintNormal;
-                case PaletteButtonSpecStyle.Generic:
-                    return null;
-                default:
-                    // Should never happen!
-                    Debug.Assert(false);
-                    return null;
-            }
-        }
-
         #endregion
 
         #region RibbonGeneral

@@ -7,6 +7,8 @@
  */
 #endregion
 
+using System.Collections.Concurrent;
+
 namespace Krypton.Toolkit
 {
     /// <summary>Provides a base for Visual Studio palettes.</summary>
@@ -81,7 +83,6 @@ namespace Krypton.Toolkit
         private static readonly Image _buttonSpecRibbonExpand = RibbonArrowImageResources.RibbonDown2010;
         private static readonly Image _contextMenuChecked = GenericOffice2007ImageResources.Office2007Checked;
         private static readonly Image _contextMenuIndeterminate = GenericOffice2007ImageResources.Office2007Indeterminate;
-        private static readonly Image[] _buttonSpecImages;
 
         #region Integrated Toolbar Images
 
@@ -114,6 +115,46 @@ namespace Krypton.Toolkit
         private static readonly Image _integratedToolbarQuickPrintNormal = Office2019ToolbarImageResources.Office2019ToolbarQuickPrintNormal;
 
         #endregion
+
+        #endregion
+
+        #region Image Array
+
+        private static readonly Image[] _buttonSpecImages = new Image[]
+        {
+            _buttonSpecClose,
+            _buttonSpecContext,
+            _buttonSpecNext,
+            _buttonSpecPrevious,
+            _buttonSpecArrowLeft,
+            _buttonSpecArrowRight,
+            _buttonSpecArrowUp,
+            _buttonSpecArrowDown,
+            _buttonSpecDropDown,
+            _buttonSpecPinVertical,
+            _buttonSpecPinHorizontal,
+            _buttonSpecPendantClose,
+            _buttonSpecPendantMin,
+            _buttonSpecPendantRestore,
+            _buttonSpecWorkspaceMaximize,
+            _buttonSpecWorkspaceRestore,
+            _buttonSpecRibbonMinimize,
+            _buttonSpecRibbonExpand,
+            _integratedToolbarNewNormal,
+            _integratedToolbarOpenNormal,
+            _integratedToolbarSaveNormal,
+            _integratedToolbarSaveAsNormal,
+            _integratedToolbarSaveAllNormal,
+            _integratedToolbarCutNormal,
+            _integratedToolbarCopyNormal,
+            _integratedToolbarPasteNormal,
+            _integratedToolbarUndoNormal,
+            _integratedToolbarRedoNormal,
+            _integratedToolbarPageSetupNormal,
+            _integratedToolbarPrintPreviewNormal,
+            _integratedToolbarPrintNormal,
+            _integratedToolbarQuickPrintNormal
+        };
 
         #endregion
 
@@ -229,45 +270,6 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Identity
-
-        static PaletteVisualStudio2010Base()
-        {
-            _buttonSpecImages = new Image[]
-            {
-                _buttonSpecClose,
-                _buttonSpecContext,
-                _buttonSpecNext,
-                _buttonSpecPrevious,
-                _buttonSpecArrowLeft,
-                _buttonSpecArrowRight,
-                _buttonSpecArrowUp,
-                _buttonSpecArrowDown,
-                _buttonSpecDropDown,
-                _buttonSpecPinVertical,
-                _buttonSpecPinHorizontal,
-                _buttonSpecPendantClose,
-                _buttonSpecPendantMin,
-                _buttonSpecPendantRestore,
-                _buttonSpecWorkspaceMaximize,
-                _buttonSpecWorkspaceRestore,
-                _buttonSpecRibbonMinimize,
-                _buttonSpecRibbonExpand,
-                _integratedToolbarNewNormal,
-                _integratedToolbarOpenNormal,
-                _integratedToolbarSaveNormal,
-                _integratedToolbarSaveAsNormal,
-                _integratedToolbarSaveAllNormal,
-                _integratedToolbarCutNormal,
-                _integratedToolbarCopyNormal,
-                _integratedToolbarPasteNormal,
-                _integratedToolbarUndoNormal,
-                _integratedToolbarRedoNormal,
-                _integratedToolbarPageSetupNormal,
-                _integratedToolbarPrintPreviewNormal,
-                _integratedToolbarPrintNormal,
-                _integratedToolbarQuickPrintNormal
-            };
-        }
 
         /// <summary>Initializes a new instance of the <see cref="PaletteVisualStudio2010Base" /> class.</summary>
         /// <param name="schemeColours">The scheme colours.</param>
@@ -2092,6 +2094,64 @@ namespace Krypton.Toolkit
                 _ => throw new ArgumentOutOfRangeException(nameof(style))
             };
         }
+        #endregion
+
+        #region Dictionary
+
+        /// <summary>Buttons the spec style dictionary.</summary>
+        /// <returns></returns>
+        protected override IDictionary<PaletteButtonSpecStyle, Image> ButtonSpecStyleDictionary()
+        {
+            IDictionary<PaletteButtonSpecStyle, Image> imageDictionary =
+                new ConcurrentDictionary<PaletteButtonSpecStyle, Image>();
+
+            imageDictionary.Add(PaletteButtonSpecStyle.ArrowRight, _buttonSpecArrowRight);
+
+            imageDictionary.Add(PaletteButtonSpecStyle.ArrowLeft, _buttonSpecArrowLeft);
+
+            imageDictionary.Add(PaletteButtonSpecStyle.ArrowDown, _buttonSpecArrowDown);
+
+            imageDictionary.Add(PaletteButtonSpecStyle.ArrowUp, _buttonSpecArrowUp);
+
+            imageDictionary.Add(PaletteButtonSpecStyle.Close, _buttonSpecClose);
+
+            imageDictionary.Add(PaletteButtonSpecStyle.Context, _buttonSpecContext);
+
+            imageDictionary.Add(PaletteButtonSpecStyle.Copy, _integratedToolbarCopyNormal);
+
+            imageDictionary.Add(PaletteButtonSpecStyle.Cut, _integratedToolbarCutNormal);
+
+            imageDictionary.Add(PaletteButtonSpecStyle.DropDown, _buttonSpecDropDown);
+
+            imageDictionary.Add(PaletteButtonSpecStyle.PinHorizontal, _buttonSpecPinHorizontal);
+
+            imageDictionary.Add(PaletteButtonSpecStyle.PinVertical, _buttonSpecPinVertical);
+
+            imageDictionary.Add(PaletteButtonSpecStyle.PendantClose, _buttonSpecPendantClose);
+
+            imageDictionary.Add(PaletteButtonSpecStyle.PendantMin, _buttonSpecPendantMin);
+
+            imageDictionary.Add(PaletteButtonSpecStyle.PendantRestore, _buttonSpecPendantRestore);
+
+            imageDictionary.Add(PaletteButtonSpecStyle.Previous, _buttonSpecPrevious);
+
+            imageDictionary.Add(PaletteButtonSpecStyle.PageSetup, _integratedToolbarPageSetupNormal);
+
+            imageDictionary.Add(PaletteButtonSpecStyle.Paste, _integratedToolbarPasteNormal);
+
+            imageDictionary.Add(PaletteButtonSpecStyle.PrintPreview, _integratedToolbarPrintPreviewNormal);
+
+            imageDictionary.Add(PaletteButtonSpecStyle.Print, _integratedToolbarPrintNormal);
+
+            imageDictionary.Add(PaletteButtonSpecStyle.New, _integratedToolbarNewNormal);
+
+            imageDictionary.Add(PaletteButtonSpecStyle.Next, _buttonSpecNext);
+
+            imageDictionary.Add(PaletteButtonSpecStyle.Open, _integratedToolbarOpenNormal);
+
+            return imageDictionary;
+        }
+
         #endregion
 
         #region Metric
