@@ -171,6 +171,11 @@ namespace Krypton.Toolkit
         /// <returns>An <seealso cref="IDictionary"/> containing <seealso cref="PaletteButtonSpecStyle"/>, <seealso cref="Image"/> pairs.</returns>
         protected abstract IDictionary<PaletteButtonSpecStyle, Image> ButtonSpecStyleImageDictionary();
 
+        /// <summary>Converts an <seealso cref="IDictionary"/> to a <seealso cref="Dictionary{TKey,TValue}"/>.</summary>
+        /// <param name="dictionary">The dictionary.</param>
+        /// <returns></returns>
+        private Dictionary<PaletteButtonSpecStyle, Image> ConvertToDictionary(IDictionary dictionary) => (Dictionary<PaletteButtonSpecStyle, Image>)dictionary;
+
         #endregion
 
         #region Renderer
