@@ -27,6 +27,7 @@ namespace Krypton.Toolkit
         private ButtonCheckState _checked;
         private ButtonEnabled _wasEnabled;
         private ButtonCheckState _wasChecked;
+        private bool _showDrop;
         #endregion
 
         #region Identity
@@ -157,6 +158,38 @@ namespace Krypton.Toolkit
         /// Resets the Checked property to its default value.
         /// </summary>
         public void ResetChecked() => Checked = ButtonCheckState.NotCheckButton;
+
+        #endregion
+
+        #region ShowDrop
+        /// <summary>
+        /// Gets and sets if the button is checked or capable of being checked.
+        /// </summary>
+        [Localizable(true)]
+        [Category(@"Behavior")]
+        [Description(@"Defines if the button is checked or capable of being checked.")]
+        [RefreshProperties(RefreshProperties.All)]
+        [DefaultValue(false)]
+        public bool ShowDrop
+        {
+            get => _showDrop;
+
+            set
+            {
+                if (_showDrop != value)
+                {
+                    _showDrop = value;
+                    OnButtonSpecPropertyChanged(nameof(ShowDrop));
+                }
+            }
+        }
+
+        private bool ShouldSerializeShowDrop() => !ShowDrop;
+
+        /// <summary>
+        /// Resets the Checked property to its default value.
+        /// </summary>
+        public void ResetShowDrop() => ShowDrop = false;
 
         #endregion
 

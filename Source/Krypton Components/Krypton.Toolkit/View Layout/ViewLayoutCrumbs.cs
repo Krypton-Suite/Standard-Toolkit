@@ -26,7 +26,7 @@ namespace Krypton.Toolkit
         #region Instance Fields
         private readonly KryptonBreadCrumb _kryptonBreadCrumb;
         private readonly NeedPaintHandler _needPaintDelegate;
-        private ButtonController _pressedButtonController;
+        private ButtonController? _pressedButtonController;
         private readonly CrumbToButton _crumbToButton;
         private readonly ButtonToCrumb _buttonToCrumb;
         private MenuItemToCrumb _menuItemToCrumb;
@@ -346,7 +346,6 @@ namespace Krypton.Toolkit
             KryptonBreadCrumbItem? item = _kryptonBreadCrumb.SelectedItem;
             while (item != null)
             {
-
                 // If we do not have a button to represent this crumb...
                 if (!_crumbToButton.TryGetValue(item, out ViewDrawButton crumbButton))
                 {
@@ -407,7 +406,6 @@ namespace Krypton.Toolkit
                     // Create a context menu with a items collection
                     var kcm = new KryptonContextMenu
                     {
-
                         // Use same palette settings for context menu as the main control
                         Palette = _kryptonBreadCrumb.Palette
                     };

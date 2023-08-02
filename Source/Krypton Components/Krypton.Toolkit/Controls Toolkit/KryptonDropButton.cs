@@ -104,7 +104,6 @@ namespace Krypton.Toolkit
                                              VisualOrientation.Top,
                                              UseMnemonic)
             {
-
                 // Set default button state
                 DropDown = true,
                 Splitter = true,

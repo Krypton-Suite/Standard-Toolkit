@@ -2525,7 +2525,7 @@ namespace Krypton.Toolkit
                                                             VisualOrientation orientation)
         {
             // Grab an image appropriate to the state
-            Image? drawImage = palette.GetDropDownButtonImage(state);
+            Image? drawImage = palette?.GetDropDownButtonImage(state);
 
             // Get the image defined size
             Size imageSize = Size.Empty;
