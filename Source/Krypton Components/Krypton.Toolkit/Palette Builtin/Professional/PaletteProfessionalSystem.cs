@@ -106,61 +106,61 @@ namespace Krypton.Toolkit
 
         #region Toolbar Images
 
-        private static readonly Image _formToolbarButtonSpecNewNormal = SystemToolbarImageResources.SystemToolbarNewNormal;
-        private static readonly Image _formToolbarButtonSpecNewActive = SystemToolbarImageResources.SystemToolbarNewNormal;
-        private static readonly Image _formToolbarButtonSpecNewDisabled = SystemToolbarImageResources.SystemToolbarNewDisabled;
+        private static readonly Image _integratedToolbarNewNormal = SystemToolbarImageResources.SystemToolbarNewNormal;
+        private static readonly Image _integratedToolbarNewActive = SystemToolbarImageResources.SystemToolbarNewNormal;
+        private static readonly Image _integratedToolbarNewDisabled = SystemToolbarImageResources.SystemToolbarNewDisabled;
 
-        private static readonly Image _formToolbarButtonSpecOpenNormal = SystemToolbarImageResources.SystemToolbarOpenNormal;
-        private static readonly Image _formToolbarButtonSpecOpenActive = SystemToolbarImageResources.SystemToolbarOpenNormal;
-        private static readonly Image _formToolbarButtonSpecOpenDisabled = SystemToolbarImageResources.SystemToolbarOpenDisabled;
+        private static readonly Image _integratedToolbarOpenNormal = SystemToolbarImageResources.SystemToolbarOpenNormal;
+        private static readonly Image _integratedToolbarOpenActive = SystemToolbarImageResources.SystemToolbarOpenNormal;
+        private static readonly Image _integratedToolbarOpenDisabled = SystemToolbarImageResources.SystemToolbarOpenDisabled;
 
-        private static readonly Image _formToolbarButtonSpecSaveNormal = SystemToolbarImageResources.SystemToolbarSaveNormal;
-        private static readonly Image _formToolbarButtonSpecSaveActive = SystemToolbarImageResources.SystemToolbarSaveNormal;
-        private static readonly Image _formToolbarButtonSpecSaveDisabled = SystemToolbarImageResources.SystemToolbarSaveDisabled;
+        private static readonly Image _integratedToolbarSaveNormal = SystemToolbarImageResources.SystemToolbarSaveNormal;
+        private static readonly Image _integratedToolbarSaveActive = SystemToolbarImageResources.SystemToolbarSaveNormal;
+        private static readonly Image _integratedToolbarSaveDisabled = SystemToolbarImageResources.SystemToolbarSaveDisabled;
 
-        private static readonly Image _formToolbarButtonSpecSaveAllNormal = GenericToolbarImageResources.GenericSaveAll;
-        private static readonly Image _formToolbarButtonSpecSaveAllActive = GenericToolbarImageResources.GenericSaveAll;
-        private static readonly Image _formToolbarButtonSpecSaveAllDisabled = GenericToolbarImageResources.GenericSaveAll;
+        private static readonly Image _integratedToolbarSaveAllNormal = GenericToolbarImageResources.GenericSaveAll;
+        private static readonly Image _integratedToolbarSaveAllActive = GenericToolbarImageResources.GenericSaveAll;
+        private static readonly Image _integratedToolbarSaveAllDisabled = GenericToolbarImageResources.GenericSaveAll;
 
-        private static readonly Image _formToolbarButtonSpecSaveAsNormal = GenericToolbarImageResources.GenericSaveAs;
-        private static readonly Image _formToolbarButtonSpecSaveAsActive = GenericToolbarImageResources.GenericSaveAs;
-        private static readonly Image _formToolbarButtonSpecSaveAsDisabled = GenericToolbarImageResources.GenericSaveAs;
+        private static readonly Image _integratedToolbarSaveAsNormal = GenericToolbarImageResources.GenericSaveAs;
+        private static readonly Image _integratedToolbarSaveAsActive = GenericToolbarImageResources.GenericSaveAs;
+        private static readonly Image _integratedToolbarSaveAsDisabled = GenericToolbarImageResources.GenericSaveAs;
 
-        private static readonly Image _formToolbarButtonSpecCutNormal = SystemToolbarImageResources.SystemToolbarCutNormal;
-        private static readonly Image _formToolbarButtonSpecCutActive = SystemToolbarImageResources.SystemToolbarCutNormal;
-        private static readonly Image _formToolbarButtonSpecCutDisabled = SystemToolbarImageResources.SystemToolbarCutDisabled;
+        private static readonly Image _integratedToolbarCutNormal = SystemToolbarImageResources.SystemToolbarCutNormal;
+        private static readonly Image _integratedToolbarCutActive = SystemToolbarImageResources.SystemToolbarCutNormal;
+        private static readonly Image _integratedToolbarCutDisabled = SystemToolbarImageResources.SystemToolbarCutDisabled;
 
-        private static readonly Image _formToolbarButtonSpecCopyNormal = SystemToolbarImageResources.SystemToolbarCopyNormal;
-        private static readonly Image _formToolbarButtonSpecCopyActive = SystemToolbarImageResources.SystemToolbarCopyNormal;
-        private static readonly Image _formToolbarButtonSpecCopyDisabled = SystemToolbarImageResources.SystemToolbarCopyDisabled;
+        private static readonly Image _integratedToolbarCopyNormal = SystemToolbarImageResources.SystemToolbarCopyNormal;
+        private static readonly Image _integratedToolbarCopyActive = SystemToolbarImageResources.SystemToolbarCopyNormal;
+        private static readonly Image _integratedToolbarCopyDisabled = SystemToolbarImageResources.SystemToolbarCopyDisabled;
 
-        private static readonly Image _formToolbarButtonSpecPasteNormal = SystemToolbarImageResources.SystemToolbarPasteNormal;
-        private static readonly Image _formToolbarButtonSpecPasteActive = SystemToolbarImageResources.SystemToolbarPasteNormal;
-        private static readonly Image _formToolbarButtonSpecPasteDisabled = SystemToolbarImageResources.SystemToolbarPasteDisabled;
+        private static readonly Image _integratedToolbarPasteNormal = SystemToolbarImageResources.SystemToolbarPasteNormal;
+        private static readonly Image _integratedToolbarPasteActive = SystemToolbarImageResources.SystemToolbarPasteNormal;
+        private static readonly Image _integratedToolbarPasteDisabled = SystemToolbarImageResources.SystemToolbarPasteDisabled;
 
-        private static readonly Image _formToolbarButtonSpecUndoNormal = SystemToolbarImageResources.SystemToolbarUndoNormal;
-        private static readonly Image _formToolbarButtonSpecUndoActive = SystemToolbarImageResources.SystemToolbarUndoNormal;
-        private static readonly Image _formToolbarButtonSpecUndoDisabled = SystemToolbarImageResources.SystemToolbarUndoDisabled;
+        private static readonly Image _integratedToolbarUndoNormal = SystemToolbarImageResources.SystemToolbarUndoNormal;
+        private static readonly Image _integratedToolbarUndoActive = SystemToolbarImageResources.SystemToolbarUndoNormal;
+        private static readonly Image _integratedToolbarUndoDisabled = SystemToolbarImageResources.SystemToolbarUndoDisabled;
 
-        private static readonly Image _formToolbarButtonSpecRedoNormal = SystemToolbarImageResources.SystemToolbarRedoNormal;
-        private static readonly Image _formToolbarButtonSpecRedoActive = SystemToolbarImageResources.SystemToolbarRedoNormal;
-        private static readonly Image _formToolbarButtonSpecRedoDisabled = SystemToolbarImageResources.SystemToolbarRedoDisabled;
+        private static readonly Image _integratedToolbarRedoNormal = SystemToolbarImageResources.SystemToolbarRedoNormal;
+        private static readonly Image _integratedToolbarRedoActive = SystemToolbarImageResources.SystemToolbarRedoNormal;
+        private static readonly Image _integratedToolbarRedoDisabled = SystemToolbarImageResources.SystemToolbarRedoDisabled;
 
-        private static readonly Image _formToolbarButtonSpecPageSetupNormal = GenericToolbarImageResources.GenericPrintSetup;
-        private static readonly Image _formToolbarButtonSpecPageSetupActive = GenericToolbarImageResources.GenericPrintSetup;
-        private static readonly Image _formToolbarButtonSpecPageSetupDisabled = GenericToolbarImageResources.GenericPrintSetup;
+        private static readonly Image _integratedToolbarPageSetupNormal = GenericToolbarImageResources.GenericPrintSetup;
+        private static readonly Image _integratedToolbarPageSetupActive = GenericToolbarImageResources.GenericPrintSetup;
+        private static readonly Image _integratedToolbarPageSetupDisabled = GenericToolbarImageResources.GenericPrintSetup;
 
-        private static readonly Image _formToolbarButtonSpecPrintPreviewNormal = GenericToolbarImageResources.GenericPrintPreview;
-        private static readonly Image _formToolbarButtonSpecPrintPreviewActive = GenericToolbarImageResources.GenericPrintPreview;
-        private static readonly Image _formToolbarButtonSpecPrintPreviewDisabled = GenericToolbarImageResources.GenericPrintSetup;
+        private static readonly Image _integratedToolbarPrintPreviewNormal = GenericToolbarImageResources.GenericPrintPreview;
+        private static readonly Image _integratedToolbarPrintPreviewActive = GenericToolbarImageResources.GenericPrintPreview;
+        private static readonly Image _integratedToolbarPrintPreviewDisabled = GenericToolbarImageResources.GenericPrintSetup;
 
-        private static readonly Image _formToolbarButtonSpecPrintNormal = GenericToolbarImageResources.GenericPrint;
-        private static readonly Image _formToolbarButtonSpecPrintActive = GenericToolbarImageResources.GenericPrint;
-        private static readonly Image _formToolbarButtonSpecPrintDisabled = GenericToolbarImageResources.GenericPrint;
+        private static readonly Image _integratedToolbarPrintNormal = GenericToolbarImageResources.GenericPrint;
+        private static readonly Image _integratedToolbarPrintActive = GenericToolbarImageResources.GenericPrint;
+        private static readonly Image _integratedToolbarPrintDisabled = GenericToolbarImageResources.GenericPrint;
 
-        private static readonly Image _formToolbarButtonSpecQuickPrintNormal = GenericToolbarImageResources.GenericQuickPrint;
-        private static readonly Image _formToolbarButtonSpecQuickPrintActive = GenericToolbarImageResources.GenericQuickPrint;
-        private static readonly Image _formToolbarButtonSpecQuickPrintDisabled = GenericToolbarImageResources.GenericQuickPrint;
+        private static readonly Image _integratedToolbarQuickPrintNormal = GenericToolbarImageResources.GenericQuickPrint;
+        private static readonly Image _integratedToolbarQuickPrintActive = GenericToolbarImageResources.GenericQuickPrint;
+        private static readonly Image _integratedToolbarQuickPrintDisabled = GenericToolbarImageResources.GenericQuickPrint;
 
         #endregion
 
@@ -2853,11 +2853,11 @@ namespace Krypton.Toolkit
 
             imageDictionary.Add(PaletteButtonSpecStyle.PinVertical, _buttonSpecPinVertical);
 
-            imageDictionary.Add(PaletteButtonSpecStyle.PendantClose, _buttonSpecPendantClose);
+            //imageDictionary.Add(PaletteButtonSpecStyle.PendantClose, _buttonSpecPendantClose);
 
-            imageDictionary.Add(PaletteButtonSpecStyle.PendantMin, _buttonSpecPendantMin);
+            //imageDictionary.Add(PaletteButtonSpecStyle.PendantMin, _buttonSpecPendantMin);
 
-            imageDictionary.Add(PaletteButtonSpecStyle.PendantRestore, _buttonSpecPendantRestore);
+            //imageDictionary.Add(PaletteButtonSpecStyle.PendantRestore, _buttonSpecPendantRestore);
 
             imageDictionary.Add(PaletteButtonSpecStyle.Previous, _buttonSpecPrevious);
 
@@ -2883,9 +2883,9 @@ namespace Krypton.Toolkit
 
             imageDictionary.Add(PaletteButtonSpecStyle.Redo, _integratedToolbarRedoNormal);
 
-            imageDictionary.Add(PaletteButtonSpecStyle.RibbonExpand, _buttonSpecRibbonExpand);
+            //imageDictionary.Add(PaletteButtonSpecStyle.RibbonExpand, _buttonSpecRibbonExpand);
 
-            imageDictionary.Add(PaletteButtonSpecStyle.RibbonMinimize, _buttonSpecRibbonMinimize);
+            //imageDictionary.Add(PaletteButtonSpecStyle.RibbonMinimize, _buttonSpecRibbonMinimize);
 
             imageDictionary.Add(PaletteButtonSpecStyle.Undo, _integratedToolbarUndoNormal);
 
@@ -2970,31 +2970,31 @@ namespace Krypton.Toolkit
                     return state == PaletteState.Disabled ? _pendantRestoreI : _pendantRestoreA;
 
                 case PaletteButtonSpecStyle.New:
-                    return state == PaletteState.Disabled ? _formToolbarButtonSpecNewDisabled : _formToolbarButtonSpecNewNormal;
+                    return state == PaletteState.Disabled ? _integratedToolbarNewDisabled : _integratedToolbarNewNormal;
                 case PaletteButtonSpecStyle.Save:
-                    return state == PaletteState.Disabled ? _formToolbarButtonSpecSaveDisabled : _formToolbarButtonSpecSaveNormal;
+                    return state == PaletteState.Disabled ? _integratedToolbarSaveDisabled : _integratedToolbarSaveNormal;
                 case PaletteButtonSpecStyle.SaveAs:
-                    return state == PaletteState.Disabled ? _formToolbarButtonSpecSaveAsDisabled : _formToolbarButtonSpecSaveAsNormal;
+                    return state == PaletteState.Disabled ? _integratedToolbarSaveAsDisabled : _integratedToolbarSaveAsNormal;
                 case PaletteButtonSpecStyle.SaveAll:
-                    return state == PaletteState.Disabled ? _formToolbarButtonSpecSaveAllDisabled : _formToolbarButtonSpecSaveAllNormal;
+                    return state == PaletteState.Disabled ? _integratedToolbarSaveAllDisabled : _integratedToolbarSaveAllNormal;
                 case PaletteButtonSpecStyle.Cut:
-                    return state == PaletteState.Disabled ? _formToolbarButtonSpecCutDisabled : _formToolbarButtonSpecCutNormal;
+                    return state == PaletteState.Disabled ? _integratedToolbarCutDisabled : _integratedToolbarCutNormal;
                 case PaletteButtonSpecStyle.Copy:
-                    return state == PaletteState.Disabled ? _formToolbarButtonSpecCopyDisabled : _formToolbarButtonSpecCopyNormal;
+                    return state == PaletteState.Disabled ? _integratedToolbarCopyDisabled : _integratedToolbarCopyNormal;
                 case PaletteButtonSpecStyle.Paste:
-                    return state == PaletteState.Disabled ? _formToolbarButtonSpecPasteDisabled : _formToolbarButtonSpecPasteNormal;
+                    return state == PaletteState.Disabled ? _integratedToolbarPasteDisabled : _integratedToolbarPasteNormal;
                 case PaletteButtonSpecStyle.Undo:
-                    return state == PaletteState.Disabled ? _formToolbarButtonSpecUndoDisabled : _formToolbarButtonSpecUndoNormal;
+                    return state == PaletteState.Disabled ? _integratedToolbarUndoDisabled : _integratedToolbarUndoNormal;
                 case PaletteButtonSpecStyle.Redo:
-                    return state == PaletteState.Disabled ? _formToolbarButtonSpecRedoDisabled : _formToolbarButtonSpecRedoNormal;
+                    return state == PaletteState.Disabled ? _integratedToolbarRedoDisabled : _integratedToolbarRedoNormal;
                 case PaletteButtonSpecStyle.PageSetup:
-                    return state == PaletteState.Disabled ? _formToolbarButtonSpecPageSetupDisabled : _formToolbarButtonSpecPageSetupNormal;
+                    return state == PaletteState.Disabled ? _integratedToolbarPageSetupDisabled : _integratedToolbarPageSetupNormal;
                 case PaletteButtonSpecStyle.PrintPreview:
-                    return state == PaletteState.Disabled ? _formToolbarButtonSpecPrintPreviewDisabled : _formToolbarButtonSpecPrintPreviewNormal;
+                    return state == PaletteState.Disabled ? _integratedToolbarPrintPreviewDisabled : _integratedToolbarPrintPreviewNormal;
                 case PaletteButtonSpecStyle.Print:
-                    return state == PaletteState.Disabled ? _formToolbarButtonSpecPrintDisabled : _formToolbarButtonSpecPrintNormal;
+                    return state == PaletteState.Disabled ? _integratedToolbarPrintDisabled : _integratedToolbarPrintNormal;
                 case PaletteButtonSpecStyle.QuickPrint:
-                    return state == PaletteState.Disabled ? _formToolbarButtonSpecQuickPrintDisabled : _formToolbarButtonSpecQuickPrintNormal;
+                    return state == PaletteState.Disabled ? _integratedToolbarQuickPrintDisabled : _integratedToolbarQuickPrintNormal;
 
                 case PaletteButtonSpecStyle.Generic:
                     return null;

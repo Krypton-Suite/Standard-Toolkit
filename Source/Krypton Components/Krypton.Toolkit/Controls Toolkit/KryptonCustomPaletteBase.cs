@@ -409,35 +409,35 @@ namespace Krypton.Toolkit
             IDictionary<PaletteButtonSpecStyle, Image> imageDictionary =
                 new ConcurrentDictionary<PaletteButtonSpecStyle, Image>();
 
-            imageDictionary.Add(PaletteButtonSpecStyle.ArrowRight, _buttonSpecArrowRight);
+            imageDictionary.Add(PaletteButtonSpecStyle.ArrowRight, Images.GeneralButtonSpecs.ArrowRight);
 
-            imageDictionary.Add(PaletteButtonSpecStyle.ArrowLeft, _buttonSpecArrowLeft);
+            imageDictionary.Add(PaletteButtonSpecStyle.ArrowLeft, Images.GeneralButtonSpecs.ArrowLeft);
 
-            imageDictionary.Add(PaletteButtonSpecStyle.ArrowDown, _buttonSpecArrowDown);
+            imageDictionary.Add(PaletteButtonSpecStyle.ArrowDown, Images.GeneralButtonSpecs.ArrowDown);
 
-            imageDictionary.Add(PaletteButtonSpecStyle.ArrowUp, _buttonSpecArrowUp);
+            imageDictionary.Add(PaletteButtonSpecStyle.ArrowUp, Images.GeneralButtonSpecs.ArrowUp);
 
-            imageDictionary.Add(PaletteButtonSpecStyle.Close, _buttonSpecClose);
+            imageDictionary.Add(PaletteButtonSpecStyle.Close, Images.GeneralButtonSpecs.Close);
 
-            imageDictionary.Add(PaletteButtonSpecStyle.Context, _buttonSpecContext);
+            imageDictionary.Add(PaletteButtonSpecStyle.Context, Images.GeneralButtonSpecs.Context);
 
             imageDictionary.Add(PaletteButtonSpecStyle.Copy, Images.IntegratedToolbar.Copy);
 
             imageDictionary.Add(PaletteButtonSpecStyle.Cut, Images.IntegratedToolbar.Cut);
 
-            imageDictionary.Add(PaletteButtonSpecStyle.DropDown, _buttonSpecDropDown);
+            imageDictionary.Add(PaletteButtonSpecStyle.DropDown, Images.GeneralButtonSpecs.DropDown);
 
-            imageDictionary.Add(PaletteButtonSpecStyle.PinHorizontal, _buttonSpecPinHorizontal);
+            imageDictionary.Add(PaletteButtonSpecStyle.PinHorizontal, Images.GeneralButtonSpecs.PinHorizontal);
 
-            imageDictionary.Add(PaletteButtonSpecStyle.PinVertical, _buttonSpecPinVertical);
+            imageDictionary.Add(PaletteButtonSpecStyle.PinVertical, Images.GeneralButtonSpecs.PinVertical);
 
-            imageDictionary.Add(PaletteButtonSpecStyle.PendantClose, _buttonSpecPendantClose);
+            imageDictionary.Add(PaletteButtonSpecStyle.PendantClose, Images.GeneralButtonSpecs.PendantClose);
 
-            imageDictionary.Add(PaletteButtonSpecStyle.PendantMin, _buttonSpecPendantMin);
+            imageDictionary.Add(PaletteButtonSpecStyle.PendantMin, Images.GeneralButtonSpecs.PendantMin);
 
-            imageDictionary.Add(PaletteButtonSpecStyle.PendantRestore, _buttonSpecPendantRestore);
+            imageDictionary.Add(PaletteButtonSpecStyle.PendantRestore, Images.GeneralButtonSpecs.PendantRestore);
 
-            imageDictionary.Add(PaletteButtonSpecStyle.Previous, _buttonSpecPrevious);
+            imageDictionary.Add(PaletteButtonSpecStyle.Previous, Images.GeneralButtonSpecs.Previous);
 
             imageDictionary.Add(PaletteButtonSpecStyle.PageSetup, Images.IntegratedToolbar.PageSetup);
 
@@ -449,7 +449,7 @@ namespace Krypton.Toolkit
 
             imageDictionary.Add(PaletteButtonSpecStyle.New, Images.IntegratedToolbar.New);
 
-            imageDictionary.Add(PaletteButtonSpecStyle.Next, _buttonSpecNext);
+            imageDictionary.Add(PaletteButtonSpecStyle.Next, Images.GeneralButtonSpecs.Next);
 
             imageDictionary.Add(PaletteButtonSpecStyle.Open, Images.IntegratedToolbar.Open);
 
@@ -461,15 +461,15 @@ namespace Krypton.Toolkit
 
             imageDictionary.Add(PaletteButtonSpecStyle.Redo, Images.IntegratedToolbar.Redo);
 
-            imageDictionary.Add(PaletteButtonSpecStyle.RibbonExpand, _buttonSpecRibbonExpand);
+            imageDictionary.Add(PaletteButtonSpecStyle.RibbonExpand, Images.GeneralButtonSpecs.RibbonExpand);
 
-            imageDictionary.Add(PaletteButtonSpecStyle.RibbonMinimize, _buttonSpecRibbonMinimize);
+            imageDictionary.Add(PaletteButtonSpecStyle.RibbonMinimize, Images.GeneralButtonSpecs.RibbonMinimize);
 
             imageDictionary.Add(PaletteButtonSpecStyle.Undo, Images.IntegratedToolbar.Undo);
 
-            imageDictionary.Add(PaletteButtonSpecStyle.WorkspaceMaximize, _buttonSpecWorkspaceMaximize);
+            imageDictionary.Add(PaletteButtonSpecStyle.WorkspaceMaximize, Images.GeneralButtonSpecs.WorkspaceMaximize);
 
-            imageDictionary.Add(PaletteButtonSpecStyle.WorkspaceRestore, _buttonSpecWorkspaceRestore);
+            imageDictionary.Add(PaletteButtonSpecStyle.WorkspaceRestore, Images.GeneralButtonSpecs.WorkspaceRestore);
 
             imageDictionary.Add(PaletteButtonSpecStyle.QuickPrint, Images.IntegratedToolbar.QuickPrint);
 

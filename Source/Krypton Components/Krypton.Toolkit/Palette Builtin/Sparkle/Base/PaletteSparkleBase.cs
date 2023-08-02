@@ -217,6 +217,7 @@ namespace Krypton.Toolkit
         };
 
         #endregion
+
         #endregion
 
         #region Instance Fields
