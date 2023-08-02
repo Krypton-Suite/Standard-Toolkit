@@ -67,7 +67,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public PaletteRedirect? Redirector { get; private set; }
+        public PaletteRedirect Redirector { get; private set; }
 
         #endregion
 
@@ -76,7 +76,7 @@ namespace Krypton.Toolkit
         /// Update the redirector with new reference.
         /// </summary>
         /// <param name="redirect">Target redirector.</param>
-        public void SetRedirector(PaletteRedirect? redirect) => Redirector = redirect;
+        public void SetRedirector([DisallowNull] PaletteRedirect redirect) => Redirector = redirect;
 
         #endregion
 

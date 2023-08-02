@@ -238,6 +238,7 @@ namespace Krypton.Toolkit
                 changed |= buttonView.UpdateVisible();
                 changed |= buttonView.UpdateEnabled();
                 changed |= buttonView.UpdateChecked();
+                buttonView.UpdateShowDrop();
                 buttonView.DrawButtonSpecOnComposition = composition;
             }
 
@@ -560,7 +561,7 @@ namespace Krypton.Toolkit
         /// <param name="redirector">Base palette class.</param>
         /// <param name="buttonSpec">ButtonSpec instance.</param>
         /// <returns>Palette redirector for the button spec instance.</returns>
-        public virtual PaletteRedirect? CreateButtonSpecRemap(PaletteRedirect? redirector,
+        public virtual PaletteRedirect CreateButtonSpecRemap(PaletteRedirect? redirector,
             [DisallowNull] ButtonSpec buttonSpec) =>
             new ButtonSpecRemapByContentView(redirector, buttonSpec);
 

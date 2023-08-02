@@ -64,7 +64,7 @@ namespace Krypton.Toolkit
         public ViewLayoutCenter(IPaletteMetric? paletteMetric,
                                 PaletteMetricPadding metricPadding,
                                 VisualOrientation orientation,
-                                ViewBase childElement)
+                                ViewBase? childElement)
         {
             // Remember provided values
             _paletteMetric = paletteMetric;

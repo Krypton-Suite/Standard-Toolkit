@@ -52,13 +52,13 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Updates the metrics source and metric to use.
         /// </summary>
-        /// <param name="paletteMetric">Source for aquiring metrics.</param>
+        /// <param name="paletteMetric">Source for acquiring metrics.</param>
         public void SetMetrics(IPaletteMetric paletteMetric) => _paletteMetric = paletteMetric;
 
         /// <summary>
         /// Updates the metrics source and metric to use.
         /// </summary>
-        /// <param name="paletteMetric">Source for aquiring metrics.</param>
+        /// <param name="paletteMetric">Source for acquiring metrics.</param>
         /// <param name="metricInt">Actual integer metric to use.</param>
         public void SetMetrics(IPaletteMetric paletteMetric,
                                PaletteMetricInt metricInt)

@@ -610,7 +610,7 @@ namespace Krypton.Toolkit
                 // Is the checked button allowed to become unchecked
                 if (AllowUncheck)
                 {
-                    // Show feedback on tracking and presssed
+                    // Show feedback on tracking and pressed
                     buttonState = buttonState switch
                     {
                         PaletteState.Normal => PaletteState.CheckedNormal,
