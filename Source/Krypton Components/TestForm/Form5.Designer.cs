@@ -36,6 +36,7 @@
             this.buttonSpecAny1 = new Krypton.Toolkit.ButtonSpecAny();
             this.buttonSpecAny2 = new Krypton.Toolkit.ButtonSpecAny();
             this.buttonSpecAny3 = new Krypton.Toolkit.ButtonSpecAny();
+            this.kryptonIntegratedToolBarManager1 = new Krypton.Toolkit.KryptonIntegratedToolBarManager();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
             this.kryptonPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonThemeComboBox1)).BeginInit();
@@ -78,6 +79,10 @@
             this.kryptonThemeComboBox1.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.kryptonThemeComboBox1.TabIndex = 0;
             // 
+            // kryptonManager1
+            // 
+            this.kryptonManager1.GlobalPaletteMode = Krypton.Toolkit.PaletteMode.SparkleBlue;
+            // 
             // buttonSpecAny1
             // 
             this.buttonSpecAny1.Type = Krypton.Toolkit.PaletteButtonSpecStyle.Previous;
@@ -93,6 +98,13 @@
             this.buttonSpecAny3.Type = Krypton.Toolkit.PaletteButtonSpecStyle.Context;
             this.buttonSpecAny3.UniqueName = "0943ca091e624724a0d729320faa85a5";
             // 
+            // kryptonIntegratedToolBarManager1
+            // 
+            this.kryptonIntegratedToolBarManager1.AllowFormIntegration = true;
+            this.kryptonIntegratedToolBarManager1.IntegratedToolBarButtonAlignment = Krypton.Toolkit.PaletteRelativeEdgeAlign.Far;
+            this.kryptonIntegratedToolBarManager1.IntegratedToolBarButtonOrientation = Krypton.Toolkit.PaletteButtonOrientation.FixedTop;
+            this.kryptonIntegratedToolBarManager1.ParentForm = this;
+            // 
             // Form5
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -104,7 +116,6 @@
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.kryptonPanel1);
             this.Name = "Form5";
-            this.PaletteMode = Krypton.Toolkit.PaletteMode.Microsoft365DarkGray;
             this.Text = "Form5";
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).EndInit();
             this.kryptonPanel1.ResumeLayout(false);
@@ -121,5 +132,6 @@
         private Krypton.Toolkit.ButtonSpecAny buttonSpecAny1;
         private Krypton.Toolkit.ButtonSpecAny buttonSpecAny2;
         private Krypton.Toolkit.ButtonSpecAny buttonSpecAny3;
+        private Krypton.Toolkit.KryptonIntegratedToolBarManager kryptonIntegratedToolBarManager1;
     }
 }
