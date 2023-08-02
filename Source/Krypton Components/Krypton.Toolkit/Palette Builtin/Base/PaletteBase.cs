@@ -172,9 +172,9 @@ namespace Krypton.Toolkit
         protected abstract IDictionary<PaletteButtonSpecStyle, Image> ButtonSpecStyleImageDictionary();
 
         /// <summary>Converts an <seealso cref="IDictionary"/> to a <seealso cref="Dictionary{TKey,TValue}"/>.</summary>
-        /// <param name="dictionary">The dictionary.</param>
+        /// <param name="dictionary">The input <seealso cref="IDictionary"/>.</param>
         /// <returns></returns>
-        private Dictionary<PaletteButtonSpecStyle, Image> ConvertToDictionary(IDictionary dictionary) => (Dictionary<PaletteButtonSpecStyle, Image>)dictionary;
+        private Dictionary<PaletteButtonSpecStyle, Image> ConvertToDictionary(IDictionary<PaletteButtonSpecStyle, Image> dictionary) => (Dictionary<PaletteButtonSpecStyle, Image>)dictionary;
 
         #endregion
 
@@ -882,6 +882,13 @@ namespace Krypton.Toolkit
         /// <returns>Image value.</returns>
         public virtual Image? GetButtonSpecImage(PaletteButtonSpecStyle style, PaletteState state)
         {
+            Dictionary<PaletteButtonSpecStyle, Image> imageDictionary;
+
+            if (GetButtonSpecImageDictionary().Values != null)
+            {
+                imageDictionary = ConvertToDictionary(GetButtonSpecImageDictionary());
+            }
+
             switch (style)
             {
                 case PaletteButtonSpecStyle.Close:
