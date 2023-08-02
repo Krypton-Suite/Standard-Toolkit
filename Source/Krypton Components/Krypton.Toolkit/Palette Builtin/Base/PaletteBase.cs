@@ -173,7 +173,7 @@ namespace Krypton.Toolkit
 
         /// <summary>Converts an <seealso cref="IDictionary"/> to a <seealso cref="Dictionary{TKey,TValue}"/>.</summary>
         /// <param name="dictionary">The input <seealso cref="IDictionary"/>.</param>
-        /// <returns></returns>
+        /// <returns>A <seealso cref="Dictionary{TKey,TValue}"/>, based on the input <seealso cref="IDictionary"/>.</returns>
         private Dictionary<PaletteButtonSpecStyle, Image> ConvertToDictionary(IDictionary<PaletteButtonSpecStyle, Image> dictionary) => (Dictionary<PaletteButtonSpecStyle, Image>)dictionary;
 
         #endregion
