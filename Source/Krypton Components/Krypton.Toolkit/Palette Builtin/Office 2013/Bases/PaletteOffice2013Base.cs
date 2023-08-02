@@ -3111,6 +3111,82 @@ namespace Krypton.Toolkit
         };
         #endregion
 
+        #region Image Dictionary
+
+        protected override IDictionary<PaletteButtonSpecStyle, Image> ButtonSpecStyleImageDictionary()
+        {
+            IDictionary<PaletteButtonSpecStyle, Image> imageDictionary =
+                new ConcurrentDictionary<PaletteButtonSpecStyle, Image>();
+
+            imageDictionary.Add(PaletteButtonSpecStyle.ArrowRight, _buttonSpecArrowRight);
+
+            imageDictionary.Add(PaletteButtonSpecStyle.ArrowLeft, _buttonSpecArrowLeft);
+
+            imageDictionary.Add(PaletteButtonSpecStyle.ArrowDown, _buttonSpecArrowDown);
+
+            imageDictionary.Add(PaletteButtonSpecStyle.ArrowUp, _buttonSpecArrowUp);
+
+            imageDictionary.Add(PaletteButtonSpecStyle.Close, _buttonSpecClose);
+
+            imageDictionary.Add(PaletteButtonSpecStyle.Context, _buttonSpecContext);
+
+            imageDictionary.Add(PaletteButtonSpecStyle.Copy, _integratedToolbarCopyNormal);
+
+            imageDictionary.Add(PaletteButtonSpecStyle.Cut, _integratedToolbarCutNormal);
+
+            imageDictionary.Add(PaletteButtonSpecStyle.DropDown, _buttonSpecDropDown);
+
+            imageDictionary.Add(PaletteButtonSpecStyle.PinHorizontal, _buttonSpecPinHorizontal);
+
+            imageDictionary.Add(PaletteButtonSpecStyle.PinVertical, _buttonSpecPinVertical);
+
+            imageDictionary.Add(PaletteButtonSpecStyle.PendantClose, _buttonSpecPendantClose);
+
+            imageDictionary.Add(PaletteButtonSpecStyle.PendantMin, _buttonSpecPendantMin);
+
+            imageDictionary.Add(PaletteButtonSpecStyle.PendantRestore, _buttonSpecPendantRestore);
+
+            imageDictionary.Add(PaletteButtonSpecStyle.Previous, _buttonSpecPrevious);
+
+            imageDictionary.Add(PaletteButtonSpecStyle.PageSetup, _integratedToolbarPageSetupNormal);
+
+            imageDictionary.Add(PaletteButtonSpecStyle.Paste, _integratedToolbarPasteNormal);
+
+            imageDictionary.Add(PaletteButtonSpecStyle.PrintPreview, _integratedToolbarPrintPreviewNormal);
+
+            imageDictionary.Add(PaletteButtonSpecStyle.Print, _integratedToolbarPrintNormal);
+
+            imageDictionary.Add(PaletteButtonSpecStyle.New, _integratedToolbarNewNormal);
+
+            imageDictionary.Add(PaletteButtonSpecStyle.Next, _buttonSpecNext);
+
+            imageDictionary.Add(PaletteButtonSpecStyle.Open, _integratedToolbarOpenNormal);
+
+            imageDictionary.Add(PaletteButtonSpecStyle.Save, _integratedToolbarSaveNormal);
+
+            imageDictionary.Add(PaletteButtonSpecStyle.SaveAll, _integratedToolbarSaveAllNormal);
+
+            imageDictionary.Add(PaletteButtonSpecStyle.SaveAs, _integratedToolbarSaveAsNormal);
+
+            imageDictionary.Add(PaletteButtonSpecStyle.Redo, _integratedToolbarRedoNormal);
+
+            imageDictionary.Add(PaletteButtonSpecStyle.RibbonExpand, _buttonSpecRibbonExpand);
+
+            imageDictionary.Add(PaletteButtonSpecStyle.RibbonMinimize, _buttonSpecRibbonMinimize);
+
+            imageDictionary.Add(PaletteButtonSpecStyle.Undo, _integratedToolbarUndoNormal);
+
+            imageDictionary.Add(PaletteButtonSpecStyle.WorkspaceMaximize, _buttonSpecWorkspaceMaximize);
+
+            imageDictionary.Add(PaletteButtonSpecStyle.WorkspaceRestore, _buttonSpecWorkspaceRestore);
+
+            imageDictionary.Add(PaletteButtonSpecStyle.QuickPrint, _integratedToolbarQuickPrintNormal);
+
+            return imageDictionary;
+        }
+
+        #endregion
+
         #region ButtonSpec
 
         /// <summary>

@@ -36,10 +36,13 @@ namespace Krypton.Toolkit
             GalleryButtons = new KryptonPaletteImagesGalleryButtons(redirector, needPaint);
             RadioButton = new KryptonPaletteImagesRadioButton(redirector, needPaint);
             TreeView = new KryptonPaletteImagesTreeView(redirector, needPaint);
+            IntegratedToolbar = new KryptonPaletteImagesIntegratedToolbar(redirector, needPaint);
+            GeneralButtonSpecs = new KryptonPaletteImagesGeneralButtonSpecs(redirector, needPaint);
         }
         #endregion
 
         #region IsDefault
+
         /// <summary>
         /// Gets a value indicating if all values are default.
         /// </summary>
@@ -48,7 +51,9 @@ namespace Krypton.Toolkit
                                           DropDownButton.IsDefault &&
                                           GalleryButtons.IsDefault &&
                                           RadioButton.IsDefault &&
-                                          TreeView.IsDefault;
+                                          TreeView.IsDefault &&
+                                          IntegratedToolbar.IsDefault &&
+                                          GeneralButtonSpecs.IsDefault;
 
         #endregion
 
@@ -65,6 +70,8 @@ namespace Krypton.Toolkit
             GalleryButtons.PopulateFromBase();
             RadioButton.PopulateFromBase();
             TreeView.PopulateFromBase();
+            IntegratedToolbar.PopulateFromBase();
+            GeneralButtonSpecs.PopulateFromBase();
         }
         #endregion
 
@@ -149,6 +156,36 @@ namespace Krypton.Toolkit
         public KryptonPaletteImagesTreeView TreeView { get; }
 
         private bool ShouldSerializeTreeView() => !TreeView.IsDefault;
+
+        #endregion
+
+        #region Integrated Toolbar
+
+        /// <summary>
+        /// Gets access to the integrated toolbar set of images.
+        /// </summary>
+        [KryptonPersist]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining integrated toolbar images.")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        public KryptonPaletteImagesIntegratedToolbar IntegratedToolbar { get; }
+
+        private bool ShouldSerializeIntegratedToolbar() => !IntegratedToolbar.IsDefault;
+
+        #endregion
+
+        #region General ButtonSpecs
+
+        /// <summary>
+        /// Gets access to the general <seealso cref="ButtonSpec"/> set of images.
+        /// </summary>
+        [KryptonPersist]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining general ButtonSpec images.")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        public KryptonPaletteImagesGeneralButtonSpecs GeneralButtonSpecs { get; }
+
+        private bool ShouldSerializeGeneralButtonSpecs() => !GeneralButtonSpecs.IsDefault;
 
         #endregion
     }

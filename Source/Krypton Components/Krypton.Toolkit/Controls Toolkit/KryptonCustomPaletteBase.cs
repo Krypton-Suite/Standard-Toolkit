@@ -402,6 +402,82 @@ namespace Krypton.Toolkit
 
         #endregion
 
+        #region Image Dictionary
+
+        protected override IDictionary<PaletteButtonSpecStyle, Image> ButtonSpecStyleImageDictionary()
+        {
+            IDictionary<PaletteButtonSpecStyle, Image> imageDictionary =
+                new ConcurrentDictionary<PaletteButtonSpecStyle, Image>();
+
+            imageDictionary.Add(PaletteButtonSpecStyle.ArrowRight, _buttonSpecArrowRight);
+
+            imageDictionary.Add(PaletteButtonSpecStyle.ArrowLeft, _buttonSpecArrowLeft);
+
+            imageDictionary.Add(PaletteButtonSpecStyle.ArrowDown, _buttonSpecArrowDown);
+
+            imageDictionary.Add(PaletteButtonSpecStyle.ArrowUp, _buttonSpecArrowUp);
+
+            imageDictionary.Add(PaletteButtonSpecStyle.Close, _buttonSpecClose);
+
+            imageDictionary.Add(PaletteButtonSpecStyle.Context, _buttonSpecContext);
+
+            imageDictionary.Add(PaletteButtonSpecStyle.Copy, Images.IntegratedToolbar.Copy);
+
+            imageDictionary.Add(PaletteButtonSpecStyle.Cut, Images.IntegratedToolbar.Cut);
+
+            imageDictionary.Add(PaletteButtonSpecStyle.DropDown, _buttonSpecDropDown);
+
+            imageDictionary.Add(PaletteButtonSpecStyle.PinHorizontal, _buttonSpecPinHorizontal);
+
+            imageDictionary.Add(PaletteButtonSpecStyle.PinVertical, _buttonSpecPinVertical);
+
+            imageDictionary.Add(PaletteButtonSpecStyle.PendantClose, _buttonSpecPendantClose);
+
+            imageDictionary.Add(PaletteButtonSpecStyle.PendantMin, _buttonSpecPendantMin);
+
+            imageDictionary.Add(PaletteButtonSpecStyle.PendantRestore, _buttonSpecPendantRestore);
+
+            imageDictionary.Add(PaletteButtonSpecStyle.Previous, _buttonSpecPrevious);
+
+            imageDictionary.Add(PaletteButtonSpecStyle.PageSetup, Images.IntegratedToolbar.PageSetup);
+
+            imageDictionary.Add(PaletteButtonSpecStyle.Paste, Images.IntegratedToolbar.Paste);
+
+            imageDictionary.Add(PaletteButtonSpecStyle.PrintPreview, Images.IntegratedToolbar.PrintPreview);
+
+            imageDictionary.Add(PaletteButtonSpecStyle.Print, Images.IntegratedToolbar.Print);
+
+            imageDictionary.Add(PaletteButtonSpecStyle.New, Images.IntegratedToolbar.New);
+
+            imageDictionary.Add(PaletteButtonSpecStyle.Next, _buttonSpecNext);
+
+            imageDictionary.Add(PaletteButtonSpecStyle.Open, Images.IntegratedToolbar.Open);
+
+            imageDictionary.Add(PaletteButtonSpecStyle.Save, Images.IntegratedToolbar.Save);
+
+            imageDictionary.Add(PaletteButtonSpecStyle.SaveAll, Images.IntegratedToolbar.SaveAll);
+
+            imageDictionary.Add(PaletteButtonSpecStyle.SaveAs, Images.IntegratedToolbar.SaveAs);
+
+            imageDictionary.Add(PaletteButtonSpecStyle.Redo, Images.IntegratedToolbar.Redo);
+
+            imageDictionary.Add(PaletteButtonSpecStyle.RibbonExpand, _buttonSpecRibbonExpand);
+
+            imageDictionary.Add(PaletteButtonSpecStyle.RibbonMinimize, _buttonSpecRibbonMinimize);
+
+            imageDictionary.Add(PaletteButtonSpecStyle.Undo, Images.IntegratedToolbar.Undo);
+
+            imageDictionary.Add(PaletteButtonSpecStyle.WorkspaceMaximize, _buttonSpecWorkspaceMaximize);
+
+            imageDictionary.Add(PaletteButtonSpecStyle.WorkspaceRestore, _buttonSpecWorkspaceRestore);
+
+            imageDictionary.Add(PaletteButtonSpecStyle.QuickPrint, Images.IntegratedToolbar.QuickPrint);
+
+            return imageDictionary;
+        }
+
+        #endregion
+
         #region InputControls
         /// <summary>
         /// Gets access to the input controls styles.

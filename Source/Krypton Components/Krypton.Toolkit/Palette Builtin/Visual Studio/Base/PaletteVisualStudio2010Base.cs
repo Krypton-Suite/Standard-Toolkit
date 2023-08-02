@@ -7,8 +7,6 @@
  */
 #endregion
 
-using System.Collections.Concurrent;
-
 namespace Krypton.Toolkit
 {
     /// <summary>Provides a base for Visual Studio palettes.</summary>
@@ -2100,7 +2098,7 @@ namespace Krypton.Toolkit
 
         /// <summary>Buttons the spec style dictionary.</summary>
         /// <returns></returns>
-        protected override IDictionary<PaletteButtonSpecStyle, Image> ButtonSpecStyleDictionary()
+        protected override IDictionary<PaletteButtonSpecStyle, Image> ButtonSpecStyleImageDictionary()
         {
             IDictionary<PaletteButtonSpecStyle, Image> imageDictionary =
                 new ConcurrentDictionary<PaletteButtonSpecStyle, Image>();
@@ -2148,6 +2146,26 @@ namespace Krypton.Toolkit
             imageDictionary.Add(PaletteButtonSpecStyle.Next, _buttonSpecNext);
 
             imageDictionary.Add(PaletteButtonSpecStyle.Open, _integratedToolbarOpenNormal);
+
+            imageDictionary.Add(PaletteButtonSpecStyle.Save, _integratedToolbarSaveNormal);
+
+            imageDictionary.Add(PaletteButtonSpecStyle.SaveAll, _integratedToolbarSaveAllNormal);
+
+            imageDictionary.Add(PaletteButtonSpecStyle.SaveAs, _integratedToolbarSaveAsNormal);
+
+            imageDictionary.Add(PaletteButtonSpecStyle.Redo, _integratedToolbarRedoNormal);
+
+            imageDictionary.Add(PaletteButtonSpecStyle.RibbonExpand, _buttonSpecRibbonExpand);
+
+            imageDictionary.Add(PaletteButtonSpecStyle.RibbonMinimize, _buttonSpecRibbonMinimize);
+
+            imageDictionary.Add(PaletteButtonSpecStyle.Undo, _integratedToolbarUndoNormal);
+
+            imageDictionary.Add(PaletteButtonSpecStyle.WorkspaceMaximize, _buttonSpecWorkspaceMaximize);
+
+            imageDictionary.Add(PaletteButtonSpecStyle.WorkspaceRestore, _buttonSpecWorkspaceRestore);
+
+            imageDictionary.Add(PaletteButtonSpecStyle.QuickPrint, _integratedToolbarQuickPrintNormal);
 
             return imageDictionary;
         }

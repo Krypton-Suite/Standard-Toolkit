@@ -27,6 +27,7 @@ namespace Krypton.Toolkit
         private PaletteDragFeedback _dragFeedback;
         private string _themeName;
         private Image[] /*ICollection<Image?>*/ _buttonSpecImages;
+        private IDictionary<PaletteButtonSpecStyle, Image> _buttonSpecImageDictionary;
 
         private readonly Font _defaultFontStyle = new Font("Segoe UI", 9f, FontStyle.Regular);
 
@@ -127,6 +128,33 @@ namespace Krypton.Toolkit
 
             _baseFontSize = 9f;
         }
+
+        /// <summary>Initializes a new instance of the <see cref="PaletteBase" /> class.</summary>
+        /// <param name="buttonSpecImageDictionary">The button spec image dictionary.</param>
+        protected PaletteBase([DisallowNull] IDictionary<PaletteButtonSpecStyle, Image> buttonSpecImageDictionary)
+        {
+            Debug.Assert(buttonSpecImageDictionary != null);
+
+            if (buttonSpecImageDictionary != null)
+            {
+                _buttonSpecImageDictionary = buttonSpecImageDictionary;
+            }
+
+            // We need to notice when system color settings change
+            SystemEvents.UserPreferenceChanged += OnUserPreferenceChanged;
+
+            // Inherit means we need to calculate the value next time it is requested
+            _dragFeedback = PaletteDragFeedback.Inherit;
+
+            _themeName = string.Empty;
+
+            _useKryptonFileDialogs = true;
+
+            _baseFont = _defaultFontStyle;
+
+            _baseFontSize = 9f;
+        }
+
         #endregion
 
         #region AllowFormChrome
@@ -139,9 +167,9 @@ namespace Krypton.Toolkit
 
         #region Dictionary
 
-        /// <summary>Buttons the spec style dictionary.</summary>
+        /// <summary>The palette button the spec style image dictionary.</summary>
         /// <returns>An <seealso cref="IDictionary"/> containing <seealso cref="PaletteButtonSpecStyle"/>, <seealso cref="Image"/> pairs.</returns>
-        protected abstract IDictionary<PaletteButtonSpecStyle, Image> ButtonSpecStyleDictionary();
+        protected abstract IDictionary<PaletteButtonSpecStyle, Image> ButtonSpecStyleImageDictionary();
 
         #endregion
 
@@ -1492,6 +1520,10 @@ namespace Krypton.Toolkit
         /// <summary>Returns the button spec image array.</summary>
         /// <returns></returns>
         private /*ICollection<Image>*/ Image[] ReturnButtonSpecImageArray() => _buttonSpecImages; //.ToArray();
+
+        /// <summary>Returns the button spec style image dictionary.</summary>
+        /// <returns></returns>
+        public IDictionary<PaletteButtonSpecStyle, Image> GetButtonSpecImageDictionary() => _buttonSpecImageDictionary;
 
         #endregion
 

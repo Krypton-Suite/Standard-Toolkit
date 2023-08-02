@@ -18,6 +18,9 @@ namespace Krypton.Toolkit
     public class PaletteSparkleBase : PaletteBase
     {
         #region Static Fields
+
+        #region Padding
+
         private static readonly Padding _contentPaddingGrid = new Padding(2, 1, 2, 1);
         private static readonly Padding _contentPaddingHeader1 = new Padding(3, 2, 2, 2);
         private static readonly Padding _contentPaddingHeader2 = new Padding(3, 2, 2, 2);
@@ -55,6 +58,10 @@ namespace Krypton.Toolkit
         private static readonly Padding _metricPaddingBarOutside = new Padding(0, 0, 0, 3);
         private static readonly Padding _metricPaddingPageButtons = new Padding(1, 3, 1, 3);
         private static readonly Padding _metricPaddingContextMenuItemHighlight = new Padding(1, 0, 1, 0);
+
+        #endregion
+
+        #region Images
 
         private static readonly Image _disabledDropDown = DropDownArrowImageResources.DisabledDropDownButton2;
         private static readonly Image _disabledDropUp = DropDownArrowImageResources.DisabledDropUpButton;
@@ -99,6 +106,42 @@ namespace Krypton.Toolkit
         private static readonly Image? _treeExpandWhite = TreeItemImageResources.TreeExpandWhite;
         private static readonly Image? _treeCollapseBlack = TreeItemImageResources.TreeCollapseBlack;
 
+        #region Integrated Tool Bar Images
+
+        private static readonly Image _integratedToolbarNewNormal = Office2010ToolbarImageResources.Office2010ToolbarNewNormal;
+
+        private static readonly Image _integratedToolbarOpenNormal = Office2010ToolbarImageResources.Office2010ToolbarOpenNormal;
+
+        private static readonly Image _integratedToolbarSaveAllNormal = Office2010ToolbarImageResources.Office2010ToolbarSaveAllNormal;
+
+        private static readonly Image _integratedToolbarSaveAsNormal = Office2010ToolbarImageResources.Office2010ToolbarSaveAsNormal;
+
+        private static readonly Image _integratedToolbarSaveNormal = Office2010ToolbarImageResources.Office2010ToolbarSaveNormal;
+
+        private static readonly Image _integratedToolbarCutNormal = Office2010ToolbarImageResources.Office2010ToolbarCutNormal;
+
+        private static readonly Image _integratedToolbarCopyNormal = Office2010ToolbarImageResources.Office2010ToolbarCopyNormal;
+
+        private static readonly Image _integratedToolbarPasteNormal = Office2010ToolbarImageResources.Office2010ToolbarPasteNormal;
+
+        private static readonly Image _integratedToolbarUndoNormal = Office2010ToolbarImageResources.Office2010ToolbarUndoNormal;
+
+        private static readonly Image _integratedToolbarRedoNormal = Office2010ToolbarImageResources.Office2010ToolbarRedoNormal;
+
+        private static readonly Image _integratedToolbarPageSetupNormal = Office2010ToolbarImageResources.Office2010ToolbarPageSetupNormal;
+
+        private static readonly Image _integratedToolbarPrintPreviewNormal = Office2010ToolbarImageResources.Office2010ToolbarPrintPreviewNormal;
+
+        private static readonly Image _integratedToolbarPrintNormal = Office2010ToolbarImageResources.Office2010ToolbarPrintNormal;
+
+        private static readonly Image _integratedToolbarQuickPrintNormal = Office2010ToolbarImageResources.Office2010ToolbarQuickPrintNormal;
+
+        #endregion
+
+        #endregion
+
+        #region Colours
+
         private static readonly Color _disabledText = Color.FromArgb(120, 120, 120);
         private static readonly Color _disabledBack = Color.FromArgb(224, 224, 224);
         private static readonly Color _disabledBack2 = Color.FromArgb(240, 240, 240);
@@ -116,10 +159,6 @@ namespace Krypton.Toolkit
         private static readonly Color _contextMenuHeadingBorder = Color.FromArgb(197, 197, 197);
         private static readonly Color _contextMenuImageBackChecked = Color.FromArgb(255, 227, 149);
         private static readonly Color _contextMenuImageBorderChecked = Color.FromArgb(242, 149, 54);
-        private static readonly Color[] _ribbonGroupCollapsedBackContext = { Color.FromArgb(48, 255, 255, 255), Color.FromArgb(235, 235, 235) };
-        private static readonly Color[] _ribbonGroupCollapsedBackContextTracking = { Color.FromArgb(48, 255, 255, 255), Color.FromArgb(235, 235, 235) };
-        private static readonly Color[] _ribbonGroupCollapsedBorderContext = { Color.FromArgb(128, 199, 199, 199), Color.FromArgb(199, 199, 199), Color.FromArgb(48, 255, 255, 255), Color.FromArgb(235, 235, 235) };
-        private static readonly Color[] _trackBarColors = { Color.FromArgb(180, 180, 180), Color.FromArgb(33, 37, 50), Color.FromArgb(126, 131, 142), Color.FromArgb(99, 99, 99), Color.FromArgb(32, Color.White), Color.FromArgb(35, 35, 35) };
         private static readonly Color _inputControlTextDisabled = Color.FromArgb(120, 120, 120);
         private static readonly Color _colorDark00 = Color.Black;
         private static readonly Color _colorWhite119 = Color.FromArgb(119, 119, 119);
@@ -141,6 +180,43 @@ namespace Krypton.Toolkit
         private static readonly Color _menuItemDisabledBack2 = Color.FromArgb(164, 190, 190, 190);
         private static readonly Color _menuItemDisabledBorder = Color.FromArgb(164, 172, 172, 172);
         private static readonly Color _menuItemDisabledImageBorder = Color.FromArgb(200, 200, 200);
+
+        #endregion
+
+        #region Colour Arrays
+
+        private static readonly Color[] _ribbonGroupCollapsedBackContext =
+        {
+            Color.FromArgb(48, 255, 255, 255),
+            Color.FromArgb(235, 235, 235)
+        };
+
+        private static readonly Color[] _ribbonGroupCollapsedBackContextTracking =
+        {
+            Color.FromArgb(48, 255, 255, 255),
+            Color.FromArgb(235, 235, 235)
+        };
+
+        private static readonly Color[] _ribbonGroupCollapsedBorderContext =
+        {
+            Color.FromArgb(128, 199, 199, 199),
+            Color.FromArgb(199, 199, 199),
+            Color.FromArgb(48, 255, 255, 255),
+            Color.FromArgb(235, 235, 235)
+        };
+
+
+        private static readonly Color[] _trackBarColors =
+        {
+            Color.FromArgb(180, 180, 180),
+            Color.FromArgb(33, 37, 50),
+            Color.FromArgb(126, 131, 142),
+            Color.FromArgb(99, 99, 99),
+            Color.FromArgb(32, Color.White),
+            Color.FromArgb(35, 35, 35)
+        };
+
+        #endregion
         #endregion
 
         #region Instance Fields
@@ -3076,6 +3152,82 @@ namespace Krypton.Toolkit
             PaletteRibbonGalleryButton.DropDown => state == PaletteState.Disabled ? _disabledGalleryDrop : _sparkleGalleryDropButton,
             _ => state == PaletteState.Disabled ? _disabledDropDown : _sparkleDropDownButton
         };
+        #endregion
+
+        #region Image Dictionary
+
+        protected override IDictionary<PaletteButtonSpecStyle, Image> ButtonSpecStyleImageDictionary()
+        {
+            IDictionary<PaletteButtonSpecStyle, Image> imageDictionary =
+                new ConcurrentDictionary<PaletteButtonSpecStyle, Image>();
+
+            imageDictionary.Add(PaletteButtonSpecStyle.ArrowRight, _buttonSpecArrowRight);
+
+            imageDictionary.Add(PaletteButtonSpecStyle.ArrowLeft, _buttonSpecArrowLeft);
+
+            imageDictionary.Add(PaletteButtonSpecStyle.ArrowDown, _buttonSpecArrowDown);
+
+            imageDictionary.Add(PaletteButtonSpecStyle.ArrowUp, _buttonSpecArrowUp);
+
+            imageDictionary.Add(PaletteButtonSpecStyle.Close, _buttonSpecClose);
+
+            imageDictionary.Add(PaletteButtonSpecStyle.Context, _buttonSpecContext);
+
+            imageDictionary.Add(PaletteButtonSpecStyle.Copy, _integratedToolbarCopyNormal);
+
+            imageDictionary.Add(PaletteButtonSpecStyle.Cut, _integratedToolbarCutNormal);
+
+            imageDictionary.Add(PaletteButtonSpecStyle.DropDown, _buttonSpecDropDown);
+
+            imageDictionary.Add(PaletteButtonSpecStyle.PinHorizontal, _buttonSpecPinHorizontal);
+
+            imageDictionary.Add(PaletteButtonSpecStyle.PinVertical, _buttonSpecPinVertical);
+
+            imageDictionary.Add(PaletteButtonSpecStyle.PendantClose, _buttonSpecPendantClose);
+
+            imageDictionary.Add(PaletteButtonSpecStyle.PendantMin, _buttonSpecPendantMin);
+
+            imageDictionary.Add(PaletteButtonSpecStyle.PendantRestore, _buttonSpecPendantRestore);
+
+            imageDictionary.Add(PaletteButtonSpecStyle.Previous, _buttonSpecPrevious);
+
+            imageDictionary.Add(PaletteButtonSpecStyle.PageSetup, _integratedToolbarPageSetupNormal);
+
+            imageDictionary.Add(PaletteButtonSpecStyle.Paste, _integratedToolbarPasteNormal);
+
+            imageDictionary.Add(PaletteButtonSpecStyle.PrintPreview, _integratedToolbarPrintPreviewNormal);
+
+            imageDictionary.Add(PaletteButtonSpecStyle.Print, _integratedToolbarPrintNormal);
+
+            imageDictionary.Add(PaletteButtonSpecStyle.New, _integratedToolbarNewNormal);
+
+            imageDictionary.Add(PaletteButtonSpecStyle.Next, _buttonSpecNext);
+
+            imageDictionary.Add(PaletteButtonSpecStyle.Open, _integratedToolbarOpenNormal);
+
+            imageDictionary.Add(PaletteButtonSpecStyle.Save, _integratedToolbarSaveNormal);
+
+            imageDictionary.Add(PaletteButtonSpecStyle.SaveAll, _integratedToolbarSaveAllNormal);
+
+            imageDictionary.Add(PaletteButtonSpecStyle.SaveAs, _integratedToolbarSaveAsNormal);
+
+            imageDictionary.Add(PaletteButtonSpecStyle.Redo, _integratedToolbarRedoNormal);
+
+            imageDictionary.Add(PaletteButtonSpecStyle.RibbonExpand, _buttonSpecRibbonExpand);
+
+            imageDictionary.Add(PaletteButtonSpecStyle.RibbonMinimize, _buttonSpecRibbonMinimize);
+
+            imageDictionary.Add(PaletteButtonSpecStyle.Undo, _integratedToolbarUndoNormal);
+
+            imageDictionary.Add(PaletteButtonSpecStyle.WorkspaceMaximize, _buttonSpecWorkspaceMaximize);
+
+            imageDictionary.Add(PaletteButtonSpecStyle.WorkspaceRestore, _buttonSpecWorkspaceRestore);
+
+            imageDictionary.Add(PaletteButtonSpecStyle.QuickPrint, _integratedToolbarQuickPrintNormal);
+
+            return imageDictionary;
+        }
+
         #endregion
 
         #region ButtonSpec
