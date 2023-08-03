@@ -256,10 +256,17 @@ namespace Krypton.Toolkit
             }
         }
 
+        /// <summary>
+        /// Update view button to reflect new button DropDown drawing/detection setting.
+        /// </summary>
         public void UpdateShowDrop()
         {
-            ViewButton!.DropDown = ((ButtonSpecAny)ButtonSpec).ShowDrop;
-            ViewButton.Splitter = ((ButtonSpecAny)ButtonSpec).ShowDrop;
+            if (ButtonSpec is ButtonSpecAny buttonSpecAny
+                && ViewButton != null)
+            {
+                ViewButton.DropDown = buttonSpecAny.ShowDrop;
+                ViewButton.Splitter = buttonSpecAny.ShowDrop;
+            }
         }
 
         /// <summary>
