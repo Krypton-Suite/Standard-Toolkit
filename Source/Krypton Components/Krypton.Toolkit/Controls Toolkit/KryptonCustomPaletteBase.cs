@@ -10,11 +10,11 @@
  */
 #endregion
 
+// These are "Only" used here, So will not put into global usings
 using System.Xml.Xsl;
 
 using Krypton.Toolkit.Properties;
 
-using static Krypton.Toolkit.PI;
 
 namespace Krypton.Toolkit
 {
