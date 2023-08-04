@@ -561,7 +561,6 @@ namespace Krypton.Toolkit
             _listBox.ValueMemberChanged += OnListBoxValueMemberChanged;
             _listBox.SelectedIndexChanged += OnListBoxSelectedIndexChanged;
             _listBox.SelectedValueChanged += OnListBoxSelectedValueChanged;
-            _listBox.DisplayMemberChanged += OnListBoxDisplayMemberChanged;
             _listBox.Format += OnListBoxFormat;
             _listBox.FormatInfoChanged += OnListBoxFormatInfoChanged;
             _listBox.FormatStringChanged += OnListBoxFormatStringChanged;
@@ -660,7 +659,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         [EditorBrowsable(EditorBrowsableState.Always)]
         [Browsable(false)]
-        public ListBox? ListBox => _listBox;
+        public ListBox ListBox => _listBox;
 
         /// <summary>
         /// Gets access to the contained input control.
@@ -677,8 +676,8 @@ namespace Krypton.Toolkit
         [Bindable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        [AllowNull]
-        public override string? Text
+        [DisallowNull]
+        public override string Text
         {
             get => base.Text;
             set => base.Text = value;
@@ -704,8 +703,7 @@ namespace Krypton.Toolkit
         [Bindable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        [AmbientValue(null)]
-        [AllowNull]
+        [DisallowNull]
         public override Font Font
         {
             get => base.Font;

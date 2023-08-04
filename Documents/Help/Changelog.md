@@ -3,6 +3,7 @@
 =======
 
 ## 2023-11-xx - Build 2311 - November 2023
+* Implemented [#1050](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1050), Automatically upgrade incompatible theme (XML) files
 * Implemented [#962](https://github.com/Krypton-Suite/Standard-Toolkit/issues/962), Can ButtonSpecs support dropdown menus
 * Implemented [#1069](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1069), Include Tooltips for other "Krypton Menu item" types (i.e. not just text!)
 * Implemented [#1015](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1015), Show a tooltips on a `KryptonContextMenuItem`

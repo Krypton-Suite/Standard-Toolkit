@@ -10,6 +10,7 @@
  */
 #endregion
 
+// ReSharper disable UnusedMember.Global
 namespace Krypton.Toolkit
 {
     #region Delegates
@@ -23,7 +24,7 @@ namespace Krypton.Toolkit
     /// </summary>
     /// <param name="parameter">Operation parameter.</param>
     /// <returns>Operation result.</returns>
-    public delegate object? Operation(object parameter);
+    public delegate object? Operation(object? parameter);
 
     /// <summary>
     /// Signature of a method that returns a ToolStripRenderer instance.
@@ -410,7 +411,7 @@ namespace Krypton.Toolkit
         /// <param name="op">Delegate of operation to be performed.</param>
         /// <param name="parameter">Parameter to be passed into the operation.</param>
         /// <returns>Result of performing the operation.</returns>
-        public static object? PerformOperation(Operation op, object parameter)
+        public static object? PerformOperation(Operation op, object? parameter)
         {
             // Create a modal window for showing feedback
             using var wait = new ModalWaitDialog();
@@ -1121,14 +1122,14 @@ namespace Krypton.Toolkit
             Debug.Assert(c != null);
 
             // If the control is already inside a control collection, then remove it
-            if (c.Parent != null)
+            if (c!.Parent != null)
             {
                 RemoveControlFromParent(c);
             }
             // Then must use the internal method for adding a new instance
 
             // If the control collection is one of our internal collections...
-            if (parent.Controls is KryptonControlCollection cc)
+            if (parent!.Controls is KryptonControlCollection cc)
             {
                 cc.AddInternal(c);
             }
@@ -1148,7 +1149,7 @@ namespace Krypton.Toolkit
             Debug.Assert(c != null);
 
             // If the control is inside a parent collection
-            if (c.Parent != null)
+            if (c?.Parent != null)
             {
                 // Then must use the internal method for adding a new instance
                 // If the control collection is one of our internal collections...
@@ -1371,7 +1372,7 @@ namespace Krypton.Toolkit
             if (typeof(IComponent).IsAssignableFrom(itemType) && (host != null))
             {
                 // Ask host to create component for us
-                retObj = host.CreateComponent(itemType, null);
+                retObj = host.CreateComponent(itemType, null!);
 
                 // If the new object has an associated designer then use that now to initialize the instance
                 if (host.GetDesigner((IComponent)retObj) is IComponentInitializer designer)
@@ -1418,11 +1419,13 @@ namespace Krypton.Toolkit
         public static void LogOutput(string str)
         {
             // TODO: Make this thread aware !
-            var fi = new FileInfo(Application.ExecutablePath);
-            using var writer = new StreamWriter($@"{fi.DirectoryName}LogOutput.txt", true, Encoding.ASCII);
-            writer.Write($@"{DateTime.Now.ToLongTimeString()} :  ");
-            writer.WriteLine(str);
-            writer.Flush();
+            // TODO: DO NOT WRITE to the application path, as that might / will be UAC protected !!
+            //var fi = new FileInfo(Application.ExecutablePath);
+            //using var writer = new StreamWriter($@"{fi.DirectoryName}LogOutput.txt", true, Encoding.ASCII);
+            //writer.Write($@"{DateTime.Now.ToLongTimeString()} :  ");
+            //writer.WriteLine(str);
+            //writer.Flush();
+            Debug.WriteLine(str);
         }
 
         /// <summary>

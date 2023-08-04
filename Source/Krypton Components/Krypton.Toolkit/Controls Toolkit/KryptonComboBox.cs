@@ -806,7 +806,7 @@ namespace Krypton.Toolkit
         private readonly ViewLayoutFill _layoutFill;
         private readonly InternalComboBox _comboBox;
         private readonly InternalPanel _comboHolder;
-        private SubclassEdit _subclassEdit;
+        private SubclassEdit? _subclassEdit;
         private ButtonStyle _dropButtonStyle;
         private PaletteBackStyle _dropBackStyle;
         private InputControlStyle _inputControlStyle;
@@ -1330,7 +1330,6 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [Bindable(false)]
-        [AmbientValue(null)]
         [AllowNull]
         public override Font Font
         {
@@ -1367,7 +1366,7 @@ namespace Krypton.Toolkit
         /// Gets and sets the text associated associated with the control.
         /// </summary>
         [AllowNull]
-        public override string? Text
+        public override string Text
         {
             get => _comboBox.Text;
             set => _comboBox.Text = value;

@@ -37,8 +37,8 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="paletteBack">Palette source for the background.</param>        
         /// <param name="paletteBorder">Palette source for the border.</param>
-        public ViewDrawDocker(IPaletteBack paletteBack,
-                              IPaletteBorder paletteBorder)
+        public ViewDrawDocker(IPaletteBack? paletteBack,
+                              IPaletteBorder? paletteBorder)
             : this(paletteBack, paletteBorder, null, PaletteMetricBool.None)
         {
         }
@@ -63,8 +63,8 @@ namespace Krypton.Toolkit
         /// <param name="paletteBorder">Palette source for the border.</param>
         /// <param name="paletteMetric">Palette source for metrics.</param>
         /// <param name="metricOverlay">Metric to use for border overlay.</param>
-        public ViewDrawDocker(IPaletteBack paletteBack,
-                              IPaletteBorder paletteBorder,
+        public ViewDrawDocker(IPaletteBack? paletteBack,
+                              IPaletteBorder? paletteBorder,
                               IPaletteMetric? paletteMetric,
                               PaletteMetricBool metricOverlay)
             : this(paletteBack, paletteBorder,
@@ -82,8 +82,8 @@ namespace Krypton.Toolkit
         /// <param name="metricOverlay">Metric to use for border overlay.</param>
         /// <param name="metricPadding">Metric used to get padding values.</param>
         /// <param name="orientation">Visual orientation of the content.</param>
-        public ViewDrawDocker(IPaletteBack paletteBack,
-                              IPaletteBorder paletteBorder,
+        public ViewDrawDocker(IPaletteBack? paletteBack,
+                              IPaletteBorder? paletteBorder,
                               IPaletteMetric? paletteMetric,
                               PaletteMetricBool metricOverlay,
                               PaletteMetricPadding metricPadding,

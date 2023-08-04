@@ -46,8 +46,8 @@ namespace Krypton.Toolkit
 
             // Remember references
             _redirector = redirector;
-            Manager = manager;
-            ButtonSpec = buttonSpec;
+            Manager = manager!;
+            ButtonSpec = buttonSpec!;
             _finishDelegate = OnFinishDelegate;
 
             // Create delegate for paint notifications
@@ -71,8 +71,8 @@ namespace Krypton.Toolkit
 
             var images = new DropDownButtonImages(needPaint);
             // Image need an extra redirector to check the local images first
-            var _paletteDropDownButtonImages = new PaletteRedirectDropDownButton(redirector, images);
-            ViewButton.DropDownPalette = _paletteDropDownButtonImages;
+            var paletteDropDownButtonImages = new PaletteRedirectDropDownButton(redirector, images);
+            ViewButton.DropDownPalette = paletteDropDownButtonImages;
 
             // Associate the view with the source component (for design time support)
             if (ButtonSpec.AllowComponent)
@@ -277,7 +277,7 @@ namespace Krypton.Toolkit
             // Unhook from events
             ButtonSpec.ButtonSpecPropertyChanged -= OnPropertyChanged;
 
-            // Remove buttonspec/view association
+            // Remove ButtonSpec/view association
             ButtonSpec.SetView(null);
 
             // Remove all view element resources
@@ -383,7 +383,7 @@ namespace Krypton.Toolkit
                 var performDefaultClick = true;
                 if (ButtonSpec is ButtonSpecAny { ShowDrop: true })
                 {
-                    showMenu = ViewButton.SplitRectangle.Contains(e.Location);
+                    showMenu = ViewButton?.SplitRectangle.Contains(e.Location) ?? false;
                     performDefaultClick = !showMenu;
                 }
 
