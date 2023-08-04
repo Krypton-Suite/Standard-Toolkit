@@ -11,8 +11,9 @@
 // ReSharper disable InconsistentNaming
 namespace Krypton.Toolkit
 {
-    [TypeConverter(typeof(ExpandableObjectConverter))]
-    public class IntegratedToolBarButtonValues : GlobalId
+    [DesignerCategory(@"code")]
+    [ToolboxItem(false)]
+    public class IntegratedToolBarButtonValues : Storage
     {
         #region Static Fields
 
@@ -35,131 +36,82 @@ namespace Krypton.Toolkit
 
         #region Instance Fields
 
-        private bool _showNewButton;
+        private bool _allowFormIntegration;
 
-        private bool _showOpenButton;
+        private ButtonSpecAny[] _integratedToolBarButtons;
 
-        private bool _showSaveButton;
+        private PaletteButtonOrientation _integratedToolBarButtonOrientation;
 
-        private bool _showSaveAllButton;
+        private PaletteRelativeEdgeAlign _integratedToolBarButtonAlignment;
 
-        private bool _showSaveAsButton;
-
-        private bool _showCutButton;
-
-        private bool _showCopyButton;
-
-        private bool _showPasteButton;
-
-        private bool _showUndoButton;
-
-        private bool _showRedoButton;
-
-        private bool _showPageSetupButton;
-
-        private bool _showPrintPreviewButton;
-
-        private bool _showPrintButton;
-
-        private bool _showQuickPrintButton;
-
-        private KryptonIntegratedToolBarManager _toolBarManager = new();
+        private IntegratedToolbarManager _toolbarManager = new IntegratedToolbarManager();
 
         #endregion
 
         #region Public
 
-        [Browsable(false)]
-        public bool IsDefault => ShowNewButton.Equals(DEFAULT_SHOW_NEW_BUTTON) &&
-                                 ShowOpenButton.Equals(DEFAULT_SHOW_OPEN_BUTTON) &&
-                                 ShowSaveButton.Equals(DEFAULT_SHOW_SAVE_BUTTON) &&
-                                 ShowSaveAllButton.Equals(DEFAULT_SHOW_SAVE_ALL_BUTTON) &&
-                                 ShowSaveAsButton.Equals(DEFAULT_SHOW_SAVE_AS_BUTTON) &&
-                                 ShowCutButton.Equals(DEFAULT_SHOW_CUT_BUTTON) &&
-                                 ShowCopyButton.Equals(DEFAULT_SHOW_COPY_BUTTON) &&
-                                 ShowPasteButton.Equals(DEFAULT_SHOW_PASTE_BUTTON) &&
-                                 ShowUndoButton.Equals(DEFAULT_SHOW_UNDO_BUTTON) &&
-                                 ShowRedoButton.Equals(DEFAULT_SHOW_REDO_BUTTON) &&
-                                 ShowPageSetupButton.Equals(DEFAULT_SHOW_PAGE_SETUP_BUTTON) &&
-                                 ShowPrintPreviewButton.Equals(DEFAULT_SHOW_PRINT_PREVIEW_BUTTON) &&
-                                 ShowPrintButton.Equals(DEFAULT_SHOW_PRINT_BUTTON) &&
-                                 ShowQuickPrintButton.Equals(DEFAULT_SHOW_QUICK_PRINT_BUTTON);
+        /// <summary>Gets or sets a value indicating whether [allow form integration].</summary>
+        /// <value><c>true</c> if [allow form integration]; otherwise, <c>false</c>.</value>
+        /// <exception cref="ArgumentNullException">@"The 'ParentForm' property cannot be null.</exception>
+        [Category(@"Visuals"), DefaultValue(false), Description(@"Add/remove the integrated tool bar buttons to the parent form. (Note: Existing buttonspecs will not be affected.)")]
+        public bool AllowFormIntegration
+        {
+            get => _allowFormIntegration;
 
-        public bool ShowNewButton { get => _showNewButton; set { _showNewButton = value; _toolBarManager.ToggleNewButton(value); } }
+            set
+            {
+                _allowFormIntegration = value;
 
-        public bool ShowOpenButton { get => _showOpenButton; set { _showOpenButton = value; _toolBarManager.ToggleOpenButton(value); } }
+                if (_parentForm != null)
+                {
+                    if (value)
+                    {
+                        _toolbarManager.AttachIntegratedToolBarToParent(_parentForm);
+                    }
+                    else
+                    {
+                        DetachIntegratedToolBarFromParent(_parentForm);
+                    }
+                }
+                else
+                {
+                    throw new ArgumentNullException($@"The 'ParentForm' property cannot be null.");
+                }
+            }
+        }
 
-        public bool ShowSaveButton { get => _showSaveButton; set { _showSaveButton = value; _toolBarManager.ToggleSaveButton(value); } }
+        /// <summary>Gets the integrated tool bar buttons.</summary>
+        /// <value>The integrated tool bar buttons.</value>
+        [Category(@"Visuals"), DefaultValue(null), Description(@"Contains all the integrated tool bar buttons.")]
+        public ButtonSpecAny[] IntegratedToolBarButtons => _integratedToolBarButtons;
 
-        public bool ShowSaveAllButton { get => _showSaveAllButton; set { _showSaveAllButton = value; _toolBarManager.ToggleSaveAllButton(value); } }
+        /// <summary>Gets or sets the integrated tool bar button orientation.</summary>
+        /// <value>The integrated tool bar button orientation.</value>
+        [Category(@"Visuals"), DefaultValue(typeof(PaletteButtonOrientation), @"PaletteButtonOrientation.FixedTop"), Description(@"Gets or sets the integrated tool bar button orientation.")]
+        public PaletteButtonOrientation IntegratedToolBarButtonOrientation { get => _integratedToolBarButtonOrientation; set { _integratedToolBarButtonOrientation = value; UpdateButtonOrientation(value); } }
 
-        public bool ShowSaveAsButton { get => _showSaveAsButton; set { _showSaveAsButton = value; _toolBarManager.ToggleSaveAsButton(value); } }
-
-        public bool ShowCutButton { get => _showCutButton; set { _showCutButton = value; _toolBarManager.ToggleCutButton(value); } }
-
-        public bool ShowCopyButton { get => _showCopyButton; set { _showCopyButton = value; _toolBarManager.ToggleCopyButton(value); } }
-
-        public bool ShowPasteButton { get => _showPasteButton; set { _showPasteButton = value; _toolBarManager.TogglePasteButton(value); } }
-
-        public bool ShowUndoButton { get => _showUndoButton; set { _showUndoButton = value; _toolBarManager.ToggleUndoButton(value); } }
-
-        public bool ShowRedoButton { get => _showRedoButton; set { _showRedoButton = value; _toolBarManager.ToggleRedoButton(value); } }
-
-        public bool ShowPageSetupButton { get => _showPageSetupButton; set { _showPageSetupButton = value; _toolBarManager.TogglePageSetupButton(value); } }
-
-        public bool ShowPrintPreviewButton { get => _showPrintPreviewButton; set { _showPrintPreviewButton = value; _toolBarManager.TogglePrintPreviewButton(value); } }
-
-        public bool ShowPrintButton { get => _showPrintButton; set { _showPrintButton = value; _toolBarManager.TogglePrintButton(value); } }
-
-        public bool ShowQuickPrintButton { get => _showQuickPrintButton; set { _showQuickPrintButton = value; _toolBarManager.ToggleQuickPrintButton(value); } }
+        /// <summary>Gets or sets the integrated tool bar button alignment.</summary>
+        /// <value>The integrated tool bar button alignment.</value>
+        [Category(@"Visuals"), DefaultValue(typeof(PaletteRelativeEdgeAlign), @"PaletteRelativeEdgeAlign.Far"), Description(@"Gets or sets the integrated tool bar button alignment.")]
+        public PaletteRelativeEdgeAlign IntegratedToolBarButtonAlignment { get => _integratedToolBarButtonAlignment; set { _integratedToolBarButtonAlignment = value; UpdateButtonAlignment(value); } }
 
         #endregion
 
         #region Identity
 
-        /// <summary>Initializes a new instance of the <see cref="IntegratedToolBarButtonValues" /> class.</summary>
         public IntegratedToolBarButtonValues()
         {
-            _toolBarManager.Reset();
+            Reset();
         }
 
-        /// <summary>Converts to string.</summary>
-        /// <returns>A <see cref="System.String" /> that represents this instance.</returns>
-        public override string ToString() => !IsDefault ? "Modified" : string.Empty;
-
         #endregion
+        public override bool IsDefault { get; }
 
         #region Implementation
 
         public void Reset()
         {
-            ShowNewButton = DEFAULT_SHOW_NEW_BUTTON;
 
-            ShowOpenButton = DEFAULT_SHOW_OPEN_BUTTON;
-
-            ShowSaveButton = DEFAULT_SHOW_SAVE_BUTTON;
-
-            ShowSaveAllButton = DEFAULT_SHOW_SAVE_ALL_BUTTON;
-
-            ShowSaveAsButton = DEFAULT_SHOW_SAVE_AS_BUTTON;
-
-            ShowCutButton = DEFAULT_SHOW_CUT_BUTTON;
-
-            ShowCopyButton = DEFAULT_SHOW_COPY_BUTTON;
-
-            ShowPasteButton = DEFAULT_SHOW_PASTE_BUTTON;
-
-            ShowUndoButton = DEFAULT_SHOW_UNDO_BUTTON;
-
-            ShowRedoButton = DEFAULT_SHOW_REDO_BUTTON;
-
-            ShowPageSetupButton = DEFAULT_SHOW_PAGE_SETUP_BUTTON;
-
-            ShowPrintPreviewButton = DEFAULT_SHOW_PRINT_PREVIEW_BUTTON;
-
-            ShowPrintButton = DEFAULT_SHOW_PRINT_BUTTON;
-
-            ShowQuickPrintButton = DEFAULT_SHOW_QUICK_PRINT_BUTTON;
         }
 
         #endregion
