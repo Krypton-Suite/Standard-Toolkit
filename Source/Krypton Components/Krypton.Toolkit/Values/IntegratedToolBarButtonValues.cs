@@ -38,13 +38,13 @@ namespace Krypton.Toolkit
 
         private bool _allowFormIntegration;
 
-        private ButtonSpecAny[] _integratedToolBarButtons;
+        internal ButtonSpecAny[] _integratedToolBarButtons;
 
         private PaletteButtonOrientation _integratedToolBarButtonOrientation;
 
         private PaletteRelativeEdgeAlign _integratedToolBarButtonAlignment;
 
-        private IntegratedToolbarManager _toolbarManager = new IntegratedToolbarManager();
+        private KryptonIntegratedToolBarManager _toolbarManager = new KryptonIntegratedToolBarManager();
 
         #endregion
 
@@ -62,15 +62,15 @@ namespace Krypton.Toolkit
             {
                 _allowFormIntegration = value;
 
-                if (_parentForm != null)
+                if (_toolbarManager._parentForm != null)
                 {
                     if (value)
                     {
-                        _toolbarManager.AttachIntegratedToolBarToParent(_parentForm);
+                        _toolbarManager.AttachIntegratedToolBarToParent(_toolbarManager._parentForm);
                     }
                     else
                     {
-                        DetachIntegratedToolBarFromParent(_parentForm);
+                        _toolbarManager.DetachIntegratedToolBarFromParent(_toolbarManager._parentForm);
                     }
                 }
                 else
@@ -88,12 +88,12 @@ namespace Krypton.Toolkit
         /// <summary>Gets or sets the integrated tool bar button orientation.</summary>
         /// <value>The integrated tool bar button orientation.</value>
         [Category(@"Visuals"), DefaultValue(typeof(PaletteButtonOrientation), @"PaletteButtonOrientation.FixedTop"), Description(@"Gets or sets the integrated tool bar button orientation.")]
-        public PaletteButtonOrientation IntegratedToolBarButtonOrientation { get => _integratedToolBarButtonOrientation; set { _integratedToolBarButtonOrientation = value; UpdateButtonOrientation(value); } }
+        public PaletteButtonOrientation IntegratedToolBarButtonOrientation { get => _integratedToolBarButtonOrientation; set { _integratedToolBarButtonOrientation = value; _toolbarManager.UpdateButtonOrientation(value); } }
 
         /// <summary>Gets or sets the integrated tool bar button alignment.</summary>
         /// <value>The integrated tool bar button alignment.</value>
         [Category(@"Visuals"), DefaultValue(typeof(PaletteRelativeEdgeAlign), @"PaletteRelativeEdgeAlign.Far"), Description(@"Gets or sets the integrated tool bar button alignment.")]
-        public PaletteRelativeEdgeAlign IntegratedToolBarButtonAlignment { get => _integratedToolBarButtonAlignment; set { _integratedToolBarButtonAlignment = value; UpdateButtonAlignment(value); } }
+        public PaletteRelativeEdgeAlign IntegratedToolBarButtonAlignment { get => _integratedToolBarButtonAlignment; set { _integratedToolBarButtonAlignment = value; _toolbarManager.UpdateButtonAlignment(value); } }
 
         #endregion
 
@@ -111,7 +111,11 @@ namespace Krypton.Toolkit
 
         public void Reset()
         {
+            _allowFormIntegration = false;
 
+            _integratedToolBarButtonOrientation = PaletteButtonOrientation.FixedTop;
+
+            _integratedToolBarButtonAlignment = PaletteRelativeEdgeAlign.Far;
         }
 
         #endregion

@@ -24,7 +24,7 @@ namespace Krypton.Toolkit
 
         private bool _flipButtonArray;
 
-        private VisualForm _parentForm;
+        internal KryptonForm _parentForm;
 
         private IntegratedToolBarButtonValues _integratedToolBarButtonValues;
 
@@ -76,7 +76,7 @@ namespace Krypton.Toolkit
 
         #region Identity
 
-        public KryptonIntegratedToolBarManager(VisualForm parentForm, IntegratedToolBarButtonValues toolBarButtonValues)
+        public KryptonIntegratedToolBarManager(KryptonForm parentForm, IntegratedToolBarButtonValues toolBarButtonValues)
         {
             _parentForm = parentForm;
 
@@ -105,13 +105,7 @@ namespace Krypton.Toolkit
         {
             _flipButtonArray = false;
 
-            _allowFormIntegration = false;
-
             SetupToolBar();
-
-            _integratedToolBarButtonOrientation = PaletteButtonOrientation.FixedTop;
-
-            _integratedToolBarButtonAlignment = PaletteRelativeEdgeAlign.Far;
 
             _parentForm = null;
 
@@ -121,9 +115,9 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>Setups the tool bar.</summary>
-        private void SetupToolBar()
+        internal void SetupToolBar()
         {
-            _integratedToolBarButtons = new ButtonSpecAny[MAXIMUM_INTEGRATED_TOOLBAR_BUTTONS];
+            _integratedToolBarButtonValues._integratedToolBarButtons = new ButtonSpecAny[MAXIMUM_INTEGRATED_TOOLBAR_BUTTONS];
 
             ButtonSpecAny newToolbarButton = new(),
                     openToolbarButton = new(),
@@ -198,33 +192,33 @@ namespace Krypton.Toolkit
 
             quickPrintToolbarButton.Visible = true;
 
-            _integratedToolBarButtons[0] = newToolbarButton;
+            _integratedToolBarButtonValues._integratedToolBarButtons[0] = newToolbarButton;
 
-            _integratedToolBarButtons[1] = openToolbarButton;
+            _integratedToolBarButtonValues._integratedToolBarButtons[1] = openToolbarButton;
 
-            _integratedToolBarButtons[2] = saveToolbarButton;
+            _integratedToolBarButtonValues._integratedToolBarButtons[2] = saveToolbarButton;
 
-            _integratedToolBarButtons[3] = saveAsToolbarButton;
+            _integratedToolBarButtonValues._integratedToolBarButtons[3] = saveAsToolbarButton;
 
-            _integratedToolBarButtons[4] = saveAllToolbarButton;
+            _integratedToolBarButtonValues._integratedToolBarButtons[4] = saveAllToolbarButton;
 
-            _integratedToolBarButtons[5] = cutToolbarButton;
+            _integratedToolBarButtonValues._integratedToolBarButtons[5] = cutToolbarButton;
 
-            _integratedToolBarButtons[6] = copyToolbarButton;
+            _integratedToolBarButtonValues._integratedToolBarButtons[6] = copyToolbarButton;
 
-            _integratedToolBarButtons[7] = pasteToolbarButton;
+            _integratedToolBarButtonValues._integratedToolBarButtons[7] = pasteToolbarButton;
 
-            _integratedToolBarButtons[8] = undoToolbarButton;
+            _integratedToolBarButtonValues._integratedToolBarButtons[8] = undoToolbarButton;
 
-            _integratedToolBarButtons[9] = redoToolbarButton;
+            _integratedToolBarButtonValues._integratedToolBarButtons[9] = redoToolbarButton;
 
-            _integratedToolBarButtons[10] = pageSetupToolbarButton;
+            _integratedToolBarButtonValues._integratedToolBarButtons[10] = pageSetupToolbarButton;
 
-            _integratedToolBarButtons[11] = printPreviewToolbarButton;
+            _integratedToolBarButtonValues._integratedToolBarButtons[11] = printPreviewToolbarButton;
 
-            _integratedToolBarButtons[12] = printToolbarButton;
+            _integratedToolBarButtonValues._integratedToolBarButtons[12] = printToolbarButton;
 
-            _integratedToolBarButtons[13] = quickPrintToolbarButton;
+            _integratedToolBarButtonValues._integratedToolBarButtons[13] = quickPrintToolbarButton;
         }
 
         /// <summary>Shows the tool bar into parent form.</summary>
@@ -257,7 +251,7 @@ namespace Krypton.Toolkit
 
         /// <summary>Attaches the integrated tool bar to parent.</summary>
         /// <param name="parentForm">The parent form.</param>
-        public void AttachIntegratedToolBarToParent(KryptonForm? parentForm)
+        internal void AttachIntegratedToolBarToParent(KryptonForm? parentForm)
         {
             try
             {
@@ -441,7 +435,7 @@ namespace Krypton.Toolkit
 
         /// <summary>Returns the integrated tool bar button array.</summary>
         /// <returns></returns>
-        public ButtonSpecAny[] ReturnIntegratedToolBarButtonArray() => _integratedToolBarButtons;
+        public ButtonSpecAny[] ReturnIntegratedToolBarButtonArray() => _integratedToolBarButtonValues._integratedToolBarButtons;
 
         /// <summary>Returns the is button array flipped.</summary>
         /// <returns></returns>
