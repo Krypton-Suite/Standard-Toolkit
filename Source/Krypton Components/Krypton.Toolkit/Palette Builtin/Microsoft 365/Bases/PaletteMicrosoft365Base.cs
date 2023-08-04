@@ -166,89 +166,6 @@ namespace Krypton.Toolkit
 
         #endregion
 
-        #region Image Array
-
-        private static readonly Image[] __buttonSpecImages = new Image[]
-        {
-            _buttonSpecClose,
-            _buttonSpecContext,
-            _buttonSpecNext,
-            _buttonSpecPrevious,
-            _buttonSpecArrowLeft,
-            _buttonSpecArrowRight,
-            _buttonSpecArrowUp,
-            _buttonSpecArrowDown,
-            _buttonSpecDropDown,
-            _buttonSpecPinVertical,
-            _buttonSpecPinHorizontal,
-            _buttonSpecPendantClose,
-            _buttonSpecPendantMin,
-            _buttonSpecPendantRestore,
-            _buttonSpecWorkspaceMaximize,
-            _buttonSpecWorkspaceRestore,
-            _buttonSpecRibbonMinimize,
-            _buttonSpecRibbonExpand,
-            _integratedToolbarNewNormal,
-            _integratedToolbarOpenNormal,
-            _integratedToolbarSaveNormal,
-            _integratedToolbarSaveAsNormal,
-            _integratedToolbarSaveAllNormal,
-            _integratedToolbarCutNormal,
-            _integratedToolbarCopyNormal,
-            _integratedToolbarPasteNormal,
-            _integratedToolbarUndoNormal,
-            _integratedToolbarRedoNormal,
-            _integratedToolbarPageSetupNormal,
-            _integratedToolbarPrintPreviewNormal,
-            _integratedToolbarPrintNormal,
-            _integratedToolbarQuickPrintNormal
-        };
-
-        #endregion
-
-        #region Arrays
-
-        private static readonly BiDictionary<Image, PaletteButtonSpecStyle> _buttonSpecImageMap =
-            new BiDictionary<Image, PaletteButtonSpecStyle>(new Dictionary<Image, PaletteButtonSpecStyle>
-            {
-                {_buttonSpecClose, PaletteButtonSpecStyle.Close},
-                {_buttonSpecContext, PaletteButtonSpecStyle.Context},
-                {_buttonSpecNext, PaletteButtonSpecStyle.Next},
-                {_buttonSpecPrevious, PaletteButtonSpecStyle.Previous},
-                {_buttonSpecArrowLeft, PaletteButtonSpecStyle.ArrowLeft},
-                {_buttonSpecArrowRight, PaletteButtonSpecStyle.ArrowRight},
-                {_buttonSpecArrowUp, PaletteButtonSpecStyle.ArrowUp},
-                {_buttonSpecArrowDown, PaletteButtonSpecStyle.ArrowDown},
-                {_buttonSpecDropDown, PaletteButtonSpecStyle.DropDown},
-                {_buttonSpecPinVertical, PaletteButtonSpecStyle.PinVertical},
-                {_buttonSpecPinHorizontal, PaletteButtonSpecStyle.PinHorizontal},
-                {_buttonSpecPendantClose, PaletteButtonSpecStyle.PendantClose},
-                {_buttonSpecPendantMin, PaletteButtonSpecStyle.PendantMin},
-                {_buttonSpecPendantRestore, PaletteButtonSpecStyle.PendantRestore},
-                {_buttonSpecWorkspaceMaximize, PaletteButtonSpecStyle.WorkspaceMaximize},
-                {_buttonSpecWorkspaceRestore, PaletteButtonSpecStyle.WorkspaceRestore},
-                {_buttonSpecRibbonMinimize, PaletteButtonSpecStyle.RibbonMinimize},
-                {_buttonSpecRibbonExpand, PaletteButtonSpecStyle.RibbonExpand},
-                {_integratedToolbarNewNormal, PaletteButtonSpecStyle.New},
-                {_integratedToolbarOpenNormal, PaletteButtonSpecStyle.Open},
-                {_integratedToolbarSaveNormal, PaletteButtonSpecStyle.Save},
-                {_integratedToolbarSaveAsNormal, PaletteButtonSpecStyle.SaveAs},
-                {_integratedToolbarSaveAllNormal, PaletteButtonSpecStyle.SaveAll},
-                {_integratedToolbarCutNormal, PaletteButtonSpecStyle.Cut},
-                {_integratedToolbarCopyNormal, PaletteButtonSpecStyle.Copy},
-                {_integratedToolbarPasteNormal, PaletteButtonSpecStyle.Paste},
-                {_integratedToolbarUndoNormal, PaletteButtonSpecStyle.Undo},
-                {_integratedToolbarRedoNormal, PaletteButtonSpecStyle.Redo},
-                {_integratedToolbarPageSetupNormal, PaletteButtonSpecStyle.PageSetup},
-                {_integratedToolbarPrintPreviewNormal, PaletteButtonSpecStyle.PrintPreview},
-                {_integratedToolbarPrintNormal, PaletteButtonSpecStyle.Print},
-                {_integratedToolbarQuickPrintNormal, PaletteButtonSpecStyle.QuickPrint}
-            });
-
-        #endregion
-
-        private readonly Hashtable _buttonSpecHashtable = new Hashtable();
-
         #region Colors
 
         private static readonly Color _gridTextColor = Color.Black;
@@ -394,7 +311,7 @@ namespace Krypton.Toolkit
         protected PaletteMicrosoft365Base([DisallowNull] Color[] schemeColours,
             [DisallowNull] ImageList checkBoxList,
             [DisallowNull] ImageList galleryButtonList,
-            [DisallowNull] Image[] radioButtonArray, Color[] trackBarColours) : base(__buttonSpecImages)
+            [DisallowNull] Image[] radioButtonArray, Color[] trackBarColours)
         {
             Debug.Assert(schemeColours != null);
             Debug.Assert(checkBoxList != null);
@@ -427,6 +344,8 @@ namespace Krypton.Toolkit
             }
 
             DefineFonts();
+
+            SetupButtonSpecImageDictionary();
         }
         #endregion
 
@@ -3009,16 +2928,16 @@ namespace Krypton.Toolkit
 
         #region Image Dictionary
 
-        protected override IDictionary<PaletteButtonSpecStyle, Image> ButtonSpecStyleImageDictionary()
+        /// <summary>Setups the button spec image dictionary.</summary>
+        private void SetupButtonSpecImageDictionary()
         {
-            IDictionary<PaletteButtonSpecStyle, Image> imageDictionary =
-                new ConcurrentDictionary<PaletteButtonSpecStyle, Image>();
+            Dictionary<PaletteButtonSpecStyle, Image> imageDictionary = new Dictionary<PaletteButtonSpecStyle, Image>();
 
-            imageDictionary.Add(PaletteButtonSpecStyle.ArrowRight, _buttonSpecArrowRight);
+            imageDictionary.Add(PaletteButtonSpecStyle.ArrowDown, _buttonSpecArrowDown);
 
             imageDictionary.Add(PaletteButtonSpecStyle.ArrowLeft, _buttonSpecArrowLeft);
 
-            imageDictionary.Add(PaletteButtonSpecStyle.ArrowDown, _buttonSpecArrowDown);
+            imageDictionary.Add(PaletteButtonSpecStyle.ArrowRight, _buttonSpecArrowRight);
 
             imageDictionary.Add(PaletteButtonSpecStyle.ArrowUp, _buttonSpecArrowUp);
 
@@ -3058,17 +2977,17 @@ namespace Krypton.Toolkit
 
             imageDictionary.Add(PaletteButtonSpecStyle.Open, _integratedToolbarOpenNormal);
 
-            imageDictionary.Add(PaletteButtonSpecStyle.Save, _integratedToolbarSaveNormal);
-
             imageDictionary.Add(PaletteButtonSpecStyle.SaveAll, _integratedToolbarSaveAllNormal);
 
             imageDictionary.Add(PaletteButtonSpecStyle.SaveAs, _integratedToolbarSaveAsNormal);
 
+            imageDictionary.Add(PaletteButtonSpecStyle.Save, _integratedToolbarSaveNormal);
+
             imageDictionary.Add(PaletteButtonSpecStyle.Redo, _integratedToolbarRedoNormal);
 
-            imageDictionary.Add(PaletteButtonSpecStyle.RibbonExpand, _buttonSpecRibbonExpand);
-
             imageDictionary.Add(PaletteButtonSpecStyle.RibbonMinimize, _buttonSpecRibbonMinimize);
+
+            imageDictionary.Add(PaletteButtonSpecStyle.RibbonExpand, _buttonSpecRibbonExpand);
 
             imageDictionary.Add(PaletteButtonSpecStyle.Undo, _integratedToolbarUndoNormal);
 
@@ -3078,7 +2997,7 @@ namespace Krypton.Toolkit
 
             imageDictionary.Add(PaletteButtonSpecStyle.QuickPrint, _integratedToolbarQuickPrintNormal);
 
-            return imageDictionary;
+            SetButtonSpecStyleImageDictionary(imageDictionary);
         }
 
         #endregion

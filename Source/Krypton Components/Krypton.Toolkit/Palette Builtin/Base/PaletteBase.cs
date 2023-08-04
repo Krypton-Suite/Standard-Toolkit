@@ -27,7 +27,8 @@ namespace Krypton.Toolkit
         private PaletteDragFeedback _dragFeedback;
         private string _themeName;
         private Image[] /*ICollection<Image?>*/ _buttonSpecImages;
-        private IDictionary<PaletteButtonSpecStyle, Image> _buttonSpecImageDictionary;
+        private IDictionary<PaletteButtonSpecStyle, Image> _buttonSpecImageIDictionary;
+        private Dictionary<PaletteButtonSpecStyle, Image> _buttonSpecImageDictionary;
 
         private readonly Font _defaultFontStyle = new Font("Segoe UI", 9f, FontStyle.Regular);
 
@@ -103,58 +104,6 @@ namespace Krypton.Toolkit
             _baseFontSize = 9f;
         }
 
-        /// <summary>Initializes a new instance of the <see cref="PaletteBase" /> class.</summary>
-        /// <param name="buttonSpecImages">The button spec images.</param>
-        protected PaletteBase([DisallowNull] Image[] /*ICollection<Image>*/ buttonSpecImages)
-        {
-            Debug.Assert(buttonSpecImages != null);
-
-            if (buttonSpecImages != null)
-            {
-                _buttonSpecImages = buttonSpecImages;
-            }
-
-            // We need to notice when system color settings change
-            SystemEvents.UserPreferenceChanged += OnUserPreferenceChanged;
-
-            // Inherit means we need to calculate the value next time it is requested
-            _dragFeedback = PaletteDragFeedback.Inherit;
-
-            _themeName = string.Empty;
-
-            _useKryptonFileDialogs = true;
-
-            _baseFont = _defaultFontStyle;
-
-            _baseFontSize = 9f;
-        }
-
-        /// <summary>Initializes a new instance of the <see cref="PaletteBase" /> class.</summary>
-        /// <param name="buttonSpecImageDictionary">The button spec image dictionary.</param>
-        protected PaletteBase([DisallowNull] IDictionary<PaletteButtonSpecStyle, Image> buttonSpecImageDictionary)
-        {
-            Debug.Assert(buttonSpecImageDictionary != null);
-
-            if (buttonSpecImageDictionary != null)
-            {
-                _buttonSpecImageDictionary = buttonSpecImageDictionary;
-            }
-
-            // We need to notice when system color settings change
-            SystemEvents.UserPreferenceChanged += OnUserPreferenceChanged;
-
-            // Inherit means we need to calculate the value next time it is requested
-            _dragFeedback = PaletteDragFeedback.Inherit;
-
-            _themeName = string.Empty;
-
-            _useKryptonFileDialogs = true;
-
-            _baseFont = _defaultFontStyle;
-
-            _baseFontSize = 9f;
-        }
-
         #endregion
 
         #region AllowFormChrome
@@ -167,14 +116,20 @@ namespace Krypton.Toolkit
 
         #region Dictionary
 
-        /// <summary>The palette button the spec style image dictionary.</summary>
-        /// <returns>An <seealso cref="IDictionary"/> containing <seealso cref="PaletteButtonSpecStyle"/>, <seealso cref="Image"/> pairs.</returns>
-        protected abstract IDictionary<PaletteButtonSpecStyle, Image> ButtonSpecStyleImageDictionary();
+        /// <summary>Sets the button spec style image dictionary.</summary>
+        /// <param name="imageDictionary">The image dictionary.</param>
+        public virtual void SetButtonSpecStyleImageDictionary(Dictionary<PaletteButtonSpecStyle, Image> imageDictionary) => _buttonSpecImageDictionary = imageDictionary;
+
+        /// <summary>Buttons the spec style image i dictionary.</summary>
+        /// <param name="imageDictionary">The image dictionary.</param>
+        public virtual void ButtonSpecStyleImageIDictionary(IDictionary<PaletteButtonSpecStyle, Image> imageDictionary) => _buttonSpecImageIDictionary = imageDictionary;
 
         /// <summary>Converts an <seealso cref="IDictionary"/> to a <seealso cref="Dictionary{TKey,TValue}"/>.</summary>
         /// <param name="dictionary">The input <seealso cref="IDictionary"/>.</param>
         /// <returns>A <seealso cref="Dictionary{TKey,TValue}"/>, based on the input <seealso cref="IDictionary"/>.</returns>
         private Dictionary<PaletteButtonSpecStyle, Image> ConvertToDictionary(IDictionary<PaletteButtonSpecStyle, Image> dictionary) => (Dictionary<PaletteButtonSpecStyle, Image>)dictionary;
+
+        private IDictionary<PaletteButtonSpecStyle, Image> ConvertToIDictionary(Dictionary<PaletteButtonSpecStyle, Image> dictionary) => (IDictionary<PaletteButtonSpecStyle, Image>)dictionary;
 
         #endregion
 
@@ -882,79 +837,75 @@ namespace Krypton.Toolkit
         /// <returns>Image value.</returns>
         public virtual Image? GetButtonSpecImage(PaletteButtonSpecStyle style, PaletteState state)
         {
-            Dictionary<PaletteButtonSpecStyle, Image> imageDictionary;
-
-            if (GetButtonSpecImageDictionary().Values != null)
-            {
-                imageDictionary = ConvertToDictionary(GetButtonSpecImageDictionary());
-            }
+            Dictionary<PaletteButtonSpecStyle, Image> imageDictionary =
+                ConvertToDictionary(GetButtonSpecImageIDictionary());
 
             switch (style)
             {
                 case PaletteButtonSpecStyle.Close:
-                    return ReturnButtonSpecImageArray()[(int)PaletteButtonSpecStyle.Close];
+                    return GetButtonSpecImageDictionary()[PaletteButtonSpecStyle.Close];
                 case PaletteButtonSpecStyle.Context:
-                    return ReturnButtonSpecImageArray()[(int)PaletteButtonSpecStyle.Context];
+                    return GetButtonSpecImageDictionary()[PaletteButtonSpecStyle.Context];
                 case PaletteButtonSpecStyle.Next:
-                    return ReturnButtonSpecImageArray()[(int)PaletteButtonSpecStyle.Next];
+                    return GetButtonSpecImageDictionary()[PaletteButtonSpecStyle.Next];
                 case PaletteButtonSpecStyle.Previous:
-                    return ReturnButtonSpecImageArray()[(int)PaletteButtonSpecStyle.Previous];
+                    return GetButtonSpecImageDictionary()[PaletteButtonSpecStyle.Previous];
                 case PaletteButtonSpecStyle.ArrowLeft:
-                    return ReturnButtonSpecImageArray()[(int)PaletteButtonSpecStyle.ArrowLeft];
+                    return GetButtonSpecImageDictionary()[PaletteButtonSpecStyle.ArrowLeft];
                 case PaletteButtonSpecStyle.ArrowRight:
-                    return ReturnButtonSpecImageArray()[(int)PaletteButtonSpecStyle.ArrowRight];
+                    return GetButtonSpecImageDictionary()[PaletteButtonSpecStyle.ArrowRight];
                 case PaletteButtonSpecStyle.ArrowUp:
-                    return ReturnButtonSpecImageArray()[(int)PaletteButtonSpecStyle.ArrowUp];
+                    return GetButtonSpecImageDictionary()[PaletteButtonSpecStyle.ArrowUp];
                 case PaletteButtonSpecStyle.ArrowDown:
-                    return ReturnButtonSpecImageArray()[(int)PaletteButtonSpecStyle.ArrowDown];
+                    return GetButtonSpecImageDictionary()[PaletteButtonSpecStyle.ArrowDown];
                 case PaletteButtonSpecStyle.DropDown:
-                    return ReturnButtonSpecImageArray()[(int)PaletteButtonSpecStyle.DropDown];
+                    return GetButtonSpecImageDictionary()[PaletteButtonSpecStyle.DropDown];
                 case PaletteButtonSpecStyle.PinVertical:
-                    return ReturnButtonSpecImageArray()[(int)PaletteButtonSpecStyle.PinVertical];
+                    return GetButtonSpecImageDictionary()[PaletteButtonSpecStyle.PinVertical];
                 case PaletteButtonSpecStyle.PinHorizontal:
-                    return ReturnButtonSpecImageArray()[(int)PaletteButtonSpecStyle.PinHorizontal];
+                    return GetButtonSpecImageDictionary()[PaletteButtonSpecStyle.PinHorizontal];
                 case PaletteButtonSpecStyle.PendantClose:
-                    return ReturnButtonSpecImageArray()[(int)PaletteButtonSpecStyle.PendantClose];
+                    return GetButtonSpecImageDictionary()[PaletteButtonSpecStyle.PendantClose];
                 case PaletteButtonSpecStyle.PendantMin:
-                    return ReturnButtonSpecImageArray()[(int)PaletteButtonSpecStyle.PendantMin];
+                    return GetButtonSpecImageDictionary()[PaletteButtonSpecStyle.PendantMin];
                 case PaletteButtonSpecStyle.PendantRestore:
-                    return ReturnButtonSpecImageArray()[(int)PaletteButtonSpecStyle.PendantRestore];
+                    return GetButtonSpecImageDictionary()[PaletteButtonSpecStyle.PendantRestore];
                 case PaletteButtonSpecStyle.WorkspaceMaximize:
-                    return ReturnButtonSpecImageArray()[(int)PaletteButtonSpecStyle.WorkspaceMaximize];
+                    return GetButtonSpecImageDictionary()[PaletteButtonSpecStyle.WorkspaceMaximize];
                 case PaletteButtonSpecStyle.WorkspaceRestore:
-                    return ReturnButtonSpecImageArray()[(int)PaletteButtonSpecStyle.WorkspaceRestore];
+                    return GetButtonSpecImageDictionary()[PaletteButtonSpecStyle.WorkspaceRestore];
                 case PaletteButtonSpecStyle.RibbonMinimize:
-                    return ReturnButtonSpecImageArray()[(int)PaletteButtonSpecStyle.RibbonMinimize];
+                    return GetButtonSpecImageDictionary()[PaletteButtonSpecStyle.RibbonMinimize];
                 case PaletteButtonSpecStyle.RibbonExpand:
-                    return ReturnButtonSpecImageArray()[(int)PaletteButtonSpecStyle.RibbonExpand];
+                    return GetButtonSpecImageDictionary()[PaletteButtonSpecStyle.RibbonExpand];
                 case PaletteButtonSpecStyle.New:
-                    return ReturnButtonSpecImageArray()[(int)PaletteButtonSpecStyle.New];
+                    return GetButtonSpecImageDictionary()[PaletteButtonSpecStyle.New];
                 case PaletteButtonSpecStyle.Open:
-                    return ReturnButtonSpecImageArray()[(int)PaletteButtonSpecStyle.Open];
+                    return GetButtonSpecImageDictionary()[PaletteButtonSpecStyle.Open];
                 case PaletteButtonSpecStyle.Save:
-                    return ReturnButtonSpecImageArray()[(int)PaletteButtonSpecStyle.Save];
+                    return GetButtonSpecImageDictionary()[PaletteButtonSpecStyle.Save];
                 case PaletteButtonSpecStyle.SaveAs:
-                    return ReturnButtonSpecImageArray()[(int)PaletteButtonSpecStyle.SaveAs];
+                    return GetButtonSpecImageDictionary()[PaletteButtonSpecStyle.SaveAs];
                 case PaletteButtonSpecStyle.SaveAll:
-                    return ReturnButtonSpecImageArray()[(int)PaletteButtonSpecStyle.SaveAll];
+                    return GetButtonSpecImageDictionary()[PaletteButtonSpecStyle.SaveAll];
                 case PaletteButtonSpecStyle.Cut:
-                    return ReturnButtonSpecImageArray()[(int)PaletteButtonSpecStyle.Cut];
+                    return GetButtonSpecImageDictionary()[PaletteButtonSpecStyle.Cut];
                 case PaletteButtonSpecStyle.Copy:
-                    return ReturnButtonSpecImageArray()[(int)PaletteButtonSpecStyle.Copy];
+                    return GetButtonSpecImageDictionary()[PaletteButtonSpecStyle.Copy];
                 case PaletteButtonSpecStyle.Paste:
-                    return ReturnButtonSpecImageArray()[(int)PaletteButtonSpecStyle.Paste];
+                    return GetButtonSpecImageDictionary()[PaletteButtonSpecStyle.Paste];
                 case PaletteButtonSpecStyle.Undo:
-                    return ReturnButtonSpecImageArray()[(int)PaletteButtonSpecStyle.Undo];
+                    return GetButtonSpecImageDictionary()[PaletteButtonSpecStyle.Undo];
                 case PaletteButtonSpecStyle.Redo:
-                    return ReturnButtonSpecImageArray()[(int)PaletteButtonSpecStyle.Redo];
+                    return GetButtonSpecImageDictionary()[PaletteButtonSpecStyle.Redo];
                 case PaletteButtonSpecStyle.PageSetup:
-                    return ReturnButtonSpecImageArray()[(int)PaletteButtonSpecStyle.PageSetup];
+                    return GetButtonSpecImageDictionary()[PaletteButtonSpecStyle.PageSetup];
                 case PaletteButtonSpecStyle.PrintPreview:
-                    return ReturnButtonSpecImageArray()[(int)PaletteButtonSpecStyle.PrintPreview];
+                    return GetButtonSpecImageDictionary()[PaletteButtonSpecStyle.PrintPreview];
                 case PaletteButtonSpecStyle.Print:
-                    return ReturnButtonSpecImageArray()[(int)PaletteButtonSpecStyle.Print];
+                    return GetButtonSpecImageDictionary()[PaletteButtonSpecStyle.Print];
                 case PaletteButtonSpecStyle.QuickPrint:
-                    return ReturnButtonSpecImageArray()[(int)PaletteButtonSpecStyle.QuickPrint];
+                    return GetButtonSpecImageDictionary()[PaletteButtonSpecStyle.QuickPrint];
                 case PaletteButtonSpecStyle.Generic:
                     return null;
                 default:
@@ -1535,7 +1486,13 @@ namespace Krypton.Toolkit
 
         /// <summary>Returns the button spec style image dictionary.</summary>
         /// <returns></returns>
-        public IDictionary<PaletteButtonSpecStyle, Image> GetButtonSpecImageDictionary() => _buttonSpecImageDictionary;
+        public IDictionary<PaletteButtonSpecStyle, Image> GetButtonSpecImageIDictionary() => _buttonSpecImageIDictionary;
+
+        /// <summary>Gets the button spec image dictionary.</summary>
+        /// <returns>
+        ///   <br />
+        /// </returns>
+        public Dictionary<PaletteButtonSpecStyle, Image> GetButtonSpecImageDictionary() => _buttonSpecImageDictionary;
 
         #endregion
 

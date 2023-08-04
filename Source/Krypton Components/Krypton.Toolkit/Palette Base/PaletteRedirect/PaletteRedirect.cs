@@ -702,13 +702,16 @@ namespace Krypton.Toolkit
 
         #region Image Dictionary
 
-        /// <summary>The palette button the spec style image dictionary.</summary>
+        /*/// <summary>The palette button the spec style image dictionary.</summary>
         /// <returns>An <seealso cref="IDictionary"/> containing <seealso cref="PaletteButtonSpecStyle"/>, <seealso cref="Image"/> pairs.</returns>
         /// <seealso cref="IDictionary" />
         /// <seealso cref="PaletteButtonSpecStyle" />
-        /// <seealso cref="Image" />
-        protected override IDictionary<PaletteButtonSpecStyle, Image> ButtonSpecStyleImageDictionary() =>
-            _target?.GetButtonSpecImageDictionary();
+        /// <seealso cref="Image" />*/
+        //public override IDictionary<PaletteButtonSpecStyle, Image> ButtonSpecStyleImageIDictionary() =>
+        //    _target?.GetButtonSpecImageIDictionary();
+
+        //public override Dictionary<Image, PaletteButtonSpecStyle> ButtonSpecStyleImageDictionary() =>
+        //    _target?.GetButtonSpecImageDictionary();
 
         #endregion
 

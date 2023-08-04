@@ -114,6 +114,8 @@ namespace Krypton.Toolkit
                 _basePalette.BasePaletteChanged += OnBasePaletteChanged;
                 _basePalette.BaseRendererChanged += OnBaseRendererChanged;
             }
+
+            SetupButtonSpecImageDictionary();
         }
 
         /// <summary>
@@ -404,10 +406,9 @@ namespace Krypton.Toolkit
 
         #region Image Dictionary
 
-        protected override IDictionary<PaletteButtonSpecStyle, Image> ButtonSpecStyleImageDictionary()
+        private void SetupButtonSpecImageDictionary()
         {
-            IDictionary<PaletteButtonSpecStyle, Image> imageDictionary =
-                new ConcurrentDictionary<PaletteButtonSpecStyle, Image>();
+            Dictionary<PaletteButtonSpecStyle, Image> imageDictionary = new Dictionary<PaletteButtonSpecStyle, Image>();
 
             imageDictionary.Add(PaletteButtonSpecStyle.ArrowRight, Images.GeneralButtonSpecs.ArrowRight);
 
@@ -473,7 +474,7 @@ namespace Krypton.Toolkit
 
             imageDictionary.Add(PaletteButtonSpecStyle.QuickPrint, Images.IntegratedToolbar.QuickPrint);
 
-            return imageDictionary;
+            SetButtonSpecStyleImageDictionary(imageDictionary);
         }
 
         #endregion

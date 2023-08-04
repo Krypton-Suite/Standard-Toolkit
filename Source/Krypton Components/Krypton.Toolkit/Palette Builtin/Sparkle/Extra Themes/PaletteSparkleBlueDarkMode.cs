@@ -591,6 +591,8 @@ namespace Krypton.Toolkit
 
             // Get the font settings from the system
             DefineFonts();
+
+            SetupButtonSpecImageDictionary();
         }
         #endregion
 
@@ -3384,16 +3386,16 @@ namespace Krypton.Toolkit
 
         #region Image Dictionary
 
-        protected override IDictionary<PaletteButtonSpecStyle, Image> ButtonSpecStyleImageDictionary()
+        /// <summary>Setups the button spec image dictionary.</summary>
+        private void SetupButtonSpecImageDictionary()
         {
-            IDictionary<PaletteButtonSpecStyle, Image> imageDictionary =
-                new ConcurrentDictionary<PaletteButtonSpecStyle, Image>();
+            Dictionary<PaletteButtonSpecStyle, Image> imageDictionary = new Dictionary<PaletteButtonSpecStyle, Image>();
 
-            imageDictionary.Add(PaletteButtonSpecStyle.ArrowRight, _buttonSpecArrowRight);
+            imageDictionary.Add(PaletteButtonSpecStyle.ArrowDown, _buttonSpecArrowDown);
 
             imageDictionary.Add(PaletteButtonSpecStyle.ArrowLeft, _buttonSpecArrowLeft);
 
-            imageDictionary.Add(PaletteButtonSpecStyle.ArrowDown, _buttonSpecArrowDown);
+            imageDictionary.Add(PaletteButtonSpecStyle.ArrowRight, _buttonSpecArrowRight);
 
             imageDictionary.Add(PaletteButtonSpecStyle.ArrowUp, _buttonSpecArrowUp);
 
@@ -3433,17 +3435,17 @@ namespace Krypton.Toolkit
 
             imageDictionary.Add(PaletteButtonSpecStyle.Open, _integratedToolbarOpenNormal);
 
-            imageDictionary.Add(PaletteButtonSpecStyle.Save, _integratedToolbarSaveNormal);
-
             imageDictionary.Add(PaletteButtonSpecStyle.SaveAll, _integratedToolbarSaveAllNormal);
 
             imageDictionary.Add(PaletteButtonSpecStyle.SaveAs, _integratedToolbarSaveAsNormal);
 
+            imageDictionary.Add(PaletteButtonSpecStyle.Save, _integratedToolbarSaveNormal);
+
             imageDictionary.Add(PaletteButtonSpecStyle.Redo, _integratedToolbarRedoNormal);
 
-            imageDictionary.Add(PaletteButtonSpecStyle.RibbonExpand, _buttonSpecRibbonExpand);
-
             imageDictionary.Add(PaletteButtonSpecStyle.RibbonMinimize, _buttonSpecRibbonMinimize);
+
+            imageDictionary.Add(PaletteButtonSpecStyle.RibbonExpand, _buttonSpecRibbonExpand);
 
             imageDictionary.Add(PaletteButtonSpecStyle.Undo, _integratedToolbarUndoNormal);
 
@@ -3453,7 +3455,7 @@ namespace Krypton.Toolkit
 
             imageDictionary.Add(PaletteButtonSpecStyle.QuickPrint, _integratedToolbarQuickPrintNormal);
 
-            return imageDictionary;
+            SetButtonSpecStyleImageDictionary(imageDictionary);
         }
 
         #endregion
@@ -4732,5 +4734,4 @@ namespace Krypton.Toolkit
     }
 
     #endregion
-
 }

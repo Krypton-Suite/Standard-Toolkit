@@ -79,31 +79,31 @@
             this.kryptonThemeComboBox1.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.kryptonThemeComboBox1.TabIndex = 0;
             // 
-            // kryptonManager1
-            // 
-            this.kryptonManager1.GlobalPaletteMode = Krypton.Toolkit.PaletteMode.Office2007Blue;
-            // 
             // buttonSpecAny1
             // 
+            this.buttonSpecAny1.Style = Krypton.Toolkit.PaletteButtonStyle.Inherit;
+            this.buttonSpecAny1.ToolTipStyle = Krypton.Toolkit.LabelStyle.ToolTip;
             this.buttonSpecAny1.Type = Krypton.Toolkit.PaletteButtonSpecStyle.Previous;
             this.buttonSpecAny1.UniqueName = "4cb7c96cbdba4cfebc468a3149d6cc4c";
             // 
             // buttonSpecAny2
             // 
+            this.buttonSpecAny2.Style = Krypton.Toolkit.PaletteButtonStyle.Inherit;
+            this.buttonSpecAny2.ToolTipStyle = Krypton.Toolkit.LabelStyle.ToolTip;
             this.buttonSpecAny2.Type = Krypton.Toolkit.PaletteButtonSpecStyle.Next;
             this.buttonSpecAny2.UniqueName = "229ede385c5b4d98ab13f3464707d87d";
             // 
             // buttonSpecAny3
             // 
+            this.buttonSpecAny3.Style = Krypton.Toolkit.PaletteButtonStyle.Inherit;
+            this.buttonSpecAny3.ToolTipStyle = Krypton.Toolkit.LabelStyle.ToolTip;
             this.buttonSpecAny3.Type = Krypton.Toolkit.PaletteButtonSpecStyle.Context;
             this.buttonSpecAny3.UniqueName = "0943ca091e624724a0d729320faa85a5";
             // 
             // kryptonIntegratedToolBarManager1
             // 
-            this.kryptonIntegratedToolBarManager1.AllowFormIntegration = true;
             this.kryptonIntegratedToolBarManager1.IntegratedToolBarButtonAlignment = Krypton.Toolkit.PaletteRelativeEdgeAlign.Far;
             this.kryptonIntegratedToolBarManager1.IntegratedToolBarButtonOrientation = Krypton.Toolkit.PaletteButtonOrientation.FixedTop;
-            this.kryptonIntegratedToolBarManager1.ParentForm = this;
             // 
             // Form5
             // 
