@@ -7,6 +7,7 @@
  */
 #endregion
 
+// ReSharper disable InconsistentNaming
 namespace Krypton.Toolkit
 {
     /// <summary>Exposes the set of <see cref="PaletteModeConverter"/> strings used within Krypton and that are localizable.</summary>
@@ -15,60 +16,114 @@ namespace Krypton.Toolkit
     {
         #region Static Fields
 
-        private const string DEFAULT_PALETTE_SYSTEM = @"Professional - System";
-        private const string DEFAULT_PALETTE_OFFICE_2003 = @"Professional - Office 2003";
-        private const string DEFAULT_PALETTE_OFFICE_2007_BLACK = @"Office 2007 - Black";
-        private const string DEFAULT_PALETTE_OFFICE_2007_BLUE = @"Office 2007 - Blue";
-        private const string DEFAULT_PALETTE_OFFICE_2007_SILVER = @"Office 2007 - Silver";
-        private const string DEFAULT_PALETTE_OFFICE_2007_WHITE = @"Office 2007 - White";
-        private const string DEFAULT_PALETTE_OFFICE_2007_BLACK_DARK_MODE = @"Office 2007 - Black (Dark Mode)";
-        private const string DEFAULT_PALETTE_OFFICE_2007_BLUE_DARK_MODE = @"Office 2007 - Blue (Dark Mode)";
-        private const string DEFAULT_PALETTE_OFFICE_2007_SILVER_DARK_MODE = @"Office 2007 - Silver (Dark Mode)";
-        private const string DEFAULT_PALETTE_OFFICE_2007_DARK_GRAY = @"Office 2007 - Dark Gray";
-        private const string DEFAULT_PALETTE_OFFICE_2007_BLUE_LIGHT_MODE = @"Office 2007 - Blue (Light Mode)";
-        private const string DEFAULT_PALETTE_OFFICE_2007_SILVER_LIGHT_MODE = @"Office 2007 - Silver (Light Mode)";
-        private const string DEFAULT_PALETTE_OFFICE_2007_LIGHT_GRAY = @"Office 2007 - Light Gray";
-        private const string DEFAULT_PALETTE_OFFICE_2010_BLACK = @"Office 2010 - Black";
-        private const string DEFAULT_PALETTE_OFFICE_2010_BLUE = @"Office 2010 - Blue";
-        private const string DEFAULT_PALETTE_OFFICE_2010_SILVER = @"Office 2010 - Silver";
-        private const string DEFAULT_PALETTE_OFFICE_2010_WHITE = @"Office 2010 - White";
-        private const string DEFAULT_PALETTE_OFFICE_2010_BLACK_DARK_MODE = @"Office 2010 - Black (Dark Mode)";
-        private const string DEFAULT_PALETTE_OFFICE_2010_BLUE_DARK_MODE = @"Office 2010 - Blue (Dark Mode)";
-        private const string DEFAULT_PALETTE_OFFICE_2010_SILVER_DARK_MODE = @"Office 2010 - Silver (Dark Mode)";
-        private const string DEFAULT_PALETTE_OFFICE_2010_DARK_GRAY = @"Office 2010 - Dark Gray";
-        private const string DEFAULT_PALETTE_OFFICE_2010_BLUE_LIGHT_MODE = @"Office 2010 - Blue (Light Mode)";
-        private const string DEFAULT_PALETTE_OFFICE_2010_SILVER_LIGHT_MODE = @"Office 2010 - Silver (Light Mode)";
-        private const string DEFAULT_PALETTE_OFFICE_2010_LIGHT_GRAY = @"Office 2010 - Light Gray";
-        private const string DEFAULT_PALETTE_OFFICE_2013_WHITE = @"Office 2013 - White";
-        private const string DEFAULT_PALETTE_OFFICE_2013_DARK_GRAY = @"Office 2013 - Dark Gray";
-        private const string DEFAULT_PALETTE_OFFICE_2013_LIGHT_GRAY = @"Office 2013 - Light Gray";
-        private const string DEFAULT_PALETTE_MICROSOFT_365_BLACK = @"Microsoft 365 - Black";
-        private const string DEFAULT_PALETTE_MICROSOFT_365_BLUE = @"Microsoft 365 - Blue";
-        private const string DEFAULT_PALETTE_MICROSOFT_365_SILVER = @"Microsoft 365 - Silver";
-        private const string DEFAULT_PALETTE_MICROSOFT_365_WHITE = @"Microsoft 365 - White";
-        private const string DEFAULT_PALETTE_MICROSOFT_365_BLACK_DARK_MODE = @"Microsoft 365 - Black (Dark Mode)";
-        private const string DEFAULT_PALETTE_MICROSOFT_365_BLUE_DARK_MODE = @"Microsoft 365 - Blue (Dark Mode)";
-        private const string DEFAULT_PALETTE_MICROSOFT_365_SILVER_DARK_MODE = @"Microsoft 365 - Silver (Dark Mode)";
-        private const string DEFAULT_PALETTE_MICROSOFT_365_DARK_GRAY = @"Microsoft 365 - Dark Gray";
-        private const string DEFAULT_PALETTE_MICROSOFT_365_BLUE_LIGHT_MODE = @"Microsoft 365 - Blue (Light Mode)";
-        private const string DEFAULT_PALETTE_MICROSOFT_365_SILVER_LIGHT_MODE = @"Microsoft 365 - Silver (Light Mode)";
-        private const string DEFAULT_PALETTE_MICROSOFT_365_LIGHT_GRAY = @"Microsoft 365 - Light Gray";
-        private const string DEFAULT_PALETTE_SPARKLE_BLUE = @"Sparkle - Blue";
-        private const string DEFAULT_PALETTE_SPARKLE_ORANGE = @"Sparkle - Orange";
-        private const string DEFAULT_PALETTE_SPARKLE_PURPLE = @"Sparkle - Purple";
-        private const string DEFAULT_PALETTE_SPARKLE_BLUE_DARK_MODE = @"Sparkle - Blue (Dark Mode)";
-        private const string DEFAULT_PALETTE_SPARKLE_ORANGE_DARK_MODE = @"Sparkle - Orange (Dark Mode)";
-        private const string DEFAULT_PALETTE_SPARKLE_PURPLE_DARK_MODE = @"Sparkle - Purple (Dark Mode)";
-        private const string DEFAULT_PALETTE_SPARKLE_BLUE_LIGHT_MODE = @"Sparkle - Blue (Light Mode)";
-        private const string DEFAULT_PALETTE_SPARKLE_ORANGE_LIGHT_MODE = @"Sparkle - Orange (Light Mode)";
-        private const string DEFAULT_PALETTE_SPARKLE_PURPLE_LIGHT_MODE = @"Sparkle - Purple (Light Mode)";
-        private const string DEFAULT_PALETTE_CUSTOM = @"Custom";
+        internal const string DEFAULT_PALETTE_SYSTEM = @"Professional - System";
+        internal const string DEFAULT_PALETTE_OFFICE_2003 = @"Professional - Office 2003";
+        internal const string DEFAULT_PALETTE_OFFICE_2007_BLACK = @"Office 2007 - Black";
+        internal const string DEFAULT_PALETTE_OFFICE_2007_BLUE = @"Office 2007 - Blue";
+        internal const string DEFAULT_PALETTE_OFFICE_2007_SILVER = @"Office 2007 - Silver";
+        internal const string DEFAULT_PALETTE_OFFICE_2007_WHITE = @"Office 2007 - White";
+        internal const string DEFAULT_PALETTE_OFFICE_2007_BLACK_DARK_MODE = @"Office 2007 - Black (Dark Mode)";
+        internal const string DEFAULT_PALETTE_OFFICE_2007_BLUE_DARK_MODE = @"Office 2007 - Blue (Dark Mode)";
+        internal const string DEFAULT_PALETTE_OFFICE_2007_SILVER_DARK_MODE = @"Office 2007 - Silver (Dark Mode)";
+        internal const string DEFAULT_PALETTE_OFFICE_2007_DARK_GRAY = @"Office 2007 - Dark Gray";
+        internal const string DEFAULT_PALETTE_OFFICE_2007_BLUE_LIGHT_MODE = @"Office 2007 - Blue (Light Mode)";
+        internal const string DEFAULT_PALETTE_OFFICE_2007_SILVER_LIGHT_MODE = @"Office 2007 - Silver (Light Mode)";
+        internal const string DEFAULT_PALETTE_OFFICE_2007_LIGHT_GRAY = @"Office 2007 - Light Gray";
+        internal const string DEFAULT_PALETTE_OFFICE_2010_BLACK = @"Office 2010 - Black";
+        internal const string DEFAULT_PALETTE_OFFICE_2010_BLUE = @"Office 2010 - Blue";
+        internal const string DEFAULT_PALETTE_OFFICE_2010_SILVER = @"Office 2010 - Silver";
+        internal const string DEFAULT_PALETTE_OFFICE_2010_WHITE = @"Office 2010 - White";
+        internal const string DEFAULT_PALETTE_OFFICE_2010_BLACK_DARK_MODE = @"Office 2010 - Black (Dark Mode)";
+        internal const string DEFAULT_PALETTE_OFFICE_2010_BLUE_DARK_MODE = @"Office 2010 - Blue (Dark Mode)";
+        internal const string DEFAULT_PALETTE_OFFICE_2010_SILVER_DARK_MODE = @"Office 2010 - Silver (Dark Mode)";
+        internal const string DEFAULT_PALETTE_OFFICE_2010_DARK_GRAY = @"Office 2010 - Dark Gray";
+        internal const string DEFAULT_PALETTE_OFFICE_2010_BLUE_LIGHT_MODE = @"Office 2010 - Blue (Light Mode)";
+        internal const string DEFAULT_PALETTE_OFFICE_2010_SILVER_LIGHT_MODE = @"Office 2010 - Silver (Light Mode)";
+        internal const string DEFAULT_PALETTE_OFFICE_2010_LIGHT_GRAY = @"Office 2010 - Light Gray";
+        internal const string DEFAULT_PALETTE_OFFICE_2013_WHITE = @"Office 2013 - White";
+        internal const string DEFAULT_PALETTE_OFFICE_2013_DARK_GRAY = @"Office 2013 - Dark Gray";
+        internal const string DEFAULT_PALETTE_OFFICE_2013_LIGHT_GRAY = @"Office 2013 - Light Gray";
+        internal const string DEFAULT_PALETTE_MICROSOFT_365_BLACK = @"Microsoft 365 - Black";
+        internal const string DEFAULT_PALETTE_MICROSOFT_365_BLUE = @"Microsoft 365 - Blue";
+        internal const string DEFAULT_PALETTE_MICROSOFT_365_SILVER = @"Microsoft 365 - Silver";
+        internal const string DEFAULT_PALETTE_MICROSOFT_365_WHITE = @"Microsoft 365 - White";
+        internal const string DEFAULT_PALETTE_MICROSOFT_365_BLACK_DARK_MODE = @"Microsoft 365 - Black (Dark Mode)";
+        internal const string DEFAULT_PALETTE_MICROSOFT_365_BLUE_DARK_MODE = @"Microsoft 365 - Blue (Dark Mode)";
+        internal const string DEFAULT_PALETTE_MICROSOFT_365_SILVER_DARK_MODE = @"Microsoft 365 - Silver (Dark Mode)";
+        internal const string DEFAULT_PALETTE_MICROSOFT_365_DARK_GRAY = @"Microsoft 365 - Dark Gray";
+        internal const string DEFAULT_PALETTE_MICROSOFT_365_BLUE_LIGHT_MODE = @"Microsoft 365 - Blue (Light Mode)";
+        internal const string DEFAULT_PALETTE_MICROSOFT_365_SILVER_LIGHT_MODE = @"Microsoft 365 - Silver (Light Mode)";
+        internal const string DEFAULT_PALETTE_MICROSOFT_365_LIGHT_GRAY = @"Microsoft 365 - Light Gray";
+        internal const string DEFAULT_PALETTE_SPARKLE_BLUE = @"Sparkle - Blue";
+        internal const string DEFAULT_PALETTE_SPARKLE_ORANGE = @"Sparkle - Orange";
+        internal const string DEFAULT_PALETTE_SPARKLE_PURPLE = @"Sparkle - Purple";
+        internal const string DEFAULT_PALETTE_SPARKLE_BLUE_DARK_MODE = @"Sparkle - Blue (Dark Mode)";
+        internal const string DEFAULT_PALETTE_SPARKLE_ORANGE_DARK_MODE = @"Sparkle - Orange (Dark Mode)";
+        internal const string DEFAULT_PALETTE_SPARKLE_PURPLE_DARK_MODE = @"Sparkle - Purple (Dark Mode)";
+        internal const string DEFAULT_PALETTE_SPARKLE_BLUE_LIGHT_MODE = @"Sparkle - Blue (Light Mode)";
+        internal const string DEFAULT_PALETTE_SPARKLE_ORANGE_LIGHT_MODE = @"Sparkle - Orange (Light Mode)";
+        internal const string DEFAULT_PALETTE_SPARKLE_PURPLE_LIGHT_MODE = @"Sparkle - Purple (Light Mode)";
+        internal const string DEFAULT_PALETTE_CUSTOM = @"Custom";
 
         #endregion
 
         #region Instance Fields
-
-        private string[] _themeArray;
+        internal static readonly BiDictionary<string, PaletteMode> _supportedThemes =
+    new BiDictionary<string, PaletteMode>(new Dictionary<string, PaletteMode>
+    {
+        // Use default strings, because these are used to match xml strings when importing palettes, and in the designer(s)
+                { PaletteModeStrings.DEFAULT_PALETTE_SYSTEM, PaletteMode.ProfessionalSystem },
+                { PaletteModeStrings.DEFAULT_PALETTE_OFFICE_2003, PaletteMode.ProfessionalOffice2003 },
+                { PaletteModeStrings.DEFAULT_PALETTE_OFFICE_2007_BLUE, PaletteMode.Office2007Blue },
+                { PaletteModeStrings.DEFAULT_PALETTE_OFFICE_2007_BLUE_DARK_MODE, PaletteMode.Office2007BlueDarkMode },
+                { PaletteModeStrings.DEFAULT_PALETTE_OFFICE_2007_BLUE_LIGHT_MODE, PaletteMode.Office2007BlueLightMode },
+                { PaletteModeStrings.DEFAULT_PALETTE_OFFICE_2007_SILVER, PaletteMode.Office2007Silver },
+                { PaletteModeStrings.DEFAULT_PALETTE_OFFICE_2007_SILVER_DARK_MODE, PaletteMode.Office2007SilverDarkMode },
+                { PaletteModeStrings.DEFAULT_PALETTE_OFFICE_2007_SILVER_LIGHT_MODE, PaletteMode.Office2007SilverLightMode },
+                { PaletteModeStrings.DEFAULT_PALETTE_OFFICE_2007_WHITE, PaletteMode.Office2007White },
+                { PaletteModeStrings.DEFAULT_PALETTE_OFFICE_2007_BLACK, PaletteMode.Office2007Black },
+                { PaletteModeStrings.DEFAULT_PALETTE_OFFICE_2007_BLACK_DARK_MODE, PaletteMode.Office2007BlackDarkMode },
+                { PaletteModeStrings.DEFAULT_PALETTE_OFFICE_2007_DARK_GRAY, PaletteMode.Office2007DarkGray },
+                //{ PaletteModeStrings.DEFAULT_PALETTE_OFFICE_2007_LIGHT_GRAY, PaletteMode.Office2007LightGray },
+                { PaletteModeStrings.DEFAULT_PALETTE_OFFICE_2010_BLUE, PaletteMode.Office2010Blue },
+                { PaletteModeStrings.DEFAULT_PALETTE_OFFICE_2010_BLUE_DARK_MODE, PaletteMode.Office2010BlueDarkMode },
+                { PaletteModeStrings.DEFAULT_PALETTE_OFFICE_2010_BLUE_LIGHT_MODE, PaletteMode.Office2010BlueLightMode },
+                { PaletteModeStrings.DEFAULT_PALETTE_OFFICE_2010_SILVER, PaletteMode.Office2010Silver },
+                { PaletteModeStrings.DEFAULT_PALETTE_OFFICE_2010_SILVER_DARK_MODE, PaletteMode.Office2010SilverDarkMode },
+                { PaletteModeStrings.DEFAULT_PALETTE_OFFICE_2010_SILVER_LIGHT_MODE, PaletteMode.Office2010SilverLightMode },
+                { PaletteModeStrings.DEFAULT_PALETTE_OFFICE_2010_WHITE, PaletteMode.Office2010White },
+                { PaletteModeStrings.DEFAULT_PALETTE_OFFICE_2010_BLACK, PaletteMode.Office2010Black },
+                { PaletteModeStrings.DEFAULT_PALETTE_OFFICE_2010_BLACK_DARK_MODE, PaletteMode.Office2010BlackDarkMode },
+                { PaletteModeStrings.DEFAULT_PALETTE_OFFICE_2010_DARK_GRAY, PaletteMode.Office2010DarkGray },
+                //{ PaletteModeStrings.DEFAULT_PALETTE_OFFICE_2010_LIGHT_GRAY, PaletteMode.Office2010LightGray },
+                { PaletteModeStrings.DEFAULT_PALETTE_OFFICE_2013_DARK_GRAY, PaletteMode.Office2013DarkGray },
+                //{ PaletteModeStrings.DEFAULT_PALETTE_OFFICE_2013_LIGHT_GRAY, PaletteMode.Office2013LightGray },
+                { PaletteModeStrings.DEFAULT_PALETTE_OFFICE_2013_WHITE, PaletteMode.Office2013White },
+                { PaletteModeStrings.DEFAULT_PALETTE_SPARKLE_BLUE, PaletteMode.SparkleBlue },
+                { PaletteModeStrings.DEFAULT_PALETTE_SPARKLE_BLUE_DARK_MODE, PaletteMode.SparkleBlueDarkMode },
+                { PaletteModeStrings.DEFAULT_PALETTE_SPARKLE_BLUE_LIGHT_MODE, PaletteMode.SparkleBlueLightMode },
+                { PaletteModeStrings.DEFAULT_PALETTE_SPARKLE_ORANGE, PaletteMode.SparkleOrange },
+                { PaletteModeStrings.DEFAULT_PALETTE_SPARKLE_ORANGE_DARK_MODE, PaletteMode.SparkleOrangeDarkMode },
+                { PaletteModeStrings.DEFAULT_PALETTE_SPARKLE_ORANGE_LIGHT_MODE, PaletteMode.SparkleOrangeLightMode },
+                { PaletteModeStrings.DEFAULT_PALETTE_SPARKLE_PURPLE, PaletteMode.SparklePurple },
+                { PaletteModeStrings.DEFAULT_PALETTE_SPARKLE_PURPLE_DARK_MODE, PaletteMode.SparklePurpleDarkMode },
+                { PaletteModeStrings.DEFAULT_PALETTE_SPARKLE_PURPLE_DARK_MODE, PaletteMode.SparklePurpleLightMode },
+                { PaletteModeStrings.DEFAULT_PALETTE_SPARKLE_BLUE, PaletteMode.SparkleBlue },
+                { PaletteModeStrings.DEFAULT_PALETTE_SPARKLE_BLUE_DARK_MODE, PaletteMode.SparkleBlueDarkMode },
+                { PaletteModeStrings.DEFAULT_PALETTE_SPARKLE_BLUE_LIGHT_MODE, PaletteMode.SparkleBlueLightMode },
+                { PaletteModeStrings.DEFAULT_PALETTE_MICROSOFT_365_BLUE, PaletteMode.Microsoft365Blue },
+                { PaletteModeStrings.DEFAULT_PALETTE_MICROSOFT_365_BLUE_DARK_MODE, PaletteMode.Microsoft365BlueDarkMode },
+                { PaletteModeStrings.DEFAULT_PALETTE_MICROSOFT_365_BLUE_LIGHT_MODE, PaletteMode.Microsoft365BlueLightMode },
+                { PaletteModeStrings.DEFAULT_PALETTE_MICROSOFT_365_SILVER, PaletteMode.Microsoft365Silver },
+                { PaletteModeStrings.DEFAULT_PALETTE_MICROSOFT_365_SILVER_DARK_MODE, PaletteMode.Microsoft365SilverDarkMode },
+                { PaletteModeStrings.DEFAULT_PALETTE_MICROSOFT_365_SILVER_LIGHT_MODE, PaletteMode.Microsoft365SilverLightMode },
+                { PaletteModeStrings.DEFAULT_PALETTE_MICROSOFT_365_WHITE, PaletteMode.Microsoft365White },
+                { PaletteModeStrings.DEFAULT_PALETTE_MICROSOFT_365_BLACK, PaletteMode.Microsoft365Black },
+                { PaletteModeStrings.DEFAULT_PALETTE_MICROSOFT_365_BLACK_DARK_MODE, PaletteMode.Microsoft365BlackDarkMode },
+                { PaletteModeStrings.DEFAULT_PALETTE_MICROSOFT_365_DARK_GRAY, PaletteMode.Microsoft365DarkGray },
+                //{ PaletteModeStrings.DEFAULT_PALETTE_MICROSOFT_365_LIGHT_GRAY, PaletteMode.Microsoft365LightGray },
+                { PaletteModeStrings.DEFAULT_PALETTE_CUSTOM, PaletteMode.Custom }
+    });
 
         #endregion
 
@@ -619,30 +674,7 @@ namespace Krypton.Toolkit
         [RefreshProperties(RefreshProperties.All)]
         public string SparklePurpleLightMode { get; set; }
 
-        public static string[] ThemeArray
-        {
-            get
-            {
-                var strings = new PaletteModeStrings();
-
-                return strings._themeArray;
-            }
-        }
-
         #endregion
 
-        #region Implementation
-
-        private void AddToThemeArray(string themeName)
-        {
-            List<string> temporaryList = new List<string>
-            {
-                themeName
-            };
-
-            _themeArray = temporaryList.ToArray();
-        }
-
-        #endregion
     }
 }

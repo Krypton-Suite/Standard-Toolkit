@@ -12,58 +12,31 @@
 
 namespace Krypton.Toolkit
 {
-    internal class PlacementModeConverter : StringLookupConverter
+    internal class PlacementModeConverter : StringLookupConverter<PlacementMode>
     {
         #region Static Fields
 
-        #region Old
-
-        //private readonly Pair[] _pairs =
-        //{
-        //    new(PlacementMode.Absolute, "Placement Mode - Absolute"),
-        //    new(PlacementMode.AbsolutePoint, "Placement Mode - Absolute Point"),
-        //    new(PlacementMode.Bottom, "Placement Mode - Bottom"),
-        //    new(PlacementMode.Center, "Placement Mode - Center"),
-        //    new(PlacementMode.Left, "Placement Mode - Left"),
-        //    new(PlacementMode.Mouse, "Placement Mode - Mouse"),
-        //    new(PlacementMode.MousePoint, "Placement Mode - Mouse Point"),
-        //    new(PlacementMode.Relative, "Placement Mode - Relative"),
-        //    new(PlacementMode.RelativePoint, "Placement Mode - Relative Point"),
-        //    new(PlacementMode.Right, "Placement Mode - Right"),
-        //    new(PlacementMode.Top, "Placement Mode - Top")
-        //};
-
-        #endregion
-
         [Localizable(true)]
-        private readonly Pair[] _pairs =
+        private static readonly IReadOnlyDictionary<PlacementMode, string> _pairs = new Dictionary<PlacementMode, string>
         {
-            new Pair(PlacementMode.Absolute, KryptonLanguageManager.PlacementModeStrings.Absolute),
-            new Pair(PlacementMode.AbsolutePoint, KryptonLanguageManager.PlacementModeStrings.AbsolutePoint),
-            new Pair(PlacementMode.Bottom, KryptonLanguageManager.PlacementModeStrings.Bottom),
-            new Pair(PlacementMode.Center, KryptonLanguageManager.PlacementModeStrings.Center),
-            new Pair(PlacementMode.Left, KryptonLanguageManager.PlacementModeStrings.Left),
-            new Pair(PlacementMode.Mouse, KryptonLanguageManager.PlacementModeStrings.Mouse),
-            new Pair(PlacementMode.MousePoint, KryptonLanguageManager.PlacementModeStrings.MousePoint),
-            new Pair(PlacementMode.Relative, KryptonLanguageManager.PlacementModeStrings.Relative),
-            new Pair(PlacementMode.RelativePoint, KryptonLanguageManager.PlacementModeStrings.RelativePoint),
-            new Pair(PlacementMode.Right, KryptonLanguageManager.PlacementModeStrings.Right),
-            new Pair(PlacementMode.Top, KryptonLanguageManager.PlacementModeStrings.Top)
+            {PlacementMode.Absolute, KryptonLanguageManager.PlacementModeStrings.Absolute},
+            {PlacementMode.AbsolutePoint, KryptonLanguageManager.PlacementModeStrings.AbsolutePoint},
+            {PlacementMode.Bottom, KryptonLanguageManager.PlacementModeStrings.Bottom},
+            {PlacementMode.Center, KryptonLanguageManager.PlacementModeStrings.Center},
+            {PlacementMode.Left, KryptonLanguageManager.PlacementModeStrings.Left},
+            {PlacementMode.Mouse, KryptonLanguageManager.PlacementModeStrings.Mouse},
+            {PlacementMode.MousePoint, KryptonLanguageManager.PlacementModeStrings.MousePoint},
+            {PlacementMode.Relative, KryptonLanguageManager.PlacementModeStrings.Relative},
+            {PlacementMode.RelativePoint, KryptonLanguageManager.PlacementModeStrings.RelativePoint},
+            {PlacementMode.Right, KryptonLanguageManager.PlacementModeStrings.Right},
+            {PlacementMode.Top, KryptonLanguageManager.PlacementModeStrings.Top }
         };
-
-        #endregion
-
-        #region Identity
-
-        public PlacementModeConverter() : base(typeof(PlacementMode))
-        {
-        }
 
         #endregion
 
         #region Protected
 
-        protected override Pair[] Pairs => _pairs;
+        protected override IReadOnlyDictionary<PlacementMode /*Enum*/, string /*Display*/> Pairs => _pairs;
 
         #endregion
     }

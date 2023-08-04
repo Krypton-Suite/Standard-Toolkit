@@ -150,11 +150,11 @@ public enum PaletteMode
     /// Specifies the dark Gray color variant of the Office 2013 appearance.
     /// </summary>
     Office2013DarkGray,
-    /*
-		/// <summary>
-		/// Specifies the light Gray color variant of the Office 2013 appearance.
-		/// </summary>
-		Office2013LightGray,*/
+
+    /// <summary>
+    /// Specifies the light Gray color variant of the Office 2013 appearance.
+    /// </summary>
+    Office2013LightGray,
 
     /// <summary>
     /// Specifies the White color variant of the Office 2013 appearance.

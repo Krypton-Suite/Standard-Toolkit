@@ -15,39 +15,31 @@ namespace Krypton.Navigator
     /// <summary>
     /// Custom type converter so that PopupPagePosition values appear as neat text at design time.
     /// </summary>
-    public class PopupPagePositionConverter : StringLookupConverter
+    public class PopupPagePositionConverter : StringLookupConverter<PopupPagePosition>
     {
-        #region Identity
-        /// <summary>
-        /// Initialize a new instance of the PopupPagePositionConverter class.
-        /// </summary>
-        public PopupPagePositionConverter()
-            : base(typeof(PopupPagePosition))
-        {
-        }
-        #endregion
+        #region Static Fields
 
-        #region Protected
-        /// <summary>
-        /// Gets an array of lookup pairs.
-        /// </summary>
-        protected override Pair[] Pairs { get; } =
+        [Localizable(true)]
+        private static readonly IReadOnlyDictionary<PopupPagePosition, string> _pairs = new Dictionary<PopupPagePosition, string>
         {
-            new Pair(PopupPagePosition.ModeAppropriate, "Mode Appropriate"),
-            new Pair(PopupPagePosition.AboveFar, "Above Element - Far Aligned"),
-            new Pair(PopupPagePosition.AboveMatch, "Above Element - Element Width"),
-            new Pair(PopupPagePosition.AboveNear, "Above Element - Near Aligned"),
-            new Pair(PopupPagePosition.BelowFar, "Below Element - Far Aligned"),
-            new Pair(PopupPagePosition.BelowMatch, "Below Element - Element Width"),
-            new Pair(PopupPagePosition.BelowNear, "Below Element - Near Aligned"),
-            new Pair(PopupPagePosition.FarBottom, "Far Side of Element - Bottom Aligned"),
-            new Pair(PopupPagePosition.FarMatch, "Far Side of Element - Element Height"),
-            new Pair(PopupPagePosition.FarTop, "Far Side of Element - Top Aligned"),
-            new Pair(PopupPagePosition.NearBottom, "Near Side of Element - Bottom Aligned"),
-            new Pair(PopupPagePosition.NearMatch, "Near Side of Element - Element Height"),
-            new Pair(PopupPagePosition.NearTop, "Near Side of Element - Top Aligned")
+            {PopupPagePosition.ModeAppropriate, "Mode Appropriate"},
+            {PopupPagePosition.AboveFar, "Above Element - Far Aligned"},
+            {PopupPagePosition.AboveMatch, "Above Element - Element Width"},
+            {PopupPagePosition.AboveNear, "Above Element - Near Aligned"},
+            {PopupPagePosition.BelowFar, "Below Element - Far Aligned"},
+            {PopupPagePosition.BelowMatch, "Below Element - Element Width"},
+            {PopupPagePosition.BelowNear, "Below Element - Near Aligned"},
+            {PopupPagePosition.FarBottom, "Far Side of Element - Bottom Aligned"},
+            {PopupPagePosition.FarMatch, "Far Side of Element - Element Height"},
+            {PopupPagePosition.FarTop, "Far Side of Element - Top Aligned"},
+            {PopupPagePosition.NearBottom, "Near Side of Element - Bottom Aligned"},
+            {PopupPagePosition.NearMatch, "Near Side of Element - Element Height"},
+            {PopupPagePosition.NearTop, "Near Side of Element - Top Aligned"}
         };
 
         #endregion
+        protected override IReadOnlyDictionary<PopupPagePosition /*Enum*/, string /*Display*/> Pairs => _pairs;
+
+
     }
 }

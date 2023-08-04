@@ -12,6 +12,7 @@
 global using System;
 global using System.Collections;
 global using System.Collections.Generic;
+global using System.Collections.ObjectModel;
 global using System.Collections.Specialized;
 global using System.ComponentModel;
 global using System.ComponentModel.Design;
@@ -35,6 +36,7 @@ global using System.Runtime.Serialization.Formatters.Binary;
 global using System.Security;
 global using System.Security.Principal;
 global using System.Text;
+global using System.Timers;
 global using System.Threading;
 global using System.Threading.Tasks;
 global using System.Windows.Forms;

@@ -15,28 +15,24 @@ namespace Krypton.Navigator
     /// <summary>
     /// Custom type converter so that DirectionButtonAction values appear as neat text at design time.
     /// </summary>
-    public class DirectionButtonActionConverter : StringLookupConverter
+    public class DirectionButtonActionConverter : StringLookupConverter<DirectionButtonAction>
     {
-        #region Identity
-        /// <summary>
-        /// Initialize a new instance of the DirectionButtonActionConverter class.
-        /// </summary>
-        public DirectionButtonActionConverter()
-            : base(typeof(DirectionButtonAction))
-        {
-        }
-        #endregion
+        #region Static Fields
 
+        [Localizable(true)]
+        private static readonly IReadOnlyDictionary<DirectionButtonAction, string> _pairs = new Dictionary<DirectionButtonAction, string>
+        {
+            {DirectionButtonAction.None, "None (Do nothing)"},
+                {DirectionButtonAction.SelectPage, "Select Page"},
+                {DirectionButtonAction.MoveBar, "Move Bar"},
+                {DirectionButtonAction.ModeAppropriateAction, "Mode Appropriate Action"}
+        };
+        #endregion
         #region Protected
         /// <summary>
         /// Gets an array of lookup pairs.
         /// </summary>
-        protected override Pair[] Pairs { get; } =
-        {
-            new Pair(DirectionButtonAction.None, "None (Do nothing)"),
-            new Pair(DirectionButtonAction.SelectPage, "Select Page"),
-            new Pair(DirectionButtonAction.MoveBar, "Move Bar"),
-            new Pair(DirectionButtonAction.ModeAppropriateAction, "Mode Appropriate Action") };
+        protected override IReadOnlyDictionary<DirectionButtonAction /*Enum*/, string /*Display*/> Pairs => _pairs;
 
         #endregion
     }

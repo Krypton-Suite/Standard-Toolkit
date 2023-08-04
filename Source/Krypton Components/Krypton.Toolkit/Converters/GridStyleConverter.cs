@@ -15,43 +15,20 @@ namespace Krypton.Toolkit
     /// <summary>
     /// Custom type converter so that GridStyle values appear as neat text at design time.
     /// </summary>
-    internal class GridStyleConverter : StringLookupConverter
+    internal class GridStyleConverter : StringLookupConverter<GridStyle>
     {
         #region Static Fields
 
-        #region Old
-
-        /*private readonly Pair[] _pairs =
-        {
-            new(GridStyle.List, "List"),
-            new(GridStyle.Sheet, "Sheet"),
-            new(GridStyle.Custom1, "Custom1"),
-            new(GridStyle.Custom2, "Custom2"),
-            new(GridStyle.Custom3, "Custom3")
-        };*/
-
-        #endregion
-
         [Localizable(true)]
-        private readonly Pair[] _pairs =
+        private static readonly IReadOnlyDictionary<GridStyle, string> _pairs = new Dictionary<GridStyle, string>
         {
-            new Pair(GridStyle.List, KryptonLanguageManager.GridStyles.List),
-            new Pair(GridStyle.Sheet, KryptonLanguageManager.GridStyles.Sheet),
-            new Pair(GridStyle.Custom1, KryptonLanguageManager.GridStyles.CustomOne),
-            new Pair(GridStyle.Custom2, KryptonLanguageManager.GridStyles.CustomTwo),
-            new Pair(GridStyle.Custom3, KryptonLanguageManager.GridStyles.CustomThree)
+            {GridStyle.List, KryptonLanguageManager.GridStyles.List},
+            {GridStyle.Sheet, KryptonLanguageManager.GridStyles.Sheet},
+            {GridStyle.Custom1, KryptonLanguageManager.GridStyles.CustomOne},
+            {GridStyle.Custom2, KryptonLanguageManager.GridStyles.CustomTwo},
+            {GridStyle.Custom3, KryptonLanguageManager.GridStyles.CustomThree }
         };
 
-        #endregion
-
-        #region Identity
-        /// <summary>
-        /// Initialize a new instance of the GridStyleConverter class.
-        /// </summary>
-        public GridStyleConverter()
-            : base(typeof(GridStyle))
-        {
-        }
         #endregion
 
         #region Protected
@@ -59,7 +36,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets an array of lookup pairs.
         /// </summary>
-        protected override Pair[] Pairs => _pairs;
+        protected override IReadOnlyDictionary<GridStyle /*Enum*/, string /*Display*/> Pairs => _pairs;
 
         #endregion
     }

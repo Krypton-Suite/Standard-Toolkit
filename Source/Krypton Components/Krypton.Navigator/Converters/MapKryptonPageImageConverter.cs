@@ -15,37 +15,28 @@ namespace Krypton.Navigator
     /// <summary>
     /// Custom type converter so that MapKryptonPageImage values appear as neat text at design time.
     /// </summary>
-    public class MapKryptonPageImageConverter : StringLookupConverter
+    public class MapKryptonPageImageConverter : StringLookupConverter<MapKryptonPageImage>
     {
-        #region Identity
-        /// <summary>
-        /// Initialize a new instance of the MapKryptonPageImageConverter class.
-        /// </summary>
-        public MapKryptonPageImageConverter()
-            : base(typeof(MapKryptonPageImage))
-        {
-        }
-        #endregion
+        #region Static Fields
 
-        #region Protected
-        /// <summary>
-        /// Gets an array of lookup pairs.
-        /// </summary>
-        protected override Pair[] Pairs { get; } =
+        [Localizable(true)]
+        private static readonly IReadOnlyDictionary<MapKryptonPageImage, string> _pairs = new Dictionary<MapKryptonPageImage, string>
         {
-            new Pair(MapKryptonPageImage.None, "None (Null image)"), 
-            new Pair(MapKryptonPageImage.Small, "Small"),
-            new Pair(MapKryptonPageImage.SmallMedium, "Small - Medium"),
-            new Pair(MapKryptonPageImage.SmallMediumLarge, "Small - Medium - Large"),
-            new Pair(MapKryptonPageImage.Medium, "Medium"), 
-            new Pair(MapKryptonPageImage.MediumSmall, "Medium - Small"),
-            new Pair(MapKryptonPageImage.MediumLarge, "Medium - Large"), 
-            new Pair(MapKryptonPageImage.Large, "Large"),
-            new Pair(MapKryptonPageImage.LargeMedium, "Large - Medium"),
-            new Pair(MapKryptonPageImage.LargeMediumSmall, "Large - Medium - Small"),
-            new Pair(MapKryptonPageImage.ToolTip, nameof(ToolTip))
+            {MapKryptonPageImage.None, "None (Null image)"}, 
+            {MapKryptonPageImage.Small, "Small"},
+            {MapKryptonPageImage.SmallMedium, "Small - Medium"},
+            {MapKryptonPageImage.SmallMediumLarge, "Small - Medium - Large"},
+            {MapKryptonPageImage.Medium, "Medium"}, 
+            {MapKryptonPageImage.MediumSmall, "Medium - Small"},
+            {MapKryptonPageImage.MediumLarge, "Medium - Large"}, 
+            {MapKryptonPageImage.Large, "Large"},
+            {MapKryptonPageImage.LargeMedium, "Large - Medium"},
+            {MapKryptonPageImage.LargeMediumSmall, "Large - Medium - Small"},
+            {MapKryptonPageImage.ToolTip, nameof(ToolTip)}
         };
-
         #endregion
+
+        protected override IReadOnlyDictionary<MapKryptonPageImage /*Enum*/, string /*Display*/> Pairs => _pairs;
+
     }
 }

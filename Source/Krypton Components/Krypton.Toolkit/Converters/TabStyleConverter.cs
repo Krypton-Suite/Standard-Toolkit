@@ -15,51 +15,24 @@ namespace Krypton.Toolkit
     /// <summary>
     /// Custom type converter so that TabStyle values appear as neat text at design time.
     /// </summary>
-    internal class TabStyleConverter : StringLookupConverter
+    internal class TabStyleConverter : StringLookupConverter<TabStyle>
     {
         #region Static Fields
 
-        #region Old
-
-        //private readonly Pair[] _pairs =
-        //{
-        //    new(TabStyle.HighProfile, "High Profile"),
-        //    new(TabStyle.StandardProfile, "Standard Profile"),
-        //    new(TabStyle.LowProfile, "Low Profile"),
-        //    new(TabStyle.OneNote, "OneNote"),
-        //    new(TabStyle.Dock, "Dock"),
-        //    new(TabStyle.DockAutoHidden, "Dock AutoHidden"),
-        //    new(TabStyle.Custom1, "Custom1"),
-        //    new(TabStyle.Custom2, "Custom2"),
-        //    new(TabStyle.Custom3, "Custom3")
-        //};
-
-        #endregion
-
         [Localizable(true)]
-        private readonly Pair[] _pairs =
+        private static readonly IReadOnlyDictionary<TabStyle, string> _pairs = new Dictionary<TabStyle, string>
         {
-            new Pair(TabStyle.HighProfile, KryptonLanguageManager.TabStyles.HighProfile),
-            new Pair(TabStyle.StandardProfile, KryptonLanguageManager.TabStyles.StandardProfile),
-            new Pair(TabStyle.LowProfile, KryptonLanguageManager.TabStyles.LowProfile),
-            new Pair(TabStyle.OneNote, KryptonLanguageManager.TabStyles.OneNote),
-            new Pair(TabStyle.Dock, KryptonLanguageManager.TabStyles.Dock),
-            new Pair(TabStyle.DockAutoHidden, KryptonLanguageManager.TabStyles.DockAutoHidden),
-            new Pair(TabStyle.Custom1, KryptonLanguageManager.TabStyles.Custom1),
-            new Pair(TabStyle.Custom2, KryptonLanguageManager.TabStyles.Custom2),
-            new Pair(TabStyle.Custom3, KryptonLanguageManager.TabStyles.Custom3)
+            {TabStyle.HighProfile, KryptonLanguageManager.TabStyles.HighProfile},
+            {TabStyle.StandardProfile, KryptonLanguageManager.TabStyles.StandardProfile},
+            {TabStyle.LowProfile, KryptonLanguageManager.TabStyles.LowProfile},
+            {TabStyle.OneNote, KryptonLanguageManager.TabStyles.OneNote},
+            {TabStyle.Dock, KryptonLanguageManager.TabStyles.Dock},
+            {TabStyle.DockAutoHidden, KryptonLanguageManager.TabStyles.DockAutoHidden},
+            {TabStyle.Custom1, KryptonLanguageManager.TabStyles.Custom1},
+            {TabStyle.Custom2, KryptonLanguageManager.TabStyles.Custom2},
+            {TabStyle.Custom3, KryptonLanguageManager.TabStyles.Custom3 }
         };
 
-        #endregion
-
-        #region Identity
-        /// <summary>
-        /// Initialize a new instance of the TabStyleConverter class.
-        /// </summary>
-        public TabStyleConverter()
-            : base(typeof(TabStyle))
-        {
-        }
         #endregion
 
         #region Protected
@@ -67,7 +40,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets an array of lookup pairs.
         /// </summary>
-        protected override Pair[] Pairs => _pairs;
+        protected override IReadOnlyDictionary<TabStyle /*Enum*/, string /*Display*/> Pairs => _pairs;
 
         #endregion
     }

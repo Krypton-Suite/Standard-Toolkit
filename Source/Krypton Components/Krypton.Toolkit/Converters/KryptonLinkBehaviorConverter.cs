@@ -15,46 +15,25 @@ namespace Krypton.Toolkit
     /// <summary>
     /// Custom type converter so that KryptonLinkBehavior values appear as neat text at design time.
     /// </summary>
-    internal class KryptonLinkBehaviorConverter : StringLookupConverter
+    internal class KryptonLinkBehaviorConverter : StringLookupConverter<KryptonLinkBehavior>
     {
         #region Static Fields
 
-        #region Old
-
-        //private readonly Pair[] _pairs =
-        //{
-        //    new(KryptonLinkBehavior.AlwaysUnderline, "Always Underline"),
-        //    new(KryptonLinkBehavior.HoverUnderline, "Hover Underline"),
-        //    new(KryptonLinkBehavior.NeverUnderline, "Never Underline")
-        //};
-
-        #endregion
-
         [Localizable(true)]
-        private readonly Pair[] _pairs =
+        private static readonly IReadOnlyDictionary<KryptonLinkBehavior, string> _pairs = new Dictionary<KryptonLinkBehavior, string>
         {
-            new Pair(KryptonLinkBehavior.AlwaysUnderline, KryptonLanguageManager.LinkBehaviorStrings.AlwaysUnderline),
-            new Pair(KryptonLinkBehavior.HoverUnderline, KryptonLanguageManager.LinkBehaviorStrings.HoverUnderline),
-            new Pair(KryptonLinkBehavior.NeverUnderline, KryptonLanguageManager.LinkBehaviorStrings.NeverUnderline)
+            {KryptonLinkBehavior.AlwaysUnderline, KryptonLanguageManager.LinkBehaviorStrings.AlwaysUnderline},
+            {KryptonLinkBehavior.HoverUnderline, KryptonLanguageManager.LinkBehaviorStrings.HoverUnderline},
+            {KryptonLinkBehavior.NeverUnderline, KryptonLanguageManager.LinkBehaviorStrings.NeverUnderline }
         };
 
-        #endregion
-
-        #region Identity
-        /// <summary>
-        /// Initialize a new instance of the KryptonLinkBehaviorConverter class.
-        /// </summary>
-        public KryptonLinkBehaviorConverter()
-            : base(typeof(KryptonLinkBehavior))
-        {
-        }
         #endregion
 
         #region Protected
         /// <summary>
         /// Gets an array of lookup pairs.
         /// </summary>
-        protected override Pair[] Pairs => _pairs;
+        protected override IReadOnlyDictionary<KryptonLinkBehavior /*Enum*/, string /*Display*/> Pairs => _pairs;
 
         #endregion
     }

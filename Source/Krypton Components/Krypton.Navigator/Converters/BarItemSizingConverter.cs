@@ -15,29 +15,23 @@ namespace Krypton.Navigator
     /// <summary>
     /// Custom type converter so that BarItemSizing values appear as neat text at design time.
     /// </summary>
-    public class BarItemSizingConverter : StringLookupConverter
+    public class BarItemSizingConverter : StringLookupConverter<BarItemSizing>
     {
-        #region Identity
-        /// <summary>
-        /// Initialize a new instance of the BarItemSizingConverter class.
-        /// </summary>
-        public BarItemSizingConverter()
-            : base(typeof(BarItemSizing))
+        [Localizable(true)]
+        private static readonly IReadOnlyDictionary<BarItemSizing, string> _pairs = new Dictionary<BarItemSizing, string>
         {
-        }
-        #endregion
+            {BarItemSizing.Individual, "Individual Sizing"},
+            {BarItemSizing.SameHeight, "All Same Height"},
+            {BarItemSizing.SameWidth, "All Same Width"},
+            {BarItemSizing.SameWidthAndHeight, "All Same Width & Height"}
+        };
 
         #region Protected
+
         /// <summary>
         /// Gets an array of lookup pairs.
         /// </summary>
-        protected override Pair[] Pairs { get; } =
-        {
-            new Pair(BarItemSizing.Individual, "Individual Sizing"),
-            new Pair(BarItemSizing.SameHeight, "All Same Height"),
-            new Pair(BarItemSizing.SameWidth, "All Same Width"),
-            new Pair(BarItemSizing.SameWidthAndHeight, "All Same Width & Height")
-        };
+        protected override IReadOnlyDictionary<BarItemSizing /*Enum*/, string /*Display*/> Pairs => _pairs;
 
         #endregion
     }

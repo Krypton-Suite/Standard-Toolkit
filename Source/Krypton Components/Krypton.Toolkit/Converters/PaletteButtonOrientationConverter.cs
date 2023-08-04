@@ -15,52 +15,28 @@ namespace Krypton.Toolkit
     /// <summary>
     /// Custom type converter so that PaletteButtonOrientation values appear as neat text at design time.
     /// </summary>
-    internal class PaletteButtonOrientationConverter : StringLookupConverter
+    internal class PaletteButtonOrientationConverter : StringLookupConverter<PaletteButtonOrientation>
     {
         #region Static Fields
 
-        #region Old
-
-        //private readonly Pair[] _pairs =
-        //{
-        //    new(PaletteButtonOrientation.Inherit, "Inherit"),
-        //    new(PaletteButtonOrientation.Auto, "Auto"),
-        //    new(PaletteButtonOrientation.FixedTop, "Fixed Top"),
-        //    new(PaletteButtonOrientation.FixedBottom, "Fixed Bottom"),
-        //    new(PaletteButtonOrientation.FixedLeft, "Fixed Left"),
-        //    new(PaletteButtonOrientation.FixedRight, "Fixed Right")
-        //};
-
-        #endregion
-
         [Localizable(true)]
-        private readonly Pair[] _pairs =
+        private static readonly IReadOnlyDictionary<PaletteButtonOrientation, string> _pairs = new Dictionary<PaletteButtonOrientation, string>
         {
-            new Pair(PaletteButtonOrientation.Inherit, KryptonLanguageManager.ButtonOrientationStrings.Inherit),
-            new Pair(PaletteButtonOrientation.Auto, KryptonLanguageManager.ButtonOrientationStrings.Auto),
-            new Pair(PaletteButtonOrientation.FixedTop, KryptonLanguageManager.ButtonOrientationStrings.FixedTop),
-            new Pair(PaletteButtonOrientation.FixedBottom, KryptonLanguageManager.ButtonOrientationStrings.FixedBottom),
-            new Pair(PaletteButtonOrientation.FixedLeft, KryptonLanguageManager.ButtonOrientationStrings.FixedLeft),
-            new Pair(PaletteButtonOrientation.FixedRight, KryptonLanguageManager.ButtonOrientationStrings.FixedRight)
+            {PaletteButtonOrientation.Inherit, KryptonLanguageManager.ButtonOrientationStrings.Inherit},
+            {PaletteButtonOrientation.Auto, KryptonLanguageManager.ButtonOrientationStrings.Auto},
+            {PaletteButtonOrientation.FixedTop, KryptonLanguageManager.ButtonOrientationStrings.FixedTop},
+            {PaletteButtonOrientation.FixedBottom, KryptonLanguageManager.ButtonOrientationStrings.FixedBottom},
+            {PaletteButtonOrientation.FixedLeft, KryptonLanguageManager.ButtonOrientationStrings.FixedLeft},
+            {PaletteButtonOrientation.FixedRight, KryptonLanguageManager.ButtonOrientationStrings.FixedRight }
         };
 
-        #endregion
-
-        #region Identity
-        /// <summary>
-        /// Initialize a new instance of the PaletteButtonOrientation class.
-        /// </summary>
-        public PaletteButtonOrientationConverter()
-            : base(typeof(PaletteButtonOrientation))
-        {
-        }
         #endregion
 
         #region Protected
         /// <summary>
         /// Gets an array of lookup pairs.
         /// </summary>
-        protected override Pair[] Pairs => _pairs;
+        protected override IReadOnlyDictionary<PaletteButtonOrientation /*Enum*/, string /*Display*/> Pairs => _pairs;
 
         #endregion
     }

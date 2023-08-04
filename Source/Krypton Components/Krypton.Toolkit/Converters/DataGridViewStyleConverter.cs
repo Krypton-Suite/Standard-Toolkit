@@ -15,45 +15,21 @@ namespace Krypton.Toolkit
     /// <summary>
     /// Custom type converter so that DataGridViewStyle values appear as neat text at design time.
     /// </summary>
-    internal class DataGridViewStyleConverter : StringLookupConverter
+    internal class DataGridViewStyleConverter : StringLookupConverter<DataGridViewStyle>
     {
         #region Static Fields
 
-        #region Old
-
-        /*private readonly Pair[] _pairs =
-        {
-            new(DataGridViewStyle.List, "List"),
-            new(DataGridViewStyle.Sheet, "Sheet"),
-            new(DataGridViewStyle.Custom1, "Custom1"),
-            new(DataGridViewStyle.Custom2, "Custom2"),
-            new(DataGridViewStyle.Custom3, "Custom3"),
-            new(DataGridViewStyle.Mixed, "Mixed")
-        };*/
-
-        #endregion
-
         [Localizable(true)]
-        private readonly Pair[] _pairs =
+        private static readonly IReadOnlyDictionary<DataGridViewStyle, string> _pairs = new Dictionary<DataGridViewStyle, string>
         {
-            new Pair(DataGridViewStyle.List, KryptonLanguageManager.DataGridViewStyles.List),
-            new Pair(DataGridViewStyle.Sheet, KryptonLanguageManager.DataGridViewStyles.Sheet),
-            new Pair(DataGridViewStyle.Custom1, KryptonLanguageManager.DataGridViewStyles.CustomOne),
-            new Pair(DataGridViewStyle.Custom2, KryptonLanguageManager.DataGridViewStyles.CustomTwo),
-            new Pair(DataGridViewStyle.Custom3, KryptonLanguageManager.DataGridViewStyles.CustomThree),
-            new Pair(DataGridViewStyle.Mixed, KryptonLanguageManager.DataGridViewStyles.Mixed)
+            {DataGridViewStyle.List, KryptonLanguageManager.DataGridViewStyles.List},
+            {DataGridViewStyle.Sheet, KryptonLanguageManager.DataGridViewStyles.Sheet},
+            {DataGridViewStyle.Custom1, KryptonLanguageManager.DataGridViewStyles.CustomOne},
+            {DataGridViewStyle.Custom2, KryptonLanguageManager.DataGridViewStyles.CustomTwo},
+            {DataGridViewStyle.Custom3, KryptonLanguageManager.DataGridViewStyles.CustomThree},
+            {DataGridViewStyle.Mixed, KryptonLanguageManager.DataGridViewStyles.Mixed }
         };
 
-        #endregion
-
-        #region Identity
-        /// <summary>
-        /// Initialize a new instance of the DataGridViewStyleConverter class.
-        /// </summary>
-        public DataGridViewStyleConverter()
-            : base(typeof(DataGridViewStyle))
-        {
-        }
         #endregion
 
         #region Protected
@@ -61,7 +37,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets an array of lookup pairs.
         /// </summary>
-        protected override Pair[] Pairs => _pairs;
+        protected override IReadOnlyDictionary<DataGridViewStyle /*Enum*/, string /*Display*/> Pairs => _pairs;
 
         #endregion
     }

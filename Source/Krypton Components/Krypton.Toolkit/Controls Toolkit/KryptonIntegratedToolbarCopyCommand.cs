@@ -224,8 +224,7 @@ namespace Krypton.Toolkit
                     UpdateImage(Office2010ToolbarImageResources.Office2010ToolbarCopyNormal);
                     break;
                 case PaletteMode.Office2013DarkGray:
-                    UpdateImage(Office2013ToolbarImageResources.Office2013ToolbarCopyNormal);
-                    break;
+                case PaletteMode.Office2013LightGray:
                 case PaletteMode.Office2013White:
                     UpdateImage(Office2013ToolbarImageResources.Office2013ToolbarCopyNormal);
                     break;
@@ -378,8 +377,7 @@ namespace Krypton.Toolkit
                     UpdateActiveImage(Office2010ToolbarImageResources.Office2010ToolbarCopyNormal);
                     break;
                 case PaletteMode.Office2013DarkGray:
-                    UpdateActiveImage(Office2013ToolbarImageResources.Office2013ToolbarCopyNormal);
-                    break;
+                case PaletteMode.Office2013LightGray:
                 case PaletteMode.Office2013White:
                     UpdateActiveImage(Office2013ToolbarImageResources.Office2013ToolbarCopyNormal);
                     break;
@@ -523,8 +521,7 @@ namespace Krypton.Toolkit
                     UpdateActiveImage(Office2010ToolbarImageResources.Office2010ToolbarCopyDisabled);
                     break;
                 case PaletteMode.Office2013DarkGray:
-                    UpdateActiveImage(Office2013ToolbarImageResources.Office2013ToolbarCopyDisabled);
-                    break;
+                case PaletteMode.Office2013LightGray:
                 case PaletteMode.Office2013White:
                     UpdateActiveImage(Office2013ToolbarImageResources.Office2013ToolbarCopyDisabled);
                     break;
@@ -668,8 +665,7 @@ namespace Krypton.Toolkit
                     UpdateActiveImage(Office2010ToolbarImageResources.Office2010ToolbarCopyNormal);
                     break;
                 case PaletteMode.Office2013DarkGray:
-                    UpdateActiveImage(Office2013ToolbarImageResources.Office2013ToolbarCopyNormal);
-                    break;
+                case PaletteMode.Office2013LightGray:
                 case PaletteMode.Office2013White:
                     UpdateActiveImage(Office2013ToolbarImageResources.Office2013ToolbarCopyNormal);
                     break;
@@ -813,8 +809,7 @@ namespace Krypton.Toolkit
                     UpdateActiveImage(Office2010ToolbarImageResources.Office2010ToolbarCopyNormal);
                     break;
                 case PaletteMode.Office2013DarkGray:
-                    UpdateActiveImage(Office2013ToolbarImageResources.Office2013ToolbarCopyNormal);
-                    break;
+                case PaletteMode.Office2013LightGray:
                 case PaletteMode.Office2013White:
                     UpdateActiveImage(Office2013ToolbarImageResources.Office2013ToolbarCopyNormal);
                     break;
@@ -960,8 +955,7 @@ namespace Krypton.Toolkit
                         AddImageStates(Office2010ToolbarImageResources.Office2010ToolbarCopyNormal, Office2010ToolbarImageResources.Office2010ToolbarCopyDisabled, Office2010ToolbarImageResources.Office2010ToolbarCopyNormal, Office2010ToolbarImageResources.Office2010ToolbarCopyNormal);
                         break;
                     case PaletteMode.Office2013DarkGray:
-                        AddImageStates(Office2019ToolbarImageResources.Office2019ToolbarCopyNormal, Office2019ToolbarImageResources.Office2019ToolbarCopyDisabled, Office2019ToolbarImageResources.Office2019ToolbarCopyNormal, Office2019ToolbarImageResources.Office2019ToolbarCopyNormal);
-                        break;
+                    case PaletteMode.Office2013LightGray:
                     case PaletteMode.Office2013White:
                         AddImageStates(Office2019ToolbarImageResources.Office2019ToolbarCopyNormal, Office2019ToolbarImageResources.Office2019ToolbarCopyDisabled, Office2019ToolbarImageResources.Office2019ToolbarCopyNormal, Office2019ToolbarImageResources.Office2019ToolbarCopyNormal);
                         break;

@@ -15,29 +15,21 @@ namespace Krypton.Navigator
     /// <summary>
     /// Custom type converter so that PopupPageAllow values appear as neat text at design time.
     /// </summary>
-    public class PopupPageAllowConverter : StringLookupConverter
+    public class PopupPageAllowConverter : StringLookupConverter<PopupPageAllow>
     {
-        #region Identity
-        /// <summary>
-        /// Initialize a new instance of the PopupPagePositionConverter class.
-        /// </summary>
-        public PopupPageAllowConverter()
-            : base(typeof(PopupPageAllow))
-        {
-        }
-        #endregion
+        #region Static Fields
 
-        #region Protected
-        /// <summary>
-        /// Gets an array of lookup pairs.
-        /// </summary>
-        protected override Pair[] Pairs { get; } =
+        [Localizable(true)]
+        private static readonly IReadOnlyDictionary<PopupPageAllow, string> _pairs = new Dictionary<PopupPageAllow, string>
         {
-            new Pair(PopupPageAllow.Never, "Never"),
-            new Pair(PopupPageAllow.OnlyCompatibleModes, "Only Compatible Modes"),
-            new Pair(PopupPageAllow.OnlyOutlookMiniMode, "Only Outlook Mini Mode")
+            {PopupPageAllow.Never, "Never"},
+            {PopupPageAllow.OnlyCompatibleModes, "Only Compatible Modes"},
+            {PopupPageAllow.OnlyOutlookMiniMode, "Only Outlook Mini Mode"}
         };
 
         #endregion
+        protected override IReadOnlyDictionary<PopupPageAllow /*Enum*/, string /*Display*/> Pairs => _pairs;
+
+
     }
 }

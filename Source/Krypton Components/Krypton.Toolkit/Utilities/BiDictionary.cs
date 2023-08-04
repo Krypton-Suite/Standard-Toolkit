@@ -22,7 +22,6 @@ namespace Krypton.Toolkit
         private readonly IDictionary<TFirst, TSecond> _firstToSecond = new Dictionary<TFirst, TSecond>();
         private readonly IDictionary<TSecond, TFirst> _secondToFirst = new Dictionary<TSecond, TFirst>();
 
-
         public BiDictionary(IDictionary<TFirst, TSecond> dictionary)
         {
             if (dictionary == null)
@@ -61,5 +60,7 @@ namespace Krypton.Toolkit
         }
 
         public ICollection<TFirst> GetAllFirsts() => _firstToSecond.Keys;
+
+        public ReadOnlyDictionary<TSecond, TFirst> SecondToFirst => new ReadOnlyDictionary<TSecond, TFirst>(_secondToFirst);
     }
 }

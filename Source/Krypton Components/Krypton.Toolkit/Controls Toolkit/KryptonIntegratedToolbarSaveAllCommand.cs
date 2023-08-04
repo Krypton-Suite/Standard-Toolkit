@@ -7,8 +7,6 @@
  */
 #endregion
 
-using System.Runtime.InteropServices;
-
 namespace Krypton.Toolkit
 {
     /// <summary>A <see cref="KryptonCommand"/> created specifically for the <see cref="PaletteButtonSpecStyle.SaveAll"/> button spec.</summary>
@@ -236,8 +234,7 @@ namespace Krypton.Toolkit
                     UpdateImage(Office2010ToolbarImageResources.Office2010ToolbarSaveAllNormal);
                     break;
                 case PaletteMode.Office2013DarkGray:
-                    UpdateImage(Office2013ToolbarImageResources.Office2013ToolbarSaveAllNormal);
-                    break;
+                case PaletteMode.Office2013LightGray:
                 case PaletteMode.Office2013White:
                     UpdateImage(Office2013ToolbarImageResources.Office2013ToolbarSaveAllNormal);
                     break;
@@ -390,8 +387,7 @@ namespace Krypton.Toolkit
                     UpdateActiveImage(Office2010ToolbarImageResources.Office2010ToolbarSaveAllNormal);
                     break;
                 case PaletteMode.Office2013DarkGray:
-                    UpdateActiveImage(Office2013ToolbarImageResources.Office2013ToolbarSaveAllNormal);
-                    break;
+                case PaletteMode.Office2013LightGray:
                 case PaletteMode.Office2013White:
                     UpdateActiveImage(Office2013ToolbarImageResources.Office2013ToolbarSaveAllNormal);
                     break;
@@ -535,8 +531,7 @@ namespace Krypton.Toolkit
                     UpdateActiveImage(Office2010ToolbarImageResources.Office2010ToolbarSaveAllDisabled);
                     break;
                 case PaletteMode.Office2013DarkGray:
-                    UpdateActiveImage(Office2013ToolbarImageResources.Office2013ToolbarSaveAllDisabled);
-                    break;
+                case PaletteMode.Office2013LightGray:
                 case PaletteMode.Office2013White:
                     UpdateActiveImage(Office2013ToolbarImageResources.Office2013ToolbarSaveAllDisabled);
                     break;
@@ -680,8 +675,7 @@ namespace Krypton.Toolkit
                     UpdateActiveImage(Office2010ToolbarImageResources.Office2010ToolbarSaveAllNormal);
                     break;
                 case PaletteMode.Office2013DarkGray:
-                    UpdateActiveImage(Office2013ToolbarImageResources.Office2013ToolbarSaveAllNormal);
-                    break;
+                case PaletteMode.Office2013LightGray:
                 case PaletteMode.Office2013White:
                     UpdateActiveImage(Office2013ToolbarImageResources.Office2013ToolbarSaveAllNormal);
                     break;
@@ -825,8 +819,7 @@ namespace Krypton.Toolkit
                     UpdateActiveImage(Office2010ToolbarImageResources.Office2010ToolbarSaveAllNormal);
                     break;
                 case PaletteMode.Office2013DarkGray:
-                    UpdateActiveImage(Office2013ToolbarImageResources.Office2013ToolbarSaveAllNormal);
-                    break;
+                case PaletteMode.Office2013LightGray:
                 case PaletteMode.Office2013White:
                     UpdateActiveImage(Office2013ToolbarImageResources.Office2013ToolbarSaveAllNormal);
                     break;
@@ -972,8 +965,7 @@ namespace Krypton.Toolkit
                         AddImageStates(Office2010ToolbarImageResources.Office2010ToolbarSaveAllNormal, Office2010ToolbarImageResources.Office2010ToolbarSaveAllDisabled, Office2010ToolbarImageResources.Office2010ToolbarSaveAllNormal, Office2010ToolbarImageResources.Office2010ToolbarSaveAllNormal);
                         break;
                     case PaletteMode.Office2013DarkGray:
-                        AddImageStates(Office2019ToolbarImageResources.Office2019ToolbarSaveAllNormal, Office2019ToolbarImageResources.Office2019ToolbarSaveAllDisabled, Office2019ToolbarImageResources.Office2019ToolbarSaveAllNormal, Office2019ToolbarImageResources.Office2019ToolbarSaveAllNormal);
-                        break;
+                    case PaletteMode.Office2013LightGray:
                     case PaletteMode.Office2013White:
                         AddImageStates(Office2019ToolbarImageResources.Office2019ToolbarSaveAllNormal, Office2019ToolbarImageResources.Office2019ToolbarSaveAllDisabled, Office2019ToolbarImageResources.Office2019ToolbarSaveAllNormal, Office2019ToolbarImageResources.Office2019ToolbarSaveAllNormal);
                         break;

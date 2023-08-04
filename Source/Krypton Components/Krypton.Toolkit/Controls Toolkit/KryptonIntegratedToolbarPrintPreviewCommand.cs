@@ -224,8 +224,7 @@ namespace Krypton.Toolkit
                     UpdateImage(Office2010ToolbarImageResources.Office2010ToolbarPrintPreviewNormal);
                     break;
                 case PaletteMode.Office2013DarkGray:
-                    UpdateImage(Office2013ToolbarImageResources.Office2013ToolbarPrintPreviewNormal);
-                    break;
+                case PaletteMode.Office2013LightGray:
                 case PaletteMode.Office2013White:
                     UpdateImage(Office2013ToolbarImageResources.Office2013ToolbarPrintPreviewNormal);
                     break;
@@ -378,8 +377,7 @@ namespace Krypton.Toolkit
                     UpdateActiveImage(Office2010ToolbarImageResources.Office2010ToolbarPrintPreviewNormal);
                     break;
                 case PaletteMode.Office2013DarkGray:
-                    UpdateActiveImage(Office2013ToolbarImageResources.Office2013ToolbarPrintPreviewNormal);
-                    break;
+                case PaletteMode.Office2013LightGray:
                 case PaletteMode.Office2013White:
                     UpdateActiveImage(Office2013ToolbarImageResources.Office2013ToolbarPrintPreviewNormal);
                     break;
@@ -523,8 +521,7 @@ namespace Krypton.Toolkit
                     UpdateActiveImage(Office2010ToolbarImageResources.Office2010ToolbarPrintPreviewDisabled);
                     break;
                 case PaletteMode.Office2013DarkGray:
-                    UpdateActiveImage(Office2013ToolbarImageResources.Office2013ToolbarPrintPreviewDisabled);
-                    break;
+                case PaletteMode.Office2013LightGray:
                 case PaletteMode.Office2013White:
                     UpdateActiveImage(Office2013ToolbarImageResources.Office2013ToolbarPrintPreviewDisabled);
                     break;
@@ -668,8 +665,7 @@ namespace Krypton.Toolkit
                     UpdateActiveImage(Office2010ToolbarImageResources.Office2010ToolbarPrintPreviewNormal);
                     break;
                 case PaletteMode.Office2013DarkGray:
-                    UpdateActiveImage(Office2013ToolbarImageResources.Office2013ToolbarPrintPreviewNormal);
-                    break;
+                case PaletteMode.Office2013LightGray:
                 case PaletteMode.Office2013White:
                     UpdateActiveImage(Office2013ToolbarImageResources.Office2013ToolbarPrintPreviewNormal);
                     break;
@@ -813,8 +809,7 @@ namespace Krypton.Toolkit
                     UpdateActiveImage(Office2010ToolbarImageResources.Office2010ToolbarPrintPreviewNormal);
                     break;
                 case PaletteMode.Office2013DarkGray:
-                    UpdateActiveImage(Office2013ToolbarImageResources.Office2013ToolbarPrintPreviewNormal);
-                    break;
+                case PaletteMode.Office2013LightGray:
                 case PaletteMode.Office2013White:
                     UpdateActiveImage(Office2013ToolbarImageResources.Office2013ToolbarPrintPreviewNormal);
                     break;
@@ -960,8 +955,7 @@ namespace Krypton.Toolkit
                         AddImageStates(Office2010ToolbarImageResources.Office2010ToolbarPrintPreviewNormal, Office2010ToolbarImageResources.Office2010ToolbarPrintPreviewDisabled, Office2010ToolbarImageResources.Office2010ToolbarPrintPreviewNormal, Office2010ToolbarImageResources.Office2010ToolbarPrintPreviewNormal);
                         break;
                     case PaletteMode.Office2013DarkGray:
-                        AddImageStates(Office2019ToolbarImageResources.Office2019ToolbarPrintPreviewNormal, Office2019ToolbarImageResources.Office2019ToolbarPrintPreviewDisabled, Office2019ToolbarImageResources.Office2019ToolbarPrintPreviewNormal, Office2019ToolbarImageResources.Office2019ToolbarPrintPreviewNormal);
-                        break;
+                    case PaletteMode.Office2013LightGray:
                     case PaletteMode.Office2013White:
                         AddImageStates(Office2019ToolbarImageResources.Office2019ToolbarPrintPreviewNormal, Office2019ToolbarImageResources.Office2019ToolbarPrintPreviewDisabled, Office2019ToolbarImageResources.Office2019ToolbarPrintPreviewNormal, Office2019ToolbarImageResources.Office2019ToolbarPrintPreviewNormal);
                         break;

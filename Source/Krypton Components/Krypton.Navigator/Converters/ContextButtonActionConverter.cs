@@ -15,27 +15,23 @@ namespace Krypton.Navigator
     /// <summary>
     /// Custom type converter so that ContextButtonAction values appear as neat text at design time.
     /// </summary>
-    public class ContextButtonActionConverter : StringLookupConverter
+    public class ContextButtonActionConverter : StringLookupConverter<ContextButtonAction>
     {
-        #region Identity
-        /// <summary>
-        /// Initialize a new instance of the ContextButtonActionConverter class.
-        /// </summary>
-        public ContextButtonActionConverter()
-            : base(typeof(ContextButtonAction))
-        {
-        }
+        #region Static Fields
+
+        [Localizable(true)] private static readonly IReadOnlyDictionary<ContextButtonAction, string> _pairs =
+            new Dictionary<ContextButtonAction, string>
+            {
+                { ContextButtonAction.None, "None (Do nothing)" },
+                { ContextButtonAction.SelectPage, "Select Page" }
+            };
         #endregion
 
         #region Protected
         /// <summary>
         /// Gets an array of lookup pairs.
         /// </summary>
-        protected override Pair[] Pairs { get; } =
-        {
-            new Pair(ContextButtonAction.None, "None (Do nothing)"),
-            new Pair(ContextButtonAction.SelectPage, "Select Page") };
-
+        protected override IReadOnlyDictionary<ContextButtonAction /*Enum*/, string /*Display*/> Pairs => _pairs;
         #endregion
     }
 }
