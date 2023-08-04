@@ -98,8 +98,8 @@ namespace Krypton.Toolkit
         private float _cornerRoundingRadius;
         private Control? _activeControl;
         private KryptonFormTitleStyle _titleStyle;
-        //private IntegratedToolBarValues _integratedToolBarValues;
-        //private IntegratedToolbarManager _integratedToolbarManager;
+        private IntegratedToolBarValues _integratedToolBarValues;
+        private KryptonIntegratedToolBarManager _integratedToolBarManager;
 
         #endregion
 
@@ -641,28 +641,27 @@ namespace Krypton.Toolkit
          Description(@"Arranges the current window title alignment.")]
         public KryptonFormTitleStyle TitleStyle { get => _titleStyle; set { _titleStyle = value; UpdateTitleStyle(value); } }
 
-        /*/// <summary>Gets or sets the integrated tool bar values.</summary>
+        /// <summary>Gets or sets the integrated tool bar values.</summary>
         /// <value>The integrated tool bar values.</value>
-        [Category(@"Visuals")]
-        [Description(@"Handles the integrated toolbar.")]
+        [Category(@"Appearance")]
+        [Description(@"Controls the integrated toolbar.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public IntegratedToolBarValues IntegratedToolBarValues
         {
-            [DebuggerStepThrough]
             get => _integratedToolBarValues;
 
             set
             {
                 _integratedToolBarValues = value;
 
-                _integratedToolbarManager = new IntegratedToolbarManager(this, _integratedToolBarValues);
+                _integratedToolBarManager = new KryptonIntegratedToolBarManager(this, _integratedToolBarValues);
             }
         }
 
         private bool ShouldSerializeIntegratedToolBarValues() => !_integratedToolBarValues.IsDefault;
 
         /// <summary>Resets the integrated tool bar values.</summary>
-        public void ResetIntegratedToolBarValues() => _integratedToolBarValues.Reset();*/
+        public void ResetIntegratedToolBarValues() => _integratedToolBarValues.Reset();
 
         #endregion
 

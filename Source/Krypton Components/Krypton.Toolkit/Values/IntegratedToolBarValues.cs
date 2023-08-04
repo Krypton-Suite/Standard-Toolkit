@@ -1,73 +1,99 @@
 ﻿#region BSD License
 /*
- *  
+ * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2023 - 2023. All rights reserved. 
  *  
  */
 #endregion
 
+// ReSharper disable UnusedMember.Local
 // ReSharper disable InconsistentNaming
 namespace Krypton.Toolkit
 {
-    [TypeConverter(typeof(ExpandableObjectConverter))]
-    public class IntegratedToolBarValues : GlobalId
+    [DesignerCategory(@"code")]
+    [ToolboxItem(false)]
+    public class IntegratedToolBarValues : Storage
     {
         #region Static Fields
 
-        private const bool DEFAULT_SHOW_INTEGRATED_TOOLBAR = false;
-
-        private const bool DEFAULT_SHOW_ALL_TOOLBAR_ITEMS = false;
-
-        private const int MAXIMUM_INTEGRATED_TOOLBAR_ITEMS = 14;
-
-        private const string DEFAULT_BUTTON_ORIENTATION = @"PaletteButtonOrientation.Auto";
-
-        private const string DEFAULT_BUTTON_ALIGNMENT = @"PaletteRelativeEdgeAlign.Near";
+        private const bool DEFAULT_SHOW_NEW_BUTTON = true;
+        private const bool DEFAULT_SHOW_OPEN_BUTTON = true;
+        private const bool DEFAULT_SHOW_SAVE_BUTTON = true;
+        private const bool DEFAULT_SHOW_SAVE_ALL_BUTTON = true;
+        private const bool DEFAULT_SHOW_SAVE_AS_BUTTON = true;
+        private const bool DEFAULT_SHOW_CUT_BUTTON = true;
+        private const bool DEFAULT_SHOW_COPY_BUTTON = true;
+        private const bool DEFAULT_SHOW_PASTE_BUTTON = true;
+        private const bool DEFAULT_SHOW_UNDO_BUTTON = true;
+        private const bool DEFAULT_SHOW_REDO_BUTTON = true;
+        private const bool DEFAULT_SHOW_PAGE_SETUP_BUTTON = true;
+        private const bool DEFAULT_SHOW_PRINT_PREVIEW_BUTTON = true;
+        private const bool DEFAULT_SHOW_PRINT_BUTTON = true;
+        private const bool DEFAULT_SHOW_QUICK_PRINT_BUTTON = true;
 
         #endregion
 
         #region Instance Fields
 
-        private bool _flipArrayItems;
+        private bool _allowFormIntegration;
 
-        private bool _showIntegratedToolBar;
+        internal ButtonSpecAny[] _integratedToolBarButtons;
 
-        private bool _showAllToolbarButtons;
+        private PaletteButtonOrientation _integratedToolBarButtonOrientation;
 
-        private ButtonSpecAny[] _integratedToolBarItems;
+        private PaletteRelativeEdgeAlign _integratedToolBarButtonAlignment;
 
-        private PaletteButtonOrientation _buttonOrientation;
-
-        private PaletteRelativeEdgeAlign _buttonAlignment;
-
-        private IntegratedToolbarManager _integratedToolbarManager;
+        private KryptonIntegratedToolBarManager _toolbarManager = new KryptonIntegratedToolBarManager();
 
         #endregion
 
         #region Public
 
-        [Category(@"Visuals")]
-        [Description(@"")]
-        [DefaultValue(DEFAULT_SHOW_INTEGRATED_TOOLBAR)]
-        public bool ShowIntegratedToolBar { get => _showIntegratedToolBar; set { _showIntegratedToolBar = value; ShowToolBar(value); } }
+        /// <summary>Gets or sets a value indicating whether [allow form integration].</summary>
+        /// <value><c>true</c> if [allow form integration]; otherwise, <c>false</c>.</value>
+        /// <exception cref="ArgumentNullException">@"The 'ParentForm' property cannot be null.</exception>
+        [Category(@"Visuals"), DefaultValue(false), Description(@"Add/remove the integrated tool bar buttons to the parent form. (Note: Existing buttonspecs will not be affected.)")]
+        public bool AllowFormIntegration
+        {
+            get => _allowFormIntegration;
 
-        [Category(@"Visuals")]
-        [Description(@"")]
-        [DefaultValue(DEFAULT_SHOW_ALL_TOOLBAR_ITEMS)]
-        public bool ShowAllToolbarItems { get => _showAllToolbarButtons; set { _showAllToolbarButtons = value; } }
+            set
+            {
+                _allowFormIntegration = value;
 
-        public ButtonSpecAny[] IntegratedToolBarItems { get => _integratedToolBarItems; private set => _integratedToolBarItems = value; }
+                if (_toolbarManager._parentForm != null)
+                {
+                    if (value)
+                    {
+                        _toolbarManager.AttachIntegratedToolBarToParent(_toolbarManager._parentForm);
+                    }
+                    else
+                    {
+                        _toolbarManager.DetachIntegratedToolBarFromParent(_toolbarManager._parentForm);
+                    }
+                }
+                else
+                {
+                    throw new ArgumentNullException($@"The 'ParentForm' property cannot be null.");
+                }
+            }
+        }
 
-        [Category(@"Visuals")]
-        [Description(@"")]
-        [DefaultValue(typeof(PaletteButtonOrientation), DEFAULT_BUTTON_ORIENTATION)]
-        public PaletteButtonOrientation ButtonOrientation { get => _buttonOrientation; set { _buttonOrientation = value; } }
+        /// <summary>Gets the integrated tool bar buttons.</summary>
+        /// <value>The integrated tool bar buttons.</value>
+        [Category(@"Visuals"), DefaultValue(null), Description(@"Contains all the integrated tool bar buttons.")]
+        public ButtonSpecAny[] IntegratedToolBarButtons => _integratedToolBarButtons;
 
-        [Category(@"Visuals")]
-        [Description(@"")]
-        [DefaultValue(typeof(PaletteRelativeEdgeAlign), DEFAULT_BUTTON_ALIGNMENT)]
-        public PaletteRelativeEdgeAlign ButtonAlignment { get => _buttonAlignment; set { _buttonAlignment = value; } }
+        /// <summary>Gets or sets the integrated tool bar button orientation.</summary>
+        /// <value>The integrated tool bar button orientation.</value>
+        [Category(@"Visuals"), DefaultValue(typeof(PaletteButtonOrientation), @"PaletteButtonOrientation.FixedTop"), Description(@"Gets or sets the integrated tool bar button orientation.")]
+        public PaletteButtonOrientation IntegratedToolBarButtonOrientation { get => _integratedToolBarButtonOrientation; set { _integratedToolBarButtonOrientation = value; _toolbarManager.UpdateButtonOrientation(value); } }
+
+        /// <summary>Gets or sets the integrated tool bar button alignment.</summary>
+        /// <value>The integrated tool bar button alignment.</value>
+        [Category(@"Visuals"), DefaultValue(typeof(PaletteRelativeEdgeAlign), @"PaletteRelativeEdgeAlign.Far"), Description(@"Gets or sets the integrated tool bar button alignment.")]
+        public PaletteRelativeEdgeAlign IntegratedToolBarButtonAlignment { get => _integratedToolBarButtonAlignment; set { _integratedToolBarButtonAlignment = value; _toolbarManager.UpdateButtonAlignment(value); } }
 
         #endregion
 
@@ -78,125 +104,19 @@ namespace Krypton.Toolkit
             Reset();
         }
 
-        public override string ToString()
-        {
-            return base.ToString();
-        }
-
         #endregion
+        public override bool IsDefault { get; }
 
         #region Implementation
 
-        [Browsable(false)]
-        public bool IsDefault => ShowIntegratedToolBar.Equals(DEFAULT_SHOW_INTEGRATED_TOOLBAR) &&
-                                 ShowAllToolbarItems.Equals(DEFAULT_SHOW_ALL_TOOLBAR_ITEMS) &&
-                                 IntegratedToolBarItems.Equals(SetupToolbarArray()) &&
-                                 ButtonOrientation.Equals(PaletteButtonOrientation.Auto) &&
-                                 ButtonAlignment.Equals(PaletteRelativeEdgeAlign.Near);
-
         public void Reset()
         {
-            ShowIntegratedToolBar = DEFAULT_SHOW_INTEGRATED_TOOLBAR;
+            _allowFormIntegration = false;
 
-            ShowAllToolbarItems = DEFAULT_SHOW_ALL_TOOLBAR_ITEMS;
+            _integratedToolBarButtonOrientation = PaletteButtonOrientation.FixedTop;
 
-            IntegratedToolBarItems = SetupToolbarArray();
-
-            ButtonOrientation = PaletteButtonOrientation.Auto;
-
-            ButtonAlignment = PaletteRelativeEdgeAlign.Near;
-
-            _integratedToolbarManager = new IntegratedToolbarManager();
+            _integratedToolBarButtonAlignment = PaletteRelativeEdgeAlign.Far;
         }
-
-        private ButtonSpecAny[] SetupToolbarArray()
-        {
-            ButtonSpecAny[] buttons = new ButtonSpecAny[MAXIMUM_INTEGRATED_TOOLBAR_ITEMS];
-
-            ButtonSpecAny newToolbarButton = new(),
-                openToolbarButton = new(),
-                saveToolbarButton = new(),
-                saveAsToolbarButton = new(),
-                saveAllToolbarButton = new(),
-                cutToolbarButton = new(),
-                copyToolbarButton = new(),
-                pasteToolbarButton = new(),
-                undoToolbarButton = new(),
-                redoToolbarButton = new(),
-                pageSetupToolbarButton = new(),
-                printPreviewToolbarButton = new(),
-                printToolbarButton = new(),
-                quickPrintToolbarButton = new();
-
-            newToolbarButton.Type = PaletteButtonSpecStyle.New;
-
-            openToolbarButton.Type = PaletteButtonSpecStyle.Open;
-
-            saveAsToolbarButton.Type = PaletteButtonSpecStyle.SaveAs;
-
-            saveAllToolbarButton.Type = PaletteButtonSpecStyle.SaveAll;
-
-            saveToolbarButton.Type = PaletteButtonSpecStyle.Save;
-
-            cutToolbarButton.Type = PaletteButtonSpecStyle.Cut;
-
-            copyToolbarButton.Type = PaletteButtonSpecStyle.Copy;
-
-            pasteToolbarButton.Type = PaletteButtonSpecStyle.Paste;
-
-            undoToolbarButton.Type = PaletteButtonSpecStyle.Undo;
-
-            redoToolbarButton.Type = PaletteButtonSpecStyle.Redo;
-
-            pageSetupToolbarButton.Type = PaletteButtonSpecStyle.PageSetup;
-
-            printPreviewToolbarButton.Type = PaletteButtonSpecStyle.PrintPreview;
-
-            printToolbarButton.Type = PaletteButtonSpecStyle.Print;
-
-            quickPrintToolbarButton.Type = PaletteButtonSpecStyle.QuickPrint;
-
-            buttons[0] = newToolbarButton;
-
-            buttons[1] = openToolbarButton;
-
-            buttons[2] = saveToolbarButton;
-
-            buttons[3] = saveAsToolbarButton;
-
-            buttons[4] = saveAllToolbarButton;
-
-            buttons[5] = cutToolbarButton;
-
-            buttons[6] = copyToolbarButton;
-
-            buttons[7] = pasteToolbarButton;
-
-            buttons[8] = undoToolbarButton;
-
-            buttons[9] = redoToolbarButton;
-
-            buttons[10] = pageSetupToolbarButton;
-
-            buttons[11] = printPreviewToolbarButton;
-
-            buttons[12] = printToolbarButton;
-
-            buttons[13] = quickPrintToolbarButton;
-
-            return buttons;
-        }
-
-        private void ShowToolBar(bool showToolBar) => _integratedToolbarManager.ShowToolBar(showToolBar);
-
-        internal void SetupToolBar() => _integratedToolBarItems = SetupToolbarArray();
-
-        public ButtonSpecAny[] ReturnToolBarButtonArray() => _integratedToolBarItems;
-
-        //private void SetupIntegratedToolBar(bool value, KryptonForm? owner)
-        //{
-        //    throw new NotImplementedException();
-        //}
 
         #endregion
     }

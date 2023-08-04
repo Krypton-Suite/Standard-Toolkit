@@ -26,7 +26,7 @@ namespace Krypton.Toolkit
 
         internal KryptonForm _parentForm;
 
-        private IntegratedToolBarButtonValues _integratedToolBarButtonValues;
+        private IntegratedToolBarValues _integratedToolBarValues;
 
         //private IntegratedToolBarCommandValues _toolBarCommandValues;
 
@@ -68,7 +68,7 @@ namespace Krypton.Toolkit
 
         #region Static Properties
 
-        public static IntegratedToolBarButtonValues IntegratedToolBarButtonValues { get; } = new IntegratedToolBarButtonValues();
+        public static IntegratedToolBarValues IntegratedToolBarButtonValues { get; } = new IntegratedToolBarValues();
 
         public static IntegratedToolBarCommandValues IntegratedToolBarCommandValues { get; } = new IntegratedToolBarCommandValues();
 
@@ -76,11 +76,11 @@ namespace Krypton.Toolkit
 
         #region Identity
 
-        public KryptonIntegratedToolBarManager(KryptonForm parentForm, IntegratedToolBarButtonValues toolBarButtonValues)
+        public KryptonIntegratedToolBarManager(KryptonForm parentForm, IntegratedToolBarValues toolBarButtonValues)
         {
             _parentForm = parentForm;
 
-            _integratedToolBarButtonValues = toolBarButtonValues;
+            _integratedToolBarValues = toolBarButtonValues;
 
             Reset();
         }
@@ -117,7 +117,7 @@ namespace Krypton.Toolkit
         /// <summary>Setups the tool bar.</summary>
         internal void SetupToolBar()
         {
-            _integratedToolBarButtonValues._integratedToolBarButtons = new ButtonSpecAny[MAXIMUM_INTEGRATED_TOOLBAR_BUTTONS];
+            _integratedToolBarValues._integratedToolBarButtons = new ButtonSpecAny[MAXIMUM_INTEGRATED_TOOLBAR_BUTTONS];
 
             ButtonSpecAny newToolbarButton = new(),
                     openToolbarButton = new(),
@@ -192,33 +192,33 @@ namespace Krypton.Toolkit
 
             quickPrintToolbarButton.Visible = true;
 
-            _integratedToolBarButtonValues._integratedToolBarButtons[0] = newToolbarButton;
+            _integratedToolBarValues._integratedToolBarButtons[0] = newToolbarButton;
 
-            _integratedToolBarButtonValues._integratedToolBarButtons[1] = openToolbarButton;
+            _integratedToolBarValues._integratedToolBarButtons[1] = openToolbarButton;
 
-            _integratedToolBarButtonValues._integratedToolBarButtons[2] = saveToolbarButton;
+            _integratedToolBarValues._integratedToolBarButtons[2] = saveToolbarButton;
 
-            _integratedToolBarButtonValues._integratedToolBarButtons[3] = saveAsToolbarButton;
+            _integratedToolBarValues._integratedToolBarButtons[3] = saveAsToolbarButton;
 
-            _integratedToolBarButtonValues._integratedToolBarButtons[4] = saveAllToolbarButton;
+            _integratedToolBarValues._integratedToolBarButtons[4] = saveAllToolbarButton;
 
-            _integratedToolBarButtonValues._integratedToolBarButtons[5] = cutToolbarButton;
+            _integratedToolBarValues._integratedToolBarButtons[5] = cutToolbarButton;
 
-            _integratedToolBarButtonValues._integratedToolBarButtons[6] = copyToolbarButton;
+            _integratedToolBarValues._integratedToolBarButtons[6] = copyToolbarButton;
 
-            _integratedToolBarButtonValues._integratedToolBarButtons[7] = pasteToolbarButton;
+            _integratedToolBarValues._integratedToolBarButtons[7] = pasteToolbarButton;
 
-            _integratedToolBarButtonValues._integratedToolBarButtons[8] = undoToolbarButton;
+            _integratedToolBarValues._integratedToolBarButtons[8] = undoToolbarButton;
 
-            _integratedToolBarButtonValues._integratedToolBarButtons[9] = redoToolbarButton;
+            _integratedToolBarValues._integratedToolBarButtons[9] = redoToolbarButton;
 
-            _integratedToolBarButtonValues._integratedToolBarButtons[10] = pageSetupToolbarButton;
+            _integratedToolBarValues._integratedToolBarButtons[10] = pageSetupToolbarButton;
 
-            _integratedToolBarButtonValues._integratedToolBarButtons[11] = printPreviewToolbarButton;
+            _integratedToolBarValues._integratedToolBarButtons[11] = printPreviewToolbarButton;
 
-            _integratedToolBarButtonValues._integratedToolBarButtons[12] = printToolbarButton;
+            _integratedToolBarValues._integratedToolBarButtons[12] = printToolbarButton;
 
-            _integratedToolBarButtonValues._integratedToolBarButtons[13] = quickPrintToolbarButton;
+            _integratedToolBarValues._integratedToolBarButtons[13] = quickPrintToolbarButton;
         }
 
         /// <summary>Shows the tool bar into parent form.</summary>
@@ -435,7 +435,7 @@ namespace Krypton.Toolkit
 
         /// <summary>Returns the integrated tool bar button array.</summary>
         /// <returns></returns>
-        public ButtonSpecAny[] ReturnIntegratedToolBarButtonArray() => _integratedToolBarButtonValues._integratedToolBarButtons;
+        public ButtonSpecAny[] ReturnIntegratedToolBarButtonArray() => _integratedToolBarValues._integratedToolBarButtons;
 
         /// <summary>Returns the is button array flipped.</summary>
         /// <returns></returns>
