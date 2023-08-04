@@ -24,7 +24,7 @@ namespace Krypton.Toolkit
         private readonly PaletteBackLightenColors _paletteBackLight;
         private IDisposable? _mementoBack;
         private PaletteBorderInheritForced? _borderForced;
-        private Region _clipRegion;
+        private Region? _clipRegion;
         private Rectangle _splitRectangle;
 
         #endregion

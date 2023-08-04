@@ -29,7 +29,7 @@ namespace Krypton.Toolkit
         private bool _draggingAttempt;
         private bool _preDragOffset;
         private NeedPaintHandler? _needPaint;
-        private System.Windows.Forms.Timer _repeatTimer, _t;
+        private System.Windows.Forms.Timer? _repeatTimer, _t;
         private Rectangle _dragRect;
 
         #endregion

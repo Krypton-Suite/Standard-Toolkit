@@ -10,6 +10,12 @@
  */
 #endregion
 
+using System.Xml.Xsl;
+
+using Krypton.Toolkit.Properties;
+
+using static Krypton.Toolkit.PI;
+
 namespace Krypton.Toolkit
 {
     /// <summary>
@@ -100,7 +106,6 @@ namespace Krypton.Toolkit
             SeparatorStyles = new KryptonPaletteSeparators(_redirectCommon, _needPaintDelegate);
             TabStyles = new KryptonPaletteTabButtons(_redirectCommon, _needPaintDelegate);
             TrackBar = new KryptonPaletteTrackBar(_redirectCommon, _needPaintDelegate);
-            ToolMenuStatus = new KryptonPaletteTMS(this, _basePalette.ColorTable, OnMenuToolStatusPaint);
             CueHintText = new PaletteCueHintText(_redirector, _needPaintDelegate);
 
             // Hook into the storage change events
@@ -109,6 +114,7 @@ namespace Krypton.Toolkit
             // Hook to palette events
             if (_basePalette != null)
             {
+                ToolMenuStatus = new KryptonPaletteTMS(this, _basePalette.ColorTable, OnMenuToolStatusPaint);
                 _basePalette.PalettePaint += OnPalettePaint;
                 _basePalette.ButtonSpecChanged += OnButtonSpecChanged;
                 _basePalette.BasePaletteChanged += OnBasePaletteChanged;
@@ -2044,8 +2050,9 @@ namespace Krypton.Toolkit
         /// Import palette settings from an xml file.
         /// </summary>
         /// <returns>Fullpath of imported filename; otherwise empty string.</returns>
-        public string? Import()
+        public string Import(bool silent = false)
         {
+            string paletteFileName = string.Empty;
             if (UseKryptonFileDialogs)
             {
                 using var kofd = new KryptonOpenFileDialog
@@ -2059,16 +2066,7 @@ namespace Krypton.Toolkit
 
                 if (kofd.ShowDialog() == DialogResult.OK)
                 {
-                    return Import(kofd.FileName, false);
-                }
-
-                if (!string.IsNullOrWhiteSpace(kofd.FileName))
-                {
-                    // Set the file path
-                    SetCustomisedKryptonPaletteFilePath(Path.GetFullPath(kofd.FileName));
-
-                    // Set the palette name
-                    SetPaletteName(Path.GetFileName(kofd.FileName));
+                    paletteFileName = kofd.FileName;
                 }
             }
             else
@@ -2086,29 +2084,23 @@ namespace Krypton.Toolkit
                 // Get the actual file selected by the user
                 if (dialog.ShowDialog() == DialogResult.OK)
                 {
-                    // Use the existing import overload that takes the target name
-                    return Import(dialog.FileName, false);
-                }
-
-                if (!string.IsNullOrWhiteSpace(dialog.FileName))
-                {
-                    // Set the file path
-                    SetCustomisedKryptonPaletteFilePath(Path.GetFullPath(dialog.FileName));
-
-                    // Set the palette name
-                    SetPaletteName(Path.GetFileName(dialog.FileName));
+                    paletteFileName = dialog.FileName;
                 }
             }
-
-            return string.Empty;
+            if (!string.IsNullOrWhiteSpace(paletteFileName))
+            {
+                // Use the existing import overload that takes the target name
+                paletteFileName = Import(paletteFileName, silent);
+            }
+            return paletteFileName;
         }
 
         /// <summary>
-        /// Import palette settings from the specified xml file.
+        /// Silent Import of palette settings from the specified xml file.
         /// </summary>
         /// <param name="filename">Filename to load.</param>
         /// <returns>Fullpath of imported filename; otherwise empty string.</returns>
-        public string? Import(string filename) => Import(filename, true);
+        public string Import(string filename) => Import(filename, true);
 
         /// <summary>
         /// Import palette settings from the specified xml file.
@@ -2116,7 +2108,8 @@ namespace Krypton.Toolkit
         /// <param name="filename">Filename to load.</param>
         /// <param name="silent">Silent mode provides no user interface feedback.</param>
         /// <returns>Fullpath of imported filename; otherwise empty string.</returns>
-        public string? Import(string filename, bool silent)
+        /// <exception>Thrown if failure to import</exception>
+        public string Import(string filename, bool silent)
         {
             string? ret;
 
@@ -2127,7 +2120,7 @@ namespace Krypton.Toolkit
 
                 if (silent)
                 {
-                    ret = (string)ImportFromFile(filename);
+                    ret = ImportFromFile(filename) as string;
                 }
                 else
                 {
@@ -2158,6 +2151,15 @@ namespace Krypton.Toolkit
                 ResumeUpdates();
             }
 
+            ret ??= string.Empty;
+
+            // Set the file path
+            SetCustomisedKryptonPaletteFilePath(Path.GetFullPath(ret));
+
+            // Set the palette name
+            // TODO: Get paletteName from the paletteBase
+            SetPaletteName(Path.GetFileName(ret));
+
             return ret;
         }
 
@@ -2168,6 +2170,93 @@ namespace Krypton.Toolkit
         public void Import(Stream stream) =>
             // By default the import is silent
             Import(stream, true);
+
+        /// <summary>
+        /// Import xml palette - with auto upgrade - from the specified stream.
+        /// </summary>
+        /// <param name="stream">Stream that contains an XmlDocument. Needs to have settable `Position`</param>
+        /// <exception>Will be thrown if the Palette Xml cannot be transformed, or is incorrect</exception>
+        public void ImportWithUpgrade(Stream stream)
+        {
+            try
+            {
+                // Prevent lots of redraw events until all loading completes
+                SuspendUpdates();
+
+                ImportFromStream(stream);
+            }
+            catch (ArgumentException aex)
+            {
+                // Probably due to a version conflict:
+                // throw new ArgumentException($"Version '{version}' number is incompatible, only version {CURRENT_PALETTE_VERSION} or above can be imported.\nUse the PaletteUpgradeTool from the Application tab of the KryptonExplorer to upgrade.");
+                CommonHelper.LogOutput(aex.Message);
+                if (!aex.Message.Contains(@"number is incompatible"))
+                {
+                    throw;
+                }
+
+                stream.Position = 0;
+                PerformUpgrade(stream);
+            }
+            finally
+            {
+                // Must match the SuspendUpdates even if exception occurs
+                ResumeUpdates();
+            }
+        }
+
+        private void PerformUpgrade(Stream stream)
+        {
+            using var reader = new StreamReader(stream);
+            string end = reader.ReadToEnd();
+            reader.Close();
+
+            using (var streamReader = new StringReader(Resources.v6to19))
+            {
+                using (var xmlTextReader = XmlReader.Create(streamReader))
+                {
+                    var xslCompiledTransform1 = new XslCompiledTransform();
+                    xslCompiledTransform1.Load(xmlTextReader);
+                    end = TransformXml(xslCompiledTransform1, end);
+                }
+            }
+
+            using var ms = new MemoryStream();
+            using (var writer = new StreamWriter(ms,
+                       /*StreamWriter.UTF8NoBOM*/ new UTF8Encoding(false, true),
+                       1024, true))
+            {
+                writer.WriteLine("<?xml version=\"1.0\"?>");
+                writer.Write(end);
+                writer.Flush();
+                writer.Close();
+            }
+            ms.Position = 0;
+            // If this goes boom, then something more needs to be done !
+            ImportFromStream(ms);
+        }
+
+        /// <summary>
+        /// Transforms the XML.
+        /// </summary>
+        /// <param name="transform">The transform.</param>
+        /// <param name="xml">The XML.</param>
+        /// <returns></returns>
+        private string TransformXml(XslCompiledTransform transform, string xml)
+        {
+            using var reader = new StringReader(xml);
+            using var writer = new StringWriter();
+            using var xmlTextReader = new XmlTextReader(reader);
+            using var xmlTextWriter = new XmlTextWriter(writer)
+            {
+                Formatting = Formatting.Indented,
+                Indentation = 4
+            };
+
+            transform.Transform(xmlTextReader, xmlTextWriter);
+
+            return writer.ToString();
+        }
 
         /// <summary>
         /// Import palette settings from the specified stream.
@@ -2458,7 +2547,7 @@ namespace Krypton.Toolkit
 
                 if (silent)
                 {
-                    ret = (byte[])ExportToByteArray(new object[] { ignoreDefaults });
+                    ret = ExportToByteArray(new object[] { ignoreDefaults }) as byte[];
                 }
                 else
                 {
@@ -2848,7 +2937,7 @@ namespace Krypton.Toolkit
         internal bool HasCircularReference()
         {
             // Use a dictionary as a set to check for existence
-            var paletteSet = new Dictionary<PaletteBase?, bool>();
+            var paletteSet = new Dictionary<PaletteBase, bool>();
 
             // Start processing from ourself upwards
             PaletteBase? palette = this;
@@ -2890,15 +2979,15 @@ namespace Krypton.Toolkit
         }
         #endregion
 
-        #region Implementation Persistence
-        private object? ResetOperation(object parameter)
+        #region Implementation Persistence, Used by threading
+        private object? ResetOperation(object? parameter)
         {
             // Use reflection to reset the palette hierarchy
             ResetObjectToDefault(this, false);
             return null;
         }
 
-        private object? PopulateFromBaseOperation(object parameter)
+        private object? PopulateFromBaseOperation(object? parameter)
         {
             // Always reset all the values first
             ResetObjectToDefault(this, true);
@@ -2933,10 +3022,13 @@ namespace Krypton.Toolkit
             return null;
         }
 
-        private object ImportFromFile(object parameter)
+        private object? ImportFromFile([DisallowNull] object? parameter)
         {
             // Cast to correct type
-            var filename = (string)parameter;
+            if (parameter is not string filename)
+            {
+                return null;
+            }
 
             // Check the target file actually exists
             if (!File.Exists(filename))
@@ -2956,10 +3048,13 @@ namespace Krypton.Toolkit
             return filename;
         }
 
-        private object ImportFromStream(object parameter)
+        private object? ImportFromStream([DisallowNull] object? parameter)
         {
             // Cast to correct type
-            var stream = (Stream)parameter;
+            if (parameter is not Stream stream)
+            {
+                return null;
+            }
 
             // Create a new xml document for storing the palette settings
             var doc = new XmlDocument();
@@ -2973,10 +3068,13 @@ namespace Krypton.Toolkit
             return stream;
         }
 
-        private object? ImportFromByteArray(object parameter)
+        private object? ImportFromByteArray([DisallowNull] object? parameter)
         {
             // Cast to an array of parameters
-            var byteArray = (byte[])parameter;
+            if (parameter is not byte[] byteArray)
+            {
+                return null;
+            }
 
             // Create a memory based stream
             using var ms = new MemoryStream(byteArray);
@@ -2990,7 +3088,7 @@ namespace Krypton.Toolkit
             return null;
         }
 
-        private void ImportFromXmlDocument(XmlDocument doc)
+        private void ImportFromXmlDocument([DisallowNull] XmlDocument doc)
         {
             // Remember the current culture setting
             CultureInfo culture = Thread.CurrentThread.CurrentCulture;
@@ -3050,6 +3148,10 @@ namespace Krypton.Toolkit
                 // Use reflection to import the palette hierarchy
                 ImportImagesFromElement(images, imageCache);
                 ImportObjectFromElement(props, imageCache, this);
+
+                // Set the palette name
+                // TODO: Get paletteName from the paletteBase
+                //SetPaletteName(root.SelectSingleNode(Name));
             }
             finally
             {
@@ -3058,10 +3160,13 @@ namespace Krypton.Toolkit
             }
         }
 
-        private object ExportToFile(object parameter)
+        private object? ExportToFile([DisallowNull] object? parameter)
         {
             // Cast to an array of parameters
-            var parameters = (object[])parameter;
+            if (parameter is not object[] parameters)
+            {
+                return null;
+            }
 
             // Extract the two provided parameters
             var filename = (string)parameters[0];
@@ -3084,13 +3189,20 @@ namespace Krypton.Toolkit
             return filename;
         }
 
-        private object ExportToStream(object parameter)
+        private object? ExportToStream([DisallowNull] object? parameter)
         {
             // Cast to an array of parameters
-            var parameters = (object[])parameter;
+            if (parameter is not object[] parameters)
+            {
+                return null;
+            }
 
             // Extract the two provided parameters
-            var stream = (Stream)parameters[0];
+            if (parameters[0] is not Stream stream)
+            {
+                return null;
+            }
+
             var ignoreDefaults = (bool)parameters[1];
 
             // Create an XmlDocument containing palette settings
@@ -3102,10 +3214,13 @@ namespace Krypton.Toolkit
             return stream;
         }
 
-        private object ExportToByteArray(object parameter)
+        private object? ExportToByteArray([DisallowNull] object? parameter)
         {
             // Cast to an array of parameters
-            var parameters = (object[])parameter;
+            if (parameter is not object[] parameters)
+            {
+                return null;
+            }
 
             // Extract the two provided parameters
             var ignoreDefaults = (bool)parameters[0];
@@ -3304,10 +3419,10 @@ namespace Krypton.Toolkit
 
                             // Convert the bytes back into an Image
                             using var memory = new MemoryStream(bytes);
-                            Bitmap resurect;
+                            Bitmap resurrect;
                             try
                             {
-                                resurect = new Bitmap(memory);
+                                resurrect = new Bitmap(memory);
                             }
                             catch
                             {
@@ -3317,12 +3432,11 @@ namespace Krypton.Toolkit
                                 var formatter = new BinaryFormatter();
                                 var old = (Image)formatter.Deserialize(memory);
 #pragma warning restore SYSLIB0011
-                                resurect = old is Bitmap bitmap ? bitmap : new Bitmap(old);
+                                resurrect = old is Bitmap bitmap ? bitmap : new Bitmap(old);
                             }
 
-
                             // Add into the lookup dictionary
-                            imageCache.Add(name, resurect);
+                            imageCache.Add(name, resurrect);
                         }
                         catch (SerializationException)
                         {
@@ -3340,140 +3454,142 @@ namespace Krypton.Toolkit
                                            bool ignoreDefaults)
         {
             // Cannot export from nothing
-            if (obj != null)
+            if (obj == null)
             {
-                // Grab the type information for the object instance
-                Type t = obj.GetType();
+                return;
+            }
 
-                // We are only interested in looking at the properties
-                foreach (PropertyInfo prop in t.GetProperties())
+            // Grab the type information for the object instance
+            Type t = obj.GetType();
+
+            // We are only interested in looking at the properties
+            foreach (PropertyInfo prop in t.GetProperties())
+            {
+                // Search each of the attributes applied to the property
+                foreach (var attrib in prop.GetCustomAttributes(false))
                 {
-                    // Search each of the attributes applied to the property
-                    foreach (var attrib in prop.GetCustomAttributes(false))
+                    // Is it marked with the special krypton persist marker?
+                    if (attrib is KryptonPersistAttribute persist)
                     {
-                        // Is it marked with the special krypton persist marker?
-                        if (attrib is KryptonPersistAttribute persist)
+                        // Should we navigate down inside the property?
+                        if (persist.Navigate)
                         {
-                            // Should we navigate down inside the property?
-                            if (persist.Navigate)
+                            // If we can read the property value
+                            if (prop.CanRead)
                             {
-                                // If we can read the property value
-                                if (prop.CanRead)
-                                {
-                                    // Grab the property object
-                                    var childObj = prop.GetValue(obj, null);
-
-                                    // Should be test if the object contains only default values?
-                                    if (ignoreDefaults)
-                                    {
-                                        PropertyDescriptor propertyIsDefault = TypeDescriptor.GetProperties(childObj)[nameof(IsDefault)];
-
-                                        // All compound objects are expected to have an 'IsDefault' returning a boolean
-                                        if (propertyIsDefault != null && propertyIsDefault.PropertyType == typeof(bool))
-                                        {
-                                            // If the object 'IsDefault' then no need to persist it
-                                            if ((bool)propertyIsDefault.GetValue(childObj))
-                                            {
-                                                childObj = null;
-                                            }
-                                        }
-                                    }
-
-                                    // If we have an object to process
-                                    if (childObj != null)
-                                    {
-                                        // Create and add a new xml element
-                                        XmlElement childElement = doc.CreateElement(prop.Name);
-                                        element.AppendChild(childElement);
-
-                                        // Recurse into the object instance
-                                        ExportObjectToElement(doc, childElement, imageCache, childObj, ignoreDefaults);
-                                    }
-                                }
-                            }
-                            else
-                            {
-                                var ignore = false;
-
-                                // Grab the actual property value
+                                // Grab the property object
                                 var childObj = prop.GetValue(obj, null);
 
-                                // Should we test if the property value is the default?
+                                // Should be test if the object contains only default values?
                                 if (ignoreDefaults)
                                 {
-                                    var defaultAttribs = prop.GetCustomAttributes(typeof(DefaultValueAttribute), false);
+                                    PropertyDescriptor propertyIsDefault = TypeDescriptor.GetProperties(childObj)[nameof(IsDefault)];
 
-                                    // Does this property have a default value attribute?
-                                    if (defaultAttribs.Length == 1)
+                                    // All compound objects are expected to have an 'IsDefault' returning a boolean
+                                    if (propertyIsDefault != null && propertyIsDefault.PropertyType == typeof(bool))
                                     {
-                                        // Cast to correct type
-                                        var defaultAttrib = (DefaultValueAttribute)defaultAttribs[0];
-
-                                        // Decide if the property value matches the default described by the attribute
-                                        if (defaultAttrib.Value == null)
+                                        // If the object 'IsDefault' then no need to persist it
+                                        if ((bool)propertyIsDefault.GetValue(childObj))
                                         {
-                                            ignore = childObj == null;
-                                        }
-                                        else
-                                        {
-                                            ignore = defaultAttrib.Value.Equals(childObj);
+                                            childObj = null;
                                         }
                                     }
                                 }
 
-                                // If we need to output the property value
-                                if (!ignore)
+                                // If we have an object to process
+                                if (childObj != null)
                                 {
                                     // Create and add a new xml element
                                     XmlElement childElement = doc.CreateElement(prop.Name);
                                     element.AppendChild(childElement);
 
-                                    // Save the type of the property
-                                    childElement.SetAttribute(nameof(Type), TypeToString(prop.PropertyType));
+                                    // Recurse into the object instance
+                                    ExportObjectToElement(doc, childElement, imageCache, childObj, ignoreDefaults);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            var ignore = false;
 
-                                    // We special case the saving of images
-                                    if (prop.PropertyType.Equals(typeof(Image)))
+                            // Grab the actual property value
+                            var childObj = prop.GetValue(obj, null);
+
+                            // Should we test if the property value is the default?
+                            if (ignoreDefaults)
+                            {
+                                var defaultAttribs = prop.GetCustomAttributes(typeof(DefaultValueAttribute), false);
+
+                                // Does this property have a default value attribute?
+                                if (defaultAttribs.Length == 1)
+                                {
+                                    // Cast to correct type
+                                    var defaultAttrib = (DefaultValueAttribute)defaultAttribs[0];
+
+                                    // Decide if the property value matches the default described by the attribute
+                                    if (defaultAttrib.Value == null)
                                     {
-                                        if (childObj == null)
-                                        {
-                                            // An empty string represents a null image value
-                                            childElement.SetAttribute(@"Value", string.Empty);
-                                        }
-                                        else
-                                        {
-                                            // Cast to correct type
-                                            if (childObj is not Bitmap image)
-                                            {
-                                                image = new Bitmap((Image)childObj);
-                                            }
-
-                                            // Have we already encountered the image?
-                                            if (imageCache != null && imageCache.ContainsKey(image))
-                                            {
-                                                // Save reference to the existing cached image
-                                                childElement.SetAttribute(@"Value", imageCache[image]);
-                                            }
-                                            else
-                                            {
-                                                // Generate a placeholder string
-                                                var imageName = $@"ImageCache{(imageCache.Count + 1)}";
-
-                                                // Add the actual image instance into the cache
-                                                imageCache.Add(image, imageName);
-
-                                                // Save the placeholder name instead of the actual image
-                                                childElement.SetAttribute(@"Value", imageName);
-                                            }
-                                        }
+                                        ignore = childObj == null;
                                     }
                                     else
                                     {
-                                        // We need the type converter to create a string representation
-                                        TypeConverter converter = TypeDescriptor.GetConverter(prop.PropertyType);
-
-                                        // Save to an invariant string so that load is not affected by culture
-                                        childElement.SetAttribute(@"Value", converter.ConvertToInvariantString(childObj));
+                                        ignore = defaultAttrib.Value.Equals(childObj);
                                     }
+                                }
+                            }
+
+                            // If we need to output the property value
+                            if (!ignore)
+                            {
+                                // Create and add a new xml element
+                                XmlElement childElement = doc.CreateElement(prop.Name);
+                                element.AppendChild(childElement);
+
+                                // Save the type of the property
+                                childElement.SetAttribute(nameof(Type), TypeToString(prop.PropertyType));
+
+                                // We special case the saving of images
+                                if (prop.PropertyType.Equals(typeof(Image)))
+                                {
+                                    if (childObj == null)
+                                    {
+                                        // An empty string represents a null image value
+                                        childElement.SetAttribute(@"Value", string.Empty);
+                                    }
+                                    else
+                                    {
+                                        // Cast to correct type
+                                        if (childObj is not Bitmap image)
+                                        {
+                                            image = new Bitmap((Image)childObj);
+                                        }
+
+                                        // Have we already encountered the image?
+                                        if (imageCache != null && imageCache.ContainsKey(image))
+                                        {
+                                            // Save reference to the existing cached image
+                                            childElement.SetAttribute(@"Value", imageCache[image]);
+                                        }
+                                        else
+                                        {
+                                            // Generate a placeholder string
+                                            var imageName = $@"ImageCache{(imageCache.Count + 1)}";
+
+                                            // Add the actual image instance into the cache
+                                            imageCache.Add(image, imageName);
+
+                                            // Save the placeholder name instead of the actual image
+                                            childElement.SetAttribute(@"Value", imageName);
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    // We need the type converter to create a string representation
+                                    TypeConverter converter = TypeDescriptor.GetConverter(prop.PropertyType);
+
+                                    // Save to an invariant string so that load is not affected by culture
+                                    childElement.SetAttribute(@"Value", converter.ConvertToInvariantString(childObj));
                                 }
                             }
                         }
@@ -4757,7 +4873,7 @@ namespace Krypton.Toolkit
                     return CalendarDay.OverrideToday.Border;
                 default:
                     {
-                        PaletteTriple buttonState = GetPaletteButton(button, state);
+                        PaletteTriple? buttonState = GetPaletteButton(button, state);
                         if (buttonState != null)
                         {
                             return buttonState.Border;

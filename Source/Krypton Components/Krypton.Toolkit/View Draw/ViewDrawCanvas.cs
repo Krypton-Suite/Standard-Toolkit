@@ -18,7 +18,7 @@ namespace Krypton.Toolkit
     public class ViewDrawCanvas : ViewComposite
     {
         #region Instance Fields
-        internal IPaletteBack _paletteBack;
+        internal IPaletteBack? _paletteBack;
         internal IPaletteBorder? _paletteBorder;
         internal IPaletteMetric? _paletteMetric;
         internal PaletteMetricPadding _metricPadding;
@@ -54,8 +54,8 @@ namespace Krypton.Toolkit
         /// <param name="paletteMetric">Palette source for metric values.</param>
         /// <param name="metricPadding">Metric used to get padding values.</param>
         /// <param name="orientation">Visual orientation of the content.</param>
-        public ViewDrawCanvas(IPaletteBack paletteBack,
-                              IPaletteBorder paletteBorder,
+        public ViewDrawCanvas(IPaletteBack? paletteBack,
+                              IPaletteBorder? paletteBorder,
                               IPaletteMetric? paletteMetric,
                               PaletteMetricPadding metricPadding,
                               VisualOrientation orientation)
@@ -103,7 +103,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the currently used background palette.
         /// </summary>
-        public IPaletteBack PaletteBack
+        public IPaletteBack? PaletteBack
         {
             [DebuggerStepThrough]
             get => _paletteBack;
@@ -166,7 +166,7 @@ namespace Krypton.Toolkit
             }
             else
             {
-                _borderForced.SetInherit(paletteBorder);
+                _borderForced.SetInherit(paletteBorder!);
             }
 
             _paletteMetric = paletteMetric;
@@ -342,7 +342,7 @@ namespace Krypton.Toolkit
             Debug.Assert(context != null);
 
             // Ask the renderer to evaluate the given palette
-            return context.Renderer.EvalTransparentPaint(_paletteBack, _paletteBorder, State);
+            return context!.Renderer.EvalTransparentPaint(_paletteBack, _paletteBorder, State);
         }
 
         #endregion

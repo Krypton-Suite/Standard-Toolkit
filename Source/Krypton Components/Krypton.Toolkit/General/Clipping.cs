@@ -163,9 +163,9 @@ namespace Krypton.Toolkit
                     // Restore the original clipping region
                     _graphics.Clip = _previousRegion;
                 }
-                catch
+                catch(Exception ex)
                 {
-                    // TODO: Log this out
+                    CommonHelper.LogOutput(ex.Message);
                 }
             }
 
@@ -177,9 +177,9 @@ namespace Krypton.Toolkit
                     _newRegion.Dispose();
                     _newRegion = null;
                 }
-                catch
+                catch (Exception ex)
                 {
-                    // TODO: Log this out
+                    CommonHelper.LogOutput(ex.Message);
                 }
             }
             GC.SuppressFinalize(this);

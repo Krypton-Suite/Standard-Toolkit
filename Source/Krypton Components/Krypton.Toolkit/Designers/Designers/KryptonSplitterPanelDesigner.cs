@@ -234,9 +234,9 @@ namespace Krypton.Toolkit
                     Color.Black,
                     TextFormatFlags.GlyphOverhangPadding);
             }
-            catch
+            catch (Exception ex)
             {
-                // TODO: Call krypton logging
+                CommonHelper.LogOutput(ex.Message);
             }
         }
         #endregion

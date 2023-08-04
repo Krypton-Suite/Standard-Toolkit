@@ -59,7 +59,7 @@ namespace Krypton.Toolkit
             Debug.Assert(context != null);
 
             // Ask the renderer for the required size of the drop down button
-            return context.Renderer.RenderGlyph.GetDropDownButtonPreferredSize(context, Palette, State, Orientation);
+            return context!.Renderer.RenderGlyph.GetDropDownButtonPreferredSize(context, Palette, State, Orientation);
         }
 
         /// <summary>

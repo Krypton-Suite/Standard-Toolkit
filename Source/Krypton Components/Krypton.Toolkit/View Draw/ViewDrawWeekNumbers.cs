@@ -29,7 +29,7 @@ namespace Krypton.Toolkit
         #region Instance Fields
         private readonly IKryptonMonthCalendar _calendar;
         private readonly ViewLayoutMonths _months;
-        private readonly IDisposable[] _dayMementos;
+        private readonly IDisposable?[] _dayMementos;
         private string _drawText;
         private DateTime _firstDay;
         private DateTime _weekDay;
@@ -71,7 +71,7 @@ namespace Krypton.Toolkit
             {
                 if (_dayMementos[i] != null)
                 {
-                    _dayMementos[i].Dispose();
+                    _dayMementos[i]!.Dispose();
                     _dayMementos[i] = null;
                 }
             }

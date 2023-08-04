@@ -37,7 +37,7 @@ namespace Krypton.Toolkit
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
         public ButtonSpecManagerDraw(Control control,
             [DisallowNull] PaletteRedirect? redirector,
-                                     ButtonSpecCollectionBase variableSpecs,
+                                     ButtonSpecCollectionBase? variableSpecs,
                                      ButtonSpecCollectionBase? fixedSpecs,
                                      ViewDrawDocker[] viewDockers,
                                      IPaletteMetric[] viewMetrics,
@@ -67,7 +67,7 @@ namespace Krypton.Toolkit
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
         public ButtonSpecManagerDraw(Control control,
                                      [DisallowNull] PaletteRedirect? redirector,
-                                     ButtonSpecCollectionBase variableSpecs,
+                                     ButtonSpecCollectionBase? variableSpecs,
                                      ButtonSpecCollectionBase? fixedSpecs,
                                      [DisallowNull] ViewDrawDocker[] viewDockers,
                                      IPaletteMetric[] viewMetrics,
