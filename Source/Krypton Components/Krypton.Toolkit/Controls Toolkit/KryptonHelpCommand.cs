@@ -221,8 +221,7 @@ namespace Krypton.Toolkit
                     UpdateImage(Office2010ControlBoxResources.Office2010HelpIconNormal);
                     break;
                 case PaletteMode.Office2013DarkGray:
-                    UpdateImage(Office2013ControlBoxResources.Office2013HelpNormal);
-                    break;
+                case PaletteMode.Office2013LightGray:
                 case PaletteMode.Office2013White:
                     UpdateImage(Office2013ControlBoxResources.Office2013HelpNormal);
                     break;
@@ -375,8 +374,7 @@ namespace Krypton.Toolkit
                     UpdateActiveImage(Office2010ControlBoxResources.Office2010HelpIconHover);
                     break;
                 case PaletteMode.Office2013DarkGray:
-                    UpdateActiveImage(Office2013ControlBoxResources.Office2013HelpActive);
-                    break;
+                case PaletteMode.Office2013LightGray:
                 case PaletteMode.Office2013White:
                     UpdateActiveImage(Office2013ControlBoxResources.Office2013HelpActive);
                     break;
@@ -498,7 +496,7 @@ namespace Krypton.Toolkit
                 case PaletteMode.Office2010BlackDarkMode:
                     break;
                 case PaletteMode.Office2013DarkGray:
-                    break;
+                case PaletteMode.Office2013LightGray:
                 case PaletteMode.Office2013White:
                     break;
                 case PaletteMode.Microsoft365DarkGray:
@@ -600,7 +598,7 @@ namespace Krypton.Toolkit
                 case PaletteMode.Office2010BlackDarkMode:
                     break;
                 case PaletteMode.Office2013DarkGray:
-                    break;
+                case PaletteMode.Office2013LightGray:
                 case PaletteMode.Office2013White:
                     break;
                 case PaletteMode.Microsoft365DarkGray:
@@ -702,7 +700,7 @@ namespace Krypton.Toolkit
                 case PaletteMode.Office2010BlackDarkMode:
                     break;
                 case PaletteMode.Office2013DarkGray:
-                    break;
+                case PaletteMode.Office2013LightGray:
                 case PaletteMode.Office2013White:
                     break;
                 case PaletteMode.Microsoft365DarkGray:
@@ -828,8 +826,7 @@ namespace Krypton.Toolkit
                         AddImageStates(Office2010ControlBoxResources.Office2010HelpIconHover, Office2010ControlBoxResources.Office2010HelpIconDisabled, Office2010ControlBoxResources.Office2010HelpIconNormal, Office2010ControlBoxResources.Office2010HelpIconPressed);
                         break;
                     case PaletteMode.Office2013DarkGray:
-                        AddImageStates(Microsoft365ControlBoxResources.Microsoft365HelpIconHover, Microsoft365ControlBoxResources.Microsoft365HelpIconDisabled, Microsoft365ControlBoxResources.Microsoft365HelpIconNormal, Microsoft365ControlBoxResources.Microsoft365HelpIconPressed);
-                        break;
+                    case PaletteMode.Office2013LightGray:
                     case PaletteMode.Office2013White:
                         AddImageStates(Microsoft365ControlBoxResources.Microsoft365HelpIconHover, Microsoft365ControlBoxResources.Microsoft365HelpIconDisabled, Microsoft365ControlBoxResources.Microsoft365HelpIconNormal, Microsoft365ControlBoxResources.Microsoft365HelpIconPressed);
                         break;

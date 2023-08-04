@@ -15,29 +15,21 @@ namespace Krypton.Navigator
     /// <summary>
     /// Custom type converter so that ButtonDisplay values appear as neat text at design time.
     /// </summary>
-    public class ButtonDisplayConverter : StringLookupConverter
+    public class ButtonDisplayConverter : StringLookupConverter<ButtonDisplay>
     {
-        #region Identity
-        /// <summary>
-        /// Initialize a new instance of the ButtonDisplayConverter class.
-        /// </summary>
-        public ButtonDisplayConverter()
-            : base(typeof(ButtonDisplay))
-        {
-        }
-        #endregion
+        private static readonly IReadOnlyDictionary<ButtonDisplay, string> _pairs = new Dictionary<ButtonDisplay, string>
+            {
+                {ButtonDisplay.Hide, "Hide"},
+                {ButtonDisplay.ShowDisabled, "Show Disabled"},
+                {ButtonDisplay.ShowEnabled, "Show Enabled"},
+                {ButtonDisplay.Logic, "Logic"}
+            };
 
         #region Protected
         /// <summary>
         /// Gets an array of lookup pairs.
         /// </summary>
-        protected override Pair[] Pairs { get; } =
-        {
-            new Pair(ButtonDisplay.Hide, "Hide"), 
-            new Pair(ButtonDisplay.ShowDisabled, "Show Disabled"),
-            new Pair(ButtonDisplay.ShowEnabled, "Show Enabled"), 
-            new Pair(ButtonDisplay.Logic, "Logic")
-        };
+        protected override IReadOnlyDictionary<ButtonDisplay /*Enum*/, string /*Display*/> Pairs => _pairs;
 
         #endregion
     }

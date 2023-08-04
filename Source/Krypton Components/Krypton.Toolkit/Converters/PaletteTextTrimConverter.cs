@@ -15,54 +15,29 @@ namespace Krypton.Toolkit
     /// <summary>
     /// Custom type converter so that PaletteTextTrim values appear as neat text at design time.
     /// </summary>
-    internal class PaletteTextTrimConverter : StringLookupConverter
+    internal class PaletteTextTrimConverter : StringLookupConverter<PaletteTextTrim>
     {
         #region Static Fields
 
-        #region Old
-
-        //private readonly Pair[] _pairs =
-        //{
-        //    new(PaletteTextTrim.Inherit, "Inherit"),
-        //    new(PaletteTextTrim.Hide, "Hide"),
-        //    new(PaletteTextTrim.Character, "Character"),
-        //    new(PaletteTextTrim.Word, "Word"),
-        //    new(PaletteTextTrim.EllipsisCharacter, "Ellipsis Character"),
-        //    new(PaletteTextTrim.EllipsisWord, "Ellipsis Word"),
-        //    new(PaletteTextTrim.EllipsisPath, "Ellipsis Path")
-        //};
-
-        #endregion
-
         [Localizable(true)]
-        private readonly Pair[] _pairs =
+        private static readonly IReadOnlyDictionary<PaletteTextTrim, string> _pairs = new Dictionary<PaletteTextTrim, string>
         {
-            new Pair(PaletteTextTrim.Inherit, KryptonLanguageManager.TextTrimStrings.Inherit),
-            new Pair(PaletteTextTrim.Hide, KryptonLanguageManager.TextTrimStrings.Hide),
-            new Pair(PaletteTextTrim.Character, KryptonLanguageManager.TextTrimStrings.Character),
-            new Pair(PaletteTextTrim.Word, KryptonLanguageManager.TextTrimStrings.Word),
-            new Pair(PaletteTextTrim.EllipsisCharacter, KryptonLanguageManager.TextTrimStrings.EllipsisCharacter),
-            new Pair(PaletteTextTrim.EllipsisWord, KryptonLanguageManager.TextTrimStrings.EllipsisWord),
-            new Pair(PaletteTextTrim.EllipsisPath, KryptonLanguageManager.TextTrimStrings.EllipsisPath)
+            {PaletteTextTrim.Inherit, KryptonLanguageManager.TextTrimStrings.Inherit},
+            {PaletteTextTrim.Hide, KryptonLanguageManager.TextTrimStrings.Hide},
+            {PaletteTextTrim.Character, KryptonLanguageManager.TextTrimStrings.Character},
+            {PaletteTextTrim.Word, KryptonLanguageManager.TextTrimStrings.Word},
+            {PaletteTextTrim.EllipsisCharacter, KryptonLanguageManager.TextTrimStrings.EllipsisCharacter},
+            {PaletteTextTrim.EllipsisWord, KryptonLanguageManager.TextTrimStrings.EllipsisWord},
+            {PaletteTextTrim.EllipsisPath, KryptonLanguageManager.TextTrimStrings.EllipsisPath }
         };
 
-        #endregion
-
-        #region Identity
-        /// <summary>
-        /// Initialize a new instance of the PaletteTextTrimConverter class.
-        /// </summary>
-        public PaletteTextTrimConverter()
-            : base(typeof(PaletteTextTrim))
-        {
-        }
         #endregion
 
         #region Protected
         /// <summary>
         /// Gets an array of lookup pairs.
         /// </summary>
-        protected override Pair[] Pairs => _pairs;
+        protected override IReadOnlyDictionary<PaletteTextTrim /*Enum*/, string /*Display*/> Pairs => _pairs;
 
         #endregion
     }

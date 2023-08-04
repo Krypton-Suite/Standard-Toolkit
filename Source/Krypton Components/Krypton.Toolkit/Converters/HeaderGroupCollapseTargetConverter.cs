@@ -15,42 +15,21 @@ namespace Krypton.Toolkit
     /// <summary>
     /// Custom type converter so that HeaderGroupCollapseTarget values appear as neat text at design time.
     /// </summary>
-    internal class HeaderGroupCollapsedTargetConverter : StringLookupConverter
+    internal class HeaderGroupCollapsedTargetConverter : StringLookupConverter<HeaderGroupCollapsedTarget>
     {
         #region Static Fields
 
-        #region Old
-
-        //private readonly Pair[] _pairs =
-        //{
-        //    new(HeaderGroupCollapsedTarget.CollapsedToPrimary, "Collapse to Primary Header"),
-        //    new(HeaderGroupCollapsedTarget.CollapsedToSecondary, "Collapse to Secondary Header"),
-        //    new(HeaderGroupCollapsedTarget.CollapsedToBoth, "Collapse to Both Headers")
-        //};
-
-        #endregion
-
         [Localizable(true)]
-        private readonly Pair[] _pairs =
+        private static readonly IReadOnlyDictionary<HeaderGroupCollapsedTarget, string> _pairs = new Dictionary<HeaderGroupCollapsedTarget, string>
         {
-            new Pair(HeaderGroupCollapsedTarget.CollapsedToPrimary,
-                KryptonLanguageManager.GroupCollapsedTargetStrings.CollapsedToPrimary),
-            new Pair(HeaderGroupCollapsedTarget.CollapsedToSecondary,
-                KryptonLanguageManager.GroupCollapsedTargetStrings.CollapsedToSecondary),
-            new Pair(HeaderGroupCollapsedTarget.CollapsedToBoth,
-                KryptonLanguageManager.GroupCollapsedTargetStrings.CollapsedToBoth)
+            { HeaderGroupCollapsedTarget.CollapsedToPrimary,
+                KryptonLanguageManager.GroupCollapsedTargetStrings.CollapsedToPrimary},
+            {HeaderGroupCollapsedTarget.CollapsedToSecondary,
+                KryptonLanguageManager.GroupCollapsedTargetStrings.CollapsedToSecondary},
+            {HeaderGroupCollapsedTarget.CollapsedToBoth,
+                KryptonLanguageManager.GroupCollapsedTargetStrings.CollapsedToBoth}
         };
 
-        #endregion
-
-        #region Identity
-        /// <summary>
-        /// Initialize a new instance of the HeaderGroupCollapseTargetConverter class.
-        /// </summary>
-        public HeaderGroupCollapsedTargetConverter()
-            : base(typeof(HeaderGroupCollapsedTarget))
-        {
-        }
         #endregion
 
         #region Protected
@@ -58,7 +37,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets an array of lookup pairs.
         /// </summary>
-        protected override Pair[] Pairs => _pairs;
+        protected override IReadOnlyDictionary<HeaderGroupCollapsedTarget /*Enum*/, string /*Display*/> Pairs => _pairs;
 
         #endregion
     }

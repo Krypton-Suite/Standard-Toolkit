@@ -15,56 +15,30 @@ namespace Krypton.Toolkit
     /// <summary>
     /// Custom type converter so that InputControl values appear as neat text at design time.
     /// </summary>
-    internal class InputControlStyleConverter : StringLookupConverter
+    internal class InputControlStyleConverter : StringLookupConverter<InputControlStyle>
     {
         #region Static Fields
 
-        #region Old
-
-        //private readonly Pair[] _pairs =
-        //{
-        //    new(InputControlStyle.Standalone, "Standalone"),
-        //    new(InputControlStyle.Ribbon, "Ribbon"),
-        //    new(InputControlStyle.Custom1, "Custom1"),
-        //    new(InputControlStyle.Custom2, "Custom2"),
-        //    new(InputControlStyle.Custom3, "Custom3"),
-        //    new(InputControlStyle.PanelClient, "Panel Client"),
-        //    new(InputControlStyle.PanelAlternate, "Panel Alternate"),
-        //    // new(InputControlStyle.Disabled, "Disabled")
-        //};
-
-        #endregion
-
         [Localizable(true)]
-        private readonly Pair[] _pairs =
+        private static readonly IReadOnlyDictionary<InputControlStyle, string> _pairs = new Dictionary<InputControlStyle, string>
         {
-            new Pair(InputControlStyle.Standalone, KryptonLanguageManager.InputControlStyles.Standalone),
-            new Pair(InputControlStyle.Ribbon, KryptonLanguageManager.InputControlStyles.Ribbon),
-            new Pair(InputControlStyle.Custom1, KryptonLanguageManager.InputControlStyles.CustomOne),
-            new Pair(InputControlStyle.Custom2, KryptonLanguageManager.InputControlStyles.CustomTwo),
-            new Pair(InputControlStyle.Custom3, KryptonLanguageManager.InputControlStyles.CustomThree),
-            new Pair(InputControlStyle.PanelClient, KryptonLanguageManager.InputControlStyles.PanelClient),
-            new Pair(InputControlStyle.PanelAlternate, KryptonLanguageManager.InputControlStyles.PanelAlternate),
+            {InputControlStyle.Standalone, KryptonLanguageManager.InputControlStyles.Standalone},
+            {InputControlStyle.Ribbon, KryptonLanguageManager.InputControlStyles.Ribbon},
+            {InputControlStyle.Custom1, KryptonLanguageManager.InputControlStyles.CustomOne},
+            {InputControlStyle.Custom2, KryptonLanguageManager.InputControlStyles.CustomTwo},
+            {InputControlStyle.Custom3, KryptonLanguageManager.InputControlStyles.CustomThree},
+            {InputControlStyle.PanelClient, KryptonLanguageManager.InputControlStyles.PanelClient},
+            {InputControlStyle.PanelAlternate, KryptonLanguageManager.InputControlStyles.PanelAlternate },
             // new(InputControlStyle.Disabled, "Disabled")
         };
 
-        #endregion
-
-        #region Identity
-        /// <summary>
-        /// Initialize a new instance of the InputControlStyleConverter class.
-        /// </summary>
-        public InputControlStyleConverter()
-            : base(typeof(InputControlStyle))
-        {
-        }
         #endregion
 
         #region Protected
         /// <summary>
         /// Gets an array of lookup pairs.
         /// </summary>
-        protected override Pair[] Pairs => _pairs;
+        protected override IReadOnlyDictionary<InputControlStyle /*Enum*/, string /*Display*/> Pairs => _pairs;
 
         #endregion
     }

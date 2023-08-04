@@ -49,7 +49,7 @@ namespace Krypton.Toolkit
                 { KryptonLanguageManager.ModeStrings.Office2010BlackDarkMode, PaletteMode.Office2010BlackDarkMode },
                 { KryptonLanguageManager.ModeStrings.Office2010DarkGray, PaletteMode.Office2010DarkGray },
                 { KryptonLanguageManager.ModeStrings.Office2013DarkGray, PaletteMode.Office2013DarkGray },
-                //{ @"Office 2013", PaletteMode.Office2013 },
+                { KryptonLanguageManager.ModeStrings.Office2013LightGray, PaletteMode.Office2013LightGray },
                 { KryptonLanguageManager.ModeStrings.Office2013White, PaletteMode.Office2013White },
                 { KryptonLanguageManager.ModeStrings.SparkleBlue, PaletteMode.SparkleBlue },
                 { KryptonLanguageManager.ModeStrings.SparkleBlueDarkMode, PaletteMode.SparkleBlueDarkMode },

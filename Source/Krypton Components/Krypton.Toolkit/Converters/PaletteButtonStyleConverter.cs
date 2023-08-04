@@ -15,76 +15,40 @@ namespace Krypton.Toolkit
     /// <summary>
     /// Custom type converter so that PaletteButtonStyle values appear as neat text at design time.
     /// </summary>
-    internal class PaletteButtonStyleConverter : StringLookupConverter
+    internal class PaletteButtonStyleConverter : StringLookupConverter<PaletteButtonStyle>
     {
         #region Static Fields
 
-        #region Old
-
-        //private readonly Pair[] _pairs =
-        //{
-        //    new(PaletteButtonStyle.Inherit, "Inherit"),
-        //    new(PaletteButtonStyle.Standalone, "Standalone"),
-        //    new(PaletteButtonStyle.Alternate, "Alternate"),
-        //    new(PaletteButtonStyle.LowProfile, "Low Profile"),
-        //    new(PaletteButtonStyle.BreadCrumb, "BreadCrumb"),
-        //    new(PaletteButtonStyle.Cluster, "Cluster"),
-        //    new(PaletteButtonStyle.NavigatorStack, "Navigator Stack"),
-        //    new(PaletteButtonStyle.NavigatorOverflow, "Navigator Overflow"),
-        //    new(PaletteButtonStyle.NavigatorMini, "Navigator Mini"),
-        //    new(PaletteButtonStyle.InputControl, "Input Control"),
-        //    new(PaletteButtonStyle.ListItem, "List Item"),
-        //    new(PaletteButtonStyle.Form, nameof(Form)),
-        //    new(PaletteButtonStyle.FormClose, "Form Close"),
-        //    new(PaletteButtonStyle.ButtonSpec, nameof(ButtonSpec)),
-        //    new(PaletteButtonStyle.Command, "Command"),
-        //    new(PaletteButtonStyle.Custom1, "Custom1"),
-        //    new(PaletteButtonStyle.Custom2, "Custom2"),
-        //    new(PaletteButtonStyle.Custom3, "Custom3")
-        //};
-
-        #endregion
-
         [Localizable(true)]
-        private readonly Pair[] _pairs =
+        private static readonly IReadOnlyDictionary<PaletteButtonStyle, string> _pairs = new Dictionary<PaletteButtonStyle, string>
         {
-            new Pair(PaletteButtonStyle.Inherit, KryptonLanguageManager.PaletteButtonStyles.Inherit),
-            new Pair(PaletteButtonStyle.Standalone, KryptonLanguageManager.PaletteButtonStyles.Standalone),
-            new Pair(PaletteButtonStyle.Alternate, KryptonLanguageManager.PaletteButtonStyles.Alternate),
-            new Pair(PaletteButtonStyle.LowProfile, KryptonLanguageManager.PaletteButtonStyles.LowProfile),
-            new Pair(PaletteButtonStyle.BreadCrumb, KryptonLanguageManager.PaletteButtonStyles.BreadCrumb),
-            new Pair(PaletteButtonStyle.Cluster, KryptonLanguageManager.PaletteButtonStyles.Cluster),
-            new Pair(PaletteButtonStyle.NavigatorStack, KryptonLanguageManager.PaletteButtonStyles.NavigatorStack),
-            new Pair(PaletteButtonStyle.NavigatorOverflow, KryptonLanguageManager.PaletteButtonStyles.NavigatorOverflow),
-            new Pair(PaletteButtonStyle.NavigatorMini, KryptonLanguageManager.PaletteButtonStyles.NavigatorMini),
-            new Pair(PaletteButtonStyle.InputControl, KryptonLanguageManager.PaletteButtonStyles.InputControl),
-            new Pair(PaletteButtonStyle.ListItem, KryptonLanguageManager.PaletteButtonStyles.ListItem),
-            new Pair(PaletteButtonStyle.Form, KryptonLanguageManager.PaletteButtonStyles.Form),
-            new Pair(PaletteButtonStyle.FormClose, KryptonLanguageManager.PaletteButtonStyles.FormClose),
-            new Pair(PaletteButtonStyle.ButtonSpec, KryptonLanguageManager.PaletteButtonStyles.ButtonSpec),
-            new Pair(PaletteButtonStyle.Command, KryptonLanguageManager.PaletteButtonStyles.Command),
-            new Pair(PaletteButtonStyle.Custom1, KryptonLanguageManager.PaletteButtonStyles.Custom1),
-            new Pair(PaletteButtonStyle.Custom2, KryptonLanguageManager.PaletteButtonStyles.Custom2),
-            new Pair(PaletteButtonStyle.Custom3, KryptonLanguageManager.PaletteButtonStyles.Custom3)
+            {PaletteButtonStyle.Inherit, KryptonLanguageManager.PaletteButtonStyles.Inherit},
+            {PaletteButtonStyle.Standalone, KryptonLanguageManager.PaletteButtonStyles.Standalone},
+            {PaletteButtonStyle.Alternate, KryptonLanguageManager.PaletteButtonStyles.Alternate},
+            {PaletteButtonStyle.LowProfile, KryptonLanguageManager.PaletteButtonStyles.LowProfile},
+            {PaletteButtonStyle.BreadCrumb, KryptonLanguageManager.PaletteButtonStyles.BreadCrumb},
+            {PaletteButtonStyle.Cluster, KryptonLanguageManager.PaletteButtonStyles.Cluster},
+            {PaletteButtonStyle.NavigatorStack, KryptonLanguageManager.PaletteButtonStyles.NavigatorStack},
+            {PaletteButtonStyle.NavigatorOverflow, KryptonLanguageManager.PaletteButtonStyles.NavigatorOverflow},
+            {PaletteButtonStyle.NavigatorMini, KryptonLanguageManager.PaletteButtonStyles.NavigatorMini},
+            {PaletteButtonStyle.InputControl, KryptonLanguageManager.PaletteButtonStyles.InputControl},
+            {PaletteButtonStyle.ListItem, KryptonLanguageManager.PaletteButtonStyles.ListItem},
+            {PaletteButtonStyle.Form, KryptonLanguageManager.PaletteButtonStyles.Form},
+            {PaletteButtonStyle.FormClose, KryptonLanguageManager.PaletteButtonStyles.FormClose},
+            {PaletteButtonStyle.ButtonSpec, KryptonLanguageManager.PaletteButtonStyles.ButtonSpec},
+            {PaletteButtonStyle.Command, KryptonLanguageManager.PaletteButtonStyles.Command},
+            {PaletteButtonStyle.Custom1, KryptonLanguageManager.PaletteButtonStyles.Custom1},
+            {PaletteButtonStyle.Custom2, KryptonLanguageManager.PaletteButtonStyles.Custom2},
+            {PaletteButtonStyle.Custom3, KryptonLanguageManager.PaletteButtonStyles.Custom3 }
         };
 
-        #endregion
-
-        #region Identity
-        /// <summary>
-        /// Initialize a new instance of the PaletteButtonStyleConverter class.
-        /// </summary>
-        public PaletteButtonStyleConverter()
-            : base(typeof(PaletteButtonStyle))
-        {
-        }
         #endregion
 
         #region Protected
         /// <summary>
         /// Gets an array of lookup pairs.
         /// </summary>
-        protected override Pair[] Pairs => _pairs;
+        protected override IReadOnlyDictionary<PaletteButtonStyle /*Enum*/, string /*Display*/> Pairs => _pairs;
 
         #endregion
     }

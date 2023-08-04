@@ -6,8 +6,6 @@
  */
 #endregion
 
-using System;
-
 using MsdnMag;
 // ReSharper disable NotAccessedField.Global
 

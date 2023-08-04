@@ -72,6 +72,7 @@ namespace Krypton.Toolkit
         #region Office 2013 Themes
 
         private static PaletteOffice2013DarkGray? _paletteOffice2013DarkGray;
+        private static PaletteOffice2013LightGray? _paletteOffice2013LightGray;
         private static PaletteOffice2013White? _paletteOffice2013White;
 
         #endregion
@@ -114,12 +115,6 @@ namespace Krypton.Toolkit
         private static RenderSparkle? _renderSparkle;
 
         private static KryptonCustomPaletteManager? _customPaletteManager;
-        #endregion
-
-        #region Instance Fields
-        // TODO: What is this field used for ?
-        private ToolkitStringValues _toolkitStringValues;
-
         #endregion
 
         #region Static Events
@@ -172,8 +167,6 @@ namespace Krypton.Toolkit
             }
 
             container.Add(this);
-
-            _toolkitStringValues = new ToolkitStringValues();
         }
 
         /// <summary> 
@@ -528,10 +521,10 @@ namespace Krypton.Toolkit
                         return PaletteOffice2010Black;
                     case PaletteMode.Office2010BlackDarkMode:
                         return PaletteOffice2010BlackDarkMode;
-                    /*case PaletteMode.Office2013:
-                        return PaletteOffice2013;*/
                     case PaletteMode.Office2013DarkGray:
                         return PaletteOffice2013DarkGray;
+                    case PaletteMode.Office2013LightGray:
+                        return PaletteOffice2013LightGray;
                     case PaletteMode.Office2013White:
                         return PaletteOffice2013White;
                     case PaletteMode.SparkleBlue:
@@ -634,10 +627,10 @@ namespace Krypton.Toolkit
                     return PaletteOffice2010Black;
                 case PaletteMode.Office2010BlackDarkMode:
                     return PaletteOffice2010BlackDarkMode;
-                /*case PaletteMode.Office2013:
-                    return PaletteOffice2013;*/
                 case PaletteMode.Office2013DarkGray:
                     return PaletteOffice2013DarkGray;
+                case PaletteMode.Office2013LightGray:
+                    return PaletteOffice2013LightGray;
                 case PaletteMode.Office2013White:
                     return PaletteOffice2013White;
                 case PaletteMode.SparkleBlue:
@@ -796,6 +789,11 @@ namespace Krypton.Toolkit
         /// Gets the single instance of the dark gray variant Office 2013 palette.
         /// </summary>
         public static PaletteOffice2013DarkGray PaletteOffice2013DarkGray => _paletteOffice2013DarkGray ??= new PaletteOffice2013DarkGray();
+
+        /// <summary>
+        /// Gets the single instance of the Light gray variant Office 2013 palette.
+        /// </summary>
+        public static PaletteOffice2013LightGray PaletteOffice2013LightGray => _paletteOffice2013LightGray ??= new PaletteOffice2013LightGray();
 
         /// <summary>
         /// Gets the single instance of the ### palette.
@@ -1086,7 +1084,7 @@ namespace Krypton.Toolkit
                 // Unhook from current palette events
                 if (InternalGlobalPalette != null)
                 {
-                    InternalGlobalPalette.PalettePaint -= OnPalettePaint!;
+                    InternalGlobalPalette.PalettePaint -= OnPalettePaint;
                 }
 
                 // Remember the new palette
@@ -1095,7 +1093,7 @@ namespace Krypton.Toolkit
                 // Hook to new palette events
                 if (InternalGlobalPalette != null)
                 {
-                    InternalGlobalPalette.PalettePaint += OnPalettePaint!;
+                    InternalGlobalPalette.PalettePaint += OnPalettePaint;
                 }
             }
         }

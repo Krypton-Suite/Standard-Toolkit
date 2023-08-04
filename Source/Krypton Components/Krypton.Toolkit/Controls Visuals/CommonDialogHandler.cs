@@ -9,11 +9,6 @@
 
 // ReSharper disable InconsistentNaming
 
-using System.Drawing;
-using System.Timers;
-
-using static Krypton.Toolkit.PI;
-
 namespace Krypton.Toolkit
 {
     internal class CommonDialogHandler

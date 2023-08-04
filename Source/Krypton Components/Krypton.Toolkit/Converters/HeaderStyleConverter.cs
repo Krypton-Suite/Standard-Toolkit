@@ -15,58 +15,31 @@ namespace Krypton.Toolkit
     /// <summary>
     /// Custom type converter so that HeaderStyle values appear as neat text at design time.
     /// </summary>
-    internal class HeaderStyleConverter : StringLookupConverter
+    internal class HeaderStyleConverter : StringLookupConverter<HeaderStyle>
     {
         #region Static Fields
 
-        #region Old
-
-        //private readonly Pair[] _pairs =
-        //{
-        //    new(HeaderStyle.Primary, "Primary"),
-        //    new(HeaderStyle.Secondary, "Secondary"),
-        //    new(HeaderStyle.DockInactive, "Dock - Inactive"),
-        //    new(HeaderStyle.DockActive, "Dock - Active"),
-        //    new(HeaderStyle.Form, nameof(Form)),
-        //    new(HeaderStyle.Calendar, nameof(Calendar)),
-        //    new(HeaderStyle.Custom1, "Custom1"),
-        //    new(HeaderStyle.Custom2, "Custom2"),
-        //    new(HeaderStyle.Custom3, "Custom3")
-        //};
-
-        #endregion
-
         [Localizable(true)]
-        private readonly Pair[] _pairs =
+        private static readonly IReadOnlyDictionary<HeaderStyle, string> _pairs = new Dictionary<HeaderStyle, string>
         {
-            new Pair(HeaderStyle.Primary, KryptonLanguageManager.HeaderStyles.Primary),
-            new Pair(HeaderStyle.Secondary, KryptonLanguageManager.HeaderStyles.Secondary),
-            new Pair(HeaderStyle.DockInactive, KryptonLanguageManager.HeaderStyles.DockInactive),
-            new Pair(HeaderStyle.DockActive, KryptonLanguageManager.HeaderStyles.DockActive),
-            new Pair(HeaderStyle.Form, KryptonLanguageManager.HeaderStyles.Form),
-            new Pair(HeaderStyle.Calendar, KryptonLanguageManager.HeaderStyles.Calendar),
-            new Pair(HeaderStyle.Custom1, KryptonLanguageManager.HeaderStyles.CustomOne),
-            new Pair(HeaderStyle.Custom2, KryptonLanguageManager.HeaderStyles.CustomTwo),
-            new Pair(HeaderStyle.Custom3, KryptonLanguageManager.HeaderStyles.CustomThree)
+            {HeaderStyle.Primary, KryptonLanguageManager.HeaderStyles.Primary},
+            {HeaderStyle.Secondary, KryptonLanguageManager.HeaderStyles.Secondary},
+            {HeaderStyle.DockInactive, KryptonLanguageManager.HeaderStyles.DockInactive},
+            {HeaderStyle.DockActive, KryptonLanguageManager.HeaderStyles.DockActive},
+            {HeaderStyle.Form, KryptonLanguageManager.HeaderStyles.Form},
+            {HeaderStyle.Calendar, KryptonLanguageManager.HeaderStyles.Calendar},
+            {HeaderStyle.Custom1, KryptonLanguageManager.HeaderStyles.CustomOne},
+            {HeaderStyle.Custom2, KryptonLanguageManager.HeaderStyles.CustomTwo},
+            {HeaderStyle.Custom3, KryptonLanguageManager.HeaderStyles.CustomThree }
         };
 
-        #endregion
-
-        #region Identity
-        /// <summary>
-        /// Initialize a new instance of the HeaderStyleConverter class.
-        /// </summary>
-        public HeaderStyleConverter()
-            : base(typeof(HeaderStyle))
-        {
-        }
         #endregion
 
         #region Protected
         /// <summary>
         /// Gets an array of lookup pairs.
         /// </summary>
-        protected override Pair[] Pairs => _pairs;
+        protected override IReadOnlyDictionary<HeaderStyle /*Enum*/, string /*Display*/> Pairs => _pairs;
 
         #endregion
     }

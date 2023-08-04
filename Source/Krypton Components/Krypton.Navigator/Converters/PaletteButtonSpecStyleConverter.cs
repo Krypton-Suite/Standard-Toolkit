@@ -15,46 +15,38 @@ namespace Krypton.Navigator
     /// <summary>
     /// Custom type converter so that PaletteNavButtonSpecStyle values appear as neat text at design time.
     /// </summary>
-    internal class PaletteNavButtonSpecStyleConverter : StringLookupConverter
+    internal class PaletteNavButtonSpecStyleConverter : StringLookupConverter<PaletteNavButtonSpecStyle>
     {
-        #region Identity
-        /// <summary>
-        /// Initialize a new instance of the PaletteNavButtonSpecStyleConverter class.
-        /// </summary>
-        public PaletteNavButtonSpecStyleConverter()
-            : base(typeof(PaletteNavButtonSpecStyle))
-        {
-        }
-        #endregion
+        #region Static Fields
 
-        #region Protected
-        /// <summary>
-        /// Gets an array of lookup pairs.
-        /// </summary>
-        protected override Pair[] Pairs { get; } =
+        [Localizable(true)]
+        private static readonly IReadOnlyDictionary<PaletteNavButtonSpecStyle, string> _pairs = new Dictionary<PaletteNavButtonSpecStyle, string>
         {
-            new Pair(PaletteNavButtonSpecStyle.Generic, "Generic"),
-            new Pair(PaletteNavButtonSpecStyle.ArrowLeft, "Arrow Left"),
-            new Pair(PaletteNavButtonSpecStyle.ArrowRight, "Arrow Right"),
-            new Pair(PaletteNavButtonSpecStyle.ArrowUp, "Arrow Up"),
-            new Pair(PaletteNavButtonSpecStyle.ArrowDown, "Arrow Down"),
-            new Pair(PaletteNavButtonSpecStyle.DropDown, "Drop Down"),
-            new Pair(PaletteNavButtonSpecStyle.PinVertical, "Pin Vertical"),
-            new Pair(PaletteNavButtonSpecStyle.PinHorizontal, "Pin Horizontal"),
-            new Pair(PaletteNavButtonSpecStyle.FormClose, "Form Close"),
-            new Pair(PaletteNavButtonSpecStyle.FormMax, "Form Max"),
-            new Pair(PaletteNavButtonSpecStyle.FormMin, "Form Min"),
-            new Pair(PaletteNavButtonSpecStyle.FormRestore, "Form Restore"),
-            new Pair(PaletteNavButtonSpecStyle.FormHelp, "Form Help"),
-            new Pair(PaletteNavButtonSpecStyle.PendantClose, "Pendant Close"),
-            new Pair(PaletteNavButtonSpecStyle.PendantMin, "Pendant Min"),
-            new Pair(PaletteNavButtonSpecStyle.PendantRestore, "Pendant Restore"),
-            new Pair(PaletteNavButtonSpecStyle.WorkspaceMaximize, "Workspace Maximize"),
-            new Pair(PaletteNavButtonSpecStyle.WorkspaceRestore, "Workspace Restore"),
-            new Pair(PaletteNavButtonSpecStyle.RibbonMinimize, "Ribbon Minimize"),
-            new Pair(PaletteNavButtonSpecStyle.RibbonExpand, "Ribbon Expand")
+            {PaletteNavButtonSpecStyle.Generic, "Generic"},
+            {PaletteNavButtonSpecStyle.ArrowLeft, "Arrow Left"},
+            {PaletteNavButtonSpecStyle.ArrowRight, "Arrow Right"},
+            {PaletteNavButtonSpecStyle.ArrowUp, "Arrow Up"},
+            {PaletteNavButtonSpecStyle.ArrowDown, "Arrow Down"},
+            {PaletteNavButtonSpecStyle.DropDown, "Drop Down"},
+            {PaletteNavButtonSpecStyle.PinVertical, "Pin Vertical"},
+            {PaletteNavButtonSpecStyle.PinHorizontal, "Pin Horizontal"},
+            {PaletteNavButtonSpecStyle.FormClose, "Form Close"},
+            {PaletteNavButtonSpecStyle.FormMax, "Form Max"},
+            {PaletteNavButtonSpecStyle.FormMin, "Form Min"},
+            {PaletteNavButtonSpecStyle.FormRestore, "Form Restore"},
+            {PaletteNavButtonSpecStyle.FormHelp, "Form Help"},
+            {PaletteNavButtonSpecStyle.PendantClose, "Pendant Close"},
+            {PaletteNavButtonSpecStyle.PendantMin, "Pendant Min"},
+            {PaletteNavButtonSpecStyle.PendantRestore, "Pendant Restore"},
+            {PaletteNavButtonSpecStyle.WorkspaceMaximize, "Workspace Maximize"},
+            {PaletteNavButtonSpecStyle.WorkspaceRestore, "Workspace Restore"},
+            {PaletteNavButtonSpecStyle.RibbonMinimize, "Ribbon Minimize"},
+            {PaletteNavButtonSpecStyle.RibbonExpand, "Ribbon Expand" }
         };
 
         #endregion
+
+        protected override IReadOnlyDictionary<PaletteNavButtonSpecStyle /*Enum*/, string /*Display*/> Pairs => _pairs;
+
     }
 }

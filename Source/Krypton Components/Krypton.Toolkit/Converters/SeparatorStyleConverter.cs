@@ -15,45 +15,21 @@ namespace Krypton.Toolkit
     /// <summary>
     /// Custom type converter so that SeparatorStyle values appear as neat text at design time.
     /// </summary>
-    internal class SeparatorStyleConverter : StringLookupConverter
+    internal class SeparatorStyleConverter : StringLookupConverter<SeparatorStyle>
     {
         #region Static Fields
 
-        #region Old
-
-        //private readonly Pair[] _pairs =
-        //{
-        //    new(SeparatorStyle.LowProfile, "Low Profile"),
-        //    new(SeparatorStyle.HighProfile, "High Profile"),
-        //    new(SeparatorStyle.HighInternalProfile, "High Internal Profile"),
-        //    new(SeparatorStyle.Custom1, "Custom1"),
-        //    new(SeparatorStyle.Custom2, "Custom2"),
-        //    new(SeparatorStyle.Custom3, "Custom3")
-        //};
-
-        #endregion
-
         [Localizable(true)]
-        private readonly Pair[] _pairs =
+        private static readonly IReadOnlyDictionary<SeparatorStyle, string> _pairs = new Dictionary<SeparatorStyle, string>
         {
-            new Pair(SeparatorStyle.LowProfile, KryptonLanguageManager.SeparatorStyles.LowProfile),
-            new Pair(SeparatorStyle.HighProfile, KryptonLanguageManager.SeparatorStyles.HighProfile),
-            new Pair(SeparatorStyle.HighInternalProfile, KryptonLanguageManager.SeparatorStyles.HighInternalProfile),
-            new Pair(SeparatorStyle.Custom1, KryptonLanguageManager.SeparatorStyles.Custom1),
-            new Pair(SeparatorStyle.Custom2, KryptonLanguageManager.SeparatorStyles.Custom2),
-            new Pair(SeparatorStyle.Custom3, KryptonLanguageManager.SeparatorStyles.Custom3)
+            {SeparatorStyle.LowProfile, KryptonLanguageManager.SeparatorStyles.LowProfile},
+            {SeparatorStyle.HighProfile, KryptonLanguageManager.SeparatorStyles.HighProfile},
+            {SeparatorStyle.HighInternalProfile, KryptonLanguageManager.SeparatorStyles.HighInternalProfile},
+            {SeparatorStyle.Custom1, KryptonLanguageManager.SeparatorStyles.Custom1},
+            {SeparatorStyle.Custom2, KryptonLanguageManager.SeparatorStyles.Custom2},
+            {SeparatorStyle.Custom3, KryptonLanguageManager.SeparatorStyles.Custom3 }
         };
 
-        #endregion
-
-        #region Identity
-        /// <summary>
-        /// Initialize a new instance of the SeparatorStyleConverter class.
-        /// </summary>
-        public SeparatorStyleConverter()
-            : base(typeof(SeparatorStyle))
-        {
-        }
         #endregion
 
         #region Protected
@@ -61,7 +37,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets an array of lookup pairs.
         /// </summary>
-        protected override Pair[] Pairs => _pairs;
+        protected override IReadOnlyDictionary<SeparatorStyle /*Enum*/, string /*Display*/> Pairs => _pairs;
 
         #endregion
     }

@@ -7,7 +7,7 @@
  */
 #endregion
 
-using System.Drawing.Printing;
+
 // ReSharper disable ConvertToAutoProperty
 // ReSharper disable InconsistentNaming
 // ReSharper disable IdentifierTypo
