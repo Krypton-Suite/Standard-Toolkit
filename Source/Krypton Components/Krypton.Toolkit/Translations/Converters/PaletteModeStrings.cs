@@ -68,7 +68,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Instance Fields
-        internal static readonly BiDictionary<string, PaletteMode> _supportedThemes =
+        internal static readonly BiDictionary<string, PaletteMode> SupportedThemes =
     new BiDictionary<string, PaletteMode>(new Dictionary<string, PaletteMode>
     {
         // Use default strings, because these are used to match xml strings when importing palettes, and in the designer(s)
@@ -107,10 +107,7 @@ namespace Krypton.Toolkit
                 { PaletteModeStrings.DEFAULT_PALETTE_SPARKLE_ORANGE_LIGHT_MODE, PaletteMode.SparkleOrangeLightMode },
                 { PaletteModeStrings.DEFAULT_PALETTE_SPARKLE_PURPLE, PaletteMode.SparklePurple },
                 { PaletteModeStrings.DEFAULT_PALETTE_SPARKLE_PURPLE_DARK_MODE, PaletteMode.SparklePurpleDarkMode },
-                { PaletteModeStrings.DEFAULT_PALETTE_SPARKLE_PURPLE_DARK_MODE, PaletteMode.SparklePurpleLightMode },
-                { PaletteModeStrings.DEFAULT_PALETTE_SPARKLE_BLUE, PaletteMode.SparkleBlue },
-                { PaletteModeStrings.DEFAULT_PALETTE_SPARKLE_BLUE_DARK_MODE, PaletteMode.SparkleBlueDarkMode },
-                { PaletteModeStrings.DEFAULT_PALETTE_SPARKLE_BLUE_LIGHT_MODE, PaletteMode.SparkleBlueLightMode },
+                { PaletteModeStrings.DEFAULT_PALETTE_SPARKLE_PURPLE_LIGHT_MODE, PaletteMode.SparklePurpleLightMode },
                 { PaletteModeStrings.DEFAULT_PALETTE_MICROSOFT_365_BLUE, PaletteMode.Microsoft365Blue },
                 { PaletteModeStrings.DEFAULT_PALETTE_MICROSOFT_365_BLUE_DARK_MODE, PaletteMode.Microsoft365BlueDarkMode },
                 { PaletteModeStrings.DEFAULT_PALETTE_MICROSOFT_365_BLUE_LIGHT_MODE, PaletteMode.Microsoft365BlueLightMode },
@@ -139,6 +136,9 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Public
+
+        [Browsable(false)]
+        public static IReadOnlyDictionary<string, PaletteMode> SupportedThemesMap => SupportedThemes.FirstToSecond;
 
         [Browsable(false)]
         public bool IsDefault =>

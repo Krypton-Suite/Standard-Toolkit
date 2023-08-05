@@ -61,6 +61,7 @@ namespace Krypton.Toolkit
 
         public ICollection<TFirst> GetAllFirsts() => _firstToSecond.Keys;
 
-        public ReadOnlyDictionary<TSecond, TFirst> SecondToFirst => new ReadOnlyDictionary<TSecond, TFirst>(_secondToFirst);
+        public IReadOnlyDictionary<TFirst, TSecond> FirstToSecond => new ReadOnlyDictionary<TFirst, TSecond>(_firstToSecond);
+        public IReadOnlyDictionary<TSecond, TFirst> SecondToFirst => new ReadOnlyDictionary<TSecond, TFirst>(_secondToFirst);
     }
 }

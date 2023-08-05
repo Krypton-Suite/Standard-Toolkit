@@ -21,7 +21,7 @@ namespace Krypton.Ribbon
     {
 
         #region Instance Fields
-        private IDisposable[] _mementos;
+        private IDisposable?[] _mementos;
         private readonly KryptonRibbon _ribbon;
         private readonly bool _bottomHalf;
         private Rectangle _clipRect;
@@ -45,7 +45,7 @@ namespace Krypton.Ribbon
             SIZE_TOP = new Size((int)(39 * FactorDpiX), (int)(22 * FactorDpiY));
             SIZE_BOTTOM = new Size((int)(39 * FactorDpiX), (int)(17 * FactorDpiY));
 
-            _ribbon = ribbon;
+            _ribbon = ribbon!;
             _bottomHalf = bottomHalf;
             _size = _bottomHalf ? SIZE_BOTTOM : SIZE_TOP;
             _mementos = new IDisposable[3];
@@ -69,9 +69,9 @@ namespace Krypton.Ribbon
             {
                 if (_mementos != null!)
                 {
-                    foreach (IDisposable memento in _mementos)
+                    foreach (IDisposable? memento in _mementos)
                     {
-                        memento.Dispose();
+                        memento?.Dispose();
                     }
 
                     _mementos = null!;

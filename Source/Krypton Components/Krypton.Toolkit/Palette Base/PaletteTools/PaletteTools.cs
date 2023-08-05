@@ -27,74 +27,8 @@ namespace Krypton.Toolkit
         /// <returns></returns>
         public PaletteMode LinkPaletteType1(string themeName)
         {
-            var paletteMode = new PaletteMode();
-
-            switch (themeName)
-            {
-                case "Custom":
-                    paletteMode = PaletteMode.Custom;
-                    break;
-                case "Professional - System":
-                    paletteMode = PaletteMode.ProfessionalSystem;
-                    break;
-                case "Professional - Office 2003":
-                    paletteMode = PaletteMode.ProfessionalOffice2003;
-                    break;
-                case "Office 2007 - Black":
-                    paletteMode = PaletteMode.Office2007Black;
-                    break;
-                case "Office 2007 - Blue":
-                    paletteMode = PaletteMode.Office2007Blue;
-                    break;
-                case "Office 2007 - Silver":
-                    paletteMode = PaletteMode.Office2007Silver;
-                    break;
-                case "Office 2007 - White":
-                    paletteMode = PaletteMode.Office2007White;
-                    break;
-                case "Office 2010 - Black":
-                    paletteMode = PaletteMode.Office2010Black;
-                    break;
-                case "Office 2010 - Blue":
-                    paletteMode = PaletteMode.Office2010Blue;
-                    break;
-                case "Office 2010 - Silver":
-                    paletteMode = PaletteMode.Office2010Silver;
-                    break;
-                case "Office 2010 - White":
-                    paletteMode = PaletteMode.Office2010White;
-                    break;
-                /*else if (themeName.Equals("Office 2013"))
-            {
-                paletteMode = PaletteMode.Office2013;
-            }*/
-                case "Office 2013 - White":
-                    paletteMode = PaletteMode.Office2013White;
-                    break;
-                case "Microsoft 365 - Black":
-                    paletteMode = PaletteMode.Microsoft365Black;
-                    break;
-                case "Microsoft 365 - Blue":
-                    paletteMode = PaletteMode.Microsoft365Blue;
-                    break;
-                case "Microsoft 365 - Silver":
-                    paletteMode = PaletteMode.Microsoft365Silver;
-                    break;
-                case "Microsoft 365 - White":
-                    paletteMode = PaletteMode.Microsoft365White;
-                    break;
-                case "Sparkle - Blue":
-                    paletteMode = PaletteMode.SparkleBlue;
-                    break;
-                case "Sparkle - Orange":
-                    paletteMode = PaletteMode.SparkleOrange;
-                    break;
-                case "Sparkle - Purple":
-                    paletteMode = PaletteMode.SparklePurple;
-                    break;
-            }
-
-            return paletteMode;
+            var cnvtr = new PaletteModeConverter();
+            return (PaletteMode)cnvtr.ConvertFromString(themeName);
         }
 
         /// <summary>Applies the theme.</summary>

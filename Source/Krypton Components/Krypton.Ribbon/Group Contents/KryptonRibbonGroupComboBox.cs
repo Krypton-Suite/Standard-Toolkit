@@ -412,7 +412,8 @@ namespace Krypton.Ribbon
         [Category(@"Appearance")]
         [Description(@"Text associated with the control.")]
         [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
-        public string? Text
+        [AllowNull]
+        public string Text
         {
             get => ComboBox.Text;
             set => ComboBox.Text = value;
@@ -578,7 +579,6 @@ namespace Krypton.Ribbon
         /// Gets access to the Wrapped Controls Tooltips.
         /// </summary>
         public override ToolTipValues ToolTipValues => ComboBox.ToolTipValues;
-
 
         /// <summary>
         /// Gets or sets the items in the KryptonComboBox.

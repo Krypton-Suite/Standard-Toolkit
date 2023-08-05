@@ -16,21 +16,12 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
 
-        private readonly ICollection<string?> _supportedThemeNames;
-
         private int _selectedThemeIndex;
 
         #endregion
 
         #region Public
 
-        /// <summary>
-        /// Helper, to return a new list of names
-        /// </summary>
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        public List<string?> SupportedThemesList => _supportedThemeNames.ToList();
-
-        //private set { _supportedThemesNames = value.ToArray(); }
         /// <summary>
         /// Gets and sets the ThemeSelectedIndex.
         /// </summary>
@@ -70,9 +61,16 @@ namespace Krypton.Toolkit
         /// <summary>Initializes a new instance of the <see cref="KryptonThemeListBox" /> class.</summary>
         public KryptonThemeListBox()
         {
-            _supportedThemeNames = ThemeManager.SupportedInternalThemeNames;
-
-            _selectedThemeIndex = 33;
+            DisplayMember = "Key";
+            ValueMember = "Value";
+            foreach (var kvp in PaletteModeStrings.SupportedThemesMap)
+            {
+                Items.Add(kvp);
+            }
+            var cnvtr = new PaletteModeConverter();
+            Text = cnvtr.ConvertToString(PaletteMode.Microsoft365Blue)!;
+            _selectedThemeIndex = SelectedIndex;
+            Debug.Assert(_selectedThemeIndex == 33, "Microsoft365Blue needs to be at the 33rd index for backward compatibility");
         }
 
         #endregion
@@ -90,8 +88,6 @@ namespace Krypton.Toolkit
         protected override void OnCreateControl()
         {
             base.OnCreateControl();
-
-            Items.AddRange(_supportedThemeNames.ToArray());
 
             SelectedIndex = _selectedThemeIndex;
         }

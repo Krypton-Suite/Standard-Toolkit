@@ -17,75 +17,6 @@ namespace Krypton.Ribbon
     /// </summary>
     public class RibbonThemeManager
     {
-        #region Theme Array        
-        /// <summary>
-        /// The supported themes
-        /// </summary>
-        // TODO: This should use the list from Z:\GitHub\Krypton-Suite\Standard-Toolkit\Source\Krypton Components\Krypton.Toolkit\Converters\PaletteModeConverter.cs
-        private static readonly BiDictionary<string, PaletteMode> _supportedThemes =
-            new BiDictionary<string, PaletteMode>(new Dictionary<string, PaletteMode>
-            {
-                { @"Professional - System", PaletteMode.ProfessionalSystem },
-                { @"Professional - Office 2003", PaletteMode.ProfessionalOffice2003 },
-                { @"Office 2007 - Blue", PaletteMode.Office2007Blue },
-                { @"Office 2007 - Blue (Dark Mode)", PaletteMode.Office2007BlueDarkMode },
-                { @"Office 2007 - Blue (Light Mode)", PaletteMode.Office2007BlueLightMode },
-                { @"Office 2007 - Silver", PaletteMode.Office2007Silver },
-                { @"Office 2007 - Silver (Dark Mode)", PaletteMode.Office2007SilverDarkMode },
-                { @"Office 2007 - Silver (Light Mode)", PaletteMode.Office2007SilverLightMode },
-                { @"Office 2007 - White", PaletteMode.Office2007White },
-                { @"Office 2007 - Black", PaletteMode.Office2007Black },
-                { @"Office 2007 - Black (Dark Mode)", PaletteMode.Office2007BlackDarkMode },
-                { @"Office 2007 - Dark Gray", PaletteMode.Office2007DarkGray },
-                { @"Office 2010 - Blue", PaletteMode.Office2010Blue },
-                { @"Office 2010 - Blue (Dark Mode)", PaletteMode.Office2010BlueDarkMode },
-                { @"Office 2010 - Blue (Light Mode)", PaletteMode.Office2010BlueLightMode },
-                { @"Office 2010 - Silver", PaletteMode.Office2010Silver },
-                { @"Office 2010 - Silver (Dark Mode)", PaletteMode.Office2010SilverDarkMode },
-                { @"Office 2010 - Silver (Light Mode)", PaletteMode.Office2010SilverLightMode },
-                { @"Office 2010 - White", PaletteMode.Office2010White },
-                { @"Office 2010 - Black", PaletteMode.Office2010Black },
-                { @"Office 2010 - Black (Dark Mode)", PaletteMode.Office2010BlackDarkMode },
-                { @"Office 2010 - Dark Gray", PaletteMode.Office2010DarkGray },
-                { @"Office 2013 - Dark Gray", PaletteMode.Office2013DarkGray },
-                //{ @"Office 2013", PaletteMode.Office2013 },
-                { @"Office 2013 - White", PaletteMode.Office2013White },
-                { @"Sparkle - Blue", PaletteMode.SparkleBlue },
-                { @"Sparkle - Blue (Dark Mode)", PaletteMode.SparkleBlueDarkMode },
-                { @"Sparkle - Blue (Light Mode)", PaletteMode.SparkleBlueLightMode },
-                { @"Sparkle - Orange", PaletteMode.SparkleOrange },
-                { @"Sparkle - Orange (Dark Mode)", PaletteMode.SparkleOrangeDarkMode },
-                { @"Sparkle - Orange (Light Mode)", PaletteMode.SparkleOrangeLightMode },
-                { @"Sparkle - Purple", PaletteMode.SparklePurple },
-                { @"Sparkle - Purple (Dark Mode)", PaletteMode.SparklePurpleDarkMode },
-                { @"Sparkle - Purple (Light Mode)", PaletteMode.SparklePurpleLightMode },
-                { @"Microsoft 365 - Blue", PaletteMode.Microsoft365Blue },
-                { @"Microsoft 365 - Blue (Dark Mode)", PaletteMode.Microsoft365BlueDarkMode },
-                { @"Microsoft 365 - Blue (Light Mode)", PaletteMode.Microsoft365BlueLightMode },
-                { @"Microsoft 365 - Silver", PaletteMode.Microsoft365Silver },
-                { @"Microsoft 365 - Silver (Dark Mode)", PaletteMode.Microsoft365SilverDarkMode },
-                { @"Microsoft 365 - Silver (Light Mode)", PaletteMode.Microsoft365SilverLightMode },
-                { @"Microsoft 365 - White", PaletteMode.Microsoft365White },
-                { @"Microsoft 365 - Black", PaletteMode.Microsoft365Black },
-                { @"Microsoft 365 - Black (Dark Mode)", PaletteMode.Microsoft365BlackDarkMode },
-                { @"Microsoft 365 - Dark Gray", PaletteMode.Microsoft365DarkGray },
-                { @"Custom", PaletteMode.Custom }
-            });
-
-        #endregion
-
-        #region Public
-
-        /// <summary>
-        /// Gets the supported theme array.
-        /// </summary>
-        /// <value>
-        /// The supported theme array.
-        /// </value>
-        public static ICollection<string?> SupportedInternalThemeNames => _supportedThemes.GetAllFirsts();
-
-        #endregion
-
         #region Implementation
 
         /// <summary>
@@ -100,9 +31,13 @@ namespace Krypton.Ribbon
         /// <returns>The current <see cref="PaletteMode"/>.</returns>
         public static PaletteMode GetPaletteMode(KryptonManager manager) => ReturnPaletteMode(manager.GlobalPaletteMode);
 
-        private static PaletteMode ReturnPaletteMode(string themeName) =>
-            // Note: Needs to be filled out
-            PaletteMode.Custom;
+        private static PaletteMode ReturnPaletteMode(string themeName)
+        {
+            return PaletteModeStrings.SupportedThemesMap.TryGetValue(themeName, out var mode) 
+                ? mode 
+                : // Note: Needs to be filled out
+                PaletteMode.Custom;
+        }
 
         /// <summary>Returns the palette mode.</summary>
         /// <param name="paletteMode">The palette mode manager.</param>
@@ -114,7 +49,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="themeName">Name of the theme.</param>
         /// <param name="manager">The manager.</param>
-        public static void ApplyTheme(string themeName, KryptonManager manager) => ApplyTheme(_supportedThemes.GetByFirst(themeName), manager);
+        public static void ApplyTheme(string themeName, KryptonManager manager) => ApplyTheme(PaletteModeStrings.SupportedThemesMap[themeName], manager);
 
         /// <summary>
         /// Sets the theme.
@@ -144,8 +79,8 @@ namespace Krypton.Ribbon
         public static string? ReturnPaletteModeAsString(PaletteMode paletteMode, KryptonManager? manager)
         {
             var mode = manager?.GlobalPaletteMode ?? paletteMode;
-
-            return _supportedThemes.GetBySecond(mode);
+            var cnvtr = new PaletteModeConverter();
+            return cnvtr.ConvertToString(mode);
         }
 
         /// <summary>
@@ -225,7 +160,7 @@ namespace Krypton.Ribbon
         {
             try
             {
-                foreach (var theme in SupportedInternalThemeNames)
+                foreach (var theme in PaletteModeStrings.SupportedThemesMap.Keys)
                 {
                     if (!excludes.Any(t => theme.IndexOf(t, StringComparison.InvariantCultureIgnoreCase) > -1))
                     {
@@ -244,7 +179,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="themeName">Name of the theme.</param>
         /// <returns>The <see cref="PaletteMode"/> equivalent.</returns>
-        public static PaletteMode GetThemeManagerMode(string? themeName) => _supportedThemes.GetByFirst(themeName);
+        public static PaletteMode GetThemeManagerMode(string themeName) => PaletteModeStrings.SupportedThemesMap[themeName];
 
         /// <summary>
         /// Propagates the theme selector.
