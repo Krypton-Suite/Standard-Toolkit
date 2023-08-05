@@ -18,20 +18,12 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
 
-        private readonly ICollection<string?> _supportedThemesNames;
         private int _selectedIndex;
 
         #endregion
 
         #region Public
 
-        /// <summary>
-        /// Helper, to return a new list of names
-        /// </summary>
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        public List<string?> SupportedThemesList => _supportedThemesNames.ToList();
-
-        //private set { _supportedThemesNames = value.ToArray(); }
         /// <summary>
         /// Gets and sets the ThemeSelectedIndex.
         /// </summary>
@@ -42,7 +34,7 @@ namespace Krypton.Toolkit
         {
             get => _selectedIndex;
 
-            set => SelectedIndex = value;
+            set => _selectedIndex = SelectedIndex = value;
         }
 
         private void ResetThemeSelectedIndex() => _selectedIndex = 33;
@@ -72,9 +64,16 @@ namespace Krypton.Toolkit
         public KryptonThemeComboBox()
         {
             DropDownStyle = ComboBoxStyle.DropDownList;
-
-            _supportedThemesNames = ThemeManager.SupportedInternalThemeNames;
-            _selectedIndex = 33;
+            DisplayMember = "Key";
+            ValueMember = "Value";
+            foreach (var kvp in PaletteModeStrings.SupportedThemesMap)
+            {
+                Items.Add(kvp);
+            }
+            var cnvtr = new PaletteModeConverter();
+            Text = cnvtr.ConvertToString(PaletteMode.Microsoft365Blue)!;
+            _selectedIndex = SelectedIndex;
+            Debug.Assert(_selectedIndex == 33, "Microsoft365Blue needs to be at the 33rd index for backward compatibility");
         }
         #endregion
 
@@ -87,7 +86,6 @@ namespace Krypton.Toolkit
         public PaletteMode ReturnPaletteMode() => Manager.GlobalPaletteMode;
 
         // TODO: Refresh the theme names if the values have been altered
-        //public void RefreshSupportedThemeList() => SupportedThemesNames = ThemeManager.SupportedInternalThemeNames;
 
         #endregion
 
@@ -97,7 +95,6 @@ namespace Krypton.Toolkit
         protected override void OnCreateControl()
         {
             base.OnCreateControl();
-            Items.AddRange(_supportedThemesNames.ToArray());
             SelectedIndex = _selectedIndex;
         }
 
@@ -125,7 +122,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        [DisallowNull]
+        [AllowNull]
         public override string Text
         {
             get => base.Text;

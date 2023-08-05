@@ -13,17 +13,10 @@ namespace Krypton.Ribbon
     public class KryptonRibbonGroupThemeComboBox : KryptonRibbonGroupComboBox
     {
         #region Instance Fields
-        private readonly ICollection<string> _supportedThemesNames;
         private int _selectedIndex;
         #endregion
 
         #region Public
-
-        /// <summary>
-        /// Helper, to return a new list of names
-        /// </summary>
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        public List<string?> SupportedThemesList => _supportedThemesNames.ToList();
 
         /// <summary>
         /// Gets and sets the ThemeSelectedIndex.
@@ -48,13 +41,12 @@ namespace Krypton.Ribbon
         [Category(@"Visuals")]
         [Description(@"Custom Theme to use when `Custom` is selected")]
         [DefaultValue(null)]
-        public KryptonCustomPaletteBase KryptonCustomPalette { get; set; }
+        public KryptonCustomPaletteBase? KryptonCustomPalette { get; set; }
 
         [EditorBrowsable(EditorBrowsableState.Never)]
         public KryptonManager Manager
         {
             get;
-
         } = new KryptonManager();
 
         #endregion
@@ -65,14 +57,16 @@ namespace Krypton.Ribbon
         public KryptonRibbonGroupThemeComboBox()
         {
             DropDownStyle = ComboBoxStyle.DropDownList;
-
-            _supportedThemesNames = RibbonThemeManager.SupportedInternalThemeNames;
-
-            _selectedIndex = 33;
-
-            Items.AddRange(_supportedThemesNames.ToArray());
-
-            SelectedIndex = _selectedIndex;
+            DisplayMember = "Key";
+            ValueMember = "Value";
+            foreach (var kvp in PaletteModeStrings.SupportedThemesMap)
+            {
+                Items.Add(kvp);
+            }
+            var cnvtr = new PaletteModeConverter();
+            Text = cnvtr.ConvertToString(PaletteMode.Microsoft365Blue)!;
+            _selectedIndex = SelectedIndex;
+            Debug.Assert(_selectedIndex == 33, "Microsoft365Blue needs to be at the 33rd index for backward compatibility");
         }
 
         #endregion
@@ -89,6 +83,7 @@ namespace Krypton.Ribbon
 
         #region Protected Overrides
 
+        /// <inheritdoc />
         protected override void OnSelectedIndexChanged(EventArgs e)
         {
             RibbonThemeManager.ApplyTheme(Text, Manager);
@@ -105,10 +100,5 @@ namespace Krypton.Ribbon
 
         #endregion
 
-        #region Removed Designer visibility
-
-
-
-        #endregion
     }
 }

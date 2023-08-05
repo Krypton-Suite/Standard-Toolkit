@@ -1272,13 +1272,13 @@ namespace Krypton.Ribbon
             // Cannot process a message for a disposed control
             if (!IsDisposed && !Disposing)
             {
-                TabsArea.AppButtonVisibleChanged();
+                TabsArea?.AppButtonVisibleChanged();
 
-                CaptionArea.AppButtonVisibleChanged();
+                CaptionArea?.AppButtonVisibleChanged();
             }
 
             // If we have a parent form then ask it to check for a change in composition height
-            CaptionArea.KryptonForm?.RecalculateComposition();
+            CaptionArea?.KryptonForm?.RecalculateComposition();
 
             base.OnLayout(levent);
         }
