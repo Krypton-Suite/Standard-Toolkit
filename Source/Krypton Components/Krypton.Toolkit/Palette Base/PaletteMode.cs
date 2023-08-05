@@ -22,7 +22,7 @@ public enum PaletteMode
     /// Specifies the renderer defined by the KryptonManager be used.
     /// </summary>
     Global,
-    
+
     /// <summary>
     /// Specifies a professional appearance based on system settings.
     /// </summary>
@@ -114,7 +114,7 @@ public enum PaletteMode
     /// Specifies the light Blue color variant of the Office 2010 appearance.
     /// </summary>
     Office2010BlueLightMode,
-    
+
     /// <summary>
     /// Specifies the Silver color variant of the Office 2010 appearance.
     /// </summary>
@@ -144,13 +144,12 @@ public enum PaletteMode
     /// Specifies the dark Black color variant of the Office 2010 appearance.
     /// </summary>
     Office2010BlackDarkMode,
-    
+
     // Note: Re-enable when the gray themes are completed
     /// <summary>
     /// Specifies the dark Gray color variant of the Office 2013 appearance.
     /// </summary>
     Office2013DarkGray,
-
     /// <summary>
     /// Specifies the light Gray color variant of the Office 2013 appearance.
     /// </summary>
@@ -196,7 +195,7 @@ public enum PaletteMode
     /// Specifies the light Blue color variant of the Microsoft 365 appearance.
     /// </summary>
     Microsoft365BlueLightMode,
-    
+
     /// <summary>
     /// Specifies the Silver color variant of the Microsoft 365 appearance.
     /// </summary>
@@ -263,14 +262,69 @@ public enum PaletteMode
     SparklePurpleLightMode,
 
     ///// <summary>
-    ///// Specifies the visual studio dark palette theme.
+    ///// Specifies the visual studio 2010 palette theme.
     ///// </summary>
-    //VisualStudioDark,
+    //VisualStudio2010,
 
     ///// <summary>
-    ///// Specifies the visual studio light palette theme.
+    ///// Specifies the visual studio 2012 dark palette theme.
     ///// </summary>
-    //VisualStudioLight,
+    //VisualStudio2012Dark,
+
+    ///// <summary>
+    ///// Specifies the visual studio 2012 light palette theme.
+    ///// </summary>
+    //VisualStudio2012Light,
+
+    ///// <summary>
+    ///// Specifies the visual studio 2013 dark palette theme.
+    ///// </summary>
+    //VisualStudio2013Dark,
+
+    ///// <summary>
+    ///// Specifies the visual studio 2013 light palette theme.
+    ///// </summary>
+    //VisualStudio2013Light,
+
+    ///// <summary>
+    ///// Specifies the visual studio 2015 dark palette theme.
+    ///// </summary>
+    //VisualStudio2015Dark,
+
+    ///// <summary>
+    ///// Specifies the visual studio 2015 light palette theme.
+    ///// </summary>
+    //VisualStudio2015Light,
+
+    ///// <summary>
+    ///// Specifies the visual studio 2017 dark palette theme.
+    ///// </summary>
+    //VisualStudio2017Dark,
+
+    ///// <summary>
+    ///// Specifies the visual studio 2017 light palette theme.
+    ///// </summary>
+    //VisualStudio2017Light,
+
+    ///// <summary>
+    ///// Specifies the visual studio 2019 dark palette theme.
+    ///// </summary>
+    //VisualStudio2019Dark,
+
+    ///// <summary>
+    ///// Specifies the visual studio 2019 light palette theme.
+    ///// </summary>
+    //VisualStudio2019Light,
+
+    ///// <summary>
+    ///// Specifies the visual studio 2022 dark palette theme.
+    ///// </summary>
+    //VisualStudio2022Dark,
+
+    ///// <summary>
+    ///// Specifies the visual studio 2022 light palette theme.
+    ///// </summary>
+    //VisualStudio2022Light,
 
     /// <summary>
     /// Specifies a custom palette be used.

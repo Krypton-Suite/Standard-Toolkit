@@ -113,6 +113,8 @@ namespace Krypton.Toolkit
         private static RenderOffice2013? _renderOffice2013;
         private static RenderMicrosoft365? _renderMicrosoft365;
         private static RenderSparkle? _renderSparkle;
+        private static RenderVisualStudio2010? _renderVisualStudio2010;
+        private static RenderVisualStudio? _renderVisualStudio;
 
         private static KryptonCustomPaletteManager? _customPaletteManager;
         #endregion
@@ -934,6 +936,10 @@ namespace Krypton.Toolkit
                     return RenderProfessional;
                 case RendererMode.Standard:
                     return RenderStandard;
+                case RendererMode.VisualStudio:
+                    return RenderVisualStudio;
+                case RendererMode.VisualStudio2010:
+                    return RenderVisualStudio2010;
                 case RendererMode.Inherit:
                 case RendererMode.Custom:
                 default:
@@ -972,6 +978,14 @@ namespace Krypton.Toolkit
         /// Gets the single instance of the professional renderer.
         /// </summary>
         public static RenderProfessional RenderProfessional => _renderProfessional ??= new RenderProfessional();
+
+        /// <summary>Gets the render visual studio.</summary>
+        /// <value>The render visual studio.</value>
+        public static RenderVisualStudio RenderVisualStudio => _renderVisualStudio ??= new RenderVisualStudio();
+
+        /// <summary>Gets the render visual studio 2010.</summary>
+        /// <value>The render visual studio 2010.</value>
+        public static RenderVisualStudio2010 RenderVisualStudio2010 => _renderVisualStudio2010 ??= new RenderVisualStudio2010();
 
         /// <summary>
         /// Gets the single instance of the standard renderer.

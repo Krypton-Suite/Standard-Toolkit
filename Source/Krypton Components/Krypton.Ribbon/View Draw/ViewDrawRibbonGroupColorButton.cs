@@ -246,7 +246,7 @@ namespace Krypton.Ribbon
         /// <param name="context">Layout context.</param>
         public override Size GetPreferredSize(ViewLayoutContext context)
         {
-            var drawNonTrackingAreas = _ribbon.RibbonShape is not PaletteRibbonShape.Office2010 or PaletteRibbonShape.Office2013 or PaletteRibbonShape.Microsoft365;
+            var drawNonTrackingAreas = _ribbon.RibbonShape is not PaletteRibbonShape.Office2010 or PaletteRibbonShape.VisualStudio2010 or PaletteRibbonShape.Office2013 or PaletteRibbonShape.VisualStudio2010 or PaletteRibbonShape.Microsoft365 or PaletteRibbonShape.VisualStudio;
 
             // Update the views with the type of button being used
             _viewLarge.ButtonType = GroupColorButton.ButtonType;
