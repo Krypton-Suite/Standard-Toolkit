@@ -116,48 +116,46 @@ namespace Krypton.Toolkit
                                 case @"edit":
                                     // Following is the magic required to handle the DlgEx
                                     //if ((control.WinInfo.dwStyle & 0x2000) == 0x2000)
-                                    //{
-                                    //    //PI.ES_.NUMBER == 0x2000
-                                    //    var text = new StringBuilder(64);
-                                    //    PI.GetWindowText(control.hWnd, text, 64);
-                                    //    control.Text = text.ToString();
-                                    //    control.DlgCtrlId = PI.GetDlgCtrlID(control.hWnd);
+                                    {
+                                        //    //PI.ES_.NUMBER == 0x2000
+                                        //    var text = new StringBuilder(64);
+                                        //    PI.GetWindowText(control.hWnd, text, 64);
+                                        //    control.Text = text.ToString();
+                                        var rcClient = control.WinInfo.rcClient;
+                                        var lpPoint = new PI.POINT(rcClient.left, rcClient.top);
+                                        PI.ScreenToClient(hWnd, ref lpPoint);
+                                        control.ClientLocation = new Point(lpPoint.X, lpPoint.Y);
+                                        control.Size = new Size(rcClient.right - rcClient.left, rcClient.bottom - rcClient.top + 4);
+                                        //    var panel = new KryptonPanel
+                                        //    {
+                                        //        Size = control.Size
+                                        //    };
+                                        //    panel.Location = control.ClientLocation;
+                                        //    PI.SetParent(panel.Handle, hWnd);
 
-                                    //    var rcClient = control.WinInfo.rcClient;
-                                    //    var lpPoint = new PI.POINT(rcClient.left, rcClient.top);
-                                    //    PI.ScreenToClient(hWnd, ref lpPoint);
-                                    //    control.ClientLocation = new Point(lpPoint.X, lpPoint.Y);
-                                    //    control.Size = new Size(rcClient.right - rcClient.left, rcClient.bottom - rcClient.top+4);
-                                    //    var panel = new KryptonPanel
-                                    //    {
-                                    //        Size = control.Size
-                                    //    };
-                                    //    panel.Location = control.ClientLocation;
-                                    //    PI.SetParent(panel.Handle, hWnd);
-
-                                    //    var button = new KryptonNumericUpDown
-                                    //    {
-                                    //        AutoSize = false,
-                                    //        Text = control.Text,
-                                    //        Dock = DockStyle.Fill,
-                                    //        InputControlStyle = InputControlStyle.Standalone,
-                                    //        Enabled = (control.WinInfo.dwStyle & PI.WS_.DISABLED) == 0
-                                    //    };
-                                    //    panel.Controls.Add(button);
-                                    //    control.Button = button;
-                                    //    button.NumericUpDown.ValueChanged += delegate(object sender, EventArgs args)
-                                    //    {
-                                    //        PI.SendMessage(control.hWnd, PI.WM_.SETTEXT, IntPtr.Zero,
-                                    //            button.NumericUpDown.Text);
-                                    //    };
-                                    //    button.Click += delegate (object sender, EventArgs args)
-                                    //    {
-                                    //        PI.SendMessage(control.hWnd, PI.BM_CLICK, IntPtr.Zero, IntPtr.Zero);
-                                    //        ClickCallback?.Invoke(control);
-                                    //    };
-                                    //    PI.ShowWindow(control.hWnd, PI.ShowWindowCommands.SW_HIDE);
-                                    //}
-                                    PI.SendMessage(control.hWnd, PI.WM_.SETFONT, editLogFont, new IntPtr(1));
+                                        //    var button = new KryptonNumericUpDown
+                                        //    {
+                                        //        AutoSize = false,
+                                        //        Text = control.Text,
+                                        //        Dock = DockStyle.Fill,
+                                        //        InputControlStyle = InputControlStyle.Standalone,
+                                        //        Enabled = (control.WinInfo.dwStyle & PI.WS_.DISABLED) == 0
+                                        //    };
+                                        //    panel.Controls.Add(button);
+                                        //    control.Button = button;
+                                        //    button.NumericUpDown.ValueChanged += delegate(object sender, EventArgs args)
+                                        //    {
+                                        //        PI.SendMessage(control.hWnd, PI.WM_.SETTEXT, IntPtr.Zero,
+                                        //            button.NumericUpDown.Text);
+                                        //    };
+                                        //    button.Click += delegate (object sender, EventArgs args)
+                                        //    {
+                                        //        PI.SendMessage(control.hWnd, PI.BM_CLICK, IntPtr.Zero, IntPtr.Zero);
+                                        //        ClickCallback?.Invoke(control);
+                                        //    };
+                                        //    PI.ShowWindow(control.hWnd, PI.ShowWindowCommands.SW_HIDE);
+                                        }
+                                        PI.SendMessage(control.hWnd, PI.WM_.SETFONT, editLogFont, new IntPtr(1));
                                     break;
 
                                 case @"button":

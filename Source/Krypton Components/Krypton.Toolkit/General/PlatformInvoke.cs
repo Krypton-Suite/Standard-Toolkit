@@ -2888,6 +2888,10 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
 
         [DllImport(Libraries.User32, EntryPoint = "GetWindowTextW", CharSet = CharSet.Unicode, SetLastError = true)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+        //If the function succeeds, the return value is the length, in characters, of the copied string,
+        //not including the terminating null character. If the window has no title bar or text,
+        //if the title bar is empty, or if the window or control handle is invalid,
+        //the return value is zero. To get extended error information, call GetLastError.
         internal static extern int GetWindowText(IntPtr hWnd, StringBuilder lpString, int nMaxCount);
 
         public static string GetWindowText(IntPtr hwnd)
