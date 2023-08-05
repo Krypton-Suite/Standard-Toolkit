@@ -44,7 +44,7 @@ namespace Krypton.Ribbon
         private readonly PaletteRibbonContextDouble _paletteContextCurrent;
         private readonly RibbonTabToContent _contentProvider;
         private readonly NeedPaintHandler _needPaint;
-        private IDisposable[] _mementos;
+        private IDisposable?[] _mementos;
         private Size _preferredSize;
         private Rectangle _displayRect;
         private int _dirtyPaletteSize;
@@ -83,9 +83,9 @@ namespace Krypton.Ribbon
             Debug.Assert(needPaint != null);
 
             // Cache incoming values
-            Ribbon = ribbon;
-            ViewLayoutRibbonTabs = layoutTabs;
-            _needPaint = needPaint;
+            Ribbon = ribbon!;
+            ViewLayoutRibbonTabs = layoutTabs!;
+            _needPaint = needPaint!;
 
             // Create overrides for handling a focus state
             _paletteGeneral = Ribbon.StateCommon.RibbonGeneral;
@@ -153,9 +153,9 @@ namespace Krypton.Ribbon
                 if (_mementos != null!)
                 {
                     // Dispose of all the mementos in the array
-                    foreach (IDisposable memento in _mementos)
+                    foreach (IDisposable? memento in _mementos)
                     {
-                        memento.Dispose();
+                        memento?.Dispose();
                     }
 
                     _mementos = null!;
@@ -354,10 +354,10 @@ namespace Krypton.Ribbon
             Debug.Assert(context != null);
 
             // Ensure that child elements have correct palette state
-            CheckPaletteState(context);
+            CheckPaletteState(context!);
 
             // We take on all the available display area
-            ClientRectangle = context.DisplayRectangle;
+            ClientRectangle = context!.DisplayRectangle;
 
             // A change in state always causes a size and layout calculation
             if (_cacheState != State)
@@ -497,7 +497,7 @@ namespace Krypton.Ribbon
         #endregion
 
         #region Implementation
-        private void RenderBefore2007ContextTab(RenderContext context, ContextTabSet? cts)
+        private void RenderBefore2007ContextTab(RenderContext context, ContextTabSet cts)
         {
             // We only draw side separators on the first and last tab of the contexts
             if (cts.IsFirstOrLastTab(this))
@@ -527,7 +527,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void RenderBefore2010ContextTab(RenderContext context, ContextTabSet? cts)
+        private void RenderBefore2010ContextTab(RenderContext context, ContextTabSet cts)
         {
             // Grab the colors we draw the context separators and background in
             Color c1 = _paletteGeneral.GetRibbonTabSeparatorContextColor(PaletteState.Normal);
