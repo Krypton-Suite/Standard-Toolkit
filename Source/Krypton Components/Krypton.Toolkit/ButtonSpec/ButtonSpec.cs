@@ -192,10 +192,7 @@ namespace Krypton.Toolkit
 
         private bool ShouldSerializeImage() => Image != null;
 
-        /// <summary>
-        /// Resets the Image property to its default value.
-        /// </summary>
-        public void ResetImage() => Image = null;
+        private void ResetImage() => Image = null;
 
         #endregion
 
@@ -223,10 +220,7 @@ namespace Krypton.Toolkit
 
         private bool ShouldSerializeImageTransparentColor() => ImageTransparentColor != Color.Empty;
 
-        /// <summary>
-        /// Resets the ImageTransparentColor property to its default value.
-        /// </summary>
-        public void ResetImageTransparentColor() => ImageTransparentColor = Color.Empty;
+        private void ResetImageTransparentColor() => ImageTransparentColor = Color.Empty;
 
         #endregion
 
@@ -267,10 +261,7 @@ namespace Krypton.Toolkit
 
         private bool ShouldSerializeText() => Text != string.Empty;
 
-        /// <summary>
-        /// Resets the Text property to its default value.
-        /// </summary>
-        public void ResetText() => Text = string.Empty;
+        private void ResetText() => Text = string.Empty;
         #endregion
 
         #region ExtraText
@@ -297,10 +288,7 @@ namespace Krypton.Toolkit
 
         private bool ShouldSerializeExtraText() => ExtraText != string.Empty;
 
-        /// <summary>
-        /// Resets the ExtraText property to its default value.
-        /// </summary>
-        public void ResetExtraText() => ExtraText = string.Empty;
+        private void ResetExtraText() => ExtraText = string.Empty;
 
         #endregion
 
@@ -328,10 +316,7 @@ namespace Krypton.Toolkit
 
         private bool ShouldSerializeToolTipImage() => ToolTipImage != null;
 
-        /// <summary>
-        /// Resets the ToolTipImage property to its default value.
-        /// </summary>
-        public void ResetToolTipImage() => ToolTipImage = null;
+        private void ResetToolTipImage() => ToolTipImage = null;
 
         #endregion
 
@@ -359,10 +344,7 @@ namespace Krypton.Toolkit
 
         private bool ShouldSerializeToolTipImageTransparentColor() => ToolTipImageTransparentColor != Color.Empty;
 
-        /// <summary>
-        /// Resets the ToolTipImageTransparentColor property to its default value.
-        /// </summary>
-        public void ResetToolTipImageTransparentColor() => ToolTipImageTransparentColor = Color.Empty;
+        private void ResetToolTipImageTransparentColor() => ToolTipImageTransparentColor = Color.Empty;
 
         #endregion
 
@@ -391,10 +373,7 @@ namespace Krypton.Toolkit
 
         private bool ShouldSerializeToolTipTitle() => ToolTipTitle != string.Empty;
 
-        /// <summary>
-        /// Resets the ToolTipTitle property to its default value.
-        /// </summary>
-        public void ResetToolTipTitle() => ToolTipTitle = string.Empty;
+        private void ResetToolTipTitle() => ToolTipTitle = string.Empty;
 
         #endregion
 
@@ -423,10 +402,7 @@ namespace Krypton.Toolkit
 
         private bool ShouldSerializeToolTipBody() => ToolTipBody != string.Empty;
 
-        /// <summary>
-        /// Resets the ToolTipBody property to its default value.
-        /// </summary>
-        public void ResetToolTipBody() => ToolTipBody = string.Empty;
+        private void ResetToolTipBody() => ToolTipBody = string.Empty;
 
         #endregion
 
@@ -436,15 +412,12 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"ToolTip")]
         [Description(@"Button tooltip label style.")]
-        [DefaultValue(typeof(LabelStyle), "Tooltip")]
+        [DefaultValue(typeof(LabelStyle), LabelStyleStrings.DEFAULT_LABEL_STYLE_TOOL_TIP)]
         public LabelStyle ToolTipStyle { get; set; }
 
         private bool ShouldSerializeToolTipStyle() => ToolTipStyle != LabelStyle.ToolTip;
 
-        /// <summary>
-        /// Resets the ToolTipStyle property to its default value.
-        /// </summary>
-        public void ResetToolTipStyle() => ToolTipStyle = LabelStyle.ToolTip;
+        private void ResetToolTipStyle() => ToolTipStyle = LabelStyle.ToolTip;
 
         #endregion
 
@@ -643,7 +616,7 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         [Category(@"Behavior")]
         [Description(@"Button style.")]
-        [DefaultValue(typeof(PaletteButtonStyle), "Inherit")]
+        [DefaultValue(typeof(PaletteButtonStyle), PaletteButtonStyleStrings.DEFAULT_PALETTE_BUTTON_STYLE_INHERIT)]
         public PaletteButtonStyle Style
         {
             get => _style;

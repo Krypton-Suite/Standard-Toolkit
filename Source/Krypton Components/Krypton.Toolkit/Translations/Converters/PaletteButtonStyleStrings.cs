@@ -7,6 +7,7 @@
  */
 #endregion
 
+// ReSharper disable InconsistentNaming
 namespace Krypton.Toolkit
 {
     /// <summary>Exposes the set of <see cref="PaletteButtonStyleConverter"/> strings used within Krypton and that are localizable.</summary>
@@ -15,7 +16,7 @@ namespace Krypton.Toolkit
     {
         #region Static Fields
 
-        private const string DEFAULT_PALETTE_BUTTON_STYLE_INHERIT = @"Inherit";
+        internal const string DEFAULT_PALETTE_BUTTON_STYLE_INHERIT = @"Inherit";
         private const string DEFAULT_PALETTE_BUTTON_STYLE_STANDALONE = @"Standalone";
         private const string DEFAULT_PALETTE_BUTTON_STYLE_ALTERNATE = @"Alternate";
         private const string DEFAULT_PALETTE_BUTTON_STYLE_LOW_PROFILE = @"Low Profile";

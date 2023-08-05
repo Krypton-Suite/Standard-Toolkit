@@ -86,9 +86,7 @@ namespace Krypton.Toolkit
 
         private bool ShouldSerializeEnableShadows() => EnableShadows;
 
-        /// <summary>
-        /// </summary>
-        public void ResetEnableShadows() => EnableShadows = false;
+        private void ResetEnableShadows() => EnableShadows = false;
 
 
         /// <summary>
@@ -109,9 +107,7 @@ namespace Krypton.Toolkit
 
         private bool ShouldSerializeOffset() => _offset != _defaultOffset;
 
-        /// <summary>
-        /// </summary>
-        public void ResetOffset() => _offset = _defaultOffset;
+        private void ResetOffset() => _offset = _defaultOffset;
 
         /// <summary>
         /// </summary>
@@ -131,11 +127,7 @@ namespace Krypton.Toolkit
 
         private bool ShouldSerializeExtraWidth() => _extraWidth != 5;
 
-        /// <summary>
-        /// </summary>
-        public void ResetExtraWidth() => _extraWidth = 5;
-
-
+        private void ResetExtraWidth() => _extraWidth = 5;
 
         /// <summary>
         /// </summary>
@@ -158,10 +150,7 @@ namespace Krypton.Toolkit
 
         private bool ShouldSerializeBlurDistance() => Math.Abs(BlurDistance - 50) > 0.001;
 
-        /// <summary>
-        /// </summary>
-        public void ResetBlurDistance() => BlurDistance = 50;
-
+        private void ResetBlurDistance() => BlurDistance = 50;
 
         /// <summary>
         /// </summary>
@@ -181,10 +170,7 @@ namespace Krypton.Toolkit
 
         private bool ShouldSerializeColour() => Colour != SystemColors.ActiveBorder;
 
-        /// <summary>
-        /// Resets the PlacementMode property to its default value.
-        /// </summary>
-        public void ResetColour() => Colour = SystemColors.ActiveBorder;
+        private void ResetColour() => Colour = SystemColors.ActiveBorder;
 
         /// <summary>
         /// </summary>
@@ -207,9 +193,7 @@ namespace Krypton.Toolkit
 
         private bool ShouldSerializeOpacity() => Math.Abs(_opacity - 95) > 0.001;
 
-        /// <summary>
-        /// </summary>
-        public void ResetOpacity() => _opacity = 95;
+        private void ResetOpacity() => _opacity = 95;
 
 
         #region Default Values

@@ -700,7 +700,7 @@ namespace Krypton.Toolkit
         private readonly InternalDomainUpDown _domainUpDown;
         private InputControlStyle _inputControlStyle;
         private ButtonStyle _upDownButtonStyle;
-        private SubclassEdit _subclassEdit;
+        private SubclassEdit? _subclassEdit;
         private SubclassButtons? _subclassButtons;
         private bool? _fixedActive;
         private bool _forcedLayout;
@@ -927,7 +927,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         [EditorBrowsable(EditorBrowsableState.Always)]
         [Browsable(false)]
-        public DomainUpDown? DomainUpDown => _domainUpDown;
+        public DomainUpDown DomainUpDown => _domainUpDown;
 
         /// <summary>
         /// Gets access to the contained input control.
@@ -1307,12 +1307,12 @@ namespace Krypton.Toolkit
         /// Sets input focus to the control.
         /// </summary>
         /// <returns>true if the input focus request was successful; otherwise, false.</returns>
-        public new bool Focus() => DomainUpDown != null && DomainUpDown.Focus();
+        public new bool Focus() => DomainUpDown.Focus();
 
         /// <summary>
         /// Activates the control.
         /// </summary>
-        public new void Select() => DomainUpDown?.Select();
+        public new void Select() => DomainUpDown.Select();
 
         /// <summary>
         /// Get the preferred size of the control based on a proposed size.
@@ -1408,7 +1408,7 @@ namespace Krypton.Toolkit
             }
 
             // Check if any of the button specs want the point
-            return (_buttonManager != null) && _buttonManager.DesignerGetHitTest(pt);
+            return _buttonManager.DesignerGetHitTest(pt);
         }
 
         /// <summary>
@@ -1417,9 +1417,9 @@ namespace Krypton.Toolkit
         /// <param name="pt">Mouse location.</param>
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        public Component DesignerComponentFromPoint(Point pt) =>
+        public Component? DesignerComponentFromPoint(Point pt) =>
             // Ignore call as view builder is already destructed
-            IsDisposed ? null : ViewManager.ComponentFromPoint(pt);
+            IsDisposed ? null : ViewManager?.ComponentFromPoint(pt);
 
         // Ask the current view for a decision
         /// <summary>
@@ -1620,7 +1620,7 @@ namespace Krypton.Toolkit
 
                 // Only use layout logic if control is fully initialized or if being forced
                 // to allow a relayout or if in design mode.
-                if (IsHandleCreated || _forcedLayout || (DesignMode && (_domainUpDown != null)))
+                if (IsHandleCreated || _forcedLayout || (DesignMode && (_domainUpDown != null!)))
                 {
                     Rectangle fillRect = _layoutFill.FillRect;
                     _domainUpDown.SetBounds(fillRect.X, fillRect.Y, fillRect.Width, fillRect.Height);
@@ -1788,10 +1788,6 @@ namespace Krypton.Toolkit
             }
         }
 
-        /// <summary>Raises the Paint event.</summary>
-        /// <param name="e">A PaintEventArgs that contains the event data.</param>
-        protected override void OnPaint(PaintEventArgs e) => base.OnPaint(e);
-
         #endregion
 
         #region Internal
@@ -1804,11 +1800,8 @@ namespace Krypton.Toolkit
         #region Implementation
         private void InvalidateChildren()
         {
-            if (DomainUpDown != null)
-            {
-                DomainUpDown.Invalidate();
-                PI.RedrawWindow(Handle, IntPtr.Zero, IntPtr.Zero, 0x85);
-            }
+            DomainUpDown.Invalidate();
+            PI.RedrawWindow(Handle, IntPtr.Zero, IntPtr.Zero, 0x85);
         }
 
         private void SubclassEditControl()
@@ -1953,7 +1946,7 @@ namespace Krypton.Toolkit
                     var shadow = true;
 
                     // Find the button spec associated with the tooltip request
-                    ButtonSpec buttonSpec = _buttonManager.ButtonSpecFromView(e.Target);
+                    ButtonSpec? buttonSpec = _buttonManager.ButtonSpecFromView(e.Target);
 
                     // If the tooltip is for a button spec
                     if (buttonSpec != null)

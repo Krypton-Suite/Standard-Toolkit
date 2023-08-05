@@ -266,7 +266,7 @@ namespace Krypton.Toolkit
         [KryptonPersist]
         [Category(@"Visuals")]
         [Description(@"Check button style.")]
-        [DefaultValue(typeof(ButtonStyle), "Standalone")]
+        [DefaultValue(typeof(ButtonStyle), ButtonStyleStrings.DEFAULT_BUTTON_SPEC_STYLE_STANDALONE)]
         public ButtonStyle ButtonStyle
         {
             get => _style;

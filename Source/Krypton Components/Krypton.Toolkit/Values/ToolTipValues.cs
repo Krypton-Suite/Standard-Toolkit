@@ -22,6 +22,7 @@ namespace Krypton.Toolkit
     {
         private int _showIntervalDelay = 500;
         private int _closeIntervalDelay = 5000;
+        private LabelStyle _toolTipStyle = LabelStyle.SuperTip;
 
         /// <summary>
         /// </summary>
@@ -33,6 +34,9 @@ namespace Krypton.Toolkit
             ToolTipPosition = new PopupPositionValues();
         }
 
+        /// <inheritdoc />
+        protected override Image? GetImageDefault() => null;
+
         #region EnableToolTips
         /// <summary>
         /// Make sure default values are         
@@ -43,13 +47,7 @@ namespace Krypton.Toolkit
 
         private bool ShouldSerializeEnableToolTips() => EnableToolTips;
 
-        /// <inheritdoc />
-        protected override Image? GetImageDefault() => null;
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public void ResetEnableToolTips() => EnableToolTips = false;
+        private void ResetEnableToolTips() => EnableToolTips = false;
         #endregion
 
         #region ToolTipShadow
@@ -77,26 +75,25 @@ namespace Krypton.Toolkit
 
         private bool ShouldSerializeToolTipPosition() => !ToolTipPosition.IsDefault;
 
-        /// <summary>
-        /// Resets the ToolTipStyle property to its default value.
-        /// </summary>
-        public void ResetToolTipPosition() => ToolTipPosition.Reset();
+        private void ResetToolTipPosition() => ToolTipPosition.Reset();
         #endregion
         
         #region ToolTipStyle
+
         /// <summary>
         /// Gets and sets the tooltip label style.
         /// </summary>
         [Description(@"Button tooltip label style.")]
-        [DefaultValue(typeof(LabelStyle), "SuperTip")]
-        public LabelStyle ToolTipStyle { get; set; } = LabelStyle.SuperTip;
+        [DefaultValue(typeof(LabelStyle), LabelStyleStrings.DEFAULT_LABEL_STYLE_SUPER_TIP)]
+        public LabelStyle ToolTipStyle
+        {
+            get => _toolTipStyle;
+            set => _toolTipStyle = value;
+        }
 
         private bool ShouldSerializeToolTipStyle() => ToolTipStyle != LabelStyle.SuperTip;
 
-        /// <summary>
-        /// Resets the ToolTipStyle property to its default value.
-        /// </summary>
-        public void ResetToolTipStyle() => ToolTipStyle = LabelStyle.SuperTip;
+        private void ResetToolTipStyle() => ToolTipStyle = LabelStyle.SuperTip;
         #endregion
 
         #region ShowIntervalDelay

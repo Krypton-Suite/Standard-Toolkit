@@ -7,6 +7,7 @@
  */
 #endregion
 
+// ReSharper disable InconsistentNaming
 namespace Krypton.Toolkit
 {
     /// <summary>Exposes the set of <see cref="LabelStyleConverter"/> strings used within Krypton and that are localizable.</summary>
@@ -22,13 +23,13 @@ namespace Krypton.Toolkit
         private const string DEFAULT_LABEL_STYLE_CUSTOM_THREE = @"Custom 3";
         private const string DEFAULT_LABEL_STYLE_GROUP_BOX_CAPTION = @"Caption (Panel)";
         private const string DEFAULT_LABEL_STYLE_NORMAL_CONTROL = @"Normal (Control)";
-        private const string DEFAULT_LABEL_STYLE_NORMAL_PANEL = @"Normal (Panel)";
+        internal const string DEFAULT_LABEL_STYLE_NORMAL_PANEL = @"Normal (Panel)";
         private const string DEFAULT_LABEL_STYLE_TITLE_CONTROL = @"Title (Control)";
         private const string DEFAULT_LABEL_STYLE_TITLE_PANEL = @"Title (Panel)";
         private const string DEFAULT_LABEL_STYLE_ITALIC_CONTROL = @"Italic (Control)";
         private const string DEFAULT_LABEL_STYLE_ITALIC_PANEL = @"Italic (Panel)";
-        private const string DEFAULT_LABEL_STYLE_TOOL_TIP = nameof(System.Windows.Forms.ToolTip);
-        private const string DEFAULT_LABEL_STYLE_SUPER_TIP = @"SuperTip";
+        internal const string DEFAULT_LABEL_STYLE_TOOL_TIP = @"ToolTip";
+        internal const string DEFAULT_LABEL_STYLE_SUPER_TIP = @"SuperTip";
         private const string DEFAULT_LABEL_STYLE_KEY_TIP = @"KeyTip";
 
         #endregion

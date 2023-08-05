@@ -7,6 +7,7 @@
  */
 #endregion
 
+// ReSharper disable InconsistentNaming
 #pragma warning disable VSSpell001
 namespace Krypton.Toolkit
 {
@@ -20,7 +21,7 @@ namespace Krypton.Toolkit
         private const string DEFAULT_PALETTE_BUTTON_SPEC_STYLE_CONTEXT = @"Context";
         private const string DEFAULT_PALETTE_BUTTON_SPEC_STYLE_NEXT = @"Next";
         private const string DEFAULT_PALETTE_BUTTON_SPEC_STYLE_PREVIOUS = @"Previous";
-        private const string DEFAULT_PALETTE_BUTTON_SPEC_STYLE_GENERIC = @"Generic";
+        internal const string DEFAULT_PALETTE_BUTTON_SPEC_STYLE_GENERIC = @"Generic";
         private const string DEFAULT_PALETTE_BUTTON_SPEC_STYLE_ARROW_LEFT = @"Arrow Left";
         private const string DEFAULT_PALETTE_BUTTON_SPEC_STYLE_ARROW_RIGHT = @"Arrow Right";
         private const string DEFAULT_PALETTE_BUTTON_SPEC_STYLE_ARROW_UP = @"Arrow Up";
