@@ -7,6 +7,7 @@
  */
 #endregion
 
+// ReSharper disable InconsistentNaming
 namespace Krypton.Toolkit
 {
     /// <summary>Exposes the set of <see cref="PlacementModeConverter"/> strings used within Krypton and that are localizable.</summary>
@@ -17,7 +18,7 @@ namespace Krypton.Toolkit
 
         private const string DEFAULT_PLACEMENT_MODE_ABSOLUTE = @"Placement Mode - Absolute";
         private const string DEFAULT_PLACEMENT_MODE_ABSOLUTE_POINT = @"Placement Mode - Absolute Point";
-        private const string DEFAULT_PLACEMENT_MODE_BOTTOM = @"Placement Mode - Bottom";
+        internal const string DEFAULT_PLACEMENT_MODE_BOTTOM = @"Placement Mode - Bottom";
         private const string DEFAULT_PLACEMENT_MODE_CENTER = @"Placement Mode - Center";
         private const string DEFAULT_PLACEMENT_MODE_LEFT = @"Placement Mode - Left";
         private const string DEFAULT_PLACEMENT_MODE_MOUSE = @"Placement Mode - Mouse";

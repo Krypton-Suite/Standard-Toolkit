@@ -43,32 +43,45 @@ namespace Krypton.Toolkit
 
         #endregion Identity
 
+        private PlacementMode _placementMode = PlacementMode.Bottom;
+        private ViewBase? _placementTarget;
+
         /// <summary>
         /// 
         /// </summary>
         [Description(@"Describes the placement of where a Popup control appears on the screen.")]
-        [DefaultValue(typeof(PlacementMode), "Bottom")]
-        public PlacementMode PlacementMode { get; set; }
+        [DefaultValue(typeof(PlacementMode), PlacementModeStrings.DEFAULT_PLACEMENT_MODE_BOTTOM)]
+        public PlacementMode PlacementMode
+        {
+            get => _placementMode;
+            set => _placementMode = value;
+        }
 
-        private bool ShouldSerializePlacementMode() => PlacementMode != PlacementMode.Bottom;
+        private bool ShouldSerializePlacementMode() => _placementMode != PlacementMode.Bottom;
 
         /// <summary>
         /// Resets the PlacementMode property to its default value.
         /// </summary>
-        public void ResetPlacementMode() => PlacementMode = PlacementMode.Bottom;
+        private void ResetPlacementMode() => _placementMode = PlacementMode.Bottom;
 
         /// <summary>
         /// 
         /// </summary>
         [Description(@"The element relative to which the Popup is positioned when it opens.")]
-        public ViewBase? PlacementTarget { get; set; }
+        [DefaultValue(null)]
+        [AllowNull]
+        public ViewBase? PlacementTarget
+        {
+            get => _placementTarget;
+            set => _placementTarget = value;
+        }
 
         private bool ShouldSerializePlacementTarget() => PlacementTarget != null;
 
         /// <summary>
         /// Resets the PlacementTarget property to its default value.
         /// </summary>
-        public void ResetPlacementTarget() => PlacementTarget = null;
+        private void ResetPlacementTarget() => PlacementTarget = null;
 
         /// <summary>
         /// 
@@ -81,7 +94,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the ToolTipStyle property to its default value.
         /// </summary>
-        public void ResetPlacementRectangle() => PlacementRectangle = new Rectangle();
+        private void ResetPlacementRectangle() => PlacementRectangle = new Rectangle();
 
         #region Default Values
         /// <summary>

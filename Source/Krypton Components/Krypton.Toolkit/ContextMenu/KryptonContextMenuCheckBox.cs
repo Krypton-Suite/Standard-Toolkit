@@ -274,7 +274,7 @@ namespace Krypton.Toolkit
         [KryptonPersist]
         [Category(@"Visuals")]
         [Description(@"Check box label style.")]
-        [DefaultValue(typeof(LabelStyle), "NormalPanel")]
+        [DefaultValue(typeof(LabelStyle), LabelStyleStrings.DEFAULT_LABEL_STYLE_NORMAL_PANEL)]
         public LabelStyle LabelStyle
         {
             get => _style;

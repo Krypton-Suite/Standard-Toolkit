@@ -7,6 +7,7 @@
  */
 #endregion
 
+// ReSharper disable InconsistentNaming
 namespace Krypton.Toolkit
 {
     /// <summary>Exposes the set of <see cref="ButtonStyleConverter"/> strings used within Krypton and that are localizable.</summary>
@@ -16,9 +17,9 @@ namespace Krypton.Toolkit
         #region Static Fields
 
         private const string DEFAULT_BUTTON_SPEC_STYLE_ALTERNATE = @"Alternate";
-        private const string DEFAULT_BUTTON_SPEC_STYLE_STANDALONE = @"Standalone";
-        private const string DEFAULT_BUTTON_SPEC_STYLE_LOW_PROFILE = @"Low Profile";
-        private const string DEFAULT_BUTTON_SPEC_STYLE_BUTTON_SPEC = nameof(Krypton.Toolkit.ButtonSpec);
+        public const string DEFAULT_BUTTON_SPEC_STYLE_STANDALONE = @"Standalone";
+        internal const string DEFAULT_BUTTON_SPEC_STYLE_LOW_PROFILE = @"Low Profile";
+        private const string DEFAULT_BUTTON_SPEC_STYLE_BUTTON_SPEC = @"ButtonSpec";
         private const string DEFAULT_BUTTON_SPEC_STYLE_BREAD_CRUMB = @"Bread Crumb";
         private const string DEFAULT_BUTTON_SPEC_STYLE_CALENDAR_DAY = @"Calendar Day";
         private const string DEFAULT_BUTTON_SPEC_STYLE_CLUSTER = @"Cluster";
@@ -28,7 +29,7 @@ namespace Krypton.Toolkit
         private const string DEFAULT_BUTTON_SPEC_STYLE_NAVIGATOR_MINI = @"Navigator Mini";
         private const string DEFAULT_BUTTON_SPEC_STYLE_INPUT_CONTROL = @"Input Control";
         private const string DEFAULT_BUTTON_SPEC_STYLE_LIST_ITEM = @"List Item";
-        private const string DEFAULT_BUTTON_SPEC_STYLE_FORM = nameof(System.Windows.Forms.Form);
+        private const string DEFAULT_BUTTON_SPEC_STYLE_FORM = @"Form";
         private const string DEFAULT_BUTTON_SPEC_STYLE_FORM_CLOSE = @"Form Close";
         private const string DEFAULT_BUTTON_SPEC_STYLE_COMMAND = @"Command";
         private const string DEFAULT_BUTTON_SPEC_STYLE_CUSTOM_ONE = @"Custom 1";

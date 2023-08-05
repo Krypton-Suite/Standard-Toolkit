@@ -235,7 +235,7 @@ namespace Krypton.Toolkit
         [Category(@"Behavior")]
         [Description(@"Defines the type of button specification.")]
         [RefreshProperties(RefreshProperties.All)]
-        [DefaultValue(typeof(PaletteButtonSpecStyle), "Generic")]
+        [DefaultValue(typeof(PaletteButtonSpecStyle), PaletteButtonSpecStyleStrings.DEFAULT_PALETTE_BUTTON_SPEC_STYLE_GENERIC)]
         public PaletteButtonSpecStyle Type
         {
             get => ProtectedType;
@@ -252,9 +252,6 @@ namespace Krypton.Toolkit
 
         private bool ShouldSerializeType() => Type != PaletteButtonSpecStyle.Generic;
 
-        /// <summary>
-        /// Resets the Type property to its default value.
-        /// </summary>
         private void ResetType() => Type = PaletteButtonSpecStyle.Generic;
 
         #endregion
