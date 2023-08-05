@@ -65,7 +65,7 @@ namespace Krypton.Ribbon
         {
             // If we are rendering using desktop window composition and using the Office 2010 shape 
             // of ribbon then we need to draw the tabs area as part of the window chromw
-            if (DrawOnComposition && _ribbon.RibbonShape is PaletteRibbonShape.Office2010 or PaletteRibbonShape.Office2013 or PaletteRibbonShape.Microsoft365)
+            if (DrawOnComposition && _ribbon.RibbonShape is PaletteRibbonShape.Office2010 or PaletteRibbonShape.Office2013 or PaletteRibbonShape.Microsoft365 or PaletteRibbonShape.VisualStudio)
             {
                 var tabsHeight = _ribbon.TabsArea.ClientHeight;
 
@@ -98,8 +98,8 @@ namespace Krypton.Ribbon
             // If we are rendering using desktop window composition and using the Office 2010 shape 
             // of ribbon then we need to draw the tabs area as part of the window chrome
             // Not for 2007
-            if (DrawOnComposition 
-                && _ribbon.RibbonShape is PaletteRibbonShape.Office2010 or PaletteRibbonShape.Office2013 or PaletteRibbonShape.Microsoft365
+            if (DrawOnComposition
+                && _ribbon.RibbonShape is PaletteRibbonShape.Office2010 or PaletteRibbonShape.VisualStudio2010 or PaletteRibbonShape.Office2013 or PaletteRibbonShape.Microsoft365 or PaletteRibbonShape.VisualStudio
                 )
             {
                 if (edges)
@@ -123,31 +123,28 @@ namespace Krypton.Ribbon
                 switch (_ribbon.RibbonShape)
                 {
                     case PaletteRibbonShape.Office2010:
-                    {
-                        //Adjust Color of the gradient
-                        Color gradientColor = KryptonManager.CurrentGlobalPalette == KryptonManager.PaletteOffice2010Black
-                            ? Color.FromArgb(39, 39, 39)
-                            : Color.White;
+                    case PaletteRibbonShape.VisualStudio2010:
+                        {
+                            //Adjust Color of the gradient
+                            Color gradientColor = KryptonManager.CurrentGlobalPalette == KryptonManager.PaletteOffice2010Black
+                                ? Color.FromArgb(39, 39, 39)
+                                : Color.White;
 
-                        using var backBrush = new LinearGradientBrush(
-                            rect with { Y = rect.Y - 1, Height = rect.Height + 1 }, Color.Transparent,
-                            gradientColor, 90f);
-                        backBrush.Blend = _compBlend;
-                        g.FillRectangle(backBrush, rect with { Height = rect.Height - 1 });
-                        break;
-                    }
+                            using var backBrush = new LinearGradientBrush(
+                                rect with { Y = rect.Y - 1, Height = rect.Height + 1 }, Color.Transparent,
+                                gradientColor, 90f);
+                            backBrush.Blend = _compBlend;
+                            g.FillRectangle(backBrush, rect with { Height = rect.Height - 1 });
+                            break;
+                        }
                     case PaletteRibbonShape.Office2013:
-                    {
-                        using var backBrush = new SolidBrush(Color.White);
-                        g.FillRectangle(backBrush, rect with { Height = rect.Height - 1 });
-                        break;
-                    }
                     case PaletteRibbonShape.Microsoft365:
-                    {
-                        using var backBrush = new SolidBrush(Color.White);
-                        g.FillRectangle(backBrush, rect with { Height = rect.Height - 1 });
-                        break;
-                    }
+                    case PaletteRibbonShape.VisualStudio:
+                        {
+                            using var backBrush = new SolidBrush(Color.White);
+                            g.FillRectangle(backBrush, rect with { Height = rect.Height - 1 });
+                            break;
+                        }
                 }
             }
         }

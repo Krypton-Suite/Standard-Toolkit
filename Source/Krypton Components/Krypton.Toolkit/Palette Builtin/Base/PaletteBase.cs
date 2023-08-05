@@ -92,13 +92,13 @@ namespace Krypton.Toolkit
             // Inherit means we need to calculate the value next time it is requested
             _dragFeedback = PaletteDragFeedback.Inherit;
 
-            _themeName = null;
+            _themeName = string.Empty;
 
-            _useKryptonFileDialogs = false;
+            _useKryptonFileDialogs = true;
 
             _baseFont = _defaultFontStyle;
 
-            _baseFontSize = 9f;
+            _baseFontSize = _defaultFontStyle.Size;
         }
         #endregion
 

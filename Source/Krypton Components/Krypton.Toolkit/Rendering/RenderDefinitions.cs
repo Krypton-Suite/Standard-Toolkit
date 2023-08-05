@@ -888,6 +888,10 @@ namespace Krypton.Toolkit
         /// </summary>
         Standard,
 
+        VisualStudio2010,
+
+        VisualStudio,
+
         /// <summary>
         /// Specifies a custom renderer be used.
         /// </summary>

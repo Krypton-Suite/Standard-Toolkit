@@ -57,7 +57,7 @@ namespace Krypton.Ribbon
             _minibarBorderPaddingOverlap = new Padding((int)(8 * FactorDpiX), (int)(2 * FactorDpiY), (int)(11 * FactorDpiX), (int)(2 * FactorDpiY));
             _minibarBorderPaddingNoOverlap = new Padding((int)(17 * FactorDpiX), (int)(2 * FactorDpiY), (int)(11 * FactorDpiX), (int)(2 * FactorDpiY));
             _fullbarBorderPadding_2007 = new Padding((int)(1 * FactorDpiX), (int)(3 * FactorDpiY), (int)(2 * FactorDpiX), (int)(2 * FactorDpiY));
-            _fullbarBorderPadding_2010 = new Padding((int)(2 * FactorDpiX),  (int)(2 * FactorDpiY), (int)(2 * FactorDpiX),  (int)(2 * FactorDpiY));
+            _fullbarBorderPadding_2010 = new Padding((int)(2 * FactorDpiX), (int)(2 * FactorDpiY), (int)(2 * FactorDpiX), (int)(2 * FactorDpiY));
             _noBorderPadding = new Padding((int)(1 * FactorDpiX), 0, (int)(1 * FactorDpiX), 0);
             // Remember incoming references
             _ribbon = ribbon;
