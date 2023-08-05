@@ -101,7 +101,7 @@ namespace Krypton.Toolkit
 
             _baseFont = _defaultFontStyle;
 
-            _baseFontSize = 9f;
+            _baseFontSize = _defaultFontStyle.Size;
         }
 
         #endregion
