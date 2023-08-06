@@ -10,7 +10,8 @@
 namespace Krypton.Toolkit
 {
     /// <summary>A <see cref="KryptonCommand"/> created specifically for the <see cref="PaletteButtonSpecStyle.Undo"/> button spec.</summary>
-    [ToolboxItem(true)]
+    [Category(@"code")]
+    [ToolboxItem(false)]
     //[ToolboxBitmap(typeof(KryptonHelpCommand), @"ToolboxBitmaps.KryptonHelp.bmp")]
     [Description(@"For use with the 'Undo' ButtonSpec style.")]
     [DesignerCategory(@"code")]

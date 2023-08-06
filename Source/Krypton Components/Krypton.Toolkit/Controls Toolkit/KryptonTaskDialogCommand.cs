@@ -305,6 +305,14 @@ namespace Krypton.Toolkit
             set { }
         }
         #endregion
+
+        #region Hidden Properties
+
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public KryptonCommandType CommandType { get; set; }
+
+        #endregion
     }
 
     /// <summary>

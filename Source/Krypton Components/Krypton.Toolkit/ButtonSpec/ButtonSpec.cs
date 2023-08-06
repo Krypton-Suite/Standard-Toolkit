@@ -746,11 +746,14 @@ namespace Krypton.Toolkit
                     }
 
                     _command = value;
+
                     OnButtonSpecPropertyChanged(nameof(KryptonCommand));
 
                     if (_command != null)
                     {
                         _command.PropertyChanged += OnCommandPropertyChanged;
+
+                        _command.AssignedButtonSpec = this;
                     }
                 }
             }
