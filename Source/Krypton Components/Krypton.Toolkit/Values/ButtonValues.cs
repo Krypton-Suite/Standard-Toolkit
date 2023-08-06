@@ -24,7 +24,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Instance Fields
-        private Image _image;
+        private Image? _image;
         private Color _transparent;
         private string? _text;
         private string _extraText;
@@ -236,7 +236,7 @@ namespace Krypton.Toolkit
         public virtual Image? GetImage(PaletteState state)
         {
             // Try and find a state specific image
-            Image image = state switch
+            Image? image = state switch
             {
                 PaletteState.Disabled => ImageStates.ImageDisabled,
                 PaletteState.Normal => ImageStates.ImageNormal,

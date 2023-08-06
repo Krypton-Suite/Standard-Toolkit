@@ -18,7 +18,7 @@ namespace Krypton.Toolkit
     public class CaptionValues : HeaderValuesBase
     {
         #region Static Fields
-        private const string _defaultText = "Caption";
+        private const string DEFAULT_TEXT = "Caption";
         #endregion
 
         #region Identity
@@ -43,7 +43,7 @@ namespace Krypton.Toolkit
         /// Gets the default heading value.
         /// </summary>
         /// <returns>String reference.</returns>
-        protected override string GetHeadingDefault() => _defaultText;
+        protected override string GetHeadingDefault() => DEFAULT_TEXT;
 
         /// <summary>
         /// Gets the default description value.

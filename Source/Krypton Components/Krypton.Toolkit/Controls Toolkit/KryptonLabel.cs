@@ -52,6 +52,7 @@ namespace Krypton.Toolkit
         public KryptonLabel()
         {
             SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
+            SetStyle(ControlStyles.UseTextForAccessibility, true);
             // The label cannot take the focus
             SetStyle(ControlStyles.Selectable, false);
 
