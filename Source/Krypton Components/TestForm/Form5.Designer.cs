@@ -29,7 +29,9 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form5));
             this.kryptonPanel1 = new Krypton.Toolkit.KryptonPanel();
+            this.kryptonButton1 = new Krypton.Toolkit.KryptonButton();
             this.kryptonPropertyGrid1 = new Krypton.Toolkit.KryptonPropertyGrid();
             this.kryptonThemeComboBox1 = new Krypton.Toolkit.KryptonThemeComboBox();
             this.kryptonManager1 = new Krypton.Toolkit.KryptonManager(this.components);
@@ -45,6 +47,7 @@
             // 
             // kryptonPanel1
             // 
+            this.kryptonPanel1.Controls.Add(this.kryptonButton1);
             this.kryptonPanel1.Controls.Add(this.kryptonPropertyGrid1);
             this.kryptonPanel1.Controls.Add(this.kryptonThemeComboBox1);
             this.kryptonPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -52,6 +55,14 @@
             this.kryptonPanel1.Name = "kryptonPanel1";
             this.kryptonPanel1.Size = new System.Drawing.Size(800, 450);
             this.kryptonPanel1.TabIndex = 0;
+            // 
+            // kryptonButton1
+            // 
+            this.kryptonButton1.Location = new System.Drawing.Point(364, 13);
+            this.kryptonButton1.Name = "kryptonButton1";
+            this.kryptonButton1.Size = new System.Drawing.Size(90, 25);
+            this.kryptonButton1.TabIndex = 2;
+            this.kryptonButton1.Values.Text = "kryptonButton1";
             // 
             // kryptonPropertyGrid1
             // 
@@ -106,6 +117,7 @@
             // buttonSpecAny4
             // 
             this.buttonSpecAny4.Enabled = Krypton.Toolkit.ButtonEnabled.True;
+            this.buttonSpecAny4.KryptonCommand = this.kryptonCommand1;
             this.buttonSpecAny4.Style = Krypton.Toolkit.PaletteButtonStyle.Inherit;
             this.buttonSpecAny4.ToolTipStyle = Krypton.Toolkit.LabelStyle.ToolTip;
             this.buttonSpecAny4.Type = Krypton.Toolkit.PaletteButtonSpecStyle.Generic;
@@ -113,7 +125,9 @@
             // 
             // kryptonCommand1
             // 
-            this.kryptonCommand1.CommandType = Krypton.Toolkit.KryptonCommandType.General;
+            this.kryptonCommand1.AssignedButtonSpec = this.buttonSpecAny4;
+            this.kryptonCommand1.CommandType = Krypton.Toolkit.KryptonCommandType.IntegratedToolBarNewCommand;
+            this.kryptonCommand1.ImageSmall = ((System.Drawing.Image)(resources.GetObject("kryptonCommand1.ImageSmall")));
             this.kryptonCommand1.Text = "kryptonCommand1";
             // 
             // Form5
@@ -147,5 +161,6 @@
         private Krypton.Toolkit.ButtonSpecAny buttonSpecAny3;
         private Krypton.Toolkit.ButtonSpecAny buttonSpecAny4;
         private Krypton.Toolkit.KryptonCommand kryptonCommand1;
+        private Krypton.Toolkit.KryptonButton kryptonButton1;
     }
 }
