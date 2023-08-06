@@ -476,6 +476,10 @@ namespace Krypton.Toolkit
         /// </summary>
         Color ImageTransparentColor { get; set; }
 
+        /// <summary>Gets or sets the type of the command.</summary>
+        /// <value>The type of the command.</value>
+        KryptonCommandType CommandType { get; set; }
+
         /// <summary>
         /// Generates a Execute event for a command.
         /// </summary>
