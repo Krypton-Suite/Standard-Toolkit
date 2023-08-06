@@ -3,6 +3,7 @@
 =======
 
 ## 2023-11-xx - Build 2311 - November 2023
+* Resolved [#1076](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1076), Toolbar Commands show up in the designer as drag droppable components
 * Implemented [#909](https://github.com/Krypton-Suite/Standard-Toolkit/issues/909), Can the colour picker support alpha blends
 * Implemented [#943](https://github.com/Krypton-Suite/Standard-Toolkit/issues/943), ThemeManager should be in a single file
 * Implemented [#1050](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1050), Automatically upgrade incompatible theme (XML) files
