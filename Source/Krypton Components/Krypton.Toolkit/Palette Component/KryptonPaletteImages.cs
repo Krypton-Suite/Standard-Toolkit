@@ -151,5 +151,18 @@ namespace Krypton.Toolkit
         private bool ShouldSerializeTreeView() => !TreeView.IsDefault;
 
         #endregion
+
+        #region IntegratedToolBar
+
+        /// <summary>Gets access the integrated tool bar set of images.</summary>
+        [KryptonPersist]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining integrated toolbar images.")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        public KryptonPaletteImagesIntegratedToolBar IntegratedToolBar { get; }
+
+        private bool ShouldSerializeIntegratedToolBar() => !IntegratedToolBar.IsDefault;
+
+        #endregion
     }
 }
