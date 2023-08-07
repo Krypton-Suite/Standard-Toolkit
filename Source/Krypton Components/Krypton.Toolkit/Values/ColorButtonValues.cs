@@ -26,9 +26,9 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Instance Fields
-        private Image _image;
-        private Image _sourceImage;
-        private Image _compositeImage;
+        private Image? _image;
+        private Image? _sourceImage;
+        private Image? _compositeImage;
         private Color _transparent;
         private string? _text;
         private string _extraText;
@@ -322,7 +322,7 @@ namespace Krypton.Toolkit
         public virtual Image? GetImage(PaletteState state)
         {
             // Try and find a state specific image
-            Image image = state switch
+            Image? image = state switch
             {
                 PaletteState.Disabled => ImageStates.ImageDisabled,
                 PaletteState.Normal => ImageStates.ImageNormal,
@@ -349,7 +349,7 @@ namespace Krypton.Toolkit
                     // Create a copy of the source image
                     Size selectedRectSize = _selectedRect.Size;
                     Size imageSize = image.Size;
-                    Bitmap copyBitmap = new Bitmap(image, Math.Max(selectedRectSize.Width, imageSize.Width),
+                    var copyBitmap = new Bitmap(image, Math.Max(selectedRectSize.Width, imageSize.Width),
                         Math.Max(selectedRectSize.Height, imageSize.Height));
 
                     // Paint over the image with a color indicator
@@ -362,13 +362,13 @@ namespace Krypton.Toolkit
                             // Indicate the absence of a color by drawing a border around 
                             // the selected color area, thus indicating the area inside the
                             // block is blank/empty.
-                            using Pen borderPen = new Pen(_emptyBorderColor);
+                            using var borderPen = new Pen(_emptyBorderColor);
                             DrawRoundedRectangle(g, borderPen, _selectedRect, _roundedCorners);
                         }
                         else
                         {
                             // We have a valid selected color so draw a solid block of color
-                            using SolidBrush colorBrush = new SolidBrush(_selectedColor);
+                            using var colorBrush = new SolidBrush(_selectedColor);
                             FillRoundedRectangle(g, colorBrush, _selectedRect, _roundedCorners);
                         }
                     }

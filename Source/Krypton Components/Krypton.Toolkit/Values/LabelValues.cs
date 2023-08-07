@@ -19,12 +19,12 @@ namespace Krypton.Toolkit
                                IContentValues
     {
         #region Static Fields
-        private const string _defaultText = nameof(Label);
+        private const string DEFAULT_TEXT = nameof(Label);
         private static readonly string _defaultExtraText = string.Empty;
         #endregion
 
         #region Instance Fields
-        private Image _image;
+        private Image? _image;
         private Color _transparent;
         private string? _text;
         private string _extraText;
@@ -32,7 +32,7 @@ namespace Krypton.Toolkit
 
         #region Events
         /// <summary>
-        /// Occures when the value of the Text property changes.
+        /// Occurs when the value of the Text property changes.
         /// </summary>
         public event EventHandler? TextChanged;
         #endregion
@@ -50,7 +50,7 @@ namespace Krypton.Toolkit
             // Set initial values
             _image = null;
             _transparent = Color.Empty;
-            _text = _defaultText;
+            _text = DEFAULT_TEXT;
             _extraText = _defaultExtraText;
         }
         #endregion
@@ -62,7 +62,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         public override bool IsDefault => (Image == null) &&
                                            (ImageTransparentColor == Color.Empty) &&
-                                           (Text == _defaultText) &&
+                                           (Text == DEFAULT_TEXT) &&
                                            (ExtraText == _defaultExtraText);
 
         #endregion
@@ -169,12 +169,12 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeText() => Text != _defaultText;
+        private bool ShouldSerializeText() => Text != DEFAULT_TEXT;
 
         /// <summary>
         /// Resets the Text property to its default value.
         /// </summary>
-        public void ResetText() => Text = _defaultText;
+        public void ResetText() => Text = DEFAULT_TEXT;
 
         /// <summary>
         /// Gets the content short text.

@@ -2824,77 +2824,77 @@ namespace Krypton.Toolkit
         GlassSimpleFull,
 
         /// <summary>
-        /// Specifies a full glass effect appropariate for a normal state.
+        /// Specifies a full glass effect appropriate for a normal state.
         /// </summary>
         GlassNormalFull,
 
         /// <summary>
-        /// Specifies a full glass effect appropariate for a tracking state.
+        /// Specifies a full glass effect appropriate for a tracking state.
         /// </summary>
         GlassTrackingFull,
 
         /// <summary>
-        /// Specifies a full glass effect appropariate for a pressed state.
+        /// Specifies a full glass effect appropriate for a pressed state.
         /// </summary>
         GlassPressedFull,
 
         /// <summary>
-        /// Specifies a full glass effect appropariate for a checked state.
+        /// Specifies a full glass effect appropriate for a checked state.
         /// </summary>
         GlassCheckedFull,
 
         /// <summary>
-        /// Specifies a full glass effect appropariate for a checked/tracking state.
+        /// Specifies a full glass effect appropriate for a checked/tracking state.
         /// </summary>
         GlassCheckedTrackingFull,
 
         /// <summary>
-        /// Specifies a stumpy glass effect appropariate for a normal state.
+        /// Specifies a stumpy glass effect appropriate for a normal state.
         /// </summary>
         GlassNormalStump,
 
         /// <summary>
-        /// Specifies a stumpy glass effect appropariate for a tracking state.
+        /// Specifies a stumpy glass effect appropriate for a tracking state.
         /// </summary>
         GlassTrackingStump,
 
         /// <summary>
-        /// Specifies a stumpy glass effect appropariate for a pressed state.
+        /// Specifies a stumpy glass effect appropriate for a pressed state.
         /// </summary>
         GlassPressedStump,
 
         /// <summary>
-        /// Specifies a stumpy glass effect appropariate for a checked state.
+        /// Specifies a stumpy glass effect appropriate for a checked state.
         /// </summary>
         GlassCheckedStump,
 
         /// <summary>
-        /// Specifies a stumpy glass effect appropariate for a checked/tracking state.
+        /// Specifies a stumpy glass effect appropriate for a checked/tracking state.
         /// </summary>
         GlassCheckedTrackingStump,
 
         /// <summary>
-        /// Specifies a simple glass effect appropariate for a normal state.
+        /// Specifies a simple glass effect appropriate for a normal state.
         /// </summary>
         GlassNormalSimple,
 
         /// <summary>
-        /// Specifies a simple glass effect appropariate for a tracking state.
+        /// Specifies a simple glass effect appropriate for a tracking state.
         /// </summary>
         GlassTrackingSimple,
 
         /// <summary>
-        /// Specifies a simple glass effect appropariate for a pressed state.
+        /// Specifies a simple glass effect appropriate for a pressed state.
         /// </summary>
         GlassPressedSimple,
 
         /// <summary>
-        /// Specifies a simple glass effect appropariate for a checked state.
+        /// Specifies a simple glass effect appropriate for a checked state.
         /// </summary>
         GlassCheckedSimple,
 
         /// <summary>
-        /// Specifies a simple glass effect appropariate for a checked/tracking state.
+        /// Specifies a simple glass effect appropriate for a checked/tracking state.
         /// </summary>
         GlassCheckedTrackingSimple,
 

@@ -79,7 +79,7 @@ namespace Krypton.Toolkit
             // production of them by the base Control class
             SetStyle(ControlStyles.StandardClick |
                      ControlStyles.StandardDoubleClick, false);
-
+            SetStyle(ControlStyles.UseTextForAccessibility, true);
             // Set default button properties
             _style = ButtonStyle.Standalone;
             DialogResult = DialogResult.None;
@@ -146,7 +146,7 @@ namespace Krypton.Toolkit
             _customUACShieldSize = GlobalStaticValues.DEFAULT_UAC_SHIELD_ICON_CUSTOM_SIZE;
 
             // Set `CornerRoundingRadius' to 'GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE' (-1)
-            _cornerRoundingRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
+            CornerRoundingRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
 
             // Split settings
             _showSplitOption = false;

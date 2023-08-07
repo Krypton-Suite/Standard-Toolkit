@@ -53,7 +53,7 @@ namespace Krypton.Toolkit
         public override Image? GetImage(PaletteState state)
         {
             // Try and get a state specific image
-            Image image = state switch
+            Image? image = state switch
             {
                 PaletteState.CheckedNormal => _imageStates.ImageCheckedNormal,
                 PaletteState.CheckedPressed => _imageStates.ImageCheckedPressed,
