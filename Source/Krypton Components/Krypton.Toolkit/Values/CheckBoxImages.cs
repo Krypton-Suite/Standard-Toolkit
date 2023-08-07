@@ -46,7 +46,7 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the CheckBoxImages class.
         /// </summary>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public CheckBoxImages(NeedPaintHandler needPaint) 
+        public CheckBoxImages(NeedPaintHandler? needPaint) 
         {
             // Store the provided paint notification delegate
             NeedPaint = needPaint;
