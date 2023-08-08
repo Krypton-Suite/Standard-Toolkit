@@ -36,6 +36,7 @@ namespace Krypton.Toolkit
             GalleryButtons = new KryptonPaletteImagesGalleryButtons(redirector, needPaint);
             RadioButton = new KryptonPaletteImagesRadioButton(redirector, needPaint);
             TreeView = new KryptonPaletteImagesTreeView(redirector, needPaint);
+            IntegratedToolBar = new KryptonPaletteImagesIntegratedToolBar(redirector, needPaint);
         }
         #endregion
 

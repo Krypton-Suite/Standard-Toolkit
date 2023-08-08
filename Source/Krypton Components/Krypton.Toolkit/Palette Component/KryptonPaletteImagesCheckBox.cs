@@ -41,7 +41,7 @@ namespace Krypton.Toolkit
         /// <param name="redirect">Redirector to inherit values from.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
         public KryptonPaletteImagesCheckBox(PaletteRedirect? redirect,
-                                            NeedPaintHandler needPaint) 
+                                            NeedPaintHandler needPaint)
         {
             // Store the redirector
             _redirect = redirect;

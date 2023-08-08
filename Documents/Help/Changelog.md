@@ -3,6 +3,7 @@
 =======
 
 ## 2023-11-xx - Build 2311 - November 2023
+* Implemented [#1087](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1087), Add the ability to add custom integrated toolbar images to custom palettes
 * Resolved [#1075](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1075), KryptonProgressBar does not change colours when the theme is changed
 * Implemented [#910](https://github.com/Krypton-Suite/Standard-Toolkit/issues/910), Progress Bar - Border Rounding
 * Resolved [#1076](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1076), Toolbar Commands show up in the designer as drag droppable components
