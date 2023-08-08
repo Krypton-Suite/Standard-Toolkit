@@ -50,7 +50,7 @@ namespace Krypton.Toolkit
         /// 
         /// </summary>
         [Description(@"Describes the placement of where a Popup control appears on the screen.")]
-        [DefaultValue(typeof(PlacementMode), PlacementModeStrings.DEFAULT_PLACEMENT_MODE_BOTTOM)]
+        [DefaultValue(typeof(PlacementMode), DesignTimeUtilities.DEFAULT_PLACEMENT_MODE_BOTTOM)]
         public PlacementMode PlacementMode
         {
             get => _placementMode;
