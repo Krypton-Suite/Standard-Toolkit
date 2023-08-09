@@ -19,6 +19,7 @@ namespace Krypton.Toolkit
     {
         #region Static Fields
 
+        [Localizable(true)]
         private static readonly IReadOnlyDictionary<HeaderGroupCollapsedTarget, string> _pairs = new Dictionary<HeaderGroupCollapsedTarget, string>
         {
             { HeaderGroupCollapsedTarget.CollapsedToPrimary, DesignTimeUtilities.DEFAULT_HEADER_GROUP_COLLAPSED_TARGET_COLLAPSED_TO_PRIMARY},

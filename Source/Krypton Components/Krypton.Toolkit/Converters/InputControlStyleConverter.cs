@@ -19,6 +19,7 @@ namespace Krypton.Toolkit
     {
         #region Static Fields
 
+        [Localizable(true)]
         private static readonly IReadOnlyDictionary<InputControlStyle, string> _pairs = new Dictionary<InputControlStyle, string>
         {
             {InputControlStyle.Standalone, DesignTimeUtilities.DEFAULT_INPUT_CONTROL_STYLE_STANDALONE},

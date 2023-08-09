@@ -19,6 +19,7 @@ namespace Krypton.Toolkit
     {
         #region Static Fields
 
+        [Localizable(true)]
         private static readonly IReadOnlyDictionary<GridStyle, string> _pairs = new Dictionary<GridStyle, string>
         {
             {GridStyle.List, DesignTimeUtilities.DEFAULT_GRID_STYLE_LIST},

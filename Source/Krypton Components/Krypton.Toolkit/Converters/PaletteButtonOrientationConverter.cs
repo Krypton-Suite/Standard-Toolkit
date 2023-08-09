@@ -19,6 +19,7 @@ namespace Krypton.Toolkit
     {
         #region Static Fields
 
+        [Localizable(true)]
         private static readonly IReadOnlyDictionary<PaletteButtonOrientation, string> _pairs = new Dictionary<PaletteButtonOrientation, string>
         {
             {PaletteButtonOrientation.Inherit, DesignTimeUtilities.DEFAULT_PALETTE_BUTTON_ORIENTATION_INHERIT},

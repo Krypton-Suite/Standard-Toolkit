@@ -19,6 +19,7 @@ namespace Krypton.Toolkit
     {
         #region Static Fields
 
+        [Localizable(true)]
         private static readonly IReadOnlyDictionary<DataGridViewStyle, string> _pairs = new Dictionary<DataGridViewStyle, string>
         {
             {DataGridViewStyle.List, DesignTimeUtilities.DEFAULT_DATA_GRID_VIEW_STYLE_LIST},

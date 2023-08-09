@@ -19,6 +19,7 @@ namespace Krypton.Toolkit
     {
         #region Static Fields
 
+        [Localizable(true)]
         private static readonly IReadOnlyDictionary<LabelStyle, string> _pairs = new Dictionary<LabelStyle, string>
         {
             {LabelStyle.NormalControl, DesignTimeUtilities.DEFAULT_LABEL_STYLE_NORMAL_CONTROL},

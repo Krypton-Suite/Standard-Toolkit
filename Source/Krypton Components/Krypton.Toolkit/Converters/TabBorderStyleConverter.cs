@@ -19,6 +19,7 @@ namespace Krypton.Toolkit
     {
         #region Static Fields
 
+        [Localizable(true)]
         private static readonly IReadOnlyDictionary<TabBorderStyle, string> _pairs = new Dictionary<TabBorderStyle, string>
         {
             {TabBorderStyle.OneNote, DesignTimeUtilities.DEFAULT_TAB_BORDER_STYLE_ONE_NOTE},

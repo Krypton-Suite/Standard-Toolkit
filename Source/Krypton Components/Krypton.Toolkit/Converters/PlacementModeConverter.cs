@@ -16,6 +16,7 @@ namespace Krypton.Toolkit
     {
         #region Static Fields
 
+        [Localizable(true)]
         private static readonly IReadOnlyDictionary<PlacementMode, string> _pairs = new Dictionary<PlacementMode, string>
         {
             {PlacementMode.Absolute, DesignTimeUtilities.DEFAULT_PLACEMENT_MODE_ABSOLUTE},

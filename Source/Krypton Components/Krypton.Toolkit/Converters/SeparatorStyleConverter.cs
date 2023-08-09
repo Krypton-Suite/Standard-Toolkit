@@ -19,6 +19,7 @@ namespace Krypton.Toolkit
     {
         #region Static Fields
 
+        [Localizable(true)]
         private static readonly IReadOnlyDictionary<SeparatorStyle, string> _pairs = new Dictionary<SeparatorStyle, string>
         {
             {SeparatorStyle.LowProfile, DesignTimeUtilities.DEFAULT_SEPARATOR_STYLE_LOW_PROFILE},
