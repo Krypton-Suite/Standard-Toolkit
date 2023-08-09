@@ -19,7 +19,6 @@ namespace Krypton.Toolkit
     {
         #region Static Fields
 
-        [Localizable(true)]
         private static readonly IReadOnlyDictionary<TabStyle, string> _pairs = new Dictionary<TabStyle, string>
         {
             {TabStyle.HighProfile, DesignTimeUtilities.DEFAULT_TAB_STYLE_HIGH_PROFILE},

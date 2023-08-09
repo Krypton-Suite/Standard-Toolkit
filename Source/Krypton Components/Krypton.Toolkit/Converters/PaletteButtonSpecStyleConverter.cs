@@ -19,7 +19,6 @@ namespace Krypton.Toolkit
     {
         #region Static Fields
 
-        [Localizable(true)]
         private static readonly IReadOnlyDictionary<PaletteButtonSpecStyle, string> _pairs = new Dictionary<PaletteButtonSpecStyle, string>
         {
             {PaletteButtonSpecStyle.Close, DesignTimeUtilities.DEFAULT_PALETTE_BUTTON_SPEC_STYLE_CLOSE},

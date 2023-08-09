@@ -19,7 +19,6 @@ namespace Krypton.Toolkit
     {
         #region Static Fields
 
-        [Localizable(true)]
         private static readonly IReadOnlyDictionary<KryptonLinkBehavior, string> _pairs = new Dictionary<KryptonLinkBehavior, string>
         {
             {KryptonLinkBehavior.AlwaysUnderline, DesignTimeUtilities.DEFAULT_LINK_BEHAVIOR_ALWAYS_UNDERLINE},

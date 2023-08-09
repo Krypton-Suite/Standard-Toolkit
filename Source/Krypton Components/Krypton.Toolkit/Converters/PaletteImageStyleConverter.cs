@@ -19,7 +19,6 @@ namespace Krypton.Toolkit
     {
         #region Static Fields
 
-        [Localizable(true)]
         private static readonly IReadOnlyDictionary<PaletteImageStyle, string> _pairs = new Dictionary<PaletteImageStyle, string>
         {
             {PaletteImageStyle.Inherit, DesignTimeUtilities.DEFAULT_PALETTE_IMAGE_STYLE_INHERIT},

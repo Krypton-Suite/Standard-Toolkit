@@ -19,7 +19,6 @@ namespace Krypton.Toolkit
     {
         #region Static Fields
 
-        [Localizable(true)]
         private static readonly IReadOnlyDictionary<PaletteImageEffect, string> _pairs = new Dictionary<PaletteImageEffect, string>
         {
             {PaletteImageEffect.Inherit, DesignTimeUtilities.DEFAULT_PALETTE_IMAGE_EFFECT_INHERIT},

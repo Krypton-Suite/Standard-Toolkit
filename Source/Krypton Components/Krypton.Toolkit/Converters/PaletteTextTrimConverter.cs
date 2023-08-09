@@ -19,7 +19,6 @@ namespace Krypton.Toolkit
     {
         #region Static Fields
 
-        [Localizable(true)]
         private static readonly IReadOnlyDictionary<PaletteTextTrim, string> _pairs = new Dictionary<PaletteTextTrim, string>
         {
             {PaletteTextTrim.Inherit, DesignTimeUtilities.DEFAULT_PALETTE_TEXT_TRIM_INHERIT},

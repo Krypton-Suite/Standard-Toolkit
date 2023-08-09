@@ -19,7 +19,6 @@ namespace Krypton.Toolkit
     {
         #region Static Fields
 
-        [Localizable(true)]
         private static readonly IReadOnlyDictionary<ButtonStyle, string> _pairs = new Dictionary<ButtonStyle, string>
         {
             {ButtonStyle.Standalone, DesignTimeUtilities.DEFAULT_BUTTON_SPEC_STYLE_STANDALONE},
