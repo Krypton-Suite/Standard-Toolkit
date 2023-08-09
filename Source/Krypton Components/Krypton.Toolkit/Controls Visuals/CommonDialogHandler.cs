@@ -9,7 +9,9 @@
 
 // To get around bug in .NET 8, Preview 7
 // TODO: Remove when .NET 8 is GA
+#if NET8_0
 using MethodInvoker = System.Windows.Forms.MethodInvoker;
+#endif 
 
 // ReSharper disable InconsistentNaming
 
