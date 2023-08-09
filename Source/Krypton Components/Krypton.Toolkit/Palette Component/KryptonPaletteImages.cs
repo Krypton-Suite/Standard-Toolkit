@@ -36,6 +36,7 @@ namespace Krypton.Toolkit
             GalleryButtons = new KryptonPaletteImagesGalleryButtons(redirector, needPaint);
             RadioButton = new KryptonPaletteImagesRadioButton(redirector, needPaint);
             TreeView = new KryptonPaletteImagesTreeView(redirector, needPaint);
+            IntegratedToolBar = new KryptonPaletteImagesIntegratedToolBar(redirector, needPaint);
         }
         #endregion
 
@@ -149,6 +150,19 @@ namespace Krypton.Toolkit
         public KryptonPaletteImagesTreeView TreeView { get; }
 
         private bool ShouldSerializeTreeView() => !TreeView.IsDefault;
+
+        #endregion
+
+        #region IntegratedToolBar
+
+        /// <summary>Gets access the integrated tool bar set of images.</summary>
+        [KryptonPersist]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining integrated toolbar images.")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        public KryptonPaletteImagesIntegratedToolBar IntegratedToolBar { get; }
+
+        private bool ShouldSerializeIntegratedToolBar() => !IntegratedToolBar.IsDefault;
 
         #endregion
     }
