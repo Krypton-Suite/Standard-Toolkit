@@ -22,9 +22,9 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         private static readonly IReadOnlyDictionary<KryptonLinkBehavior, string> _pairs = new Dictionary<KryptonLinkBehavior, string>
         {
-            {KryptonLinkBehavior.AlwaysUnderline, KryptonLanguageManager.LinkBehaviorStrings.AlwaysUnderline},
-            {KryptonLinkBehavior.HoverUnderline, KryptonLanguageManager.LinkBehaviorStrings.HoverUnderline},
-            {KryptonLinkBehavior.NeverUnderline, KryptonLanguageManager.LinkBehaviorStrings.NeverUnderline }
+            {KryptonLinkBehavior.AlwaysUnderline, DesignTimeUtilities.DEFAULT_LINK_BEHAVIOR_ALWAYS_UNDERLINE},
+            {KryptonLinkBehavior.HoverUnderline, DesignTimeUtilities.DEFAULT_LINK_BEHAVIOR_HOVER_UNDERLINE},
+            {KryptonLinkBehavior.NeverUnderline, DesignTimeUtilities.DEFAULT_LINK_BEHAVIOR_NEVER_UNDERLINE}
         };
 
         #endregion

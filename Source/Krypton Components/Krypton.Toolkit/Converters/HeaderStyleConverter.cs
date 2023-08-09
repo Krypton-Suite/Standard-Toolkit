@@ -22,15 +22,15 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         private static readonly IReadOnlyDictionary<HeaderStyle, string> _pairs = new Dictionary<HeaderStyle, string>
         {
-            {HeaderStyle.Primary, KryptonLanguageManager.HeaderStyles.Primary},
-            {HeaderStyle.Secondary, KryptonLanguageManager.HeaderStyles.Secondary},
-            {HeaderStyle.DockInactive, KryptonLanguageManager.HeaderStyles.DockInactive},
-            {HeaderStyle.DockActive, KryptonLanguageManager.HeaderStyles.DockActive},
-            {HeaderStyle.Form, KryptonLanguageManager.HeaderStyles.Form},
-            {HeaderStyle.Calendar, KryptonLanguageManager.HeaderStyles.Calendar},
-            {HeaderStyle.Custom1, KryptonLanguageManager.HeaderStyles.CustomOne},
-            {HeaderStyle.Custom2, KryptonLanguageManager.HeaderStyles.CustomTwo},
-            {HeaderStyle.Custom3, KryptonLanguageManager.HeaderStyles.CustomThree }
+            {HeaderStyle.Primary, DesignTimeUtilities.DEFAULT_HEADER_STYLE_PRIMARY},
+            {HeaderStyle.Secondary, DesignTimeUtilities.DEFAULT_HEADER_STYLE_SECONDARY},
+            {HeaderStyle.DockInactive, DesignTimeUtilities.DEFAULT_HEADER_STYLE_DOCK_INACTIVE},
+            {HeaderStyle.DockActive, DesignTimeUtilities.DEFAULT_HEADER_STYLE_DOCK_ACTIVE},
+            {HeaderStyle.Form, DesignTimeUtilities.DEFAULT_HEADER_STYLE_FORM},
+            {HeaderStyle.Calendar, DesignTimeUtilities.DEFAULT_HEADER_STYLE_CALENDAR},
+            {HeaderStyle.Custom1, DesignTimeUtilities.DEFAULT_HEADER_STYLE_CUSTOM_ONE},
+            {HeaderStyle.Custom2, DesignTimeUtilities.DEFAULT_HEADER_STYLE_CUSTOM_TWO},
+            {HeaderStyle.Custom3, DesignTimeUtilities.DEFAULT_HEADER_STYLE_CUSTOM_THREE}
         };
 
         #endregion

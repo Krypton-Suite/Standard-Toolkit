@@ -22,15 +22,15 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         private static readonly IReadOnlyDictionary<TabStyle, string> _pairs = new Dictionary<TabStyle, string>
         {
-            {TabStyle.HighProfile, KryptonLanguageManager.TabStyles.HighProfile},
-            {TabStyle.StandardProfile, KryptonLanguageManager.TabStyles.StandardProfile},
-            {TabStyle.LowProfile, KryptonLanguageManager.TabStyles.LowProfile},
-            {TabStyle.OneNote, KryptonLanguageManager.TabStyles.OneNote},
-            {TabStyle.Dock, KryptonLanguageManager.TabStyles.Dock},
-            {TabStyle.DockAutoHidden, KryptonLanguageManager.TabStyles.DockAutoHidden},
-            {TabStyle.Custom1, KryptonLanguageManager.TabStyles.Custom1},
-            {TabStyle.Custom2, KryptonLanguageManager.TabStyles.Custom2},
-            {TabStyle.Custom3, KryptonLanguageManager.TabStyles.Custom3 }
+            {TabStyle.HighProfile, DesignTimeUtilities.DEFAULT_TAB_STYLE_HIGH_PROFILE},
+            {TabStyle.StandardProfile, DesignTimeUtilities.DEFAULT_TAB_STYLE_STANDARD_PROFILE},
+            {TabStyle.LowProfile, DesignTimeUtilities.DEFAULT_TAB_STYLE_LOW_PROFILE},
+            {TabStyle.OneNote, DesignTimeUtilities.DEFAULT_TAB_STYLE_ONE_NOTE},
+            {TabStyle.Dock, DesignTimeUtilities.DEFAULT_TAB_STYLE_DOCK},
+            {TabStyle.DockAutoHidden, DesignTimeUtilities.DEFAULT_TAB_STYLE_DOCK_AUTO_HIDDEN},
+            {TabStyle.Custom1, DesignTimeUtilities.DEFAULT_TAB_STYLE_CUSTOM1},
+            {TabStyle.Custom2, DesignTimeUtilities.DEFAULT_TAB_STYLE_CUSTOM2},
+            {TabStyle.Custom3, DesignTimeUtilities.DEFAULT_TAB_STYLE_CUSTOM3}
         };
 
         #endregion

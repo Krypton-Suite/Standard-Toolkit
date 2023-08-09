@@ -22,13 +22,13 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         private static readonly IReadOnlyDictionary<InputControlStyle, string> _pairs = new Dictionary<InputControlStyle, string>
         {
-            {InputControlStyle.Standalone, KryptonLanguageManager.InputControlStyles.Standalone},
-            {InputControlStyle.Ribbon, KryptonLanguageManager.InputControlStyles.Ribbon},
-            {InputControlStyle.Custom1, KryptonLanguageManager.InputControlStyles.CustomOne},
-            {InputControlStyle.Custom2, KryptonLanguageManager.InputControlStyles.CustomTwo},
-            {InputControlStyle.Custom3, KryptonLanguageManager.InputControlStyles.CustomThree},
-            {InputControlStyle.PanelClient, KryptonLanguageManager.InputControlStyles.PanelClient},
-            {InputControlStyle.PanelAlternate, KryptonLanguageManager.InputControlStyles.PanelAlternate },
+            {InputControlStyle.Standalone, DesignTimeUtilities.DEFAULT_INPUT_CONTROL_STYLE_STANDALONE},
+            {InputControlStyle.Ribbon, DesignTimeUtilities.DEFAULT_INPUT_CONTROL_STYLE_RIBBON},
+            {InputControlStyle.Custom1, DesignTimeUtilities.DEFAULT_INPUT_CONTROL_STYLE_CUSTOM_ONE},
+            {InputControlStyle.Custom2, DesignTimeUtilities.DEFAULT_INPUT_CONTROL_STYLE_CUSTOM_TWO},
+            {InputControlStyle.Custom3, DesignTimeUtilities.DEFAULT_INPUT_CONTROL_STYLE_CUSTOM_THREE},
+            {InputControlStyle.PanelClient, DesignTimeUtilities.DEFAULT_INPUT_CONTROL_STYLE_PANEL_CLIENT},
+            {InputControlStyle.PanelAlternate, DesignTimeUtilities.DEFAULT_INPUT_CONTROL_STYLE_PANEL_ALTERNATE},
             // new(InputControlStyle.Disabled, "Disabled")
         };
 
