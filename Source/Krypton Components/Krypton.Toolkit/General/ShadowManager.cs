@@ -7,6 +7,10 @@
  */
 #endregion
 
+// To get around bug in .NET 8, Preview 7
+// TODO: Remove when .NET 8 is GA
+using MethodInvoker = System.Windows.Forms.MethodInvoker;
+
 namespace Krypton.Toolkit
 {
     /// <summary>
