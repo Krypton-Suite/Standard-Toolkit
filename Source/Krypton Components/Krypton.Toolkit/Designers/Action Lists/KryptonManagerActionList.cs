@@ -110,9 +110,9 @@ namespace Krypton.Toolkit
             if (_manager != null)
             {
                 // Add the list of panel specific actions
-                actions.Add(new DesignerActionHeaderItem(@"Actions"));
+                /*actions.Add(new DesignerActionHeaderItem(@"Actions"));
                 actions.Add(new KryptonDesignerActionItem(new DesignerVerb(@"Add language manager", OnAddLanguageManager), "Actions"));
-                actions.Add(new KryptonDesignerActionItem(new DesignerVerb(@"Remove language manager", OnRemoveLanguageManager), "Actions"));
+                actions.Add(new KryptonDesignerActionItem(new DesignerVerb(@"Remove language manager", OnRemoveLanguageManager), "Actions")); */
                 actions.Add(new DesignerActionHeaderItem(@"Data"));
                 actions.Add(new DesignerActionPropertyItem(nameof(LanguageManager), @"Language Manager", @"Data", @"Global string settings"));
                 actions.Add(new DesignerActionHeaderItem(@"Visuals"));
