@@ -17,15 +17,19 @@ namespace Krypton.Toolkit
         #region Implementation
         internal static void NotImplemented(string methodSignature, string className, int lineNumber = 0)
         {
+            KryptonCommand linkCommand = new KryptonCommand();
+
+            linkCommand.Execute += (sender, args) => { Process.Start(@"https://github.com/Krypton-Suite/Standard-Toolkit/issues/new/choose"); };
+
             if (lineNumber > 0)
             {
-                KryptonMessageBox.Show($"If you are seeing this message, please submit a new bug report at: https://github.com/Krypton-Suite/Standard-Toolkit/issues/new/choose.\n\nAdditional details:-\nMethod Signature: {methodSignature}\nClass Name: {className}\nLine Number: {lineNumber}", 
-                    "Not Implemented", KryptonMessageBoxButtons.OK, KryptonMessageBoxIcon.SystemError);
+                KryptonMessageBox.Show($"If you are seeing this message, please submit a new bug report here.\n\nAdditional details:-\nMethod Signature: {methodSignature}\nClass Name: {className}\nLine Number: {lineNumber}",
+                    "Not Implemented", KryptonMessageBoxButtons.OK, KryptonMessageBoxIcon.Error, contentAreaType: MessageBoxContentAreaType.LinkLabel, actionButtonCommand: linkCommand, linkAreaStart: 64, linkAreaEnd: 67);
             }
             else
             {
-                KryptonMessageBox.Show($"If you are seeing this message, please submit a new bug report at: https://github.com/Krypton-Suite/Standard-Toolkit/issues/new/choose.\n\nAdditional details:-\nMethod Signature: {methodSignature}\nClass Name: {className}", 
-                    "Not Implemented", KryptonMessageBoxButtons.OK, KryptonMessageBoxIcon.SystemError);
+                KryptonMessageBox.Show($"If you are seeing this message, please submit a new bug report here.\n\nAdditional details:-\nMethod Signature: {methodSignature}\nClass Name: {className}",
+                    "Not Implemented", KryptonMessageBoxButtons.OK, KryptonMessageBoxIcon.Error);
             }
         }
         #endregion

@@ -22,13 +22,13 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         private static readonly IReadOnlyDictionary<PaletteTextTrim, string> _pairs = new Dictionary<PaletteTextTrim, string>
         {
-            {PaletteTextTrim.Inherit, KryptonLanguageManager.TextTrimStrings.Inherit},
-            {PaletteTextTrim.Hide, KryptonLanguageManager.TextTrimStrings.Hide},
-            {PaletteTextTrim.Character, KryptonLanguageManager.TextTrimStrings.Character},
-            {PaletteTextTrim.Word, KryptonLanguageManager.TextTrimStrings.Word},
-            {PaletteTextTrim.EllipsisCharacter, KryptonLanguageManager.TextTrimStrings.EllipsisCharacter},
-            {PaletteTextTrim.EllipsisWord, KryptonLanguageManager.TextTrimStrings.EllipsisWord},
-            {PaletteTextTrim.EllipsisPath, KryptonLanguageManager.TextTrimStrings.EllipsisPath }
+            {PaletteTextTrim.Inherit, DesignTimeUtilities.DEFAULT_PALETTE_TEXT_TRIM_INHERIT},
+            {PaletteTextTrim.Hide, DesignTimeUtilities.DEFAULT_PALETTE_TEXT_TRIM_HIDE},
+            {PaletteTextTrim.Character, DesignTimeUtilities.DEFAULT_PALETTE_TEXT_TRIM_CHARACTER},
+            {PaletteTextTrim.Word, DesignTimeUtilities.DEFAULT_PALETTE_TEXT_TRIM_WORD},
+            {PaletteTextTrim.EllipsisCharacter, DesignTimeUtilities.DEFAULT_PALETTE_TEXT_TRIM_ELLIPSIS_CHARACTER},
+            {PaletteTextTrim.EllipsisWord, DesignTimeUtilities.DEFAULT_PALETTE_TEXT_TRIM_ELLIPSIS_WORD},
+            {PaletteTextTrim.EllipsisPath, DesignTimeUtilities.DEFAULT_PALETTE_TEXT_TRIM_ELLIPSIS_PATH}
         };
 
         #endregion

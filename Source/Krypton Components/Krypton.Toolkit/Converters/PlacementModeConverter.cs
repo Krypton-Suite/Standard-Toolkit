@@ -19,17 +19,17 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         private static readonly IReadOnlyDictionary<PlacementMode, string> _pairs = new Dictionary<PlacementMode, string>
         {
-            {PlacementMode.Absolute, KryptonLanguageManager.PlacementModeStrings.Absolute},
-            {PlacementMode.AbsolutePoint, KryptonLanguageManager.PlacementModeStrings.AbsolutePoint},
-            {PlacementMode.Bottom, KryptonLanguageManager.PlacementModeStrings.Bottom},
-            {PlacementMode.Center, KryptonLanguageManager.PlacementModeStrings.Center},
-            {PlacementMode.Left, KryptonLanguageManager.PlacementModeStrings.Left},
-            {PlacementMode.Mouse, KryptonLanguageManager.PlacementModeStrings.Mouse},
-            {PlacementMode.MousePoint, KryptonLanguageManager.PlacementModeStrings.MousePoint},
-            {PlacementMode.Relative, KryptonLanguageManager.PlacementModeStrings.Relative},
-            {PlacementMode.RelativePoint, KryptonLanguageManager.PlacementModeStrings.RelativePoint},
-            {PlacementMode.Right, KryptonLanguageManager.PlacementModeStrings.Right},
-            {PlacementMode.Top, KryptonLanguageManager.PlacementModeStrings.Top }
+            {PlacementMode.Absolute, DesignTimeUtilities.DEFAULT_PLACEMENT_MODE_ABSOLUTE},
+            {PlacementMode.AbsolutePoint, DesignTimeUtilities.DEFAULT_PLACEMENT_MODE_ABSOLUTE_POINT},
+            {PlacementMode.Bottom, DesignTimeUtilities.DEFAULT_PLACEMENT_MODE_BOTTOM},
+            {PlacementMode.Center, DesignTimeUtilities.DEFAULT_PLACEMENT_MODE_CENTER},
+            {PlacementMode.Left, DesignTimeUtilities.DEFAULT_PLACEMENT_MODE_LEFT},
+            {PlacementMode.Mouse, DesignTimeUtilities.DEFAULT_PLACEMENT_MODE_MOUSE},
+            {PlacementMode.MousePoint, DesignTimeUtilities.DEFAULT_PLACEMENT_MODE_MOUSE_POINT},
+            {PlacementMode.Relative, DesignTimeUtilities.DEFAULT_PLACEMENT_MODE_RELATIVE},
+            {PlacementMode.RelativePoint, DesignTimeUtilities.DEFAULT_PLACEMENT_MODE_RELATIVE_POINT},
+            {PlacementMode.Right, DesignTimeUtilities.DEFAULT_PLACEMENT_MODE_RIGHT},
+            {PlacementMode.Top, DesignTimeUtilities.DEFAULT_PLACEMENT_MODE_TOP}
         };
 
         #endregion

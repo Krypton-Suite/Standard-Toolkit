@@ -7,6 +7,12 @@
  */
 #endregion
 
+// To get around bug in .NET 8, Preview 7
+// TODO: Remove when .NET 8 is GA
+#if NET8_0
+using MethodInvoker = System.Windows.Forms.MethodInvoker;
+#endif 
+
 // ReSharper disable InconsistentNaming
 
 namespace Krypton.Toolkit
@@ -154,8 +160,8 @@ namespace Krypton.Toolkit
                                         //        ClickCallback?.Invoke(control);
                                         //    };
                                         //    PI.ShowWindow(control.hWnd, PI.ShowWindowCommands.SW_HIDE);
-                                        }
-                                        PI.SendMessage(control.hWnd, PI.WM_.SETFONT, editLogFont, new IntPtr(1));
+                                    }
+                                    PI.SendMessage(control.hWnd, PI.WM_.SETFONT, editLogFont, new IntPtr(1));
                                     break;
 
                                 case @"button":

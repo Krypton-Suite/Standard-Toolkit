@@ -22,21 +22,21 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         private static readonly IReadOnlyDictionary<PaletteImageStyle, string> _pairs = new Dictionary<PaletteImageStyle, string>
         {
-            {PaletteImageStyle.Inherit, KryptonLanguageManager.ImageStyleStrings.Inherit},
-            {PaletteImageStyle.Stretch, KryptonLanguageManager.ImageStyleStrings.Stretch},
-            {PaletteImageStyle.Tile, KryptonLanguageManager.ImageStyleStrings.Tile},
-            {PaletteImageStyle.TileFlipX, KryptonLanguageManager.ImageStyleStrings.TileFlipX},
-            {PaletteImageStyle.TileFlipY, KryptonLanguageManager.ImageStyleStrings.TileFlipY},
-            {PaletteImageStyle.TileFlipXY, KryptonLanguageManager.ImageStyleStrings.TileFlipXY},
-            {PaletteImageStyle.TopLeft, KryptonLanguageManager.ImageStyleStrings.TopLeft},
-            {PaletteImageStyle.TopMiddle, KryptonLanguageManager.ImageStyleStrings.TopMiddle},
-            {PaletteImageStyle.TopRight, KryptonLanguageManager.ImageStyleStrings.TopRight},
-            {PaletteImageStyle.CenterLeft, KryptonLanguageManager.ImageStyleStrings.CenterLeft},
-            {PaletteImageStyle.CenterMiddle, KryptonLanguageManager.ImageStyleStrings.CenterMiddle},
-            {PaletteImageStyle.CenterRight, KryptonLanguageManager.ImageStyleStrings.CenterRight},
-            {PaletteImageStyle.BottomLeft, KryptonLanguageManager.ImageStyleStrings.BottomLeft},
-            {PaletteImageStyle.BottomMiddle, KryptonLanguageManager.ImageStyleStrings.BottomMiddle},
-            {PaletteImageStyle.BottomRight, KryptonLanguageManager.ImageStyleStrings.BottomRight }
+            {PaletteImageStyle.Inherit, DesignTimeUtilities.DEFAULT_PALETTE_IMAGE_STYLE_INHERIT},
+            {PaletteImageStyle.Stretch, DesignTimeUtilities.DEFAULT_PALETTE_IMAGE_STYLE_STRETCH},
+            {PaletteImageStyle.Tile, DesignTimeUtilities.DEFAULT_PALETTE_IMAGE_STYLE_TILE},
+            {PaletteImageStyle.TileFlipX, DesignTimeUtilities.DEFAULT_PALETTE_IMAGE_STYLE_TILE_FLIP_X},
+            {PaletteImageStyle.TileFlipY, DesignTimeUtilities.DEFAULT_PALETTE_IMAGE_STYLE_TILE_FLIP_Y},
+            {PaletteImageStyle.TileFlipXY, DesignTimeUtilities.DEFAULT_PALETTE_IMAGE_STYLE_TILE_FLIP_X_Y},
+            {PaletteImageStyle.TopLeft, DesignTimeUtilities.DEFAULT_PALETTE_IMAGE_STYLE_TOP_LEFT},
+            {PaletteImageStyle.TopMiddle, DesignTimeUtilities.DEFAULT_PALETTE_IMAGE_STYLE_TOP_MIDDLE},
+            {PaletteImageStyle.TopRight, DesignTimeUtilities.DEFAULT_PALETTE_IMAGE_STYLE_TOP_RIGHT},
+            {PaletteImageStyle.CenterLeft, DesignTimeUtilities.DEFAULT_PALETTE_IMAGE_STYLE_CENTER_LEFT},
+            {PaletteImageStyle.CenterMiddle, DesignTimeUtilities.DEFAULT_PALETTE_IMAGE_STYLE_CENTER_MIDDLE},
+            {PaletteImageStyle.CenterRight, DesignTimeUtilities.DEFAULT_PALETTE_IMAGE_STYLE_CENTER_RIGHT},
+            {PaletteImageStyle.BottomLeft, DesignTimeUtilities.DEFAULT_PALETTE_IMAGE_STYLE_BOTTOM_LEFT},
+            {PaletteImageStyle.BottomMiddle, DesignTimeUtilities.DEFAULT_PALETTE_IMAGE_STYLE_BOTTOM_MIDDLE},
+            {PaletteImageStyle.BottomRight, DesignTimeUtilities.DEFAULT_PALETTE_IMAGE_STYLE_BOTTOM_RIGHT}
         };
 
         #endregion

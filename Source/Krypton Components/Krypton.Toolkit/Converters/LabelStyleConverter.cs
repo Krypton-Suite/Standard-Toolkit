@@ -22,21 +22,21 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         private static readonly IReadOnlyDictionary<LabelStyle, string> _pairs = new Dictionary<LabelStyle, string>
         {
-            {LabelStyle.NormalControl, KryptonLanguageManager.KryptonLabelStyleStrings.NormalControl},
-            {LabelStyle.BoldControl, KryptonLanguageManager.KryptonLabelStyleStrings.BoldControl},
-            {LabelStyle.ItalicControl, KryptonLanguageManager.KryptonLabelStyleStrings.ItalicControl},
-            {LabelStyle.TitleControl, KryptonLanguageManager.KryptonLabelStyleStrings.TitleControl},
-            {LabelStyle.NormalPanel, KryptonLanguageManager.KryptonLabelStyleStrings.NormalPanel},
-            {LabelStyle.BoldPanel, KryptonLanguageManager.KryptonLabelStyleStrings.BoldPanel},
-            {LabelStyle.ItalicPanel, KryptonLanguageManager.KryptonLabelStyleStrings.ItalicPanel},
-            {LabelStyle.TitlePanel, KryptonLanguageManager.KryptonLabelStyleStrings.TitlePanel},
-            {LabelStyle.GroupBoxCaption, KryptonLanguageManager.KryptonLabelStyleStrings.GroupBoxCaption},
-            {LabelStyle.ToolTip, KryptonLanguageManager.KryptonLabelStyleStrings.ToolTip},
-            {LabelStyle.SuperTip, KryptonLanguageManager.KryptonLabelStyleStrings.SuperTip},
-            {LabelStyle.KeyTip, KryptonLanguageManager.KryptonLabelStyleStrings.KeyTip},
-            {LabelStyle.Custom1, KryptonLanguageManager.KryptonLabelStyleStrings.CustomOne},
-            {LabelStyle.Custom2, KryptonLanguageManager.KryptonLabelStyleStrings.CustomTwo},
-            {LabelStyle.Custom3, KryptonLanguageManager.KryptonLabelStyleStrings.CustomThree }
+            {LabelStyle.NormalControl, DesignTimeUtilities.DEFAULT_LABEL_STYLE_NORMAL_CONTROL},
+            {LabelStyle.BoldControl, DesignTimeUtilities.DEFAULT_LABEL_STYLE_BOLD_CONTROL},
+            {LabelStyle.ItalicControl, DesignTimeUtilities.DEFAULT_LABEL_STYLE_ITALIC_CONTROL},
+            {LabelStyle.TitleControl, DesignTimeUtilities.DEFAULT_LABEL_STYLE_TITLE_CONTROL},
+            {LabelStyle.NormalPanel, DesignTimeUtilities.DEFAULT_LABEL_STYLE_NORMAL_PANEL},
+            {LabelStyle.BoldPanel, DesignTimeUtilities.DEFAULT_LABEL_STYLE_BOLD_PANEL},
+            {LabelStyle.ItalicPanel, DesignTimeUtilities.DEFAULT_LABEL_STYLE_ITALIC_PANEL},
+            {LabelStyle.TitlePanel, DesignTimeUtilities.DEFAULT_LABEL_STYLE_TITLE_PANEL},
+            {LabelStyle.GroupBoxCaption, DesignTimeUtilities.DEFAULT_LABEL_STYLE_GROUP_BOX_CAPTION},
+            {LabelStyle.ToolTip, DesignTimeUtilities.DEFAULT_LABEL_STYLE_TOOL_TIP},
+            {LabelStyle.SuperTip, DesignTimeUtilities.DEFAULT_LABEL_STYLE_SUPER_TIP},
+            {LabelStyle.KeyTip, DesignTimeUtilities.DEFAULT_LABEL_STYLE_KEY_TIP},
+            {LabelStyle.Custom1, DesignTimeUtilities.DEFAULT_LABEL_STYLE_CUSTOM_ONE},
+            {LabelStyle.Custom2, DesignTimeUtilities.DEFAULT_LABEL_STYLE_CUSTOM_TWO},
+            {LabelStyle.Custom3, DesignTimeUtilities.DEFAULT_LABEL_STYLE_CUSTOM_THREE}
         };
 
         #endregion

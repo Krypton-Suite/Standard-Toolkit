@@ -22,25 +22,25 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         private static readonly IReadOnlyDictionary<ButtonStyle, string> _pairs = new Dictionary<ButtonStyle, string>
         {
-            {ButtonStyle.Standalone, KryptonLanguageManager.ButtonStyles.Standalone},
-            {ButtonStyle.Alternate, KryptonLanguageManager.ButtonStyles.Alternate},
-            {ButtonStyle.LowProfile, KryptonLanguageManager.ButtonStyles.LowProfile},
-            {ButtonStyle.ButtonSpec, KryptonLanguageManager.ButtonStyles.ButtonSpec},
-            {ButtonStyle.BreadCrumb, KryptonLanguageManager.ButtonStyles.BreadCrumb},
-            {ButtonStyle.CalendarDay, KryptonLanguageManager.ButtonStyles.CalendarDay},
-            {ButtonStyle.Cluster, KryptonLanguageManager.ButtonStyles.Cluster},
-            {ButtonStyle.Gallery, KryptonLanguageManager.ButtonStyles.Gallery},
-            {ButtonStyle.NavigatorStack, KryptonLanguageManager.ButtonStyles.NavigatorStack},
-            {ButtonStyle.NavigatorOverflow, KryptonLanguageManager.ButtonStyles.NavigatorOverflow},
-            {ButtonStyle.NavigatorMini, KryptonLanguageManager.ButtonStyles.NavigatorMini},
-            {ButtonStyle.InputControl, KryptonLanguageManager.ButtonStyles.InputControl},
-            {ButtonStyle.ListItem, KryptonLanguageManager.ButtonStyles.ListItem},
-            {ButtonStyle.Form, KryptonLanguageManager.ButtonStyles.Form},
-            {ButtonStyle.FormClose, KryptonLanguageManager.ButtonStyles.FormClose},
-            {ButtonStyle.Command, KryptonLanguageManager.ButtonStyles.Command},
-            {ButtonStyle.Custom1, KryptonLanguageManager.ButtonStyles.CustomOne},
-            {ButtonStyle.Custom2, KryptonLanguageManager.ButtonStyles.CustomTwo},
-            {ButtonStyle.Custom3, KryptonLanguageManager.ButtonStyles.CustomThree }
+            {ButtonStyle.Standalone, DesignTimeUtilities.DEFAULT_BUTTON_SPEC_STYLE_STANDALONE},
+            {ButtonStyle.Alternate, DesignTimeUtilities.DEFAULT_BUTTON_SPEC_STYLE_ALTERNATE},
+            {ButtonStyle.LowProfile, DesignTimeUtilities.DEFAULT_BUTTON_SPEC_STYLE_LOW_PROFILE},
+            {ButtonStyle.ButtonSpec, DesignTimeUtilities.DEFAULT_BUTTON_SPEC_STYLE_BUTTON_SPEC},
+            {ButtonStyle.BreadCrumb, DesignTimeUtilities.DEFAULT_BUTTON_SPEC_STYLE_BREAD_CRUMB},
+            {ButtonStyle.CalendarDay, DesignTimeUtilities.DEFAULT_BUTTON_SPEC_STYLE_CALENDAR_DAY},
+            {ButtonStyle.Cluster, DesignTimeUtilities.DEFAULT_BUTTON_SPEC_STYLE_CLUSTER},
+            {ButtonStyle.Gallery, DesignTimeUtilities.DEFAULT_BUTTON_SPEC_STYLE_GALLERY},
+            {ButtonStyle.NavigatorStack, DesignTimeUtilities.DEFAULT_BUTTON_SPEC_STYLE_NAVIGATOR_STACK},
+            {ButtonStyle.NavigatorOverflow, DesignTimeUtilities.DEFAULT_BUTTON_SPEC_STYLE_NAVIGATOR_OVERFLOW},
+            {ButtonStyle.NavigatorMini, DesignTimeUtilities.DEFAULT_BUTTON_SPEC_STYLE_NAVIGATOR_MINI},
+            {ButtonStyle.InputControl, DesignTimeUtilities.DEFAULT_BUTTON_SPEC_STYLE_INPUT_CONTROL},
+            {ButtonStyle.ListItem, DesignTimeUtilities.DEFAULT_BUTTON_SPEC_STYLE_LIST_ITEM},
+            {ButtonStyle.Form, DesignTimeUtilities.DEFAULT_BUTTON_SPEC_STYLE_FORM},
+            {ButtonStyle.FormClose, DesignTimeUtilities.DEFAULT_BUTTON_SPEC_STYLE_FORM_CLOSE},
+            {ButtonStyle.Command, DesignTimeUtilities.DEFAULT_BUTTON_SPEC_STYLE_COMMAND},
+            {ButtonStyle.Custom1, DesignTimeUtilities.DEFAULT_BUTTON_SPEC_STYLE_CUSTOM_ONE},
+            {ButtonStyle.Custom2, DesignTimeUtilities.DEFAULT_BUTTON_SPEC_STYLE_CUSTOM_TWO},
+            {ButtonStyle.Custom3, DesignTimeUtilities.DEFAULT_BUTTON_SPEC_STYLE_CUSTOM_THREE}
         };
 
         #endregion

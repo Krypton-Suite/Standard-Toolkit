@@ -22,12 +22,12 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         private static readonly IReadOnlyDictionary<PaletteButtonOrientation, string> _pairs = new Dictionary<PaletteButtonOrientation, string>
         {
-            {PaletteButtonOrientation.Inherit, KryptonLanguageManager.ButtonOrientationStrings.Inherit},
-            {PaletteButtonOrientation.Auto, KryptonLanguageManager.ButtonOrientationStrings.Auto},
-            {PaletteButtonOrientation.FixedTop, KryptonLanguageManager.ButtonOrientationStrings.FixedTop},
-            {PaletteButtonOrientation.FixedBottom, KryptonLanguageManager.ButtonOrientationStrings.FixedBottom},
-            {PaletteButtonOrientation.FixedLeft, KryptonLanguageManager.ButtonOrientationStrings.FixedLeft},
-            {PaletteButtonOrientation.FixedRight, KryptonLanguageManager.ButtonOrientationStrings.FixedRight }
+            {PaletteButtonOrientation.Inherit, DesignTimeUtilities.DEFAULT_PALETTE_BUTTON_ORIENTATION_INHERIT},
+            {PaletteButtonOrientation.Auto, DesignTimeUtilities.DEFAULT_PALETTE_BUTTON_ORIENTATION_AUTO},
+            {PaletteButtonOrientation.FixedTop, DesignTimeUtilities.DEFAULT_PALETTE_BUTTON_ORIENTATION_FIXED_TOP},
+            {PaletteButtonOrientation.FixedBottom, DesignTimeUtilities.DEFAULT_PALETTE_BUTTON_ORIENTATION_FIXED_BOTTOM},
+            {PaletteButtonOrientation.FixedLeft, DesignTimeUtilities.DEFAULT_PALETTE_BUTTON_ORIENTATION_FIXED_LEFT},
+            {PaletteButtonOrientation.FixedRight, DesignTimeUtilities.DEFAULT_PALETTE_BUTTON_ORIENTATION_FIXED_RIGHT}
         };
 
         #endregion

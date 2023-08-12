@@ -22,12 +22,9 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         private static readonly IReadOnlyDictionary<HeaderGroupCollapsedTarget, string> _pairs = new Dictionary<HeaderGroupCollapsedTarget, string>
         {
-            { HeaderGroupCollapsedTarget.CollapsedToPrimary,
-                KryptonLanguageManager.GroupCollapsedTargetStrings.CollapsedToPrimary},
-            {HeaderGroupCollapsedTarget.CollapsedToSecondary,
-                KryptonLanguageManager.GroupCollapsedTargetStrings.CollapsedToSecondary},
-            {HeaderGroupCollapsedTarget.CollapsedToBoth,
-                KryptonLanguageManager.GroupCollapsedTargetStrings.CollapsedToBoth}
+            { HeaderGroupCollapsedTarget.CollapsedToPrimary, DesignTimeUtilities.DEFAULT_HEADER_GROUP_COLLAPSED_TARGET_COLLAPSED_TO_PRIMARY},
+            {HeaderGroupCollapsedTarget.CollapsedToSecondary, DesignTimeUtilities.DEFAULT_HEADER_GROUP_COLLAPSED_TARGET_COLLAPSED_TO_SECONDARY},
+            {HeaderGroupCollapsedTarget.CollapsedToBoth, DesignTimeUtilities.DEFAULT_HEADER_GROUP_COLLAPSED_TARGET_COLLAPSED_TO_BOTH}
         };
 
         #endregion

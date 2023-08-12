@@ -22,12 +22,12 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         private static readonly IReadOnlyDictionary<SeparatorStyle, string> _pairs = new Dictionary<SeparatorStyle, string>
         {
-            {SeparatorStyle.LowProfile, KryptonLanguageManager.SeparatorStyles.LowProfile},
-            {SeparatorStyle.HighProfile, KryptonLanguageManager.SeparatorStyles.HighProfile},
-            {SeparatorStyle.HighInternalProfile, KryptonLanguageManager.SeparatorStyles.HighInternalProfile},
-            {SeparatorStyle.Custom1, KryptonLanguageManager.SeparatorStyles.Custom1},
-            {SeparatorStyle.Custom2, KryptonLanguageManager.SeparatorStyles.Custom2},
-            {SeparatorStyle.Custom3, KryptonLanguageManager.SeparatorStyles.Custom3 }
+            {SeparatorStyle.LowProfile, DesignTimeUtilities.DEFAULT_SEPARATOR_STYLE_LOW_PROFILE},
+            {SeparatorStyle.HighProfile, DesignTimeUtilities.DEFAULT_SEPARATOR_STYLE_HIGH_PROFILE},
+            {SeparatorStyle.HighInternalProfile, DesignTimeUtilities.DEFAULT_SEPARATOR_STYLE_HIGH_INTERNAL_PROFILE},
+            {SeparatorStyle.Custom1, DesignTimeUtilities.DEFAULT_SEPARATOR_STYLE_CUSTOM1},
+            {SeparatorStyle.Custom2, DesignTimeUtilities.DEFAULT_SEPARATOR_STYLE_CUSTOM2},
+            {SeparatorStyle.Custom3, DesignTimeUtilities.DEFAULT_SEPARATOR_STYLE_CUSTOM3}
         };
 
         #endregion
