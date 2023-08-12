@@ -22,12 +22,12 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         private static readonly IReadOnlyDictionary<DataGridViewStyle, string> _pairs = new Dictionary<DataGridViewStyle, string>
         {
-            {DataGridViewStyle.List, KryptonLanguageManager.DataGridViewStyles.List},
-            {DataGridViewStyle.Sheet, KryptonLanguageManager.DataGridViewStyles.Sheet},
-            {DataGridViewStyle.Custom1, KryptonLanguageManager.DataGridViewStyles.CustomOne},
-            {DataGridViewStyle.Custom2, KryptonLanguageManager.DataGridViewStyles.CustomTwo},
-            {DataGridViewStyle.Custom3, KryptonLanguageManager.DataGridViewStyles.CustomThree},
-            {DataGridViewStyle.Mixed, KryptonLanguageManager.DataGridViewStyles.Mixed }
+            {DataGridViewStyle.List, DesignTimeUtilities.DEFAULT_DATA_GRID_VIEW_STYLE_LIST},
+            {DataGridViewStyle.Sheet, DesignTimeUtilities.DEFAULT_DATA_GRID_VIEW_STYLE_SHEET},
+            {DataGridViewStyle.Custom1, DesignTimeUtilities.DEFAULT_DATA_GRID_VIEW_STYLE_CUSTOM_ONE},
+            {DataGridViewStyle.Custom2, DesignTimeUtilities.DEFAULT_DATA_GRID_VIEW_STYLE_CUSTOM_TWO},
+            {DataGridViewStyle.Custom3, DesignTimeUtilities.DEFAULT_DATA_GRID_VIEW_STYLE_CUSTOM_THREE},
+            {DataGridViewStyle.Mixed, DesignTimeUtilities.DEFAULT_DATA_GRID_VIEW_STYLE_MIXED}
         };
 
         #endregion

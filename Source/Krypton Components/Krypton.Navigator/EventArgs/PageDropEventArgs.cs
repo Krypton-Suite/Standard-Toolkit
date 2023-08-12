@@ -37,7 +37,7 @@ namespace Krypton.Navigator
         public KryptonPage? Page
         {
             get => _page;
-            set => _page = Page;    // TODO: What is this supposed to be doing ?
+            set => _page = value;
         }
         #endregion
     }

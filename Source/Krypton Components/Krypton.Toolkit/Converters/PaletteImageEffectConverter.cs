@@ -22,17 +22,17 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         private static readonly IReadOnlyDictionary<PaletteImageEffect, string> _pairs = new Dictionary<PaletteImageEffect, string>
         {
-            {PaletteImageEffect.Inherit, KryptonLanguageManager.ImageEffectStrings.Inherit},
-            {PaletteImageEffect.Light, KryptonLanguageManager.ImageEffectStrings.Light},
-            {PaletteImageEffect.LightLight, KryptonLanguageManager.ImageEffectStrings.LightLight},
-            {PaletteImageEffect.Normal, KryptonLanguageManager.ImageEffectStrings.Normal},
-            {PaletteImageEffect.Disabled, KryptonLanguageManager.ImageEffectStrings.Disabled},
-            {PaletteImageEffect.Dark, KryptonLanguageManager.ImageEffectStrings.Dark},
-            {PaletteImageEffect.DarkDark, KryptonLanguageManager.ImageEffectStrings.DarkDark},
-            {PaletteImageEffect.GrayScale, KryptonLanguageManager.ImageEffectStrings.GrayScale},
-            {PaletteImageEffect.GrayScaleRed, KryptonLanguageManager.ImageEffectStrings.GrayScaleRed},
-            {PaletteImageEffect.GrayScaleGreen, KryptonLanguageManager.ImageEffectStrings.GrayScaleGreen},
-            {PaletteImageEffect.GrayScaleBlue, KryptonLanguageManager.ImageEffectStrings.GrayScaleBlue }
+            {PaletteImageEffect.Inherit, DesignTimeUtilities.DEFAULT_PALETTE_IMAGE_EFFECT_INHERIT},
+            {PaletteImageEffect.Light, DesignTimeUtilities.DEFAULT_PALETTE_IMAGE_EFFECT_LIGHT},
+            {PaletteImageEffect.LightLight, DesignTimeUtilities.DEFAULT_PALETTE_IMAGE_EFFECT_LIGHT_LIGHT},
+            {PaletteImageEffect.Normal, DesignTimeUtilities.DEFAULT_PALETTE_IMAGE_EFFECT_NORMAL},
+            {PaletteImageEffect.Disabled, DesignTimeUtilities.DEFAULT_PALETTE_IMAGE_EFFECT_DISABLED},
+            {PaletteImageEffect.Dark, DesignTimeUtilities.DEFAULT_PALETTE_IMAGE_EFFECT_DARK},
+            {PaletteImageEffect.DarkDark, DesignTimeUtilities.DEFAULT_PALETTE_IMAGE_EFFECT_DARK_DARK},
+            {PaletteImageEffect.GrayScale, DesignTimeUtilities.DEFAULT_PALETTE_IMAGE_EFFECT_GRAY_SCALE},
+            {PaletteImageEffect.GrayScaleRed, DesignTimeUtilities.DEFAULT_PALETTE_IMAGE_EFFECT_GRAY_SCALE_RED},
+            {PaletteImageEffect.GrayScaleGreen, DesignTimeUtilities.DEFAULT_PALETTE_IMAGE_EFFECT_GRAY_SCALE_GREEN},
+            {PaletteImageEffect.GrayScaleBlue, DesignTimeUtilities.DEFAULT_PALETTE_IMAGE_EFFECT_GRAY_SCALE_BLUE}
         };
 
         #endregion

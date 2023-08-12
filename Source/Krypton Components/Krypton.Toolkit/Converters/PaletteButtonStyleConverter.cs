@@ -22,24 +22,24 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         private static readonly IReadOnlyDictionary<PaletteButtonStyle, string> _pairs = new Dictionary<PaletteButtonStyle, string>
         {
-            {PaletteButtonStyle.Inherit, KryptonLanguageManager.PaletteButtonStyles.Inherit},
-            {PaletteButtonStyle.Standalone, KryptonLanguageManager.PaletteButtonStyles.Standalone},
-            {PaletteButtonStyle.Alternate, KryptonLanguageManager.PaletteButtonStyles.Alternate},
-            {PaletteButtonStyle.LowProfile, KryptonLanguageManager.PaletteButtonStyles.LowProfile},
-            {PaletteButtonStyle.BreadCrumb, KryptonLanguageManager.PaletteButtonStyles.BreadCrumb},
-            {PaletteButtonStyle.Cluster, KryptonLanguageManager.PaletteButtonStyles.Cluster},
-            {PaletteButtonStyle.NavigatorStack, KryptonLanguageManager.PaletteButtonStyles.NavigatorStack},
-            {PaletteButtonStyle.NavigatorOverflow, KryptonLanguageManager.PaletteButtonStyles.NavigatorOverflow},
-            {PaletteButtonStyle.NavigatorMini, KryptonLanguageManager.PaletteButtonStyles.NavigatorMini},
-            {PaletteButtonStyle.InputControl, KryptonLanguageManager.PaletteButtonStyles.InputControl},
-            {PaletteButtonStyle.ListItem, KryptonLanguageManager.PaletteButtonStyles.ListItem},
-            {PaletteButtonStyle.Form, KryptonLanguageManager.PaletteButtonStyles.Form},
-            {PaletteButtonStyle.FormClose, KryptonLanguageManager.PaletteButtonStyles.FormClose},
-            {PaletteButtonStyle.ButtonSpec, KryptonLanguageManager.PaletteButtonStyles.ButtonSpec},
-            {PaletteButtonStyle.Command, KryptonLanguageManager.PaletteButtonStyles.Command},
-            {PaletteButtonStyle.Custom1, KryptonLanguageManager.PaletteButtonStyles.Custom1},
-            {PaletteButtonStyle.Custom2, KryptonLanguageManager.PaletteButtonStyles.Custom2},
-            {PaletteButtonStyle.Custom3, KryptonLanguageManager.PaletteButtonStyles.Custom3 }
+            {PaletteButtonStyle.Inherit, DesignTimeUtilities.DEFAULT_PALETTE_BUTTON_STYLE_INHERIT},
+            {PaletteButtonStyle.Standalone, DesignTimeUtilities.DEFAULT_PALETTE_BUTTON_STYLE_STANDALONE},
+            {PaletteButtonStyle.Alternate, DesignTimeUtilities.DEFAULT_PALETTE_BUTTON_STYLE_ALTERNATE},
+            {PaletteButtonStyle.LowProfile, DesignTimeUtilities.DEFAULT_PALETTE_BUTTON_STYLE_LOW_PROFILE},
+            {PaletteButtonStyle.BreadCrumb, DesignTimeUtilities.DEFAULT_PALETTE_BUTTON_STYLE_BREAD_CRUMB},
+            {PaletteButtonStyle.Cluster, DesignTimeUtilities.DEFAULT_PALETTE_BUTTON_STYLE_CLUSTER},
+            {PaletteButtonStyle.NavigatorStack, DesignTimeUtilities.DEFAULT_PALETTE_BUTTON_STYLE_NAVIGATOR_STACK},
+            {PaletteButtonStyle.NavigatorOverflow, DesignTimeUtilities.DEFAULT_PALETTE_BUTTON_STYLE_NAVIGATOR_OVERFLOW},
+            {PaletteButtonStyle.NavigatorMini, DesignTimeUtilities.DEFAULT_PALETTE_BUTTON_STYLE_NAVIGATOR_MINI},
+            {PaletteButtonStyle.InputControl, DesignTimeUtilities.DEFAULT_PALETTE_BUTTON_STYLE_INPUT_CONTROL},
+            {PaletteButtonStyle.ListItem, DesignTimeUtilities.DEFAULT_PALETTE_BUTTON_STYLE_LIST_ITEM},
+            {PaletteButtonStyle.Form, DesignTimeUtilities.DEFAULT_PALETTE_BUTTON_STYLE_FORM},
+            {PaletteButtonStyle.FormClose, DesignTimeUtilities.DEFAULT_PALETTE_BUTTON_STYLE_FORM_CLOSE},
+            {PaletteButtonStyle.ButtonSpec, DesignTimeUtilities.DEFAULT_PALETTE_BUTTON_STYLE_BUTTON_SPEC},
+            {PaletteButtonStyle.Command, DesignTimeUtilities.DEFAULT_PALETTE_BUTTON_STYLE_COMMAND},
+            {PaletteButtonStyle.Custom1, DesignTimeUtilities.DEFAULT_PALETTE_BUTTON_STYLE_CUSTOM1},
+            {PaletteButtonStyle.Custom2, DesignTimeUtilities.DEFAULT_PALETTE_BUTTON_STYLE_CUSTOM2},
+            {PaletteButtonStyle.Custom3, DesignTimeUtilities.DEFAULT_PALETTE_BUTTON_STYLE_CUSTOM3}
         };
 
         #endregion

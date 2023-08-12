@@ -33,7 +33,7 @@ namespace Krypton.Toolkit
         /// <summary>Resets the color strings.</summary>
         public void ResetColorStrings() => ColorStrings.Reset();
 
-        /// <summary>Gets the button spec style strings.</summary>
+        /*/// <summary>Gets the button spec style strings.</summary>
         /// <value>The button spec style strings.</value>
         [Category(@"Visuals")]
         [Description(@"Collection of button spec style strings.")]
@@ -45,7 +45,7 @@ namespace Krypton.Toolkit
         private bool ShouldSerializeButtonSpecStyleStrings() => !ButtonStyles.IsDefault;
 
         /// <summary>Resets the button spec style strings.</summary>
-        public void ResetButtonSpecStyleStrings() => ButtonStyles.Reset();
+        public void ResetButtonSpecStyleStrings() => ButtonStyles.Reset();*/
 
         /// <summary>Gets the custom toolkit strings.</summary>
         /// <value>The custom toolkit strings.</value>
@@ -75,7 +75,7 @@ namespace Krypton.Toolkit
         /// <summary>Resets the general strings.</summary>
         public void ResetGeneralStrings() => GeneralToolkitStrings.Reset();
 
-        /// <summary>Gets the data grid view style strings.</summary>
+        /*/// <summary>Gets the data grid view style strings.</summary>
         /// <value>The data grid view style strings.</value>
         [Category(@"Visuals")]
         [Description(@"Collection of datagrid view style strings.")]
@@ -143,7 +143,7 @@ namespace Krypton.Toolkit
         private bool ShouldSerializeInputControlStyleStrings() => !InputControlStyles.IsDefault;
 
         /// <summary>Resets the input control style strings.</summary>
-        public void ResetInputControlStyleStrings() => InputControlStyles.Reset();
+        public void ResetInputControlStyleStrings() => InputControlStyles.Reset();*/
 
         /// <summary>Gets the integrated toolbar button strings.</summary>
         /// <value>The integrated toolbar button strings.</value>
@@ -156,7 +156,7 @@ namespace Krypton.Toolkit
 
         private bool ShouldSerializeIntegratedToolBarStrings() => !ToolBarStrings.IsDefault;
 
-        /// <summary>Resets the integrated tool bar strings.</summary>
+        /*/// <summary>Resets the integrated tool bar strings.</summary>
         public void ResetIntegratedToolBarStrings() => ToolBarStrings.Reset();
 
         /// <summary>Gets the link behavior style strings.</summary>
@@ -380,7 +380,7 @@ namespace Krypton.Toolkit
         private bool ShouldSerializeTabStyleStrings() => !TabStyles.IsDefault;
 
         /// <summary>Resets the tab style strings.</summary>
-        public void ResetTabStyleStrings() => TabStyles.Reset();
+        public void ResetTabStyleStrings() => TabStyles.Reset();*/
 
         /// <summary>Gets the scrollbar strings.</summary>
         /// <value>The scrollbar strings.</value>
@@ -531,28 +531,28 @@ namespace Krypton.Toolkit
         public bool IsDefault => !(ShouldSerializeCustomStrings() ||
                                    ShouldSerializeGeneralStrings() ||
                                    ShouldSerializeColorStrings() ||
-                                   ShouldSerializePaletteModeStrings() ||
-                                   ShouldSerializeButtonSpecStyleStrings() ||
-                                   ShouldSerializeDataGridViewStyleStrings() ||
-                                   ShouldSerializeGridStyleStrings() ||
-                                   ShouldSerializeHeaderGroupCollapsedTargetStrings() ||
-                                   ShouldSerializeHeaderStyleStrings() ||
-                                   ShouldSerializeInputControlStyleStrings() ||
+                                   //ShouldSerializePaletteModeStrings() ||
+                                   //ShouldSerializeButtonSpecStyleStrings() ||
+                                   //ShouldSerializeDataGridViewStyleStrings() ||
+                                   //ShouldSerializeGridStyleStrings() ||
+                                   //ShouldSerializeHeaderGroupCollapsedTargetStrings() ||
+                                   //ShouldSerializeHeaderStyleStrings() ||
+                                   //ShouldSerializeInputControlStyleStrings() ||
                                    ShouldSerializeIntegratedToolBarStrings() ||
-                                   ShouldSerializeKryptonLinkBehaviorStrings() ||
-                                   ShouldSerializePaletteBackStyleStrings() ||
-                                   ShouldSerializePaletteBorderStyleStrings() ||
-                                   ShouldSerializePaletteButtonOrientationStrings() ||
-                                   ShouldSerializePaletteButtonSpecStyleStrings() ||
-                                   ShouldSerializePaletteButtonStyleStrings() ||
-                                   ShouldSerializePaletteContentStyleStrings() ||
-                                   ShouldSerializePaletteImageEffectStrings() ||
-                                   ShouldSerializePaletteImageStyleStrings() ||
-                                   ShouldSerializePaletteTextTrimStrings() ||
-                                   ShouldSerializePlacementModeStrings() ||
-                                   ShouldSerializeSeparatorStyleStrings() ||
-                                   ShouldSerializeTabBorderStyleStrings() ||
-                                   ShouldSerializeTabStyleStrings() ||
+                                   //ShouldSerializeKryptonLinkBehaviorStrings() ||
+                                   //ShouldSerializePaletteBackStyleStrings() ||
+                                   //ShouldSerializePaletteBorderStyleStrings() ||
+                                   //ShouldSerializePaletteButtonOrientationStrings() ||
+                                   //ShouldSerializePaletteButtonSpecStyleStrings() ||
+                                   //ShouldSerializePaletteButtonStyleStrings() ||
+                                   //ShouldSerializePaletteContentStyleStrings() ||
+                                   //ShouldSerializePaletteImageEffectStrings() ||
+                                   //ShouldSerializePaletteImageStyleStrings() ||
+                                   //ShouldSerializePaletteTextTrimStrings() ||
+                                   //ShouldSerializePlacementModeStrings() ||
+                                   //ShouldSerializeSeparatorStyleStrings() ||
+                                   //ShouldSerializeTabBorderStyleStrings() ||
+                                   //ShouldSerializeTabStyleStrings() ||
                                    ShouldSerializeKryptonScrollBarStrings());
 
         /// <summary>Resets this instance.</summary>
@@ -560,53 +560,53 @@ namespace Krypton.Toolkit
         {
             ResetColorStrings();
 
-            ResetButtonSpecStyleStrings();
+            //ResetButtonSpecStyleStrings();
 
             ResetCustomStrings();
 
             ResetGeneralStrings();
 
-            ResetPaletteModeStrings();
+            //ResetPaletteModeStrings();
 
-            ResetDataGridViewStyleStrings();
+            //ResetDataGridViewStyleStrings();
 
-            ResetGridStyleStrings();
+            //ResetGridStyleStrings();
 
-            ResetHeaderGroupCollapsedTargetStrings();
+            //ResetHeaderGroupCollapsedTargetStrings();
 
-            ResetHeaderStyleStrings();
+            //ResetHeaderStyleStrings();
 
-            ResetInputControlStyleStrings();
+            //ResetInputControlStyleStrings();
 
-            ResetIntegratedToolBarStrings();
+            //ResetIntegratedToolBarStrings();
 
-            ResetKryptonLinkBehaviorStrings();
+            //ResetKryptonLinkBehaviorStrings();
 
-            ResetPaletteBackStyleStrings();
+            //ResetPaletteBackStyleStrings();
 
-            ResetPaletteBorderStyleStrings();
+            //ResetPaletteBorderStyleStrings();
 
-            ResetPaletteButtonOrientationStrings();
+            //ResetPaletteButtonOrientationStrings();
 
-            ResetPaletteButtonSpecStyleStrings();
+            //ResetPaletteButtonSpecStyleStrings();
 
-            ResetPaletteButtonStyleStrings();
+            //ResetPaletteButtonStyleStrings();
 
-            ResetPaletteContentStyleStrings();
+            //ResetPaletteContentStyleStrings();
 
-            ResetPaletteImageEffectStrings();
+            //ResetPaletteImageEffectStrings();
 
-            ResetPaletteImageStyleStrings();
+            //ResetPaletteImageStyleStrings();
 
-            ResetPaletteTextTrimStrings();
+            //ResetPaletteTextTrimStrings();
 
-            ResetPlacementModeStrings();
+            //ResetPlacementModeStrings();
 
-            ResetSeparatorStyleStrings();
+            //ResetSeparatorStyleStrings();
 
-            ResetTabBorderStyleStrings();
+            //ResetTabBorderStyleStrings();
 
-            ResetTabStyleStrings();
+            //ResetTabStyleStrings();
 
             ResetKryptonScrollBarStrings();
         }

@@ -22,11 +22,11 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         private static readonly IReadOnlyDictionary<GridStyle, string> _pairs = new Dictionary<GridStyle, string>
         {
-            {GridStyle.List, KryptonLanguageManager.GridStyles.List},
-            {GridStyle.Sheet, KryptonLanguageManager.GridStyles.Sheet},
-            {GridStyle.Custom1, KryptonLanguageManager.GridStyles.CustomOne},
-            {GridStyle.Custom2, KryptonLanguageManager.GridStyles.CustomTwo},
-            {GridStyle.Custom3, KryptonLanguageManager.GridStyles.CustomThree }
+            {GridStyle.List, DesignTimeUtilities.DEFAULT_GRID_STYLE_LIST},
+            {GridStyle.Sheet, DesignTimeUtilities.DEFAULT_GRID_STYLE_SHEET},
+            {GridStyle.Custom1, DesignTimeUtilities.DEFAULT_GRID_STYLE_CUSTOM_ONE},
+            {GridStyle.Custom2, DesignTimeUtilities.DEFAULT_GRID_STYLE_CUSTOM_TWO},
+            {GridStyle.Custom3, DesignTimeUtilities.DEFAULT_GRID_STYLE_CUSTOM_THREE}
         };
 
         #endregion
