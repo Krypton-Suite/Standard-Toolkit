@@ -6,7 +6,7 @@ namespace TestForm
 {
     public partial class Form1 : KryptonForm
     {
-        public Form1()
+        public Form1()//This is constructor
         {
             InitializeComponent();
         }
@@ -121,7 +121,6 @@ namespace TestForm
         private void textBox1_KeyPress(object sender, System.Windows.Forms.KeyPressEventArgs e)
         {
             AddEvent("textBox1_KeyPress");
-
         }
 
         private void textBox1_KeyUp(object sender, System.Windows.Forms.KeyEventArgs e)
