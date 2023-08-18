@@ -127,7 +127,9 @@ namespace Krypton.Toolkit
         internal const string DEFAULT_LABEL_STYLE_CUSTOM_TWO = @"Custom 2";
         internal const string DEFAULT_LABEL_STYLE_CUSTOM_THREE = @"Custom 3";
         internal const string DEFAULT_LABEL_STYLE_GROUP_BOX_CAPTION = @"Caption (Panel)";
+        internal const string DEFAULT_LABEL_STYLE_ALTERNATE_CONTROL = @"Alternate (Control)";
         internal const string DEFAULT_LABEL_STYLE_NORMAL_CONTROL = @"Normal (Control)";
+        internal const string DEFAULT_LABEL_STYLE_ALTERNATE_PANEL = @"Alternate (Panel)";
         internal const string DEFAULT_LABEL_STYLE_NORMAL_PANEL = @"Normal (Panel)";
         internal const string DEFAULT_LABEL_STYLE_TITLE_CONTROL = @"Title (Control)";
         internal const string DEFAULT_LABEL_STYLE_TITLE_PANEL = @"Title (Panel)";
@@ -435,10 +437,12 @@ namespace Krypton.Toolkit
         internal const string DEFAULT_PALETTE_CONTENT_STYLE_HEADER_CUSTOM1 = @"Header - Custom1";
         internal const string DEFAULT_PALETTE_CONTENT_STYLE_HEADER_CUSTOM2 = @"Header - Custom2";
         internal const string DEFAULT_PALETTE_CONTENT_STYLE_HEADER_CUSTOM3 = @"Header - Custom3";
+        internal const string DEFAULT_PALETTE_CONTENT_STYLE_LABEL_ALTERNATE_CONTROL = @"Label - Alternate (Control)";
         internal const string DEFAULT_PALETTE_CONTENT_STYLE_LABEL_NORMAL_CONTROL = @"Label - Normal (Control)";
         internal const string DEFAULT_PALETTE_CONTENT_STYLE_LABEL_BOLD_CONTROL = @"Label - Bold (Control)";
         internal const string DEFAULT_PALETTE_CONTENT_STYLE_LABEL_ITALIC_CONTROL = @"Label - Italic (Control)";
         internal const string DEFAULT_PALETTE_CONTENT_STYLE_LABEL_TITLE_CONTROL = @"Label - Title (Control)";
+        internal const string DEFAULT_PALETTE_CONTENT_STYLE_LABEL_ALTERNATE_PANEL = @"Label - Alternate (Panel)";
         internal const string DEFAULT_PALETTE_CONTENT_STYLE_LABEL_NORMAL_PANEL = @"Label - Normal (Panel)";
         internal const string DEFAULT_PALETTE_CONTENT_STYLE_LABEL_BOLD_PANEL = @"Label - Bold (Panel)";
         internal const string DEFAULT_PALETTE_CONTENT_STYLE_LABEL_ITALIC_PANEL = @"Label - Italic (Panel)";

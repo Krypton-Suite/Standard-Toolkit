@@ -247,7 +247,8 @@ namespace Krypton.Toolkit
         MenuMarginGradientStart = 227,
         MenuMarginGradientMiddle = 228,
         MenuMarginGradientEnd = 229,
-        DisabledMenuItemText = 230
+        DisabledMenuItemText = 230,
+        MenuStripText = 231
     }
 
     #endregion
@@ -285,4 +286,21 @@ namespace Krypton.Toolkit
 
     #endregion
 
+    #region Enumeration: SchemeTrackingColors
+
+    public enum SchemeTrackingColors
+    {
+        MenuItemSelectedBegin = 0,
+        MenuItemSelectedEnd = 1,
+        ContextMenuBackground = 2,
+        CheckBackground = 3,
+        ButtonSelectedBegin = 4,
+        ButtonSelectedEnd = 5,
+        ButtonPressedBegin = 6,
+        ButtonPressedEnd = 7,
+        ButtonCheckedBegin = 8,
+        ButtonCheckedEnd = 9
+    }
+
+    #endregion
 }

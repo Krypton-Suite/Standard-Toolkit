@@ -1,10 +1,6 @@
 ﻿#region BSD License
 /*
- * 
- * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
- * 
- *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
+ *   BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
@@ -16,7 +12,7 @@ namespace Krypton.Toolkit
     /// Extends the professional renderer to provide Microsoft 365 style additions.
     /// </summary>
     /// <seealso cref="RenderOffice2010" />
-    public class RenderMicrosoft365 : RenderOffice2010
+    public class RenderVisualStudio2010WithMicrosoft365 : RenderOffice2010
     {
         #region Static Variables
         private static readonly float BORDER_PERCENT = 0.6f;
@@ -25,7 +21,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Constructor
-        static RenderMicrosoft365()
+        static RenderVisualStudio2010WithMicrosoft365()
         {
 
         }
@@ -40,9 +36,9 @@ namespace Krypton.Toolkit
         /// <param name="displayRect">Display area available for drawing.</param>
         /// <param name="paletteBack">Palette used for recovering drawing details.</param>
         /// <param name="state">State associated with rendering.</param>
-        public override void DrawRibbonClusterEdge(PaletteRibbonShape shape, 
-            [DisallowNull] RenderContext context, 
-            Rectangle displayRect, 
+        public override void DrawRibbonClusterEdge(PaletteRibbonShape shape,
+            [DisallowNull] RenderContext context,
+            Rectangle displayRect,
             [DisallowNull] IPaletteBack paletteBack, PaletteState state)
         {
             Debug.Assert(context != null);

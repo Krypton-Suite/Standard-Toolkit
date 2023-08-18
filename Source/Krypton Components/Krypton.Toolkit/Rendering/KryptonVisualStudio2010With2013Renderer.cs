@@ -1,10 +1,6 @@
 ﻿#region BSD License
 /*
- * 
- * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
- * 
- *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
+ *   BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
@@ -15,8 +11,7 @@ namespace Krypton.Toolkit
     /// <summary>
     /// 
     /// </summary>
-    /// <seealso cref="KryptonProfessionalRenderer" />
-    public class KryptonMicrosoft365Renderer : KryptonProfessionalRenderer
+    public class KryptonVisualStudio2010With2013Renderer : KryptonProfessionalRenderer
     {
         #region GradientItemColors
         private abstract class GradientItemColors
@@ -70,7 +65,7 @@ namespace Krypton.Toolkit
                 using var borderPen = new Pen(borderBrush);
                 // Create border path around the entire item
                 using GraphicsPath borderPath = CreateBorderPath(rect, _cutItemMenu);
-                g?.DrawPath(borderPen, borderPath);
+                g.DrawPath(borderPen, borderPath);
             }
 
             public abstract void DrawBack(Graphics? g, Rectangle rect);
@@ -187,6 +182,7 @@ namespace Krypton.Toolkit
                 Back2B = CommonHelper.ColorToBlackAndWhite(Back2B);
             }
         }
+
         private class GradientItemColorsPressed : GradientItemColors
         {
             /// <summary>
@@ -319,7 +315,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Identity
-        static KryptonMicrosoft365Renderer()
+        static KryptonVisualStudio2010With2013Renderer()
         {
             _stripBlend = new Blend
             {
@@ -341,10 +337,10 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>
-        /// Initialise a new instance of the KryptonOffice2010Renderer class.
+        /// Initialise a new instance of the KryptonVisualStudio2010With2013Renderer class.
         /// </summary>
         /// <param name="kct">Source for text colors.</param>
-        public KryptonMicrosoft365Renderer(KryptonColorTable kct)
+        public KryptonVisualStudio2010With2013Renderer(KryptonVisualStudio2010With2013ColorTable kct)
             : base(kct)
         {
         }
@@ -489,9 +485,9 @@ namespace Krypton.Toolkit
                 var checkState = CheckState.Unchecked;
 
                 // Extract the check state from the item
-                if (e.Item is ToolStripMenuItem toolStripItem)
+                if (e.Item is ToolStripMenuItem item)
                 {
-                    checkState = toolStripItem.CheckState;
+                    checkState = item.CheckState;
                 }
 
                 // Decide what graphic to draw
@@ -502,10 +498,12 @@ namespace Krypton.Toolkit
                         using (GraphicsPath tickPath = CreateTickPath(checkBox))
                         {
                             // Draw the tick with a thickish brush
-                            using var tickPen =
-                                new Pen(CommonHelper.WhitenColor(KCT.CheckBackground, 3.86f, 3.02f, 1.07f),
-                                    _contextCheckTickThickness);
-                            e.Graphics.DrawPath(tickPen, tickPath);
+                            using (var tickPen =
+                                   new Pen(CommonHelper.WhitenColor(KCT.CheckBackground, 3.86f, 3.02f, 1.07f),
+                                       _contextCheckTickThickness))
+                            {
+                                e.Graphics.DrawPath(tickPen, tickPath);
+                            }
                         }
                         break;
                     case CheckState.Indeterminate:
@@ -849,7 +847,7 @@ namespace Krypton.Toolkit
                         // Cannot paint a zero sized area
                         if (backRect is { Width: > 0, Height: > 0 })
                         {
-                            //using (var backBrush = new LinearGradientBrush(backRect,
+                            //using (LinearGradientBrush backBrush = new LinearGradientBrush(backRect,
                             //                                                               KCT.StatusStripGradientBegin,
                             //                                                               KCT.StatusStripGradientEnd,
                             //                                                               90f))

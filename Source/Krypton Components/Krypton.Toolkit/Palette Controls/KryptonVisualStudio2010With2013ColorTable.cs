@@ -1,19 +1,17 @@
 ﻿#region BSD License
 /*
- * 
- *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *   BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2023 - 2023. All rights reserved. 
  *  
  */
 #endregion
 
 namespace Krypton.Toolkit
 {
-    // TODO: Review colours
     /// <summary>
-    /// Provide KryptonColorTableVisualStudio2010 values using an array of Color values as the source.
+    /// Provide KryptonVisualStudio2010With2013ColorTable values using an array of Color values as the source.
     /// </summary>
-    public class KryptonColorTableVisualStudio2010 : KryptonColorTable
+    public class KryptonVisualStudio2010With2013ColorTable : KryptonColorTable
     {
         #region Static Fields
         private static readonly Color _contextMenuBackground = Color.White;
@@ -27,12 +25,19 @@ namespace Krypton.Toolkit
         private static readonly Color _buttonCheckedEnd = Color.FromArgb(255, 216, 107);
         private static readonly Color _menuItemSelectedBegin = Color.FromArgb(251, 242, 215);
         private static readonly Color _menuItemSelectedEnd = Color.FromArgb(247, 224, 135);
+        private static readonly Color _menuStripItemTextColor = Color.FromArgb(0, 0, 0);
         private static Font _menuToolFont;
         private static Font _statusFont;
         #endregion
 
+        #region Instance Fields
+        private readonly Color[] _colors;
+        private readonly InheritBool _roundedEdges;
+        #endregion
+
         #region Identity
-        static KryptonColorTableVisualStudio2010()
+        [SecuritySafeCritical]
+        static KryptonVisualStudio2010With2013ColorTable()
         {
             // Get the font settings from the system
             DefineFonts();
@@ -42,19 +47,19 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>
-        /// Initialize a new instance of the KryptonColorTableVisualStudio2010 class.
+        /// Initialize a new instance of the KryptonColorTable2010 class.
         /// </summary>
         /// <param name="colors">Source of </param>
         /// <param name="roundedEdges">Should have rounded edges.</param>
         /// <param name="palette">Associated palette instance.</param>
-        public KryptonColorTableVisualStudio2010([DisallowNull] Color[] colors,
+        public KryptonVisualStudio2010With2013ColorTable([DisallowNull] Color[] colors,
                                      InheritBool roundedEdges,
                                      PaletteBase palette)
             : base(palette)
         {
             Debug.Assert(colors != null);
-            Colors = colors;
-            UseRoundedEdges = roundedEdges;
+            _colors = colors;
+            _roundedEdges = roundedEdges;
         }
         #endregion
 
@@ -62,7 +67,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the raw set of colors.
         /// </summary>
-        public Color[] Colors { get; }
+        public Color[] Colors => _colors;
 
         #endregion
 
@@ -70,7 +75,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets a value indicating if rounded egdes are required.
         /// </summary>
-        public override InheritBool UseRoundedEdges { get; }
+        public override InheritBool UseRoundedEdges => _roundedEdges;
 
         #endregion
 
@@ -79,7 +84,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the border color for a button being pressed.
         /// </summary>
-        public override Color ButtonPressedBorder => Colors[(int)SchemeOfficeColors.ButtonBorder];
+        public override Color ButtonPressedBorder => _colors[(int)SchemeOfficeColors.ButtonBorder];
 
         #endregion
 
@@ -119,7 +124,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the highlight border for a pressed button.
         /// </summary>
-        public override Color ButtonPressedHighlightBorder => Colors[(int)SchemeOfficeColors.ButtonBorder];
+        public override Color ButtonPressedHighlightBorder => _colors[(int)SchemeOfficeColors.ButtonBorder];
 
         #endregion
         #endregion
@@ -129,7 +134,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the border color for a button being selected.
         /// </summary>
-        public override Color ButtonSelectedBorder => Colors[(int)SchemeOfficeColors.ButtonBorder];
+        public override Color ButtonSelectedBorder => _colors[(int)SchemeOfficeColors.ButtonBorder];
 
         #endregion
 
@@ -169,7 +174,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the highlight border for a selected button.
         /// </summary>
-        public override Color ButtonSelectedHighlightBorder => Colors[(int)SchemeOfficeColors.ButtonBorder];
+        public override Color ButtonSelectedHighlightBorder => _colors[(int)SchemeOfficeColors.ButtonBorder];
 
         #endregion
         #endregion
@@ -211,7 +216,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the highlight border for a checked button.
         /// </summary>
-        public override Color ButtonCheckedHighlightBorder => Colors[(int)SchemeOfficeColors.ButtonBorder];
+        public override Color ButtonCheckedHighlightBorder => _colors[(int)SchemeOfficeColors.ButtonBorder];
 
         #endregion
         #endregion
@@ -247,7 +252,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the light color used to draw grips.
         /// </summary>
-        public override Color GripLight => Colors[(int)SchemeOfficeColors.GripLight];
+        public override Color GripLight => _colors[(int)SchemeOfficeColors.GripLight];
 
         #endregion
 
@@ -255,7 +260,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the dark color used to draw grips.
         /// </summary>
-        public override Color GripDark => Colors[(int)SchemeOfficeColors.GripDark];
+        public override Color GripDark => _colors[(int)SchemeOfficeColors.GripDark];
 
         #endregion
         #endregion
@@ -265,7 +270,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the starting color for the context menu margin.
         /// </summary>
-        public override Color ImageMarginGradientBegin => Colors[(int)SchemeOfficeColors.ImageMargin];
+        public override Color ImageMarginGradientBegin => _colors[(int)SchemeOfficeColors.ImageMargin];
 
         #endregion
 
@@ -273,7 +278,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the middle color for the context menu margin.
         /// </summary>
-        public override Color ImageMarginGradientMiddle => Colors[(int)SchemeOfficeColors.ImageMargin];
+        public override Color ImageMarginGradientMiddle => _colors[(int)SchemeOfficeColors.ImageMargin];
 
         #endregion
 
@@ -281,7 +286,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the ending color for the context menu margin.
         /// </summary>
-        public override Color ImageMarginGradientEnd => Colors[(int)SchemeOfficeColors.ImageMargin];
+        public override Color ImageMarginGradientEnd => _colors[(int)SchemeOfficeColors.ImageMargin];
 
         #endregion
 
@@ -289,7 +294,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the starting color for the context menu margin revealed.
         /// </summary>
-        public override Color ImageMarginRevealedGradientBegin => Colors[(int)SchemeOfficeColors.ImageMargin];
+        public override Color ImageMarginRevealedGradientBegin => _colors[(int)SchemeOfficeColors.ImageMargin];
 
         #endregion
 
@@ -297,7 +302,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the middle color for the context menu margin revealed.
         /// </summary>
-        public override Color ImageMarginRevealedGradientMiddle => Colors[(int)SchemeOfficeColors.ImageMargin];
+        public override Color ImageMarginRevealedGradientMiddle => _colors[(int)SchemeOfficeColors.ImageMargin];
 
         #endregion
 
@@ -305,7 +310,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the ending color for the context menu margin revealed.
         /// </summary>
-        public override Color ImageMarginRevealedGradientEnd => Colors[(int)SchemeOfficeColors.ImageMargin];
+        public override Color ImageMarginRevealedGradientEnd => _colors[(int)SchemeOfficeColors.ImageMargin];
 
         #endregion
         #endregion
@@ -331,7 +336,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the color of a selected menu item.
         /// </summary>
-        public override Color MenuItemSelected => Colors[(int)SchemeOfficeColors.ButtonBorder];
+        public override Color MenuItemSelected => _colors[(int)SchemeOfficeColors.ButtonBorder];
 
         #endregion
 
@@ -339,7 +344,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the starting color of the gradient used when a top-level ToolStripMenuItem is pressed down.
         /// </summary>
-        public override Color MenuItemPressedGradientBegin => Colors[(int)SchemeOfficeColors.ToolStripBegin];
+        public override Color MenuItemPressedGradientBegin => _colors[(int)SchemeOfficeColors.ToolStripBegin];
 
         #endregion
 
@@ -347,7 +352,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the end color of the gradient used when a top-level ToolStripMenuItem is pressed down.
         /// </summary>
-        public override Color MenuItemPressedGradientEnd => Colors[(int)SchemeOfficeColors.ToolStripEnd];
+        public override Color MenuItemPressedGradientEnd => _colors[(int)SchemeOfficeColors.ToolStripEnd];
 
         #endregion
 
@@ -355,7 +360,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the middle color of the gradient used when a top-level ToolStripMenuItem is pressed down.
         /// </summary>
-        public override Color MenuItemPressedGradientMiddle => Colors[(int)SchemeOfficeColors.ToolStripMiddle];
+        public override Color MenuItemPressedGradientMiddle => _colors[(int)SchemeOfficeColors.ToolStripMiddle];
 
         #endregion
 
@@ -381,7 +386,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the starting color of the gradient used in the MenuStrip.
         /// </summary>
-        public override Color MenuStripGradientBegin => Colors[(int)SchemeOfficeColors.ToolStripBack];
+        public override Color MenuStripGradientBegin => _colors[(int)SchemeOfficeColors.ToolStripBack];
 
         #endregion
 
@@ -389,7 +394,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the end color of the gradient used in the MenuStrip.
         /// </summary>
-        public override Color MenuStripGradientEnd => Colors[(int)SchemeOfficeColors.ToolStripBack];
+        public override Color MenuStripGradientEnd => _colors[(int)SchemeOfficeColors.ToolStripBack];
 
         #endregion
 
@@ -400,7 +405,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the starting color of the gradient used in the ToolStripOverflowButton.
         /// </summary>
-        public override Color OverflowButtonGradientBegin => Colors[(int)SchemeOfficeColors.OverflowBegin];
+        public override Color OverflowButtonGradientBegin => _colors[(int)SchemeOfficeColors.OverflowBegin];
 
         #endregion
 
@@ -408,7 +413,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the end color of the gradient used in the ToolStripOverflowButton.
         /// </summary>
-        public override Color OverflowButtonGradientEnd => Colors[(int)SchemeOfficeColors.OverflowEnd];
+        public override Color OverflowButtonGradientEnd => _colors[(int)SchemeOfficeColors.OverflowEnd];
 
         #endregion
 
@@ -416,7 +421,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the middle color of the gradient used in the ToolStripOverflowButton.
         /// </summary>
-        public override Color OverflowButtonGradientMiddle => Colors[(int)SchemeOfficeColors.OverflowMiddle];
+        public override Color OverflowButtonGradientMiddle => _colors[(int)SchemeOfficeColors.OverflowMiddle];
 
         #endregion
         #endregion
@@ -426,7 +431,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the starting color of the gradient used in the ToolStripContainer.
         /// </summary>
-        public override Color RaftingContainerGradientBegin => Colors[(int)SchemeOfficeColors.ToolStripBack];
+        public override Color RaftingContainerGradientBegin => _colors[(int)SchemeOfficeColors.ToolStripBack];
 
         #endregion
 
@@ -434,7 +439,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the end color of the gradient used in the ToolStripContainer.
         /// </summary>
-        public override Color RaftingContainerGradientEnd => Colors[(int)SchemeOfficeColors.ToolStripBack];
+        public override Color RaftingContainerGradientEnd => _colors[(int)SchemeOfficeColors.ToolStripBack];
 
         #endregion
 
@@ -445,7 +450,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the light separator color.
         /// </summary>
-        public override Color SeparatorLight => Colors[(int)SchemeOfficeColors.SeparatorLight];
+        public override Color SeparatorLight => _colors[(int)SchemeOfficeColors.SeparatorLight];
 
         #endregion
 
@@ -453,7 +458,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the dark separator color.
         /// </summary>
-        public override Color SeparatorDark => Colors[(int)SchemeOfficeColors.SeparatorDark];
+        public override Color SeparatorDark => _colors[(int)SchemeOfficeColors.SeparatorDark];
 
         #endregion
         #endregion
@@ -463,7 +468,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the starting color for the status strip background.
         /// </summary>
-        public override Color StatusStripGradientBegin => Colors[(int)SchemeOfficeColors.StatusStripLight];
+        public override Color StatusStripGradientBegin => _colors[(int)SchemeOfficeColors.StatusStripLight];
 
         #endregion
 
@@ -471,25 +476,27 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the ending color for the status strip background.
         /// </summary>
-        public override Color StatusStripGradientEnd => Colors[(int)SchemeOfficeColors.StatusStripDark];
+        public override Color StatusStripGradientEnd => _colors[(int)SchemeOfficeColors.StatusStripDark];
 
         #endregion
         #endregion
 
         #region Text
         #region MenuItemText
+
         /// <summary>
         /// Gets the text color used on the menu items.
         /// </summary>
-        public override Color MenuItemText => Colors[(int)SchemeOfficeColors.TextButtonNormal];
+        public override Color MenuItemText => _menuStripItemTextColor; // _colors[(int)SchemeOfficeColors.TextButtonNormal];
 
         #endregion
 
         #region MenuStripText
+
         /// <summary>
         /// Gets the text color used on the menu strip.
         /// </summary>
-        public override Color MenuStripText => Colors[(int)SchemeOfficeColors.StatusStripText];
+        public override Color MenuStripText => _menuStripItemTextColor; // _colors[(int)SchemeOfficeColors.StatusStripText];
 
         #endregion
 
@@ -497,7 +504,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the text color used on the tool strip.
         /// </summary>
-        public override Color ToolStripText => Colors[(int)SchemeOfficeColors.StatusStripText];
+        public override Color ToolStripText => _colors[(int)SchemeOfficeColors.StatusStripText];
 
         #endregion
 
@@ -505,7 +512,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the text color used on the status strip.
         /// </summary>
-        public override Color StatusStripText => Colors[(int)SchemeOfficeColors.StatusStripText];
+        public override Color StatusStripText => _colors[(int)SchemeOfficeColors.StatusStripText];
 
         #endregion
 
@@ -539,7 +546,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the border color to use on the bottom edge of the ToolStrip.
         /// </summary>
-        public override Color ToolStripBorder => Colors[(int)SchemeOfficeColors.ToolStripBorder];
+        public override Color ToolStripBorder => _colors[(int)SchemeOfficeColors.ToolStripBorder];
 
         #endregion
 
@@ -547,7 +554,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the starting color for the content panel background.
         /// </summary>
-        public override Color ToolStripContentPanelGradientBegin => Colors[(int)SchemeOfficeColors.ToolStripBack];
+        public override Color ToolStripContentPanelGradientBegin => _colors[(int)SchemeOfficeColors.ToolStripBack];
 
         #endregion
 
@@ -555,7 +562,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the ending color for the content panel background.
         /// </summary>
-        public override Color ToolStripContentPanelGradientEnd => Colors[(int)SchemeOfficeColors.ToolStripBack];
+        public override Color ToolStripContentPanelGradientEnd => _colors[(int)SchemeOfficeColors.ToolStripBack];
 
         #endregion
 
@@ -571,7 +578,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the starting color of the gradient used in the ToolStrip background.
         /// </summary>
-        public override Color ToolStripGradientBegin => Colors[(int)SchemeOfficeColors.ToolStripBegin];
+        public override Color ToolStripGradientBegin => _colors[(int)SchemeOfficeColors.ToolStripBegin];
 
         #endregion
 
@@ -579,7 +586,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the end color of the gradient used in the ToolStrip background.
         /// </summary>
-        public override Color ToolStripGradientEnd => Colors[(int)SchemeOfficeColors.ToolStripEnd];
+        public override Color ToolStripGradientEnd => _colors[(int)SchemeOfficeColors.ToolStripEnd];
 
         #endregion
 
@@ -587,7 +594,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the middle color of the gradient used in the ToolStrip background.
         /// </summary>
-        public override Color ToolStripGradientMiddle => Colors[(int)SchemeOfficeColors.ToolStripMiddle];
+        public override Color ToolStripGradientMiddle => _colors[(int)SchemeOfficeColors.ToolStripMiddle];
 
         #endregion
 
@@ -595,7 +602,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the starting color of the gradient used in the ToolStripPanel.
         /// </summary>
-        public override Color ToolStripPanelGradientBegin => Colors[(int)SchemeOfficeColors.ToolStripBack];
+        public override Color ToolStripPanelGradientBegin => _colors[(int)SchemeOfficeColors.ToolStripBack];
 
         #endregion
 
@@ -603,7 +610,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the end color of the gradient used in the ToolStripPanel.
         /// </summary>
-        public override Color ToolStripPanelGradientEnd => Colors[(int)SchemeOfficeColors.ToolStripBack];
+        public override Color ToolStripPanelGradientEnd => _colors[(int)SchemeOfficeColors.ToolStripBack];
 
         #endregion
         #endregion

@@ -1,11 +1,7 @@
 ﻿#region BSD License
 /*
- * 
- * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
- * 
- *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *   BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2023 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -13,25 +9,36 @@
 namespace Krypton.Toolkit
 {
     /// <summary>
-    /// Extends the professional renderer to provide Microsoft 365 style additions.
+    /// Extends the professional renderer to provide Office2010 style additions.
     /// </summary>
-    /// <seealso cref="RenderOffice2010" />
-    public class RenderMicrosoft365 : RenderOffice2010
+    public class RenderVisualStudio2010With2013 : RenderOffice2010
     {
-        #region Static Variables
+        #region Static Fields
         private static readonly float BORDER_PERCENT = 0.6f;
-
         private static readonly float WHITE_PERCENT = 0.4f;
+        //private static readonly Blend _ribbonGroup5Blend;
+        //private static readonly Blend _ribbonGroup6Blend;
+        //private static readonly Blend _ribbonGroup7Blend;
         #endregion
 
-        #region Constructor
-        static RenderMicrosoft365()
+        #region Identity
+        static RenderVisualStudio2010With2013()
         {
+            //_ribbonGroup5Blend = new Blend();
+            //_ribbonGroup5Blend.Factors = new float[] { 0.0f, 0.0f, 1.0f };
+            //_ribbonGroup5Blend.Positions = new float[] { 0.0f, 0.5f, 1.0f };
 
+            //_ribbonGroup6Blend = new Blend();
+            //_ribbonGroup6Blend.Factors = new float[] { 0.0f, 0.0f, 0.75f, 1.0f };
+            //_ribbonGroup6Blend.Positions = new float[] { 0.0f, 0.1f, 0.45f, 1.0f };
+
+            //_ribbonGroup7Blend = new Blend();
+            //_ribbonGroup7Blend.Factors = new float[] { 0.0f, 1.0f, 1.0f, 0.0f };
+            //_ribbonGroup7Blend.Positions = new float[] { 0.0f, 0.15f, 0.85f, 1.0f };
         }
         #endregion
 
-        #region RenderRibbon Overrides        
+        #region RenderRibbon Overrides
         /// <summary>
         /// Perform drawing of a ribbon cluster edge.
         /// </summary>
@@ -40,43 +47,52 @@ namespace Krypton.Toolkit
         /// <param name="displayRect">Display area available for drawing.</param>
         /// <param name="paletteBack">Palette used for recovering drawing details.</param>
         /// <param name="state">State associated with rendering.</param>
-        public override void DrawRibbonClusterEdge(PaletteRibbonShape shape, 
-            [DisallowNull] RenderContext context, 
-            Rectangle displayRect, 
-            [DisallowNull] IPaletteBack paletteBack, PaletteState state)
+        public override void DrawRibbonClusterEdge(PaletteRibbonShape shape,
+            [DisallowNull] RenderContext context,
+                                                   Rectangle displayRect,
+                                                   [DisallowNull] IPaletteBack paletteBack,
+                                                   PaletteState state)
         {
             Debug.Assert(context != null);
-
             Debug.Assert(paletteBack != null);
 
-            // Get the first border color, and then lighten it by merging with white
-            Color borderColour = paletteBack.GetBackColor1(state), lightColour = CommonHelper.MergeColors(borderColour, BORDER_PERCENT, Color.White, WHITE_PERCENT);
+            // Get the first border color
+            Color borderColor = paletteBack.GetBackColor1(state);
+
+            // We want to lighten it by merging with white
+            Color lightColor = CommonHelper.MergeColors(borderColor, BORDER_PERCENT,
+                                                        Color.White, WHITE_PERCENT);
 
             // Draw inside of the border edge in a lighter version of the border
-            using var drawBrush = new SolidBrush(lightColour);
+            using var drawBrush = new SolidBrush(lightColor);
             context.Graphics.FillRectangle(drawBrush, displayRect);
         }
+
         #endregion
 
-        #region IRenderer Overrides        
-        /// <summary>
-        /// Renders the tool strip.
-        /// </summary>
-        /// <param name="colourPalette">The colour palette.</param>
-        /// <returns></returns>
-        public override ToolStripRenderer RenderToolStrip([DisallowNull] PaletteBase colourPalette)
-        {
-            Debug.Assert(colourPalette != null);
+        #region IRenderer Overrides
 
-            // Validate passed parameter
-            if (colourPalette == null)
+        /// <summary>
+        /// Gets a renderer for drawing the toolstrips.
+        /// </summary>
+        /// <param name="colorPalette">Color palette to use when rendering toolstrip.</param>
+        /// <exception cref="ArgumentNullException"></exception>
+        public override ToolStripRenderer RenderToolStrip([DisallowNull] PaletteBase colorPalette)
+        {
+            Debug.Assert(colorPalette != null);
+
+            // Validate incoming parameter
+            if (colorPalette == null)
             {
-                throw new ArgumentNullException(nameof(colourPalette));
+                throw new ArgumentNullException(nameof(colorPalette));
             }
 
-            var renderer = new KryptonMicrosoft365Renderer(colourPalette.ColorTable)
+            // Use the professional renderer but pull colors from the palette
+            var renderer = new KryptonOffice2013Renderer(colorPalette.ColorTable)
             {
-                RoundedEdges = colourPalette.ColorTable.UseRoundedEdges != InheritBool.False
+
+                // Setup the need to use rounded corners
+                RoundedEdges = colorPalette.ColorTable.UseRoundedEdges != InheritBool.False
             };
 
             return renderer;
@@ -88,7 +104,11 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Internal rendering method.
         /// </summary>
-        protected override IDisposable DrawRibbonTabContext(RenderContext context, Rectangle rect, IPaletteRibbonGeneral paletteGeneral, IPaletteRibbonBack paletteBack, IDisposable memento)
+        protected override IDisposable DrawRibbonTabContext(RenderContext context,
+                                                            Rectangle rect,
+                                                            IPaletteRibbonGeneral paletteGeneral,
+                                                            IPaletteRibbonBack paletteBack,
+                                                            IDisposable memento)
         {
             if (rect is { Width: > 0, Height: > 0 })
             {
@@ -99,9 +119,9 @@ namespace Krypton.Toolkit
                 MementoRibbonTabContextOffice2010 cache;
 
                 // Access a cache instance and decide if cache resources need generating
-                if (memento is MementoRibbonTabContextOffice2010 office2010)
+                if (memento is MementoRibbonTabContextOffice2010 office)
                 {
-                    cache = office2010;
+                    cache = office;
                     generate = !cache.UseCachedValues(rect, c1, c2);
                 }
                 else
@@ -141,7 +161,6 @@ namespace Krypton.Toolkit
 
             return memento;
         }
-
         /// <summary>
         /// Draw the application tab.
         /// </summary>
@@ -152,7 +171,13 @@ namespace Krypton.Toolkit
         /// <param name="baseColor1">Base color1 used for drawing the ribbon tab.</param>
         /// <param name="baseColor2">Base color2 used for drawing the ribbon tab.</param>
         /// <param name="memento">Cached values to use when drawing.</param>
-        public override IDisposable DrawRibbonApplicationTab(PaletteRibbonShape shape, RenderContext context, Rectangle rect, PaletteState state, Color baseColor1, Color baseColor2, IDisposable memento)
+        public override IDisposable DrawRibbonApplicationTab(PaletteRibbonShape shape,
+                                                             RenderContext context,
+                                                             Rectangle rect,
+                                                             PaletteState state,
+                                                             Color baseColor1,
+                                                             Color baseColor2,
+                                                             IDisposable memento)
         {
             if (rect is { Width: > 0, Height: > 0 })
             {
@@ -219,7 +244,13 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Internal rendering method.
         /// </summary>
-        protected override IDisposable DrawRibbonTabSelected2010(RenderContext context, Rectangle rect, PaletteState state, IPaletteRibbonBack palette, VisualOrientation orientation, IDisposable memento, bool standard)
+        protected override IDisposable DrawRibbonTabSelected2010(RenderContext context,
+                                                                Rectangle rect,
+                                                                PaletteState state,
+                                                                IPaletteRibbonBack palette,
+                                                                VisualOrientation orientation,
+                                                                IDisposable memento,
+                                                                bool standard)
         {
             if (rect is { Width: > 0, Height: > 0 })
             {
@@ -316,7 +347,14 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Internal rendering method.
         /// </summary>
-        protected override IDisposable DrawRibbonTabTracking2010(PaletteRibbonShape shape, RenderContext context, Rectangle rect, PaletteState state, IPaletteRibbonBack palette, VisualOrientation orientation, IDisposable memento, bool standard)
+        protected override IDisposable DrawRibbonTabTracking2010(PaletteRibbonShape shape,
+                                                                RenderContext context,
+                                                                Rectangle rect,
+                                                                PaletteState state,
+                                                                IPaletteRibbonBack palette,
+                                                                VisualOrientation orientation,
+                                                                IDisposable memento,
+                                                                bool standard)
         {
             if (rect is { Width: > 0, Height: > 0 })
             {

@@ -1244,6 +1244,8 @@ namespace Krypton.Toolkit
         {
             switch (style)
             {
+                case LabelStyle.AlternateControl:
+                    return PaletteContentStyle.LabelAlternateControl;
                 case LabelStyle.NormalControl:
                     return PaletteContentStyle.LabelNormalControl;
                 case LabelStyle.BoldControl:
@@ -1252,6 +1254,8 @@ namespace Krypton.Toolkit
                     return PaletteContentStyle.LabelItalicControl;
                 case LabelStyle.TitleControl:
                     return PaletteContentStyle.LabelTitleControl;
+                case LabelStyle.AlternatePanel:
+                    return PaletteContentStyle.LabelAlternatePanel;
                 case LabelStyle.NormalPanel:
                     return PaletteContentStyle.LabelNormalPanel;
                 case LabelStyle.BoldPanel:

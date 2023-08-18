@@ -1,8 +1,7 @@
 ﻿#region BSD License
 /*
- * 
- *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *   BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2023 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -12,7 +11,7 @@ namespace Krypton.Toolkit
     /// <summary>
     /// 
     /// </summary>
-    public class KryptonVisualStudio2010Renderer : KryptonProfessionalRenderer
+    public class KryptonVisualStudio2010With2010Renderer : KryptonProfessionalRenderer
     {
         #region GradientItemColors
         private abstract class GradientItemColors
@@ -317,7 +316,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Identity
-        static KryptonVisualStudio2010Renderer()
+        static KryptonVisualStudio2010With2010Renderer()
         {
             _stripBlend = new Blend
             {
@@ -339,10 +338,10 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>
-        /// Initialise a new instance of the KryptonVisualStudio2010Renderer class.
+        /// Initialise a new instance of the KryptonVisualStudio2010With2010Renderer class.
         /// </summary>
         /// <param name="kct">Source for text colors.</param>
-        public KryptonVisualStudio2010Renderer(KryptonColorTable kct)
+        public KryptonVisualStudio2010With2010Renderer(KryptonVisualStudio2010With2010ColorTable kct)
             : base(kct)
         {
         }

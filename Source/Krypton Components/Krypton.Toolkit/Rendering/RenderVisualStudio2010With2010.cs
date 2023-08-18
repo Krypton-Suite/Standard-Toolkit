@@ -1,7 +1,6 @@
 ﻿#region BSD License
 /*
- * 
- *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
+ *   BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2023 - 2023. All rights reserved. 
  *  
  */
@@ -10,9 +9,9 @@
 namespace Krypton.Toolkit
 {
     /// <summary>
-    /// Extends the professional renderer to provide Visual Studio 2010 style additions.
+    /// Extends the professional renderer to provide Office2010 style additions.
     /// </summary>
-    public class RenderVisualStudio2010 : RenderProfessional
+    public class RenderVisualStudio2010With2010 : RenderProfessional
     {
         #region Static Fields
 
@@ -24,7 +23,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Identity
-        static RenderVisualStudio2010()
+        static RenderVisualStudio2010With2010()
         {
             _ribbonGroup5Blend = new Blend
             {
@@ -96,7 +95,7 @@ namespace Krypton.Toolkit
             }
 
             // Use the professional renderer but pull colors from the palette
-            var renderer = new KryptonVisualStudio2010Renderer(colorPalette.ColorTable)
+            var renderer = new KryptonOffice2010Renderer(colorPalette.ColorTable)
             {
 
                 // Setup the need to use rounded corners

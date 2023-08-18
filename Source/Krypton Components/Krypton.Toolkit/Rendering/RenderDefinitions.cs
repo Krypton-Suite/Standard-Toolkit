@@ -891,7 +891,13 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Specifies the RenderVisualStudio2010 be used.
         /// </summary>
-        VisualStudio2010,
+        VisualStudio2010With2007Renderer,
+
+        VisualStudio2010With2010Renderer,
+
+        VisualStudio2010With2013Renderer,
+
+        VisualStudio2010WithMicrosoft365Renderer,
 
         /// <summary>
         /// Specifies the RenderVisualStudio be used.
