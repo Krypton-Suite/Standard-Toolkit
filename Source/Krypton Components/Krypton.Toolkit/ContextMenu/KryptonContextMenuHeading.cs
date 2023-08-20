@@ -10,6 +10,7 @@
  */
 #endregion
 
+// ReSharper disable EventNeverSubscribedTo.Local
 namespace Krypton.Toolkit
 {
     /// <summary>
@@ -35,7 +36,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        private new event EventHandler<ToolTipNeededEventArgs>? ToolTipNeeded = null;
+        private new event EventHandler<ToolTipNeededEventArgs>? ToolTipNeeded;
         #region Identity
         /// <summary>
         /// Initialize a new instance of the KryptonContextMenuHeading class.
@@ -126,6 +127,7 @@ namespace Krypton.Toolkit
             get => base.ToolTipValues;
             set => base.ToolTipValues = value;
         }
+
         private bool ShouldSerializeToolTipValues() => false;
 
         /// <summary>

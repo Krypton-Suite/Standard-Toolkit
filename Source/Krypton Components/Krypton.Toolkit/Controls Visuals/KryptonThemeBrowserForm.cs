@@ -13,7 +13,6 @@ namespace Krypton.Toolkit
         #region Identity
 
         /// <summary>Initializes a new instance of the <see cref="KryptonThemeBrowserForm" /> class.</summary>
-        /// <param name="startPosition">The start position.</param>
         public KryptonThemeBrowserForm(FormStartPosition? startPosition = FormStartPosition.CenterScreen, int? startIndex = 33)
         {
             InitializeComponent();
