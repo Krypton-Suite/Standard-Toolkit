@@ -158,9 +158,9 @@ namespace Krypton.Toolkit
 
                     var underlineBrush =
                         new LinearGradientBrush(borderRect, Color.Transparent, Color.FromArgb(200, c2), 0f)
-                    {
-                        Blend = _ribbonGroup7Blend
-                    };
+                        {
+                            Blend = _ribbonGroup7Blend
+                        };
                     cache.UnderlinePen = new Pen(underlineBrush);
 
                     cache.FillBrush = new LinearGradientBrush(borderRect, Color.FromArgb(106, c2), Color.Transparent, 270f)

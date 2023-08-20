@@ -1562,7 +1562,8 @@ namespace Krypton.Toolkit
                                             && _statusStrip is { Visible: true, Dock: DockStyle.Bottom }
                                             && (_statusStrip.Bottom == ClientRectangle.Bottom)
                                             && (_statusStrip.RenderMode == ToolStripRenderMode.ManagerRenderMode)
-                                            && (ToolStripManager.Renderer is KryptonOffice2007Renderer or KryptonSparkleRenderer);
+                                            && (ToolStripManager.Renderer is KryptonOffice2007Renderer or KryptonVisualStudio2010With2007Renderer
+                                                or KryptonSparkleRenderer);
 
         private void MonitorStatusStrip(StatusStrip statusStrip)
         {

@@ -95,7 +95,7 @@ namespace Krypton.Toolkit
             }
 
             // Use the professional renderer but pull colors from the palette
-            var renderer = new KryptonOffice2007Renderer(colorPalette.ColorTable)
+            var renderer = new KryptonVisualStudio2010With2007Renderer(colorPalette.ColorTable)
             {
                 // Setup the need to use rounded corners
                 RoundedEdges = colorPalette.ColorTable.UseRoundedEdges != InheritBool.False

@@ -718,7 +718,7 @@ namespace Krypton.Toolkit
                         // which case we want to extend the drawing down into the border area for an integrated look
                         if (e.ToolStrip.Visible
                             && e.ToolStrip is { Dock: DockStyle.Bottom, RenderMode: ToolStripRenderMode.ManagerRenderMode }
-                            && (ToolStripManager.Renderer is KryptonOffice2007Renderer)
+                            && (ToolStripManager.Renderer is KryptonVisualStudio2010With2007Renderer)
                             && owner is KryptonForm kryptonForm
                             && (e.ToolStrip.Bottom == owner.ClientSize.Height)
                            )
