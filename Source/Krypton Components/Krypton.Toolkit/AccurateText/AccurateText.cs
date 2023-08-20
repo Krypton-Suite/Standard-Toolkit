@@ -22,6 +22,9 @@ namespace Krypton.Toolkit
         private const int GLOW_EXTRA_WIDTH = 14;
         private const int GLOW_EXTRA_HEIGHT = 3;
 
+        private static TimedCache<(string text, Font font, StringFormatFlags formatFlags, TextRenderingHint hint), AccurateTextMemento> _cache 
+            = new(TimeSpan.FromMinutes(10));
+
         #endregion
 
         #region Public Static Methods
@@ -151,29 +154,37 @@ namespace Krypton.Toolkit
                     break;
             }
 
-            // Replace tab characters with a fixed four spaces
-            text = text.Replace("\t", @"    ");
-
-            // Perform actual measure of the text
-            using var graphicsHint = new GraphicsTextHint(g, hint);
-            SizeF textSize = Size.Empty;
-
-            try
+            // Optimisation: Lookup key before performing expensive / slow GDI functions
+            var key = (text, font, format.FormatFlags, hint);
+            var memento = _cache.GetOrCreate(key, () =>
             {
-                textSize = g.MeasureString(text, font, int.MaxValue, format);
 
-                if (composition && glowing) //Seb
+                // Replace tab characters with a fixed four spaces
+                text = text.Replace("\t", @"    ");
+
+                // Perform actual measure of the text
+                using var graphicsHint = new GraphicsTextHint(g, hint);
+                var textSize = SizeF.Empty;
+
+                try
                 {
-                    textSize.Width += GLOW_EXTRA_WIDTH;
-                }
-            }
-            catch
-            {
-                // ignored
-            }
+                    // Declare a proposed size with dimensions set to the maximum integer value.
+                    var proposedSize = new Size(int.MaxValue, int.MaxValue);
+                    textSize = g.MeasureString(text, font, proposedSize, format);
 
+                    if (composition && glowing) //Seb
+                    {
+                        textSize.Width += GLOW_EXTRA_WIDTH;
+                    }
+                }
+                catch
+                {
+                    // ignored
+                }
+                return new AccurateTextMemento(text, font, textSize, format, hint, disposeFont);
+            });
             // Return a memento with drawing details
-            return new AccurateTextMemento(text, font, textSize, format, hint, disposeFont);
+            return memento;
         }
 
         /// <summary>
@@ -237,15 +248,16 @@ namespace Krypton.Toolkit
                             translateY = (rect.Y * 2) + rect.Height;
                             rotation = 180f;
                             break;
+
                         case VisualOrientation.Left:
                             // Invert the dimensions of the rectangle for drawing upwards
                             rect = rect with { Width = rect.Height, Height = rect.Width };
-
                             // Translate back from a quarter left turn to the original place 
                             translateX = rect.X - rect.Y - 1;
                             translateY = rect.X + rect.Y + rect.Width;
                             rotation = 270;
                             break;
+
                         case VisualOrientation.Right:
                             // Invert the dimensions of the rectangle for drawing upwards
                             rect = rect with { Width = rect.Height, Height = rect.Width };
@@ -536,8 +548,6 @@ namespace Krypton.Toolkit
                 PI.DeleteObject(hFont);
                 PI.DeleteObject(hDIB);
                 PI.DeleteDC(mDC);
-
-               
             }
             catch
             {
@@ -549,7 +559,6 @@ namespace Krypton.Toolkit
                 g?.ReleaseHdc(gDC);
             }
         }
-
 
         private static StringFormat FlagsToStringFormat(TextFormatFlags flags)
         {

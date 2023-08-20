@@ -5765,7 +5765,7 @@ namespace Krypton.Toolkit
         }
 
         private static void AllocateShortTextSpace(ViewLayoutContext context,
-                                                   Graphics? g,
+            [DisallowNull] Graphics g,
                                                    StandardContentMemento memento,
                                                    [DisallowNull] IPaletteContent? paletteContent,
                                                    IContentValues contentValues,

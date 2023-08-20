@@ -49,7 +49,7 @@ namespace Krypton.Toolkit
         protected ButtonSpecCollectionBase([DisallowNull] object owner)
         {
             Debug.Assert(owner != null);
-            Owner = owner;
+            Owner = owner!;
         }
         #endregion
 
@@ -144,7 +144,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="value">Object reference.</param>
         /// <returns>The position into which the new button spec was inserted.</returns>
-        public int Add([DisallowNull] object value)
+        public int Add(object? value)
         {
             // Use strongly typed implementation
             Add((value as T)!);
@@ -170,7 +170,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="value">Object reference.</param>
         /// <returns>True if button spec found; otherwise false.</returns>
-        public bool Contains([DisallowNull] object value) =>
+        public bool Contains(object? value) =>
             // Use strongly typed implementation
             Contains((value as T)!);
 
@@ -179,7 +179,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="value">Object reference.</param>
         /// <returns>-1 if not found; otherwise index position.</returns>
-        public int IndexOf([DisallowNull] object value) =>
+        public int IndexOf(object? value) =>
             // Use strongly typed implementation
             IndexOf((value as T)!);
 
@@ -188,7 +188,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="index">Insert index.</param>
         /// <param name="value">Object reference.</param>
-        public void Insert(int index, [DisallowNull] object value) =>
+        public void Insert(int index, object? value) =>
             // Use strongly typed implementation
             Insert(index, (value as T)!);
 
@@ -201,7 +201,7 @@ namespace Krypton.Toolkit
         /// Removes first occurrence of specified object.
         /// </summary>
         /// <param name="value">Object reference.</param>
-        public void Remove([DisallowNull] object value) =>
+        public void Remove(object? value) =>
             // Use strongly typed implementation
             Remove((value as T)!);
 
@@ -227,7 +227,7 @@ namespace Krypton.Toolkit
         public int IndexOf([DisallowNull] T item)
         {
             Debug.Assert(item != null);
-            return _specs.IndexOf(item);
+            return _specs.IndexOf(item!);
         }
 
         /// <summary>
@@ -357,7 +357,7 @@ namespace Krypton.Toolkit
         public bool Contains([DisallowNull] T item)
         {
             Debug.Assert(item != null);
-            return _specs.Contains(item);
+            return _specs.Contains(item!);
         }
 
         /// <summary>

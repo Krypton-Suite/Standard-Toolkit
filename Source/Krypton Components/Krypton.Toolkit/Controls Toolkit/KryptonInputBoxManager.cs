@@ -25,7 +25,7 @@ namespace Krypton.Toolkit
 
         private string _caption, _cueText, _defaultResponse, _prompt;
 
-        private IWin32Window _owner = null;
+        private IWin32Window? _owner;
         #endregion
 
         #region Properties
@@ -92,7 +92,7 @@ namespace Krypton.Toolkit
 
         /// <summary>Returns the value of the Owner.</summary>
         /// <returns>The value of the Owner.</returns>
-        public IWin32Window GetOwner() => _owner;
+        public IWin32Window? GetOwner() => _owner;
         #endregion
 
         #region Methods
@@ -101,7 +101,7 @@ namespace Krypton.Toolkit
         {
             if (GetOwner() != null)
             {
-                KryptonInputBox.Show(_owner, _prompt, _caption, _defaultResponse, _cueText, _cueColour, _cueTypeface, _usePasswordOption);
+                KryptonInputBox.Show(_owner!, _prompt, _caption, _defaultResponse, _cueText, _cueColour, _cueTypeface, _usePasswordOption);
             }
             else
             {
