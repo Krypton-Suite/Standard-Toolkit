@@ -8,9 +8,7 @@
 
 namespace Krypton.Toolkit
 {
-    /// <summary>
-    /// Extends the professional renderer to provide Office2007 style additions.
-    /// </summary>
+    /// <summary>Extends the professional renderer to provide Visual Studio 2010 with Office 2007 style additions.</summary>
     public class RenderVisualStudio2010With2007 : RenderProfessional
     {
         #region Static Fields
@@ -55,7 +53,7 @@ namespace Krypton.Toolkit
         /// <param name="paletteBack">Palette used for recovering drawing details.</param>
         /// <param name="state">State associated with rendering.</param>
         public override void DrawRibbonClusterEdge(PaletteRibbonShape shape,
-            [DisallowNull] RenderContext context,
+                                                   [DisallowNull] RenderContext context,
                                                    Rectangle displayRect,
                                                    [DisallowNull] IPaletteBack paletteBack,
                                                    PaletteState state)
