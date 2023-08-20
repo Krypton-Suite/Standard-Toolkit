@@ -394,7 +394,7 @@ namespace Krypton.Toolkit
                                 //// If not enabled or not the dropDown Style then we can draw over the text area
                                 ////if (!_kryptonComboBox.Enabled || _kryptonComboBox.DropDownStyle != ComboBoxStyle.DropDown)
                                 {
-                                    g.TextRenderingHint = CommonHelper.PaletteTextHintToRenderingHint(states.Content.GetContentShortTextHint(state));
+                                    using var graphicsHint = new GraphicsTextHint(g, CommonHelper.PaletteTextHintToRenderingHint(states.Content.GetContentShortTextHint(state)));
 
                                     TextFormatFlags flags = TextFormatFlags.TextBoxControl | TextFormatFlags.NoPadding | TextFormatFlags.VerticalCenter;
 
@@ -430,6 +430,7 @@ namespace Krypton.Toolkit
                                     // Find correct background color
                                     Color backColor = states.PaletteBack.GetBackColor1(state);
 
+                                    // TODO: Replace this with the graphic DrawString to get around some drawing looking Very Poor
                                     TextRenderer.DrawText(g,
                                         Text, contentShortTextFont,
                                         rectangle,

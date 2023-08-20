@@ -19,8 +19,8 @@ namespace Krypton.Toolkit
                                     IDisposable
     {
         #region Instance Fields
-        private readonly Graphics? _graphics;
-        private readonly TextRenderingHint _textHint;
+        private readonly Graphics _graphics;
+        private readonly TextRenderingHint _oldTextHint;
         #endregion
 
         #region Identity
@@ -28,17 +28,17 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the GraphicsSmooth class.
         /// </summary>
         /// <param name="graphics">Graphics context.</param>
-        /// <param name="textHint">Temporary text rendering hint to apply.</param>
-        public GraphicsTextHint(Graphics? graphics, TextRenderingHint textHint)
+        /// <param name="newTextHint">Temporary text rendering hint to apply.</param>
+        public GraphicsTextHint(Graphics graphics, TextRenderingHint newTextHint)
         {
             // Cache graphics instance
             _graphics = graphics;
 
             // Remember current text hint
-            _textHint = _graphics.TextRenderingHint;
+            _oldTextHint = _graphics.TextRenderingHint;
 
             // Apply new text hint
-            _graphics.TextRenderingHint = textHint;
+            _graphics.TextRenderingHint = newTextHint;
         }
 
         /// <summary>
@@ -46,15 +46,13 @@ namespace Krypton.Toolkit
         /// </summary>
         public void Dispose()
         {
-            if (_graphics != null)
+            try
             {
-                try
-                {
-                    // Put back to the original text hint
-                    _graphics.TextRenderingHint = _textHint;
-                }
-                catch { }
+                // Put back to the original text hint
+                _graphics.TextRenderingHint = _oldTextHint;
             }
+            catch { }
+
             GC.SuppressFinalize(this);
         }
         #endregion
