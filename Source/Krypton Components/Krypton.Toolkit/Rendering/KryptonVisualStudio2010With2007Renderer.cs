@@ -237,7 +237,7 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>
-        /// Initialise a new instance of the KryptonVisualStudio2010With2007Renderer class.
+        /// Initialise a new instance of the KryptonOffice2007Renderer class.
         /// </summary>
         /// <param name="kct">Source for text colors.</param>
         public KryptonVisualStudio2010With2007Renderer(KryptonVisualStudio2010With2007ColorTable kct)
