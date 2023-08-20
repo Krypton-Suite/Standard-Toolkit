@@ -51,6 +51,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Internal
+
         /// <summary>
         /// Create view elements appropriate for the collection items.
         /// </summary>
@@ -59,6 +60,7 @@ namespace Krypton.Toolkit
         /// <param name="columns">Collection of columns to create view inside.</param>
         /// <param name="standardStyle">Should the standard style be applied.</param>
         /// <param name="imageColumn">Should the image column be applied.</param>
+        /// <param name="needPaint"></param>
         public void GenerateView(IContextMenuProvider provider,
                                  object parent,
                                  ViewLayoutStack columns,

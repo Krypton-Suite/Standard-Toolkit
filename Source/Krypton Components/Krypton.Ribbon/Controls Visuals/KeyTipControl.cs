@@ -21,7 +21,7 @@ namespace Krypton.Ribbon
         private List<ViewDrawRibbonKeyTip> _viewList;
         private string _prefix;
         private readonly bool _showDisabled;
-        private Timer _redrawTimer = null;
+        private Timer _redrawTimer;
         #endregion
 
         #region Identity

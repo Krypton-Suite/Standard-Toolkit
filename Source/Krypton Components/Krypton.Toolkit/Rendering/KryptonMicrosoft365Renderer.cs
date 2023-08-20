@@ -129,8 +129,8 @@ namespace Krypton.Toolkit
                 var insetB = new Rectangle(rect.X + 2, rect.Y + 2, rect.Width - 3, rect.Height - 3);
                 var insetC = new Rectangle(rect.X + 2, rect.Y + 2, rect.Width - 4, rect.Height - 4);
 
-                using LinearGradientBrush insideBrush1 = new LinearGradientBrush(rect, Back1B, Back1, 90f),
-                    insideBrush2 = new LinearGradientBrush(insetB, Back2B, Back2, 90f);
+                using var insideBrush1 = new LinearGradientBrush(rect, Back1B, Back1, 90f);
+                using var insideBrush2 = new LinearGradientBrush(insetB, Back2B, Back2, 90f);
                 insideBrush1.SetSigmaBellShape(0.5f);
                 insideBrush2.SetSigmaBellShape(0.5f);
 
@@ -311,7 +311,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Instance Fields
-        private GradientItemColorsSplit _gradientSplit;
+        private GradientItemColorsSplit? _gradientSplit;
         private GradientItemColorsTracking _gradientTracking;
         private GradientItemColorsPressed _gradientPressed;
         private GradientItemColorsChecked _gradientChecked;
@@ -1207,7 +1207,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void DrawContextMenuHeader(Graphics? g, ToolStripItem item)
+        private void DrawContextMenuHeader(Graphics g, ToolStripItem item)
         {
             // Get the rectangle that is the items area
             var itemRect = new Rectangle(Point.Empty, item.Bounds.Size);
@@ -1231,13 +1231,13 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void DrawGradientToolItem(Graphics? g,
+        private void DrawGradientToolItem(Graphics g,
                                           ToolStripItem item,
                                           GradientItemColors colors) =>
             // Perform drawing into the entire background of the item
             colors.DrawItem(g, new Rectangle(Point.Empty, item.Bounds.Size));
 
-        private void RenderToolSplitButtonBackground(Graphics? g,
+        private void RenderToolSplitButtonBackground(Graphics g,
                                                      ToolStripSplitButton splitButton,
                                                      ToolStrip toolstrip)
         {
@@ -1277,7 +1277,7 @@ namespace Krypton.Toolkit
 
         }
 
-        private void DrawGradientContextMenuItem(Graphics? g,
+        private void DrawGradientContextMenuItem(Graphics g,
                                                  ToolStripItem item,
                                                  GradientItemColors colors)
         {
@@ -1340,9 +1340,8 @@ namespace Krypton.Toolkit
                 var t = rect.Y;
 
                 // Draw vertical lines centered
-                using LinearGradientBrush lightBrush =
-                        new LinearGradientBrush(boundsF, Color.Transparent, lightColor, 90),
-                    darkBrush = new LinearGradientBrush(boundsF, Color.Transparent, darkColor, 90);
+                using var lightBrush = new LinearGradientBrush(boundsF, Color.Transparent, lightColor, 90);
+                using var darkBrush = new LinearGradientBrush(boundsF, Color.Transparent, darkColor, 90);
                 lightBrush.Blend = _separatorLightBlend;
                 darkBrush.Blend = _separatorDarkBlend;
                 g.FillRectangle(lightBrush, l - 1, t, 3, rect.Height);
@@ -1354,9 +1353,8 @@ namespace Krypton.Toolkit
                 var t = rect.Height / 2;
 
                 // Draw horizontal lines centered
-                using LinearGradientBrush lightBrush =
-                        new LinearGradientBrush(boundsF, Color.Transparent, lightColor, 0f),
-                    darkBrush = new LinearGradientBrush(boundsF, Color.Transparent, darkColor, 0f);
+                using var lightBrush = new LinearGradientBrush(boundsF, Color.Transparent, lightColor, 0f);
+                using var darkBrush = new LinearGradientBrush(boundsF, Color.Transparent, darkColor, 0f);
                 lightBrush.Blend = _separatorLightBlend;
                 darkBrush.Blend = _separatorDarkBlend;
                 g.FillRectangle(lightBrush, l, t - 1, rect.Width, 3);
