@@ -296,7 +296,7 @@ namespace Krypton.Toolkit
         private bool ShouldSerializePaletteImageStyleStrings() => !ImageStyleStrings.IsDefault;
 
         /// <summary>Resets the palette image style strings.</summary>
-        public void ResetPaletteImageStyleStrings() => ImageStyleStrings.Reset();
+        public void ResetPaletteImageStyleStrings() => ImageStyleStrings.Reset();*/
 
         /// <summary>Gets the palette mode strings.</summary>
         /// <value>The palette mode strings.</value>
@@ -312,7 +312,7 @@ namespace Krypton.Toolkit
         /// <summary>Resets the palette mode strings.</summary>
         public void ResetPaletteModeStrings() => ModeStrings.Reset();
 
-        /// <summary>Gets the palette text trim strings.</summary>
+        /*/// <summary>Gets the palette text trim strings.</summary>
         /// <value>The palette text trim strings.</value>
         [Category(@"Visuals")]
         [Description(@"Collection of palette text trim strings.")]
@@ -381,6 +381,20 @@ namespace Krypton.Toolkit
 
         /// <summary>Resets the tab style strings.</summary>
         public void ResetTabStyleStrings() => TabStyles.Reset();*/
+
+        /// <summary>Gets the krypton miscellaneous theme strings.</summary>
+        /// <value>The krypton miscellaneous theme strings.</value>
+        [Category(@"Visuals")]
+        [Description(@"Collection of miscellaneous theme strings.")]
+        [MergableProperty(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        [Localizable(true)]
+        public KryptonMiscellaneousThemeStrings KryptonMiscellaneousThemeStrings => MiscellaneousThemeStrings;
+
+        private bool ShouldSerializeKryptonMiscellaneousThemeStrings() => !MiscellaneousThemeStrings.IsDefault;
+
+        /// <summary>Resets the krypton miscellaneous theme strings.</summary>
+        public void ResetKryptonMiscellaneousThemeStrings() => MiscellaneousThemeStrings.Reset();
 
         /// <summary>Gets the scrollbar strings.</summary>
         /// <value>The scrollbar strings.</value>
@@ -505,6 +519,11 @@ namespace Krypton.Toolkit
         /// <value>The tab styles.</value>
         public static TabStyleStrings TabStyles { get; } = new TabStyleStrings();
 
+        /// <summary>Gets the miscellaneous theme strings.</summary>
+        /// <value>The miscellaneous theme strings.</value>
+        public static KryptonMiscellaneousThemeStrings MiscellaneousThemeStrings { get; } =
+            new KryptonMiscellaneousThemeStrings();
+
         /// <summary>Gets the scroll bar strings.</summary>
         /// <value>The scroll bar strings.</value>
         public static KryptonScrollBarStrings ScrollBarStrings { get; } = new KryptonScrollBarStrings();
@@ -531,7 +550,7 @@ namespace Krypton.Toolkit
         public bool IsDefault => !(ShouldSerializeCustomStrings() ||
                                    ShouldSerializeGeneralStrings() ||
                                    ShouldSerializeColorStrings() ||
-                                   //ShouldSerializePaletteModeStrings() ||
+                                   ShouldSerializePaletteModeStrings() ||
                                    //ShouldSerializeButtonSpecStyleStrings() ||
                                    //ShouldSerializeDataGridViewStyleStrings() ||
                                    //ShouldSerializeGridStyleStrings() ||
@@ -553,6 +572,7 @@ namespace Krypton.Toolkit
                                    //ShouldSerializeSeparatorStyleStrings() ||
                                    //ShouldSerializeTabBorderStyleStrings() ||
                                    //ShouldSerializeTabStyleStrings() ||
+                                   ShouldSerializeKryptonMiscellaneousThemeStrings() ||
                                    ShouldSerializeKryptonScrollBarStrings());
 
         /// <summary>Resets this instance.</summary>
@@ -566,7 +586,7 @@ namespace Krypton.Toolkit
 
             ResetGeneralStrings();
 
-            //ResetPaletteModeStrings();
+            ResetPaletteModeStrings();
 
             //ResetDataGridViewStyleStrings();
 
@@ -607,6 +627,8 @@ namespace Krypton.Toolkit
             //ResetTabBorderStyleStrings();
 
             //ResetTabStyleStrings();
+
+            ResetKryptonMiscellaneousThemeStrings();
 
             ResetKryptonScrollBarStrings();
         }

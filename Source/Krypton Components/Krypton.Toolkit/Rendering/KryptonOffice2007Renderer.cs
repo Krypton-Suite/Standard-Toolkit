@@ -709,43 +709,43 @@ namespace Krypton.Toolkit
                     }
                     break;
                 case StatusStrip _:
-                {
-                    // Make sure the font is current
-                    e.ToolStrip.Font = KCT.StatusStripFont;
-
-                    // We do not paint the top two pixel lines, so are drawn by the status strip border render method
-                    var backRect = new RectangleF(0, 1.5f, e.ToolStrip.Width, e.ToolStrip.Height - 2);
-
-                    Form owner = e.ToolStrip.FindForm();
-
-                    // Check if the status strip is inside a KryptonForm and using the Office 2007 renderer, in 
-                    // which case we want to extend the drawing down into the border area for an integrated look
-                    if (e.ToolStrip.Visible
-                        && e.ToolStrip is { Dock: DockStyle.Bottom, RenderMode: ToolStripRenderMode.ManagerRenderMode }
-                        && (ToolStripManager.Renderer is KryptonOffice2007Renderer)
-                        && owner is KryptonForm kryptonForm
-                        && (e.ToolStrip.Bottom == owner.ClientSize.Height)
-                       )
                     {
-                        // Get the window borders
+                        // Make sure the font is current
+                        e.ToolStrip.Font = KCT.StatusStripFont;
 
-                        // Finally check that the actual form is using custom chrome
-                        if (kryptonForm.ApplyCustomChrome)
+                        // We do not paint the top two pixel lines, so are drawn by the status strip border render method
+                        var backRect = new RectangleF(0, 1.5f, e.ToolStrip.Width, e.ToolStrip.Height - 2);
+
+                        Form owner = e.ToolStrip.FindForm();
+
+                        // Check if the status strip is inside a KryptonForm and using the Office 2007 renderer, in 
+                        // which case we want to extend the drawing down into the border area for an integrated look
+                        if (e.ToolStrip.Visible
+                            && e.ToolStrip is { Dock: DockStyle.Bottom, RenderMode: ToolStripRenderMode.ManagerRenderMode }
+                            && (ToolStripManager.Renderer is KryptonOffice2007Renderer)
+                            && owner is KryptonForm kryptonForm
+                            && (e.ToolStrip.Bottom == owner.ClientSize.Height)
+                           )
                         {
-                            // Extend down into the bottom border
-                            backRect.Height += kryptonForm.RealWindowBorders.Bottom;
+                            // Get the window borders
+
+                            // Finally check that the actual form is using custom chrome
+                            if (kryptonForm.ApplyCustomChrome)
+                            {
+                                // Extend down into the bottom border
+                                backRect.Height += kryptonForm.RealWindowBorders.Bottom;
+                            }
+                        }
+
+                        // Cannot paint a zero sized area
+                        if (backRect is { Width: > 0, Height: > 0 })
+                        {
+                            using var backBrush = new LinearGradientBrush(backRect,
+                                KCT.StatusStripGradientBegin, KCT.StatusStripGradientEnd, 90f);
+                            backBrush.Blend = _statusStripBlend;
+                            e.Graphics.FillRectangle(backBrush, backRect);
                         }
                     }
-
-                    // Cannot paint a zero sized area
-                    if (backRect is { Width: > 0, Height: > 0 })
-                    {
-                        using var backBrush = new LinearGradientBrush(backRect,
-                            KCT.StatusStripGradientBegin, KCT.StatusStripGradientEnd, 90f);
-                        backBrush.Blend = _statusStripBlend;
-                        e.Graphics.FillRectangle(backBrush, backRect);
-                    }
-                }
                     break;
                 default:
                     if (e.ToolStrip is MenuStrip)
@@ -843,56 +843,56 @@ namespace Krypton.Toolkit
             {
                 case ContextMenuStrip _:
                 case ToolStripDropDownMenu _:
-                {
-                    // If there is a connected area to be drawn
-                    if (!e.ConnectedArea.IsEmpty)
                     {
-                        using var excludeBrush = new SolidBrush(KCT.ToolStripDropDownBackground);
-                        e.Graphics.FillRectangle(excludeBrush, e.ConnectedArea);
-                    }
-
-                    // Create border and clipping paths
-                    using (GraphicsPath borderPath =
-                           CreateBorderPath(e.AffectedBounds, e.ConnectedArea, CUT_CONTEXT_MENU),
-                           insidePath = CreateInsideBorderPath(e.AffectedBounds, e.ConnectedArea, CUT_CONTEXT_MENU),
-                           clipPath = CreateClipBorderPath(e.AffectedBounds, e.ConnectedArea, CUT_CONTEXT_MENU))
-                    {
-                        // Create the different pen colors we need
-                        using (Pen borderPen = new Pen(KCT.MenuBorder),
-                               insidePen = new Pen(CommonHelper.WhitenColor(KCT.ToolStripDropDownBackground, 1.02f,
-                                   1.02f,
-                                   1.02f)))
+                        // If there is a connected area to be drawn
+                        if (!e.ConnectedArea.IsEmpty)
                         {
-                            // Clip all drawing to within the border path
-                            using (var clipping = new Clipping(e.Graphics, clipPath))
+                            using var excludeBrush = new SolidBrush(KCT.ToolStripDropDownBackground);
+                            e.Graphics.FillRectangle(excludeBrush, e.ConnectedArea);
+                        }
+
+                        // Create border and clipping paths
+                        using (GraphicsPath borderPath =
+                               CreateBorderPath(e.AffectedBounds, e.ConnectedArea, CUT_CONTEXT_MENU),
+                               insidePath = CreateInsideBorderPath(e.AffectedBounds, e.ConnectedArea, CUT_CONTEXT_MENU),
+                               clipPath = CreateClipBorderPath(e.AffectedBounds, e.ConnectedArea, CUT_CONTEXT_MENU))
+                        {
+                            // Create the different pen colors we need
+                            using (Pen borderPen = new Pen(KCT.MenuBorder),
+                                   insidePen = new Pen(CommonHelper.WhitenColor(KCT.ToolStripDropDownBackground, 1.02f,
+                                       1.02f,
+                                       1.02f)))
                             {
-                                // Drawing with anti aliasing to create smoother appearance
-                                using (var aa = new AntiAlias(e.Graphics))
+                                // Clip all drawing to within the border path
+                                using (var clipping = new Clipping(e.Graphics, clipPath))
                                 {
-                                    // Draw the inside area first
-                                    e.Graphics.DrawPath(insidePen, insidePath);
+                                    // Drawing with anti aliasing to create smoother appearance
+                                    using (var aa = new AntiAlias(e.Graphics))
+                                    {
+                                        // Draw the inside area first
+                                        e.Graphics.DrawPath(insidePen, insidePath);
 
-                                    // Draw the border area second, so any overlapping gives it priority
-                                    e.Graphics.DrawPath(borderPen, borderPath);
+                                        // Draw the border area second, so any overlapping gives it priority
+                                        e.Graphics.DrawPath(borderPen, borderPath);
+                                    }
+
+                                    // Draw the pixel at the bottom right of the context menu
+                                    e.Graphics.DrawLine(borderPen, e.AffectedBounds.Right, e.AffectedBounds.Bottom,
+                                        e.AffectedBounds.Right - 1, e.AffectedBounds.Bottom - 1);
                                 }
-
-                                // Draw the pixel at the bottom right of the context menu
-                                e.Graphics.DrawLine(borderPen, e.AffectedBounds.Right, e.AffectedBounds.Bottom,
-                                    e.AffectedBounds.Right - 1, e.AffectedBounds.Bottom - 1);
                             }
                         }
                     }
-                }
                     break;
                 case StatusStrip _:
-                {
-                    // Draw two lines at top of the status strip
-                    using Pen darkBorder =
-                            new Pen(CommonHelper.WhitenColor(KCT.StatusStripGradientEnd, 1.6f, 1.6f, 1.6f)),
-                        lightBorder = new Pen(ControlPaint.LightLight(KCT.StatusStripGradientBegin));
-                    e.Graphics.DrawLine(darkBorder, 0, 0, e.ToolStrip.Width, 0);
-                    e.Graphics.DrawLine(lightBorder, 0, 1, e.ToolStrip.Width, 1);
-                }
+                    {
+                        // Draw two lines at top of the status strip
+                        using Pen darkBorder =
+                                new Pen(CommonHelper.WhitenColor(KCT.StatusStripGradientEnd, 1.6f, 1.6f, 1.6f)),
+                            lightBorder = new Pen(ControlPaint.LightLight(KCT.StatusStripGradientBegin));
+                        e.Graphics.DrawLine(darkBorder, 0, 0, e.ToolStrip.Width, 0);
+                        e.Graphics.DrawLine(lightBorder, 0, 1, e.ToolStrip.Width, 1);
+                    }
                     break;
                 default:
                     base.OnRenderToolStripBorder(e);

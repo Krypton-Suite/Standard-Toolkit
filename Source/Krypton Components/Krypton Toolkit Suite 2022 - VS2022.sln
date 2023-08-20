@@ -101,6 +101,16 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "dictionary-en-gb", "diction
 		..\..\dictionary-en-gb\readme.md = ..\..\dictionary-en-gb\readme.md
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GitHub", "GitHub", "{FB5BC976-FCC7-4729-9331-C2420DE7ADB6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Issue Templates", "Issue Templates", "{40B83627-BD68-488E-ACB0-5B83D0A8B69C}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\.github\ISSUE_TEMPLATE\bug_report.md = ..\..\.github\ISSUE_TEMPLATE\bug_report.md
+		..\..\.github\ISSUE_TEMPLATE\feature_request.md = ..\..\.github\ISSUE_TEMPLATE\feature_request.md
+		..\..\.github\ISSUE_TEMPLATE\other-issues.md = ..\..\.github\ISSUE_TEMPLATE\other-issues.md
+		..\..\.github\ISSUE_TEMPLATE\post-a-question.md = ..\..\.github\ISSUE_TEMPLATE\post-a-question.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Canary|Any CPU = Canary|Any CPU
@@ -192,6 +202,8 @@ Global
 		{6C07B04E-D571-4E73-B760-180EA9DD6CC5} = {F59A6624-A207-40B8-8B1B-36FC4F4199CA}
 		{802E9C3A-7D20-452F-B36E-83FBB2897EFD} = {405E4318-4C8A-4DC7-B624-8F7097CDFF60}
 		{CAB40818-55B1-4E1D-AD8E-C94642EA5124} = {56F1A41E-584B-4F91-9E98-7D8BF678210C}
+		{FB5BC976-FCC7-4729-9331-C2420DE7ADB6} = {405E4318-4C8A-4DC7-B624-8F7097CDFF60}
+		{40B83627-BD68-488E-ACB0-5B83D0A8B69C} = {FB5BC976-FCC7-4729-9331-C2420DE7ADB6}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C8204ACC-48AA-49AC-8236-6E9C162EC2FA}

@@ -1,11 +1,7 @@
 ﻿#region BSD License
 /*
- * 
- * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
- * 
- *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *   BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2023 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -16,7 +12,7 @@ namespace Krypton.Toolkit
     /// 
     /// </summary>
     /// <seealso cref="KryptonProfessionalRenderer" />
-    public class KryptonMicrosoft365Renderer : KryptonProfessionalRenderer
+    public class KryptonVisualStudio2010WithMicrosoft365Renderer : KryptonProfessionalRenderer
     {
         #region GradientItemColors
         private abstract class GradientItemColors
@@ -129,8 +125,8 @@ namespace Krypton.Toolkit
                 var insetB = new Rectangle(rect.X + 2, rect.Y + 2, rect.Width - 3, rect.Height - 3);
                 var insetC = new Rectangle(rect.X + 2, rect.Y + 2, rect.Width - 4, rect.Height - 4);
 
-                using var insideBrush1 = new LinearGradientBrush(rect, Back1B, Back1, 90f);
-                using var insideBrush2 = new LinearGradientBrush(insetB, Back2B, Back2, 90f);
+                using LinearGradientBrush insideBrush1 = new LinearGradientBrush(rect, Back1B, Back1, 90f),
+                    insideBrush2 = new LinearGradientBrush(insetB, Back2B, Back2, 90f);
                 insideBrush1.SetSigmaBellShape(0.5f);
                 insideBrush2.SetSigmaBellShape(0.5f);
 
@@ -311,7 +307,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Instance Fields
-        private GradientItemColorsSplit? _gradientSplit;
+        private GradientItemColorsSplit _gradientSplit;
         private GradientItemColorsTracking _gradientTracking;
         private GradientItemColorsPressed _gradientPressed;
         private GradientItemColorsChecked _gradientChecked;
@@ -319,7 +315,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Identity
-        static KryptonMicrosoft365Renderer()
+        static KryptonVisualStudio2010WithMicrosoft365Renderer()
         {
             _stripBlend = new Blend
             {
@@ -341,10 +337,10 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>
-        /// Initialise a new instance of the KryptonOffice2010Renderer class.
+        /// Initialise a new instance of the KryptonVisualStudio2010WithMicrosoft365Renderer class.
         /// </summary>
         /// <param name="kct">Source for text colors.</param>
-        public KryptonMicrosoft365Renderer(KryptonColorTable kct)
+        public KryptonVisualStudio2010WithMicrosoft365Renderer(KryptonVisualStudio2010WithMicrosoft365ColorTable kct)
             : base(kct)
         {
         }
@@ -1207,7 +1203,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void DrawContextMenuHeader(Graphics g, ToolStripItem item)
+        private void DrawContextMenuHeader(Graphics? g, ToolStripItem item)
         {
             // Get the rectangle that is the items area
             var itemRect = new Rectangle(Point.Empty, item.Bounds.Size);
@@ -1231,13 +1227,13 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void DrawGradientToolItem(Graphics g,
+        private void DrawGradientToolItem(Graphics? g,
                                           ToolStripItem item,
                                           GradientItemColors colors) =>
             // Perform drawing into the entire background of the item
             colors.DrawItem(g, new Rectangle(Point.Empty, item.Bounds.Size));
 
-        private void RenderToolSplitButtonBackground(Graphics g,
+        private void RenderToolSplitButtonBackground(Graphics? g,
                                                      ToolStripSplitButton splitButton,
                                                      ToolStrip toolstrip)
         {
@@ -1277,7 +1273,7 @@ namespace Krypton.Toolkit
 
         }
 
-        private void DrawGradientContextMenuItem(Graphics g,
+        private void DrawGradientContextMenuItem(Graphics? g,
                                                  ToolStripItem item,
                                                  GradientItemColors colors)
         {
@@ -1340,8 +1336,9 @@ namespace Krypton.Toolkit
                 var t = rect.Y;
 
                 // Draw vertical lines centered
-                using var lightBrush = new LinearGradientBrush(boundsF, Color.Transparent, lightColor, 90);
-                using var darkBrush = new LinearGradientBrush(boundsF, Color.Transparent, darkColor, 90);
+                using LinearGradientBrush lightBrush =
+                        new LinearGradientBrush(boundsF, Color.Transparent, lightColor, 90),
+                    darkBrush = new LinearGradientBrush(boundsF, Color.Transparent, darkColor, 90);
                 lightBrush.Blend = _separatorLightBlend;
                 darkBrush.Blend = _separatorDarkBlend;
                 g.FillRectangle(lightBrush, l - 1, t, 3, rect.Height);
@@ -1353,8 +1350,9 @@ namespace Krypton.Toolkit
                 var t = rect.Height / 2;
 
                 // Draw horizontal lines centered
-                using var lightBrush = new LinearGradientBrush(boundsF, Color.Transparent, lightColor, 0f);
-                using var darkBrush = new LinearGradientBrush(boundsF, Color.Transparent, darkColor, 0f);
+                using LinearGradientBrush lightBrush =
+                        new LinearGradientBrush(boundsF, Color.Transparent, lightColor, 0f),
+                    darkBrush = new LinearGradientBrush(boundsF, Color.Transparent, darkColor, 0f);
                 lightBrush.Blend = _separatorLightBlend;
                 darkBrush.Blend = _separatorDarkBlend;
                 g.FillRectangle(lightBrush, l, t - 1, rect.Width, 3);

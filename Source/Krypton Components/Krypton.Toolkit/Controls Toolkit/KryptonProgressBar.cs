@@ -22,6 +22,7 @@ namespace Krypton.Toolkit
     public class KryptonProgressBar : Control, IContentValues
     {
         #region Instance Fields
+
         private ProgressBarStyle _style;
         private VisualOrientation _orientation;
         private PaletteBase? _palette;
@@ -31,6 +32,7 @@ namespace Krypton.Toolkit
         private IDisposable? _mementoBackClientPanel;
         private IDisposable? _mementoBackProgressBar;
         private IDisposable? _mementoBackProgressValue;
+        private bool _useValueAsText;
         private float _cornerRoundingRadius;
         private int _marqueeSpeed;
         private int _maximum;
@@ -44,6 +46,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Identity
+
         /// <summary>
         /// Initialize a new instance of the KryptonProgressBar class.
         /// </summary>
@@ -58,6 +61,7 @@ namespace Krypton.Toolkit
             SetStyle(ControlStyles.Selectable, false);
 
             // Set default properties
+            _useValueAsText = false;
             _style = ProgressBarStyle.Continuous;
             _orientation = VisualOrientation.Top;
             _marqueeSpeed = 100;
@@ -99,12 +103,13 @@ namespace Krypton.Toolkit
             {
                 Style = PaletteBackStyle.PanelClient
             };
-            StateCommon = new PaletteTripleRedirect(_paletteRedirect, PaletteBackStyle.ButtonStandalone, PaletteBorderStyle.ButtonStandalone, PaletteContentStyle.ButtonStandalone, OnNeedPaintHandler)
+            StateCommon = new PaletteTripleRedirect(_paletteRedirect, PaletteBackStyle.ButtonStandalone,
+                PaletteBorderStyle.ButtonStandalone, PaletteContentStyle.ButtonStandalone, OnNeedPaintHandler)
             {
                 Back =
-                    {
-                        Color1 = Color.Green
-                    }
+                {
+                    Color1 = Color.Green
+                }
             };
             SetCornerRoundingRadius(null);
             StateDisabled = new PaletteTriple(StateCommon, OnNeedPaintHandler);
@@ -137,6 +142,7 @@ namespace Krypton.Toolkit
                     _mementoBackProgressBar.Dispose();
                     _mementoBackProgressBar = null;
                 }
+
                 if (_mementoBackProgressValue != null)
                 {
                     _mementoBackProgressValue.Dispose();
@@ -156,9 +162,11 @@ namespace Krypton.Toolkit
 
             base.Dispose(disposing);
         }
+
         #endregion
 
         #region Public
+
         /// <summary>
         /// Gets access to the Progress Bar Label values.
         /// </summary>
@@ -236,6 +244,7 @@ namespace Krypton.Toolkit
                 }
             }
         }
+
         private bool ShouldSerializeStyle() => Style != ProgressBarStyle.Continuous;
 
         private void ResetStyle() => Style = ProgressBarStyle.Continuous;
@@ -244,7 +253,8 @@ namespace Krypton.Toolkit
         /// <returns>The time period, in milliseconds, that it takes the progress block to scroll across the progress bar.</returns>
         /// <exception cref="T:System.ArgumentOutOfRangeException">The indicated time period is less than 0.</exception>
         [Category("Behavior")]
-        [Description("Gets or sets the time period, in milliseconds, that it takes the progress block to scroll across the progress bar.")]
+        [Description(
+            "Gets or sets the time period, in milliseconds, that it takes the progress block to scroll across the progress bar.")]
         [DefaultValue(100)]
         public int MarqueeAnimationSpeed
         {
@@ -255,7 +265,10 @@ namespace Krypton.Toolkit
                     ? value
                     : throw new ArgumentOutOfRangeException($@"{nameof(MarqueeAnimationSpeed)} must be non-negative");
                 if (DesignMode)
+                {
                     return;
+                }
+
                 StartMarquee();
             }
         }
@@ -273,11 +286,20 @@ namespace Krypton.Toolkit
             set
             {
                 if (_maximum == value)
+                {
                     return;
+                }
+
                 if (value < 0)
+                {
                     throw new ArgumentOutOfRangeException(nameof(Maximum), value.ToString(CultureInfo.CurrentCulture));
+                }
+
                 if (_minimum > value)
+                {
                     _minimum = value;
+                }
+
                 _maximum = value;
                 Invalidate();
             }
@@ -296,11 +318,20 @@ namespace Krypton.Toolkit
             set
             {
                 if (_minimum == value)
+                {
                     return;
+                }
+
                 if (value < 0)
+                {
                     throw new ArgumentOutOfRangeException(nameof(Minimum), value.ToString(CultureInfo.CurrentCulture));
+                }
+
                 if (_maximum < value)
+                {
                     _maximum = value;
+                }
+
                 _minimum = value;
                 Invalidate();
             }
@@ -309,7 +340,8 @@ namespace Krypton.Toolkit
         /// <summary>Gets or sets the amount by which a call to the <see cref="M:System.Windows.Forms.ProgressBar.PerformStep" /> method increases the current position of the progress bar.</summary>
         /// <returns>The amount by which to increment the progress bar with each call to the <see cref="M:System.Windows.Forms.ProgressBar.PerformStep" /> method. The default is 10.</returns>
         [Category("Behavior")]
-        [Description("Gets or sets the amount by which a call to the `PerformStep` method increases the current position of the progress bar.")]
+        [Description(
+            "Gets or sets the amount by which a call to the `PerformStep` method increases the current position of the progress bar.")]
         [DefaultValue(10)]
         public int Step
         {
@@ -333,10 +365,22 @@ namespace Krypton.Toolkit
             set
             {
                 if (_value == value)
+                {
                     return;
+                }
+
                 if (value < _minimum || value > _maximum)
+                {
                     throw new ArgumentOutOfRangeException(nameof(Value), value.ToString(CultureInfo.CurrentCulture));
+                }
+
                 _value = value;
+
+                if (_useValueAsText)
+                {
+                    Text = $@"{value}%";
+                }
+
                 Invalidate();
             }
         }
@@ -372,12 +416,21 @@ namespace Krypton.Toolkit
         public void Increment(int value)
         {
             if (Style == ProgressBarStyle.Marquee)
+            {
                 throw new InvalidOperationException(@"The `Style` property is set to `ProgressBarStyle.Marquee`");
+            }
+
             _value += value;
             if (_value < _minimum)
+            {
                 _value = _minimum;
+            }
+
             if (_value > _maximum)
+            {
                 _value = _maximum;
+            }
+
             Invalidate();
         }
 
@@ -429,6 +482,25 @@ namespace Krypton.Toolkit
                 }
             }
         }
+
+        /// <summary>Gets or sets a value indicating whether [use value as text].</summary>
+        /// <value><c>true</c> if [use value as text]; otherwise, <c>false</c>.</value>
+        [Category(@"Visuals")]
+        [Description(@"Use the progress value as text.")]
+        [RefreshProperties(RefreshProperties.Repaint)]
+        [DefaultValue(false)]
+        public bool UseValueAsText
+        {
+            get => _useValueAsText;
+
+            set
+            {
+                _useValueAsText = value;
+
+                UpdateTextWithValue(value);
+            }
+        }
+
         #endregion
 
         #region IContentValues
@@ -734,6 +806,17 @@ namespace Krypton.Toolkit
             Invalidate();
         }
 
+        private void UpdateTextWithValue(bool value)
+        {
+            if (value)
+            {
+                Text = $@"{Value}%";
+            }
+            else
+            {
+                Text = string.Empty;
+            }
+        }
 
         #endregion
 

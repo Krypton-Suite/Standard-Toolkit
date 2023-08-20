@@ -1058,6 +1058,8 @@ namespace Krypton.Toolkit
     [TypeConverter(typeof(LabelStyleConverter))]
     public enum LabelStyle
     {
+        AlternateControl,
+
         /// <summary>
         /// Specifies a normal label for use on a control style background.
         /// </summary>
@@ -1077,6 +1079,11 @@ namespace Krypton.Toolkit
         /// Specifies a label appropriate for titles for use on a control style background.
         /// </summary>
         TitleControl,
+
+        /// <summary>
+        /// Specifies a alternate label for use on a panel style background.
+        /// </summary>
+        AlternatePanel,
 
         /// <summary>
         /// Specifies a normal label for use on a panel style background.

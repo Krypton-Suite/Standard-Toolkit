@@ -63,6 +63,22 @@ namespace Krypton.Toolkit
         internal const string DEFAULT_PALETTE_SPARKLE_BLUE_LIGHT_MODE = @"Sparkle - Blue (Light Mode)";
         internal const string DEFAULT_PALETTE_SPARKLE_ORANGE_LIGHT_MODE = @"Sparkle - Orange (Light Mode)";
         internal const string DEFAULT_PALETTE_SPARKLE_PURPLE_LIGHT_MODE = @"Sparkle - Purple (Light Mode)";
+        internal const string DEFAULT_PALETTE_VISUAL_STUDIO_2010_RENDER_2007 = @"Visual Studio 2010 (2007 Variation)";
+        internal const string DEFAULT_PALETTE_VISUAL_STUDIO_2010_RENDER_2010 = @"Visual Studio 2010 (2010 Variation)";
+        internal const string DEFAULT_PALETTE_VISUAL_STUDIO_2010_RENDER_2013 = @"Visual Studio 2010 (2013 Variation)";
+        internal const string DEFAULT_PALETTE_VISUAL_STUDIO_2010_RENDER_365 = @"Visual Studio 2010 (Microsoft 365 Variation)";
+        internal const string DEFAULT_PALETTE_VISUAL_STUDIO_2012_DARK_MODE = @"Visual Studio 2012 - Dark Mode";
+        internal const string DEFAULT_PALETTE_VISUAL_STUDIO_2012_LIGHT_MODE = @"Visual Studio 2012 - Light Mode";
+        internal const string DEFAULT_PALETTE_VISUAL_STUDIO_2013_DARK_MODE = @"Visual Studio 2013 - Dark Mode";
+        internal const string DEFAULT_PALETTE_VISUAL_STUDIO_2013_LIGHT_MODE = @"Visual Studio 2013 - Light Mode";
+        internal const string DEFAULT_PALETTE_VISUAL_STUDIO_2015_DARK_MODE = @"Visual Studio 2015 - Dark Mode";
+        internal const string DEFAULT_PALETTE_VISUAL_STUDIO_2015_LIGHT_MODE = @"Visual Studio 2015 - Light Mode";
+        internal const string DEFAULT_PALETTE_VISUAL_STUDIO_2017_DARK_MODE = @"Visual Studio 2017 - Dark Mode";
+        internal const string DEFAULT_PALETTE_VISUAL_STUDIO_2017_LIGHT_MODE = @"Visual Studio 2017 - Light Mode";
+        internal const string DEFAULT_PALETTE_VISUAL_STUDIO_2019_DARK_MODE = @"Visual Studio 2019 - Dark Mode";
+        internal const string DEFAULT_PALETTE_VISUAL_STUDIO_2019_LIGHT_MODE = @"Visual Studio 2019 - Light Mode";
+        internal const string DEFAULT_PALETTE_VISUAL_STUDIO_2022_DARK_MODE = @"Visual Studio 2022 - Dark Mode";
+        internal const string DEFAULT_PALETTE_VISUAL_STUDIO_2022_LIGHT_MODE = @"Visual Studio 2022 - Light Mode";
         internal const string DEFAULT_PALETTE_CUSTOM = @"Custom";
 
         #endregion
@@ -72,54 +88,70 @@ namespace Krypton.Toolkit
     new BiDictionary<string, PaletteMode>(new Dictionary<string, PaletteMode>
     {
         // Use default strings, because these are used to match xml strings when importing palettes, and in the designer(s)
-                { PaletteModeStrings.DEFAULT_PALETTE_SYSTEM, PaletteMode.ProfessionalSystem },
-                { PaletteModeStrings.DEFAULT_PALETTE_OFFICE_2003, PaletteMode.ProfessionalOffice2003 },
-                { PaletteModeStrings.DEFAULT_PALETTE_OFFICE_2007_BLUE, PaletteMode.Office2007Blue },
-                { PaletteModeStrings.DEFAULT_PALETTE_OFFICE_2007_BLUE_DARK_MODE, PaletteMode.Office2007BlueDarkMode },
-                { PaletteModeStrings.DEFAULT_PALETTE_OFFICE_2007_BLUE_LIGHT_MODE, PaletteMode.Office2007BlueLightMode },
-                { PaletteModeStrings.DEFAULT_PALETTE_OFFICE_2007_SILVER, PaletteMode.Office2007Silver },
-                { PaletteModeStrings.DEFAULT_PALETTE_OFFICE_2007_SILVER_DARK_MODE, PaletteMode.Office2007SilverDarkMode },
-                { PaletteModeStrings.DEFAULT_PALETTE_OFFICE_2007_SILVER_LIGHT_MODE, PaletteMode.Office2007SilverLightMode },
-                { PaletteModeStrings.DEFAULT_PALETTE_OFFICE_2007_WHITE, PaletteMode.Office2007White },
-                { PaletteModeStrings.DEFAULT_PALETTE_OFFICE_2007_BLACK, PaletteMode.Office2007Black },
-                { PaletteModeStrings.DEFAULT_PALETTE_OFFICE_2007_BLACK_DARK_MODE, PaletteMode.Office2007BlackDarkMode },
-                { PaletteModeStrings.DEFAULT_PALETTE_OFFICE_2007_DARK_GRAY, PaletteMode.Office2007DarkGray },
+                { DEFAULT_PALETTE_SYSTEM, PaletteMode.ProfessionalSystem },
+                { DEFAULT_PALETTE_OFFICE_2003, PaletteMode.ProfessionalOffice2003 },
+                { DEFAULT_PALETTE_OFFICE_2007_BLUE, PaletteMode.Office2007Blue },
+                { DEFAULT_PALETTE_OFFICE_2007_BLUE_DARK_MODE, PaletteMode.Office2007BlueDarkMode },
+                { DEFAULT_PALETTE_OFFICE_2007_BLUE_LIGHT_MODE, PaletteMode.Office2007BlueLightMode },
+                { DEFAULT_PALETTE_OFFICE_2007_SILVER, PaletteMode.Office2007Silver },
+                { DEFAULT_PALETTE_OFFICE_2007_SILVER_DARK_MODE, PaletteMode.Office2007SilverDarkMode },
+                { DEFAULT_PALETTE_OFFICE_2007_SILVER_LIGHT_MODE, PaletteMode.Office2007SilverLightMode },
+                { DEFAULT_PALETTE_OFFICE_2007_WHITE, PaletteMode.Office2007White },
+                { DEFAULT_PALETTE_OFFICE_2007_BLACK, PaletteMode.Office2007Black },
+                { DEFAULT_PALETTE_OFFICE_2007_BLACK_DARK_MODE, PaletteMode.Office2007BlackDarkMode },
+                { DEFAULT_PALETTE_OFFICE_2007_DARK_GRAY, PaletteMode.Office2007DarkGray },
                 //{ PaletteModeStrings.DEFAULT_PALETTE_OFFICE_2007_LIGHT_GRAY, PaletteMode.Office2007LightGray },
-                { PaletteModeStrings.DEFAULT_PALETTE_OFFICE_2010_BLUE, PaletteMode.Office2010Blue },
-                { PaletteModeStrings.DEFAULT_PALETTE_OFFICE_2010_BLUE_DARK_MODE, PaletteMode.Office2010BlueDarkMode },
-                { PaletteModeStrings.DEFAULT_PALETTE_OFFICE_2010_BLUE_LIGHT_MODE, PaletteMode.Office2010BlueLightMode },
-                { PaletteModeStrings.DEFAULT_PALETTE_OFFICE_2010_SILVER, PaletteMode.Office2010Silver },
-                { PaletteModeStrings.DEFAULT_PALETTE_OFFICE_2010_SILVER_DARK_MODE, PaletteMode.Office2010SilverDarkMode },
-                { PaletteModeStrings.DEFAULT_PALETTE_OFFICE_2010_SILVER_LIGHT_MODE, PaletteMode.Office2010SilverLightMode },
-                { PaletteModeStrings.DEFAULT_PALETTE_OFFICE_2010_WHITE, PaletteMode.Office2010White },
-                { PaletteModeStrings.DEFAULT_PALETTE_OFFICE_2010_BLACK, PaletteMode.Office2010Black },
-                { PaletteModeStrings.DEFAULT_PALETTE_OFFICE_2010_BLACK_DARK_MODE, PaletteMode.Office2010BlackDarkMode },
-                { PaletteModeStrings.DEFAULT_PALETTE_OFFICE_2010_DARK_GRAY, PaletteMode.Office2010DarkGray },
+                { DEFAULT_PALETTE_OFFICE_2010_BLUE, PaletteMode.Office2010Blue },
+                { DEFAULT_PALETTE_OFFICE_2010_BLUE_DARK_MODE, PaletteMode.Office2010BlueDarkMode },
+                { DEFAULT_PALETTE_OFFICE_2010_BLUE_LIGHT_MODE, PaletteMode.Office2010BlueLightMode },
+                { DEFAULT_PALETTE_OFFICE_2010_SILVER, PaletteMode.Office2010Silver },
+                { DEFAULT_PALETTE_OFFICE_2010_SILVER_DARK_MODE, PaletteMode.Office2010SilverDarkMode },
+                { DEFAULT_PALETTE_OFFICE_2010_SILVER_LIGHT_MODE, PaletteMode.Office2010SilverLightMode },
+                { DEFAULT_PALETTE_OFFICE_2010_WHITE, PaletteMode.Office2010White },
+                { DEFAULT_PALETTE_OFFICE_2010_BLACK, PaletteMode.Office2010Black },
+                { DEFAULT_PALETTE_OFFICE_2010_BLACK_DARK_MODE, PaletteMode.Office2010BlackDarkMode },
+                { DEFAULT_PALETTE_OFFICE_2010_DARK_GRAY, PaletteMode.Office2010DarkGray },
                 //{ PaletteModeStrings.DEFAULT_PALETTE_OFFICE_2010_LIGHT_GRAY, PaletteMode.Office2010LightGray },
-                { PaletteModeStrings.DEFAULT_PALETTE_OFFICE_2013_DARK_GRAY, PaletteMode.Office2013DarkGray },
+                { DEFAULT_PALETTE_OFFICE_2013_DARK_GRAY, PaletteMode.Office2013DarkGray },
                 //{ PaletteModeStrings.DEFAULT_PALETTE_OFFICE_2013_LIGHT_GRAY, PaletteMode.Office2013LightGray },
-                { PaletteModeStrings.DEFAULT_PALETTE_OFFICE_2013_WHITE, PaletteMode.Office2013White },
-                { PaletteModeStrings.DEFAULT_PALETTE_SPARKLE_BLUE, PaletteMode.SparkleBlue },
-                { PaletteModeStrings.DEFAULT_PALETTE_SPARKLE_BLUE_DARK_MODE, PaletteMode.SparkleBlueDarkMode },
-                { PaletteModeStrings.DEFAULT_PALETTE_SPARKLE_BLUE_LIGHT_MODE, PaletteMode.SparkleBlueLightMode },
-                { PaletteModeStrings.DEFAULT_PALETTE_SPARKLE_ORANGE, PaletteMode.SparkleOrange },
-                { PaletteModeStrings.DEFAULT_PALETTE_SPARKLE_ORANGE_DARK_MODE, PaletteMode.SparkleOrangeDarkMode },
-                { PaletteModeStrings.DEFAULT_PALETTE_SPARKLE_ORANGE_LIGHT_MODE, PaletteMode.SparkleOrangeLightMode },
-                { PaletteModeStrings.DEFAULT_PALETTE_SPARKLE_PURPLE, PaletteMode.SparklePurple },
-                { PaletteModeStrings.DEFAULT_PALETTE_SPARKLE_PURPLE_DARK_MODE, PaletteMode.SparklePurpleDarkMode },
-                { PaletteModeStrings.DEFAULT_PALETTE_SPARKLE_PURPLE_LIGHT_MODE, PaletteMode.SparklePurpleLightMode },
-                { PaletteModeStrings.DEFAULT_PALETTE_MICROSOFT_365_BLUE, PaletteMode.Microsoft365Blue },
-                { PaletteModeStrings.DEFAULT_PALETTE_MICROSOFT_365_BLUE_DARK_MODE, PaletteMode.Microsoft365BlueDarkMode },
-                { PaletteModeStrings.DEFAULT_PALETTE_MICROSOFT_365_BLUE_LIGHT_MODE, PaletteMode.Microsoft365BlueLightMode },
-                { PaletteModeStrings.DEFAULT_PALETTE_MICROSOFT_365_SILVER, PaletteMode.Microsoft365Silver },
-                { PaletteModeStrings.DEFAULT_PALETTE_MICROSOFT_365_SILVER_DARK_MODE, PaletteMode.Microsoft365SilverDarkMode },
-                { PaletteModeStrings.DEFAULT_PALETTE_MICROSOFT_365_SILVER_LIGHT_MODE, PaletteMode.Microsoft365SilverLightMode },
-                { PaletteModeStrings.DEFAULT_PALETTE_MICROSOFT_365_WHITE, PaletteMode.Microsoft365White },
-                { PaletteModeStrings.DEFAULT_PALETTE_MICROSOFT_365_BLACK, PaletteMode.Microsoft365Black },
-                { PaletteModeStrings.DEFAULT_PALETTE_MICROSOFT_365_BLACK_DARK_MODE, PaletteMode.Microsoft365BlackDarkMode },
-                { PaletteModeStrings.DEFAULT_PALETTE_MICROSOFT_365_DARK_GRAY, PaletteMode.Microsoft365DarkGray },
+                { DEFAULT_PALETTE_OFFICE_2013_WHITE, PaletteMode.Office2013White },
+                { DEFAULT_PALETTE_SPARKLE_BLUE, PaletteMode.SparkleBlue },
+                { DEFAULT_PALETTE_SPARKLE_BLUE_DARK_MODE, PaletteMode.SparkleBlueDarkMode },
+                { DEFAULT_PALETTE_SPARKLE_BLUE_LIGHT_MODE, PaletteMode.SparkleBlueLightMode },
+                { DEFAULT_PALETTE_SPARKLE_ORANGE, PaletteMode.SparkleOrange },
+                { DEFAULT_PALETTE_SPARKLE_ORANGE_DARK_MODE, PaletteMode.SparkleOrangeDarkMode },
+                { DEFAULT_PALETTE_SPARKLE_ORANGE_LIGHT_MODE, PaletteMode.SparkleOrangeLightMode },
+                { DEFAULT_PALETTE_SPARKLE_PURPLE, PaletteMode.SparklePurple },
+                { DEFAULT_PALETTE_SPARKLE_PURPLE_DARK_MODE, PaletteMode.SparklePurpleDarkMode },
+                { DEFAULT_PALETTE_SPARKLE_PURPLE_LIGHT_MODE, PaletteMode.SparklePurpleLightMode },
+                { DEFAULT_PALETTE_MICROSOFT_365_BLUE, PaletteMode.Microsoft365Blue },
+                { DEFAULT_PALETTE_MICROSOFT_365_BLUE_DARK_MODE, PaletteMode.Microsoft365BlueDarkMode },
+                { DEFAULT_PALETTE_MICROSOFT_365_BLUE_LIGHT_MODE, PaletteMode.Microsoft365BlueLightMode },
+                { DEFAULT_PALETTE_MICROSOFT_365_SILVER, PaletteMode.Microsoft365Silver },
+                { DEFAULT_PALETTE_MICROSOFT_365_SILVER_DARK_MODE, PaletteMode.Microsoft365SilverDarkMode },
+                { DEFAULT_PALETTE_MICROSOFT_365_SILVER_LIGHT_MODE, PaletteMode.Microsoft365SilverLightMode },
+                { DEFAULT_PALETTE_MICROSOFT_365_WHITE, PaletteMode.Microsoft365White },
+                { DEFAULT_PALETTE_MICROSOFT_365_BLACK, PaletteMode.Microsoft365Black },
+                { DEFAULT_PALETTE_MICROSOFT_365_BLACK_DARK_MODE, PaletteMode.Microsoft365BlackDarkMode },
+                { DEFAULT_PALETTE_MICROSOFT_365_DARK_GRAY, PaletteMode.Microsoft365DarkGray },
                 //{ PaletteModeStrings.DEFAULT_PALETTE_MICROSOFT_365_LIGHT_GRAY, PaletteMode.Microsoft365LightGray },
-                { PaletteModeStrings.DEFAULT_PALETTE_CUSTOM, PaletteMode.Custom }
+                { DEFAULT_PALETTE_VISUAL_STUDIO_2010_RENDER_2007, PaletteMode.VisualStudio2010Render2007 },
+                { DEFAULT_PALETTE_VISUAL_STUDIO_2010_RENDER_2010, PaletteMode.VisualStudio2010Render2010 },
+                { DEFAULT_PALETTE_VISUAL_STUDIO_2010_RENDER_2013, PaletteMode.VisualStudio2010Render2013 },
+                { DEFAULT_PALETTE_VISUAL_STUDIO_2010_RENDER_365, PaletteMode.VisualStudio2010Render365 },
+                //{ DEFAULT_PALETTE_VISUAL_STUDIO_2012_DARK_MODE, PaletteMode.VisualStudio2012DarkMode },
+                //{ DEFAULT_PALETTE_VISUAL_STUDIO_2012_LIGHT_MODE, PaletteMode.VisualStudio2012LightMode },
+                //{ DEFAULT_PALETTE_VISUAL_STUDIO_2013_DARK_MODE, PaletteMode.VisualStudio2013DarkMode },
+                //{ DEFAULT_PALETTE_VISUAL_STUDIO_2013_LIGHT_MODE, PaletteMode.VisualStudio2013LightMode },
+                //{ DEFAULT_PALETTE_VISUAL_STUDIO_2015_DARK_MODE, PaletteMode.VisualStudio2015DarkMode },
+                //{ DEFAULT_PALETTE_VISUAL_STUDIO_2015_LIGHT_MODE, PaletteMode.VisualStudio2015LightMode },
+                //{ DEFAULT_PALETTE_VISUAL_STUDIO_2017_DARK_MODE, PaletteMode.VisualStudio2017DarkMode },
+                //{ DEFAULT_PALETTE_VISUAL_STUDIO_2017_LIGHT_MODE, PaletteMode.VisualStudio2017LightMode },
+                //{ DEFAULT_PALETTE_VISUAL_STUDIO_2019_DARK_MODE, PaletteMode.VisualStudio2019DarkMode },
+                //{ DEFAULT_PALETTE_VISUAL_STUDIO_2019_LIGHT_MODE, PaletteMode.VisualStudio2019LightMode },
+                //{ DEFAULT_PALETTE_VISUAL_STUDIO_2022_DARK_MODE, PaletteMode.VisualStudio2022DarkMode },
+                //{ DEFAULT_PALETTE_VISUAL_STUDIO_2022_LIGHT_MODE, PaletteMode.VisualStudio2022LightMode },
+                { DEFAULT_PALETTE_CUSTOM, PaletteMode.Custom }
     });
 
         #endregion
@@ -189,7 +221,11 @@ namespace Krypton.Toolkit
             SparklePurpleDarkMode.Equals(DEFAULT_PALETTE_SPARKLE_PURPLE_DARK_MODE) &&
             SparkleBlueLightMode.Equals(DEFAULT_PALETTE_SPARKLE_BLUE_LIGHT_MODE) &&
             SparkleOrangeLightMode.Equals(DEFAULT_PALETTE_SPARKLE_ORANGE_LIGHT_MODE) &&
-            SparklePurpleLightMode.Equals(DEFAULT_PALETTE_SPARKLE_PURPLE_LIGHT_MODE);
+            SparklePurpleLightMode.Equals(DEFAULT_PALETTE_SPARKLE_PURPLE_LIGHT_MODE) &&
+            VisualStudio2010With2007Renderer.Equals(DEFAULT_PALETTE_VISUAL_STUDIO_2010_RENDER_2007) &&
+            VisualStudio2010With2010Renderer.Equals(DEFAULT_PALETTE_VISUAL_STUDIO_2010_RENDER_2010) &&
+            VisualStudio2010With2013Renderer.Equals(DEFAULT_PALETTE_VISUAL_STUDIO_2010_RENDER_2013) &&
+            VisualStudio2010With365Renderer.Equals(DEFAULT_PALETTE_VISUAL_STUDIO_2010_RENDER_365);
 
         public void Reset()
         {
@@ -288,6 +324,14 @@ namespace Krypton.Toolkit
             SparkleOrangeLightMode = DEFAULT_PALETTE_SPARKLE_ORANGE_LIGHT_MODE;
 
             SparklePurpleLightMode = DEFAULT_PALETTE_SPARKLE_PURPLE_LIGHT_MODE;
+
+            VisualStudio2010With2007Renderer = DEFAULT_PALETTE_VISUAL_STUDIO_2010_RENDER_2007;
+
+            VisualStudio2010With2010Renderer = DEFAULT_PALETTE_VISUAL_STUDIO_2010_RENDER_2010;
+
+            VisualStudio2010With2013Renderer = DEFAULT_PALETTE_VISUAL_STUDIO_2010_RENDER_2013;
+
+            VisualStudio2010With365Renderer = DEFAULT_PALETTE_VISUAL_STUDIO_2010_RENDER_365;
         }
 
         /// <summary>Gets or sets the custom palette name string.</summary>
@@ -673,6 +717,38 @@ namespace Krypton.Toolkit
         [DefaultValue(DEFAULT_PALETTE_SPARKLE_PURPLE_LIGHT_MODE)]
         [RefreshProperties(RefreshProperties.All)]
         public string SparklePurpleLightMode { get; set; }
+
+        /// <summary>Gets or sets the Visual Studio 2010 with 2007 renderer palette name string.</summary>
+        [Localizable(true)]
+        [Category(@"Visuals")]
+        [Description(@"The Visual Studio 2010 with 2007 renderer palette name.")]
+        [DefaultValue(DEFAULT_PALETTE_VISUAL_STUDIO_2010_RENDER_2007)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string VisualStudio2010With2007Renderer { get; set; }
+
+        /// <summary>Gets or sets the Visual Studio 2010 with 2010 renderer palette name string.</summary>
+        [Localizable(true)]
+        [Category(@"Visuals")]
+        [Description(@"The Visual Studio 2010 with 2010 renderer palette name.")]
+        [DefaultValue(DEFAULT_PALETTE_VISUAL_STUDIO_2010_RENDER_2010)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string VisualStudio2010With2010Renderer { get; set; }
+
+        /// <summary>Gets or sets the Visual Studio 2010 with 2013 renderer palette name string.</summary>
+        [Localizable(true)]
+        [Category(@"Visuals")]
+        [Description(@"The Visual Studio 2010 with 2013 renderer palette name.")]
+        [DefaultValue(DEFAULT_PALETTE_VISUAL_STUDIO_2010_RENDER_2013)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string VisualStudio2010With2013Renderer { get; set; }
+
+        /// <summary>Gets or sets the Visual Studio 2010 with 365 renderer palette name string.</summary>
+        [Localizable(true)]
+        [Category(@"Visuals")]
+        [Description(@"The Visual Studio 2010 with 365 renderer palette name.")]
+        [DefaultValue(DEFAULT_PALETTE_VISUAL_STUDIO_2010_RENDER_365)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string VisualStudio2010With365Renderer { get; set; }
 
         #endregion
 

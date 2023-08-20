@@ -106,6 +106,19 @@ namespace Krypton.Toolkit
 
         #endregion
 
+        #region Visual Studio Themes
+
+        #region Visual Studio 2010 Variations
+
+        private static PaletteVisualStudio2010Office2007Variation? _paletteVisualStudio2010Office2007Variation;
+        private static PaletteVisualStudio2010Office2010Variation? _paletteVisualStudio2010Office2010Variation;
+        private static PaletteVisualStudio2010Office2013Variation? _paletteVisualStudio2010Office2013Variation;
+        private static PaletteVisualStudio2010Microsoft365Variation? _paletteVisualStudio2010Microsoft365Variation;
+
+        #endregion
+
+        #endregion
+
         private static RenderStandard? _renderStandard;
         private static RenderProfessional? _renderProfessional;
         private static RenderOffice2007? _renderOffice2007;
@@ -113,7 +126,10 @@ namespace Krypton.Toolkit
         private static RenderOffice2013? _renderOffice2013;
         private static RenderMicrosoft365? _renderMicrosoft365;
         private static RenderSparkle? _renderSparkle;
-        private static RenderVisualStudio2010? _renderVisualStudio2010;
+        private static RenderVisualStudio2010With2007? _renderVisualStudio2010With2007;
+        private static RenderVisualStudio2010With2010? _renderVisualStudio2010With2010;
+        private static RenderVisualStudio2010With2013? _renderVisualStudio2010With2013;
+        private static RenderVisualStudio2010WithMicrosoft365? _renderVisualStudio2010WithMicrosoft365;
         private static RenderVisualStudio? _renderVisualStudio;
 
         private static KryptonCustomPaletteManager? _customPaletteManager;
@@ -567,6 +583,14 @@ namespace Krypton.Toolkit
                         return PaletteMicrosoft365SilverLightMode;
                     case PaletteMode.Microsoft365White:
                         return PaletteMicrosoft365White;
+                    case PaletteMode.VisualStudio2010Render2007:
+                        return PaletteVisualStudio2010Office2007Variation;
+                    case PaletteMode.VisualStudio2010Render2010:
+                        return PaletteVisualStudio2010Office2010Variation;
+                    case PaletteMode.VisualStudio2010Render2013:
+                        return PaletteVisualStudio2010Office2013Variation;
+                    case PaletteMode.VisualStudio2010Render365:
+                        return PaletteVisualStudio2010Microsoft365Variation;
                     case PaletteMode.Custom:
                         return InternalGlobalPalette;
                     default:
@@ -675,6 +699,14 @@ namespace Krypton.Toolkit
                     return PaletteMicrosoft365White;
                 case PaletteMode.Global:
                     return CurrentGlobalPalette;
+                case PaletteMode.VisualStudio2010Render2007:
+                    return PaletteVisualStudio2010Office2007Variation;
+                case PaletteMode.VisualStudio2010Render2010:
+                    return PaletteVisualStudio2010Office2010Variation;
+                case PaletteMode.VisualStudio2010Render2013:
+                    return PaletteVisualStudio2010Office2013Variation;
+                case PaletteMode.VisualStudio2010Render365:
+                    return PaletteVisualStudio2010Microsoft365Variation;
                 case PaletteMode.Custom:
                 default:
                     Debug.Assert(false);
@@ -911,6 +943,14 @@ namespace Krypton.Toolkit
         /// </summary>
         public static PaletteSparklePurpleLightMode PaletteSparklePurpleLightMode => _paletteSparklePurpleLightMode ??= new PaletteSparklePurpleLightMode();
 
+        public static PaletteVisualStudio2010Office2007Variation PaletteVisualStudio2010Office2007Variation => _paletteVisualStudio2010Office2007Variation ??= new PaletteVisualStudio2010Office2007Variation();
+
+        public static PaletteVisualStudio2010Office2010Variation PaletteVisualStudio2010Office2010Variation => _paletteVisualStudio2010Office2010Variation ??= new PaletteVisualStudio2010Office2010Variation();
+
+        public static PaletteVisualStudio2010Office2013Variation PaletteVisualStudio2010Office2013Variation => _paletteVisualStudio2010Office2013Variation ??= new PaletteVisualStudio2010Office2013Variation();
+
+        public static PaletteVisualStudio2010Microsoft365Variation PaletteVisualStudio2010Microsoft365Variation => _paletteVisualStudio2010Microsoft365Variation ??= new PaletteVisualStudio2010Microsoft365Variation();
+
         //public static PaletteBase CustomPaletteBase => _customPalette ??= new PaletteBase ();
 
         /// <summary>
@@ -938,8 +978,14 @@ namespace Krypton.Toolkit
                     return RenderStandard;
                 case RendererMode.VisualStudio:
                     return RenderVisualStudio;
-                case RendererMode.VisualStudio2010:
-                    return RenderVisualStudio2010;
+                case RendererMode.VisualStudio2010With2007Renderer:
+                    return RenderVisualStudio2010With2007;
+                case RendererMode.VisualStudio2010With2010Renderer:
+                    return RenderVisualStudio2010With2010;
+                case RendererMode.VisualStudio2010With2013Renderer:
+                    return RenderVisualStudio2010With2013;
+                case RendererMode.VisualStudio2010WithMicrosoft365Renderer:
+                    return RenderVisualStudio2010WithMicrosoft365;
                 case RendererMode.Inherit:
                 case RendererMode.Custom:
                 default:
@@ -983,9 +1029,13 @@ namespace Krypton.Toolkit
         /// <value>The render visual studio.</value>
         public static RenderVisualStudio RenderVisualStudio => _renderVisualStudio ??= new RenderVisualStudio();
 
-        /// <summary>Gets the render visual studio 2010.</summary>
-        /// <value>The render visual studio 2010.</value>
-        public static RenderVisualStudio2010 RenderVisualStudio2010 => _renderVisualStudio2010 ??= new RenderVisualStudio2010();
+        public static RenderVisualStudio2010With2007 RenderVisualStudio2010With2007 => _renderVisualStudio2010With2007 ??= new RenderVisualStudio2010With2007();
+
+        public static RenderVisualStudio2010With2010 RenderVisualStudio2010With2010 => _renderVisualStudio2010With2010 ??= new RenderVisualStudio2010With2010();
+
+        public static RenderVisualStudio2010With2013 RenderVisualStudio2010With2013 => _renderVisualStudio2010With2013 ??= new RenderVisualStudio2010With2013();
+
+        public static RenderVisualStudio2010WithMicrosoft365 RenderVisualStudio2010WithMicrosoft365 => _renderVisualStudio2010WithMicrosoft365 ??= new RenderVisualStudio2010WithMicrosoft365();
 
         /// <summary>
         /// Gets the single instance of the standard renderer.
@@ -1078,6 +1128,11 @@ namespace Krypton.Toolkit
             _paletteMicrosoft365Blue?.UserPreferenceChanged();
             _paletteMicrosoft365Silver?.UserPreferenceChanged();
             _paletteMicrosoft365White?.UserPreferenceChanged();
+
+            _paletteVisualStudio2010Office2007Variation?.UserPreferenceChanged();
+            _paletteVisualStudio2010Office2010Variation?.UserPreferenceChanged();
+            _paletteVisualStudio2010Office2013Variation?.UserPreferenceChanged();
+            _paletteVisualStudio2010Microsoft365Variation?.UserPreferenceChanged();
 
             UpdateToolStripManager();
         }

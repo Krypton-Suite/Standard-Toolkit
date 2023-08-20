@@ -64,19 +64,17 @@ namespace Krypton.Toolkit
                 { KryptonLanguageManager.ModeStrings.Microsoft365BlueDarkMode, PaletteMode.Microsoft365BlueDarkMode },
                 { KryptonLanguageManager.ModeStrings.Microsoft365BlueLightMode, PaletteMode.Microsoft365BlueLightMode },
                 { KryptonLanguageManager.ModeStrings.Microsoft365Silver, PaletteMode.Microsoft365Silver },
-                {
-                    KryptonLanguageManager.ModeStrings.Microsoft365SilverDarkMode,
-                    PaletteMode.Microsoft365SilverDarkMode
-                },
-                {
-                    KryptonLanguageManager.ModeStrings.Microsoft365SilverLightMode,
-                    PaletteMode.Microsoft365SilverLightMode
-                },
+                { KryptonLanguageManager.ModeStrings.Microsoft365SilverDarkMode, PaletteMode.Microsoft365SilverDarkMode },
+                { KryptonLanguageManager.ModeStrings.Microsoft365SilverLightMode, PaletteMode.Microsoft365SilverLightMode },
                 { KryptonLanguageManager.ModeStrings.Microsoft365White, PaletteMode.Microsoft365White },
                 { KryptonLanguageManager.ModeStrings.Microsoft365Black, PaletteMode.Microsoft365Black },
                 { KryptonLanguageManager.ModeStrings.Microsoft365BlackDarkMode, PaletteMode.Microsoft365BlackDarkMode },
                 { KryptonLanguageManager.ModeStrings.Microsoft365DarkGray, PaletteMode.Microsoft365DarkGray },
-                { KryptonLanguageManager.ModeStrings.Custom, PaletteMode.Custom }
+                { KryptonLanguageManager.ModeStrings.Custom, PaletteMode.Custom },
+                { KryptonLanguageManager.ModeStrings.VisualStudio2010With2007Renderer, PaletteMode.VisualStudio2010Render2007 },
+                { KryptonLanguageManager.ModeStrings.VisualStudio2010With2010Renderer, PaletteMode.VisualStudio2010Render2010 },
+                { KryptonLanguageManager.ModeStrings.VisualStudio2010With2013Renderer, PaletteMode.VisualStudio2010Render2013 },
+                { KryptonLanguageManager.ModeStrings.VisualStudio2010With365Renderer, PaletteMode.VisualStudio2010Render365 }
             });
 
         #endregion

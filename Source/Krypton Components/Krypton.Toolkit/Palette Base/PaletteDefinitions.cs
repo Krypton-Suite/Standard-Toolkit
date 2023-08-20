@@ -2518,6 +2518,8 @@ namespace Krypton.Toolkit
         HeaderCustom2,
         HeaderCustom3,
 
+        LabelAlternateControl,
+
         /// <summary>
         /// Specifies a normal label for use on a control style background.
         /// </summary>
@@ -2537,6 +2539,8 @@ namespace Krypton.Toolkit
         /// Specifies a label appropriate for titles for use on a control style background.
         /// </summary>
         LabelTitleControl,
+
+        LabelAlternatePanel,
 
         /// <summary>
         /// Specifies a normal label for use on a panel style background.

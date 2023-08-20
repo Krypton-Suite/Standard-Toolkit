@@ -99,5 +99,22 @@ namespace TestForm
 
             themeBrowser.Show();
         }
+
+        private void kchkUseProgressValueAsText_CheckedChanged(object sender, EventArgs e)
+        {
+            kryptonProgressBar1.UseValueAsText = kchkUseProgressValueAsText.Checked;
+        }
+
+        private void ktrkProgressValues_ValueChanged(object sender, EventArgs e)
+        {
+            kryptonProgressBar1.Value = ktrkProgressValues.Value;
+        }
+
+        private void kbtnVisualStudio2010Theme_Click(object sender, EventArgs e)
+        {
+            Form5 vsTheme = new Form5();
+
+            vsTheme.Show();
+        }
     }
 }

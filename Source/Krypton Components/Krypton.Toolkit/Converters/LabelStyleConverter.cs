@@ -22,10 +22,12 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         private static readonly IReadOnlyDictionary<LabelStyle, string> _pairs = new Dictionary<LabelStyle, string>
         {
+            {LabelStyle.AlternateControl, DesignTimeUtilities.DEFAULT_LABEL_STYLE_ALTERNATE_CONTROL},
             {LabelStyle.NormalControl, DesignTimeUtilities.DEFAULT_LABEL_STYLE_NORMAL_CONTROL},
             {LabelStyle.BoldControl, DesignTimeUtilities.DEFAULT_LABEL_STYLE_BOLD_CONTROL},
             {LabelStyle.ItalicControl, DesignTimeUtilities.DEFAULT_LABEL_STYLE_ITALIC_CONTROL},
             {LabelStyle.TitleControl, DesignTimeUtilities.DEFAULT_LABEL_STYLE_TITLE_CONTROL},
+            {LabelStyle.AlternatePanel, DesignTimeUtilities.DEFAULT_LABEL_STYLE_ALTERNATE_PANEL },
             {LabelStyle.NormalPanel, DesignTimeUtilities.DEFAULT_LABEL_STYLE_NORMAL_PANEL},
             {LabelStyle.BoldPanel, DesignTimeUtilities.DEFAULT_LABEL_STYLE_BOLD_PANEL},
             {LabelStyle.ItalicPanel, DesignTimeUtilities.DEFAULT_LABEL_STYLE_ITALIC_PANEL},

@@ -10,23 +10,69 @@ namespace Krypton.Toolkit
 {
     public partial class KryptonThemeBrowserForm : KryptonForm
     {
+        #region Instance Fields
+
+        private readonly bool _showImportButton;
+        private readonly bool _showSilentOption;
+        private readonly FormStartPosition _formStartPosition;
+        private readonly int _startIndex;
+        private readonly string _windowTitle;
+
+        #endregion
+
         #region Identity
 
         /// <summary>Initializes a new instance of the <see cref="KryptonThemeBrowserForm" /> class.</summary>
-        public KryptonThemeBrowserForm(FormStartPosition? startPosition = FormStartPosition.CenterScreen, int? startIndex = 33)
+        /// <param name="startPosition">The start position.</param>
+        /// <param name="startIndex">The start index.</param>
+        /// <param name="windowTitle">The window title.</param>
+        /// <param name="showImportButton">The show import button.</param>
+        /// <param name="showSilentOption">The show silent option.</param>
+        public KryptonThemeBrowserForm(FormStartPosition? startPosition = FormStartPosition.CenterScreen, int? startIndex = 33, string? windowTitle = null, bool? showImportButton = null, bool? showSilentOption = null)
         {
             InitializeComponent();
 
-            StartPosition = startPosition ?? FormStartPosition.CenterScreen;
+            _showImportButton = showImportButton ?? false;
 
-            klbThemeList.SelectedItem = startIndex ?? ThemeManager.GetThemeIndex();
+            _showSilentOption = showSilentOption ?? false;
+
+            _formStartPosition = startPosition ?? FormStartPosition.CenterScreen;
+
+            _startIndex = startIndex ?? ThemeManager.GetThemeIndex();
+
+            _windowTitle = windowTitle ?? KryptonLanguageManager.MiscellaneousThemeStrings.ThemeBrowserWindowTitle;
+
+            AdjustUI();
         }
 
         #endregion
 
         #region Implementation
 
-        private void kbtnImport_Click(object sender, EventArgs e) => kcpbCustom.Import();
+        private void AdjustUI()
+        {
+            Text = _windowTitle;
+
+            kbtnImport.Visible = _showImportButton;
+
+            kchkSilent.Visible = _showSilentOption;
+
+            StartPosition = _formStartPosition;
+
+            klbThemeList.SelectedIndex = _startIndex;
+
+            klblDescription.Text = KryptonLanguageManager.MiscellaneousThemeStrings.ThemeBrowserDescription;
+
+            kbtnImport.Text = KryptonLanguageManager.MiscellaneousThemeStrings.Import;
+
+            kchkSilent.Text = KryptonLanguageManager.MiscellaneousThemeStrings.Silent;
+
+            kbtnCancel.Text = KryptonLanguageManager.GeneralToolkitStrings.Cancel;
+
+            kbtnOK.Text = KryptonLanguageManager.GeneralToolkitStrings.OK;
+        }
+
+        private void kbtnImport_Click(object sender, EventArgs e) => kcpbCustom.Import(kchkSilent.Checked);
 
         private void KryptonThemeBrowserForm_Load(object sender, EventArgs e)
         {

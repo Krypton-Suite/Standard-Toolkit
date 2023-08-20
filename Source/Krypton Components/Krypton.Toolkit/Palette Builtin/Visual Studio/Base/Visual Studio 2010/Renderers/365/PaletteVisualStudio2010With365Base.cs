@@ -1,593 +1,22 @@
 ﻿#region BSD License
 /*
  * 
- * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
- * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2023 - 2023. All rights reserved. 
  *  
  */
 #endregion
 
 namespace Krypton.Toolkit
 {
-    /// <summary></summary>
-    public class PaletteMicrosoft365Black : PaletteMicrosoft365Base
-    {
-        #region Static Fields
-
-        #region ImageLists
-
-        private static readonly ImageList _checkBoxList;
-        private static readonly ImageList _galleryButtonList;
-
-        #endregion
-
-        #region Image Array
-
-        private static readonly Image[] _radioButtonArray;
-
-        #endregion
-
-        #region Images
-
-        private static readonly Image _blackDropDownButton = Office2010ArrowResources.Office2010BlackDropDownButton;
-        private static readonly Image _contextMenuSubMenu = Office2010ArrowResources.Office2010BlackContextMenuSub;
-        private static readonly Image _formCloseNormal = Office2010ControlBoxResources.Office2010BlackCloseNormal;
-        private static readonly Image _formCloseDisabled = Office2010ControlBoxResources.Office2010BlackCloseDisabled;
-        private static readonly Image _formCloseActive = Office2010ControlBoxResources.Office2010BlackCloseActive;
-        private static readonly Image _formClosePressed = Office2010ControlBoxResources.Office2010BlackClosePressed;
-        private static readonly Image _formMaximiseNormal = Office2010ControlBoxResources.Office2010BackMaximiseNormal;
-        private static readonly Image _formMaximiseDisabled = Office2010ControlBoxResources.Office2010BlackMaximiseDisabled;
-        private static readonly Image _formMaximiseActive = Office2010ControlBoxResources.Office2010BlackMaximiseActive;
-        private static readonly Image _formMaximisePressed = Office2010ControlBoxResources.Office2010BlackMaximisePressed;
-        private static readonly Image _formMinimiseNormal = Office2010ControlBoxResources.Office2010BlackMinimiseNormal;
-        private static readonly Image _formMinimiseActive = Office2010ControlBoxResources.Office2010BlackMinimiseActive;
-        private static readonly Image _formMinimiseDisabled = Office2010ControlBoxResources.Office2010BlackMinimiseDisabled;
-        private static readonly Image _formMinimisePressed = Office2010ControlBoxResources.Office2010BlackMinimisePressed;
-        private static readonly Image _formRestoreNormal = Office2010ControlBoxResources.Office2010BlackRestoreNormal;
-        private static readonly Image _formRestoreDisabled = Office2010ControlBoxResources.Office2010BlackRestoreDisabled;
-        private static readonly Image _formRestoreActive = Office2010ControlBoxResources.Office2010BlackRestoreActive;
-        private static readonly Image _formRestorePressed = Office2010ControlBoxResources.Office2010BlackRestorePressed;
-        private static readonly Image _formHelpNormal = Microsoft365ControlBoxResources.Microsoft365HelpIconNormal;
-        private static readonly Image _formHelpActive = Microsoft365ControlBoxResources.Microsoft365HelpIconHover;
-        private static readonly Image _formHelpPressed = Microsoft365ControlBoxResources.Microsoft365HelpIconPressed;
-        private static readonly Image _formHelpDisabled = Microsoft365ControlBoxResources.Microsoft365HelpIconDisabled;
-        private static readonly Image _buttonSpecPendantClose = Office2010MDIImageResources.Office2010ButtonMDICloseBlack;
-        private static readonly Image _buttonSpecPendantMin = Office2010MDIImageResources.Office2010ButtonMDIMinBlack;
-        private static readonly Image _buttonSpecPendantRestore = Office2010MDIImageResources.Office2010ButtonMDIRestoreBlack;
-        private static readonly Image _buttonSpecRibbonMinimize = RibbonArrowImageResources.RibbonUp2010Black;
-        private static readonly Image _buttonSpecRibbonExpand = RibbonArrowImageResources.RibbonDown2010Black;
-
-        #region Integrated Toolbar Images
-
-        private static readonly Image _integratedToolbarNewNormal = Office2019ToolbarImageResources.Office2019ToolbarNewNormal;
-
-        private static readonly Image _integratedToolbarNewDisabled = Office2019ToolbarImageResources.Office2019ToolbarNewDisabled;
-
-        private static readonly Image _integratedToolbarOpenNormal = Office2019ToolbarImageResources.Office2019ToolbarOpenNormal;
-
-        private static readonly Image _integratedToolbarOpenDisabled = Office2019ToolbarImageResources.Office2019ToolbarOpenDisabled;
-
-        private static readonly Image _integratedToolbarSaveAllNormal = Office2019ToolbarImageResources.Office2019ToolbarSaveAllNormal;
-
-        private static readonly Image _integratedToolbarSaveAllDisabled = Office2019ToolbarImageResources.Office2019ToolbarSaveAllDisabled;
-
-        private static readonly Image _integratedToolbarSaveAsNormal = Office2019ToolbarImageResources.Office2019ToolbarSaveAsNormal;
-
-        private static readonly Image _integratedToolbarSaveAsDisabled = Office2019ToolbarImageResources.Office2019ToolbarSaveAsDisabled;
-
-        private static readonly Image _integratedToolbarSaveNormal = Office2019ToolbarImageResources.Office2019ToolbarSaveNormal;
-
-        private static readonly Image _integratedToolbarSaveDisabled = Office2019ToolbarImageResources.Office2019ToolbarSaveDisabled;
-
-        private static readonly Image _integratedToolbarCutNormal = Office2019ToolbarImageResources.Office2019ToolbarCutNormal;
-
-        private static readonly Image _integratedToolbarCutDisabled = Office2019ToolbarImageResources.Office2019ToolbarCutDisabled;
-
-        private static readonly Image _integratedToolbarCopyNormal = Office2019ToolbarImageResources.Office2019ToolbarCopyNormal;
-
-        private static readonly Image _integratedToolbarCopyDisabled = Office2019ToolbarImageResources.Office2019ToolbarCopyDisabled;
-
-        private static readonly Image _integratedToolbarPasteNormal = Office2019ToolbarImageResources.Office2019ToolbarPasteNormal;
-
-        private static readonly Image _integratedToolbarPasteDisabled = Office2019ToolbarImageResources.Office2019ToolbarPasteDisabled;
-
-        private static readonly Image _integratedToolbarUndoNormal = Office2019ToolbarImageResources.Office2019ToolbarUndoNormal;
-
-        private static readonly Image _integratedToolbarUndoDisabled = Office2019ToolbarImageResources.Office2019ToolbarUndoDisabled;
-
-        private static readonly Image _integratedToolbarRedoNormal = Office2019ToolbarImageResources.Office2019ToolbarRedoNormal;
-
-        private static readonly Image _integratedToolbarRedoDisabled = Office2019ToolbarImageResources.Office2019ToolbarRedoDisabled;
-
-        private static readonly Image _integratedToolbarPageSetupNormal = Office2019ToolbarImageResources.Office2019ToolbarPageSetupNormal;
-
-        private static readonly Image _integratedToolbarPageSetupDisabled = Office2019ToolbarImageResources.Office2019ToolbarPageSetupDisabled;
-
-        private static readonly Image _integratedToolbarPrintPreviewNormal = Office2019ToolbarImageResources.Office2019ToolbarPrintPreviewNormal;
-
-        private static readonly Image _integratedToolbarPrintPreviewDisabled = Office2019ToolbarImageResources.Office2019ToolbarPrintPreviewDisabled;
-
-        private static readonly Image _integratedToolbarPrintNormal = Office2019ToolbarImageResources.Office2019ToolbarPrintNormal;
-
-        private static readonly Image _integratedToolbarPrintDisabled = Office2019ToolbarImageResources.Office2019ToolbarPrintDisabled;
-
-        private static readonly Image _integratedToolbarQuickPrintNormal = Office2019ToolbarImageResources.Office2019ToolbarQuickPrintNormal;
-
-        private static readonly Image _integratedToolbarQuickPrintDisabled = Office2019ToolbarImageResources.Office2019ToolbarQuickPrintDisabled;
-
-        #endregion
-
-
-        #endregion
-
-        #region Colour Arrays
-
-        //private static readonly Color _disabledRibbonText = Color.White; // Color.FromArgb(205, 205, 205);
-        private static readonly Color[] _trackBarColors =
-        {
-            Color.FromArgb(17, 17, 17), // Tick marks
-            Color.FromArgb(37, 37, 37), // Top track
-            Color.FromArgb(174, 174, 174), // Bottom track
-            Color.FromArgb(131, 132, 132), // Fill track
-            Color.FromArgb(64, Color.White), // Outside position
-            Color.FromArgb(35, 35, 35) // Border (normal) position
-        };
-
-
-        private static readonly Color[] _schemeOfficeColors =
-        {
-            Color.FromArgb(76, 83, 92) /*(255, 255, 255)*/, // TextLabelControl
-            Color.Black, // TextButtonNormal
-            Color.Black, // TextButtonChecked
-            Color.FromArgb(106, 106, 106), // ButtonNormalBorder1
-            Color.FromArgb(32, 32, 32), // ButtonNormalDefaultBorder
-            Color.FromArgb(189, 189, 189), // ButtonNormalBack1
-            Color.FromArgb(169, 169, 169), // ButtonNormalBack2
-            Color.FromArgb(225, 225, 225), // ButtonNormalDefaultBack1
-            Color.FromArgb(185, 185, 185), // ButtonNormalDefaultBack2
-            Color.FromArgb(32, 32, 32), // ButtonNormalNavigatorBack1
-            Color.FromArgb(32, 32, 32), // ButtonNormalNavigatorBack2
-            Color.FromArgb(99, 99, 99), // PanelClient
-            Color.FromArgb(61, 61, 61), // PanelAlternative
-            Color.FromArgb(46, 46, 46), // ControlBorder
-            Color.FromArgb(172, 172, 172), // SeparatorHighBorder1
-            Color.FromArgb(111, 111, 111), // SeparatorHighBorder2
-            Color.FromArgb(139, 139, 139), // HeaderPrimaryBack1
-            Color.FromArgb(72, 72, 72), // HeaderPrimaryBack2
-            Color.FromArgb(190, 190, 190), // HeaderSecondaryBack1
-            Color.FromArgb(145, 145, 145), // HeaderSecondaryBack2
-            Color.Black, // HeaderText
-            Color.FromArgb(226, 226, 226), // StatusStripText
-            Color.FromArgb(236, 199, 87), // ButtonBorder
-            Color.FromArgb(89, 89, 89), // SeparatorLight
-            Color.Black, // SeparatorDark
-            Color.FromArgb(89, 89, 89), // GripLight
-            Color.FromArgb(27, 27, 27), // GripDark
-            Color.FromArgb(113, 113, 113), // ToolStripBack
-            Color.FromArgb(75, 75, 75), // StatusStripLight
-            Color.FromArgb(50, 50, 50), // StatusStripDark
-            Color.White, // ImageMargin
-            Color.FromArgb(75, 75, 75), // ToolStripBegin
-            Color.FromArgb(50, 50, 50), // ToolStripMiddle
-            Color.FromArgb(50, 50, 50), // ToolStripEnd
-            Color.FromArgb(44, 44, 44), // OverflowBegin
-            Color.FromArgb(167, 167, 167), // OverflowMiddle
-            Color.FromArgb(44, 44, 44), // OverflowEnd
-            Color.FromArgb(44, 44, 44), // ToolStripBorder
-            Color.FromArgb(99, 99, 99), // FormBorderActive
-            Color.FromArgb(119, 119, 119), // FormBorderInactive
-            Color.FromArgb(113, 113, 113), // FormBorderActiveLight
-            Color.FromArgb(131, 131, 131), // FormBorderActiveDark
-            Color.FromArgb(158, 158, 158), // FormBorderInactiveLight
-            Color.FromArgb(158, 158, 158), // FormBorderInactiveDark
-            Color.FromArgb(65, 65, 65), // FormBorderHeaderActive
-            Color.FromArgb(154, 154, 154), // FormBorderHeaderInactive
-            Color.FromArgb(121, 121, 121), // FormBorderHeaderActive1
-            Color.FromArgb(113, 113, 113), // FormBorderHeaderActive2
-            Color.FromArgb(158, 158, 158), // FormBorderHeaderInctive1
-            Color.FromArgb(158, 158, 158), // FormBorderHeaderInctive2
-            Color.FromArgb(226, 226, 226), // FormHeaderShortActive
-            Color.FromArgb(212, 212, 212), // FormHeaderShortInactive
-            Color.FromArgb(226, 226, 226), // FormHeaderLongActive
-            Color.FromArgb(212, 212, 212), // FormHeaderLongInactive
-            Color.FromArgb(81, 81, 81), // FormButtonBorderTrack
-            Color.FromArgb(151, 151, 151), // FormButtonBack1Track
-            Color.FromArgb(116, 116, 116), // FormButtonBack2Track
-            Color.FromArgb(81, 81, 81), // FormButtonBorderPressed
-            Color.FromArgb(113, 113, 113), // FormButtonBack1Pressed
-            Color.FromArgb(93, 93, 93), // FormButtonBack2Pressed
-            Color.FromArgb(70, 70, 70), // TextButtonFormNormal
-            Color.FromArgb(255, 255, 255), // TextButtonFormTracking
-            Color.FromArgb(255, 255, 255), // TextButtonFormPressed
-            Color.Blue, // LinkNotVisitedOverrideControl
-            Color.Purple, // LinkVisitedOverrideControl
-            Color.Red, // LinkPressedOverrideControl
-            Color.FromArgb(180, 210, 255), // LinkNotVisitedOverridePanel
-            Color.Violet, // LinkVisitedOverridePanel
-            Color.FromArgb(255, 90, 90), // LinkPressedOverridePanel
-            Color.White, // TextLabelPanel
-            //Color.FromArgb(226, 226, 226),    // RibbonTabTextNormal
-            Color.White, // RibbonTabTextNormal
-            Color.Black, // RibbonTabTextChecked
-            Color.FromArgb(32, 32, 32), // RibbonTabSelected1
-            Color.FromArgb(201, 201, 201), // RibbonTabSelected2
-            Color.FromArgb(192, 192, 192), // RibbonTabSelected3
-            Color.FromArgb(192, 192, 192), // RibbonTabSelected4
-            Color.FromArgb(192, 192, 192), // RibbonTabSelected5
-            Color.FromArgb(32, 32, 32), // RibbonTabTracking1
-            Color.FromArgb(183, 183, 183), // RibbonTabTracking2
-            Color.FromArgb(32, 32, 32), // RibbonTabHighlight1
-            Color.FromArgb(201, 201, 201), // RibbonTabHighlight2
-            Color.FromArgb(192, 192, 192), // RibbonTabHighlight3
-            Color.FromArgb(192, 192, 192), // RibbonTabHighlight4
-            Color.FromArgb(192, 192, 192), // RibbonTabHighlight5
-            Color.FromArgb(54, 54, 54), // RibbonTabSeparatorColor
-            Color.FromArgb(32, 32, 32), // RibbonGroupsArea1
-            Color.FromArgb(50, 50, 50), // RibbonGroupsArea2
-            Color.FromArgb(32, 32, 32), // RibbonGroupsArea3
-            Color.FromArgb(33, 33, 33), // RibbonGroupsArea4
-            Color.FromArgb(33, 33, 33), // RibbonGroupsArea5
-            Color.FromArgb(159, 159, 159), // RibbonGroupBorder1
-            Color.FromArgb(194, 194, 194), // RibbonGroupBorder2
-            Color.Empty, // RibbonGroupTitle1
-            Color.Empty, // RibbonGroupTitle2
-            Color.Empty, // RibbonGroupBorderContext1
-            Color.Empty, // RibbonGroupBorderContext2
-            Color.Empty, // RibbonGroupTitleContext1
-            Color.Empty, // RibbonGroupTitleContext2
-            Color.FromArgb(92, 92, 94), // RibbonGroupDialogDark
-            Color.FromArgb(123, 125, 125), // RibbonGroupDialogLight
-            Color.Empty, // RibbonGroupTitleTracking1
-            Color.Empty, // RibbonGroupTitleTracking2
-            Color.FromArgb(78, 78, 78), // RibbonMinimizeBarDark
-            Color.FromArgb(110, 110, 110), // RibbonMinimizeBarLight
-            Color.Empty, // RibbonGroupCollapsedBorder1
-            Color.Empty, // RibbonGroupCollapsedBorder2
-            Color.Empty, // RibbonGroupCollapsedBorder3
-            Color.Empty, // RibbonGroupCollapsedBorder4
-            Color.Empty, // RibbonGroupCollapsedBack1
-            Color.Empty, // RibbonGroupCollapsedBack2
-            Color.Empty, // RibbonGroupCollapsedBack3
-            Color.Empty, // RibbonGroupCollapsedBack4
-            Color.Empty, // RibbonGroupCollapsedBorderT1
-            Color.Empty, // RibbonGroupCollapsedBorderT2
-            Color.Empty, // RibbonGroupCollapsedBorderT3
-            Color.Empty, // RibbonGroupCollapsedBorderT4
-            Color.Empty, // RibbonGroupCollapsedBackT1
-            Color.Empty, // RibbonGroupCollapsedBackT2
-            Color.Empty, // RibbonGroupCollapsedBackT3
-            Color.Empty, // RibbonGroupCollapsedBackT4
-            Color.FromArgb(147, 147, 147), // RibbonGroupFrameBorder1
-            Color.FromArgb(139, 139, 139), // RibbonGroupFrameBorder2
-            Color.FromArgb(187, 187, 188), // RibbonGroupFrameInside1
-            Color.FromArgb(167, 167, 168), // RibbonGroupFrameInside2
-            Color.Empty, // RibbonGroupFrameInside3
-            Color.Empty, // RibbonGroupFrameInside4
-            Color.FromArgb(255, 255, 255), // RibbonGroupCollapsedText         
-            Color.FromArgb(158, 163, 172), // AlternatePressedBack1
-            Color.FromArgb(212, 215, 216), // AlternatePressedBack2
-            Color.FromArgb(124, 125, 125), // AlternatePressedBorder1
-            Color.FromArgb(186, 186, 186), // AlternatePressedBorder2
-            Color.FromArgb(43, 55, 67), // FormButtonBack1Checked
-            Color.FromArgb(106, 122, 140), // FormButtonBack2Checked
-            Color.FromArgb(18, 18, 18), // FormButtonBorderCheck
-            Color.FromArgb(33, 45, 57), // FormButtonBack1CheckTrack
-            Color.FromArgb(136, 152, 170), // FormButtonBack2CheckTrack
-            Color.FromArgb(55, 55, 55), // RibbonQATMini1
-            Color.FromArgb(100, 100, 100), // RibbonQATMini2
-            Color.FromArgb(73, 73, 73), // RibbonQATMini3
-            Color.FromArgb(12, Color.White), // RibbonQATMini4
-            Color.FromArgb(14, Color.White), // RibbonQATMini5
-            Color.FromArgb(100, 100, 100), // RibbonQATMini1I
-            Color.FromArgb(170, 170, 170), // RibbonQATMini2I
-            Color.FromArgb(140, 140, 140), // RibbonQATMini3I
-            Color.FromArgb(12, Color.White), // RibbonQATMini4I
-            Color.FromArgb(14, Color.White), // RibbonQATMini5I
-            Color.FromArgb(132, 132, 132), // RibbonQATFullbar1                                                      
-            Color.FromArgb(121, 121, 121), // RibbonQATFullbar2                                                      
-            Color.FromArgb(50, 49, 49), // RibbonQATFullbar3                                                      
-            Color.FromArgb(90, 90, 90), // RibbonQATButtonDark                                                      
-            Color.FromArgb(174, 174, 175), // RibbonQATButtonLight                                                      
-            Color.FromArgb(161, 161, 161), // RibbonQATOverflow1                                                      
-            Color.FromArgb(68, 68, 68), // RibbonQATOverflow2                                                      
-            Color.FromArgb(82, 82,
-                82), // RibbonGroupSeparatorDark                                                      
-            Color.FromArgb(190, 190,
-                190), // RibbonGroupSeparatorLight                                                      
-            Color.FromArgb(210, 217,
-                219), // ButtonClusterButtonBack1                                                      
-            Color.FromArgb(214, 222,
-                223), // ButtonClusterButtonBack2                                                      
-            Color.FromArgb(179, 188,
-                191), // ButtonClusterButtonBorder1                                                      
-            Color.FromArgb(145, 156,
-                159), // ButtonClusterButtonBorder2                                                      
-            Color.FromArgb(235, 235, 235), // NavigatorMiniBackColor                                                    
-            Color.FromArgb(205, 205, 205), // GridListNormal1                                                    
-            Color.FromArgb(166, 166, 166), // GridListNormal2                                                    
-            Color.FromArgb(166, 166, 166), // GridListPressed1                                                    
-            Color.FromArgb(205, 205, 205), // GridListPressed2                                                    
-            Color.FromArgb(150, 150, 150), // GridListSelected                                                    
-            Color.FromArgb(220, 220, 220), // GridSheetColNormal1                                                    
-            Color.FromArgb(200, 200, 200), // GridSheetColNormal2                                                    
-            Color.FromArgb(255, 223, 107), // GridSheetColPressed1                                                    
-            Color.FromArgb(255, 252, 230), // GridSheetColPressed2                                                    
-            Color.FromArgb(255, 211, 89), // GridSheetColSelected1
-            Color.FromArgb(255, 239, 113), // GridSheetColSelected2
-            Color.FromArgb(205, 205, 205), // GridSheetRowNormal                                                   
-            Color.FromArgb(255, 223, 107), // GridSheetRowPressed
-            Color.FromArgb(245, 210, 87), // GridSheetRowSelected
-            Color.FromArgb(218, 220, 221), // GridDataCellBorder
-            Color.FromArgb(183, 219, 255), // GridDataCellSelected
-            Color.Black, // InputControlTextNormal
-            Color.White, // InputControlTextDisabled
-            Color.FromArgb(132, 132, 132), // InputControlBorderNormal
-            Color.FromArgb(187, 187, 187), // InputControlBorderDisabled
-            Color.FromArgb(255, 255, 255), // InputControlBackNormal
-            Color.FromArgb(240, 240, 240), // InputControlBackDisabled
-            Color.FromArgb(192, 192, 192), // InputControlBackInactive
-            Color.Black, // InputDropDownNormal1
-            Color.Transparent, // InputDropDownNormal2
-            Color.FromArgb(172, 168, 153), // InputDropDownDisabled1
-            Color.Transparent, // InputDropDownDisabled2
-            Color.FromArgb(240, 242, 245), // ContextMenuHeadingBack
-            Color.Black, // ContextMenuHeadingText
-            Color.White, // ContextMenuImageColumn
-            Color.FromArgb(70, 70, 70), // AppButtonBack1
-            Color.FromArgb(70, 70, 70), // AppButtonBack2
-            Color.FromArgb(50, 50, 50), // AppButtonBorder
-            Color.FromArgb(70, 70, 70), // AppButtonOuter1
-            Color.FromArgb(70, 70, 70), // AppButtonOuter2
-            Color.FromArgb(70, 70, 70), // AppButtonOuter3
-            Color.Empty, // AppButtonInner1
-            Color.FromArgb(50, 50, 50), // AppButtonInner2
-            Color.White, // AppButtonMenuDocs
-            Color.Black, // AppButtonMenuDocsText
-            Color.FromArgb(172, 172, 172), // SeparatorHighInternalBorder1
-            Color.FromArgb(111, 111, 111), // SeparatorHighInternalBorder2
-            Color.FromArgb(132, 132, 132), // RibbonGalleryBorder
-            Color.FromArgb(187, 187, 187), // RibbonGalleryBackNormal
-            Color.FromArgb(193, 193, 193), // RibbonGalleryBackTracking
-            Color.FromArgb(176, 176, 176), // RibbonGalleryBack1
-            Color.FromArgb(150, 150, 150), // RibbonGalleryBack2
-            Color.FromArgb(148, 149, 151), // RibbonTabTracking3
-            Color.FromArgb(127, 127, 127), // RibbonTabTracking4
-            Color.FromArgb(82, 82, 82), // RibbonGroupBorder3
-            Color.FromArgb(176, 176, 176), // RibbonGroupBorder4
-            Color.FromArgb(178, 178, 178), // RibbonGroupBorder5
-            Color.FromArgb(36, 36, 36), // RibbonGroupTitleText
-            Color.FromArgb(155, 157, 160), // RibbonDropArrowLight
-            Color.FromArgb(27, 29, 40), // RibbonDropArrowDark
-            Color.FromArgb(137, 137, 137), // HeaderDockInactiveBack1
-            Color.FromArgb(125, 125, 125), // HeaderDockInactiveBack2
-            Color.FromArgb(46, 46, 46), // ButtonNavigatorBorder
-            Color.White, // ButtonNavigatorText
-            Color.FromArgb(76, 76, 76), // ButtonNavigatorTrack1
-            Color.FromArgb(147, 147, 143), // ButtonNavigatorTrack2
-            Color.FromArgb(66, 66, 66), // ButtonNavigatorPressed1
-            Color.FromArgb(148, 148, 143), // ButtonNavigatorPressed2
-            Color.FromArgb(91, 91, 91), // ButtonNavigatorChecked1
-            Color.FromArgb(73, 73, 73), // ButtonNavigatorChecked2
-            Color.FromArgb(201, 201,
-                201) // ToolTipBottom                                                                      
-        };
-
-        #endregion
-
-        #endregion
-
-        #region Constructors
-        static PaletteMicrosoft365Black()
-        {
-            _checkBoxList = new ImageList
-            {
-                ImageSize = new Size(13, 13),
-                ColorDepth = ColorDepth.Depth24Bit
-            };
-
-            _checkBoxList.Images.AddStrip(CheckBoxStripResources.CheckBoxStrip2010Black);
-
-            _galleryButtonList = new ImageList
-            {
-                ImageSize = new Size(13, 7),
-                ColorDepth = ColorDepth.Depth24Bit,
-                TransparentColor = Color.Magenta
-            };
-
-            _galleryButtonList.Images.AddStrip(GalleryImageResources.Gallery2010);
-
-            _radioButtonArray = new Image[]
-            {
-                Office2010RadioButtonImageResources.RadioButton2010BlueD,
-                Office2010RadioButtonImageResources.RadioButton2010SilverN,
-                Office2010RadioButtonImageResources.RadioButton2010BlueT,
-                Office2010RadioButtonImageResources.RadioButton2010BlueP,
-                Office2010RadioButtonImageResources.RadioButton2010BlueDC,
-                Office2010RadioButtonImageResources.RadioButton2010SilverNC,
-                Office2010RadioButtonImageResources.RadioButton2010SilverTC,
-                Office2010RadioButtonImageResources.RadioButton2010SilverPC
-            };
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="PaletteMicrosoft365Black"/> class.
-        /// </summary>
-        public PaletteMicrosoft365Black() : base(_schemeOfficeColors, _checkBoxList, _galleryButtonList, _radioButtonArray, _trackBarColors)
-        {
-
-        }
-        #endregion
-
-        #region Images        
-        /// <summary>
-        /// Gets a drop down button image appropriate for the provided state.
-        /// </summary>
-        /// <param name="state">PaletteState for which image is required.</param>
-        /// <returns></returns>
-        public override Image? GetDropDownButtonImage(PaletteState state) => state != PaletteState.Disabled ? _blackDropDownButton : base.GetDropDownButtonImage(state);
-
-        /// <summary>
-        /// Gets an image indicating a sub-menu on a context menu item.
-        /// </summary>
-        /// <returns>
-        /// Appropriate image for drawing; otherwise null.
-        /// </returns>
-        public override Image? GetContextMenuSubMenuImage() => _contextMenuSubMenu;
-
-        #endregion
-
-        #region ButtonSpec        
-        /// <summary>
-        /// Gets the image to display for the button.
-        /// </summary>
-        /// <param name="style">Style of button spec.</param>
-        /// <param name="state">State for which image is required.</param>
-        /// <returns>
-        /// Image value.
-        /// </returns>
-        public override Image? GetButtonSpecImage(PaletteButtonSpecStyle style, PaletteState state) => style switch
-        {
-            PaletteButtonSpecStyle.PendantClose => _buttonSpecPendantClose,
-            PaletteButtonSpecStyle.PendantMin => _buttonSpecPendantMin,
-            PaletteButtonSpecStyle.PendantRestore => _buttonSpecPendantRestore,
-            PaletteButtonSpecStyle.FormClose => state switch
-            {
-                PaletteState.Tracking => _formCloseActive,
-                PaletteState.Normal => _formCloseNormal,
-                PaletteState.Pressed => _formClosePressed,
-                _ => _formCloseDisabled
-            },
-            PaletteButtonSpecStyle.FormMin => state switch
-            {
-                PaletteState.Normal => _formMinimiseNormal,
-                PaletteState.Tracking => _formMinimiseActive,
-                PaletteState.Pressed => _formMinimisePressed,
-                _ => _formMinimiseDisabled
-            },
-            PaletteButtonSpecStyle.FormMax => state switch
-            {
-                PaletteState.Normal => _formMaximiseNormal,
-                PaletteState.Tracking => _formMaximiseActive,
-                PaletteState.Pressed => _formMaximisePressed,
-                _ => _formMaximiseDisabled
-            },
-            PaletteButtonSpecStyle.FormRestore => state switch
-            {
-                PaletteState.Normal => _formRestoreNormal,
-                PaletteState.Tracking => _formRestoreActive,
-                PaletteState.Pressed => _formRestorePressed,
-                _ => _formRestoreDisabled
-            },
-            PaletteButtonSpecStyle.FormHelp => state switch
-            {
-                PaletteState.Tracking => _formHelpActive,
-                PaletteState.Pressed => _formHelpPressed,
-                PaletteState.Normal => _formHelpNormal,
-                _ => _formHelpDisabled
-            },
-            PaletteButtonSpecStyle.RibbonMinimize => _buttonSpecRibbonMinimize,
-            PaletteButtonSpecStyle.RibbonExpand => _buttonSpecRibbonExpand,
-            PaletteButtonSpecStyle.New => state switch
-            {
-                PaletteState.Normal => _integratedToolbarNewNormal,
-                PaletteState.Disabled => _integratedToolbarNewDisabled,
-                _ => _integratedToolbarNewDisabled
-            },
-            PaletteButtonSpecStyle.Open => state switch
-            {
-                PaletteState.Normal => _integratedToolbarOpenNormal,
-                PaletteState.Disabled => _integratedToolbarOpenDisabled,
-                _ => _integratedToolbarOpenDisabled
-            },
-            PaletteButtonSpecStyle.SaveAll => state switch
-            {
-                PaletteState.Normal => _integratedToolbarSaveAllNormal,
-                PaletteState.Disabled => _integratedToolbarSaveAllDisabled,
-                _ => _integratedToolbarSaveAllDisabled
-            },
-            PaletteButtonSpecStyle.SaveAs => state switch
-            {
-                PaletteState.Normal => _integratedToolbarSaveAsNormal,
-                PaletteState.Disabled => _integratedToolbarSaveAsDisabled,
-                _ => _integratedToolbarSaveAsDisabled
-            },
-            PaletteButtonSpecStyle.Save => state switch
-            {
-                PaletteState.Normal => _integratedToolbarSaveNormal,
-                PaletteState.Disabled => _integratedToolbarSaveDisabled,
-                _ => _integratedToolbarSaveDisabled
-            },
-            PaletteButtonSpecStyle.Cut => state switch
-            {
-                PaletteState.Normal => _integratedToolbarCutNormal,
-                PaletteState.Disabled => _integratedToolbarCutDisabled,
-                _ => _integratedToolbarCutDisabled
-            },
-            PaletteButtonSpecStyle.Copy => state switch
-            {
-                PaletteState.Normal => _integratedToolbarCopyNormal,
-                PaletteState.Disabled => _integratedToolbarCopyDisabled,
-                _ => _integratedToolbarCopyDisabled
-            },
-            PaletteButtonSpecStyle.Paste => state switch
-            {
-                PaletteState.Normal => _integratedToolbarPasteNormal,
-                PaletteState.Disabled => _integratedToolbarPasteDisabled,
-                _ => _integratedToolbarPasteDisabled
-            },
-            PaletteButtonSpecStyle.Undo => state switch
-            {
-                PaletteState.Normal => _integratedToolbarUndoNormal,
-                PaletteState.Disabled => _integratedToolbarUndoDisabled,
-                _ => _integratedToolbarUndoDisabled
-            },
-            PaletteButtonSpecStyle.Redo => state switch
-            {
-                PaletteState.Normal => _integratedToolbarRedoNormal,
-                PaletteState.Disabled => _integratedToolbarRedoDisabled,
-                _ => _integratedToolbarRedoDisabled
-            },
-            PaletteButtonSpecStyle.PageSetup => state switch
-            {
-                PaletteState.Normal => _integratedToolbarPageSetupNormal,
-                PaletteState.Disabled => _integratedToolbarPageSetupDisabled,
-                _ => _integratedToolbarPageSetupDisabled
-            },
-            PaletteButtonSpecStyle.PrintPreview => state switch
-            {
-                PaletteState.Normal => _integratedToolbarPrintPreviewNormal,
-                PaletteState.Disabled => _integratedToolbarPrintPreviewDisabled,
-                _ => _integratedToolbarPrintPreviewDisabled
-            },
-            PaletteButtonSpecStyle.Print => state switch
-            {
-                PaletteState.Normal => _integratedToolbarPrintNormal,
-                PaletteState.Disabled => _integratedToolbarPrintDisabled,
-                _ => _integratedToolbarPrintDisabled
-            },
-            PaletteButtonSpecStyle.QuickPrint => state switch
-            {
-                PaletteState.Normal => _integratedToolbarQuickPrintNormal,
-                PaletteState.Disabled => _integratedToolbarQuickPrintDisabled,
-                _ => _integratedToolbarQuickPrintDisabled
-            },
-            _ => base.GetButtonSpecImage(style, state)
-        };
-        #endregion
-    }
-
-    #region Class: PaletteMicrosoft365BlackThemeBase
-
-    /// <summary>
-    /// Provides a base for Office 365 palettes.
-    /// </summary>
+    /// <summary>Provides a base for Visual Studio palettes.</summary>
     /// <seealso cref="PaletteBase" />
-    public abstract class PaletteMicrosoft365BlackThemeBase : PaletteBase
+    public abstract class PaletteVisualStudio2010With365Base : PaletteBase
     {
         #region Static Fields
+
+        #region Padding
+
         private static readonly Padding _contentPaddingGrid = new Padding(2, 1, 2, 1);
         private static readonly Padding _contentPaddingHeader1 = new Padding(2, 1, 2, 1);
         private static readonly Padding _contentPaddingHeader2 = new Padding(2, 1, 2, 1);
@@ -623,8 +52,13 @@ namespace Krypton.Toolkit
         private static readonly Padding _metricPaddingBarTabs = new Padding(0);
         private static readonly Padding _metricPaddingBarOutside = new Padding(0, 0, 0, 3);
         private static readonly Padding _metricPaddingPageButtons = new Padding(1, 3, 1, 3);
-        private static readonly Image? _treeExpandWhite = TreeItemImageResources.TreeExpandWhite;
-        private static readonly Image? _treeCollapseBlack = TreeItemImageResources.TreeCollapseBlack;
+
+        #endregion
+
+        #region Images
+
+        private static readonly Image _treeExpandWhite = TreeItemImageResources.TreeExpandWhite;
+        private static readonly Image _treeCollapseBlack = TreeItemImageResources.TreeCollapseBlack;
 
         private static readonly Image _disabledDropDown = DropDownArrowImageResources.DisabledDropDownButton;
         private static readonly Image _buttonSpecClose = ProfessionalButtonSpecResources.ProfessionalCloseButton;
@@ -648,8 +82,43 @@ namespace Krypton.Toolkit
         private static readonly Image _contextMenuChecked = GenericOffice2007ImageResources.Office2007Checked;
         private static readonly Image _contextMenuIndeterminate = GenericOffice2007ImageResources.Office2007Indeterminate;
 
+        #region Integrated Toolbar Images
+
+        private static readonly Image _integratedToolbarNewNormal = Office2019ToolbarImageResources.Office2019ToolbarNewNormal;
+
+        private static readonly Image _integratedToolbarOpenNormal = Office2019ToolbarImageResources.Office2019ToolbarOpenNormal;
+
+        private static readonly Image _integratedToolbarSaveAllNormal = Office2019ToolbarImageResources.Office2019ToolbarSaveAllNormal;
+
+        private static readonly Image _integratedToolbarSaveAsNormal = Office2019ToolbarImageResources.Office2019ToolbarSaveAsNormal;
+
+        private static readonly Image _integratedToolbarSaveNormal = Office2019ToolbarImageResources.Office2019ToolbarSaveNormal;
+
+        private static readonly Image _integratedToolbarCutNormal = Office2019ToolbarImageResources.Office2019ToolbarCutNormal;
+
+        private static readonly Image _integratedToolbarCopyNormal = Office2019ToolbarImageResources.Office2019ToolbarCopyNormal;
+
+        private static readonly Image _integratedToolbarPasteNormal = Office2019ToolbarImageResources.Office2019ToolbarPasteNormal;
+
+        private static readonly Image _integratedToolbarUndoNormal = Office2019ToolbarImageResources.Office2019ToolbarUndoNormal;
+
+        private static readonly Image _integratedToolbarRedoNormal = Office2019ToolbarImageResources.Office2019ToolbarRedoNormal;
+
+        private static readonly Image _integratedToolbarPageSetupNormal = Office2019ToolbarImageResources.Office2019ToolbarPageSetupNormal;
+
+        private static readonly Image _integratedToolbarPrintPreviewNormal = Office2019ToolbarImageResources.Office2019ToolbarPrintPreviewNormal;
+
+        private static readonly Image _integratedToolbarPrintNormal = Office2019ToolbarImageResources.Office2019ToolbarPrintNormal;
+
+        private static readonly Image _integratedToolbarQuickPrintNormal = Office2019ToolbarImageResources.Office2019ToolbarQuickPrintNormal;
+
+        #endregion
+
+        #endregion
+
+        #region Colors
+
         private static readonly Color _gridTextColor = Color.Black;
-        private static readonly Color _disabledText3 = Color.GhostWhite; // For Black themes
         private static readonly Color _disabledText2 = Color.FromArgb(128, 128, 128);
         private static readonly Color _disabledText = Color.FromArgb(167, 167, 167);
         private static readonly Color _disabledBack = Color.FromArgb(235, 235, 235);
@@ -667,7 +136,7 @@ namespace Krypton.Toolkit
         private static readonly Color _toolTipBack2 = Color.FromArgb(201, 217, 239);
         private static readonly Color _toolTipBorder = Color.FromArgb(118, 118, 118);
         private static readonly Color _toolTipText = Color.FromArgb(76, 76, 76);
-        private static readonly Color _contextMenuBack = Color.White;
+        private static readonly Color _contextMenuBack = Color.FromArgb(188, 199, 216);
         private static readonly Color _contextMenuBorder = Color.FromArgb(134, 134, 134);
         private static readonly Color _contextMenuHeadingBorder = Color.FromArgb(197, 197, 197);
         private static readonly Color _contextMenuImageBackChecked = Color.FromArgb(252, 241, 194);
@@ -683,72 +152,71 @@ namespace Krypton.Toolkit
         private static readonly Color _formCloseChecked2 = Color.FromArgb(255, 132, 130);
         private static readonly Color _formCloseCheckedTracking1 = Color.FromArgb(255, 132, 130);
         private static readonly Color _formCloseCheckedTracking2 = Color.FromArgb(255, 132, 130);
-        private static readonly Color[] _appButtonNormal = { Color.FromArgb(243, 245, 248),
-                                                             Color.FromArgb(214, 220, 231),
-                                                             Color.FromArgb(188, 198, 211),
-                                                             Color.FromArgb(254, 254, 255),
-                                                             Color.FromArgb(206, 213, 225)
-                                                            };
 
-        private static readonly Color[] _appButtonTrack = { Color.FromArgb(255, 251, 230),
-                                                            Color.FromArgb(248, 230, 143),
-                                                            Color.FromArgb(238, 213, 126),
-                                                            Color.FromArgb(254, 247, 129),
-                                                            Color.FromArgb(240, 201, 41)
-                                                          };
-
-        private static readonly Color[] _appButtonPressed = { Color.FromArgb(235, 227, 196),
-                                                              Color.FromArgb(228, 198, 149),
-                                                              Color.FromArgb(166, 97, 7),
-                                                              Color.FromArgb(242, 155, 57),
-                                                              Color.FromArgb(236, 136, 9)
-                                                            };
-
-        private static readonly Color[] _buttonBorderColors = { Color.FromArgb(180, 180, 180), // Button, Disabled, Border
-                                                                Color.FromArgb(237, 201, 88),  // Button, Tracking, Border 1
-                                                                Color.FromArgb(243, 213, 73),  // Button, Tracking, Border 2
-                                                                Color.FromArgb(194, 118, 43),  // Button, Pressed, Border 1
-                                                                Color.FromArgb(194, 158, 71),  // Button, Pressed, Border 2
-                                                                Color.FromArgb(194, 138, 48),  // Button, Checked, Border 1
-                                                                           Color.FromArgb(194, 164, 77)   // Button, Checked, Border 2
-                                                                         };
-        private static readonly Color[] _buttonBackColors = { Color.FromArgb(250, 250, 250), // Button, Disabled, Back 1
-                                                                         Color.FromArgb(250, 250, 250), // Button, Disabled, Back 2
-                                                                         Color.FromArgb(248, 225, 135), // Button, Tracking, Back 1
-                                                                         Color.FromArgb(251, 248, 224), // Button, Tracking, Back 2
-                                                                         Color.FromArgb(255, 228, 138), // Button, Pressed, Back 1
-                                                                         Color.FromArgb(194, 118, 43),  // Button, Pressed, Back 2
-                                                                         Color.FromArgb(255, 216, 108), // Button, Checked, Back 1
-                                                                         Color.FromArgb(255, 244, 128), // Button, Checked, Back 2
-                                                                         Color.FromArgb(255, 225, 104), // Button, Checked Tracking, Back 1
-                                                                         Color.FromArgb(255, 249, 196)  // Button, Checked Tracking, Back 2
-                                                                       };
-        /*private static readonly Color[] _appButtonNormal = new Color[] { Color.FromArgb(243, 245, 248), Color.FromArgb(214, 220, 231), Color.FromArgb(188, 198, 211), Color.FromArgb(254, 254, 255), Color.FromArgb(206, 213, 225) };
-        private static readonly Color[] _appButtonTrack = new Color[] { Color.FromArgb(255, 251, 230), Color.FromArgb(248, 230, 143), Color.FromArgb(238, 213, 126), Color.FromArgb(254, 247, 129), Color.FromArgb(240, 201, 41) };
-        private static readonly Color[] _appButtonPressed = new Color[] { Color.FromArgb(235, 227, 196), Color.FromArgb(228, 198, 149), Color.FromArgb(166, 97, 7), Color.FromArgb(242, 155, 57), Color.FromArgb(236, 136, 9) };
-        private static readonly Color[] _buttonBorderColors = new Color[]{ Color.FromArgb(180, 180, 180), // Button, Disabled, Border
-                                                                           Color.FromArgb(205, 230, 247),  // Button, Tracking, Border 1
-                                                                           Color.FromArgb(205, 230, 247),  // Button, Tracking, Border 2
-                                                                           Color.FromArgb(146, 192, 244),  // Button, Pressed, Border 1
-                                                                           Color.FromArgb(146, 192, 244),  // Button, Pressed, Border 2
-                                                                           Color.FromArgb(146, 192, 244),  // Button, Checked, Border 1
-                                                                           Color.FromArgb(146, 192, 244)   // Button, Checked, Border 2
-                                                                         };
-        private static readonly Color[] _buttonBackColors = new Color[]{ Color.FromArgb(250, 250, 250), // Button, Disabled, Back 1
-                                                                         Color.FromArgb(250, 250, 250), // Button, Disabled, Back 2
-                                                                          Color.FromArgb(205, 230, 247), // Button, Tracking, Back 1
-                                                                         Color.FromArgb(205, 230, 247), // Button, Tracking, Back 2
-                                                                         Color.FromArgb(146, 192, 244), // Button, Pressed, Back 1
-                                                                         Color.FromArgb(146, 192, 244), // Button, Pressed, Back 2
-                                                                         Color.FromArgb(146, 192, 244), // Button, Checked, Back 1
-                                                                         Color.FromArgb(146, 192, 244), // Button, Checked, Back 2
-                                                                         Color.FromArgb(255, 225, 104), // Button, Checked Tracking, Back 1
-                                                                         Color.FromArgb(255, 249, 196)  // Button, Checked Tracking, Back 2
-                                                                       };*/
         #endregion
 
-        #region Variables
-        private KryptonColorTable365 _table;
+        #region Color Arrays
+
+        private static readonly Color[] _appButtonNormal =
+        {
+            Color.FromArgb(243, 245, 248),
+            Color.FromArgb(214, 220, 231),
+            Color.FromArgb(188, 198, 211),
+            Color.FromArgb(254, 254, 255),
+            Color.FromArgb(206, 213, 225)
+        };
+
+        private static readonly Color[] _appButtonTrack =
+        {
+            Color.FromArgb(255, 251, 230),
+            Color.FromArgb(248, 230, 143),
+            Color.FromArgb(238, 213, 126),
+            Color.FromArgb(254, 247, 129),
+            Color.FromArgb(240, 201, 41)
+        };
+
+        private static readonly Color[] _appButtonPressed =
+        {
+            Color.FromArgb(235, 227, 196),
+            Color.FromArgb(228, 198, 149),
+            Color.FromArgb(166, 97, 7),
+            Color.FromArgb(242, 155, 57),
+            Color.FromArgb(236, 136, 9)
+        };
+
+
+        private static readonly Color[] _buttonBorderColors =
+        {
+            Color.FromArgb(180, 180, 180), // Button, Disabled, Border
+            Color.FromArgb(237, 201, 88), // Button, Tracking, Border 1
+            Color.FromArgb(243, 213, 73), // Button, Tracking, Border 2
+            Color.FromArgb(194, 118, 43), // Button, Pressed, Border 1
+            Color.FromArgb(194, 158, 71), // Button, Pressed, Border 2
+            Color.FromArgb(194, 138, 48), // Button, Checked, Border 1
+            Color.FromArgb(194, 164, 77) // Button, Checked, Border 2
+        };
+
+        private static readonly Color[] _buttonBackColors =
+        {
+            Color.FromArgb(250, 250, 250), // Button, Disabled, Back 1
+            Color.FromArgb(250, 250, 250), // Button, Disabled, Back 2
+            Color.FromArgb(248, 225, 135), // Button, Tracking, Back 1
+            Color.FromArgb(251, 248, 224), // Button, Tracking, Back 2
+            Color.FromArgb(255, 228, 138), // Button, Pressed, Back 1
+            Color.FromArgb(194, 118, 43), // Button, Pressed, Back 2
+            Color.FromArgb(255, 216, 108), // Button, Checked, Back 1
+            Color.FromArgb(255, 244, 128), // Button, Checked, Back 2
+            Color.FromArgb(255, 225, 104), // Button, Checked Tracking, Back 1
+            Color.FromArgb(255, 249, 196) // Button, Checked Tracking, Back 2
+        };
+
+        #endregion
+
+        #endregion
+
+        #region Instance Fields
+
+        private KryptonVisualStudio2010WithMicrosoft365ColorTable _table;
 
         private readonly Color[] _ribbonColours;
 
@@ -756,37 +224,19 @@ namespace Krypton.Toolkit
         private readonly ImageList _checkBoxList;
         private readonly ImageList _galleryButtonList;
         private readonly Image[] _radioButtonArray;
-        private Font _header1ShortFont;
-        private Font _header2ShortFont;
-        private Font _header1LongFont;
-        private Font _header2LongFont;
-        private Font _superToolFont;
-        private Font _headerFormFont;
-        private Font _buttonFont;
-        private Font _buttonFontNavigatorStack;
-        private Font _buttonFontNavigatorMini;
-        private Font _tabFontNormal;
-        private Font _tabFontSelected;
-        private Font _ribbonTabFont;
-        private Font _ribbonTabContextFont;
-        private Font _gridFont;
-        private Font _calendarFont;
-        private Font _calendarBoldFont;
-        private Font _boldFont;
-        private Font _italicFont;
         private string _baseFontName;
+
         #endregion
 
-        #region Constructor        
-        /// <summary>
-        /// Initializes a new instance of the <see cref="PaletteMicrosoft365BlackThemeBase"/> class.
-        /// </summary>
+        #region Identity
+
+        /// <summary>Initializes a new instance of the <see cref="PaletteVisualStudio2010With365Base" /> class.</summary>
         /// <param name="schemeColours">The scheme colours.</param>
         /// <param name="checkBoxList">The check box list.</param>
         /// <param name="galleryButtonList">The gallery button list.</param>
         /// <param name="radioButtonArray">The radio button array.</param>
         /// <param name="trackBarColours">The track bar colours.</param>
-        protected PaletteMicrosoft365BlackThemeBase([DisallowNull] Color[] schemeColours,
+        public PaletteVisualStudio2010With365Base([DisallowNull] Color[] schemeColours,
             [DisallowNull] ImageList checkBoxList,
             [DisallowNull] ImageList galleryButtonList,
             [DisallowNull] Image[] radioButtonArray, Color[] trackBarColours)
@@ -823,27 +273,22 @@ namespace Krypton.Toolkit
 
             DefineFonts();
         }
+
         #endregion
 
-        #region AllowFormChrome        
-        /// <summary>
-        /// Gets a value indicating if KryptonForm instances should show custom chrome.
-        /// </summary>
-        /// <returns>
-        /// InheritBool value.
-        /// </returns>
+        #region AllowFormChrome
+
+        /// <summary>Gets a value indicating if KryptonForm instances should show custom chrome.</summary>
+        /// <returns>InheritBool value.</returns>
         public override InheritBool GetAllowFormChrome() => InheritBool.True;
 
         #endregion
 
-        #region Renderer        
-        /// <summary>
-        /// Gets the renderer to use for this palette.
-        /// </summary>
-        /// <returns>
-        /// Renderer to use for drawing palette settings.
-        /// </returns>
-        public override IRenderer GetRenderer() => KryptonManager.RenderMicrosoft365;
+        #region Renderer
+
+        /// <summary>Gets the renderer to use for this palette.</summary>
+        /// <returns> Renderer to use for drawing palette settings.</returns>
+        public override IRenderer GetRenderer() => KryptonManager.RenderVisualStudio2010WithMicrosoft365;
 
         #endregion
 
@@ -2359,29 +1804,31 @@ namespace Krypton.Toolkit
         {
             if (CommonHelper.IsOverrideState(state))
             {
-                return (state == PaletteState.BoldedOverride) && (style == PaletteContentStyle.ButtonCalendarDay) ? _calendarBoldFont : null;
+                return (state == PaletteState.BoldedOverride) && (style == PaletteContentStyle.ButtonCalendarDay)
+                    ? CalendarBoldFont
+                    : null;
             }
 
             return style switch
             {
-                PaletteContentStyle.HeaderForm => _headerFormFont,
-                PaletteContentStyle.LabelTitleControl or PaletteContentStyle.LabelTitlePanel or PaletteContentStyle.HeaderPrimary or PaletteContentStyle.HeaderCustom1 or PaletteContentStyle.HeaderCustom2 or PaletteContentStyle.HeaderCustom3 or PaletteContentStyle.ButtonCommand => _header1ShortFont,
-                PaletteContentStyle.LabelSuperTip or PaletteContentStyle.ContextMenuHeading => _superToolFont,
-                PaletteContentStyle.LabelNormalControl or PaletteContentStyle.LabelNormalPanel or PaletteContentStyle.LabelGroupBoxCaption or PaletteContentStyle.LabelToolTip or PaletteContentStyle.LabelKeyTip or PaletteContentStyle.LabelCustom1 or PaletteContentStyle.LabelCustom2 or PaletteContentStyle.LabelCustom3 or PaletteContentStyle.InputControlStandalone or PaletteContentStyle.InputControlRibbon or PaletteContentStyle.InputControlCustom1 or PaletteContentStyle.InputControlCustom2 or PaletteContentStyle.InputControlCustom3 or PaletteContentStyle.HeaderSecondary or PaletteContentStyle.HeaderDockInactive or PaletteContentStyle.HeaderDockActive or PaletteContentStyle.ContextMenuItemImage or PaletteContentStyle.ContextMenuItemTextStandard or PaletteContentStyle.ContextMenuItemShortcutText => _header2ShortFont,
-                PaletteContentStyle.LabelBoldControl or PaletteContentStyle.LabelBoldPanel => _boldFont,
-                PaletteContentStyle.LabelItalicPanel or PaletteContentStyle.LabelItalicControl => _italicFont,
-                PaletteContentStyle.ContextMenuItemTextAlternate => _superToolFont,
-                PaletteContentStyle.TabLowProfile or PaletteContentStyle.TabDock or PaletteContentStyle.TabDockAutoHidden => _tabFontNormal,
+                PaletteContentStyle.HeaderForm => HeaderFormFont,
+                PaletteContentStyle.LabelTitleControl or PaletteContentStyle.LabelTitlePanel or PaletteContentStyle.HeaderPrimary or PaletteContentStyle.HeaderCustom1 or PaletteContentStyle.HeaderCustom2 or PaletteContentStyle.HeaderCustom3 or PaletteContentStyle.ButtonCommand => Header1ShortFont,
+                PaletteContentStyle.LabelSuperTip or PaletteContentStyle.ContextMenuHeading => SuperToolFont,
+                PaletteContentStyle.LabelNormalControl or PaletteContentStyle.LabelNormalPanel or PaletteContentStyle.LabelGroupBoxCaption or PaletteContentStyle.LabelToolTip or PaletteContentStyle.LabelKeyTip or PaletteContentStyle.LabelCustom1 or PaletteContentStyle.LabelCustom2 or PaletteContentStyle.LabelCustom3 or PaletteContentStyle.InputControlStandalone or PaletteContentStyle.InputControlRibbon or PaletteContentStyle.InputControlCustom1 or PaletteContentStyle.InputControlCustom2 or PaletteContentStyle.InputControlCustom3 or PaletteContentStyle.HeaderSecondary or PaletteContentStyle.HeaderDockInactive or PaletteContentStyle.HeaderDockActive or PaletteContentStyle.ContextMenuItemImage or PaletteContentStyle.ContextMenuItemTextStandard or PaletteContentStyle.ContextMenuItemShortcutText => Header2ShortFont,
+                PaletteContentStyle.LabelBoldControl or PaletteContentStyle.LabelBoldPanel => BoldFont,
+                PaletteContentStyle.LabelItalicPanel or PaletteContentStyle.LabelItalicControl => ItalicFont,
+                PaletteContentStyle.ContextMenuItemTextAlternate => SuperToolFont,
+                PaletteContentStyle.TabLowProfile or PaletteContentStyle.TabDock or PaletteContentStyle.TabDockAutoHidden => TabFontNormal,
                 PaletteContentStyle.TabHighProfile or PaletteContentStyle.TabStandardProfile or PaletteContentStyle.TabOneNote or PaletteContentStyle.TabCustom1 or PaletteContentStyle.TabCustom2 or PaletteContentStyle.TabCustom3 => state switch
                 {
-                    PaletteState.CheckedNormal or PaletteState.CheckedPressed or PaletteState.CheckedTracking => _tabFontSelected,
-                    _ => _tabFontNormal
+                    PaletteState.CheckedNormal or PaletteState.CheckedPressed or PaletteState.CheckedTracking => TabFontSelected,
+                    _ => TabFontNormal
                 },
-                PaletteContentStyle.ButtonStandalone or PaletteContentStyle.ButtonGallery or PaletteContentStyle.ButtonAlternate or PaletteContentStyle.ButtonLowProfile or PaletteContentStyle.ButtonBreadCrumb or PaletteContentStyle.ButtonListItem or PaletteContentStyle.ButtonButtonSpec or PaletteContentStyle.ButtonCluster or PaletteContentStyle.ButtonForm or PaletteContentStyle.ButtonFormClose or PaletteContentStyle.ButtonCustom1 or PaletteContentStyle.ButtonCustom2 or PaletteContentStyle.ButtonCustom3 or PaletteContentStyle.ButtonInputControl => _buttonFont,
-                PaletteContentStyle.ButtonNavigatorStack or PaletteContentStyle.ButtonNavigatorOverflow => _buttonFontNavigatorStack,
-                PaletteContentStyle.ButtonNavigatorMini => _buttonFontNavigatorMini,
-                PaletteContentStyle.GridHeaderColumnList or PaletteContentStyle.GridHeaderColumnSheet or PaletteContentStyle.GridHeaderColumnCustom1 or PaletteContentStyle.GridHeaderColumnCustom2 or PaletteContentStyle.GridHeaderColumnCustom3 or PaletteContentStyle.GridHeaderRowList or PaletteContentStyle.GridHeaderRowSheet or PaletteContentStyle.GridHeaderRowCustom1 or PaletteContentStyle.GridHeaderRowCustom2 or PaletteContentStyle.GridHeaderRowCustom3 or PaletteContentStyle.GridDataCellList or PaletteContentStyle.GridDataCellSheet or PaletteContentStyle.GridDataCellCustom1 or PaletteContentStyle.GridDataCellCustom2 or PaletteContentStyle.GridDataCellCustom3 or PaletteContentStyle.HeaderCalendar => _gridFont,
-                PaletteContentStyle.ButtonCalendarDay => _calendarFont,
+                PaletteContentStyle.ButtonStandalone or PaletteContentStyle.ButtonGallery or PaletteContentStyle.ButtonAlternate or PaletteContentStyle.ButtonLowProfile or PaletteContentStyle.ButtonBreadCrumb or PaletteContentStyle.ButtonListItem or PaletteContentStyle.ButtonButtonSpec or PaletteContentStyle.ButtonCluster or PaletteContentStyle.ButtonForm or PaletteContentStyle.ButtonFormClose or PaletteContentStyle.ButtonCustom1 or PaletteContentStyle.ButtonCustom2 or PaletteContentStyle.ButtonCustom3 or PaletteContentStyle.ButtonInputControl => ButtonFont,
+                PaletteContentStyle.ButtonNavigatorStack or PaletteContentStyle.ButtonNavigatorOverflow => ButtonFontNavigatorStack,
+                PaletteContentStyle.ButtonNavigatorMini => ButtonFontNavigatorMini,
+                PaletteContentStyle.GridHeaderColumnList or PaletteContentStyle.GridHeaderColumnSheet or PaletteContentStyle.GridHeaderColumnCustom1 or PaletteContentStyle.GridHeaderColumnCustom2 or PaletteContentStyle.GridHeaderColumnCustom3 or PaletteContentStyle.GridHeaderRowList or PaletteContentStyle.GridHeaderRowSheet or PaletteContentStyle.GridHeaderRowCustom1 or PaletteContentStyle.GridHeaderRowCustom2 or PaletteContentStyle.GridHeaderRowCustom3 or PaletteContentStyle.GridDataCellList or PaletteContentStyle.GridDataCellSheet or PaletteContentStyle.GridDataCellCustom1 or PaletteContentStyle.GridDataCellCustom2 or PaletteContentStyle.GridDataCellCustom3 or PaletteContentStyle.HeaderCalendar => GridFont,
+                PaletteContentStyle.ButtonCalendarDay => CalendarFont,
                 _ => throw new ArgumentOutOfRangeException(nameof(style))
             };
         }
@@ -2620,6 +2067,8 @@ namespace Krypton.Toolkit
 : _ribbonColours[(int)SchemeOfficeColors.InputControlTextNormal],
                 PaletteContentStyle.LabelNormalPanel or PaletteContentStyle.LabelBoldPanel or PaletteContentStyle.LabelItalicPanel or PaletteContentStyle.LabelTitlePanel or PaletteContentStyle.LabelGroupBoxCaption => _ribbonColours[(int)SchemeOfficeColors.TextLabelPanel],
                 PaletteContentStyle.LabelNormalControl or PaletteContentStyle.LabelBoldControl or PaletteContentStyle.LabelItalicControl or PaletteContentStyle.LabelTitleControl or PaletteContentStyle.LabelCustom1 or PaletteContentStyle.LabelCustom2 or PaletteContentStyle.LabelCustom3 or PaletteContentStyle.ContextMenuItemImage or PaletteContentStyle.ContextMenuItemTextStandard or PaletteContentStyle.ContextMenuItemShortcutText or PaletteContentStyle.ContextMenuItemTextAlternate => _ribbonColours[(int)SchemeOfficeColors.TextLabelControl],
+                // TODO: Add the line below to *all* bases
+                PaletteContentStyle.LabelAlternatePanel or PaletteContentStyle.LabelAlternateControl => _ribbonColours[(int)SchemeOfficeColors.StatusStripText],
                 PaletteContentStyle.LabelToolTip or PaletteContentStyle.LabelSuperTip or PaletteContentStyle.LabelKeyTip => _toolTipText,
                 PaletteContentStyle.ContextMenuHeading => _ribbonColours[(int)SchemeOfficeColors.ContextMenuHeadingText],
                 PaletteContentStyle.TabHighProfile or PaletteContentStyle.TabStandardProfile or PaletteContentStyle.TabLowProfile or PaletteContentStyle.TabOneNote or PaletteContentStyle.TabDock or PaletteContentStyle.TabCustom1 or PaletteContentStyle.TabCustom2 or PaletteContentStyle.TabCustom3 or PaletteContentStyle.ButtonStandalone or PaletteContentStyle.ButtonGallery or PaletteContentStyle.ButtonAlternate or PaletteContentStyle.ButtonCluster or PaletteContentStyle.ButtonCustom1 or PaletteContentStyle.ButtonCustom2 or PaletteContentStyle.ButtonCustom3 => state != PaletteState.Normal
@@ -2865,22 +2314,22 @@ namespace Krypton.Toolkit
         {
             if (CommonHelper.IsOverrideState(state))
             {
-                return (state == PaletteState.BoldedOverride) && (style == PaletteContentStyle.ButtonCalendarDay) ? _calendarBoldFont : null;
+                return (state == PaletteState.BoldedOverride) && (style == PaletteContentStyle.ButtonCalendarDay) ? CalendarBoldFont : null;
             }
 
             return style switch
             {
-                PaletteContentStyle.ButtonCalendarDay => _calendarFont,
-                PaletteContentStyle.GridHeaderColumnList or PaletteContentStyle.GridHeaderColumnSheet or PaletteContentStyle.GridHeaderColumnCustom1 or PaletteContentStyle.GridHeaderColumnCustom2 or PaletteContentStyle.GridHeaderColumnCustom3 or PaletteContentStyle.GridHeaderRowList or PaletteContentStyle.GridHeaderRowSheet or PaletteContentStyle.GridHeaderRowCustom1 or PaletteContentStyle.GridHeaderRowCustom2 or PaletteContentStyle.GridHeaderRowCustom3 or PaletteContentStyle.GridDataCellList or PaletteContentStyle.GridDataCellSheet or PaletteContentStyle.GridDataCellCustom1 or PaletteContentStyle.GridDataCellCustom2 or PaletteContentStyle.GridDataCellCustom3 or PaletteContentStyle.HeaderCalendar => _gridFont,
-                PaletteContentStyle.LabelTitleControl or PaletteContentStyle.LabelTitlePanel or PaletteContentStyle.HeaderPrimary or PaletteContentStyle.HeaderDockInactive or PaletteContentStyle.HeaderDockActive or PaletteContentStyle.HeaderForm or PaletteContentStyle.HeaderCustom1 or PaletteContentStyle.HeaderCustom2 or PaletteContentStyle.HeaderCustom3 => _header1LongFont,
-                PaletteContentStyle.LabelNormalControl or PaletteContentStyle.LabelBoldControl or PaletteContentStyle.LabelItalicControl or PaletteContentStyle.LabelNormalPanel or PaletteContentStyle.LabelBoldPanel or PaletteContentStyle.LabelItalicPanel or PaletteContentStyle.LabelGroupBoxCaption or PaletteContentStyle.LabelToolTip or PaletteContentStyle.LabelSuperTip or PaletteContentStyle.LabelKeyTip or PaletteContentStyle.LabelCustom1 or PaletteContentStyle.LabelCustom2 or PaletteContentStyle.LabelCustom3 or PaletteContentStyle.ContextMenuHeading or PaletteContentStyle.ContextMenuItemImage or PaletteContentStyle.ContextMenuItemTextStandard or PaletteContentStyle.ContextMenuItemTextAlternate or PaletteContentStyle.ContextMenuItemShortcutText or PaletteContentStyle.InputControlStandalone or PaletteContentStyle.InputControlRibbon or PaletteContentStyle.InputControlCustom1 or PaletteContentStyle.InputControlCustom2 or PaletteContentStyle.InputControlCustom3 or PaletteContentStyle.HeaderSecondary => _header2LongFont,
-                PaletteContentStyle.TabLowProfile or PaletteContentStyle.TabDock or PaletteContentStyle.TabDockAutoHidden => _tabFontNormal,
+                PaletteContentStyle.ButtonCalendarDay => CalendarFont,
+                PaletteContentStyle.GridHeaderColumnList or PaletteContentStyle.GridHeaderColumnSheet or PaletteContentStyle.GridHeaderColumnCustom1 or PaletteContentStyle.GridHeaderColumnCustom2 or PaletteContentStyle.GridHeaderColumnCustom3 or PaletteContentStyle.GridHeaderRowList or PaletteContentStyle.GridHeaderRowSheet or PaletteContentStyle.GridHeaderRowCustom1 or PaletteContentStyle.GridHeaderRowCustom2 or PaletteContentStyle.GridHeaderRowCustom3 or PaletteContentStyle.GridDataCellList or PaletteContentStyle.GridDataCellSheet or PaletteContentStyle.GridDataCellCustom1 or PaletteContentStyle.GridDataCellCustom2 or PaletteContentStyle.GridDataCellCustom3 or PaletteContentStyle.HeaderCalendar => GridFont,
+                PaletteContentStyle.LabelTitleControl or PaletteContentStyle.LabelTitlePanel or PaletteContentStyle.HeaderPrimary or PaletteContentStyle.HeaderDockInactive or PaletteContentStyle.HeaderDockActive or PaletteContentStyle.HeaderForm or PaletteContentStyle.HeaderCustom1 or PaletteContentStyle.HeaderCustom2 or PaletteContentStyle.HeaderCustom3 => Header1LongFont,
+                PaletteContentStyle.LabelNormalControl or PaletteContentStyle.LabelBoldControl or PaletteContentStyle.LabelItalicControl or PaletteContentStyle.LabelNormalPanel or PaletteContentStyle.LabelBoldPanel or PaletteContentStyle.LabelItalicPanel or PaletteContentStyle.LabelGroupBoxCaption or PaletteContentStyle.LabelToolTip or PaletteContentStyle.LabelSuperTip or PaletteContentStyle.LabelKeyTip or PaletteContentStyle.LabelCustom1 or PaletteContentStyle.LabelCustom2 or PaletteContentStyle.LabelCustom3 or PaletteContentStyle.ContextMenuHeading or PaletteContentStyle.ContextMenuItemImage or PaletteContentStyle.ContextMenuItemTextStandard or PaletteContentStyle.ContextMenuItemTextAlternate or PaletteContentStyle.ContextMenuItemShortcutText or PaletteContentStyle.InputControlStandalone or PaletteContentStyle.InputControlRibbon or PaletteContentStyle.InputControlCustom1 or PaletteContentStyle.InputControlCustom2 or PaletteContentStyle.InputControlCustom3 or PaletteContentStyle.HeaderSecondary => Header2LongFont,
+                PaletteContentStyle.TabLowProfile or PaletteContentStyle.TabDock or PaletteContentStyle.TabDockAutoHidden => TabFontNormal,
                 PaletteContentStyle.TabHighProfile or PaletteContentStyle.TabStandardProfile or PaletteContentStyle.TabOneNote or PaletteContentStyle.TabCustom1 or PaletteContentStyle.TabCustom2 or PaletteContentStyle.TabCustom3 => state switch
                 {
-                    PaletteState.CheckedNormal or PaletteState.CheckedPressed or PaletteState.CheckedTracking => _tabFontSelected,
-                    _ => _tabFontNormal
+                    PaletteState.CheckedNormal or PaletteState.CheckedPressed or PaletteState.CheckedTracking => TabFontSelected,
+                    _ => TabFontNormal
                 },
-                PaletteContentStyle.ButtonStandalone or PaletteContentStyle.ButtonGallery or PaletteContentStyle.ButtonAlternate or PaletteContentStyle.ButtonLowProfile or PaletteContentStyle.ButtonBreadCrumb or PaletteContentStyle.ButtonListItem or PaletteContentStyle.ButtonCommand or PaletteContentStyle.ButtonButtonSpec or PaletteContentStyle.ButtonCluster or PaletteContentStyle.ButtonNavigatorMini or PaletteContentStyle.ButtonNavigatorStack or PaletteContentStyle.ButtonNavigatorOverflow or PaletteContentStyle.ButtonForm or PaletteContentStyle.ButtonFormClose or PaletteContentStyle.ButtonCustom1 or PaletteContentStyle.ButtonCustom2 or PaletteContentStyle.ButtonCustom3 or PaletteContentStyle.ButtonInputControl => _buttonFont,
+                PaletteContentStyle.ButtonStandalone or PaletteContentStyle.ButtonGallery or PaletteContentStyle.ButtonAlternate or PaletteContentStyle.ButtonLowProfile or PaletteContentStyle.ButtonBreadCrumb or PaletteContentStyle.ButtonListItem or PaletteContentStyle.ButtonCommand or PaletteContentStyle.ButtonButtonSpec or PaletteContentStyle.ButtonCluster or PaletteContentStyle.ButtonNavigatorMini or PaletteContentStyle.ButtonNavigatorStack or PaletteContentStyle.ButtonNavigatorOverflow or PaletteContentStyle.ButtonForm or PaletteContentStyle.ButtonFormClose or PaletteContentStyle.ButtonCustom1 or PaletteContentStyle.ButtonCustom2 or PaletteContentStyle.ButtonCustom3 or PaletteContentStyle.ButtonInputControl => ButtonFont,
                 _ => throw new ArgumentOutOfRangeException(nameof(style))
             };
         }
@@ -3668,46 +3117,6 @@ namespace Krypton.Toolkit
         #endregion
 
         #region ButtonSpec
-        /// <summary>
-        /// Gets the icon to display for the button.
-        /// </summary>
-        /// <param name="style">Style of button spec.</param>
-        /// <returns>Icon value.</returns>
-        public override Icon? GetButtonSpecIcon(PaletteButtonSpecStyle style)
-        {
-            switch (style)
-            {
-                case PaletteButtonSpecStyle.Generic:
-                case PaletteButtonSpecStyle.Close:
-                case PaletteButtonSpecStyle.Context:
-                case PaletteButtonSpecStyle.Next:
-                case PaletteButtonSpecStyle.Previous:
-                case PaletteButtonSpecStyle.ArrowLeft:
-                case PaletteButtonSpecStyle.ArrowRight:
-                case PaletteButtonSpecStyle.ArrowUp:
-                case PaletteButtonSpecStyle.ArrowDown:
-                case PaletteButtonSpecStyle.DropDown:
-                case PaletteButtonSpecStyle.PinVertical:
-                case PaletteButtonSpecStyle.PinHorizontal:
-                case PaletteButtonSpecStyle.FormClose:
-                case PaletteButtonSpecStyle.FormMin:
-                case PaletteButtonSpecStyle.FormMax:
-                case PaletteButtonSpecStyle.FormRestore:
-                case PaletteButtonSpecStyle.FormHelp:
-                case PaletteButtonSpecStyle.PendantClose:
-                case PaletteButtonSpecStyle.PendantMin:
-                case PaletteButtonSpecStyle.PendantRestore:
-                case PaletteButtonSpecStyle.WorkspaceMaximize:
-                case PaletteButtonSpecStyle.WorkspaceRestore:
-                case PaletteButtonSpecStyle.RibbonMinimize:
-                case PaletteButtonSpecStyle.RibbonExpand:
-                    return null;
-                default:
-                    // Should never happen!
-                    Debug.Assert(false);
-                    return null;
-            }
-        }
 
         /// <summary>
         /// Gets the image to display for the button.
@@ -3756,6 +3165,34 @@ namespace Krypton.Toolkit
                     return _buttonSpecRibbonMinimize;
                 case PaletteButtonSpecStyle.RibbonExpand:
                     return _buttonSpecRibbonExpand;
+                case PaletteButtonSpecStyle.New:
+                    return _integratedToolbarNewNormal;
+                case PaletteButtonSpecStyle.Open:
+                    return _integratedToolbarOpenNormal;
+                case PaletteButtonSpecStyle.Save:
+                    return _integratedToolbarSaveNormal;
+                case PaletteButtonSpecStyle.SaveAs:
+                    return _integratedToolbarSaveAsNormal;
+                case PaletteButtonSpecStyle.SaveAll:
+                    return _integratedToolbarSaveAllNormal;
+                case PaletteButtonSpecStyle.Cut:
+                    return _integratedToolbarCutNormal;
+                case PaletteButtonSpecStyle.Copy:
+                    return _integratedToolbarCopyNormal;
+                case PaletteButtonSpecStyle.Paste:
+                    return _integratedToolbarPasteNormal;
+                case PaletteButtonSpecStyle.Undo:
+                    return _integratedToolbarUndoNormal;
+                case PaletteButtonSpecStyle.Redo:
+                    return _integratedToolbarRedoNormal;
+                case PaletteButtonSpecStyle.PageSetup:
+                    return _integratedToolbarPageSetupNormal;
+                case PaletteButtonSpecStyle.PrintPreview:
+                    return _integratedToolbarPrintPreviewNormal;
+                case PaletteButtonSpecStyle.Print:
+                    return _integratedToolbarPrintNormal;
+                case PaletteButtonSpecStyle.QuickPrint:
+                    return _integratedToolbarQuickPrintNormal;
                 case PaletteButtonSpecStyle.Generic:
                     return null;
                 default:
@@ -3765,388 +3202,14 @@ namespace Krypton.Toolkit
             }
         }
 
-        /// <summary>
-        /// Gets the image transparent color.
-        /// </summary>
-        /// <param name="style">Style of button spec.</param>
-        /// <returns>Color value.</returns>
-        public override Color GetButtonSpecImageTransparentColor(PaletteButtonSpecStyle style)
-        {
-            switch (style)
-            {
-                case PaletteButtonSpecStyle.Generic:
-                    return Color.Empty;
-                case PaletteButtonSpecStyle.Close:
-                case PaletteButtonSpecStyle.Context:
-                case PaletteButtonSpecStyle.Next:
-                case PaletteButtonSpecStyle.Previous:
-                case PaletteButtonSpecStyle.ArrowLeft:
-                case PaletteButtonSpecStyle.ArrowRight:
-                case PaletteButtonSpecStyle.ArrowUp:
-                case PaletteButtonSpecStyle.ArrowDown:
-                case PaletteButtonSpecStyle.DropDown:
-                case PaletteButtonSpecStyle.PinVertical:
-                case PaletteButtonSpecStyle.PinHorizontal:
-                case PaletteButtonSpecStyle.FormClose:
-                case PaletteButtonSpecStyle.FormMin:
-                case PaletteButtonSpecStyle.FormMax:
-                case PaletteButtonSpecStyle.FormRestore:
-                case PaletteButtonSpecStyle.FormHelp:
-                case PaletteButtonSpecStyle.PendantClose:
-                case PaletteButtonSpecStyle.PendantMin:
-                case PaletteButtonSpecStyle.PendantRestore:
-                case PaletteButtonSpecStyle.WorkspaceMaximize:
-                case PaletteButtonSpecStyle.WorkspaceRestore:
-                case PaletteButtonSpecStyle.RibbonMinimize:
-                case PaletteButtonSpecStyle.RibbonExpand:
-                    return Color.Magenta;
-                default:
-                    // Should never happen!
-                    Debug.Assert(false);
-                    return Color.Empty;
-            }
-        }
-
-        /// <summary>
-        /// Gets the short text to display for the button.
-        /// </summary>
-        /// <param name="style">Style of button spec.</param>
-        /// <returns>String value.</returns>
-        public override string? GetButtonSpecShortText(PaletteButtonSpecStyle style)
-        {
-            switch (style)
-            {
-                case PaletteButtonSpecStyle.Generic:
-                case PaletteButtonSpecStyle.Close:
-                case PaletteButtonSpecStyle.Context:
-                case PaletteButtonSpecStyle.Next:
-                case PaletteButtonSpecStyle.Previous:
-                case PaletteButtonSpecStyle.ArrowLeft:
-                case PaletteButtonSpecStyle.ArrowRight:
-                case PaletteButtonSpecStyle.ArrowUp:
-                case PaletteButtonSpecStyle.ArrowDown:
-                case PaletteButtonSpecStyle.DropDown:
-                case PaletteButtonSpecStyle.PinVertical:
-                case PaletteButtonSpecStyle.PinHorizontal:
-                case PaletteButtonSpecStyle.FormClose:
-                case PaletteButtonSpecStyle.FormMin:
-                case PaletteButtonSpecStyle.FormMax:
-                case PaletteButtonSpecStyle.FormRestore:
-                case PaletteButtonSpecStyle.FormHelp:
-                case PaletteButtonSpecStyle.PendantClose:
-                case PaletteButtonSpecStyle.PendantMin:
-                case PaletteButtonSpecStyle.PendantRestore:
-                case PaletteButtonSpecStyle.WorkspaceMaximize:
-                case PaletteButtonSpecStyle.WorkspaceRestore:
-                case PaletteButtonSpecStyle.RibbonMinimize:
-                case PaletteButtonSpecStyle.RibbonExpand:
-                    return string.Empty;
-                default:
-                    // Should never happen!
-                    Debug.Assert(false);
-                    return null;
-            }
-        }
-
-        /// <summary>
-        /// Gets the long text to display for the button.
-        /// </summary>
-        /// <param name="style">Style of button spec.</param>
-        /// <returns>String value.</returns>
-        public override string? GetButtonSpecLongText(PaletteButtonSpecStyle style)
-        {
-            switch (style)
-            {
-                case PaletteButtonSpecStyle.Generic:
-                case PaletteButtonSpecStyle.Close:
-                case PaletteButtonSpecStyle.Context:
-                case PaletteButtonSpecStyle.Next:
-                case PaletteButtonSpecStyle.Previous:
-                case PaletteButtonSpecStyle.ArrowLeft:
-                case PaletteButtonSpecStyle.ArrowRight:
-                case PaletteButtonSpecStyle.ArrowUp:
-                case PaletteButtonSpecStyle.ArrowDown:
-                case PaletteButtonSpecStyle.DropDown:
-                case PaletteButtonSpecStyle.PinVertical:
-                case PaletteButtonSpecStyle.PinHorizontal:
-                case PaletteButtonSpecStyle.FormClose:
-                case PaletteButtonSpecStyle.FormMin:
-                case PaletteButtonSpecStyle.FormMax:
-                case PaletteButtonSpecStyle.FormRestore:
-                case PaletteButtonSpecStyle.FormHelp:
-                case PaletteButtonSpecStyle.PendantClose:
-                case PaletteButtonSpecStyle.PendantMin:
-                case PaletteButtonSpecStyle.PendantRestore:
-                case PaletteButtonSpecStyle.WorkspaceMaximize:
-                case PaletteButtonSpecStyle.WorkspaceRestore:
-                case PaletteButtonSpecStyle.RibbonMinimize:
-                case PaletteButtonSpecStyle.RibbonExpand:
-                    return string.Empty;
-                default:
-                    // Should never happen!
-                    Debug.Assert(false);
-                    return null;
-            }
-        }
-
-        /// <summary>
-        /// Gets the color to remap from the image to the container foreground.
-        /// </summary>
-        /// <param name="style">Style of button spec.</param>
-        /// <returns>Color value.</returns>
-        public override Color GetButtonSpecColorMap(PaletteButtonSpecStyle style)
-        {
-            switch (style)
-            {
-                case PaletteButtonSpecStyle.FormClose:
-                case PaletteButtonSpecStyle.FormMin:
-                case PaletteButtonSpecStyle.FormMax:
-                case PaletteButtonSpecStyle.FormRestore:
-                case PaletteButtonSpecStyle.FormHelp:
-                case PaletteButtonSpecStyle.PendantClose:
-                case PaletteButtonSpecStyle.PendantMin:
-                case PaletteButtonSpecStyle.PendantRestore:
-                case PaletteButtonSpecStyle.Generic:
-                    return Color.Empty;
-                case PaletteButtonSpecStyle.Close:
-                case PaletteButtonSpecStyle.Context:
-                case PaletteButtonSpecStyle.Next:
-                case PaletteButtonSpecStyle.Previous:
-                case PaletteButtonSpecStyle.ArrowLeft:
-                case PaletteButtonSpecStyle.ArrowRight:
-                case PaletteButtonSpecStyle.ArrowUp:
-                case PaletteButtonSpecStyle.ArrowDown:
-                case PaletteButtonSpecStyle.DropDown:
-                case PaletteButtonSpecStyle.PinVertical:
-                case PaletteButtonSpecStyle.PinHorizontal:
-                case PaletteButtonSpecStyle.WorkspaceMaximize:
-                case PaletteButtonSpecStyle.WorkspaceRestore:
-                case PaletteButtonSpecStyle.RibbonMinimize:
-                case PaletteButtonSpecStyle.RibbonExpand:
-                    return Color.Black;
-                default:
-                    // Should never happen!
-                    Debug.Assert(false);
-                    return Color.Empty;
-            }
-        }
-
-        /// <summary>
-        /// Gets the color to remap to transparent.
-        /// </summary>
-        /// <param name="style">Style of button spec.</param>
-        /// <returns>Color value.</returns>
-        public override Color GetButtonSpecColorTransparent(PaletteButtonSpecStyle style)
-        {
-            switch (style)
-            {
-                case PaletteButtonSpecStyle.Generic:
-                    return Color.Empty;
-                case PaletteButtonSpecStyle.Close:
-                case PaletteButtonSpecStyle.Context:
-                case PaletteButtonSpecStyle.Next:
-                case PaletteButtonSpecStyle.Previous:
-                case PaletteButtonSpecStyle.ArrowLeft:
-                case PaletteButtonSpecStyle.ArrowRight:
-                case PaletteButtonSpecStyle.ArrowUp:
-                case PaletteButtonSpecStyle.DropDown:
-                case PaletteButtonSpecStyle.PinVertical:
-                case PaletteButtonSpecStyle.PinHorizontal:
-                case PaletteButtonSpecStyle.FormClose:
-                case PaletteButtonSpecStyle.FormMin:
-                case PaletteButtonSpecStyle.FormMax:
-                case PaletteButtonSpecStyle.FormRestore:
-                case PaletteButtonSpecStyle.FormHelp:
-                case PaletteButtonSpecStyle.PendantClose:
-                case PaletteButtonSpecStyle.PendantMin:
-                case PaletteButtonSpecStyle.PendantRestore:
-                case PaletteButtonSpecStyle.WorkspaceMaximize:
-                case PaletteButtonSpecStyle.WorkspaceRestore:
-                case PaletteButtonSpecStyle.RibbonMinimize:
-                case PaletteButtonSpecStyle.RibbonExpand:
-                    return Color.Magenta;
-                default:
-                    // Should never happen!
-                    Debug.Assert(false);
-                    return Color.Empty;
-            }
-        }
-
-        /// <summary>
-        /// Gets the button style used for drawing the button.
-        /// </summary>
-        /// <param name="style">Style of button spec.</param>
-        /// <returns>PaletteButtonStyle value.</returns>
-        public override PaletteButtonStyle GetButtonSpecStyle(PaletteButtonSpecStyle style)
-        {
-            switch (style)
-            {
-                case PaletteButtonSpecStyle.FormMin:
-                case PaletteButtonSpecStyle.FormMax:
-                case PaletteButtonSpecStyle.FormRestore:
-                case PaletteButtonSpecStyle.FormHelp:
-                    return PaletteButtonStyle.Form;
-                case PaletteButtonSpecStyle.FormClose:
-                    return PaletteButtonStyle.FormClose;
-                case PaletteButtonSpecStyle.Generic:
-                case PaletteButtonSpecStyle.Close:
-                case PaletteButtonSpecStyle.Context:
-                case PaletteButtonSpecStyle.Next:
-                case PaletteButtonSpecStyle.Previous:
-                case PaletteButtonSpecStyle.ArrowLeft:
-                case PaletteButtonSpecStyle.ArrowRight:
-                case PaletteButtonSpecStyle.ArrowUp:
-                case PaletteButtonSpecStyle.ArrowDown:
-                case PaletteButtonSpecStyle.DropDown:
-                case PaletteButtonSpecStyle.PinVertical:
-                case PaletteButtonSpecStyle.PinHorizontal:
-                case PaletteButtonSpecStyle.PendantClose:
-                case PaletteButtonSpecStyle.PendantMin:
-                case PaletteButtonSpecStyle.PendantRestore:
-                case PaletteButtonSpecStyle.WorkspaceMaximize:
-                case PaletteButtonSpecStyle.WorkspaceRestore:
-                case PaletteButtonSpecStyle.RibbonMinimize:
-                case PaletteButtonSpecStyle.RibbonExpand:
-                    return PaletteButtonStyle.ButtonSpec;
-                default:
-                    // Should never happen!
-                    Debug.Assert(false);
-                    return PaletteButtonStyle.ButtonSpec;
-            }
-        }
-
-        /// <summary>
-        /// Get the location for the button.
-        /// </summary>
-        /// <param name="style">Style of button spec.</param>
-        /// <returns>HeaderLocation value.</returns>
-        public override HeaderLocation GetButtonSpecLocation(PaletteButtonSpecStyle style)
-        {
-            switch (style)
-            {
-                case PaletteButtonSpecStyle.Generic:
-                case PaletteButtonSpecStyle.Close:
-                case PaletteButtonSpecStyle.Context:
-                case PaletteButtonSpecStyle.Next:
-                case PaletteButtonSpecStyle.Previous:
-                case PaletteButtonSpecStyle.ArrowLeft:
-                case PaletteButtonSpecStyle.ArrowRight:
-                case PaletteButtonSpecStyle.ArrowUp:
-                case PaletteButtonSpecStyle.ArrowDown:
-                case PaletteButtonSpecStyle.DropDown:
-                case PaletteButtonSpecStyle.PinVertical:
-                case PaletteButtonSpecStyle.PinHorizontal:
-                case PaletteButtonSpecStyle.FormClose:
-                case PaletteButtonSpecStyle.FormMin:
-                case PaletteButtonSpecStyle.FormMax:
-                case PaletteButtonSpecStyle.FormRestore:
-                case PaletteButtonSpecStyle.FormHelp:
-                case PaletteButtonSpecStyle.PendantClose:
-                case PaletteButtonSpecStyle.PendantMin:
-                case PaletteButtonSpecStyle.PendantRestore:
-                case PaletteButtonSpecStyle.WorkspaceMaximize:
-                case PaletteButtonSpecStyle.WorkspaceRestore:
-                case PaletteButtonSpecStyle.RibbonMinimize:
-                case PaletteButtonSpecStyle.RibbonExpand:
-                    return HeaderLocation.PrimaryHeader;
-                default:
-                    // Should never happen!
-                    Debug.Assert(false);
-                    return HeaderLocation.PrimaryHeader;
-            }
-        }
-
-        /// <summary>
-        /// Gets the edge to position the button against.
-        /// </summary>
-        /// <param name="style">Style of button spec.</param>
-        /// <returns>PaletteRelativeEdgeAlign value.</returns>
-        public override PaletteRelativeEdgeAlign GetButtonSpecEdge(PaletteButtonSpecStyle style)
-        {
-            switch (style)
-            {
-                case PaletteButtonSpecStyle.Generic:
-                case PaletteButtonSpecStyle.Close:
-                case PaletteButtonSpecStyle.Context:
-                case PaletteButtonSpecStyle.Next:
-                case PaletteButtonSpecStyle.Previous:
-                case PaletteButtonSpecStyle.ArrowLeft:
-                case PaletteButtonSpecStyle.ArrowRight:
-                case PaletteButtonSpecStyle.ArrowUp:
-                case PaletteButtonSpecStyle.ArrowDown:
-                case PaletteButtonSpecStyle.DropDown:
-                case PaletteButtonSpecStyle.PinVertical:
-                case PaletteButtonSpecStyle.PinHorizontal:
-                case PaletteButtonSpecStyle.FormClose:
-                case PaletteButtonSpecStyle.FormMin:
-                case PaletteButtonSpecStyle.FormMax:
-                case PaletteButtonSpecStyle.FormRestore:
-                case PaletteButtonSpecStyle.FormHelp:
-                case PaletteButtonSpecStyle.PendantClose:
-                case PaletteButtonSpecStyle.PendantMin:
-                case PaletteButtonSpecStyle.PendantRestore:
-                case PaletteButtonSpecStyle.WorkspaceMaximize:
-                case PaletteButtonSpecStyle.WorkspaceRestore:
-                case PaletteButtonSpecStyle.RibbonMinimize:
-                case PaletteButtonSpecStyle.RibbonExpand:
-                    return PaletteRelativeEdgeAlign.Far;
-                default:
-                    // Should never happen!
-                    Debug.Assert(false);
-                    return PaletteRelativeEdgeAlign.Far;
-            }
-        }
-
-        /// <summary>
-        /// Gets the button orientation.
-        /// </summary>
-        /// <param name="style">Style of button spec.</param>
-        /// <returns>PaletteButtonOrientation value.</returns>
-        public override PaletteButtonOrientation GetButtonSpecOrientation(PaletteButtonSpecStyle style)
-        {
-            switch (style)
-            {
-                case PaletteButtonSpecStyle.Close:
-                case PaletteButtonSpecStyle.Context:
-                case PaletteButtonSpecStyle.ArrowLeft:
-                case PaletteButtonSpecStyle.ArrowRight:
-                case PaletteButtonSpecStyle.ArrowUp:
-                case PaletteButtonSpecStyle.ArrowDown:
-                case PaletteButtonSpecStyle.DropDown:
-                case PaletteButtonSpecStyle.PinVertical:
-                case PaletteButtonSpecStyle.PinHorizontal:
-                case PaletteButtonSpecStyle.FormClose:
-                case PaletteButtonSpecStyle.FormMin:
-                case PaletteButtonSpecStyle.FormMax:
-                case PaletteButtonSpecStyle.FormRestore:
-                case PaletteButtonSpecStyle.FormHelp:
-                case PaletteButtonSpecStyle.PendantClose:
-                case PaletteButtonSpecStyle.PendantMin:
-                case PaletteButtonSpecStyle.PendantRestore:
-                case PaletteButtonSpecStyle.WorkspaceMaximize:
-                case PaletteButtonSpecStyle.WorkspaceRestore:
-                case PaletteButtonSpecStyle.RibbonMinimize:
-                case PaletteButtonSpecStyle.RibbonExpand:
-                    return PaletteButtonOrientation.FixedTop;
-                case PaletteButtonSpecStyle.Generic:
-                case PaletteButtonSpecStyle.Next:
-                case PaletteButtonSpecStyle.Previous:
-                    return PaletteButtonOrientation.Auto;
-                default:
-                    // Should never happen!
-                    Debug.Assert(false);
-                    return PaletteButtonOrientation.Auto;
-            }
-        }
         #endregion
 
         #region RibbonGeneral
-
         /// <summary>
         /// Gets the ribbon shape that should be used.
         /// </summary>
         /// <returns>Ribbon shape value.</returns>
-        public override PaletteRibbonShape GetRibbonShape() => PaletteRibbonShape.Microsoft365;
+        public override PaletteRibbonShape GetRibbonShape() => PaletteRibbonShape.VisualStudio2010;
 
         /// <summary>
         /// Gets the text alignment for the ribbon context text.
@@ -4160,7 +3223,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
-        public override Font GetRibbonContextTextFont(PaletteState state) => _ribbonTabContextFont;
+        public override Font GetRibbonContextTextFont(PaletteState state) => RibbonTabContextFont;
 
         /// <summary>
         /// Gets the color for the ribbon context text.
@@ -4258,7 +3321,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
-        public override Font GetRibbonTextFont(PaletteState state) => _ribbonTabFont;
+        public override Font GetRibbonTextFont(PaletteState state) => RibbonTabFont;
 
         /// <summary>
         /// Gets the rendering hint for the ribbon font.
@@ -5132,72 +4195,6 @@ namespace Krypton.Toolkit
         }
         #endregion
 
-        #region Protected
-        /// <summary>
-        /// Update the fonts to reflect system or user defined changes.
-        /// </summary>
-        protected override void DefineFonts()
-        {
-            // Release existing resources
-            _header1ShortFont?.Dispose();
-
-            _header2ShortFont?.Dispose();
-
-            _headerFormFont?.Dispose();
-
-            _header1LongFont?.Dispose();
-
-            _header2LongFont?.Dispose();
-
-            _buttonFont?.Dispose();
-
-            _buttonFontNavigatorStack?.Dispose();
-
-            _buttonFontNavigatorMini?.Dispose();
-
-            _tabFontSelected?.Dispose();
-
-            _tabFontNormal?.Dispose();
-
-            _ribbonTabFont?.Dispose();
-
-            _ribbonTabContextFont?.Dispose();
-
-            _gridFont?.Dispose();
-
-            _calendarFont?.Dispose();
-
-            _calendarBoldFont?.Dispose();
-
-            _superToolFont?.Dispose();
-
-            _boldFont?.Dispose();
-
-            _italicFont?.Dispose();
-
-            var baseFontSize = BaseFontSize;
-            var baseFontName = BaseFontName;
-            _header1ShortFont = new Font(baseFontName, baseFontSize + 4.5f, FontStyle.Bold);
-            _header2ShortFont = new Font(baseFontName, baseFontSize, FontStyle.Regular);
-            _headerFormFont = new Font(baseFontName, SystemFonts.CaptionFont.SizeInPoints, FontStyle.Regular);
-            _header1LongFont = new Font(baseFontName, baseFontSize + 1.5f, FontStyle.Regular);
-            _header2LongFont = new Font(baseFontName, baseFontSize, FontStyle.Regular);
-            _buttonFont = new Font(baseFontName, baseFontSize, FontStyle.Regular);
-            _buttonFontNavigatorStack = new Font(_buttonFont, FontStyle.Bold);
-            _buttonFontNavigatorMini = new Font(baseFontName, baseFontSize + 3.0f, FontStyle.Bold);
-            _tabFontNormal = new Font(baseFontName, baseFontSize, FontStyle.Regular);
-            _tabFontSelected = new Font(_tabFontNormal, FontStyle.Bold);
-            _ribbonTabFont = new Font(baseFontName, baseFontSize, FontStyle.Regular);
-            _ribbonTabContextFont = new Font(_ribbonTabFont, FontStyle.Bold);
-            _gridFont = new Font(baseFontName, baseFontSize, FontStyle.Regular);
-            _superToolFont = new Font(baseFontName, baseFontSize, FontStyle.Bold);
-            _calendarFont = new Font(baseFontName, baseFontSize, FontStyle.Regular);
-            _calendarBoldFont = new Font(baseFontName, baseFontSize, FontStyle.Bold);
-            _boldFont = new Font(baseFontName, baseFontSize, FontStyle.Bold);
-            _italicFont = new Font(baseFontName, baseFontSize, FontStyle.Italic);
-        }
-        #endregion
-
         #region ColorTable
         /// <summary>
         /// Gets access to the color table instance.
@@ -5206,7 +4203,7 @@ namespace Krypton.Toolkit
         {
             get
             {
-                _table ??= new KryptonColorTable365(_ribbonColours, InheritBool.True, this);
+                _table ??= new KryptonVisualStudio2010WithMicrosoft365ColorTable(_ribbonColours, InheritBool.True, this);
 
                 return _table;
             }
@@ -5230,8 +4227,6 @@ namespace Krypton.Toolkit
             base.OnUserPreferenceChanged(sender, e);
         }
         #endregion
+
     }
-
-    #endregion
-
 }
