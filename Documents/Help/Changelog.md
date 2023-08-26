@@ -57,7 +57,7 @@ Cannot add items to KryptonGroupBox in WinForms Designer
 * Implemented [#904](https://github.com/Krypton-Suite/Standard-Toolkit/issues/904), `*.Nightly` builds are no longer visible in Visual Studio
 * Resolved [#905](https://github.com/Krypton-Suite/Standard-Toolkit/issues/905), NuGet description for `Lite` versions is incorrect
 * Implemented [#813](https://github.com/Krypton-Suite/Standard-Toolkit/issues/813), Border colours need to match the themes
-* Complete [#827](https://github.com/Krypton-Suite/Standard-Toolkit/issues/827),Expose IPalette / PaletteBase as a public interface in KryptonManager
+* Complete [#827](https://github.com/Krypton-Suite/Standard-Toolkit/issues/827), Expose IPalette / PaletteBase as a public interface in KryptonManager
 * Resolved [#891](https://github.com/Krypton-Suite/Standard-Toolkit/issues/891), `LabelStyle` does not appear to have a default designer value
 * Implemented [#887](https://github.com/Krypton-Suite/Standard-Toolkit/issues/887), A 'LinkLabel' version of the `KryptonWrapLabel`
 * Fixed the display of the initial selected theme in the "ThemeSelection ComboBox"
