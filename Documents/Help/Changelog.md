@@ -71,8 +71,8 @@ Cannot add items to KryptonGroupBox in WinForms Designer
 * Resolved [#861](https://github.com/Krypton-Suite/Standard-Toolkit/issues/861), Ribbon QAT Button downscaled when disabling HiDPI
 * Implemented [#854](https://github.com/Krypton-Suite/Standard-Toolkit/issues/854), Please remove "2019" from the build sequence etc.
 * Resolved [#848](https://github.com/Krypton-Suite/Standard-Toolkit/issues/848), KryptonTreeView Font Issues
-* Implemented [#385](https://github.com/Krypton-Suite/Standard-Toolkit/issues/385), [Feature Request:] `KryptonColorButton` Modify Recent Colors
-* Implemented [#535](https://github.com/Krypton-Suite/Standard-Toolkit/issues/535), [Feature Request]: A way to set the TextBox / ComboBox / RichTextBox Cue font Rendering hint style
+* Implemented [#385](https://github.com/Krypton-Suite/Standard-Toolkit/issues/385), `KryptonColorButton` Modify Recent Colors
+* Implemented [#535](https://github.com/Krypton-Suite/Standard-Toolkit/issues/535), A way to set the TextBox / ComboBox / RichTextBox Cue font Rendering hint style
 * Resolved [#789](https://github.com/Krypton-Suite/Standard-Toolkit/issues/789), Remove shadows for context menus
 * Resolved [#819](https://github.com/Krypton-Suite/Standard-Toolkit/issues/819), KryptonForm Enhancement - A option to disable/enable the close button.
 * Resolved [#808](https://github.com/Krypton-Suite/Standard-Toolkit/issues/808), Ribbon Button Image padding is too small
