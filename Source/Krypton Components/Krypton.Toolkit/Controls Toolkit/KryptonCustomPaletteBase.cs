@@ -52,6 +52,7 @@ namespace Krypton.Toolkit
         private readonly PaletteRedirect? _redirector;
         private readonly PaletteRedirectCommon? _redirectCommon;
         private readonly NeedPaintHandler _needPaintDelegate;
+        private string _themeName;
 
         #endregion
 
@@ -120,6 +121,8 @@ namespace Krypton.Toolkit
                 _basePalette.BasePaletteChanged += OnBasePaletteChanged;
                 _basePalette.BaseRendererChanged += OnBaseRendererChanged;
             }
+
+            _themeName = string.Empty;
         }
 
         /// <summary>
@@ -2067,6 +2070,9 @@ namespace Krypton.Toolkit
                 if (kofd.ShowDialog() == DialogResult.OK)
                 {
                     paletteFileName = kofd.FileName;
+
+                    // Set the theme name to the file name
+                    PaletteName = paletteFileName;
                 }
             }
             else
@@ -2085,6 +2091,9 @@ namespace Krypton.Toolkit
                 if (dialog.ShowDialog() == DialogResult.OK)
                 {
                     paletteFileName = dialog.FileName;
+
+                    // Set the theme name to the file name
+                    PaletteName = paletteFileName;
                 }
             }
             if (!string.IsNullOrWhiteSpace(paletteFileName))
@@ -2378,6 +2387,9 @@ namespace Krypton.Toolkit
                 {
                     SetCustomisedKryptonPaletteFilePath(Path.GetFullPath(ksfd.FileName));
 
+                    // Set the theme name to the file name
+                    PaletteName = ksfd.FileName;
+
                     return Export(ksfd.FileName, true, false);
                 }
             }
@@ -2396,6 +2408,9 @@ namespace Krypton.Toolkit
                 if (dialog.ShowDialog() == DialogResult.OK)
                 {
                     SetCustomisedKryptonPaletteFilePath(Path.GetFullPath(dialog.FileName));
+
+                    // Set the theme name to the file name
+                    PaletteName = dialog.FileName;
 
                     // Use the existing export overload that takes the target name
                     return Export(dialog.FileName, true, false);

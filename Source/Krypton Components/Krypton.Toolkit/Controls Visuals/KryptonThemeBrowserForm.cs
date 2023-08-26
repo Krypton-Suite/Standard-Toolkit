@@ -8,7 +8,7 @@
 
 namespace Krypton.Toolkit
 {
-    public partial class KryptonThemeBrowserForm : KryptonForm
+    internal partial class KryptonThemeBrowserForm : KryptonForm
     {
         #region Instance Fields
 
@@ -38,7 +38,7 @@ namespace Krypton.Toolkit
 
             _formStartPosition = startPosition ?? FormStartPosition.CenterScreen;
 
-            _startIndex = startIndex ?? ThemeManager.GetThemeIndex();
+            _startIndex = startIndex ?? 0; // ThemeManager.GetThemeIndex();
 
             _windowTitle = windowTitle ?? KryptonLanguageManager.MiscellaneousThemeStrings.ThemeBrowserWindowTitle;
 
@@ -92,6 +92,11 @@ namespace Krypton.Toolkit
         private void klbThemeList_SelectedIndexChanged(object sender, EventArgs e)
         {
             ThemeManager.ApplyTheme(klbThemeList.GetItemText(klbThemeList.SelectedItem), new());
+
+            klbThemeList.ToolTipValues.Heading = @"Theme Name";
+
+            klbThemeList.ToolTipValues.Description =
+                $@"{klbThemeList.GetItemText(klbThemeList.SelectedItem)} - Index: {klbThemeList.SelectedIndex}";
         }
 
         #endregion

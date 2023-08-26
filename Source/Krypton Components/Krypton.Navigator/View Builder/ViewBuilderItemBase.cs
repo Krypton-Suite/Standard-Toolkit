@@ -38,7 +38,7 @@ namespace Krypton.Navigator
         /// <param name="navigator">Reference to navigator instance.</param>
         /// <param name="manager">Reference to current manager.</param>
         /// <param name="redirector">Palette redirector.</param>
-        public override void Construct(KryptonNavigator navigator, 
+        public override void Construct(KryptonNavigator navigator,
                                        ViewManager manager,
                                        PaletteRedirect? redirector)
         {
@@ -195,9 +195,9 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="element">Element to search against.</param>
         /// <returns>Reference to KryptonPage; otherwise null.</returns>
-        public override KryptonPage? PageFromView(ViewBase element) => 
-            _pageLookup != null 
-                ? (from pair in _pageLookup where pair.Value.View == element select pair.Key).FirstOrDefault() 
+        public override KryptonPage? PageFromView(ViewBase element) =>
+            _pageLookup != null
+                ? (from pair in _pageLookup where pair.Value.View == element select pair.Key).FirstOrDefault()
                 : null;
 
         /// <summary>
@@ -259,7 +259,7 @@ namespace Krypton.Navigator
         {
             PaletteNavigator? paletteState;
             PaletteNavigatorRedirect? paletteCommon;
-            
+
             // If whole navigator is disabled then all views are disabled
             var enabled = Navigator.Enabled;
 
@@ -269,8 +269,8 @@ namespace Krypton.Navigator
                 // Then use the states defined in the navigator itself
                 paletteCommon = Navigator.StateCommon;
 
-                paletteState = Navigator.Enabled 
-                                ? Navigator.StateNormal 
+                paletteState = Navigator.Enabled
+                                ? Navigator.StateNormal
                                 : Navigator.StateDisabled;
             }
             else
@@ -492,7 +492,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Occurs when the navigator takes the focus.
         /// </summary>
-        public override void GotFocus() 
+        public override void GotFocus()
         {
             // The navigator has the focus
             _hasFocus = true;
@@ -510,7 +510,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Occurs when the navigator loses the focus.
         /// </summary>
-        public override void LostFocus() 
+        public override void LostFocus()
         {
             // Navigator no longer has the focus
             _hasFocus = false;
@@ -590,7 +590,7 @@ namespace Krypton.Navigator
                 }
 
                 // Check for keys with modifiers
-                switch(keyData)
+                switch (keyData)
                 {
                     case Keys.Home:
                         if (_hasFocus)
@@ -1042,7 +1042,7 @@ namespace Krypton.Navigator
                 checkItem.ButtonDragRectangle -= OnCheckButtonDragRect;
                 checkItem.ButtonDragOffset -= OnCheckButtonDragOffset;
                 checkItem.NeedPaint = null;
-            
+
                 // Dispose of element gracefully
                 child.Dispose();
             }

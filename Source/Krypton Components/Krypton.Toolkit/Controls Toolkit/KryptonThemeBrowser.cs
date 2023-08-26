@@ -8,9 +8,12 @@
 
 namespace Krypton.Toolkit
 {
+    /// <summary>Public API to display the <see cref="KryptonThemeBrowserForm"/>.</summary>
     public class KryptonThemeBrowser
     {
         #region Public
+
+        public static void Show() => ShowCore(null, null, null, null, null);
 
         /// <summary>Shows the theme browser window.</summary>
         /// <param name="startPosition">The start position.</param>
