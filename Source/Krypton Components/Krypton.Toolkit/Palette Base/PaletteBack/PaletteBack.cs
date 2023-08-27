@@ -140,7 +140,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category(@"Visuals")]
         [Description(@"Should background be drawn.")]
-        [DefaultValue(typeof(InheritBool), "Inherit")]
+        [DefaultValue(InheritBool.Inherit)]
         [RefreshProperties(RefreshProperties.All)]
         public InheritBool Draw
         {
@@ -187,7 +187,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category(@"Visuals")]
         [Description(@"Hint for drawing graphics.")]
-        [DefaultValue(typeof(PaletteGraphicsHint), "Inherit")]
+        [DefaultValue(PaletteGraphicsHint.Inherit)]
         [RefreshProperties(RefreshProperties.All)]
         public PaletteGraphicsHint GraphicsHint
         {
@@ -329,7 +329,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category(@"Visuals")]
         [Description(@"Background color drawing style.")]
-        [DefaultValue(typeof(PaletteColorStyle), "Inherit")]
+        [DefaultValue(PaletteColorStyle.Inherit)]
         [RefreshProperties(RefreshProperties.All)]
         public PaletteColorStyle ColorStyle
         {
@@ -376,7 +376,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category(@"Visuals")]
         [Description(@"Background color alignment style.")]
-        [DefaultValue(typeof(PaletteRectangleAlign), "Inherit")]
+        [DefaultValue(PaletteRectangleAlign.Inherit)]
         [RefreshProperties(RefreshProperties.All)]
         public PaletteRectangleAlign ColorAlign
         {
@@ -519,7 +519,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category(@"Visuals")]
         [Description(@"Background image style.")]
-        [DefaultValue(typeof(PaletteImageStyle), "Inherit")]
+        [DefaultValue(PaletteImageStyle.Inherit)]
         [RefreshProperties(RefreshProperties.All)]
         public PaletteImageStyle ImageStyle
         {
@@ -568,7 +568,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category(@"Visuals")]
         [Description(@"Background image alignment style.")]
-        [DefaultValue(typeof(PaletteRectangleAlign), "Inherit")]
+        [DefaultValue(PaletteRectangleAlign.Inherit)]
         [RefreshProperties(RefreshProperties.All)]
         public PaletteRectangleAlign ImageAlign
         {

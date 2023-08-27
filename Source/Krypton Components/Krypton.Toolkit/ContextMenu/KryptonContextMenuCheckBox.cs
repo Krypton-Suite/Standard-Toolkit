@@ -274,7 +274,7 @@ namespace Krypton.Toolkit
         [KryptonPersist]
         [Category(@"Visuals")]
         [Description(@"Check box label style.")]
-        [DefaultValue(typeof(LabelStyle), LabelStyleStrings.DEFAULT_LABEL_STYLE_NORMAL_PANEL)]
+        [DefaultValue(LabelStyle.NormalPanel)]
         public LabelStyle LabelStyle
         {
             get => _style;
@@ -360,7 +360,7 @@ namespace Krypton.Toolkit
         [KryptonPersist]
         [Category(@"Appearance")]
         [Description(@"Indicates the checked state of the component.")]
-        [DefaultValue(typeof(CheckState), "Unchecked")]
+        [DefaultValue(CheckState.Unchecked)]
         [Bindable(true)]
         public CheckState CheckState
         {

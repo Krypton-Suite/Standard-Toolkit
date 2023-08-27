@@ -817,7 +817,7 @@ namespace Krypton.Toolkit
         [KryptonPersist]
         [Category(@"Visuals")]
         [Description(@"Header style for the month calendar.")]
-        [DefaultValue(typeof(HeaderStyle), nameof(Calendar))]
+        [DefaultValue(HeaderStyle.Calendar)]
         public HeaderStyle HeaderStyle
         {
             get => _headerStyle;
@@ -841,7 +841,7 @@ namespace Krypton.Toolkit
         [KryptonPersist]
         [Category(@"Visuals")]
         [Description(@"Content style for the day entries.")]
-        [DefaultValue(typeof(ButtonStyle), "Calendar Day")]
+        [DefaultValue(ButtonStyle.CalendarDay)]
         public ButtonStyle DayStyle
         {
             get => _dayStyle;
@@ -870,7 +870,7 @@ namespace Krypton.Toolkit
         [KryptonPersist]
         [Category(@"Visuals")]
         [Description(@"Content style for the day of week labels.")]
-        [DefaultValue(typeof(ButtonStyle), "CalendarDay")]
+        [DefaultValue(ButtonStyle.CalendarDay)]
         public ButtonStyle DayOfWeekStyle
         {
             get => _dayOfWeekStyle;

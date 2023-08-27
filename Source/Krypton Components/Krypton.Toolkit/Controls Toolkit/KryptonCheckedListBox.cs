@@ -1479,7 +1479,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Behavior")]
         [Description(@"Indicates if the checked list box is to be single-select or not selectable. (Multi## not supported)")]
-        [DefaultValue(typeof(CheckedSelectionMode), "One")]
+        [DefaultValue(CheckedSelectionMode.One)]
         public virtual CheckedSelectionMode SelectionMode
         {
             get => _listBox?.SelectionMode == System.Windows.Forms.SelectionMode.One

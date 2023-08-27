@@ -445,7 +445,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"MonthCalendar")]
         [Description(@"First day of the week.")]
-        [DefaultValue(typeof(Day), "Default")]
+        [DefaultValue(Day.Default)]
         [Localizable(true)]
         public Day CalendarFirstDayOfWeek { get; set; }
 
@@ -591,7 +591,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Appearance")]
         [Description(@"Alignment of the drop-down calendar on the KryptonDateTimePicker control.")]
-        [DefaultValue(typeof(LeftRightAlignment), nameof(Left))]
+        [DefaultValue(LeftRightAlignment.Left)]
         [Localizable(true)]
         public LeftRightAlignment DropDownAlign { get; set; }
 
@@ -735,7 +735,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Appearance")]
         [Description(@"Determines whether dates and times are Displayed using standard or custom formatting.")]
-        [DefaultValue(typeof(DateTimePickerFormat), "Long")]
+        [DefaultValue(DateTimePickerFormat.Long)]
         [RefreshProperties(RefreshProperties.Repaint)]
         public DateTimePickerFormat Format
         {
@@ -1073,7 +1073,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Visuals - DateTimePicker")]
         [Description(@"Palette applied to drawing.")]
-        [DefaultValue(typeof(PaletteMode), "Global")]
+        [DefaultValue(PaletteMode.Global)]
         public new PaletteMode PaletteMode
         {
             get => base.PaletteMode;

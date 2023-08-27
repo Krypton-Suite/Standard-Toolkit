@@ -194,7 +194,7 @@ namespace Krypton.Toolkit
         [KryptonPersist]
         [Category(@"Appearance")]
         [Description(@"Defines the set of colors to use for display.")]
-        [DefaultValue(typeof(ColorScheme), "OfficeThemes")]
+        [DefaultValue(ColorScheme.OfficeThemes)]
         public ColorScheme ColorScheme
         {
             get => _colorScheme;

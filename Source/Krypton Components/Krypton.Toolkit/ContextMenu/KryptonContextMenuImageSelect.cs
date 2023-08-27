@@ -204,7 +204,7 @@ namespace Krypton.Toolkit
         [KryptonPersist]
         [Category(@"Visuals")]
         [Description(@"Button style used for each image item.")]
-        [DefaultValue(typeof(ButtonStyle), ButtonStyleStrings.DEFAULT_BUTTON_SPEC_STYLE_LOW_PROFILE)]
+        [DefaultValue(ButtonStyle.LowProfile)]
         public ButtonStyle ButtonStyle
         {
             get => _style;

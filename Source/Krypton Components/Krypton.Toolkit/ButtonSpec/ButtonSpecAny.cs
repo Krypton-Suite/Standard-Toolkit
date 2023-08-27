@@ -105,7 +105,7 @@ namespace Krypton.Toolkit
         [Category(@"Behavior")]
         [Description(@"Defines the button enabled state.")]
         [RefreshProperties(RefreshProperties.All)]
-        [DefaultValue(typeof(ButtonEnabled), nameof(Container))]
+        [DefaultValue(ButtonEnabled.Container)]
         public ButtonEnabled Enabled
         {
             get => _enabled;
@@ -137,7 +137,7 @@ namespace Krypton.Toolkit
         [Category(@"Behavior")]
         [Description(@"Defines if the button is checked or capable of being checked.")]
         [RefreshProperties(RefreshProperties.All)]
-        [DefaultValue(typeof(ButtonCheckState), "NotCheckButton")]
+        [DefaultValue(ButtonCheckState.NotCheckButton)]
         public ButtonCheckState Checked
         {
             get => _checked;
@@ -235,7 +235,7 @@ namespace Krypton.Toolkit
         [Category(@"Behavior")]
         [Description(@"Defines the type of button specification.")]
         [RefreshProperties(RefreshProperties.All)]
-        [DefaultValue(typeof(PaletteButtonSpecStyle), PaletteButtonSpecStyleStrings.DEFAULT_PALETTE_BUTTON_SPEC_STYLE_GENERIC)]
+        [DefaultValue(PaletteButtonSpecStyle.Generic)]
         public PaletteButtonSpecStyle Type
         {
             get => ProtectedType;

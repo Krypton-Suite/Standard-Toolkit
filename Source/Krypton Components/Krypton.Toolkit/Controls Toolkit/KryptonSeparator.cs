@@ -346,7 +346,7 @@ namespace Krypton.Toolkit
         [Category(@"Layout")]
         [Description(@"Determines the thickness of the splitter.")]
         [Localizable(true)]
-        [DefaultValue(typeof(int), "5")]
+        [DefaultValue(5)]
         public int SplitterWidth
         {
             get => _splitterWidth;
@@ -376,7 +376,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Layout")]
         [Description(@"Determines the increment used for moving.")]
-        [DefaultValue(typeof(int), "1")]
+        [DefaultValue(1)]
         public int SplitterIncrements { get; set; }
 
         /// <summary>
@@ -385,7 +385,7 @@ namespace Krypton.Toolkit
         [Category(@"Layout")]
         [Description(@"Determines if the separator is vertical or horizontal.")]
         [Localizable(true)]
-        [DefaultValue(typeof(Orientation), "Vertical")]
+        [DefaultValue(Orientation.Vertical)]
         public Orientation Orientation
         {
             get => _orientation;

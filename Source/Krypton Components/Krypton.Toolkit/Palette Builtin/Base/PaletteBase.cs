@@ -22,7 +22,6 @@ namespace Krypton.Toolkit
 
         private bool _useKryptonFileDialogs;
         private BasePaletteType _basePaletteType;
-        private float? _baseFontSize;
         private Padding? _inputControlPadding;
         private PaletteDragFeedback _dragFeedback;
         private string _themeName;
@@ -31,7 +30,7 @@ namespace Krypton.Toolkit
 
         #region Font Stuff
 
-        private Font _baseFont;
+        private Font _baseFont; // = _defaultFontStyle;
         public Font? BoldFont;
         public Font? ItalicFont;
         public Font? Header1ShortFont;
@@ -97,8 +96,6 @@ namespace Krypton.Toolkit
             _useKryptonFileDialogs = true;
 
             _baseFont = _defaultFontStyle;
-
-            _baseFontSize = _defaultFontStyle.Size;
         }
         #endregion
 
@@ -1705,37 +1702,21 @@ namespace Krypton.Toolkit
 
         /// <summary>Gets and sets the base font size used when defining fonts.</summary>
         [Description(@"Gets and sets the base font size used when defining fonts.")]
-        public virtual float BaseFontSize
+        public float BaseFontSize
         {
-            get => _baseFontSize ?? SystemFonts.MenuFont.SizeInPoints;
+            get => _baseFont.Size;
 
             set
             {
-                // Is there a change in value?
-                if (_baseFontSize != null && (((value <= 0)
-                                               && _baseFontSize.HasValue)
-                                              || ((value > 0)
-                                                  && (!_baseFontSize.HasValue
-                                                      || (_baseFontSize.Value != value)
-                                                  )
-                                              ))
-                    )
+                if (value <= 0)
                 {
-                    // Cache new value
-                    if (value <= 0)
-                    {
-                        _baseFontSize = null;
-                    }
-                    else
-                    {
-                        _baseFontSize = value;
-                    }
+                    value = _defaultFontStyle.Size;
+                }
 
-                    // Update fonts to reflect change
-                    DefineFonts();
-
-                    // Use event to indicate palette has caused layout changes
-                    OnPalettePaint(this, new PaletteLayoutEventArgs(true, false));
+                // Is there a change in value?
+                if (_baseFont.Size != value)
+                {
+                    BaseFont = new Font(_baseFont.Name, value, _baseFont.Style);
                 }
             }
         }
@@ -1743,22 +1724,28 @@ namespace Krypton.Toolkit
         /// <summary>Gets or sets the base palette font.</summary>
         /// <value>The base palette font.</value>
         [DisallowNull, Description(@"Gets or sets the base palette font.")]
-        public virtual Font BaseFont
+        public Font BaseFont
         {
-            get => _baseFont ?? _defaultFontStyle;
+            get => _baseFont;
 
-            set => _baseFont = value ?? _defaultFontStyle;
+            set 
+            { 
+                _baseFont = value;
+                DefineFonts();
+                // Call an event to force repaint style things
+                OnPalettePaint(this, new PaletteLayoutEventArgs(true, false));
+            }
         }
 
         /// <summary>Gets or sets the name of the theme.</summary>
         /// <value>The name of the theme.</value>
         [DisallowNull, Description(@"Gets or sets the name of the theme.")]
-        public virtual string ThemeName { get => _themeName; set => _themeName = value; }
+        public string ThemeName { get => _themeName; set => _themeName = value; }
 
         /// <summary>Gets or sets the type of the base palette.</summary>
         /// <value>The type of the base palette.</value>
         [Description(@"Gets or sets the type of the base palette.")]
-        public virtual BasePaletteType BasePaletteType { get => _basePaletteType; set => _basePaletteType = value; }
+        public BasePaletteType BasePaletteType { get => _basePaletteType; set => _basePaletteType = value; }
 
         #endregion
 
@@ -1772,26 +1759,26 @@ namespace Krypton.Toolkit
             // Release resources
             DisposeFonts();
 
-            var temporaryFont = BaseFont;
+            var baseFontName = BaseFont.Name;
+            var baseFontSize = BaseFont.Size;
 
-            Header1ShortFont = new Font(temporaryFont.Name, temporaryFont.Size + 4.5f, FontStyle.Bold);
-            Header2ShortFont = new Font(temporaryFont.Name, temporaryFont.Size, FontStyle.Regular);
-            HeaderFormFont = new Font(temporaryFont.Name, SystemFonts.CaptionFont.SizeInPoints, FontStyle.Regular);
-            Header1LongFont = new Font(temporaryFont.Name, temporaryFont.Size + 1.5f, FontStyle.Regular);
-            Header2LongFont = new Font(temporaryFont.Name, temporaryFont.Size, FontStyle.Regular);
-            ButtonFont = new Font(temporaryFont.Name, temporaryFont.Size, FontStyle.Regular);
+            Header1ShortFont = new Font(baseFontName, baseFontSize + 4.5f, FontStyle.Bold);
+            Header2ShortFont = new Font(baseFontName, baseFontSize, FontStyle.Regular);
+            HeaderFormFont = new Font(baseFontName, SystemFonts.CaptionFont.SizeInPoints, FontStyle.Regular);
+            Header1LongFont = new Font(baseFontName, baseFontSize + 1.5f, FontStyle.Regular);
+            Header2LongFont = new Font(baseFontName, baseFontSize, FontStyle.Regular);
+            ButtonFont = new Font(baseFontName, baseFontSize, FontStyle.Regular);
             ButtonFontNavigatorStack = new Font(ButtonFont, FontStyle.Bold);
-            ButtonFontNavigatorMini = new Font(temporaryFont.Name, temporaryFont.Size + 3.5f, FontStyle.Bold);
-            TabFontNormal = new Font(temporaryFont.Name, temporaryFont.Size, FontStyle.Regular);
+            ButtonFontNavigatorMini = new Font(baseFontName, baseFontSize + 3.5f, FontStyle.Bold);
+            TabFontNormal = new Font(baseFontName, baseFontSize, FontStyle.Regular);
             TabFontSelected = new Font(TabFontNormal, FontStyle.Bold);
-            RibbonTabFont = new Font(temporaryFont.Name, temporaryFont.Size, FontStyle.Regular);
-            GridFont = new Font(temporaryFont.Name, temporaryFont.Size, FontStyle.Regular);
-            SuperToolFont = new Font(temporaryFont.Name, temporaryFont.Size, FontStyle.Bold);
-            CalendarFont = new Font(temporaryFont.Name, temporaryFont.Size, FontStyle.Regular);
-            CalendarBoldFont = new Font(temporaryFont.Name, temporaryFont.Size, FontStyle.Bold);
-            BoldFont = new Font(temporaryFont.Name, temporaryFont.Size, FontStyle.Bold);
-            ItalicFont = new Font(temporaryFont.Name, temporaryFont.Size, FontStyle.Italic);
-
+            RibbonTabFont = new Font(baseFontName, baseFontSize, FontStyle.Regular);
+            GridFont = new Font(baseFontName, baseFontSize, FontStyle.Regular);
+            SuperToolFont = new Font(baseFontName, baseFontSize, FontStyle.Bold);
+            CalendarFont = new Font(baseFontName, baseFontSize, FontStyle.Regular);
+            CalendarBoldFont = new Font(baseFontName, baseFontSize, FontStyle.Bold);
+            BoldFont = new Font(baseFontName, baseFontSize, FontStyle.Bold);
+            ItalicFont = new Font(baseFontName, baseFontSize, FontStyle.Italic);
             RibbonTabContextFont = new Font(RibbonTabFont, FontStyle.Bold);
         }
 
@@ -1815,6 +1802,25 @@ namespace Krypton.Toolkit
             BoldFont?.Dispose();
             ItalicFont?.Dispose();
             RibbonTabContextFont?.Dispose();
+
+            Header1ShortFont = null;
+            Header2ShortFont = null;
+            Header1LongFont = null;
+            Header2LongFont = null;
+            HeaderFormFont = null;
+            ButtonFont = null;
+            ButtonFontNavigatorStack = null;
+            ButtonFontNavigatorMini = null;
+            TabFontNormal = null;
+            TabFontSelected = null;
+            RibbonTabFont = null;
+            GridFont = null;
+            CalendarFont = null;
+            CalendarBoldFont = null;
+            SuperToolFont = null;
+            BoldFont = null;
+            ItalicFont = null;
+            RibbonTabContextFont = null;
         }
 
         #endregion
@@ -1887,7 +1893,7 @@ namespace Krypton.Toolkit
                 if (!_inputControlPadding.HasValue)
                 {
                     // Find size of a input control with and without a border
-                    TextBox tb = new TextBox
+                    var tb = new TextBox
                     {
                         BorderStyle = BorderStyle.None
                     };
@@ -1896,7 +1902,7 @@ namespace Krypton.Toolkit
                     Size ss = tb.GetPreferredSize(new Size(int.MaxValue, int.MaxValue));
 
                     // Always subtract one from top and bottom edges to account for border placed there later by Krypton
-                    Padding inputControlPadding = new Padding(0);
+                    var inputControlPadding = new Padding(0);
                     var xDiff = Math.Max(0, ss.Width - sn.Width);
                     var yDiff = Math.Max(0, ss.Height - sn.Height - 2);
 

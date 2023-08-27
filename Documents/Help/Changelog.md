@@ -3,6 +3,8 @@
 =======
 
 ## 2023-11-xx - Build 2311 - November 2023
+* Resolved [#288](https://github.com/Krypton-Suite/Standard-Toolkit/issues/10), Should the default "Theme fonts" now be changed to Segoe UI 9 pt
+* Resolved [#703](https://github.com/Krypton-Suite/Standard-Toolkit/issues/10), Can BaseFontSize be moved up to IPalette? (and/or be easily modified in kryptonPalette)
 * Resolved [#1105](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1105), Label text colour in black themes is illegible
 * Resolved [#10](https://github.com/Krypton-Suite/Standard-Toolkit/issues/10), Substantial performance issue with AutoSize=true KryptonButtons
 * Implemented [#1087](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1087), Add the ability to add custom integrated toolbar images to custom palettes

@@ -872,7 +872,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Behavior")]
         [Description(@"Indicates if the list box is to be single-select, multi-select or not selectable.")]
-        [DefaultValue(typeof(SelectionMode), "One")]
+        [DefaultValue(SelectionMode.One)]
         public virtual SelectionMode SelectionMode
         {
             get => _listBox.SelectionMode;

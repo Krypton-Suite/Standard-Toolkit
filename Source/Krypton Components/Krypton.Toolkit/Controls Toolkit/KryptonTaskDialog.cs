@@ -162,7 +162,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Appearance")]
         [Description(@"Predefined icon.")]
-        [DefaultValue(typeof(KryptonMessageBoxIcon), "None")]
+        [DefaultValue(KryptonMessageBoxIcon.None)]
         public KryptonMessageBoxIcon Icon
         {
             get => _icon;
@@ -224,7 +224,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Appearance")]
         [Description(@"Common dialog buttons.")]
-        [DefaultValue(typeof(TaskDialogButtons), "OK")]
+        [DefaultValue(TaskDialogButtons.OK)]
         public TaskDialogButtons CommonButtons
         {
             get => _commonButtons;
@@ -244,7 +244,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Appearance")]
         [Description(@"Default radio button.")]
-        [DefaultValue(typeof(TaskDialogButtons), "None")]
+        [DefaultValue(TaskDialogButtons.None)]
         public KryptonTaskDialogCommand DefaultRadioButton
         {
             get => _defaultRadioButton;
@@ -264,7 +264,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Appearance")]
         [Description(@"Default Common button.")]
-        [DefaultValue(typeof(TaskDialogButtons), "None")]
+        [DefaultValue(TaskDialogButtons.None)]
         public TaskDialogButtons DefaultButton
         {
             get => _defaultButton;
@@ -284,7 +284,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Appearance")]
         [Description(@"Predefined footer icon.")]
-        [DefaultValue(typeof(KryptonMessageBoxIcon), "None")]
+        [DefaultValue(KryptonMessageBoxIcon.None)]
         public KryptonMessageBoxIcon FooterIcon
         {
             get => _footerIcon;

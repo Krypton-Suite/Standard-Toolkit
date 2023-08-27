@@ -22,8 +22,10 @@ namespace Krypton.Toolkit
         private const int GLOW_EXTRA_WIDTH = 14;
         private const int GLOW_EXTRA_HEIGHT = 3;
 
-        private static TimedCache<(string text, Font font, StringFormatFlags formatFlags, TextRenderingHint hint), AccurateTextMemento> _cache 
-            = new(TimeSpan.FromMinutes(10));
+        // DO NOT USE THIS CACHING, because when the Theme Font is changed and there is a global update, 
+        // the whole thing gets locked up in resizing......
+        //private static TimedCache<(string text, Font font, StringFormatFlags formatFlags, TextRenderingHint hint), AccurateTextMemento> _cache 
+        //    = new(TimeSpan.FromMinutes(10));
 
         #endregion
 
@@ -156,35 +158,38 @@ namespace Krypton.Toolkit
 
             // Optimisation: Lookup key before performing expensive / slow GDI functions
             var key = (text, font, format.FormatFlags, hint);
-            var memento = _cache.GetOrCreate(key, () =>
-            {
-
-                // Replace tab characters with a fixed four spaces
-                text = text.Replace("\t", @"    ");
-
-                // Perform actual measure of the text
-                using var graphicsHint = new GraphicsTextHint(g, hint);
-                var textSize = SizeF.Empty;
-
-                try
+            var memento = //_cache.GetOrCreate(key,
+                () =>
                 {
-                    // Declare a proposed size with dimensions set to the maximum integer value.
-                    var proposedSize = new Size(int.MaxValue, int.MaxValue);
-                    textSize = g.MeasureString(text, font, proposedSize, format);
 
-                    if (composition && glowing) //Seb
+                    // Replace tab characters with a fixed four spaces
+                    text = text.Replace("\t", @"    ");
+
+                    // Perform actual measure of the text
+                    using var graphicsHint = new GraphicsTextHint(g, hint);
+                    var textSize = SizeF.Empty;
+
+                    try
                     {
-                        textSize.Width += GLOW_EXTRA_WIDTH;
+                        // Declare a proposed size with dimensions set to the maximum integer value.
+                        var proposedSize = new Size(int.MaxValue, int.MaxValue);
+                        textSize = g.MeasureString(text, font, proposedSize, format);
+
+                        if (composition && glowing) //Seb
+                        {
+                            textSize.Width += GLOW_EXTRA_WIDTH;
+                        }
                     }
-                }
-                catch
-                {
-                    // ignored
-                }
-                return new AccurateTextMemento(text, font, textSize, format, hint, disposeFont);
-            });
+                    catch
+                    {
+                        // ignored
+                    }
+
+                    return new AccurateTextMemento(text, font, textSize, format, hint, disposeFont);
+                };
+                //);
             // Return a memento with drawing details
-            return memento;
+            return memento.Invoke();
         }
 
         /// <summary>

@@ -312,7 +312,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Visuals")]
         [Description(@"Header style for a main form.")]
-        [DefaultValue(typeof(HeaderStyle), nameof(Form))]
+        [DefaultValue(HeaderStyle.Form)]
         public HeaderStyle HeaderStyle
         {
             get => _headerStyle;
@@ -333,7 +333,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"The Form Title position, relative to available space")]
         [RefreshProperties(RefreshProperties.All)]
-        [DefaultValue(typeof(PaletteRelativeAlign), "Near")]
+        [DefaultValue(PaletteRelativeAlign.Near)]
         public PaletteRelativeAlign FormTitleAlign
         {
             get => _formTitleAlign;
@@ -357,7 +357,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Visuals")]
         [Description(@"Chrome group border style.")]
-        [DefaultValue(typeof(PaletteBorderStyle), "FormMain")]
+        [DefaultValue(PaletteBorderStyle.FormMain)]
         public PaletteBorderStyle GroupBorderStyle
         {
             get => StateCommon!.BorderStyle;
@@ -377,7 +377,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Visuals")]
         [Description(@"Chrome group background style.")]
-        [DefaultValue(typeof(PaletteBackStyle), "FormMain")]
+        [DefaultValue(PaletteBackStyle.FormMain)]
         public PaletteBackStyle GroupBackStyle
         {
             get => StateCommon!.BackStyle;
@@ -637,7 +637,7 @@ namespace Krypton.Toolkit
         /// <summary>Arranges the current window title alignment.</summary>
         /// <value>The current window title alignment.</value>
         [Category(@"Appearance")]
-        [DefaultValue(typeof(KryptonFormTitleStyle), "KryptonFormTitleStyle.Inherit"),
+        [DefaultValue(KryptonFormTitleStyle.Inherit),
          Description(@"Arranges the current window title alignment.")]
         public KryptonFormTitleStyle TitleStyle { get => _titleStyle; set { _titleStyle = value; UpdateTitleStyle(value); } }
 

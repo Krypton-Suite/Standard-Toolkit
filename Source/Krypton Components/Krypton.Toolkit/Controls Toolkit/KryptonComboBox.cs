@@ -56,9 +56,18 @@ namespace Krypton.Toolkit
                 // Find the largest size of any child control
                 foreach (Control c in Controls)
                 {
-                    Size cSize = c.GetPreferredSize(proposedSize);
-                    maxSize.Width = Math.Max(maxSize.Width, cSize.Width);
-                    maxSize.Height = Math.Max(maxSize.Height, cSize.Height);
+                    try
+                    {
+                        Size cSize = c.GetPreferredSize(proposedSize);
+                        maxSize.Width = Math.Max(maxSize.Width, cSize.Width);
+                        maxSize.Height = Math.Max(maxSize.Height, cSize.Height);
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex);
+                        // For some reason when the font `simSun` is used the control.GetPreferredSize throws it's toys out of the pram
+                        maxSize = c.Size;
+                    }
                 }
 
                 // The panel needs to be 2 above and 2 below bigger than the height of an item
@@ -1567,7 +1576,7 @@ namespace Krypton.Toolkit
         [Category(@"Appearance")]
         [Description(@"Controls the appearance and functionality of the KryptonComboBox.")]
         [Editor(typeof(OverrideComboBoxStyleDropDownStyle), typeof(UITypeEditor))]
-        [DefaultValue(typeof(ComboBoxStyle), nameof(DropDown))]
+        [DefaultValue(ComboBoxStyle.DropDown)]
         [RefreshProperties(RefreshProperties.Repaint)]
         public ComboBoxStyle DropDownStyle
         {
@@ -1831,7 +1840,7 @@ namespace Krypton.Toolkit
         /// Gets or sets the text completion behavior of the combobox.
         /// </summary>
         [Description(@"Indicates the text completion behavior of the combobox.")]
-        [DefaultValue(typeof(AutoCompleteMode), "None")]
+        [DefaultValue(AutoCompleteMode.None)]
         [EditorBrowsable(EditorBrowsableState.Always)]
         [Browsable(true)]
         public AutoCompleteMode AutoCompleteMode
@@ -1845,7 +1854,7 @@ namespace Krypton.Toolkit
         /// Gets or sets the autocomplete source, which can be one of the values from AutoCompleteSource enumeration.
         /// </summary>
         [Description(@"The autocomplete source, which can be one of the values from AutoCompleteSource enumeration.")]
-        [DefaultValue(typeof(AutoCompleteSource), "None")]
+        [DefaultValue(AutoCompleteSource.None)]
         [EditorBrowsable(EditorBrowsableState.Always)]
         [Browsable(true)]
         public AutoCompleteSource AutoCompleteSource
