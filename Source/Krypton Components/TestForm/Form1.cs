@@ -97,7 +97,7 @@ namespace TestForm
         {
             KryptonThemeBrowserForm themeBrowser = new KryptonThemeBrowserForm();
 
-            themeBrowser.Show();
+            themeBrowser.ShowDialog();
         }
 
         private void kchkUseProgressValueAsText_CheckedChanged(object sender, EventArgs e)

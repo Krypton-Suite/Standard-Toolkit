@@ -28,7 +28,7 @@ namespace Krypton.Toolkit
         /// <param name="windowTitle">The window title.</param>
         /// <param name="showImportButton">The show import button.</param>
         /// <param name="showSilentOption">The show silent option.</param>
-        public KryptonThemeBrowserForm(FormStartPosition? startPosition = FormStartPosition.CenterScreen, int? startIndex = 33, string? windowTitle = null, bool? showImportButton = null, bool? showSilentOption = null)
+        public KryptonThemeBrowserForm(FormStartPosition startPosition = FormStartPosition.CenterScreen, int startIndex = 34, string? windowTitle = null, bool? showImportButton = null, bool? showSilentOption = null)
         {
             InitializeComponent();
 
@@ -36,9 +36,9 @@ namespace Krypton.Toolkit
 
             _showSilentOption = showSilentOption ?? false;
 
-            _formStartPosition = startPosition ?? FormStartPosition.CenterScreen;
+            _formStartPosition = startPosition;
 
-            _startIndex = startIndex ?? ThemeManager.GetThemeIndex();
+            _startIndex = startIndex;
 
             _windowTitle = windowTitle ?? KryptonLanguageManager.MiscellaneousThemeStrings.ThemeBrowserWindowTitle;
 
@@ -58,8 +58,6 @@ namespace Krypton.Toolkit
             kchkSilent.Visible = _showSilentOption;
 
             StartPosition = _formStartPosition;
-
-            klbThemeList.SelectedIndex = _startIndex;
 
             klblDescription.Text = KryptonLanguageManager.MiscellaneousThemeStrings.ThemeBrowserDescription;
 
@@ -83,6 +81,8 @@ namespace Krypton.Toolkit
                     klbThemeList.Items.Add(themeName);
                 }
             }
+
+            klbThemeList.SelectedItem = _startIndex;
         }
 
         private void kbtnOK_Click(object sender, EventArgs e) => DialogResult = DialogResult.OK;
@@ -92,7 +92,11 @@ namespace Krypton.Toolkit
         private void klbThemeList_SelectedIndexChanged(object sender, EventArgs e)
         {
             ThemeManager.ApplyTheme(klbThemeList.GetItemText(klbThemeList.SelectedItem), new());
+
+            SetIndexText($@"{klbThemeList.GetItemText(klbThemeList.SelectedItem)} - Index: {klbThemeList.SelectedIndex}");
         }
+
+        private void SetIndexText(string v) => klblSelectedIndex.Text = v;
 
         #endregion
     }
