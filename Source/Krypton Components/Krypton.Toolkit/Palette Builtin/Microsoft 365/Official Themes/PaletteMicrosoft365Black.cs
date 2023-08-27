@@ -139,7 +139,7 @@ namespace Krypton.Toolkit
 
         private static readonly Color[] _schemeOfficeColors =
         {
-            Color.FromArgb(76, 83, 92) /*(255, 255, 255)*/, // TextLabelControl
+            Color.FromArgb(255, 255, 255), // (76, 83, 92), // TextLabelControl
             Color.Black, // TextButtonNormal
             Color.Black, // TextButtonChecked
             Color.FromArgb(106, 106, 106), // ButtonNormalBorder1
