@@ -31,14 +31,15 @@
             this.components = new System.ComponentModel.Container();
             this.kcpbCustom = new Krypton.Toolkit.KryptonCustomPaletteBase(this.components);
             this.kryptonPanel1 = new Krypton.Toolkit.KryptonPanel();
+            this.klblSelectedIndex = new Krypton.Toolkit.KryptonLabel();
             this.kchkSilent = new Krypton.Toolkit.KryptonCheckBox();
             this.kbtnOK = new Krypton.Toolkit.KryptonButton();
             this.kbtnCancel = new Krypton.Toolkit.KryptonButton();
             this.kbtnImport = new Krypton.Toolkit.KryptonButton();
             this.kryptonBorderEdge1 = new Krypton.Toolkit.KryptonBorderEdge();
             this.kryptonPanel2 = new Krypton.Toolkit.KryptonPanel();
-            this.klbThemeList = new Krypton.Toolkit.KryptonListBox();
             this.klblDescription = new Krypton.Toolkit.KryptonLabel();
+            this.klbThemeList = new Krypton.Toolkit.KryptonListBox();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
             this.kryptonPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel2)).BeginInit();
@@ -56,6 +57,7 @@
             // 
             // kryptonPanel1
             // 
+            this.kryptonPanel1.Controls.Add(this.klblSelectedIndex);
             this.kryptonPanel1.Controls.Add(this.kchkSilent);
             this.kryptonPanel1.Controls.Add(this.kbtnOK);
             this.kryptonPanel1.Controls.Add(this.kbtnCancel);
@@ -67,6 +69,16 @@
             this.kryptonPanel1.PanelBackStyle = Krypton.Toolkit.PaletteBackStyle.PanelAlternate;
             this.kryptonPanel1.Size = new System.Drawing.Size(800, 50);
             this.kryptonPanel1.TabIndex = 0;
+            // 
+            // klblSelectedIndex
+            // 
+            this.klblSelectedIndex.LabelStyle = Krypton.Toolkit.LabelStyle.NormalPanel;
+            this.klblSelectedIndex.Location = new System.Drawing.Point(170, 13);
+            this.klblSelectedIndex.Name = "klblSelectedIndex";
+            this.klblSelectedIndex.Size = new System.Drawing.Size(6, 2);
+            this.klblSelectedIndex.TabIndex = 15;
+            this.klblSelectedIndex.Values.Text = "";
+            this.klblSelectedIndex.Visible = false;
             // 
             // kchkSilent
             // 
@@ -126,14 +138,6 @@
             this.kryptonPanel2.Size = new System.Drawing.Size(800, 445);
             this.kryptonPanel2.TabIndex = 1;
             // 
-            // klbThemeList
-            // 
-            this.klbThemeList.Location = new System.Drawing.Point(13, 39);
-            this.klbThemeList.Name = "klbThemeList";
-            this.klbThemeList.Size = new System.Drawing.Size(775, 400);
-            this.klbThemeList.TabIndex = 0;
-            this.klbThemeList.SelectedIndexChanged += new System.EventHandler(this.klbThemeList_SelectedIndexChanged);
-            // 
             // klblDescription
             // 
             this.klblDescription.LabelStyle = Krypton.Toolkit.LabelStyle.NormalPanel;
@@ -142,6 +146,14 @@
             this.klblDescription.Size = new System.Drawing.Size(88, 20);
             this.klblDescription.TabIndex = 1;
             this.klblDescription.Values.Text = "kryptonLabel1";
+            // 
+            // klbThemeList
+            // 
+            this.klbThemeList.Location = new System.Drawing.Point(13, 39);
+            this.klbThemeList.Name = "klbThemeList";
+            this.klbThemeList.Size = new System.Drawing.Size(775, 400);
+            this.klbThemeList.TabIndex = 0;
+            this.klbThemeList.SelectedIndexChanged += new System.EventHandler(this.klbThemeList_SelectedIndexChanged);
             // 
             // KryptonThemeBrowserForm
             // 
@@ -183,5 +195,6 @@
         private KryptonButton kbtnOK;
         private KryptonCheckBox kchkSilent;
         private KryptonLabel klblDescription;
+        private KryptonLabel klblSelectedIndex;
     }
 }
