@@ -182,7 +182,7 @@ namespace Krypton.Toolkit
         /// Gets or sets a value indicating whether the Text property value is Displayed as the button text for cells in this column.
         /// </summary>
         [Category(@"Appearance")]
-        [DefaultValue(typeof(ButtonStyle), "Standalone")]
+        [DefaultValue(ButtonStyle.Standalone)]
         public ButtonStyle ButtonStyle
         {
             get =>

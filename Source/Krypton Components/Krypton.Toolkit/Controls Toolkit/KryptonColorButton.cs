@@ -378,7 +378,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Behavior")]
         [Description(@"Color scheme to use for the themes color set.")]
-        [DefaultValue(typeof(ColorScheme), "OfficeThemes")]
+        [DefaultValue(ColorScheme.OfficeThemes)]
         public ColorScheme SchemeThemes { get; set; }
 
         /// <summary>
@@ -386,7 +386,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Behavior")]
         [Description(@"Color scheme to use for the standard color set.")]
-        [DefaultValue(typeof(ColorScheme), "OfficeStandard")]
+        [DefaultValue(ColorScheme.OfficeStandard)]
         public ColorScheme SchemeStandard { get; set; }
 
         /// <summary>
@@ -460,7 +460,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Visuals")]
         [Description(@"Visual orientation of the control.")]
-        [DefaultValue(typeof(VisualOrientation), nameof(Top))]
+        [DefaultValue(VisualOrientation.Top)]
         public virtual VisualOrientation ButtonOrientation
         {
             get => _drawButton.Orientation;
@@ -480,7 +480,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Visuals")]
         [Description(@"Position of the drop arrow within the color button.")]
-        [DefaultValue(typeof(VisualOrientation), nameof(Right))]
+        [DefaultValue(VisualOrientation.Right)]
         public virtual VisualOrientation DropDownPosition
         {
             get => _drawButton.DropDownPosition;
@@ -500,7 +500,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Visuals")]
         [Description(@"Orientation of the drop arrow within the color button.")]
-        [DefaultValue(typeof(VisualOrientation), nameof(Bottom))]
+        [DefaultValue(VisualOrientation.Bottom)]
         public virtual VisualOrientation DropDownOrientation
         {
             get
@@ -681,7 +681,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Behavior")]
         [Description(@"The dialog-box result produced in a modal form by clicking the color button.")]
-        [DefaultValue(typeof(DialogResult), "None")]
+        [DefaultValue(DialogResult.None)]
         public DialogResult DialogResult { get; set; }
 
         /// <summary>
@@ -829,7 +829,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Allows the configuration of a custom colour preview shape.
         /// </summary>
-        [DefaultValue(typeof(KryptonColorButtonCustomColorPreviewShape), "KryptonColorButtonCustomColorPreviewShape.None"), Description(@"Allows the configuration of a custom colour preview shape.")]
+        [DefaultValue(KryptonColorButtonCustomColorPreviewShape.None)]
+        [Description(@"Allows the configuration of a custom colour preview shape.")]
         public KryptonColorButtonCustomColorPreviewShape CustomColorPreviewShape
         {
             get => _customColorPreviewShape;

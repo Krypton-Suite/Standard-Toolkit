@@ -194,7 +194,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Layout")]
         [Description(@"Specifies if the control grows and shrinks to fit the contents exactly.")]
-        [DefaultValue(typeof(AutoSizeMode), "GrowAndShrink")]
+        [DefaultValue(AutoSizeMode.GrowAndShrink)]
         public AutoSizeMode AutoSizeMode
         {
             // ReSharper disable RedundantBaseQualifier
@@ -278,7 +278,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Visuals")]
         [Description(@"Border style.")]
-        [DefaultValue(typeof(PaletteBorderStyle), "ControlGroupBox")]
+        [DefaultValue(PaletteBorderStyle.ControlGroupBox)]
         public PaletteBorderStyle GroupBorderStyle
         {
             get => StateCommon.BorderStyle;
@@ -302,7 +302,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Visuals")]
         [Description(@"Background style.")]
-        [DefaultValue(typeof(PaletteBackStyle), "ControlGroupBox")]
+        [DefaultValue(PaletteBackStyle.ControlGroupBox)]
         public PaletteBackStyle GroupBackStyle
         {
             get => StateCommon.BackStyle;
@@ -327,7 +327,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Visuals")]
         [Description(@"Caption style.")]
-        [DefaultValue(typeof(LabelStyle), "GroupBoxCaption")]
+        [DefaultValue(LabelStyle.GroupBoxCaption)]
         public LabelStyle CaptionStyle
         {
             get => _captionStyle;
@@ -352,7 +352,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Visuals")]
         [Description(@"Edge position of the caption.")]
-        [DefaultValue(typeof(VisualOrientation), nameof(Top))]
+        [DefaultValue(VisualOrientation.Top)]
         public VisualOrientation CaptionEdge
         {
             get => _captionEdge;
@@ -408,7 +408,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Visuals")]
         [Description(@"Orientation of the caption.")]
-        [DefaultValue(typeof(ButtonOrientation), "Auto")]
+        [DefaultValue(ButtonOrientation.Auto)]
         public ButtonOrientation CaptionOrientation
         {
             get => _captionOrientation;

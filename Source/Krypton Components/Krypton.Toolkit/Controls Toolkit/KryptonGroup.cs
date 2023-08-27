@@ -139,7 +139,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Layout")]
         [Description(@"Specifies if the control grows and shrinks to fit the contents exactly.")]
-        [DefaultValue(typeof(AutoSizeMode), "GrowAndShrink")]
+        [DefaultValue(AutoSizeMode.GrowAndShrink)]
         public AutoSizeMode AutoSizeMode
         {
             // ReSharper disable RedundantBaseQualifier

@@ -323,7 +323,7 @@ namespace Krypton.Toolkit
         [KryptonPersist]
         [Category(@"Behavior")]
         [Description(@"The shortcut key combination associated with the menu item.")]
-        [DefaultValue(typeof(Keys), "None")]
+        [DefaultValue(Keys.None)]
         [Localizable(true)]
         public Keys ShortcutKeys
         {
@@ -514,7 +514,7 @@ namespace Krypton.Toolkit
         [Category(@"Appearance")]
         [Description(@"Indicates the checked state of the menu item.")]
         [RefreshProperties(RefreshProperties.All)]
-        [DefaultValue(typeof(CheckState), "Unchecked")]
+        [DefaultValue(CheckState.Unchecked)]
         [Bindable(true)]
         public CheckState CheckState
         {

@@ -199,7 +199,7 @@ namespace Krypton.Toolkit
         [Localizable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        [DefaultValue(typeof(AutoSizeMode), "GrowAndShrink")]
+        [DefaultValue(AutoSizeMode.GrowAndShrink)]
         public new AutoSizeMode AutoSizeMode
         {
             get => base.AutoSizeMode;
@@ -247,7 +247,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Visuals")]
         [Description(@"Visual orientation of the control.")]
-        [DefaultValue(typeof(VisualOrientation), nameof(Top))]
+        [DefaultValue(VisualOrientation.Top)]
         public virtual VisualOrientation Orientation
         {
             get => _orientation;
@@ -274,7 +274,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Visuals")]
         [Description(@"Visual position of the check box.")]
-        [DefaultValue(typeof(VisualOrientation), nameof(Left))]
+        [DefaultValue(VisualOrientation.Left)]
         [Localizable(true)]
         public virtual VisualOrientation CheckPosition
         {
@@ -461,7 +461,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Appearance")]
         [Description(@"Indicates the checked state of the component.")]
-        [DefaultValue(typeof(CheckState), "Unchecked")]
+        [DefaultValue(CheckState.Unchecked)]
         [Bindable(true)]
         public CheckState CheckState
         {

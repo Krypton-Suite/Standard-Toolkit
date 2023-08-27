@@ -28,14 +28,14 @@ namespace Krypton.Toolkit
 
         private bool _enabled;
         private bool _checked;
-        private ButtonSpec _assignedButtonSpec;
+        private ButtonSpec? _assignedButtonSpec;
         private CheckState _checkState;
         private string _text;
         private string _extraText;
         private string _textLine1;
         private string _textLine2;
-        private Image _imageSmall;
-        private Image _imageLarge;
+        private Image? _imageSmall;
+        private Image? _imageLarge;
         private Color _imageTransparentColor;
         private KryptonCommandType _commandType;
 
@@ -140,7 +140,7 @@ namespace Krypton.Toolkit
         }
 
         [DefaultValue(null)]
-        public ButtonSpec AssignedButtonSpec { get => _assignedButtonSpec; set => _assignedButtonSpec = value; }
+        public ButtonSpec? AssignedButtonSpec { get => _assignedButtonSpec; set => _assignedButtonSpec = value; }
 
         /// <summary>
         /// Gets and sets the check state of the command.
@@ -148,7 +148,9 @@ namespace Krypton.Toolkit
         [Bindable(true)]
         [Category(@"Behavior")]
         [Description(@"Indicates the checked state of the command.")]
+        //[DefaultValue(CheckState.Unchecked)]
         [DefaultValue(typeof(CheckState), "Unchecked")]
+
         public CheckState CheckState
         {
             get => _checkState;
@@ -361,7 +363,7 @@ namespace Krypton.Toolkit
         /// <value>The type of the krypton command.</value>
         [Category(@"Data")]
         [Description(@"Changes the KryptonCommand, depending on its intended use.")]
-        [DefaultValue(typeof(KryptonCommandType), @"KryptonCommandType.General")]
+        [DefaultValue(KryptonCommandType.General)]
         public KryptonCommandType CommandType
         {
             get => _commandType;

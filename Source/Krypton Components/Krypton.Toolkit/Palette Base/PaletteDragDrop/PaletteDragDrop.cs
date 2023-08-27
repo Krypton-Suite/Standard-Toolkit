@@ -104,7 +104,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category(@"Visuals")]
         [Description(@"Feedback drawing method used.")]
-        [DefaultValue(typeof(PaletteDragFeedback), "Inherit")]
+        [DefaultValue(PaletteDragFeedback.Inherit)]
         [RefreshProperties(RefreshProperties.All)]
         public PaletteDragFeedback Feedback
         {
@@ -142,7 +142,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category(@"Visuals")]
         [Description(@"Background color for a solid drag drop area.")]
-        [DefaultValue(typeof(Color), "")]
+        [DefaultValue(typeof(Color), "Empty")]
         [RefreshProperties(RefreshProperties.All)]
         public Color SolidBack
         {
@@ -180,7 +180,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category(@"Visuals")]
         [Description(@"Border color for a solid drag drop area.")]
-        [DefaultValue(typeof(Color), "")]
+        [DefaultValue(typeof(Color), "Empty")]
         [RefreshProperties(RefreshProperties.All)]
         public Color SolidBorder
         {
@@ -256,7 +256,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category(@"Visuals")]
         [Description(@"Background color for the docking indicators area.")]
-        [DefaultValue(typeof(Color), "")]
+        [DefaultValue(typeof(Color), "Empty")]
         [RefreshProperties(RefreshProperties.All)]
         public Color DropDockBack
         {
@@ -295,7 +295,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category(@"Visuals")]
         [Description(@"Border color for the docking indicators area.")]
-        [DefaultValue(typeof(Color), "")]
+        [DefaultValue(typeof(Color), "Empty")]
         [RefreshProperties(RefreshProperties.All)]
         public Color DropDockBorder
         {
@@ -333,7 +333,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category(@"Visuals")]
         [Description(@"Sctive color for docking indicators..")]
-        [DefaultValue(typeof(Color), "")]
+        [DefaultValue(typeof(Color), "Empty")]
         [RefreshProperties(RefreshProperties.All)]
         public Color DropDockActive
         {
@@ -371,7 +371,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category(@"Visuals")]
         [Description(@"Inactive color for docking indicators.")]
-        [DefaultValue(typeof(Color), "")]
+        [DefaultValue(typeof(Color), "Empty")]
         [RefreshProperties(RefreshProperties.All)]
         public Color DropDockInactive
         {

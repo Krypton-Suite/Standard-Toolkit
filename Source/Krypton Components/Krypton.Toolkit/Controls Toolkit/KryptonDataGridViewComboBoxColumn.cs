@@ -111,7 +111,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Appearance")]
         [Description(@"Controls the appearance and functionality of the KryptonComboBox.")]
-        [DefaultValue(typeof(ComboBoxStyle), "DropDown")]
+        [DefaultValue(ComboBoxStyle.DropDown)]
         [RefreshProperties(RefreshProperties.Repaint)]
         public ComboBoxStyle DropDownStyle
         {
@@ -292,7 +292,7 @@ namespace Krypton.Toolkit
         /// Gets or sets the text completion behavior of the combobox.
         /// </summary>
         [Description(@"Indicates the text completion behavior of the combobox.")]
-        [DefaultValue(typeof(AutoCompleteMode), "None")]
+        [DefaultValue(AutoCompleteMode.None)]
         [EditorBrowsable(EditorBrowsableState.Always)]
         [Browsable(true)]
         public AutoCompleteMode AutoCompleteMode
@@ -334,7 +334,7 @@ namespace Krypton.Toolkit
         /// Gets or sets the autocomplete source, which can be one of the values from AutoCompleteSource enumeration.
         /// </summary>
         [Description(@"The autocomplete source, which can be one of the values from AutoCompleteSource enumeration.")]
-        [DefaultValue(typeof(AutoCompleteSource), "None")]
+        [DefaultValue(AutoCompleteSource.None)]
         [EditorBrowsable(EditorBrowsableState.Always)]
         [Browsable(true)]
         public AutoCompleteSource AutoCompleteSource

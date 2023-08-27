@@ -161,7 +161,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the auto size mode.
         /// </summary>
-        [DefaultValue(typeof(AutoSizeMode), "GrowAndShrink")]
+        [DefaultValue(AutoSizeMode.GrowAndShrink)]
         public new AutoSizeMode AutoSizeMode
         {
             get => base.AutoSizeMode;
@@ -209,7 +209,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Visuals")]
         [Description(@"Visual orientation of the control.")]
-        [DefaultValue(typeof(VisualOrientation), nameof(Top))]
+        [DefaultValue(VisualOrientation.Top)]
         public virtual VisualOrientation Orientation
         {
             get => _orientation;
@@ -279,7 +279,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Visuals")]
         [Description(@"Header style.")]
-        [DefaultValue(typeof(HeaderStyle), "Primary")]
+        [DefaultValue(HeaderStyle.Primary)]
         public HeaderStyle HeaderStyle
         {
             get => _style;

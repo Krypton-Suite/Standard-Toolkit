@@ -191,7 +191,6 @@ namespace Krypton.Toolkit
         private readonly ImageList _galleryButtonList;
         private readonly Image[] _radioButtonArray;
 
-        private string _baseFontName;
         private string _themeName;
         #endregion
 
@@ -4992,33 +4991,6 @@ namespace Krypton.Toolkit
         /// </summary>
         public override KryptonColorTable ColorTable => _table ??= new KryptonColorTable2007(_ribbonColors, InheritBool.True, this);
 
-        #endregion
-
-        #region Public
-        /// <summary>
-        /// Gets and sets the base font name used when defining fonts.
-        /// </summary>
-        public virtual string BaseFontName
-        {
-            get => string.IsNullOrEmpty(_baseFontName) ? "Segoe UI" : _baseFontName;
-
-            set
-            {
-                // Is there a change in value?
-                if ((string.IsNullOrEmpty(value) && !string.IsNullOrEmpty(_baseFontName)) ||
-                    (!string.IsNullOrEmpty(value) && string.IsNullOrEmpty(_baseFontName)))
-                {
-                    // Cache new value
-                    _baseFontName = value;
-
-                    // Update fonts to reflect change
-                    DefineFonts();
-
-                    // Use event to indicate palette has caused layout changes
-                    OnPalettePaint(this, new PaletteLayoutEventArgs(true, false));
-                }
-            }
-        }
         #endregion
 
         #region OnUserPreferenceChanged

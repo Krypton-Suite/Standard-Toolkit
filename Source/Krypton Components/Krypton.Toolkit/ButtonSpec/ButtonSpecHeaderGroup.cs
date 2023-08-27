@@ -47,7 +47,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Defines header location for the button.")]
         [RefreshProperties(RefreshProperties.All)]
-        [DefaultValue(typeof(HeaderLocation), "PrimaryHeader")]
+        [DefaultValue(HeaderLocation.PrimaryHeader)]
         public HeaderLocation HeaderLocation
         {
             get => _location;

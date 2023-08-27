@@ -53,6 +53,7 @@ namespace Krypton.Toolkit
         private ShadowManager _shadowManager;
         private BlurValues _blurValues;
         private BlurManager _blurManager;
+        private object lockObject = new object();
         #endregion
 
         #region Events
@@ -813,14 +814,22 @@ namespace Krypton.Toolkit
         protected void InvalidateNonClient(Rectangle invalidRect,
                                            bool excludeClientArea)
         {
-            if (!IsDisposed && !Disposing && IsHandleCreated)
+            if (IsDisposed || Disposing || !IsHandleCreated)
+            {
+                return;
+            }
+
+            lock (lockObject)
             {
                 if (invalidRect.IsEmpty)
                 {
                     Padding realWindowBorders = RealWindowBorders;
                     Rectangle realWindowRectangle = RealWindowRectangle;
 
-                    invalidRect = realWindowRectangle with { X = -realWindowBorders.Left, Y = -realWindowBorders.Top };
+                    invalidRect = realWindowRectangle with
+                    {
+                        X = -realWindowBorders.Left, Y = -realWindowBorders.Top
+                    };
                 }
 
                 using var invalidRegion = new Region(invalidRect);
@@ -837,6 +846,11 @@ namespace Krypton.Toolkit
 
                     PI.RedrawWindow(Handle, IntPtr.Zero, hRgn.Value,
                         PI.RDW_FRAME | PI.RDW_UPDATENOW | PI.RDW_INVALIDATE);
+                }
+                catch (InvalidOperationException ioEx)
+                {
+                    // Object is currently in use elsewhere. ??
+                    Debug.WriteLine(ioEx.Message);
                 }
                 finally
                 {

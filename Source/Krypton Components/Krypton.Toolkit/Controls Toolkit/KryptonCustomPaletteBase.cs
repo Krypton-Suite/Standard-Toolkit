@@ -169,7 +169,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category(@"Visuals")]
         [Description(@"Should KryptonForm instances show custom chrome.")]
-        [DefaultValue(typeof(InheritBool), "Inherit")]
+        [DefaultValue(InheritBool.Inherit)]
         public InheritBool AllowFormChrome
         {
             get => _allowFormChrome;
@@ -2639,7 +2639,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false, false)]
         [Category(@"Visuals")]
         [Description(@"Base palette used to inherit from.")]
-        [DefaultValue(typeof(PaletteMode), "Microsoft365Blue")]
+        [DefaultValue(PaletteMode.Microsoft365Blue)]
         public PaletteMode BasePaletteMode
         {
             get => _basePaletteMode;
@@ -2767,7 +2767,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false, false)]
         [Category(@"Visuals")]
         [Description(@"Renderer used to inherit from.")]
-        [DefaultValue(typeof(RendererMode), "Inherit")]
+        [DefaultValue(RendererMode.Inherit)]
         public RendererMode BaseRenderMode
         {
             get => _baseRenderMode;
@@ -2842,10 +2842,10 @@ namespace Krypton.Toolkit
         private bool ShouldSerializeBaseRenderer() => BaseRenderer != null;
         private void ResetBaseRenderer() => BaseRenderer = null;
 
-        protected override void DefineFonts()
-        {
-            // This class has no font fields
-        }
+        //protected override void DefineFonts()
+        //{
+        //    // This class has no font fields
+        //}
 
         /// <summary>
         /// Gets access to the color table instance.
@@ -2853,6 +2853,27 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         public override KryptonColorTable ColorTable => ToolMenuStatus.InternalKCT;
 
+        [Browsable(false)]
+        public bool UseKryptonFileDialogs
+        { get => _basePalette!.UseKryptonFileDialogs; set => _basePalette!.UseKryptonFileDialogs = value; }
+
+        [Browsable(false)]
+        public float BaseFontSize
+        { get => _basePalette!.BaseFontSize; set => _basePalette!.BaseFontSize = value; }
+
+        [Browsable(false)]
+        [DisallowNull]
+        public Font BaseFont
+        { get => _basePalette!.BaseFont; set => _basePalette!.BaseFont = value; }
+
+        [Browsable(false)]
+        [DisallowNull]
+        public string ThemeName
+        { get => _basePalette!.ThemeName; set => _basePalette!.ThemeName = value; }
+
+        [Browsable(false)]
+        public BasePaletteType BasePaletteType
+        { get => _basePalette!.BasePaletteType; set => _basePalette!.BasePaletteType = value; }
         #endregion
 
         #region Protected
@@ -2860,7 +2881,6 @@ namespace Krypton.Toolkit
         /// Gets access to the need paint delegate.
         /// </summary>
         protected NeedPaintHandler NeedPaintDelegate => _needPaintDelegate;
-
 
         /// <summary>
         /// Raises the PalettePaint event.

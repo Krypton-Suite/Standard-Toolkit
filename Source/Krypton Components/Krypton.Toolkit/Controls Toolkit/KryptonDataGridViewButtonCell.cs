@@ -61,7 +61,7 @@ namespace Krypton.Toolkit
         /// Gets and sets the button style.
         /// </summary>
         [Category(@"Appearance")]
-        [DefaultValue(typeof(ButtonStyle), "Standalone")]
+        [DefaultValue(ButtonStyle.Standalone)]
         public ButtonStyle ButtonStyle
         {
             get => _buttonStyle;

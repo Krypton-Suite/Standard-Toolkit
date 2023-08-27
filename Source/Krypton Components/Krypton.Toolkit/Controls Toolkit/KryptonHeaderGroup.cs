@@ -328,7 +328,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Layout")]
         [Description(@"Specifies if the control grows and shrinks to fit the contents exactly.")]
-        [DefaultValue(typeof(AutoSizeMode), "GrowAndShrink")]
+        [DefaultValue(AutoSizeMode.GrowAndShrink)]
         public AutoSizeMode AutoSizeMode
         {
             // ReSharper disable RedundantBaseQualifier
@@ -594,7 +594,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Visuals")]
         [Description(@"Edge position of the primary header.")]
-        [DefaultValue(typeof(VisualOrientation), nameof(Top))]
+        [DefaultValue(VisualOrientation.Top)]
         public VisualOrientation HeaderPositionPrimary
         {
             get => _position1;
@@ -616,7 +616,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Visuals")]
         [Description(@"Edge position of the secondary header.")]
-        [DefaultValue(typeof(VisualOrientation), nameof(Bottom))]
+        [DefaultValue(VisualOrientation.Bottom)]
         public VisualOrientation HeaderPositionSecondary
         {
             get => _position2;

@@ -756,25 +756,6 @@ namespace Krypton.Toolkit
         private readonly ImageList _checkBoxList;
         private readonly ImageList _galleryButtonList;
         private readonly Image[] _radioButtonArray;
-        private Font _header1ShortFont;
-        private Font _header2ShortFont;
-        private Font _header1LongFont;
-        private Font _header2LongFont;
-        private Font _superToolFont;
-        private Font _headerFormFont;
-        private Font _buttonFont;
-        private Font _buttonFontNavigatorStack;
-        private Font _buttonFontNavigatorMini;
-        private Font _tabFontNormal;
-        private Font _tabFontSelected;
-        private Font _ribbonTabFont;
-        private Font _ribbonTabContextFont;
-        private Font _gridFont;
-        private Font _calendarFont;
-        private Font _calendarBoldFont;
-        private Font _boldFont;
-        private Font _italicFont;
-        private string _baseFontName;
         #endregion
 
         #region Constructor        
@@ -2359,29 +2340,29 @@ namespace Krypton.Toolkit
         {
             if (CommonHelper.IsOverrideState(state))
             {
-                return (state == PaletteState.BoldedOverride) && (style == PaletteContentStyle.ButtonCalendarDay) ? _calendarBoldFont : null;
+                return (state == PaletteState.BoldedOverride) && (style == PaletteContentStyle.ButtonCalendarDay) ? CalendarBoldFont : null;
             }
 
             return style switch
             {
-                PaletteContentStyle.HeaderForm => _headerFormFont,
-                PaletteContentStyle.LabelTitleControl or PaletteContentStyle.LabelTitlePanel or PaletteContentStyle.HeaderPrimary or PaletteContentStyle.HeaderCustom1 or PaletteContentStyle.HeaderCustom2 or PaletteContentStyle.HeaderCustom3 or PaletteContentStyle.ButtonCommand => _header1ShortFont,
-                PaletteContentStyle.LabelSuperTip or PaletteContentStyle.ContextMenuHeading => _superToolFont,
-                PaletteContentStyle.LabelNormalControl or PaletteContentStyle.LabelNormalPanel or PaletteContentStyle.LabelGroupBoxCaption or PaletteContentStyle.LabelToolTip or PaletteContentStyle.LabelKeyTip or PaletteContentStyle.LabelCustom1 or PaletteContentStyle.LabelCustom2 or PaletteContentStyle.LabelCustom3 or PaletteContentStyle.InputControlStandalone or PaletteContentStyle.InputControlRibbon or PaletteContentStyle.InputControlCustom1 or PaletteContentStyle.InputControlCustom2 or PaletteContentStyle.InputControlCustom3 or PaletteContentStyle.HeaderSecondary or PaletteContentStyle.HeaderDockInactive or PaletteContentStyle.HeaderDockActive or PaletteContentStyle.ContextMenuItemImage or PaletteContentStyle.ContextMenuItemTextStandard or PaletteContentStyle.ContextMenuItemShortcutText => _header2ShortFont,
-                PaletteContentStyle.LabelBoldControl or PaletteContentStyle.LabelBoldPanel => _boldFont,
-                PaletteContentStyle.LabelItalicPanel or PaletteContentStyle.LabelItalicControl => _italicFont,
-                PaletteContentStyle.ContextMenuItemTextAlternate => _superToolFont,
-                PaletteContentStyle.TabLowProfile or PaletteContentStyle.TabDock or PaletteContentStyle.TabDockAutoHidden => _tabFontNormal,
+                PaletteContentStyle.HeaderForm => HeaderFormFont,
+                PaletteContentStyle.LabelTitleControl or PaletteContentStyle.LabelTitlePanel or PaletteContentStyle.HeaderPrimary or PaletteContentStyle.HeaderCustom1 or PaletteContentStyle.HeaderCustom2 or PaletteContentStyle.HeaderCustom3 or PaletteContentStyle.ButtonCommand => Header1ShortFont,
+                PaletteContentStyle.LabelSuperTip or PaletteContentStyle.ContextMenuHeading => SuperToolFont,
+                PaletteContentStyle.LabelNormalControl or PaletteContentStyle.LabelNormalPanel or PaletteContentStyle.LabelGroupBoxCaption or PaletteContentStyle.LabelToolTip or PaletteContentStyle.LabelKeyTip or PaletteContentStyle.LabelCustom1 or PaletteContentStyle.LabelCustom2 or PaletteContentStyle.LabelCustom3 or PaletteContentStyle.InputControlStandalone or PaletteContentStyle.InputControlRibbon or PaletteContentStyle.InputControlCustom1 or PaletteContentStyle.InputControlCustom2 or PaletteContentStyle.InputControlCustom3 or PaletteContentStyle.HeaderSecondary or PaletteContentStyle.HeaderDockInactive or PaletteContentStyle.HeaderDockActive or PaletteContentStyle.ContextMenuItemImage or PaletteContentStyle.ContextMenuItemTextStandard or PaletteContentStyle.ContextMenuItemShortcutText => Header2ShortFont,
+                PaletteContentStyle.LabelBoldControl or PaletteContentStyle.LabelBoldPanel => BoldFont,
+                PaletteContentStyle.LabelItalicPanel or PaletteContentStyle.LabelItalicControl => ItalicFont,
+                PaletteContentStyle.ContextMenuItemTextAlternate => SuperToolFont,
+                PaletteContentStyle.TabLowProfile or PaletteContentStyle.TabDock or PaletteContentStyle.TabDockAutoHidden => TabFontNormal,
                 PaletteContentStyle.TabHighProfile or PaletteContentStyle.TabStandardProfile or PaletteContentStyle.TabOneNote or PaletteContentStyle.TabCustom1 or PaletteContentStyle.TabCustom2 or PaletteContentStyle.TabCustom3 => state switch
                 {
-                    PaletteState.CheckedNormal or PaletteState.CheckedPressed or PaletteState.CheckedTracking => _tabFontSelected,
-                    _ => _tabFontNormal
+                    PaletteState.CheckedNormal or PaletteState.CheckedPressed or PaletteState.CheckedTracking => TabFontSelected,
+                    _ => TabFontNormal
                 },
-                PaletteContentStyle.ButtonStandalone or PaletteContentStyle.ButtonGallery or PaletteContentStyle.ButtonAlternate or PaletteContentStyle.ButtonLowProfile or PaletteContentStyle.ButtonBreadCrumb or PaletteContentStyle.ButtonListItem or PaletteContentStyle.ButtonButtonSpec or PaletteContentStyle.ButtonCluster or PaletteContentStyle.ButtonForm or PaletteContentStyle.ButtonFormClose or PaletteContentStyle.ButtonCustom1 or PaletteContentStyle.ButtonCustom2 or PaletteContentStyle.ButtonCustom3 or PaletteContentStyle.ButtonInputControl => _buttonFont,
-                PaletteContentStyle.ButtonNavigatorStack or PaletteContentStyle.ButtonNavigatorOverflow => _buttonFontNavigatorStack,
-                PaletteContentStyle.ButtonNavigatorMini => _buttonFontNavigatorMini,
-                PaletteContentStyle.GridHeaderColumnList or PaletteContentStyle.GridHeaderColumnSheet or PaletteContentStyle.GridHeaderColumnCustom1 or PaletteContentStyle.GridHeaderColumnCustom2 or PaletteContentStyle.GridHeaderColumnCustom3 or PaletteContentStyle.GridHeaderRowList or PaletteContentStyle.GridHeaderRowSheet or PaletteContentStyle.GridHeaderRowCustom1 or PaletteContentStyle.GridHeaderRowCustom2 or PaletteContentStyle.GridHeaderRowCustom3 or PaletteContentStyle.GridDataCellList or PaletteContentStyle.GridDataCellSheet or PaletteContentStyle.GridDataCellCustom1 or PaletteContentStyle.GridDataCellCustom2 or PaletteContentStyle.GridDataCellCustom3 or PaletteContentStyle.HeaderCalendar => _gridFont,
-                PaletteContentStyle.ButtonCalendarDay => _calendarFont,
+                PaletteContentStyle.ButtonStandalone or PaletteContentStyle.ButtonGallery or PaletteContentStyle.ButtonAlternate or PaletteContentStyle.ButtonLowProfile or PaletteContentStyle.ButtonBreadCrumb or PaletteContentStyle.ButtonListItem or PaletteContentStyle.ButtonButtonSpec or PaletteContentStyle.ButtonCluster or PaletteContentStyle.ButtonForm or PaletteContentStyle.ButtonFormClose or PaletteContentStyle.ButtonCustom1 or PaletteContentStyle.ButtonCustom2 or PaletteContentStyle.ButtonCustom3 or PaletteContentStyle.ButtonInputControl => ButtonFont,
+                PaletteContentStyle.ButtonNavigatorStack or PaletteContentStyle.ButtonNavigatorOverflow => ButtonFontNavigatorStack,
+                PaletteContentStyle.ButtonNavigatorMini => ButtonFontNavigatorMini,
+                PaletteContentStyle.GridHeaderColumnList or PaletteContentStyle.GridHeaderColumnSheet or PaletteContentStyle.GridHeaderColumnCustom1 or PaletteContentStyle.GridHeaderColumnCustom2 or PaletteContentStyle.GridHeaderColumnCustom3 or PaletteContentStyle.GridHeaderRowList or PaletteContentStyle.GridHeaderRowSheet or PaletteContentStyle.GridHeaderRowCustom1 or PaletteContentStyle.GridHeaderRowCustom2 or PaletteContentStyle.GridHeaderRowCustom3 or PaletteContentStyle.GridDataCellList or PaletteContentStyle.GridDataCellSheet or PaletteContentStyle.GridDataCellCustom1 or PaletteContentStyle.GridDataCellCustom2 or PaletteContentStyle.GridDataCellCustom3 or PaletteContentStyle.HeaderCalendar => GridFont,
+                PaletteContentStyle.ButtonCalendarDay => CalendarFont,
                 _ => throw new ArgumentOutOfRangeException(nameof(style))
             };
         }
@@ -2865,22 +2846,22 @@ namespace Krypton.Toolkit
         {
             if (CommonHelper.IsOverrideState(state))
             {
-                return (state == PaletteState.BoldedOverride) && (style == PaletteContentStyle.ButtonCalendarDay) ? _calendarBoldFont : null;
+                return (state == PaletteState.BoldedOverride) && (style == PaletteContentStyle.ButtonCalendarDay) ? CalendarBoldFont : null;
             }
 
             return style switch
             {
-                PaletteContentStyle.ButtonCalendarDay => _calendarFont,
-                PaletteContentStyle.GridHeaderColumnList or PaletteContentStyle.GridHeaderColumnSheet or PaletteContentStyle.GridHeaderColumnCustom1 or PaletteContentStyle.GridHeaderColumnCustom2 or PaletteContentStyle.GridHeaderColumnCustom3 or PaletteContentStyle.GridHeaderRowList or PaletteContentStyle.GridHeaderRowSheet or PaletteContentStyle.GridHeaderRowCustom1 or PaletteContentStyle.GridHeaderRowCustom2 or PaletteContentStyle.GridHeaderRowCustom3 or PaletteContentStyle.GridDataCellList or PaletteContentStyle.GridDataCellSheet or PaletteContentStyle.GridDataCellCustom1 or PaletteContentStyle.GridDataCellCustom2 or PaletteContentStyle.GridDataCellCustom3 or PaletteContentStyle.HeaderCalendar => _gridFont,
-                PaletteContentStyle.LabelTitleControl or PaletteContentStyle.LabelTitlePanel or PaletteContentStyle.HeaderPrimary or PaletteContentStyle.HeaderDockInactive or PaletteContentStyle.HeaderDockActive or PaletteContentStyle.HeaderForm or PaletteContentStyle.HeaderCustom1 or PaletteContentStyle.HeaderCustom2 or PaletteContentStyle.HeaderCustom3 => _header1LongFont,
-                PaletteContentStyle.LabelNormalControl or PaletteContentStyle.LabelBoldControl or PaletteContentStyle.LabelItalicControl or PaletteContentStyle.LabelNormalPanel or PaletteContentStyle.LabelBoldPanel or PaletteContentStyle.LabelItalicPanel or PaletteContentStyle.LabelGroupBoxCaption or PaletteContentStyle.LabelToolTip or PaletteContentStyle.LabelSuperTip or PaletteContentStyle.LabelKeyTip or PaletteContentStyle.LabelCustom1 or PaletteContentStyle.LabelCustom2 or PaletteContentStyle.LabelCustom3 or PaletteContentStyle.ContextMenuHeading or PaletteContentStyle.ContextMenuItemImage or PaletteContentStyle.ContextMenuItemTextStandard or PaletteContentStyle.ContextMenuItemTextAlternate or PaletteContentStyle.ContextMenuItemShortcutText or PaletteContentStyle.InputControlStandalone or PaletteContentStyle.InputControlRibbon or PaletteContentStyle.InputControlCustom1 or PaletteContentStyle.InputControlCustom2 or PaletteContentStyle.InputControlCustom3 or PaletteContentStyle.HeaderSecondary => _header2LongFont,
-                PaletteContentStyle.TabLowProfile or PaletteContentStyle.TabDock or PaletteContentStyle.TabDockAutoHidden => _tabFontNormal,
+                PaletteContentStyle.ButtonCalendarDay => CalendarFont,
+                PaletteContentStyle.GridHeaderColumnList or PaletteContentStyle.GridHeaderColumnSheet or PaletteContentStyle.GridHeaderColumnCustom1 or PaletteContentStyle.GridHeaderColumnCustom2 or PaletteContentStyle.GridHeaderColumnCustom3 or PaletteContentStyle.GridHeaderRowList or PaletteContentStyle.GridHeaderRowSheet or PaletteContentStyle.GridHeaderRowCustom1 or PaletteContentStyle.GridHeaderRowCustom2 or PaletteContentStyle.GridHeaderRowCustom3 or PaletteContentStyle.GridDataCellList or PaletteContentStyle.GridDataCellSheet or PaletteContentStyle.GridDataCellCustom1 or PaletteContentStyle.GridDataCellCustom2 or PaletteContentStyle.GridDataCellCustom3 or PaletteContentStyle.HeaderCalendar => GridFont,
+                PaletteContentStyle.LabelTitleControl or PaletteContentStyle.LabelTitlePanel or PaletteContentStyle.HeaderPrimary or PaletteContentStyle.HeaderDockInactive or PaletteContentStyle.HeaderDockActive or PaletteContentStyle.HeaderForm or PaletteContentStyle.HeaderCustom1 or PaletteContentStyle.HeaderCustom2 or PaletteContentStyle.HeaderCustom3 => Header1LongFont,
+                PaletteContentStyle.LabelNormalControl or PaletteContentStyle.LabelBoldControl or PaletteContentStyle.LabelItalicControl or PaletteContentStyle.LabelNormalPanel or PaletteContentStyle.LabelBoldPanel or PaletteContentStyle.LabelItalicPanel or PaletteContentStyle.LabelGroupBoxCaption or PaletteContentStyle.LabelToolTip or PaletteContentStyle.LabelSuperTip or PaletteContentStyle.LabelKeyTip or PaletteContentStyle.LabelCustom1 or PaletteContentStyle.LabelCustom2 or PaletteContentStyle.LabelCustom3 or PaletteContentStyle.ContextMenuHeading or PaletteContentStyle.ContextMenuItemImage or PaletteContentStyle.ContextMenuItemTextStandard or PaletteContentStyle.ContextMenuItemTextAlternate or PaletteContentStyle.ContextMenuItemShortcutText or PaletteContentStyle.InputControlStandalone or PaletteContentStyle.InputControlRibbon or PaletteContentStyle.InputControlCustom1 or PaletteContentStyle.InputControlCustom2 or PaletteContentStyle.InputControlCustom3 or PaletteContentStyle.HeaderSecondary => Header2LongFont,
+                PaletteContentStyle.TabLowProfile or PaletteContentStyle.TabDock or PaletteContentStyle.TabDockAutoHidden => TabFontNormal,
                 PaletteContentStyle.TabHighProfile or PaletteContentStyle.TabStandardProfile or PaletteContentStyle.TabOneNote or PaletteContentStyle.TabCustom1 or PaletteContentStyle.TabCustom2 or PaletteContentStyle.TabCustom3 => state switch
                 {
-                    PaletteState.CheckedNormal or PaletteState.CheckedPressed or PaletteState.CheckedTracking => _tabFontSelected,
-                    _ => _tabFontNormal
+                    PaletteState.CheckedNormal or PaletteState.CheckedPressed or PaletteState.CheckedTracking => TabFontSelected,
+                    _ => TabFontNormal
                 },
-                PaletteContentStyle.ButtonStandalone or PaletteContentStyle.ButtonGallery or PaletteContentStyle.ButtonAlternate or PaletteContentStyle.ButtonLowProfile or PaletteContentStyle.ButtonBreadCrumb or PaletteContentStyle.ButtonListItem or PaletteContentStyle.ButtonCommand or PaletteContentStyle.ButtonButtonSpec or PaletteContentStyle.ButtonCluster or PaletteContentStyle.ButtonNavigatorMini or PaletteContentStyle.ButtonNavigatorStack or PaletteContentStyle.ButtonNavigatorOverflow or PaletteContentStyle.ButtonForm or PaletteContentStyle.ButtonFormClose or PaletteContentStyle.ButtonCustom1 or PaletteContentStyle.ButtonCustom2 or PaletteContentStyle.ButtonCustom3 or PaletteContentStyle.ButtonInputControl => _buttonFont,
+                PaletteContentStyle.ButtonStandalone or PaletteContentStyle.ButtonGallery or PaletteContentStyle.ButtonAlternate or PaletteContentStyle.ButtonLowProfile or PaletteContentStyle.ButtonBreadCrumb or PaletteContentStyle.ButtonListItem or PaletteContentStyle.ButtonCommand or PaletteContentStyle.ButtonButtonSpec or PaletteContentStyle.ButtonCluster or PaletteContentStyle.ButtonNavigatorMini or PaletteContentStyle.ButtonNavigatorStack or PaletteContentStyle.ButtonNavigatorOverflow or PaletteContentStyle.ButtonForm or PaletteContentStyle.ButtonFormClose or PaletteContentStyle.ButtonCustom1 or PaletteContentStyle.ButtonCustom2 or PaletteContentStyle.ButtonCustom3 or PaletteContentStyle.ButtonInputControl => ButtonFont,
                 _ => throw new ArgumentOutOfRangeException(nameof(style))
             };
         }
@@ -4160,7 +4141,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
-        public override Font GetRibbonContextTextFont(PaletteState state) => _ribbonTabContextFont;
+        public override Font GetRibbonContextTextFont(PaletteState state) => RibbonTabContextFont;
 
         /// <summary>
         /// Gets the color for the ribbon context text.
@@ -4258,7 +4239,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
-        public override Font GetRibbonTextFont(PaletteState state) => _ribbonTabFont;
+        public override Font GetRibbonTextFont(PaletteState state) => RibbonTabFont;
 
         /// <summary>
         /// Gets the rendering hint for the ribbon font.
@@ -5105,33 +5086,6 @@ namespace Krypton.Toolkit
         }
         #endregion
 
-        #region Public
-        /// <summary>
-        /// Gets and sets the base font name used when defining fonts.
-        /// </summary>
-        public virtual string BaseFontName
-        {
-            get => string.IsNullOrEmpty(_baseFontName) ? "Segoe UI" : _baseFontName;
-
-            set
-            {
-                // Is there a change in value?
-                if ((string.IsNullOrEmpty(value) && !string.IsNullOrEmpty(_baseFontName)) ||
-                    (!string.IsNullOrEmpty(value) && string.IsNullOrEmpty(_baseFontName)))
-                {
-                    // Cache new value
-                    _baseFontName = value;
-
-                    // Update fonts to reflect change
-                    DefineFonts();
-
-                    // Use event to indicate palette has caused layout changes
-                    OnPalettePaint(this, new PaletteLayoutEventArgs(true, false));
-                }
-            }
-        }
-        #endregion
-
         #region Protected
         /// <summary>
         /// Update the fonts to reflect system or user defined changes.
@@ -5139,62 +5093,31 @@ namespace Krypton.Toolkit
         protected override void DefineFonts()
         {
             // Release existing resources
-            _header1ShortFont?.Dispose();
+            DisposeFonts();
+            var baseFontName = BaseFont.Name;
+            var baseFontSize = BaseFont.Size;
 
-            _header2ShortFont?.Dispose();
+            Header1ShortFont = new Font(baseFontName, baseFontSize + 4.5f, FontStyle.Bold);
+            Header2ShortFont = new Font(baseFontName, baseFontSize, FontStyle.Regular);
+            HeaderFormFont = new Font(baseFontName, SystemFonts.CaptionFont.SizeInPoints, FontStyle.Regular);
+            Header1LongFont = new Font(baseFontName, baseFontSize + 1.5f, FontStyle.Regular);
+            Header2LongFont = new Font(baseFontName, baseFontSize, FontStyle.Regular);
+            ButtonFont = new Font(baseFontName, baseFontSize, FontStyle.Regular);
+            ButtonFontNavigatorStack = new Font(ButtonFont, FontStyle.Bold);
+            ButtonFontNavigatorMini = new Font(baseFontName, baseFontSize + 3.0f, FontStyle.Bold);
+            TabFontNormal = new Font(baseFontName, baseFontSize, FontStyle.Regular);
+            TabFontSelected = new Font(TabFontNormal, FontStyle.Bold);
+            RibbonTabFont = new Font(baseFontName, baseFontSize, FontStyle.Regular);
+            RibbonTabContextFont = new Font(RibbonTabFont, FontStyle.Bold);
+            GridFont = new Font(baseFontName, baseFontSize, FontStyle.Regular);
+            SuperToolFont = new Font(baseFontName, baseFontSize, FontStyle.Bold);
+            CalendarFont = new Font(baseFontName, baseFontSize, FontStyle.Regular);
+            CalendarBoldFont = new Font(baseFontName, baseFontSize, FontStyle.Bold);
+            BoldFont = new Font(baseFontName, baseFontSize, FontStyle.Bold);
+            ItalicFont = new Font(baseFontName, baseFontSize, FontStyle.Italic);
+            // Call an event to force repaint style things
+            OnPalettePaint(this, new PaletteLayoutEventArgs(true, false));
 
-            _headerFormFont?.Dispose();
-
-            _header1LongFont?.Dispose();
-
-            _header2LongFont?.Dispose();
-
-            _buttonFont?.Dispose();
-
-            _buttonFontNavigatorStack?.Dispose();
-
-            _buttonFontNavigatorMini?.Dispose();
-
-            _tabFontSelected?.Dispose();
-
-            _tabFontNormal?.Dispose();
-
-            _ribbonTabFont?.Dispose();
-
-            _ribbonTabContextFont?.Dispose();
-
-            _gridFont?.Dispose();
-
-            _calendarFont?.Dispose();
-
-            _calendarBoldFont?.Dispose();
-
-            _superToolFont?.Dispose();
-
-            _boldFont?.Dispose();
-
-            _italicFont?.Dispose();
-
-            var baseFontSize = BaseFontSize;
-            var baseFontName = BaseFontName;
-            _header1ShortFont = new Font(baseFontName, baseFontSize + 4.5f, FontStyle.Bold);
-            _header2ShortFont = new Font(baseFontName, baseFontSize, FontStyle.Regular);
-            _headerFormFont = new Font(baseFontName, SystemFonts.CaptionFont.SizeInPoints, FontStyle.Regular);
-            _header1LongFont = new Font(baseFontName, baseFontSize + 1.5f, FontStyle.Regular);
-            _header2LongFont = new Font(baseFontName, baseFontSize, FontStyle.Regular);
-            _buttonFont = new Font(baseFontName, baseFontSize, FontStyle.Regular);
-            _buttonFontNavigatorStack = new Font(_buttonFont, FontStyle.Bold);
-            _buttonFontNavigatorMini = new Font(baseFontName, baseFontSize + 3.0f, FontStyle.Bold);
-            _tabFontNormal = new Font(baseFontName, baseFontSize, FontStyle.Regular);
-            _tabFontSelected = new Font(_tabFontNormal, FontStyle.Bold);
-            _ribbonTabFont = new Font(baseFontName, baseFontSize, FontStyle.Regular);
-            _ribbonTabContextFont = new Font(_ribbonTabFont, FontStyle.Bold);
-            _gridFont = new Font(baseFontName, baseFontSize, FontStyle.Regular);
-            _superToolFont = new Font(baseFontName, baseFontSize, FontStyle.Bold);
-            _calendarFont = new Font(baseFontName, baseFontSize, FontStyle.Regular);
-            _calendarBoldFont = new Font(baseFontName, baseFontSize, FontStyle.Bold);
-            _boldFont = new Font(baseFontName, baseFontSize, FontStyle.Bold);
-            _italicFont = new Font(baseFontName, baseFontSize, FontStyle.Italic);
         }
         #endregion
 

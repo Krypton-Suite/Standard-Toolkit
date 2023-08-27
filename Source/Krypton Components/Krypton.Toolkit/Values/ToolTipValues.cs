@@ -84,7 +84,7 @@ namespace Krypton.Toolkit
         /// Gets and sets the tooltip label style.
         /// </summary>
         [Description(@"Button tooltip label style.")]
-        [DefaultValue(typeof(LabelStyle), LabelStyleStrings.DEFAULT_LABEL_STYLE_SUPER_TIP)]
+        [DefaultValue(LabelStyle.SuperTip)]
         public LabelStyle ToolTipStyle
         {
             get => _toolTipStyle;

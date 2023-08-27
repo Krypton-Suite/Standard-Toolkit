@@ -479,7 +479,6 @@ namespace Krypton.Toolkit
         private readonly Color[] _ribbonGroupCollapsedBorderContextTracking;
         private readonly ImageList _checkBoxList;
         private readonly Image[] _radioButtonArray;
-        private string _baseFontName;
         #endregion
 
         #region Identity
@@ -4522,33 +4521,6 @@ namespace Krypton.Toolkit
             }
 
             return Color.Red;
-        }
-        #endregion
-
-        #region Public
-        /// <summary>
-        /// Gets and sets the base font name used when defining fonts.
-        /// </summary>
-        public virtual string BaseFontName
-        {
-            get => string.IsNullOrEmpty(_baseFontName) ? "Segoe UI" : _baseFontName;
-
-            set
-            {
-                // Is there a change in value?
-                if ((string.IsNullOrEmpty(value) && !string.IsNullOrEmpty(_baseFontName)) ||
-                    (!string.IsNullOrEmpty(value) && string.IsNullOrEmpty(_baseFontName)))
-                {
-                    // Cache new value
-                    _baseFontName = value;
-
-                    // Update fonts to reflect change
-                    DefineFonts();
-
-                    // Use event to indicate palette has caused layout changes
-                    OnPalettePaint(this, new PaletteLayoutEventArgs(true, false));
-                }
-            }
         }
         #endregion
 

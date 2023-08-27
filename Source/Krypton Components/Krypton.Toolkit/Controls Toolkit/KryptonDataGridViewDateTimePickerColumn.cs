@@ -176,7 +176,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Appearance")]
         [Description(@"Determines whether dates and times are Displayed using standard or custom formatting.")]
-        [DefaultValue(typeof(DateTimePickerFormat), "Long")]
+        [DefaultValue(DateTimePickerFormat.Long)]
         [RefreshProperties(RefreshProperties.Repaint)]
         public DateTimePickerFormat Format
         {
@@ -564,7 +564,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"MonthCalendar")]
         [Description(@"First day of the week.")]
-        [DefaultValue(typeof(Day), "Default")]
+        [DefaultValue(Day.Default)]
         public Day CalendarFirstDayOfWeek
         {
             get =>

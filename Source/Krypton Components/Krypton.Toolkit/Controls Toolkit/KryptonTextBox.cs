@@ -881,7 +881,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Appearance")]
         [Description(@"Indicates, for multiline edit controls, which scroll bars will be shown for this control.")]
-        [DefaultValue(typeof(ScrollBars), "None")]
+        [DefaultValue(ScrollBars.None)]
         [Localizable(true)]
         public ScrollBars ScrollBars
         {
@@ -894,7 +894,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Appearance")]
         [Description(@"Indicates how the text should be aligned for edit controls.")]
-        [DefaultValue(typeof(HorizontalAlignment), nameof(Left))]
+        [DefaultValue(HorizontalAlignment.Left)]
         [Localizable(true)]
         public HorizontalAlignment TextAlign
         {
@@ -971,7 +971,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Behavior")]
         [Description(@"Indicates if all the characters should be left alone or converted to uppercase or lowercase.")]
-        [DefaultValue(typeof(CharacterCasing), "Normal")]
+        [DefaultValue(CharacterCasing.Normal)]
         public CharacterCasing CharacterCasing
         {
             get => _textBox.CharacterCasing;
@@ -1098,7 +1098,7 @@ namespace Krypton.Toolkit
         /// Gets or sets the text completion behavior of the textbox.
         /// </summary>
         [Description(@"Indicates the text completion behavior of the textbox.")]
-        [DefaultValue(typeof(AutoCompleteMode), "None")]
+        [DefaultValue(AutoCompleteMode.None)]
         [EditorBrowsable(EditorBrowsableState.Always)]
         [Browsable(true)]
         public AutoCompleteMode AutoCompleteMode
@@ -1111,7 +1111,7 @@ namespace Krypton.Toolkit
         /// Gets or sets the autocomplete source, which can be one of the values from AutoCompleteSource enumeration.
         /// </summary>
         [Description(@"The autocomplete source, which can be one of the values from AutoCompleteSource enumeration.")]
-        [DefaultValue(typeof(AutoCompleteSource), "None")]
+        [DefaultValue(AutoCompleteSource.None)]
         [EditorBrowsable(EditorBrowsableState.Always)]
         [Browsable(true)]
         public AutoCompleteSource AutoCompleteSource

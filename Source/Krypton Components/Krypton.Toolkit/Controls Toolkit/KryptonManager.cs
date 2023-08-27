@@ -235,7 +235,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Visuals")]
         [Description(@"Global palette applied to drawing.")]
-        //[DefaultValue(typeof(PaletteMode), "Microsoft365Blue")]
+        [DefaultValue(PaletteMode.Microsoft365Blue)]
         public PaletteMode GlobalPaletteMode
         {
             get => InternalGlobalPaletteMode;

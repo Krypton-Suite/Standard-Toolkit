@@ -370,7 +370,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Visuals")]
         [Description(@"Border style for the control.")]
-        [DefaultValue(typeof(PaletteBorderStyle), "Control - Client")]
+        [DefaultValue(PaletteBorderStyle.ControlClient)]
         public PaletteBorderStyle ControlBorderStyle
         {
             get => StateCommon.BorderStyle;
