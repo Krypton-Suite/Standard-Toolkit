@@ -31,6 +31,8 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form5));
             this.kryptonPanel1 = new Krypton.Toolkit.KryptonPanel();
+            this.kryptonPropertyGrid1 = new Krypton.Toolkit.KryptonPropertyGrid();
+            this.kryptonManager1 = new Krypton.Toolkit.KryptonManager(this.components);
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -65,8 +67,9 @@
             this.kryptonPanel2 = new Krypton.Toolkit.KryptonPanel();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.kryptonManager1 = new Krypton.Toolkit.KryptonManager(this.components);
-            this.kryptonPropertyGrid1 = new Krypton.Toolkit.KryptonPropertyGrid();
+            this.kryptonLabel1 = new Krypton.Toolkit.KryptonLabel();
+            this.kryptonLabel2 = new Krypton.Toolkit.KryptonLabel();
+            this.kbtnKMBTest = new Krypton.Toolkit.KryptonButton();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
             this.kryptonPanel1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -77,6 +80,8 @@
             // 
             // kryptonPanel1
             // 
+            this.kryptonPanel1.Controls.Add(this.kbtnKMBTest);
+            this.kryptonPanel1.Controls.Add(this.kryptonLabel1);
             this.kryptonPanel1.Controls.Add(this.kryptonPropertyGrid1);
             this.kryptonPanel1.Controls.Add(this.menuStrip1);
             this.kryptonPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -84,6 +89,24 @@
             this.kryptonPanel1.Name = "kryptonPanel1";
             this.kryptonPanel1.Size = new System.Drawing.Size(800, 378);
             this.kryptonPanel1.TabIndex = 0;
+            // 
+            // kryptonPropertyGrid1
+            // 
+            this.kryptonPropertyGrid1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
+            this.kryptonPropertyGrid1.CategoryForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(57)))), ((int)(((byte)(91)))));
+            this.kryptonPropertyGrid1.CommandsBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.kryptonPropertyGrid1.CommandsForeColor = System.Drawing.Color.Black;
+            this.kryptonPropertyGrid1.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.kryptonPropertyGrid1.HelpBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.kryptonPropertyGrid1.HelpForeColor = System.Drawing.Color.Black;
+            this.kryptonPropertyGrid1.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(179)))), ((int)(((byte)(196)))), ((int)(((byte)(216)))));
+            this.kryptonPropertyGrid1.Location = new System.Drawing.Point(455, 27);
+            this.kryptonPropertyGrid1.Name = "kryptonPropertyGrid1";
+            this.kryptonPropertyGrid1.SelectedObject = this.kryptonManager1;
+            this.kryptonPropertyGrid1.Size = new System.Drawing.Size(333, 345);
+            this.kryptonPropertyGrid1.TabIndex = 2;
+            this.kryptonPropertyGrid1.ViewBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.kryptonPropertyGrid1.ViewForeColor = System.Drawing.Color.Black;
             // 
             // menuStrip1
             // 
@@ -122,7 +145,7 @@
             this.newToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.newToolStripMenuItem.Name = "newToolStripMenuItem";
             this.newToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
-            this.newToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
             this.newToolStripMenuItem.Text = "&New";
             // 
             // openToolStripMenuItem
@@ -332,6 +355,7 @@
             // 
             // kryptonPanel2
             // 
+            this.kryptonPanel2.Controls.Add(this.kryptonLabel2);
             this.kryptonPanel2.Controls.Add(this.kryptonButton1);
             this.kryptonPanel2.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.kryptonPanel2.Location = new System.Drawing.Point(0, 378);
@@ -358,23 +382,32 @@
             this.toolStripStatusLabel1.Size = new System.Drawing.Size(118, 17);
             this.toolStripStatusLabel1.Text = "toolStripStatusLabel1";
             // 
-            // kryptonPropertyGrid1
+            // kryptonLabel1
             // 
-            this.kryptonPropertyGrid1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
-            this.kryptonPropertyGrid1.CategoryForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(57)))), ((int)(((byte)(91)))));
-            this.kryptonPropertyGrid1.CommandsBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.kryptonPropertyGrid1.CommandsForeColor = System.Drawing.Color.Black;
-            this.kryptonPropertyGrid1.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.kryptonPropertyGrid1.HelpBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.kryptonPropertyGrid1.HelpForeColor = System.Drawing.Color.Black;
-            this.kryptonPropertyGrid1.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(179)))), ((int)(((byte)(196)))), ((int)(((byte)(216)))));
-            this.kryptonPropertyGrid1.Location = new System.Drawing.Point(455, 27);
-            this.kryptonPropertyGrid1.Name = "kryptonPropertyGrid1";
-            this.kryptonPropertyGrid1.SelectedObject = this.kryptonManager1;
-            this.kryptonPropertyGrid1.Size = new System.Drawing.Size(333, 345);
-            this.kryptonPropertyGrid1.TabIndex = 2;
-            this.kryptonPropertyGrid1.ViewBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.kryptonPropertyGrid1.ViewForeColor = System.Drawing.Color.Black;
+            this.kryptonLabel1.LabelStyle = Krypton.Toolkit.LabelStyle.NormalPanel;
+            this.kryptonLabel1.Location = new System.Drawing.Point(13, 63);
+            this.kryptonLabel1.Name = "kryptonLabel1";
+            this.kryptonLabel1.Size = new System.Drawing.Size(88, 20);
+            this.kryptonLabel1.TabIndex = 3;
+            this.kryptonLabel1.Values.Text = "kryptonLabel1";
+            // 
+            // kryptonLabel2
+            // 
+            this.kryptonLabel2.LabelStyle = Krypton.Toolkit.LabelStyle.NormalPanel;
+            this.kryptonLabel2.Location = new System.Drawing.Point(13, 15);
+            this.kryptonLabel2.Name = "kryptonLabel2";
+            this.kryptonLabel2.Size = new System.Drawing.Size(88, 20);
+            this.kryptonLabel2.TabIndex = 1;
+            this.kryptonLabel2.Values.Text = "kryptonLabel2";
+            // 
+            // kbtnKMBTest
+            // 
+            this.kbtnKMBTest.Location = new System.Drawing.Point(13, 103);
+            this.kbtnKMBTest.Name = "kbtnKMBTest";
+            this.kbtnKMBTest.Size = new System.Drawing.Size(201, 25);
+            this.kbtnKMBTest.TabIndex = 4;
+            this.kbtnKMBTest.Values.Text = "MessageBox Test";
+            this.kbtnKMBTest.Click += new System.EventHandler(this.kbtnKMBTest_Click);
             // 
             // Form5
             // 
@@ -393,6 +426,7 @@
             this.menuStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel2)).EndInit();
             this.kryptonPanel2.ResumeLayout(false);
+            this.kryptonPanel2.PerformLayout();
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
             this.ResumeLayout(false);
@@ -439,5 +473,8 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
         private Krypton.Toolkit.KryptonPropertyGrid kryptonPropertyGrid1;
+        private Krypton.Toolkit.KryptonLabel kryptonLabel1;
+        private Krypton.Toolkit.KryptonLabel kryptonLabel2;
+        private Krypton.Toolkit.KryptonButton kbtnKMBTest;
     }
 }
