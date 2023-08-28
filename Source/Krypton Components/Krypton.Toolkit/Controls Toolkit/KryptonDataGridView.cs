@@ -1703,7 +1703,7 @@ namespace Krypton.Toolkit
             // Remove border from being drawn, border is drawn according to system settings
             // and we do not want that appearance. So set to 'None' and override the 
             // BorderStyle property so it cannot be set to anything else.
-            base.BorderStyle = BorderStyle.None;
+            BorderStyle = BorderStyle.None;
 
             // Always turn off the base functionality as we do it instead.
             base.ShowCellToolTips = false;

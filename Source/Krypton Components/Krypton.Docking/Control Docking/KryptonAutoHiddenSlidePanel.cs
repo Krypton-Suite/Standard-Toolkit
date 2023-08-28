@@ -47,7 +47,7 @@ namespace Krypton.Docking
         private DockingAutoHiddenShowState _state;
         private Rectangle _startRect;
         private Rectangle _endRect;
-        private System.Windows.Forms.Timer? _slideTimer, _dismissTimer;
+        private Timer? _slideTimer, _dismissTimer;
         private bool _dismissRunning;
         private IntPtr _mouseTrackWindow;
         #endregion

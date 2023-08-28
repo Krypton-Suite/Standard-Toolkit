@@ -25,7 +25,7 @@ namespace Krypton.Docking
         private readonly KryptonDockingManager _manager;
         private Point _offset;
         private Point _screenPt;
-        private readonly System.Windows.Forms.Timer _moveTimer;
+        private readonly Timer _moveTimer;
         private bool _addedFilter;
         private bool _monitorMouse;
         #endregion

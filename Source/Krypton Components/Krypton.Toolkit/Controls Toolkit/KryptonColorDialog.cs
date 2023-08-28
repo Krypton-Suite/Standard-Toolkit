@@ -41,7 +41,7 @@ namespace Krypton.Toolkit
                 Maximum = 255,
                 Name = "kryptonTrackBar1",
                 Orientation = Orientation.Vertical,
-                Size = new System.Drawing.Size(23, 57),
+                Size = new Size(23, 57),
                 TabIndex = 27,
                 Text = @"Alpha",
                 TickStyle = TickStyle.TopLeft,
@@ -56,11 +56,11 @@ namespace Krypton.Toolkit
 
             _alphaLabel = new KryptonLabel
             {
-                LabelStyle = Krypton.Toolkit.LabelStyle.NormalPanel,
-                Location = new System.Drawing.Point(288, 97),
+                LabelStyle = LabelStyle.NormalPanel,
+                Location = new Point(288, 97),
                 Name = "kryptonLabel1",
-                Orientation = Krypton.Toolkit.VisualOrientation.Left,
-                Size = new System.Drawing.Size(24, 36),
+                Orientation = VisualOrientation.Left,
+                Size = new Size(24, 36),
                 TabIndex = 28,
                 Text = "255"
             };
@@ -265,7 +265,7 @@ namespace Krypton.Toolkit
                         // Add a slider
                         _alphaSlider.Location = _redEdit.ClientLocation with { X = _redEdit.ClientLocation.X + _redEdit.Size.Width+4 };
                         //_commonDialogHandler._wrapperForm.ClientSize
-                        _alphaSlider.Size = new System.Drawing.Size(_commonDialogHandler._wrapperForm.ClientSize.Width- _alphaSlider.Location.X+4, _blueEdit.ClientLocation.Y - _redEdit.ClientLocation.Y + _blueEdit.Size.Height);
+                        _alphaSlider.Size = new Size(_commonDialogHandler._wrapperForm.ClientSize.Width- _alphaSlider.Location.X+4, _blueEdit.ClientLocation.Y - _redEdit.ClientLocation.Y + _blueEdit.Size.Height);
                         _commonDialogHandler._wrapperForm.Controls[0].Controls.Add(_alphaSlider);
                         // Find the Add button 
                         var btnAdd = _commonDialogHandler.Controls.First(static ctl => ctl.DlgCtrlId == 0x00002C8);
