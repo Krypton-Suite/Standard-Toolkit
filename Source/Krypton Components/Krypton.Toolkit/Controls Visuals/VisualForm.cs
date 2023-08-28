@@ -1968,7 +1968,7 @@ namespace Krypton.Toolkit
                 _palette = palette;
 
                 // Get the renderer associated with the palette
-                Renderer = _palette.GetRenderer();
+                Renderer = _palette?.GetRenderer();
 
                 // Hook to new palette events
                 if (_palette != null)
@@ -1985,7 +1985,7 @@ namespace Krypton.Toolkit
 
         private void OnBaseChanged(object sender, EventArgs e) =>
             // Change in base renderer or base palette require we fetch the latest renderer
-            Renderer = _palette.GetRenderer();// PaletteImageScaler.ScalePalette(FactorDpiX, FactorDpiY, _palette);
+            Renderer = _palette?.GetRenderer();// PaletteImageScaler.ScalePalette(FactorDpiX, FactorDpiY, _palette);
 
 #if !NET462
         private void OnDpiChanged(object sender, DpiChangedEventArgs e) => UpdateDpiFactors();
@@ -2015,13 +2015,13 @@ namespace Krypton.Toolkit
 
         private void InitializeComponent()
         {
-            this.SuspendLayout();
+            SuspendLayout();
             // 
             // VisualForm
             // 
-            this.ClientSize = new System.Drawing.Size(284, 261);
-            this.Name = "VisualForm";
-            this.ResumeLayout(false);
+            ClientSize = new Size(284, 261);
+            Name = "VisualForm";
+            ResumeLayout(false);
 
         }
     }

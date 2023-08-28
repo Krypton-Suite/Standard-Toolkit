@@ -254,10 +254,10 @@ namespace Krypton.Toolkit
                 _buttonAddColorColumns = new Button();
                 _buttonAddImageSelect = new Button();
                 _buttonAddComboBox = new Button();
-                this._tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-                this._panel1 = new System.Windows.Forms.Panel();
-                this._tableLayoutPanel1.SuspendLayout();
-                this._panel1.SuspendLayout();
+                _tableLayoutPanel1 = new TableLayoutPanel();
+                _panel1 = new Panel();
+                _tableLayoutPanel1.SuspendLayout();
+                _panel1.SuspendLayout();
                 SuspendLayout();
                 // 
                 // buttonOK
@@ -516,11 +516,11 @@ namespace Krypton.Toolkit
                 // 
                 // propertyGrid1
                 // 
-                this._propertyGrid1.Dock = System.Windows.Forms.DockStyle.Fill;
+                _propertyGrid1.Dock = DockStyle.Fill;
                 _propertyGrid1.HelpVisible = false;
-                this._propertyGrid1.Location = new System.Drawing.Point(524, 24);
-                this._propertyGrid1.Name = "_propertyGrid1";
-                this._propertyGrid1.Size = new System.Drawing.Size(289, 658);
+                _propertyGrid1.Location = new Point(524, 24);
+                _propertyGrid1.Name = "_propertyGrid1";
+                _propertyGrid1.Size = new Size(289, 658);
                 _propertyGrid1.TabIndex = 15;
                 _propertyGrid1.ToolbarVisible = false;
                 // 
@@ -582,48 +582,48 @@ namespace Krypton.Toolkit
                 // 
                 // tableLayoutPanel1
                 // 
-                this._tableLayoutPanel1.ColumnCount = 3;
-                this._tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-                this._tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 226F));
-                this._tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-                this._tableLayoutPanel1.Controls.Add(this._label1, 0, 0);
-                this._tableLayoutPanel1.Controls.Add(this._buttonOk, 2, 2);
-                this._tableLayoutPanel1.Controls.Add(this._label2, 2, 0);
-                this._tableLayoutPanel1.Controls.Add(this._treeView, 0, 1);
-                this._tableLayoutPanel1.Controls.Add(this._propertyGrid1, 2, 1);
-                this._tableLayoutPanel1.Controls.Add(this._panel1, 1, 1);
-                this._tableLayoutPanel1.Controls.Add(this._buttonDelete, 1, 2);
-                this._tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-                this._tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
-                this._tableLayoutPanel1.Name = "_tableLayoutPanel1";
-                this._tableLayoutPanel1.RowCount = 3;
-                this._tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-                this._tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-                this._tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-                this._tableLayoutPanel1.Size = new System.Drawing.Size(816, 724);
-                this._tableLayoutPanel1.TabIndex = 17;
+                _tableLayoutPanel1.ColumnCount = 3;
+                _tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+                _tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 226F));
+                _tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+                _tableLayoutPanel1.Controls.Add(_label1, 0, 0);
+                _tableLayoutPanel1.Controls.Add(_buttonOk, 2, 2);
+                _tableLayoutPanel1.Controls.Add(_label2, 2, 0);
+                _tableLayoutPanel1.Controls.Add(_treeView, 0, 1);
+                _tableLayoutPanel1.Controls.Add(_propertyGrid1, 2, 1);
+                _tableLayoutPanel1.Controls.Add(_panel1, 1, 1);
+                _tableLayoutPanel1.Controls.Add(_buttonDelete, 1, 2);
+                _tableLayoutPanel1.Dock = DockStyle.Fill;
+                _tableLayoutPanel1.Location = new Point(0, 0);
+                _tableLayoutPanel1.Name = "_tableLayoutPanel1";
+                _tableLayoutPanel1.RowCount = 3;
+                _tableLayoutPanel1.RowStyles.Add(new RowStyle());
+                _tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+                _tableLayoutPanel1.RowStyles.Add(new RowStyle());
+                _tableLayoutPanel1.Size = new Size(816, 724);
+                _tableLayoutPanel1.TabIndex = 17;
                 // 
                 // panel1
                 // 
-                this._panel1.Controls.Add(this._buttonMoveUp);
-                this._panel1.Controls.Add(this._buttonAddComboBox);
-                this._panel1.Controls.Add(this._buttonAddMonthCalendar);
-                this._panel1.Controls.Add(this._buttonAddImageSelect);
-                this._panel1.Controls.Add(this._buttonAddColorColumns);
-                this._panel1.Controls.Add(this._buttonMoveDown);
-                this._panel1.Controls.Add(this._buttonAddItem);
-                this._panel1.Controls.Add(this._buttonAddHeading);
-                this._panel1.Controls.Add(this._buttonAddLinkLabel);
-                this._panel1.Controls.Add(this._buttonAddSeparator);
-                this._panel1.Controls.Add(this._buttonAddRadioButton);
-                this._panel1.Controls.Add(this._buttonAddItems);
-                this._panel1.Controls.Add(this._buttonAddCheckButton);
-                this._panel1.Controls.Add(this._buttonAddCheckBox);
-                this._panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-                this._panel1.Location = new System.Drawing.Point(298, 24);
-                this._panel1.Name = "_panel1";
-                this._panel1.Size = new System.Drawing.Size(220, 658);
-                this._panel1.TabIndex = 17;
+                _panel1.Controls.Add(_buttonMoveUp);
+                _panel1.Controls.Add(_buttonAddComboBox);
+                _panel1.Controls.Add(_buttonAddMonthCalendar);
+                _panel1.Controls.Add(_buttonAddImageSelect);
+                _panel1.Controls.Add(_buttonAddColorColumns);
+                _panel1.Controls.Add(_buttonMoveDown);
+                _panel1.Controls.Add(_buttonAddItem);
+                _panel1.Controls.Add(_buttonAddHeading);
+                _panel1.Controls.Add(_buttonAddLinkLabel);
+                _panel1.Controls.Add(_buttonAddSeparator);
+                _panel1.Controls.Add(_buttonAddRadioButton);
+                _panel1.Controls.Add(_buttonAddItems);
+                _panel1.Controls.Add(_buttonAddCheckButton);
+                _panel1.Controls.Add(_buttonAddCheckBox);
+                _panel1.Dock = DockStyle.Fill;
+                _panel1.Location = new Point(298, 24);
+                _panel1.Name = "_panel1";
+                _panel1.Size = new Size(220, 658);
+                _panel1.TabIndex = 17;
                 // 
                 // KryptonContextMenuCollectionForm
                 // 
@@ -631,16 +631,16 @@ namespace Krypton.Toolkit
                 AutoScaleMode = AutoScaleMode.None;
                 ClientSize = new Size(816, 724);
                 ControlBox = false;
-                this.Controls.Add(this._tableLayoutPanel1);
+                Controls.Add(_tableLayoutPanel1);
                 Font = new Font(@"Tahoma", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
                 MinimumSize = new Size(733, 593);
                 Name = nameof(KryptonContextMenuCollectionForm);
                 StartPosition = FormStartPosition.CenterScreen;
                 Text = @"KryptonContextMenu Items Editor";
                 Load += KryptonContextMenuEditorForm_Load;
-                this._tableLayoutPanel1.ResumeLayout(false);
-                this._tableLayoutPanel1.PerformLayout();
-                this._panel1.ResumeLayout(false);
+                _tableLayoutPanel1.ResumeLayout(false);
+                _tableLayoutPanel1.PerformLayout();
+                _panel1.ResumeLayout(false);
                 ResumeLayout(false);
                 PerformLayout();
 

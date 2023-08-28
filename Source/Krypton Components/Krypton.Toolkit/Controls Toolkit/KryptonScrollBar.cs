@@ -73,7 +73,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// The progress timer for moving the thumb.
         /// </summary>
-        private readonly System.Windows.Forms.Timer _progressTimer = new Timer();
+        private readonly Timer _progressTimer = new Timer();
 
         private Color _borderColor = Color.FromArgb(93, 140, 201);
         private Color _disabledBorderColor = Color.Gray;
