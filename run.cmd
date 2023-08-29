@@ -1,4 +1,4 @@
-:: Last updated: Sunday 23rd April, 2023 @ 10:00
+:: Last updated: Monday 28th August, 2023 @ 18:00
 
 @echo off
 
@@ -6,7 +6,7 @@ title Krypton Toolkit Build System
 
 cls
 
-@echo Welcome to the Krypton Toolkit Build system, version: 1.8c. Please select an option below.
+@echo Welcome to the Krypton Toolkit Build system, version: 1.9. Please select an option below.
 
 @echo ==============================================================================================
 
@@ -69,17 +69,17 @@ goto mainmenu
 :buildmenu
 cls
 
-echo 1. Build nightly version using Visual Studio 2022
+echo 1. Build nightly version
 echo    a. Rebuild project
-echo 2. Build canary version using Visual Studio 2022
-echo 3. Build stable version using Visual Studio 2022
+echo 2. Build canary version
+echo 3. Build stable version
 echo 4. Go back to main menu
 
 set /p answer="Enter number or letter (1 - 4, a - *): "
-if %answer%==1 (goto buildnightlyusingvisualstudio2022)
+if %answer%==1 (goto buildnightly)
 if %answer%==a (goto rebuildproject)
-if %answer%==2 (goto buildcanaryusingvisualstudio2022)
-if %answer%==3 (goto buildstableusingvisualstudio2022)
+if %answer%==2 (goto buildcanary)
+if %answer%==3 (goto buildstable)
 if %answer%==4 (goto mainmenu)
 
 @echo Invalid input, please try again.
@@ -91,15 +91,15 @@ goto buildmenu
 :packmenu
 cls
 
-echo 1. Pack nightly version using Visual Studio 2022
-echo 2. Pack canary version using Visual Studio 2022
-echo 3. Pack stable version using Visual Studio 2022
+echo 1. Pack nightly version
+echo 2. Pack canary version
+echo 3. Pack stable version
 echo 4. Go back to main menu
 
 set /p answer="Enter number (1 - 4): "
-if %answer%==1 (goto packnightlyusingvisualstudio2022)
-if %answer%==2 (goto packcanaryusingvisualstudio2022)
-if %answer%==3 (goto packstableusingvisualstudio2022)
+if %answer%==1 (goto packnightly)
+if %answer%==2 (goto packcanary)
+if %answer%==3 (goto packstable)
 if %answer%==4 (goto mainmenu)
 
 @echo Invalid input, please try again.
@@ -111,11 +111,11 @@ goto packmenu
 :debugmenu
 cls
 
-echo 1. Debug using Visual Studio 2022
+echo 1. Debug
 echo 2. Go back to main mainmenu
 
 set /p answer="Enter number (1 - 2): "
-if %answer%==1 (goto debugusingvisualstudio2022)
+if %answer%==1 (goto debug)
 if %answer%==2 (goto mainmenu)
 
 @echo Invalid input, please try again.
@@ -187,69 +187,69 @@ exit
 
 :: ===================================================================================================
 
-:buildnightlyusingvisualstudio2022
+:buildnightly
 cls
 
 cd Scripts
 
-build-nightly-2022.cmd
+build-nightly.cmd
 
 cd ..
 
-:buildcanaryusingvisualstudio2022
+:buildcanary
 cls
 
 cd Scripts
 
-build-canary-2022.cmd
+build-canary.cmd
 
 cd ..
 
-:buildinstallerusingvisualstudio2022
+:buildinstaller
 cls
 
 cd Scripts
 
-build-installer-2022.cmd
+build-installer.cmd
 cls
 
 cd Scripts
 
 cd ..
 
-:buildstableusingvisualstudio2022
+:buildstable
 cls
 
 cd Scripts
 
-build-stable-2022.cmd
+build-stable.cmd
 
 cd ..
 
 :: ===================================================================================================
 
-:packnightlyusingvisualstudio2022
+:packnightly
 cls
 
 cd Scripts
 
-build-nightly-2022.cmd Pack
+build-nightly.cmd Pack
 
-:packcanaryusingvisualstudio2022
+:packcanary
 cls
 
 cd Scripts
 
-build-canary-2022.cmd Pack
+build-canary.cmd Pack
 
-:packinstallerusingvisualstudio2022
+:packinstaller
 cls
 
 cd Scripts
 
-build-installer-2022.cmd Pack
+build-installer.cmd Pack
 
-:packstableusingvisualstudio2022
+:packstable
 cls
 
 echo 1. Produce 'Lite' stable packages
@@ -258,43 +258,43 @@ echo 3. Produce 'full/lite' stable packages
 echo 4. Go back to main menu
 
 set /p answer="Enter number (1 - 4): "
-if %answer%==1 (goto packstableusingvisualstudio2022lite)
-if %answer%==2 (goto packstableusingvisualstudio2022full)
-if %answer%==3 (goto packstableusingvisualstudio2022both)
+if %answer%==1 (goto packstablelite)
+if %answer%==2 (goto packstablefull)
+if %answer%==3 (goto packstableboth)
 if %answer%==4 (goto mainmenu)
 
 @echo Invalid input, please try again.
 
 pause
 
-goto packstableusingvisualstudio2022
+goto packstable
 
 :: ===================================================================================================
 
-:packstableusingvisualstudio2022lite
+:packstablelite
 cls
 
 cd Scripts
 
-build-stable-2022.cmd PackLite
+build-stable.cmd PackLite
 
-:packstableusingvisualstudio2022full
+:packstablefull
 cls
 
 cd Scripts
 
-build-stable-2022.cmd PackAll
+build-stable.cmd PackAll
 
-:packstableusingvisualstudio2022both
+:packstableboth
 cls
 
 cd Scripts
 
-build-stable-2022.cmd Pack
+build-stable.cmd Pack
 
 :: ===================================================================================================
 
-:debugusingvisualstudio2022
+:debug
 cls
 
 echo Deleting the 'Bin' folder
@@ -323,7 +323,7 @@ cls
 
 cd Scripts
 
-build-nightly-2022.cmd
+build-nightly.cmd
 
 :: ===================================================================================================
 
@@ -339,18 +339,18 @@ update-nuget.cmd
 :buildandcreatenugetpackages
 cls
 
-echo 1. Build nightly packages using Visual Studio 2022
-echo 2. Build canary packages using Visual Studio 2022
-echo 3. Build stable packages using Visual Studio 2022
-echo 4. Build stable (lite) packages using Visual Studio 2022
+echo 1. Build nightly packages
+echo 2. Build canary packages
+echo 3. Build stable packages
+echo 4. Build stable (lite) packages
 echo 5. Go back to main menu
 
 set /p answer="Enter number (1 - 5): "
 
-if %answer%==1 (goto buildnightlypackagesusingvisualstudio2022)
-if %answer%==2 (goto buildcanarypackagesusingvisualstudio2022)
-if %answer%==3 (goto buildstablepackagesusingvisualstudio2022)
-if %answer%==4 (goto buildstablelitepackagesusingvisualstudio2022)
+if %answer%==1 (goto buildnightlypackages)
+if %answer%==2 (goto buildcanarypackages)
+if %answer%==3 (goto buildstablepackages)
+if %answer%==4 (goto buildstablelitepackages)
 if %answer%==5 (goto mainmenu)
 
 @echo Invalid input, please try again.
@@ -359,7 +359,7 @@ pause
 
 :: ===================================================================================================
 
-:buildnightlypackagesusingvisualstudio2022
+:buildnightlypackages
 cls
 
 echo Step 1: Clean
@@ -392,7 +392,7 @@ echo Step 2: Build
 
 cd Scripts
 
-build-nightly-2022-custom.cmd
+build-nightly-custom.cmd
 
 pause
 
@@ -400,7 +400,7 @@ cls
 
 echo Step 3: Pack
 
-build-nightly-2022-custom.cmd Pack
+build-nightly-custom.cmd Pack
 
 pause
 
@@ -411,7 +411,7 @@ cls
 
 cd Scripts
 
-rebuild-build-nightly-2022.cmd
+rebuild-build-nightly.cmd
 
 :: ===================================================================================================
 
