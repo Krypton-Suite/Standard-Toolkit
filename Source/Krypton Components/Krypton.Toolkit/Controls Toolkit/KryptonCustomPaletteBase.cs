@@ -5098,6 +5098,12 @@ namespace Krypton.Toolkit
                     return inputControl.StateNormal;
                 case PaletteState.Tracking:
                     return inputControl.StateActive;
+                case PaletteState.ContextNormal:
+                    return inputControl.StateContextNormal;
+                case PaletteState.ContextTracking:
+                    return inputControl.StateContextTracking;
+                case PaletteState.ContextPressed:
+                    return inputControl.StateContextPressed;
                 default:
                     // Should never happen!
                     Debug.Assert(false);

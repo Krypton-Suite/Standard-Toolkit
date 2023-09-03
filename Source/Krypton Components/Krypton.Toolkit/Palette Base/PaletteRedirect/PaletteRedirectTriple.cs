@@ -27,6 +27,9 @@ namespace Krypton.Toolkit
         private IPaletteTriple? _checkedTracking;
         private IPaletteTriple? _focusOverride;
         private IPaletteTriple? _normalDefaultOverride;
+        private IPaletteTriple? _contextNormal;
+        private IPaletteTriple? _contextPressed;
+        private IPaletteTriple? _contextTracking;
         #endregion
 
         #region Identity
@@ -73,6 +76,32 @@ namespace Krypton.Toolkit
                                      IPaletteTriple tracking)
             : this(target, disabled, normal, null, tracking, null, null, null, null, null)
         {
+        }
+
+        /// <summary>
+        /// Initialize a new instance of the PaletteRedirectTriple class.
+        /// </summary>
+        /// <param name="target">Initial palette target for redirection.</param>
+        /// <param name="disabled">Redirection for disabled state requests.</param>
+        /// <param name="normal">Redirection for normal state requests.</param>
+        /// <param name="tracking">Redirection for tracking state requests.</param>
+        /// <param name="pressed">Redirection for pressed state requests.</param>
+        /// <param name="contextNormal">Redirection for context normal state requests.</param>
+        /// <param name="contextPressed">Redirection for context pressed state requests.</param>
+        /// <param name="contextTracking">Redirection for context tracking state requests.</param>
+        public PaletteRedirectTriple(PaletteBase? target,
+                                    IPaletteTriple disabled,
+                                    IPaletteTriple normal,
+                                    IPaletteTriple tracking,
+                                    IPaletteTriple pressed,
+                                    IPaletteTriple contextNormal,
+                                    IPaletteTriple contextPressed,
+                                    IPaletteTriple contextTracking)
+            : this(target, disabled, normal, pressed, tracking, null, null, null, null, null)
+        {
+            _contextNormal = contextNormal;
+            _contextPressed = contextPressed;
+            _contextTracking = contextTracking;
         }
 
         /// <summary>
@@ -1087,6 +1116,12 @@ namespace Krypton.Toolkit
                     return _focusOverride;
                 case PaletteState.NormalDefaultOverride:
                     return _normalDefaultOverride;
+                case PaletteState.ContextNormal:
+                    return _contextNormal;
+                case PaletteState.ContextPressed:
+                    return _contextPressed;
+                case PaletteState.ContextTracking:
+                    return _contextTracking;
                 default:
                     // Should never happen!
                     Debug.Assert(false);
