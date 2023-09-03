@@ -27,6 +27,9 @@ namespace Krypton.Toolkit
         private IPaletteTriple? _checkedTracking;
         private IPaletteTriple? _focusOverride;
         private IPaletteTriple? _normalDefaultOverride;
+        private IPaletteTriple? _contextNormal;
+        private IPaletteTriple? _contextPressed;
+        private IPaletteTriple? _contextTracking;
         #endregion
 
         #region Identity
@@ -73,6 +76,22 @@ namespace Krypton.Toolkit
                                      IPaletteTriple tracking)
             : this(target, disabled, normal, null, tracking, null, null, null, null, null)
         {
+        }
+
+        public PaletteRedirectTriple(PaletteBase? target,
+                                    IPaletteTriple disabled,
+                                    IPaletteTriple normal,
+                                    IPaletteTriple tracking,
+                                    IPaletteTriple pressed,
+                                    IPaletteTriple contextNormal,
+                                    IPaletteTriple contextPressed,
+                                    IPaletteTriple contextTracking)
+            : this(target, disabled, normal, null, tracking, null, null, null, null, null)
+        {
+            _pressed = pressed;
+            _contextNormal = contextNormal;
+            _contextPressed = contextPressed;
+            _contextTracking = contextTracking;
         }
 
         /// <summary>
@@ -1087,6 +1106,12 @@ namespace Krypton.Toolkit
                     return _focusOverride;
                 case PaletteState.NormalDefaultOverride:
                     return _normalDefaultOverride;
+                case PaletteState.ContextNormal:
+                    return _contextNormal;
+                case PaletteState.ContextPressed:
+                    return _contextPressed;
+                case PaletteState.ContextTracking:
+                    return _contextTracking;
                 default:
                     // Should never happen!
                     Debug.Assert(false);

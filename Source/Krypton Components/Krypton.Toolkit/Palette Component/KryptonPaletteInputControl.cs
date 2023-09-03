@@ -18,10 +18,16 @@ namespace Krypton.Toolkit
     public class KryptonPaletteInputControl : Storage
     {
         #region Instance Fields
+
         internal PaletteTripleRedirect _stateCommon;
         internal PaletteTriple _stateDisabled;
         internal PaletteTriple _stateNormal;
         internal PaletteTriple _stateActive;
+        internal PaletteTriple _statePressed;
+        internal PaletteTriple _stateContextNormal;
+        internal PaletteTriple _stateContextTracking;
+        internal PaletteTriple _stateContextPressed;
+
         #endregion
 
         #region Identity
@@ -37,13 +43,17 @@ namespace Krypton.Toolkit
                                           PaletteBackStyle backStyle,
                                           PaletteBorderStyle borderStyle,
                                           PaletteContentStyle contentStyle,
-                                          NeedPaintHandler needPaint) 
+                                          NeedPaintHandler needPaint)
         {
             // Create the storage objects
             _stateCommon = new PaletteTripleRedirect(redirect, backStyle, borderStyle, contentStyle, needPaint);
             _stateDisabled = new PaletteTriple(_stateCommon, needPaint);
             _stateNormal = new PaletteTriple(_stateCommon, needPaint);
             _stateActive = new PaletteTriple(_stateCommon, needPaint);
+            _statePressed = new PaletteTriple(_stateCommon, needPaint);
+            _stateContextNormal = new PaletteTriple(_stateCommon, needPaint);
+            _stateContextTracking = new PaletteTriple(_stateCommon, needPaint);
+            _stateContextPressed = new PaletteTriple(_stateCommon, needPaint);
         }
         #endregion
 
@@ -57,6 +67,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region IsDefault
+
         /// <summary>
         /// Gets a value indicating if all values are default.
         /// </summary>
@@ -64,7 +75,11 @@ namespace Krypton.Toolkit
         public override bool IsDefault => _stateCommon.IsDefault &&
                                           _stateDisabled.IsDefault &&
                                           _stateNormal.IsDefault &&
-                                          _stateActive.IsDefault;
+                                          _stateActive.IsDefault &&
+                                          _statePressed.IsDefault &&
+                                          _stateContextNormal.IsDefault &&
+                                          _stateContextTracking.IsDefault &&
+                                          _stateContextPressed.IsDefault;
 
         #endregion
 
@@ -78,6 +93,10 @@ namespace Krypton.Toolkit
             _stateDisabled.PopulateFromBase(PaletteState.Disabled);
             _stateNormal.PopulateFromBase(PaletteState.Normal);
             _stateActive.PopulateFromBase(PaletteState.Tracking);
+            _statePressed.PopulateFromBase(PaletteState.Pressed);
+            _stateContextNormal.PopulateFromBase(PaletteState.ContextNormal);
+            _stateContextPressed.PopulateFromBase(PaletteState.ContextTracking);
+            _stateContextTracking.PopulateFromBase(PaletteState.ContextPressed);
         }
         #endregion
 
@@ -94,7 +113,7 @@ namespace Krypton.Toolkit
         private bool ShouldSerializeStateCommon() => !_stateCommon.IsDefault;
 
         #endregion
-    
+
         #region StateDisabled
         /// <summary>
         /// Gets access to the disabled input control appearance entries.
@@ -134,6 +153,66 @@ namespace Krypton.Toolkit
         public PaletteTriple StateActive => _stateActive;
 
         private bool ShouldSerializeStateActive() => !_stateActive.IsDefault;
+
+        #endregion
+
+        #region StatePressed
+
+        /// <summary>
+        /// Gets access to the pressed input control appearance entries.
+        /// </summary>
+        [KryptonPersist]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining pressed input control appearance.")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        public PaletteTriple StatePressed => _statePressed;
+
+        private bool ShouldSerializeStatePressed() => !_statePressed.IsDefault;
+
+        #endregion
+
+        #region StateContextNormal
+
+        /// <summary>
+        /// Gets access to the context normal input control appearance entries.
+        /// </summary>
+        [KryptonPersist]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining context normal input control appearance.")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        public PaletteTriple StateContextNormal => _stateContextNormal;
+
+        private bool ShouldSerializeStateContextNormal() => !_stateContextNormal.IsDefault;
+
+        #endregion
+
+        #region StateContextTracking
+
+        /// <summary>
+        /// Gets access to the context tracking input control appearance entries.
+        /// </summary>
+        [KryptonPersist]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining context tracking input control appearance.")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        public PaletteTriple StateContextTracking => _stateContextTracking;
+
+        private bool ShouldSerializeStateContextTracking() => !_stateContextTracking.IsDefault;
+
+        #endregion
+
+        #region StateContextPressed
+
+        /// <summary>
+        /// Gets access to the context pressed input control appearance entries.
+        /// </summary>
+        [KryptonPersist]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining context pressed input control appearance.")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        public PaletteTriple StateContextPressed => _stateContextPressed;
+
+        private bool ShouldSerializeStateContextPressed() => !_stateContextPressed.IsDefault;
 
         #endregion
     }

@@ -38,7 +38,7 @@ namespace Krypton.Toolkit
 
             // Create redirectors for inheriting from style specific to style common
             var redirectCommon = new PaletteRedirectTriple(redirector,
-                InputControlCommon.StateDisabled, InputControlCommon.StateNormal, InputControlCommon.StateActive);
+                InputControlCommon.StateDisabled, InputControlCommon.StateNormal, InputControlCommon.StateActive, InputControlCommon.StatePressed, InputControlCommon.StateContextNormal, InputControlCommon.StateContextPressed, InputControlCommon.StateContextTracking);
 
             // Inform the input control style to use the new redirector
             InputControlStandalone.SetRedirector(redirectCommon);
