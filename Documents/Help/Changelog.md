@@ -3,6 +3,7 @@
 =======
 
 ## 2023-11-xx - Build 2311 - November 2023
+* Resolved [#1109](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1109), KryptonPropertyGrid 'jagged' text
 * Resolved [#1108](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1108), KryptonPropertyGrid background colour/text don't display correctly for some (most) themes
 * Resolved [#288](https://github.com/Krypton-Suite/Standard-Toolkit/issues/288), Should the default "Theme fonts" now be changed to Segoe UI 9 pt
 * Resolved [#703](https://github.com/Krypton-Suite/Standard-Toolkit/issues/703), Can BaseFontSize be moved up to IPalette? (and/or be easily modified in kryptonPalette)
