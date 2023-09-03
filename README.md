@@ -219,6 +219,9 @@ As of version 60, all `using` statements are contained in one file per project u
 =======
 
 # Known Issues & Workarounds
+- [#1109](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1109) - KryptonPropertyGrid 'jagged' text
+  - Some controls can display `Jagged text` when drawing. (i.e. ComboBox contents / PropertyGrid / Extended controls )
+  This is due to the usage of the Legacy API `Application.SetCompatibleTextRenderingDefault` having a value of `true`. Please set it to false.
 
 - [#665](https://github.com/Krypton-Suite/Standard-Toolkit/issues/665) - Workaround add `net48` or `net481` to your `<TargetFrameworks>` if using .NET 6 or 7
 

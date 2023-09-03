@@ -157,7 +157,7 @@ namespace Krypton.Toolkit
             }
 
             // Optimisation: Lookup key before performing expensive / slow GDI functions
-            var key = (text, font, format.FormatFlags, hint);
+            //var key = (text, font, format.FormatFlags, hint);
             var memento = //_cache.GetOrCreate(key,
                 () =>
                 {

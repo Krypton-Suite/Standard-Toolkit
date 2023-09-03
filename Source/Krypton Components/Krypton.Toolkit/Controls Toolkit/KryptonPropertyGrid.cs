@@ -50,7 +50,7 @@ namespace Krypton.Toolkit
 
             _paletteRedirect = new PaletteRedirect(_palette);
             // Create the palette provider
-            _stateCommon = new PaletteInputControlTripleRedirect(_paletteRedirect, PaletteBackStyle.InputControlStandalone, PaletteBorderStyle.InputControlStandalone, PaletteContentStyle.InputControlStandalone, null);
+            _stateCommon = new PaletteInputControlTripleRedirect(_paletteRedirect, PaletteBackStyle.InputControlStandalone, PaletteBorderStyle.HeaderCalendar, PaletteContentStyle.LabelNormalPanel, null);
             _stateDisabled = new PaletteInputControlTripleStates(_stateCommon, null);
             _stateNormal = new PaletteInputControlTripleStates(_stateCommon, null);
             _stateActive = new PaletteInputControlTripleStates(_stateCommon, null);
@@ -106,17 +106,17 @@ namespace Krypton.Toolkit
 
             HelpBackColor = _palette.ColorTable.MenuStripGradientBegin;
 
-            HelpForeColor = _palette.ColorTable.StatusStripText;
+            HelpForeColor = _palette.ColorTable.ToolStripText;
 
             LineColor = _palette.ColorTable.ToolStripGradientMiddle;
 
-            CategoryForeColor = _palette.ColorTable.StatusStripText;
+            CategoryForeColor = _palette.ColorTable.ToolStripDropDownBackground;
 
             var normalFont = _stateNormal.PaletteContent.GetContentShortTextFont(PaletteState.ContextNormal);
             var disabledFont = _stateDisabled.PaletteContent.GetContentShortTextFont(PaletteState.Disabled);
 
             Font = Enabled ? normalFont : disabledFont;
-            BackColor = _stateNormal.PaletteBack.GetBackColor1(PaletteState.Disabled);
+            BackColor = _stateNormal.PaletteBack.GetBackColor1(Enabled? PaletteState.Normal : PaletteState.Disabled);
 
             ControlCollection controlsCollection = Controls;
             foreach (Control control in controlsCollection)
