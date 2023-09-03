@@ -19,7 +19,7 @@ namespace Krypton.Navigator
     {
         #region Instance Fields
         private readonly KryptonNavigator _navigator;
-        private readonly KryptonPage? _page;
+        private readonly KryptonPage _page;
         #endregion
 
         #region Identity

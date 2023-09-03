@@ -2447,7 +2447,7 @@ namespace Krypton.Toolkit
 
                 if (silent)
                 {
-                    ret = (string)ExportToFile(new object[] { filename, ignoreDefaults });
+                    ret = ExportToFile(new object[] { filename, ignoreDefaults }) as string;
                 }
                 else
                 {
@@ -2869,25 +2869,25 @@ namespace Krypton.Toolkit
         public override KryptonColorTable ColorTable => ToolMenuStatus.InternalKCT;
 
         [Browsable(false)]
-        public bool UseKryptonFileDialogs
+        public new bool UseKryptonFileDialogs
         { get => _basePalette!.UseKryptonFileDialogs; set => _basePalette!.UseKryptonFileDialogs = value; }
 
         [Browsable(false)]
-        public float BaseFontSize
+        public new float BaseFontSize
         { get => _basePalette!.BaseFontSize; set => _basePalette!.BaseFontSize = value; }
 
         [Browsable(false)]
         [DisallowNull]
-        public Font BaseFont
+        public new Font BaseFont
         { get => _basePalette!.BaseFont; set => _basePalette!.BaseFont = value; }
 
         [Browsable(false)]
         [DisallowNull]
-        public string ThemeName
+        public new string ThemeName
         { get => _basePalette!.ThemeName; set => _basePalette!.ThemeName = value; }
 
         [Browsable(false)]
-        public BasePaletteType BasePaletteType
+        public new BasePaletteType BasePaletteType
         { get => _basePalette!.BasePaletteType; set => _basePalette!.BasePaletteType = value; }
         #endregion
 
@@ -3447,7 +3447,7 @@ namespace Krypton.Toolkit
                             var name = imageElement.GetAttribute(@"Name");
 
                             // Grab the CDATA section that contains the base64 value
-                            var cdata = (XmlCDataSection)imageElement.ChildNodes[0];
+                            var cdata = imageElement.ChildNodes[0] as XmlCDataSection;
 
                             // Convert to back from a string to bytes
                             var bytes = Convert.FromBase64String(cdata.Value);
