@@ -36,7 +36,9 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
+#pragma warning disable CS0067 // Event is never used
         private new event EventHandler<ToolTipNeededEventArgs>? ToolTipNeeded;
+#pragma warning restore CS0067 // Event is never used
         #region Identity
         /// <summary>
         /// Initialize a new instance of the KryptonContextMenuHeading class.

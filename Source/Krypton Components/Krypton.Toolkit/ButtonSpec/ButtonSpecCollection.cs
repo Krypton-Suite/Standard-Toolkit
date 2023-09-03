@@ -388,7 +388,7 @@ namespace Krypton.Toolkit
         /// <returns>True if removed; otherwise false.</returns>
         public bool Remove([DisallowNull] T item)
         {
-            Debug.Assert(item != null);
+            Debug.Assert(item != null, nameof(item) + " != null");
 
             // Cache the index of the button spec
             var index = IndexOf(item);
