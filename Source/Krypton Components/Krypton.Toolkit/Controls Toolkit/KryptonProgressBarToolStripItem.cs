@@ -176,5 +176,18 @@ namespace Krypton.Toolkit
 
         #endregion
 
+        #region Removed Designer
+
+        /// <inheritdoc />
+        [Browsable(false)]
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public override Color BackColor { get => base.BackColor; set => base.BackColor = value; }
+
+        /// <inheritdoc />
+        [Browsable(false)]
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public override Color ForeColor { get => base.ForeColor; set => base.ForeColor = value; }
+
+        #endregion
     }
 }
