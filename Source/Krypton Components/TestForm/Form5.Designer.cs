@@ -72,6 +72,7 @@
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.kryptonProgressBarToolStripItem1 = new Krypton.Toolkit.KryptonProgressBarToolStripItem();
+            this.toolStripProgressBar1 = new System.Windows.Forms.ToolStripProgressBar();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
             this.kryptonPanel1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -90,7 +91,7 @@
             this.kryptonPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kryptonPanel1.Location = new System.Drawing.Point(0, 0);
             this.kryptonPanel1.Name = "kryptonPanel1";
-            this.kryptonPanel1.Size = new System.Drawing.Size(800, 372);
+            this.kryptonPanel1.Size = new System.Drawing.Size(800, 376);
             this.kryptonPanel1.TabIndex = 0;
             // 
             // ktrkProgressValues
@@ -391,7 +392,7 @@
             this.kryptonPanel2.Controls.Add(this.kryptonLabel2);
             this.kryptonPanel2.Controls.Add(this.kryptonButton1);
             this.kryptonPanel2.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.kryptonPanel2.Location = new System.Drawing.Point(0, 372);
+            this.kryptonPanel2.Location = new System.Drawing.Point(0, 376);
             this.kryptonPanel2.Name = "kryptonPanel2";
             this.kryptonPanel2.PanelBackStyle = Krypton.Toolkit.PaletteBackStyle.PanelAlternate;
             this.kryptonPanel2.Size = new System.Drawing.Size(800, 50);
@@ -411,11 +412,12 @@
             this.statusStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabel1,
-            this.kryptonProgressBarToolStripItem1});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 422);
+            this.kryptonProgressBarToolStripItem1,
+            this.toolStripProgressBar1});
+            this.statusStrip1.Location = new System.Drawing.Point(0, 426);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.ManagerRenderMode;
-            this.statusStrip1.Size = new System.Drawing.Size(800, 28);
+            this.statusStrip1.Size = new System.Drawing.Size(800, 24);
             this.statusStrip1.TabIndex = 2;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -428,13 +430,18 @@
             // kryptonProgressBarToolStripItem1
             // 
             this.kryptonProgressBarToolStripItem1.Name = "kryptonProgressBarToolStripItem1";
-            this.kryptonProgressBarToolStripItem1.Size = new System.Drawing.Size(100, 26);
+            this.kryptonProgressBarToolStripItem1.Size = new System.Drawing.Size(100, 22);
             this.kryptonProgressBarToolStripItem1.StateCommon.Back.Color1 = System.Drawing.Color.Green;
             this.kryptonProgressBarToolStripItem1.StateDisabled.Back.ColorStyle = Krypton.Toolkit.PaletteColorStyle.OneNote;
             this.kryptonProgressBarToolStripItem1.StateNormal.Back.ColorStyle = Krypton.Toolkit.PaletteColorStyle.OneNote;
             this.kryptonProgressBarToolStripItem1.Text = "0%";
             this.kryptonProgressBarToolStripItem1.UseValueAsText = true;
             this.kryptonProgressBarToolStripItem1.Values.Text = "0%";
+            // 
+            // toolStripProgressBar1
+            // 
+            this.toolStripProgressBar1.Name = "toolStripProgressBar1";
+            this.toolStripProgressBar1.Size = new System.Drawing.Size(100, 22);
             // 
             // Form5
             // 
@@ -505,5 +512,6 @@
         private Krypton.Toolkit.KryptonButton kbtnKMBTest;
         private Krypton.Toolkit.KryptonProgressBarToolStripItem kryptonProgressBarToolStripItem1;
         private Krypton.Toolkit.KryptonTrackBar ktrkProgressValues;
+        private System.Windows.Forms.ToolStripProgressBar toolStripProgressBar1;
     }
 }

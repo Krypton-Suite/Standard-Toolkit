@@ -23,7 +23,8 @@ namespace Krypton.Toolkit
         /// <summary>Initializes a new instance of the <see cref="KryptonProgressBarToolStripItem" /> class.</summary>
         public KryptonProgressBarToolStripItem() : base(new KryptonProgressBar())
         {
-            // An empty constructor
+            // Setup default size
+            Size = new Size(100, 22);
         }
 
         #endregion
@@ -173,6 +174,10 @@ namespace Krypton.Toolkit
 
             set => KryptonProgressBarHost.UseValueAsText = value;
         }
+
+        /// <inheritdoc />
+        [DefaultValue(typeof(Size), @"100, 22")]
+        public override Size Size { get => base.Size; set => base.Size = value; }
 
         #endregion
 
