@@ -20,6 +20,7 @@ namespace TestForm
         private void ktrkProgressValues_ValueChanged(object sender, EventArgs e)
         {
             kryptonProgressBarToolStripItem1.Value = ktrkProgressValues.Value;
+            toolStripProgressBar1.Value = ktrkProgressValues.Value;
         }
     }
 }
