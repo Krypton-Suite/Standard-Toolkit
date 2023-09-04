@@ -41,7 +41,6 @@ namespace Krypton.Toolkit
         private bool _insideUpdateComposition;
         private bool _captured;
         private bool _disposing;
-        private bool _useSystemBackColor;
         private int _compositionHeight;
         private int _ignoreCount;
         private ViewBase? _capturedElement;
@@ -146,8 +145,6 @@ namespace Krypton.Toolkit
 #endif
             // Note: Will not handle movement between monitors
             UpdateDpiFactors();
-
-            _useSystemBackColor = true;
         }
 
 
@@ -189,22 +186,7 @@ namespace Krypton.Toolkit
 
         #region Public
 
-        /// <summary>If set to true, then the back color will be set to 'Color.Control'. If not, then a KryptonPanel will be used.</summary>
-        [Category(@"Appearence")]
-        [Description(@"If set to true, then the back color will be set to 'Color.Control'. If not, then a KryptonPanel will be used.")]
-        [DefaultValue(true)]
-        public bool UseSystemBackColor
-        {
-            get => _useSystemBackColor;
-
-            set
-            {
-                _useSystemBackColor = value;
-
-                Invalidate();
-            }
-        }
-
+        // Note: What does this do?
         public PaletteBackStyle BackStyle
         {
             get => _stateCommon.BackStyle;
@@ -828,7 +810,8 @@ namespace Krypton.Toolkit
 
                     invalidRect = realWindowRectangle with
                     {
-                        X = -realWindowBorders.Left, Y = -realWindowBorders.Top
+                        X = -realWindowBorders.Left,
+                        Y = -realWindowBorders.Top
                     };
                 }
 
