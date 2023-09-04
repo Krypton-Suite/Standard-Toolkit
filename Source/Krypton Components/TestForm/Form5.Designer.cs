@@ -31,6 +31,7 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form5));
             this.kryptonPanel1 = new Krypton.Toolkit.KryptonPanel();
+            this.ktrkProgressValues = new Krypton.Toolkit.KryptonTrackBar();
             this.kbtnKMBTest = new Krypton.Toolkit.KryptonButton();
             this.kryptonLabel1 = new Krypton.Toolkit.KryptonLabel();
             this.kryptonPropertyGrid1 = new Krypton.Toolkit.KryptonPropertyGrid();
@@ -71,7 +72,6 @@
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.kryptonProgressBarToolStripItem1 = new Krypton.Toolkit.KryptonProgressBarToolStripItem();
-            this.ktrkProgressValues = new Krypton.Toolkit.KryptonTrackBar();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
             this.kryptonPanel1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -92,6 +92,16 @@
             this.kryptonPanel1.Name = "kryptonPanel1";
             this.kryptonPanel1.Size = new System.Drawing.Size(800, 372);
             this.kryptonPanel1.TabIndex = 0;
+            // 
+            // ktrkProgressValues
+            // 
+            this.ktrkProgressValues.Location = new System.Drawing.Point(13, 333);
+            this.ktrkProgressValues.Maximum = 100;
+            this.ktrkProgressValues.Name = "ktrkProgressValues";
+            this.ktrkProgressValues.Size = new System.Drawing.Size(388, 33);
+            this.ktrkProgressValues.TabIndex = 11;
+            this.ktrkProgressValues.TickStyle = System.Windows.Forms.TickStyle.Both;
+            this.ktrkProgressValues.ValueChanged += new System.EventHandler(this.ktrkProgressValues_ValueChanged);
             // 
             // kbtnKMBTest
             // 
@@ -417,37 +427,14 @@
             // 
             // kryptonProgressBarToolStripItem1
             // 
-            // 
-            // kryptonProgressBarToolStripItem1
-            // 
-            this.kryptonProgressBarToolStripItem1.KryptonProgressBarHost.AccessibleName = "kryptonProgressBarToolStripItem1";
-            this.kryptonProgressBarToolStripItem1.KryptonProgressBarHost.Location = new System.Drawing.Point(119, 2);
-            this.kryptonProgressBarToolStripItem1.KryptonProgressBarHost.Name = "kryptonProgressBarToolStripItem1";
-            this.kryptonProgressBarToolStripItem1.KryptonProgressBarHost.StateCommon.Back.Color1 = System.Drawing.Color.Green;
-            this.kryptonProgressBarToolStripItem1.KryptonProgressBarHost.StateDisabled.Back.ColorStyle = Krypton.Toolkit.PaletteColorStyle.OneNote;
-            this.kryptonProgressBarToolStripItem1.KryptonProgressBarHost.StateNormal.Back.ColorStyle = Krypton.Toolkit.PaletteColorStyle.OneNote;
-            this.kryptonProgressBarToolStripItem1.KryptonProgressBarHost.TabIndex = 1;
-            this.kryptonProgressBarToolStripItem1.KryptonProgressBarHost.Text = "50%";
-            this.kryptonProgressBarToolStripItem1.KryptonProgressBarHost.UseValueAsText = true;
-            this.kryptonProgressBarToolStripItem1.KryptonProgressBarHost.Value = 50;
-            this.kryptonProgressBarToolStripItem1.KryptonProgressBarHost.Values.Text = "50%";
             this.kryptonProgressBarToolStripItem1.Name = "kryptonProgressBarToolStripItem1";
             this.kryptonProgressBarToolStripItem1.Size = new System.Drawing.Size(100, 26);
             this.kryptonProgressBarToolStripItem1.StateCommon.Back.Color1 = System.Drawing.Color.Green;
             this.kryptonProgressBarToolStripItem1.StateDisabled.Back.ColorStyle = Krypton.Toolkit.PaletteColorStyle.OneNote;
             this.kryptonProgressBarToolStripItem1.StateNormal.Back.ColorStyle = Krypton.Toolkit.PaletteColorStyle.OneNote;
             this.kryptonProgressBarToolStripItem1.Text = "0%";
+            this.kryptonProgressBarToolStripItem1.UseValueAsText = true;
             this.kryptonProgressBarToolStripItem1.Values.Text = "0%";
-            // 
-            // ktrkProgressValues
-            // 
-            this.ktrkProgressValues.Location = new System.Drawing.Point(13, 333);
-            this.ktrkProgressValues.Maximum = 100;
-            this.ktrkProgressValues.Name = "ktrkProgressValues";
-            this.ktrkProgressValues.Size = new System.Drawing.Size(388, 33);
-            this.ktrkProgressValues.TabIndex = 11;
-            this.ktrkProgressValues.TickStyle = System.Windows.Forms.TickStyle.Both;
-            this.ktrkProgressValues.ValueChanged += new System.EventHandler(this.ktrkProgressValues_ValueChanged);
             // 
             // Form5
             // 
