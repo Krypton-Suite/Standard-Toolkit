@@ -33,7 +33,7 @@ namespace Krypton.Toolkit
         /// <summary>Gets the krypton progress bar host.</summary>
         /// <value>The krypton progress bar host.</value>
         [RefreshProperties(RefreshProperties.All),
-         DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+         DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public KryptonProgressBar KryptonProgressBarHost => (Control as KryptonProgressBar)!;
 
         #endregion
