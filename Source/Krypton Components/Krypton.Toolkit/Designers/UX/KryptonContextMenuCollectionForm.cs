@@ -340,7 +340,7 @@ namespace Krypton.Toolkit
                 _buttonDelete.ImageAlign = ContentAlignment.MiddleLeft;
                 _buttonDelete.ImageIndex = 9;
                 _buttonDelete.ImageList = _imageList;
-                _buttonDelete.Location = new Point( 316, 688);
+                _buttonDelete.Location = new Point(316, 688);
                 _buttonDelete.Name = nameof(_buttonDelete);
                 _buttonDelete.Size = new Size(184, 32);
                 _buttonDelete.TabIndex = 14;
@@ -355,7 +355,7 @@ namespace Krypton.Toolkit
                 _buttonMoveUp.ImageAlign = ContentAlignment.MiddleLeft;
                 _buttonMoveUp.ImageIndex = 10;
                 _buttonMoveUp.ImageList = _imageList;
-                _buttonMoveUp.Location = new Point( 21, 29);
+                _buttonMoveUp.Location = new Point(21, 29);
                 _buttonMoveUp.Name = nameof(_buttonMoveUp);
                 _buttonMoveUp.Size = new Size(184, 32);
                 _buttonMoveUp.TabIndex = 1;
@@ -370,7 +370,7 @@ namespace Krypton.Toolkit
                 _buttonMoveDown.ImageAlign = ContentAlignment.MiddleLeft;
                 _buttonMoveDown.ImageIndex = 11;
                 _buttonMoveDown.ImageList = _imageList;
-                _buttonMoveDown.Location = new Point( 21, 70);
+                _buttonMoveDown.Location = new Point(21, 70);
                 _buttonMoveDown.Name = nameof(_buttonMoveDown);
                 _buttonMoveDown.Size = new Size(184, 32);
                 _buttonMoveDown.TabIndex = 2;
@@ -385,7 +385,7 @@ namespace Krypton.Toolkit
                 _buttonAddCheckBox.ImageAlign = ContentAlignment.MiddleLeft;
                 _buttonAddCheckBox.ImageIndex = 6;
                 _buttonAddCheckBox.ImageList = _imageList;
-                _buttonAddCheckBox.Location = new Point( 21, 275);
+                _buttonAddCheckBox.Location = new Point(21, 275);
                 _buttonAddCheckBox.Name = nameof(_buttonAddCheckBox);
                 _buttonAddCheckBox.Size = new Size(184, 32);
                 _buttonAddCheckBox.TabIndex = 7;
@@ -400,7 +400,7 @@ namespace Krypton.Toolkit
                 _buttonAddCheckButton.ImageAlign = ContentAlignment.MiddleLeft;
                 _buttonAddCheckButton.ImageIndex = 7;
                 _buttonAddCheckButton.ImageList = _imageList;
-                _buttonAddCheckButton.Location = new Point( 21, 316);
+                _buttonAddCheckButton.Location = new Point(21, 316);
                 _buttonAddCheckButton.Name = nameof(_buttonAddCheckButton);
                 _buttonAddCheckButton.Size = new Size(184, 32);
                 _buttonAddCheckButton.TabIndex = 8;
@@ -415,7 +415,7 @@ namespace Krypton.Toolkit
                 _buttonAddRadioButton.ImageAlign = ContentAlignment.MiddleLeft;
                 _buttonAddRadioButton.ImageIndex = 5;
                 _buttonAddRadioButton.ImageList = _imageList;
-                _buttonAddRadioButton.Location = new Point( 21, 357);
+                _buttonAddRadioButton.Location = new Point(21, 357);
                 _buttonAddRadioButton.Name = nameof(_buttonAddRadioButton);
                 _buttonAddRadioButton.Size = new Size(184, 32);
                 _buttonAddRadioButton.TabIndex = 9;
@@ -430,7 +430,7 @@ namespace Krypton.Toolkit
                 _buttonAddLinkLabel.ImageAlign = ContentAlignment.MiddleLeft;
                 _buttonAddLinkLabel.ImageIndex = 8;
                 _buttonAddLinkLabel.ImageList = _imageList;
-                _buttonAddLinkLabel.Location = new Point( 21, 398);
+                _buttonAddLinkLabel.Location = new Point(21, 398);
                 _buttonAddLinkLabel.Name = nameof(_buttonAddLinkLabel);
                 _buttonAddLinkLabel.Size = new Size(184, 32);
                 _buttonAddLinkLabel.TabIndex = 10;
@@ -445,7 +445,7 @@ namespace Krypton.Toolkit
                 _buttonAddSeparator.ImageAlign = ContentAlignment.MiddleLeft;
                 _buttonAddSeparator.ImageIndex = 4;
                 _buttonAddSeparator.ImageList = _imageList;
-                _buttonAddSeparator.Location = new Point( 21, 234);
+                _buttonAddSeparator.Location = new Point(21, 234);
                 _buttonAddSeparator.Name = nameof(_buttonAddSeparator);
                 _buttonAddSeparator.Size = new Size(184, 32);
                 _buttonAddSeparator.TabIndex = 6;
@@ -460,7 +460,7 @@ namespace Krypton.Toolkit
                 _buttonAddItem.ImageAlign = ContentAlignment.MiddleLeft;
                 _buttonAddItem.ImageIndex = 2;
                 _buttonAddItem.ImageList = _imageList;
-                _buttonAddItem.Location = new Point( 21, 111);
+                _buttonAddItem.Location = new Point(21, 111);
                 _buttonAddItem.Name = nameof(_buttonAddItem);
                 _buttonAddItem.Size = new Size(184, 32);
                 _buttonAddItem.TabIndex = 3;
@@ -475,7 +475,7 @@ namespace Krypton.Toolkit
                 _buttonAddItems.ImageAlign = ContentAlignment.MiddleLeft;
                 _buttonAddItems.ImageIndex = 3;
                 _buttonAddItems.ImageList = _imageList;
-                _buttonAddItems.Location = new Point( 21, 152);
+                _buttonAddItems.Location = new Point(21, 152);
                 _buttonAddItems.Name = nameof(_buttonAddItems);
                 _buttonAddItems.Size = new Size(184, 32);
                 _buttonAddItems.TabIndex = 4;
@@ -490,7 +490,7 @@ namespace Krypton.Toolkit
                 _buttonAddHeading.ImageAlign = ContentAlignment.MiddleLeft;
                 _buttonAddHeading.ImageIndex = 1;
                 _buttonAddHeading.ImageList = _imageList;
-                _buttonAddHeading.Location = new Point( 21, 193);
+                _buttonAddHeading.Location = new Point(21, 193);
                 _buttonAddHeading.Name = nameof(_buttonAddHeading);
                 _buttonAddHeading.Size = new Size(184, 32);
                 _buttonAddHeading.TabIndex = 5;
@@ -505,7 +505,7 @@ namespace Krypton.Toolkit
                 _buttonAddMonthCalendar.ImageAlign = ContentAlignment.MiddleLeft;
                 _buttonAddMonthCalendar.ImageIndex = 13;
                 _buttonAddMonthCalendar.ImageList = _imageList;
-                _buttonAddMonthCalendar.Location = new Point( 21, 521);
+                _buttonAddMonthCalendar.Location = new Point(21, 521);
                 _buttonAddMonthCalendar.Name = nameof(_buttonAddMonthCalendar);
                 _buttonAddMonthCalendar.Size = new Size(184, 32);
                 _buttonAddMonthCalendar.TabIndex = 13;
@@ -539,7 +539,7 @@ namespace Krypton.Toolkit
                 _buttonAddColorColumns.ImageAlign = ContentAlignment.MiddleLeft;
                 _buttonAddColorColumns.ImageIndex = 0;
                 _buttonAddColorColumns.ImageList = _imageList;
-                _buttonAddColorColumns.Location = new Point( 21, 439);
+                _buttonAddColorColumns.Location = new Point(21, 439);
                 _buttonAddColorColumns.Name = nameof(_buttonAddColorColumns);
                 _buttonAddColorColumns.Size = new Size(184, 32);
                 _buttonAddColorColumns.TabIndex = 11;
@@ -554,7 +554,7 @@ namespace Krypton.Toolkit
                 _buttonAddImageSelect.ImageAlign = ContentAlignment.MiddleLeft;
                 _buttonAddImageSelect.ImageIndex = 12;
                 _buttonAddImageSelect.ImageList = _imageList;
-                _buttonAddImageSelect.Location = new Point( 21, 480);
+                _buttonAddImageSelect.Location = new Point(21, 480);
                 _buttonAddImageSelect.Name = nameof(_buttonAddImageSelect);
                 _buttonAddImageSelect.Size = new Size(184, 32);
                 _buttonAddImageSelect.TabIndex = 12;
@@ -569,7 +569,7 @@ namespace Krypton.Toolkit
                 _buttonAddComboBox.ImageAlign = ContentAlignment.MiddleLeft;
                 _buttonAddComboBox.ImageIndex = 14;
                 _buttonAddComboBox.ImageList = _imageList;
-                _buttonAddComboBox.Location = new Point( 21, 562);
+                _buttonAddComboBox.Location = new Point(21, 562);
                 _buttonAddComboBox.Name = nameof(_buttonAddComboBox);
                 _buttonAddComboBox.Size = new Size(184, 32);
                 _buttonAddComboBox.TabIndex = 14;
