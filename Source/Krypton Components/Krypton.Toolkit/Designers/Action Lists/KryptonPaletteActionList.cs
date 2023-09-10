@@ -53,7 +53,9 @@ namespace Krypton.Toolkit
                 actions.Add(new KryptonDesignerActionItem(new DesignerVerb(@"Populate from Base", OnPopulateClick), "Actions"));
                 actions.Add(new KryptonDesignerActionItem(new DesignerVerb(@"Import from Xml file...", OnImportClick), "Actions"));
                 actions.Add(new KryptonDesignerActionItem(new DesignerVerb(@"Export to Xml file...", OnExportClick), "Actions"));
-                actions.Add(new KryptonDesignerActionItem(new DesignerVerb(@"Export theme to binary", OnExportToBinaryClick), "Actions"));
+                actions.Add(new KryptonDesignerActionItem(new DesignerVerb(@"Upgrade Palette", OnUpgradePalette), "Actions"));
+                // TODO: Uncomment when binary serialisation is implemented
+                //actions.Add(new KryptonDesignerActionItem(new DesignerVerb(@"Export theme to binary", OnExportToBinaryClick), "Actions"));
             }
 
             return actions;
@@ -101,6 +103,35 @@ namespace Krypton.Toolkit
         }
 
         private void OnExportClick(object sender, EventArgs e) => _palette?.Export();
+
+        private void OnUpgradePalette(object sender, EventArgs e)
+        {
+            try
+            {
+                using var kofd = new KryptonOpenFileDialog
+                {
+                    CheckFileExists = true,
+                    CheckPathExists = true,
+                    DefaultExt = @"xml",
+                    Filter = @"Palette files (*.xml)|*.xml|All files (*.*)|(*.*)",
+                    Title = @"Load Custom Palette"
+                };
+
+                string paletteFileName = (kofd.ShowDialog() == DialogResult.OK)
+                    ? kofd.FileName
+                    : string.Empty;
+                if (string.IsNullOrWhiteSpace(paletteFileName))
+                {
+                    return;
+                }
+
+                _palette.ImportWithUpgrade(File.OpenRead(paletteFileName));
+            }
+            catch (Exception exc)
+            {
+                ExceptionHandler.CaptureException(exc);
+            }
+        }
 
         private void OnExportToBinaryClick(object sender, EventArgs e) => DebugTools.NotImplemented(@"OnExportToBinaryClick", @"KryptonPaletteActionList", 105);
 

@@ -16,5 +16,11 @@ namespace TestForm
             KryptonMessageBox.Show(@"Can you read this text?", @"Test", KryptonMessageBoxButtons.YesNo,
                 KryptonMessageBoxIcon.Question);
         }
+
+        private void ktrkProgressValues_ValueChanged(object sender, EventArgs e)
+        {
+            kryptonProgressBarToolStripItem1.Value = ktrkProgressValues.Value;
+            toolStripProgressBar1.Value = ktrkProgressValues.Value;
+        }
     }
 }
