@@ -220,7 +220,7 @@ namespace Krypton.Ribbon
                 _addDomainUpDownVerb = new DesignerVerb(@"Add DomainUpDown", OnAddDomainUpDown);
                 _addDateTimePickerVerb = new DesignerVerb(@"Add DateTimePicker", OnAddDateTimePicker);
                 _addTrackBarVerb = new DesignerVerb(@"Add TrackBar", OnAddTrackBar);
-                _addThemeComboBoxVerb = new DesignerVerb(@"Add Theme ComboBox", OnAddThemeComboBox);
+                _addThemeComboBoxVerb = new DesignerVerb(@"Add ThemeComboBox", OnAddThemeComboBox);
                 _clearItemsVerb = new DesignerVerb(@"Clear Items", OnClearItems);
                 _deleteTripleVerb = new DesignerVerb(@"Delete Triple", OnDeleteTriple);
                 _verbs.AddRange(new[]
@@ -655,7 +655,7 @@ namespace Krypton.Ribbon
 
                     RaiseComponentChanging(propertyItems);
 
-                    // Get designer to create a trackbar item
+                    // Get designer to create a themecombobox item
                     var tcb = (KryptonRibbonGroupThemeComboBox)_designerHost.CreateComponent(typeof(KryptonRibbonGroupThemeComboBox));
                     _ribbonTriple.Items.Add(tcb);
 
@@ -1027,7 +1027,7 @@ namespace Krypton.Ribbon
                     _addRichTextBoxMenu = new ToolStripMenuItem("Add RichTextBox", GenericImageResources.KryptonRibbonGroupRichTextBox, OnAddRichTextBox);
                     _addTextBoxMenu = new ToolStripMenuItem("Add TextBox", GenericImageResources.KryptonRibbonGroupTextBox, OnAddTextBox);
                     _addTrackBarMenu = new ToolStripMenuItem("Add TrackBar", GenericImageResources.KryptonRibbonGroupTrackBar, OnAddTrackBar);
-                    _addThemeComboBoxMenu = new ToolStripMenuItem("Add Theme ComboBox", GenericImageResources.KryptonRibbonGroupComboBox, OnAddThemeComboBox);
+                    _addThemeComboBoxMenu = new ToolStripMenuItem("Add ThemeComboBox", GenericImageResources.KryptonRibbonGroupComboBox, OnAddThemeComboBox);
                     _clearItemsMenu = new ToolStripMenuItem("Clear Items", null, OnClearItems);
                     _deleteTripleMenu = new ToolStripMenuItem("Delete Triple", GenericImageResources.Delete, OnDeleteTriple);
                     _cms.Items.AddRange(new ToolStripItem[]
@@ -1071,6 +1071,7 @@ namespace Krypton.Ribbon
                     _addDomainUpDownMenu.ImageTransparentColor = Color.Magenta;
                     _addDateTimePickerMenu.ImageTransparentColor = Color.Magenta;
                     _addTrackBarMenu.ImageTransparentColor = Color.Magenta;
+                    _addThemeComboBoxMenu.ImageTransparentColor = Color.Magenta;
                 }
 
                 // Update verbs to work out correct enable states
@@ -1107,6 +1108,7 @@ namespace Krypton.Ribbon
                 _addDomainUpDownMenu.Enabled = _addDomainUpDownVerb.Enabled;
                 _addDateTimePickerMenu.Enabled = _addDateTimePickerVerb.Enabled;
                 _addTrackBarMenu.Enabled = _addTrackBarVerb.Enabled;
+                _addThemeComboBoxMenu.Enabled = _addThemeComboBoxVerb.Enabled;
                 _clearItemsMenu.Enabled = _clearItemsVerb.Enabled;
 
                 // Show the context menu
