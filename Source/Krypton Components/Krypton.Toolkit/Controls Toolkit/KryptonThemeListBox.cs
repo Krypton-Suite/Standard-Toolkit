@@ -61,14 +61,11 @@ namespace Krypton.Toolkit
         /// <summary>Initializes a new instance of the <see cref="KryptonThemeListBox" /> class.</summary>
         public KryptonThemeListBox()
         {
-            DisplayMember = "Key";
-            ValueMember = "Value";
             foreach (var kvp in PaletteModeStrings.SupportedThemesMap)
             {
-                Items.Add(kvp);
+                Items.Add(kvp.Key);
             }
-            var cnvtr = new PaletteModeConverter();
-            Text = cnvtr.ConvertToString(PaletteMode.Microsoft365Blue)!;
+            Text = ThemeManager.ReturnPaletteModeAsString(PaletteMode.Microsoft365Blue);
             _selectedThemeIndex = SelectedIndex;
             Debug.Assert(_selectedThemeIndex == 33, "Microsoft365Blue needs to be at the 33rd index for backward compatibility");
         }

@@ -3,6 +3,7 @@
 =======
 
 ## 2023-11-xx - Build 2311 - November 2023
+* Resolved [#1125](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1072), KryptonThemeCombox displays extra string (Todays alpha)
 * Implemented [#1089](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1089), `KryptonProgressBar` in StatusStrips
 * Resolved [#1072](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1072), Clicking "RootItem->Items" in a designer causes an exception to be thrown
 * Resolved [#1109](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1109), KryptonPropertyGrid 'jagged' text
