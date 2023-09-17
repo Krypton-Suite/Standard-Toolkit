@@ -35,13 +35,19 @@
             this.kryptonBreadCrumbItem2 = new Krypton.Toolkit.KryptonBreadCrumbItem();
             this.kryptonBreadCrumbItem3 = new Krypton.Toolkit.KryptonBreadCrumbItem();
             this.kryptonBreadCrumbItem4 = new Krypton.Toolkit.KryptonBreadCrumbItem();
+            this.kryptonSplitContainer1 = new Krypton.Toolkit.KryptonSplitContainer();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
             this.kryptonPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonBreadCrumb1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonSplitContainer1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonSplitContainer1.Panel1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonSplitContainer1.Panel2)).BeginInit();
+            this.kryptonSplitContainer1.SuspendLayout();
             this.SuspendLayout();
             // 
             // kryptonPanel1
             // 
+            this.kryptonPanel1.Controls.Add(this.kryptonSplitContainer1);
             this.kryptonPanel1.Controls.Add(this.kryptonButton1);
             this.kryptonPanel1.Controls.Add(this.kryptonBreadCrumb1);
             this.kryptonPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -93,6 +99,15 @@
             // 
             this.kryptonBreadCrumbItem4.ShortText = "ListItem";
             // 
+            // kryptonSplitContainer1
+            // 
+            this.kryptonSplitContainer1.Cursor = System.Windows.Forms.Cursors.Default;
+            this.kryptonSplitContainer1.Location = new System.Drawing.Point(220, 85);
+            this.kryptonSplitContainer1.Name = "kryptonSplitContainer1";
+            this.kryptonSplitContainer1.Size = new System.Drawing.Size(359, 150);
+            this.kryptonSplitContainer1.SplitterDistance = 119;
+            this.kryptonSplitContainer1.TabIndex = 2;
+            // 
             // Form2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -101,10 +116,13 @@
             this.Controls.Add(this.kryptonPanel1);
             this.Name = "Form2";
             this.Text = "Form2";
-            this.Controls.SetChildIndex(this.kryptonPanel1, 0);
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).EndInit();
             this.kryptonPanel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.kryptonBreadCrumb1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonSplitContainer1.Panel1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonSplitContainer1.Panel2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonSplitContainer1)).EndInit();
+            this.kryptonSplitContainer1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -118,5 +136,6 @@
         private Krypton.Toolkit.KryptonBreadCrumbItem kryptonBreadCrumbItem4;
         private Krypton.Toolkit.KryptonBreadCrumb kryptonBreadCrumb1;
         private Krypton.Toolkit.KryptonButton kryptonButton1;
+        private Krypton.Toolkit.KryptonSplitContainer kryptonSplitContainer1;
     }
 }
