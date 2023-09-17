@@ -10,6 +10,16 @@
 
 namespace Krypton.Ribbon
 {
+    /// <summary>
+    /// Represents a ribbon group theme combo box.
+    /// </summary>
+    [ToolboxItem(false)]
+    [ToolboxBitmap(typeof(KryptonRibbonGroupThemeComboBox), "ToolboxBitmaps.KryptonRibbonGroupComboBox.bmp")]
+    [Designer(typeof(KryptonRibbonGroupThemeComboBoxDesigner))]
+    [DesignerCategory(@"code")]
+    [DesignTimeVisible(false)]
+    [DefaultEvent("SelectedTextChanged")]
+    [DefaultProperty(nameof(Text))]
     public class KryptonRibbonGroupThemeComboBox : KryptonRibbonGroupComboBox
     {
         #region Instance Fields
@@ -100,5 +110,10 @@ namespace Krypton.Ribbon
 
         #endregion
 
+        #region Removed Designer
+
+
+
+        #endregion
     }
 }

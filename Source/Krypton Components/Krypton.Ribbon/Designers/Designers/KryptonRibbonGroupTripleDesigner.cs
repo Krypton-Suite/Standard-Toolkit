@@ -18,7 +18,7 @@ namespace Krypton.Ribbon
         private IDesignerHost _designerHost;
         private IComponentChangeService _changeService;
         private KryptonRibbonGroupTriple _ribbonTriple;
-        private DesignerVerbCollection _verbs;
+        private DesignerVerbCollection? _verbs;
         private DesignerVerb _toggleHelpersVerb;
         private DesignerVerb _moveFirstVerb;
         private DesignerVerb _movePrevVerb;
@@ -1080,7 +1080,7 @@ namespace Krypton.Ribbon
                 // Update sub menu options available for the 'Move To Group'
                 UpdateMoveToGroup();
 
-                // Update menu items state from versb
+                // Update menu items state from verb
                 _toggleHelpersMenu.Checked = _ribbonTriple.Ribbon.InDesignHelperMode;
                 _visibleMenu.Checked = _ribbonTriple.Visible;
                 _maximumLMenu.Checked = _ribbonTriple.MaximumSize == GroupItemSize.Large;
