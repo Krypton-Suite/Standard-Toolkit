@@ -592,6 +592,7 @@ namespace Krypton.Toolkit
                     case PaletteMode.VisualStudio2010Render365:
                         return PaletteVisualStudio2010Microsoft365Variation;
                     case PaletteMode.Custom:
+                    case PaletteMode.Global:
                         return InternalGlobalPalette;
                     default:
                         Debug.Assert(false);

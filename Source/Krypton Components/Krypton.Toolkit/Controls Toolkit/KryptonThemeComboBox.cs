@@ -64,14 +64,11 @@ namespace Krypton.Toolkit
         public KryptonThemeComboBox()
         {
             DropDownStyle = ComboBoxStyle.DropDownList;
-            DisplayMember = "Key";
-            ValueMember = "Value";
             foreach (var kvp in PaletteModeStrings.SupportedThemesMap)
             {
-                Items.Add(kvp);
+                Items.Add(kvp.Key);
             }
-            var cnvtr = new PaletteModeConverter();
-            Text = cnvtr.ConvertToString(PaletteMode.Microsoft365Blue)!;
+            Text = ThemeManager.ReturnPaletteModeAsString(PaletteMode.Microsoft365Blue);
             _selectedIndex = SelectedIndex;
             Debug.Assert(_selectedIndex == 33, "Microsoft365Blue needs to be at the 33rd index for backward compatibility");
         }

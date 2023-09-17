@@ -17,73 +17,12 @@ namespace Krypton.Toolkit
     /// </summary>
     public class ThemeManager
     {
-        #region Theme Array        
-        /// <summary>
-        /// The supported themes
-        /// </summary>
-        [Localizable(true)]
-        // TODO: This should use the list from Z:\GitHub\Krypton-Suite\Standard-Toolkit\Source\Krypton Components\Krypton.Toolkit\Converters\PaletteModeConverter.cs
-        private static readonly BiDictionary<string, PaletteMode> _supportedThemes =
-            new BiDictionary<string, PaletteMode>(new Dictionary<string, PaletteMode>
-            {
-                { KryptonLanguageManager.ModeStrings.Professional, PaletteMode.ProfessionalSystem },
-                { KryptonLanguageManager.ModeStrings.Professional2003, PaletteMode.ProfessionalOffice2003 },
-                { KryptonLanguageManager.ModeStrings.Office2007Blue, PaletteMode.Office2007Blue },
-                { KryptonLanguageManager.ModeStrings.Office2007BlueDarkMode, PaletteMode.Office2007BlueDarkMode },
-                { KryptonLanguageManager.ModeStrings.Office2007BlueLightMode, PaletteMode.Office2007BlueLightMode },
-                { KryptonLanguageManager.ModeStrings.Office2007Silver, PaletteMode.Office2007Silver },
-                { KryptonLanguageManager.ModeStrings.Office2007SilverDarkMode, PaletteMode.Office2007SilverDarkMode },
-                { KryptonLanguageManager.ModeStrings.Office2007SilverLightMode, PaletteMode.Office2007SilverLightMode },
-                { KryptonLanguageManager.ModeStrings.Office2007White, PaletteMode.Office2007White },
-                { KryptonLanguageManager.ModeStrings.Office2007Black, PaletteMode.Office2007Black },
-                { KryptonLanguageManager.ModeStrings.Office2007BlackDarkMode, PaletteMode.Office2007BlackDarkMode },
-                { KryptonLanguageManager.ModeStrings.Office2007DarkGray, PaletteMode.Office2007DarkGray },
-                { KryptonLanguageManager.ModeStrings.Office2010Blue, PaletteMode.Office2010Blue },
-                { KryptonLanguageManager.ModeStrings.Office2010BlueDarkMode, PaletteMode.Office2010BlueDarkMode },
-                { KryptonLanguageManager.ModeStrings.Office2010BlueLightMode, PaletteMode.Office2010BlueLightMode },
-                { KryptonLanguageManager.ModeStrings.Office2010Silver, PaletteMode.Office2010Silver },
-                { KryptonLanguageManager.ModeStrings.Office2010SilverDarkMode, PaletteMode.Office2010SilverDarkMode },
-                { KryptonLanguageManager.ModeStrings.Office2010SilverLightMode, PaletteMode.Office2010SilverLightMode },
-                { KryptonLanguageManager.ModeStrings.Office2010White, PaletteMode.Office2010White },
-                { KryptonLanguageManager.ModeStrings.Office2010Black, PaletteMode.Office2010Black },
-                { KryptonLanguageManager.ModeStrings.Office2010BlackDarkMode, PaletteMode.Office2010BlackDarkMode },
-                { KryptonLanguageManager.ModeStrings.Office2010DarkGray, PaletteMode.Office2010DarkGray },
-                { KryptonLanguageManager.ModeStrings.Office2013DarkGray, PaletteMode.Office2013DarkGray },
-                { KryptonLanguageManager.ModeStrings.Office2013LightGray, PaletteMode.Office2013LightGray },
-                { KryptonLanguageManager.ModeStrings.Office2013White, PaletteMode.Office2013White },
-                { KryptonLanguageManager.ModeStrings.SparkleBlue, PaletteMode.SparkleBlue },
-                { KryptonLanguageManager.ModeStrings.SparkleBlueDarkMode, PaletteMode.SparkleBlueDarkMode },
-                { KryptonLanguageManager.ModeStrings.SparkleBlueLightMode, PaletteMode.SparkleBlueLightMode },
-                { KryptonLanguageManager.ModeStrings.SparkleOrange, PaletteMode.SparkleOrange },
-                { KryptonLanguageManager.ModeStrings.SparkleOrangeDarkMode, PaletteMode.SparkleOrangeDarkMode },
-                { KryptonLanguageManager.ModeStrings.SparkleOrangeLightMode, PaletteMode.SparkleOrangeLightMode },
-                { KryptonLanguageManager.ModeStrings.SparklePurple, PaletteMode.SparklePurple },
-                { KryptonLanguageManager.ModeStrings.SparklePurpleDarkMode, PaletteMode.SparklePurpleDarkMode },
-                { KryptonLanguageManager.ModeStrings.SparklePurpleLightMode, PaletteMode.SparklePurpleLightMode },
-                { KryptonLanguageManager.ModeStrings.Microsoft365Blue, PaletteMode.Microsoft365Blue },
-                { KryptonLanguageManager.ModeStrings.Microsoft365BlueDarkMode, PaletteMode.Microsoft365BlueDarkMode },
-                { KryptonLanguageManager.ModeStrings.Microsoft365BlueLightMode, PaletteMode.Microsoft365BlueLightMode },
-                { KryptonLanguageManager.ModeStrings.Microsoft365Silver, PaletteMode.Microsoft365Silver },
-                { KryptonLanguageManager.ModeStrings.Microsoft365SilverDarkMode, PaletteMode.Microsoft365SilverDarkMode },
-                { KryptonLanguageManager.ModeStrings.Microsoft365SilverLightMode, PaletteMode.Microsoft365SilverLightMode },
-                { KryptonLanguageManager.ModeStrings.Microsoft365White, PaletteMode.Microsoft365White },
-                { KryptonLanguageManager.ModeStrings.Microsoft365Black, PaletteMode.Microsoft365Black },
-                { KryptonLanguageManager.ModeStrings.Microsoft365BlackDarkMode, PaletteMode.Microsoft365BlackDarkMode },
-                { KryptonLanguageManager.ModeStrings.Microsoft365DarkGray, PaletteMode.Microsoft365DarkGray },
-                { KryptonLanguageManager.ModeStrings.Custom, PaletteMode.Custom },
-                { KryptonLanguageManager.ModeStrings.VisualStudio2010With2007Renderer, PaletteMode.VisualStudio2010Render2007 },
-                { KryptonLanguageManager.ModeStrings.VisualStudio2010With2010Renderer, PaletteMode.VisualStudio2010Render2010 },
-                { KryptonLanguageManager.ModeStrings.VisualStudio2010With2013Renderer, PaletteMode.VisualStudio2010Render2013 },
-                { KryptonLanguageManager.ModeStrings.VisualStudio2010With365Renderer, PaletteMode.VisualStudio2010Render365 }
-            });
-
-        #endregion
 
         #region Properties        
 
         /// <summary>Gets the supported theme array.</summary>
         /// <value>The supported theme array.</value>
-        public static ICollection<string?> SupportedInternalThemeNames => _supportedThemes.GetAllFirsts();
+        public static ICollection<string> SupportedInternalThemeNames => PaletteModeStrings.SupportedInternalThemeNames;
 
         /// <summary>Gets or sets the index of the theme.</summary>
         /// <value>The index of the theme.</value>
@@ -106,12 +45,6 @@ namespace Krypton.Toolkit
         public static PaletteMode GetPaletteMode(KryptonManager manager) => ReturnPaletteMode(manager.GlobalPaletteMode);
 
         /// <summary>Returns the palette mode.</summary>
-        /// <param name="themeName">Name of the theme.</param>
-        /// <returns>The <see cref="PaletteMode"/> based on the name.</returns>
-        private static PaletteMode ReturnPaletteMode(string themeName) =>
-            (PaletteMode)Enum.Parse(typeof(PaletteMode), themeName);
-
-        /// <summary>Returns the palette mode.</summary>
         /// <param name="paletteMode">The palette mode manager.</param>
         /// <returns>The selected <see cref="PaletteMode"/>.</returns>
         private static PaletteMode ReturnPaletteMode(PaletteMode paletteMode) => paletteMode;
@@ -121,7 +54,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="themeName">Name of the theme.</param>
         /// <param name="manager">The manager.</param>
-        public static void ApplyTheme(string themeName, KryptonManager manager) => ApplyTheme(_supportedThemes.GetByFirst(themeName), manager);
+        public static void ApplyTheme(string themeName, KryptonManager manager) => ApplyTheme(PaletteModeStrings.SupportedThemesMap[themeName], manager);
 
         /// <summary>
         /// Sets the theme.
@@ -151,8 +84,8 @@ namespace Krypton.Toolkit
         public static string ReturnPaletteModeAsString(PaletteMode paletteMode, KryptonManager? manager)
         {
             var mode = manager?.GlobalPaletteMode ?? paletteMode;
-
-            return _supportedThemes.GetBySecond(mode);
+            var cnvtr = new PaletteModeConverter();
+            return cnvtr.ConvertToString(mode)!;
         }
 
         /// <summary>
@@ -208,7 +141,7 @@ namespace Krypton.Toolkit
         {
             var modeConverter = new PaletteModeConverter();
 
-            return modeConverter.ConvertToString(paletteMode);
+            return modeConverter.ConvertToString(paletteMode)!;
         }
 
         /// <summary>
@@ -293,7 +226,12 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="themeName">Name of the theme.</param>
         /// <returns>The <see cref="PaletteMode"/> equivalent.</returns>
-        public static PaletteMode GetThemeManagerMode(string themeName) => _supportedThemes.GetByFirst(themeName);
+        public static PaletteMode GetThemeManagerMode(string themeName)
+        {
+            var modeConverter = new PaletteModeConverter();
+
+            return (PaletteMode)modeConverter.ConvertFrom(themeName);
+        }
 
         /// <summary>Sets the index of the theme.</summary>
         /// <param name="value">The value.</param>
