@@ -28,19 +28,23 @@ namespace Krypton.Ribbon
         /// Gets the data types that this collection editor can contain. 
         /// </summary>
         /// <returns>An array of data types that this collection can contain.</returns>
-        protected override Type[] CreateNewItemTypes() => new[] { typeof(KryptonRibbonGroupButton),
-                                typeof(KryptonRibbonGroupColorButton),
-                                typeof(KryptonRibbonGroupCheckBox),
-                                typeof(KryptonRibbonGroupComboBox),
-                                typeof(KryptonRibbonGroupCustomControl),
-                                typeof(KryptonRibbonGroupDateTimePicker),
-                                typeof(KryptonRibbonGroupDomainUpDown),
-                                typeof(KryptonRibbonGroupLabel),
-                                typeof(KryptonRibbonGroupMaskedTextBox),
-                                typeof(KryptonRibbonGroupNumericUpDown),
-                                typeof(KryptonRibbonGroupRadioButton),
-                                typeof(KryptonRibbonGroupRichTextBox),
-                                typeof(KryptonRibbonGroupTextBox),
-                                typeof(KryptonRibbonGroupTrackBar)};
+        protected override Type[] CreateNewItemTypes() => new[]
+        {
+            typeof(KryptonRibbonGroupButton),
+            typeof(KryptonRibbonGroupColorButton),
+            typeof(KryptonRibbonGroupCheckBox),
+            typeof(KryptonRibbonGroupComboBox),
+            typeof(KryptonRibbonGroupCustomControl),
+            typeof(KryptonRibbonGroupDateTimePicker),
+            typeof(KryptonRibbonGroupDomainUpDown),
+            typeof(KryptonRibbonGroupLabel),
+            typeof(KryptonRibbonGroupMaskedTextBox),
+            typeof(KryptonRibbonGroupNumericUpDown),
+            typeof(KryptonRibbonGroupRadioButton),
+            typeof(KryptonRibbonGroupRichTextBox),
+            typeof(KryptonRibbonGroupTextBox),
+            typeof(KryptonRibbonGroupTrackBar),
+            typeof(KryptonRibbonGroupThemeComboBox)
+        };
     }
 }

@@ -139,6 +139,13 @@ namespace Krypton.Ribbon
         public event EventHandler? DesignTimeAddTrackBar;
 
         /// <summary>
+        /// Occurs when the design time wants to add a theme combobox.
+        /// </summary>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        [Browsable(false)]
+        public event EventHandler? DesignTimeAddThemeComboBox;
+
+        /// <summary>
         /// Occurs when the design time context menu is requested.
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
@@ -514,6 +521,8 @@ namespace Krypton.Ribbon
         internal void OnDesignTimeAddDateTimePicker() => DesignTimeAddDateTimePicker?.Invoke(this, EventArgs.Empty);
 
         internal void OnDesignTimeAddTrackBar() => DesignTimeAddTrackBar?.Invoke(this, EventArgs.Empty);
+
+        internal void OnDesignTimeAddThemeComboBox() => DesignTimeAddThemeComboBox?.Invoke(this, EventArgs.Empty);
 
         internal void OnDesignTimeContextMenu(MouseEventArgs e) => DesignTimeContextMenu?.Invoke(this, e);
 
