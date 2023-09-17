@@ -173,6 +173,9 @@ namespace Krypton.Toolkit
         public static IReadOnlyDictionary<string, PaletteMode> SupportedThemesMap => SupportedThemes.FirstToSecond;
 
         [Browsable(false)]
+        public static ICollection<string> SupportedInternalThemeNames => SupportedThemes.GetAllFirsts();
+
+        [Browsable(false)]
         public bool IsDefault =>
             Custom.Equals(DEFAULT_PALETTE_CUSTOM) &&
             Professional.Equals(DEFAULT_PALETTE_SYSTEM) &&
