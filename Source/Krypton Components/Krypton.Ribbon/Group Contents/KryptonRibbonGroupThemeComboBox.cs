@@ -112,7 +112,38 @@ namespace Krypton.Ribbon
 
         #region Removed Designer
 
+        /// <summary>Gets and sets the text associated with the control.</summary>
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        [AllowNull]
+        public new string Text
+        {
+            get => base.Text;
+            set => base.Text = value;
+        }
 
+        /// <summary>Gets and sets the appearance and functionality of the KryptonComboBox.</summary>
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public new ComboBoxStyle DropDownStyle
+        {
+            get => base.DropDownStyle;
+            set => base.DropDownStyle = value;
+        }
+
+        /// <summary>Gets or sets the items in the KryptonComboBox.</summary>
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public new ComboBox.ObjectCollection Items => base.Items;
+
+        /// <summary>Gets or sets the StringCollection to use when the AutoCompleteSource property is set to CustomSource.</summary>
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public new AutoCompleteStringCollection AutoCompleteCustomSource
+        {
+            get => base.AutoCompleteCustomSource;
+            set => base.AutoCompleteCustomSource = value;
+        }
 
         #endregion
     }
