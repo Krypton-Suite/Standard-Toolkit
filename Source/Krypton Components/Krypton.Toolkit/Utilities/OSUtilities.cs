@@ -27,6 +27,8 @@ namespace Krypton.Toolkit
 
         #region Implementation
 
+        // Note: Update these, once a new public upgrade becomes GA
+
         /// <summary>Gets a value indicating whether the client version is Windows 7.</summary>
         /// <value><c>true</c> if the client version is Windows 7; otherwise, <c>false</c>.</value>
         public static bool IsWindowsSeven => Environment.OSVersion.Version is { Major: >= 6, Minor: >= 1 };
