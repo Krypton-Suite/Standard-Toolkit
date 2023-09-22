@@ -145,6 +145,24 @@ namespace Krypton.Ribbon
             set => base.AutoCompleteCustomSource = value;
         }
 
+        /// <summary>Gets or sets the text completion behavior of the combobox.</summary>
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public new AutoCompleteMode AutoCompleteMode
+        {
+            get => base.AutoCompleteMode;
+            set => base.AutoCompleteMode = value;
+        }
+
+        /// <summary>Gets or sets the autocomplete source, which can be one of the values from AutoCompleteSource enumeration.</summary>
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public new AutoCompleteSource AutoCompleteSource
+        {
+            get => base.AutoCompleteSource;
+            set => base.AutoCompleteSource = value;
+        }
+
         #endregion
     }
 }
