@@ -10,6 +10,16 @@
 
 namespace Krypton.Ribbon
 {
+    /// <summary>
+    /// Represents a ribbon group theme combo box.
+    /// </summary>
+    [ToolboxItem(false)]
+    [ToolboxBitmap(typeof(KryptonRibbonGroupThemeComboBox), "ToolboxBitmaps.KryptonRibbonGroupComboBox.bmp")]
+    [Designer(typeof(KryptonRibbonGroupThemeComboBoxDesigner))]
+    [DesignerCategory(@"code")]
+    [DesignTimeVisible(false)]
+    [DefaultEvent("SelectedTextChanged")]
+    [DefaultProperty(nameof(Text))]
     public class KryptonRibbonGroupThemeComboBox : KryptonRibbonGroupComboBox
     {
         #region Instance Fields
@@ -100,5 +110,59 @@ namespace Krypton.Ribbon
 
         #endregion
 
+        #region Removed Designer
+
+        /// <summary>Gets and sets the text associated with the control.</summary>
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        [AllowNull]
+        public new string Text
+        {
+            get => base.Text;
+            set => base.Text = value;
+        }
+
+        /// <summary>Gets and sets the appearance and functionality of the KryptonComboBox.</summary>
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public new ComboBoxStyle DropDownStyle
+        {
+            get => base.DropDownStyle;
+            set => base.DropDownStyle = value;
+        }
+
+        /// <summary>Gets or sets the items in the KryptonComboBox.</summary>
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public new ComboBox.ObjectCollection Items => base.Items;
+
+        /// <summary>Gets or sets the StringCollection to use when the AutoCompleteSource property is set to CustomSource.</summary>
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public new AutoCompleteStringCollection AutoCompleteCustomSource
+        {
+            get => base.AutoCompleteCustomSource;
+            set => base.AutoCompleteCustomSource = value;
+        }
+
+        /// <summary>Gets or sets the text completion behavior of the combobox.</summary>
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public new AutoCompleteMode AutoCompleteMode
+        {
+            get => base.AutoCompleteMode;
+            set => base.AutoCompleteMode = value;
+        }
+
+        /// <summary>Gets or sets the autocomplete source, which can be one of the values from AutoCompleteSource enumeration.</summary>
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public new AutoCompleteSource AutoCompleteSource
+        {
+            get => base.AutoCompleteSource;
+            set => base.AutoCompleteSource = value;
+        }
+
+        #endregion
     }
 }
