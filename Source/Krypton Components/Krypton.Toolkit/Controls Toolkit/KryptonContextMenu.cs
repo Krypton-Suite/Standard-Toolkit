@@ -241,14 +241,14 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public object? Caller { get; private set; }
+        public object Caller { get; private set; }
 
         /// <summary>
         /// Show the context menu at the current mouse location.
         /// </summary>
         /// <returns>Has the context menu become Displayed.</returns>
         /// <param name="caller">Reference to object causing the context menu to be shown.</param>
-        public bool Show(object? caller) =>
+        public bool Show(object caller) =>
             // Without a screen location we just place it at the same location as the mouse
             Show(caller, Control.MousePosition);
 
@@ -259,7 +259,7 @@ namespace Krypton.Toolkit
         /// <param name="horz">Horizontal location relative to screen rectangle.</param>
         /// <param name="vert">Vertical location relative to screen rectangle.</param>
         /// <returns>Has the context menu become Displayed.</returns>
-        public bool Show(object? caller,
+        public bool Show(object caller,
                          KryptonContextMenuPositionH horz,
                          KryptonContextMenuPositionV vert) =>
             // Without a screen location we just place it at the same location as the mouse
@@ -272,7 +272,7 @@ namespace Krypton.Toolkit
         /// <param name="caller">Reference to object causing the context menu to be shown.</param>
         /// <param name="screenPt">Screen location.</param>
         /// <returns>Has the context menu become Displayed.</returns>
-        public bool Show(object? caller,
+        public bool Show(object caller,
                          Point screenPt) =>
             // Convert to a zero sized rectangle
             Show(caller, new Rectangle(screenPt, Size.Empty));
@@ -283,7 +283,7 @@ namespace Krypton.Toolkit
         /// <param name="caller">Reference to object causing the context menu to be shown.</param>
         /// <param name="screenRect">Screen rectangle.</param>
         /// <returns>Has the context menu become Displayed.</returns>
-        public bool Show(object? caller,
+        public bool Show(object caller,
                          Rectangle screenRect) =>
             // When the relative position is not provided we assume a default 
             // of below and aligned to the left edge of the screen rectangle.
@@ -297,7 +297,7 @@ namespace Krypton.Toolkit
         /// <param name="horz">Horizontal location relative to screen rectangle.</param>
         /// <param name="vert">Vertical location relative to screen rectangle.</param>
         /// <returns>Has the context menu become Displayed.</returns>
-        public bool Show(object? caller,
+        public bool Show(object caller,
                          Point screenPt,
                          KryptonContextMenuPositionH horz,
                          KryptonContextMenuPositionV vert) =>
@@ -313,7 +313,7 @@ namespace Krypton.Toolkit
         /// <param name="horz">Horizontal location relative to screen rectangle.</param>
         /// <param name="vert">Vertical location relative to screen rectangle.</param>
         /// <returns>Has the context menu become Displayed.</returns>
-        public bool Show(object? caller,
+        public bool Show(object caller,
                          Rectangle screenRect,
                          KryptonContextMenuPositionH horz,
                          KryptonContextMenuPositionV vert) =>
@@ -330,7 +330,7 @@ namespace Krypton.Toolkit
         /// <param name="keyboardActivated">Was context menu initiated via a keyboard action.</param>
         /// <param name="constrain">Should size and position of menu be constrained by display size.</param>
         /// <returns>Has the context menu become Displayed.</returns>
-        public bool Show(object? caller,
+        public bool Show(object caller,
                          Rectangle screenRect,
                          KryptonContextMenuPositionH horz,
                          KryptonContextMenuPositionV vert,

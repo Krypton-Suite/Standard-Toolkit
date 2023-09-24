@@ -31,7 +31,7 @@ namespace Krypton.Navigator
             /// Initialize a new instance of the OutlookButtonSpecCollection class.
             /// </summary>
             /// <param name="owner">Reference to owning object.</param>
-            public OutlookButtonSpecCollection(KryptonNavigator? owner)
+            public OutlookButtonSpecCollection(KryptonNavigator owner)
                 : base(owner)
             {
             }
@@ -98,7 +98,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets the top level control of the source.
         /// </summary>
-        public abstract Control? SeparatorControl { get; }
+        public abstract Control SeparatorControl { get; }
 
         /// <summary>
         /// Gets the orientation of the separator.
@@ -280,7 +280,7 @@ namespace Krypton.Navigator
         /// <param name="navigator">Reference to navigator instance.</param>
         /// <param name="manager">Reference to current manager.</param>
         /// <param name="redirector">Palette redirector.</param>
-        public override void Construct(KryptonNavigator? navigator,
+        public override void Construct(KryptonNavigator navigator,
                                        ViewManager manager,
                                        [DisallowNull] PaletteRedirect? redirector)
         {

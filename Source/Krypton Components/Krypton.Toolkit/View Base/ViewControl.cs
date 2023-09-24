@@ -45,7 +45,7 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the ViewControl class.
         /// </summary>
         /// <param name="rootControl">Top level visual control.</param>
-        public ViewControl([DisallowNull] VisualControl? rootControl)
+        public ViewControl([DisallowNull] VisualControl rootControl)
         {
             Debug.Assert(rootControl != null);
 
@@ -85,7 +85,7 @@ namespace Krypton.Toolkit
         /// Gets and sets the root control for point translation and message dispatch. 
         /// </summary>
         /// <param name="parent">Parent control.</param>
-        public void UpdateParent(Control? parent)
+        public void UpdateParent(Control parent)
         {
             // Keep looking till we run out of parents
             while (parent != null)

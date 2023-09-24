@@ -30,7 +30,7 @@ namespace Krypton.Ribbon
         private readonly Padding _fullbarBorderPadding_2007; // = new(1, 3, 2, 2);
         private readonly Padding _fullbarBorderPadding_2010; // = new(2);
         private readonly Padding _noBorderPadding; // = new(1, 0, 1, 0);
-        private readonly KryptonRibbon? _ribbon;
+        private readonly KryptonRibbon _ribbon;
         private readonly NeedPaintHandler _needPaintDelegate;
         private IDisposable? _memento;
         private readonly bool _minibar;
@@ -43,7 +43,7 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Reference to owning ribbon control.</param>
         /// <param name="needPaintDelegate">Delegate for notifying paint/layout changes.</param>
         /// <param name="minibar">Minibar or full bar drawing.</param>
-        public ViewDrawRibbonQATBorder([DisallowNull] KryptonRibbon? ribbon,
+        public ViewDrawRibbonQATBorder([DisallowNull] KryptonRibbon ribbon,
             [DisallowNull] NeedPaintHandler needPaintDelegate,
                                        bool minibar)
         {

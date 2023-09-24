@@ -24,7 +24,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Instance Fields
-        private readonly KryptonBreadCrumb? _kryptonBreadCrumb;
+        private readonly KryptonBreadCrumb _kryptonBreadCrumb;
         private readonly NeedPaintHandler _needPaintDelegate;
         private ButtonController? _pressedButtonController;
         private readonly CrumbToButton _crumbToButton;
@@ -40,7 +40,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="kryptonBreadCrumb">Reference to owning bread crumb control.</param>
         /// <param name="needPaintDelegate">Delegate used to request repainting..</param>
-        public ViewLayoutCrumbs(KryptonBreadCrumb? kryptonBreadCrumb,
+        public ViewLayoutCrumbs(KryptonBreadCrumb kryptonBreadCrumb,
                                 NeedPaintHandler needPaintDelegate)
         {
             _kryptonBreadCrumb = kryptonBreadCrumb;

@@ -22,7 +22,7 @@ namespace Krypton.Navigator
         /// Initialize a new instance of the ButtonSpecNavContext class.
         /// </summary>
         /// <param name="navigator">Reference to owning navigator instance.</param>
-        public ButtonSpecNavContext(KryptonNavigator? navigator)
+        public ButtonSpecNavContext(KryptonNavigator navigator)
             : base(navigator, PaletteButtonSpecStyle.Context)
         {
             // Provide a context menu so that the button looks fixed when pressed

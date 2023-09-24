@@ -11,7 +11,7 @@ namespace Krypton.Navigator
 {
     public class ButtonSpecNavFormMinimize : ButtonSpecNavFixed
     {
-        public ButtonSpecNavFormMinimize(KryptonNavigator? navigator) : base(navigator, PaletteButtonSpecStyle.FormMin)
+        public ButtonSpecNavFormMinimize(KryptonNavigator navigator) : base(navigator, PaletteButtonSpecStyle.FormMin)
         {
         }
 

@@ -27,7 +27,7 @@ namespace Krypton.Navigator
         /// <param name="pages">Array of event associated pages.</param>
         public PageDragCancelEventArgs(Point screenPoint,
                                        Point elementOffset,
-                                       Control? c,
+                                       Control c,
                                        KryptonPage[] pages)
         {
             ScreenPoint = screenPoint;
@@ -50,7 +50,7 @@ namespace Krypton.Navigator
         /// <param name="pages">Collection of event associated pages.</param>
         public PageDragCancelEventArgs(Point screenPoint,
                                        Point elementOffset,
-                                       Control? c,
+                                       Control c,
                                        KryptonPageCollection pages)
         {
             ScreenPoint = screenPoint;
@@ -80,7 +80,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets access to the control that started the drag operation.
         /// </summary>
-        public Control? Control { get; }
+        public Control Control { get; }
 
         #endregion
 

@@ -23,7 +23,7 @@ namespace Krypton.Ribbon
         #region Instance Fields
         private readonly Padding _largeImagePadding; // = new(3, 2, 3, 3);
         private readonly Padding _smallImagePadding; // = new(3);
-        private readonly KryptonRibbon? _ribbon;
+        private readonly KryptonRibbon _ribbon;
         private readonly NeedPaintHandler _needPaint;
         private ViewLayoutDocker _viewLarge;
         private ViewLayoutRibbonCenterPadding _viewLargeImage;
@@ -46,7 +46,7 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Reference to owning ribbon control.</param>
         /// <param name="ribbonLabel">Reference to source label definition.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public ViewDrawRibbonGroupLabel([DisallowNull] KryptonRibbon? ribbon,
+        public ViewDrawRibbonGroupLabel([DisallowNull] KryptonRibbon ribbon,
                                         [DisallowNull] KryptonRibbonGroupLabel ribbonLabel,
                                         [DisallowNull] NeedPaintHandler needPaint)
         {

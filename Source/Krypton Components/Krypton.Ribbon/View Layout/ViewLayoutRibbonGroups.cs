@@ -48,7 +48,7 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Owning ribbon control instance.</param>
         /// <param name="ribbonTab">RibbonTab to organize groups.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public ViewLayoutRibbonGroups([DisallowNull] KryptonRibbon? ribbon,
+        public ViewLayoutRibbonGroups([DisallowNull] KryptonRibbon ribbon,
                                       [DisallowNull] KryptonRibbonTab ribbonTab,
                                       [DisallowNull] NeedPaintHandler needPaint)
         {

@@ -667,7 +667,7 @@ namespace Krypton.Toolkit
         /// Source control has got the focus.
         /// </summary>
         /// <param name="c">Reference to the source control instance.</param>
-        public virtual void GotFocus(Control? c)
+        public virtual void GotFocus(Control c)
         {
             // Use source controller as first preference
             if (SourceController != null)
@@ -685,7 +685,7 @@ namespace Krypton.Toolkit
         /// Source control has lost the focus.
         /// </summary>
         /// <param name="c">Reference to the source control instance.</param>
-        public virtual void LostFocus([DisallowNull] Control? c)
+        public virtual void LostFocus([DisallowNull] Control c)
         {
             // Use source controller as first preference
             if (SourceController != null)

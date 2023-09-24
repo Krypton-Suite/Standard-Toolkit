@@ -368,7 +368,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="control">Control for which the setting is needed.</param>
         /// <returns>RightToLeft setting.</returns>
-        public static bool GetRightToLeftLayout(Control? control)
+        public static bool GetRightToLeftLayout(Control control)
         {
             // Default to left-to-right layout
             var rtl = false;
@@ -1116,7 +1116,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="parent">Parent control.</param>
         /// <param name="c">Control to be added.</param>
-        public static void AddControlToParent([DisallowNull] Control? parent, [DisallowNull] Control c)
+        public static void AddControlToParent([DisallowNull] Control parent, [DisallowNull] Control c)
         {
             Debug.Assert(parent != null);
             Debug.Assert(c != null);

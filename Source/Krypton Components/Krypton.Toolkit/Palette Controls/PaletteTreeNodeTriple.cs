@@ -18,7 +18,7 @@ namespace Krypton.Toolkit
     public class PaletteTreeNodeTriple : Storage
     {
         #region Instance Fields
-        private readonly PaletteTriple? _paletteNode;
+        private readonly PaletteTriple _paletteNode;
         #endregion
 
         #region Identity
@@ -27,7 +27,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="inherit">Source for inheriting values.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public PaletteTreeNodeTriple([DisallowNull] PaletteTripleRedirect? inherit,
+        public PaletteTreeNodeTriple([DisallowNull] PaletteTripleRedirect inherit,
                                      NeedPaintHandler needPaint)
         {
             Debug.Assert(inherit != null);
@@ -62,7 +62,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Sets the inheritance parent.
         /// </summary>
-        public virtual void SetInherit(PaletteTripleRedirect? inherit) => _paletteNode.SetInherit(inherit);
+        public virtual void SetInherit(PaletteTripleRedirect inherit) => _paletteNode.SetInherit(inherit);
 
         #endregion
 
@@ -74,7 +74,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Overrides for defining node appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public virtual PaletteTriple? Node => _paletteNode;
+        public virtual PaletteTriple Node => _paletteNode;
 
         private bool ShouldSerializeNode() => !_paletteNode.IsDefault;
 

@@ -22,7 +22,7 @@ namespace Krypton.Ribbon
     {
         #region Instance Fields
         private readonly Padding _smallImagePadding; // = new(3);
-        private readonly KryptonRibbon? _ribbon;
+        private readonly KryptonRibbon _ribbon;
         private readonly NeedPaintHandler _needPaint;
         private PaletteBackInheritForced _backForced;
         private PaletteBorderInheritForced _borderForced;
@@ -43,7 +43,7 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Reference to owning ribbon control.</param>
         /// <param name="ribbonButton">Reference to source button definition.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public ViewDrawRibbonGroupClusterButton([DisallowNull] KryptonRibbon? ribbon,
+        public ViewDrawRibbonGroupClusterButton([DisallowNull] KryptonRibbon ribbon,
                                                 [DisallowNull] KryptonRibbonGroupClusterButton ribbonButton,
                                                 [DisallowNull] NeedPaintHandler needPaint)
         {

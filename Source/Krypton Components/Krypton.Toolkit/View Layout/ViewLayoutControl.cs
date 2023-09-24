@@ -23,7 +23,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="rootControl">Top level visual control.</param>
         /// <param name="viewChild">View used to size and position the child control.</param>
-        public ViewLayoutControl(VisualControl? rootControl,
+        public ViewLayoutControl(VisualControl rootControl,
                                  ViewBase viewChild)
             : this(new ViewControl(rootControl), rootControl, viewChild)
         {
@@ -36,7 +36,7 @@ namespace Krypton.Toolkit
         /// <param name="rootControl">Top level visual control.</param>
         /// <param name="viewChild">View used to size and position the child control.</param>
         public ViewLayoutControl([DisallowNull] ViewControl viewControl,
-                                 [DisallowNull] VisualControl? rootControl,
+                                 [DisallowNull] VisualControl rootControl,
                                  [DisallowNull] ViewBase viewChild)
         {
             Debug.Assert(viewControl != null);
@@ -313,7 +313,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region UpdateParent
-        private void UpdateParent(Control? parentControl)
+        private void UpdateParent(Control parentControl)
         {
             // During disposal the view control will no longer exist
             if (ChildControl != null)

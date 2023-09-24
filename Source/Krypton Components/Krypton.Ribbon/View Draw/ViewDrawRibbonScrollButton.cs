@@ -20,7 +20,7 @@ namespace Krypton.Ribbon
     internal class ViewDrawRibbonScrollButton : ViewLeaf
     {
         #region Instance Fields
-        private readonly KryptonRibbon? _ribbon;
+        private readonly KryptonRibbon _ribbon;
         private IDisposable? _mementoBack;
         #endregion
 
@@ -30,7 +30,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="ribbon">Reference to owning ribbon control.</param>
         /// <param name="orientation">Scroller orientation.</param>
-        public ViewDrawRibbonScrollButton(KryptonRibbon? ribbon,
+        public ViewDrawRibbonScrollButton(KryptonRibbon ribbon,
                                           VisualOrientation orientation)
         {
             _ribbon = ribbon;

@@ -20,7 +20,7 @@ namespace Krypton.Ribbon
     internal class ViewLayoutRibbonAppTab : ViewLayoutDocker
     {
         #region Instance Fields
-        private readonly KryptonRibbon? _ribbon;
+        private readonly KryptonRibbon _ribbon;
 
         #endregion
 
@@ -29,7 +29,7 @@ namespace Krypton.Ribbon
         /// Initialize a new instance of the ViewLayoutRibbonAppTab class.
         /// </summary>
         /// <param name="ribbon">Owning control instance.</param>
-        public ViewLayoutRibbonAppTab([DisallowNull] KryptonRibbon? ribbon)
+        public ViewLayoutRibbonAppTab([DisallowNull] KryptonRibbon ribbon)
         {
             Debug.Assert(ribbon != null);
             _ribbon = ribbon;

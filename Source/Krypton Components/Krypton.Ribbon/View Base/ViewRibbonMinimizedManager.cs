@@ -17,7 +17,7 @@ namespace Krypton.Ribbon
     internal class ViewRibbonMinimizedManager : ViewManager
     {
         #region Instance Fields
-        private readonly KryptonRibbon? _ribbon;
+        private readonly KryptonRibbon _ribbon;
         private readonly ViewDrawRibbonGroupsBorderSynch _viewGroups;
         private ViewDrawRibbonGroup _activeGroup;
         private readonly NeedPaintHandler? _needPaintDelegate;
@@ -36,7 +36,7 @@ namespace Krypton.Ribbon
         /// <param name="root">Root of the view hierarchy.</param>
         /// <param name="minimizedMode">Is this manager for handling the minimized mode popup.</param>
         /// <param name="needPaintDelegate">Delegate for requesting paint changes.</param>
-        public ViewRibbonMinimizedManager(KryptonRibbon? control,
+        public ViewRibbonMinimizedManager(KryptonRibbon control,
             [DisallowNull] ViewDrawRibbonGroupsBorderSynch viewGroups,
             [DisallowNull] ViewBase root,
                                           bool minimizedMode,
@@ -265,7 +265,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="control">Source control.</param>
         /// <param name="pt">Point within the source control.</param>
-        protected override void UpdateViewFromPoint(Control? control, Point pt)
+        protected override void UpdateViewFromPoint(Control control, Point pt)
         {
             // If our application is inactive
             if (!_active)

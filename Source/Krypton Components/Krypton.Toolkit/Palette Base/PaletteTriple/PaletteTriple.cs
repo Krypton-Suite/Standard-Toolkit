@@ -23,7 +23,7 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the PaletteTriple class.
         /// </summary>
         /// <param name="inherit">Source for inheriting values.</param>
-        public PaletteTriple(IPaletteTriple? inherit)
+        public PaletteTriple(IPaletteTriple inherit)
             : this(inherit, null)
         {
         }
@@ -33,7 +33,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="inherit">Source for inheriting values.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public PaletteTriple([DisallowNull] IPaletteTriple? inherit,
+        public PaletteTriple([DisallowNull] IPaletteTriple inherit,
                              NeedPaintHandler? needPaint)
         {
             Debug.Assert(inherit != null);
@@ -63,7 +63,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Sets the inheritance parent.
         /// </summary>
-        public void SetInherit(IPaletteTriple? inherit)
+        public void SetInherit(IPaletteTriple inherit)
         {
             Back.SetInherit(inherit.PaletteBack);
             Border.SetInherit(inherit.PaletteBorder);

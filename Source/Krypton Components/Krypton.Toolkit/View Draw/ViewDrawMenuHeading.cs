@@ -27,7 +27,7 @@ namespace Krypton.Toolkit
         /// <param name="heading">Reference to owning heading entry.</param>
         /// <param name="palette">Reference to palette source.</param>
         public ViewDrawMenuHeading(KryptonContextMenuHeading heading,
-                                   PaletteTripleRedirect? palette)
+                                   PaletteTripleRedirect palette)
         {
             // Create fixed storage of the content values
             _contentValues = new FixedContentValue(heading.Text,

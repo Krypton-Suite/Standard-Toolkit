@@ -48,7 +48,7 @@ namespace Krypton.Ribbon
         /// <param name="orientation">Scroller orientation.</param>
         /// <param name="insetForTabs">Should scoller be inset for use in tabs area.</param>
         /// <param name="needPaintDelegate">Delegate for notifying paint/layout requests.</param>
-        public ViewLayoutRibbonScroller(KryptonRibbon? ribbon,
+        public ViewLayoutRibbonScroller(KryptonRibbon ribbon,
                                         VisualOrientation orientation,
                                         bool insetForTabs,
                                         NeedPaintHandler needPaintDelegate)

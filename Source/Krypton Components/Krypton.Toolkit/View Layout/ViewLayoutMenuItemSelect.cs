@@ -21,7 +21,7 @@ namespace Krypton.Toolkit
         private readonly ViewContextMenuManager _viewManager;
         private readonly KryptonContextMenuImageSelect _itemSelect;
         private readonly IContextMenuProvider _provider;
-        private readonly PaletteTripleToPalette? _triple;
+        private readonly PaletteTripleToPalette _triple;
         private readonly NeedPaintHandler _needPaint;
         private readonly ImageList _imageList;
         private int _selectedIndex;

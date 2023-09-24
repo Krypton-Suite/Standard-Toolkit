@@ -70,7 +70,7 @@ namespace Krypton.Toolkit
         /// <param name="needPaintHandler">Delegate for requests repainting.</param>
         /// <param name="repeat">Should button repeat.</param>
         public ViewDrawDateTimeButton(KryptonDateTimePicker dateTimePicker,
-                                      IPaletteTriple? paletteState,
+                                      IPaletteTriple paletteState,
                                       IPaletteMetric? paletteMetric,
                                       IContentValues? buttonValues,
                                       DrawDateTimeGlyph glyph,

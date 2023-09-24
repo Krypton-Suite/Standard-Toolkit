@@ -22,7 +22,7 @@ namespace Krypton.Navigator
         /// Initialize a new instance of the ButtonSpecNavClose class.
         /// </summary>
         /// <param name="navigator">Reference to owning navigator instance.</param>
-        public ButtonSpecNavClose(KryptonNavigator? navigator)
+        public ButtonSpecNavClose(KryptonNavigator navigator)
             : base(navigator, PaletteButtonSpecStyle.Close)
         {
         }

@@ -34,7 +34,7 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Reference to owning ribbon instance.</param>
         /// <param name="target">Target for state changes.</param>
         /// <param name="needPaint">Delegate for notifying changes in display.</param>
-        public QATExtraButtonController(KryptonRibbon? ribbon,
+        public QATExtraButtonController(KryptonRibbon ribbon,
                                         ViewBase target, 
                                         NeedPaintHandler needPaint)
             : base(ribbon, target, needPaint)
@@ -50,7 +50,7 @@ namespace Krypton.Ribbon
         /// <param name="pt">Mouse position relative to control.</param>
         /// <param name="button">Mouse button pressed down.</param>
         /// <returns>True if capturing input; otherwise false.</returns>
-        public override bool MouseDown(Control? c, Point pt, MouseButtons button)
+        public override bool MouseDown(Control c, Point pt, MouseButtons button)
         {
             base.MouseDown(c, pt, button);
             return false;
@@ -68,7 +68,7 @@ namespace Krypton.Ribbon
         /// Source control has got the focus.
         /// </summary>
         /// <param name="c">Reference to the source control instance.</param>
-        public virtual void GotFocus(Control? c)
+        public virtual void GotFocus(Control c)
         {
             _hasFocus = true;
 
@@ -81,7 +81,7 @@ namespace Krypton.Ribbon
         /// Source control has lost the focus.
         /// </summary>
         /// <param name="c">Reference to the source control instance.</param>
-        public virtual void LostFocus([DisallowNull] Control? c)
+        public virtual void LostFocus([DisallowNull] Control c)
         {
             _hasFocus = false;
 
@@ -124,7 +124,7 @@ namespace Krypton.Ribbon
         /// <param name="c">Reference to the source control instance.</param>
         /// <param name="e">A KeyEventArgs that contains the event data.</param>
         /// <returns>True if capturing input; otherwise false.</returns>
-        public bool KeyUp(Control? c, KeyEventArgs e) => false;
+        public bool KeyUp(Control c, KeyEventArgs e) => false;
 
         #endregion
 

@@ -18,8 +18,8 @@ namespace Krypton.Toolkit
     public class PaletteRedirectMetric : PaletteRedirect
     {
         #region Instance Fields
-        private IPaletteMetric? _disabled;
-        private IPaletteMetric? _normal;
+        private IPaletteMetric _disabled;
+        private IPaletteMetric _normal;
         #endregion
 
         #region Identity
@@ -39,8 +39,8 @@ namespace Krypton.Toolkit
         /// <param name="disableMetric">Redirection for disabled metric requests.</param>
         /// <param name="normalMetric">Redirection for normal metric requests.</param>
         public PaletteRedirectMetric(PaletteBase? target,
-                                     IPaletteMetric? disableMetric,
-                                     IPaletteMetric? normalMetric)
+                                     IPaletteMetric disableMetric,
+                                     IPaletteMetric normalMetric)
             : base(target)
         {
             // Remember state specific inheritance
@@ -55,8 +55,8 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="disableMetric">Redirection for disabled metric requests.</param>
         /// <param name="normalMetric">Redirection for normal metric requests.</param>
-        public void SetRedirectStates(IPaletteMetric? disableMetric,
-                                      IPaletteMetric? normalMetric)
+        public void SetRedirectStates(IPaletteMetric disableMetric,
+                                      IPaletteMetric normalMetric)
         {
             _disabled = disableMetric;
             _normal = normalMetric;

@@ -21,7 +21,7 @@ namespace Krypton.Ribbon
                                              IContentValues
     {
         #region Instance Fields
-        private readonly KryptonRibbon? _ribbon;
+        private readonly KryptonRibbon _ribbon;
         private readonly KryptonRibbonGroup _ribbonGroup;
         private readonly RibbonGroupTextToContent _contentProvider;
         private IDisposable _memento;
@@ -41,7 +41,7 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Source ribbon control.</param>
         /// <param name="ribbonGroup">Ribbon group to display title for.</param>
         /// <param name="firstText">Should show the first group text.</param>
-        public ViewDrawRibbonGroupText([DisallowNull] KryptonRibbon? ribbon,
+        public ViewDrawRibbonGroupText([DisallowNull] KryptonRibbon ribbon,
                                        [DisallowNull] KryptonRibbonGroup ribbonGroup,
                                        bool firstText)
         {

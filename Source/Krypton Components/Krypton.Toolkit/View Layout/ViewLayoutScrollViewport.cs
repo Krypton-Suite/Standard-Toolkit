@@ -45,10 +45,10 @@ namespace Krypton.Toolkit
         /// <param name="animateChange">Animate changes in the viewport.</param>
         /// <param name="vertical">Is the viewport vertical.</param>
         /// <param name="needPaintDelegate">Delegate for notifying paint requests.</param>
-        public ViewLayoutScrollViewport([DisallowNull] VisualControl? rootControl,
+        public ViewLayoutScrollViewport([DisallowNull] VisualControl rootControl,
             [DisallowNull] ViewBase viewportFiller,
                                         PaletteBorderEdge paletteBorderEdge,
-                                        IPaletteMetric? paletteMetrics,
+                                        IPaletteMetric paletteMetrics,
                                         PaletteMetricPadding metricPadding,
                                         PaletteMetricInt metricOvers,
                                         VisualOrientation orientation,
@@ -160,7 +160,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="newParent">Control to become parent.</param>
         /// <param name="c">Control to reparent.</param>
-        public void RevertParent(Control? newParent, Control c)
+        public void RevertParent(Control newParent, Control c)
         {
             // Remove control from current collection
             CommonHelper.RemoveControlFromParent(c);
@@ -176,7 +176,7 @@ namespace Krypton.Toolkit
         /// </summary>
         public bool VerticalViewport
         {
-            set
+            set 
             {
                 if (_viewportVertical != value)
                 {

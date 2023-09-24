@@ -19,7 +19,7 @@ namespace Krypton.Workspace
                                               ISeparatorSource
     {
         #region Instance Fields
-        private readonly KryptonWorkspace? _workspace;
+        private readonly KryptonWorkspace _workspace;
 
         #endregion
 
@@ -30,7 +30,7 @@ namespace Krypton.Workspace
         /// <param name="workspace">Associated workspace instance.</param>
         /// <param name="workspaceItem">Associated workspace item.</param>
         /// <param name="orientation">Visual orientation of the content.</param>
-        public ViewDrawWorkspaceSeparator(KryptonWorkspace? workspace,
+        public ViewDrawWorkspaceSeparator(KryptonWorkspace workspace,
                                           IWorkspaceItem workspaceItem,
                                           Orientation orientation)
             : base(workspace.StateDisabled.Separator, workspace.StateNormal.Separator, workspace.StateTracking, workspace.StatePressed,
@@ -60,7 +60,7 @@ namespace Krypton.Workspace
         /// <summary>
         /// Gets the top level control of the source.
         /// </summary>
-        public Control? SeparatorControl => _workspace;
+        public Control SeparatorControl => _workspace;
 
         /// <summary>
         /// Gets the orientation of the separator.

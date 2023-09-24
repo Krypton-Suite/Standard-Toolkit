@@ -21,7 +21,7 @@ namespace Krypton.Ribbon
                                           IContentValues
     {
         #region Instance Fields
-        private readonly KryptonRibbon? _ribbon;
+        private readonly KryptonRibbon _ribbon;
         private IDisposable?[] _mementos;
         private readonly PaletteRibbonGeneral _paletteGeneral;
         private readonly ApplicationTabToContent _contentProvider;
@@ -33,7 +33,7 @@ namespace Krypton.Ribbon
         /// Initialize a new instance of the ViewDrawRibbonAppTab class.
         /// </summary>
         /// <param name="ribbon">Owning control instance.</param>
-        public ViewDrawRibbonAppTab([DisallowNull] KryptonRibbon? ribbon)
+        public ViewDrawRibbonAppTab([DisallowNull] KryptonRibbon ribbon)
         {
             Debug.Assert(ribbon != null);
 

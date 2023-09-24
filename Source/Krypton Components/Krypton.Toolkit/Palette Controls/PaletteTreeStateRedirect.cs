@@ -72,7 +72,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Overrides for defining node appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteTripleRedirect? Node { get; }
+        public PaletteTripleRedirect Node { get; }
 
         private bool ShouldSerializeNode() => !Node.IsDefault;
 

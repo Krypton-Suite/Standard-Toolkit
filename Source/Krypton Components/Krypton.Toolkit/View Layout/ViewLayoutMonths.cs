@@ -30,7 +30,7 @@ namespace Krypton.Toolkit
         private readonly ViewDrawToday _drawToday;
         private readonly ButtonSpecRemapByContentView? _remapPalette;
         private readonly ViewDrawEmptyContent _emptyContent;
-        private readonly PaletteTripleRedirect? _palette;
+        private readonly PaletteTripleRedirect _palette;
         private readonly ToolTipManager _toolTipManager;
         private CultureInfo? _lastCultureInfo;
         private DateTime _displayMonth;

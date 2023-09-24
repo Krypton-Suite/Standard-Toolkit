@@ -26,7 +26,7 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Owning ribbon control instance.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
         /// <param name="showExtraButton">Should the extra button be shown.</param>
-        public ViewLayoutRibbonQATFromRibbon(KryptonRibbon? ribbon,
+        public ViewLayoutRibbonQATFromRibbon(KryptonRibbon ribbon,
                                              NeedPaintHandler needPaint,
                                              bool showExtraButton)
             : base(ribbon, needPaint, showExtraButton)

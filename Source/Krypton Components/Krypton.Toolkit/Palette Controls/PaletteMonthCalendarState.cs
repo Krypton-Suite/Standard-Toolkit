@@ -54,7 +54,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Overrides for defining day appearance entries.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteTriple? Day { get; }
+        public PaletteTriple Day { get; }
 
         private bool ShouldSerializeDay() => !Day.IsDefault;
 

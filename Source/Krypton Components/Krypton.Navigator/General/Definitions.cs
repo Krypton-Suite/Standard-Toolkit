@@ -25,7 +25,7 @@ namespace Krypton.Navigator
         /// Initialize a new instance of the PageButtonSpecCollection class.
         /// </summary>
         /// <param name="owner">Reference to owning object.</param>
-        public PageButtonSpecCollection(KryptonPage? owner)
+        public PageButtonSpecCollection(KryptonPage owner)
             : base(owner)
         {
         }
@@ -44,7 +44,7 @@ namespace Krypton.Navigator
         /// Initialize a new instance of the NavigatorButtonSpecCollection class.
         /// </summary>
         /// <param name="owner">Reference to owning object.</param>
-        public NavigatorButtonSpecCollection(KryptonNavigator? owner)
+        public NavigatorButtonSpecCollection(KryptonNavigator owner)
             : base(owner)
         {
         }
@@ -63,7 +63,7 @@ namespace Krypton.Navigator
         /// Initialize a new instance of the NavFixedButtonSpecCollection class.
         /// </summary>
         /// <param name="owner">Reference to owning object.</param>
-        public NavFixedButtonSpecCollection(KryptonNavigator? owner)
+        public NavFixedButtonSpecCollection(KryptonNavigator owner)
             : base(owner)
         {
         }
@@ -802,7 +802,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets the navigator this check item is inside.
         /// </summary>
-        KryptonNavigator? Navigator { get; }
+        KryptonNavigator Navigator { get; }
 
         /// <summary>
         /// Gets and sets the checked state of the check item.

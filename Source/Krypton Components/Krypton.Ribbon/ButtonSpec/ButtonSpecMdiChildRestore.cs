@@ -20,7 +20,7 @@ namespace Krypton.Ribbon
     public class ButtonSpecMdiChildRestore : ButtonSpecMdiChildFixed
     {
         #region Instance Fields
-        private readonly KryptonRibbon? _ribbon;
+        private readonly KryptonRibbon _ribbon;
         #endregion
 
         #region Identity
@@ -28,7 +28,7 @@ namespace Krypton.Ribbon
         /// Initialize a new instance of the ButtonSpecMdiChildRestore class.
         /// </summary>
         /// <param name="ribbon">Reference to owning ribbon control.</param>
-        public ButtonSpecMdiChildRestore([DisallowNull] KryptonRibbon? ribbon)
+        public ButtonSpecMdiChildRestore([DisallowNull] KryptonRibbon ribbon)
             : base(PaletteButtonSpecStyle.PendantRestore)
         {
             Debug.Assert(ribbon != null);

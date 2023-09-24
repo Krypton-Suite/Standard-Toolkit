@@ -34,10 +34,10 @@ namespace Krypton.Navigator
         /// <param name="vertical">Is the viewport vertical.</param>
         /// <param name="needPaintDelegate">Delegate for notifying paint requests.</param>
         public ViewLayoutOutlookFull([DisallowNull] ViewBuilderOutlookBase viewBuilder,
-                                     VisualControl? rootControl,
+                                     VisualControl rootControl,
                                      ViewBase viewportFiller,
                                      PaletteBorderEdge paletteBorderEdge,
-                                     IPaletteMetric? paletteMetrics,
+                                     IPaletteMetric paletteMetrics,
                                      PaletteMetricPadding metricPadding,
                                      PaletteMetricInt metricOvers,
                                      VisualOrientation orientation,

@@ -284,7 +284,7 @@ namespace Krypton.Ribbon
         /// <param name="needPaint">Delegate for notifying changes in display.</param>
         /// <returns>ViewBase derived instance.</returns>
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public override ViewBase CreateView(KryptonRibbon? ribbon,
+        public override ViewBase CreateView(KryptonRibbon ribbon,
                                             NeedPaintHandler needPaint) =>
             new ViewDrawRibbonGroupCustomControl(ribbon, this, needPaint);
 
@@ -315,7 +315,7 @@ namespace Krypton.Ribbon
         #endregion
 
         #region Internal
-        internal Control? LastParentControl { get; set; }
+        internal Control LastParentControl { get; set; }
 
         internal Control? LastCustomControl { get; set; }
 

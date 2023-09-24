@@ -30,7 +30,7 @@ namespace Krypton.Toolkit
         private class InternalTextBox : TextBox
         {
             #region Instance Fields
-            private readonly KryptonTextBox? _kryptonTextBox;
+            private readonly KryptonTextBox _kryptonTextBox;
             private bool _mouseOver;
             #endregion
 
@@ -51,7 +51,7 @@ namespace Krypton.Toolkit
             /// Initialize a new instance of the InternalTextBox class.
             /// </summary>
             /// <param name="kryptonTextBox">Reference to owning control.</param>
-            public InternalTextBox(KryptonTextBox? kryptonTextBox)
+            public InternalTextBox(KryptonTextBox kryptonTextBox)
             {
                 _kryptonTextBox = kryptonTextBox;
 
@@ -310,7 +310,7 @@ namespace Krypton.Toolkit
             /// Initialize a new instance of the TextBoxButtonSpecCollection class.
             /// </summary>
             /// <param name="owner">Reference to owning object.</param>
-            public TextBoxButtonSpecCollection(KryptonTextBox? owner)
+            public TextBoxButtonSpecCollection(KryptonTextBox owner)
                 : base(owner)
             {
             }

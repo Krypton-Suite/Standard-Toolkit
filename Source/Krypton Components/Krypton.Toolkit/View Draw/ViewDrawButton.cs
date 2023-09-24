@@ -19,13 +19,13 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
 
-        private IPaletteTriple? _paletteDisabled;
-        private IPaletteTriple? _paletteNormal;
-        private IPaletteTriple? _paletteTracking;
-        private IPaletteTriple? _palettePressed;
-        private IPaletteTriple? _paletteCheckedNormal;
-        private IPaletteTriple? _paletteCheckedTracking;
-        private IPaletteTriple? _paletteCheckedPressed;
+        private IPaletteTriple _paletteDisabled;
+        private IPaletteTriple _paletteNormal;
+        private IPaletteTriple _paletteTracking;
+        private IPaletteTriple _palettePressed;
+        private IPaletteTriple _paletteCheckedNormal;
+        private IPaletteTriple _paletteCheckedTracking;
+        private IPaletteTriple _paletteCheckedPressed;
         private readonly PaletteBorderEdgeRedirect _edgeRedirect;
         private readonly ViewDrawSplitCanvas _drawCanvas;
         private readonly ViewDrawContent _drawContent;
@@ -53,10 +53,10 @@ namespace Krypton.Toolkit
         /// <param name="buttonValues">Source for content values.</param>
         /// <param name="orientation">Visual orientation of the content.</param>
         /// <param name="useMnemonic">Use mnemonics.</param>
-        public ViewDrawButton(IPaletteTriple? paletteDisabled,
-                              IPaletteTriple? paletteNormal,
-                              IPaletteTriple? paletteTracking,
-                              IPaletteTriple? palettePressed,
+        public ViewDrawButton(IPaletteTriple paletteDisabled,
+                              IPaletteTriple paletteNormal,
+                              IPaletteTriple paletteTracking,
+                              IPaletteTriple palettePressed,
                               IPaletteMetric? paletteMetric,
                               IContentValues? buttonValues,
                               VisualOrientation orientation,
@@ -81,13 +81,13 @@ namespace Krypton.Toolkit
         /// <param name="buttonValues">Source for content values.</param>
         /// <param name="orientation">Visual orientation of the content.</param>
         /// <param name="useMnemonic">Use mnemonics.</param>
-        public ViewDrawButton(IPaletteTriple? paletteDisabled,
-                              IPaletteTriple? paletteNormal,
-                              IPaletteTriple? paletteTracking,
-                              IPaletteTriple? palettePressed,
-                              IPaletteTriple? paletteCheckedNormal,
-                              IPaletteTriple? paletteCheckedTracking,
-                              IPaletteTriple? paletteCheckedPressed,
+        public ViewDrawButton(IPaletteTriple paletteDisabled,
+                              IPaletteTriple paletteNormal,
+                              IPaletteTriple paletteTracking,
+                              IPaletteTriple palettePressed,
+                              IPaletteTriple paletteCheckedNormal,
+                              IPaletteTriple paletteCheckedTracking,
+                              IPaletteTriple paletteCheckedPressed,
                               IPaletteMetric? paletteMetric,
                               IContentValues? buttonValues,
                               VisualOrientation orientation,
@@ -169,7 +169,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the currently selected palette.
         /// </summary>
-        public IPaletteTriple? CurrentPalette { get; private set; }
+        public IPaletteTriple CurrentPalette { get; private set; }
 
         #endregion
 
@@ -416,10 +416,10 @@ namespace Krypton.Toolkit
         /// <param name="paletteNormal">Palette source for the normal state.</param>
         /// <param name="paletteTracking">Palette source for the tracking state.</param>
         /// <param name="palettePressed">Palette source for the pressed state.</param>
-        public void SetPalettes([DisallowNull] IPaletteTriple? paletteDisabled,
-                                [DisallowNull] IPaletteTriple? paletteNormal,
-                                [DisallowNull] IPaletteTriple? paletteTracking,
-                                [DisallowNull] IPaletteTriple? palettePressed)
+        public void SetPalettes([DisallowNull] IPaletteTriple paletteDisabled,
+                                [DisallowNull] IPaletteTriple paletteNormal,
+                                [DisallowNull] IPaletteTriple paletteTracking,
+                                [DisallowNull] IPaletteTriple palettePressed)
         {
             Debug.Assert(paletteDisabled != null);
             Debug.Assert(paletteNormal != null);
@@ -442,9 +442,9 @@ namespace Krypton.Toolkit
         /// <param name="paletteCheckedNormal">Palette source for the normal checked state.</param>
         /// <param name="paletteCheckedTracking">Palette source for the tracking checked state.</param>
         /// <param name="paletteCheckedPressed">Palette source for the pressed checked state.</param>
-        public void SetCheckedPalettes([DisallowNull] IPaletteTriple? paletteCheckedNormal,
-                                       [DisallowNull] IPaletteTriple? paletteCheckedTracking,
-                                       [DisallowNull] IPaletteTriple? paletteCheckedPressed)
+        public void SetCheckedPalettes([DisallowNull] IPaletteTriple paletteCheckedNormal,
+                                       [DisallowNull] IPaletteTriple paletteCheckedTracking,
+                                       [DisallowNull] IPaletteTriple paletteCheckedPressed)
         {
             Debug.Assert(paletteCheckedNormal != null);
             Debug.Assert(paletteCheckedTracking != null);

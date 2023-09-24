@@ -37,7 +37,7 @@ namespace Krypton.Toolkit
             /// Initialize a new instance of the DateTimePickerButtonSpecCollection class.
             /// </summary>
             /// <param name="owner">Reference to owning object.</param>
-            public DateTimePickerButtonSpecCollection(KryptonDateTimePicker? owner)
+            public DateTimePickerButtonSpecCollection(KryptonDateTimePicker owner)
                 : base(owner)
             {
             }
@@ -56,8 +56,8 @@ namespace Krypton.Toolkit
         private readonly ViewLayoutDocker _drawDockerInner;
         private readonly ViewLayoutStretch _dropStretch;
         private readonly ViewLayoutFit _upDownFit;
-        private readonly PaletteTripleToPalette? _paletteDropDown;
-        private readonly PaletteTripleToPalette? _paletteUpDown;
+        private readonly PaletteTripleToPalette _paletteDropDown;
+        private readonly PaletteTripleToPalette _paletteUpDown;
         private readonly ViewDrawDateTimeButton _buttonDropDown;
         private readonly ViewDrawDateTimeButton _buttonUp;
         private readonly ViewDrawDateTimeButton _buttonDown;

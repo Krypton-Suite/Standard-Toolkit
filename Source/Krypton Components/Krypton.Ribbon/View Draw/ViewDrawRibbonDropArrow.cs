@@ -20,7 +20,7 @@ namespace Krypton.Ribbon
     internal class ViewDrawRibbonDropArrow : ViewLeaf
     {
         #region Instance Fields
-        private readonly KryptonRibbon? _ribbon;
+        private readonly KryptonRibbon _ribbon;
         private readonly Size _arrowSize; // = new(5, 4);
         #endregion
 
@@ -29,7 +29,7 @@ namespace Krypton.Ribbon
         /// Initialize a new instance of the ViewDrawRibbonDropArrow class.
         /// </summary>
         /// <param name="ribbon">Reference to owning control instance.</param>
-        public ViewDrawRibbonDropArrow([DisallowNull] KryptonRibbon? ribbon)
+        public ViewDrawRibbonDropArrow([DisallowNull] KryptonRibbon ribbon)
         {
             Debug.Assert(ribbon != null);
             _ribbon = ribbon;

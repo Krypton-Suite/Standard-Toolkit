@@ -50,7 +50,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Overrides for defining bread crumb appearance entries.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteTripleRedirect? BreadCrumb { get; }
+        public PaletteTripleRedirect BreadCrumb { get; }
 
         private bool ShouldSerializeBreadCrumb() => !BreadCrumb.IsDefault;
 

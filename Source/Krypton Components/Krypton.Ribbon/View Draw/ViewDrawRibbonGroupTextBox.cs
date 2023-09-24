@@ -22,7 +22,7 @@ namespace Krypton.Ribbon
     {
         #region Instance Fields
         private readonly int NULL_CONTROL_WIDTH; // = 50;
-        private readonly KryptonRibbon? _ribbon;
+        private readonly KryptonRibbon _ribbon;
         private ViewDrawRibbonGroup _activeGroup;
         private readonly TextBoxController? _controller;
         private readonly NeedPaintHandler _needPaint;
@@ -36,7 +36,7 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Reference to owning ribbon control.</param>
         /// <param name="ribbonTextBox">Reference to source textbox.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public ViewDrawRibbonGroupTextBox([DisallowNull] KryptonRibbon? ribbon,
+        public ViewDrawRibbonGroupTextBox([DisallowNull] KryptonRibbon ribbon,
                                           [DisallowNull] KryptonRibbonGroupTextBox ribbonTextBox,
                                           [DisallowNull] NeedPaintHandler needPaint)
         {
@@ -134,7 +134,7 @@ namespace Krypton.Ribbon
         /// Source control has lost the focus.
         /// </summary>
         /// <param name="c">Reference to the source control instance.</param>
-        public override void LostFocus(Control? c)
+        public override void LostFocus(Control c)
         {
             // Ask ribbon to shift focus to the hidden control
             _ribbon.HideFocus(GroupTextBox.TextBox);
@@ -423,7 +423,7 @@ namespace Krypton.Ribbon
 #pragma warning restore 162
         }
 
-        private Control? LastParentControl
+        private Control LastParentControl
         {
             get => GroupTextBox.LastParentControl;
             set => GroupTextBox.LastParentControl = value;
@@ -435,7 +435,7 @@ namespace Krypton.Ribbon
             set => GroupTextBox.LastTextBox = value;
         }
 
-        private void UpdateParent(Control? parentControl)
+        private void UpdateParent(Control parentControl)
         {
             // Is there a change in the textbox or a change in 
             // the parent control that is hosting the control...

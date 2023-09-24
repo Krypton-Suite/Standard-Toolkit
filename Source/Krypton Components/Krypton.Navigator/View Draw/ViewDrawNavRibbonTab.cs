@@ -54,7 +54,7 @@ namespace Krypton.Navigator
         private readonly ViewDrawContent _viewContent;
         private readonly ViewLayoutDocker _layoutDocker;
         private PaletteRibbonShape _lastRibbonShape;
-        private IDisposable[]? _mementos;
+        private IDisposable[] _mementos;
         private DateTime _lastClick;
 
         #endregion
@@ -65,7 +65,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="navigator">Owning navigator instance.</param>
         /// <param name="page">Page this ribbon tab represents.</param>
-        public ViewDrawNavRibbonTab([DisallowNull] KryptonNavigator? navigator,
+        public ViewDrawNavRibbonTab([DisallowNull] KryptonNavigator navigator,
                                     [DisallowNull] KryptonPage page)
         {
             Debug.Assert(navigator != null);
@@ -177,10 +177,7 @@ namespace Krypton.Navigator
                     // Dispose of all the mementos in the array
                     foreach (IDisposable memento in _mementos)
                     {
-                        if (memento != null)
-                        {
-                            memento.Dispose();
-                        }
+                        memento.Dispose();
                     }
 
                     _mementos = null;
@@ -211,7 +208,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets the navigator this check item is inside.
         /// </summary>
-        public KryptonNavigator? Navigator { get; }
+        public KryptonNavigator Navigator { get; }
 
         /// <summary>
         /// Gets and sets the checked state of the ribbon tab.
@@ -225,7 +222,7 @@ namespace Krypton.Navigator
         {
             get => _overrideStateNormal.Apply;
 
-            set
+            set 
             {
                 if (_overrideStateNormal.Apply != value)
                 {
@@ -264,7 +261,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets access to the button spec manager used for this button.
         /// </summary>
-        public ButtonSpecNavManagerLayoutBar? ButtonSpecManager { get; private set; }
+        public ButtonSpecNavManagerLayoutBar ButtonSpecManager { get; private set; }
 
         /// <summary>
         /// Raises the Click event for the button.
@@ -306,10 +303,10 @@ namespace Krypton.Navigator
         {
             // Ensure we are using the correct palette
             CheckPaletteState(context);
-
+            
             // Cache the ribbon shape
             _lastRibbonShape = Navigator.Palette?.GetRibbonShape() ?? PaletteRibbonShape.Office2007;
-
+            
             // We take on all the provided size
             ClientRectangle = context.DisplayRectangle;
 
@@ -424,7 +421,7 @@ namespace Krypton.Navigator
                 }
                 else if (scma.ContextMenuStrip != null)
                 {
-                    if (CommonHelper.ValidContextMenuStrip(scma.ContextMenuStrip))
+                    if (CommonHelper.ValidContextMenuStrip(scma.ContextMenuStrip) )
                     {
                         scma.ContextMenuStrip.Show(Navigator.PointToScreen(new Point(e.X, e.Y)));
                     }
@@ -498,7 +495,7 @@ namespace Krypton.Navigator
                         case PaletteState.Normal:
                         case PaletteState.CheckedNormal:
                             buttonState = PaletteState.Normal;
-                            break;
+                            break;                      
                         case PaletteState.Tracking:
                         case PaletteState.CheckedTracking:
                             buttonState = PaletteState.Tracking;

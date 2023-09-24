@@ -17,7 +17,7 @@ namespace Krypton.Ribbon
     internal class ViewRibbonPopupGroupManager : ViewManager
     {
         #region Instance Fields
-        private readonly KryptonRibbon? _ribbon;
+        private readonly KryptonRibbon _ribbon;
         private readonly ViewDrawRibbonGroup _viewGroup;
         private readonly NeedPaintHandler? _needPaintDelegate;
         private ViewBase? _focusView;
@@ -33,8 +33,8 @@ namespace Krypton.Ribbon
         /// <param name="root">View for group we are tracking.</param>
         /// <param name="viewGroup">Group to track.</param>
         /// <param name="needPaintDelegate">Delegate for performing painting.</param>
-        public ViewRibbonPopupGroupManager(Control? control,
-            [DisallowNull] KryptonRibbon? ribbon,
+        public ViewRibbonPopupGroupManager(Control control,
+            [DisallowNull] KryptonRibbon ribbon,
                                            ViewBase root,
                                            [DisallowNull] ViewDrawRibbonGroup viewGroup,
                                            [DisallowNull] NeedPaintHandler needPaintDelegate)

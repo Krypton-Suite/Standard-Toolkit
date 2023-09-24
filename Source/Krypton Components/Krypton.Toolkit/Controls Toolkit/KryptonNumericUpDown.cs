@@ -34,7 +34,7 @@ namespace Krypton.Toolkit
         private class InternalNumericUpDown : NumericUpDown
         {
             #region Instance Fields
-            private readonly KryptonNumericUpDown? _kryptonNumericUpDown;
+            private readonly KryptonNumericUpDown _kryptonNumericUpDown;
             private bool _mouseOver;
             #endregion
 
@@ -55,7 +55,7 @@ namespace Krypton.Toolkit
             /// Initialize a new instance of the InternalTextBox class.
             /// </summary>
             /// <param name="kryptonNumericUpDown">Reference to owning control.</param>
-            public InternalNumericUpDown(KryptonNumericUpDown? kryptonNumericUpDown)
+            public InternalNumericUpDown(KryptonNumericUpDown kryptonNumericUpDown)
             {
                 _kryptonNumericUpDown = kryptonNumericUpDown;
 
@@ -217,7 +217,7 @@ namespace Krypton.Toolkit
             /// <param name="kryptonNumericUpDown">Reference to top level control.</param>
             /// <param name="internalNumericUpDown">Reference to numeric internal control.</param>
             public SubclassEdit(IntPtr editControl,
-                                KryptonNumericUpDown? kryptonNumericUpDown,
+                                KryptonNumericUpDown kryptonNumericUpDown,
                                 InternalNumericUpDown internalNumericUpDown)
             {
                 NumericUpDown = kryptonNumericUpDown;
@@ -282,7 +282,7 @@ namespace Krypton.Toolkit
             /// <summary>
             /// Gets access to the owning numeric up down control.
             /// </summary>
-            protected KryptonNumericUpDown? NumericUpDown { get; }
+            protected KryptonNumericUpDown NumericUpDown { get; }
 
             /// <summary>
             /// Process Windows-based messages.
@@ -465,7 +465,7 @@ namespace Krypton.Toolkit
         private class SubclassButtons : SubclassEdit, IContentValues, IDisposable
         {
             #region Instance Fields
-            private PaletteTripleToPalette? _palette;
+            private PaletteTripleToPalette _palette;
             private ViewDrawButton _viewButton;
             private IntPtr _screenDC;
             private Point _mousePressed;
@@ -479,7 +479,7 @@ namespace Krypton.Toolkit
             /// <param name="kryptonNumericUpDown">Reference to top level control.</param>
             /// <param name="internalNumericUpDown">Reference to internal numeric control.</param>
             public SubclassButtons(IntPtr buttonsPtr,
-                                   KryptonNumericUpDown? kryptonNumericUpDown,
+                                   KryptonNumericUpDown kryptonNumericUpDown,
                                    InternalNumericUpDown internalNumericUpDown)
                 : base(buttonsPtr, kryptonNumericUpDown, internalNumericUpDown)
             {
@@ -708,7 +708,7 @@ namespace Krypton.Toolkit
             /// Initialize a new instance of the NumericUpDownButtonSpecCollection class.
             /// </summary>
             /// <param name="owner">Reference to owning object.</param>
-            public NumericUpDownButtonSpecCollection(KryptonNumericUpDown? owner)
+            public NumericUpDownButtonSpecCollection(KryptonNumericUpDown owner)
                 : base(owner)
             {
             }

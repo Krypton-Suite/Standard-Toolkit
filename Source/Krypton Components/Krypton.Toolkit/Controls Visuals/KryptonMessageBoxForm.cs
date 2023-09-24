@@ -12,8 +12,6 @@
 
 // ReSharper disable InconsistentNaming
 // ReSharper disable UnusedParameter.Local
-using ContentAlignment = System.Drawing.ContentAlignment;
-
 namespace Krypton.Toolkit
 {
     internal partial class KryptonMessageBoxForm : KryptonForm
@@ -50,7 +48,6 @@ namespace Krypton.Toolkit
         private readonly KryptonCommand? _linkLabelCommand;
         private readonly int _linkAreaStart, _linkAreaEnd;
         private readonly ProcessStartInfo? _linkLaunchArgument;
-        private readonly ContentAlignment? _messageTextAlignment;
 
         #endregion
 
@@ -77,8 +74,7 @@ namespace Krypton.Toolkit
                                                MessageBoxContentAreaType? contentAreaType,
                                                KryptonCommand? linkLabelCommand,
                                                ProcessStartInfo? linkLaunchArgument,
-                                               int? linkAreaStart, int? linkAreaEnd,
-                                               ContentAlignment? messageTextAlignment)
+                                               int? linkAreaStart, int? linkAreaEnd)
         {
             // Store incoming values
             _text = text;
@@ -100,7 +96,6 @@ namespace Krypton.Toolkit
             _linkAreaStart = linkAreaStart ?? 0;
             _linkAreaEnd = linkAreaEnd ?? text.Length;
             _linkLaunchArgument = linkLaunchArgument ?? new ProcessStartInfo();
-            _messageTextAlignment = messageTextAlignment ?? ContentAlignment.MiddleLeft;
 
             // Create the form contents
             InitializeComponent();
@@ -115,14 +110,12 @@ namespace Krypton.Toolkit
             UpdateHelp();
             UpdateTextExtra(showCtrlCopy);
             UpdateContentAreaType(contentAreaType);
-            UpdateContentAreaTextAlignment(contentAreaType, messageTextAlignment);
 
             SetupActionButtonUI(_showActionButton);
 
             // Finally calculate and set form sizing
             UpdateSizing(showOwner);
         }
-
         #endregion Identity
 
         #region Implementation
@@ -811,24 +804,6 @@ namespace Krypton.Toolkit
 
                     _linkLabelMessageText.LinkArea = new LinkArea(_linkAreaStart, _linkAreaEnd);
                     break;
-            }
-        }
-
-        private void UpdateContentAreaTextAlignment(MessageBoxContentAreaType? contentAreaType, ContentAlignment? messageTextAlignment)
-        {
-            switch (contentAreaType)
-            {
-                case MessageBoxContentAreaType.Normal:
-                    _messageText.TextAlign = messageTextAlignment ?? ContentAlignment.MiddleLeft;
-                    break;
-                case MessageBoxContentAreaType.LinkLabel:
-                    _linkLabelMessageText.TextAlign = messageTextAlignment ?? ContentAlignment.MiddleLeft;
-                    break;
-                case null:
-                    _messageText.TextAlign = messageTextAlignment ?? ContentAlignment.MiddleLeft;
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(contentAreaType), contentAreaType, null);
             }
         }
 

@@ -19,8 +19,8 @@ namespace Krypton.Navigator
     {
         #region Instance Fields
         protected PageToNavCheckItem? _pageLookup;
-        protected ButtonSpecManagerBase? _buttonManager;
-        protected ViewDrawPanel? _drawPanel;
+        protected ButtonSpecManagerBase _buttonManager;
+        protected ViewDrawPanel _drawPanel;
         protected ViewDrawCanvas _drawGroup;
         protected ViewLayoutDocker _layoutBarDocker;
         protected ViewLayoutBar _layoutBar;
@@ -38,7 +38,7 @@ namespace Krypton.Navigator
         /// <param name="navigator">Reference to navigator instance.</param>
         /// <param name="manager">Reference to current manager.</param>
         /// <param name="redirector">Palette redirector.</param>
-        public override void Construct(KryptonNavigator? navigator,
+        public override void Construct(KryptonNavigator navigator,
                                        ViewManager manager,
                                        PaletteRedirect? redirector)
         {
@@ -58,14 +58,7 @@ namespace Krypton.Navigator
             PostCreate();
 
             // Force buttons to be recreated in the headers
-            if (_buttonManager != null)
-            {
-                _buttonManager.RecreateButtons();
-            }
-            else
-            {
-                _buttonManager = null;
-            }
+            _buttonManager.RecreateButtons();
 
             // Canvas becomes the new root
             ViewManager.Root = _newRoot;
@@ -317,14 +310,7 @@ namespace Krypton.Navigator
             _layoutBar.SetMetrics(paletteCommon.Bar);
             _layoutBarViewport.SetMetrics(paletteCommon.Bar);
 
-            if (_buttonManager != null)
-            {
-                _buttonManager.SetDockerMetrics(_layoutBarDocker, paletteCommon.Bar);
-            }
-            else
-            {
-                _buttonManager = null;
-            }
+            _buttonManager.SetDockerMetrics(_layoutBarDocker, paletteCommon.Bar);
 
             // Let base class perform common actions
             base.UpdateStatePalettes();
@@ -751,14 +737,7 @@ namespace Krypton.Navigator
             _layoutBarViewport.AnimateStep -= OnViewportAnimation;
 
             // Remove the old root from the canvas
-            if (_drawPanel != null)
-            {
-                _drawPanel.Clear();
-            }
-            else
-            {
-                _drawPanel = null;
-            }
+            _drawPanel.Clear();
         }
 
         /// <summary>

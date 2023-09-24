@@ -55,7 +55,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Overrides for defining common ProgressBar appearance that other states can override.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteTripleRedirect? StateCommon => KryptonProgressBarHost.StateCommon;
+        public PaletteTripleRedirect StateCommon => KryptonProgressBarHost.StateCommon;
 
         /// <summary>
         /// Gets access to the disabled ProgressBar appearance entries.

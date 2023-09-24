@@ -31,7 +31,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="ribbon">Reference to owning ribbon control.</param>
         /// <param name="ribbonGallery">Reference to ribbon group gallery definition.</param>
-        public ViewDrawRibbonGroupGalleryImage(KryptonRibbon? ribbon,
+        public ViewDrawRibbonGroupGalleryImage(KryptonRibbon ribbon,
             [DisallowNull] KryptonRibbonGroupGallery ribbonGallery)
             : base(ribbon)
         {

@@ -227,7 +227,7 @@ namespace Krypton.Ribbon
         /// <param name="c">Reference to the source control instance.</param>
         /// <param name="e">A KeyEventArgs that contains the event data.</param>
         /// <returns>True if capturing input; otherwise false.</returns>
-        public override bool KeyUp(Control? c, KeyEventArgs e) => false;
+        public override bool KeyUp(Control c, KeyEventArgs e) => false;
 
         #endregion
 
@@ -236,7 +236,7 @@ namespace Krypton.Ribbon
         /// Source control has lost the focus.
         /// </summary>
         /// <param name="c">Reference to the source control instance.</param>
-        public override void GotFocus(Control? c)
+        public override void GotFocus(Control c)
         {
             _hasFocus = true;
 
@@ -248,7 +248,7 @@ namespace Krypton.Ribbon
         /// Source control has lost the focus.
         /// </summary>
         /// <param name="c">Reference to the source control instance.</param>
-        public override void LostFocus([DisallowNull] Control? c)
+        public override void LostFocus([DisallowNull] Control c)
         {
             _hasFocus = false;
 

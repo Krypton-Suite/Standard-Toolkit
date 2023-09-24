@@ -68,7 +68,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Overrides for defining item appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteTripleRedirect? Item { get; }
+        public PaletteTripleRedirect Item { get; }
 
         private bool ShouldSerializeItem() => !Item.IsDefault;
 

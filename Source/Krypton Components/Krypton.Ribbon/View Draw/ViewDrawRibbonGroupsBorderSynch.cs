@@ -39,7 +39,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="ribbon">Reference to owning ribbon control.</param>
         /// <param name="needPaintDelegate">Delegate for notifying paint/layout changes.</param>
-        public ViewDrawRibbonGroupsBorderSynch(KryptonRibbon? ribbon,
+        public ViewDrawRibbonGroupsBorderSynch(KryptonRibbon ribbon,
                                                NeedPaintHandler needPaintDelegate)
             : base(ribbon, false, needPaintDelegate) =>
             // Create initial lookup table

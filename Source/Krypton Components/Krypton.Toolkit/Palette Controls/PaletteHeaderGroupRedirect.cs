@@ -85,7 +85,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Overrides for defining primary header appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteHeaderPaddingRedirect? HeaderPrimary { get; }
+        public PaletteHeaderPaddingRedirect HeaderPrimary { get; }
 
         private bool ShouldSerializeHeaderPrimary() => !HeaderPrimary.IsDefault;
 
@@ -98,7 +98,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Overrides for defining secondary header appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteHeaderPaddingRedirect? HeaderSecondary { get; }
+        public PaletteHeaderPaddingRedirect HeaderSecondary { get; }
 
         private bool ShouldSerializeHeaderSecondary() => !HeaderSecondary.IsDefault;
 

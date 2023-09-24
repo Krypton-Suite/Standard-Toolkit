@@ -26,10 +26,10 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
 
-        private readonly PaletteTripleOverride? _overrideCheckedFocus;
-        private readonly PaletteTripleOverride? _overrideCheckedNormal;
-        private readonly PaletteTripleOverride? _overrideCheckedTracking;
-        private readonly PaletteTripleOverride? _overrideCheckedPressed;
+        private readonly PaletteTripleOverride _overrideCheckedFocus;
+        private readonly PaletteTripleOverride _overrideCheckedNormal;
+        private readonly PaletteTripleOverride _overrideCheckedTracking;
+        private readonly PaletteTripleOverride _overrideCheckedPressed;
         private CheckButtonValues _checkedValues;
         private bool _wasChecked;
         #endregion
@@ -81,7 +81,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Overrides for defining normal checked button appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteTriple? StateCheckedNormal { get; }
+        public PaletteTriple StateCheckedNormal { get; }
 
         private bool ShouldSerializeStateCheckedNormal() => !StateCheckedNormal.IsDefault;
 
@@ -91,7 +91,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Overrides for defining hot tracking checked button appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteTriple? StateCheckedTracking { get; }
+        public PaletteTriple StateCheckedTracking { get; }
 
         private bool ShouldSerializeStateCheckedTracking() => !StateCheckedTracking.IsDefault;
 
@@ -101,7 +101,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Overrides for defining pressed checked button appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteTriple? StateCheckedPressed { get; }
+        public PaletteTriple StateCheckedPressed { get; }
 
         private bool ShouldSerializeStateCheckedPressed() => !StateCheckedPressed.IsDefault;
 

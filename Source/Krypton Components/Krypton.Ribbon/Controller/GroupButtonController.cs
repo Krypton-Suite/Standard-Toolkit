@@ -24,7 +24,7 @@ namespace Krypton.Ribbon
                                            IRibbonKeyTipTarget
     {
         #region Instance Fields
-        private readonly KryptonRibbon? _ribbon;
+        private readonly KryptonRibbon _ribbon;
         private readonly ViewDrawRibbonGroupButtonBackBorder _target;
         private NeedPaintHandler? _needPaint;
         private Rectangle _splitRectangle;
@@ -59,7 +59,7 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Source control instance.</param>
         /// <param name="target">Target for state changes.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public GroupButtonController([DisallowNull] KryptonRibbon? ribbon,
+        public GroupButtonController([DisallowNull] KryptonRibbon ribbon,
                                      [DisallowNull] ViewDrawRibbonGroupButtonBackBorder target,
                                      [DisallowNull] NeedPaintHandler needPaint)
         {
@@ -128,7 +128,7 @@ namespace Krypton.Ribbon
         /// Mouse has entered the view.
         /// </summary>
         /// <param name="c">Reference to the source control instance.</param>
-        public virtual void MouseEnter(Control? c)
+        public virtual void MouseEnter(Control c)
         {
             // Mouse is over the target
             _mouseOver = true;
@@ -145,7 +145,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="c">Reference to the source control instance.</param>
         /// <param name="pt">Mouse position relative to control.</param>
-        public virtual void MouseMove(Control? c, Point pt)
+        public virtual void MouseMove(Control c, Point pt)
         {
             // Check to ensure we are actually in mouse over state
             if (!_mouseOver)
@@ -170,7 +170,7 @@ namespace Krypton.Ribbon
         /// <param name="pt">Mouse position relative to control.</param>
         /// <param name="button">Mouse button pressed down.</param>
         /// <returns>True if capturing input; otherwise false.</returns>
-        public virtual bool MouseDown(Control? c, Point pt, MouseButtons button)
+        public virtual bool MouseDown(Control c, Point pt, MouseButtons button)
         {
             switch (button)
             {
@@ -243,7 +243,7 @@ namespace Krypton.Ribbon
         /// <param name="c">Reference to the source control instance.</param>
         /// <param name="pt">Mouse position relative to control.</param>
         /// <param name="button">Mouse button released.</param>
-        public virtual void MouseUp(Control? c, Point pt, MouseButtons button)
+        public virtual void MouseUp(Control c, Point pt, MouseButtons button)
         {
             if (Captured && !ClickOnDown(pt))
             {
@@ -326,7 +326,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="c">Reference to the source control instance.</param>
         /// <param name="next">Reference to view that is next to have the mouse.</param>
-        public virtual void MouseLeave(Control? c, ViewBase? next)
+        public virtual void MouseLeave(Control c, ViewBase? next)
         {
             if (!_target.ContainsRecurse(next))
             {
@@ -364,7 +364,7 @@ namespace Krypton.Ribbon
         /// Source control has got the focus.
         /// </summary>
         /// <param name="c">Reference to the source control instance.</param>
-        public virtual void GotFocus(Control? c)
+        public virtual void GotFocus(Control c)
         {
             _hasFocus = true;
             UpdateTargetState(Point.Empty);
@@ -374,7 +374,7 @@ namespace Krypton.Ribbon
         /// Source control has lost the focus.
         /// </summary>
         /// <param name="c">Reference to the source control instance.</param>
-        public virtual void LostFocus([DisallowNull] Control? c)
+        public virtual void LostFocus([DisallowNull] Control c)
         {
             _hasFocus = false;
             UpdateTargetState(Point.Empty);
@@ -421,7 +421,7 @@ namespace Krypton.Ribbon
         /// <param name="c">Reference to the source control instance.</param>
         /// <param name="e">A KeyEventArgs that contains the event data.</param>
         /// <returns>True if capturing input; otherwise false.</returns>
-        public bool KeyUp(Control? c, KeyEventArgs e) => false;
+        public bool KeyUp(Control c, KeyEventArgs e) => false;
 
         #endregion
 
@@ -505,7 +505,7 @@ namespace Krypton.Ribbon
         /// Set the correct visual state of the target.
         /// </summary>
         /// <param name="c">Owning control.</param>
-        protected void UpdateTargetState(Control? c)
+        protected void UpdateTargetState(Control c)
         {
             if ((c == null) || c.IsDisposed)
             {

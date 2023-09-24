@@ -40,10 +40,10 @@ namespace Krypton.Toolkit
         /// <param name="palettePressed">Palette source for the pressed state.</param>
         /// <param name="needPaintHandler">Delegate for requested repainting.</param>
         public ViewDrawToday(IKryptonMonthCalendar calendar,
-                             IPaletteTriple? paletteDisabled,
-                             IPaletteTriple? paletteNormal,
-                             IPaletteTriple? paletteTracking,
-                             IPaletteTriple? palettePressed,
+                             IPaletteTriple paletteDisabled,
+                             IPaletteTriple paletteNormal,
+                             IPaletteTriple paletteTracking,
+                             IPaletteTriple palettePressed,
                              NeedPaintHandler needPaintHandler)
             : base(paletteDisabled, paletteNormal, paletteTracking, palettePressed,
                    paletteNormal, paletteTracking, palettePressed, null,

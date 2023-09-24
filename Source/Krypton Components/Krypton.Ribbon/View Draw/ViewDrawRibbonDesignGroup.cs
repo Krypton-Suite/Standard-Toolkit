@@ -27,7 +27,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="ribbon">Reference to owning ribbon control.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public ViewDrawRibbonDesignGroup(KryptonRibbon? ribbon,
+        public ViewDrawRibbonDesignGroup(KryptonRibbon ribbon,
                                          NeedPaintHandler needPaint)
             : base(ribbon, needPaint) =>
             _padding = new Padding((int)(5 * FactorDpiX), 0, 0, (int)(1 * FactorDpiY));

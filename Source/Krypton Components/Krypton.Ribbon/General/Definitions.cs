@@ -164,7 +164,7 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Reference to the owning ribbon control.</param>
         /// <param name="needPaint">Delegate for notifying changes in display.</param>
         /// <returns>ViewBase derived instance.</returns>
-        ViewBase CreateView(KryptonRibbon? ribbon, NeedPaintHandler needPaint);
+        ViewBase CreateView(KryptonRibbon ribbon, NeedPaintHandler needPaint);
 
         /// <summary>
         /// Return base objects tooltip

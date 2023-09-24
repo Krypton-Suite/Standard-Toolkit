@@ -24,7 +24,7 @@ namespace Krypton.Ribbon
         private readonly Size _viewSize; // = new(14, 14);
         // Inflate size to convert from view size to content size
         private readonly Size _contentSize; // = new(-3, -3);
-        private readonly KryptonRibbon? _ribbon;
+        private readonly KryptonRibbon _ribbon;
         private readonly KryptonRibbonGroup _ribbonGroup;
         private IDisposable? _mementoBack;
         #endregion
@@ -36,7 +36,7 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Reference to owning ribbon control.</param>
         /// <param name="ribbonGroup">Reference to ribbon group this represents.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public ViewDrawRibbonGroupDialogButton([DisallowNull] KryptonRibbon? ribbon,
+        public ViewDrawRibbonGroupDialogButton([DisallowNull] KryptonRibbon ribbon,
                                                [DisallowNull] KryptonRibbonGroup ribbonGroup,
                                                NeedPaintHandler needPaint)
         {

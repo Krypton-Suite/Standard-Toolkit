@@ -23,7 +23,7 @@ namespace Krypton.Ribbon
     {
 
         #region Instance Fields
-        private readonly KryptonRibbon? _ribbon;
+        private readonly KryptonRibbon _ribbon;
         private ContextTabSet? _context;
         private readonly IPaletteRibbonBack _inherit;
         private readonly ContextToContent _contentProvider;
@@ -43,7 +43,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="ribbon">Source ribbon control.</param>
         /// <param name="inherit">Source for inheriting the ribbon bacgkground colors.</param>
-        public ViewDrawRibbonContextTitle([DisallowNull] KryptonRibbon? ribbon,
+        public ViewDrawRibbonContextTitle([DisallowNull] KryptonRibbon ribbon,
                                           [DisallowNull] IPaletteRibbonBack inherit)
         {
             Debug.Assert(ribbon != null);

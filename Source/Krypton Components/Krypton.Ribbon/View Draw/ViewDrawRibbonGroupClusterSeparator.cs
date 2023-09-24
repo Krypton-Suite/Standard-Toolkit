@@ -21,7 +21,7 @@ namespace Krypton.Ribbon
     {
         #region Instance Fields
         private readonly Size _preferredSize; // = new(1, 4);
-        private readonly KryptonRibbon? _ribbon;
+        private readonly KryptonRibbon _ribbon;
         private readonly bool _start;
         #endregion
 
@@ -31,7 +31,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="ribbon">Reference to owning ribbon control.</param>
         /// <param name="start">Is this is cluster start separator.</param>
-        public ViewDrawRibbonGroupClusterSeparator([DisallowNull] KryptonRibbon? ribbon, bool start)
+        public ViewDrawRibbonGroupClusterSeparator([DisallowNull] KryptonRibbon ribbon, bool start)
         {
             Debug.Assert(ribbon != null);
             _ribbon = ribbon;

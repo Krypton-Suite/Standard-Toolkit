@@ -22,7 +22,7 @@ namespace Krypton.Ribbon
     {
         #region Instance Fields
         private readonly int NULL_CONTROL_WIDTH; // = 50;
-        private readonly KryptonRibbon? _ribbon;
+        private readonly KryptonRibbon _ribbon;
         private ViewDrawRibbonGroup _activeGroup;
         private readonly DomainUpDownController? _controller;
         private readonly NeedPaintHandler _needPaint;
@@ -36,7 +36,7 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Reference to owning ribbon control.</param>
         /// <param name="ribbonDomainUpDown">Reference to source domain up-down.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public ViewDrawRibbonGroupDomainUpDown([DisallowNull] KryptonRibbon? ribbon,
+        public ViewDrawRibbonGroupDomainUpDown([DisallowNull] KryptonRibbon ribbon,
                                                [DisallowNull] KryptonRibbonGroupDomainUpDown ribbonDomainUpDown,
                                                [DisallowNull] NeedPaintHandler needPaint)
         {
@@ -134,7 +134,7 @@ namespace Krypton.Ribbon
         /// Source control has lost the focus.
         /// </summary>
         /// <param name="c">Reference to the source control instance.</param>
-        public override void LostFocus(Control? c)
+        public override void LostFocus(Control c)
         {
             // Ask ribbon to shift focus to the hidden control
             _ribbon.HideFocus(GroupDomainUpDown.DomainUpDown);
@@ -415,7 +415,7 @@ namespace Krypton.Ribbon
 #pragma warning restore 162
         }
 
-        private Control? LastParentControl
+        private Control LastParentControl
         {
             get => GroupDomainUpDown.LastParentControl;
             set => GroupDomainUpDown.LastParentControl = value;
@@ -427,7 +427,7 @@ namespace Krypton.Ribbon
             set => GroupDomainUpDown.LastDomainUpDown = value;
         }
 
-        private void UpdateParent(Control? parentControl)
+        private void UpdateParent(Control parentControl)
         {
             // Is there a change in the domain up-down or a change in 
             // the parent control that is hosting the control...

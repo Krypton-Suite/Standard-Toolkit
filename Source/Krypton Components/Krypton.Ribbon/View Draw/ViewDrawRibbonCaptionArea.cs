@@ -685,7 +685,7 @@ namespace Krypton.Ribbon
         private readonly int MIN_INTEGRATED_HEIGHT;
         private readonly int CAPTION_TEXT_GAPS;
         private readonly int MIN_SELF_HEIGHT;
-        private readonly KryptonRibbon? _ribbon;
+        private readonly KryptonRibbon _ribbon;
         private readonly NeedPaintHandler _needPaintDelegate;
         private readonly NeedPaintHandler _needIntegratedDelegate;
         private readonly PaletteCaptionRedirect _redirect;
@@ -717,7 +717,7 @@ namespace Krypton.Ribbon
         /// <param name="redirect">Reference to redirector for palette settings.</param>
         /// <param name="compositionArea">Reference to the composition element.</param>
         /// <param name="needPaintDelegate">Delegate for notifying paint/layout changes.</param>
-        public ViewDrawRibbonCaptionArea([DisallowNull] KryptonRibbon? ribbon,
+        public ViewDrawRibbonCaptionArea([DisallowNull] KryptonRibbon ribbon,
                                          [DisallowNull] PaletteRedirect redirect,
                                          [DisallowNull] ViewDrawRibbonComposition compositionArea,
                                          [DisallowNull] NeedPaintHandler needPaintDelegate)

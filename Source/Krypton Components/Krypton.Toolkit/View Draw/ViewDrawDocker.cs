@@ -769,7 +769,7 @@ namespace Krypton.Toolkit
         /// <param name="ds">Docking style.</param>
         /// <param name="control">Control for which the setting is needed.</param>
         /// <returns>Calculated docking to actual use.</returns>
-        protected ViewDockStyle CalculateDock(ViewDockStyle ds, Control? control)
+        protected ViewDockStyle CalculateDock(ViewDockStyle ds, Control control)
         {
             // Do we need to adjust to reflect right to left layout?
             if (CommonHelper.GetRightToLeftLayout(control) && (control.RightToLeft == RightToLeft.Yes))

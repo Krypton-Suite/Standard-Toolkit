@@ -19,7 +19,7 @@ namespace Krypton.Toolkit
                                        IPaletteMetric
     {
         #region Instance Fields
-        private PaletteTripleMetricRedirect? _inherit;
+        private PaletteTripleMetricRedirect _inherit;
         #endregion
 
         #region Identity
@@ -28,7 +28,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="inherit">Source for palette defaulted values.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public PaletteTripleMetric([DisallowNull] PaletteTripleMetricRedirect? inherit,
+        public PaletteTripleMetric([DisallowNull] PaletteTripleMetricRedirect inherit,
                                    NeedPaintHandler needPaint)
             : base(inherit, needPaint)
         {
@@ -43,7 +43,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Sets the inheritance parent.
         /// </summary>
-        public void SetInherit(PaletteTripleMetricRedirect? inherit)
+        public void SetInherit(PaletteTripleMetricRedirect inherit)
         {
             base.SetInherit(inherit);
             _inherit = inherit;

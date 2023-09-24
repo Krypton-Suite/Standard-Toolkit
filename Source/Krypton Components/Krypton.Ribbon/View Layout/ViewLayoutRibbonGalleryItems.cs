@@ -30,7 +30,7 @@ namespace Krypton.Ribbon
         private readonly ViewDrawRibbonGalleryButton _buttonDown;
         private readonly ViewDrawRibbonGalleryButton _buttonContext;
         private readonly NeedPaintHandler _needPaint;
-        private readonly PaletteTripleToPalette? _triple;
+        private readonly PaletteTripleToPalette _triple;
         private readonly KryptonGallery _gallery;
         private ButtonStyle _style;
         private readonly Timer _scrollTimer;

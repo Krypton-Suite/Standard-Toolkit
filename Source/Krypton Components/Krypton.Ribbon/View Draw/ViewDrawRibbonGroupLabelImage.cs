@@ -34,7 +34,7 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Reference to owning ribbon control.</param>
         /// <param name="ribbonLabel">Reference to ribbon group label definition.</param>
         /// <param name="large">Show the large image.</param>
-        public ViewDrawRibbonGroupLabelImage(KryptonRibbon? ribbon,
+        public ViewDrawRibbonGroupLabelImage(KryptonRibbon ribbon,
             [DisallowNull] KryptonRibbonGroupLabel ribbonLabel,
                                              bool large)
             : base(ribbon)

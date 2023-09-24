@@ -36,12 +36,12 @@ namespace Krypton.Toolkit
         private float _itemCornerRoundingRadius;
         private readonly IntPtr _screenDC;
 
-        private readonly PaletteTripleOverride? _overrideNormal;
-        private readonly PaletteTripleOverride? _overrideTracking;
-        private readonly PaletteTripleOverride? _overridePressed;
-        private readonly PaletteTripleOverride? _overrideCheckedNormal;
-        private readonly PaletteTripleOverride? _overrideCheckedTracking;
-        private readonly PaletteTripleOverride? _overrideCheckedPressed;
+        private readonly PaletteTripleOverride _overrideNormal;
+        private readonly PaletteTripleOverride _overrideTracking;
+        private readonly PaletteTripleOverride _overridePressed;
+        private readonly PaletteTripleOverride _overrideCheckedNormal;
+        private readonly PaletteTripleOverride _overrideCheckedTracking;
+        private readonly PaletteTripleOverride _overrideCheckedPressed;
         private readonly PaletteRedirectCheckBox? _paletteCheckBoxImages;
         private readonly ViewLayoutDocker _drawDockerInner;
         private readonly ViewDrawDocker _drawDockerOuter;

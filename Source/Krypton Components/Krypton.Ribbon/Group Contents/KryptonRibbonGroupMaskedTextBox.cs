@@ -832,7 +832,7 @@ namespace Krypton.Ribbon
         /// <param name="needPaint">Delegate for notifying changes in display.</param>
         /// <returns>ViewBase derived instance.</returns>
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public override ViewBase CreateView(KryptonRibbon? ribbon,
+        public override ViewBase CreateView(KryptonRibbon ribbon,
                                             NeedPaintHandler needPaint) =>
             new ViewDrawRibbonGroupMaskedTextBox(ribbon, this, needPaint);
 
@@ -953,7 +953,7 @@ namespace Krypton.Ribbon
         #endregion
 
         #region Internal
-        internal Control? LastParentControl { get; set; }
+        internal Control LastParentControl { get; set; }
 
         internal KryptonMaskedTextBox? LastMaskedTextBox { get; set; }
 

@@ -21,7 +21,7 @@ namespace Krypton.Ribbon
                                                           IContentValues
     {
         #region Instance Fields
-        private readonly KryptonRibbon? _ribbon;
+        private readonly KryptonRibbon _ribbon;
         private readonly KryptonRibbonGroupClusterButton _ribbonButton;
         private readonly RibbonGroupNormalDisabledTextToContent _contentProvider;
         private IDisposable _memento;
@@ -39,7 +39,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="ribbon">Source ribbon control.</param>
         /// <param name="ribbonButton">Group cluster button to display title for.</param>
-        public ViewDrawRibbonGroupClusterButtonText([DisallowNull] KryptonRibbon? ribbon,
+        public ViewDrawRibbonGroupClusterButtonText([DisallowNull] KryptonRibbon ribbon,
                                                     [DisallowNull] KryptonRibbonGroupClusterButton ribbonButton)
                                              
         {

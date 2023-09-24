@@ -82,7 +82,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Overrides for defining header appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteHeaderButtonRedirect? Header { get; }
+        public PaletteHeaderButtonRedirect Header { get; }
 
         private bool ShouldSerializeHeader() => !Header.IsDefault;
 

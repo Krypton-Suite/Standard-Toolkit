@@ -83,7 +83,7 @@ namespace Krypton.Ribbon
         /// Mouse has entered the view.
         /// </summary>
         /// <param name="c">Reference to the source control instance.</param>
-        public virtual void MouseEnter(Control? c)
+        public virtual void MouseEnter(Control c)
         {
             _mouseOver = true;
             UpdateTargetState(c);
@@ -94,7 +94,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="c">Reference to the source control instance.</param>
         /// <param name="pt">Mouse position relative to control.</param>
-        public virtual void MouseMove(Control? c, Point pt)
+        public virtual void MouseMove(Control c, Point pt)
         {
         }
 
@@ -105,7 +105,7 @@ namespace Krypton.Ribbon
         /// <param name="pt">Mouse position relative to control.</param>
         /// <param name="button">Mouse button pressed down.</param>
         /// <returns>True if capturing input; otherwise false.</returns>
-        public virtual bool MouseDown(Control? c, Point pt, MouseButtons button)
+        public virtual bool MouseDown(Control c, Point pt, MouseButtons button)
         {
             // Only interested in left mouse pressing down
             if (button == MouseButtons.Left)
@@ -129,7 +129,7 @@ namespace Krypton.Ribbon
         /// <param name="c">Reference to the source control instance.</param>
         /// <param name="pt">Mouse position relative to control.</param>
         /// <param name="button">Mouse button released.</param>
-        public virtual void MouseUp(Control? c, Point pt, MouseButtons button)
+        public virtual void MouseUp(Control c, Point pt, MouseButtons button)
         {
             // If the mouse is currently pressed
             if (_pressed)
@@ -145,7 +145,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="c">Reference to the source control instance.</param>
         /// <param name="next">Reference to view that is next to have the mouse.</param>
-        public virtual void MouseLeave(Control? c, ViewBase? next)
+        public virtual void MouseLeave(Control c, ViewBase? next)
         {
             // Only if mouse is leaving all the children monitored by controller.
             if (!Target.ContainsRecurse(next))
@@ -213,7 +213,7 @@ namespace Krypton.Ribbon
         /// Set the correct visual state of the target.
         /// </summary>
         /// <param name="c">Owning control.</param>
-        protected void UpdateTargetState(Control? c)
+        protected void UpdateTargetState(Control c)
         {
             // Check we have a valid control to convert coordinates against
             if (c is { IsDisposed: false })

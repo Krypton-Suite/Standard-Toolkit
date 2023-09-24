@@ -19,7 +19,7 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
         private readonly ViewLayoutContext _context;
-        private readonly Control? _startControl;
+        private readonly Control _startControl;
         #endregion
 
         #region Identity
@@ -29,7 +29,7 @@ namespace Krypton.Toolkit
         /// <param name="context">Context to update.</param>
         /// <param name="control">Actual parent control instance.</param>
         public CorrectContextControl([DisallowNull] ViewLayoutContext context,
-                                     Control? control)
+                                     Control control)
         {
             Debug.Assert(context != null);
 

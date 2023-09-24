@@ -23,7 +23,7 @@ namespace Krypton.Ribbon
         public class RibbonViewControl : ViewControl
         {
             #region Instance Fields
-            private readonly KryptonRibbon? _ribbon;
+            private readonly KryptonRibbon _ribbon;
             private readonly Button _hiddenFocusTarget;
             #endregion
 
@@ -32,7 +32,7 @@ namespace Krypton.Ribbon
             /// Initialize a new instance of the ViewControl class.
             /// </summary>
             /// <param name="ribbon">Top level ribbon control.</param>
-            public RibbonViewControl([DisallowNull] KryptonRibbon? ribbon)
+            public RibbonViewControl([DisallowNull] KryptonRibbon ribbon)
                 : base(ribbon)
             {
                 Debug.Assert(ribbon != null);
@@ -118,7 +118,7 @@ namespace Krypton.Ribbon
         #endregion
 
         #region Instance Fields
-        private readonly KryptonRibbon? _ribbon;
+        private readonly KryptonRibbon _ribbon;
         private readonly NeedPaintHandler _needPaintDelegate;
         private Orientation _orientation;
         private readonly ViewBase _viewFiller;
@@ -148,7 +148,7 @@ namespace Krypton.Ribbon
         /// <param name="insetForTabs">Should scoller be inset for use in tabs area.</param>
         /// <param name="scrollSpeed">Scrolling speed.</param>
         /// <param name="needPaintDelegate">Delegate for notifying paint/layout requests.</param>
-        public ViewLayoutRibbonScrollPort([DisallowNull] KryptonRibbon? ribbon,
+        public ViewLayoutRibbonScrollPort([DisallowNull] KryptonRibbon ribbon,
                                           Orientation orientation,
                                           [DisallowNull] ViewBase viewFiller,
                                           bool insetForTabs,

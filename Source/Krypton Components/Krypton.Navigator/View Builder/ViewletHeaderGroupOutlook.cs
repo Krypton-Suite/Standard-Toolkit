@@ -28,7 +28,7 @@ namespace Krypton.Navigator
         /// <param name="navigator">Reference to navigator instance.</param>
         /// <param name="redirector">Palette redirector.</param>
         /// <param name="needPaintDelegate">Delegate for notifying paint requests.</param>
-        public ViewletHeaderGroupOutlook(KryptonNavigator? navigator,
+        public ViewletHeaderGroupOutlook(KryptonNavigator navigator,
                                          PaletteRedirect? redirector,
                                          NeedPaintHandler needPaintDelegate)
             : base(navigator, redirector, needPaintDelegate) =>

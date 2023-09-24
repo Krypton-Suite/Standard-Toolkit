@@ -20,7 +20,7 @@ namespace Krypton.Ribbon
     public class PaletteRedirectRibbonAeroOverride : PaletteRedirect
     {
         #region Instance Fields
-        private readonly KryptonRibbon? _ribbon;
+        private readonly KryptonRibbon _ribbon;
         #endregion
 
         #region Identity
@@ -29,7 +29,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="ribbon">Reference to owning Ribbon instance.</param>
         /// <param name="redirect">Source for inheriting values.</param>
-        public PaletteRedirectRibbonAeroOverride(KryptonRibbon? ribbon,
+        public PaletteRedirectRibbonAeroOverride(KryptonRibbon ribbon,
                                                  PaletteRedirect? redirect)
             : base(redirect) =>
             _ribbon = ribbon;

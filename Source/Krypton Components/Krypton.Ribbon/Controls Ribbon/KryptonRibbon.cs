@@ -37,7 +37,7 @@ namespace Krypton.Ribbon
             /// Initialize a new instance of the RibbonButtonSpecAnyCollection class.
             /// </summary>
             /// <param name="owner">Reference to owning object.</param>
-            public RibbonButtonSpecAnyCollection(KryptonRibbon? owner)
+            public RibbonButtonSpecAnyCollection(KryptonRibbon owner)
                 : base(owner)
             {
             }

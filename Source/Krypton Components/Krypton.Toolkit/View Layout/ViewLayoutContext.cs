@@ -23,7 +23,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="control">Control associated with rendering.</param>
         /// <param name="renderer">Rendering provider.</param>
-        public ViewLayoutContext(Control? control,
+        public ViewLayoutContext(Control control,
                                  IRenderer? renderer)
             : this(null, control, control, null, renderer, control.Size)
         {
@@ -37,8 +37,8 @@ namespace Krypton.Toolkit
         /// <param name="alignControl">Control used for aligning elements.</param>
         /// <param name="renderer">Rendering provider.</param>
         public ViewLayoutContext(ViewManager? manager,
-                                 Control? control,
-                                 Control? alignControl,
+                                 Control control,
+                                 Control alignControl,
                                  IRenderer? renderer)
             : this(manager, control, alignControl, null, renderer, control.Size)
         {
@@ -53,8 +53,8 @@ namespace Krypton.Toolkit
         /// <param name="renderer">Rendering provider.</param>
         /// <param name="displaySize">Display size.</param>
         public ViewLayoutContext(ViewManager? manager,
-                                 Control? control,
-                                 Control? alignControl,
+                                 Control control,
+                                 Control alignControl,
                                  IRenderer? renderer,
                                  Size displaySize)
             : this(manager, control, alignControl, null, renderer, displaySize)
@@ -69,7 +69,7 @@ namespace Krypton.Toolkit
         /// <param name="formRect">Window rectangle for the Form.</param>
         /// <param name="renderer">Rendering provider.</param>
         public ViewLayoutContext(ViewManager? manager,
-                                 Form? form,
+                                 Form form,
                                  Rectangle formRect,
                                  IRenderer? renderer)
             : base(manager, form, form, null, renderer) =>
@@ -86,8 +86,8 @@ namespace Krypton.Toolkit
         /// <param name="renderer">Rendering provider.</param>
         /// <param name="displaySize">Display size.</param>
         public ViewLayoutContext(ViewManager? manager,
-                                 Control? control,
-                                 Control? alignControl,
+                                 Control control,
+                                 Control alignControl,
                                  Graphics? graphics,
                                  IRenderer? renderer,
                                  Size displaySize)

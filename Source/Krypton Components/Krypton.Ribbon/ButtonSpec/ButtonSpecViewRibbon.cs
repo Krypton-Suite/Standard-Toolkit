@@ -36,7 +36,7 @@ namespace Krypton.Ribbon
                                     IPaletteMetric? paletteMetric,
                                     PaletteMetricPadding metricPadding,
                                     ButtonSpecManagerBase? manager,
-                                    ButtonSpec? buttonSpec)
+                                    ButtonSpec buttonSpec)
             : base(redirector, paletteMetric, metricPadding, manager, buttonSpec)
         {
         }

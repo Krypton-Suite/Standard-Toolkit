@@ -29,7 +29,7 @@ namespace Krypton.Navigator
         /// <param name="navigator">Owning navigator instance.</param>
         /// <param name="page">Page this check button represents.</param>
         /// <param name="orientation">Orientation for the check button.</param>
-        public ViewDrawNavOutlookMini(KryptonNavigator? navigator,
+        public ViewDrawNavOutlookMini(KryptonNavigator navigator,
                                       KryptonPage? page,
                                       VisualOrientation orientation)
             : base(navigator, page, orientation,

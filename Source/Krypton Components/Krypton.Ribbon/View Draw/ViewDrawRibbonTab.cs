@@ -74,7 +74,7 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Reference to owning ribbon control.</param>
         /// <param name="layoutTabs">Reference to view used for layout out tabs.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public ViewDrawRibbonTab([DisallowNull] KryptonRibbon? ribbon,
+        public ViewDrawRibbonTab([DisallowNull] KryptonRibbon ribbon,
                                  [DisallowNull] ViewLayoutRibbonTabs layoutTabs,
                                  [DisallowNull] NeedPaintHandler needPaint)
         {
@@ -218,7 +218,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets access to the owning ribbon control instance.
         /// </summary>
-        public KryptonRibbon? Ribbon { get; }
+        public KryptonRibbon Ribbon { get; }
 
         #endregion
 

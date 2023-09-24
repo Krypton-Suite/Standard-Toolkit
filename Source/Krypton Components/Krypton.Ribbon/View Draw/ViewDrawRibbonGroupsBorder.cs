@@ -39,7 +39,7 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Reference to owning ribbon control.</param>
         /// <param name="borderOutside">Should border be placed outside the contents.</param>
         /// <param name="needPaintDelegate">Delegate for notifying paint/layout changes.</param>
-        public ViewDrawRibbonGroupsBorder([DisallowNull] KryptonRibbon? ribbon,
+        public ViewDrawRibbonGroupsBorder([DisallowNull] KryptonRibbon ribbon,
                                           bool borderOutside,
                                           [DisallowNull] NeedPaintHandler needPaintDelegate)
         {
@@ -308,7 +308,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets access the source ribbon control.
         /// </summary>
-        protected KryptonRibbon? Ribbon { get; }
+        protected KryptonRibbon Ribbon { get; }
 
         /// <summary>
         /// Gets access the paint delegate.

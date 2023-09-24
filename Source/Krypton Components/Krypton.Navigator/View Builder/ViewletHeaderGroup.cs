@@ -35,7 +35,7 @@ namespace Krypton.Navigator
         /// <param name="navigator">Reference to navigator instance.</param>
         /// <param name="redirector">Palette redirector.</param>
         /// <param name="needPaintDelegate">Delegate for notifying paint requests.</param>
-        public ViewletHeaderGroup([DisallowNull] KryptonNavigator? navigator,
+        public ViewletHeaderGroup([DisallowNull] KryptonNavigator navigator,
                                   [DisallowNull] PaletteRedirect redirector,
                                   [DisallowNull] NeedPaintHandler needPaintDelegate)
         {
@@ -54,7 +54,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets access to the navigator reference.
         /// </summary>
-        public KryptonNavigator? Navigator { get; }
+        public KryptonNavigator Navigator { get; }
 
         /// <summary>
         /// Gets access to the palette redirector reference.
@@ -373,7 +373,7 @@ namespace Krypton.Navigator
         }
 
         private void SetHeaderStyle(ViewDrawDocker drawDocker,
-                                    PaletteTripleMetricRedirect? palette,
+                                    PaletteTripleMetricRedirect palette,
                                     HeaderStyle style)
         {
             palette.SetStyles(style);

@@ -35,7 +35,7 @@ namespace Krypton.Ribbon
         #endregion
 
         #region Instance Fields
-        private readonly KryptonRibbon? _ribbon;
+        private readonly KryptonRibbon _ribbon;
         private readonly KryptonRibbonGroupLines _ribbonLines;
         private ViewDrawRibbonDesignGroupLines? _viewAddItem;
         private readonly NeedPaintHandler _needPaint;
@@ -67,7 +67,7 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Owning ribbon control instance.</param>
         /// <param name="ribbonLines">Reference to lines definition.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public ViewLayoutRibbonGroupLines([DisallowNull] KryptonRibbon? ribbon,
+        public ViewLayoutRibbonGroupLines([DisallowNull] KryptonRibbon ribbon,
                                           [DisallowNull] KryptonRibbonGroupLines ribbonLines,
                                           [DisallowNull] NeedPaintHandler needPaint)
         {

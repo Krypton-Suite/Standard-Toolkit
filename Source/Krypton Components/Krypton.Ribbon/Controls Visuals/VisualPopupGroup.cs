@@ -23,7 +23,7 @@ namespace Krypton.Ribbon
         #endregion
 
         #region Instance Fields
-        private readonly KryptonRibbon? _ribbon;
+        private readonly KryptonRibbon _ribbon;
         private readonly KryptonRibbonGroup _ribbonGroup;
         private readonly ViewDrawRibbonGroupsBorder _viewBackground;
         private readonly Button _hiddenFocusTarget;
@@ -36,7 +36,7 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Reference to owning ribbon control.</param>
         /// <param name="ribbonGroup">Reference to ribbon group for display.</param>
         /// <param name="renderer">Drawing renderer.</param>
-        public VisualPopupGroup([DisallowNull] KryptonRibbon? ribbon,
+        public VisualPopupGroup([DisallowNull] KryptonRibbon ribbon,
                                 [DisallowNull] KryptonRibbonGroup ribbonGroup,
                                 IRenderer renderer)
             : base(renderer, true)

@@ -20,7 +20,7 @@ namespace Krypton.Ribbon
     internal class ViewDrawRibbonGroupClusterEdge : ViewDrawBorderEdge
     {
         #region Instance Fields
-        private readonly KryptonRibbon? _ribbon;
+        private readonly KryptonRibbon _ribbon;
         private readonly PaletteBorderEdge _palette;
         #endregion
 
@@ -30,7 +30,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="ribbon">Reference to owning ribbon..</param>
         /// <param name="palette">Palette source for drawing details.</param>
-        public ViewDrawRibbonGroupClusterEdge([DisallowNull] KryptonRibbon? ribbon,
+        public ViewDrawRibbonGroupClusterEdge([DisallowNull] KryptonRibbon ribbon,
                                               [DisallowNull] PaletteBorderEdge palette)
             : base(palette, Orientation.Vertical)
         {

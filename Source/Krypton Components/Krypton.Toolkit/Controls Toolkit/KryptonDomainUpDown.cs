@@ -30,7 +30,7 @@ namespace Krypton.Toolkit
         private class InternalDomainUpDown : DomainUpDown
         {
             #region Instance Fields
-            private readonly KryptonDomainUpDown? _kryptonDomainUpDown;
+            private readonly KryptonDomainUpDown _kryptonDomainUpDown;
             private bool _mouseOver;
             #endregion
 
@@ -51,7 +51,7 @@ namespace Krypton.Toolkit
             /// Initialize a new instance of the InternalDomainUpDown class.
             /// </summary>
             /// <param name="kryptonDomainUpDown">Reference to owning control.</param>
-            public InternalDomainUpDown(KryptonDomainUpDown? kryptonDomainUpDown)
+            public InternalDomainUpDown(KryptonDomainUpDown kryptonDomainUpDown)
             {
                 _kryptonDomainUpDown = kryptonDomainUpDown;
 
@@ -211,7 +211,7 @@ namespace Krypton.Toolkit
             /// <param name="kryptonDomainUpDown">Reference to top level control.</param>
             /// <param name="internalDomainUpDown">Reference to internal domain control.</param>
             public SubclassEdit(IntPtr editControl,
-                                KryptonDomainUpDown? kryptonDomainUpDown,
+                                KryptonDomainUpDown kryptonDomainUpDown,
                                 InternalDomainUpDown internalDomainUpDown)
             {
                 DomainUpDown = kryptonDomainUpDown;
@@ -276,7 +276,7 @@ namespace Krypton.Toolkit
             /// <summary>
             /// Gets access to the owning domain up down control.
             /// </summary>
-            protected KryptonDomainUpDown? DomainUpDown { get; }
+            protected KryptonDomainUpDown DomainUpDown { get; }
 
             /// <summary>
             /// Process Windows-based messages.
@@ -440,7 +440,7 @@ namespace Krypton.Toolkit
         private class SubclassButtons : SubclassEdit, IContentValues, IDisposable
         {
             #region Instance Fields
-            private PaletteTripleToPalette? _palette;
+            private PaletteTripleToPalette _palette;
             private ViewDrawButton _viewButton;
             private IntPtr _screenDC;
             private Point _mousePressed;
@@ -454,7 +454,7 @@ namespace Krypton.Toolkit
             /// <param name="kryptonDomainUpDown">Reference to top level control.</param>
             /// <param name="internalDomainUpDown">Reference to internal domain control.</param>
             public SubclassButtons(IntPtr buttonsPtr,
-                                   KryptonDomainUpDown? kryptonDomainUpDown,
+                                   KryptonDomainUpDown kryptonDomainUpDown,
                                    InternalDomainUpDown internalDomainUpDown)
                 : base(buttonsPtr, kryptonDomainUpDown, internalDomainUpDown)
             {
@@ -682,7 +682,7 @@ namespace Krypton.Toolkit
             /// Initialize a new instance of the DomainUpDownButtonSpecCollection class.
             /// </summary>
             /// <param name="owner">Reference to owning object.</param>
-            public DomainUpDownButtonSpecCollection(KryptonDomainUpDown? owner)
+            public DomainUpDownButtonSpecCollection(KryptonDomainUpDown owner)
                 : base(owner)
             {
             }

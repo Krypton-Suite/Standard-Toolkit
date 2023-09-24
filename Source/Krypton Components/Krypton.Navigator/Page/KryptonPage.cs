@@ -779,7 +779,7 @@ namespace Krypton.Navigator
         /// <param name="pressed">State palette for inheriting pressed values.</param>
         /// <param name="selected">State palette for inheriting selected values.</param>
         /// <param name="focus">State palette for inheriting focus values.</param>
-        public virtual void SetInherit(Control? alignControl,
+        public virtual void SetInherit(Control alignControl,
                                        PaletteNavigatorRedirect? common,
                                        PaletteNavigator? disabled,
                                        PaletteNavigator? normal,
@@ -1158,7 +1158,7 @@ namespace Krypton.Navigator
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public Control? KryptonParentContainer
+        public Control KryptonParentContainer
         {
             [DebuggerStepThrough]
             get => ViewManager?.AlignControl!;

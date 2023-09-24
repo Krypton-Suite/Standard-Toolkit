@@ -24,7 +24,7 @@ namespace Krypton.Ribbon
 
         #region Instance Fields
         private readonly Size _viewSize; // = new(13, 22);
-        private readonly KryptonRibbon? _ribbon;
+        private readonly KryptonRibbon _ribbon;
         private IDisposable? _mementoBack;
         private readonly EventHandler? _finishDelegate;
 
@@ -43,7 +43,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="ribbon">Reference to owning ribbon control.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public ViewDrawRibbonQATExtraButton([DisallowNull] KryptonRibbon? ribbon,
+        public ViewDrawRibbonQATExtraButton([DisallowNull] KryptonRibbon ribbon,
                                             NeedPaintHandler needPaint)
         {
             Debug.Assert(ribbon != null);

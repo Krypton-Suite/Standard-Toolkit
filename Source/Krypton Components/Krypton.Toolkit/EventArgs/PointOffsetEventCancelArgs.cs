@@ -24,7 +24,7 @@ namespace Krypton.Toolkit
         /// <param name="point">Point associated with event.</param>
         /// <param name="offset">Offset associated with event.</param>
         /// <param name="c">Control that is generating the drag start.</param>
-        public DragStartEventCancelArgs(Point point, Point offset, Control? c)
+        public DragStartEventCancelArgs(Point point, Point offset, Control c)
             : base(point)
         {
             Offset = offset;
@@ -44,7 +44,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the control starting the drag.
         /// </summary>
-        public Control? Control { get; }
+        public Control Control { get; }
 
         #endregion
     }

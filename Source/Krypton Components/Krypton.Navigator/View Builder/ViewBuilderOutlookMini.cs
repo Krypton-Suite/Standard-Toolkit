@@ -25,7 +25,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets the top level control of the source.
         /// </summary>
-        public override Control? SeparatorControl => Navigator;
+        public override Control SeparatorControl => Navigator;
 
         /// <summary>
         /// Gets the box representing the minimum and maximum allowed splitter movement.

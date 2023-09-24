@@ -98,7 +98,7 @@ namespace Krypton.Toolkit
             }
 
             // Column Image
-            PaletteTripleJustImage? justImage = ResolveChecked ? KryptonContextMenuItem.StateChecked.ItemImage : menuItemState.ItemImage;
+            PaletteTripleJustImage justImage = ResolveChecked ? KryptonContextMenuItem.StateChecked.ItemImage : menuItemState.ItemImage;
             _fixedImage = new FixedContentValue(null, null, itemColumnImage, itemImageTransparent);
             _imageContent = new ViewDrawContent(justImage.Content, _fixedImage, VisualOrientation.Top);
             _imageCanvas = new ViewDrawMenuImageCanvas(justImage.Back, justImage.Border, 0, false)
@@ -534,7 +534,7 @@ namespace Krypton.Toolkit
                 PaletteContextMenuItemState menuItemState = ItemEnabled ? KryptonContextMenuItem.StateNormal : KryptonContextMenuItem.StateDisabled;
 
                 // Update palettes based on Checked state
-                PaletteTripleJustImage? justImage = ResolveChecked ? KryptonContextMenuItem.StateChecked.ItemImage : menuItemState.ItemImage;
+                PaletteTripleJustImage justImage = ResolveChecked ? KryptonContextMenuItem.StateChecked.ItemImage : menuItemState.ItemImage;
                 _imageCanvas?.SetPalettes(justImage.Back, justImage.Border);
 
                 // Update the Enabled state

@@ -18,7 +18,7 @@ namespace Krypton.Toolkit
     public class ViewLayoutMetricSpacer : ViewLeaf
     {
         #region Instance Fields
-        private IPaletteMetric? _paletteMetric;
+        private IPaletteMetric _paletteMetric;
         private PaletteMetricInt _metricInt;
         #endregion
 
@@ -28,7 +28,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="paletteMetric">Palette source for metric values.</param>
         /// <param name="metricInt">Metric used to get spacer size.</param>
-        public ViewLayoutMetricSpacer([DisallowNull] IPaletteMetric? paletteMetric,
+        public ViewLayoutMetricSpacer([DisallowNull] IPaletteMetric paletteMetric,
                                       PaletteMetricInt metricInt)
         {
             Debug.Assert(paletteMetric != null);
@@ -53,14 +53,14 @@ namespace Krypton.Toolkit
         /// Updates the metrics source and metric to use.
         /// </summary>
         /// <param name="paletteMetric">Source for acquiring metrics.</param>
-        public void SetMetrics(IPaletteMetric? paletteMetric) => _paletteMetric = paletteMetric;
+        public void SetMetrics(IPaletteMetric paletteMetric) => _paletteMetric = paletteMetric;
 
         /// <summary>
         /// Updates the metrics source and metric to use.
         /// </summary>
         /// <param name="paletteMetric">Source for acquiring metrics.</param>
         /// <param name="metricInt">Actual integer metric to use.</param>
-        public void SetMetrics(IPaletteMetric? paletteMetric,
+        public void SetMetrics(IPaletteMetric paletteMetric,
                                PaletteMetricInt metricInt)
         {
             _paletteMetric = paletteMetric;

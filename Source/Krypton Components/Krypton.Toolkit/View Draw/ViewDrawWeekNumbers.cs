@@ -176,7 +176,7 @@ namespace Krypton.Toolkit
                     }
 
                     PaletteState paletteState = Enabled ? PaletteState.Normal : PaletteState.Disabled;
-                    IPaletteTriple? paletteTriple = Enabled ? _calendar.StateNormal.Day : _calendar.StateDisabled.Day;
+                    IPaletteTriple paletteTriple = Enabled ? _calendar.StateNormal.Day : _calendar.StateDisabled.Day;
 
                     _dayMementos[j] = context.Renderer.RenderStandardContent.LayoutContent(context, layoutRectWeek, paletteTriple.PaletteContent,
                                                                                            this, VisualOrientation.Top, paletteState, false, false);
@@ -221,7 +221,7 @@ namespace Krypton.Toolkit
                     _drawText = GetWeekNumber(weekNumberDate).ToString();
 
                     PaletteState paletteState = Enabled ? PaletteState.Normal : PaletteState.Disabled;
-                    IPaletteTriple? paletteTriple = Enabled ? _calendar.StateNormal.Day : _calendar.StateDisabled.Day;
+                    IPaletteTriple paletteTriple = Enabled ? _calendar.StateNormal.Day : _calendar.StateDisabled.Day;
 
                     // Do we need to draw the background?
                     if (paletteTriple.PaletteBack.GetBackDraw(paletteState) == InheritBool.True)

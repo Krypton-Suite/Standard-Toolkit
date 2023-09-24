@@ -412,7 +412,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Implementation
-        private bool ShowFocusCues(Control? c)
+        private bool ShowFocusCues(Control c)
         {
             if (_pi == null)
             {

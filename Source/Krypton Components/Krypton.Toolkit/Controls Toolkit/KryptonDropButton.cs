@@ -29,10 +29,10 @@ namespace Krypton.Toolkit
         private ButtonStyle _style;
         private readonly ButtonController _buttonController;
         private readonly PaletteRedirectDropDownButton _paletteDropDownButtonImages;
-        private readonly PaletteTripleOverride? _overrideFocus;
-        private readonly PaletteTripleOverride? _overrideNormal;
-        private readonly PaletteTripleOverride? _overrideTracking;
-        private readonly PaletteTripleOverride? _overridePressed;
+        private readonly PaletteTripleOverride _overrideFocus;
+        private readonly PaletteTripleOverride _overrideNormal;
+        private readonly PaletteTripleOverride _overrideTracking;
+        private readonly PaletteTripleOverride _overridePressed;
         private KryptonCommand? _command;
         private bool _isDefault;
         private bool _useMnemonic;
@@ -328,7 +328,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Overrides for defining common button appearance that other states can override.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteTripleRedirect? StateCommon { get; }
+        public PaletteTripleRedirect StateCommon { get; }
 
         private bool ShouldSerializeStateCommon() => !StateCommon.IsDefault;
 
@@ -338,7 +338,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Overrides for defining disabled button appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteTriple? StateDisabled { get; }
+        public PaletteTriple StateDisabled { get; }
 
         private bool ShouldSerializeStateDisabled() => !StateDisabled.IsDefault;
 
@@ -348,7 +348,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Overrides for defining normal button appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteTriple? StateNormal { get; }
+        public PaletteTriple StateNormal { get; }
 
         private bool ShouldSerializeStateNormal() => !StateNormal.IsDefault;
 
@@ -358,7 +358,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Overrides for defining hot tracking button appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteTriple? StateTracking { get; }
+        public PaletteTriple StateTracking { get; }
 
         private bool ShouldSerializeStateTracking() => !StateTracking.IsDefault;
 
@@ -368,7 +368,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Overrides for defining pressed button appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteTriple? StatePressed { get; }
+        public PaletteTriple StatePressed { get; }
 
         private bool ShouldSerializeStatePressed() => !StatePressed.IsDefault;
 

@@ -23,7 +23,7 @@ namespace Krypton.Ribbon
         #region Instance Fields
         private readonly Size _preferredSize2007; // = new(4, 4);
         private readonly Size _preferredSize2010; // = new(7, 4);
-        private readonly KryptonRibbon? _ribbon;
+        private readonly KryptonRibbon _ribbon;
         private KryptonRibbonGroupSeparator _ribbonSeparator;
         private readonly NeedPaintHandler _needPaint;
         private Size _preferredSize;
@@ -37,7 +37,7 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Reference to owning ribbon control.</param>
         /// <param name="ribbonSeparator">Reference to group separator definition.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public ViewDrawRibbonGroupSeparator([DisallowNull] KryptonRibbon? ribbon,
+        public ViewDrawRibbonGroupSeparator([DisallowNull] KryptonRibbon ribbon,
                                             [DisallowNull] KryptonRibbonGroupSeparator ribbonSeparator,
                                             [DisallowNull] NeedPaintHandler needPaint)
         {

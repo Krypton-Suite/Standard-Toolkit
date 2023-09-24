@@ -28,7 +28,7 @@ namespace Krypton.Ribbon
         #endregion
 
         #region Instance Fields
-        private readonly KryptonRibbon? _ribbon;
+        private readonly KryptonRibbon _ribbon;
         private readonly KryptonRibbonGroupCluster _ribbonCluster;
         private ViewDrawRibbonDesignCluster? _viewAddItem;
         private readonly ViewDrawRibbonGroupClusterSeparator _startSep;
@@ -52,7 +52,7 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Owning ribbon control instance.</param>
         /// <param name="ribbonCluster">Reference to cluster definition.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public ViewLayoutRibbonGroupCluster([DisallowNull] KryptonRibbon? ribbon,
+        public ViewLayoutRibbonGroupCluster([DisallowNull] KryptonRibbon ribbon,
                                             [DisallowNull] KryptonRibbonGroupCluster ribbonCluster,
                                             [DisallowNull] NeedPaintHandler needPaint)
         {

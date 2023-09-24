@@ -31,7 +31,7 @@ namespace Krypton.Toolkit
         /// <param name="inheritHeader">Source for inheriting header defaulted values.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
         public PaletteForm([DisallowNull] PaletteFormRedirect inheritForm,
-            [DisallowNull] PaletteTripleMetricRedirect? inheritHeader,
+            [DisallowNull] PaletteTripleMetricRedirect inheritHeader,
                            NeedPaintHandler needPaint)
             : base(inheritForm, needPaint)
         {
@@ -75,7 +75,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Overrides for defining header appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteTripleMetric? Header { get; }
+        public PaletteTripleMetric Header { get; }
 
         private bool ShouldSerializeHeader() => !Header.IsDefault;
 

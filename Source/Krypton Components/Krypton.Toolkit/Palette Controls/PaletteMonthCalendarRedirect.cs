@@ -87,7 +87,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Overrides for defining month/year header appearance entries.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteTripleRedirect? Header { get; }
+        public PaletteTripleRedirect Header { get; }
 
         private bool ShouldSerializeHeader() => !Header.IsDefault;
 
@@ -100,7 +100,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Overrides for defining day appearance entries.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteTripleRedirect? Day { get; }
+        public PaletteTripleRedirect Day { get; }
 
         private bool ShouldSerializeDay() => !Day.IsDefault;
 
@@ -113,7 +113,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Overrides for defining day of week appearance entries.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteTripleRedirect? DayOfWeek { get; }
+        public PaletteTripleRedirect DayOfWeek { get; }
 
         private bool ShouldSerializeDayOfWeek() => !DayOfWeek.IsDefault;
 

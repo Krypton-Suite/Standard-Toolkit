@@ -355,7 +355,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Overrides for defining common button appearance that other states can override.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteTripleRedirect? StateCommon { get; }
+        public PaletteTripleRedirect StateCommon { get; }
 
         private bool ShouldSerializeStateCommon() => !StateCommon.IsDefault;
 
@@ -366,7 +366,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Overrides for defining disabled button appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteTriple? StateDisabled { get; }
+        public PaletteTriple StateDisabled { get; }
 
         private bool ShouldSerializeStateDisabled() => !StateDisabled.IsDefault;
 
@@ -377,7 +377,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Overrides for defining normal button appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteTriple? StateNormal { get; }
+        public PaletteTriple StateNormal { get; }
 
         private bool ShouldSerializeStateNormal() => !StateNormal.IsDefault;
 
@@ -388,7 +388,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Overrides for defining pressed button appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteTriple? StatePressed { get; }
+        public PaletteTriple StatePressed { get; }
 
         private bool ShouldSerializeStatePressed() => !StatePressed.IsDefault;
 
@@ -399,7 +399,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Overrides for defining tracking button appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteTriple? StateTracking { get; }
+        public PaletteTriple StateTracking { get; }
 
         private bool ShouldSerializeStateTracking() => !StateTracking.IsDefault;
 
@@ -410,7 +410,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Overrides for defining normal checked button appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteTriple? StateCheckedNormal { get; }
+        public PaletteTriple StateCheckedNormal { get; }
 
         private bool ShouldSerializeStateCheckedNormal() => !StateCheckedNormal.IsDefault;
 
@@ -421,7 +421,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Overrides for defining hot tracking checked button appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteTriple? StateCheckedTracking { get; }
+        public PaletteTriple StateCheckedTracking { get; }
 
         private bool ShouldSerializeStateCheckedTracking() => !StateCheckedTracking.IsDefault;
 
@@ -432,7 +432,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Overrides for defining pressed checked button appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteTriple? StateCheckedPressed { get; }
+        public PaletteTriple StateCheckedPressed { get; }
 
         private bool ShouldSerializeStateCheckedPressed() => !StateCheckedPressed.IsDefault;
 
@@ -497,19 +497,19 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Internal
-        internal PaletteTripleOverride? OverrideCheckedNormal { get; }
+        internal PaletteTripleOverride OverrideCheckedNormal { get; }
 
-        internal PaletteTripleOverride? OverrideCheckedTracking { get; }
+        internal PaletteTripleOverride OverrideCheckedTracking { get; }
 
-        internal PaletteTripleOverride? OverrideCheckedPressed { get; }
+        internal PaletteTripleOverride OverrideCheckedPressed { get; }
 
-        internal PaletteTripleOverride? OverrideDisabled { get; }
+        internal PaletteTripleOverride OverrideDisabled { get; }
 
-        internal PaletteTripleOverride? OverrideNormal { get; }
+        internal PaletteTripleOverride OverrideNormal { get; }
 
-        internal PaletteTripleOverride? OverrideTracking { get; }
+        internal PaletteTripleOverride OverrideTracking { get; }
 
-        internal PaletteTripleOverride? OverridePressed { get; }
+        internal PaletteTripleOverride OverridePressed { get; }
 
         internal void SetPaletteRedirect(PaletteRedirect? redirector)
         {

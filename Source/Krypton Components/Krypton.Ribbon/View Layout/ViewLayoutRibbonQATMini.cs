@@ -23,7 +23,7 @@ namespace Krypton.Ribbon
         #region Instance Fields
 
         private readonly int SEP_GAP;
-        private readonly KryptonRibbon? _ribbon;
+        private readonly KryptonRibbon _ribbon;
         private readonly ViewDrawRibbonQATBorder _border;
         private readonly ViewLayoutRibbonQATFromRibbon _borderContents;
         private readonly ViewDrawRibbonQATExtraButtonMini? _extraButton;
@@ -36,7 +36,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="ribbon">Owning control instance.</param>
         /// <param name="needPaintDelegate">Delegate for notifying paint/layout changes.</param>
-        public ViewLayoutRibbonQATMini([DisallowNull] KryptonRibbon? ribbon,
+        public ViewLayoutRibbonQATMini([DisallowNull] KryptonRibbon ribbon,
                                        NeedPaintHandler needPaintDelegate)
         {
             Debug.Assert(ribbon != null);

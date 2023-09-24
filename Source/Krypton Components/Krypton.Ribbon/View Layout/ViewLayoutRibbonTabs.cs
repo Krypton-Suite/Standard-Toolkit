@@ -33,7 +33,7 @@ namespace Krypton.Ribbon
         #endregion
 
         #region Instance Fields
-        private readonly KryptonRibbon? _ribbon;
+        private readonly KryptonRibbon _ribbon;
         private readonly ViewDrawRibbonTabList _tabCache;
         private readonly ViewDrawRibbonTabSepList _tabSepCache;
         private ViewDrawRibbonDesignTab? _viewAddTab;
@@ -55,7 +55,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="ribbon">Owning ribbon control instance.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public ViewLayoutRibbonTabs([DisallowNull] KryptonRibbon? ribbon,
+        public ViewLayoutRibbonTabs([DisallowNull] KryptonRibbon ribbon,
                                     [DisallowNull] NeedPaintHandler needPaint)
         {
             Debug.Assert(ribbon != null);

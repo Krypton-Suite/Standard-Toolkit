@@ -28,7 +28,7 @@ namespace Krypton.Navigator
         #endregion
 
         #region Instance Fields
-        private readonly KryptonNavigator? _navigator;
+        private readonly KryptonNavigator _navigator;
         private DirectionButtonAction _actionPrevious;
         private ButtonDisplay _displayPrevious;
         private DirectionButtonAction _actionNext;
@@ -46,7 +46,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="navigator">Reference to owning navigator instance.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public NavigatorButton([DisallowNull] KryptonNavigator? navigator,
+        public NavigatorButton([DisallowNull] KryptonNavigator navigator,
                                NeedPaintHandler needPaint)
         {
             Debug.Assert(navigator != null);
