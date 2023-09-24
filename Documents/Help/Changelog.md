@@ -2,7 +2,10 @@
 
 =======
 
-## 2023-11-xx - Build 2311 - November 2023
+## 2023-11-14 - Build 2311 - November 2023
+* Implemented [#956](https://github.com/Krypton-Suite/Standard-Toolkit/issues/956), Update `Readme.md` images to reflect the toolkit
+* Added the ability to specify the message text alignment in a `KryptonMessagebox`
+    - Default value is `MiddleLeft`
 * Implemented [#1126](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1126), `KryptonRibbonGroupThemeComboBox` needs to be part of the ribbon designer
 * Resolved [#1125](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1072), KryptonThemeCombox displays extra string (Todays alpha)
 * Implemented [#1089](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1089), `KryptonProgressBar` in StatusStrips
