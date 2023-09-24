@@ -256,7 +256,7 @@ The Krypton Toolkit provides a set of basic user interface components for free. 
 ### Krypton Ribbon
 The Krypton Ribbon is designed to mimic the look, feel and operation of the ribbon control seen in the Microsoft Office `2007/2010/2013/365` applications such as Word and Excel. It provides advanced capabilities including the quick access toolbar, contextual tabs and auto shrinking groups. With rich design time support and sample code you can be up and running with the ribbon in no time at all. It integrates with the Krypton Toolkit architecture to ensure a consistent look and feel.
 
-<center><img src="https://github.com/Krypton-Suite/Documentation/blob/main/Assets/Standard-Toolkit/KryptonRibbonExample.png?raw=true" /></center>
+<center><img src="https://github.com/Krypton-Suite/Documentation/blob/main/Assets/Standard-Toolkit/KryptonRibbonExample.gif?raw=true" /></center>
 
 ### Krypton Navigator
 The Krypton Navigator is a user interface control that provides the user with a variety of ways to navigate around a set of pages. Think of it as a traditional TabControl on steroids. It has many different modes of operation allowing you to achieve exactly the right operation for your application. It integrates with the Krypton Toolkit architecture to ensure a consistent look and feel.
