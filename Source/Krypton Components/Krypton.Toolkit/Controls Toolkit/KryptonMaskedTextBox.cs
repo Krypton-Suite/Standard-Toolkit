@@ -30,7 +30,7 @@ namespace Krypton.Toolkit
         private class InternalMaskedTextBox : MaskedTextBox
         {
             #region Instance Fields
-            private readonly KryptonMaskedTextBox _kryptonMaskedTextBox;
+            private readonly KryptonMaskedTextBox? _kryptonMaskedTextBox;
             private bool _mouseOver;
             private string? _hint;
             #endregion
@@ -71,7 +71,7 @@ namespace Krypton.Toolkit
             /// Initialize a new instance of the InternalMaskedTextBox class.
             /// </summary>
             /// <param name="kryptonMaskedTextBox">Reference to owning control.</param>
-            public InternalMaskedTextBox(KryptonMaskedTextBox kryptonMaskedTextBox)
+            public InternalMaskedTextBox(KryptonMaskedTextBox? kryptonMaskedTextBox)
             {
                 _kryptonMaskedTextBox = kryptonMaskedTextBox;
 
@@ -301,7 +301,7 @@ namespace Krypton.Toolkit
             /// Initialize a new instance of the MaskedTextBoxButtonSpecCollection class.
             /// </summary>
             /// <param name="owner">Reference to owning object.</param>
-            public MaskedTextBoxButtonSpecCollection(KryptonMaskedTextBox owner)
+            public MaskedTextBoxButtonSpecCollection(KryptonMaskedTextBox? owner)
                 : base(owner)
             {
             }

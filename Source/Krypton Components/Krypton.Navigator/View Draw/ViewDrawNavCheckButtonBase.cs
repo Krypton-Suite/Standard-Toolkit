@@ -26,15 +26,15 @@ namespace Krypton.Navigator
         private DateTime _lastClick;
 
         /// <summary>Override for accessing the disable state.</summary>
-        protected PaletteTripleOverride _overrideDisabled;
+        protected PaletteTripleOverride? _overrideDisabled;
         /// <summary>Override for accessing the normal state.</summary>
-        protected PaletteTripleOverride _overrideNormal;
+        protected PaletteTripleOverride? _overrideNormal;
         /// <summary>Override for accessing the tracking state.</summary>
-        protected PaletteTripleOverride _overrideTracking;
+        protected PaletteTripleOverride? _overrideTracking;
         /// <summary>Override for accessing the pressed state.</summary>
-        protected PaletteTripleOverride _overridePressed;
+        protected PaletteTripleOverride? _overridePressed;
         /// <summary>Override for accessing the selected state.</summary>
-        protected PaletteTripleOverride _overrideSelected;
+        protected PaletteTripleOverride? _overrideSelected;
         #endregion
 
         #region Events
@@ -57,7 +57,7 @@ namespace Krypton.Navigator
         /// <param name="page">Page this check button represents.</param>
         /// <param name="orientation">Orientation for the check button.</param>
         /// <param name="overflow">Button is used on the overflow bar.</param>
-        public ViewDrawNavCheckButtonBase(KryptonNavigator navigator,
+        public ViewDrawNavCheckButtonBase(KryptonNavigator? navigator,
                                           [DisallowNull] KryptonPage? page,
                                           VisualOrientation orientation,
                                           bool overflow)
@@ -77,7 +77,7 @@ namespace Krypton.Navigator
         /// <param name="navigator">Owning navigator instance.</param>
         /// <param name="page">Page this check button represents.</param>
         /// <param name="orientation">Orientation for the check button.</param>
-        public ViewDrawNavCheckButtonBase(KryptonNavigator navigator,
+        public ViewDrawNavCheckButtonBase(KryptonNavigator? navigator,
             [DisallowNull] KryptonPage? page,
                                           VisualOrientation orientation)
             : this(navigator, page, orientation,
@@ -102,14 +102,14 @@ namespace Krypton.Navigator
         /// <param name="statePressed">Source for pressed state values.</param>
         /// <param name="stateSelected">Source for selected state values.</param>
         /// <param name="stateFocused">Source for focused state values.</param>
-        public ViewDrawNavCheckButtonBase([DisallowNull] KryptonNavigator navigator,
+        public ViewDrawNavCheckButtonBase([DisallowNull] KryptonNavigator? navigator,
                                           KryptonPage? page,
                                           VisualOrientation orientation,
-                                          IPaletteTriple stateDisabled,
-                                          IPaletteTriple stateNormal,
-                                          IPaletteTriple stateTracking,
-                                          IPaletteTriple statePressed,
-                                          IPaletteTriple stateSelected,
+                                          IPaletteTriple? stateDisabled,
+                                          IPaletteTriple? stateNormal,
+                                          IPaletteTriple? stateTracking,
+                                          IPaletteTriple? statePressed,
+                                          IPaletteTriple? stateSelected,
                                           IPaletteTriple stateFocused)
             : base(stateDisabled, stateNormal, stateTracking, 
                    statePressed, null, null, orientation, true)
@@ -280,7 +280,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets the navigator that owns this view.
         /// </summary>
-        public KryptonNavigator Navigator { get; }
+        public KryptonNavigator? Navigator { get; }
 
         #endregion
 

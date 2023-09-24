@@ -117,7 +117,7 @@ namespace Krypton.Navigator
 
         #region Instance Fields
         private readonly ButtonSpecRemapTarget _remapTarget;
-        private readonly ButtonSpec _buttonSpec;
+        private readonly ButtonSpec? _buttonSpec;
         #endregion
 
         #region Identity
@@ -128,7 +128,7 @@ namespace Krypton.Navigator
         /// <param name="buttonSpec">Reference to button specification.</param>
         /// <param name="remapTarget">Target for remapping the color onto.</param>
         public ButtonSpecNavRemap(PaletteBase? target,
-            [DisallowNull] ButtonSpec buttonSpec,
+            [DisallowNull] ButtonSpec? buttonSpec,
                                   ButtonSpecRemapTarget remapTarget)
             : base(target)
         {

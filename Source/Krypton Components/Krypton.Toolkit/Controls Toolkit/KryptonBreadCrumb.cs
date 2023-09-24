@@ -36,7 +36,7 @@ namespace Krypton.Toolkit
             /// Initialize a new instance of the BreadCrumbButtonSpecCollection class.
             /// </summary>
             /// <param name="owner">Reference to owning object.</param>
-            public BreadCrumbButtonSpecCollection(KryptonBreadCrumb owner)
+            public BreadCrumbButtonSpecCollection(KryptonBreadCrumb? owner)
                 : base(owner)
             {
             }

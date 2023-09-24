@@ -34,7 +34,7 @@ namespace Krypton.Ribbon
         /// <param name="maxWidth">Maximum width allowed for the item.</param>
         /// <param name="needPaintDelegate">Delegate for requesting paint updates.</param>
         /// <param name="index">Recent document index.</param>
-        public ViewDrawRibbonAppMenuRecentDec(KryptonRibbon ribbon,
+        public ViewDrawRibbonAppMenuRecentDec(KryptonRibbon? ribbon,
                                               IContextMenuProvider provider,
                                               KryptonRibbonRecentDoc recentDoc,
                                               int maxWidth,

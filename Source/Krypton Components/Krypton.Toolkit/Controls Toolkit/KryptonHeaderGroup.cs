@@ -36,7 +36,7 @@ namespace Krypton.Toolkit
             /// Initialize a new instance of the HeaderGroupButtonSpecCollection class.
             /// </summary>
             /// <param name="owner">Reference to owning object.</param>
-            public HeaderGroupButtonSpecCollection(KryptonHeaderGroup owner)
+            public HeaderGroupButtonSpecCollection(KryptonHeaderGroup? owner)
                 : base(owner)
             {
             }
@@ -1269,7 +1269,7 @@ namespace Krypton.Toolkit
         }
 
         private void SetHeaderStyle(ViewDrawDocker drawDocker,
-                                    PaletteTripleMetricRedirect palette,
+                                    PaletteTripleMetricRedirect? palette,
                                     HeaderStyle style)
         {
             palette.SetStyles(style);

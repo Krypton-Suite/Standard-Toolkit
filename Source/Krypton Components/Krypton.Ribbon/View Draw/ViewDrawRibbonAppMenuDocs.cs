@@ -20,7 +20,7 @@ namespace Krypton.Ribbon
     internal class ViewDrawRibbonAppMenuDocs : ViewLayoutDocker
     {
         #region Instance Fields
-        private readonly KryptonRibbon _ribbon;
+        private readonly KryptonRibbon? _ribbon;
         private IDisposable _memento;
         #endregion
 
@@ -29,7 +29,7 @@ namespace Krypton.Ribbon
         /// Initialize a new instance of the ViewDrawRibbonAppMenuDocs class.
         /// </summary>
         /// <param name="ribbon">Reference to owning ribbon instance.</param>
-        public ViewDrawRibbonAppMenuDocs(KryptonRibbon ribbon) => _ribbon = ribbon;
+        public ViewDrawRibbonAppMenuDocs(KryptonRibbon? ribbon) => _ribbon = ribbon;
 
         /// <summary>
         /// Obtains the String representation of this instance.

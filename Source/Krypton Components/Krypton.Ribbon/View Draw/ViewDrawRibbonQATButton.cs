@@ -23,7 +23,7 @@ namespace Krypton.Ribbon
 
         #region Instance Fields
         private readonly Size _viewSize;
-        private readonly KryptonRibbon _ribbon;
+        private readonly KryptonRibbon? _ribbon;
         private readonly QATButtonToContent _contentProvider;
         private readonly ViewDrawContent _drawContent;
         private IDisposable? _mementoBack;
@@ -36,7 +36,7 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Reference to owning ribbon control.</param>
         /// <param name="qatButton">Reference to button definition.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public ViewDrawRibbonQATButton([DisallowNull] KryptonRibbon ribbon,
+        public ViewDrawRibbonQATButton([DisallowNull] KryptonRibbon? ribbon,
                                        [DisallowNull] IQuickAccessToolbarButton qatButton,
                                        NeedPaintHandler needPaint)
         {

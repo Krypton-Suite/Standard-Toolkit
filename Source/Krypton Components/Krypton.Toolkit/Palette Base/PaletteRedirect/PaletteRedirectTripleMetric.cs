@@ -18,8 +18,8 @@ namespace Krypton.Toolkit
     public class PaletteRedirectTripleMetric : PaletteRedirectTriple
     {
         #region Instance Fields
-        private IPaletteMetric _disabled;
-        private IPaletteMetric _normal;
+        private IPaletteMetric? _disabled;
+        private IPaletteMetric? _normal;
         #endregion
 
         #region Identity
@@ -41,8 +41,8 @@ namespace Krypton.Toolkit
         /// <param name="normal">Redirection for normal state requests.</param>
         /// <param name="normalMetric">Redirection for normal metric requests.</param>
         public PaletteRedirectTripleMetric(PaletteBase? target,
-                                           IPaletteTriple disabled, IPaletteMetric disableMetric,
-                                           IPaletteTriple normal, IPaletteMetric normalMetric)
+                                           IPaletteTriple? disabled, IPaletteMetric? disableMetric,
+                                           IPaletteTriple? normal, IPaletteMetric? normalMetric)
             : base(target, disabled, normal)
         {
             // Remember state specific inheritance
@@ -59,10 +59,10 @@ namespace Krypton.Toolkit
         /// <param name="disableMetric">Redirection for disabled metric requests.</param>
         /// <param name="normal">Redirection for normal state requests.</param>
         /// <param name="normalMetric">Redirection for normal metric requests.</param>
-        public void SetRedirectStates(IPaletteTriple disabled,
-                                      IPaletteMetric disableMetric,
-                                      IPaletteTriple normal,
-                                      IPaletteMetric normalMetric)
+        public void SetRedirectStates(IPaletteTriple? disabled,
+                                      IPaletteMetric? disableMetric,
+                                      IPaletteTriple? normal,
+                                      IPaletteMetric? normalMetric)
         {
             base.SetRedirectStates(disabled, normal);
 

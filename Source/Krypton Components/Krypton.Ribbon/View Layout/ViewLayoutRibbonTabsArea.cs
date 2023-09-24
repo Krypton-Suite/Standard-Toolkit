@@ -30,7 +30,7 @@ namespace Krypton.Ribbon
             /// Initialize a new instance of the RibbonButtonSpecFixedCollection class.
             /// </summary>
             /// <param name="owner">Reference to owning object.</param>
-            public RibbonButtonSpecFixedCollection(KryptonRibbon owner)
+            public RibbonButtonSpecFixedCollection(KryptonRibbon? owner)
                 : base(owner)
             {
             }
@@ -48,7 +48,7 @@ namespace Krypton.Ribbon
         #endregion
 
         #region Instance Fields
-        private readonly KryptonRibbon _ribbon;
+        private readonly KryptonRibbon? _ribbon;
         private ViewLayoutRibbonScrollPort _tabsViewport;
         private ViewLayoutSeparator _layoutAppButtonSep;
         private ViewLayoutRibbonSeparator _leftSeparator;
@@ -93,7 +93,7 @@ namespace Krypton.Ribbon
         /// <param name="captionArea">Reference to the caption area.</param>
         /// <param name="layoutContexts">Reference to layout of the context area.</param>
         /// <param name="needPaintDelegate">Delegate for notifying paint/layout changes.</param>
-        public ViewLayoutRibbonTabsArea([DisallowNull] KryptonRibbon ribbon,
+        public ViewLayoutRibbonTabsArea([DisallowNull] KryptonRibbon? ribbon,
                                         [DisallowNull] PaletteRedirect? redirect,
                                         [DisallowNull] ViewDrawRibbonCaptionArea captionArea,
                                         [DisallowNull] ViewLayoutRibbonContextTitles layoutContexts,

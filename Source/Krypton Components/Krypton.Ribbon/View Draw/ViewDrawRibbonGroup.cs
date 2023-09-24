@@ -34,7 +34,7 @@ namespace Krypton.Ribbon
         private readonly Padding COLLAPSED_PADDING; // = new(2);
         private readonly Padding COLLAPSED_IMAGE_PADDING_2007; // = new(3, 3, 3, 4);
         private readonly Padding COLLAPSED_IMAGE_PADDING_2010; // = new(3, 1, 5, 5);
-        private readonly KryptonRibbon _ribbon;
+        private readonly KryptonRibbon? _ribbon;
         private readonly KryptonRibbonGroup _ribbonGroup;
         private VisualPopupGroup _popupGroup;
         private ViewLayoutDocker _layoutCollapsedMain;
@@ -58,7 +58,7 @@ namespace Krypton.Ribbon
         private IDisposable _mementoRibbonBackBorder;
         private IDisposable _mementoRibbonBack2;
         private IDisposable? _mementoStandardBack;
-        private Control _container;
+        private Control? _container;
         private bool _collapsed;
         private int _totalBorders;
         #endregion
@@ -70,7 +70,7 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Reference to owning ribbon control.</param>
         /// <param name="ribbonGroup">Reference to ribbon group this represents.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public ViewDrawRibbonGroup([DisallowNull] KryptonRibbon ribbon,
+        public ViewDrawRibbonGroup([DisallowNull] KryptonRibbon? ribbon,
                                    [DisallowNull] KryptonRibbonGroup ribbonGroup,
                                    [DisallowNull] NeedPaintHandler needPaint)
         {

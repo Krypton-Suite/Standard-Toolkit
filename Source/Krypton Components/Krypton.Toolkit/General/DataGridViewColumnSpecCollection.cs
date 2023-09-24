@@ -22,7 +22,7 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the DataGridViewColumnSpecCollection class.
         /// </summary>
         /// <param name="owner">Reference to owning object.</param>
-        public DataGridViewColumnSpecCollection(object owner)
+        public DataGridViewColumnSpecCollection(object? owner)
             : base(owner)
         {
         }

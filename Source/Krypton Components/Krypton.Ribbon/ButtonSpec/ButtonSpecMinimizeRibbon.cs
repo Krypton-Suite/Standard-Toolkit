@@ -20,7 +20,7 @@ namespace Krypton.Ribbon
     public class ButtonSpecMinimizeRibbon : ButtonSpec
     {
         #region Instance Fields
-        private readonly KryptonRibbon _ribbon;
+        private readonly KryptonRibbon? _ribbon;
         #endregion
 
         #region Identity
@@ -28,7 +28,7 @@ namespace Krypton.Ribbon
         /// Initialize a new instance of the ButtonSpecMinimizeRibbon class.
         /// </summary>
         /// <param name="ribbon">Reference to owning ribbon control.</param>
-        public ButtonSpecMinimizeRibbon([DisallowNull] KryptonRibbon ribbon)
+        public ButtonSpecMinimizeRibbon([DisallowNull] KryptonRibbon? ribbon)
         {
             Debug.Assert(ribbon != null);
             _ribbon = ribbon;

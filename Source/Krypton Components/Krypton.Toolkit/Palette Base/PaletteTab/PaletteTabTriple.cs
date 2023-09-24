@@ -54,7 +54,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Sets the inheritance parent.
         /// </summary>
-        public void SetInherit(IPaletteTriple inherit)
+        public void SetInherit(IPaletteTriple? inherit)
         {
             Back.SetInherit(inherit.PaletteBack);
             Border.SetInherit(inherit.PaletteBorder);

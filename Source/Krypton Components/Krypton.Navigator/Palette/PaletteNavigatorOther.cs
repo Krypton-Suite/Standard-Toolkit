@@ -70,7 +70,7 @@ namespace Krypton.Navigator
         [Category(@"Visuals")]
         [Description(@"Overrides for defining check button appearance entries.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteTriple CheckButton { get; }
+        public PaletteTriple? CheckButton { get; }
 
         private bool ShouldSerializeCheckButton() => !CheckButton.IsDefault;
 
@@ -83,7 +83,7 @@ namespace Krypton.Navigator
         [Category(@"Visuals")]
         [Description(@"Overrides for defining outlook overflow button appearance entries.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteTriple OverflowButton { get; }
+        public PaletteTriple? OverflowButton { get; }
 
         private bool ShouldSerializeOverflowButton() => !OverflowButton.IsDefault;
 
@@ -96,7 +96,7 @@ namespace Krypton.Navigator
         [Category(@"Visuals")]
         [Description(@"Overrides for defining outlook mini button appearance entries.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteTriple MiniButton { get; }
+        public PaletteTriple? MiniButton { get; }
 
         private bool ShouldSerializeMiniButton() => !MiniButton.IsDefault;
 
@@ -109,7 +109,7 @@ namespace Krypton.Navigator
         [Category(@"Visuals")]
         [Description(@"Overrides for defining tab appearance entries.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteTabTriple Tab { get; }
+        public PaletteTabTriple? Tab { get; }
 
         private bool ShouldSerializeTab() => !Tab.IsDefault;
 

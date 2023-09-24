@@ -463,7 +463,7 @@ namespace Krypton.Toolkit
         /// <param name="control">Owning control instance.</param>
         /// <returns>Modified rectangle.</returns>
         protected virtual Rectangle UpdateFillerRect(Rectangle fillerRect,
-                                                     Control control) =>
+                                                     Control? control) =>
             fillerRect;
 
         #endregion
@@ -475,7 +475,7 @@ namespace Krypton.Toolkit
         /// <param name="ds">Docking style.</param>
         /// <param name="control">Control for which the setting is needed.</param>
         /// <returns>Calculated docking to actual use.</returns>
-        protected ViewDockStyle CalculateDock(ViewDockStyle ds, Control control)
+        protected ViewDockStyle CalculateDock(ViewDockStyle ds, Control? control)
         {
             if (IgnoreRightToLeftLayout)
             {

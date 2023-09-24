@@ -50,7 +50,7 @@ namespace Krypton.Toolkit
         /// Mouse has entered the view.
         /// </summary>
         /// <param name="c">Reference to the source control instance.</param>
-        public void MouseEnter(Control c)
+        public void MouseEnter(Control? c)
         {
             _manager.MouseEnter(_targetElement, c);
 
@@ -62,7 +62,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="c">Reference to the source control instance.</param>
         /// <param name="pt">Mouse position relative to control.</param>
-        public void MouseMove(Control c, Point pt)
+        public void MouseMove(Control? c, Point pt)
         {
             _manager.MouseMove(_targetElement, c, pt);
 
@@ -76,7 +76,7 @@ namespace Krypton.Toolkit
         /// <param name="pt">Mouse position relative to control.</param>
         /// <param name="button">Mouse button pressed down.</param>
         /// <returns>True if capturing input; otherwise false.</returns>
-        public bool MouseDown(Control c, Point pt, MouseButtons button)
+        public bool MouseDown(Control? c, Point pt, MouseButtons button)
         {
             _manager.MouseDown(_targetElement, c, pt, button);
 
@@ -89,7 +89,7 @@ namespace Krypton.Toolkit
         /// <param name="c">Reference to the source control instance.</param>
         /// <param name="pt">Mouse position relative to control.</param>
         /// <param name="button">Mouse button released.</param>
-        public void MouseUp(Control c, Point pt, MouseButtons button)
+        public void MouseUp(Control? c, Point pt, MouseButtons button)
         {
             _manager.MouseUp(_targetElement, c, pt, button);
 
@@ -101,7 +101,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="c">Reference to the source control instance.</param>
         /// <param name="next">Reference to view that is next to have the mouse.</param>
-        public void MouseLeave(Control c, ViewBase? next)
+        public void MouseLeave(Control? c, ViewBase? next)
         {
             _manager.MouseLeave(_targetElement, c, next);
 

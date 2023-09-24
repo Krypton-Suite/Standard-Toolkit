@@ -165,7 +165,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Overrides for defining header entry appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteTripleRedirect Heading { get; }
+        public PaletteTripleRedirect? Heading { get; }
 
         private bool ShouldSerializeHeading() => !Heading.IsDefault;
 

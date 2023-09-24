@@ -22,7 +22,7 @@ namespace Krypton.Navigator
         /// Initialize a new instance of the ButtonSpecNavPrevious class.
         /// </summary>
         /// <param name="navigator">Reference to owning navigator instance.</param>
-        public ButtonSpecNavPrevious(KryptonNavigator navigator)
+        public ButtonSpecNavPrevious(KryptonNavigator? navigator)
             : base(navigator, PaletteButtonSpecStyle.Previous)
         {
         }

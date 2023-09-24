@@ -113,7 +113,7 @@ namespace Krypton.Toolkit
         /// <param name="e">A KeyEventArgs that contains the event data.</param>
         /// <exception cref="ArgumentNullException"></exception>
         /// <returns>True if capturing input; otherwise false.</returns>
-        public virtual bool KeyUp([DisallowNull] Control c, [DisallowNull] KeyEventArgs e)
+        public virtual bool KeyUp([DisallowNull] Control? c, [DisallowNull] KeyEventArgs e)
         {
             Debug.Assert(c != null);
             Debug.Assert(e != null);

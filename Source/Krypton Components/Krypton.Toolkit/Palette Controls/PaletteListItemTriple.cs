@@ -18,7 +18,7 @@ namespace Krypton.Toolkit
     public class PaletteListItemTriple : Storage
     {
         #region Instance Fields
-        private readonly PaletteTriple _paletteItem;
+        private readonly PaletteTriple? _paletteItem;
         #endregion
 
         #region Identity
@@ -27,7 +27,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="inherit">Source for inheriting values.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public PaletteListItemTriple([DisallowNull] PaletteTripleRedirect inherit,
+        public PaletteListItemTriple([DisallowNull] PaletteTripleRedirect? inherit,
                                      NeedPaintHandler needPaint)
         {
             Debug.Assert(inherit != null);
@@ -62,7 +62,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Sets the inheritance parent.
         /// </summary>
-        public virtual void SetInherit(PaletteTripleRedirect inherit) => _paletteItem.SetInherit(inherit);
+        public virtual void SetInherit(PaletteTripleRedirect? inherit) => _paletteItem.SetInherit(inherit);
 
         #endregion
 
@@ -74,7 +74,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Overrides for defining item appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public virtual PaletteTriple Item => _paletteItem;
+        public virtual PaletteTriple? Item => _paletteItem;
 
         private bool ShouldSerializeItem() => !_paletteItem.IsDefault;
 

@@ -32,7 +32,7 @@ namespace Krypton.Toolkit
         /// <param name="overrideTriple">Override palette to use.</param>
         /// <param name="overrideState">State used by the override.</param>
         public PaletteTripleOverride([DisallowNull] IPaletteTriple normalTriple,
-                                     [DisallowNull] IPaletteTriple overrideTriple,
+                                     [DisallowNull] IPaletteTriple? overrideTriple,
                                      PaletteState overrideState)
         {
             Debug.Assert(normalTriple != null);
@@ -70,7 +70,7 @@ namespace Krypton.Toolkit
         /// <param name="normalTriple">New normal palette.</param>
         /// <param name="overrideTriple">New override palette.</param>
         public void SetPalettes(IPaletteTriple normalTriple,
-                                IPaletteTriple overrideTriple)
+                                IPaletteTriple? overrideTriple)
         {
             _overrideBack.SetPalettes(normalTriple.PaletteBack, overrideTriple.PaletteBack);
             _overrideBorder.SetPalettes(normalTriple.PaletteBorder, overrideTriple.PaletteBorder);

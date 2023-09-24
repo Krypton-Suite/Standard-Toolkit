@@ -384,7 +384,7 @@ namespace Krypton.Toolkit
             #region Instance Fields
             private object? _innerArray;
             private readonly ViewManager? _viewManager;
-            private readonly KryptonCheckedListBox _kryptonCheckedListBox;
+            private readonly KryptonCheckedListBox? _kryptonCheckedListBox;
             private readonly IntPtr _screenDC;
             private bool _mouseOver;
             private bool _killNextSelect;
@@ -414,7 +414,7 @@ namespace Krypton.Toolkit
             /// Initialize a new instance of the InternalCheckedListBox class.
             /// </summary>
             /// <param name="kryptonCheckedListBox">Reference to owning control.</param>
-            public InternalCheckedListBox(KryptonCheckedListBox kryptonCheckedListBox)
+            public InternalCheckedListBox(KryptonCheckedListBox? kryptonCheckedListBox)
             {
                 SetStyle(ControlStyles.ResizeRedraw, true);
 
@@ -939,12 +939,12 @@ namespace Krypton.Toolkit
 
         #region Instance Fields
 
-        private readonly PaletteTripleOverride _overrideNormal;
-        private readonly PaletteTripleOverride _overrideTracking;
-        private readonly PaletteTripleOverride _overridePressed;
-        private readonly PaletteTripleOverride _overrideCheckedNormal;
-        private readonly PaletteTripleOverride _overrideCheckedTracking;
-        private readonly PaletteTripleOverride _overrideCheckedPressed;
+        private readonly PaletteTripleOverride? _overrideNormal;
+        private readonly PaletteTripleOverride? _overrideTracking;
+        private readonly PaletteTripleOverride? _overridePressed;
+        private readonly PaletteTripleOverride? _overrideCheckedNormal;
+        private readonly PaletteTripleOverride? _overrideCheckedTracking;
+        private readonly PaletteTripleOverride? _overrideCheckedPressed;
         private readonly PaletteRedirectCheckBox? _paletteCheckBoxImages;
         private readonly ViewLayoutDocker _drawDockerInner;
         private readonly ViewDrawDocker _drawDockerOuter;

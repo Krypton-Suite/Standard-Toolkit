@@ -36,7 +36,7 @@ namespace Krypton.Toolkit
             #endregion
 
             #region Instance Fields
-            private readonly KryptonRichTextBox _kryptonRichTextBox;
+            private readonly KryptonRichTextBox? _kryptonRichTextBox;
             private bool _mouseOver;
             #endregion
 
@@ -57,7 +57,7 @@ namespace Krypton.Toolkit
             /// Initialize a new instance of the InternalTextBox class.
             /// </summary>
             /// <param name="kryptonRichTextBox">Reference to owning control.</param>
-            public InternalRichTextBox(KryptonRichTextBox kryptonRichTextBox)
+            public InternalRichTextBox(KryptonRichTextBox? kryptonRichTextBox)
             {
                 _kryptonRichTextBox = kryptonRichTextBox;
 
@@ -292,7 +292,7 @@ namespace Krypton.Toolkit
             /// Initialize a new instance of the RichTextBoxButtonSpecCollection class.
             /// </summary>
             /// <param name="owner">Reference to owning object.</param>
-            public RichTextBoxButtonSpecCollection(KryptonRichTextBox owner)
+            public RichTextBoxButtonSpecCollection(KryptonRichTextBox? owner)
                 : base(owner)
             {
             }

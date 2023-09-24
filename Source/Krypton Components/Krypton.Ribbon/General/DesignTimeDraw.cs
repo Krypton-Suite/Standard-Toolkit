@@ -47,7 +47,7 @@ namespace Krypton.Ribbon
         /// <param name="context">Rendering context.</param>
         /// <param name="clientRect">Client rectangle of the source view.</param>
         /// <param name="state">State of element.</param>
-        public static void DrawArea(KryptonRibbon ribbon,
+        public static void DrawArea(KryptonRibbon? ribbon,
                                     RenderContext context,
                                     Rectangle clientRect,
                                     PaletteState state)
@@ -70,7 +70,7 @@ namespace Krypton.Ribbon
         /// <param name="context">Rendering context.</param>
         /// <param name="clientRect">Client rectangle of the source view.</param>
         /// <param name="state">State of element.</param>
-        public static void DrawFlapArea(KryptonRibbon ribbon,
+        public static void DrawFlapArea(KryptonRibbon? ribbon,
                                         RenderContext context,
                                         Rectangle clientRect,
                                         PaletteState state)

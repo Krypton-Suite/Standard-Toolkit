@@ -63,7 +63,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Overrides for defining node appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteTriple Node { get; }
+        public PaletteTriple? Node { get; }
 
         private bool ShouldSerializeNode() => !Node.IsDefault;
 

@@ -34,7 +34,7 @@ namespace Krypton.Toolkit
             /// Initialize a new instance of the FormButtonSpecCollection class.
             /// </summary>
             /// <param name="owner">Reference to owning object.</param>
-            public FormButtonSpecCollection(KryptonForm owner)
+            public FormButtonSpecCollection(KryptonForm? owner)
                 : base(owner)
             {
             }
@@ -51,7 +51,7 @@ namespace Krypton.Toolkit
             /// Initialize a new instance of the FormFixedButtonSpecCollection class.
             /// </summary>
             /// <param name="owner">Reference to owning object.</param>
-            public FormFixedButtonSpecCollection(KryptonForm owner)
+            public FormFixedButtonSpecCollection(KryptonForm? owner)
                 : base(owner)
             {
             }
@@ -1279,7 +1279,7 @@ namespace Krypton.Toolkit
         }
 
         private void SetHeaderStyle(ViewDrawDocker drawDocker,
-                                    PaletteTripleMetricRedirect palette,
+                                    PaletteTripleMetricRedirect? palette,
                                     HeaderStyle style)
         {
             palette.SetStyles(style);
@@ -1671,7 +1671,7 @@ namespace Krypton.Toolkit
             // Only interested in optimizing specific button spec changes
             if (sender is ButtonSpecView bsView)
             {
-                ButtonSpec bs = bsView.ButtonSpec;
+                ButtonSpec? bs = bsView.ButtonSpec;
 
                 // Only interest in the three form level buttons, as we know 
                 // these never change in size because of a paint request

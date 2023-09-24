@@ -25,7 +25,7 @@ namespace Krypton.Ribbon
         /// Initialize a new instance of the ViewDrawRibbonGroupImageBase class.
         /// </summary>
         /// <param name="ribbon">Reference to owning ribbon control.</param>
-        public ViewDrawRibbonGroupImageBase([DisallowNull] KryptonRibbon ribbon)
+        public ViewDrawRibbonGroupImageBase([DisallowNull] KryptonRibbon? ribbon)
         {
             Debug.Assert(ribbon != null);
             Ribbon = ribbon;
@@ -90,7 +90,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets access to the owning ribbon control.
         /// </summary>
-        protected KryptonRibbon Ribbon { get; }
+        protected KryptonRibbon? Ribbon { get; }
 
         /// <summary>
         /// Gets the size to draw the image.

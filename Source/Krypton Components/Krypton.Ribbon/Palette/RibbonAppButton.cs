@@ -35,7 +35,7 @@ namespace Krypton.Ribbon
             /// Initialize a new instance of the AppMenuButtonSpecCollection class.
             /// </summary>
             /// <param name="owner">Reference to owning object.</param>
-            public AppMenuButtonSpecCollection(KryptonRibbon owner)
+            public AppMenuButtonSpecCollection(KryptonRibbon? owner)
                 : base(owner)
             {
             }
@@ -44,7 +44,7 @@ namespace Krypton.Ribbon
         #endregion
 
         #region Instance Fields
-        private readonly KryptonRibbon _ribbon;
+        private readonly KryptonRibbon? _ribbon;
         private Image _appButtonImage;
         private readonly KryptonContextMenuItems _appButtonMenuItems;
         private bool _appButtonVisible;
@@ -59,7 +59,7 @@ namespace Krypton.Ribbon
         /// Initialize a new instance of the RibbonAppButton class.
         /// </summary>
         /// <param name="ribbon">Reference to owning ribbon instance.</param>
-        public RibbonAppButton([DisallowNull] KryptonRibbon ribbon)
+        public RibbonAppButton([DisallowNull] KryptonRibbon? ribbon)
         {
             Debug.Assert(ribbon != null);
             _ribbon = ribbon;

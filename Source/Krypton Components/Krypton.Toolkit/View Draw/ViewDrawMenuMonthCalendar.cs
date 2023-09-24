@@ -104,7 +104,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the owning control
         /// </summary>
-        public Control CalendarControl => _provider.ProviderViewManager.Control;
+        public Control? CalendarControl => _provider.ProviderViewManager.Control;
 
         /// <summary>
         /// Gets if the control is in design mode.

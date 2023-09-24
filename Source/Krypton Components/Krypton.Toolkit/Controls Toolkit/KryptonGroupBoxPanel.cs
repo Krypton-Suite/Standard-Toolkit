@@ -26,7 +26,7 @@ namespace Krypton.Toolkit
         /// <param name="stateDisabled">Disabled appearance state.</param>
         /// <param name="stateNormal">Normal appearance state.</param>
         /// <param name="layoutHandler">Callback delegate for layout processing.</param>
-        public KryptonGroupBoxPanel(Control alignControl,
+        public KryptonGroupBoxPanel(Control? alignControl,
             [DisallowNull] PaletteDoubleRedirect stateCommon,
             [DisallowNull] PaletteDouble stateDisabled,
             [DisallowNull] PaletteDouble stateNormal,

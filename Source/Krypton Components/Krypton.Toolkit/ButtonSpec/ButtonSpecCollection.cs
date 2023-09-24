@@ -46,7 +46,7 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the ButtonSpecCollectionBase class.
         /// </summary>
         /// <param name="owner">Reference to owning object instance.</param>
-        protected ButtonSpecCollectionBase([DisallowNull] object owner)
+        protected ButtonSpecCollectionBase([DisallowNull] object? owner)
         {
             Debug.Assert(owner != null);
             Owner = owner!;
@@ -64,7 +64,7 @@ namespace Krypton.Toolkit
         /// Gets and sets the owner of the collection.
         /// </summary>
         [DisallowNull]
-        public object Owner { get; set; }
+        public object? Owner { get; set; }
 
         #endregion
 
@@ -123,7 +123,7 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the ButtonSpecCollection class.
         /// </summary>
         /// <param name="owner">Reference to owning object instance.</param>
-        public ButtonSpecCollection(object owner)
+        public ButtonSpecCollection(object? owner)
             : base(owner)
         {
             // Create internal storage

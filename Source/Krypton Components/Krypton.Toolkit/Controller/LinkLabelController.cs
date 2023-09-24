@@ -82,7 +82,7 @@ namespace Krypton.Toolkit
         /// Mouse has entered the view.
         /// </summary>
         /// <param name="c">Reference to the source control instance.</param>
-        public virtual void MouseEnter(Control c)
+        public virtual void MouseEnter(Control? c)
         {
             // Is the controller allowed to track/click
             if (IsOperating)
@@ -100,7 +100,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="c">Reference to the source control instance.</param>
         /// <param name="pt">Mouse position relative to control.</param>
-        public virtual void MouseMove(Control c, Point pt)
+        public virtual void MouseMove(Control? c, Point pt)
         {
             // Is the controller allowed to track/click
             if (IsOperating)
@@ -123,7 +123,7 @@ namespace Krypton.Toolkit
         /// <param name="pt">Mouse position relative to control.</param>
         /// <param name="button">Mouse button pressed down.</param>
         /// <returns>True if capturing input; otherwise false.</returns>
-        public virtual bool MouseDown(Control c, Point pt, MouseButtons button)
+        public virtual bool MouseDown(Control? c, Point pt, MouseButtons button)
         {
             // Is the controller allowed to track/click
             if (IsOperating)
@@ -154,7 +154,7 @@ namespace Krypton.Toolkit
         /// <param name="c">Reference to the source control instance.</param>
         /// <param name="pt">Mouse position relative to control.</param>
         /// <param name="button">Mouse button released.</param>
-        public virtual void MouseUp(Control c, Point pt, MouseButtons button)
+        public virtual void MouseUp(Control? c, Point pt, MouseButtons button)
         {
             // Is the controller allowed to track/click
             if (IsOperating)
@@ -203,7 +203,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="c">Reference to the source control instance.</param>
         /// <param name="next">Reference to view that is next to have the mouse.</param>
-        public virtual void MouseLeave(Control c, ViewBase? next)
+        public virtual void MouseLeave(Control? c, ViewBase? next)
         {
             // Is the controller allowed to track/click
             if (IsOperating)
@@ -287,7 +287,7 @@ namespace Krypton.Toolkit
         /// <param name="c">Reference to the source control instance.</param>
         /// <param name="e">A KeyEventArgs that contains the event data.</param>
         /// <returns>True if capturing input; otherwise false.</returns>
-        public virtual bool KeyUp(Control c, KeyEventArgs e) => Captured;
+        public virtual bool KeyUp(Control? c, KeyEventArgs e) => Captured;
 
         #endregion
 
@@ -296,7 +296,7 @@ namespace Krypton.Toolkit
         /// Source control has lost the focus.
         /// </summary>
         /// <param name="c">Reference to the source control instance.</param>
-        public virtual void GotFocus(Control c)
+        public virtual void GotFocus(Control? c)
         {
         }
 
@@ -304,7 +304,7 @@ namespace Krypton.Toolkit
         /// Source control has lost the focus.
         /// </summary>
         /// <param name="c">Reference to the source control instance.</param>
-        public virtual void LostFocus([DisallowNull] Control c)
+        public virtual void LostFocus([DisallowNull] Control? c)
         {
             // If we are capturing mouse input
             if (Captured)
@@ -349,7 +349,7 @@ namespace Krypton.Toolkit
         /// Set the correct visual state of the target.
         /// </summary>
         /// <param name="c">Control that controller is operating within.</param>
-        public void Update(Control c) => UpdateTargetState(c);
+        public void Update(Control? c) => UpdateTargetState(c);
 
         /// <summary>
         /// Fires the NeedPaint event.
@@ -392,7 +392,7 @@ namespace Krypton.Toolkit
         /// Set the correct visual state of the target.
         /// </summary>
         /// <param name="c">Owning control.</param>
-        protected void UpdateTargetState(Control c)
+        protected void UpdateTargetState(Control? c)
         {
             if ((c == null) || c.IsDisposed)
             {

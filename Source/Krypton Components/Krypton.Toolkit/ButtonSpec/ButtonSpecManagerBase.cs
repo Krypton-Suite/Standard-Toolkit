@@ -51,7 +51,7 @@ namespace Krypton.Toolkit
         /// <param name="viewMetricPaddings">Array of target metrics for button padding.</param>
         /// <param name="getRenderer">Delegate for returning a tool strip renderer.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        protected ButtonSpecManagerBase([DisallowNull] Control control,
+        protected ButtonSpecManagerBase([DisallowNull] Control? control,
                                      [DisallowNull] PaletteRedirect? redirector,
                                      ButtonSpecCollectionBase? variableSpecs,
                                      ButtonSpecCollectionBase? fixedSpecs,
@@ -149,7 +149,7 @@ namespace Krypton.Toolkit
                 for (var i = 0; i < _viewMetrics.Length; i++)
                 {
                     // Get access to the matching docker/metrics/metric triple
-                    IPaletteMetric viewMetric = _viewMetrics[i];
+                    IPaletteMetric? viewMetric = _viewMetrics[i];
                     PaletteMetricInt viewMetricIntOutside = _viewMetricIntOutside[i];
 
                     // Create storage for the spacers
@@ -281,7 +281,7 @@ namespace Krypton.Toolkit
         /// <param name="viewDocker">Target docker view.</param>
         /// <param name="viewMetric">New metric source.</param>
         public void SetDockerMetrics(ViewBase viewDocker,
-                                     IPaletteMetric viewMetric)
+                                     IPaletteMetric? viewMetric)
         {
             // If we are applying padding metrics
             if (_viewMetrics != null)
@@ -315,7 +315,7 @@ namespace Krypton.Toolkit
         /// <param name="viewMetricInt">New border edge metric.</param>
         /// <param name="viewMetricPadding">New button border metric.</param>
         public void SetDockerMetrics(ViewBase viewDocker,
-                                     IPaletteMetric viewMetric,
+                                     IPaletteMetric? viewMetric,
                                      PaletteMetricInt viewMetricInt,
                                      PaletteMetricPadding viewMetricPadding)
         {
@@ -562,7 +562,7 @@ namespace Krypton.Toolkit
         /// <param name="buttonSpec">ButtonSpec instance.</param>
         /// <returns>Palette redirector for the button spec instance.</returns>
         public virtual PaletteRedirect CreateButtonSpecRemap(PaletteRedirect? redirector,
-            [DisallowNull] ButtonSpec buttonSpec) =>
+            [DisallowNull] ButtonSpec? buttonSpec) =>
             new ButtonSpecRemapByContentView(redirector, buttonSpec);
 
         #endregion
@@ -631,7 +631,7 @@ namespace Krypton.Toolkit
         /// <param name="buttonSpec">ButtonSpec instance.</param>
         /// <param name="buttonView">Associated ButtonSpecView instance.</param>
         /// <param name="viewDockerIndex">Index of view docker button is placed onto.</param>
-        protected virtual void ButtonSpecCreated(ButtonSpec buttonSpec,
+        protected virtual void ButtonSpecCreated(ButtonSpec? buttonSpec,
                                                  ButtonSpecView? buttonView,
                                                  int viewDockerIndex)
         {
@@ -654,7 +654,7 @@ namespace Krypton.Toolkit
         protected virtual ButtonSpecView CreateButtonSpecView([DisallowNull] PaletteRedirect redirector,
                                                               IPaletteMetric? viewPaletteMetric,
                                                               PaletteMetricPadding viewMetricPadding,
-                                                              ButtonSpec buttonSpec) =>
+                                                              ButtonSpec? buttonSpec) =>
             new ButtonSpecView(redirector, viewPaletteMetric, viewMetricPadding, this, buttonSpec);
 
         /// <summary>
@@ -728,7 +728,7 @@ namespace Krypton.Toolkit
             if (specs != null)
             {
                 // Create views for all the button specifications
-                foreach (ButtonSpec buttonSpec in specs.Enumerate())
+                foreach (ButtonSpec? buttonSpec in specs.Enumerate())
                 {
                     // Add view for the button spec
                     ButtonSpecView? view = AddButtonSpec(buttonSpec);
@@ -756,7 +756,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private ButtonSpecView? AddButtonSpec(ButtonSpec buttonSpec)
+        private ButtonSpecView? AddButtonSpec(ButtonSpec? buttonSpec)
         {
             // Find the docker index that is the target for the button spec
             var viewDockerIndex = GetTargetDockerIndex(buttonSpec.GetLocation(_redirector));
@@ -796,7 +796,7 @@ namespace Krypton.Toolkit
             return null;
         }
 
-        private void RemoveButtonSpec(ButtonSpec buttonSpec)
+        private void RemoveButtonSpec(ButtonSpec? buttonSpec)
         {
             // Unhook from button spec events
             buttonSpec.ButtonSpecPropertyChanged -= OnPropertyChanged;
@@ -861,7 +861,7 @@ namespace Krypton.Toolkit
             return -1;
         }
 
-        private ViewDockStyle GetDockStyle(ButtonSpec spec) => spec.GetEdge(_redirector) == RelativeEdgeAlign.Near ? ViewDockStyle.Left : ViewDockStyle.Right;
+        private ViewDockStyle GetDockStyle(ButtonSpec? spec) => spec.GetEdge(_redirector) == RelativeEdgeAlign.Near ? ViewDockStyle.Left : ViewDockStyle.Right;
 
         private VisualOrientation CalculateOrientation(VisualOrientation viewOrientation,
                                                        ButtonOrientation buttonOrientation) => buttonOrientation switch

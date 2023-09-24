@@ -28,7 +28,7 @@ namespace Krypton.Ribbon
         #endregion
 
         #region Instance Fields
-        private readonly KryptonRibbon _ribbon;
+        private readonly KryptonRibbon? _ribbon;
         private readonly ViewDrawRibbonContextTitleList _contextTitlesCache;
         private readonly ViewDrawRibbonCaptionArea _captionArea;
         #endregion
@@ -39,7 +39,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="ribbon">Reference to source ribbon control.</param>
         /// <param name="captionArea">Reference to view element that tracks the top level form.</param>
-        public ViewLayoutRibbonContextTitles([DisallowNull] KryptonRibbon ribbon,
+        public ViewLayoutRibbonContextTitles([DisallowNull] KryptonRibbon? ribbon,
                                              [DisallowNull] ViewDrawRibbonCaptionArea captionArea)
         {
             Debug.Assert(captionArea != null);

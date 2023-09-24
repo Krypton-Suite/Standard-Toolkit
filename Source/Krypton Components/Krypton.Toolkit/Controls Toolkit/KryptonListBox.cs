@@ -32,7 +32,7 @@ namespace Krypton.Toolkit
         {
             #region Instance Fields
             private readonly ViewManager? _viewManager;
-            private readonly KryptonListBox _kryptonListBox;
+            private readonly KryptonListBox? _kryptonListBox;
             private readonly IntPtr _screenDC;
             private bool _mouseOver;
 
@@ -55,7 +55,7 @@ namespace Krypton.Toolkit
             /// Initialize a new instance of the InternalListBox class.
             /// </summary>
             /// <param name="kryptonListBox">Reference to owning control.</param>
-            public InternalListBox(KryptonListBox kryptonListBox)
+            public InternalListBox(KryptonListBox? kryptonListBox)
             {
                 SetStyle(ControlStyles.ResizeRedraw, true);
 
@@ -339,12 +339,12 @@ namespace Krypton.Toolkit
 
         #region Instance Fields
 
-        private readonly PaletteTripleOverride _overrideNormal;
-        private readonly PaletteTripleOverride _overrideTracking;
-        private readonly PaletteTripleOverride _overridePressed;
-        private readonly PaletteTripleOverride _overrideCheckedNormal;
-        private readonly PaletteTripleOverride _overrideCheckedTracking;
-        private readonly PaletteTripleOverride _overrideCheckedPressed;
+        private readonly PaletteTripleOverride? _overrideNormal;
+        private readonly PaletteTripleOverride? _overrideTracking;
+        private readonly PaletteTripleOverride? _overridePressed;
+        private readonly PaletteTripleOverride? _overrideCheckedNormal;
+        private readonly PaletteTripleOverride? _overrideCheckedTracking;
+        private readonly PaletteTripleOverride? _overrideCheckedPressed;
         private readonly ViewLayoutDocker _drawDockerInner;
         private readonly ViewDrawDocker _drawDockerOuter;
         private readonly ViewLayoutFill _layoutFill;

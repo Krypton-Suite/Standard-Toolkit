@@ -20,7 +20,7 @@ namespace Krypton.Ribbon
     internal class AppButtonToolTipToContent : IContentValues
     {
         #region Instance Fields
-        private readonly KryptonRibbon _ribbon;
+        private readonly KryptonRibbon? _ribbon;
         #endregion
 
         #region Identity
@@ -28,7 +28,7 @@ namespace Krypton.Ribbon
         /// Initialize a new instance of the AppButtonToolTipToContent class.
         /// </summary>
         /// <param name="ribbon">Reference to owning ribbon instance.</param>
-        public AppButtonToolTipToContent([DisallowNull] KryptonRibbon ribbon)
+        public AppButtonToolTipToContent([DisallowNull] KryptonRibbon? ribbon)
         {
             Debug.Assert(ribbon != null);
             _ribbon = ribbon;

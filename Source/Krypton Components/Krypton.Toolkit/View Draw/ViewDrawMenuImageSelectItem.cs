@@ -38,7 +38,7 @@ namespace Krypton.Toolkit
         /// <param name="needPaint">Delegate for requesting paints.</param>
         public ViewDrawMenuImageSelectItem(ViewContextMenuManager viewManager,
                                            KryptonContextMenuImageSelect imageSelect,
-                                           IPaletteTriple palette,
+                                           IPaletteTriple? palette,
                                            ViewLayoutMenuItemSelect layout,
                                            NeedPaintHandler needPaint)
             : base(palette, palette, palette, palette, 

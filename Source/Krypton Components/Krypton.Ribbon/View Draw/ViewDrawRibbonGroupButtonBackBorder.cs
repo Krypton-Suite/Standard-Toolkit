@@ -21,7 +21,7 @@ namespace Krypton.Ribbon
     {
         #region Instance Fields
         private readonly Size _viewSize; // = new(22, 22);
-        private readonly KryptonRibbon _ribbon;
+        private readonly KryptonRibbon? _ribbon;
         private IDisposable? _mementoBack;
         private readonly IPaletteBack _paletteBack;
         private readonly PaletteBackInheritForced _paletteBackDraw;
@@ -58,7 +58,7 @@ namespace Krypton.Ribbon
         /// <param name="paletteBorder">Palette to use for the border.</param>
         /// <param name="constantBorder">Should the border be a constant normal state.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public ViewDrawRibbonGroupButtonBackBorder([DisallowNull] KryptonRibbon ribbon,
+        public ViewDrawRibbonGroupButtonBackBorder([DisallowNull] KryptonRibbon? ribbon,
                                                    [DisallowNull] KryptonRibbonGroupItem groupItem,
                                                    [DisallowNull] IPaletteBack paletteBack,
                                                    [DisallowNull] IPaletteBorder paletteBorder,

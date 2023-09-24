@@ -13,7 +13,7 @@ namespace Krypton.Navigator
     {
         #region Instance Fields
 
-        private KryptonNavigator _navigator;
+        private KryptonNavigator? _navigator;
 
         #endregion
 
@@ -21,7 +21,7 @@ namespace Krypton.Navigator
 
         /// <summary>Initializes a new instance of the <see cref="ButtonSpecNavFormMaximize" /> class.</summary>
         /// <param name="navigator">The navigator.</param>
-        public ButtonSpecNavFormMaximize(KryptonNavigator navigator) : base(navigator, PaletteButtonSpecStyle.FormMax)
+        public ButtonSpecNavFormMaximize(KryptonNavigator? navigator) : base(navigator, PaletteButtonSpecStyle.FormMax)
         {
             _navigator = navigator;
         }

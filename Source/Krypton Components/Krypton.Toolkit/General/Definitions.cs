@@ -496,7 +496,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the owning control
         /// </summary>
-        Control CalendarControl { get; }
+        Control? CalendarControl { get; }
 
         /// <summary>
         /// Gets if the control is in design mode.
@@ -1760,7 +1760,7 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the MonthCalendarButtonSpecCollection class.
         /// </summary>
         /// <param name="owner">Reference to owning object.</param>
-        public MonthCalendarButtonSpecCollection(ViewLayoutMonths owner)
+        public MonthCalendarButtonSpecCollection(ViewLayoutMonths? owner)
             : base(owner)
         {
         }

@@ -21,7 +21,7 @@ namespace Krypton.Ribbon
                                               IContentValues
     {
         #region Instance Fields
-        private readonly KryptonRibbon _ribbon;
+        private readonly KryptonRibbon? _ribbon;
         private readonly RibbonRecentDocsTitleToContent _contentProvider;
         private IDisposable _memento;
         #endregion
@@ -31,7 +31,7 @@ namespace Krypton.Ribbon
         /// Initialize a new instance of the ViewDrawRibbonRecentDocs class.
         /// </summary>
         /// <param name="ribbon">Source ribbon control.</param>
-        public ViewDrawRibbonRecentDocs([DisallowNull] KryptonRibbon ribbon)
+        public ViewDrawRibbonRecentDocs([DisallowNull] KryptonRibbon? ribbon)
         {
             Debug.Assert(ribbon != null);
             _ribbon = ribbon;

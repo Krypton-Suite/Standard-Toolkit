@@ -17,7 +17,7 @@ namespace Krypton.Ribbon
     internal class ViewRibbonQATOverflowManager : ViewManager
     {
         #region Instance Fields
-        private readonly KryptonRibbon _ribbon;
+        private readonly KryptonRibbon? _ribbon;
         private ViewBase? _focusView;
         private bool _layingOut;
         #endregion
@@ -30,8 +30,8 @@ namespace Krypton.Ribbon
         /// <param name="control">Owning control.</param>
         /// <param name="qatContents">View that will handle focus requests.</param>
         /// <param name="root">View for group we are tracking.</param>
-        public ViewRibbonQATOverflowManager([DisallowNull] KryptonRibbon ribbon,
-                                            Control control,
+        public ViewRibbonQATOverflowManager([DisallowNull] KryptonRibbon? ribbon,
+                                            Control? control,
                                             [DisallowNull] ViewLayoutRibbonQATContents qatContents,
                                             ViewBase root)
             : base(control, root)

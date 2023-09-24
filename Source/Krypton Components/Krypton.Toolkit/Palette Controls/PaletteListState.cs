@@ -59,7 +59,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Overrides for defining item appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteTriple Item { get; }
+        public PaletteTriple? Item { get; }
 
         private bool ShouldSerializeItem() => !Item.IsDefault;
 

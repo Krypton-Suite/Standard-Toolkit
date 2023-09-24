@@ -28,10 +28,10 @@ namespace Krypton.Navigator
         /// <param name="inheritHeaderOverflow">Source for inheriting overflow header defaulted values.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
         public PaletteNavigatorHeaderGroup(PaletteHeaderGroupRedirect? inheritHeaderGroup,
-                                           PaletteHeaderPaddingRedirect inheritHeaderPrimary,
-                                           PaletteHeaderPaddingRedirect inheritHeaderSecondary,
-                                           [DisallowNull] PaletteHeaderPaddingRedirect inheritHeaderBar,
-                                           PaletteHeaderPaddingRedirect inheritHeaderOverflow,
+                                           PaletteHeaderPaddingRedirect? inheritHeaderPrimary,
+                                           PaletteHeaderPaddingRedirect? inheritHeaderSecondary,
+                                           [DisallowNull] PaletteHeaderPaddingRedirect? inheritHeaderBar,
+                                           PaletteHeaderPaddingRedirect? inheritHeaderOverflow,
                                            NeedPaintHandler needPaint)
             : base(inheritHeaderGroup, inheritHeaderPrimary,
                    inheritHeaderSecondary, needPaint)
@@ -75,7 +75,7 @@ namespace Krypton.Navigator
         [Category(@"Visuals")]
         [Description(@"Overrides for defining bar header appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteTripleMetric HeaderBar { get; }
+        public PaletteTripleMetric? HeaderBar { get; }
 
         private bool ShouldSerializeHeaderBar() => !HeaderBar.IsDefault;
 
@@ -88,7 +88,7 @@ namespace Krypton.Navigator
         [Category(@"Visuals")]
         [Description(@"Overrides for defining overflow header appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteTripleMetric HeaderOverflow { get; }
+        public PaletteTripleMetric? HeaderOverflow { get; }
 
         private bool ShouldSerializeHeaderOverflow() => !HeaderOverflow.IsDefault;
 

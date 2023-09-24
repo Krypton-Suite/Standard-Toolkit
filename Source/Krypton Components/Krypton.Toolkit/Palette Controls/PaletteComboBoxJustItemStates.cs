@@ -23,7 +23,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="inheritItem">Source for inheriting item values.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public PaletteComboBoxJustItemStates([DisallowNull] IPaletteTriple inheritItem,
+        public PaletteComboBoxJustItemStates([DisallowNull] IPaletteTriple? inheritItem,
                                              NeedPaintHandler needPaint)
         {
             Debug.Assert(inheritItem != null);
@@ -50,7 +50,7 @@ namespace Krypton.Toolkit
         /// Sets the inheritance parent.
         /// </summary>
         /// <param name="inheritItem">Source for inheriting item values.</param>
-        public void SetInherit(IPaletteTriple inheritItem) => Item.SetInherit(inheritItem);
+        public void SetInherit(IPaletteTriple? inheritItem) => Item.SetInherit(inheritItem);
 
         #endregion
 
@@ -71,7 +71,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Overrides for defining item appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteTriple Item { get; }
+        public PaletteTriple? Item { get; }
 
         private bool ShouldSerializeItem() => !Item.IsDefault;
 

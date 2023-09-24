@@ -38,7 +38,7 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Owning ribbon control instance.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
         /// <param name="showExtraButton">Should the extra button be shown.</param>
-        public ViewLayoutRibbonQATContents([DisallowNull] KryptonRibbon ribbon,
+        public ViewLayoutRibbonQATContents([DisallowNull] KryptonRibbon? ribbon,
             [DisallowNull] NeedPaintHandler needPaint,
                                            bool showExtraButton)
         {
@@ -99,7 +99,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets access to the ribbon control instance.
         /// </summary>
-        public KryptonRibbon Ribbon { get; }
+        public KryptonRibbon? Ribbon { get; }
 
         #endregion
 
@@ -509,7 +509,7 @@ namespace Krypton.Ribbon
         /// Gets a reference to the owning control of this element.
         /// </summary>
         /// <returns>Control reference.</returns>
-        public virtual Control ParentControl => Ribbon;
+        public virtual Control? ParentControl => Ribbon;
 
         #endregion
 

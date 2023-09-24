@@ -24,7 +24,7 @@ namespace Krypton.Ribbon
         #endregion
 
         #region Instance Fields
-        private readonly KryptonRibbon _ribbon;
+        private readonly KryptonRibbon? _ribbon;
         private readonly ViewDrawRibbonCaptionArea _captionArea;
         #endregion
 
@@ -36,7 +36,7 @@ namespace Krypton.Ribbon
         /// <param name="viewManager">View manager instance for managing view display.</param>
         /// <param name="captionArea">View element that manages the custom chrome injection.</param>
         /// <param name="renderer">Drawing renderer.</param>
-        public VisualPopupMinimized([DisallowNull] KryptonRibbon ribbon,
+        public VisualPopupMinimized([DisallowNull] KryptonRibbon? ribbon,
                                     ViewManager viewManager,
                                     [DisallowNull] ViewDrawRibbonCaptionArea captionArea,
                                     IRenderer renderer)

@@ -22,7 +22,7 @@ namespace Krypton.Ribbon
 
         #region Instance Fields
         private IDisposable?[] _mementos;
-        private readonly KryptonRibbon _ribbon;
+        private readonly KryptonRibbon? _ribbon;
         private readonly bool _bottomHalf;
         private Rectangle _clipRect;
         private readonly Size _size;
@@ -37,7 +37,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="ribbon">Owning control instance.</param>
         /// <param name="bottomHalf">Scroller orientation.</param>
-        public ViewDrawRibbonAppButton([DisallowNull] KryptonRibbon ribbon, bool bottomHalf)
+        public ViewDrawRibbonAppButton([DisallowNull] KryptonRibbon? ribbon, bool bottomHalf)
         {
             Debug.Assert(ribbon != null);
 

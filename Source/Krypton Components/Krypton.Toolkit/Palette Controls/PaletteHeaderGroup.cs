@@ -32,8 +32,8 @@ namespace Krypton.Toolkit
         /// <param name="inheritHeaderSecondary">Source for inheriting secondary header defaulted values.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
         public PaletteHeaderGroup([DisallowNull] PaletteHeaderGroupRedirect inheritHeaderGroup,
-                                  [DisallowNull] PaletteHeaderPaddingRedirect inheritHeaderPrimary,
-                                  [DisallowNull] PaletteHeaderPaddingRedirect inheritHeaderSecondary,
+                                  [DisallowNull] PaletteHeaderPaddingRedirect? inheritHeaderPrimary,
+                                  [DisallowNull] PaletteHeaderPaddingRedirect? inheritHeaderSecondary,
                                   NeedPaintHandler needPaint)
             : base(inheritHeaderGroup, needPaint)
         {
@@ -82,7 +82,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Overrides for defining primary header appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteTripleMetric HeaderPrimary { get; }
+        public PaletteTripleMetric? HeaderPrimary { get; }
 
         private bool ShouldSerializeHeaderPrimary() => !HeaderPrimary.IsDefault;
 
@@ -95,7 +95,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Overrides for defining secondary header appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteTripleMetric HeaderSecondary { get; }
+        public PaletteTripleMetric? HeaderSecondary { get; }
 
         private bool ShouldSerializeHeaderSecondary() => !HeaderSecondary.IsDefault;
 

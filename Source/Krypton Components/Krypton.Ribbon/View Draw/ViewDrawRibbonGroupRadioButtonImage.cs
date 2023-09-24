@@ -34,7 +34,7 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Reference to owning ribbon control.</param>
         /// <param name="ribbonRadioButton">Reference to ribbon group radio button definition.</param>
         /// <param name="large">Show the large image.</param>
-        public ViewDrawRibbonGroupRadioButtonImage(KryptonRibbon ribbon,
+        public ViewDrawRibbonGroupRadioButtonImage(KryptonRibbon? ribbon,
             [DisallowNull] KryptonRibbonGroupRadioButton ribbonRadioButton,
                                                    bool large)
         {

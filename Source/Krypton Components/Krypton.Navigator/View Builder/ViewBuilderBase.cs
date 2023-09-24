@@ -39,7 +39,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets access to the navigator instance.
         /// </summary>
-        public KryptonNavigator Navigator
+        public KryptonNavigator? Navigator
         {
             [DebuggerStepThrough]
             get;
@@ -79,7 +79,7 @@ namespace Krypton.Navigator
         /// <param name="navigator">Reference to navigator instance.</param>
         /// <param name="manager">Reference to current manager.</param>
         /// <param name="redirector">Palette redirector.</param>
-        public virtual void Construct([DisallowNull] KryptonNavigator navigator, 
+        public virtual void Construct([DisallowNull] KryptonNavigator? navigator, 
             [DisallowNull] ViewManager manager,
             [DisallowNull] PaletteRedirect redirector)
         {

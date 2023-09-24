@@ -103,7 +103,7 @@ namespace Krypton.Navigator
         /// Mouse has entered the view.
         /// </summary>
         /// <param name="c">Reference to the source control instance.</param>
-        public virtual void MouseEnter(Control c)
+        public virtual void MouseEnter(Control? c)
         {
         }
 
@@ -112,7 +112,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="c">Reference to the source control instance.</param>
         /// <param name="pt">Mouse position relative to control.</param>
-        public virtual void MouseMove(Control c, Point pt)
+        public virtual void MouseMove(Control? c, Point pt)
         {
             // Track the mouse point
             MousePoint = pt;
@@ -145,7 +145,7 @@ namespace Krypton.Navigator
         /// <param name="pt">Mouse position relative to control.</param>
         /// <param name="button">Mouse button pressed down.</param>
         /// <returns>True if capturing input; otherwise false.</returns>
-        public virtual bool MouseDown(Control c, Point pt, MouseButtons button)
+        public virtual bool MouseDown(Control? c, Point pt, MouseButtons button)
         {
             switch (button)
             {
@@ -178,7 +178,7 @@ namespace Krypton.Navigator
         /// <param name="c">Reference to the source control instance.</param>
         /// <param name="pt">Mouse position relative to control.</param>
         /// <param name="button">Mouse button released.</param>
-        public virtual void MouseUp(Control c, Point pt, MouseButtons button)
+        public virtual void MouseUp(Control? c, Point pt, MouseButtons button)
         {
             // If the mouse is currently captured
             if (Captured)
@@ -206,7 +206,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="c">Reference to the source control instance.</param>
         /// <param name="next">Reference to view that is next to have the mouse.</param>
-        public virtual void MouseLeave(Control c, ViewBase? next)
+        public virtual void MouseLeave(Control? c, ViewBase? next)
         {
             // Only if mouse is leaving all the children monitored by controller.
             if (!Target.ContainsRecurse(next))
@@ -268,7 +268,7 @@ namespace Krypton.Navigator
         /// <param name="c">Reference to the source control instance.</param>
         /// <param name="e">A KeyEventArgs that contains the event data.</param>
         /// <returns>True if capturing input; otherwise false.</returns>
-        public virtual bool KeyUp([DisallowNull] Control c, [DisallowNull] KeyEventArgs e)
+        public virtual bool KeyUp([DisallowNull] Control? c, [DisallowNull] KeyEventArgs e)
         {
             Debug.Assert(c != null);
             Debug.Assert(e != null);
@@ -314,7 +314,7 @@ namespace Krypton.Navigator
         /// Source control has lost the focus.
         /// </summary>
         /// <param name="c">Reference to the source control instance.</param>
-        public virtual void GotFocus(Control c)
+        public virtual void GotFocus(Control? c)
         {
         }
 
@@ -322,7 +322,7 @@ namespace Krypton.Navigator
         /// Source control has lost the focus.
         /// </summary>
         /// <param name="c">Reference to the source control instance.</param>
-        public virtual void LostFocus([DisallowNull] Control c)
+        public virtual void LostFocus([DisallowNull] Control? c)
         {
             Debug.Assert(c != null);
 
@@ -409,7 +409,7 @@ namespace Krypton.Navigator
         /// <param name="mousePt">Mouse point at time of event.</param>
         /// <param name="offset">Offset of mouse compared to element.</param>
         /// <param name="c">Control that starts the drag operation.</param>
-        protected virtual void OnDragStart(Point mousePt, Point offset, Control c)
+        protected virtual void OnDragStart(Point mousePt, Point offset, Control? c)
         {
             // Convert point from client to screen coordinates
             mousePt = Target.OwningControl.PointToScreen(mousePt);

@@ -35,7 +35,7 @@ namespace Krypton.Toolkit
 
             #region Instance Fields
             private readonly ViewManager? _viewManager;
-            private readonly KryptonTreeView _kryptonTreeView;
+            private readonly KryptonTreeView? _kryptonTreeView;
             private readonly IntPtr _screenDC;
             private bool _mouseOver;
             #endregion
@@ -57,7 +57,7 @@ namespace Krypton.Toolkit
             /// Initialize a new instance of the InternalTreeView class.
             /// </summary>
             /// <param name="kryptonTreeView">Reference to owning control.</param>
-            public InternalTreeView(KryptonTreeView kryptonTreeView)
+            public InternalTreeView(KryptonTreeView? kryptonTreeView)
             {
                 SetStyle(ControlStyles.ResizeRedraw, true);
 
@@ -303,12 +303,12 @@ namespace Krypton.Toolkit
         #region Instance Fields
 
         private readonly PaletteTripleOverride _overrideNormal;
-        private readonly PaletteTripleOverride _overrideTracking;
-        private readonly PaletteTripleOverride _overridePressed;
-        private readonly PaletteTripleOverride _overrideCheckedNormal;
-        private readonly PaletteTripleOverride _overrideCheckedTracking;
-        private readonly PaletteTripleOverride _overrideCheckedPressed;
-        private readonly PaletteNodeOverride _overrideNormalNode;
+        private readonly PaletteTripleOverride? _overrideTracking;
+        private readonly PaletteTripleOverride? _overridePressed;
+        private readonly PaletteTripleOverride? _overrideCheckedNormal;
+        private readonly PaletteTripleOverride? _overrideCheckedTracking;
+        private readonly PaletteTripleOverride? _overrideCheckedPressed;
+        private readonly PaletteNodeOverride? _overrideNormalNode;
         private readonly PaletteRedirectTreeView? _redirectImages;
         private readonly ViewDrawDocker _drawDockerOuter;
         private readonly ViewLayoutFill _layoutFill;

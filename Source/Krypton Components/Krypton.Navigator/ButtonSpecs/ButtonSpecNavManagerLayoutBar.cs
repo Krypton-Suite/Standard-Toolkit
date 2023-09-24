@@ -31,7 +31,7 @@ namespace Krypton.Navigator
         /// <param name="viewMetricPaddings">Array of target metrics for button padding.</param>
         /// <param name="getRenderer">Delegate for returning a tool strip renderer.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public ButtonSpecNavManagerLayoutBar(Control control,
+        public ButtonSpecNavManagerLayoutBar(Control? control,
                                              PaletteRedirect? redirector,
                                              ButtonSpecCollectionBase variableSpecs,
                                              ViewLayoutDocker[] viewDockers,
@@ -62,7 +62,7 @@ namespace Krypton.Navigator
         /// <param name="viewMetricPaddings">Array of target metrics for button padding.</param>
         /// <param name="getRenderer">Delegate for returning a tool strip renderer.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public ButtonSpecNavManagerLayoutBar(Control control,
+        public ButtonSpecNavManagerLayoutBar(Control? control,
                                              PaletteRedirect? redirector,
                                              ButtonSpecCollectionBase variableSpecs,
                                              ButtonSpecCollectionBase? fixedSpecs,
@@ -206,7 +206,7 @@ namespace Krypton.Navigator
         /// <param name="buttonSpec">ButtonSpec instance.</param>
         /// <returns>Palette redirector for the button spec instance.</returns>
         public override PaletteRedirect? CreateButtonSpecRemap(PaletteRedirect? redirector,
-                                                              ButtonSpec buttonSpec) =>
+                                                              ButtonSpec? buttonSpec) =>
             new ButtonSpecNavRemap(redirector, buttonSpec, RemapTarget);
 
         #endregion
@@ -223,7 +223,7 @@ namespace Krypton.Navigator
         /// <param name="buttonSpec">ButtonSpec instance.</param>
         /// <param name="buttonView">Associated ButtonSpecView instance.</param>
         /// <param name="viewDockerIndex">Index of view docker button is placed onto.</param>
-        protected override void ButtonSpecCreated(ButtonSpec buttonSpec,
+        protected override void ButtonSpecCreated(ButtonSpec? buttonSpec,
                                                   ButtonSpecView buttonView,
                                                   int viewDockerIndex)
         {

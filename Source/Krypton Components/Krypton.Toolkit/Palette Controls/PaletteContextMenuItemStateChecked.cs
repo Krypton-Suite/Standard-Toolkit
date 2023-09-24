@@ -77,7 +77,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Overrides for defining item image appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteTripleJustImage ItemImage { get; }
+        public PaletteTripleJustImage? ItemImage { get; }
 
         private bool ShouldSerializeItemImage() => !ItemImage.IsDefault;
 

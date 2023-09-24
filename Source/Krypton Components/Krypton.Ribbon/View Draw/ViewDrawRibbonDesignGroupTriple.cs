@@ -66,7 +66,7 @@ namespace Krypton.Ribbon
         /// <param name="ribbonTriple">Associated ribbon group triple.</param>
         /// <param name="currentSize">Size the view should use.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public ViewDrawRibbonDesignGroupTriple(KryptonRibbon ribbon,
+        public ViewDrawRibbonDesignGroupTriple(KryptonRibbon? ribbon,
             [DisallowNull] KryptonRibbonGroupTriple ribbonTriple,
                                                GroupItemSize currentSize,
                                                NeedPaintHandler needPaint)

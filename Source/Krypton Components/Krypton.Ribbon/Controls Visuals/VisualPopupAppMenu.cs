@@ -17,7 +17,7 @@ namespace Krypton.Ribbon
     internal class VisualPopupAppMenu : VisualPopup
     {
         #region Instance Fields
-        private readonly KryptonRibbon _ribbon;
+        private readonly KryptonRibbon? _ribbon;
         private PaletteBase? _palette;
         private IPaletteBack _drawOutsideBack;
         private IPaletteBorder _drawOutsideBorder;
@@ -45,7 +45,7 @@ namespace Krypton.Ribbon
         /// <param name="rectAppButtonTopHalf">Screen location of the upper half of the app button.</param>
         /// <param name="rectAppButtonBottomHalf">Screen location of the lower half of the app button.</param>
         /// <param name="keyboardActivated">Was the context menu activated by a keyboard action.</param>
-        public VisualPopupAppMenu(KryptonRibbon ribbon,
+        public VisualPopupAppMenu(KryptonRibbon? ribbon,
                                   RibbonAppButton appButton,
                                   PaletteBase? palette,
                                   PaletteMode paletteMode,

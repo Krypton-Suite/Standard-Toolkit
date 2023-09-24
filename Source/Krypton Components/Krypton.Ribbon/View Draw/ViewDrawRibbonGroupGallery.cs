@@ -24,7 +24,7 @@ namespace Krypton.Ribbon
         #region Instance Fields
         private readonly int NULL_CONTROL_WIDTH; // = 50;
         private readonly Padding _largeImagePadding; // = new(3, 2, 3, 3);
-        private readonly KryptonRibbon _ribbon;
+        private readonly KryptonRibbon? _ribbon;
         private ViewDrawRibbonGroup? _activeGroup;
         private readonly GalleryController? _controller;
         private readonly NeedPaintHandler _needPaint;
@@ -46,7 +46,7 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Reference to owning ribbon control.</param>
         /// <param name="ribbonGallery">Reference to source gallery.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public ViewDrawRibbonGroupGallery([DisallowNull] KryptonRibbon ribbon,
+        public ViewDrawRibbonGroupGallery([DisallowNull] KryptonRibbon? ribbon,
                                           [DisallowNull] KryptonRibbonGroupGallery ribbonGallery,
                                           [DisallowNull] NeedPaintHandler needPaint)
         {
@@ -164,7 +164,7 @@ namespace Krypton.Ribbon
         /// Source control has lost the focus.
         /// </summary>
         /// <param name="c">Reference to the source control instance.</param>
-        public override void LostFocus(Control c)
+        public override void LostFocus(Control? c)
         {
             // Ask ribbon to shift focus to the embedded control
             _ribbon.HideFocus(GroupGallery!.Gallery);
@@ -681,7 +681,7 @@ namespace Krypton.Ribbon
             set => GroupGallery.LastGallery = value;
         }
 
-        private void UpdateParent(Control parentControl)
+        private void UpdateParent(Control? parentControl)
         {
             // Is there a change in the gallery or a change in 
             // the parent control that is hosting the control...

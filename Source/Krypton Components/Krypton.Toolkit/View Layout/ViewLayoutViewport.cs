@@ -27,7 +27,7 @@ namespace Krypton.Toolkit
 
         #region Instance Fields
         private readonly System.Windows.Forms.Timer _animationTimer;
-        private IPaletteMetric _paletteMetrics;
+        private IPaletteMetric? _paletteMetrics;
         private PaletteMetricPadding _metricPadding;
         private PaletteMetricInt _metricOvers;
         private RightToLeft _rightToLeft;
@@ -55,7 +55,7 @@ namespace Krypton.Toolkit
         /// <param name="orientation">Orientation for the viewport children.</param>
         /// <param name="alignment">Alignment of the children within the viewport.</param>
         /// <param name="animateChange">Animate changes in the viewport.</param>
-        public ViewLayoutViewport(IPaletteMetric paletteMetrics,
+        public ViewLayoutViewport(IPaletteMetric? paletteMetrics,
                                   PaletteMetricPadding metricPadding,
                                   PaletteMetricInt metricOvers,
                                   VisualOrientation orientation,
@@ -117,7 +117,7 @@ namespace Krypton.Toolkit
         /// Updates the metrics source and metric to use.
         /// </summary>
         /// <param name="paletteMetric">Source for acquiring metrics.</param>
-        public void SetMetrics(IPaletteMetric paletteMetric) => _paletteMetrics = paletteMetric;
+        public void SetMetrics(IPaletteMetric? paletteMetric) => _paletteMetrics = paletteMetric;
 
         /// <summary>
         /// Updates the metrics source and metric to use.
@@ -125,7 +125,7 @@ namespace Krypton.Toolkit
         /// <param name="paletteMetric">Source for acquiring metrics.</param>
         /// <param name="metricPadding">Actual padding metric to use.</param>
         /// <param name="metricOvers">Actual overs metric to use.</param>
-        public void SetMetrics(IPaletteMetric paletteMetric,
+        public void SetMetrics(IPaletteMetric? paletteMetric,
                                PaletteMetricPadding metricPadding,
                                PaletteMetricInt metricOvers)
         {

@@ -39,7 +39,7 @@ namespace Krypton.Navigator
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
         /// <param name="paletteContent">Palette source for color remapping.</param>
         /// <param name="paletteState">Palette state for color remapping.</param>
-        public ButtonSpecNavManagerLayoutHeaderBar(Control control,
+        public ButtonSpecNavManagerLayoutHeaderBar(Control? control,
                                                    PaletteRedirect? redirector,
                                                    ButtonSpecCollectionBase variableSpecs,
                                                    ButtonSpecCollectionBase? fixedSpecs,
@@ -93,7 +93,7 @@ namespace Krypton.Navigator
         /// <param name="buttonSpec">ButtonSpec instance.</param>
         /// <returns>Palette redirector for the button spec instance.</returns>
         public override PaletteRedirect CreateButtonSpecRemap(PaletteRedirect? redirector,
-                                                              ButtonSpec buttonSpec) =>
+                                                              ButtonSpec? buttonSpec) =>
             new ButtonSpecRemapByContentCache(redirector, buttonSpec);
 
         #endregion
@@ -110,7 +110,7 @@ namespace Krypton.Navigator
         /// <param name="buttonSpec">ButtonSpec instance.</param>
         /// <param name="buttonView">Associated ButtonSpecView instance.</param>
         /// <param name="viewDockerIndex">Index of view docker button is placed onto.</param>
-        protected override void ButtonSpecCreated(ButtonSpec buttonSpec,
+        protected override void ButtonSpecCreated(ButtonSpec? buttonSpec,
                                                   ButtonSpecView buttonView,
                                                   int viewDockerIndex)
         {

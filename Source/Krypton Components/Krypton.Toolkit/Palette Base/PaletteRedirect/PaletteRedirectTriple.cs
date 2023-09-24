@@ -57,8 +57,8 @@ namespace Krypton.Toolkit
         /// <param name="disabled">Redirection for disabled state requests.</param>
         /// <param name="normal">Redirection for normal state requests.</param>
         public PaletteRedirectTriple(PaletteBase? target,
-                                     IPaletteTriple disabled,
-                                     IPaletteTriple normal)
+                                     IPaletteTriple? disabled,
+                                     IPaletteTriple? normal)
             : this(target, disabled, normal, null, null, null, null, null, null, null)
         {
         }
@@ -170,8 +170,8 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="disabled">Redirection for disabled state requests.</param>
         /// <param name="normal">Redirection for normal state requests.</param>
-        public virtual void SetRedirectStates(IPaletteTriple disabled,
-                                              IPaletteTriple normal)
+        public virtual void SetRedirectStates(IPaletteTriple? disabled,
+                                              IPaletteTriple? normal)
         {
             _disabled = disabled;
             _normal = normal;
@@ -189,13 +189,13 @@ namespace Krypton.Toolkit
         /// <param name="checkedTracking">Redirection for checked tracking state requests.</param>
         /// <param name="focusOverride">Redirection for focus override state requests.</param>
         /// <param name="normalDefaultOverride">Redirection for normal default override state requests.</param>
-        public virtual void SetRedirectStates(IPaletteTriple disabled,
-                                              IPaletteTriple normal,
-                                              IPaletteTriple pressed,
-                                              IPaletteTriple tracking,
-                                              IPaletteTriple checkedNormal,
-                                              IPaletteTriple checkedPressed,
-                                              IPaletteTriple checkedTracking,
+        public virtual void SetRedirectStates(IPaletteTriple? disabled,
+                                              IPaletteTriple? normal,
+                                              IPaletteTriple? pressed,
+                                              IPaletteTriple? tracking,
+                                              IPaletteTriple? checkedNormal,
+                                              IPaletteTriple? checkedPressed,
+                                              IPaletteTriple? checkedTracking,
                                               IPaletteTriple focusOverride,
                                               IPaletteTriple? normalDefaultOverride)
         {

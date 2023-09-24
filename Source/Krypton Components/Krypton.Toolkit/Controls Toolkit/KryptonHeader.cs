@@ -35,7 +35,7 @@ namespace Krypton.Toolkit
             /// Initialize a new instance of the HeaderButtonSpecCollection class.
             /// </summary>
             /// <param name="owner">Reference to owning object.</param>
-            public HeaderButtonSpecCollection(KryptonHeader owner)
+            public HeaderButtonSpecCollection(KryptonHeader? owner)
                 : base(owner)
             {
             }
@@ -370,7 +370,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Overrides for defining common header appearance that other states can override.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteHeaderRedirect StateCommon { get; }
+        public PaletteHeaderRedirect? StateCommon { get; }
 
         private bool ShouldSerializeStateCommon() => !StateCommon.IsDefault;
 

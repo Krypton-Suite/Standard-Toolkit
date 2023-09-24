@@ -24,7 +24,7 @@ namespace Krypton.Ribbon
         #region Instance Fields
         private readonly Padding _largeImagePadding; // = new Padding(3, 2, 3, 3);
         private readonly Padding _smallImagePadding; // = new Padding(3);
-        private readonly KryptonRibbon _ribbon;
+        private readonly KryptonRibbon? _ribbon;
         private ViewLayoutRibbonRadioButton _viewLarge;
         private ViewDrawRibbonGroupRadioButtonImage _viewLargeImage;
         private ViewDrawRibbonGroupRadioButtonText _viewLargeText1;
@@ -49,7 +49,7 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Reference to owning ribbon control.</param>
         /// <param name="ribbonRadioButton">Reference to source radio button definition.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public ViewDrawRibbonGroupRadioButton([DisallowNull] KryptonRibbon ribbon,
+        public ViewDrawRibbonGroupRadioButton([DisallowNull] KryptonRibbon? ribbon,
                                               [DisallowNull] KryptonRibbonGroupRadioButton ribbonRadioButton,
                                               [DisallowNull] NeedPaintHandler needPaint)
         {

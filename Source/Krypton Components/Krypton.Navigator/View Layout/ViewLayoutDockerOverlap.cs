@@ -113,7 +113,7 @@ namespace Krypton.Navigator
         /// <param name="control">Owning control instance.</param>
         /// <returns>Modified rectangle.</returns>
         protected override Rectangle UpdateFillerRect(Rectangle fillerRect, 
-                                                      Control control)
+                                                      Control? control)
         {
             var borderWidth = BorderWidth;
 

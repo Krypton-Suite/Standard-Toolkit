@@ -33,7 +33,7 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Reference to owning ribbon instance.</param>
         /// <param name="target">Target for state changes.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public DialogLauncherButtonController(KryptonRibbon ribbon,
+        public DialogLauncherButtonController(KryptonRibbon? ribbon,
                                               ViewBase target,
                                               NeedPaintHandler needPaint)
             : base(ribbon, target, needPaint)
@@ -46,7 +46,7 @@ namespace Krypton.Ribbon
         /// Source control has got the focus.
         /// </summary>
         /// <param name="c">Reference to the source control instance.</param>
-        public virtual void GotFocus(Control c)
+        public virtual void GotFocus(Control? c)
         {
             _hasFocus = true;
 
@@ -59,7 +59,7 @@ namespace Krypton.Ribbon
         /// Source control has lost the focus.
         /// </summary>
         /// <param name="c">Reference to the source control instance.</param>
-        public virtual void LostFocus([DisallowNull] Control c)
+        public virtual void LostFocus([DisallowNull] Control? c)
         {
             _hasFocus = false;
 
@@ -109,7 +109,7 @@ namespace Krypton.Ribbon
         /// <param name="c">Reference to the source control instance.</param>
         /// <param name="e">A KeyEventArgs that contains the event data.</param>
         /// <returns>True if capturing input; otherwise false.</returns>
-        public bool KeyUp(Control c, KeyEventArgs e) => false;
+        public bool KeyUp(Control? c, KeyEventArgs e) => false;
 
         #endregion
 

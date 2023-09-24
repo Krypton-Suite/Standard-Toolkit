@@ -104,7 +104,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Overrides for defining common button appearance that other states can override.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteTripleRedirect StateCommon { get; }
+        public PaletteTripleRedirect? StateCommon { get; }
 
         private bool ShouldSerializeStateCommon() => !StateCommon.IsDefault;
 

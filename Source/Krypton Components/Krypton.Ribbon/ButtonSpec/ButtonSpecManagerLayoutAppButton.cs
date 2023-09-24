@@ -35,7 +35,7 @@ namespace Krypton.Ribbon
         /// <param name="getRenderer">Delegate for returning a tool strip renderer.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
         public ButtonSpecManagerLayoutAppButton(ViewContextMenuManager viewManager,
-                                                Control control,
+                                                Control? control,
                                                 [DisallowNull] PaletteRedirect? redirector,
                                                 ButtonSpecCollectionBase variableSpecs,
                                                 ButtonSpecCollectionBase? fixedSpecs,
@@ -72,7 +72,7 @@ namespace Krypton.Ribbon
         protected override ButtonSpecView CreateButtonSpecView(PaletteRedirect? redirector, 
                                                                IPaletteMetric? viewPaletteMetric, 
                                                                PaletteMetricPadding viewMetricPadding, 
-                                                               ButtonSpec buttonSpec) =>
+                                                               ButtonSpec? buttonSpec) =>
             new ButtonSpecViewAppButton(redirector, viewPaletteMetric,
                 viewMetricPadding, this, buttonSpec);
 

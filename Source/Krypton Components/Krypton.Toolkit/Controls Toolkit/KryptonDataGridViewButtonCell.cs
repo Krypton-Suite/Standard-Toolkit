@@ -26,7 +26,7 @@ namespace Krypton.Toolkit
         #region Instance Fields
         private bool _styleSet;
         private ButtonStyle _buttonStyle;
-        private PaletteTripleToPalette _palette;
+        private PaletteTripleToPalette? _palette;
         private ShortTextValue? _shortTextValue;
         private ViewDrawButton _viewButton;
         private Rectangle _contentBounds;

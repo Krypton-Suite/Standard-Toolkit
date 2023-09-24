@@ -790,7 +790,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public Control SeparatorControl => this;
+        public Control? SeparatorControl => this;
 
         /// <summary>
         /// Gets the orientation of the separator.

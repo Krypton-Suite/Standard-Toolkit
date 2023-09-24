@@ -28,7 +28,7 @@ namespace Krypton.Workspace
         /// <param name="cell">Workspace cell associated with pages.</param>
         public CellDragCancelEventArgs(Point screenPoint,
                                        Point screenOffset,
-                                       Control c,
+                                       Control? c,
                                        KryptonPage[] pages,
                                        KryptonWorkspaceCell cell)
             : base(screenPoint, screenOffset, c, pages) =>

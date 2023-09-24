@@ -27,7 +27,7 @@ namespace Krypton.Ribbon
         #endregion
 
         #region Instance Fields
-        private readonly KryptonRibbon _ribbon;
+        private readonly KryptonRibbon? _ribbon;
         private readonly ViewLayoutRibbonSeparator _separator;
 
         #endregion
@@ -38,7 +38,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="ribbon">Owning control instance.</param>
         /// <param name="bottomHalf">Scroller orientation.</param>
-        public ViewLayoutRibbonAppButton([DisallowNull] KryptonRibbon ribbon,
+        public ViewLayoutRibbonAppButton([DisallowNull] KryptonRibbon? ribbon,
                                          bool bottomHalf)
         {
             Debug.Assert(ribbon != null);

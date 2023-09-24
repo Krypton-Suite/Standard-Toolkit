@@ -33,7 +33,7 @@ namespace Krypton.Navigator
         /// <param name="navigator">Reference to navigator instance.</param>
         /// <param name="manager">Reference to current manager.</param>
         /// <param name="redirector">Palette redirector.</param>
-        public override void Construct(KryptonNavigator navigator,
+        public override void Construct(KryptonNavigator? navigator,
                                        ViewManager manager,
                                        PaletteRedirect? redirector)
         {
@@ -500,7 +500,7 @@ namespace Krypton.Navigator
         }
 
         private void SetHeaderStyle(ViewDrawDocker drawDocker,
-                                    PaletteTripleMetricRedirect palette,
+                                    PaletteTripleMetricRedirect? palette,
                                     HeaderStyle style)
         {
             palette.SetStyles(style);

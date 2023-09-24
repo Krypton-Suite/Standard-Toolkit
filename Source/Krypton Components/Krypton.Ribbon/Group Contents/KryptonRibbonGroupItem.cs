@@ -119,7 +119,7 @@ namespace Krypton.Ribbon
         /// <param name="needPaint">Delegate for notifying changes in display.</param>
         /// <returns>ViewBase derived instance.</returns>
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public abstract ViewBase CreateView(KryptonRibbon ribbon, NeedPaintHandler needPaint);
+        public abstract ViewBase CreateView(KryptonRibbon? ribbon, NeedPaintHandler needPaint);
 
         /// <summary>
         /// Gets and sets user-defined data associated with the object.

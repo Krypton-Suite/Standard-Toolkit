@@ -30,20 +30,20 @@ namespace Krypton.Toolkit
 
         private readonly ViewDrawDocker _drawDocker;
         private readonly ViewLayoutMonths _drawMonths;
-        private readonly PaletteTripleOverride _boldedDisabled;
-        private readonly PaletteTripleOverride _boldedNormal;
-        private readonly PaletteTripleOverride _boldedTracking;
-        private readonly PaletteTripleOverride _boldedPressed;
-        private readonly PaletteTripleOverride _boldedCheckedNormal;
-        private readonly PaletteTripleOverride _boldedCheckedTracking;
-        private readonly PaletteTripleOverride _boldedCheckedPressed;
-        private readonly PaletteTripleOverride _todayDisabled;
-        private readonly PaletteTripleOverride _todayNormal;
-        private readonly PaletteTripleOverride _todayTracking;
-        private readonly PaletteTripleOverride _todayPressed;
-        private readonly PaletteTripleOverride _todayCheckedNormal;
-        private readonly PaletteTripleOverride _todayCheckedTracking;
-        private readonly PaletteTripleOverride _todayCheckedPressed;
+        private readonly PaletteTripleOverride? _boldedDisabled;
+        private readonly PaletteTripleOverride? _boldedNormal;
+        private readonly PaletteTripleOverride? _boldedTracking;
+        private readonly PaletteTripleOverride? _boldedPressed;
+        private readonly PaletteTripleOverride? _boldedCheckedNormal;
+        private readonly PaletteTripleOverride? _boldedCheckedTracking;
+        private readonly PaletteTripleOverride? _boldedCheckedPressed;
+        private readonly PaletteTripleOverride? _todayDisabled;
+        private readonly PaletteTripleOverride? _todayNormal;
+        private readonly PaletteTripleOverride? _todayTracking;
+        private readonly PaletteTripleOverride? _todayPressed;
+        private readonly PaletteTripleOverride? _todayCheckedNormal;
+        private readonly PaletteTripleOverride? _todayCheckedTracking;
+        private readonly PaletteTripleOverride? _todayCheckedPressed;
         private HeaderStyle _headerStyle;
         private ButtonStyle _dayStyle;
         private ButtonStyle _dayOfWeekStyle;
@@ -1179,7 +1179,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public Control CalendarControl => this;
+        public Control? CalendarControl => this;
 
         /// <summary>
         /// Gets if the control is in design mode.

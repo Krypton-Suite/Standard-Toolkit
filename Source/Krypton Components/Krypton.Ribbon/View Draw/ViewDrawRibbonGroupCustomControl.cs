@@ -22,7 +22,7 @@ namespace Krypton.Ribbon
     {
         #region Instance Fields
         private readonly int NULL_CONTROL_WIDTH; // = 50;
-        private readonly KryptonRibbon _ribbon;
+        private readonly KryptonRibbon? _ribbon;
         private ViewDrawRibbonGroup _activeGroup;
         private readonly CustomControlController? _controller;
         private readonly NeedPaintHandler _needPaint;
@@ -36,7 +36,7 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Reference to owning ribbon control.</param>
         /// <param name="ribbonCustom">Reference to source custom definition.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public ViewDrawRibbonGroupCustomControl([DisallowNull] KryptonRibbon ribbon,
+        public ViewDrawRibbonGroupCustomControl([DisallowNull] KryptonRibbon? ribbon,
                                                 [DisallowNull] KryptonRibbonGroupCustomControl ribbonCustom,
                                                 [DisallowNull] NeedPaintHandler needPaint)
         {
@@ -134,7 +134,7 @@ namespace Krypton.Ribbon
         /// Source control has lost the focus.
         /// </summary>
         /// <param name="c">Reference to the source control instance.</param>
-        public override void LostFocus(Control c)
+        public override void LostFocus(Control? c)
         {
             // Ask ribbon to shift focus to the hidden control
             _ribbon.HideFocus(GroupCustomControl.CustomControl);
@@ -423,7 +423,7 @@ namespace Krypton.Ribbon
 #pragma warning restore 162
         }
 
-        private Control LastParentControl
+        private Control? LastParentControl
         {
             get => GroupCustomControl.LastParentControl;
             set => GroupCustomControl.LastParentControl = value;
@@ -435,7 +435,7 @@ namespace Krypton.Ribbon
             set => GroupCustomControl.LastCustomControl = value;
         }
 
-        private void UpdateParent(Control parentControl)
+        private void UpdateParent(Control? parentControl)
         {
             // Is there a change in the custom control or a change in 
             // the parent control that is hosting the control...

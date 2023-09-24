@@ -19,7 +19,7 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
 
-        internal PaletteTripleRedirect _stateCommon;
+        internal PaletteTripleRedirect? _stateCommon;
         internal PaletteTriple _stateDisabled;
         internal PaletteTriple _stateNormal;
         internal PaletteTriple _stateActive;
@@ -108,7 +108,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Overrides for defining common input control appearance that other states can override.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteTripleRedirect StateCommon => _stateCommon;
+        public PaletteTripleRedirect? StateCommon => _stateCommon;
 
         private bool ShouldSerializeStateCommon() => !_stateCommon.IsDefault;
 

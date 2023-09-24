@@ -26,7 +26,7 @@ namespace Krypton.Ribbon
         #endregion
 
         #region Instance Fields
-        private readonly KryptonRibbon _ribbon;
+        private readonly KryptonRibbon? _ribbon;
         private readonly KryptonRibbonGroupTriple _ribbonTriple;
         private ViewDrawRibbonDesignGroupTriple _viewAddItem;
         private readonly NeedPaintHandler _needPaint;
@@ -46,7 +46,7 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Owning ribbon control instance.</param>
         /// <param name="ribbonTriple">Reference to triple definition.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public ViewLayoutRibbonGroupTriple([DisallowNull] KryptonRibbon ribbon,
+        public ViewLayoutRibbonGroupTriple([DisallowNull] KryptonRibbon? ribbon,
                                            [DisallowNull] KryptonRibbonGroupTriple ribbonTriple,
                                            [DisallowNull] NeedPaintHandler needPaint)
         {

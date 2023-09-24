@@ -33,7 +33,7 @@ namespace Krypton.Ribbon
         /// <param name="viewMetricPaddings">Array of target metrics for button padding.</param>
         /// <param name="getRenderer">Delegate for returning a tool strip renderer.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public ButtonSpecManagerLayoutRibbon(KryptonRibbon ribbon,
+        public ButtonSpecManagerLayoutRibbon(KryptonRibbon? ribbon,
                                              PaletteRedirect? redirector,
                                              ButtonSpecCollectionBase variableSpecs,
                                              ButtonSpecCollectionBase fixedSpecs,
@@ -62,7 +62,7 @@ namespace Krypton.Ribbon
         protected override ButtonSpecView CreateButtonSpecView(PaletteRedirect? redirector, 
                                                                IPaletteMetric? viewPaletteMetric, 
                                                                PaletteMetricPadding viewMetricPadding, 
-                                                               ButtonSpec buttonSpec) =>
+                                                               ButtonSpec? buttonSpec) =>
             new ButtonSpecViewRibbon(redirector, viewPaletteMetric, 
                 viewMetricPadding, this, buttonSpec);
 

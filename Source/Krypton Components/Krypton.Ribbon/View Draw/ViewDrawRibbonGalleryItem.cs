@@ -37,7 +37,7 @@ namespace Krypton.Ribbon
         /// <param name="layout">Reference to item layout.</param>
         /// <param name="needPaint">Delegate for requesting paints.</param>
         public ViewDrawRibbonGalleryItem(KryptonGallery gallery,
-                                         IPaletteTriple palette,
+                                         IPaletteTriple? palette,
                                          ViewLayoutRibbonGalleryItems layout,
                                          NeedPaintHandler needPaint)
             : base(palette, palette, palette, palette,

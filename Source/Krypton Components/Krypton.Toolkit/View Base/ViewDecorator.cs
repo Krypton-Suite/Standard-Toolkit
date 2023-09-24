@@ -371,7 +371,7 @@ namespace Krypton.Toolkit
         /// Source control has got the focus.
         /// </summary>
         /// <param name="c">Reference to the source control instance.</param>
-        public override void GotFocus(Control c) =>
+        public override void GotFocus(Control? c) =>
             // Bubble event up to the parent
             Parent?.GotFocus(c);
 
@@ -379,7 +379,7 @@ namespace Krypton.Toolkit
         /// Source control has lost the focus.
         /// </summary>
         /// <param name="c">Reference to the source control instance.</param>
-        public override void LostFocus(Control c) =>
+        public override void LostFocus(Control? c) =>
             // Bubble event up to the parent
             Parent?.LostFocus(c);
 

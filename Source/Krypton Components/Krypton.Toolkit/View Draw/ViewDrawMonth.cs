@@ -29,7 +29,7 @@ namespace Krypton.Toolkit
             /// Initialize a new instance of the CalendarButtonSpecCollection class.
             /// </summary>
             /// <param name="owner">Reference to owning object.</param>
-            public CalendarButtonSpecCollection(ViewDrawMonth owner)
+            public CalendarButtonSpecCollection(ViewDrawMonth? owner)
                 : base(owner)
             {
             }

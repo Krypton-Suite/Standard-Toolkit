@@ -18,7 +18,7 @@ namespace Krypton.Toolkit
     public abstract class ButtonSpecRemapByContentBase : PaletteRedirect
     {
         #region Instance Fields
-        private readonly ButtonSpec _buttonSpec;
+        private readonly ButtonSpec? _buttonSpec;
         #endregion
 
         #region Identity
@@ -28,7 +28,7 @@ namespace Krypton.Toolkit
         /// <param name="target">Initial palette target for redirection.</param>
         /// <param name="buttonSpec">Reference to button specification.</param>
         protected ButtonSpecRemapByContentBase(PaletteBase? target,
-                                            [DisallowNull] ButtonSpec buttonSpec)
+                                            [DisallowNull] ButtonSpec? buttonSpec)
             : base(target)
         {
             Debug.Assert(buttonSpec != null);

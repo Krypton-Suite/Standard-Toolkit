@@ -20,7 +20,7 @@ namespace Krypton.Ribbon
     public class PaletteRibbonContextBack : IPaletteRibbonBack
     {
         #region Instance Fields
-        private readonly KryptonRibbon _ribbon;
+        private readonly KryptonRibbon? _ribbon;
         private IPaletteRibbonBack _inherit;
         #endregion
 
@@ -29,7 +29,7 @@ namespace Krypton.Ribbon
         /// Initialize a new instance of the PaletteRibbonContextBack class.
         /// </summary>
         /// <param name="ribbon">Reference to ribbon control.</param>
-        public PaletteRibbonContextBack([DisallowNull] KryptonRibbon ribbon)
+        public PaletteRibbonContextBack([DisallowNull] KryptonRibbon? ribbon)
         {
             Debug.Assert(ribbon != null);
             _ribbon = ribbon;

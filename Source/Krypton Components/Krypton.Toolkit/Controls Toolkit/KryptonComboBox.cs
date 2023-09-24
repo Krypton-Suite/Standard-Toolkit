@@ -106,8 +106,8 @@ namespace Krypton.Toolkit
         private class InternalComboBox : ComboBox, IContentValues
         {
             #region Instance Fields
-            private readonly KryptonComboBox _kryptonComboBox;
-            private PaletteTripleToPalette _palette;
+            private readonly KryptonComboBox? _kryptonComboBox;
+            private PaletteTripleToPalette? _palette;
             private ViewDrawButton? _viewButton;
             private bool? _appThemed;
             private bool _mouseTracking;
@@ -131,7 +131,7 @@ namespace Krypton.Toolkit
             /// Initialize a new instance of the InternalComboBox class.
             /// </summary>
             /// <param name="kryptonComboBox">Reference to owning control.</param>
-            public InternalComboBox(KryptonComboBox kryptonComboBox)
+            public InternalComboBox(KryptonComboBox? kryptonComboBox)
             {
                 // Remember incoming reference
                 _kryptonComboBox = kryptonComboBox;
@@ -607,7 +607,7 @@ namespace Krypton.Toolkit
         private class SubclassEdit : NativeWindow
         {
             #region Instance Fields
-            private readonly KryptonComboBox _kryptonComboBox;
+            private readonly KryptonComboBox? _kryptonComboBox;
             private bool _mouseOver;
             #endregion
 
@@ -630,7 +630,7 @@ namespace Krypton.Toolkit
             /// <param name="editControl">Handle of the Edit control to subclass.</param>
             /// <param name="kryptonComboBox">Reference to top level control.</param>
             public SubclassEdit(IntPtr editControl,
-                                KryptonComboBox kryptonComboBox)
+                                KryptonComboBox? kryptonComboBox)
             {
                 _kryptonComboBox = kryptonComboBox;
 
@@ -795,7 +795,7 @@ namespace Krypton.Toolkit
             /// Initialize a new instance of the ComboBoxButtonSpecCollection class.
             /// </summary>
             /// <param name="owner">Reference to owning object.</param>
-            public ComboBoxButtonSpecCollection(KryptonComboBox owner)
+            public ComboBoxButtonSpecCollection(KryptonComboBox? owner)
                 : base(owner)
             {
             }

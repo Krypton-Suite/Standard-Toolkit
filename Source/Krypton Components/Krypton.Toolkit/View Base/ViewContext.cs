@@ -35,8 +35,8 @@ namespace Krypton.Toolkit
         /// <param name="alignControl">Control used for aligning elements.</param>
         /// <param name="renderer">Rendering provider.</param>
         public ViewContext(ViewManager? manager,
-                           Control control, 
-                           Control alignControl, 
+                           Control? control, 
+                           Control? alignControl, 
                            IRenderer? renderer)
             : this(manager, control, alignControl, null, renderer)
         {
@@ -49,8 +49,8 @@ namespace Krypton.Toolkit
         /// <param name="alignControl">Control used for aligning elements.</param>
         /// <param name="graphics">Graphics instance for drawing.</param>
         /// <param name="renderer">Rendering provider.</param>
-        public ViewContext(Control control,
-                           Control alignControl,
+        public ViewContext(Control? control,
+                           Control? alignControl,
                            Graphics? graphics,
                            IRenderer? renderer)
             : this(null, control, alignControl, graphics, renderer)
@@ -66,8 +66,8 @@ namespace Krypton.Toolkit
         /// <param name="graphics">Graphics instance for drawing.</param>
         /// <param name="renderer">Rendering provider.</param>
         public ViewContext(ViewManager? manager,
-                           Control control,
-                           Control alignControl,
+                           Control? control,
+                           Control? alignControl,
                            Graphics? graphics,
                            IRenderer? renderer)
         {
@@ -135,7 +135,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the owning control associated with rendering.
         /// </summary>
-        public Control Control
+        public Control? Control
         {
             [DebuggerStepThrough]
             get;
@@ -145,7 +145,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the control to use when aligning elements.
         /// </summary>
-        public Control AlignControl
+        public Control? AlignControl
         {
             [DebuggerStepThrough]
             get;
@@ -203,7 +203,7 @@ namespace Krypton.Toolkit
                     if (_topControl == null)
                     {
                         // Start searching from the control
-                        Control parentControl = Control;
+                        Control? parentControl = Control;
 
                         // Climb the parent chain to the top
                         while (parentControl.Parent != null)

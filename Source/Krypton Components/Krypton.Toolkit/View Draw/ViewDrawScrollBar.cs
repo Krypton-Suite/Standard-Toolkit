@@ -246,7 +246,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Implementation
-        private void CreateScrollBar(Control parent)
+        private void CreateScrollBar(Control? parent)
         {
             // Do we need to create a scrollbar?
             if (_scrollBar == null)

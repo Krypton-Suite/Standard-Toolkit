@@ -20,7 +20,7 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
         private readonly PaletteRedirect? _redirector;
-        private readonly PaletteTripleRedirect _palette;
+        private readonly PaletteTripleRedirect? _palette;
         private readonly EventHandler? _finishDelegate;
         private ButtonController? _controller;
         #endregion
@@ -38,7 +38,7 @@ namespace Krypton.Toolkit
                               IPaletteMetric? paletteMetric,
                               PaletteMetricPadding metricPadding,
                               [DisallowNull] ButtonSpecManagerBase manager,
-                              [DisallowNull] ButtonSpec buttonSpec)
+                              [DisallowNull] ButtonSpec? buttonSpec)
         {
             Debug.Assert(redirector != null);
             Debug.Assert(manager != null);
@@ -116,7 +116,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the monitored button spec
         /// </summary>
-        public ButtonSpec ButtonSpec { get; }
+        public ButtonSpec? ButtonSpec { get; }
 
         /// <summary>
         /// Gets access to the view centering that contains the button.

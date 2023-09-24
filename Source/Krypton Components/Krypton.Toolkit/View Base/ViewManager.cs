@@ -64,7 +64,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="control">Owning control.</param>
         /// <param name="root">Root of the view hierarchy.</param>
-        public ViewManager(Control control, ViewBase root)
+        public ViewManager(Control? control, ViewBase root)
         {
             _root = root;
             _root.OwningControl = control;
@@ -89,7 +89,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="control">Owning control.</param>
         /// <param name="root">Root of the view hierarchy.</param>
-        public void Attach(Control control, ViewBase root)
+        public void Attach(Control? control, ViewBase root)
         {
             _root = root;
             _root.OwningControl = control;
@@ -117,7 +117,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Control owning the view manager.
         /// </summary>
-        public Control Control
+        public Control? Control
         {
             [DebuggerStepThrough]
             get;
@@ -127,7 +127,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Control used to align view elements.
         /// </summary>
-        public Control AlignControl
+        public Control? AlignControl
         {
             [DebuggerStepThrough]
             get;
@@ -689,7 +689,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="control">Source control.</param>
         /// <param name="pt">Point within the source control.</param>
-        protected virtual void UpdateViewFromPoint(Control control, Point pt)
+        protected virtual void UpdateViewFromPoint(Control? control, Point pt)
         {
             // Can only change view if not captured
             if (!MouseCaptured)

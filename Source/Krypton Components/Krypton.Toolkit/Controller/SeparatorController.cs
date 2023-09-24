@@ -21,7 +21,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the top level control of the source.
         /// </summary>
-        Control SeparatorControl { get; }
+        Control? SeparatorControl { get; }
 
         /// <summary>
         /// Gets the orientation of the separator.
@@ -235,7 +235,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="c">Reference to the source control instance.</param>
         /// <param name="pt">Mouse position relative to control.</param>
-        public override void MouseMove(Control c, Point pt)
+        public override void MouseMove(Control? c, Point pt)
         {
             // If the separator is allowed to be moved by the user
             if (_source.SeparatorCanMove)
@@ -276,7 +276,7 @@ namespace Krypton.Toolkit
         /// <param name="pt">Mouse position relative to control.</param>
         /// <param name="button">Mouse button pressed down.</param>
         /// <returns>True if capturing input; otherwise false.</returns>
-        public override bool MouseDown(Control c, Point pt, MouseButtons button)
+        public override bool MouseDown(Control? c, Point pt, MouseButtons button)
         {
             // Let base class process the mouse down
             var ret = base.MouseDown(c, pt, button);
@@ -332,7 +332,7 @@ namespace Krypton.Toolkit
         /// <param name="c">Reference to the source control instance.</param>
         /// <param name="pt">Mouse position relative to control.</param>
         /// <param name="button">Mouse button released.</param>
-        public override void MouseUp(Control c, Point pt, MouseButtons button)
+        public override void MouseUp(Control? c, Point pt, MouseButtons button)
         {
             // Let base class process up event
             base.MouseUp(c, pt, button);
@@ -361,7 +361,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="c">Reference to the source control instance.</param>
         /// <param name="next">Reference to view that is next to have the mouse.</param>
-        public override void MouseLeave(Control c, ViewBase? next)
+        public override void MouseLeave(Control? c, ViewBase? next)
         {
             // If leaving when currently moving, then abort the movement
             if (_moving)
@@ -394,7 +394,7 @@ namespace Krypton.Toolkit
         /// <param name="c">Reference to the source control instance.</param>
         /// <param name="e">A KeyEventArgs that contains the event data.</param>
         /// <returns>True if capturing input; otherwise false.</returns>
-        public override bool KeyUp(Control c, [DisallowNull] KeyEventArgs e)
+        public override bool KeyUp(Control? c, [DisallowNull] KeyEventArgs e)
         {
             Debug.Assert(e != null);
 
@@ -423,7 +423,7 @@ namespace Krypton.Toolkit
         /// Source control has lost the focus.
         /// </summary>
         /// <param name="c">Reference to the source control instance.</param>
-        public override void LostFocus([DisallowNull] Control c)
+        public override void LostFocus([DisallowNull] Control? c)
         {
             // If we are capturing mouse input
             if (_moving)

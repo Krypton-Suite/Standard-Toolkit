@@ -22,7 +22,7 @@ namespace Krypton.Ribbon
         #region Instance Fields
         private readonly Padding _borderPadding; // = new(3);
         private readonly int QAT_HEIGHT_FULL; // = 28;
-        private readonly KryptonRibbon _ribbon;
+        private readonly KryptonRibbon? _ribbon;
         private readonly NeedPaintHandler _needPaintDelegate;
         private IDisposable _memento;
         #endregion
@@ -33,7 +33,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="ribbon">Reference to owning ribbon control.</param>
         /// <param name="needPaintDelegate">Delegate for notifying paint/layout changes.</param>
-        public ViewDrawRibbonQATOverflow([DisallowNull] KryptonRibbon ribbon,
+        public ViewDrawRibbonQATOverflow([DisallowNull] KryptonRibbon? ribbon,
                                          [DisallowNull] NeedPaintHandler needPaintDelegate)
         {
             Debug.Assert(ribbon != null);

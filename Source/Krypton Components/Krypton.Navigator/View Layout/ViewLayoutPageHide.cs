@@ -24,14 +24,14 @@ namespace Krypton.Navigator
         #endregion
 
         #region Instance Fields
-        private readonly KryptonNavigator _navigator;
+        private readonly KryptonNavigator? _navigator;
         #endregion
 
         #region Identity
         /// <summary>
         /// Initialize a new instance of the ViewLayoutPageHide class.
         /// </summary>
-        public ViewLayoutPageHide([DisallowNull] KryptonNavigator navigator)
+        public ViewLayoutPageHide([DisallowNull] KryptonNavigator? navigator)
         {
             Debug.Assert(navigator != null);
 

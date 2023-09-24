@@ -74,7 +74,7 @@ namespace Krypton.Navigator
         [Category(@"Visuals")]
         [Description(@"Overrides for defining bar header appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteHeaderPaddingRedirect HeaderBar { get; }
+        public PaletteHeaderPaddingRedirect? HeaderBar { get; }
 
         private bool ShouldSerializeHeaderBar() => !HeaderBar.IsDefault;
 
@@ -87,7 +87,7 @@ namespace Krypton.Navigator
         [Category(@"Visuals")]
         [Description(@"Overrides for defining overflow header appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteHeaderPaddingRedirect HeaderOverflow { get; }
+        public PaletteHeaderPaddingRedirect? HeaderOverflow { get; }
 
         private bool ShouldSerializeHeaderOverflow() => !HeaderOverflow.IsDefault;
 

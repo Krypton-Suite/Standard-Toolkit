@@ -24,7 +24,7 @@ namespace Krypton.Ribbon
         #region Instance Fields
         private readonly Padding _largeImagePadding; // = new(3, 2, 3, 3);
         private readonly Padding _smallImagePadding; // = new(3);
-        private readonly KryptonRibbon _ribbon;
+        private readonly KryptonRibbon? _ribbon;
         private ViewLayoutRibbonCheckBox _viewLarge;
         private ViewDrawRibbonGroupCheckBoxImage _viewLargeImage;
         private ViewDrawRibbonGroupCheckBoxText _viewLargeText1;
@@ -49,7 +49,7 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Reference to owning ribbon control.</param>
         /// <param name="ribbonCheckBox">Reference to source check box definition.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public ViewDrawRibbonGroupCheckBox([DisallowNull] KryptonRibbon ribbon,
+        public ViewDrawRibbonGroupCheckBox([DisallowNull] KryptonRibbon? ribbon,
                                            [DisallowNull] KryptonRibbonGroupCheckBox ribbonCheckBox,
                                            [DisallowNull] NeedPaintHandler needPaint)
         {

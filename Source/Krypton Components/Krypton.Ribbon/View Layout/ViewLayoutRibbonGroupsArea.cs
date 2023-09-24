@@ -27,7 +27,7 @@ namespace Krypton.Ribbon
         #endregion
 
         #region Instance Fields
-        private readonly KryptonRibbon _ribbon;
+        private readonly KryptonRibbon? _ribbon;
         private readonly PaletteBackInheritRedirect _backInherit;
         #endregion
 
@@ -38,7 +38,7 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Reference to owning ribbon control.</param>
         /// <param name="redirect">Reference to redirector for palette settings.</param>
         /// <param name="needPaintDelegate">Delegate for notifying paint/layout changes.</param>
-        public ViewLayoutRibbonGroupsArea([DisallowNull] KryptonRibbon ribbon,
+        public ViewLayoutRibbonGroupsArea([DisallowNull] KryptonRibbon? ribbon,
                                           [DisallowNull] PaletteRedirect redirect,
                                           [DisallowNull] NeedPaintHandler needPaintDelegate)
         {

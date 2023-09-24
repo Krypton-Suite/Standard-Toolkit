@@ -3041,7 +3041,7 @@ namespace Krypton.Docking
         /// <param name="elementOffset">Offset from top left of element causing the drag.</param>
         /// <param name="c">Control that started the drag operation.</param>
         /// <param name="pages">Set of pages requested to be dragged.</param>
-        public virtual void DoDragDrop(Point screenPoint, Point elementOffset, Control c,
+        public virtual void DoDragDrop(Point screenPoint, Point elementOffset, Control? c,
             [DisallowNull] KryptonPageCollection pages)
         {
             // Cannot drag a null reference

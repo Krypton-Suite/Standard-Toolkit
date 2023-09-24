@@ -23,7 +23,7 @@ namespace Krypton.Ribbon
                                             IRibbonKeyTipTarget
     {
         #region Instance Fields
-        private readonly KryptonRibbon _ribbon;
+        private readonly KryptonRibbon? _ribbon;
         private readonly KryptonRibbonGroupDomainUpDown _domainUpDown;
         private readonly ViewDrawRibbonGroupDomainUpDown _target;
         #endregion
@@ -35,7 +35,7 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Reference to owning ribbon instance.</param>
         /// <param name="domainUpDown">Source definition.</param>
         /// <param name="target">Target view element.</param>
-        public DomainUpDownController([DisallowNull] KryptonRibbon ribbon,
+        public DomainUpDownController([DisallowNull] KryptonRibbon? ribbon,
                                       [DisallowNull] KryptonRibbonGroupDomainUpDown domainUpDown,
                                       [DisallowNull] ViewDrawRibbonGroupDomainUpDown target)
         {
@@ -54,7 +54,7 @@ namespace Krypton.Ribbon
         /// Source control has got the focus.
         /// </summary>
         /// <param name="c">Reference to the source control instance.</param>
-        public void GotFocus(Control c)
+        public void GotFocus(Control? c)
         {
             if (_domainUpDown.LastDomainUpDown.DomainUpDown is { CanFocus: true })
             {
@@ -67,7 +67,7 @@ namespace Krypton.Ribbon
         /// Source control has lost the focus.
         /// </summary>
         /// <param name="c">Reference to the source control instance.</param>
-        public void LostFocus([DisallowNull] Control c)
+        public void LostFocus([DisallowNull] Control? c)
         {
         }
         #endregion
@@ -112,7 +112,7 @@ namespace Krypton.Ribbon
         /// <param name="c">Reference to the source control instance.</param>
         /// <param name="e">A KeyEventArgs that contains the event data.</param>
         /// <returns>True if capturing input; otherwise false.</returns>
-        public bool KeyUp(Control c, KeyEventArgs e) => false;
+        public bool KeyUp(Control? c, KeyEventArgs e) => false;
 
         #endregion
 

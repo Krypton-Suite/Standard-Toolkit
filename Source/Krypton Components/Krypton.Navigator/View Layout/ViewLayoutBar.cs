@@ -88,7 +88,7 @@ namespace Krypton.Navigator
         /// <param name="itemMaximumSize">Minimum allowed item size.</param>
         /// <param name="barMinimumHeight">Minimum height of the bar.</param>
         /// <param name="reorderSelectedLine">Should line with selection be reordered.</param>
-        public ViewLayoutBar(IPaletteMetric paletteMetric,
+        public ViewLayoutBar(IPaletteMetric? paletteMetric,
                              PaletteMetricInt metricGap,
                              BarItemSizing itemSizing,
                              RelativePositionAlign itemAlignment,
@@ -118,7 +118,7 @@ namespace Krypton.Navigator
         /// <param name="barMinimumHeight">Minimum height of the bar.</param>
         /// <param name="tabBorderStyle">Tab border style.</param>
         /// <param name="reorderSelectedLine">Should line with selection be reordered.</param>
-        public ViewLayoutBar(IPaletteMetric paletteMetric,
+        public ViewLayoutBar(IPaletteMetric? paletteMetric,
                              PaletteMetricInt metricGap,
                              BarItemSizing itemSizing,
                              RelativePositionAlign itemAlignment,

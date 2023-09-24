@@ -35,7 +35,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="ribbon">Reference to owning ribbon control.</param>
         /// <param name="ribbonColorButton">Reference to ribbon group color button definition.</param>
-        public ViewDrawRibbonGroupClusterColorButtonImage(KryptonRibbon ribbon,
+        public ViewDrawRibbonGroupClusterColorButtonImage(KryptonRibbon? ribbon,
             [DisallowNull] KryptonRibbonGroupClusterColorButton ribbonColorButton)
             : base(ribbon)
         {
