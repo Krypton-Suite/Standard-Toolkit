@@ -51,6 +51,7 @@ namespace Krypton.Toolkit
         private readonly int _linkAreaStart, _linkAreaEnd;
         private readonly ProcessStartInfo? _linkLaunchArgument;
         private readonly ContentAlignment? _messageTextAlignment;
+        private readonly LinkArea _contentLinkArea;
 
         #endregion
 
@@ -77,7 +78,7 @@ namespace Krypton.Toolkit
                                                MessageBoxContentAreaType? contentAreaType,
                                                KryptonCommand? linkLabelCommand,
                                                ProcessStartInfo? linkLaunchArgument,
-                                               int? linkAreaStart, int? linkAreaEnd,
+                                               LinkArea? contentLinkArea,
                                                ContentAlignment? messageTextAlignment)
         {
             // Store incoming values
@@ -97,8 +98,7 @@ namespace Krypton.Toolkit
             _applicationPath = applicationPath ?? string.Empty;
             _contentAreaType = contentAreaType ?? MessageBoxContentAreaType.Normal;
             _linkLabelCommand = linkLabelCommand ?? new KryptonCommand();
-            _linkAreaStart = linkAreaStart ?? 0;
-            _linkAreaEnd = linkAreaEnd ?? text.Length;
+            _contentLinkArea = contentLinkArea ?? new LinkArea(0, text.Length);
             _linkLaunchArgument = linkLaunchArgument ?? new ProcessStartInfo();
             _messageTextAlignment = messageTextAlignment ?? ContentAlignment.MiddleLeft;
 
@@ -116,6 +116,7 @@ namespace Krypton.Toolkit
             UpdateTextExtra(showCtrlCopy);
             UpdateContentAreaType(contentAreaType);
             UpdateContentAreaTextAlignment(contentAreaType, messageTextAlignment);
+            UpdateContentLinkArea(contentLinkArea);
 
             SetupActionButtonUI(_showActionButton);
 
@@ -829,6 +830,14 @@ namespace Krypton.Toolkit
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(contentAreaType), contentAreaType, null);
+            }
+        }
+
+        private void UpdateContentLinkArea(LinkArea? contentLinkArea)
+        {
+            if (contentLinkArea != null)
+            {
+                _linkLabelMessageText.LinkArea = (LinkArea)contentLinkArea;
             }
         }
 
