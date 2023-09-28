@@ -48,9 +48,9 @@ namespace Krypton.Toolkit
         // For the LinkLabel option
         private readonly MessageBoxContentAreaType? _contentAreaType;
         private readonly KryptonCommand? _linkLabelCommand;
-        private readonly int _linkAreaStart, _linkAreaEnd;
         private readonly ProcessStartInfo? _linkLaunchArgument;
         private readonly ContentAlignment? _messageTextAlignment;
+        private readonly LinkArea _contentLinkArea;
 
         #endregion
 
@@ -64,21 +64,21 @@ namespace Krypton.Toolkit
 
 
         internal KryptonMessageBoxForm(IWin32Window? showOwner, string text, string caption,
-                                               KryptonMessageBoxButtons buttons,
-                                               KryptonMessageBoxIcon icon,
-                                               KryptonMessageBoxDefaultButton defaultButton,
-                                               MessageBoxOptions options,
-                                               HelpInfo? helpInfo, bool? showCtrlCopy,
-                                               bool? showHelpButton,
-                                               bool? showActionButton, string? actionButtonText,
-                                               KryptonCommand? actionButtonCommand,
-                                               Image? applicationImage,
-                                               string? applicationPath,
-                                               MessageBoxContentAreaType? contentAreaType,
-                                               KryptonCommand? linkLabelCommand,
-                                               ProcessStartInfo? linkLaunchArgument,
-                                               int? linkAreaStart, int? linkAreaEnd,
-                                               ContentAlignment? messageTextAlignment)
+                                       KryptonMessageBoxButtons buttons,
+                                       KryptonMessageBoxIcon icon,
+                                       KryptonMessageBoxDefaultButton defaultButton,
+                                       MessageBoxOptions options,
+                                       HelpInfo? helpInfo, bool? showCtrlCopy,
+                                       bool? showHelpButton,
+                                       bool? showActionButton, string? actionButtonText,
+                                       KryptonCommand? actionButtonCommand,
+                                       Image? applicationImage,
+                                       string? applicationPath,
+                                       MessageBoxContentAreaType? contentAreaType,
+                                       KryptonCommand? linkLabelCommand,
+                                       ProcessStartInfo? linkLaunchArgument,
+                                       LinkArea? contentLinkArea,
+                                       ContentAlignment? messageTextAlignment)
         {
             // Store incoming values
             _text = text;
@@ -97,8 +97,7 @@ namespace Krypton.Toolkit
             _applicationPath = applicationPath ?? string.Empty;
             _contentAreaType = contentAreaType ?? MessageBoxContentAreaType.Normal;
             _linkLabelCommand = linkLabelCommand ?? new KryptonCommand();
-            _linkAreaStart = linkAreaStart ?? 0;
-            _linkAreaEnd = linkAreaEnd ?? text.Length;
+            _contentLinkArea = contentLinkArea ?? new LinkArea(0, text.Length);
             _linkLaunchArgument = linkLaunchArgument ?? new ProcessStartInfo();
             _messageTextAlignment = messageTextAlignment ?? ContentAlignment.MiddleLeft;
 
@@ -116,6 +115,7 @@ namespace Krypton.Toolkit
             UpdateTextExtra(showCtrlCopy);
             UpdateContentAreaType(contentAreaType);
             UpdateContentAreaTextAlignment(contentAreaType, messageTextAlignment);
+            UpdateContentLinkArea(contentLinkArea);
 
             SetupActionButtonUI(_showActionButton);
 
@@ -808,8 +808,6 @@ namespace Krypton.Toolkit
                     _linkLabelMessageText.Visible = true;
 
                     _messageText.Visible = false;
-
-                    _linkLabelMessageText.LinkArea = new LinkArea(_linkAreaStart, _linkAreaEnd);
                     break;
             }
         }
@@ -829,6 +827,14 @@ namespace Krypton.Toolkit
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(contentAreaType), contentAreaType, null);
+            }
+        }
+
+        private void UpdateContentLinkArea(LinkArea? contentLinkArea)
+        {
+            if (contentLinkArea != null)
+            {
+                _linkLabelMessageText.LinkArea = (LinkArea)contentLinkArea;
             }
         }
 

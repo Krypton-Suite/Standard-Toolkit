@@ -24,7 +24,7 @@ namespace Krypton.Toolkit
             if (lineNumber > 0)
             {
                 KryptonMessageBox.Show($"If you are seeing this message, please submit a new bug report here.\n\nAdditional details:-\nMethod Signature: {methodSignature}\nClass Name: {className}\nLine Number: {lineNumber}",
-                    "Not Implemented", KryptonMessageBoxButtons.OK, KryptonMessageBoxIcon.Error, contentAreaType: MessageBoxContentAreaType.LinkLabel, actionButtonCommand: linkCommand, linkAreaStart: 64, linkAreaEnd: 67);
+                    "Not Implemented", KryptonMessageBoxButtons.OK, KryptonMessageBoxIcon.Error, contentAreaType: MessageBoxContentAreaType.LinkLabel, actionButtonCommand: linkCommand, contentLinkArea: new LinkArea(64, 67));
             }
             else
             {
