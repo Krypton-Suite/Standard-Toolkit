@@ -6,11 +6,9 @@
  */
 #endregion
 
-using System.Collections.Concurrent; // only used by this file
-
 namespace Krypton.Toolkit
 {
-    internal class TimedCache<TKey, TItem>(TimeSpan _expirationTime)
+    internal class TimedCache<TKey, TItem>(TimeSpan expirationTime) where TKey : notnull
     {
         private readonly Dictionary<TKey, (DateTime expiresAt, TItem)> _cache = new Dictionary<TKey, (DateTime expiresAt, TItem)>();
         private readonly object _cacheLock = new object(); // Supposed to be faster than `ReaderWriterLockSlim`
@@ -48,14 +46,14 @@ namespace Krypton.Toolkit
         /// <summary>Adds the specified key and value to the dictionary.</summary>
         public void Add(TKey key, TItem value)
         {
-            _cache[key] = (DateTime.UtcNow + _expirationTime, value);
+            _cache[key] = (DateTime.UtcNow + expirationTime, value);
         }
 
         // If sufficient time has elapsed then a scan is initiated on a background task.
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private void StartScanForExpiredItemsIfNeeded(DateTime utcNow)
         {
-            if (_expirationTime < utcNow - _lastExpirationScan)
+            if (expirationTime < utcNow - _lastExpirationScan)
             {
                 ScheduleTask();
             }

@@ -27,7 +27,7 @@ namespace Krypton.Toolkit
 
         private const int DEFAULT_COMPOSITION_HEIGHT = 30;
         private static readonly bool _themedApp;
-        private readonly PaletteDoubleRedirect? _stateCommon;
+        private readonly PaletteDoubleRedirect _stateCommon;
 
         #endregion
 
@@ -106,9 +106,6 @@ namespace Krypton.Toolkit
         {
             InitializeComponent();
 
-            _stateCommon = new PaletteDoubleRedirect(Redirector, PaletteBackStyle.ButtonCustom1,
-                PaletteBorderStyle.ButtonCustom1, NeedPaintDelegate);
-
             // Automatically redraw whenever the size of the window changes
             SetStyle(ControlStyles.ResizeRedraw, true);
 
@@ -132,6 +129,9 @@ namespace Krypton.Toolkit
 
             // Create constant target for resolving palette delegates
             Redirector = CreateRedirector();
+
+            _stateCommon = new PaletteDoubleRedirect(Redirector, PaletteBackStyle.ButtonCustom1,
+                PaletteBorderStyle.ButtonCustom1, NeedPaintDelegate);
 
             // Hook into global static events
             KryptonManager.GlobalPaletteChanged += OnGlobalPaletteChanged;
@@ -378,7 +378,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public IKryptonComposition Composition { get; set; }
+        public IKryptonComposition? Composition { get; set; }
 
         /// <summary>
         /// Gets or sets the palette to be applied.
@@ -711,7 +711,7 @@ namespace Krypton.Toolkit
         /// Reset the internal counters.
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public void KryptonResetCounters() => ViewManager.ResetCounters();
+        public void KryptonResetCounters() => ViewManager?.ResetCounters();
 
         /// <summary>
         /// Gets the number of layout cycles performed since last reset.
@@ -719,7 +719,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public int KryptonLayoutCounter => ViewManager.LayoutCounter;
+        public int KryptonLayoutCounter => ViewManager?.LayoutCounter ?? 0;
 
         /// <summary>
         /// Gets the number of paint cycles performed since last reset.
@@ -727,7 +727,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public int KryptonPaintCounter => ViewManager.PaintCounter;
+        public int KryptonPaintCounter => ViewManager?.PaintCounter ?? 0;
 
         #endregion
 
@@ -1119,7 +1119,8 @@ namespace Krypton.Toolkit
             // LayoutMdi call on the parent from working and cascading/tiling the children
             //if ((m.Msg == (int)PI.WM_NCCALCSIZE) && _themedApp &&
             //    ((MdiParent == null) || ApplyCustomChrome))
-            if (_themedApp
+            if (!CommonHelper.IsFormMaximized(this)
+                && _themedApp
                 && ((MdiParent == null) || ApplyCustomChrome)
                 )
             {
@@ -1208,7 +1209,7 @@ namespace Krypton.Toolkit
                                     BindingFlags.NonPublic);
 
                                 // Update form with the reason for the close
-                                pi.SetValue(this, CloseReason.UserClosing, null);
+                                pi?.SetValue(this, CloseReason.UserClosing, null);
                             }
 
                             if (sc != PI.SC_.KEYMENU)
@@ -1628,10 +1629,10 @@ namespace Krypton.Toolkit
             Point windowPoint = ScreenToWindow(screenPoint);
 
             // Pass message onto the view elements
-            ViewManager.MouseUp(new MouseEventArgs(MouseButtons.Left, 0, windowPoint.X, windowPoint.Y, 0), windowPoint);
+            ViewManager?.MouseUp(new MouseEventArgs(MouseButtons.Left, 0, windowPoint.X, windowPoint.Y, 0), windowPoint);
 
             // Pass message onto the view elements
-            ViewManager.MouseLeave(EventArgs.Empty);
+            ViewManager?.MouseLeave(EventArgs.Empty);
 
             // Need a repaint to show change
             InvalidateNonClient();
@@ -1653,10 +1654,10 @@ namespace Krypton.Toolkit
             Point windowPoint = ScreenToWindow(screenPoint);
 
             // Find the view element under the mouse
-            ViewBase pointView = ViewManager.Root.ViewFromPoint(windowPoint);
+            ViewBase? pointView = ViewManager?.Root?.ViewFromPoint(windowPoint);
 
             // Try and find a mouse controller for the active view
-            IMouseController controller = pointView?.FindMouseController();
+            IMouseController? controller = pointView?.FindMouseController();
 
             // Eat the message
             return controller != null;
@@ -1795,7 +1796,7 @@ namespace Krypton.Toolkit
         /// Perform non-client mouse movement processing.
         /// </summary>
         /// <param name="pt">Point in window coordinates.</param>
-        protected virtual void WindowChromeNonClientMouseMove(Point pt) => ViewManager.MouseMove(new MouseEventArgs(MouseButtons.None, 0, pt.X, pt.Y, 0), pt);
+        protected virtual void WindowChromeNonClientMouseMove(Point pt) => ViewManager?.MouseMove(new MouseEventArgs(MouseButtons.None, 0, pt.X, pt.Y, 0), pt);
 
         /// <summary>
         /// Process the left mouse down event.
@@ -1804,11 +1805,11 @@ namespace Krypton.Toolkit
         /// <returns>True if event is processed; otherwise false.</returns>
         protected virtual bool WindowChromeLeftMouseDown(Point windowPoint)
         {
-            ViewManager.MouseDown(new MouseEventArgs(MouseButtons.Left, 1, windowPoint.X, windowPoint.Y, 0), windowPoint);
+            ViewManager?.MouseDown(new MouseEventArgs(MouseButtons.Left, 1, windowPoint.X, windowPoint.Y, 0), windowPoint);
 
             // If we moused down on a active view element
             // Ask the controller if the mouse down should be ignored by wnd proc processing
-            IMouseController controller = ViewManager.ActiveView?.FindMouseController();
+            IMouseController? controller = ViewManager?.ActiveView?.FindMouseController();
             return controller is { IgnoreVisualFormLeftButtonDown: true };
         }
 
@@ -1819,7 +1820,7 @@ namespace Krypton.Toolkit
         /// <returns>True if event is processed; otherwise false.</returns>
         protected virtual bool WindowChromeLeftMouseUp(Point pt)
         {
-            ViewManager.MouseUp(new MouseEventArgs(MouseButtons.Left, 0, pt.X, pt.Y, 0), pt);
+            ViewManager?.MouseUp(new MouseEventArgs(MouseButtons.Left, 0, pt.X, pt.Y, 0), pt);
 
             // By default, we have not handled the mouse up event
             return false;
@@ -1830,7 +1831,7 @@ namespace Krypton.Toolkit
         /// </summary>
         protected virtual void WindowChromeMouseLeave() =>
             // Pass message onto the view elements
-            ViewManager.MouseLeave(EventArgs.Empty);
+            ViewManager?.MouseLeave(EventArgs.Empty);
 
         #endregion
 

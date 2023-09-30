@@ -205,7 +205,7 @@ namespace Krypton.Navigator
         /// <param name="redirector">Base palette class.</param>
         /// <param name="buttonSpec">ButtonSpec instance.</param>
         /// <returns>Palette redirector for the button spec instance.</returns>
-        public override PaletteRedirect? CreateButtonSpecRemap(PaletteRedirect? redirector,
+        public override PaletteRedirect CreateButtonSpecRemap(PaletteRedirect? redirector,
                                                               ButtonSpec buttonSpec) =>
             new ButtonSpecNavRemap(redirector, buttonSpec, RemapTarget);
 
@@ -224,7 +224,7 @@ namespace Krypton.Navigator
         /// <param name="buttonView">Associated ButtonSpecView instance.</param>
         /// <param name="viewDockerIndex">Index of view docker button is placed onto.</param>
         protected override void ButtonSpecCreated(ButtonSpec buttonSpec,
-                                                  ButtonSpecView buttonView,
+                                                  ButtonSpecView? buttonView,
                                                   int viewDockerIndex)
         {
             // Nothing extra to do
