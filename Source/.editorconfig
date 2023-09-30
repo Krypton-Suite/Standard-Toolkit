@@ -28,8 +28,13 @@ dotnet_diagnostic.IDE0079.severity = silent
 # Warning	CS0436	The type 'AllowNullAttribute' in 'Z:\GitHub\Krypton-Suite\Standard-Toolkit\Source\Krypton Components\Krypton.Toolkit\Utilities\AllowNullAttribute.cs' conflicts with the imported type 'AllowNullAttribute' in 'System.Runtime, Version=7.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a'. Using the type defined in 'Z:\GitHub\Krypton-Suite\Standard-Toolkit\Source\Krypton Components\Krypton.Toolkit\Utilities\AllowNullAttribute.cs'.	Krypton.Toolkit 2022 (net48), Krypton.Toolkit 2022 (net7.0-windows)	Z:\GitHub\Krypton-Suite\Standard-Toolkit\Source\Krypton Components\Krypton.Toolkit\Controls Toolkit\KryptonRadioButton.cs	206	Active
 dotnet_diagnostic.CS0436.severity = None
 
+dotnet_diagnostic.CS0649.severity = None
+
 #warning CA1416: This call site is reachable on all platforms. 'KryptonRibbonGroupButton.Checked' is only supported on: 'Windows' 7.0 and later.
 dotnet_diagnostic.CA1416.severity = None
+
+# CS1591: Missing XML comment for publicly visible type or member
+dotnet_diagnostic.CS1591.severity = suggestion
 
 # UpdateShadowLayer calls ReleaseDC but does not use the HRESULT or error code that the method returns. This could lead to unexpected behavior in error conditions or low-resource situations. Use the result in a conditional statement, assign the result to a variable, or pass it as an argument to another method.	
 dotnet_diagnostic.CA1806.severity = silent	
@@ -37,14 +42,12 @@ dotnet_diagnostic.CA1806.severity = silent
 # 	Member 'ShouldSerializeValue' does not access instance data and can be marked as static	
 dotnet_diagnostic.CA1822.severity = None
 
-#Warning	CS8618	Non-nullable field '_panelMessage' must contain a non-null value when exiting constructor. Consider declaring the field as nullable.	
-dotnet_diagnostic.CS8618.severity = None
-
 # CS8073:  The result of the expression is always 'true' or 'null'
 dotnet_diagnostic.CS8073.severity = None
 
-dotnet_diagnostic.CS0649.severity = None
+#Warning	CS8618	Non-nullable field '_panelMessage' must contain a non-null value when exiting constructor. Consider declaring the field as nullable.	
+dotnet_diagnostic.CS8618.severity = None
 
-# CS1591: Missing XML comment for publicly visible type or member
-dotnet_diagnostic.CS1591.severity = suggestion
+#Warning	CS8622	Nullability of reference types in type of parameter 'sender' of ####
+dotnet_diagnostic.CS8622.severity = None
 

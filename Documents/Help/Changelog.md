@@ -3,6 +3,7 @@
 =======
 
 ## 2023-11-14 - Build 2311 - November 2023
+* Resolved [#1037](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1037), Borderless Krypton Form, Maximized, Top Most = True > Fullscreen does not overlap on task bar.
 * Implemented [#956](https://github.com/Krypton-Suite/Standard-Toolkit/issues/956), Update `Readme.md` images to reflect the toolkit
 * Added the ability to specify the message text alignment in a `KryptonMessagebox`
     - Default value is `MiddleLeft`
