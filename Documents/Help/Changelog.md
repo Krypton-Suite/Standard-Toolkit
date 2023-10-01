@@ -2,7 +2,12 @@
 
 =======
 
-## 2023-11-xx - Build 2311 - November 2023
+## 2023-11-14 - Build 2311 - November 2023
+* Resolved [#1037](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1037), Borderless Krypton Form, Maximized, Top Most = True > Fullscreen does not overlap on task bar.
+* Implemented [#956](https://github.com/Krypton-Suite/Standard-Toolkit/issues/956), Update `Readme.md` images to reflect the toolkit
+* Added the ability to specify the message text alignment in a `KryptonMessagebox`
+    - Default value is `MiddleLeft`
+* Implemented [#1126](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1126), `KryptonRibbonGroupThemeComboBox` needs to be part of the ribbon designer
 * Resolved [#1125](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1072), KryptonThemeCombox displays extra string (Todays alpha)
 * Implemented [#1089](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1089), `KryptonProgressBar` in StatusStrips
 * Resolved [#1072](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1072), Clicking "RootItem->Items" in a designer causes an exception to be thrown
@@ -33,8 +38,7 @@
     - `ContentAreaType` - Defines content area type of a `KryptonMessageBox`, default is normal
     - `LinkLabelCommand` - Specifies a `KryptonCommand` if using the `MessageBoxContentAreaType.LinkLabel` type.
     - `LinkLaunchArgument` - Specifies the `ProcessStartInfo` if a `LinkLabelCommand` has not been defined.
-    - `LinkAreaStart` - Specifies the start of a link if using the `MessageBoxContentAreaType.LinkLabel` type.
-    - `LinkAreaEnd` - Specifies the end of a link if using the `MessageBoxContentAreaType.LinkLabel` type.
+    - `ContentLinkArea` - Specifies the area of a link, if using the `MessageBoxContentAreaType.LinkLabel` type.
 * Added `KryptonLanguageManager` to the `KryptonManager` action list
 * Resolved [#1008](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1008), Krypton Save/Open file dialogs are not accessible from the toolbox
 * Implemented [#1007](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1007), A way to alter all of the strings in the toolkit to language specific strings

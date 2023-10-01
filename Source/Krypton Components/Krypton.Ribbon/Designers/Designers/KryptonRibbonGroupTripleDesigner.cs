@@ -18,7 +18,7 @@ namespace Krypton.Ribbon
         private IDesignerHost _designerHost;
         private IComponentChangeService _changeService;
         private KryptonRibbonGroupTriple _ribbonTriple;
-        private DesignerVerbCollection _verbs;
+        private DesignerVerbCollection? _verbs;
         private DesignerVerb _toggleHelpersVerb;
         private DesignerVerb _moveFirstVerb;
         private DesignerVerb _movePrevVerb;
@@ -38,6 +38,7 @@ namespace Krypton.Ribbon
         private DesignerVerb _addDomainUpDownVerb;
         private DesignerVerb _addDateTimePickerVerb;
         private DesignerVerb _addTrackBarVerb;
+        private DesignerVerb _addThemeComboBoxVerb;
         private DesignerVerb _clearItemsVerb;
         private DesignerVerb _deleteTripleVerb;
         private ContextMenuStrip? _cms;
@@ -70,6 +71,7 @@ namespace Krypton.Ribbon
         private ToolStripMenuItem _addDomainUpDownMenu;
         private ToolStripMenuItem _addDateTimePickerMenu;
         private ToolStripMenuItem _addTrackBarMenu;
+        private ToolStripMenuItem _addThemeComboBoxMenu;
         private ToolStripMenuItem _clearItemsMenu;
         private ToolStripMenuItem _deleteTripleMenu;
         #endregion
@@ -113,6 +115,7 @@ namespace Krypton.Ribbon
                 _ribbonTriple.DesignTimeAddDomainUpDown += OnAddDomainUpDown;
                 _ribbonTriple.DesignTimeAddDateTimePicker += OnAddDateTimePicker;
                 _ribbonTriple.DesignTimeAddTrackBar += OnAddTrackBar;
+                _ribbonTriple.DesignTimeAddThemeComboBox += OnAddThemeComboBox;
                 _ribbonTriple.DesignTimeContextMenu += OnContextMenu;
             }
 
@@ -177,6 +180,7 @@ namespace Krypton.Ribbon
                     _ribbonTriple.DesignTimeAddDomainUpDown -= OnAddDomainUpDown;
                     _ribbonTriple.DesignTimeAddDateTimePicker -= OnAddDateTimePicker;
                     _ribbonTriple.DesignTimeAddTrackBar -= OnAddTrackBar;
+                    _ribbonTriple.DesignTimeAddThemeComboBox -= OnAddThemeComboBox;
                     _ribbonTriple.DesignTimeContextMenu -= OnContextMenu;
                     _changeService.ComponentRemoving -= OnComponentRemoving;
                     _changeService.ComponentChanged -= OnComponentChanged;
@@ -216,24 +220,29 @@ namespace Krypton.Ribbon
                 _addDomainUpDownVerb = new DesignerVerb(@"Add DomainUpDown", OnAddDomainUpDown);
                 _addDateTimePickerVerb = new DesignerVerb(@"Add DateTimePicker", OnAddDateTimePicker);
                 _addTrackBarVerb = new DesignerVerb(@"Add TrackBar", OnAddTrackBar);
+                _addThemeComboBoxVerb = new DesignerVerb(@"Add ThemeComboBox", OnAddThemeComboBox);
                 _clearItemsVerb = new DesignerVerb(@"Clear Items", OnClearItems);
                 _deleteTripleVerb = new DesignerVerb(@"Delete Triple", OnDeleteTriple);
-                _verbs.AddRange(new[] { _toggleHelpersVerb, _moveFirstVerb, _movePrevVerb, _moveNextVerb, _moveLastVerb,
-                                                     _addButtonVerb,
-                                                     _addCheckBoxVerb,
-                                                     _addColorButtonVerb,
-                                                     _addComboBoxVerb,
-                                                     _addCustomControlVerb,
-                                                     _addDateTimePickerVerb,
-                                                     _addDomainUpDownVerb,
-                                                     _addLabelVerb,
-                                                     _addMaskedTextBoxVerb,
-                                                     _addNumericUpDownVerb,
-                                                     _addRadioButtonVerb,
-                                                     _addRichTextBoxVerb,
-                                                     _addTextBoxVerb,
-                                                     _addTrackBarVerb,
-                                                     _clearItemsVerb, _deleteTripleVerb });
+                _verbs.AddRange(new[]
+                {
+                    _toggleHelpersVerb, _moveFirstVerb, _movePrevVerb, _moveNextVerb, _moveLastVerb,
+                    _addButtonVerb,
+                    _addCheckBoxVerb,
+                    _addColorButtonVerb,
+                    _addComboBoxVerb,
+                    _addCustomControlVerb,
+                    _addDateTimePickerVerb,
+                    _addDomainUpDownVerb,
+                    _addLabelVerb,
+                    _addMaskedTextBoxVerb,
+                    _addNumericUpDownVerb,
+                    _addRadioButtonVerb,
+                    _addRichTextBoxVerb,
+                    _addTextBoxVerb,
+                    _addTrackBarVerb,
+                    _addThemeComboBoxVerb,
+                    _clearItemsVerb, _deleteTripleVerb
+                });
             }
 
             var moveFirst = false;
@@ -271,6 +280,7 @@ namespace Krypton.Ribbon
             _addDomainUpDownVerb.Enabled = add;
             _addDateTimePickerVerb.Enabled = add;
             _addTrackBarVerb.Enabled = add;
+            _addTextBoxVerb.Enabled = add;
             _clearItemsVerb.Enabled = clearItems;
         }
 
@@ -620,6 +630,34 @@ namespace Krypton.Ribbon
                     // Get designer to create a trackbar item
                     var tb = (KryptonRibbonGroupTrackBar)_designerHost.CreateComponent(typeof(KryptonRibbonGroupTrackBar));
                     _ribbonTriple.Items.Add(tb);
+
+                    RaiseComponentChanged(propertyItems, null, null);
+                }
+                finally
+                {
+                    // If we managed to create the transaction, then do it
+                    transaction?.Commit();
+                }
+            }
+        }
+
+        private void OnAddThemeComboBox(object sender, EventArgs e)
+        {
+            if ((_ribbonTriple.RibbonGroup != null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
+            {
+                // Use a transaction to support undo/redo actions
+                DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupTriple AddThemeComboBox");
+
+                try
+                {
+                    // Get access to the Items property
+                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonTriple)[@"Items"];
+
+                    RaiseComponentChanging(propertyItems);
+
+                    // Get designer to create a themecombobox item
+                    var tcb = (KryptonRibbonGroupThemeComboBox)_designerHost.CreateComponent(typeof(KryptonRibbonGroupThemeComboBox));
+                    _ribbonTriple.Items.Add(tcb);
 
                     RaiseComponentChanged(propertyItems, null, null);
                 }
@@ -989,29 +1027,34 @@ namespace Krypton.Ribbon
                     _addRichTextBoxMenu = new ToolStripMenuItem("Add RichTextBox", GenericImageResources.KryptonRibbonGroupRichTextBox, OnAddRichTextBox);
                     _addTextBoxMenu = new ToolStripMenuItem("Add TextBox", GenericImageResources.KryptonRibbonGroupTextBox, OnAddTextBox);
                     _addTrackBarMenu = new ToolStripMenuItem("Add TrackBar", GenericImageResources.KryptonRibbonGroupTrackBar, OnAddTrackBar);
+                    _addThemeComboBoxMenu = new ToolStripMenuItem("Add ThemeComboBox", GenericImageResources.KryptonRibbonGroupComboBox, OnAddThemeComboBox);
                     _clearItemsMenu = new ToolStripMenuItem("Clear Items", null, OnClearItems);
                     _deleteTripleMenu = new ToolStripMenuItem("Delete Triple", GenericImageResources.Delete, OnDeleteTriple);
-                    _cms.Items.AddRange(new ToolStripItem[] { _toggleHelpersMenu, new ToolStripSeparator(),
-                                                              _visibleMenu, _maximumSizeMenu, _minimumSizeMenu, new ToolStripSeparator(),
-                                                              _moveFirstMenu, _movePreviousMenu, _moveNextMenu, _moveLastMenu, new ToolStripSeparator(),
-                                                              _moveToGroupMenu, new ToolStripSeparator(),
-                                                              _addButtonMenu,
-                                                              _addCheckBoxMenu,
-                                                              _addColorButtonMenu,
-                                                              _addComboBoxMenu,
-                                                              _addCustomControlMenu,
-                                                              _addDateTimePickerMenu,
-                                                              _addDomainUpDownMenu,
-                                                              _addLabelMenu,
-                                                              _addMaskedTextBoxMenu,
-                                                              _addNumericUpDownMenu,
-                                                              _addRadioButtonMenu,
-                                                              _addRichTextBoxMenu,
-                                                              _addTextBoxMenu,
-                                                              _addTrackBarMenu,
-                                                              new ToolStripSeparator(),
-                                                              _clearItemsMenu, new ToolStripSeparator(),
-                                                              _deleteTripleMenu});
+                    _cms.Items.AddRange(new ToolStripItem[]
+                    {
+                        _toggleHelpersMenu, new ToolStripSeparator(),
+                        _visibleMenu, _maximumSizeMenu, _minimumSizeMenu, new ToolStripSeparator(),
+                        _moveFirstMenu, _movePreviousMenu, _moveNextMenu, _moveLastMenu, new ToolStripSeparator(),
+                        _moveToGroupMenu, new ToolStripSeparator(),
+                        _addButtonMenu,
+                        _addCheckBoxMenu,
+                        _addColorButtonMenu,
+                        _addComboBoxMenu,
+                        _addCustomControlMenu,
+                        _addDateTimePickerMenu,
+                        _addDomainUpDownMenu,
+                        _addLabelMenu,
+                        _addMaskedTextBoxMenu,
+                        _addNumericUpDownMenu,
+                        _addRadioButtonMenu,
+                        _addRichTextBoxMenu,
+                        _addTextBoxMenu,
+                        _addTrackBarMenu,
+                        _addThemeComboBoxMenu,
+                        new ToolStripSeparator(),
+                        _clearItemsMenu, new ToolStripSeparator(),
+                        _deleteTripleMenu
+                    });
 
                     // Ensure add images have correct transparent background
                     _addButtonMenu.ImageTransparentColor = Color.Magenta;
@@ -1028,6 +1071,7 @@ namespace Krypton.Ribbon
                     _addDomainUpDownMenu.ImageTransparentColor = Color.Magenta;
                     _addDateTimePickerMenu.ImageTransparentColor = Color.Magenta;
                     _addTrackBarMenu.ImageTransparentColor = Color.Magenta;
+                    _addThemeComboBoxMenu.ImageTransparentColor = Color.Magenta;
                 }
 
                 // Update verbs to work out correct enable states
@@ -1036,7 +1080,7 @@ namespace Krypton.Ribbon
                 // Update sub menu options available for the 'Move To Group'
                 UpdateMoveToGroup();
 
-                // Update menu items state from versb
+                // Update menu items state from verb
                 _toggleHelpersMenu.Checked = _ribbonTriple.Ribbon.InDesignHelperMode;
                 _visibleMenu.Checked = _ribbonTriple.Visible;
                 _maximumLMenu.Checked = _ribbonTriple.MaximumSize == GroupItemSize.Large;
@@ -1064,6 +1108,7 @@ namespace Krypton.Ribbon
                 _addDomainUpDownMenu.Enabled = _addDomainUpDownVerb.Enabled;
                 _addDateTimePickerMenu.Enabled = _addDateTimePickerVerb.Enabled;
                 _addTrackBarMenu.Enabled = _addTrackBarVerb.Enabled;
+                _addThemeComboBoxMenu.Enabled = _addThemeComboBoxVerb.Enabled;
                 _clearItemsMenu.Enabled = _clearItemsVerb.Enabled;
 
                 // Show the context menu

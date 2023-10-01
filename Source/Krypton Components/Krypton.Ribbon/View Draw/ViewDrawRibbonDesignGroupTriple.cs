@@ -152,6 +152,7 @@ namespace Krypton.Ribbon
                 var menuDomainUpDown = new ToolStripMenuItem("Add DomainUpDown", null, OnAddDomainUpDown);
                 var menuDateTimePicker = new ToolStripMenuItem("Add DateTimePicker", null, OnAddDateTimePicker);
                 var menuTrackBar = new ToolStripMenuItem("Add TrackBar", null, OnAddTrackBar);
+                var menuThemeComboBox = new ToolStripMenuItem("Add Theme ComboBox", null, OnAddThemeComboBox);
 
                 // Assign correct images
                 menuButton.ImageIndex = 0;
@@ -168,9 +169,10 @@ namespace Krypton.Ribbon
                 menuDomainUpDown.ImageIndex = 11;
                 menuDateTimePicker.ImageIndex = 12;
                 menuTrackBar.ImageIndex = 13;
+                menuThemeComboBox.ImageIndex = 14;
 
                 // Finally, add all items to the strip
-                _cms.Items.AddRange(new ToolStripItem[] { menuButton, menuColorButton, menuCheckBox, menuComboBox, menuCustomControl, menuDateTimePicker, menuDomainUpDown, menuLabel, menuNumericUpDown, menuRadioButton, menuRichTextBox, menuTextBox, menuTrackBar, menuMaskedTextBox });
+                _cms.Items.AddRange(new ToolStripItem[] { menuButton, menuColorButton, menuCheckBox, menuComboBox, menuCustomControl, menuDateTimePicker, menuDomainUpDown, menuLabel, menuNumericUpDown, menuRadioButton, menuRichTextBox, menuTextBox, menuTrackBar, menuMaskedTextBox, menuThemeComboBox });
             }
 
             if (CommonHelper.ValidContextMenuStrip(_cms))
@@ -212,6 +214,9 @@ namespace Krypton.Ribbon
         private void OnAddDateTimePicker(object sender, EventArgs e) => _ribbonTriple.OnDesignTimeAddDateTimePicker();
 
         private void OnAddTrackBar(object sender, EventArgs e) => _ribbonTriple.OnDesignTimeAddTrackBar();
+
+        private void OnAddThemeComboBox(object sender, EventArgs e) => _ribbonTriple.OnDesignTimeAddThemeComboBox();
+
         #endregion
     }
 }

@@ -1872,4 +1872,5 @@ namespace Krypton.Toolkit
     }
 
     #endregion
+
 }
