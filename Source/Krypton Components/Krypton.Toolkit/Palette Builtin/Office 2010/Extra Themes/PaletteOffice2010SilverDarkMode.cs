@@ -137,7 +137,7 @@ namespace Krypton.Toolkit
             Color.Purple, // LinkVisitedOverridePanel
             Color.Red, // LinkPressedOverridePanel
             Color.FromArgb(24, 24, 24), // TextLabelPanel
-            Color.FromArgb(255, 255, 255), // RibbonTabTextNormal
+            Color.FromArgb(83, 99, 136), // RibbonTabTextNormal
             Color.FromArgb(0, 0, 0), // RibbonTabTextChecked
             Color.FromArgb(190, 190, 190), // RibbonTabSelected1
             Color.FromArgb(198, 250, 255), // RibbonTabSelected2
