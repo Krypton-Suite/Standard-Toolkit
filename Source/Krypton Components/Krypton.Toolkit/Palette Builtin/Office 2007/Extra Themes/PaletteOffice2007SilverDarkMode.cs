@@ -142,8 +142,8 @@ namespace Krypton.Toolkit
             Color.Purple, // LinkVisitedOverridePanel
             Color.Red, // LinkPressedOverridePanel
             Color.FromArgb(24, 24, 24), // TextLabelPanel
-            Color.FromArgb(76, 83, 92), // RibbonTabTextNormal
-            Color.FromArgb(76, 83, 92), // RibbonTabTextChecked
+            Color.FromArgb(255, 255, 255), // RibbonTabTextNormal
+            Color.FromArgb(0, 0, 0), // RibbonTabTextChecked
             Color.FromArgb(190, 190, 190), // RibbonTabSelected1
             Color.FromArgb(198, 250, 255), // RibbonTabSelected2
             Color.FromArgb(247, 248, 249), // RibbonTabSelected3
@@ -554,8 +554,8 @@ namespace Krypton.Toolkit
         private static readonly Color _toolTipBack2 = Color.FromArgb(201, 217, 239);
         private static readonly Color _toolTipBorder = Color.FromArgb(118, 118, 118);
         private static readonly Color _toolTipText = Color.FromArgb(76, 76, 76);
-        private static readonly Color _contextMenuInnerBack = Color.FromArgb(250, 250, 250);
-        private static readonly Color _contextMenuOuterBack = Color.FromArgb(245, 245, 245);
+        private static readonly Color _contextMenuInnerBack = Color.FromArgb(119, 132, 161);
+        private static readonly Color _contextMenuOuterBack = Color.FromArgb(83, 99, 136);
         private static readonly Color _contextMenuBorder = Color.FromArgb(134, 134, 134);
         private static readonly Color _contextMenuHeadingBorder = Color.FromArgb(197, 197, 197);
         private static readonly Color _contextMenuImageBackChecked = Color.FromArgb(164, 172, 192);
