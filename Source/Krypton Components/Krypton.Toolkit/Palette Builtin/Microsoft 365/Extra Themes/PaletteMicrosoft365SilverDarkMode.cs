@@ -197,8 +197,8 @@ namespace Krypton.Toolkit
             Color.Purple, // LinkVisitedOverridePanel
             Color.Red, // LinkPressedOverridePanel
             Color.FromArgb(24, 24, 24), // TextLabelPanel
-            Color.FromArgb(76, 83, 92), // RibbonTabTextNormal
-            Color.FromArgb(76, 83, 92), // RibbonTabTextChecked
+            Color.FromArgb(255, 255, 255), // RibbonTabTextNormal
+            Color.FromArgb(0, 0, 0), // RibbonTabTextChecked
             Color.FromArgb(190, 190, 190), // RibbonTabSelected1
             Color.FromArgb(198, 250, 255), // RibbonTabSelected2
             Color.FromArgb(247, 248, 249), // RibbonTabSelected3
@@ -331,8 +331,8 @@ namespace Krypton.Toolkit
             Color.FromArgb(217, 221, 226), // AppButtonOuter3
             Color.FromArgb(250, 250, 250), // AppButtonInner1
             Color.FromArgb(169, 174, 180), // AppButtonInner2
-            Color.FromArgb(241, 242, 245), // AppButtonMenuDocs
-            Color.FromArgb(76, 83, 92), // AppButtonMenuDocsText
+            Color.FromArgb(119, 132, 161), // AppButtonMenuDocs
+            Color.FromArgb(255, 255, 255), // AppButtonMenuDocsText
             Color.FromArgb(168, 167, 191), // SeparatorHighInternalBorder1
             Color.FromArgb(119, 118, 151), // SeparatorHighInternalBorder2
             Color.FromArgb(169, 177, 184), // RibbonGalleryBorder
@@ -356,8 +356,7 @@ namespace Krypton.Toolkit
             Color.FromArgb(225, 226, 230), // ButtonNavigatorPressed2
             Color.FromArgb(222, 227, 234), // ButtonNavigatorChecked1
             Color.FromArgb(206, 214, 221), // ButtonNavigatorChecked2
-            Color.FromArgb(221, 221,
-                221) // ToolTipBottom                                                                      
+            Color.FromArgb(221, 221, 221) // ToolTipBottom                                                                      
         };
 
         #endregion
@@ -690,7 +689,7 @@ namespace Krypton.Toolkit
         private static readonly Color _contextCheckedTabBorder3 = Color.FromArgb(220, 202, 171);
         private static readonly Color _contextCheckedTabBorder4 = Color.FromArgb(255, 252, 247);
         private static readonly Color _contextTextColor = Color.White;
-        private static readonly Color _contextMenuBack = Color.White;
+        private static readonly Color _contextMenuBack = Color.FromArgb(83, 99, 136);
 
         private static readonly Color _formCloseBorderTracking = Color.FromArgb(155, 61, 61);
         private static readonly Color _formCloseBorderPressed = Color.FromArgb(155, 61, 61);

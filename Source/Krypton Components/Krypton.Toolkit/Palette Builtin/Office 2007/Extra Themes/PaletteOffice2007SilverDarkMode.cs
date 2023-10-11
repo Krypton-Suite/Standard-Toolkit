@@ -69,219 +69,228 @@ namespace Krypton.Toolkit
                                                             Color.FromArgb(64, Color.White),    // Outside position
                                                             Color.FromArgb(80, 81, 82)          // Border (normal) position
         };
-        private static readonly Color[] _schemeOfficeColors = { Color.FromArgb(24, 24, 24),    // TextLabelControl
-                                                                Color.FromArgb(24, 24, 24),    // TextButtonNormal
-                                                                Color.FromArgb(24, 24, 24),    // TextButtonChecked
-                                                                Color.FromArgb(141, 148, 157),    // ButtonNormalBorder1
-                                                                Color.FromArgb(131, 138, 147),    // ButtonNormalBorder2
-                                                                Color.FromArgb(119, 132, 161),    // ButtonNormalBack1
-                                                                Color.FromArgb(83, 99, 136),    // ButtonNormalBack2
-                                                                Color.FromArgb(186, 185, 206),    // ButtonNormalDefaultBack1
-                                                                Color.FromArgb(222, 226, 236),    // ButtonNormalDefaultBack2
-                                                                Color.FromArgb(202, 204, 214),    // ButtonNormalNavigatorBack1
-                                                                Color.FromArgb(222, 226, 236),    // ButtonNormalNavigatorBack2
-                                                                Color.FromArgb(119, 132, 161),    // PanelClient
-                                                                Color.FromArgb(83, 99, 136),    // PanelAlternative
-                                                                Color.FromArgb(111, 112, 116),    // ControlBorder
-                                                                Color.FromArgb(240, 241, 242),    // SeparatorHighBorder1
-                                                                Color.FromArgb(195, 200, 206),    // SeparatorHighBorder2
-                                                                Color.FromArgb(119, 132, 161),    // HeaderPrimaryBack1
-                                                                Color.FromArgb(83, 99, 136),    // HeaderPrimaryBack2
-                                                                Color.FromArgb(213, 219, 231),    // HeaderSecondaryBack1
-                                                                Color.FromArgb(213, 219, 231),    // HeaderSecondaryBack2
-                                                                Color.FromArgb( 21,  66, 139),    // HeaderText
-                                                                Color.FromArgb(24, 24, 24),    // StatusStripText
-                                                                Color.FromArgb(155, 163, 167),    // ButtonBorder
-                                                                Color.FromArgb(255, 255, 255),    // SeparatorLight
-                                                                Color.FromArgb(110, 109, 143),    // SeparatorDark
-                                                                Color.FromArgb(248, 248, 248),    // GripLight
-                                                                Color.FromArgb(112, 118, 126),    // GripDark
-                                                                Color.FromArgb(119, 132, 161),    // ToolStripBack
-                                                                Color.FromArgb(53, 71, 112),    // StatusStripLight
-                                                                Color.FromArgb(119, 132, 161),    // StatusStripDark
-                                                                Color.FromArgb(83, 99, 136),    // ImageMargin
-                                                                Color.FromArgb(119, 132, 161),    // ToolStripBegin
-                                                                Color.FromArgb(53, 71, 112),    // ToolStripMiddle
-                                                                Color.FromArgb(83, 132, 161),    // ToolStripEnd
-                                                                Color.FromArgb(179, 178, 200),    // OverflowBegin
-                                                                Color.FromArgb(152, 151, 177),    // OverflowMiddle
-                                                                Color.FromArgb(124, 124, 148),    // OverflowEnd
-                                                                Color.FromArgb(124, 124, 148),    // ToolStripBorder
-                                                                Color.FromArgb(119, 132, 161),    // FormBorderActive
-                                                                Color.FromArgb(83, 99, 136),    // FormBorderInactive
-                                                                Color.FromArgb(119, 132, 161),    // FormBorderActiveLight
-                                                                Color.FromArgb(83, 99, 136),    // FormBorderActiveDark
-                                                                Color.FromArgb(119, 132, 161),    // FormBorderInactiveLight
-                                                                Color.FromArgb(83, 99, 136),    // FormBorderInactiveDark
-                                                                Color.FromArgb(119, 132, 161),    // FormBorderHeaderActive
-                                                                Color.FromArgb(83, 99, 136),    // FormBorderHeaderInactive
-                                                                Color.FromArgb(119, 132, 161),    // FormBorderHeaderActive1
-                                                                Color.FromArgb(83, 99, 136),    // FormBorderHeaderActive2
-                                                                Color.FromArgb(119, 132, 161),    // FormBorderHeaderInctive1
-                                                                Color.FromArgb(83, 99, 136),    // FormBorderHeaderInctive2
-                                                                Color.FromArgb(24, 24, 24),    // FormHeaderShortActive
-                                                                Color.FromArgb(138, 138, 138),    // FormHeaderShortInactive
-                                                                Color.FromArgb( 92,  98, 106),    // FormHeaderLongActive
-                                                                Color.FromArgb(138, 138, 138),    // FormHeaderLongInactive
-                                                                Color.FromArgb(189, 199, 212),    // FormButtonBorderTrack
-                                                                Color.FromArgb(222, 230, 242),    // FormButtonBack1Track
-                                                                Color.FromArgb(255, 255, 255),    // FormButtonBack2Track
-                                                                Color.FromArgb(149, 154, 160),    // FormButtonBorderPressed
-                                                                Color.FromArgb(125, 131, 140),    // FormButtonBack1Pressed
-                                                                Color.FromArgb(213, 226, 233),    // FormButtonBack2Pressed
-                                                                Color.Black,                      // TextButtonFormNormal
-                                                                Color.Black,                      // TextButtonFormTracking
-                                                                Color.Black,                      // TextButtonFormPressed
-                                                                Color.Silver,                       // LinkNotVisitedOverrideControl
-                                                                Color.Purple,                     // LinkVisitedOverrideControl
-                                                                Color.Red,                        // LinkPressedOverrideControl
-                                                                Color.Silver,                       // LinkNotVisitedOverridePanel
-                                                                Color.Purple,                     // LinkVisitedOverridePanel
-                                                                Color.Red,                        // LinkPressedOverridePanel
-                                                                Color.FromArgb(24, 24, 24),    // TextLabelPanel
-                                                                Color.FromArgb( 76,  83,  92),    // RibbonTabTextNormal
-                                                                Color.FromArgb( 76,  83,  92),    // RibbonTabTextChecked
-                                                                Color.FromArgb(190, 190, 190),    // RibbonTabSelected1
-                                                                Color.FromArgb(198, 250, 255),    // RibbonTabSelected2
-                                                                Color.FromArgb(247, 248, 249),    // RibbonTabSelected3
-                                                                Color.FromArgb(245, 245, 247),    // RibbonTabSelected4
-                                                                Color.FromArgb(239, 234, 241),    // RibbonTabSelected5
-                                                                Color.FromArgb(189, 190, 193),    // RibbonTabTracking1
-                                                                Color.FromArgb(255, 180,  86),    // RibbonTabTracking2
-                                                                Color.FromArgb(255, 255, 189),    // RibbonTabHighlight1
-                                                                Color.FromArgb(249, 237, 198),    // RibbonTabHighlight2
-                                                                Color.FromArgb(218, 185, 127),    // RibbonTabHighlight3
-                                                                Color.FromArgb(254, 209,  94),    // RibbonTabHighlight4
-                                                                Color.FromArgb(205, 209, 180),    // RibbonTabHighlight5
-                                                                Color.FromArgb(175, 176, 179),    // RibbonTabSeparatorColor
-                                                                Color.FromArgb(190, 190, 190),    // RibbonGroupsArea1
-                                                                Color.FromArgb(210, 210, 210),    // RibbonGroupsArea2
-                                                                Color.FromArgb(213, 219, 231),    // RibbonGroupsArea3
-                                                                Color.FromArgb(249, 249, 249),    // RibbonGroupsArea4
-                                                                Color.FromArgb(243, 245, 249),    // RibbonGroupsArea5
-                                                                Color.FromArgb(189, 191, 193),    // RibbonGroupBorder1
-                                                                Color.FromArgb(133, 133, 133),    // RibbonGroupBorder2
-                                                                Color.FromArgb(223, 227, 239),    // RibbonGroupTitle1
-                                                                Color.FromArgb(195, 199, 209),    // RibbonGroupTitle2
-                                                                Color.FromArgb(183, 183, 183),    // RibbonGroupBorderContext1
-                                                                Color.FromArgb(131, 131, 131),    // RibbonGroupBorderContext2
-                                                                Color.FromArgb(223, 227, 239),    // RibbonGroupTitleContext1
-                                                                Color.FromArgb(195, 199, 209),    // RibbonGroupTitleContext2
-                                                                Color.FromArgb(101, 104, 112),    // RibbonGroupDialogDark
-                                                                Color.FromArgb(242, 242, 242),    // RibbonGroupDialogLight
-                                                                Color.FromArgb(222, 226, 238),    // RibbonGroupTitleTracking1
-                                                                Color.FromArgb(179, 185, 199),    // RibbonGroupTitleTracking2
-                                                                Color.FromArgb(128, 128, 128),    // RibbonMinimizeBarDark
-                                                                Color.FromArgb(220, 225, 235),    // RibbonMinimizeBarLight
-                                                                Color.FromArgb(183, 183, 183),    // RibbonGroupCollapsedBorder1
-                                                                Color.FromArgb(145, 145, 145),    // RibbonGroupCollapsedBorder2
-                                                                Color.FromArgb(64, Color.White),  // RibbonGroupCollapsedBorder3
-                                                                Color.FromArgb(225, 227, 227),    // RibbonGroupCollapsedBorder4
-                                                                Color.FromArgb(242, 246, 246),    // RibbonGroupCollapsedBack1
-                                                                Color.FromArgb(207, 212, 220),    // RibbonGroupCollapsedBack2
-                                                                Color.FromArgb(196, 203, 214),    // RibbonGroupCollapsedBack3
-                                                                Color.FromArgb(234, 235, 235),    // RibbonGroupCollapsedBack4
-                                                                Color.FromArgb(188, 193, 213),    // RibbonGroupCollapsedBorderT1
-                                                                Color.FromArgb(142, 178, 179),    // RibbonGroupCollapsedBorderT2
-                                                                Color.FromArgb(192, Color.White), // RibbonGroupCollapsedBorderT3
-                                                                Color.White,                      // RibbonGroupCollapsedBorderT4
-                                                                Color.FromArgb(245, 248, 248),    // RibbonGroupCollapsedBackT1
-                                                                Color.FromArgb(242, 244, 247),    // RibbonGroupCollapsedBackT2
-                                                                Color.FromArgb(238, 241, 245),    // RibbonGroupCollapsedBackT3
-                                                                Color.FromArgb(234, 235, 235),    // RibbonGroupCollapsedBackT4
-                                                                Color.FromArgb(160, 160, 160),    // RibbonGroupFrameBorder1
-                                                                Color.FromArgb(209, 209, 209),    // RibbonGroupFrameBorder2
-                                                                Color.FromArgb(239, 242, 243),    // RibbonGroupFrameInside1
-                                                                Color.FromArgb(226, 229, 234),    // RibbonGroupFrameInside2
-                                                                Color.FromArgb(220, 224, 231),    // RibbonGroupFrameInside3
-                                                                Color.FromArgb(232, 234, 238),    // RibbonGroupFrameInside4
-                                                                Color.FromArgb( 76,  83,  92),    // RibbonGroupCollapsedText         
-                                                                Color.FromArgb(179, 185, 195),    // AlternatePressedBack1
-                                                                Color.FromArgb(216, 224, 224),    // AlternatePressedBack2
-                                                                Color.FromArgb(125, 125, 125),    // AlternatePressedBorder1
-                                                                Color.FromArgb(186, 186, 186),    // AlternatePressedBorder2
-                                                                Color.FromArgb(157, 166, 174),    // FormButtonBack1Checked
-                                                                Color.FromArgb(222, 230, 242),    // FormButtonBack2Checked
-                                                                Color.FromArgb(149, 154, 160),    // FormButtonBorderCheck
-                                                                Color.FromArgb(147, 156, 164),    // FormButtonBack1CheckTrack
-                                                                Color.FromArgb(237, 245, 250),    // FormButtonBack2CheckTrack
-                                                                Color.FromArgb(180, 180, 180),    // RibbonQATMini1
-                                                                Color.FromArgb(210, 215, 221),    // RibbonQATMini2
-                                                                Color.FromArgb(195, 200, 206),    // RibbonQATMini3
-                                                                Color.FromArgb(10, Color.White),  // RibbonQATMini4
-                                                                Color.FromArgb(32, Color.White),  // RibbonQATMini5                                                       
-                                                                Color.FromArgb(200, 200, 200),    // RibbonQATMini1I
-                                                                Color.FromArgb(233, 234, 238),    // RibbonQATMini2I
-                                                                Color.FromArgb(223, 224, 228),    // RibbonQATMini3I
-                                                                Color.FromArgb(10, Color.White),  // RibbonQATMini4I
-                                                                Color.FromArgb(32, Color.White),  // RibbonQATMini5I                                                       
-                                                                Color.FromArgb(217, 222, 230),    // RibbonQATFullbar1                                                      
-                                                                Color.FromArgb(214, 219, 227),    // RibbonQATFullbar2                                                      
-                                                                Color.FromArgb(194, 201, 212),    // RibbonQATFullbar3                                                      
-                                                                Color.FromArgb(103, 103, 103),    // RibbonQATButtonDark                                                      
-                                                                Color.FromArgb(225, 225, 225),    // RibbonQATButtonLight                                                      
-                                                                Color.FromArgb(219, 218, 228),    // RibbonQATOverflow1                                                      
-                                                                Color.FromArgb( 55, 100, 160),    // RibbonQATOverflow2                                                      
-                                                                Color.FromArgb(173, 177, 181),    // RibbonGroupSeparatorDark                                                      
-                                                                Color.FromArgb(232, 235, 237),    // RibbonGroupSeparatorLight                                                      
-                                                                Color.FromArgb(231, 234, 238),    // ButtonClusterButtonBack1                                                      
-                                                                Color.FromArgb(241, 243, 243),    // ButtonClusterButtonBack2                                                      
-                                                                Color.FromArgb(197, 198, 199),    // ButtonClusterButtonBorder1                                                      
-                                                                Color.FromArgb(157, 158, 159),    // ButtonClusterButtonBorder2                                                      
-                                                                Color.FromArgb(238, 238, 244),    // NavigatorMiniBackColor                                                    
-                                                                Color.FromArgb(119, 132, 161),                      // GridListNormal1                                                    
-                                                                Color.FromArgb(83, 99, 136),    // GridListNormal2                                                    
-                                                                Color.FromArgb(83, 99, 136),    // GridListPressed1                                                    
-                                                                Color.FromArgb(252, 253, 253),    // GridListPressed2                                                    
-                                                                Color.FromArgb(83, 99, 136),    // GridListSelected                                                    
-                                                                Color.FromArgb(119, 132, 161),    // GridSheetColNormal1                                                    
-                                                                Color.FromArgb(83, 99, 136),    // GridSheetColNormal2                                                    
-                                                                Color.FromArgb(208, 208, 208),    // GridSheetColPressed1                                                    
-                                                                Color.FromArgb(166, 166, 166),    // GridSheetColPressed2                                                    
-                                                                Color.FromArgb(54,64,88),    // GridSheetColSelected1
-                                                                Color.FromArgb(83, 99, 136),    // GridSheetColSelected2
-                                                                Color.FromArgb(231, 231, 231),    // GridSheetRowNormal                                                   
-                                                                Color.FromArgb(184, 191, 196),    // GridSheetRowPressed
-                                                                Color.FromArgb(245, 199, 149),    // GridSheetRowSelected
-                                                                Color.FromArgb(188, 195, 209),    // GridDataCellBorder
-                                                                Color.FromArgb(194, 217, 240),    // GridDataCellSelected
-                                                                Color.Black,                      // InputControlTextNormal
-                                                                Color.FromArgb(172, 168, 153),    // InputControlTextDisabled
-                                                                Color.FromArgb(169, 177, 184),    // InputControlBorderNormal
-                                                                Color.FromArgb(177, 187, 198),    // InputControlBorderDisabled
-                                                                Color.FromArgb(119, 132, 161),    // InputControlBackNormal
-                                                                SystemColors.Control,             // InputControlBackDisabled
-                                                                Color.FromArgb(232, 234, 236),    // InputControlBackInactive
-                                                                Color.FromArgb(124, 124, 124),    // InputDropDownNormal1
-                                                                Color.FromArgb(255, 248, 203),    // InputDropDownNormal2
-                                                                Color.FromArgb(172, 168, 153),    // InputDropDownDisabled1
-                                                                Color.Transparent,                // InputDropDownDisabled2
-                                                                Color.FromArgb(24, 24, 24),    // ContextMenuHeading
-                                                                Color.FromArgb( 76,  83,  92),    // ContextMenuHeadingText
-                                                                Color.FromArgb(239, 239, 239),    // ContextMenuImageColumn
-                                                                Color.FromArgb(119, 132, 161),    // AppButtonBack1
-                                                                Color.FromArgb(83, 99, 136),    // AppButtonBack2
-                                                                Color.FromArgb(169, 174, 180),    // AppButtonBorder
-                                                                Color.FromArgb(207, 212, 217),    // AppButtonOuter1
-                                                                Color.FromArgb(194, 200, 208),    // AppButtonOuter2
-                                                                Color.FromArgb(217, 221, 226),    // AppButtonOuter3
-                                                                Color.FromArgb(250, 250, 250),    // AppButtonInner1
-                                                                Color.FromArgb(169, 174, 180),    // AppButtonInner2
-                                                                Color.FromArgb(241, 242, 245),    // AppButtonMenuDocs
-                                                                Color.FromArgb(76,   83,  92),    // AppButtonMenuDocsText
-                                                                Color.FromArgb(168, 167, 191),    // SeparatorHighInternalBorder1
-                                                                Color.FromArgb(119, 118, 151),    // SeparatorHighInternalBorder2
-                                                                Color.FromArgb(169, 177, 184),    // RibbonGalleryBorder
-                                                                Color.FromArgb(232, 234, 236),    // RibbonGalleryBackNormal
-                                                                Color.FromArgb(240, 241, 242),    // RibbonGalleryBackTracking
-                                                                Color.FromArgb(195, 200, 209),    // RibbonGalleryBack1
-                                                                Color.FromArgb(217, 220, 224),    // RibbonGalleryBack2
-                                                                Color.Empty,                      // RibbonTabTracking3
-                                                                Color.Empty,                      // RibbonTabTracking4
-                                                                Color.Empty,                      // RibbonGroupBorder3
-                                                                Color.Empty,                      // RibbonGroupBorder4
-                                                                Color.Empty,                      // RibbonDropArrowLight
-                                                                Color.Empty // RibbonDropArrowDark
+
+        private static readonly Color[] _schemeOfficeColors =
+        {
+            Color.FromArgb(24, 24, 24), // TextLabelControl
+            Color.FromArgb(24, 24, 24), // TextButtonNormal
+            Color.FromArgb(24, 24, 24), // TextButtonChecked
+            Color.FromArgb(141, 148, 157), // ButtonNormalBorder1
+            Color.FromArgb(131, 138, 147), // ButtonNormalBorder2
+            Color.FromArgb(119, 132, 161), // ButtonNormalBack1
+            Color.FromArgb(83, 99, 136), // ButtonNormalBack2
+            Color.FromArgb(186, 185, 206), // ButtonNormalDefaultBack1
+            Color.FromArgb(222, 226, 236), // ButtonNormalDefaultBack2
+            Color.FromArgb(202, 204, 214), // ButtonNormalNavigatorBack1
+            Color.FromArgb(222, 226, 236), // ButtonNormalNavigatorBack2
+            Color.FromArgb(119, 132, 161), // PanelClient
+            Color.FromArgb(83, 99, 136), // PanelAlternative
+            Color.FromArgb(111, 112, 116), // ControlBorder
+            Color.FromArgb(240, 241, 242), // SeparatorHighBorder1
+            Color.FromArgb(195, 200, 206), // SeparatorHighBorder2
+            Color.FromArgb(119, 132, 161), // HeaderPrimaryBack1
+            Color.FromArgb(83, 99, 136), // HeaderPrimaryBack2
+            Color.FromArgb(213, 219, 231), // HeaderSecondaryBack1
+            Color.FromArgb(213, 219, 231), // HeaderSecondaryBack2
+            Color.FromArgb(21, 66, 139), // HeaderText
+            Color.FromArgb(24, 24, 24), // StatusStripText
+            Color.FromArgb(155, 163, 167), // ButtonBorder
+            Color.FromArgb(255, 255, 255), // SeparatorLight
+            Color.FromArgb(110, 109, 143), // SeparatorDark
+            Color.FromArgb(248, 248, 248), // GripLight
+            Color.FromArgb(112, 118, 126), // GripDark
+            Color.FromArgb(119, 132, 161), // ToolStripBack
+            Color.FromArgb(53, 71, 112), // StatusStripLight
+            Color.FromArgb(119, 132, 161), // StatusStripDark
+            Color.FromArgb(83, 99, 136), // ImageMargin
+            Color.FromArgb(119, 132, 161), // ToolStripBegin
+            Color.FromArgb(53, 71, 112), // ToolStripMiddle
+            Color.FromArgb(83, 132, 161), // ToolStripEnd
+            Color.FromArgb(179, 178, 200), // OverflowBegin
+            Color.FromArgb(152, 151, 177), // OverflowMiddle
+            Color.FromArgb(124, 124, 148), // OverflowEnd
+            Color.FromArgb(124, 124, 148), // ToolStripBorder
+            Color.FromArgb(119, 132, 161), // FormBorderActive
+            Color.FromArgb(83, 99, 136), // FormBorderInactive
+            Color.FromArgb(119, 132, 161), // FormBorderActiveLight
+            Color.FromArgb(83, 99, 136), // FormBorderActiveDark
+            Color.FromArgb(119, 132, 161), // FormBorderInactiveLight
+            Color.FromArgb(83, 99, 136), // FormBorderInactiveDark
+            Color.FromArgb(119, 132, 161), // FormBorderHeaderActive
+            Color.FromArgb(83, 99, 136), // FormBorderHeaderInactive
+            Color.FromArgb(119, 132, 161), // FormBorderHeaderActive1
+            Color.FromArgb(83, 99, 136), // FormBorderHeaderActive2
+            Color.FromArgb(119, 132, 161), // FormBorderHeaderInctive1
+            Color.FromArgb(83, 99, 136), // FormBorderHeaderInctive2
+            Color.FromArgb(24, 24, 24), // FormHeaderShortActive
+            Color.FromArgb(138, 138, 138), // FormHeaderShortInactive
+            Color.FromArgb(92, 98, 106), // FormHeaderLongActive
+            Color.FromArgb(138, 138, 138), // FormHeaderLongInactive
+            Color.FromArgb(189, 199, 212), // FormButtonBorderTrack
+            Color.FromArgb(222, 230, 242), // FormButtonBack1Track
+            Color.FromArgb(255, 255, 255), // FormButtonBack2Track
+            Color.FromArgb(149, 154, 160), // FormButtonBorderPressed
+            Color.FromArgb(125, 131, 140), // FormButtonBack1Pressed
+            Color.FromArgb(213, 226, 233), // FormButtonBack2Pressed
+            Color.Black, // TextButtonFormNormal
+            Color.Black, // TextButtonFormTracking
+            Color.Black, // TextButtonFormPressed
+            Color.Silver, // LinkNotVisitedOverrideControl
+            Color.Purple, // LinkVisitedOverrideControl
+            Color.Red, // LinkPressedOverrideControl
+            Color.Silver, // LinkNotVisitedOverridePanel
+            Color.Purple, // LinkVisitedOverridePanel
+            Color.Red, // LinkPressedOverridePanel
+            Color.FromArgb(24, 24, 24), // TextLabelPanel
+            Color.FromArgb(255, 255, 255), // RibbonTabTextNormal
+            Color.FromArgb(0, 0, 0), // RibbonTabTextChecked
+            Color.FromArgb(190, 190, 190), // RibbonTabSelected1
+            Color.FromArgb(198, 250, 255), // RibbonTabSelected2
+            Color.FromArgb(247, 248, 249), // RibbonTabSelected3
+            Color.FromArgb(245, 245, 247), // RibbonTabSelected4
+            Color.FromArgb(239, 234, 241), // RibbonTabSelected5
+            Color.FromArgb(189, 190, 193), // RibbonTabTracking1
+            Color.FromArgb(255, 180, 86), // RibbonTabTracking2
+            Color.FromArgb(255, 255, 189), // RibbonTabHighlight1
+            Color.FromArgb(249, 237, 198), // RibbonTabHighlight2
+            Color.FromArgb(218, 185, 127), // RibbonTabHighlight3
+            Color.FromArgb(254, 209, 94), // RibbonTabHighlight4
+            Color.FromArgb(205, 209, 180), // RibbonTabHighlight5
+            Color.FromArgb(175, 176, 179), // RibbonTabSeparatorColor
+            Color.FromArgb(190, 190, 190), // RibbonGroupsArea1
+            Color.FromArgb(210, 210, 210), // RibbonGroupsArea2
+            Color.FromArgb(213, 219, 231), // RibbonGroupsArea3
+            Color.FromArgb(249, 249, 249), // RibbonGroupsArea4
+            Color.FromArgb(243, 245, 249), // RibbonGroupsArea5
+            Color.FromArgb(189, 191, 193), // RibbonGroupBorder1
+            Color.FromArgb(133, 133, 133), // RibbonGroupBorder2
+            Color.FromArgb(223, 227, 239), // RibbonGroupTitle1
+            Color.FromArgb(195, 199, 209), // RibbonGroupTitle2
+            Color.FromArgb(183, 183, 183), // RibbonGroupBorderContext1
+            Color.FromArgb(131, 131, 131), // RibbonGroupBorderContext2
+            Color.FromArgb(223, 227, 239), // RibbonGroupTitleContext1
+            Color.FromArgb(195, 199, 209), // RibbonGroupTitleContext2
+            Color.FromArgb(101, 104, 112), // RibbonGroupDialogDark
+            Color.FromArgb(242, 242, 242), // RibbonGroupDialogLight
+            Color.FromArgb(222, 226, 238), // RibbonGroupTitleTracking1
+            Color.FromArgb(179, 185, 199), // RibbonGroupTitleTracking2
+            Color.FromArgb(128, 128, 128), // RibbonMinimizeBarDark
+            Color.FromArgb(220, 225, 235), // RibbonMinimizeBarLight
+            Color.FromArgb(183, 183, 183), // RibbonGroupCollapsedBorder1
+            Color.FromArgb(145, 145, 145), // RibbonGroupCollapsedBorder2
+            Color.FromArgb(64, Color.White), // RibbonGroupCollapsedBorder3
+            Color.FromArgb(225, 227, 227), // RibbonGroupCollapsedBorder4
+            Color.FromArgb(242, 246, 246), // RibbonGroupCollapsedBack1
+            Color.FromArgb(207, 212, 220), // RibbonGroupCollapsedBack2
+            Color.FromArgb(196, 203, 214), // RibbonGroupCollapsedBack3
+            Color.FromArgb(234, 235, 235), // RibbonGroupCollapsedBack4
+            Color.FromArgb(188, 193, 213), // RibbonGroupCollapsedBorderT1
+            Color.FromArgb(142, 178, 179), // RibbonGroupCollapsedBorderT2
+            Color.FromArgb(192, Color.White), // RibbonGroupCollapsedBorderT3
+            Color.White, // RibbonGroupCollapsedBorderT4
+            Color.FromArgb(245, 248, 248), // RibbonGroupCollapsedBackT1
+            Color.FromArgb(242, 244, 247), // RibbonGroupCollapsedBackT2
+            Color.FromArgb(238, 241, 245), // RibbonGroupCollapsedBackT3
+            Color.FromArgb(234, 235, 235), // RibbonGroupCollapsedBackT4
+            Color.FromArgb(160, 160, 160), // RibbonGroupFrameBorder1
+            Color.FromArgb(209, 209, 209), // RibbonGroupFrameBorder2
+            Color.FromArgb(239, 242, 243), // RibbonGroupFrameInside1
+            Color.FromArgb(226, 229, 234), // RibbonGroupFrameInside2
+            Color.FromArgb(220, 224, 231), // RibbonGroupFrameInside3
+            Color.FromArgb(232, 234, 238), // RibbonGroupFrameInside4
+            Color.FromArgb(76, 83, 92), // RibbonGroupCollapsedText         
+            Color.FromArgb(179, 185, 195), // AlternatePressedBack1
+            Color.FromArgb(216, 224, 224), // AlternatePressedBack2
+            Color.FromArgb(125, 125, 125), // AlternatePressedBorder1
+            Color.FromArgb(186, 186, 186), // AlternatePressedBorder2
+            Color.FromArgb(157, 166, 174), // FormButtonBack1Checked
+            Color.FromArgb(222, 230, 242), // FormButtonBack2Checked
+            Color.FromArgb(149, 154, 160), // FormButtonBorderCheck
+            Color.FromArgb(147, 156, 164), // FormButtonBack1CheckTrack
+            Color.FromArgb(237, 245, 250), // FormButtonBack2CheckTrack
+            Color.FromArgb(180, 180, 180), // RibbonQATMini1
+            Color.FromArgb(210, 215, 221), // RibbonQATMini2
+            Color.FromArgb(195, 200, 206), // RibbonQATMini3
+            Color.FromArgb(10, Color.White), // RibbonQATMini4
+            Color.FromArgb(32, Color.White), // RibbonQATMini5                                                       
+            Color.FromArgb(200, 200, 200), // RibbonQATMini1I
+            Color.FromArgb(233, 234, 238), // RibbonQATMini2I
+            Color.FromArgb(223, 224, 228), // RibbonQATMini3I
+            Color.FromArgb(10, Color.White), // RibbonQATMini4I
+            Color.FromArgb(32, Color.White), // RibbonQATMini5I                                                       
+            Color.FromArgb(217, 222, 230), // RibbonQATFullbar1                                                      
+            Color.FromArgb(214, 219, 227), // RibbonQATFullbar2                                                      
+            Color.FromArgb(194, 201, 212), // RibbonQATFullbar3                                                      
+            Color.FromArgb(103, 103, 103), // RibbonQATButtonDark                                                      
+            Color.FromArgb(225, 225, 225), // RibbonQATButtonLight                                                      
+            Color.FromArgb(219, 218, 228), // RibbonQATOverflow1                                                      
+            Color.FromArgb(55, 100, 160), // RibbonQATOverflow2                                                      
+            Color.FromArgb(173, 177,
+                181), // RibbonGroupSeparatorDark                                                      
+            Color.FromArgb(232, 235,
+                237), // RibbonGroupSeparatorLight                                                      
+            Color.FromArgb(231, 234,
+                238), // ButtonClusterButtonBack1                                                      
+            Color.FromArgb(241, 243,
+                243), // ButtonClusterButtonBack2                                                      
+            Color.FromArgb(197, 198,
+                199), // ButtonClusterButtonBorder1                                                      
+            Color.FromArgb(157, 158,
+                159), // ButtonClusterButtonBorder2                                                      
+            Color.FromArgb(238, 238, 244), // NavigatorMiniBackColor                                                    
+            Color.FromArgb(119, 132, 161), // GridListNormal1                                                    
+            Color.FromArgb(83, 99, 136), // GridListNormal2                                                    
+            Color.FromArgb(83, 99, 136), // GridListPressed1                                                    
+            Color.FromArgb(252, 253, 253), // GridListPressed2                                                    
+            Color.FromArgb(83, 99, 136), // GridListSelected                                                    
+            Color.FromArgb(119, 132, 161), // GridSheetColNormal1                                                    
+            Color.FromArgb(83, 99, 136), // GridSheetColNormal2                                                    
+            Color.FromArgb(208, 208, 208), // GridSheetColPressed1                                                    
+            Color.FromArgb(166, 166, 166), // GridSheetColPressed2                                                    
+            Color.FromArgb(54, 64, 88), // GridSheetColSelected1
+            Color.FromArgb(83, 99, 136), // GridSheetColSelected2
+            Color.FromArgb(231, 231, 231), // GridSheetRowNormal                                                   
+            Color.FromArgb(184, 191, 196), // GridSheetRowPressed
+            Color.FromArgb(245, 199, 149), // GridSheetRowSelected
+            Color.FromArgb(188, 195, 209), // GridDataCellBorder
+            Color.FromArgb(194, 217, 240), // GridDataCellSelected
+            Color.Black, // InputControlTextNormal
+            Color.FromArgb(172, 168, 153), // InputControlTextDisabled
+            Color.FromArgb(169, 177, 184), // InputControlBorderNormal
+            Color.FromArgb(177, 187, 198), // InputControlBorderDisabled
+            Color.FromArgb(119, 132, 161), // InputControlBackNormal
+            SystemColors.Control, // InputControlBackDisabled
+            Color.FromArgb(232, 234, 236), // InputControlBackInactive
+            Color.FromArgb(124, 124, 124), // InputDropDownNormal1
+            Color.FromArgb(255, 248, 203), // InputDropDownNormal2
+            Color.FromArgb(172, 168, 153), // InputDropDownDisabled1
+            Color.Transparent, // InputDropDownDisabled2
+            Color.FromArgb(24, 24, 24), // ContextMenuHeading
+            Color.FromArgb(76, 83, 92), // ContextMenuHeadingText
+            Color.FromArgb(239, 239, 239), // ContextMenuImageColumn
+            Color.FromArgb(119, 132, 161), // AppButtonBack1
+            Color.FromArgb(83, 99, 136), // AppButtonBack2
+            Color.FromArgb(169, 174, 180), // AppButtonBorder
+            Color.FromArgb(207, 212, 217), // AppButtonOuter1
+            Color.FromArgb(194, 200, 208), // AppButtonOuter2
+            Color.FromArgb(217, 221, 226), // AppButtonOuter3
+            Color.FromArgb(83, 99, 136), // AppButtonInner1
+            Color.FromArgb(169, 174, 180), // AppButtonInner2
+            Color.FromArgb(119, 132, 161), // AppButtonMenuDocs
+            Color.FromArgb(255, 255, 255), // AppButtonMenuDocsText
+            Color.FromArgb(168, 167, 191), // SeparatorHighInternalBorder1
+            Color.FromArgb(119, 118, 151), // SeparatorHighInternalBorder2
+            Color.FromArgb(169, 177, 184), // RibbonGalleryBorder
+            Color.FromArgb(232, 234, 236), // RibbonGalleryBackNormal
+            Color.FromArgb(240, 241, 242), // RibbonGalleryBackTracking
+            Color.FromArgb(195, 200, 209), // RibbonGalleryBack1
+            Color.FromArgb(217, 220, 224), // RibbonGalleryBack2
+            Color.Empty, // RibbonTabTracking3
+            Color.Empty, // RibbonTabTracking4
+            Color.Empty, // RibbonGroupBorder3
+            Color.Empty, // RibbonGroupBorder4
+            Color.Empty, // RibbonDropArrowLight
+            Color.Empty // RibbonDropArrowDark
         };
 
         #endregion
@@ -545,8 +554,8 @@ namespace Krypton.Toolkit
         private static readonly Color _toolTipBack2 = Color.FromArgb(201, 217, 239);
         private static readonly Color _toolTipBorder = Color.FromArgb(118, 118, 118);
         private static readonly Color _toolTipText = Color.FromArgb(76, 76, 76);
-        private static readonly Color _contextMenuInnerBack = Color.FromArgb(250, 250, 250);
-        private static readonly Color _contextMenuOuterBack = Color.FromArgb(245, 245, 245);
+        private static readonly Color _contextMenuInnerBack = Color.FromArgb(119, 132, 161);
+        private static readonly Color _contextMenuOuterBack = Color.FromArgb(83, 99, 136);
         private static readonly Color _contextMenuBorder = Color.FromArgb(134, 134, 134);
         private static readonly Color _contextMenuHeadingBorder = Color.FromArgb(197, 197, 197);
         private static readonly Color _contextMenuImageBackChecked = Color.FromArgb(164, 172, 192);

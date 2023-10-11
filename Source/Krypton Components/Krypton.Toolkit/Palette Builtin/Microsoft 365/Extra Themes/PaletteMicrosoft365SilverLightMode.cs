@@ -119,17 +119,19 @@ namespace Krypton.Toolkit
 
         #region Colour Arrays
 
-        private static readonly Color[] _trackBarColors = { Color.FromArgb(170, 170, 170),      // Tick marks
-            Color.FromArgb(166, 170, 175),      // Top track
-            Color.FromArgb(226, 220, 235),      // Bottom track
-            Color.FromArgb(206, 200, 215),      // Fill track
-            Color.FromArgb(64, Color.White),    // Outside position
-            Color.FromArgb(80, 81, 82)          // Border (normal) position
+        private static readonly Color[] _trackBarColors =
+        {
+            Color.FromArgb(170, 170, 170), // Tick marks
+            Color.FromArgb(166, 170, 175), // Top track
+            Color.FromArgb(226, 220, 235), // Bottom track
+            Color.FromArgb(206, 200, 215), // Fill track
+            Color.FromArgb(64, Color.White), // Outside position
+            Color.FromArgb(80, 81, 82) // Border (normal) position
         };
 
         private static readonly Color[] _schemeOfficeColors =
         {
-             Color.FromArgb(24, 24, 24), // TextLabelControl
+            Color.FromArgb(24, 24, 24), // TextLabelControl
             Color.FromArgb(24, 24, 24), // TextButtonNormal
             Color.FromArgb(24, 24, 24), // TextButtonChecked
             Color.FromArgb(141, 148, 157), // ButtonNormalBorder1
@@ -327,7 +329,7 @@ namespace Krypton.Toolkit
             Color.FromArgb(217, 221, 226), // AppButtonOuter3
             Color.FromArgb(250, 250, 250), // AppButtonInner1
             Color.FromArgb(169, 174, 180), // AppButtonInner2
-            Color.FromArgb(241, 242, 245), // AppButtonMenuDocs
+            Color.FromArgb(224, 225, 231), // AppButtonMenuDocs
             Color.FromArgb(76, 83, 92), // AppButtonMenuDocsText
             Color.FromArgb(168, 167, 191), // SeparatorHighInternalBorder1
             Color.FromArgb(119, 118, 151), // SeparatorHighInternalBorder2
@@ -685,7 +687,7 @@ namespace Krypton.Toolkit
         private static readonly Color _contextCheckedTabBorder3 = Color.FromArgb(220, 202, 171);
         private static readonly Color _contextCheckedTabBorder4 = Color.FromArgb(255, 252, 247);
         private static readonly Color _contextTextColor = Color.White;
-        private static readonly Color _contextMenuBack = Color.White;
+        private static readonly Color _contextMenuBack = Color.FromArgb(195, 198, 209);
 
         private static readonly Color _formCloseBorderTracking = Color.FromArgb(155, 61, 61);
         private static readonly Color _formCloseBorderPressed = Color.FromArgb(155, 61, 61);
