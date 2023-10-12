@@ -1,6 +1,6 @@
 ﻿namespace Krypton.Toolkit
 {
-    partial class KryptonToolkitAboutControl
+    partial class KryptonToolkitPoweredByControl
     {
         /// <summary> 
         /// Required designer variable.
@@ -30,12 +30,12 @@
         {
             this.SuspendLayout();
             // 
-            // KryptonToolkitAboutControl
+            // KryptonToolkitPoweredByControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Name = "KryptonToolkitAboutControl";
-            this.Size = new System.Drawing.Size(523, 410);
+            this.Name = "KryptonToolkitPoweredByControl";
+            this.Size = new System.Drawing.Size(573, 235);
             this.ResumeLayout(false);
 
         }

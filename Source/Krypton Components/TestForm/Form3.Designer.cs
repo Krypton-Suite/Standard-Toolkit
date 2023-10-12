@@ -35,13 +35,11 @@
             this.kryptonRibbonGroupButton1 = new Krypton.Ribbon.KryptonRibbonGroupButton();
             this.kryptonRibbonGroupButton2 = new Krypton.Ribbon.KryptonRibbonGroupButton();
             this.kryptonRibbonGroupButton3 = new Krypton.Ribbon.KryptonRibbonGroupButton();
-<<<<<<< Updated upstream
             this.kryptonRibbonGroup2 = new Krypton.Ribbon.KryptonRibbonGroup();
             this.kryptonPanel1 = new Krypton.Toolkit.KryptonPanel();
             this.kryptonRibbonGroupSeparator1 = new Krypton.Ribbon.KryptonRibbonGroupSeparator();
             this.kryptonRibbonGroupTriple2 = new Krypton.Ribbon.KryptonRibbonGroupTriple();
             this.kryptonRibbonGroupThemeComboBox1 = new Krypton.Ribbon.KryptonRibbonGroupThemeComboBox();
-=======
             this.kryptonRibbonGroupSeparator1 = new Krypton.Ribbon.KryptonRibbonGroupSeparator();
             this.kryptonRibbonGroupTriple2 = new Krypton.Ribbon.KryptonRibbonGroupTriple();
             this.kryptonRibbonGroupThemeComboBox1 = new Krypton.Ribbon.KryptonRibbonGroupThemeComboBox();
@@ -60,7 +58,6 @@
             this.kryptonRibbonRecentDoc4 = new Krypton.Ribbon.KryptonRibbonRecentDoc();
             this.kryptonRibbonRecentDoc5 = new Krypton.Ribbon.KryptonRibbonRecentDoc();
             this.kryptonRibbonRecentDoc6 = new Krypton.Ribbon.KryptonRibbonRecentDoc();
->>>>>>> Stashed changes
             ((System.ComponentModel.ISupportInitialize)(this.kryptonRibbon1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
             this.SuspendLayout();
@@ -70,10 +67,8 @@
             this.kryptonRibbon1.AllowFormIntegrate = true;
             this.kryptonRibbon1.InDesignHelperMode = true;
             this.kryptonRibbon1.Name = "kryptonRibbon1";
-<<<<<<< Updated upstream
             this.kryptonRibbon1.RibbonTabs.AddRange(new Krypton.Ribbon.KryptonRibbonTab[] {
             this.kryptonRibbonTab1});
-=======
             this.kryptonRibbon1.RibbonAppButton.AppButtonMenuItems.AddRange(new Krypton.Toolkit.KryptonContextMenuItemBase[] {
             this.kryptonContextMenuItem1,
             this.kryptonContextMenuItem2,
@@ -92,7 +87,6 @@
             this.kryptonRibbon1.RibbonTabs.AddRange(new Krypton.Ribbon.KryptonRibbonTab[] {
             this.kryptonRibbonTab1});
             this.kryptonRibbon1.SelectedContext = null;
->>>>>>> Stashed changes
             this.kryptonRibbon1.SelectedTab = this.kryptonRibbonTab1;
             this.kryptonRibbon1.Size = new System.Drawing.Size(800, 115);
             this.kryptonRibbon1.TabIndex = 0;
@@ -116,8 +110,6 @@
             this.kryptonRibbonGroupButton1,
             this.kryptonRibbonGroupButton2,
             this.kryptonRibbonGroupButton3});
-<<<<<<< Updated upstream
-=======
             // 
             // kryptonRibbonGroupTriple2
             // 
@@ -132,7 +124,6 @@
             this.kryptonRibbonGroupThemeComboBox1.ItemHeight = 15;
             this.kryptonRibbonGroupThemeComboBox1.MaximumSize = new System.Drawing.Size(200, 0);
             this.kryptonRibbonGroupThemeComboBox1.ValueMember = "Value";
->>>>>>> Stashed changes
             // 
             // kryptonPanel1
             // 
@@ -141,7 +132,6 @@
             this.kryptonPanel1.Size = new System.Drawing.Size(100, 100);
             this.kryptonPanel1.TabIndex = 1;
             // 
-<<<<<<< Updated upstream
             // kryptonRibbonGroupTriple2
             // 
             this.kryptonRibbonGroupTriple2.Items.AddRange(new Krypton.Ribbon.KryptonRibbonGroupItem[] {
@@ -154,7 +144,6 @@
             this.kryptonRibbonGroupThemeComboBox1.FormattingEnabled = false;
             this.kryptonRibbonGroupThemeComboBox1.ItemHeight = 15;
             this.kryptonRibbonGroupThemeComboBox1.ValueMember = "Value";
-=======
             // kryptonContextMenuItem1
             // 
             this.kryptonContextMenuItem1.Text = "Menu Item";
@@ -182,7 +171,6 @@
             // kryptonContextMenuItem7
             // 
             this.kryptonContextMenuItem7.Text = "Menu Item";
->>>>>>> Stashed changes
             // 
             // Form3
             // 
@@ -214,8 +202,6 @@
         private Krypton.Ribbon.KryptonRibbonGroupSeparator kryptonRibbonGroupSeparator1;
         private Krypton.Ribbon.KryptonRibbonGroupTriple kryptonRibbonGroupTriple2;
         private Krypton.Ribbon.KryptonRibbonGroupThemeComboBox kryptonRibbonGroupThemeComboBox1;
-<<<<<<< Updated upstream
-=======
         private Krypton.Toolkit.KryptonContextMenuItem kryptonContextMenuItem1;
         private Krypton.Toolkit.KryptonContextMenuItem kryptonContextMenuItem2;
         private Krypton.Toolkit.KryptonContextMenuItem kryptonContextMenuItem3;
@@ -229,6 +215,5 @@
         private Krypton.Ribbon.KryptonRibbonRecentDoc kryptonRibbonRecentDoc4;
         private Krypton.Ribbon.KryptonRibbonRecentDoc kryptonRibbonRecentDoc5;
         private Krypton.Ribbon.KryptonRibbonRecentDoc kryptonRibbonRecentDoc6;
->>>>>>> Stashed changes
     }
 }
