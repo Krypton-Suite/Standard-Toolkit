@@ -527,7 +527,10 @@ namespace Krypton.Toolkit
             // Layout and repaint with new settings
             NeedPaint(true);
 
-            PaletteChanged.Invoke(this, e);
+            if (PaletteChanged != null)
+            {
+                PaletteChanged.Invoke(this, e);
+            }
         }
 
         /// <summary>

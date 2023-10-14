@@ -262,7 +262,6 @@ namespace Krypton.Toolkit
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.TopMost = true;
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.AnyKeyDown);
-            this.Controls.SetChildIndex(this.kryptonPanel1, 0);
             ((System.ComponentModel.ISupportInitialize)(this._messageIcon)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this._panelButtons)).EndInit();
             this._panelButtons.ResumeLayout(false);

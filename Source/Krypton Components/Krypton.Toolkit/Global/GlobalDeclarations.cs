@@ -52,6 +52,7 @@ global using Krypton.Toolkit.ResourceFiles.DropDown;
 global using Krypton.Toolkit.ResourceFiles.Gallery;
 global using Krypton.Toolkit.ResourceFiles.Generic;
 global using Krypton.Toolkit.ResourceFiles.Grid;
+global using Krypton.Toolkit.ResourceFiles.Logos;
 global using Krypton.Toolkit.ResourceFiles.MDI;
 global using Krypton.Toolkit.ResourceFiles.MessageBox;
 global using Krypton.Toolkit.ResourceFiles.Pendants;
