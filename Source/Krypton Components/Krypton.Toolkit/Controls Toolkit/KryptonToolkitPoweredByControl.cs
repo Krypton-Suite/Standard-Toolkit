@@ -25,7 +25,7 @@ namespace Krypton.Toolkit
 
         public bool ShowThemeOption { get => _showThemeOption; set { _showThemeOption = value; Invalidate(); } }
 
-        public ToolkitType ToolkitType { get => _toolkitType; set => _toolkitType = value; }
+        public ToolkitType ToolkitType { get => _toolkitType; set { _toolkitType = value; SetLogo(value); } }
 
         #endregion
 
