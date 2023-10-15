@@ -38,17 +38,21 @@ namespace Krypton.Toolkit
             this.kryptonGroupBox1 = new Krypton.Toolkit.KryptonGroupBox();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.klwlblDetails = new Krypton.Toolkit.KryptonLinkWrapLabel();
-            this.kwlblVersionInformation = new Krypton.Toolkit.KryptonWrapLabel();
-            this.kwlblCurrentTheme = new Krypton.Toolkit.KryptonWrapLabel();
-            this.ktcmbCurrentTheme = new Krypton.Toolkit.KryptonThemeComboBox();
+            this.kwlblDockingVersion = new Krypton.Toolkit.KryptonWrapLabel();
             this.kpbxLogo = new Krypton.Toolkit.KryptonPictureBox();
+            this.kwlblNavigatorVersion = new Krypton.Toolkit.KryptonWrapLabel();
+            this.kwlblRibbonVersion = new Krypton.Toolkit.KryptonWrapLabel();
+            this.kwlblToolkitVersion = new Krypton.Toolkit.KryptonWrapLabel();
+            this.ktcmbCurrentTheme = new Krypton.Toolkit.KryptonThemeComboBox();
+            this.kwlblCurrentTheme = new Krypton.Toolkit.KryptonWrapLabel();
+            this.kwlblWorkspaceVersion = new Krypton.Toolkit.KryptonWrapLabel();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonGroupBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonGroupBox1.Panel)).BeginInit();
             this.kryptonGroupBox1.Panel.SuspendLayout();
             this.kryptonGroupBox1.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.ktcmbCurrentTheme)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.kpbxLogo)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ktcmbCurrentTheme)).BeginInit();
             this.SuspendLayout();
             // 
             // kryptonGroupBox1
@@ -71,15 +75,25 @@ namespace Krypton.Toolkit
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel1.Controls.Add(this.klwlblDetails, 1, 0);
-            this.tableLayoutPanel1.Controls.Add(this.kwlblVersionInformation, 1, 1);
-            this.tableLayoutPanel1.Controls.Add(this.kwlblCurrentTheme, 1, 2);
-            this.tableLayoutPanel1.Controls.Add(this.ktcmbCurrentTheme, 1, 3);
+            this.tableLayoutPanel1.Controls.Add(this.kwlblDockingVersion, 1, 1);
             this.tableLayoutPanel1.Controls.Add(this.kpbxLogo, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.kwlblNavigatorVersion, 1, 4);
+            this.tableLayoutPanel1.Controls.Add(this.kwlblRibbonVersion, 1, 5);
+            this.tableLayoutPanel1.Controls.Add(this.kwlblToolkitVersion, 1, 6);
+            this.tableLayoutPanel1.Controls.Add(this.ktcmbCurrentTheme, 1, 9);
+            this.tableLayoutPanel1.Controls.Add(this.kwlblCurrentTheme, 1, 8);
+            this.tableLayoutPanel1.Controls.Add(this.kwlblWorkspaceVersion, 1, 7);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 4;
+            this.tableLayoutPanel1.RowCount = 10;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
@@ -95,34 +109,70 @@ namespace Krypton.Toolkit
             this.klwlblDetails.LinkArea = new System.Windows.Forms.LinkArea(134, 144);
             this.klwlblDetails.Location = new System.Drawing.Point(63, 0);
             this.klwlblDetails.Name = "klwlblDetails";
-            this.klwlblDetails.Size = new System.Drawing.Size(589, 168);
+            this.klwlblDetails.Size = new System.Drawing.Size(589, 108);
             this.klwlblDetails.Text = "Some of the components used in this application are part of the Krypton Standard " +
     "Toolkit. \r\n\r\nLicense: BSD-3-Clause\r\n\r\nTo learn more, click here.";
             this.klwlblDetails.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.klwlblDetails.UseCompatibleTextRendering = true;
+            this.klwlblDetails.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.klwlblDetails_LinkClicked);
             // 
-            // kwlblVersionInformation
+            // kwlblDockingVersion
             // 
-            this.kwlblVersionInformation.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.kwlblVersionInformation.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.kwlblVersionInformation.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(57)))), ((int)(((byte)(91)))));
-            this.kwlblVersionInformation.LabelStyle = Krypton.Toolkit.LabelStyle.AlternateControl;
-            this.kwlblVersionInformation.Location = new System.Drawing.Point(63, 168);
-            this.kwlblVersionInformation.Name = "kwlblVersionInformation";
-            this.kwlblVersionInformation.Size = new System.Drawing.Size(589, 15);
-            this.kwlblVersionInformation.Text = "kryptonWrapLabel1";
-            this.kwlblVersionInformation.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.kwlblDockingVersion.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.kwlblDockingVersion.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.kwlblDockingVersion.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(57)))), ((int)(((byte)(91)))));
+            this.kwlblDockingVersion.LabelStyle = Krypton.Toolkit.LabelStyle.AlternateControl;
+            this.kwlblDockingVersion.Location = new System.Drawing.Point(63, 108);
+            this.kwlblDockingVersion.Name = "kwlblDockingVersion";
+            this.kwlblDockingVersion.Size = new System.Drawing.Size(589, 15);
+            this.kwlblDockingVersion.Text = "Krypton Docking Version: {0}";
+            this.kwlblDockingVersion.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // kwlblCurrentTheme
+            // kpbxLogo
             // 
-            this.kwlblCurrentTheme.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.kwlblCurrentTheme.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
-            this.kwlblCurrentTheme.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(57)))), ((int)(((byte)(91)))));
-            this.kwlblCurrentTheme.LabelStyle = Krypton.Toolkit.LabelStyle.BoldControl;
-            this.kwlblCurrentTheme.Location = new System.Drawing.Point(63, 183);
-            this.kwlblCurrentTheme.Name = "kwlblCurrentTheme";
-            this.kwlblCurrentTheme.Size = new System.Drawing.Size(589, 15);
-            this.kwlblCurrentTheme.Text = "Current Theme:";
+            this.kpbxLogo.Location = new System.Drawing.Point(8, 4);
+            this.kpbxLogo.Margin = new System.Windows.Forms.Padding(8, 4, 4, 4);
+            this.kpbxLogo.Name = "kpbxLogo";
+            this.kpbxLogo.Size = new System.Drawing.Size(48, 48);
+            this.kpbxLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.kpbxLogo.TabIndex = 5;
+            this.kpbxLogo.TabStop = false;
+            // 
+            // kwlblNavigatorVersion
+            // 
+            this.kwlblNavigatorVersion.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.kwlblNavigatorVersion.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.kwlblNavigatorVersion.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(57)))), ((int)(((byte)(91)))));
+            this.kwlblNavigatorVersion.LabelStyle = Krypton.Toolkit.LabelStyle.AlternateControl;
+            this.kwlblNavigatorVersion.Location = new System.Drawing.Point(63, 123);
+            this.kwlblNavigatorVersion.Name = "kwlblNavigatorVersion";
+            this.kwlblNavigatorVersion.Size = new System.Drawing.Size(589, 15);
+            this.kwlblNavigatorVersion.Text = "Krypton Navigator Version: {0}";
+            this.kwlblNavigatorVersion.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // kwlblRibbonVersion
+            // 
+            this.kwlblRibbonVersion.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.kwlblRibbonVersion.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.kwlblRibbonVersion.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(57)))), ((int)(((byte)(91)))));
+            this.kwlblRibbonVersion.LabelStyle = Krypton.Toolkit.LabelStyle.AlternateControl;
+            this.kwlblRibbonVersion.Location = new System.Drawing.Point(63, 138);
+            this.kwlblRibbonVersion.Name = "kwlblRibbonVersion";
+            this.kwlblRibbonVersion.Size = new System.Drawing.Size(589, 15);
+            this.kwlblRibbonVersion.Text = "Krypton Ribbon Version: {0}";
+            this.kwlblRibbonVersion.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // kwlblToolkitVersion
+            // 
+            this.kwlblToolkitVersion.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.kwlblToolkitVersion.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.kwlblToolkitVersion.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(57)))), ((int)(((byte)(91)))));
+            this.kwlblToolkitVersion.LabelStyle = Krypton.Toolkit.LabelStyle.AlternateControl;
+            this.kwlblToolkitVersion.Location = new System.Drawing.Point(63, 153);
+            this.kwlblToolkitVersion.Name = "kwlblToolkitVersion";
+            this.kwlblToolkitVersion.Size = new System.Drawing.Size(589, 15);
+            this.kwlblToolkitVersion.Text = "Krypton Toolkit Version: {0}";
+            this.kwlblToolkitVersion.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // ktcmbCurrentTheme
             // 
@@ -135,15 +185,29 @@ namespace Krypton.Toolkit
             this.ktcmbCurrentTheme.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.ktcmbCurrentTheme.TabIndex = 4;
             // 
-            // kpbxLogo
+            // kwlblCurrentTheme
             // 
-            this.kpbxLogo.Location = new System.Drawing.Point(8, 4);
-            this.kpbxLogo.Margin = new System.Windows.Forms.Padding(8, 4, 4, 4);
-            this.kpbxLogo.Name = "kpbxLogo";
-            this.kpbxLogo.Size = new System.Drawing.Size(48, 48);
-            this.kpbxLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            this.kpbxLogo.TabIndex = 5;
-            this.kpbxLogo.TabStop = false;
+            this.kwlblCurrentTheme.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.kwlblCurrentTheme.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            this.kwlblCurrentTheme.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(57)))), ((int)(((byte)(91)))));
+            this.kwlblCurrentTheme.LabelStyle = Krypton.Toolkit.LabelStyle.BoldControl;
+            this.kwlblCurrentTheme.Location = new System.Drawing.Point(63, 183);
+            this.kwlblCurrentTheme.Name = "kwlblCurrentTheme";
+            this.kwlblCurrentTheme.Size = new System.Drawing.Size(589, 15);
+            this.kwlblCurrentTheme.Text = "Current Theme:";
+            this.kwlblCurrentTheme.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // kwlblWorkspaceVersion
+            // 
+            this.kwlblWorkspaceVersion.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.kwlblWorkspaceVersion.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.kwlblWorkspaceVersion.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(57)))), ((int)(((byte)(91)))));
+            this.kwlblWorkspaceVersion.LabelStyle = Krypton.Toolkit.LabelStyle.AlternateControl;
+            this.kwlblWorkspaceVersion.Location = new System.Drawing.Point(63, 168);
+            this.kwlblWorkspaceVersion.Name = "kwlblWorkspaceVersion";
+            this.kwlblWorkspaceVersion.Size = new System.Drawing.Size(589, 15);
+            this.kwlblWorkspaceVersion.Text = "Krypton Ribbon Version: {0}";
+            this.kwlblWorkspaceVersion.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // KryptonToolkitPoweredByControl
             // 
@@ -159,8 +223,8 @@ namespace Krypton.Toolkit
             this.kryptonGroupBox1.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.ktcmbCurrentTheme)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.kpbxLogo)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ktcmbCurrentTheme)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -170,9 +234,13 @@ namespace Krypton.Toolkit
         private KryptonGroupBox kryptonGroupBox1;
         private TableLayoutPanel tableLayoutPanel1;
         private KryptonLinkWrapLabel klwlblDetails;
-        private KryptonWrapLabel kwlblVersionInformation;
+        private KryptonWrapLabel kwlblDockingVersion;
         private KryptonWrapLabel kwlblCurrentTheme;
         private KryptonThemeComboBox ktcmbCurrentTheme;
         private KryptonPictureBox kpbxLogo;
+        private KryptonWrapLabel kwlblNavigatorVersion;
+        private KryptonWrapLabel kwlblRibbonVersion;
+        private KryptonWrapLabel kwlblToolkitVersion;
+        private KryptonWrapLabel kwlblWorkspaceVersion;
     }
 }

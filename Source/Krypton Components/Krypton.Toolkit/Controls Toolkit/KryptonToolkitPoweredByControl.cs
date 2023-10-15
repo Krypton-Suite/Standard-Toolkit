@@ -7,11 +7,23 @@
 
 namespace Krypton.Toolkit
 {
+    /// <summary></summary>
+    [ToolboxItem(true)]
+    [ToolboxBitmap(typeof(KryptonToolkitPoweredByControl), @"ToolboxBitmaps.KryptonLogo.bmp")]
+    [Description(@"")]
     public partial class KryptonToolkitPoweredByControl : UserControl
     {
         #region Instance Fields
 
-        private bool _showVersions;
+        private bool _showDockingVersion;
+
+        private bool _showNavigatorVersion;
+
+        private bool _showRibbonVersion;
+
+        private bool _showToolkitVersion;
+
+        private bool _showWorkspaceVersion;
 
         private bool _showThemeOption;
 
@@ -21,7 +33,15 @@ namespace Krypton.Toolkit
 
         #region Public
 
-        public bool ShowVersions { get => _showVersions; set { _showVersions = value; Invalidate(); } }
+        //public bool ShowDockingVersion { get => _showDockingVersion; set { _showDockingVersion = value; Invalidate(); } }
+
+        //public bool ShowNavigatorVersion { get => _showNavigatorVersion; set { _showNavigatorVersion = value; Invalidate(); } }
+
+        //public bool ShowRibbonVersion { get => _showRibbonVersion; set { _showRibbonVersion = value; Invalidate(); } }
+
+        //public bool ShowToolkitVersion { get => _showToolkitVersion; set { _showToolkitVersion = value; Invalidate(); } }
+
+        //public bool ShowWorkspaceVersion { get => _showWorkspaceVersion; set { _showWorkspaceVersion = value; Invalidate(); } }
 
         public bool ShowThemeOption { get => _showThemeOption; set { _showThemeOption = value; Invalidate(); } }
 
@@ -29,11 +49,22 @@ namespace Krypton.Toolkit
 
         #endregion
 
+        #region Identity
+
+        /// <summary>Initializes a new instance of the <see cref="KryptonToolkitPoweredByControl" /> class.</summary>
         public KryptonToolkitPoweredByControl()
         {
             InitializeComponent();
 
-            _showVersions = false;
+            _showDockingVersion = false;
+
+            _showNavigatorVersion = false;
+
+            _showRibbonVersion = false;
+
+            _showToolkitVersion = false;
+
+            _showWorkspaceVersion = false;
 
             _showThemeOption = false;
 
@@ -41,6 +72,10 @@ namespace Krypton.Toolkit
 
             SetLogo(_toolkitType);
         }
+
+        #endregion
+
+        #region Implementation
 
         private void SetLogo(ToolkitType toolkitType)
         {
@@ -60,9 +95,106 @@ namespace Krypton.Toolkit
             }
         }
 
+        private void klwlblDetails_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            try
+            {
+                Process.Start(@"https://github.com/Krypton-Suite/Standard-Toolkit");
+            }
+            catch (Exception exception)
+            {
+                ExceptionHandler.CaptureException(exception);
+            }
+        }
+
+        private void GetVersions()
+        {
+            string dockingLocation =
+                $@"{Path.GetDirectoryName(Application.ExecutablePath)}\{GlobalStaticValues.DEFAULT_DOCKING_FILE}";
+
+            string navigatorLocation =
+                $@"{Path.GetDirectoryName(Application.ExecutablePath)}\{GlobalStaticValues.DEFAULT_NAVIGATOR_FILE}";
+
+            string ribbonLocation =
+                $@"{Path.GetDirectoryName(Application.ExecutablePath)}\{GlobalStaticValues.DEFAULT_RIBBON_FILE}";
+
+            string toolkitLocation =
+                $@"{Path.GetDirectoryName(Application.ExecutablePath)}\{GlobalStaticValues.DEFAULT_TOOLKIT_FILE}";
+
+            string workspaceLocation =
+                $@"{Path.GetDirectoryName(Application.ExecutablePath)}\{GlobalStaticValues.DEFAULT_WORKSPACE_FILE}";
+
+            FileVersionInfo dockingFileVersionInfo = FileVersionInfo.GetVersionInfo(dockingLocation);
+
+            FileVersionInfo navigatorFileVersionInfo = FileVersionInfo.GetVersionInfo(navigatorLocation);
+
+            FileVersionInfo ribbonFileVersionInfo = FileVersionInfo.GetVersionInfo(ribbonLocation);
+
+            FileVersionInfo toolkitFileVersionInfo = FileVersionInfo.GetVersionInfo(toolkitLocation);
+
+            FileVersionInfo workspaceFileVersionInfo = FileVersionInfo.GetVersionInfo(workspaceLocation);
+
+            if (File.Exists(dockingLocation))
+            {
+                kwlblDockingVersion.Text = string.Format(kwlblDockingVersion.Text, dockingFileVersionInfo.FileVersion);
+            }
+            else
+            {
+                kwlblDockingVersion.Text = $@"Cannot find file: '{GlobalStaticValues.DEFAULT_DOCKING_FILE}'";
+            }
+
+            if (File.Exists(navigatorLocation))
+            {
+                kwlblNavigatorVersion.Text = string.Format(kwlblNavigatorVersion.Text, navigatorFileVersionInfo.FileVersion);
+            }
+            else
+            {
+                kwlblNavigatorVersion.Text = $@"Cannot find file: '{GlobalStaticValues.DEFAULT_WORKSPACE_FILE}'";
+            }
+
+            if (File.Exists(ribbonLocation))
+            {
+                kwlblRibbonVersion.Text = string.Format(kwlblRibbonVersion.Text, ribbonFileVersionInfo.FileVersion);
+            }
+            else
+            {
+                kwlblRibbonVersion.Text = $@"Cannot find file: '{GlobalStaticValues.DEFAULT_RIBBON_FILE}'";
+            }
+
+            if (File.Exists(toolkitLocation))
+            {
+                kwlblToolkitVersion.Text = string.Format(kwlblToolkitVersion.Text, toolkitFileVersionInfo.FileVersion);
+            }
+            else
+            {
+                kwlblToolkitVersion.Text = $@"Cannot find file: '{GlobalStaticValues.DEFAULT_TOOLKIT_FILE}'";
+            }
+
+            if (File.Exists(workspaceLocation))
+            {
+                kwlblWorkspaceVersion.Text = string.Format(kwlblWorkspaceVersion.Text, workspaceFileVersionInfo.FileVersion);
+            }
+            else
+            {
+                kwlblWorkspaceVersion.Text = $@"Cannot find file: '{GlobalStaticValues.DEFAULT_WORKSPACE_FILE}'";
+            }
+        }
+
+        #endregion
+
+        #region Protected Overrides
+
         protected override void OnPaint(PaintEventArgs e)
         {
-            kwlblVersionInformation.Visible = _showVersions;
+            kwlblDockingVersion.Visible = _showDockingVersion;
+
+            kwlblNavigatorVersion.Visible = _showNavigatorVersion;
+
+            kwlblRibbonVersion.Visible = _showRibbonVersion;
+
+            kwlblToolkitVersion.Visible = _showToolkitVersion;
+
+            kwlblWorkspaceVersion.Visible = _showWorkspaceVersion;
 
             kwlblCurrentTheme.Visible = _showThemeOption;
 
@@ -70,5 +202,22 @@ namespace Krypton.Toolkit
 
             base.OnPaint(e);
         }
+
+        protected override void OnLoad(EventArgs e)
+        {
+            //GetVersions();
+
+            base.OnLoad(e);
+        }
+
+        #endregion
+
+        #region Removed Designer Visibility
+
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public override Color BackColor { get; set; }
+
+        #endregion
     }
 }
