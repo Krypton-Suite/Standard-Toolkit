@@ -299,6 +299,11 @@
             <AutoGen>True</AutoGen>
             <DependentUpon>GridImageResources.resx</DependentUpon>
         </Compile>
+        <Compile Update="ResourceFiles\Logos\ToolkitLogoImageResources.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>ToolkitLogoImageResources.resx</DependentUpon>
+        </Compile>
         <Compile Update="ResourceFiles\MDI\GenericMDIImageResources.Designer.cs">
             <DesignTime>True</DesignTime>
             <AutoGen>True</AutoGen>
@@ -699,6 +704,10 @@
             <Generator>ResXFileCodeGenerator</Generator>
             <LastGenOutput>GridImageResources.Designer.cs</LastGenOutput>
         </EmbeddedResource>
+        <EmbeddedResource Update="ResourceFiles\Logos\ToolkitLogoImageResources.resx">
+          <Generator>ResXFileCodeGenerator</Generator>
+          <LastGenOutput>ToolkitLogoImageResources.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
         <EmbeddedResource Update="ResourceFiles\MDI\GenericMDIImageResources.resx">
             <Generator>ResXFileCodeGenerator</Generator>
             <LastGenOutput>GenericMDIImageResources.Designer.cs</LastGenOutput>
@@ -799,6 +808,9 @@
             <Generator>ResXFileCodeGenerator</Generator>
             <LastGenOutput>VisualStudioImageResources.Designer.cs</LastGenOutput>
         </EmbeddedResource>
+    </ItemGroup>
+    <ItemGroup>
+      <None Update="../../../Assets/PNG/NuGet Package Icons/Krypton Stable.png" Link="Krypton Stable.png" />
     </ItemGroup>
 
     <PropertyGroup Condition="'$(Configuration)'!='Debug'">

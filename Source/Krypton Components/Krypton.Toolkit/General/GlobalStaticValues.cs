@@ -38,5 +38,12 @@ namespace Krypton.Toolkit
         public static UACShieldIconSize DEFAULT_UAC_SHIELD_ICON_SIZE = UACShieldIconSize.ExtraSmall;
 
         public static Size DEFAULT_UAC_SHIELD_ICON_CUSTOM_SIZE = new Size(16, 16);
+
+        // Used for version reporting
+        internal static string DEFAULT_DOCKING_FILE = @"Krypton.Docking.dll";
+        internal static string DEFAULT_NAVIGATOR_FILE = @"Krypton.Navigator.dll";
+        internal static string DEFAULT_RIBBON_FILE = @"Krypton.Ribbon.dll";
+        internal static string DEFAULT_TOOLKIT_FILE = @"Krypton.Toolkit.dll";
+        internal static string DEFAULT_WORKSPACE_FILE = @"Krypton.Workspace.dll";
     }
 }
