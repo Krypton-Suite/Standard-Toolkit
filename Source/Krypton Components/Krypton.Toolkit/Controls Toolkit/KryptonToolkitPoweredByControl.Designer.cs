@@ -87,7 +87,7 @@ namespace Krypton.Toolkit
             this.tlpnlContent.Location = new System.Drawing.Point(0, 0);
             this.tlpnlContent.Name = "tlpnlContent";
             this.tlpnlContent.RowCount = 10;
-            this.tlpnlContent.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tlpnlContent.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tlpnlContent.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tlpnlContent.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tlpnlContent.RowStyles.Add(new System.Windows.Forms.RowStyle());

@@ -74,9 +74,21 @@ namespace Krypton.Toolkit
 
             _showThemeOption = false;
 
+            kwlblDockingVersion.Text = null;
+
+            kwlblNavigatorVersion.Text = null;
+
+            kwlblRibbonVersion.Text = null;
+
+            kwlblToolkitVersion.Text = null;
+
+            kwlblWorkspaceVersion.Text = null;
+
             _toolkitType = ToolkitType.Stable;
 
             SetLogo(_toolkitType);
+
+            Size = new Size(659, 122);
         }
 
         #endregion
@@ -191,10 +203,14 @@ namespace Krypton.Toolkit
             if (showThemeOption)
             {
                 tlpnlContent.SetRowSpan(kpbxLogo, 10);
+
+                Size = new Size(659, 154);
             }
             else
             {
                 tlpnlContent.SetRowSpan(kpbxLogo, 1);
+
+                Size = new Size(659, 122);
             }
         }
 
