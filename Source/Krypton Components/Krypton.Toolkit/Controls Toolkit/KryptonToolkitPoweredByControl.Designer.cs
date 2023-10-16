@@ -57,6 +57,7 @@ namespace Krypton.Toolkit
             // 
             // kryptonGroupBox1
             // 
+            this.kryptonGroupBox1.AutoSize = true;
             this.kryptonGroupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kryptonGroupBox1.Location = new System.Drawing.Point(0, 0);
             this.kryptonGroupBox1.Name = "kryptonGroupBox1";
@@ -64,12 +65,13 @@ namespace Krypton.Toolkit
             // kryptonGroupBox1.Panel
             // 
             this.kryptonGroupBox1.Panel.Controls.Add(this.tlpnlContent);
-            this.kryptonGroupBox1.Size = new System.Drawing.Size(659, 249);
+            this.kryptonGroupBox1.Size = new System.Drawing.Size(659, 251);
             this.kryptonGroupBox1.TabIndex = 0;
             this.kryptonGroupBox1.Values.Heading = "Powered by Krypton Toolkit";
             // 
             // tlpnlContent
             // 
+            this.tlpnlContent.AutoSize = true;
             this.tlpnlContent.BackColor = System.Drawing.Color.Transparent;
             this.tlpnlContent.ColumnCount = 2;
             this.tlpnlContent.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
@@ -97,7 +99,7 @@ namespace Krypton.Toolkit
             this.tlpnlContent.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tlpnlContent.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tlpnlContent.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tlpnlContent.Size = new System.Drawing.Size(655, 225);
+            this.tlpnlContent.Size = new System.Drawing.Size(655, 227);
             this.tlpnlContent.TabIndex = 0;
             // 
             // klwlblDetails
@@ -214,12 +216,14 @@ namespace Krypton.Toolkit
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoSize = true;
             this.BackColor = System.Drawing.Color.Transparent;
             this.Controls.Add(this.kryptonGroupBox1);
             this.Name = "KryptonToolkitPoweredByControl";
-            this.Size = new System.Drawing.Size(659, 249);
+            this.Size = new System.Drawing.Size(659, 251);
             ((System.ComponentModel.ISupportInitialize)(this.kryptonGroupBox1.Panel)).EndInit();
             this.kryptonGroupBox1.Panel.ResumeLayout(false);
+            this.kryptonGroupBox1.Panel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonGroupBox1)).EndInit();
             this.kryptonGroupBox1.ResumeLayout(false);
             this.tlpnlContent.ResumeLayout(false);
@@ -227,6 +231,7 @@ namespace Krypton.Toolkit
             ((System.ComponentModel.ISupportInitialize)(this.kpbxLogo)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ktcmbCurrentTheme)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
