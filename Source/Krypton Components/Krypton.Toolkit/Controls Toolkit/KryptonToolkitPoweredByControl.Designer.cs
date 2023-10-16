@@ -36,7 +36,7 @@ namespace Krypton.Toolkit
         private void InitializeComponent()
         {
             this.kryptonGroupBox1 = new Krypton.Toolkit.KryptonGroupBox();
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.tlpnlContent = new System.Windows.Forms.TableLayoutPanel();
             this.klwlblDetails = new Krypton.Toolkit.KryptonLinkWrapLabel();
             this.kwlblDockingVersion = new Krypton.Toolkit.KryptonWrapLabel();
             this.kpbxLogo = new Krypton.Toolkit.KryptonPictureBox();
@@ -50,7 +50,7 @@ namespace Krypton.Toolkit
             ((System.ComponentModel.ISupportInitialize)(this.kryptonGroupBox1.Panel)).BeginInit();
             this.kryptonGroupBox1.Panel.SuspendLayout();
             this.kryptonGroupBox1.SuspendLayout();
-            this.tableLayoutPanel1.SuspendLayout();
+            this.tlpnlContent.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kpbxLogo)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ktcmbCurrentTheme)).BeginInit();
             this.SuspendLayout();
@@ -63,42 +63,42 @@ namespace Krypton.Toolkit
             // 
             // kryptonGroupBox1.Panel
             // 
-            this.kryptonGroupBox1.Panel.Controls.Add(this.tableLayoutPanel1);
+            this.kryptonGroupBox1.Panel.Controls.Add(this.tlpnlContent);
             this.kryptonGroupBox1.Size = new System.Drawing.Size(659, 249);
             this.kryptonGroupBox1.TabIndex = 0;
             this.kryptonGroupBox1.Values.Heading = "Powered by Krypton Toolkit";
             // 
-            // tableLayoutPanel1
+            // tlpnlContent
             // 
-            this.tableLayoutPanel1.BackColor = System.Drawing.Color.Transparent;
-            this.tableLayoutPanel1.ColumnCount = 2;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Controls.Add(this.klwlblDetails, 1, 0);
-            this.tableLayoutPanel1.Controls.Add(this.kwlblDockingVersion, 1, 1);
-            this.tableLayoutPanel1.Controls.Add(this.kpbxLogo, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.kwlblNavigatorVersion, 1, 4);
-            this.tableLayoutPanel1.Controls.Add(this.kwlblRibbonVersion, 1, 5);
-            this.tableLayoutPanel1.Controls.Add(this.kwlblToolkitVersion, 1, 6);
-            this.tableLayoutPanel1.Controls.Add(this.ktcmbCurrentTheme, 1, 9);
-            this.tableLayoutPanel1.Controls.Add(this.kwlblCurrentTheme, 1, 8);
-            this.tableLayoutPanel1.Controls.Add(this.kwlblWorkspaceVersion, 1, 7);
-            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 10;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(655, 225);
-            this.tableLayoutPanel1.TabIndex = 0;
+            this.tlpnlContent.BackColor = System.Drawing.Color.Transparent;
+            this.tlpnlContent.ColumnCount = 2;
+            this.tlpnlContent.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tlpnlContent.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tlpnlContent.Controls.Add(this.klwlblDetails, 1, 0);
+            this.tlpnlContent.Controls.Add(this.kwlblDockingVersion, 1, 1);
+            this.tlpnlContent.Controls.Add(this.kpbxLogo, 0, 0);
+            this.tlpnlContent.Controls.Add(this.kwlblNavigatorVersion, 1, 4);
+            this.tlpnlContent.Controls.Add(this.kwlblRibbonVersion, 1, 5);
+            this.tlpnlContent.Controls.Add(this.kwlblToolkitVersion, 1, 6);
+            this.tlpnlContent.Controls.Add(this.ktcmbCurrentTheme, 1, 9);
+            this.tlpnlContent.Controls.Add(this.kwlblCurrentTheme, 1, 8);
+            this.tlpnlContent.Controls.Add(this.kwlblWorkspaceVersion, 1, 7);
+            this.tlpnlContent.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tlpnlContent.Location = new System.Drawing.Point(0, 0);
+            this.tlpnlContent.Name = "tlpnlContent";
+            this.tlpnlContent.RowCount = 10;
+            this.tlpnlContent.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tlpnlContent.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tlpnlContent.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tlpnlContent.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tlpnlContent.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tlpnlContent.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tlpnlContent.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tlpnlContent.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tlpnlContent.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tlpnlContent.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tlpnlContent.Size = new System.Drawing.Size(655, 225);
+            this.tlpnlContent.TabIndex = 0;
             // 
             // klwlblDetails
             // 
@@ -130,11 +130,12 @@ namespace Krypton.Toolkit
             // 
             // kpbxLogo
             // 
+            this.kpbxLogo.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kpbxLogo.Location = new System.Drawing.Point(8, 4);
             this.kpbxLogo.Margin = new System.Windows.Forms.Padding(8, 4, 4, 4);
             this.kpbxLogo.Name = "kpbxLogo";
-            this.kpbxLogo.Size = new System.Drawing.Size(48, 48);
-            this.kpbxLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.kpbxLogo.Size = new System.Drawing.Size(48, 100);
+            this.kpbxLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.kpbxLogo.TabIndex = 5;
             this.kpbxLogo.TabStop = false;
             // 
@@ -221,8 +222,8 @@ namespace Krypton.Toolkit
             this.kryptonGroupBox1.Panel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.kryptonGroupBox1)).EndInit();
             this.kryptonGroupBox1.ResumeLayout(false);
-            this.tableLayoutPanel1.ResumeLayout(false);
-            this.tableLayoutPanel1.PerformLayout();
+            this.tlpnlContent.ResumeLayout(false);
+            this.tlpnlContent.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kpbxLogo)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ktcmbCurrentTheme)).EndInit();
             this.ResumeLayout(false);
@@ -232,7 +233,7 @@ namespace Krypton.Toolkit
         #endregion
 
         private KryptonGroupBox kryptonGroupBox1;
-        private TableLayoutPanel tableLayoutPanel1;
+        private TableLayoutPanel tlpnlContent;
         private KryptonLinkWrapLabel klwlblDetails;
         private KryptonWrapLabel kwlblDockingVersion;
         private KryptonWrapLabel kwlblCurrentTheme;
