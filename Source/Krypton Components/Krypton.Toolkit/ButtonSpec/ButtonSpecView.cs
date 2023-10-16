@@ -19,7 +19,7 @@ namespace Krypton.Toolkit
                                   IContentValues
     {
         #region Instance Fields
-        private readonly PaletteRedirect? _redirector;
+        private readonly PaletteRedirect _redirector;
         private readonly PaletteTripleRedirect _palette;
         private readonly EventHandler? _finishDelegate;
         private ButtonController? _controller;
@@ -45,7 +45,7 @@ namespace Krypton.Toolkit
             Debug.Assert(buttonSpec != null);
 
             // Remember references
-            _redirector = redirector;
+            _redirector = redirector!;
             Manager = manager!;
             ButtonSpec = buttonSpec!;
             _finishDelegate = OnFinishDelegate;

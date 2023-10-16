@@ -45,7 +45,7 @@ namespace Krypton.Toolkit
             internal CheckedIndexCollection(KryptonCheckedListBox owner)
             {
                 _owner = owner;
-                _internalListBox = (InternalCheckedListBox)owner.ListBox;
+                _internalListBox = (InternalCheckedListBox)owner.ListBox!;
             }
             #endregion
 
@@ -183,7 +183,7 @@ namespace Krypton.Toolkit
             /// Initialize a new instance of the CheckedItemCollection class.
             /// </summary>
             /// <param name="owner">Reference to owning control.</param>
-            internal CheckedItemCollection(KryptonCheckedListBox owner) => _internalListBox = (InternalCheckedListBox)owner.ListBox;
+            internal CheckedItemCollection(KryptonCheckedListBox owner) => _internalListBox = (InternalCheckedListBox)owner.ListBox!;
 
             #endregion
 
@@ -287,7 +287,7 @@ namespace Krypton.Toolkit
             #endregion
 
             #region Private
-            int IList.Add(object value) => throw new NotSupportedException(@"Read Only Collection");
+            int IList.Add(object? value) => throw new NotSupportedException(@"Read Only Collection");
 
             void IList.Clear() => throw new NotSupportedException(@"Read Only Collection");
 
@@ -733,7 +733,7 @@ namespace Krypton.Toolkit
             {
                 if (_miGetCount == null)
                 {
-                    _miGetCount = InnerArray.GetType().GetMethod(@"GetCount", new[] { typeof(int) }, null);
+                    _miGetCount = InnerArray?.GetType().GetMethod(@"GetCount", new[] { typeof(int) }, null);
                 }
 
                 return (int)_miGetCount.Invoke(InnerArray, new object[] { stateMask });
@@ -743,7 +743,7 @@ namespace Krypton.Toolkit
             {
                 if (_miIndexOf == null)
                 {
-                    _miIndexOf = InnerArray.GetType().GetMethod(@"IndexOf", new[] { typeof(object), typeof(int) }, null);
+                    _miIndexOf = InnerArray?.GetType().GetMethod(@"IndexOf", new[] { typeof(object), typeof(int) }, null);
                 }
 
                 return (int)_miIndexOf.Invoke(InnerArray, new[] { item, stateMask });
@@ -753,7 +753,7 @@ namespace Krypton.Toolkit
             {
                 if (_miIndexOfIdentifier == null)
                 {
-                    _miIndexOfIdentifier = InnerArray.GetType().GetMethod(@"IndexOfIdentifier", new[] { typeof(object), typeof(int) }, null);
+                    _miIndexOfIdentifier = InnerArray?.GetType().GetMethod(@"IndexOfIdentifier", new[] { typeof(object), typeof(int) }, null);
                 }
 
                 return (int)_miIndexOfIdentifier.Invoke(InnerArray, new[] { identifier, stateMask });
@@ -763,7 +763,7 @@ namespace Krypton.Toolkit
             {
                 if (_miGetItem == null)
                 {
-                    _miGetItem = InnerArray.GetType().GetMethod(@"GetItem", new[] { typeof(int), typeof(int) }, null);
+                    _miGetItem = InnerArray?.GetType().GetMethod(@"GetItem", new[] { typeof(int), typeof(int) }, null);
                 }
 
                 return _miGetItem.Invoke(InnerArray, new object[] { index, stateMask });
@@ -773,7 +773,7 @@ namespace Krypton.Toolkit
             {
                 if (_miGetEntryObject == null)
                 {
-                    _miGetEntryObject = InnerArray.GetType().GetMethod(@"GetEntryObject", BindingFlags.NonPublic | BindingFlags.Instance);
+                    _miGetEntryObject = InnerArray?.GetType().GetMethod(@"GetEntryObject", BindingFlags.NonPublic | BindingFlags.Instance);
                 }
 
                 return _miGetEntryObject.Invoke(InnerArray, new object[] { index, stateMask });
@@ -783,7 +783,7 @@ namespace Krypton.Toolkit
             {
                 if (_miGetState == null)
                 {
-                    _miGetState = InnerArray.GetType().GetMethod(@"GetState", new[] { typeof(int), typeof(int) }, null);
+                    _miGetState = InnerArray?.GetType().GetMethod(@"GetState", new[] { typeof(int), typeof(int) }, null);
                 }
 
                 return (bool)_miGetState.Invoke(InnerArray, new object[] { index, stateMask });
@@ -793,7 +793,7 @@ namespace Krypton.Toolkit
             {
                 if (_miSetState == null)
                 {
-                    _miSetState = InnerArray.GetType().GetMethod(@"SetState", new[] { typeof(int), typeof(int), typeof(bool) }, null);
+                    _miSetState = InnerArray?.GetType().GetMethod(@"SetState", new[] { typeof(int), typeof(int), typeof(bool) }, null);
                 }
 
                 _miSetState.Invoke(InnerArray, new object[] { index, stateMask, value });
@@ -803,7 +803,7 @@ namespace Krypton.Toolkit
             {
                 if (_miGetEnumerator == null)
                 {
-                    _miGetEnumerator = InnerArray.GetType().GetMethod(@"GetEnumerator", new[] { typeof(int), typeof(bool) }, null);
+                    _miGetEnumerator = InnerArray?.GetType().GetMethod(@"GetEnumerator", new[] { typeof(int), typeof(bool) }, null);
                 }
 
                 return (IEnumerator)_miGetEnumerator.Invoke(InnerArray, new object[] { stateMask, anyBit });
@@ -945,7 +945,6 @@ namespace Krypton.Toolkit
         private readonly PaletteTripleOverride _overrideCheckedNormal;
         private readonly PaletteTripleOverride _overrideCheckedTracking;
         private readonly PaletteTripleOverride _overrideCheckedPressed;
-        private readonly PaletteRedirectCheckBox? _paletteCheckBoxImages;
         private readonly ViewLayoutDocker _drawDockerInner;
         private readonly ViewDrawDocker _drawDockerOuter;
         private readonly ViewLayoutDocker _layoutDocker;
@@ -1104,7 +1103,7 @@ namespace Krypton.Toolkit
 
             // Create the palette storage
             Images = new CheckBoxImages(NeedPaintDelegate);
-            _paletteCheckBoxImages = new PaletteRedirectCheckBox(Redirector, Images);
+            var paletteCheckBoxImages = new PaletteRedirectCheckBox(Redirector, Images);
             StateCommon = new PaletteListStateRedirect(Redirector, PaletteBackStyle.InputControlStandalone, PaletteBorderStyle.InputControlStandalone, NeedPaintDelegate);
             OverrideFocus = new PaletteListItemTripleRedirect(Redirector, PaletteBackStyle.ButtonListItem, PaletteBorderStyle.ButtonListItem, PaletteContentStyle.ButtonListItem, NeedPaintDelegate);
             StateDisabled = new PaletteListState(StateCommon, NeedPaintDelegate);
@@ -1125,7 +1124,7 @@ namespace Krypton.Toolkit
             _overrideCheckedPressed = new PaletteTripleOverride(OverrideFocus.Item, StateCheckedPressed.Item, PaletteState.FocusOverride);
 
             // Create the check box image drawer and place inside element so it is always centered
-            _drawCheckBox = new ViewDrawCheckBox(_paletteCheckBoxImages);
+            _drawCheckBox = new ViewDrawCheckBox(paletteCheckBoxImages);
             _layoutCenter = new ViewLayoutCenter
             {
                 _drawCheckBox

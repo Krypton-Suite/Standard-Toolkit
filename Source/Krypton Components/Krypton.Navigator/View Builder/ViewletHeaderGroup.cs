@@ -59,7 +59,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets access to the palette redirector reference.
         /// </summary>
-        public PaletteRedirect? Redirector { get; }
+        public PaletteRedirect Redirector { get; }
 
         /// <summary>
         /// Construct the view appropriate for this builder.

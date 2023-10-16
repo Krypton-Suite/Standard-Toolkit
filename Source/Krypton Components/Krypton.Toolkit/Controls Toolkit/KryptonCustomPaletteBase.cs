@@ -49,8 +49,7 @@ namespace Krypton.Toolkit
         private PaletteBase? _basePalette;
         private PaletteMode _basePaletteMode;
         private InheritBool _allowFormChrome;
-        private readonly PaletteRedirect? _redirector;
-        private readonly PaletteRedirectCommon? _redirectCommon;
+        private readonly PaletteRedirect _redirector;
         private readonly NeedPaintHandler _needPaintDelegate;
         private string _themeName;
 
@@ -83,30 +82,30 @@ namespace Krypton.Toolkit
             Common = new KryptonPaletteCommon(_redirector, _needPaintDelegate);
 
             // Create redirector so other storage inherits from common states
-            _redirectCommon = new PaletteRedirectCommon(_redirector, Common.StateDisabled, Common.StateOthers);
+            var redirectCommon = new PaletteRedirectCommon(_redirector, Common.StateDisabled, Common.StateOthers);
 
             // Create the storage objects
-            ButtonStyles = new KryptonPaletteCheckButtons(_redirectCommon, _needPaintDelegate);
+            ButtonStyles = new KryptonPaletteCheckButtons(redirectCommon, _needPaintDelegate);
             ButtonSpecs = new KryptonPaletteButtonSpecs(_redirector);
             CalendarDay = new KryptonPaletteCalendarDay(_redirector, _needPaintDelegate);
             Cargo = new KryptonPaletteCargo(_needPaintDelegate);
-            ControlStyles = new KryptonPaletteControls(_redirectCommon, _needPaintDelegate);
-            ContextMenu = new KryptonPaletteContextMenu(_redirectCommon, _needPaintDelegate);
-            DragDrop = new PaletteDragDrop(_redirectCommon, _needPaintDelegate);
-            FormStyles = new KryptonPaletteForms(_redirectCommon, _needPaintDelegate);
+            ControlStyles = new KryptonPaletteControls(redirectCommon, _needPaintDelegate);
+            ContextMenu = new KryptonPaletteContextMenu(redirectCommon, _needPaintDelegate);
+            DragDrop = new PaletteDragDrop(redirectCommon, _needPaintDelegate);
+            FormStyles = new KryptonPaletteForms(redirectCommon, _needPaintDelegate);
             //Font = new KryptonPaletteFont(_redirectCommon, _needPaintDelegate);
-            GridStyles = new KryptonPaletteGrids(_redirectCommon, _needPaintDelegate);
-            HeaderStyles = new KryptonPaletteHeaders(_redirectCommon, _needPaintDelegate);
+            GridStyles = new KryptonPaletteGrids(redirectCommon, _needPaintDelegate);
+            HeaderStyles = new KryptonPaletteHeaders(redirectCommon, _needPaintDelegate);
             HeaderGroup = new KryptonPaletteHeaderGroup(_redirector, _needPaintDelegate);
-            Images = new KryptonPaletteImages(_redirectCommon, _needPaintDelegate);
-            InputControlStyles = new KryptonPaletteInputControls(_redirectCommon, _needPaintDelegate);
-            LabelStyles = new KryptonPaletteLabels(_redirectCommon, _needPaintDelegate);
-            Navigator = new KryptonPaletteNavigator(_redirectCommon, _needPaintDelegate);
-            PanelStyles = new KryptonPalettePanels(_redirectCommon, _needPaintDelegate);
-            Ribbon = new KryptonPaletteRibbon(_redirectCommon, _needPaintDelegate);
-            SeparatorStyles = new KryptonPaletteSeparators(_redirectCommon, _needPaintDelegate);
-            TabStyles = new KryptonPaletteTabButtons(_redirectCommon, _needPaintDelegate);
-            TrackBar = new KryptonPaletteTrackBar(_redirectCommon, _needPaintDelegate);
+            Images = new KryptonPaletteImages(redirectCommon, _needPaintDelegate);
+            InputControlStyles = new KryptonPaletteInputControls(redirectCommon, _needPaintDelegate);
+            LabelStyles = new KryptonPaletteLabels(redirectCommon, _needPaintDelegate);
+            Navigator = new KryptonPaletteNavigator(redirectCommon, _needPaintDelegate);
+            PanelStyles = new KryptonPalettePanels(redirectCommon, _needPaintDelegate);
+            Ribbon = new KryptonPaletteRibbon(redirectCommon, _needPaintDelegate);
+            SeparatorStyles = new KryptonPaletteSeparators(redirectCommon, _needPaintDelegate);
+            TabStyles = new KryptonPaletteTabButtons(redirectCommon, _needPaintDelegate);
+            TrackBar = new KryptonPaletteTrackBar(redirectCommon, _needPaintDelegate);
             CueHintText = new PaletteCueHintText(_redirector, _needPaintDelegate);
 
             // Hook into the storage change events
@@ -568,7 +567,7 @@ namespace Krypton.Toolkit
         /// <returns>InheritBool value.</returns>
         public override InheritBool GetBackDraw(PaletteBackStyle style, PaletteState state) =>
             // Find the correct destination in the palette and pass on request
-            GetPaletteBack(style, state).GetBackDraw(state);
+            GetPaletteBack(style, state)?.GetBackDraw(state) ?? InheritBool.Inherit;
 
         /// <summary>
         /// Gets the graphics drawing hint for the background.
@@ -578,7 +577,7 @@ namespace Krypton.Toolkit
         /// <returns>PaletteGraphicsHint value.</returns>
         public override PaletteGraphicsHint GetBackGraphicsHint(PaletteBackStyle style, PaletteState state) =>
             // Find the correct destination in the palette and pass on request
-            GetPaletteBack(style, state).GetBackGraphicsHint(state);
+            GetPaletteBack(style, state)?.GetBackGraphicsHint(state) ?? PaletteGraphicsHint.Inherit;
 
         /// <summary>
         /// Gets the first background color.
@@ -588,7 +587,7 @@ namespace Krypton.Toolkit
         /// <returns>Color value.</returns>
         public override Color GetBackColor1(PaletteBackStyle style, PaletteState state) =>
             // Find the correct destination in the palette and pass on request
-            GetPaletteBack(style, state).GetBackColor1(state);
+            GetPaletteBack(style, state)?.GetBackColor1(state) ?? Color.Empty;
 
         /// <summary>
         /// Gets the second back color.
@@ -598,7 +597,7 @@ namespace Krypton.Toolkit
         /// <returns>Color value.</returns>
         public override Color GetBackColor2(PaletteBackStyle style, PaletteState state) =>
             // Find the correct destination in the palette and pass on request
-            GetPaletteBack(style, state).GetBackColor2(state);
+            GetPaletteBack(style, state)?.GetBackColor2(state) ?? Color.Empty;
 
         /// <summary>
         /// Gets the color background drawing style.
@@ -608,7 +607,7 @@ namespace Krypton.Toolkit
         /// <returns>Color drawing style.</returns>
         public override PaletteColorStyle GetBackColorStyle(PaletteBackStyle style, PaletteState state) =>
             // Find the correct destination in the palette and pass on request
-            GetPaletteBack(style, state).GetBackColorStyle(state);
+            GetPaletteBack(style, state)?.GetBackColorStyle(state) ?? PaletteColorStyle.Inherit;
 
         /// <summary>
         /// Gets the color alignment.
@@ -617,7 +616,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color alignment style.</returns>
         public override PaletteRectangleAlign GetBackColorAlign(PaletteBackStyle style, PaletteState state)
-        => GetPaletteBack(style, state).GetBackColorAlign(state);
+        => GetPaletteBack(style, state)?.GetBackColorAlign(state) ?? PaletteRectangleAlign.Inherit;
 
         /// <summary>
         /// Gets the color background angle.
@@ -627,7 +626,7 @@ namespace Krypton.Toolkit
         /// <returns>Angle used for color drawing.</returns>
         public override float GetBackColorAngle(PaletteBackStyle style, PaletteState state) =>
             // Find the correct destination in the palette and pass on request
-            GetPaletteBack(style, state).GetBackColorAngle(state);
+            GetPaletteBack(style, state)?.GetBackColorAngle(state) ?? 0f;
 
         /// <summary>
         /// Gets a background image.

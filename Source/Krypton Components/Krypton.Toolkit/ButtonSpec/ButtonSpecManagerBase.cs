@@ -24,7 +24,7 @@ namespace Krypton.Toolkit
 
         #region Instance Fields
 
-        private readonly PaletteRedirect? _redirector;
+        private readonly PaletteRedirect _redirector;
         private readonly ButtonSpecCollectionBase? _variableSpecs;
         private readonly ButtonSpecCollectionBase? _fixedSpecs;
         private readonly IPaletteMetric[]? _viewMetrics;
@@ -71,14 +71,14 @@ namespace Krypton.Toolkit
 
             // Remember references
             Control = control;
-            _redirector = redirector;
+            _redirector = redirector!;
             _variableSpecs = variableSpecs;
             _fixedSpecs = fixedSpecs;
             _viewMetrics = viewMetrics;
             _viewMetricIntOutside = viewMetricIntOutside;
             _viewMetricIntInside = viewMetricIntInside;
             _viewMetricPaddings = viewMetricPaddings;
-            _getRenderer = getRenderer;
+            _getRenderer = getRenderer!;
 
             if (_viewMetrics != null)
             {

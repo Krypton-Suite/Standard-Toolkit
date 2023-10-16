@@ -27,8 +27,7 @@ namespace Krypton.Toolkit
         #region Instance Fields
 
         private readonly PaletteRedirectContextMenu _redirectorImages;
-        private readonly PaletteRedirect? _redirector;
-        private readonly NeedPaintHandler _needPaintDelegate;
+        private readonly PaletteRedirect _redirector;
 
         #endregion
 
@@ -69,18 +68,18 @@ namespace Krypton.Toolkit
         public KryptonContextMenu()
         {
             // Setup the need paint delegate
-            _needPaintDelegate = OnNeedPaint;
+            NeedPaintHandler needPaintDelegate = OnNeedPaint;
 
             // Set default settings
             Palette = null;
             PaletteMode = PaletteMode.Global;
-            Images = new ContextMenuImages(_needPaintDelegate);
+            Images = new ContextMenuImages(needPaintDelegate);
             _redirector = new PaletteRedirect(null);
             _redirectorImages = new PaletteRedirectContextMenu(_redirector, Images);
             Enabled = true;
 
             // Create the palette storage
-            StateCommon = new PaletteContextMenuRedirect(_redirector, _needPaintDelegate);
+            StateCommon = new PaletteContextMenuRedirect(_redirector, needPaintDelegate);
             StateNormal = new PaletteContextMenuItemState(StateCommon);
             StateDisabled = new PaletteContextMenuItemState(StateCommon);
             StateHighlight = new PaletteContextMenuItemStateHighlight(StateCommon);
