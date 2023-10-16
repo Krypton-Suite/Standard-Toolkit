@@ -669,21 +669,21 @@ namespace Krypton.Workspace
                     if (PageItem != null)
                     {
                         PageItem.TextChanged += OnPageTextChanged;
-                        Text = $"Page ({PageItem.Text})";
+                        Text = $"Page ({PageItem?.Text})";
                     }
 
                     CellItem = item as KryptonWorkspaceCell;
                     if (CellItem != null)
                     {
                         CellItem.PropertyChanged += OnCellPropertyChanged;
-                        Text = $"Cell ({CellItem.StarSize})";
+                        Text = $"Cell ({CellItem?.StarSize})";
                     }
 
                     SequenceItem = item as KryptonWorkspaceSequence;
                     if (SequenceItem != null)
                     {
                         SequenceItem.PropertyChanged += OnSequencePropertyChanged;
-                        Text = $"{SequenceItem.Orientation} ({SequenceItem.StarSize})";
+                        Text = $"{SequenceItem?.Orientation} ({SequenceItem?.StarSize})";
                     }
                 }
                 #endregion
@@ -707,7 +707,7 @@ namespace Krypton.Workspace
                 /// <summary>
                 /// Gets access to the associated workspace sequence item.
                 /// </summary>
-                public KryptonWorkspaceSequence SequenceItem { get; }
+                public KryptonWorkspaceSequence? SequenceItem { get; }
 
                 /// <summary>
                 /// Gets the instance identifier.
@@ -717,11 +717,11 @@ namespace Krypton.Workspace
                 #endregion
 
                 #region Implementation
-                private void OnPageTextChanged(object sender, EventArgs e) => Text = $"Page ({PageItem.Text})";
+                private void OnPageTextChanged(object sender, EventArgs e) => Text = $"Page ({PageItem?.Text})";
 
-                private void OnCellPropertyChanged(object sender, PropertyChangedEventArgs e) => Text = $"Cell ({CellItem.StarSize})";
+                private void OnCellPropertyChanged(object sender, PropertyChangedEventArgs e) => Text = $"Cell ({CellItem?.StarSize})";
 
-                private void OnSequencePropertyChanged(object sender, PropertyChangedEventArgs e) => Text = $"{SequenceItem.Orientation} ({SequenceItem.StarSize})";
+                private void OnSequencePropertyChanged(object sender, PropertyChangedEventArgs e) => Text = $"{SequenceItem?.Orientation} ({SequenceItem?.StarSize})";
                 #endregion
             }
 

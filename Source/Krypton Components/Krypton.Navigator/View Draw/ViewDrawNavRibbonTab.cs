@@ -54,7 +54,7 @@ namespace Krypton.Navigator
         private readonly ViewDrawContent _viewContent;
         private readonly ViewLayoutDocker _layoutDocker;
         private PaletteRibbonShape _lastRibbonShape;
-        private IDisposable[] _mementos;
+        private IDisposable?[] _mementos;
         private DateTime _lastClick;
 
         #endregion
@@ -172,21 +172,22 @@ namespace Krypton.Navigator
         {
             if (disposing)
             {
-                if (_mementos != null)
+                if (_mementos is not null)
                 {
                     // Dispose of all the mementos in the array
-                    foreach (IDisposable memento in _mementos)
+                    foreach (IDisposable? memento in _mementos)
                     {
-                        memento.Dispose();
+                        // https://github.com/Krypton-Suite/Standard-Toolkit/issues/1146
+                        memento?.Dispose();
                     }
 
-                    _mementos = null;
+                    _mementos = null!;
                 }
 
-                if (ButtonSpecManager != null)
+                if (ButtonSpecManager is not null)
                 {
                     ButtonSpecManager.Destruct();
-                    ButtonSpecManager = null;
+                    ButtonSpecManager = null!;
                 }
             }
 

@@ -59,7 +59,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets the palette redirector.
         /// </summary>
-        public PaletteRedirect? Redirector
+        public PaletteRedirect Redirector
         {
             [DebuggerStepThrough]
             get;
