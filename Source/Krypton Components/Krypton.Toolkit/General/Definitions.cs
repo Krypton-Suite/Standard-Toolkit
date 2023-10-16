@@ -1873,4 +1873,14 @@ namespace Krypton.Toolkit
 
     #endregion
 
+    #region Enum ToolkitType
+
+    public enum ToolkitType
+    {
+        Canary = 0,
+        Nightly = 1,
+        Stable = 2
+    }
+
+    #endregion
 }
