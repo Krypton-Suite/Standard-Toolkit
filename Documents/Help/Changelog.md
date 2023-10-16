@@ -3,6 +3,7 @@
 =======
 
 ## 2023-11-14 - Build 2311 - November 2023
+* Resolved [#1146](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1146), Krypton.Navigator throws exception in Initialise when attempting to EndInit().
 * Implemented [#508](https://github.com/Krypton-Suite/Standard-Toolkit/issues/508), Application Menus should fit well when using dark/light modes
 * Resolved an issue where the ribbon tab text is illegible when using black (dark mode) themes
 * Resolved [#1037](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1037), Borderless Krypton Form, Maximized, Top Most = True > Fullscreen does not overlap on task bar.
