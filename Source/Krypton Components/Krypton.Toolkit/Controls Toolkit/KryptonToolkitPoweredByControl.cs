@@ -204,7 +204,18 @@ namespace Krypton.Toolkit
             {
                 tlpnlContent.SetRowSpan(kpbxLogo, 10);
 
-                Size = new Size(659, 154);
+                TableLayoutPanelCellPosition currentThemeLabelCellPosition =
+                    tlpnlContent.GetCellPosition(kwlblCurrentTheme);
+
+                TableLayoutPanelCellPosition currentThemeCellPosition = tlpnlContent.GetCellPosition(ktcmbCurrentTheme);
+
+                int labelRowHeight = tlpnlContent.GetRowHeights()[currentThemeLabelCellPosition.Row];
+
+                int comboBoxRowHeight = tlpnlContent.GetRowHeights()[currentThemeCellPosition.Row];
+
+                int addedHeight = labelRowHeight + comboBoxRowHeight;
+
+                Size = new Size(659, addedHeight);
             }
             else
             {
