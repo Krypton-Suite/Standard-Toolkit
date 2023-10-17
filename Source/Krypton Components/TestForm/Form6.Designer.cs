@@ -40,10 +40,10 @@
             // 
             // kryptonPanel1
             // 
+            this.kryptonPanel1.Controls.Add(this.kryptonToolkitPoweredByControl1);
             this.kryptonPanel1.Controls.Add(this.kcmbToolkitType);
             this.kryptonPanel1.Controls.Add(this.kryptonLabel1);
             this.kryptonPanel1.Controls.Add(this.kcbThemeOptions);
-            this.kryptonPanel1.Controls.Add(this.kryptonToolkitPoweredByControl1);
             this.kryptonPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kryptonPanel1.Location = new System.Drawing.Point(0, 0);
             this.kryptonPanel1.Name = "kryptonPanel1";
@@ -82,9 +82,10 @@
             // 
             // kryptonToolkitPoweredByControl1
             // 
-            this.kryptonToolkitPoweredByControl1.Location = new System.Drawing.Point(55, 12);
+            this.kryptonToolkitPoweredByControl1.AutoSize = true;
+            this.kryptonToolkitPoweredByControl1.Location = new System.Drawing.Point(80, 12);
             this.kryptonToolkitPoweredByControl1.Name = "kryptonToolkitPoweredByControl1";
-            this.kryptonToolkitPoweredByControl1.Size = new System.Drawing.Size(659, 122);
+            this.kryptonToolkitPoweredByControl1.Size = new System.Drawing.Size(659, 134);
             this.kryptonToolkitPoweredByControl1.TabIndex = 1;
             this.kryptonToolkitPoweredByControl1.ToolkitType = Krypton.Toolkit.ToolkitType.Stable;
             // 
@@ -108,9 +109,9 @@
         #endregion
 
         private Krypton.Toolkit.KryptonPanel kryptonPanel1;
-        private Krypton.Toolkit.KryptonToolkitPoweredByControl kryptonToolkitPoweredByControl1;
         private Krypton.Toolkit.KryptonCheckBox kcbThemeOptions;
         private Krypton.Toolkit.KryptonLabel kryptonLabel1;
         private Krypton.Toolkit.KryptonComboBox kcmbToolkitType;
+        private Krypton.Toolkit.KryptonToolkitPoweredByControl kryptonToolkitPoweredByControl1;
     }
 }
