@@ -83,10 +83,10 @@
             // kryptonToolkitPoweredByControl1
             // 
             this.kryptonToolkitPoweredByControl1.AutoSize = true;
-            this.kryptonToolkitPoweredByControl1.Location = new System.Drawing.Point(80, 12);
+            this.kryptonToolkitPoweredByControl1.Location = new System.Drawing.Point(55, 12);
             this.kryptonToolkitPoweredByControl1.Name = "kryptonToolkitPoweredByControl1";
             this.kryptonToolkitPoweredByControl1.Size = new System.Drawing.Size(659, 134);
-            this.kryptonToolkitPoweredByControl1.TabIndex = 1;
+            this.kryptonToolkitPoweredByControl1.TabIndex = 5;
             this.kryptonToolkitPoweredByControl1.ToolkitType = Krypton.Toolkit.ToolkitType.Stable;
             // 
             // Form6

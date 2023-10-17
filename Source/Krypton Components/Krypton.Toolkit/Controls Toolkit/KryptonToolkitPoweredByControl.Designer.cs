@@ -57,7 +57,6 @@ namespace Krypton.Toolkit
             // 
             // kryptonGroupBox1
             // 
-            this.kryptonGroupBox1.AutoSize = true;
             this.kryptonGroupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kryptonGroupBox1.Location = new System.Drawing.Point(0, 0);
             this.kryptonGroupBox1.Name = "kryptonGroupBox1";
@@ -65,13 +64,12 @@ namespace Krypton.Toolkit
             // kryptonGroupBox1.Panel
             // 
             this.kryptonGroupBox1.Panel.Controls.Add(this.tlpnlContent);
-            this.kryptonGroupBox1.Size = new System.Drawing.Size(661, 301);
+            this.kryptonGroupBox1.Size = new System.Drawing.Size(659, 301);
             this.kryptonGroupBox1.TabIndex = 0;
             this.kryptonGroupBox1.Values.Heading = "Powered by Krypton Toolkit";
             // 
             // tlpnlContent
             // 
-            this.tlpnlContent.AutoSize = true;
             this.tlpnlContent.BackColor = System.Drawing.Color.Transparent;
             this.tlpnlContent.ColumnCount = 2;
             this.tlpnlContent.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
@@ -99,7 +97,7 @@ namespace Krypton.Toolkit
             this.tlpnlContent.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tlpnlContent.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tlpnlContent.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tlpnlContent.Size = new System.Drawing.Size(657, 277);
+            this.tlpnlContent.Size = new System.Drawing.Size(655, 277);
             this.tlpnlContent.TabIndex = 0;
             // 
             // klwlblDetails
@@ -112,7 +110,7 @@ namespace Krypton.Toolkit
             this.klwlblDetails.Location = new System.Drawing.Point(64, 4);
             this.klwlblDetails.Margin = new System.Windows.Forms.Padding(4);
             this.klwlblDetails.Name = "klwlblDetails";
-            this.klwlblDetails.Size = new System.Drawing.Size(589, 100);
+            this.klwlblDetails.Size = new System.Drawing.Size(587, 100);
             this.klwlblDetails.Text = "Some of the components used in this application are part of the Krypton Standard " +
     "Toolkit. \r\n\r\nLicense: BSD-3-Clause\r\n\r\nTo learn more, click here.";
             this.klwlblDetails.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -128,7 +126,7 @@ namespace Krypton.Toolkit
             this.kwlblDockingVersion.Location = new System.Drawing.Point(64, 112);
             this.kwlblDockingVersion.Margin = new System.Windows.Forms.Padding(4);
             this.kwlblDockingVersion.Name = "kwlblDockingVersion";
-            this.kwlblDockingVersion.Size = new System.Drawing.Size(589, 15);
+            this.kwlblDockingVersion.Size = new System.Drawing.Size(587, 15);
             this.kwlblDockingVersion.Text = "Krypton Docking Version: {0}";
             this.kwlblDockingVersion.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -152,7 +150,7 @@ namespace Krypton.Toolkit
             this.kwlblNavigatorVersion.Location = new System.Drawing.Point(64, 135);
             this.kwlblNavigatorVersion.Margin = new System.Windows.Forms.Padding(4);
             this.kwlblNavigatorVersion.Name = "kwlblNavigatorVersion";
-            this.kwlblNavigatorVersion.Size = new System.Drawing.Size(589, 15);
+            this.kwlblNavigatorVersion.Size = new System.Drawing.Size(587, 15);
             this.kwlblNavigatorVersion.Text = "Krypton Navigator Version: {0}";
             this.kwlblNavigatorVersion.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -165,7 +163,7 @@ namespace Krypton.Toolkit
             this.kwlblRibbonVersion.Location = new System.Drawing.Point(64, 158);
             this.kwlblRibbonVersion.Margin = new System.Windows.Forms.Padding(4);
             this.kwlblRibbonVersion.Name = "kwlblRibbonVersion";
-            this.kwlblRibbonVersion.Size = new System.Drawing.Size(589, 15);
+            this.kwlblRibbonVersion.Size = new System.Drawing.Size(587, 15);
             this.kwlblRibbonVersion.Text = "Krypton Ribbon Version: {0}";
             this.kwlblRibbonVersion.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -178,7 +176,7 @@ namespace Krypton.Toolkit
             this.kwlblToolkitVersion.Location = new System.Drawing.Point(64, 181);
             this.kwlblToolkitVersion.Margin = new System.Windows.Forms.Padding(4);
             this.kwlblToolkitVersion.Name = "kwlblToolkitVersion";
-            this.kwlblToolkitVersion.Size = new System.Drawing.Size(589, 15);
+            this.kwlblToolkitVersion.Size = new System.Drawing.Size(587, 15);
             this.kwlblToolkitVersion.Text = "Krypton Toolkit Version: {0}";
             this.kwlblToolkitVersion.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -190,7 +188,7 @@ namespace Krypton.Toolkit
             this.ktcmbCurrentTheme.Location = new System.Drawing.Point(64, 250);
             this.ktcmbCurrentTheme.Margin = new System.Windows.Forms.Padding(4);
             this.ktcmbCurrentTheme.Name = "ktcmbCurrentTheme";
-            this.ktcmbCurrentTheme.Size = new System.Drawing.Size(589, 21);
+            this.ktcmbCurrentTheme.Size = new System.Drawing.Size(587, 21);
             this.ktcmbCurrentTheme.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.ktcmbCurrentTheme.TabIndex = 4;
             // 
@@ -203,7 +201,7 @@ namespace Krypton.Toolkit
             this.kwlblCurrentTheme.Location = new System.Drawing.Point(64, 227);
             this.kwlblCurrentTheme.Margin = new System.Windows.Forms.Padding(4);
             this.kwlblCurrentTheme.Name = "kwlblCurrentTheme";
-            this.kwlblCurrentTheme.Size = new System.Drawing.Size(589, 15);
+            this.kwlblCurrentTheme.Size = new System.Drawing.Size(587, 15);
             this.kwlblCurrentTheme.Text = "Current Theme:";
             this.kwlblCurrentTheme.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -216,7 +214,7 @@ namespace Krypton.Toolkit
             this.kwlblWorkspaceVersion.Location = new System.Drawing.Point(64, 204);
             this.kwlblWorkspaceVersion.Margin = new System.Windows.Forms.Padding(4);
             this.kwlblWorkspaceVersion.Name = "kwlblWorkspaceVersion";
-            this.kwlblWorkspaceVersion.Size = new System.Drawing.Size(589, 15);
+            this.kwlblWorkspaceVersion.Size = new System.Drawing.Size(587, 15);
             this.kwlblWorkspaceVersion.Text = "Krypton Ribbon Version: {0}";
             this.kwlblWorkspaceVersion.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -224,14 +222,12 @@ namespace Krypton.Toolkit
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.AutoSize = true;
             this.BackColor = System.Drawing.Color.Transparent;
             this.Controls.Add(this.kryptonGroupBox1);
             this.Name = "KryptonToolkitPoweredByControl";
-            this.Size = new System.Drawing.Size(661, 301);
+            this.Size = new System.Drawing.Size(659, 301);
             ((System.ComponentModel.ISupportInitialize)(this.kryptonGroupBox1.Panel)).EndInit();
             this.kryptonGroupBox1.Panel.ResumeLayout(false);
-            this.kryptonGroupBox1.Panel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonGroupBox1)).EndInit();
             this.kryptonGroupBox1.ResumeLayout(false);
             this.tlpnlContent.ResumeLayout(false);
@@ -239,7 +235,6 @@ namespace Krypton.Toolkit
             ((System.ComponentModel.ISupportInitialize)(this.kpbxLogo)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ktcmbCurrentTheme)).EndInit();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
