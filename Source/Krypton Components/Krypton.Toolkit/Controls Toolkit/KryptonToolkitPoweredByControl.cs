@@ -255,11 +255,6 @@ namespace Krypton.Toolkit
             base.OnLoad(e);
         }
 
-        protected override void OnCreateControl()
-        {
-            base.OnCreateControl();
-        }
-
         #endregion
 
         #region Removed Designer Visibility
