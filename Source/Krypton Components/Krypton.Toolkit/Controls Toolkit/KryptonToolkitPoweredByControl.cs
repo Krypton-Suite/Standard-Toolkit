@@ -43,8 +43,14 @@ namespace Krypton.Toolkit
 
         //public bool ShowWorkspaceVersion { get => _showWorkspaceVersion; set { _showWorkspaceVersion = value; Invalidate(); } }
 
-        public bool ShowThemeOption { get => _showThemeOption; set { _showThemeOption = value; Invalidate(); } }
+        /// <summary>Gets or sets a value indicating whether [show theme option].</summary>
+        /// <value><c>true</c> if [show theme option]; otherwise, <c>false</c>.</value>
+        [DefaultValue(false), Description(@"Allows the user to change the theme.")]
+        public bool ShowThemeOption { get => _showThemeOption; set { _showThemeOption = value; Invalidate(); SetLogoSpan(value); } }
 
+        /// <summary>Gets or sets the type of the toolkit.</summary>
+        /// <value>The type of the toolkit.</value>
+        [DefaultValue(typeof(ToolkitType), @"ToolkitType.Stable"), Description(@"Changes the icon based on the type of toolkit you are using.")]
         public ToolkitType ToolkitType { get => _toolkitType; set { _toolkitType = value; SetLogo(value); } }
 
         #endregion
@@ -68,9 +74,21 @@ namespace Krypton.Toolkit
 
             _showThemeOption = false;
 
+            kwlblDockingVersion.Text = null;
+
+            kwlblNavigatorVersion.Text = null;
+
+            kwlblRibbonVersion.Text = null;
+
+            kwlblToolkitVersion.Text = null;
+
+            kwlblWorkspaceVersion.Text = null;
+
             _toolkitType = ToolkitType.Stable;
 
             SetLogo(_toolkitType);
+
+            Size = new Size(659, 122);
         }
 
         #endregion
@@ -177,6 +195,33 @@ namespace Krypton.Toolkit
             else
             {
                 kwlblWorkspaceVersion.Text = $@"Cannot find file: '{GlobalStaticValues.DEFAULT_WORKSPACE_FILE}'";
+            }
+        }
+
+        private void SetLogoSpan(bool showThemeOption)
+        {
+            if (showThemeOption)
+            {
+                tlpnlContent.SetRowSpan(kpbxLogo, 10);
+
+                TableLayoutPanelCellPosition currentThemeLabelCellPosition =
+                    tlpnlContent.GetCellPosition(kwlblCurrentTheme);
+
+                TableLayoutPanelCellPosition currentThemeCellPosition = tlpnlContent.GetCellPosition(ktcmbCurrentTheme);
+
+                int labelRowHeight = tlpnlContent.GetRowHeights()[currentThemeLabelCellPosition.Row];
+
+                int comboBoxRowHeight = tlpnlContent.GetRowHeights()[currentThemeCellPosition.Row];
+
+                int addedHeight = labelRowHeight + comboBoxRowHeight;
+
+                Size = new Size(659, addedHeight);
+            }
+            else
+            {
+                tlpnlContent.SetRowSpan(kpbxLogo, 1);
+
+                Size = new Size(659, 122);
             }
         }
 
