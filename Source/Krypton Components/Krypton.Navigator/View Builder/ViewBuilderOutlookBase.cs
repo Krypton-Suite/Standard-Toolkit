@@ -280,15 +280,15 @@ namespace Krypton.Navigator
         /// <param name="navigator">Reference to navigator instance.</param>
         /// <param name="manager">Reference to current manager.</param>
         /// <param name="redirector">Palette redirector.</param>
-        public override void Construct(KryptonNavigator navigator,
-                                       ViewManager manager,
-                                       [DisallowNull] PaletteRedirect? redirector)
+        public override void Construct([DisallowNull] KryptonNavigator navigator,
+                                       [DisallowNull] ViewManager manager,
+                                       [DisallowNull] PaletteRedirect redirector)
         {
             // Let base class perform common operations
             base.Construct(navigator, manager, redirector);
 
             // Get the current root element
-            _oldRoot = ViewManager?.Root as ViewLayoutPageShow;
+            _oldRoot = ViewManager.Root as ViewLayoutPageShow;
 
             // Create and initialize all objects
             if (ViewManager != null)

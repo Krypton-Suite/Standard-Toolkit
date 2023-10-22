@@ -6,6 +6,7 @@
 		<TargetFrameworks>net48</TargetFrameworks>
 		<Nullable>enable</Nullable>
 		<UseWindowsForms>true</UseWindowsForms>
+        <LangVersion>preview</LangVersion>
 	</PropertyGroup>
 
 	<ItemGroup>
