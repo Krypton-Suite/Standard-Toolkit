@@ -120,7 +120,8 @@ namespace Krypton.Toolkit
             Assembly currentAssembly = Assembly.GetExecutingAssembly();
 
             // Place reference assemblies into an array
-            // ToDo: Can we use `AssemblyVersionInformation`?
+            // ToDo: Can we use `FileVersionInfo`?
+            //FileVersionInfo[] satelliteFileVersionInformation = currentAssembly.GetReferencedAssemblies();
             AssemblyName[] satelliteAssemblies = currentAssembly.GetReferencedAssemblies();
 
             foreach (AssemblyName assembly in satelliteAssemblies)
