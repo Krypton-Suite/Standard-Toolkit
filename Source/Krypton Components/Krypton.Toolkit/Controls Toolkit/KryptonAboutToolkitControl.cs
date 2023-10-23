@@ -16,5 +16,20 @@ namespace Krypton.Toolkit
         {
             InitializeComponent();
         }
+
+        private void klwlblRepositories_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+
+        }
+
+        private void klwlblDocumentation_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+
+        }
+
+        private void klwlblDemos_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+
+        }
     }
 }
