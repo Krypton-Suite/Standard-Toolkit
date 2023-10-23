@@ -107,6 +107,14 @@ namespace Krypton.Toolkit
             }
         }
 
+        internal void UpdateHeaderText(string text) => _aboutToolkitControl.MainGroup.ValuesPrimary.Heading = text;
+
+        internal void UpdateGeneralInformationText(string text) => _aboutToolkitControl.GeneralInformationLabel.Text = text;
+
+        internal void UpdateGeneralInformationLinkArea(LinkArea area) => _aboutToolkitControl.GeneralInformationLabel.LinkArea = area;
+
+
+
         #endregion
     }
 }
