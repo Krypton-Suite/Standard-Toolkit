@@ -114,6 +114,21 @@ namespace Krypton.Toolkit
         internal void UpdateGeneralInformationLinkArea(LinkArea area) => _aboutToolkitControl.GeneralInformationLabel.LinkArea = area;
 
 
+        internal void GetReferenceAssemblyInformation()
+        {
+            // Get the current assembly
+            Assembly currentAssembly = Assembly.GetExecutingAssembly();
+
+            // Place reference assemblies into an array
+            // ToDo: Can we use `AssemblyVersionInformation`?
+            AssemblyName[] satelliteAssemblies = currentAssembly.GetReferencedAssemblies();
+
+            foreach (AssemblyName assembly in satelliteAssemblies)
+            {
+                // Fill datagrid view
+                _aboutToolkitControl.VersionsGrid.Rows.Add(assembly.Name, assembly.Version.ToString());
+            }
+        }
 
         #endregion
     }
