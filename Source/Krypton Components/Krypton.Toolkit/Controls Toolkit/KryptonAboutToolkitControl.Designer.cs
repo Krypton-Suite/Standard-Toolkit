@@ -365,7 +365,8 @@
             this.klwlblGeneralInformation.Margin = new System.Windows.Forms.Padding(5);
             this.klwlblGeneralInformation.Name = "klwlblGeneralInformation";
             this.klwlblGeneralInformation.Size = new System.Drawing.Size(623, 243);
-            this.klwlblGeneralInformation.Text = "kryptonLinkWrapLabel1";
+            this.klwlblGeneralInformation.Text = "Some of the components used in this application are part of the Krypton Standard " +
+    "Toolkit.\r\n\r\nLicense: BSD-3-Clause\r\n\r\nTo learn more, click here.";
             this.klwlblGeneralInformation.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.klwlblGeneralInformation.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.klwlblGeneralInformation_LinkClicked);
             // 
