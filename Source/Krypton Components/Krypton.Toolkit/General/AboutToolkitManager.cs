@@ -64,40 +64,40 @@ namespace Krypton.Toolkit
             switch (page)
             {
                 case AboutToolkitPage.GeneralInformation:
-                    _aboutToolkitControl.generalInformationPanel.Visible = true;
+                    _aboutToolkitControl.GeneralInformationPanel.Visible = true;
 
-                    _aboutToolkitControl.discordPanel.Visible = false;
+                    _aboutToolkitControl.DiscordPanel.Visible = false;
 
-                    _aboutToolkitControl.developerInformationPanel.Visible = false;
+                    _aboutToolkitControl.DeveloperInformationPanel.Visible = false;
 
-                    _aboutToolkitControl.versionsPanel.Visible = false;
+                    _aboutToolkitControl.VersionsPanel.Visible = false;
                     break;
                 case AboutToolkitPage.Discord:
-                    _aboutToolkitControl.generalInformationPanel.Visible = false;
+                    _aboutToolkitControl.GeneralInformationPanel.Visible = false;
 
-                    _aboutToolkitControl.discordPanel.Visible = true;
+                    _aboutToolkitControl.DiscordPanel.Visible = true;
 
-                    _aboutToolkitControl.developerInformationPanel.Visible = false;
+                    _aboutToolkitControl.DeveloperInformationPanel.Visible = false;
 
-                    _aboutToolkitControl.versionsPanel.Visible = false;
+                    _aboutToolkitControl.VersionsPanel.Visible = false;
                     break;
                 case AboutToolkitPage.DeveloperInformation:
-                    _aboutToolkitControl.generalInformationPanel.Visible = false;
+                    _aboutToolkitControl.GeneralInformationPanel.Visible = false;
 
-                    _aboutToolkitControl.discordPanel.Visible = false;
+                    _aboutToolkitControl.DiscordPanel.Visible = false;
 
-                    _aboutToolkitControl.developerInformationPanel.Visible = true;
+                    _aboutToolkitControl.DeveloperInformationPanel.Visible = true;
 
-                    _aboutToolkitControl.versionsPanel.Visible = false;
+                    _aboutToolkitControl.VersionsPanel.Visible = false;
                     break;
                 case AboutToolkitPage.Versions:
-                    _aboutToolkitControl.generalInformationPanel.Visible = false;
+                    _aboutToolkitControl.GeneralInformationPanel.Visible = false;
 
-                    _aboutToolkitControl.discordPanel.Visible = false;
+                    _aboutToolkitControl.DiscordPanel.Visible = false;
 
-                    _aboutToolkitControl.developerInformationPanel.Visible = false;
+                    _aboutToolkitControl.DeveloperInformationPanel.Visible = false;
 
-                    _aboutToolkitControl.versionsPanel.Visible = true;
+                    _aboutToolkitControl.VersionsPanel.Visible = true;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(page), page, null);

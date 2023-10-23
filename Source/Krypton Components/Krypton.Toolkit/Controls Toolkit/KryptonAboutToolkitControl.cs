@@ -27,13 +27,13 @@ namespace Krypton.Toolkit
 
         #region Panels
 
-        internal KryptonPanel generalInformationPanel => kpnlGeneralInformation;
+        internal KryptonPanel GeneralInformationPanel => kpnlGeneralInformation;
 
-        internal KryptonPanel discordPanel => kpnlDiscord;
+        internal KryptonPanel DiscordPanel => kpnlDiscord;
 
-        internal KryptonPanel developerInformationPanel => kpnlDeveloperInformation;
+        internal KryptonPanel DeveloperInformationPanel => kpnlDeveloperInformation;
 
-        internal KryptonPanel versionsPanel => kpnlVersions;
+        internal KryptonPanel VersionsPanel => kpnlVersions;
 
         #endregion
 
