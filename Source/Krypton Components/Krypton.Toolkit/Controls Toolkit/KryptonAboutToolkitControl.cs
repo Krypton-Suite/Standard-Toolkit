@@ -31,5 +31,30 @@ namespace Krypton.Toolkit
         {
 
         }
+
+        private void klwlblGeneralInformation_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+
+        }
+
+        private void tsbtnGeneralInformation_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tsbtnDiscord_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tsbtnDeveloperInformation_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tsbtnVersions_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
