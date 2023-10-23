@@ -29,5 +29,81 @@ namespace Krypton.Toolkit
         }
 
         #endregion
+
+        #region Implementation
+
+        internal static void LaunchProcess(string location)
+        {
+            try
+            {
+                Process.Start(location);
+            }
+            catch (Exception e)
+            {
+                ExceptionHandler.CaptureException(e);
+            }
+        }
+
+        internal void SwitchIcon(ToolkitType toolkitType)
+        {
+            switch (toolkitType)
+            {
+                case ToolkitType.Canary:
+                    break;
+                case ToolkitType.Nightly:
+                    break;
+                case ToolkitType.Stable:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(toolkitType), toolkitType, null);
+            }
+        }
+
+        internal void SwitchPages(AboutToolkitPage page)
+        {
+            switch (page)
+            {
+                case AboutToolkitPage.GeneralInformation:
+                    _aboutToolkitControl.generalInformationPanel.Visible = true;
+
+                    _aboutToolkitControl.discordPanel.Visible = false;
+
+                    _aboutToolkitControl.developerInformationPanel.Visible = false;
+
+                    _aboutToolkitControl.versionsPanel.Visible = false;
+                    break;
+                case AboutToolkitPage.Discord:
+                    _aboutToolkitControl.generalInformationPanel.Visible = false;
+
+                    _aboutToolkitControl.discordPanel.Visible = true;
+
+                    _aboutToolkitControl.developerInformationPanel.Visible = false;
+
+                    _aboutToolkitControl.versionsPanel.Visible = false;
+                    break;
+                case AboutToolkitPage.DeveloperInformation:
+                    _aboutToolkitControl.generalInformationPanel.Visible = false;
+
+                    _aboutToolkitControl.discordPanel.Visible = false;
+
+                    _aboutToolkitControl.developerInformationPanel.Visible = true;
+
+                    _aboutToolkitControl.versionsPanel.Visible = false;
+                    break;
+                case AboutToolkitPage.Versions:
+                    _aboutToolkitControl.generalInformationPanel.Visible = false;
+
+                    _aboutToolkitControl.discordPanel.Visible = false;
+
+                    _aboutToolkitControl.developerInformationPanel.Visible = false;
+
+                    _aboutToolkitControl.versionsPanel.Visible = true;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(page), page, null);
+            }
+        }
+
+        #endregion
     }
 }
