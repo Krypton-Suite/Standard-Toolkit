@@ -37,6 +37,76 @@ namespace Krypton.Toolkit
 
         #endregion
 
+        #region Labels
+
+        internal KryptonLabel CurrentThemeLabel => klblCurrentTheme;
+
+        #endregion
+
+        #region Link Labels
+
+        internal KryptonLinkWrapLabel GeneralInformationLabel => klwlblGeneralInformation;
+
+        internal KryptonLinkWrapLabel DiscordLabel => klwlblDiscord;
+
+        internal KryptonLinkWrapLabel RepositoriesLabel => klwlblRepositories;
+
+        internal KryptonLinkWrapLabel DocumentationLabel => klwlblDocumentation;
+
+        internal KryptonLinkWrapLabel DemosLabel => klwlblDemos;
+
+        #endregion
+
+        #region Picture Box
+
+        internal PictureBox LogoBox => pbxLogo;
+
+        #endregion
+
+        #region Theme ComboBox
+
+        internal KryptonThemeComboBox ThemeComboBox => ktcmbCurrentTheme;
+
+        #endregion
+
+        #region Data Grid
+
+        internal KryptonDataGridView VersionsGrid => kdgvVersions;
+
+        #endregion
+
+        #region Header Group
+
+        internal KryptonHeaderGroup MainGroup => khgMain;
+
+        #endregion
+
+        #region ToolStrip
+
+        #region Buttons
+
+        internal ToolStripButton GeneralInformationButton => tsbtnGeneralInformation;
+
+        internal ToolStripButton DiscordButton => tsbtnDiscord;
+
+        internal ToolStripButton DeveloperInformationButton => tsbtnDeveloperInformation;
+
+        internal ToolStripButton VersionsButton => tsbtnVersions;
+
+        #endregion
+
+        #region Splitters
+
+        internal ToolStripSeparator DiscordSplitter => tssDiscord;
+
+        internal ToolStripSeparator DeveloperInformationSplitter => tssDeveloperInformation;
+
+        internal ToolStripSeparator VersionsSplitter => tssVersions;
+
+        #endregion
+
+        #endregion
+
         #endregion
 
         public KryptonAboutToolkitControl()

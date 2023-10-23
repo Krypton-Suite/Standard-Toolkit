@@ -49,10 +49,13 @@ namespace Krypton.Toolkit
             switch (toolkitType)
             {
                 case ToolkitType.Canary:
+                    _aboutToolkitControl.LogoBox.Image = ToolkitLogoImageResources.Krypton_Canary;
                     break;
                 case ToolkitType.Nightly:
+                    _aboutToolkitControl.LogoBox.Image = ToolkitLogoImageResources.Krypton_Nightly;
                     break;
                 case ToolkitType.Stable:
+                    _aboutToolkitControl.LogoBox.Image = ToolkitLogoImageResources.Krypton_Stable;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(toolkitType), toolkitType, null);
