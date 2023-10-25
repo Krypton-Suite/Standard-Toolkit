@@ -111,6 +111,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Issue Templates", "Issue Te
 		..\..\.github\ISSUE_TEMPLATE\post-a-question.md = ..\..\.github\ISSUE_TEMPLATE\post-a-question.md
 	EndProjectSection
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bug1091", "..\..\..\Bug1091\Bug1091\Bug1091.csproj", "{7419FDE6-988C-402C-AC53-2035A9D7B7B9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Canary|Any CPU = Canary|Any CPU
@@ -180,6 +182,16 @@ Global
 		{6CFB046A-0239-4395-BA64-C4DBDD19AFE4}.Nightly|Any CPU.Build.0 = Debug|Any CPU
 		{6CFB046A-0239-4395-BA64-C4DBDD19AFE4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6CFB046A-0239-4395-BA64-C4DBDD19AFE4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7419FDE6-988C-402C-AC53-2035A9D7B7B9}.Canary|Any CPU.ActiveCfg = Debug|Any CPU
+		{7419FDE6-988C-402C-AC53-2035A9D7B7B9}.Canary|Any CPU.Build.0 = Debug|Any CPU
+		{7419FDE6-988C-402C-AC53-2035A9D7B7B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7419FDE6-988C-402C-AC53-2035A9D7B7B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7419FDE6-988C-402C-AC53-2035A9D7B7B9}.Installer|Any CPU.ActiveCfg = Debug|Any CPU
+		{7419FDE6-988C-402C-AC53-2035A9D7B7B9}.Installer|Any CPU.Build.0 = Debug|Any CPU
+		{7419FDE6-988C-402C-AC53-2035A9D7B7B9}.Nightly|Any CPU.ActiveCfg = Debug|Any CPU
+		{7419FDE6-988C-402C-AC53-2035A9D7B7B9}.Nightly|Any CPU.Build.0 = Debug|Any CPU
+		{7419FDE6-988C-402C-AC53-2035A9D7B7B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7419FDE6-988C-402C-AC53-2035A9D7B7B9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

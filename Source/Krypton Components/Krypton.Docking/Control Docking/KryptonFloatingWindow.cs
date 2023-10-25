@@ -227,7 +227,6 @@ namespace Krypton.Docking
             var childMinSize = e.Cell.GetMinSize();
             MinimumSize = new Size(Math.Max(MinimumSize.Width, childMinSize.Width) + 20,
                 Math.Max(MinimumSize.Height, childMinSize.Height) + 20);
-            ClientSize = MinimumSize;
         }
 
         private void OnFloatspaceCellRemoved(object sender, WorkspaceCellEventArgs e) => e.Cell.TabVisibleCountChanged -= OnTabVisibleCountChanged;

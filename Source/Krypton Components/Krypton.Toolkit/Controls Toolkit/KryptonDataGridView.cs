@@ -497,7 +497,7 @@ namespace Krypton.Toolkit
                 if (_localPalette != value)
                 {
                     // Remember the starting palette
-                    PaletteBase old = _localPalette;
+                    PaletteBase? old = _localPalette;
 
                     // Use the provided palette value
                     SetPalette(value);
@@ -1592,7 +1592,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Internal
-        internal PaletteRedirect? Redirector
+        internal PaletteRedirect Redirector
         {
             [DebuggerStepThrough]
             get;
@@ -2525,7 +2525,7 @@ namespace Krypton.Toolkit
         private void PaintTransparentBackground(Graphics g, Rectangle clipRect)
         {
             // Get the parent control for transparent drawing purposes
-            Control parent = TransparentParent;
+            Control? parent = TransparentParent;
 
             // Do we have a parent control and we need to paint background?
             if ((parent != null) && NeedTransparentPaint)
