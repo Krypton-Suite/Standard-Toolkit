@@ -15,13 +15,15 @@ namespace Krypton.Toolkit
     internal class KryptonCustomPaletteBaseActionList : DesignerActionList
     {
         #region Instance Fields
+        
         private readonly KryptonCustomPaletteBase? _palette;
         private readonly IComponentChangeService _service;
+
         #endregion
 
         #region Identity
         /// <summary>
-        /// Initialize a new instance of the KryptonPaletteActionList class.
+        /// Initialize a new instance of the KryptonCustomPaletteBaseActionList class.
         /// </summary>
         /// <param name="owner">Designer that owns this action list instance.</param>
         public KryptonCustomPaletteBaseActionList(KryptonCustomPaletteBaseDesigner owner)
