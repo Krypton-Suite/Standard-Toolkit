@@ -115,7 +115,7 @@ namespace Krypton.Toolkit
         {
             try
             {
-                using var kofd = new KryptonOpenFileDialog
+                using var ofd = new OpenFileDialog /*KryptonOpenFileDialog*/
                 {
                     CheckFileExists = true,
                     CheckPathExists = true,
@@ -124,9 +124,10 @@ namespace Krypton.Toolkit
                     Title = @"Load Custom Palette"
                 };
 
-                string paletteFileName = (kofd.ShowDialog() == DialogResult.OK)
-                    ? kofd.FileName
+                string paletteFileName = (ofd.ShowDialog() == DialogResult.OK)
+                    ? ofd.FileName
                     : string.Empty;
+                    
                 if (string.IsNullOrWhiteSpace(paletteFileName))
                 {
                     return;
