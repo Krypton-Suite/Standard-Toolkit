@@ -15,13 +15,14 @@ namespace Krypton.Toolkit
     internal class KryptonCustomPaletteBaseActionList : DesignerActionList
     {
         #region Instance Fields
-        
+
         private readonly KryptonCustomPaletteBase? _palette;
         private readonly IComponentChangeService _service;
 
         #endregion
 
         #region Identity
+
         /// <summary>
         /// Initialize a new instance of the KryptonCustomPaletteBaseActionList class.
         /// </summary>
@@ -35,9 +36,11 @@ namespace Krypton.Toolkit
             // Cache service used to notify when a property has changed
             _service = (IComponentChangeService)GetService(typeof(IComponentChangeService));
         }
+
         #endregion
 
         #region Public Override
+
         /// <summary>
         /// Returns the collection of DesignerActionItem objects contained in the list.
         /// </summary>
@@ -62,9 +65,11 @@ namespace Krypton.Toolkit
 
             return actions;
         }
+
         #endregion
 
         #region Implementation
+
         private void OnResetClick(object sender, EventArgs e)
         {
             if (_palette != null)
@@ -135,7 +140,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnExportToBinaryClick(object sender, EventArgs e) => DebugTools.NotImplemented(@"OnExportToBinaryClick", @"KryptonPaletteActionList", 105);
+        private void OnExportToBinaryClick(object sender, EventArgs e) => DebugTools.NotImplemented(@"OnExportToBinaryClick", @"KryptonCustomPaletteBaseActionList", 105);
 
         #endregion
     }
