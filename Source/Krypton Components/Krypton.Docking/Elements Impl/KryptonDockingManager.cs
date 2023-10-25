@@ -2067,7 +2067,7 @@ namespace Krypton.Docking
             // Use events to determine which pages should be switched
             var switchUniqueNames = new List<string>();
             var switchPages = new List<KryptonPage>();
-            string selectedPage = null;
+            string? selectedPage = null;
             foreach (var uniqueName in uniqueNames)
             {
                 // Does the provided unique name exist and is in the required 'docked' state
@@ -2104,7 +2104,7 @@ namespace Krypton.Docking
             }
 
             // Still any pages to be switched?
-            if (switchUniqueNames.Count > 0)
+            if (switchUniqueNames.Any())
             {
                 // Find a floating element that is the target for the switching
                 KryptonDockingFloating? floating = FindDockingFloating(selectedPage ?? switchUniqueNames[0]);
@@ -2194,7 +2194,7 @@ namespace Krypton.Docking
             // Use events to determine which pages should be switched
             var switchUniqueNames = new List<string>();
             var switchPages = new List<KryptonPage>();
-            string selectedPage = null;
+            string? selectedPage = null;
             foreach (var uniqueName in uniqueNames)
             {
                 // Does the provided unique name exist and is in the required 'floating' state
@@ -2231,7 +2231,7 @@ namespace Krypton.Docking
             }
 
             // Still any pages to be switched?
-            if (switchUniqueNames.Count > 0)
+            if (switchUniqueNames.Any())
             {
                 using var update = new DockingMultiUpdate(this);
                 // Convert the pages to placeholders so they can be returned to the same location
@@ -2278,7 +2278,7 @@ namespace Krypton.Docking
                 }
 
                 // Any pages that need default positioning because they could not be restored?
-                if (defaultPages.Count > 0)
+                if (defaultPages.Any())
                 {
                     // Cannot switch to docked unless we can find a docked element as the target
                     KryptonDockingEdgeDocked? edgeDocked = FindDockingEdgeDocked(defaultSelectedPage != null ? defaultSelectedPage.UniqueName : defaultPages[0].UniqueName);
@@ -2336,7 +2336,7 @@ namespace Krypton.Docking
             // Use events to determine which pages should be switched
             var switchUniqueNames = new List<string>();
             var switchPages = new List<KryptonPage>();
-            string selectedPage = null;
+            string? selectedPage = null;
             foreach (var uniqueName in uniqueNames)
             {
                 // Does the provided unique name exist and is in the required 'floating' state
@@ -2366,7 +2366,7 @@ namespace Krypton.Docking
             }
 
             // Still any pages to be switched?
-            if (switchUniqueNames.Count > 0)
+            if (switchUniqueNames.Any())
             {
                 // Find a floating element that is the target for the switching
                 KryptonDockingFloating? floating = FindDockingFloating(selectedPage ?? switchUniqueNames[0]);
@@ -2453,7 +2453,7 @@ namespace Krypton.Docking
                         }
 
                         // Any pages that actually need to be switched?
-                        if (switchPages.Count > 0)
+                        if (switchPages.Any())
                         {
                             using var update = new DockingMultiUpdate(this);
                             // Remove the pages from the auto hidden group
@@ -2499,7 +2499,7 @@ namespace Krypton.Docking
                             RemoveControlStorePages(edgeDocked, uniqueNames, false, true);
 
                             // Do we have some pages that still need adding?
-                            if (defaultPages.Count > 0)
+                            if (defaultPages.Any())
                             {
                                 // Place them all inside a new dockspace
                                 KryptonDockingDockspace newDockspace = edgeDocked.AppendDockspace();
@@ -3051,7 +3051,7 @@ namespace Krypton.Docking
             }
 
             // Cannot drag an empty collection
-            if (pages.Count == 0)
+            if (!pages.Any())
             {
                 throw new ArgumentOutOfRangeException(nameof(pages), @"collection cannot be empty");
             }
@@ -3063,7 +3063,7 @@ namespace Krypton.Docking
             };
 
             var atLeastOneFloating = false;
-            KryptonPage firstFloatingPage = null!;
+            KryptonPage firstFloatingPage = null!;  // this is protected by the `atLeastOneFloating` local var.
             foreach (KryptonPage? page in pages.Where(static page => page is not KryptonStorePage))
             {
                 // Cannot drag a null page reference
