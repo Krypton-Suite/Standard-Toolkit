@@ -2135,9 +2135,6 @@ namespace Krypton.Toolkit
             }
 
             return paletteFileName;
-            {
-
-            }
         }
 
         /// <summary>
