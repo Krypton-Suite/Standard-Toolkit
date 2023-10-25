@@ -13,13 +13,33 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
 
+        private AboutToolkitManager _manager;
 
+        private AboutToolkitValues _values;
 
         #endregion
 
         #region Public
 
+        [Category(@"Visuals")]
+        [Description(@"")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        public AboutToolkitValues Values
+        {
+            [DebuggerStepThrough]
+            get => _values;
 
+            set
+            {
+                _values = value;
+
+                _manager = new AboutToolkitManager(this, Values);
+            }
+        }
+
+        private bool ShouldSerializeAboutToolkitValues() => !_values.IsDefault;
+
+        public void ResetAboutToolkitValues() => _values.Reset();
 
         #endregion
 
@@ -107,12 +127,22 @@ namespace Krypton.Toolkit
 
         #endregion
 
+        #region TableLayoutPanel
+
+        internal TableLayoutPanel GeneralInformationLayoutPanel => tlpGeneralInformation;
+
+        #endregion
+
         #endregion
 
         public KryptonAboutToolkitControl()
         {
             InitializeComponent();
+
+            Values = new AboutToolkitValues();
         }
+
+        #region Implementation
 
         private void klwlblRepositories_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) =>
             AboutToolkitManager.LaunchProcess(@"");
@@ -145,5 +175,7 @@ namespace Krypton.Toolkit
         {
 
         }
+
+        #endregion
     }
 }

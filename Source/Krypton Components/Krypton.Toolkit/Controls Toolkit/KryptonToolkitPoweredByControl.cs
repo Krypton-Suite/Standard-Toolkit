@@ -114,7 +114,7 @@ namespace Krypton.Toolkit
                 ExceptionHandler.CaptureException(exception);
             }
         }
-        
+
         private void SetLogoSpan(bool showThemeOption)
         {
             if (showThemeOption)

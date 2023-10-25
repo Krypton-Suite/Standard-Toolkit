@@ -414,7 +414,7 @@ namespace Krypton.Toolkit
         public static object? PerformOperation(Operation op, object? parameter)
         {
             // Create a modal window for showing feedback
-            using var wait = new ModalWaitDialog();
+            using var wait = new ModalWaitDialog(null, null, null, null);
             // Create the object that runs the operation in a separate thread
             var opThread = new OperationThread(op, parameter);
 
