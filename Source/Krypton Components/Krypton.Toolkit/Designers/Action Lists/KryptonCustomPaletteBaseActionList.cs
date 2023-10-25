@@ -12,7 +12,7 @@
 
 namespace Krypton.Toolkit
 {
-    internal class KryptonPaletteActionList : DesignerActionList
+    internal class KryptonCustomPaletteBaseActionList : DesignerActionList
     {
         #region Instance Fields
         private readonly KryptonCustomPaletteBase? _palette;
@@ -24,7 +24,7 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the KryptonPaletteActionList class.
         /// </summary>
         /// <param name="owner">Designer that owns this action list instance.</param>
-        public KryptonPaletteActionList(KryptonPaletteDesigner owner)
+        public KryptonCustomPaletteBaseActionList(KryptonCustomPaletteBaseDesigner owner)
             : base(owner.Component)
         {
             // Remember the panel instance
@@ -97,12 +97,12 @@ namespace Krypton.Toolkit
         {
             if (_palette != null)
             {
-                _palette.Import();
+                _palette.ActionListImport();
                 _service.OnComponentChanged(_palette, null, null, null);
             }
         }
 
-        private void OnExportClick(object sender, EventArgs e) => _palette?.Export();
+        private void OnExportClick(object sender, EventArgs e) => _palette?.ActionListExport();
 
         private void OnUpgradePalette(object sender, EventArgs e)
         {
@@ -125,7 +125,7 @@ namespace Krypton.Toolkit
                     return;
                 }
 
-                _palette.ImportWithUpgrade(File.OpenRead(paletteFileName));
+                _palette?.ImportWithUpgrade(File.OpenRead(paletteFileName));
             }
             catch (Exception exc)
             {

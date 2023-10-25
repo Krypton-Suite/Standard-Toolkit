@@ -26,7 +26,7 @@ namespace Krypton.Toolkit
     [DefaultEvent(nameof(PalettePaint))]
     [DefaultProperty(nameof(BasePaletteMode))]
     [DesignerCategory(@"code")]
-    [Designer(typeof(KryptonPaletteDesigner))]
+    [Designer(typeof(KryptonCustomPaletteBaseDesigner))]
     [Description(@"A customisable palette component.")]
     public class KryptonCustomPaletteBase : PaletteBase
     {
@@ -2103,6 +2103,43 @@ namespace Krypton.Toolkit
             return paletteFileName;
         }
 
+        /// <summary>Import palette settings from an xml file. For use with action list.</summary>
+        /// <returns>Fullpath of imported filename; otherwise empty string.</returns>
+        internal string ActionListImport(bool silent = false)
+        {
+            string paletteFileName = string.Empty;
+
+            using var dialog = new OpenFileDialog
+            {
+                // Palette files are just XML documents
+                CheckFileExists = true,
+                CheckPathExists = true,
+                DefaultExt = @"xml",
+                Filter = @"Palette files (*.xml)|*.xml|All files (*.*)|(*.*)",
+                Title = @"Load Palette"
+            };
+
+            // Get the actual file selected by the user
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                paletteFileName = dialog.FileName;
+
+                // Set the theme name to the file name
+                PaletteName = paletteFileName;
+            }
+
+            if (!string.IsNullOrWhiteSpace(paletteFileName))
+            {
+                // Use the existing import overload that takes the target name
+                paletteFileName = Import(paletteFileName, silent);
+            }
+
+            return paletteFileName;
+            {
+
+            }
+        }
+
         /// <summary>
         /// Silent Import of palette settings from the specified xml file.
         /// </summary>
@@ -2414,6 +2451,34 @@ namespace Krypton.Toolkit
                     // Use the existing export overload that takes the target name
                     return Export(dialog.FileName, true, false);
                 }
+            }
+
+            return string.Empty;
+        }
+
+        /// <summary>Export palette settings to a user specified xml file. For use with action list.</summary>
+        /// <returns>Fullpath of exported filename; otherwise empty string.</returns>
+        internal string? ActionListExport()
+        {
+            using var dialog = new SaveFileDialog
+            {
+                // Palette files are just xml documents
+                OverwritePrompt = true,
+                DefaultExt = @"xml",
+                Filter = @"Palette files (*.xml)|*.xml|All files (*.*)|(*.*)",
+                Title = @"Save Palette As"
+            };
+
+            // Get the actual file selected by the user
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                SetCustomisedKryptonPaletteFilePath(Path.GetFullPath(dialog.FileName));
+
+                // Set the theme name to the file name
+                PaletteName = dialog.FileName;
+
+                // Use the existing export overload that takes the target name
+                return Export(dialog.FileName, true, false);
             }
 
             return string.Empty;
