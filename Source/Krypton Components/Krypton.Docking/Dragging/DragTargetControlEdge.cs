@@ -37,7 +37,7 @@ namespace Krypton.Docking
                                      Rectangle hotRect,
                                      Rectangle drawRect,
                                      DragTargetHint hint,
-                                     KryptonDockingControl? controlElement,
+                                     KryptonDockingControl controlElement,
                                      KryptonPageFlags allowFlags,
                                      bool outsideEdge)
             : base(screenRect, hotRect, drawRect, hint, allowFlags)
@@ -75,7 +75,7 @@ namespace Krypton.Docking
         {
             if (disposing)
             {
-                ControlElement = null;
+                ControlElement = null!;
             }
 
             base.Dispose(disposing);
@@ -91,7 +91,7 @@ namespace Krypton.Docking
         /// <summary>
         /// Gets the target docking element.
         /// </summary>
-        public KryptonDockingControl? ControlElement { get; private set; }
+        public KryptonDockingControl ControlElement { get; private set; }
 
         /// <summary>
         /// Is this target a match for the provided screen position.
@@ -114,16 +114,16 @@ namespace Krypton.Docking
             switch (Edge)
             {
                 case VisualOrientation.Left:
-                    dockingEdge = ControlElement?[@"Left"] as KryptonDockingEdge;
+                    dockingEdge = ControlElement[@"Left"] as KryptonDockingEdge;
                     break;
                 case VisualOrientation.Right:
-                    dockingEdge = ControlElement?[@"Right"] as KryptonDockingEdge;
+                    dockingEdge = ControlElement[@"Right"] as KryptonDockingEdge;
                     break;
                 case VisualOrientation.Top:
-                    dockingEdge = ControlElement?[@"Top"] as KryptonDockingEdge;
+                    dockingEdge = ControlElement[@"Top"] as KryptonDockingEdge;
                     break;
                 case VisualOrientation.Bottom:
-                    dockingEdge = ControlElement?[@"Bottom"] as KryptonDockingEdge;
+                    dockingEdge = ControlElement[@"Bottom"] as KryptonDockingEdge;
                     break;
             }
 
