@@ -3,6 +3,7 @@
 =======
 
 ## 2023-11-14 - Build 2311 - November 2023
+* Resolved [#1153](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1153), Whilst investigating #1152 found that "Start drag" in certain application causes an exception.
 * Resolved [#1152](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1152), Unable to resize control dragged from Navigator via KryptonDockingManager.FloatingWindowAdding event.
 * Resolved [#1146](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1146), Krypton.Navigator throws exception in Initialise when attempting to EndInit().
 * Implemented [#1009](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1009), Powered by Krypton Toolkit button
