@@ -285,14 +285,13 @@ namespace Krypton.Toolkit
         public override void DetachEditingControl()
         {
             DataGridView dataGridView = DataGridView;
-            if (dataGridView?.EditingControl == null)
+            switch (dataGridView.EditingControl)
             {
-                throw new InvalidOperationException(@"Cell is detached or its grid has no editing control.");
-            }
-
-            if (dataGridView.EditingControl is KryptonComboBox comboBox)
-            {
-                comboBox.DataSource = null;
+                case null:
+                    throw new InvalidOperationException(@"Cell is detached or its grid has no editing control.");
+                case KryptonComboBox comboBox:
+                    comboBox.DataSource = null;
+                    break;
             }
 
             base.DetachEditingControl();

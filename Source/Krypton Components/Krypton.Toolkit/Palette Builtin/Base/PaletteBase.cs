@@ -20,11 +20,8 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
 
-        private bool _useKryptonFileDialogs;
-        private BasePaletteType _basePaletteType;
         private Padding? _inputControlPadding;
         private PaletteDragFeedback _dragFeedback;
-        private string _themeName;
 
         private readonly Font _defaultFontStyle = new Font("Segoe UI", 9f, FontStyle.Regular);
 
@@ -91,9 +88,7 @@ namespace Krypton.Toolkit
             // Inherit means we need to calculate the value next time it is requested
             _dragFeedback = PaletteDragFeedback.Inherit;
 
-            _themeName = string.Empty;
-
-            _useKryptonFileDialogs = true;
+            ThemeName = string.Empty;
 
             _baseFont = _defaultFontStyle;
         }
@@ -1697,8 +1692,11 @@ namespace Krypton.Toolkit
 
         /// <summary>Gets or sets a value indicating whether [use krypton file dialogs].</summary>
         /// <value><c>true</c> if [use krypton file dialogs]; otherwise, <c>false</c>.</value>
-        [DefaultValue(false), Description(@"Use Krypton style file dialogs for exporting/importing palettes.")]
-        public bool UseKryptonFileDialogs { get => _useKryptonFileDialogs; set => _useKryptonFileDialogs = value; }
+        [DefaultValue(true), Description(@"Use Krypton style file dialogs for exporting/importing palettes.")]
+        public bool UseKryptonFileDialogs { get; set; } = true;
+        private void ResetUseKryptonFileDialogs() => UseKryptonFileDialogs = true;
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        internal bool ShouldSerializeUseKryptonFileDialogs() => !UseKryptonFileDialogs;
 
         /// <summary>Gets and sets the base font size used when defining fonts.</summary>
         [Description(@"Gets and sets the base font size used when defining fonts.")]
@@ -1720,6 +1718,9 @@ namespace Krypton.Toolkit
                 }
             }
         }
+        private void ResetBaseFontSize() => BaseFontSize = _defaultFontStyle.Size;
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        internal bool ShouldSerializeBaseFontSize() => BaseFontSize != _defaultFontStyle.Size;
 
         /// <summary>Gets or sets the base palette font.</summary>
         /// <value>The base palette font.</value>
@@ -1736,16 +1737,32 @@ namespace Krypton.Toolkit
                 OnPalettePaint(this, new PaletteLayoutEventArgs(true, false));
             }
         }
+        private void ResetBaseFont() => BaseFont = _defaultFontStyle;
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        internal bool ShouldSerializeBaseFont() => !BaseFont.Equals( _defaultFontStyle );
 
         /// <summary>Gets or sets the name of the theme.</summary>
         /// <value>The name of the theme.</value>
         [DisallowNull, Description(@"Gets or sets the name of the theme.")]
-        public string ThemeName { get => _themeName; set => _themeName = value; }
+        public string ThemeName { get; set; }
+        private void ResetThemeName() => ThemeName = string.Empty;
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        internal bool ShouldSerializeThemeName() => ThemeName != string.Empty;
 
         /// <summary>Gets or sets the type of the base palette.</summary>
         /// <value>The type of the base palette.</value>
         [Description(@"Gets or sets the type of the base palette.")]
-        public BasePaletteType BasePaletteType { get => _basePaletteType; set => _basePaletteType = value; }
+        public BasePaletteType BasePaletteType { get; set; }
+        private void ResetBasePaletteType() => BasePaletteType = BasePaletteType.Custom;
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        internal bool ShouldSerializeBasePaletteType() => BasePaletteType != BasePaletteType.Custom;
+
+        internal bool IsDefault => !(ShouldSerializeUseKryptonFileDialogs()
+                                     || ShouldSerializeBaseFontSize()
+                                     || ShouldSerializeBaseFont()
+                                     || ShouldSerializeThemeName()
+                                     || ShouldSerializeBasePaletteType()
+                                 );
 
         #endregion
 
@@ -1939,6 +1956,7 @@ namespace Krypton.Toolkit
                 return _inputControlPadding.Value;
             }
         }
+
         #endregion
 
         #region OnUserPreferenceChanged

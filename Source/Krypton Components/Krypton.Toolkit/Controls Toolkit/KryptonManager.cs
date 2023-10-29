@@ -353,9 +353,9 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeGlobalPalette() => GlobalPalette != null;
+        private bool ShouldSerializeGlobalPalette() => InternalGlobalPalette is { IsDefault: false };
 
-        private void ResetGlobalPalette() => GlobalPaletteMode = PaletteMode.Microsoft365Blue;
+        private void ResetGlobalPalette() => InternalGlobalPalette = null;
 
         /// <summary>
         /// Gets or sets a value indicating if the palette colors are applied to the tool-strips.

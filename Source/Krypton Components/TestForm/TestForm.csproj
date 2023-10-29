@@ -3,7 +3,7 @@
 	<PropertyGroup>
 		<OutputType>WinExe</OutputType>
 		<!--<TargetFrameworks>net48;net6.0-windows</TargetFrameworks>-->
-		<TargetFrameworks>net48</TargetFrameworks>
+		<TargetFrameworks>net48;net7.0-windows</TargetFrameworks>
 		<Nullable>enable</Nullable>
 		<UseWindowsForms>true</UseWindowsForms>
         <LangVersion>preview</LangVersion>
