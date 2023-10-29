@@ -78,15 +78,15 @@ namespace Krypton.Toolkit
         private static readonly Point _nullCell = new Point(-2, -2);
 
         // Cached access to private parent values
-        private static PropertyInfo _piRTL;
-        private static PropertyInfo _piCML;
-        private static MethodInfo _miPTB;
-        private static MethodInfo _miGCI;
-        private static MethodInfo _miGTTT;
-        private static MethodInfo _miGET;
-        private static MethodInfo _miATT;
-        private static MethodInfo _miGPW;
-        private static MethodInfo _miGPH;
+        private static PropertyInfo? _piRTL;
+        private static PropertyInfo? _piCML;
+        private static MethodInfo? _miPTB;
+        private static MethodInfo? _miGCI;
+        private static MethodInfo? _miGTTT;
+        private static MethodInfo? _miGET;
+        private static MethodInfo? _miATT;
+        private static MethodInfo? _miGPW;
+        private static MethodInfo? _miGPH;
         #endregion
 
         #region Instance Fields
@@ -2379,7 +2379,7 @@ namespace Krypton.Toolkit
                                                                            BindingFlags.GetField);
             }
 
-            return (DataGridViewCell)_miGCI.Invoke(this, new object[] { column, row });
+            return (DataGridViewCell)_miGCI!.Invoke(this, new object[] { column, row });
         }
 
         private string GetToolTipText(DataGridViewCell cell, int row)
@@ -2395,7 +2395,7 @@ namespace Krypton.Toolkit
 
             try
             {
-                return (string)_miGTTT.Invoke(cell, new object[] { row });
+                return (string)_miGTTT!.Invoke(cell, new object[] { row });
             }
             catch
             {
@@ -2416,7 +2416,7 @@ namespace Krypton.Toolkit
 
             try
             {
-                return (string)_miGET.Invoke(cell, new object[] { row });
+                return (string)_miGET!.Invoke(cell, new object[] { row });
             }
             catch
             {
@@ -2436,7 +2436,7 @@ namespace Krypton.Toolkit
             }
 
             // Grab the internal calculated value of the right to left setting
-            return (byte)_piCML.GetValue(cell, null);
+            return (byte)_piCML!.GetValue(cell, null);
         }
 
         private int GetCellPreferredWidth(DataGridViewCell cell)
@@ -2450,7 +2450,7 @@ namespace Krypton.Toolkit
                                                                                  BindingFlags.GetField);
             }
 
-            return (int)_miGPW.Invoke(cell, new object[] { cell.RowIndex, cell.OwningRow.Height });
+            return (int)_miGPW!.Invoke(cell, new object[] { cell.RowIndex, cell.OwningRow.Height });
         }
 
         private int GetCellPreferredHeight(DataGridViewCell cell)
@@ -2464,7 +2464,7 @@ namespace Krypton.Toolkit
                                                                                   BindingFlags.GetField);
             }
 
-            return (int)_miGPH.Invoke(cell, new object[] { cell.RowIndex, cell.OwningColumn.Width });
+            return (int)_miGPH!.Invoke(cell, new object[] { cell.RowIndex, cell.OwningColumn.Width });
         }
 
         private string DismissBaseToolTips()
@@ -2478,7 +2478,7 @@ namespace Krypton.Toolkit
                                                                            BindingFlags.GetField);
             }
 
-            return (string)_miATT.Invoke(this, new object[] { false, string.Empty, -1, -1 });
+            return (string)_miATT!.Invoke(this, new object[] { false, string.Empty, -1, -1 });
         }
 
         private string TruncateToolTipText(string toolTipText)
@@ -2541,7 +2541,7 @@ namespace Krypton.Toolkit
                                                        null);
                 }
 
-                _miPTB.Invoke(this, new object[] { new PaintEventArgs(g, clipRect), ClientRectangle, null });
+                _miPTB!.Invoke(this, new object[] { new PaintEventArgs(g, clipRect), ClientRectangle, null });
             }
         }
 
@@ -2556,7 +2556,7 @@ namespace Krypton.Toolkit
                 // If the layout is still dirty after the refresh
                 if (_layoutDirty)
                 {
-                    // Then non of the control is visible, so perform manual request
+                    // Then none of the control is visible, so perform manual request
                     // for a layout to ensure that child controls can be resized
                     PerformLayout();
 

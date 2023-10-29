@@ -75,7 +75,7 @@ namespace Krypton.Toolkit
         {
             try
             {
-                var kDGV = (KryptonDataGridView)DataGridView;
+                var kDGV = DataGridView as KryptonDataGridView;
 
                 // Is this cell the currently active cell
                 var currentCell = (rowIndex == DataGridView.CurrentCellAddress.Y) &&
