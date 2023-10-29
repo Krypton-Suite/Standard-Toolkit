@@ -692,7 +692,7 @@ namespace Krypton.Workspace
                 /// <summary>
                 /// Gets access to the associated workspace cell item.
                 /// </summary>
-                public Component Item => PageItem ?? (CellItem ?? (Component)SequenceItem);
+                public Component? Item => PageItem ?? (CellItem ?? SequenceItem as Component);
 
                 /// <summary>
                 /// Gets access to the associated workspace cell item.
@@ -1064,7 +1064,7 @@ namespace Krypton.Workspace
             private void buttonOK_Click(object sender, EventArgs e)
             {
                 // Create an array with all the root items
-                var rootItems = new object[_treeView.Nodes.Count];
+                object?[] rootItems = new object?[_treeView.Nodes.Count];
                 for (var i = 0; i < rootItems.Length; i++)
                 {
                     rootItems[i] = ((MenuTreeNode)_treeView.Nodes[i]).Item;
@@ -1089,14 +1089,13 @@ namespace Krypton.Workspace
             private void buttonMoveUp_Click(object sender, EventArgs e)
             {
                 // If we have a selected node
-                var node = (MenuTreeNode)_treeView.SelectedNode;
+                var node = _treeView.SelectedNode as MenuTreeNode;
                 if (node != null)
                 {
                     NodeToType(node, out var isNodePage, out var isNodeCell, out var isNodeSequence);
 
                     // Find the previous node compatible as target for the selected node
-                    var previousNode = (MenuTreeNode)PreviousNode(node);
-                    if (previousNode != null)
+                    if (PreviousNode(node) is MenuTreeNode previousNode)
                     {
                         NodeToType(previousNode, out var isPreviousPage, out var isPreviousCell, out var isPreviousSequence);
 
@@ -1104,7 +1103,7 @@ namespace Krypton.Workspace
                         if (isNodePage)
                         {
                             // Remove page from parent cell
-                            var parentNode = (MenuTreeNode)node.Parent;
+                            var parentNode = node.Parent as MenuTreeNode;
                             parentNode.CellItem.Pages.Remove(node.PageItem);
                             parentNode.Nodes.Remove(node);
 
@@ -1235,7 +1234,7 @@ namespace Krypton.Workspace
                     NodeToType(node, out var isNodePage, out var isNodeCell, out var isNodeSequence);
 
                     // Find the next node compatible as target for the selected node
-                    var nextNode = (MenuTreeNode)NextNode(node);
+                    var nextNode = NextNode(node) as MenuTreeNode;
                     if (nextNode != null)
                     {
                         NodeToType(nextNode, out var isNextPage, out var isNextCell, out var isNextSequence);
@@ -1710,11 +1709,11 @@ namespace Krypton.Workspace
                 }
             }
 
-            private DictItemBase CreateItemsDictionary(object[] items)
+            private DictItemBase CreateItemsDictionary(object?[] items)
             {
                 var dictItems = new DictItemBase();
 
-                foreach (Component item in items)
+                foreach (Component? item in items)
                 {
                     AddItemsToDictionary(dictItems, item);
                 }
@@ -1722,7 +1721,7 @@ namespace Krypton.Workspace
                 return dictItems;
             }
 
-            private void AddItemsToDictionary(DictItemBase dictItems, Component baseItem)
+            private void AddItemsToDictionary(DictItemBase dictItems, Component? baseItem)
             {
                 // Add item to the dictionary
                 dictItems.Add(baseItem, baseItem);
@@ -1731,7 +1730,7 @@ namespace Krypton.Workspace
                 {
                     // Add pages from a cell
                     case KryptonWorkspaceCell cell:
-                        foreach (Component item in cell.Pages)
+                        foreach (Component? item in cell.Pages)
                         {
                             AddItemsToDictionary(dictItems, item);
                         }
@@ -1739,7 +1738,7 @@ namespace Krypton.Workspace
                         break;
                     // Add children from a sequence
                     case KryptonWorkspaceSequence sequence:
-                        foreach (Component item in sequence.Children)
+                        foreach (Component? item in sequence.Children)
                         {
                             AddItemsToDictionary(dictItems, item);
                         }

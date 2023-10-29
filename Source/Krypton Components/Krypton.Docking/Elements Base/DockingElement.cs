@@ -143,15 +143,17 @@ namespace Krypton.Docking
         /// Propagates an action request down the hierarchy of docking elements.
         /// </summary>
         /// <param name="action">Action that is requested to be performed.</param>
-        /// <param name="uniqueNames">Array of unique names of the pages the action relates to.</param>
+        /// <param name="uniqueNames">
+        /// Array of unique names of the pages the action relates to.
+        /// Will be null for `StartUpdate` and `EndUpdate`
+        /// </param>
         public virtual void PropogateAction(DockingPropogateAction action, string[]? uniqueNames)
         {
-            var countToUse = Math.Min(Count, uniqueNames?.Length ?? 0);
             // Propagate the action request to all the child elements
             // (use reverse order so if element removes itself we still have a valid loop)
-            for (var i = countToUse - 1; i >= 0; i--)
+            for (var i = Count - 1; i >= 0; i--)
             {
-                this[i]!.PropogateAction(action, uniqueNames);
+                this[i]?.PropogateAction(action, uniqueNames);
             }
         }
 
