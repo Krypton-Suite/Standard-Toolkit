@@ -135,14 +135,34 @@ namespace Krypton.Toolkit
 
         #endregion
 
+        #region Identity
+
+        /// <summary>Initializes a new instance of the <see cref="KryptonAboutToolkitControl" /> class.</summary>
         public KryptonAboutToolkitControl()
         {
             InitializeComponent();
 
             Values = new AboutToolkitValues();
+
+            StartUp();
         }
 
+        #endregion
+
         #region Implementation
+
+        private void StartUp()
+        {
+            Values.Reset();
+
+            _manager.SwitchIcon(Values.ToolkitType);
+
+            _manager.LoadToolbarImages();
+
+            _manager.ConcatanateGeneralInformationText(Values.GeneralInformationFirstLine, Values.GeneralInformationSecondLine, Values.GeneralInformationThirdLine);
+
+            _manager.ShowThemeControls(Values.ShowThemeOptions);
+        }
 
         private void klwlblRepositories_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) =>
             AboutToolkitManager.LaunchProcess(@"");
