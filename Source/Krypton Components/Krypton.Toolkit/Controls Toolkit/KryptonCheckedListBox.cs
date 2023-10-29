@@ -796,7 +796,7 @@ namespace Krypton.Toolkit
                     _miSetState = InnerArray?.GetType().GetMethod(@"SetState", new[] { typeof(int), typeof(int), typeof(bool) }, null);
                 }
 
-                _miSetState.Invoke(InnerArray, new object[] { index, stateMask, value });
+                _miSetState!.Invoke(InnerArray, new object[] { index, stateMask, value });
             }
 
             internal IEnumerator InnerArrayGetEnumerator(int stateMask, bool anyBit)
@@ -806,7 +806,7 @@ namespace Krypton.Toolkit
                     _miGetEnumerator = InnerArray?.GetType().GetMethod(@"GetEnumerator", new[] { typeof(int), typeof(bool) }, null);
                 }
 
-                return (IEnumerator)_miGetEnumerator.Invoke(InnerArray, new object[] { stateMask, anyBit });
+                return (IEnumerator)_miGetEnumerator!.Invoke(InnerArray, new object[] { stateMask, anyBit });
             }
             #endregion
 

@@ -54,7 +54,7 @@ namespace Krypton.Toolkit
         public virtual object? EditingControlFormattedValue
         {
             get => GetEditingControlFormattedValue(DataGridViewDataErrorContexts.Formatting);
-            set => Text = (string)value;
+            set => Text = value as string;
         }
 
         /// <summary>

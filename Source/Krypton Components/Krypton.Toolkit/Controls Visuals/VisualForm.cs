@@ -1203,7 +1203,7 @@ namespace Krypton.Toolkit
                             // Is this the command for closing the form?
                             if (sc == PI.SC_.CLOSE)
                             {
-                                PropertyInfo pi = typeof(Form).GetProperty(nameof(CloseReason),
+                                PropertyInfo? pi = typeof(Form).GetProperty(nameof(CloseReason),
                                     BindingFlags.Instance |
                                     BindingFlags.SetProperty |
                                     BindingFlags.NonPublic);

@@ -13,7 +13,7 @@
 namespace Krypton.Docking
 {
     /// <summary>
-    /// Acts as a proxy for a KryptonPage inside a auto hidden group.
+    /// Acts as a proxy for a KryptonPage inside an auto hidden group.
     /// </summary>
     [ToolboxItem(false)]
     [DesignerCategory("code")]
@@ -40,7 +40,7 @@ namespace Krypton.Docking
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
-            Page?.Dispose();
+            Page.Dispose();
 
             base.Dispose(disposing);
         }
@@ -50,7 +50,7 @@ namespace Krypton.Docking
         /// <summary>
         /// Gets a reference to the page for which this is a proxy.
         /// </summary>
-        public KryptonPage? Page { get; }
+        public KryptonPage Page { get; }
 
         /// <summary>
         /// Gets and sets the page text.
@@ -58,12 +58,14 @@ namespace Krypton.Docking
         [AllowNull]
         public override string Text
         {
-            get => Page != null ? Page.Text : base.Text;
+            // Check for null when initialising
+            get => Page != null! ? Page.Text : base.Text;
 
             set
             {
                 base.Text = value;
-                if (Page != null)
+                // Check for null when initialising
+                if (Page != null!)
                 {
                     Page.Text = value;
                 }
@@ -76,14 +78,8 @@ namespace Krypton.Docking
         [AllowNull]
         public override string TextTitle
         {
-            get => Page?.TextTitle ?? string.Empty;
-            set
-            {
-                if (Page != null)
-                {
-                    Page.TextTitle = value;
-                }
-            }
+            get => Page.TextTitle;
+            set => Page.TextTitle = value;
         }
 
         /// <summary>
@@ -92,14 +88,8 @@ namespace Krypton.Docking
         [AllowNull]
         public override string TextDescription
         {
-            get => Page?.TextDescription ?? string.Empty;
-            set
-            {
-                if (Page != null)
-                {
-                    Page.TextDescription = value;
-                }
-            }
+            get => Page.TextDescription;
+            set => Page.TextDescription = value;
         }
 
         /// <summary>
@@ -107,14 +97,8 @@ namespace Krypton.Docking
         /// </summary>
         public override Bitmap? ImageSmall
         {
-            get => Page?.ImageSmall;
-            set
-            {
-                if (Page != null)
-                {
-                    Page.ImageSmall = value;
-                }
-            }
+            get => Page.ImageSmall;
+            set => Page.ImageSmall = value;
         }
 
         /// <summary>
@@ -122,14 +106,8 @@ namespace Krypton.Docking
         /// </summary>
         public override Bitmap? ImageMedium
         {
-            get => Page?.ImageMedium;
-            set
-            {
-                if (Page != null)
-                {
-                    Page.ImageMedium = value;
-                }
-            }
+            get => Page.ImageMedium;
+            set => Page.ImageMedium = value;
         }
 
         /// <summary>
@@ -137,14 +115,8 @@ namespace Krypton.Docking
         /// </summary>
         public override Bitmap? ImageLarge
         {
-            get => Page?.ImageLarge;
-            set
-            {
-                if (Page != null)
-                {
-                    Page.ImageLarge = value;
-                }
-            }
+            get => Page.ImageLarge;
+            set => Page.ImageLarge = value;
         }
 
         /// <summary>
@@ -152,14 +124,8 @@ namespace Krypton.Docking
         /// </summary>
         public override Bitmap? ToolTipImage
         {
-            get => Page?.ToolTipImage;
-            set
-            {
-                if (Page != null)
-                {
-                    Page.ToolTipImage = value;
-                }
-            }
+            get => Page.ToolTipImage;
+            set => Page.ToolTipImage = value;
         }
 
         /// <summary>
@@ -167,14 +133,8 @@ namespace Krypton.Docking
         /// </summary>
         public override Color ToolTipImageTransparentColor
         {
-            get => Page?.ToolTipImageTransparentColor ?? Color.Empty;
-            set
-            {
-                if (Page != null)
-                {
-                    Page.ToolTipImageTransparentColor = value;
-                }
-            }
+            get => Page.ToolTipImageTransparentColor;
+            set => Page.ToolTipImageTransparentColor = value;
         }
 
         /// <summary>
@@ -182,14 +142,8 @@ namespace Krypton.Docking
         /// </summary>
         public override string ToolTipTitle
         {
-            get => Page?.ToolTipTitle ?? string.Empty;
-            set
-            {
-                if (Page != null)
-                {
-                    Page.ToolTipTitle = value;
-                }
-            }
+            get => Page.ToolTipTitle;
+            set => Page.ToolTipTitle = value;
         }
 
         /// <summary>
@@ -197,14 +151,8 @@ namespace Krypton.Docking
         /// </summary>
         public override string ToolTipBody
         {
-            get => Page?.ToolTipBody ?? string.Empty;
-            set
-            {
-                if (Page != null)
-                {
-                    Page.ToolTipBody = value;
-                }
-            }
+            get => Page.ToolTipBody;
+            set => Page.ToolTipBody = value;
         }
 
         /// <summary>
@@ -212,29 +160,17 @@ namespace Krypton.Docking
         /// </summary>
         public override LabelStyle ToolTipStyle
         {
-            get => Page?.ToolTipStyle ?? default;
-            set
-            {
-                if (Page != null)
-                {
-                    Page.ToolTipStyle = value;
-                }
-            }
+            get => Page.ToolTipStyle;
+            set => Page.ToolTipStyle = value;
         }
 
         /// <summary>
-        /// Gets and sets the KryptonContextMenu to show when right clicked.
+        /// Gets and sets the KryptonContextMenu to show when right-clicked.
         /// </summary>
         public override KryptonContextMenu? KryptonContextMenu
         {
-            get => Page?.KryptonContextMenu;
-            set
-            {
-                if (Page != null)
-                {
-                    Page.KryptonContextMenu = value;
-                }
-            }
+            get => Page.KryptonContextMenu;
+            set => Page.KryptonContextMenu = value;
         }
 
         /// <summary>
@@ -243,14 +179,8 @@ namespace Krypton.Docking
         [DisallowNull]
         public override string UniqueName
         {
-            get => Page?.UniqueName ?? string.Empty;
-            set
-            {
-                if (Page != null)
-                {
-                    Page.UniqueName = value;
-                }
-            }
+            get => Page.UniqueName;
+            set => Page.UniqueName = value;
         }
 
         /// <summary>
@@ -258,48 +188,42 @@ namespace Krypton.Docking
         /// </summary>
         /// <param name="mapping">Text mapping.</param>
         /// <returns>Matching string.</returns>
-        public override string GetTextMapping(MapKryptonPageText mapping) => Page?.GetTextMapping(mapping) ?? string.Empty;
+        public override string GetTextMapping(MapKryptonPageText mapping) => Page.GetTextMapping(mapping);
 
         /// <summary>
         /// Gets the image that matches the mapping request.
         /// </summary>
         /// <param name="mapping">Image mapping.</param>
         /// <returns>Image reference.</returns>
-        public override Image? GetImageMapping(MapKryptonPageImage mapping) => Page?.GetImageMapping(mapping);
+        public override Image? GetImageMapping(MapKryptonPageImage mapping) => Page.GetImageMapping(mapping);
 
         /// <summary>
         /// Gets and sets the set of page flags.
         /// </summary>
         public override int Flags
         {
-            get => Page?.Flags ?? 0;
-            set
-            {
-                if (Page != null)
-                {
-                    Page.Flags = value;
-                }
-            }
+            get => Page.Flags;
+            set => Page.Flags = value;
         }
 
         /// <summary>
         /// Set all the provided flags to true.
         /// </summary>
         /// <param name="flags">Flags to set.</param>
-        public override void SetFlags(KryptonPageFlags flags) => Page?.SetFlags(flags);
+        public override void SetFlags(KryptonPageFlags flags) => Page.SetFlags(flags);
 
         /// <summary>
         /// Sets all the provided flags to false.
         /// </summary>
         /// <param name="flags">Flags to set.</param>
-        public override void ClearFlags(KryptonPageFlags flags) => Page?.ClearFlags(flags);
+        public override void ClearFlags(KryptonPageFlags flags) => Page.ClearFlags(flags);
 
         /// <summary>
         /// Are all the provided flags set to true.
         /// </summary>
         /// <param name="flags">Flags to test.</param>
         /// <returns>True if all provided flags are defined as true; otherwise false.</returns>
-        public override bool AreFlagsSet(KryptonPageFlags flags) => Page != null && Page.AreFlagsSet(flags);
+        public override bool AreFlagsSet(KryptonPageFlags flags) => Page.AreFlagsSet(flags);
 
         /// <summary>
         /// Gets the last value set to the Visible property.
@@ -308,34 +232,16 @@ namespace Krypton.Docking
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         public override bool LastVisibleSet
         {
-            get => Page is { LastVisibleSet: true };
-            set
-            {
-                if (Page != null)
-                {
-                    Page.LastVisibleSet = value;
-                }
-            }
+            get => Page.LastVisibleSet;
+            set => Page.LastVisibleSet = value;
         }
 
         /// <summary>Occurs when an appearance specific page property has changed.</summary>
         public override event PropertyChangedEventHandler? AppearancePropertyChanged
         {
-            add
-            {
-                if (Page != null)
-                {
-                    Page.AppearancePropertyChanged += value;
-                }
-            }
+            add => Page.AppearancePropertyChanged += value;
 
-            remove
-            {
-                if (Page != null)
-                {
-                    Page.AppearancePropertyChanged -= value;
-                }
-            }
+            remove => Page.AppearancePropertyChanged -= value;
         }
         #endregion
     }

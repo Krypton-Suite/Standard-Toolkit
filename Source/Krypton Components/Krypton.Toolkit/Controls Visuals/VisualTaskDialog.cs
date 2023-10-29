@@ -926,8 +926,8 @@ namespace Krypton.Toolkit
 
         private void OnRadioButtonCheckedChanged(object sender, EventArgs e)
         {
-            var button = (KryptonRadioButton)sender;
-            _defaultRadioButton = (KryptonTaskDialogCommand)button.Tag;
+            var button = sender as KryptonRadioButton;
+            _defaultRadioButton = button?.Tag as KryptonTaskDialogCommand;
             if (_taskDialog != null)
             {
                 _taskDialog.DefaultRadioButton = _defaultRadioButton;
