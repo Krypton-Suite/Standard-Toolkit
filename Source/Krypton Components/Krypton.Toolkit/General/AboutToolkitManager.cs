@@ -16,7 +16,7 @@ namespace Krypton.Toolkit
 
         private AboutToolkitValues _values;
 
-        private KryptonAboutToolkitControl _aboutToolkitControl;
+        private KryptonAboutToolkitControl1 _aboutToolkitControl;
 
         #endregion
 
@@ -27,7 +27,7 @@ namespace Krypton.Toolkit
 
         }
 
-        public AboutToolkitManager(KryptonAboutToolkitControl aboutToolkitControl, AboutToolkitValues values)
+        public AboutToolkitManager(KryptonAboutToolkitControl1 aboutToolkitControl, AboutToolkitValues values)
         {
             _aboutToolkitControl = aboutToolkitControl;
 
@@ -143,8 +143,7 @@ namespace Krypton.Toolkit
         {
             _aboutToolkitControl.GeneralInformationButton.Image = AboutToolkitImageResources.GeneralInformation;
 
-
-
+            _aboutToolkitControl.DiscordButton.Image = AboutToolkitImageResources.Discord;
 
 
             _aboutToolkitControl.VersionsButton.Image = AboutToolkitImageResources.VersionInformation;

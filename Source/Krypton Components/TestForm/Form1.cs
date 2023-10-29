@@ -131,12 +131,6 @@ namespace TestForm
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            foreach (string name in Enum.GetNames(typeof(FormBorderStyle)))
-            {
-                kcmbBorderStyle.Items.Add(name);
-            }
-
-            kcmbBorderStyle.SelectedIndex = 0;
         }
 
         private void kbtnExit_Click(object sender, EventArgs e)
@@ -154,9 +148,39 @@ namespace TestForm
             kryptonCustomPaletteBase1.Export();
         }
 
-        private void kcmbBorderStyle_SelectedIndexChanged(object sender, EventArgs e)
+        private void kcbtnNone_Click(object sender, EventArgs e)
         {
-            FormBorderStyle = (FormBorderStyle)Enum.Parse(typeof(FormBorderStyle), kcmbBorderStyle.Text);
+            FormBorderStyle = FormBorderStyle.None;
+        }
+
+        private void kcbtnFixedSingle_Click(object sender, EventArgs e)
+        {
+            FormBorderStyle = FormBorderStyle.FixedSingle;
+        }
+
+        private void kcbtnFixed3D_Click(object sender, EventArgs e)
+        {
+            FormBorderStyle = FormBorderStyle.Fixed3D;
+        }
+
+        private void kcbtnFixedDialog_Click(object sender, EventArgs e)
+        {
+            FormBorderStyle = FormBorderStyle.FixedDialog;
+        }
+
+        private void kcbtnSizable_Click(object sender, EventArgs e)
+        {
+            FormBorderStyle = FormBorderStyle.Sizable;
+        }
+
+        private void kcbtnFixedToolWindow_Click(object sender, EventArgs e)
+        {
+            FormBorderStyle = FormBorderStyle.FixedToolWindow;
+        }
+
+        private void kcbtnSizableToolWindow_Click(object sender, EventArgs e)
+        {
+            FormBorderStyle = FormBorderStyle.SizableToolWindow;
         }
     }
 }

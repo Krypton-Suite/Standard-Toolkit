@@ -45,8 +45,6 @@
             this.klwlblDemos = new Krypton.Toolkit.KryptonLinkWrapLabel();
             this.kpnlVersions = new Krypton.Toolkit.KryptonPanel();
             this.kdgvVersions = new Krypton.Toolkit.KryptonDataGridView();
-            this.clmnAssemblyName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.clmnVersion = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tsControls = new System.Windows.Forms.ToolStrip();
             this.tsbtnGeneralInformation = new System.Windows.Forms.ToolStripButton();
             this.tssDiscord = new System.Windows.Forms.ToolStripSeparator();
@@ -89,7 +87,7 @@
             // 
             this.khgMain.Panel.Controls.Add(this.toolStripContainer1);
             this.khgMain.Size = new System.Drawing.Size(709, 371);
-            this.khgMain.TabIndex = 0;
+            this.khgMain.TabIndex = 1;
             this.khgMain.ValuesPrimary.Image = null;
             // 
             // toolStripContainer1
@@ -169,7 +167,6 @@
     "Toolkit.\r\n\r\nLicense: BSD-3-Clause\r\n\r\nTo learn more, click here.";
             this.klwlblGeneralInformation.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.klwlblGeneralInformation.UseCompatibleTextRendering = true;
-            this.klwlblGeneralInformation.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.klwlblGeneralInformation_LinkClicked);
             // 
             // klblCurrentTheme
             // 
@@ -255,7 +252,6 @@
             this.klwlblRepositories.Size = new System.Drawing.Size(697, 94);
             this.klwlblRepositories.Text = "kryptonLinkWrapLabel1";
             this.klwlblRepositories.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.klwlblRepositories.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.klwlblRepositories_LinkClicked);
             // 
             // klwlblDocumentation
             // 
@@ -269,7 +265,6 @@
             this.klwlblDocumentation.Size = new System.Drawing.Size(697, 94);
             this.klwlblDocumentation.Text = "kryptonLinkWrapLabel1";
             this.klwlblDocumentation.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.klwlblDocumentation.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.klwlblDocumentation_LinkClicked);
             // 
             // klwlblDemos
             // 
@@ -283,7 +278,6 @@
             this.klwlblDemos.Size = new System.Drawing.Size(697, 96);
             this.klwlblDemos.Text = "kryptonLinkWrapLabel1";
             this.klwlblDemos.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.klwlblDemos.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.klwlblDemos_LinkClicked);
             // 
             // kpnlVersions
             // 
@@ -304,26 +298,11 @@
             this.kdgvVersions.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.kdgvVersions.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.kdgvVersions.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.kdgvVersions.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.clmnAssemblyName,
-            this.clmnVersion});
             this.kdgvVersions.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kdgvVersions.Location = new System.Drawing.Point(0, 0);
             this.kdgvVersions.Name = "kdgvVersions";
             this.kdgvVersions.Size = new System.Drawing.Size(707, 314);
             this.kdgvVersions.TabIndex = 0;
-            // 
-            // clmnAssemblyName
-            // 
-            this.clmnAssemblyName.HeaderText = "Assembly Name";
-            this.clmnAssemblyName.Name = "clmnAssemblyName";
-            this.clmnAssemblyName.Width = 122;
-            // 
-            // clmnVersion
-            // 
-            this.clmnVersion.HeaderText = "Version";
-            this.clmnVersion.Name = "clmnVersion";
-            this.clmnVersion.Width = 74;
             // 
             // tsControls
             // 
@@ -351,7 +330,6 @@
             this.tsbtnGeneralInformation.Name = "tsbtnGeneralInformation";
             this.tsbtnGeneralInformation.Size = new System.Drawing.Size(23, 22);
             this.tsbtnGeneralInformation.Text = "toolStripButton1";
-            this.tsbtnGeneralInformation.Click += new System.EventHandler(this.tsbtnGeneralInformation_Click);
             // 
             // tssDiscord
             // 
@@ -365,7 +343,6 @@
             this.tsbtnDiscord.Name = "tsbtnDiscord";
             this.tsbtnDiscord.Size = new System.Drawing.Size(23, 22);
             this.tsbtnDiscord.Text = "toolStripButton2";
-            this.tsbtnDiscord.Click += new System.EventHandler(this.tsbtnDiscord_Click);
             // 
             // tssDeveloperInformation
             // 
@@ -379,7 +356,6 @@
             this.tsbtnDeveloperInformation.Name = "tsbtnDeveloperInformation";
             this.tsbtnDeveloperInformation.Size = new System.Drawing.Size(23, 22);
             this.tsbtnDeveloperInformation.Text = "toolStripButton3";
-            this.tsbtnDeveloperInformation.Click += new System.EventHandler(this.tsbtnDeveloperInformation_Click);
             // 
             // tssVersions
             // 
@@ -393,7 +369,6 @@
             this.tsbtnVersions.Name = "tsbtnVersions";
             this.tsbtnVersions.Size = new System.Drawing.Size(23, 22);
             this.tsbtnVersions.Text = "toolStripButton4";
-            this.tsbtnVersions.Click += new System.EventHandler(this.tsbtnVersions_Click);
             // 
             // KryptonAboutToolkitControl
             // 
@@ -437,6 +412,21 @@
 
         private KryptonHeaderGroup khgMain;
         private ToolStripContainer toolStripContainer1;
+        private KryptonPanel kpnlGeneralInformation;
+        private TableLayoutPanel tlpGeneralInformation;
+        private PictureBox pbxLogo;
+        private KryptonLinkWrapLabel klwlblGeneralInformation;
+        private KryptonLabel klblCurrentTheme;
+        private KryptonThemeComboBox ktcmbCurrentTheme;
+        private KryptonPanel kpnlDiscord;
+        private KryptonLinkWrapLabel klwlblDiscord;
+        private KryptonPanel kpnlDeveloperInformation;
+        private TableLayoutPanel tlpDeveloperInformation;
+        private KryptonLinkWrapLabel klwlblRepositories;
+        private KryptonLinkWrapLabel klwlblDocumentation;
+        private KryptonLinkWrapLabel klwlblDemos;
+        private KryptonPanel kpnlVersions;
+        private KryptonDataGridView kdgvVersions;
         private ToolStrip tsControls;
         private ToolStripButton tsbtnGeneralInformation;
         private ToolStripSeparator tssDiscord;
@@ -445,22 +435,5 @@
         private ToolStripButton tsbtnDeveloperInformation;
         private ToolStripSeparator tssVersions;
         private ToolStripButton tsbtnVersions;
-        private KryptonPanel kpnlVersions;
-        private KryptonDataGridView kdgvVersions;
-        private DataGridViewTextBoxColumn clmnAssemblyName;
-        private DataGridViewTextBoxColumn clmnVersion;
-        private KryptonPanel kpnlDeveloperInformation;
-        private TableLayoutPanel tlpDeveloperInformation;
-        private KryptonLinkWrapLabel klwlblRepositories;
-        private KryptonLinkWrapLabel klwlblDocumentation;
-        private KryptonLinkWrapLabel klwlblDemos;
-        private KryptonPanel kpnlDiscord;
-        private KryptonLinkWrapLabel klwlblDiscord;
-        private KryptonPanel kpnlGeneralInformation;
-        private TableLayoutPanel tlpGeneralInformation;
-        private PictureBox pbxLogo;
-        private KryptonLinkWrapLabel klwlblGeneralInformation;
-        private KryptonLabel klblCurrentTheme;
-        private KryptonThemeComboBox ktcmbCurrentTheme;
     }
 }
