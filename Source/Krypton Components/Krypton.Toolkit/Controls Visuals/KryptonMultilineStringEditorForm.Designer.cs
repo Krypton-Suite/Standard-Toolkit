@@ -62,10 +62,15 @@
             this.kryptonContextMenuSeparator6 = new Krypton.Toolkit.KryptonContextMenuSeparator();
             this.kryptonContextMenuItem8 = new Krypton.Toolkit.KryptonContextMenuItem();
             this.kcTextBoxSelectAll = new Krypton.Toolkit.KryptonCommand();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.kryptonPanel1 = new Krypton.Toolkit.KryptonPanel();
             ((System.ComponentModel.ISupportInitialize)(this.kpnlButtons)).BeginInit();
             this.kpnlButtons.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kpnlContent)).BeginInit();
             this.kpnlContent.SuspendLayout();
+            this.tableLayoutPanel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
+            this.kryptonPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // kpnlButtons
@@ -83,7 +88,6 @@
             // kbtnOk
             // 
             this.kbtnOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.kbtnOk.CornerRoundingRadius = -1F;
             this.kbtnOk.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.kbtnOk.Location = new System.Drawing.Point(381, 13);
             this.kbtnOk.Name = "kbtnOk";
@@ -95,7 +99,6 @@
             // kbtnCancel
             // 
             this.kbtnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.kbtnCancel.CornerRoundingRadius = -1F;
             this.kbtnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.kbtnCancel.Location = new System.Drawing.Point(477, 13);
             this.kbtnCancel.Name = "kbtnCancel";
@@ -114,9 +117,7 @@
             // 
             // kpnlContent
             // 
-            this.kpnlContent.Controls.Add(this.krtbContents);
-            this.kpnlContent.Controls.Add(this.ktxtStringCollection);
-            this.kpnlContent.Controls.Add(this.klblHeader);
+            this.kpnlContent.Controls.Add(this.tableLayoutPanel1);
             this.kpnlContent.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kpnlContent.Location = new System.Drawing.Point(0, 0);
             this.kpnlContent.Name = "kpnlContent";
@@ -125,30 +126,34 @@
             // 
             // krtbContents
             // 
-            this.krtbContents.Location = new System.Drawing.Point(13, 39);
+            this.krtbContents.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.krtbContents.Location = new System.Drawing.Point(0, 0);
+            this.krtbContents.Margin = new System.Windows.Forms.Padding(5);
             this.krtbContents.Name = "krtbContents";
             this.krtbContents.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.ForcedBoth;
-            this.krtbContents.Size = new System.Drawing.Size(555, 266);
+            this.krtbContents.Size = new System.Drawing.Size(578, 265);
             this.krtbContents.TabIndex = 2;
             this.krtbContents.Text = "";
             // 
             // ktxtStringCollection
             // 
-            this.ktxtStringCollection.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.ktxtStringCollection.Location = new System.Drawing.Point(13, 39);
+            this.ktxtStringCollection.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ktxtStringCollection.Location = new System.Drawing.Point(0, 0);
+            this.ktxtStringCollection.Margin = new System.Windows.Forms.Padding(5);
             this.ktxtStringCollection.Multiline = true;
             this.ktxtStringCollection.Name = "ktxtStringCollection";
             this.ktxtStringCollection.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.ktxtStringCollection.Size = new System.Drawing.Size(554, 257);
+            this.ktxtStringCollection.Size = new System.Drawing.Size(578, 265);
             this.ktxtStringCollection.TabIndex = 1;
             // 
             // klblHeader
             // 
-            this.klblHeader.Location = new System.Drawing.Point(13, 13);
+            this.klblHeader.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.klblHeader.LabelStyle = Krypton.Toolkit.LabelStyle.BoldPanel;
+            this.klblHeader.Location = new System.Drawing.Point(10, 10);
+            this.klblHeader.Margin = new System.Windows.Forms.Padding(10);
             this.klblHeader.Name = "klblHeader";
-            this.klblHeader.Size = new System.Drawing.Size(268, 20);
+            this.klblHeader.Size = new System.Drawing.Size(564, 20);
             this.klblHeader.TabIndex = 0;
             this.klblHeader.Values.Text = "Enter the strings in the collection (one per line):";
             // 
@@ -272,6 +277,32 @@
             this.kcTextBoxSelectAll.Text = "kryptonCommand1";
             this.kcTextBoxSelectAll.Execute += new System.EventHandler(this.kcTextBoxSelectAll_Execute);
             // 
+            // tableLayoutPanel1
+            // 
+            this.tableLayoutPanel1.BackColor = System.Drawing.Color.Transparent;
+            this.tableLayoutPanel1.ColumnCount = 1;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.Controls.Add(this.klblHeader, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.kryptonPanel1, 0, 1);
+            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 2;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(584, 311);
+            this.tableLayoutPanel1.TabIndex = 3;
+            // 
+            // kryptonPanel1
+            // 
+            this.kryptonPanel1.Controls.Add(this.krtbContents);
+            this.kryptonPanel1.Controls.Add(this.ktxtStringCollection);
+            this.kryptonPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.kryptonPanel1.Location = new System.Drawing.Point(3, 43);
+            this.kryptonPanel1.Name = "kryptonPanel1";
+            this.kryptonPanel1.Size = new System.Drawing.Size(578, 265);
+            this.kryptonPanel1.TabIndex = 1;
+            // 
             // KryptonMultilineStringEditorForm
             // 
             this.AcceptButton = this.kbtnOk;
@@ -293,7 +324,11 @@
             this.kpnlButtons.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kpnlContent)).EndInit();
             this.kpnlContent.ResumeLayout(false);
-            this.kpnlContent.PerformLayout();
+            this.tableLayoutPanel1.ResumeLayout(false);
+            this.tableLayoutPanel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).EndInit();
+            this.kryptonPanel1.ResumeLayout(false);
+            this.kryptonPanel1.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -334,5 +369,7 @@
         private KryptonContextMenuSeparator kryptonContextMenuSeparator6;
         private KryptonContextMenuItem kryptonContextMenuItem8;
         private KryptonCommand kcTextBoxSelectAll;
+        private TableLayoutPanel tableLayoutPanel1;
+        private KryptonPanel kryptonPanel1;
     }
 }

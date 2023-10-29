@@ -32,7 +32,6 @@
             this.kcmbToolkitType = new Krypton.Toolkit.KryptonComboBox();
             this.kryptonLabel1 = new Krypton.Toolkit.KryptonLabel();
             this.kcbThemeOptions = new Krypton.Toolkit.KryptonCheckBox();
-            this.kryptonToolkitPoweredByControl1 = new Krypton.Toolkit.KryptonToolkitPoweredByControl();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
             this.kryptonPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kcmbToolkitType)).BeginInit();
@@ -40,7 +39,6 @@
             // 
             // kryptonPanel1
             // 
-            this.kryptonPanel1.Controls.Add(this.kryptonToolkitPoweredByControl1);
             this.kryptonPanel1.Controls.Add(this.kcmbToolkitType);
             this.kryptonPanel1.Controls.Add(this.kryptonLabel1);
             this.kryptonPanel1.Controls.Add(this.kcbThemeOptions);
@@ -80,15 +78,6 @@
             this.kcbThemeOptions.Values.Text = "Show &Theme Options";
             this.kcbThemeOptions.CheckedChanged += new System.EventHandler(this.kcbThemeOptions_CheckedChanged);
             // 
-            // kryptonToolkitPoweredByControl1
-            // 
-            this.kryptonToolkitPoweredByControl1.AutoSize = true;
-            this.kryptonToolkitPoweredByControl1.Location = new System.Drawing.Point(55, 12);
-            this.kryptonToolkitPoweredByControl1.Name = "kryptonToolkitPoweredByControl1";
-            this.kryptonToolkitPoweredByControl1.Size = new System.Drawing.Size(659, 134);
-            this.kryptonToolkitPoweredByControl1.TabIndex = 5;
-            this.kryptonToolkitPoweredByControl1.ToolkitType = Krypton.Toolkit.ToolkitType.Stable;
-            // 
             // Form6
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -112,6 +101,5 @@
         private Krypton.Toolkit.KryptonCheckBox kcbThemeOptions;
         private Krypton.Toolkit.KryptonLabel kryptonLabel1;
         private Krypton.Toolkit.KryptonComboBox kcmbToolkitType;
-        private Krypton.Toolkit.KryptonToolkitPoweredByControl kryptonToolkitPoweredByControl1;
     }
 }

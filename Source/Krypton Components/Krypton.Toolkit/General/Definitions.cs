@@ -1883,4 +1883,16 @@ namespace Krypton.Toolkit
     }
 
     #endregion
+
+    #region Enum AboutToolkitPage
+
+    internal enum AboutToolkitPage
+    {
+        GeneralInformation = 0,
+        Discord = 1,
+        DeveloperInformation = 2,
+        Versions = 3
+    }
+
+    #endregion
 }

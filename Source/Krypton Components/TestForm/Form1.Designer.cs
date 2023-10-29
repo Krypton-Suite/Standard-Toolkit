@@ -120,6 +120,38 @@
             kryptonButton6.Values.Text = "Import";
             kryptonButton6.Click += kryptonButton6_Click;
             // 
+            // kcmbBorderStyle
+            // 
+            this.kcmbBorderStyle.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.kcmbBorderStyle.DropDownWidth = 386;
+            this.kcmbBorderStyle.IntegralHeight = false;
+            this.kcmbBorderStyle.Location = new System.Drawing.Point(202, 488);
+            this.kcmbBorderStyle.Name = "kcmbBorderStyle";
+            this.kcmbBorderStyle.Size = new System.Drawing.Size(386, 21);
+            this.kcmbBorderStyle.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
+            this.kcmbBorderStyle.TabIndex = 18;
+            this.kcmbBorderStyle.SelectedIndexChanged += new System.EventHandler(this.kcmbBorderStyle_SelectedIndexChanged);
+            // 
+            // kryptonButton7
+            // 
+            this.kryptonButton7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.kryptonButton7.Location = new System.Drawing.Point(300, 456);
+            this.kryptonButton7.Name = "kryptonButton7";
+            this.kryptonButton7.Size = new System.Drawing.Size(90, 25);
+            this.kryptonButton7.TabIndex = 17;
+            this.kryptonButton7.Values.Text = "Export";
+            this.kryptonButton7.Click += new System.EventHandler(this.kryptonButton7_Click);
+            // 
+            // kryptonButton6
+            // 
+            this.kryptonButton6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.kryptonButton6.Location = new System.Drawing.Point(203, 456);
+            this.kryptonButton6.Name = "kryptonButton6";
+            this.kryptonButton6.Size = new System.Drawing.Size(90, 25);
+            this.kryptonButton6.TabIndex = 16;
+            this.kryptonButton6.Values.Text = "Import";
+            this.kryptonButton6.Click += new System.EventHandler(this.kryptonButton6_Click);
+            // 
             // kbtnExit
             // 
             kbtnExit.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
@@ -439,5 +471,6 @@
         private Krypton.Toolkit.KryptonButton kbtnExit;
         private Krypton.Toolkit.KryptonButton kryptonButton6;
         private Krypton.Toolkit.KryptonButton kryptonButton7;
+        private Krypton.Toolkit.KryptonComboBox kcmbBorderStyle;
     }
 }

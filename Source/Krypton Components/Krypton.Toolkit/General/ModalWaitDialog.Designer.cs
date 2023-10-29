@@ -42,34 +42,87 @@ namespace Krypton.Toolkit
         /// </summary>
         private void InitializeComponent()
         {
-            this.labelMessage = new Krypton.Toolkit.KryptonLabel();
             this.kryptonPanel1 = new Krypton.Toolkit.KryptonPanel();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.pbxImage = new System.Windows.Forms.PictureBox();
+            this.kwlStatus = new Krypton.Toolkit.KryptonWrapLabel();
+            this.kpbProgress = new Krypton.Toolkit.KryptonProgressBar();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
             this.kryptonPanel1.SuspendLayout();
+            this.tableLayoutPanel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbxImage)).BeginInit();
             this.SuspendLayout();
-            // 
-            // labelMessage
-            // 
-            this.labelMessage.Location = new System.Drawing.Point(66, 20);
-            this.labelMessage.Name = "labelMessage";
-            this.labelMessage.Size = new System.Drawing.Size(218, 20);
-            this.labelMessage.TabIndex = 0;
-            this.labelMessage.Values.Text = "Please wait for operation to complete.";
             // 
             // kryptonPanel1
             // 
-            this.kryptonPanel1.Controls.Add(this.labelMessage);
+            this.kryptonPanel1.Controls.Add(this.tableLayoutPanel1);
             this.kryptonPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kryptonPanel1.Location = new System.Drawing.Point(0, 0);
             this.kryptonPanel1.Name = "kryptonPanel1";
-            this.kryptonPanel1.Size = new System.Drawing.Size(296, 66);
+            this.kryptonPanel1.Size = new System.Drawing.Size(296, 86);
             this.kryptonPanel1.TabIndex = 1;
+            // 
+            // tableLayoutPanel1
+            // 
+            this.tableLayoutPanel1.BackColor = System.Drawing.Color.Transparent;
+            this.tableLayoutPanel1.ColumnCount = 2;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.Controls.Add(this.pbxImage, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.kwlStatus, 1, 0);
+            this.tableLayoutPanel1.Controls.Add(this.kpbProgress, 0, 1);
+            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 2;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(296, 86);
+            this.tableLayoutPanel1.TabIndex = 0;
+            // 
+            // pbxImage
+            // 
+            this.pbxImage.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pbxImage.Location = new System.Drawing.Point(4, 4);
+            this.pbxImage.Margin = new System.Windows.Forms.Padding(4);
+            this.pbxImage.Name = "pbxImage";
+            this.pbxImage.Size = new System.Drawing.Size(64, 48);
+            this.pbxImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.pbxImage.TabIndex = 0;
+            this.pbxImage.TabStop = false;
+            // 
+            // kwlStatus
+            // 
+            this.kwlStatus.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.kwlStatus.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.kwlStatus.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(57)))), ((int)(((byte)(91)))));
+            this.kwlStatus.LabelStyle = Krypton.Toolkit.LabelStyle.AlternateControl;
+            this.kwlStatus.Location = new System.Drawing.Point(75, 0);
+            this.kwlStatus.Name = "kwlStatus";
+            this.kwlStatus.Size = new System.Drawing.Size(218, 56);
+            this.kwlStatus.Text = "Please wait for operation to complete.";
+            this.kwlStatus.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // kpbProgress
+            // 
+            this.tableLayoutPanel1.SetColumnSpan(this.kpbProgress, 2);
+            this.kpbProgress.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.kpbProgress.Location = new System.Drawing.Point(3, 59);
+            this.kpbProgress.Name = "kpbProgress";
+            this.kpbProgress.Size = new System.Drawing.Size(290, 24);
+            this.kpbProgress.StateCommon.Back.Color1 = System.Drawing.Color.Green;
+            this.kpbProgress.StateDisabled.Back.ColorStyle = Krypton.Toolkit.PaletteColorStyle.OneNote;
+            this.kpbProgress.StateNormal.Back.ColorStyle = Krypton.Toolkit.PaletteColorStyle.OneNote;
+            this.kpbProgress.TabIndex = 2;
+            this.kpbProgress.Text = "0%";
+            this.kpbProgress.UseValueAsText = true;
+            this.kpbProgress.Values.Text = "0%";
             // 
             // ModalWaitDialog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(296, 66);
+            this.ClientSize = new System.Drawing.Size(296, 86);
             this.ControlBox = false;
             this.Controls.Add(this.kryptonPanel1);
             this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -84,14 +137,18 @@ namespace Krypton.Toolkit
             this.Text = "Processing";
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).EndInit();
             this.kryptonPanel1.ResumeLayout(false);
-            this.kryptonPanel1.PerformLayout();
+            this.tableLayoutPanel1.ResumeLayout(false);
+            this.tableLayoutPanel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbxImage)).EndInit();
             this.ResumeLayout(false);
 
         }
 
         #endregion
-
-        private KryptonLabel labelMessage;
         private KryptonPanel kryptonPanel1;
+        private TableLayoutPanel tableLayoutPanel1;
+        private PictureBox pbxImage;
+        private KryptonWrapLabel kwlStatus;
+        private KryptonProgressBar kpbProgress;
     }
 }

@@ -26,23 +26,58 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Instance Fields
+
+        private bool _showProgressBar;
         private bool _startTimestamped;
         private DateTime _startTimestamp;
         private DateTime _spinTimestamp;
         private float _spinAngle;
+        private int _progressBarValue;
+
+        #endregion
+
+        #region Public
+
+        public int ProgressBarValue { get => _progressBarValue; set { _progressBarValue = value; UpdateProgressBarValue(value); } }
+
         #endregion
 
         #region Identity
         /// <summary>
         /// Initialize a new instance of the ModalWaitDialog class. 
         /// </summary>
-        public ModalWaitDialog()
+        public ModalWaitDialog(Image? image, string? text, bool? showProgressBar, int? progressBarValue)
         {
             InitializeComponent();
 
             // Remove redraw flicker by using double buffering
             SetStyle(ControlStyles.DoubleBuffer |
                      ControlStyles.AllPaintingInWmPaint, true);
+
+            pbxImage.Image = image ?? GenericImageResources.HourGlass;
+
+            kwlStatus.Text = text ?? @"Please wait for operation to complete...";
+
+            _showProgressBar = showProgressBar ?? false;
+
+            _progressBarValue = progressBarValue ?? 0;
+
+            if (_showProgressBar)
+            {
+                kpbProgress.Visible = true;
+
+                kpbProgress.Value = _progressBarValue;
+
+                Size = new Size(312, 125);
+            }
+            else
+            {
+                kpbProgress.Visible = false;
+
+                kpbProgress.Value = 0;
+
+                Size = new Size(312, 105);
+            }
 
             // Hook into dispatch of windows messages
             Application.AddMessageFilter(this);
@@ -138,7 +173,7 @@ namespace Krypton.Toolkit
                 if (FromHandle(m.HWnd) != null)
                 {
                     // Find the form that the control is inside
-                    Form f = FromHandle(m.HWnd).FindForm();
+                    Form? f = FromHandle(m.HWnd).FindForm();
 
                     // If the message is for this dialog then let it be dispatched
                     if ((f != null) && (f == this))
@@ -155,6 +190,12 @@ namespace Krypton.Toolkit
                 return false;
             }
         }
+        #endregion
+
+        #region Implementation
+
+        private void UpdateProgressBarValue(int value) => kpbProgress.Value = value;
+
         #endregion
     }
 }

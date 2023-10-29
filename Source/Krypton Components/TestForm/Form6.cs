@@ -21,7 +21,7 @@ namespace TestForm
 
         private void kcbThemeOptions_CheckedChanged(object sender, EventArgs e)
         {
-            kryptonToolkitPoweredByControl1.ShowThemeOption = kcbThemeOptions.Checked;
+            //kryptonToolkitPoweredByControl1.ShowThemeOption = kcbThemeOptions.Checked;
         }
 
         private void kcmbToolkitType_SelectedIndexChanged(object sender, EventArgs e)

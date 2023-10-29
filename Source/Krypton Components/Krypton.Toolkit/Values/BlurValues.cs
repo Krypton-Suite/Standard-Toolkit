@@ -49,6 +49,8 @@ namespace Krypton.Toolkit
         }
         #endregion Identity
 
+        #region Public
+
         /// <summary>
         /// </summary>
         [Browsable(false)]
@@ -63,7 +65,6 @@ namespace Krypton.Toolkit
         [Obsolete(@"No longer in use, standard 5x5 Gaussian blur is applied")]
         public byte Radius { private get; set; }
 
-        private const byte OPACITY_DEFAULT = 80;
         /// <summary>
         /// </summary>
         [Description(@"Opacity Percentage to be applied to the blur over source form. Tuning this allows for background updates to show through.")]
@@ -112,6 +113,10 @@ namespace Krypton.Toolkit
         /// <summary>
         /// </summary>
         public void ResetBlurWhenFocusLost() => BlurWhenFocusLost = false;
+
+        #endregion
+
+        private const byte OPACITY_DEFAULT = 80;
 
         #region Default Values
         /// <summary>

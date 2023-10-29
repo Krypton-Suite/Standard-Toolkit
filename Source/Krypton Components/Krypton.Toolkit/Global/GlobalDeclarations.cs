@@ -43,6 +43,7 @@ global using System.Windows.Forms.Design.Behavior;
 global using System.Windows.Forms.VisualStyles;
 global using System.Xml;
 
+global using Krypton.Toolkit.ResourceFiles.AboutToolkit;
 global using Krypton.Toolkit.ResourceFiles.Arrows;
 global using Krypton.Toolkit.ResourceFiles.ButtonSpecs;
 global using Krypton.Toolkit.ResourceFiles.CheckBoxes;

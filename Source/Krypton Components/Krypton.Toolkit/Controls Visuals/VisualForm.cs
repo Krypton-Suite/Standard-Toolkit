@@ -52,7 +52,7 @@ namespace Krypton.Toolkit
         private ShadowManager _shadowManager;
         private BlurValues _blurValues;
         private BlurManager _blurManager;
-        private object lockObject = new object();
+        private object _lockObject = new object();
         #endregion
 
         #region Events
@@ -801,7 +801,7 @@ namespace Krypton.Toolkit
                 return;
             }
 
-            lock (lockObject)
+            lock (_lockObject)
             {
                 if (invalidRect.IsEmpty)
                 {

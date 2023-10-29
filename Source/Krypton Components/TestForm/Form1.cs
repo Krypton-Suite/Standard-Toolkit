@@ -131,6 +131,12 @@ namespace TestForm
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            foreach (string name in Enum.GetNames(typeof(FormBorderStyle)))
+            {
+                kcmbBorderStyle.Items.Add(name);
+            }
+
+            kcmbBorderStyle.SelectedIndex = 0;
         }
 
         private void kbtnExit_Click(object sender, EventArgs e)
@@ -146,6 +152,11 @@ namespace TestForm
         private void kryptonButton7_Click(object sender, EventArgs e)
         {
             kryptonCustomPaletteBase1.Export();
+        }
+
+        private void kcmbBorderStyle_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            FormBorderStyle = (FormBorderStyle)Enum.Parse(typeof(FormBorderStyle), kcmbBorderStyle.Text);
         }
     }
 }
