@@ -16,7 +16,7 @@ namespace Krypton.Toolkit
 
         private AboutToolkitValues _values;
 
-        private KryptonAboutToolkitControl1 _aboutToolkitControl;
+        private KryptonAboutToolkitControl _aboutToolkitControl;
 
         #endregion
 
@@ -27,7 +27,7 @@ namespace Krypton.Toolkit
 
         }
 
-        public AboutToolkitManager(KryptonAboutToolkitControl1 aboutToolkitControl, AboutToolkitValues values)
+        public AboutToolkitManager(KryptonAboutToolkitControl aboutToolkitControl, AboutToolkitValues values)
         {
             _aboutToolkitControl = aboutToolkitControl;
 

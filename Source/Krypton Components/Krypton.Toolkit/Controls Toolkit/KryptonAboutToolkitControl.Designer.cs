@@ -319,7 +319,7 @@
             this.tsbtnVersions});
             this.tsControls.Location = new System.Drawing.Point(3, 0);
             this.tsControls.Name = "tsControls";
-            this.tsControls.Size = new System.Drawing.Size(113, 25);
+            this.tsControls.Size = new System.Drawing.Size(144, 25);
             this.tsControls.TabIndex = 0;
             // 
             // tsbtnGeneralInformation
@@ -330,6 +330,7 @@
             this.tsbtnGeneralInformation.Name = "tsbtnGeneralInformation";
             this.tsbtnGeneralInformation.Size = new System.Drawing.Size(23, 22);
             this.tsbtnGeneralInformation.Text = "toolStripButton1";
+            this.tsbtnGeneralInformation.Click += new System.EventHandler(this.tsbtnGeneralInformation_Click);
             // 
             // tssDiscord
             // 
@@ -343,6 +344,7 @@
             this.tsbtnDiscord.Name = "tsbtnDiscord";
             this.tsbtnDiscord.Size = new System.Drawing.Size(23, 22);
             this.tsbtnDiscord.Text = "toolStripButton2";
+            this.tsbtnDiscord.Click += new System.EventHandler(this.tsbtnDiscord_Click);
             // 
             // tssDeveloperInformation
             // 
@@ -356,6 +358,7 @@
             this.tsbtnDeveloperInformation.Name = "tsbtnDeveloperInformation";
             this.tsbtnDeveloperInformation.Size = new System.Drawing.Size(23, 22);
             this.tsbtnDeveloperInformation.Text = "toolStripButton3";
+            this.tsbtnDeveloperInformation.Click += new System.EventHandler(this.tsbtnDeveloperInformation_Click);
             // 
             // tssVersions
             // 
@@ -369,6 +372,7 @@
             this.tsbtnVersions.Name = "tsbtnVersions";
             this.tsbtnVersions.Size = new System.Drawing.Size(23, 22);
             this.tsbtnVersions.Text = "toolStripButton4";
+            this.tsbtnVersions.Click += new System.EventHandler(this.tsbtnVersions_Click);
             // 
             // KryptonAboutToolkitControl
             // 

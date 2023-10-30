@@ -13,27 +13,27 @@ namespace Krypton.Toolkit
     {
         #region Static Fields
 
-        private const string DEFAULT_CURRENT_THEME_TEXT = @"Current Theme:";
+        internal const string DefaultCurrentThemeText = @"Current Theme:";
 
-        private const string DEFAULT_HEADER_TEXT = @"About Krypton Toolkit";
+        internal const string DefaultHeaderText = @"About Krypton Toolkit";
 
-        private const string DEFAULT_GENERAL_INFORMATION_FIRST_LINE = @"Some of the components used in this application are part of the Krypton Standard Toolkit.";
+        internal const string DefaultGeneralInformationFirstLine = @"Some of the components used in this application are part of the Krypton Standard Toolkit.";
 
-        private const string DEFAULT_GENERAL_INFORMATION_SECOND_LINE = @"License";
+        internal const string DefaultGeneralInformationSecondLine = @"License";
 
-        private const string DEFAULT_GENERAL_INFORMATION_THIRD_LINE = @"To learn more, click here.";
+        internal const string DefaultGeneralInformationThirdLine = @"To learn more, click here.";
 
-        private const string DEFAULT_JOIN_DISCORD_SERVER = @"Join our Discord server.";
+        internal const string DefaultJoinDiscordServer = @"Join our Discord server.";
 
-        private const string DEFAULT_VIEW_REPOSITORIES = @"View our repositories.";
+        internal const string DefaultViewRepositories = @"View our repositories.";
 
-        private const string DEFAULT_DOWNLOAD_DOCUMENTATION = @"Download the latest documentation.";
+        internal const string DefaultDownloadDocumentation = @"Download the latest documentation.";
 
-        private const string DEFAULT_DOWNLOAD_DEMOS = @"Download the demos.";
+        internal const string DefaultDownloadDemos = @"Download the demos.";
 
-        private const string DEFAULT_FILE_NAME_COLUMN_HEADER_TEXT = @"File Name";
+        internal const string DefaultFileNameColumnHeaderText = @"File Name";
 
-        private const string DEFAULT_VERSION_COLUMN_HEADER_TEXT = @"Version";
+        internal const string DefaultVersionColumnHeaderText = @"Version";
 
         #endregion
 
@@ -43,6 +43,10 @@ namespace Krypton.Toolkit
         private bool _showDeveloperButton;
         private bool _showVersionsButton;
         private bool _showThemeOptions;
+
+        private Font _commonFont;
+        private Font _currentThemeFont;
+        private Font _headerFont;
 
         private ToolkitType _toolkitType;
 
@@ -92,6 +96,12 @@ namespace Krypton.Toolkit
         [Description(@"")]
         public bool ShowThemeOptions { get => _showThemeOptions; set { _showThemeOptions = value; ShowThemeControls(value); } }
 
+        public Font CommonFont { get => _commonFont; set { _commonFont = value; UpdateCommonFonts(value); } }
+
+        public Font CustomThemeFont { get => _currentThemeFont; set { _currentThemeFont = value; UpdateCurrentThemeFont(value); } }
+
+        public Font HeaderFont { get => _headerFont; set { _headerFont = value; UpdateHeaderFont(value); } }
+
         /// <summary>Gets or sets the type of the toolkit.</summary>
         /// <value>The type of the toolkit.</value>
         [DefaultValue(typeof(ToolkitType), @"ToolkitType.Stable")]
@@ -101,77 +111,77 @@ namespace Krypton.Toolkit
         /// <summary>Gets or sets the header text.</summary>
         /// <value>The header text.</value>
         [Localizable(true)]
-        [DefaultValue(DEFAULT_HEADER_TEXT)]
+        [DefaultValue(DefaultHeaderText)]
         [Description(@"")]
         public string HeaderText { get => _headerText; set { _headerText = value; UpdateHeaderText(value); } }
 
         /// <summary>Gets or sets the current theme text.</summary>
         /// <value>The current theme text.</value>
         [Localizable(true)]
-        [DefaultValue(DEFAULT_CURRENT_THEME_TEXT)]
+        [DefaultValue(DefaultCurrentThemeText)]
         [Description(@"")]
         public string CurrentThemeText { get => _currentThemeText; set { _currentThemeText = value; UpdateCurrentVersionText(value); } }
 
         /// <summary>Gets or sets the general information first line.</summary>
         /// <value>The general information first line.</value>
         [Localizable(true)]
-        [DefaultValue(DEFAULT_GENERAL_INFORMATION_FIRST_LINE)]
+        [DefaultValue(DefaultGeneralInformationFirstLine)]
         [Description(@"")]
         public string GeneralInformationFirstLine { get => _generalInformationFirstLine; set { _generalInformationFirstLine = value; ConcatanateGeneralInformationText(value, _generalInformationSecondLine, _generalInformationThirdLine); } }
 
         /// <summary>Gets or sets the general information second line.</summary>
         /// <value>The general information second line.</value>
         [Localizable(true)]
-        [DefaultValue(DEFAULT_GENERAL_INFORMATION_SECOND_LINE)]
+        [DefaultValue(DefaultGeneralInformationSecondLine)]
         [Description(@"")]
         public string GeneralInformationSecondLine { get => _generalInformationSecondLine; set { _generalInformationSecondLine = value; ConcatanateGeneralInformationText(_generalInformationFirstLine, value, _generalInformationThirdLine); } }
 
         /// <summary>Gets or sets the general information third line.</summary>
         /// <value>The general information third line.</value>
         [Localizable(true)]
-        [DefaultValue(DEFAULT_GENERAL_INFORMATION_THIRD_LINE)]
+        [DefaultValue(DefaultGeneralInformationThirdLine)]
         [Description(@"")]
         public string GeneralInformationThirdLine { get => _generalInformationThirdLine; set { _generalInformationThirdLine = value; ConcatanateGeneralInformationText(_generalInformationFirstLine, _generalInformationSecondLine, value); } }
 
         /// <summary>Gets or sets the discord text.</summary>
         /// <value>The discord text.</value>
         [Localizable(true)]
-        [DefaultValue(DEFAULT_JOIN_DISCORD_SERVER)]
+        [DefaultValue(DefaultJoinDiscordServer)]
         [Description(@"")]
         public string DiscordText { get => _discordText; set { _discordText = value; UpdateDiscordText(value); } }
 
         /// <summary>Gets or sets the repository information text.</summary>
         /// <value>The repository information text.</value>
         [Localizable(true)]
-        [DefaultValue(DEFAULT_VIEW_REPOSITORIES)]
+        [DefaultValue(DefaultViewRepositories)]
         [Description(@"")]
         public string RepositoryInformationText { get => _repositoryInformationText; set { _repositoryInformationText = value; UpdateRepositoriesText(value); } }
 
         /// <summary>Gets or sets the download documentation text.</summary>
         /// <value>The download documentation text.</value>
         [Localizable(true)]
-        [DefaultValue(DEFAULT_DOWNLOAD_DOCUMENTATION)]
+        [DefaultValue(DefaultDownloadDocumentation)]
         [Description(@"")]
         public string DownloadDocumentationText { get => _downloadDocumentationText; set { _downloadDocumentationText = value; UpdateDocumentationText(value); } }
 
         /// <summary>Gets or sets the download demos text.</summary>
         /// <value>The download demos text.</value>
         [Localizable(true)]
-        [DefaultValue(DEFAULT_DOWNLOAD_DEMOS)]
+        [DefaultValue(DefaultDownloadDemos)]
         [Description(@"")]
         public string DownloadDemosText { get => _downloadDemosText; set { _downloadDemosText = value; UpdateDemosText(value); } }
 
         /// <summary>Gets or sets the file name column header text.</summary>
         /// <value>The file name column header text.</value>
         [Localizable(true)]
-        [DefaultValue(DEFAULT_FILE_NAME_COLUMN_HEADER_TEXT)]
+        [DefaultValue(DefaultFileNameColumnHeaderText)]
         [Description(@"")]
         public string FileNameColumnHeaderText { get => _fileNameColumnHeaderText; set { _fileNameColumnHeaderText = value; UpdateColumnHeadings(value, _versionColumnHeaderText); } }
 
         /// <summary>Gets or sets the version column header text.</summary>
         /// <value>The version column header text.</value>
         [Localizable(true)]
-        [DefaultValue(DEFAULT_VERSION_COLUMN_HEADER_TEXT)]
+        [DefaultValue(DefaultVersionColumnHeaderText)]
         [Description(@"")]
         public string VersionColumnHeaderText { get => _versionColumnHeaderText; set { _versionColumnHeaderText = value; UpdateColumnHeadings(_fileNameColumnHeaderText, value); } }
 
@@ -291,16 +301,266 @@ namespace Krypton.Toolkit
 
         #region Identity
 
+        /// <summary>Initializes a new instance of the <see cref="KryptonAboutToolkitControl" /> class.</summary>
         public KryptonAboutToolkitControl()
         {
             InitializeComponent();
+
+            _showDeveloperButton = true;
+
+            _showDiscordButton = true;
+
+            _showVersionsButton = true;
+
+            _showThemeOptions = true;
+
+            _currentThemeFont = new Font(@"Microsoft Sans Serif", 8.25f, FontStyle.Bold);
+
+            _commonFont = new Font(@"Microsoft Sans Serif", 8.25f);
+
+            _headerFont = new Font(@"Microsoft Sans Serif", 11.25f, FontStyle.Bold);
+
+            _toolkitType = ToolkitType.Stable;
+
+            _headerText = DefaultHeaderText;
+
+            khgMain.ValuesPrimary.Heading = DefaultHeaderText;
+
+            _currentThemeText = DefaultCurrentThemeText;
+
+            _generalInformationFirstLine = DefaultGeneralInformationFirstLine;
+
+            _generalInformationSecondLine = DefaultGeneralInformationSecondLine;
+
+            _generalInformationThirdLine = DefaultGeneralInformationThirdLine;
+
+            _discordText = DefaultJoinDiscordServer;
+
+            _repositoryInformationText = DefaultViewRepositories;
+
+            _downloadDemosText = DefaultDownloadDemos;
+
+            _downloadDocumentationText = DefaultDownloadDocumentation;
+
+            _fileNameColumnHeaderText = DefaultFileNameColumnHeaderText;
+
+            _versionColumnHeaderText = DefaultVersionColumnHeaderText;
+
+            _generalInformationLinkArea = new LinkArea(133, 143);
+
+            _discordLinkArea = new LinkArea(0, 4);
+
+            _repositoryInformationLinkArea = new LinkArea(0, 4);
+
+            _downloadDemosLinkArea = new LinkArea(0, 4);
+
+            _documentationLinkArea = new LinkArea(0, 4);
+            LoadToolbarImages();
+
+            SwitchIcon(ToolkitType.Stable);
         }
 
         #endregion
 
         #region Implementation
 
+        private void ShowDeveloperControls(bool value)
+        {
+            tssDeveloperInformation.Visible = value;
 
+            tsbtnDeveloperInformation.Visible = value;
+        }
+
+        private void ShowDiscordControls(bool value)
+        {
+            tssDiscord.Visible = value;
+
+            tsbtnDiscord.Visible = value;
+        }
+
+        private void ShowVersionControls(bool value)
+        {
+            tsbtnVersions.Visible = value;
+
+            tssVersions.Visible = value;
+        }
+
+        private void ShowThemeControls(bool value)
+        {
+            klblCurrentTheme.Visible = value;
+
+            ktcmbCurrentTheme.Visible = value;
+
+            SetLogoSpan(value);
+        }
+
+        private void SwitchIcon(ToolkitType value)
+        {
+            switch (value)
+            {
+                case ToolkitType.Canary:
+                    pbxLogo.Image = ToolkitLogoImageResources.Krypton_Canary;
+                    break;
+                case ToolkitType.Nightly:
+                    pbxLogo.Image = ToolkitLogoImageResources.Krypton_Nightly;
+                    break;
+                case ToolkitType.Stable:
+                    pbxLogo.Image = ToolkitLogoImageResources.Krypton_Stable;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(value), value, null);
+            }
+        }
+
+        private void UpdateHeaderText(string value) => khgMain.ValuesPrimary.Heading = value;
+
+        private void UpdateCurrentVersionText(string value) => klblCurrentTheme.Text = value;
+
+        private void ConcatanateGeneralInformationText(string firstLine, string secondLine, string thirdLine)
+        {
+            // Note: Do not use verbatim string!
+            string output = $"{firstLine}\\r\\n\\r\\n{secondLine}\\r\\n\\r\\n{thirdLine}";
+
+            klwlblGeneralInformation.Text = output;
+        }
+
+        private void UpdateDiscordText(string value) => klwlblDiscord.Text = value;
+
+        private void UpdateRepositoriesText(string value) => klwlblRepositories.Text = value;
+
+        private void UpdateDocumentationText(string value) => klwlblDocumentation.Text = value;
+
+        private void UpdateDemosText(string value) => klwlblDemos.Text = value;
+
+        private void UpdateColumnHeadings(string fileName, string version)
+        {
+            kdgvVersions.Columns[0].HeaderText = fileName;
+
+            kdgvVersions.Columns[1].HeaderText = version;
+        }
+
+        private void UpdateGeneralInformationLinkArea(LinkArea linkArea) => klwlblGeneralInformation.LinkArea = linkArea;
+
+        private void UpdateDiscordLinkArea(LinkArea linkArea) => klwlblDiscord.LinkArea = linkArea;
+
+        private void UpdateRepositoriesLinkArea(LinkArea linkArea) => klwlblRepositories.LinkArea = linkArea;
+
+        private void UpdateDemosLinkArea(LinkArea linkArea) => klwlblDemos.LinkArea = linkArea;
+
+        private void UpdateDocumentationLinkArea(LinkArea linkArea) => klwlblDocumentation.LinkArea = linkArea;
+
+        private void LoadToolbarImages()
+        {
+            tsbtnGeneralInformation.Image = AboutToolkitImageResources.GeneralInformation;
+
+            tssDiscord.Image = AboutToolkitImageResources.Discord;
+
+            tsbtnVersions.Image = AboutToolkitImageResources.VersionInformation;
+        }
+
+        private void SetLogoSpan(bool value)
+        {
+            if (value)
+            {
+                tlpGeneralInformation.SetRowSpan(pbxLogo, 3);
+            }
+            else
+            {
+                klblCurrentTheme.Text = null;
+
+                ktcmbCurrentTheme.Visible = false;
+
+                tlpGeneralInformation.SetRowSpan(pbxLogo, 1);
+            }
+        }
+
+        private void SwitchPages(AboutToolkitPage page)
+        {
+            switch (page)
+            {
+                case AboutToolkitPage.GeneralInformation:
+                    GeneralInformationPanel.Visible = true;
+
+                    DiscordPanel.Visible = false;
+
+                    DeveloperInformationPanel.Visible = false;
+
+                    VersionsPanel.Visible = false;
+                    break;
+                case AboutToolkitPage.Discord:
+                    GeneralInformationPanel.Visible = false;
+
+                    DiscordPanel.Visible = true;
+
+                    DeveloperInformationPanel.Visible = false;
+
+                    VersionsPanel.Visible = false;
+                    break;
+                case AboutToolkitPage.DeveloperInformation:
+                    GeneralInformationPanel.Visible = false;
+
+                    DiscordPanel.Visible = false;
+
+                    DeveloperInformationPanel.Visible = true;
+
+                    VersionsPanel.Visible = false;
+                    break;
+                case AboutToolkitPage.Versions:
+                    GeneralInformationPanel.Visible = false;
+
+                    DiscordPanel.Visible = false;
+
+                    DeveloperInformationPanel.Visible = false;
+
+                    VersionsPanel.Visible = true;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(page), page, null);
+            }
+        }
+
+        private void UpdateHeaderFont(Font value) => khgMain.StateCommon.HeaderPrimary.Content.ShortText.Font = value;
+
+        private void UpdateCommonFonts(Font value)
+        {
+            klwlblRepositories.StateCommon.Font = value;
+
+            klwlblDemos.StateCommon.Font = value;
+
+            klwlblDiscord.StateCommon.Font = value;
+
+            klwlblDocumentation.StateCommon.Font = value;
+
+            klwlblGeneralInformation.StateCommon.Font = value;
+
+            ktcmbCurrentTheme.StateCommon.ComboBox.Content.Font = value;
+        }
+
+        private void UpdateCurrentThemeFont(Font value) => klblCurrentTheme.StateCommon.ShortText.Font = value;
+
+        private void tsbtnGeneralInformation_Click(object sender, EventArgs e) => SwitchPages(AboutToolkitPage.GeneralInformation);
+
+        private void tsbtnDiscord_Click(object sender, EventArgs e) => SwitchPages(AboutToolkitPage.Discord);
+
+        private void tsbtnDeveloperInformation_Click(object sender, EventArgs e) => SwitchPages(AboutToolkitPage.DeveloperInformation);
+
+        private void tsbtnVersions_Click(object sender, EventArgs e) => SwitchPages(AboutToolkitPage.Versions);
+
+        #endregion
+
+        #region Protected
+
+        protected override void OnLoad(EventArgs e)
+        {
+            LoadToolbarImages();
+
+            base.OnLoad(e);
+        }
+
+        protected override void OnPaint(PaintEventArgs e)
+        {
+            base.OnPaint(e);
+        }
 
         #endregion
 
@@ -309,6 +569,14 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         public override Color BackColor { get; set; }
+
+        [Browsable(false)]
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public override Font Font { get; set; }
+
+        [Browsable(false)]
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public override Color ForeColor { get; set; }
 
         #endregion
     }
