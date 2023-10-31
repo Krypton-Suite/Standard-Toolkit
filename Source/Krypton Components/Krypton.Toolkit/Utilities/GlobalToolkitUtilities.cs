@@ -1,11 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿#region BSD License
+/*
+ *
+ *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2023 - 2023. All rights reserved.
+ *
+ */
+#endregion
 
 namespace Krypton.Toolkit
 {
+    /// <summary></summary>
     public class GlobalToolkitUtilities
     {
         #region Identity
@@ -19,6 +23,8 @@ namespace Krypton.Toolkit
 
         #region Implementation
 
+        /// <summary>Launches a chosen process.</summary>
+        /// <param name="processName">Name of the process.</param>
         public static void LaunchProcess(string processName)
         {
             try
@@ -31,6 +37,9 @@ namespace Krypton.Toolkit
             }
         }
 
+        /// <summary>Launches a chosen process.</summary>
+        /// <param name="processName">Name of the process.</param>
+        /// <param name="arguments">The arguments  to pass through.</param>
         public static void LaunchProcess(string processName, string arguments)
         {
             try
@@ -41,6 +50,36 @@ namespace Krypton.Toolkit
             {
                 ExceptionHandler.CaptureException(e);
             }
+        }
+
+        /// <summary>Gets the file list.</summary>
+        /// <param name="directory">The directory.</param>
+        /// <param name="fileType">Type of the file.</param>
+        /// <param name="searchOption">The search option.</param>
+        /// <returns></returns>
+        public static List<string>? GetFileList(string directory, string? fileType, SearchOption searchOption = SearchOption.AllDirectories)
+        {
+            try
+            {
+                List<string>? fileList = new List<string>();
+
+                if (string.IsNullOrEmpty(fileType))
+                {
+                    fileList = Directory.GetFiles(directory, "*", searchOption).ToList();
+                }
+                else
+                {
+                    fileList = Directory.GetFiles(directory, fileType, searchOption).ToList();
+                }
+
+                return fileList;
+            }
+            catch (Exception e)
+            {
+                ExceptionHandler.CaptureException(e);
+            }
+
+            return null;
         }
 
         #endregion
