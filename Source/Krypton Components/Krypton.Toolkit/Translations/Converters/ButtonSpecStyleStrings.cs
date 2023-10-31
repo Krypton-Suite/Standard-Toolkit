@@ -31,6 +31,7 @@ namespace Krypton.Toolkit
         private const string DEFAULT_BUTTON_SPEC_STYLE_LIST_ITEM = @"List Item";
         private const string DEFAULT_BUTTON_SPEC_STYLE_FORM = @"Form";
         private const string DEFAULT_BUTTON_SPEC_STYLE_FORM_CLOSE = @"Form Close";
+        private const string DEFAULT_BUTTON_SPEC_STYLE_FORM_HELP = @"Help";
         private const string DEFAULT_BUTTON_SPEC_STYLE_COMMAND = @"Command";
         private const string DEFAULT_BUTTON_SPEC_STYLE_CUSTOM_ONE = @"Custom 1";
         private const string DEFAULT_BUTTON_SPEC_STYLE_CUSTOM_TWO = @"Custom 2";
@@ -62,6 +63,7 @@ namespace Krypton.Toolkit
                                  CustomTwo.Equals(DEFAULT_BUTTON_SPEC_STYLE_CUSTOM_TWO) &&
                                  CustomThree.Equals(DEFAULT_BUTTON_SPEC_STYLE_CUSTOM_THREE) &&
                                  FormClose.Equals(DEFAULT_BUTTON_SPEC_STYLE_FORM_CLOSE) &&
+                                 FormHelp.Equals(DEFAULT_BUTTON_SPEC_STYLE_FORM_HELP) &&
                                  Form.Equals(DEFAULT_BUTTON_SPEC_STYLE_FORM) &&
                                  Gallery.Equals(DEFAULT_BUTTON_SPEC_STYLE_GALLERY) &&
                                  InputControl.Equals(DEFAULT_BUTTON_SPEC_STYLE_INPUT_CONTROL) &&
@@ -93,6 +95,8 @@ namespace Krypton.Toolkit
             CustomThree = DEFAULT_BUTTON_SPEC_STYLE_CUSTOM_THREE;
 
             FormClose = DEFAULT_BUTTON_SPEC_STYLE_FORM_CLOSE;
+
+            FormHelp = DEFAULT_BUTTON_SPEC_STYLE_FORM_HELP;
 
             Form = DEFAULT_BUTTON_SPEC_STYLE_FORM;
 
@@ -182,6 +186,13 @@ namespace Krypton.Toolkit
         [DefaultValue(DEFAULT_BUTTON_SPEC_STYLE_FORM_CLOSE)]
         [RefreshProperties(RefreshProperties.All)]
         public string FormClose { get; set; }
+
+        /// <summary>Gets or sets the form help button spec style string.</summary>
+        [Category(@"Visuals")]
+        [Description(@"The form help button spec style.")]
+        [DefaultValue(DEFAULT_BUTTON_SPEC_STYLE_FORM_HELP)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string FormHelp { get; set; }
 
         /// <summary>Gets or sets the form button spec style string.</summary>
         [Category(@"Visuals")]

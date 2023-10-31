@@ -70,7 +70,7 @@ namespace Krypton.Toolkit
         {
             _imageStates = new ButtonImageStates();
 
-            Text = KryptonLanguageManager.ToolBarStrings.New;
+            Text = KryptonManager.Strings.IntegratedToolBarStrings.New;
         }
 
         #endregion

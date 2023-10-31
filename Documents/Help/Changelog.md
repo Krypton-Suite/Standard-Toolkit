@@ -3,6 +3,7 @@
 =======
 
 ## 2024-11-xx - Build 2411 - November 2024
+* New `KryptonLanguageManager` is now integrated into `KryptonManager` as `ToolkitStrings`
 * Resolved [#1091](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1091), Krypton File Dialogs Missing Buttons
 * Removed support for .NET 7, in accordance with its official release cadence
 * Support for .NET 9

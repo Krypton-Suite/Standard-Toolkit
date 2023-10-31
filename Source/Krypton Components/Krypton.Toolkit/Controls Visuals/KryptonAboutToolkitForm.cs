@@ -35,6 +35,14 @@ namespace Krypton.Toolkit
 
         private const string DEFAULT_VERSION_COLUMN_HEADER_TEXT = @"Version";
 
+        private const string DEFAULT_TOOL_BAR_GENERAL_INFORMATION_TEXT = @"General Information";
+
+        private const string DEFAULT_TOOL_BAR_DISCORD_TEXT = @"Discord";
+
+        private const string DEFAULT_TOOL_BAR_DEVELOPER_INFORMATION_TEXT = @"Developer Information";
+
+        private const string DEFAULT_TOOL_BAR_VERSION_INFORMATION_TEXT = @"Version Information";
+
         #endregion
 
         #region Instance Fields
@@ -265,9 +273,9 @@ namespace Krypton.Toolkit
 
             SwitchIcon(ToolkitType.Stable);
 
-            kbtnOk.Text = KryptonLanguageManager.GeneralToolkitStrings.OK;
+            kbtnOk.Text = KryptonManager.Strings.GeneralStrings.OK;
 
-            kbtnSystemInformation.Text = KryptonLanguageManager.CustomToolkitStrings.SystemInformation;
+            kbtnSystemInformation.Text = KryptonManager.Strings.CustomStrings.SystemInformation;
 
             DefaultStartup();
         }
@@ -303,6 +311,10 @@ namespace Krypton.Toolkit
             klwlblDemos.LinkArea = new LinkArea(0, 8);
 
             klwlblGeneralInformation.LinkArea = new LinkArea(133, klwlblGeneralInformation.Text.Length - 1);
+
+            UpdateColumnHeadings(DEFAULT_FILE_NAME_COLUMN_HEADER_TEXT, DEFAULT_VERSION_COLUMN_HEADER_TEXT);
+
+            GetReferenceAssemblyInformation();
         }
 
         private void ShowDeveloperControls(bool value)
@@ -518,6 +530,24 @@ namespace Krypton.Toolkit
         private void tsbtnDeveloperInformation_Click(object sender, EventArgs e) => SwitchPages(AboutToolkitPage.DeveloperInformation);
 
         private void tsbtnVersions_Click(object sender, EventArgs e) => SwitchPages(AboutToolkitPage.Versions);
+
+        private void GetReferenceAssemblyInformation()
+        {
+            // Get the current assembly
+            Assembly currentAssembly = Assembly.GetExecutingAssembly();
+
+            // Place reference assemblies into an array
+            // Note: Can we use `FileVersionInfo`?
+            AssemblyName[] satelliteAssemblies = currentAssembly.GetReferencedAssemblies();
+
+            foreach (AssemblyName assembly in satelliteAssemblies)
+            {
+                //FileVersionInfo fileInfo = FileVersionInfo.GetVersionInfo(file);
+
+                // Fill datagrid view
+                kdgvVersions.Rows.Add(assembly.Name, assembly.Version.ToString());
+            }
+        }
 
         #endregion
     }
