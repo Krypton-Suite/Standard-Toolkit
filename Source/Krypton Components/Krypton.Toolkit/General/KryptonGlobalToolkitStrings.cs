@@ -141,7 +141,7 @@ namespace Krypton.Toolkit
         /// <summary>Resets the palette border style strings.</summary>
         public void ResetPaletteBorderStyleStrings() => BorderStyleStrings.Reset();
 
-        /// <summary>Gets the palette button orientation strings.</summary>
+        /*/// <summary>Gets the palette button orientation strings.</summary>
         /// <value>The palette button orientation strings.</value>
         [Category(@"Visuals")]
         [Description(@"Collection of palette button orientation strings.")]
@@ -153,7 +153,7 @@ namespace Krypton.Toolkit
         private bool ShouldSerializePaletteButtonOrientationStrings() => !ButtonOrientationStrings.IsDefault;
 
         /// <summary>Resets the palette button orientation strings.</summary>
-        public void ResetPaletteButtonOrientationStrings() => ButtonOrientationStrings.Reset();
+        public void ResetPaletteButtonOrientationStrings() => ButtonOrientationStrings.Reset();*/
 
         /// <summary>Gets the palette button spec style strings.</summary>
         /// <value>The palette button spec style strings.</value>
@@ -556,7 +556,7 @@ namespace Krypton.Toolkit
                                    ShouldSerializeKryptonLinkBehaviorStrings() ||
                                    ShouldSerializePaletteBackStyleStrings() ||
                                    ShouldSerializePaletteBorderStyleStrings() ||
-                                   ShouldSerializePaletteButtonOrientationStrings() ||
+                                   //ShouldSerializePaletteButtonOrientationStrings() ||
                                    ShouldSerializePaletteButtonSpecStyleStrings() ||
                                    ShouldSerializePaletteButtonStyleStrings() ||
                                    ShouldSerializePaletteContentStyleStrings() ||
@@ -601,7 +601,7 @@ namespace Krypton.Toolkit
 
             ResetPaletteBorderStyleStrings();
 
-            ResetPaletteButtonOrientationStrings();
+            //ResetPaletteButtonOrientationStrings();
 
             ResetPaletteButtonSpecStyleStrings();
 
