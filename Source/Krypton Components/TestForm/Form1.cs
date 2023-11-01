@@ -135,13 +135,7 @@ namespace TestForm
 
         private void kryptonButton5_Click(object sender, EventArgs e)
         {
-            //Form6 poweredByControl = new Form6();
-
-            //poweredByControl.Show();
-
-            KryptonAboutToolkitForm aboutToolkit = new KryptonAboutToolkitForm();
-
-            aboutToolkit.Show();
+            KryptonAboutToolkit.Show();
         }
 
         private void Form1_Load(object sender, EventArgs e)

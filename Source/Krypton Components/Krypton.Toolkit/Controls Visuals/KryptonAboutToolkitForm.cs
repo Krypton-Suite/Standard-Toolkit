@@ -9,7 +9,7 @@
 
 namespace Krypton.Toolkit
 {
-    public partial class KryptonAboutToolkitForm : KryptonForm
+    internal partial class KryptonAboutToolkitForm : KryptonForm
     {
         #region Static Fields
 
@@ -51,6 +51,7 @@ namespace Krypton.Toolkit
         private bool _showDeveloperButton;
         private bool _showVersionsButton;
         private bool _showThemeOptions;
+        private bool _showSystemInformationButton;
 
         private Font _commonFont;
         private Font _currentThemeFont;
@@ -280,6 +281,27 @@ namespace Krypton.Toolkit
             DefaultStartup();
         }
 
+        public KryptonAboutToolkitForm(string? headerText, string? generalInformationFirstLine, string? generalInformationSecondLine,
+                                       string? generalInformationThirdLine, string? currentThemeText, string? discordText,
+                                       string? repositoryInformationText, string? downloadDocumentationText, string? downloadDemosText,
+                                       string? fileNameColumnHeaderText, string? versionColumnHeaderText, LinkArea? generalInformationLinkArea,
+                                       LinkArea? discordLinkArea, LinkArea? repositoryInformationLinkArea, LinkArea? downloadDemosLinkArea,
+                                       LinkArea? documentationLinkArea, ToolkitType? toolkitType, bool? showDiscordButton, bool? showDeveloperButton,
+                                       bool? showVersionInformationButton, bool? showThemeOptions, bool? showSystemInformationButton)
+        {
+            InitializeComponent();
+
+            kbtnOk.Text = KryptonManager.Strings.GeneralStrings.OK;
+
+            kbtnSystemInformation.Text = KryptonManager.Strings.CustomStrings.SystemInformation;
+
+            CustomStartup(headerText, generalInformationFirstLine, generalInformationSecondLine, generalInformationThirdLine, currentThemeText,
+                          discordText, repositoryInformationText, downloadDocumentationText, downloadDemosText, fileNameColumnHeaderText,
+                          versionColumnHeaderText, generalInformationLinkArea, discordLinkArea, repositoryInformationLinkArea,
+                          downloadDemosLinkArea, documentationLinkArea, toolkitType, showDiscordButton, showDeveloperButton,
+                          showVersionInformationButton, showThemeOptions, showSystemInformationButton);
+        }
+
         #endregion
 
         #region Implementation
@@ -287,6 +309,122 @@ namespace Krypton.Toolkit
         private void kbtnOk_Click(object sender, EventArgs e) => Close();
 
         private void kbtnSystemInformation_Click(object sender, EventArgs e) => GlobalToolkitUtilities.LaunchProcess(@"MSInfo32.exe");
+
+        /// <summary>Custom startup.</summary>
+        /// <param name="headerText">The header text.</param>
+        /// <param name="generalInformationFirstLine">The general information first line.</param>
+        /// <param name="generalInformationSecondLine">The general information second line.</param>
+        /// <param name="generalInformationThirdLine">The general information third line.</param>
+        /// <param name="currentThemeText">The current theme text.</param>
+        /// <param name="discordText">The discord text.</param>
+        /// <param name="repositoryInformationText">The repository information text.</param>
+        /// <param name="downloadDocumentationText">The download documentation text.</param>
+        /// <param name="downloadDemosText">The download demos text.</param>
+        /// <param name="fileNameColumnHeaderText">The file name column header text.</param>
+        /// <param name="versionColumnHeaderText">The version column header text.</param>
+        /// <param name="generalInformationLinkArea">The general information link area.</param>
+        /// <param name="discordLinkArea">The discord link area.</param>
+        /// <param name="repositoryInformationLinkArea">The repository information link area.</param>
+        /// <param name="downloadDemosLinkArea">The download demos link area.</param>
+        /// <param name="documentationLinkArea">The documentation link area.</param>
+        /// <param name="toolkitType">Type of the toolkit.</param>
+        /// <param name="showDiscordButton">The show discord button.</param>
+        /// <param name="showDeveloperButton">The show developer button.</param>
+        /// <param name="showVersionInformationButton">The show version information button.</param>
+        /// <param name="showThemeOptions">The show theme options.</param>
+        /// <param name="showSystemInformationButton">The show system information button.</param>
+        private void CustomStartup(string? headerText, string? generalInformationFirstLine,
+            string? generalInformationSecondLine,
+            string? generalInformationThirdLine, string? currentThemeText, string? discordText,
+            string? repositoryInformationText, string? downloadDocumentationText, string? downloadDemosText,
+            string? fileNameColumnHeaderText, string? versionColumnHeaderText, LinkArea? generalInformationLinkArea,
+            LinkArea? discordLinkArea, LinkArea? repositoryInformationLinkArea, LinkArea? downloadDemosLinkArea,
+            LinkArea? documentationLinkArea, ToolkitType? toolkitType, bool? showDiscordButton,
+            bool? showDeveloperButton,
+            bool? showVersionInformationButton, bool? showThemeOptions, bool? showSystemInformationButton)
+        {
+            // Fill in the fields
+            _headerText = headerText ?? DEFAULT_HEADER_TEXT;
+
+            _generalInformationFirstLine = generalInformationFirstLine ?? DEFAULT_GENERAL_INFORMATION_FIRST_LINE;
+
+            _generalInformationSecondLine = generalInformationSecondLine ?? DEFAULT_GENERAL_INFORMATION_SECOND_LINE;
+
+            _generalInformationThirdLine = generalInformationThirdLine ?? DEFAULT_GENERAL_INFORMATION_THIRD_LINE;
+
+            _currentThemeText = currentThemeText ?? DEFAULT_CURRENT_THEME_TEXT;
+
+            _discordText = discordText ?? DEFAULT_JOIN_DISCORD_SERVER;
+
+            _repositoryInformationText = repositoryInformationText ?? DEFAULT_VIEW_REPOSITORIES;
+
+            _downloadDemosText = downloadDemosText ?? DEFAULT_DOWNLOAD_DEMOS;
+
+            _downloadDocumentationText = downloadDocumentationText ?? DEFAULT_DOWNLOAD_DOCUMENTATION;
+
+            _fileNameColumnHeaderText = fileNameColumnHeaderText ?? DEFAULT_FILE_NAME_COLUMN_HEADER_TEXT;
+
+            _versionColumnHeaderText = versionColumnHeaderText ?? DEFAULT_VERSION_COLUMN_HEADER_TEXT;
+
+            _generalInformationLinkArea = generalInformationLinkArea ?? new LinkArea(133, 143);
+
+            _discordLinkArea = discordLinkArea ?? new LinkArea(0, 4);
+
+            _repositoryInformationLinkArea = repositoryInformationLinkArea ?? new LinkArea(0, 4);
+
+            _downloadDemosLinkArea = downloadDemosLinkArea ?? new LinkArea(0, 4);
+
+            _documentationLinkArea = documentationLinkArea ?? new LinkArea(0, 4);
+
+            _toolkitType = toolkitType ?? ToolkitType.Stable;
+
+            _showDiscordButton = showDiscordButton ?? true;
+
+            _showDeveloperButton = showDeveloperButton ?? true;
+
+            _showVersionsButton = showVersionInformationButton ?? true;
+
+            _showThemeOptions = showThemeOptions ?? true;
+
+            _showSystemInformationButton = showSystemInformationButton ?? true;
+
+            // Adjust UI elements
+            ShowDeveloperControls(_showDeveloperButton);
+
+            ShowDiscordControls(_showDiscordButton);
+
+            ShowVersionControls(_showVersionsButton);
+
+            ShowThemeControls(_showThemeOptions);
+
+            ShowSystemInformationButton(_showSystemInformationButton);
+
+            SwitchIcon(_toolkitType);
+
+            UpdateHeaderText(_headerText);
+
+            ConcatanateGeneralInformationText(_generalInformationFirstLine, _generalInformationSecondLine, _generalInformationThirdLine);
+
+            UpdateDiscordText(_discordText);
+
+            UpdateRepositoriesText(_repositoryInformationText);
+
+            UpdateDemosText(_downloadDemosText);
+
+            UpdateDocumentationText(_downloadDocumentationText);
+
+            UpdateColumnHeadings(_fileNameColumnHeaderText, _versionColumnHeaderText);
+
+            UpdateGeneralInformationLinkArea(_generalInformationLinkArea);
+
+            UpdateDocumentationLinkArea(_documentationLinkArea);
+
+            UpdateDiscordLinkArea(_discordLinkArea);
+
+            UpdateDemosLinkArea(_downloadDemosLinkArea);
+
+            UpdateRepositoriesLinkArea(_repositoryInformationLinkArea);
+        }
 
         private void DefaultStartup()
         {
@@ -558,6 +696,8 @@ namespace Krypton.Toolkit
                 kdgvVersions.Rows.Add(assembly.Name, assembly.Version.ToString());
             }
         }
+
+        private void ShowSystemInformationButton(bool? value) => kbtnSystemInformation.Visible = value ?? true;
 
         #endregion
     }
