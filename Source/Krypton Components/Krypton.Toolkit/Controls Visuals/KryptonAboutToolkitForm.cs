@@ -224,9 +224,9 @@ namespace Krypton.Toolkit
 
             _repositoryInformationLinkArea = repositoryInformationLinkArea ?? new LinkArea(0, 4);
 
-            _downloadDemosLinkArea = downloadDemosLinkArea ?? new LinkArea(0, 4);
+            _downloadDemosLinkArea = downloadDemosLinkArea ?? new LinkArea(0, 9);
 
-            _documentationLinkArea = documentationLinkArea ?? new LinkArea(0, 4);
+            _documentationLinkArea = documentationLinkArea ?? new LinkArea(0, 9);
 
             _toolkitType = toolkitType ?? ToolkitType.Stable;
 
