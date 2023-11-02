@@ -75,25 +75,25 @@ namespace Krypton.Toolkit
 
         private void SetupControlsText()
         {
-            kbtnCancel.Text = KryptonLanguageManager.GeneralToolkitStrings.Cancel;
+            kbtnCancel.Text = KryptonManager.Strings.GeneralStrings.Cancel;
 
-            kbtnOk.Text = KryptonLanguageManager.GeneralToolkitStrings.OK;
+            kbtnOk.Text = KryptonManager.Strings.GeneralStrings.OK;
 
-            kcRichTextBoxCopy.Text = KryptonLanguageManager.CustomToolkitStrings.Copy;
+            kcRichTextBoxCopy.Text = KryptonManager.Strings.CustomStrings.Copy;
 
-            kcRichTextBoxCut.Text = KryptonLanguageManager.CustomToolkitStrings.Cut;
+            kcRichTextBoxCut.Text = KryptonManager.Strings.CustomStrings.Cut;
 
-            kcRichTextBoxPaste.Text = KryptonLanguageManager.CustomToolkitStrings.Paste;
+            kcRichTextBoxPaste.Text = KryptonManager.Strings.CustomStrings.Paste;
 
-            kcRichTextBoxSelectAll.Text = KryptonLanguageManager.CustomToolkitStrings.SelectAll;
+            kcRichTextBoxSelectAll.Text = KryptonManager.Strings.CustomStrings.SelectAll;
 
-            kcTextBoxCopy.Text = KryptonLanguageManager.CustomToolkitStrings.Copy;
+            kcTextBoxCopy.Text = KryptonManager.Strings.CustomStrings.Copy;
 
-            kcTextBoxCut.Text = KryptonLanguageManager.CustomToolkitStrings.Cut;
+            kcTextBoxCut.Text = KryptonManager.Strings.CustomStrings.Cut;
 
-            kcTextBoxPaste.Text = KryptonLanguageManager.CustomToolkitStrings.Paste;
+            kcTextBoxPaste.Text = KryptonManager.Strings.CustomStrings.Paste;
 
-            kcTextBoxSelectAll.Text = KryptonLanguageManager.CustomToolkitStrings.SelectAll;
+            kcTextBoxSelectAll.Text = KryptonManager.Strings.CustomStrings.SelectAll;
         }
 
         private void SetupVariables(string[]? contents, StringCollection? collection, bool? useRichTextBox, string? headerText, string? windowTitle)
