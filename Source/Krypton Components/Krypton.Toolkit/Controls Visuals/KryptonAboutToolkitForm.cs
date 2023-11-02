@@ -218,69 +218,29 @@ namespace Krypton.Toolkit
 
         #region Identity
 
-        public KryptonAboutToolkitForm()
-        {
-            InitializeComponent();
-
-            _showDeveloperButton = true;
-
-            _showDiscordButton = true;
-
-            _showVersionsButton = true;
-
-            _showThemeOptions = true;
-
-            _currentThemeFont = new Font(@"Microsoft Sans Serif", 8.25f, FontStyle.Bold);
-
-            _commonFont = new Font(@"Microsoft Sans Serif", 8.25f);
-
-            _headerFont = new Font(@"Microsoft Sans Serif", 11.25f, FontStyle.Bold);
-
-            _toolkitType = ToolkitType.Stable;
-
-            _headerText = DEFAULT_HEADER_TEXT;
-
-            kryptonHeaderGroup1.ValuesPrimary.Heading = DEFAULT_HEADER_TEXT;
-
-            _currentThemeText = DEFAULT_CURRENT_THEME_TEXT;
-
-            _generalInformationFirstLine = DEFAULT_GENERAL_INFORMATION_FIRST_LINE;
-
-            _generalInformationSecondLine = DEFAULT_GENERAL_INFORMATION_SECOND_LINE;
-
-            _generalInformationThirdLine = DEFAULT_GENERAL_INFORMATION_THIRD_LINE;
-
-            _discordText = DEFAULT_JOIN_DISCORD_SERVER;
-
-            _repositoryInformationText = DEFAULT_VIEW_REPOSITORIES;
-
-            _downloadDemosText = DEFAULT_DOWNLOAD_DEMOS;
-
-            _downloadDocumentationText = DEFAULT_DOWNLOAD_DOCUMENTATION;
-
-            _fileNameColumnHeaderText = DEFAULT_FILE_NAME_COLUMN_HEADER_TEXT;
-
-            _versionColumnHeaderText = DEFAULT_VERSION_COLUMN_HEADER_TEXT;
-
-            _generalInformationLinkArea = new LinkArea(133, 143);
-
-            _discordLinkArea = new LinkArea(0, 4);
-
-            _repositoryInformationLinkArea = new LinkArea(0, 4);
-
-            _downloadDemosLinkArea = new LinkArea(0, 4);
-
-            _documentationLinkArea = new LinkArea(0, 4);
-
-            SwitchIcon(ToolkitType.Stable);
-
-            kbtnOk.Text = KryptonManager.Strings.GeneralStrings.OK;
-
-            kbtnSystemInformation.Text = KryptonManager.Strings.CustomStrings.SystemInformation;
-
-            DefaultStartup();
-        }
-
+        /// <summary>Initializes a new instance of the <see cref="KryptonAboutToolkitForm" /> class.</summary>
+        /// <param name="headerText">The header text.</param>
+        /// <param name="generalInformationFirstLine">The general information first line.</param>
+        /// <param name="generalInformationSecondLine">The general information second line.</param>
+        /// <param name="generalInformationThirdLine">The general information third line.</param>
+        /// <param name="currentThemeText">The current theme text.</param>
+        /// <param name="discordText">The discord text.</param>
+        /// <param name="repositoryInformationText">The repository information text.</param>
+        /// <param name="downloadDocumentationText">The download documentation text.</param>
+        /// <param name="downloadDemosText">The download demos text.</param>
+        /// <param name="fileNameColumnHeaderText">The file name column header text.</param>
+        /// <param name="versionColumnHeaderText">The version column header text.</param>
+        /// <param name="generalInformationLinkArea">The general information link area.</param>
+        /// <param name="discordLinkArea">The discord link area.</param>
+        /// <param name="repositoryInformationLinkArea">The repository information link area.</param>
+        /// <param name="downloadDemosLinkArea">The download demos link area.</param>
+        /// <param name="documentationLinkArea">The documentation link area.</param>
+        /// <param name="toolkitType">Type of the toolkit.</param>
+        /// <param name="showDiscordButton">The show discord button.</param>
+        /// <param name="showDeveloperButton">The show developer button.</param>
+        /// <param name="showVersionInformationButton">The show version information button.</param>
+        /// <param name="showThemeOptions">The show theme options.</param>
+        /// <param name="showSystemInformationButton">The show system information button.</param>
         public KryptonAboutToolkitForm(string? headerText, string? generalInformationFirstLine, string? generalInformationSecondLine,
                                        string? generalInformationThirdLine, string? currentThemeText, string? discordText,
                                        string? repositoryInformationText, string? downloadDocumentationText, string? downloadDemosText,
