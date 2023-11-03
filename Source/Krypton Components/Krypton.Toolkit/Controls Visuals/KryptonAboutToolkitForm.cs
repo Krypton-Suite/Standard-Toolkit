@@ -139,6 +139,24 @@ namespace Krypton.Toolkit
                           showVersionInformationButton, showThemeOptions, showSystemInformationButton);
         }
 
+        public KryptonAboutToolkitForm(KryptonAboutToolkitData aboutToolkitData)
+        {
+            InitializeComponent();
+
+            KryptonAboutToolkitData data = aboutToolkitData;
+
+            kbtnOk.Text = KryptonManager.Strings.GeneralStrings.OK;
+
+            kbtnSystemInformation.Text = KryptonManager.Strings.CustomStrings.SystemInformation;
+
+            Startup(data.HeaderText, data.GeneralInformationWelcomeText, data.GeneralInformationLicenseText, data.GeneralInformationLearnMoreText, data.CurrentThemeText,
+                    data.DiscordText, data.RepositoryInformationText, data.DownloadDocumentationText, data.DownloadDemosText, data.FileNameColumnHeaderText,
+                    data.VersionColumnHeaderText, data.ToolBarGeneralInformationText, data.ToolBarDiscordText, data.ToolBarDeveloperInformationText,
+                    data.ToolBarVersionInformationText, data.LearnMoreLinkArea, data.DiscordLinkArea, data.RepositoryInformationLinkArea, data.DownloadDemosLinkArea,
+                    data.DocumentationLinkArea, data.ToolkitType, data.ShowDiscordButton, data.ShowDeveloperInformationButton, data.ShowVersionInformationButton,
+                    data.ShowThemeOptions, data.ShowSystemInformationButton);
+        }
+
         #endregion
 
         #region Implementation
@@ -146,6 +164,60 @@ namespace Krypton.Toolkit
         private void kbtnOk_Click(object sender, EventArgs e) => Close();
 
         private void kbtnSystemInformation_Click(object sender, EventArgs e) => GlobalToolkitUtilities.LaunchProcess(@"MSInfo32.exe");
+
+        private void Startup(string headerText, string generalInformationWelcomeText,
+                             string generalInformationLicenseText, string generalInformationLearnMoreText,
+                             string currentThemeText, string discordText, string repositoryInformationText,
+                             string downloadDocumentationText, string downloadDemosText, string fileNameColumnHeaderText,
+                             string versionColumnHeaderText, string toolBarGeneralInformationText, string toolBarDiscordText,
+                             string toolBarDeveloperInformationText, string toolBarVersionInformationText,
+                             LinkArea learnMoreLinkArea, LinkArea discordLinkArea, LinkArea repositoryInformationLinkArea,
+                             LinkArea downloadDemosLinkArea, LinkArea documentationLinkArea, ToolkitType toolkitType,
+                             bool showDiscordButton, bool showDeveloperInformationButton, bool showVersionInformationButton,
+                             bool showThemeOptions, bool showSystemInformationButton)
+        {
+            ShowDeveloperControls(showDeveloperInformationButton);
+
+            ShowDiscordControls(showDiscordButton);
+
+            ShowVersionControls(showVersionInformationButton);
+
+            ShowThemeControls(showThemeOptions);
+
+            UpdateCurrentThemeText($@"{currentThemeText}:");
+
+            ShowSystemInformationButton(showSystemInformationButton);
+
+            SwitchIcon(toolkitType);
+
+            UpdateHeaderText($@"{headerText} Krypton Standard Toolkit");
+
+            ConcatanateGeneralInformationText(generalInformationWelcomeText, generalInformationLicenseText, generalInformationLearnMoreText);
+
+            UpdateDiscordText(discordText);
+
+            UpdateRepositoriesText(repositoryInformationText);
+
+            UpdateDemosText(downloadDemosText);
+
+            UpdateDocumentationText(downloadDocumentationText);
+
+            UpdateColumnHeadings(fileNameColumnHeaderText, versionColumnHeaderText);
+
+            UpdateToolBarText(toolBarGeneralInformationText, toolBarDiscordText, toolBarDeveloperInformationText, toolBarVersionInformationText);
+
+            UpdateGeneralInformationLinkArea(learnMoreLinkArea);
+
+            UpdateDocumentationLinkArea(documentationLinkArea);
+
+            UpdateDiscordLinkArea(discordLinkArea);
+
+            UpdateDemosLinkArea(downloadDemosLinkArea);
+
+            UpdateRepositoriesLinkArea(repositoryInformationLinkArea);
+
+            GetReferenceAssemblyInformation();
+        }
 
         /// <summary>Create a new <see cref="KryptonAboutToolkitForm" /> with selected values.</summary>
         /// <param name="headerText">The header text.</param>

@@ -85,6 +85,8 @@ namespace Krypton.Toolkit
                 null, null, toolkitType,
                 showDiscordButton, showDeveloperButton, showVersionInformationButton, showThemeOptions, showSystemInformationButton);
 
+        public static DialogResult Show(KryptonAboutToolkitData aboutToolkitData) => ShowCore(aboutToolkitData);
+
         /// <summary>Shows the <see cref="KryptonAboutToolkitForm"/>.</summary>
         /// <param name="headerText">The header text.</param>
         /// <param name="generalInformationWelcomeText">The general information welcome text.</param>
@@ -162,6 +164,13 @@ namespace Krypton.Toolkit
                 repositoryInformationLinkArea,
                 downloadDemosLinkArea, documentationLinkArea, toolkitType, showDiscordButton, showDeveloperButton,
                 showVersionInformationButton, showThemeOptions, showSystemInformationButton);
+
+            return kat.ShowDialog();
+        }
+
+        private static DialogResult ShowCore(KryptonAboutToolkitData aboutToolkitData)
+        {
+            using var kat = new KryptonAboutToolkitForm(aboutToolkitData);
 
             return kat.ShowDialog();
         }
