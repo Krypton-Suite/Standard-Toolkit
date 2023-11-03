@@ -14,6 +14,7 @@ namespace Krypton.Toolkit
     [DesignerCategory(@"code")]
     public static class KryptonAboutToolkit
     {
+
         #region Public
 
         /// <summary>Shows the <see cref="KryptonAboutToolkitForm"/>.</summary>

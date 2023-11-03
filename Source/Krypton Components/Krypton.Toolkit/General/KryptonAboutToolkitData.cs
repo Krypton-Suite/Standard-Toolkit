@@ -226,57 +226,57 @@ namespace Krypton.Toolkit
                                        LinkArea? learnMoreLinkArea, LinkArea? discordLinkArea, LinkArea? repositoryInformationLinkArea,
                                        LinkArea? downloadDemosLinkArea, LinkArea? documentationLinkArea)
         {
-            ShowDeveloperInformationButton = true;
+            ShowDeveloperInformationButton = showDeveloperInformationButton ?? true;
 
-            ShowDiscordButton = true;
+            ShowDiscordButton = showDiscordButton ?? true;
 
-            ShowVersionInformationButton = true;
+            ShowVersionInformationButton = showVersionInformationButton ?? true;
 
-            ShowThemeOptions = true;
+            ShowThemeOptions = showThemeOptions ?? true;
 
-            ShowSystemInformationButton = true;
+            ShowSystemInformationButton = showSystemInformationButton ?? true;
 
-            ToolkitType = ToolkitType.Stable;
+            ToolkitType = toolkitType  ?? ToolkitType.Stable;
 
-            HeaderText = DEFAULT_HEADER_TEXT;
+            HeaderText = headerText ?? DEFAULT_HEADER_TEXT;
 
-            CurrentThemeText = DEFAULT_CURRENT_THEME_TEXT;
+            CurrentThemeText = currentThemeText ?? DEFAULT_CURRENT_THEME_TEXT;
 
-            GeneralInformationWelcomeText = DEFAULT_GENERAL_INFORMATION_WELCOME_TEXT;
+            GeneralInformationWelcomeText = generalInformationWelcomeText ?? DEFAULT_GENERAL_INFORMATION_WELCOME_TEXT;
 
-            GeneralInformationLicenseText = DEFAULT_GENERAL_INFORMATION_LICENSE_TEXT;
+            GeneralInformationLicenseText = generalInformationLicenseText ?? DEFAULT_GENERAL_INFORMATION_LICENSE_TEXT;
 
-            GeneralInformationLearnMoreText = DEFAULT_GENERAL_INFORMATION_LEARN_MORE_TEXT;
+            GeneralInformationLearnMoreText = generalInformationLearnMoreText ?? DEFAULT_GENERAL_INFORMATION_LEARN_MORE_TEXT;
 
-            DiscordText = DEFAULT_JOIN_DISCORD_SERVER;
+            DiscordText = discordText ?? DEFAULT_JOIN_DISCORD_SERVER;
 
-            RepositoryInformationText = DEFAULT_VIEW_REPOSITORIES;
+            RepositoryInformationText = repositoryInformationText ?? DEFAULT_VIEW_REPOSITORIES;
 
-            DownloadDemosText = DEFAULT_DOWNLOAD_DEMOS;
+            DownloadDemosText = downloadDemosText ?? DEFAULT_DOWNLOAD_DEMOS;
 
-            DownloadDocumentationText = DEFAULT_DOWNLOAD_DOCUMENTATION;
+            DownloadDocumentationText = downloadDocumentationText ?? DEFAULT_DOWNLOAD_DOCUMENTATION;
 
-            FileNameColumnHeaderText = DEFAULT_FILE_NAME_COLUMN_HEADER_TEXT;
+            FileNameColumnHeaderText = fileNameColumnHeaderText ?? DEFAULT_FILE_NAME_COLUMN_HEADER_TEXT;
 
-            VersionColumnHeaderText = DEFAULT_VERSION_COLUMN_HEADER_TEXT;
+            VersionColumnHeaderText = versionColumnHeaderText ?? DEFAULT_VERSION_COLUMN_HEADER_TEXT;
 
-            ToolBarGeneralInformationText = DEFAULT_TOOL_BAR_GENERAL_INFORMATION_TEXT;
+            ToolBarGeneralInformationText = toolBarGeneralInformationText ?? DEFAULT_TOOL_BAR_GENERAL_INFORMATION_TEXT;
 
-            ToolBarDiscordText = DEFAULT_TOOL_BAR_DISCORD_TEXT;
+            ToolBarDiscordText = toolBarDiscordText ?? DEFAULT_TOOL_BAR_DISCORD_TEXT;
 
-            ToolBarDeveloperInformationText = DEFAULT_TOOL_BAR_DEVELOPER_INFORMATION_TEXT;
+            ToolBarDeveloperInformationText = toolBarDeveloperInformationText ?? DEFAULT_TOOL_BAR_DEVELOPER_INFORMATION_TEXT;
 
-            ToolBarVersionInformationText = DEFAULT_TOOL_BAR_VERSION_INFORMATION_TEXT;
+            ToolBarVersionInformationText = toolBarVersionInformationText ?? DEFAULT_TOOL_BAR_VERSION_INFORMATION_TEXT;
 
-            LearnMoreLinkArea = new LinkArea(133, 143);
+            LearnMoreLinkArea = learnMoreLinkArea ?? new LinkArea(133, 143);
 
-            DocumentationLinkArea = new LinkArea(0, 8);
+            DocumentationLinkArea = documentationLinkArea ?? new LinkArea(0, 8);
 
-            DownloadDemosLinkArea = new LinkArea(0, 8);
+            DownloadDemosLinkArea = downloadDemosLinkArea ?? new LinkArea(0, 8);
 
-            DiscordLinkArea = new LinkArea(0, 4);
+            DiscordLinkArea = discordLinkArea ?? new LinkArea(0, 4);
 
-            RepositoryInformationLinkArea = new LinkArea(0, 4);
+            RepositoryInformationLinkArea = repositoryInformationLinkArea ?? new LinkArea(0, 4);
         }
 
         #endregion
