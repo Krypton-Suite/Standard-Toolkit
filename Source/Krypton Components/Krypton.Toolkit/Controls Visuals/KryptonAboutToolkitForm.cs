@@ -139,6 +139,17 @@ namespace Krypton.Toolkit
                           showVersionInformationButton, showThemeOptions, showSystemInformationButton);
         }
 
+        public KryptonAboutToolkitForm(KryptonAboutToolkitData aboutToolkitData)
+        {
+            InitializeComponent();
+
+            InitialiseDialog(aboutToolkitData);
+
+            kbtnOk.Text = KryptonManager.Strings.GeneralStrings.OK;
+
+            kbtnSystemInformation.Text = KryptonManager.Strings.CustomStrings.SystemInformation;
+        }
+
         #endregion
 
         #region Implementation
@@ -146,6 +157,52 @@ namespace Krypton.Toolkit
         private void kbtnOk_Click(object sender, EventArgs e) => Close();
 
         private void kbtnSystemInformation_Click(object sender, EventArgs e) => GlobalToolkitUtilities.LaunchProcess(@"MSInfo32.exe");
+
+        private void InitialiseDialog(KryptonAboutToolkitData aboutToolkitData)
+        {
+            // Adjust UI elements
+            ShowDeveloperControls(aboutToolkitData.ShowDeveloperInformationButton);
+
+            ShowDiscordControls(aboutToolkitData.ShowDiscordButton);
+
+            ShowVersionControls(aboutToolkitData.ShowVersionInformationButton);
+
+            ShowThemeControls(aboutToolkitData.ShowThemeOptions);
+
+            UpdateCurrentThemeText($@"{aboutToolkitData.CurrentThemeText}:");
+
+            ShowSystemInformationButton(aboutToolkitData.ShowSystemInformationButton);
+
+            SwitchIcon(aboutToolkitData.ToolkitType);
+
+            UpdateHeaderText($@"{aboutToolkitData.HeaderText} Krypton Standard Toolkit");
+
+            ConcatanateGeneralInformationText(aboutToolkitData.GeneralInformationWelcomeText, aboutToolkitData.GeneralInformationLicenseText, aboutToolkitData.GeneralInformationLearnMoreText);
+
+            UpdateDiscordText(aboutToolkitData.DiscordText);
+
+            UpdateRepositoriesText(aboutToolkitData.RepositoryInformationText);
+
+            UpdateDemosText(aboutToolkitData.DownloadDemosText);
+
+            UpdateDocumentationText(aboutToolkitData.DownloadDocumentationText);
+
+            UpdateColumnHeadings(aboutToolkitData.FileNameColumnHeaderText, aboutToolkitData.VersionColumnHeaderText);
+
+            UpdateToolBarText(aboutToolkitData.ToolBarGeneralInformationText, aboutToolkitData.ToolBarDiscordText, aboutToolkitData.ToolBarDeveloperInformationText, aboutToolkitData.ToolBarVersionInformationText);
+
+            UpdateGeneralInformationLinkArea(aboutToolkitData.LearnMoreLinkArea);
+
+            UpdateDocumentationLinkArea(aboutToolkitData.DocumentationLinkArea);
+
+            UpdateDiscordLinkArea(aboutToolkitData.DiscordLinkArea);
+
+            UpdateDemosLinkArea(aboutToolkitData.DownloadDemosLinkArea);
+
+            UpdateRepositoriesLinkArea(aboutToolkitData.RepositoryInformationLinkArea);
+
+            GetReferenceAssemblyInformation();
+        }
 
         /// <summary>Create a new <see cref="KryptonAboutToolkitForm" /> with selected values.</summary>
         /// <param name="headerText">The header text.</param>

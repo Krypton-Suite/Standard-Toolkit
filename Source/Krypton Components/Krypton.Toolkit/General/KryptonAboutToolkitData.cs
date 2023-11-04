@@ -11,89 +11,123 @@ namespace Krypton.Toolkit
 {
     public struct KryptonAboutToolkitData
     {
+        #region Static Fields
+
+        private const string DEFAULT_CURRENT_THEME_TEXT = @"Current Theme";
+
+        private const string DEFAULT_HEADER_TEXT = @"About";
+
+        private const string DEFAULT_GENERAL_INFORMATION_WELCOME_TEXT = @"Some of the components used in this application are part of the Krypton Standard Toolkit.";
+
+        private const string DEFAULT_GENERAL_INFORMATION_LICENSE_TEXT = @"License";
+
+        private const string DEFAULT_GENERAL_INFORMATION_LEARN_MORE_TEXT = @"To learn more, click here.";
+
+        private const string DEFAULT_JOIN_DISCORD_SERVER = @"Join our Discord server.";
+
+        private const string DEFAULT_VIEW_REPOSITORIES = @"View our repositories.";
+
+        private const string DEFAULT_DOWNLOAD_DOCUMENTATION = @"Download the latest documentation.";
+
+        private const string DEFAULT_DOWNLOAD_DEMOS = @"Download the demos.";
+
+        private const string DEFAULT_FILE_NAME_COLUMN_HEADER_TEXT = @"File Name";
+
+        private const string DEFAULT_VERSION_COLUMN_HEADER_TEXT = @"Version";
+
+        private const string DEFAULT_TOOL_BAR_GENERAL_INFORMATION_TEXT = @"General Information";
+
+        private const string DEFAULT_TOOL_BAR_DISCORD_TEXT = @"Discord";
+
+        private const string DEFAULT_TOOL_BAR_DEVELOPER_INFORMATION_TEXT = @"Developer Information";
+
+        private const string DEFAULT_TOOL_BAR_VERSION_INFORMATION_TEXT = @"Version Information";
+
+        #endregion
+
         #region Instance Fields
 
         /// <summary>Shows the discord button.</summary>
-        public bool ShowDiscordButton;
+        public bool ShowDiscordButton { get; set; } = true;
 
         /// <summary>Shows the developer information button.</summary>
-        public bool ShowDeveloperInformationButton;
+        public bool ShowDeveloperInformationButton { get; set; } = true;
 
         /// <summary>Shows the version information button.</summary>
-        public bool ShowVersionInformationButton;
+        public bool ShowVersionInformationButton { get; set; } = true;
 
         /// <summary>Shows the theme options.</summary>
-        public bool ShowThemeOptions;
+        public bool ShowThemeOptions { get; set; } = true;
 
         /// <summary>The show system information button.</summary>
-        public bool ShowSystemInformationButton;
+        public bool ShowSystemInformationButton { get; set; } = true;
 
         //public Font CommonFont;
         //public Font CurrentThemeFont;
         //public Font HeaderFont;
 
         /// <summary>The toolkit type.</summary>
-        public ToolkitType ToolkitType;
+        public ToolkitType ToolkitType { get; set; } = ToolkitType.Stable;
 
         /// <summary>The header text.</summary>
-        public string HeaderText;
+        public string HeaderText { get; set; } = DEFAULT_HEADER_TEXT;
 
         /// <summary>The current theme text.</summary>
-        public string CurrentThemeText;
+        public string CurrentThemeText { get; set; } = DEFAULT_CURRENT_THEME_TEXT;
 
         /// <summary>The general information welcome text.</summary>
-        public string GeneralInformationWelcomeText;
+        public string GeneralInformationWelcomeText { get; set; } = DEFAULT_GENERAL_INFORMATION_WELCOME_TEXT;
 
         /// <summary>The general information license text.</summary>
-        public string GeneralInformationLicenseText;
+        public string GeneralInformationLicenseText { get; set; } = DEFAULT_GENERAL_INFORMATION_LICENSE_TEXT;
 
         /// <summary>The general information learn more text.</summary>
-        public string GeneralInformationLearnMoreText;
+        public string GeneralInformationLearnMoreText { get; set; } = DEFAULT_GENERAL_INFORMATION_LEARN_MORE_TEXT;
 
         /// <summary>The discord text.</summary>
-        public string DiscordText;
+        public string DiscordText { get; set; } = DEFAULT_JOIN_DISCORD_SERVER;
 
         /// <summary>The repository information text.</summary>
-        public string RepositoryInformationText;
+        public string RepositoryInformationText { get; set; } = DEFAULT_VIEW_REPOSITORIES;
 
         /// <summary>The download documentation text.</summary>
-        public string DownloadDocumentationText;
+        public string DownloadDocumentationText { get; set; } = DEFAULT_DOWNLOAD_DOCUMENTATION;
 
         /// <summary>The download demos text.</summary>
-        public string DownloadDemosText;
+        public string DownloadDemosText { get; set; } = DEFAULT_DOWNLOAD_DEMOS;
 
         /// <summary>The file name column header text.</summary>
-        public string FileNameColumnHeaderText;
+        public string FileNameColumnHeaderText { get; set; } = DEFAULT_FILE_NAME_COLUMN_HEADER_TEXT;
 
         /// <summary>The version column header text.</summary>
-        public string VersionColumnHeaderText;
+        public string VersionColumnHeaderText { get; set; } = DEFAULT_VERSION_COLUMN_HEADER_TEXT;
 
         /// <summary>The tool bar general information text.</summary>
-        public string ToolBarGeneralInformationText;
+        public string ToolBarGeneralInformationText { get; set; } = DEFAULT_TOOL_BAR_GENERAL_INFORMATION_TEXT;
 
         /// <summary>The tool bar discord text.</summary>
-        public string ToolBarDiscordText;
+        public string ToolBarDiscordText { get; set; } = DEFAULT_TOOL_BAR_DISCORD_TEXT;
 
         /// <summary>The tool bar developer information text.</summary>
-        public string ToolBarDeveloperInformationText;
+        public string ToolBarDeveloperInformationText { get; set; } = DEFAULT_TOOL_BAR_DEVELOPER_INFORMATION_TEXT;
 
         /// <summary>The tool bar version information text.</summary>
-        public string ToolBarVersionInformationText;
+        public string ToolBarVersionInformationText { get; set; } = DEFAULT_TOOL_BAR_VERSION_INFORMATION_TEXT;
 
         /// <summary>The learn more link area.</summary>
-        public LinkArea LearnMoreLinkArea;
+        public LinkArea LearnMoreLinkArea { get; set; } = new LinkArea(133, 143);
 
         /// <summary>The discord link area.</summary>
-        public LinkArea DiscordLinkArea;
+        public LinkArea DiscordLinkArea { get; set; } = new LinkArea(0, 4);
 
         /// <summary>The repository information link area.</summary>
-        public LinkArea RepositoryInformationLinkArea;
+        public LinkArea RepositoryInformationLinkArea { get; set; } = new LinkArea(0, 4);
 
         /// <summary>The download demos link area.</summary>
-        public LinkArea DownloadDemosLinkArea;
+        public LinkArea DownloadDemosLinkArea { get; set; } = new LinkArea(0, 9);
 
         /// <summary>The documentation link area.</summary>
-        public LinkArea DocumentationLinkArea;
+        public LinkArea DocumentationLinkArea { get; set; } = new LinkArea(0, 9);
 
         #endregion
 

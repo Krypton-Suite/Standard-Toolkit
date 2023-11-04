@@ -16,20 +16,23 @@ namespace Krypton.Toolkit
     {
         #region Implementation
 
-        /// <summary>Shows a new <see cref="KryptonAboutToolkitForm"/>.</summary>
-        /// <param name="data">The data to pass through.</param>
-        /// <returns>A new <see cref="KryptonAboutToolkitForm"/> with the specified data.</returns>
-        public static DialogResult Show(KryptonAboutToolkitData data)
-            => ShowCore(data.HeaderText, data.GeneralInformationWelcomeText, data.GeneralInformationLicenseText,
-                        data.GeneralInformationLearnMoreText, data.CurrentThemeText, data.DiscordText,
-                        data.RepositoryInformationText, data.DownloadDocumentationText, data.DownloadDemosText,
-                        data.FileNameColumnHeaderText, data.VersionColumnHeaderText, data.ToolBarGeneralInformationText,
-                        data.ToolBarDiscordText, data.ToolBarDeveloperInformationText, data.ToolBarVersionInformationText,
-                        data.LearnMoreLinkArea, data.DiscordLinkArea, data.RepositoryInformationLinkArea,
-                        data.DownloadDemosLinkArea, data.DocumentationLinkArea, data.ToolkitType,
-                        data.ShowDiscordButton, data.ShowDeveloperInformationButton,
-                        data.ShowVersionInformationButton,
-                        data.ShowThemeOptions, data.ShowSystemInformationButton);
+        //// <summary>Shows a new <see cref="KryptonAboutToolkitForm"/>.</summary>
+        //// <param name="data">The data to pass through.</param>
+        //// <returns>A new <see cref="KryptonAboutToolkitForm"/> with the specified data.</returns>
+        //public static DialogResult Show(KryptonAboutToolkitData data)
+        //    => ShowCore(data.HeaderText, data.GeneralInformationWelcomeText, data.GeneralInformationLicenseText,
+        //                data.GeneralInformationLearnMoreText, data.CurrentThemeText, data.DiscordText,
+        //                data.RepositoryInformationText, data.DownloadDocumentationText, data.DownloadDemosText,
+        //                data.FileNameColumnHeaderText, data.VersionColumnHeaderText, data.ToolBarGeneralInformationText,
+        //                data.ToolBarDiscordText, data.ToolBarDeveloperInformationText, data.ToolBarVersionInformationText,
+        //                data.LearnMoreLinkArea, data.DiscordLinkArea, data.RepositoryInformationLinkArea,
+        //                data.DownloadDemosLinkArea, data.DocumentationLinkArea, data.ToolkitType,
+        //                data.ShowDiscordButton, data.ShowDeveloperInformationButton,
+        //                data.ShowVersionInformationButton,
+        //                data.ShowThemeOptions, data.ShowSystemInformationButton);
+
+        public static DialogResult Show(KryptonAboutToolkitData aboutToolkitData)
+            => ShowCore(aboutToolkitData);
 
         #endregion
 
@@ -85,6 +88,13 @@ namespace Krypton.Toolkit
                 repositoryInformationLinkArea,
                 downloadDemosLinkArea, documentationLinkArea, toolkitType, showDiscordButton, showDeveloperInformationButton,
                 showVersionInformationButton, showThemeOptions, showSystemInformationButton);
+
+            return kat.ShowDialog();
+        }
+
+        private static DialogResult ShowCore(KryptonAboutToolkitData aboutToolkitData)
+        {
+            using var kat = new KryptonAboutToolkitForm(aboutToolkitData);
 
             return kat.ShowDialog();
         }
