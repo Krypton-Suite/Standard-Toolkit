@@ -244,6 +244,8 @@ namespace Krypton.Toolkit
 
             _showSystemInformationButton = showSystemInformationButton ?? true;
 
+            ConstructData();
+
             // Adjust UI elements
             ShowDeveloperControls(_showDeveloperInformationButton);
 
@@ -286,6 +288,63 @@ namespace Krypton.Toolkit
             UpdateRepositoriesLinkArea(_repositoryInformationLinkArea);
 
             GetReferenceAssemblyInformation();
+        }
+
+        private void ConstructData()
+        {
+            KryptonAboutToolkitData data = new KryptonAboutToolkitData();
+
+            data.HeaderText = _headerText;
+
+            data.GeneralInformationWelcomeText = _generalInformationWelcomeText;
+
+            data.GeneralInformationLicenseText = _generalInformationLicenseText;
+
+            data.GeneralInformationLearnMoreText = _generalInformationLearnMoreText;
+
+            data.CurrentThemeText = _currentThemeText;
+
+            data.DiscordText = _discordText;
+
+            data.RepositoryInformationText = _repositoryInformationText;
+
+            data.DownloadDemosText = _downloadDemosText;
+
+            data.DownloadDocumentationText = _downloadDocumentationText;
+
+            data.FileNameColumnHeaderText = _fileNameColumnHeaderText;
+
+            data.VersionColumnHeaderText = _versionColumnHeaderText;
+
+            data.ToolBarGeneralInformationText = _toolBarGeneralInformationText;
+
+            data.ToolBarDiscordText = _toolBarDiscordText;
+
+            data.ToolBarDeveloperInformationText = _toolBarDeveloperInformationText;
+
+            data.ToolBarVersionInformationText = _toolBarVersionInformationText;
+
+            data.LearnMoreLinkArea = _learnMoreLinkArea;
+
+            data.DiscordLinkArea = _discordLinkArea;
+
+            data.RepositoryInformationLinkArea = _repositoryInformationLinkArea;
+
+            data.DownloadDemosLinkArea = _downloadDemosLinkArea;
+
+            data.DocumentationLinkArea = _documentationLinkArea;
+
+            data.ToolkitType = _toolkitType;
+
+            data.ShowDiscordButton = _showDiscordButton;
+
+            data.ShowDeveloperInformationButton = _showDeveloperInformationButton;
+
+            data.ShowVersionInformationButton = _showVersionInformationButton;
+
+            data.ShowThemeOptions = _showThemeOptions;
+
+            data.ShowSystemInformationButton = _showSystemInformationButton;
         }
 
         private void UpdateCurrentThemeText(string value) => klblCurrentTheme.Text = value;
