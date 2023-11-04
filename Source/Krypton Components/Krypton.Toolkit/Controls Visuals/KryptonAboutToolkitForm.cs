@@ -48,8 +48,8 @@ namespace Krypton.Toolkit
         #region Instance Fields
 
         private bool _showDiscordButton;
-        private bool _showDeveloperButton;
-        private bool _showVersionsButton;
+        private bool _showDeveloperInformationButton;
+        private bool _showVersionInformationButton;
         private bool _showThemeOptions;
         private bool _showSystemInformationButton;
 
@@ -108,7 +108,7 @@ namespace Krypton.Toolkit
         /// <param name="documentationLinkArea">The documentation link area.</param>
         /// <param name="toolkitType">Type of the toolkit.</param>
         /// <param name="showDiscordButton">The show discord button.</param>
-        /// <param name="showDeveloperButton">The show developer button.</param>
+        /// <param name="ShowDeveloperInformationButton">The show developer information button.</param>
         /// <param name="showVersionInformationButton">The show version information button.</param>
         /// <param name="showThemeOptions">The show theme options.</param>
         /// <param name="showSystemInformationButton">The show system information button.</param>
@@ -121,7 +121,7 @@ namespace Krypton.Toolkit
                                        string? toolBarDeveloperInformationText, string? toolBarVersionInformationText,
                                        LinkArea? learnMoreLinkArea,
                                        LinkArea? discordLinkArea, LinkArea? repositoryInformationLinkArea, LinkArea? downloadDemosLinkArea,
-                                       LinkArea? documentationLinkArea, ToolkitType? toolkitType, bool? showDiscordButton, bool? showDeveloperButton,
+                                       LinkArea? documentationLinkArea, ToolkitType? toolkitType, bool? showDiscordButton, bool? ShowDeveloperInformationButton,
                                        bool? showVersionInformationButton, bool? showThemeOptions, bool? showSystemInformationButton)
         {
             InitializeComponent();
@@ -130,31 +130,13 @@ namespace Krypton.Toolkit
 
             kbtnSystemInformation.Text = KryptonManager.Strings.CustomStrings.SystemInformation;
 
-            CustomStartup(headerText, generalInformationWelcomeText, generalInformationLicenseText, generalInformationLearnMoreText, currentThemeText,
+            InitialiseDialog(headerText, generalInformationWelcomeText, generalInformationLicenseText, generalInformationLearnMoreText, currentThemeText,
                           discordText, repositoryInformationText, downloadDocumentationText, downloadDemosText, fileNameColumnHeaderText,
                           versionColumnHeaderText, toolBarGeneralInformationText, toolBarDiscordText,
                           toolBarDeveloperInformationText, toolBarVersionInformationText,
                           learnMoreLinkArea, discordLinkArea, repositoryInformationLinkArea,
-                          downloadDemosLinkArea, documentationLinkArea, toolkitType, showDiscordButton, showDeveloperButton,
+                          downloadDemosLinkArea, documentationLinkArea, toolkitType, showDiscordButton, ShowDeveloperInformationButton,
                           showVersionInformationButton, showThemeOptions, showSystemInformationButton);
-        }
-
-        public KryptonAboutToolkitForm(KryptonAboutToolkitData aboutToolkitData)
-        {
-            InitializeComponent();
-
-            KryptonAboutToolkitData data = aboutToolkitData;
-
-            kbtnOk.Text = KryptonManager.Strings.GeneralStrings.OK;
-
-            kbtnSystemInformation.Text = KryptonManager.Strings.CustomStrings.SystemInformation;
-
-            Startup(data.HeaderText, data.GeneralInformationWelcomeText, data.GeneralInformationLicenseText, data.GeneralInformationLearnMoreText, data.CurrentThemeText,
-                    data.DiscordText, data.RepositoryInformationText, data.DownloadDocumentationText, data.DownloadDemosText, data.FileNameColumnHeaderText,
-                    data.VersionColumnHeaderText, data.ToolBarGeneralInformationText, data.ToolBarDiscordText, data.ToolBarDeveloperInformationText,
-                    data.ToolBarVersionInformationText, data.LearnMoreLinkArea, data.DiscordLinkArea, data.RepositoryInformationLinkArea, data.DownloadDemosLinkArea,
-                    data.DocumentationLinkArea, data.ToolkitType, data.ShowDiscordButton, data.ShowDeveloperInformationButton, data.ShowVersionInformationButton,
-                    data.ShowThemeOptions, data.ShowSystemInformationButton);
         }
 
         #endregion
@@ -164,60 +146,6 @@ namespace Krypton.Toolkit
         private void kbtnOk_Click(object sender, EventArgs e) => Close();
 
         private void kbtnSystemInformation_Click(object sender, EventArgs e) => GlobalToolkitUtilities.LaunchProcess(@"MSInfo32.exe");
-
-        private void Startup(string headerText, string generalInformationWelcomeText,
-                             string generalInformationLicenseText, string generalInformationLearnMoreText,
-                             string currentThemeText, string discordText, string repositoryInformationText,
-                             string downloadDocumentationText, string downloadDemosText, string fileNameColumnHeaderText,
-                             string versionColumnHeaderText, string toolBarGeneralInformationText, string toolBarDiscordText,
-                             string toolBarDeveloperInformationText, string toolBarVersionInformationText,
-                             LinkArea learnMoreLinkArea, LinkArea discordLinkArea, LinkArea repositoryInformationLinkArea,
-                             LinkArea downloadDemosLinkArea, LinkArea documentationLinkArea, ToolkitType toolkitType,
-                             bool showDiscordButton, bool showDeveloperInformationButton, bool showVersionInformationButton,
-                             bool showThemeOptions, bool showSystemInformationButton)
-        {
-            ShowDeveloperControls(showDeveloperInformationButton);
-
-            ShowDiscordControls(showDiscordButton);
-
-            ShowVersionControls(showVersionInformationButton);
-
-            ShowThemeControls(showThemeOptions);
-
-            UpdateCurrentThemeText($@"{currentThemeText}:");
-
-            ShowSystemInformationButton(showSystemInformationButton);
-
-            SwitchIcon(toolkitType);
-
-            UpdateHeaderText($@"{headerText} Krypton Standard Toolkit");
-
-            ConcatanateGeneralInformationText(generalInformationWelcomeText, generalInformationLicenseText, generalInformationLearnMoreText);
-
-            UpdateDiscordText(discordText);
-
-            UpdateRepositoriesText(repositoryInformationText);
-
-            UpdateDemosText(downloadDemosText);
-
-            UpdateDocumentationText(downloadDocumentationText);
-
-            UpdateColumnHeadings(fileNameColumnHeaderText, versionColumnHeaderText);
-
-            UpdateToolBarText(toolBarGeneralInformationText, toolBarDiscordText, toolBarDeveloperInformationText, toolBarVersionInformationText);
-
-            UpdateGeneralInformationLinkArea(learnMoreLinkArea);
-
-            UpdateDocumentationLinkArea(documentationLinkArea);
-
-            UpdateDiscordLinkArea(discordLinkArea);
-
-            UpdateDemosLinkArea(downloadDemosLinkArea);
-
-            UpdateRepositoriesLinkArea(repositoryInformationLinkArea);
-
-            GetReferenceAssemblyInformation();
-        }
 
         /// <summary>Create a new <see cref="KryptonAboutToolkitForm" /> with selected values.</summary>
         /// <param name="headerText">The header text.</param>
@@ -242,22 +170,26 @@ namespace Krypton.Toolkit
         /// <param name="documentationLinkArea">The documentation link area.</param>
         /// <param name="toolkitType">Type of the toolkit.</param>
         /// <param name="showDiscordButton">The show discord button.</param>
-        /// <param name="showDeveloperButton">The show developer button.</param>
+        /// <param name="showDeveloperInformationButton">The show developer information button.</param>
         /// <param name="showVersionInformationButton">The show version information button.</param>
         /// <param name="showThemeOptions">The show theme options.</param>
         /// <param name="showSystemInformationButton">The show system information button.</param>
-        private void CustomStartup(string? headerText, string? generalInformationWelcomeText,
-            string? generalInformationLicenseText,
-            string? generalInformationLearnMoreText, string? currentThemeText, string? discordText,
-            string? repositoryInformationText, string? downloadDocumentationText, string? downloadDemosText,
-            string? fileNameColumnHeaderText, string? versionColumnHeaderText,
-            string? toolBarGeneralInformationText, string? toolBarDiscordText,
-            string? toolBarDeveloperInformationText, string? toolBarVersionInformationText,
-            LinkArea? learnMoreLinkArea,
-            LinkArea? discordLinkArea, LinkArea? repositoryInformationLinkArea, LinkArea? downloadDemosLinkArea,
-            LinkArea? documentationLinkArea, ToolkitType? toolkitType, bool? showDiscordButton,
-            bool? showDeveloperButton,
-            bool? showVersionInformationButton, bool? showThemeOptions, bool? showSystemInformationButton)
+        private void InitialiseDialog(string? headerText, string? generalInformationWelcomeText,
+                                      string? generalInformationLicenseText,
+                                      string? generalInformationLearnMoreText, string? currentThemeText,
+                                      string? discordText, string? repositoryInformationText,
+                                      string? downloadDocumentationText, string? downloadDemosText,
+                                      string? fileNameColumnHeaderText, string? versionColumnHeaderText,
+                                      string? toolBarGeneralInformationText, string? toolBarDiscordText,
+                                      string? toolBarDeveloperInformationText,
+                                      string? toolBarVersionInformationText,
+                                      LinkArea? learnMoreLinkArea, LinkArea? discordLinkArea,
+                                      LinkArea? repositoryInformationLinkArea,
+                                      LinkArea? downloadDemosLinkArea, LinkArea? documentationLinkArea,
+                                      ToolkitType? toolkitType, bool? showDiscordButton,
+                                      bool? showDeveloperInformationButton,
+                                      bool? showVersionInformationButton, bool? showThemeOptions,
+                                      bool? showSystemInformationButton)
         {
             // Fill in the fields
             _headerText = headerText ?? DEFAULT_HEADER_TEXT;
@@ -304,20 +236,20 @@ namespace Krypton.Toolkit
 
             _showDiscordButton = showDiscordButton ?? true;
 
-            _showDeveloperButton = showDeveloperButton ?? true;
+            _showDeveloperInformationButton = showDeveloperInformationButton ?? true;
 
-            _showVersionsButton = showVersionInformationButton ?? true;
+            _showVersionInformationButton = showVersionInformationButton ?? true;
 
             _showThemeOptions = showThemeOptions ?? true;
 
             _showSystemInformationButton = showSystemInformationButton ?? true;
 
             // Adjust UI elements
-            ShowDeveloperControls(_showDeveloperButton);
+            ShowDeveloperControls(_showDeveloperInformationButton);
 
             ShowDiscordControls(_showDiscordButton);
 
-            ShowVersionControls(_showVersionsButton);
+            ShowVersionControls(_showVersionInformationButton);
 
             ShowThemeControls(_showThemeOptions);
 
