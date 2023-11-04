@@ -31,6 +31,9 @@ namespace Krypton.Toolkit
         //                data.ShowVersionInformationButton,
         //                data.ShowThemeOptions, data.ShowSystemInformationButton);
 
+        /// <summary>Shows a new <see cref="KryptonAboutToolkitForm"/>.</summary>
+        /// <param name="aboutToolkitData">The data to pass through.</param>
+        /// <returns>A new <see cref="KryptonAboutToolkitForm"/> with the specified data.</returns>
         public static DialogResult Show(KryptonAboutToolkitData aboutToolkitData)
             => ShowCore(aboutToolkitData);
 
