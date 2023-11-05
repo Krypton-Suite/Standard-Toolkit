@@ -41,7 +41,7 @@ namespace Krypton.Toolkit
 
         #region Instance Fields
 
-        private AboutToolkitManager _manager = new AboutToolkitManager();
+        private readonly AboutToolkitManager _manager = new AboutToolkitManager();
 
         private bool _showDiscordButton;
         private bool _showDeveloperButton;

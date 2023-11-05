@@ -249,12 +249,10 @@
             this.Controls.Add(this.kryptonPanel1);
             this.Controls.Add(this.kryptonGroupBox1);
             this.Controls.Add(this.kryptonNavigator1);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "Form4";
             this.Text = "Form4";
             this.TopMost = true;
-            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             ((System.ComponentModel.ISupportInitialize)(this.kryptonNavigator1)).EndInit();
             this.kryptonNavigator1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPage3)).EndInit();

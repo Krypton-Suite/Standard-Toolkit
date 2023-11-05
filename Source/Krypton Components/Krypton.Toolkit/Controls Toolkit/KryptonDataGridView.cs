@@ -2395,7 +2395,7 @@ namespace Krypton.Toolkit
 
             try
             {
-                return (string)_miGTTT!.Invoke(cell, new object[] { row });
+                return _miGTTT!.Invoke(cell, new object[] { row }) as string ?? string.Empty;
             }
             catch
             {
@@ -2416,7 +2416,7 @@ namespace Krypton.Toolkit
 
             try
             {
-                return (string)_miGET!.Invoke(cell, new object[] { row });
+                return _miGET!.Invoke(cell, new object[] { row }) as string ?? string.Empty;
             }
             catch
             {
@@ -2478,7 +2478,7 @@ namespace Krypton.Toolkit
                                                                            BindingFlags.GetField);
             }
 
-            return (string)_miATT!.Invoke(this, new object[] { false, string.Empty, -1, -1 });
+            return _miATT!.Invoke(this, new object[] { false, string.Empty, -1, -1 }) as string ?? string.Empty;
         }
 
         private string TruncateToolTipText(string toolTipText)
@@ -2609,7 +2609,7 @@ namespace Krypton.Toolkit
         private void OnContextMenuStripOpening(object sender, CancelEventArgs e)
         {
             // Get the actual strip instance
-            ContextMenuStrip cms = base.ContextMenuStrip;
+            ContextMenuStrip? cms = base.ContextMenuStrip;
 
             // Make sure it has the correct renderer
             cms.Renderer = CreateToolStripRenderer();

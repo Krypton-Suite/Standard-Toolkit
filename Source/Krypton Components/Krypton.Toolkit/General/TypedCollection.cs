@@ -293,7 +293,7 @@ namespace Krypton.Toolkit
             // Not allow to add the same item more than once
             if (_list.Contains(item))
             {
-                throw new ArgumentOutOfRangeException(nameof(item), @"Item already in collection");
+                throw new ArgumentOutOfRangeException(nameof(item), @"Item is already in collection");
             }
 
             // Generate before insert event

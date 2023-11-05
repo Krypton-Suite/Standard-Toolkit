@@ -25,7 +25,7 @@ namespace Krypton.Toolkit
         private CommonDialogHandler.Attributes _redEdit;
         private CommonDialogHandler.Attributes _greenEdit;
         private CommonDialogHandler.Attributes _blueEdit;
-        private System.Windows.Forms.Timer _alphaUpdateTimer;
+        private readonly System.Windows.Forms.Timer _alphaUpdateTimer;
         #endregion
 
         /// <summary>

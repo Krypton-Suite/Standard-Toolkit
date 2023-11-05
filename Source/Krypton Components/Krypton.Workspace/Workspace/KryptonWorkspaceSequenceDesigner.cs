@@ -101,7 +101,7 @@ namespace Krypton.Workspace
 
                 // Climb the workspace item tree to get the top most sequence
                 KryptonWorkspace? workspace = null;
-                IWorkspaceItem workspaceItem = _sequence;
+                IWorkspaceItem? workspaceItem = _sequence;
                 while (workspaceItem?.WorkspaceParent != null)
                 {
                     workspaceItem = workspaceItem.WorkspaceParent;

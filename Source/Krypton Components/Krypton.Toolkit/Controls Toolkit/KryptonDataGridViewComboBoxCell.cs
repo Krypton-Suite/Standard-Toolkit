@@ -284,8 +284,8 @@ namespace Krypton.Toolkit
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         public override void DetachEditingControl()
         {
-            DataGridView dataGridView = DataGridView;
-            switch (dataGridView.EditingControl)
+            DataGridView? dataGridView = DataGridView;
+            switch (dataGridView?.EditingControl)
             {
                 case null:
                     throw new InvalidOperationException(@"Cell is detached or its grid has no editing control.");

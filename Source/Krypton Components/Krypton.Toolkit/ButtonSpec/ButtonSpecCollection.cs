@@ -210,7 +210,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="index">Object index.</param>
         /// <returns>Object at specified index.</returns>
-        object IList.this[int index]
+        object? IList.this[int index]
         {
             get => _specs[index];
 

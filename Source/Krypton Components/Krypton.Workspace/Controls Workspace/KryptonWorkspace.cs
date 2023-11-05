@@ -3203,7 +3203,7 @@ namespace Krypton.Workspace
                 if (workspaceItem != null)
                 {
                     // If no separator is associated with workspace, then create one now
-                    if ( !_workspaceToSeparator.TryGetValue(workspaceItem, out ViewDrawWorkspaceSeparator viewSeparator))
+                    if ( !_workspaceToSeparator.TryGetValue(workspaceItem, out var viewSeparator))
                     {
                         // Create a view for the separator area
                         viewSeparator = new ViewDrawWorkspaceSeparator(this, workspaceItem, seq.Orientation)

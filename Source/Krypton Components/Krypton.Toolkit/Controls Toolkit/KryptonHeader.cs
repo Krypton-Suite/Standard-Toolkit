@@ -532,7 +532,7 @@ namespace Krypton.Toolkit
             if (!IsDisposed)
             {
                 // Do not show tooltips when the form we are in does not have focus
-                Form topForm = FindForm();
+                Form? topForm = FindForm();
                 if (topForm is { ContainsFocus: false })
                 {
                     return;
@@ -547,7 +547,7 @@ namespace Krypton.Toolkit
                     var shadow = true;
 
                     // Find the button spec associated with the tooltip request
-                    ButtonSpec buttonSpec = _buttonManager.ButtonSpecFromView(e.Target);
+                    ButtonSpec? buttonSpec = _buttonManager.ButtonSpecFromView(e.Target);
 
                     // If the tooltip is for a button spec
                     if (buttonSpec != null)

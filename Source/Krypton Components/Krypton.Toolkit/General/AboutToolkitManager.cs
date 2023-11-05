@@ -16,7 +16,7 @@ namespace Krypton.Toolkit
 
         private AboutToolkitValues _values;
 
-        private KryptonAboutToolkitControl _aboutToolkitControl;
+        private readonly KryptonAboutToolkitControl _aboutToolkitControl;
 
         #endregion
 

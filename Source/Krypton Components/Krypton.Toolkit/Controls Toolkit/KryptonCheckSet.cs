@@ -43,7 +43,7 @@ namespace Krypton.Toolkit
             public KryptonCheckButtonCollection([DisallowNull] KryptonCheckSet owner)
             {
                 Debug.Assert(owner != null);
-                _owner = owner;
+                _owner = owner!;
             }
             #endregion
 
