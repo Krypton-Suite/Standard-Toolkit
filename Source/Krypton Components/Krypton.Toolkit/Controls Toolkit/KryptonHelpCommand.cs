@@ -66,7 +66,7 @@ namespace Krypton.Toolkit
         {
             _imageStates = new ButtonImageStates();
 
-            Text = KryptonLanguageManager.ButtonSpecStyles.FormHelp;
+            Text = KryptonManager.Strings.ButtonStyleStrings.FormHelp;
         }
 
         #endregion

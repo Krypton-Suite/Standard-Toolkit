@@ -104,8 +104,8 @@ namespace Krypton.Toolkit
                 cueTypeface, usePasswordOption);
             ib.StartPosition = showOwner == null ? FormStartPosition.CenterScreen : FormStartPosition.CenterParent;
 
-            return ib.ShowDialog(showOwner) == DialogResult.OK 
-                ? ib.InputResponse 
+            return ib.ShowDialog(showOwner) == DialogResult.OK
+                ? ib.InputResponse
                 : string.Empty;
         }
 
@@ -136,8 +136,8 @@ namespace Krypton.Toolkit
 
         private void UpdateButtons()
         {
-            _buttonOk.Text = KryptonLanguageManager.GeneralToolkitStrings.OK;
-            _buttonCancel.Text = KryptonLanguageManager.GeneralToolkitStrings.Cancel;
+            _buttonOk.Text = KryptonManager.Strings.GeneralStrings.OK;
+            _buttonCancel.Text = KryptonManager.Strings.GeneralStrings.Cancel;
         }
 
         private void Response_KeyDown(object sender, KeyEventArgs e)

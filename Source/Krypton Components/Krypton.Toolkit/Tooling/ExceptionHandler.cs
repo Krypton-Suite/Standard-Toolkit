@@ -25,7 +25,8 @@ namespace Krypton.Toolkit
         }
         #endregion
 
-        #region Methods
+        #region Implementation
+
         /// <summary>Captures the exception.</summary>
         /// <param name="exception">The exception.</param>
         /// <param name="title">The title.</param>
@@ -35,21 +36,36 @@ namespace Krypton.Toolkit
         /// <param name="methodSignature">The method signature.</param>
         public static void CaptureException(Exception exception, string title = @"Exception Caught", KryptonMessageBoxButtons buttons = KryptonMessageBoxButtons.OK, KryptonMessageBoxIcon icon = KryptonMessageBoxIcon.Warning, string className = "", string methodSignature = "")
         {
+            KryptonCommand internalCommand = new KryptonCommand();
+
+            internalCommand.Execute += (sender, args) => GlobalToolkitUtilities.LaunchProcess(@"https://github.com/Krypton-Suite/Standard-Toolkit/issues/new/choose");
+
             if (className != "")
             {
-                KryptonMessageBox.Show($"An unexpected error has occurred: {exception.Message}.\n\nError in class: '{className}.cs'.", title, buttons, icon);
+                string text =
+                    $"An unexpected error has occurred: {exception.Message}.\n\nError in class: '{className}.cs'.\n\nPost a new bug report.";
+
+                KryptonMessageBox.Show(text, title, buttons, icon, actionButtonCommand: internalCommand, contentAreaType: MessageBoxContentAreaType.LinkLabel, contentLinkArea: new LinkArea(text.Length - 7, text.Length - 1));
             }
             else if (methodSignature != "")
             {
-                KryptonMessageBox.Show($"An unexpected error has occurred: {exception.Message}.\n\nError in method: '{methodSignature}'.", title, buttons, icon);
+                string text =
+                    $"An unexpected error has occurred: {exception.Message}.\n\nError in method: '{methodSignature}'.\n\nPost a new bug report.";
+
+                KryptonMessageBox.Show(text, title, buttons, icon, actionButtonCommand: internalCommand, contentAreaType: MessageBoxContentAreaType.LinkLabel, contentLinkArea: new LinkArea(text.Length - 7, text.Length - 1));
             }
             else if (className != "" && methodSignature != "")
             {
-                KryptonMessageBox.Show($"An unexpected error has occurred: {exception.Message}.\n\nError in class: '{className}.cs'.\n\nError in method: '{methodSignature}'.", title, buttons, icon);
+                string text =
+                    $"An unexpected error has occurred: {exception.Message}.\n\nError in class: '{className}.cs'.\n\nError in method: '{methodSignature}'.\n\nPost a new bug report.";
+
+                KryptonMessageBox.Show(text, title, buttons, icon, actionButtonCommand: internalCommand, contentAreaType: MessageBoxContentAreaType.LinkLabel, contentLinkArea: new LinkArea(text.Length - 7, text.Length - 1));
             }
             else
             {
-                KryptonMessageBox.Show($"An unexpected error has occurred: {exception.Message}.", title, buttons, icon);
+                string text = $"An unexpected error has occurred: {exception.Message}.\n\nPost a new bug report.";
+
+                KryptonMessageBox.Show(text, title, buttons, icon, actionButtonCommand: internalCommand, contentAreaType: MessageBoxContentAreaType.LinkLabel, contentLinkArea: new LinkArea(text.Length - 7, text.Length - 1));
             }
         }
 
@@ -104,6 +120,7 @@ namespace Krypton.Toolkit
                 CaptureException(e);
             }
         }
+
         #endregion
     }
 }

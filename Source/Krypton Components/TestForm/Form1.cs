@@ -18,17 +18,22 @@ namespace TestForm
 
         private void textBox1_Validated(object sender, EventArgs e) => AddEvent(nameof(textBox1_Validated));
 
-        private void kryptonTextBox1_Validated(object sender, EventArgs e) => AddEvent(nameof(kryptonTextBox1_Validated));
+        private void kryptonTextBox1_Validated(object sender, EventArgs e) =>
+            AddEvent(nameof(kryptonTextBox1_Validated));
 
-        private void kryptonTextBox1_DoubleClick(object sender, EventArgs e) => AddEvent(nameof(kryptonTextBox1_DoubleClick));
+        private void kryptonTextBox1_DoubleClick(object sender, EventArgs e) =>
+            AddEvent(nameof(kryptonTextBox1_DoubleClick));
 
-        private void kryptonTextBox1_MouseDoubleClick(object sender, MouseEventArgs e) => AddEvent(nameof(kryptonTextBox1_MouseDoubleClick));
+        private void kryptonTextBox1_MouseDoubleClick(object sender, MouseEventArgs e) =>
+            AddEvent(nameof(kryptonTextBox1_MouseDoubleClick));
 
-        private void kryptonTextBox1_MouseClick(object sender, MouseEventArgs e) => AddEvent(nameof(kryptonTextBox1_MouseClick));
+        private void kryptonTextBox1_MouseClick(object sender, MouseEventArgs e) =>
+            AddEvent(nameof(kryptonTextBox1_MouseClick));
 
         private void kryptonTextBox1_Click(object sender, EventArgs e) => AddEvent(nameof(kryptonTextBox1_Click));
 
-        private void textBox1_MouseDoubleClick(object sender, MouseEventArgs e) => AddEvent(nameof(textBox1_MouseDoubleClick));
+        private void textBox1_MouseDoubleClick(object sender, MouseEventArgs e) =>
+            AddEvent(nameof(textBox1_MouseDoubleClick));
 
         private void textBox1_MouseClick(object sender, MouseEventArgs e) => AddEvent(nameof(textBox1_MouseClick));
 
@@ -38,15 +43,20 @@ namespace TestForm
 
         private void textBox1_Validating(object sender, CancelEventArgs e) => AddEvent(nameof(textBox1_Validating));
 
-        private void kryptonTextBox1_Validating(object sender, CancelEventArgs e) => AddEvent(nameof(kryptonTextBox1_Validating));
+        private void kryptonTextBox1_Validating(object sender, CancelEventArgs e) =>
+            AddEvent(nameof(kryptonTextBox1_Validating));
 
-        private void textBox1_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e) => AddEvent(nameof(textBox1_PreviewKeyDown));
+        private void textBox1_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e) =>
+            AddEvent(nameof(textBox1_PreviewKeyDown));
 
-        private void kryptonTextBox1_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e) => AddEvent(nameof(kryptonTextBox1_PreviewKeyDown));
+        private void kryptonTextBox1_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e) =>
+            AddEvent(nameof(kryptonTextBox1_PreviewKeyDown));
 
-        private void kryptonTextBox1_KeyDown(object sender, KeyEventArgs e) => AddEvent(nameof(kryptonTextBox1_KeyDown));
+        private void kryptonTextBox1_KeyDown(object sender, KeyEventArgs e) =>
+            AddEvent(nameof(kryptonTextBox1_KeyDown));
 
-        private void kryptonTextBox1_KeyPress(object sender, KeyPressEventArgs e) => AddEvent(nameof(kryptonTextBox1_KeyPress));
+        private void kryptonTextBox1_KeyPress(object sender, KeyPressEventArgs e) =>
+            AddEvent(nameof(kryptonTextBox1_KeyPress));
 
         private void kryptonTextBox1_KeyUp(object sender, KeyEventArgs e) => AddEvent(nameof(kryptonTextBox1_KeyUp));
 
@@ -70,9 +80,10 @@ namespace TestForm
             form3.ShowDialog();
         }
 
-        private void kbtnTestMessagebox_Click(object sender, EventArgs e) => KryptonMessageBox.Show(@"This is a test!", @"Testing", KryptonMessageBoxButtons.OK,
-                KryptonMessageBoxIcon.Information, contentAreaType: MessageBoxContentAreaType.LinkLabel,
-                linkAreaCommand: kcmdMessageboxTest);
+        private void kbtnTestMessagebox_Click(object sender, EventArgs e) => KryptonMessageBox.Show(@"This is a test!",
+            @"Testing", KryptonMessageBoxButtons.OK,
+            KryptonMessageBoxIcon.Information, contentAreaType: MessageBoxContentAreaType.LinkLabel,
+            linkAreaCommand: kcmdMessageboxTest);
 
         private void kcmdMessageboxTest_Execute(object sender, EventArgs e)
         {
@@ -124,19 +135,12 @@ namespace TestForm
 
         private void kryptonButton5_Click(object sender, EventArgs e)
         {
-            Form6 poweredByControl = new Form6();
-
-            poweredByControl.Show();
+            KryptonAboutToolkit.Show();
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            foreach (string name in Enum.GetNames(typeof(FormBorderStyle)))
-            {
-                kcmbBorderStyle.Items.Add(name);
-            }
-
-            kcmbBorderStyle.SelectedIndex = 0;
+            kcbtnNone.Checked = true;
         }
 
         private void kbtnExit_Click(object sender, EventArgs e)
@@ -154,9 +158,39 @@ namespace TestForm
             kryptonCustomPaletteBase1.Export();
         }
 
-        private void kcmbBorderStyle_SelectedIndexChanged(object sender, EventArgs e)
+        private void kcbtnNone_Click(object sender, EventArgs e)
         {
-            FormBorderStyle = (FormBorderStyle)Enum.Parse(typeof(FormBorderStyle), kcmbBorderStyle.Text);
+            FormBorderStyle = FormBorderStyle.None;
+        }
+
+        private void kcbtnFixedSingle_Click(object sender, EventArgs e)
+        {
+            FormBorderStyle = FormBorderStyle.FixedSingle;
+        }
+
+        private void kcbtnFixed3D_Click(object sender, EventArgs e)
+        {
+            FormBorderStyle = FormBorderStyle.Fixed3D;
+        }
+
+        private void kcbtnFixedDialog_Click(object sender, EventArgs e)
+        {
+            FormBorderStyle = FormBorderStyle.FixedDialog;
+        }
+
+        private void kcbtnSizable_Click(object sender, EventArgs e)
+        {
+            FormBorderStyle = FormBorderStyle.Sizable;
+        }
+
+        private void kcbtnFixedToolWindow_Click(object sender, EventArgs e)
+        {
+            FormBorderStyle = FormBorderStyle.FixedToolWindow;
+        }
+
+        private void kcbtnSizableToolWindow_Click(object sender, EventArgs e)
+        {
+            FormBorderStyle = FormBorderStyle.SizableToolWindow;
         }
     }
 }

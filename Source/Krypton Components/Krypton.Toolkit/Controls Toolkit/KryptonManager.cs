@@ -37,7 +37,7 @@ namespace Krypton.Toolkit
 
         private static PaletteBase? _customPalette;
 
-        private static KryptonLanguageManager? _languageManager;
+        private static KryptonGlobalToolkitStrings? _languageManager;
 
         #region Office 2007 Themes
 
@@ -211,8 +211,8 @@ namespace Krypton.Toolkit
         public bool IsDefault => !(ShouldSerializeGlobalPaletteMode() ||
                                    ShouldSerializeGlobalPalette() ||
                                    ShouldSerializeGlobalApplyToolstrips() ||
-                                   ShouldSerializeGlobalAllowFormChrome() /*||
-                                   ShouldSerializeToolkitStringValues() */);
+                                   ShouldSerializeGlobalAllowFormChrome() ||
+                                   ShouldSerializeToolkitStrings());
 
         /// <summary>
         /// Reset All values
@@ -223,7 +223,7 @@ namespace Krypton.Toolkit
             ResetGlobalPalette();
             ResetGlobalApplyToolstrips();
             ResetGlobalAllowFormChrome();
-            //ResetToolkitStringValues();
+            ResetToolkitStrings();
 
             _customPalette = null;
 
@@ -409,26 +409,24 @@ namespace Krypton.Toolkit
             set => _customPalette = value;
         }
 
-        /// <summary>Gets or sets the language manager.</summary>
-        /// <value>The language manager.</value>
+
+        /// <summary>Gets the toolkit strings that can be localised.</summary>
         [Category(@"Visuals")]
         [Description(@"")]
-        [DefaultValue(null)]
-        public KryptonLanguageManager? LanguageManager { get => _languageManager; set => _languageManager = value; }
-
-        /*/// <summary>Gets the global toolkit strings.</summary>
-        /// <value>The global toolkit strings.</value>
-        [Category(@"Visuals")]
-        [Description(@"Collection of toolkit strings.")]
         [MergableProperty(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         [Localizable(true)]
-        public ToolkitStringValues ToolkitStringValues => _toolkitStringValues;
+        public KryptonGlobalToolkitStrings ToolkitStrings => Strings;
 
-        private bool ShouldSerializeToolkitStringValues() => !_toolkitStringValues.IsDefault;
+        private bool ShouldSerializeToolkitStrings() => !Strings.IsDefault;
 
-        /// <summary>Resets the toolkit string values.</summary>
-        public void ResetToolkitStringValues() => _toolkitStringValues.Reset();*/
+        public void ResetToolkitStrings() => Strings.Reset();
+
+        #endregion
+
+        #region Static Strings
+
+        public static KryptonGlobalToolkitStrings Strings { get; } = new KryptonGlobalToolkitStrings();
 
         #endregion
 

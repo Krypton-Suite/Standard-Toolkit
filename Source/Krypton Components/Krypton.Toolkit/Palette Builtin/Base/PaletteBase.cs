@@ -1729,8 +1729,8 @@ namespace Krypton.Toolkit
         {
             get => _baseFont;
 
-            set 
-            { 
+            set
+            {
                 _baseFont = value;
                 DefineFonts();
                 // Call an event to force repaint style things
@@ -1739,7 +1739,7 @@ namespace Krypton.Toolkit
         }
         private void ResetBaseFont() => BaseFont = _defaultFontStyle;
         [EditorBrowsable(EditorBrowsableState.Never)]
-        internal bool ShouldSerializeBaseFont() => !BaseFont.Equals( _defaultFontStyle );
+        internal bool ShouldSerializeBaseFont() => !BaseFont.Equals(_defaultFontStyle);
 
         /// <summary>Gets or sets the name of the theme.</summary>
         /// <value>The name of the theme.</value>
