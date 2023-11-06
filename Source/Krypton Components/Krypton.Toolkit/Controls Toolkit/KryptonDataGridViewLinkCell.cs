@@ -115,7 +115,7 @@ namespace Krypton.Toolkit
         {
             try
             {
-                var kDGV = (KryptonDataGridView)DataGridView;
+                var kDGV = DataGridView as KryptonDataGridView;
 
                 // Ensure the view classes are created and hooked up
                 CreateViewAndPalettes(kDGV);

@@ -94,14 +94,14 @@ namespace Krypton.Workspace
         private void OnComponentRemoving(object sender, ComponentEventArgs e)
         {
             // If our sequence is being removed
-            if (e.Component == _sequence)
+            if (Equals(e.Component, _sequence))
             {
                 // Need access to host in order to delete a component
-                var host = (IDesignerHost)GetService(typeof(IDesignerHost));
+                var host = GetService(typeof(IDesignerHost)) as IDesignerHost;
 
                 // Climb the workspace item tree to get the top most sequence
                 KryptonWorkspace? workspace = null;
-                IWorkspaceItem workspaceItem = _sequence;
+                IWorkspaceItem? workspaceItem = _sequence;
                 while (workspaceItem?.WorkspaceParent != null)
                 {
                     workspaceItem = workspaceItem.WorkspaceParent;

@@ -27,9 +27,9 @@ namespace Krypton.Toolkit
         private IPaletteTriple? _checkedTracking;
         private IPaletteTriple? _focusOverride;
         private IPaletteTriple? _normalDefaultOverride;
-        private IPaletteTriple? _contextNormal;
-        private IPaletteTriple? _contextPressed;
-        private IPaletteTriple? _contextTracking;
+        private readonly IPaletteTriple? _contextNormal;
+        private readonly IPaletteTriple? _contextPressed;
+        private readonly IPaletteTriple? _contextTracking;
         #endregion
 
         #region Identity

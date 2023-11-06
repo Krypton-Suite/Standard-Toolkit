@@ -123,7 +123,7 @@ namespace Krypton.Toolkit
         } = new Padding(-1);
 
         /// <summary>
-        /// Check a short cut menu for a matching short and invoke that item if found.
+        /// Check a short-cut menu for a matching short and invoke that item if found.
         /// </summary>
         /// <param name="cms">ContextMenuStrip instance to check.</param>
         /// <param name="msg">Windows message that generated check.</param>
@@ -1602,6 +1602,14 @@ namespace Krypton.Toolkit
         /// <returns></returns>
         public static Bitmap ScaleImageForSizedDisplay(Image src, float trgtWidth, float trgtHeight)
         {
+            if (trgtWidth <= 0 || trgtHeight <= 0)
+            {
+                // For some reason, in the designer it can send a rect that has a negative size element,
+                // therefore the targets will also be negative
+                return new Bitmap(0, 0);
+            }
+
+
             var newImage = new Bitmap((int)trgtWidth, (int)trgtHeight);
             using Graphics gr = Graphics.FromImage(newImage);
             gr.Clear(Color.Transparent);

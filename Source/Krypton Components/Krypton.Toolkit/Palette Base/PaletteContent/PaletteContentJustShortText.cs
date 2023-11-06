@@ -13,7 +13,7 @@
 namespace Krypton.Toolkit
 {
     /// <summary>
-    /// Implement storage but remove accesss to the non short text properties.
+    /// Implement storage but remove access to the non short text properties.
     /// </summary>
     public class PaletteContentJustShortText : PaletteContentJustText
     {

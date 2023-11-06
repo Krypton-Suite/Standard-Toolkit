@@ -210,7 +210,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="index">Object index.</param>
         /// <returns>Object at specified index.</returns>
-        object IList.this[int index]
+        object? IList.this[int index]
         {
             get => _specs[index];
 
@@ -300,7 +300,7 @@ namespace Krypton.Toolkit
         /// <returns>T at specified index.</returns>
         public T? this[string uniqueName]
         {
-            get 
+            get
             {
                 // First priority is the UniqueName
                 foreach (T bs in this.Where(bs => bs.UniqueName == uniqueName))

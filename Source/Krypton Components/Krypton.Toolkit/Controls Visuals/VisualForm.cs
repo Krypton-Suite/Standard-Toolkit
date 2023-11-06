@@ -28,6 +28,8 @@ namespace Krypton.Toolkit
         private const int DEFAULT_COMPOSITION_HEIGHT = 30;
         private static readonly bool _themedApp;
         private readonly PaletteDoubleRedirect _stateCommon;
+        private readonly PaletteContentInheritRedirect ItemShortcutTextRedirect;
+        private readonly PaletteContentJustShortText ItemShortcutText;
 
         #endregion
 
@@ -36,7 +38,6 @@ namespace Krypton.Toolkit
         private bool _windowActive;
         private bool _trackingMouse;
         private bool _applyCustomChrome;
-        private bool _closeBoxVisible;
         private bool _allowComposition;
         private bool _insideUpdateComposition;
         private bool _captured;
@@ -52,7 +53,7 @@ namespace Krypton.Toolkit
         private ShadowManager _shadowManager;
         private BlurValues _blurValues;
         private BlurManager _blurManager;
-        private object _lockObject = new object();
+        private object? _lockObject = new object();
         #endregion
 
         #region Events
@@ -106,6 +107,8 @@ namespace Krypton.Toolkit
         {
             InitializeComponent();
 
+            base.DoubleBuffered = true;
+
             // Automatically redraw whenever the size of the window changes
             SetStyle(ControlStyles.ResizeRedraw, true);
 
@@ -125,13 +128,17 @@ namespace Krypton.Toolkit
 
             // Default the composition height
             _compositionHeight = DEFAULT_COMPOSITION_HEIGHT;
-            _closeBoxVisible = true;
+
+            CloseBox = true;
 
             // Create constant target for resolving palette delegates
             Redirector = CreateRedirector();
 
             _stateCommon = new PaletteDoubleRedirect(Redirector, PaletteBackStyle.ButtonCustom1,
                 PaletteBorderStyle.ButtonCustom1, NeedPaintDelegate);
+
+            ItemShortcutTextRedirect = new PaletteContentInheritRedirect(Redirector, PaletteContentStyle.LabelNormalPanel);
+            ItemShortcutText = new PaletteContentJustShortText(ItemShortcutTextRedirect, NeedPaintDelegate);
 
             // Hook into global static events
             KryptonManager.GlobalPaletteChanged += OnGlobalPaletteChanged;
@@ -186,7 +193,105 @@ namespace Krypton.Toolkit
 
         #region Public
 
-        // Note: What does this do?
+        /// <inheritdoc />
+        [Browsable(false)]
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        protected override bool DoubleBuffered
+        {
+            get => true;
+            set
+            {
+                // Do Nothing
+            }
+        }
+
+        /// <inheritdoc />
+        [Browsable(false)]
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public override Color BackColor
+        {
+            get
+            {
+                Color rawBackColor = _stateCommon.Back.GetBackColor1(Enabled ? PaletteState.Disabled : PaletteState.Normal);
+                return !rawBackColor.IsEmpty ? rawBackColor : Control.DefaultBackColor;
+            }
+            set
+            {
+                //Do Nothing;
+            }
+        }
+
+        /// <inheritdoc />
+        [Browsable(false)]
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        [AmbientValue(null)]
+        public override Font Font
+        {
+            get => ItemShortcutText.GetContentShortTextFont(Enabled ? PaletteState.Disabled : PaletteState.Normal);
+            set
+            {
+                //Do Nothing;
+            }
+        }
+
+        /// <inheritdoc />
+        [Browsable(false)]
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public override Color ForeColor
+        {
+            get => ItemShortcutText.GetContentShortTextColor1(Enabled ? PaletteState.Disabled : PaletteState.Normal);
+            set
+            {
+                //Do Nothing;
+            }
+        }
+
+        /// <inheritdoc />
+        [Browsable(false)]
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        [DefaultValue(null)]
+        public override Image? BackgroundImage
+        {
+            get => _stateCommon.Back.GetBackImage(Enabled ? PaletteState.Disabled : PaletteState.Normal);
+            set
+            {
+                //Do Nothing;
+            }
+        }
+        /// <inheritdoc />
+        [Browsable(false)]
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        [DefaultValue(ImageLayout.Tile)]
+        public override ImageLayout BackgroundImageLayout
+        {
+            get
+            {
+                return _stateCommon.Back.GetBackImageStyle(Enabled ? PaletteState.Disabled : PaletteState.Normal) switch
+                {
+                    PaletteImageStyle.TopMiddle => ImageLayout.Center,
+                    PaletteImageStyle.CenterLeft => ImageLayout.Center,
+                    PaletteImageStyle.CenterMiddle => ImageLayout.Center,
+                    PaletteImageStyle.CenterRight => ImageLayout.Center,
+                    PaletteImageStyle.Stretch => ImageLayout.Stretch,
+                    PaletteImageStyle.Tile => ImageLayout.Tile,
+                    _ => ImageLayout.None
+                };
+            }
+            set
+            {
+                //Do Nothing;
+            }
+        }
+
+        /// <summary>Sets the default panel backcolor source i.e. PanelClient.</summary>
+        [DefaultValue(typeof(PaletteBackStyle), @"PaletteBackStyle.PanelClient")]
+        [Description(@"Sets the default panel backcolor source i.e. PanelClient.")]
         public PaletteBackStyle BackStyle
         {
             get => _stateCommon.BackStyle;
@@ -325,12 +430,7 @@ namespace Krypton.Toolkit
         [Category("Window Style")]
         [DefaultValue(true)]
         [Description("Form Close Button Visiblity: This will also Hide the System Menu `Close` and disable the `Alt+F4` action")]
-        public bool CloseBox
-        {
-            [DebuggerStepThrough]
-            get => _closeBoxVisible;
-            set => _closeBoxVisible = value;
-        }
+        public bool CloseBox { [DebuggerStepThrough] get; set; }
 
         /// <summary>
         /// Gets a value indicating if composition is being applied.
@@ -629,6 +729,7 @@ namespace Krypton.Toolkit
         [Category(@"Window Style")]
         [DefaultValue(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        [Obsolete(@"Please use a ButtonSpec, as this gives greater flexibility!", true)]
         [Description(@"Please use a ButtonSpec, as this gives greater flexibility!")]
         public new bool HelpButton
         {
@@ -1105,6 +1206,13 @@ namespace Krypton.Toolkit
                     InvalidateNonClient();
                 }
             }
+
+            // Force repaint of Background etc.
+            OnBackColorChanged(EventArgs.Empty);
+            OnBackgroundImageChanged(EventArgs.Empty);
+            OnBackgroundImageLayoutChanged(EventArgs.Empty);
+            OnFontChanged(EventArgs.Empty);
+            OnForeColorChanged(EventArgs.Empty);
         }
 
         /// <summary>

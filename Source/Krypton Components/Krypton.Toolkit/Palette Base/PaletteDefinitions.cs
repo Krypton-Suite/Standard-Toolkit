@@ -2951,7 +2951,7 @@ namespace Krypton.Toolkit
 
     #region Enum PaletteImageStyle
     /// <summary>
-    /// Specifies the an image is aligned.
+    /// Specifies how an image is aligned.
     /// </summary>
     [TypeConverter(typeof(PaletteImageStyleConverter))]
     public enum PaletteImageStyle

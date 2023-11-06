@@ -9,6 +9,7 @@
 
 namespace Krypton.Toolkit
 {
+    /// <summary>Contains the information used for creating a new <see cref="KryptonAboutToolkitForm"/>.</summary>
     public struct KryptonAboutToolkitData
     {
         #region Static Fields
@@ -133,9 +134,60 @@ namespace Krypton.Toolkit
 
         #region Identity
 
+        /// <summary>Initializes a new instance of the <see cref="KryptonAboutToolkitData" /> struct.</summary>
         public KryptonAboutToolkitData()
         {
+            ShowDiscordButton = true;
 
+            ShowDeveloperInformationButton = true;
+
+            ShowVersionInformationButton = true;
+
+            ShowThemeOptions = true;
+
+            ShowSystemInformationButton = true;
+
+            ToolkitType = ToolkitType.Stable;
+
+            HeaderText = DEFAULT_HEADER_TEXT;
+
+            CurrentThemeText = DEFAULT_CURRENT_THEME_TEXT;
+
+            GeneralInformationLearnMoreText = DEFAULT_GENERAL_INFORMATION_LEARN_MORE_TEXT;
+
+            GeneralInformationLicenseText = DEFAULT_GENERAL_INFORMATION_LICENSE_TEXT;
+
+            GeneralInformationWelcomeText = DEFAULT_GENERAL_INFORMATION_WELCOME_TEXT;
+
+            DiscordText = DEFAULT_JOIN_DISCORD_SERVER;
+
+            RepositoryInformationText = DEFAULT_VIEW_REPOSITORIES;
+
+            DownloadDocumentationText = DEFAULT_DOWNLOAD_DOCUMENTATION;
+
+            DownloadDemosText = DEFAULT_DOWNLOAD_DEMOS;
+
+            FileNameColumnHeaderText = DEFAULT_FILE_NAME_COLUMN_HEADER_TEXT;
+
+            VersionColumnHeaderText = DEFAULT_VERSION_COLUMN_HEADER_TEXT;
+
+            ToolBarGeneralInformationText = DEFAULT_TOOL_BAR_GENERAL_INFORMATION_TEXT;
+
+            ToolBarDiscordText = DEFAULT_TOOL_BAR_DISCORD_TEXT;
+
+            ToolBarDeveloperInformationText = DEFAULT_TOOL_BAR_DEVELOPER_INFORMATION_TEXT;
+
+            ToolBarVersionInformationText = DEFAULT_TOOL_BAR_VERSION_INFORMATION_TEXT;
+
+            LearnMoreLinkArea = new LinkArea(133, 143);
+
+            DiscordLinkArea = new LinkArea(0, 4);
+
+            RepositoryInformationLinkArea = new LinkArea(0, 4);
+
+            DownloadDemosLinkArea = new LinkArea(0, 9);
+
+            DocumentationLinkArea = new LinkArea(0, 9);
         }
 
         #endregion

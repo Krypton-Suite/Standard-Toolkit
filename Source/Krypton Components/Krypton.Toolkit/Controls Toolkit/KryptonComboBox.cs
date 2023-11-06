@@ -1373,10 +1373,9 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>
-        /// Gets and sets the text associated associated with the control.
+        /// Gets and sets the text associated with the control.
         /// </summary>
-        [AllowNull]
-        public override string Text
+        public override string? Text
         {
             get => _comboBox.Text;
             set => _comboBox.Text = value;
@@ -1388,7 +1387,7 @@ namespace Krypton.Toolkit
         [Bindable(true)]
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public object SelectedItem
+        public object? SelectedItem
         {
             get => _comboBox.SelectedItem;
             set => _comboBox.SelectedItem = value;
@@ -1399,7 +1398,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public string SelectedText
+        public string? SelectedText
         {
             get => _comboBox.SelectedText;
             set => _comboBox.SelectedText = value;

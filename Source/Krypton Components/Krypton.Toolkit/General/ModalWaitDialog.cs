@@ -27,7 +27,7 @@ namespace Krypton.Toolkit
 
         #region Instance Fields
 
-        private bool _showProgressBar;
+        private readonly bool _showProgressBar;
         private bool _startTimestamped;
         private DateTime _startTimestamp;
         private DateTime _spinTimestamp;
