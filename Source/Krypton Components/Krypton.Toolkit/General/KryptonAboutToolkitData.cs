@@ -14,6 +14,8 @@ namespace Krypton.Toolkit
     {
         #region Static Fields
 
+        private const string DEFAULT_BUILT_ON_TEXT = @"Built On";
+
         private const string DEFAULT_CURRENT_THEME_TEXT = @"Current Theme";
 
         private const string DEFAULT_HEADER_TEXT = @"About";
