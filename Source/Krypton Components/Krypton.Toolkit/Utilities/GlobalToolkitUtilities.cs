@@ -54,7 +54,7 @@ namespace Krypton.Toolkit
 
         /// <summary>Launches a chosen process.</summary>
         /// <param name="startInfo">The <see cref="ProcessStartInfo"/> object in which to start.</param>
-        public static void LaunchProcess(ProcessStartInfo startInfo)
+        public static Process? LaunchProcess(ProcessStartInfo startInfo)
         {
             try
             {
@@ -64,6 +64,8 @@ namespace Krypton.Toolkit
             {
                 ExceptionHandler.CaptureException(e);
             }
+
+            return null;
         }
 
         /// <summary>Gets the file list.</summary>
