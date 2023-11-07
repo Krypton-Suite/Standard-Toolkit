@@ -10,7 +10,6 @@
  */
 #endregion
 
-using System.Linq;
 // ReSharper disable MemberCanBeProtected.Global
 
 namespace Krypton.Workspace
@@ -424,8 +423,8 @@ namespace Krypton.Workspace
         /// <summary>
         /// Gets and sets the active page.
         /// </summary>
-        [Browsable(true), 
-         Description(@"Gets and sets the active page."), 
+        [Browsable(true),
+         Description(@"Gets and sets the active page."),
          DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public KryptonPage? ActivePage { get; set; }
 
@@ -1246,7 +1245,7 @@ namespace Krypton.Workspace
                         StarSize itemSize = item.WorkspaceStarSize;
 
                         // Should the new width be applied?
-                        if ((itemSize.StarWidth.UsingStar && applyStar) 
+                        if ((itemSize.StarWidth.UsingStar && applyStar)
                             || (!itemSize.StarWidth.UsingStar && applyFixed)
                             )
                         {
@@ -1258,7 +1257,7 @@ namespace Krypton.Workspace
                         }
 
                         // Should the new height be applied?
-                        if ((itemSize.StarHeight.UsingStar && applyStar) 
+                        if ((itemSize.StarHeight.UsingStar && applyStar)
                             || (!itemSize.StarHeight.UsingStar && applyFixed)
                             )
                         {
@@ -1661,7 +1660,7 @@ namespace Krypton.Workspace
             var visibleCells = 0;
             var numPages = 0;
 
-            if (MaximizedCell is { AllowDroppingPages: true } )
+            if (MaximizedCell is { AllowDroppingPages: true })
             {
                 // Generate targets for maximized cell only
                 visibleCells = CellVisibleCount;
@@ -2510,7 +2509,7 @@ namespace Krypton.Workspace
                 // Remove all view separators no longer needed
                 for (var i = _drawPanel.Count - 1; i >= 0; i--)
                 {
-                    if ( _drawPanel[i] is ViewDrawWorkspaceSeparator separator)
+                    if (_drawPanel[i] is ViewDrawWorkspaceSeparator separator)
                     {
                         if (!separators.Contains(separator))
                         {
@@ -2530,7 +2529,7 @@ namespace Krypton.Workspace
 
                         // If the control has the expected interface
                         if (c is IWorkspaceItem { DisposeOnRemove: true })
-                            // Does the item want to be disposed on removal?
+                        // Does the item want to be disposed on removal?
                         {
                             c.Dispose();
                         }
@@ -2580,8 +2579,8 @@ namespace Krypton.Workspace
                 }
 
                 // If we have a maximized cell then ensure it has focus and not some other cell
-                if (MaximizedCell is { ContainsFocus: false } 
-                    && ContainsFocus )
+                if (MaximizedCell is { ContainsFocus: false }
+                    && ContainsFocus)
                 {
                     MaximizedCell.Select();
                 }
@@ -3203,7 +3202,7 @@ namespace Krypton.Workspace
                 if (workspaceItem != null)
                 {
                     // If no separator is associated with workspace, then create one now
-                    if ( !_workspaceToSeparator.TryGetValue(workspaceItem, out ViewDrawWorkspaceSeparator viewSeparator))
+                    if (!_workspaceToSeparator.TryGetValue(workspaceItem, out var viewSeparator))
                     {
                         // Create a view for the separator area
                         viewSeparator = new ViewDrawWorkspaceSeparator(this, workspaceItem, seq.Orientation)
@@ -3401,14 +3400,14 @@ namespace Krypton.Workspace
                             }
                             break;
                         case KryptonWorkspaceSequence child:
-                        {
-                            // Search inside the sequence for the first leaf in the specified direction
-                            KryptonWorkspaceCell? ret = RecursiveFindCellInSequence(child, forwards, onlyVisible);
-                            if (ret != null)
                             {
-                                return ret;
+                                // Search inside the sequence for the first leaf in the specified direction
+                                KryptonWorkspaceCell? ret = RecursiveFindCellInSequence(child, forwards, onlyVisible);
+                                if (ret != null)
+                                {
+                                    return ret;
+                                }
                             }
-                        }
                             break;
                     }
                 }
@@ -3471,14 +3470,14 @@ namespace Krypton.Workspace
                         }
                         break;
                     case KryptonWorkspaceSequence child:
-                    {
-                        // Search inside the sequence 
-                        KryptonWorkspaceCell? ret = RecursiveFindCellInSequence(child, forwards, onlyVisible);
-                        if (ret != null)
                         {
-                            return ret;
+                            // Search inside the sequence 
+                            KryptonWorkspaceCell? ret = RecursiveFindCellInSequence(child, forwards, onlyVisible);
+                            if (ret != null)
+                            {
+                                return ret;
+                            }
                         }
-                    }
                         break;
                 }
             }

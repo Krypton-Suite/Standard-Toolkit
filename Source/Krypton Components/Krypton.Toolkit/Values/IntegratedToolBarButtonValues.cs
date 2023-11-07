@@ -63,7 +63,7 @@ namespace Krypton.Toolkit
 
         private bool _showQuickPrintButton;
 
-        private KryptonIntegratedToolBarManager _toolBarManager = new();
+        private readonly KryptonIntegratedToolBarManager _toolBarManager = new KryptonIntegratedToolBarManager();
 
         #endregion
 

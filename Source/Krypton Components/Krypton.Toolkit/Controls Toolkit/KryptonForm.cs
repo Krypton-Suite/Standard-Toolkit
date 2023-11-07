@@ -200,7 +200,7 @@ namespace Krypton.Toolkit
             _useDropShadow = false;
 #pragma warning restore CS0618
 
-            //_integratedToolBarValues = new IntegratedToolBarValues();
+            BackStyle = PaletteBackStyle.PanelClient;
         }
 
         /// <summary>

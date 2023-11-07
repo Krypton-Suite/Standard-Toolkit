@@ -6,13 +6,17 @@
  */
 #endregion
 
+// Note: Only used for this class
+using Timer = System.Windows.Forms.Timer;
+
 namespace Krypton.Toolkit
 {
     /// <summary>
     /// Represents a common dialog box that displays colours
     /// that are currently installed on the system.
     /// </summary>
-    [ToolboxBitmap(typeof(ColorDialog), "ToolboxBitmaps.KryptonColorDialog.png"),
+    [ToolboxItem(true),
+     ToolboxBitmap(typeof(ColorDialog), "ToolboxBitmaps.KryptonColorDialog.png"),
      Description("Displays a Kryptonised version of the standard Colour dialog, which displays colours that are currently installed on the system.")]
     public class KryptonColorDialog : ColorDialog
     {
@@ -25,7 +29,7 @@ namespace Krypton.Toolkit
         private CommonDialogHandler.Attributes _redEdit;
         private CommonDialogHandler.Attributes _greenEdit;
         private CommonDialogHandler.Attributes _blueEdit;
-        private System.Windows.Forms.Timer _alphaUpdateTimer;
+        private readonly Timer _alphaUpdateTimer;
         #endregion
 
         /// <summary>
@@ -126,8 +130,8 @@ namespace Krypton.Toolkit
         public bool ShowAlphaSlider
         {
             get => _showAlphaSlider;
-            set 
-            { 
+            set
+            {
                 _showAlphaSlider = value;
                 if (value)
                 {
@@ -164,7 +168,7 @@ namespace Krypton.Toolkit
         private void Timer1OnTick(object sender, EventArgs e)
         {
             var text = new StringBuilder(6);
-            if ( PI.GetWindowText(_redEdit.hWnd, text, 4) <= 0)
+            if (PI.GetWindowText(_redEdit.hWnd, text, 4) <= 0)
             {
                 // Probably Closing, or in transition
                 return;
@@ -210,7 +214,7 @@ namespace Krypton.Toolkit
         protected override IntPtr HookProc(IntPtr hWnd, int msg, IntPtr wparam, IntPtr lparam)
         {
             var (handled, retValue) = _commonDialogHandler.HookProc(hWnd, msg, wparam, lparam);
-            if (msg == PI.WM_.INITDIALOG )
+            if (msg == PI.WM_.INITDIALOG)
             {
                 if (!FullOpen)
                 {
@@ -254,7 +258,7 @@ namespace Krypton.Toolkit
                             var lpPoint = new PI.POINT(rcClient.left, rcClient.top);
                             PI.ScreenToClient(hWnd, ref lpPoint);
                             _alphaPanel.Location = new Point(lpPoint.X, lpPoint.Y);
-                            _alphaPanel.Size = new Size((rcClient.right - rcClient.left)/2, rcClient.bottom - rcClient.top);
+                            _alphaPanel.Size = new Size((rcClient.right - rcClient.left) / 2, rcClient.bottom - rcClient.top);
                         }
 
                         _commonDialogHandler._wrapperForm.Controls[0].Controls.Add(_alphaPanel);
@@ -263,15 +267,15 @@ namespace Krypton.Toolkit
                         _greenEdit = _commonDialogHandler.Controls.First(ctl => ctl.DlgCtrlId == 0x000002C3);
                         _blueEdit = _commonDialogHandler.Controls.First(ctl => ctl.DlgCtrlId == 0x000002C4);
                         // Add a slider
-                        _alphaSlider.Location = _redEdit.ClientLocation with { X = _redEdit.ClientLocation.X + _redEdit.Size.Width+4 };
+                        _alphaSlider.Location = _redEdit.ClientLocation with { X = _redEdit.ClientLocation.X + _redEdit.Size.Width + 4 };
                         //_commonDialogHandler._wrapperForm.ClientSize
-                        _alphaSlider.Size = new Size(_commonDialogHandler._wrapperForm.ClientSize.Width- _alphaSlider.Location.X+4, _blueEdit.ClientLocation.Y - _redEdit.ClientLocation.Y + _blueEdit.Size.Height);
+                        _alphaSlider.Size = new Size(_commonDialogHandler._wrapperForm.ClientSize.Width - _alphaSlider.Location.X + 4, _blueEdit.ClientLocation.Y - _redEdit.ClientLocation.Y + _blueEdit.Size.Height);
                         _commonDialogHandler._wrapperForm.Controls[0].Controls.Add(_alphaSlider);
                         // Find the Add button 
                         var btnAdd = _commonDialogHandler.Controls.First(static ctl => ctl.DlgCtrlId == 0x00002C8);
                         btnAdd.Button.Parent.Width -= 16;
 
-                        _alphaLabel.Location = Point.Add(_blueEdit.ClientLocation, new Size(_blueEdit.Size.Width+2, _blueEdit.Size.Height) );
+                        _alphaLabel.Location = Point.Add(_blueEdit.ClientLocation, new Size(_blueEdit.Size.Width + 2, _blueEdit.Size.Height));
                         _commonDialogHandler._wrapperForm.Controls[0].Controls.Add(_alphaLabel);
                         _alphaUpdateTimer.Enabled = true;
                     }

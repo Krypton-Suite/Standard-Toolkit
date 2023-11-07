@@ -24,6 +24,7 @@ global using System.Threading;
 global using System.Windows.Forms;
 global using System.Windows.Forms.Design;
 global using System.Xml;
+global using System.Linq;
 
 global using Krypton.Navigator;
 global using Krypton.Toolkit;

@@ -135,7 +135,9 @@ namespace TestForm
 
         private void kryptonButton5_Click(object sender, EventArgs e)
         {
-            KryptonAboutToolkit.Show();
+            KryptonAboutToolkitData data = new KryptonAboutToolkitData();
+
+            KryptonAboutToolkit.Show(data);
         }
 
         private void Form1_Load(object sender, EventArgs e)

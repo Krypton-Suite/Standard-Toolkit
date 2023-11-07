@@ -43,7 +43,7 @@ namespace Krypton.Toolkit
             public KryptonCheckButtonCollection([DisallowNull] KryptonCheckSet owner)
             {
                 Debug.Assert(owner != null);
-                _owner = owner;
+                _owner = owner!;
             }
             #endregion
 
@@ -426,7 +426,7 @@ namespace Krypton.Toolkit
             }
 
             // If the incoming button is already checked
-                if (checkButton.Checked)
+            if (checkButton.Checked)
             {
                 // If we already have a button checked
                 if (_checkedButton != null)
