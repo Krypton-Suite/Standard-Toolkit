@@ -2150,6 +2150,20 @@ namespace Krypton.Toolkit
             // element that thinks it has the focus is informed it does not
             OnMouseLeave(EventArgs.Empty);
 
+        /// <summary>Gets or sets the height and width of the control.</summary>
+        [DefaultValue(typeof(Size), "121, 21")]
+        public new Size Size
+        {
+            get => base.Size;
+
+            set
+            {
+                base.Size = value;
+
+                UpdateDropDownWidth(value);
+            }
+        }
+
         #endregion
 
         #region Protected
@@ -3145,6 +3159,8 @@ namespace Krypton.Toolkit
 
             StateCommon.ComboBox.Border.Rounding = _cornerRoundingRadius;
         }
+
+        private void UpdateDropDownWidth(Size value) => DropDownWidth = value.Width;
 
         #endregion
     }

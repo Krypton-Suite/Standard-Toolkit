@@ -62,6 +62,7 @@
             this.tsbtnDeveloperInformation = new System.Windows.Forms.ToolStripButton();
             this.tssVersions = new System.Windows.Forms.ToolStripSeparator();
             this.tsbtnVersions = new System.Windows.Forms.ToolStripButton();
+            this.klblBuiltOn = new Krypton.Toolkit.KryptonLabel();
             ((System.ComponentModel.ISupportInitialize)(this.kpnlButtons)).BeginInit();
             this.kpnlButtons.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
@@ -220,13 +221,15 @@
             this.tlpGeneralInformation.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tlpGeneralInformation.Controls.Add(this.pbxLogo, 0, 0);
             this.tlpGeneralInformation.Controls.Add(this.klwlblGeneralInformation, 1, 0);
-            this.tlpGeneralInformation.Controls.Add(this.klblCurrentTheme, 1, 1);
-            this.tlpGeneralInformation.Controls.Add(this.ktcmbCurrentTheme, 1, 2);
+            this.tlpGeneralInformation.Controls.Add(this.klblCurrentTheme, 1, 2);
+            this.tlpGeneralInformation.Controls.Add(this.ktcmbCurrentTheme, 1, 3);
+            this.tlpGeneralInformation.Controls.Add(this.klblBuiltOn, 1, 1);
             this.tlpGeneralInformation.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tlpGeneralInformation.Location = new System.Drawing.Point(0, 0);
             this.tlpGeneralInformation.Name = "tlpGeneralInformation";
             this.tlpGeneralInformation.RowCount = 3;
             this.tlpGeneralInformation.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tlpGeneralInformation.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tlpGeneralInformation.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tlpGeneralInformation.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tlpGeneralInformation.Size = new System.Drawing.Size(774, 325);
@@ -239,7 +242,7 @@
             this.pbxLogo.Margin = new System.Windows.Forms.Padding(5);
             this.pbxLogo.Name = "pbxLogo";
             this.pbxLogo.Padding = new System.Windows.Forms.Padding(4, 4, 0, 0);
-            this.pbxLogo.Size = new System.Drawing.Size(64, 254);
+            this.pbxLogo.Size = new System.Drawing.Size(64, 224);
             this.pbxLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.pbxLogo.TabIndex = 0;
             this.pbxLogo.TabStop = false;
@@ -254,7 +257,7 @@
             this.klwlblGeneralInformation.Location = new System.Drawing.Point(79, 5);
             this.klwlblGeneralInformation.Margin = new System.Windows.Forms.Padding(5);
             this.klwlblGeneralInformation.Name = "klwlblGeneralInformation";
-            this.klwlblGeneralInformation.Size = new System.Drawing.Size(690, 254);
+            this.klwlblGeneralInformation.Size = new System.Drawing.Size(690, 224);
             this.klwlblGeneralInformation.Text = "Some of the components used in this application are part of the Krypton Standard " +
     "Toolkit.\r\n\r\nLicense: BSD-3-Clause\r\n\r\nTo learn more, click here.";
             this.klwlblGeneralInformation.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -275,7 +278,7 @@
             // ktcmbCurrentTheme
             // 
             this.ktcmbCurrentTheme.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ktcmbCurrentTheme.DropDownWidth = 623;
+            this.ktcmbCurrentTheme.DropDownWidth = 690;
             this.ktcmbCurrentTheme.IntegralHeight = false;
             this.ktcmbCurrentTheme.Location = new System.Drawing.Point(79, 299);
             this.ktcmbCurrentTheme.Margin = new System.Windows.Forms.Padding(5);
@@ -492,6 +495,17 @@
             this.tsbtnVersions.Text = "Version Information";
             this.tsbtnVersions.Click += new System.EventHandler(this.tsbtnVersions_Click);
             // 
+            // klblBuiltOn
+            // 
+            this.klblBuiltOn.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.klblBuiltOn.LabelStyle = Krypton.Toolkit.LabelStyle.BoldControl;
+            this.klblBuiltOn.Location = new System.Drawing.Point(79, 239);
+            this.klblBuiltOn.Margin = new System.Windows.Forms.Padding(5);
+            this.klblBuiltOn.Name = "klblBuiltOn";
+            this.klblBuiltOn.Size = new System.Drawing.Size(690, 20);
+            this.klblBuiltOn.TabIndex = 4;
+            this.klblBuiltOn.Values.Text = "Built On: {0}";
+            // 
             // KryptonAboutToolkitForm
             // 
             this.AcceptButton = this.kbtnOk;
@@ -581,5 +595,6 @@
         private ToolStripButton tsbtnVersions;
         private DataGridViewTextBoxColumn clmnFileName;
         private DataGridViewTextBoxColumn clmnVersion;
+        private KryptonLabel klblBuiltOn;
     }
 }
