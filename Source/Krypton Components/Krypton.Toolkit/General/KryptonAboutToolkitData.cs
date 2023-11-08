@@ -65,6 +65,9 @@ namespace Krypton.Toolkit
         /// <summary>The show system information button.</summary>
         public bool ShowSystemInformationButton { get; set; } = true;
 
+        /// <summary>Gets or sets a value indicating whether to show the build date label.</summary>
+        public bool ShowBuildDate { get; set; } = true;
+
         //public Font CommonFont;
         //public Font CurrentThemeFont;
         //public Font HeaderFont;
@@ -117,6 +120,9 @@ namespace Krypton.Toolkit
         /// <summary>The tool bar version information text.</summary>
         public string ToolBarVersionInformationText { get; set; } = DEFAULT_TOOL_BAR_VERSION_INFORMATION_TEXT;
 
+        /// <summary>Gets or sets the build on text.</summary>
+        public string BuildOnText { get; set; } = DEFAULT_BUILT_ON_TEXT;
+
         /// <summary>The learn more link area.</summary>
         public LinkArea LearnMoreLinkArea { get; set; } = new LinkArea(133, 143);
 
@@ -149,7 +155,11 @@ namespace Krypton.Toolkit
 
             ShowSystemInformationButton = true;
 
+            ShowBuildDate = true;
+
             ToolkitType = ToolkitType.Stable;
+
+            BuildOnText = DEFAULT_BUILT_ON_TEXT;
 
             HeaderText = DEFAULT_HEADER_TEXT;
 

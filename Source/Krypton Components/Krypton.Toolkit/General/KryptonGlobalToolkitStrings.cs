@@ -308,6 +308,20 @@ namespace Krypton.Toolkit
         /// <summary>Resets the tab style strings.</summary>
         public void ResetTabStyleStrings() => TabStyles.Reset();
 
+        /// <summary>Gets the krypton about box strings.</summary>
+        /// <value>The krypton about box strings.</value>
+        [Category(@"Visuals")]
+        [Description(@"Collection of about box strings.")]
+        [MergableProperty(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        [Localizable(true)]
+        public KryptonAboutBoxStrings KryptonAboutBoxStrings => AboutBoxStrings;
+
+        private bool ShouldSerializeKryptonAboutBoxStrings() => !AboutBoxStrings.IsDefault;
+
+        /// <summary>Resets the krypton about box strings.</summary>
+        public void ResetKryptonAboutBoxStrings() => AboutBoxStrings.Reset();
+
         /// <summary>Gets the krypton miscellaneous theme strings.</summary>
         /// <value>The krypton miscellaneous theme strings.</value>
         [Category(@"Visuals")]
@@ -515,6 +529,10 @@ namespace Krypton.Toolkit
         /// <value>The tab styles.</value>
         public static TabStyleStrings TabStyles { get; } = new TabStyleStrings();
 
+        /// <summary>Gets the about box strings.</summary>
+        /// <value>The about box strings.</value>
+        public KryptonAboutBoxStrings AboutBoxStrings { get; } = new KryptonAboutBoxStrings();
+
         /// <summary>Gets the miscellaneous theme strings.</summary>
         /// <value>The miscellaneous theme strings.</value>
         public static KryptonMiscellaneousThemeStrings MiscellaneousThemeStrings { get; } =
@@ -567,6 +585,7 @@ namespace Krypton.Toolkit
                                    ShouldSerializeSeparatorStyleStrings() ||
                                    ShouldSerializeTabBorderStyleStrings() ||
                                    ShouldSerializeTabStyleStrings() ||
+                                   ShouldSerializeKryptonAboutBoxStrings() ||
                                    ShouldSerializeKryptonMiscellaneousThemeStrings() ||
                                    ShouldSerializeKryptonScrollBarStrings());
 
@@ -622,6 +641,8 @@ namespace Krypton.Toolkit
             ResetTabBorderStyleStrings();
 
             ResetTabStyleStrings();
+
+            ResetKryptonAboutBoxStrings();
 
             ResetKryptonMiscellaneousThemeStrings();
 

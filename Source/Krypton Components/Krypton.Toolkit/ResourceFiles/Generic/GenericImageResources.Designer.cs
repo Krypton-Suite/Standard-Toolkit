@@ -293,9 +293,29 @@ namespace Krypton.Toolkit.ResourceFiles.Generic {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap HelpSmall {
+            get {
+                object obj = ResourceManager.GetObject("HelpSmall", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap HourGlass {
             get {
                 object obj = ResourceManager.GetObject("HourGlass", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap InformationSmall {
+            get {
+                object obj = ResourceManager.GetObject("InformationSmall", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
