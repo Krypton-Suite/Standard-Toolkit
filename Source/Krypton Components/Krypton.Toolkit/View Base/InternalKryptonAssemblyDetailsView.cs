@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace Krypton.Toolkit
 {
-    public partial class KryptonAssemblyDetailsView : UserControl
+    internal partial class InternalKryptonAssemblyDetailsView : UserControl
     {
-        public KryptonAssemblyDetailsView()
+        public InternalKryptonAssemblyDetailsView()
         {
             InitializeComponent();
         }

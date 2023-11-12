@@ -308,6 +308,20 @@ namespace Krypton.Toolkit
         /// <summary>Resets the tab style strings.</summary>
         public void ResetTabStyleStrings() => TabStyles.Reset();
 
+        /// <summary>Gets the krypton about box basic application information strings.</summary>
+        /// <value>The krypton about box basic application information strings.</value>
+        [Category(@"Visuals")]
+        [Description(@"Collection of about box basic application information strings.")]
+        [MergableProperty(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        [Localizable(true)]
+        public KryptonAboutBoxBasicApplicationInformationStrings KryptonAboutBoxBasicApplicationInformationStrings => BasicApplicationInformationStrings;
+
+        private bool ShouldSerializeKryptonAboutBoxBasicApplicationInformationStrings() => !BasicApplicationInformationStrings.IsDefault;
+
+        /// <summary>Resets the krypton about box basic application information strings.</summary>
+        public void ResetKryptonKryptonAboutBoxBasicApplicationInformationStrings() => BasicApplicationInformationStrings.Reset();
+
         /// <summary>Gets the krypton about box strings.</summary>
         /// <value>The krypton about box strings.</value>
         [Category(@"Visuals")]
@@ -529,6 +543,10 @@ namespace Krypton.Toolkit
         /// <value>The tab styles.</value>
         public static TabStyleStrings TabStyles { get; } = new TabStyleStrings();
 
+        /// <summary>Gets the basic application information strings.</summary>
+        /// <value>The basic application information strings.</value>
+        public static KryptonAboutBoxBasicApplicationInformationStrings BasicApplicationInformationStrings { get; } = new KryptonAboutBoxBasicApplicationInformationStrings();
+
         /// <summary>Gets the about box strings.</summary>
         /// <value>The about box strings.</value>
         public KryptonAboutBoxStrings AboutBoxStrings { get; } = new KryptonAboutBoxStrings();
@@ -585,6 +603,7 @@ namespace Krypton.Toolkit
                                    ShouldSerializeSeparatorStyleStrings() ||
                                    ShouldSerializeTabBorderStyleStrings() ||
                                    ShouldSerializeTabStyleStrings() ||
+                                   ShouldSerializeKryptonAboutBoxBasicApplicationInformationStrings() ||
                                    ShouldSerializeKryptonAboutBoxStrings() ||
                                    ShouldSerializeKryptonMiscellaneousThemeStrings() ||
                                    ShouldSerializeKryptonScrollBarStrings());
@@ -641,6 +660,8 @@ namespace Krypton.Toolkit
             ResetTabBorderStyleStrings();
 
             ResetTabStyleStrings();
+
+            ResetKryptonKryptonAboutBoxBasicApplicationInformationStrings();
 
             ResetKryptonAboutBoxStrings();
 

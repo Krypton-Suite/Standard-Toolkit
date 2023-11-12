@@ -1,6 +1,6 @@
 ﻿namespace Krypton.Toolkit
 {
-    partial class KryptonAssemblyDetailsView
+    partial class InternalKryptonAssemblyDetailsView
     {
         /// <summary> 
         /// Required designer variable.

@@ -1,6 +1,7 @@
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Reflection;
 using System.Windows.Forms;
 
 using Krypton.Toolkit;
@@ -193,6 +194,19 @@ namespace TestForm
         private void kcbtnSizableToolWindow_Click(object sender, EventArgs e)
         {
             FormBorderStyle = FormBorderStyle.SizableToolWindow;
+        }
+
+        private void kryptonButton8_Click(object sender, EventArgs e)
+        {
+            KryptonAboutBoxData data = new KryptonAboutBoxData()
+            {
+                ApplicationName = @"Standard Toolkit",
+                CurrentAssembly = Assembly.GetExecutingAssembly(),
+                HeaderImage = null,
+                MainImage = null
+            };
+
+            KryptonAboutBox.Show(data);
         }
     }
 }

@@ -233,9 +233,60 @@ namespace Krypton.Toolkit
             }
         }
 
-        private static void Populate(KryptonDataGridView assemblyData, string key, string value)
-        {
+        private static void Populate(KryptonDataGridView assemblyData, string key, string value) => assemblyData.Rows.Add(key, value);
 
+        public static void PopulateBasicApplicationInformation(KryptonDataGridView dataStore)
+        {
+            AppDomain domain = AppDomain.CurrentDomain;
+
+            string _entryAssemblyName = Assembly.GetEntryAssembly()!.GetName().Name;
+
+            string _executingAssemblyName = Assembly.GetExecutingAssembly().GetName().Name;
+
+            string _callingAssemblyName = Assembly.GetCallingAssembly().GetName().Name;
+
+            Populate(dataStore, KryptonManager.Strings.KryptonAboutBoxBasicApplicationInformationStrings.ApplicationName, domain.SetupInformation.ApplicationName);
+
+            Populate(dataStore, KryptonManager.Strings.KryptonAboutBoxBasicApplicationInformationStrings.ApplicationBase, domain.SetupInformation.ApplicationBase);
+
+            Populate(dataStore, KryptonManager.Strings.KryptonAboutBoxBasicApplicationInformationStrings.CachePath, domain.SetupInformation.CachePath);
+
+            Populate(dataStore, KryptonManager.Strings.KryptonAboutBoxBasicApplicationInformationStrings.ConfigurationFile, domain.SetupInformation.ConfigurationFile);
+
+            Populate(dataStore, KryptonManager.Strings.KryptonAboutBoxBasicApplicationInformationStrings.DynamicBase, domain.SetupInformation.DynamicBase);
+
+            Populate(dataStore, KryptonManager.Strings.KryptonAboutBoxBasicApplicationInformationStrings.FriendlyName, domain.FriendlyName);
+
+            Populate(dataStore, KryptonManager.Strings.KryptonAboutBoxBasicApplicationInformationStrings.LicenseFile, domain.SetupInformation.LicenseFile);
+
+            Populate(dataStore, KryptonManager.Strings.KryptonAboutBoxBasicApplicationInformationStrings.PrivateBinPath, domain.SetupInformation.PrivateBinPath);
+
+            Populate(dataStore, KryptonManager.Strings.KryptonAboutBoxBasicApplicationInformationStrings.ShadowCopyDirectories, domain.SetupInformation.ShadowCopyDirectories);
+
+            Populate(dataStore, string.Empty, string.Empty);
+
+            Populate(dataStore, KryptonManager.Strings.KryptonAboutBoxBasicApplicationInformationStrings.EntryAssembly, _entryAssemblyName);
+
+            Populate(dataStore, KryptonManager.Strings.KryptonAboutBoxBasicApplicationInformationStrings.ExecutingAssembly, _executingAssemblyName);
+
+            Populate(dataStore, KryptonManager.Strings.KryptonAboutBoxBasicApplicationInformationStrings.CallingAssembly, _callingAssemblyName);
+        }
+
+        public static void PopulateAssemblies(KryptonComboBox assemblyList, KryptonDataGridView dataStore)
+        {
+            string _entryAssemblyName = Assembly.GetEntryAssembly()!.GetName().Name;
+
+            foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
+            {
+                PopulateAssemblySummary(assembly, dataStore);
+            }
+
+            assemblyList.SelectedIndex = assemblyList.FindStringExact(_entryAssemblyName);
+        }
+
+        private static void PopulateAssemblySummary(Assembly assembly, KryptonDataGridView dataStore)
+        {
+            throw new NotImplementedException();
         }
 
         #endregion

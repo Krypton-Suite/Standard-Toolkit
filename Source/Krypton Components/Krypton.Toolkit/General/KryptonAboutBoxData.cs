@@ -24,7 +24,7 @@ namespace Krypton.Toolkit
 
         /// <summary>Gets or sets the main image.</summary>
         /// <value>The main image.</value>
-        public Image MainImage { get; set; }
+        public Image? MainImage { get; set; }
 
         /// <summary>Gets or sets the name of the application.</summary>
         /// <value>The name of the application.</value>

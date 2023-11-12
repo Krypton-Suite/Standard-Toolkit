@@ -31,6 +31,7 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.kryptonPanel1 = new Krypton.Toolkit.KryptonPanel();
+            this.kryptonComboBox1 = new Krypton.Toolkit.KryptonComboBox();
             this.kcbtnSizableToolWindow = new Krypton.Toolkit.KryptonCheckButton();
             this.kcbtnFixedToolWindow = new Krypton.Toolkit.KryptonCheckButton();
             this.kcbtnSizable = new Krypton.Toolkit.KryptonCheckButton();
@@ -76,16 +77,17 @@
             this.kryptonIntegratedToolbarPrintCommand1 = new Krypton.Toolkit.KryptonIntegratedToolbarPrintCommand();
             this.kryptonManager1 = new Krypton.Toolkit.KryptonManager(this.components);
             this.kryptonCheckSet1 = new Krypton.Toolkit.KryptonCheckSet(this.components);
-            this.kryptonComboBox1 = new Krypton.Toolkit.KryptonComboBox();
+            this.kryptonButton8 = new Krypton.Toolkit.KryptonButton();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
             this.kryptonPanel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonComboBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonThemeComboBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonCheckSet1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonComboBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // kryptonPanel1
             // 
+            this.kryptonPanel1.Controls.Add(this.kryptonButton8);
             this.kryptonPanel1.Controls.Add(this.kryptonComboBox1);
             this.kryptonPanel1.Controls.Add(this.kcbtnSizableToolWindow);
             this.kryptonPanel1.Controls.Add(this.kcbtnFixedToolWindow);
@@ -118,6 +120,17 @@
             this.kryptonPanel1.Name = "kryptonPanel1";
             this.kryptonPanel1.Size = new System.Drawing.Size(600, 608);
             this.kryptonPanel1.TabIndex = 0;
+            // 
+            // kryptonComboBox1
+            // 
+            this.kryptonComboBox1.DropDownWidth = 121;
+            this.kryptonComboBox1.IntegralHeight = false;
+            this.kryptonComboBox1.Location = new System.Drawing.Point(14, 470);
+            this.kryptonComboBox1.Name = "kryptonComboBox1";
+            this.kryptonComboBox1.Size = new System.Drawing.Size(121, 21);
+            this.kryptonComboBox1.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
+            this.kryptonComboBox1.TabIndex = 25;
+            this.kryptonComboBox1.Text = "kryptonComboBox1";
             // 
             // kcbtnSizableToolWindow
             // 
@@ -449,6 +462,17 @@
             // kryptonManager1
             // 
             this.kryptonManager1.CustomPalette = this.kryptonCustomPaletteBase1;
+            this.kryptonManager1.ToolkitStrings.KryptonAboutBoxStrings.About = null;
+            this.kryptonManager1.ToolkitStrings.KryptonAboutBoxStrings.BuildDate = null;
+            this.kryptonManager1.ToolkitStrings.KryptonAboutBoxStrings.Company = null;
+            this.kryptonManager1.ToolkitStrings.KryptonAboutBoxStrings.Copyright = null;
+            this.kryptonManager1.ToolkitStrings.KryptonAboutBoxStrings.Description = null;
+            this.kryptonManager1.ToolkitStrings.KryptonAboutBoxStrings.ImageRuntimeVersion = null;
+            this.kryptonManager1.ToolkitStrings.KryptonAboutBoxStrings.LoadedFromGlobalAssemblyCache = null;
+            this.kryptonManager1.ToolkitStrings.KryptonAboutBoxStrings.Product = null;
+            this.kryptonManager1.ToolkitStrings.KryptonAboutBoxStrings.Title = null;
+            this.kryptonManager1.ToolkitStrings.KryptonAboutBoxStrings.Trademark = null;
+            this.kryptonManager1.ToolkitStrings.KryptonAboutBoxStrings.Version = null;
             // 
             // kryptonCheckSet1
             // 
@@ -460,16 +484,14 @@
             this.kryptonCheckSet1.CheckButtons.Add(this.kcbtnFixedToolWindow);
             this.kryptonCheckSet1.CheckButtons.Add(this.kcbtnSizableToolWindow);
             // 
-            // kryptonComboBox1
+            // kryptonButton8
             // 
-            this.kryptonComboBox1.DropDownWidth = 121;
-            this.kryptonComboBox1.IntegralHeight = false;
-            this.kryptonComboBox1.Location = new System.Drawing.Point(14, 396);
-            this.kryptonComboBox1.Name = "kryptonComboBox1";
-            this.kryptonComboBox1.Size = new System.Drawing.Size(121, 21);
-            this.kryptonComboBox1.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
-            this.kryptonComboBox1.TabIndex = 25;
-            this.kryptonComboBox1.Text = "kryptonComboBox1";
+            this.kryptonButton8.Location = new System.Drawing.Point(14, 384);
+            this.kryptonButton8.Name = "kryptonButton8";
+            this.kryptonButton8.Size = new System.Drawing.Size(185, 25);
+            this.kryptonButton8.TabIndex = 26;
+            this.kryptonButton8.Values.Text = "About Box";
+            this.kryptonButton8.Click += new System.EventHandler(this.kryptonButton8_Click);
             // 
             // Form1
             // 
@@ -498,9 +520,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).EndInit();
             this.kryptonPanel1.ResumeLayout(false);
             this.kryptonPanel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonComboBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonThemeComboBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonCheckSet1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonComboBox1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -554,5 +576,6 @@
         private Krypton.Toolkit.KryptonCheckButton kcbtnFixedToolWindow;
         private Krypton.Toolkit.KryptonCheckButton kcbtnSizableToolWindow;
         private Krypton.Toolkit.KryptonComboBox kryptonComboBox1;
+        private Krypton.Toolkit.KryptonButton kryptonButton8;
     }
 }
