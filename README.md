@@ -232,7 +232,7 @@ As of version 60, all `using` statements are contained in one file per project u
 =======
 
 ## Introduction
-The Krypton Suite contains user interface components designed to make it quick and easy for developers to create professional looking applications. It provides the essential building blocks needed to create a consistent look and feel across all your products. You can use the built-in palettes to achieve the same appearance as industry standard applications such as Microsoft Office `2007/2010/2013` & Microsoft 365. Alternatively you can create your own custom palettes to create a completely unique user interface. The Krypton Suite consists of five products called ***Krypton Toolkit***, ***Krypton Ribbon***, ***Krypton Navigator***, ***Krypton Workspace*** and ***Krypton Docking***.
+The Krypton Suite contains user interface components designed to make it quick and easy for developers to create professional looking applications. It provides the essential building blocks needed to create a consistent look and feel across all your products. You can use the built-in palettes to achieve the same appearance as industry standard applications such as Microsoft Office `2007/2010/2013` & Microsoft 365, Visual Studio 2010. Alternatively you can create your own custom palettes to create a completely unique user interface. The Krypton Suite consists of five products called ***Krypton Toolkit***, ***Krypton Ribbon***, ***Krypton Navigator***, ***Krypton Workspace*** and ***Krypton Docking***.
 
 ## What is this Repository About?
 - Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV) have been fixing and adding more capabilities to this toolkit.
