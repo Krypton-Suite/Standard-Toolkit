@@ -9,7 +9,7 @@
 
 namespace Krypton.Toolkit
 {
-    public partial class KryptonAboutBoxForm : KryptonForm
+    internal partial class KryptonAboutBoxForm : KryptonForm
     {
         #region Instance Fields
 
@@ -48,12 +48,17 @@ namespace Krypton.Toolkit
 
             kwlblCurrentTheme.Text = $@"{KryptonManager.Strings.CustomStrings.CurrentTheme}:";
 
-            UpdateVersionLabel($"{KryptonManager.Strings.AboutBoxStrings.Version}: {}");
+            // ToDo: Review
+            UpdateVersionLabel($"{KryptonManager.Strings.AboutBoxStrings.Version}: {KryptonAboutBoxUtilities.GetFileVersionInfo(Assembly.GetExecutingAssembly().Location).FileVersion}");
 
-            UpdateBuiltOnLabel($"{KryptonManager.Strings.AboutBoxStrings.BuildDate}: {}");
+            UpdateBuiltOnLabel($"{KryptonManager.Strings.AboutBoxStrings.BuildDate}: {KryptonAboutBoxUtilities.AssemblyBuildDate(Assembly.GetExecutingAssembly(), true)}");
 
-            UpdateCopyrightLabel($"{KryptonManager.Strings.AboutBoxStrings.Copyright}: {}");
+            UpdateCopyrightLabel($"{KryptonManager.Strings.AboutBoxStrings.Copyright}: {KryptonAboutBoxUtilities.GetFileVersionInfo(Assembly.GetExecutingAssembly().Location).LegalCopyright}");
+
+            UpdateDescription(KryptonAboutBoxUtilities.GetFileVersionInfo(Assembly.GetEntryAssembly()!.Location).FileDescription);
         }
+
+        private void UpdateDescription(string fileDescription) => krtxtDescription.Text = fileDescription;
 
         private void UpdateCopyrightLabel(string value) => kwlCopyright.Text = value;
 

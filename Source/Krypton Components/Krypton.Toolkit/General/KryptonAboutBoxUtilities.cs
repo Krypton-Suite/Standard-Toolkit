@@ -245,23 +245,24 @@ namespace Krypton.Toolkit
 
             string _callingAssemblyName = Assembly.GetCallingAssembly().GetName().Name;
 
-            Populate(dataStore, KryptonManager.Strings.KryptonAboutBoxBasicApplicationInformationStrings.ApplicationName, domain.SetupInformation.ApplicationName);
+            Populate(dataStore, KryptonManager.Strings.KryptonAboutBoxBasicApplicationInformationStrings.ApplicationName, Assembly.GetEntryAssembly()!.GetName().Name);
 
-            Populate(dataStore, KryptonManager.Strings.KryptonAboutBoxBasicApplicationInformationStrings.ApplicationBase, domain.SetupInformation.ApplicationBase);
+            Populate(dataStore, KryptonManager.Strings.KryptonAboutBoxBasicApplicationInformationStrings.ApplicationBase, Assembly.GetEntryAssembly()!.Location);
 
-            Populate(dataStore, KryptonManager.Strings.KryptonAboutBoxBasicApplicationInformationStrings.CachePath, domain.SetupInformation.CachePath);
+            // ToDo: Move to .NET
+            //Populate(dataStore, KryptonManager.Strings.KryptonAboutBoxBasicApplicationInformationStrings.CachePath, domain.SetupInformation.CachePath);
 
-            Populate(dataStore, KryptonManager.Strings.KryptonAboutBoxBasicApplicationInformationStrings.ConfigurationFile, domain.SetupInformation.ConfigurationFile);
+            //Populate(dataStore, KryptonManager.Strings.KryptonAboutBoxBasicApplicationInformationStrings.ConfigurationFile, domain.SetupInformation.ConfigurationFile);
 
-            Populate(dataStore, KryptonManager.Strings.KryptonAboutBoxBasicApplicationInformationStrings.DynamicBase, domain.SetupInformation.DynamicBase);
+            //Populate(dataStore, KryptonManager.Strings.KryptonAboutBoxBasicApplicationInformationStrings.DynamicBase, domain.SetupInformation.DynamicBase);
 
-            Populate(dataStore, KryptonManager.Strings.KryptonAboutBoxBasicApplicationInformationStrings.FriendlyName, domain.FriendlyName);
+            //Populate(dataStore, KryptonManager.Strings.KryptonAboutBoxBasicApplicationInformationStrings.FriendlyName, domain.FriendlyName);
 
-            Populate(dataStore, KryptonManager.Strings.KryptonAboutBoxBasicApplicationInformationStrings.LicenseFile, domain.SetupInformation.LicenseFile);
+            //Populate(dataStore, KryptonManager.Strings.KryptonAboutBoxBasicApplicationInformationStrings.LicenseFile, domain.SetupInformation.LicenseFile);
 
-            Populate(dataStore, KryptonManager.Strings.KryptonAboutBoxBasicApplicationInformationStrings.PrivateBinPath, domain.SetupInformation.PrivateBinPath);
+            //Populate(dataStore, KryptonManager.Strings.KryptonAboutBoxBasicApplicationInformationStrings.PrivateBinPath, domain.SetupInformation.PrivateBinPath);
 
-            Populate(dataStore, KryptonManager.Strings.KryptonAboutBoxBasicApplicationInformationStrings.ShadowCopyDirectories, domain.SetupInformation.ShadowCopyDirectories);
+            //Populate(dataStore, KryptonManager.Strings.KryptonAboutBoxBasicApplicationInformationStrings.ShadowCopyDirectories, domain.SetupInformation.ShadowCopyDirectories);
 
             Populate(dataStore, string.Empty, string.Empty);
 
@@ -287,6 +288,13 @@ namespace Krypton.Toolkit
         private static void PopulateAssemblySummary(Assembly assembly, KryptonDataGridView dataStore)
         {
             throw new NotImplementedException();
+        }
+
+        public static FileVersionInfo GetFileVersionInfo(string assemblyLocation)
+        {
+            FileVersionInfo versionInfo = FileVersionInfo.GetVersionInfo(assemblyLocation);
+
+            return versionInfo;
         }
 
         #endregion
