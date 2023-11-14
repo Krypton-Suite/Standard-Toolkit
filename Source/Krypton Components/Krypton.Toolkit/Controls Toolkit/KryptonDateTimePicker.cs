@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -17,10 +17,10 @@ namespace Krypton.Toolkit
     /// </summary>
     [ToolboxItem(true)]
     [ToolboxBitmap(typeof(KryptonDateTimePicker), "ToolboxBitmaps.KryptonDateTimePicker.bmp")]
-    [DefaultEvent("ValueChanged")]
-    [DefaultProperty("Value")]
-    [DefaultBindingProperty("Value")]
-    [Designer("Krypton.Toolkit.KryptonDateTimePickerDesigner, Krypton.Toolkit")]
+    [DefaultEvent(nameof(ValueChanged))]
+    [DefaultProperty(nameof(Value))]
+    [DefaultBindingProperty(nameof(Value))]
+    [Designer(typeof(KryptonDateTimePickerDesigner))]
     [DesignerCategory(@"code")]
     [Description(@"Enables the user to select a date and time, and to display that date and time in a specified format.")]
     public class KryptonDateTimePicker : VisualControlBase,
@@ -64,8 +64,8 @@ namespace Krypton.Toolkit
         private readonly ViewDrawDateTimeText _drawText;
         private readonly ViewLayoutCenter _layoutCheckBox;
         private readonly ButtonSpecManagerDraw _buttonManager;
-        private VisualPopupToolTip _visualPopupToolTip;
-        private KryptonContextMenuMonthCalendar _kmc;
+        private VisualPopupToolTip? _visualPopupToolTip;
+        private KryptonContextMenuMonthCalendar? _kmc;
         private InputControlStyle _inputControlStyle;
         private ButtonStyle _upDownButtonStyle;
         private ButtonStyle _dropButtonStyle;
@@ -88,7 +88,8 @@ namespace Krypton.Toolkit
         private bool _alwaysActive;
         private bool _userSetDateTime;
         private bool _dropDownMonthChanged;
-        private object _rawDateTime;
+        private float _cornerRoundingRadius;
+        private object? _rawDateTime;
         private int _cachedHeight;
         #endregion
 
@@ -98,70 +99,70 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Action")]
         [Description(@"Event raised when the value of the Value property is changed on KryptonDateTimePicker.")]
-        public event EventHandler ValueChanged;
+        public event EventHandler? ValueChanged;
 
         /// <summary>
         /// Occurs when the ValueNullable property has changed value.
         /// </summary>
         [Category(@"Action")]
         [Description(@"Event raised when the value of the ValueNullable property is changed on KryptonDateTimePicker.")]
-        public event EventHandler ValueNullableChanged;
+        public event EventHandler? ValueNullableChanged;
 
         /// <summary>
         /// Occurs when the Value property has changed value.
         /// </summary>
         [Category(@"Action")]
         [Description(@"Event raised when the value of the ActiveFragment property is changed on KryptonDateTimePicker.")]
-        public event EventHandler ActiveFragmentChanged;
+        public event EventHandler? ActiveFragmentChanged;
 
         /// <summary>
         /// Occurs when the drop down is shown.
         /// </summary>
         [Category(@"Action")]
         [Description(@"Event raised when the drop down is shown.")]
-        public event EventHandler<DateTimePickerDropArgs> DropDown;
+        public event EventHandler<DateTimePickerDropArgs>? DropDown;
 
         /// <summary>
         /// Occurs when the drop down has been closed.
         /// </summary>
         [Category(@"Action")]
         [Description(@"Event raised when the drop down has been closed.")]
-        public event EventHandler<DateTimePickerCloseArgs> CloseUp;
+        public event EventHandler<DateTimePickerCloseArgs>? CloseUp;
 
         /// <summary>
         /// Occurs when the month calendar date changed whilst dropped down.
         /// </summary>
         [Category(@"Action")]
         [Description(@"Event raised to indicate the month calendar date changed whilst dropped down.")]
-        public event EventHandler CloseUpMonthCalendarChanged;
+        public event EventHandler? CloseUpMonthCalendarChanged;
 
         /// <summary>
         /// Occurs when auto shifting to the next field but overflowing the end.
         /// </summary>
         [Category(@"Action")]
         [Description(@"Event raised when auto shifting to the next field but overflowing the end.")]
-        public event CancelEventHandler AutoShiftOverflow;
+        public event CancelEventHandler? AutoShiftOverflow;
 
         /// <summary>
         /// Occurs when the Checked property has changed value.
         /// </summary>
         [Category(@"Property Changed")]
         [Description(@"Event raised when the value of the Checked property is changed on KryptonDateTimePicker.")]
-        public event EventHandler CheckedChanged;
+        public event EventHandler? CheckedChanged;
 
         /// <summary>
         /// Occurs when the Format property has changed value.
         /// </summary>
         [Category(@"Property Changed")]
         [Description(@"Event raised when the value of the Format property is changed on KryptonDateTimePicker.")]
-        public event EventHandler FormatChanged;
+        public event EventHandler? FormatChanged;
 
         /// <summary>
         /// Occurs when the RightToLeftLayout property has changed value.
         /// </summary>
         [Category(@"Property Changed")]
         [Description(@"Event raised when the value of the RightToLeftLayout property is changed on KryptonDateTimePicker.")]
-        public event EventHandler RightToLeftLayoutChanged;
+        public event EventHandler? RightToLeftLayoutChanged;
         #endregion
 
         #region Identity
@@ -222,7 +223,7 @@ namespace Krypton.Toolkit
 
             // Add a checkbox to the left of the text area
             Images = new CheckBoxImages(NeedPaintDelegate);
-            PaletteRedirectCheckBox paletteCheckBoxImages = new(Redirector, Images);
+            var paletteCheckBoxImages = new PaletteRedirectCheckBox(Redirector, Images);
             InternalViewDrawCheckBox = new ViewDrawCheckBox(paletteCheckBoxImages)
             {
                 CheckState = CheckState.Checked
@@ -234,7 +235,7 @@ namespace Krypton.Toolkit
             _layoutCheckBox.Visible = false;
 
             // Need a controller for handling check box mouse input
-            CheckBoxController controller = new(InternalViewDrawCheckBox, InternalViewDrawCheckBox, NeedPaintDelegate);
+            var controller = new CheckBoxController(InternalViewDrawCheckBox, InternalViewDrawCheckBox, NeedPaintDelegate);
             controller.Click += OnCheckBoxClick;
             controller.Enabled = true;
             InternalViewDrawCheckBox.MouseController = controller;
@@ -298,7 +299,7 @@ namespace Krypton.Toolkit
                                                        NeedPaintDelegate);
 
             // Create the manager for handling tooltips
-            ToolTipManager = new ToolTipManager();
+            ToolTipManager = new ToolTipManager(ToolTipValues);
             ToolTipManager.ShowToolTip += OnShowToolTip;
             ToolTipManager.CancelToolTip += OnCancelToolTip;
             _buttonManager.ToolTipManager = ToolTipManager;
@@ -307,7 +308,7 @@ namespace Krypton.Toolkit
             UpdateForRightToLeft();
 
             // Set `CornerRoundingRadius' to 'GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE' (-1)
-            CornerRoundingRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
+            _cornerRoundingRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
         }
 
         /// <summary>
@@ -334,12 +335,12 @@ namespace Krypton.Toolkit
         /// <value>The corner rounding radius.</value>
         [Category(@"Visuals")]
         [Description(@"Gets or sets the corner rounding radius.")]
-        [DefaultValue(-1)]
+        [DefaultValue(GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE)]
         public float CornerRoundingRadius
         {
-            get => StateCommon.Border.Rounding;
+            get => _cornerRoundingRadius;
 
-            set => StateCommon.Border.Rounding = value;
+            set => SetCornerRoundingRadius(value);
         }
 
         /// <summary>
@@ -358,6 +359,8 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [Bindable(false)]
+        [AmbientValue(null)]
+        [AllowNull]
         public override Font Font
         {
             get => base.Font;
@@ -396,6 +399,7 @@ namespace Krypton.Toolkit
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         [Bindable(false)]
+        [AllowNull]
         public override string Text
         {
             get => (ValueNullable == null) || (ValueNullable == DBNull.Value) ? string.Empty : _drawText.ToString();
@@ -425,10 +429,7 @@ namespace Krypton.Toolkit
 
             set
             {
-                if (value == null)
-                {
-                    value = DEFAULT_TODAY;
-                }
+                value ??= DEFAULT_TODAY;
 
                 _today = value;
             }
@@ -437,17 +438,14 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Reset the value of the CalendarTodayText property.
         /// </summary>
-        public void ResetCalendarTodayText()
-        {
-            CalendarTodayText = DEFAULT_TODAY;
-        }
+        public void ResetCalendarTodayText() => CalendarTodayText = DEFAULT_TODAY;
 
         /// <summary>
         /// First day of the week.
         /// </summary>
         [Category(@"MonthCalendar")]
         [Description(@"First day of the week.")]
-        [DefaultValue(typeof(Day), "Default")]
+        [DefaultValue(Day.Default)]
         [Localizable(true)]
         public Day CalendarFirstDayOfWeek { get; set; }
 
@@ -503,10 +501,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void ResetCalendarTodayDate()
-        {
-            CalendarTodayDate = DateTime.Now.Date;
-        }
+        private void ResetCalendarTodayDate() => CalendarTodayDate = DateTime.Now.Date;
 
         private bool ShouldSerializeCalendarTodayDate() => CalendarTodayDate != DateTime.Now.Date;
 
@@ -522,10 +517,7 @@ namespace Krypton.Toolkit
 
             set
             {
-                if (value == null)
-                {
-                    value = Array.Empty<DateTime>();
-                }
+                value ??= Array.Empty<DateTime>();
 
                 _annualDates.Clear();
                 _annualDates.AddRange(value);
@@ -538,10 +530,7 @@ namespace Krypton.Toolkit
         /// <returns>True if property needs to be serialized.</returns>
         public bool ShouldSerializeCalendarAnnuallyBoldedDates() => _annualDates.Count > 0;
 
-        private void ResetCalendarAnnuallyBoldedDates()
-        {
-            CalendarAnnuallyBoldedDates = null;
-        }
+        private void ResetCalendarAnnuallyBoldedDates() => CalendarAnnuallyBoldedDates = null;
 
         /// <summary>
         /// Gets or sets the array of DateTime objects that determine which monthly days to bold. 
@@ -555,10 +544,7 @@ namespace Krypton.Toolkit
 
             set
             {
-                if (value == null)
-                {
-                    value = Array.Empty<DateTime>();
-                }
+                value ??= Array.Empty<DateTime>();
 
                 _monthlyDates.Clear();
                 _monthlyDates.AddRange(value);
@@ -571,10 +557,7 @@ namespace Krypton.Toolkit
         /// <returns>True if property needs to be serialized.</returns>
         public bool ShouldSerializeCalendarMonthlyBoldedDates() => _monthlyDates.Count > 0;
 
-        private void ResetCalendarMonthlyBoldedDates()
-        {
-            CalendarMonthlyBoldedDates = null;
-        }
+        private void ResetCalendarMonthlyBoldedDates() => CalendarMonthlyBoldedDates = null;
 
         /// <summary>
         /// Gets or sets the array of DateTime objects that determines which nonrecurring dates are Displayed in bold.
@@ -601,17 +584,14 @@ namespace Krypton.Toolkit
         /// <returns>True if property needs to be serialized.</returns>
         public bool ShouldSerializeCalendarBoldedDates() => _dates.Count > 0;
 
-        private void ResetCalendarBoldedDates()
-        {
-            CalendarBoldedDates = null;
-        }
+        private void ResetCalendarBoldedDates() => CalendarBoldedDates = null;
 
         /// <summary>
         /// Gets or sets the alignment of the drop-down calendar on the DateTimePicker control.
         /// </summary>
         [Category(@"Appearance")]
         [Description(@"Alignment of the drop-down calendar on the KryptonDateTimePicker control.")]
-        [DefaultValue(typeof(LeftRightAlignment), "Left")]
+        [DefaultValue(LeftRightAlignment.Left)]
         [Localizable(true)]
         public LeftRightAlignment DropDownAlign { get; set; }
 
@@ -623,7 +603,7 @@ namespace Krypton.Toolkit
         [TypeConverter(typeof(DateTimeNullableConverter))]
         [RefreshProperties(RefreshProperties.All)]
         [Bindable(true)]
-        public object ValueNullable
+        public object? ValueNullable
         {
             get => _rawDateTime;
 
@@ -755,7 +735,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Appearance")]
         [Description(@"Determines whether dates and times are Displayed using standard or custom formatting.")]
-        [DefaultValue(typeof(DateTimePickerFormat), "Long")]
+        [DefaultValue(DateTimePickerFormat.Long)]
         [RefreshProperties(RefreshProperties.Repaint)]
         public DateTimePickerFormat Format
         {
@@ -914,10 +894,7 @@ namespace Krypton.Toolkit
         /// <returns>True if property needs to be serialized.</returns>
         public bool ShouldSerializeMaxDate() => (_maxDateTime != DateTimePicker.MaximumDateTime) && (_maxDateTime != DateTime.MaxValue);
 
-        private void ResetMaxDate()
-        {
-            MaxDate = DateTime.MaxValue;
-        }
+        private void ResetMaxDate() => MaxDate = DateTime.MaxValue;
 
         /// <summary>
         /// Gets or sets the minimum date and time that can be selected in the control.
@@ -967,10 +944,7 @@ namespace Krypton.Toolkit
         /// <returns>True if property needs to be serialized.</returns>
         public bool ShouldSerializeMinDate() => (_minDateTime != DateTimePicker.MinimumDateTime) && (_minDateTime != DateTime.MinValue);
 
-        private void ResetMinDate()
-        {
-            MinDate = DateTime.MinValue;
-        }
+        private void ResetMinDate() => MinDate = DateTime.MinValue;
 
         /// <summary>
         /// Gets or sets a value indicating if the check box is checked and if the ValueNullable is DBNull or a DateTime value.
@@ -1068,10 +1042,7 @@ namespace Krypton.Toolkit
         [Description(@"Header style for the month calendar.")]
         public HeaderStyle CalendarHeaderStyle { get; set; }
 
-        private void ResetCalendarHeaderStyle()
-        {
-            CalendarHeaderStyle = HeaderStyle.Calendar;
-        }
+        private void ResetCalendarHeaderStyle() => CalendarHeaderStyle = HeaderStyle.Calendar;
 
         private bool ShouldSerializeCalendarHeaderStyle() => CalendarHeaderStyle != HeaderStyle.Calendar;
 
@@ -1082,10 +1053,7 @@ namespace Krypton.Toolkit
         [Description(@"Content style for the day entries.")]
         public ButtonStyle CalendarDayStyle { get; set; }
 
-        private void ResetCalendarDayStyle()
-        {
-            CalendarDayStyle = ButtonStyle.CalendarDay;
-        }
+        private void ResetCalendarDayStyle() => CalendarDayStyle = ButtonStyle.CalendarDay;
 
         private bool ShouldSerializeCalendarDayStyle() => CalendarDayStyle != ButtonStyle.CalendarDay;
 
@@ -1096,10 +1064,7 @@ namespace Krypton.Toolkit
         [Description(@"Content style for the day of week labels.")]
         public ButtonStyle CalendarDayOfWeekStyle { get; set; }
 
-        private void ResetCalendarDayOfWeekStyle()
-        {
-            CalendarDayOfWeekStyle = ButtonStyle.CalendarDay;
-        }
+        private void ResetCalendarDayOfWeekStyle() => CalendarDayOfWeekStyle = ButtonStyle.CalendarDay;
 
         private bool ShouldSerializeCalendarDayOfWeekStyle() => CalendarDayOfWeekStyle != ButtonStyle.CalendarDay;
 
@@ -1108,7 +1073,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Visuals - DateTimePicker")]
         [Description(@"Palette applied to drawing.")]
-        [DefaultValue(typeof(PaletteMode), "Global")]
+        [DefaultValue(PaletteMode.Global)]
         public new PaletteMode PaletteMode
         {
             get => base.PaletteMode;
@@ -1121,7 +1086,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals - DateTimePicker")]
         [Description(@"Custom palette applied to drawing.")]
         [DefaultValue(null)]
-        public new IPalette Palette
+        public new PaletteBase? Palette
         {
             get => base.Palette;
             set => base.Palette = value;
@@ -1177,10 +1142,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void ResetInputControlStyle()
-        {
-            InputControlStyle = InputControlStyle.Standalone;
-        }
+        private void ResetInputControlStyle() => InputControlStyle = InputControlStyle.Standalone;
 
         private bool ShouldSerializeInputControlStyle() => InputControlStyle != InputControlStyle.Standalone;
 
@@ -1204,10 +1166,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void ResetUpDownButtonStyle()
-        {
-            UpDownButtonStyle = ButtonStyle.InputControl;
-        }
+        private void ResetUpDownButtonStyle() => UpDownButtonStyle = ButtonStyle.InputControl;
 
         private bool ShouldSerializeUpDownButtonStyle() => UpDownButtonStyle != ButtonStyle.InputControl;
 
@@ -1231,10 +1190,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void ResetDropButtonStyle()
-        {
-            DropButtonStyle = ButtonStyle.InputControl;
-        }
+        private void ResetDropButtonStyle() => DropButtonStyle = ButtonStyle.InputControl;
 
         private bool ShouldSerializeDropButtonStyle() => DropButtonStyle != ButtonStyle.InputControl;
 
@@ -1369,10 +1325,7 @@ namespace Krypton.Toolkit
         /// Sets the fixed state of the control.
         /// </summary>
         /// <param name="active">Should the control be fixed as active.</param>
-        public void SetFixedState(bool active)
-        {
-            _fixedActive = active;
-        }
+        public void SetFixedState(bool active) => _fixedActive = active;
 
         /// <summary>
         /// Gets access to the ToolTipManager used for displaying tool tips.
@@ -1407,7 +1360,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Tab state.</param>
         /// <returns>Image.</returns>
-        public Image GetImage(PaletteState state) => null;
+        public Image? GetImage(PaletteState state) => null;
 
         /// <summary>
         /// Gets the image color that should be interpreted as transparent.
@@ -1650,14 +1603,11 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="keyData">One of the Keys values.</param>
         /// <returns>true if the specified key is a regular input key; otherwise, false.</returns>
-        protected override bool IsInputKey(Keys keyData)
+        protected override bool IsInputKey(Keys keyData) => (keyData & ~Keys.Shift) switch
         {
-            return (keyData & ~Keys.Shift) switch
-            {
-                Keys.Left or Keys.Right or Keys.Up or Keys.Down => true,
-                _ => base.IsInputKey(keyData)
-            };
-        }
+            Keys.Left or Keys.Right or Keys.Up or Keys.Down => true,
+            _ => base.IsInputKey(keyData)
+        };
 
         /// <summary>
         /// Processes a mnemonic character.
@@ -1735,7 +1685,7 @@ namespace Krypton.Toolkit
             if (!IsDisposed && !Disposing && !InRibbonDesignMode)
             {
                 // We treat positive numbers as moving upwards
-                KeyEventArgs kpea = new((e.Delta < 0) ? Keys.Down : Keys.Up);
+                var kpea = new KeyEventArgs((e.Delta < 0) ? Keys.Down : Keys.Up);
 
                 // Simulate the up/down key the correct number of times
                 var detents = Math.Abs(e.Delta) / SystemInformation.MouseWheelScrollDelta;
@@ -1972,7 +1922,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the default size of the control.
         /// </summary>
-        protected override Size DefaultSize => new(240, PreferredHeight);
+        protected override Size DefaultSize => new Size(240, PreferredHeight);
 
         /// <summary>
         /// Processes a notification from palette storage of a button spec change.
@@ -1993,10 +1943,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="e">A PaintEventArgs that contains the event data.</param>
         /// <returns></returns>
-        protected override void OnPaint(PaintEventArgs e)
-        {
-            base.OnPaint(e);
-        }
+        protected override void OnPaint(PaintEventArgs e) => base.OnPaint(e);
 
         #endregion
 
@@ -2082,7 +2029,7 @@ namespace Krypton.Toolkit
             if (!IsDisposed)
             {
                 // Do not show tooltips when the form we are in does not have focus
-                Form topForm = FindForm();
+                Form? topForm = FindForm();
                 if (topForm is { ContainsFocus: false })
                 {
                     return;
@@ -2091,13 +2038,13 @@ namespace Krypton.Toolkit
                 // Never show tooltips are design time
                 if (!DesignMode)
                 {
-                    IContentValues sourceContent = null;
-                    LabelStyle toolTipStyle = LabelStyle.ToolTip;
-                    
-                    bool shadow = true;
+                    IContentValues? sourceContent = null;
+                    var toolTipStyle = LabelStyle.ToolTip;
+
+                    var shadow = true;
 
                     // Find the button spec associated with the tooltip request
-                    ButtonSpec buttonSpec = _buttonManager.ButtonSpecFromView(e.Target);
+                    ButtonSpec? buttonSpec = _buttonManager.ButtonSpecFromView(e.Target);
 
                     // If the tooltip is for a button spec
                     if (buttonSpec != null)
@@ -2106,7 +2053,7 @@ namespace Krypton.Toolkit
                         if (AllowButtonSpecToolTips)
                         {
                             // Create a helper object to provide tooltip values
-                            ButtonSpecToContent buttonSpecMapping = new(Redirector, buttonSpec);
+                            var buttonSpecMapping = new ButtonSpecToContent(Redirector, buttonSpec);
 
                             // Is there actually anything to show for the tooltip
                             if (buttonSpecMapping.HasContent)
@@ -2144,11 +2091,9 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnCheckBoxClick(object sender, EventArgs e)
-        {
+        private void OnCheckBoxClick(object sender, EventArgs e) =>
             // Invert the current checked state
             Checked = !Checked;
-        }
 
         private void OnDropDownClick(object sender, EventArgs e)
         {
@@ -2162,7 +2107,7 @@ namespace Krypton.Toolkit
                 _dropDownMonthChanged = false;
 
                 // Create a new krypton context menu each time we drop the menu
-                DTPContextMenu kcm = new(RectangleToScreen(_buttonDropDown.ClientRectangle));
+                var kcm = new DTPContextMenu(RectangleToScreen(_buttonDropDown.ClientRectangle));
 
                 // Add and setup a month calendar element
                 _kmc = new KryptonContextMenuMonthCalendar
@@ -2201,51 +2146,49 @@ namespace Krypton.Toolkit
                 }
 
                 // Give user a change to modify the context menu or even cancel the menu entirely
-                DateTimePickerDropArgs dtpda = new(kcm,
-                                                                          DropDownAlign == LeftRightAlignment.Left ? KryptonContextMenuPositionH.Left : KryptonContextMenuPositionH.Right,
-                                                                          KryptonContextMenuPositionV.Below);
+                var dtpda = new DateTimePickerDropArgs(kcm,
+                    DropDownAlign == LeftRightAlignment.Left
+                        ? KryptonContextMenuPositionH.Left
+                        : KryptonContextMenuPositionH.Right, KryptonContextMenuPositionV.Below);
                 // Let user examine and later values
                 OnDropDown(dtpda);
 
                 // If we still want to show a context menu
-                if (!dtpda.Cancel)
+                if (dtpda is { Cancel: false, KryptonContextMenu: not null })
                 {
-                    if (dtpda.KryptonContextMenu != null)
+                    // If showing a menu then we automatically ensure the control is checked
+                    Checked = true;
+
+                    // Convert the client rect to screen coords
+                    Rectangle screenRect = RectangleToScreen(ClientRectangle);
+                    if (CommonHelper.ValidKryptonContextMenu(dtpda.KryptonContextMenu))
                     {
-                        // If showing a menu then we automatically ensure the control is checked
-                        Checked = true;
-
-                        // Convert the client rect to screen coords
-                        Rectangle screenRect = RectangleToScreen(ClientRectangle);
-                        if (CommonHelper.ValidKryptonContextMenu(dtpda.KryptonContextMenu))
+                        // Modify the screen rect so that we have a pixel gap between control and menu
+                        switch (dtpda.PositionV)
                         {
-                            // Modify the screen rect so that we have a pixel gap between control and menu
-                            switch (dtpda.PositionV)
-                            {
-                                case KryptonContextMenuPositionV.Above:
-                                    screenRect.Y -= 1;
-                                    break;
-                                case KryptonContextMenuPositionV.Below:
-                                    screenRect.Height += 1;
-                                    break;
-                            }
-
-                            switch (dtpda.PositionH)
-                            {
-                                case KryptonContextMenuPositionH.Before:
-                                    screenRect.X -= 1;
-                                    break;
-                                case KryptonContextMenuPositionH.After:
-                                    screenRect.Width += 1;
-                                    break;
-                            }
-
-
-                            // Show relative to the screen rectangle
-                            dtpda.KryptonContextMenu.Closed += OnKryptonContextMenuClosed;
-                            dtpda.KryptonContextMenu.Show(this, screenRect, dtpda.PositionH, dtpda.PositionV);
-                            return;
+                            case KryptonContextMenuPositionV.Above:
+                                screenRect.Y -= 1;
+                                break;
+                            case KryptonContextMenuPositionV.Below:
+                                screenRect.Height += 1;
+                                break;
                         }
+
+                        switch (dtpda.PositionH)
+                        {
+                            case KryptonContextMenuPositionH.Before:
+                                screenRect.X -= 1;
+                                break;
+                            case KryptonContextMenuPositionH.After:
+                                screenRect.Width += 1;
+                                break;
+                        }
+
+
+                        // Show relative to the screen rectangle
+                        dtpda.KryptonContextMenu.Closed += OnKryptonContextMenuClosed;
+                        dtpda.KryptonContextMenu.Show(this, screenRect, dtpda.PositionH, dtpda.PositionV);
+                        return;
                     }
                 }
 
@@ -2258,9 +2201,9 @@ namespace Krypton.Toolkit
 
         private void OnMonthCalendarDateChanged(object sender, DateRangeEventArgs e)
         {
-            // Use the newly selected date but the exising time
-            DateTime newDt = new(e.Start.Year, e.Start.Month, e.Start.Day,
-                                          _dateTime.Hour, _dateTime.Minute, _dateTime.Second, _dateTime.Millisecond);
+            // Use the newly selected date but the existing time
+            var newDt = new DateTime(e.Start.Year, e.Start.Month, e.Start.Day, _dateTime.Hour, _dateTime.Minute,
+                _dateTime.Second, _dateTime.Millisecond);
 
             // Range check in case the min/max have time portions and not just full days
             if (newDt > MaxDate)
@@ -2283,7 +2226,7 @@ namespace Krypton.Toolkit
         private void OnKryptonContextMenuClosed(object sender, EventArgs e)
         {
             // Must unhook from menu so it can be garbage collected
-            KryptonContextMenu kcm = (KryptonContextMenu)sender;
+            var kcm = (KryptonContextMenu)sender;
             kcm.Closed -= OnKryptonContextMenuClosed;
 
             // Unhook from month calendar events
@@ -2294,7 +2237,7 @@ namespace Krypton.Toolkit
             }
 
             // Generate the close up event and provide the menu so handlers can examine state that might have changed
-            DateTimePickerCloseArgs dtca = new(kcm);
+            var dtca = new DateTimePickerCloseArgs(kcm);
             OnCloseUp(dtca);
 
             // Notify that the month calendar changed value whilst the dropped down.
@@ -2339,12 +2282,20 @@ namespace Krypton.Toolkit
         private void OnVisualPopupToolTipDisposed(object sender, EventArgs e)
         {
             // Unhook events from the specific instance that generated event
-            VisualPopupToolTip popupToolTip = (VisualPopupToolTip)sender;
-            popupToolTip.Disposed -= OnVisualPopupToolTipDisposed;
+            var popupToolTip = (VisualPopupToolTip)sender;
+            popupToolTip.Disposed -= OnVisualPopupToolTipDisposed!;
 
             // Not showing a popup page any more
             _visualPopupToolTip = null;
         }
+
+        private void SetCornerRoundingRadius(float? radius)
+        {
+            _cornerRoundingRadius = radius ?? GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
+
+            StateCommon.Border.Rounding = _cornerRoundingRadius;
+        }
+
         #endregion
     }
 
@@ -2382,9 +2333,9 @@ namespace Krypton.Toolkit
         /// <param name="keyboardActivated">True is menu was keyboard initiated.</param>
         /// <returns>VisualContextMenu reference.</returns>
         protected override VisualContextMenu CreateContextMenu(KryptonContextMenu kcm,
-                                                               IPalette palette,
+                                                               PaletteBase? palette,
                                                                PaletteMode paletteMode,
-                                                               PaletteRedirect redirector,
+                                                               PaletteRedirect? redirector,
                                                                PaletteRedirectContextMenu redirectorImages,
                                                                KryptonContextMenuCollection items,
                                                                bool enabled,

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -34,7 +34,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="palette">Palette to use for inheriting values.</param>
         /// <returns>Button visibiliy.</returns>
-        public override bool GetVisible(IPalette palette)
+        public override bool GetVisible(PaletteBase? palette)
         {
             switch (Navigator.Button.PreviousButtonDisplay)
             {
@@ -72,7 +72,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="palette">Palette to use for inheriting values.</param>
         /// <returns>Button enabled state.</returns>
-        public override ButtonEnabled GetEnabled(IPalette palette)
+        public override ButtonEnabled GetEnabled(PaletteBase? palette)
         {
             switch (Navigator.Button.PreviousButtonDisplay)
             {
@@ -84,7 +84,7 @@ namespace Krypton.Navigator
                     // Always enabled
                     return ButtonEnabled.True;
                 case ButtonDisplay.Logic:
-                    return Navigator.ViewBuilder.PreviousActionEnabled(Navigator.Button.PreviousButtonAction);
+                    return Navigator.ViewBuilder!.PreviousActionEnabled(Navigator.Button.PreviousButtonAction);
                 default:
                     // Should never happen!
                     Debug.Assert(false);
@@ -97,7 +97,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="palette">Palette to use for inheriting values.</param>
         /// <returns>Button checked state.</returns>
-        public override ButtonCheckState GetChecked(IPalette palette) =>
+        public override ButtonCheckState GetChecked(PaletteBase? palette) =>
             // Previous button is never shown as checked
             ButtonCheckState.NotCheckButton;
 

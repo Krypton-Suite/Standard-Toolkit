@@ -5,11 +5,14 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  
+ *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
  */
 #endregion
 
+// ReSharper disable InconsistentNaming
 namespace Krypton.Ribbon
 {
     /// <summary>
@@ -23,7 +26,7 @@ namespace Krypton.Ribbon
         private readonly KryptonRibbon _ribbon;
         private readonly ViewDrawRibbonQATBorder _border;
         private readonly ViewLayoutRibbonQATFromRibbon _borderContents;
-        private readonly ViewDrawRibbonQATExtraButtonMini _extraButton;
+        private readonly ViewDrawRibbonQATExtraButtonMini? _extraButton;
         private readonly ViewLayoutSeparator _extraSeparator;
         #endregion
 
@@ -33,24 +36,24 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="ribbon">Owning control instance.</param>
         /// <param name="needPaintDelegate">Delegate for notifying paint/layout changes.</param>
-        public ViewLayoutRibbonQATMini(KryptonRibbon ribbon,
+        public ViewLayoutRibbonQATMini([DisallowNull] KryptonRibbon ribbon,
                                        NeedPaintHandler needPaintDelegate)
         {
             Debug.Assert(ribbon != null);
             _ribbon = ribbon;
             SEP_GAP = (int)(2 * FactorDpiX);
             // Create the minibar border suitable for a caption area
-            _border = new ViewDrawRibbonQATBorder(ribbon, needPaintDelegate, true);
+            _border = new ViewDrawRibbonQATBorder(_ribbon, needPaintDelegate, true);
 
             // Create minibar content that synchs with ribbon collection
-            _borderContents = new ViewLayoutRibbonQATFromRibbon(ribbon, needPaintDelegate, false);
+            _borderContents = new ViewLayoutRibbonQATFromRibbon(_ribbon, needPaintDelegate, false);
             _border.Add(_borderContents);
 
             // Separator gap before the extra button
             _extraSeparator = new ViewLayoutSeparator(SEP_GAP);
 
             // Need the extra button to show after the border area
-            _extraButton = new ViewDrawRibbonQATExtraButtonMini(ribbon, needPaintDelegate);
+            _extraButton = new ViewDrawRibbonQATExtraButtonMini(_ribbon, needPaintDelegate);
             _extraButton.ClickAndFinish += OnExtraButtonClick;
 
             // Add layout contents
@@ -65,7 +68,7 @@ namespace Krypton.Ribbon
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            @"ViewLayoutRibbonQATMini:" + Id;
+            $@"ViewLayoutRibbonQATMini:{Id}";
 
         /// <summary>
         /// Clean up any resources being used.
@@ -75,7 +78,10 @@ namespace Krypton.Ribbon
         {
             if (disposing)
             {
-                _extraButton.ClickAndFinish -= OnExtraButtonClick;
+                if (_extraButton != null)
+                {
+                    _extraButton.ClickAndFinish -= OnExtraButtonClick;
+                }
             }
 
             base.Dispose(disposing);
@@ -86,7 +92,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets the associated form instance.
         /// </summary>
-        public KryptonForm OwnerForm
+        public KryptonForm? OwnerForm
         {
             get => _border.OwnerForm;
             set => _border.OwnerForm = value;
@@ -122,16 +128,16 @@ namespace Krypton.Ribbon
         /// <returns>Array of KeyTipInfo instances.</returns>
         public KeyTipInfo[] GetQATKeyTips()
         {
-            KeyTipInfoList keyTipList = new();
+            var keyTipList = new KeyTipInfoList();
 
             // Add all the entries for the contents
             keyTipList.AddRange(_borderContents.GetQATKeyTips(OwnerForm));
 
             // If we have the extra button and it is in overflow appearance
-            if (_extraButton.Overflow)
+            if (_extraButton is {Overflow : true })
             {
                 // If integrated into the caption area then get the caption area height
-                Padding borders = Padding.Empty;
+                var borders = Padding.Empty;
                 if (OwnerForm is { ApplyComposition: false })
                 {
                     borders = OwnerForm.RealWindowBorders;
@@ -141,8 +147,8 @@ namespace Krypton.Ribbon
                 Rectangle viewRect = _borderContents.ParentControl.RectangleToScreen(_extraButton.ClientRectangle);
 
                 // The keytip should be centered on the bottom center of the view
-                Point screenPt = new(viewRect.Left + (viewRect.Width / 2) - borders.Left,
-                                           viewRect.Bottom - 2 - borders.Top);
+                var screenPt = new Point(viewRect.Left + (viewRect.Width / 2) - borders.Left,
+                    viewRect.Bottom - 2 - borders.Top);
 
                 // Create fixed key tip of '00' that invokes the extra button controller
                 keyTipList.Add(new KeyTipInfo(true, "00", screenPt, 
@@ -159,10 +165,10 @@ namespace Krypton.Ribbon
         /// Gets the view element for the first visible and enabled quick access toolbar button.
         /// </summary>
         /// <returns></returns>
-        public ViewBase GetFirstQATView()
+        public ViewBase? GetFirstQATView()
         {
             // Find the first qat button
-            ViewBase view = _borderContents.GetFirstQATView() ?? _extraButton;
+            ViewBase? view = _borderContents.GetFirstQATView() ?? _extraButton;
 
             // If defined then use the extra button
 
@@ -175,7 +181,7 @@ namespace Krypton.Ribbon
         /// Gets the view element for the first visible and enabled quick access toolbar button.
         /// </summary>
         /// <returns></returns>
-        public ViewBase GetLastQATView() =>
+        public ViewBase? GetLastQATView() =>
             // Last view is the extra button if defined
             _extraButton ?? _borderContents.GetLastQATView();
 
@@ -189,9 +195,9 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="qatButton">Search for entry after this view.</param>
         /// <returns>ViewBase if found; otherwise false.</returns>
-        public ViewBase GetNextQATView(ViewBase qatButton)
+        public ViewBase? GetNextQATView(ViewBase qatButton)
         {
-            ViewBase view = _borderContents.GetNextQATView(qatButton);
+            ViewBase? view = _borderContents.GetNextQATView(qatButton);
 
             // If no qat button is found and not already at the extra button
             if ((view == null) && (_extraButton != qatButton))
@@ -209,7 +215,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="qatButton">Search for entry after this view.</param>
         /// <returns>ViewBase if found; otherwise false.</returns>
-        public ViewBase GetPreviousQATView(ViewBase qatButton) =>
+        public ViewBase? GetPreviousQATView(ViewBase qatButton) =>
             // If on the extra button then find the right most qat button instead
             qatButton == _extraButton ? _borderContents.GetLastQATView() : _borderContents.GetPreviousQATView(qatButton);
 
@@ -220,7 +226,7 @@ namespace Krypton.Ribbon
         /// Discover the preferred size of the element.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override Size GetPreferredSize(ViewLayoutContext context)
+        public override Size GetPreferredSize([DisallowNull] ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 
@@ -233,7 +239,10 @@ namespace Krypton.Ribbon
             // If there are no visible buttons, then extra button must be for customization
             if (!visibleQATButtons)
             {
-                _extraButton.Overflow = false;
+                if (_extraButton != null)
+                {
+                    _extraButton.Overflow = false;
+                }
             }
 
             return base.GetPreferredSize(context);
@@ -264,12 +273,15 @@ namespace Krypton.Ribbon
 
             // Only if border is visible do we need to find the latest overflow value
             // otherwise it must be a customization image because there are no buttons
-            _extraButton.Overflow = _border.Visible && _borderContents.Overflow;
+            if (_extraButton != null)
+            {
+                _extraButton.Overflow = _border.Visible && _borderContents.Overflow;
+            }
         }
 
-        private void OnExtraButtonClick(object sender, EventHandler finishDelegate)
+        private void OnExtraButtonClick(object sender, EventHandler? finishDelegate)
         {
-            ViewDrawRibbonQATExtraButton button = (ViewDrawRibbonQATExtraButton)sender;
+            var button = (ViewDrawRibbonQATExtraButton)sender;
 
             // Convert the button rectangle to screen coordinates
             Rectangle screenRect = _ribbon.RectangleToScreen(button.ClientRectangle);
@@ -283,7 +295,7 @@ namespace Krypton.Ribbon
                 screenRect.Y -= borders.Top;
             }
 
-            if (_extraButton.Overflow)
+            if (_extraButton is { Overflow: true })
             {
                 _ribbon.DisplayQATOverflowMenu(screenRect, _borderContents, finishDelegate);
             }

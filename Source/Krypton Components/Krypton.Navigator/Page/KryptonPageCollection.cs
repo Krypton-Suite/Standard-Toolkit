@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -20,7 +20,7 @@ namespace Krypton.Navigator
     /// <summary>
     /// Specialise the generic collection event args with specific type.
     /// </summary>
-    public class KryptonPageEventArgs : TypedCollectionEventArgs<KryptonPage> 
+    public class KryptonPageEventArgs : TypedCollectionEventArgs<KryptonPage>
     {
         #region Public
         /// <summary>
@@ -28,7 +28,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="item">Page effected by event.</param>
         /// <param name="index">Index of page in the owning collection.</param>
-        public KryptonPageEventArgs(KryptonPage item, int index)
+        public KryptonPageEventArgs(KryptonPage? item, int index)
             : base(item, index)
         {
         }
@@ -46,35 +46,26 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="name">Name of the ribbon tab instance.</param>
         /// <returns>Item at specified index.</returns>
-        public override KryptonPage this[string name]
+        public override KryptonPage? this[string name]
         {
             get
             {
                 // First priority is the UniqueName
-                foreach (KryptonPage page in this)
+                foreach (KryptonPage page in this.Where(page => page.UniqueName == name))
                 {
-                    if (page.UniqueName == name)
-                    {
-                        return page;
-                    }
+                    return page;
                 }
 
                 // Second priority is the design time Name
-                foreach (KryptonPage page in this)
+                foreach (KryptonPage page in this.Where(page => page.Name == name))
                 {
-                    if (page.Name == name)
-                    {
-                        return page;
-                    }
+                    return page;
                 }
 
                 // Third priority is the Text of the page
-                foreach (KryptonPage page in this)
+                foreach (KryptonPage page in this.Where(page => page.Text == name))
                 {
-                    if (page.Text == name)
-                    {
-                        return page;
-                    }
+                    return page;
                 }
 
                 // Let base class perform standard processing

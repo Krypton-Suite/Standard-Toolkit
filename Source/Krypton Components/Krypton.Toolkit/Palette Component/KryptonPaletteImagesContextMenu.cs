@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -18,10 +18,10 @@ namespace Krypton.Toolkit
     public class KryptonPaletteImagesContextMenu : Storage
     {
         #region Instance Fields
-        private PaletteRedirect _redirect;
-        private Image _checked;
-        private Image _indeterminate;
-        private Image _subMenu;
+        private PaletteRedirect? _redirect;
+        private Image? _checked;
+        private Image? _indeterminate;
+        private Image? _subMenu;
         #endregion
 
         #region Identity
@@ -30,7 +30,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="redirect">Redirector to inherit values from.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public KryptonPaletteImagesContextMenu(PaletteRedirect redirect,
+        public KryptonPaletteImagesContextMenu(PaletteRedirect? redirect,
                                                NeedPaintHandler needPaint) 
         {
             // Store the redirector
@@ -74,11 +74,9 @@ namespace Krypton.Toolkit
         /// Update the redirector with new reference.
         /// </summary>
         /// <param name="redirect">Target redirector.</param>
-        public void SetRedirector(PaletteRedirect redirect)
-        {
+        public void SetRedirector(PaletteRedirect? redirect) =>
             // Update our cached reference
             _redirect = redirect;
-        }
         #endregion
 
         #region Checked
@@ -90,7 +88,7 @@ namespace Krypton.Toolkit
         [Description(@"Image for use with a checked menu item.")]
         [DefaultValue(null)]
         [RefreshProperties(RefreshProperties.All)]
-        public Image Checked
+        public Image? Checked
         {
             get => _checked;
 
@@ -107,10 +105,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the Checked property to its default value.
         /// </summary>
-        public void ResetChecked()
-        {
-            Checked = null;
-        }
+        public void ResetChecked() => Checked = null;
         #endregion
 
         #region Indeterminate
@@ -122,7 +117,7 @@ namespace Krypton.Toolkit
         [Description(@"Image for use with an indeterminate menu item.")]
         [DefaultValue(null)]
         [RefreshProperties(RefreshProperties.All)]
-        public Image Indeterminate
+        public Image? Indeterminate
         {
             get => _indeterminate;
 
@@ -139,10 +134,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the Indeterminate property to its default value.
         /// </summary>
-        public void ResetIndeterminate()
-        {
-            Indeterminate = null;
-        }
+        public void ResetIndeterminate() => Indeterminate = null;
         #endregion
 
         #region SubMenu
@@ -154,7 +146,7 @@ namespace Krypton.Toolkit
         [Description(@"Image indicating a sub-menu on a context menu item.")]
         [DefaultValue(null)]
         [RefreshProperties(RefreshProperties.All)]
-        public Image SubMenu
+        public Image? SubMenu
         {
             get => _subMenu;
 
@@ -171,10 +163,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the SubMenu property to its default value.
         /// </summary>
-        public void ResetSubMenu()
-        {
-            SubMenu = null;
-        }
+        public void ResetSubMenu() => SubMenu = null;
         #endregion
     }
 }

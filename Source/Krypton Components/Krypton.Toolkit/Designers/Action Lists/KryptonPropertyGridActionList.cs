@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -16,7 +16,7 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
 
-        private readonly KryptonPropertyGrid _propertyGrid;
+        private readonly KryptonPropertyGrid? _propertyGrid;
 
         private readonly IComponentChangeService _service;
 
@@ -85,14 +85,14 @@ namespace Krypton.Toolkit
 
         public override DesignerActionItemCollection GetSortedActionItems()
         {
-            DesignerActionItemCollection actions = new();
+            var actions = new DesignerActionItemCollection();
 
             if (_propertyGrid != null)
             {
-                actions.Add(new DesignerActionHeaderItem(@"Appearance"));
-                actions.Add(new DesignerActionPropertyItem(@"PropertySort", @"Property Sort", @"Appearance", @"Sort properties by."));
-                //actions.Add(new DesignerActionHeaderItem(@"Values"));
-                //actions.Add(new DesignerActionPropertyItem(@"SelectedObject", @"Selected Object", @"Values", @"The object to alter."));
+                actions.Add(new DesignerActionHeaderItem(nameof(Appearance)));
+                actions.Add(new DesignerActionPropertyItem(nameof(PropertySort), @"Property Sort", nameof(Appearance), @"Sort properties by."));
+                actions.Add(new DesignerActionHeaderItem(@"Values"));
+                actions.Add(new DesignerActionPropertyItem(@"SelectedObject", @"Selected Object", @"Values", @"The object to alter."));
                 //actions.Add(new DesignerActionPropertyItem(@"SelectedObjects", @"Selected Objects", @"Values", @"The objects to alter."));
             }
 

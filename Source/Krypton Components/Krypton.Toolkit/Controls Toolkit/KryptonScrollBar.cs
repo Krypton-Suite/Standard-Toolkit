@@ -5,23 +5,27 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
+
+// ReSharper disable CompareOfFloatsByEqualityOperator
+using Timer = System.Windows.Forms.Timer;
 
 namespace Krypton.Toolkit
 {
     /// <summary>
     /// A custom scrollbar control.
     /// </summary>
-    [Designer(@"Krypton.Toolkit.KryptonScrollBarDesigner, Krypton.Toolkit")]
-    [DefaultEvent("Scroll")]
-    [DefaultProperty("Value")]
-    [ToolboxBitmap(typeof(VScrollBar))]
+    [Designer(typeof(KryptonScrollBarDesigner))]
+    [DefaultEvent(nameof(Scroll))]
+    [DefaultProperty(nameof(Value))]
+    [ToolboxBitmap(typeof(VScrollBar), "ToolboxBitmaps.KryptonScrollBar.bmp")]
+    [DesignerCategory(@"code")]
     public class KryptonScrollBar : Control
     {
-        #region fields
+        #region Instance Fields
 
         /// <summary>
         /// Indicates many changes to the scrollbar are happening, so stop painting till finished.
@@ -69,12 +73,12 @@ namespace Krypton.Toolkit
         /// <summary>
         /// The progress timer for moving the thumb.
         /// </summary>
-        private readonly System.Windows.Forms.Timer _progressTimer = new();
+        private readonly Timer _progressTimer = new Timer();
 
         private Color _borderColor = Color.FromArgb(93, 140, 201);
         private Color _disabledBorderColor = Color.Gray;
 
-        #region context menu items
+        #region Context Menu Items
 
         private ContextMenuStrip _contextMenu;
         private IContainer components;
@@ -93,7 +97,7 @@ namespace Krypton.Toolkit
 
         #endregion
 
-        #region constructor
+        #region Identity
 
         /// <summary>
         /// Initializes a new instance of the <see cref="KryptonScrollBar"/> class.
@@ -133,16 +137,16 @@ namespace Krypton.Toolkit
 
         #endregion
 
-        #region events
+        #region Events
         /// <summary>
         /// Occurs when the scrollbar scrolled.
         /// </summary>
         [Category(@"Behavior")]
         [Description(@"Is raised, when the scrollbar was scrolled.")]
-        public event ScrollEventHandler Scroll;
+        public event ScrollEventHandler? Scroll;
         #endregion
 
-        #region properties
+        #region Public
 
         /// <summary>
         /// Gets or sets the orientation.
@@ -201,7 +205,7 @@ namespace Krypton.Toolkit
                 }
 
                 _minimum = value;
-                
+
                 // current value less than new minimum value - adjust
                 if (_minimum < value)
                 {
@@ -258,7 +262,7 @@ namespace Krypton.Toolkit
                 }
 
                 SetUpScrollBar();
-                
+
                 // is current value greater than new maximum value - adjust
                 if (_value > value)
                 {
@@ -423,9 +427,9 @@ namespace Krypton.Toolkit
 
         #endregion
 
-        #region methods
+        #region Implementation
 
-        #region public methods
+        #region Public Methods
 
         /// <summary>
         /// Prevents the drawing of the control until <see cref="EndUpdate"/> is called.
@@ -449,7 +453,7 @@ namespace Krypton.Toolkit
 
         #endregion
 
-        #region protected methods
+        #region Protected Methods
 
         /// <summary>
         /// Raises the <see cref="Scroll"/> event.
@@ -457,7 +461,7 @@ namespace Krypton.Toolkit
         /// <param name="e">The <see cref="ScrollEventArgs"/> that contains the event data.</param>
         protected virtual void OnScroll(ScrollEventArgs e) =>
             // if event handler is attached - raise scroll event
-            Scroll?.Invoke(this, e);
+            Scroll.Invoke(this, e);
 
         /// <summary>
         /// Paints the background of the control.
@@ -586,8 +590,7 @@ namespace Krypton.Toolkit
             }
 
             // draw border
-            using Pen pen = new(
-                Enabled ? ScrollBarKryptonRenderer.borderColours[0] : _disabledBorderColor);
+            using var pen = new Pen(Enabled ? ScrollBarKryptonRenderer.borderColours[0] : _disabledBorderColor);
             e.Graphics.DrawRectangle(pen, 0, 0, Width - 1, Height - 1);
         }
 
@@ -601,64 +604,68 @@ namespace Krypton.Toolkit
 
             Focus();
 
-            if (e.Button == MouseButtons.Left)
+            switch (e.Button)
             {
-                // prevents showing the context menu if pressing the right mouse
-                // button while holding the left
-                ContextMenuStrip = null;
+                case MouseButtons.Left:
+                    {
+                        // prevents showing the context menu if pressing the right mouse
+                        // button while holding the left
+                        ContextMenuStrip = null;
 
-                Point mouseLocation = e.Location;
+                        Point mouseLocation = e.Location;
 
-                if (_thumbRectangle.Contains(mouseLocation))
-                {
-                    _thumbClicked = true;
-                    _thumbPosition = _orientation == ScrollBarOrientation.Vertical ? mouseLocation.Y - _thumbRectangle.Y : mouseLocation.X - _thumbRectangle.X;
-                    _thumbState = ScrollBarState.Pressed;
+                        if (_thumbRectangle.Contains(mouseLocation))
+                        {
+                            _thumbClicked = true;
+                            _thumbPosition = _orientation == ScrollBarOrientation.Vertical ? mouseLocation.Y - _thumbRectangle.Y : mouseLocation.X - _thumbRectangle.X;
+                            _thumbState = ScrollBarState.Pressed;
 
-                    Invalidate(_thumbRectangle);
-                }
-                else if (_topArrowRectangle.Contains(mouseLocation))
-                {
-                    _topArrowClicked = true;
-                    _topButtonState = ScrollBarArrowButtonState.UpPressed;
+                            Invalidate(_thumbRectangle);
+                        }
+                        else if (_topArrowRectangle.Contains(mouseLocation))
+                        {
+                            _topArrowClicked = true;
+                            _topButtonState = ScrollBarArrowButtonState.UpPressed;
 
-                    Invalidate(_topArrowRectangle);
+                            Invalidate(_topArrowRectangle);
 
-                    ProgressThumb(true);
-                }
-                else if (_bottomArrowRectangle.Contains(mouseLocation))
-                {
-                    _bottomArrowClicked = true;
-                    _bottomButtonState = ScrollBarArrowButtonState.DownPressed;
+                            ProgressThumb(true);
+                        }
+                        else if (_bottomArrowRectangle.Contains(mouseLocation))
+                        {
+                            _bottomArrowClicked = true;
+                            _bottomButtonState = ScrollBarArrowButtonState.DownPressed;
 
-                    Invalidate(_bottomArrowRectangle);
+                            Invalidate(_bottomArrowRectangle);
 
-                    ProgressThumb(true);
-                }
-                else
-                {
+                            ProgressThumb(true);
+                        }
+                        else
+                        {
+                            _trackPosition =
+                                _orientation == ScrollBarOrientation.Vertical ?
+                                    mouseLocation.Y : mouseLocation.X;
+
+                            if (_trackPosition <
+                                (_orientation == ScrollBarOrientation.Vertical ?
+                                    _thumbRectangle.Y : _thumbRectangle.X))
+                            {
+                                _topBarClicked = true;
+                            }
+                            else
+                            {
+                                _bottomBarClicked = true;
+                            }
+
+                            ProgressThumb(true);
+                        }
+
+                        break;
+                    }
+                case MouseButtons.Right:
                     _trackPosition =
-                       _orientation == ScrollBarOrientation.Vertical ?
-                          mouseLocation.Y : mouseLocation.X;
-
-                    if (_trackPosition <
-                       (_orientation == ScrollBarOrientation.Vertical ?
-                          _thumbRectangle.Y : _thumbRectangle.X))
-                    {
-                        _topBarClicked = true;
-                    }
-                    else
-                    {
-                        _bottomBarClicked = true;
-                    }
-
-                    ProgressThumb(true);
-                }
-            }
-            else if (e.Button == MouseButtons.Right)
-            {
-                _trackPosition =
-                   _orientation == ScrollBarOrientation.Vertical ? e.Y : e.X;
+                        _orientation == ScrollBarOrientation.Vertical ? e.Y : e.X;
+                    break;
             }
         }
 
@@ -796,17 +803,17 @@ namespace Krypton.Toolkit
                             arrowSize = _arrowWidth;
                         }
 
-                        var perc = 0f;
+                        var percent = 0f;
 
                         if (pixelRange != 0)
                         {
                             // percent of the new position
-                            perc = (float)(thumbPos - arrowSize) / (float)pixelRange;
+                            percent = (thumbPos - arrowSize) / (float)pixelRange;
                         }
 
                         // the new value is somewhere between max and min, starting
                         // at min position
-                        _value = Convert.ToInt32((perc * (_maximum - _minimum)) + _minimum);
+                        _value = Convert.ToInt32((percent * (_maximum - _minimum)) + _minimum);
                     }
 
                     // raise scroll event if new value different
@@ -913,8 +920,8 @@ namespace Krypton.Toolkit
         {
             // key handling is here - keys recognized by the control
             // Up&Down or Left&Right, PageUp, PageDown, Home, End
-            Keys keyUp = Keys.Up;
-            Keys keyDown = Keys.Down;
+            var keyUp = Keys.Up;
+            var keyDown = Keys.Down;
 
             if (_orientation == ScrollBarOrientation.Horizontal)
             {
@@ -936,42 +943,36 @@ namespace Krypton.Toolkit
                 return true;
             }
 
-            if (keyData == Keys.PageUp)
+            switch (keyData)
             {
-                Value = GetValue(false, true);
+                case Keys.PageUp:
+                    Value = GetValue(false, true);
 
-                return true;
-            }
+                    return true;
+                case Keys.PageDown:
+                    {
+                        if (_value + _largeChange > _maximum)
+                        {
+                            Value = _maximum;
+                        }
+                        else
+                        {
+                            Value += _largeChange;
+                        }
 
-            if (keyData == Keys.PageDown)
-            {
-                if (_value + _largeChange > _maximum)
-                {
+                        return true;
+                    }
+                case Keys.Home:
+                    Value = _minimum;
+
+                    return true;
+                case Keys.End:
                     Value = _maximum;
-                }
-                else
-                {
-                    Value += _largeChange;
-                }
 
-                return true;
+                    return true;
+                default:
+                    return base.ProcessDialogKey(keyData);
             }
-
-            if (keyData == Keys.Home)
-            {
-                Value = _minimum;
-
-                return true;
-            }
-
-            if (keyData == Keys.End)
-            {
-                Value = _maximum;
-
-                return true;
-            }
-
-            return base.ProcessDialogKey(keyData);
         }
 
         /// <summary>
@@ -1000,7 +1001,7 @@ namespace Krypton.Toolkit
 
         #endregion
 
-        #region misc methods
+        #region Misc Methods
 
         /// <summary>
         /// Sets up the scrollbar.
@@ -1217,7 +1218,7 @@ namespace Krypton.Toolkit
 
             if (realRange != 0)
             {
-                perc = ((float)_value - (float)_minimum) / (float)realRange;
+                perc = (_value - _minimum) / (float)realRange;
             }
 
             return Math.Max(_thumbTopLimit, Math.Min(
@@ -1240,9 +1241,9 @@ namespace Krypton.Toolkit
                 return trackSize;
             }
 
-            var newThumbSize = (float)_largeChange * (float)trackSize / (float)_maximum;
+            var newThumbSize = _largeChange * trackSize / (float)_maximum;
 
-            return Convert.ToInt32(Math.Min((float)trackSize, Math.Max(newThumbSize, 10f)));
+            return Convert.ToInt32(Math.Min(trackSize, Math.Max(newThumbSize, 10f)));
         }
 
         /// <summary>
@@ -1291,7 +1292,7 @@ namespace Krypton.Toolkit
         private void ProgressThumb(bool enableTimer)
         {
             var scrollOldValue = _value;
-            ScrollEventType type = ScrollEventType.First;
+            var type = ScrollEventType.First;
             int thumbSize, thumbPos;
 
             if (_orientation == ScrollBarOrientation.Vertical)
@@ -1381,29 +1382,29 @@ namespace Krypton.Toolkit
         {
             if (_orientation == ScrollBarOrientation.Vertical)
             {
-                _tsmiTop.Text = "Top";
-                _tsmiBottom.Text = "Bottom";
-                _tsmiLargeDown.Text = "Page down";
-                _tsmiLargeUp.Text = "Page up";
-                _tsmiSmallDown.Text = "Scroll down";
-                _tsmiSmallUp.Text = "Scroll up";
-                _tsmiScrollHere.Text = "Scroll here";
+                _tsmiTop.Text = nameof(Top);
+                _tsmiBottom.Text = nameof(Bottom);
+                _tsmiLargeDown.Text = KryptonLanguageManager.ScrollBarStrings.PageDown;
+                _tsmiLargeUp.Text = KryptonLanguageManager.ScrollBarStrings.PageUp;
+                _tsmiSmallDown.Text = KryptonLanguageManager.ScrollBarStrings.ScrollDown;
+                _tsmiSmallUp.Text = KryptonLanguageManager.ScrollBarStrings.ScrollUp;
+                _tsmiScrollHere.Text = KryptonLanguageManager.ScrollBarStrings.ScrollHere;
             }
             else
             {
-                _tsmiTop.Text = "Left";
-                _tsmiBottom.Text = "Right";
-                _tsmiLargeDown.Text = "Page left";
-                _tsmiLargeUp.Text = "Page right";
-                _tsmiSmallDown.Text = "Scroll right";
-                _tsmiSmallUp.Text = "Scroll left";
-                _tsmiScrollHere.Text = "Scroll here";
+                _tsmiTop.Text = nameof(Left);
+                _tsmiBottom.Text = nameof(Right);
+                _tsmiLargeDown.Text = KryptonLanguageManager.ScrollBarStrings.PageLeft;
+                _tsmiLargeUp.Text = KryptonLanguageManager.ScrollBarStrings.PageRight;
+                _tsmiSmallDown.Text = KryptonLanguageManager.ScrollBarStrings.ScrollRight;
+                _tsmiSmallUp.Text = KryptonLanguageManager.ScrollBarStrings.ScrollLeft;
+                _tsmiScrollHere.Text = KryptonLanguageManager.ScrollBarStrings.ScrollHere;
             }
         }
 
         #endregion
 
-        #region context menu methods
+        #region Context Menu Methods
 
         /// <summary>
         /// Initializes the context menu.
@@ -1438,78 +1439,78 @@ namespace Krypton.Toolkit
             _toolStripSeparator3,
             _tsmiSmallUp,
             _tsmiSmallDown});
-            _contextMenu.Name = "_contextMenu";
+            _contextMenu.Name = nameof(_contextMenu);
             _contextMenu.Size = new Size(151, 176);
             // 
             // tsmiScrollHere
             // 
             _tsmiScrollHere.DisplayStyle = ToolStripItemDisplayStyle.Text;
-            _tsmiScrollHere.Name = "_tsmiScrollHere";
+            _tsmiScrollHere.Name = nameof(_tsmiScrollHere);
             _tsmiScrollHere.Size = new Size(150, 22);
-            _tsmiScrollHere.Text = "Scroll here";
+            _tsmiScrollHere.Text = KryptonLanguageManager.ScrollBarStrings.ScrollHere;
             _tsmiScrollHere.Click += ScrollHereClick;
             // 
             // toolStripSeparator1
             // 
-            _toolStripSeparator1.Name = "_toolStripSeparator1";
+            _toolStripSeparator1.Name = nameof(_toolStripSeparator1);
             _toolStripSeparator1.Size = new Size(147, 6);
             // 
             // tsmiTop
             // 
             _tsmiTop.DisplayStyle = ToolStripItemDisplayStyle.Text;
-            _tsmiTop.Name = "_tsmiTop";
+            _tsmiTop.Name = nameof(_tsmiTop);
             _tsmiTop.Size = new Size(150, 22);
-            _tsmiTop.Text = "Top";
+            _tsmiTop.Text = nameof(Top);
             _tsmiTop.Click += TopClick;
             // 
             // tsmiBottom
             // 
             _tsmiBottom.DisplayStyle = ToolStripItemDisplayStyle.Text;
-            _tsmiBottom.Name = "_tsmiBottom";
+            _tsmiBottom.Name = nameof(_tsmiBottom);
             _tsmiBottom.Size = new Size(150, 22);
-            _tsmiBottom.Text = "Bottom";
+            _tsmiBottom.Text = nameof(Bottom);
             _tsmiBottom.Click += BottomClick;
             // 
             // toolStripSeparator2
             // 
-            _toolStripSeparator2.Name = "_toolStripSeparator2";
+            _toolStripSeparator2.Name = nameof(_toolStripSeparator2);
             _toolStripSeparator2.Size = new Size(147, 6);
             // 
             // tsmiLargeUp
             // 
             _tsmiLargeUp.DisplayStyle = ToolStripItemDisplayStyle.Text;
-            _tsmiLargeUp.Name = "_tsmiLargeUp";
+            _tsmiLargeUp.Name = nameof(_tsmiLargeUp);
             _tsmiLargeUp.Size = new Size(150, 22);
-            _tsmiLargeUp.Text = "Page up";
+            _tsmiLargeUp.Text = KryptonLanguageManager.ScrollBarStrings.PageUp;
             _tsmiLargeUp.Click += LargeUpClick;
             // 
             // tsmiLargeDown
             // 
             _tsmiLargeDown.DisplayStyle = ToolStripItemDisplayStyle.Text;
-            _tsmiLargeDown.Name = "_tsmiLargeDown";
+            _tsmiLargeDown.Name = nameof(_tsmiLargeDown);
             _tsmiLargeDown.Size = new Size(150, 22);
-            _tsmiLargeDown.Text = "Page down";
+            _tsmiLargeDown.Text = KryptonLanguageManager.ScrollBarStrings.PageDown;
             _tsmiLargeDown.Click += LargeDownClick;
             // 
             // toolStripSeparator3
             // 
-            _toolStripSeparator3.Name = "_toolStripSeparator3";
+            _toolStripSeparator3.Name = nameof(_toolStripSeparator3);
             _toolStripSeparator3.Size = new Size(147, 6);
             // 
             // tsmiSmallUp
             // 
             _tsmiSmallUp.DisplayStyle = ToolStripItemDisplayStyle.Text;
-            _tsmiSmallUp.Name = "_tsmiSmallUp";
+            _tsmiSmallUp.Name = nameof(_tsmiSmallUp);
             _tsmiSmallUp.Size = new Size(150, 22);
-            _tsmiSmallUp.Text = "Scroll up";
+            _tsmiSmallUp.Text = KryptonLanguageManager.ScrollBarStrings.ScrollUp;
             _tsmiSmallUp.Click += SmallUpClick;
             // 
             // tsmiSmallDown
             // 
             _tsmiSmallDown.DisplayStyle = ToolStripItemDisplayStyle.Text;
-            _tsmiSmallDown.Name = "_tsmiSmallDown";
+            _tsmiSmallDown.Name = nameof(_tsmiSmallDown);
             _tsmiSmallDown.Size = new Size(150, 22);
-            _tsmiSmallDown.Text = "Scroll down";
+            _tsmiSmallDown.Text = KryptonLanguageManager.ScrollBarStrings.ScrollDown;
             _tsmiSmallDown.Click += SmallDownClick;
             _contextMenu.ResumeLayout(false);
             ResumeLayout(false);
@@ -1550,7 +1551,7 @@ namespace Krypton.Toolkit
 
             if (pixelRange != 0)
             {
-                perc = (float)(thumbPos - arrowSize) / (float)pixelRange;
+                perc = (thumbPos - arrowSize) / (float)pixelRange;
             }
 
             var oldValue = _value;
@@ -1567,60 +1568,42 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">The sender.</param>
         /// <param name="e">The event arguments.</param>
-        private void TopClick(object sender, EventArgs e)
-        {
-            Value = _minimum;
-        }
+        private void TopClick(object sender, EventArgs e) => Value = _minimum;
 
         /// <summary>
         /// Context menu handler.
         /// </summary>
         /// <param name="sender">The sender.</param>
         /// <param name="e">The event arguments.</param>
-        private void BottomClick(object sender, EventArgs e)
-        {
-            Value = _maximum;
-        }
+        private void BottomClick(object sender, EventArgs e) => Value = _maximum;
 
         /// <summary>
         /// Context menu handler.
         /// </summary>
         /// <param name="sender">The sender.</param>
         /// <param name="e">The event arguments.</param>
-        private void LargeUpClick(object sender, EventArgs e)
-        {
-            Value = GetValue(false, true);
-        }
+        private void LargeUpClick(object sender, EventArgs e) => Value = GetValue(false, true);
 
         /// <summary>
         /// Context menu handler.
         /// </summary>
         /// <param name="sender">The sender.</param>
         /// <param name="e">The event arguments.</param>
-        private void LargeDownClick(object sender, EventArgs e)
-        {
-            Value = GetValue(false, false);
-        }
+        private void LargeDownClick(object sender, EventArgs e) => Value = GetValue(false, false);
 
         /// <summary>
         /// Context menu handler.
         /// </summary>
         /// <param name="sender">The sender.</param>
         /// <param name="e">The event arguments.</param>
-        private void SmallUpClick(object sender, EventArgs e)
-        {
-            Value = GetValue(true, true);
-        }
+        private void SmallUpClick(object sender, EventArgs e) => Value = GetValue(true, true);
 
         /// <summary>
         /// Context menu handler.
         /// </summary>
         /// <param name="sender">The sender.</param>
         /// <param name="e">The event arguments.</param>
-        private void SmallDownClick(object sender, EventArgs e)
-        {
-            Value = GetValue(true, false);
-        }
+        private void SmallDownClick(object sender, EventArgs e) => Value = GetValue(true, false);
 
         #endregion
 

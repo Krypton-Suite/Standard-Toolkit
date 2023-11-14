@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -17,9 +17,6 @@ namespace Krypton.Toolkit
     /// </summary>
     public partial class KryptonContextMenuCollectionEditor : CollectionEditor
     {
-        #region Classes
-        #endregion
-
         #region Identity
         /// <summary>
         /// Initialize a new instance of the KryptonContextMenuCollectionEditor class.
@@ -41,9 +38,7 @@ namespace Krypton.Toolkit
         /// Gets the data types that this collection editor can contain. 
         /// </summary>
         /// <returns>An array of data types that this collection can contain.</returns>
-        protected override Type[] CreateNewItemTypes()
-        {
-            return new[] { typeof(KryptonContextMenuItems),
+        protected override Type[] CreateNewItemTypes() => new[] { typeof(KryptonContextMenuItems),
                                 typeof(KryptonContextMenuSeparator),
                                 typeof(KryptonContextMenuHeading),
                                 typeof(KryptonContextMenuLinkLabel),
@@ -54,7 +49,6 @@ namespace Krypton.Toolkit
                                 typeof(KryptonContextMenuMonthCalendar),
                                 typeof(KryptonContextMenuImageSelect)
             };
-        }
         #endregion
     }
 }

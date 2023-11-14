@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -33,16 +33,12 @@ namespace Krypton.Toolkit
             /// </summary>
             protected class MenuTreeNode : TreeNode
             {
-                #region Instance Fields
-
-                #endregion
-
                 #region Identity
                 /// <summary>
                 /// Initialize a new instance of the MenuTreeNode class.
                 /// </summary>
                 /// <param name="item">Menu item to represent.</param>
-                public MenuTreeNode(KryptonContextMenuItemBase item)
+                public MenuTreeNode([DisallowNull] KryptonContextMenuItemBase item)
                 {
                     Debug.Assert(item != null);
                     Item = item;
@@ -107,11 +103,9 @@ namespace Krypton.Toolkit
                     return -1;
                 }
 
-                private void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
-                {
+                private void OnPropertyChanged(object sender, PropertyChangedEventArgs e) =>
                     // Update with correct string for new state
                     Text = Item.ToString();
-                }
                 #endregion
             }
 
@@ -122,7 +116,7 @@ namespace Krypton.Toolkit
             {
                 #region Instance Fields
 
-                private readonly IServiceProvider _serviceProvider;
+                private readonly IServiceProvider? _serviceProvider;
                 private bool _inGetService;
                 #endregion
 
@@ -130,12 +124,12 @@ namespace Krypton.Toolkit
                 /// <summary>
                 /// Initialize a new instance of the PropertyGridSite.
                 /// </summary>
-                /// <param name="servicePovider">Reference to service container.</param>
+                /// <param name="serviceProvider">Reference to service container.</param>
                 /// <param name="component">Reference to component.</param>
-                public PropertyGridSite(IServiceProvider servicePovider,
+                public PropertyGridSite(IServiceProvider serviceProvider,
                                         IComponent component)
                 {
-                    _serviceProvider = servicePovider;
+                    _serviceProvider = serviceProvider;
                     Component = component;
                 }
                 #endregion
@@ -146,7 +140,7 @@ namespace Krypton.Toolkit
                 /// </summary>
                 /// <param name="t">An object that specifies the type of service object to get. </param>
                 /// <returns>A service object of type serviceType; or null reference if there is no service object of type serviceType.</returns>
-                public object GetService(Type t)
+                public object? GetService(Type t)
                 {
                     if (!_inGetService && (_serviceProvider != null))
                     {
@@ -167,12 +161,12 @@ namespace Krypton.Toolkit
                 /// <summary>
                 /// Gets the component associated with the ISite when implemented by a class.
                 /// </summary>
-                public IComponent Component { get; }
+                public IComponent? Component { get; }
 
                 /// <summary>
                 /// Gets the IContainer associated with the ISite when implemented by a class.
                 /// </summary>
-                public IContainer Container => null;
+                public IContainer? Container => null;
 
                 /// <summary>
                 /// Determines whether the component is in design mode when implemented by a class.
@@ -182,7 +176,7 @@ namespace Krypton.Toolkit
                 /// <summary>
                 /// Gets or sets the name of the component associated with the ISite when implemented by a class.
                 /// </summary>
-                public string Name
+                public string? Name
                 {
                     get => null;
                     set { }
@@ -216,6 +210,8 @@ namespace Krypton.Toolkit
             private Button _buttonAddComboBox;
             private PropertyGrid _propertyGrid1;
             private IContainer components;
+            private TableLayoutPanel _tableLayoutPanel1;
+            private Panel _panel1;
             #endregion
 
             #region Identity
@@ -233,7 +229,6 @@ namespace Krypton.Toolkit
                 _editor = editor;
                 InitializeComponent();
             }
-
 
             private void InitializeComponent()
             {
@@ -259,6 +254,10 @@ namespace Krypton.Toolkit
                 _buttonAddColorColumns = new Button();
                 _buttonAddImageSelect = new Button();
                 _buttonAddComboBox = new Button();
+                _tableLayoutPanel1 = new TableLayoutPanel();
+                _panel1 = new Panel();
+                _tableLayoutPanel1.SuspendLayout();
+                _panel1.SuspendLayout();
                 SuspendLayout();
                 // 
                 // buttonOK
@@ -266,7 +265,7 @@ namespace Krypton.Toolkit
                 _buttonOk.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
                 _buttonOk.DialogResult = DialogResult.OK;
                 _buttonOk.Location = new Point(729, 675);
-                _buttonOk.Name = "_buttonOk";
+                _buttonOk.Name = nameof(_buttonOk);
                 _buttonOk.Size = new Size(75, 33);
                 _buttonOk.TabIndex = 16;
                 _buttonOk.Text = @"OK";
@@ -282,7 +281,7 @@ namespace Krypton.Toolkit
                 _treeView.ImageIndex = 0;
                 _treeView.ImageList = _imageList;
                 _treeView.Location = new Point(16, 33);
-                _treeView.Name = "_treeView";
+                _treeView.Name = nameof(_treeView);
                 _treeView.SelectedImageIndex = 0;
                 _treeView.Size = new Size(320, 615);
                 _treeView.TabIndex = 0;
@@ -292,21 +291,21 @@ namespace Krypton.Toolkit
                 // 
                 _imageList.TransparentColor = Color.Magenta;
                 _imageList.Images.AddRange(new Image[]{
-                    KryptonGenericResources.KryptonContextMenuColorColumns,
-                    KryptonGenericResources.KryptonContextMenuHeading,
-                    KryptonGenericResources.KryptonContextMenuItem,
-                    KryptonGenericResources.KryptonContextMenuItems,
-                    KryptonGenericResources.KryptonContextMenuSeparator,
-                    KryptonGenericResources.KryptonRadioButton,
-                    KryptonGenericResources.KryptonCheckBox,
-                    KryptonGenericResources.KryptonCheckButton,
-                    KryptonGenericResources.KryptonLinkLabel,
-                    GenericImageResources.delete2,
+                    GenericKryptonImageResources.KryptonContextMenuColorColumns,
+                    GenericKryptonImageResources.KryptonContextMenuHeading,
+                    GenericKryptonImageResources.KryptonContextMenuItem,
+                    GenericKryptonImageResources.KryptonContextMenuItems,
+                    GenericKryptonImageResources.KryptonContextMenuSeparator,
+                    GenericKryptonImageResources.KryptonRadioButton,
+                    GenericKryptonImageResources.KryptonCheckBox,
+                    GenericKryptonImageResources.KryptonCheckButton,
+                    GenericKryptonImageResources.KryptonLinkLabel,
+                    GenericImageResources.delete,
                     BlueArrowResources.arrow_up_blue,
                     BlueArrowResources.arrow_down_blue,
-                    KryptonGenericResources.KryptonContextMenuImageSelect,
-                    KryptonGenericResources.KryptonMonthCalendar,
-                    KryptonGenericResources.KryptonComboBox
+                    GenericKryptonImageResources.KryptonContextMenuImageSelect,
+                    GenericKryptonImageResources.KryptonMonthCalendar,
+                    GenericKryptonImageResources.KryptonComboBox
                 });
 
                 // TODO: Do these need updating?
@@ -319,7 +318,7 @@ namespace Krypton.Toolkit
                 _imageList.Images.SetKeyName(6, "KryptonCheckBox.bmp");
                 _imageList.Images.SetKeyName(7, "KryptonCheckButton.bmp");
                 _imageList.Images.SetKeyName(8, "KryptonLinkLabel.bmp");
-                _imageList.Images.SetKeyName(9, "delete2.png");
+                _imageList.Images.SetKeyName(9, "delete.png");
                 _imageList.Images.SetKeyName(10, "arrow_up_blue.png");
                 _imageList.Images.SetKeyName(11, "arrow_down_blue.png");
                 _imageList.Images.SetKeyName(12, "KryptonContextMenuImageSelect.bmp");
@@ -329,20 +328,20 @@ namespace Krypton.Toolkit
                 // label1
                 // 
                 _label1.AutoSize = true;
-                _label1.Location = new Point(13, 11);
-                _label1.Name = "_label1";
+                _label1.Location = new Point(3, 0);
+                _label1.Name = nameof(_label1);
                 _label1.Size = new Size(120, 21);
                 _label1.TabIndex = 7;
                 _label1.Text = @"Item Hierarchy";
                 // 
                 // buttonDelete
                 // 
-                _buttonDelete.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+                _buttonDelete.Anchor = AnchorStyles.Top;
                 _buttonDelete.ImageAlign = ContentAlignment.MiddleLeft;
                 _buttonDelete.ImageIndex = 9;
                 _buttonDelete.ImageList = _imageList;
-                _buttonDelete.Location = new Point(341, 603);
-                _buttonDelete.Name = "_buttonDelete";
+                _buttonDelete.Location = new Point(316, 688);
+                _buttonDelete.Name = nameof(_buttonDelete);
                 _buttonDelete.Size = new Size(184, 32);
                 _buttonDelete.TabIndex = 14;
                 _buttonDelete.Text = @"Delete";
@@ -356,8 +355,8 @@ namespace Krypton.Toolkit
                 _buttonMoveUp.ImageAlign = ContentAlignment.MiddleLeft;
                 _buttonMoveUp.ImageIndex = 10;
                 _buttonMoveUp.ImageList = _imageList;
-                _buttonMoveUp.Location = new Point(341, 29);
-                _buttonMoveUp.Name = "_buttonMoveUp";
+                _buttonMoveUp.Location = new Point(21, 29);
+                _buttonMoveUp.Name = nameof(_buttonMoveUp);
                 _buttonMoveUp.Size = new Size(184, 32);
                 _buttonMoveUp.TabIndex = 1;
                 _buttonMoveUp.Text = @"Move Up";
@@ -371,8 +370,8 @@ namespace Krypton.Toolkit
                 _buttonMoveDown.ImageAlign = ContentAlignment.MiddleLeft;
                 _buttonMoveDown.ImageIndex = 11;
                 _buttonMoveDown.ImageList = _imageList;
-                _buttonMoveDown.Location = new Point(341, 70);
-                _buttonMoveDown.Name = "_buttonMoveDown";
+                _buttonMoveDown.Location = new Point(21, 70);
+                _buttonMoveDown.Name = nameof(_buttonMoveDown);
                 _buttonMoveDown.Size = new Size(184, 32);
                 _buttonMoveDown.TabIndex = 2;
                 _buttonMoveDown.Text = @"Move Down";
@@ -386,8 +385,8 @@ namespace Krypton.Toolkit
                 _buttonAddCheckBox.ImageAlign = ContentAlignment.MiddleLeft;
                 _buttonAddCheckBox.ImageIndex = 6;
                 _buttonAddCheckBox.ImageList = _imageList;
-                _buttonAddCheckBox.Location = new Point(341, 275);
-                _buttonAddCheckBox.Name = "_buttonAddCheckBox";
+                _buttonAddCheckBox.Location = new Point(21, 275);
+                _buttonAddCheckBox.Name = nameof(_buttonAddCheckBox);
                 _buttonAddCheckBox.Size = new Size(184, 32);
                 _buttonAddCheckBox.TabIndex = 7;
                 _buttonAddCheckBox.Text = @"Add CheckBox";
@@ -401,8 +400,8 @@ namespace Krypton.Toolkit
                 _buttonAddCheckButton.ImageAlign = ContentAlignment.MiddleLeft;
                 _buttonAddCheckButton.ImageIndex = 7;
                 _buttonAddCheckButton.ImageList = _imageList;
-                _buttonAddCheckButton.Location = new Point(341, 316);
-                _buttonAddCheckButton.Name = "_buttonAddCheckButton";
+                _buttonAddCheckButton.Location = new Point(21, 316);
+                _buttonAddCheckButton.Name = nameof(_buttonAddCheckButton);
                 _buttonAddCheckButton.Size = new Size(184, 32);
                 _buttonAddCheckButton.TabIndex = 8;
                 _buttonAddCheckButton.Text = @"Add CheckButton";
@@ -416,8 +415,8 @@ namespace Krypton.Toolkit
                 _buttonAddRadioButton.ImageAlign = ContentAlignment.MiddleLeft;
                 _buttonAddRadioButton.ImageIndex = 5;
                 _buttonAddRadioButton.ImageList = _imageList;
-                _buttonAddRadioButton.Location = new Point(341, 357);
-                _buttonAddRadioButton.Name = "_buttonAddRadioButton";
+                _buttonAddRadioButton.Location = new Point(21, 357);
+                _buttonAddRadioButton.Name = nameof(_buttonAddRadioButton);
                 _buttonAddRadioButton.Size = new Size(184, 32);
                 _buttonAddRadioButton.TabIndex = 9;
                 _buttonAddRadioButton.Text = @"Add RadioButton";
@@ -431,8 +430,8 @@ namespace Krypton.Toolkit
                 _buttonAddLinkLabel.ImageAlign = ContentAlignment.MiddleLeft;
                 _buttonAddLinkLabel.ImageIndex = 8;
                 _buttonAddLinkLabel.ImageList = _imageList;
-                _buttonAddLinkLabel.Location = new Point(341, 398);
-                _buttonAddLinkLabel.Name = "_buttonAddLinkLabel";
+                _buttonAddLinkLabel.Location = new Point(21, 398);
+                _buttonAddLinkLabel.Name = nameof(_buttonAddLinkLabel);
                 _buttonAddLinkLabel.Size = new Size(184, 32);
                 _buttonAddLinkLabel.TabIndex = 10;
                 _buttonAddLinkLabel.Text = @"Add LinkLabel";
@@ -446,8 +445,8 @@ namespace Krypton.Toolkit
                 _buttonAddSeparator.ImageAlign = ContentAlignment.MiddleLeft;
                 _buttonAddSeparator.ImageIndex = 4;
                 _buttonAddSeparator.ImageList = _imageList;
-                _buttonAddSeparator.Location = new Point(341, 234);
-                _buttonAddSeparator.Name = "_buttonAddSeparator";
+                _buttonAddSeparator.Location = new Point(21, 234);
+                _buttonAddSeparator.Name = nameof(_buttonAddSeparator);
                 _buttonAddSeparator.Size = new Size(184, 32);
                 _buttonAddSeparator.TabIndex = 6;
                 _buttonAddSeparator.Text = @"Add Separator";
@@ -461,8 +460,8 @@ namespace Krypton.Toolkit
                 _buttonAddItem.ImageAlign = ContentAlignment.MiddleLeft;
                 _buttonAddItem.ImageIndex = 2;
                 _buttonAddItem.ImageList = _imageList;
-                _buttonAddItem.Location = new Point(341, 111);
-                _buttonAddItem.Name = "_buttonAddItem";
+                _buttonAddItem.Location = new Point(21, 111);
+                _buttonAddItem.Name = nameof(_buttonAddItem);
                 _buttonAddItem.Size = new Size(184, 32);
                 _buttonAddItem.TabIndex = 3;
                 _buttonAddItem.Text = @"Add Item";
@@ -476,8 +475,8 @@ namespace Krypton.Toolkit
                 _buttonAddItems.ImageAlign = ContentAlignment.MiddleLeft;
                 _buttonAddItems.ImageIndex = 3;
                 _buttonAddItems.ImageList = _imageList;
-                _buttonAddItems.Location = new Point(341, 152);
-                _buttonAddItems.Name = "_buttonAddItems";
+                _buttonAddItems.Location = new Point(21, 152);
+                _buttonAddItems.Name = nameof(_buttonAddItems);
                 _buttonAddItems.Size = new Size(184, 32);
                 _buttonAddItems.TabIndex = 4;
                 _buttonAddItems.Text = @"Add Items";
@@ -491,8 +490,8 @@ namespace Krypton.Toolkit
                 _buttonAddHeading.ImageAlign = ContentAlignment.MiddleLeft;
                 _buttonAddHeading.ImageIndex = 1;
                 _buttonAddHeading.ImageList = _imageList;
-                _buttonAddHeading.Location = new Point(341, 193);
-                _buttonAddHeading.Name = "_buttonAddHeading";
+                _buttonAddHeading.Location = new Point(21, 193);
+                _buttonAddHeading.Name = nameof(_buttonAddHeading);
                 _buttonAddHeading.Size = new Size(184, 32);
                 _buttonAddHeading.TabIndex = 5;
                 _buttonAddHeading.Text = @"Add Heading";
@@ -506,8 +505,8 @@ namespace Krypton.Toolkit
                 _buttonAddMonthCalendar.ImageAlign = ContentAlignment.MiddleLeft;
                 _buttonAddMonthCalendar.ImageIndex = 13;
                 _buttonAddMonthCalendar.ImageList = _imageList;
-                _buttonAddMonthCalendar.Location = new Point(341, 521);
-                _buttonAddMonthCalendar.Name = "_buttonAddMonthCalendar";
+                _buttonAddMonthCalendar.Location = new Point(21, 521);
+                _buttonAddMonthCalendar.Name = nameof(_buttonAddMonthCalendar);
                 _buttonAddMonthCalendar.Size = new Size(184, 32);
                 _buttonAddMonthCalendar.TabIndex = 13;
                 _buttonAddMonthCalendar.Text = @"Add Month Calendar";
@@ -517,21 +516,19 @@ namespace Krypton.Toolkit
                 // 
                 // propertyGrid1
                 // 
-                _propertyGrid1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom
-                                   | AnchorStyles.Right;
+                _propertyGrid1.Dock = DockStyle.Fill;
                 _propertyGrid1.HelpVisible = false;
-                _propertyGrid1.Location = new Point(538, 33);
+                _propertyGrid1.Location = new Point(524, 24);
                 _propertyGrid1.Name = "_propertyGrid1";
-                _propertyGrid1.Size = new Size(266, 615);
+                _propertyGrid1.Size = new Size(289, 658);
                 _propertyGrid1.TabIndex = 15;
                 _propertyGrid1.ToolbarVisible = false;
                 // 
                 // label2
                 // 
-                _label2.Anchor = AnchorStyles.Top | AnchorStyles.Right;
                 _label2.AutoSize = true;
-                _label2.Location = new Point(535, 11);
-                _label2.Name = "_label2";
+                _label2.Location = new Point(524, 0);
+                _label2.Name = nameof(_label2);
                 _label2.Size = new Size(125, 21);
                 _label2.TabIndex = 16;
                 _label2.Text = @"Item Properties";
@@ -542,8 +539,8 @@ namespace Krypton.Toolkit
                 _buttonAddColorColumns.ImageAlign = ContentAlignment.MiddleLeft;
                 _buttonAddColorColumns.ImageIndex = 0;
                 _buttonAddColorColumns.ImageList = _imageList;
-                _buttonAddColorColumns.Location = new Point(341, 439);
-                _buttonAddColorColumns.Name = "_buttonAddColorColumns";
+                _buttonAddColorColumns.Location = new Point(21, 439);
+                _buttonAddColorColumns.Name = nameof(_buttonAddColorColumns);
                 _buttonAddColorColumns.Size = new Size(184, 32);
                 _buttonAddColorColumns.TabIndex = 11;
                 _buttonAddColorColumns.Text = @"Add ColorColumns";
@@ -557,8 +554,8 @@ namespace Krypton.Toolkit
                 _buttonAddImageSelect.ImageAlign = ContentAlignment.MiddleLeft;
                 _buttonAddImageSelect.ImageIndex = 12;
                 _buttonAddImageSelect.ImageList = _imageList;
-                _buttonAddImageSelect.Location = new Point(341, 480);
-                _buttonAddImageSelect.Name = "_buttonAddImageSelect";
+                _buttonAddImageSelect.Location = new Point(21, 480);
+                _buttonAddImageSelect.Name = nameof(_buttonAddImageSelect);
                 _buttonAddImageSelect.Size = new Size(184, 32);
                 _buttonAddImageSelect.TabIndex = 12;
                 _buttonAddImageSelect.Text = @"Add ImageSelect";
@@ -572,8 +569,8 @@ namespace Krypton.Toolkit
                 _buttonAddComboBox.ImageAlign = ContentAlignment.MiddleLeft;
                 _buttonAddComboBox.ImageIndex = 14;
                 _buttonAddComboBox.ImageList = _imageList;
-                _buttonAddComboBox.Location = new Point(341, 562);
-                _buttonAddComboBox.Name = "_buttonAddComboBox";
+                _buttonAddComboBox.Location = new Point(21, 562);
+                _buttonAddComboBox.Name = nameof(_buttonAddComboBox);
                 _buttonAddComboBox.Size = new Size(184, 32);
                 _buttonAddComboBox.TabIndex = 14;
                 _buttonAddComboBox.Text = @"Add ComboBox";
@@ -583,38 +580,67 @@ namespace Krypton.Toolkit
                 _buttonAddComboBox.Enabled = false;
                 _buttonAddComboBox.Click += buttonAddComboBox_Click;
                 // 
+                // tableLayoutPanel1
+                // 
+                _tableLayoutPanel1.ColumnCount = 3;
+                _tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+                _tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 226F));
+                _tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+                _tableLayoutPanel1.Controls.Add(_label1, 0, 0);
+                _tableLayoutPanel1.Controls.Add(_buttonOk, 2, 2);
+                _tableLayoutPanel1.Controls.Add(_label2, 2, 0);
+                _tableLayoutPanel1.Controls.Add(_treeView, 0, 1);
+                _tableLayoutPanel1.Controls.Add(_propertyGrid1, 2, 1);
+                _tableLayoutPanel1.Controls.Add(_panel1, 1, 1);
+                _tableLayoutPanel1.Controls.Add(_buttonDelete, 1, 2);
+                _tableLayoutPanel1.Dock = DockStyle.Fill;
+                _tableLayoutPanel1.Location = new Point(0, 0);
+                _tableLayoutPanel1.Name = "_tableLayoutPanel1";
+                _tableLayoutPanel1.RowCount = 3;
+                _tableLayoutPanel1.RowStyles.Add(new RowStyle());
+                _tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+                _tableLayoutPanel1.RowStyles.Add(new RowStyle());
+                _tableLayoutPanel1.Size = new Size(816, 724);
+                _tableLayoutPanel1.TabIndex = 17;
+                // 
+                // panel1
+                // 
+                _panel1.Controls.Add(_buttonMoveUp);
+                _panel1.Controls.Add(_buttonAddComboBox);
+                _panel1.Controls.Add(_buttonAddMonthCalendar);
+                _panel1.Controls.Add(_buttonAddImageSelect);
+                _panel1.Controls.Add(_buttonAddColorColumns);
+                _panel1.Controls.Add(_buttonMoveDown);
+                _panel1.Controls.Add(_buttonAddItem);
+                _panel1.Controls.Add(_buttonAddHeading);
+                _panel1.Controls.Add(_buttonAddLinkLabel);
+                _panel1.Controls.Add(_buttonAddSeparator);
+                _panel1.Controls.Add(_buttonAddRadioButton);
+                _panel1.Controls.Add(_buttonAddItems);
+                _panel1.Controls.Add(_buttonAddCheckButton);
+                _panel1.Controls.Add(_buttonAddCheckBox);
+                _panel1.Dock = DockStyle.Fill;
+                _panel1.Location = new Point(298, 24);
+                _panel1.Name = "_panel1";
+                _panel1.Size = new Size(220, 658);
+                _panel1.TabIndex = 17;
+                // 
                 // KryptonContextMenuCollectionForm
                 // 
                 AcceptButton = _buttonOk;
                 AutoScaleMode = AutoScaleMode.None;
                 ClientSize = new Size(816, 724);
                 ControlBox = false;
-                Controls.Add(_buttonAddColorColumns);
-                Controls.Add(_buttonAddImageSelect);
-                Controls.Add(_label2);
-                Controls.Add(_propertyGrid1);
-                Controls.Add(_buttonAddMonthCalendar);
-                Controls.Add(_buttonAddHeading);
-                Controls.Add(_buttonAddItems);
-                Controls.Add(_buttonAddItem);
-                Controls.Add(_buttonAddSeparator);
-                Controls.Add(_buttonAddLinkLabel);
-                Controls.Add(_buttonAddRadioButton);
-                Controls.Add(_buttonAddCheckButton);
-                Controls.Add(_buttonAddCheckBox);
-                Controls.Add(_buttonMoveDown);
-                Controls.Add(_buttonMoveUp);
-                Controls.Add(_buttonAddComboBox);
-                Controls.Add(_buttonDelete);
-                Controls.Add(_label1);
-                Controls.Add(_treeView);
-                Controls.Add(_buttonOk);
+                Controls.Add(_tableLayoutPanel1);
                 Font = new Font(@"Tahoma", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
                 MinimumSize = new Size(733, 593);
-                Name = "KryptonContextMenuCollectionForm";
+                Name = nameof(KryptonContextMenuCollectionForm);
                 StartPosition = FormStartPosition.CenterScreen;
                 Text = @"KryptonContextMenu Items Editor";
                 Load += KryptonContextMenuEditorForm_Load;
+                _tableLayoutPanel1.ResumeLayout(false);
+                _tableLayoutPanel1.PerformLayout();
+                _panel1.ResumeLayout(false);
                 ResumeLayout(false);
                 PerformLayout();
 
@@ -659,11 +685,9 @@ namespace Krypton.Toolkit
             #endregion
 
             #region Implementation
-            private void KryptonContextMenuEditorForm_Load(object sender, EventArgs e)
-            {
+            private void KryptonContextMenuEditorForm_Load(object sender, EventArgs e) =>
                 // Set allowed categories into the property grid filter
                 _propertyGrid1.BrowsableAttributes = new AttributeCollection(new KryptonPersistAttribute());
-            }
 
             private void buttonOK_Click(object sender, EventArgs e)
             {
@@ -697,7 +721,7 @@ namespace Krypton.Toolkit
                 // We should have a selected node!
                 if (node != null)
                 {
-                    MenuTreeNode treeNode = node as MenuTreeNode;
+                    var treeNode = node as MenuTreeNode;
 
                     // If at the root level then move up in the root items collection
                     if (node.Parent == null)
@@ -710,7 +734,7 @@ namespace Krypton.Toolkit
                     {
                         var index = node.Parent.Nodes.IndexOf(node);
                         TreeNode parentNode = node.Parent;
-                        MenuTreeNode treeParentNode = parentNode as MenuTreeNode;
+                        var treeParentNode = parentNode as MenuTreeNode;
 
                         switch (treeParentNode?.Item)
                         {
@@ -743,7 +767,7 @@ namespace Krypton.Toolkit
                 // We should have a selected node!
                 if (node != null)
                 {
-                    MenuTreeNode treeNode = node as MenuTreeNode;
+                    var treeNode = node as MenuTreeNode;
 
                     // If at the root level then move down in the root items collection
                     if (node.Parent == null)
@@ -756,7 +780,7 @@ namespace Krypton.Toolkit
                     {
                         var index = node.Parent.Nodes.IndexOf(node);
                         TreeNode parentNode = node.Parent;
-                        MenuTreeNode treeParentNode = parentNode as MenuTreeNode;
+                        var treeParentNode = parentNode as MenuTreeNode;
 
                         switch (treeParentNode?.Item)
                         {
@@ -803,7 +827,7 @@ namespace Krypton.Toolkit
             private void buttonAddColorColumns_Click(object sender, EventArgs e) => AddNewItem((KryptonContextMenuItemBase)CreateInstance(typeof(KryptonContextMenuColorColumns)));
 
             private void buttonAddImageSelect_Click(object sender, EventArgs e) => AddNewItem((KryptonContextMenuItemBase)CreateInstance(typeof(KryptonContextMenuImageSelect)));
-            
+
             private void buttonAddComboBox_Click(object sender, EventArgs e) => AddNewItem((KryptonContextMenuItemBase)CreateInstance(typeof(KryptonContextMenuComboBox)));
 
             private void buttonDelete_Click(object sender, EventArgs e)
@@ -813,7 +837,7 @@ namespace Krypton.Toolkit
                 // We should have a selected node!
                 if (node != null)
                 {
-                    MenuTreeNode treeNode = node as MenuTreeNode;
+                    var treeNode = node as MenuTreeNode;
 
                     // If at root level then remove from root, otherwise from the parent collection
                     if (node.Parent == null)
@@ -823,7 +847,7 @@ namespace Krypton.Toolkit
                     else
                     {
                         TreeNode parentNode = node.Parent;
-                        MenuTreeNode treeParentNode = parentNode as MenuTreeNode;
+                        var treeParentNode = parentNode as MenuTreeNode;
 
                         switch (treeParentNode?.Item)
                         {
@@ -857,10 +881,10 @@ namespace Krypton.Toolkit
                 _propertyGrid1.SelectedObject = ((MenuTreeNode)node)?.PropertyObject;
             }
 
-            private void AddMenuTreeNode(KryptonContextMenuItemBase item, MenuTreeNode parent)
+            private void AddMenuTreeNode(KryptonContextMenuItemBase item, MenuTreeNode? parent)
             {
                 // Create a node to match the item
-                MenuTreeNode node = new(item);
+                var node = new MenuTreeNode(item);
 
                 // Add to either root or parent node
                 if (parent != null)
@@ -908,9 +932,9 @@ namespace Krypton.Toolkit
                         // If adding a menu item to an items
                         if (item is KryptonContextMenuItem)
                         {
-                            MenuTreeNode treeSelectedNode = selectedNode as MenuTreeNode;
-                            KryptonContextMenuItems items = treeSelectedNode?.Item as KryptonContextMenuItems;
-                            items.Items.Add(item);
+                            var treeSelectedNode = selectedNode as MenuTreeNode;
+                            var items = treeSelectedNode?.Item as KryptonContextMenuItems;
+                            items!.Items.Add(item);
                             selectedNode.Nodes.Add(newNode);
                         }
                         else
@@ -923,7 +947,7 @@ namespace Krypton.Toolkit
                     {
                         var index = selectedNode.Parent.Nodes.IndexOf(selectedNode);
                         TreeNode parentNode = selectedNode.Parent;
-                        MenuTreeNode treeParentNode = parentNode as MenuTreeNode;
+                        var treeParentNode = parentNode as MenuTreeNode;
 
                         switch (treeParentNode?.Item)
                         {
@@ -935,10 +959,10 @@ namespace Krypton.Toolkit
                                 }
                                 else
                                 {
-                                    MenuTreeNode treeSelectedNode = selectedNode as MenuTreeNode;
+                                    var treeSelectedNode = selectedNode as MenuTreeNode;
                                     Debug.Assert(treeSelectedNode?.Item is KryptonContextMenuItem);
-                                    KryptonContextMenuItem items = treeSelectedNode?.Item as KryptonContextMenuItem;
-                                    items.Items.Add(item);
+                                    var items = treeSelectedNode.Item as KryptonContextMenuItem;
+                                    items!.Items.Add(item);
                                     selectedNode.Nodes.Add(newNode);
                                 }
                                 break;
@@ -950,10 +974,10 @@ namespace Krypton.Toolkit
                                 }
                                 else
                                 {
-                                    MenuTreeNode treeSelectedNode = selectedNode as MenuTreeNode;
+                                    var treeSelectedNode = selectedNode as MenuTreeNode;
                                     Debug.Assert(treeSelectedNode?.Item is KryptonContextMenuItems);
-                                    KryptonContextMenuItems items = treeSelectedNode?.Item as KryptonContextMenuItems;
-                                    items.Items.Add(item);
+                                    var items = treeSelectedNode.Item as KryptonContextMenuItems;
+                                    items!.Items.Add(item);
                                     selectedNode.Nodes.Add(newNode);
                                 }
                                 break;
@@ -962,19 +986,16 @@ namespace Krypton.Toolkit
                 }
 
                 // Select the newly added node
-                if (newNode != null)
-                {
-                    _treeView.SelectedNode = newNode;
-                    _treeView.Focus();
-                }
+                _treeView.SelectedNode = newNode;
+                _treeView.Focus();
 
                 UpdateButtons();
             }
 
             private void UpdateButtons()
             {
-                KryptonContextMenuItemBase item = null;
-                KryptonContextMenuItemBase parent = null;
+                KryptonContextMenuItemBase? item = null;
+                KryptonContextMenuItemBase? parent = null;
                 var parentNodeCount = _treeView.Nodes.Count;
                 var nodeIndex = -1;
 
@@ -986,7 +1007,7 @@ namespace Krypton.Toolkit
                     {
                         parentNodeCount = node.Parent.Nodes.Count;
                         nodeIndex = node.Parent.Nodes.IndexOf(node);
-                        node = node.Parent as MenuTreeNode;
+                        node = node.Parent! as MenuTreeNode;
                         if (node != null)
                         {
                             parent = node.Item;
@@ -1022,11 +1043,11 @@ namespace Krypton.Toolkit
 
                 if (ItemInsideCollection(item, parent))
                 {
-                    KryptonContextMenuCollection temp = new();
+                    var temp = new KryptonContextMenuCollection();
                     return temp.RestrictTypes.Any(t => t.Equals(addType));
                 }
 
-                KryptonContextMenuItemCollection temp1 = new();
+                var temp1 = new KryptonContextMenuItemCollection();
                 if (temp1.RestrictTypes.Any(t => t.Equals(addType)))
                 {
                     return true;
@@ -1034,7 +1055,7 @@ namespace Krypton.Toolkit
 
                 if (item is KryptonContextMenuItem)
                 {
-                    KryptonContextMenuCollection temp2 = new();
+                    var temp2 = new KryptonContextMenuCollection();
                     return temp2.RestrictTypes.Any(t => t.Equals(addType));
                 }
 
@@ -1044,14 +1065,14 @@ namespace Krypton.Toolkit
             private bool ValidInCollection(KryptonContextMenuItemBase item)
             {
                 Type addType = item.GetType();
-                KryptonContextMenuCollection temp = new();
+                var temp = new KryptonContextMenuCollection();
                 return temp.RestrictTypes.Any(t => t.Equals(addType));
             }
 
             private bool ValidInItemCollection(KryptonContextMenuItemBase item)
             {
                 Type addType = item.GetType();
-                KryptonContextMenuItemCollection temp = new();
+                var temp = new KryptonContextMenuItemCollection();
                 return temp.RestrictTypes.Any(t => t.Equals(addType));
             }
 
@@ -1063,9 +1084,9 @@ namespace Krypton.Toolkit
 
             private DictItemBase CreateItemsDictionary(object[] items)
             {
-                DictItemBase dictItems = new();
+                var dictItems = new DictItemBase();
 
-                foreach (KryptonContextMenuItemBase item in items)
+                foreach (KryptonContextMenuItemBase item in items.Cast<KryptonContextMenuItemBase>())
                 {
                     AddItemsToDictionary(dictItems, item);
                 }
@@ -1078,22 +1099,23 @@ namespace Krypton.Toolkit
                 // Add item to the dictionary
                 dictItems.Add(baseItem, baseItem);
 
-                // Add children of an items collection
-                if (baseItem is KryptonContextMenuItems items)
+                switch (baseItem)
                 {
-                    foreach (KryptonContextMenuItemBase childItem in items.Items)
-                    {
-                        AddItemsToDictionary(dictItems, childItem);
-                    }
-                }
+                    // Add children of an items collection
+                    case KryptonContextMenuItems items:
+                        foreach (KryptonContextMenuItemBase childItem in items.Items)
+                        {
+                            AddItemsToDictionary(dictItems, childItem);
+                        }
+                        break;
 
-                // Add children of an item
-                if (baseItem is KryptonContextMenuItem item)
-                {
-                    foreach (KryptonContextMenuItemBase childItem in item.Items)
-                    {
-                        AddItemsToDictionary(dictItems, childItem);
-                    }
+                    // Add children of an item
+                    case KryptonContextMenuItem item:
+                        foreach (KryptonContextMenuItemBase childItem in item.Items)
+                        {
+                            AddItemsToDictionary(dictItems, childItem);
+                        }
+                        break;
                 }
             }
 
@@ -1115,7 +1137,7 @@ namespace Krypton.Toolkit
                     context.Container?.Remove(item);
                 }
 
-                IComponentChangeService changeService = (IComponentChangeService)GetService(typeof(IComponentChangeService));
+                var changeService = (IComponentChangeService)GetService(typeof(IComponentChangeService));
                 if (changeService != null)
                 {
                     // Mark components as changed when not added or removed

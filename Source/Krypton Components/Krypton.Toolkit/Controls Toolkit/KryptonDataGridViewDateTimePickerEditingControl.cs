@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -20,7 +20,7 @@ namespace Krypton.Toolkit
         IDataGridViewEditingControl
     {
         #region Static Fields
-        private static readonly DateTimeConverter _dtc = new();
+        private static readonly DateTimeConverter _dtc = new DateTimeConverter();
         #endregion
 
         #region Instance Fields
@@ -124,14 +124,11 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Method called by the grid on keystrokes to determine if the editing control is interested in the key or not.
         /// </summary>
-        public virtual bool EditingControlWantsInputKey(Keys keyData, bool dataGridViewWantsInputKey)
+        public virtual bool EditingControlWantsInputKey(Keys keyData, bool dataGridViewWantsInputKey) => (keyData & Keys.KeyCode) switch
         {
-            return (keyData & Keys.KeyCode) switch
-            {
-                Keys.Right or Keys.Left or Keys.Down or Keys.Up or Keys.Home or Keys.Delete => true,
-                _ => !dataGridViewWantsInputKey
-            };
-        }
+            Keys.Right or Keys.Left or Keys.Down or Keys.Up or Keys.Home or Keys.Delete => true,
+            _ => !dataGridViewWantsInputKey
+        };
 
         /// <summary>
         /// Returns the current value of the editing control.

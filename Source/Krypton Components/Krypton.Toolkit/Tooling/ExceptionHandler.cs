@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -33,30 +33,30 @@ namespace Krypton.Toolkit
         /// <param name="icon">The icon.</param>
         /// <param name="className">Name of the class.</param>
         /// <param name="methodSignature">The method signature.</param>
-        public static void CaptureException(Exception exception, string title = @"Exception Caught", MessageBoxButtons buttons = MessageBoxButtons.OK, KryptonMessageBoxIcon icon = KryptonMessageBoxIcon.Error, string className = "", string methodSignature = "")
+        public static void CaptureException(Exception exception, string title = @"Exception Caught", KryptonMessageBoxButtons buttons = KryptonMessageBoxButtons.OK, KryptonMessageBoxIcon icon = KryptonMessageBoxIcon.Warning, string className = "", string methodSignature = "")
         {
             if (className != "")
             {
-                KryptonMessageBox.Show($"An unexpected error has occurred: { exception.Message }.\n\nError in class: '{ className }.cs'.", title, buttons, icon);
+                KryptonMessageBox.Show($"An unexpected error has occurred: {exception.Message}.\n\nError in class: '{className}.cs'.", title, buttons, icon);
             }
             else if (methodSignature != "")
             {
-                KryptonMessageBox.Show($"An unexpected error has occurred: { exception.Message }.\n\nError in method: '{ methodSignature }'.", title, buttons, icon);
+                KryptonMessageBox.Show($"An unexpected error has occurred: {exception.Message}.\n\nError in method: '{methodSignature}'.", title, buttons, icon);
             }
             else if (className != "" && methodSignature != "")
             {
-                KryptonMessageBox.Show($"An unexpected error has occurred: { exception.Message }.\n\nError in class: '{ className }.cs'.\n\nError in method: '{ methodSignature }'.", title, buttons, icon);
+                KryptonMessageBox.Show($"An unexpected error has occurred: {exception.Message}.\n\nError in class: '{className}.cs'.\n\nError in method: '{methodSignature}'.", title, buttons, icon);
             }
             else
             {
-                KryptonMessageBox.Show($"An unexpected error has occurred: { exception.Message }.", title, buttons, icon);
+                KryptonMessageBox.Show($"An unexpected error has occurred: {exception.Message}.", title, buttons, icon);
             }
         }
 
         /// <summary>Captures a stack trace of the exception.</summary>
-        /// <param name="exc">The incoming exception.</param>
+        /// <param name="exception">The incoming exception.</param>
         /// <param name="fileName">The file to write the exception stack trace to.</param>
-        public static void PrintStackTrace(Exception exc, string fileName)
+        public static void PrintStackTrace(Exception exception, string fileName)
         {
             try
             {
@@ -65,9 +65,9 @@ namespace Krypton.Toolkit
                     File.Create(fileName);
                 }
 
-                StreamWriter writer = new(fileName);
+                var writer = new StreamWriter(fileName);
 
-                writer.Write(exc.ToString());
+                writer.Write(exception.ToString());
 
                 writer.Close();
 
@@ -80,9 +80,9 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>Captures a stack trace of the exception.</summary>
-        /// <param name="exc">The incoming exception.</param>
+        /// <param name="exception">The incoming exception.</param>
         /// <param name="fileName">The file to write the exception stack trace to.</param>
-        public static void PrintExceptionStackTrace(Exception exc, string fileName)
+        public static void PrintExceptionStackTrace(Exception exception, string fileName)
         {
             try
             {
@@ -91,9 +91,9 @@ namespace Krypton.Toolkit
                     File.Create(fileName);
                 }
 
-                StreamWriter writer = new(fileName);
+                var writer = new StreamWriter(fileName);
 
-                writer.Write(exc.StackTrace);
+                writer.Write(exception.StackTrace);
 
                 writer.Close();
 

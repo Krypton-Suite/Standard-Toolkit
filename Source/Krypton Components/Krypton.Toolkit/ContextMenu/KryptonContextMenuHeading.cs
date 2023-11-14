@@ -5,11 +5,12 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
 
+// ReSharper disable EventNeverSubscribedTo.Local
 namespace Krypton.Toolkit
 {
     /// <summary>
@@ -19,17 +20,25 @@ namespace Krypton.Toolkit
     [ToolboxBitmap(typeof(KryptonContextMenuHeading), "ToolboxBitmaps.KryptonContextMenuHeading.bmp")]
     [DesignerCategory(@"code")]
     [DesignTimeVisible(false)]
-    [DefaultProperty(@"Text")]
+    [DefaultProperty(nameof(Text))]
     public class KryptonContextMenuHeading : KryptonContextMenuItemBase
     {
         #region Instance Fields
         private string _text;
-        private string _extraText;
-        private Image _image;
+        private string? _extraText;
+        private Image? _image;
         private Color _imageTransparentColor;
-        private readonly PaletteRedirectTriple _redirectHeading;
+        private readonly PaletteRedirectTriple? _redirectHeading;
         #endregion
 
+        /// <summary>
+        /// Occurs when the <see cref="KryptonContextMenuItem"/> wants to display a tooltip.
+        /// </summary>
+        [Browsable(false)]
+        [EditorBrowsable(EditorBrowsableState.Never)]
+#pragma warning disable CS0067 // Event is never used
+        private new event EventHandler<ToolTipNeededEventArgs>? ToolTipNeeded;
+#pragma warning restore CS0067 // Event is never used
         #region Identity
         /// <summary>
         /// Initialize a new instance of the KryptonContextMenuHeading class.
@@ -82,7 +91,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public override KryptonContextMenuItemBase this[int index] => null;
+        public override KryptonContextMenuItemBase? this[int index] => null;
 
         /// <summary>
         /// Test for the provided shortcut and perform relevant action if a match is found.
@@ -104,8 +113,24 @@ namespace Krypton.Toolkit
                                               object parent,
                                               ViewLayoutStack columns,
                                               bool standardStyle,
-                                              bool imageColumn) =>
-            new ViewDrawMenuHeading(this, provider.ProviderStateCommon.Heading);
+                                              bool imageColumn)
+        {
+            // SetProvider(provider); ,_ no tooltips for headers, as there is no provider
+            return new ViewDrawMenuHeading(this, provider.ProviderStateCommon.Heading);
+        }
+
+        /// <summary>
+        /// Remove access to the ToolTipValues content.
+        /// </summary>
+        [Browsable(false)]
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        private new ToolTipValues ToolTipValues
+        {
+            get => base.ToolTipValues;
+            set => base.ToolTipValues = value;
+        }
+
+        private bool ShouldSerializeToolTipValues() => false;
 
         /// <summary>
         /// Gets and sets the heading menu item text.
@@ -113,7 +138,7 @@ namespace Krypton.Toolkit
         [KryptonPersist]
         [Category(@"Appearance")]
         [Description(@"Heading menu item text.")]
-        [Editor(@"System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
+        [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
         [Localizable(true)]
         [DefaultValue(@"Heading")]
         public string Text
@@ -136,12 +161,13 @@ namespace Krypton.Toolkit
         [KryptonPersist]
         [Category(@"Appearance")]
         [Description(@"Heading menu item extra text.")]
-        [Editor(@"System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
+        [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
         [Localizable(true)]
         [DefaultValue(null)]
+        [AllowNull]
         public string ExtraText
         {
-            get => _extraText;
+            get => _extraText ?? string.Empty;
 
             set 
             {
@@ -161,7 +187,7 @@ namespace Krypton.Toolkit
         [Description(@"Heading menu item image.")]
         [Localizable(true)]
         [DefaultValue(null)]
-        public Image Image
+        public Image? Image
         {
             get => _image;
 
@@ -212,7 +238,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Internal
-        internal void SetPaletteRedirect(PaletteTripleRedirect redirector) => _redirectHeading.SetRedirectStates(redirector, redirector);
+        internal void SetPaletteRedirect(PaletteTripleRedirect redirector) => _redirectHeading?.SetRedirectStates(redirector, redirector);
 
         #endregion
     }

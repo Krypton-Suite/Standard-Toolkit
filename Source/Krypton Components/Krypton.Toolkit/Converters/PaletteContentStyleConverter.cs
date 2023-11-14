@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -15,105 +15,99 @@ namespace Krypton.Toolkit
     /// <summary>
     /// Custom type converter so that PaletteContentStyle values appear as neat text at design time.
     /// </summary>
-    internal class PaletteContentStyleConverter : StringLookupConverter
+    internal class PaletteContentStyleConverter : StringLookupConverter<PaletteContentStyle>
     {
         #region Static Fields
 
-        private readonly Pair[] _pairs =
+        [Localizable(true)]
+        private static readonly IReadOnlyDictionary<PaletteContentStyle, string> _pairs = new Dictionary<PaletteContentStyle, string>
         {
-            new(PaletteContentStyle.ButtonStandalone, "Button - Standalone"),
-            new(PaletteContentStyle.ButtonLowProfile, "Button - Low Profile"),
-            new(PaletteContentStyle.ButtonButtonSpec, "Button - ButtonSpec"),
-            new(PaletteContentStyle.ButtonBreadCrumb, "Button - BreadCrumb"),
-            new(PaletteContentStyle.ButtonCalendarDay, "Button - Calendar Day"),
-            new(PaletteContentStyle.ButtonCluster, "Button - Cluster"),
-            new(PaletteContentStyle.ButtonGallery, "Button - Gallery"),
-            new(PaletteContentStyle.ButtonNavigatorStack, "Button - Navigator Stack"),
-            new(PaletteContentStyle.ButtonNavigatorOverflow, "Button - Navigator Overflow"),
-            new(PaletteContentStyle.ButtonNavigatorMini, "Button - Navigator Mini"),
-            new(PaletteContentStyle.ButtonInputControl, "Button - Input Control"),
-            new(PaletteContentStyle.ButtonListItem, "Button - List Item"),
-            new(PaletteContentStyle.ButtonForm, "Button - Form"),
-            new(PaletteContentStyle.ButtonFormClose, "Button - Form Close"),
-            new(PaletteContentStyle.ButtonCommand, "Button - Command"),
-            new(PaletteContentStyle.ButtonCustom1, "Button - Custom1"),
-            new(PaletteContentStyle.ButtonCustom2, "Button - Custom2"),
-            new(PaletteContentStyle.ButtonCustom3, "Button - Custom3"),
-            new(PaletteContentStyle.ContextMenuHeading, "ContextMenu - Heading"),
-            new(PaletteContentStyle.ContextMenuItemImage, "ContextMenu - Item Image"),
-            new(PaletteContentStyle.ContextMenuItemTextStandard, "ContextMenu - Item Text Standard"),
-            new(PaletteContentStyle.ContextMenuItemTextAlternate, "ContextMenu - Item Text Alternate"),
-            new(PaletteContentStyle.ContextMenuItemShortcutText, "ContextMenu - Item ShortcutText"),
-            new(PaletteContentStyle.GridHeaderColumnList, "Grid - HeaderColumn - List"),
-            new(PaletteContentStyle.GridHeaderRowList, "Grid - RowColumn - List"),
-            new(PaletteContentStyle.GridDataCellList, "Grid - DataCell - List"),
-            new(PaletteContentStyle.GridHeaderColumnSheet, "Grid - HeaderColumn - Sheet"),
-            new(PaletteContentStyle.GridHeaderRowSheet, "Grid - RowColumn - Sheet"),
-            new(PaletteContentStyle.GridDataCellSheet, "Grid - DataCell - Sheet"),
-            new(PaletteContentStyle.GridHeaderColumnCustom1, "Grid - HeaderColumn - Custom1"),
-            new(PaletteContentStyle.GridHeaderColumnCustom2, "Grid - HeaderColumn - Custom2"),
-            new(PaletteContentStyle.GridHeaderColumnCustom3, "Grid - HeaderColumn - Custom3"),
-            new(PaletteContentStyle.GridHeaderRowCustom1, "Grid - RowColumn - Custom1"),
-            new(PaletteContentStyle.GridHeaderRowCustom2, "Grid - RowColumn - Custom2"),
-            new(PaletteContentStyle.GridHeaderRowCustom3, "Grid - RowColumn - Custom3"),
-            new(PaletteContentStyle.GridDataCellCustom1, "Grid - DataCell - Custom1"),
-            new(PaletteContentStyle.GridDataCellCustom2, "Grid - DataCell - Custom2"),
-            new(PaletteContentStyle.GridDataCellCustom3, "Grid - DataCell - Custom3"),
-            new(PaletteContentStyle.HeaderPrimary, "Header - Primary"),
-            new(PaletteContentStyle.HeaderSecondary, "Header - Secondary"),
-            new(PaletteContentStyle.HeaderDockActive, "Header - Dock - Active"),
-            new(PaletteContentStyle.HeaderDockInactive, "Header - Dock - Inactive"),
-            new(PaletteContentStyle.HeaderForm, "Header - Form"),
-            new(PaletteContentStyle.HeaderCalendar, "Header - Calendar"),
-            new(PaletteContentStyle.HeaderCustom1, "Header - Custom1"),
-            new(PaletteContentStyle.HeaderCustom2, "Header - Custom2"),
-            new(PaletteContentStyle.HeaderCustom3, "Header - Custom3"),
-            new(PaletteContentStyle.LabelNormalControl, "Label - Normal (Control)"),
-            new(PaletteContentStyle.LabelBoldControl, "Label - Bold (Control)"),
-            new(PaletteContentStyle.LabelTitleControl, "Label - Italic (Control)"),
-            new(PaletteContentStyle.LabelTitleControl, "Label - Title (Control)"),
-            new(PaletteContentStyle.LabelNormalPanel, "Label - Normal (Panel)"),
-            new(PaletteContentStyle.LabelBoldPanel, "Label - Bold (Panel)"),
-            new(PaletteContentStyle.LabelItalicPanel, "Label - Italic (Panel)"),
-            new(PaletteContentStyle.LabelTitlePanel, "Label - Title (Panel)"),
-            new(PaletteContentStyle.LabelGroupBoxCaption, "Label - Caption (Panel)"),
-            new(PaletteContentStyle.LabelToolTip, "Label - ToolTip"),
-            new(PaletteContentStyle.LabelSuperTip, "Label - SuperTip"),
-            new(PaletteContentStyle.LabelKeyTip, "Label - KeyTip"),
-            new(PaletteContentStyle.LabelCustom1, "Label - Custom1"),
-            new(PaletteContentStyle.LabelCustom2, "Label - Custom2"),
-            new(PaletteContentStyle.TabHighProfile, "Tab - High Profile"),
-            new(PaletteContentStyle.TabStandardProfile, "Tab - Standard Profile"),
-            new(PaletteContentStyle.TabLowProfile, "Tab - Low Profile"),
-            new(PaletteContentStyle.TabOneNote, "Tab - OneNote"),
-            new(PaletteContentStyle.TabDock, "Tab - Dock"),
-            new(PaletteContentStyle.TabDockAutoHidden, "Tab - Dock AutoHidden"),
-            new(PaletteContentStyle.TabCustom1, "Tab - Custom1"),
-            new(PaletteContentStyle.TabCustom2, "Tab - Custom2"),
-            new(PaletteContentStyle.TabCustom3, "Tab - Custom3"),
-            new(PaletteContentStyle.InputControlStandalone, "InputControl - Standalone"),
-            new(PaletteContentStyle.InputControlRibbon, "InputControl - Ribbon"),
-            new(PaletteContentStyle.InputControlCustom1, "InputControl - Custom1"),
-            new(PaletteContentStyle.InputControlCustom2, "InputControl - Custom2"),
-            new(PaletteContentStyle.InputControlCustom3, "InputControl - Custom3")
+            {PaletteContentStyle.ButtonStandalone, DesignTimeUtilities.DEFAULT_PALETTE_CONTENT_STYLE_BUTTON_STANDALONE},
+            {PaletteContentStyle.ButtonLowProfile, DesignTimeUtilities.DEFAULT_PALETTE_CONTENT_STYLE_BUTTON_LOW_PROFILE},
+            {PaletteContentStyle.ButtonButtonSpec, DesignTimeUtilities.DEFAULT_PALETTE_CONTENT_STYLE_BUTTON_BUTTON_SPEC},
+            {PaletteContentStyle.ButtonBreadCrumb, DesignTimeUtilities.DEFAULT_PALETTE_CONTENT_STYLE_BUTTON_BREAD_CRUMB},
+            {PaletteContentStyle.ButtonCalendarDay, DesignTimeUtilities.DEFAULT_PALETTE_CONTENT_STYLE_BUTTON_CALENDAR_DAY},
+            {PaletteContentStyle.ButtonCluster, DesignTimeUtilities.DEFAULT_PALETTE_CONTENT_STYLE_BUTTON_CLUSTER},
+            {PaletteContentStyle.ButtonGallery, DesignTimeUtilities.DEFAULT_PALETTE_CONTENT_STYLE_BUTTON_GALLERY},
+            {PaletteContentStyle.ButtonNavigatorStack, DesignTimeUtilities.DEFAULT_PALETTE_CONTENT_STYLE_BUTTON_NAVIGATOR_STACK},
+            {PaletteContentStyle.ButtonNavigatorOverflow, DesignTimeUtilities.DEFAULT_PALETTE_CONTENT_STYLE_BUTTON_NAVIGATOR_OVERFLOW},
+            {PaletteContentStyle.ButtonNavigatorMini, DesignTimeUtilities.DEFAULT_PALETTE_CONTENT_STYLE_BUTTON_NAVIGATOR_MINI},
+            {PaletteContentStyle.ButtonInputControl, DesignTimeUtilities.DEFAULT_PALETTE_CONTENT_STYLE_BUTTON_INPUT_CONTROL},
+            {PaletteContentStyle.ButtonListItem, DesignTimeUtilities.DEFAULT_PALETTE_CONTENT_STYLE_BUTTON_LIST_ITEM},
+            {PaletteContentStyle.ButtonForm, DesignTimeUtilities.DEFAULT_PALETTE_CONTENT_STYLE_BUTTON_FORM},
+            {PaletteContentStyle.ButtonFormClose, DesignTimeUtilities.DEFAULT_PALETTE_CONTENT_STYLE_BUTTON_FORM_CLOSE},
+            {PaletteContentStyle.ButtonCommand, DesignTimeUtilities.DEFAULT_PALETTE_CONTENT_STYLE_BUTTON_COMMAND},
+            {PaletteContentStyle.ButtonCustom1, DesignTimeUtilities.DEFAULT_PALETTE_CONTENT_STYLE_BUTTON_CUSTOM1},
+            {PaletteContentStyle.ButtonCustom2, DesignTimeUtilities.DEFAULT_PALETTE_CONTENT_STYLE_BUTTON_CUSTOM2},
+            {PaletteContentStyle.ButtonCustom3, DesignTimeUtilities.DEFAULT_PALETTE_CONTENT_STYLE_BUTTON_CUSTOM3},
+            {PaletteContentStyle.ContextMenuHeading, DesignTimeUtilities.DEFAULT_PALETTE_CONTENT_STYLE_CONTEXT_MENU_HEADING},
+            {PaletteContentStyle.ContextMenuItemImage, DesignTimeUtilities.DEFAULT_PALETTE_CONTENT_STYLE_CONTEXT_MENU_ITEM_IMAGE},
+            {PaletteContentStyle.ContextMenuItemTextStandard, DesignTimeUtilities.DEFAULT_PALETTE_CONTENT_STYLE_CONTEXT_MENU_ITEM_TEXT_STANDARD},
+            {PaletteContentStyle.ContextMenuItemTextAlternate, DesignTimeUtilities.DEFAULT_PALETTE_CONTENT_STYLE_CONTEXT_MENU_ITEM_TEXT_ALTERNATE},
+            {PaletteContentStyle.ContextMenuItemShortcutText, DesignTimeUtilities.DEFAULT_PALETTE_CONTENT_STYLE_CONTEXT_MENU_ITEM_SHORTCUT_TEXT},
+            {PaletteContentStyle.GridHeaderColumnList, DesignTimeUtilities.DEFAULT_PALETTE_CONTENT_STYLE_GRID_HEADER_COLUMN_LIST},
+            {PaletteContentStyle.GridHeaderRowList, DesignTimeUtilities.DEFAULT_PALETTE_CONTENT_STYLE_GRID_HEADER_ROW_LIST},
+            {PaletteContentStyle.GridDataCellList, DesignTimeUtilities.DEFAULT_PALETTE_CONTENT_STYLE_GRID_DATA_CELL_LIST},
+            {PaletteContentStyle.GridHeaderColumnSheet, DesignTimeUtilities.DEFAULT_PALETTE_CONTENT_STYLE_GRID_HEADER_COLUMN_SHEET},
+            {PaletteContentStyle.GridHeaderRowSheet, DesignTimeUtilities.DEFAULT_PALETTE_CONTENT_STYLE_GRID_HEADER_ROW_SHEET},
+            {PaletteContentStyle.GridDataCellSheet, DesignTimeUtilities.DEFAULT_PALETTE_CONTENT_STYLE_GRID_DATA_CELL_SHEET},
+            {PaletteContentStyle.GridHeaderColumnCustom1, DesignTimeUtilities.DEFAULT_PALETTE_CONTENT_STYLE_GRID_HEADER_COLUMN_CUSTOM1},
+            {PaletteContentStyle.GridHeaderColumnCustom2, DesignTimeUtilities.DEFAULT_PALETTE_CONTENT_STYLE_GRID_HEADER_COLUMN_CUSTOM2},
+            {PaletteContentStyle.GridHeaderColumnCustom3, DesignTimeUtilities.DEFAULT_PALETTE_CONTENT_STYLE_GRID_HEADER_COLUMN_CUSTOM3},
+            {PaletteContentStyle.GridHeaderRowCustom1, DesignTimeUtilities.DEFAULT_PALETTE_CONTENT_STYLE_GRID_HEADER_ROW_CUSTOM1},
+            {PaletteContentStyle.GridHeaderRowCustom2, DesignTimeUtilities.DEFAULT_PALETTE_CONTENT_STYLE_GRID_HEADER_ROW_CUSTOM2},
+            {PaletteContentStyle.GridHeaderRowCustom3, DesignTimeUtilities.DEFAULT_PALETTE_CONTENT_STYLE_GRID_HEADER_ROW_CUSTOM3},
+            {PaletteContentStyle.GridDataCellCustom1, DesignTimeUtilities.DEFAULT_PALETTE_CONTENT_STYLE_GRID_DATA_CELL_CUSTOM1},
+            {PaletteContentStyle.GridDataCellCustom2, DesignTimeUtilities.DEFAULT_PALETTE_CONTENT_STYLE_GRID_DATA_CELL_CUSTOM2},
+            {PaletteContentStyle.GridDataCellCustom3, DesignTimeUtilities.DEFAULT_PALETTE_CONTENT_STYLE_GRID_DATA_CELL_CUSTOM3},
+            {PaletteContentStyle.HeaderPrimary, DesignTimeUtilities.DEFAULT_PALETTE_CONTENT_STYLE_HEADER_PRIMARY},
+            {PaletteContentStyle.HeaderSecondary, DesignTimeUtilities.DEFAULT_PALETTE_CONTENT_STYLE_HEADER_SECONDARY},
+            {PaletteContentStyle.HeaderDockActive, DesignTimeUtilities.DEFAULT_PALETTE_CONTENT_STYLE_HEADER_DOCK_ACTIVE},
+            {PaletteContentStyle.HeaderDockInactive, DesignTimeUtilities.DEFAULT_PALETTE_CONTENT_STYLE_HEADER_DOCK_INACTIVE},
+            {PaletteContentStyle.HeaderForm, DesignTimeUtilities.DEFAULT_PALETTE_CONTENT_STYLE_HEADER_FORM},
+            {PaletteContentStyle.HeaderCalendar, DesignTimeUtilities.DEFAULT_PALETTE_CONTENT_STYLE_HEADER_CALENDAR},
+            {PaletteContentStyle.HeaderCustom1, DesignTimeUtilities.DEFAULT_PALETTE_CONTENT_STYLE_HEADER_CUSTOM1},
+            {PaletteContentStyle.HeaderCustom2, DesignTimeUtilities.DEFAULT_PALETTE_CONTENT_STYLE_HEADER_CUSTOM2},
+            {PaletteContentStyle.HeaderCustom3, DesignTimeUtilities.DEFAULT_PALETTE_CONTENT_STYLE_HEADER_CUSTOM3},
+            {PaletteContentStyle.LabelAlternateControl, DesignTimeUtilities.DEFAULT_PALETTE_CONTENT_STYLE_LABEL_ALTERNATE_CONTROL},
+            {PaletteContentStyle.LabelNormalControl, DesignTimeUtilities.DEFAULT_PALETTE_CONTENT_STYLE_LABEL_NORMAL_CONTROL},
+            {PaletteContentStyle.LabelBoldControl, DesignTimeUtilities.DEFAULT_PALETTE_CONTENT_STYLE_LABEL_BOLD_CONTROL},
+            {PaletteContentStyle.LabelItalicControl, DesignTimeUtilities.DEFAULT_PALETTE_CONTENT_STYLE_LABEL_ITALIC_CONTROL},
+            {PaletteContentStyle.LabelTitleControl, DesignTimeUtilities.DEFAULT_PALETTE_CONTENT_STYLE_LABEL_TITLE_CONTROL},
+            {PaletteContentStyle.LabelAlternatePanel, DesignTimeUtilities.DEFAULT_PALETTE_CONTENT_STYLE_LABEL_ALTERNATE_PANEL},
+            {PaletteContentStyle.LabelNormalPanel, DesignTimeUtilities.DEFAULT_PALETTE_CONTENT_STYLE_LABEL_NORMAL_PANEL},
+            {PaletteContentStyle.LabelBoldPanel, DesignTimeUtilities.DEFAULT_PALETTE_CONTENT_STYLE_LABEL_BOLD_PANEL},
+            {PaletteContentStyle.LabelItalicPanel, DesignTimeUtilities.DEFAULT_PALETTE_CONTENT_STYLE_LABEL_ITALIC_PANEL},
+            {PaletteContentStyle.LabelTitlePanel, DesignTimeUtilities.DEFAULT_PALETTE_CONTENT_STYLE_LABEL_TITLE_PANEL},
+            {PaletteContentStyle.LabelGroupBoxCaption, DesignTimeUtilities.DEFAULT_PALETTE_CONTENT_STYLE_LABEL_GROUP_BOX_CAPTION},
+            {PaletteContentStyle.LabelToolTip, DesignTimeUtilities.DEFAULT_PALETTE_CONTENT_STYLE_LABEL_TOOL_TIP},
+            {PaletteContentStyle.LabelSuperTip, DesignTimeUtilities.DEFAULT_PALETTE_CONTENT_STYLE_LABEL_SUPER_TIP},
+            {PaletteContentStyle.LabelKeyTip, DesignTimeUtilities.DEFAULT_PALETTE_CONTENT_STYLE_LABEL_KEY_TIP},
+            {PaletteContentStyle.LabelCustom1, DesignTimeUtilities.DEFAULT_PALETTE_CONTENT_STYLE_LABEL_CUSTOM1},
+            {PaletteContentStyle.LabelCustom2, DesignTimeUtilities.DEFAULT_PALETTE_CONTENT_STYLE_LABEL_CUSTOM2},
+            {PaletteContentStyle.TabHighProfile, DesignTimeUtilities.DEFAULT_PALETTE_CONTENT_STYLE_TAB_HIGH_PROFILE},
+            {PaletteContentStyle.TabStandardProfile, DesignTimeUtilities.DEFAULT_PALETTE_CONTENT_STYLE_TAB_STANDARD_PROFILE},
+            {PaletteContentStyle.TabLowProfile, DesignTimeUtilities.DEFAULT_PALETTE_CONTENT_STYLE_TAB_LOW_PROFILE},
+            {PaletteContentStyle.TabOneNote, DesignTimeUtilities.DEFAULT_PALETTE_CONTENT_STYLE_TAB_ONE_NOTE},
+            {PaletteContentStyle.TabDock, DesignTimeUtilities.DEFAULT_PALETTE_CONTENT_STYLE_TAB_DOCK},
+            {PaletteContentStyle.TabDockAutoHidden, DesignTimeUtilities.DEFAULT_PALETTE_CONTENT_STYLE_TAB_DOCK_AUTO_HIDDEN},
+            {PaletteContentStyle.TabCustom1, DesignTimeUtilities.DEFAULT_PALETTE_CONTENT_STYLE_TAB_CUSTOM1},
+            {PaletteContentStyle.TabCustom2, DesignTimeUtilities.DEFAULT_PALETTE_CONTENT_STYLE_TAB_CUSTOM2},
+            {PaletteContentStyle.TabCustom3, DesignTimeUtilities.DEFAULT_PALETTE_CONTENT_STYLE_TAB_CUSTOM3},
+            {PaletteContentStyle.InputControlStandalone, DesignTimeUtilities.DEFAULT_PALETTE_CONTENT_STYLE_INPUT_CONTROL_STANDALONE},
+            {PaletteContentStyle.InputControlRibbon, DesignTimeUtilities.DEFAULT_PALETTE_CONTENT_STYLE_INPUT_CONTROL_RIBBON},
+            {PaletteContentStyle.InputControlCustom1, DesignTimeUtilities.DEFAULT_PALETTE_CONTENT_STYLE_INPUT_CONTROL_CUSTOM1},
+            {PaletteContentStyle.InputControlCustom2, DesignTimeUtilities.DEFAULT_PALETTE_CONTENT_STYLE_INPUT_CONTROL_CUSTOM2},
+            {PaletteContentStyle.InputControlCustom3,DesignTimeUtilities.DEFAULT_PALETTE_CONTENT_STYLE_INPUT_CONTROL_CUSTOM3}
         };
-        #endregion
 
-        #region Identity
-        /// <summary>
-        /// Initialize a new instance of the PaletteContentStyleConverter class.
-        /// </summary>
-        public PaletteContentStyleConverter()
-            : base(typeof(PaletteContentStyle))
-        {
-        }
         #endregion
 
         #region Protected
         /// <summary>
         /// Gets an array of lookup pairs.
         /// </summary>
-        protected override Pair[] Pairs => _pairs;
+        protected override IReadOnlyDictionary<PaletteContentStyle /*Enum*/, string /*Display*/> Pairs => _pairs;
 
         #endregion
     }

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -31,7 +31,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Initialize a new instance of the ViewLayoutPageHide class.
         /// </summary>
-        public ViewLayoutPageHide(KryptonNavigator navigator)
+        public ViewLayoutPageHide([DisallowNull] KryptonNavigator navigator)
         {
             Debug.Assert(navigator != null);
 
@@ -45,7 +45,7 @@ namespace Krypton.Navigator
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            "ViewLayoutPageHide:" + Id;
+            $"ViewLayoutPageHide:{Id}";
 
         #endregion
 
@@ -54,7 +54,7 @@ namespace Krypton.Navigator
         /// Discover the preferred size of the element.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override Size GetPreferredSize(ViewLayoutContext context)
+        public override Size GetPreferredSize([DisallowNull] ViewLayoutContext context)
         {
             Debug.Assert(context != null);
             return Size.Empty;
@@ -64,7 +64,7 @@ namespace Krypton.Navigator
         /// Perform a layout of the elements.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override void Layout(ViewLayoutContext context)
+        public override void Layout([DisallowNull] ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 
@@ -75,17 +75,14 @@ namespace Krypton.Navigator
             if (!context.ViewManager.DoNotLayoutControls)
             {
                 // Are we allowed to actually layout the pages?
-                if (_navigator.InternalCanLayout)
-                {
+                if (_navigator is { InternalCanLayout: true, IsChildPanelBorrowed: false })
                     // Do not position the child panel if it is borrowed
-                    if (!_navigator.IsChildPanelBorrowed)
-                    {
-                        // Position the child panel for showing page information
-                        _navigator.ChildPanel.SetBounds(HIDDEN_OFFSET,
-                                                        HIDDEN_OFFSET,
-                                                        ClientWidth,
-                                                        ClientHeight);
-                    }
+                {
+                    // Position the child panel for showing page information
+                    _navigator.ChildPanel.SetBounds(HIDDEN_OFFSET,
+                        HIDDEN_OFFSET,
+                        ClientWidth,
+                        ClientHeight);
                 }
             }
         }

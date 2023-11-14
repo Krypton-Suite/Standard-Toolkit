@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -17,18 +17,14 @@ namespace Krypton.Toolkit
     /// </summary>
     public class ButtonSpecRemapByContentView : ButtonSpecRemapByContentBase
     {
-        #region Instance Fields
-
-        #endregion
-
         #region Identity
         /// <summary>
         /// Initialize a new instance of the ButtonSpecRemapByContentView class.
         /// </summary>
         /// <param name="target">Initial palette target for redirection.</param>
         /// <param name="buttonSpec">Reference to button specification.</param>
-        public ButtonSpecRemapByContentView(IPalette target,
-                                            ButtonSpec buttonSpec)
+        public ButtonSpecRemapByContentView(PaletteBase? target,
+            [DisallowNull] ButtonSpec buttonSpec)
             : base(target, buttonSpec)
         {
         }
@@ -38,7 +34,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the foreground to use for color map redirection.
         /// </summary>
-        public ViewDrawContent Foreground { get; set; }
+        public ViewDrawContent? Foreground { get; set; }
 
         #endregion
 
@@ -46,7 +42,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the palette content to use for remapping.
         /// </summary>
-        public override IPaletteContent PaletteContent => Foreground?.GetPalette();
+        public override IPaletteContent? PaletteContent => Foreground?.GetPalette();
 
         #endregion
 
@@ -54,7 +50,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the state of the remapping area
         /// </summary>
-        public override PaletteState PaletteState => Foreground.State;
+        public override PaletteState PaletteState => Foreground?.State ?? PaletteState.Normal;
 
         #endregion
     }

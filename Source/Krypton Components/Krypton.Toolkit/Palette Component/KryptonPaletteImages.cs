@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -17,10 +17,6 @@ namespace Krypton.Toolkit
     /// </summary>
     public class KryptonPaletteImages : Storage
     {
-        #region Instance Fields
-
-        #endregion
-
         #region Identity
 
         /// <summary>
@@ -28,7 +24,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="redirector">Palette redirector for sourcing inherited values.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public KryptonPaletteImages(PaletteRedirect redirector,
+        public KryptonPaletteImages([DisallowNull] PaletteRedirect redirector,
                                       NeedPaintHandler needPaint)
         {
             Debug.Assert(redirector != null);
@@ -40,6 +36,7 @@ namespace Krypton.Toolkit
             GalleryButtons = new KryptonPaletteImagesGalleryButtons(redirector, needPaint);
             RadioButton = new KryptonPaletteImagesRadioButton(redirector, needPaint);
             TreeView = new KryptonPaletteImagesTreeView(redirector, needPaint);
+            IntegratedToolBar = new KryptonPaletteImagesIntegratedToolBar(redirector, needPaint);
         }
         #endregion
 
@@ -153,6 +150,19 @@ namespace Krypton.Toolkit
         public KryptonPaletteImagesTreeView TreeView { get; }
 
         private bool ShouldSerializeTreeView() => !TreeView.IsDefault;
+
+        #endregion
+
+        #region IntegratedToolBar
+
+        /// <summary>Gets access the integrated tool bar set of images.</summary>
+        [KryptonPersist]
+        [Category(@"Visuals")]
+        [Description(@"Overrides for defining integrated toolbar images.")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        public KryptonPaletteImagesIntegratedToolBar IntegratedToolBar { get; }
+
+        private bool ShouldSerializeIntegratedToolBar() => !IntegratedToolBar.IsDefault;
 
         #endregion
     }

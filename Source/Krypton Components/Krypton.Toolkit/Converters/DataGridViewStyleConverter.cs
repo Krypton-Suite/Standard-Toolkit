@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -15,29 +15,21 @@ namespace Krypton.Toolkit
     /// <summary>
     /// Custom type converter so that DataGridViewStyle values appear as neat text at design time.
     /// </summary>
-    internal class DataGridViewStyleConverter : StringLookupConverter
+    internal class DataGridViewStyleConverter : StringLookupConverter<DataGridViewStyle>
     {
         #region Static Fields
 
-        private readonly Pair[] _pairs =
+        [Localizable(true)]
+        private static readonly IReadOnlyDictionary<DataGridViewStyle, string> _pairs = new Dictionary<DataGridViewStyle, string>
         {
-            new(DataGridViewStyle.List, "List"),
-            new(DataGridViewStyle.Sheet, "Sheet"),
-            new(DataGridViewStyle.Custom1, "Custom1"),
-            new(DataGridViewStyle.Custom2, "Custom2"),
-            new(DataGridViewStyle.Custom3, "Custom3"),
-            new(DataGridViewStyle.Mixed, "Mixed")
+            {DataGridViewStyle.List, DesignTimeUtilities.DEFAULT_DATA_GRID_VIEW_STYLE_LIST},
+            {DataGridViewStyle.Sheet, DesignTimeUtilities.DEFAULT_DATA_GRID_VIEW_STYLE_SHEET},
+            {DataGridViewStyle.Custom1, DesignTimeUtilities.DEFAULT_DATA_GRID_VIEW_STYLE_CUSTOM_ONE},
+            {DataGridViewStyle.Custom2, DesignTimeUtilities.DEFAULT_DATA_GRID_VIEW_STYLE_CUSTOM_TWO},
+            {DataGridViewStyle.Custom3, DesignTimeUtilities.DEFAULT_DATA_GRID_VIEW_STYLE_CUSTOM_THREE},
+            {DataGridViewStyle.Mixed, DesignTimeUtilities.DEFAULT_DATA_GRID_VIEW_STYLE_MIXED}
         };
-        #endregion
 
-        #region Identity
-        /// <summary>
-        /// Initialize a new instance of the DataGridViewStyleConverter class.
-        /// </summary>
-        public DataGridViewStyleConverter()
-            : base(typeof(DataGridViewStyle))
-        {
-        }
         #endregion
 
         #region Protected
@@ -45,7 +37,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets an array of lookup pairs.
         /// </summary>
-        protected override Pair[] Pairs => _pairs;
+        protected override IReadOnlyDictionary<DataGridViewStyle /*Enum*/, string /*Display*/> Pairs => _pairs;
 
         #endregion
     }

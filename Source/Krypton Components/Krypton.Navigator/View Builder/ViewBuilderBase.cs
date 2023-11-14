@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -79,11 +79,11 @@ namespace Krypton.Navigator
         /// <param name="navigator">Reference to navigator instance.</param>
         /// <param name="manager">Reference to current manager.</param>
         /// <param name="redirector">Palette redirector.</param>
-        public virtual void Construct(KryptonNavigator navigator, 
-                                      ViewManager manager,
-                                      PaletteRedirect redirector)
+        public virtual void Construct([DisallowNull] KryptonNavigator navigator, 
+            [DisallowNull] ViewManager manager,
+            [DisallowNull] PaletteRedirect redirector)
         {
-            Debug.Assert(navigator != null);
+            Debug.Assert(navigator != null, $"{nameof(navigator)} != null");
             Debug.Assert(manager != null);
             Debug.Assert(redirector != null);
             Debug.Assert(_constructed == false);
@@ -104,7 +104,7 @@ namespace Krypton.Navigator
         public virtual void Destruct()
         {
             Debug.Assert(_constructed);
-            Debug.Assert(Navigator != null);
+            Debug.Assert(Navigator != null, $"{nameof(Navigator)} != null");
 
             // Unhook from the navigator events
             Navigator.ViewBuilderPropertyChanged -= OnViewBuilderPropertyChanged;
@@ -134,7 +134,7 @@ namespace Krypton.Navigator
         /// Process a change in the visible state for a page.
         /// </summary>
         /// <param name="page">Page that has changed visible state.</param>
-        public virtual void PageVisibleStateChanged(KryptonPage page)
+        public virtual void PageVisibleStateChanged(KryptonPage? page)
         {
         }
 
@@ -142,7 +142,7 @@ namespace Krypton.Navigator
         /// Process a change in the enabled state for a page.
         /// </summary>
         /// <param name="page">Page that has changed enabled state.</param>
-        public virtual void PageEnabledStateChanged(KryptonPage page)
+        public virtual void PageEnabledStateChanged(KryptonPage? page)
         {
         }
 
@@ -151,7 +151,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="page">Page that has changed.</param>
         /// <param name="property">Name of property that has changed.</param>
-        public virtual void PageAppearanceChanged(KryptonPage page, string property)
+        public virtual void PageAppearanceChanged([DisallowNull] KryptonPage page, [DisallowNull] string property)
         {
         }
 
@@ -160,7 +160,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="page">Page that has changed.</param>
         /// <param name="changed">Set of flags that have changed value.</param>
-        public virtual void PageFlagsChanged(KryptonPage page, KryptonPageFlags changed)
+        public virtual void PageFlagsChanged(KryptonPage? page, KryptonPageFlags changed)
         {
         }
 
@@ -169,14 +169,14 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="element">Element to search against.</param>
         /// <returns>Reference to KryptonPage; otherwise null.</returns>
-        public abstract KryptonPage PageFromView(ViewBase element);
+        public abstract KryptonPage? PageFromView(ViewBase element);
 
         /// <summary>
         /// Gets the ButtonSpec associated with the provided view element.
         /// </summary>
         /// <param name="element">Element to search against.</param>
         /// <returns>Reference to ButtonSpec; otherwise null.</returns>
-        public abstract ButtonSpec ButtonSpecFromView(ViewBase element);
+        public abstract ButtonSpec? ButtonSpecFromView(ViewBase element);
 
         /// <summary>
         /// Ensure the correct state palettes are being used.
@@ -195,7 +195,7 @@ namespace Krypton.Navigator
             Point pt = Control.MousePosition;
 
             // Show the context menu just below the mouse cursor
-            return new Point(pt.X, pt.Y + 18);
+            return pt with { Y = pt.Y + 18 };
         }
 
         /// <summary>
@@ -217,22 +217,20 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="action">Requested action.</param>
         /// <returns>Enabled state of the button.</returns>
-        public virtual ButtonEnabled NextActionEnabled(DirectionButtonAction action)
-        {
+        public virtual ButtonEnabled NextActionEnabled(DirectionButtonAction action) =>
             // Process the requested action
-            return action switch
+            action switch
             {
                 DirectionButtonAction.None or DirectionButtonAction.SelectPage => (Navigator.NextActionValid ? ButtonEnabled.True : ButtonEnabled.False),// Only enabled if the count of visible pages to the left of current page is positive
                 _ => ButtonEnabled.False // Action not supported so disable button
             };
-        }
 
         /// <summary>
         /// Perform the next button action requested.
         /// </summary>
         /// <param name="action">Requested action.</param>
         /// <param name="page">Selected page at time of action request.</param>
-        public virtual void PerformNextAction(DirectionButtonAction action, KryptonPage page)
+        public virtual void PerformNextAction(DirectionButtonAction action, KryptonPage? page)
         {
             // Process the requested action
             switch (action)
@@ -252,22 +250,20 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="action">Requested action.</param>
         /// <returns>Enabled state of the button.</returns>
-        public virtual ButtonEnabled PreviousActionEnabled(DirectionButtonAction action)
-        {
+        public virtual ButtonEnabled PreviousActionEnabled(DirectionButtonAction action) =>
             // Process the requested action
-            return action switch
+            action switch
             {
                 DirectionButtonAction.None or DirectionButtonAction.SelectPage => (Navigator.PreviousActionValid ? ButtonEnabled.True : ButtonEnabled.False),// Only enabled if the count of visible pages to the left of current page is positive
                 _ => ButtonEnabled.False // Action not supported so disable button
             };
-        }
 
         /// <summary>
         /// Perform the previous button action requested.
         /// </summary>
         /// <param name="action">Requested action.</param>
         /// <param name="page">Selected page at time of action request.</param>
-        public virtual void PerformPreviousAction(DirectionButtonAction action, KryptonPage page)
+        public virtual void PerformPreviousAction(DirectionButtonAction action, KryptonPage? page)
         {
             // Process the requested action
             switch (action)
@@ -312,7 +308,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="element">Element that is being activated.</param>
         /// <returns>True to give navigator the focus; otherwise false.</returns>
-        public virtual bool GiveNavigatorFocus(ViewBase element) => false;
+        public virtual bool GiveNavigatorFocus(ViewBase? element) => false;
 
         /// <summary>
         /// User has used the keyboard to select the currently selected page.
@@ -399,7 +395,7 @@ namespace Krypton.Navigator
             // There must be at least one page and allowed to select a page
             if ((Navigator.Pages.Count > 0) && Navigator.AllowTabSelect)
             {
-                KryptonPage first;
+                KryptonPage? first;
 
                 // Start searching from after the selected page onwards
                 if (Navigator.SelectedPage != null)
@@ -414,7 +410,7 @@ namespace Krypton.Navigator
                 }
 
                 // Next page to test is the first one 
-                KryptonPage next = first;
+                KryptonPage? next = first;
 
                 // Keep testing next pages until no more are left
                 while (next != null)
@@ -471,14 +467,14 @@ namespace Krypton.Navigator
         /// <param name="wrap">Wrap around end of collection to the start.</param>
         /// <param name="ctrlTab">Associated with a Ctrl+Tab action.</param>
         /// <returns>True if new page selected; otherwise false.</returns>
-        public virtual bool SelectNextPage(KryptonPage page, 
+        public virtual bool SelectNextPage(KryptonPage? page, 
                                            bool wrap,
                                            bool ctrlTab)
         {
             // There must be at least one page and allowed to select a page
             if ((Navigator.Pages.Count > 0) && Navigator.AllowTabSelect)
             {
-                KryptonPage first;
+                KryptonPage? first;
 
                 // If given a starting page, it must be in the pages collection, 
                 // otherwise we start by searching from the first page onwards
@@ -490,7 +486,7 @@ namespace Krypton.Navigator
                     if ((first == null) && wrap)
                     {
                         // Are we allowed to wrap around?
-                        CtrlTabCancelEventArgs ce = new(true);
+                        var ce = new CtrlTabCancelEventArgs(true);
                         Navigator.OnCtrlTabWrap(ce);
 
                         if (ce.Cancel)
@@ -507,7 +503,7 @@ namespace Krypton.Navigator
                 }
 
                 // Next page to test is the first one 
-                KryptonPage next = first;
+                KryptonPage? next = first;
 
                 // Keep testing next pages until no more are left
                 while (next != null)
@@ -529,7 +525,7 @@ namespace Krypton.Navigator
                         if ((next == null) && wrap)
                         {
                             // Are we allowed to wrap around?
-                            CtrlTabCancelEventArgs ce = new(true);
+                            var ce = new CtrlTabCancelEventArgs(true);
                             Navigator.OnCtrlTabWrap(ce);
 
                             if (ce.Cancel)
@@ -570,14 +566,14 @@ namespace Krypton.Navigator
         /// <param name="wrap">Wrap around end of collection to the start.</param>
         /// <param name="ctrlTab">Associated with a Ctrl+Tab action.</param>
         /// <returns>True if new page selected; otherwise false.</returns>
-        public virtual bool SelectPreviousPage(KryptonPage page, 
+        public virtual bool SelectPreviousPage(KryptonPage? page, 
                                                bool wrap,
                                                bool ctrlTab)
         {
             // There must be at least one page and allowed to select a page
             if ((Navigator.Pages.Count > 0) && Navigator.AllowTabSelect)
             {
-                KryptonPage first;
+                KryptonPage? first;
 
                 // If given a starting page, it must be in the pages collection, 
                 // otherwise we start by searching from the last page backwards
@@ -589,7 +585,7 @@ namespace Krypton.Navigator
                     if ((first == null) && wrap)
                     {
                         // Are we allowed to wrap around?
-                        CtrlTabCancelEventArgs ce = new(false);
+                        var ce = new CtrlTabCancelEventArgs(false);
                         Navigator.OnCtrlTabWrap(ce);
 
                         if (ce.Cancel)
@@ -606,7 +602,7 @@ namespace Krypton.Navigator
                 }
 
                 // Page to test is the first one 
-                KryptonPage previous = first;
+                KryptonPage? previous = first;
 
                 // Keep testing previous pages until no more are left
                 while (previous != null)
@@ -628,7 +624,7 @@ namespace Krypton.Navigator
                         if ((previous == null) && wrap)
                         {
                             // Are we allowed to wrap around?
-                            CtrlTabCancelEventArgs ce = new(false);
+                            var ce = new CtrlTabCancelEventArgs(false);
                             Navigator.OnCtrlTabWrap(ce);
 
                             if (ce.Cancel)
@@ -670,41 +666,31 @@ namespace Krypton.Navigator
         /// Requests a need paint be performed on the navigator.
         /// </summary>
         /// <param name="needLayout">Does the palette change require a layout.</param>
-        protected void PerformNeedPaint(bool needLayout)
-        {
-            OnNeedPaint(this, new NeedLayoutEventArgs(needLayout));
-        }
+        protected void PerformNeedPaint(bool needLayout) => OnNeedPaint(this, new NeedLayoutEventArgs(needLayout));
 
         /// <summary>
         /// Requests a need page paint be performed on the navigator.
         /// </summary>
         /// <param name="needLayout">Does the palette change require a layout.</param>
-        protected void PerformNeedPagePaint(bool needLayout)
-        {
-            OnNeedPagePaint(this, new NeedLayoutEventArgs(needLayout));
-        }
+        protected void PerformNeedPagePaint(bool needLayout) => OnNeedPagePaint(this, new NeedLayoutEventArgs(needLayout));
 
         /// <summary>
         /// Perform a need paint on the navigator.
         /// </summary>
         /// <param name="sender">Source of notification.</param>
         /// <param name="e">An NeedLayoutEventArgs containing event data.</param>
-        protected void OnNeedPaint(object sender, NeedLayoutEventArgs e)
-        {
+        protected void OnNeedPaint(object? sender, NeedLayoutEventArgs e) =>
             // Pass paint request onto the navigator control itself
             Navigator.PerformNeedPaint(e.NeedLayout);
-        }
 
         /// <summary>
         /// Perform a need page paint on the navigator.
         /// </summary>
         /// <param name="sender">Source of notification.</param>
         /// <param name="e">An NeedLayoutEventArgs containing event data.</param>
-        protected void OnNeedPagePaint(object sender, NeedLayoutEventArgs e)
-        {
+        protected void OnNeedPagePaint(object sender, NeedLayoutEventArgs e) =>
             // Pass paint request onto the navigator control itself
             Navigator.PerformNeedPagePaint(e.NeedLayout);
-        } 
 
         /// <summary>
         /// Process the change in a property that might effect the view builder.
@@ -713,6 +699,11 @@ namespace Krypton.Navigator
         /// <param name="e">Property changed details.</param>
         protected virtual void OnViewBuilderPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
+            if (Navigator.StateCommon == null)
+            {
+                return;
+            }
+
             switch (e.PropertyName)
             {
                 case @"PanelBackStyle":
@@ -720,11 +711,20 @@ namespace Krypton.Navigator
                     Navigator.PerformNeedPaint(true);
                     break;
                 case @"PageBackStyle":
-                    Navigator.StateCommon.PalettePage.BackStyle = Navigator.PageBackStyle;
+                    if (Navigator.StateCommon.PalettePage != null)
+                    {
+                        Navigator.StateCommon.PalettePage.BackStyle = Navigator.PageBackStyle;
+                    }
+
                     Navigator.PerformNeedPagePaint(true);
                     break;
                 case @"GroupBackStyle":
-                    Navigator.ChildPanel.PanelBackStyle = Navigator.Group.GroupBackStyle;
+                    if (Navigator.ChildPanel != null)
+                    {
+                        Navigator.ChildPanel.PanelBackStyle = Navigator.Group.GroupBackStyle;
+                    }
+
+                    Debug.Assert(Navigator.StateCommon.HeaderGroup != null, "Navigator.StateCommon.HeaderGroup != null");
                     Navigator.StateCommon.HeaderGroup.BackStyle = Navigator.Group.GroupBackStyle;
                     Navigator.PerformNeedPaint(true);
                     break;

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -29,7 +29,7 @@ namespace Krypton.Navigator
         /// <param name="redirector">Palette redirector.</param>
         /// <param name="needPaintDelegate">Delegate for notifying paint requests.</param>
         public ViewletHeaderGroupOutlook(KryptonNavigator navigator,
-                                         PaletteRedirect redirector,
+                                         PaletteRedirect? redirector,
                                          NeedPaintHandler needPaintDelegate)
             : base(navigator, redirector, needPaintDelegate) =>
             // Are we using the full or mini outlook mode.
@@ -62,16 +62,14 @@ namespace Krypton.Navigator
         /// Gets the visible state of the secondary header.
         /// </summary>
         /// <returns>Boolean value.</returns>
-        protected override bool GetHeaderSecondaryVisible()
-        {
+        protected override bool GetHeaderSecondaryVisible() =>
             // Work out the correct visiblity value to use
-            return Navigator.Outlook.HeaderSecondaryVisible switch
+            Navigator.Outlook.HeaderSecondaryVisible switch
             {
                 InheritBool.Inherit => Navigator.Header.HeaderVisibleSecondary,
                 InheritBool.True => true,
                 _ => false
             };
-        }
 
         /// <summary>
         /// Gets the source of the primary header values.

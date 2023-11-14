@@ -1,10 +1,22 @@
-﻿namespace Krypton.Workspace
+﻿#region BSD License
+/*
+ * 
+ * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
+ * 
+ *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  
+ */
+#endregion
+
+namespace Krypton.Workspace
 {
     internal class KryptonWorkspaceSequenceDesigner : ComponentDesigner
     {
         #region Instance Fields
-        private KryptonWorkspaceSequence _sequence;
-        private IComponentChangeService _changeService;
+        private KryptonWorkspaceSequence? _sequence;
+        private IComponentChangeService? _changeService;
         #endregion
 
         #region Identity
@@ -21,7 +33,7 @@
         /// Initializes the designer with the specified component.
         /// </summary>
         /// <param name="component">The IComponent to associate the designer with.</param>
-        public override void Initialize(IComponent component)
+        public override void Initialize([DisallowNull] IComponent component)
         {
             // Let base class do standard stuff
             base.Initialize(component);
@@ -46,7 +58,7 @@
             get
             {
                 // Create a new compound array
-                ArrayList compound = new();
+                var compound = new ArrayList();
 
                 // Add the list of collection items
                 compound.AddRange(_sequence.Children);
@@ -85,12 +97,12 @@
             if (e.Component == _sequence)
             {
                 // Need access to host in order to delete a component
-                IDesignerHost host = (IDesignerHost)GetService(typeof(IDesignerHost));
+                var host = (IDesignerHost)GetService(typeof(IDesignerHost));
 
                 // Climb the workspace item tree to get the top most sequence
-                KryptonWorkspace workspace = null;
+                KryptonWorkspace? workspace = null;
                 IWorkspaceItem workspaceItem = _sequence;
-                while (workspaceItem.WorkspaceParent != null)
+                while (workspaceItem?.WorkspaceParent != null)
                 {
                     workspaceItem = workspaceItem.WorkspaceParent;
                 }
@@ -104,14 +116,14 @@
                 // We need to remove all children from the sequence
                 for (var j = _sequence.Children.Count - 1; j >= 0; j--)
                 {
-                    Component comp = _sequence.Children[j] as Component;
+                    var comp = _sequence.Children[j] as Component;
 
                     // If the component is a control...
-                    if ((comp is Control) && (workspace != null))
+                    if ((comp is Control control) && (workspace != null))
                     {
                         // We need to manually remove it from the workspace controls collection
-                        KryptonReadOnlyControls readOnlyControls = (KryptonReadOnlyControls)workspace.Controls;
-                        readOnlyControls.RemoveInternal(comp as Control);
+                        var readOnlyControls = (KryptonReadOnlyControls)workspace.Controls;
+                        readOnlyControls.RemoveInternal(control);
                     }
 
                     host.DestroyComponent(comp);

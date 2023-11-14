@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -19,7 +19,7 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
         internal IPaletteBack _paletteBack;
-        private IDisposable _memento;
+        private IDisposable? _memento;
 
         #endregion
 
@@ -37,7 +37,7 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the ViewDrawPanel class.
         /// </summary>
         /// <param name="paletteBack">Palette source for the background.</param>        
-        public ViewDrawPanel(IPaletteBack paletteBack)
+        public ViewDrawPanel([DisallowNull] IPaletteBack paletteBack)
         {
             Debug.Assert(paletteBack != null);
             _paletteBack = paletteBack;
@@ -50,7 +50,7 @@ namespace Krypton.Toolkit
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            "ViewDrawPanel:" + Id;
+            $"ViewDrawPanel:{Id}";
 
         /// <summary>
         /// Clean up any resources being used.
@@ -92,7 +92,7 @@ namespace Krypton.Toolkit
         /// Update the source palettes for drawing.
         /// </summary>
         /// <param name="paletteBack">Palette source for the background.</param>        
-        public void SetPalettes(IPaletteBack paletteBack)
+        public void SetPalettes([DisallowNull] IPaletteBack paletteBack)
         {
             Debug.Assert(paletteBack != null);
 
@@ -114,7 +114,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="context">Evaluation context.</param>
         /// <returns>True if transparent areas exist; otherwise false.</returns>
-        public override bool EvalTransparentPaint(ViewContext context)
+        public override bool EvalTransparentPaint([DisallowNull] ViewContext context)
         {
             Debug.Assert(context != null);
 
@@ -130,7 +130,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="context">Layout context.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public override void Layout(ViewLayoutContext context)
+        public override void Layout([DisallowNull] ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 
@@ -155,7 +155,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="context">Rendering context.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public override void RenderBefore(RenderContext context) 
+        public override void RenderBefore([DisallowNull] RenderContext context) 
         {
             Debug.Assert(context != null);
 
@@ -171,7 +171,7 @@ namespace Krypton.Toolkit
                 if (_paletteBack.GetBackDraw(State) == InheritBool.True)
                 {
                     // Render the background
-                    using GraphicsPath panelPath = new();
+                    using var panelPath = new GraphicsPath();
                     var rectF = ClientRectangleF;
                     // Now workaround https://github.com/Krypton-Suite/Standard-Toolkit/issues/308
                     rectF.Offset(-0.25f, -0.25f);

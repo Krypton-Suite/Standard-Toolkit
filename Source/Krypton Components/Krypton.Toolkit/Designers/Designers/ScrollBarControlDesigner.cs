@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -26,13 +26,13 @@ namespace Krypton.Toolkit
             {
                 // gets the property descriptor for the property "Orientation"
                 PropertyDescriptor propDescriptor =
-                   TypeDescriptor.GetProperties(Component)[@"Orientation"];
+                   TypeDescriptor.GetProperties(Component)[nameof(Orientation)];
 
                 // if not null - we can read the current orientation of the scroll bar
                 if (propDescriptor != null)
                 {
                     // get the current orientation
-                    ScrollBarOrientation orientation =
+                    var orientation =
                        (ScrollBarOrientation)propDescriptor.GetValue(Component);
 
                     // if vertical orientation
@@ -59,12 +59,12 @@ namespace Krypton.Toolkit
             properties.Remove(@"Text");
             properties.Remove(@"BackgroundImage");
             properties.Remove(@"ForeColor");
-            properties.Remove(@"ImeMode");
-            properties.Remove(@"Padding");
+            properties.Remove(nameof(ImeMode));
+            properties.Remove(nameof(Padding));
             properties.Remove(@"BackgroundImageLayout");
             properties.Remove(@"BackColor");
-            properties.Remove(@"Font");
-            properties.Remove(@"RightToLeft");
+            properties.Remove(nameof(Font));
+            properties.Remove(nameof(RightToLeft));
 
             base.PreFilterProperties(properties);
         }

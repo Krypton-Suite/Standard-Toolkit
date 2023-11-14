@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -15,14 +15,10 @@ namespace Krypton.Toolkit
     /// <summary>
     /// Hosts a collection of KryptonDataGridViewMaskedTextBoxCell cells.
     /// </summary>
-    [Designer("Krypton.Toolkit.KryptonMaskedTextBoxColumnDesigner, Krypton.Toolkit")]
+    [Designer(typeof(KryptonMaskedTextBoxColumnDesigner))]
     [ToolboxBitmap(typeof(KryptonDataGridViewMaskedTextBoxColumn), "ToolboxBitmaps.KryptonMaskedTextBox.bmp")]
     public class KryptonDataGridViewMaskedTextBoxColumn : KryptonDataGridViewIconColumn
     {
-        #region Instance Fields
-
-        #endregion
-
         #region Identity
 
         /// <summary>
@@ -38,7 +34,7 @@ namespace Krypton.Toolkit
         /// </summary>
         public override string ToString()
         {
-            StringBuilder builder = new(0x40);
+            var builder = new StringBuilder(0x40);
             builder.Append("KryptonDataGridViewMaskedTextBoxColumn { Name=");
             // ReSharper disable RedundantBaseQualifier
             builder.Append(base.Name);
@@ -55,7 +51,7 @@ namespace Krypton.Toolkit
         /// <returns></returns>
         public override object Clone()
         {
-            KryptonDataGridViewMaskedTextBoxColumn cloned = base.Clone() as KryptonDataGridViewMaskedTextBoxColumn;
+            var cloned = base.Clone() as KryptonDataGridViewMaskedTextBoxColumn;
 
             return cloned;
         }
@@ -246,7 +242,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Behavior")]
         [Description(@"Indicates whether the text to be copied to the clipboard includes literals and/or prompt characters.")]
-        [DefaultValue(typeof(MaskFormat), "IncludeLiterals")]
+        [DefaultValue(MaskFormat.IncludeLiterals)]
         public MaskFormat CutCopyMaskFormat
         {
             get =>
@@ -366,7 +362,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Behavior")]
         [Description(@"Indicates the masked text box input character typing mode.")]
-        [DefaultValue(typeof(InsertKeyMode), "Default")]
+        [DefaultValue(InsertKeyMode.Default)]
         public InsertKeyMode InsertKeyMode
         {
             get =>
@@ -648,7 +644,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Behavior")]
         [Description(@"Indicates whether the string returned from the Text property includes literal and/or prompt characters.")]
-        [DefaultValue(typeof(MaskFormat), "IncludeLiterals")]
+        [DefaultValue(MaskFormat.IncludeLiterals)]
         public MaskFormat TextMaskFormat
         {
             get =>
@@ -728,7 +724,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Small utility function that returns the template cell as a KryptonDataGridViewMaskedTextBoxCell
         /// </summary>
-        private KryptonDataGridViewMaskedTextBoxCell MaskedTextBoxCellTemplate => (KryptonDataGridViewMaskedTextBoxCell)CellTemplate;
+        private KryptonDataGridViewMaskedTextBoxCell? MaskedTextBoxCellTemplate => (KryptonDataGridViewMaskedTextBoxCell)CellTemplate;
 
         #endregion
 

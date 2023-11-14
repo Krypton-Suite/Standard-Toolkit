@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -18,7 +18,7 @@ namespace Krypton.Toolkit
     public class PaletteHeaderButtonRedirect : PaletteTripleMetricRedirect
     {
         #region Instance Fields
-        private readonly PaletteRedirect _redirect;
+        private readonly PaletteRedirect? _redirect;
         private Padding _buttonPadding;
         private int _buttonEdgeInset;
         #endregion
@@ -32,7 +32,7 @@ namespace Krypton.Toolkit
         /// <param name="borderStyle">Initial border style.</param>
         /// <param name="contentStyle">Initial content style.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public PaletteHeaderButtonRedirect(PaletteRedirect redirect,
+        public PaletteHeaderButtonRedirect([DisallowNull] PaletteRedirect redirect,
                                            PaletteBackStyle backStyle,
                                            PaletteBorderStyle borderStyle,
                                            PaletteContentStyle contentStyle,
@@ -86,10 +86,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Reset the ButtonEdgeInset to the default value.
         /// </summary>
-        public void ResetButtonEdgeInset()
-        {
-            ButtonEdgeInset = -1;
-        }
+        public void ResetButtonEdgeInset() => ButtonEdgeInset = -1;
         #endregion
 
         #region ButtonPadding
@@ -117,10 +114,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Reset the ButtonPadding to the default value.
         /// </summary>
-        public void ResetButtonPadding()
-        {
-            ButtonPadding = CommonHelper.InheritPadding;
-        }
+        public void ResetButtonPadding() => ButtonPadding = CommonHelper.InheritPadding;
         #endregion
 
         #region IPaletteMetric

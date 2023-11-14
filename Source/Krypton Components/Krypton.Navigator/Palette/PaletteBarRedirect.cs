@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -18,7 +18,7 @@ namespace Krypton.Navigator
     public class PaletteBarRedirect : PaletteMetricRedirect
     {
         #region Instance Fields
-        private readonly PaletteRedirect _redirect;
+        private readonly PaletteRedirect? _redirect;
         private Padding _barPaddingTabs;
         private Padding _barPaddingInside;
         private Padding _barPaddingOutside;
@@ -36,7 +36,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="redirect">inheritance redirection instance.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public PaletteBarRedirect(PaletteRedirect redirect,
+        public PaletteBarRedirect([DisallowNull] PaletteRedirect redirect,
                                   NeedPaintHandler needPaint)
             : base(redirect)
         {
@@ -47,7 +47,7 @@ namespace Krypton.Navigator
 
             // Store the provided paint notification delegate
             NeedPaint = needPaint;
-            
+
             // Set default value for padding property
             _barPaddingTabs = CommonHelper.InheritPadding;
             _barPaddingInside = CommonHelper.InheritPadding;
@@ -104,10 +104,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Reset the BarPaddingTabs to the default value.
         /// </summary>
-        public void ResetBarPaddingTabs()
-        {
-            BarPaddingTabs = CommonHelper.InheritPadding;
-        }
+        public void ResetBarPaddingTabs() => BarPaddingTabs = CommonHelper.InheritPadding;
         #endregion
 
         #region BarPaddingInside
@@ -135,10 +132,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Reset the BarPaddingInside to the default value.
         /// </summary>
-        public void ResetBarPaddingInside()
-        {
-            BarPaddingInside = CommonHelper.InheritPadding;
-        }
+        public void ResetBarPaddingInside() => BarPaddingInside = CommonHelper.InheritPadding;
         #endregion
 
         #region BarPaddingOutside
@@ -166,10 +160,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Reset the BarPaddingOutside to the default value.
         /// </summary>
-        public void ResetBarPaddingOutside()
-        {
-            BarPaddingOutside = CommonHelper.InheritPadding;
-        }
+        public void ResetBarPaddingOutside() => BarPaddingOutside = CommonHelper.InheritPadding;
         #endregion
 
         #region BarPaddingOnly
@@ -197,10 +188,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Reset the BarPaddingOnly to the default value.
         /// </summary>
-        public void ResetBarPaddingOnly()
-        {
-            BarPaddingOnly = CommonHelper.InheritPadding;
-        }
+        public void ResetBarPaddingOnly() => BarPaddingOnly = CommonHelper.InheritPadding;
         #endregion
 
         #region ButtonPadding
@@ -228,10 +216,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Reset the ButtonPadding to the default value.
         /// </summary>
-        public void ResetButtonPadding()
-        {
-            ButtonPadding = CommonHelper.InheritPadding;
-        }
+        public void ResetButtonPadding() => ButtonPadding = CommonHelper.InheritPadding;
         #endregion
 
         #region ButtonEdgeOutside
@@ -259,10 +244,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Reset the ButtonEdgeOutside to the default value.
         /// </summary>
-        public void ResetButtonEdgeOutside()
-        {
-            ButtonEdgeOutside = -1;
-        }
+        public void ResetButtonEdgeOutside() => ButtonEdgeOutside = -1;
         #endregion
 
         #region ButtonEdgeInside
@@ -290,10 +272,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Reset the ButtonEdgeInside to the default value.
         /// </summary>
-        public void ResetButtonEdgeInside()
-        {
-            ButtonEdgeInside = -1;
-        }
+        public void ResetButtonEdgeInside() => ButtonEdgeInside = -1;
         #endregion
 
         #region CheckButtonGap
@@ -321,10 +300,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Reset the CheckButtonGap to the default value.
         /// </summary>
-        public void ResetCheckButtonGap()
-        {
-            CheckButtonGap = -1;
-        }
+        public void ResetCheckButtonGap() => CheckButtonGap = -1;
         #endregion
 
         #region RibbonTabGap
@@ -352,10 +328,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Reset the RibbonTabGap to the default value.
         /// </summary>
-        public void ResetRibbonTabGap()
-        {
-            RibbonTabGap = -1;
-        }
+        public void ResetRibbonTabGap() => RibbonTabGap = -1;
         #endregion
 
         #region IPaletteMetric

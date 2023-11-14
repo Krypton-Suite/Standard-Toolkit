@@ -5,7 +5,9 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  
+ *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
  */
 #endregion
@@ -19,7 +21,7 @@ namespace Krypton.Ribbon
     {
         #region Instance Fields
         private readonly KryptonRibbon _ribbon;
-        private IDisposable _mementoBack;
+        private IDisposable? _mementoBack;
         #endregion
 
         #region Identity
@@ -41,7 +43,7 @@ namespace Krypton.Ribbon
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            @"ViewDrawRibbonScrollButton:" + Id;
+            $@"ViewDrawRibbonScrollButton:{Id}";
 
         /// <summary>
         /// Clean up any resources being used.
@@ -81,7 +83,7 @@ namespace Krypton.Ribbon
         /// Perform a layout of the elements.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override void Layout(ViewLayoutContext context)
+        public override void Layout([DisallowNull] ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 
@@ -113,8 +115,8 @@ namespace Krypton.Ribbon
             if (_ribbon.StateCommon.RibbonScroller.PaletteBorder.GetBorderDraw(State) == InheritBool.True)
             {
                 // Draw the border shadow
-                using AntiAlias aa = new(context.Graphics);
-                using SolidBrush shadowBrush = new(Color.FromArgb(16, Color.Black));
+                using var aa = new AntiAlias(context.Graphics);
+                using var shadowBrush = new SolidBrush(Color.FromArgb(16, Color.Black));
                 context.Graphics.FillPath(shadowBrush, shadowPath);
             }
 
@@ -143,8 +145,8 @@ namespace Krypton.Ribbon
                 Color borderColor = _ribbon.StateCommon.RibbonScroller.PaletteBorder.GetBorderColor1(State);
 
                 // Draw the border last to overlap the background
-                using AntiAlias aa = new(context.Graphics);
-                using Pen borderPen = new(borderColor);
+                using var aa = new AntiAlias(context.Graphics);
+                using var borderPen = new Pen(borderColor);
                 context.Graphics.DrawPath(borderPen, borderPath);
             }
         }
@@ -153,7 +155,7 @@ namespace Krypton.Ribbon
         #region Implementation
         private GraphicsPath CreateBorderPath(Rectangle rect)
         {
-            GraphicsPath path = new();
+            var path = new GraphicsPath();
 
             switch (Orientation)
             {
@@ -194,11 +196,11 @@ namespace Krypton.Ribbon
             return path;
         }
 
-        private void DrawArrow(Graphics g, Color textColor, Rectangle rect)
+        private void DrawArrow(Graphics? g, Color textColor, Rectangle rect)
         {
             // Create path that describes the arrow in orientation needed
             using GraphicsPath arrowPath = CreateArrowPath(rect);
-            using SolidBrush arrowBrush = new(textColor);
+            using var arrowBrush = new SolidBrush(textColor);
             g.FillPath(arrowBrush, arrowPath);
         }
 
@@ -207,8 +209,7 @@ namespace Krypton.Ribbon
             int x, y;
 
             // Find the correct starting position, which depends on direction
-            if ((Orientation == VisualOrientation.Left) ||
-                (Orientation == VisualOrientation.Right))
+            if (Orientation is VisualOrientation.Left or VisualOrientation.Right)
             {
                 x = rect.Right - ((rect.Width - 4) / 2);
                 y = rect.Y + (rect.Height / 2);
@@ -220,7 +221,7 @@ namespace Krypton.Ribbon
             }
 
             // Create triangle using a series of lines
-            GraphicsPath path = new();
+            var path = new GraphicsPath();
 
             switch (Orientation)
             {

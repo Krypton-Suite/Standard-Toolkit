@@ -5,7 +5,9 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  
+ *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
  */
 #endregion
@@ -21,24 +23,24 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Occurs when the quick access toolbar button has been clicked.
         /// </summary>
-        event EventHandler Click;
+        event EventHandler? Click;
 
         /// <summary>
         /// Occurs after the value of a property has changed.
         /// </summary>
-        event PropertyChangedEventHandler PropertyChanged;
+        event PropertyChangedEventHandler? PropertyChanged;
 
         /// <summary>
         /// Provides a back reference to the owning ribbon control instance.
         /// </summary>
         /// <param name="ribbon">Reference to owning instance.</param>
-        void SetRibbon(KryptonRibbon ribbon);
+        void SetRibbon(KryptonRibbon? ribbon);
 
         /// <summary>
         /// Gets the entry image.
         /// </summary>
         /// <returns>Image value.</returns>
-        Image GetImage();
+        Image? GetImage();
 
         /// <summary>
         /// Gets the entry text.
@@ -117,17 +119,17 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets the owning ribbon control instance.
         /// </summary>
-        KryptonRibbon Ribbon { get; set; }
+        KryptonRibbon? Ribbon { get; set; }
 
         /// <summary>
         /// Gets and sets the owning ribbon tab instance.
         /// </summary>
-        KryptonRibbonTab RibbonTab { get; set; }
+        KryptonRibbonTab? RibbonTab { get; set; }
 
         /// <summary>
         /// Gets and sets the owning ribbon container instance.
         /// </summary>
-        KryptonRibbonGroupContainer RibbonContainer { get; set; }
+        KryptonRibbonGroupContainer? RibbonContainer { get; set; }
 
         /// <summary>
         /// Gets the visible state of the item.
@@ -207,13 +209,13 @@ namespace Krypton.Ribbon
         /// Gets the first focus item from the item.
         /// </summary>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        ViewBase GetFirstFocusItem();
+        ViewBase? GetFirstFocusItem();
 
         /// <summary>
         /// Gets the last focus item from the item.
         /// </summary>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        ViewBase GetLastFocusItem();
+        ViewBase? GetLastFocusItem();
 
         /// <summary>
         /// Gets the next focus item based on the current item as provided.
@@ -221,7 +223,7 @@ namespace Krypton.Ribbon
         /// <param name="current">The view that is currently focused.</param>
         /// <param name="matched">Has the current focus item been matched yet.</param>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        ViewBase GetNextFocusItem(ViewBase current, ref bool matched);
+        ViewBase? GetNextFocusItem(ViewBase current, ref bool matched);
 
         /// <summary>
         /// Gets the previous focus item based on the current item as provided.
@@ -229,7 +231,7 @@ namespace Krypton.Ribbon
         /// <param name="current">The view that is currently focused.</param>
         /// <param name="matched">Has the current focus item been matched yet.</param>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        ViewBase GetPreviousFocusItem(ViewBase current, ref bool matched);
+        ViewBase? GetPreviousFocusItem(ViewBase current, ref bool matched);
 
         /// <summary>
         /// Gets the array of group level key tips.
@@ -265,13 +267,13 @@ namespace Krypton.Ribbon
         /// Gets the first focus item from the container.
         /// </summary>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        ViewBase GetFirstFocusItem();
+        ViewBase? GetFirstFocusItem();
 
         /// <summary>
         /// Gets the last focus item from the container.
         /// </summary>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        ViewBase GetLastFocusItem();
+        ViewBase? GetLastFocusItem();
 
         /// <summary>
         /// Gets the next focus item based on the current item as provided.
@@ -279,7 +281,7 @@ namespace Krypton.Ribbon
         /// <param name="current">The view that is currently focused.</param>
         /// <param name="matched">Has the current focus item been matched yet.</param>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        ViewBase GetNextFocusItem(ViewBase current, ref bool matched);
+        ViewBase? GetNextFocusItem(ViewBase current, ref bool matched);
 
         /// <summary>
         /// Gets the previous focus item based on the current item as provided.
@@ -287,7 +289,7 @@ namespace Krypton.Ribbon
         /// <param name="current">The view that is currently focused.</param>
         /// <param name="matched">Has the current focus item been matched yet.</param>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        ViewBase GetPreviousFocusItem(ViewBase current, ref bool matched);
+        ViewBase? GetPreviousFocusItem(ViewBase current, ref bool matched);
 
         /// <summary>
         /// Gets the array of group level key tips.
@@ -477,7 +479,7 @@ namespace Krypton.Ribbon
     /// Signature of a click event that expects the provided finish delegate to be called when associated actions are completed.
     /// </summary>
     /// <param name="sender">Event source.</param>
-    /// <param name="clickFinished">Delegate for finish notication.</param>
-    public delegate void ClickAndFinishHandler(object sender, EventHandler clickFinished);
+    /// <param name="clickFinished">Delegate for finish notification.</param>
+    public delegate void ClickAndFinishHandler(object sender, EventHandler? clickFinished);
     #endregion
 }

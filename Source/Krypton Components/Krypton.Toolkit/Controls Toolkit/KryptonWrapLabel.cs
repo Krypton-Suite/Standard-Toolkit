@@ -5,11 +5,12 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
 
+// ReSharper disable VirtualMemberCallInConstructor
 namespace Krypton.Toolkit
 {
     /// <summary>
@@ -17,26 +18,26 @@ namespace Krypton.Toolkit
     /// </summary>
     [ToolboxItem(true)]
     [ToolboxBitmap(typeof(KryptonWrapLabel), "ToolboxBitmaps.KryptonWrapLabel.bmp")]
-    [DefaultEvent("Click")]
-    [DefaultProperty("Text")]
-    [DefaultBindingProperty("Text")]
-    [Designer("Krypton.Toolkit.KryptonWrapLabelDesigner, Krypton.Toolkit")]
+    [DefaultEvent(nameof(Click))]
+    [DefaultProperty(nameof(Text))]
+    [DefaultBindingProperty(nameof(Text))]
+    [Designer(typeof(KryptonWrapLabelDesigner))]
     [DesignerCategory(@"code")]
     [Description(@"Displays descriptive information.")]
-    public sealed class KryptonWrapLabel : Label
+    public class KryptonWrapLabel : Label
     {
         #region Static Field
-        private static MethodInfo _miPTB;
+        private static MethodInfo? _miPtb;
         #endregion
 
         #region Instance Fields
-        private IPalette _localPalette;
-        private IPalette _palette;
+        private PaletteBase? _localPalette;
+        private PaletteBase? _palette;
         private PaletteMode _paletteMode;
         private readonly PaletteRedirect _redirector;
         private LabelStyle _labelStyle;
         private PaletteContentStyle _labelContentStyle;
-        private KryptonContextMenu _kryptonContextMenu;
+        private KryptonContextMenu? _kryptonContextMenu;
         private bool _globalEvents;
 
         #endregion
@@ -47,7 +48,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Property Changed")]
         [Description(@"Occurs when the value of the Palette property is changed.")]
-        public event EventHandler PaletteChanged;
+        public event EventHandler? PaletteChanged;
         #endregion
 
         #region Identity
@@ -122,7 +123,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Target control for mnemonic and click actions.")]
         [DefaultValue(null)]
-        public Control Target { get; set; }
+        public Control? Target { get; set; }
 
         /// <summary>
         /// Gets or sets the tab order of the KryptonSplitterPanel within its KryptonSplitContainer.
@@ -164,6 +165,8 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [Bindable(false)]
+        [AmbientValue(null)]
+        [AllowNull]
         public override Font Font
         {
             get => base.Font;
@@ -249,7 +252,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Visuals")]
         [Description(@"Label style.")]
-        [DefaultValue(typeof(LabelStyle), "NormalPanel")]
+        [DefaultValue(LabelStyle.NormalPanel)]
         public LabelStyle LabelStyle
         {
             get => _labelStyle;
@@ -320,7 +323,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Custom palette applied to drawing.")]
         [DefaultValue(null)]
-        public IPalette Palette
+        public PaletteBase? Palette
         {
             [DebuggerStepThrough]
             get => _localPalette;
@@ -331,7 +334,7 @@ namespace Krypton.Toolkit
                 if (_localPalette != value)
                 {
                     // Remember the starting palette
-                    IPalette old = _localPalette;
+                    PaletteBase? old = _localPalette;
 
                     // Use the provided palette value
                     SetPalette(value);
@@ -375,7 +378,7 @@ namespace Krypton.Toolkit
         [Category(@"Behavior")]
         [Description(@"The shortcut menu to show when the user right-clicks the page.")]
         [DefaultValue(null)]
-        public KryptonContextMenu KryptonContextMenu
+        public KryptonContextMenu? KryptonContextMenu
         {
             get => _kryptonContextMenu;
 
@@ -405,7 +408,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public IPalette GetResolvedPalette() => _palette;
+        public PaletteBase? GetResolvedPalette() => _palette;
 
         /// <summary>
         /// Gets access to the current renderer.
@@ -413,7 +416,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public IRenderer Renderer
+        public IRenderer? Renderer
         {
             [DebuggerStepThrough]
             get;
@@ -425,7 +428,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public ToolStripRenderer CreateToolStripRenderer() => Renderer.RenderToolStrip(GetResolvedPalette());
+        public ToolStripRenderer? CreateToolStripRenderer() => Renderer?.RenderToolStrip(GetResolvedPalette());
 
         /// <summary>
         /// Update the font property.
@@ -434,10 +437,10 @@ namespace Krypton.Toolkit
         [EditorBrowsable(EditorBrowsableState.Never)]
         public void UpdateFont()
         {
-            Font font;
+            Font? font;
             Color textColor;
             PaletteTextHint hint;
-            PaletteState ps = PaletteState.Normal;
+            var ps = PaletteState.Normal;
 
             // Get values from correct enabled/disabled state
             if (Enabled)
@@ -535,10 +538,10 @@ namespace Krypton.Toolkit
         /// <param name="e">An EventArgs containing the event data.</param>
         protected override void OnPaint(PaintEventArgs e)
         {
-            Font font;
+            Font? font;
             Color textColor;
             PaletteTextHint hint;
-            PaletteState ps = PaletteState.Normal;
+            var ps = PaletteState.Normal;
 
             // Get values from correct enabled/disabled state
             if (Enabled)
@@ -594,27 +597,33 @@ namespace Krypton.Toolkit
         /// Raises the PaintBackground event.
         /// </summary>
         /// <param name="pEvent">An PaintEventArgs containing the event data.</param>
-        protected override void OnPaintBackground(PaintEventArgs pEvent)
+        protected override void OnPaintBackground(PaintEventArgs? pEvent)
         {
             // Do we have a parent control and we need to paint background?
             if (Parent != null)
             {
                 // Only grab the required reference once
-                if (_miPTB == null)
+                if (_miPtb == null)
                 {
                     // Use reflection so we can call the Windows Forms internal method for painting parent background
-                    _miPTB = typeof(Control).GetMethod("PaintTransparentBackground",
+                    _miPtb = typeof(Control).GetMethod("PaintTransparentBackground",
                                                        BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.InvokeMethod,
                                                        null, CallingConventions.HasThis,
                                                        new[] { typeof(PaintEventArgs), typeof(Rectangle), typeof(Region) },
                                                        null);
                 }
 
-                _miPTB.Invoke(this, new object[] { pEvent, ClientRectangle, null });
+                if (pEvent != null)
+                {
+                    _miPtb?.Invoke(this, new object[] { pEvent, ClientRectangle, null });
+                }
             }
             else
             {
-                base.OnPaintBackground(pEvent);
+                if (pEvent != null)
+                {
+                    base.OnPaintBackground(pEvent);
+                }
             }
         }
 
@@ -622,7 +631,7 @@ namespace Krypton.Toolkit
         /// Create the redirector instance.
         /// </summary>
         /// <returns>PaletteRedirect derived class.</returns>
-        private PaletteRedirect CreateRedirector() => new (_palette);
+        private PaletteRedirect CreateRedirector() => new PaletteRedirect(_palette);
 
         /// <summary>
         /// Update the view elements based on the requested label style.
@@ -707,7 +716,7 @@ namespace Krypton.Toolkit
                 if (KryptonContextMenu != null)
                 {
                     // Extract the screen mouse position (if might not actually be provided)
-                    Point mousePt = new(PI.LOWORD(m.LParam), PI.HIWORD(m.LParam));
+                    var mousePt = new Point(PI.LOWORD(m.LParam), PI.HIWORD(m.LParam));
 
                     // If keyboard activated, the menu position is centered
                     if (((int)(long)m.LParam) == -1)
@@ -754,7 +763,7 @@ namespace Krypton.Toolkit
         /// <returns>True to allow; otherwise false.</returns>
         private bool CanProcessMnemonic()
         {
-            Control c = this;
+            Control? c = this;
 
             // Test each control in parent chain
             while (c != null)
@@ -775,7 +784,7 @@ namespace Krypton.Toolkit
 
         /// <summary>Sets the palette.</summary>
         /// <param name="palette">The palette.</param>
-        private void SetPalette(IPalette palette)
+        private void SetPalette(PaletteBase? palette)
         {
             if (palette != _palette)
             {
@@ -791,7 +800,7 @@ namespace Krypton.Toolkit
                 _palette = palette;
 
                 // Get the renderer associated with the palette
-                Renderer = _palette.GetRenderer();
+                Renderer = _palette?.GetRenderer();
 
                 // Hook to new palette events
                 if (_palette != null)
@@ -806,7 +815,7 @@ namespace Krypton.Toolkit
         private void OnPaletteNeedPaint(object sender, NeedLayoutEventArgs e) => NeedPaint(e);
 
         // Change in base renderer or base palette require we fetch the latest renderer
-        private void OnBaseChanged(object sender, EventArgs e) => Renderer = _palette.GetRenderer();
+        private void OnBaseChanged(object sender, EventArgs e) => Renderer = _palette?.GetRenderer();
 
         /// <summary>Called when [global palette changed].</summary>
         /// <param name="sender">The sender.</param>
@@ -835,20 +844,21 @@ namespace Krypton.Toolkit
         {
             // Get the actual strip instance
             // ReSharper disable RedundantBaseQualifier
-            ContextMenuStrip cms = base.ContextMenuStrip;
+            ContextMenuStrip? cms = base.ContextMenuStrip;
             // ReSharper restore RedundantBaseQualifier
 
             // Make sure it has the correct renderer
-            cms.Renderer = CreateToolStripRenderer();
+            if (cms != null)
+            {
+                cms.Renderer = CreateToolStripRenderer();
+            }
         }
 
-        private void OnKryptonContextMenuDisposed(object sender, EventArgs e)
-        {
+        private void OnKryptonContextMenuDisposed(object sender, EventArgs e) =>
             // When the current krypton context menu is disposed, we should remove 
             // it to prevent it being used again, as that would just throw an exception 
             // because it has been disposed.
             KryptonContextMenu = null;
-        }
 
         private void OnContextMenuClosed(object sender, ToolStripDropDownClosedEventArgs e) => ContextMenuClosed();
 

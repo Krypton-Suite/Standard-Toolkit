@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -19,8 +19,8 @@ namespace Krypton.Toolkit
     [ToolboxBitmap(typeof(KryptonContextMenuMonthCalendar), "ToolboxBitmaps.KryptonMonthCalendar.bmp")]
     [DesignerCategory(@"code")]
     [DesignTimeVisible(false)]
-    [DefaultEvent(@"DateChanged")]
-    [DefaultProperty(@"SelectionRange")]
+    [DefaultEvent(nameof(DateChanged))]
+    [DefaultProperty(nameof(SelectionRange))]
     public class KryptonContextMenuMonthCalendar : KryptonContextMenuItemBase
     {
         #region Static Fields
@@ -75,21 +75,21 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Action")]
         [Description(@"Occurs when the selected date changes.")]
-        public event DateRangeEventHandler DateChanged;
+        public event DateRangeEventHandler? DateChanged;
 
         /// <summary>
         /// Occurs when the selected start date changes.
         /// </summary>
         [Category(@"Property Changed")]
         [Description(@"Occurs when the selected start date changes.")]
-        public event EventHandler SelectionStartChanged;
+        public event EventHandler? SelectionStartChanged;
 
         /// <summary>
         /// Occurs when the selected end date changes.
         /// </summary>
         [Category(@"Property Changed")]
         [Description(@"Occurs when the selected end date changes.")]
-        public event EventHandler SelectionEndChanged;
+        public event EventHandler? SelectionEndChanged;
         #endregion
 
         #region Identity
@@ -186,7 +186,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public override KryptonContextMenuItemBase this[int index] => null;
+        public override KryptonContextMenuItemBase? this[int index] => null;
 
         /// <summary>
         /// Test for the provided shortcut and perform relevant action if a match is found.
@@ -208,8 +208,11 @@ namespace Krypton.Toolkit
                                               object parent,
                                               ViewLayoutStack columns,
                                               bool standardStyle,
-                                              bool imageColumn) =>
-            new ViewDrawMenuMonthCalendar(provider, this);
+                                              bool imageColumn)
+        {
+            SetProvider(provider);
+            return new ViewDrawMenuMonthCalendar(provider, this);
+        }
 
         /// <summary>
         /// Gets and sets if selecting a day automatically closes the context menu.
@@ -320,10 +323,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void ResetTodayDate()
-        {
-            TodayDate = DateTime.Now.Date;
-        }
+        private void ResetTodayDate() => TodayDate = DateTime.Now.Date;
 
         private bool ShouldSerializeTodayDate() => TodayDate != DateTime.Now.Date;
 
@@ -333,6 +333,7 @@ namespace Krypton.Toolkit
         [KryptonPersist]
         [Localizable(true)]
         [Description(@"Indicates which annual dates should be boldface.")]
+        [AllowNull]
         public DateTime[] AnnuallyBoldedDates
         {
             get => _annualDates.ToArray();
@@ -359,10 +360,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void ResetAnnuallyBoldedDates()
-        {
-            AnnuallyBoldedDates = null;
-        }
+        private void ResetAnnuallyBoldedDates() => AnnuallyBoldedDates = null;
 
         private bool ShouldSerializeAnnuallyBoldedDates() => _annualDates.Count > 0;
 
@@ -372,16 +370,14 @@ namespace Krypton.Toolkit
         [KryptonPersist]
         [Localizable(true)]
         [Description(@"Indicates which monthly dates should be boldface.")]
+        [AllowNull]
         public DateTime[] MonthlyBoldedDates
         {
             get => _monthlyDates.ToArray();
 
             set
             {
-                if (value == null)
-                {
-                    value = Array.Empty<DateTime>();
-                }
+                value ??= Array.Empty<DateTime>();
 
                 _monthlyDates.Clear();
                 _monthlyDates.AddRange(value);
@@ -397,10 +393,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void ResetMonthlyBoldedDates()
-        {
-            MonthlyBoldedDates = null;
-        }
+        private void ResetMonthlyBoldedDates() => MonthlyBoldedDates = null;
 
         private bool ShouldSerializeMonthlyBoldedDates() => _monthlyDates.Count > 0;
 
@@ -410,16 +403,14 @@ namespace Krypton.Toolkit
         [KryptonPersist]
         [Localizable(true)]
         [Description(@"Indicates which dates should be boldface.")]
+        [AllowNull]
         public DateTime[] BoldedDates
         {
             get => BoldedDatesList.ToArray();
 
             set
             {
-                if (value == null)
-                {
-                    value = Array.Empty<DateTime>();
-                }
+                value ??= Array.Empty<DateTime>();
 
                 BoldedDatesList.Clear();
                 BoldedDatesList.AddRange(value);
@@ -427,10 +418,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void ResetBoldedDates()
-        {
-            BoldedDates = null;
-        }
+        private void ResetBoldedDates() => BoldedDates = null;
 
         private bool ShouldSerializeBoldedDates() => BoldedDatesList.Count > 0;
 
@@ -451,12 +439,12 @@ namespace Krypton.Toolkit
                 {
                     if (value > DateTimePicker.MaximumDateTime)
                     {
-                        throw new ArgumentOutOfRangeException(nameof(value), "Date provided is greater than the maximum culture supported date.");
+                        throw new ArgumentOutOfRangeException(nameof(value), @"Date provided is greater than the maximum culture supported date.");
                     }
 
                     if (value < DateTimePicker.MinimumDateTime)
                     {
-                        throw new ArgumentOutOfRangeException(nameof(value), "Date provided is less than the minimum culture supported date.");
+                        throw new ArgumentOutOfRangeException(nameof(value), @"Date provided is less than the minimum culture supported date.");
                     }
                 }
 
@@ -466,10 +454,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void ResetMinDate()
-        {
-            MinDate = DateTimePicker.MinimumDateTime;
-        }
+        private void ResetMinDate() => MinDate = DateTimePicker.MinimumDateTime;
 
         private bool ShouldSerializeMinDate() => _minDate != DateTimePicker.MinimumDateTime;
 
@@ -490,12 +475,12 @@ namespace Krypton.Toolkit
                 {
                     if (value > DateTimePicker.MaximumDateTime)
                     {
-                        throw new ArgumentOutOfRangeException(nameof(value), "Date provided is greater than the maximum culture supported date.");
+                        throw new ArgumentOutOfRangeException(nameof(value), @"Date provided is greater than the maximum culture supported date.");
                     }
 
                     if (value < DateTimePicker.MinimumDateTime)
                     {
-                        throw new ArgumentOutOfRangeException(nameof(value), "Date provided is less than the minimum culture supported date.");
+                        throw new ArgumentOutOfRangeException(nameof(value), @"Date provided is less than the minimum culture supported date.");
                     }
                 }
 
@@ -505,10 +490,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void ResetMaxDate()
-        {
-            MaxDate = DateTimePicker.MaximumDateTime;
-        }
+        private void ResetMaxDate() => MaxDate = DateTimePicker.MaximumDateTime;
 
         private bool ShouldSerializeMaxDate() => _maxDate != DateTimePicker.MaximumDateTime;
 
@@ -528,7 +510,7 @@ namespace Krypton.Toolkit
             {
                 if (value < 1)
                 {
-                    throw new ArgumentOutOfRangeException(nameof(value), "MaxSelectionCount cannot be less than zero.");
+                    throw new ArgumentOutOfRangeException(nameof(value), @"MaxSelectionCount cannot be less than zero.");
                 }
 
                 if (value != _maxSelectionCount)
@@ -558,12 +540,12 @@ namespace Krypton.Toolkit
                 {
                     if (value > _maxDate)
                     {
-                        throw new ArgumentOutOfRangeException(nameof(value), "Date provided is greater than the maximum date.");
+                        throw new ArgumentOutOfRangeException(nameof(value), @"Date provided is greater than the maximum date.");
                     }
 
                     if (value < _minDate)
                     {
-                        throw new ArgumentOutOfRangeException(nameof(value), "Date provided is less than the minimum date.");
+                        throw new ArgumentOutOfRangeException(nameof(value), @"Date provided is less than the minimum date.");
                     }
 
                     // End date cannot be before the start date
@@ -586,10 +568,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void ResetSelectionStart()
-        {
-            SelectionStart = DateTime.Now.Date;
-        }
+        private void ResetSelectionStart() => SelectionStart = DateTime.Now.Date;
 
         private bool ShouldSerializeSelectionStart() => SelectionStart != DateTime.Now.Date;
 
@@ -611,12 +590,12 @@ namespace Krypton.Toolkit
                 {
                     if (value > _maxDate)
                     {
-                        throw new ArgumentOutOfRangeException(nameof(value), "Date provided is greater than the maximum date.");
+                        throw new ArgumentOutOfRangeException(nameof(value), @"Date provided is greater than the maximum date.");
                     }
 
                     if (value < _minDate)
                     {
-                        throw new ArgumentOutOfRangeException(nameof(value), "Date provided is less than the minimum date.");
+                        throw new ArgumentOutOfRangeException(nameof(value), @"Date provided is less than the minimum date.");
                     }
 
                     // Start date cannot be after the end date
@@ -639,10 +618,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void ResetSelectionEnd()
-        {
-            SelectionEnd = DateTime.Now.Date;
-        }
+        private void ResetSelectionEnd() => SelectionEnd = DateTime.Now.Date;
 
         private bool ShouldSerializeSelectionEnd() => SelectionStart != DateTime.Now.Date;
 
@@ -657,7 +633,7 @@ namespace Krypton.Toolkit
         [Bindable(true)]
         public SelectionRange SelectionRange
         {
-            get => new(SelectionStart, SelectionEnd);
+            get => new SelectionRange(SelectionStart, SelectionEnd);
             set => SetSelectionRange(value.Start, value.End);
         }
 
@@ -677,6 +653,7 @@ namespace Krypton.Toolkit
         [DefaultValue(@"d")]
         [RefreshProperties(RefreshProperties.Repaint)]
         [Localizable(true)]
+        [AllowNull]
         public string TodayFormat
         {
             get => _todayFormat;
@@ -705,20 +682,14 @@ namespace Krypton.Toolkit
 
             set
             {
-                if (value == null)
-                {
-                    value = DEFAULT_TODAY;
-                }
+                value ??= DEFAULT_TODAY;
 
                 _today = value;
                 OnPropertyChanged(new PropertyChangedEventArgs(nameof(TodayText)));
             }
         }
 
-        private void ResetTodayText()
-        {
-            TodayText = DEFAULT_TODAY;
-        }
+        private void ResetTodayText() => TodayText = DEFAULT_TODAY;
 
         /// <summary>
         /// Gets or sets the number of columns and rows of months Displayed. 
@@ -773,10 +744,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void ResetFirstDayOfWeek()
-        {
-            FirstDayOfWeek = Day.Default;
-        }
+        private void ResetFirstDayOfWeek() => FirstDayOfWeek = Day.Default;
 
         private bool ShouldSerializeFirstDayOfWeek() => FirstDayOfWeek != Day.Default;
 
@@ -849,7 +817,7 @@ namespace Krypton.Toolkit
         [KryptonPersist]
         [Category(@"Visuals")]
         [Description(@"Header style for the month calendar.")]
-        [DefaultValue(typeof(HeaderStyle), "Calendar")]
+        [DefaultValue(HeaderStyle.Calendar)]
         public HeaderStyle HeaderStyle
         {
             get => _headerStyle;
@@ -873,7 +841,7 @@ namespace Krypton.Toolkit
         [KryptonPersist]
         [Category(@"Visuals")]
         [Description(@"Content style for the day entries.")]
-        [DefaultValue(typeof(ButtonStyle), "Calendar Day")]
+        [DefaultValue(ButtonStyle.CalendarDay)]
         public ButtonStyle DayStyle
         {
             get => _dayStyle;
@@ -894,10 +862,7 @@ namespace Krypton.Toolkit
 
         private bool ShouldSerializeDayStyle() => _dayStyle != ButtonStyle.CalendarDay;
 
-        private void ResetDayStyle()
-        {
-            DayStyle = ButtonStyle.CalendarDay;
-        }
+        private void ResetDayStyle() => DayStyle = ButtonStyle.CalendarDay;
 
         /// <summary>
         /// Gets and sets the content style for the day of week labels.
@@ -905,7 +870,7 @@ namespace Krypton.Toolkit
         [KryptonPersist]
         [Category(@"Visuals")]
         [Description(@"Content style for the day of week labels.")]
-        [DefaultValue(typeof(ButtonStyle), "CalendarDay")]
+        [DefaultValue(ButtonStyle.CalendarDay)]
         public ButtonStyle DayOfWeekStyle
         {
             get => _dayOfWeekStyle;
@@ -923,10 +888,7 @@ namespace Krypton.Toolkit
 
         private bool ShouldSerializeDayOfWeekStyle() => _dayOfWeekStyle != ButtonStyle.CalendarDay;
 
-        private void ResetDayOfWeekStyle()
-        {
-            DayOfWeekStyle = ButtonStyle.CalendarDay;
-        }
+        private void ResetDayOfWeekStyle() => DayOfWeekStyle = ButtonStyle.CalendarDay;
 
         /// <summary>
         /// Gets access to the day appearance when it has focus.
@@ -968,7 +930,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Overrides for defining common month calendar appearance that other states can override.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteMonthCalendarRedirect StateCommon { get; }
+        public PaletteMonthCalendarRedirect? StateCommon { get; }
 
         private bool ShouldSerializeStateCommon() => !StateCommon.IsDefault;
 
@@ -1333,7 +1295,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Internal
-        internal void SetPaletteRedirect(PaletteRedirect redirector)
+        internal void SetPaletteRedirect(PaletteRedirect? redirector)
         {
             StateCommon.SetRedirector(redirector);
             OverrideFocus.SetRedirector(redirector);

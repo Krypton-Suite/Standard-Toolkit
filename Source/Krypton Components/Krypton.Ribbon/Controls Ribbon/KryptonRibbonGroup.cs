@@ -5,8 +5,8 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved.
- *
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  
  */
 #endregion
 
@@ -17,22 +17,22 @@ namespace Krypton.Ribbon
     /// </summary>
     [ToolboxItem(false)]
     [ToolboxBitmap(typeof(KryptonRibbonGroup), "ToolboxBitmaps.KryptonRibbonGroup.bmp")]
-    [Designer("Krypton.Ribbon.KryptonRibbonGroupDesigner, Krypton.Ribbon")]
-    [DefaultEvent("DialogBoxLauncherClick")]
-    [DefaultProperty("TextLine1")]
+    [Designer(typeof(KryptonRibbonGroupDesigner))]
+    [DefaultEvent(nameof(DialogBoxLauncherClick))]
+    [DefaultProperty(nameof(TextLine1))]
     [DesignerCategory(@"code")]
     [DesignTimeVisible(false)]
     public class KryptonRibbonGroup : Component
     {
         #region Static Fields
-        private static readonly Image _defaultGroupImage = Properties.Resources.GroupImageDefault;
+        private static readonly Image _defaultGroupImage = GenericImageResources.GroupImageDefault;
         #endregion
 
         #region Instance Fields
-        private object _tag;
+        private object? _tag;
         private bool _visible;
         private bool _allowCollapsed;
-        private Image _image;
+        private Image? _image;
         private string _textLine1;
         private string _textLine2;
         private string _keyTipGroup;
@@ -40,8 +40,8 @@ namespace Krypton.Ribbon
         private bool _dialogBoxLauncher;
         private int _minimumWidth;
         private int _maximumWidth;
-        private KryptonRibbon _ribbon;
-        private KryptonRibbonTab _ribbonTab;
+        private KryptonRibbon? _ribbon;
+        private KryptonRibbonTab? _ribbonTab;
 
         #endregion
 
@@ -51,49 +51,49 @@ namespace Krypton.Ribbon
         /// </summary>
         [Category(@"Ribbon")]
         [Description(@"Occurs when the dialog box launcher button is clicked.")]
-        public event EventHandler DialogBoxLauncherClick;
+        public event EventHandler? DialogBoxLauncherClick;
 
         /// <summary>
         /// Occurs after the value of a property has changed.
         /// </summary>
         [Category(@"Ribbon")]
         [Description(@"Occurs after the value of a property has changed.")]
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         /// <summary>
         /// Occurs when the design time wants to add a triple.
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        public event EventHandler DesignTimeAddTriple;
+        public event EventHandler? DesignTimeAddTriple;
 
         /// <summary>
         /// Occurs when the design time wants to add a lines.
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        public event EventHandler DesignTimeAddLines;
+        public event EventHandler? DesignTimeAddLines;
 
         /// <summary>
         /// Occurs when the design time wants to add a separator.
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        public event EventHandler DesignTimeAddSeparator;
+        public event EventHandler? DesignTimeAddSeparator;
 
         /// <summary>
         /// Occurs when the design time wants to add a gallery.
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        public event EventHandler DesignTimeAddGallery;
+        public event EventHandler? DesignTimeAddGallery;
 
         /// <summary>
         /// Occurs when the design time context menu is requested.
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        public event MouseEventHandler DesignTimeContextMenu;
+        public event MouseEventHandler? DesignTimeContextMenu;
         #endregion
 
         #region Identity
@@ -149,7 +149,7 @@ namespace Krypton.Ribbon
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public KryptonRibbon Ribbon
+        public KryptonRibbon? Ribbon
         {
             get => _ribbon;
 
@@ -172,7 +172,7 @@ namespace Krypton.Ribbon
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public KryptonRibbonTab RibbonTab
+        public KryptonRibbonTab? RibbonTab
         {
             get => _ribbonTab;
 
@@ -295,7 +295,7 @@ namespace Krypton.Ribbon
         [Category(@"Appearance")]
         [Description(@"Group image when collapsed.")]
         [RefreshProperties(RefreshProperties.All)]
-        public Image Image
+        public Image? Image
         {
             get => _image;
 
@@ -335,18 +335,12 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Make the ribbon group visible.
         /// </summary>
-        public void Show()
-        {
-            Visible = true;
-        }
+        public void Show() => Visible = true;
 
         /// <summary>
         /// Make the ribbon group hidden.
         /// </summary>
-        public void Hide()
-        {
-            Visible = false;
-        }
+        public void Hide() => Visible = false;
 
         /// <summary>
         /// Gets and sets the display of a dialog box launcher button.
@@ -438,7 +432,7 @@ namespace Krypton.Ribbon
         [Category(@"Visuals")]
         [Description(@"Collection of ribbon group items.")]
         [MergableProperty(false)]
-        [Editor(@"Krypton.Ribbon.KryptonRibbonGroupContainerCollectionEditor, Krypton.Ribbon", typeof(UITypeEditor))]
+        [Editor(typeof(KryptonRibbonGroupContainerCollectionEditor), typeof(CollectionEditor))]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonRibbonGroupContainerCollection Items { get; }
 
@@ -449,7 +443,8 @@ namespace Krypton.Ribbon
         [Description(@"User-defined data associated with the object.")]
         [TypeConverter(typeof(StringConverter))]
         [Bindable(true)]
-        public object Tag
+        [DefaultValue(null)]
+        public object? Tag
         {
             get => _tag;
 
@@ -465,10 +460,7 @@ namespace Krypton.Ribbon
 
         private bool ShouldSerializeTag() => Tag != null;
 
-        private void ResetTag()
-        {
-            Tag = null;
-        }
+        private void ResetTag() => Tag = null;
 
         /// <summary>
         /// Internal design time properties.
@@ -489,7 +481,7 @@ namespace Krypton.Ribbon
         {
             // Perform processing that is common to any action that would dismiss
             // any popup controls such as the showing minimized group popup
-            Ribbon?.Actionoccurred();
+            Ribbon?.ActionOccurred();
 
             DialogBoxLauncherClick?.Invoke(this, e);
         }
@@ -547,8 +539,8 @@ namespace Krypton.Ribbon
         private void OnRibbonGroupItemsCleared(object sender, EventArgs e)
         {
             // Only need to update display if this tab is selected
-            if ((_ribbon != null) 
-                && (_ribbonTab != null) 
+            if ((_ribbon != null)
+                && (_ribbonTab != null)
                 && (_ribbon.SelectedTab == _ribbonTab)
                 )
             {
@@ -564,8 +556,8 @@ namespace Krypton.Ribbon
             e.Item.RibbonGroup = this;
 
             // Only need to update display if this tab is selected and the group is visible
-            if ((_ribbon != null) 
-                && (_ribbonTab != null) 
+            if ((_ribbon != null)
+                && (_ribbonTab != null)
                 && (_ribbon.SelectedTab == _ribbonTab)
                 )
             {
@@ -581,8 +573,8 @@ namespace Krypton.Ribbon
             e.Item.RibbonGroup = null;
 
             // Only need to update display if this tab is selected and the group was visible
-            if ((_ribbon != null) 
-                && (_ribbonTab != null) 
+            if ((_ribbon != null)
+                && (_ribbonTab != null)
                 && (_ribbon.SelectedTab == _ribbonTab)
                 )
             {

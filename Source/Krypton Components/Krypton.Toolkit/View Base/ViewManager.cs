@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -19,36 +19,36 @@ namespace Krypton.Toolkit
                                IDisposable
     {
         #region Instance Fields
-        private ViewBase _root;
-        private ViewBase _activeView;
+        private ViewBase? _root;
+        private ViewBase? _activeView;
         private long _outputStart;
         #endregion
 
         #region Events
         /// <summary>
-        /// Occurs just before the layout cuycle.
+        /// Occurs just before the layout cycle.
         /// </summary>
-        public event EventHandler LayoutBefore;
+        public event EventHandler? LayoutBefore;
 
         /// <summary>
-        /// Occurs just after the layout cuycle.
+        /// Occurs just after the layout cycle.
         /// </summary>
-        public event EventHandler LayoutAfter;
+        public event EventHandler? LayoutAfter;
 
         /// <summary>
         /// Occurs when the mouse down event is processed.
         /// </summary>
-        public event MouseEventHandler MouseDownProcessed;
+        public event MouseEventHandler? MouseDownProcessed;
 
         /// <summary>
         /// Occurs when the mouse up event is processed.
         /// </summary>
-        public event MouseEventHandler MouseUpProcessed;
+        public event MouseEventHandler? MouseUpProcessed;
 
         /// <summary>
         /// Occurs when the mouse up event is processed.
         /// </summary>
-        public event PointHandler DoubleClickProcessed;
+        public event PointHandler? DoubleClickProcessed;
         #endregion
 
         #region Identity
@@ -100,7 +100,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the view root.
         /// </summary>
-        public ViewBase Root
+        [DisallowNull]
+        public ViewBase? Root
         {
             [DebuggerStepThrough]
             get => _root;
@@ -161,33 +162,30 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="renderer">Renderer provider.</param>
         /// <param name="proposedSize">The custom-sized area for a control.</param>
-        public virtual Size GetPreferredSize(IRenderer renderer,
+        public virtual Size GetPreferredSize(IRenderer? renderer,
                                              Size proposedSize)
         {
             if ((renderer == null) || (Root == null))
             {
-                return Size.Empty;
+                return proposedSize;
             }
 
-            Size retSize = Size.Empty;
+            var retSize = Size.Empty;
 
             // Short circuit for a disposed control
             if (!Control.IsDisposed)
             {
                 // Create a layout context for calculating size and positioning
-                using ViewLayoutContext context = new(this,
-                    Control,
-                    AlignControl,
-                    renderer,
-                    proposedSize);
+                using var context = new ViewLayoutContext(this,
+                    Control, AlignControl, renderer, proposedSize);
                 retSize = Root.GetPreferredSize(context);
             }
 
             if (OutputDebug)
             {
-                Console.WriteLine("Id:{0} GetPreferredSize Type:{1} Ret:{2} Proposed:{3}",
+                Console.WriteLine(@"Id:{0} GetPreferredSize Type:{1} Ret:{2} Proposed:{3}",
                     Id,
-                    Control.GetType().ToString(),
+                    Control.GetType(),
                     retSize,
                     proposedSize);
             }
@@ -204,7 +202,7 @@ namespace Krypton.Toolkit
         /// <param name="renderer">Renderer provider.</param>
         /// <exception cref="ArgumentNullException"></exception>
         /// <returns>True if it contains transparent painting.</returns>
-        public bool EvalTransparentPaint(IRenderer renderer)
+        public bool EvalTransparentPaint([DisallowNull] IRenderer renderer)
         {
             Debug.Assert(renderer != null);
             Debug.Assert(Root != null);
@@ -216,10 +214,7 @@ namespace Krypton.Toolkit
             }
 
             // Create a layout context for calculating size and positioning
-            using ViewContext context = new(this,
-                Control,
-                AlignControl,
-                renderer);
+            using var context = new ViewContext(this, Control, AlignControl, renderer);
             // Ask the view to perform operation
             return Root.EvalTransparentPaint(context);
         }
@@ -229,7 +224,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the active view element.
         /// </summary>
-        public ViewBase ActiveView
+        public ViewBase? ActiveView
         {
             get => _activeView;
 
@@ -256,10 +251,10 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="pt">Mouse point.</param>
         /// <returns>Component reference; otherwise false.</returns>
-        public virtual Component ComponentFromPoint(Point pt)
+        public virtual Component? ComponentFromPoint(Point pt)
         {
             // Find the view element associated with the point
-            ViewBase target = Root.ViewFromPoint(pt);
+            ViewBase? target = Root?.ViewFromPoint(pt);
 
             // Climb parent chain looking for the first element that has a component
             while (target != null)
@@ -289,7 +284,7 @@ namespace Krypton.Toolkit
         /// Perform a layout of the view.
         /// </summary>
         /// <param name="renderer">Renderer provider.</param>
-        public virtual void Layout(IRenderer renderer)
+        public virtual void Layout([DisallowNull] IRenderer renderer)
         {
             Debug.Assert(renderer != null);
             Debug.Assert(Root != null);
@@ -298,10 +293,7 @@ namespace Krypton.Toolkit
             if (!Control.IsDisposed)
             {
                 // Create a layout context for calculating size and positioning
-                using ViewLayoutContext context = new(this,
-                    Control,
-                    AlignControl,
-                    renderer);
+                using var context = new ViewLayoutContext(this, Control, AlignControl, renderer);
                 Layout(context);
             }
         }
@@ -311,7 +303,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="context">View context for layout operation.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public virtual void Layout(ViewLayoutContext context)
+        public virtual void Layout([DisallowNull] ViewLayoutContext context)
         {
             Debug.Assert(context != null);
             Debug.Assert(context.Renderer != null);
@@ -346,10 +338,10 @@ namespace Krypton.Toolkit
                     PI.QueryPerformanceCounter(ref outputEnd);
                     var outputDiff = outputEnd - _outputStart;
 
-                    Console.WriteLine("Id:{0} Layout Type:{1} Elapsed:{2} Rect:{3}",
+                    Console.WriteLine(@"Id:{0} Layout Type:{1} Elapsed:{2} Rect:{3}",
                         Id,
-                        context.Control.GetType().ToString(),
-                        outputDiff.ToString(),
+                        context.Control.GetType(),
+                        outputDiff,
                         context.DisplayRectangle);
 
                 }
@@ -368,7 +360,7 @@ namespace Krypton.Toolkit
         /// <param name="renderer">Renderer provider.</param>
         /// <param name="e">A PaintEventArgs that contains the event data.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public virtual void Paint(IRenderer renderer, PaintEventArgs e)
+        public virtual void Paint([DisallowNull] IRenderer renderer, PaintEventArgs e)
         {
             Debug.Assert(renderer != null);
             Debug.Assert(e != null);
@@ -388,12 +380,8 @@ namespace Krypton.Toolkit
             if (!Control.IsDisposed)
             {
                 // Create a render context for drawing the view
-                using RenderContext context = new(this,
-                    Control,
-                    AlignControl,
-                    e.Graphics,
-                    e.ClipRectangle,
-                    renderer);
+                using var context = new RenderContext(this,
+                    Control, AlignControl, e.Graphics, e.ClipRectangle, renderer);
                 Paint(context);
             }
         }
@@ -403,7 +391,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="context">Renderer context.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public virtual void Paint(RenderContext context)
+        public virtual void Paint([DisallowNull] RenderContext context)
         {
             Debug.Assert(context != null);
             Debug.Assert(Root != null);
@@ -431,10 +419,10 @@ namespace Krypton.Toolkit
                     PI.QueryPerformanceCounter(ref outputEnd);
                     var outputDiff = outputEnd - _outputStart;
 
-                    Console.WriteLine("Id:{0} Paint Type:{1} Elapsed: {2}",
+                    Console.WriteLine(@"Id:{0} Paint Type:{1} Elapsed: {2}",
                         Id,
-                        Control.GetType().ToString(),
-                        outputDiff.ToString());
+                        Control.GetType(),
+                        outputDiff);
                 }
             }
 
@@ -451,7 +439,7 @@ namespace Krypton.Toolkit
         /// <param name="e">A MouseEventArgs that contains the event data.</param>
         /// <param name="rawPt">The actual point provided from the windows message.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public virtual void MouseMove(MouseEventArgs e, Point rawPt)
+        public virtual void MouseMove([DisallowNull] MouseEventArgs e, Point rawPt)
         {
             Debug.Assert(e != null);
 
@@ -461,7 +449,7 @@ namespace Krypton.Toolkit
                 throw new ArgumentNullException(nameof(e));
             }
 
-            Point pt = new(e.X, e.Y);
+            var pt = new Point(e.X, e.Y);
 
             // Set the correct active view from the point
             UpdateViewFromPoint(Control, pt);
@@ -476,7 +464,7 @@ namespace Krypton.Toolkit
         /// <param name="e">A MouseEventArgs that contains the event data.</param>
         /// <param name="rawPt">The actual point provided from the windows message.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public virtual void MouseDown(MouseEventArgs e, Point rawPt)
+        public virtual void MouseDown([DisallowNull] MouseEventArgs e, Point rawPt)
         {
             Debug.Assert(e != null);
 
@@ -486,7 +474,7 @@ namespace Krypton.Toolkit
                 throw new ArgumentNullException(nameof(e));
             }
 
-            Point pt = new(e.X, e.Y);
+            var pt = new Point(e.X, e.Y);
 
             // Set the correct active view from the point
             UpdateViewFromPoint(Control, pt);
@@ -507,7 +495,7 @@ namespace Krypton.Toolkit
         /// <param name="e">A MouseEventArgs that contains the event data.</param>
         /// <param name="rawPt">The actual point provided from the windows message.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public virtual void MouseUp(MouseEventArgs e, Point rawPt)
+        public virtual void MouseUp([DisallowNull] MouseEventArgs e, Point rawPt)
         {
             Debug.Assert(e != null);
 
@@ -517,7 +505,7 @@ namespace Krypton.Toolkit
                 throw new ArgumentNullException(nameof(e));
             }
 
-            Point pt = new(e.X, e.Y);
+            var pt = new Point(e.X, e.Y);
 
             // Set the correct active view from the point
             UpdateViewFromPoint(Control, pt);
@@ -538,7 +526,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="e">An EventArgs that contains the event data.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public virtual void MouseLeave(EventArgs e)
+        public virtual void MouseLeave([DisallowNull] EventArgs e)
         {
             Debug.Assert(e != null);
 
@@ -707,7 +695,7 @@ namespace Krypton.Toolkit
             if (!MouseCaptured)
             {
                 // Update the active view with that found under the mouse position
-                ActiveView = Root.ViewFromPoint(pt);
+                ActiveView = Root?.ViewFromPoint(pt);
             }
         }
         #endregion

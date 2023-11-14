@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -27,7 +27,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">The state for which the image is needed.</param>
         /// <returns>Image value.</returns>
-        Image GetImage(PaletteState state);
+        Image? GetImage(PaletteState state);
 
         /// <summary>
         /// Gets the image color that should be transparent.
@@ -59,7 +59,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Occurs when a button spec property has changed.
         /// </summary>
-        event PropertyChangedEventHandler ButtonSpecPropertyChanged;
+        event PropertyChangedEventHandler? ButtonSpecPropertyChanged;
 
         /// <summary>
         /// Gets the button image.
@@ -67,56 +67,56 @@ namespace Krypton.Toolkit
         /// <param name="palette">Palette to use for inheriting values.</param>
         /// <param name="state">State for which an image is needed.</param>
         /// <returns>Button image.</returns>
-        Image GetImage(IPalette palette, PaletteState state);
+        Image? GetImage(PaletteBase? palette, PaletteState state);
 
         /// <summary>
         /// Gets the button image transparent color.
         /// </summary>
         /// <param name="palette">Palette to use for inheriting values.</param>
         /// <returns>Color value.</returns>
-        Color GetImageTransparentColor(IPalette palette);
+        Color GetImageTransparentColor(PaletteBase? palette);
 
         /// <summary>
         /// Gets the button short text.
         /// </summary>
         /// <param name="palette">Palette to use for inheriting values.</param>
         /// <returns>Short text string.</returns>
-        string GetShortText(IPalette palette);
+        string GetShortText(PaletteBase? palette);
 
         /// <summary>
         /// Gets the button long text.
         /// </summary>
         /// <param name="palette">Palette to use for inheriting values.</param>
         /// <returns>Long text string.</returns>
-        string GetLongText(IPalette palette);
+        string GetLongText(PaletteBase? palette);
 
         /// <summary>
         /// Gets the button tooltip title text.
         /// </summary>
         /// <param name="palette">Palette to use for inheriting values.</param>
         /// <returns>Tooltip title string.</returns>
-        string GetToolTipTitle(IPalette palette);
+        string GetToolTipTitle(PaletteBase? palette);
 
         /// <summary>
         /// Gets and image color to remap to container foreground.
         /// </summary>
         /// <param name="palette">Palette to use for inheriting values.</param>
         /// <returns>Color value.</returns>
-        Color GetColorMap(IPalette palette);
+        Color GetColorMap(PaletteBase palette);
 
         /// <summary>
         /// Gets the button visibility.
         /// </summary>
         /// <param name="palette">Palette to use for inheriting values.</param>
         /// <returns>Button visibility value.</returns>
-        bool GetVisible(IPalette palette);
+        bool GetVisible(PaletteBase? palette);
 
         /// <summary>
         /// Gets the button enabled state.
         /// </summary>
         /// <param name="palette">Palette to use for inheriting values.</param>
         /// <returns>Button enabled value.</returns>
-        ButtonEnabled GetEnabled(IPalette palette);
+        ButtonEnabled GetEnabled(PaletteBase? palette);
 
         /// <summary>
         /// Sets the current view associated with the button spec.
@@ -128,7 +128,7 @@ namespace Krypton.Toolkit
         /// Get the current view associated with the button spec.
         /// </summary>
         /// <returns>View element reference.</returns>
-        ViewBase GetView();
+        ViewBase? GetView();
 
         /// <summary>
         /// Gets a value indicating if the associated view is enabled.
@@ -141,28 +141,28 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="palette">Palette to use for inheriting values.</param>
         /// <returns>Button edge value.</returns>
-        RelativeEdgeAlign GetEdge(IPalette palette);
+        RelativeEdgeAlign GetEdge(PaletteBase? palette);
 
         /// <summary>
         /// Gets the button style.
         /// </summary>
         /// <param name="palette">Palette to use for inheriting values.</param>
         /// <returns>Button style value.</returns>
-        ButtonStyle GetStyle(IPalette palette);
+        ButtonStyle GetStyle(PaletteBase? palette);
 
         /// <summary>
         /// Gets the button location value.
         /// </summary>
         /// <param name="palette">Palette to use for inheriting values.</param>
         /// <returns>Button location.</returns>
-        HeaderLocation GetLocation(IPalette palette);
+        HeaderLocation GetLocation(PaletteBase? palette);
 
         /// <summary>
         /// Gets the button orientation.
         /// </summary>
         /// <param name="palette">Palette to use for inheriting values.</param>
         /// <returns>Orientation value.</returns>
-        ButtonOrientation GetOrientation(IPalette palette);
+        ButtonOrientation GetOrientation(PaletteBase? palette);
     }
     #endregion
 
@@ -175,17 +175,17 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Raises the Dispose event.
         /// </summary>
-        event EventHandler Dispose;
+        event EventHandler? Dispose;
 
         /// <summary>
         /// Raises the Closing event.
         /// </summary>
-        event CancelEventHandler Closing;
+        event CancelEventHandler? Closing;
 
         /// <summary>
         /// Raises the Close event.
         /// </summary>
-        event EventHandler<CloseReasonEventArgs> Close;
+        event EventHandler<CloseReasonEventArgs>? Close;
 
         /// <summary>
         /// Fires the Closing event.
@@ -292,7 +292,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the custom palette.
         /// </summary>
-        IPalette ProviderPalette { get; }
+        PaletteBase? ProviderPalette { get; }
 
         /// <summary>
         /// Gets access to the palette mode.
@@ -302,7 +302,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the context menu redirector.
         /// </summary>
-        PaletteRedirect ProviderRedirector { get; }
+        PaletteRedirect? ProviderRedirector { get; }
 
         /// <summary>
         /// Gets a delegate used to indicate a repaint is required.
@@ -419,12 +419,12 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Occurs when the command needs executing.
         /// </summary>
-        event EventHandler Execute;
+        event EventHandler? Execute;
 
         /// <summary>
         /// Occurs when a property has changed value.
         /// </summary>
-        event PropertyChangedEventHandler PropertyChanged;
+        event PropertyChangedEventHandler? PropertyChanged;
 
         /// <summary>
         /// Gets and sets the enabled state of the command.
@@ -464,17 +464,21 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the command small image.
         /// </summary>
-        Image ImageSmall { get; set; }
+        Image? ImageSmall { get; set; }
 
         /// <summary>
         /// Gets and sets the command large image.
         /// </summary>
-        Image ImageLarge { get; set; }
+        Image? ImageLarge { get; set; }
 
         /// <summary>
         /// Gets and sets the command image transparent color.
         /// </summary>
         Color ImageTransparentColor { get; set; }
+
+        /// <summary>Gets or sets the type of the command.</summary>
+        /// <value>The type of the command.</value>
+        KryptonCommandType CommandType { get; set; }
 
         /// <summary>
         /// Generates a Execute event for a command.
@@ -608,7 +612,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the month calendar common appearance entries.
         /// </summary>
-        PaletteMonthCalendarRedirect StateCommon { get; }
+        PaletteMonthCalendarRedirect? StateCommon { get; }
 
         /// <summary>
         /// Gets access to the month calendar normal appearance entries.
@@ -1054,6 +1058,8 @@ namespace Krypton.Toolkit
     [TypeConverter(typeof(LabelStyleConverter))]
     public enum LabelStyle
     {
+        AlternateControl,
+
         /// <summary>
         /// Specifies a normal label for use on a control style background.
         /// </summary>
@@ -1073,6 +1079,11 @@ namespace Krypton.Toolkit
         /// Specifies a label appropriate for titles for use on a control style background.
         /// </summary>
         TitleControl,
+
+        /// <summary>
+        /// Specifies a alternate label for use on a panel style background.
+        /// </summary>
+        AlternatePanel,
 
         /// <summary>
         /// Specifies a normal label for use on a panel style background.
@@ -1763,7 +1774,7 @@ namespace Krypton.Toolkit
     /// </summary>
     /// <param name="sender">Source of the call.</param>
     /// <param name="e">A NeedLayoutEventArgs containing event information.</param>
-    public delegate void NeedPaintHandler(object sender, NeedLayoutEventArgs e);
+    public delegate void NeedPaintHandler(object? sender, NeedLayoutEventArgs e);
 
     /// <summary>
     /// Signature of method that provides a point as the data.
@@ -1848,4 +1859,28 @@ namespace Krypton.Toolkit
         Top = 10
     }
     #endregion Enum PlacementMode
+
+    #region Enum MessageBoxContentAreaType
+
+    /// <summary>Defines the content area type of a <see cref="T:KryptonMessageBox"/>.</summary>
+    public enum MessageBoxContentAreaType
+    {
+        /// <summary>The default content area type of a <see cref="T:KryptonMessageBox"/>.</summary>
+        Normal = 0,
+        /// <summary>Use a <see cref="T:KryptonLinkWrapLabel"/> as the content area type of a <see cref="T:KryptonMessageBox"/>.</summary>
+        LinkLabel = 1
+    }
+
+    #endregion
+
+    #region Enum ToolkitType
+
+    public enum ToolkitType
+    {
+        Canary = 0,
+        Nightly = 1,
+        Stable = 2
+    }
+
+    #endregion
 }

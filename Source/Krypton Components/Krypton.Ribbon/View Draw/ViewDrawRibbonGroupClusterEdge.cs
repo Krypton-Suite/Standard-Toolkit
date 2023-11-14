@@ -5,7 +5,9 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  
+ *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
  */
 #endregion
@@ -28,8 +30,8 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="ribbon">Reference to owning ribbon..</param>
         /// <param name="palette">Palette source for drawing details.</param>
-        public ViewDrawRibbonGroupClusterEdge(KryptonRibbon ribbon,
-                                              PaletteBorderEdge palette)
+        public ViewDrawRibbonGroupClusterEdge([DisallowNull] KryptonRibbon ribbon,
+                                              [DisallowNull] PaletteBorderEdge palette)
             : base(palette, Orientation.Vertical)
         {
             Debug.Assert(ribbon != null);
@@ -50,10 +52,8 @@ namespace Krypton.Ribbon
             // Let base class perform standard drawing first
             base.RenderBefore(context);
 
-            Rectangle drawRect = new(ClientLocation.X, 
-                                               ClientLocation.Y + ClientWidth, 
-                                               ClientWidth, 
-                                               ClientHeight - (ClientWidth * 2));
+            var drawRect = new Rectangle(ClientLocation.X, ClientLocation.Y + ClientWidth, ClientWidth,
+                ClientHeight - (ClientWidth * 2));
 
             context.Renderer.RenderRibbon.DrawRibbonClusterEdge(_ribbon.RibbonShape, context, drawRect, _palette, State);
         }

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -31,7 +31,7 @@ namespace Krypton.Toolkit
         /// <param name="backStyle">Initial background style.</param>
         /// <param name="borderStyle">Initial border style.</param>
         /// <param name="contentStyle">Initial content style.</param>
-        public PaletteTripleToPalette(IPalette palette,
+        public PaletteTripleToPalette(PaletteBase? palette,
                                       PaletteBackStyle backStyle,
                                       PaletteBorderStyle borderStyle,
                                       PaletteContentStyle contentStyle)
@@ -199,7 +199,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public IPaletteBorder PaletteBorder => _border;
+        public IPaletteBorder? PaletteBorder => _border;
 
         /// <summary>
         /// Gets and sets the border palette style.
@@ -221,7 +221,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public IPaletteContent PaletteContent => _content;
+        public IPaletteContent? PaletteContent => _content;
 
         /// <summary>
         /// Gets and sets the content palette style.

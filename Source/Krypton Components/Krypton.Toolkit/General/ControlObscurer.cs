@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -74,7 +74,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Static Fields
-        private ObscurerForm _obscurer;
+        private ObscurerForm? _obscurer;
         #endregion
 
         #region Identity
@@ -84,10 +84,7 @@ namespace Krypton.Toolkit
         public ScreenObscurer()
         {
             // First time needed, create the top level obscurer window
-            if (_obscurer == null)
-            {
-                _obscurer = new ObscurerForm();
-            }
+            _obscurer ??= new ObscurerForm();
         }
 
         /// <summary>
@@ -101,10 +98,7 @@ namespace Krypton.Toolkit
             if (f is { IsDisposed: false } && !designMode)
             {
                 // First time needed, create the top level obscurer window
-                if (_obscurer == null)
-                {
-                    _obscurer = new ObscurerForm();
-                }
+                _obscurer ??= new ObscurerForm();
 
                 // We need a control to work with!
                 if (f != null)
@@ -125,10 +119,7 @@ namespace Krypton.Toolkit
             if (c is { IsDisposed: false } && !designMode)
             {
                 // First time needed, create the top level obscurer window
-                if (_obscurer == null)
-                {
-                    _obscurer = new ObscurerForm();
-                }
+                _obscurer ??= new ObscurerForm();
 
                 // We need a control to work with!
                 if (c != null)

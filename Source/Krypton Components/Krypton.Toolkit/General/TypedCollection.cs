@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -18,9 +18,7 @@ namespace Krypton.Toolkit
     public class TypedCollection<T> : IList,
                                       IList<T>,
                                       ICollection,
-                                      ICollection<T>  where T : class
-                                         
-                                         
+                                      ICollection<T> where T : class
     {
         #region Instance Fields
         private readonly List<T> _list;
@@ -30,37 +28,37 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Occurs when an item is about to be added/inserted to the collection.
         /// </summary>
-        public event TypedHandler<T> Inserting;
-        
+        public event TypedHandler<T>? Inserting;
+
         /// <summary>
         /// Occurs when an item has been added/inserted to the collection.
         /// </summary>
-        public event TypedHandler<T> Inserted;
+        public event TypedHandler<T>? Inserted;
 
         /// <summary>
         /// Occurs when an item is about to be removed from the collection.
         /// </summary>
-        public event TypedHandler<T> Removing;
+        public event TypedHandler<T>? Removing;
 
         /// <summary>
         /// Occurs when an item is removed from the collection.
         /// </summary>
-        public event TypedHandler<T> Removed;
+        public event TypedHandler<T>? Removed;
 
         /// <summary>
         /// Occurs when an items are about to be removed from the collection.
         /// </summary>
-        public event EventHandler Clearing;
+        public event EventHandler? Clearing;
 
         /// <summary>
         /// Occurs when an items have been removed from the collection.
         /// </summary>
-        public event EventHandler Cleared;
+        public event EventHandler? Cleared;
 
         /// <summary>
         /// Occurs when items have been reordered inside the collection.
         /// </summary>
-        public event EventHandler Reordered;
+        public event EventHandler? Reordered;
         #endregion
 
         #region Identity
@@ -75,7 +73,7 @@ namespace Krypton.Toolkit
         /// Obtains the String representation of this instance.
         /// </summary>
         /// <returns>User readable name of the instance.</returns>
-        public override string ToString() => Count + " TypedCollection";
+        public override string ToString() => $"{Count} TypedCollection";
 
         #endregion
 
@@ -100,10 +98,10 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="value">Object reference.</param>
         /// <returns>The position into which the new item was inserted.</returns>
-        public virtual int Add(object value)
+        public virtual int Add([DisallowNull] object value)
         {
             // Use strongly typed implementation
-            Add(value as T);
+            Add((value as T)!);
 
             // Index is the last item in the collection
             return Count - 1;
@@ -116,7 +114,7 @@ namespace Krypton.Toolkit
         /// <returns>True if item found; otherwise false.</returns>
         public bool Contains(object value) =>
             // Use strongly typed implementation
-            Contains(value as T);
+            Contains((value as T)!);
 
         /// <summary>
         /// Determines the index of the specified item in the collection.
@@ -125,7 +123,7 @@ namespace Krypton.Toolkit
         /// <returns>-1 if not found; otherwise index position.</returns>
         public int IndexOf(object value) =>
             // Use strongly typed implementation
-            IndexOf(value as T);
+            IndexOf((value as T)!);
 
         /// <summary>
         /// Inserts an item to the collection at the specified index.
@@ -134,7 +132,7 @@ namespace Krypton.Toolkit
         /// <param name="value">Object reference.</param>
         public virtual void Insert(int index, object value) =>
             // Use strongly typed implementation
-            Insert(index, value as T);
+            Insert(index, (value as T)!);
 
         /// <summary>
         /// Gets a value indicating whether the collection has a fixed size. 
@@ -147,7 +145,7 @@ namespace Krypton.Toolkit
         /// <param name="value">Object reference.</param>
         public void Remove(object value) =>
             // Use strongly typed implementation
-            Remove(value as T);
+            Remove((value as T)!);
 
         /// <summary>
         /// Gets or sets the item at the specified index.
@@ -168,7 +166,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="item">Item reference.</param>
         /// <returns>-1 if not found; otherwise index position.</returns>
-        public int IndexOf(T item)
+        public int IndexOf([DisallowNull] T item)
         {
             Debug.Assert(item != null);
             return _list.IndexOf(item);
@@ -181,7 +179,7 @@ namespace Krypton.Toolkit
         /// <param name="item">Item reference.</param>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
-        public virtual void Insert(int index, T item)
+        public virtual void Insert(int index, [DisallowNull] T item)
         {
             Debug.Assert(item != null);
 
@@ -243,7 +241,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="name">Name of the ribbon tab instance.</param>
         /// <returns>Item at specified index.</returns>
-        public virtual T this[string name] => null;
+        public virtual T? this[string name] => null;
 
         /// <summary>
         /// Move the source item to be immediately after the target item.
@@ -282,7 +280,7 @@ namespace Krypton.Toolkit
         /// <param name="item">Item reference.</param>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
-        public virtual void Add(T item)
+        public virtual void Add([DisallowNull] T item)
         {
             Debug.Assert(item != null);
 
@@ -300,7 +298,7 @@ namespace Krypton.Toolkit
 
             // Generate before insert event
             OnInserting(new TypedCollectionEventArgs<T>(item, _list.Count));
-            
+
             // Add to the internal collection
             _list.Add(item);
 
@@ -328,14 +326,14 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="item">Item reference.</param>
         /// <returns>True if item found; otherwise false.</returns>
-        public bool Contains(T item) => _list.Contains(item);
+        public bool Contains(T? item) => item != null && _list.Contains(item);
 
         /// <summary>
         /// Copies items to specified array starting at particular index.
         /// </summary>
         /// <param name="array">Target array.</param>
         /// <param name="arrayIndex">Starting array index.</param>
-        public void CopyTo(T[] array, int arrayIndex)
+        public void CopyTo([DisallowNull] T[] array, int arrayIndex)
         {
             Debug.Assert(array != null);
             _list.CopyTo(array, arrayIndex);
@@ -356,7 +354,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="item">Item reference.</param>
         /// <returns>True if removed; otherwise false.</returns>
-        public virtual bool Remove(T item)
+        public virtual bool Remove([DisallowNull] T item)
         {
             Debug.Assert(item != null);
 
@@ -384,7 +382,7 @@ namespace Krypton.Toolkit
         /// <param name="array">The Array that is the destination of the elements copied from the collection.</param>
         /// <param name="index">The index in array at which copying begins.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public void CopyTo(Array array, int index)
+        public void CopyTo([DisallowNull] Array array, int index)
         {
             Debug.Assert(array != null);
 

@@ -1,14 +1,22 @@
-﻿namespace Krypton.Workspace
+﻿#region BSD License
+/*
+ * 
+ * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
+ * 
+ *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  
+ */
+#endregion
+
+namespace Krypton.Workspace
 {
     /// <summary>
     /// Target one of the four sides of the workspace control.
     /// </summary>
     public class DragTargetWorkspaceEdge : DragTargetWorkspace
     {
-        #region Instance Fields
-
-        #endregion
-
         #region Identity
         /// <summary>
         /// Initialize a new instance of the DragTargetWorkspaceEdge class.
@@ -62,11 +70,11 @@
         /// <param name="screenPt">Position in screen coordinates.</param>
         /// <param name="data">Data to pass to the target to process drop.</param>
         /// <returns>Drop was performed and the source can perform any removal of pages as required.</returns>
-        public override bool PerformDrop(Point screenPt, PageDragEndData data)
+        public override bool PerformDrop(Point screenPt, PageDragEndData? data)
         {
             // Transfer the dragged pages into a new cell
-            KryptonWorkspaceCell cell = new();
-            KryptonPage page = ProcessDragEndData(Workspace, cell, data);
+            var cell = new KryptonWorkspaceCell();
+            KryptonPage? page = ProcessDragEndData(Workspace, cell, data);
 
             // If no pages are transferred then we do nothing and no longer need cell instance
             if (page == null)
@@ -76,12 +84,12 @@
             else
             {
                 // If the root is not the same direction as that needed for the drop then...
-                var dropHorizontal = (Edge == VisualOrientation.Left) || (Edge == VisualOrientation.Right);
+                var dropHorizontal = Edge is VisualOrientation.Left or VisualOrientation.Right;
                 if ((dropHorizontal && (Workspace.Root.Orientation == Orientation.Vertical)) ||
                     (!dropHorizontal && (Workspace.Root.Orientation == Orientation.Horizontal)))
                 {
                     // Create a new sequence and place all existing root items into it
-                    KryptonWorkspaceSequence sequence = new(Workspace.Root.Orientation);
+                    var sequence = new KryptonWorkspaceSequence(Workspace.Root.Orientation);
                     for (var i = Workspace.Root.Children.Count - 1; i >= 0; i--)
                     {
                         Component child = Workspace.Root.Children[i];
@@ -99,7 +107,7 @@
                 }
 
                 // Add to the start or the end of the root sequence?
-                if ((Edge == VisualOrientation.Left) || (Edge == VisualOrientation.Top))
+                if (Edge is VisualOrientation.Left or VisualOrientation.Top)
                 {
                     Workspace.Root.Children.Insert(0, cell);
                 }

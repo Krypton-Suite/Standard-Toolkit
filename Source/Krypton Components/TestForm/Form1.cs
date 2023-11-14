@@ -1,4 +1,7 @@
+using System;
 using System.ComponentModel;
+using System.Diagnostics;
+using System.Windows.Forms;
 
 using Krypton.Toolkit;
 
@@ -11,123 +14,138 @@ namespace TestForm
             InitializeComponent();
         }
 
-        private void AddEvent(string message)
+        private void AddEvent(string message) => kryptonListBox1.Items.Add(message);
+
+        private void textBox1_Validated(object sender, EventArgs e) => AddEvent(nameof(textBox1_Validated));
+
+        private void kryptonTextBox1_Validated(object sender, EventArgs e) => AddEvent(nameof(kryptonTextBox1_Validated));
+
+        private void kryptonTextBox1_DoubleClick(object sender, EventArgs e) => AddEvent(nameof(kryptonTextBox1_DoubleClick));
+
+        private void kryptonTextBox1_MouseDoubleClick(object sender, MouseEventArgs e) => AddEvent(nameof(kryptonTextBox1_MouseDoubleClick));
+
+        private void kryptonTextBox1_MouseClick(object sender, MouseEventArgs e) => AddEvent(nameof(kryptonTextBox1_MouseClick));
+
+        private void kryptonTextBox1_Click(object sender, EventArgs e) => AddEvent(nameof(kryptonTextBox1_Click));
+
+        private void textBox1_MouseDoubleClick(object sender, MouseEventArgs e) => AddEvent(nameof(textBox1_MouseDoubleClick));
+
+        private void textBox1_MouseClick(object sender, MouseEventArgs e) => AddEvent(nameof(textBox1_MouseClick));
+
+        private void textBox1_DoubleClick(object sender, EventArgs e) => AddEvent(nameof(textBox1_DoubleClick));
+
+        private void textBox1_Click(object sender, EventArgs e) => AddEvent(nameof(textBox1_Click));
+
+        private void textBox1_Validating(object sender, CancelEventArgs e) => AddEvent(nameof(textBox1_Validating));
+
+        private void kryptonTextBox1_Validating(object sender, CancelEventArgs e) => AddEvent(nameof(kryptonTextBox1_Validating));
+
+        private void textBox1_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e) => AddEvent(nameof(textBox1_PreviewKeyDown));
+
+        private void kryptonTextBox1_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e) => AddEvent(nameof(kryptonTextBox1_PreviewKeyDown));
+
+        private void kryptonTextBox1_KeyDown(object sender, KeyEventArgs e) => AddEvent(nameof(kryptonTextBox1_KeyDown));
+
+        private void kryptonTextBox1_KeyPress(object sender, KeyPressEventArgs e) => AddEvent(nameof(kryptonTextBox1_KeyPress));
+
+        private void kryptonTextBox1_KeyUp(object sender, KeyEventArgs e) => AddEvent(nameof(kryptonTextBox1_KeyUp));
+
+        private void textBox1_KeyDown(object sender, KeyEventArgs e) => AddEvent(nameof(textBox1_KeyDown));
+
+        private void textBox1_KeyPress(object sender, KeyPressEventArgs e) => AddEvent(nameof(textBox1_KeyPress));
+
+        private void textBox1_KeyUp(object sender, KeyEventArgs e) => AddEvent(nameof(textBox1_KeyUp));
+
+        private void kryptonButton1_Click(object sender, EventArgs e)
         {
-            kryptonListBox1.Items.Add(message);
+            var form2 = new Form2();
+
+            form2.ShowDialog();
         }
 
-        private void textBox1_Validated(object sender, System.EventArgs e)
+        private void kryptonButton2_Click(object sender, EventArgs e)
         {
-            AddEvent("textBox1_Validated");
+            var form3 = new Form3();
+
+            form3.ShowDialog();
         }
 
-        private void kryptonTextBox1_Validated(object sender, System.EventArgs e)
-        {
-            AddEvent("kryptonTextBox1_Validated");
+        private void kbtnTestMessagebox_Click(object sender, EventArgs e) => KryptonMessageBox.Show(@"This is a test!", @"Testing", KryptonMessageBoxButtons.OK,
+                KryptonMessageBoxIcon.Information, contentAreaType: MessageBoxContentAreaType.LinkLabel,
+                linkAreaCommand: kcmdMessageboxTest);
 
+        private void kcmdMessageboxTest_Execute(object sender, EventArgs e)
+        {
+            try
+            {
+                Process.Start(@"C:\\Windows\\Notepad.exe");
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show(exception.ToString());
+            }
         }
 
-        private void kryptonTextBox1_DoubleClick(object sender, System.EventArgs e)
+        private void kbtnIntegratedToolbar_Click(object sender, EventArgs e)
         {
-            AddEvent("kryptonTextBox1_DoubleClick");
+            Form5 integratedToolBar = new Form5();
 
+            integratedToolBar.Show();
         }
 
-        private void kryptonTextBox1_MouseDoubleClick(object sender, System.Windows.Forms.MouseEventArgs e)
+        private void kryptonButton3_Click(object sender, EventArgs e)
         {
-            AddEvent("kryptonTextBox1_MouseDoubleClick");
+            KryptonThemeBrowserForm themeBrowser = new KryptonThemeBrowserForm();
 
+            themeBrowser.ShowDialog();
         }
 
-        private void kryptonTextBox1_MouseClick(object sender, System.Windows.Forms.MouseEventArgs e)
+        private void kchkUseProgressValueAsText_CheckedChanged(object sender, EventArgs e)
         {
-            AddEvent("kryptonTextBox1_MouseClick");
-
+            kryptonProgressBar1.UseValueAsText = kchkUseProgressValueAsText.Checked;
         }
 
-        private void kryptonTextBox1_Click(object sender, System.EventArgs e)
+        private void ktrkProgressValues_ValueChanged(object sender, EventArgs e)
         {
-            AddEvent("kryptonTextBox1_Click");
-
+            kryptonProgressBar1.Value = ktrkProgressValues.Value;
         }
 
-        private void textBox1_MouseDoubleClick(object sender, System.Windows.Forms.MouseEventArgs e)
+        private void kbtnVisualStudio2010Theme_Click(object sender, EventArgs e)
         {
-            AddEvent("textBox1_MouseDoubleClick");
+            Form5 vsTheme = new Form5();
 
+            vsTheme.Show();
         }
 
-        private void textBox1_MouseClick(object sender, System.Windows.Forms.MouseEventArgs e)
+        private void kryptonButton4_Click(object sender, EventArgs e)
         {
-            AddEvent("textBox1_MouseClick");
-
+            new Form4().Show();
         }
 
-        private void textBox1_DoubleClick(object sender, System.EventArgs e)
+        private void kryptonButton5_Click(object sender, EventArgs e)
         {
-            AddEvent("textBox1_DoubleClick");
+            Form6 poweredByControl = new Form6();
 
+            poweredByControl.Show();
         }
 
-        private void textBox1_Click(object sender, System.EventArgs e)
+        private void Form1_Load(object sender, EventArgs e)
         {
-            AddEvent("textBox1_Click");
-
         }
 
-        private void textBox1_Validating(object sender, CancelEventArgs e)
+        private void kbtnExit_Click(object sender, EventArgs e)
         {
-            AddEvent("textBox1_Validating");
+            Application.Exit();
         }
 
-        private void kryptonTextBox1_Validating(object sender, CancelEventArgs e)
+        private void kryptonButton6_Click(object sender, EventArgs e)
         {
-            AddEvent("kryptonTextBox1_Validating");
+            kryptonCustomPaletteBase1.Import();
         }
 
-        private void textBox1_PreviewKeyDown(object sender, System.Windows.Forms.PreviewKeyDownEventArgs e)
+        private void kryptonButton7_Click(object sender, EventArgs e)
         {
-            AddEvent("textBox1_PreviewKeyDown");
-        }
-
-        private void kryptonTextBox1_PreviewKeyDown(object sender, System.Windows.Forms.PreviewKeyDownEventArgs e)
-        {
-            AddEvent("kryptonTextBox1_PreviewKeyDown");
-        }
-
-        private void kryptonTextBox1_KeyDown(object sender, System.Windows.Forms.KeyEventArgs e)
-        {
-            AddEvent("kryptonTextBox1_KeyDown");
-        }
-
-        private void kryptonTextBox1_KeyPress(object sender, System.Windows.Forms.KeyPressEventArgs e)
-        {
-            AddEvent("kryptonTextBox1_KeyPress");
-
-        }
-
-        private void kryptonTextBox1_KeyUp(object sender, System.Windows.Forms.KeyEventArgs e)
-        {
-            AddEvent("kryptonTextBox1_KeyUp");
-
-        }
-
-        private void textBox1_KeyDown(object sender, System.Windows.Forms.KeyEventArgs e)
-        {
-            AddEvent("textBox1_KeyDown");
-
-        }
-
-        private void textBox1_KeyPress(object sender, System.Windows.Forms.KeyPressEventArgs e)
-        {
-            AddEvent("textBox1_KeyPress");
-
-        }
-
-        private void textBox1_KeyUp(object sender, System.Windows.Forms.KeyEventArgs e)
-        {
-            AddEvent("textBox1_KeyUp");
-
+            kryptonCustomPaletteBase1.Export();
         }
     }
 }

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -38,7 +38,7 @@ namespace Krypton.Toolkit
         /// <param name="backStyle">inheritance ribbon back style.</param>
         /// <param name="textStyle">inheritance ribbon text style.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public PaletteRibbonDoubleRedirect(PaletteRedirect redirect,
+        public PaletteRibbonDoubleRedirect([DisallowNull] PaletteRedirect? redirect,
                                            PaletteRibbonBackStyle backStyle,
                                            PaletteRibbonTextStyle textStyle,
                                            NeedPaintHandler needPaint) 
@@ -67,7 +67,7 @@ namespace Krypton.Toolkit
         /// Update the redirector with new reference.
         /// </summary>
         /// <param name="redirect">Target redirector.</param>
-        public void SetRedirector(PaletteRedirect redirect)
+        public void SetRedirector(PaletteRedirect? redirect)
         {
             _inheritBack.SetRedirector(redirect);
             _inheritText.SetRedirector(redirect);
@@ -104,7 +104,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category(@"Visuals")]
         [Description(@"First background color for the ribbon item.")]
-        [DefaultValue(typeof(Color), "")]
+        [DefaultValue(typeof(Color), "Empty")]
         [RefreshProperties(RefreshProperties.All)]
         public Color BackColor1
         {
@@ -140,7 +140,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category(@"Visuals")]
         [Description(@"Second background color for the ribbon item.")]
-        [DefaultValue(typeof(Color), "")]
+        [DefaultValue(typeof(Color), "Empty")]
         [RefreshProperties(RefreshProperties.All)]
         public Color BackColor2
         {
@@ -176,7 +176,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category(@"Visuals")]
         [Description(@"Third background color for the ribbon item.")]
-        [DefaultValue(typeof(Color), "")]
+        [DefaultValue(typeof(Color), "Empty")]
         [RefreshProperties(RefreshProperties.All)]
         public Color BackColor3
         {
@@ -212,7 +212,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category(@"Visuals")]
         [Description(@"Fourth background color for the ribbon item.")]
-        [DefaultValue(typeof(Color), "")]
+        [DefaultValue(typeof(Color), "Empty")]
         [RefreshProperties(RefreshProperties.All)]
         public Color BackColor4
         {
@@ -248,7 +248,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category(@"Visuals")]
         [Description(@"Fifth background color for the ribbon item.")]
-        [DefaultValue(typeof(Color), "")]
+        [DefaultValue(typeof(Color), "Empty")]
         [RefreshProperties(RefreshProperties.All)]
         public Color BackColor5
         {
@@ -284,7 +284,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category(@"Visuals")]
         [Description(@"Tab color for the tab text.")]
-        [DefaultValue(typeof(Color), "")]
+        [DefaultValue(typeof(Color), "Empty")]
         [RefreshProperties(RefreshProperties.All)]
         public Color TextColor
         {

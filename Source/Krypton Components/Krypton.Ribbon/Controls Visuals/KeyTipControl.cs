@@ -5,7 +5,9 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  
+ *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
  */
 #endregion
@@ -19,7 +21,7 @@ namespace Krypton.Ribbon
         private List<ViewDrawRibbonKeyTip> _viewList;
         private string _prefix;
         private readonly bool _showDisabled;
-        private System.Windows.Forms.Timer _redrawTimer = null;
+        private Timer _redrawTimer;
         #endregion
 
         #region Identity
@@ -68,7 +70,7 @@ namespace Krypton.Ribbon
             // Create a new list of key tip views
             _viewList = new List<ViewDrawRibbonKeyTip>();
 
-            Rectangle enclosingRect = Rectangle.Empty;
+            var enclosingRect = Rectangle.Empty;
 
             // Create a view per key tip definition
             foreach (KeyTipInfo keyTip in keyTips)
@@ -204,11 +206,9 @@ namespace Krypton.Ribbon
         /// Raises the PaintBackground event.
         /// </summary>
         /// <param name="pevent">An PaintEventArgs containing the event data.</param>
-        protected override void OnPaintBackground(PaintEventArgs pevent)
-        {
+        protected override void OnPaintBackground(PaintEventArgs pevent) =>
             // Magenta is the transparent color
             pevent.Graphics.FillRectangle(Brushes.Magenta, pevent.ClipRectangle);
-        }
 
         /// <summary>
         /// Raises the Paint event.
@@ -216,7 +216,7 @@ namespace Krypton.Ribbon
         /// <param name="e">An PaintEventArgs containing the event data.</param>
         protected override void OnPaint(PaintEventArgs e)
         {
-            using (ViewLayoutContext layoutContext = new(this, _ribbon.Renderer))
+            using (var layoutContext = new ViewLayoutContext(this, _ribbon.Renderer))
             {
                 foreach (ViewDrawRibbonKeyTip viewKeyTip in _viewList)
                 {
@@ -253,7 +253,7 @@ namespace Krypton.Ribbon
                 }
             }
 
-            using (RenderContext renderContext = new(this, e.Graphics, e.ClipRectangle, _ribbon.Renderer))
+            using (var renderContext = new RenderContext(this, e.Graphics, e.ClipRectangle, _ribbon.Renderer))
             {
                 foreach (ViewDrawRibbonKeyTip viewKeyTip in _viewList)
                 {
@@ -270,7 +270,7 @@ namespace Krypton.Ribbon
         private void StartTimer()
         {
             // Start timer to take care of re drawing the display
-            _redrawTimer = new System.Windows.Forms.Timer
+            _redrawTimer = new Timer
             {
                 Interval = 1
             };
@@ -280,7 +280,7 @@ namespace Krypton.Ribbon
 
         private void OnRedrawTick(object sender, EventArgs e)
         {
-            _redrawTimer = (System.Windows.Forms.Timer)sender;
+            _redrawTimer = (Timer)sender;
             _redrawTimer.Stop();
             _redrawTimer.Dispose();
 

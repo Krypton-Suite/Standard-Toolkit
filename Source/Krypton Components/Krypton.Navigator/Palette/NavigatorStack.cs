@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -36,7 +36,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="navigator">Reference to owning navigator instance.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public NavigatorStack(KryptonNavigator navigator,
+        public NavigatorStack([DisallowNull] KryptonNavigator navigator,
                               NeedPaintHandler needPaint)
         {
             Debug.Assert(navigator != null);
@@ -146,10 +146,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Resets the StackAnimation property to its default value.
         /// </summary>
-        public void ResetStackAnimation()
-        {
-            StackAnimation = true;
-        }
+        public void ResetStackAnimation() => StackAnimation = true;
         #endregion
 
         #region StackOrientation
@@ -177,10 +174,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Resets the StackOrientation property to its default value.
         /// </summary>
-        public void ResetStackOrientation()
-        {
-            StackOrientation = Orientation.Vertical;
-        }
+        public void ResetStackOrientation() => StackOrientation = Orientation.Vertical;
         #endregion
 
         #region StackAlignment
@@ -208,10 +202,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Resets the StackAlignment property to its default value.
         /// </summary>
-        public void ResetStackAlignment()
-        {
-            StackAlignment = RelativePositionAlign.Center;
-        }
+        public void ResetStackAlignment() => StackAlignment = RelativePositionAlign.Center;
         #endregion
 
         #region ItemOrientation
@@ -239,10 +230,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Resets the ItemOrientation property to its default value.
         /// </summary>
-        public void ResetItemOrientation()
-        {
-            ItemOrientation = ButtonOrientation.Auto;
-        }
+        public void ResetItemOrientation() => ItemOrientation = ButtonOrientation.Auto;
         #endregion
 
         #region StackMapImage
@@ -271,10 +259,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Resets the StackMapImage property to its default value.
         /// </summary>
-        public void ResetStackMapImage()
-        {
-            StackMapImage = MapKryptonPageImage.Small;
-        }
+        public void ResetStackMapImage() => StackMapImage = MapKryptonPageImage.Small;
         #endregion
 
         #region StackMapText
@@ -302,10 +287,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Resets the StackMapText property to its default value.
         /// </summary>
-        public void ResetStackMapText()
-        {
-            StackMapText = MapKryptonPageText.TextTitle;
-        }
+        public void ResetStackMapText() => StackMapText = MapKryptonPageText.TextTitle;
         #endregion
 
         #region MapExtraText
@@ -333,10 +315,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Resets the StackMapExtraText property to its default value.
         /// </summary>
-        public void ResetStackMapExtraText()
-        {
-            StackMapExtraText = MapKryptonPageText.None;
-        }
+        public void ResetStackMapExtraText() => StackMapExtraText = MapKryptonPageText.None;
         #endregion
     }
 }

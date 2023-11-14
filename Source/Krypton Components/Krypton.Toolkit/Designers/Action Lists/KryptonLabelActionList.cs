@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -15,7 +15,7 @@ namespace Krypton.Toolkit
     internal class KryptonLabelActionList : DesignerActionList
     {
         #region Instance Fields
-        private readonly KryptonLabel _label;
+        private readonly KryptonLabel? _label;
         private readonly IComponentChangeService _service;
         #endregion
 
@@ -107,7 +107,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the label image.
         /// </summary>
-        public Image Image
+        public Image? Image
         {
             get => _label.Values.Image;
 
@@ -181,23 +181,23 @@ namespace Krypton.Toolkit
         public override DesignerActionItemCollection GetSortedActionItems()
         {
             // Create a new collection for holding the single item we want to create
-            DesignerActionItemCollection actions = new();
+            var actions = new DesignerActionItemCollection();
 
             // This can be null when deleting a control instance at design time
             if (_label != null)
             {
                 // Add the list of label specific actions
-                actions.Add(new DesignerActionHeaderItem(@"Appearance"));
-                actions.Add(new DesignerActionPropertyItem(@"LabelStyle", @"Style", @"Appearance", @"Label style"));
-                actions.Add(new DesignerActionPropertyItem(@"Orientation", @"Orientation", @"Appearance", @"Visual orientation"));
-                actions.Add(new DesignerActionPropertyItem(@"StateCommonShortTextFont", @"State Common Short Text Font", @"Appearance", @"The State Common Short Text Font."));
-                actions.Add(new DesignerActionPropertyItem(@"StateCommonLongTextFont", @"State Common State Common Long Text Font", @"Appearance", @"The State Common State Common Long Text Font."));
+                actions.Add(new DesignerActionHeaderItem(nameof(Appearance)));
+                actions.Add(new DesignerActionPropertyItem(nameof(LabelStyle), @"Style", nameof(Appearance), @"Label style"));
+                actions.Add(new DesignerActionPropertyItem(nameof(Orientation), nameof(Orientation), nameof(Appearance), @"Visual orientation"));
+                actions.Add(new DesignerActionPropertyItem(nameof(StateCommonShortTextFont), @"State Common Short Text Font", nameof(Appearance), @"The State Common Short Text Font."));
+                actions.Add(new DesignerActionPropertyItem(nameof(StateCommonLongTextFont), @"State Common State Common Long Text Font", nameof(Appearance), @"The State Common State Common Long Text Font."));
                 actions.Add(new DesignerActionHeaderItem(@"Values"));
-                actions.Add(new DesignerActionPropertyItem(@"Text", @"Text", @"Values", @"Label text"));
-                actions.Add(new DesignerActionPropertyItem(@"ExtraText", @"ExtraText", @"Values", @"Label extra text"));
-                actions.Add(new DesignerActionPropertyItem(@"Image", @"Image", @"Values", @"Label image"));
+                actions.Add(new DesignerActionPropertyItem(nameof(Text), nameof(Text), @"Values", @"Label text"));
+                actions.Add(new DesignerActionPropertyItem(nameof(ExtraText), nameof(ExtraText), @"Values", @"Label extra text"));
+                actions.Add(new DesignerActionPropertyItem(nameof(Image), nameof(Image), @"Values", @"Label image"));
                 actions.Add(new DesignerActionHeaderItem(@"Visuals"));
-                actions.Add(new DesignerActionPropertyItem(@"PaletteMode", @"Palette", @"Visuals", @"Palette applied to drawing"));
+                actions.Add(new DesignerActionPropertyItem(nameof(PaletteMode), @"Palette", @"Visuals", @"Palette applied to drawing"));
             }
 
             return actions;

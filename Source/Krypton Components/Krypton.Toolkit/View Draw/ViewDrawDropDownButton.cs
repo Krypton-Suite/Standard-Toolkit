@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -17,10 +17,6 @@ namespace Krypton.Toolkit
     /// </summary>
     public class ViewDrawDropDownButton : ViewLeaf
     {
-        #region Instance Fields
-
-        #endregion
-
         #region Identity
         /// <summary>
         /// Initialize a new instance of the ViewDrawDropDownButton class.
@@ -33,7 +29,7 @@ namespace Krypton.Toolkit
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            "ViewDrawDropDownButton:" + Id;
+            $"ViewDrawDropDownButton:{Id}";
 
         #endregion
 
@@ -41,7 +37,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the palette to use.
         /// </summary>
-        public IPalette Palette { get; set; }
+        public PaletteBase? Palette { get; set; }
 
         #endregion
 
@@ -58,12 +54,12 @@ namespace Krypton.Toolkit
         /// Discover the preferred size of the element.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override Size GetPreferredSize(ViewLayoutContext context)
+        public override Size GetPreferredSize([DisallowNull] ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 
             // Ask the renderer for the required size of the drop down button
-            return context.Renderer.RenderGlyph.GetDropDownButtonPreferredSize(context, Palette, State, Orientation);
+            return context!.Renderer.RenderGlyph.GetDropDownButtonPreferredSize(context, Palette, State, Orientation);
         }
 
         /// <summary>
@@ -71,7 +67,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="context">Layout context.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public override void Layout(ViewLayoutContext context)
+        public override void Layout([DisallowNull] ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 

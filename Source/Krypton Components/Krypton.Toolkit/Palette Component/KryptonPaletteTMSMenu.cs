@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -99,10 +99,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// esets the ImageMarginGradientBegin property to its default value.
         /// </summary>
-        public void ResetImageMarginGradientBegin()
-        {
-            ImageMarginGradientBegin = Color.Empty;
-        }
+        public void ResetImageMarginGradientBegin() => ImageMarginGradientBegin = Color.Empty;
         #endregion
 
         #region ImageMarginGradientEnd
@@ -127,10 +124,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// esets the ImageMarginGradientEnd property to its default value.
         /// </summary>
-        public void ResetImageMarginGradientEnd()
-        {
-            ImageMarginGradientEnd = Color.Empty;
-        }
+        public void ResetImageMarginGradientEnd() => ImageMarginGradientEnd = Color.Empty;
         #endregion
 
         #region ImageMarginGradientMiddle
@@ -155,10 +149,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// esets the ImageMarginGradientMiddle property to its default value.
         /// </summary>
-        public void ResetImageMarginGradientMiddle()
-        {
-            ImageMarginGradientMiddle = Color.Empty;
-        }
+        public void ResetImageMarginGradientMiddle() => ImageMarginGradientMiddle = Color.Empty;
         #endregion
 
         #region ImageMarginRevealedGradientBegin
@@ -183,10 +174,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// esets the ImageMarginRevealedGradientBegin property to its default value.
         /// </summary>
-        public void ResetImageMarginRevealedGradientBegin()
-        {
-            ImageMarginRevealedGradientBegin = Color.Empty;
-        }
+        public void ResetImageMarginRevealedGradientBegin() => ImageMarginRevealedGradientBegin = Color.Empty;
         #endregion
 
         #region ImageMarginRevealedGradientEnd
@@ -211,10 +199,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// esets the ImageMarginRevealedGradientEnd property to its default value.
         /// </summary>
-        public void ResetImageMarginRevealedGradientEnd()
-        {
-            ImageMarginRevealedGradientEnd = Color.Empty;
-        }
+        public void ResetImageMarginRevealedGradientEnd() => ImageMarginRevealedGradientEnd = Color.Empty;
         #endregion
 
         #region ImageMarginRevealedGradientMiddle
@@ -239,10 +224,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// esets the ImageMarginRevealedGradientMiddle property to its default value.
         /// </summary>
-        public void ResetImageMarginRevealedGradientMiddle()
-        {
-            ImageMarginRevealedGradientMiddle = Color.Empty;
-        }
+        public void ResetImageMarginRevealedGradientMiddle() => ImageMarginRevealedGradientMiddle = Color.Empty;
         #endregion
 
         #region MenuBorder
@@ -267,10 +249,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// esets the MenuBorder property to its default value.
         /// </summary>
-        public void ResetMenuBorder()
-        {
-            MenuBorder = Color.Empty;
-        }
+        public void ResetMenuBorder() => MenuBorder = Color.Empty;
         #endregion
 
         #region MenuItemText
@@ -295,10 +274,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// esets the MenuItemText property to its default value.
         /// </summary>
-        public void ResetMenuItemText()
-        {
-            MenuItemText = Color.Empty;
-        }
+        public void ResetMenuItemText() => MenuItemText = Color.Empty;
         #endregion
 
         #region MenuItemBorder
@@ -323,10 +299,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// esets the MenuItemBorder property to its default value.
         /// </summary>
-        public void ResetMenuItemBorder()
-        {
-            MenuItemBorder = Color.Empty;
-        }
+        public void ResetMenuItemBorder() => MenuItemBorder = Color.Empty;
         #endregion
 
         #region MenuItemPressedGradientBegin
@@ -351,10 +324,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// esets the MenuItemPressedGradientBegin property to its default value.
         /// </summary>
-        public void ResetMenuItemPressedGradientBegin()
-        {
-            MenuItemPressedGradientBegin = Color.Empty;
-        }
+        public void ResetMenuItemPressedGradientBegin() => MenuItemPressedGradientBegin = Color.Empty;
         #endregion
 
         #region MenuItemPressedGradientEnd
@@ -379,10 +349,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// esets the MenuItemPressedGradientEnd property to its default value.
         /// </summary>
-        public void ResetMenuItemPressedGradientEnd()
-        {
-            MenuItemPressedGradientEnd = Color.Empty;
-        }
+        public void ResetMenuItemPressedGradientEnd() => MenuItemPressedGradientEnd = Color.Empty;
         #endregion
 
         #region MenuItemPressedGradientMiddle
@@ -407,10 +374,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// esets the MenuItemPressedGradientMiddle property to its default value.
         /// </summary>
-        public void ResetMenuItemPressedGradientMiddle()
-        {
-            MenuItemPressedGradientMiddle = Color.Empty;
-        }
+        public void ResetMenuItemPressedGradientMiddle() => MenuItemPressedGradientMiddle = Color.Empty;
         #endregion
 
         #region MenuItemSelected
@@ -435,10 +399,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// esets the MenuItemSelected property to its default value.
         /// </summary>
-        public void ResetMenuItemSelected()
-        {
-            MenuItemSelected = Color.Empty;
-        }
+        public void ResetMenuItemSelected() => MenuItemSelected = Color.Empty;
         #endregion
 
         #region MenuItemSelectedGradientBegin
@@ -463,10 +424,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// esets the MenuItemSelectedGradientBegin property to its default value.
         /// </summary>
-        public void ResetMenuItemSelectedGradientBegin()
-        {
-            MenuItemSelectedGradientBegin = Color.Empty;
-        }
+        public void ResetMenuItemSelectedGradientBegin() => MenuItemSelectedGradientBegin = Color.Empty;
         #endregion
 
         #region MenuItemSelectedGradientEnd
@@ -491,10 +449,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// esets the MenuItemSelectedGradientEnd property to its default value.
         /// </summary>
-        public void ResetMenuItemSelectedGradientEnd()
-        {
-            MenuItemSelectedGradientEnd = Color.Empty;
-        }
+        public void ResetMenuItemSelectedGradientEnd() => MenuItemSelectedGradientEnd = Color.Empty;
         #endregion
     }
 }

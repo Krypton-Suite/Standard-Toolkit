@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -15,39 +15,31 @@ namespace Krypton.Toolkit
     /// <summary>
     /// Custom type converter so that HeaderStyle values appear as neat text at design time.
     /// </summary>
-    internal class HeaderStyleConverter : StringLookupConverter
+    internal class HeaderStyleConverter : StringLookupConverter<HeaderStyle>
     {
         #region Static Fields
 
-        private readonly Pair[] _pairs =
+        [Localizable(true)]
+        private static readonly IReadOnlyDictionary<HeaderStyle, string> _pairs = new Dictionary<HeaderStyle, string>
         {
-            new(HeaderStyle.Primary, "Primary"),
-            new(HeaderStyle.Secondary, "Secondary"),
-            new(HeaderStyle.DockInactive, "Dock - Inactive"),
-            new(HeaderStyle.DockActive, "Dock - Active"),
-            new(HeaderStyle.Form, "Form"),
-            new(HeaderStyle.Calendar, "Calendar"),
-            new(HeaderStyle.Custom1, "Custom1"),
-            new(HeaderStyle.Custom2, "Custom2"),
-            new(HeaderStyle.Custom3, "Custom3")
+            {HeaderStyle.Primary, DesignTimeUtilities.DEFAULT_HEADER_STYLE_PRIMARY},
+            {HeaderStyle.Secondary, DesignTimeUtilities.DEFAULT_HEADER_STYLE_SECONDARY},
+            {HeaderStyle.DockInactive, DesignTimeUtilities.DEFAULT_HEADER_STYLE_DOCK_INACTIVE},
+            {HeaderStyle.DockActive, DesignTimeUtilities.DEFAULT_HEADER_STYLE_DOCK_ACTIVE},
+            {HeaderStyle.Form, DesignTimeUtilities.DEFAULT_HEADER_STYLE_FORM},
+            {HeaderStyle.Calendar, DesignTimeUtilities.DEFAULT_HEADER_STYLE_CALENDAR},
+            {HeaderStyle.Custom1, DesignTimeUtilities.DEFAULT_HEADER_STYLE_CUSTOM_ONE},
+            {HeaderStyle.Custom2, DesignTimeUtilities.DEFAULT_HEADER_STYLE_CUSTOM_TWO},
+            {HeaderStyle.Custom3, DesignTimeUtilities.DEFAULT_HEADER_STYLE_CUSTOM_THREE}
         };
-        #endregion
 
-        #region Identity
-        /// <summary>
-        /// Initialize a new instance of the HeaderStyleConverter class.
-        /// </summary>
-        public HeaderStyleConverter()
-            : base(typeof(HeaderStyle))
-        {
-        }
         #endregion
 
         #region Protected
         /// <summary>
         /// Gets an array of lookup pairs.
         /// </summary>
-        protected override Pair[] Pairs => _pairs;
+        protected override IReadOnlyDictionary<HeaderStyle /*Enum*/, string /*Display*/> Pairs => _pairs;
 
         #endregion
     }

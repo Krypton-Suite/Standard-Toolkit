@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -19,7 +19,7 @@ namespace Krypton.Navigator
                                                    IPaletteRibbonGeneral
     {
         #region Instance Fields
-        private Font _textFont;
+        private Font? _textFont;
         private PaletteTextHint _textHint;
         private readonly PaletteRibbonGeneralInheritRedirect _inherit;
         #endregion
@@ -30,7 +30,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="redirect">inheritance redirection instance.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public PaletteRibbonGeneralNavRedirect(PaletteRedirect redirect,
+        public PaletteRibbonGeneralNavRedirect([DisallowNull] PaletteRedirect redirect,
                                                NeedPaintHandler needPaint)
         {
             Debug.Assert(redirect != null);
@@ -52,10 +52,7 @@ namespace Krypton.Navigator
         /// Update the redirector with new reference.
         /// </summary>
         /// <param name="redirect">Target redirector.</param>
-        public void SetRedirector(PaletteRedirect redirect)
-        {
-            _inherit.SetRedirector(redirect);
-        }
+        public void SetRedirector(PaletteRedirect? redirect) => _inherit.SetRedirector(redirect);
         #endregion
 
         #region IsDefault
@@ -234,7 +231,7 @@ namespace Krypton.Navigator
         [Description(@"Font for the ribbon text.")]
         [DefaultValue(null)]
         [RefreshProperties(RefreshProperties.All)]
-        public Font TextFont
+        public Font? TextFont
         {
             get => _textFont;
 
@@ -251,10 +248,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Reset the TextFont to the default value.
         /// </summary>
-        public void ResetTextFont()
-        {
-            TextFont = null;
-        }
+        public void ResetTextFont() => TextFont = null;
 
         /// <summary>
         /// Gets the font for the ribbon text.
@@ -290,10 +284,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Reset the TextHint to the default value.
         /// </summary>
-        public void ResetTextHint()
-        {
-            TextHint = PaletteTextHint.Inherit;
-        }
+        public void ResetTextHint() => TextHint = PaletteTextHint.Inherit;
 
         /// <summary>
         /// Gets the rendering hint for the ribbon font.

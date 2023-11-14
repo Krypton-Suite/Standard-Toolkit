@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -16,10 +16,10 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
         private readonly IContextMenuProvider _provider;
-        private readonly FixedContentValue _contentValues;
+        private readonly FixedContentValue? _contentValues;
         private readonly ViewLayoutDocker _outerDocker;
         private readonly ViewLayoutDocker _innerDocker;
-        private KryptonCommand _cachedCommand;
+        private KryptonCommand? _cachedCommand;
 
         #endregion
 
@@ -83,10 +83,13 @@ namespace Krypton.Toolkit
             };
 
             // Use context menu specific version of the check box controller
-            MenuCheckButtonController mcbc = new(provider.ProviderViewManager, _innerDocker, this, provider.ProviderNeedPaintDelegate);
+            var mcbc = new MenuCheckButtonController(provider.ProviderViewManager, _innerDocker,
+                this, provider.ProviderNeedPaintDelegate);
             mcbc.Click += OnClick;
-            _innerDocker.MouseController = mcbc;
+            //_innerDocker.MouseController = mcbc;
             _innerDocker.KeyController = mcbc;
+            // Create the manager for handling tooltips
+            _innerDocker.MouseController = new ToolTipController(KryptonContextMenuCheckButton.ToolTipManager, this, mcbc);
 
             // Add docker as the composite content
             Add(_outerDocker);
@@ -108,7 +111,7 @@ namespace Krypton.Toolkit
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            "ViewDrawMenuCheckButton:" + Id;
+            $"ViewDrawMenuCheckButton:{Id}";
 
         /// <summary>
         /// Clean up any resources being used.
@@ -243,7 +246,7 @@ namespace Krypton.Toolkit
         /// Discover the preferred size of the element.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override Size GetPreferredSize(ViewLayoutContext context)
+        public override Size GetPreferredSize([DisallowNull] ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 
@@ -270,7 +273,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="context">Layout context.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public override void Layout(ViewLayoutContext context)
+        public override void Layout([DisallowNull] ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 
@@ -295,14 +298,14 @@ namespace Krypton.Toolkit
             {
                 case @"Text":
                 case @"ExtraText":
-                case @"Image":
+                case nameof(Image):
                 case @"ImageTransparentColor":
-                case @"Enabled":
+                case nameof(Enabled):
                 case @"Checked":
                     // Update to show new state
                     _provider.ProviderNeedPaintDelegate(this, new NeedLayoutEventArgs(true));
                     break;
-                case @"KryptonCommand":
+                case nameof(KryptonCommand):
                     // Unhook from any existing command
                     if (_cachedCommand != null)
                     {
@@ -330,7 +333,7 @@ namespace Krypton.Toolkit
                 case @"ExtraText":
                 case @"ImageSmall":
                 case @"ImageTransparentColor":
-                case @"Enabled":
+                case nameof(Enabled):
                 case @"Checked":
                     // Update to show new state
                     _provider.ProviderNeedPaintDelegate(this, new NeedLayoutEventArgs(true));

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -701,7 +701,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="dragEndData">Pages data being dragged.</param>
         /// <returns>List of drag targets.</returns>
-        DragTargetList GenerateDragTargets(PageDragEndData dragEndData);
+        DragTargetList GenerateDragTargets(PageDragEndData? dragEndData);
     }
     #endregion
 
@@ -748,7 +748,7 @@ namespace Krypton.Navigator
         /// <param name="sender">Source of the page drag; should never be null.</param>
         /// <param name="navigator">Navigator instance associated with source; can be null.</param>
         /// <param name="e">Event arguments indicating list of pages being dragged.</param>
-        void PageDragStart(object sender, KryptonNavigator navigator, PageDragCancelEventArgs e);
+        void PageDragStart(object sender, KryptonNavigator? navigator, PageDragCancelEventArgs e);
 
         /// <summary>
         /// Occurs when the mouse moves during the drag operation.
@@ -782,12 +782,12 @@ namespace Krypton.Navigator
         /// <summary>
         /// Occurs when the dragging start rectangle is needed.
         /// </summary>
-        event EventHandler<ButtonDragRectangleEventArgs> ButtonDragRectangle;
+        event EventHandler<ButtonDragRectangleEventArgs>? ButtonDragRectangle;
 
         /// <summary>
         /// Occurs when the dragging offset has changed.
         /// </summary>
-        event EventHandler<ButtonDragOffsetEventArgs> ButtonDragOffset;
+        event EventHandler<ButtonDragOffsetEventArgs>? ButtonDragOffset;
 
         /// <summary>
         /// Gets the view associated with the check item.
@@ -797,7 +797,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets the page this check item represents.
         /// </summary>
-        KryptonPage Page { get; }
+        KryptonPage? Page { get; }
 
         /// <summary>
         /// Gets the navigator this check item is inside.
@@ -817,14 +817,14 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets and sets the paint delegate to use for refresh requests.
         /// </summary>
-        NeedPaintHandler NeedPaint { get; set; }
+        NeedPaintHandler? NeedPaint { get; set; }
 
         /// <summary>
         /// Gets the ButtonSpec associated with the provided item.
         /// </summary>
         /// <param name="element">Element to search against.</param>
         /// <returns>Reference to ButtonSpec; otherwise null.</returns>
-        ButtonSpec ButtonSpecFromView(ViewBase element);
+        ButtonSpec? ButtonSpecFromView(ViewBase element);
 
         /// <summary>
         /// Raises the Click event for the button.

@@ -5,7 +5,9 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  
+ *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
  */
 #endregion
@@ -17,11 +19,11 @@ namespace Krypton.Ribbon
     /// </summary>
     [ToolboxItem(false)]
     [ToolboxBitmap(typeof(KryptonRibbonGroupTrackBar), "ToolboxBitmaps.KryptonRibbonGroupTrackBar.bmp")]
-    [Designer("Krypton.Ribbon.KryptonRibbonGroupTrackBarDesigner, Krypton.Ribbon")]
+    [Designer(typeof(KryptonRibbonGroupTrackBarDesigner))]
     [DesignerCategory(@"code")]
     [DesignTimeVisible(false)]
-    [DefaultEvent("ValueChanged")]
-    [DefaultProperty("Value")]
+    [DefaultEvent(nameof(ValueChanged))]
+    [DefaultProperty(nameof(Value))]
     public class KryptonRibbonGroupTrackBar : KryptonRibbonGroupItem
     {
         #region Instance Fields
@@ -39,37 +41,37 @@ namespace Krypton.Ribbon
         /// Occurs when the control receives focus.
         /// </summary>
         [Browsable(false)]
-        public event EventHandler GotFocus;
+        public event EventHandler? GotFocus;
 
         /// <summary>
         /// Occurs when the control loses focus.
         /// </summary>
         [Browsable(false)]
-        public event EventHandler LostFocus;
+        public event EventHandler? LostFocus;
 
         /// <summary>
         /// Occurs when the value of the Value property changes.
         /// </summary>
         [Category(@"Action")]
         [Description(@"Occurs when the value of the Value property changes.")]
-        public event EventHandler ValueChanged;
+        public event EventHandler? ValueChanged;
 
         /// <summary>
         /// Occurs after the value of a property has changed.
         /// </summary>
         [Category(@"Ribbon")]
         [Description(@"Occurs after the value of a property has changed.")]
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         /// <summary>
         /// Occurs when the design time context menu is requested.
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        public event MouseEventHandler DesignTimeContextMenu;
+        public event MouseEventHandler? DesignTimeContextMenu;
 
-        internal event EventHandler MouseEnterControl;
-        internal event EventHandler MouseLeaveControl;
+        internal event EventHandler? MouseEnterControl;
+        internal event EventHandler? MouseLeaveControl;
         #endregion
 
         #region Identity
@@ -132,13 +134,13 @@ namespace Krypton.Ribbon
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public override KryptonRibbon Ribbon
+        public override KryptonRibbon? Ribbon
         {
             set
             {
                 base.Ribbon = value;
 
-                if (value != null)
+                if (Ribbon != null)
                 {
                     // Use the same palette in the track bar as the ribbon, plus we need
                     // to know when the ribbon palette changes so we can reflect that change
@@ -212,18 +214,12 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Make the ribbon group track bar visible.
         /// </summary>
-        public void Show()
-        {
-            Visible = true;
-        }
+        public void Show() => Visible = true;
 
         /// <summary>
         /// Make the ribbon group track bar hidden.
         /// </summary>
-        public void Hide()
-        {
-            Visible = false;
-        }
+        public void Hide() => Visible = false;
 
         /// <summary>
         /// Gets and sets the enabled state of the group track bar.
@@ -290,7 +286,7 @@ namespace Krypton.Ribbon
         [Category(@"Behavior")]
         [Description(@"The shortcut to display when the user right-clicks the control.")]
         [DefaultValue(null)]
-        public ContextMenuStrip ContextMenuStrip
+        public ContextMenuStrip? ContextMenuStrip
         {
             get => TrackBar.ContextMenuStrip;
             set => TrackBar.ContextMenuStrip = value;
@@ -302,7 +298,7 @@ namespace Krypton.Ribbon
         [Category(@"Behavior")]
         [Description(@"KryptonContextMenu to be shown when the text box is right clicked.")]
         [DefaultValue(null)]
-        public KryptonContextMenu KryptonContextMenu
+        public KryptonContextMenu? KryptonContextMenu
         {
             get => TrackBar.KryptonContextMenu;
             set => TrackBar.KryptonContextMenu = value;
@@ -432,6 +428,7 @@ namespace Krypton.Ribbon
         [Category(@"Behavior")]
         [Description(@"Change to apply when a small change occurs.")]
         [DefaultValue(1)]
+        [DisallowNull]
         public int SmallChange
         {
             get => TrackBar.SmallChange;
@@ -444,6 +441,7 @@ namespace Krypton.Ribbon
         [Category(@"Behavior")]
         [Description(@"Change to apply when a large change occurs.")]
         [DefaultValue(5)]
+        [DisallowNull]
         public int LargeChange
         {
             get => TrackBar.LargeChange;
@@ -455,10 +453,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="minValue">The lower limit of the range of the track bar.</param>
         /// <param name="maxValue">The upper limit of the range of the track bar.</param>
-        public void SetRange(int minValue, int maxValue)
-        {
-            TrackBar.SetRange(minValue, maxValue);
-        }
+        public void SetRange(int minValue, int maxValue) => TrackBar.SetRange(minValue, maxValue);
 
         /// <summary>
         /// Gets and sets the maximum allowed size of the item.
@@ -538,41 +533,29 @@ namespace Krypton.Ribbon
         /// Raises the GotFocus event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnGotFocus(EventArgs e)
-        {
-            GotFocus?.Invoke(this, e);
-        }
+        protected virtual void OnGotFocus(EventArgs e) => GotFocus?.Invoke(this, e);
 
         /// <summary>
         /// Raises the LostFocus event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnLostFocus(EventArgs e)
-        {
-            LostFocus?.Invoke(this, e);
-        }
+        protected virtual void OnLostFocus(EventArgs e) => LostFocus?.Invoke(this, e);
 
         /// <summary>
         /// Raises the PropertyChanged event.
         /// </summary>
         /// <param name="propertyName">Name of property that has changed.</param>
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
+        protected virtual void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         #endregion
 
         #region Internal
         internal Control LastParentControl { get; set; }
 
-        internal KryptonTrackBar LastTrackBar { get; set; }
+        internal KryptonTrackBar? LastTrackBar { get; set; }
 
-        internal NeedPaintHandler ViewPaintDelegate { get; set; }
+        internal NeedPaintHandler? ViewPaintDelegate { get; set; }
 
-        internal void OnDesignTimeContextMenu(MouseEventArgs e)
-        {
-            DesignTimeContextMenu?.Invoke(this, e);
-        }
+        internal void OnDesignTimeContextMenu(MouseEventArgs e) => DesignTimeContextMenu?.Invoke(this, e);
 
         internal override bool ProcessCmdKey(ref Message msg, Keys keyData) => false;
 
@@ -591,41 +574,21 @@ namespace Krypton.Ribbon
             c.MouseLeave -= OnControlLeave;
         }
 
-        private void OnControlEnter(object sender, EventArgs e)
-        {
-            MouseEnterControl?.Invoke(this, e);
-        }
+        private void OnControlEnter(object sender, EventArgs e) => MouseEnterControl?.Invoke(this, e);
 
-        private void OnControlLeave(object sender, EventArgs e)
-        {
-            MouseLeaveControl?.Invoke(this, e);
-        }
+        private void OnControlLeave(object sender, EventArgs e) => MouseLeaveControl?.Invoke(this, e);
 
-        private void OnPaletteNeedPaint(object sender, NeedLayoutEventArgs e)
-        {
+        private void OnPaletteNeedPaint(object sender, NeedLayoutEventArgs e) =>
             // Pass request onto the view provided paint delegate
             ViewPaintDelegate?.Invoke(this, e);
-        }
 
-        private void OnTrackBarGotFocus(object sender, EventArgs e)
-        {
-            OnGotFocus(e);
-        }
+        private void OnTrackBarGotFocus(object sender, EventArgs e) => OnGotFocus(e);
 
-        private void OnTrackBarLostFocus(object sender, EventArgs e)
-        {
-            OnLostFocus(e);
-        }
+        private void OnTrackBarLostFocus(object sender, EventArgs e) => OnLostFocus(e);
 
-        private void OnTrackBarValueChanged(object sender, EventArgs e)
-        {
-            ValueChanged?.Invoke(this, e);
-        }
+        private void OnTrackBarValueChanged(object sender, EventArgs e) => ValueChanged?.Invoke(this, e);
 
-        private void OnRibbonPaletteChanged(object sender, EventArgs e)
-        {
-            TrackBar.Palette = Ribbon.GetResolvedPalette();
-        }
+        private void OnRibbonPaletteChanged(object sender, EventArgs e) => TrackBar.Palette = Ribbon.GetResolvedPalette();
         #endregion
     }
 }

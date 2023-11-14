@@ -5,7 +5,9 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  
+ *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
  */
 #endregion
@@ -36,7 +38,7 @@ namespace Krypton.Ribbon
         /// Initializes the designer with the specified component.
         /// </summary>
         /// <param name="component">The IComponent to associate the designer with.</param>
-        public override void Initialize(IComponent component)
+        public override void Initialize([DisallowNull] IComponent component)
         {
             // Let base class do standard stuff
             base.Initialize(component);
@@ -58,7 +60,7 @@ namespace Krypton.Ribbon
             get
             {
                 // Create a new collection for both values
-                ArrayList compound = new(base.AssociatedComponents);
+                var compound = new ArrayList(base.AssociatedComponents);
 
                 // Add all the display ranges
                 foreach (KryptonGalleryRange dropRange in _gallery.DropButtonRanges)
@@ -87,9 +89,8 @@ namespace Krypton.Ribbon
             get
             {
                 // Create a collection of action lists
-                DesignerActionListCollection actionLists = new()
+                var actionLists = new DesignerActionListCollection
                 {
-
                     // Add the gallery specific list
                     new KryptonGalleryActionList(this)
                 };
@@ -129,7 +130,7 @@ namespace Krypton.Ribbon
             if (e.Component == _gallery)
             {
                 // Need access to host in order to delete a component
-                IDesignerHost host = (IDesignerHost)GetService(typeof(IDesignerHost));
+                var host = (IDesignerHost)GetService(typeof(IDesignerHost));
 
                 // We need to remove all the range instances
                 for (var i = _gallery.DropButtonRanges.Count - 1; i >= 0; i--)

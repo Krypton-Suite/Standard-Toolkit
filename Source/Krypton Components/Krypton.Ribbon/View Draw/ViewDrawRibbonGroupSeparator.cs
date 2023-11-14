@@ -5,7 +5,9 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  
+ *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
  */
 #endregion
@@ -35,9 +37,9 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Reference to owning ribbon control.</param>
         /// <param name="ribbonSeparator">Reference to group separator definition.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public ViewDrawRibbonGroupSeparator(KryptonRibbon ribbon,
-                                            KryptonRibbonGroupSeparator ribbonSeparator,
-                                            NeedPaintHandler needPaint)
+        public ViewDrawRibbonGroupSeparator([DisallowNull] KryptonRibbon ribbon,
+                                            [DisallowNull] KryptonRibbonGroupSeparator ribbonSeparator,
+                                            [DisallowNull] NeedPaintHandler needPaint)
         {
             Debug.Assert(ribbon != null);
             Debug.Assert(ribbonSeparator != null);
@@ -53,7 +55,7 @@ namespace Krypton.Ribbon
             if (_ribbon.InDesignMode)
             {
                 // At design time we need to know when the user right clicks the label
-                ContextClickController controller = new();
+                var controller = new ContextClickController();
                 controller.ContextClick += OnContextClick;
                 MouseController = controller;
             }
@@ -78,7 +80,7 @@ namespace Krypton.Ribbon
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            @"ViewDrawRibbonGroupSeparator:" + Id;
+            $@"ViewDrawRibbonGroupSeparator:{Id}";
 
         /// <summary>
         /// Clean up any resources being used.
@@ -105,7 +107,7 @@ namespace Krypton.Ribbon
         /// Gets the first focus item from the container.
         /// </summary>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase GetFirstFocusItem() =>
+        public ViewBase? GetFirstFocusItem() =>
             // We never have any child items that can take focus
             null;
 
@@ -116,7 +118,7 @@ namespace Krypton.Ribbon
         /// Gets the last focus item from the item.
         /// </summary>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase GetLastFocusItem() =>
+        public ViewBase? GetLastFocusItem() =>
             // We never have any child items that can take focus
             null;
 
@@ -129,7 +131,7 @@ namespace Krypton.Ribbon
         /// <param name="current">The view that is currently focused.</param>
         /// <param name="matched">Has the current focus item been matched yet.</param>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase GetNextFocusItem(ViewBase current, ref bool matched) =>
+        public ViewBase? GetNextFocusItem(ViewBase current, ref bool matched) =>
             // We never have any child items that can take focus
             null;
 
@@ -142,7 +144,7 @@ namespace Krypton.Ribbon
         /// <param name="current">The view that is currently focused.</param>
         /// <param name="matched">Has the current focus item been matched yet.</param>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase GetPreviousFocusItem(ViewBase current, ref bool matched) =>
+        public ViewBase? GetPreviousFocusItem(ViewBase current, ref bool matched) =>
             // We never have any child items that can take focus
             null;
 
@@ -184,18 +186,16 @@ namespace Krypton.Ribbon
             }
 
             // Return the one possible size allowed
-            return new ItemSizeWidth[] { new(GroupItemSize.Large, _preferredSize.Width) };
+            return new ItemSizeWidth[] { new ItemSizeWidth(GroupItemSize.Large, _preferredSize.Width) };
         }
 
         /// <summary>
         /// Update the group with the provided sizing solution.
         /// </summary>
         /// <param name="size">Value for the container.</param>
-        public void SetSolutionSize(ItemSizeWidth size)
-        {
+        public void SetSolutionSize(ItemSizeWidth size) =>
             // Solution should always be the large, the only size we can be
             Debug.Assert(size.GroupItemSize == GroupItemSize.Large);
-        }
 
         /// <summary>
         /// Reset the container back to its requested size.
@@ -214,7 +214,7 @@ namespace Krypton.Ribbon
         /// Perform a layout of the elements.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override void Layout(ViewLayoutContext context)
+        public override void Layout([DisallowNull] ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 
@@ -228,14 +228,11 @@ namespace Krypton.Ribbon
         /// Perform rendering before child elements are rendered.
         /// </summary>
         /// <param name="context">Rendering context.</param>
-        public override void RenderBefore(RenderContext context) 
-        {
-            context.Renderer.RenderGlyph.DrawRibbonGroupSeparator(_ribbon.RibbonShape, 
-                                                                  context, 
-                                                                  ClientRectangle, 
-                                                                  _ribbon.StateCommon.RibbonGeneral, 
+        public override void RenderBefore(RenderContext context) => context.Renderer.RenderGlyph.DrawRibbonGroupSeparator(_ribbon.RibbonShape,
+                                                                  context,
+                                                                  ClientRectangle,
+                                                                  _ribbon.StateCommon.RibbonGeneral,
                                                                   State);
-        }
         #endregion
 
         #region Protected
@@ -258,16 +255,13 @@ namespace Krypton.Ribbon
         #endregion
 
         #region Implementation
-        private void OnContextClick(object sender, MouseEventArgs e)
-        {
-            _ribbonSeparator.OnDesignTimeContextMenu(e);
-        }
+        private void OnContextClick(object sender, MouseEventArgs e) => _ribbonSeparator.OnDesignTimeContextMenu(e);
 
         private void OnSeparatorPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             switch (e.PropertyName)
             {
-                case "Visible":
+                case nameof(Visible):
                     // If we are on the currently selected tab then...
                     if ((_ribbonSeparator.RibbonTab != null) &&
                         (_ribbon.SelectedTab == _ribbonSeparator.RibbonTab))

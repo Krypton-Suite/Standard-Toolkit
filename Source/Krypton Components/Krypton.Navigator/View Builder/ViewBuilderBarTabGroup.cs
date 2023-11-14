@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -44,14 +44,9 @@ namespace Krypton.Navigator
             };
 
             // Create the view element that lays out the check/tab buttons
-            ViewLayoutBarForTabs layoutBar = new(Navigator.Bar.ItemSizing,
-                                                                      Navigator.Bar.ItemAlignment,
-                                                                      Navigator.Bar.BarMultiline,
-                                                                      Navigator.Bar.ItemMinimumSize,
-                                                                      Navigator.Bar.ItemMaximumSize,
-                                                                      Navigator.Bar.BarMinimumHeight,
-                                                                      Navigator.Bar.TabBorderStyle,
-                                                                      true);
+            var layoutBar = new ViewLayoutBarForTabs(Navigator.Bar.ItemSizing,
+                Navigator.Bar.ItemAlignment, Navigator.Bar.BarMultiline, Navigator.Bar.ItemMinimumSize,
+                Navigator.Bar.ItemMaximumSize, Navigator.Bar.BarMinimumHeight, Navigator.Bar.TabBorderStyle, true);
             _layoutBar = layoutBar;
 
             // Create the scroll spacer that restricts display

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -25,7 +25,7 @@ namespace Krypton.Toolkit
         private const DataGridViewContentAlignment ANY_CENTER = DataGridViewContentAlignment.TopCenter | DataGridViewContentAlignment.MiddleCenter | DataGridViewContentAlignment.BottomCenter;
         private static readonly Type _defaultEditType = typeof(KryptonDataGridViewMaskedTextBoxEditingControl);
         private static readonly Type _defaultValueType = typeof(string);
-        private static readonly Size _sizeLarge = new(10000, 10000);
+        private static readonly Size _sizeLarge = new Size(10000, 10000);
         #endregion
 
         #region Instance Fields
@@ -86,8 +86,7 @@ namespace Krypton.Toolkit
         /// Returns a standard textual representation of the cell.
         /// </summary>
         public override string ToString() =>
-            "DataGridViewMaskedTextBoxCell { ColumnIndex=" + ColumnIndex.ToString(CultureInfo.CurrentCulture) +
-            ", RowIndex=" + RowIndex.ToString(CultureInfo.CurrentCulture) + " }";
+            $"DataGridViewMaskedTextBoxCell {{ ColumnIndex={ColumnIndex.ToString(CultureInfo.CurrentCulture)}, RowIndex={RowIndex.ToString(CultureInfo.CurrentCulture)} }}";
 
         #endregion
 
@@ -177,7 +176,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// The CutCopyMaskFormat property replicates the one from the KryptonMaskedTextBox control
         /// </summary>
-        [DefaultValue(typeof(MaskFormat), "IncludeLiterals")]
+        [DefaultValue(MaskFormat.IncludeLiterals)]
         public MaskFormat CutCopyMaskFormat
         {
             get => _cutCopyMaskFormat;
@@ -231,7 +230,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// The InsertKeyMode property replicates the one from the KryptonMaskedTextBox control
         /// </summary>
-        [DefaultValue(typeof(InsertKeyMode), "Default")]
+        [DefaultValue(InsertKeyMode.Default)]
         public InsertKeyMode InsertKeyMode
         {
             get => _insertKeyMode;
@@ -357,7 +356,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// The TextMaskFormat property replicates the one from the KryptonMaskedTextBox control
         /// </summary>
-        [DefaultValue(typeof(MaskFormat), "IncludeLiterals")]
+        [DefaultValue(MaskFormat.IncludeLiterals)]
         public MaskFormat TextMaskFormat
         {
             get => _textMaskFormat;
@@ -395,7 +394,7 @@ namespace Krypton.Toolkit
         /// </summary>
         public override object Clone()
         {
-            KryptonDataGridViewMaskedTextBoxCell dataGridViewCell = base.Clone() as KryptonDataGridViewMaskedTextBoxCell;
+            var dataGridViewCell = base.Clone() as KryptonDataGridViewMaskedTextBoxCell;
             if (dataGridViewCell != null)
             {
                 dataGridViewCell.PromptChar = PromptChar;
@@ -745,14 +744,11 @@ namespace Krypton.Toolkit
             }
         }
 
-        internal static HorizontalAlignment TranslateAlignment(DataGridViewContentAlignment align)
-        {
-            return ANY_RIGHT.HasFlag(align) 
-                ? HorizontalAlignment.Right 
-                : ANY_CENTER.HasFlag(align) 
-                    ? HorizontalAlignment.Center 
+        internal static HorizontalAlignment TranslateAlignment(DataGridViewContentAlignment align) => ANY_RIGHT.HasFlag(align)
+                ? HorizontalAlignment.Right
+                : ANY_CENTER.HasFlag(align)
+                    ? HorizontalAlignment.Center
                     : HorizontalAlignment.Left;
-        }
         #endregion
 
     }

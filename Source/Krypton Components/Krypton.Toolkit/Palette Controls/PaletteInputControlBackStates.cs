@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -29,8 +29,8 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="inherit">Source for inheriting defaulted values.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public PaletteInputControlBackStates(IPaletteBack inherit,
-                                             NeedPaintHandler needPaint)
+        public PaletteInputControlBackStates([DisallowNull] IPaletteBack inherit,
+                                             NeedPaintHandler? needPaint)
         {
             Debug.Assert(inherit != null);
 
@@ -42,7 +42,7 @@ namespace Krypton.Toolkit
 
             // Default the initial values
             _color1 = Color.Empty;
-           }
+        }
         #endregion
 
         #region IsDefault
@@ -58,10 +58,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Sets the inheritance parent.
         /// </summary>
-        public void SetInherit(IPaletteBack inherit)
-        {
-            Inherit = inherit;
-        }
+        public void SetInherit(IPaletteBack inherit) => Inherit = inherit;
         #endregion
 
         #region PopulateFromBase
@@ -69,11 +66,9 @@ namespace Krypton.Toolkit
         /// Populate values from the base palette.
         /// </summary>
         /// <param name="state">Palette state to use when populating.</param>
-        public virtual void PopulateFromBase(PaletteState state)
-        {
+        public virtual void PopulateFromBase(PaletteState state) =>
             // Get the values and set into storage
             Color1 = GetBackColor1(state);
-        }
         #endregion
 
         #region Draw
@@ -174,7 +169,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image instance.</returns>
-        public Image GetBackImage(PaletteState state) => Inherit.GetBackImage(state);
+        public Image? GetBackImage(PaletteState state) => Inherit.GetBackImage(state);
 
         #endregion
 

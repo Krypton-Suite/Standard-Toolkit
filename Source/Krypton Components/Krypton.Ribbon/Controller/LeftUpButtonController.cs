@@ -5,7 +5,9 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  
+ *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
  */
 #endregion
@@ -22,14 +24,14 @@ namespace Krypton.Ribbon
 
         private bool _active;
         private bool _mouseOver;
-        private NeedPaintHandler _needPaint;
+        private NeedPaintHandler? _needPaint;
         #endregion
 
         #region Events
         /// <summary>
         /// Occurs when the mouse is used to left click the target.
         /// </summary>
-        public event MouseEventHandler Click;
+        public event MouseEventHandler? Click;
         #endregion
 
         #region Identity
@@ -39,8 +41,8 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Reference to owning ribbon instance.</param>
         /// <param name="target">Target for state changes.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public LeftUpButtonController(KryptonRibbon ribbon,
-                                      ViewBase target,
+        public LeftUpButtonController([DisallowNull] KryptonRibbon ribbon,
+                                      [DisallowNull] ViewBase target,
                                       NeedPaintHandler needPaint)
         {
             Debug.Assert(ribbon != null);
@@ -97,11 +99,9 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="c">Reference to the source control instance.</param>
         /// <param name="pt">Mouse position relative to control.</param>
-        public virtual void MouseMove(Control c, Point pt)
-        {
+        public virtual void MouseMove(Control c, Point pt) =>
             // Update the visual state
             UpdateTargetState(pt);
-        }
 
         /// <summary>
         /// Mouse button has been pressed in the view.
@@ -179,7 +179,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="c">Reference to the source control instance.</param>
         /// <param name="next">Reference to view that is next to have the mouse.</param>
-        public virtual void MouseLeave(Control c, ViewBase next)
+        public virtual void MouseLeave(Control c, ViewBase? next)
         {
             // Only if mouse is leaving all the children monitored by controller.
             if (!Target.ContainsRecurse(next))
@@ -214,7 +214,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets the need paint delegate for notifying paint requests.
         /// </summary>
-        public NeedPaintHandler NeedPaint
+        public NeedPaintHandler? NeedPaint
         {
             get => _needPaint;
 
@@ -320,19 +320,13 @@ namespace Krypton.Ribbon
         /// Raises the Click event.
         /// </summary>
         /// <param name="e">A MouseEventArgs containing the event data.</param>
-        protected virtual void OnClick(MouseEventArgs e)
-        {
-            Click?.Invoke(Target, e);
-        }
+        protected virtual void OnClick(MouseEventArgs e) => Click?.Invoke(Target, e);
 
         /// <summary>
         /// Raises the NeedPaint event.
         /// </summary>
         /// <param name="needLayout">Does the palette change require a layout.</param>
-        protected virtual void OnNeedPaint(bool needLayout)
-        {
-            _needPaint?.Invoke(this, new NeedLayoutEventArgs(needLayout));
-        }
+        protected virtual void OnNeedPaint(bool needLayout) => _needPaint?.Invoke(this, new NeedLayoutEventArgs(needLayout));
         #endregion
     }
 }

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -18,7 +18,7 @@ namespace Krypton.Toolkit
     [ToolboxItem(false)]
     [ToolboxBitmap(typeof(KryptonCommand), "ToolboxBitmaps.KryptonTaskDialogCommand.bmp")]
     [DefaultEvent("Click")]
-    [DefaultProperty("Text")]
+    [DefaultProperty(nameof(Text))]
     [DesignerCategory(@"code")]
     [Description(@"Defines state and events for a single task dialog command.")]
     public class KryptonTaskDialogCommand : Component, IKryptonCommand, INotifyPropertyChanged
@@ -27,7 +27,7 @@ namespace Krypton.Toolkit
         private bool _enabled;
         private string _text;
         private string _extraText;
-        private Image _image;
+        private Image? _image;
         private Color _imageTransparentColor;
         private DialogResult _dialogResult;
 
@@ -39,14 +39,14 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Action")]
         [Description(@"Occurs when the command needs executing.")]
-        public event EventHandler Execute;
+        public event EventHandler? Execute;
 
         /// <summary>
         /// Occurs when a property has changed value.
         /// </summary>
         [Category(@"Property Changed")]
         [Description(@"Occurs when the value of property has changed.")]
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
         #endregion
 
         #region Identity
@@ -127,7 +127,7 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         [Category(@"Appearance")]
         [Description(@"Command text.")]
-        [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
+        [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
         public string Text
         {
             get => _text;
@@ -142,10 +142,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void ResetText()
-        {
-            Text = string.Empty;
-        }
+        private void ResetText() => Text = string.Empty;
 
         private bool ShouldSerializeText() => !string.IsNullOrEmpty(Text);
 
@@ -156,7 +153,7 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         [Category(@"Appearance")]
         [Description(@"Command extra text.")]
-        [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
+        [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
         public string ExtraText
         {
             get => _extraText;
@@ -171,10 +168,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void ResetExtraText()
-        {
-            ExtraText = string.Empty;
-        }
+        private void ResetExtraText() => ExtraText = string.Empty;
 
         private bool ShouldSerializeExtraText() => !string.IsNullOrEmpty(ExtraText);
 
@@ -185,7 +179,7 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         [Category(@"Appearance")]
         [Description(@"Command small image.")]
-        public Image Image
+        public Image? Image
         {
             get => _image;
 
@@ -199,10 +193,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void ResetImage()
-        {
-            Image = null;
-        }
+        private void ResetImage() => Image = null;
 
         private bool ShouldSerializeImage() => Image != null;
 
@@ -235,7 +226,7 @@ namespace Krypton.Toolkit
         [Description(@"User-defined data associated with the object.")]
         [TypeConverter(typeof(StringConverter))]
         [DefaultValue(null)]
-        public object Tag { get; set; }
+        public object? Tag { get; set; }
 
         /// <summary>
         /// Generates a Execute event for a button.
@@ -263,7 +254,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the command small image.
         /// </summary>
-        Image IKryptonCommand.ImageSmall
+        Image? IKryptonCommand.ImageSmall
         {
             get => Image;
             set => Image = value;
@@ -272,7 +263,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the command large image.
         /// </summary>
-        Image IKryptonCommand.ImageLarge
+        Image? IKryptonCommand.ImageLarge
         {
             get => null;
             set { }
@@ -314,6 +305,14 @@ namespace Krypton.Toolkit
             set { }
         }
         #endregion
+
+        #region Hidden Properties
+
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public KryptonCommandType CommandType { get; set; }
+
+        #endregion
     }
 
     /// <summary>
@@ -327,7 +326,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="name">Name to find.</param>
         /// <returns>Item with matching name.</returns>
-        public override KryptonTaskDialogCommand this[string name]
+        public override KryptonTaskDialogCommand? this[string name]
         {
             get
             {

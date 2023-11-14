@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -21,15 +21,15 @@ namespace Krypton.Toolkit
         #region Static Fields
 
         private const int WEEKS = 6;
-        private static readonly TimeSpan TIMESPAN_1DAY = new(1, 0, 0, 0);
-        private static readonly TimeSpan TIMESPAN_6DAYS = new(6, 0, 0, 0);
-        private static readonly TimeSpan TIMESPAN_1WEEK = new(7, 0, 0, 0);
+        private static readonly TimeSpan TIMESPAN_1DAY = new TimeSpan(1, 0, 0, 0);
+        private static readonly TimeSpan TIMESPAN_6DAYS = new TimeSpan(6, 0, 0, 0);
+        private static readonly TimeSpan TIMESPAN_1WEEK = new TimeSpan(7, 0, 0, 0);
         #endregion
 
         #region Instance Fields
         private readonly IKryptonMonthCalendar _calendar;
         private readonly ViewLayoutMonths _months;
-        private readonly IDisposable[] _dayMementos;
+        private readonly IDisposable?[] _dayMementos;
         private string _drawText;
         private DateTime _firstDay;
         private DateTime _weekDay;
@@ -58,7 +58,7 @@ namespace Krypton.Toolkit
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            "ViewDrawWeekNumbers:" + Id;
+            $"ViewDrawWeekNumbers:{Id}";
 
         /// <summary>
         /// Release unmanaged and optionally managed resources.
@@ -71,7 +71,7 @@ namespace Krypton.Toolkit
             {
                 if (_dayMementos[i] != null)
                 {
-                    _dayMementos[i].Dispose();
+                    _dayMementos[i]!.Dispose();
                     _dayMementos[i] = null;
                 }
             }
@@ -117,7 +117,7 @@ namespace Krypton.Toolkit
                 }
 
                 // Find the first day of the year
-                DateTime yearDay = new(value.Year, 1, 1);
+                var yearDay = new DateTime(value.Year, 1, 1);
                 _weekDay = _firstDay;
 
                 // Move forewards until we hit the starting day of the year
@@ -134,17 +134,17 @@ namespace Krypton.Toolkit
         /// Discover the preferred size of the element.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override Size GetPreferredSize(ViewLayoutContext context)
+        public override Size GetPreferredSize([DisallowNull] ViewLayoutContext context)
         {
             Debug.Assert(context != null);
-            return new Size(_months.SizeDay.Width, _months.SizeDays.Height * WEEKS);
+            return _months.SizeDay with { Height = _months.SizeDays.Height * WEEKS };
         }
         
         /// <summary>
         /// Perform a layout of the elements.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override void Layout(ViewLayoutContext context)
+        public override void Layout([DisallowNull] ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 
@@ -156,7 +156,8 @@ namespace Krypton.Toolkit
             _calendar.SetBoldedOverride(false);
 
             // Layout each week number
-            Rectangle layoutRectWeek = new(ClientLocation.X, ClientLocation.Y, _months.SizeDay.Width, _months.SizeDays.Height);
+            var layoutRectWeek = new Rectangle(ClientLocation.X, ClientLocation.Y, _months.SizeDay.Width,
+                _months.SizeDays.Height);
             DateTime weekDate = _weekDay;
             DateTime displayDate = _firstDay;
             for (var j = 0; j < WEEKS; j++)
@@ -197,7 +198,7 @@ namespace Krypton.Toolkit
         /// Perform rendering before child elements are rendered.
         /// </summary>
         /// <param name="context">Rendering context.</param>
-        public override void RenderBefore(RenderContext context)
+        public override void RenderBefore([DisallowNull] RenderContext context)
         {
             Debug.Assert(context != null);
 
@@ -206,7 +207,8 @@ namespace Krypton.Toolkit
             _calendar.SetBoldedOverride(false);
 
             // Layout each week number
-            Rectangle drawRectWeek = new(ClientLocation.X, ClientLocation.Y, _months.SizeDay.Width, _months.SizeDays.Height);
+            var drawRectWeek = new Rectangle(ClientLocation.X, ClientLocation.Y, _months.SizeDay.Width,
+                _months.SizeDays.Height);
             DateTime weekDate = _weekDay;
             DateTime displayDate = _firstDay;
             for (var j = 0; j < WEEKS; j++)
@@ -257,7 +259,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">The state for which the image is needed.</param>
         /// <returns>Image value.</returns>
-        public Image GetImage(PaletteState state) => null;
+        public Image? GetImage(PaletteState state) => null;
 
         /// <summary>
         /// Gets the image color that should be transparent.

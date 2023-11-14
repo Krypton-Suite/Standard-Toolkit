@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -20,7 +20,7 @@ namespace Krypton.Toolkit
     public class ShadowValues : Storage
     {
         #region statics
-        private static readonly Point _defaultOffset = new(5,5);
+        private static readonly Point _defaultOffset = new Point(5, 5);
         private double _blurDistance;
         private bool _enableShadows;
         private Point _offset;
@@ -32,15 +32,15 @@ namespace Krypton.Toolkit
         #region Events
 #pragma warning disable 1591
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public event EventHandler EnableShadowsChanged;
+        public event EventHandler? EnableShadowsChanged;
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public event EventHandler MarginsChanged;
+        public event EventHandler? MarginsChanged;
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public event EventHandler BlurDistanceChanged;
+        public event EventHandler? BlurDistanceChanged;
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public event EventHandler<ColorEventArgs> ColourChanged;
+        public event EventHandler<ColorEventArgs>? ColourChanged;
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public event EventHandler OpacityChanged;
+        public event EventHandler? OpacityChanged;
 #pragma warning restore 1591
         #endregion
 
@@ -86,12 +86,7 @@ namespace Krypton.Toolkit
 
         private bool ShouldSerializeEnableShadows() => EnableShadows;
 
-        /// <summary>
-        /// </summary>
-        public void ResetEnableShadows()
-        {
-            EnableShadows = false;
-        }
+        private void ResetEnableShadows() => EnableShadows = false;
 
 
         /// <summary>
@@ -112,12 +107,7 @@ namespace Krypton.Toolkit
 
         private bool ShouldSerializeOffset() => _offset != _defaultOffset;
 
-        /// <summary>
-        /// </summary>
-        public void ResetOffset()
-        {
-            _offset = _defaultOffset;
-        }
+        private void ResetOffset() => _offset = _defaultOffset;
 
         /// <summary>
         /// </summary>
@@ -137,14 +127,7 @@ namespace Krypton.Toolkit
 
         private bool ShouldSerializeExtraWidth() => _extraWidth != 5;
 
-        /// <summary>
-        /// </summary>
-        public void ResetExtraWidth()
-        {
-            _extraWidth = 5;
-        }
-
-
+        private void ResetExtraWidth() => _extraWidth = 5;
 
         /// <summary>
         /// </summary>
@@ -167,13 +150,7 @@ namespace Krypton.Toolkit
 
         private bool ShouldSerializeBlurDistance() => Math.Abs(BlurDistance - 50) > 0.001;
 
-        /// <summary>
-        /// </summary>
-        public void ResetBlurDistance()
-        {
-            BlurDistance = 50;
-        }
-
+        private void ResetBlurDistance() => BlurDistance = 50;
 
         /// <summary>
         /// </summary>
@@ -193,13 +170,7 @@ namespace Krypton.Toolkit
 
         private bool ShouldSerializeColour() => Colour != SystemColors.ActiveBorder;
 
-        /// <summary>
-        /// Resets the PlacementMode property to its default value.
-        /// </summary>
-        public void ResetColour()
-        {
-            Colour = SystemColors.ActiveBorder;
-        }
+        private void ResetColour() => Colour = SystemColors.ActiveBorder;
 
         /// <summary>
         /// </summary>
@@ -222,12 +193,7 @@ namespace Krypton.Toolkit
 
         private bool ShouldSerializeOpacity() => Math.Abs(_opacity - 95) > 0.001;
 
-        /// <summary>
-        /// </summary>
-        public void ResetOpacity()
-        {
-            _opacity = 95;
-        }
+        private void ResetOpacity() => _opacity = 95;
 
 
         #region Default Values

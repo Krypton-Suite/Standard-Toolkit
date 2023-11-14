@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -18,15 +18,18 @@ namespace Krypton.Toolkit
     public class PaletteRedirectTriple : PaletteRedirect
     {
         #region Instance Fields
-        private IPaletteTriple _disabled;
-        private IPaletteTriple _normal;
-        private IPaletteTriple _pressed;
-        private IPaletteTriple _tracking;
-        private IPaletteTriple _checkedNormal;
-        private IPaletteTriple _checkedPressed;
-        private IPaletteTriple _checkedTracking;
-        private IPaletteTriple _focusOverride;
-        private IPaletteTriple _normalDefaultOverride;
+        private IPaletteTriple? _disabled;
+        private IPaletteTriple? _normal;
+        private IPaletteTriple? _pressed;
+        private IPaletteTriple? _tracking;
+        private IPaletteTriple? _checkedNormal;
+        private IPaletteTriple? _checkedPressed;
+        private IPaletteTriple? _checkedTracking;
+        private IPaletteTriple? _focusOverride;
+        private IPaletteTriple? _normalDefaultOverride;
+        private IPaletteTriple? _contextNormal;
+        private IPaletteTriple? _contextPressed;
+        private IPaletteTriple? _contextTracking;
         #endregion
 
         #region Identity
@@ -42,7 +45,7 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the PaletteRedirectTriple class.
         /// </summary>
         /// <param name="target">Initial palette target for redirection.</param>
-        public PaletteRedirectTriple(IPalette target)
+        public PaletteRedirectTriple(PaletteBase? target)
             : this(target, null, null, null, null, null, null, null, null, null)
         {
         }
@@ -53,7 +56,7 @@ namespace Krypton.Toolkit
         /// <param name="target">Initial palette target for redirection.</param>
         /// <param name="disabled">Redirection for disabled state requests.</param>
         /// <param name="normal">Redirection for normal state requests.</param>
-        public PaletteRedirectTriple(IPalette target,
+        public PaletteRedirectTriple(PaletteBase? target,
                                      IPaletteTriple disabled,
                                      IPaletteTriple normal)
             : this(target, disabled, normal, null, null, null, null, null, null, null)
@@ -67,7 +70,7 @@ namespace Krypton.Toolkit
         /// <param name="disabled">Redirection for disabled state requests.</param>
         /// <param name="normal">Redirection for normal state requests.</param>
         /// <param name="tracking">Redirection for tracking state requests.</param>
-        public PaletteRedirectTriple(IPalette target,
+        public PaletteRedirectTriple(PaletteBase? target,
                                      IPaletteTriple disabled,
                                      IPaletteTriple normal,
                                      IPaletteTriple tracking)
@@ -81,11 +84,37 @@ namespace Krypton.Toolkit
         /// <param name="target">Initial palette target for redirection.</param>
         /// <param name="disabled">Redirection for disabled state requests.</param>
         /// <param name="normal">Redirection for normal state requests.</param>
+        /// <param name="tracking">Redirection for tracking state requests.</param>
+        /// <param name="pressed">Redirection for pressed state requests.</param>
+        /// <param name="contextNormal">Redirection for context normal state requests.</param>
+        /// <param name="contextPressed">Redirection for context pressed state requests.</param>
+        /// <param name="contextTracking">Redirection for context tracking state requests.</param>
+        public PaletteRedirectTriple(PaletteBase? target,
+                                    IPaletteTriple disabled,
+                                    IPaletteTriple normal,
+                                    IPaletteTriple tracking,
+                                    IPaletteTriple pressed,
+                                    IPaletteTriple contextNormal,
+                                    IPaletteTriple contextPressed,
+                                    IPaletteTriple contextTracking)
+            : this(target, disabled, normal, pressed, tracking, null, null, null, null, null)
+        {
+            _contextNormal = contextNormal;
+            _contextPressed = contextPressed;
+            _contextTracking = contextTracking;
+        }
+
+        /// <summary>
+        /// Initialize a new instance of the PaletteRedirectTriple class.
+        /// </summary>
+        /// <param name="target">Initial palette target for redirection.</param>
+        /// <param name="disabled">Redirection for disabled state requests.</param>
+        /// <param name="normal">Redirection for normal state requests.</param>
         /// <param name="pressed">Redirection for pressed state requests.</param>
         /// <param name="tracking">Redirection for tracking state requests.</param>
         /// <param name="selected">Redirection for all checked states.</param>
         /// <param name="focusOverride">Redirection for focus override state requests.</param>
-        public PaletteRedirectTriple(IPalette target,
+        public PaletteRedirectTriple(PaletteBase? target,
                                      IPaletteTriple disabled,
                                      IPaletteTriple normal,
                                      IPaletteTriple pressed,
@@ -110,16 +139,16 @@ namespace Krypton.Toolkit
         /// <param name="checkedTracking">Redirection for checked tracking state requests.</param>
         /// <param name="focusOverride">Redirection for focus override state requests.</param>
         /// <param name="normalDefaultOverride">Redirection for normal default override state requests.</param>
-        public PaletteRedirectTriple(IPalette target,
-                                     IPaletteTriple disabled,
-                                     IPaletteTriple normal,
-                                     IPaletteTriple pressed,
-                                     IPaletteTriple tracking,
-                                     IPaletteTriple checkedNormal,
-                                     IPaletteTriple checkedPressed,
-                                     IPaletteTriple checkedTracking,
-                                     IPaletteTriple focusOverride,
-                                     IPaletteTriple normalDefaultOverride)
+        public PaletteRedirectTriple(PaletteBase? target,
+                                     IPaletteTriple? disabled,
+                                     IPaletteTriple? normal,
+                                     IPaletteTriple? pressed,
+                                     IPaletteTriple? tracking,
+                                     IPaletteTriple? checkedNormal,
+                                     IPaletteTriple? checkedPressed,
+                                     IPaletteTriple? checkedTracking,
+                                     IPaletteTriple? focusOverride,
+                                     IPaletteTriple? normalDefaultOverride)
             : base(target)
         {
             // Remember state specific inheritance
@@ -168,7 +197,7 @@ namespace Krypton.Toolkit
                                               IPaletteTriple checkedPressed,
                                               IPaletteTriple checkedTracking,
                                               IPaletteTriple focusOverride,
-                                              IPaletteTriple normalDefaultOverride)
+                                              IPaletteTriple? normalDefaultOverride)
         {
             _disabled = disabled;
             _normal = normal;
@@ -298,7 +327,7 @@ namespace Krypton.Toolkit
         /// <param name="style">Background style.</param>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image instance.</returns>
-        public override Image GetBackImage(PaletteBackStyle style, PaletteState state)
+        public override Image? GetBackImage(PaletteBackStyle style, PaletteState state)
         {
             IPaletteTriple inherit = GetInherit(state);
 
@@ -469,7 +498,7 @@ namespace Krypton.Toolkit
         /// <param name="style">Border style.</param>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image instance.</returns>
-        public override Image GetBorderImage(PaletteBorderStyle style, PaletteState state)
+        public override Image? GetBorderImage(PaletteBorderStyle style, PaletteState state)
         {
             IPaletteTriple inherit = GetInherit(state);
 
@@ -780,7 +809,7 @@ namespace Krypton.Toolkit
         /// <param name="style">Content style.</param>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image instance.</returns>
-        public override Image GetContentShortTextImage(PaletteContentStyle style, PaletteState state)
+        public override Image? GetContentShortTextImage(PaletteContentStyle style, PaletteState state)
         {
             IPaletteTriple inherit = GetInherit(state);
 
@@ -1000,7 +1029,7 @@ namespace Krypton.Toolkit
         /// <param name="style">Content style.</param>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image instance.</returns>
-        public override Image GetContentLongTextImage(PaletteContentStyle style, PaletteState state)
+        public override Image? GetContentLongTextImage(PaletteContentStyle style, PaletteState state)
         {
             IPaletteTriple inherit = GetInherit(state);
 
@@ -1065,7 +1094,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Implementation
-        private IPaletteTriple GetInherit(PaletteState state)
+        private IPaletteTriple? GetInherit(PaletteState state)
         {
             switch (state)
             {
@@ -1087,6 +1116,12 @@ namespace Krypton.Toolkit
                     return _focusOverride;
                 case PaletteState.NormalDefaultOverride:
                     return _normalDefaultOverride;
+                case PaletteState.ContextNormal:
+                    return _contextNormal;
+                case PaletteState.ContextPressed:
+                    return _contextPressed;
+                case PaletteState.ContextTracking:
+                    return _contextTracking;
                 default:
                     // Should never happen!
                     Debug.Assert(false);

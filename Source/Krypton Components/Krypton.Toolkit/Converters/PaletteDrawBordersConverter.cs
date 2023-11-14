@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -36,16 +36,16 @@ namespace Krypton.Toolkit
         /// <param name="value">The Object to convert.</param>
         /// <param name="destinationType">The Type to convert the value parameter to.</param>
         /// <returns>An Object that represents the converted value.</returns>
-        public override object ConvertTo(ITypeDescriptorContext context,
-                                         CultureInfo culture,
-                                         object value,
+        public override object? ConvertTo(ITypeDescriptorContext? context,
+                                         CultureInfo? culture,
+                                         object? value,
                                          Type destinationType)
         {
             // We are only interested in adding functionality for converting to strings
             if (destinationType == typeof(string))
             {
                 // Convert object to expected style
-                PaletteDrawBorders borders = (PaletteDrawBorders)value;
+                var borders = (PaletteDrawBorders)(value ?? PaletteDrawBorders.Inherit);
 
                 // If the inherit flag is set that that is the only flag of interest
                 if (borders.HasFlag(PaletteDrawBorders.Inherit))
@@ -55,7 +55,7 @@ namespace Krypton.Toolkit
                 else
                 {
                     // Append the names of each border we want
-                    StringBuilder sb = new();
+                    var sb = new StringBuilder();
 
                     if (borders.HasFlag(PaletteDrawBorders.Top))
                     {
@@ -113,8 +113,8 @@ namespace Krypton.Toolkit
         /// <param name="culture">The CultureInfo to use as the current culture.</param>
         /// <param name="value">The Object to convert.</param>
         /// <returns>An Object that represents the converted value.</returns>
-        public override object ConvertFrom(ITypeDescriptorContext context,
-                                           CultureInfo culture,
+        public override object? ConvertFrom(ITypeDescriptorContext? context,
+                                           CultureInfo? culture,
                                            object value)
         {
             // Convert incoming value to a string
@@ -123,7 +123,7 @@ namespace Krypton.Toolkit
             {
 
                 // Default to returning an empty value
-                PaletteDrawBorders ret = PaletteDrawBorders.None;
+                var ret = PaletteDrawBorders.None;
 
                 // If inherit is in the string, we use only that value
                 if (conv.Contains(@"Inherit"))

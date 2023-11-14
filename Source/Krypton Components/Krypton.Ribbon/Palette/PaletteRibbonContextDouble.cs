@@ -5,7 +5,9 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  
+ *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
  */
 #endregion
@@ -29,7 +31,7 @@ namespace Krypton.Ribbon
         /// Initialize a new instance of the PaletteRibbonContextDouble class.
         /// </summary>
         /// <param name="ribbon">Reference to ribbon control.</param>
-        public PaletteRibbonContextDouble(KryptonRibbon ribbon) 
+        public PaletteRibbonContextDouble([DisallowNull] KryptonRibbon ribbon)
         {
             Debug.Assert(ribbon != null);
             _ribbon = ribbon;
@@ -41,7 +43,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets the associated ribbon tab.
         /// </summary>
-        public KryptonRibbonTab RibbonTab { get; set; }
+        public KryptonRibbonTab? RibbonTab { get; set; }
 
         #endregion
 
@@ -57,10 +59,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Sets the inheritance parent.
         /// </summary>
-        public void SetInherit(PaletteRibbonDoubleInheritOverride inherit)
-        {
-            _inherit = inherit;
-        }
+        public void SetInherit(PaletteRibbonDoubleInheritOverride inherit) => _inherit = inherit;
         #endregion
 
         #region BackColorStyle
@@ -208,7 +207,7 @@ namespace Krypton.Ribbon
             if (!string.IsNullOrEmpty(RibbonTab?.ContextName))
             {
                 // Find the context definition for this context
-                KryptonRibbonContext ribbonContext = _ribbon.RibbonContexts[RibbonTab.ContextName];
+                KryptonRibbonContext? ribbonContext = _ribbon.RibbonContexts[RibbonTab!.ContextName];
 
                 // Should always work, but you never know!
                 if (ribbonContext != null)

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -15,7 +15,7 @@ namespace Krypton.Toolkit
     internal class KryptonGroupDesigner : ParentControlDesigner
     {
         #region Instance Fields
-        private KryptonGroup _group;
+        private KryptonGroup? _group;
         private IDesignerHost _designerHost;
         #endregion
 
@@ -43,7 +43,7 @@ namespace Krypton.Toolkit
             // Let the internal panel in the container be designable
             if (_group != null)
             {
-                EnableDesignMode(_group.Panel, "Panel");
+                EnableDesignMode(_group.Panel, nameof(Panel));
             }
         }
 
@@ -61,7 +61,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="internalControlIndex">A specified index to select the internal control designer. This index is zero-based.</param>
         /// <returns>A ControlDesigner at the specified index.</returns>
-        public override ControlDesigner InternalControlDesigner(int internalControlIndex) =>
+        public override ControlDesigner? InternalControlDesigner(int internalControlIndex) =>
             // Get the control designer for the requested indexed child control
             (internalControlIndex == 0) && (_group != null) 
                 ? (ControlDesigner)_designerHost.GetDesigner(_group.Panel) 
@@ -81,7 +81,7 @@ namespace Krypton.Toolkit
             get
             {
                 // Create a collection of action lists
-                DesignerActionListCollection actionLists = new()
+                var actionLists = new DesignerActionListCollection
                 {
                     // Add the group specific list
                     new KryptonGroupActionList(this)

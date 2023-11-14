@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -17,10 +17,6 @@ namespace Krypton.Toolkit
     /// </summary>
     public class ViewLayoutControl : ViewLeaf
     {
-        #region Instance Fields
-
-        #endregion
-
         #region Identity
         /// <summary>
         /// Initialize a new instance of the ViewLayoutControl class.
@@ -39,9 +35,9 @@ namespace Krypton.Toolkit
         /// <param name="viewControl">View control to use as child.</param>
         /// <param name="rootControl">Top level visual control.</param>
         /// <param name="viewChild">View used to size and position the child control.</param>
-        public ViewLayoutControl(ViewControl viewControl,
-                                 VisualControl rootControl,
-                                 ViewBase viewChild)
+        public ViewLayoutControl([DisallowNull] ViewControl viewControl,
+                                 [DisallowNull] VisualControl rootControl,
+                                 [DisallowNull] ViewBase viewChild)
         {
             Debug.Assert(viewControl != null);
             Debug.Assert(rootControl != null);
@@ -108,7 +104,7 @@ namespace Krypton.Toolkit
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            "ViewLayoutControl:" + Id + " ClientLocation:" + ClientLocation;
+            $"ViewLayoutControl:{Id} ClientLocation:{ClientLocation}";
 
         #endregion
 
@@ -149,7 +145,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the child view.
         /// </summary>
-        public ViewBase ChildView { get; private set; }
+        public ViewBase? ChildView { get; private set; }
 
         #endregion
 
@@ -157,7 +153,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the child control.
         /// </summary>
-        public ViewControl ChildControl { get; private set; }
+        public ViewControl? ChildControl { get; private set; }
 
         #endregion
 
@@ -211,7 +207,7 @@ namespace Krypton.Toolkit
         /// Discover the preferred size of the element.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override Size GetPreferredSize(ViewLayoutContext context)
+        public override Size GetPreferredSize([DisallowNull] ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 
@@ -228,7 +224,7 @@ namespace Krypton.Toolkit
                 UpdateParent(context.Control);
 
                 // Ensure context has the correct control
-                using CorrectContextControl ccc = new(context, ChildControl);
+                using var ccc = new CorrectContextControl(context, ChildControl);
                 // Ask the view for its preferred size
                 if (ChildView != null)
                 {
@@ -243,7 +239,7 @@ namespace Krypton.Toolkit
         /// Perform a layout of the elements.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override void Layout(ViewLayoutContext context)
+        public override void Layout([DisallowNull] ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 
@@ -257,7 +253,7 @@ namespace Krypton.Toolkit
             if (ChildControl != null)
             {
                 // Ensure context has the correct control
-                using CorrectContextControl ccc = new(context, ChildControl);
+                using var ccc = new CorrectContextControl(context, ChildControl);
                 // We take on all the available display area
                 ClientRectangle = context.DisplayRectangle;
 
@@ -298,7 +294,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="pt">Point in view coordinates.</param>
         /// <returns>ViewBase if a match is found; otherwise false.</returns>
-        public override ViewBase ViewFromPoint(Point pt)
+        public override ViewBase? ViewFromPoint(Point pt)
         {
             // If we contain a child view
             if (ChildView != null)

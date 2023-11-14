@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -37,7 +37,7 @@ namespace Krypton.Toolkit
         public KryptonDataGridViewCheckBoxColumn(bool threeState)
             : base(new KryptonDataGridViewCheckBoxCell(threeState))
         {
-            DataGridViewCellStyle style = new()
+            var style = new DataGridViewCellStyle
             {
                 Alignment = DataGridViewContentAlignment.MiddleCenter
             };
@@ -59,7 +59,7 @@ namespace Krypton.Toolkit
         /// <returns>A String that represents the current Object.</returns>
         public override string ToString()
         {
-            StringBuilder builder = new(0x40);
+            var builder = new StringBuilder(0x40);
             builder.Append(@"KryptonDataGridViewCheckBoxColumn { Name=");
             // ReSharper disable RedundantBaseQualifier
             builder.Append(base.Name);
@@ -115,7 +115,7 @@ namespace Krypton.Toolkit
                         var count = rows.Count;
                         for (var i = 0; i < count; i++)
                         {
-                            DataGridViewCheckBoxCell cell = rows.SharedRow(i).Cells[Index] as KryptonDataGridViewCheckBoxCell;
+                            DataGridViewCheckBoxCell? cell = rows.SharedRow(i).Cells[Index] as KryptonDataGridViewCheckBoxCell;
                             if (cell != null)
                             {
                                 cell.FalseValue = value;
@@ -150,7 +150,7 @@ namespace Krypton.Toolkit
                         var count = rows.Count;
                         for (var i = 0; i < count; i++)
                         {
-                            DataGridViewCheckBoxCell cell = rows.SharedRow(i).Cells[Index] as KryptonDataGridViewCheckBoxCell;
+                            DataGridViewCheckBoxCell? cell = rows.SharedRow(i).Cells[Index] as KryptonDataGridViewCheckBoxCell;
                             if (cell != null)
                             {
                                 cell.IndeterminateValue = value;
@@ -185,7 +185,7 @@ namespace Krypton.Toolkit
                         var count = rows.Count;
                         for (var i = 0; i < count; i++)
                         {
-                            DataGridViewCheckBoxCell cell = rows.SharedRow(i).Cells[Index] as KryptonDataGridViewCheckBoxCell;
+                            DataGridViewCheckBoxCell? cell = rows.SharedRow(i).Cells[Index] as KryptonDataGridViewCheckBoxCell;
                             if (cell != null)
                             {
                                 cell.TrueValue = value;
@@ -217,7 +217,7 @@ namespace Krypton.Toolkit
                         var count = rows.Count;
                         for (var i = 0; i < count; i++)
                         {
-                            DataGridViewCheckBoxCell cell = rows.SharedRow(i).Cells[Index] as KryptonDataGridViewCheckBoxCell;
+                            DataGridViewCheckBoxCell? cell = rows.SharedRow(i).Cells[Index] as KryptonDataGridViewCheckBoxCell;
                             if (cell != null)
                             {
                                 cell.ThreeState = value;
@@ -226,17 +226,16 @@ namespace Krypton.Toolkit
                         DataGridView.InvalidateColumn(Index);
                     }
 
-                    if (value 
-                        && DefaultCellStyle.NullValue is bool and false
-                        )
+                    switch (value)
                     {
-                        DefaultCellStyle.NullValue = CheckState.Indeterminate;
-                    }
-                    else if (!value 
-                             && (DefaultCellStyle.NullValue is CheckState and CheckState.Indeterminate)
-                             )
-                    {
-                        DefaultCellStyle.NullValue = false;
+                        case true 
+                        when DefaultCellStyle.NullValue is bool and false:
+                            DefaultCellStyle.NullValue = CheckState.Indeterminate;
+                            break;
+                        case false 
+                             when (DefaultCellStyle.NullValue is CheckState and CheckState.Indeterminate):
+                            DefaultCellStyle.NullValue = false;
+                            break;
                     }
                 }
             }
@@ -244,11 +243,11 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Private
-        private KryptonDataGridViewCheckBoxCell CheckBoxCellTemplate => (KryptonDataGridViewCheckBoxCell)CellTemplate;
+        private KryptonDataGridViewCheckBoxCell? CheckBoxCellTemplate => (KryptonDataGridViewCheckBoxCell)CellTemplate;
 
         private bool ShouldSerializeCellTemplate()
         {
-            KryptonDataGridViewCheckBoxCell cellTemplate = CheckBoxCellTemplate;
+            KryptonDataGridViewCheckBoxCell? cellTemplate = CheckBoxCellTemplate;
             if (cellTemplate != null)
             {
                 object indeterminate;
@@ -269,7 +268,7 @@ namespace Krypton.Toolkit
                 // ReSharper restore RedundantBaseQualifier
 
                 DataGridViewCellStyle defaultCellStyle = DefaultCellStyle;
-                if (defaultCellStyle.BackColor.IsEmpty && defaultCellStyle.ForeColor.IsEmpty && defaultCellStyle.SelectionBackColor.IsEmpty && defaultCellStyle.SelectionForeColor.IsEmpty && (defaultCellStyle.Font == null) && defaultCellStyle.NullValue.Equals(indeterminate) && defaultCellStyle.IsDataSourceNullValueDefault && string.IsNullOrEmpty(defaultCellStyle.Format) && defaultCellStyle.FormatProvider.Equals(CultureInfo.CurrentCulture) && (defaultCellStyle.Alignment == DataGridViewContentAlignment.MiddleCenter) && (defaultCellStyle.WrapMode == DataGridViewTriState.NotSet) && (defaultCellStyle.Tag == null))
+                if (defaultCellStyle.BackColor.IsEmpty && defaultCellStyle.ForeColor.IsEmpty && defaultCellStyle.SelectionBackColor.IsEmpty && defaultCellStyle.SelectionForeColor.IsEmpty && (defaultCellStyle.Font == null) && defaultCellStyle.NullValue.Equals(indeterminate) && defaultCellStyle.IsDataSourceNullValueDefault && string.IsNullOrEmpty(defaultCellStyle.Format) && defaultCellStyle.FormatProvider.Equals(CultureInfo.CurrentCulture) && (defaultCellStyle.Alignment == DataGridViewContentAlignment.MiddleCenter) && defaultCellStyle is { WrapMode: DataGridViewTriState.NotSet, Tag: null })
                 {
                     return !defaultCellStyle.Padding.Equals(Padding.Empty);
                 }

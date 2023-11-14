@@ -5,7 +5,9 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  
+ *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
  */
 #endregion
@@ -22,7 +24,7 @@ namespace Krypton.Ribbon
         private readonly int NULL_CONTROL_WIDTH; // = 50;
         private readonly KryptonRibbon _ribbon;
         private ViewDrawRibbonGroup _activeGroup;
-        private readonly NumericUpDownController _controller;
+        private readonly NumericUpDownController? _controller;
         private readonly NeedPaintHandler _needPaint;
         private GroupItemSize _currentSize;
         #endregion
@@ -34,9 +36,9 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Reference to owning ribbon control.</param>
         /// <param name="ribbonNumericUpDown">Reference to source numeric up-down.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public ViewDrawRibbonGroupNumericUpDown(KryptonRibbon ribbon,
-                                                KryptonRibbonGroupNumericUpDown ribbonNumericUpDown,
-                                                NeedPaintHandler needPaint)
+        public ViewDrawRibbonGroupNumericUpDown([DisallowNull] KryptonRibbon ribbon,
+                                                [DisallowNull] KryptonRibbonGroupNumericUpDown ribbonNumericUpDown,
+                                                [DisallowNull] NeedPaintHandler needPaint)
         {
             Debug.Assert(ribbon != null);
             Debug.Assert(ribbonNumericUpDown != null);
@@ -58,7 +60,7 @@ namespace Krypton.Ribbon
             if (_ribbon.InDesignMode)
             {
                 // At design time we need to know when the user right clicks the numeric up-down
-                ContextClickController controller = new();
+                var controller = new ContextClickController();
                 controller.ContextClick += OnContextClick;
                 MouseController = controller;
             }
@@ -89,7 +91,7 @@ namespace Krypton.Ribbon
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            @"ViewDrawRibbonGroupNumericUpDown:" + Id;
+            $@"ViewDrawRibbonGroupNumericUpDown:{Id}";
 
         /// <summary>
         /// Clean up any resources being used.
@@ -145,11 +147,9 @@ namespace Krypton.Ribbon
         /// Gets the first focus item from the container.
         /// </summary>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase GetFirstFocusItem()
+        public ViewBase? GetFirstFocusItem()
         {
-            if (GroupNumericUpDown.Visible 
-                && (GroupNumericUpDown.LastNumericUpDown?.NumericUpDown != null) 
-                && GroupNumericUpDown.LastNumericUpDown.NumericUpDown.CanSelect)
+            if (GroupNumericUpDown is { Visible: true, LastNumericUpDown.NumericUpDown.CanSelect: true })
             {
                 return this;
             }
@@ -165,11 +165,9 @@ namespace Krypton.Ribbon
         /// Gets the last focus item from the item.
         /// </summary>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase GetLastFocusItem()
+        public ViewBase? GetLastFocusItem()
         {
-            if (GroupNumericUpDown.Visible 
-                && (GroupNumericUpDown.LastNumericUpDown?.NumericUpDown != null) 
-                && GroupNumericUpDown.LastNumericUpDown.NumericUpDown.CanSelect)
+            if (GroupNumericUpDown is { Visible: true, LastNumericUpDown.NumericUpDown.CanSelect: true })
             {
                 return this;
             }
@@ -187,7 +185,7 @@ namespace Krypton.Ribbon
         /// <param name="current">The view that is currently focused.</param>
         /// <param name="matched">Has the current focus item been matched yet.</param>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase GetNextFocusItem(ViewBase current, ref bool matched)
+        public ViewBase? GetNextFocusItem(ViewBase current, ref bool matched)
         {
             // Do we match the current item?
             matched = current == this;
@@ -202,7 +200,7 @@ namespace Krypton.Ribbon
         /// <param name="current">The view that is currently focused.</param>
         /// <param name="matched">Has the current focus item been matched yet.</param>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase GetPreviousFocusItem(ViewBase current, ref bool matched)
+        public ViewBase? GetPreviousFocusItem(ViewBase current, ref bool matched)
         {
             // Do we match the current item?
             matched = current == this;
@@ -225,7 +223,7 @@ namespace Krypton.Ribbon
                 Rectangle viewRect = _ribbon.KeyTipToScreen(this);
 
                 // Determine the screen position of the key tip
-                Point screenPt = Point.Empty;
+                var screenPt = Point.Empty;
 
                 // Determine the screen position of the key tip dependant on item location/size
                 switch (_currentSize)
@@ -253,18 +251,12 @@ namespace Krypton.Ribbon
         /// Override the group item size if possible.
         /// </summary>
         /// <param name="size">New size to use.</param>
-        public void SetGroupItemSize(GroupItemSize size)
-        {
-            _currentSize = size;
-        }
+        public void SetGroupItemSize(GroupItemSize size) => _currentSize = size;
 
         /// <summary>
         /// Reset the group item size to the item definition.
         /// </summary>
-        public void ResetGroupItemSize()
-        {
-            _currentSize = GroupNumericUpDown.ItemSizeCurrent;
-        }
+        public void ResetGroupItemSize() => _currentSize = GroupNumericUpDown.ItemSizeCurrent;
 
         /// <summary>
         /// Discover the preferred size of the element.
@@ -272,7 +264,7 @@ namespace Krypton.Ribbon
         /// <param name="context">Layout context.</param>
         public override Size GetPreferredSize(ViewLayoutContext context)
         {
-            Size preferredSize = Size.Empty;
+            var preferredSize = Size.Empty;
 
             // Ensure the control has the correct parent
             UpdateParent(context.Control);
@@ -304,7 +296,7 @@ namespace Krypton.Ribbon
         /// Perform a layout of the elements.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override void Layout(ViewLayoutContext context)
+        public override void Layout([DisallowNull] ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 
@@ -331,7 +323,7 @@ namespace Krypton.Ribbon
         /// Perform a render of the elements.
         /// </summary>
         /// <param name="context">Rendering context.</param>
-        public override void Render(RenderContext context)
+        public override void Render([DisallowNull] RenderContext context)
         {
             Debug.Assert(context != null);
 
@@ -359,10 +351,7 @@ namespace Krypton.Ribbon
         /// Raises the NeedPaint event.
         /// </summary>
         /// <param name="needLayout">Does the palette change require a layout.</param>
-        protected virtual void OnNeedPaint(bool needLayout)
-        {
-            OnNeedPaint(needLayout, Rectangle.Empty);
-        }
+        protected virtual void OnNeedPaint(bool needLayout) => OnNeedPaint(needLayout, Rectangle.Empty);
 
         /// <summary>
         /// Raises the NeedPaint event.
@@ -384,10 +373,7 @@ namespace Krypton.Ribbon
         #endregion
 
         #region Implementation
-        private void OnContextClick(object sender, MouseEventArgs e)
-        {
-            GroupNumericUpDown.OnDesignTimeContextMenu(e);
-        }
+        private void OnContextClick(object sender, MouseEventArgs e) => GroupNumericUpDown.OnDesignTimeContextMenu(e);
 
         private void OnNumericUpDownPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
@@ -396,10 +382,10 @@ namespace Krypton.Ribbon
 
             switch (e.PropertyName)
             {
-                case "Enabled":
+                case nameof(Enabled):
                     UpdateEnabled(LastNumericUpDown);
                     break;
-                case "Visible":
+                case nameof(Visible):
                     UpdateVisible(LastNumericUpDown);
                     updateLayout = true;
                     break;
@@ -443,7 +429,7 @@ namespace Krypton.Ribbon
             set => GroupNumericUpDown.LastParentControl = value;
         }
 
-        private KryptonNumericUpDown LastNumericUpDown
+        private KryptonNumericUpDown? LastNumericUpDown
         {
             get => GroupNumericUpDown.LastNumericUpDown;
             set => GroupNumericUpDown.LastNumericUpDown = value;
@@ -554,8 +540,7 @@ namespace Krypton.Ribbon
                     else
                     {
                         // Check the owning group is visible
-                        if ((GroupNumericUpDown.RibbonContainer?.RibbonGroup != null) 
-                            && !GroupNumericUpDown.RibbonContainer.RibbonGroup.Visible 
+                        if (GroupNumericUpDown.RibbonContainer?.RibbonGroup is { Visible: false } 
                             && !_ribbon.InDesignMode
                             )
                         {

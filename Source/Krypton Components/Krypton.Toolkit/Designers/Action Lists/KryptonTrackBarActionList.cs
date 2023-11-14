@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -15,7 +15,7 @@ namespace Krypton.Toolkit
     internal class KryptonTrackBarActionList : DesignerActionList
     {
         #region Instance Fields
-        private readonly KryptonTrackBar _trackBar;
+        private readonly KryptonTrackBar? _trackBar;
         private readonly IComponentChangeService _service;
         private string _action;
         #endregion
@@ -34,7 +34,7 @@ namespace Krypton.Toolkit
             if (_trackBar != null)
             {
                 // Get access to the actual Orientation property
-                PropertyDescriptor orientationProp = TypeDescriptor.GetProperties(_trackBar)[@"Orientation"];
+                PropertyDescriptor orientationProp = TypeDescriptor.GetProperties(_trackBar)[nameof(Orientation)];
 
                 // If we succeeded in getting the property
                 if (orientationProp != null)
@@ -180,23 +180,23 @@ namespace Krypton.Toolkit
         public override DesignerActionItemCollection GetSortedActionItems()
         {
             // Create a new collection for holding the single item we want to create
-            DesignerActionItemCollection actions = new();
+            var actions = new DesignerActionItemCollection();
 
             // This can be null when deleting a control instance at design time
             if (_trackBar != null)
             {
                 // Add our own action to the end
                 actions.Add(new DesignerActionHeaderItem(@"Layout"));
-                actions.Add(new DesignerActionPropertyItem(@"TickStyle", @"Tick Style", @"Layout", @"Tick style"));
-                actions.Add(new DesignerActionPropertyItem(@"TrackBarSize", @"TrackBar Size", @"Layout", @"Size of the track bar"));
+                actions.Add(new DesignerActionPropertyItem(nameof(TickStyle), @"Tick Style", @"Layout", @"Tick style"));
+                actions.Add(new DesignerActionPropertyItem(nameof(TrackBarSize), @"TrackBar Size", @"Layout", @"Size of the track bar"));
                 actions.Add(new KryptonDesignerActionItem(new DesignerVerb(_action, OnOrientationClick), "Layout"));
                 actions.Add(new DesignerActionHeaderItem(@"Values"));
-                actions.Add(new DesignerActionPropertyItem(@"Minimum", @"Minimum", @"Values", @"Minium value"));
-                actions.Add(new DesignerActionPropertyItem(@"Maximum", @"Maximum", @"Values", @"Maximum value"));
-                actions.Add(new DesignerActionPropertyItem(@"SmallChange", @"Small Change", @"Values", @"Small change value"));
-                actions.Add(new DesignerActionPropertyItem(@"LargeChange", @"Large Change", @"Values", @"Large change value"));
+                actions.Add(new DesignerActionPropertyItem(nameof(Minimum), nameof(Minimum), @"Values", @"Minium value"));
+                actions.Add(new DesignerActionPropertyItem(nameof(Maximum), nameof(Maximum), @"Values", @"Maximum value"));
+                actions.Add(new DesignerActionPropertyItem(nameof(SmallChange), @"Small Change", @"Values", @"Small change value"));
+                actions.Add(new DesignerActionPropertyItem(nameof(LargeChange), @"Large Change", @"Values", @"Large change value"));
                 actions.Add(new DesignerActionHeaderItem(@"Visuals"));
-                actions.Add(new DesignerActionPropertyItem(@"PaletteMode", @"Palette", @"Visuals", @"Palette applied to drawing"));
+                actions.Add(new DesignerActionPropertyItem(nameof(PaletteMode), @"Palette", @"Visuals", @"Palette applied to drawing"));
             }
 
             return actions;
@@ -218,7 +218,7 @@ namespace Krypton.Toolkit
                 _action = orientation == Orientation.Vertical ? "Horizontal orientation" : "Vertical orientation";
 
                 // Get access to the actual Orientation property
-                PropertyDescriptor orientationProp = TypeDescriptor.GetProperties(_trackBar)[@"Orientation"];
+                PropertyDescriptor orientationProp = TypeDescriptor.GetProperties(_trackBar)[nameof(Orientation)];
 
                 // If we succeeded in getting the property
                 // Update the actual property with the new value

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -17,19 +17,22 @@ namespace Krypton.Toolkit
     /// </summary>
     [ToolboxItem(true)]
     [ToolboxBitmap(typeof(KryptonGroup), "ToolboxBitmaps.KryptonGroup.bmp")]
-    [DefaultEvent("Paint")]
-    [DefaultProperty("GroupBackStyle")]
-    [Designer("Krypton.Toolkit.KryptonGroupDesigner, Krypton.Toolkit")]
+    [DefaultEvent(nameof(Paint))]
+    [DefaultProperty(nameof(GroupBackStyle))]
+    [Designer(typeof(KryptonGroupDesigner))]
     [DesignerCategory(@"code")]
     [Description(@"Enables you to group collections of controls.")]
     [Docking(DockingBehavior.Ask)]
     public class KryptonGroup : VisualControlContainment
     {
         #region Instance Fields
+
         private readonly ViewDrawDocker _drawDocker;
         private readonly ViewLayoutFill _layoutFill;
         private bool _forcedLayout;
         private bool _layingOut;
+        private float _cornerRoundingRadius;
+
         #endregion
 
         #region Identity
@@ -70,14 +73,30 @@ namespace Krypton.Toolkit
 
             // Add panel to the controls collection
             ((KryptonReadOnlyControls)Controls).AddInternal(Panel);
+
+            _cornerRoundingRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
         }
         #endregion
 
         #region Public
+
+        /// <summary>Gets or sets the corner rounding radius.</summary>
+        /// <value>The corner rounding radius.</value>
+        [Category(@"Visuals")]
+        [Description(@"Gets or sets the corner rounding radius.")]
+        [DefaultValue(GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE)]
+        public float CornerRoundingRadius
+        {
+            get => _cornerRoundingRadius;
+
+            set => SetCornerRoundingRadius(value);
+        }
+
         /// <summary>
         /// Gets and sets the name of the control.
         /// </summary>
         [Browsable(false)]
+        [AllowNull]
         public new string Name
         {
             get => base.Name;
@@ -85,7 +104,7 @@ namespace Krypton.Toolkit
             set
             {
                 base.Name = value;
-                Panel.Name = value + ".Panel";
+                Panel.Name = $"{value}.Panel";
             }
         }
 
@@ -120,7 +139,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Layout")]
         [Description(@"Specifies if the control grows and shrinks to fit the contents exactly.")]
-        [DefaultValue(typeof(AutoSizeMode), "GrowAndShrink")]
+        [DefaultValue(AutoSizeMode.GrowAndShrink)]
         public AutoSizeMode AutoSizeMode
         {
             // ReSharper disable RedundantBaseQualifier
@@ -207,7 +226,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Overrides for defining common group appearance that other states can override.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteDoubleRedirect StateCommon { get; }
+        public PaletteDoubleRedirect? StateCommon { get; }
 
         private bool ShouldSerializeStateCommon() => !StateCommon.IsDefault;
 
@@ -217,7 +236,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Overrides for defining disabled group appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteDouble StateDisabled { get; }
+        public PaletteDouble? StateDisabled { get; }
 
         private bool ShouldSerializeStateDisabled() => !StateDisabled.IsDefault;
 
@@ -227,7 +246,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Overrides for defining normal group appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteDouble StateNormal { get; }
+        public PaletteDouble? StateNormal { get; }
 
         private bool ShouldSerializeStateNormal() => !StateNormal.IsDefault;
 
@@ -422,7 +441,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">Source of notification.</param>
         /// <param name="e">An NeedLayoutEventArgs containing event data.</param>
-        protected override void OnNeedPaint(object sender, NeedLayoutEventArgs e)
+        protected override void OnNeedPaint(object? sender, NeedLayoutEventArgs e)
         {
             if (IsInitialized || !e.NeedLayout)
             {
@@ -450,6 +469,14 @@ namespace Krypton.Toolkit
                 PerformNeedPaint(true);
             }
         }
+
+        private void SetCornerRoundingRadius(float? radius)
+        {
+            _cornerRoundingRadius = radius ?? GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
+
+            StateCommon.Border.Rounding = _cornerRoundingRadius;
+        }
+
         #endregion
     }
 }

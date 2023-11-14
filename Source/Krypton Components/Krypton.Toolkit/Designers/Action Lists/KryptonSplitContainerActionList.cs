@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -15,7 +15,7 @@ namespace Krypton.Toolkit
     internal class KryptonSplitContainerActionList : DesignerActionList
     {
         #region Instance Fields
-        private readonly KryptonSplitContainer _splitContainer;
+        private readonly KryptonSplitContainer? _splitContainer;
         private readonly IComponentChangeService _service;
         private string _action;
         #endregion
@@ -34,7 +34,7 @@ namespace Krypton.Toolkit
             if (_splitContainer != null)
             {
                 // Get access to the actual Orientation property
-                PropertyDescriptor orientationProp = TypeDescriptor.GetProperties(_splitContainer)[@"Orientation"];
+                PropertyDescriptor orientationProp = TypeDescriptor.GetProperties(_splitContainer)[nameof(Orientation)];
 
                 // If we succeeded in getting the property
                 if (orientationProp != null)
@@ -112,19 +112,19 @@ namespace Krypton.Toolkit
         public override DesignerActionItemCollection GetSortedActionItems()
         {
             // Create a new collection for holding the single item we want to create
-            DesignerActionItemCollection actions = new();
+            var actions = new DesignerActionItemCollection();
 
             // This can be null when deleting a control instance at design time
             if (_splitContainer != null)
             {
                 // Add our own action to the end
-                actions.Add(new DesignerActionHeaderItem(@"Appearance"));
-                actions.Add(new DesignerActionPropertyItem(@"ContainerBackStyle", @"Back style", @"Appearance", @"Background style"));
-                actions.Add(new DesignerActionHeaderItem(@"Splitter"));
-                actions.Add(new KryptonDesignerActionItem(new DesignerVerb(_action, OnOrientationClick), "Splitter"));
-                actions.Add(new DesignerActionPropertyItem(@"SeparatorStyle", @"Separator style", @"Splitter", @"Separator style"));
+                actions.Add(new DesignerActionHeaderItem(nameof(Appearance)));
+                actions.Add(new DesignerActionPropertyItem(nameof(ContainerBackStyle), @"Back style", nameof(Appearance), @"Background style"));
+                actions.Add(new DesignerActionHeaderItem(nameof(Splitter)));
+                actions.Add(new KryptonDesignerActionItem(new DesignerVerb(_action, OnOrientationClick), nameof(Splitter)));
+                actions.Add(new DesignerActionPropertyItem(nameof(SeparatorStyle), @"Separator style", nameof(Splitter), @"Separator style"));
                 actions.Add(new DesignerActionHeaderItem(@"Visuals"));
-                actions.Add(new DesignerActionPropertyItem(@"PaletteMode", @"Palette", @"Visuals", @"Palette applied to drawing"));
+                actions.Add(new DesignerActionPropertyItem(nameof(PaletteMode), @"Palette", @"Visuals", @"Palette applied to drawing"));
             }
 
             return actions;
@@ -146,7 +146,7 @@ namespace Krypton.Toolkit
                 _action = orientation == Orientation.Vertical ? "Horizontal splitter orientation" : "Vertical splitter orientation";
 
                 // Get access to the actual Orientation property
-                PropertyDescriptor orientationProp = TypeDescriptor.GetProperties(_splitContainer)[@"Orientation"];
+                PropertyDescriptor orientationProp = TypeDescriptor.GetProperties(_splitContainer)[nameof(Orientation)];
 
                 // If we succeeded in getting the property
                 // Update the actual property with the new value

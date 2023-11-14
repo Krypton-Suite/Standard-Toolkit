@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -26,7 +26,7 @@ namespace Krypton.Docking
         /// Initialize a new instance of the DockingElementClosedCollection class.
         /// </summary>
         /// <param name="name">Initial name of the element.</param>
-        protected DockingElementClosedCollection(string name)
+        protected DockingElementClosedCollection(string? name)
             : base(name) =>
             _elements = new List<IDockingElement>();
 
@@ -43,30 +43,21 @@ namespace Krypton.Docking
         /// </summary>
         /// <param name="index">Index.</param>
         /// <returns>Docking element at specified index.</returns>
-        public override IDockingElement this[int index] => _elements[index];
+        public override IDockingElement? this[int index] => _elements[index];
 
         /// <summary>
         /// Gets the docking element with the specified name.
         /// </summary>
         /// <param name="name">Name of element.</param>
         /// <returns>Docking element with specified name.</returns>
-        public override IDockingElement this[string name]
+        public override IDockingElement? this[string? name]
         {
-            get 
+            get
             {
                 // Cannot have a null name so no point searching for it
-                if (name != null)
-                {
-                    foreach (IDockingElement element in this)
-                    {
-                        if (element.Name.Equals(name))
-                        {
-                            return element;
-                        }
-                    }
-                }
-
-                return null; 
+                return name != null 
+                    ? this.FirstOrDefault(element => element.Name.Equals(name)) 
+                    : null;
             }
         }
 

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -54,9 +54,12 @@ namespace Krypton.Toolkit
             // Need controller to handle tracking/pressing etc
             _controller = new MenuImageSelectController(viewManager, this, layout, needPaint);
             _controller.Click += OnItemClick;
-            MouseController = _controller;
+            //MouseController = _controller;
             SourceController = _controller;
             KeyController = _controller;
+            // Create the manager for handling tooltips
+            MouseController = new ToolTipController(imageSelect.ToolTipManager, this, _controller);
+
         }
 
         /// <summary>
@@ -65,7 +68,7 @@ namespace Krypton.Toolkit
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            "ViewDrawMenuImageSelectItem:" + Id;
+            $"ViewDrawMenuImageSelectItem:{Id}";
 
         #endregion
 
@@ -102,7 +105,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Sets the image list to use for the source of the image.
         /// </summary>
-        public ImageList ImageList
+        public ImageList? ImageList
         {
             set => _imageList = value;
         }
@@ -123,7 +126,7 @@ namespace Krypton.Toolkit
         /// Perform a render of the elements.
         /// </summary>
         /// <param name="context">Rendering context.</param>
-        public override void Render(RenderContext context)
+        public override void Render([DisallowNull] RenderContext context)
         {
             Debug.Assert(context != null);
 
@@ -151,7 +154,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">The state for which the image is needed.</param>
         /// <returns>Image value.</returns>
-        public virtual Image GetImage(PaletteState state) => (_imageList != null) && (_imageIndex >= 0) ? _imageList.Images[_imageIndex] : null;
+        public virtual Image? GetImage(PaletteState state) => (_imageList != null) && (_imageIndex >= 0) ? _imageList.Images[_imageIndex] : null;
 
         /// <summary>
         /// Gets the image color that should be transparent.
@@ -188,7 +191,7 @@ namespace Krypton.Toolkit
                 if (_layout.CanCloseMenu)
                 {
                     // Ask the original context menu definition, if we can close
-                    CancelEventArgs cea = new();
+                    var cea = new CancelEventArgs();
                     _layout.Closing(cea);
 
                     if (!cea.Cancel)

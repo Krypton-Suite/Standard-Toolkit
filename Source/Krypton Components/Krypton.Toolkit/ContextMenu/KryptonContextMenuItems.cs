@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -17,16 +17,16 @@ namespace Krypton.Toolkit
     /// </summary>
     [ToolboxItem(false)]
     [ToolboxBitmap(typeof(KryptonContextMenuItems), "ToolboxBitmaps.KryptonContextMenuItems.bmp")]
-    [Designer(@"Krypton.Toolkit.KryptonContextMenuItemsDesigner, Krypton.Toolkit")]
+    [Designer(typeof(KryptonContextMenuItemsDesigner))]
     [DesignerCategory(@"code")]
     [DesignTimeVisible(false)]
-    [DefaultProperty(@"Items")]
+    [DefaultProperty(nameof(Items))]
     public class KryptonContextMenuItems : KryptonContextMenuItemBase
     {
         #region Instance Fields
         private bool _standardStyle;
         private bool _imageColumn;
-        private readonly PaletteRedirectDouble _redirectImageColumn;
+        private readonly PaletteRedirectDouble? _redirectImageColumn;
         #endregion
 
         #region Identity
@@ -42,7 +42,7 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the KryptonContextMenuItems class.
         /// </summary>
         /// <param name="children">Array of initial child items.</param>
-        public KryptonContextMenuItems(KryptonContextMenuItemBase[] children)
+        public KryptonContextMenuItems(KryptonContextMenuItemBase[]? children)
         {
             // Default fields
             _standardStyle = true;
@@ -109,8 +109,9 @@ namespace Krypton.Toolkit
                                               bool standardStyle,
                                               bool imageColumn)
         {
+            SetProvider(provider);
             // Add child items into columns of display views
-            ViewLayoutStack itemsColumns = new(true);
+            var itemsColumns = new ViewLayoutStack(true);
             Items.GenerateView(provider, this, this, itemsColumns, StandardStyle, ImageColumn);
             return itemsColumns;
         }
@@ -121,7 +122,7 @@ namespace Krypton.Toolkit
         [Category(@"Data")]
         [Description(@"Collection of standard menu items.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        [Editor(@"Krypton.Toolkit.KryptonContextMenuItemCollectionEditor, Krypton.Toolkit", typeof(UITypeEditor))]
+        [Editor(typeof(KryptonContextMenuItemCollectionEditor), typeof(UITypeEditor))]
         public KryptonContextMenuItemCollection Items { get; }
 
         /// <summary>
@@ -180,7 +181,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Internal
-        internal void SetPaletteRedirect(PaletteDoubleRedirect redirector) => _redirectImageColumn.SetRedirectStates(redirector, redirector);
+        internal void SetPaletteRedirect(PaletteDoubleRedirect? redirector) => _redirectImageColumn?.SetRedirectStates(redirector, redirector);
 
         #endregion
     }

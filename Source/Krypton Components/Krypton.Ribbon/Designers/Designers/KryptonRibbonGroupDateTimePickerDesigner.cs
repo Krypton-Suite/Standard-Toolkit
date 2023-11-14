@@ -5,7 +5,9 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  
+ *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
  */
 #endregion
@@ -25,7 +27,7 @@ namespace Krypton.Ribbon
         private DesignerVerb _moveNextVerb;
         private DesignerVerb _moveLastVerb;
         private DesignerVerb _deleteDateTimePickerVerb;
-        private ContextMenuStrip _cms;
+        private ContextMenuStrip? _cms;
         private ToolStripMenuItem _toggleHelpersMenu;
         private ToolStripMenuItem _visibleMenu;
         private ToolStripMenuItem _moveFirstMenu;
@@ -50,7 +52,7 @@ namespace Krypton.Ribbon
         /// Initializes the designer with the specified component.
         /// </summary>
         /// <param name="component">The IComponent to associate the designer with.</param>
-        public override void Initialize(IComponent component)
+        public override void Initialize([DisallowNull] IComponent component)
         {
             // Let base class do standard stuff
             base.Initialize(component);
@@ -150,12 +152,12 @@ namespace Krypton.Ribbon
 
             // Setup the array of properties we override
             var attributes = Array.Empty<Attribute>();
-            string[] strArray = { "Visible", "Enabled" };
+            string[] strArray = { nameof(Visible), nameof(Enabled) };
 
             // Adjust our list of properties
             for (var i = 0; i < strArray.Length; i++)
             {
-                PropertyDescriptor descrip = (PropertyDescriptor)properties[strArray[i]];
+                var descrip = (PropertyDescriptor)properties[strArray[i]];
                 if (descrip != null)
                 {
                     properties[strArray[i]] = TypeDescriptor.CreateProperty(typeof(KryptonRibbonGroupDateTimePickerDesigner), descrip, attributes);
@@ -172,17 +174,11 @@ namespace Krypton.Ribbon
         #endregion
 
         #region Implementation
-        private void ResetVisible()
-        {
-            Visible = true;
-        }
+        private void ResetVisible() => Visible = true;
 
         private bool ShouldSerializeVisible() => !Visible;
 
-        private void ResetEnabled()
-        {
-            Enabled = true;
-        }
+        private void ResetEnabled() => Enabled = true;
 
         private bool ShouldSerializeEnabled() => !Enabled;
 
@@ -207,7 +203,7 @@ namespace Krypton.Ribbon
             var moveNext = false;
             var moveLast = false;
 
-            if (_ribbonDateTimePicker?.Ribbon != null)
+            if (_ribbonDateTimePicker.Ribbon != null)
             {
                 var items = ParentItems;
                 moveFirst = items.IndexOf(_ribbonDateTimePicker) > 0;
@@ -225,7 +221,7 @@ namespace Krypton.Ribbon
         private void OnToggleHelpers(object sender, EventArgs e)
         {
             // Invert the current toggle helper mode
-            if (_ribbonDateTimePicker?.Ribbon != null)
+            if (_ribbonDateTimePicker.Ribbon != null)
             {
                 _ribbonDateTimePicker.Ribbon.InDesignHelperMode = !_ribbonDateTimePicker.Ribbon.InDesignHelperMode;
             }
@@ -233,7 +229,7 @@ namespace Krypton.Ribbon
 
         private void OnMoveFirst(object sender, EventArgs e)
         {
-            if (_ribbonDateTimePicker?.Ribbon != null)
+            if (_ribbonDateTimePicker.Ribbon != null)
             {
                 // Get access to the parent collection of items
                 var items = ParentItems;
@@ -265,7 +261,7 @@ namespace Krypton.Ribbon
 
         private void OnMovePrevious(object sender, EventArgs e)
         {
-            if (_ribbonDateTimePicker?.Ribbon != null)
+            if (_ribbonDateTimePicker.Ribbon != null)
             {
                 // Get access to the parent collection of items
                 var items = ParentItems;
@@ -299,7 +295,7 @@ namespace Krypton.Ribbon
 
         private void OnMoveNext(object sender, EventArgs e)
         {
-            if (_ribbonDateTimePicker?.Ribbon != null)
+            if (_ribbonDateTimePicker.Ribbon != null)
             {
                 // Get access to the parent collection of items
                 var items = ParentItems;
@@ -333,7 +329,7 @@ namespace Krypton.Ribbon
 
         private void OnMoveLast(object sender, EventArgs e)
         {
-            if (_ribbonDateTimePicker?.Ribbon != null)
+            if (_ribbonDateTimePicker.Ribbon != null)
             {
                 // Get access to the parent collection of items
                 var items = ParentItems;
@@ -365,7 +361,7 @@ namespace Krypton.Ribbon
 
         private void OnDeleteDateTimePicker(object sender, EventArgs e)
         {
-            if (_ribbonDateTimePicker?.Ribbon != null)
+            if (_ribbonDateTimePicker.Ribbon != null)
             {
                 // Get access to the parent collection of items
                 var items = ParentItems;
@@ -400,9 +396,9 @@ namespace Krypton.Ribbon
 
         private void OnEnabled(object sender, EventArgs e)
         {
-            if (_ribbonDateTimePicker?.Ribbon != null)
+            if (_ribbonDateTimePicker.Ribbon != null)
             {
-                PropertyDescriptor propertyEnabled = TypeDescriptor.GetProperties(_ribbonDateTimePicker)[@"Enabled"];
+                PropertyDescriptor propertyEnabled = TypeDescriptor.GetProperties(_ribbonDateTimePicker)[nameof(Enabled)];
                 var oldValue = (bool)propertyEnabled.GetValue(_ribbonDateTimePicker);
                 var newValue = !oldValue;
                 _changeService.OnComponentChanged(_ribbonDateTimePicker, null, oldValue, newValue);
@@ -412,9 +408,9 @@ namespace Krypton.Ribbon
 
         private void OnVisible(object sender, EventArgs e)
         {
-            if (_ribbonDateTimePicker?.Ribbon != null)
+            if (_ribbonDateTimePicker.Ribbon != null)
             {
-                PropertyDescriptor propertyVisible = TypeDescriptor.GetProperties(_ribbonDateTimePicker)[@"Visible"];
+                PropertyDescriptor propertyVisible = TypeDescriptor.GetProperties(_ribbonDateTimePicker)[nameof(Visible)];
                 var oldValue = (bool)propertyVisible.GetValue(_ribbonDateTimePicker);
                 var newValue = !oldValue;
                 _changeService.OnComponentChanged(_ribbonDateTimePicker, null, oldValue, newValue);
@@ -422,14 +418,11 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnComponentChanged(object sender, ComponentChangedEventArgs e)
-        {
-            UpdateVerbStatus();
-        }
+        private void OnComponentChanged(object sender, ComponentChangedEventArgs e) => UpdateVerbStatus();
 
         private void OnContextMenu(object sender, MouseEventArgs e)
         {
-            if (_ribbonDateTimePicker?.Ribbon != null)
+            if (_ribbonDateTimePicker.Ribbon != null)
             {
                 // Create the menu strip the first time around
                 if (_cms == null)
@@ -437,11 +430,11 @@ namespace Krypton.Ribbon
                     _cms = new ContextMenuStrip();
                     _toggleHelpersMenu = new ToolStripMenuItem("Design Helpers", null, OnToggleHelpers);
                     _visibleMenu = new ToolStripMenuItem("Visible", null, OnVisible);
-                    _moveFirstMenu = new ToolStripMenuItem("Move DateTimePicker First", Properties.Resources.MoveFirst, OnMoveFirst);
-                    _movePreviousMenu = new ToolStripMenuItem("Move DateTimePicker Previous", Properties.Resources.MovePrevious, OnMovePrevious);
-                    _moveNextMenu = new ToolStripMenuItem("Move DateTimePicker Next", Properties.Resources.MoveNext, OnMoveNext);
-                    _moveLastMenu = new ToolStripMenuItem("Move DateTimePicker Last", Properties.Resources.MoveLast, OnMoveLast);
-                    _deleteDateTimePickerMenu = new ToolStripMenuItem("Delete DateTimePicker", Properties.Resources.delete2, OnDeleteDateTimePicker);
+                    _moveFirstMenu = new ToolStripMenuItem("Move DateTimePicker First", GenericImageResources.MoveFirst, OnMoveFirst);
+                    _movePreviousMenu = new ToolStripMenuItem("Move DateTimePicker Previous", GenericImageResources.MovePrevious, OnMovePrevious);
+                    _moveNextMenu = new ToolStripMenuItem("Move DateTimePicker Next", GenericImageResources.MoveNext, OnMoveNext);
+                    _moveLastMenu = new ToolStripMenuItem("Move DateTimePicker Last", GenericImageResources.MoveLast, OnMoveLast);
+                    _deleteDateTimePickerMenu = new ToolStripMenuItem("Delete DateTimePicker", GenericImageResources.Delete, OnDeleteDateTimePicker);
                     _cms.Items.AddRange(new ToolStripItem[] { _toggleHelpersMenu, new ToolStripSeparator(),
                                                               _visibleMenu, new ToolStripSeparator(),
                                                               _moveFirstMenu, _movePreviousMenu, _moveNextMenu, _moveLastMenu, new ToolStripSeparator(),
@@ -468,7 +461,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private TypedRestrictCollection<KryptonRibbonGroupItem> ParentItems
+        private TypedRestrictCollection<KryptonRibbonGroupItem>? ParentItems
         {
             get
             {

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -29,8 +29,8 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="primary">First choice inheritance.</param>
         /// <param name="backup">Backup inheritance.</param>
-        public PaletteBorderInheritOverride(IPaletteBorder primary,
-                                            IPaletteBorder backup)
+        public PaletteBorderInheritOverride([DisallowNull] IPaletteBorder primary,
+                                            [DisallowNull] IPaletteBorder backup)
         {
             Debug.Assert(primary != null);
             Debug.Assert(backup != null);
@@ -331,7 +331,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image instance.</returns>
-        public override Image GetBorderImage(PaletteState state)
+        public override Image? GetBorderImage(PaletteState state)
         {
             if (Apply)
             {

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -127,8 +127,8 @@ namespace Krypton.Navigator
         /// <param name="target">Initial palette target for redirection.</param>
         /// <param name="buttonSpec">Reference to button specification.</param>
         /// <param name="remapTarget">Target for remapping the color onto.</param>
-        public ButtonSpecNavRemap(IPalette target,
-                                  ButtonSpec buttonSpec,
+        public ButtonSpecNavRemap(PaletteBase? target,
+            [DisallowNull] ButtonSpec buttonSpec,
                                   ButtonSpecRemapTarget remapTarget)
             : base(target)
         {
@@ -168,7 +168,7 @@ namespace Krypton.Navigator
             // If allowed to override then get the map color
             Color mapColor = OverrideImageColor(state);
 
-            // If mapping occuring then return the target remap color
+            // If mapping occurring then return the target remap color
             return mapColor != Color.Empty ? GetRemapTarget(state) : base.GetContentImageColorTo(style, state);
         }
         #endregion
@@ -207,8 +207,7 @@ namespace Krypton.Navigator
         private Color OverrideImageColor(PaletteState state)
         {
             // We are only interested in overriding the normal and disabled colors
-            if ((state == PaletteState.Normal) ||
-                (state == PaletteState.Disabled))
+            if (state is PaletteState.Normal or PaletteState.Disabled)
             {
                 // ReSharper disable RedundantBaseQualifier
                 // Get the color map from the button spec
@@ -237,8 +236,7 @@ namespace Krypton.Navigator
         private bool OverrideTextColor(PaletteState state)
         {
             // We are only interested in overriding the disabled or normal colors
-            if ((state == PaletteState.Normal) ||
-                (state == PaletteState.Disabled))
+            if (state is PaletteState.Normal or PaletteState.Disabled)
             {
                 // ReSharper disable RedundantBaseQualifier
                 // Get the button style requested

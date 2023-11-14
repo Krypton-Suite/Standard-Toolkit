@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -17,10 +17,10 @@ namespace Krypton.Toolkit
     /// </summary>
     [ToolboxItem(true)]
     [ToolboxBitmap(typeof(KryptonCheckedListBox), "ToolboxBitmaps.KryptonCheckedListBox.bmp")]
-    [DefaultEvent(@"SelectedIndexChanged")]
-    [DefaultProperty(@"Items")]
-    [DefaultBindingProperty(@"SelectedValue")]
-    [Designer(@"Krypton.Toolkit.KryptonCheckedListBoxDesigner, Krypton.Toolkit")]
+    [DefaultEvent(nameof(SelectedIndexChanged))]
+    [DefaultProperty(nameof(Items))]
+    [DefaultBindingProperty(nameof(SelectedValue))]
+    [Designer(typeof(KryptonCheckedListBoxDesigner))]
     [DesignerCategory(@"code")]
     [Description(@"Represents a checked list box control that allows single or multiple item selection.")]
     public class KryptonCheckedListBox : VisualControlBase,
@@ -45,7 +45,7 @@ namespace Krypton.Toolkit
             internal CheckedIndexCollection(KryptonCheckedListBox owner)
             {
                 _owner = owner;
-                _internalListBox = (InternalCheckedListBox)owner.ListBox;
+                _internalListBox = (InternalCheckedListBox)owner.ListBox!;
             }
             #endregion
 
@@ -55,7 +55,7 @@ namespace Krypton.Toolkit
             /// </summary>
             /// <param name="item">Object reference.</param>
             /// <returns>True if button spec found; otherwise false.</returns>
-            public bool Contains(object item) => IndexOf(item) != -1;
+            public bool Contains(object? item) => IndexOf(item) != -1;
 
             /// <summary>
             /// Copies all the elements of the current collection to the specified Array. 
@@ -102,7 +102,7 @@ namespace Krypton.Toolkit
             /// </summary>
             /// <param name="item">Object reference.</param>
             /// <returns>-1 if not found; otherwise index position.</returns>
-            public int IndexOf(object item) => item is int i ? IndexOf(i) : -1;
+            public int IndexOf(object? item) => item is int i ? IndexOf(i) : -1;
 
             /// <summary>
             /// Gets the number of items in collection.
@@ -183,7 +183,7 @@ namespace Krypton.Toolkit
             /// Initialize a new instance of the CheckedItemCollection class.
             /// </summary>
             /// <param name="owner">Reference to owning control.</param>
-            internal CheckedItemCollection(KryptonCheckedListBox owner) => _internalListBox = (InternalCheckedListBox)owner.ListBox;
+            internal CheckedItemCollection(KryptonCheckedListBox owner) => _internalListBox = (InternalCheckedListBox)owner.ListBox!;
 
             #endregion
 
@@ -287,7 +287,7 @@ namespace Krypton.Toolkit
             #endregion
 
             #region Private
-            int IList.Add(object value) => throw new NotSupportedException(@"Read Only Collection");
+            int IList.Add(object? value) => throw new NotSupportedException(@"Read Only Collection");
 
             void IList.Clear() => throw new NotSupportedException(@"Read Only Collection");
 
@@ -364,24 +364,26 @@ namespace Krypton.Toolkit
             #endregion
         }
 
-        private class InternalCheckedListBox : ListBox
+        private sealed class InternalCheckedListBox : ListBox
         {
             #region Static Fields
-            private static MethodInfo _miGetCount;
-            private static MethodInfo _miIndexOf;
-            private static MethodInfo _miIndexOfIdentifier;
-            private static MethodInfo _miGetItem;
-            private static MethodInfo _miGetEntryObject;
-            private static MethodInfo _miGetState;
-            private static MethodInfo _miSetState;
-            private static MethodInfo _miGetEnumerator;
+            private static MethodInfo? _miGetCount;
+            private static MethodInfo? _miIndexOf;
+            private static MethodInfo? _miIndexOfIdentifier;
+            private static MethodInfo? _miGetItem;
+            private static MethodInfo? _miGetEntryObject;
+            private static MethodInfo? _miGetState;
+            private static MethodInfo? _miSetState;
+            private static MethodInfo? _miGetEnumerator;
+            // ReSharper disable InconsistentNaming
             private static readonly uint LBC_GETCHECKSTATE;
             private static readonly uint LBC_SETCHECKSTATE;
+            // ReSharper restore InconsistentNaming
             #endregion
 
             #region Instance Fields
-            private object _innerArray;
-            private readonly ViewManager _viewManager;
+            private object? _innerArray;
+            private readonly ViewManager? _viewManager;
             private readonly KryptonCheckedListBox _kryptonCheckedListBox;
             private readonly IntPtr _screenDC;
             private bool _mouseOver;
@@ -393,19 +395,19 @@ namespace Krypton.Toolkit
             /// <summary>
             /// Occurs when the mouse enters the InternalListBox.
             /// </summary>
-            public event EventHandler TrackMouseEnter;
+            public event EventHandler? TrackMouseEnter;
 
             /// <summary>
             /// Occurs when the mouse leaves the InternalListBox.
             /// </summary>
-            public event EventHandler TrackMouseLeave;
+            public event EventHandler? TrackMouseLeave;
             #endregion
 
             #region Identity
             static InternalCheckedListBox()
             {
-                LBC_GETCHECKSTATE = PI.RegisterWindowMessage(@"LBC_GETCHECKSTATE");
-                LBC_SETCHECKSTATE = PI.RegisterWindowMessage(@"LBC_SETCHECKSTATE");
+                LBC_GETCHECKSTATE = PI.RegisterWindowMessage(nameof(LBC_GETCHECKSTATE));
+                LBC_SETCHECKSTATE = PI.RegisterWindowMessage(nameof(LBC_SETCHECKSTATE));
             }
 
             /// <summary>
@@ -519,7 +521,7 @@ namespace Krypton.Toolkit
             /// Creates a new instance of the item collection.
             /// </summary>
             /// <returns>A ListBox.ObjectCollection that represents the new item collection.</returns>
-            protected override ObjectCollection CreateItemCollection() => new (this);
+            protected override ObjectCollection CreateItemCollection() => new ObjectCollection(this);
 
             /// <summary>
             /// Raises the KeyPress event.
@@ -567,7 +569,8 @@ namespace Krypton.Toolkit
                 base.OnLayout(levent);
 
                 // Ask the panel to layout given our available size
-                using ViewLayoutContext context = new(_viewManager, this, _kryptonCheckedListBox, _kryptonCheckedListBox.Renderer);
+                using var context = new ViewLayoutContext(_viewManager, this, _kryptonCheckedListBox,
+                    _kryptonCheckedListBox.Renderer);
                 ViewDrawPanel.Layout(context);
             }
 
@@ -582,7 +585,7 @@ namespace Krypton.Toolkit
                     var wParam = (int)m.WParam.ToInt64();
                     if ((wParam < 0) || (wParam >= Items.Count))
                     {
-                        m.Result = (IntPtr)(-1);
+                        m.Result = PI.InvalidIntPtr;
                     }
                     else
                     {
@@ -642,7 +645,7 @@ namespace Krypton.Toolkit
                         else
                         {
                             // Find the item under the mouse
-                            Point mousePoint = new((int)m.LParam.ToInt64());
+                            var mousePoint = new Point((int)m.LParam.ToInt64());
                             var mouseIndex = IndexFromPoint(mousePoint);
 
                             // If we have an actual item from the point
@@ -696,30 +699,30 @@ namespace Krypton.Toolkit
             /// Raises the TrackMouseEnter event.
             /// </summary>
             /// <param name="e">An EventArgs containing the event data.</param>
-            protected virtual void OnTrackMouseEnter(EventArgs e) => TrackMouseEnter?.Invoke(this, e);
+            private void OnTrackMouseEnter(EventArgs e) => TrackMouseEnter?.Invoke(this, e);
 
             /// <summary>
             /// Raises the TrackMouseLeave event.
             /// </summary>
             /// <param name="e">An EventArgs containing the event data.</param>
-            protected virtual void OnTrackMouseLeave(EventArgs e) => TrackMouseLeave?.Invoke(this, e);
+            private void OnTrackMouseLeave(EventArgs e) => TrackMouseLeave?.Invoke(this, e);
 
             #endregion
 
             #region Internal
-            internal object InnerArray
+            internal object? InnerArray
             {
                 get
                 {
                     // First time around we need to use reflection to grab inner array
                     if (_innerArray == null)
                     {
-                        PropertyInfo pi = typeof(ObjectCollection).GetProperty(@"InnerArray",
+                        PropertyInfo? pi = typeof(ObjectCollection).GetProperty(nameof(InnerArray),
                                                                                         BindingFlags.Instance |
                                                                                         BindingFlags.NonPublic |
                                                                                         BindingFlags.GetField);
 
-                        _innerArray = pi.GetValue(Items, Array.Empty<object>());
+                        _innerArray = pi?.GetValue(Items, Array.Empty<object>());
                     }
 
                     return _innerArray;
@@ -730,7 +733,7 @@ namespace Krypton.Toolkit
             {
                 if (_miGetCount == null)
                 {
-                    _miGetCount = InnerArray.GetType().GetMethod(@"GetCount", new[] { typeof(int) }, null);
+                    _miGetCount = InnerArray?.GetType().GetMethod(@"GetCount", new[] { typeof(int) }, null);
                 }
 
                 return (int)_miGetCount.Invoke(InnerArray, new object[] { stateMask });
@@ -740,7 +743,7 @@ namespace Krypton.Toolkit
             {
                 if (_miIndexOf == null)
                 {
-                    _miIndexOf = InnerArray.GetType().GetMethod(@"IndexOf", new[] { typeof(object), typeof(int) }, null);
+                    _miIndexOf = InnerArray?.GetType().GetMethod(@"IndexOf", new[] { typeof(object), typeof(int) }, null);
                 }
 
                 return (int)_miIndexOf.Invoke(InnerArray, new[] { item, stateMask });
@@ -750,7 +753,7 @@ namespace Krypton.Toolkit
             {
                 if (_miIndexOfIdentifier == null)
                 {
-                    _miIndexOfIdentifier = InnerArray.GetType().GetMethod(@"IndexOfIdentifier", new[] { typeof(object), typeof(int) }, null);
+                    _miIndexOfIdentifier = InnerArray?.GetType().GetMethod(@"IndexOfIdentifier", new[] { typeof(object), typeof(int) }, null);
                 }
 
                 return (int)_miIndexOfIdentifier.Invoke(InnerArray, new[] { identifier, stateMask });
@@ -760,7 +763,7 @@ namespace Krypton.Toolkit
             {
                 if (_miGetItem == null)
                 {
-                    _miGetItem = InnerArray.GetType().GetMethod(@"GetItem", new[] { typeof(int), typeof(int) }, null);
+                    _miGetItem = InnerArray?.GetType().GetMethod(@"GetItem", new[] { typeof(int), typeof(int) }, null);
                 }
 
                 return _miGetItem.Invoke(InnerArray, new object[] { index, stateMask });
@@ -770,7 +773,7 @@ namespace Krypton.Toolkit
             {
                 if (_miGetEntryObject == null)
                 {
-                    _miGetEntryObject = InnerArray.GetType().GetMethod(@"GetEntryObject", BindingFlags.NonPublic | BindingFlags.Instance);
+                    _miGetEntryObject = InnerArray?.GetType().GetMethod(@"GetEntryObject", BindingFlags.NonPublic | BindingFlags.Instance);
                 }
 
                 return _miGetEntryObject.Invoke(InnerArray, new object[] { index, stateMask });
@@ -780,7 +783,7 @@ namespace Krypton.Toolkit
             {
                 if (_miGetState == null)
                 {
-                    _miGetState = InnerArray.GetType().GetMethod(@"GetState", new[] { typeof(int), typeof(int) }, null);
+                    _miGetState = InnerArray?.GetType().GetMethod(@"GetState", new[] { typeof(int), typeof(int) }, null);
                 }
 
                 return (bool)_miGetState.Invoke(InnerArray, new object[] { index, stateMask });
@@ -790,7 +793,7 @@ namespace Krypton.Toolkit
             {
                 if (_miSetState == null)
                 {
-                    _miSetState = InnerArray.GetType().GetMethod(@"SetState", new[] { typeof(int), typeof(int), typeof(bool) }, null);
+                    _miSetState = InnerArray?.GetType().GetMethod(@"SetState", new[] { typeof(int), typeof(int), typeof(bool) }, null);
                 }
 
                 _miSetState.Invoke(InnerArray, new object[] { index, stateMask, value });
@@ -800,7 +803,7 @@ namespace Krypton.Toolkit
             {
                 if (_miGetEnumerator == null)
                 {
-                    _miGetEnumerator = InnerArray.GetType().GetMethod(@"GetEnumerator", new[] { typeof(int), typeof(bool) }, null);
+                    _miGetEnumerator = InnerArray?.GetType().GetMethod(@"GetEnumerator", new[] { typeof(int), typeof(bool) }, null);
                 }
 
                 return (IEnumerator)_miGetEnumerator.Invoke(InnerArray, new object[] { stateMask, anyBit });
@@ -810,18 +813,18 @@ namespace Krypton.Toolkit
             #region Private
             private void WmPaint(ref Message m)
             {
-                PI.PAINTSTRUCT ps = new();
+                var ps = new PI.PAINTSTRUCT();
 
                 // Do we need to BeginPaint or just take the given HDC?
-                IntPtr hdc = m.WParam == IntPtr.Zero ? PI.BeginPaint(Handle, ref ps) : m.WParam;
+                var hdc = m.WParam == IntPtr.Zero ? PI.BeginPaint(Handle, ref ps) : m.WParam;
 
                 // Create bitmap that all drawing occurs onto, then we can blit it later to remove flicker
                 Rectangle realRect = CommonHelper.RealClientRectangle(Handle);
 
                 // No point drawing when one of the dimensions is zero
-                if ((realRect.Width > 0) && (realRect.Height > 0))
+                if (realRect is { Width: > 0, Height: > 0 })
                 {
-                    IntPtr hBitmap = PI.CreateCompatibleBitmap(hdc, realRect.Width, realRect.Height);
+                    var hBitmap = PI.CreateCompatibleBitmap(hdc, realRect.Width, realRect.Height);
 
                     // If we managed to get a compatible bitmap
                     if (hBitmap != IntPtr.Zero)
@@ -836,26 +839,28 @@ namespace Krypton.Toolkit
                             using (Graphics g = Graphics.FromHdc(_screenDC))
                             {
                                 // Ask the view element to layout in given space, needs this before a render call
-                                using (ViewLayoutContext context = new(this, _kryptonCheckedListBox.Renderer))
+                                using (var context = new ViewLayoutContext(this, _kryptonCheckedListBox.Renderer))
                                 {
                                     context.DisplayRectangle = realRect;
                                     ViewDrawPanel.Layout(context);
                                 }
 
-                                using (RenderContext context = new(this, _kryptonCheckedListBox, g, realRect, _kryptonCheckedListBox.Renderer))
+                                using (var context = new RenderContext(this, _kryptonCheckedListBox, g,
+                                           realRect, _kryptonCheckedListBox.Renderer))
                                 {
                                     ViewDrawPanel.Render(context);
                                 }
 
                                 // Replace given DC with the screen DC for base window proc drawing
-                                IntPtr beforeDC = m.WParam;
+                                var beforeDC = m.WParam;
                                 m.WParam = _screenDC;
                                 DefWndProc(ref m);
                                 m.WParam = beforeDC;
 
                                 if (Items.Count == 0)
                                 {
-                                    using RenderContext context = new(this, _kryptonCheckedListBox, g, realRect, _kryptonCheckedListBox.Renderer);
+                                    using var context = new RenderContext(this, _kryptonCheckedListBox, g,
+                                        realRect, _kryptonCheckedListBox.Renderer);
                                     ViewDrawPanel.Render(context);
                                 }
                             }
@@ -863,12 +868,13 @@ namespace Krypton.Toolkit
                             // Now blit from the bitmap from the screen to the real dc
                             PI.BitBlt(hdc, 0, 0, realRect.Width, realRect.Height, _screenDC, 0, 0, PI.SRCCOPY);
 
-                            // When disabled with no items the above code does not draw the backround! Strange but true and
+                            // When disabled with no items the above code does not draw the background! Strange but true and
                             // so we need to draw the background instead directly, without using a bit blitting of bitmap
                             if (Items.Count == 0)
                             {
                                 using Graphics g = Graphics.FromHdc(hdc);
-                                using RenderContext context = new(this, _kryptonCheckedListBox, g, realRect, _kryptonCheckedListBox.Renderer);
+                                using var context = new RenderContext(this, _kryptonCheckedListBox, g,
+                                    realRect, _kryptonCheckedListBox.Renderer);
                                 ViewDrawPanel.Render(context);
                             }
                         }
@@ -919,7 +925,7 @@ namespace Krypton.Toolkit
                     {
                         CheckState checkedState = _kryptonCheckedListBox.GetItemCheckState(selectedIndex);
                         CheckState newCheckValue = (checkedState != CheckState.Unchecked) ? CheckState.Unchecked : CheckState.Checked;
-                        ItemCheckEventArgs ice = new(selectedIndex, newCheckValue, checkedState);
+                        var ice = new ItemCheckEventArgs(selectedIndex, newCheckValue, checkedState);
                         _kryptonCheckedListBox.SetItemCheckState(selectedIndex, ice.NewValue);
                     }
                     _lastSelected = selectedIndex;
@@ -939,7 +945,6 @@ namespace Krypton.Toolkit
         private readonly PaletteTripleOverride _overrideCheckedNormal;
         private readonly PaletteTripleOverride _overrideCheckedTracking;
         private readonly PaletteTripleOverride _overrideCheckedPressed;
-        private readonly PaletteRedirectCheckBox _paletteCheckBoxImages;
         private readonly ViewLayoutDocker _drawDockerInner;
         private readonly ViewDrawDocker _drawDockerOuter;
         private readonly ViewLayoutDocker _layoutDocker;
@@ -947,8 +952,8 @@ namespace Krypton.Toolkit
         private readonly ViewDrawCheckBox _drawCheckBox;
         private readonly ViewLayoutFill _layoutFill;
         private readonly ViewDrawButton _drawButton;
-        private readonly InternalCheckedListBox _listBox;
-        private readonly FixedContentValue _contentValues;
+        private readonly InternalCheckedListBox? _listBox;
+        private readonly FixedContentValue? _contentValues;
         private bool? _fixedActive;
         private ButtonStyle _style;
         private readonly IntPtr _screenDC;
@@ -957,6 +962,9 @@ namespace Krypton.Toolkit
         private bool _alwaysActive;
         private bool _forcedLayout;
         private bool _trackingMouseEnter;
+        private float _cornerRoundingRadius;
+        private float _itemCornerRoundingRadius;
+
         #endregion
 
         #region Events
@@ -965,98 +973,98 @@ namespace Krypton.Toolkit
         /// </summary>
         [Description(@"Occurs when the property of a control is bound to a data value.")]
         [Category(@"Property Changed")]
-        public event EventHandler Format;
+        public event EventHandler? Format;
 
         /// <summary>
         /// Occurs when the value of the FormatInfo property changes.
         /// </summary>
         [Description(@"Occurs when the value of the FormatInfo property changes.")]
         [Category(@"Property Changed")]
-        public event EventHandler FormatInfoChanged;
+        public event EventHandler? FormatInfoChanged;
 
         /// <summary>
         /// Occurs when the value of the FormatString property changes.
         /// </summary>
         [Description(@"Occurs when the value of the FormatString property changes.")]
         [Category(@"Property Changed")]
-        public event EventHandler FormatStringChanged;
+        public event EventHandler? FormatStringChanged;
 
         /// <summary>
         /// Occurs when the value of the FormattingEnabled property changes.
         /// </summary>
         [Description(@"Occurs when the value of the FormattingEnabled property changes.")]
         [Category(@"Property Changed")]
-        public event EventHandler FormattingEnabledChanged;
+        public event EventHandler? FormattingEnabledChanged;
 
         /// <summary>
         /// Occurs when the value of the SelectedValue property changes.
         /// </summary>
         [Description(@"Occurs when the value of the SelectedValue property changes.")]
         [Category(@"Property Changed")]
-        public event EventHandler SelectedValueChanged;
+        public event EventHandler? SelectedValueChanged;
 
         /// <summary>
         /// Occurs when the value of the SelectedIndex property changes.
         /// </summary>
         [Description(@"Occurs when the value of the SelectedIndex property changes.")]
         [Category(@"Behavior")]
-        public event EventHandler SelectedIndexChanged;
+        public event EventHandler? SelectedIndexChanged;
 
         /// <summary>
         /// Occurs when the value of the SelectedIndex property changes.
         /// </summary>
         [Description(@"Indicates that an item is about to have its check state changed. The value is not updated until after the event occurs.")]
         [Category(@"Behavior")]
-        public event ItemCheckEventHandler ItemCheck;
+        public event ItemCheckEventHandler? ItemCheck;
 
         /// <summary>
         /// Occurs when the value of the BackColor property changes.
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public new event EventHandler BackColorChanged;
+        public new event EventHandler? BackColorChanged;
 
         /// <summary>
         /// Occurs when the value of the BackgroundImage property changes.
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public new event EventHandler BackgroundImageChanged;
+        public new event EventHandler? BackgroundImageChanged;
 
         /// <summary>
         /// Occurs when the value of the BackgroundImageLayout property changes.
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public new event EventHandler BackgroundImageLayoutChanged;
+        public new event EventHandler? BackgroundImageLayoutChanged;
 
         /// <summary>
         /// Occurs when the value of the ForeColor property changes.
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public new event EventHandler ForeColorChanged;
+        public new event EventHandler? ForeColorChanged;
 
         /// <summary>
         /// Occurs when the value of the MouseClick property changes.
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public new event EventHandler PaddingChanged;
+        public new event EventHandler? PaddingChanged;
 
         /// <summary>
         /// Occurs when the value of the MouseClick property changes.
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public new event PaintEventHandler Paint;
+        public new event PaintEventHandler? Paint;
 
         /// <summary>
         /// Occurs when the value of the TextChanged property changes.
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public new event EventHandler TextChanged;
+        public new event EventHandler? TextChanged;
 
         /// <summary>
         /// Occurs when the mouse enters the control.
@@ -1064,7 +1072,7 @@ namespace Krypton.Toolkit
         [Description(@"Raises the TrackMouseEnter event in the wrapped control.")]
         [Category(@"Mouse")]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public event EventHandler TrackMouseEnter;
+        public event EventHandler? TrackMouseEnter;
 
         /// <summary>
         /// Occurs when the mouse leaves the control.
@@ -1072,7 +1080,7 @@ namespace Krypton.Toolkit
         [Description(@"Raises the TrackMouseLeave event in the wrapped control.")]
         [Category(@"Mouse")]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public event EventHandler TrackMouseLeave;
+        public event EventHandler? TrackMouseLeave;
         #endregion
 
         #region Identity
@@ -1095,7 +1103,7 @@ namespace Krypton.Toolkit
 
             // Create the palette storage
             Images = new CheckBoxImages(NeedPaintDelegate);
-            _paletteCheckBoxImages = new PaletteRedirectCheckBox(Redirector, Images);
+            var paletteCheckBoxImages = new PaletteRedirectCheckBox(Redirector, Images);
             StateCommon = new PaletteListStateRedirect(Redirector, PaletteBackStyle.InputControlStandalone, PaletteBorderStyle.InputControlStandalone, NeedPaintDelegate);
             OverrideFocus = new PaletteListItemTripleRedirect(Redirector, PaletteBackStyle.ButtonListItem, PaletteBorderStyle.ButtonListItem, PaletteContentStyle.ButtonListItem, NeedPaintDelegate);
             StateDisabled = new PaletteListState(StateCommon, NeedPaintDelegate);
@@ -1116,7 +1124,7 @@ namespace Krypton.Toolkit
             _overrideCheckedPressed = new PaletteTripleOverride(OverrideFocus.Item, StateCheckedPressed.Item, PaletteState.FocusOverride);
 
             // Create the check box image drawer and place inside element so it is always centered
-            _drawCheckBox = new ViewDrawCheckBox(_paletteCheckBoxImages);
+            _drawCheckBox = new ViewDrawCheckBox(paletteCheckBoxImages);
             _layoutCenter = new ViewLayoutCenter
             {
                 _drawCheckBox
@@ -1193,9 +1201,9 @@ namespace Krypton.Toolkit
             // Add text box to the controls collection
             ((KryptonReadOnlyControls)Controls).AddInternal(_listBox);
 
-            CornerRoundingRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
+            _cornerRoundingRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
 
-            ItemCornerRoundingRadius = GlobalStaticValues.SECONDARY_CORNER_ROUNDING_VALUE;
+            _itemCornerRoundingRadius = GlobalStaticValues.SECONDARY_CORNER_ROUNDING_VALUE;
         }
 
         private void OnCheckedListClick(object sender, EventArgs e) =>
@@ -1222,24 +1230,24 @@ namespace Krypton.Toolkit
         /// <value>The corner rounding radius.</value>
         [Category(@"Visuals")]
         [Description(@"Gets or sets the corner rounding radius.")]
-        [DefaultValue(-1)]
+        [DefaultValue(GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE)]
         public float CornerRoundingRadius
         {
-            get => StateCommon.Border.Rounding;
+            get => _cornerRoundingRadius;
 
-            set => StateCommon.Border.Rounding = value;
+            set => SetCornerRoundingRadius(value);
         }
 
         /// <summary>Gets or sets the item corner rounding radius.</summary>
         /// <value>The item corner rounding radius.</value>
         [Category(@"Visuals")]
         [Description(@"Gets or sets the item corner rounding radius.")]
-        [DefaultValue(-1)]
+        [DefaultValue(GlobalStaticValues.SECONDARY_CORNER_ROUNDING_VALUE)]
         public float ItemCornerRoundingRadius
         {
-            get => StateCommon.Item.Border.Rounding;
+            get => _itemCornerRoundingRadius;
 
-            set => StateCommon.Item.Border.Rounding = value;
+            set => SetItemCornerRoundingRadius(value);
         }
 
         /// <summary>
@@ -1248,7 +1256,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         [EditorBrowsable(EditorBrowsableState.Always)]
         [Browsable(false)]
-        public ListBox ListBox => _listBox;
+        public ListBox? ListBox => _listBox;
 
         /// <summary>
         /// Gets access to the contained input control.
@@ -1256,7 +1264,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         [EditorBrowsable(EditorBrowsableState.Always)]
         [Browsable(false)]
-        public Control ContainedControl => ListBox;
+        public Control ContainedControl => ListBox!;
 
         /// <summary>
         /// Gets or sets the text for the control.
@@ -1265,6 +1273,7 @@ namespace Krypton.Toolkit
         [Bindable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        [AllowNull]
         public override string Text
         {
             get => base.Text;
@@ -1291,6 +1300,8 @@ namespace Krypton.Toolkit
         [Bindable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        [AmbientValue(null)]
+        [AllowNull]
         public override Font Font
         {
             get => base.Font;
@@ -1334,7 +1345,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public int SelectedIndex
         {
-            get => _listBox.SelectedIndex;
+            get => _listBox?.SelectedIndex ?? -1;
             set => _listBox.SelectedIndex = value;
         }
 
@@ -1346,9 +1357,9 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         [DefaultValue(null)]
-        public object SelectedValue
+        public object? SelectedValue
         {
-            get => _listBox.SelectedValue;
+            get => _listBox?.SelectedValue;
             set => _listBox.SelectedValue = value;
         }
 
@@ -1357,7 +1368,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public ListBox.SelectedIndexCollection SelectedIndices => _listBox.SelectedIndices;
+        public ListBox.SelectedIndexCollection SelectedIndices => _listBox.SelectedIndices ?? new ListBox.SelectedIndexCollection(null);
 
         /// <summary>
         /// Gets or sets the currently selected item in the KryptonCheckedListBox.
@@ -1365,9 +1376,9 @@ namespace Krypton.Toolkit
         [Bindable(true)]
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public object SelectedItem
+        public object? SelectedItem
         {
-            get => _listBox.SelectedItem;
+            get => _listBox?.SelectedItem;
             set => _listBox.SelectedItem = value;
         }
 
@@ -1376,7 +1387,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public ListBox.SelectedObjectCollection SelectedItems => _listBox.SelectedItems;
+        public ListBox.SelectedObjectCollection SelectedItems => _listBox?.SelectedItems ?? new ListBox.SelectedObjectCollection(null);
 
         /// <summary>
         /// Gets or sets the index of the first visible item in the KryptonCheckedListBox.
@@ -1385,7 +1396,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public int TopIndex
         {
-            get => _listBox.TopIndex;
+            get => _listBox?.TopIndex ?? -1;
             set => _listBox.TopIndex = value;
         }
 
@@ -1411,10 +1422,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void ResetItemStyle()
-        {
-            ItemStyle = ButtonStyle.ListItem;
-        }
+        private void ResetItemStyle() => ItemStyle = ButtonStyle.ListItem;
 
         private bool ShouldSerializeItemStyle() => ItemStyle != ButtonStyle.ListItem;
 
@@ -1427,7 +1435,7 @@ namespace Krypton.Toolkit
         [DefaultValue(0)]
         public virtual int HorizontalExtent
         {
-            get => _listBox.HorizontalExtent;
+            get => _listBox?.HorizontalExtent ?? -1;
             set => _listBox.HorizontalExtent = value;
         }
 
@@ -1440,7 +1448,7 @@ namespace Krypton.Toolkit
         [DefaultValue(false)]
         public virtual bool HorizontalScrollbar
         {
-            get => _listBox.HorizontalScrollbar;
+            get => _listBox?.HorizontalScrollbar ?? false;
             set => _listBox.HorizontalScrollbar = value;
         }
 
@@ -1453,7 +1461,7 @@ namespace Krypton.Toolkit
         [DefaultValue(false)]
         public virtual bool ScrollAlwaysVisible
         {
-            get => _listBox.ScrollAlwaysVisible;
+            get => _listBox?.ScrollAlwaysVisible ?? false;
             set => _listBox.ScrollAlwaysVisible = value;
         }
 
@@ -1470,10 +1478,10 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Behavior")]
         [Description(@"Indicates if the checked list box is to be single-select or not selectable. (Multi## not supported)")]
-        [DefaultValue(typeof(CheckedSelectionMode), "One")]
+        [DefaultValue(CheckedSelectionMode.One)]
         public virtual CheckedSelectionMode SelectionMode
         {
-            get => _listBox.SelectionMode == System.Windows.Forms.SelectionMode.One
+            get => _listBox?.SelectionMode == System.Windows.Forms.SelectionMode.One
                     ? CheckedSelectionMode.One
                     : CheckedSelectionMode.None;
 
@@ -1490,7 +1498,7 @@ namespace Krypton.Toolkit
         [DefaultValue(false)]
         public virtual bool Sorted
         {
-            get => _listBox.Sorted;
+            get => _listBox?.Sorted ?? false;
             set => _listBox.Sorted = value;
         }
 
@@ -1499,12 +1507,12 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Data")]
         [Description(@"The items in the KryptonCheckedListBox.")]
-        [Editor(@"System.Windows.Forms.Design.ListControlStringCollectionEditor, " + AssemblyRef.SystemDesign, typeof(UITypeEditor))]
+        [Editor(@"System.Windows.Forms.Design.ListControlStringCollectionEditor", typeof(UITypeEditor))]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         [MergableProperty(false)]
         [Localizable(true)]
         // ReSharper disable once MemberCanBeProtected.Global
-        public virtual ListBox.ObjectCollection Items => _listBox.Items;
+        public virtual ListBox.ObjectCollection Items => _listBox?.Items ?? new ListBox.ObjectCollection(null);
 
         /// <summary>
         /// Collection of checked items in this KryptonCheckedListBox.
@@ -1524,12 +1532,12 @@ namespace Krypton.Toolkit
         /// Gets or sets the format specifier characters that indicate how a value is to be Displayed.
         /// </summary>
         [Description(@"The format specifier characters that indicate how a value is to be Displayed.")]
-        [Editor(@"System.Windows.Forms.Design.FormatStringEditor, " + AssemblyRef.SystemDesign, typeof(UITypeEditor))]
+        [Editor(@"System.Windows.Forms.Design.FormatStringEditor", typeof(UITypeEditor))]
         [MergableProperty(false)]
         [DefaultValue(@"")]
         public string FormatString
         {
-            get => _listBox.FormatString;
+            get => _listBox?.FormatString ?? string.Empty;
             set => _listBox.FormatString = value;
         }
 
@@ -1540,7 +1548,7 @@ namespace Krypton.Toolkit
         [DefaultValue(false)]
         public bool FormattingEnabled
         {
-            get => _listBox.FormattingEnabled;
+            get => _listBox?.FormattingEnabled ?? false;
             set => _listBox.FormattingEnabled = value;
         }
 
@@ -1564,10 +1572,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void ResetBackStyle()
-        {
-            BackStyle = PaletteBackStyle.InputControlStandalone;
-        }
+        private void ResetBackStyle() => BackStyle = PaletteBackStyle.InputControlStandalone;
 
         private bool ShouldSerializeBackStyle() => BackStyle != PaletteBackStyle.InputControlStandalone;
 
@@ -1591,10 +1596,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void ResetBorderStyle()
-        {
-            BorderStyle = PaletteBorderStyle.InputControlStandalone;
-        }
+        private void ResetBorderStyle() => BorderStyle = PaletteBorderStyle.InputControlStandalone;
 
         private bool ShouldSerializeBorderStyle() => BorderStyle != PaletteBorderStyle.InputControlStandalone;
 
@@ -1624,7 +1626,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Overrides for defining common appearance that other states can override.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteListStateRedirect StateCommon { get; }
+        public PaletteListStateRedirect? StateCommon { get; }
 
         private bool ShouldSerializeStateCommon() => !StateCommon.IsDefault;
 
@@ -1731,7 +1733,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Unselects all items in the KryptonCheckedListBox.
         /// </summary>
-        public void ClearSelected() => _listBox.ClearSelected();
+        public void ClearSelected() => _listBox?.ClearSelected();
 
         /// <summary>
         /// Returns a value indicating whether the specified item is checked.
@@ -1749,7 +1751,7 @@ namespace Krypton.Toolkit
         public CheckState GetItemCheckState(int index) =>
             // Check index actually exists
             (index < 0) || (index >= Items.Count)
-                ? throw new ArgumentOutOfRangeException(nameof(index), "index out of range")
+                ? throw new ArgumentOutOfRangeException(nameof(index), @"index out of range")
                 : CheckedItems.GetCheckedState(index);
 
         /// <summary>
@@ -1770,7 +1772,7 @@ namespace Krypton.Toolkit
             // Check index actually exists
             if ((index < 0) || (index >= Items.Count))
             {
-                throw new ArgumentOutOfRangeException(nameof(index), "index out of range");
+                throw new ArgumentOutOfRangeException(nameof(index), @"index out of range");
             }
 
             // Is the new state different from the current checked state?
@@ -1778,14 +1780,14 @@ namespace Krypton.Toolkit
             if (value != checkedState)
             {
                 // Give developers a chance to see and alter the change
-                ItemCheckEventArgs ice = new(index, value, checkedState);
+                var ice = new ItemCheckEventArgs(index, value, checkedState);
                 OnItemCheck(ice);
 
-                // If a change is still occuring
+                // If a change is still occurring
                 if (ice.NewValue != checkedState)
                 {
                     CheckedItems.SetCheckedState(index, ice.NewValue);
-                    _listBox.Invalidate();
+                    _listBox?.Invalidate();
                 }
             }
         }
@@ -1795,7 +1797,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="str">The String to search for.</param>
         /// <returns>The zero-based index of the first item found; returns -1 if no match is found.</returns>
-        public int FindString(string str) => _listBox.FindString(str);
+        public int FindString(string str) => _listBox?.FindString(str) ?? -1;
 
         /// <summary>
         /// Finds the first item after the given index which starts with the given string. The search is not case sensitive.
@@ -1803,14 +1805,14 @@ namespace Krypton.Toolkit
         /// <param name="str">The String to search for.</param>
         /// <param name="startIndex">The zero-based index of the item before the first item to be searched. Set to -1 to search from the beginning of the control.</param>
         /// <returns>The zero-based index of the first item found; returns -1 if no match is found, or 0 if the s parameter specifies Empty.</returns>
-        public int FindString(string str, int startIndex) => _listBox.FindString(str, startIndex);
+        public int FindString(string str, int startIndex) => _listBox?.FindString(str, startIndex) ?? -1;
 
         /// <summary>
         /// Finds the first item in the list box that matches the specified string.
         /// </summary>
         /// <param name="str">The String to search for.</param>
         /// <returns>The zero-based index of the first item found; returns -1 if no match is found.</returns>
-        public int FindStringExact(string str) => _listBox.FindStringExact(str);
+        public int FindStringExact(string str) => _listBox?.FindStringExact(str) ?? -1;
 
         /// <summary>
         /// Finds the first item after the specified index that matches the specified string.
@@ -1818,35 +1820,35 @@ namespace Krypton.Toolkit
         /// <param name="str">The String to search for.</param>
         /// <param name="startIndex">The zero-based index of the item before the first item to be searched. Set to -1 to search from the beginning of the control.</param>
         /// <returns>The zero-based index of the first item found; returns -1 if no match is found, or 0 if the s parameter specifies Empty.</returns>
-        public int FindStringExact(string str, int startIndex) => _listBox.FindStringExact(str, startIndex);
+        public int FindStringExact(string str, int startIndex) => _listBox?.FindStringExact(str, startIndex) ?? -1;
 
         /// <summary>
         /// Returns the height of an item in the KryptonCheckedListBox.
         /// </summary>
         /// <param name="index">The index of the item to return the height of.</param>
         /// <returns>The height, in pixels, of the item at the specified index.</returns>
-        public int GetItemHeight(int index) => _listBox.GetItemHeight(index);
+        public int GetItemHeight(int index) => _listBox?.GetItemHeight(index) ?? 0;
 
         /// <summary>
         /// Returns the bounding rectangle for an item in the KryptonCheckedListBox.
         /// </summary>
         /// <param name="index">The zero-based index of item whose bounding rectangle you want to return.</param>
         /// <returns>A Rectangle that represents the bounding rectangle for the specified item.</returns>
-        public Rectangle GetItemRectangle(int index) => _listBox.GetItemRectangle(index);
+        public Rectangle GetItemRectangle(int index) => _listBox?.GetItemRectangle(index) ?? Rectangle.Empty;
 
         /// <summary>
         /// Returns a value indicating whether the specified item is selected.
         /// </summary>
         /// <param name="index">The zero-based index of the item that determines whether it is selected.</param>
         /// <returns>true if the specified item is currently selected in the KryptonCheckedListBox; otherwise, false.</returns>
-        public bool GetSelected(int index) => _listBox.GetSelected(index);
+        public bool GetSelected(int index) => _listBox?.GetSelected(index) ?? false;
 
         /// <summary>
         /// Returns the zero-based index of the item at the specified coordinates.
         /// </summary>
         /// <param name="p">A Point object containing the coordinates used to obtain the item index.</param>
         /// <returns>The zero-based index of the item found at the specified coordinates; returns ListBox.NoMatches if no match is found.</returns>
-        public int IndexFromPoint(Point p) => _listBox.IndexFromPoint(p);
+        public int IndexFromPoint(Point p) => _listBox?.IndexFromPoint(p) ?? ListBox.NoMatches;
 
         /// <summary>
         /// Returns the zero-based index of the item at the specified coordinates.
@@ -1854,53 +1856,52 @@ namespace Krypton.Toolkit
         /// <param name="x">The x-coordinate of the location to search.</param>
         /// <param name="y">The y-coordinate of the location to search.</param>
         /// <returns>The zero-based index of the item found at the specified coordinates; returns ListBox.NoMatches if no match is found.</returns>
-        public int IndexFromPoint(int x, int y) => _listBox.IndexFromPoint(x, y);
+        public int IndexFromPoint(int x, int y) => _listBox?.IndexFromPoint(x, y) ?? ListBox.NoMatches;
 
         /// <summary>
         /// Selects or clears the selection for the specified item in a KryptonCheckedListBox. 
         /// </summary>
         /// <param name="index">The zero-based index of the item in a KryptonCheckedListBox to select or clear the selection for.</param>
         /// <param name="value">true to select the specified item; otherwise, false.</param>
-        public void SetSelected(int index, bool value) => _listBox.SetSelected(index, value);
+        public void SetSelected(int index, bool value) => _listBox?.SetSelected(index, value);
 
         /// <summary>
         /// Returns the text representation of the specified item.
         /// </summary>
         /// <param name="item">The object from which to get the contents to display.</param>
-        /// <returns>If the DisplayMember property is not specified, the value returned by GetItemText is the value of the item's ToString method. Otherwise, the method returns the string value of the member specified in the DisplayMember property for the object specified in the item parameter.</returns>
-        public string GetItemText(object item) => _listBox.GetItemText(item);
+        /// <returns>If the DisplayMember property is not specified,
+        /// the value returned by GetItemText is the value of the item's ToString method.
+        /// Otherwise, the method returns the string value of the member specified in the DisplayMember property for the object specified in the item parameter.</returns>
+        public string GetItemText(object item) => _listBox?.GetItemText(item) ?? string.Empty;
 
         /// <summary>
         /// Maintains performance while items are added to the ListBox one at a time by preventing the control from drawing until the EndUpdate method is called.
         /// </summary>
-        public void BeginUpdate() => _listBox.BeginUpdate();
+        public void BeginUpdate() => _listBox?.BeginUpdate();
 
         /// <summary>
         /// Resumes painting the ListBox control after painting is suspended by the BeginUpdate method. 
         /// </summary>
-        public void EndUpdate() => _listBox.EndUpdate();
+        public void EndUpdate() => _listBox?.EndUpdate();
 
         /// <summary>
         /// Sets the fixed state of the control.
         /// </summary>
         /// <param name="active">Should the control be fixed as active.</param>
-        public void SetFixedState(bool active)
-        {
-            _fixedActive = active;
-        }
+        public void SetFixedState(bool active) => _fixedActive = active;
 
         /// <summary>
         /// Gets a value indicating if the input control is active.
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public bool IsActive => _fixedActive ?? DesignMode || AlwaysActive || ContainsFocus || _mouseOver || _listBox.MouseOver;
+        public bool IsActive => _fixedActive ?? DesignMode || AlwaysActive || ContainsFocus || _mouseOver || (_listBox?.MouseOver ?? false);
 
         /// <summary>
         /// Sets input focus to the control.
         /// </summary>
         /// <returns>true if the input focus request was successful; otherwise, false.</returns>
-        public new bool Focus() => ListBox != null && ListBox.Focus();
+        public new bool Focus() => ListBox?.Focus() == true;
 
         /// <summary>
         /// Activates the control.
@@ -1981,9 +1982,13 @@ namespace Krypton.Toolkit
         /// <param name="e">An EventArgs that contains the event data.</param>
         protected override void OnPaletteChanged(EventArgs e)
         {
-            _listBox.Recreate();
-            _listBox.RefreshItemSizes();
-            _listBox.Invalidate();
+            if (_listBox != null)
+            {
+                _listBox.Recreate();
+                _listBox.RefreshItemSizes();
+                _listBox.Invalidate();
+            }
+
             base.OnPaletteChanged(e);
         }
 
@@ -1994,7 +1999,7 @@ namespace Krypton.Toolkit
         /// <param name="e">An NeedLayoutEventArgs containing event data.</param>
         protected override void OnPaletteNeedPaint(object sender, NeedLayoutEventArgs e)
         {
-            _listBox.RefreshItemSizes();
+            _listBox?.RefreshItemSizes();
             base.OnPaletteChanged(e);
         }
 
@@ -2112,11 +2117,11 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">Source of notification.</param>
         /// <param name="e">An NeedLayoutEventArgs containing event data.</param>
-        protected override void OnNeedPaint(object sender, NeedLayoutEventArgs e)
+        protected override void OnNeedPaint(object? sender, NeedLayoutEventArgs e)
         {
             if (IsHandleCreated && !e.NeedLayout)
             {
-                _listBox.Invalidate();
+                _listBox?.Invalidate();
             }
             else
             {
@@ -2141,7 +2146,7 @@ namespace Krypton.Toolkit
             if (IsHandleCreated || _forcedLayout || (DesignMode && (_listBox != null)))
             {
                 Rectangle fillRect = _layoutFill.FillRect;
-                _listBox.SetBounds(fillRect.X, fillRect.Y, fillRect.Width, fillRect.Height);
+                _listBox?.SetBounds(fillRect.X, fillRect.Y, fillRect.Width, fillRect.Height);
             }
         }
 
@@ -2153,7 +2158,7 @@ namespace Krypton.Toolkit
         {
             _mouseOver = true;
             PerformNeedPaint(true);
-            _listBox.Invalidate();
+            _listBox?.Invalidate();
             base.OnMouseEnter(e);
         }
 
@@ -2165,14 +2170,14 @@ namespace Krypton.Toolkit
         {
             _mouseOver = false;
             PerformNeedPaint(true);
-            _listBox.Invalidate();
+            _listBox?.Invalidate();
             base.OnMouseLeave(e);
         }
 
         /// <summary>
         /// Gets the default size of the control.
         /// </summary>
-        protected override Size DefaultSize => new(120, 96);
+        protected override Size DefaultSize => new Size(120, 96);
 
         #endregion
 
@@ -2217,7 +2222,7 @@ namespace Krypton.Toolkit
             UpdateContentFromItemIndex(e.Index);
 
             // By default the button is in the normal state
-            PaletteState buttonState = PaletteState.Normal;
+            var buttonState = PaletteState.Normal;
 
             // Is this item disabled
             if ((e.State & DrawItemState.Disabled) == DrawItemState.Disabled)
@@ -2270,12 +2275,12 @@ namespace Krypton.Toolkit
             _drawCheckBox.CheckState = GetItemCheckState(e.Index);
 
             // Grab the raw device context for the graphics instance
-            IntPtr hdc = e.Graphics.GetHdc();
+            var hdc = e.Graphics.GetHdc();
 
             try
             {
                 // Create bitmap that all drawing occurs onto, then we can blit it later to remove flicker
-                IntPtr hBitmap = PI.CreateCompatibleBitmap(hdc, e.Bounds.Right, e.Bounds.Bottom);
+                var hBitmap = PI.CreateCompatibleBitmap(hdc, e.Bounds.Right, e.Bounds.Bottom);
 
                 // If we managed to get a compatible bitmap
                 if (hBitmap != IntPtr.Zero)
@@ -2289,7 +2294,7 @@ namespace Krypton.Toolkit
                         // Easier to draw using a graphics instance than a DC!
                         using Graphics g = Graphics.FromHdc(_screenDC);
                         // Ask the view element to layout in given space, needs this before a render call
-                        using (ViewLayoutContext context = new(this, Renderer))
+                        using (var context = new ViewLayoutContext(this, Renderer))
                         {
                             context.DisplayRectangle = e.Bounds;
                             _listBox.ViewDrawPanel.Layout(context);
@@ -2297,7 +2302,7 @@ namespace Krypton.Toolkit
                         }
 
                         // Ask the view element to actually draw
-                        using (RenderContext context = new(this, g, e.Bounds, Renderer))
+                        using (var context = new RenderContext(this, g, e.Bounds, Renderer))
                         {
                             _listBox.ViewDrawPanel.Render(context);
                             _layoutDocker.Render(context);
@@ -2325,7 +2330,7 @@ namespace Krypton.Toolkit
             UpdateContentFromItemIndex(e.Index);
 
             // Ask the view element to layout in given space, needs this before a render call
-            using ViewLayoutContext context = new(this, Renderer);
+            using var context = new ViewLayoutContext(this, Renderer);
             Size size = _layoutDocker.GetPreferredSize(context);
             e.ItemWidth = size.Width;
             e.ItemHeight = size.Height;
@@ -2345,7 +2350,7 @@ namespace Krypton.Toolkit
             else
             {
                 // Get the text string for the item
-                _contentValues.ShortText = _listBox.GetItemText(Items[index]);
+                _contentValues.ShortText = _listBox?.GetItemText(Items[index]);
                 _contentValues.LongText = null;
                 _contentValues.Image = null;
                 _contentValues.ImageTransparentColor = Color.Empty;
@@ -2367,7 +2372,7 @@ namespace Krypton.Toolkit
         private void OnListBoxSelectedValueChanged(object sender, EventArgs e)
         {
             UpdateStateAndPalettes();
-            _listBox.Invalidate();
+            _listBox?.Invalidate();
             OnSelectedValueChanged(e);
         }
 
@@ -2384,7 +2389,7 @@ namespace Krypton.Toolkit
         private void OnListBoxGotFocus(object sender, EventArgs e)
         {
             UpdateStateAndPalettes();
-            _listBox.Invalidate();
+            _listBox?.Invalidate();
             PerformNeedPaint(true);
             OnGotFocus(e);
         }
@@ -2392,7 +2397,7 @@ namespace Krypton.Toolkit
         private void OnListBoxLostFocus(object sender, EventArgs e)
         {
             UpdateStateAndPalettes();
-            _listBox.Invalidate();
+            _listBox?.Invalidate();
             PerformNeedPaint(true);
             OnLostFocus(e);
         }
@@ -2429,6 +2434,21 @@ namespace Krypton.Toolkit
                 }
             }
         }
+
+        private void SetCornerRoundingRadius(float? radius)
+        {
+            _cornerRoundingRadius = radius ?? GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
+
+            StateCommon.Border.Rounding = _cornerRoundingRadius;
+        }
+
+        private void SetItemCornerRoundingRadius(float? radius)
+        {
+            _itemCornerRoundingRadius = radius ?? GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
+
+            StateCommon.Item.Border.Rounding = _itemCornerRoundingRadius;
+        }
+
         #endregion
     }
 }

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -15,10 +15,10 @@ namespace Krypton.Toolkit
     internal class KryptonSplitContainerDesigner : ParentControlDesigner
     {
         #region Instance Fields
-        private KryptonSplitContainer _splitContainer;
+        private KryptonSplitContainer? _splitContainer;
         private IDesignerHost _designerHost;
         private ISelectionService _selectionService;
-        private BehaviorService _behaviorService;
+        private BehaviorService? _behaviorService;
         private Adorner _adorner;
         #endregion
 
@@ -27,7 +27,7 @@ namespace Krypton.Toolkit
         /// Initializes the designer with the specified component.
         /// </summary>
         /// <param name="component">The IComponent to associate with the designer.</param>
-        public override void Initialize(IComponent component)
+        public override void Initialize([DisallowNull] IComponent component)
         {
             // Let base class do standard stuff
             base.Initialize(component);
@@ -95,18 +95,17 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="internalControlIndex">A specified index to select the internal control designer. This index is zero-based.</param>
         /// <returns>A ControlDesigner at the specified index.</returns>
-        public override ControlDesigner InternalControlDesigner(int internalControlIndex)
+        public override ControlDesigner? InternalControlDesigner(int internalControlIndex)
         {
             if (_splitContainer != null)
             {
-                // Get the control designer for the requested indexed child control
-                if (internalControlIndex == 0)
+                switch (internalControlIndex)
                 {
-                    return (ControlDesigner)_designerHost.GetDesigner(_splitContainer.Panel1);
-                }
-                else if (internalControlIndex == 1)
-                {
-                    return (ControlDesigner)_designerHost.GetDesigner(_splitContainer.Panel2);
+                    // Get the control designer for the requested indexed child control
+                    case 0:
+                        return _designerHost.GetDesigner(_splitContainer.Panel1) as ControlDesigner;
+                    case 1:
+                        return _designerHost.GetDesigner(_splitContainer.Panel2) as ControlDesigner;
                 }
             }
 
@@ -127,7 +126,7 @@ namespace Krypton.Toolkit
             get
             {
                 // Create a collection of action lists
-                DesignerActionListCollection actionLists = new()
+                DesignerActionListCollection actionLists = new DesignerActionListCollection
                 {
 
                     // Add the orientation list
@@ -144,11 +143,9 @@ namespace Krypton.Toolkit
         /// Raises the DragEnter event.
         /// </summary>
         /// <param name="de">A DragEventArgs that contains the event data.</param>
-        protected override void OnDragEnter(DragEventArgs de)
-        {
+        protected override void OnDragEnter(DragEventArgs de) =>
             // Prevent user dragging a toolbox control onto the control
             de.Effect = DragDropEffects.None;
-        }
         #endregion
     }
 }

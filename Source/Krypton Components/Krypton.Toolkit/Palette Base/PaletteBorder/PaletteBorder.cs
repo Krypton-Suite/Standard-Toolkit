@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -31,7 +31,7 @@ namespace Krypton.Toolkit
             public float BorderColorAngle;
             public int BorderWidth;
             public float BorderRounding;
-            public Image BorderImage;
+            public Image? BorderImage;
             public PaletteImageStyle BorderImageStyle;
             public PaletteRectangleAlign BorderImageAlign;
 
@@ -65,9 +65,9 @@ namespace Krypton.Toolkit
                                      (BorderColor2 == Color.Empty) &&
                                      (BorderColorStyle == PaletteColorStyle.Inherit) &&
                                      (BorderColorAlign == PaletteRectangleAlign.Inherit) &&
-                                     (BorderColorAngle == -1) &&
+                                     (BorderColorAngle == -1f) &&
                                      (BorderWidth == -1) &&
-                                     (BorderRounding == -1) &&
+                                     (BorderRounding == -1f) &&
                                      (BorderImage == null) &&
                                      (BorderImageStyle == PaletteImageStyle.Inherit) &&
                                      (BorderImageAlign == PaletteRectangleAlign.Inherit);
@@ -76,7 +76,7 @@ namespace Krypton.Toolkit
 
         #region Instance Fields
         private IPaletteBorder _inherit;
-        private InternalStorage _storage;
+        private InternalStorage? _storage;
         #endregion
 
         #region Events
@@ -85,7 +85,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]  // SKC: Probably a special case for not exposing this event in the designer....
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
         #endregion
 
         #region Identity
@@ -94,13 +94,13 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="inherit">Source for inheriting defaulted values.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public PaletteBorder(IPaletteBorder inherit,
-                             NeedPaintHandler needPaint)
+        public PaletteBorder([DisallowNull] IPaletteBorder inherit,
+                             NeedPaintHandler? needPaint)
         {
             Debug.Assert(inherit != null);
 
             // Remember inheritance
-            _inherit = inherit;
+            _inherit = inherit!;
 
             // Store the provided paint notification delegate
             NeedPaint = needPaint;
@@ -120,10 +120,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Sets the inheritance parent.
         /// </summary>
-        public void SetInherit(IPaletteBorder inherit)
-        {
-            _inherit = inherit;
-        }
+        public void SetInherit(IPaletteBorder inherit) => _inherit = inherit;
         #endregion
 
         #region PopulateFromBase
@@ -157,7 +154,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category(@"Visuals")]
         [Description(@"Should border be drawn.")]
-        [DefaultValue(typeof(InheritBool), "Inherit")]
+        [DefaultValue(InheritBool.Inherit)]
         [RefreshProperties(RefreshProperties.All)]
         public InheritBool Draw
         {
@@ -204,9 +201,9 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category(@"Visuals")]
         [Description(@"Specify which borders should be drawn.")]
-        [DefaultValue(typeof(PaletteDrawBorders), "Inherit")]
+        [DefaultValue(PaletteDrawBorders.Inherit)]
         [RefreshProperties(RefreshProperties.All)]
-        [Editor(@"Krypton.Toolkit.PaletteDrawBordersEditor, Krypton.Toolkit", typeof(UITypeEditor))]
+        [Editor(typeof(PaletteDrawBordersEditor), typeof(UITypeEditor))]
         public PaletteDrawBorders DrawBorders
         {
             get => _storage?.BorderDrawBorders ?? PaletteDrawBorders.Inherit;
@@ -263,7 +260,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category(@"Visuals")]
         [Description(@"Hint for drawing graphics.")]
-        [DefaultValue(typeof(PaletteGraphicsHint), "Inherit")]
+        [DefaultValue(PaletteGraphicsHint.Inherit)]
         [RefreshProperties(RefreshProperties.All)]
         public PaletteGraphicsHint GraphicsHint
         {
@@ -318,9 +315,13 @@ namespace Krypton.Toolkit
             get
             {
                 if (_storage?.BorderColor1 != null)
+                {
                     return _storage.BorderColor1;
+                }
                 else
+                {
                     return Color.Empty;
+                }
             }
 
             set
@@ -412,7 +413,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category(@"Visuals")]
         [Description(@"Border color drawing style.")]
-        [DefaultValue(typeof(PaletteColorStyle), "Inherit")]
+        [DefaultValue(PaletteColorStyle.Inherit)]
         [RefreshProperties(RefreshProperties.All)]
         public PaletteColorStyle ColorStyle
         {
@@ -461,7 +462,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category(@"Visuals")]
         [Description(@"Border color alignment style.")]
-        [DefaultValue(typeof(PaletteRectangleAlign), "Inherit")]
+        [DefaultValue(PaletteRectangleAlign.Inherit)]
         [RefreshProperties(RefreshProperties.All)]
         public PaletteRectangleAlign ColorAlign
         {
@@ -546,7 +547,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Angle used for color drawing.</returns>
-        public float GetBorderColorAngle(PaletteState state) => ColorAngle != -1 ? ColorAngle : _inherit.GetBorderColorAngle(state);
+        public float GetBorderColorAngle(PaletteState state) => ColorAngle != -1f ? ColorAngle : _inherit.GetBorderColorAngle(state);
         #endregion
 
         #region Width
@@ -622,7 +623,7 @@ namespace Krypton.Toolkit
                 }
                 else
                 {
-                    if (value != -1)
+                    if (value != -1f)
                     {
                         _storage = new InternalStorage
                         {
@@ -640,7 +641,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Border rounding.</returns>
-        public float GetBorderRounding(PaletteState state) => Rounding != -1 ? Rounding : _inherit.GetBorderRounding(state);
+        public float GetBorderRounding(PaletteState state) => Rounding != -1f ? Rounding : _inherit.GetBorderRounding(state);
         #endregion
 
         #region Image
@@ -652,7 +653,7 @@ namespace Krypton.Toolkit
         [Description(@"Border image.")]
         [DefaultValue(null)]
         [RefreshProperties(RefreshProperties.All)]
-        public Image Image
+        public Image? Image
         {
             get => _storage?.BorderImage;
 
@@ -687,7 +688,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image instance.</returns>
-        public Image GetBorderImage(PaletteState state) => Image ?? _inherit.GetBorderImage(state);
+        public Image? GetBorderImage(PaletteState state) => Image ?? _inherit.GetBorderImage(state);
         #endregion
 
         #region ImageStyle
@@ -697,7 +698,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category(@"Visuals")]
         [Description(@"Border image style.")]
-        [DefaultValue(typeof(PaletteImageStyle), "Inherit")]
+        [DefaultValue(PaletteImageStyle.Inherit)]
         [RefreshProperties(RefreshProperties.All)]
         public PaletteImageStyle ImageStyle
         {
@@ -748,7 +749,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category(@"Visuals")]
         [Description(@"Border image alignment style.")]
-        [DefaultValue(typeof(PaletteRectangleAlign), "Inherit")]
+        [DefaultValue(PaletteRectangleAlign.Inherit)]
         [RefreshProperties(RefreshProperties.All)]
         public PaletteRectangleAlign ImageAlign
         {

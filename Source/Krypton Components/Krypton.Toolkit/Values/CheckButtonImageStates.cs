@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -18,9 +18,9 @@ namespace Krypton.Toolkit
     public class CheckButtonImageStates : ButtonImageStates
     {
         #region Instance Fields
-        private Image _imageCheckedNormal;
-        private Image _imageCheckedPressed;
-        private Image _imageCheckedTracking;
+        private Image? _imageCheckedNormal;
+        private Image? _imageCheckedPressed;
+        private Image? _imageCheckedTracking;
         #endregion
 
         #region IsDefault
@@ -47,7 +47,7 @@ namespace Krypton.Toolkit
         [EditorBrowsable(EditorBrowsableState.Always)]
         [Browsable(true)]
         [DefaultValue(null)]
-        public override Image ImageCheckedNormal
+        public override Image? ImageCheckedNormal
         {
             get => _imageCheckedNormal;
 
@@ -66,10 +66,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the ImageCheckedNormal property to its default value.
         /// </summary>
-        public void ResetImageCheckedNormal()
-        {
-            ImageCheckedNormal = null;
-        }
+        public void ResetImageCheckedNormal() => ImageCheckedNormal = null;
         #endregion
 
         #region ImageCheckedPressed
@@ -84,7 +81,7 @@ namespace Krypton.Toolkit
         [EditorBrowsable(EditorBrowsableState.Always)]
         [Browsable(true)]
         [DefaultValue(null)]
-        public override Image ImageCheckedPressed
+        public override Image? ImageCheckedPressed
         {
             get => _imageCheckedPressed;
 
@@ -103,10 +100,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the ImageCheckedPressed property to its default value.
         /// </summary>
-        public void ResetImageCheckedPressed()
-        {
-            ImageCheckedPressed = null;
-        }
+        public void ResetImageCheckedPressed() => ImageCheckedPressed = null;
         #endregion
 
         #region ImageCheckedTracking
@@ -121,7 +115,7 @@ namespace Krypton.Toolkit
         [EditorBrowsable(EditorBrowsableState.Always)]
         [Browsable(true)]
         [DefaultValue(null)]
-        public override Image ImageCheckedTracking
+        public override Image? ImageCheckedTracking
         {
             get => _imageCheckedTracking;
 
@@ -140,10 +134,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the ImageCheckedTracking property to its default value.
         /// </summary>
-        public void ResetImageCheckedTracking()
-        {
-            ImageCheckedTracking = null;
-        }
+        public void ResetImageCheckedTracking() => ImageCheckedTracking = null;
         #endregion
 
         #region CopyFrom

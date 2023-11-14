@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -36,11 +36,11 @@ namespace Krypton.Toolkit
         /// <param name="borderStyle">Initial border style.</param>
         /// <param name="contentStyle">Initial content style.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public PaletteInputControlTripleRedirect(PaletteRedirect redirect,
+        public PaletteInputControlTripleRedirect([DisallowNull] PaletteRedirect redirect,
                                                  PaletteBackStyle backStyle,
                                                  PaletteBorderStyle borderStyle,
                                                  PaletteContentStyle contentStyle,
-                                                 NeedPaintHandler needPaint)
+                                                 NeedPaintHandler? needPaint)
         {
             Debug.Assert(redirect != null);
 
@@ -76,7 +76,7 @@ namespace Krypton.Toolkit
         /// Update the redirector with new reference.
         /// </summary>
         /// <param name="redirect">Target redirector.</param>
-        public virtual void SetRedirector(PaletteRedirect redirect)
+        public virtual void SetRedirector(PaletteRedirect? redirect)
         {
             _backInherit.SetRedirector(redirect);
             _borderInherit.SetRedirector(redirect);
@@ -212,7 +212,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public IPaletteBorder PaletteBorder => Border;
+        public IPaletteBorder? PaletteBorder => Border;
 
         /// <summary>
         /// Gets and sets the border palette style.
@@ -245,7 +245,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public IPaletteContent PaletteContent => Content;
+        public IPaletteContent? PaletteContent => Content;
 
         /// <summary>
         /// Gets and sets the content palette style.
@@ -293,7 +293,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="needLayout">True if a layout is also needed.</param>
-        protected void OnNeedPaint(object sender, bool needLayout) =>
+        protected void OnNeedPaint(object? sender, bool needLayout) =>
             // Pass request from child to our own handler
             PerformNeedPaint(needLayout);
 

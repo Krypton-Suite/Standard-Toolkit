@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -30,22 +30,10 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="value">Instance to test.</param>
         /// <returns>True if allowed; otherwise false.</returns>
-        protected bool IsTypeAllowed(object value)
-        {
-            var valid = false;
-
+        protected bool IsTypeAllowed(object value) =>
             // Check if incoming instance derives from an allowed type
-            foreach (Type t in RestrictTypes)
-            {
-                if (t.IsInstanceOfType(value))
-                {
-                    valid = true;
-                    break;
-                }
-            }
 
-            return valid;
-        }
+            RestrictTypes.Any(t => t.IsInstanceOfType(value));
 
         /// <summary>
         /// Append an item to the collection.
@@ -53,11 +41,11 @@ namespace Krypton.Toolkit
         /// <param name="value">Object reference.</param>
         /// <exception cref="ArgumentException"></exception>
         /// <returns>The position into which the new item was inserted.</returns>
-        public override int Add(object value) =>
+        public override int Add(object? value) =>
             // We only allow objects that implement a restricted type
             (value != null) && !IsTypeAllowed(value)
                 ? throw new ArgumentException("Type to be added is not allowed in this collection.")
-                : base.Add(value);
+                : base.Add(value!);
 
         /// <summary>
         /// Inserts an item to the collection at the specified index.
@@ -65,7 +53,7 @@ namespace Krypton.Toolkit
         /// <param name="index">Insert index.</param>
         /// <param name="value">Object reference.</param>
         /// <exception cref="ArgumentException"></exception>
-        public override void Insert(int index, object value)
+        public override void Insert(int index, object? value)
         {
             // We only allow objects that implement IQuickAccessToolbarButton
             if ((value != null) && !IsTypeAllowed(value))
@@ -73,7 +61,7 @@ namespace Krypton.Toolkit
                 throw new ArgumentException("Type to be added is not allowed in this collection.");
             }
 
-            base.Insert(index, value);
+            base.Insert(index, value!);
         }
         #endregion
 
@@ -85,7 +73,7 @@ namespace Krypton.Toolkit
         /// <param name="index">Insert index.</param>
         /// <param name="item">Item reference.</param>
         /// <exception cref="ArgumentException"></exception>
-        public override void Insert(int index, T item)
+        public override void Insert(int index, T? item)
         {
             // We only allow objects that implement IQuickAccessToolbarButton
             if ((item != null) && !IsTypeAllowed(item))
@@ -93,7 +81,7 @@ namespace Krypton.Toolkit
                 throw new ArgumentException("Type to be added is not allowed in this collection.");
             }
 
-            base.Insert(index, item);
+            base.Insert(index, item!);
         }
         #endregion
 
@@ -104,7 +92,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="item">Item reference.</param>
         /// <exception cref="ArgumentException"></exception>
-        public override void Add(T item)
+        public override void Add(T? item)
         {
             // We only allow objects that implement IQuickAccessToolbarButton
             if ((item != null) && !IsTypeAllowed(item))
@@ -112,7 +100,7 @@ namespace Krypton.Toolkit
                 throw new ArgumentException("Type to be added is not allowed in this collection.");
             }
 
-            base.Add(item);
+            base.Add(item!);
         }
         #endregion
     }

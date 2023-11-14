@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -29,17 +29,17 @@ namespace Krypton.Docking
         /// <summary>
         /// Occurs when the user clicks a page header and so requests it be shown.
         /// </summary>
-        public event EventHandler<KryptonPageEventArgs> PageClicked;
+        public event EventHandler<KryptonPageEventArgs>? PageClicked;
 
         /// <summary>
         /// Occurs when the user hovers the mouse over a page in the group.
         /// </summary>
-        public event EventHandler<KryptonPageEventArgs> PageHoverStart;
+        public event EventHandler<KryptonPageEventArgs>? PageHoverStart;
 
         /// <summary>
         /// Occurs when the hover over a page ends.
         /// </summary>
-        public event EventHandler<EventArgs> PageHoverEnd;
+        public event EventHandler<EventArgs>? PageHoverEnd;
         #endregion
 
         #region Identity
@@ -78,7 +78,7 @@ namespace Krypton.Docking
         /// <summary>
         /// Gets the sibling docked edge.
         /// </summary>
-        public KryptonDockingEdgeDocked EdgeDockedElement
+        public KryptonDockingEdgeDocked? EdgeDockedElement
         {
             get
             {
@@ -97,17 +97,15 @@ namespace Krypton.Docking
         /// Add a KryptonPage to the end of the auto hidden group.
         /// </summary>
         /// <param name="page">KryptonPage to be added.</param>
-        public void Append(KryptonPage page)
-        {
+        public void Append(KryptonPage page) =>
             // Use existing array adding method to prevent duplication of code
             Append(new[] { page });
-        }
 
         /// <summary>
         /// Add the KryptonPage array to the end of the auto hidden group.
         /// </summary>
         /// <param name="pages">Array of KryptonPage's to be added.</param>
-        public void Append(KryptonPage[] pages)
+        public void Append(KryptonPage[]? pages)
         {
             // Demand that pages are not already present
             DemandPagesNotBePresent(pages);
@@ -129,15 +127,16 @@ namespace Krypton.Docking
             {
                 case DockingPropogateAction.ShowPages:
                 case DockingPropogateAction.HidePages:
+                    if (uniqueNames != null)
                     {
                         var newVisible = (action == DockingPropogateAction.ShowPages);
                         // Update visible state of pages that are not placeholders
-                        foreach (KryptonPage page in uniqueNames
+                        foreach (KryptonPage? page in uniqueNames
                             .Select(uniqueName => AutoHiddenGroupControl.Pages[uniqueName])
-                            .Where(page => (page != null) && page is not KryptonStorePage)
+                            .Where(static page => (page is not null and not KryptonStorePage))
                         )
                         {
-                            page.Visible = newVisible;
+                            page!.Visible = newVisible;
                         }
                     }
                     break;
@@ -150,18 +149,22 @@ namespace Krypton.Docking
                 case DockingPropogateAction.RemovePages:
                 case DockingPropogateAction.RemoveAndDisposePages:
                     // Only remove the actual page and not placeholders
-                    foreach (KryptonPage page in uniqueNames
-                        .Select(uniqueName => AutoHiddenGroupControl.Pages[uniqueName])
-                        .Where(page => (page != null) && page is not KryptonStorePage)
-                    )
+                    if (uniqueNames != null)
                     {
-                        AutoHiddenGroupControl.Pages.Remove(page);
-
-                        if (action == DockingPropogateAction.RemoveAndDisposePages)
+                        foreach (KryptonPage? page in uniqueNames
+                                     .Select(uniqueName => AutoHiddenGroupControl.Pages[uniqueName])
+                                     .Where(static page => (page is not null and not KryptonStorePage))
+                                )
                         {
-                            page.Dispose();
+                            AutoHiddenGroupControl.Pages.Remove(page!);
+
+                            if (action == DockingPropogateAction.RemoveAndDisposePages)
+                            {
+                                page!.Dispose();
+                            }
                         }
                     }
+
                     break;
                 case DockingPropogateAction.Loading:
                     // Remove all pages including store pages
@@ -172,8 +175,8 @@ namespace Krypton.Docking
                     for (var i = AutoHiddenGroupControl.Pages.Count - 1; i >= 0; i--)
                     {
                         // Only remove the actual page and not placeholders
-                        KryptonPage page = AutoHiddenGroupControl.Pages[i];
-                        if ((page != null) && page is not KryptonStorePage)
+                        KryptonPage? page = AutoHiddenGroupControl.Pages[i];
+                        if ((page is not null and not KryptonStorePage))
                         {
                             AutoHiddenGroupControl.Pages.RemoveAt(i);
 
@@ -192,15 +195,19 @@ namespace Krypton.Docking
                     break;
                 case DockingPropogateAction.ClearAutoHiddenStoredPages:
                 case DockingPropogateAction.ClearStoredPages:
-                    foreach (var uniqueName in uniqueNames)
+                    if (uniqueNames != null)
                     {
-                        // Only remove a matching placeholder page
-                        KryptonPage page = AutoHiddenGroupControl.Pages[uniqueName];
-                        if (page is KryptonStorePage)
+                        foreach (var uniqueName in uniqueNames)
                         {
-                            AutoHiddenGroupControl.Pages.Remove(page);
+                            // Only remove a matching placeholder page
+                            KryptonPage? page = AutoHiddenGroupControl.Pages[uniqueName];
+                            if (page is KryptonStorePage)
+                            {
+                                AutoHiddenGroupControl.Pages.Remove(page);
+                            }
                         }
                     }
+
                     break;
                 case DockingPropogateAction.ClearAllStoredPages:
                     for (var i = AutoHiddenGroupControl.Pages.Count - 1; i >= 0; i--)
@@ -250,7 +257,7 @@ namespace Krypton.Docking
                 case DockingPropogateBoolState.ContainsPage:
                     {
                         // Return definitive answer 'true' if the group controls contains the named page (but not for a placeholder)
-                        KryptonPage page = AutoHiddenGroupControl.Pages[uniqueName];
+                        KryptonPage? page = AutoHiddenGroupControl.Pages[uniqueName];
                         if ((page != null) && page is not KryptonStorePage)
                         {
                             return true;
@@ -260,7 +267,7 @@ namespace Krypton.Docking
                 case DockingPropogateBoolState.ContainsStorePage:
                     {
                         // Return definitive answer 'true' if the group controls contains a store page for the unique name.
-                        KryptonPage page = AutoHiddenGroupControl.Pages[uniqueName];
+                        KryptonPage? page = AutoHiddenGroupControl.Pages[uniqueName];
                         if (page is KryptonStorePage)
                         {
                             return true;
@@ -270,7 +277,7 @@ namespace Krypton.Docking
                 case DockingPropogateBoolState.IsPageShowing:
                     {
                         // If requested page exists then return the visible state of the page (but not for a placeholder)
-                        KryptonPage page = AutoHiddenGroupControl.Pages[uniqueName];
+                        KryptonPage? page = AutoHiddenGroupControl.Pages[uniqueName];
                         if ((page != null) && page is not KryptonStorePage)
                         {
                             return page.LastVisibleSet;
@@ -289,12 +296,12 @@ namespace Krypton.Docking
         /// <param name="state">Request that should result in a page reference if found.</param>
         /// <param name="uniqueName">Unique name of the page the request relates to.</param>
         /// <returns>Reference to page that matches the request; otherwise null.</returns>
-        public override KryptonPage PropogatePageState(DockingPropogatePageState state, string uniqueName)
+        public override KryptonPage? PropogatePageState(DockingPropogatePageState state, string uniqueName)
         {
             if (state == DockingPropogatePageState.PageForUniqueName)
             {
                 // If we have the page (stored via a proxy) then return the actual page reference (but not for a placeholder)
-                KryptonPage page = AutoHiddenGroupControl.Pages[uniqueName];
+                KryptonPage? page = AutoHiddenGroupControl.Pages[uniqueName];
                 if (page is KryptonAutoHiddenProxyPage proxyPage)
                 {
                     return proxyPage.Page;
@@ -319,12 +326,15 @@ namespace Krypton.Docking
                     for (var i = AutoHiddenGroupControl.Pages.Count - 1; i >= 0; i--)
                     {
                         // Only add real pages and not just placeholders
-                        KryptonPage page = AutoHiddenGroupControl.Pages[i];
-                        if ((page != null) && page is not KryptonStorePage)
+                        KryptonPage? page = AutoHiddenGroupControl.Pages[i];
+                        if (page is not null and not KryptonStorePage)
                         {
                             // Remember the real page is inside a proxy!
-                            KryptonAutoHiddenProxyPage proxyPage = (KryptonAutoHiddenProxyPage)page;
-                            pages.Add(proxyPage.Page);
+                            var proxyPage = page as KryptonAutoHiddenProxyPage;
+                            if (proxyPage?.Page != null)
+                            {
+                                pages.Add(proxyPage.Page);
+                            }
                         }
                     }
                     break;
@@ -338,7 +348,7 @@ namespace Krypton.Docking
         /// <returns>Enumeration value indicating docking location.</returns>
         public override DockingLocation FindPageLocation(string uniqueName)
         {
-            KryptonPage page = AutoHiddenGroupControl.Pages[uniqueName];
+            KryptonPage? page = AutoHiddenGroupControl.Pages[uniqueName];
             if ((page != null) && page is not KryptonStorePage)
             {
                 return DockingLocation.AutoHidden;
@@ -354,9 +364,9 @@ namespace Krypton.Docking
         /// </summary>
         /// <param name="uniqueName">Unique name of the page.</param>
         /// <returns>IDockingElement reference if page is found; otherwise null.</returns>
-        public override IDockingElement FindPageElement(string uniqueName)
+        public override IDockingElement? FindPageElement(string uniqueName)
         {
-            KryptonPage page = AutoHiddenGroupControl.Pages[uniqueName];
+            KryptonPage? page = AutoHiddenGroupControl.Pages[uniqueName];
             if ((page != null) && page is not KryptonStorePage)
             {
                 return this;
@@ -373,11 +383,11 @@ namespace Krypton.Docking
         /// <param name="location">Location to be searched.</param>
         /// <param name="uniqueName">Unique name of the page to be found.</param>
         /// <returns>IDockingElement reference if store page is found; otherwise null.</returns>
-        public override IDockingElement FindStorePageElement(DockingLocation location, string uniqueName)
+        public override IDockingElement? FindStorePageElement(DockingLocation location, string uniqueName)
         {
             if (location == DockingLocation.AutoHidden)
             {
-                KryptonPage page = AutoHiddenGroupControl.Pages[uniqueName];
+                KryptonPage? page = AutoHiddenGroupControl.Pages[uniqueName];
                 if (page is KryptonStorePage)
                 {
                     return this;
@@ -401,7 +411,10 @@ namespace Krypton.Docking
                 if ((page is KryptonAutoHiddenProxyPage proxyPage) && page.LastVisibleSet)
                 {
                     // Add the actual page this proxy wraps
-                    pages.Add(proxyPage.Page);
+                    if (proxyPage.Page != null)
+                    {
+                        pages.Add(proxyPage.Page);
+                    }
                 }
             }
 
@@ -414,7 +427,7 @@ namespace Krypton.Docking
         /// <param name="xmlWriter">Xml writer object.</param>
         public override void SaveElementToXml(XmlWriter xmlWriter)
         {
-            KryptonDockingManager manager = DockingManager;
+            KryptonDockingManager? manager = DockingManager;
 
             // Output docking manager element
             xmlWriter.WriteStartElement(XmlElementName);
@@ -434,7 +447,7 @@ namespace Krypton.Docking
 
                     // Give event handlers a chance to save custom data with the page
                     xmlWriter.WriteStartElement("CPD");
-                    DockPageSavingEventArgs args = new(manager, xmlWriter, page);
+                    var args = new DockPageSavingEventArgs(manager, xmlWriter, page);
                     manager?.RaisePageSaving(args);
                     xmlWriter.WriteEndElement();
 
@@ -481,28 +494,19 @@ namespace Krypton.Docking
         /// Raises the PageClicked event.
         /// </summary>
         /// <param name="e">An KryptonPageEventArgs containing the event data.</param>
-        protected virtual void OnPageClicked(KryptonPageEventArgs e)
-        {
-            PageClicked?.Invoke(this, e);
-        }
+        protected virtual void OnPageClicked(KryptonPageEventArgs e) => PageClicked?.Invoke(this, e);
 
         /// <summary>
         /// Raises the PageHoverStart event.
         /// </summary>
         /// <param name="e">An KryptonPageEventArgs containing the event data.</param>
-        protected virtual void OnPageHoverStart(KryptonPageEventArgs e)
-        {
-            PageHoverStart?.Invoke(this, e);
-        }
+        protected virtual void OnPageHoverStart(KryptonPageEventArgs e) => PageHoverStart?.Invoke(this, e);
 
         /// <summary>
         /// Raises the PageHoverEnd event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnPageHoverEnd(EventArgs e)
-        {
-            PageHoverEnd?.Invoke(this, e);
-        }
+        protected virtual void OnPageHoverEnd(EventArgs e) => PageHoverEnd?.Invoke(this, e);
 
         /// <summary>
         /// Gets the xml element name to use when saving.
@@ -517,9 +521,9 @@ namespace Krypton.Docking
         /// <param name="child">Optional reference to existing child docking element.</param>
         protected override void LoadChildDockingElement(XmlReader xmlReader,
                                                         KryptonPageCollection pages,
-                                                        IDockingElement child)
+                                                        IDockingElement? child)
         {
-            KryptonDockingManager manager = DockingManager;
+            KryptonDockingManager? manager = DockingManager;
 
             // Is it the expected xml element name?
             if (xmlReader.Name != @"KP")
@@ -528,11 +532,11 @@ namespace Krypton.Docking
             }
 
             // Get the unique name of the page
-            var uniqueName = xmlReader.GetAttribute(@"UN");
-            var boolStore = xmlReader.GetAttribute(@"S");
-            var boolVisible = xmlReader.GetAttribute(@"V");
+            var uniqueName = xmlReader.GetAttribute(@"UN") ?? string.Empty;
+            var boolStore = xmlReader.GetAttribute(@"S") ?? string.Empty;
+            var boolVisible = xmlReader.GetAttribute(@"V") ?? string.Empty;
 
-            KryptonPage page;
+            KryptonPage? page;
 
             // If the entry is for just a placeholder...
             if (CommonHelper.StringToBool(boolStore))
@@ -548,8 +552,8 @@ namespace Krypton.Docking
                 if (page == null)
                 {
                     // Generate event so developer can create and supply the page now
-                    RecreateLoadingPageEventArgs args = new(uniqueName);
-                    manager.RaiseRecreateLoadingPage(args);
+                    var args = new RecreateLoadingPageEventArgs(uniqueName);
+                    manager?.RaiseRecreateLoadingPage(args);
                     if (!args.Cancel)
                     {
                         page = args.Page;
@@ -568,7 +572,7 @@ namespace Krypton.Docking
                     page.Visible = CommonHelper.StringToBool(boolVisible);
 
                     // Create a proxy around the page and append it
-                    KryptonAutoHiddenProxyPage proxyPage = new(page);
+                    var proxyPage = new KryptonAutoHiddenProxyPage(page);
                     AutoHiddenGroupControl.Pages.Add(proxyPage);
                 }
             }
@@ -586,8 +590,8 @@ namespace Krypton.Docking
             var finished = xmlReader.IsEmptyElement;
 
             // Generate event so custom data can be loaded and/or the page to be added can be modified
-            DockPageLoadingEventArgs pageLoading = new(manager, xmlReader, page);
-            manager.RaisePageLoading(pageLoading);
+            var pageLoading = new DockPageLoadingEventArgs(manager, xmlReader, page);
+            manager?.RaisePageLoading(pageLoading);
 
             // Read everything until we get the end of custom data marker
             while (!finished)
@@ -623,7 +627,7 @@ namespace Krypton.Docking
             // We only allow a single 'store' page in this docking location at a time
             if (uniqueNames.Count > 0)
             {
-                DockingManager.PropogateAction(DockingPropogateAction.ClearAutoHiddenStoredPages, uniqueNames.ToArray());
+                DockingManager?.PropogateAction(DockingPropogateAction.ClearAutoHiddenStoredPages, uniqueNames.ToArray());
             }
 
             // Non-store pages need to be wrapped in a proxy appropriate for the auto hidden control
@@ -639,30 +643,31 @@ namespace Krypton.Docking
             AutoHiddenGroupControl.Pages.AddRange(pages);
         }
 
-        private void OnAutoHiddenGroupStoringPage(object sender, UniqueNameEventArgs e)
-        {
+        private void OnAutoHiddenGroupStoringPage(object sender, UniqueNameEventArgs e) =>
             // We only allow a single 'store' page in this docking location at a time
-            DockingManager.PropogateAction(DockingPropogateAction.ClearAutoHiddenStoredPages, new[] { e.UniqueName });
-        }
+            DockingManager?.PropogateAction(DockingPropogateAction.ClearAutoHiddenStoredPages, new[] { e.UniqueName });
 
         private void OnAutoHiddenGroupTabClicked(object sender, KryptonPageEventArgs e)
         {
             // The auto hidden group contains proxy pages and not the real pages
-            KryptonAutoHiddenProxyPage proxyPage = (KryptonAutoHiddenProxyPage)e.Item;
-            OnPageClicked(new KryptonPageEventArgs(proxyPage.Page, e.Index));
+            var proxyPage = e.Item as KryptonAutoHiddenProxyPage;
+            if (proxyPage != null)
+            {
+                OnPageClicked(new KryptonPageEventArgs(proxyPage.Page, e.Index));
+            }
         }
 
         private void OnAutoHiddenGroupHoverStart(object sender, KryptonPageEventArgs e)
         {
             // The auto hidden group contains proxy pages and not the real pages
-            KryptonAutoHiddenProxyPage proxyPage = (KryptonAutoHiddenProxyPage)e.Item;
-            OnPageHoverStart(new KryptonPageEventArgs(proxyPage.Page, e.Index));
+            var proxyPage = e.Item as KryptonAutoHiddenProxyPage;
+            if (proxyPage != null)
+            {
+                OnPageHoverStart(new KryptonPageEventArgs(proxyPage.Page, e.Index));
+            }
         }
 
-        private void OnAutoHiddenGroupHoverEnd(object sender, EventArgs e)
-        {
-            OnPageHoverEnd(e);
-        }
+        private void OnAutoHiddenGroupHoverEnd(object sender, EventArgs e) => OnPageHoverEnd(e);
 
         private void OnAutoHiddenGroupTabVisibleCountChanged(object sender, EventArgs e)
         {
@@ -694,11 +699,11 @@ namespace Krypton.Docking
             AutoHiddenGroupControl.Disposed -= OnAutoHiddenGroupDisposed;
 
             // Events are generated from the parent docking manager
-            KryptonDockingManager dockingManager = DockingManager;
+            KryptonDockingManager? dockingManager = DockingManager;
             if (dockingManager != null)
             {
                 // Allow the auto hidden group to be customized by event handlers
-                AutoHiddenGroupEventArgs groupArgs = new(AutoHiddenGroupControl, this);
+                var groupArgs = new AutoHiddenGroupEventArgs(AutoHiddenGroupControl, this);
                 dockingManager.RaiseAutoHiddenGroupRemoved(groupArgs);
             }
 

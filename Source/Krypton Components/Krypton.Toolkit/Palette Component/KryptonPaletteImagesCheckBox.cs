@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -18,20 +18,20 @@ namespace Krypton.Toolkit
     public class KryptonPaletteImagesCheckBox : Storage
     {
         #region Instance Fields
-        private PaletteRedirect _redirect;
-        private Image _common;
-        private Image _uncheckedDisabled;
-        private Image _uncheckedNormal;
-        private Image _uncheckedTracking;
-        private Image _uncheckedPressed;
-        private Image _checkedDisabled;
-        private Image _checkedNormal;
-        private Image _checkedTracking;
-        private Image _checkedPressed;
-        private Image _indeterminateDisabled;
-        private Image _indeterminateNormal;
-        private Image _indeterminateTracking;
-        private Image _indeterminatePressed;
+        private PaletteRedirect? _redirect;
+        private Image? _common;
+        private Image? _uncheckedDisabled;
+        private Image? _uncheckedNormal;
+        private Image? _uncheckedTracking;
+        private Image? _uncheckedPressed;
+        private Image? _checkedDisabled;
+        private Image? _checkedNormal;
+        private Image? _checkedTracking;
+        private Image? _checkedPressed;
+        private Image? _indeterminateDisabled;
+        private Image? _indeterminateNormal;
+        private Image? _indeterminateTracking;
+        private Image? _indeterminatePressed;
         #endregion
 
         #region Identity
@@ -40,8 +40,8 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="redirect">Redirector to inherit values from.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public KryptonPaletteImagesCheckBox(PaletteRedirect redirect,
-                                            NeedPaintHandler needPaint) 
+        public KryptonPaletteImagesCheckBox(PaletteRedirect? redirect,
+                                            NeedPaintHandler needPaint)
         {
             // Store the redirector
             _redirect = redirect;
@@ -113,11 +113,9 @@ namespace Krypton.Toolkit
         /// Update the redirector with new reference.
         /// </summary>
         /// <param name="redirect">Target redirector.</param>
-        public void SetRedirector(PaletteRedirect redirect)
-        {
+        public void SetRedirector(PaletteRedirect? redirect) =>
             // Update our cached reference
             _redirect = redirect;
-        }
         #endregion
 
         #region Common
@@ -129,7 +127,7 @@ namespace Krypton.Toolkit
         [Description(@"Common image that other check box images inherit from.")]
         [DefaultValue(null)]
         [RefreshProperties(RefreshProperties.All)]
-        public Image Common
+        public Image? Common
         {
             get => _common;
 
@@ -146,10 +144,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the Common property to its default value.
         /// </summary>
-        public void ResetCommon()
-        {
-            Common = null;
-        }
+        public void ResetCommon() => Common = null;
         #endregion
 
         #region UncheckedDisabled
@@ -161,7 +156,7 @@ namespace Krypton.Toolkit
         [Description(@"Image for use when the check box is not checked and disabled.")]
         [DefaultValue(null)]
         [RefreshProperties(RefreshProperties.All)]
-        public Image UncheckedDisabled
+        public Image? UncheckedDisabled
         {
             get => _uncheckedDisabled;
 
@@ -178,10 +173,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the UncheckedDisabled property to its default value.
         /// </summary>
-        public void ResetUncheckedDisabled()
-        {
-            UncheckedDisabled = null;
-        }
+        public void ResetUncheckedDisabled() => UncheckedDisabled = null;
         #endregion
 
         #region UncheckedNormal
@@ -193,7 +185,7 @@ namespace Krypton.Toolkit
         [Description(@"Image for use when the check box is unchecked.")]
         [DefaultValue(null)]
         [RefreshProperties(RefreshProperties.All)]
-        public Image UncheckedNormal
+        public Image? UncheckedNormal
         {
             get => _uncheckedNormal;
 
@@ -210,10 +202,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the UncheckedNormal property to its default value.
         /// </summary>
-        public void ResetUncheckedNormal()
-        {
-            UncheckedNormal = null;
-        }
+        public void ResetUncheckedNormal() => UncheckedNormal = null;
         #endregion
 
         #region UncheckedTracking
@@ -225,7 +214,7 @@ namespace Krypton.Toolkit
         [Description(@"Image for use when the check box is unchecked and hot tracking.")]
         [DefaultValue(null)]
         [RefreshProperties(RefreshProperties.All)]
-        public Image UncheckedTracking
+        public Image? UncheckedTracking
         {
             get => _uncheckedTracking;
 
@@ -242,10 +231,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the UncheckedTracking property to its default value.
         /// </summary>
-        public void ResetUncheckedTracking()
-        {
-            UncheckedTracking = null;
-        }
+        public void ResetUncheckedTracking() => UncheckedTracking = null;
         #endregion
 
         #region UncheckedPressed
@@ -257,7 +243,7 @@ namespace Krypton.Toolkit
         [Description(@"Image for use when the check box is unchecked and pressed.")]
         [DefaultValue(null)]
         [RefreshProperties(RefreshProperties.All)]
-        public Image UncheckedPressed
+        public Image? UncheckedPressed
         {
             get => _uncheckedPressed;
 
@@ -274,10 +260,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the UncheckedPressed property to its default value.
         /// </summary>
-        public void ResetUncheckedPressed()
-        {
-            UncheckedPressed = null;
-        }
+        public void ResetUncheckedPressed() => UncheckedPressed = null;
         #endregion
 
         #region CheckedDisabled
@@ -289,7 +272,7 @@ namespace Krypton.Toolkit
         [Description(@"Image for use when the check box is checked but disabled.")]
         [DefaultValue(null)]
         [RefreshProperties(RefreshProperties.All)]
-        public Image CheckedDisabled
+        public Image? CheckedDisabled
         {
             get => _checkedDisabled;
 
@@ -306,10 +289,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the CheckedDisabled property to its default value.
         /// </summary>
-        public void ResetCheckedDisabled()
-        {
-            CheckedDisabled = null;
-        }
+        public void ResetCheckedDisabled() => CheckedDisabled = null;
         #endregion
 
         #region CheckedNormal
@@ -321,7 +301,7 @@ namespace Krypton.Toolkit
         [Description(@"Image for use when the check box is checked.")]
         [DefaultValue(null)]
         [RefreshProperties(RefreshProperties.All)]
-        public Image CheckedNormal
+        public Image? CheckedNormal
         {
             get => _checkedNormal;
 
@@ -338,10 +318,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the CheckedNormal property to its default value.
         /// </summary>
-        public void ResetCheckedNormal()
-        {
-            CheckedNormal = null;
-        }
+        public void ResetCheckedNormal() => CheckedNormal = null;
         #endregion
 
         #region CheckedTracking
@@ -353,7 +330,7 @@ namespace Krypton.Toolkit
         [Description(@"Image for use when the check box is checked and hot tracking.")]
         [DefaultValue(null)]
         [RefreshProperties(RefreshProperties.All)]
-        public Image CheckedTracking
+        public Image? CheckedTracking
         {
             get => _checkedTracking;
 
@@ -370,10 +347,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the CheckedTracking property to its default value.
         /// </summary>
-        public void ResetCheckedTracking()
-        {
-            CheckedTracking = null;
-        }
+        public void ResetCheckedTracking() => CheckedTracking = null;
         #endregion
 
         #region CheckedPressed
@@ -385,7 +359,7 @@ namespace Krypton.Toolkit
         [Description(@"Image for use when the check box is checked and pressed.")]
         [DefaultValue(null)]
         [RefreshProperties(RefreshProperties.All)]
-        public Image CheckedPressed
+        public Image? CheckedPressed
         {
             get => _checkedPressed;
 
@@ -402,10 +376,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the CheckedPressed property to its default value.
         /// </summary>
-        public void ResetCheckedPressed()
-        {
-            CheckedPressed = null;
-        }
+        public void ResetCheckedPressed() => CheckedPressed = null;
         #endregion
 
         #region IndeterminateDisabled
@@ -417,7 +388,7 @@ namespace Krypton.Toolkit
         [Description(@"Image for use when the check box is indeterminate but disabled.")]
         [DefaultValue(null)]
         [RefreshProperties(RefreshProperties.All)]
-        public Image IndeterminateDisabled
+        public Image? IndeterminateDisabled
         {
             get => _indeterminateDisabled;
 
@@ -434,10 +405,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the IndeterminateDisabled property to its default value.
         /// </summary>
-        public void ResetIndeterminateDisabled()
-        {
-            IndeterminateDisabled = null;
-        }
+        public void ResetIndeterminateDisabled() => IndeterminateDisabled = null;
         #endregion
 
         #region IndeterminateNormal
@@ -449,7 +417,7 @@ namespace Krypton.Toolkit
         [Description(@"Image for use when the check box is indeterminate.")]
         [DefaultValue(null)]
         [RefreshProperties(RefreshProperties.All)]
-        public Image IndeterminateNormal
+        public Image? IndeterminateNormal
         {
             get => _indeterminateNormal;
 
@@ -466,10 +434,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the IndeterminateNormal property to its default value.
         /// </summary>
-        public void ResetIndeterminateNormal()
-        {
-            IndeterminateNormal = null;
-        }
+        public void ResetIndeterminateNormal() => IndeterminateNormal = null;
         #endregion
 
         #region IndeterminateTracking
@@ -481,7 +446,7 @@ namespace Krypton.Toolkit
         [Description(@"Image for use when the check box is indeterminate and hot tracking.")]
         [DefaultValue(null)]
         [RefreshProperties(RefreshProperties.All)]
-        public Image IndeterminateTracking
+        public Image? IndeterminateTracking
         {
             get => _indeterminateTracking;
 
@@ -498,10 +463,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the IndeterminateTracking property to its default value.
         /// </summary>
-        public void ResetIndeterminateTracking()
-        {
-            IndeterminateTracking = null;
-        }
+        public void ResetIndeterminateTracking() => IndeterminateTracking = null;
         #endregion
 
         #region IndeterminatePressed
@@ -513,7 +475,7 @@ namespace Krypton.Toolkit
         [Description(@"Image for use when the check box is indeterminate and pressed.")]
         [DefaultValue(null)]
         [RefreshProperties(RefreshProperties.All)]
-        public Image IndeterminatePressed
+        public Image? IndeterminatePressed
         {
             get => _indeterminatePressed;
 
@@ -530,10 +492,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the IndeterminatePressed property to its default value.
         /// </summary>
-        public void ResetIndeterminatePressed()
-        {
-            IndeterminatePressed = null;
-        }
+        public void ResetIndeterminatePressed() => IndeterminatePressed = null;
         #endregion
     }
 }

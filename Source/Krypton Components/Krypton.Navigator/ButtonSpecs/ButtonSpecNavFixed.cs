@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -29,7 +29,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="navigator">Reference to owning navigator instance.</param>
         /// <param name="fixedStyle">Fixed style to use.</param>
-        protected ButtonSpecNavFixed(KryptonNavigator navigator,
+        protected ButtonSpecNavFixed([DisallowNull] KryptonNavigator navigator,
                                   PaletteButtonSpecStyle fixedStyle)
         {
             Debug.Assert(navigator != null);
@@ -42,15 +42,15 @@ namespace Krypton.Navigator
 
             // Default other properties
             _location = HeaderLocation.PrimaryHeader;
-        }      
-        #endregion   
+        }
+        #endregion
 
         #region IsDefault
         /// <summary>
         /// Gets a value indicating if all values are default.
         /// </summary>
         [Browsable(false)]
-        public override bool IsDefault => (base.IsDefault && 
+        public override bool IsDefault => (base.IsDefault &&
                                            (HeaderLocation == HeaderLocation.PrimaryHeader));
 
         #endregion
@@ -83,7 +83,7 @@ namespace Krypton.Navigator
                 if (_location != value)
                 {
                     _location = value;
-                    OnButtonSpecPropertyChanged("Location");
+                    OnButtonSpecPropertyChanged(@"Location");
                 }
             }
         }
@@ -91,10 +91,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Resets the HeaderLocation property to its default value.
         /// </summary>
-        public void ResetHeaderLocation()
-        {
-            HeaderLocation = HeaderLocation.PrimaryHeader;
-        }
+        public void ResetHeaderLocation() => HeaderLocation = HeaderLocation.PrimaryHeader;
         #endregion
 
         #region IButtonSpecValues
@@ -103,9 +100,9 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="palette">Palette to use for inheriting values.</param>
         /// <returns>Button location.</returns>
-        public override HeaderLocation GetLocation(IPalette palette) =>
+        public override HeaderLocation GetLocation(PaletteBase? palette) =>
             // Ask the view builder to recover the correct location
-            Navigator.ViewBuilder.GetFixedButtonLocation(this);
+            Navigator.ViewBuilder!.GetFixedButtonLocation(this);
 
         #endregion
 

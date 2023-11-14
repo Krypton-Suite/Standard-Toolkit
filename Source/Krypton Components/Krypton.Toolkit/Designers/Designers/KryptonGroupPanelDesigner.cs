@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -16,7 +16,7 @@ namespace Krypton.Toolkit
                                                IKryptonDesignerSelect
     {
         #region Instance Fields
-        private KryptonGroupPanel _panel;
+        private KryptonGroupPanel? _panel;
         private ISelectionService _selectionService;
         #endregion
 
@@ -25,7 +25,7 @@ namespace Krypton.Toolkit
         /// Initializes the designer with the specified component.
         /// </summary>
         /// <param name="component">The IComponent to associate with the designer.</param>
-        public override void Initialize(IComponent component)
+        public override void Initialize([DisallowNull] IComponent component)
         {
             // Perform common base class initializing
             base.Initialize(component);
@@ -75,7 +75,7 @@ namespace Krypton.Toolkit
         {
             get
             {
-                ArrayList snapLines = null;
+                ArrayList? snapLines = null;
 
                 // ReSharper disable RedundantBaseQualifier
                 // Let the base class generate snap lines
@@ -89,7 +89,7 @@ namespace Krypton.Toolkit
         /// <summary>
         ///  Gets the design-time action lists supported by the component associated with the designer.
         /// </summary>
-        public override DesignerActionListCollection ActionLists => new();
+        public override DesignerActionListCollection ActionLists => new DesignerActionListCollection();
 
         /// <summary>
         /// Should painting be performed for the selection glyph.
@@ -146,7 +146,7 @@ namespace Krypton.Toolkit
             foreach (DictionaryEntry entry in properties)
             {
                 // Get the property descriptor for the entry
-                PropertyDescriptor descriptor = (PropertyDescriptor)entry.Value;
+                var descriptor = (PropertyDescriptor)entry.Value;
 
                 // Is this the 'Name' we are searching for?
                 if (descriptor.Name.Equals((@"Name")) && descriptor.DesignTimeOnly)

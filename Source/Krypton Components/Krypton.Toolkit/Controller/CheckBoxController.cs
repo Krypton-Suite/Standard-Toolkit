@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -13,7 +13,7 @@
 namespace Krypton.Toolkit
 {
     /// <summary>
-    /// Controller used to manage keyboard and mouse interaction withe a check box.
+    /// Controller used to manage keyboard and mouse interaction with a check box.
     /// </summary>
     public class CheckBoxController : GlobalId,
                                       IMouseController,
@@ -23,14 +23,14 @@ namespace Krypton.Toolkit
         private bool _captured;
         private readonly ViewDrawCheckBox _target;
         private readonly ViewBase _top;
-        private NeedPaintHandler _needPaint;
+        private NeedPaintHandler? _needPaint;
         #endregion
 
         #region Events
         /// <summary>
         /// Occurs when the check box has been selected.
         /// </summary>
-        public event EventHandler Click;
+        public event EventHandler? Click;
         #endregion
 
         #region Identity
@@ -40,8 +40,8 @@ namespace Krypton.Toolkit
         /// <param name="target">Target for state changes.</param>
         /// <param name="top">Top element for the check box control.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public CheckBoxController(ViewDrawCheckBox target,
-                                  ViewBase top,
+        public CheckBoxController([DisallowNull] ViewDrawCheckBox target,
+            [DisallowNull] ViewBase top,
                                   NeedPaintHandler needPaint)
         {
             Debug.Assert(target != null);
@@ -147,13 +147,10 @@ namespace Krypton.Toolkit
                     if (button == MouseButtons.Left)
                     {
                         // Only if check box is still pressed
-                        if (_target.Pressed)
-                        {
+                        if (_target is { Pressed: true, Enabled: true })
                             // Can only click if enabled
-                            if (_target.Enabled)
-                            {
-                                OnClick(EventArgs.Empty);
-                            }
+                        {
+                            OnClick(EventArgs.Empty);
                         }
                     }
 
@@ -169,7 +166,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="c">Reference to the source control instance.</param>
         /// <param name="next">Reference to view that is next to have the mouse.</param>
-        public virtual void MouseLeave(Control c, ViewBase next)
+        public virtual void MouseLeave(Control c, ViewBase? next)
         {
             // Only if mouse is leaving all the children monitored by controller.
             if (!_target.ContainsRecurse(next))
@@ -210,7 +207,7 @@ namespace Krypton.Toolkit
         /// <param name="c">Reference to the source control instance.</param>
         /// <param name="e">A KeyEventArgs that contains the event data.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public virtual void KeyDown(Control c, KeyEventArgs e)
+        public virtual void KeyDown([DisallowNull] Control c, [DisallowNull] KeyEventArgs e)
         {
             Debug.Assert(c != null);
             Debug.Assert(e != null);
@@ -254,7 +251,7 @@ namespace Krypton.Toolkit
         /// <param name="e">A KeyEventArgs that contains the event data.</param>
         /// <exception cref="ArgumentNullException"></exception>
         /// <returns>True if capturing input; otherwise false.</returns>
-        public virtual bool KeyUp(Control c, KeyEventArgs e)
+        public virtual bool KeyUp([DisallowNull] Control c, [DisallowNull] KeyEventArgs e)
         {
             Debug.Assert(c != null);
             Debug.Assert(e != null);
@@ -312,7 +309,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the need paint delegate for notifying paint requests.
         /// </summary>
-        public NeedPaintHandler NeedPaint
+        public NeedPaintHandler? NeedPaint
         {
             get => _needPaint;
 

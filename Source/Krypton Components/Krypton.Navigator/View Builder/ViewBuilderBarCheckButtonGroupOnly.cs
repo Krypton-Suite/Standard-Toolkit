@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -24,13 +24,11 @@ namespace Krypton.Navigator
         /// <param name="navigator">Reference to navigator instance.</param>
         /// <param name="manager">Reference to current manager.</param>
         /// <param name="redirector">Palette redirector.</param>
-        public override void Construct(KryptonNavigator navigator, 
+        public override void Construct(KryptonNavigator navigator,
                                        ViewManager manager,
-                                       PaletteRedirect redirector)
-        {
+                                       PaletteRedirect? redirector) =>
             // Let base class perform common operations
             base.Construct(navigator, manager, redirector);
-        }
 
         /// <summary>
         /// Gets a value indicating if the mode is a tab strip style mode.
@@ -60,11 +58,9 @@ namespace Krypton.Navigator
         /// <summary>
         /// Destruct the previously created view.
         /// </summary>
-        public override void Destruct()
-        {
+        public override void Destruct() =>
             // Let base class perform common operations
             base.Destruct();
-        }
         #endregion
 
         #region Protected
@@ -134,7 +130,7 @@ namespace Krypton.Navigator
             base.CreateButtonSpecManager();
 
             // Modify the way that button specs are remapped
-            ButtonSpecNavManagerLayoutBar barManager = (ButtonSpecNavManagerLayoutBar)_buttonManager;
+            var barManager = (ButtonSpecNavManagerLayoutBar)_buttonManager;
 
             // Remap the normal color onto the button text
             barManager.RemapTarget = ButtonSpecNavRemap.ButtonSpecRemapTarget.ButtonStandalone;

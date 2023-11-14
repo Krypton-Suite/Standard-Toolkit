@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -37,7 +37,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Set the tree node to use for sourcing values.
         /// </summary>
-        public TreeNode TreeNode { get; set; }
+        public TreeNode? TreeNode { get; set; }
 
         #endregion
 
@@ -194,7 +194,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image instance.</returns>
-        public override Image GetContentShortTextImage(PaletteState state) => _inherit.GetContentShortTextImage(state);
+        public override Image? GetContentShortTextImage(PaletteState state) => _inherit.GetContentShortTextImage(state);
 
         /// <summary>
         /// Gets the background image style.
@@ -216,7 +216,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
         public override Font GetContentLongTextFont(PaletteState state) =>
-            (TreeNode is KryptonTreeNode { LongNodeFont: { } } kryptonNode)
+            (TreeNode is KryptonTreeNode { LongNodeFont: not null } kryptonNode)
                 ? kryptonNode.LongNodeFont
                 : _inherit.GetContentLongTextFont(state);
 
@@ -322,7 +322,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image instance.</returns>
-        public override Image GetContentLongTextImage(PaletteState state) => _inherit.GetContentLongTextImage(state);
+        public override Image? GetContentLongTextImage(PaletteState state) => _inherit.GetContentLongTextImage(state);
 
         /// <summary>
         /// Gets the background image style for the long text.

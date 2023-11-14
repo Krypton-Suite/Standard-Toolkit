@@ -5,7 +5,9 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  
+ *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
  */
 #endregion
@@ -24,7 +26,7 @@ namespace Krypton.Ribbon
         private readonly KryptonRibbon _ribbon;
         private readonly QATButtonToContent _contentProvider;
         private readonly ViewDrawContent _drawContent;
-        private IDisposable _mementoBack;
+        private IDisposable? _mementoBack;
         #endregion
 
         #region Identity
@@ -34,8 +36,8 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Reference to owning ribbon control.</param>
         /// <param name="qatButton">Reference to button definition.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public ViewDrawRibbonQATButton(KryptonRibbon ribbon,
-                                       IQuickAccessToolbarButton qatButton,
+        public ViewDrawRibbonQATButton([DisallowNull] KryptonRibbon ribbon,
+                                       [DisallowNull] IQuickAccessToolbarButton qatButton,
                                        NeedPaintHandler needPaint)
         {
             Debug.Assert(ribbon != null);
@@ -52,7 +54,7 @@ namespace Krypton.Ribbon
             Component = qatButton as Component;
 
             // Attach a controller to this element for the pressing of the button
-            QATButtonController controller = new(ribbon, this, needPaint);
+            var controller = new QATButtonController(ribbon, this, needPaint);
             controller.Click += OnClick;
             SourceController = controller;
             KeyController = controller;
@@ -82,7 +84,7 @@ namespace Krypton.Ribbon
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            @"ViewDrawRibbonQATButton:" + Id;
+            $@"ViewDrawRibbonQATButton:{Id}";
 
         /// <summary>
         /// Clean up any resources being used.
@@ -107,7 +109,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets the key tip target for this view.
         /// </summary>
-        public IRibbonKeyTipTarget KeyTipTarget => SourceController as IRibbonKeyTipTarget;
+        public IRibbonKeyTipTarget? KeyTipTarget => SourceController as IRibbonKeyTipTarget;
 
         #endregion
 
@@ -146,7 +148,7 @@ namespace Krypton.Ribbon
         /// Perform a layout of the elements.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override void Layout(ViewLayoutContext context)
+        public override void Layout([DisallowNull] ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 
@@ -202,17 +204,12 @@ namespace Krypton.Ribbon
         #endregion
 
         #region Implementation
-        private void OnRibbonEnableChanged(object sender, EventArgs e)
-        {
-            UpdateEnabled();
-        }
+        private void OnRibbonEnableChanged(object sender, EventArgs e) => UpdateEnabled();
 
-        private void UpdateEnabled()
-        {
+        private void UpdateEnabled() =>
             // Content is only enabled if the QAT button is enabled
             // and the owning ribbon control is also enabled
             _drawContent.Enabled = base.Enabled && _ribbon.Enabled;
-        }
 
         private void OnClick(object sender, MouseEventArgs e)
         {
@@ -238,18 +235,19 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="state">Tab state.</param>
         /// <returns>Image.</returns>
-        public Image GetImage(PaletteState state)
+        public Image? GetImage(PaletteState state)
         {
             if (_cachedImage == null)
             {
                 var sourceImage = QATButton.GetImage();
                 var currentWidth = sourceImage.Width * FactorDpiX;
                 var currentHeight = sourceImage.Height * FactorDpiY;
-                if ((int)currentHeight == sourceImage.Height)
+                /*if ((int)currentHeight == sourceImage.Height)
                 {
                     // Need to workaround the image drawing off the bottom of the form title bar when scaling @ 100%
                     currentHeight -= 2; // Has to be even to ensure that horizontal lines are still drawn.
                 }
+                */
 
                 _cachedImage = CommonHelper.ScaleImageForSizedDisplay(sourceImage, currentWidth, currentHeight);
             }

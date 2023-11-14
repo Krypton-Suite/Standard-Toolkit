@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -19,7 +19,7 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
         private Padding _rectPadding;
-        private readonly IPaletteMetric _paletteMetric;
+        private readonly IPaletteMetric? _paletteMetric;
 
         #endregion
 
@@ -47,7 +47,7 @@ namespace Krypton.Toolkit
         /// <param name="paletteMetric">Target for recovering metric values.</param>
         /// <param name="metricPadding">Metric to use for border padding.</param>
         /// <param name="orientation">Orientation of the element.</param>
-        public ViewLayoutCenter(IPaletteMetric paletteMetric,
+        public ViewLayoutCenter(IPaletteMetric? paletteMetric,
                                 PaletteMetricPadding metricPadding,
                                 VisualOrientation orientation)
             : this(paletteMetric, metricPadding, orientation, null)
@@ -61,10 +61,10 @@ namespace Krypton.Toolkit
         /// <param name="metricPadding">Metric to use for border padding.</param>
         /// <param name="orientation">Orientation of the element.</param>
         /// <param name="childElement">Optional element to add as child.</param>
-        public ViewLayoutCenter(IPaletteMetric paletteMetric,
+        public ViewLayoutCenter(IPaletteMetric? paletteMetric,
                                 PaletteMetricPadding metricPadding,
                                 VisualOrientation orientation,
-                                ViewBase childElement)
+                                ViewBase? childElement)
         {
             // Remember provided values
             _paletteMetric = paletteMetric;
@@ -91,7 +91,7 @@ namespace Krypton.Toolkit
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            "ViewLayoutCenter:" + Id;
+            $"ViewLayoutCenter:{Id}";
 
         #endregion
 
@@ -116,7 +116,7 @@ namespace Krypton.Toolkit
         /// Discover the preferred size of the element.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override Size GetPreferredSize(ViewLayoutContext context)
+        public override Size GetPreferredSize([DisallowNull] ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 
@@ -177,7 +177,7 @@ namespace Krypton.Toolkit
         /// Perform a layout of the elements.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override void Layout(ViewLayoutContext context)
+        public override void Layout([DisallowNull] ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -19,7 +19,7 @@ namespace Krypton.Navigator
     {
         #region Instance Fields
         private ViewDrawDocker _viewGroup;
-        private ViewletHeaderGroup _headerGroup;
+        private ViewletHeaderGroup? _headerGroup;
         #endregion
 
         #region Public
@@ -33,7 +33,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="element">Element to search against.</param>
         /// <returns>Reference to ButtonSpec; otherwise null.</returns>
-        public override ButtonSpec ButtonSpecFromView(ViewBase element)
+        public override ButtonSpec? ButtonSpecFromView(ViewBase element)
         {
             // Always check base class first
             ButtonSpec bs = base.ButtonSpecFromView(element) ?? _headerGroup.ButtonSpecFromView(element);
@@ -221,7 +221,7 @@ namespace Krypton.Navigator
         /// Process a change in the visible state for a page.
         /// </summary>
         /// <param name="page">Page that has changed visible state.</param>
-        public override void PageVisibleStateChanged(KryptonPage page)
+        public override void PageVisibleStateChanged(KryptonPage? page)
         {
             // If is possible the header group has not been created yet
             // Ensure buttons are recreated to reflect different previous/next visibility
@@ -235,7 +235,7 @@ namespace Krypton.Navigator
         /// Process a change in the enabled state for a page.
         /// </summary>
         /// <param name="page">Page that has changed enabled state.</param>
-        public override void PageEnabledStateChanged(KryptonPage page)
+        public override void PageEnabledStateChanged(KryptonPage? page)
         {
             if (_headerGroup != null)
             {
@@ -261,7 +261,7 @@ namespace Krypton.Navigator
         public override void UpdateStatePalettes()
         {
             // Update palettes for the header group
-            _headerGroup.UpdateStatePalettes();
+            _headerGroup?.UpdateStatePalettes();
 
             // Let base class do standard work
             base.UpdateStatePalettes();
@@ -273,7 +273,7 @@ namespace Krypton.Navigator
         /// <returns>Point in screen coordinates.</returns>
         public override Point GetContextShowPoint() =>
             // Ask the header group for screen point of context button
-            _headerGroup.GetContextShowPoint();
+            _headerGroup!.GetContextShowPoint();
 
         /// <summary>
         /// Is the provided over a part of the view that wants the mouse.
@@ -282,7 +282,7 @@ namespace Krypton.Navigator
         /// <returns>True if the view wants the mouse position; otherwise false.</returns>
         public override bool DesignerGetHitTest(Point pt) =>
             // Check if any of the button specs want the point
-            _headerGroup.DesignerGetHitTest(pt) || base.DesignerGetHitTest(pt);
+            _headerGroup!.DesignerGetHitTest(pt) || base.DesignerGetHitTest(pt);
 
         // Let base class search individual stack items
         /// <summary>
@@ -293,7 +293,7 @@ namespace Krypton.Navigator
         public override ButtonEnabled NextActionEnabled(DirectionButtonAction action)
         {
             // Ask the header group to update the action
-            action = _headerGroup.NextActionEnabled(action);
+            action = _headerGroup!.NextActionEnabled(action);
 
             // Let base class perform basic action calculations
             return base.NextActionEnabled(action);
@@ -304,10 +304,10 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="action">Requested action.</param>
         /// <param name="page">Selected page at time of action request.</param>
-        public override void PerformNextAction(DirectionButtonAction action, KryptonPage page)
+        public override void PerformNextAction(DirectionButtonAction action, KryptonPage? page)
         {
             // Ask the header group to update the action
-            action = _headerGroup.NextActionEnabled(action);
+            action = _headerGroup!.NextActionEnabled(action);
 
             // Let base class perform basic actions
             base.PerformNextAction(action, page);
@@ -321,7 +321,7 @@ namespace Krypton.Navigator
         public override ButtonEnabled PreviousActionEnabled(DirectionButtonAction action)
         {
             // Ask the header group to update the action
-            action = _headerGroup.PreviousActionEnabled(action);
+            action = _headerGroup!.PreviousActionEnabled(action);
 
             // Let base class perform basic action calculations
             return base.PreviousActionEnabled(action);
@@ -332,10 +332,10 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="action">Requested action.</param>
         /// <param name="page">Selected page at time of action request.</param>
-        public override void PerformPreviousAction(DirectionButtonAction action, KryptonPage page)
+        public override void PerformPreviousAction(DirectionButtonAction action, KryptonPage? page)
         {
             // Ask the header group to update the action
-            action = _headerGroup.PreviousActionEnabled(action);
+            action = _headerGroup!.PreviousActionEnabled(action);
 
             // Let base class perform basic actions
             base.PerformPreviousAction(action, page);

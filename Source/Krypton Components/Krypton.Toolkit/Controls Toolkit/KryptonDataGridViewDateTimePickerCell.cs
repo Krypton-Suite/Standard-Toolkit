@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -20,10 +20,10 @@ namespace Krypton.Toolkit
         #region Static Fields
         [ThreadStatic]
         private static KryptonDateTimePicker _paintingDateTime;
-        private static readonly DateTimeConverter _dtc = new();
+        private static readonly DateTimeConverter _dtc = new DateTimeConverter();
         private static readonly Type _defaultEditType = typeof(KryptonDataGridViewDateTimePickerEditingControl);
         private static readonly Type _defaultValueType = typeof(DateTime);
-        private static readonly Size _sizeLarge = new(10000, 10000);
+        private static readonly Size _sizeLarge = new Size(10000, 10000);
         #endregion
 
         #region Instance Fields
@@ -106,7 +106,7 @@ namespace Krypton.Toolkit
         /// </summary>
         public override object Clone()
         {
-            KryptonDataGridViewDateTimePickerCell dateTimeCell = base.Clone() as KryptonDataGridViewDateTimePickerCell;
+            var dateTimeCell = base.Clone() as KryptonDataGridViewDateTimePickerCell;
             if (dateTimeCell != null)
             {
                 dateTimeCell.AutoShift = AutoShift;
@@ -291,7 +291,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// The Format property replicates the one from the KryptonDateTimePicker control
         /// </summary>
-        [DefaultValue(typeof(DateTimePickerFormat), "Long")]
+        [DefaultValue(DateTimePickerFormat.Long)]
         public DateTimePickerFormat Format
         {
             get => _format;
@@ -345,7 +345,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// The CalendarFirstDayOfWeek property replicates the one from the KryptonDateTimePicker control
         /// </summary>
-        [DefaultValue(typeof(Day), "Default")]
+        [DefaultValue(Day.Default)]
         public Day CalendarFirstDayOfWeek
         {
             get => _calendarFirstDayOfWeek;
@@ -514,7 +514,7 @@ namespace Krypton.Toolkit
                 }
                 else
                 {
-                    DateTime dt = (DateTime)_dtc.ConvertFromInvariantString(initialFormattedValueStr);
+                    var dt = (DateTime)_dtc.ConvertFromInvariantString(initialFormattedValueStr);
                     if (dt != null)
                     {
                         dateTime.Value = dt;
@@ -549,7 +549,7 @@ namespace Krypton.Toolkit
             }
             else
             {
-                DateTime dt = (DateTime)value;
+                var dt = (DateTime)value;
                 if (dt != null)
                 {
                     return _dtc.ConvertToInvariantString(dt);
@@ -746,9 +746,8 @@ namespace Krypton.Toolkit
         }
 
         private bool OwnsEditingDateTimePicker(int rowIndex) =>
-            rowIndex != -1 && DataGridView != null
-&& (DataGridView.EditingControl is KryptonDataGridViewDateTimePickerEditingControl control)
-                  && (rowIndex == ((IDataGridViewEditingControl)control).EditingControlRowIndex);
+            rowIndex != -1 && DataGridView is { EditingControl: KryptonDataGridViewDateTimePickerEditingControl control } 
+                           && (rowIndex == ((IDataGridViewEditingControl)control).EditingControlRowIndex);
 
         private static bool PartPainted(DataGridViewPaintParts paintParts, DataGridViewPaintParts paintPart) => (paintParts & paintPart) != 0;
         #endregion

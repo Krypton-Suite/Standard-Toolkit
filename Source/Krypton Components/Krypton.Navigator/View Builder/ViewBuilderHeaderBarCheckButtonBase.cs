@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -31,7 +31,7 @@ namespace Krypton.Navigator
         /// <param name="redirector">Palette redirector.</param>
         public override void Construct(KryptonNavigator navigator,
                                        ViewManager manager,
-                                       PaletteRedirect redirector)
+                                       PaletteRedirect? redirector)
         {
             // Let base class perform common operations
             base.Construct(navigator, manager, redirector);
@@ -55,8 +55,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Create a manager for handling the button specifications.
         /// </summary>
-        protected override void CreateButtonSpecManager()
-        {
+        protected override void CreateButtonSpecManager() =>
             // Create button specification collection manager
             _buttonManager = new ButtonSpecNavManagerLayoutHeaderBar(Navigator, Redirector, Navigator.Button.ButtonSpecs, Navigator.FixedSpecs,
                                                                      new[] { _layoutBarDocker },
@@ -73,7 +72,6 @@ namespace Krypton.Navigator
                 // Hook up the tooltip manager so that tooltips can be generated
                 ToolTipManager = Navigator.ToolTipManager
             };
-        }
 
         /// <summary>
         /// Allow operations to occur after main construct actions.
@@ -90,7 +88,7 @@ namespace Krypton.Navigator
         /// </summary>
         public override void UpdateStatePalettes()
         {
-            PaletteNavigator paletteState;
+            PaletteNavigator? paletteState;
 
             // If whole navigator is disabled then all views are disabled
             var enabled = Navigator.Enabled;
@@ -116,8 +114,11 @@ namespace Krypton.Navigator
             }
 
             // Update with correct state specific palettes
-            _viewHeadingBar.SetPalettes(paletteState.HeaderGroup.HeaderBar.Back,
-                                        paletteState.HeaderGroup.HeaderBar.Border);
+            if (paletteState?.HeaderGroup != null)
+            {
+                _viewHeadingBar.SetPalettes(paletteState.HeaderGroup.HeaderBar.Back,
+                    paletteState.HeaderGroup.HeaderBar.Border);
+            }
 
             // Update with correct enabled state
             _viewHeadingBar.Enabled = enabled;
@@ -147,7 +148,7 @@ namespace Krypton.Navigator
                 case @"HeaderPositionBar":
                     UpdateOrientation();
                     UpdateItemOrientation();
-                    _buttonManager?.RecreateButtons();
+                    _buttonManager.RecreateButtons();
                     Navigator.PerformNeedPaint(true);
                     break;
                 default:
@@ -158,7 +159,7 @@ namespace Krypton.Navigator
         }
 
         /// <summary>
-        /// Gets the visual orientation of the check buttton.
+        /// Gets the visual orientation of the check button.
         /// </summary>
         /// <returns>Visual orientation.</returns>
         protected override VisualOrientation ConvertButtonBorderBackOrientation() => ResolveButtonContentOrientation(Navigator.Header.HeaderPositionBar);
@@ -243,7 +244,7 @@ namespace Krypton.Navigator
             if (_buttonManager != null)
             {
                 // Cast button manager to correct type
-                ButtonSpecNavManagerLayoutHeaderBar headerBarBM = (ButtonSpecNavManagerLayoutHeaderBar)_buttonManager;
+                var headerBarBM = (ButtonSpecNavManagerLayoutHeaderBar)_buttonManager;
 
                 // Update with newly calculated values
                 headerBarBM.UpdateRemapping(GetRemappingPaletteContent(),

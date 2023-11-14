@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -15,7 +15,7 @@ namespace Krypton.Toolkit
     internal class KryptonSplitContainerGlyph : Glyph
     {
         #region Instance Fields
-        private readonly KryptonSplitContainer _splitContainer;
+        private readonly KryptonSplitContainer? _splitContainer;
         private readonly ISelectionService _selectionService;
         private readonly BehaviorService _behaviorService; 
         private readonly Adorner _adorner;
@@ -29,10 +29,10 @@ namespace Krypton.Toolkit
         /// <param name="behaviorService">Reference to the behavior service.</param>
         /// <param name="adorner">Reference to the containing adorner.</param>
         /// <param name="relatedDesigner">Reference to the containing designer.</param>
-        public KryptonSplitContainerGlyph(ISelectionService selectionService,
-                                          BehaviorService behaviorService,
-                                          Adorner adorner,
-                                          IDesigner relatedDesigner)
+        public KryptonSplitContainerGlyph([DisallowNull] ISelectionService selectionService,
+                                          [DisallowNull] BehaviorService behaviorService,
+                                          [DisallowNull] Adorner adorner,
+                                          [DisallowNull] IDesigner relatedDesigner)
             : base(new KryptonSplitContainerBehavior(relatedDesigner))
         {
             Debug.Assert(selectionService != null);
@@ -59,7 +59,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="pt">A point to hit-test.</param>
         /// <returns> A Cursor if the Glyph is associated with p; otherwise, a null reference.</returns>
-        public override Cursor GetHitTest(Point pt)
+        public override Cursor? GetHitTest(Point pt)
         {
             if (_splitContainer != null)
             {
@@ -69,7 +69,7 @@ namespace Krypton.Toolkit
                 if (bounds.Contains(pt))
                 {
                     // Convert from adorner coordinates to the control client coordinates
-                    Point splitPt = new(pt.X - bounds.X, pt.Y - bounds.Y);
+                    var splitPt = new Point(pt.X - bounds.X, pt.Y - bounds.Y);
 
                     // Ask the split container for the correct cursor to use
                     return _splitContainer.DesignGetHitTest(splitPt);

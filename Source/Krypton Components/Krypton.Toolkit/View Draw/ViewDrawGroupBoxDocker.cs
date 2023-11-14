@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -39,7 +39,7 @@ namespace Krypton.Toolkit
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            "ViewDrawGroupBoxDocker:" + Id;
+            $"ViewDrawGroupBoxDocker:{Id}";
 
         #endregion
 
@@ -76,7 +76,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="context">Rendering context.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public override void RenderBefore(RenderContext context)
+        public override void RenderBefore([DisallowNull] RenderContext context)
         {
             Debug.Assert(context != null);
 
@@ -89,7 +89,7 @@ namespace Krypton.Toolkit
             if (this[0].Visible)
             {
                 // The first and only child is the caption content
-                ViewDrawContent caption = (ViewDrawContent)this[0];
+                var caption = (ViewDrawContent)this[0];
 
                 // Cache the origina client rectangle before we modify it
                 _cacheClientRect = ClientRectangle;
@@ -102,28 +102,28 @@ namespace Krypton.Toolkit
                         if (captionRect.Height > 0)
                         {
                             var reduce = (int)(captionRect.Height * CaptionOverlap);
-                            ClientRectangle = new Rectangle(_cacheClientRect.X, _cacheClientRect.Y + reduce, _cacheClientRect.Width, _cacheClientRect.Height - reduce);
+                            ClientRectangle = _cacheClientRect with { Y = _cacheClientRect.Y + reduce, Height = _cacheClientRect.Height - reduce };
                         }
                         break;
                     case ViewDockStyle.Left:
                         if (captionRect.Width > 0)
                         {
                             var reduce = (int)(captionRect.Width * CaptionOverlap);
-                            ClientRectangle = new Rectangle(_cacheClientRect.X + reduce, _cacheClientRect.Y, _cacheClientRect.Width - reduce, _cacheClientRect.Height);
+                            ClientRectangle = _cacheClientRect with { X = _cacheClientRect.X + reduce, Width = _cacheClientRect.Width - reduce };
                         }
                         break;
                     case ViewDockStyle.Bottom:
                         if (captionRect.Height > 0)
                         {
                             var reduce = (int)(captionRect.Height * CaptionOverlap);
-                            ClientRectangle = new Rectangle(_cacheClientRect.X, _cacheClientRect.Y, _cacheClientRect.Width, _cacheClientRect.Height - reduce);
+                            ClientRectangle = _cacheClientRect with { Height = _cacheClientRect.Height - reduce };
                         }
                         break;
                     case ViewDockStyle.Right:
                         if (captionRect.Width > 0)
                         {
                             var reduce = (int)(captionRect.Width * CaptionOverlap);
-                            ClientRectangle = new Rectangle(_cacheClientRect.X, _cacheClientRect.Y, _cacheClientRect.Width - reduce, _cacheClientRect.Height);
+                            ClientRectangle = _cacheClientRect with { Width = _cacheClientRect.Width - reduce };
                         }
                         break;
                 }
@@ -137,7 +137,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="context">Rendering context.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public override void RenderAfter(RenderContext context)
+        public override void RenderAfter([DisallowNull] RenderContext context)
         {
             Debug.Assert(context != null);
 
@@ -163,7 +163,7 @@ namespace Krypton.Toolkit
         public override void RenderBorder(RenderContext context)
         {
             // The first and only child is the caption content
-            ViewDrawContent caption = (ViewDrawContent)this[0];
+            var caption = (ViewDrawContent)this[0];
 
             // Remember current clipping region so we can put it back later
             Region clipRegion = context.Graphics.Clip.Clone();

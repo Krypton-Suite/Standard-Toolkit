@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -18,7 +18,7 @@ namespace Krypton.Navigator
     public class DragTargetNavigatorTransfer : DragTarget
     {
         #region Instance Fields
-        private KryptonNavigator _navigator;
+        private KryptonNavigator? _navigator;
         private int _notDraggedPagesFromNavigator;
         #endregion
 
@@ -30,7 +30,7 @@ namespace Krypton.Navigator
         /// <param name="navigator">Control instance for drop.</param>
         /// <param name="allowFlags">Only drop pages that have one of these flags defined.</param>
         public DragTargetNavigatorTransfer(Rectangle rect,
-                                           KryptonNavigator navigator,
+                                           KryptonNavigator? navigator,
                                            KryptonPageFlags allowFlags)
             : base(rect, rect, rect, DragTargetHint.Transfer, allowFlags)
         {
@@ -60,19 +60,22 @@ namespace Krypton.Navigator
         /// <param name="screenPt">Position in screen coordinates.</param>
         /// <param name="dragEndData">Data to be dropped at destination.</param>
         /// <returns>True if a match; otherwise false.</returns>
-        public override bool IsMatch(Point screenPt, PageDragEndData dragEndData)
+        public override bool IsMatch(Point screenPt, PageDragEndData? dragEndData)
         {
             // First time around...
             if (_notDraggedPagesFromNavigator == -1)
             {
                 // Search for any pages that are not from this navigator
                 _notDraggedPagesFromNavigator = 0;
-                foreach (KryptonPage page in dragEndData.Pages)
+                if (dragEndData != null)
                 {
-                    if (!_navigator.Pages.Contains(page))
+                    foreach (KryptonPage page in dragEndData.Pages)
                     {
-                        _notDraggedPagesFromNavigator = 1;
-                        break;
+                        if (_navigator != null && !_navigator.Pages.Contains(page))
+                        {
+                            _notDraggedPagesFromNavigator = 1;
+                            break;
+                        }
                     }
                 }
             }
@@ -87,31 +90,34 @@ namespace Krypton.Navigator
         /// <param name="screenPt">Position in screen coordinates.</param>
         /// <param name="data">Data to pass to the target to process drop.</param>
         /// <returns>Drop was performed and the source can perform any removal of pages as required.</returns>
-        public override bool PerformDrop(Point screenPt, PageDragEndData data)
+        public override bool PerformDrop(Point screenPt, PageDragEndData? data)
         {
             // Transfer the dragged pages into our navigator instance
-            KryptonPage page = ProcessDragEndData(_navigator, data);
+            KryptonPage? page = ProcessDragEndData(_navigator, data);
 
             // Make the last page transfer the newly selected page of the navigator
             if (page != null)
             {
                 // If the navigator is allowed to have a selected page then select it
-                if (_navigator.AllowTabSelect)
+                if (_navigator is { AllowTabSelect: true })
                 {
                     _navigator.SelectedPage = page;
                 }
 
                 // Need to layout so the new cell has been added as a child control and 
                 // therefore can receive the focus we want to give it immediately afterwards
-                _navigator.PerformLayout();
-
-                if (!_navigator.IsDisposed)
+                if (_navigator != null)
                 {
-                    // Without this DoEvents() call the dropping of multiple pages in a complex arrangement causes an exception for
-                    // a complex reason that is hard to work out (i.e. I'm not entirely sure). Something to do with using select to
-                    // change activation is causing the source workspace control to dispose to earlier.
-                    Application.DoEvents();
-                    _navigator.Select();
+                    _navigator.PerformLayout();
+
+                    if (!_navigator.IsDisposed)
+                    {
+                        // Without this DoEvents() call the dropping of multiple pages in a complex arrangement causes an exception for
+                        // a complex reason that is hard to work out (i.e. I'm not entirely sure). Something to do with using select to
+                        // change activation is causing the source workspace control to dispose to earlier.
+                        Application.DoEvents();
+                        _navigator.Select();
+                    }
                 }
             }
 

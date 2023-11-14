@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -17,10 +17,6 @@ namespace Krypton.Docking
     /// </summary>
     public class AutoHiddenSeparatorResizeEventArgs : EventArgs
     {
-        #region Instance Fields
-
-        #endregion
-
         #region Identity
         /// <summary>
         /// Initialize a new instance of the AutoHiddenSeparatorResizeEventArgs class.
@@ -31,7 +27,7 @@ namespace Krypton.Docking
         /// <param name="resizeRect">Initial resizing rectangle.</param>
         public AutoHiddenSeparatorResizeEventArgs(KryptonSeparator separator,
                                                   KryptonDockspace dockspace,
-                                                  KryptonPage page,
+                                                  KryptonPage? page,
                                                   Rectangle resizeRect)
         {
             SeparatorControl = separator;
@@ -55,7 +51,7 @@ namespace Krypton.Docking
         /// <summary>
         /// Gets a reference to the KryptonPage instance.
         /// </summary>
-        public KryptonPage Page { get; }
+        public KryptonPage? Page { get; }
 
         /// <summary>
         /// Gets and sets the rectangle that limits resizing of the dockspace using the separator.

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -36,8 +36,8 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="target">Initial palette target for redirection.</param>
         /// <param name="images">Reference to source of drop down button images.</param>
-        public PaletteRedirectDropDownButton(IPalette target,
-                                             DropDownButtonImages images)
+        public PaletteRedirectDropDownButton(PaletteBase? target,
+                                             [DisallowNull] DropDownButtonImages images)
             : base(target)
         {
             Debug.Assert(images != null);
@@ -52,18 +52,18 @@ namespace Krypton.Toolkit
         /// Gets a drop down button image appropriate for the provided state.
         /// </summary>
         /// <param name="state">PaletteState for which image is required.</param>
-        public override Image GetDropDownButtonImage(PaletteState state)
+        public override Image? GetDropDownButtonImage(PaletteState state)
         {
             // Grab state specific image
-            Image retImage = state switch
-             {
-                 PaletteState.Disabled => _images.Disabled,
-                 PaletteState.Normal   => _images.Normal,
-                 PaletteState.Tracking => _images.Tracking,
-                 PaletteState.Pressed  => _images.Pressed,
-                 _                     => null
-             }; 
-            
+            Image? retImage = state switch
+            {
+                PaletteState.Disabled => _images.Disabled,
+                PaletteState.Normal => _images.Normal,
+                PaletteState.Tracking => _images.Tracking,
+                PaletteState.Pressed => _images.Pressed,
+                _ => null
+            };
+
             // Not found, then get the common image
             if (retImage == null)
             {
@@ -84,7 +84,7 @@ namespace Krypton.Toolkit
             }
 
             // Not found, then inherit from target
-            return retImage ?? Target.GetDropDownButtonImage(state);
+            return retImage ?? Target?.GetDropDownButtonImage(state);
         }
         #endregion
     }

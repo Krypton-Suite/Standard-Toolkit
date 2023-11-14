@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -18,21 +18,21 @@ namespace Krypton.Toolkit
     public class ViewDrawTrackBar : ViewDrawPanel
     {
         #region Static Fields
-        private static readonly Size _positionSizeSmallH = new(11, 15);
-        private static readonly Size _positionSizeSmallV = new(15, 11);
-        private static readonly Size _positionSizeMediumH = new(13, 21);
-        private static readonly Size _positionSizeMediumV = new(21, 13);
-        private static readonly Size _positionSizeLargeH = new(17, 27);
-        private static readonly Size _positionSizeLargeV = new(27, 17);
-        private static readonly Size _trackSizeSmall = new(2, 2);
-        private static readonly Size _trackSizeSmallV = new(6, 6);
-        private static readonly Size _trackSizeMedium = new(4, 4);
-        private static readonly Size _trackSizeMediumV = new(11, 11);
-        private static readonly Size _trackSizeLarge = new(5, 5);
-        private static readonly Size _trackSizeLargeV = new(16, 16);
-        private static readonly Size _tickSizeSmall = new(5, 5);
-        private static readonly Size _tickSizeMedium = new(6, 6);
-        private static readonly Size _tickSizeLarge = new(7, 7);
+        private static readonly Size _positionSizeSmallH = new Size(11, 15);
+        private static readonly Size _positionSizeSmallV = new Size(15, 11);
+        private static readonly Size _positionSizeMediumH = new Size(13, 21);
+        private static readonly Size _positionSizeMediumV = new Size(21, 13);
+        private static readonly Size _positionSizeLargeH = new Size(17, 27);
+        private static readonly Size _positionSizeLargeV = new Size(27, 17);
+        private static readonly Size _trackSizeSmall = new Size(2, 2);
+        private static readonly Size _trackSizeSmallV = new Size(6, 6);
+        private static readonly Size _trackSizeMedium = new Size(4, 4);
+        private static readonly Size _trackSizeMediumV = new Size(11, 11);
+        private static readonly Size _trackSizeLarge = new Size(5, 5);
+        private static readonly Size _trackSizeLargeV = new Size(16, 16);
+        private static readonly Size _tickSizeSmall = new Size(5, 5);
+        private static readonly Size _tickSizeMedium = new Size(6, 6);
+        private static readonly Size _tickSizeLarge = new Size(7, 7);
         #endregion
 
         #region Instance Fields
@@ -48,19 +48,19 @@ namespace Krypton.Toolkit
         private readonly ViewLayoutDocker _layoutTop;
         private readonly ViewDrawTrackTicks _ticksTop;
         private readonly ViewDrawTrackTicks _ticksBottom;
-        private readonly NeedPaintHandler _needPaint;
+        private readonly NeedPaintHandler? _needPaint;
         #endregion
 
         #region Events
         /// <summary>
         /// Occurs when the value of the Value property changes.
         /// </summary>
-        public event EventHandler ValueChanged;
+        public event EventHandler? ValueChanged;
 
         /// <summary>
         /// Occurs when the value has changed because of a user change.
         /// </summary>
-        public event EventHandler Scroll;
+        public event EventHandler? Scroll;
         #endregion
 
         #region Identity
@@ -121,7 +121,7 @@ namespace Krypton.Toolkit
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            "ViewDrawTrackBar:" + Id;
+            $"ViewDrawTrackBar:{Id}";
 
         #endregion
 
@@ -297,7 +297,7 @@ namespace Krypton.Toolkit
                 {
                     if ((value < Minimum) || (value > Maximum))
                     {
-                        throw new ArgumentOutOfRangeException(@"Value", @"Provided value is out of the Minimum to Maximum range of values.");
+                        throw new ArgumentOutOfRangeException(nameof(Value), @"Provided value is out of the Minimum to Maximum range of values.");
                     }
 
                     _value = value;
@@ -318,7 +318,7 @@ namespace Krypton.Toolkit
             {
                 if (value < 0)
                 {
-                    throw new ArgumentOutOfRangeException(@"SmallChange", @"SmallChange cannot be less than zero.");
+                    throw new ArgumentOutOfRangeException(nameof(SmallChange), @"SmallChange cannot be less than zero.");
                 }
 
                 _smallChange = value;
@@ -336,7 +336,7 @@ namespace Krypton.Toolkit
             {
                 if (value < 0)
                 {
-                    throw new ArgumentOutOfRangeException(@"LargeChange", @"LargeChange cannot be less than zero.");
+                    throw new ArgumentOutOfRangeException(nameof(LargeChange), @"LargeChange cannot be less than zero.");
                 }
 
                 _largeChange = value;

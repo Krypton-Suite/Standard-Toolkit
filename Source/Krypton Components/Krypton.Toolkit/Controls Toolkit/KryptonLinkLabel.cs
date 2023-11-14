@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -17,10 +17,10 @@ namespace Krypton.Toolkit
     /// </summary>
     [ToolboxItem(true)]
     [ToolboxBitmap(typeof(KryptonLinkLabel), "ToolboxBitmaps.KryptonLinkLabel.bmp")]
-    [DefaultEvent("LinkClicked")]
-    [DefaultProperty("Text")]
-    [DefaultBindingProperty("Text")]
-    [Designer("Krypton.Toolkit.KryptonLinkLabelDesigner, Krypton.Toolkit")]
+    [DefaultEvent(nameof(LinkClicked))]
+    [DefaultProperty(nameof(Text))]
+    [DefaultBindingProperty(nameof(Text))]
+    [Designer(typeof(KryptonLinkLabelDesigner))]
     [DesignerCategory(@"code")]
     [Description(@"Displays descriptive information as a hyperlink.")]
     public class KryptonLinkLabel : KryptonLabel
@@ -46,7 +46,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Action")]
         [Description(@"Occurs when the link is clicked.")]
-        public event EventHandler LinkClicked;
+        public event EventHandler? LinkClicked;
         #endregion
 
         #region Identity
@@ -113,10 +113,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void ResetLinkBehavior()
-        {
-            LinkBehavior = KryptonLinkBehavior.AlwaysUnderline;
-        }
+        private void ResetLinkBehavior() => LinkBehavior = KryptonLinkBehavior.AlwaysUnderline;
 
         private bool ShouldSerializeLinkBehavior() => LinkBehavior != KryptonLinkBehavior.AlwaysUnderline;
 
@@ -187,7 +184,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public override Control Target
+        public override Control? Target
         {
             get => base.Target;
             set => base.Target = value;

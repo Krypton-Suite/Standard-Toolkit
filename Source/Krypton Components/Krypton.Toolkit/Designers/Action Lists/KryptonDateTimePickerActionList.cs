@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -15,7 +15,7 @@ namespace Krypton.Toolkit
     internal class KryptonDateTimePickerActionList : DesignerActionList
     {
         #region Instance Fields
-        private readonly KryptonDateTimePicker _dateTimePicker;
+        private readonly KryptonDateTimePicker? _dateTimePicker;
         private readonly IComponentChangeService _service;
         #endregion
 
@@ -38,7 +38,7 @@ namespace Krypton.Toolkit
         #region Public
         /// <summary>Gets or sets the Krypton Context Menu.</summary>
         /// <value>The Krypton Context Menu.</value>
-        public KryptonContextMenu KryptonContextMenu
+        public KryptonContextMenu? KryptonContextMenu
         {
             get => _dateTimePicker.KryptonContextMenu;
 
@@ -180,22 +180,22 @@ namespace Krypton.Toolkit
         public override DesignerActionItemCollection GetSortedActionItems()
         {
             // Create a new collection for holding the single item we want to create
-            DesignerActionItemCollection actions = new();
+            var actions = new DesignerActionItemCollection();
 
             // This can be null when deleting a control instance at design time
             if (_dateTimePicker != null)
             {
                 // Add the list of bread crumb specific actions
-                actions.Add(new DesignerActionHeaderItem(@"Appearance"));
-                actions.Add(new DesignerActionPropertyItem(@"KryptonContextMenu", @"Krypton Context Menu", @"Appearance", @"The Krypton Context Menu for the control."));
-                actions.Add(new DesignerActionPropertyItem(@"Format", @"Format", @"Appearance", @"Decide what to display in the edit portion of the control"));
-                actions.Add(new DesignerActionPropertyItem(@"ShowUpDown", @"ShowUpDown", @"Appearance", @"Display up and down buttons for modifying dates and times"));
-                actions.Add(new DesignerActionPropertyItem(@"ShowCheckBox", @"ShowCheckBox", @"Appearance", @"Display a check box allowing the user to set the value is null"));
-                actions.Add(new DesignerActionPropertyItem(@"Checked", @"Checked", @"Appearance", @"Is the current value null"));
-                actions.Add(new DesignerActionPropertyItem(@"Font", @"Font", @"Appearance", @"The font for the date time picker."));
-                actions.Add(new DesignerActionPropertyItem(@"StateCommonCornerRoundingRadius", @"State Common Corner Rounding Radius", @"Appearance", @"The corner rounding radius of the control."));
+                actions.Add(new DesignerActionHeaderItem(nameof(Appearance)));
+                actions.Add(new DesignerActionPropertyItem(nameof(KryptonContextMenu), @"Krypton Context Menu", nameof(Appearance), @"The Krypton Context Menu for the control."));
+                actions.Add(new DesignerActionPropertyItem(nameof(Format), nameof(Format), nameof(Appearance), @"Decide what to display in the edit portion of the control"));
+                actions.Add(new DesignerActionPropertyItem(nameof(ShowUpDown), nameof(ShowUpDown), nameof(Appearance), @"Display up and down buttons for modifying dates and times"));
+                actions.Add(new DesignerActionPropertyItem(nameof(ShowCheckBox), nameof(ShowCheckBox), nameof(Appearance), @"Display a check box allowing the user to set the value is null"));
+                actions.Add(new DesignerActionPropertyItem(nameof(Checked), nameof(Checked), nameof(Appearance), @"Is the current value null"));
+                actions.Add(new DesignerActionPropertyItem(nameof(Font), nameof(Font), nameof(Appearance), @"The font for the date time picker."));
+                actions.Add(new DesignerActionPropertyItem(nameof(StateCommonCornerRoundingRadius), @"State Common Corner Rounding Radius", nameof(Appearance), @"The corner rounding radius of the control."));
                 actions.Add(new DesignerActionHeaderItem(@"Visuals"));
-                actions.Add(new DesignerActionPropertyItem(@"PaletteMode", @"Palette", @"Visuals", @"Palette applied to drawing"));
+                actions.Add(new DesignerActionPropertyItem(nameof(PaletteMode), @"Palette", @"Visuals", @"Palette applied to drawing"));
             }
 
             return actions;

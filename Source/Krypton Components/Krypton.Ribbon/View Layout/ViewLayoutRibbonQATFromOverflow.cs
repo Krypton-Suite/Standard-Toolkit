@@ -5,7 +5,9 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  
+ *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
  */
 #endregion
@@ -31,11 +33,11 @@ namespace Krypton.Ribbon
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
         /// <param name="showExtraButton">Should the extra button be shown.</param>
         /// <param name="contents">Source for finding buttons that are overflowing.</param>
-        public ViewLayoutRibbonQATFromOverflow(Control parentControl,
+        public ViewLayoutRibbonQATFromOverflow([DisallowNull] Control parentControl,
                                                KryptonRibbon ribbon,
                                                NeedPaintHandler needPaint,
                                                bool showExtraButton,
-                                               ViewLayoutRibbonQATContents contents)
+                                               [DisallowNull] ViewLayoutRibbonQATContents contents)
             : base(ribbon, needPaint, showExtraButton)
         {
             Debug.Assert(parentControl != null);

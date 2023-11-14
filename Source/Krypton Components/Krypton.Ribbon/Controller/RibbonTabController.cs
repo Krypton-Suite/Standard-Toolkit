@@ -5,7 +5,9 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  
+ *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
  */
 #endregion
@@ -26,19 +28,19 @@ namespace Krypton.Ribbon
         private bool _mouseOver;
         private bool _rightButtonDown;
         private readonly ViewDrawRibbonTab _target;
-        private NeedPaintHandler _needPaint;
+        private NeedPaintHandler? _needPaint;
         #endregion
 
         #region Events
         /// <summary>
         /// Occurs when the mouse is used to left click the target.
         /// </summary>
-        public event MouseEventHandler Click;
+        public event MouseEventHandler? Click;
 
         /// <summary>
         /// Occurs when the mouse is used to right click the target.
         /// </summary>
-        public event MouseEventHandler ContextClick;
+        public event MouseEventHandler? ContextClick;
         #endregion
 
         #region Identity
@@ -48,8 +50,8 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Reference to owning control.</param>
         /// <param name="target">Target for state changes.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public RibbonTabController(KryptonRibbon ribbon,
-                                   ViewDrawRibbonTab target,
+        public RibbonTabController([DisallowNull] KryptonRibbon ribbon,
+                                   [DisallowNull] ViewDrawRibbonTab target,
                                    NeedPaintHandler needPaint)
         {
             Debug.Assert(ribbon != null);
@@ -101,23 +103,26 @@ namespace Krypton.Ribbon
         {
             if (Active)
             {
-                // Only interested in left mouse pressing down
-                if (button == MouseButtons.Left)
+                switch (button)
                 {
-                    // Can only click if enabled
-                    if (_target.Enabled)
+                    // Only interested in left mouse pressing down
+                    case MouseButtons.Left:
                     {
-                        // Generate a click event
-                        OnClick(new MouseEventArgs(MouseButtons.Left, 1, pt.X, pt.Y, 0));
-                    }
+                        // Can only click if enabled
+                        if (_target.Enabled)
+                        {
+                            // Generate a click event
+                            OnClick(new MouseEventArgs(MouseButtons.Left, 1, pt.X, pt.Y, 0));
+                        }
 
-                    // Update the visual state
-                    UpdateTargetState(c);
-                }
-                else if (button == MouseButtons.Right)
-                {
-                    // Remember the user has pressed the right mouse button down
-                    _rightButtonDown = true;
+                        // Update the visual state
+                        UpdateTargetState(c);
+                        break;
+                    }
+                    case MouseButtons.Right:
+                        // Remember the user has pressed the right mouse button down
+                        _rightButtonDown = true;
+                        break;
                 }
             }
 
@@ -151,7 +156,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="c">Reference to the source control instance.</param>
         /// <param name="next">Reference to view that is next to have the mouse.</param>
-        public virtual void MouseLeave(Control c, ViewBase next)
+        public virtual void MouseLeave(Control c, ViewBase? next)
         {
             // Only if mouse is leaving all the children monitored by controller.
             if (!_target.ContainsRecurse(next))
@@ -171,7 +176,7 @@ namespace Krypton.Ribbon
         public virtual void DoubleClick(Point pt)
         {
             // Ignore double click at design time
-            if (!_ribbon.InDesignMode && _ribbon.AllowMinimizedChange)
+            if (_ribbon is { InDesignMode: false, AllowMinimizedChange: true })
             {
                 // Toggle the minimized mode of ribbon control
                 _ribbon.MinimizedMode = !_ribbon.MinimizedMode;
@@ -202,7 +207,7 @@ namespace Krypton.Ribbon
         /// Source control has lost the focus.
         /// </summary>
         /// <param name="c">Reference to the source control instance.</param>
-        public virtual void LostFocus(Control c)
+        public virtual void LostFocus([DisallowNull] Control c)
         {
             _target.HasFocus = false;
 
@@ -219,7 +224,7 @@ namespace Krypton.Ribbon
         /// <param name="e">A KeyEventArgs that contains the event data.</param>
         public void KeyDown(Control c, KeyEventArgs e)
         {
-            ViewBase newView = null;
+            ViewBase? newView = null;
             Keys keyData = e.KeyData;
 
             // When there is no selected tab then tab and shift+tab become right and left
@@ -484,20 +489,14 @@ namespace Krypton.Ribbon
         /// Raises the Click event.
         /// </summary>
         /// <param name="e">A MouseEventArgs containing the event data.</param>
-        protected virtual void OnClick(MouseEventArgs e)
-        {
-            Click?.Invoke(_target, e);
-        }
+        protected virtual void OnClick(MouseEventArgs e) => Click?.Invoke(_target, e);
 
         /// <summary>
         /// Raises the ContextClick event.
         /// </summary>
         /// <param name="e">A MouseEventArgs containing the event data.</param>
-        protected virtual void OnContextClick(MouseEventArgs e)
-        {
-            ContextClick?.Invoke(_target, e);
-        }
-        
+        protected virtual void OnContextClick(MouseEventArgs e) => ContextClick?.Invoke(_target, e);
+
         /// <summary>
         /// Raises the NeedPaint event.
         /// </summary>
@@ -536,7 +535,7 @@ namespace Krypton.Ribbon
                         return (CommonHelper.ActiveFloatingWindow != null) ||
                                ((topForm != null) && 
                                 (topForm.ContainsFocus ||
-                                ((topForm.Parent != null) && topForm.Visible && topForm.Enabled)));
+                                ((topForm.Parent != null) && topForm is { Visible: true, Enabled: true })));
                     }
                 }
             }

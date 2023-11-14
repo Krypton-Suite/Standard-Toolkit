@@ -5,11 +5,12 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
 
+// ReSharper disable RedundantNullableFlowAttribute
 namespace Krypton.Navigator
 {
     /// <summary>
@@ -17,22 +18,15 @@ namespace Krypton.Navigator
     /// </summary>
     public class KryptonNavigatorControlCollection : KryptonControlCollection
     {
-        #region Instance Fields
-        private readonly KryptonNavigator _owner;
-        #endregion
-
         #region Identity
         /// <summary>
         /// Initialize a new instance of the KryptonNavigatorControlCollection class.
         /// </summary>
         /// <param name="owner">Control containing this collection.</param>
-        public KryptonNavigatorControlCollection(KryptonNavigator owner)
+        public KryptonNavigatorControlCollection([DisallowNull] KryptonNavigator owner)
             : base(owner)
         {
             Debug.Assert(owner != null);
-
-            // Remember the collection owner
-            _owner = owner;
         }
         #endregion
 
@@ -41,17 +35,21 @@ namespace Krypton.Navigator
         /// Adds the specified control to the control collection.
         /// </summary>
         /// <param name="value">The KryptonPage to add to the control collection.</param>
-        public override void Add(Control value)
+        public override void Add([DisallowNull] Control value)
         {
             Debug.Assert(value != null);
 
+            if (value == null)
+            {
+                throw new ArgumentNullException(nameof(value));
+            }
+
             // Cast to correct type
-            KryptonPage page = (KryptonPage)value;
 
             // We only allow KryptonPage controls to be added
-            if (page == null)
+            if (value is not KryptonPage)
             {
-                throw new ArgumentException("Only KryptonPage controls can be added.", nameof(value));
+                throw new ArgumentException(@"Only KryptonPage controls can be added.", nameof(value));
             }
 
             // Let base class perform actual add

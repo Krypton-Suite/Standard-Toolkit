@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -19,7 +19,7 @@ namespace Krypton.Toolkit
                                             
     {
         #region Instance Fields
-        private readonly PaletteRedirect _redirect;
+        private readonly PaletteRedirect? _redirect;
         private Padding _separatorPadding;
         #endregion
 
@@ -31,7 +31,7 @@ namespace Krypton.Toolkit
         /// <param name="backStyle">Initial background style.</param>
         /// <param name="borderStyle">Initial border style.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public PaletteSeparatorPaddingRedirect(PaletteRedirect redirect,
+        public PaletteSeparatorPaddingRedirect([DisallowNull] PaletteRedirect redirect,
                                                PaletteBackStyle backStyle,
                                                PaletteBorderStyle borderStyle,
                                                NeedPaintHandler needPaint)
@@ -83,10 +83,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Reset the Padding to the default value.
         /// </summary>
-        public void ResetPadding()
-        {
-            Padding = CommonHelper.InheritPadding;
-        }
+        public void ResetPadding() => Padding = CommonHelper.InheritPadding;
         #endregion
 
         #region IPaletteMetric

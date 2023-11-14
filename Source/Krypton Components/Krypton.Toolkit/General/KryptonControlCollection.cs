@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -35,7 +35,7 @@ namespace Krypton.Toolkit
         /// <param name="control">Control to be added.</param>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public void AddInternal(Control control) =>
+        public void AddInternal([DisallowNull] Control control) =>
             // ReSharper disable RedundantBaseQualifier
             // Do not remove base, as the KryptonReadOnlyControls is a mess !
             base.Add(control);
@@ -50,7 +50,7 @@ namespace Krypton.Toolkit
         /// <param name="control">Control to be added.</param>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public void RemoveInternal(Control control) =>
+        public void RemoveInternal(Control? control) =>
             // ReSharper disable RedundantBaseQualifier
             // Do not remove base, as the KryptonReadOnlyControls is a mess !
             base.Remove(control);

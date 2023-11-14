@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -15,7 +15,7 @@ namespace Krypton.Toolkit
     /// <summary>
     /// Hosts a collection of KryptonDataGridViewDateTimePickerCell cells.
     /// </summary>
-    [Designer("Krypton.Toolkit.KryptonDateTimePickerColumnDesigner, Krypton.Toolkit")]
+    [Designer(typeof(KryptonDateTimePickerColumnDesigner))]
     [ToolboxBitmap(typeof(KryptonDataGridViewDateTimePickerColumn), "ToolboxBitmaps.KryptonDateTimePicker.bmp")]
     public class KryptonDataGridViewDateTimePickerColumn : KryptonDataGridViewIconColumn
     {
@@ -43,7 +43,7 @@ namespace Krypton.Toolkit
         /// </summary>
         public override string ToString()
         {
-            StringBuilder builder = new(0x40);
+            var builder = new StringBuilder(0x40);
             builder.Append("KryptonDataGridViewDateTimePickerColumn { Name=");
             // ReSharper disable RedundantBaseQualifier
             builder.Append(base.Name);
@@ -60,7 +60,7 @@ namespace Krypton.Toolkit
         /// <returns></returns>
         public override object Clone()
         {
-            KryptonDataGridViewDateTimePickerColumn cloned = base.Clone() as KryptonDataGridViewDateTimePickerColumn;
+            var cloned = base.Clone() as KryptonDataGridViewDateTimePickerColumn;
 
             cloned.CalendarAnnuallyBoldedDates = CalendarAnnuallyBoldedDates;
             cloned.CalendarMonthlyBoldedDates = CalendarMonthlyBoldedDates;
@@ -176,7 +176,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Appearance")]
         [Description(@"Determines whether dates and times are Displayed using standard or custom formatting.")]
-        [DefaultValue(typeof(DateTimePickerFormat), "Long")]
+        [DefaultValue(DateTimePickerFormat.Long)]
         [RefreshProperties(RefreshProperties.Repaint)]
         public DateTimePickerFormat Format
         {
@@ -564,7 +564,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"MonthCalendar")]
         [Description(@"First day of the week.")]
-        [DefaultValue(typeof(Day), "Default")]
+        [DefaultValue(Day.Default)]
         public Day CalendarFirstDayOfWeek
         {
             get =>
@@ -814,10 +814,7 @@ namespace Krypton.Toolkit
 
             set
             {
-                if (value == null)
-                {
-                    value = Array.Empty<DateTime>();
-                }
+                value ??= Array.Empty<DateTime>();
 
                 _annualDates.Clear();
                 _annualDates.AddRange(value);
@@ -844,10 +841,7 @@ namespace Krypton.Toolkit
 
             set
             {
-                if (value == null)
-                {
-                    value = Array.Empty<DateTime>();
-                }
+                value ??= Array.Empty<DateTime>();
 
                 _monthlyDates.Clear();
                 _monthlyDates.AddRange(value);
@@ -895,7 +889,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Small utility function that returns the template cell as a KryptonDataGridViewDateTimePickerCell
         /// </summary>
-        private KryptonDataGridViewDateTimePickerCell DateTimePickerCellTemplate => (KryptonDataGridViewDateTimePickerCell)CellTemplate;
+        private KryptonDataGridViewDateTimePickerCell? DateTimePickerCellTemplate => (KryptonDataGridViewDateTimePickerCell)CellTemplate;
 
         #endregion
 

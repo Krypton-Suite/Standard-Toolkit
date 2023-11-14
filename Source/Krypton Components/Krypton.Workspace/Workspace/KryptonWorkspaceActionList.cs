@@ -1,9 +1,21 @@
-﻿namespace Krypton.Workspace
+﻿#region BSD License
+/*
+ * 
+ * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
+ * 
+ *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  
+ */
+#endregion
+
+namespace Krypton.Workspace
 {
     internal class KryptonWorkspaceActionList : DesignerActionList
     {
         #region Instance Fields
-        private readonly KryptonWorkspace _workspace;
+        private readonly KryptonWorkspace? _workspace;
         private readonly IComponentChangeService _service;
         #endregion
 
@@ -117,20 +129,20 @@
         /// <returns>A DesignerActionItem array that contains the items in this list.</returns>
         public override DesignerActionItemCollection GetSortedActionItems()
         {
-            DesignerActionItemCollection actions = new();
+            var actions = new DesignerActionItemCollection();
 
             // This can be null when deleting a control instance at design time
             if (_workspace != null)
             {
                 // Add the list of workspace specific actions
-                actions.Add(new DesignerActionHeaderItem("Appearance"));
-                actions.Add(new DesignerActionPropertyItem("ContainerBackStyle", "BackStyle", "Appearance", "Container background style"));
-                actions.Add(new DesignerActionPropertyItem("SeparatorStyle", "SeparatorStyle", "Appearance", "Separator style"));
-                actions.Add(new DesignerActionHeaderItem("Operation"));
-                actions.Add(new DesignerActionPropertyItem("AllowResizing", "AllowResizing", "Operation", "Allow user to resize"));
-                actions.Add(new DesignerActionPropertyItem("CompactFlags", "CompactFlags", "Operation", "Compacting flags"));
+                actions.Add(new DesignerActionHeaderItem(nameof(Appearance)));
+                actions.Add(new DesignerActionPropertyItem(nameof(ContainerBackStyle), "BackStyle", nameof(Appearance), "Container background style"));
+                actions.Add(new DesignerActionPropertyItem(nameof(SeparatorStyle), nameof(SeparatorStyle), nameof(Appearance), "Separator style"));
+                actions.Add(new DesignerActionHeaderItem(nameof(Operation)));
+                actions.Add(new DesignerActionPropertyItem(nameof(AllowResizing), nameof(AllowResizing), nameof(Operation), "Allow user to resize"));
+                actions.Add(new DesignerActionPropertyItem(nameof(CompactFlags), nameof(CompactFlags), nameof(Operation), "Compacting flags"));
                 actions.Add(new DesignerActionHeaderItem("Visuals"));
-                actions.Add(new DesignerActionPropertyItem("PaletteMode", "Palette", "Visuals", "Palette applied to drawing"));
+                actions.Add(new DesignerActionPropertyItem(nameof(PaletteMode), "Palette", "Visuals", "Palette applied to drawing"));
             }
             
             return actions;

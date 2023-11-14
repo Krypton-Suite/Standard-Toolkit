@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -76,7 +76,7 @@ namespace Krypton.Toolkit
         /// <returns></returns>
         public override object Clone()
         {
-            KryptonDataGridViewTextBoxCell cloned = base.Clone() as KryptonDataGridViewTextBoxCell;
+            var cloned = base.Clone() as KryptonDataGridViewTextBoxCell;
             foreach (IconSpec sp in IconSpecs)
             {
                 cloned.IconSpecs.Add(sp.Clone() as IconSpec);
@@ -294,10 +294,9 @@ namespace Krypton.Toolkit
         }
 
         private bool OwnsEditingTextBox(int rowIndex) =>
-            rowIndex != -1 
-            && DataGridView != null
-            && (DataGridView.EditingControl is KryptonDataGridViewTextBoxEditingControl control)
-                  && (rowIndex == ((IDataGridViewEditingControl)control).EditingControlRowIndex);
+            rowIndex != -1
+            && DataGridView is { EditingControl: KryptonDataGridViewTextBoxEditingControl control }
+            && (rowIndex == ((IDataGridViewEditingControl)control).EditingControlRowIndex);
 
         private static bool PartPainted(DataGridViewPaintParts paintParts, DataGridViewPaintParts paintPart) => paintParts.HasFlag(paintPart);
 

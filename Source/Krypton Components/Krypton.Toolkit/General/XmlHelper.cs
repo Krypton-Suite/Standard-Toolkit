@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -60,13 +60,13 @@ namespace Krypton.Toolkit
         /// <param name="xmlWriter">Xml writer to save information into.</param>
         /// <param name="name">Name of image to save.</param>
         /// <param name="image">Image to persist.</param>
-        public static void ImageToXmlCData(XmlWriter xmlWriter, string name, Bitmap image)
+        public static void ImageToXmlCData(XmlWriter xmlWriter, string name, Bitmap? image)
         {
             // Only store if we have an actual image to persist
             if (image != null)
             {
                 // Convert the Image into base64 so it can be used in xml
-                MemoryStream memory = new();
+                using var memory = new MemoryStream();
                 image.Save(memory, image.RawFormat);
                 memory.Position = 0;
                 var base64 = Convert.ToBase64String(memory.ToArray());
@@ -89,7 +89,7 @@ namespace Krypton.Toolkit
             var bytes = Convert.FromBase64String(xmlReader.ReadContentAsString());
 
             // Convert the bytes back into an Image
-            using MemoryStream memory = new(bytes);
+            using var memory = new MemoryStream(bytes);
             try
             {
                 return new Bitmap(memory);
@@ -99,7 +99,7 @@ namespace Krypton.Toolkit
                 // Do the old image way
                 // SYSLIB0011: BinaryFormatter serialization is obsolete
 #pragma warning disable SYSLIB0011
-                BinaryFormatter formatter = new();
+                var formatter = new BinaryFormatter();
                 var img = (Image)formatter.Deserialize(memory);
 #pragma warning restore SYSLIB0011
                 return new Bitmap(img);

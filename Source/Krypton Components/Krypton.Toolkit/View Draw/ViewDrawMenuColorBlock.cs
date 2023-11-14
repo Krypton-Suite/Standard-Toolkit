@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -51,10 +51,13 @@ namespace Krypton.Toolkit
             _blockSize = colorColumns.BlockSize;
 
             // Use context menu specific version of the radio button controller
-            MenuColorBlockController mcbc = new(provider.ProviderViewManager, this, this, provider.ProviderNeedPaintDelegate);
+            var mcbc = new MenuColorBlockController(provider.ProviderViewManager, this, this,
+                provider.ProviderNeedPaintDelegate);
             mcbc.Click += OnClick;
-            MouseController = mcbc;
+            //MouseController = mcbc;
             KeyController = mcbc;
+            // Create the manager for handling tooltips
+            MouseController = new ToolTipController(KryptonContextMenuColorColumns.ToolTipManager, this, mcbc);
         }
 
         /// <summary>
@@ -63,7 +66,7 @@ namespace Krypton.Toolkit
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            "ViewDrawMenuColorBlock:" + Id;
+            $"ViewDrawMenuColorBlock:{Id}";
 
         #endregion
         
@@ -124,7 +127,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="context">Layout context.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public override Size GetPreferredSize(ViewLayoutContext context)
+        public override Size GetPreferredSize([DisallowNull] ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 
@@ -137,7 +140,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="context">Layout context.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public override void Layout(ViewLayoutContext context)
+        public override void Layout([DisallowNull] ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 
@@ -159,7 +162,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="context">Rendering context.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public override void RenderBefore(RenderContext context)
+        public override void RenderBefore([DisallowNull] RenderContext context)
         {
             Debug.Assert(context != null);
 
@@ -190,7 +193,7 @@ namespace Krypton.Toolkit
             }
 
             // Draw ourself in the designated color
-            using SolidBrush brush = new(Color);
+            using var brush = new SolidBrush(Color);
             context.Graphics.FillRectangle(brush, drawRect);
         }
 
@@ -199,7 +202,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="context">Rendering context.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public override void RenderAfter(RenderContext context)
+        public override void RenderAfter([DisallowNull] RenderContext context)
         {
             Debug.Assert(context != null);
 
@@ -210,11 +213,11 @@ namespace Krypton.Toolkit
             }
 
             // If not in normal state, then need to adorn display
-            Color outside = Color.Empty;
-            Color inside = Color.Empty;
+            var outside = Color.Empty;
+            var inside = Color.Empty;
 
             // Is this element selected?
-            var selected = (KryptonContextMenuColorColumns.SelectedColor != null) && KryptonContextMenuColorColumns.SelectedColor.Equals(Color);
+            var selected = (KryptonContextMenuColorColumns.SelectedColor != Color.Empty) && KryptonContextMenuColorColumns.SelectedColor.Equals(Color);
 
             switch (ElementState)
             {
@@ -243,8 +246,8 @@ namespace Krypton.Toolkit
             if (!outside.IsEmpty && !inside.IsEmpty)
             {
                 // Draw the outside and inside areas of the block
-                using Pen outsidePen = new(outside),
-                    insidePen = new(inside);
+                using Pen outsidePen = new Pen(outside),
+                    insidePen = new Pen(inside);
                 context.Graphics.DrawRectangle(outsidePen, ClientLocation.X, ClientLocation.Y, ClientWidth - 1, ClientHeight - 1);
                 context.Graphics.DrawRectangle(insidePen, ClientLocation.X + 1, ClientLocation.Y + 1, ClientWidth - 3, ClientHeight - 3);
             }
@@ -252,10 +255,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Private
-        private void OnClick(object sender, EventArgs e)
-        {
-            KryptonContextMenuColorColumns.SelectedColor = Color;
-        }
+        private void OnClick(object sender, EventArgs e) => KryptonContextMenuColorColumns.SelectedColor = Color;
         #endregion
     }
 }

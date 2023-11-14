@@ -5,7 +5,9 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  
+ *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
  */
 #endregion
@@ -17,15 +19,15 @@ namespace Krypton.Ribbon
     /// </summary>
     [ToolboxItem(false)]
     [ToolboxBitmap(typeof(KryptonRibbonGroupClusterColorButton), "ToolboxBitmaps.KryptonRibbonGroupClusterColorButton.bmp")]
-    [Designer("Krypton.Ribbon.KryptonRibbonGroupClusterColorButtonDesigner, Krypton.Ribbon")]
+    [Designer(typeof(KryptonRibbonGroupClusterColorButtonDesigner))]
     [DesignerCategory(@"code")]
     [DesignTimeVisible(false)]
-    [DefaultEvent("SelectedColorChanged")]
-    [DefaultProperty("SelectedColor")]
+    [DefaultEvent(nameof(SelectedColorChanged))]
+    [DefaultProperty(nameof(SelectedColor))]
     public class KryptonRibbonGroupClusterColorButton : KryptonRibbonGroupItem
     {
         #region Static Fields
-        private static readonly Image _defaultButtonImageSmall = Properties.Resources.ButtonColorImageSmall;
+        private static readonly Image _defaultButtonImageSmall = GenericImageResources.ButtonColorImageSmall;
         #endregion
 
         #region Instance Fields
@@ -43,20 +45,20 @@ namespace Krypton.Ribbon
         private Rectangle _selectedRect;
         private Color _selectedColor;
         private Color _emptyBorderColor;
-        private Image _imageSmall;
-        private KryptonCommand _command;
+        private Image? _imageSmall;
+        private KryptonCommand? _command;
         private GroupItemSize _itemSizeMax;
         private GroupItemSize _itemSizeMin;
         private GroupItemSize _itemSizeCurrent;
         private GroupButtonType _buttonType;
-        private EventHandler _kcmFinishDelegate;
+        private EventHandler? _kcmFinishDelegate;
         private ColorScheme _schemeThemes;
         private ColorScheme _schemeStandard;
         private int _maxRecentColors;
         private readonly List<Color> _recentColors;
 
         // Context menu items
-        private readonly KryptonContextMenu _kryptonContextMenu;
+        private readonly KryptonContextMenu? _kryptonContextMenu;
         private readonly KryptonContextMenuSeparator _separatorTheme;
         private readonly KryptonContextMenuSeparator _separatorStandard;
         private readonly KryptonContextMenuSeparator _separatorRecent;
@@ -80,49 +82,49 @@ namespace Krypton.Ribbon
         /// </summary>
         [Category(@"Ribbon")]
         [Description(@"Occurs when the color button is clicked.")]
-        public event EventHandler Click;
+        public event EventHandler? Click;
 
         /// <summary>
         /// Occurs when the drop down color button type is pressed.
         /// </summary>
         [Category(@"Ribbon")]
         [Description(@"Occurs when the drop down color button type is pressed.")]
-        public event EventHandler<ContextMenuArgs> DropDown;
+        public event EventHandler<ContextMenuArgs>? DropDown;
 
         /// <summary>
         /// Occurs when the SelectedColor property changes value.
         /// </summary>
         [Category(@"Ribbon")]
         [Description(@"Occurs when the SelectedColor property changes value.")]
-        public event EventHandler<ColorEventArgs> SelectedColorChanged;
+        public event EventHandler<ColorEventArgs>? SelectedColorChanged;
 
         /// <summary>
         /// Occurs when the user is tracking over a color.
         /// </summary>
         [Category(@"Ribbon")]
         [Description(@"Occurs when user is tracking over a color.")]
-        public event EventHandler<ColorEventArgs> TrackingColor;
+        public event EventHandler<ColorEventArgs>? TrackingColor;
 
         /// <summary>
         /// Occurs when the user selects the more colors option.
         /// </summary>
         [Category(@"Ribbon")]
         [Description(@"Occurs when user selects the more colors option.")]
-        public event CancelEventHandler MoreColors;
+        public event CancelEventHandler? MoreColors;
 
         /// <summary>
         /// Occurs after the value of a property has changed.
         /// </summary>
         [Category(@"Ribbon")]
         [Description(@"Occurs after the value of a property has changed.")]
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         /// <summary>
         /// Occurs when the design time context menu is requested.
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        public event MouseEventHandler DesignTimeContextMenu;
+        public event MouseEventHandler? DesignTimeContextMenu;
         #endregion
 
         #region Identity
@@ -169,7 +171,7 @@ namespace Krypton.Ribbon
             _headingRecent = new KryptonContextMenuHeading("Recent Colors");
             _colorsRecent = new KryptonContextMenuColorColumns(ColorScheme.None);
             _separatorNoColor = new KryptonContextMenuSeparator();
-            _itemNoColor = new KryptonContextMenuItem("&No Color", Properties.Resources.ButtonNoColor, OnClickNoColor);
+            _itemNoColor = new KryptonContextMenuItem("&No Color", GenericImageResources.ButtonNoColor, OnClickNoColor);
             _itemsNoColor = new KryptonContextMenuItems();
             _itemsNoColor.Items.Add(_itemNoColor);
             _separatorMoreColors = new KryptonContextMenuSeparator();
@@ -301,7 +303,7 @@ namespace Krypton.Ribbon
         [Category(@"Appearance")]
         [Description(@"Small color button image.")]
         [RefreshProperties(RefreshProperties.All)]
-        public Image ImageSmall
+        public Image? ImageSmall
         {
             get => _imageSmall;
 
@@ -524,18 +526,12 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Make the ribbon color button visible.
         /// </summary>
-        public void Show()
-        {
-            Visible = true;
-        }
+        public void Show() => Visible = true;
 
         /// <summary>
         /// Make the ribbon color button hidden.
         /// </summary>
-        public void Hide()
-        {
-            Visible = false;
-        }
+        public void Hide() => Visible = false;
 
         /// <summary>
         /// Gets and sets the enabled state of the group color button.
@@ -613,10 +609,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Resets the ShortcutKeys property to its default value.
         /// </summary>
-        public void ResetShortcutKeys()
-        {
-            ShortcutKeys = Keys.None;
-        }
+        public void ResetShortcutKeys() => ShortcutKeys = Keys.None;
 
         /// <summary>
         /// Gets access to the Wrapped Controls Tooltips.
@@ -628,6 +621,7 @@ namespace Krypton.Ribbon
         /// </summary>
         [Category(@"Appearance")]
         [Description(@"Collection of recent colors.")]
+        [AllowNull]
         public Color[] RecentColors
         {
             get => _recentColors.ToArray();
@@ -647,10 +641,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Clear the recent colors setting.
         /// </summary>
-        public void ClearRecentColors()
-        {
-            _recentColors.Clear();
-        }
+        public void ClearRecentColors() => _recentColors.Clear();
 
         /// <summary>
         /// Gets and sets the associated KryptonCommand.
@@ -658,7 +649,7 @@ namespace Krypton.Ribbon
         [Category(@"Behavior")]
         [Description(@"Command associated with the color button.")]
         [DefaultValue(null)]
-        public KryptonCommand KryptonCommand
+        public KryptonCommand? KryptonCommand
         {
             get => _command;
 
@@ -783,36 +774,24 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Generates a Click event for a button.
         /// </summary>
-        public void PerformClick()
-        {
-            PerformClick(null);
-        }
+        public void PerformClick() => PerformClick(null);
 
         /// <summary>
         /// Generates a Click event for a button.
         /// </summary>
         /// <param name="finishDelegate">Delegate fired during event processing.</param>
-        public void PerformClick(EventHandler finishDelegate)
-        {
-            OnClick(finishDelegate);
-        }
+        public void PerformClick(EventHandler? finishDelegate) => OnClick(finishDelegate);
 
         /// <summary>
         /// Generates a DropDown event for a button.
         /// </summary>
-        public void PerformDropDown()
-        {
-            PerformDropDown(null);
-        }
+        public void PerformDropDown() => PerformDropDown(null);
 
         /// <summary>
         /// Generates a DropDown event for a button.
         /// </summary>
         /// <param name="finishDelegate">Delegate fired during event processing.</param>
-        public void PerformDropDown(EventHandler finishDelegate)
-        {
-            OnDropDown(finishDelegate);
-        }
+        public void PerformDropDown(EventHandler? finishDelegate) => OnDropDown(finishDelegate);
 
         /// <summary>
         /// Internal design time properties.
@@ -820,7 +799,7 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        public ViewBase ClusterColorButtonView { get; set; }
+        public ViewBase? ClusterColorButtonView { get; set; }
 
         #endregion
 
@@ -837,13 +816,13 @@ namespace Krypton.Ribbon
                 case "Text":
                     OnPropertyChanged(nameof(TextLine));
                     break;
-                case "ImageSmall":
+                case nameof(ImageSmall):
                     OnPropertyChanged(nameof(ImageSmall));
                     break;
-                case "Enabled":
+                case nameof(Enabled):
                     OnPropertyChanged(nameof(Enabled));
                     break;
-                case "Checked":
+                case nameof(Checked):
                     OnPropertyChanged(nameof(Checked));
                     break;
             }
@@ -853,7 +832,7 @@ namespace Krypton.Ribbon
         /// Raises the Click event.
         /// </summary>
         /// <param name="finishDelegate">Delegate fired during event processing.</param>
-        protected virtual void OnClick(EventHandler finishDelegate)
+        protected virtual void OnClick(EventHandler? finishDelegate)
         {
             var fireDelegate = true;
 
@@ -909,7 +888,7 @@ namespace Krypton.Ribbon
         /// Raises the DropDown event.
         /// </summary>
         /// <param name="finishDelegate">Delegate fired during event processing.</param>
-        protected virtual void OnDropDown(EventHandler finishDelegate)
+        protected virtual void OnDropDown(EventHandler? finishDelegate)
         {
             var fireDelegate = true;
 
@@ -918,23 +897,22 @@ namespace Krypton.Ribbon
                 // Events only occur when enabled
                 if (Enabled)
                 {
-                    if ((ButtonType == GroupButtonType.DropDown) ||
-                        (ButtonType == GroupButtonType.Split))
+                    if (ButtonType is GroupButtonType.DropDown or GroupButtonType.Split)
                     {
                         if (_kryptonContextMenu != null)
                         {
                             UpdateContextMenu();
 
-                            ContextMenuArgs contextArgs = new(_kryptonContextMenu);
+                            var contextArgs = new ContextMenuArgs(_kryptonContextMenu);
 
                             // Generate an event giving a chance for the krypton context menu strip to 
                             // be shown to be provided/modified or the action even to be cancelled
                             DropDown?.Invoke(this, contextArgs);
 
                             // If user did not cancel and there is still a krypton context menu strip to show
-                            if (!contextArgs.Cancel && (contextArgs.KryptonContextMenu != null))
+                            if (contextArgs is { Cancel: false, KryptonContextMenu: not null })
                             {
-                                Rectangle screenRect = Rectangle.Empty;
+                                var screenRect = Rectangle.Empty;
 
                                 // Convert the view for the button into screen coordinates
                                 if ((Ribbon != null) && (ClusterColorButtonView != null))
@@ -981,44 +959,29 @@ namespace Krypton.Ribbon
         /// Raises the SelectedColorChanged event.
         /// </summary>
         /// <param name="selectedColor">New selected color.</param>
-        protected virtual void OnSelectedColorChanged(Color selectedColor)
-        {
-            SelectedColorChanged?.Invoke(this, new ColorEventArgs(selectedColor));
-        }
+        protected virtual void OnSelectedColorChanged(Color selectedColor) => SelectedColorChanged?.Invoke(this, new ColorEventArgs(selectedColor));
 
         /// <summary>
         /// Raises the TrackingColor event.
         /// </summary>
         /// <param name="e">An ColorEventArgs that contains the event data.</param>
-        protected virtual void OnTrackingColor(ColorEventArgs e)
-        {
-            TrackingColor?.Invoke(this, e);
-        }
+        protected virtual void OnTrackingColor(ColorEventArgs e) => TrackingColor?.Invoke(this, e);
 
         /// <summary>
         /// Raises the MoreColors event.
         /// </summary>
         /// <param name="e">An CancelEventArgs that contains the event data.</param>
-        protected virtual void OnMoreColors(CancelEventArgs e)
-        {
-            MoreColors?.Invoke(this, e);
-        }
+        protected virtual void OnMoreColors(CancelEventArgs e) => MoreColors?.Invoke(this, e);
 
         /// <summary>
         /// Raises the PropertyChanged event.
         /// </summary>
         /// <param name="propertyName">Name of property that has changed.</param>
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
+        protected virtual void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         #endregion
 
         #region Internal
-        internal void OnDesignTimeContextMenu(MouseEventArgs e)
-        {
-            DesignTimeContextMenu?.Invoke(this, e);
-        }
+        internal void OnDesignTimeContextMenu(MouseEventArgs e) => DesignTimeContextMenu?.Invoke(this, e);
 
         internal override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
@@ -1054,8 +1017,7 @@ namespace Krypton.Ribbon
                 }
 
                 // Check the types that have a relevant context menu strip
-                if ((ButtonType == GroupButtonType.DropDown) ||
-                    (ButtonType == GroupButtonType.Split))
+                if (ButtonType is GroupButtonType.DropDown or GroupButtonType.Split)
                 {
                     if (_kryptonContextMenu != null)
                     {
@@ -1097,7 +1059,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void UpdateRecentColors(Color color)
+        private void UpdateRecentColors([DisallowNull] Color color)
         {
             // Do we need to update the recent colors collection?
             if (AutoRecentColors)
@@ -1214,8 +1176,7 @@ namespace Krypton.Ribbon
                     }
 
                     // We do not consider existing separators
-                    if (!((item is KryptonContextMenuSeparator) ||
-                          (item is KryptonContextMenuHeading)))
+                    if (!(item is KryptonContextMenuSeparator or KryptonContextMenuHeading))
                     {
                         // If the previous item is visible, then make the parameter visible
                         if (item.Visible)
@@ -1230,32 +1191,23 @@ namespace Krypton.Ribbon
             visible.Visible = previous;
         }
 
-        private void OnColumnsTrackingColor(object sender, ColorEventArgs e)
-        {
-            OnTrackingColor(new ColorEventArgs(e.Color));
-        }
+        private void OnColumnsTrackingColor(object sender, ColorEventArgs e) => OnTrackingColor(new ColorEventArgs(e.Color));
 
-        private void OnColumnsSelectedColorChanged(object sender, ColorEventArgs e)
-        {
-            SelectedColor = e.Color;
-        }
+        private void OnColumnsSelectedColorChanged(object sender, ColorEventArgs e) => SelectedColor = e.Color;
 
-        private void OnClickNoColor(object sender, EventArgs e)
-        {
-            SelectedColor = Color.Empty;
-        }
+        private void OnClickNoColor(object sender, EventArgs e) => SelectedColor = Color.Empty;
 
         private void OnClickMoreColors(object sender, EventArgs e)
         {
             // Give user a chance to cancel showing the standard more colors dialog
-            CancelEventArgs cea = new();
+            var cea = new CancelEventArgs();
             OnMoreColors(cea);
 
             // If not instructed to cancel then...
             if (!cea.Cancel)
             {
                 // Use a standard color dialog for the selection of custom colors
-                ColorDialog cd = new()
+                var cd = new KryptonColorDialog
                 {
                     Color = SelectedColor,
                     FullOpen = true
@@ -1271,7 +1223,7 @@ namespace Krypton.Ribbon
 
         private void OnKryptonContextMenuClosed(object sender, EventArgs e)
         {
-            KryptonContextMenu kcm = (KryptonContextMenu)sender;
+            var kcm = (KryptonContextMenu)sender;
             kcm.Closed -= OnKryptonContextMenuClosed;
 
             // Fire any associated finish delegate

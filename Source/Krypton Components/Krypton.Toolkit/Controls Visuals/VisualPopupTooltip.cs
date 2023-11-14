@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -32,7 +32,7 @@ namespace Krypton.Toolkit
         /// <param name="contentValues">Source of content values.</param>
         /// <param name="renderer">Drawing renderer.</param>
         /// <param name="shadow">Does the Tooltip need a shadow effect.</param>
-        public VisualPopupToolTip(PaletteRedirect redirector,
+        public VisualPopupToolTip(PaletteRedirect? redirector,
             IContentValues contentValues,
             IRenderer renderer,
             bool shadow)
@@ -54,9 +54,9 @@ namespace Krypton.Toolkit
         /// <param name="borderStyle">Style for the tooltip border.</param>
         /// <param name="contentStyle">Style for the tooltip content.</param>
         /// <param name="shadow">Does the Tooltip need a shadow effect.</param>
-        public VisualPopupToolTip(PaletteRedirect redirector,
-                                    IContentValues contentValues,
-                                    IRenderer renderer,
+        public VisualPopupToolTip([DisallowNull] PaletteRedirect redirector,
+            [DisallowNull] IContentValues contentValues,
+                                    IRenderer? renderer,
                                     PaletteBackStyle backStyle,
                                     PaletteBorderStyle borderStyle,
                                     PaletteContentStyle contentStyle,
@@ -134,10 +134,17 @@ namespace Krypton.Toolkit
                     // The screen, or PlacementRectangle if it is set. The PlacementRectangle is relative to the screen.
                     if (positionPlacementRectangle.IsEmpty)
                     {
-                        // PlacementTarget or parent.
-                        positionPlacementRectangle =
-                            position.PlacementTarget?.ClientRectangle ?? target.ClientRectangle;
-                        positionPlacementRectangle = (position.PlacementTarget?.OwningControl ?? target.OwningControl).RectangleToScreen(positionPlacementRectangle);
+                        var ctrl = (position.PlacementTarget?.OwningControl ?? target.OwningControl);
+                        if (ctrl is not null)
+                        {
+                            // PlacementTarget or parent.
+                            positionPlacementRectangle = position.PlacementTarget?.ClientRectangle ?? target.ClientRectangle;
+                            positionPlacementRectangle = ctrl.RectangleToScreen(positionPlacementRectangle);
+                        }
+                        else
+                        {
+                            positionPlacementRectangle = new Rectangle(controlMousePosition.X, controlMousePosition.Y, currentCursorHotSpot.X + 2, currentCursorHotSpot.Y + 2);
+                        }
                     }
                     else
                     {
@@ -147,7 +154,7 @@ namespace Krypton.Toolkit
             }
 
             // Get the size the popup would like to be
-            Size popupSize = ViewManager.GetPreferredSize(Renderer, Size.Empty);
+            Size popupSize = ViewManager.GetPreferredSize(Renderer, new Size(100, 10));
             Point popupLocation;
 
             switch (position.PlacementMode)
@@ -228,7 +235,7 @@ namespace Krypton.Toolkit
             base.OnLayout(lEvent);
 
             // Need a render context for accessing the renderer
-            using RenderContext context = new(this, null, ClientRectangle, Renderer);
+            using var context = new RenderContext(this, null, ClientRectangle, Renderer);
             // Grab a path that is the outside edge of the border
             Rectangle borderRect = ClientRectangle;
             GraphicsPath borderPath1 = Renderer.RenderStandardBorder.GetOutsideBorderPath(context, borderRect, _palette.Border, VisualOrientation.Top, PaletteState.Normal);

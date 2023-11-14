@@ -5,8 +5,8 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved.
- *
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  
  */
 #endregion
 
@@ -17,8 +17,8 @@ namespace Krypton.Ribbon
         #region Instance Fields
         private IDesignerHost _designerHost;
         private IComponentChangeService _changeService;
-        private KryptonRibbonTab _ribbonTab;
-        private DesignerVerbCollection _verbs;
+        private KryptonRibbonTab? _ribbonTab;
+        private DesignerVerbCollection? _verbs;
         private DesignerVerb _toggleHelpersVerb;
         private DesignerVerb _moveFirstVerb;
         private DesignerVerb _movePrevVerb;
@@ -27,7 +27,7 @@ namespace Krypton.Ribbon
         private DesignerVerb _addGroupVerb;
         private DesignerVerb _clearGroupsVerb;
         private DesignerVerb _deleteTabVerb;
-        private ContextMenuStrip _cms;
+        private ContextMenuStrip? _cms;
         private ToolStripMenuItem _toggleHelpersMenu;
         private ToolStripMenuItem _visibleMenu;
         private ToolStripMenuItem _moveFirstMenu;
@@ -53,7 +53,7 @@ namespace Krypton.Ribbon
         /// Initializes the designer with the specified component.
         /// </summary>
         /// <param name="component">The IComponent to associate the designer with.</param>
-        public override void Initialize(IComponent component)
+        public override void Initialize([DisallowNull] IComponent component)
         {
             // Let base class do standard stuff
             base.Initialize(component);
@@ -84,7 +84,7 @@ namespace Krypton.Ribbon
         {
             get
             {
-                ArrayList compound = new(base.AssociatedComponents);
+                var compound = new ArrayList(base.AssociatedComponents);
                 compound.AddRange(_ribbonTab.Groups);
                 return compound;
             }
@@ -328,7 +328,7 @@ namespace Krypton.Ribbon
                     RaiseComponentChanging(propertyGroups);
 
                     // Get designer to create the new group component
-                    KryptonRibbonGroup group = (KryptonRibbonGroup)_designerHost.CreateComponent(typeof(KryptonRibbonGroup));
+                    var group = (KryptonRibbonGroup)_designerHost.CreateComponent(typeof(KryptonRibbonGroup));
                     _ribbonTab.Groups.Add(group);
 
                     RaiseComponentChanged(propertyGroups, null, null);
@@ -356,7 +356,7 @@ namespace Krypton.Ribbon
                     RaiseComponentChanging(propertyGroups);
 
                     // Need access to host in order to delete a component
-                    IDesignerHost host = (IDesignerHost)GetService(typeof(IDesignerHost));
+                    var host = (IDesignerHost)GetService(typeof(IDesignerHost));
 
                     // We need to remove all the groups from the tab
                     for (var i = _ribbonTab.Groups.Count - 1; i >= 0; i--)
@@ -418,10 +418,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnComponentChanged(object sender, ComponentChangedEventArgs e)
-        {
-            UpdateVerbStatus();
-        }
+        private void OnComponentChanged(object sender, ComponentChangedEventArgs e) => UpdateVerbStatus();
 
         private void OnComponentRemoving(object sender, ComponentEventArgs e)
         {
@@ -429,7 +426,7 @@ namespace Krypton.Ribbon
             if (e.Component == _ribbonTab)
             {
                 // Need access to host in order to delete a component
-                IDesignerHost host = (IDesignerHost)GetService(typeof(IDesignerHost));
+                var host = (IDesignerHost)GetService(typeof(IDesignerHost));
 
                 // We need to remove all the groups from the tab
                 for (var i = _ribbonTab.Groups.Count - 1; i >= 0; i--)
@@ -451,13 +448,13 @@ namespace Krypton.Ribbon
                     _cms = new ContextMenuStrip();
                     _toggleHelpersMenu = new ToolStripMenuItem("Design Helpers", null, OnToggleHelpers);
                     _visibleMenu = new ToolStripMenuItem("Visible", null, OnVisible);
-                    _moveFirstMenu = new ToolStripMenuItem("Move First", Properties.Resources.MoveFirst, OnMoveFirst);
-                    _movePreviousMenu = new ToolStripMenuItem("Move Previous", Properties.Resources.MovePrevious, OnMovePrevious);
-                    _moveNextMenu = new ToolStripMenuItem("Move Next", Properties.Resources.MoveNext, OnMoveNext);
-                    _moveLastMenu = new ToolStripMenuItem("Move Last", Properties.Resources.MoveLast, OnMoveLast);
-                    _addGroupMenu = new ToolStripMenuItem("Add Group", Properties.Resources.KryptonRibbonGroup, OnAddGroup);
+                    _moveFirstMenu = new ToolStripMenuItem("Move First", GenericImageResources.MoveFirst, OnMoveFirst);
+                    _movePreviousMenu = new ToolStripMenuItem("Move Previous", GenericImageResources.MovePrevious, OnMovePrevious);
+                    _moveNextMenu = new ToolStripMenuItem("Move Next", GenericImageResources.MoveNext, OnMoveNext);
+                    _moveLastMenu = new ToolStripMenuItem("Move Last", GenericImageResources.MoveLast, OnMoveLast);
+                    _addGroupMenu = new ToolStripMenuItem("Add Group", GenericImageResources.KryptonRibbonGroup, OnAddGroup);
                     _clearGroupsMenu = new ToolStripMenuItem("Clear Groups", null, OnClearGroups);
-                    _deleteTabMenu = new ToolStripMenuItem("Delete Tab", Properties.Resources.delete2, OnDeleteTab);
+                    _deleteTabMenu = new ToolStripMenuItem("Delete Tab", GenericImageResources.Delete, OnDeleteTab);
                     _cms.Items.AddRange(new ToolStripItem[] { _toggleHelpersMenu, new ToolStripSeparator(),
                                                               _visibleMenu, new ToolStripSeparator(),
                                                               _moveFirstMenu, _movePreviousMenu, _moveNextMenu, _moveLastMenu, new ToolStripSeparator(),
@@ -471,7 +468,7 @@ namespace Krypton.Ribbon
                 // Update verbs to work out correct enable states
                 UpdateVerbStatus();
 
-                // Update menu items state from versb
+                // Update menu items state from verbs
                 _toggleHelpersMenu.Checked = _ribbonTab.Ribbon.InDesignHelperMode;
                 _visibleMenu.Checked = _ribbonTab.Visible;
                 _moveFirstMenu.Enabled = _moveFirstVerb.Enabled;

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -18,9 +18,6 @@ namespace Krypton.Toolkit
     public class ViewLayoutMonths : ViewComposite,
                                     IContentValues
     {
-        #region Type Definitions
-        #endregion
-
         #region Static Fields
         internal const int GAP = 2;
         #endregion
@@ -29,13 +26,13 @@ namespace Krypton.Toolkit
 
         private readonly ViewDrawDocker _drawHeader;
         private readonly PaletteBorderInheritForced _borderForced;
-        private VisualPopupToolTip _visualPopupToolTip;
+        private VisualPopupToolTip? _visualPopupToolTip;
         private readonly ViewDrawToday _drawToday;
-        private readonly ButtonSpecRemapByContentView _remapPalette;
+        private readonly ButtonSpecRemapByContentView? _remapPalette;
         private readonly ViewDrawEmptyContent _emptyContent;
         private readonly PaletteTripleRedirect _palette;
         private readonly ToolTipManager _toolTipManager;
-        private CultureInfo _lastCultureInfo;
+        private CultureInfo? _lastCultureInfo;
         private DateTime _displayMonth;
         private string _dayOfWeekMeasure;
         private string _dayMeasure;
@@ -46,7 +43,7 @@ namespace Krypton.Toolkit
         private DateTime? _trackingDay;
         private DateTime? _anchorDay;
         private readonly NeedPaintHandler _needPaintDelegate;
-        private readonly PaletteRedirect _redirector;
+        private readonly PaletteRedirect? _redirector;
         private bool _showWeekNumbers;
         private bool _showTodayCircle;
         private bool _showToday;
@@ -67,7 +64,7 @@ namespace Krypton.Toolkit
                                 KryptonContextMenuMonthCalendar monthCalendar,
                                 ViewContextMenuManager viewManager,
                                 IKryptonMonthCalendar calendar,
-                                PaletteRedirect redirector,
+                                PaletteRedirect? redirector,
                                 NeedPaintHandler needPaintDelegate)
         {
             Provider = provider;
@@ -84,7 +81,8 @@ namespace Krypton.Toolkit
             AllowButtonSpecToolTips = false;
 
             // Use a controller that can work against all the displayed months
-            MonthCalendarController controller = new(monthCalendar, viewManager, this, _needPaintDelegate);
+            var controller =
+                new MonthCalendarController(monthCalendar, viewManager, this, _needPaintDelegate);
             MouseController = controller;
             SourceController = controller;
             KeyController = controller;
@@ -106,7 +104,7 @@ namespace Krypton.Toolkit
                                                        Calendar.GetToolStripDelegate, _needPaintDelegate);
 
             // Create the manager for handling tooltips
-            _toolTipManager = new ToolTipManager();
+            _toolTipManager = new ToolTipManager(new ToolTipValues(null)); // use default, as each button "could" have different values ??!!??
             _toolTipManager.ShowToolTip += OnShowToolTip;
             _toolTipManager.CancelToolTip += OnCancelToolTip;
             ButtonManager.ToolTipManager = _toolTipManager;
@@ -133,7 +131,7 @@ namespace Krypton.Toolkit
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            "ViewLayoutMonths:" + Id;
+            $"ViewLayoutMonths:{Id}";
 
         #endregion
 
@@ -334,7 +332,7 @@ namespace Krypton.Toolkit
                 }
             }
 
-            ViewDrawMonth target = (ViewDrawMonth)this[ptCol + (ptRow * cols) + 1];
+            var target = (ViewDrawMonth)this[ptCol + (ptRow * cols) + 1];
             return target.ViewDrawMonthDays.DayNearPoint(pt);
         }
 
@@ -347,7 +345,7 @@ namespace Krypton.Toolkit
         public DateTime? DayFromPoint(Point pt, bool exact)
         {
             // Get the bottom most view element matching the point
-            ViewBase view = ViewFromPoint(pt);
+            ViewBase? view = ViewFromPoint(pt);
 
             // Climb view hierarchy looking for the days view 
             while (view != null)
@@ -471,7 +469,7 @@ namespace Krypton.Toolkit
         /// Gets the size required to draw a single month.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public Size GetSingleMonthSize(ViewLayoutContext context)
+        public Size GetSingleMonthSize([DisallowNull] ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 
@@ -485,7 +483,7 @@ namespace Krypton.Toolkit
         /// Gets the size required to draw extra elements such as headers.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public Size GetExtraSize(ViewLayoutContext context)
+        public Size GetExtraSize([DisallowNull] ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 
@@ -506,14 +504,14 @@ namespace Krypton.Toolkit
         /// Discover the preferred size of the element.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override Size GetPreferredSize(ViewLayoutContext context)
+        public override Size GetPreferredSize([DisallowNull] ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 
             SyncData(context);
             SyncMonths();
 
-            Size preferredSize = Size.Empty;
+            var preferredSize = Size.Empty;
 
             // Is there a today header to be measured?
             if (_drawHeader.Visible)
@@ -543,7 +541,7 @@ namespace Krypton.Toolkit
         /// Perform a layout of the elements.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override void Layout(ViewLayoutContext context)
+        public override void Layout([DisallowNull] ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 
@@ -598,7 +596,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">The state for which the image is needed.</param>
         /// <returns>Image value.</returns>
-        public Image GetImage(PaletteState state) => null;
+        public Image? GetImage(PaletteState state) => null;
 
         /// <summary>
         /// Gets the image color that should be transparent.
@@ -628,12 +626,12 @@ namespace Krypton.Toolkit
 
         internal DayOfWeek DisplayDayOfWeek { get; private set; }
 
-        internal string[] DayNames { get; private set; }
+        internal string[]? DayNames { get; private set; }
 
         #endregion
 
         #region Private
-        private DateTime JustDay(DateTime dt) => new (dt.Year, dt.Month, dt.Day);
+        private DateTime JustDay(DateTime dt) => new DateTime(dt.Year, dt.Month, dt.Day);
 
         private void OnTodayClick(object sender, EventArgs e)
         {
@@ -651,7 +649,7 @@ namespace Krypton.Toolkit
             if (CloseOnTodayClick && Provider is { ProviderCanCloseMenu: true })
             {
                 // Ask the original context menu definition, if we can close
-                CancelEventArgs cea = new();
+                var cea = new CancelEventArgs();
                 Provider.OnClosing(cea);
 
                 if (!cea.Cancel)
@@ -756,7 +754,7 @@ namespace Krypton.Toolkit
                     // Bring the selection into the display range
                     DateTime endMonth = _displayMonth.AddMonths(months - 1);
                     DateTime oldSelEndDate = _oldSelectionEnd.Date;
-                    DateTime oldSelEndMonth = new(oldSelEndDate.Year, oldSelEndDate.Month, 1);
+                    var oldSelEndMonth = new DateTime(oldSelEndDate.Year, oldSelEndDate.Month, 1);
                     if (oldSelEndMonth >= endMonth)
                     {
                         _displayMonth = oldSelEndMonth.AddMonths(-(months - 1));
@@ -774,7 +772,7 @@ namespace Krypton.Toolkit
             // Inform each view which month it should be drawing
             for (var i = 1; i < Count; i++)
             {
-                ViewDrawMonth viewMonth = (ViewDrawMonth)this[i];
+                var viewMonth = (ViewDrawMonth)this[i];
                 viewMonth.Enabled = Enabled;
                 viewMonth.Month = currentMonth;
                 viewMonth.FirstMonth = i == 1;
@@ -791,7 +789,7 @@ namespace Krypton.Toolkit
             if (!IsDisposed)
             {
                 // Do not show tooltips when the form we are in does not have focus
-                Form topForm = Calendar.CalendarControl.FindForm();
+                Form? topForm = Calendar.CalendarControl.FindForm();
                 if (topForm is { ContainsFocus: false })
                 {
                     return;
@@ -800,10 +798,10 @@ namespace Krypton.Toolkit
                 // Never show tooltips are design time
                 if (!Calendar.InDesignMode)
                 {
-                    IContentValues sourceContent = null;
-                    LabelStyle toolTipStyle = LabelStyle.ToolTip;
+                    IContentValues? sourceContent = null;
+                    var toolTipStyle = LabelStyle.ToolTip;
 
-                    bool shadow = true;
+                    var shadow = true;
 
                     // Find the button spec associated with the tooltip request
                     ButtonSpec buttonSpec = ButtonManager.ButtonSpecFromView(e.Target);
@@ -815,7 +813,7 @@ namespace Krypton.Toolkit
                         if (AllowButtonSpecToolTips)
                         {
                             // Create a helper object to provide tooltip values
-                            ButtonSpecToContent buttonSpecMapping = new(_redirector, buttonSpec);
+                            var buttonSpecMapping = new ButtonSpecToContent(_redirector, buttonSpec);
 
                             // Is there actually anything to show for the tooltip
                             if (buttonSpecMapping.HasContent)
@@ -856,7 +854,7 @@ namespace Krypton.Toolkit
         private void OnVisualPopupToolTipDisposed(object sender, EventArgs e)
         {
             // Unhook events from the specific instance that generated event
-            VisualPopupToolTip popupToolTip = (VisualPopupToolTip)sender;
+            var popupToolTip = (VisualPopupToolTip)sender;
             popupToolTip.Disposed -= OnVisualPopupToolTipDisposed;
 
             // Not showing a popup page any more
@@ -891,7 +889,7 @@ namespace Krypton.Toolkit
             Size shortNormalSize = context.Renderer.RenderStandardContent.GetContentPreferredSize(context, Calendar.StateNormal.DayOfWeek.Content, this, VisualOrientation.Top, PaletteState.Normal, false, false);
             Size shortDisabledSize = context.Renderer.RenderStandardContent.GetContentPreferredSize(context, Calendar.StateDisabled.DayOfWeek.Content, this, VisualOrientation.Top, PaletteState.Disabled, false, false);
 
-            _shortText = "A" + _dayOfWeekMeasure;
+            _shortText = $"A{_dayOfWeekMeasure}";
 
             // Find sizes required for the different 
             Size fullNormalSize = context.Renderer.RenderStandardContent.GetContentPreferredSize(context, Calendar.StateNormal.DayOfWeek.Content, this, VisualOrientation.Top, PaletteState.Normal, false, false);

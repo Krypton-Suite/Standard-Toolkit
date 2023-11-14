@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -19,8 +19,8 @@ namespace Krypton.Toolkit
     [ToolboxBitmap(typeof(KryptonContextMenuCheckBox), "ToolboxBitmaps.KryptonCheckBox.bmp")]
     [DesignerCategory(@"code")]
     [DesignTimeVisible(false)]
-    [DefaultProperty("Text")]
-    [DefaultEvent("CheckedChanged")]
+    [DefaultProperty(nameof(Text))]
+    [DefaultEvent(nameof(CheckedChanged))]
     public class KryptonContextMenuCheckBox : KryptonContextMenuItemBase
     {
         #region Instance Fields
@@ -30,12 +30,12 @@ namespace Krypton.Toolkit
         private bool _checked;
         private bool _enabled;
         private string _text;
-        private string _extraText;
-        private Image _image;
+        private string? _extraText;
+        private Image? _image;
         private Color _imageTransparentColor;
         private CheckState _checkState;
         private readonly PaletteContentInheritRedirect _stateCommonRedirect;
-        private KryptonCommand _command;
+        private KryptonCommand? _command;
         private LabelStyle _style;
         #endregion
 
@@ -45,21 +45,21 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Action")]
         [Description(@"Occurs when the check box item is clicked.")]
-        public event EventHandler Click;
+        public event EventHandler? Click;
 
         /// <summary>
         /// Occurs when the value of the Checked property has changed.
         /// </summary>
         [Category(@"Misc")]
         [Description(@"Occurs whenever the Checked property has changed.")]
-        public event EventHandler CheckedChanged;
+        public event EventHandler? CheckedChanged;
 
         /// <summary>
         /// Occurs when the value of the CheckState property has changed.
         /// </summary>
         [Category(@"Misc")]
         [Description(@"Occurs whenever the CheckState property has changed.")]
-        public event EventHandler CheckStateChanged;
+        public event EventHandler? CheckStateChanged;
         #endregion
 
         #region Identity
@@ -67,7 +67,7 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the KryptonContextMenuCheckBox class.
         /// </summary>
         public KryptonContextMenuCheckBox()
-            : this("CheckBox")
+            : this(nameof(CheckBox))
         {
         }
 
@@ -127,7 +127,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public override KryptonContextMenuItemBase this[int index] => null;
+        public override KryptonContextMenuItemBase? this[int index] => null;
 
         /// <summary>
         /// Test for the provided shortcut and perform relevant action if a match is found.
@@ -149,8 +149,12 @@ namespace Krypton.Toolkit
                                               object parent,
                                               ViewLayoutStack columns,
                                               bool standardStyle,
-                                              bool imageColumn) =>
-            new ViewDrawMenuCheckBox(provider, this);
+                                              bool imageColumn)
+        {
+            SetProvider(provider);
+
+            return new ViewDrawMenuCheckBox(provider, this);
+        }
 
         /// <summary>
         /// Gets and sets if clicking the check box automatically closes the context menu.
@@ -179,7 +183,7 @@ namespace Krypton.Toolkit
         [KryptonPersist]
         [Category(@"Appearance")]
         [Description(@"Main check box text.")]
-        [DefaultValue("CheckBox")]
+        [DefaultValue(nameof(CheckBox))]
         [Localizable(true)]
         public string Text
         {
@@ -203,9 +207,10 @@ namespace Krypton.Toolkit
         [Description(@"Check box extra text.")]
         [DefaultValue(null)]
         [Localizable(true)]
+        [AllowNull]
         public string ExtraText
         {
-            get => _extraText;
+            get => _extraText ?? string.Empty;
 
             set 
             {
@@ -225,7 +230,7 @@ namespace Krypton.Toolkit
         [Description(@"Check box image.")]
         [DefaultValue(null)]
         [Localizable(true)]
-        public Image Image
+        public Image? Image
         {
             get => _image;
 
@@ -246,6 +251,7 @@ namespace Krypton.Toolkit
         [Category(@"Appearance")]
         [Description(@"Check box image color to make transparent.")]
         [Localizable(true)]
+        [DisallowNull]
         public Color ImageTransparentColor
         {
             get => _imageTransparentColor;
@@ -260,7 +266,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeImageTransparentColor() => (_imageTransparentColor == null) || !_imageTransparentColor.Equals(Color.Empty);
+        private bool ShouldSerializeImageTransparentColor() => !_imageTransparentColor.Equals(Color.Empty);
 
         /// <summary>
         /// Gets and sets the check box label style.
@@ -268,7 +274,7 @@ namespace Krypton.Toolkit
         [KryptonPersist]
         [Category(@"Visuals")]
         [Description(@"Check box label style.")]
-        [DefaultValue(typeof(LabelStyle), "NormalPanel")]
+        [DefaultValue(LabelStyle.NormalPanel)]
         public LabelStyle LabelStyle
         {
             get => _style;
@@ -354,7 +360,7 @@ namespace Krypton.Toolkit
         [KryptonPersist]
         [Category(@"Appearance")]
         [Description(@"Indicates the checked state of the component.")]
-        [DefaultValue(typeof(CheckState), "Unchecked")]
+        [DefaultValue(CheckState.Unchecked)]
         [Bindable(true)]
         public CheckState CheckState
         {
@@ -475,7 +481,7 @@ namespace Krypton.Toolkit
         [Category(@"Behavior")]
         [Description(@"Command associated with the menu check box.")]
         [DefaultValue(null)]
-        public virtual KryptonCommand KryptonCommand
+        public virtual KryptonCommand? KryptonCommand
         {
             get => _command;
 
@@ -528,9 +534,9 @@ namespace Krypton.Toolkit
 
         internal PaletteContentInheritOverride OverrideDisabled { get; }
 
-        internal PaletteRedirectCheckBox StateCheckBoxImages { get; }
+        internal PaletteRedirectCheckBox? StateCheckBoxImages { get; }
 
-        internal void SetPaletteRedirect(PaletteRedirect redirector)
+        internal void SetPaletteRedirect(PaletteRedirect? redirector)
         {
             _stateCommonRedirect.SetRedirector(redirector);
             StateCheckBoxImages.Target = redirector;
@@ -538,10 +544,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Private
-        private void SetCheckBoxStyle(LabelStyle style)
-        {
-            _stateCommonRedirect.Style = CommonHelper.ContentStyleFromLabelStyle(style);
-        }
+        private void SetCheckBoxStyle(LabelStyle style) => _stateCommonRedirect.Style = CommonHelper.ContentStyleFromLabelStyle(style);
         #endregion
     }
 }

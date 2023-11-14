@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -163,7 +163,8 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Static Fields
-        private static readonly Point _nullPoint = new(-1, -1);
+        // TODO: Should be scaled
+        private static readonly Point _nullPoint = new Point(-1, -1);
         private static readonly Cursor _cursorHSplit = Cursors.HSplit;
         private static readonly Cursor _cursorVSplit = Cursors.VSplit;
         private static readonly Cursor _cursorHMove = Cursors.SizeNS;
@@ -193,7 +194,7 @@ namespace Krypton.Toolkit
         /// <param name="splitCursors">Show as split or movement cursors.</param>
         /// <param name="drawIndicator">Draw a separator indicator.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public SeparatorController(ISeparatorSource source,
+        public SeparatorController([DisallowNull] ISeparatorSource source,
                                    ViewBase target,
                                    bool splitCursors,
                                    bool drawIndicator,
@@ -360,7 +361,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="c">Reference to the source control instance.</param>
         /// <param name="next">Reference to view that is next to have the mouse.</param>
-        public override void MouseLeave(Control c, ViewBase next)
+        public override void MouseLeave(Control c, ViewBase? next)
         {
             // If leaving when currently moving, then abort the movement
             if (_moving)
@@ -393,7 +394,7 @@ namespace Krypton.Toolkit
         /// <param name="c">Reference to the source control instance.</param>
         /// <param name="e">A KeyEventArgs that contains the event data.</param>
         /// <returns>True if capturing input; otherwise false.</returns>
-        public override bool KeyUp(Control c, KeyEventArgs e)
+        public override bool KeyUp(Control c, [DisallowNull] KeyEventArgs e)
         {
             Debug.Assert(e != null);
 
@@ -422,7 +423,7 @@ namespace Krypton.Toolkit
         /// Source control has lost the focus.
         /// </summary>
         /// <param name="c">Reference to the source control instance.</param>
-        public override void LostFocus(Control c)
+        public override void LostFocus([DisallowNull] Control c)
         {
             // If we are capturing mouse input
             if (_moving)
@@ -677,7 +678,7 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the SeparatorMessageFilter class.
         /// </summary>
         /// <param name="controller">Owning class instance.</param>
-        public SeparatorMessageFilter(SeparatorController controller)
+        public SeparatorMessageFilter([DisallowNull] SeparatorController controller)
         {
             Debug.Assert(controller != null);
 
@@ -699,18 +700,17 @@ namespace Krypton.Toolkit
                 return false;
             }
 
-            // We allow all non-keyboard messages
-            if (m.Msg is < 0x100 or > 0x108)
+            switch (m.Msg)
             {
-                return false;
-            }
-
-            // If the user presses the escape key, windows keys or any system key
-            if (((m.Msg == 0x100) && (((int)m.WParam.ToInt64()) == 0x1B)) ||
-                ((m.Msg == 0x100) && (((int)m.WParam.ToInt64()) == 0x5B)) ||
-                (m.Msg == 0x104))
-            {
-                _controller.AbortMoving();
+                // We allow all non-keyboard messages
+                case < 0x100 or > 0x108:
+                    return false;
+                // If the user presses the escape key, windows keys or any system key
+                case 0x100 when (((int)m.WParam.ToInt64()) == 0x1B):
+                case 0x100 when (((int)m.WParam.ToInt64()) == 0x5B):
+                case 0x104:
+                    _controller.AbortMoving();
+                    break;
             }
 
             // We filter out all keyboard messages

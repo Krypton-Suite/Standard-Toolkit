@@ -1,4 +1,16 @@
-﻿namespace Krypton.Workspace
+﻿#region BSD License
+/*
+ * 
+ * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
+ * 
+ *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  
+ */
+#endregion
+
+namespace Krypton.Workspace
 {
     /// <summary>
     /// Workspace specific separator that works relative to a specific workspace item.
@@ -35,7 +47,7 @@
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            "ViewDrawWorkspaceSeparator:" + Id;
+            $"ViewDrawWorkspaceSeparator:{Id}";
 
         #endregion
 
@@ -85,10 +97,7 @@
         /// </summary>
         /// <param name="mouse">Current mouse position in client area.</param>
         /// <param name="splitter">Current position of the splitter.</param>
-        public void SeparatorMoved(Point mouse, Point splitter)
-        {
-            _workspace.SeparatorMoved(this, mouse, splitter);
-        }
+        public void SeparatorMoved(Point mouse, Point splitter) => _workspace.SeparatorMoved(this, mouse, splitter);
 
         /// <summary>
         /// Indicates the separator has not been moved.

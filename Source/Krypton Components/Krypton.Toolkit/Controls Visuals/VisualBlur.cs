@@ -5,12 +5,10 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
-
-using System.Threading.Tasks;
 
 namespace Krypton.Toolkit
 {
@@ -38,7 +36,7 @@ namespace Krypton.Toolkit
             // Update form properties so we do not have a border and do not show
             // in the task bar. We draw the background in Magenta and set that as
             // the transparency key so it is a see through window.
-            CreateParams cp = new()
+            var cp = new CreateParams
             {
                 // Define the screen position/size
                 X = -2,
@@ -114,7 +112,7 @@ namespace Krypton.Toolkit
 
         internal static Rectangle GetTargetRectangle(Point clientLocation, Rectangle windowBounds)
         {
-            Rectangle rect = new(0, 0, windowBounds.Width, windowBounds.Height);
+            var rect = windowBounds with { X = 0, Y = 0 };
             rect.Offset(clientLocation);
             return rect;
         }
@@ -136,10 +134,10 @@ namespace Krypton.Toolkit
             }
 
             // Get device contexts
-            IntPtr screenDc = PI.GetDC(IntPtr.Zero);
-            IntPtr memDc = PI.CreateCompatibleDC(screenDc);
-            IntPtr hBitmap = IntPtr.Zero;
-            IntPtr hOldBitmap = IntPtr.Zero;
+            var screenDc = PI.GetDC(IntPtr.Zero);
+            var memDc = PI.CreateCompatibleDC(screenDc);
+            var hBitmap = IntPtr.Zero;
+            var hOldBitmap = IntPtr.Zero;
 
             try
             {
@@ -149,10 +147,10 @@ namespace Krypton.Toolkit
                 hOldBitmap = PI.SelectObject(memDc, hBitmap);
 
                 // Set parameters for layered window update.
-                PI.SIZE newSize = new(_blurredForm.Width, _blurredForm.Height);
-                PI.POINT sourceLocation = new(0, 0);
-                PI.POINT newLocation = new(TargetRect.Left, TargetRect.Top);
-                PI.BLENDFUNCTION blend = new()
+                var newSize = new PI.SIZE(_blurredForm.Width, _blurredForm.Height);
+                var sourceLocation = new PI.POINT(0, 0);
+                var newLocation = new PI.POINT(TargetRect.Left, TargetRect.Top);
+                var blend = new PI.BLENDFUNCTION
                 {
                     BlendOp = PI.AC_SRC_OVER,
                     BlendFlags = 0,
@@ -274,8 +272,8 @@ namespace Krypton.Toolkit
             {
                 return new double[,]
                 {
-                    { 2, 04, 05, 04, 2 }, 
-                    { 4, 09, 12, 09, 4 }, 
+                    { 2, 04, 05, 04, 2 },
+                    { 4, 09, 12, 09, 4 },
                     { 5, 12, 15, 12, 5 },
                     { 4, 09, 12, 09, 4 },
                     { 2, 04, 05, 04, 2 }
@@ -292,7 +290,7 @@ namespace Krypton.Toolkit
             { 26, 41, 26 },
             { 16, 26, 16 }
         };
-            
+
         /// <summary>
         /// GAUSSIAN BLUR 3X3
         /// </summary>
@@ -302,8 +300,8 @@ namespace Krypton.Toolkit
             {
                 return new double[,]
                 {
-                    { 1, 2, 1 }, 
-                    { 2, 4, 2 }, 
+                    { 1, 2, 1 },
+                    { 2, 4, 2 },
                     { 1, 2, 1 }
                 };
             }
@@ -332,7 +330,7 @@ namespace Krypton.Toolkit
             var filterOffset = (filterWidth - 1) / 2;
 
             //Parallel.For(filterOffset, sourceBitmap.Height - filterOffset, offsetY =>
-                for (var offsetY = filterOffset; offsetY < sourceBitmap.Height - filterOffset; offsetY++)
+            for (var offsetY = filterOffset; offsetY < sourceBitmap.Height - filterOffset; offsetY++)
             {
                 Parallel.For(filterOffset, sourceBitmap.Width - filterOffset, offsetX =>
                 //for (var offsetX = filterOffset; offsetX < sourceBitmap.Width - filterOffset; offsetX++)
@@ -376,7 +374,7 @@ namespace Krypton.Toolkit
                 }
                 );
             }
-                //);
+            //);
 
             var targetBitmap = new Bitmap(sourceBitmap.Width, sourceBitmap.Height);
 

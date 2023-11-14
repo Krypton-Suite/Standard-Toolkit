@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -19,22 +19,22 @@ namespace Krypton.Toolkit
                                IContentValues
     {
         #region Static Fields
-        private const string _defaultText = @"Label";
+        private const string DEFAULT_TEXT = nameof(Label);
         private static readonly string _defaultExtraText = string.Empty;
         #endregion
 
         #region Instance Fields
-        private Image _image;
+        private Image? _image;
         private Color _transparent;
-        private string _text;
+        private string? _text;
         private string _extraText;
         #endregion
 
         #region Events
         /// <summary>
-        /// Occures when the value of the Text property changes.
+        /// Occurs when the value of the Text property changes.
         /// </summary>
-        public event EventHandler TextChanged;
+        public event EventHandler? TextChanged;
         #endregion
 
         #region Identity
@@ -50,7 +50,7 @@ namespace Krypton.Toolkit
             // Set initial values
             _image = null;
             _transparent = Color.Empty;
-            _text = _defaultText;
+            _text = DEFAULT_TEXT;
             _extraText = _defaultExtraText;
         }
         #endregion
@@ -62,7 +62,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         public override bool IsDefault => (Image == null) &&
                                            (ImageTransparentColor == Color.Empty) &&
-                                           (Text == _defaultText) &&
+                                           (Text == DEFAULT_TEXT) &&
                                            (ExtraText == _defaultExtraText);
 
         #endregion
@@ -75,7 +75,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Label image.")]
         [RefreshProperties(RefreshProperties.All)]
-        public Image Image
+        public Image? Image
         {
             get => _image;
 
@@ -94,17 +94,14 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the Image property to its default value.
         /// </summary>
-        public void ResetImage()
-        {
-            Image = null;
-        }
+        public void ResetImage() => Image = null;
 
         /// <summary>
         /// Gets the content image.
         /// </summary>
         /// <param name="state">The state for which the image is needed.</param>
         /// <returns>Image value.</returns>
-        public Image GetImage(PaletteState state) => Image;
+        public Image? GetImage(PaletteState state) => Image;
 
         #endregion
 
@@ -136,10 +133,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the ImageTransparentColor property to its default value.
         /// </summary>
-        public void ResetImageTransparentColor()
-        {
-            ImageTransparentColor = Color.Empty;
-        }
+        public void ResetImageTransparentColor() => ImageTransparentColor = Color.Empty;
 
         /// <summary>
         /// Gets the content image transparent color.
@@ -158,10 +152,11 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Label text.")]
         [RefreshProperties(RefreshProperties.All)]
-        [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
+        [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
+        [AllowNull]
         public string Text
         {
-            get => _text;
+            get => _text ?? string.Empty;
 
             set
             {
@@ -174,15 +169,12 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeText() => Text != _defaultText;
+        private bool ShouldSerializeText() => Text != DEFAULT_TEXT;
 
         /// <summary>
         /// Resets the Text property to its default value.
         /// </summary>
-        public void ResetText()
-        {
-            Text = _defaultText;
-        }
+        public void ResetText() => Text = DEFAULT_TEXT;
 
         /// <summary>
         /// Gets the content short text.
@@ -199,7 +191,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Label extra text.")]
         [RefreshProperties(RefreshProperties.All)]
-        [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
+        [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
         [DefaultValue("")]
         public string ExtraText
         {
@@ -220,10 +212,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the Description property to its default value.
         /// </summary>
-        public void ResetExtraText()
-        {
-            ExtraText = _defaultExtraText;
-        }
+        public void ResetExtraText() => ExtraText = _defaultExtraText;
 
         /// <summary>
         /// Gets the content long text.

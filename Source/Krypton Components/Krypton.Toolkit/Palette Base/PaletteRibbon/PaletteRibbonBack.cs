@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -34,7 +34,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="inheritBack">Source for inheriting background values.</param>
         /// <param name="needPaint">Delegate for notifying changes in value.</param>
-        public PaletteRibbonBack(IPaletteRibbonBack inheritBack,
+        public PaletteRibbonBack([DisallowNull] IPaletteRibbonBack inheritBack,
                                  NeedPaintHandler needPaint) 
         {
             Debug.Assert(inheritBack != null);
@@ -141,7 +141,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category(@"Visuals")]
         [Description(@"Second background color for the ribbon item.")]
-        [DefaultValue(typeof(Color), "")]
+        [DefaultValue(typeof(Color), "Empty")]
         [RefreshProperties(RefreshProperties.All)]
         public virtual Color BackColor2
         {
@@ -177,7 +177,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category(@"Visuals")]
         [Description(@"Third background color for the ribbon item.")]
-        [DefaultValue(typeof(Color), "")]
+        [DefaultValue(typeof(Color), "Empty")]
         [RefreshProperties(RefreshProperties.All)]
         public virtual Color BackColor3
         {
@@ -213,7 +213,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category(@"Visuals")]
         [Description(@"Fourth background color for the ribbon item.")]
-        [DefaultValue(typeof(Color), "")]
+        [DefaultValue(typeof(Color), "Empty")]
         [RefreshProperties(RefreshProperties.All)]
         public virtual Color BackColor4
         {
@@ -248,7 +248,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Visuals")]
         [Description(@"Fifth background color for the ribbon item.")]
-        [DefaultValue(typeof(Color), "")]
+        [DefaultValue(typeof(Color), "Empty")]
         [RefreshProperties(RefreshProperties.All)]
         public virtual Color BackColor5
         {

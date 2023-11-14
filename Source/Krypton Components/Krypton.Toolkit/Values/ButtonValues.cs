@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -19,14 +19,14 @@ namespace Krypton.Toolkit
                                 IContentValues
     {
         #region Static Fields
-        private const string _defaultText = "Button";
+        private const string _defaultText = nameof(Button);
         private static readonly string _defaultExtraText = string.Empty;
         #endregion
 
         #region Instance Fields
-        private Image _image;
+        private Image? _image;
         private Color _transparent;
-        private string _text;
+        private string? _text;
         private string _extraText;
 
         #endregion
@@ -35,7 +35,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Occurs when the value of the Text property changes.
         /// </summary>
-        public event EventHandler TextChanged;
+        public event EventHandler? TextChanged;
         #endregion
 
         #region Identity
@@ -79,7 +79,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Button image.")]
         [RefreshProperties(RefreshProperties.All)]
-        public Image Image
+        public Image? Image
         {
             get => _image;
 
@@ -98,10 +98,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the Image property to its default value.
         /// </summary>
-        public void ResetImage()
-        {
-            Image = null;
-        }
+        public void ResetImage() => Image = null;
         #endregion
 
         #region ImageTransparentColor
@@ -132,10 +129,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the ImageTransparentColor property to its default value.
         /// </summary>
-        public void ResetImageTransparentColor()
-        {
-            ImageTransparentColor = Color.Empty;
-        }
+        public void ResetImageTransparentColor() => ImageTransparentColor = Color.Empty;
 
         /// <summary>
         /// Gets the content image transparent color.
@@ -167,10 +161,11 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Button text.")]
         [RefreshProperties(RefreshProperties.All)]
-        [Editor(@"System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
+        [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
+        [AllowNull]
         public string Text
         {
-            get => _text;
+            get => _text ?? string.Empty;
 
             set
             {
@@ -188,10 +183,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the Text property to its default value.
         /// </summary>
-        public void ResetText()
-        {
-            Text = _defaultText;
-        }
+        public void ResetText() => Text = _defaultText;
         #endregion
 
         #region ExtraText
@@ -202,7 +194,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Button extra text.")]
         [RefreshProperties(RefreshProperties.All)]
-        [Editor(@"System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
+        [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
         [DefaultValue(@"")]
         public string ExtraText
         {
@@ -223,10 +215,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the Description property to its default value.
         /// </summary>
-        public void ResetExtraText()
-        {
-            ExtraText = _defaultExtraText;
-        }
+        public void ResetExtraText() => ExtraText = _defaultExtraText;
         #endregion
 
         #region CreateImageStates
@@ -234,7 +223,7 @@ namespace Krypton.Toolkit
         /// Create the storage for the image states.
         /// </summary>
         /// <returns>Storage object.</returns>
-        protected virtual ButtonImageStates CreateImageStates() => new ();
+        protected virtual ButtonImageStates CreateImageStates() => new ButtonImageStates();
 
         #endregion
 
@@ -244,10 +233,10 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">The state for which the image is needed.</param>
         /// <returns>Image value.</returns>
-        public virtual Image GetImage(PaletteState state)
+        public virtual Image? GetImage(PaletteState state)
         {
             // Try and find a state specific image
-            Image image = state switch
+            Image? image = state switch
             {
                 PaletteState.Disabled => ImageStates.ImageDisabled,
                 PaletteState.Normal => ImageStates.ImageNormal,

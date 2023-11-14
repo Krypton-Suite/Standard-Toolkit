@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -23,10 +23,10 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="provider">Interface reference.</param>
         /// <param name="dragEndData">Pages data being dragged.</param>
-        public void AddRange(IDragTargetProvider provider, PageDragEndData dragEndData)
+        public void AddRange(IDragTargetProvider provider, PageDragEndData? dragEndData)
         {
-            DragTargetList targets = provider?.GenerateDragTargets(dragEndData);
-            if ((targets != null) && (targets.Count > 0))
+            DragTargetList targets = provider.GenerateDragTargets(dragEndData);
+            if (targets.Count > 0)
             {
                 AddRange(targets);
             }
@@ -39,10 +39,6 @@ namespace Krypton.Navigator
     /// </summary>
     public abstract class DragTarget : IDisposable
     {
-        #region Instance Fields
-
-        #endregion
-
         #region Identity
         /// <summary>
         /// Initialize a new instance of the DragTarget class.
@@ -96,11 +92,9 @@ namespace Krypton.Navigator
         /// Release unmanaged and optionally managed resources.
         /// </summary>
         /// <param name="disposing">Called from Dispose method.</param>
-        protected virtual void Dispose(bool disposing)
-        {
+        protected virtual void Dispose(bool disposing) =>
             // Mark as disposed
             IsDisposed = true;
-        }
 
         /// <summary>
         /// Gets a value indicating if the view has been disposed.
@@ -141,7 +135,7 @@ namespace Krypton.Navigator
         /// <param name="screenPt">Position in screen coordinates.</param>
         /// <param name="dragEndData">Data to be dropped at destination.</param>
         /// <returns>True if a match; otherwise false.</returns>
-        public virtual bool IsMatch(Point screenPt, PageDragEndData dragEndData) =>
+        public virtual bool IsMatch(Point screenPt, PageDragEndData? dragEndData) =>
             // Default to matching if the mouse is inside the targets hot area
             HotRect.Contains(screenPt);
 
@@ -151,7 +145,7 @@ namespace Krypton.Navigator
         /// <param name="screenPt">Position in screen coordinates.</param>
         /// <param name="dragEndData">Data to be dropped at destination.</param>
         /// <returns>Drop was performed and the source can perform any removal of pages as required.</returns>
-        public abstract bool PerformDrop(Point screenPt, PageDragEndData dragEndData);
+        public abstract bool PerformDrop(Point screenPt, PageDragEndData? dragEndData);
         #endregion
 
         #region Protected
@@ -161,26 +155,29 @@ namespace Krypton.Navigator
         /// <param name="target">Target navigator instance.</param>
         /// <param name="data">Dragged page data.</param>
         /// <returns>Last page to be transferred.</returns>
-        protected KryptonPage ProcessDragEndData(KryptonNavigator target,
-                                                 PageDragEndData data)
+        protected KryptonPage? ProcessDragEndData(KryptonNavigator? target,
+                                                 PageDragEndData? data)
         {
-            KryptonPage ret = null;
+            KryptonPage? ret = null;
 
             // Add each source page to the target
-            foreach (KryptonPage page in data.Pages)
+            if (data != null)
             {
-                // Only add the page if one of the allow flags is set
-                if ((page.Flags & (int)AllowFlags) != 0)
+                foreach (KryptonPage? page in data.Pages)
                 {
-                    // Use event to allow decision on if the page should be dropped
-                    // (or even swap the page for a different page to be dropped)
-                    PageDropEventArgs e = new(page);
-                    target.OnPageDrop(e);
-
-                    if (!e.Cancel && (e.Page != null))
+                    // Only add the page if one of the allow flags is set
+                    if ((page.Flags & (int)AllowFlags) != 0)
                     {
-                        target.Pages.Add(e.Page);
-                        ret = e.Page;
+                        // Use event to allow decision on if the page should be dropped
+                        // (or even swap the page for a different page to be dropped)
+                        var e = new PageDropEventArgs(page);
+                        target.OnPageDrop(e);
+
+                        if (e is { Cancel: false, Page: not null })
+                        {
+                            target.Pages.Add(e.Page);
+                            ret = e.Page;
+                        }
                     }
                 }
             }

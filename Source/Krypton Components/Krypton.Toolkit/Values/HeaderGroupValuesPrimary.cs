@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -18,7 +18,7 @@ namespace Krypton.Toolkit
     public class HeaderGroupValuesPrimary : HeaderValuesBase
     {
         #region Static Fields
-        private const string _defaultHeading = "Heading";
+        private const string _defaultHeading = nameof(Heading);
         #endregion
 
         #region Identity
@@ -51,7 +51,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the header text.
         /// </summary>
-        [DefaultValue(@"Heading")]
+        [DefaultValue(nameof(Heading))]
+        [AllowNull]
         public override string Heading
         {
             get => base.Heading;

@@ -5,7 +5,9 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  
+ *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
  */
 #endregion
@@ -29,7 +31,7 @@ namespace Krypton.Ribbon
         private readonly Padding _preferredBorder2010; // = new(8, 4, 8, 3);
         private readonly Padding _layoutBorder2007; // = new(4, 3, 4, 1);
         private readonly Padding _layoutBorder2010; // = new(1, 4, 0, 3);
-        private KryptonRibbonTab _ribbonTab;
+        private KryptonRibbonTab? _ribbonTab;
         private readonly PaletteRibbonGeneral _paletteGeneral;
         private readonly PaletteRibbonDoubleInheritOverride _overrideStateNormal;
         private readonly PaletteRibbonDoubleInheritOverride _overrideStateTracking;
@@ -42,7 +44,7 @@ namespace Krypton.Ribbon
         private readonly PaletteRibbonContextDouble _paletteContextCurrent;
         private readonly RibbonTabToContent _contentProvider;
         private readonly NeedPaintHandler _needPaint;
-        private IDisposable[] _mementos;
+        private IDisposable?[] _mementos;
         private Size _preferredSize;
         private Rectangle _displayRect;
         private int _dirtyPaletteSize;
@@ -72,21 +74,21 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Reference to owning ribbon control.</param>
         /// <param name="layoutTabs">Reference to view used for layout out tabs.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public ViewDrawRibbonTab(KryptonRibbon ribbon,
-                                 ViewLayoutRibbonTabs layoutTabs,
-                                 NeedPaintHandler needPaint)
+        public ViewDrawRibbonTab([DisallowNull] KryptonRibbon ribbon,
+                                 [DisallowNull] ViewLayoutRibbonTabs layoutTabs,
+                                 [DisallowNull] NeedPaintHandler needPaint)
         {
             Debug.Assert(ribbon != null);
             Debug.Assert(layoutTabs != null);
             Debug.Assert(needPaint != null);
 
             // Cache incoming values
-            Ribbon = ribbon;
-            ViewLayoutRibbonTabs = layoutTabs;
-            _needPaint = needPaint;
+            Ribbon = ribbon!;
+            ViewLayoutRibbonTabs = layoutTabs!;
+            _needPaint = needPaint!;
 
             // Create overrides for handling a focus state
-            _paletteGeneral = ribbon.StateCommon.RibbonGeneral;
+            _paletteGeneral = Ribbon.StateCommon.RibbonGeneral;
             _overrideStateNormal = new PaletteRibbonDoubleInheritOverride(Ribbon.OverrideFocus.RibbonTab, Ribbon.OverrideFocus.RibbonTab, Ribbon.StateNormal.RibbonTab, Ribbon.StateNormal.RibbonTab, PaletteState.FocusOverride);
             _overrideStateTracking = new PaletteRibbonDoubleInheritOverride(Ribbon.OverrideFocus.RibbonTab, Ribbon.OverrideFocus.RibbonTab, Ribbon.StateTracking.RibbonTab, Ribbon.StateTracking.RibbonTab, PaletteState.FocusOverride);
             _overrideStateCheckedNormal = new PaletteRibbonDoubleInheritOverride(Ribbon.OverrideFocus.RibbonTab, Ribbon.OverrideFocus.RibbonTab, Ribbon.StateCheckedNormal.RibbonTab, Ribbon.StateCheckedNormal.RibbonTab, PaletteState.FocusOverride);
@@ -104,7 +106,7 @@ namespace Krypton.Ribbon
             _contentProvider = new RibbonTabToContent(_paletteGeneral, _paletteContextCurrent);
 
             // Use a controller to change state because of mouse movement
-            RibbonTabController controller = new(Ribbon, this, _needPaint);
+            var controller = new RibbonTabController(Ribbon, this, _needPaint);
             controller.Click += OnTabClicked;
             controller.ContextClick += OnTabContextClicked;
             MouseController = controller;
@@ -132,7 +134,7 @@ namespace Krypton.Ribbon
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            @"ViewDrawRibbonTab:" + Id;
+            $@"ViewDrawRibbonTab:{Id}";
 
         /// <summary>
         /// Clean up any resources being used.
@@ -148,15 +150,15 @@ namespace Krypton.Ribbon
                     _ribbonTab.TabView = null;
                 }
 
-                if (_mementos != null)
+                if (_mementos != null!)
                 {
                     // Dispose of all the mementos in the array
-                    foreach (IDisposable memento in _mementos)
+                    foreach (IDisposable? memento in _mementos)
                     {
                         memento?.Dispose();
                     }
 
-                    _mementos = null;
+                    _mementos = null!;
                 }
             }
 
@@ -168,7 +170,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets access to the key tip target.
         /// </summary>
-        public IRibbonKeyTipTarget KeyTipTarget => SourceController as IRibbonKeyTipTarget;
+        public IRibbonKeyTipTarget? KeyTipTarget => SourceController as IRibbonKeyTipTarget;
 
         #endregion
 
@@ -224,7 +226,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets the ribbon tab this is responsible for drawing.
         /// </summary>
-        public KryptonRibbonTab RibbonTab
+        public KryptonRibbonTab? RibbonTab
         {
             get => _ribbonTab;
 
@@ -281,7 +283,8 @@ namespace Krypton.Ribbon
                 {
                     PaletteRibbonShape.Office2010 => _preferredBorder2010,
                     PaletteRibbonShape.Office2013 => _preferredBorder2010,
-                    PaletteRibbonShape.Office365 => _preferredBorder2010,
+                    PaletteRibbonShape.Microsoft365 => _preferredBorder2010,
+                    PaletteRibbonShape.VisualStudio => _preferredBorder2010,
                     _ => _preferredBorder2007
                 };
             }
@@ -300,7 +303,7 @@ namespace Krypton.Ribbon
                 {
                     PaletteRibbonShape.Office2010 => _layoutBorder2010,
                     PaletteRibbonShape.Office2013 => _layoutBorder2010,
-                    PaletteRibbonShape.Office365 => _layoutBorder2010,
+                    PaletteRibbonShape.Microsoft365 => _layoutBorder2010,
                     _ => _layoutBorder2007
                 };
             }
@@ -346,15 +349,15 @@ namespace Krypton.Ribbon
         /// Perform a layout of the elements.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override void Layout(ViewLayoutContext context)
+        public override void Layout([DisallowNull] ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 
             // Ensure that child elements have correct palette state
-            CheckPaletteState(context);
+            CheckPaletteState(context!);
 
             // We take on all the available display area
-            ClientRectangle = context.DisplayRectangle;
+            ClientRectangle = context!.DisplayRectangle;
 
             // A change in state always causes a size and layout calculation
             if (_cacheState != State)
@@ -398,13 +401,14 @@ namespace Krypton.Ribbon
             CheckPaletteState(context);
 
             // Grab the context tab set that relates to this tab
-            ContextTabSet cts = ViewLayoutRibbonTabs.ContextTabSets[RibbonTab.ContextName];
+            ContextTabSet? cts = ViewLayoutRibbonTabs.ContextTabSets[RibbonTab?.ContextName];
 
             switch (Ribbon.RibbonShape)
             {
                 default:
                 case PaletteRibbonShape.Office2013:
-                case PaletteRibbonShape.Office365:
+                case PaletteRibbonShape.Microsoft365:
+                case PaletteRibbonShape.VisualStudio:
                 case PaletteRibbonShape.Office2007:
                     if (cts != null)
                     {
@@ -458,7 +462,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="state">Tab state.</param>
         /// <returns>Image.</returns>
-        public Image GetImage(PaletteState state) => null;
+        public Image? GetImage(PaletteState state) => null;
 
         /// <summary>
         /// Gets the image color that should be interpreted as transparent.
@@ -476,7 +480,7 @@ namespace Krypton.Ribbon
             // We only use the ribbon tab text if we have a ribbon tab to
             // reference and the text is not zero length. We try and prevent
             // an empty string because it makes the tab useless!
-            if ((_ribbonTab != null) && (_ribbonTab.Text.Length > 0))
+            if (_ribbonTab is { Text.Length: > 0 })
             {
                 return Ribbon.RibbonShape == PaletteRibbonShape.Office2013 ? _ribbonTab.Text.ToUpper() : _ribbonTab.Text;
             }
@@ -502,14 +506,15 @@ namespace Krypton.Ribbon
                 Color sepColor = _paletteGeneral.GetRibbonTabSeparatorContextColor(PaletteState.Normal);
 
                 Rectangle parentRect = Parent.ClientRectangle;
-                Rectangle contextRect = new(ClientRectangle.X - 1, parentRect.Y, ClientRectangle.Width + 2, parentRect.Height);
-                Rectangle gradientRect = new(ClientRectangle.X - 1, parentRect.Y - 1, ClientRectangle.Width + 2, parentRect.Height + 2);
+                var contextRect = parentRect with { X = ClientRectangle.X - 1, Width = ClientRectangle.Width + 2 };
+                var gradientRect = new Rectangle(ClientRectangle.X - 1, parentRect.Y - 1,
+                    ClientRectangle.Width + 2, parentRect.Height + 2);
 
-                using LinearGradientBrush sepBrush = new(gradientRect, sepColor, Color.Transparent, 90f);
+                using var sepBrush = new LinearGradientBrush(gradientRect, sepColor, Color.Transparent, 90f);
                 // We need to customize the way the color blends over the background
                 sepBrush.Blend = _contextBlend2007;
 
-                using Pen sepPen = new(sepBrush);
+                using var sepPen = new Pen(sepBrush);
                 if (cts.IsFirstTab(this))
                 {
                     context.Graphics.DrawLine(sepPen, contextRect.X, contextRect.Y, contextRect.X, contextRect.Bottom - 1);
@@ -530,16 +535,18 @@ namespace Krypton.Ribbon
             Color lightC2 = ControlPaint.Light(c2);
             Color c3 = CommonHelper.MergeColors(Color.Black, 0.1f, c2, 0.9f);
 
-            Rectangle contextRect = new(ClientRectangle.X - 1, ClientRectangle.Y - 1, ClientRectangle.Width + 2, ClientRectangle.Height + 1);
-            Rectangle fillRect = new(ClientRectangle.X - 2, ClientRectangle.Y - 1, ClientRectangle.Width + 4, ClientRectangle.Height);
+            var contextRect = new Rectangle(ClientRectangle.X - 1, ClientRectangle.Y - 1,
+                ClientRectangle.Width + 2, ClientRectangle.Height + 1);
+            var fillRect = new Rectangle(ClientRectangle.X - 2, ClientRectangle.Y - 1, ClientRectangle.Width + 4,
+                ClientRectangle.Height);
 
-            using LinearGradientBrush outerBrush = new(contextRect, c1, Color.Transparent, 90f),
-                innerBrush = new(contextRect, c3, Color.Transparent, 90f),
-                fillBrush = new(contextRect, Color.FromArgb(64, lightC2), Color.Transparent, 90f);
+            using var outerBrush = new LinearGradientBrush(contextRect, c1, Color.Transparent, 90f);
+            using var innerBrush = new LinearGradientBrush(contextRect, c3, Color.Transparent, 90f);
+            using var fillBrush = new LinearGradientBrush(contextRect, Color.FromArgb(64, lightC2), Color.Transparent, 90f);
             fillBrush.Blend = _contextBlend2010;
 
-            using Pen outerPen = new(outerBrush),
-                innerPen = new(innerBrush);
+            using var outerPen = new Pen(outerBrush);
+            using var innerPen = new Pen(innerBrush);
             if (cts.IsFirstTab(this))
             {
                 // Draw left separators
@@ -706,10 +713,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnTabPropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            MakeDirty();
-        }
+        private void OnTabPropertyChanged(object sender, PropertyChangedEventArgs e) => MakeDirty();
 
         private void OnTabClicked(object sender, MouseEventArgs e)
         {

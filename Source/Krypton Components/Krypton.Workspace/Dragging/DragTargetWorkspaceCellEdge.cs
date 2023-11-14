@@ -1,4 +1,16 @@
-﻿namespace Krypton.Workspace
+﻿#region BSD License
+/*
+ * 
+ * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
+ * 
+ *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  
+ */
+#endregion
+
+namespace Krypton.Workspace
 {
     /// <summary>
     /// Target one of the four sides of a workspace cell.
@@ -61,16 +73,16 @@
         /// <param name="screenPt">Position in screen coordinates.</param>
         /// <param name="dragEndData">Data to be dropped at destination.</param>
         /// <returns>True if a match; otherwise false.</returns>
-        public override bool IsMatch(Point screenPt, PageDragEndData dragEndData)
+        public override bool IsMatch(Point screenPt, PageDragEndData? dragEndData)
         {
             // First time around...
             if (_visibleNotDraggedPages == -1)
             {
                 // If pages are being dragged from this cell
-                if (dragEndData.Navigator == Cell)
+                if (dragEndData?.Navigator == Cell)
                 {
                     // Create list of all the visible pages in the cell
-                    KryptonPageCollection visiblePages = new();
+                    var visiblePages = new KryptonPageCollection();
                     foreach (KryptonPage page in Cell.Pages)
                     {
                         if (page.LastVisibleSet)
@@ -112,14 +124,14 @@
         /// <param name="screenPt">Position in screen coordinates.</param>
         /// <param name="data">Data to pass to the target to process drop.</param>
         /// <returns>Drop was performed and the source can perform any removal of pages as required.</returns>
-        public override bool PerformDrop(Point screenPt, PageDragEndData data)
+        public override bool PerformDrop(Point screenPt, PageDragEndData? data)
         {
             // We need a parent sequence in order to perform drop
             if (Cell.WorkspaceParent is KryptonWorkspaceSequence parent)
             {
                 // Transfer the dragged pages into a new cell
-                KryptonWorkspaceCell cell = new();
-                KryptonPage page = ProcessDragEndData(Workspace, cell, data);
+                var cell = new KryptonWorkspaceCell();
+                KryptonPage? page = ProcessDragEndData(Workspace, cell, data);
 
                 // If no pages are transferred then we do nothing and no longer need cell instance
                 if (page == null)
@@ -129,7 +141,7 @@
                 else
                 {
                     // If the parent sequence is not the same direction as that needed for the drop then...
-                    var dropHorizontal = (Edge == VisualOrientation.Left) || (Edge == VisualOrientation.Right);
+                    var dropHorizontal = Edge is VisualOrientation.Left or VisualOrientation.Right;
                     if ((dropHorizontal && (parent.Orientation == Orientation.Vertical)) ||
                         (!dropHorizontal && (parent.Orientation == Orientation.Horizontal)))
                     {
@@ -139,7 +151,7 @@
                             : Orientation.Horizontal;
 
                         // Create a new sequence and transfer the target cell into it
-                        KryptonWorkspaceSequence sequence = new(sequenceOrientation);
+                        var sequence = new KryptonWorkspaceSequence(sequenceOrientation);
                         var index = parent.Children.IndexOf(Cell);
                         parent.Children.RemoveAt(index);
                         sequence.Children.Add(Cell);
@@ -148,7 +160,7 @@
                         parent.Children.Insert(index, sequence);
 
                         // Add new cell to the start or the end of the new sequence?
-                        if ((Edge == VisualOrientation.Left) || (Edge == VisualOrientation.Top))
+                        if (Edge is VisualOrientation.Left or VisualOrientation.Top)
                         {
                             sequence.Children.Insert(0, cell);
                         }
@@ -163,7 +175,7 @@
                         var index = parent.Children.IndexOf(Cell);
 
                         // Add new cell before or after the target cell?
-                        if ((Edge == VisualOrientation.Left) || (Edge == VisualOrientation.Top))
+                        if (Edge is VisualOrientation.Left or VisualOrientation.Top)
                         {
                             parent.Children.Insert(index, cell);
                         }

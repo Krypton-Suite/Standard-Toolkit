@@ -5,7 +5,9 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  
+ *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
  */
 #endregion
@@ -47,10 +49,10 @@ namespace Krypton.Ribbon
             _maxWidth = maxWidth;
             Provider = provider;
             RecentDoc = recentDoc;
-            ShortcutText = index < 10 ? @"&" + index.ToString() : @"A";
+            ShortcutText = index < 10 ? $@"&{index}" : @"A";
 
             // Use docker to organize horizontal items
-            ViewLayoutDocker docker = new()
+            var docker = new ViewLayoutDocker
             {
 
                 // End of line gap
@@ -58,25 +60,28 @@ namespace Krypton.Ribbon
             };
 
             // Add the text/extraText/Image entry
-            FixedContentValue entryContent = new(recentDoc.Text, recentDoc.ExtraText, recentDoc.Image, recentDoc.ImageTransparentColor);
-            RibbonRecentDocsEntryToContent entryPalette = new(ribbon.StateCommon.RibbonGeneral, ribbon.StateCommon.RibbonAppMenuDocsEntry);
-            ViewDrawContent entryDraw = new(entryPalette, entryContent, VisualOrientation.Top);
+            var entryContent = new FixedContentValue(recentDoc.Text, recentDoc.ExtraText, recentDoc.Image,
+                recentDoc.ImageTransparentColor);
+            var entryPalette = new RibbonRecentDocsEntryToContent(ribbon.StateCommon.RibbonGeneral,
+                    ribbon.StateCommon.RibbonAppMenuDocsEntry);
+            var entryDraw = new ViewDrawContent(entryPalette, entryContent, VisualOrientation.Top);
             docker.Add(entryDraw, ViewDockStyle.Fill);
 
             // Shortcut to Content gap
             docker.Add(new ViewLayoutSeparator(5), ViewDockStyle.Left);
 
             // Add the shortcut column
-            FixedContentValue shortcutContent = new(ShortcutText, null, null, Color.Empty);
-            RibbonRecentDocsShortcutToContent shortcutPalette = new(ribbon.StateCommon.RibbonGeneral, ribbon.StateCommon.RibbonAppMenuDocsEntry);
-            ViewDrawRibbonRecentShortcut shortcutDraw = new(shortcutPalette, shortcutContent);
+            var shortcutContent = new FixedContentValue(ShortcutText, null, null, Color.Empty);
+            var shortcutPalette = new RibbonRecentDocsShortcutToContent(ribbon.StateCommon.RibbonGeneral,
+                    ribbon.StateCommon.RibbonAppMenuDocsEntry);
+            var shortcutDraw = new ViewDrawRibbonRecentShortcut(shortcutPalette, shortcutContent);
             docker.Add(shortcutDraw, ViewDockStyle.Left);
 
             // Start of line gap
             docker.Add(new ViewLayoutSeparator(3), ViewDockStyle.Left);
 
             // Attach a controller so menu item can be tracked and pressed
-            RecentDocController controller = new(Provider.ProviderViewManager, this, needPaintDelegate);
+            var controller = new RecentDocController(Provider.ProviderViewManager, this, needPaintDelegate);
             MouseController = controller;
             KeyController = controller;
             SourceController = controller;
@@ -90,7 +95,7 @@ namespace Krypton.Ribbon
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            @"ViewDrawRibbonAppMenuRecentDec:" + Id;
+            $@"ViewDrawRibbonAppMenuRecentDec:{Id}";
 
         #endregion
 
@@ -98,7 +103,7 @@ namespace Krypton.Ribbon
         /// Discover the preferred size of the element.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override Size GetPreferredSize(ViewLayoutContext context)
+        public override Size GetPreferredSize([DisallowNull] ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 
@@ -134,19 +139,13 @@ namespace Krypton.Ribbon
         /// Raises the Closing event on the provider.
         /// </summary>
         /// <param name="cea">A CancelEventArgs containing the event data.</param>
-        public void Closing(CancelEventArgs cea)
-        {
-            Provider.OnClosing(cea);
-        }
+        public void Closing(CancelEventArgs cea) => Provider.OnClosing(cea);
 
         /// <summary>
         /// Raises the Close event on the provider.
         /// </summary>
         /// <param name="e">A CancelEventArgs containing the event data.</param>
-        public void Close(CloseReasonEventArgs e)
-        {
-            Provider.OnClose(e);
-        }
+        public void Close(CloseReasonEventArgs e) => Provider.OnClose(e);
 
         /// <summary>
         /// Gets direct access to the context menu provider.

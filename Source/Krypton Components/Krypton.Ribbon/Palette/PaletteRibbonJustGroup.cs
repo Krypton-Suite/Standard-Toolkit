@@ -5,7 +5,9 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  
+ *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
  */
 #endregion
@@ -34,7 +36,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="inherit">Source for inheriting values.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public PaletteRibbonJustGroup(PaletteRibbonRedirect inherit,
+        public PaletteRibbonJustGroup([DisallowNull] PaletteRibbonRedirect inherit,
                                       NeedPaintHandler needPaint)
         {
             Debug.Assert(inherit != null);
@@ -215,7 +217,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="needLayout">True if a layout is also needed.</param>
-        protected void OnNeedPaint(object sender, bool needLayout) =>
+        protected void OnNeedPaint(object? sender, bool needLayout) =>
             // Pass request from child to our own handler
             PerformNeedPaint(needLayout);
 

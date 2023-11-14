@@ -5,11 +5,12 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
 
+// ReSharper disable VirtualMemberCallInConstructor
 namespace Krypton.Navigator
 {
     /// <summary>
@@ -45,11 +46,11 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="navigator">Reference to owning navigator instance.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public NavigatorButton(KryptonNavigator navigator,
+        public NavigatorButton([DisallowNull] KryptonNavigator navigator,
                                NeedPaintHandler needPaint)
         {
             Debug.Assert(navigator != null);
-            
+
             // Remember back reference
             _navigator = navigator;
 
@@ -65,15 +66,28 @@ namespace Krypton.Navigator
             NextButton = new ButtonSpecNavNext(_navigator);
             ContextButton = new ButtonSpecNavContext(_navigator);
             CloseButton = new ButtonSpecNavClose(_navigator);
+            FormCloseButton = new ButtonSpecNavFormClose(_navigator);
+            FormMaximizeButton = new ButtonSpecNavFormMaximize(_navigator);
+            FormMinimizeButton = new ButtonSpecNavFormMinimize(_navigator);
 
             // Hook into the click events for the buttons
             PreviousButton.Click += OnPreviousClick;
             NextButton.Click += OnNextClick;
             ContextButton.Click += OnContextClick;
             CloseButton.Click += OnCloseClick;
+            FormCloseButton.Click += OnCloseButtonClick;
+            FormMinimizeButton.Click += OnMinimizeButtonClick;
+            FormMaximizeButton.Click += OnMaximizeButtonClick;
 
             // Add fixed buttons into the display collection
-            FixedSpecs.AddRange(new ButtonSpecNavFixed[] { PreviousButton, NextButton, ContextButton, CloseButton });
+            if (_navigator is { Owner: not null, ControlKryptonFormFeatures: false })
+            {
+                FixedSpecs.AddRange(new ButtonSpecNavFixed[] { PreviousButton, NextButton, ContextButton, CloseButton, FormMinimizeButton, FormMaximizeButton, FormCloseButton });
+            }
+            else
+            {
+                FixedSpecs.AddRange(new ButtonSpecNavFixed[] { PreviousButton, NextButton, ContextButton, CloseButton });
+            }
 
             // Default fields
             _displayLogic = ButtonDisplayLogic.Context;
@@ -201,10 +215,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Resets the PreviousButtonShortcut property to its default value.
         /// </summary>
-        public void ResetPreviousButtonShortcut()
-        {
-            PreviousButtonShortcut = DEFAULT_SHORTCUT_PREVIOUS;
-        }
+        public void ResetPreviousButtonShortcut() => PreviousButtonShortcut = DEFAULT_SHORTCUT_PREVIOUS;
         #endregion
 
         #region NextButton
@@ -279,10 +290,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Resets the NextButtonShortcut property to its default value.
         /// </summary>
-        public void ResetNextButtonShortcut()
-        {
-            NextButtonShortcut = DEFAULT_SHORTCUT_NEXT;
-        }
+        public void ResetNextButtonShortcut() => NextButtonShortcut = DEFAULT_SHORTCUT_NEXT;
         #endregion
 
         #region ContextButton
@@ -357,10 +365,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Resets the ContextButtonShortcut property to its default value.
         /// </summary>
-        public void ResetContextButtonShortcut()
-        {
-            ContextButtonShortcut = DEFAULT_SHORTCUT_CONTEXT;
-        }
+        public void ResetContextButtonShortcut() => ContextButtonShortcut = DEFAULT_SHORTCUT_CONTEXT;
         #endregion
 
         #region ContextMenuMapText
@@ -457,10 +462,49 @@ namespace Krypton.Navigator
         /// <summary>
         /// Resets the CloseButtonShortcut property to its default value.
         /// </summary>
-        public void ResetCloseButtonShortcut()
-        {
-            CloseButtonShortcut = DEFAULT_SHORTCUT_CLOSE;
-        }
+        public void ResetCloseButtonShortcut() => CloseButtonShortcut = DEFAULT_SHORTCUT_CLOSE;
+        #endregion
+
+        #region FormCloseButton
+
+        /// <summary>
+        /// Gets access to the form close button specification.
+        /// </summary>
+        [Category(@"Visuals")]
+        [Description(@"Form close button specification.")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        public ButtonSpecNavFormClose FormCloseButton { get; }
+
+        private bool ShouldSerializeFormCloseButton() => !FormCloseButton.IsDefault;
+
+        #endregion
+
+        #region FormMaximizeButton
+
+        /// <summary>
+        /// Gets access to the form maximize button specification.
+        /// </summary>
+        [Category(@"Visuals")]
+        [Description(@"Form maximize button specification.")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        public ButtonSpecNavFormMaximize FormMaximizeButton { get; }
+
+        private bool ShouldSerializeFormMaximizeButton() => !FormMaximizeButton.IsDefault;
+
+        #endregion
+
+        #region FormMinimizeButton
+
+        /// <summary>
+        /// Gets access to the form minimize button specification.
+        /// </summary>
+        [Category(@"Visuals")]
+        [Description(@"Form minimize button specification.")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        public ButtonSpecNavFormMinimize FormMinimizeButton { get; }
+
+        private bool ShouldSerializeFormMinimizeButton() => !FormMinimizeButton.IsDefault;
+
         #endregion
 
         #region ButtonDisplayLogic
@@ -487,37 +531,28 @@ namespace Krypton.Navigator
         /// <summary>
         /// Resets the ButtonDisplayLogic property to its default value.
         /// </summary>
-        public void ResetButtonDisplayLogic()
-        {
-            ButtonDisplayLogic = ButtonDisplayLogic.Context;
-        }
+        public void ResetButtonDisplayLogic() => ButtonDisplayLogic = ButtonDisplayLogic.Context;
         #endregion
 
         #region Internal
-        internal NavFixedButtonSpecCollection FixedSpecs { get; }
+        internal NavFixedButtonSpecCollection? FixedSpecs { get; }
 
         #endregion
 
         #region Implementation
-        private void OnPreviousClick(object sender, EventArgs e)
-        {
-            _navigator.PerformPreviousAction();
-        }
+        private void OnPreviousClick(object sender, EventArgs e) => _navigator.PerformPreviousAction();
 
-        private void OnNextClick(object sender, EventArgs e)
-        {
-            _navigator.PerformNextAction();
-        }
+        private void OnNextClick(object sender, EventArgs e) => _navigator.PerformNextAction();
 
-        private void OnContextClick(object sender, EventArgs e)
-        {
-            _navigator.PerformContextAction();
-        }
+        private void OnContextClick(object sender, EventArgs e) => _navigator.PerformContextAction();
 
-        private void OnCloseClick(object sender, EventArgs e)
-        {
-            _navigator.PerformCloseAction();
-        }
+        private void OnCloseClick(object sender, EventArgs e) => _navigator.PerformCloseAction();
+
+        private void OnMaximizeButtonClick(object sender, EventArgs e) => throw new NotImplementedException();
+
+        private void OnMinimizeButtonClick(object sender, EventArgs e) => throw new NotImplementedException();
+
+        private void OnCloseButtonClick(object sender, EventArgs e) => throw new NotImplementedException();
         #endregion
     }
 }

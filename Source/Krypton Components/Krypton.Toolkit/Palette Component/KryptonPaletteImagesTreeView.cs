@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -18,9 +18,9 @@ namespace Krypton.Toolkit
     public class KryptonPaletteImagesTreeView : Storage
     {
         #region Instance Fields
-        private PaletteRedirect _redirect;
-        private Image _plus;
-        private Image _minus;
+        private PaletteRedirect? _redirect;
+        private Image? _plus;
+        private Image? _minus;
         #endregion
 
         #region Identity
@@ -29,8 +29,8 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="redirect">Redirector to inherit values from.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public KryptonPaletteImagesTreeView(PaletteRedirect redirect,
-                                            NeedPaintHandler needPaint) 
+        public KryptonPaletteImagesTreeView(PaletteRedirect? redirect,
+                                            NeedPaintHandler needPaint)
         {
             // Store the redirector
             _redirect = redirect;
@@ -70,11 +70,9 @@ namespace Krypton.Toolkit
         /// Update the redirector with new reference.
         /// </summary>
         /// <param name="redirect">Target redirector.</param>
-        public void SetRedirector(PaletteRedirect redirect)
-        {
+        public void SetRedirector(PaletteRedirect? redirect) =>
             // Update our cached reference
             _redirect = redirect;
-        }
         #endregion
 
         #region Plus
@@ -86,7 +84,7 @@ namespace Krypton.Toolkit
         [Description(@"Image for use when a node is collapsed.")]
         [DefaultValue(null)]
         [RefreshProperties(RefreshProperties.All)]
-        public Image Plus
+        public Image? Plus
         {
             get => _plus;
 
@@ -103,10 +101,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the Plus property to its default value.
         /// </summary>
-        public void ResetPlus()
-        {
-            Plus = null;
-        }
+        public void ResetPlus() => Plus = null;
         #endregion
 
         #region Plus
@@ -118,7 +113,7 @@ namespace Krypton.Toolkit
         [Description(@"Image for use when a node is expanded.")]
         [DefaultValue(null)]
         [RefreshProperties(RefreshProperties.All)]
-        public Image Minus
+        public Image? Minus
         {
             get => _minus;
 
@@ -135,10 +130,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the Minus property to its default value.
         /// </summary>
-        public void ResetMinus()
-        {
-            Minus = null;
-        }
+        public void ResetMinus() => Minus = null;
         #endregion
     }
 }

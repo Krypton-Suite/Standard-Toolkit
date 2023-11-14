@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -32,37 +32,37 @@ namespace Krypton.Navigator
         /// <summary>
         /// Occurs when the left mouse button is pressed down.
         /// </summary>
-        public event EventHandler LeftMouseDown;
+        public event EventHandler? LeftMouseDown;
 
         /// <summary>
         /// Occurs when the right mouse button is pressed down.
         /// </summary>
-        public event EventHandler RightMouseDown;
+        public event EventHandler? RightMouseDown;
 
         /// <summary>
         /// Occurs when the left mouse double click.
         /// </summary>
-        public event EventHandler LeftDoubleClick;
+        public event EventHandler? LeftDoubleClick;
 
         /// <summary>
         /// Occurs when start of drag operation occurs.
         /// </summary>
-        public event EventHandler<DragStartEventCancelArgs> DragStart;
+        public event EventHandler<DragStartEventCancelArgs>? DragStart;
 
         /// <summary>
         /// Occurs when drag moves.
         /// </summary>
-        public event EventHandler<PointEventArgs> DragMove;
+        public event EventHandler<PointEventArgs>? DragMove;
 
         /// <summary>
         /// Occurs when drag ends.
         /// </summary>
-        public event EventHandler<PointEventArgs> DragEnd;
+        public event EventHandler<PointEventArgs>? DragEnd;
 
         /// <summary>
         /// Occurs when drag quits.
         /// </summary>
-        public event EventHandler DragQuit;
+        public event EventHandler? DragQuit;
         #endregion
 
         #region Identity
@@ -70,7 +70,7 @@ namespace Krypton.Navigator
         /// Initialize a new instance of the DragViewController class.
         /// </summary>
         /// <param name="target">Target for state changes.</param>
-        public DragViewController(ViewBase target)
+        public DragViewController([DisallowNull] ViewBase target)
         {
             Debug.Assert(target != null);
 
@@ -131,7 +131,7 @@ namespace Krypton.Navigator
                     {
                         _draggingAttempt = true;
                         Point targetOrigin = Target.ClientLocation;
-                        Point offset = new(MousePoint.X - targetOrigin.X, MousePoint.Y - targetOrigin.Y);
+                        var offset = new Point(MousePoint.X - targetOrigin.X, MousePoint.Y - targetOrigin.Y);
                         OnDragStart(MousePoint, offset, c);
                     }
                 }
@@ -147,25 +147,26 @@ namespace Krypton.Navigator
         /// <returns>True if capturing input; otherwise false.</returns>
         public virtual bool MouseDown(Control c, Point pt, MouseButtons button)
         {
-            // Only interested in left mouse pressing down
-            if (button == MouseButtons.Left)
+            switch (button)
             {
-                // Capturing mouse input
-                c.Capture = true;
-                Captured = true;
-                _draggingAttempt = false;
+                // Only interested in left mouse pressing down
+                case MouseButtons.Left:
+                    // Capturing mouse input
+                    c.Capture = true;
+                    Captured = true;
+                    _draggingAttempt = false;
 
-                // Always indicate the left mouse was pressed
-                OnLeftMouseDown(EventArgs.Empty);
+                    // Always indicate the left mouse was pressed
+                    OnLeftMouseDown(EventArgs.Empty);
 
-                // Remember point when mouse when pressed, in case we want to start a drag/drop operation
-                _dragRect = new Rectangle(pt, Size.Empty);
-                _dragRect.Inflate(SystemInformation.DragSize);
-            }
-            else if (button == MouseButtons.Right)
-            {
-                // Always indicate the right mouse was pressed
-                OnRightMouseDown(EventArgs.Empty);
+                    // Remember point when mouse when pressed, in case we want to start a drag/drop operation
+                    _dragRect = new Rectangle(pt, Size.Empty);
+                    _dragRect.Inflate(SystemInformation.DragSize);
+                    break;
+                case MouseButtons.Right:
+                    // Always indicate the right mouse was pressed
+                    OnRightMouseDown(EventArgs.Empty);
+                    break;
             }
 
             return Captured;
@@ -205,7 +206,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="c">Reference to the source control instance.</param>
         /// <param name="next">Reference to view that is next to have the mouse.</param>
-        public virtual void MouseLeave(Control c, ViewBase next)
+        public virtual void MouseLeave(Control c, ViewBase? next)
         {
             // Only if mouse is leaving all the children monitored by controller.
             if (!Target.ContainsRecurse(next))
@@ -213,7 +214,7 @@ namespace Krypton.Navigator
                 // Mouse is no longer over the target
 
                 // Not tracking the mouse means a null value
-                MousePoint = CommonHelper.NullPoint; 
+                MousePoint = CommonHelper.NullPoint;
 
                 // If leaving the view then cannot be capturing mouse input anymore
                 Captured = false;
@@ -267,7 +268,7 @@ namespace Krypton.Navigator
         /// <param name="c">Reference to the source control instance.</param>
         /// <param name="e">A KeyEventArgs that contains the event data.</param>
         /// <returns>True if capturing input; otherwise false.</returns>
-        public virtual bool KeyUp(Control c, KeyEventArgs e)
+        public virtual bool KeyUp([DisallowNull] Control c, [DisallowNull] KeyEventArgs e)
         {
             Debug.Assert(c != null);
             Debug.Assert(e != null);
@@ -299,10 +300,11 @@ namespace Krypton.Navigator
                     }
 
                     // Recalculate if the mouse is over the button area
+                    // TODO: What is this doing ? i.e. should the return value be used ?
                     Target.ClientRectangle.Contains(c.PointToClient(Control.MousePosition));
                 }
             }
-            
+
             return Captured;
         }
         #endregion
@@ -320,7 +322,7 @@ namespace Krypton.Navigator
         /// Source control has lost the focus.
         /// </summary>
         /// <param name="c">Reference to the source control instance.</param>
-        public virtual void LostFocus(Control c)
+        public virtual void LostFocus([DisallowNull] Control c)
         {
             Debug.Assert(c != null);
 
@@ -347,6 +349,7 @@ namespace Krypton.Navigator
                 }
 
                 // Recalculate if the mouse is over the button area
+                // TODO: What is this doing ? i.e. should the return value be used ?
                 Target.ClientRectangle.Contains(c.PointToClient(Control.MousePosition));
             }
         }
@@ -392,19 +395,13 @@ namespace Krypton.Navigator
         /// Raises the RightMouseDown event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnRightMouseDown(EventArgs e)
-        {
-            RightMouseDown?.Invoke(this, e);
-        }
+        protected virtual void OnRightMouseDown(EventArgs e) => RightMouseDown?.Invoke(this, e);
 
         /// <summary>
         /// Raises the LeftDoubleClick event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnLeftDoubleClick(EventArgs e)
-        {
-            LeftDoubleClick?.Invoke(this, e);
-        }
+        protected virtual void OnLeftDoubleClick(EventArgs e) => LeftDoubleClick?.Invoke(this, e);
 
         /// <summary>
         /// Raises the DragStart event.
@@ -416,7 +413,7 @@ namespace Krypton.Navigator
         {
             // Convert point from client to screen coordinates
             mousePt = Target.OwningControl.PointToScreen(mousePt);
-            DragStartEventCancelArgs ce = new(mousePt, offset, c);
+            var ce = new DragStartEventCancelArgs(mousePt, offset, c);
 
             DragStart?.Invoke(this, ce);
 

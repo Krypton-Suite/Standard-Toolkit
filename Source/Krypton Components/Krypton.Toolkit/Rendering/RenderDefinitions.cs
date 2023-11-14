@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -65,14 +65,14 @@ namespace Krypton.Toolkit
         /// <param name="state">Element state associated with palette.</param>
         /// <returns>True if transparent painting required.</returns>
         bool EvalTransparentPaint(IPaletteBack paletteBack,
-                                  IPaletteBorder paletteBorder,
+                                  IPaletteBorder? paletteBorder,
                                   PaletteState state);
 
         /// <summary>
         /// Gets a renderer for drawing the toolstrips.
         /// </summary>
         /// <param name="colorPalette">Color palette to use when rendering toolstrip.</param>
-        ToolStripRenderer RenderToolStrip(IPalette colorPalette);
+        ToolStripRenderer RenderToolStrip(PaletteBase? colorPalette);
     }
     #endregion
 
@@ -181,13 +181,13 @@ namespace Krypton.Toolkit
         /// <param name="orientation">Visual orientation of the background.</param>
         /// <param name="state">State associated with rendering.</param>
         /// <param name="memento">Cache used for drawing.</param>
-        IDisposable DrawBack(RenderContext context,
+        IDisposable? DrawBack(RenderContext context,
                              Rectangle rect,
                              GraphicsPath path,
                              IPaletteBack palette,
                              VisualOrientation orientation,
                              PaletteState state,
-                             IDisposable memento);
+                             IDisposable? memento);
     }
     #endregion
 
@@ -407,14 +407,14 @@ namespace Krypton.Toolkit
         /// <param name="orientation">Orientation for drawing.</param>
         /// <param name="composition">Drawing onto a composition element.</param>
         /// <param name="memento">Cached values to use when drawing.</param>
-        IDisposable DrawRibbonBack(PaletteRibbonShape shape,
+        IDisposable? DrawRibbonBack(PaletteRibbonShape shape,
                                    RenderContext context,
                                    Rectangle rect,
                                    PaletteState state,
                                    IPaletteRibbonBack palette,
                                    VisualOrientation orientation,
                                    bool composition,
-                                   IDisposable memento);
+                                   IDisposable? memento);
 
         /// <summary>
         /// Draw a context ribbon tab title.
@@ -515,7 +515,7 @@ namespace Krypton.Toolkit
         /// <param name="tracking">Should check box be Displayed as hot tracking.</param>
         /// <param name="pressed">Should check box be Displayed as pressed.</param>
         Size GetCheckBoxPreferredSize(ViewLayoutContext context,
-                                      IPalette palette,
+                                      PaletteBase? palette,
                                       bool enabled,
                                       CheckState checkState,
                                       bool tracking,
@@ -533,7 +533,7 @@ namespace Krypton.Toolkit
         /// <param name="pressed">Should check box be Displayed as pressed.</param>
         void DrawCheckBox(RenderContext context,
                           Rectangle displayRect,
-                          IPalette palette,
+                          PaletteBase? palette,
                           bool enabled,
                           CheckState checkState,
                           bool tracking,
@@ -549,7 +549,7 @@ namespace Krypton.Toolkit
         /// <param name="tracking">Should check box be Displayed as hot tracking.</param>
         /// <param name="pressed">Should check box be Displayed as pressed.</param>
         Size GetRadioButtonPreferredSize(ViewLayoutContext context,
-                                         IPalette palette,
+                                         PaletteBase palette,
                                          bool enabled,
                                          bool checkState,
                                          bool tracking,
@@ -567,7 +567,7 @@ namespace Krypton.Toolkit
         /// <param name="pressed">Should radio button be Displayed as pressed.</param>
         void DrawRadioButton(RenderContext context,
                              Rectangle displayRect,
-                             IPalette palette,
+                             PaletteBase palette,
                              bool enabled,
                              bool checkState,
                              bool tracking,
@@ -581,7 +581,7 @@ namespace Krypton.Toolkit
         /// <param name="state">State for which image size is needed.</param>
         /// <param name="orientation">How to orientate the image.</param>
         Size GetDropDownButtonPreferredSize(ViewLayoutContext context,
-                                            IPalette palette,
+                                            PaletteBase? palette,
                                             PaletteState state,
                                             VisualOrientation orientation);
 
@@ -595,7 +595,7 @@ namespace Krypton.Toolkit
         /// <param name="orientation">How to orientate the image.</param>
         void DrawDropDownButton(RenderContext context,
                                 Rectangle displayRect,
-                                IPalette palette,
+                                PaletteBase? palette,
                                 PaletteState state,
                                 VisualOrientation orientation);
 
@@ -608,7 +608,7 @@ namespace Krypton.Toolkit
         /// <param name="state">State associated with rendering.</param>
         void DrawInputControlDropDownGlyph(RenderContext context,
                                            Rectangle cellRect,
-                                           IPaletteContent paletteContent,
+                                           IPaletteContent? paletteContent,
                                            PaletteState state);
 
         /// <summary>
@@ -620,7 +620,7 @@ namespace Krypton.Toolkit
         /// <param name="state">State associated with rendering.</param>
         void DrawInputControlNumericUpGlyph(RenderContext context,
                                             Rectangle cellRect,
-                                            IPaletteContent paletteContent,
+                                            IPaletteContent? paletteContent,
                                             PaletteState state);
 
         /// <summary>
@@ -632,7 +632,7 @@ namespace Krypton.Toolkit
         /// <param name="state">State associated with rendering.</param>
         void DrawInputControlNumericDownGlyph(RenderContext context,
                                               Rectangle cellRect,
-                                              IPaletteContent paletteContent,
+                                              IPaletteContent? paletteContent,
                                               PaletteState state);
 
         /// <summary>
@@ -718,7 +718,7 @@ namespace Krypton.Toolkit
         Rectangle DrawGridSortGlyph(RenderContext context,
                                     SortOrder sortOrder,
                                     Rectangle cellRect,
-                                    IPaletteContent paletteContent,
+                                    IPaletteContent? paletteContent,
                                     PaletteState state,
                                     bool rtl);
 
@@ -735,7 +735,7 @@ namespace Krypton.Toolkit
         Rectangle DrawGridRowGlyph(RenderContext context,
                                    GridRowGlyph rowGlyph,
                                    Rectangle cellRect,
-                                   IPaletteContent paletteContent,
+                                   IPaletteContent? paletteContent,
                                    PaletteState state,
                                    bool rtl);
 
@@ -874,9 +874,9 @@ namespace Krypton.Toolkit
         Office2013,
 
         /// <summary>
-        /// Specifies the RenderOffice365 be used.
+        /// Specifies the RenderMicrosoft365 be used.
         /// </summary>
-        Office365,
+        Microsoft365,
 
         /// <summary>
         /// Specifies the RenderProfessional be used.
@@ -887,6 +887,22 @@ namespace Krypton.Toolkit
         /// Specifies the RenderStandard be used.
         /// </summary>
         Standard,
+
+        /// <summary>
+        /// Specifies the RenderVisualStudio2010 be used.
+        /// </summary>
+        VisualStudio2010With2007Renderer,
+
+        VisualStudio2010With2010Renderer,
+
+        VisualStudio2010With2013Renderer,
+
+        VisualStudio2010WithMicrosoft365Renderer,
+
+        /// <summary>
+        /// Specifies the RenderVisualStudio be used.
+        /// </summary>
+        VisualStudio,
 
         /// <summary>
         /// Specifies a custom renderer be used.

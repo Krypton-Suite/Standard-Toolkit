@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -20,17 +20,16 @@ namespace Krypton.Toolkit
 
         #region Instance Fields
         private readonly IContextMenuProvider _provider;
-        private readonly ViewDrawMenuImageCanvas _imageCanvas;
+        private readonly ViewDrawMenuImageCanvas? _imageCanvas;
         private readonly ViewDrawContent _imageContent;
         private readonly ViewDrawMenuItemContent _textContent;
-        private readonly FixedContentValue _fixedImage;
-        private VisualContextMenu _contextMenu;
-        private readonly ViewDrawMenuItemContent _shortcutContent;
+        private readonly FixedContentValue? _fixedImage;
+        private VisualContextMenu? _contextMenu;
+        private readonly ViewDrawMenuItemContent? _shortcutContent;
         private readonly ViewDrawMenuItemContent _subMenuContent;
         private readonly FixedContentValue _fixedTextExtraText;
-        private KryptonCommand _cachedCommand;
+        private KryptonCommand? _cachedCommand;
         private readonly bool _imageColumn;
-        private readonly bool _standardStyle;
 
         #endregion
 
@@ -60,20 +59,19 @@ namespace Krypton.Toolkit
             _provider = provider;
             KryptonContextMenuItem = menuItem;
             _imageColumn = imageColumn;
-            _standardStyle = standardStyle;
 
             // Give the item object the redirector to use when inheriting values
             KryptonContextMenuItem.SetPaletteRedirect(provider);
 
             // Create a stack of horizontal items inside the item
-            ViewLayoutDocker docker = new();
+            var docker = new ViewLayoutDocker();
 
             // Decide on the enabled state of the display
             ItemEnabled = provider.ProviderEnabled && ResolveEnabled;
             PaletteContextMenuItemState menuItemState = ItemEnabled ? KryptonContextMenuItem.StateNormal : KryptonContextMenuItem.StateDisabled;
 
             // Calculate the image to show inside in the image column
-            Image itemColumnImage = ResolveImage;
+            Image? itemColumnImage = ResolveImage;
             Color itemImageTransparent = ResolveImageTransparentColor;
 
             // If no image found then...
@@ -116,7 +114,7 @@ namespace Krypton.Toolkit
             _textContent = new ViewDrawMenuItemContent(menuItemStyle, _fixedTextExtraText, 1);
             docker.Add(_textContent, ViewDockStyle.Fill);
             _textContent.Enabled = ItemEnabled;
-            
+
             // Shortcut
             if (KryptonContextMenuItem.ShowShortcutKeys)
             {
@@ -145,23 +143,26 @@ namespace Krypton.Toolkit
             _subMenuContent = new ViewDrawMenuItemContent(menuItemState.ItemImage.Content, new FixedContentValue(null, null, !HasSubMenu ? _empty16x16 : provider.ProviderImages.GetContextMenuSubMenuImage(), KryptonContextMenuItem.Items.Count == 0 ? Color.Magenta : Color.Empty), 3);
             docker.Add(new ViewLayoutCenter(_subMenuContent), ViewDockStyle.Right);
             _subMenuContent.Enabled = ItemEnabled;
-            
+
             Add(docker);
 
             // Add a controller for handing mouse and keyboard events
-            MenuItemController mic = new(provider.ProviderViewManager, this, provider.ProviderNeedPaintDelegate);
-            MouseController = mic;
+            var mic = new MenuItemController(provider.ProviderViewManager, this, provider.ProviderNeedPaintDelegate);
+            //MouseController = mic;
             KeyController = mic;
 
             // Want to know when a property changes whilst displayed
             KryptonContextMenuItem.PropertyChanged += OnPropertyChanged;
-            
+
             // We need to know if a property of the command changes
             if (KryptonContextMenuItem.KryptonCommand != null)
             {
                 _cachedCommand = KryptonContextMenuItem.KryptonCommand;
                 KryptonContextMenuItem.KryptonCommand.PropertyChanged += OnCommandPropertyChanged;
             }
+
+            // Create the manager for handling tooltips
+            MouseController = new ToolTipController(KryptonContextMenuItem.ToolTipManager, this, mic);
         }
 
         /// <summary>
@@ -170,7 +171,7 @@ namespace Krypton.Toolkit
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            "ViewDrawMenuItem:" + Id;
+            $"ViewDrawMenuItem:{Id}";
 
         /// <summary>
         /// Clean up any resources being used.
@@ -191,7 +192,7 @@ namespace Krypton.Toolkit
             }
 
             base.Dispose(disposing);
-        }        
+        }
         #endregion
 
         #region KryptonContextMenuItem
@@ -246,7 +247,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resolves the correct image to use from the menu item.
         /// </summary>
-        public Image ResolveImage
+        public Image? ResolveImage
         {
             get
             {
@@ -401,23 +402,26 @@ namespace Krypton.Toolkit
                     _contextMenu.Disposed += OnContextMenuDisposed;
 
                     // Get the screen rectangle for the drawing element
-                    Rectangle menuDrawRect = OwningControl.RectangleToScreen(ClientRectangle);
+                    if (OwningControl != null)
+                    {
+                        Rectangle menuDrawRect = OwningControl.RectangleToScreen(ClientRectangle);
 
-                    // Should this menu item be shown at a fixed screen rectangle?
-                    if (_provider.ProviderShowSubMenuFixed(KryptonContextMenuItem))
-                    {
-                        // Request the menu be shown at fixed screen rectangle
-                        _contextMenu.ShowFixed(_provider.ProviderShowSubMenuFixedRect(KryptonContextMenuItem),
-                                               _provider.ProviderShowHorz,
-                                               _provider.ProviderShowVert);
-                    }
-                    else
-                    {
-                        // Request the menu be shown immediately
-                        _contextMenu.Show(menuDrawRect,
-                                          _provider.ProviderShowHorz,
-                                          _provider.ProviderShowVert,
-                                          true, false);
+                        // Should this menu item be shown at a fixed screen rectangle?
+                        if (_provider.ProviderShowSubMenuFixed(KryptonContextMenuItem))
+                        {
+                            // Request the menu be shown at fixed screen rectangle
+                            _contextMenu.ShowFixed(_provider.ProviderShowSubMenuFixedRect(KryptonContextMenuItem),
+                                _provider.ProviderShowHorz,
+                                _provider.ProviderShowVert);
+                        }
+                        else
+                        {
+                            // Request the menu be shown immediately
+                            _contextMenu.Show(menuDrawRect,
+                                _provider.ProviderShowHorz,
+                                _provider.ProviderShowVert,
+                                true, false);
+                        }
                     }
                 }
             }
@@ -444,7 +448,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="context">Layout context.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public override Size GetPreferredSize(ViewLayoutContext context)
+        public override Size GetPreferredSize([DisallowNull] ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 
@@ -463,7 +467,7 @@ namespace Krypton.Toolkit
                 }
             }
 
-            PaletteDouble splitPalette;
+            PaletteDouble? splitPalette;
 
             // Make sure we are using the correct palette for state
             switch (State)
@@ -499,7 +503,7 @@ namespace Krypton.Toolkit
             // If we have image display
             if (_fixedImage != null)
             {
-                Image itemColumnImage = ResolveImage;
+                Image? itemColumnImage = ResolveImage;
                 Color itemImageTransparent = ResolveImageTransparentColor;
 
                 // If no image found then...
@@ -554,7 +558,7 @@ namespace Krypton.Toolkit
 
             }
 
-            SplitSeparator?.SetPalettes(splitPalette.Back, splitPalette.Border);
+            SplitSeparator.SetPalettes(splitPalette.Back, splitPalette.Border);
 
             return base.GetPreferredSize(context);
         }
@@ -563,7 +567,7 @@ namespace Krypton.Toolkit
         /// Perform a layout of the elements.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override void Layout(ViewLayoutContext context)
+        public override void Layout([DisallowNull] ViewLayoutContext context)
         {
             Debug.Assert(context != null);
             ClientRectangle = context.DisplayRectangle;
@@ -578,18 +582,18 @@ namespace Krypton.Toolkit
             {
                 case @"Text":
                 case @"ExtraText":
-                case @"Enabled":
+                case nameof(Enabled):
                 case @"Image":
                 case @"ImageTransparentColor":
                 case @"Checked":
-                case @"CheckState":
+                case nameof(CheckState):
                 case @"ShortcutKeys":
                 case @"ShowShortcutKeys":
                 case @"LargeKryptonCommandImage":
                     // Update to show new state
                     _provider.ProviderNeedPaintDelegate(this, new NeedLayoutEventArgs(true));
                     break;
-                case @"KryptonCommand":
+                case nameof(KryptonCommand):
                     // Unhook from any existing command
                     if (_cachedCommand != null)
                     {
@@ -608,32 +612,33 @@ namespace Krypton.Toolkit
                     break;
             }
         }
-            
+
         private void OnCommandPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            switch(e.PropertyName)
+            switch (e.PropertyName)
             {
                 case @"Text":
                 case @"ExtraText":
                 case @"ImageSmall":
                 case @"ImageLarge":
                 case @"ImageTransparentColor":
-                case @"Enabled":
+                case nameof(Enabled):
                 case @"Checked":
-                case @"CheckState":
+                case nameof(CheckState):
                     // Update to show new state
                     _provider.ProviderNeedPaintDelegate(this, new NeedLayoutEventArgs(true));
                     break;
             }
         }
 
-        private void OnContextMenuDisposed(object sender, EventArgs e)
+        internal void OnContextMenuDisposed(object sender, EventArgs e)
         {
             // Should still be caching a reference to actual display control
             if (_contextMenu != null)
             {
                 // Unhook from control, so it can be garbage collected
                 _contextMenu.Disposed -= OnContextMenuDisposed;
+                KryptonContextMenuItem.OnCancelToolTip(sender, e);
 
                 // No longer need to cache reference
                 _contextMenu = null;

@@ -5,7 +5,9 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  
+ *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
  */
 #endregion
@@ -17,11 +19,11 @@ namespace Krypton.Ribbon
     /// </summary>
     [ToolboxItem(false)]
     [ToolboxBitmap(typeof(KryptonRibbonGroupRadioButton), "ToolboxBitmaps.KryptonRibbonGroupRadioButton.bmp")]
-    [Designer("Krypton.Ribbon.KryptonRibbonGroupRadioButtonDesigner, Krypton.Ribbon")]
+    [Designer(typeof(KryptonRibbonGroupRadioButtonDesigner))]
     [DesignerCategory(@"code")]
     [DesignTimeVisible(false)]
-    [DefaultEvent("CheckedChanged")]
-    [DefaultProperty("Checked")]
+    [DefaultEvent(nameof(CheckedChanged))]
+    [DefaultProperty(nameof(Checked))]
     public class KryptonRibbonGroupRadioButton : KryptonRibbonGroupItem
     {
         #region Instance Fields
@@ -43,21 +45,21 @@ namespace Krypton.Ribbon
         /// </summary>
         [Category(@"Ribbon")]
         [Description(@"Occurs when the radio button is clicked.")]
-        public event EventHandler Click;
+        public event EventHandler? Click;
 
         /// <summary>
         /// Occurs when the value of the Checked property has changed.
         /// </summary>
         [Category(@"Ribbon")]
         [Description(@"Occurs whenever the Checked property has changed.")]
-        public event EventHandler CheckedChanged;
+        public event EventHandler? CheckedChanged;
 
         /// <summary>
         /// Occurs after the value of a property has changed.
         /// </summary>
         [Category(@"Ribbon")]
         [Description(@"Occurs after the value of a property has changed.")]
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         /// <summary>
         /// Occurs when the design time context menu is requested.
@@ -66,7 +68,7 @@ namespace Krypton.Ribbon
         [Description(@"Occurs when the design time context menu is requested.")]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        public event MouseEventHandler DesignTimeContextMenu;
+        public event MouseEventHandler? DesignTimeContextMenu;
         #endregion
 
         #region Identity
@@ -81,7 +83,7 @@ namespace Krypton.Ribbon
             _checked = false;
             _autoCheck = true;
             ShortcutKeys = Keys.None;
-            _textLine1 = "RadioButton";
+            _textLine1 = nameof(RadioButton);
             _textLine2 = string.Empty;
             _keyTip = "R";
             _itemSizeMax = GroupItemSize.Large;
@@ -99,7 +101,7 @@ namespace Krypton.Ribbon
         [Category(@"Appearance")]
         [Description(@"Radio button display text line 1.")]
         [RefreshProperties(RefreshProperties.All)]
-        [DefaultValue("RadioButton")]
+        [DefaultValue(nameof(RadioButton))]
         public string TextLine1
         {
             get => _textLine1;
@@ -109,7 +111,7 @@ namespace Krypton.Ribbon
                 // We never allow an empty text value
                 if (string.IsNullOrEmpty(value))
                 {
-                    value = "RadioButton";
+                    value = nameof(RadioButton);
                 }
 
                 if (value != _textLine1)
@@ -193,18 +195,12 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Make the ribbon group radio button visible.
         /// </summary>
-        public void Show()
-        {
-            Visible = true;
-        }
+        public void Show() => Visible = true;
 
         /// <summary>
         /// Make the ribbon group radio button hidden.
         /// </summary>
-        public void Hide()
-        {
-            Visible = false;
-        }
+        public void Hide() => Visible = false;
 
         /// <summary>
         /// Gets and sets the enabled state of the group radio button entry.
@@ -257,7 +253,7 @@ namespace Krypton.Ribbon
         }
 
         /// <summary>
-        /// Gets or sets a value indicating if checking this radio button should unheck others in the same group.
+        /// Gets or sets a value indicating if checking this radio button should uncheck others in the same group.
         /// </summary>
         [Category(@"Behavior")]
         [Description(@"Indicates if checking this radio button should uncheck others in the same group.")]
@@ -293,10 +289,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Resets the ShortcutKeys property to its default value.
         /// </summary>
-        public void ResetShortcutKeys()
-        {
-            ShortcutKeys = Keys.None;
-        }
+        public void ResetShortcutKeys() => ShortcutKeys = Keys.None;
 
         /// <summary>
         /// Gets access to the Wrapped Controls Tooltips.
@@ -380,19 +373,13 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Generates a Click event for a check box.
         /// </summary>
-        public void PerformClick()
-        {
-            PerformClick(null);
-        }
+        public void PerformClick() => PerformClick(null);
 
         /// <summary>
         /// Generates a Click event for a radio button.
         /// </summary>
         /// <param name="finishDelegate">Delegate fired during event processing.</param>
-        public void PerformClick(EventHandler finishDelegate)
-        {
-            OnClick(finishDelegate);
-        }
+        public void PerformClick(EventHandler? finishDelegate) => OnClick(finishDelegate);
 
         /// <summary>
         /// Internal design time properties.
@@ -409,7 +396,7 @@ namespace Krypton.Ribbon
         /// Raises the Click event.
         /// </summary>
         /// <param name="finishDelegate">Delegate fired during event processing.</param>
-        protected virtual void OnClick(EventHandler finishDelegate)
+        protected virtual void OnClick(EventHandler? finishDelegate)
         {
             var fireDelegate = true;
 
@@ -453,26 +440,17 @@ namespace Krypton.Ribbon
         /// Raises the CheckedChanged event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnCheckedChanged(EventArgs e)
-        {
-            CheckedChanged?.Invoke(this, e);
-        }
+        protected virtual void OnCheckedChanged(EventArgs e) => CheckedChanged?.Invoke(this, e);
 
         /// <summary>
         /// Raises the PropertyChanged event.
         /// </summary>
         /// <param name="propertyName">Name of property that has changed.</param>
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
+        protected virtual void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         #endregion
 
         #region Internal
-        internal void OnDesignTimeContextMenu(MouseEventArgs e)
-        {
-            DesignTimeContextMenu?.Invoke(this, e);
-        }
+        internal void OnDesignTimeContextMenu(MouseEventArgs e) => DesignTimeContextMenu?.Invoke(this, e);
 
         internal override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
@@ -507,7 +485,7 @@ namespace Krypton.Ribbon
                 if (RibbonContainer?.RibbonGroup != null)
                 {
                     // Process each container inside the group
-                    foreach (IRibbonGroupContainer container in RibbonContainer.RibbonGroup.Items)
+                    foreach (var container in RibbonContainer.RibbonGroup.Items)
                     {
                         AutoUpdateContainer(container);
                     }
@@ -515,31 +493,31 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void AutoUpdateContainer(IRibbonGroupContainer Container)
+        private void AutoUpdateContainer(IRibbonGroupContainer iContainer)
         {
             // Process each component inside the container
-            foreach (Component component in Container.GetChildComponents())
+            foreach (Component component in iContainer.GetChildComponents())
             {
-                // If the component is itself a container...
-                if (component is IRibbonGroupContainer container)
+                switch (component)
                 {
-                    AutoUpdateContainer(container);
-                }
-                else
-                {
+                    // If the component is itself a container...
+                    case IRibbonGroupContainer container:
+                        AutoUpdateContainer(container);
+                        break;
                     // If this is another radio button...
-                    if (component is KryptonRibbonGroupRadioButton radioButton)
+                    case KryptonRibbonGroupRadioButton radioButton:
                     {
-
                         // Do not process ourself!
                         if (radioButton != this)
                         {
                             // If the target is checked and allowed to be auto unchecked
-                            if (radioButton.AutoCheck && radioButton.Checked)
+                            if (radioButton is { AutoCheck: true, Checked: true })
                             {
                                 radioButton.Checked = false;
                             }
                         }
+
+                        break;
                     }
                 }
             }

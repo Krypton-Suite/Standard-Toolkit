@@ -5,11 +5,12 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
 
+// ReSharper disable VirtualMemberCallInConstructor
 namespace Krypton.Navigator
 {
     /// <summary>
@@ -17,44 +18,44 @@ namespace Krypton.Navigator
     /// </summary>
     [ToolboxItem(false)]
     [ToolboxBitmap(typeof(KryptonPage), "ToolboxBitmaps.KryptonPage.bmp")]
-    [DefaultEvent("Click")]
-    [DefaultProperty("Text")]
-    [Designer(@"Krypton.Navigator.KryptonPageDesigner, Krypton.Navigator")]
+    [DefaultEvent(nameof(Click))]
+    [DefaultProperty(nameof(Text))]
+    [Designer(typeof(KryptonPageDesigner))]
     [DesignerCategory(@"code")]
     [DesignTimeVisible(false)]
     public class KryptonPage : VisualPanel
     {
         #region Instance Fields
         private readonly ViewDrawPanel _drawPanel;
-        private readonly PaletteRedirectDoubleMetric _redirectNavigator;
-        private readonly PaletteRedirectDoubleMetric _redirectNavigatorHeaderGroup;
-        private readonly PaletteRedirectTripleMetric _redirectNavigatorHeaderPrimary;
-        private readonly PaletteRedirectTripleMetric _redirectNavigatorHeaderSecondary;
-        private readonly PaletteRedirectTripleMetric _redirectNavigatorHeaderBar;
-        private readonly PaletteRedirectTripleMetric _redirectNavigatorHeaderOverflow;
-        private readonly PaletteRedirectTriple _redirectNavigatorCheckButton;
-        private readonly PaletteRedirectTriple _redirectNavigatorOverflowButton;
-        private readonly PaletteRedirectTriple _redirectNavigatorMiniButton;
-        private readonly PaletteRedirectTriple _redirectNavigatorTab;
-        private readonly PaletteRedirectRibbonTabContent _redirectNavigatorRibbonTab;
-        private readonly PaletteRedirectMetric _redirectNavigatorBar;
-        private readonly PaletteRedirectDouble _redirectNavigatorPage;
-        private readonly PaletteRedirectDoubleMetric _redirectNavigatorSeparator;
-        private readonly PaletteNavigatorRedirect _stateCommon;
-        private readonly PaletteNavigator _stateDisabled;
-        private readonly PaletteNavigator _stateNormal;
-        private readonly NeedPaintHandler _needDisabledPaint;
-        private readonly NeedPaintHandler _needNormalPaint;
+        private readonly PaletteRedirectDoubleMetric? _redirectNavigator;
+        private readonly PaletteRedirectDoubleMetric? _redirectNavigatorHeaderGroup;
+        private readonly PaletteRedirectTripleMetric? _redirectNavigatorHeaderPrimary;
+        private readonly PaletteRedirectTripleMetric? _redirectNavigatorHeaderSecondary;
+        private readonly PaletteRedirectTripleMetric? _redirectNavigatorHeaderBar;
+        private readonly PaletteRedirectTripleMetric? _redirectNavigatorHeaderOverflow;
+        private readonly PaletteRedirectTriple? _redirectNavigatorCheckButton;
+        private readonly PaletteRedirectTriple? _redirectNavigatorOverflowButton;
+        private readonly PaletteRedirectTriple? _redirectNavigatorMiniButton;
+        private readonly PaletteRedirectTriple? _redirectNavigatorTab;
+        private readonly PaletteRedirectRibbonTabContent? _redirectNavigatorRibbonTab;
+        private readonly PaletteRedirectMetric? _redirectNavigatorBar;
+        private readonly PaletteRedirectDouble? _redirectNavigatorPage;
+        private readonly PaletteRedirectDoubleMetric? _redirectNavigatorSeparator;
+        private readonly PaletteNavigatorRedirect? _stateCommon;
+        private readonly PaletteNavigator? _stateDisabled;
+        private readonly PaletteNavigator? _stateNormal;
+        private readonly NeedPaintHandler? _needDisabledPaint;
+        private readonly NeedPaintHandler? _needNormalPaint;
         private BoolFlags31 _flags;
-        private string _textTitle;
-        private string _textDescription;
+        private string? _textTitle;
+        private string? _textDescription;
         private string _toolTipTitle;
         private string _toolTipBody;
         private string _uniqueName;
-        private Bitmap _imageSmall;
-        private Bitmap _imageMedium;
-        private Bitmap _imageLarge;
-        private Bitmap _toolTipImage;
+        private Bitmap? _imageSmall;
+        private Bitmap? _imageMedium;
+        private Bitmap? _imageLarge;
+        private Bitmap? _toolTipImage;
         private Color _toolTipImageTransparentColor;
         private bool _setVisible;
         private LabelStyle _toolTipStyle;
@@ -67,7 +68,7 @@ namespace Krypton.Navigator
         /// </summary>
         [Category(@"Page")]
         [Description(@"Occurs when the control is loaded.")]
-        public event EventHandler Load;
+        public event EventHandler? Load;
 
         /// <summary>
         /// Occurs when an appearance specific page property has changed.
@@ -75,7 +76,7 @@ namespace Krypton.Navigator
         [Category(@"Page")]
         [Description(@"Occurs when an appearance specific page property has changed.")]
 #pragma warning disable CA1070 // Do not declare event fields as virtual
-        public virtual event PropertyChangedEventHandler AppearancePropertyChanged;
+        public virtual event PropertyChangedEventHandler? AppearancePropertyChanged;
 #pragma warning restore CA1070 // Do not declare event fields as virtual
 
         /// <summary>
@@ -83,14 +84,14 @@ namespace Krypton.Navigator
         /// </summary>
         [Category(@"Page")]
         [Description(@"Occurs when the flags have changed.")]
-        public event KryptonPageFlagsEventHandler FlagsChanged;
+        public event KryptonPageFlagsEventHandler? FlagsChanged;
 
         /// <summary>
         /// Occurs when the AutoHiddenSlideSize property has changed.
         /// </summary>
         [Category(@"Page")]
         [Description(@"Occurs when the auto hidden slide size have changed.")]
-        public event EventHandler AutoHiddenSlideSizeChanged;
+        public event EventHandler? AutoHiddenSlideSizeChanged;
 
         /// <summary>
         /// Occurs when the value of the Dock property changes.
@@ -98,7 +99,7 @@ namespace Krypton.Navigator
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public new event EventHandler DockChanged;
+        public new event EventHandler? DockChanged;
 
         /// <summary>
         /// Occurs when the value of the Location property changes.
@@ -106,7 +107,7 @@ namespace Krypton.Navigator
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public new event EventHandler LocationChanged;
+        public new event EventHandler? LocationChanged;
 
         /// <summary>
         /// Occurs when the value of the TabIndex property changes.
@@ -114,7 +115,7 @@ namespace Krypton.Navigator
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public new event EventHandler TabIndexChanged;
+        public new event EventHandler? TabIndexChanged;
 
         /// <summary>
         /// Occurs when the value of the TabStop property changes.
@@ -122,7 +123,7 @@ namespace Krypton.Navigator
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public new event EventHandler TabStopChanged;
+        public new event EventHandler? TabStopChanged;
         #endregion
 
         #region Identity
@@ -164,10 +165,10 @@ namespace Krypton.Navigator
         /// <remarks>
         /// If Min Size not set in the Embedded control, then will default to 150, 50
         /// </remarks>
-        public KryptonPage(string text, Bitmap imageSmall, string uniqueName)
+        public KryptonPage(string text, Bitmap? imageSmall, string uniqueName)
             : this(text, imageSmall, uniqueName, new Size(150, 50))
         {
-            
+
         }
 
         /// <summary>
@@ -177,7 +178,7 @@ namespace Krypton.Navigator
         /// <param name="imageSmall">Initial small image.</param>
         /// <param name="uniqueName">Initial unique name.</param>
         /// <param name="minSize">Min Size of dragged docked control, if not set by Embedded</param>
-        public KryptonPage(string text, Bitmap imageSmall, string uniqueName, Size minSize)
+        public KryptonPage(string text, Bitmap? imageSmall, string uniqueName, Size minSize)
         {
             // Default properties
             Text = text;
@@ -192,13 +193,13 @@ namespace Krypton.Navigator
             _imageSmall = imageSmall;
             _setVisible = true;
             _autoHiddenSlideSize = new Size(200, 200);
-            _uniqueName = (string.IsNullOrEmpty(uniqueName) ? CommonHelper.UniqueString : uniqueName);
-            _flags.Flags = (int)(KryptonPageFlags.All);
+            _uniqueName = string.IsNullOrEmpty(uniqueName) ? CommonHelper.UniqueString : uniqueName;
+            _flags.Flags = (int)KryptonPageFlags.All;
             _flags.ClearFlags((int)KryptonPageFlags.PageInOverflowBarForOutlookMode);
 
             // Create delegates
-            _needDisabledPaint = OnNeedDisabledPaint;
-            _needNormalPaint = OnNeedNormalPaint;
+            _needDisabledPaint = OnNeedDisabledPaint!;
+            _needNormalPaint = OnNeedNormalPaint!;
 
             // Create redirector for inheriting from owning navigator
             _redirectNavigator = new PaletteRedirectDoubleMetric(Redirector);
@@ -262,7 +263,7 @@ namespace Krypton.Navigator
         /// Obtains the String representation of this instance.
         /// </summary>
         /// <returns>User readable name of the instance.</returns>
-        public override string ToString() => "KryptonPage " + Text;
+        public override string ToString() => $"KryptonPage {Text}";
 
         #endregion
 
@@ -286,7 +287,7 @@ namespace Krypton.Navigator
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public new IPalette Palette
+        public new PaletteBase? Palette
         {
             [DebuggerStepThrough]
             get => base.Palette;
@@ -307,13 +308,13 @@ namespace Krypton.Navigator
         [Category(@"Visuals")]
         [Description(@"Overrides for defining common page appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public virtual PaletteNavigatorRedirect StateCommon
+        public virtual PaletteNavigatorRedirect? StateCommon
         {
             [DebuggerStepThrough]
             get => _stateCommon;
         }
 
-        private bool ShouldSerializeStateCommon() => !StateCommon.IsDefault;
+        private bool ShouldSerializeStateCommon() => !StateCommon!.IsDefault;
 
         /// <summary>
         /// Gets access to the disabled page appearance entries.
@@ -321,13 +322,13 @@ namespace Krypton.Navigator
         [Category(@"Visuals")]
         [Description(@"Overrides for defining disabled page appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public virtual PaletteNavigator StateDisabled
+        public virtual PaletteNavigator? StateDisabled
         {
             [DebuggerStepThrough]
             get => _stateDisabled;
         }
 
-        private bool ShouldSerializeStateDisabled() => !StateDisabled.IsDefault;
+        private bool ShouldSerializeStateDisabled() => !StateDisabled!.IsDefault;
 
         /// <summary>
         /// Gets access to the normal page appearance entries.
@@ -335,13 +336,13 @@ namespace Krypton.Navigator
         [Category(@"Visuals")]
         [Description(@"Overrides for defining normal page appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public virtual PaletteNavigator StateNormal
+        public virtual PaletteNavigator? StateNormal
         {
             [DebuggerStepThrough]
             get => _stateNormal;
         }
 
-        private bool ShouldSerializeStateNormal() => !StateNormal.IsDefault;
+        private bool ShouldSerializeStateNormal() => !StateNormal!.IsDefault;
 
         /// <summary>
         /// Gets access to the tracking page appearance entries.
@@ -408,6 +409,7 @@ namespace Krypton.Navigator
         [Description(@"The page text.")]
         [DefaultValue("Page")]
         [EditorBrowsable(EditorBrowsableState.Always)]
+        [AllowNull]
         public override string Text
         {
             [DebuggerStepThrough]
@@ -431,10 +433,11 @@ namespace Krypton.Navigator
         [Category(@"Appearance")]
         [Description(@"The title text for the page.")]
         [DefaultValue("Page Title")]
+        [AllowNull]
         public virtual string TextTitle
         {
             [DebuggerStepThrough]
-            get => _textTitle;
+            get => _textTitle ?? string.Empty;
 
             set
             {
@@ -449,10 +452,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Resets the TextTitle property to its default value.
         /// </summary>
-        public void ResetTextTitle()
-        {
-            TextTitle = null;
-        }
+        public void ResetTextTitle() => TextTitle = null;
 
         /// <summary>
         /// Gets and sets the description text for the page.
@@ -462,10 +462,11 @@ namespace Krypton.Navigator
         [Category(@"Appearance")]
         [Description(@"The description text for the page.")]
         [DefaultValue("Page Description")]
+        [AllowNull]
         public virtual string TextDescription
         {
             [DebuggerStepThrough]
-            get => _textDescription;
+            get => _textDescription ?? string.Empty;
 
             set
             {
@@ -489,7 +490,7 @@ namespace Krypton.Navigator
         [Description(@"The small image that represents the page.")]
         [Localizable(true)]
         [DefaultValue(null)]
-        public virtual Bitmap ImageSmall
+        public virtual Bitmap? ImageSmall
         {
             [DebuggerStepThrough]
             get => _imageSmall;
@@ -507,10 +508,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Resets the ImageSmall property to its default value.
         /// </summary>
-        public void ResetImageSmall()
-        {
-            ImageSmall = null;
-        }
+        public void ResetImageSmall() => ImageSmall = null;
 
         /// <summary>
         /// Gets and sets the medium image for the page.
@@ -519,7 +517,7 @@ namespace Krypton.Navigator
         [Description(@"The medium image that represents the page.")]
         [Localizable(true)]
         [DefaultValue(null)]
-        public virtual Bitmap ImageMedium
+        public virtual Bitmap? ImageMedium
         {
             [DebuggerStepThrough]
             get => _imageMedium;
@@ -537,10 +535,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Resets the ImageMedium property to its default value.
         /// </summary>
-        public void ResetImageMedium()
-        {
-            ImageMedium = null;
-        }
+        public void ResetImageMedium() => ImageMedium = null;
 
         /// <summary>
         /// Gets and sets the large image for the page.
@@ -549,7 +544,7 @@ namespace Krypton.Navigator
         [Description(@"The large image that represents the page.")]
         [Localizable(true)]
         [DefaultValue(null)]
-        public virtual Bitmap ImageLarge
+        public virtual Bitmap? ImageLarge
         {
             [DebuggerStepThrough]
             get => _imageLarge;
@@ -567,10 +562,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Resets the ImageLarge property to its default value.
         /// </summary>
-        public void ResetImageLarge()
-        {
-            ImageLarge = null;
-        }
+        public void ResetImageLarge() => ImageLarge = null;
 
         /// <summary>
         /// Gets and sets the page tooltip image.
@@ -579,7 +571,7 @@ namespace Krypton.Navigator
         [Category(@"Appearance")]
         [Description(@"Page tooltip image.")]
         [DefaultValue(null)]
-        public virtual Bitmap ToolTipImage
+        public virtual Bitmap? ToolTipImage
         {
             get => _toolTipImage;
 
@@ -598,10 +590,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Resets the ToolTipImage property to its default value.
         /// </summary>
-        public void ResetToolTipImage()
-        {
-            ToolTipImage = null;
-        }
+        public void ResetToolTipImage() => ToolTipImage = null;
 
         /// <summary>
         /// Gets and sets the tooltip image transparent color.
@@ -609,7 +598,7 @@ namespace Krypton.Navigator
         [Localizable(true)]
         [Category(@"Appearance")]
         [Description(@"Page tooltip image transparent color.")]
-        [KryptonDefaultColor()]
+        [KryptonDefaultColor]
         public virtual Color ToolTipImageTransparentColor
         {
             get => _toolTipImageTransparentColor;
@@ -637,7 +626,7 @@ namespace Krypton.Navigator
         [Localizable(true)]
         [Category(@"Appearance")]
         [Description(@"Page tooltip title text.")]
-        [Editor(@"System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
+        [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
         [DefaultValue("")]
         public virtual string ToolTipTitle
         {
@@ -667,7 +656,7 @@ namespace Krypton.Navigator
         [Localizable(true)]
         [Category(@"Appearance")]
         [Description(@"Page tooltip body text.")]
-        [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
+        [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
         [DefaultValue("")]
         public virtual string ToolTipBody
         {
@@ -728,17 +717,15 @@ namespace Krypton.Navigator
 
         private bool ShouldSerializeToolTipShadow() => !ToolTipShadow;
 
-        private void ResetToolTipShadow()
-        {
-            ToolTipShadow = true;
-        }
+        private void ResetToolTipShadow() => ToolTipShadow = true;
         #endregion
-        
+
         /// <summary>
         /// Gets and sets the unique name of the page.
         /// </summary>
         [Category(@"Appearance")]
         [Description(@"The unique name of the page.")]
+        [DisallowNull]
         public virtual string UniqueName
         {
             [DebuggerStepThrough]
@@ -757,11 +744,9 @@ namespace Krypton.Navigator
         /// Fix the control to a particular palette state.
         /// </summary>
         /// <param name="state">Palette state to fix.</param>
-        public virtual void SetFixedState(PaletteState state)
-        {
+        public virtual void SetFixedState(PaletteState state) =>
             // Request fixed state from the view
             _drawPanel.FixedState = state;
-        }
 
         /// <summary>
         /// Gets and sets the preferred size for the page when inside an auto hidden slide panel.
@@ -795,33 +780,71 @@ namespace Krypton.Navigator
         /// <param name="selected">State palette for inheriting selected values.</param>
         /// <param name="focus">State palette for inheriting focus values.</param>
         public virtual void SetInherit(Control alignControl,
-                                       PaletteNavigatorRedirect common,
-                                       PaletteNavigator disabled,
-                                       PaletteNavigator normal,
+                                       PaletteNavigatorRedirect? common,
+                                       PaletteNavigator? disabled,
+                                       PaletteNavigator? normal,
                                        PaletteNavigatorOtherEx tracking,
                                        PaletteNavigatorOtherEx pressed,
                                        PaletteNavigatorOther selected,
                                        PaletteNavigatorOtherRedirect focus)
         {
-            ViewManager.AlignControl = alignControl;
+            if (ViewManager != null)
+            {
+                ViewManager.AlignControl = alignControl;
+            }
 
             // Setup the redirection states
-            _redirectNavigator.SetRedirectStates(disabled, disabled, normal, normal);
-            _redirectNavigatorPage.SetRedirectStates(disabled.PalettePage, normal.PalettePage);
-            _redirectNavigatorHeaderGroup.SetRedirectStates(disabled.HeaderGroup, disabled.HeaderGroup, normal.HeaderGroup, normal.HeaderGroup);
-            _redirectNavigatorHeaderPrimary.SetRedirectStates(disabled.HeaderGroup.HeaderPrimary, disabled.HeaderGroup.HeaderPrimary, normal.HeaderGroup.HeaderPrimary, normal.HeaderGroup.HeaderPrimary);
-            _redirectNavigatorHeaderSecondary.SetRedirectStates(disabled.HeaderGroup.HeaderSecondary, disabled.HeaderGroup.HeaderSecondary, normal.HeaderGroup.HeaderSecondary, normal.HeaderGroup.HeaderSecondary);
-            _redirectNavigatorHeaderBar.SetRedirectStates(disabled.HeaderGroup.HeaderBar, disabled.HeaderGroup.HeaderBar, normal.HeaderGroup.HeaderBar, normal.HeaderGroup.HeaderBar);
-            _redirectNavigatorHeaderOverflow.SetRedirectStates(disabled.HeaderGroup.HeaderOverflow, disabled.HeaderGroup.HeaderOverflow, normal.HeaderGroup.HeaderOverflow, normal.HeaderGroup.HeaderOverflow);
-            _redirectNavigatorCheckButton.SetRedirectStates(disabled.CheckButton, normal.CheckButton, pressed.CheckButton, tracking.CheckButton, selected.CheckButton, selected.CheckButton, selected.CheckButton, focus.CheckButton, null);
-            _redirectNavigatorOverflowButton.SetRedirectStates(disabled.OverflowButton, normal.OverflowButton, pressed.OverflowButton, tracking.OverflowButton, selected.OverflowButton, selected.OverflowButton, selected.OverflowButton, focus.OverflowButton, null);
-            _redirectNavigatorMiniButton.SetRedirectStates(disabled.MiniButton, normal.MiniButton, pressed.MiniButton, tracking.MiniButton, selected.MiniButton, selected.MiniButton, selected.MiniButton, focus.MiniButton, null);
-            _redirectNavigatorBar.SetRedirectStates(common.Bar, common.Bar);
-            _redirectNavigatorSeparator.SetRedirectStates(disabled.Separator, disabled.Separator, normal.Separator, normal.Separator, pressed.Separator, pressed.Separator, tracking.Separator, tracking.Separator);
-            _redirectNavigatorTab.SetRedirectStates(disabled.Tab, normal.Tab, pressed.Tab, tracking.Tab, selected.Tab, selected.Tab, selected.Tab, focus.Tab, null);
-            _redirectNavigatorRibbonTab.SetRedirectStates(disabled.RibbonTab, normal.RibbonTab, pressed.RibbonTab, tracking.RibbonTab, selected.RibbonTab, focus.RibbonTab);
-            _stateCommon.RedirectBorderEdge = new PaletteRedirectBorderEdge(Redirector, disabled.BorderEdge, normal.BorderEdge);
-            _stateCommon.RedirectRibbonGeneral = new PaletteRedirectRibbonGeneral(Redirector);
+            _redirectNavigator?.SetRedirectStates(disabled, disabled, normal, normal);
+
+            _redirectNavigatorPage?.SetRedirectStates(disabled!.PalettePage, normal!.PalettePage);
+
+            _redirectNavigatorHeaderGroup?.SetRedirectStates(disabled!.HeaderGroup, disabled.HeaderGroup,
+                normal!.HeaderGroup, normal.HeaderGroup);
+
+            _redirectNavigatorHeaderPrimary?.SetRedirectStates(disabled!.HeaderGroup!.HeaderPrimary,
+                disabled.HeaderGroup.HeaderPrimary, normal!.HeaderGroup!.HeaderPrimary,
+                normal.HeaderGroup.HeaderPrimary);
+
+            _redirectNavigatorHeaderSecondary?.SetRedirectStates(disabled!.HeaderGroup!.HeaderSecondary,
+                disabled.HeaderGroup.HeaderSecondary, normal!.HeaderGroup!.HeaderSecondary,
+                normal.HeaderGroup.HeaderSecondary);
+
+            _redirectNavigatorHeaderBar?.SetRedirectStates(disabled!.HeaderGroup!.HeaderBar,
+                disabled.HeaderGroup.HeaderBar, normal!.HeaderGroup!.HeaderBar, normal.HeaderGroup.HeaderBar);
+
+            _redirectNavigatorHeaderOverflow?.SetRedirectStates(disabled!.HeaderGroup!.HeaderOverflow,
+                disabled.HeaderGroup.HeaderOverflow, normal!.HeaderGroup!.HeaderOverflow,
+                normal.HeaderGroup.HeaderOverflow);
+
+            _redirectNavigatorCheckButton?.SetRedirectStates(disabled!.CheckButton, normal!.CheckButton,
+                pressed.CheckButton, tracking.CheckButton, selected.CheckButton, selected.CheckButton,
+                selected.CheckButton, focus.CheckButton, null);
+
+            _redirectNavigatorOverflowButton?.SetRedirectStates(disabled!.OverflowButton, normal!.OverflowButton,
+                pressed.OverflowButton, tracking.OverflowButton, selected.OverflowButton, selected.OverflowButton,
+                selected.OverflowButton, focus.OverflowButton, null);
+
+            _redirectNavigatorMiniButton?.SetRedirectStates(disabled!.MiniButton, normal!.MiniButton,
+                pressed.MiniButton, tracking.MiniButton, selected.MiniButton, selected.MiniButton,
+                selected.MiniButton, focus.MiniButton, null);
+
+            _redirectNavigatorBar?.SetRedirectStates(common!.Bar, common.Bar);
+
+            _redirectNavigatorSeparator?.SetRedirectStates(disabled!.Separator, disabled.Separator, normal!.Separator,
+                normal.Separator, pressed.Separator, pressed.Separator, tracking.Separator, tracking.Separator);
+
+            _redirectNavigatorTab?.SetRedirectStates(disabled!.Tab, normal!.Tab, pressed.Tab, tracking.Tab,
+                selected.Tab, selected.Tab, selected.Tab, focus.Tab, null);
+
+            _redirectNavigatorRibbonTab?.SetRedirectStates(disabled!.RibbonTab, normal!.RibbonTab, pressed.RibbonTab,
+                tracking.RibbonTab, selected.RibbonTab, focus.RibbonTab);
+
+            if (_stateCommon != null)
+            {
+                _stateCommon.RedirectBorderEdge =
+                    new PaletteRedirectBorderEdge(Redirector, disabled!.BorderEdge, normal!.BorderEdge);
+                _stateCommon.RedirectRibbonGeneral = new PaletteRedirectRibbonGeneral(Redirector);
+            }
         }
 
         /// <summary>
@@ -830,27 +853,44 @@ namespace Krypton.Navigator
         /// <param name="alignControl">Only if inherited values are still the same as when the aligned control was set are they reset.</param>
         public virtual void ResetInherit(Control alignControl)
         {
-            if (alignControl == ViewManager.AlignControl)
+            if (ViewManager != null && alignControl == ViewManager.AlignControl)
             {
                 ViewManager.AlignControl = this;
 
                 // Clear down the redirection states
-                _redirectNavigator.ResetRedirectStates();
-                _redirectNavigatorPage.ResetRedirectStates();
-                _redirectNavigatorHeaderGroup.ResetRedirectStates();
-                _redirectNavigatorHeaderPrimary.ResetRedirectStates();
-                _redirectNavigatorHeaderSecondary.ResetRedirectStates();
-                _redirectNavigatorHeaderBar.ResetRedirectStates();
-                _redirectNavigatorHeaderOverflow.ResetRedirectStates();
-                _redirectNavigatorCheckButton.ResetRedirectStates();
-                _redirectNavigatorOverflowButton.ResetRedirectStates();
-                _redirectNavigatorMiniButton.ResetRedirectStates();
-                _redirectNavigatorBar.ResetRedirectStates();
-                _redirectNavigatorSeparator.ResetRedirectStates();
-                _redirectNavigatorTab.ResetRedirectStates();
-                _redirectNavigatorRibbonTab.ResetRedirectStates();
-                _stateCommon.RedirectBorderEdge = new PaletteRedirectBorder(Redirector);
-                _stateCommon.RedirectRibbonGeneral = new PaletteRedirectRibbonGeneral(Redirector);
+                _redirectNavigator?.ResetRedirectStates();
+
+                _redirectNavigatorPage?.ResetRedirectStates();
+
+                _redirectNavigatorHeaderGroup?.ResetRedirectStates();
+
+                _redirectNavigatorHeaderPrimary?.ResetRedirectStates();
+
+                _redirectNavigatorHeaderSecondary?.ResetRedirectStates();
+
+                _redirectNavigatorHeaderBar?.ResetRedirectStates();
+
+                _redirectNavigatorHeaderOverflow?.ResetRedirectStates();
+
+                _redirectNavigatorCheckButton?.ResetRedirectStates();
+
+                _redirectNavigatorOverflowButton?.ResetRedirectStates();
+
+                _redirectNavigatorMiniButton?.ResetRedirectStates();
+
+                _redirectNavigatorBar?.ResetRedirectStates();
+
+                _redirectNavigatorSeparator?.ResetRedirectStates();
+
+                _redirectNavigatorTab?.ResetRedirectStates();
+
+                _redirectNavigatorRibbonTab?.ResetRedirectStates();
+
+                if (_stateCommon != null)
+                {
+                    _stateCommon.RedirectBorderEdge = new PaletteRedirectBorder(Redirector);
+                    _stateCommon.RedirectRibbonGeneral = new PaletteRedirectRibbonGeneral(Redirector);
+                }
             }
         }
 
@@ -1039,7 +1079,7 @@ namespace Krypton.Navigator
             }
 
             // We do not want to return a null
-            return ret ?? string.Empty;
+            return ret;
         }
 
         /// <summary>
@@ -1047,9 +1087,9 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="mapping">Image mapping.</param>
         /// <returns>Image reference.</returns>
-        public virtual Image GetImageMapping(MapKryptonPageImage mapping)
+        public virtual Image? GetImageMapping(MapKryptonPageImage mapping)
         {
-            Image ret = null;
+            Image? ret = null;
 
             // Recover the first preference value
             switch (mapping)
@@ -1121,7 +1161,7 @@ namespace Krypton.Navigator
         public Control KryptonParentContainer
         {
             [DebuggerStepThrough]
-            get => ViewManager.AlignControl;
+            get => ViewManager?.AlignControl!;
         }
 
         /// <summary>
@@ -1236,12 +1276,12 @@ namespace Krypton.Navigator
                 if (KryptonContextMenu != null)
                 {
                     // Extract the screen mouse position (if might not actually be provided)
-                    Point mousePt = new(PI.LOWORD(m.LParam), PI.HIWORD(m.LParam));
+                    var mousePt = new Point(PI.LOWORD(m.LParam), PI.HIWORD(m.LParam));
 
                     // If keyboard activated, the menu position is centered
-                    mousePt = ((int)((long)m.LParam)) == -1 ? new Point(Width / 2, Height / 2) : PointToClient(mousePt);
+                    mousePt = ((int)m.LParam) == -1 ? new Point(Width / 2, Height / 2) : PointToClient(mousePt);
 
-                    // If the mouse posiiton is within our client area
+                    // If the mouse position is within our client area
                     if (ClientRectangle.Contains(mousePt))
                     {
                         if (!DesignMode)
@@ -1266,7 +1306,10 @@ namespace Krypton.Navigator
         protected override void OnEnabledChanged(EventArgs e)
         {
             // Push correct palettes into the view
-            _drawPanel.SetPalettes(Enabled ? _stateNormal.Page : _stateDisabled.Page);
+            if (_stateNormal != null && _stateDisabled != null)
+            {
+                _drawPanel.SetPalettes(Enabled ? _stateNormal.Page : _stateDisabled.Page);
+            }
 
             // Update state of view panel to reflect page state
             _drawPanel.Enabled = Enabled;
@@ -1283,73 +1326,51 @@ namespace Krypton.Navigator
         /// Raises the DockChanged event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected override void OnDockChanged(EventArgs e)
-        {
-            DockChanged?.Invoke(this, e);
-        }
+        protected override void OnDockChanged(EventArgs e) => DockChanged?.Invoke(this, e);
 
         /// <summary>
         /// Raises the LocationChanged event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected override void OnLocationChanged(EventArgs e)
-        {
-            LocationChanged?.Invoke(this, e);
-        }
+        protected override void OnLocationChanged(EventArgs e) => LocationChanged?.Invoke(this, e);
 
         /// <summary>
         /// Raises the TabIndexChanged event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected override void OnTabIndexChanged(EventArgs e)
-        {
-            TabIndexChanged?.Invoke(this, e);
-        }
+        protected override void OnTabIndexChanged(EventArgs e) => TabIndexChanged?.Invoke(this, e);
 
         /// <summary>
         /// Raises the TabStopChanged event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected override void OnTabStopChanged(EventArgs e)
-        {
+        protected override void OnTabStopChanged(EventArgs e) =>
+            // https://github.com/Krypton-Suite/Standard-Toolkit/issues/1023#issuecomment-1588810368
             TabStopChanged?.Invoke(this, e);
-        }
 
         /// <summary>
         /// Raises the AppearancePropertyChanged event.
         /// </summary>
         /// <param name="propertyName">Name of the appearance property that has changed.</param>
-        protected virtual void OnAppearancePropertyChanged(string propertyName)
-        {
-            AppearancePropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
+        protected virtual void OnAppearancePropertyChanged(string propertyName) => AppearancePropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
         /// <summary>
         /// Raises the FlagsChanged event.
         /// </summary>
         /// <param name="changed">Set of flags that have changed.</param>
-        protected virtual void OnFlagsChanged(KryptonPageFlags changed)
-        {
-            FlagsChanged?.Invoke(this, new KryptonPageFlagsEventArgs(changed));
-        }
+        protected virtual void OnFlagsChanged(KryptonPageFlags changed) => FlagsChanged?.Invoke(this, new KryptonPageFlagsEventArgs(changed));
 
         /// <summary>
         /// Raises the AutoHiddenSlideSizeChanged event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnAutoHiddenSlideSizeChanged(EventArgs e)
-        {
-            AutoHiddenSlideSizeChanged?.Invoke(this, e);
-        }
+        protected virtual void OnAutoHiddenSlideSizeChanged(EventArgs e) => AutoHiddenSlideSizeChanged?.Invoke(this, e);
 
         /// <summary>
         /// Raises the Load event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnLoad(EventArgs e)
-        {
-            Load?.Invoke(this, e);
-        }
+        protected virtual void OnLoad(EventArgs e) => Load?.Invoke(this, e);
 
         /// <summary>
         /// Processes the need for a repaint for the disabled palette values.
@@ -1381,13 +1402,11 @@ namespace Krypton.Navigator
         #endregion
 
         #region Implementation
-        private void OnKryptonContextMenuDisposed(object sender, EventArgs e)
-        {
+        private void OnKryptonContextMenuDisposed(object sender, EventArgs e) =>
             // When the current krypton context menu is disposed, we should remove 
             // it to prevent it being used again, as that would just throw an exception 
             // because it has been disposed.
             KryptonContextMenu = null;
-        }
         #endregion
     }
 }

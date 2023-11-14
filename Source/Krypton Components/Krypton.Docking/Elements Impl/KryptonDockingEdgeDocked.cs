@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -24,9 +24,9 @@ namespace Krypton.Docking
         private class SeparatorToDockspace : Dictionary<KryptonDockspaceSeparator, KryptonDockingDockspace> { };
         private class DockspaceToSeparator : Dictionary<KryptonDockingDockspace, KryptonDockspaceSeparator> { };
         #endregion
-        
+
         #region Static Fields
-        private static readonly Size _defaultDockspaceSize = new(200, 200);
+        private static readonly Size _defaultDockspaceSize = new Size(200, 200);
         #endregion
 
         #region Instance Fields
@@ -116,7 +116,7 @@ namespace Krypton.Docking
         /// <summary>
         /// Find a edge docked element by searching the hierarchy.
         /// </summary>
-       /// <param name="uniqueName">Named page for which a suitable docking edge element is required.</param>
+        /// <param name="uniqueName">Named page for which a suitable docking edge element is required.</param>
         /// <returns>KryptonDockingEdgeDocked reference if found; otherwise false.</returns>
         public override KryptonDockingEdgeDocked FindDockingEdgeDocked(string uniqueName) => this;
 
@@ -136,7 +136,7 @@ namespace Krypton.Docking
         /// <param name="child">Optional reference to existing child docking element.</param>
         protected override void LoadChildDockingElement(XmlReader xmlReader,
                                                         KryptonPageCollection pages,
-                                                        IDockingElement child)
+                                                        IDockingElement? child)
         {
             if (child != null)
             {
@@ -154,7 +154,7 @@ namespace Krypton.Docking
                 }
 
                 // Create a new dockspace and then reload it
-                KryptonDockingDockspace dockspace = AppendDockspace(xmlReader.GetAttribute(@"N"), dockspaceSize);
+                KryptonDockingDockspace dockspace = AppendDockspace(xmlReader.GetAttribute(@"N") ?? string.Empty, dockspaceSize);
                 dockspace.LoadElementFromXml(xmlReader, pages);
             }
         }
@@ -164,14 +164,14 @@ namespace Krypton.Docking
         private KryptonDockingDockspace CreateAndInsertDockspace(int index, string name, Size size)
         {
             // Create a dockspace separator do the dockspace can be resized
-            KryptonDockspaceSeparator separatorControl = new(Edge, false);
+            var separatorControl = new KryptonDockspaceSeparator(Edge, false);
             separatorControl.SplitterMoveRect += OnDockspaceSeparatorMoveRect;
             separatorControl.SplitterMoved += OnDockspaceSeparatorMoved;
             separatorControl.SplitterNotMoved += OnDockspaceSeparatorNotMoved;
             separatorControl.Disposed += OnDockspaceSeparatorDisposed;
 
             // Create and add the dockspace to the collection
-            KryptonDockingDockspace dockspaceElement = new(name, Edge, size);
+            var dockspaceElement = new KryptonDockingDockspace(name, Edge, size);
             dockspaceElement.HasVisibleCells += OnDockingDockspaceHasVisibleCells;
             dockspaceElement.HasNoVisibleCells += OnDockingDockspaceHasNoVisibleCells;
             dockspaceElement.Disposed += OnDockingDockspaceDisposed;
@@ -182,12 +182,12 @@ namespace Krypton.Docking
             _lookupDockspace.Add(dockspaceElement, separatorControl);
 
             // Events are generated from the parent docking manager
-            KryptonDockingManager dockingManager = DockingManager;
+            KryptonDockingManager? dockingManager = DockingManager;
             if (dockingManager != null)
             {
                 // Allow the dockspace and dockspace separator to be customized by event handlers
-                DockspaceEventArgs spaceArgs = new(dockspaceElement.DockspaceControl, dockspaceElement);
-                DockspaceSeparatorEventArgs separatorArgs = new(separatorControl, dockspaceElement);
+                var spaceArgs = new DockspaceEventArgs(dockspaceElement.DockspaceControl, dockspaceElement);
+                var separatorArgs = new DockspaceSeparatorEventArgs(separatorControl, dockspaceElement);
                 dockingManager.RaiseDockspaceAdding(spaceArgs);
                 dockingManager.RaiseDockspaceSeparatorAdding(separatorArgs);
             }
@@ -204,9 +204,11 @@ namespace Krypton.Docking
             }
             else
             {
-                KryptonDockingDockspace target = this[index + 1] as KryptonDockingDockspace;
-                InsertAfter(dockspaceElement.DockspaceControl, target.DockspaceControl);
-                InsertAfter(separatorControl, target.DockspaceControl);
+                if (this[index + 1] is KryptonDockingDockspace target)
+                {
+                    InsertAfter(dockspaceElement.DockspaceControl, target.DockspaceControl);
+                    InsertAfter(separatorControl, target.DockspaceControl);
+                }
             }
 
             return dockspaceElement;
@@ -215,7 +217,7 @@ namespace Krypton.Docking
         private void OnDockingDockspaceHasNoVisibleCells(object sender, EventArgs e)
         {
             // Cast to correct type and grab associated separator control
-            KryptonDockingDockspace dockspaceElement = (KryptonDockingDockspace)sender;
+            var dockspaceElement = (KryptonDockingDockspace)sender;
             KryptonDockspaceSeparator separatorControl = _lookupDockspace[dockspaceElement];
 
             // No more visible cells so we hide the controls
@@ -226,15 +228,16 @@ namespace Krypton.Docking
         private void OnDockspaceSeparatorMoveRect(object sender, SplitterMoveRectMenuArgs e)
         {
             // Cast to correct type and grab associated dockspace element
-            KryptonDockspaceSeparator separatorControl = (KryptonDockspaceSeparator)sender;
+            var separatorControl = (KryptonDockspaceSeparator)sender;
             KryptonDockingDockspace dockspaceElement = _lookupSeparator[separatorControl];
 
             // Events are generated from the parent docking manager
-            KryptonDockingManager dockingManager = DockingManager;
+            KryptonDockingManager? dockingManager = DockingManager;
             if (dockingManager != null)
             {
                 // Allow the movement rectangle to be modified by event handlers
-                DockspaceSeparatorResizeEventArgs dockspaceResizeRectArgs = new(separatorControl, dockspaceElement, FindMovementRect(dockspaceElement, e.MoveRect));
+                var dockspaceResizeRectArgs = new DockspaceSeparatorResizeEventArgs(separatorControl, dockspaceElement,
+                        FindMovementRect(dockspaceElement, e.MoveRect));
                 dockingManager.RaiseDockspaceSeparatorResize(dockspaceResizeRectArgs);
                 e.MoveRect = dockspaceResizeRectArgs.ResizeRect;
             }
@@ -242,7 +245,7 @@ namespace Krypton.Docking
             if (GetParentType(typeof(KryptonDockingControl)) is KryptonDockingControl c)
             {
                 // Inform our owning control that an update is starting, this will prevent drawing of the control area
-                c.PropogateAction(DockingPropogateAction.StartUpdate, (string[])null);
+                c.PropogateAction(DockingPropogateAction.StartUpdate, null as string[]);
                 _update = true;
             }
         }
@@ -250,7 +253,7 @@ namespace Krypton.Docking
         private void OnDockspaceSeparatorMoved(object sender, SplitterEventArgs e)
         {
             // Cast to correct type and grab associated dockspace element
-            KryptonDockspaceSeparator separatorControl = (KryptonDockspaceSeparator)sender;
+            var separatorControl = (KryptonDockspaceSeparator)sender;
             KryptonDockingDockspace dockspaceElement = _lookupSeparator[separatorControl];
 
             // Update with delta change
@@ -273,8 +276,8 @@ namespace Krypton.Docking
             if (_update)
             {
                 // Inform our owning control that the update has ended, allowing the client area to be drawn
-                KryptonDockingControl c = GetParentType(typeof(KryptonDockingControl)) as KryptonDockingControl;
-                c.PropogateAction(DockingPropogateAction.EndUpdate, (string[])null);
+                var c = GetParentType(typeof(KryptonDockingControl)) as KryptonDockingControl;
+                c?.PropogateAction(DockingPropogateAction.EndUpdate, null as string[]);
                 _update = false;
             }
         }
@@ -284,8 +287,8 @@ namespace Krypton.Docking
             if (_update)
             {
                 // Inform our owning control that the update has ended, allowing the client area to be drawn
-                KryptonDockingControl c = GetParentType(typeof(KryptonDockingControl)) as KryptonDockingControl;
-                c.PropogateAction(DockingPropogateAction.EndUpdate, (string[])null);
+                var c = GetParentType(typeof(KryptonDockingControl)) as KryptonDockingControl;
+                c?.PropogateAction(DockingPropogateAction.EndUpdate, null as string[]);
                 _update = false;
             }
         }
@@ -293,7 +296,7 @@ namespace Krypton.Docking
         private void OnDockingDockspaceHasVisibleCells(object sender, EventArgs e)
         {
             // Cast to correct type and grab associated separator control
-            KryptonDockingDockspace dockspaceElement = (KryptonDockingDockspace)sender;
+            var dockspaceElement = (KryptonDockingDockspace)sender;
             KryptonDockspaceSeparator separatorControl = _lookupDockspace[dockspaceElement];
 
             // Now have a visible cell so we show the controls
@@ -304,7 +307,7 @@ namespace Krypton.Docking
         private void OnDockingDockspaceDisposed(object sender, EventArgs e)
         {
             // Cast to correct type and unhook event handlers so garbage collection can occur
-            KryptonDockingDockspace dockspaceElement = (KryptonDockingDockspace)sender;
+            var dockspaceElement = (KryptonDockingDockspace)sender;
             dockspaceElement.HasVisibleCells -= OnDockingDockspaceHasVisibleCells;
             dockspaceElement.HasNoVisibleCells -= OnDockingDockspaceHasNoVisibleCells;
             dockspaceElement.Disposed -= OnDockingDockspaceDisposed;
@@ -326,18 +329,18 @@ namespace Krypton.Docking
         private void OnDockspaceSeparatorDisposed(object sender, EventArgs e)
         {
             // Unhook from events so the control can be garbage collected
-            KryptonDockspaceSeparator separatorControl = (KryptonDockspaceSeparator)sender;
+            var separatorControl = (KryptonDockspaceSeparator)sender;
             separatorControl.SplitterMoveRect -= OnDockspaceSeparatorMoveRect;
             separatorControl.SplitterMoved -= OnDockspaceSeparatorMoved;
             separatorControl.SplitterNotMoved -= OnDockspaceSeparatorNotMoved;
             separatorControl.Disposed -= OnDockspaceSeparatorDisposed;
 
             // Events are generated from the parent docking manager
-            KryptonDockingManager dockingManager = DockingManager;
+            KryptonDockingManager? dockingManager = DockingManager;
             if (dockingManager != null)
             {
                 // Allow the dockspace and dockspace separator to be customized by event handlers
-                DockspaceSeparatorEventArgs separatorArgs = new(separatorControl, _lookupSeparator[separatorControl]);
+                var separatorArgs = new DockspaceSeparatorEventArgs(separatorControl, _lookupSeparator[separatorControl]);
                 dockingManager.RaiseDockspaceSeparatorRemoved(separatorArgs);
             }
 
@@ -356,7 +359,7 @@ namespace Krypton.Docking
             var reduceHeight = Math.Max(dockspaceElement.DockspaceControl.Height - dockspaceMinimum.Height, 0);
 
             // Get the minimum size requested for the inner area of the control
-            Size innerMinimum = Size.Empty;
+            var innerMinimum = Size.Empty;
             if (GetParentType(typeof(KryptonDockingControl)) is KryptonDockingControl dockingControl)
             {
                 innerMinimum = dockingControl.InnerMinimum;
@@ -379,7 +382,7 @@ namespace Krypton.Docking
             }
 
             // Allow movement rectangle to extend inwards according to inner rectangle and outwards according to dockspace size
-            Rectangle retRect = Rectangle.Empty;
+            var retRect = Rectangle.Empty;
             switch (Edge)
             {
                 case DockingEdge.Left:
@@ -410,8 +413,9 @@ namespace Krypton.Docking
             for (var i = 0; i < Control.Controls.Count; i++)
             {
                 Control test = Control.Controls[i];
-                if ((test is KryptonDockspaceSeparator) || (test is KryptonDockspace) ||
-                    (test is KryptonAutoHiddenPanel) || ((test is KryptonAutoHiddenSlidePanel) && !test.Visible))
+                if ((test is KryptonDockspaceSeparator or KryptonDockspace or KryptonAutoHiddenPanel) 
+                    || ((test is KryptonAutoHiddenSlidePanel) && !test.Visible)
+                    )
                 {
                     insertIndex = i;
                     break;
@@ -435,7 +439,9 @@ namespace Krypton.Docking
                     insertIndex = i + 1;
                 }
 
-                if ((test is KryptonAutoHiddenPanel) || ((test is KryptonAutoHiddenSlidePanel) && !test.Visible))
+                if ((test is KryptonAutoHiddenPanel) 
+                    || ((test is KryptonAutoHiddenSlidePanel) && !test.Visible)
+                    )
                 {
                     insertIndex = i;
                     break;

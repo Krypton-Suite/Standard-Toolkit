@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -19,7 +19,7 @@ namespace Krypton.Toolkit
                                          IPaletteMetric
     {
         #region Instance Fields
-        private PaletteRedirect _redirect;
+        private PaletteRedirect? _redirect;
         #endregion
 
         #region Identity
@@ -27,7 +27,7 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the PaletteMetricRedirect class.
         /// </summary>
         /// <param name="redirect">inheritance redirection instance.</param>
-        public PaletteMetricRedirect(PaletteRedirect redirect)
+        public PaletteMetricRedirect([DisallowNull] PaletteRedirect? redirect)
         {
             Debug.Assert(redirect != null);
 
@@ -41,10 +41,7 @@ namespace Krypton.Toolkit
         /// Update the redirector with new reference.
         /// </summary>
         /// <param name="redirect">Target redirector.</param>
-        public virtual void SetRedirector(PaletteRedirect redirect)
-        {
-            _redirect = redirect;
-        }
+        public virtual void SetRedirector(PaletteRedirect? redirect) => _redirect = redirect;
         #endregion
 
         #region IsDefault

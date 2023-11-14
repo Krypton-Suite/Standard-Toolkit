@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -18,7 +18,7 @@ namespace Krypton.Toolkit
     public class ViewDrawRadioButton : ViewLeaf
     {
         #region Instance Fields
-        private readonly IPalette _palette;
+        private readonly PaletteBase _palette;
 
         #endregion
 
@@ -27,7 +27,7 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the ViewDrawRadioButton class.
         /// </summary>
         /// <param name="palette">Palette for source of drawing values.</param>
-        public ViewDrawRadioButton(IPalette palette)
+        public ViewDrawRadioButton([DisallowNull] PaletteBase palette)
         {
             Debug.Assert(palette != null);
             _palette = palette;
@@ -39,7 +39,7 @@ namespace Krypton.Toolkit
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            "ViewDrawRadioButton:" + Id;
+            $"ViewDrawRadioButton:{Id}";
 
         #endregion
 
@@ -72,7 +72,7 @@ namespace Krypton.Toolkit
         /// Discover the preferred size of the element.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override Size GetPreferredSize(ViewLayoutContext context)
+        public override Size GetPreferredSize([DisallowNull] ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 
@@ -87,7 +87,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="context">Layout context.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public override void Layout(ViewLayoutContext context)
+        public override void Layout([DisallowNull] ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 

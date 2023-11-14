@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -47,7 +47,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Defines header location for the button.")]
         [RefreshProperties(RefreshProperties.All)]
-        [DefaultValue(typeof(HeaderLocation), "PrimaryHeader")]
+        [DefaultValue(HeaderLocation.PrimaryHeader)]
         public HeaderLocation HeaderLocation
         {
             get => _location;
@@ -64,9 +64,6 @@ namespace Krypton.Toolkit
 
         private bool ShouldSerializeHeaderLocation() => HeaderLocation != HeaderLocation.PrimaryHeader;
 
-        /// <summary>
-        /// Resets the HeaderLocation property to its default value.
-        /// </summary>
         private void ResetHeaderLocation() => HeaderLocation = HeaderLocation.PrimaryHeader;
 
         #endregion
@@ -92,7 +89,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="palette">Palette to use for inheriting values.</param>
         /// <returns>Button location.</returns>
-        public override HeaderLocation GetLocation(IPalette palette) => HeaderLocation;
+        public override HeaderLocation GetLocation(PaletteBase? palette) => HeaderLocation;
 
         #endregion
     }

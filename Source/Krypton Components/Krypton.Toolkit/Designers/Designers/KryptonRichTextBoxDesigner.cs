@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -16,7 +16,7 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
         private bool _lastHitTest;
-        private KryptonRichTextBox _richTextBox;
+        private KryptonRichTextBox? _richTextBox;
         private IDesignerHost _designerHost;
         private IComponentChangeService _changeService;
         private ISelectionService _selectionService;
@@ -27,7 +27,7 @@ namespace Krypton.Toolkit
         /// Initializes the designer with the specified component.
         /// </summary>
         /// <param name="component">The IComponent to associate the designer with.</param>
-        public override void Initialize(IComponent component)
+        public override void Initialize([DisallowNull] IComponent component)
         {
             // Let base class do standard stuff
             base.Initialize(component);
@@ -62,7 +62,7 @@ namespace Krypton.Toolkit
         /// Gets the collection of components associated with the component managed by the designer.
         /// </summary>
         public override ICollection AssociatedComponents =>
-            _richTextBox != null ? _richTextBox.ButtonSpecs : base.AssociatedComponents;
+            _richTextBox?.ButtonSpecs ?? base.AssociatedComponents;
 
         /// <summary>
         /// Gets the selection rules that indicate the movement capabilities of a component.
@@ -75,10 +75,10 @@ namespace Krypton.Toolkit
                 SelectionRules rules = base.SelectionRules;
 
                 // Get access to the actual control instance
-                KryptonRichTextBox richTextBox = (KryptonRichTextBox)Component;
+                var richTextBox = (KryptonRichTextBox)Component;
 
                 // With multiline and autosize we prevent the user changing the height
-                if (!richTextBox.Multiline && richTextBox.AutoSize)
+                if (richTextBox is { Multiline: false, AutoSize: true })
                 {
                     rules &= ~(SelectionRules.TopSizeable | SelectionRules.BottomSizeable);
                 }
@@ -95,9 +95,8 @@ namespace Krypton.Toolkit
             get
             {
                 // Create a collection of action lists
-                DesignerActionListCollection actionLists = new()
+                var actionLists = new DesignerActionListCollection
                 {
-
                     // Add the label specific list
                     new KryptonRichTextBoxActionList(this)
                 };
@@ -153,7 +152,7 @@ namespace Krypton.Toolkit
             if ((_richTextBox != null) && (e.Button == MouseButtons.Left))
             {
                 // Get any component associated with the current mouse position
-                Component component = _richTextBox.DesignerComponentFromPoint(new Point(e.X, e.Y));
+                Component? component = _richTextBox.DesignerComponentFromPoint(new Point(e.X, e.Y));
 
                 if (component != null)
                 {
@@ -161,7 +160,7 @@ namespace Krypton.Toolkit
                     _richTextBox.PerformLayout();
 
                     // Select the component
-                    ArrayList selectionList = new()
+                    var selectionList = new ArrayList
                     {
                         component
                     };
@@ -173,7 +172,7 @@ namespace Krypton.Toolkit
         private void OnTextBoxDoubleClick(object sender, Point pt)
         {
             // Get any component associated with the current mouse position
-            Component component = _richTextBox.DesignerComponentFromPoint(pt);
+            Component? component = _richTextBox?.DesignerComponentFromPoint(pt);
 
             if (component != null)
             {
@@ -191,7 +190,7 @@ namespace Krypton.Toolkit
             if (e.Component == _richTextBox)
             {
                 // Need access to host in order to delete a component
-                IDesignerHost host = (IDesignerHost)GetService(typeof(IDesignerHost));
+                var host = (IDesignerHost)GetService(typeof(IDesignerHost));
 
                 // We need to remove all the button spec instances
                 for (var i = _richTextBox.ButtonSpecs.Count - 1; i >= 0; i--)

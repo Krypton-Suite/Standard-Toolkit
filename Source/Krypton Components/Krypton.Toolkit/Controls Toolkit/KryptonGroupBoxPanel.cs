@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -27,9 +27,9 @@ namespace Krypton.Toolkit
         /// <param name="stateNormal">Normal appearance state.</param>
         /// <param name="layoutHandler">Callback delegate for layout processing.</param>
         public KryptonGroupBoxPanel(Control alignControl,
-            PaletteDoubleRedirect stateCommon,
-            PaletteDouble stateDisabled,
-            PaletteDouble stateNormal,
+            [DisallowNull] PaletteDoubleRedirect stateCommon,
+            [DisallowNull] PaletteDouble stateDisabled,
+            [DisallowNull] PaletteDouble stateNormal,
             NeedPaintHandler layoutHandler)
             : base(alignControl, stateCommon, stateDisabled, stateNormal, layoutHandler)
         {
@@ -40,7 +40,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public override KryptonContextMenu KryptonContextMenu
+        public override KryptonContextMenu? KryptonContextMenu
         {
             get => base.KryptonContextMenu;
             set { /* Ignore request */ }
@@ -49,7 +49,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public override ContextMenuStrip ContextMenuStrip
+        public override ContextMenuStrip? ContextMenuStrip
         {
             get => base.ContextMenuStrip;
             set { /* Ignore request */ }

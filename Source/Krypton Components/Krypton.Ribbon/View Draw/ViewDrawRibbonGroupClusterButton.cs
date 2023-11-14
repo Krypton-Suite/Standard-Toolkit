@@ -5,7 +5,9 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  
+ *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
  */
 #endregion
@@ -41,9 +43,9 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Reference to owning ribbon control.</param>
         /// <param name="ribbonButton">Reference to source button definition.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public ViewDrawRibbonGroupClusterButton(KryptonRibbon ribbon,
-                                                KryptonRibbonGroupClusterButton ribbonButton,
-                                                NeedPaintHandler needPaint)
+        public ViewDrawRibbonGroupClusterButton([DisallowNull] KryptonRibbon ribbon,
+                                                [DisallowNull] KryptonRibbonGroupClusterButton ribbonButton,
+                                                [DisallowNull] NeedPaintHandler needPaint)
         {
             Debug.Assert(ribbon != null);
             Debug.Assert(ribbonButton != null);
@@ -78,7 +80,7 @@ namespace Krypton.Ribbon
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            @"ViewDrawRibbonGroupClusterButton:" + Id;
+            $@"ViewDrawRibbonGroupClusterButton:{Id}";
 
         /// <summary>
         /// Clean up any resources being used.
@@ -165,10 +167,10 @@ namespace Krypton.Ribbon
         /// Gets the first focus item from the container.
         /// </summary>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase GetFirstFocusItem()
+        public ViewBase? GetFirstFocusItem()
         {
             // Only take focus if we are visible and enabled
-            if (GroupClusterButton.Visible && GroupClusterButton.Enabled)
+            if (GroupClusterButton is { Visible: true, Enabled: true })
             {
                 return _viewMediumSmall;
             }
@@ -184,10 +186,10 @@ namespace Krypton.Ribbon
         /// Gets the last focus item from the item.
         /// </summary>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase GetLastFocusItem()
+        public ViewBase? GetLastFocusItem()
         {
             // Only take focus if we are visible and enabled
-            if (GroupClusterButton.Visible && GroupClusterButton.Enabled)
+            if (GroupClusterButton is { Visible: true, Enabled: true })
             {
                 return _viewMediumSmall;
             }
@@ -205,7 +207,7 @@ namespace Krypton.Ribbon
         /// <param name="current">The view that is currently focused.</param>
         /// <param name="matched">Has the current focus item been matched yet.</param>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase GetNextFocusItem(ViewBase current, ref bool matched)
+        public ViewBase? GetNextFocusItem(ViewBase current, ref bool matched)
         {
             // Do we match the current item?
             matched = current == _viewMediumSmall;
@@ -220,7 +222,7 @@ namespace Krypton.Ribbon
         /// <param name="current">The view that is currently focused.</param>
         /// <param name="matched">Has the current focus item been matched yet.</param>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase GetPreviousFocusItem(ViewBase current, ref bool matched)
+        public ViewBase? GetPreviousFocusItem(ViewBase current, ref bool matched)
         {
             // Do we match the current item?
             matched = current == _viewMediumSmall;
@@ -256,18 +258,12 @@ namespace Krypton.Ribbon
         /// Override the group item size if possible.
         /// </summary>
         /// <param name="size">New size to use.</param>
-        public void SetGroupItemSize(GroupItemSize size)
-        {
-            UpdateItemSizeState(size);
-        }
+        public void SetGroupItemSize(GroupItemSize size) => UpdateItemSizeState(size);
 
         /// <summary>
         /// Reset the group item size to the item definition.
         /// </summary>
-        public void ResetGroupItemSize()
-        {
-            UpdateItemSizeState();
-        }
+        public void ResetGroupItemSize() => UpdateItemSizeState();
 
         /// <summary>
         /// Discover the preferred size of the element.
@@ -285,7 +281,7 @@ namespace Krypton.Ribbon
         /// Perform a layout of the elements.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override void Layout(ViewLayoutContext context)
+        public override void Layout([DisallowNull] ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 
@@ -319,10 +315,7 @@ namespace Krypton.Ribbon
         /// Raises the NeedPaint event.
         /// </summary>
         /// <param name="needLayout">Does the palette change require a layout.</param>
-        protected virtual void OnNeedPaint(bool needLayout)
-        {
-            OnNeedPaint(needLayout, Rectangle.Empty);
-        }
+        protected virtual void OnNeedPaint(bool needLayout) => OnNeedPaint(needLayout, Rectangle.Empty);
 
         /// <summary>
         /// Raises the NeedPaint event.
@@ -364,7 +357,7 @@ namespace Krypton.Ribbon
             }
 
             // Create the layout docker for the contents of the button
-            ViewLayoutDocker contentLayout = new();
+            var contentLayout = new ViewLayoutDocker();
 
             // Create the image and drop down content
             _viewMediumSmallImage = new ViewDrawRibbonGroupClusterButtonImage(_ribbon, GroupClusterButton);
@@ -375,7 +368,7 @@ namespace Krypton.Ribbon
             _viewMediumSmallDropArrow = new ViewDrawRibbonDropArrow(_ribbon);
             _viewMediumSmallText2Sep1 = new ViewLayoutRibbonSeparator(3, false);
             _viewMediumSmallText2Sep2 = new ViewLayoutRibbonSeparator(3, false);
-            ViewLayoutRibbonCenterPadding imagePadding = new(_smallImagePadding)
+            var imagePadding = new ViewLayoutRibbonCenterPadding(_smallImagePadding)
             {
                 _viewMediumSmallImage
             };
@@ -407,10 +400,7 @@ namespace Krypton.Ribbon
             Add(_viewMediumSmall);
         }
 
-        private void UpdateItemSizeState()
-        {
-            UpdateItemSizeState(GroupClusterButton.ItemSizeCurrent);
-        }
+        private void UpdateItemSizeState() => UpdateItemSizeState(GroupClusterButton.ItemSizeCurrent);
 
         private void UpdateItemSizeState(GroupItemSize size)
         {
@@ -452,8 +442,7 @@ namespace Krypton.Ribbon
 
         private void UpdateDropDownState()
         {
-            var dropDown = (GroupClusterButton.ButtonType == GroupButtonType.DropDown) ||
-                            (GroupClusterButton.ButtonType == GroupButtonType.Split);
+            var dropDown = GroupClusterButton.ButtonType is GroupButtonType.DropDown or GroupButtonType.Split;
 
             var splitDown = GroupClusterButton.ButtonType == GroupButtonType.Split;
 
@@ -465,20 +454,11 @@ namespace Krypton.Ribbon
             _viewMediumSmall.ButtonType = GroupClusterButton.ButtonType;
         }
 
-        private void OnSmallButtonClick(object sender, EventArgs e)
-        {
-            GroupClusterButton.PerformClick(_viewMediumSmall.FinishDelegate);
-        }
+        private void OnSmallButtonClick(object sender, EventArgs e) => GroupClusterButton.PerformClick(_viewMediumSmall.FinishDelegate);
 
-        private void OnSmallButtonDropDown(object sender, EventArgs e)
-        {
-            GroupClusterButton.PerformDropDown(_viewMediumSmall.FinishDelegate);
-        }
+        private void OnSmallButtonDropDown(object sender, EventArgs e) => GroupClusterButton.PerformDropDown(_viewMediumSmall.FinishDelegate);
 
-        private void OnContextClick(object sender, MouseEventArgs e)
-        {
-            GroupClusterButton.OnDesignTimeContextMenu(e);
-        }
+        private void OnContextClick(object sender, MouseEventArgs e) => GroupClusterButton.OnDesignTimeContextMenu(e);
 
         private void OnButtonPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
@@ -487,7 +467,7 @@ namespace Krypton.Ribbon
 
             switch (e.PropertyName)
             {
-                case "Visible":
+                case nameof(Visible):
                     updateLayout = true;
                     break;
                 case "TextLine":
@@ -502,7 +482,7 @@ namespace Krypton.Ribbon
                     UpdateCheckedState();
                     updatePaint = true;
                     break;
-                case "Enabled":
+                case nameof(Enabled):
                     UpdateEnabledState();
                     updatePaint = true;
                     break;
@@ -515,7 +495,7 @@ namespace Krypton.Ribbon
                     UpdateItemSizeState();
                     updateLayout = true;
                     break;
-                case "KryptonCommand":
+                case nameof(KryptonCommand):
                     _viewMediumSmallText1.MakeDirty();
                     UpdateEnabledState();
                     UpdateCheckedState();

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -35,21 +35,21 @@ namespace Krypton.Toolkit
         /// <param name="factorDpiX">multiplier from dpi of 96 X</param>
         /// <param name="factorDpiY">multiplier from dpi of 96 Y</param>
         /// <param name="pal">KryptonPalette</param>
-        public static void ScalePalette(float factorDpiX, float factorDpiY, KryptonPalette pal)
+        public static void ScalePalette(float factorDpiX, float factorDpiY, KryptonCustomPaletteBase? pal)
         {
-            if (pal == null 
+            if (pal == null
                 //|| pal.HasAlreadyBeenScaled
                 )
             {
                 return;
             }
 
-             //pal.HasAlreadyBeenScaled = true;
+            //pal.HasAlreadyBeenScaled = true;
 
-            var scaleFactor = new SizeF( factorDpiX, factorDpiY);
+            var scaleFactor = new SizeF(factorDpiX, factorDpiY);
 
             // if the scale is the same then no further processing needed (we are at 96 dpi).
-            if ((scaleFactor.Width == 1.0F) && (scaleFactor.Height == 1.0F))
+            if (scaleFactor is { Width: 1.0F, Height: 1.0F })
             {
                 return;
             }
@@ -148,18 +148,18 @@ namespace Krypton.Toolkit
         /// <param name="img">The image.</param>
         /// <param name="scaleFactor">The scale factor.</param>
         /// <returns>A scaled image, based on the scaleFactor.</returns>
-        private static Image GetScaledImage(Image img, SizeF scaleFactor)
+        private static Image? GetScaledImage(Image? img, SizeF scaleFactor)
         {
             if (img == null)
             {
                 return null;
             }
 
-            if ((scaleFactor.Width == 1) && (scaleFactor.Height == 1))
+            if (scaleFactor is { Width: 1, Height: 1 })
             {
                 return img;
             }
-            using Bitmap tmpBmp = new(img);
+            using var tmpBmp = new Bitmap(img);
             tmpBmp.MakeTransparent(Color.Magenta);
             return CommonHelper.ScaleImageForSizedDisplay(tmpBmp, img.Width * scaleFactor.Width, img.Height * scaleFactor.Height);
         }

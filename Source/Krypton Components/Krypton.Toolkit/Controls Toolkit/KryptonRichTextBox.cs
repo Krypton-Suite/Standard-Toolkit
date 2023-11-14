@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -17,10 +17,10 @@ namespace Krypton.Toolkit
     /// </summary>
     [ToolboxItem(true)]
     [ToolboxBitmap(typeof(KryptonRichTextBox), "ToolboxBitmaps.KryptonRichTextBox.bmp")]
-    [DefaultEvent("TextChanged")]
-    [DefaultProperty("Text")]
-    [DefaultBindingProperty("Text")]
-    [Designer("Krypton.Toolkit.KryptonRichTextBoxDesigner, Krypton.Toolkit")]
+    [DefaultEvent(nameof(TextChanged))]
+    [DefaultProperty(nameof(Text))]
+    [DefaultBindingProperty(nameof(Text))]
+    [Designer(typeof(KryptonRichTextBoxDesigner))]
     [DesignerCategory(@"code")]
     [Description(@"Enables the user to enter text, and provides multi-line editing and password character masking.")]
     public class KryptonRichTextBox : VisualControlBase,
@@ -44,12 +44,12 @@ namespace Krypton.Toolkit
             /// <summary>
             /// Occurs when the mouse enters the InternalComboBox.
             /// </summary>
-            public event EventHandler TrackMouseEnter;
+            public event EventHandler? TrackMouseEnter;
 
             /// <summary>
             /// Occurs when the mouse leaves the InternalComboBox.
             /// </summary>
-            public event EventHandler TrackMouseLeave;
+            public event EventHandler? TrackMouseLeave;
             #endregion
 
             #region Identity
@@ -121,7 +121,7 @@ namespace Krypton.Toolkit
                 rectPage.left = 0;
                 rectPage.right = (int)(gr.ClipBounds.Right * AN_INCH);
 
-                IntPtr hdc = gr.GetHdc();
+                var hdc = gr.GetHdc();
 
                 PI.FORMATRANGE fmtRange;
                 fmtRange.chrg.cpMax = charTo;
@@ -131,14 +131,14 @@ namespace Krypton.Toolkit
                 fmtRange.rc = rectToPrint;
                 fmtRange.rcPage = rectPage;
 
-                IntPtr wparam = new(1);
+                var wparam = new IntPtr(1);
 
                 //Get the pointer to the FORMATRANGE structure in memory
-                IntPtr lparam = Marshal.AllocCoTaskMem(Marshal.SizeOf(fmtRange));
+                var lparam = Marshal.AllocCoTaskMem(Marshal.SizeOf(fmtRange));
                 Marshal.StructureToPtr(fmtRange, lparam, false);
 
                 //Send the rendered data for printing 
-                IntPtr res = (IntPtr)PI.SendMessage(Handle, PI.EM_FORMATRANGE, wparam, lparam);
+                var res = (IntPtr)PI.SendMessage(Handle, PI.EM_FORMATRANGE, wparam, lparam);
 
                 //Free the block of memory allocated
                 Marshal.FreeCoTaskMem(lparam);
@@ -199,7 +199,7 @@ namespace Krypton.Toolkit
                         if (_kryptonRichTextBox.KryptonContextMenu != null)
                         {
                             // Extract the screen mouse position (if might not actually be provided)
-                            Point mousePt = new(PI.LOWORD(m.LParam), PI.HIWORD(m.LParam));
+                            var mousePt = new Point(PI.LOWORD(m.LParam), PI.HIWORD(m.LParam));
 
                             // If keyboard activated, the menu position is centered
                             if (((int)(long)m.LParam) == -1)
@@ -220,9 +220,9 @@ namespace Krypton.Toolkit
                             && (_kryptonRichTextBox.TextLength == 0)
                         )
                         {
-                            PI.PAINTSTRUCT ps = new();
+                            var ps = new PI.PAINTSTRUCT();
                             // Do we need to BeginPaint or just take the given HDC?
-                            IntPtr hdc = m.WParam == IntPtr.Zero ? PI.BeginPaint(Handle, ref ps) : m.WParam;
+                            var hdc = m.WParam == IntPtr.Zero ? PI.BeginPaint(Handle, ref ps) : m.WParam;
                             using (Graphics g = Graphics.FromHdc(hdc))
                             {
                                 // Grab the client area of the control
@@ -236,7 +236,7 @@ namespace Krypton.Toolkit
                                 var states = _kryptonRichTextBox.GetTripleState();
 
                                 // Drawn entire client area in the background color
-                                using SolidBrush backBrush = new(states.PaletteBack.GetBackColor1(state));
+                                using var backBrush = new SolidBrush(states.PaletteBack.GetBackColor1(state));
                                 // Go perform the drawing of the CueHint
                                 _kryptonRichTextBox.CueHint.PerformPaint(_kryptonRichTextBox, g, rect, backBrush);
                             }
@@ -302,7 +302,7 @@ namespace Krypton.Toolkit
 
         #region Instance Fields
 
-        private VisualPopupToolTip _visualPopupToolTip;
+        private VisualPopupToolTip? _visualPopupToolTip;
         private readonly ButtonSpecManagerLayout _buttonManager;
         private readonly ViewLayoutDocker _drawDockerInner;
         private readonly ViewDrawDocker _drawDockerOuter;
@@ -316,6 +316,8 @@ namespace Krypton.Toolkit
         private bool _alwaysActive;
         private bool _trackingMouseEnter;
         private bool _firstPaint;
+        private float _cornerRoundingRadius;
+
         #endregion
 
         #region Events
@@ -324,70 +326,70 @@ namespace Krypton.Toolkit
         /// </summary>
         [Description(@"Occurs when the value of the AcceptsTab property changes.")]
         [Category(@"Property Changed")]
-        public event EventHandler AcceptsTabChanged;
+        public event EventHandler? AcceptsTabChanged;
 
         /// <summary>
         /// Occurs when the value of the HideSelection property changes.
         /// </summary>
         [Description(@"Occurs when the value of the HideSelection property changes.")]
         [Category(@"Property Changed")]
-        public event EventHandler HideSelectionChanged;
+        public event EventHandler? HideSelectionChanged;
 
         /// <summary>
         /// Occurs when the value of the Modified property changes.
         /// </summary>
         [Description(@"Occurs when the value of the Modified property changes.")]
         [Category(@"Property Changed")]
-        public event EventHandler ModifiedChanged;
+        public event EventHandler? ModifiedChanged;
 
         /// <summary>
         /// Occurs when the value of the Multiline property changes.
         /// </summary>
         [Description(@"Occurs when the value of the Multiline property changes.")]
         [Category(@"Property Changed")]
-        public event EventHandler MultilineChanged;
+        public event EventHandler? MultilineChanged;
 
         /// <summary>
         /// Occurs when the value of the ReadOnly property changes.
         /// </summary>
         [Description(@"Occurs when the value of the ReadOnly property changes.")]
         [Category(@"Property Changed")]
-        public event EventHandler ReadOnlyChanged;
+        public event EventHandler? ReadOnlyChanged;
 
         /// <summary>
         /// Occurs when the current selection has changed.
         /// </summary>
         [Description(@"Occurs when the current selection has changed.")]
         [Category(@"Behavior")]
-        public event EventHandler SelectionChanged;
+        public event EventHandler? SelectionChanged;
 
         /// <summary>
         /// Occurs when the user takes an action that would change a protected range of text.
         /// </summary>
         [Description(@"Occurs when the user takes an action that would change a protected range of text.")]
         [Category(@"Behavior")]
-        public event EventHandler Protected;
+        public event EventHandler? Protected;
 
         /// <summary>
         /// Occurs when a hyperlink in the text is clicked.
         /// </summary>
         [Description(@"Occurs when a hyperlink in the text is clicked.")]
         [Category(@"Behavior")]
-        public event LinkClickedEventHandler LinkClicked;
+        public event LinkClickedEventHandler? LinkClicked;
 
         /// <summary>
         /// Occurs when the horizontal scroll bar is clicked.
         /// </summary>
         [Description(@"Occurs when the horizontal scroll bar is clicked.")]
         [Category(@"Behavior")]
-        public event EventHandler HScroll;
+        public event EventHandler? HScroll;
 
         /// <summary>
         /// Occurs when the vertical scroll bar is clicked.
         /// </summary>
         [Description(@"Occurs when the vertical scroll bar is clicked.")]
         [Category(@"Behavior")]
-        public event EventHandler VScroll;
+        public event EventHandler? VScroll;
 
         /// <summary>
         /// Occurs when the mouse enters the control.
@@ -395,7 +397,7 @@ namespace Krypton.Toolkit
         [Description(@"Raises the TrackMouseEnter event in the wrapped control.")]
         [Category(@"Mouse")]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public event EventHandler TrackMouseEnter;
+        public event EventHandler? TrackMouseEnter;
 
         /// <summary>
         /// Occurs when the mouse leaves the control.
@@ -403,35 +405,35 @@ namespace Krypton.Toolkit
         [Description(@"Raises the TrackMouseLeave event in the wrapped control.")]
         [Category(@"Mouse")]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public event EventHandler TrackMouseLeave;
+        public event EventHandler? TrackMouseLeave;
 
         /// <summary>
         /// Occurs when the value of the BackColor property changes.
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public new event EventHandler BackColorChanged;
+        public new event EventHandler? BackColorChanged;
 
         /// <summary>
         /// Occurs when the value of the BackgroundImage property changes.
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public new event EventHandler BackgroundImageChanged;
+        public new event EventHandler? BackgroundImageChanged;
 
         /// <summary>
         /// Occurs when the value of the BackgroundImageLayout property changes.
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public new event EventHandler BackgroundImageLayoutChanged;
+        public new event EventHandler? BackgroundImageLayoutChanged;
 
         /// <summary>
         /// Occurs when the value of the ForeColor property changes.
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public new event EventHandler ForeColorChanged;
+        public new event EventHandler? ForeColorChanged;
         #endregion
 
         #region Identity
@@ -516,7 +518,7 @@ namespace Krypton.Toolkit
                                                          NeedPaintDelegate);
 
             // Create the manager for handling tooltips
-            ToolTipManager = new ToolTipManager();
+            ToolTipManager = new ToolTipManager(ToolTipValues);
             ToolTipManager.ShowToolTip += OnShowToolTip;
             ToolTipManager.CancelToolTip += OnCancelToolTip;
             _buttonManager.ToolTipManager = ToolTipManager;
@@ -534,6 +536,8 @@ namespace Krypton.Toolkit
             {
                 _richTextBox.Font = StateActive.PaletteContent.GetContentShortTextFont(PaletteState.Tracking);
             }
+
+            _cornerRoundingRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
         }
 
         /// <summary>
@@ -556,6 +560,16 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Public
+
+        /// <summary>Gets or sets the corner rounding radius.</summary>
+        /// <value>The corner rounding radius.</value>
+        [Category(@"Visuals"), DefaultValue(GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE), Description(@"Defines the corner roundness on the current window (-1 is the default look).")]
+        public float CornerRoundingRadius
+        {
+            get => _cornerRoundingRadius;
+            set => SetCornerRoundingRadius(value);
+        }
+
         [Category(@"Visuals")]
         [Description(@"Set a watermark/prompt message for the user.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
@@ -586,7 +600,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         [EditorBrowsable(EditorBrowsableState.Always)]
         [Browsable(false)]
-        public RichTextBox RichTextBox => _richTextBox;
+        public RichTextBox? RichTextBox => _richTextBox;
 
         /// <summary>
         /// Gets access to the contained input control.
@@ -642,6 +656,8 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [Bindable(false)]
+        [AmbientValue(null)]
+        [AllowNull]
         public override Font Font
         {
             get => base.Font;
@@ -675,10 +691,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the text associated associated with the control.
         /// </summary>
-        [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
-#if NET6_0_OR_GREATER
+        [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
         [AllowNull]
-#endif
         public override string Text
         {
             get => _richTextBox.Text;
@@ -700,7 +714,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the associated context menu strip.
         /// </summary>
-        public override ContextMenuStrip ContextMenuStrip
+        public override ContextMenuStrip? ContextMenuStrip
         {
             get => base.ContextMenuStrip;
 
@@ -823,7 +837,7 @@ namespace Krypton.Toolkit
         /// Gets and sets the alignment of the selection.
         /// </summary>
         [Browsable(false)]
-        [DefaultValue(typeof(HorizontalAlignment), "Left")]
+        [DefaultValue(HorizontalAlignment.Left)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public HorizontalAlignment SelectionAlignment
         {
@@ -1080,7 +1094,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Appearance")]
         [Description(@"The lines of text in a multiline edit, as an array of String values.")]
-        [Editor("System.Windows.Forms.Design.StringArrayEditor, " + AssemblyRef.SystemDesign, typeof(UITypeEditor))]
+        [Editor(@"System.Windows.Forms.Design.StringArrayEditor", typeof(UITypeEditor))]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         [MergableProperty(false)]
         [Localizable(true)]
@@ -1095,7 +1109,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Appearance")]
         [Description(@"Indicates, for multiline edit controls, which scroll bars will be shown for this control.")]
-        [DefaultValue(typeof(RichTextBoxScrollBars), "Both")]
+        [DefaultValue(RichTextBoxScrollBars.Both)]
         [Localizable(true)]
         public RichTextBoxScrollBars ScrollBars
         {
@@ -1301,10 +1315,7 @@ namespace Krypton.Toolkit
 
         private bool ShouldSerializeInputControlStyle() => InputControlStyle != InputControlStyle.Standalone;
 
-        private void ResetInputControlStyle()
-        {
-            InputControlStyle = InputControlStyle.Standalone;
-        }
+        private void ResetInputControlStyle() => InputControlStyle = InputControlStyle.Standalone;
 
         /// <summary>
         /// Gets and sets a value indicating if tooltips should be Displayed for button specs.
@@ -1589,10 +1600,7 @@ namespace Krypton.Toolkit
         /// Sets the fixed state of the control.
         /// </summary>
         /// <param name="active">Should the control be fixed as active.</param>
-        public void SetFixedState(bool active)
-        {
-            _fixedActive = active;
-        }
+        public void SetFixedState(bool active) => _fixedActive = active;
 
         /// <summary>
         /// Gets access to the ToolTipManager used for displaying tool tips.
@@ -1693,10 +1701,7 @@ namespace Krypton.Toolkit
         /// Override the display padding for the layout fill.
         /// </summary>
         /// <param name="padding">Display padding value.</param>
-        public void SetLayoutDisplayPadding(Padding padding)
-        {
-            _layoutFill.DisplayPadding = padding;
-        }
+        public void SetLayoutDisplayPadding(Padding padding) => _layoutFill.DisplayPadding = padding;
 
         /// <summary>
         /// Internal design time method.
@@ -1993,14 +1998,14 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the default size of the control.
         /// </summary>
-        protected override Size DefaultSize => new(100, 96);
+        protected override Size DefaultSize => new Size(100, 96);
 
         /// <summary>
         /// Processes a notification from palette storage of a paint and optional layout required.
         /// </summary>
         /// <param name="sender">Source of notification.</param>
         /// <param name="e">An NeedLayoutEventArgs containing event data.</param>
-        protected override void OnNeedPaint(object sender, NeedLayoutEventArgs e)
+        protected override void OnNeedPaint(object? sender, NeedLayoutEventArgs e)
         {
             if (!e.NeedLayout)
             {
@@ -2099,6 +2104,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Implementation
+
         private void UpdateStateAndPalettes()
         {
             // Get the correct palette settings to use
@@ -2201,7 +2207,7 @@ namespace Krypton.Toolkit
             if (!IsDisposed && !Disposing)
             {
                 // Do not show tooltips when the form we are in does not have focus
-                Form topForm = FindForm();
+                Form? topForm = FindForm();
                 if (topForm is { ContainsFocus: false })
                 {
                     return;
@@ -2210,13 +2216,13 @@ namespace Krypton.Toolkit
                 // Never show tooltips are design time
                 if (!DesignMode)
                 {
-                    IContentValues sourceContent = null;
-                    LabelStyle toolTipStyle = LabelStyle.ToolTip;
-                    
-                    bool shadow = true;
+                    IContentValues? sourceContent = null;
+                    var toolTipStyle = LabelStyle.ToolTip;
+
+                    var shadow = true;
 
                     // Find the button spec associated with the tooltip request
-                    ButtonSpec buttonSpec = _buttonManager.ButtonSpecFromView(e.Target);
+                    ButtonSpec? buttonSpec = _buttonManager.ButtonSpecFromView(e.Target);
 
                     // If the tooltip is for a button spec
                     if (buttonSpec != null)
@@ -2225,7 +2231,7 @@ namespace Krypton.Toolkit
                         if (AllowButtonSpecToolTips)
                         {
                             // Create a helper object to provide tooltip values
-                            ButtonSpecToContent buttonSpecMapping = new(Redirector, buttonSpec);
+                            var buttonSpecMapping = new ButtonSpecToContent(Redirector, buttonSpec);
 
                             // Is there actually anything to show for the tooltip
                             if (buttonSpecMapping.HasContent)
@@ -2270,12 +2276,20 @@ namespace Krypton.Toolkit
         private void OnVisualPopupToolTipDisposed(object sender, EventArgs e)
         {
             // Unhook events from the specific instance that generated event
-            VisualPopupToolTip popupToolTip = (VisualPopupToolTip)sender;
+            var popupToolTip = (VisualPopupToolTip)sender;
             popupToolTip.Disposed -= OnVisualPopupToolTipDisposed;
 
             // Not showing a popup page any more
             _visualPopupToolTip = null;
         }
+
+        private void SetCornerRoundingRadius(float? radius)
+        {
+            _cornerRoundingRadius = radius ?? GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
+
+            StateCommon.Border.Rounding = _cornerRoundingRadius;
+        }
+
         #endregion
     }
 }

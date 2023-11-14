@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -26,11 +26,13 @@ namespace Krypton.Toolkit
         /// <summary>Initializes a new instance of the <see cref="KryptonPaletteFont" /> class.</summary>
         /// <param name="redirector">Palette redirector for sourcing inherited values</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public KryptonPaletteFont(PaletteRedirect redirector, NeedPaintHandler needPaint)
+        public KryptonPaletteFont([DisallowNull] PaletteRedirect redirector, NeedPaintHandler needPaint)
         {
             NeedPaint = needPaint;
 
             Debug.Assert(redirector != null);
+            ResetCommonLongTextFont();
+            ResetCommonShortTextFont();
         }
 
         #endregion
@@ -51,9 +53,13 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category(@"Visuals")]
         [Description(@"User supplied font value.")]
-        [DefaultValue(null)]
         [RefreshProperties(RefreshProperties.All)]
-        public Font CommonLongTextFont { get => null; set => _paletteCommon.StateCommon.Content.LongText.Font = value; }
+        [DisallowNull]
+        public Font? CommonLongTextFont 
+        { 
+            get => _paletteCommon.StateCommon.Content.LongText.Font; 
+            set => _paletteCommon.StateCommon.Content.LongText.Font = value; 
+        }
         /// <summary>
         /// Resets the CommonLongTextFont property to its default value.
         /// </summary>
@@ -68,9 +74,13 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category(@"Visuals")]
         [Description(@"User supplied font value.")]
-        [DefaultValue(null)]
         [RefreshProperties(RefreshProperties.All)]
-        public Font CommonShortTextFont { get => null; set => _paletteCommon.StateCommon.Content.ShortText.Font = value; }
+        [DisallowNull]
+        public Font? CommonShortTextFont 
+        { 
+            get => _paletteCommon.StateCommon.Content.ShortText.Font; 
+            set => _paletteCommon.StateCommon.Content.ShortText.Font = value; 
+        }
 
         /// <summary>
         /// Resets the CommonShortTextFont property to its default value.

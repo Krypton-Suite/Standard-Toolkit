@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -18,8 +18,8 @@ namespace Krypton.Toolkit
     public class VisualContextMenu : VisualPopup
     {
         #region Instance Fields
-        private readonly KryptonContextMenu _contextMenu;
-        private IPalette _palette;
+        private readonly KryptonContextMenu? _contextMenu;
+        private PaletteBase? _palette;
         private readonly ContextMenuProvider _provider;
         private ViewDrawDocker _drawDocker;
         private readonly ViewLayoutStack _viewColumns;
@@ -36,7 +36,7 @@ namespace Krypton.Toolkit
         public VisualContextMenu(IContextMenuProvider provider,
                                  KryptonContextMenuCollection items,
                                  bool keyboardActivated)
-            : base(true)
+            : base(provider.ProviderStateCommon.HasShadow)
         {
             Redirector = provider.ProviderRedirector;
 
@@ -70,14 +70,14 @@ namespace Krypton.Toolkit
         /// <param name="enabled">Enabled state of the context menu.</param>
         /// <param name="keyboardActivated">Was the context menu activate by a keyboard action.</param>
         public VisualContextMenu(KryptonContextMenu contextMenu,
-                                 IPalette palette,
+                                 PaletteBase? palette,
                                  PaletteMode paletteMode,
-                                 PaletteRedirect redirector,
+                                 PaletteRedirect? redirector,
                                  PaletteRedirectContextMenu redirectorImages,
                                  KryptonContextMenuCollection items,
                                  bool enabled,
                                  bool keyboardActivated)
-            : base(true)
+            : base(contextMenu.StateCommon.HasShadow)
         {
             _contextMenu = contextMenu;
             Redirector = redirector;
@@ -196,7 +196,7 @@ namespace Krypton.Toolkit
             }
 
             // Find the horizontal position relative to screen rectangle
-            Point screenPt = Point.Empty;
+            var screenPt = Point.Empty;
             screenPt.X = horz switch
             {
                 KryptonContextMenuPositionH.After => screenRect.Right,
@@ -350,7 +350,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the palette redirector.
         /// </summary>
-        protected PaletteRedirect Redirector
+        protected PaletteRedirect? Redirector
         {
             [DebuggerStepThrough]
             get;
@@ -387,7 +387,7 @@ namespace Krypton.Toolkit
             base.OnLayout(levent);
 
             // Need a render context for accessing the renderer
-            using RenderContext context = new(this, null, ClientRectangle, Renderer);
+            using var context = new RenderContext(this, null, ClientRectangle, Renderer);
             // Grab a path that is the outside edge of the border
             Rectangle borderRect = ClientRectangle;
             GraphicsPath borderPath1 = Renderer.RenderStandardBorder.GetOutsideBorderPath(context, borderRect, _provider.ProviderStateCommon.ControlOuter.Border, VisualOrientation.Top, PaletteState.Normal);
@@ -419,15 +419,16 @@ namespace Krypton.Toolkit
                                bool keyboardActivated)
         {
             // Ask the top level collection to generate the child view elements
-            items.GenerateView(_provider, this, _viewColumns, true, true);
+            items.GenerateView(_provider, this, _viewColumns, true, true, NeedPaintDelegate);
 
             // Create the control panel canvas
-            ViewDrawCanvas mainBackground = new(_provider.ProviderStateCommon.ControlInner.Back, _provider.ProviderStateCommon.ControlInner.Border, VisualOrientation.Top)
+            var mainBackground = new ViewDrawCanvas(_provider.ProviderStateCommon.ControlInner.Back,
+                _provider.ProviderStateCommon.ControlInner.Border, VisualOrientation.Top)
             {
                 _viewColumns
             };
 
-            ViewLayoutDocker layoutDocker = new();
+            var layoutDocker = new ViewLayoutDocker();
             Padding outerPadding = _provider.ProviderRedirector.GetMetricPadding(PaletteState.Normal, PaletteMetricPadding.ContextMenuItemOuter);
             layoutDocker.Add(new ViewLayoutSeparator(outerPadding.Top), ViewDockStyle.Top);
             layoutDocker.Add(new ViewLayoutSeparator(outerPadding.Bottom), ViewDockStyle.Bottom);
@@ -458,7 +459,7 @@ namespace Krypton.Toolkit
             try
             {
                 // Find the preferred size which fits exactly the calculated contents size
-                using ViewLayoutContext context = new(this, Renderer);
+                using var context = new ViewLayoutContext(this, Renderer);
                 return ViewManager.Root.GetPreferredSize(context);
             }
             finally
@@ -468,7 +469,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void SetPalette(IPalette palette)
+        private void SetPalette(PaletteBase? palette)
         {
             if (palette != _palette)
             {
@@ -499,11 +500,9 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnBaseChanged(object sender, EventArgs e)
-        {
+        private void OnBaseChanged(object sender, EventArgs e) =>
             // Change in base renderer or base palette require we fetch the latest renderer
             Renderer = _palette.GetRenderer();
-        }
 
         private void OnProviderClosing(object sender, CancelEventArgs e) => _contextMenu?.OnClosing(e);
 
@@ -512,7 +511,7 @@ namespace Krypton.Toolkit
         private void OnProviderClose(object sender, EventArgs e)
         {
             // Unhook from event source
-            ContextMenuProvider provider = (ContextMenuProvider)sender;
+            var provider = (ContextMenuProvider)sender;
             _provider.Dispose -= OnProviderClose;
 
             // Kill this poup window

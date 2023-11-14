@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -17,9 +17,9 @@ namespace Krypton.Toolkit
     /// </summary>
     [ToolboxItem(true)]
     [ToolboxBitmap(typeof(KryptonCheckButton), "ToolboxBitmaps.KryptonCheckButton.bmp")]
-    [DefaultEvent(@"Click")]
-    [DefaultProperty(@"Text")]
-    [Designer(@"Krypton.Toolkit.KryptonCheckButtonDesigner, Krypton.Toolkit")]
+    [DefaultEvent(nameof(Click))]
+    [DefaultProperty(nameof(Text))]
+    [Designer(typeof(KryptonCheckButtonDesigner))]
     [DesignerCategory(@"code")]
     [Description(@"Toggles checked state when user clicks button.")]
     public class KryptonCheckButton : KryptonButton
@@ -40,14 +40,14 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Property Changing")]
         [Description(@"Occurs whenever the Checked property is about to change.")]
-        public event CancelEventHandler CheckedChanging;
+        public event CancelEventHandler? CheckedChanging;
 
         /// <summary>
         /// Occurs when the value of the Checked property has changed.
         /// </summary>
         [Category(@"Property Changed")]
         [Description(@"Occurs whenever the Checked property has changed.")]
-        public event EventHandler CheckedChanged;
+        public event EventHandler? CheckedChanged;
         #endregion
 
         #region Identity
@@ -121,7 +121,7 @@ namespace Krypton.Toolkit
                 if (value != ViewDrawButton.Checked)
                 {
                     // Generate a pre-change event allowing it to be cancelled
-                    CancelEventArgs ce = new();
+                    var ce = new CancelEventArgs();
                     OnCheckedChanging(ce);
 
                     // If the change is allowed to occur
@@ -158,7 +158,7 @@ namespace Krypton.Toolkit
         [Category(@"Behavior")]
         [Description(@"Command associated with the check button.")]
         [DefaultValue(null)]
-        public override IKryptonCommand KryptonCommand
+        public override IKryptonCommand? KryptonCommand
         {
             get => base.KryptonCommand;
 
@@ -260,7 +260,7 @@ namespace Krypton.Toolkit
         {
             Checked = e.PropertyName switch
             {
-                "CheckState" => KryptonCommand.Checked,
+                nameof(CheckState) => KryptonCommand.Checked,
                 _ => Checked
             };
 

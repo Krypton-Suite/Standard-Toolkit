@@ -5,7 +5,9 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  
+ *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
  */
 #endregion
@@ -23,15 +25,15 @@ namespace Krypton.Ribbon
         private bool _captured;
         private bool _mouseOver;
         private readonly ViewBase _target;
-        private NeedPaintHandler _needPaint;
-        private readonly System.Windows.Forms.Timer _repeatTimer;
+        private NeedPaintHandler? _needPaint;
+        private readonly Timer _repeatTimer;
         #endregion
 
         #region Events
         /// <summary>
         /// Occurs when the mouse is used to left click the target.
         /// </summary>
-        public event MouseEventHandler Click;
+        public event MouseEventHandler? Click;
         #endregion
 
         #region Identity
@@ -41,8 +43,8 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Reference to owning control.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
         /// <param name="target">Target for state changes.</param>
-        public RepeatButtonController(KryptonRibbon ribbon,
-                                      ViewBase target,
+        public RepeatButtonController([DisallowNull] KryptonRibbon ribbon,
+                                      [DisallowNull] ViewBase target,
                                       NeedPaintHandler needPaint)
         {
             Debug.Assert(ribbon != null);
@@ -55,7 +57,7 @@ namespace Krypton.Ribbon
             // Store the provided paint notification delegate
             NeedPaint = needPaint;
 
-            _repeatTimer = new System.Windows.Forms.Timer
+            _repeatTimer = new Timer
             {
                 Interval = 50
             };
@@ -67,7 +69,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets the need paint delegate for notifying paint requests.
         /// </summary>
-        public NeedPaintHandler NeedPaint
+        public NeedPaintHandler? NeedPaint
         {
             get => _needPaint;
 
@@ -85,10 +87,7 @@ namespace Krypton.Ribbon
         /// Fires the NeedPaint event.
         /// </summary>
         /// <param name="needLayout">Does the palette change require a layout.</param>
-        public void PerformNeedPaint(bool needLayout)
-        {
-            OnNeedPaint(needLayout);
-        }
+        public void PerformNeedPaint(bool needLayout) => OnNeedPaint(needLayout);
         #endregion
 
         #region Mouse Notifications
@@ -200,7 +199,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="c">Reference to the source control instance.</param>
         /// <param name="next">Reference to view that is next to have the mouse.</param>
-        public virtual void MouseLeave(Control c, ViewBase next)
+        public virtual void MouseLeave(Control c, ViewBase? next)
         {
             // Only if mouse is leaving all the children monitored by controller.
             if (!_target.ContainsRecurse(next))
@@ -292,10 +291,7 @@ namespace Krypton.Ribbon
         /// Raises the NeedPaint event.
         /// </summary>
         /// <param name="needLayout">Does the palette change require a layout.</param>
-        protected virtual void OnNeedPaint(bool needLayout)
-        {
-            _needPaint?.Invoke(this, new NeedLayoutEventArgs(needLayout));
-        }
+        protected virtual void OnNeedPaint(bool needLayout) => _needPaint?.Invoke(this, new NeedLayoutEventArgs(needLayout));
 
         /// <summary>
         /// Raises the Click event.
@@ -331,17 +327,15 @@ namespace Krypton.Ribbon
                         return (CommonHelper.ActiveFloatingWindow != null) ||
                                ((topForm != null) && 
                                 (topForm.ContainsFocus ||
-                                ((topForm.Parent != null) && topForm.Visible && topForm.Enabled)));
+                                ((topForm.Parent != null) && topForm is { Visible: true, Enabled: true })));
                     }
                 }
             }
         }
 
-        private void OnRepeatTick(object sender, EventArgs e)
-        {
+        private void OnRepeatTick(object sender, EventArgs e) =>
             // Keep generating clicks
             OnClick(new MouseEventArgs(MouseButtons.Left, 1, 0, 0, 0));
-        }
         #endregion
     }
 }

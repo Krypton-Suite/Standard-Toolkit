@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -19,8 +19,8 @@ namespace Krypton.Toolkit
     [ToolboxBitmap(typeof(KryptonContextMenuRadioButton), "ToolboxBitmaps.KryptonRadioButton.bmp")]
     [DesignerCategory(@"code")]
     [DesignTimeVisible(false)]
-    [DefaultProperty(@"Text")]
-    [DefaultEvent(@"CheckedChanged")]
+    [DefaultProperty(nameof(Text))]
+    [DefaultEvent(nameof(CheckedChanged))]
     public class KryptonContextMenuRadioButton : KryptonContextMenuItemBase
     {
         #region Instance Fields
@@ -29,11 +29,11 @@ namespace Krypton.Toolkit
         private bool _checked;
         private bool _enabled;
         private string _text;
-        private string _extraText;
-        private Image _image;
+        private string? _extraText;
+        private Image? _image;
         private Color _imageTransparentColor;
         private readonly PaletteContentInheritRedirect _stateCommonRedirect;
-        private KryptonCommand _command;
+        private KryptonCommand? _command;
         private LabelStyle _style;
         #endregion
 
@@ -43,14 +43,14 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Action")]
         [Description(@"Occurs when the radio button is clicked.")]
-        public event EventHandler Click;
+        public event EventHandler? Click;
 
         /// <summary>
         /// Occurs when the value of the Checked property has changed.
         /// </summary>
         [Category(@"Misc")]
         [Description(@"Occurs whenever the Checked property has changed.")]
-        public event EventHandler CheckedChanged;
+        public event EventHandler? CheckedChanged;
         #endregion
 
         #region Identity
@@ -58,7 +58,7 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the KryptonContextMenuRadioButton class.
         /// </summary>
         public KryptonContextMenuRadioButton()
-            : this(@"RadioButton")
+            : this(nameof(RadioButton))
         {
         }
 
@@ -116,7 +116,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public override KryptonContextMenuItemBase this[int index] => null;
+        public override KryptonContextMenuItemBase? this[int index] => null;
 
         /// <summary>
         /// Test for the provided shortcut and perform relevant action if a match is found.
@@ -138,8 +138,11 @@ namespace Krypton.Toolkit
                                               object parent,
                                               ViewLayoutStack columns,
                                               bool standardStyle,
-                                              bool imageColumn) =>
-            new ViewDrawMenuRadioButton(provider, this);
+                                              bool imageColumn)
+        {
+            SetProvider(provider);
+            return new ViewDrawMenuRadioButton(provider, this);
+        }
 
         /// <summary>
         /// Gets and sets if clicking the radio button automatically closes the context menu.
@@ -168,7 +171,7 @@ namespace Krypton.Toolkit
         [KryptonPersist]
         [Category(@"Appearance")]
         [Description(@"Main radio button text.")]
-        [DefaultValue(@"RadioButton")]
+        [DefaultValue(nameof(RadioButton))]
         [Localizable(true)]
         public string Text
         {
@@ -192,7 +195,7 @@ namespace Krypton.Toolkit
         [Description(@"Radio button extra text.")]
         [DefaultValue(null)]
         [Localizable(true)]
-        public string ExtraText
+        public string? ExtraText
         {
             get => _extraText;
 
@@ -214,7 +217,7 @@ namespace Krypton.Toolkit
         [Description(@"Radio button image.")]
         [DefaultValue(null)]
         [Localizable(true)]
-        public Image Image
+        public Image? Image
         {
             get => _image;
 
@@ -235,6 +238,7 @@ namespace Krypton.Toolkit
         [Category(@"Appearance")]
         [Description(@"Radio button image color to make transparent.")]
         [Localizable(true)]
+        [DisallowNull]
         public Color ImageTransparentColor
         {
             get => _imageTransparentColor;
@@ -249,7 +253,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeImageTransparentColor() => (_imageTransparentColor == null) || !_imageTransparentColor.Equals(Color.Empty);
+        private bool ShouldSerializeImageTransparentColor() => !_imageTransparentColor.Equals(Color.Empty);
 
         /// <summary>
         /// Gets and sets the radio button label style.
@@ -257,7 +261,7 @@ namespace Krypton.Toolkit
         [KryptonPersist]
         [Category(@"Visuals")]
         [Description(@"Radio button label style.")]
-        [DefaultValue(typeof(LabelStyle), "NormalPanel")]
+        [DefaultValue(LabelStyle.NormalPanel)]
         public LabelStyle LabelStyle
         {
             get => _style;
@@ -401,7 +405,8 @@ namespace Krypton.Toolkit
         [Category(@"Behavior")]
         [Description(@"Command associated with the menu check box.")]
         [DefaultValue(null)]
-        public virtual KryptonCommand KryptonCommand
+        [AllowNull]
+        public virtual KryptonCommand? KryptonCommand
         {
             get => _command;
 
@@ -451,7 +456,7 @@ namespace Krypton.Toolkit
 
         internal PaletteRedirectRadioButton StateRadioButtonImages { get; }
 
-        internal void SetPaletteRedirect(PaletteRedirect redirector)
+        internal void SetPaletteRedirect(PaletteRedirect? redirector)
         {
             _stateCommonRedirect.SetRedirector(redirector);
             StateRadioButtonImages.Target = redirector;
@@ -459,10 +464,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Private
-        private void SetRadioButtonStyle(LabelStyle style)
-        {
-            _stateCommonRedirect.Style = CommonHelper.ContentStyleFromLabelStyle(style);
-        }
+        private void SetRadioButtonStyle(LabelStyle style) => _stateCommonRedirect.Style = CommonHelper.ContentStyleFromLabelStyle(style);
         #endregion
     }
 }

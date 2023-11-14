@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -36,16 +36,16 @@ namespace Krypton.Toolkit
         /// <param name="getRenderer">Delegate for returning a tool strip renderer.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
         public ButtonSpecManagerDraw(Control control,
-                                     PaletteRedirect redirector,
-                                     ButtonSpecCollectionBase variableSpecs,
-                                     ButtonSpecCollectionBase fixedSpecs,
+            [DisallowNull] PaletteRedirect? redirector,
+                                     ButtonSpecCollectionBase? variableSpecs,
+                                     ButtonSpecCollectionBase? fixedSpecs,
                                      ViewDrawDocker[] viewDockers,
                                      IPaletteMetric[] viewMetrics,
                                      PaletteMetricInt[] viewMetricInt,
                                      PaletteMetricPadding[] viewMetricPaddings,
                                      GetToolStripRenderer getRenderer,
                                      NeedPaintHandler needPaint)
-            : this(control, redirector, variableSpecs, fixedSpecs, 
+            : this(control, redirector, variableSpecs, fixedSpecs,
                    viewDockers, viewMetrics, viewMetricInt, viewMetricInt,
                    viewMetricPaddings, getRenderer, needPaint)
         {
@@ -66,17 +66,17 @@ namespace Krypton.Toolkit
         /// <param name="getRenderer">Delegate for returning a tool strip renderer.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
         public ButtonSpecManagerDraw(Control control,
-                                     PaletteRedirect redirector,
-                                     ButtonSpecCollectionBase variableSpecs,
-                                     ButtonSpecCollectionBase fixedSpecs,
-                                     ViewDrawDocker[] viewDockers,
+                                     [DisallowNull] PaletteRedirect? redirector,
+                                     ButtonSpecCollectionBase? variableSpecs,
+                                     ButtonSpecCollectionBase? fixedSpecs,
+                                     [DisallowNull] ViewDrawDocker[] viewDockers,
                                      IPaletteMetric[] viewMetrics,
                                      PaletteMetricInt[] viewMetricIntOutside,
                                      PaletteMetricInt[] viewMetricIntInside,
                                      PaletteMetricPadding[] viewMetricPaddings,
                                      GetToolStripRenderer getRenderer,
                                      NeedPaintHandler needPaint)
-            : base(control, redirector, variableSpecs, fixedSpecs, 
+            : base(control, redirector, variableSpecs, fixedSpecs,
                    viewMetrics, viewMetricIntOutside, viewMetricIntInside,
                    viewMetricPaddings, getRenderer, needPaint)
         {
@@ -121,7 +121,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="i">Index.</param>
         /// <returns>View docker reference; otherwise null.</returns>
-        protected override ViewBase IndexDocker(int i) => _viewDockers[i];
+        protected override ViewBase? IndexDocker(int i) => _viewDockers[i];
 
         /// <summary>
         /// Gets the orientation of the docker at the specified index.
@@ -135,7 +135,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="i">Index.</param>
         /// <returns>View content instance.</returns>
-        protected override ViewDrawContent GetDockerForeground(int i)
+        protected override ViewDrawContent? GetDockerForeground(int i)
         {
             // Get the indexed docker
             ViewDrawDocker viewDocker = _viewDockers[i];
@@ -173,7 +173,7 @@ namespace Krypton.Toolkit
             // If using spacers, then insert before the first spacer
             if (usingSpacers)
             {
-                for(var j=0; j<insertIndex; j++)
+                for (var j = 0; j < insertIndex; j++)
                 {
                     if (viewDocker[j] is ViewLayoutMetricSpacer)
                     {
@@ -182,7 +182,7 @@ namespace Krypton.Toolkit
                     }
                 }
             }
-            
+
             viewDocker.Insert(insertIndex, view);
             viewDocker.SetDock(view, dockStyle);
         }
@@ -193,8 +193,8 @@ namespace Krypton.Toolkit
         /// <param name="i">Index of docker.</param>
         /// <param name="spacerL">Spacer for the left side.</param>
         /// <param name="spacerR">Spacer for the right side.</param>
-        protected override void AddSpacersToDocker(int i, 
-                                                   ViewLayoutMetricSpacer spacerL, 
+        protected override void AddSpacersToDocker(int i,
+                                                   ViewLayoutMetricSpacer spacerL,
                                                    ViewLayoutMetricSpacer spacerR)
         {
             // Get the indexed instance

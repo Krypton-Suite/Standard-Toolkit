@@ -5,7 +5,9 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  
+ *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
  */
 #endregion
@@ -18,7 +20,7 @@ namespace Krypton.Ribbon
     internal class ViewDrawRibbonGalleryButton : ViewLeaf, IContentValues
     {
         #region Instance Fields
-        private readonly IPalette _palette;
+        private readonly PaletteBase? _palette;
         private readonly GalleryImages _images;
         private readonly GalleryButtonController _controller;
         private readonly PaletteRibbonGalleryButton _button;
@@ -26,7 +28,7 @@ namespace Krypton.Ribbon
         private readonly PaletteBorderToPalette _paletteBorder;
         private readonly PaletteContentToPalette _paletteContent;
         private readonly PaletteRelativeAlign _alignment;
-        private IDisposable _mementoBack;
+        private IDisposable? _mementoBack;
         private IDisposable _mementoContent;
         private readonly NeedPaintHandler _needPaint;
         #endregion
@@ -35,7 +37,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Occurs when the mouse is used to left click the target.
         /// </summary>
-        public event MouseEventHandler Click;
+        public event MouseEventHandler? Click;
         #endregion
 
         #region Identity
@@ -47,7 +49,7 @@ namespace Krypton.Ribbon
         /// <param name="button">Button content to display.</param>
         /// <param name="images">Button images.</param>
         /// <param name="needPaint">Paint event delegate.</param>
-        public ViewDrawRibbonGalleryButton(IPalette palette,
+        public ViewDrawRibbonGalleryButton(PaletteBase? palette,
                                            PaletteRelativeAlign alignment,
                                            PaletteRibbonGalleryButton button,
                                            GalleryImages images,
@@ -63,7 +65,7 @@ namespace Krypton.Ribbon
             _paletteContent = new PaletteContentToPalette(palette, PaletteContentStyle.ButtonGallery);
             _controller = new GalleryButtonController(this, needPaint, alignment != PaletteRelativeAlign.Far);
             _controller.Click += OnButtonClick;
-            MouseController = _controller;
+            base.MouseController = _controller;
         }
 
         /// <summary>
@@ -72,7 +74,7 @@ namespace Krypton.Ribbon
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            @"ViewDrawRibbonGalleryButton:" + Id;
+            $@"ViewDrawRibbonGalleryButton:{Id}";
 
         /// <summary>
         /// Clean up any resources being used.
@@ -114,14 +116,14 @@ namespace Krypton.Ribbon
         /// Perform a layout of the elements.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override void Layout(ViewLayoutContext context)
+        public override void Layout([DisallowNull] ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 
             // We take on all the available display area
             ClientRectangle = context.DisplayRectangle;
 
-            // Dispose of any current memnto
+            // Dispose of any current memento
             if (_mementoContent != null)
             {
                 _mementoContent.Dispose();
@@ -181,8 +183,8 @@ namespace Krypton.Ribbon
                 Color borderColor = _paletteBorder.GetBorderColor1(State);
 
                 // Draw the border last to overlap the background
-                using AntiAlias aa = new(context.Graphics);
-                using Pen borderPen = new(borderColor);
+                using var aa = new AntiAlias(context.Graphics);
+                using var borderPen = new Pen(borderColor);
                 context.Graphics.DrawPath(borderPen, borderPath);
             }
         }
@@ -192,16 +194,13 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Force the mouse to leave the button.
         /// </summary>
-        public void ForceLeave()
-        {
-            _controller.ForceLeave();
-        }
+        public void ForceLeave() => _controller.ForceLeave();
         #endregion
 
         #region Implementation
         private GraphicsPath CreateBorderPath(Rectangle rect)
         {
-            GraphicsPath path = new();
+            var path = new GraphicsPath();
 
             switch (_alignment)
             {
@@ -239,10 +238,10 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="state">The state for which the image is needed.</param>
         /// <returns>Image value.</returns>
-        public virtual Image GetImage(PaletteState state)
+        public virtual Image? GetImage(PaletteState state)
         {
             // Find the correct collection of images
-            GalleryButtonImages images = null;
+            GalleryButtonImages? images = null;
             switch (_button)
             {
                 case PaletteRibbonGalleryButton.Up:
@@ -257,27 +256,26 @@ namespace Krypton.Ribbon
             }
 
             // Get image based on state
-            Image image = null;
-            switch (State)
+            Image? image = null;
+            if (images != null)
             {
-                case PaletteState.Disabled:
-                    image = images.Disabled;
-                    break;
-                case PaletteState.Normal:
-                    image = images.Normal;
-                    break;
-                case PaletteState.Tracking:
-                    image = images.Tracking;
-                    break;
-                case PaletteState.Pressed:
-                    image = images.Pressed;
-                    break;
-            }
-
-            // If no image then get the common image
-            if (image == null)
-            {
-                image = images.Common;
+                switch (State)
+                {
+                    case PaletteState.Disabled:
+                        image = images.Disabled;
+                        break;
+                    case PaletteState.Normal:
+                        image = images.Normal;
+                        break;
+                    case PaletteState.Tracking:
+                        image = images.Tracking;
+                        break;
+                    case PaletteState.Pressed:
+                        image = images.Pressed;
+                        break;
+                }
+                // If no image then get the common image
+                image ??= images.Common;
             }
 
             // If still no image then get is from the palette
@@ -304,10 +302,7 @@ namespace Krypton.Ribbon
         #endregion
 
         #region Private
-        private void OnButtonClick(object sender, MouseEventArgs e)
-        {
-            Click?.Invoke(this, e);
-        }
+        private void OnButtonClick(object sender, MouseEventArgs e) => Click?.Invoke(this, e);
         #endregion
     }
 }

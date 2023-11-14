@@ -5,7 +5,9 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  
+ *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
  */
 #endregion
@@ -23,7 +25,7 @@ namespace Krypton.Ribbon
                                                    IBindableComponent
     {
         #region Instance Fields
-        private object _tag;
+        private object? _tag;
 
 #pragma warning disable CS1591
 #pragma warning disable CS3008 // Identifier is not CLS-compliant
@@ -50,7 +52,7 @@ namespace Krypton.Ribbon
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public virtual KryptonRibbon Ribbon { get; set; }
+        public virtual KryptonRibbon? Ribbon { get; set; }
 
         /// <summary>
         /// Gets access to the owning ribbon tab.
@@ -58,7 +60,7 @@ namespace Krypton.Ribbon
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public virtual KryptonRibbonTab RibbonTab { get; set; }
+        public virtual KryptonRibbonTab? RibbonTab { get; set; }
 
         /// <summary>
         /// Gets and sets the owning ribbon container instance.
@@ -66,7 +68,7 @@ namespace Krypton.Ribbon
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public virtual KryptonRibbonGroupContainer RibbonContainer { get; set; }
+        public virtual KryptonRibbonGroupContainer? RibbonContainer { get; set; }
 
         /// <summary>
         /// Gets the visible state of the item.
@@ -126,13 +128,14 @@ namespace Krypton.Ribbon
         [Description(@"User-defined data associated with the object.")]
         [TypeConverter(typeof(StringConverter))]
         [Bindable(true)]
-        public object Tag
+        [DefaultValue(null)]
+        public object? Tag
         {
             get => _tag;
 
             set
             {
-                if (value != _tag)
+                if (value != null && value != _tag)
                 {
                     _tag = value;
                 }
@@ -141,10 +144,7 @@ namespace Krypton.Ribbon
 
         private bool ShouldSerializeTag() => Tag != null;
 
-        private void ResetTag()
-        {
-            Tag = null;
-        }
+        private void ResetTag() => Tag = null;
 
         /// <summary>
         /// Gets access to the Wrapped Controls Tooltips.
@@ -152,10 +152,10 @@ namespace Krypton.Ribbon
         [Category(@"ToolTip")]
         [Description(@"Control ToolTip Text")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public abstract ToolTipValues ToolTipValues 
-        { 
+        public abstract ToolTipValues ToolTipValues
+        {
             // Return base objects tooltip
-             get;
+            get;
         }
 
         private bool ShouldSerializeToolTipValues() => !ToolTipValues.IsDefault;
@@ -175,7 +175,7 @@ namespace Krypton.Ribbon
         {
             get
             {
-                KryptonRibbonGroupContainer parent = RibbonContainer;
+                KryptonRibbonGroupContainer? parent = RibbonContainer;
 
                 // Search up chain until we find the top
                 while (parent != null)
@@ -201,17 +201,18 @@ namespace Krypton.Ribbon
         #endregion
 
         #region IBindableComponent Members
-        private BindingContext bindingContext;
-        private ControlBindingsCollection dataBindings;
+        private BindingContext? _bindingContext;
+        private ControlBindingsCollection? _dataBindings;
 
         /// <summary>
         /// 
         /// </summary>
         [Browsable(false)]
+        [AllowNull]
         public BindingContext BindingContext
         {
-            get => bindingContext ??= new BindingContext();
-            set => bindingContext = value;
+            get => _bindingContext ??= new BindingContext();
+            set => _bindingContext = value;
         }
 
         /// <summary>
@@ -222,8 +223,8 @@ namespace Krypton.Ribbon
         [Description(@"ControlBindings")]
         [RefreshProperties(RefreshProperties.All)]
         [ParenthesizePropertyName(true)]
-        public ControlBindingsCollection DataBindings => dataBindings ??= new ControlBindingsCollection(this);
+        public ControlBindingsCollection DataBindings => _dataBindings ??= new ControlBindingsCollection(this);
 
         #endregion
     }
-    }
+}

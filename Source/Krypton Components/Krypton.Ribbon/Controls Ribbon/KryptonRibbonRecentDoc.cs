@@ -5,7 +5,9 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  
+ *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
  */
 #endregion
@@ -17,13 +19,13 @@ namespace Krypton.Ribbon
     /// </summary>
     [ToolboxItem(false)]
     [ToolboxBitmap(typeof(KryptonRibbonRecentDoc), "ToolboxBitmaps.KryptonRibbonRecentDoc.png")]
-    [DefaultProperty("Text")]
+    [DefaultProperty(nameof(Text))]
     [DesignerCategory(@"code")]
     [DesignTimeVisible(false)]
     public class KryptonRibbonRecentDoc : Component
     {
         #region Instance Fields
-        private Image _image;
+        private Image? _image;
         private Color _imageTransparentColor;
         private string _text;
         private string _extraText;
@@ -36,7 +38,7 @@ namespace Krypton.Ribbon
         /// </summary>
         [Category(@"Action")]
         [Description(@"Occurs when the recent document item is clicked.")]
-        public event EventHandler Click;
+        public event EventHandler? Click;
         #endregion
 
         #region Identity
@@ -51,7 +53,7 @@ namespace Krypton.Ribbon
             _imageTransparentColor = Color.Empty;
         }
         #endregion
-        
+
         #region Public
         /// <summary>
         /// Gets and sets the main text for the recent document entry.
@@ -71,7 +73,7 @@ namespace Krypton.Ribbon
                 // We never allow an empty text value
                 if (string.IsNullOrEmpty(value))
                 {
-                    value = "Recent Document";
+                    value = @"Recent Document";
                 }
 
                 if (value != _text)
@@ -112,7 +114,7 @@ namespace Krypton.Ribbon
         [Description(@"Image for the recent document entry.")]
         [RefreshProperties(RefreshProperties.All)]
         [DefaultValue(null)]
-        public Image Image
+        public Image? Image
         {
             get => _image;
 
@@ -168,18 +170,12 @@ namespace Krypton.Ribbon
 
         private bool ShouldSerializeTag() => Tag != null;
 
-        private void ResetTag()
-        {
-            Tag = null;
-        }
-        
+        private void ResetTag() => Tag = null;
+
         /// <summary>
         /// Generates a Click event for the component.
         /// </summary>
-        public void PerformClick()
-        {
-            OnClick(EventArgs.Empty);
-        }
+        public void PerformClick() => OnClick(EventArgs.Empty);
         #endregion
 
         #region Protected
@@ -187,10 +183,7 @@ namespace Krypton.Ribbon
         /// Raises the Click event.
         /// </summary>
         /// <param name="e">An EventArgs that contains the event data.</param>
-        protected virtual void OnClick(EventArgs e)
-        {
-            Click?.Invoke(this, e);
-        }
+        protected virtual void OnClick(EventArgs e) => Click?.Invoke(this, e);
         #endregion
     }
 }

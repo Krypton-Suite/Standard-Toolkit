@@ -5,8 +5,8 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved.
- *
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  
  */
 #endregion
 
@@ -18,7 +18,7 @@ namespace Krypton.Ribbon
         private IDesignerHost _designerHost;
         private IComponentChangeService _changeService;
         private KryptonRibbonGroupTriple _ribbonTriple;
-        private DesignerVerbCollection _verbs;
+        private DesignerVerbCollection? _verbs;
         private DesignerVerb _toggleHelpersVerb;
         private DesignerVerb _moveFirstVerb;
         private DesignerVerb _movePrevVerb;
@@ -38,9 +38,10 @@ namespace Krypton.Ribbon
         private DesignerVerb _addDomainUpDownVerb;
         private DesignerVerb _addDateTimePickerVerb;
         private DesignerVerb _addTrackBarVerb;
+        private DesignerVerb _addThemeComboBoxVerb;
         private DesignerVerb _clearItemsVerb;
         private DesignerVerb _deleteTripleVerb;
-        private ContextMenuStrip _cms;
+        private ContextMenuStrip? _cms;
         private ToolStripMenuItem _toggleHelpersMenu;
         private ToolStripMenuItem _visibleMenu;
         private ToolStripMenuItem _maximumSizeMenu;
@@ -70,6 +71,7 @@ namespace Krypton.Ribbon
         private ToolStripMenuItem _addDomainUpDownMenu;
         private ToolStripMenuItem _addDateTimePickerMenu;
         private ToolStripMenuItem _addTrackBarMenu;
+        private ToolStripMenuItem _addThemeComboBoxMenu;
         private ToolStripMenuItem _clearItemsMenu;
         private ToolStripMenuItem _deleteTripleMenu;
         #endregion
@@ -88,7 +90,7 @@ namespace Krypton.Ribbon
         /// Initializes the designer with the specified component.
         /// </summary>
         /// <param name="component">The IComponent to associate the designer with.</param>
-        public override void Initialize(IComponent component)
+        public override void Initialize([DisallowNull] IComponent component)
         {
             // Let base class do standard stuff
             base.Initialize(component);
@@ -113,6 +115,7 @@ namespace Krypton.Ribbon
                 _ribbonTriple.DesignTimeAddDomainUpDown += OnAddDomainUpDown;
                 _ribbonTriple.DesignTimeAddDateTimePicker += OnAddDateTimePicker;
                 _ribbonTriple.DesignTimeAddTrackBar += OnAddTrackBar;
+                _ribbonTriple.DesignTimeAddThemeComboBox += OnAddThemeComboBox;
                 _ribbonTriple.DesignTimeContextMenu += OnContextMenu;
             }
 
@@ -132,7 +135,7 @@ namespace Krypton.Ribbon
         {
             get
             {
-                ArrayList compound = new(base.AssociatedComponents);
+                var compound = new ArrayList(base.AssociatedComponents);
                 compound.AddRange(_ribbonTriple.Items);
                 return compound;
             }
@@ -177,6 +180,7 @@ namespace Krypton.Ribbon
                     _ribbonTriple.DesignTimeAddDomainUpDown -= OnAddDomainUpDown;
                     _ribbonTriple.DesignTimeAddDateTimePicker -= OnAddDateTimePicker;
                     _ribbonTriple.DesignTimeAddTrackBar -= OnAddTrackBar;
+                    _ribbonTriple.DesignTimeAddThemeComboBox -= OnAddThemeComboBox;
                     _ribbonTriple.DesignTimeContextMenu -= OnContextMenu;
                     _changeService.ComponentRemoving -= OnComponentRemoving;
                     _changeService.ComponentChanged -= OnComponentChanged;
@@ -216,24 +220,29 @@ namespace Krypton.Ribbon
                 _addDomainUpDownVerb = new DesignerVerb(@"Add DomainUpDown", OnAddDomainUpDown);
                 _addDateTimePickerVerb = new DesignerVerb(@"Add DateTimePicker", OnAddDateTimePicker);
                 _addTrackBarVerb = new DesignerVerb(@"Add TrackBar", OnAddTrackBar);
+                _addThemeComboBoxVerb = new DesignerVerb(@"Add ThemeComboBox", OnAddThemeComboBox);
                 _clearItemsVerb = new DesignerVerb(@"Clear Items", OnClearItems);
                 _deleteTripleVerb = new DesignerVerb(@"Delete Triple", OnDeleteTriple);
-                _verbs.AddRange(new[] { _toggleHelpersVerb, _moveFirstVerb, _movePrevVerb, _moveNextVerb, _moveLastVerb,
-                                                     _addButtonVerb, 
-                                                     _addCheckBoxVerb,
-                                                     _addColorButtonVerb, 
-                                                     _addComboBoxVerb, 
-                                                     _addCustomControlVerb, 
-                                                     _addDateTimePickerVerb, 
-                                                     _addDomainUpDownVerb, 
-                                                     _addLabelVerb, 
-                                                     _addMaskedTextBoxVerb,
-                                                     _addNumericUpDownVerb, 
-                                                     _addRadioButtonVerb, 
-                                                     _addRichTextBoxVerb, 
-                                                     _addTextBoxVerb, 
-                                                     _addTrackBarVerb, 
-                                                     _clearItemsVerb, _deleteTripleVerb });
+                _verbs.AddRange(new[]
+                {
+                    _toggleHelpersVerb, _moveFirstVerb, _movePrevVerb, _moveNextVerb, _moveLastVerb,
+                    _addButtonVerb,
+                    _addCheckBoxVerb,
+                    _addColorButtonVerb,
+                    _addComboBoxVerb,
+                    _addCustomControlVerb,
+                    _addDateTimePickerVerb,
+                    _addDomainUpDownVerb,
+                    _addLabelVerb,
+                    _addMaskedTextBoxVerb,
+                    _addNumericUpDownVerb,
+                    _addRadioButtonVerb,
+                    _addRichTextBoxVerb,
+                    _addTextBoxVerb,
+                    _addTrackBarVerb,
+                    _addThemeComboBoxVerb,
+                    _clearItemsVerb, _deleteTripleVerb
+                });
             }
 
             var moveFirst = false;
@@ -243,7 +252,7 @@ namespace Krypton.Ribbon
             var add = false;
             var clearItems = false;
 
-            if ((_ribbonTriple?.Ribbon != null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
+            if ((_ribbonTriple.RibbonGroup != null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
             {
                 moveFirst = _ribbonTriple.RibbonGroup.Items.IndexOf(_ribbonTriple) > 0;
                 movePrev = _ribbonTriple.RibbonGroup.Items.IndexOf(_ribbonTriple) > 0;
@@ -271,13 +280,14 @@ namespace Krypton.Ribbon
             _addDomainUpDownVerb.Enabled = add;
             _addDateTimePickerVerb.Enabled = add;
             _addTrackBarVerb.Enabled = add;
+            _addTextBoxVerb.Enabled = add;
             _clearItemsVerb.Enabled = clearItems;
         }
 
         private void OnToggleHelpers(object sender, EventArgs e)
         {
             // Invert the current toggle helper mode
-            if (_ribbonTriple?.Ribbon != null)
+            if (_ribbonTriple.Ribbon != null)
             {
                 _ribbonTriple.Ribbon.InDesignHelperMode = !_ribbonTriple.Ribbon.InDesignHelperMode;
             }
@@ -285,7 +295,7 @@ namespace Krypton.Ribbon
 
         private void OnMoveFirst(object sender, EventArgs e)
         {
-            if ((_ribbonTriple?.Ribbon != null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
+            if ((_ribbonTriple.RibbonGroup != null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
             {
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupTriple MoveFirst");
@@ -315,7 +325,7 @@ namespace Krypton.Ribbon
 
         private void OnMovePrevious(object sender, EventArgs e)
         {
-            if ((_ribbonTriple?.Ribbon != null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
+            if ((_ribbonTriple.RibbonGroup != null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
             {
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupTriple MovePrevious");
@@ -347,7 +357,7 @@ namespace Krypton.Ribbon
 
         private void OnMoveNext(object sender, EventArgs e)
         {
-            if ((_ribbonTriple?.Ribbon != null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
+            if ((_ribbonTriple.RibbonGroup != null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
             {
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupTriple MoveNext");
@@ -379,7 +389,7 @@ namespace Krypton.Ribbon
 
         private void OnMoveLast(object sender, EventArgs e)
         {
-            if ((_ribbonTriple?.Ribbon != null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
+            if ((_ribbonTriple.RibbonGroup != null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
             {
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupTriple MoveLast");
@@ -409,7 +419,7 @@ namespace Krypton.Ribbon
 
         private void OnAddButton(object sender, EventArgs e)
         {
-            if ((_ribbonTriple?.Ribbon != null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
+            if ((_ribbonTriple.RibbonGroup != null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
             {
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupTriple AddButton");
@@ -422,7 +432,7 @@ namespace Krypton.Ribbon
                     RaiseComponentChanging(propertyItems);
 
                     // Get designer to create a button item
-                    KryptonRibbonGroupButton button = (KryptonRibbonGroupButton)_designerHost.CreateComponent(typeof(KryptonRibbonGroupButton));
+                    var button = (KryptonRibbonGroupButton)_designerHost.CreateComponent(typeof(KryptonRibbonGroupButton));
                     _ribbonTriple.Items.Add(button);
 
                     RaiseComponentChanged(propertyItems, null, null);
@@ -437,7 +447,7 @@ namespace Krypton.Ribbon
 
         private void OnAddColorButton(object sender, EventArgs e)
         {
-            if ((_ribbonTriple?.Ribbon != null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
+            if ((_ribbonTriple.RibbonGroup != null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
             {
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupTriple AddColorButton");
@@ -450,7 +460,7 @@ namespace Krypton.Ribbon
                     RaiseComponentChanging(propertyItems);
 
                     // Get designer to create a button item
-                    KryptonRibbonGroupColorButton button = (KryptonRibbonGroupColorButton)_designerHost.CreateComponent(typeof(KryptonRibbonGroupColorButton));
+                    var button = (KryptonRibbonGroupColorButton)_designerHost.CreateComponent(typeof(KryptonRibbonGroupColorButton));
                     _ribbonTriple.Items.Add(button);
 
                     RaiseComponentChanged(propertyItems, null, null);
@@ -465,7 +475,7 @@ namespace Krypton.Ribbon
 
         private void OnAddCheckBox(object sender, EventArgs e)
         {
-            if ((_ribbonTriple?.Ribbon != null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
+            if ((_ribbonTriple.RibbonGroup != null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
             {
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupTriple AddCheckBox");
@@ -478,7 +488,7 @@ namespace Krypton.Ribbon
                     RaiseComponentChanging(propertyItems);
 
                     // Get designer to create a check box item.
-                    KryptonRibbonGroupCheckBox checkBox = (KryptonRibbonGroupCheckBox)_designerHost.CreateComponent(typeof(KryptonRibbonGroupCheckBox));
+                    var checkBox = (KryptonRibbonGroupCheckBox)_designerHost.CreateComponent(typeof(KryptonRibbonGroupCheckBox));
                     _ribbonTriple.Items.Add(checkBox);
 
                     RaiseComponentChanged(propertyItems, null, null);
@@ -493,7 +503,7 @@ namespace Krypton.Ribbon
 
         private void OnAddRadioButton(object sender, EventArgs e)
         {
-            if ((_ribbonTriple?.Ribbon != null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
+            if ((_ribbonTriple.RibbonGroup != null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
             {
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupTriple AddRadioButton");
@@ -506,7 +516,7 @@ namespace Krypton.Ribbon
                     RaiseComponentChanging(propertyItems);
 
                     // Get designer to create a radio button item.
-                    KryptonRibbonGroupRadioButton radioButton = (KryptonRibbonGroupRadioButton)_designerHost.CreateComponent(typeof(KryptonRibbonGroupRadioButton));
+                    var radioButton = (KryptonRibbonGroupRadioButton)_designerHost.CreateComponent(typeof(KryptonRibbonGroupRadioButton));
                     _ribbonTriple.Items.Add(radioButton);
 
                     RaiseComponentChanged(propertyItems, null, null);
@@ -521,7 +531,7 @@ namespace Krypton.Ribbon
 
         private void OnAddLabel(object sender, EventArgs e)
         {
-            if ((_ribbonTriple?.Ribbon != null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
+            if ((_ribbonTriple.RibbonGroup != null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
             {
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupTriple AddLabel");
@@ -534,7 +544,7 @@ namespace Krypton.Ribbon
                     RaiseComponentChanging(propertyItems);
 
                     // Get designer to create a label item
-                    KryptonRibbonGroupLabel label = (KryptonRibbonGroupLabel)_designerHost.CreateComponent(typeof(KryptonRibbonGroupLabel));
+                    var label = (KryptonRibbonGroupLabel)_designerHost.CreateComponent(typeof(KryptonRibbonGroupLabel));
                     _ribbonTriple.Items.Add(label);
 
                     RaiseComponentChanged(propertyItems, null, null);
@@ -549,7 +559,7 @@ namespace Krypton.Ribbon
 
         private void OnAddCustomControl(object sender, EventArgs e)
         {
-            if ((_ribbonTriple?.Ribbon != null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
+            if ((_ribbonTriple.RibbonGroup != null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
             {
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupTriple AddCustomControl");
@@ -562,7 +572,7 @@ namespace Krypton.Ribbon
                     RaiseComponentChanging(propertyItems);
 
                     // Get designer to create a custom control item
-                    KryptonRibbonGroupCustomControl cc = (KryptonRibbonGroupCustomControl)_designerHost.CreateComponent(typeof(KryptonRibbonGroupCustomControl));
+                    var cc = (KryptonRibbonGroupCustomControl)_designerHost.CreateComponent(typeof(KryptonRibbonGroupCustomControl));
                     _ribbonTriple.Items.Add(cc);
 
                     RaiseComponentChanged(propertyItems, null, null);
@@ -577,7 +587,7 @@ namespace Krypton.Ribbon
 
         private void OnAddTextBox(object sender, EventArgs e)
         {
-            if ((_ribbonTriple?.Ribbon != null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
+            if ((_ribbonTriple.RibbonGroup != null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
             {
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupTriple AddTextBox");
@@ -590,7 +600,7 @@ namespace Krypton.Ribbon
                     RaiseComponentChanging(propertyItems);
 
                     // Get designer to create a textbox item
-                    KryptonRibbonGroupTextBox tb = (KryptonRibbonGroupTextBox)_designerHost.CreateComponent(typeof(KryptonRibbonGroupTextBox));
+                    var tb = (KryptonRibbonGroupTextBox)_designerHost.CreateComponent(typeof(KryptonRibbonGroupTextBox));
                     _ribbonTriple.Items.Add(tb);
 
                     RaiseComponentChanged(propertyItems, null, null);
@@ -605,7 +615,7 @@ namespace Krypton.Ribbon
 
         private void OnAddTrackBar(object sender, EventArgs e)
         {
-            if ((_ribbonTriple?.Ribbon != null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
+            if ((_ribbonTriple.RibbonGroup != null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
             {
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupTriple AddTrackBar");
@@ -618,8 +628,36 @@ namespace Krypton.Ribbon
                     RaiseComponentChanging(propertyItems);
 
                     // Get designer to create a trackbar item
-                    KryptonRibbonGroupTrackBar tb = (KryptonRibbonGroupTrackBar)_designerHost.CreateComponent(typeof(KryptonRibbonGroupTrackBar));
+                    var tb = (KryptonRibbonGroupTrackBar)_designerHost.CreateComponent(typeof(KryptonRibbonGroupTrackBar));
                     _ribbonTriple.Items.Add(tb);
+
+                    RaiseComponentChanged(propertyItems, null, null);
+                }
+                finally
+                {
+                    // If we managed to create the transaction, then do it
+                    transaction?.Commit();
+                }
+            }
+        }
+
+        private void OnAddThemeComboBox(object sender, EventArgs e)
+        {
+            if ((_ribbonTriple.RibbonGroup != null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
+            {
+                // Use a transaction to support undo/redo actions
+                DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupTriple AddThemeComboBox");
+
+                try
+                {
+                    // Get access to the Items property
+                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonTriple)[@"Items"];
+
+                    RaiseComponentChanging(propertyItems);
+
+                    // Get designer to create a themecombobox item
+                    var tcb = (KryptonRibbonGroupThemeComboBox)_designerHost.CreateComponent(typeof(KryptonRibbonGroupThemeComboBox));
+                    _ribbonTriple.Items.Add(tcb);
 
                     RaiseComponentChanged(propertyItems, null, null);
                 }
@@ -633,7 +671,7 @@ namespace Krypton.Ribbon
 
         private void OnAddMaskedTextBox(object sender, EventArgs e)
         {
-            if ((_ribbonTriple?.Ribbon != null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
+            if ((_ribbonTriple.RibbonGroup != null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
             {
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupTriple AddMaskedTextBox");
@@ -646,7 +684,7 @@ namespace Krypton.Ribbon
                     RaiseComponentChanging(propertyItems);
 
                     // Get designer to create a textbox item
-                    KryptonRibbonGroupMaskedTextBox mtb = (KryptonRibbonGroupMaskedTextBox)_designerHost.CreateComponent(typeof(KryptonRibbonGroupMaskedTextBox));
+                    var mtb = (KryptonRibbonGroupMaskedTextBox)_designerHost.CreateComponent(typeof(KryptonRibbonGroupMaskedTextBox));
                     _ribbonTriple.Items.Add(mtb);
 
                     RaiseComponentChanged(propertyItems, null, null);
@@ -661,7 +699,7 @@ namespace Krypton.Ribbon
 
         private void OnAddRichTextBox(object sender, EventArgs e)
         {
-            if ((_ribbonTriple?.Ribbon != null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
+            if ((_ribbonTriple.RibbonGroup != null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
             {
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupTriple AddRichTextBox");
@@ -674,7 +712,7 @@ namespace Krypton.Ribbon
                     RaiseComponentChanging(propertyItems);
 
                     // Get designer to create a richtextbox item
-                    KryptonRibbonGroupRichTextBox rtb = (KryptonRibbonGroupRichTextBox)_designerHost.CreateComponent(typeof(KryptonRibbonGroupRichTextBox));
+                    var rtb = (KryptonRibbonGroupRichTextBox)_designerHost.CreateComponent(typeof(KryptonRibbonGroupRichTextBox));
                     _ribbonTriple.Items.Add(rtb);
 
                     RaiseComponentChanged(propertyItems, null, null);
@@ -689,7 +727,7 @@ namespace Krypton.Ribbon
 
         private void OnAddComboBox(object sender, EventArgs e)
         {
-            if ((_ribbonTriple?.Ribbon != null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
+            if ((_ribbonTriple.RibbonGroup != null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
             {
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupTriple AddComboBox");
@@ -702,7 +740,7 @@ namespace Krypton.Ribbon
                     RaiseComponentChanging(propertyItems);
 
                     // Get designer to create a combobox item
-                    KryptonRibbonGroupComboBox cc = (KryptonRibbonGroupComboBox)_designerHost.CreateComponent(typeof(KryptonRibbonGroupComboBox));
+                    var cc = (KryptonRibbonGroupComboBox)_designerHost.CreateComponent(typeof(KryptonRibbonGroupComboBox));
                     _ribbonTriple.Items.Add(cc);
 
                     RaiseComponentChanged(propertyItems, null, null);
@@ -717,7 +755,7 @@ namespace Krypton.Ribbon
 
         private void OnAddNumericUpDown(object sender, EventArgs e)
         {
-            if ((_ribbonTriple?.Ribbon != null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
+            if ((_ribbonTriple.RibbonGroup != null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
             {
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupTriple AddNumericUpDown");
@@ -730,7 +768,7 @@ namespace Krypton.Ribbon
                     RaiseComponentChanging(propertyItems);
 
                     // Get designer to create a numeric up-down item
-                    KryptonRibbonGroupNumericUpDown cc = (KryptonRibbonGroupNumericUpDown)_designerHost.CreateComponent(typeof(KryptonRibbonGroupNumericUpDown));
+                    var cc = (KryptonRibbonGroupNumericUpDown)_designerHost.CreateComponent(typeof(KryptonRibbonGroupNumericUpDown));
                     _ribbonTriple.Items.Add(cc);
 
                     RaiseComponentChanged(propertyItems, null, null);
@@ -745,7 +783,7 @@ namespace Krypton.Ribbon
 
         private void OnAddDomainUpDown(object sender, EventArgs e)
         {
-            if ((_ribbonTriple?.Ribbon != null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
+            if ((_ribbonTriple.RibbonGroup != null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
             {
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupTriple AddDomainUpDown");
@@ -758,7 +796,7 @@ namespace Krypton.Ribbon
                     RaiseComponentChanging(propertyItems);
 
                     // Get designer to create a domain up-down item
-                    KryptonRibbonGroupDomainUpDown cc = (KryptonRibbonGroupDomainUpDown)_designerHost.CreateComponent(typeof(KryptonRibbonGroupDomainUpDown));
+                    var cc = (KryptonRibbonGroupDomainUpDown)_designerHost.CreateComponent(typeof(KryptonRibbonGroupDomainUpDown));
                     _ribbonTriple.Items.Add(cc);
 
                     RaiseComponentChanged(propertyItems, null, null);
@@ -773,7 +811,7 @@ namespace Krypton.Ribbon
 
         private void OnAddDateTimePicker(object sender, EventArgs e)
         {
-            if ((_ribbonTriple?.Ribbon != null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
+            if ((_ribbonTriple.RibbonGroup != null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
             {
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupTriple AddDateTimePicker");
@@ -786,7 +824,7 @@ namespace Krypton.Ribbon
                     RaiseComponentChanging(propertyItems);
 
                     // Get designer to create a domain up-down item
-                    KryptonRibbonGroupDateTimePicker cc = (KryptonRibbonGroupDateTimePicker)_designerHost.CreateComponent(typeof(KryptonRibbonGroupDateTimePicker));
+                    var cc = (KryptonRibbonGroupDateTimePicker)_designerHost.CreateComponent(typeof(KryptonRibbonGroupDateTimePicker));
                     _ribbonTriple.Items.Add(cc);
 
                     RaiseComponentChanged(propertyItems, null, null);
@@ -801,7 +839,7 @@ namespace Krypton.Ribbon
 
         private void OnClearItems(object sender, EventArgs e)
         {
-            if ((_ribbonTriple?.Ribbon != null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
+            if ((_ribbonTriple.RibbonGroup != null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
             {
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupTriple ClearItems");
@@ -814,7 +852,7 @@ namespace Krypton.Ribbon
                     RaiseComponentChanging(propertyItems);
 
                     // Need access to host in order to delete a component
-                    IDesignerHost host = (IDesignerHost)GetService(typeof(IDesignerHost));
+                    var host = (IDesignerHost)GetService(typeof(IDesignerHost));
 
                     // We need to remove all the items from the triple group
                     for (var i = _ribbonTriple.Items.Count - 1; i >= 0; i--)
@@ -836,7 +874,7 @@ namespace Krypton.Ribbon
 
         private void OnDeleteTriple(object sender, EventArgs e)
         {
-            if ((_ribbonTriple?.Ribbon != null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
+            if ((_ribbonTriple.RibbonGroup != null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
             {
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupTriple DeleteTriple");
@@ -869,7 +907,7 @@ namespace Krypton.Ribbon
 
         private void OnVisible(object sender, EventArgs e)
         {
-            if ((_ribbonTriple?.Ribbon != null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
+            if ((_ribbonTriple.RibbonGroup != null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
             {
                 _changeService.OnComponentChanged(_ribbonTriple, null, _ribbonTriple.Visible, !_ribbonTriple.Visible);
                 _ribbonTriple.Visible = !_ribbonTriple.Visible;
@@ -878,7 +916,7 @@ namespace Krypton.Ribbon
 
         private void OnMaxLarge(object sender, EventArgs e)
         {
-            if ((_ribbonTriple?.Ribbon != null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
+            if ((_ribbonTriple.RibbonGroup != null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
             {
                 _changeService.OnComponentChanged(_ribbonTriple, null, _ribbonTriple.MaximumSize, GroupItemSize.Large);
                 _ribbonTriple.MaximumSize = GroupItemSize.Large;
@@ -887,7 +925,7 @@ namespace Krypton.Ribbon
 
         private void OnMaxMedium(object sender, EventArgs e)
         {
-            if ((_ribbonTriple?.Ribbon != null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
+            if ((_ribbonTriple.RibbonGroup != null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
             {
                 _changeService.OnComponentChanged(_ribbonTriple, null, _ribbonTriple.MaximumSize, GroupItemSize.Medium);
                 _ribbonTriple.MaximumSize = GroupItemSize.Medium;
@@ -905,7 +943,7 @@ namespace Krypton.Ribbon
 
         private void OnMinLarge(object sender, EventArgs e)
         {
-            if ((_ribbonTriple?.Ribbon != null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
+            if ((_ribbonTriple.RibbonGroup != null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
             {
                 _changeService.OnComponentChanged(_ribbonTriple, null, _ribbonTriple.MinimumSize, GroupItemSize.Large);
                 _ribbonTriple.MinimumSize = GroupItemSize.Large;
@@ -914,7 +952,7 @@ namespace Krypton.Ribbon
 
         private void OnMinMedium(object sender, EventArgs e)
         {
-            if ((_ribbonTriple?.Ribbon != null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
+            if ((_ribbonTriple.RibbonGroup != null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
             {
                 _changeService.OnComponentChanged(_ribbonTriple, null, _ribbonTriple.MinimumSize, GroupItemSize.Medium);
                 _ribbonTriple.MinimumSize = GroupItemSize.Medium;
@@ -923,17 +961,14 @@ namespace Krypton.Ribbon
 
         private void OnMinSmall(object sender, EventArgs e)
         {
-            if ((_ribbonTriple?.Ribbon != null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
+            if ((_ribbonTriple.RibbonGroup != null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
             {
                 _changeService.OnComponentChanged(_ribbonTriple, null, _ribbonTriple.MinimumSize, GroupItemSize.Small);
                 _ribbonTriple.MinimumSize = GroupItemSize.Small;
             }
         }
 
-        private void OnComponentChanged(object sender, ComponentChangedEventArgs e)
-        {
-            UpdateVerbStatus();
-        }
+        private void OnComponentChanged(object sender, ComponentChangedEventArgs e) => UpdateVerbStatus();
 
         private void OnComponentRemoving(object sender, ComponentEventArgs e)
         {
@@ -941,12 +976,12 @@ namespace Krypton.Ribbon
             if (e.Component == _ribbonTriple)
             {
                 // Need access to host in order to delete a component
-                IDesignerHost host = (IDesignerHost)GetService(typeof(IDesignerHost));
+                var host = (IDesignerHost)GetService(typeof(IDesignerHost));
 
                 // We need to remove all items from the triple group
                 for (var j = _ribbonTriple.Items.Count - 1; j >= 0; j--)
                 {
-                    KryptonRibbonGroupItem item = _ribbonTriple.Items[j] as KryptonRibbonGroupItem;
+                    var item = _ribbonTriple.Items[j] as KryptonRibbonGroupItem;
                     _ribbonTriple.Items.Remove(item);
                     host.DestroyComponent(item);
                 }
@@ -955,7 +990,7 @@ namespace Krypton.Ribbon
 
         private void OnContextMenu(object sender, MouseEventArgs e)
         {
-            if ((_ribbonTriple?.Ribbon != null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
+            if ((_ribbonTriple.RibbonGroup != null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
             {
                 // Create the menu strip the first time around
                 if (_cms == null)
@@ -973,48 +1008,53 @@ namespace Krypton.Ribbon
                     _minimumSMenu = new ToolStripMenuItem("Small", null, OnMinSmall);
                     _minimumSizeMenu = new ToolStripMenuItem("Minimum Size");
                     _minimumSizeMenu.DropDownItems.AddRange(new ToolStripItem[] { _minimumLMenu, _minimumMMenu, _minimumSMenu });
-                    _moveFirstMenu = new ToolStripMenuItem("Move Triple First", Properties.Resources.MoveFirst, OnMoveFirst);
-                    _movePreviousMenu = new ToolStripMenuItem("Move Triple Previous", Properties.Resources.MovePrevious, OnMovePrevious);
-                    _moveNextMenu = new ToolStripMenuItem("Move Triple Next", Properties.Resources.MoveNext, OnMoveNext);
-                    _moveLastMenu = new ToolStripMenuItem("Move Triple Last", Properties.Resources.MoveLast, OnMoveLast);
+                    _moveFirstMenu = new ToolStripMenuItem("Move Triple First", GenericImageResources.MoveFirst, OnMoveFirst);
+                    _movePreviousMenu = new ToolStripMenuItem("Move Triple Previous", GenericImageResources.MovePrevious, OnMovePrevious);
+                    _moveNextMenu = new ToolStripMenuItem("Move Triple Next", GenericImageResources.MoveNext, OnMoveNext);
+                    _moveLastMenu = new ToolStripMenuItem("Move Triple Last", GenericImageResources.MoveLast, OnMoveLast);
                     _moveToGroupMenu = new ToolStripMenuItem("Move Triple To Group");
-                    _addButtonMenu = new ToolStripMenuItem("Add Button", Properties.Resources.KryptonRibbonGroupButton, OnAddButton);
-                    _addColorButtonMenu = new ToolStripMenuItem("Add Color Button", Properties.Resources.KryptonRibbonGroupColorButton, OnAddColorButton);
-                    _addCheckBoxMenu = new ToolStripMenuItem("Add CheckBox", Properties.Resources.KryptonRibbonGroupCheckBox, OnAddCheckBox);
-                    _addComboBoxMenu = new ToolStripMenuItem("Add ComboBox", Properties.Resources.KryptonRibbonGroupComboBox, OnAddComboBox);
-                    _addCustomControlMenu = new ToolStripMenuItem("Add Custom Control", Properties.Resources.KryptonRibbonGroupCustomControl, OnAddCustomControl);
-                    _addDateTimePickerMenu = new ToolStripMenuItem("Add DateTimePicker", Properties.Resources.KryptonRibbonGroupDateTimePicker, OnAddDateTimePicker);
-                    _addDomainUpDownMenu = new ToolStripMenuItem("Add DomainUpDown", Properties.Resources.KryptonRibbonGroupDomainUpDown, OnAddDomainUpDown);
-                    _addLabelMenu = new ToolStripMenuItem("Add Label", Properties.Resources.KryptonRibbonGroupLabel, OnAddLabel);
-                    _addMaskedTextBoxMenu = new ToolStripMenuItem("Add MaskedTextBox", Properties.Resources.KryptonRibbonGroupMaskedTextBox, OnAddMaskedTextBox);
-                    _addNumericUpDownMenu = new ToolStripMenuItem("Add NumericUpDown", Properties.Resources.KryptonRibbonGroupNumericUpDown, OnAddNumericUpDown);
-                    _addRadioButtonMenu = new ToolStripMenuItem("Add RadioButton", Properties.Resources.KryptonRibbonGroupRadioButton, OnAddRadioButton);
-                    _addRichTextBoxMenu = new ToolStripMenuItem("Add RichTextBox", Properties.Resources.KryptonRibbonGroupRichTextBox, OnAddRichTextBox);
-                    _addTextBoxMenu = new ToolStripMenuItem("Add TextBox", Properties.Resources.KryptonRibbonGroupTextBox, OnAddTextBox);
-                    _addTrackBarMenu = new ToolStripMenuItem("Add TrackBar", Properties.Resources.KryptonRibbonGroupTrackBar, OnAddTrackBar);
+                    _addButtonMenu = new ToolStripMenuItem("Add Button", GenericImageResources.KryptonRibbonGroupButton, OnAddButton);
+                    _addColorButtonMenu = new ToolStripMenuItem("Add Color Button", GenericImageResources.KryptonRibbonGroupColorButton, OnAddColorButton);
+                    _addCheckBoxMenu = new ToolStripMenuItem("Add CheckBox", GenericImageResources.KryptonRibbonGroupCheckBox, OnAddCheckBox);
+                    _addComboBoxMenu = new ToolStripMenuItem("Add ComboBox", GenericImageResources.KryptonRibbonGroupComboBox, OnAddComboBox);
+                    _addCustomControlMenu = new ToolStripMenuItem("Add Custom Control", GenericImageResources.KryptonRibbonGroupCustomControl, OnAddCustomControl);
+                    _addDateTimePickerMenu = new ToolStripMenuItem("Add DateTimePicker", GenericImageResources.KryptonRibbonGroupDateTimePicker, OnAddDateTimePicker);
+                    _addDomainUpDownMenu = new ToolStripMenuItem("Add DomainUpDown", GenericImageResources.KryptonRibbonGroupDomainUpDown, OnAddDomainUpDown);
+                    _addLabelMenu = new ToolStripMenuItem("Add Label", GenericImageResources.KryptonRibbonGroupLabel, OnAddLabel);
+                    _addMaskedTextBoxMenu = new ToolStripMenuItem("Add MaskedTextBox", GenericImageResources.KryptonRibbonGroupMaskedTextBox, OnAddMaskedTextBox);
+                    _addNumericUpDownMenu = new ToolStripMenuItem("Add NumericUpDown", GenericImageResources.KryptonRibbonGroupNumericUpDown, OnAddNumericUpDown);
+                    _addRadioButtonMenu = new ToolStripMenuItem("Add RadioButton", GenericImageResources.KryptonRibbonGroupRadioButton, OnAddRadioButton);
+                    _addRichTextBoxMenu = new ToolStripMenuItem("Add RichTextBox", GenericImageResources.KryptonRibbonGroupRichTextBox, OnAddRichTextBox);
+                    _addTextBoxMenu = new ToolStripMenuItem("Add TextBox", GenericImageResources.KryptonRibbonGroupTextBox, OnAddTextBox);
+                    _addTrackBarMenu = new ToolStripMenuItem("Add TrackBar", GenericImageResources.KryptonRibbonGroupTrackBar, OnAddTrackBar);
+                    _addThemeComboBoxMenu = new ToolStripMenuItem("Add ThemeComboBox", GenericImageResources.KryptonRibbonGroupComboBox, OnAddThemeComboBox);
                     _clearItemsMenu = new ToolStripMenuItem("Clear Items", null, OnClearItems);
-                    _deleteTripleMenu = new ToolStripMenuItem("Delete Triple", Properties.Resources.delete2, OnDeleteTriple);
-                    _cms.Items.AddRange(new ToolStripItem[] { _toggleHelpersMenu, new ToolStripSeparator(),
-                                                              _visibleMenu, _maximumSizeMenu, _minimumSizeMenu, new ToolStripSeparator(),
-                                                              _moveFirstMenu, _movePreviousMenu, _moveNextMenu, _moveLastMenu, new ToolStripSeparator(),
-                                                              _moveToGroupMenu, new ToolStripSeparator(),
-                                                              _addButtonMenu, 
-                                                              _addCheckBoxMenu, 
-                                                              _addColorButtonMenu, 
-                                                              _addComboBoxMenu, 
-                                                              _addCustomControlMenu, 
-                                                              _addDateTimePickerMenu, 
-                                                              _addDomainUpDownMenu, 
-                                                              _addLabelMenu, 
-                                                              _addMaskedTextBoxMenu, 
-                                                              _addNumericUpDownMenu, 
-                                                              _addRadioButtonMenu, 
-                                                              _addRichTextBoxMenu, 
-                                                              _addTextBoxMenu, 
-                                                              _addTrackBarMenu, 
-                                                              new ToolStripSeparator(),
-                                                              _clearItemsMenu, new ToolStripSeparator(),
-                                                              _deleteTripleMenu});
+                    _deleteTripleMenu = new ToolStripMenuItem("Delete Triple", GenericImageResources.Delete, OnDeleteTriple);
+                    _cms.Items.AddRange(new ToolStripItem[]
+                    {
+                        _toggleHelpersMenu, new ToolStripSeparator(),
+                        _visibleMenu, _maximumSizeMenu, _minimumSizeMenu, new ToolStripSeparator(),
+                        _moveFirstMenu, _movePreviousMenu, _moveNextMenu, _moveLastMenu, new ToolStripSeparator(),
+                        _moveToGroupMenu, new ToolStripSeparator(),
+                        _addButtonMenu,
+                        _addCheckBoxMenu,
+                        _addColorButtonMenu,
+                        _addComboBoxMenu,
+                        _addCustomControlMenu,
+                        _addDateTimePickerMenu,
+                        _addDomainUpDownMenu,
+                        _addLabelMenu,
+                        _addMaskedTextBoxMenu,
+                        _addNumericUpDownMenu,
+                        _addRadioButtonMenu,
+                        _addRichTextBoxMenu,
+                        _addTextBoxMenu,
+                        _addTrackBarMenu,
+                        _addThemeComboBoxMenu,
+                        new ToolStripSeparator(),
+                        _clearItemsMenu, new ToolStripSeparator(),
+                        _deleteTripleMenu
+                    });
 
                     // Ensure add images have correct transparent background
                     _addButtonMenu.ImageTransparentColor = Color.Magenta;
@@ -1031,6 +1071,7 @@ namespace Krypton.Ribbon
                     _addDomainUpDownMenu.ImageTransparentColor = Color.Magenta;
                     _addDateTimePickerMenu.ImageTransparentColor = Color.Magenta;
                     _addTrackBarMenu.ImageTransparentColor = Color.Magenta;
+                    _addThemeComboBoxMenu.ImageTransparentColor = Color.Magenta;
                 }
 
                 // Update verbs to work out correct enable states
@@ -1039,7 +1080,7 @@ namespace Krypton.Ribbon
                 // Update sub menu options available for the 'Move To Group'
                 UpdateMoveToGroup();
 
-                // Update menu items state from versb
+                // Update menu items state from verb
                 _toggleHelpersMenu.Checked = _ribbonTriple.Ribbon.InDesignHelperMode;
                 _visibleMenu.Checked = _ribbonTriple.Visible;
                 _maximumLMenu.Checked = _ribbonTriple.MaximumSize == GroupItemSize.Large;
@@ -1067,6 +1108,7 @@ namespace Krypton.Ribbon
                 _addDomainUpDownMenu.Enabled = _addDomainUpDownVerb.Enabled;
                 _addDateTimePickerMenu.Enabled = _addDateTimePickerVerb.Enabled;
                 _addTrackBarMenu.Enabled = _addTrackBarVerb.Enabled;
+                _addThemeComboBoxMenu.Enabled = _addThemeComboBoxVerb.Enabled;
                 _clearItemsMenu.Enabled = _clearItemsVerb.Enabled;
 
                 // Show the context menu
@@ -1092,9 +1134,9 @@ namespace Krypton.Ribbon
                     if (group != _ribbonTriple.RibbonGroup)
                     {
                         // Create menu item for the group
-                        ToolStripMenuItem groupMenuItem = new()
+                        var groupMenuItem = new ToolStripMenuItem
                         {
-                            Text = group.TextLine1 + " " + group.TextLine2,
+                            Text = $"{group.TextLine1} {group.TextLine2}",
                             Tag = group
                         };
 
@@ -1110,13 +1152,13 @@ namespace Krypton.Ribbon
 
         private void OnMoveToGroup(object sender, EventArgs e)
         {
-            if ((_ribbonTriple?.Ribbon != null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
+            if ((_ribbonTriple.RibbonGroup != null) && _ribbonTriple.RibbonGroup.Items.Contains(_ribbonTriple))
             {
                 // Cast to correct type
-                ToolStripMenuItem groupMenuItem = (ToolStripMenuItem)sender;
+                var groupMenuItem = (ToolStripMenuItem)sender;
 
                 // Get access to the destination tab
-                KryptonRibbonGroup destination = (KryptonRibbonGroup)groupMenuItem.Tag;
+                var destination = (KryptonRibbonGroup)groupMenuItem.Tag;
 
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupTriple MoveTripleToGroup");

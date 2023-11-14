@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -55,7 +55,9 @@ namespace Krypton.Toolkit
         /// <param name="colors">Source of </param>
         /// <param name="roundedEdges">Should have rounded edges.</param>
         /// <param name="palette">Associated palette instance.</param>
-        public KryptonColorTable365(Color[] colors, InheritBool roundedEdges, IPalette palette) : base(palette)
+        public KryptonColorTable365([DisallowNull] Color[] colors, 
+            InheritBool roundedEdges, PaletteBase palette) 
+            : base(palette)
         {
             Debug.Assert(colors != null);
             _colors = colors;
@@ -622,6 +624,7 @@ namespace Krypton.Toolkit
             _statusFont?.Dispose();
 
             // Create new font using system information
+            // TODO: Should be using base font
             _menuToolFont = new Font(@"Segoe UI", SystemFonts.MenuFont.SizeInPoints, FontStyle.Regular);
             _statusFont = new Font(@"Segoe UI", SystemFonts.StatusFont.SizeInPoints, FontStyle.Regular);
         }

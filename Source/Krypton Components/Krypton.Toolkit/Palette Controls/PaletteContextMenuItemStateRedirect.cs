@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -18,12 +18,12 @@ namespace Krypton.Toolkit
     public class PaletteContextMenuItemStateRedirect : Storage
     {
         #region Instance Fields
-        private readonly PaletteRedirectDouble _itemHighlight;
-        private readonly PaletteRedirectTriple _itemImage;
-        private readonly PaletteRedirectContent _itemShortcutText;
-        private readonly PaletteRedirectDouble _itemSplit;
-        private readonly PaletteRedirectContent _itemStandard;
-        private readonly PaletteRedirectContent _itemAlternate;
+        private readonly PaletteRedirectDouble? _itemHighlight;
+        private readonly PaletteRedirectTriple? _itemImage;
+        private readonly PaletteRedirectContent? _itemShortcutText;
+        private readonly PaletteRedirectDouble? _itemSplit;
+        private readonly PaletteRedirectContent? _itemStandard;
+        private readonly PaletteRedirectContent? _itemAlternate;
 
         #endregion
 
@@ -84,7 +84,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the item image highlight entries.
         /// </summary>
-        public PaletteDoubleMetricRedirect ItemHighlight { get; }
+        public PaletteDoubleMetricRedirect? ItemHighlight { get; }
 
         #endregion
 
@@ -108,7 +108,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the item split appearance entries.
         /// </summary>
-        public PaletteDoubleRedirect ItemSplit { get; }
+        public PaletteDoubleRedirect? ItemSplit { get; }
 
         #endregion
 

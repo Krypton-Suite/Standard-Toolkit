@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -17,9 +17,9 @@ namespace Krypton.Toolkit
     /// </summary>
     [ToolboxItem(true)]
     [ToolboxBitmap(typeof(KryptonBreadCrumb), "ToolboxBitmaps.KryptonBreadCrumb.bmp")]
-    [DefaultEvent("SelectedItemChanged")]
-    [DefaultProperty("RootItem")]
-    [Designer("Krypton.Toolkit.KryptonBreadCrumbDesigner, Krypton.Toolkit")]
+    [DefaultEvent(nameof(SelectedItemChanged))]
+    [DefaultProperty(nameof(RootItem))]
+    [Designer(typeof(KryptonBreadCrumbDesigner))]
     [DesignerCategory(@"code")]
     [Description(@"Flat navigation of hierarchical data.")]
     public class KryptonBreadCrumb : VisualSimpleBase,
@@ -47,10 +47,11 @@ namespace Krypton.Toolkit
         #region Instance Fields
 
         private bool _dropDownNavigaton;
+        private float _cornerRoundingRadius;
         private readonly ViewDrawDocker _drawDocker;
-        private readonly ButtonSpecManagerDraw _buttonManager;
-        private VisualPopupToolTip _visualPopupToolTip;
-        private KryptonBreadCrumbItem _selectedItem;
+        private readonly ButtonSpecManagerDraw? _buttonManager;
+        private VisualPopupToolTip? _visualPopupToolTip;
+        private KryptonBreadCrumbItem? _selectedItem;
         private readonly ViewLayoutCrumbs _layoutCrumbs;
         private ButtonStyle _buttonStyle;
         #endregion
@@ -61,28 +62,28 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Behavior")]
         [Description(@"Occurs when the control has been fully initialized.")]
-        public event EventHandler Initialized;
+        public event EventHandler? Initialized;
 
         /// <summary>
         /// Occurs when the drop down portion of a bread crumb is pressed.
         /// </summary>
         [Category(@"Action")]
         [Description(@"Occurs when the drop down portion of a bread crumb is pressed.")]
-        public event EventHandler<BreadCrumbMenuArgs> CrumbDropDown;
+        public event EventHandler<BreadCrumbMenuArgs>? CrumbDropDown;
 
         /// <summary>
         /// Occurs when the drop down portion of the overflow button is pressed.
         /// </summary>
         [Category(@"Action")]
         [Description(@"Occurs when the drop down portion of the overflow button is pressed.")]
-        public event EventHandler<ContextPositionMenuArgs> OverflowDropDown;
+        public event EventHandler<ContextPositionMenuArgs>? OverflowDropDown;
 
         /// <summary>
         /// Occurs when the value of the SelectedItem property changes.
         /// </summary>
         [Category(@"Property Changed")]
         [Description(@"Occurs when the value of the SelectedItem property changes.")]
-        public event EventHandler SelectedItemChanged;
+        public event EventHandler? SelectedItemChanged;
         #endregion
 
         #region Identity
@@ -133,10 +134,12 @@ namespace Krypton.Toolkit
                                                        NeedPaintDelegate);
 
             // Create the manager for handling tooltips
-            ToolTipManager = new ToolTipManager();
+            ToolTipManager = new ToolTipManager(ToolTipValues);
             ToolTipManager.ShowToolTip += OnShowToolTip;
             ToolTipManager.CancelToolTip += OnCancelToolTip;
             _buttonManager.ToolTipManager = ToolTipManager;
+
+            _cornerRoundingRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
         }
 
         /// <summary>
@@ -162,11 +165,9 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Signals the object that initialization is starting.
         /// </summary>
-        public virtual void BeginInit()
-        {
+        public virtual void BeginInit() =>
             // Remember that fact we are inside a BeginInit/EndInit pair
             IsInitializing = true;
-        }
 
         /// <summary>
         /// Signals the object that initialization is complete.
@@ -179,15 +180,24 @@ namespace Krypton.Toolkit
             // We are no longer initializing
             IsInitializing = false;
 
-            if (SelectedItem == null)
-            {
-                SelectedItem = RootItem;
-            }
+            SelectedItem ??= RootItem;
 
             OnNeedPaint(this, new NeedLayoutEventArgs(true));
 
             // Raise event to show control is now initialized
             OnInitialized(EventArgs.Empty);
+        }
+
+        /// <summary>Gets or sets the corner rounding radius.</summary>
+        /// <value>The corner rounding radius.</value>
+        [Category(@"Visuals")]
+        [Description(@"Gets or sets the corner rounding radius.")]
+        [DefaultValue(GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE)]
+        public float CornerRoundingRadius
+        {
+            get => _cornerRoundingRadius;
+
+            set => SetCornerRoundingRadius(value);
         }
 
         /// <summary>
@@ -222,6 +232,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        [AllowNull]
         public override string Text
         {
             get => base.Text;
@@ -251,11 +262,11 @@ namespace Krypton.Toolkit
         [DefaultValue(true)]
         public bool UseMnemonic
         {
-            get => _buttonManager.UseMnemonic;
+            get => _buttonManager?.UseMnemonic?? true;
 
             set
             {
-                if (_buttonManager.UseMnemonic != value)
+                if (_buttonManager?.UseMnemonic != value)
                 {
                     _buttonManager.UseMnemonic = value;
                     PerformNeedPaint(true);
@@ -328,10 +339,7 @@ namespace Krypton.Toolkit
 
         private bool ShouldSerializeControlBackStyle() => ControlBackStyle != PaletteBackStyle.PanelAlternate;
 
-        private void ResetControlBackStyle()
-        {
-            ControlBackStyle = PaletteBackStyle.PanelAlternate;
-        }
+        private void ResetControlBackStyle() => ControlBackStyle = PaletteBackStyle.PanelAlternate;
 
         /// <summary>
         /// Gets and sets the button style for drawing each bread crumb.
@@ -355,17 +363,14 @@ namespace Krypton.Toolkit
 
         private bool ShouldSerializeCrumbButtonStyle() => CrumbButtonStyle != ButtonStyle.BreadCrumb;
 
-        private void ResetCrumbButtonStyle()
-        {
-            CrumbButtonStyle = ButtonStyle.BreadCrumb;
-        }
+        private void ResetCrumbButtonStyle() => CrumbButtonStyle = ButtonStyle.BreadCrumb;
 
         /// <summary>
         /// Gets and sets the border style for the control.
         /// </summary>
         [Category(@"Visuals")]
         [Description(@"Border style for the control.")]
-        [DefaultValue(typeof(PaletteBorderStyle), "Control - Client")]
+        [DefaultValue(PaletteBorderStyle.ControlClient)]
         public PaletteBorderStyle ControlBorderStyle
         {
             get => StateCommon.BorderStyle;
@@ -382,10 +387,7 @@ namespace Krypton.Toolkit
 
         private bool ShouldSerializeControlBorderStyle() => ControlBorderStyle != PaletteBorderStyle.ControlClient;
 
-        private void ResetControlBorderStyle()
-        {
-            ControlBorderStyle = PaletteBorderStyle.ControlClient;
-        }
+        private void ResetControlBorderStyle() => ControlBorderStyle = PaletteBorderStyle.ControlClient;
 
         /// <summary>
         /// Gets and sets the root bread crumb item.
@@ -401,7 +403,7 @@ namespace Krypton.Toolkit
         [Category(@"Data")]
         [Description(@"Currently selected bread crumb item.")]
         [DefaultValue(null)]
-        public KryptonBreadCrumbItem SelectedItem
+        public KryptonBreadCrumbItem? SelectedItem
         {
             get => _selectedItem;
 
@@ -410,7 +412,7 @@ namespace Krypton.Toolkit
                 if (value != _selectedItem)
                 {
                     // Check that the item has a chain that ends at our root item or is null
-                    KryptonBreadCrumbItem temp = value;
+                    KryptonBreadCrumbItem? temp = value;
                     while ((temp != null) && (temp != RootItem))
                     {
                         temp = temp.Parent;
@@ -435,7 +437,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Overrides for defining common bread crumb appearance that other states can override.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteBreadCrumbRedirect StateCommon { get; }
+        public PaletteBreadCrumbRedirect? StateCommon { get; }
 
         private bool ShouldSerializeStateCommon() => !StateCommon.IsDefault;
 
@@ -490,11 +492,9 @@ namespace Krypton.Toolkit
         /// Fix the control to a particular palette state.
         /// </summary>
         /// <param name="state">Palette state to fix.</param>
-        public virtual void SetFixedState(PaletteState state)
-        {
+        public virtual void SetFixedState(PaletteState state) =>
             // Request fixed state from the view
             _drawDocker.FixedState = state;
-        }
 
         /// <summary>
         /// Internal design time method.
@@ -520,9 +520,9 @@ namespace Krypton.Toolkit
         /// <param name="pt">Mouse location.</param>
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        public Component DesignerComponentFromPoint(Point pt) =>
+        public Component? DesignerComponentFromPoint(Point pt) =>
             // Ignore call as view builder is already destructed
-            IsDisposed ? null : ViewManager.ComponentFromPoint(pt);
+            IsDisposed ? null : ViewManager?.ComponentFromPoint(pt);
 
         // Ask the current view for a decision
         /// <summary>
@@ -585,7 +585,7 @@ namespace Krypton.Toolkit
             _drawDocker.Enabled = Enabled;
 
             // Update state to reflect change in enabled state
-            _buttonManager.RefreshButtons();
+            _buttonManager?.RefreshButtons();
 
             // Change in enabled state requires a layout and repaint
             PerformNeedPaint(true);
@@ -597,7 +597,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the default size of the control.
         /// </summary>
-        protected override Size DefaultSize => new(200, 28);
+        protected override Size DefaultSize => new Size(200, 28);
 
         /// <summary>
         /// Processes a notification from palette storage of a button spec change.
@@ -607,7 +607,7 @@ namespace Krypton.Toolkit
         protected override void OnButtonSpecChanged(object sender, EventArgs e)
         {
             // Recreate all the button specs with new values
-            _buttonManager.RecreateButtons();
+            _buttonManager?.RecreateButtons();
 
             // Let base class perform standard processing
             base.OnButtonSpecChanged(sender, e);
@@ -642,9 +642,9 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Internal
-        internal PaletteBreadCrumbRedirect GetStateCommon() => StateCommon;
+        internal PaletteBreadCrumbRedirect? GetStateCommon() => StateCommon;
 
-        internal PaletteRedirect GetRedirector() => Redirector;
+        internal PaletteRedirect? GetRedirector() => Redirector;
 
         #endregion
 
@@ -658,7 +658,7 @@ namespace Krypton.Toolkit
                 if (SelectedItem != null)
                 {
                     // Check that the current selected item has a chain that ends at our root
-                    KryptonBreadCrumbItem temp = SelectedItem;
+                    KryptonBreadCrumbItem? temp = SelectedItem;
                     while ((temp != null) && (temp != RootItem))
                     {
                         temp = temp.Parent;
@@ -681,7 +681,7 @@ namespace Krypton.Toolkit
             if (!IsDisposed)
             {
                 // Do not show tooltips when the form we are in does not have focus
-                Form topForm = FindForm();
+                Form? topForm = FindForm();
                 if (topForm is { ContainsFocus: false })
                 {
                     return;
@@ -690,13 +690,13 @@ namespace Krypton.Toolkit
                 // Never show tooltips are design time
                 if (!DesignMode)
                 {
-                    IContentValues sourceContent = null;
-                    LabelStyle toolTipStyle = LabelStyle.ToolTip;
+                    IContentValues? sourceContent = null;
+                    var toolTipStyle = LabelStyle.ToolTip;
 
-                    bool shadow = true;
+                    var shadow = true;
 
                     // Find the button spec associated with the tooltip request
-                    ButtonSpec buttonSpec = _buttonManager.ButtonSpecFromView(e.Target);
+                    ButtonSpec? buttonSpec = _buttonManager?.ButtonSpecFromView(e.Target);
 
                     // If the tooltip is for a button spec
                     if (buttonSpec != null)
@@ -705,7 +705,7 @@ namespace Krypton.Toolkit
                         if (AllowButtonSpecToolTips)
                         {
                             // Create a helper object to provide tooltip values
-                            ButtonSpecToContent buttonSpecMapping = new(Redirector, buttonSpec);
+                            var buttonSpecMapping = new ButtonSpecToContent(Redirector, buttonSpec);
 
                             // Is there actually anything to show for the tooltip
                             if (buttonSpecMapping.HasContent)
@@ -750,12 +750,20 @@ namespace Krypton.Toolkit
         private void OnVisualPopupToolTipDisposed(object sender, EventArgs e)
         {
             // Unhook events from the specific instance that generated event
-            VisualPopupToolTip popupToolTip = (VisualPopupToolTip)sender;
+            var popupToolTip = (VisualPopupToolTip)sender;
             popupToolTip.Disposed -= OnVisualPopupToolTipDisposed;
 
             // Not showing a popup page any more
             _visualPopupToolTip = null;
         }
+
+        private void SetCornerRoundingRadius(float? radius)
+        {
+            _cornerRoundingRadius = radius ?? GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
+
+            StateCommon.Border.Rounding = _cornerRoundingRadius;
+        }
+
         #endregion
     }
 }

@@ -5,7 +5,9 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  
+ *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
  */
 #endregion
@@ -44,9 +46,9 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Reference to owning ribbon control.</param>
         /// <param name="ribbonLabel">Reference to source label definition.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public ViewDrawRibbonGroupLabel(KryptonRibbon ribbon,
-                                        KryptonRibbonGroupLabel ribbonLabel,
-                                        NeedPaintHandler needPaint)
+        public ViewDrawRibbonGroupLabel([DisallowNull] KryptonRibbon ribbon,
+                                        [DisallowNull] KryptonRibbonGroupLabel ribbonLabel,
+                                        [DisallowNull] NeedPaintHandler needPaint)
         {
             Debug.Assert(ribbon != null);
             Debug.Assert(ribbonLabel != null);
@@ -84,7 +86,7 @@ namespace Krypton.Ribbon
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            @"ViewDrawRibbonGroupLabel:" + Id;
+            $@"ViewDrawRibbonGroupLabel:{Id}";
 
         /// <summary>
         /// Clean up any resources being used.
@@ -125,7 +127,7 @@ namespace Krypton.Ribbon
         /// Gets the first focus item from the container.
         /// </summary>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase GetFirstFocusItem() =>
+        public ViewBase? GetFirstFocusItem() =>
             // A label can never have the focus
             null;
 
@@ -136,7 +138,7 @@ namespace Krypton.Ribbon
         /// Gets the last focus item from the item.
         /// </summary>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase GetLastFocusItem() =>
+        public ViewBase? GetLastFocusItem() =>
             // A label can never have the focus
             null;
 
@@ -149,7 +151,7 @@ namespace Krypton.Ribbon
         /// <param name="current">The view that is currently focused.</param>
         /// <param name="matched">Has the current focus item been matched yet.</param>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase GetNextFocusItem(ViewBase current, ref bool matched) =>
+        public ViewBase? GetNextFocusItem(ViewBase current, ref bool matched) =>
             // We have nothing to provide even if we are the selected item
             null;
 
@@ -162,7 +164,7 @@ namespace Krypton.Ribbon
         /// <param name="current">The view that is currently focused.</param>
         /// <param name="matched">Has the current focus item been matched yet.</param>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase GetPreviousFocusItem(ViewBase current, ref bool matched) =>
+        public ViewBase? GetPreviousFocusItem(ViewBase current, ref bool matched) =>
             // We have nothing to provide even if we are the selected item
             null;
 
@@ -185,18 +187,12 @@ namespace Krypton.Ribbon
         /// Override the group item size if possible.
         /// </summary>
         /// <param name="size">New size to use.</param>
-        public void SetGroupItemSize(GroupItemSize size)
-        {
-            UpdateItemSizeState(size);
-        }
+        public void SetGroupItemSize(GroupItemSize size) => UpdateItemSizeState(size);
 
         /// <summary>
         /// Reset the group item size to the item definition.
         /// </summary>
-        public void ResetGroupItemSize()
-        {
-            UpdateItemSizeState();
-        }
+        public void ResetGroupItemSize() => UpdateItemSizeState();
 
         /// <summary>
         /// Discover the preferred size of the element.
@@ -218,7 +214,7 @@ namespace Krypton.Ribbon
         /// Perform a layout of the elements.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override void Layout(ViewLayoutContext context)
+        public override void Layout([DisallowNull] ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 
@@ -239,10 +235,7 @@ namespace Krypton.Ribbon
         /// Raises the NeedPaint event.
         /// </summary>
         /// <param name="needLayout">Does the palette change require a layout.</param>
-        protected virtual void OnNeedPaint(bool needLayout)
-        {
-            OnNeedPaint(needLayout, Rectangle.Empty);
-        }
+        protected virtual void OnNeedPaint(bool needLayout) => OnNeedPaint(needLayout, Rectangle.Empty);
 
         /// <summary>
         /// Raises the NeedPaint event.
@@ -272,7 +265,7 @@ namespace Krypton.Ribbon
             if (_ribbon.InDesignMode)
             {
                 // At design time we need to know when the user right clicks the label
-                ContextClickController controller = new();
+                var controller = new ContextClickController();
                 controller.ContextClick += OnContextClick;
                 _viewLarge.MouseController = controller;
             }
@@ -309,7 +302,7 @@ namespace Krypton.Ribbon
             if (_ribbon.InDesignMode)
             {
                 // At design time we need to know when the user right clicks the label
-                ContextClickController controller = new();
+                var controller = new ContextClickController();
                 controller.ContextClick += OnContextClick;
                 _viewMediumSmall.MouseController = controller;
             }
@@ -378,15 +371,9 @@ namespace Krypton.Ribbon
             _viewMediumSmallText2.Enabled = enabled;
         }
 
-        private void UpdateImageSmallState()
-        {
-            _viewMediumSmallImage.Visible = GroupLabel.ImageSmall != null;
-        }
+        private void UpdateImageSmallState() => _viewMediumSmallImage.Visible = GroupLabel.ImageSmall != null;
 
-        private void UpdateItemSizeState()
-        {
-            UpdateItemSizeState(GroupLabel.ItemSizeCurrent);
-        }
+        private void UpdateItemSizeState() => UpdateItemSizeState(GroupLabel.ItemSizeCurrent);
 
         private void UpdateItemSizeState(GroupItemSize size)
         {
@@ -408,10 +395,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnContextClick(object sender, MouseEventArgs e)
-        {
-            GroupLabel.OnDesignTimeContextMenu(e);
-        }
+        private void OnContextClick(object sender, MouseEventArgs e) => GroupLabel.OnDesignTimeContextMenu(e);
 
         private void OnLabelPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
@@ -420,7 +404,7 @@ namespace Krypton.Ribbon
 
             switch (e.PropertyName)
             {
-                case "Visible":
+                case nameof(Visible):
                     updateLayout = true;
                     break;
                 case "TextLine1":
@@ -437,7 +421,7 @@ namespace Krypton.Ribbon
                     UpdateImageSmallState();
                     updateLayout = true;
                     break;
-                case "Enabled":
+                case nameof(Enabled):
                     UpdateEnabledState();
                     updatePaint = true;
                     break;
@@ -450,7 +434,7 @@ namespace Krypton.Ribbon
                     UpdateItemSizeState();
                     updateLayout = true;
                     break;
-                case "KryptonCommand":
+                case nameof(KryptonCommand):
                     _viewLargeText1.MakeDirty();
                     _viewLargeText2.MakeDirty();
                     _viewMediumSmallText1.MakeDirty();

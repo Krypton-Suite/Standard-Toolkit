@@ -5,7 +5,9 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  
+ *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
  */
 #endregion
@@ -21,8 +23,8 @@ namespace Krypton.Ribbon
         #region Instance Fields
         private readonly int NULL_CONTROL_WIDTH; // = 50;
         private readonly KryptonRibbon _ribbon;
-        private ViewDrawRibbonGroup _activeGroup;
-        private readonly ComboBoxController _controller;
+        private ViewDrawRibbonGroup? _activeGroup;
+        private readonly ComboBoxController? _controller;
         private readonly NeedPaintHandler _needPaint;
         private GroupItemSize _currentSize;
         #endregion
@@ -34,9 +36,9 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Reference to owning ribbon control.</param>
         /// <param name="ribbonComboBox">Reference to source combobox.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public ViewDrawRibbonGroupComboBox(KryptonRibbon ribbon,
-                                           KryptonRibbonGroupComboBox ribbonComboBox,
-                                           NeedPaintHandler needPaint)
+        public ViewDrawRibbonGroupComboBox([DisallowNull] KryptonRibbon ribbon,
+                                           [DisallowNull] KryptonRibbonGroupComboBox ribbonComboBox,
+                                           [DisallowNull] NeedPaintHandler needPaint)
         {
             Debug.Assert(ribbon != null);
             Debug.Assert(ribbonComboBox != null);
@@ -58,7 +60,7 @@ namespace Krypton.Ribbon
             if (_ribbon.InDesignMode)
             {
                 // At design time we need to know when the user right clicks the combobox
-                ContextClickController controller = new();
+                var controller = new ContextClickController();
                 controller.ContextClick += OnContextClick;
                 MouseController = controller;
             }
@@ -90,7 +92,7 @@ namespace Krypton.Ribbon
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            @"ViewDrawRibbonGroupComboBox:" + Id;
+            $@"ViewDrawRibbonGroupComboBox:{Id}";
 
         /// <summary>
         /// Clean up any resources being used.
@@ -124,7 +126,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets access to the owning group combobox instance.
         /// </summary>
-        public KryptonRibbonGroupComboBox GroupComboBox { get; private set; }
+        public KryptonRibbonGroupComboBox? GroupComboBox { get; private set; }
 
         #endregion
 
@@ -146,9 +148,9 @@ namespace Krypton.Ribbon
         /// Gets the first focus item from the container.
         /// </summary>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase GetFirstFocusItem()
+        public ViewBase? GetFirstFocusItem()
         {
-            if (GroupComboBox.Visible && (GroupComboBox.LastComboBox?.ComboBox != null) && GroupComboBox.LastComboBox.ComboBox.CanSelect)
+            if (GroupComboBox is { Visible: true, LastComboBox.ComboBox.CanSelect: true })
             {
                 return this;
             }
@@ -164,9 +166,9 @@ namespace Krypton.Ribbon
         /// Gets the last focus item from the item.
         /// </summary>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase GetLastFocusItem()
+        public ViewBase? GetLastFocusItem()
         {
-            if (GroupComboBox.Visible && (GroupComboBox.LastComboBox?.ComboBox != null) && GroupComboBox.LastComboBox.ComboBox.CanSelect)
+            if (GroupComboBox is { Visible: true, LastComboBox.ComboBox.CanSelect: true })
             {
                 return this;
             }
@@ -184,7 +186,7 @@ namespace Krypton.Ribbon
         /// <param name="current">The view that is currently focused.</param>
         /// <param name="matched">Has the current focus item been matched yet.</param>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase GetNextFocusItem(ViewBase current, ref bool matched)
+        public ViewBase? GetNextFocusItem(ViewBase current, ref bool matched)
         {
             // Do we match the current item?
             matched = current == this;
@@ -199,7 +201,7 @@ namespace Krypton.Ribbon
         /// <param name="current">The view that is currently focused.</param>
         /// <param name="matched">Has the current focus item been matched yet.</param>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase GetPreviousFocusItem(ViewBase current, ref bool matched)
+        public ViewBase? GetPreviousFocusItem(ViewBase current, ref bool matched)
         {
             // Do we match the current item?
             matched = current == this;
@@ -222,7 +224,7 @@ namespace Krypton.Ribbon
                 Rectangle viewRect = _ribbon.KeyTipToScreen(this);
 
                 // Determine the screen position of the key tip
-                Point screenPt = Point.Empty;
+                var screenPt = Point.Empty;
 
                 // Determine the screen position of the key tip dependant on item location/size
                 switch (_currentSize)
@@ -250,18 +252,12 @@ namespace Krypton.Ribbon
         /// Override the group item size if possible.
         /// </summary>
         /// <param name="size">New size to use.</param>
-        public void SetGroupItemSize(GroupItemSize size)
-        {
-            _currentSize = size;
-        }
+        public void SetGroupItemSize(GroupItemSize size) => _currentSize = size;
 
         /// <summary>
         /// Reset the group item size to the item definition.
         /// </summary>
-        public void ResetGroupItemSize()
-        {
-            _currentSize = GroupComboBox.ItemSizeCurrent;
-        }
+        public void ResetGroupItemSize() => _currentSize = GroupComboBox.ItemSizeCurrent;
 
         /// <summary>
         /// Discover the preferred size of the element.
@@ -269,7 +265,7 @@ namespace Krypton.Ribbon
         /// <param name="context">Layout context.</param>
         public override Size GetPreferredSize(ViewLayoutContext context)
         {
-            Size preferredSize = Size.Empty;
+            var preferredSize = Size.Empty;
 
             // Ensure the control has the correct parent
             UpdateParent(context.Control);
@@ -301,7 +297,7 @@ namespace Krypton.Ribbon
         /// Perform a layout of the elements.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override void Layout(ViewLayoutContext context)
+        public override void Layout([DisallowNull] ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 
@@ -328,7 +324,7 @@ namespace Krypton.Ribbon
         /// Perform a render of the elements.
         /// </summary>
         /// <param name="context">Rendering context.</param>
-        public override void Render(RenderContext context)
+        public override void Render([DisallowNull] RenderContext context)
         {
             Debug.Assert(context != null);
 
@@ -356,10 +352,7 @@ namespace Krypton.Ribbon
         /// Raises the NeedPaint event.
         /// </summary>
         /// <param name="needLayout">Does the palette change require a layout.</param>
-        protected virtual void OnNeedPaint(bool needLayout)
-        {
-            OnNeedPaint(needLayout, Rectangle.Empty);
-        }
+        protected virtual void OnNeedPaint(bool needLayout) => OnNeedPaint(needLayout, Rectangle.Empty);
 
         /// <summary>
         /// Raises the NeedPaint event.
@@ -381,10 +374,7 @@ namespace Krypton.Ribbon
         #endregion
 
         #region Implementation
-        private void OnContextClick(object sender, MouseEventArgs e)
-        {
-            GroupComboBox.OnDesignTimeContextMenu(e);
-        }
+        private void OnContextClick(object sender, MouseEventArgs e) => GroupComboBox.OnDesignTimeContextMenu(e);
 
         private void OnComboBoxPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
@@ -393,10 +383,10 @@ namespace Krypton.Ribbon
 
             switch (e.PropertyName)
             {
-                case "Enabled":
+                case nameof(Enabled):
                     UpdateEnabled(LastComboBox);
                     break;
-                case "Visible":
+                case nameof(Visible):
                     UpdateVisible(LastComboBox);
                     updateLayout = true;
                     break;
@@ -434,15 +424,15 @@ namespace Krypton.Ribbon
 #pragma warning restore 162
         }
 
-        private Control LastParentControl
+        private Control? LastParentControl
         {
-            get => GroupComboBox.LastParentControl;
+            get => GroupComboBox?.LastParentControl;
             set => GroupComboBox.LastParentControl = value;
         }
 
-        private KryptonComboBox LastComboBox
+        private KryptonComboBox? LastComboBox
         {
-            get => GroupComboBox.LastComboBox;
+            get => GroupComboBox?.LastComboBox;
             set => GroupComboBox.LastComboBox = value;
         }
 
@@ -451,13 +441,13 @@ namespace Krypton.Ribbon
             // Is there a change in the combobox or a change in 
             // the parent control that is hosting the control...
             if ((parentControl != LastParentControl) ||
-                (LastComboBox != GroupComboBox.ComboBox))
+                (LastComboBox != GroupComboBox?.ComboBox))
             {
                 // We only modify the parent and visible state if processing for correct container
                 if ((GroupComboBox.RibbonContainer.RibbonGroup.ShowingAsPopup && (parentControl is VisualPopupGroup)) ||
                     (!GroupComboBox.RibbonContainer.RibbonGroup.ShowingAsPopup && parentControl is not VisualPopupGroup))
                 {
-                    // If we have added the custrom control to a parent before
+                    // If we have added the custom control to a parent before
                     if ((LastComboBox != null) && (LastParentControl != null))
                     {
                         // If that control is still a child of the old parent
@@ -489,7 +479,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void UpdateEnabled(Control c)
+        private void UpdateEnabled(Control? c)
         {
             if (c != null)
             {
@@ -507,7 +497,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private bool ActualVisible(Control c)
+        private bool ActualVisible(Control? c)
         {
             if (c != null)
             {
@@ -527,7 +517,7 @@ namespace Krypton.Ribbon
             return false;
         }
 
-        private void UpdateVisible(Control c)
+        private void UpdateVisible(Control? c)
         {
             if (c != null)
             {
@@ -552,8 +542,7 @@ namespace Krypton.Ribbon
                     else
                     {
                         // Check the owning group is visible
-                        if ((GroupComboBox.RibbonContainer?.RibbonGroup != null) 
-                            && !GroupComboBox.RibbonContainer.RibbonGroup.Visible 
+                        if (GroupComboBox.RibbonContainer?.RibbonGroup is { Visible: false } 
                             && !_ribbon.InDesignMode
                             )
                         {
@@ -611,7 +600,7 @@ namespace Krypton.Ribbon
             _activeGroup = null;
 
             // Find the parent group instance
-            ViewBase parent = Parent;
+            ViewBase? parent = Parent;
 
             // Keep going till we get to the top or find a group
             while (parent != null)

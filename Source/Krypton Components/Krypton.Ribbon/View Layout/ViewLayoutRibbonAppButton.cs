@@ -5,7 +5,9 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  
+ *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
  */
 #endregion
@@ -36,7 +38,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="ribbon">Owning control instance.</param>
         /// <param name="bottomHalf">Scroller orientation.</param>
-        public ViewLayoutRibbonAppButton(KryptonRibbon ribbon,
+        public ViewLayoutRibbonAppButton([DisallowNull] KryptonRibbon ribbon,
                                          bool bottomHalf)
         {
             Debug.Assert(ribbon != null);
@@ -61,7 +63,7 @@ namespace Krypton.Ribbon
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            "ViewLayoutRibbonAppButton:" + Id;
+            $"ViewLayoutRibbonAppButton:{Id}";
 
         #endregion
 
@@ -69,7 +71,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets the owning form instance.
         /// </summary>
-        public KryptonForm OwnerForm { get; set; }
+        public KryptonForm? OwnerForm { get; set; }
 
         #endregion
 
@@ -128,7 +130,7 @@ namespace Krypton.Ribbon
         #region Implementation
         private void UpdateSeparatorSize()
         {
-            Size separatorSize = new(APPBUTTON_GAP, APPBUTTON_GAP);
+            var separatorSize = new Size(APPBUTTON_GAP, APPBUTTON_GAP);
 
             // Do we need to add on extra sizing to the separator?
             if (OwnerForm != null)

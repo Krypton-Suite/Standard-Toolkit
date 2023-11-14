@@ -5,7 +5,9 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  
+ *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
  */
 #endregion
@@ -23,8 +25,8 @@ namespace Krypton.Ribbon
         private readonly int NULL_CONTROL_WIDTH; // = 50;
         private readonly Padding _largeImagePadding; // = new(3, 2, 3, 3);
         private readonly KryptonRibbon _ribbon;
-        private ViewDrawRibbonGroup _activeGroup;
-        private readonly GalleryController _controller;
+        private ViewDrawRibbonGroup? _activeGroup;
+        private readonly GalleryController? _controller;
         private readonly NeedPaintHandler _needPaint;
         private GroupItemSize _currentSize;
         private ViewDrawRibbonGroupButtonBackBorder _viewLarge;
@@ -44,9 +46,9 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Reference to owning ribbon control.</param>
         /// <param name="ribbonGallery">Reference to source gallery.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public ViewDrawRibbonGroupGallery(KryptonRibbon ribbon,
-                                          KryptonRibbonGroupGallery ribbonGallery,
-                                          NeedPaintHandler needPaint)
+        public ViewDrawRibbonGroupGallery([DisallowNull] KryptonRibbon ribbon,
+                                          [DisallowNull] KryptonRibbonGroupGallery ribbonGallery,
+                                          [DisallowNull] NeedPaintHandler needPaint)
         {
             Debug.Assert(ribbon != null);
             Debug.Assert(ribbonGallery != null);
@@ -71,7 +73,7 @@ namespace Krypton.Ribbon
             if (_ribbon.InDesignMode)
             {
                 // At design time we need to know when the user right clicks the gallery
-                ContextClickController controller = new();
+                var controller = new ContextClickController();
                 controller.ContextClick += OnContextClick;
                 MouseController = controller;
             }
@@ -103,7 +105,7 @@ namespace Krypton.Ribbon
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            @"ViewDrawRibbonGroupGallery:" + Id;
+            $@"ViewDrawRibbonGroupGallery:{Id}";
 
         /// <summary>
         /// Clean up any resources being used.
@@ -142,21 +144,18 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Perform action expected when a key tip is used to select the item.
         /// </summary>
-        public void KeyTipSelect()
-        {
-            GroupGallery.LastGallery?.ShownGalleryDropDown(GroupGallery.LastGallery.RectangleToScreen(GroupGallery.LastGallery.ClientRectangle),
+        public void KeyTipSelect() => GroupGallery.LastGallery?.ShownGalleryDropDown(GroupGallery.LastGallery.RectangleToScreen(GroupGallery.LastGallery.ClientRectangle),
                 KryptonContextMenuPositionH.Left,
                 KryptonContextMenuPositionV.Top,
                 null,
                 GroupGallery.DropButtonItemWidth);
-        }
         #endregion
 
         #region GroupGallery
         /// <summary>
         /// Gets access to the owning group gallery instance.
         /// </summary>
-        public KryptonRibbonGroupGallery GroupGallery { get; private set; }
+        public KryptonRibbonGroupGallery? GroupGallery { get; private set; }
 
         #endregion
 
@@ -168,7 +167,7 @@ namespace Krypton.Ribbon
         public override void LostFocus(Control c)
         {
             // Ask ribbon to shift focus to the embedded control
-            _ribbon.HideFocus(GroupGallery.Gallery);
+            _ribbon.HideFocus(GroupGallery!.Gallery);
             base.LostFocus(c);
         }
         #endregion
@@ -178,19 +177,18 @@ namespace Krypton.Ribbon
         /// Gets the first focus item from the container.
         /// </summary>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase GetFirstFocusItem()
+        public ViewBase? GetFirstFocusItem()
         {
             if (_viewLarge.Visible)
             {
-                if (GroupGallery.Visible && GroupGallery.Enabled)
+                if (GroupGallery is { Visible: true, Enabled: true })
                 {
                     return _viewLarge;
                 }
             }
             else
             {
-                if (GroupGallery.Visible &&
-                    GroupGallery.LastGallery is { CanSelect: true })
+                if (GroupGallery is { Visible: true, LastGallery: { CanSelect: true } })
                 {
                     return this;
                 }
@@ -205,19 +203,18 @@ namespace Krypton.Ribbon
         /// Gets the last focus item from the item.
         /// </summary>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase GetLastFocusItem()
+        public ViewBase? GetLastFocusItem()
         {
             if (_viewLarge.Visible)
             {
-                if (GroupGallery.Visible && GroupGallery.Enabled)
+                if (GroupGallery is { Visible: true, Enabled: true })
                 {
                     return _viewLarge;
                 }
             }
             else
             {
-                if (GroupGallery.Visible &&
-                    GroupGallery.LastGallery is { CanSelect: true })
+                if (GroupGallery is { Visible: true, LastGallery: { CanSelect: true } })
                 {
                     return this;
                 }
@@ -234,7 +231,7 @@ namespace Krypton.Ribbon
         /// <param name="current">The view that is currently focused.</param>
         /// <param name="matched">Has the current focus item been matched yet.</param>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase GetNextFocusItem(ViewBase current, ref bool matched)
+        public ViewBase? GetNextFocusItem(ViewBase current, ref bool matched)
         {
             matched = (current == this) || (current == _viewLarge);
             return null;
@@ -248,7 +245,7 @@ namespace Krypton.Ribbon
         /// <param name="current">The view that is currently focused.</param>
         /// <param name="matched">Has the current focus item been matched yet.</param>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase GetPreviousFocusItem(ViewBase current, ref bool matched)
+        public ViewBase? GetPreviousFocusItem(ViewBase current, ref bool matched)
         {
             matched = (current == this) || (current == _viewLarge);
             return null;
@@ -262,7 +259,7 @@ namespace Krypton.Ribbon
         /// <param name="keyTipList">List to add new entries into.</param>
         public void GetGroupKeyTips(KeyTipInfoList keyTipList)
         {
-            if (GroupGallery.Visible)
+            if (GroupGallery!.Visible)
             {
                 if (_viewLarge.Visible)
                 {
@@ -328,7 +325,7 @@ namespace Krypton.Ribbon
                     ((int)GroupGallery.ItemSizeMinimum <= (int)GroupItemSize.Medium))
                 {
                     LastGallery.InternalPreferredItemSize = new Size(GroupGallery.MediumItemCount, 1);
-                    ItemSizeWidth mediumWidth = new(GroupItemSize.Medium, GetPreferredSize(context).Width);
+                    var mediumWidth = new ItemSizeWidth(GroupItemSize.Medium, GetPreferredSize(context).Width);
 
                     if (_ribbon.InDesignHelperMode)
                     {
@@ -358,7 +355,7 @@ namespace Krypton.Ribbon
                     _currentSize = GroupItemSize.Small;
 
                     // Get the width of the large button view
-                    ItemSizeWidth smallWidth = new(GroupItemSize.Small, GetPreferredSize(context).Width);
+                    var smallWidth = new ItemSizeWidth(GroupItemSize.Small, GetPreferredSize(context).Width);
 
                     if (_ribbon.InDesignHelperMode)
                     {
@@ -388,7 +385,7 @@ namespace Krypton.Ribbon
             }
             else
             {
-                return new ItemSizeWidth[] { new(GroupItemSize.Large, NULL_CONTROL_WIDTH) };
+                return new ItemSizeWidth[] { new ItemSizeWidth(GroupItemSize.Large, NULL_CONTROL_WIDTH) };
             }
         }
 
@@ -421,7 +418,7 @@ namespace Krypton.Ribbon
         /// <param name="context">Layout context.</param>
         public override Size GetPreferredSize(ViewLayoutContext context)
         {
-            Size preferredSize = Size.Empty;
+            var preferredSize = Size.Empty;
 
             // Ensure the control has the correct parent
             UpdateParent(context.Control);
@@ -460,7 +457,7 @@ namespace Krypton.Ribbon
         /// Perform a layout of the elements.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override void Layout(ViewLayoutContext context)
+        public override void Layout([DisallowNull] ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 
@@ -487,7 +484,7 @@ namespace Krypton.Ribbon
         /// Perform a render of the elements.
         /// </summary>
         /// <param name="context">Rendering context.</param>
-        public override void Render(RenderContext context)
+        public override void Render([DisallowNull] RenderContext context)
         {
             Debug.Assert(context != null);
 
@@ -517,10 +514,7 @@ namespace Krypton.Ribbon
         /// Raises the NeedPaint event.
         /// </summary>
         /// <param name="needLayout">Does the palette change require a layout.</param>
-        protected virtual void OnNeedPaint(bool needLayout)
-        {
-            OnNeedPaint(needLayout, Rectangle.Empty);
-        }
+        protected virtual void OnNeedPaint(bool needLayout) => OnNeedPaint(needLayout, Rectangle.Empty);
 
         /// <summary>
         /// Raises the NeedPaint event.
@@ -560,11 +554,11 @@ namespace Krypton.Ribbon
             }
 
             // Create the layout docker for the contents of the button
-            ViewLayoutDocker contentLayout = new();
+            var contentLayout = new ViewLayoutDocker();
 
             // Add the large button at the top
             _viewLargeImage = new ViewDrawRibbonGroupGalleryImage(_ribbon, GroupGallery);
-            ViewLayoutRibbonCenterPadding largeImagePadding = new(_largeImagePadding)
+            var largeImagePadding = new ViewLayoutRibbonCenterPadding(_largeImagePadding)
             {
                 _viewLargeImage
             };
@@ -601,19 +595,13 @@ namespace Krypton.Ribbon
             Add(_viewLarge);
         }
 
-        private void OnLargeButtonDropDown(object sender, EventArgs e)
-        {
-            GroupGallery.LastGallery?.ShownGalleryDropDown(_ribbon.ViewRectangleToScreen(_viewLarge),
+        private void OnLargeButtonDropDown(object sender, EventArgs e) => GroupGallery.LastGallery.ShownGalleryDropDown(_ribbon.ViewRectangleToScreen(_viewLarge),
                 KryptonContextMenuPositionH.Left,
                 KryptonContextMenuPositionV.Below,
                 _viewLarge.FinishDelegate,
                 GroupGallery.DropButtonItemWidth);
-        }
 
-        private void OnContextClick(object sender, MouseEventArgs e)
-        {
-            GroupGallery.OnDesignTimeContextMenu(e);
-        }
+        private void OnContextClick(object sender, MouseEventArgs e) => GroupGallery.OnDesignTimeContextMenu(e);
 
         private void OnGalleryPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
@@ -626,12 +614,14 @@ namespace Krypton.Ribbon
                     _viewLargeText1.MakeDirty();
                     updateLayout = true;
                     break;
+
                 case "TextLine2":
                     _viewLargeText2.MakeDirty();
                     updateLayout = true;
                     break;
+
                 case "ImageLarge":
-                case "ImageList":
+                case nameof(ImageList):
                 case "LargeItemCount":
                 case "MediumItemCount":
                 case "ItemSizeMinimum":
@@ -639,10 +629,12 @@ namespace Krypton.Ribbon
                 case "ItemSizeCurrent":
                     updateLayout = true;
                     break;
-                case "Enabled":
+
+                case nameof(Enabled):
                     UpdateEnabled(LastGallery);
                     break;
-                case "Visible":
+
+                case nameof(Visible):
                     UpdateVisible(LastGallery);
                     updateLayout = true;
                     break;
@@ -677,13 +669,13 @@ namespace Krypton.Ribbon
 #pragma warning restore 162
         }
 
-        private Control LastParentControl
+        private Control? LastParentControl
         {
             get => GroupGallery.LastParentControl;
             set => GroupGallery.LastParentControl = value;
         }
 
-        private KryptonGallery LastGallery
+        private KryptonGallery? LastGallery
         {
             get => GroupGallery.LastGallery;
             set => GroupGallery.LastGallery = value;
@@ -700,7 +692,7 @@ namespace Krypton.Ribbon
                 if ((GroupGallery.RibbonGroup.ShowingAsPopup && (parentControl is VisualPopupGroup)) ||
                     (!GroupGallery.RibbonGroup.ShowingAsPopup && parentControl is not VisualPopupGroup))
                 {
-                    // If we have added the custrom control to a parent before
+                    // If we have added the custom control to a parent before
                     if ((LastGallery != null) && (LastParentControl != null))
                     {
                         // If that control is still a child of the old parent
@@ -744,7 +736,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void UpdateEnabled(Control c)
+        private void UpdateEnabled(Control? c)
         {
             if (c != null)
             {
@@ -762,7 +754,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private bool ActualVisible(Control c)
+        private bool ActualVisible(Control? c)
         {
             if (c != null)
             {
@@ -782,7 +774,7 @@ namespace Krypton.Ribbon
             return false;
         }
 
-        private void UpdateVisible(Control c)
+        private void UpdateVisible(Control? c)
         {
             if (c != null)
             {
@@ -845,7 +837,7 @@ namespace Krypton.Ribbon
             _activeGroup = null;
 
             // Find the parent group instance
-            ViewBase parent = Parent;
+            ViewBase? parent = Parent;
 
             // Keep going till we get to the top or find a group
             while (parent != null)

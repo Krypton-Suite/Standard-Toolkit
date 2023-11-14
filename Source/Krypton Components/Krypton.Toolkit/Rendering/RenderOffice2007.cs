@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -59,9 +59,9 @@ namespace Krypton.Toolkit
         /// <param name="paletteBack">Palette used for recovering drawing details.</param>
         /// <param name="state">State associated with rendering.</param>
         public override void DrawRibbonClusterEdge(PaletteRibbonShape shape,
-                                                   RenderContext context,
+            [DisallowNull] RenderContext context,
                                                    Rectangle displayRect,
-                                                   IPaletteBack paletteBack,
+                                                   [DisallowNull] IPaletteBack paletteBack,
                                                    PaletteState state)
         {
             Debug.Assert(context != null);
@@ -75,7 +75,7 @@ namespace Krypton.Toolkit
                                                         Color.White, WHITE_PERCENT);
 
             // Draw inside of the border edge in a lighter version of the border
-            using SolidBrush drawBrush = new(lightColor);
+            using var drawBrush = new SolidBrush(lightColor);
             context.Graphics.FillRectangle(drawBrush, displayRect);
         }
 
@@ -88,7 +88,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="colorPalette">Color palette to use when rendering toolstrip.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public override ToolStripRenderer RenderToolStrip(IPalette colorPalette)
+        public override ToolStripRenderer RenderToolStrip([DisallowNull] PaletteBase colorPalette)
         {
             Debug.Assert(colorPalette != null);
 
@@ -99,7 +99,7 @@ namespace Krypton.Toolkit
             }
 
             // Use the professional renderer but pull colors from the palette
-            KryptonOffice2007Renderer renderer = new(colorPalette.ColorTable)
+            var renderer = new KryptonOffice2007Renderer(colorPalette.ColorTable)
             {
                 // Setup the need to use rounded corners
                 RoundedEdges = colorPalette.ColorTable.UseRoundedEdges != InheritBool.False
@@ -119,7 +119,7 @@ namespace Krypton.Toolkit
                                                             IPaletteRibbonBack paletteBack,
                                                             IDisposable memento)
         {
-            if ((rect.Width > 0) && (rect.Height > 0))
+            if (rect is { Width: > 0, Height: > 0 })
             {
                 Color c1 = paletteGeneral.GetRibbonTabSeparatorContextColor(PaletteState.Normal);
                 Color c2 = paletteBack.GetRibbonBackColor5(PaletteState.ContextCheckedNormal);
@@ -147,36 +147,37 @@ namespace Krypton.Toolkit
                     // Dispose of existing values
                     cache.Dispose();
 
-                    Rectangle borderRect = new(rect.X - 1, rect.Y - 1, rect.Width + 2, rect.Height + 2);
-                    cache.fillRect = new Rectangle(rect.X + 1, rect.Y, rect.Width - 2, rect.Height - 1);
+                    var borderRect = new Rectangle(rect.X - 1, rect.Y - 1, rect.Width + 2, rect.Height + 2);
+                    cache.FillRect = new Rectangle(rect.X + 1, rect.Y, rect.Width - 2, rect.Height - 1);
 
-                    LinearGradientBrush borderBrush = new(borderRect, c1, Color.Transparent, 270f)
+                    var borderBrush = new LinearGradientBrush(borderRect, c1, Color.Transparent, 270f)
                     {
                         Blend = _ribbonGroup5Blend
                     };
-                    cache.borderPen = new Pen(borderBrush);
+                    cache.BorderPen = new Pen(borderBrush);
 
-                    LinearGradientBrush underlineBrush = new(borderRect, Color.Transparent, Color.FromArgb(200, c2), 0f)
-                    {
-                        Blend = _ribbonGroup7Blend
-                    };
-                    cache.underlinePen = new Pen(underlineBrush);
+                    var underlineBrush =
+                        new LinearGradientBrush(borderRect, Color.Transparent, Color.FromArgb(200, c2), 0f)
+                        {
+                            Blend = _ribbonGroup7Blend
+                        };
+                    cache.UnderlinePen = new Pen(underlineBrush);
 
-                    cache.fillBrush = new LinearGradientBrush(borderRect, Color.FromArgb(106, c2), Color.Transparent, 270f)
+                    cache.FillBrush = new LinearGradientBrush(borderRect, Color.FromArgb(106, c2), Color.Transparent, 270f)
                     {
                         Blend = _ribbonGroup6Blend
                     };
                 }
 
                 // Draw the left and right border lines
-                context.Graphics.DrawLine(cache.borderPen, rect.X, rect.Y, rect.X, rect.Bottom - 1);
-                context.Graphics.DrawLine(cache.borderPen, rect.Right - 1, rect.Y, rect.Right - 1, rect.Bottom - 1);
+                context.Graphics.DrawLine(cache.BorderPen, rect.X, rect.Y, rect.X, rect.Bottom - 1);
+                context.Graphics.DrawLine(cache.BorderPen, rect.Right - 1, rect.Y, rect.Right - 1, rect.Bottom - 1);
 
                 // Fill the inner area with a gradient context specific color
-                context.Graphics.FillRectangle(cache.fillBrush, cache.fillRect);
+                context.Graphics.FillRectangle(cache.FillBrush, cache.FillRect);
 
                 // Overdraw the brighter line at bottom
-                context.Graphics.DrawLine(cache.underlinePen, rect.X + 1, rect.Bottom - 2, rect.Right - 2, rect.Bottom - 2);
+                context.Graphics.DrawLine(cache.UnderlinePen, rect.X + 1, rect.Bottom - 2, rect.Right - 2, rect.Bottom - 2);
             }
 
             return memento;

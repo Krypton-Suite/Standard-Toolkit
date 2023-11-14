@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -19,8 +19,8 @@ namespace Krypton.Toolkit
     public abstract class Storage : GlobalId
     {
         #region Instance Fields
-        private NeedPaintHandler _needPaint;
-        private NeedPaintHandler _needPaintDelegate;
+        private NeedPaintHandler? _needPaint;
+        private NeedPaintHandler? _needPaintDelegate;
         #endregion
 
         #region Identity
@@ -28,7 +28,7 @@ namespace Krypton.Toolkit
         /// Returns a string that represents the current defaulted state.
         /// </summary>
         /// <returns>A string that represents the current defaulted state.</returns>
-        public override string ToString() => !IsDefault ? "Modified" : string.Empty;
+        public override string ToString() => !IsDefault ? @"Modified" : string.Empty;
 
         #endregion
 
@@ -46,7 +46,8 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public virtual NeedPaintHandler NeedPaint
+        [AllowNull]
+        public virtual NeedPaintHandler? NeedPaint
         {
             get => _needPaint;
             set => _needPaint = value;
@@ -81,7 +82,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">An NeedLayoutEventArgs containing event data.</param>
-        protected virtual void OnNeedPaint(object sender, NeedLayoutEventArgs e) => _needPaint?.Invoke(this, e);
+        protected virtual void OnNeedPaint(object? sender, NeedLayoutEventArgs e) => _needPaint?.Invoke(this, e);
 
         #endregion
     }

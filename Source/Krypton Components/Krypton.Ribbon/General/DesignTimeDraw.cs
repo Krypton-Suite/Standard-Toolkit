@@ -5,7 +5,9 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  
+ *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
  */
 #endregion
@@ -55,7 +57,7 @@ namespace Krypton.Ribbon
                 : ribbon.StateCommon.RibbonGroupButton.Back.GetBackColor1(PaletteState.Tracking);
 
             // Draw entire area in color
-            using SolidBrush darkBrush = new(c);
+            using var darkBrush = new SolidBrush(c);
             context.Graphics.FillRectangle(darkBrush, clientRect);
         }
         #endregion
@@ -82,14 +84,14 @@ namespace Krypton.Ribbon
             drawRect.Width -= DESIGN_SEP_WIDTH;
             drawRect.Height--;
             drawRect.X++;
-            using (Pen darkPen = new(c))
+            using (var darkPen = new Pen(c))
             {
                 context.Graphics.DrawRectangle(darkPen, drawRect);
             }
 
             // Draw the flap in the dark color
             drawRect.Width = DESIGN_FLAP_WIDTH - 2;
-            using (SolidBrush darkBrush = new(c))
+            using (var darkBrush = new SolidBrush(c))
             {
                 context.Graphics.FillRectangle(darkBrush, drawRect);
             }

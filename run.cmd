@@ -1,21 +1,33 @@
-:: Last updated: Tuesday 29th March 2022 @ 10:00 AM
+:: Last updated: Monday 28th August, 2023 @ 18:00
 
 @echo off
 
+title Krypton Toolkit Build System
+
 cls
+
+@echo Welcome to the Krypton Toolkit Build system, version: 1.9. Please select an option below.
+
+@echo ==============================================================================================
 
 echo 1. Clean project
 echo 2. Build Krypton Toolkit
 echo 3. Create NuGet packages
+::echo 4. Rebuild project
+::echo 4. Clean, Build and create NuGet packages
 echo 4. Debug project
-echo 5. End
+echo 5. NuGet Tools
+echo 6. End
 
-set /p answer="Enter number (1 - 5): "
-if %answer%==1 (goto mainmenuchoice1)
-if %answer%==2 (goto mainmenuchoice2)
-if %answer%==3 (goto mainmenuchoice3)
-if %answer%==4 (goto mainmenuchoice4)
-if %answer%==5 (goto mainmenuchoice5)
+set /p answer="Enter number (1 - 6): "
+if %answer%==1 (goto cleanproject)
+if %answer%==2 (goto buildproject)
+if %answer%==3 (goto createnugetpackages)
+::if %answer%==4 (goto rebuildproject)
+::if %answer%==4 (goto buildandcreatenugetpackages)
+if %answer%==4 (goto debugproject)
+if %answer%==5 (goto nugettools)
+if %answer%==6 (goto exitbuildsystem)
 
 @echo Invalid input, please try again.
 
@@ -26,20 +38,27 @@ goto mainmenu
 :: ===================================================================================================
 
 :mainmenu
+
 cls
 
 echo 1. Clean project
 echo 2. Build Krypton Toolkit
 echo 3. Create NuGet packages
+::echo 4. Rebuild project
+::echo 4. Clean, Build and create NuGet packages
 echo 4. Debug project
-echo 5. End
+echo 5. NuGet Tools
+echo 6. End
 
-set /p answer="Enter number (1 - 5): "
-if %answer%==1 (goto mainmenuchoice1)
-if %answer%==2 (goto mainmenuchoice2)
-if %answer%==3 (goto mainmenuchoice3)
-if %answer%==4 (goto mainmenuchoice4)
-if %answer%==5 (goto mainmenuchoice5)
+set /p answer="Enter number (1 - 6): "
+if %answer%==1 (goto cleanproject)
+if %answer%==2 (goto buildproject)
+if %answer%==3 (goto createnugetpackages)
+::if %answer%==4 (goto rebuildproject)
+::if %answer%==4 (goto buildandcreatenugetpackages)
+if %answer%==4 (goto debugproject)
+if %answer%==5 (goto nugettools)
+if %answer%==6 (goto exitbuildsystem)
 
 @echo Invalid input, please try again.
 
@@ -50,22 +69,18 @@ goto mainmenu
 :buildmenu
 cls
 
-echo 1. Build nightly version using Visual Studio 2019
-echo 2. Build nightly version using Visual Studio 2022
-echo 3. Build canary version using Visual Studio 2019
-echo 4. Build canary version using Visual Studio 2022
-echo 5. Build stable version using Visual Studio 2019
-echo 6. Build stable version using Visual Studio 2022
-echo 7. Go back to main menu
+echo 1. Build nightly version
+echo    a. Rebuild project
+echo 2. Build canary version
+echo 3. Build stable version
+echo 4. Go back to main menu
 
-set /p answer="Enter number (1 - 7): "
-if %answer%==1 (goto buildnightlyusingvisualstudio2019)
-if %answer%==2 (goto buildnightlyusingvisualstudio2022)
-if %answer%==3 (goto buildcanaryusingvisualstudio2019)
-if %answer%==4 (goto buildcanaryusingvisualstudio2022)
-if %answer%==5 (goto buildstableusingvisualstudio2019)
-if %answer%==6 (goto buildstableusingvisualstudio2022)
-if %answer%==7 (goto mainmenu)
+set /p answer="Enter number or letter (1 - 4, a - *): "
+if %answer%==1 (goto buildnightly)
+if %answer%==a (goto rebuildproject)
+if %answer%==2 (goto buildcanary)
+if %answer%==3 (goto buildstable)
+if %answer%==4 (goto mainmenu)
 
 @echo Invalid input, please try again.
 
@@ -76,22 +91,16 @@ goto buildmenu
 :packmenu
 cls
 
-echo 1. Pack nightly version using Visual Studio 2019
-echo 2. Pack nightly version using Visual Studio 2022
-echo 3. Pack canary version using Visual Studio 2019
-echo 4. Pack canary version using Visual Studio 2022
-echo 5. Pack stable version using Visual Studio 2019
-echo 6. Pack stable version using Visual Studio 2022
-echo 7. Go back to main menu
+echo 1. Pack nightly version
+echo 2. Pack canary version
+echo 3. Pack stable version
+echo 4. Go back to main menu
 
-set /p answer="Enter number (1 - 7): "
-if %answer%==1 (goto packnightlyusingvisualstudio2019)
-if %answer%==2 (goto packnightlyusingvisualstudio2022)
-if %answer%==3 (goto packcanaryusingvisualstudio2019)
-if %answer%==4 (goto packcanaryusingvisualstudio2022)
-if %answer%==5 (goto packstableusingvisualstudio2019)
-if %answer%==6 (goto packstableusingvisualstudio2022)
-if %answer%==7 (goto mainmenu)
+set /p answer="Enter number (1 - 4): "
+if %answer%==1 (goto packnightly)
+if %answer%==2 (goto packcanary)
+if %answer%==3 (goto packstable)
+if %answer%==4 (goto mainmenu)
 
 @echo Invalid input, please try again.
 
@@ -102,14 +111,12 @@ goto packmenu
 :debugmenu
 cls
 
-echo 1. Debug using Visual Studio 2019
-echo 2. Debug using Visual Studio 2022
-echo 3. Go back to main mainmenu
+echo 1. Debug
+echo 2. Go back to main mainmenu
 
-set /p answer="Enter number (1 - 3): "
-if %answer%==1 (goto debugusingvisualstudio2019)
-if %answer%==2 (goto debugusingvisualstudio2022)
-if %answer%==3 (goto mainmenu)
+set /p answer="Enter number (1 - 2): "
+if %answer%==1 (goto debug)
+if %answer%==2 (goto mainmenu)
 
 @echo Invalid input, please try again.
 
@@ -156,126 +163,93 @@ goto mainmenu
 
 :: ===================================================================================================
 
-:mainmenuchoice1
+:cleanproject
 goto cleanproject
 
-:mainmenuchoice2
+:buildproject
 goto buildmenu
 
-:mainmenuchoice3
+:createnugetpackages
 goto packmenu
 
-:mainmenuchoice4
+:debugproject
 goto debugmenu
 
-:mainmenuchoice5
+:nugettools
+goto nugettools
+
+:exitbuildsystem
+@echo Exiting the build system, have a good day. Bye!
+
+pause
+
 exit
 
 :: ===================================================================================================
 
-:buildnightlyusingvisualstudio2019
+:buildnightly
 cls
 
 cd Scripts
 
-build-nightly-2019.cmd
+build-nightly.cmd
 
-:buildnightlyusingvisualstudio2022
+cd ..
+
+:buildcanary
 cls
 
 cd Scripts
 
-build-nightly-2022.cmd
+build-canary.cmd
 
-:buildcanaryusingvisualstudio2019
+cd ..
+
+:buildinstaller
 cls
 
 cd Scripts
 
-build-canary-2019.cmd
-
-:buildcanaryusingvisualstudio2022
+build-installer.cmd
 cls
 
 cd Scripts
 
-build-canary-2022.cmd
+cd ..
 
-:buildinstallerusingvisualstudio2019
+:buildstable
 cls
 
 cd Scripts
 
-build-installer-2019.cmd
+build-stable.cmd
 
-:buildinstallerusingvisualstudio2022
-cls
-
-cd Scripts
-
-build-installer-2022.cmd
-
-cd Scripts
-
-:buildstableusingvisualstudio2019
-cls
-
-cd Scripts
-
-build-stable-2019.cmd
-
-:buildstableusingvisualstudio2022
-cls
-
-cd Scripts
-
-build-stable-2022.cmd
+cd ..
 
 :: ===================================================================================================
 
-:packnightlyusingvisualstudio2019
+:packnightly
 cls
 
 cd Scripts
 
-build-nightly-2019.cmd Pack
+build-nightly.cmd Pack
 
-:packnightlyusingvisualstudio2022
+:packcanary
 cls
 
 cd Scripts
 
-build-nightly-2022.cmd Pack
+build-canary.cmd Pack
 
-:packcanaryusingvisualstudio2019
+:packinstaller
 cls
 
 cd Scripts
 
-build-canary-2019.cmd Pack
+build-installer.cmd Pack
 
-:packcanaryusingvisualstudio2022
-cls
-
-cd Scripts
-
-build-canary-2022.cmd Pack
-
-:packinstallerusingvisualstudio2019
-cls
-
-cd Scripts
-
-build-installer-2019.cmd Pack
-
-:packinstallerusingvisualstudio2022
-cls
-
-cd Scripts
-
-build-installer-2022.cmd Pack
-
-:packstableusingvisualstudio2019
+:packstable
 cls
 
 echo 1. Produce 'Lite' stable packages
@@ -284,81 +258,43 @@ echo 3. Produce 'full/lite' stable packages
 echo 4. Go back to main menu
 
 set /p answer="Enter number (1 - 4): "
-if %answer%==1 (goto packstableusingvisualstudio2019lite)
-if %answer%==2 (goto packstableusingvisualstudio2019full)
-if %answer%==3 (goto packstableusingvisualstudio2019both)
+if %answer%==1 (goto packstablelite)
+if %answer%==2 (goto packstablefull)
+if %answer%==3 (goto packstableboth)
 if %answer%==4 (goto mainmenu)
 
 @echo Invalid input, please try again.
 
 pause
 
-goto packstableusingvisualstudio2019
-
-:packstableusingvisualstudio2022
-cls
-
-echo 1. Produce 'Lite' stable packages
-echo 2. Produce 'full' stable packages
-echo 3. Produce 'full/lite' stable packages
-echo 4. Go back to main menu
-
-set /p answer="Enter number (1 - 4): "
-if %answer%==1 (goto packstableusingvisualstudio2022lite)
-if %answer%==2 (goto packstableusingvisualstudio2022full)
-if %answer%==3 (goto packstableusingvisualstudio2022both)
-if %answer%==4 (goto mainmenu)
-
-@echo Invalid input, please try again.
-
-pause
-
-goto packstableusingvisualstudio2022
+goto packstable
 
 :: ===================================================================================================
 
-cd Scripts
-
-build-stable-2019.cmd PackLite
-
-:packstableusingvisualstudio2019full
+:packstablelite
 cls
 
 cd Scripts
 
-build-stable-2019.cmd PackAll
+build-stable.cmd PackLite
 
-:packstableusingvisualstudio2019both
+:packstablefull
 cls
 
 cd Scripts
 
-build-stable-2019.cmd Pack
+build-stable.cmd PackAll
 
-:packstableusingvisualstudio2022lite
+:packstableboth
 cls
 
 cd Scripts
 
-build-stable-2022.cmd PackLite
-
-:packstableusingvisualstudio2022full
-cls
-
-cd Scripts
-
-build-stable-2022.cmd PackAll
-
-:packstableusingvisualstudio2022both
-cls
-
-cd Scripts
-
-build-stable-2022.cmd Pack
+build-stable.cmd Pack
 
 :: ===================================================================================================
 
-:debugusingvisualstudio2019
+:debug
 cls
 
 echo Deleting the 'Bin' folder
@@ -387,10 +323,46 @@ cls
 
 cd Scripts
 
-build-nightly-2019.cmd
+build-nightly.cmd
 
-:debugusingvisualstudio2022
+:: ===================================================================================================
+
+:nugettools
 cls
+
+cd Scripts
+
+:: ===================================================================================================
+
+update-nuget.cmd
+
+:buildandcreatenugetpackages
+cls
+
+echo 1. Build nightly packages
+echo 2. Build canary packages
+echo 3. Build stable packages
+echo 4. Build stable (lite) packages
+echo 5. Go back to main menu
+
+set /p answer="Enter number (1 - 5): "
+
+if %answer%==1 (goto buildnightlypackages)
+if %answer%==2 (goto buildcanarypackages)
+if %answer%==3 (goto buildstablepackages)
+if %answer%==4 (goto buildstablelitepackages)
+if %answer%==5 (goto mainmenu)
+
+@echo Invalid input, please try again.
+
+pause
+
+:: ===================================================================================================
+
+:buildnightlypackages
+cls
+
+echo Step 1: Clean
 
 echo Deleting the 'Bin' folder
 rd /s /q "Bin"
@@ -416,6 +388,32 @@ echo Deleted the 'build.log' file
 
 cls
 
+echo Step 2: Build
+
 cd Scripts
 
-build-nightly-2022.cmd
+build-nightly-custom.cmd
+
+pause
+
+cls
+
+echo Step 3: Pack
+
+build-nightly-custom.cmd Pack
+
+pause
+
+:: ===================================================================================================
+
+:rebuildproject
+cls
+
+cd Scripts
+
+rebuild-build-nightly.cmd
+
+:: ===================================================================================================
+
+
+:: ===================================================================================================

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -16,7 +16,7 @@ namespace Krypton.Toolkit
                                                   IKryptonDesignerSelect
     {
         #region Instance Fields
-        private KryptonSplitterPanel _panel;
+        private KryptonSplitterPanel? _panel;
         private ISelectionService _selectionService;
         #endregion
 
@@ -25,7 +25,7 @@ namespace Krypton.Toolkit
         /// Initializes the designer with the specified component.
         /// </summary>
         /// <param name="component">The IComponent to associate with the designer.</param>
-        public override void Initialize(IComponent component)
+        public override void Initialize([DisallowNull] IComponent component)
         {
             // Perform common base class initializating
             base.Initialize(component);
@@ -39,7 +39,7 @@ namespace Krypton.Toolkit
             _selectionService = (ISelectionService)GetService(typeof(ISelectionService));
 
             // Hook into changes in selected component
-            IComponentChangeService service = (IComponentChangeService)GetService(typeof(IComponentChangeService));
+            var service = (IComponentChangeService)GetService(typeof(IComponentChangeService));
             if (service != null)
             {
                 service.ComponentChanged += OnComponentChanged;
@@ -102,7 +102,7 @@ namespace Krypton.Toolkit
                 if (disposing)
                 {
                     // Get access to the component change service
-                    IComponentChangeService service = (IComponentChangeService)GetService(typeof(IComponentChangeService));
+                    var service = (IComponentChangeService)GetService(typeof(IComponentChangeService));
 
                     // Must unhook our event from the service so we can be garbage collected
                     if (service != null)
@@ -128,7 +128,7 @@ namespace Krypton.Toolkit
             base.OnPaintAdornments(pe);
 
             // If the panel has no children, then draw the watermark
-            if ((_panel != null) && (_panel.Controls.Count == 0))
+            if (_panel is { Controls.Count: 0 })
             {
                 DrawWaterMark(pe.Graphics);
             }
@@ -152,7 +152,7 @@ namespace Krypton.Toolkit
             foreach (DictionaryEntry entry in properties)
             {
                 // Get the property descriptor for the entry
-                PropertyDescriptor descriptor = (PropertyDescriptor)entry.Value;
+                var descriptor = (PropertyDescriptor)entry.Value;
 
                 // Is this the 'Name' we are searching for?
                 if (descriptor.Name.Equals((@"Name")) && descriptor.DesignTimeOnly)
@@ -218,7 +218,7 @@ namespace Krypton.Toolkit
             var drawText = Control.Name;
 
             // Use a fixed font for the drawing
-            using Font f = new("Arial", 8f);
+            using var f = new Font("Arial", 8f);
             try
             {
                 // Measure the size of the text
@@ -234,7 +234,10 @@ namespace Krypton.Toolkit
                     Color.Black,
                     TextFormatFlags.GlyphOverhangPadding);
             }
-            catch { }
+            catch (Exception ex)
+            {
+                CommonHelper.LogOutput(ex.Message);
+            }
         }
         #endregion
     }

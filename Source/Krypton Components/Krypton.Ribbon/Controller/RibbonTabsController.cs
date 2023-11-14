@@ -5,7 +5,9 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  
+ *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
  */
 #endregion
@@ -27,7 +29,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Occurs when the mouse is used to right click the target.
         /// </summary>
-        public event MouseEventHandler ContextClick;
+        public event MouseEventHandler? ContextClick;
         #endregion
 
         #region Identity
@@ -35,7 +37,7 @@ namespace Krypton.Ribbon
         /// Initialize a new instance of the RibbonTabsController class.
         /// </summary>
         /// <param name="ribbon">Reference to owning control.</param>
-        public RibbonTabsController(KryptonRibbon ribbon)
+        public RibbonTabsController([DisallowNull] KryptonRibbon ribbon)
         {
             Debug.Assert(ribbon != null);
             _ribbon = ribbon;
@@ -105,7 +107,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="c">Reference to the source control instance.</param>
         /// <param name="next">Reference to view that is next to have the mouse.</param>
-        public virtual void MouseLeave(Control c, ViewBase next)
+        public virtual void MouseLeave(Control c, ViewBase? next)
         {
         }
 
@@ -129,10 +131,7 @@ namespace Krypton.Ribbon
         /// Raises the ContextClick event.
         /// </summary>
         /// <param name="e">A MouseEventArgs containing the event data.</param>
-        protected virtual void OnContextClick(MouseEventArgs e)
-        {
-            ContextClick?.Invoke(this, e);
-        }
+        protected virtual void OnContextClick(MouseEventArgs e) => ContextClick?.Invoke(this, e);
         #endregion
     }
 }

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -18,43 +18,50 @@ namespace Krypton.Toolkit
     public class PaletteProfessionalSystem : PaletteBase
     {
         #region Static Fields
-        private static readonly Padding _contentPaddingGrid = new(2, 1, 2, 1);
-        private static readonly Padding _contentPaddingHeader1 = new(3, 2, 3, 2);
-        private static readonly Padding _contentPaddingHeader2 = new(3, 2, 3, 2);
-        private static readonly Padding _contentPaddingHeader3 = new(2, 1, 2, 1);
-        private static readonly Padding _contentPaddingCalendar = new(2);
-        private static readonly Padding _contentPaddingHeaderForm = new(10, 6, 3, 1); // 10 is from the RealWindowFrameSize +1
-        private static readonly Padding _contentPaddingLabel = new(3, 2, 3, 2);
-        private static readonly Padding _contentPaddingLabel2 = new(8, 2, 8, 2);
-        private static readonly Padding _contentPaddingButtonCalendar = new(0);
-        private static readonly Padding _contentPaddingButtonInputControl = new(1);
-        private static readonly Padding _contentPaddingButton12 = new(3, 2, 3, 2);
-        private static readonly Padding _contentPaddingButton3 = new(1, 1, 1, 1);
-        private static readonly Padding _contentPaddingButton4 = new(4, 3, 4, 3);
-        private static readonly Padding _contentPaddingButton5 = new(3, 3, 3, 2);
-        private static readonly Padding _contentPaddingButton6 = new(3);
-        private static readonly Padding _contentPaddingButton7 = new(1, 1, 3, 1);
-        private static readonly Padding _contentPaddingButtonForm = new(5, 5, 5, 5);
-        private static readonly Padding _contentPaddingButtonGallery = new(1, 0, 1, 0);
-        private static readonly Padding _contentPaddingToolTip = new(2, 2, 2, 2);
-        private static readonly Padding _contentPaddingSuperTip = new(4, 4, 4, 4);
-        private static readonly Padding _contentPaddingKeyTip = new(1, -1, 0, -2);
-        private static readonly Padding _contentPaddingContextMenuHeading = new(8, 2, 8, 0);
-        private static readonly Padding _contentPaddingContextMenuImage = new(1);
-        private static readonly Padding _contentPaddingContextMenuItemText = new(9, 1, 7, 0);
-        private static readonly Padding _contentPaddingContextMenuItemTextAlt = new(7, 1, 6, 0);
-        private static readonly Padding _contentPaddingContextMenuItemShortcutText = new(3, 1, 4, 0);
-        private static readonly Padding _metricPaddingInputControl = new(0, 1, 0, 1);
-        private static readonly Padding _metricPaddingRibbon = new(0, 1, 1, 1);
-        private static readonly Padding _metricPaddingRibbonAppButton = new(3, 0, 3, 0);
-        private static readonly Padding _metricPaddingHeader = new(0, 3, 1, 3);
-        private static readonly Padding _metricPaddingHeaderForm = new(0, 3, 0, -3); // Move the Maximised Form buttons down a bit
-        private static readonly Padding _metricPaddingBarInside = new(3, 3, 3, 3);
-        private static readonly Padding _metricPaddingBarTabs = new(0, 0, 0, 0);
-        private static readonly Padding _metricPaddingBarOutside = new(0, 0, 0, 3);
-        private static readonly Padding _metricPaddingPageButtons = new(1, 3, 1, 3);
-        private static readonly Padding _metricPaddingContextMenuItemHighlight = new(1, 0, 1, 0);
-        private static readonly Padding _metricPaddingContextMenuItemsCollection = new(0, 1, 0, 1);
+
+        #region Padding
+
+        private static readonly Padding _contentPaddingGrid = new Padding(2, 1, 2, 1);
+        private static readonly Padding _contentPaddingHeader1 = new Padding(3, 2, 3, 2);
+        private static readonly Padding _contentPaddingHeader2 = new Padding(3, 2, 3, 2);
+        private static readonly Padding _contentPaddingHeader3 = new Padding(2, 1, 2, 1);
+        private static readonly Padding _contentPaddingCalendar = new Padding(2);
+        private static readonly Padding _contentPaddingHeaderForm = new Padding(10, 6, 3, 1); // 10 is from the RealWindowFrameSize +1
+        private static readonly Padding _contentPaddingLabel = new Padding(3, 2, 3, 2);
+        private static readonly Padding _contentPaddingLabel2 = new Padding(8, 2, 8, 2);
+        private static readonly Padding _contentPaddingButtonCalendar = new Padding(0);
+        private static readonly Padding _contentPaddingButtonInputControl = new Padding(1);
+        private static readonly Padding _contentPaddingButton12 = new Padding(3, 2, 3, 2);
+        private static readonly Padding _contentPaddingButton3 = new Padding(1, 1, 1, 1);
+        private static readonly Padding _contentPaddingButton4 = new Padding(4, 3, 4, 3);
+        private static readonly Padding _contentPaddingButton5 = new Padding(3, 3, 3, 2);
+        private static readonly Padding _contentPaddingButton6 = new Padding(3);
+        private static readonly Padding _contentPaddingButton7 = new Padding(1, 1, 3, 1);
+        private static readonly Padding _contentPaddingButtonForm = new Padding(5, 5, 5, 5);
+        private static readonly Padding _contentPaddingButtonGallery = new Padding(1, 0, 1, 0);
+        private static readonly Padding _contentPaddingToolTip = new Padding(2, 2, 2, 2);
+        private static readonly Padding _contentPaddingSuperTip = new Padding(4, 4, 4, 4);
+        private static readonly Padding _contentPaddingKeyTip = new Padding(1, -1, 0, -2);
+        private static readonly Padding _contentPaddingContextMenuHeading = new Padding(8, 2, 8, 0);
+        private static readonly Padding _contentPaddingContextMenuImage = new Padding(1);
+        private static readonly Padding _contentPaddingContextMenuItemText = new Padding(9, 1, 7, 0);
+        private static readonly Padding _contentPaddingContextMenuItemTextAlt = new Padding(7, 1, 6, 0);
+        private static readonly Padding _contentPaddingContextMenuItemShortcutText = new Padding(3, 1, 4, 0);
+        private static readonly Padding _metricPaddingInputControl = new Padding(0, 1, 0, 1);
+        private static readonly Padding _metricPaddingRibbon = new Padding(0, 1, 1, 1);
+        private static readonly Padding _metricPaddingRibbonAppButton = new Padding(3, 0, 3, 0);
+        private static readonly Padding _metricPaddingHeader = new Padding(0, 3, 1, 3);
+        private static readonly Padding _metricPaddingHeaderForm = new Padding(0, 3, 0, -3); // Move the Maximised Form buttons down a bit
+        private static readonly Padding _metricPaddingBarInside = new Padding(3, 3, 3, 3);
+        private static readonly Padding _metricPaddingBarTabs = new Padding(0, 0, 0, 0);
+        private static readonly Padding _metricPaddingBarOutside = new Padding(0, 0, 0, 3);
+        private static readonly Padding _metricPaddingPageButtons = new Padding(1, 3, 1, 3);
+        private static readonly Padding _metricPaddingContextMenuItemHighlight = new Padding(1, 0, 1, 0);
+        private static readonly Padding _metricPaddingContextMenuItemsCollection = new Padding(0, 1, 0, 1);
+
+        #endregion
+
+        #region Images
 
         private static readonly Image _buttonSpecClose = ProfessionalButtonSpecResources.ProfessionalCloseButton;
         private static readonly Image _buttonSpecContext = GenericProfessionalImageResources.ProfessionalContextButton;
@@ -67,20 +74,20 @@ namespace Krypton.Toolkit
         private static readonly Image _buttonSpecDropDown = GenericProfessionalImageResources.ProfessionalDropDownButton;
         private static readonly Image _buttonSpecPinVertical = ProfessionalPinImageResources.ProfessionalPinVerticalButton;
         private static readonly Image _buttonSpecPinHorizontal = ProfessionalPinImageResources.ProfessionalPinHorizontalButton;
-        private static readonly Image _buttonSpecWorkspaceMaximize = GenericProfessionalImageResources.ProfessionalMaximize;
+        private static readonly Image _buttonSpecWorkspaceMaximize = ProfessionalControlBoxResources.ProfessionalMaximize;
         private static readonly Image _buttonSpecWorkspaceRestore = GenericProfessionalImageResources.ProfessionalRestore;
         //private static readonly Image _buttonSpecRibbonMinimize = RibbonArrowImageResources.RibbonUp2010;
         //private static readonly Image _buttonSpecRibbonExpand = RibbonArrowImageResources.RibbonDown2010;
         private static readonly Image _systemCloseNormal = ProfessionalControlBoxResources.ProfessionalButtonCloseNormal;
-        private static readonly Image _systemCloseDisabled = ProfessionalControlBoxResources.ProfessionalButtonCloseDisabled;
+        private static readonly Image _systemCloseDisabled = GenericProfessionalImageResources.ProfessionalButtonCloseDisabled;
         private static readonly Image _systemMaximiseNormal = ProfessionalControlBoxResources.ProfessionalButtonMaxNormal;
         private static readonly Image _systemMaximiseDisabled = ProfessionalControlBoxResources.ProfessionalButtonMaxDisabled;
         private static readonly Image _systemMinimiseNormal = ProfessionalControlBoxResources.ProfessionalButtonMinNormal;
         private static readonly Image _systemMinimiseDisabled = ProfessionalControlBoxResources.ProfessionalButtonMinDisabled;
         private static readonly Image _systemRestoreNormal = ProfessionalControlBoxResources.ProfessionalButtonRestoreNormal;
         private static readonly Image _systemRestoreDisabled = ProfessionalControlBoxResources.ProfessionalButtonRestoreDisabled;
-        private static readonly Image _systemHelpA = HelpIconResources.ProfessionalHelpIconNormal;
-        private static readonly Image _systemHelpI = HelpIconResources.ProfessionalHelpIconDisabled;
+        private static readonly Image _systemHelpA = ProfessionalControlBoxResources.ProfessionalHelpIconNormal;
+        private static readonly Image _systemHelpI = ProfessionalControlBoxResources.ProfessionalHelpIconDisabled;
         private static readonly Image _pendantCloseA = ProfessionalPendantImageResources.ProfessionalPendantCloseNormal;
         private static readonly Image _pendantCloseI = ProfessionalPendantImageResources.ProfessionalPendantCloseDisabled;
         private static readonly Image _pendantMinA = ProfessionalPendantImageResources.ProfessionalPendantMinNormal;
@@ -94,8 +101,72 @@ namespace Krypton.Toolkit
         private static readonly Image _contextMenuChecked = GenericProfessionalImageResources.SystemChecked;
         private static readonly Image _contextMenuIndeterminate = GenericProfessionalImageResources.SystemIndeterminate;
         private static readonly Image _contextMenuSubMenu = GenericProfessionalImageResources.SystemContextMenuSub;
-        private static readonly Image _treeExpandPlus = TreeItemImageResources.TreeExpandPlus;
-        private static readonly Image _treeCollapseMinus = TreeItemImageResources.TreeCollapseMinus;
+        private static readonly Image? _treeExpandPlus = TreeItemImageResources.TreeExpandPlus;
+        private static readonly Image? _treeCollapseMinus = TreeItemImageResources.TreeCollapseMinus;
+
+        #region Toolbar Images
+
+        private static readonly Image _formToolbarButtonSpecNewNormal = SystemToolbarImageResources.SystemToolbarNewNormal;
+        private static readonly Image _formToolbarButtonSpecNewActive = SystemToolbarImageResources.SystemToolbarNewNormal;
+        private static readonly Image _formToolbarButtonSpecNewDisabled = SystemToolbarImageResources.SystemToolbarNewDisabled;
+
+        private static readonly Image _formToolbarButtonSpecOpenNormal = SystemToolbarImageResources.SystemToolbarOpenNormal;
+        private static readonly Image _formToolbarButtonSpecOpenActive = SystemToolbarImageResources.SystemToolbarOpenNormal;
+        private static readonly Image _formToolbarButtonSpecOpenDisabled = SystemToolbarImageResources.SystemToolbarOpenDisabled;
+
+        private static readonly Image _formToolbarButtonSpecSaveNormal = SystemToolbarImageResources.SystemToolbarSaveNormal;
+        private static readonly Image _formToolbarButtonSpecSaveActive = SystemToolbarImageResources.SystemToolbarSaveNormal;
+        private static readonly Image _formToolbarButtonSpecSaveDisabled = SystemToolbarImageResources.SystemToolbarSaveDisabled;
+
+        private static readonly Image _formToolbarButtonSpecSaveAllNormal = GenericToolbarImageResources.GenericSaveAll;
+        private static readonly Image _formToolbarButtonSpecSaveAllActive = GenericToolbarImageResources.GenericSaveAll;
+        private static readonly Image _formToolbarButtonSpecSaveAllDisabled = GenericToolbarImageResources.GenericSaveAll;
+
+        private static readonly Image _formToolbarButtonSpecSaveAsNormal = GenericToolbarImageResources.GenericSaveAs;
+        private static readonly Image _formToolbarButtonSpecSaveAsActive = GenericToolbarImageResources.GenericSaveAs;
+        private static readonly Image _formToolbarButtonSpecSaveAsDisabled = GenericToolbarImageResources.GenericSaveAs;
+
+        private static readonly Image _formToolbarButtonSpecCutNormal = SystemToolbarImageResources.SystemToolbarCutNormal;
+        private static readonly Image _formToolbarButtonSpecCutActive = SystemToolbarImageResources.SystemToolbarCutNormal;
+        private static readonly Image _formToolbarButtonSpecCutDisabled = SystemToolbarImageResources.SystemToolbarCutDisabled;
+
+        private static readonly Image _formToolbarButtonSpecCopyNormal = SystemToolbarImageResources.SystemToolbarCopyNormal;
+        private static readonly Image _formToolbarButtonSpecCopyActive = SystemToolbarImageResources.SystemToolbarCopyNormal;
+        private static readonly Image _formToolbarButtonSpecCopyDisabled = SystemToolbarImageResources.SystemToolbarCopyDisabled;
+
+        private static readonly Image _formToolbarButtonSpecPasteNormal = SystemToolbarImageResources.SystemToolbarPasteNormal;
+        private static readonly Image _formToolbarButtonSpecPasteActive = SystemToolbarImageResources.SystemToolbarPasteNormal;
+        private static readonly Image _formToolbarButtonSpecPasteDisabled = SystemToolbarImageResources.SystemToolbarPasteDisabled;
+
+        private static readonly Image _formToolbarButtonSpecUndoNormal = SystemToolbarImageResources.SystemToolbarUndoNormal;
+        private static readonly Image _formToolbarButtonSpecUndoActive = SystemToolbarImageResources.SystemToolbarUndoNormal;
+        private static readonly Image _formToolbarButtonSpecUndoDisabled = SystemToolbarImageResources.SystemToolbarUndoDisabled;
+
+        private static readonly Image _formToolbarButtonSpecRedoNormal = SystemToolbarImageResources.SystemToolbarRedoNormal;
+        private static readonly Image _formToolbarButtonSpecRedoActive = SystemToolbarImageResources.SystemToolbarRedoNormal;
+        private static readonly Image _formToolbarButtonSpecRedoDisabled = SystemToolbarImageResources.SystemToolbarRedoDisabled;
+
+        private static readonly Image _formToolbarButtonSpecPageSetupNormal = GenericToolbarImageResources.GenericPrintSetup;
+        private static readonly Image _formToolbarButtonSpecPageSetupActive = GenericToolbarImageResources.GenericPrintSetup;
+        private static readonly Image _formToolbarButtonSpecPageSetupDisabled = GenericToolbarImageResources.GenericPrintSetup;
+
+        private static readonly Image _formToolbarButtonSpecPrintPreviewNormal = GenericToolbarImageResources.GenericPrintPreview;
+        private static readonly Image _formToolbarButtonSpecPrintPreviewActive = GenericToolbarImageResources.GenericPrintPreview;
+        private static readonly Image _formToolbarButtonSpecPrintPreviewDisabled = GenericToolbarImageResources.GenericPrintSetup;
+
+        private static readonly Image _formToolbarButtonSpecPrintNormal = GenericToolbarImageResources.GenericPrint;
+        private static readonly Image _formToolbarButtonSpecPrintActive = GenericToolbarImageResources.GenericPrint;
+        private static readonly Image _formToolbarButtonSpecPrintDisabled = GenericToolbarImageResources.GenericPrint;
+
+        private static readonly Image _formToolbarButtonSpecQuickPrintNormal = GenericToolbarImageResources.GenericQuickPrint;
+        private static readonly Image _formToolbarButtonSpecQuickPrintActive = GenericToolbarImageResources.GenericQuickPrint;
+        private static readonly Image _formToolbarButtonSpecQuickPrintDisabled = GenericToolbarImageResources.GenericQuickPrint;
+
+        #endregion
+
+        #endregion
+
+        #region Colours
 
         private static readonly Color _contextTextColor = Color.White;
         //private static readonly Color _lightGray = Color.FromArgb(242, 242, 242);
@@ -103,25 +174,13 @@ namespace Krypton.Toolkit
         private static readonly Color _contextCheckedTabBorder2 = Color.FromArgb(230, 190, 129);
         private static readonly Color _contextCheckedTabBorder3 = Color.FromArgb(220, 202, 171);
         private static readonly Color _contextCheckedTabBorder4 = Color.FromArgb(255, 252, 247);
+
+        #endregion
+
         #endregion
 
         #region Instance Fields
         private KryptonProfessionalKCT _table;
-        private Font _header1ShortFont;
-        private Font _header2ShortFont;
-        private Font _header1LongFont;
-        private Font _header2LongFont;
-        private Font _superToolFont;
-        private Font _headerFormFont;
-        private Font _buttonFont;
-        private Font _buttonFontNavigatorMini;
-        private Font _tabFontNormal;
-        private Font _tabFontSelected;
-        private Font _gridFont;
-        private Font _calendarFont;
-        private Font _calendarBoldFont;
-        private Font _boldFont;
-        private Font _italicFont;
         private Image _disabledDropDownImage;
         private Image _normalDropDownImage;
         //private Color _disabledDropDownColor;
@@ -236,7 +295,7 @@ namespace Krypton.Toolkit
 
             return style switch
             {
-                PaletteBackStyle.TabHighProfile or PaletteBackStyle.TabStandardProfile or PaletteBackStyle.TabLowProfile or PaletteBackStyle.TabOneNote or PaletteBackStyle.TabDock or PaletteBackStyle.TabDockAutoHidden or PaletteBackStyle.TabCustom1 or PaletteBackStyle.TabCustom2 or PaletteBackStyle.TabCustom3 or PaletteBackStyle.PanelClient or PaletteBackStyle.PanelRibbonInactive or PaletteBackStyle.PanelCustom1 or PaletteBackStyle.PanelCustom2 or PaletteBackStyle.PanelCustom3 or PaletteBackStyle.SeparatorLowProfile or PaletteBackStyle.SeparatorCustom1 or PaletteBackStyle.SeparatorCustom2 or PaletteBackStyle.SeparatorCustom3 or PaletteBackStyle.PanelAlternate or PaletteBackStyle.ControlClient or PaletteBackStyle.ControlAlternate or PaletteBackStyle.ControlGroupBox or PaletteBackStyle.ControlToolTip or PaletteBackStyle.ControlRibbon or PaletteBackStyle.ControlRibbonAppMenu or PaletteBackStyle.ControlCustom1 or PaletteBackStyle.ControlCustom2 or PaletteBackStyle.ControlCustom3 or PaletteBackStyle.ContextMenuOuter or PaletteBackStyle.ContextMenuInner or PaletteBackStyle.ContextMenuHeading or PaletteBackStyle.ContextMenuSeparator or PaletteBackStyle.ContextMenuItemSplit or PaletteBackStyle.ContextMenuItemImageColumn or PaletteBackStyle.ContextMenuItemImage or PaletteBackStyle.ContextMenuItemHighlight or PaletteBackStyle.InputControlStandalone or PaletteBackStyle.InputControlRibbon or PaletteBackStyle.InputControlCustom1 or PaletteBackStyle.InputControlCustom2 or PaletteBackStyle.InputControlCustom3 or PaletteBackStyle.FormMain or PaletteBackStyle.FormCustom1 or PaletteBackStyle.FormCustom2 or PaletteBackStyle.FormCustom3 or PaletteBackStyle.SeparatorHighInternalProfile or PaletteBackStyle.SeparatorHighProfile or PaletteBackStyle.HeaderPrimary or PaletteBackStyle.HeaderSecondary or PaletteBackStyle.HeaderDockInactive or PaletteBackStyle.HeaderDockActive or PaletteBackStyle.HeaderCalendar or PaletteBackStyle.HeaderForm or PaletteBackStyle.HeaderCustom1 or PaletteBackStyle.HeaderCustom2 or PaletteBackStyle.HeaderCustom3 or PaletteBackStyle.ButtonStandalone or PaletteBackStyle.ButtonGallery or PaletteBackStyle.ButtonAlternate or PaletteBackStyle.ButtonLowProfile or PaletteBackStyle.ButtonBreadCrumb or PaletteBackStyle.ButtonListItem or PaletteBackStyle.ButtonCommand or PaletteBackStyle.ButtonButtonSpec or PaletteBackStyle.ButtonCalendarDay or PaletteBackStyle.ButtonCluster or PaletteBackStyle.ButtonNavigatorStack or PaletteBackStyle.ButtonNavigatorOverflow or PaletteBackStyle.ButtonNavigatorMini or PaletteBackStyle.ButtonForm or PaletteBackStyle.ButtonFormClose or PaletteBackStyle.ButtonCustom1 or PaletteBackStyle.ButtonCustom2 or PaletteBackStyle.ButtonCustom3 or PaletteBackStyle.ButtonInputControl or PaletteBackStyle.GridBackgroundList or PaletteBackStyle.GridBackgroundSheet                     or PaletteBackStyle.GridBackgroundCustom1
+                PaletteBackStyle.TabHighProfile or PaletteBackStyle.TabStandardProfile or PaletteBackStyle.TabLowProfile or PaletteBackStyle.TabOneNote or PaletteBackStyle.TabDock or PaletteBackStyle.TabDockAutoHidden or PaletteBackStyle.TabCustom1 or PaletteBackStyle.TabCustom2 or PaletteBackStyle.TabCustom3 or PaletteBackStyle.PanelClient or PaletteBackStyle.PanelRibbonInactive or PaletteBackStyle.PanelCustom1 or PaletteBackStyle.PanelCustom2 or PaletteBackStyle.PanelCustom3 or PaletteBackStyle.SeparatorLowProfile or PaletteBackStyle.SeparatorCustom1 or PaletteBackStyle.SeparatorCustom2 or PaletteBackStyle.SeparatorCustom3 or PaletteBackStyle.PanelAlternate or PaletteBackStyle.ControlClient or PaletteBackStyle.ControlAlternate or PaletteBackStyle.ControlGroupBox or PaletteBackStyle.ControlToolTip or PaletteBackStyle.ControlRibbon or PaletteBackStyle.ControlRibbonAppMenu or PaletteBackStyle.ControlCustom1 or PaletteBackStyle.ControlCustom2 or PaletteBackStyle.ControlCustom3 or PaletteBackStyle.ContextMenuOuter or PaletteBackStyle.ContextMenuInner or PaletteBackStyle.ContextMenuHeading or PaletteBackStyle.ContextMenuSeparator or PaletteBackStyle.ContextMenuItemSplit or PaletteBackStyle.ContextMenuItemImageColumn or PaletteBackStyle.ContextMenuItemImage or PaletteBackStyle.ContextMenuItemHighlight or PaletteBackStyle.InputControlStandalone or PaletteBackStyle.InputControlRibbon or PaletteBackStyle.InputControlCustom1 or PaletteBackStyle.InputControlCustom2 or PaletteBackStyle.InputControlCustom3 or PaletteBackStyle.FormMain or PaletteBackStyle.FormCustom1 or PaletteBackStyle.FormCustom2 or PaletteBackStyle.FormCustom3 or PaletteBackStyle.SeparatorHighInternalProfile or PaletteBackStyle.SeparatorHighProfile or PaletteBackStyle.HeaderPrimary or PaletteBackStyle.HeaderSecondary or PaletteBackStyle.HeaderDockInactive or PaletteBackStyle.HeaderDockActive or PaletteBackStyle.HeaderCalendar or PaletteBackStyle.HeaderForm or PaletteBackStyle.HeaderCustom1 or PaletteBackStyle.HeaderCustom2 or PaletteBackStyle.HeaderCustom3 or PaletteBackStyle.ButtonStandalone or PaletteBackStyle.ButtonGallery or PaletteBackStyle.ButtonAlternate or PaletteBackStyle.ButtonLowProfile or PaletteBackStyle.ButtonBreadCrumb or PaletteBackStyle.ButtonListItem or PaletteBackStyle.ButtonCommand or PaletteBackStyle.ButtonButtonSpec or PaletteBackStyle.ButtonCalendarDay or PaletteBackStyle.ButtonCluster or PaletteBackStyle.ButtonNavigatorStack or PaletteBackStyle.ButtonNavigatorOverflow or PaletteBackStyle.ButtonNavigatorMini or PaletteBackStyle.ButtonForm or PaletteBackStyle.ButtonFormClose or PaletteBackStyle.ButtonCustom1 or PaletteBackStyle.ButtonCustom2 or PaletteBackStyle.ButtonCustom3 or PaletteBackStyle.ButtonInputControl or PaletteBackStyle.GridBackgroundList or PaletteBackStyle.GridBackgroundSheet or PaletteBackStyle.GridBackgroundCustom1
                     or PaletteBackStyle.GridBackgroundCustom2
                     or PaletteBackStyle.GridBackgroundCustom3
  or PaletteBackStyle.GridHeaderColumnList or PaletteBackStyle.GridHeaderColumnSheet or PaletteBackStyle.GridHeaderColumnCustom1 or PaletteBackStyle.GridHeaderColumnCustom2 or PaletteBackStyle.GridHeaderColumnCustom3 or PaletteBackStyle.GridHeaderRowList or PaletteBackStyle.GridHeaderRowSheet or PaletteBackStyle.GridHeaderRowCustom1 or PaletteBackStyle.GridHeaderRowCustom2 or PaletteBackStyle.GridHeaderRowCustom3 or PaletteBackStyle.GridDataCellList or PaletteBackStyle.GridDataCellSheet or PaletteBackStyle.GridDataCellCustom1 or PaletteBackStyle.GridDataCellCustom2 or PaletteBackStyle.GridDataCellCustom3 => PaletteGraphicsHint.None,
@@ -689,7 +748,7 @@ namespace Krypton.Toolkit
             return style switch
             {
                 PaletteBackStyle.ContextMenuItemImageColumn or PaletteBackStyle.ControlToolTip or PaletteBackStyle.HeaderDockInactive or PaletteBackStyle.HeaderDockActive or PaletteBackStyle.GridHeaderColumnList or PaletteBackStyle.GridHeaderColumnSheet or PaletteBackStyle.GridHeaderColumnCustom1 or PaletteBackStyle.GridHeaderColumnCustom2 or PaletteBackStyle.GridHeaderColumnCustom3 or PaletteBackStyle.GridHeaderRowList or PaletteBackStyle.GridHeaderRowSheet or PaletteBackStyle.GridHeaderRowCustom1 or PaletteBackStyle.GridHeaderRowCustom2 or PaletteBackStyle.GridHeaderRowCustom3 => PaletteColorStyle.Linear,
-                PaletteBackStyle.GridDataCellList or PaletteBackStyle.GridDataCellSheet or PaletteBackStyle.GridDataCellCustom1 or PaletteBackStyle.GridDataCellCustom2 or PaletteBackStyle.GridDataCellCustom3 or PaletteBackStyle.PanelClient or PaletteBackStyle.PanelRibbonInactive or PaletteBackStyle.PanelAlternate or PaletteBackStyle.PanelCustom1 or PaletteBackStyle.PanelCustom2 or PaletteBackStyle.PanelCustom3 or PaletteBackStyle.SeparatorLowProfile or PaletteBackStyle.SeparatorCustom1 or PaletteBackStyle.SeparatorCustom2 or PaletteBackStyle.SeparatorCustom3 or PaletteBackStyle.ControlClient or PaletteBackStyle.ControlAlternate or PaletteBackStyle.ControlGroupBox or PaletteBackStyle.ControlRibbon or PaletteBackStyle.ControlCustom1 or PaletteBackStyle.ControlCustom2 or PaletteBackStyle.ControlCustom3 or PaletteBackStyle.ContextMenuOuter or PaletteBackStyle.ContextMenuInner or PaletteBackStyle.ContextMenuHeading or PaletteBackStyle.ContextMenuSeparator or PaletteBackStyle.ContextMenuItemSplit or PaletteBackStyle.ContextMenuItemImage or PaletteBackStyle.InputControlStandalone or PaletteBackStyle.InputControlRibbon or PaletteBackStyle.InputControlCustom1 or PaletteBackStyle.InputControlCustom2 or PaletteBackStyle.InputControlCustom3 or PaletteBackStyle.FormMain or PaletteBackStyle.FormCustom1 or PaletteBackStyle.FormCustom2 or PaletteBackStyle.FormCustom3 or PaletteBackStyle.GridBackgroundList or PaletteBackStyle.GridBackgroundSheet                     or PaletteBackStyle.GridBackgroundCustom1
+                PaletteBackStyle.GridDataCellList or PaletteBackStyle.GridDataCellSheet or PaletteBackStyle.GridDataCellCustom1 or PaletteBackStyle.GridDataCellCustom2 or PaletteBackStyle.GridDataCellCustom3 or PaletteBackStyle.PanelClient or PaletteBackStyle.PanelRibbonInactive or PaletteBackStyle.PanelAlternate or PaletteBackStyle.PanelCustom1 or PaletteBackStyle.PanelCustom2 or PaletteBackStyle.PanelCustom3 or PaletteBackStyle.SeparatorLowProfile or PaletteBackStyle.SeparatorCustom1 or PaletteBackStyle.SeparatorCustom2 or PaletteBackStyle.SeparatorCustom3 or PaletteBackStyle.ControlClient or PaletteBackStyle.ControlAlternate or PaletteBackStyle.ControlGroupBox or PaletteBackStyle.ControlRibbon or PaletteBackStyle.ControlCustom1 or PaletteBackStyle.ControlCustom2 or PaletteBackStyle.ControlCustom3 or PaletteBackStyle.ContextMenuOuter or PaletteBackStyle.ContextMenuInner or PaletteBackStyle.ContextMenuHeading or PaletteBackStyle.ContextMenuSeparator or PaletteBackStyle.ContextMenuItemSplit or PaletteBackStyle.ContextMenuItemImage or PaletteBackStyle.InputControlStandalone or PaletteBackStyle.InputControlRibbon or PaletteBackStyle.InputControlCustom1 or PaletteBackStyle.InputControlCustom2 or PaletteBackStyle.InputControlCustom3 or PaletteBackStyle.FormMain or PaletteBackStyle.FormCustom1 or PaletteBackStyle.FormCustom2 or PaletteBackStyle.FormCustom3 or PaletteBackStyle.GridBackgroundList or PaletteBackStyle.GridBackgroundSheet or PaletteBackStyle.GridBackgroundCustom1
                     or PaletteBackStyle.GridBackgroundCustom2
                     or PaletteBackStyle.GridBackgroundCustom3
  or PaletteBackStyle.HeaderCalendar or PaletteBackStyle.ButtonNavigatorMini => PaletteColorStyle.Solid,
@@ -717,7 +776,7 @@ namespace Krypton.Toolkit
 
             return style switch
             {
-                PaletteBackStyle.ControlClient or PaletteBackStyle.ControlAlternate or PaletteBackStyle.ControlGroupBox or PaletteBackStyle.ControlRibbon or PaletteBackStyle.ControlRibbonAppMenu or PaletteBackStyle.ControlCustom1 or PaletteBackStyle.ControlCustom2 or PaletteBackStyle.ControlCustom3 or PaletteBackStyle.ContextMenuOuter or PaletteBackStyle.ContextMenuInner or PaletteBackStyle.ContextMenuHeading or PaletteBackStyle.ContextMenuSeparator or PaletteBackStyle.ContextMenuItemSplit or PaletteBackStyle.InputControlStandalone or PaletteBackStyle.InputControlRibbon or PaletteBackStyle.InputControlCustom1 or PaletteBackStyle.InputControlCustom2 or PaletteBackStyle.InputControlCustom3 or PaletteBackStyle.FormMain or PaletteBackStyle.FormCustom1 or PaletteBackStyle.FormCustom2 or PaletteBackStyle.FormCustom3 or PaletteBackStyle.PanelClient or PaletteBackStyle.PanelRibbonInactive or PaletteBackStyle.PanelAlternate or PaletteBackStyle.PanelCustom1 or PaletteBackStyle.PanelCustom2 or PaletteBackStyle.PanelCustom3 or PaletteBackStyle.GridBackgroundList or PaletteBackStyle.GridBackgroundSheet                     or PaletteBackStyle.GridBackgroundCustom1
+                PaletteBackStyle.ControlClient or PaletteBackStyle.ControlAlternate or PaletteBackStyle.ControlGroupBox or PaletteBackStyle.ControlRibbon or PaletteBackStyle.ControlRibbonAppMenu or PaletteBackStyle.ControlCustom1 or PaletteBackStyle.ControlCustom2 or PaletteBackStyle.ControlCustom3 or PaletteBackStyle.ContextMenuOuter or PaletteBackStyle.ContextMenuInner or PaletteBackStyle.ContextMenuHeading or PaletteBackStyle.ContextMenuSeparator or PaletteBackStyle.ContextMenuItemSplit or PaletteBackStyle.InputControlStandalone or PaletteBackStyle.InputControlRibbon or PaletteBackStyle.InputControlCustom1 or PaletteBackStyle.InputControlCustom2 or PaletteBackStyle.InputControlCustom3 or PaletteBackStyle.FormMain or PaletteBackStyle.FormCustom1 or PaletteBackStyle.FormCustom2 or PaletteBackStyle.FormCustom3 or PaletteBackStyle.PanelClient or PaletteBackStyle.PanelRibbonInactive or PaletteBackStyle.PanelAlternate or PaletteBackStyle.PanelCustom1 or PaletteBackStyle.PanelCustom2 or PaletteBackStyle.PanelCustom3 or PaletteBackStyle.GridBackgroundList or PaletteBackStyle.GridBackgroundSheet or PaletteBackStyle.GridBackgroundCustom1
                     or PaletteBackStyle.GridBackgroundCustom2
                     or PaletteBackStyle.GridBackgroundCustom3
  => PaletteRectangleAlign.Control,
@@ -742,7 +801,7 @@ namespace Krypton.Toolkit
 
             return style switch
             {
-                PaletteBackStyle.PanelClient or PaletteBackStyle.PanelRibbonInactive or PaletteBackStyle.PanelAlternate or PaletteBackStyle.PanelCustom1 or PaletteBackStyle.PanelCustom2 or PaletteBackStyle.PanelCustom3 or PaletteBackStyle.SeparatorLowProfile or PaletteBackStyle.SeparatorHighInternalProfile or PaletteBackStyle.SeparatorHighProfile or PaletteBackStyle.SeparatorCustom1 or PaletteBackStyle.SeparatorCustom2 or PaletteBackStyle.SeparatorCustom3 or PaletteBackStyle.ControlClient or PaletteBackStyle.ControlAlternate or PaletteBackStyle.ControlGroupBox or PaletteBackStyle.ControlToolTip or PaletteBackStyle.ControlRibbon or PaletteBackStyle.ControlRibbonAppMenu or PaletteBackStyle.ControlCustom1 or PaletteBackStyle.ControlCustom2 or PaletteBackStyle.ControlCustom3 or PaletteBackStyle.ContextMenuOuter or PaletteBackStyle.ContextMenuInner or PaletteBackStyle.ContextMenuHeading or PaletteBackStyle.ContextMenuSeparator or PaletteBackStyle.ContextMenuItemSplit or PaletteBackStyle.ContextMenuItemImage or PaletteBackStyle.ContextMenuItemHighlight or PaletteBackStyle.InputControlStandalone or PaletteBackStyle.InputControlRibbon or PaletteBackStyle.InputControlCustom1 or PaletteBackStyle.InputControlCustom2 or PaletteBackStyle.InputControlCustom3 or PaletteBackStyle.FormMain or PaletteBackStyle.FormCustom1 or PaletteBackStyle.FormCustom2 or PaletteBackStyle.FormCustom3 or PaletteBackStyle.HeaderPrimary or PaletteBackStyle.HeaderDockInactive or PaletteBackStyle.HeaderDockActive or PaletteBackStyle.HeaderCalendar or PaletteBackStyle.HeaderSecondary or PaletteBackStyle.HeaderForm or PaletteBackStyle.HeaderCustom1 or PaletteBackStyle.HeaderCustom2 or PaletteBackStyle.HeaderCustom3 or PaletteBackStyle.TabHighProfile or PaletteBackStyle.TabStandardProfile or PaletteBackStyle.TabLowProfile or PaletteBackStyle.TabOneNote or PaletteBackStyle.TabDock or PaletteBackStyle.TabDockAutoHidden or PaletteBackStyle.TabCustom1 or PaletteBackStyle.TabCustom2 or PaletteBackStyle.TabCustom3 or PaletteBackStyle.ButtonStandalone or PaletteBackStyle.ButtonGallery or PaletteBackStyle.ButtonAlternate or PaletteBackStyle.ButtonLowProfile or PaletteBackStyle.ButtonBreadCrumb or PaletteBackStyle.ButtonListItem or PaletteBackStyle.ButtonCommand or PaletteBackStyle.ButtonButtonSpec or PaletteBackStyle.ButtonCalendarDay or PaletteBackStyle.ButtonCluster or PaletteBackStyle.ButtonNavigatorStack or PaletteBackStyle.ButtonNavigatorOverflow or PaletteBackStyle.ButtonNavigatorMini or PaletteBackStyle.ButtonForm or PaletteBackStyle.ButtonFormClose or PaletteBackStyle.ButtonCustom1 or PaletteBackStyle.ButtonCustom2 or PaletteBackStyle.ButtonCustom3 or PaletteBackStyle.ButtonInputControl or PaletteBackStyle.GridBackgroundList or PaletteBackStyle.GridBackgroundSheet                     or PaletteBackStyle.GridBackgroundCustom1
+                PaletteBackStyle.PanelClient or PaletteBackStyle.PanelRibbonInactive or PaletteBackStyle.PanelAlternate or PaletteBackStyle.PanelCustom1 or PaletteBackStyle.PanelCustom2 or PaletteBackStyle.PanelCustom3 or PaletteBackStyle.SeparatorLowProfile or PaletteBackStyle.SeparatorHighInternalProfile or PaletteBackStyle.SeparatorHighProfile or PaletteBackStyle.SeparatorCustom1 or PaletteBackStyle.SeparatorCustom2 or PaletteBackStyle.SeparatorCustom3 or PaletteBackStyle.ControlClient or PaletteBackStyle.ControlAlternate or PaletteBackStyle.ControlGroupBox or PaletteBackStyle.ControlToolTip or PaletteBackStyle.ControlRibbon or PaletteBackStyle.ControlRibbonAppMenu or PaletteBackStyle.ControlCustom1 or PaletteBackStyle.ControlCustom2 or PaletteBackStyle.ControlCustom3 or PaletteBackStyle.ContextMenuOuter or PaletteBackStyle.ContextMenuInner or PaletteBackStyle.ContextMenuHeading or PaletteBackStyle.ContextMenuSeparator or PaletteBackStyle.ContextMenuItemSplit or PaletteBackStyle.ContextMenuItemImage or PaletteBackStyle.ContextMenuItemHighlight or PaletteBackStyle.InputControlStandalone or PaletteBackStyle.InputControlRibbon or PaletteBackStyle.InputControlCustom1 or PaletteBackStyle.InputControlCustom2 or PaletteBackStyle.InputControlCustom3 or PaletteBackStyle.FormMain or PaletteBackStyle.FormCustom1 or PaletteBackStyle.FormCustom2 or PaletteBackStyle.FormCustom3 or PaletteBackStyle.HeaderPrimary or PaletteBackStyle.HeaderDockInactive or PaletteBackStyle.HeaderDockActive or PaletteBackStyle.HeaderCalendar or PaletteBackStyle.HeaderSecondary or PaletteBackStyle.HeaderForm or PaletteBackStyle.HeaderCustom1 or PaletteBackStyle.HeaderCustom2 or PaletteBackStyle.HeaderCustom3 or PaletteBackStyle.TabHighProfile or PaletteBackStyle.TabStandardProfile or PaletteBackStyle.TabLowProfile or PaletteBackStyle.TabOneNote or PaletteBackStyle.TabDock or PaletteBackStyle.TabDockAutoHidden or PaletteBackStyle.TabCustom1 or PaletteBackStyle.TabCustom2 or PaletteBackStyle.TabCustom3 or PaletteBackStyle.ButtonStandalone or PaletteBackStyle.ButtonGallery or PaletteBackStyle.ButtonAlternate or PaletteBackStyle.ButtonLowProfile or PaletteBackStyle.ButtonBreadCrumb or PaletteBackStyle.ButtonListItem or PaletteBackStyle.ButtonCommand or PaletteBackStyle.ButtonButtonSpec or PaletteBackStyle.ButtonCalendarDay or PaletteBackStyle.ButtonCluster or PaletteBackStyle.ButtonNavigatorStack or PaletteBackStyle.ButtonNavigatorOverflow or PaletteBackStyle.ButtonNavigatorMini or PaletteBackStyle.ButtonForm or PaletteBackStyle.ButtonFormClose or PaletteBackStyle.ButtonCustom1 or PaletteBackStyle.ButtonCustom2 or PaletteBackStyle.ButtonCustom3 or PaletteBackStyle.ButtonInputControl or PaletteBackStyle.GridBackgroundList or PaletteBackStyle.GridBackgroundSheet or PaletteBackStyle.GridBackgroundCustom1
                     or PaletteBackStyle.GridBackgroundCustom2
                     or PaletteBackStyle.GridBackgroundCustom3
  or PaletteBackStyle.GridHeaderColumnList or PaletteBackStyle.GridHeaderColumnSheet or PaletteBackStyle.GridHeaderColumnCustom1 or PaletteBackStyle.GridHeaderColumnCustom2 or PaletteBackStyle.GridHeaderColumnCustom3 or PaletteBackStyle.GridHeaderRowList or PaletteBackStyle.GridHeaderRowSheet or PaletteBackStyle.GridHeaderRowCustom1 or PaletteBackStyle.GridHeaderRowCustom2 or PaletteBackStyle.GridHeaderRowCustom3 or PaletteBackStyle.GridDataCellList or PaletteBackStyle.GridDataCellSheet or PaletteBackStyle.GridDataCellCustom1 or PaletteBackStyle.GridDataCellCustom2 or PaletteBackStyle.GridDataCellCustom3 => 90f,
@@ -757,7 +816,7 @@ namespace Krypton.Toolkit
         /// <param name="style">Background style.</param>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image instance.</returns>
-        public override Image GetBackImage(PaletteBackStyle style, PaletteState state)
+        public override Image? GetBackImage(PaletteBackStyle style, PaletteState state)
         {
             // We do not provide override values
             if (CommonHelper.IsOverrideState(state))
@@ -767,7 +826,7 @@ namespace Krypton.Toolkit
 
             return style switch
             {
-                PaletteBackStyle.PanelClient or PaletteBackStyle.PanelRibbonInactive or PaletteBackStyle.PanelAlternate or PaletteBackStyle.PanelCustom1 or PaletteBackStyle.PanelCustom2 or PaletteBackStyle.PanelCustom3 or PaletteBackStyle.SeparatorLowProfile or PaletteBackStyle.SeparatorHighInternalProfile or PaletteBackStyle.SeparatorHighProfile or PaletteBackStyle.SeparatorCustom1 or PaletteBackStyle.SeparatorCustom2 or PaletteBackStyle.SeparatorCustom3 or PaletteBackStyle.ControlClient or PaletteBackStyle.ControlAlternate or PaletteBackStyle.ControlGroupBox or PaletteBackStyle.ControlToolTip or PaletteBackStyle.ControlRibbon or PaletteBackStyle.ControlRibbonAppMenu or PaletteBackStyle.ControlCustom1 or PaletteBackStyle.ControlCustom2 or PaletteBackStyle.ControlCustom3 or PaletteBackStyle.ContextMenuOuter or PaletteBackStyle.ContextMenuInner or PaletteBackStyle.ContextMenuHeading or PaletteBackStyle.ContextMenuSeparator or PaletteBackStyle.ContextMenuItemSplit or PaletteBackStyle.ContextMenuItemImageColumn or PaletteBackStyle.InputControlStandalone or PaletteBackStyle.InputControlRibbon or PaletteBackStyle.InputControlCustom1 or PaletteBackStyle.InputControlCustom2 or PaletteBackStyle.InputControlCustom3 or PaletteBackStyle.FormMain or PaletteBackStyle.FormCustom1 or PaletteBackStyle.FormCustom2 or PaletteBackStyle.FormCustom3 or PaletteBackStyle.HeaderPrimary or PaletteBackStyle.HeaderDockInactive or PaletteBackStyle.HeaderDockActive or PaletteBackStyle.HeaderCalendar or PaletteBackStyle.HeaderSecondary or PaletteBackStyle.HeaderForm or PaletteBackStyle.HeaderCustom1 or PaletteBackStyle.HeaderCustom2 or PaletteBackStyle.HeaderCustom3 or PaletteBackStyle.TabHighProfile or PaletteBackStyle.TabStandardProfile or PaletteBackStyle.TabLowProfile or PaletteBackStyle.TabOneNote or PaletteBackStyle.TabDock or PaletteBackStyle.TabDockAutoHidden or PaletteBackStyle.TabCustom1 or PaletteBackStyle.TabCustom2 or PaletteBackStyle.TabCustom3 or PaletteBackStyle.ButtonStandalone or PaletteBackStyle.ButtonGallery or PaletteBackStyle.ButtonAlternate or PaletteBackStyle.ButtonLowProfile or PaletteBackStyle.ButtonBreadCrumb or PaletteBackStyle.ButtonListItem or PaletteBackStyle.ButtonCommand or PaletteBackStyle.ButtonButtonSpec or PaletteBackStyle.ButtonCalendarDay or PaletteBackStyle.ButtonCluster or PaletteBackStyle.ButtonNavigatorStack or PaletteBackStyle.ButtonNavigatorOverflow or PaletteBackStyle.ButtonNavigatorMini or PaletteBackStyle.ButtonForm or PaletteBackStyle.ButtonFormClose or PaletteBackStyle.ButtonCustom1 or PaletteBackStyle.ButtonCustom2 or PaletteBackStyle.ButtonCustom3 or PaletteBackStyle.ButtonInputControl or PaletteBackStyle.ContextMenuItemImage or PaletteBackStyle.ContextMenuItemHighlight or PaletteBackStyle.GridBackgroundList or PaletteBackStyle.GridBackgroundSheet                     or PaletteBackStyle.GridBackgroundCustom1
+                PaletteBackStyle.PanelClient or PaletteBackStyle.PanelRibbonInactive or PaletteBackStyle.PanelAlternate or PaletteBackStyle.PanelCustom1 or PaletteBackStyle.PanelCustom2 or PaletteBackStyle.PanelCustom3 or PaletteBackStyle.SeparatorLowProfile or PaletteBackStyle.SeparatorHighInternalProfile or PaletteBackStyle.SeparatorHighProfile or PaletteBackStyle.SeparatorCustom1 or PaletteBackStyle.SeparatorCustom2 or PaletteBackStyle.SeparatorCustom3 or PaletteBackStyle.ControlClient or PaletteBackStyle.ControlAlternate or PaletteBackStyle.ControlGroupBox or PaletteBackStyle.ControlToolTip or PaletteBackStyle.ControlRibbon or PaletteBackStyle.ControlRibbonAppMenu or PaletteBackStyle.ControlCustom1 or PaletteBackStyle.ControlCustom2 or PaletteBackStyle.ControlCustom3 or PaletteBackStyle.ContextMenuOuter or PaletteBackStyle.ContextMenuInner or PaletteBackStyle.ContextMenuHeading or PaletteBackStyle.ContextMenuSeparator or PaletteBackStyle.ContextMenuItemSplit or PaletteBackStyle.ContextMenuItemImageColumn or PaletteBackStyle.InputControlStandalone or PaletteBackStyle.InputControlRibbon or PaletteBackStyle.InputControlCustom1 or PaletteBackStyle.InputControlCustom2 or PaletteBackStyle.InputControlCustom3 or PaletteBackStyle.FormMain or PaletteBackStyle.FormCustom1 or PaletteBackStyle.FormCustom2 or PaletteBackStyle.FormCustom3 or PaletteBackStyle.HeaderPrimary or PaletteBackStyle.HeaderDockInactive or PaletteBackStyle.HeaderDockActive or PaletteBackStyle.HeaderCalendar or PaletteBackStyle.HeaderSecondary or PaletteBackStyle.HeaderForm or PaletteBackStyle.HeaderCustom1 or PaletteBackStyle.HeaderCustom2 or PaletteBackStyle.HeaderCustom3 or PaletteBackStyle.TabHighProfile or PaletteBackStyle.TabStandardProfile or PaletteBackStyle.TabLowProfile or PaletteBackStyle.TabOneNote or PaletteBackStyle.TabDock or PaletteBackStyle.TabDockAutoHidden or PaletteBackStyle.TabCustom1 or PaletteBackStyle.TabCustom2 or PaletteBackStyle.TabCustom3 or PaletteBackStyle.ButtonStandalone or PaletteBackStyle.ButtonGallery or PaletteBackStyle.ButtonAlternate or PaletteBackStyle.ButtonLowProfile or PaletteBackStyle.ButtonBreadCrumb or PaletteBackStyle.ButtonListItem or PaletteBackStyle.ButtonCommand or PaletteBackStyle.ButtonButtonSpec or PaletteBackStyle.ButtonCalendarDay or PaletteBackStyle.ButtonCluster or PaletteBackStyle.ButtonNavigatorStack or PaletteBackStyle.ButtonNavigatorOverflow or PaletteBackStyle.ButtonNavigatorMini or PaletteBackStyle.ButtonForm or PaletteBackStyle.ButtonFormClose or PaletteBackStyle.ButtonCustom1 or PaletteBackStyle.ButtonCustom2 or PaletteBackStyle.ButtonCustom3 or PaletteBackStyle.ButtonInputControl or PaletteBackStyle.ContextMenuItemImage or PaletteBackStyle.ContextMenuItemHighlight or PaletteBackStyle.GridBackgroundList or PaletteBackStyle.GridBackgroundSheet or PaletteBackStyle.GridBackgroundCustom1
                     or PaletteBackStyle.GridBackgroundCustom2
                     or PaletteBackStyle.GridBackgroundCustom3
  or PaletteBackStyle.GridHeaderColumnList or PaletteBackStyle.GridHeaderColumnSheet or PaletteBackStyle.GridHeaderColumnCustom1 or PaletteBackStyle.GridHeaderColumnCustom2 or PaletteBackStyle.GridHeaderColumnCustom3 or PaletteBackStyle.GridHeaderRowList or PaletteBackStyle.GridHeaderRowSheet or PaletteBackStyle.GridHeaderRowCustom1 or PaletteBackStyle.GridHeaderRowCustom2 or PaletteBackStyle.GridHeaderRowCustom3 or PaletteBackStyle.GridDataCellList or PaletteBackStyle.GridDataCellSheet or PaletteBackStyle.GridDataCellCustom1 or PaletteBackStyle.GridDataCellCustom2 or PaletteBackStyle.GridDataCellCustom3 => null,
@@ -791,7 +850,7 @@ namespace Krypton.Toolkit
 
             return style switch
             {
-                PaletteBackStyle.PanelClient or PaletteBackStyle.PanelRibbonInactive or PaletteBackStyle.PanelAlternate or PaletteBackStyle.PanelCustom1 or PaletteBackStyle.PanelCustom2 or PaletteBackStyle.PanelCustom3 or PaletteBackStyle.SeparatorLowProfile or PaletteBackStyle.SeparatorHighInternalProfile or PaletteBackStyle.SeparatorHighProfile or PaletteBackStyle.SeparatorCustom1 or PaletteBackStyle.SeparatorCustom2 or PaletteBackStyle.SeparatorCustom3 or PaletteBackStyle.ControlClient or PaletteBackStyle.ControlAlternate or PaletteBackStyle.ControlGroupBox or PaletteBackStyle.ControlToolTip or PaletteBackStyle.ControlRibbon or PaletteBackStyle.ControlRibbonAppMenu or PaletteBackStyle.ControlCustom1 or PaletteBackStyle.ControlCustom2 or PaletteBackStyle.ControlCustom3 or PaletteBackStyle.ContextMenuOuter or PaletteBackStyle.ContextMenuInner or PaletteBackStyle.ContextMenuHeading or PaletteBackStyle.ContextMenuSeparator or PaletteBackStyle.ContextMenuItemSplit or PaletteBackStyle.ContextMenuItemImageColumn or PaletteBackStyle.InputControlStandalone or PaletteBackStyle.InputControlRibbon or PaletteBackStyle.InputControlCustom1 or PaletteBackStyle.InputControlCustom2 or PaletteBackStyle.InputControlCustom3 or PaletteBackStyle.FormMain or PaletteBackStyle.FormCustom1 or PaletteBackStyle.FormCustom2 or PaletteBackStyle.FormCustom3 or PaletteBackStyle.HeaderPrimary or PaletteBackStyle.HeaderDockInactive or PaletteBackStyle.HeaderDockActive or PaletteBackStyle.HeaderCalendar or PaletteBackStyle.HeaderSecondary or PaletteBackStyle.HeaderForm or PaletteBackStyle.HeaderCustom1 or PaletteBackStyle.HeaderCustom2 or PaletteBackStyle.HeaderCustom3 or PaletteBackStyle.TabHighProfile or PaletteBackStyle.TabStandardProfile or PaletteBackStyle.TabLowProfile or PaletteBackStyle.TabOneNote or PaletteBackStyle.TabDock or PaletteBackStyle.TabDockAutoHidden or PaletteBackStyle.TabCustom1 or PaletteBackStyle.TabCustom2 or PaletteBackStyle.TabCustom3 or PaletteBackStyle.ButtonStandalone or PaletteBackStyle.ButtonGallery or PaletteBackStyle.ButtonAlternate or PaletteBackStyle.ButtonLowProfile or PaletteBackStyle.ButtonBreadCrumb or PaletteBackStyle.ButtonListItem or PaletteBackStyle.ButtonCommand or PaletteBackStyle.ButtonButtonSpec or PaletteBackStyle.ButtonCalendarDay or PaletteBackStyle.ButtonCluster or PaletteBackStyle.ButtonNavigatorStack or PaletteBackStyle.ButtonNavigatorOverflow or PaletteBackStyle.ButtonNavigatorMini or PaletteBackStyle.ButtonForm or PaletteBackStyle.ButtonFormClose or PaletteBackStyle.ButtonCustom1 or PaletteBackStyle.ButtonCustom2 or PaletteBackStyle.ButtonCustom3 or PaletteBackStyle.ButtonInputControl or PaletteBackStyle.ContextMenuItemImage or PaletteBackStyle.ContextMenuItemHighlight or PaletteBackStyle.GridBackgroundList or PaletteBackStyle.GridBackgroundSheet                     or PaletteBackStyle.GridBackgroundCustom1
+                PaletteBackStyle.PanelClient or PaletteBackStyle.PanelRibbonInactive or PaletteBackStyle.PanelAlternate or PaletteBackStyle.PanelCustom1 or PaletteBackStyle.PanelCustom2 or PaletteBackStyle.PanelCustom3 or PaletteBackStyle.SeparatorLowProfile or PaletteBackStyle.SeparatorHighInternalProfile or PaletteBackStyle.SeparatorHighProfile or PaletteBackStyle.SeparatorCustom1 or PaletteBackStyle.SeparatorCustom2 or PaletteBackStyle.SeparatorCustom3 or PaletteBackStyle.ControlClient or PaletteBackStyle.ControlAlternate or PaletteBackStyle.ControlGroupBox or PaletteBackStyle.ControlToolTip or PaletteBackStyle.ControlRibbon or PaletteBackStyle.ControlRibbonAppMenu or PaletteBackStyle.ControlCustom1 or PaletteBackStyle.ControlCustom2 or PaletteBackStyle.ControlCustom3 or PaletteBackStyle.ContextMenuOuter or PaletteBackStyle.ContextMenuInner or PaletteBackStyle.ContextMenuHeading or PaletteBackStyle.ContextMenuSeparator or PaletteBackStyle.ContextMenuItemSplit or PaletteBackStyle.ContextMenuItemImageColumn or PaletteBackStyle.InputControlStandalone or PaletteBackStyle.InputControlRibbon or PaletteBackStyle.InputControlCustom1 or PaletteBackStyle.InputControlCustom2 or PaletteBackStyle.InputControlCustom3 or PaletteBackStyle.FormMain or PaletteBackStyle.FormCustom1 or PaletteBackStyle.FormCustom2 or PaletteBackStyle.FormCustom3 or PaletteBackStyle.HeaderPrimary or PaletteBackStyle.HeaderDockInactive or PaletteBackStyle.HeaderDockActive or PaletteBackStyle.HeaderCalendar or PaletteBackStyle.HeaderSecondary or PaletteBackStyle.HeaderForm or PaletteBackStyle.HeaderCustom1 or PaletteBackStyle.HeaderCustom2 or PaletteBackStyle.HeaderCustom3 or PaletteBackStyle.TabHighProfile or PaletteBackStyle.TabStandardProfile or PaletteBackStyle.TabLowProfile or PaletteBackStyle.TabOneNote or PaletteBackStyle.TabDock or PaletteBackStyle.TabDockAutoHidden or PaletteBackStyle.TabCustom1 or PaletteBackStyle.TabCustom2 or PaletteBackStyle.TabCustom3 or PaletteBackStyle.ButtonStandalone or PaletteBackStyle.ButtonGallery or PaletteBackStyle.ButtonAlternate or PaletteBackStyle.ButtonLowProfile or PaletteBackStyle.ButtonBreadCrumb or PaletteBackStyle.ButtonListItem or PaletteBackStyle.ButtonCommand or PaletteBackStyle.ButtonButtonSpec or PaletteBackStyle.ButtonCalendarDay or PaletteBackStyle.ButtonCluster or PaletteBackStyle.ButtonNavigatorStack or PaletteBackStyle.ButtonNavigatorOverflow or PaletteBackStyle.ButtonNavigatorMini or PaletteBackStyle.ButtonForm or PaletteBackStyle.ButtonFormClose or PaletteBackStyle.ButtonCustom1 or PaletteBackStyle.ButtonCustom2 or PaletteBackStyle.ButtonCustom3 or PaletteBackStyle.ButtonInputControl or PaletteBackStyle.ContextMenuItemImage or PaletteBackStyle.ContextMenuItemHighlight or PaletteBackStyle.GridBackgroundList or PaletteBackStyle.GridBackgroundSheet or PaletteBackStyle.GridBackgroundCustom1
                     or PaletteBackStyle.GridBackgroundCustom2
                     or PaletteBackStyle.GridBackgroundCustom3
  or PaletteBackStyle.GridHeaderColumnList or PaletteBackStyle.GridHeaderColumnSheet or PaletteBackStyle.GridHeaderColumnCustom1 or PaletteBackStyle.GridHeaderColumnCustom2 or PaletteBackStyle.GridHeaderColumnCustom3 or PaletteBackStyle.GridHeaderRowList or PaletteBackStyle.GridHeaderRowSheet or PaletteBackStyle.GridHeaderRowCustom1 or PaletteBackStyle.GridHeaderRowCustom2 or PaletteBackStyle.GridHeaderRowCustom3 or PaletteBackStyle.GridDataCellList or PaletteBackStyle.GridDataCellSheet or PaletteBackStyle.GridDataCellCustom1 or PaletteBackStyle.GridDataCellCustom2 or PaletteBackStyle.GridDataCellCustom3 => PaletteImageStyle.Tile,
@@ -815,7 +874,7 @@ namespace Krypton.Toolkit
 
             return style switch
             {
-                PaletteBackStyle.PanelClient or PaletteBackStyle.PanelRibbonInactive or PaletteBackStyle.PanelAlternate or PaletteBackStyle.PanelCustom1 or PaletteBackStyle.PanelCustom2 or PaletteBackStyle.PanelCustom3 or PaletteBackStyle.SeparatorLowProfile or PaletteBackStyle.SeparatorHighInternalProfile or PaletteBackStyle.SeparatorHighProfile or PaletteBackStyle.SeparatorCustom1 or PaletteBackStyle.SeparatorCustom2 or PaletteBackStyle.SeparatorCustom3 or PaletteBackStyle.ControlClient or PaletteBackStyle.ControlAlternate or PaletteBackStyle.ControlGroupBox or PaletteBackStyle.ControlToolTip or PaletteBackStyle.ControlRibbon or PaletteBackStyle.ControlRibbonAppMenu or PaletteBackStyle.ControlCustom1 or PaletteBackStyle.ControlCustom2 or PaletteBackStyle.ControlCustom3 or PaletteBackStyle.ContextMenuOuter or PaletteBackStyle.ContextMenuInner or PaletteBackStyle.ContextMenuHeading or PaletteBackStyle.ContextMenuSeparator or PaletteBackStyle.ContextMenuItemSplit or PaletteBackStyle.ContextMenuItemImageColumn or PaletteBackStyle.InputControlStandalone or PaletteBackStyle.InputControlRibbon or PaletteBackStyle.InputControlCustom1 or PaletteBackStyle.InputControlCustom2 or PaletteBackStyle.InputControlCustom3 or PaletteBackStyle.FormMain or PaletteBackStyle.FormCustom1 or PaletteBackStyle.FormCustom2 or PaletteBackStyle.FormCustom3 or PaletteBackStyle.HeaderPrimary or PaletteBackStyle.HeaderDockInactive or PaletteBackStyle.HeaderDockActive or PaletteBackStyle.HeaderCalendar or PaletteBackStyle.HeaderSecondary or PaletteBackStyle.HeaderForm or PaletteBackStyle.HeaderCustom1 or PaletteBackStyle.HeaderCustom2 or PaletteBackStyle.HeaderCustom3 or PaletteBackStyle.TabHighProfile or PaletteBackStyle.TabStandardProfile or PaletteBackStyle.TabLowProfile or PaletteBackStyle.TabOneNote or PaletteBackStyle.TabDock or PaletteBackStyle.TabDockAutoHidden or PaletteBackStyle.TabCustom1 or PaletteBackStyle.TabCustom2 or PaletteBackStyle.TabCustom3 or PaletteBackStyle.ButtonStandalone or PaletteBackStyle.ButtonGallery or PaletteBackStyle.ButtonAlternate or PaletteBackStyle.ButtonLowProfile or PaletteBackStyle.ButtonBreadCrumb or PaletteBackStyle.ButtonListItem or PaletteBackStyle.ButtonCommand or PaletteBackStyle.ButtonButtonSpec or PaletteBackStyle.ButtonCalendarDay or PaletteBackStyle.ButtonCluster or PaletteBackStyle.ButtonNavigatorStack or PaletteBackStyle.ButtonNavigatorOverflow or PaletteBackStyle.ButtonNavigatorMini or PaletteBackStyle.ButtonForm or PaletteBackStyle.ButtonFormClose or PaletteBackStyle.ButtonCustom1 or PaletteBackStyle.ButtonCustom2 or PaletteBackStyle.ButtonCustom3 or PaletteBackStyle.ButtonInputControl or PaletteBackStyle.ContextMenuItemImage or PaletteBackStyle.ContextMenuItemHighlight or PaletteBackStyle.GridBackgroundList or PaletteBackStyle.GridBackgroundSheet                     or PaletteBackStyle.GridBackgroundCustom1
+                PaletteBackStyle.PanelClient or PaletteBackStyle.PanelRibbonInactive or PaletteBackStyle.PanelAlternate or PaletteBackStyle.PanelCustom1 or PaletteBackStyle.PanelCustom2 or PaletteBackStyle.PanelCustom3 or PaletteBackStyle.SeparatorLowProfile or PaletteBackStyle.SeparatorHighInternalProfile or PaletteBackStyle.SeparatorHighProfile or PaletteBackStyle.SeparatorCustom1 or PaletteBackStyle.SeparatorCustom2 or PaletteBackStyle.SeparatorCustom3 or PaletteBackStyle.ControlClient or PaletteBackStyle.ControlAlternate or PaletteBackStyle.ControlGroupBox or PaletteBackStyle.ControlToolTip or PaletteBackStyle.ControlRibbon or PaletteBackStyle.ControlRibbonAppMenu or PaletteBackStyle.ControlCustom1 or PaletteBackStyle.ControlCustom2 or PaletteBackStyle.ControlCustom3 or PaletteBackStyle.ContextMenuOuter or PaletteBackStyle.ContextMenuInner or PaletteBackStyle.ContextMenuHeading or PaletteBackStyle.ContextMenuSeparator or PaletteBackStyle.ContextMenuItemSplit or PaletteBackStyle.ContextMenuItemImageColumn or PaletteBackStyle.InputControlStandalone or PaletteBackStyle.InputControlRibbon or PaletteBackStyle.InputControlCustom1 or PaletteBackStyle.InputControlCustom2 or PaletteBackStyle.InputControlCustom3 or PaletteBackStyle.FormMain or PaletteBackStyle.FormCustom1 or PaletteBackStyle.FormCustom2 or PaletteBackStyle.FormCustom3 or PaletteBackStyle.HeaderPrimary or PaletteBackStyle.HeaderDockInactive or PaletteBackStyle.HeaderDockActive or PaletteBackStyle.HeaderCalendar or PaletteBackStyle.HeaderSecondary or PaletteBackStyle.HeaderForm or PaletteBackStyle.HeaderCustom1 or PaletteBackStyle.HeaderCustom2 or PaletteBackStyle.HeaderCustom3 or PaletteBackStyle.TabHighProfile or PaletteBackStyle.TabStandardProfile or PaletteBackStyle.TabLowProfile or PaletteBackStyle.TabOneNote or PaletteBackStyle.TabDock or PaletteBackStyle.TabDockAutoHidden or PaletteBackStyle.TabCustom1 or PaletteBackStyle.TabCustom2 or PaletteBackStyle.TabCustom3 or PaletteBackStyle.ButtonStandalone or PaletteBackStyle.ButtonGallery or PaletteBackStyle.ButtonAlternate or PaletteBackStyle.ButtonLowProfile or PaletteBackStyle.ButtonBreadCrumb or PaletteBackStyle.ButtonListItem or PaletteBackStyle.ButtonCommand or PaletteBackStyle.ButtonButtonSpec or PaletteBackStyle.ButtonCalendarDay or PaletteBackStyle.ButtonCluster or PaletteBackStyle.ButtonNavigatorStack or PaletteBackStyle.ButtonNavigatorOverflow or PaletteBackStyle.ButtonNavigatorMini or PaletteBackStyle.ButtonForm or PaletteBackStyle.ButtonFormClose or PaletteBackStyle.ButtonCustom1 or PaletteBackStyle.ButtonCustom2 or PaletteBackStyle.ButtonCustom3 or PaletteBackStyle.ButtonInputControl or PaletteBackStyle.ContextMenuItemImage or PaletteBackStyle.ContextMenuItemHighlight or PaletteBackStyle.GridBackgroundList or PaletteBackStyle.GridBackgroundSheet or PaletteBackStyle.GridBackgroundCustom1
                     or PaletteBackStyle.GridBackgroundCustom2
                     or PaletteBackStyle.GridBackgroundCustom3
  or PaletteBackStyle.GridHeaderColumnList or PaletteBackStyle.GridHeaderColumnSheet or PaletteBackStyle.GridHeaderColumnCustom1 or PaletteBackStyle.GridHeaderColumnCustom2 or PaletteBackStyle.GridHeaderColumnCustom3 or PaletteBackStyle.GridHeaderRowList or PaletteBackStyle.GridHeaderRowSheet or PaletteBackStyle.GridHeaderRowCustom1 or PaletteBackStyle.GridHeaderRowCustom2 or PaletteBackStyle.GridHeaderRowCustom3 or PaletteBackStyle.GridDataCellList or PaletteBackStyle.GridDataCellSheet or PaletteBackStyle.GridDataCellCustom1 or PaletteBackStyle.GridDataCellCustom2 or PaletteBackStyle.GridDataCellCustom3 => PaletteRectangleAlign.Local,
@@ -1414,7 +1473,7 @@ namespace Krypton.Toolkit
         /// <param name="style">Border style.</param>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image instance.</returns>
-        public override Image GetBorderImage(PaletteBorderStyle style, PaletteState state)
+        public override Image? GetBorderImage(PaletteBorderStyle style, PaletteState state)
         {
             // We do not provide override values
             if (CommonHelper.IsOverrideState(state))
@@ -1656,28 +1715,28 @@ namespace Krypton.Toolkit
         {
             if (CommonHelper.IsOverrideState(state))
             {
-                return (state == PaletteState.BoldedOverride) && (style == PaletteContentStyle.ButtonCalendarDay) ? _calendarBoldFont : null;
+                return (state == PaletteState.BoldedOverride) && (style == PaletteContentStyle.ButtonCalendarDay) ? CalendarBoldFont : null;
             }
 
             return style switch
             {
-                PaletteContentStyle.GridHeaderColumnList or PaletteContentStyle.GridHeaderColumnSheet or PaletteContentStyle.GridHeaderColumnCustom1 or PaletteContentStyle.GridHeaderColumnCustom2 or PaletteContentStyle.GridHeaderColumnCustom3 or PaletteContentStyle.GridHeaderRowList or PaletteContentStyle.GridHeaderRowSheet or PaletteContentStyle.GridHeaderRowCustom1 or PaletteContentStyle.GridHeaderRowCustom2 or PaletteContentStyle.GridHeaderRowCustom3 or PaletteContentStyle.GridDataCellList or PaletteContentStyle.GridDataCellSheet or PaletteContentStyle.GridDataCellCustom1 or PaletteContentStyle.GridDataCellCustom2 or PaletteContentStyle.GridDataCellCustom3 or PaletteContentStyle.HeaderCalendar => _gridFont,
-                PaletteContentStyle.HeaderForm => _headerFormFont,
-                PaletteContentStyle.LabelTitleControl or PaletteContentStyle.LabelTitlePanel or PaletteContentStyle.HeaderPrimary or PaletteContentStyle.HeaderCustom1 or PaletteContentStyle.HeaderCustom2 or PaletteContentStyle.HeaderCustom3 or PaletteContentStyle.ButtonCommand => _header1ShortFont,
-                PaletteContentStyle.LabelSuperTip or PaletteContentStyle.ContextMenuHeading or PaletteContentStyle.ContextMenuItemImage => _superToolFont,
-                PaletteContentStyle.LabelNormalControl or PaletteContentStyle.LabelNormalPanel or PaletteContentStyle.LabelGroupBoxCaption or PaletteContentStyle.LabelToolTip or PaletteContentStyle.LabelKeyTip or PaletteContentStyle.LabelCustom1 or PaletteContentStyle.LabelCustom2 or PaletteContentStyle.LabelCustom3 or PaletteContentStyle.InputControlStandalone or PaletteContentStyle.InputControlRibbon or PaletteContentStyle.InputControlCustom1 or PaletteContentStyle.InputControlCustom2 or PaletteContentStyle.InputControlCustom3 or PaletteContentStyle.HeaderSecondary or PaletteContentStyle.HeaderDockInactive or PaletteContentStyle.HeaderDockActive or PaletteContentStyle.ContextMenuItemTextStandard or PaletteContentStyle.ContextMenuItemShortcutText => _header2ShortFont,
-                PaletteContentStyle.LabelBoldControl or PaletteContentStyle.LabelBoldPanel => _boldFont,
-                PaletteContentStyle.LabelItalicPanel or PaletteContentStyle.LabelItalicControl => _italicFont,
-                PaletteContentStyle.ContextMenuItemTextAlternate => _superToolFont,
-                PaletteContentStyle.TabLowProfile or PaletteContentStyle.TabDock or PaletteContentStyle.TabDockAutoHidden => _tabFontNormal,
+                PaletteContentStyle.GridHeaderColumnList or PaletteContentStyle.GridHeaderColumnSheet or PaletteContentStyle.GridHeaderColumnCustom1 or PaletteContentStyle.GridHeaderColumnCustom2 or PaletteContentStyle.GridHeaderColumnCustom3 or PaletteContentStyle.GridHeaderRowList or PaletteContentStyle.GridHeaderRowSheet or PaletteContentStyle.GridHeaderRowCustom1 or PaletteContentStyle.GridHeaderRowCustom2 or PaletteContentStyle.GridHeaderRowCustom3 or PaletteContentStyle.GridDataCellList or PaletteContentStyle.GridDataCellSheet or PaletteContentStyle.GridDataCellCustom1 or PaletteContentStyle.GridDataCellCustom2 or PaletteContentStyle.GridDataCellCustom3 or PaletteContentStyle.HeaderCalendar => GridFont,
+                PaletteContentStyle.HeaderForm => HeaderFormFont,
+                PaletteContentStyle.LabelTitleControl or PaletteContentStyle.LabelTitlePanel or PaletteContentStyle.HeaderPrimary or PaletteContentStyle.HeaderCustom1 or PaletteContentStyle.HeaderCustom2 or PaletteContentStyle.HeaderCustom3 or PaletteContentStyle.ButtonCommand => Header1ShortFont,
+                PaletteContentStyle.LabelSuperTip or PaletteContentStyle.ContextMenuHeading or PaletteContentStyle.ContextMenuItemImage => SuperToolFont,
+                PaletteContentStyle.LabelNormalControl or PaletteContentStyle.LabelNormalPanel or PaletteContentStyle.LabelGroupBoxCaption or PaletteContentStyle.LabelToolTip or PaletteContentStyle.LabelKeyTip or PaletteContentStyle.LabelCustom1 or PaletteContentStyle.LabelCustom2 or PaletteContentStyle.LabelCustom3 or PaletteContentStyle.InputControlStandalone or PaletteContentStyle.InputControlRibbon or PaletteContentStyle.InputControlCustom1 or PaletteContentStyle.InputControlCustom2 or PaletteContentStyle.InputControlCustom3 or PaletteContentStyle.HeaderSecondary or PaletteContentStyle.HeaderDockInactive or PaletteContentStyle.HeaderDockActive or PaletteContentStyle.ContextMenuItemTextStandard or PaletteContentStyle.ContextMenuItemShortcutText => Header2ShortFont,
+                PaletteContentStyle.LabelBoldControl or PaletteContentStyle.LabelBoldPanel => BoldFont,
+                PaletteContentStyle.LabelItalicPanel or PaletteContentStyle.LabelItalicControl => ItalicFont,
+                PaletteContentStyle.ContextMenuItemTextAlternate => SuperToolFont,
+                PaletteContentStyle.TabLowProfile or PaletteContentStyle.TabDock or PaletteContentStyle.TabDockAutoHidden => TabFontNormal,
                 PaletteContentStyle.TabHighProfile or PaletteContentStyle.TabStandardProfile or PaletteContentStyle.TabOneNote or PaletteContentStyle.TabCustom1 or PaletteContentStyle.TabCustom2 or PaletteContentStyle.TabCustom3 => state switch
                 {
-                    PaletteState.CheckedNormal or PaletteState.CheckedPressed or PaletteState.CheckedTracking => _tabFontSelected,
-                    _ => _tabFontNormal
+                    PaletteState.CheckedNormal or PaletteState.CheckedPressed or PaletteState.CheckedTracking => TabFontSelected,
+                    _ => TabFontNormal
                 },
-                PaletteContentStyle.ButtonStandalone or PaletteContentStyle.ButtonGallery or PaletteContentStyle.ButtonAlternate or PaletteContentStyle.ButtonLowProfile or PaletteContentStyle.ButtonBreadCrumb or PaletteContentStyle.ButtonListItem or PaletteContentStyle.ButtonButtonSpec or PaletteContentStyle.ButtonCluster or PaletteContentStyle.ButtonNavigatorStack or PaletteContentStyle.ButtonNavigatorOverflow or PaletteContentStyle.ButtonForm or PaletteContentStyle.ButtonFormClose or PaletteContentStyle.ButtonCustom1 or PaletteContentStyle.ButtonCustom2 or PaletteContentStyle.ButtonCustom3 or PaletteContentStyle.ButtonInputControl => _buttonFont,
-                PaletteContentStyle.ButtonNavigatorMini => _buttonFontNavigatorMini,
-                PaletteContentStyle.ButtonCalendarDay => _calendarFont,
+                PaletteContentStyle.ButtonStandalone or PaletteContentStyle.ButtonGallery or PaletteContentStyle.ButtonAlternate or PaletteContentStyle.ButtonLowProfile or PaletteContentStyle.ButtonBreadCrumb or PaletteContentStyle.ButtonListItem or PaletteContentStyle.ButtonButtonSpec or PaletteContentStyle.ButtonCluster or PaletteContentStyle.ButtonNavigatorStack or PaletteContentStyle.ButtonNavigatorOverflow or PaletteContentStyle.ButtonForm or PaletteContentStyle.ButtonFormClose or PaletteContentStyle.ButtonCustom1 or PaletteContentStyle.ButtonCustom2 or PaletteContentStyle.ButtonCustom3 or PaletteContentStyle.ButtonInputControl => ButtonFont,
+                PaletteContentStyle.ButtonNavigatorMini => ButtonFontNavigatorMini,
+                PaletteContentStyle.ButtonCalendarDay => CalendarFont,
                 _ => throw new ArgumentOutOfRangeException(nameof(style))
             };
         }
@@ -1795,14 +1854,14 @@ namespace Krypton.Toolkit
 
             return style switch
             {
-                PaletteContentStyle.HeaderForm 
-                    or PaletteContentStyle.HeaderPrimary 
+                PaletteContentStyle.HeaderForm
+                    or PaletteContentStyle.HeaderPrimary
                     or PaletteContentStyle.HeaderDockInactive
-                    or PaletteContentStyle.HeaderDockActive 
-                    or PaletteContentStyle.HeaderSecondary 
-                    or PaletteContentStyle.HeaderCustom1 
-                    or PaletteContentStyle.HeaderCustom2 
-                    or PaletteContentStyle.HeaderCustom3 
+                    or PaletteContentStyle.HeaderDockActive
+                    or PaletteContentStyle.HeaderSecondary
+                    or PaletteContentStyle.HeaderCustom1
+                    or PaletteContentStyle.HeaderCustom2
+                    or PaletteContentStyle.HeaderCustom3
                     or PaletteContentStyle.ButtonNavigatorStack or PaletteContentStyle.ButtonNavigatorOverflow or PaletteContentStyle.ButtonListItem or PaletteContentStyle.ButtonCommand or PaletteContentStyle.LabelNormalControl or PaletteContentStyle.LabelBoldControl or PaletteContentStyle.LabelItalicControl or PaletteContentStyle.LabelTitleControl or PaletteContentStyle.LabelNormalPanel or PaletteContentStyle.LabelBoldPanel or PaletteContentStyle.LabelItalicPanel or PaletteContentStyle.LabelTitlePanel or PaletteContentStyle.LabelGroupBoxCaption or PaletteContentStyle.LabelCustom1 or PaletteContentStyle.LabelCustom2 or PaletteContentStyle.LabelCustom3 or PaletteContentStyle.LabelToolTip or PaletteContentStyle.LabelSuperTip or PaletteContentStyle.LabelKeyTip or PaletteContentStyle.ContextMenuHeading or PaletteContentStyle.ContextMenuItemImage or PaletteContentStyle.ContextMenuItemTextStandard or PaletteContentStyle.ContextMenuItemTextAlternate or PaletteContentStyle.GridHeaderColumnList or PaletteContentStyle.GridHeaderColumnCustom1 or PaletteContentStyle.GridHeaderColumnCustom2 or PaletteContentStyle.GridHeaderColumnCustom3 or PaletteContentStyle.GridHeaderRowList or PaletteContentStyle.GridHeaderRowSheet or PaletteContentStyle.GridHeaderRowCustom1 or PaletteContentStyle.GridHeaderRowCustom2 or PaletteContentStyle.GridHeaderRowCustom3 or PaletteContentStyle.GridDataCellList or PaletteContentStyle.GridDataCellSheet or PaletteContentStyle.GridDataCellCustom1 or PaletteContentStyle.GridDataCellCustom2 or PaletteContentStyle.GridDataCellCustom3 => PaletteRelativeAlign.Near,
                 PaletteContentStyle.GridHeaderColumnSheet or PaletteContentStyle.InputControlStandalone or PaletteContentStyle.InputControlRibbon or PaletteContentStyle.InputControlCustom1 or PaletteContentStyle.InputControlCustom2 or PaletteContentStyle.InputControlCustom3 or PaletteContentStyle.TabHighProfile or PaletteContentStyle.TabStandardProfile or PaletteContentStyle.TabLowProfile or PaletteContentStyle.TabOneNote or PaletteContentStyle.TabDock or PaletteContentStyle.TabDockAutoHidden or PaletteContentStyle.TabCustom1 or PaletteContentStyle.TabCustom2 or PaletteContentStyle.TabCustom3 or PaletteContentStyle.ButtonStandalone or PaletteContentStyle.ButtonGallery or PaletteContentStyle.ButtonAlternate or PaletteContentStyle.ButtonCalendarDay or PaletteContentStyle.ButtonLowProfile or PaletteContentStyle.ButtonBreadCrumb or PaletteContentStyle.ButtonButtonSpec or PaletteContentStyle.ButtonCluster or PaletteContentStyle.ButtonForm or PaletteContentStyle.ButtonFormClose or PaletteContentStyle.ButtonNavigatorMini or PaletteContentStyle.ButtonCustom1 or PaletteContentStyle.ButtonCustom2 or PaletteContentStyle.ButtonCustom3 or PaletteContentStyle.ButtonInputControl or PaletteContentStyle.HeaderCalendar => PaletteRelativeAlign.Center,
                 PaletteContentStyle.ContextMenuItemShortcutText => PaletteRelativeAlign.Far,
@@ -2017,7 +2076,7 @@ namespace Krypton.Toolkit
         /// <param name="style">Content style.</param>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image instance.</returns>
-        public override Image GetContentShortTextImage(PaletteContentStyle style, PaletteState state)
+        public override Image? GetContentShortTextImage(PaletteContentStyle style, PaletteState state)
         {
             // We do not provide override values
             if (CommonHelper.IsOverrideState(state))
@@ -2084,22 +2143,22 @@ namespace Krypton.Toolkit
         {
             if (CommonHelper.IsOverrideState(state))
             {
-                return (state == PaletteState.BoldedOverride) && (style == PaletteContentStyle.ButtonCalendarDay) ? _calendarBoldFont : null;
+                return (state == PaletteState.BoldedOverride) && (style == PaletteContentStyle.ButtonCalendarDay) ? CalendarBoldFont : null;
             }
 
             return style switch
             {
-                PaletteContentStyle.GridHeaderColumnList or PaletteContentStyle.GridHeaderColumnSheet or PaletteContentStyle.GridHeaderColumnCustom1 or PaletteContentStyle.GridHeaderColumnCustom2 or PaletteContentStyle.GridHeaderColumnCustom3 or PaletteContentStyle.GridHeaderRowList or PaletteContentStyle.GridHeaderRowSheet or PaletteContentStyle.GridHeaderRowCustom1 or PaletteContentStyle.GridHeaderRowCustom2 or PaletteContentStyle.GridHeaderRowCustom3 or PaletteContentStyle.GridDataCellList or PaletteContentStyle.GridDataCellSheet or PaletteContentStyle.GridDataCellCustom1 or PaletteContentStyle.GridDataCellCustom2 or PaletteContentStyle.GridDataCellCustom3 or PaletteContentStyle.HeaderCalendar => _gridFont,
-                PaletteContentStyle.LabelTitleControl or PaletteContentStyle.LabelTitlePanel or PaletteContentStyle.HeaderPrimary or PaletteContentStyle.HeaderDockInactive or PaletteContentStyle.HeaderDockActive or PaletteContentStyle.HeaderForm or PaletteContentStyle.HeaderCustom1 or PaletteContentStyle.HeaderCustom2 or PaletteContentStyle.HeaderCustom3 => _header1LongFont,
-                PaletteContentStyle.LabelNormalControl or PaletteContentStyle.LabelBoldControl or PaletteContentStyle.LabelItalicControl or PaletteContentStyle.LabelNormalPanel or PaletteContentStyle.LabelBoldPanel or PaletteContentStyle.LabelItalicPanel or PaletteContentStyle.LabelGroupBoxCaption or PaletteContentStyle.LabelToolTip or PaletteContentStyle.LabelSuperTip or PaletteContentStyle.LabelKeyTip or PaletteContentStyle.LabelCustom1 or PaletteContentStyle.LabelCustom2 or PaletteContentStyle.LabelCustom3 or PaletteContentStyle.ContextMenuHeading or PaletteContentStyle.ContextMenuItemImage or PaletteContentStyle.ContextMenuItemTextStandard or PaletteContentStyle.ContextMenuItemTextAlternate or PaletteContentStyle.ContextMenuItemShortcutText or PaletteContentStyle.InputControlStandalone or PaletteContentStyle.InputControlRibbon or PaletteContentStyle.InputControlCustom1 or PaletteContentStyle.InputControlCustom2 or PaletteContentStyle.InputControlCustom3 or PaletteContentStyle.HeaderSecondary => _header2LongFont,
-                PaletteContentStyle.TabLowProfile or PaletteContentStyle.TabDock or PaletteContentStyle.TabDockAutoHidden => _tabFontNormal,
+                PaletteContentStyle.GridHeaderColumnList or PaletteContentStyle.GridHeaderColumnSheet or PaletteContentStyle.GridHeaderColumnCustom1 or PaletteContentStyle.GridHeaderColumnCustom2 or PaletteContentStyle.GridHeaderColumnCustom3 or PaletteContentStyle.GridHeaderRowList or PaletteContentStyle.GridHeaderRowSheet or PaletteContentStyle.GridHeaderRowCustom1 or PaletteContentStyle.GridHeaderRowCustom2 or PaletteContentStyle.GridHeaderRowCustom3 or PaletteContentStyle.GridDataCellList or PaletteContentStyle.GridDataCellSheet or PaletteContentStyle.GridDataCellCustom1 or PaletteContentStyle.GridDataCellCustom2 or PaletteContentStyle.GridDataCellCustom3 or PaletteContentStyle.HeaderCalendar => GridFont,
+                PaletteContentStyle.LabelTitleControl or PaletteContentStyle.LabelTitlePanel or PaletteContentStyle.HeaderPrimary or PaletteContentStyle.HeaderDockInactive or PaletteContentStyle.HeaderDockActive or PaletteContentStyle.HeaderForm or PaletteContentStyle.HeaderCustom1 or PaletteContentStyle.HeaderCustom2 or PaletteContentStyle.HeaderCustom3 => Header1LongFont,
+                PaletteContentStyle.LabelNormalControl or PaletteContentStyle.LabelBoldControl or PaletteContentStyle.LabelItalicControl or PaletteContentStyle.LabelNormalPanel or PaletteContentStyle.LabelBoldPanel or PaletteContentStyle.LabelItalicPanel or PaletteContentStyle.LabelGroupBoxCaption or PaletteContentStyle.LabelToolTip or PaletteContentStyle.LabelSuperTip or PaletteContentStyle.LabelKeyTip or PaletteContentStyle.LabelCustom1 or PaletteContentStyle.LabelCustom2 or PaletteContentStyle.LabelCustom3 or PaletteContentStyle.ContextMenuHeading or PaletteContentStyle.ContextMenuItemImage or PaletteContentStyle.ContextMenuItemTextStandard or PaletteContentStyle.ContextMenuItemTextAlternate or PaletteContentStyle.ContextMenuItemShortcutText or PaletteContentStyle.InputControlStandalone or PaletteContentStyle.InputControlRibbon or PaletteContentStyle.InputControlCustom1 or PaletteContentStyle.InputControlCustom2 or PaletteContentStyle.InputControlCustom3 or PaletteContentStyle.HeaderSecondary => Header2LongFont,
+                PaletteContentStyle.TabLowProfile or PaletteContentStyle.TabDock or PaletteContentStyle.TabDockAutoHidden => TabFontNormal,
                 PaletteContentStyle.TabHighProfile or PaletteContentStyle.TabStandardProfile or PaletteContentStyle.TabOneNote or PaletteContentStyle.TabCustom1 or PaletteContentStyle.TabCustom2 or PaletteContentStyle.TabCustom3 => state switch
                 {
-                    PaletteState.CheckedNormal or PaletteState.CheckedPressed or PaletteState.CheckedTracking => _tabFontSelected,
-                    _ => _tabFontNormal
+                    PaletteState.CheckedNormal or PaletteState.CheckedPressed or PaletteState.CheckedTracking => TabFontSelected,
+                    _ => TabFontNormal
                 },
-                PaletteContentStyle.ButtonStandalone or PaletteContentStyle.ButtonGallery or PaletteContentStyle.ButtonAlternate or PaletteContentStyle.ButtonLowProfile or PaletteContentStyle.ButtonBreadCrumb or PaletteContentStyle.ButtonListItem or PaletteContentStyle.ButtonCommand or PaletteContentStyle.ButtonButtonSpec or PaletteContentStyle.ButtonCluster or PaletteContentStyle.ButtonNavigatorStack or PaletteContentStyle.ButtonNavigatorOverflow or PaletteContentStyle.ButtonNavigatorMini or PaletteContentStyle.ButtonForm or PaletteContentStyle.ButtonFormClose or PaletteContentStyle.ButtonCustom1 or PaletteContentStyle.ButtonCustom2 or PaletteContentStyle.ButtonCustom3 or PaletteContentStyle.ButtonInputControl => _buttonFont,
-                PaletteContentStyle.ButtonCalendarDay => _calendarFont,
+                PaletteContentStyle.ButtonStandalone or PaletteContentStyle.ButtonGallery or PaletteContentStyle.ButtonAlternate or PaletteContentStyle.ButtonLowProfile or PaletteContentStyle.ButtonBreadCrumb or PaletteContentStyle.ButtonListItem or PaletteContentStyle.ButtonCommand or PaletteContentStyle.ButtonButtonSpec or PaletteContentStyle.ButtonCluster or PaletteContentStyle.ButtonNavigatorStack or PaletteContentStyle.ButtonNavigatorOverflow or PaletteContentStyle.ButtonNavigatorMini or PaletteContentStyle.ButtonForm or PaletteContentStyle.ButtonFormClose or PaletteContentStyle.ButtonCustom1 or PaletteContentStyle.ButtonCustom2 or PaletteContentStyle.ButtonCustom3 or PaletteContentStyle.ButtonInputControl => ButtonFont,
+                PaletteContentStyle.ButtonCalendarDay => CalendarFont,
                 _ => throw new ArgumentOutOfRangeException(nameof(style))
             };
         }
@@ -2428,7 +2487,7 @@ namespace Krypton.Toolkit
         /// <param name="style">Content style.</param>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image instance.</returns>
-        public override Image GetContentLongTextImage(PaletteContentStyle style, PaletteState state)
+        public override Image? GetContentLongTextImage(PaletteContentStyle style, PaletteState state)
         {
             // We do not provide override values
             if (CommonHelper.IsOverrideState(state))
@@ -2691,7 +2750,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="expanded">Is the node expanded</param>
         /// <returns>Appropriate image for drawing; otherwise null.</returns>
-        public override Image GetTreeViewImage(bool expanded) => expanded ? _treeCollapseMinus : _treeExpandPlus;
+        public override Image? GetTreeViewImage(bool expanded) => expanded ? _treeCollapseMinus : _treeExpandPlus;
 
         /// <summary>
         /// Gets a check box image appropriate for the provided state.
@@ -2701,7 +2760,7 @@ namespace Krypton.Toolkit
         /// <param name="tracking">Is the check box being hot tracked.</param>
         /// <param name="pressed">Is the check box being pressed.</param>
         /// <returns>Appropriate image for drawing; otherwise null.</returns>
-        public override Image GetCheckBoxImage(bool enabled, CheckState checkState, bool tracking, bool pressed) => null;
+        public override Image? GetCheckBoxImage(bool enabled, CheckState checkState, bool tracking, bool pressed) => null;
 
         /// <summary>
         /// Gets a check box image appropriate for the provided state.
@@ -2711,31 +2770,23 @@ namespace Krypton.Toolkit
         /// <param name="tracking">Is the radio button being hot tracked.</param>
         /// <param name="pressed">Is the radio button being pressed.</param>
         /// <returns>Appropriate image for drawing; otherwise null.</returns>
-        public override Image GetRadioButtonImage(bool enabled, bool checkState, bool tracking, bool pressed) => null;
+        public override Image? GetRadioButtonImage(bool enabled, bool checkState, bool tracking, bool pressed) => null;
 
         /// <summary>
         /// Gets a drop down button image appropriate for the provided state.
         /// </summary>
         /// <param name="state">PaletteState for which image is required.</param>
-        public override Image GetDropDownButtonImage(PaletteState state)
+        public override Image? GetDropDownButtonImage(PaletteState state)
         {
             if (state != PaletteState.Disabled)
             {
-                if (_normalDropDownImage == null)
-                {
-                    _normalDropDownImage = CreateDropDownImage(SystemColors.ControlText);
-                    //_normalDropDownColor = SystemColors.ControlText;
-                }
+                _normalDropDownImage ??= CreateDropDownImage(SystemColors.ControlText);
 
                 return _normalDropDownImage;
             }
             else
             {
-                if (_disabledDropDownImage == null)
-                {
-                    _disabledDropDownImage = CreateDropDownImage(SystemColors.ControlDark);
-                    //_disabledDropDownColor = SystemColors.ControlDark;
-                }
+                _disabledDropDownImage ??= CreateDropDownImage(SystemColors.ControlDark);
 
                 return _disabledDropDownImage;
             }
@@ -2745,19 +2796,19 @@ namespace Krypton.Toolkit
         /// Gets a checked image appropriate for a context menu item.
         /// </summary>
         /// <returns>Appropriate image for drawing; otherwise null.</returns>
-        public override Image GetContextMenuCheckedImage() => _contextMenuChecked;
+        public override Image? GetContextMenuCheckedImage() => _contextMenuChecked;
 
         /// <summary>
         /// Gets a indeterminate image appropriate for a context menu item.
         /// </summary>
         /// <returns>Appropriate image for drawing; otherwise null.</returns>
-        public override Image GetContextMenuIndeterminateImage() => _contextMenuIndeterminate;
+        public override Image? GetContextMenuIndeterminateImage() => _contextMenuIndeterminate;
 
         /// <summary>
         /// Gets an image indicating a sub-menu on a context menu item.
         /// </summary>
         /// <returns>Appropriate image for drawing; otherwise null.</returns>
-        public override Image GetContextMenuSubMenuImage() => _contextMenuSubMenu;
+        public override Image? GetContextMenuSubMenuImage() => _contextMenuSubMenu;
 
         /// <summary>
         /// Gets a check box image appropriate for the provided state.
@@ -2765,58 +2816,15 @@ namespace Krypton.Toolkit
         /// <param name="button">Enum of the button to fetch.</param>
         /// <param name="state">State of the button to fetch.</param>
         /// <returns>Appropriate image for drawing; otherwise null.</returns>
-        public override Image GetGalleryButtonImage(PaletteRibbonGalleryButton button, PaletteState state)
+        public override Image? GetGalleryButtonImage(PaletteRibbonGalleryButton button, PaletteState state) => button switch
         {
-            return button switch
-            {
-                PaletteRibbonGalleryButton.Down => _galleryImageDown ??= CreateGalleryDownImage(SystemColors.ControlText),
-                PaletteRibbonGalleryButton.DropDown => _galleryImageDropDown ??= CreateGalleryDropDownImage(SystemColors.ControlText),
-                _ => _galleryImageUp ??= CreateGalleryUpImage(SystemColors.ControlText)
-            };
-        }
+            PaletteRibbonGalleryButton.Down => _galleryImageDown ??= CreateGalleryDownImage(SystemColors.ControlText),
+            PaletteRibbonGalleryButton.DropDown => _galleryImageDropDown ??= CreateGalleryDropDownImage(SystemColors.ControlText),
+            _ => _galleryImageUp ??= CreateGalleryUpImage(SystemColors.ControlText)
+        };
         #endregion
 
         #region ButtonSpec
-        /// <summary>
-        /// Gets the icon to display for the button.
-        /// </summary>
-        /// <param name="style">Style of button spec.</param>
-        /// <returns>Icon value.</returns>
-        public override Icon GetButtonSpecIcon(PaletteButtonSpecStyle style)
-        {
-            switch (style)
-            {
-                case PaletteButtonSpecStyle.Generic:
-                case PaletteButtonSpecStyle.Close:
-                case PaletteButtonSpecStyle.Context:
-                case PaletteButtonSpecStyle.Next:
-                case PaletteButtonSpecStyle.Previous:
-                case PaletteButtonSpecStyle.ArrowLeft:
-                case PaletteButtonSpecStyle.ArrowRight:
-                case PaletteButtonSpecStyle.ArrowUp:
-                case PaletteButtonSpecStyle.ArrowDown:
-                case PaletteButtonSpecStyle.DropDown:
-                case PaletteButtonSpecStyle.PinVertical:
-                case PaletteButtonSpecStyle.PinHorizontal:
-                case PaletteButtonSpecStyle.FormClose:
-                case PaletteButtonSpecStyle.FormMax:
-                case PaletteButtonSpecStyle.FormMin:
-                case PaletteButtonSpecStyle.FormRestore:
-                case PaletteButtonSpecStyle.FormHelp:
-                case PaletteButtonSpecStyle.PendantClose:
-                case PaletteButtonSpecStyle.PendantMin:
-                case PaletteButtonSpecStyle.PendantRestore:
-                case PaletteButtonSpecStyle.WorkspaceMaximize:
-                case PaletteButtonSpecStyle.WorkspaceRestore:
-                case PaletteButtonSpecStyle.RibbonMinimize:
-                case PaletteButtonSpecStyle.RibbonExpand:
-                    return null;
-                default:
-                    // Should never happen!
-                    Debug.Assert(false);
-                    return null;
-            }
-        }
 
         /// <summary>
         /// Gets the image to display for the button.
@@ -2824,7 +2832,7 @@ namespace Krypton.Toolkit
         /// <param name="style">Style of button spec.</param>
         /// <param name="state">State for which image is required.</param>
         /// <returns>Image value.</returns>
-        public override Image GetButtonSpecImage(PaletteButtonSpecStyle style,
+        public override Image? GetButtonSpecImage(PaletteButtonSpecStyle style,
                                                  PaletteState state)
         {
             switch (style)
@@ -2885,6 +2893,33 @@ namespace Krypton.Toolkit
                 case PaletteButtonSpecStyle.PendantRestore:
                     return state == PaletteState.Disabled ? _pendantRestoreI : _pendantRestoreA;
 
+                case PaletteButtonSpecStyle.New:
+                    return state == PaletteState.Disabled ? _formToolbarButtonSpecNewDisabled : _formToolbarButtonSpecNewNormal;
+                case PaletteButtonSpecStyle.Save:
+                    return state == PaletteState.Disabled ? _formToolbarButtonSpecSaveDisabled : _formToolbarButtonSpecSaveNormal;
+                case PaletteButtonSpecStyle.SaveAs:
+                    return state == PaletteState.Disabled ? _formToolbarButtonSpecSaveAsDisabled : _formToolbarButtonSpecSaveAsNormal;
+                case PaletteButtonSpecStyle.SaveAll:
+                    return state == PaletteState.Disabled ? _formToolbarButtonSpecSaveAllDisabled : _formToolbarButtonSpecSaveAllNormal;
+                case PaletteButtonSpecStyle.Cut:
+                    return state == PaletteState.Disabled ? _formToolbarButtonSpecCutDisabled : _formToolbarButtonSpecCutNormal;
+                case PaletteButtonSpecStyle.Copy:
+                    return state == PaletteState.Disabled ? _formToolbarButtonSpecCopyDisabled : _formToolbarButtonSpecCopyNormal;
+                case PaletteButtonSpecStyle.Paste:
+                    return state == PaletteState.Disabled ? _formToolbarButtonSpecPasteDisabled : _formToolbarButtonSpecPasteNormal;
+                case PaletteButtonSpecStyle.Undo:
+                    return state == PaletteState.Disabled ? _formToolbarButtonSpecUndoDisabled : _formToolbarButtonSpecUndoNormal;
+                case PaletteButtonSpecStyle.Redo:
+                    return state == PaletteState.Disabled ? _formToolbarButtonSpecRedoDisabled : _formToolbarButtonSpecRedoNormal;
+                case PaletteButtonSpecStyle.PageSetup:
+                    return state == PaletteState.Disabled ? _formToolbarButtonSpecPageSetupDisabled : _formToolbarButtonSpecPageSetupNormal;
+                case PaletteButtonSpecStyle.PrintPreview:
+                    return state == PaletteState.Disabled ? _formToolbarButtonSpecPrintPreviewDisabled : _formToolbarButtonSpecPrintPreviewNormal;
+                case PaletteButtonSpecStyle.Print:
+                    return state == PaletteState.Disabled ? _formToolbarButtonSpecPrintDisabled : _formToolbarButtonSpecPrintNormal;
+                case PaletteButtonSpecStyle.QuickPrint:
+                    return state == PaletteState.Disabled ? _formToolbarButtonSpecQuickPrintDisabled : _formToolbarButtonSpecQuickPrintNormal;
+
                 case PaletteButtonSpecStyle.Generic:
                     return null;
                 default:
@@ -2894,379 +2929,6 @@ namespace Krypton.Toolkit
             }
         }
 
-        /// <summary>
-        /// Gets the image transparent color.
-        /// </summary>
-        /// <param name="style">Style of button spec.</param>
-        /// <returns>Color value.</returns>
-        public override Color GetButtonSpecImageTransparentColor(PaletteButtonSpecStyle style)
-        {
-            switch (style)
-            {
-                case PaletteButtonSpecStyle.Generic:
-                    return Color.Empty;
-                case PaletteButtonSpecStyle.Close:
-                case PaletteButtonSpecStyle.Context:
-                case PaletteButtonSpecStyle.Next:
-                case PaletteButtonSpecStyle.Previous:
-                case PaletteButtonSpecStyle.ArrowLeft:
-                case PaletteButtonSpecStyle.ArrowRight:
-                case PaletteButtonSpecStyle.ArrowUp:
-                case PaletteButtonSpecStyle.ArrowDown:
-                case PaletteButtonSpecStyle.DropDown:
-                case PaletteButtonSpecStyle.PinVertical:
-                case PaletteButtonSpecStyle.PinHorizontal:
-                case PaletteButtonSpecStyle.FormClose:
-                case PaletteButtonSpecStyle.FormMax:
-                case PaletteButtonSpecStyle.FormMin:
-                case PaletteButtonSpecStyle.FormRestore:
-                case PaletteButtonSpecStyle.FormHelp:
-                case PaletteButtonSpecStyle.PendantClose:
-                case PaletteButtonSpecStyle.PendantMin:
-                case PaletteButtonSpecStyle.PendantRestore:
-                case PaletteButtonSpecStyle.WorkspaceMaximize:
-                case PaletteButtonSpecStyle.WorkspaceRestore:
-                case PaletteButtonSpecStyle.RibbonMinimize:
-                case PaletteButtonSpecStyle.RibbonExpand:
-                    return Color.Magenta;
-                default:
-                    // Should never happen!
-                    Debug.Assert(false);
-                    return Color.Empty;
-            }
-        }
-
-        /// <summary>
-        /// Gets the short text to display for the button.
-        /// </summary>
-        /// <param name="style">Style of button spec.</param>
-        /// <returns>String value.</returns>
-        public override string GetButtonSpecShortText(PaletteButtonSpecStyle style)
-        {
-            switch (style)
-            {
-                case PaletteButtonSpecStyle.Generic:
-                case PaletteButtonSpecStyle.Close:
-                case PaletteButtonSpecStyle.Context:
-                case PaletteButtonSpecStyle.Next:
-                case PaletteButtonSpecStyle.Previous:
-                case PaletteButtonSpecStyle.ArrowLeft:
-                case PaletteButtonSpecStyle.ArrowRight:
-                case PaletteButtonSpecStyle.ArrowUp:
-                case PaletteButtonSpecStyle.ArrowDown:
-                case PaletteButtonSpecStyle.DropDown:
-                case PaletteButtonSpecStyle.PinVertical:
-                case PaletteButtonSpecStyle.PinHorizontal:
-                case PaletteButtonSpecStyle.FormClose:
-                case PaletteButtonSpecStyle.FormMax:
-                case PaletteButtonSpecStyle.FormMin:
-                case PaletteButtonSpecStyle.FormRestore:
-                case PaletteButtonSpecStyle.FormHelp:
-                case PaletteButtonSpecStyle.PendantClose:
-                case PaletteButtonSpecStyle.PendantMin:
-                case PaletteButtonSpecStyle.PendantRestore:
-                case PaletteButtonSpecStyle.WorkspaceMaximize:
-                case PaletteButtonSpecStyle.WorkspaceRestore:
-                case PaletteButtonSpecStyle.RibbonMinimize:
-                case PaletteButtonSpecStyle.RibbonExpand:
-                    return string.Empty;
-                default:
-                    // Should never happen!
-                    Debug.Assert(false);
-                    return null;
-            }
-        }
-
-        /// <summary>
-        /// Gets the long text to display for the button.
-        /// </summary>
-        /// <param name="style">Style of button spec.</param>
-        /// <returns>String value.</returns>
-        public override string GetButtonSpecLongText(PaletteButtonSpecStyle style)
-        {
-            switch (style)
-            {
-                case PaletteButtonSpecStyle.Generic:
-                case PaletteButtonSpecStyle.Close:
-                case PaletteButtonSpecStyle.Context:
-                case PaletteButtonSpecStyle.Next:
-                case PaletteButtonSpecStyle.Previous:
-                case PaletteButtonSpecStyle.ArrowLeft:
-                case PaletteButtonSpecStyle.ArrowRight:
-                case PaletteButtonSpecStyle.ArrowUp:
-                case PaletteButtonSpecStyle.ArrowDown:
-                case PaletteButtonSpecStyle.DropDown:
-                case PaletteButtonSpecStyle.PinVertical:
-                case PaletteButtonSpecStyle.PinHorizontal:
-                case PaletteButtonSpecStyle.FormClose:
-                case PaletteButtonSpecStyle.FormMax:
-                case PaletteButtonSpecStyle.FormMin:
-                case PaletteButtonSpecStyle.FormRestore:
-                case PaletteButtonSpecStyle.FormHelp:
-                case PaletteButtonSpecStyle.PendantClose:
-                case PaletteButtonSpecStyle.PendantMin:
-                case PaletteButtonSpecStyle.PendantRestore:
-                case PaletteButtonSpecStyle.WorkspaceMaximize:
-                case PaletteButtonSpecStyle.WorkspaceRestore:
-                case PaletteButtonSpecStyle.RibbonMinimize:
-                case PaletteButtonSpecStyle.RibbonExpand:
-                    return string.Empty;
-                default:
-                    // Should never happen!
-                    Debug.Assert(false);
-                    return null;
-            }
-        }
-
-        /// <summary>
-        /// Gets the color to remap from the image to the container foreground.
-        /// </summary>
-        /// <param name="style">Style of button spec.</param>
-        /// <returns>Color value.</returns>
-        public override Color GetButtonSpecColorMap(PaletteButtonSpecStyle style)
-        {
-            switch (style)
-            {
-                case PaletteButtonSpecStyle.Generic:
-                case PaletteButtonSpecStyle.FormClose:
-                case PaletteButtonSpecStyle.FormMax:
-                case PaletteButtonSpecStyle.FormMin:
-                case PaletteButtonSpecStyle.FormRestore:
-                case PaletteButtonSpecStyle.FormHelp:
-                    return Color.Empty;
-                case PaletteButtonSpecStyle.Close:
-                case PaletteButtonSpecStyle.Context:
-                case PaletteButtonSpecStyle.Next:
-                case PaletteButtonSpecStyle.Previous:
-                case PaletteButtonSpecStyle.ArrowLeft:
-                case PaletteButtonSpecStyle.ArrowRight:
-                case PaletteButtonSpecStyle.ArrowUp:
-                case PaletteButtonSpecStyle.ArrowDown:
-                case PaletteButtonSpecStyle.DropDown:
-                case PaletteButtonSpecStyle.PinVertical:
-                case PaletteButtonSpecStyle.PinHorizontal:
-                case PaletteButtonSpecStyle.PendantClose:
-                case PaletteButtonSpecStyle.PendantMin:
-                case PaletteButtonSpecStyle.PendantRestore:
-                case PaletteButtonSpecStyle.WorkspaceMaximize:
-                case PaletteButtonSpecStyle.WorkspaceRestore:
-                case PaletteButtonSpecStyle.RibbonMinimize:
-                case PaletteButtonSpecStyle.RibbonExpand:
-                    return Color.Black;
-                default:
-                    // Should never happen!
-                    Debug.Assert(false);
-                    return Color.Empty;
-            }
-        }
-
-        /// <summary>
-        /// Gets the color to remap to transparent.
-        /// </summary>
-        /// <param name="style">Style of button spec.</param>
-        /// <returns>Color value.</returns>
-        public override Color GetButtonSpecColorTransparent(PaletteButtonSpecStyle style)
-        {
-            switch (style)
-            {
-                case PaletteButtonSpecStyle.Generic:
-                    return Color.Empty;
-                case PaletteButtonSpecStyle.Close:
-                case PaletteButtonSpecStyle.Context:
-                case PaletteButtonSpecStyle.Next:
-                case PaletteButtonSpecStyle.Previous:
-                case PaletteButtonSpecStyle.ArrowLeft:
-                case PaletteButtonSpecStyle.ArrowRight:
-                case PaletteButtonSpecStyle.ArrowUp:
-                case PaletteButtonSpecStyle.DropDown:
-                case PaletteButtonSpecStyle.PinVertical:
-                case PaletteButtonSpecStyle.PinHorizontal:
-                case PaletteButtonSpecStyle.FormClose:
-                case PaletteButtonSpecStyle.FormMax:
-                case PaletteButtonSpecStyle.FormMin:
-                case PaletteButtonSpecStyle.FormRestore:
-                case PaletteButtonSpecStyle.FormHelp:
-                case PaletteButtonSpecStyle.PendantClose:
-                case PaletteButtonSpecStyle.PendantMin:
-                case PaletteButtonSpecStyle.PendantRestore:
-                case PaletteButtonSpecStyle.WorkspaceMaximize:
-                case PaletteButtonSpecStyle.WorkspaceRestore:
-                case PaletteButtonSpecStyle.RibbonMinimize:
-                case PaletteButtonSpecStyle.RibbonExpand:
-                    return Color.Magenta;
-                default:
-                    // Should never happen!
-                    Debug.Assert(false);
-                    return Color.Empty;
-            }
-        }
-
-        /// <summary>
-        /// Gets the button style used for drawing the button.
-        /// </summary>
-        /// <param name="style">Style of button spec.</param>
-        /// <returns>PaletteButtonStyle value.</returns>
-        public override PaletteButtonStyle GetButtonSpecStyle(PaletteButtonSpecStyle style)
-        {
-            switch (style)
-            {
-                case PaletteButtonSpecStyle.FormMax:
-                case PaletteButtonSpecStyle.FormMin:
-                case PaletteButtonSpecStyle.FormRestore:
-                case PaletteButtonSpecStyle.FormHelp:
-                    return PaletteButtonStyle.Form;
-                case PaletteButtonSpecStyle.FormClose:
-                    return PaletteButtonStyle.FormClose;
-                case PaletteButtonSpecStyle.Generic:
-                case PaletteButtonSpecStyle.Close:
-                case PaletteButtonSpecStyle.Context:
-                case PaletteButtonSpecStyle.Next:
-                case PaletteButtonSpecStyle.Previous:
-                case PaletteButtonSpecStyle.ArrowLeft:
-                case PaletteButtonSpecStyle.ArrowRight:
-                case PaletteButtonSpecStyle.ArrowUp:
-                case PaletteButtonSpecStyle.ArrowDown:
-                case PaletteButtonSpecStyle.DropDown:
-                case PaletteButtonSpecStyle.PinVertical:
-                case PaletteButtonSpecStyle.PinHorizontal:
-                case PaletteButtonSpecStyle.PendantClose:
-                case PaletteButtonSpecStyle.PendantMin:
-                case PaletteButtonSpecStyle.PendantRestore:
-                case PaletteButtonSpecStyle.WorkspaceMaximize:
-                case PaletteButtonSpecStyle.WorkspaceRestore:
-                case PaletteButtonSpecStyle.RibbonMinimize:
-                case PaletteButtonSpecStyle.RibbonExpand:
-                    return PaletteButtonStyle.ButtonSpec;
-                default:
-                    // Should never happen!
-                    Debug.Assert(false);
-                    return PaletteButtonStyle.ButtonSpec;
-            }
-        }
-
-        /// <summary>
-        /// Get the location for the button.
-        /// </summary>
-        /// <param name="style">Style of button spec.</param>
-        /// <returns>HeaderLocation value.</returns>
-        public override HeaderLocation GetButtonSpecLocation(PaletteButtonSpecStyle style)
-        {
-            switch (style)
-            {
-                case PaletteButtonSpecStyle.Generic:
-                case PaletteButtonSpecStyle.Close:
-                case PaletteButtonSpecStyle.Context:
-                case PaletteButtonSpecStyle.Next:
-                case PaletteButtonSpecStyle.Previous:
-                case PaletteButtonSpecStyle.ArrowLeft:
-                case PaletteButtonSpecStyle.ArrowRight:
-                case PaletteButtonSpecStyle.ArrowUp:
-                case PaletteButtonSpecStyle.ArrowDown:
-                case PaletteButtonSpecStyle.DropDown:
-                case PaletteButtonSpecStyle.PinVertical:
-                case PaletteButtonSpecStyle.PinHorizontal:
-                case PaletteButtonSpecStyle.FormClose:
-                case PaletteButtonSpecStyle.FormMax:
-                case PaletteButtonSpecStyle.FormMin:
-                case PaletteButtonSpecStyle.FormRestore:
-                case PaletteButtonSpecStyle.FormHelp:
-                case PaletteButtonSpecStyle.PendantClose:
-                case PaletteButtonSpecStyle.PendantMin:
-                case PaletteButtonSpecStyle.PendantRestore:
-                case PaletteButtonSpecStyle.WorkspaceMaximize:
-                case PaletteButtonSpecStyle.WorkspaceRestore:
-                case PaletteButtonSpecStyle.RibbonMinimize:
-                case PaletteButtonSpecStyle.RibbonExpand:
-                    return HeaderLocation.PrimaryHeader;
-                default:
-                    // Should never happen!
-                    Debug.Assert(false);
-                    return HeaderLocation.PrimaryHeader;
-            }
-        }
-
-        /// <summary>
-        /// Gets the edge to position the button against.
-        /// </summary>
-        /// <param name="style">Style of button spec.</param>
-        /// <returns>PaletteRelativeEdgeAlign value.</returns>
-        public override PaletteRelativeEdgeAlign GetButtonSpecEdge(PaletteButtonSpecStyle style)
-        {
-            switch (style)
-            {
-                case PaletteButtonSpecStyle.Generic:
-                case PaletteButtonSpecStyle.Close:
-                case PaletteButtonSpecStyle.Context:
-                case PaletteButtonSpecStyle.Next:
-                case PaletteButtonSpecStyle.Previous:
-                case PaletteButtonSpecStyle.ArrowLeft:
-                case PaletteButtonSpecStyle.ArrowRight:
-                case PaletteButtonSpecStyle.ArrowUp:
-                case PaletteButtonSpecStyle.ArrowDown:
-                case PaletteButtonSpecStyle.DropDown:
-                case PaletteButtonSpecStyle.PinVertical:
-                case PaletteButtonSpecStyle.PinHorizontal:
-                case PaletteButtonSpecStyle.FormClose:
-                case PaletteButtonSpecStyle.FormMax:
-                case PaletteButtonSpecStyle.FormMin:
-                case PaletteButtonSpecStyle.FormRestore:
-                case PaletteButtonSpecStyle.FormHelp:
-                case PaletteButtonSpecStyle.PendantClose:
-                case PaletteButtonSpecStyle.PendantMin:
-                case PaletteButtonSpecStyle.PendantRestore:
-                case PaletteButtonSpecStyle.WorkspaceMaximize:
-                case PaletteButtonSpecStyle.WorkspaceRestore:
-                case PaletteButtonSpecStyle.RibbonMinimize:
-                case PaletteButtonSpecStyle.RibbonExpand:
-                    return PaletteRelativeEdgeAlign.Far;
-                default:
-                    // Should never happen!
-                    Debug.Assert(false);
-                    return PaletteRelativeEdgeAlign.Far;
-            }
-        }
-
-        /// <summary>
-        /// Gets the button orientation.
-        /// </summary>
-        /// <param name="style">Style of button spec.</param>
-        /// <returns>PaletteButtonOrientation value.</returns>
-        public override PaletteButtonOrientation GetButtonSpecOrientation(PaletteButtonSpecStyle style)
-        {
-            switch (style)
-            {
-                case PaletteButtonSpecStyle.Close:
-                case PaletteButtonSpecStyle.Context:
-                case PaletteButtonSpecStyle.ArrowLeft:
-                case PaletteButtonSpecStyle.ArrowRight:
-                case PaletteButtonSpecStyle.ArrowUp:
-                case PaletteButtonSpecStyle.ArrowDown:
-                case PaletteButtonSpecStyle.DropDown:
-                case PaletteButtonSpecStyle.PinVertical:
-                case PaletteButtonSpecStyle.PinHorizontal:
-                case PaletteButtonSpecStyle.FormClose:
-                case PaletteButtonSpecStyle.FormMax:
-                case PaletteButtonSpecStyle.FormMin:
-                case PaletteButtonSpecStyle.FormRestore:
-                case PaletteButtonSpecStyle.FormHelp:
-                case PaletteButtonSpecStyle.PendantClose:
-                case PaletteButtonSpecStyle.PendantMin:
-                case PaletteButtonSpecStyle.PendantRestore:
-                case PaletteButtonSpecStyle.WorkspaceMaximize:
-                case PaletteButtonSpecStyle.WorkspaceRestore:
-                case PaletteButtonSpecStyle.RibbonMinimize:
-                case PaletteButtonSpecStyle.RibbonExpand:
-                    return PaletteButtonOrientation.FixedTop;
-                case PaletteButtonSpecStyle.Generic:
-                case PaletteButtonSpecStyle.Next:
-                case PaletteButtonSpecStyle.Previous:
-                    return PaletteButtonOrientation.Auto;
-                default:
-                    // Should never happen!
-                    Debug.Assert(false);
-                    return PaletteButtonOrientation.Auto;
-            }
-        }
         #endregion
 
         #region RibbonGeneral
@@ -3288,7 +2950,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
-        public override Font GetRibbonContextTextFont(PaletteState state) => _buttonFont;
+        public override Font GetRibbonContextTextFont(PaletteState state) => ButtonFont;
 
         /// <summary>
         /// Gets the color for the ribbon context text.
@@ -3386,7 +3048,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
-        public override Font GetRibbonTextFont(PaletteState state) => _buttonFont;
+        public override Font GetRibbonTextFont(PaletteState state) => ButtonFont;
 
         /// <summary>
         /// Gets the rendering hint for the ribbon font.
@@ -4231,7 +3893,7 @@ namespace Krypton.Toolkit
         internal virtual KryptonProfessionalKCT GenerateColorTable(bool useSystemColors)
         {
             // Create the color table to use as the base for getting krypton colors
-            KryptonColorTable kct = new(this)
+            var kct = new KryptonColorTable(this)
             {
 
                 // Always turn off the use of any theme specific colors
@@ -4296,61 +3958,6 @@ namespace Krypton.Toolkit
             DefineRibbonColors();
 
             base.OnUserPreferenceChanged(sender, e);
-        }
-        #endregion
-
-        #region Protected
-        /// <summary>
-        /// Update the fonts to reflect system or user defined changes.
-        /// </summary>
-        protected override void DefineFonts()
-        {
-            // Release existing resources
-            _header1ShortFont?.Dispose();
-
-            _header2ShortFont?.Dispose();
-
-            _headerFormFont?.Dispose();
-
-            _header1LongFont?.Dispose();
-
-            _header2LongFont?.Dispose();
-
-            _buttonFont?.Dispose();
-
-            _buttonFontNavigatorMini?.Dispose();
-
-            _tabFontSelected?.Dispose();
-
-            _tabFontNormal?.Dispose();
-
-            _gridFont?.Dispose();
-
-            _calendarFont?.Dispose();
-
-            _calendarBoldFont?.Dispose();
-
-            _superToolFont?.Dispose();
-
-            _boldFont?.Dispose();
-
-            _italicFont?.Dispose();
-
-            _header1ShortFont = SystemFonts.IconTitleFont; //new Font("Arial", baseFontSize + 4.5f, FontStyle.Bold);
-            _header2ShortFont = SystemFonts.DefaultFont;
-            _header1LongFont = SystemFonts.MenuFont;
-            _header2LongFont = SystemFonts.IconTitleFont;
-            _headerFormFont = SystemFonts.CaptionFont;
-            _buttonFont = SystemFonts.IconTitleFont;
-            _buttonFontNavigatorMini = SystemFonts.SmallCaptionFont;
-            _tabFontNormal = SystemFonts.IconTitleFont;
-            _tabFontSelected = new Font(_tabFontNormal, FontStyle.Bold);
-            _gridFont = SystemFonts.IconTitleFont;
-            _superToolFont = SystemFonts.SmallCaptionFont;
-            _calendarFont = SystemFonts.DialogFont;
-            _calendarBoldFont = new Font(SystemFonts.DialogFont, FontStyle.Bold);
-            _boldFont = new Font(SystemFonts.DialogFont, FontStyle.Bold);
-            _italicFont = new Font(SystemFonts.DialogFont, FontStyle.Italic);
         }
         #endregion
 
@@ -4597,14 +4204,14 @@ namespace Krypton.Toolkit
             // Use a graphics instance for drawing the image
             using Graphics g = Graphics.FromImage(image);
             // Draw a solid arrow
-            using (SolidBrush fill = new(color))
+            using (var fill = new SolidBrush(color))
             {
-                g.FillPolygon(fill, new Point[] { new(2, 3), new(4, 6), new(7, 3) });
+                g.FillPolygon(fill, new Point[] { new Point(2, 3), new Point(4, 6), new Point(7, 3) });
             }
 
             // Draw semi-transparent outline around the arrow
-            using Pen outline = new(Color.FromArgb(128, color));
-            g.DrawLines(outline, new Point[] { new(1, 3), new(4, 6), new(7, 3) });
+            using var outline = new Pen(Color.FromArgb(128, color));
+            g.DrawLines(outline, new Point[] { new Point(1, 3), new Point(4, 6), new Point(7, 3) });
 
             return image;
         }
@@ -4617,8 +4224,8 @@ namespace Krypton.Toolkit
             // Use a graphics instance for drawing the image
             using Graphics g = Graphics.FromImage(image);
             // Draw a solid arrow
-            using SolidBrush fill = new(color);
-            g.FillPolygon(fill, new Point[] { new(3, 6), new(6, 2), new(9, 6) });
+            using var fill = new SolidBrush(color);
+            g.FillPolygon(fill, new Point[] { new Point(3, 6), new Point(6, 2), new Point(9, 6) });
 
             return image;
         }
@@ -4631,8 +4238,8 @@ namespace Krypton.Toolkit
             // Use a graphics instance for drawing the image
             using Graphics g = Graphics.FromImage(image);
             // Draw a solid arrow
-            using SolidBrush fill = new(color);
-            g.FillPolygon(fill, new Point[] { new(4, 3), new(6, 6), new(9, 3) });
+            using var fill = new SolidBrush(color);
+            g.FillPolygon(fill, new Point[] { new Point(4, 3), new Point(6, 6), new Point(9, 3) });
 
             return image;
         }
@@ -4645,13 +4252,13 @@ namespace Krypton.Toolkit
             // Use a graphics instance for drawing the image
             using Graphics g = Graphics.FromImage(image);
             // Draw a solid arrow
-            using (SolidBrush fill = new(color))
+            using (var fill = new SolidBrush(color))
             {
-                g.FillPolygon(fill, new Point[] { new(4, 3), new(6, 6), new(9, 3) });
+                g.FillPolygon(fill, new Point[] { new Point(4, 3), new Point(6, 6), new Point(9, 3) });
             }
 
             // Draw the line above the arrow
-            using Pen pen = new(color);
+            using var pen = new Pen(color);
             g.DrawLine(pen, 4, 1, 8, 1);
 
             return image;

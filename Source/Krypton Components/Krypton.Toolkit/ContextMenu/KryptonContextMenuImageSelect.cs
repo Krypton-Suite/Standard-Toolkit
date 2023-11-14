@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -19,13 +19,13 @@ namespace Krypton.Toolkit
     [ToolboxBitmap(typeof(KryptonContextMenuImageSelect), "ToolboxBitmaps.KryptonContextMenuImageSelect.bmp")]
     [DesignerCategory(@"code")]
     [DesignTimeVisible(false)]
-    [DefaultProperty(@"ImageList")]
-    [DefaultEvent(@"SelectedIndexChanged")]
+    [DefaultProperty(nameof(ImageList))]
+    [DefaultEvent(nameof(SelectedIndexChanged))]
     public class KryptonContextMenuImageSelect : KryptonContextMenuItemBase
     {
         #region Instance Fields
         private Padding _padding;
-        private ImageList _imageList;
+        private ImageList? _imageList;
         private ButtonStyle _style;
         private bool _autoClose;
         private int _selectedIndex;
@@ -44,21 +44,21 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Property Changed")]
         [Description(@"Occurs when the value of the SelectedIndex property changes.")]
-        public event EventHandler SelectedIndexChanged;
+        public event EventHandler? SelectedIndexChanged;
 
         /// <summary>
         /// Occurs when the user is tracking over a color.
         /// </summary>
         [Category(@"Action")]
         [Description(@"Occurs when user is tracking over an image.")]
-        public event EventHandler<ImageSelectEventArgs> TrackingImage;
+        public event EventHandler<ImageSelectEventArgs>? TrackingImage;
 
         /// <summary>
         /// Occurs when the value of the SelectedIndex property changes.
         /// </summary>
         [Category(@"Action")]
         [Description(@"Occurs when an image is clicked.")]
-        public event EventHandler Click;
+        public event EventHandler? Click;
 
         #endregion
 
@@ -107,7 +107,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public override KryptonContextMenuItemBase this[int index] => null;
+        public override KryptonContextMenuItemBase? this[int index] => null;
 
         /// <summary>
         /// Test for the provided shortcut and perform relevant action if a match is found.
@@ -129,8 +129,11 @@ namespace Krypton.Toolkit
                                               object parent,
                                               ViewLayoutStack columns,
                                               bool standardStyle,
-                                              bool imageColumn) =>
-            new ViewLayoutMenuItemSelect(this, provider);
+                                              bool imageColumn)
+        {
+            SetProvider(provider);
+            return new ViewLayoutMenuItemSelect(this, provider);
+        }
 
         /// <summary>
         /// Gets and sets padding around the image selection area.
@@ -201,7 +204,7 @@ namespace Krypton.Toolkit
         [KryptonPersist]
         [Category(@"Visuals")]
         [Description(@"Button style used for each image item.")]
-        [DefaultValue(typeof(ButtonStyle), "LowProfile")]
+        [DefaultValue(ButtonStyle.LowProfile)]
         public ButtonStyle ButtonStyle
         {
             get => _style;
@@ -223,7 +226,7 @@ namespace Krypton.Toolkit
         [Category(@"Behavior")]
         [Description(@"Collection of images for display and selection.")]
         [DefaultValue(null)]
-        public ImageList ImageList
+        public ImageList? ImageList
         {
             get => _imageList;
 

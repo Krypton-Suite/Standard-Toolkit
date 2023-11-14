@@ -5,7 +5,9 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  
+ *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
  */
 #endregion
@@ -17,12 +19,12 @@ namespace Krypton.Ribbon
     /// </summary>
     [ToolboxItem(false)]
     [ToolboxBitmap(typeof(KryptonRibbonGroupCheckBox), "ToolboxBitmaps.KryptonRibbonGroupCheckBox.bmp")]
-    [Designer("Krypton.Ribbon.KryptonRibbonGroupCheckBoxDesigner, Krypton.Ribbon")]
+    [Designer(typeof(KryptonRibbonGroupCheckBoxDesigner))]
     [DesignerCategory(@"code")]
     [DesignTimeVisible(false)]
-    [DefaultEvent("CheckedChanged")]
-    [DefaultProperty("Checked")]
-    [DefaultBindingProperty("CheckState")]
+    [DefaultEvent(nameof(CheckedChanged))]
+    [DefaultProperty(nameof(Checked))]
+    [DefaultBindingProperty(nameof(CheckState))]
     public class KryptonRibbonGroupCheckBox : KryptonRibbonGroupItem
     {
         #region Instance Fields
@@ -38,7 +40,7 @@ namespace Krypton.Ribbon
         private GroupItemSize _itemSizeMax;
         private GroupItemSize _itemSizeMin;
         private GroupItemSize _itemSizeCurrent;
-        private KryptonCommand _command;
+        private KryptonCommand? _command;
         #endregion
 
         #region Events
@@ -47,35 +49,35 @@ namespace Krypton.Ribbon
         /// </summary>
         [Category(@"Ribbon")]
         [Description(@"Occurs when the check box is clicked.")]
-        public event EventHandler Click;
+        public event EventHandler? Click;
 
         /// <summary>
         /// Occurs when the value of the Checked property has changed.
         /// </summary>
         [Category(@"Ribbon")]
         [Description(@"Occurs whenever the Checked property has changed.")]
-        public event EventHandler CheckedChanged;
+        public event EventHandler? CheckedChanged;
 
         /// <summary>
         /// Occurs when the value of the CheckState property has changed.
         /// </summary>
         [Category(@"Ribbon")]
         [Description(@"Occurs whenever the CheckState property has changed.")]
-        public event EventHandler CheckStateChanged;
+        public event EventHandler? CheckStateChanged;
 
         /// <summary>
         /// Occurs after the value of a property has changed.
         /// </summary>
         [Category(@"Ribbon")]
         [Description(@"Occurs after the value of a property has changed.")]
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         /// <summary>
         /// Occurs when the design time context menu is requested.
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        public event MouseEventHandler DesignTimeContextMenu;
+        public event MouseEventHandler? DesignTimeContextMenu;
         #endregion
 
         #region Identity
@@ -92,7 +94,7 @@ namespace Krypton.Ribbon
             _checkState = CheckState.Unchecked;
             _autoCheck = true;
             ShortcutKeys = Keys.None;
-            _textLine1 = "CheckBox";
+            _textLine1 = nameof(CheckBox);
             _textLine2 = string.Empty;
             _keyTip = "C";
             _itemSizeMax = GroupItemSize.Large;
@@ -110,7 +112,7 @@ namespace Krypton.Ribbon
         [Category(@"Appearance")]
         [Description(@"Check box display text line 1.")]
         [RefreshProperties(RefreshProperties.All)]
-        [DefaultValue("CheckBox")]
+        [DefaultValue(nameof(CheckBox))]
         public string TextLine1
         {
             get => _textLine1;
@@ -120,7 +122,7 @@ namespace Krypton.Ribbon
                 // We never allow an empty text value
                 if (string.IsNullOrEmpty(value))
                 {
-                    value = "CheckBox";
+                    value = nameof(CheckBox);
                 }
 
                 if (value != _textLine1)
@@ -170,7 +172,7 @@ namespace Krypton.Ribbon
             {
                 if (string.IsNullOrEmpty(value))
                 {
-                    value = "C";
+                    value = @"C";
                 }
 
                 _keyTip = value.ToUpper();
@@ -204,18 +206,12 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Make the ribbon group visible.
         /// </summary>
-        public void Show()
-        {
-            Visible = true;
-        }
+        public void Show() => Visible = true;
 
         /// <summary>
         /// Make the ribbon group hidden.
         /// </summary>
-        public void Hide()
-        {
-            Visible = false;
-        }
+        public void Hide() => Visible = false;
 
         /// <summary>
         /// Gets and sets the enabled state of the group check box entry.
@@ -350,12 +346,9 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Resets the ShortcutKeys property to its default value.
         /// </summary>
-        public void ResetShortcutKeys()
-        {
-            ShortcutKeys = Keys.None;
-        }
+        public void ResetShortcutKeys() => ShortcutKeys = Keys.None;
 
-        
+
         /// <summary>
         /// Gets access to the Wrapped Controls Tooltips.
         /// </summary>
@@ -367,7 +360,7 @@ namespace Krypton.Ribbon
         [Category(@"Behavior")]
         [Description(@"Command associated with the check box.")]
         [DefaultValue(null)]
-        public KryptonCommand KryptonCommand
+        public KryptonCommand? KryptonCommand
         {
             get => _command;
 
@@ -468,19 +461,13 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Generates a Click event for a check box.
         /// </summary>
-        public void PerformClick()
-        {
-            PerformClick(null);
-        }
+        public void PerformClick() => PerformClick(null);
 
         /// <summary>
         /// Generates a Click event for a check box.
         /// </summary>
         /// <param name="finishDelegate">Delegate fired during event processing.</param>
-        public void PerformClick(EventHandler finishDelegate)
-        {
-            OnClick(finishDelegate);
-        }
+        public void PerformClick(EventHandler? finishDelegate) => OnClick(finishDelegate);
 
         /// <summary>
         /// Internal design time properties.
@@ -502,17 +489,17 @@ namespace Krypton.Ribbon
         {
             switch (e.PropertyName)
             {
-                case "TextLine1":
+                case nameof(TextLine1):
                     OnPropertyChanged(nameof(TextLine1));
                     break;
-                case "TextLine2":
+                case nameof(TextLine2):
                     OnPropertyChanged(nameof(TextLine2));
                     break;
-                case "Enabled":
+                case nameof(Enabled):
                     OnPropertyChanged(nameof(Enabled));
                     break;
-                case "Checked":
-                case "CheckState":
+                case nameof(Checked):
+                case nameof(CheckState):
                     OnPropertyChanged(nameof(CheckState));
                     break;
             }
@@ -522,7 +509,7 @@ namespace Krypton.Ribbon
         /// Raises the Click event.
         /// </summary>
         /// <param name="finishDelegate">Delegate fired during event processing.</param>
-        protected virtual void OnClick(EventHandler finishDelegate)
+        protected virtual void OnClick(EventHandler? finishDelegate)
         {
             var fireDelegate = true;
 
@@ -593,35 +580,23 @@ namespace Krypton.Ribbon
         /// Raises the CheckedChanged event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnCheckedChanged(EventArgs e)
-        {
-            CheckedChanged?.Invoke(this, e);
-        }
+        protected virtual void OnCheckedChanged(EventArgs e) => CheckedChanged?.Invoke(this, e);
 
         /// <summary>
         /// Raises the CheckStateChanged event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnCheckStateChanged(EventArgs e)
-        {
-            CheckStateChanged?.Invoke(this, e);
-        }
+        protected virtual void OnCheckStateChanged(EventArgs e) => CheckStateChanged?.Invoke(this, e);
 
         /// <summary>
         /// Raises the PropertyChanged event.
         /// </summary>
         /// <param name="propertyName">Name of property that has changed.</param>
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
+        protected virtual void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         #endregion
 
         #region Internal
-        internal void OnDesignTimeContextMenu(MouseEventArgs e)
-        {
-            DesignTimeContextMenu?.Invoke(this, e);
-        }
+        internal void OnDesignTimeContextMenu(MouseEventArgs e) => DesignTimeContextMenu?.Invoke(this, e);
 
         internal override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {

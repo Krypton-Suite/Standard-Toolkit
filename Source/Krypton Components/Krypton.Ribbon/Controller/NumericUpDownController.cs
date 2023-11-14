@@ -5,7 +5,9 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  
+ *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
  */
 #endregion
@@ -33,9 +35,9 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Reference to owning ribbon instance.</param>
         /// <param name="numericUpDown">Source definition.</param>
         /// <param name="target">Target view element.</param>
-        public NumericUpDownController(KryptonRibbon ribbon,
-                                       KryptonRibbonGroupNumericUpDown numericUpDown,
-                                       ViewDrawRibbonGroupNumericUpDown target)
+        public NumericUpDownController([DisallowNull] KryptonRibbon ribbon,
+                                       [DisallowNull] KryptonRibbonGroupNumericUpDown numericUpDown,
+                                       [DisallowNull] ViewDrawRibbonGroupNumericUpDown target)
         {
             Debug.Assert(ribbon != null);
             Debug.Assert(numericUpDown != null);
@@ -54,8 +56,7 @@ namespace Krypton.Ribbon
         /// <param name="c">Reference to the source control instance.</param>
         public void GotFocus(Control c)
         {
-            if ((_numericUpDown.LastNumericUpDown?.NumericUpDown != null) 
-                && _numericUpDown.LastNumericUpDown.NumericUpDown.CanFocus)
+            if (_numericUpDown.LastNumericUpDown.NumericUpDown is { CanFocus: true })
             {
                 _ribbon.LostFocusLosesKeyboard = false;
                 _numericUpDown.LastNumericUpDown.NumericUpDown.Focus();
@@ -66,7 +67,7 @@ namespace Krypton.Ribbon
         /// Source control has lost the focus.
         /// </summary>
         /// <param name="c">Reference to the source control instance.</param>
-        public void LostFocus(Control c)
+        public void LostFocus([DisallowNull] Control c)
         {
         }
         #endregion
@@ -152,7 +153,7 @@ namespace Krypton.Ribbon
         #region Implementation
         private void KeyDownRibbon(KryptonRibbon ribbon, KeyEventArgs e)
         {
-            ViewBase newView = null;
+            ViewBase? newView = null;
 
             switch (e.KeyData)
             {

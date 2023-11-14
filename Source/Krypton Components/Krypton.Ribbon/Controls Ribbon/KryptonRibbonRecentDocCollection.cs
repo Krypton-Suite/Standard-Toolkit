@@ -5,7 +5,9 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  
+ *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
  */
 #endregion
@@ -28,17 +30,14 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="name">Name of the recent document instance.</param>
         /// <returns>Item at specified index.</returns>
-        public override KryptonRibbonRecentDoc this[string name]
+        public override KryptonRibbonRecentDoc? this[string name]
         {
             get
             {
                 // Search for an entry with the same text name as that requested.
-                foreach (KryptonRibbonRecentDoc recentDoc in this)
+                foreach (KryptonRibbonRecentDoc recentDoc in this.Where(recentDoc => recentDoc.Text == name))
                 {
-                    if (recentDoc.Text == name)
-                    {
-                        return recentDoc;
-                    }
+                    return recentDoc;
                 }
 
                 // Let base class perform standard processing

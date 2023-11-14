@@ -5,11 +5,12 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
 
+// ReSharper disable VirtualMemberCallInConstructor
 namespace Krypton.Navigator
 {
     /// <summary>
@@ -34,11 +35,11 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="navigator">Reference to owning navigator instance.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public NavigatorOutlookMini(KryptonNavigator navigator,
+        public NavigatorOutlookMini([DisallowNull] KryptonNavigator navigator,
                                     NeedPaintHandler needPaint)
         {
             Debug.Assert(navigator != null);
-            
+
             // Remember back reference
             _navigator = navigator;
 
@@ -119,10 +120,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Resets the MiniMapImage property to its default value.
         /// </summary>
-        public void ResetMiniMapImage()
-        {
-            MiniMapImage = MapKryptonPageImage.None;
-        }
+        public void ResetMiniMapImage() => MiniMapImage = MapKryptonPageImage.None;
         #endregion
 
         #region MiniMapText
@@ -150,10 +148,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Resets the MiniMapText property to its default value.
         /// </summary>
-        public void ResetMiniMapText()
-        {
-            MiniMapText = MapKryptonPageText.TextTitle;
-        }
+        public void ResetMiniMapText() => MiniMapText = MapKryptonPageText.TextTitle;
         #endregion
 
         #region MiniMapExtraText
@@ -181,10 +176,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Resets the MiniMapExtraText property to its default value.
         /// </summary>
-        public void ResetMiniMapExtraText()
-        {
-            MiniMapExtraText = MapKryptonPageText.None;
-        }
+        public void ResetMiniMapExtraText() => MiniMapExtraText = MapKryptonPageText.None;
         #endregion
 
         #region StackMapImage
@@ -213,10 +205,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Resets the StackMapImage property to its default value.
         /// </summary>
-        public void ResetStackMapImage()
-        {
-            StackMapImage = MapKryptonPageImage.MediumSmall;
-        }
+        public void ResetStackMapImage() => StackMapImage = MapKryptonPageImage.MediumSmall;
         #endregion
 
         #region StackMapText
@@ -244,10 +233,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Resets the StackMapText property to its default value.
         /// </summary>
-        public void ResetStackMapText()
-        {
-            StackMapText = MapKryptonPageText.None;
-        }
+        public void ResetStackMapText() => StackMapText = MapKryptonPageText.None;
         #endregion
 
         #region StackMapExtraText
@@ -275,10 +261,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Resets the StackMapExtraText property to its default value.
         /// </summary>
-        public void ResetStackMapExtraText()
-        {
-            StackMapExtraText = MapKryptonPageText.None;
-        }
+        public void ResetStackMapExtraText() => StackMapExtraText = MapKryptonPageText.None;
         #endregion
     }
 }

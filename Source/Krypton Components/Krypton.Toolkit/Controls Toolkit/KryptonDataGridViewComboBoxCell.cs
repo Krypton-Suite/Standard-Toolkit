@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -24,7 +24,7 @@ namespace Krypton.Toolkit
         private static KryptonComboBox _paintingComboBox;
         private static readonly Type _defaultEditType = typeof(KryptonDataGridViewComboBoxEditingControl);
         private static readonly Type _defaultValueType = typeof(string);
-        private static readonly Size _sizeLarge = new(10000, 10000);
+        private static readonly Size _sizeLarge = new Size(10000, 10000);
         #endregion
 
         #region Instance Fields
@@ -36,7 +36,7 @@ namespace Krypton.Toolkit
         private AutoCompleteSource _autoCompleteSource;
         private string _displayMember;
         private string _valueMember;
-        private object _dataSource;
+        private object? _dataSource;
 
         #endregion
 
@@ -69,8 +69,7 @@ namespace Krypton.Toolkit
         /// Returns a standard textual representation of the cell.
         /// </summary>
         public override string ToString() =>
-            "KryptonDataGridViewComboBoxCell { ColumnIndex=" + ColumnIndex.ToString(CultureInfo.CurrentCulture) +
-            ", RowIndex=" + RowIndex.ToString(CultureInfo.CurrentCulture) + " }";
+            $"KryptonDataGridViewComboBoxCell {{ ColumnIndex={ColumnIndex.ToString(CultureInfo.CurrentCulture)}, RowIndex={RowIndex.ToString(CultureInfo.CurrentCulture)} }}";
 
         #endregion
 
@@ -94,7 +93,7 @@ namespace Krypton.Toolkit
         /// </summary>
         public override object Clone()
         {
-            KryptonDataGridViewComboBoxCell dataGridViewCell = base.Clone() as KryptonDataGridViewComboBoxCell;
+            var dataGridViewCell = base.Clone() as KryptonDataGridViewComboBoxCell;
             if (dataGridViewCell != null)
             {
                 dataGridViewCell.DropDownStyle = DropDownStyle;
@@ -121,7 +120,7 @@ namespace Krypton.Toolkit
             {
                 if (value == ComboBoxStyle.Simple)
                 {
-                    throw new ArgumentOutOfRangeException(@"DropDownStyle", ComboBoxStyle.Simple, @"The DropDownStyle property does not support the Simple style.");
+                    throw new ArgumentOutOfRangeException(nameof(DropDownStyle), ComboBoxStyle.Simple, @"The DropDownStyle property does not support the Simple style.");
                 }
 
                 if (_dropDownStyle != value)
@@ -266,7 +265,7 @@ namespace Krypton.Toolkit
         [AttributeProvider(typeof(IListSource))]
         [RefreshProperties(RefreshProperties.Repaint)]
         [DefaultValue(null)]
-        public object DataSource
+        public object? DataSource
         {
             get => _dataSource;
             set
@@ -312,28 +311,25 @@ namespace Krypton.Toolkit
 
             if (DataGridView.EditingControl is KryptonComboBox comboBox)
             {
-                if (OwningColumn is KryptonDataGridViewComboBoxColumn comboColumn)
+                if (OwningColumn is KryptonDataGridViewComboBoxColumn { DataSource: null } comboColumn)
                 {
-                    if (comboColumn.DataSource == null)
+                    var strings = new object[comboColumn.Items.Count];
+
+                    for (var i = 0; i < strings.Length; i++)
                     {
-                        var strings = new object[comboColumn.Items.Count];
-
-                        for (var i = 0; i < strings.Length; i++)
-                        {
-                            strings[i] = comboColumn.Items[i];
-                        }
-
-                        comboBox.Items.AddRange(strings);
-
-                        var autoAppend = new string[comboColumn.AutoCompleteCustomSource.Count];
-                        for (var j = 0; j < autoAppend.Length; j++)
-                        {
-                            autoAppend[j] = comboColumn.AutoCompleteCustomSource[j];
-                        }
-
-                        comboBox.AutoCompleteCustomSource.Clear();
-                        comboBox.AutoCompleteCustomSource.AddRange(autoAppend);
+                        strings[i] = comboColumn.Items[i];
                     }
+
+                    comboBox.Items.AddRange(strings);
+
+                    var autoAppend = new string[comboColumn.AutoCompleteCustomSource.Count];
+                    for (var j = 0; j < autoAppend.Length; j++)
+                    {
+                        autoAppend[j] = comboColumn.AutoCompleteCustomSource[j];
+                    }
+
+                    comboBox.AutoCompleteCustomSource.Clear();
+                    comboBox.AutoCompleteCustomSource.AddRange(autoAppend);
                 }
 
                 comboBox.DropDownStyle = DropDownStyle;

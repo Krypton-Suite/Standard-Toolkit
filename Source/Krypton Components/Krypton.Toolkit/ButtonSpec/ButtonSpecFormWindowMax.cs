@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -25,7 +25,7 @@ namespace Krypton.Toolkit
         public ButtonSpecFormWindowMax(KryptonForm form)
             : base(form, PaletteButtonSpecStyle.FormMax)
         {
-        }         
+        }
         #endregion
 
         #region IButtonSpecValues
@@ -34,11 +34,11 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="palette">Palette to use for inheriting values.</param>
         /// <returns>Button visibility.</returns>
-        public override bool GetVisible(IPalette palette)
+        public override bool GetVisible(PaletteBase? palette)
         {
             // We do not show if the custom chrome is combined with composition,
             // in which case the form buttons are handled by the composition
-            if (KryptonForm.ApplyComposition && KryptonForm.ApplyCustomChrome)
+            if (KryptonForm is { ApplyComposition: true, ApplyCustomChrome: true })
             {
                 return false;
             }
@@ -66,16 +66,16 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="palette">Palette to use for inheriting values.</param>
         /// <returns>Button enabled state.</returns>
-        public override ButtonEnabled GetEnabled(IPalette palette) =>
+        public override ButtonEnabled GetEnabled(PaletteBase? palette) =>
             // Has the maximize buttons been turned off?
-            !KryptonForm.MaximizeBox ? ButtonEnabled.False : ButtonEnabled.True;
+            KryptonForm.MaximizeBox ? ButtonEnabled.True : ButtonEnabled.False;
 
         /// <summary>
         /// Gets the button checked state.
         /// </summary>
         /// <param name="palette">Palette to use for inheriting values.</param>
         /// <returns>Button checked state.</returns>
-        public override ButtonCheckState GetChecked(IPalette palette) =>
+        public override ButtonCheckState GetChecked(PaletteBase? palette) =>
             // Close button is never shown as checked
             ButtonCheckState.NotCheckButton;
 
@@ -95,8 +95,8 @@ namespace Krypton.Toolkit
                 if (!KryptonForm.InertForm)
                 {
                     // Only if the mouse is still within the button bounds do we perform action
-                    MouseEventArgs mea = (MouseEventArgs)e;
-                    if (GetView().ClientRectangle.Contains(mea.Location))
+                    var mea = (MouseEventArgs)e;
+                    if (GetView()!.ClientRectangle.Contains(mea.Location))
                     {
                         // Toggle between maximized and restored
                         KryptonForm.SendSysCommand(KryptonForm.WindowState == FormWindowState.Maximized

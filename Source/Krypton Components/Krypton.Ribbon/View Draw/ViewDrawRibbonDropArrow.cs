@@ -5,7 +5,9 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  
+ *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
  */
 #endregion
@@ -27,7 +29,7 @@ namespace Krypton.Ribbon
         /// Initialize a new instance of the ViewDrawRibbonDropArrow class.
         /// </summary>
         /// <param name="ribbon">Reference to owning control instance.</param>
-        public ViewDrawRibbonDropArrow(KryptonRibbon ribbon)
+        public ViewDrawRibbonDropArrow([DisallowNull] KryptonRibbon ribbon)
         {
             Debug.Assert(ribbon != null);
             _ribbon = ribbon;
@@ -40,7 +42,7 @@ namespace Krypton.Ribbon
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            @"ViewDrawRibbonDropArrow:" + Id;
+            $@"ViewDrawRibbonDropArrow:{Id}";
 
         #endregion
 
@@ -55,7 +57,7 @@ namespace Krypton.Ribbon
         /// Perform a layout of the elements.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override void Layout(ViewLayoutContext context)
+        public override void Layout([DisallowNull] ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 
@@ -69,15 +71,13 @@ namespace Krypton.Ribbon
         /// Perform rendering before child elements are rendered.
         /// </summary>
         /// <param name="context">Rendering context.</param>
-        public override void RenderBefore(RenderContext context) 
-        {
+        public override void RenderBefore(RenderContext context) =>
             // Use renderer to draw the drop arrow in the provided space
-            context.Renderer.RenderGlyph.DrawRibbonDropArrow(_ribbon.RibbonShape, 
-                                                             context, 
-                                                             ClientRectangle, 
-                                                             _ribbon.StateCommon.RibbonGeneral, 
+            context.Renderer.RenderGlyph.DrawRibbonDropArrow(_ribbon.RibbonShape,
+                                                             context,
+                                                             ClientRectangle,
+                                                             _ribbon.StateCommon.RibbonGeneral,
                                                              State);
-        }
         #endregion
     }
 }

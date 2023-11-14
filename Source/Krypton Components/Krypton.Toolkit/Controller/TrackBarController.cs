@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -128,7 +128,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="c">Reference to the source control instance.</param>
         /// <param name="next">Reference to view that is next to have the mouse.</param>
-        public virtual void MouseLeave(Control c, ViewBase next)
+        public virtual void MouseLeave(Control c, ViewBase? next)
         {
             if (_repeatTimer != null)
             {
@@ -144,10 +144,7 @@ namespace Krypton.Toolkit
         /// Left mouse button double click.
         /// </summary>
         /// <param name="pt">Mouse position relative to control.</param>
-        public virtual void DoubleClick(Point pt)
-        {
-            _drawTB.ViewDrawTrackBar.ScrollValue = _drawTB.NearestValueFromPoint(pt);
-        }
+        public virtual void DoubleClick(Point pt) => _drawTB.ViewDrawTrackBar.ScrollValue = _drawTB.NearestValueFromPoint(pt);
 
         /// <summary>
         /// Should the left mouse down be ignored when present on a visual form border area.
@@ -164,7 +161,7 @@ namespace Krypton.Toolkit
         /// <param name="c">Reference to the source control instance.</param>
         /// <param name="e">A KeyEventArgs that contains the event data.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public virtual void KeyDown(Control c, KeyEventArgs e)
+        public virtual void KeyDown([DisallowNull] Control c, [DisallowNull] KeyEventArgs e)
         {
             Debug.Assert(c != null);
             Debug.Assert(e != null);
@@ -253,7 +250,7 @@ namespace Krypton.Toolkit
         /// <param name="e">A KeyEventArgs that contains the event data.</param>
         /// <exception cref="ArgumentNullException"></exception>
         /// <returns>True if capturing input; otherwise false.</returns>
-        public virtual bool KeyUp(Control c, KeyEventArgs e)
+        public virtual bool KeyUp([DisallowNull] Control c, [DisallowNull] KeyEventArgs e)
         {
             Debug.Assert(c != null);
             Debug.Assert(e != null);
@@ -282,7 +279,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="c">Reference to the source control instance.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public virtual void LostFocus(Control c)
+        public virtual void LostFocus([DisallowNull] Control c)
         {
             Debug.Assert(c != null);
 

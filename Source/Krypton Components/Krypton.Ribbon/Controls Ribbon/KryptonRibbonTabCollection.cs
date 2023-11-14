@@ -5,7 +5,9 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  
+ *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
  */
 #endregion
@@ -23,22 +25,16 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="name">Name of the ribbon tab instance.</param>
         /// <returns>Item at specified index.</returns>
-        public override KryptonRibbonTab this[string name]
-        {
-            get
-            {
-                // Search for a tab with the same text as that requested.
-                foreach(KryptonRibbonTab tab in this)
-                {
-                    if (tab.Text == name)
-                    {
-                        return tab;
-                    }
-                }
-
-                // Let base class perform standard processing
-                return base[name];
-            }
+        public override KryptonRibbonTab? this[string name] 
+        { 
+            get 
+            { 
+                foreach (KryptonRibbonTab tab in this.Where(tab => tab.Text == name)) 
+                { 
+                    return tab; 
+                } 
+                return base[name]; 
+            } 
         }
         #endregion
     }

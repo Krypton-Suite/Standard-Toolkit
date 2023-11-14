@@ -5,8 +5,8 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved.
- *
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  
  */
 #endregion
 
@@ -21,10 +21,6 @@ namespace Krypton.Ribbon
     public abstract class KryptonRibbonGroupContainer : KryptonRibbonGroupItem,
                                                         IRibbonGroupContainer
     {
-        #region Instance Fields
-
-        #endregion
-
         #region Identity
         /// <summary>
         /// Initialise a new instance of the KryptonRibbonGroupContainer class.
@@ -42,7 +38,7 @@ namespace Krypton.Ribbon
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public virtual KryptonRibbonGroup RibbonGroup { get; set; }
+        public virtual KryptonRibbonGroup? RibbonGroup { get; set; }
 
         /// <summary>
         /// Gets an array of all the contained components.

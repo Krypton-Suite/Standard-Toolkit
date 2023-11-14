@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -18,7 +18,7 @@ namespace Krypton.Toolkit
     [ToolboxItem(true)]
     [ToolboxBitmap(typeof(KryptonDataGridView), "ToolboxBitmaps.KryptonDataGridView.bmp")]
     [DesignerCategory(@"code")]
-    [Designer("Krypton.Toolkit.KryptonDataGridViewDesigner, Krypton.Toolkit")]
+    [Designer(typeof(KryptonDataGridViewDesigner))]
     [Description(@"Display rows and columns of data of a grid you can customize.")]
     public class KryptonDataGridView : DataGridView
     {
@@ -49,7 +49,7 @@ namespace Krypton.Toolkit
             /// </summary>
             /// <param name="state">The state for which the image is needed.</param>
             /// <returns>Image value.</returns>
-            public Image GetImage(PaletteState state) => null;
+            public Image? GetImage(PaletteState state) => null;
 
             /// <summary>
             /// Gets the image color that should be transparent.
@@ -75,7 +75,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Static Fields
-        private static readonly Point _nullCell = new(-2, -2);
+        private static readonly Point _nullCell = new Point(-2, -2);
 
         // Cached access to private parent values
         private static PropertyInfo _piRTL;
@@ -97,8 +97,8 @@ namespace Krypton.Toolkit
         private bool _paintTransparent;
         private bool _evalTransparent;
         private Size _lastLayoutSize;
-        private IPalette _localPalette;
-        private IPalette _palette;
+        private PaletteBase? _localPalette;
+        private PaletteBase? _palette;
         private PaletteMode _paletteMode;
         private ViewDrawPanel _drawPanel;
         private SimpleCall _refreshCall;
@@ -122,7 +122,7 @@ namespace Krypton.Toolkit
 
         // Implementation fields
         private ShortTextValue _shortTextValue;
-        private VisualPopupToolTip _visualPopupToolTip;
+        private VisualPopupToolTip? _visualPopupToolTip;
         private PaletteBorderInheritForced _borderForced;
         private PaletteDataGridViewBackInherit _backInherit;
         private PaletteDataGridViewContentInherit _contentInherit;
@@ -130,12 +130,12 @@ namespace Krypton.Toolkit
         private RowHeaderCache _rowCache;
         private Point _cellOver;
         private Point _cellDown;
-        private System.Windows.Forms.Timer _showTimer;
+        private System.Windows.Forms.Timer? _showTimer;
         private bool _hideOuterBorders;
         private string _toolTipText;
         private byte _oldLocation;
         private DataGridViewCell _oldCell;
-        private KryptonContextMenu _kryptonContextMenu;
+        private KryptonContextMenu? _kryptonContextMenu;
 
         //Seb
         private string _searchString;
@@ -149,7 +149,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Property Changed")]
         [Description(@"Occurs when the value of the Palette property is changed.")]
-        public event EventHandler PaletteChanged;
+        public event EventHandler? PaletteChanged;
         #endregion
 
         #region Identity
@@ -233,17 +233,18 @@ namespace Krypton.Toolkit
             set => base.BackgroundColor = value;
         }
 
-        /// <summary>
-        /// Gets or sets the border style for the DataGridView.
-        /// </summary>
-        [Browsable(false)]
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public new BorderStyle BorderStyle
-        {
-            get => base.BorderStyle;
-            set { /* Do nothing, we do not allow a border style change! */ }
-        }
+        ///// <summary>
+        ///// Gets or sets the border style for the DataGridView.
+        ///// </summary>
+        //[Browsable(false)]
+        //[EditorBrowsable(EditorBrowsableState.Never)]
+        //[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        // Disable as part of https://github.com/Krypton-Suite/Standard-Toolkit/issues/989
+        //public new BorderStyle BorderStyle
+        //{
+        //    get => base.BorderStyle;
+        //    set { /* Do nothing, we do not allow a border style change! */ }
+        //}
 
         /// <summary>
         /// Gets the cell border style for the DataGridView.
@@ -354,7 +355,7 @@ namespace Krypton.Toolkit
         [Category(@"Behavior")]
         [Description(@"Consider using KryptonContextMenu within the behaviors section.\nThe Winforms shortcut menu to show when the user right-clicks the page.\nNote: The ContextMenu will be rendered.")]
         [DefaultValue(null)]
-        public override ContextMenuStrip ContextMenuStrip
+        public override ContextMenuStrip? ContextMenuStrip
         {
             [DebuggerStepThrough]
             get => base.ContextMenuStrip;
@@ -387,7 +388,7 @@ namespace Krypton.Toolkit
         [Category(@"Behavior")]
         [Description(@"The KryptonContextMenu to show when the user right-clicks the Control.")]
         [DefaultValue(null)]
-        public virtual KryptonContextMenu KryptonContextMenu
+        public virtual KryptonContextMenu? KryptonContextMenu
         {
             get => _kryptonContextMenu;
 
@@ -477,10 +478,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the PaletteMode property to its default value.
         /// </summary>
-        public void ResetPaletteMode()
-        {
-            PaletteMode = PaletteMode.Global;
-        }
+        public void ResetPaletteMode() => PaletteMode = PaletteMode.Global;
 
         /// <summary>
         /// Gets and sets the custom palette implementation.
@@ -488,7 +486,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Custom palette applied to drawing.")]
         [DefaultValue(null)]
-        public IPalette Palette
+        public PaletteBase? Palette
         {
             [DebuggerStepThrough]
             get => _localPalette;
@@ -499,7 +497,7 @@ namespace Krypton.Toolkit
                 if (_localPalette != value)
                 {
                     // Remember the starting palette
-                    IPalette old = _localPalette;
+                    PaletteBase? old = _localPalette;
 
                     // Use the provided palette value
                     SetPalette(value);
@@ -537,10 +535,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the Palette property to its default value.
         /// </summary>
-        public void ResetPalette()
-        {
-            PaletteMode = PaletteMode.Global;
-        }
+        public void ResetPalette() => PaletteMode = PaletteMode.Global;
 
         /// <summary>
         /// Gets access to the current renderer.
@@ -548,7 +543,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public IRenderer Renderer
+        public IRenderer? Renderer
         {
             [DebuggerStepThrough]
             get;
@@ -644,7 +639,7 @@ namespace Krypton.Toolkit
                                                   int columnIndex,
                                                   out IPaletteBack paletteBack,
                                                   out IPaletteBorder paletteBorder,
-                                                  out IPaletteContent paletteContent)
+                                                  out IPaletteContent? paletteContent)
         {
             PaletteState retState;
 
@@ -667,7 +662,7 @@ namespace Krypton.Toolkit
                     // A data cell cannot become tracking or pressed
                     if ((rowIndex < 0) || (columnIndex < 0))
                     {
-                        Point cellIndex = new(columnIndex, rowIndex);
+                        var cellIndex = new Point(columnIndex, rowIndex);
 
                         // If the user has pressed down on this cell
                         if (cellIndex.Equals(_cellDown))
@@ -691,94 +686,97 @@ namespace Krypton.Toolkit
                 }
             }
 
-            // Is this a data cell?
-            if ((rowIndex >= 0) && (columnIndex >= 0))
+            switch (rowIndex)
             {
-                switch (retState)
-                {
-                    default:
-                    case PaletteState.Normal:
-                        paletteBack = StateNormal.DataCell.Back;
-                        paletteBorder = StateNormal.DataCell.Border;
-                        paletteContent = StateNormal.DataCell.Content;
-                        break;
-                    case PaletteState.Disabled:
-                        paletteBack = StateDisabled.DataCell.Back;
-                        paletteBorder = StateDisabled.DataCell.Border;
-                        paletteContent = StateDisabled.DataCell.Content;
-                        break;
-                    case PaletteState.CheckedNormal:
-                        paletteBack = StateSelected.DataCell.Back;
-                        paletteBorder = StateSelected.DataCell.Border;
-                        paletteContent = StateSelected.DataCell.Content;
-                        break;
-                }
-            }
-            else if (rowIndex < 0)
-            {
-                // Negative row index means it is a header cell
-                switch (retState)
-                {
-                    default:
-                    case PaletteState.Normal:
-                        paletteBack = StateNormal.HeaderColumn.Back;
-                        paletteBorder = StateNormal.HeaderColumn.Border;
-                        paletteContent = StateNormal.HeaderColumn.Content;
-                        break;
-                    case PaletteState.Disabled:
-                        paletteBack = StateDisabled.HeaderColumn.Back;
-                        paletteBorder = StateDisabled.HeaderColumn.Border;
-                        paletteContent = StateDisabled.HeaderColumn.Content;
-                        break;
-                    case PaletteState.Tracking:
-                        paletteBack = StateTracking.HeaderColumn.Back;
-                        paletteBorder = StateTracking.HeaderColumn.Border;
-                        paletteContent = StateTracking.HeaderColumn.Content;
-                        break;
-                    case PaletteState.Pressed:
-                        paletteBack = StatePressed.HeaderColumn.Back;
-                        paletteBorder = StatePressed.HeaderColumn.Border;
-                        paletteContent = StatePressed.HeaderColumn.Content;
-                        break;
-                    case PaletteState.CheckedNormal:
-                        paletteBack = StateSelected.HeaderColumn.Back;
-                        paletteBorder = StateSelected.HeaderColumn.Border;
-                        paletteContent = StateSelected.HeaderColumn.Content;
-                        break;
-                }
-            }
-            else
-            {
-                // Negative column index means it is a row cell
-                switch (retState)
-                {
-                    default:
-                    case PaletteState.Normal:
-                        paletteBack = StateNormal.HeaderRow.Back;
-                        paletteBorder = StateNormal.HeaderRow.Border;
-                        paletteContent = StateNormal.HeaderRow.Content;
-                        break;
-                    case PaletteState.Disabled:
-                        paletteBack = StateDisabled.HeaderRow.Back;
-                        paletteBorder = StateDisabled.HeaderRow.Border;
-                        paletteContent = StateDisabled.HeaderRow.Content;
-                        break;
-                    case PaletteState.Tracking:
-                        paletteBack = StateTracking.HeaderRow.Back;
-                        paletteBorder = StateTracking.HeaderRow.Border;
-                        paletteContent = StateTracking.HeaderRow.Content;
-                        break;
-                    case PaletteState.Pressed:
-                        paletteBack = StatePressed.HeaderRow.Back;
-                        paletteBorder = StatePressed.HeaderRow.Border;
-                        paletteContent = StatePressed.HeaderRow.Content;
-                        break;
-                    case PaletteState.CheckedNormal:
-                        paletteBack = StateSelected.HeaderRow.Back;
-                        paletteBorder = StateSelected.HeaderRow.Border;
-                        paletteContent = StateSelected.HeaderRow.Content;
-                        break;
-                }
+                // Is this a data cell?
+                case >= 0 when (columnIndex >= 0):
+                    switch (retState)
+                    {
+                        default:
+                        case PaletteState.Normal:
+                            paletteBack = StateNormal.DataCell.Back;
+                            paletteBorder = StateNormal.DataCell.Border;
+                            paletteContent = StateNormal.DataCell.Content;
+                            break;
+                        case PaletteState.Disabled:
+                            paletteBack = StateDisabled.DataCell.Back;
+                            paletteBorder = StateDisabled.DataCell.Border;
+                            paletteContent = StateDisabled.DataCell.Content;
+                            break;
+                        case PaletteState.CheckedNormal:
+                            paletteBack = StateSelected.DataCell.Back;
+                            paletteBorder = StateSelected.DataCell.Border;
+                            paletteContent = StateSelected.DataCell.Content;
+                            break;
+                    }
+
+                    break;
+                case < 0:
+                    // Negative row index means it is a header cell
+                    switch (retState)
+                    {
+                        default:
+                        case PaletteState.Normal:
+                            paletteBack = StateNormal.HeaderColumn.Back;
+                            paletteBorder = StateNormal.HeaderColumn.Border;
+                            paletteContent = StateNormal.HeaderColumn.Content;
+                            break;
+                        case PaletteState.Disabled:
+                            paletteBack = StateDisabled.HeaderColumn.Back;
+                            paletteBorder = StateDisabled.HeaderColumn.Border;
+                            paletteContent = StateDisabled.HeaderColumn.Content;
+                            break;
+                        case PaletteState.Tracking:
+                            paletteBack = StateTracking.HeaderColumn.Back;
+                            paletteBorder = StateTracking.HeaderColumn.Border;
+                            paletteContent = StateTracking.HeaderColumn.Content;
+                            break;
+                        case PaletteState.Pressed:
+                            paletteBack = StatePressed.HeaderColumn.Back;
+                            paletteBorder = StatePressed.HeaderColumn.Border;
+                            paletteContent = StatePressed.HeaderColumn.Content;
+                            break;
+                        case PaletteState.CheckedNormal:
+                            paletteBack = StateSelected.HeaderColumn.Back;
+                            paletteBorder = StateSelected.HeaderColumn.Border;
+                            paletteContent = StateSelected.HeaderColumn.Content;
+                            break;
+                    }
+
+                    break;
+                default:
+                    // Negative column index means it is a row cell
+                    switch (retState)
+                    {
+                        default:
+                        case PaletteState.Normal:
+                            paletteBack = StateNormal.HeaderRow.Back;
+                            paletteBorder = StateNormal.HeaderRow.Border;
+                            paletteContent = StateNormal.HeaderRow.Content;
+                            break;
+                        case PaletteState.Disabled:
+                            paletteBack = StateDisabled.HeaderRow.Back;
+                            paletteBorder = StateDisabled.HeaderRow.Border;
+                            paletteContent = StateDisabled.HeaderRow.Content;
+                            break;
+                        case PaletteState.Tracking:
+                            paletteBack = StateTracking.HeaderRow.Back;
+                            paletteBorder = StateTracking.HeaderRow.Border;
+                            paletteContent = StateTracking.HeaderRow.Content;
+                            break;
+                        case PaletteState.Pressed:
+                            paletteBack = StatePressed.HeaderRow.Back;
+                            paletteBorder = StatePressed.HeaderRow.Border;
+                            paletteContent = StatePressed.HeaderRow.Content;
+                            break;
+                        case PaletteState.CheckedNormal:
+                            paletteBack = StateSelected.HeaderRow.Back;
+                            paletteBorder = StateSelected.HeaderRow.Border;
+                            paletteContent = StateSelected.HeaderRow.Content;
+                            break;
+                    }
+
+                    break;
             }
 
             return retState;
@@ -789,14 +787,14 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public ViewManager GetViewManager() => ViewManager;
+        public ViewManager? GetViewManager() => ViewManager;
 
         /// <summary>
         /// Gets the resolved palette to actually use when drawing.
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public IPalette GetResolvedPalette() => _palette;
+        public PaletteBase? GetResolvedPalette() => _palette;
 
         /// <summary>
         /// Gets or Sets the internal KryptonDataGridView CellOver
@@ -840,12 +838,9 @@ namespace Krypton.Toolkit
 
         private bool ShouldSerializeToolTipShadow() => !ToolTipShadow;
 
-        private void ResetToolTipShadow()
-        {
-            ToolTipShadow = true;
-        }
+        private void ResetToolTipShadow() => ToolTipShadow = true;
         #endregion
-        
+
         #endregion
 
         #region Protected
@@ -890,7 +885,7 @@ namespace Krypton.Toolkit
         /// <param name="sender">Source of notification.</param>
         /// <param name="e">An NeedLayoutEventArgs containing event data.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        protected void OnNeedPaint(object sender, NeedLayoutEventArgs e)
+        protected void OnNeedPaint(object? sender, [DisallowNull] NeedLayoutEventArgs e)
         {
             Debug.Assert(e != null);
 
@@ -986,7 +981,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the control reference that is the parent for transparent drawing.
         /// </summary>
-        protected virtual Control TransparentParent => Parent;
+        protected virtual Control? TransparentParent => Parent;
 
         /// <summary>
         /// Processes a notification from palette storage of a button spec change.
@@ -994,7 +989,7 @@ namespace Krypton.Toolkit
         /// <param name="sender">Source of notification.</param>
         /// <param name="e">An EventArgs containing event data.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        protected virtual void OnButtonSpecChanged(object sender, EventArgs e)
+        protected virtual void OnButtonSpecChanged(object sender, [DisallowNull] EventArgs e)
         {
             Debug.Assert(e != null);
 
@@ -1161,7 +1156,7 @@ namespace Krypton.Toolkit
                                                e.ColumnIndex,
                                                out IPaletteBack paletteBack,
                                                out IPaletteBorder paletteBorder,
-                                               out IPaletteContent paletteContent);
+                                               out IPaletteContent? paletteContent);
 
             try
             {
@@ -1177,14 +1172,14 @@ namespace Krypton.Toolkit
             var rtl = RightToLeftInternal;
 
             // Use an offscreen bitmap to draw onto before blitting it to the screen
-            Rectangle tempCellBounds = new(0, 0, e.CellBounds.Width, e.CellBounds.Height);
-            using (Bitmap tempBitmap = new(e.CellBounds.Width, e.CellBounds.Height, e.Graphics))
+            var tempCellBounds = e.CellBounds with { X = 0, Y = 0 };
+            using (var tempBitmap = new Bitmap(e.CellBounds.Width, e.CellBounds.Height, e.Graphics))
             {
                 using (Graphics tempG = Graphics.FromImage(tempBitmap))
                 {
-                    using (RenderContext renderContext = new(this, tempG, tempCellBounds, Renderer))
+                    using (var renderContext = new RenderContext(this, tempG, tempCellBounds, Renderer))
                     {
-                        // Force the border to have a specificed maximum border edge
+                        // Force the border to have a specified maximum border edge
                         _borderForced.SetInherit(paletteBorder);
                         _borderForced.MaxBorderEdges = GetCellMaxBorderEdges(e.CellBounds, e.ColumnIndex, e.RowIndex);
 
@@ -1200,7 +1195,7 @@ namespace Krypton.Toolkit
                         // Update the back interceptor class
                         _backInherit.SetInherit(paletteBack, e.CellStyle);
 
-                        IDisposable unused = Renderer.RenderStandardBack.DrawBack(renderContext, tempCellBackBounds, borderPath, _backInherit, VisualOrientation.Top, state, null);
+                        IDisposable? unused = Renderer.RenderStandardBack.DrawBack(renderContext, tempCellBackBounds, borderPath, _backInherit, VisualOrientation.Top, state, null);
 
                         // We never save the memento for reuse later
                         unused?.Dispose();
@@ -1210,43 +1205,47 @@ namespace Krypton.Toolkit
                         // Must remember to release resources!
                         borderPath.Dispose();
 
-                        // If this is a column header cell
-                        if ((e.RowIndex == -1) && (e.ColumnIndex >= 0))
+                        switch (e)
                         {
-                            // If this column needs a sort glyph drawn
-                            if (Columns[e.ColumnIndex].HeaderCell.SortGlyphDirection != SortOrder.None)
+                            // If this is a column header cell
+                            case { RowIndex: -1, ColumnIndex: >= 0 }:
                             {
-                                // Draw the sort glyph and update the remainder cell bounds left over
-                                tempCellBounds = Renderer.RenderGlyph.DrawGridSortGlyph(renderContext, Columns[e.ColumnIndex].HeaderCell.SortGlyphDirection, tempCellBounds, paletteContent, state, rtl);
-                            }
-
-                            // If this column supports icons, see if it has any.
-                            if (Columns[e.ColumnIndex] is IIconCell iconColumn)
-                            {
-                                foreach (IconSpec spec in iconColumn.IconSpecs)
+                                // If this column needs a sort glyph drawn
+                                if (Columns[e.ColumnIndex].HeaderCell.SortGlyphDirection != SortOrder.None)
                                 {
-                                    if (spec.Icon == null)
-                                    {
-                                        continue;
-                                    }
-                                    // Draw icon and update the remainder cell bounds left over
-                                    var iconWidth = spec.Icon.Width + 5;
-                                    var width = tempCellBounds.Width - iconWidth;
-                                    Rectangle iconBounds = new(tempCellBounds.X + (spec.Alignment == IconSpec.IconAlignment.Left ? 5 : width),
-                                        tempCellBounds.Y + 3, spec.Icon.Width, spec.Icon.Height);
-                                    renderContext.Graphics.DrawImage(spec.Icon, iconBounds);
-                                    tempCellBounds = new Rectangle(tempCellBounds.X +
-                                                                   (spec.Alignment == IconSpec.IconAlignment.Left ? iconWidth : 0), tempCellBounds.Y, width, tempCellBounds.Height);
+                                    // Draw the sort glyph and update the remainder cell bounds left over
+                                    tempCellBounds = Renderer.RenderGlyph.DrawGridSortGlyph(renderContext, Columns[e.ColumnIndex].HeaderCell.SortGlyphDirection, tempCellBounds, paletteContent, state, rtl);
                                 }
+
+                                // If this column supports icons, see if it has any.
+                                if (Columns[e.ColumnIndex] is IIconCell iconColumn)
+                                {
+                                    foreach (IconSpec spec in iconColumn.IconSpecs)
+                                    {
+                                        if (spec.Icon == null)
+                                        {
+                                            continue;
+                                        }
+                                        // Draw icon and update the remainder cell bounds left over
+                                        var iconWidth = spec.Icon.Width + 5;
+                                        var width = tempCellBounds.Width - iconWidth;
+                                        var iconBounds = new Rectangle(
+                                            tempCellBounds.X + (spec.Alignment == IconSpec.IconAlignment.Left
+                                                ? 5
+                                                : width), tempCellBounds.Y + 3, spec.Icon.Width, spec.Icon.Height);
+                                        renderContext.Graphics.DrawImage(spec.Icon, iconBounds);
+                                        tempCellBounds = tempCellBounds with { X = tempCellBounds.X +
+                                            (spec.Alignment == IconSpec.IconAlignment.Left ? iconWidth : 0), Width = width };
+                                    }
+                                }
+
+                                break;
                             }
-                        }
-                        else
-                        {
                             // If this is a row header cell
-                            if ((e.RowIndex >= 0) && (e.ColumnIndex == -1))
+                            case { RowIndex: >= 0, ColumnIndex: -1 }:
                             {
                                 // By default there is no glyph needed for the row
-                                GridRowGlyph glpyh = GridRowGlyph.None;
+                                var glyph = GridRowGlyph.None;
 
                                 // Find the correct glyph that should be drawn
                                 if (CurrentCellAddress.Y == e.RowIndex)
@@ -1255,40 +1254,40 @@ namespace Krypton.Toolkit
                                     {
                                         if (IsCurrentRowDirty && ShowEditingIcon)
                                         {
-                                            glpyh = GridRowGlyph.Pencil;
+                                            glyph = GridRowGlyph.Pencil;
                                         }
                                         else if (NewRowIndex == e.RowIndex)
                                         {
-                                            glpyh = GridRowGlyph.ArrowStar;
+                                            glyph = GridRowGlyph.ArrowStar;
                                         }
                                         else
                                         {
-                                            glpyh = GridRowGlyph.Arrow;
+                                            glyph = GridRowGlyph.Arrow;
                                         }
                                     }
                                     else if (IsCurrentCellDirty && ShowEditingIcon)
                                     {
-                                        glpyh = GridRowGlyph.Pencil;
+                                        glyph = GridRowGlyph.Pencil;
                                     }
                                     else if (NewRowIndex == e.RowIndex)
                                     {
-                                        glpyh = GridRowGlyph.ArrowStar;
+                                        glyph = GridRowGlyph.ArrowStar;
                                     }
                                     else
                                     {
-                                        glpyh = GridRowGlyph.Arrow;
+                                        glyph = GridRowGlyph.Arrow;
                                     }
                                 }
                                 else if (NewRowIndex == e.RowIndex)
                                 {
-                                    glpyh = GridRowGlyph.Star;
+                                    glyph = GridRowGlyph.Star;
                                 }
 
                                 // Do we need to draw an image?
-                                if (glpyh != GridRowGlyph.None)
+                                if (glyph != GridRowGlyph.None)
                                 {
                                     // Draw the row glyph and update the remainder cell bounds left over
-                                    tempCellBounds = Renderer.RenderGlyph.DrawGridRowGlyph(renderContext, glpyh, tempCellBounds, paletteContent, state, rtl);
+                                    tempCellBounds = Renderer.RenderGlyph.DrawGridRowGlyph(renderContext, glyph, tempCellBounds, paletteContent, state, rtl);
                                 }
 
                                 // Is there an error icon associated with the row that needs showing
@@ -1298,10 +1297,9 @@ namespace Krypton.Toolkit
                                     Rectangle beforeCellBounds = tempCellBounds;
                                     tempCellBounds = Renderer.RenderGlyph.DrawGridErrorGlyph(renderContext, tempCellBounds, state, rtl);
 
-                                    // Calculate the icon rectangle
-                                    Rectangle iconBounds = new(tempCellBounds.Right + 1, tempCellBounds.Top,
-                                                                         beforeCellBounds.Width - tempCellBounds.Width,
-                                                                         tempCellBounds.Height);
+                                        // Calculate the icon rectangle
+                                        var iconBounds = new Rectangle(tempCellBounds.Right + 1, tempCellBounds.Top,
+                                        beforeCellBounds.Width - tempCellBounds.Width, tempCellBounds.Height);
 
                                     // Cache the icon area
                                     if (_rowCache.ContainsKey(e.RowIndex))
@@ -1321,40 +1319,43 @@ namespace Krypton.Toolkit
                                         _rowCache.Remove(e.RowIndex);
                                     }
                                 }
+
+                                break;
                             }
-                            else
+                            // Is this a data cell
+                            case { RowIndex: >= 0, ColumnIndex: >= 0 }:
                             {
-                                // Is this a data cell
-                                if ((e.RowIndex >= 0) && (e.ColumnIndex >= 0))
+                                // If this cell supports icons, see if it has any.
+                                if (Rows[e.RowIndex].Cells[e.ColumnIndex] is IIconCell iconColumn)
                                 {
-                                    // If this cell supports icons, see if it has any.
-                                    if (Rows[e.RowIndex].Cells[e.ColumnIndex] is IIconCell iconColumn)
+                                    foreach (IconSpec spec in iconColumn.IconSpecs)
                                     {
-                                        foreach (IconSpec spec in iconColumn.IconSpecs)
+                                        if (spec.Icon == null)
                                         {
-                                            if (spec.Icon == null)
-                                            {
-                                                continue;
-                                            }
-
-                                            // Draw icon and update the remainder cell bounds left over
-                                            var iconWidth = spec.Icon.Width + 5;
-                                            var width = tempCellBounds.Width - iconWidth;
-                                            Rectangle iconBounds = new(tempCellBounds.X + (spec.Alignment == IconSpec.IconAlignment.Left ? 5 : width),
-                                                tempCellBounds.Y + 3, spec.Icon.Width, spec.Icon.Height);
-                                            renderContext.Graphics.DrawImage(spec.Icon, iconBounds);
-                                            tempCellBounds = new Rectangle(tempCellBounds.X +
-                                                                           (spec.Alignment == IconSpec.IconAlignment.Left ? iconWidth : 0), tempCellBounds.Y, width, tempCellBounds.Height);
+                                            continue;
                                         }
-                                    }
 
-                                    // Is there an error icon associated with the cell that needs showing
-                                    if (ShowCellErrors && !string.IsNullOrEmpty(Rows[e.RowIndex].Cells[e.ColumnIndex].ErrorText))
-                                    {
-                                        // Draw error icon and update the remainder cell bounds left over
-                                        tempCellBounds = Renderer.RenderGlyph.DrawGridErrorGlyph(renderContext, tempCellBounds, state, rtl);
+                                        // Draw icon and update the remainder cell bounds left over
+                                        var iconWidth = spec.Icon.Width + 5;
+                                        var width = tempCellBounds.Width - iconWidth;
+                                        var iconBounds = new Rectangle(
+                                            tempCellBounds.X + (spec.Alignment == IconSpec.IconAlignment.Left
+                                                ? 5
+                                                : width), tempCellBounds.Y + 3, spec.Icon.Width, spec.Icon.Height);
+                                        renderContext.Graphics.DrawImage(spec.Icon, iconBounds);
+                                        tempCellBounds = tempCellBounds with { X = tempCellBounds.X +
+                                            (spec.Alignment == IconSpec.IconAlignment.Left ? iconWidth : 0), Width = width };
                                     }
                                 }
+
+                                // Is there an error icon associated with the cell that needs showing
+                                if (ShowCellErrors && !string.IsNullOrEmpty(Rows[e.RowIndex].Cells[e.ColumnIndex].ErrorText))
+                                {
+                                    // Draw error icon and update the remainder cell bounds left over
+                                    tempCellBounds = Renderer.RenderGlyph.DrawGridErrorGlyph(renderContext, tempCellBounds, state, rtl);
+                                }
+
+                                break;
                             }
                         }
 
@@ -1362,21 +1363,21 @@ namespace Krypton.Toolkit
                             ((e.PaintParts & DataGridViewPaintParts.ContentBackground) == DataGridViewPaintParts.ContentBackground))
                         {
                             // Only consider drawing content for the data cells
-                            if ((e.ColumnIndex >= 0) && (e.RowIndex >= 0))
+                            if (e is { ColumnIndex: >= 0, RowIndex: >= 0 })
                             {
                                 // Blit the image onto the screen
                                 e.Graphics.DrawImage(tempBitmap, e.CellBounds.Location);
 
                                 //Seb Search highlight 
                                 //Empty _restrictColumnsSearch means highlight everywhere
-                                if (!string.IsNullOrEmpty(_searchString) && (_restrictColumnsSearch.Count == 0 || (_restrictColumnsSearch.Count != 0 && _restrictColumnsSearch.Contains(e.ColumnIndex))) && e.FormattedValue.GetType().Name != "Bitmap")
+                                if (!string.IsNullOrEmpty(_searchString) && (_restrictColumnsSearch.Count == 0 || (_restrictColumnsSearch.Count != 0 && _restrictColumnsSearch.Contains(e.ColumnIndex))) && e.FormattedValue.GetType().Name != nameof(Bitmap))
                                 {
                                     var val = (string)e.FormattedValue;
                                     var sindx = val.ToLower().IndexOf(_searchString.ToLower());
                                     var sCount = 1;
                                     while (sindx >= 0)
                                     {
-                                        Rectangle hl_rect = new()
+                                        var hl_rect = new Rectangle
                                         {
                                             Y = e.CellBounds.Y + 2,
                                             Height = e.CellBounds.Height - 5
@@ -1410,7 +1411,7 @@ namespace Krypton.Toolkit
                                         //    hl_rect.Width = s2.Width - 6;
                                         //}
 
-                                        SolidBrush hl_brush =
+                                        var hl_brush =
                                             (e.State & DataGridViewElementStates.Selected) !=
                                             DataGridViewElementStates.None
                                                 ? new SolidBrush(Color.DarkGoldenrod)
@@ -1436,7 +1437,7 @@ namespace Krypton.Toolkit
                                     // Use the display value of the header cell
                                     _shortTextValue.ShortText = e.FormattedValue.ToString();
 
-                                    using ViewLayoutContext layoutContext = new(this, Renderer);
+                                    using var layoutContext = new ViewLayoutContext(this, Renderer);
                                     // If a column header cell...
                                     if ((e.RowIndex == -1) && (e.ColumnIndex != -1))
                                     {
@@ -1488,7 +1489,7 @@ namespace Krypton.Toolkit
                 if (ShowFocusCues && Focused)
                 {
                     // Only consider drawing focus for data cells
-                    if ((e.ColumnIndex >= 0) && (e.RowIndex >= 0))
+                    if (e is { ColumnIndex: >= 0, RowIndex: >= 0 })
                     {
                         // Is the cell being drawn the current cell
                         if ((CurrentCellAddress.X == e.ColumnIndex) &&
@@ -1546,7 +1547,7 @@ namespace Krypton.Toolkit
                         PaintTransparentBackground(graphics, clipBounds);
 
                         // Use the view manager to paint the view panel that fills the entire areas as the background
-                        using RenderContext context = new(this, graphics, clipBounds, Renderer);
+                        using var context = new RenderContext(this, graphics, clipBounds, Renderer);
                         ViewManager.Paint(context);
                     }
 
@@ -1619,7 +1620,7 @@ namespace Krypton.Toolkit
                 if (_piRTL == null)
                 {
                     // Cache access to the internal get property 'RightToLeftInternal'
-                    _piRTL = typeof(DataGridView).GetProperty(@"RightToLeftInternal", BindingFlags.Instance |
+                    _piRTL = typeof(DataGridView).GetProperty(nameof(RightToLeftInternal), BindingFlags.Instance |
                                                                                      BindingFlags.NonPublic |
                                                                                      BindingFlags.GetField);
 
@@ -1702,7 +1703,7 @@ namespace Krypton.Toolkit
             // Remove border from being drawn, border is drawn according to system settings
             // and we do not want that appearance. So set to 'None' and override the 
             // BorderStyle property so it cannot be set to anything else.
-            base.BorderStyle = BorderStyle.None;
+            BorderStyle = BorderStyle.None;
 
             // Always turn off the base functionality as we do it instead.
             base.ShowCellToolTips = false;
@@ -2235,7 +2236,7 @@ namespace Krypton.Toolkit
         {
             Point currentCellAddress = CurrentCellAddress;
 
-            if (!((cell.RowIndex >= 0) && (cell.ColumnIndex == -1)))
+            if (!(cell is { RowIndex: >= 0, ColumnIndex: -1 }))
             {
                 // Are we allowed to show a tooltip?
                 if (ShowCellToolTips &&
@@ -2328,7 +2329,7 @@ namespace Krypton.Toolkit
         private void OnVisualPopupToolTipDisposed(object sender, EventArgs e)
         {
             // Unhook events from the specific instance that generated event
-            VisualPopupToolTip popupToolTip = (VisualPopupToolTip)sender;
+            var popupToolTip = (VisualPopupToolTip)sender;
             popupToolTip.Disposed -= OnVisualPopupToolTipDisposed;
 
             // Not showing a popup page any more
@@ -2373,7 +2374,7 @@ namespace Krypton.Toolkit
             if (_miGCI == null)
             {
                 // Cache access to the internal method 'GetCellInternal'
-                _miGCI = typeof(DataGridView).GetMethod(@"GetCellInternal", BindingFlags.Instance |
+                _miGCI = typeof(DataGridView).GetMethod(nameof(GetCellInternal), BindingFlags.Instance |
                                                                            BindingFlags.NonPublic |
                                                                            BindingFlags.GetField);
             }
@@ -2387,7 +2388,7 @@ namespace Krypton.Toolkit
             if (_miGTTT == null)
             {
                 // Cache access to the internal get property 'GetToolTipText'
-                _miGTTT = typeof(DataGridViewCell).GetMethod(@"GetToolTipText", BindingFlags.Instance |
+                _miGTTT = typeof(DataGridViewCell).GetMethod(nameof(GetToolTipText), BindingFlags.Instance |
                                                                                BindingFlags.NonPublic |
                                                                                BindingFlags.GetField);
             }
@@ -2408,7 +2409,7 @@ namespace Krypton.Toolkit
             if (_miGET == null)
             {
                 // Cache access to the internal get property 'GetErrorText'
-                _miGET = typeof(DataGridViewCell).GetMethod(@"GetErrorText", BindingFlags.Instance |
+                _miGET = typeof(DataGridViewCell).GetMethod(nameof(GetErrorText), BindingFlags.Instance |
                                                                             BindingFlags.NonPublic |
                                                                             BindingFlags.GetField);
             }
@@ -2429,7 +2430,7 @@ namespace Krypton.Toolkit
             if (_piCML == null)
             {
                 // Cache access to the internal get property 'CurrentMouseLocation'
-                _piCML = typeof(DataGridViewCell).GetProperty(@"CurrentMouseLocation", BindingFlags.Instance |
+                _piCML = typeof(DataGridViewCell).GetProperty(nameof(CurrentMouseLocation), BindingFlags.Instance |
                                                                                       BindingFlags.NonPublic |
                                                                                       BindingFlags.GetField);
             }
@@ -2484,14 +2485,14 @@ namespace Krypton.Toolkit
         {
             if (toolTipText.Length > 0x120)
             {
-                StringBuilder builder = new(toolTipText.Substring(0, 0x100), 0x103);
+                var builder = new StringBuilder(toolTipText.Substring(0, 0x100), 0x103);
                 builder.Append(@"...");
                 return builder.ToString();
             }
             return toolTipText;
         }
 
-        private void SetPalette(IPalette palette)
+        private void SetPalette(PaletteBase? palette)
         {
             if (palette != _palette)
             {
@@ -2524,7 +2525,7 @@ namespace Krypton.Toolkit
         private void PaintTransparentBackground(Graphics g, Rectangle clipRect)
         {
             // Get the parent control for transparent drawing purposes
-            Control parent = TransparentParent;
+            Control? parent = TransparentParent;
 
             // Do we have a parent control and we need to paint background?
             if ((parent != null) && NeedTransparentPaint)
@@ -2533,7 +2534,7 @@ namespace Krypton.Toolkit
                 if (_miPTB == null)
                 {
                     // Use reflection so we can call the Windows Forms internal method for painting parent background
-                    _miPTB = typeof(Control).GetMethod("PaintTransparentBackground",
+                    _miPTB = typeof(Control).GetMethod(nameof(PaintTransparentBackground),
                                                        BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.InvokeMethod,
                                                        null, CallingConventions.HasThis,
                                                        new[] { typeof(PaintEventArgs), typeof(Rectangle), typeof(Region) },
@@ -2621,13 +2622,11 @@ namespace Krypton.Toolkit
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         public ToolStripRenderer CreateToolStripRenderer() => Renderer.RenderToolStrip(GetResolvedPalette());
 
-        private void OnKryptonContextMenuDisposed(object sender, EventArgs e)
-        {
+        private void OnKryptonContextMenuDisposed(object sender, EventArgs e) =>
             // When the current krypton context menu is disposed, we should remove 
             // it to prevent it being used again, as that would just throw an exception 
             // because it has been disposed.
             KryptonContextMenu = null;
-        }
 
         private void OnContextMenuClosed(object sender, ToolStripDropDownClosedEventArgs e) => ContextMenuClosed();
 
@@ -2651,7 +2650,7 @@ namespace Krypton.Toolkit
                 if (KryptonContextMenu != null)
                 {
                     // Extract the screen mouse position (if might not actually be provided)
-                    Point mousePt = new(PI.LOWORD(m.LParam), PI.HIWORD(m.LParam));
+                    var mousePt = new Point(PI.LOWORD(m.LParam), PI.HIWORD(m.LParam));
 
                     // If keyboard activated, the menu position is centered
                     if (((int)(long)m.LParam) == -1)

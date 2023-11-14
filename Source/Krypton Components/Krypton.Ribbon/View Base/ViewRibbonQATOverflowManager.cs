@@ -5,7 +5,9 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  
+ *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
  */
 #endregion
@@ -16,7 +18,7 @@ namespace Krypton.Ribbon
     {
         #region Instance Fields
         private readonly KryptonRibbon _ribbon;
-        private ViewBase _focusView;
+        private ViewBase? _focusView;
         private bool _layingOut;
         #endregion
 
@@ -28,9 +30,9 @@ namespace Krypton.Ribbon
         /// <param name="control">Owning control.</param>
         /// <param name="qatContents">View that will handle focus requests.</param>
         /// <param name="root">View for group we are tracking.</param>
-        public ViewRibbonQATOverflowManager(KryptonRibbon ribbon,
+        public ViewRibbonQATOverflowManager([DisallowNull] KryptonRibbon ribbon,
                                             Control control,
-                                            ViewLayoutRibbonQATContents qatContents,
+                                            [DisallowNull] ViewLayoutRibbonQATContents qatContents,
                                             ViewBase root)
             : base(control, root)
         {
@@ -106,21 +108,17 @@ namespace Krypton.Ribbon
         /// Perform key down handling.
         /// </summary>
         /// <param name="e">A KeyEventArgs that contains the event data.</param>
-        public override void KeyDown(KeyEventArgs e)
-        {
+        public override void KeyDown(KeyEventArgs e) =>
             // Tell current view of key event
             FocusView?.KeyDown(e);
-        }
 
         /// <summary>
         /// Perform key press handling.
         /// </summary>
         /// <param name="e">A KeyPressEventArgs that contains the event data.</param>
-        public override void KeyPress(KeyPressEventArgs e)
-        {
+        public override void KeyPress(KeyPressEventArgs e) =>
             // Tell current view of key event
             FocusView?.KeyPress(e);
-        }
 
         /// <summary>
         /// Perform key up handling.
@@ -140,7 +138,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets the view that has the focus.
         /// </summary>
-        public ViewBase FocusView
+        public ViewBase? FocusView
         {
             get => _focusView;
 

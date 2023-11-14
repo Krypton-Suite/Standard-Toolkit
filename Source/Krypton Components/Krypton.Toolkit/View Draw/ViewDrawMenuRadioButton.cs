@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -85,10 +85,13 @@ namespace Krypton.Toolkit
             };
 
             // Use context menu specific version of the radio button controller
-            MenuRadioButtonController mrbc = new(provider.ProviderViewManager, _innerDocker, this, provider.ProviderNeedPaintDelegate);
+            var mrbc = new MenuRadioButtonController(provider.ProviderViewManager, _innerDocker,
+                this, provider.ProviderNeedPaintDelegate);
             mrbc.Click += OnClick;
-            _innerDocker.MouseController = mrbc;
+            //_innerDocker.MouseController = mrbc;
             _innerDocker.KeyController = mrbc;
+            // Create the manager for handling tooltips
+            _innerDocker.MouseController = new ToolTipController(KryptonContextMenuRadioButton.ToolTipManager, this, mrbc);
 
             // We need to be notified whenever the checked state changes
             KryptonContextMenuRadioButton.CheckedChanged += OnCheckedChanged;
@@ -110,7 +113,7 @@ namespace Krypton.Toolkit
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            "ViewDrawMenuRadioButton:" + Id;
+            $"ViewDrawMenuRadioButton:{Id}";
 
         /// <summary>
         /// Release unmanaged and optionally managed resources.
@@ -199,7 +202,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="context">Layout context.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public override void Layout(ViewLayoutContext context)
+        public override void Layout([DisallowNull] ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 
@@ -238,9 +241,9 @@ namespace Krypton.Toolkit
                 case @"ImageSmall":
                 case @"ImageLarge":
                 case @"ImageTransparentColor":
-                case @"Enabled":
+                case nameof(Enabled):
                 case @"Checked":
-                case @"CheckState":
+                case nameof(CheckState):
                     // Update to show new state
                     _provider.ProviderNeedPaintDelegate(this, new NeedLayoutEventArgs(true));
                     break;

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -35,9 +35,9 @@ namespace Krypton.Navigator
         /// <param name="navigator">Reference to navigator instance.</param>
         /// <param name="redirector">Palette redirector.</param>
         /// <param name="needPaintDelegate">Delegate for notifying paint requests.</param>
-        public ViewletHeaderGroup(KryptonNavigator navigator,
-                                  PaletteRedirect redirector,
-                                  NeedPaintHandler needPaintDelegate)
+        public ViewletHeaderGroup([DisallowNull] KryptonNavigator navigator,
+                                  [DisallowNull] PaletteRedirect redirector,
+                                  [DisallowNull] NeedPaintHandler needPaintDelegate)
         {
             Debug.Assert(navigator != null);
             Debug.Assert(redirector != null);
@@ -108,18 +108,16 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="element">Element to search against.</param>
         /// <returns>Reference to ButtonSpec; otherwise null.</returns>
-        public ButtonSpec ButtonSpecFromView(ViewBase element) =>
+        public ButtonSpec? ButtonSpecFromView(ViewBase element) =>
             // Ask the button manager for the button spec for this element
             _buttonManager.ButtonSpecFromView(element);
 
         /// <summary>
         /// Recreate the buttons to reflect a change in selected page.
         /// </summary>
-        public void UpdateButtons()
-        {
+        public void UpdateButtons() =>
             // Ensure buttons are recreated to reflect different page
-            _buttonManager?.RecreateButtons();
-        }
+            _buttonManager.RecreateButtons();
 
         /// <summary>
         /// Ensure the correct state palettes are being used.
@@ -167,7 +165,7 @@ namespace Krypton.Navigator
             Rectangle rect = _buttonManager.GetButtonRectangle(Navigator.Button.ContextButton);
 
             // We want the context menu to show just below the button
-            Point pt = new(rect.Left, rect.Bottom + 3);
+            var pt = new Point(rect.Left, rect.Bottom + 3);
 
             // Convert from control coordinates to screen coordinates
             return Navigator.PointToScreen(pt);
@@ -256,7 +254,7 @@ namespace Krypton.Navigator
                 case @"NextButtonAction":
                 case @"ContextButtonDisplay":
                 case @"CloseButtonDisplay":
-                case @"ButtonDisplayLogic":
+                case nameof(ButtonDisplayLogic):
                     _buttonManager.RecreateButtons();
                     break;
             }
@@ -336,7 +334,7 @@ namespace Krypton.Navigator
         private void CreateDragDrop()
         {
             // Create and attach the drag controller to the header view
-            DragViewController controller = new(_viewHeadingPrimary);
+            var controller = new DragViewController(_viewHeadingPrimary);
             _viewHeadingPrimary.MouseController = controller;
             _viewHeadingPrimary.KeyController = controller;
             _viewHeadingPrimary.SourceController = controller;
@@ -351,8 +349,7 @@ namespace Krypton.Navigator
             controller.LeftDoubleClick += OnLeftDoubleClick;
         }
 
-        private void CreateButtonSpecManager()
-        {
+        private void CreateButtonSpecManager() =>
             // Create button specification collection manager
             _buttonManager = new ButtonSpecManagerDraw(Navigator, Redirector, Navigator.Button.ButtonSpecs, Navigator.FixedSpecs,
                                                        new[] { _viewHeadingPrimary, _viewHeadingSecondary },
@@ -366,7 +363,6 @@ namespace Krypton.Navigator
                 // Hook up the tooltip manager so that tooltips can be generated
                 ToolTipManager = Navigator.ToolTipManager
             };
-        }
 
         private void UpdateHeaders()
         {
@@ -465,7 +461,7 @@ namespace Krypton.Navigator
             }
         }
 
-        private void SetPalettes(PaletteHeaderGroup palette)
+        private void SetPalettes(PaletteHeaderGroup? palette)
         {
             _viewGroup.SetPalettes(palette.Back, palette.Border, palette);
 
@@ -489,40 +485,19 @@ namespace Krypton.Navigator
             _buttonManager.RecreateButtons();
         }
 
-        private void OnDragStart(object sender, DragStartEventCancelArgs e)
-        {
-            Navigator.InternalDragStart(e, null);
-        }
+        private void OnDragStart(object sender, DragStartEventCancelArgs e) => Navigator.InternalDragStart(e, null);
 
-        private void OnDragMove(object sender, PointEventArgs e)
-        {
-            Navigator.InternalDragMove(e);
-        }
+        private void OnDragMove(object sender, PointEventArgs e) => Navigator.InternalDragMove(e);
 
-        private void OnDragEnd(object sender, PointEventArgs e)
-        {
-            Navigator.InternalDragEnd(e);
-        }
+        private void OnDragEnd(object sender, PointEventArgs e) => Navigator.InternalDragEnd(e);
 
-        private void OnDragQuit(object sender, EventArgs e)
-        {
-            Navigator.InternalDragQuit();
-        }
+        private void OnDragQuit(object sender, EventArgs e) => Navigator.InternalDragQuit();
 
-        private void OnLeftMouseDown(object sender, EventArgs e)
-        {
-            Navigator.OnPrimaryHeaderLeftClicked(e);
-        }
+        private void OnLeftMouseDown(object sender, EventArgs e) => Navigator.OnPrimaryHeaderLeftClicked(e);
 
-        private void OnRightMouseDown(object sender, EventArgs e)
-        {
-            Navigator.OnPrimaryHeaderRightClicked(e);
-        }
+        private void OnRightMouseDown(object sender, EventArgs e) => Navigator.OnPrimaryHeaderRightClicked(e);
 
-        private void OnLeftDoubleClick(object sender, EventArgs e)
-        {
-            Navigator.OnPrimaryHeaderDoubleClicked(e);
-        }
+        private void OnLeftDoubleClick(object sender, EventArgs e) => Navigator.OnPrimaryHeaderDoubleClicked(e);
         #endregion
     }
 }

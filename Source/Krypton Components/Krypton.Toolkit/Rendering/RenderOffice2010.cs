@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -59,9 +59,9 @@ namespace Krypton.Toolkit
         /// <param name="paletteBack">Palette used for recovering drawing details.</param>
         /// <param name="state">State associated with rendering.</param>
         public override void DrawRibbonClusterEdge(PaletteRibbonShape shape,
-                                                   RenderContext context,
+            [DisallowNull] RenderContext context,
                                                    Rectangle displayRect,
-                                                   IPaletteBack paletteBack,
+                                                   [DisallowNull] IPaletteBack paletteBack,
                                                    PaletteState state)
         {
             Debug.Assert(context != null);
@@ -75,7 +75,7 @@ namespace Krypton.Toolkit
                                                         Color.White, WHITE_PERCENT);
 
             // Draw inside of the border edge in a lighter version of the border
-            using SolidBrush drawBrush = new(lightColor);
+            using var drawBrush = new SolidBrush(lightColor);
             context.Graphics.FillRectangle(drawBrush, displayRect);
         }
 
@@ -88,7 +88,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="colorPalette">Color palette to use when rendering toolstrip.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public override ToolStripRenderer RenderToolStrip(IPalette colorPalette)
+        public override ToolStripRenderer RenderToolStrip([DisallowNull] PaletteBase colorPalette)
         {
             Debug.Assert(colorPalette != null);
 
@@ -99,7 +99,7 @@ namespace Krypton.Toolkit
             }
 
             // Use the professional renderer but pull colors from the palette
-            KryptonOffice2010Renderer renderer = new(colorPalette.ColorTable)
+            var renderer = new KryptonOffice2010Renderer(colorPalette.ColorTable)
             {
 
                 // Setup the need to use rounded corners
@@ -121,7 +121,7 @@ namespace Krypton.Toolkit
                                                             IPaletteRibbonBack paletteBack,
                                                             IDisposable memento)
         {
-            if ((rect.Width > 0) && (rect.Height > 0))
+            if (rect is { Width: > 0, Height: > 0 })
             {
                 Color c1 = paletteGeneral.GetRibbonTabSeparatorContextColor(PaletteState.Normal);
                 Color c2 = paletteBack.GetRibbonBackColor5(PaletteState.ContextCheckedNormal);
@@ -149,25 +149,25 @@ namespace Krypton.Toolkit
                     // Dispose of existing values
                     cache.Dispose();
 
-                    cache.borderOuterPen = new Pen(c1);
-                    cache.borderInnerPen = new Pen(CommonHelper.MergeColors(Color.Black, 0.1f, c2, 0.9f));
-                    cache.topBrush = new SolidBrush(c2);
+                    cache.BorderOuterPen = new Pen(c1);
+                    cache.BorderInnerPen = new Pen(CommonHelper.MergeColors(Color.Black, 0.1f, c2, 0.9f));
+                    cache.TopBrush = new SolidBrush(c2);
                     Color lightC2 = ControlPaint.Light(c2);
-                    cache.bottomBrush = new LinearGradientBrush(new RectangleF(rect.X - 1, rect.Y, rect.Width + 2, rect.Height + 1),
+                    cache.BottomBrush = new LinearGradientBrush(new RectangleF(rect.X - 1, rect.Y, rect.Width + 2, rect.Height + 1),
                                                                 Color.FromArgb(128, lightC2), Color.FromArgb(64, lightC2), 90f);
                 }
 
                 // Draw the left and right borders
-                context.Graphics.DrawLine(cache.borderOuterPen, rect.X, rect.Y, rect.X, rect.Bottom);
-                context.Graphics.DrawLine(cache.borderInnerPen, rect.X + 1, rect.Y, rect.X + 1, rect.Bottom - 1);
-                context.Graphics.DrawLine(cache.borderOuterPen, rect.Right - 1, rect.Y, rect.Right - 1, rect.Bottom - 1);
-                context.Graphics.DrawLine(cache.borderInnerPen, rect.Right - 2, rect.Y, rect.Right - 2, rect.Bottom - 1);
+                context.Graphics.DrawLine(cache.BorderOuterPen, rect.X, rect.Y, rect.X, rect.Bottom);
+                context.Graphics.DrawLine(cache.BorderInnerPen, rect.X + 1, rect.Y, rect.X + 1, rect.Bottom - 1);
+                context.Graphics.DrawLine(cache.BorderOuterPen, rect.Right - 1, rect.Y, rect.Right - 1, rect.Bottom - 1);
+                context.Graphics.DrawLine(cache.BorderInnerPen, rect.Right - 2, rect.Y, rect.Right - 2, rect.Bottom - 1);
             
                 // Draw the solid block of colour at the top
-                context.Graphics.FillRectangle(cache.topBrush, rect.X + 2, rect.Y, rect.Width - 4, 4);
+                context.Graphics.FillRectangle(cache.TopBrush, rect.X + 2, rect.Y, rect.Width - 4, 4);
 
                 // Draw the gradient to the bottom
-                context.Graphics.FillRectangle(cache.bottomBrush, rect.X + 2, rect.Y + 4, rect.Width - 4, rect.Height - 4);
+                context.Graphics.FillRectangle(cache.BottomBrush, rect.X + 2, rect.Y + 4, rect.Width - 4, rect.Height - 4);
             }
 
             return memento;

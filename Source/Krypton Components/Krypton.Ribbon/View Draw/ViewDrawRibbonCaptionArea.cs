@@ -5,11 +5,14 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  
+ *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
  */
 #endregion
 
+// ReSharper disable InconsistentNaming
 namespace Krypton.Ribbon
 {
     #region Old Class
@@ -678,7 +681,6 @@ namespace Krypton.Ribbon
     /// </summary>
     internal class ViewDrawRibbonCaptionArea : ViewDrawDocker
     {
-
         #region Instance Fields
         private readonly int MIN_INTEGRATED_HEIGHT;
         private readonly int CAPTION_TEXT_GAPS;
@@ -694,11 +696,11 @@ namespace Krypton.Ribbon
         private ViewLayoutSeparator _spaceInsteadOfAppButton;
         private ViewLayoutRibbonQATMini _captionQAT;
         private ViewLayoutRibbonQATMini _nonCaptionQAT;
-        private ViewLayoutRibbonContextTitles _contextTiles;
+        private ViewLayoutRibbonContextTitles? _contextTiles;
         private ViewDrawRibbonCompoRightBorder _compRightBorder;
-        private AppButtonController _appButtonController;
-        private AppTabController _appTabController;
-        private KryptonForm _kryptonForm;
+        private AppButtonController? _appButtonController;
+        private AppTabController? _appTabController;
+        private KryptonForm? _kryptonForm;
         private bool _integrated;
         private bool _preventIntegration;
         private bool _compoRightInjected;
@@ -715,10 +717,10 @@ namespace Krypton.Ribbon
         /// <param name="redirect">Reference to redirector for palette settings.</param>
         /// <param name="compositionArea">Reference to the composition element.</param>
         /// <param name="needPaintDelegate">Delegate for notifying paint/layout changes.</param>
-        public ViewDrawRibbonCaptionArea(KryptonRibbon ribbon,
-                                         PaletteRedirect redirect,
-                                         ViewDrawRibbonComposition compositionArea,
-                                         NeedPaintHandler needPaintDelegate)
+        public ViewDrawRibbonCaptionArea([DisallowNull] KryptonRibbon ribbon,
+                                         [DisallowNull] PaletteRedirect redirect,
+                                         [DisallowNull] ViewDrawRibbonComposition compositionArea,
+                                         [DisallowNull] NeedPaintHandler needPaintDelegate)
         {
             Debug.Assert(ribbon != null);
             Debug.Assert(redirect != null);
@@ -779,7 +781,7 @@ namespace Krypton.Ribbon
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            "ViewDrawRibbonCaptionArea:" + Id;
+            $"ViewDrawRibbonCaptionArea:{Id}";
 
         #endregion
 
@@ -787,7 +789,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets the single reference to the application button controller.
         /// </summary>
-        public AppButtonController AppButtonController => _appButtonController;
+        public AppButtonController? AppButtonController => _appButtonController;
 
         #endregion
 
@@ -795,7 +797,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets the single reference to the application tab controller.
         /// </summary>
-        public AppTabController AppTabController => _appTabController;
+        public AppTabController? AppTabController => _appTabController;
 
         #endregion
 
@@ -805,8 +807,8 @@ namespace Krypton.Ribbon
         /// </summary>
         public void HookToolTipHandling()
         {
-            _captionAppButton.MouseController = new ToolTipController(_ribbon.TabsArea.ButtonSpecManager.ToolTipManager, _captionAppButton, _captionAppButton.MouseController);
-            _otherAppButton.MouseController = new ToolTipController(_ribbon.TabsArea.ButtonSpecManager.ToolTipManager, _otherAppButton, _otherAppButton.MouseController);
+            _captionAppButton.MouseController = new ToolTipController(_ribbon.TabsArea.ButtonSpecManager.ToolTipManager!, _captionAppButton, _captionAppButton.MouseController!);
+            _otherAppButton.MouseController = new ToolTipController(_ribbon.TabsArea.ButtonSpecManager.ToolTipManager!, _otherAppButton, _otherAppButton.MouseController!);
         }
         #endregion
 
@@ -847,24 +849,19 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Notify a change in the application button image.
         /// </summary>
-        public void AppButtonChanged()
-        {
+        public void AppButtonChanged() =>
             // Requests a repaint to show the change.
             OnAppButtonNeedPaint(this, new NeedLayoutEventArgs(false));
-        }
         #endregion
 
         #region AppButtonChanged
         /// <summary>
         /// Update the visible state of the caption area based on integration, app button, contexts and qat location.
         /// </summary>
-        public void UpdateVisible()
-        {
-            Visible = !_integrated &&
+        public void UpdateVisible() => Visible = !_integrated &&
                       (_ribbon.RibbonAppButton.AppButtonVisible ||
                        (_ribbon.QATLocation == QATLocation.Above) ||
                        (_ribbon.RibbonContexts.Count > 0));
-        }
         #endregion
 
         #region VisibleQAT
@@ -876,9 +873,13 @@ namespace Krypton.Ribbon
             get
             {
                 if (_integrated)
+                {
                     return _captionQAT;
+                }
                 else
+                {
                     return _nonCaptionQAT;
+                }
             }
         }
         #endregion
@@ -890,13 +891,15 @@ namespace Krypton.Ribbon
         public void UpdateQAT()
         {
             var before = _captionQAT.Visible;
-            _captionQAT.Visible = _ribbon.Visible && (_ribbon.QATLocation == QATLocation.Above);
-            _nonCaptionQAT.Visible = _ribbon.Visible && (_ribbon.QATLocation == QATLocation.Above);
+            _captionQAT.Visible = _ribbon is { Visible: true, QATLocation: QATLocation.Above };
+            _nonCaptionQAT.Visible = _ribbon is { Visible: true, QATLocation: QATLocation.Above };
             UpdateVisible();
 
             // A change in integrated caption visibility
             if (before != _captionQAT.Visible)
+            {
                 QATButtonsChanged();
+            }
         }
         #endregion
 
@@ -931,7 +934,9 @@ namespace Krypton.Ribbon
         {
             // Do we need to layout and paint the custom chrome?
             if (UsingCustomChrome)
+            {
                 OnIntegratedNeedPaint(this, new NeedLayoutEventArgs(true));
+            }
         }
         #endregion
 
@@ -951,7 +956,9 @@ namespace Krypton.Ribbon
         public void RedrawCustomChrome(bool layout)
         {
             if (UsingCustomChrome)
-                _kryptonForm.PerformNeedPaint(layout);
+            {
+                _kryptonForm?.PerformNeedPaint(layout);
+            }
         }
         #endregion
 
@@ -959,7 +966,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets a value indicating if drawing on the composition element.
         /// </summary>
-        public bool DrawCaptionOnComposition => UsingCustomChrome && KryptonForm.ApplyComposition;
+        public bool DrawCaptionOnComposition => UsingCustomChrome && KryptonForm is { ApplyComposition: true };
 
         #endregion
 
@@ -967,7 +974,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets access to the integration form.
         /// </summary>
-        public KryptonForm KryptonForm => _kryptonForm;
+        public KryptonForm? KryptonForm => _kryptonForm;
 
         #endregion
 
@@ -980,9 +987,13 @@ namespace Krypton.Ribbon
             get
             {
                 if (_kryptonForm != null)
+                {
                     return _kryptonForm.RealWindowBorders;
+                }
                 else
+                {
                     return Padding.Empty;
+                }
             }
         }
 
@@ -992,7 +1003,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets access to the layout view used for the context titles.
         /// </summary>
-        public ViewLayoutRibbonContextTitles ContextTitles => _contextTiles;
+        public ViewLayoutRibbonContextTitles? ContextTitles => _contextTiles;
 
         #endregion
 
@@ -1000,11 +1011,9 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Redecide if the custom chrome and integration can occur.
         /// </summary>
-        public void PerformFormChromeCheck()
-        {
+        public void PerformFormChromeCheck() =>
             // Update decision about integrating or providing caption functionality
             OnFormChromeCheck(null, EventArgs.Empty);
-        }
         #endregion
 
         #region DoesClientMouseDownEndAllTracking
@@ -1016,7 +1025,9 @@ namespace Krypton.Ribbon
         public bool DoesCurrentMouseDownEndAllTracking(Point pt)
         {
             // If integrated into custom chrome...
-            if (UsingCustomChrome)
+            if (UsingCustomChrome
+                && (_kryptonForm != null)
+                )
             {
                 // Convert point to the form coordinates
                 Point formPt = _kryptonForm.PointToClient(pt);
@@ -1028,8 +1039,12 @@ namespace Krypton.Ribbon
                 {
                     // Search the context title elements for a match
                     foreach (ViewBase child in ContextTitles)
+                    {
                         if ((child is ViewDrawRibbonContextTitle) && child.ClientRectangle.Contains(formPt))
+                        {
                             return false;
+                        }
+                    }
                 }
             }
 
@@ -1042,7 +1057,7 @@ namespace Krypton.Ribbon
         /// Discover the preferred size of the element.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override Size GetPreferredSize(ViewLayoutContext context)
+        public override Size GetPreferredSize([DisallowNull] ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 
@@ -1068,10 +1083,7 @@ namespace Krypton.Ribbon
         /// Fires a request to have painting/layout performed.
         /// </summary>
         /// <param name="needLayout">Does the palette change require a layout.</param>
-        protected void PerformNeedPaint(bool needLayout)
-        {
-            _needPaintDelegate(this, new NeedLayoutEventArgs(needLayout));
-        }
+        protected void PerformNeedPaint(bool needLayout) => _needPaintDelegate(this, new NeedLayoutEventArgs(needLayout));
         #endregion
 
         #region Implementation
@@ -1090,11 +1102,11 @@ namespace Krypton.Ribbon
                 Target1 = _captionAppButton.AppButton,
                 Target2 = _otherAppButton.AppButton
             };
-            _appButtonController.NeedPaint += OnAppButtonNeedPaint;
+            _appButtonController.NeedPaint += OnAppButtonNeedPaint!;
             _captionAppButton.MouseController = _appButtonController;
             _otherAppButton.MouseController = _appButtonController;
             _appTabController = new AppTabController(_ribbon);
-            _appTabController.NeedPaint += OnAppButtonNeedPaint;
+            _appTabController.NeedPaint += OnAppButtonNeedPaint!;
 
             // When not showing the app button we show this spacer instead
             _spaceInsteadOfAppButton = new ViewLayoutSeparator(0)
@@ -1122,16 +1134,14 @@ namespace Krypton.Ribbon
             Add(_otherAppButton, ViewDockStyle.Left);
 
             // Update base class to use correct palette interface
-            base.SetPalettes(_redirectCaption.PaletteBack, _redirectCaption.PaletteBorder);
+            base.SetPalettes(_redirectCaption.PaletteBack, _redirectCaption.PaletteBorder!);
         }
 
-        private void SetupParentMonitoring()
-        {
+        private void SetupParentMonitoring() =>
             // We have to know when the parent of the ribbon changes so we can then hook
             // into monitoring the top level custom chrome control. We need information this
             // decide if we integrate with top chrome or show this control instead.
             _ribbon.ParentChanged += OnRibbonParentChanged;
-        }
 
         private void OnRibbonParentChanged(object sender, EventArgs e)
         {
@@ -1144,10 +1154,10 @@ namespace Krypton.Ribbon
                 _kryptonForm = null;
             }
 
-            if (!_ribbon.IsDisposed && !_ribbon.Disposing)
+            if (_ribbon is { IsDisposed: false, Disposing: false })
             {
                 // Find the new owning level form we are hosted inside
-                Form ownerForm = _ribbon.Parent as Form;
+                var ownerForm = _ribbon.Parent as Form;
 
                 // Should always be inside a form, but you never know!
                 // We only care if the owner form is a KryptonForm instance
@@ -1165,7 +1175,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnFormChromeCheck(object sender, EventArgs e)
+        private void OnFormChromeCheck(object? sender, EventArgs e)
         {
             var needLayout = false;
             var integrated = false;
@@ -1181,7 +1191,9 @@ namespace Krypton.Ribbon
 
                     // Must be at least the minimum for the application button and spacing gap above it
                     if (height >= MIN_INTEGRATED_HEIGHT)
+                    {
                         integrated = true;
+                    }
 
                     // Update width of the separator used in place of the app button when app button not visible
                     _spaceInsteadOfAppButton.SeparatorSize = new Size(_kryptonForm.RealWindowBorders.Left, 0);
@@ -1194,7 +1206,9 @@ namespace Krypton.Ribbon
 
                 // If told to prevent the integration, then prevent it now
                 if (PreventIntegration && overrideIntegrated)
+                {
                     overrideIntegrated = false;
+                }
 
                 // Is there a change in integrated requirements?
                 if (overrideIntegrated != _integrated)
@@ -1242,13 +1256,13 @@ namespace Krypton.Ribbon
                     needLayout = true;
                 }
 
-                _kryptonForm.AllowComposition = _ribbon.AllowFormIntegrate && !_ribbon.InDesignMode;
+                _kryptonForm.AllowComposition = _ribbon is { AllowFormIntegrate: true, InDesignMode: false };
 
-                //TODO call this function when palette is changing
+                //TODO: call this function when palette is changing
                 var newAllowIconDisplay = !_integrated
                                            || !_ribbon.RibbonAppButton.AppButtonVisible
                                            || (_ribbon.RibbonAppButton.AppButtonVisible
-                                               && (_ribbon.RibbonShape == PaletteRibbonShape.Office2010 || _ribbon.RibbonShape == PaletteRibbonShape.Office2013 || _ribbon.RibbonShape == PaletteRibbonShape.Office365)
+                                               && _ribbon.RibbonShape is PaletteRibbonShape.Office2010 or PaletteRibbonShape.VisualStudio2010 or PaletteRibbonShape.Office2013 or PaletteRibbonShape.Microsoft365 or PaletteRibbonShape.VisualStudio
                                            )
                                             ;
                 if (_kryptonForm.AllowIconDisplay != newAllowIconDisplay)
@@ -1296,12 +1310,11 @@ namespace Krypton.Ribbon
 
         private void OnWindowActiveChanged(object sender, EventArgs e)
         {
-            if (_kryptonForm != null)
+            if (_kryptonForm is { ApplyCustomChrome: true, ApplyComposition: true })
+            // When integrated into composition we need to repaint whenever the
+            // owning form changes active status, as we are drawing the caption
             {
-                // When integrated into composition we need to repaint whenever the
-                // owning form changes active status, as we are drawing the caption
-                if (_kryptonForm.ApplyCustomChrome && _kryptonForm.ApplyComposition)
-                    PerformNeedPaint(true);
+                PerformNeedPaint(true);
             }
         }
 
@@ -1313,14 +1326,18 @@ namespace Krypton.Ribbon
 
             // If we have integrated the button into the custom chrome caption area
             if (_integrated)
-                _kryptonForm.PerformNeedPaint(e.NeedLayout);
+            {
+                _kryptonForm?.PerformNeedPaint(e.NeedLayout);
+            }
         }
 
         private void OnIntegratedNeedPaint(object sender, NeedLayoutEventArgs e)
         {
             // If we have integrated the button into the custom chrome caption area
             if (_integrated)
-                _kryptonForm.PerformNeedPaint(e.NeedLayout);
+            {
+                _kryptonForm?.PerformNeedPaint(e.NeedLayout);
+            }
         }
         #endregion
     }

@@ -5,8 +5,8 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved.
- *
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  
  */
 #endregion
 
@@ -17,11 +17,11 @@ namespace Krypton.Ribbon
     /// </summary>
     [ToolboxItem(false)]
     [ToolboxBitmap(typeof(KryptonRibbonGroupRichTextBox), "ToolboxBitmaps.KryptonRibbonGroupRichTextBox.bmp")]
-    [Designer("Krypton.Ribbon.KryptonRibbonGroupRichTextBoxDesigner, Krypton.Ribbon")]
+    [Designer(typeof(KryptonRibbonGroupRichTextBoxDesigner))]
     [DesignerCategory(@"code")]
     [DesignTimeVisible(false)]
-    [DefaultEvent("TextChanged")]
-    [DefaultProperty("Text")]
+    [DefaultEvent(nameof(TextChanged))]
+    [DefaultProperty(nameof(Text))]
     public class KryptonRibbonGroupRichTextBox : KryptonRibbonGroupItem
     {
         #region Instance Fields
@@ -38,134 +38,134 @@ namespace Krypton.Ribbon
         /// </summary>
         [Description(@"Occurs when the value of the Text property changes.")]
         [Category(@"Property Changed")]
-        public event EventHandler TextChanged;
+        public event EventHandler? TextChanged;
 
         /// <summary>
         /// Occurs when the control receives focus.
         /// </summary>
         [Browsable(false)]
-        public event EventHandler GotFocus;
+        public event EventHandler? GotFocus;
 
         /// <summary>
         /// Occurs when the control loses focus.
         /// </summary>
         [Browsable(false)]
-        public event EventHandler LostFocus;
+        public event EventHandler? LostFocus;
 
         /// <summary>
         /// Occurs when a key is pressed while the control has focus. 
         /// </summary>
         [Description(@"Occurs when a key is pressed while the control has focus.")]
         [Category(@"Key")]
-        public event KeyPressEventHandler KeyPress;
+        public event KeyPressEventHandler? KeyPress;
 
         /// <summary>
         /// Occurs when a key is released while the control has focus. 
         /// </summary>
         [Description(@"Occurs when a key is released while the control has focus.")]
         [Category(@"Key")]
-        public event KeyEventHandler KeyUp;
+        public event KeyEventHandler? KeyUp;
 
         /// <summary>
         /// Occurs when a key is pressed while the control has focus.
         /// </summary>
         [Description(@"Occurs when a key is pressed while the control has focus.")]
         [Category(@"Key")]
-        public event KeyEventHandler KeyDown;
+        public event KeyEventHandler? KeyDown;
 
         /// <summary>
         /// Occurs before the KeyDown event when a key is pressed while focus is on this control.
         /// </summary>
         [Description(@"Occurs before the KeyDown event when a key is pressed while focus is on this control.")]
         [Category(@"Key")]
-        public event PreviewKeyDownEventHandler PreviewKeyDown;
+        public event PreviewKeyDownEventHandler? PreviewKeyDown;
 
         /// <summary>
         /// Occurs when the value of the AcceptsTab property changes.
         /// </summary>
         [Description(@"Occurs when the value of the AcceptsTab property changes.")]
         [Category(@"Property Changed")]
-        public event EventHandler AcceptsTabChanged;
+        public event EventHandler? AcceptsTabChanged;
 
         /// <summary>
         /// Occurs when the value of the HideSelection property changes.
         /// </summary>
         [Description(@"Occurs when the value of the HideSelection property changes.")]
         [Category(@"Property Changed")]
-        public event EventHandler HideSelectionChanged;
+        public event EventHandler? HideSelectionChanged;
 
         /// <summary>
         /// Occurs when the value of the Modified property changes.
         /// </summary>
         [Description(@"Occurs when the value of the Modified property changes.")]
         [Category(@"Property Changed")]
-        public event EventHandler ModifiedChanged;
+        public event EventHandler? ModifiedChanged;
 
         /// <summary>
         /// Occurs when the value of the Multiline property changes.
         /// </summary>
         [Description(@"Occurs when the value of the Multiline property changes.")]
         [Category(@"Property Changed")]
-        public event EventHandler MultilineChanged;
+        public event EventHandler? MultilineChanged;
 
         /// <summary>
         /// Occurs when the value of the ReadOnly property changes.
         /// </summary>
         [Description(@"Occurs when the value of the ReadOnly property changes.")]
         [Category(@"Property Changed")]
-        public event EventHandler ReadOnlyChanged;
+        public event EventHandler? ReadOnlyChanged;
 
         /// <summary>
         /// Occurs when the current selection has changed.
         /// </summary>
         [Description(@"Occurs when the current selection has changed.")]
         [Category(@"Behavior")]
-        public event EventHandler SelectionChanged;
+        public event EventHandler? SelectionChanged;
 
         /// <summary>
         /// Occurs when the user takes an action that would change a protected range of text.
         /// </summary>
         [Description(@"Occurs when the user takes an action that would change a protected range of text.")]
         [Category(@"Behavior")]
-        public event EventHandler Protected;
+        public event EventHandler? Protected;
 
         /// <summary>
         /// Occurs when a hyperlink in the text is clicked.
         /// </summary>
         [Description(@"Occurs when a hyperlink in the text is clicked.")]
         [Category(@"Behavior")]
-        public event EventHandler LinkClicked;
+        public event EventHandler? LinkClicked;
 
         /// <summary>
         /// Occurs when the horizontal scroll bar is clicked.
         /// </summary>
         [Description(@"Occurs when the horizontal scroll bar is clicked.")]
         [Category(@"Behavior")]
-        public event EventHandler HScroll;
+        public event EventHandler? HScroll;
 
         /// <summary>
         /// Occurs when the vertical scroll bar is clicked.
         /// </summary>
         [Description(@"Occurs when the vertical scroll bar is clicked.")]
         [Category(@"Behavior")]
-        public event EventHandler VScroll;
+        public event EventHandler? VScroll;
 
         /// <summary>
         /// Occurs after the value of a property has changed.
         /// </summary>
         [Category(@"Ribbon")]
         [Description(@"Occurs after the value of a property has changed.")]
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         /// <summary>
         /// Occurs when the design time context menu is requested.
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        public event MouseEventHandler DesignTimeContextMenu;
+        public event MouseEventHandler? DesignTimeContextMenu;
 
-        internal event EventHandler MouseEnterControl;
-        internal event EventHandler MouseLeaveControl;
+        internal event EventHandler? MouseEnterControl;
+        internal event EventHandler? MouseLeaveControl;
         #endregion
 
         #region Identity
@@ -243,13 +243,13 @@ namespace Krypton.Ribbon
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public override KryptonRibbon Ribbon
+        public override KryptonRibbon? Ribbon
         {
             set
             {
                 base.Ribbon = value;
 
-                if (value != null)
+                if (Ribbon != null)
                 {
                     // Use the same palette in the text box as the ribbon, plus we need
                     // to know when the ribbon palette changes so we can reflect that change
@@ -272,10 +272,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Resets the ShortcutKeys property to its default value.
         /// </summary>
-        public void ResetShortcutKeys()
-        {
-            ShortcutKeys = Keys.None;
-        }
+        public void ResetShortcutKeys() => ShortcutKeys = Keys.None;
 
         /// <summary>
         /// Access to the actual embedded KryptonRichTextBox instance.
@@ -336,18 +333,12 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Make the ribbon group visible.
         /// </summary>
-        public void Show()
-        {
-            Visible = true;
-        }
+        public void Show() => Visible = true;
 
         /// <summary>
         /// Make the ribbon group hidden.
         /// </summary>
-        public void Hide()
-        {
-            Visible = false;
-        }
+        public void Hide() => Visible = false;
 
         /// <summary>
         /// Gets and sets the enabled state of the group rich text box.
@@ -399,7 +390,7 @@ namespace Krypton.Ribbon
         /// </summary>
         [Category(@"Appearance")]
         [Description(@"Text associated with the control.")]
-        [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
+        [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
         public string Text
         {
             get => RichTextBox.Text;
@@ -419,7 +410,7 @@ namespace Krypton.Ribbon
         [Category(@"Behavior")]
         [Description(@"The shortcut to display when the user right-clicks the control.")]
         [DefaultValue(null)]
-        public ContextMenuStrip ContextMenuStrip
+        public ContextMenuStrip? ContextMenuStrip
         {
             get => RichTextBox.ContextMenuStrip;
             set => RichTextBox.ContextMenuStrip = value;
@@ -431,7 +422,7 @@ namespace Krypton.Ribbon
         [Category(@"Behavior")]
         [Description(@"KryptonContextMenu to be shown when the rich text box is right clicked.")]
         [DefaultValue(null)]
-        public KryptonContextMenu KryptonContextMenu
+        public KryptonContextMenu? KryptonContextMenu
         {
             get => RichTextBox.KryptonContextMenu;
             set => RichTextBox.KryptonContextMenu = value;
@@ -442,7 +433,7 @@ namespace Krypton.Ribbon
         /// </summary>
         [Category(@"Appearance")]
         [Description(@"The lines of text in a multiline edit, as an array of String values.")]
-        [Editor("System.Windows.Forms.Design.StringArrayEditor, " + AssemblyRef.SystemDesign, typeof(UITypeEditor))]
+        [Editor(@"System.Windows.Forms.Design.StringArrayEditor", typeof(UITypeEditor))]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         [MergableProperty(false)]
         [Localizable(true)]
@@ -926,50 +917,32 @@ namespace Krypton.Ribbon
         /// Appends text to the current text of a rich text box.
         /// </summary>
         /// <param name="text">The text to append to the current contents of the text box.</param>
-        public void AppendText(string text)
-        {
-            RichTextBox.AppendText(text);
-        }
+        public void AppendText(string text) => RichTextBox.AppendText(text);
 
         /// <summary>
         /// Clears all text from the text box control.
         /// </summary>
-        public void Clear()
-        {
-            RichTextBox.Clear();
-        }
+        public void Clear() => RichTextBox.Clear();
 
         /// <summary>
         /// Clears information about the most recent operation from the undo buffer of the rich text box. 
         /// </summary>
-        public void ClearUndo()
-        {
-            RichTextBox.ClearUndo();
-        }
+        public void ClearUndo() => RichTextBox.ClearUndo();
 
         /// <summary>
         /// Copies the current selection in the text box to the Clipboard.
         /// </summary>
-        public void Copy()
-        {
-            RichTextBox.Copy();
-        }
+        public void Copy() => RichTextBox.Copy();
 
         /// <summary>
         /// Moves the current selection in the text box to the Clipboard.
         /// </summary>
-        public void Cut()
-        {
-            RichTextBox.Cut();
-        }
+        public void Cut() => RichTextBox.Cut();
 
         /// <summary>
         /// Specifies that the value of the SelectionLength property is zero so that no characters are selected in the control.
         /// </summary>
-        public void DeselectAll()
-        {
-            RichTextBox.DeselectAll();
-        }
+        public void DeselectAll() => RichTextBox.DeselectAll();
 
         /// <summary>
         /// Determines whether you can paste information from the Clipboard in the specified data format.
@@ -1081,118 +1054,79 @@ namespace Krypton.Ribbon
         /// Loads a rich text format (RTF) or standard ASCII text file into the RichTextBox control.
         /// </summary>
         /// <param name="path">The name and location of the file to load into the control.</param>
-        public void LoadFile(string path)
-        {
-            RichTextBox.LoadFile(path);
-        }
+        public void LoadFile(string path) => RichTextBox.LoadFile(path);
 
         /// <summary>
         /// Loads the contents of an existing data stream into the RichTextBox control.
         /// </summary>
         /// <param name="data">A stream of data to load into the RichTextBox control.</param>
         /// <param name="fileType">One of the RichTextBoxStreamType values.</param>
-        public void LoadFile(Stream data, RichTextBoxStreamType fileType)
-        {
-            RichTextBox.LoadFile(data, fileType);
-        }
+        public void LoadFile(Stream data, RichTextBoxStreamType fileType) => RichTextBox.LoadFile(data, fileType);
 
         /// <summary>
         /// Loads a specific type of file into the RichTextBox control.
         /// </summary>
         /// <param name="path">The name and location of the file to load into the control.</param>
         /// <param name="fileType">One of the RichTextBoxStreamType values.</param>
-        public void LoadFile(string path, RichTextBoxStreamType fileType)
-        {
-            RichTextBox.LoadFile(path, fileType);
-        }
+        public void LoadFile(string path, RichTextBoxStreamType fileType) => RichTextBox.LoadFile(path, fileType);
 
         /// <summary>
         /// Replaces the current selection in the text box with the contents of the Clipboard.
         /// </summary>
-        public void Paste()
-        {
-            RichTextBox.Paste();
-        }
+        public void Paste() => RichTextBox.Paste();
 
         /// <summary>
         /// Undoes the last edit operation in the text box.
         /// </summary>
-        public void Undo()
-        {
-            RichTextBox.Undo();
-        }
+        public void Undo() => RichTextBox.Undo();
 
         /// <summary>
         /// Pastes the contents of the Clipboard in the specified Clipboard format.
         /// </summary>
         /// <param name="clipFormat">The Clipboard format in which the data should be obtained from the Clipboard.</param>
-        public void Paste(DataFormats.Format clipFormat)
-        {
-            RichTextBox.Paste(clipFormat);
-        }
+        public void Paste(DataFormats.Format clipFormat) => RichTextBox.Paste(clipFormat);
 
         /// <summary>
         /// Reapplies the last operation that was undone in the control.
         /// </summary>
-        public void Redo()
-        {
-            RichTextBox.Redo();
-        }
+        public void Redo() => RichTextBox.Redo();
 
         /// <summary>
         /// Saves the contents of the RichTextBox to a rich text format (RTF) file.
         /// </summary>
         /// <param name="path">The name and location of the file to save.</param>
-        public void SaveFile(string path)
-        {
-            RichTextBox.SaveFile(path);
-        }
+        public void SaveFile(string path) => RichTextBox.SaveFile(path);
 
         /// <summary>
         /// Saves the contents of a RichTextBox control to an open data stream.
         /// </summary>
         /// <param name="data">The data stream that contains the file to save to.</param>
         /// <param name="fileType">One of the RichTextBoxStreamType values.</param>
-        public void SaveFile(Stream data, RichTextBoxStreamType fileType)
-        {
-            RichTextBox.SaveFile(data, fileType);
-        }
+        public void SaveFile(Stream data, RichTextBoxStreamType fileType) => RichTextBox.SaveFile(data, fileType);
 
         /// <summary>
         /// Saves the contents of the KryptonRichTextBox to a specific type of file.
         /// </summary>
         /// <param name="path">The name and location of the file to save.</param>
         /// <param name="fileType">One of the RichTextBoxStreamType values.</param>
-        public void SaveFile(string path, RichTextBoxStreamType fileType)
-        {
-            RichTextBox.SaveFile(path, fileType);
-        }
+        public void SaveFile(string path, RichTextBoxStreamType fileType) => RichTextBox.SaveFile(path, fileType);
 
         /// <summary>
         /// Scrolls the contents of the control to the current caret position.
         /// </summary>
-        public void ScrollToCaret()
-        {
-            RichTextBox.ScrollToCaret();
-        }
+        public void ScrollToCaret() => RichTextBox.ScrollToCaret();
 
         /// <summary>
         /// Selects a range of text in the control.
         /// </summary>
         /// <param name="start">The position of the first character in the current text selection within the text box.</param>
         /// <param name="length">The number of characters to select.</param>
-        public void Select(int start, int length)
-        {
-            RichTextBox.Select(start, length);
-        }
+        public void Select(int start, int length) => RichTextBox.Select(start, length);
 
         /// <summary>
         /// Selects all text in the control.
         /// </summary>
-        public void SelectAll()
-        {
-            RichTextBox.SelectAll();
-        }
+        public void SelectAll() => RichTextBox.SelectAll();
 
         /// <summary>
         /// Gets and sets the maximum allowed size of the item.
@@ -1272,176 +1206,119 @@ namespace Krypton.Ribbon
         /// Raises the TextChanged event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnTextChanged(EventArgs e)
-        {
-            TextChanged?.Invoke(this, e);
-        }
+        protected virtual void OnTextChanged(EventArgs e) => TextChanged?.Invoke(this, e);
 
         /// <summary>
         /// Raises the GotFocus event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnGotFocus(EventArgs e)
-        {
-            GotFocus?.Invoke(this, e);
-        }
+        protected virtual void OnGotFocus(EventArgs e) => GotFocus?.Invoke(this, e);
 
         /// <summary>
         /// Raises the LostFocus event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnLostFocus(EventArgs e)
-        {
-            LostFocus?.Invoke(this, e);
-        }
+        protected virtual void OnLostFocus(EventArgs e) => LostFocus?.Invoke(this, e);
 
         /// <summary>
         /// Raises the KeyDown event.
         /// </summary>
         /// <param name="e">An KeyEventArgs containing the event data.</param>
-        protected virtual void OnKeyDown(KeyEventArgs e)
-        {
-            KeyDown?.Invoke(this, e);
-        }
+        protected virtual void OnKeyDown(KeyEventArgs e) => KeyDown?.Invoke(this, e);
 
         /// <summary>
         /// Raises the KeyUp event.
         /// </summary>
         /// <param name="e">An KeyEventArgs containing the event data.</param>
-        protected virtual void OnKeyUp(KeyEventArgs e)
-        {
-            KeyUp?.Invoke(this, e);
-        }
+        protected virtual void OnKeyUp(KeyEventArgs e) => KeyUp?.Invoke(this, e);
 
         /// <summary>
         /// Raises the KeyPress event.
         /// </summary>
         /// <param name="e">An KeyPressEventArgs containing the event data.</param>
-        protected virtual void OnKeyPress(KeyPressEventArgs e)
-        {
-            KeyPress?.Invoke(this, e);
-        }
+        protected virtual void OnKeyPress(KeyPressEventArgs e) => KeyPress?.Invoke(this, e);
 
         /// <summary>
         /// Raises the PreviewKeyDown event.
         /// </summary>
         /// <param name="e">An PreviewKeyDownEventArgs containing the event data.</param>
-        protected virtual void OnPreviewKeyDown(PreviewKeyDownEventArgs e)
-        {
-            PreviewKeyDown?.Invoke(this, e);
-        }
+        protected virtual void OnPreviewKeyDown(PreviewKeyDownEventArgs e) => PreviewKeyDown?.Invoke(this, e);
 
         /// <summary>
         /// Raises the AcceptsTabChanged event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnAcceptsTabChanged(EventArgs e)
-        {
-            AcceptsTabChanged?.Invoke(this, e);
-        }
+        protected virtual void OnAcceptsTabChanged(EventArgs e) => AcceptsTabChanged?.Invoke(this, e);
 
         /// <summary>
         /// Raises the HideSelectionChanged event.
         /// </summary>
         /// <param name="e">An EventArgs that contains the event data.</param>
-        protected virtual void OnHideSelectionChanged(EventArgs e)
-        {
-            HideSelectionChanged?.Invoke(this, e);
-        }
+        protected virtual void OnHideSelectionChanged(EventArgs e) => HideSelectionChanged?.Invoke(this, e);
 
         /// <summary>
         /// Raises the ModifiedChanged event.
         /// </summary>
         /// <param name="e">An EventArgs that contains the event data.</param>
-        protected virtual void OnModifiedChanged(EventArgs e)
-        {
-            ModifiedChanged?.Invoke(this, e);
-        }
+        protected virtual void OnModifiedChanged(EventArgs e) => ModifiedChanged?.Invoke(this, e);
 
         /// <summary>
         /// Raises the MultilineChanged event.
         /// </summary>
         /// <param name="e">An EventArgs that contains the event data.</param>
-        protected virtual void OnMultilineChanged(EventArgs e)
-        {
-            MultilineChanged?.Invoke(this, e);
-        }
+        protected virtual void OnMultilineChanged(EventArgs e) => MultilineChanged?.Invoke(this, e);
 
         /// <summary>
         /// Raises the ReadOnlyChanged event.
         /// </summary>
         /// <param name="e">An EventArgs that contains the event data.</param>
-        protected virtual void OnReadOnlyChanged(EventArgs e)
-        {
-            ReadOnlyChanged?.Invoke(this, e);
-        }
+        protected virtual void OnReadOnlyChanged(EventArgs e) => ReadOnlyChanged?.Invoke(this, e);
 
         /// <summary>
         /// Raises the VScroll event.
         /// </summary>
         /// <param name="e">An EventArgs that contains the event data.</param>
-        protected virtual void OnVScroll(EventArgs e)
-        {
-            VScroll?.Invoke(this, e);
-        }
+        protected virtual void OnVScroll(EventArgs e) => VScroll?.Invoke(this, e);
 
         /// <summary>
         /// Raises the HScroll event.
         /// </summary>
         /// <param name="e">An EventArgs that contains the event data.</param>
-        protected virtual void OnHScroll(EventArgs e)
-        {
-            HScroll?.Invoke(this, e);
-        }
+        protected virtual void OnHScroll(EventArgs e) => HScroll?.Invoke(this, e);
 
         /// <summary>
         /// Raises the SelectionChanged event.
         /// </summary>
         /// <param name="e">An EventArgs that contains the event data.</param>
-        protected virtual void OnSelectionChanged(EventArgs e)
-        {
-            SelectionChanged?.Invoke(this, e);
-        }
+        protected virtual void OnSelectionChanged(EventArgs e) => SelectionChanged?.Invoke(this, e);
 
         /// <summary>
         /// Raises the Protected event.
         /// </summary>
         /// <param name="e">An EventArgs that contains the event data.</param>
-        protected virtual void OnProtected(EventArgs e)
-        {
-            Protected?.Invoke(this, e);
-        }
+        protected virtual void OnProtected(EventArgs e) => Protected?.Invoke(this, e);
 
         /// <summary>
         /// Raises the LinkClicked event.
         /// </summary>
         /// <param name="e">A LinkClickedEventArgs that contains the event data.</param>
-        protected virtual void OnLinkClicked(LinkClickedEventArgs e)
-        {
-            LinkClicked?.Invoke(this, e);
-        }
+        protected virtual void OnLinkClicked(LinkClickedEventArgs e) => LinkClicked?.Invoke(this, e);
 
         /// <summary>
         /// Raises the PropertyChanged event.
         /// </summary>
         /// <param name="propertyName">Name of property that has changed.</param>
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
+        protected virtual void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         #endregion
 
         #region Internal
         internal Control LastParentControl { get; set; }
 
-        internal KryptonRichTextBox LastRichTextBox { get; set; }
+        internal KryptonRichTextBox? LastRichTextBox { get; set; }
 
-        internal NeedPaintHandler ViewPaintDelegate { get; set; }
+        internal NeedPaintHandler? ViewPaintDelegate { get; set; }
 
-        internal void OnDesignTimeContextMenu(MouseEventArgs e)
-        {
-            DesignTimeContextMenu?.Invoke(this, e);
-        }
+        internal void OnDesignTimeContextMenu(MouseEventArgs e) => DesignTimeContextMenu?.Invoke(this, e);
 
         internal override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
@@ -1487,111 +1364,49 @@ namespace Krypton.Ribbon
             c.TrackMouseLeave -= OnControlLeave;
         }
 
-        private void OnControlEnter(object sender, EventArgs e)
-        {
-            MouseEnterControl?.Invoke(this, e);
-        }
+        private void OnControlEnter(object sender, EventArgs e) => MouseEnterControl?.Invoke(this, e);
 
-        private void OnControlLeave(object sender, EventArgs e)
-        {
-            MouseLeaveControl?.Invoke(this, e);
-        }
+        private void OnControlLeave(object sender, EventArgs e) => MouseLeaveControl?.Invoke(this, e);
 
-        private void OnPaletteNeedPaint(object sender, NeedLayoutEventArgs e)
-        {
+        private void OnPaletteNeedPaint(object sender, NeedLayoutEventArgs e) =>
             // Pass request onto the view provided paint delegate
             ViewPaintDelegate?.Invoke(this, e);
-        }
 
-        private void OnRichTextBoxAcceptsTabChanged(object sender, EventArgs e)
-        {
-            OnAcceptsTabChanged(e);
-        }
+        private void OnRichTextBoxAcceptsTabChanged(object sender, EventArgs e) => OnAcceptsTabChanged(e);
 
-        private void OnRichTextBoxTextChanged(object sender, EventArgs e)
-        {
-            OnTextChanged(e);
-        }
+        private void OnRichTextBoxTextChanged(object sender, EventArgs e) => OnTextChanged(e);
 
-        private void OnRichTextBoxHideSelectionChanged(object sender, EventArgs e)
-        {
-            OnHideSelectionChanged(e);
-        }
+        private void OnRichTextBoxHideSelectionChanged(object sender, EventArgs e) => OnHideSelectionChanged(e);
 
-        private void OnRichTextBoxModifiedChanged(object sender, EventArgs e)
-        {
-            OnModifiedChanged(e);
-        }
+        private void OnRichTextBoxModifiedChanged(object sender, EventArgs e) => OnModifiedChanged(e);
 
-        private void OnRichTextBoxMultilineChanged(object sender, EventArgs e)
-        {
-            OnMultilineChanged(e);
-        }
+        private void OnRichTextBoxMultilineChanged(object sender, EventArgs e) => OnMultilineChanged(e);
 
-        private void OnRichTextBoxReadOnlyChanged(object sender, EventArgs e)
-        {
-            OnReadOnlyChanged(e);
-        }
+        private void OnRichTextBoxReadOnlyChanged(object sender, EventArgs e) => OnReadOnlyChanged(e);
 
-        private void OnRichTextBoxGotFocus(object sender, EventArgs e)
-        {
-            OnGotFocus(e);
-        }
+        private void OnRichTextBoxGotFocus(object sender, EventArgs e) => OnGotFocus(e);
 
-        private void OnRichTextBoxLostFocus(object sender, EventArgs e)
-        {
-            OnLostFocus(e);
-        }
+        private void OnRichTextBoxLostFocus(object sender, EventArgs e) => OnLostFocus(e);
 
-        private void OnRichTextBoxKeyPress(object sender, KeyPressEventArgs e)
-        {
-            OnKeyPress(e);
-        }
+        private void OnRichTextBoxKeyPress(object sender, KeyPressEventArgs e) => OnKeyPress(e);
 
-        private void OnRichTextBoxKeyUp(object sender, KeyEventArgs e)
-        {
-            OnKeyUp(e);
-        }
+        private void OnRichTextBoxKeyUp(object sender, KeyEventArgs e) => OnKeyUp(e);
 
-        private void OnRichTextBoxKeyDown(object sender, KeyEventArgs e)
-        {
-            OnKeyDown(e);
-        }
+        private void OnRichTextBoxKeyDown(object sender, KeyEventArgs e) => OnKeyDown(e);
 
-        private void OnRichTextBoxPreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
-        {
-            OnPreviewKeyDown(e);
-        }
+        private void OnRichTextBoxPreviewKeyDown(object sender, PreviewKeyDownEventArgs e) => OnPreviewKeyDown(e);
 
-        private void OnRichTextBoxVScroll(object sender, EventArgs e)
-        {
-            OnVScroll(e);
-        }
+        private void OnRichTextBoxVScroll(object sender, EventArgs e) => OnVScroll(e);
 
-        private void OnRichTextBoxHScroll(object sender, EventArgs e)
-        {
-            OnHScroll(e);
-        }
+        private void OnRichTextBoxHScroll(object sender, EventArgs e) => OnHScroll(e);
 
-        private void OnRichTextBoxSelectionChanged(object sender, EventArgs e)
-        {
-            OnSelectionChanged(e);
-        }
+        private void OnRichTextBoxSelectionChanged(object sender, EventArgs e) => OnSelectionChanged(e);
 
-        private void OnRichTextBoxProtected(object sender, EventArgs e)
-        {
-            OnProtected(e);
-        }
+        private void OnRichTextBoxProtected(object sender, EventArgs e) => OnProtected(e);
 
-        private void OnRichTextBoxLinkClicked(object sender, LinkClickedEventArgs e)
-        {
-            OnLinkClicked(e);
-        }
+        private void OnRichTextBoxLinkClicked(object sender, LinkClickedEventArgs e) => OnLinkClicked(e);
 
-        private void OnRibbonPaletteChanged(object sender, EventArgs e)
-        {
-            RichTextBox.Palette = Ribbon.GetResolvedPalette();
-        }
+        private void OnRibbonPaletteChanged(object sender, EventArgs e) => RichTextBox.Palette = Ribbon.GetResolvedPalette();
         #endregion
     }
 }

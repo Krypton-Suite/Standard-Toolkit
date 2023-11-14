@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -18,7 +18,7 @@ namespace Krypton.Toolkit
     public class PaletteContentToPalette : IPaletteContent
     {
         #region Instance Fields
-        private readonly IPalette _palette;
+        private readonly PaletteBase? _palette;
 
         #endregion
 
@@ -28,7 +28,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="palette">Source for getting all values.</param>
         /// <param name="style">Style of values required.</param>
-        public PaletteContentToPalette(IPalette palette, PaletteContentStyle style)
+        public PaletteContentToPalette(PaletteBase? palette, PaletteContentStyle style)
         {
             // Remember source palette
             _palette = palette;
@@ -215,7 +215,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image instance.</returns>
-        public Image GetContentShortTextImage(PaletteState state) => _palette.GetContentShortTextImage(ContentStyle, state);
+        public Image? GetContentShortTextImage(PaletteState state) => _palette.GetContentShortTextImage(ContentStyle, state);
 
         /// <summary>
         /// Gets the image style for the short text.
@@ -337,7 +337,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image instance.</returns>
-        public Image GetContentLongTextImage(PaletteState state) => _palette.GetContentLongTextImage(ContentStyle, state);
+        public Image? GetContentLongTextImage(PaletteState state) => _palette.GetContentLongTextImage(ContentStyle, state);
 
         /// <summary>
         /// Gets the image style for the long text.

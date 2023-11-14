@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -19,7 +19,7 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
 
-        private readonly NeedPaintHandler _needPaintDelegate;
+        private readonly NeedPaintHandler? _needPaintDelegate;
         private bool _viewportVertical;
         #endregion
 
@@ -27,7 +27,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Occurs when animation has moved another step.
         /// </summary>
-        public event EventHandler AnimateStep;
+        public event EventHandler? AnimateStep;
         #endregion
 
         #region Identity
@@ -45,8 +45,8 @@ namespace Krypton.Toolkit
         /// <param name="animateChange">Animate changes in the viewport.</param>
         /// <param name="vertical">Is the viewport vertical.</param>
         /// <param name="needPaintDelegate">Delegate for notifying paint requests.</param>
-        public ViewLayoutScrollViewport(VisualControl rootControl,
-                                        ViewBase viewportFiller,
+        public ViewLayoutScrollViewport([DisallowNull] VisualControl rootControl,
+            [DisallowNull] ViewBase viewportFiller,
                                         PaletteBorderEdge paletteBorderEdge,
                                         IPaletteMetric paletteMetrics,
                                         PaletteMetricPadding metricPadding,
@@ -55,7 +55,7 @@ namespace Krypton.Toolkit
                                         RelativePositionAlign alignment,
                                         bool animateChange,
                                         bool vertical,
-                                        NeedPaintHandler needPaintDelegate)
+                                        [DisallowNull] NeedPaintHandler needPaintDelegate)
         {
             Debug.Assert(rootControl != null);
             Debug.Assert(viewportFiller != null);
@@ -139,7 +139,7 @@ namespace Krypton.Toolkit
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            "ViewLayoutScrollViewport:" + Id;
+            $"ViewLayoutScrollViewport:{Id}";
 
         #endregion
 
@@ -373,7 +373,7 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>
-        /// Gets access to the horizontl scrollbar view.
+        /// Gets access to the horizontal scrollbar view.
         /// </summary>
         public ViewDrawScrollBar ScrollbarH
         {

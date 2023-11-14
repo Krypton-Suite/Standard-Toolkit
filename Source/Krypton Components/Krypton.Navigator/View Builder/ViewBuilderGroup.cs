@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -30,8 +30,8 @@ namespace Krypton.Navigator
         /// <param name="manager">Reference to current manager.</param>
         /// <param name="redirector">Palette redirector.</param>
         public override void Construct(KryptonNavigator navigator, 
-                                       ViewManager manager,
-                                       PaletteRedirect redirector)
+                                       [DisallowNull] ViewManager manager,
+                                       [DisallowNull] PaletteRedirect redirector)
         {
             // Let base class perform common operations
             base.Construct(navigator, manager, redirector);
@@ -69,7 +69,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="element">Element to search against.</param>
         /// <returns>Reference to KryptonPage; otherwise null.</returns>
-        public override KryptonPage PageFromView(ViewBase element) =>
+        public override KryptonPage? PageFromView(ViewBase element) =>
             // There is no view for the page
             null;
 
@@ -78,7 +78,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="element">Element to search against.</param>
         /// <returns>Reference to ButtonSpec; otherwise null.</returns>
-        public override ButtonSpec ButtonSpecFromView(ViewBase element) =>
+        public override ButtonSpec? ButtonSpecFromView(ViewBase element) =>
             // There is no view for the page
             null;
 
@@ -98,7 +98,7 @@ namespace Krypton.Navigator
         /// Process a change in the enabled state for a page.
         /// </summary>
         /// <param name="page">Page that has changed enabled state.</param>
-        public override void PageEnabledStateChanged(KryptonPage page)
+        public override void PageEnabledStateChanged(KryptonPage? page)
         {
             // If the page we are showing has changed
             if (page == Navigator.SelectedPage)
@@ -196,10 +196,7 @@ namespace Krypton.Navigator
         #endregion
 
         #region Implementation
-        private void OnEnabledChanged(object sender, EventArgs e)
-        {
-            UpdateStatePalettes();
-        }
+        private void OnEnabledChanged(object sender, EventArgs e) => UpdateStatePalettes();
         #endregion
     }
 }

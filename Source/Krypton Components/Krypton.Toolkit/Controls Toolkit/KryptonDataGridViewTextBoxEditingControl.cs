@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -20,7 +20,7 @@ namespace Krypton.Toolkit
         IDataGridViewEditingControl
     {
         #region Instance Fields
-        private DataGridView _dataGridView;
+        private DataGridView? _dataGridView;
         private bool _valueChanged;
 
         #endregion
@@ -42,7 +42,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Property which caches the grid that uses this editing control
         /// </summary>
-        public virtual DataGridView EditingControlDataGridView
+        public virtual DataGridView? EditingControlDataGridView
         {
             get => _dataGridView;
             set => _dataGridView = value;
@@ -105,7 +105,7 @@ namespace Krypton.Toolkit
                         {
                             // If the end of the selection is at the end of the string, let the DataGridView treat the key message
                             if (((RightToLeft == RightToLeft.No) && !((textBox.SelectionLength == 0) && (textBox.SelectionStart == textBox.Text.Length))) ||
-                                ((RightToLeft == RightToLeft.Yes) && !((textBox.SelectionLength == 0) && (textBox.SelectionStart == 0))))
+                                ((RightToLeft == RightToLeft.Yes) && !(textBox is { SelectionLength: 0, SelectionStart: 0 })))
                             {
                                 return true;
                             }
@@ -118,7 +118,7 @@ namespace Krypton.Toolkit
                         {
                             // If the end of the selection is at the begining of the string or if the entire text is selected 
                             // and we did not start editing, send this character to the dataGridView, else process the key message
-                            if (((RightToLeft == RightToLeft.No) && !((textBox.SelectionLength == 0) && (textBox.SelectionStart == 0))) ||
+                            if (((RightToLeft == RightToLeft.No) && !(textBox is { SelectionLength: 0, SelectionStart: 0 })) ||
                                 ((RightToLeft == RightToLeft.Yes) && !((textBox.SelectionLength == 0) && (textBox.SelectionStart == textBox.Text.Length))))
                             {
                                 return true;

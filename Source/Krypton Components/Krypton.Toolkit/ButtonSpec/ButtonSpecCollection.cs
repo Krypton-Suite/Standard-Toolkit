@@ -5,11 +5,12 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
 
+// ReSharper disable EventNeverSubscribedTo.Global
 namespace Krypton.Toolkit
 {
     /// <summary>
@@ -18,30 +19,26 @@ namespace Krypton.Toolkit
     [ListBindable(false)]
     public abstract class ButtonSpecCollectionBase : GlobalId
     {
-        #region Instance Fields
-
-        #endregion
-
         #region Events
         /// <summary>
         /// Occurs when a spec is about to be added/inserted to the collection.
         /// </summary>
-        public event EventHandler<ButtonSpecEventArgs> Inserting;
+        public event EventHandler<ButtonSpecEventArgs>? Inserting;
 
         /// <summary>
         /// Occurs when a spec has been added/inserted to the collection.
         /// </summary>
-        public event EventHandler<ButtonSpecEventArgs> Inserted;
+        public event EventHandler<ButtonSpecEventArgs>? Inserted;
 
         /// <summary>
         /// Occurs when a spec is about to be removed from the collection.
         /// </summary>
-        public event EventHandler<ButtonSpecEventArgs> Removing;
+        public event EventHandler<ButtonSpecEventArgs>? Removing;
 
         /// <summary>
         /// Occurs when a spec is removed from the collection.
         /// </summary>
-        public event EventHandler<ButtonSpecEventArgs> Removed;
+        public event EventHandler<ButtonSpecEventArgs>? Removed;
         #endregion
 
         #region Identity
@@ -49,10 +46,10 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the ButtonSpecCollectionBase class.
         /// </summary>
         /// <param name="owner">Reference to owning object instance.</param>
-        protected ButtonSpecCollectionBase(object owner)
+        protected ButtonSpecCollectionBase([DisallowNull] object owner)
         {
             Debug.Assert(owner != null);
-            Owner = owner;
+            Owner = owner!;
         }
         #endregion
 
@@ -66,6 +63,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the owner of the collection.
         /// </summary>
+        [DisallowNull]
         public object Owner { get; set; }
 
         #endregion
@@ -111,11 +109,10 @@ namespace Krypton.Toolkit
     /// </summary>
     public class ButtonSpecCollection<T> : ButtonSpecCollectionBase,
                                            IList,
-                                           IList<T>,
-                                           ICollection,
-                                           ICollection<T> where T : ButtonSpec
-                                         
-                                         
+                                           IList<T>
+                                           //ICollection,
+                                           //ICollection<T>
+                                           where T : ButtonSpec
     {
         #region Instance Fields
         private readonly List<T> _specs;
@@ -127,15 +124,17 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="owner">Reference to owning object instance.</param>
         public ButtonSpecCollection(object owner)
-            : base(owner) =>
+            : base(owner)
+        {
             // Create internal storage
             _specs = new List<T>(6);
+        }
 
         /// <summary>
         /// Obtains the String representation of this instance.
         /// </summary>
         /// <returns>User readable name of the instance.</returns>
-        public override string ToString() => Count + " Instances";
+        public override string ToString() => $"{Count} Instances";
 
         #endregion
 
@@ -145,10 +144,10 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="value">Object reference.</param>
         /// <returns>The position into which the new button spec was inserted.</returns>
-        public int Add(object value)
+        public int Add(object? value)
         {
             // Use strongly typed implementation
-            Add(value as T);
+            Add((value as T)!);
 
             // Index is the last button spec in the collection
             return Count - 1;
@@ -158,7 +157,7 @@ namespace Krypton.Toolkit
         /// Append an array of button spec instances.
         /// </summary>
         /// <param name="array">Array of instances.</param>
-        public void AddRange(T[] array)
+        public void AddRange(IEnumerable<T> array)
         {
             foreach (T item in array)
             {
@@ -171,27 +170,27 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="value">Object reference.</param>
         /// <returns>True if button spec found; otherwise false.</returns>
-        public bool Contains(object value) =>
+        public bool Contains(object? value) =>
             // Use strongly typed implementation
-            Contains(value as T);
+            Contains((value as T)!);
 
         /// <summary>
         /// Determines the index of the specified spec in the collection.
         /// </summary>
         /// <param name="value">Object reference.</param>
         /// <returns>-1 if not found; otherwise index position.</returns>
-        public int IndexOf(object value) =>
+        public int IndexOf(object? value) =>
             // Use strongly typed implementation
-            IndexOf(value as T);
+            IndexOf((value as T)!);
 
         /// <summary>
         /// Inserts a button spec to the collection at the specified index.
         /// </summary>
         /// <param name="index">Insert index.</param>
         /// <param name="value">Object reference.</param>
-        public void Insert(int index, object value) =>
+        public void Insert(int index, object? value) =>
             // Use strongly typed implementation
-            Insert(index, value as T);
+            Insert(index, (value as T)!);
 
         /// <summary>
         /// Gets a value indicating whether the collection has a fixed size. 
@@ -202,9 +201,9 @@ namespace Krypton.Toolkit
         /// Removes first occurrence of specified object.
         /// </summary>
         /// <param name="value">Object reference.</param>
-        public void Remove(object value) =>
+        public void Remove(object? value) =>
             // Use strongly typed implementation
-            Remove(value as T);
+            Remove((value as T)!);
 
         /// <summary>
         /// Gets or sets the button spec at the specified index.
@@ -225,10 +224,10 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="item">T reference.</param>
         /// <returns>-1 if not found; otherwise index position.</returns>
-        public int IndexOf(T item)
+        public int IndexOf([DisallowNull] T item)
         {
             Debug.Assert(item != null);
-            return _specs.IndexOf(item);
+            return _specs.IndexOf(item!);
         }
 
         /// <summary>
@@ -237,7 +236,7 @@ namespace Krypton.Toolkit
         /// <param name="index">Insert index.</param>
         /// <param name="item">T reference.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public void Insert(int index, T item)
+        public void Insert(int index, [DisallowNull] T item)
         {
             Debug.Assert(item != null);
 
@@ -250,7 +249,7 @@ namespace Krypton.Toolkit
             // Not allow to add the same button spec more than once
             if (_specs.Contains(item))
             {
-                throw new ArgumentOutOfRangeException(nameof(item), "T already in collection");
+                throw new ArgumentOutOfRangeException(nameof(item), @"T already in collection");
             }
 
             // Generate before insert event
@@ -299,30 +298,20 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="uniqueName">Unique name of the ButtonSpec instance.</param>
         /// <returns>T at specified index.</returns>
-        public T this[string uniqueName]
+        public T? this[string uniqueName]
         {
             get 
             {
                 // First priority is the UniqueName
-                foreach (T bs in this)
+                foreach (T bs in this.Where(bs => bs.UniqueName == uniqueName))
                 {
-                    if (bs.UniqueName == uniqueName)
-                    {
-                        return bs;
-                    }
+                    return bs;
                 }
 
                 // Second priority is the Text
-                foreach (T bs in this)
-                {
-                    if (bs.Text == uniqueName)
-                    {
-                        return bs;
-                    }
-                }
+                return this.FirstOrDefault(bs => bs.Text == uniqueName);
 
                 // No match found
-                return null;
             }
         }
         #endregion
@@ -334,7 +323,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="item">T reference.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public void Add(T item)
+        public void Add([DisallowNull] T item)
         {
             Debug.Assert(item != null);
 
@@ -347,7 +336,7 @@ namespace Krypton.Toolkit
             // Not allow to add the same button spec more than once
             if (_specs.Contains(item))
             {
-                throw new ArgumentOutOfRangeException(nameof(item), "T already in collection");
+                throw new ArgumentOutOfRangeException(nameof(item), @"T already in collection");
             }
 
             // Generate inserting event
@@ -365,10 +354,10 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="item">T reference.</param>
         /// <returns>True if spec found; otherwise false.</returns>
-        public bool Contains(T item)
+        public bool Contains([DisallowNull] T item)
         {
             Debug.Assert(item != null);
-            return _specs.Contains(item);
+            return _specs.Contains(item!);
         }
 
         /// <summary>
@@ -376,7 +365,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="array">Target array.</param>
         /// <param name="arrayIndex">Starting array index.</param>
-        public void CopyTo(T[] array, int arrayIndex)
+        public void CopyTo([DisallowNull] T[] array, int arrayIndex)
         {
             Debug.Assert(array != null);
             _specs.CopyTo(array, arrayIndex);
@@ -397,9 +386,9 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="item">T reference.</param>
         /// <returns>True if removed; otherwise false.</returns>
-        public bool Remove(T item)
+        public bool Remove([DisallowNull] T item)
         {
-            Debug.Assert(item != null);
+            Debug.Assert(item != null, nameof(item) + " != null");
 
             // Cache the index of the button spec
             var index = IndexOf(item);
@@ -425,7 +414,7 @@ namespace Krypton.Toolkit
         /// <param name="array">The Array that is the destination of the elements copied from the collection.</param>
         /// <param name="index">The index in array at which copying begins.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public void CopyTo(Array array, int index)
+        public void CopyTo([DisallowNull] Array array, int index)
         {
             Debug.Assert(array != null);
 

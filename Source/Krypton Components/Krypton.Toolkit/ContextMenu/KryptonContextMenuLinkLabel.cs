@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -19,15 +19,15 @@ namespace Krypton.Toolkit
     [ToolboxBitmap(typeof(KryptonContextMenuLinkLabel), "ToolboxBitmaps.KryptonLinkLabel.bmp")]
     [DesignerCategory(@"code")]
     [DesignTimeVisible(false)]
-    [DefaultProperty(@"Text")]
-    [DefaultEvent(@"Click")]
+    [DefaultProperty(nameof(Text))]
+    [DefaultEvent(nameof(Click))]
     public class KryptonContextMenuLinkLabel : KryptonContextMenuItemBase
     {
         #region Instance Fields
         private bool _autoClose;
         private string _text;
-        private string _extraText;
-        private Image _image;
+        private string? _extraText;
+        private Image? _image;
         private Color _imageTransparentColor;
         private readonly PaletteContentInheritRedirect _stateNormalRedirect;
         private readonly PaletteContentInheritRedirect _stateVisitedRedirect;
@@ -37,7 +37,7 @@ namespace Krypton.Toolkit
         private readonly PaletteContentInheritOverride _overrideVisited;
         private readonly PaletteContentInheritOverride _overrideNotVisited;
         private readonly PaletteContentInheritOverride _overridePressed;
-        private KryptonCommand _command;
+        private KryptonCommand? _command;
         private LabelStyle _style;
         #endregion
 
@@ -47,7 +47,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Action")]
         [Description(@"Occurs when the link label item is clicked.")]
-        public event EventHandler Click;
+        public event EventHandler? Click;
         #endregion
 
         #region Identity
@@ -55,7 +55,7 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the KryptonContextMenuLinkLabel class.
         /// </summary>
         public KryptonContextMenuLinkLabel()
-            : this(@"LinkLabel")
+            : this(nameof(LinkLabel))
         {
         }
 
@@ -72,7 +72,7 @@ namespace Krypton.Toolkit
             _imageTransparentColor = Color.Empty;
             _style = LabelStyle.NormalPanel;
             _autoClose = true;
-            
+
             // Create the redirectors
             _stateNormalRedirect = new PaletteContentInheritRedirect(PaletteContentStyle.LabelNormalPanel);
             _stateVisitedRedirect = new PaletteContentInheritRedirect(PaletteContentStyle.LabelNormalPanel);
@@ -119,7 +119,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public override KryptonContextMenuItemBase this[int index] => null;
+        public override KryptonContextMenuItemBase? this[int index] => null;
 
         /// <summary>
         /// Test for the provided shortcut and perform relevant action if a match is found.
@@ -141,8 +141,11 @@ namespace Krypton.Toolkit
                                               object parent,
                                               ViewLayoutStack columns,
                                               bool standardStyle,
-                                              bool imageColumn) =>
-            new ViewDrawMenuLinkLabel(provider, this);
+                                              bool imageColumn)
+        {
+            SetProvider(provider);
+            return new ViewDrawMenuLinkLabel(provider, this);
+        }
 
         /// <summary>
         /// Gets and sets the link label style.
@@ -150,7 +153,7 @@ namespace Krypton.Toolkit
         [KryptonPersist]
         [Category(@"Visuals")]
         [Description(@"Link label style.")]
-        [DefaultValue(typeof(LabelStyle), "NormalPanel")]
+        [DefaultValue(LabelStyle.NormalPanel)]
         public LabelStyle LabelStyle
         {
             get => _style;
@@ -172,12 +175,12 @@ namespace Krypton.Toolkit
         [KryptonPersist]
         [Category(@"Visuals")]
         [Description(@"Determines the underline behavior of the link label.")]
-        [DefaultValue(typeof(KryptonLinkBehavior), "Always Underline")]
+        [DefaultValue(KryptonLinkBehavior.AlwaysUnderline)]
         public KryptonLinkBehavior LinkBehavior
         {
             get => LinkBehaviorNormal.LinkBehavior;
 
-            set 
+            set
             {
                 if (LinkBehaviorNormal.LinkBehavior != value)
                 {
@@ -219,7 +222,7 @@ namespace Krypton.Toolkit
         {
             get => _autoClose;
 
-            set 
+            set
             {
                 if (_autoClose != value)
                 {
@@ -235,13 +238,13 @@ namespace Krypton.Toolkit
         [KryptonPersist]
         [Category(@"Appearance")]
         [Description(@"Main link label text.")]
-        [DefaultValue(@"LinkLabel")]
+        [DefaultValue(nameof(LinkLabel))]
         [Localizable(true)]
         public string Text
         {
             get => _text;
 
-            set 
+            set
             {
                 if (_text != value)
                 {
@@ -259,11 +262,11 @@ namespace Krypton.Toolkit
         [Description(@"Link label extra text.")]
         [DefaultValue(null)]
         [Localizable(true)]
-        public string ExtraText
+        public string? ExtraText
         {
             get => _extraText;
 
-            set 
+            set
             {
                 if (_extraText != value)
                 {
@@ -281,11 +284,11 @@ namespace Krypton.Toolkit
         [Description(@"Link label image.")]
         [DefaultValue(null)]
         [Localizable(true)]
-        public Image Image
+        public Image? Image
         {
             get => _image;
 
-            set 
+            set
             {
                 if (_image != value)
                 {
@@ -302,11 +305,12 @@ namespace Krypton.Toolkit
         [Category(@"Appearance")]
         [Description(@"Link label image color to make transparent.")]
         [Localizable(true)]
+        [DisallowNull]
         public Color ImageTransparentColor
         {
             get => _imageTransparentColor;
 
-            set 
+            set
             {
                 if (_imageTransparentColor != value)
                 {
@@ -316,7 +320,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeImageTransparentColor() => (_imageTransparentColor == null) || !_imageTransparentColor.Equals(Color.Empty);
+        private bool ShouldSerializeImageTransparentColor() => !_imageTransparentColor.Equals(Color.Empty);
 
         /// <summary>
         /// Gets access to the link label normal instance specific appearance values.
@@ -380,7 +384,7 @@ namespace Krypton.Toolkit
         [Category(@"Behavior")]
         [Description(@"Command associated with the menu check box.")]
         [DefaultValue(null)]
-        public virtual KryptonCommand KryptonCommand
+        public virtual KryptonCommand? KryptonCommand
         {
             get => _command;
 
@@ -422,7 +426,7 @@ namespace Krypton.Toolkit
 
         internal PaletteContentInheritOverride OverridePressedFocus { get; }
 
-        internal void SetPaletteRedirect(PaletteRedirect redirector)
+        internal void SetPaletteRedirect(PaletteRedirect? redirector)
         {
             _stateNormalRedirect.SetRedirector(redirector);
             _stateVisitedRedirect.SetRedirector(redirector);
@@ -439,7 +443,7 @@ namespace Krypton.Toolkit
             _stateNormalRedirect.Style = contentStyle;
             _stateVisitedRedirect.Style = contentStyle;
             _stateNotVisitedRedirect.Style = contentStyle;
-            _statePressedRedirect.Style = contentStyle; 
+            _statePressedRedirect.Style = contentStyle;
             _stateFocusRedirect.Style = contentStyle;
         }
         #endregion

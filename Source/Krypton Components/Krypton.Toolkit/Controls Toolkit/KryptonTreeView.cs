@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -17,9 +17,9 @@ namespace Krypton.Toolkit
     /// </summary>
     [ToolboxItem(true)]
     [ToolboxBitmap(typeof(KryptonTreeView), "ToolboxBitmaps.KryptonTreeView.bmp")]
-    [DefaultEvent("AfterSelect")]
-    [DefaultProperty("Nodes")]
-    [Designer("Krypton.Toolkit.KryptonTreeViewDesigner, Krypton.Toolkit")]
+    [DefaultEvent(nameof(AfterSelect))]
+    [DefaultProperty(nameof(Nodes))]
+    [Designer(typeof(KryptonTreeViewDesigner))]
     [DesignerCategory(@"code")]
     [Description(@"Displays a hierarchical collection of labeled items, each represented by a TreeNode")]
     [Docking(DockingBehavior.Ask)]
@@ -34,7 +34,7 @@ namespace Krypton.Toolkit
             #endregion
 
             #region Instance Fields
-            private readonly ViewManager _viewManager;
+            private readonly ViewManager? _viewManager;
             private readonly KryptonTreeView _kryptonTreeView;
             private readonly IntPtr _screenDC;
             private bool _mouseOver;
@@ -44,12 +44,12 @@ namespace Krypton.Toolkit
             /// <summary>
             /// Occurs when the mouse enters the InternalTreeView.
             /// </summary>
-            public event EventHandler TrackMouseEnter;
+            public event EventHandler? TrackMouseEnter;
 
             /// <summary>
             /// Occurs when the mouse leaves the InternalTreeView.
             /// </summary>
-            public event EventHandler TrackMouseLeave;
+            public event EventHandler? TrackMouseLeave;
             #endregion
 
             #region Identity
@@ -135,7 +135,7 @@ namespace Krypton.Toolkit
                 if (_miRI == null)
                 {
                     // Use reflection so we can call the TreeView private method
-                    _miRI = typeof(TreeView).GetMethod("ResetIndent",
+                    _miRI = typeof(TreeView).GetMethod(nameof(ResetIndent),
                                                         BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.InvokeMethod,
                                                         null, CallingConventions.HasThis,
                                                         Array.Empty<Type>(), null);
@@ -155,7 +155,7 @@ namespace Krypton.Toolkit
                 base.OnLayout(levent);
 
                 // Ask the panel to layout given our available size
-                using ViewLayoutContext context = new(_viewManager, this, _kryptonTreeView, _kryptonTreeView.Renderer);
+                using var context = new ViewLayoutContext(_viewManager, this, _kryptonTreeView, _kryptonTreeView.Renderer);
                 ViewDrawPanel.Layout(context);
             }
 
@@ -226,18 +226,18 @@ namespace Krypton.Toolkit
             #region Private
             private void WmPaint(ref Message m)
             {
-                PI.PAINTSTRUCT ps = new();
+                var ps = new PI.PAINTSTRUCT();
 
                 // Do we need to BeginPaint or just take the given HDC?
-                IntPtr hdc = m.WParam == IntPtr.Zero ? PI.BeginPaint(Handle, ref ps) : m.WParam;
+                var hdc = m.WParam == IntPtr.Zero ? PI.BeginPaint(Handle, ref ps) : m.WParam;
 
                 // Create bitmap that all drawing occurs onto, then we can blit it later to remove flicker
                 Rectangle realRect = CommonHelper.RealClientRectangle(Handle);
 
                 // No point drawing when one of the dimensions is zero
-                if ((realRect.Width > 0) && (realRect.Height > 0))
+                if (realRect is { Width: > 0, Height: > 0 })
                 {
-                    IntPtr hBitmap = PI.CreateCompatibleBitmap(hdc, realRect.Width, realRect.Height);
+                    var hBitmap = PI.CreateCompatibleBitmap(hdc, realRect.Width, realRect.Height);
 
                     // If we managed to get a compatible bitmap
                     if (hBitmap != IntPtr.Zero)
@@ -252,13 +252,14 @@ namespace Krypton.Toolkit
                             using (Graphics g = Graphics.FromHdc(_screenDC))
                             {
                                 // Ask the view element to layout in given space, needs this before a render call
-                                using (ViewLayoutContext context = new(this, _kryptonTreeView.Renderer))
+                                using (var context = new ViewLayoutContext(this, _kryptonTreeView.Renderer))
                                 {
                                     context.DisplayRectangle = realRect;
                                     ViewDrawPanel.Layout(context);
                                 }
 
-                                using (RenderContext context = new(this, _kryptonTreeView, g, realRect, _kryptonTreeView.Renderer))
+                                using (var context = new RenderContext(this, _kryptonTreeView, g, realRect,
+                                           _kryptonTreeView.Renderer))
                                 {
                                     ViewDrawPanel.Render(context);
                                 }
@@ -272,7 +273,7 @@ namespace Krypton.Toolkit
                                 }
 
                                 // Replace given DC with the screen DC for base window proc drawing
-                                IntPtr beforeDC = m.WParam;
+                                var beforeDC = m.WParam;
                                 m.WParam = _screenDC;
                                 DefWndProc(ref m);
                                 m.WParam = beforeDC;
@@ -308,7 +309,7 @@ namespace Krypton.Toolkit
         private readonly PaletteTripleOverride _overrideCheckedTracking;
         private readonly PaletteTripleOverride _overrideCheckedPressed;
         private readonly PaletteNodeOverride _overrideNormalNode;
-        private readonly PaletteRedirectTreeView _redirectImages;
+        private readonly PaletteRedirectTreeView? _redirectImages;
         private readonly ViewDrawDocker _drawDockerOuter;
         private readonly ViewLayoutFill _layoutFill;
         private readonly ViewDrawButton _drawButton;
@@ -320,7 +321,7 @@ namespace Krypton.Toolkit
         private readonly ViewLayoutSeparator _layoutImage;
         private readonly ViewLayoutSeparator _layoutImageState;
         private readonly InternalTreeView _treeView;
-        private readonly FixedContentValue _contentValues;
+        private readonly FixedContentValue? _contentValues;
         private bool? _fixedActive;
         private ButtonStyle _style;
         private readonly IntPtr _screenDC;
@@ -330,6 +331,9 @@ namespace Krypton.Toolkit
         private bool _forcedLayout;
         private bool _trackingMouseEnter;
         private bool _isRecreating; // https://github.com/Krypton-Suite/Standard-Toolkit/issues/777
+        private float _cornerRoundingRadius;
+        private float _nodeCornerRoundingRadius;
+
         #endregion
 
         #region Events
@@ -338,154 +342,154 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Behavior")]
         [Description(@"Occurs when a checkbox has been checked or unchecked.")]
-        public event TreeViewEventHandler AfterCheck;
+        public event TreeViewEventHandler? AfterCheck;
 
         /// <summary>
         /// Occurs when a node has been collapsed.
         /// </summary>
         [Category(@"Behavior")]
         [Description(@"Occurs when a node has been collapsed.")]
-        public event TreeViewEventHandler AfterCollapse;
+        public event TreeViewEventHandler? AfterCollapse;
 
         /// <summary>
         /// Occurs when a node has been expanded.
         /// </summary>
         [Category(@"Behavior")]
         [Description(@"Occurs when a node has been expanded.")]
-        public event TreeViewEventHandler AfterExpand;
+        public event TreeViewEventHandler? AfterExpand;
 
         /// <summary>
         /// Occurs when the text of node has been edited by the user.
         /// </summary>
         [Category(@"Behavior")]
         [Description(@"Occurs when the text of node has been edited by the user.")]
-        public event NodeLabelEditEventHandler AfterLabelEdit;
+        public event NodeLabelEditEventHandler? AfterLabelEdit;
 
         /// <summary>
         /// Occurs when the selected has been changed.
         /// </summary>
         [Category(@"Behavior")]
         [Description(@"Occurs when the selection has been changed.")]
-        public event TreeViewEventHandler AfterSelect;
+        public event TreeViewEventHandler? AfterSelect;
 
         /// <summary>
         /// Occurs when a checkbox is about to be checked or unchecked.
         /// </summary>
         [Category(@"Behavior")]
         [Description(@"Occurs when a checkbox is about to be checked or unchecked.")]
-        public event TreeViewCancelEventHandler BeforeCheck;
+        public event TreeViewCancelEventHandler? BeforeCheck;
 
         /// <summary>
         /// Occurs when a node is about to be collapsed.
         /// </summary>
         [Category(@"Behavior")]
         [Description(@"Occurs when a node is about to be collapsed.")]
-        public event TreeViewCancelEventHandler BeforeCollapse;
+        public event TreeViewCancelEventHandler? BeforeCollapse;
 
         /// <summary>
         /// Occurs when a node is about to be expanded.
         /// </summary>
         [Category(@"Behavior")]
         [Description(@"Occurs when a node is about to be expanded.")]
-        public event TreeViewCancelEventHandler BeforeExpand;
+        public event TreeViewCancelEventHandler? BeforeExpand;
 
         /// <summary>
         /// Occurs when the text of node is about to be edited by the user.
         /// </summary>
         [Category(@"Behavior")]
         [Description(@"Occurs when the text of node is about to be edited by the user.")]
-        public event NodeLabelEditEventHandler BeforeLabelEdit;
+        public event NodeLabelEditEventHandler? BeforeLabelEdit;
 
         /// <summary>
         /// Occurs when the selection is about to be changed.
         /// </summary>
         [Category(@"Behavior")]
         [Description(@"Occurs when the selection is about to be changed.")]
-        public event TreeViewCancelEventHandler BeforeSelect;
+        public event TreeViewCancelEventHandler? BeforeSelect;
 
         /// <summary>
         /// Occurs when the user begins dragging an item.
         /// </summary>
         [Category(@"Action")]
         [Description(@"Occurs when the user begins dragging an item.")]
-        public event ItemDragEventHandler ItemDrag;
+        public event ItemDragEventHandler? ItemDrag;
 
         /// <summary>
         /// Occurs when a node is clicked with the mouse.
         /// </summary>
         [Category(@"Behavior")]
         [Description(@"Occurs when a node is clicked with the mouse.")]
-        public event TreeNodeMouseClickEventHandler NodeMouseClick;
+        public event TreeNodeMouseClickEventHandler? NodeMouseClick;
 
         /// <summary>
         /// Occurs when a node is double clicked with the mouse.
         /// </summary>
         [Category(@"Behavior")]
         [Description(@"Occurs when a node is double clicked with the mouse.")]
-        public event TreeNodeMouseClickEventHandler NodeMouseDoubleClick;
+        public event TreeNodeMouseClickEventHandler? NodeMouseDoubleClick;
 
         /// <summary>
         /// Occurs when the mouse hovers over a node.
         /// </summary>
         [Category(@"Action")]
         [Description(@"Occurs when the mouse hovers over a node.")]
-        public event TreeNodeMouseHoverEventHandler NodeMouseHover;
+        public event TreeNodeMouseHoverEventHandler? NodeMouseHover;
 
         /// <summary>
         /// Occurs when the value of the RightToLeftLayout property changes.
         /// </summary>
         [Category(@"PropertyChanged")]
         [Description(@"Occurs when the value of the RightToLeftLayout property changes.")]
-        public event EventHandler RightToLeftLayoutChanged;
+        public event EventHandler? RightToLeftLayoutChanged;
 
         /// <summary>
         /// Occurs when the value of the BackColor property changes.
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public new event EventHandler BackColorChanged;
+        public new event EventHandler? BackColorChanged;
 
         /// <summary>
         /// Occurs when the value of the BackgroundImage property changes.
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public new event EventHandler BackgroundImageChanged;
+        public new event EventHandler? BackgroundImageChanged;
 
         /// <summary>
         /// Occurs when the value of the BackgroundImageLayout property changes.
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public new event EventHandler BackgroundImageLayoutChanged;
+        public new event EventHandler? BackgroundImageLayoutChanged;
 
         /// <summary>
         /// Occurs when the value of the ForeColor property changes.
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public new event EventHandler ForeColorChanged;
+        public new event EventHandler? ForeColorChanged;
 
         /// <summary>
         /// Occurs when the value of the MouseClick property changes.
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public new event EventHandler PaddingChanged;
+        public new event EventHandler? PaddingChanged;
 
         /// <summary>
         /// Occurs when the value of the MouseClick property changes.
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public new event PaintEventHandler Paint;
+        public new event PaintEventHandler? Paint;
 
         /// <summary>
         /// Occurs when the value of the TextChanged property changes.
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public new event EventHandler TextChanged;
+        public new event EventHandler? TextChanged;
 
         /// <summary>
         /// Occurs when the mouse enters the control.
@@ -493,7 +497,7 @@ namespace Krypton.Toolkit
         [Description(@"Raises the TrackMouseEnter event in the wrapped control.")]
         [Category(@"Mouse")]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public event EventHandler TrackMouseEnter;
+        public event EventHandler? TrackMouseEnter;
 
         /// <summary>
         /// Occurs when the mouse leaves the control.
@@ -501,7 +505,7 @@ namespace Krypton.Toolkit
         [Description(@"Raises the TrackMouseLeave event in the wrapped control.")]
         [Category(@"Mouse")]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public event EventHandler TrackMouseLeave;
+        public event EventHandler? TrackMouseLeave;
         #endregion
 
         #region Identity
@@ -526,22 +530,22 @@ namespace Krypton.Toolkit
 
             // Create the palette storage
             _redirectImages = new PaletteRedirectTreeView(Redirector, PlusMinusImages, CheckBoxImages);
-            PaletteBackInheritRedirect backInherit = new(Redirector, PaletteBackStyle.InputControlStandalone);
-            PaletteBorderInheritRedirect borderInherit = new(Redirector, PaletteBorderStyle.InputControlStandalone);
-            PaletteBackColor1 commonBack = new(backInherit, NeedPaintDelegate);
-            PaletteBorder commonBorder = new(borderInherit, NeedPaintDelegate);
+            var backInherit = new PaletteBackInheritRedirect(Redirector, PaletteBackStyle.InputControlStandalone);
+            var borderInherit = new PaletteBorderInheritRedirect(Redirector, PaletteBorderStyle.InputControlStandalone);
+            var commonBack = new PaletteBackColor1(backInherit, NeedPaintDelegate);
+            var commonBorder = new PaletteBorder(borderInherit, NeedPaintDelegate);
             StateCommon = new PaletteTreeStateRedirect(Redirector, commonBack, backInherit, commonBorder, borderInherit, NeedPaintDelegate);
 
-            PaletteBackColor1 disabledBack = new(StateCommon.PaletteBack, NeedPaintDelegate);
-            PaletteBorder disabledBorder = new(StateCommon.PaletteBorder, NeedPaintDelegate);
+            var disabledBack = new PaletteBackColor1(StateCommon.PaletteBack, NeedPaintDelegate);
+            var disabledBorder = new PaletteBorder(StateCommon.PaletteBorder, NeedPaintDelegate);
             StateDisabled = new PaletteTreeState(StateCommon, disabledBack, disabledBorder, NeedPaintDelegate);
 
-            PaletteBackColor1 normalBack = new(StateCommon.PaletteBack, NeedPaintDelegate);
-            PaletteBorder normalBorder = new(StateCommon.PaletteBorder, NeedPaintDelegate);
+            var normalBack = new PaletteBackColor1(StateCommon.PaletteBack, NeedPaintDelegate);
+            var normalBorder = new PaletteBorder(StateCommon.PaletteBorder, NeedPaintDelegate);
             StateNormal = new PaletteTreeState(StateCommon, normalBack, normalBorder, NeedPaintDelegate);
 
-            PaletteBackColor1 activeBack = new(StateCommon.PaletteBack, NeedPaintDelegate);
-            PaletteBorder activeBorder = new(StateCommon.PaletteBorder, NeedPaintDelegate);
+            var activeBack = new PaletteBackColor1(StateCommon.PaletteBack, NeedPaintDelegate);
+            var activeBorder = new PaletteBorder(StateCommon.PaletteBorder, NeedPaintDelegate);
             StateActive = new PaletteDouble(StateCommon, activeBack, activeBorder, NeedPaintDelegate);
 
             OverrideFocus = new PaletteTreeNodeTripleRedirect(Redirector, PaletteBackStyle.ButtonListItem, PaletteBorderStyle.ButtonListItem, PaletteContentStyle.ButtonListItem, NeedPaintDelegate);
@@ -562,11 +566,11 @@ namespace Krypton.Toolkit
 
             // Create the check box image drawer and place inside element so it is always centered
             _drawCheckBox = new ViewDrawCheckBox(_redirectImages);
-            ViewLayoutCenter layoutCheckBox = new()
+            var layoutCheckBox = new ViewLayoutCenter
             {
                 _drawCheckBox
             };
-            ViewLayoutSeparator layoutCheckBoxAfter = new(3, 0);
+            var layoutCheckBoxAfter = new ViewLayoutSeparator(3, 0);
             _layoutCheckBoxStack = new ViewLayoutStack(true)
             {
                 layoutCheckBox,
@@ -575,8 +579,8 @@ namespace Krypton.Toolkit
 
             // Stack used to layout the location of the node image
             _layoutImage = new ViewLayoutSeparator(0, 0);
-            ViewLayoutSeparator layoutImageAfter = new(3, 0);
-            ViewLayoutCenter layoutImageCenter = new(_layoutImage);
+            var layoutImageAfter = new ViewLayoutSeparator(3, 0);
+            var layoutImageCenter = new ViewLayoutCenter(_layoutImage);
             _layoutImageStack = new ViewLayoutStack(true)
             {
                 layoutImageCenter,
@@ -642,7 +646,7 @@ namespace Krypton.Toolkit
             };
 
             // Create inner view for placing inside the drawing docker
-            ViewLayoutDocker drawDockerInner = new()
+            var drawDockerInner = new ViewLayoutDocker
             {
                 { _layoutFill, ViewDockStyle.Fill }
             };
@@ -661,6 +665,10 @@ namespace Krypton.Toolkit
 
             // Add tree view to the controls collection
             ((KryptonReadOnlyControls)Controls).AddInternal(_treeView);
+
+            _cornerRoundingRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
+
+            _nodeCornerRoundingRadius = GlobalStaticValues.SECONDARY_CORNER_ROUNDING_VALUE;
         }
 
         private void OnTreeClick(object sender, EventArgs e) => OnClick(e);
@@ -680,13 +688,32 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Public
+
+        /// <summary>Gets or sets the corner rounding radius.</summary>
+        /// <value>The corner rounding radius.</value>
+        [Category(@"Visuals"), DefaultValue(GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE), Description(@"Defines the corner roundness on the current window (-1 is the default look).")]
+        public float CornerRoundingRadius
+        {
+            get => _cornerRoundingRadius;
+            set => SetCornerRoundingRadius(value);
+        }
+
+        /// <summary>Gets or sets the node corner rounding radius.</summary>
+        /// <value>The node corner rounding radius.</value>
+        [Category(@"Visuals"), DefaultValue(GlobalStaticValues.SECONDARY_CORNER_ROUNDING_VALUE), Description(@"Defines the node corner roundness on the current window (-1 is the default look).")]
+        public float NodeCornerRoundingRadius
+        {
+            get => _nodeCornerRoundingRadius;
+            set => SetNodeCornerRoundingRadius(value);
+        }
+
         /// <summary>
         /// Gets access to the contained TreeView instance.
         /// </summary>
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         [EditorBrowsable(EditorBrowsableState.Always)]
         [Browsable(false)]
-        public TreeView TreeView => _treeView;
+        public TreeView? TreeView => _treeView;
 
         /// <summary>
         /// Gets access to the contained input control.
@@ -703,6 +730,7 @@ namespace Krypton.Toolkit
         [Bindable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        [AllowNull]
         public override string Text
         {
             get => base.Text;
@@ -729,6 +757,8 @@ namespace Krypton.Toolkit
         [Bindable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        [AmbientValue(null)]
+        [AllowNull]
         public override Font Font
         {
             get => base.Font;
@@ -845,10 +875,10 @@ namespace Krypton.Toolkit
         [Category(@"Behavior")]
         [Description(@"The default image index for nodes.")]
         [Localizable(true)]
-        [TypeConverter("Krypton.Toolkit.NoneExcludedImageIndexConverter, Krypton.Toolkit")]
-        [Editor("System.Windows.Forms.Design.ImageIndexEditor, " + AssemblyRef.SystemDesign, typeof(UITypeEditor))]
+        [TypeConverter(typeof(NoneExcludedImageIndexConverter))]
+        [Editor(@"System.Windows.Forms.Design.ImageIndexEditor", typeof(UITypeEditor))]
         [RefreshProperties(RefreshProperties.Repaint)]
-        [RelatedImageList("ImageList")]
+        [RelatedImageList(nameof(ImageList))]
         [DefaultValue(-1)]
         public int ImageIndex
         {
@@ -863,9 +893,9 @@ namespace Krypton.Toolkit
         [Description(@"The default image key for the nodes.")]
         [Localizable(true)]
         [TypeConverter(typeof(ImageKeyConverter))]
-        [Editor("System.Windows.Forms.Design.ImageIndexEditor, " + AssemblyRef.SystemDesign, typeof(UITypeEditor))]
+        [Editor(@"System.Windows.Forms.Design.ImageIndexEditor", typeof(UITypeEditor))]
         [RefreshProperties(RefreshProperties.Repaint)]
-        [RelatedImageList("ImageList")]
+        [RelatedImageList(nameof(ImageList))]
         [DefaultValue("")]
         public string ImageKey
         {
@@ -880,7 +910,7 @@ namespace Krypton.Toolkit
         [Description(@"The ImageList control from which nodes images are taken.")]
         [RefreshProperties(RefreshProperties.Repaint)]
         [DefaultValue(null)]
-        public ImageList ImageList
+        public ImageList? ImageList
         {
             get => _treeView.ImageList;
             set => _treeView.ImageList = value;
@@ -928,9 +958,9 @@ namespace Krypton.Toolkit
         [Category(@"Behavior")]
         [Description(@"The default image index for selected nodes.")]
         [Localizable(true)]
-        [TypeConverter("Krypton.Toolkit.NoneExcludedImageIndexConverter, Krypton.Toolkit")]
-        [Editor("System.Windows.Forms.Design.ImageIndexEditor, " + AssemblyRef.SystemDesign, typeof(UITypeEditor))]
-        [RelatedImageList("ImageList")]
+        [TypeConverter(typeof(NoneExcludedImageIndexConverter))]
+        [Editor(@"System.Windows.Forms.Design.ImageIndexEditor", typeof(UITypeEditor))]
+        [RelatedImageList(nameof(ImageList))]
         [DefaultValue(-1)]
         public int SelectedImageIndex
         {
@@ -945,8 +975,8 @@ namespace Krypton.Toolkit
         [Description(@"The default image for selected nodes.")]
         [Localizable(true)]
         [TypeConverter(typeof(ImageKeyConverter))]
-        [Editor("System.Windows.Forms.Design.ImageIndexEditor, " + AssemblyRef.SystemDesign, typeof(UITypeEditor))]
-        [RelatedImageList("ImageList")]
+        [Editor(@"System.Windows.Forms.Design.ImageIndexEditor", typeof(UITypeEditor))]
+        [RelatedImageList(nameof(ImageList))]
         [RefreshProperties(RefreshProperties.Repaint)]
         [DefaultValue("")]
         public string SelectedImageKey
@@ -1022,7 +1052,7 @@ namespace Krypton.Toolkit
         [Category(@"Behavior")]
         [Description(@"The ImageList used by the control for custom states.")]
         [DefaultValue(null)]
-        public ImageList StateImageList
+        public ImageList? StateImageList
         {
             get => _treeView.StateImageList;
             set => _treeView.StateImageList = value;
@@ -1081,7 +1111,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Behavior")]
         [Description(@"The root nodes in the KryptonTreeView control.")]
-        [Editor("System.Windows.Forms.Design.TreeNodeCollectionEditor, " + AssemblyRef.SystemDesign, typeof(UITypeEditor))]
+        [Editor(@"System.Windows.Forms.Design.TreeNodeCollectionEditor", typeof(UITypeEditor))]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         [MergableProperty(false)]
         [Localizable(true)]
@@ -1768,7 +1798,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">Source of notification.</param>
         /// <param name="e">An NeedLayoutEventArgs containing event data.</param>
-        protected override void OnNeedPaint(object sender, NeedLayoutEventArgs e)
+        protected override void OnNeedPaint(object? sender, NeedLayoutEventArgs e)
         {
             if (IsHandleCreated && !e.NeedLayout)
             {
@@ -1844,7 +1874,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the default size of the control.
         /// </summary>
-        protected override Size DefaultSize => new(120, 96);
+        protected override Size DefaultSize => new Size(120, 96);
 
         protected override void CreateHandle()
         {
@@ -1857,6 +1887,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Implementation
+
         private void UpdateItemHeight()
         {
             if (!IsDisposed && !Disposing)
@@ -1864,7 +1895,7 @@ namespace Krypton.Toolkit
                 UpdateContentFromNode(null);
 
                 // Ask the view element to layout in given space, needs this before a render call
-                using ViewLayoutContext context = new(this, Renderer);
+                using var context = new ViewLayoutContext(this, Renderer);
                 // For calculating the item height we always assume normal state
                 _drawButton.ElementState = PaletteState.Normal;
 
@@ -1889,7 +1920,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void UpdateContentFromNode(TreeNode node)
+        private void UpdateContentFromNode(TreeNode? node)
         {
             _overrideNormalNode.TreeNode = node;
 
@@ -1911,7 +1942,7 @@ namespace Krypton.Toolkit
             {
                 // Get the text string for the item
                 _contentValues.ShortText = @"A";
-                _contentValues.LongText = @"A";
+                _contentValues.LongText = string.Empty;
                 _contentValues.Image = null;
                 _contentValues.ImageTransparentColor = Color.Empty;
             }
@@ -1940,6 +1971,8 @@ namespace Krypton.Toolkit
 
                 _treeView.ViewDrawPanel.ElementState = state;
                 _drawDockerOuter.ElementState = state;
+                _treeView.Font = StateCommon.Node.Content.ShortText.Font;
+
             }
         }
 
@@ -1988,10 +2021,10 @@ namespace Krypton.Toolkit
                 _layoutImageStack.Visible = false;
             }
 
-            KryptonTreeNode kryptonNode = e.Node as KryptonTreeNode;
+            var kryptonNode = e.Node as KryptonTreeNode;
 
             // Work out if we need to draw a state image
-            Image drawStateImage = null;
+            Image? drawStateImage = null;
             if (StateImageList != null)
             {
                 try
@@ -2077,7 +2110,7 @@ namespace Krypton.Toolkit
             _drawButton.ElementState = buttonState;
 
             // Grab the raw device context for the graphics instance
-            IntPtr hdc = e.Graphics.GetHdc();
+            var hdc = e.Graphics.GetHdc();
 
             try
             {
@@ -2086,12 +2119,12 @@ namespace Krypton.Toolkit
 
                 // Create indent rectangle and adjust bounds for remainder
                 var nodeIndent = NodeIndent(e.Node) + 2;
-                Rectangle indentBounds = new(bounds.X + nodeIndent - indent, bounds.Y, indent, bounds.Height);
+                var indentBounds = bounds with { X = bounds.X + nodeIndent - indent, Width = indent };
                 bounds.X += nodeIndent;
                 bounds.Width -= nodeIndent;
 
                 // Create bitmap that all drawing occurs onto, then we can blit it later to remove flicker
-                IntPtr hBitmap = PI.CreateCompatibleBitmap(hdc, bounds.Right, bounds.Bottom);
+                var hBitmap = PI.CreateCompatibleBitmap(hdc, bounds.Right, bounds.Bottom);
 
                 // If we managed to get a compatible bitmap
                 if (hBitmap != IntPtr.Zero)
@@ -2104,7 +2137,7 @@ namespace Krypton.Toolkit
 
                         // Easier to draw using a graphics instance than a DC!
                         using Graphics g = Graphics.FromHdc(_screenDC);
-                        using (ViewLayoutContext context = new(this, Renderer))
+                        using (var context = new ViewLayoutContext(this, Renderer))
                         {
                             context.DisplayRectangle = e.Bounds;
                             _treeView.ViewDrawPanel.Layout(context);
@@ -2131,7 +2164,7 @@ namespace Krypton.Toolkit
                             _layoutDocker.Layout(context);
                         }
 
-                        using (RenderContext context = new(this, g, e.Bounds, Renderer))
+                        using (var context = new RenderContext(this, g, e.Bounds, Renderer))
                         {
                             _treeView.ViewDrawPanel.Render(context);
                         }
@@ -2140,7 +2173,8 @@ namespace Krypton.Toolkit
                         if (indentBounds.X >= 0)
                         {
                             // Do we draw lines between nodes?
-                            if (ShowLines && (Redirector.GetMetricBool(PaletteState.Normal, PaletteMetricBool.TreeViewLines) != InheritBool.False))
+                            if (ShowLines
+                                && (Redirector.GetMetricBool(PaletteState.Normal, PaletteMetricBool.TreeViewLines) != InheritBool.False))
                             {
                                 // Find center points
                                 var hCenter = indentBounds.X + (indentBounds.Width / 2) - 1;
@@ -2166,7 +2200,7 @@ namespace Krypton.Toolkit
 
                                 // Draw the horizontal and vertical lines
                                 Color lineColor = Redirector.GetContentShortTextColor1(PaletteContentStyle.InputControlStandalone, PaletteState.Normal);
-                                using Pen linePen = new(lineColor);
+                                using var linePen = new Pen(lineColor);
                                 linePen.DashStyle = DashStyle.Dot;
                                 linePen.DashOffset = indent % 2;
                                 g.DrawLine(linePen, hCenter, top, hCenter, bottom);
@@ -2186,7 +2220,7 @@ namespace Krypton.Toolkit
                             // Do we draw any plus/minus images in indent bounds?
                             if (ShowPlusMinus && (e.Node.Nodes.Count > 0))
                             {
-                                Image drawImage = _redirectImages.GetTreeViewImage(e.Node.IsExpanded);
+                                Image? drawImage = _redirectImages.GetTreeViewImage(e.Node.IsExpanded);
                                 if (drawImage != null)
                                 {
                                     g.DrawImage(drawImage, new Rectangle(indentBounds.X + ((indentBounds.Width - drawImage.Width) / 2) - 1,
@@ -2196,7 +2230,7 @@ namespace Krypton.Toolkit
                             }
                         }
 
-                        using (RenderContext context = new(this, g, bounds, Renderer))
+                        using (var context = new RenderContext(this, g, bounds, Renderer))
                         {
                             _layoutDocker.Render(context);
                         }
@@ -2204,7 +2238,7 @@ namespace Krypton.Toolkit
                         // Do we draw an image for the node?
                         if (ImageList != null)
                         {
-                            Image drawImage = null;
+                            Image? drawImage = null;
                             var imageCount = ImageList.Images.Count;
 
                             try
@@ -2367,6 +2401,20 @@ namespace Krypton.Toolkit
         private void OnDoubleClick(object sender, EventArgs e) => base.OnDoubleClick(e);
 
         private void OnMouseDoubleClick(object sender, MouseEventArgs e) => base.OnMouseDoubleClick(e);
+
+        private void SetCornerRoundingRadius(float? radius)
+        {
+            _cornerRoundingRadius = radius ?? GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
+
+            StateCommon.Border.Rounding = _cornerRoundingRadius;
+        }
+
+        private void SetNodeCornerRoundingRadius(float? radius)
+        {
+            _nodeCornerRoundingRadius = radius ?? GlobalStaticValues.SECONDARY_CORNER_ROUNDING_VALUE;
+
+            StateCommon.Node.Border.Rounding = _nodeCornerRoundingRadius;
+        }
 
         #endregion
 

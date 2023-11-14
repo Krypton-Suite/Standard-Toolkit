@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -22,9 +22,9 @@ namespace Krypton.Toolkit
         private readonly PaletteMetricPadding _metricPadding;
         private readonly PaletteBackInheritForced _paletteBackDraw;
         private readonly PaletteBackLightenColors _paletteBackLight;
-        private IDisposable _mementoBack;
-        private PaletteBorderInheritForced _borderForced;
-        private Region _clipRegion;
+        private IDisposable? _mementoBack;
+        private PaletteBorderInheritForced? _borderForced;
+        private Region? _clipRegion;
         private Rectangle _splitRectangle;
 
         #endregion
@@ -57,7 +57,7 @@ namespace Krypton.Toolkit
         /// <param name="orientation">Visual orientation of the content.</param>
         public ViewDrawSplitCanvas(IPaletteBack paletteBack,
                                    IPaletteBorder paletteBorder,
-                                   IPaletteMetric paletteMetric,
+                                   IPaletteMetric? paletteMetric,
                                    PaletteMetricPadding metricPadding,
                                    VisualOrientation orientation)
         {
@@ -82,7 +82,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <returns>User readable name of the instance.</returns>
         // Return the class name and instance identifier
-        public override string ToString() => "ViewDrawSplitCanvas:" + Id;
+        public override string ToString() => $"ViewDrawSplitCanvas:{Id}";
 
         /// <summary>
         /// Clean up any resources being used.
@@ -126,7 +126,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the currently used border palette.
         /// </summary>
-        public IPaletteBorder PaletteBorder
+        public IPaletteBorder? PaletteBorder
         {
             [DebuggerStepThrough]
             get;
@@ -139,7 +139,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the currently used metric palette.
         /// </summary>
-        public IPaletteMetric PaletteMetric
+        public IPaletteMetric? PaletteMetric
         {
             [DebuggerStepThrough]
             get;
@@ -199,9 +199,9 @@ namespace Krypton.Toolkit
         /// <param name="paletteBack">Palette source for the background.</param>        
         /// <param name="paletteBorder">Palette source for the border.</param>
         /// <param name="paletteMetric">Palette source for the metric.</param>
-        public virtual void SetPalettes(IPaletteBack paletteBack, 
-                                        IPaletteBorder paletteBorder,
-                                        IPaletteMetric paletteMetric)
+        public virtual void SetPalettes([DisallowNull] IPaletteBack paletteBack, 
+                                        [DisallowNull] IPaletteBorder paletteBorder,
+                                        IPaletteMetric? paletteMetric)
         {
             Debug.Assert(paletteBorder != null);
             Debug.Assert(paletteBack != null);
@@ -335,11 +335,11 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="context">Context used by the renderer.</param>
         /// <returns>Path instance.</returns>
-        public GraphicsPath GetOuterBorderPath(RenderContext context)
+        public GraphicsPath? GetOuterBorderPath(RenderContext context)
         {
             if (PaletteBorder != null)
             {
-                return context.Renderer.RenderStandardBorder.GetOutsideBorderPath(context, ClientRectangle,
+                return context.Renderer?.RenderStandardBorder.GetOutsideBorderPath(context, ClientRectangle,
                                                                                   PaletteBorder, Orientation,
                                                                                   State);
             }
@@ -355,7 +355,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="context">Evaluation context.</param>
         /// <returns>True if transparent areas exist; otherwise false.</returns>
-        public override bool EvalTransparentPaint(ViewContext context)
+        public override bool EvalTransparentPaint([DisallowNull] ViewContext context)
         {
             Debug.Assert(context != null);
 
@@ -372,7 +372,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="context">Layout context.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public override Size GetPreferredSize(ViewLayoutContext context)
+        public override Size GetPreferredSize([DisallowNull] ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 
@@ -417,7 +417,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="context">Layout context.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public override void Layout(ViewLayoutContext context)
+        public override void Layout([DisallowNull] ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 
@@ -478,7 +478,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="context">Rendering context.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public override void RenderBefore(RenderContext context) 
+        public override void RenderBefore([DisallowNull] RenderContext context) 
         {
             Debug.Assert(context != null);
 
@@ -514,7 +514,7 @@ namespace Krypton.Toolkit
                             Orientation, State);
 
                     // Create a new region the same as the existing clipping region
-                    Region combineRegion = new(borderPath);
+                    var combineRegion = new Region(borderPath);
 
                     // Reduce clipping region down by our border path
                     combineRegion.Intersect(_clipRegion);
@@ -530,7 +530,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="context">Rendering context.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public override void RenderAfter(RenderContext context)
+        public override void RenderAfter([DisallowNull] RenderContext context)
         {
             Debug.Assert(context != null);
 
@@ -571,58 +571,66 @@ namespace Krypton.Toolkit
                     switch (State)
                     {
                         case PaletteState.Tracking:
-                            using (Clipping clipToSplitter = new(context.Graphics, NonSplitRectangle))
-                            {
-                                if (SplitWithFading)
-                                {
-                                    DrawBackground(context, rect, mouseInSplit ? _paletteBackLight : PaletteBack, PaletteBorder, PaletteState.Tracking);
-                                }
-                                else
-                                {
-                                    DrawBackground(context, rect, mouseInSplit ? _paletteBackDraw : PaletteBack, PaletteBorder, mouseInSplit ? PaletteState.Normal : PaletteState.Tracking);
-                                }
-                            }
-
-                            using (Clipping clipToSplitter = new(context.Graphics, _splitRectangle))
-                            {
-                                if (SplitWithFading)
-                                {
-                                    DrawBackground(context, rect, mouseInSplit ? PaletteBack : _paletteBackLight, PaletteBorder, PaletteState.Tracking);
-                                }
-                                else
-                                {
-                                    DrawBackground(context, rect, mouseInSplit ? PaletteBack : _paletteBackDraw, PaletteBorder, mouseInSplit ? PaletteState.Tracking : PaletteState.Normal);
-                                }
-                            }
-                            break;
-                        case PaletteState.Pressed:
-                            using (Clipping clipToSplitter = new(context.Graphics, _splitRectangle))
-                            {
-                                if (SplitWithFading)
-                                {
-                                    DrawBackground(context, rect, mouseInSplit ? PaletteBack : _paletteBackLight,
-                                                   PaletteBorder, mouseInSplit ? PaletteState.Pressed : PaletteState.Tracking);
-                                }
-                                else
-                                {
-                                    DrawBackground(context, rect, mouseInSplit ? PaletteBack : _paletteBackDraw,
-                                                   PaletteBorder, mouseInSplit ? PaletteState.Pressed : PaletteState.Normal);
-                                }
-                            }
-
-                            using (Clipping clipToSplitter = new(context.Graphics, NonSplitRectangle))
+                        {
+                            using (var clipToSplitter = new Clipping(context.Graphics, NonSplitRectangle))
                             {
                                 if (SplitWithFading)
                                 {
                                     DrawBackground(context, rect, mouseInSplit ? _paletteBackLight : PaletteBack,
-                                                  PaletteBorder, mouseInSplit ? PaletteState.Tracking : PaletteState.Pressed);
+                                        PaletteBorder, PaletteState.Tracking);
                                 }
                                 else
                                 {
                                     DrawBackground(context, rect, mouseInSplit ? _paletteBackDraw : PaletteBack,
-                                                   PaletteBorder, mouseInSplit ? PaletteState.Normal : PaletteState.Pressed);
+                                        PaletteBorder, mouseInSplit ? PaletteState.Normal : PaletteState.Tracking);
                                 }
                             }
+
+                            using (var clipToSplitter = new Clipping(context.Graphics, _splitRectangle))
+                            {
+                                if (SplitWithFading)
+                                {
+                                    DrawBackground(context, rect, mouseInSplit ? PaletteBack : _paletteBackLight,
+                                        PaletteBorder, PaletteState.Tracking);
+                                }
+                                else
+                                {
+                                    DrawBackground(context, rect, mouseInSplit ? PaletteBack : _paletteBackDraw,
+                                        PaletteBorder, mouseInSplit ? PaletteState.Tracking : PaletteState.Normal);
+                                }
+                            }
+                        }
+                            break;
+                        case PaletteState.Pressed:
+                        {
+                            using (var clipToSplitter = new Clipping(context.Graphics, _splitRectangle))
+                            {
+                                if (SplitWithFading)
+                                {
+                                    DrawBackground(context, rect, mouseInSplit ? PaletteBack : _paletteBackLight,
+                                        PaletteBorder, mouseInSplit ? PaletteState.Pressed : PaletteState.Tracking);
+                                }
+                                else
+                                {
+                                    DrawBackground(context, rect, mouseInSplit ? PaletteBack : _paletteBackDraw,
+                                        PaletteBorder, mouseInSplit ? PaletteState.Pressed : PaletteState.Normal);
+                                }
+                            }
+
+                            using (var clipToSplitter = new Clipping(context.Graphics, NonSplitRectangle))
+                            {
+                                if (SplitWithFading)
+                                {
+                                    DrawBackground(context, rect, mouseInSplit ? _paletteBackLight : PaletteBack,
+                                        PaletteBorder, mouseInSplit ? PaletteState.Tracking : PaletteState.Pressed);
+                                }
+                                else
+                                {
+                                    DrawBackground(context, rect, mouseInSplit ? _paletteBackDraw : PaletteBack,
+                                        PaletteBorder, mouseInSplit ? PaletteState.Normal : PaletteState.Pressed);
+                                }
+                            }
+                        }
                             break;
                         default:
                             DrawBackground(context, rect, PaletteBack, PaletteBorder, State);
@@ -636,7 +644,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void RenderBorder(RenderContext context, Rectangle rect)
+        private void RenderBorder([DisallowNull] RenderContext context, Rectangle rect)
         {
             Debug.Assert(context != null);
 
@@ -652,13 +660,15 @@ namespace Krypton.Toolkit
                             DrawBorder(context, rect, PaletteBorder, PaletteState.Tracking);
                             break;
                         case PaletteState.Pressed:
+                        {
                             DrawBorder(context, rect, PaletteBorder, PaletteState.Tracking);
 
-                            using (Clipping clipToSplitter = new(context.Graphics, mouseInSplit ? _splitRectangle : NonSplitRectangle))
+                            using (var clipToSplitter = new Clipping(context.Graphics,
+                                       mouseInSplit ? _splitRectangle : NonSplitRectangle))
                             {
                                 DrawBorder(context, rect, PaletteBorder, PaletteState.Pressed);
                             }
-
+                        }
                             break;
                         default:
                             DrawBorder(context, rect, PaletteBorder, State);

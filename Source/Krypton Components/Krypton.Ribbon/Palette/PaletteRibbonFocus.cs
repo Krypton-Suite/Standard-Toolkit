@@ -5,7 +5,9 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  
+ *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
  */
 #endregion
@@ -28,7 +30,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="redirect">Inheritence redirection instance.</param>
         /// <param name="needPaint">Paint delegate.</param>
-        public PaletteRibbonFocus(PaletteRedirect redirect,
+        public PaletteRibbonFocus([DisallowNull] PaletteRedirect redirect,
                                   NeedPaintHandler needPaint)
             : base(redirect)
         {
@@ -39,7 +41,7 @@ namespace Krypton.Ribbon
 
             // Create the redirection instances
             _ribbonTabInherit = new PaletteRibbonDoubleInheritRedirect(redirect, PaletteRibbonBackStyle.RibbonTab, PaletteRibbonTextStyle.RibbonTab);
-            
+
             // Create storage that maps onto the inherit instances
             _ribbonTab = new PaletteRibbonDouble(_ribbonTabInherit, _ribbonTabInherit, needPaint);
         }
@@ -50,7 +52,7 @@ namespace Krypton.Ribbon
         /// Update the redirector with new reference.
         /// </summary>
         /// <param name="redirect">Target redirector.</param>
-        public override void SetRedirector(PaletteRedirect redirect)
+        public override void SetRedirector(PaletteRedirect? redirect)
         {
             base.SetRedirector(redirect);
             _ribbonTabInherit.SetRedirector(redirect);
@@ -85,7 +87,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="needLayout">True if a layout is also needed.</param>
-        protected void OnNeedPaint(object sender, bool needLayout) =>
+        protected void OnNeedPaint(object? sender, bool needLayout) =>
             // Pass request from child to our own handler
             PerformNeedPaint(needLayout);
 

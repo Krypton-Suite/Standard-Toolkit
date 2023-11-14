@@ -5,10 +5,12 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
+
+using Timer = System.Windows.Forms.Timer;
 
 namespace Krypton.Docking
 {
@@ -23,7 +25,7 @@ namespace Krypton.Docking
         private readonly KryptonDockingManager _manager;
         private Point _offset;
         private Point _screenPt;
-        private readonly System.Windows.Forms.Timer _moveTimer;
+        private readonly Timer _moveTimer;
         private bool _addedFilter;
         private bool _monitorMouse;
         #endregion
@@ -34,13 +36,13 @@ namespace Krypton.Docking
         /// </summary>
         /// <param name="manager">Reference to manager creating this instance.</param>
         /// <param name="c">Control that is starting the drag operation.</param>
-        public DockingDragManager(KryptonDockingManager manager, Control c)
+        public DockingDragManager(KryptonDockingManager manager, Control? c)
         {
             _manager = manager;
             _offset = Point.Empty;
 
             // Use timer to ensure we do not update the display too quickly which then causes tearing
-            _moveTimer = new System.Windows.Forms.Timer
+            _moveTimer = new Timer
             {
                 Interval = 10
             };
@@ -64,14 +66,14 @@ namespace Krypton.Docking
             _moveTimer.Dispose();
 
             base.Dispose(disposing);
-        } 
+        }
         #endregion
 
         #region Public
         /// <summary>
         /// Gets and sets the window that is moved in sync with the mouse movement.
         /// </summary>
-        public KryptonFloatingWindow FloatingWindow { get; set; }
+        public KryptonFloatingWindow? FloatingWindow { get; set; }
 
         /// <summary>
         /// Gets and sets the offset of the floating window from the screen cursor.
@@ -87,8 +89,8 @@ namespace Krypton.Docking
         /// </summary>
         /// <param name="screenPt">Mouse screen point at start of drag.</param>
         /// <param name="dragEndData">Data to be dropped at destination.</param>
-        /// <returns>True if dragging waas started; otherwise false.</returns>
-        public override bool DragStart(Point screenPt, PageDragEndData dragEndData)
+        /// <returns>True if dragging was started; otherwise false.</returns>
+        public override bool DragStart(Point screenPt, PageDragEndData? dragEndData)
         {
             if (FloatingWindow != null)
             {
@@ -132,9 +134,9 @@ namespace Krypton.Docking
                 }
 
                 FloatingWindow.SetBounds(_screenPt.X - FloatingWindowOffset.X,
-                                         _screenPt.Y - FloatingWindowOffset.Y, 
-                                         FloatingWindow.Width, 
-                                         FloatingWindow.Height, 
+                                         _screenPt.Y - FloatingWindowOffset.Y,
+                                         FloatingWindow.Width,
+                                         FloatingWindow.Height,
                                          BoundsSpecified.Location);
             }
         }
@@ -148,7 +150,7 @@ namespace Krypton.Docking
         {
             RemoveFilter();
             var ret = base.DragEnd(screenPt);
-            _manager?.RaiseDoDragDropEnd(EventArgs.Empty);
+            _manager.RaiseDoDragDropEnd(EventArgs.Empty);
             return ret;
         }
 
@@ -169,7 +171,7 @@ namespace Krypton.Docking
         public bool OnKEYDOWN(ref Message m)
         {
             // Pressing escape ends dragging
-            if ((int)m.WParam.ToInt64() == (int) Keys.Escape)
+            if ((int)m.WParam.ToInt64() == (int)Keys.Escape)
             {
                 DragQuit();
                 Dispose();
@@ -182,11 +184,9 @@ namespace Krypton.Docking
         /// <summary>
         /// Processes the WM_MOUSEMOVE from the floating window.
         /// </summary>
-        public void OnMOUSEMOVE()
-        {
+        public void OnMOUSEMOVE() =>
             // Update feedback to reflect the current mouse position
             DragMove(Control.MousePosition);
-        }
 
         /// <summary>
         /// Processes the WM_LBUTTONUP from the floating window.
@@ -221,7 +221,7 @@ namespace Krypton.Docking
                 case PI.WM_.KEYDOWN:
                     {
                         // Extract the keys being pressed
-                        Keys keys = (Keys)(int)m.WParam.ToInt64();
+                        var keys = (Keys)(int)m.WParam.ToInt64();
 
                         // Pressing escape ends dragging
                         if (keys == Keys.Escape)
@@ -234,7 +234,7 @@ namespace Krypton.Docking
                     }
                 case PI.WM_.SYSKEYDOWN:
                     // Pressing ALT+TAB ends dragging because user is moving to another app
-                    if (PI.IsKeyDown(Keys.Tab) 
+                    if (PI.IsKeyDown(Keys.Tab)
                         && ((Control.ModifierKeys & Keys.Alt) == Keys.Alt)
                         )
                     {

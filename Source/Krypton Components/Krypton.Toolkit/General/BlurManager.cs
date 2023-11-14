@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -22,7 +22,7 @@ namespace Krypton.Toolkit
         private readonly BlurValues _blurValues;
         private VisualBlur _visualBlur;
         private readonly System.Windows.Forms.Timer _detectIsActiveTimer;
-        private Bitmap _currentFormDisplay;
+        private Bitmap? _currentFormDisplay;
         private double? _parentBeforeOpacity;
         #endregion
 
@@ -67,8 +67,7 @@ namespace Krypton.Toolkit
 
         private void RemoveBlur()
         {
-            if (!_parentForm.IsDisposed
-                && !_parentForm.Disposing
+            if (_parentForm is { IsDisposed: false, Disposing: false }
                 && _parentBeforeOpacity.HasValue
                )
             {
@@ -94,13 +93,13 @@ namespace Krypton.Toolkit
                 return false;
             }
 
-            IntPtr hWnd = _parentForm.Handle;
+            var hWnd = _parentForm.Handle;
             // The set is used to make calling GetWindow in a loop stable by checking if we have already
             //  visited the window returned by GetWindow. This avoids the possibility of an infinite loop.
             var visited = new HashSet<IntPtr> { hWnd };
             try
             {
-                Form activeForm = Form.ActiveForm;
+                var activeForm = Form.ActiveForm;
                 if (activeForm != null)
                 {
                     visited.Add(activeForm.Handle);
@@ -109,14 +108,14 @@ namespace Krypton.Toolkit
                 visited.Add(_visualBlur.Handle);
 
 
-                PI.RECT thisRect = new();
+                var thisRect = new PI.RECT();
                 PI.GetWindowRect(hWnd, ref thisRect);
 
                 while ((hWnd = PI.GetWindow(hWnd, PI.GetWindowType.GW_HWNDPREV)) != IntPtr.Zero
                        && !visited.Contains(hWnd))
                 {
                     visited.Add(hWnd);
-                    PI.RECT testRect = new();
+                    var testRect = new PI.RECT();
                     if (PI.IsWindowVisible(hWnd)
                         && PI.GetWindowRect(hWnd, ref testRect)
                         && PI.IntersectRect(out _, ref thisRect, ref testRect)
@@ -200,7 +199,7 @@ namespace Krypton.Toolkit
             // Set parent form opacity afterwards to prevent flicker
             _parentBeforeOpacity ??= _parentForm.Opacity;
 
-            _parentForm.Opacity =_blurValues.Opacity / 100.0;
+            _parentForm.Opacity = _blurValues.Opacity / 100.0;
             _detectIsActiveTimer.Enabled = true;
 
         }
@@ -223,7 +222,7 @@ namespace Krypton.Toolkit
 
         private static Bitmap TakeSnapshot(Rectangle targetRectangle)
         {
-            Bitmap bmp = new(targetRectangle.Width, targetRectangle.Height);
+            var bmp = new Bitmap(targetRectangle.Width, targetRectangle.Height);
             Graphics g = Graphics.FromImage(bmp);
             g.CopyFromScreen(targetRectangle.Left, targetRectangle.Top, 0, 0, bmp.Size);
             return bmp;

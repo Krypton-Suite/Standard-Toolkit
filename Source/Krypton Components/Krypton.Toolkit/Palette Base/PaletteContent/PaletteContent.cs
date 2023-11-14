@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -49,7 +49,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Instance Fields
-        private InternalStorage _storage;
+        private InternalStorage? _storage;
         private readonly PaletteContentImage _image;
         private readonly PaletteContentText _shortText;
         private readonly PaletteContentText _longText;
@@ -62,7 +62,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]  // SKC: Probably a special case for not exposing this event in the designer....
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
         #endregion
 
         #region Identity
@@ -80,8 +80,8 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="inherit">Source for inheriting defaulted values.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public PaletteContent(IPaletteContent inherit,
-                              NeedPaintHandler needPaint)
+        public PaletteContent([DisallowNull] IPaletteContent inherit,
+                              NeedPaintHandler? needPaint)
         {
             Debug.Assert(inherit != null);
 
@@ -114,10 +114,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Sets the inheritance parent.
         /// </summary>
-        public void SetInherit(IPaletteContent inherit)
-        {
-            _inherit = inherit;
-        }
+        public void SetInherit(IPaletteContent inherit) => _inherit = inherit;
         #endregion
 
         #region PopulateFromBase
@@ -179,7 +176,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category(@"Visuals")]
         [Description(@"Should content be drawn.")]
-        [DefaultValue(typeof(InheritBool), "Inherit")]
+        [DefaultValue(InheritBool.Inherit)]
         [RefreshProperties(RefreshProperties.All)]
         public virtual InheritBool Draw
         {
@@ -228,7 +225,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category(@"Visuals")]
         [Description(@"Should content be drawn with focus indication..")]
-        [DefaultValue(typeof(InheritBool), "Inherit")]
+        [DefaultValue(InheritBool.Inherit)]
         [RefreshProperties(RefreshProperties.All)]
         public virtual InheritBool DrawFocus
         {
@@ -278,7 +275,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Overrides for defining image appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public virtual PaletteContentImage Image => _image;
+        public virtual PaletteContentImage? Image => _image;
 
         private bool ShouldSerializeImage() => !_image.IsDefault;
 
@@ -470,7 +467,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image instance.</returns>
-        public Image GetContentShortTextImage(PaletteState state) => ShortText.Image ?? _inherit.GetContentShortTextImage(state);
+        public Image? GetContentShortTextImage(PaletteState state) => ShortText.Image ?? _inherit.GetContentShortTextImage(state);
 
         /// <summary>
         /// Gets the image style for the short text.
@@ -641,7 +638,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image instance.</returns>
-        public Image GetContentLongTextImage(PaletteState state) => LongText.Image ?? _inherit.GetContentLongTextImage(state);
+        public Image? GetContentLongTextImage(PaletteState state) => LongText.Image ?? _inherit.GetContentLongTextImage(state);
 
         /// <summary>
         /// Gets the image style for the long text.
@@ -707,10 +704,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Reset the Padding to the default value.
         /// </summary>
-        public void ResetPadding()
-        {
-            Padding = CommonHelper.InheritPadding;
-        }
+        public void ResetPadding() => Padding = CommonHelper.InheritPadding;
 
         /// <summary>
         /// Gets the actual padding between the border and content drawing.

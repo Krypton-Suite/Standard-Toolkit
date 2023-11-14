@@ -5,7 +5,9 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  
+ *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
  */
 #endregion
@@ -15,7 +17,7 @@ namespace Krypton.Ribbon
     internal class KryptonRibbonDesigner : ParentControlDesigner
     {
         #region Instance Fields
-        private KryptonRibbon _ribbon;
+        private KryptonRibbon? _ribbon;
         private IDesignerHost _designerHost;
         private ISelectionService _selectionService;
         private IComponentChangeService _changeService;
@@ -43,7 +45,7 @@ namespace Krypton.Ribbon
         /// Initializes the designer with the specified component.
         /// </summary>
         /// <param name="component">The IComponent to associate the designer with.</param>
-        public override void Initialize(IComponent component)
+        public override void Initialize([DisallowNull] IComponent component)
         {
             // Let base class do standard stuff
             base.Initialize(component);
@@ -52,7 +54,7 @@ namespace Krypton.Ribbon
 
             // Cast to correct type
             _ribbon = component as KryptonRibbon;
-            if (_ribbon != null)
+            if (_ribbon?.GetViewManager() != null)
             {
                 // Hook into ribbon events
                 _ribbon.GetViewManager().MouseUpProcessed += OnRibbonMouseUp;
@@ -88,7 +90,7 @@ namespace Krypton.Ribbon
             get
             {
                 // Create a new collection for both values
-                ArrayList compound = new(base.AssociatedComponents);
+                var compound = new ArrayList(base.AssociatedComponents);
 
                 compound.AddRange(_ribbon.ButtonSpecs);
                 compound.AddRange(_ribbon.QATButtons);
@@ -115,7 +117,7 @@ namespace Krypton.Ribbon
             get
             {
                 // Create a collection of action lists
-                DesignerActionListCollection actionLists = new()
+                var actionLists = new DesignerActionListCollection
                 {
                     // Add the ribbon specific list
                     new KryptonRibbonActionList(this)
@@ -213,28 +215,19 @@ namespace Krypton.Ribbon
         /// Called when a drag-and-drop operation enters the control designer view.
         /// </summary>
         /// <param name="de">A DragEventArgs that provides data for the event.</param>
-        protected override void OnDragEnter(DragEventArgs de)
-        {
-            de.Effect = DragDropEffects.None;
-        }
+        protected override void OnDragEnter(DragEventArgs de) => de.Effect = DragDropEffects.None;
 
         /// <summary>
         /// Called when a drag-and-drop object is dragged over the control designer view.
         /// </summary>
         /// <param name="de">A DragEventArgs that provides data for the event.</param>
-        protected override void OnDragOver(DragEventArgs de)
-        {
-            de.Effect = DragDropEffects.None;
-        }
+        protected override void OnDragOver(DragEventArgs de) => de.Effect = DragDropEffects.None;
 
         /// <summary>
         /// Called when a drag-and-drop object is dropped onto the control designer view.
         /// </summary>
         /// <param name="de">A DragEventArgs that provides data for the event.</param>
-        protected override void OnDragDrop(DragEventArgs de)
-        {
-            de.Effect = DragDropEffects.None;
-        }
+        protected override void OnDragDrop(DragEventArgs de) => de.Effect = DragDropEffects.None;
         #endregion    
 
         #region Implementation
@@ -254,11 +247,9 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnToggleHelpers(object sender, EventArgs e)
-        {
+        private void OnToggleHelpers(object sender, EventArgs e) =>
             // Invert the current toggle helper mode
             _ribbon.InDesignHelperMode = !_ribbon.InDesignHelperMode;
-        }
 
         private void OnAddTab(object sender, EventArgs e)
         {
@@ -273,7 +264,7 @@ namespace Krypton.Ribbon
                 RaiseComponentChanging(propertyPages);
 
                 // Get designer to create the new tab component
-                KryptonRibbonTab page = (KryptonRibbonTab)_designerHost.CreateComponent(typeof(KryptonRibbonTab));
+                var page = (KryptonRibbonTab)_designerHost.CreateComponent(typeof(KryptonRibbonTab));
                 _ribbon.RibbonTabs.Add(page);
 
                 RaiseComponentChanged(propertyPages, null, null);
@@ -300,7 +291,7 @@ namespace Krypton.Ribbon
                 RaiseComponentChanging(propertyPages);
 
                 // Need access to host in order to delete a component
-                IDesignerHost host = (IDesignerHost)GetService(typeof(IDesignerHost));
+                var host = (IDesignerHost)GetService(typeof(IDesignerHost));
 
                 // We need to remove all the tabs from the ribbon
                 for (var i = _ribbon.RibbonTabs.Count - 1; i >= 0; i--)
@@ -329,7 +320,7 @@ namespace Krypton.Ribbon
             if (component != null)
             {
                 // Select the component
-                ArrayList selectionList = new()
+                var selectionList = new ArrayList
                 {
                     component
                 };
@@ -356,10 +347,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnComponentChanged(object sender, ComponentChangedEventArgs e)
-        {
-            UpdateVerbStatus();
-        }
+        private void OnComponentChanged(object sender, ComponentChangedEventArgs e) => UpdateVerbStatus();
 
         private void OnComponentRemoving(object sender, ComponentEventArgs e)
         {
@@ -367,7 +355,7 @@ namespace Krypton.Ribbon
             if (e.Component == _ribbon)
             {
                 // Need access to host in order to delete a component
-                IDesignerHost host = (IDesignerHost)GetService(typeof(IDesignerHost));
+                var host = (IDesignerHost)GetService(typeof(IDesignerHost));
 
                 // We need to remove all the button spec instances
                 for (var i = _ribbon.ButtonSpecs.Count - 1; i >= 0; i--)

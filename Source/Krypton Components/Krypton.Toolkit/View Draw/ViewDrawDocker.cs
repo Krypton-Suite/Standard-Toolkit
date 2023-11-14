@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -37,8 +37,8 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="paletteBack">Palette source for the background.</param>        
         /// <param name="paletteBorder">Palette source for the border.</param>
-        public ViewDrawDocker(IPaletteBack paletteBack,
-                              IPaletteBorder paletteBorder)
+        public ViewDrawDocker(IPaletteBack? paletteBack,
+                              IPaletteBorder? paletteBorder)
             : this(paletteBack, paletteBorder, null, PaletteMetricBool.None)
         {
         }
@@ -51,7 +51,7 @@ namespace Krypton.Toolkit
         /// <param name="paletteMetric">Palette source for metrics.</param>
         public ViewDrawDocker(IPaletteBack paletteBack,
                               IPaletteBorder paletteBorder,
-                              IPaletteMetric paletteMetric)
+                              IPaletteMetric? paletteMetric)
             : this(paletteBack, paletteBorder, paletteMetric, PaletteMetricBool.None)
         {
         }
@@ -63,9 +63,9 @@ namespace Krypton.Toolkit
         /// <param name="paletteBorder">Palette source for the border.</param>
         /// <param name="paletteMetric">Palette source for metrics.</param>
         /// <param name="metricOverlay">Metric to use for border overlay.</param>
-        public ViewDrawDocker(IPaletteBack paletteBack,
-                              IPaletteBorder paletteBorder,
-                              IPaletteMetric paletteMetric,
+        public ViewDrawDocker(IPaletteBack? paletteBack,
+                              IPaletteBorder? paletteBorder,
+                              IPaletteMetric? paletteMetric,
                               PaletteMetricBool metricOverlay)
             : this(paletteBack, paletteBorder,
                    paletteMetric, metricOverlay,
@@ -82,9 +82,9 @@ namespace Krypton.Toolkit
         /// <param name="metricOverlay">Metric to use for border overlay.</param>
         /// <param name="metricPadding">Metric used to get padding values.</param>
         /// <param name="orientation">Visual orientation of the content.</param>
-        public ViewDrawDocker(IPaletteBack paletteBack,
-                              IPaletteBorder paletteBorder,
-                              IPaletteMetric paletteMetric,
+        public ViewDrawDocker(IPaletteBack? paletteBack,
+                              IPaletteBorder? paletteBorder,
+                              IPaletteMetric? paletteMetric,
                               PaletteMetricBool metricOverlay,
                               PaletteMetricPadding metricPadding,
                               VisualOrientation orientation)
@@ -107,7 +107,7 @@ namespace Krypton.Toolkit
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            "ViewDrawDocker:" + Id;
+            $"ViewDrawDocker:{Id}";
 
         #endregion
 
@@ -193,7 +193,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="child">Child view element.</param>
         /// <returns>Docking setting.</returns>
-        public ViewDockStyle GetDock(ViewBase child)
+        public ViewDockStyle GetDock([DisallowNull] ViewBase child)
         {
             Debug.Assert(child != null);
 
@@ -212,7 +212,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="child">Child view element.</param>
         /// <param name="dock">DockStyle setting.</param>
-        public void SetDock(ViewBase child, ViewDockStyle dock)
+        public void SetDock([DisallowNull] ViewBase child, ViewDockStyle dock)
         {
             Debug.Assert(child != null);
 
@@ -252,7 +252,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="context">Evaluation context.</param>
         /// <returns>True if transparent areas exist; otherwise false.</returns>
-        public override bool EvalTransparentPaint(ViewContext context)
+        public override bool EvalTransparentPaint([DisallowNull] ViewContext context)
         {
             Debug.Assert(context != null);
 
@@ -297,7 +297,7 @@ namespace Krypton.Toolkit
         /// Gets the size required for all except the contents.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public Size GetNonChildSize(ViewLayoutContext context)
+        public Size GetNonChildSize([DisallowNull] ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 
@@ -306,13 +306,13 @@ namespace Krypton.Toolkit
             Rectangle displayRect = context.DisplayRectangle;
 
             // Border size that is not applied to preferred size
-            Size borderSize = Size.Empty;
+            var borderSize = Size.Empty;
 
             // Accumulate the size that must be provided by docking edges and then filler
-            Size preferredSize = Size.Empty;
+            var preferredSize = Size.Empty;
 
             // Track the minimize size needed to satisfy the docking edges only
-            Size minimumSize = Size.Empty;
+            var minimumSize = Size.Empty;
 
             if (!IgnoreAllBorderAndPadding)
             {
@@ -356,7 +356,7 @@ namespace Krypton.Toolkit
         /// Discover the preferred size of the element.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override Size GetPreferredSize(ViewLayoutContext context)
+        public override Size GetPreferredSize([DisallowNull] ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 
@@ -365,13 +365,13 @@ namespace Krypton.Toolkit
             Rectangle displayRect = context.DisplayRectangle;
 
             // Border size that is not applied to preferred size
-            Size borderSize = Size.Empty;
+            var borderSize = Size.Empty;
 
             // Accumulate the size that must be provided by docking edges and then filler
-            Size preferredSize = Size.Empty;
+            var preferredSize = Size.Empty;
 
             // Track the minimize size needed to satisfy the docking edges only
-            Size minimumSize = Size.Empty;
+            var minimumSize = Size.Empty;
 
             if (!IgnoreAllBorderAndPadding)
             {
@@ -397,11 +397,11 @@ namespace Krypton.Toolkit
                 }
             }
 
-            PaletteDrawBorders leftEdges = PaletteDrawBorders.All;
-            PaletteDrawBorders rightEdges = PaletteDrawBorders.All;
-            PaletteDrawBorders topEdges = PaletteDrawBorders.All;
-            PaletteDrawBorders bottomEdges = PaletteDrawBorders.All;
-            PaletteDrawBorders fillEdges = PaletteDrawBorders.All;
+            var leftEdges = PaletteDrawBorders.All;
+            var rightEdges = PaletteDrawBorders.All;
+            var topEdges = PaletteDrawBorders.All;
+            var bottomEdges = PaletteDrawBorders.All;
+            var fillEdges = PaletteDrawBorders.All;
 
             // Check for edge docking children
             foreach (ViewBase child in Reverse())
@@ -508,7 +508,7 @@ namespace Krypton.Toolkit
         /// Perform a layout of the elements.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override void Layout(ViewLayoutContext context)
+        public override void Layout([DisallowNull] ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 
@@ -531,11 +531,11 @@ namespace Krypton.Toolkit
             context.DisplayRectangle = fillerRect;
 
             // By default all the children need to draw all their borders
-            PaletteDrawBorders leftEdges = PaletteDrawBorders.All;
-            PaletteDrawBorders rightEdges = PaletteDrawBorders.All;
-            PaletteDrawBorders topEdges = PaletteDrawBorders.All;
-            PaletteDrawBorders bottomEdges = PaletteDrawBorders.All;
-            PaletteDrawBorders fillEdges = PaletteDrawBorders.All;
+            var leftEdges = PaletteDrawBorders.All;
+            var rightEdges = PaletteDrawBorders.All;
+            var topEdges = PaletteDrawBorders.All;
+            var bottomEdges = PaletteDrawBorders.All;
+            var fillEdges = PaletteDrawBorders.All;
 
             // Position all except the filler
             foreach (ViewBase child in Reverse())
@@ -554,21 +554,21 @@ namespace Krypton.Toolkit
                     switch (CalculateDock(OrientateDock(GetDock(child)), context.Control))
                     {
                         case ViewDockStyle.Top:
-                            context.DisplayRectangle = new Rectangle(fillerRect.X, fillerRect.Y, fillerRect.Width, childSize.Height);
+                            context.DisplayRectangle = fillerRect with { Height = childSize.Height };
                             fillerRect.Height -= childSize.Height;
                             fillerRect.Y += childSize.Height;
                             break;
                         case ViewDockStyle.Bottom:
-                            context.DisplayRectangle = new Rectangle(fillerRect.X, fillerRect.Bottom - childSize.Height, fillerRect.Width, childSize.Height);
+                            context.DisplayRectangle = fillerRect with { Y = fillerRect.Bottom - childSize.Height, Height = childSize.Height };
                             fillerRect.Height -= childSize.Height;
                             break;
                         case ViewDockStyle.Left:
-                            context.DisplayRectangle = new Rectangle(fillerRect.X, fillerRect.Y, childSize.Width, fillerRect.Height);
+                            context.DisplayRectangle = fillerRect with { Width = childSize.Width };
                             fillerRect.Width -= childSize.Width;
                             fillerRect.X += childSize.Width;
                             break;
                         case ViewDockStyle.Right:
-                            context.DisplayRectangle = new Rectangle(fillerRect.Right - childSize.Width, fillerRect.Y, childSize.Width, fillerRect.Height);
+                            context.DisplayRectangle = fillerRect with { X = fillerRect.Right - childSize.Width, Width = childSize.Width };
                             fillerRect.Width -= childSize.Width;
                             break;
                     }
@@ -579,7 +579,7 @@ namespace Krypton.Toolkit
             }
 
             Rectangle borderRect = ClientRectangle;
-            Padding padding = Padding.Empty;
+            var padding = Padding.Empty;
 
             if (!IgnoreAllBorderAndPadding)
             {
@@ -661,7 +661,7 @@ namespace Krypton.Toolkit
             if (RemoveChildBorders)
             {
                 // Check if the view is a canvas
-                ViewDrawCanvas childCanvas = child as ViewDrawCanvas;
+                var childCanvas = child as ViewDrawCanvas;
 
                 // Docking edge determines calculation
                 switch (CalculateDock(GetDock(child), context.Control))

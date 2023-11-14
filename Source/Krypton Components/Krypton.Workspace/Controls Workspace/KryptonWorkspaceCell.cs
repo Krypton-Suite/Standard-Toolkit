@@ -1,4 +1,16 @@
-﻿using System.Linq;
+﻿#region BSD License
+/*
+ * 
+ * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
+ * 
+ *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  
+ */
+#endregion
+
+using System.Linq;
 
 namespace Krypton.Workspace
 {
@@ -7,16 +19,16 @@ namespace Krypton.Workspace
     /// </summary>
     [ToolboxItem(false)]
     [ToolboxBitmap(typeof(KryptonWorkspaceCell), "ToolboxBitmaps.KryptonWorkspaceCell.bmp")]
-    [Designer("Krypton.Workspace.KryptonWorkspaceCellDesigner, Krypton.Workspace")]
+    [Designer(typeof(KryptonWorkspaceCellDesigner))]
     [DesignerCategory(@"code")]
     [DesignTimeVisible(false)]
-    [DefaultProperty("Pages")]
+    [DefaultProperty(nameof(Pages))]
     public class KryptonWorkspaceCell : KryptonNavigator,
                                         IWorkspaceItem
     {
         #region Instance Fields
 
-        private IWorkspaceItem _parent;
+        private IWorkspaceItem? _parent;
         private bool _disposeOnRemove;
         private bool _events;
         //seb
@@ -28,12 +40,12 @@ namespace Krypton.Workspace
         /// <summary>
         /// Occurs after a change has occurred to the collection.
         /// </summary>
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         /// <summary>
         /// Occurs when the user clicks the maximize/restore button.
         /// </summary>
-        public event EventHandler MaximizeRestoreClicked;
+        public event EventHandler? MaximizeRestoreClicked;
         #endregion
 
         #region Identity
@@ -97,7 +109,7 @@ namespace Krypton.Workspace
                 // Must remove from parent workspace manually because the control collection is readonly
                 if (Parent != null)
                 {
-                    KryptonReadOnlyControls controls = (KryptonReadOnlyControls)Parent.Controls;
+                    var controls = (KryptonReadOnlyControls)Parent.Controls;
                     controls.RemoveInternal(this);
                 }
 
@@ -134,6 +146,7 @@ namespace Krypton.Workspace
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        [AllowNull]
         public new string Text
         {
             get => base.Text;
@@ -278,7 +291,7 @@ namespace Krypton.Workspace
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public IWorkspaceItem WorkspaceParent
+        public IWorkspaceItem? WorkspaceParent
         {
             get => _parent;
 
@@ -431,7 +444,7 @@ namespace Krypton.Workspace
         {
             // Load the cell details and return the unique name of the selected page for the cell
             var selectedPageUniqueName = workspace.ReadCellElement(xmlReader, this);
-            KryptonPage selectedPage = null;
+            KryptonPage? selectedPage = null;
 
             // If the cell contains nothing then exit immediately
             if (!xmlReader.IsEmptyElement)
@@ -454,7 +467,7 @@ namespace Krypton.Workspace
                     {
                         // Load the page details and optionally recreate the page
                         var uniqueName = XmlHelper.XmlAttributeToText(xmlReader, @"UN");
-                        KryptonPage page = workspace.ReadPageElement(xmlReader, uniqueName, existingPages);
+                        KryptonPage? page = workspace.ReadPageElement(xmlReader, uniqueName, existingPages);
 
                         if (xmlReader.Name != @"CPD")
                         {
@@ -464,7 +477,7 @@ namespace Krypton.Workspace
                         var finished = xmlReader.IsEmptyElement;
 
                         // Generate event so custom data can be loaded and/or the page to be added can be modified
-                        PageLoadingEventArgs plea = new(workspace, page, xmlReader);
+                        var plea = new PageLoadingEventArgs(workspace, page, xmlReader);
                         workspace.OnPageLoading(plea);
                         page = plea.Page;
 
@@ -583,7 +596,7 @@ namespace Krypton.Workspace
         /// <summary>
         /// Gets the child panel used for displaying actual pages.
         /// </summary>
-        protected internal KryptonGroupPanel CellChildPanel => ChildPanel;
+        protected internal KryptonGroupPanel? CellChildPanel => ChildPanel;
 
         /// <summary>
         /// Called by the designer to hit test a point.
@@ -597,17 +610,14 @@ namespace Krypton.Workspace
         /// </summary>
         /// <param name="pt">Point to be tested.</param>
         /// <returns>Component associated with point or null.</returns>
-        protected internal Component CellDesignerComponentFromPoint(Point pt) => DesignerComponentFromPoint(pt);
+        protected internal Component? CellDesignerComponentFromPoint(Point pt) => DesignerComponentFromPoint(pt);
 
         /// <summary>
         /// Called by the designer to indicate that the mouse has left the control.
         /// </summary>
-        protected internal void CellDesignerMouseLeave()
-        {
+        protected internal void CellDesignerMouseLeave() =>
             // ReSharper disable RedundantBaseQualifier
-            base.DesignerMouseLeave();
-            // ReSharper restore RedundantBaseQualifier
-        }
+            base.DesignerMouseLeave();// ReSharper restore RedundantBaseQualifier
 
         /// <summary>
         /// Raises the PropertyChanged event.
@@ -629,7 +639,7 @@ namespace Krypton.Workspace
             // a change in pages might cause compacting to perform extra actions.
             if (_events)
             {
-                OnPropertyChanged(@"Pages");
+                OnPropertyChanged(nameof(Pages));
             }
         }
 

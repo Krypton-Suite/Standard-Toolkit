@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -17,10 +17,10 @@ namespace Krypton.Toolkit
     /// </summary>
     [ToolboxItem(true)]
     [ToolboxBitmap(typeof(KryptonCheckSet), "ToolboxBitmaps.KryptonCheckSet.bmp")]
-    [DefaultEvent(@"CheckedButtonChanged")]
-    [DefaultProperty(@"CheckButtons")]
+    [DefaultEvent(nameof(CheckedButtonChanged))]
+    [DefaultProperty(nameof(CheckButtons))]
     [DesignerCategory(@"code")]
-    [Designer(@"Krypton.Toolkit.KryptonCheckSetDesigner, Krypton.Toolkit")]
+    [Designer(typeof(KryptonCheckSetDesigner))]
     [Description(@"Provide exclusive checked logic for a set of KryptonCheckButton controls.")]
     public class KryptonCheckSet : Component,
                                    ISupportInitialize
@@ -40,7 +40,7 @@ namespace Krypton.Toolkit
             /// Initialize a new instance of the KryptonCheckButtonCollection class.
             /// </summary>
             /// <param name="owner">Owning component</param>
-            public KryptonCheckButtonCollection(KryptonCheckSet owner)
+            public KryptonCheckButtonCollection([DisallowNull] KryptonCheckSet owner)
             {
                 Debug.Assert(owner != null);
                 _owner = owner;
@@ -55,7 +55,7 @@ namespace Krypton.Toolkit
             /// <param name="checkButton">The KryptonCheckButton object to add to the collection.</param>
             /// <exception cref="ArgumentNullException"></exception>
             /// <returns>The index of the new entry.</returns>
-            public int Add(KryptonCheckButton checkButton)
+            public int Add([DisallowNull] KryptonCheckButton checkButton)
             {
                 Debug.Assert(checkButton != null);
 
@@ -103,7 +103,7 @@ namespace Krypton.Toolkit
             /// <param name="checkButton">The KryptonCheckButton reference to insert.</param>
             /// <exception cref="ArgumentException"></exception>
             /// <exception cref="ArgumentNullException"></exception>
-            public void Insert(int index, KryptonCheckButton checkButton)
+            public void Insert(int index, [DisallowNull] KryptonCheckButton checkButton)
             {
                 Debug.Assert(checkButton != null);
 
@@ -133,7 +133,7 @@ namespace Krypton.Toolkit
             /// <param name="checkButton">The KryptonCheckButton to remove.</param>
             /// <exception cref="ArgumentException"></exception>
             /// <exception cref="ArgumentNullException"></exception>
-            public void Remove(KryptonCheckButton checkButton)
+            public void Remove([DisallowNull] KryptonCheckButton checkButton)
             {
                 Debug.Assert(checkButton != null);
 
@@ -194,7 +194,7 @@ namespace Krypton.Toolkit
             /// </summary>
             /// <param name="index">Index of new entry.</param>
             /// <param name="value">Value at the new index.</param>
-            protected override void OnInsertComplete(int index, object value)
+            protected override void OnInsertComplete(int index, object? value)
             {
                 _owner.CheckButtonAdded(value as KryptonCheckButton);
                 base.OnInsertComplete(index, value);
@@ -205,7 +205,7 @@ namespace Krypton.Toolkit
             /// </summary>
             /// <param name="index">Index of the removed entry.</param>
             /// <param name="value">Value at the removed entry.</param>
-            protected override void OnRemoveComplete(int index, object value)
+            protected override void OnRemoveComplete(int index, object? value)
             {
                 _owner.CheckButtonRemoved(value as KryptonCheckButton);
                 base.OnRemoveComplete(index, value);
@@ -217,7 +217,7 @@ namespace Krypton.Toolkit
             /// <param name="index">Index of the change in value.</param>
             /// <param name="oldValue">Value being replaced.</param>
             /// <param name="newValue">Value to be used.</param>
-            protected override void OnSetComplete(int index, object oldValue, object newValue)
+            protected override void OnSetComplete(int index, object? oldValue, object? newValue)
             {
                 _owner.CheckButtonRemoved(oldValue as KryptonCheckButton);
                 _owner.CheckButtonAdded(newValue as KryptonCheckButton);
@@ -231,7 +231,7 @@ namespace Krypton.Toolkit
         private bool _initializing;
         private bool _checkedChanged;
         private bool _ignoreEvents;
-        private KryptonCheckButton _checkedButton;
+        private KryptonCheckButton? _checkedButton;
 
         #endregion
 
@@ -241,7 +241,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Property Changed")]
         [Description(@"Occurs whenever the CheckedButton property has changed.")]
-        public event EventHandler CheckedButtonChanged;
+        public event EventHandler? CheckedButtonChanged;
         #endregion
 
         #region Identity
@@ -255,7 +255,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="container">Container that owns the component.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public KryptonCheckSet(IContainer container)
+        public KryptonCheckSet([DisallowNull] IContainer container)
             : this()
         {
             Debug.Assert(container != null);
@@ -323,7 +323,7 @@ namespace Krypton.Toolkit
         [RefreshProperties(RefreshProperties.All)]
         [TypeConverter(typeof(KryptonCheckedButtonConverter))]
         [DefaultValue(null)]
-        public KryptonCheckButton CheckedButton
+        public KryptonCheckButton? CheckedButton
         {
             get => _checkedButton;
 
@@ -335,7 +335,7 @@ namespace Krypton.Toolkit
                     if ((value != null) && !CheckButtons.Contains(value))
                     {
                         throw new ArgumentOutOfRangeException(nameof(value),
-                            "Provided value is not a KryptonCheckButton associated with this set.");
+                            @"Provided value is not a KryptonCheckButton associated with this set.");
                     }
 
                     // Prevent processing events caused by ourself
@@ -388,12 +388,12 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>
-        /// Gets access to the collection of KryptonCheckButton referencs.
+        /// Gets access to the collection of KryptonCheckButton references.
         /// </summary>
         [Category(@"Behavior")]
         [Description(@"Determine which of the associated buttons is checked.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        [Editor(@"Krypton.Toolkit.KryptonCheckButtonCollectionEditor, Krypton.Toolkit", typeof(UITypeEditor))]
+        [Editor(typeof(KryptonCheckButtonCollectionEditor), typeof(UITypeEditor))]
         [RefreshProperties(RefreshProperties.All)]
         public KryptonCheckButtonCollection CheckButtons { get; }
 
@@ -418,10 +418,15 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Implementation
-        private void CheckButtonAdded(KryptonCheckButton checkButton)
+        private void CheckButtonAdded(KryptonCheckButton? checkButton)
         {
+            if (checkButton == null)
+            {
+                return;
+            }
+
             // If the incoming button is already checked
-            if (checkButton.Checked)
+                if (checkButton.Checked)
             {
                 // If we already have a button checked
                 if (_checkedButton != null)
@@ -444,11 +449,14 @@ namespace Krypton.Toolkit
             checkButton.CheckedChanged += OnCheckedChanged;
         }
 
-        private void CheckButtonRemoved(KryptonCheckButton checkButton)
+        private void CheckButtonRemoved(KryptonCheckButton? checkButton)
         {
             // Unhook from monitoring events
-            checkButton.CheckedChanging -= OnCheckedChanging;
-            checkButton.CheckedChanged -= OnCheckedChanged;
+            if (checkButton != null)
+            {
+                checkButton.CheckedChanging -= OnCheckedChanging;
+                checkButton.CheckedChanged -= OnCheckedChanged;
+            }
 
             // If the removed button is the currently checked one
             if (_checkedButton == checkButton)
@@ -467,7 +475,7 @@ namespace Krypton.Toolkit
             if (!_ignoreEvents)
             {
                 // Cast to the correct type
-                KryptonCheckButton checkedButton = (KryptonCheckButton)sender;
+                var checkedButton = (KryptonCheckButton)sender;
 
                 // Prevent the checked button becoming unchecked unless AllowUncheck is defined
                 e.Cancel = checkedButton.Checked && !AllowUncheck;
@@ -480,7 +488,7 @@ namespace Krypton.Toolkit
             if (!_ignoreEvents)
             {
                 // Cast to the correct type
-                KryptonCheckButton checkedButton = (KryptonCheckButton)sender;
+                var checkedButton = (KryptonCheckButton)sender;
 
                 if (checkedButton.Checked)
                 {

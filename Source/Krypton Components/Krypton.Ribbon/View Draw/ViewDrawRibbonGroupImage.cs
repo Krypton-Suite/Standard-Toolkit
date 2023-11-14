@@ -5,7 +5,9 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  
+ *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
  */
 #endregion
@@ -41,9 +43,9 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Reference to owning ribbon control.</param>
         /// <param name="ribbonGroup">Reference to ribbon group definition.</param>
         /// <param name="viewGroup">Reference to top level group element.</param>
-        public ViewDrawRibbonGroupImage(KryptonRibbon ribbon,
-                                        KryptonRibbonGroup ribbonGroup,
-                                        ViewDrawRibbonGroup viewGroup)
+        public ViewDrawRibbonGroupImage([DisallowNull] KryptonRibbon ribbon,
+                                        [DisallowNull] KryptonRibbonGroup ribbonGroup,
+                                        [DisallowNull] ViewDrawRibbonGroup viewGroup)
         {
             Debug.Assert(ribbon != null);
             Debug.Assert(ribbonGroup != null);
@@ -66,7 +68,7 @@ namespace Krypton.Ribbon
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            @"ViewDrawRibbonGroupImage:" + Id;
+            $@"ViewDrawRibbonGroupImage:{Id}";
 
         /// <summary>
         /// Clean up any resources being used.
@@ -120,11 +122,9 @@ namespace Krypton.Ribbon
         /// Perform a layout of the elements.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override void Layout(ViewLayoutContext context)
-        {
+        public override void Layout(ViewLayoutContext context) =>
             // Take on all the provided area
             ClientRectangle = context.DisplayRectangle;
-        }
         #endregion
 
         #region Paint
@@ -187,9 +187,7 @@ namespace Krypton.Ribbon
             if (_ribbonGroup.Image != null)
             {
                 // Determine the rectangle for the fixed size of image drawing
-                Rectangle drawRect = new(new Point(ClientLocation.X + IMAGE_OFFSET_X,
-                                                             ClientLocation.Y + _offsetY),
-                                                   _imageSize);
+                var drawRect = new Rectangle(new Point(ClientLocation.X + IMAGE_OFFSET_X, ClientLocation.Y + _offsetY), _imageSize);
 
                 context.Graphics.DrawImage(_ribbonGroup.Image, drawRect);
             }

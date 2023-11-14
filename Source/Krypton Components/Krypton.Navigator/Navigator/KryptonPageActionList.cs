@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -125,7 +125,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets and sets the page tooltip image.
         /// </summary>
-        public Bitmap ToolTipImage
+        public Bitmap? ToolTipImage
         {
             get => _page.ToolTipImage;
 
@@ -142,7 +142,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets and sets the small page image.
         /// </summary>
-        public Bitmap ImageSmall
+        public Bitmap? ImageSmall
         {
             get => _page.ImageSmall;
 
@@ -159,7 +159,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets and sets the medium page image.
         /// </summary>
-        public Bitmap ImageMedium
+        public Bitmap? ImageMedium
         {
             get => _page.ImageMedium;
 
@@ -176,7 +176,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets and sets the large page image.
         /// </summary>
-        public Bitmap ImageLarge
+        public Bitmap? ImageLarge
         {
             get => _page.ImageLarge;
 
@@ -221,24 +221,21 @@ namespace Krypton.Navigator
         public override DesignerActionItemCollection GetSortedActionItems()
         {
             // Only create the list of items once
-            if (_actions == null)
-            {
-                _actions = new DesignerActionItemCollection
+            _actions ??= new DesignerActionItemCollection
                 {
-                    new DesignerActionHeaderItem("Appearance"),
-                    new DesignerActionPropertyItem("TextShort", "Text", "Appearance", "The page text."),
-                    new DesignerActionPropertyItem("TextTitle", "Text Title", "Appearance", "The title text for the page."),
-                    new DesignerActionPropertyItem("TextDescription", "Text Description", "Appearance", "The description text for the page."),
-                    new DesignerActionPropertyItem("ImageSmall", "Image Small", "Appearance", "The small image that represents the page."),
-                    new DesignerActionPropertyItem("ImageMedium", "Image Medium", "Appearance", "The medium image that represents the page."),
-                    new DesignerActionPropertyItem("ImageLarge", "Image Large", "Appearance", "The large image that represents the page."),
-                    new DesignerActionPropertyItem("ToolTipTitle", "Tooltip Title", "Appearance", "The tooltip title text for the page."),
-                    new DesignerActionPropertyItem("ToolTipBody", "Tooltip Body", "Appearance", "The tooltip body text for the page."),
-                    new DesignerActionPropertyItem("ToolTipImage", "Tooltip Image", "Appearance", "The tooltip image that represents the page."),
+                    new DesignerActionHeaderItem(nameof(Appearance)),
+                    new DesignerActionPropertyItem(nameof(TextShort), "Text", nameof(Appearance), "The page text."),
+                    new DesignerActionPropertyItem(nameof(TextTitle), "Text Title", nameof(Appearance), "The title text for the page."),
+                    new DesignerActionPropertyItem(nameof(TextDescription), "Text Description", nameof(Appearance), "The description text for the page."),
+                    new DesignerActionPropertyItem(nameof(ImageSmall), "Image Small", nameof(Appearance), "The small image that represents the page."),
+                    new DesignerActionPropertyItem(nameof(ImageMedium), "Image Medium", nameof(Appearance), "The medium image that represents the page."),
+                    new DesignerActionPropertyItem(nameof(ImageLarge), "Image Large", nameof(Appearance), "The large image that represents the page."),
+                    new DesignerActionPropertyItem(nameof(ToolTipTitle), "Tooltip Title", nameof(Appearance), "The tooltip title text for the page."),
+                    new DesignerActionPropertyItem(nameof(ToolTipBody), "Tooltip Body", nameof(Appearance), "The tooltip body text for the page."),
+                    new DesignerActionPropertyItem(nameof(ToolTipImage), "Tooltip Image", nameof(Appearance), "The tooltip image that represents the page."),
                     new DesignerActionHeaderItem("Flags"),
-                    new DesignerActionPropertyItem("PageInOverflowBarForOutlookMode", "Page in Overflow Bar for Outlook mode", "Flags", "Should the page be shown on the overflow bar for the Outlook mode.")
+                    new DesignerActionPropertyItem(nameof(PageInOverflowBarForOutlookMode), "Page in Overflow Bar for Outlook mode", "Flags", "Should the page be shown on the overflow bar for the Outlook mode.")
                 };
-            }
 
             return _actions;
         }

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -27,8 +27,8 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="target">Initial palette target for redirection.</param>
         /// <param name="buttonSpec">Reference to button specification.</param>
-        protected ButtonSpecRemapByContentBase(IPalette target,
-                                            ButtonSpec buttonSpec)
+        protected ButtonSpecRemapByContentBase(PaletteBase? target,
+                                            [DisallowNull] ButtonSpec buttonSpec)
             : base(target)
         {
             Debug.Assert(buttonSpec != null);
@@ -40,7 +40,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the palette content to use for remapping.
         /// </summary>
-        public abstract IPaletteContent PaletteContent { get; }
+        public abstract IPaletteContent? PaletteContent { get; }
         #endregion
 
         #region PaletteState
@@ -79,7 +79,7 @@ namespace Krypton.Toolkit
             // If allowed to override then get the map color
             Color mapColor = OverrideImageColor(state);
 
-            // If mapping occuring then return the target remap color
+            // If mapping occurring then return the target remap color
             if ((mapColor != Color.Empty)  && (PaletteContent != null))
             {
                 PaletteState getState = PaletteState;

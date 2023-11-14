@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -21,17 +21,19 @@ namespace Krypton.Toolkit
     [ToolboxBitmap(typeof(ListView))]
     [DefaultEvent("AfterSelect")]
     [DefaultProperty("Nodes")]
-    [Designer("Krypton.Toolkit.KryptonTreeViewDesigner, Krypton.Toolkit")]
+    [Designer(typeof(KryptonTreeViewDesigner))]
     [DesignerCategory(@"code")]
     [Description(@"A Kryptonised listview. Does not support the `List or Details View` types")]
     public class KryptonListView : ListView
     {
         #region Variables
-        private IPalette _localPalette;
-        private IPalette _palette;
+        private PaletteBase? _localPalette;
+        private PaletteBase? _palette;
         private PaletteMode _paletteMode;
         private bool _layoutDirty;
         private bool _refreshAll;
+        private float _cornerRoundingRadius;
+        private float _itemCornerRoundingRadius;
         private readonly IntPtr _screenDC;
 
         private readonly PaletteTripleOverride _overrideNormal;
@@ -40,7 +42,7 @@ namespace Krypton.Toolkit
         private readonly PaletteTripleOverride _overrideCheckedNormal;
         private readonly PaletteTripleOverride _overrideCheckedTracking;
         private readonly PaletteTripleOverride _overrideCheckedPressed;
-        private readonly PaletteRedirectCheckBox _paletteCheckBoxImages;
+        private readonly PaletteRedirectCheckBox? _paletteCheckBoxImages;
         private readonly ViewLayoutDocker _drawDockerInner;
         private readonly ViewDrawDocker _drawDockerOuter;
         private readonly ViewLayoutCenter _layoutCheckBox;
@@ -58,16 +60,16 @@ namespace Krypton.Toolkit
         private readonly ViewDrawCheckBox _drawCheckBox;
         private readonly ViewLayoutFill _layoutFill;
         private readonly ViewDrawButton _drawButton;
-        private readonly ShortTextValue _contentValues;
+        private readonly ShortTextValue? _contentValues;
         private bool _mouseOver;
         private bool _alwaysActive;
         private ButtonStyle _style;
         private bool? _fixedActive;
-        private KryptonContextMenu _kryptonContextMenu;
+        private KryptonContextMenu? _kryptonContextMenu;
 
         #endregion
 
-        #region Constructor
+        #region Identity
         public KryptonListView()
         {
             SetStyle(ControlStyles.AllPaintingInWmPaint
@@ -207,6 +209,9 @@ namespace Krypton.Toolkit
             StateCommon.Item.Content.ShortText.MultiLineH = PaletteRelativeAlign.Center;
             StateCommon.Item.Content.ShortText.TextH = PaletteRelativeAlign.Center;
 
+            _cornerRoundingRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
+
+            _itemCornerRoundingRadius = GlobalStaticValues.SECONDARY_CORNER_ROUNDING_VALUE;
         }
 
         /// <summary>
@@ -217,7 +222,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the palette redirector.
         /// </summary>
-        protected PaletteRedirect Redirector
+        protected PaletteRedirect? Redirector
         {
             [DebuggerStepThrough]
             get;
@@ -236,7 +241,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public IRenderer Renderer
+        public IRenderer? Renderer
         {
             [DebuggerStepThrough]
             get;
@@ -245,18 +250,43 @@ namespace Krypton.Toolkit
 
         #endregion
 
-        #region public
+        #region Public
+
+        /// <summary>Gets or sets the corner rounding radius.</summary>
+        /// <value>The corner rounding radius.</value>
+        [Category(@"Visuals")]
+        [Description(@"Gets or sets the corner rounding radius.")]
+        [DefaultValue(GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE)]
+        public float CornerRoundingRadius
+        {
+            get => _cornerRoundingRadius;
+
+            set => SetCornerRoundingRadius(value);
+        }
+
+        /// <summary>Gets or sets the item corner rounding radius.</summary>
+        /// <value>The item corner rounding radius.</value>
+        [Category(@"Visuals")]
+        [Description(@"Gets or sets the item corner rounding radius.")]
+        [DefaultValue(GlobalStaticValues.SECONDARY_CORNER_ROUNDING_VALUE)]
+        public float ItemCornerRoundingRadius
+        {
+            get => _itemCornerRoundingRadius;
+
+            set => SetItemCornerRoundingRadius(value);
+        }
 
         /// <summary>Gets and sets the custom palette implementation.</summary>
         [Category(@"Visuals")]
         [Description(@"Custom palette applied to drawing.")]
         [DefaultValue(null)]
-        public IPalette Palette
+        public PaletteBase? Palette
         {
-            [DebuggerStepThrough] get => this._localPalette;
+            [DebuggerStepThrough]
+            get => _localPalette;
             set
             {
-                if (this._localPalette == value)
+                if (_localPalette == value)
                 {
                     return;
                 }
@@ -265,8 +295,8 @@ namespace Krypton.Toolkit
                 if (value == null)
                 {
                     _paletteMode = PaletteMode.Global;
-                    _localPalette = (IPalette) null;
-                    CacheNewPalette(KryptonManager.GetPaletteForMode(this._paletteMode));
+                    _localPalette = null;
+                    CacheNewPalette(KryptonManager.GetPaletteForMode(_paletteMode));
                 }
                 else
                 {
@@ -278,7 +308,7 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>Resets the Palette property to its default value.</summary>
-        public void ResetPalette() => this.PaletteMode = PaletteMode.Global;
+        public void ResetPalette() => PaletteMode = PaletteMode.Global;
 
         /// <summary>
         /// Gets and sets Determines if the control is always active or only when the mouse is over the control or has focus.
@@ -325,7 +355,7 @@ namespace Krypton.Toolkit
         [Category(@"Behavior")]
         [Description(@"Consider using KryptonContextMenu within the behaviors section.\nThe Winforms shortcut menu to show when the user right-clicks the page.\nNote: The ContextMenu will be rendered.")]
         [DefaultValue(null)]
-        public override ContextMenuStrip ContextMenuStrip
+        public override ContextMenuStrip? ContextMenuStrip
         {
             [DebuggerStepThrough]
             get => base.ContextMenuStrip;
@@ -358,7 +388,7 @@ namespace Krypton.Toolkit
         [Category(@"Behavior")]
         [Description(@"The KryptonContextMenu to show when the user right-clicks the Control.")]
         [DefaultValue(null)]
-        public virtual KryptonContextMenu KryptonContextMenu
+        public virtual KryptonContextMenu? KryptonContextMenu
         {
             get => _kryptonContextMenu;
 
@@ -442,7 +472,7 @@ namespace Krypton.Toolkit
             }
 
             // Work out if we need to draw a state image
-            Image drawStateImage = null;
+            Image? drawStateImage = null;
             if (StateImageList != null)
             {
                 try
@@ -479,7 +509,7 @@ namespace Krypton.Toolkit
             {
                 View.LargeIcon => e.Item.Text,
                 View.Tile => e.Item.Text,
-                View.SmallIcon => e.Item.Text + @"     ", // Hack to get the button to "Surround" the text
+                View.SmallIcon => $@"{e.Item.Text}     ", // Hack to get the button to "Surround" the text
                 _ => null
             };
 
@@ -525,7 +555,7 @@ namespace Krypton.Toolkit
             _drawButton.ElementState = buttonState;
 
             // Grab the raw device context for the graphics instance
-            IntPtr hdc = e.Graphics.GetHdc();
+            var hdc = e.Graphics.GetHdc();
 
             try
             {
@@ -540,7 +570,7 @@ namespace Krypton.Toolkit
 #pragma warning restore CA2208 // Instantiate argument exceptions correctly
                 };
 
-                using (ViewLayoutContext context = new(this, Renderer))
+                using (var context = new ViewLayoutContext(this, Renderer))
                 {
                     context.DisplayRectangle = e.Bounds;
                     ViewDrawPanel.Layout(context);
@@ -548,7 +578,7 @@ namespace Krypton.Toolkit
                 }
 
                 // Create bitmap that all drawing occurs onto, then we can blit it later to remove flicker
-                IntPtr hBitmap = PI.CreateCompatibleBitmap(hdc, bounds.Right, bounds.Bottom);
+                var hBitmap = PI.CreateCompatibleBitmap(hdc, bounds.Right, bounds.Bottom);
 
                 // If we managed to get a compatible bitmap
                 if (hBitmap != IntPtr.Zero)
@@ -561,12 +591,12 @@ namespace Krypton.Toolkit
 
                         // Easier to draw using a graphics instance than a DC!
                         using Graphics g = Graphics.FromHdc(_screenDC);
-                        using (RenderContext context = new(this, g, e.Bounds, Renderer))
+                        using (var context = new RenderContext(this, g, e.Bounds, Renderer))
                         {
                             ViewDrawPanel.Render(context);
                         }
 
-                        using (RenderContext context = new(this, g, bounds, Renderer))
+                        using (var context = new RenderContext(this, g, bounds, Renderer))
                         {
                             layoutDocker.Render(context);
                         }
@@ -574,7 +604,7 @@ namespace Krypton.Toolkit
                         // Do we draw an image for the node?
                         if (imgList != null)
                         {
-                            Image drawImage = null;
+                            Image? drawImage = null;
                             var imageCount = imgList.Images.Count;
 
                             try
@@ -634,7 +664,6 @@ namespace Krypton.Toolkit
 
         #endregion
 
-
         #region Others Overrides
         protected override void OnSelectedIndexChanged(EventArgs e)
         {
@@ -679,7 +708,7 @@ namespace Krypton.Toolkit
                     if (KryptonContextMenu != null)
                     {
                         // Extract the screen mouse position (if might not actually be provided)
-                        Point mousePt = new(PI.LOWORD(m.LParam), PI.HIWORD(m.LParam));
+                        var mousePt = new Point(PI.LOWORD(m.LParam), PI.HIWORD(m.LParam));
 
                         // If keyboard activated, the menu position is centered
                         if (((int)(long)m.LParam) == -1)
@@ -775,7 +804,7 @@ namespace Krypton.Toolkit
 
                 // Unhook from the static events, otherwise we cannot be garbage collected
                 KryptonManager.GlobalPaletteChanged -= OnGlobalPaletteChanged;
-                this._localPalette = (IPalette) null;
+                _localPalette = null;
             }
 
             base.Dispose(disposing);
@@ -811,10 +840,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void ResetBackStyle()
-        {
-            BackStyle = PaletteBackStyle.InputControlStandalone;
-        }
+        private void ResetBackStyle() => BackStyle = PaletteBackStyle.InputControlStandalone;
 
         private bool ShouldSerializeBackStyle() => BackStyle != PaletteBackStyle.InputControlStandalone;
 
@@ -837,10 +863,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void ResetBorderStyle()
-        {
-            BorderStyle = PaletteBorderStyle.InputControlStandalone;
-        }
+        private void ResetBorderStyle() => BorderStyle = PaletteBorderStyle.InputControlStandalone;
 
         private bool ShouldSerializeBorderStyle() => BorderStyle != PaletteBorderStyle.InputControlStandalone;
 
@@ -906,7 +929,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Overrides for defining common appearance that other states can override.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteListStateRedirect StateCommon { get; }
+        public PaletteListStateRedirect? StateCommon { get; }
 
         private bool ShouldSerializeStateCommon() => !StateCommon.IsDefault;
 
@@ -1045,14 +1068,11 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the PaletteMode property to its default value.
         /// </summary>
-        public void ResetPaletteMode()
-        {
-            PaletteMode = PaletteMode.Global;
-        }
+        public void ResetPaletteMode() => PaletteMode = PaletteMode.Global;
 
         private void OnGlobalPaletteChanged(object sender, EventArgs e)
         {
-            if (this.PaletteMode != PaletteMode.Global)
+            if (PaletteMode != PaletteMode.Global)
             {
                 return;
             }
@@ -1068,7 +1088,7 @@ namespace Krypton.Toolkit
             Invalidate();
         }
 
-        private void CacheNewPalette(IPalette palette)
+        private void CacheNewPalette(PaletteBase? palette)
         {
             if (palette != _palette)
             {
@@ -1100,7 +1120,7 @@ namespace Krypton.Toolkit
         /// <param name="sender">Source of notification.</param>
         /// <param name="e">An NeedLayoutEventArgs containing event data.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        protected virtual void OnNeedPaint(object sender, NeedLayoutEventArgs e)
+        protected virtual void OnNeedPaint(object? sender, [DisallowNull] NeedLayoutEventArgs e)
         {
             Debug.Assert(e != null);
 
@@ -1201,13 +1221,11 @@ namespace Krypton.Toolkit
             cms.Renderer = Renderer.RenderToolStrip(_palette);
         }
 
-        private void OnKryptonContextMenuDisposed(object sender, EventArgs e)
-        {
+        private void OnKryptonContextMenuDisposed(object sender, EventArgs e) =>
             // When the current krypton context menu is disposed, we should remove 
             // it to prevent it being used again, as that would just throw an exception 
             // because it has been disposed.
             KryptonContextMenu = null;
-        }
 
         private void OnContextMenuClosed(object sender, ToolStripDropDownClosedEventArgs e) => ContextMenuClosed();
 
@@ -1216,6 +1234,24 @@ namespace Krypton.Toolkit
         /// </summary>
         protected virtual void ContextMenuClosed()
         {
+        }
+
+        #endregion
+
+        #region Implementation
+
+        private void SetCornerRoundingRadius(float? radius)
+        {
+            _cornerRoundingRadius = radius ?? GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
+
+            StateCommon.Border.Rounding = _cornerRoundingRadius;
+        }
+
+        private void SetItemCornerRoundingRadius(float? radius)
+        {
+            _itemCornerRoundingRadius = radius ?? GlobalStaticValues.SECONDARY_CORNER_ROUNDING_VALUE;
+
+            StateCommon.Item.Border.Rounding = _itemCornerRoundingRadius;
         }
 
         #endregion

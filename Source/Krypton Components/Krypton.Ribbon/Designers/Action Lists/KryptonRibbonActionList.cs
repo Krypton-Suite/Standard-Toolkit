@@ -5,7 +5,9 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  
+ *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
  */
 #endregion
@@ -15,7 +17,7 @@ namespace Krypton.Ribbon
     internal class KryptonRibbonActionList : DesignerActionList
     {
         #region Instance Fields
-        private readonly KryptonRibbon _ribbon;
+        private readonly KryptonRibbon? _ribbon;
         private readonly IComponentChangeService _service;
         #endregion
 
@@ -24,7 +26,7 @@ namespace Krypton.Ribbon
         /// Initialize a new instance of the KryptonRibbonActionList class.
         /// </summary>
         /// <param name="owner">Designer that owns this action list instance.</param>
-        public KryptonRibbonActionList(KryptonRibbonDesigner owner) 
+        public KryptonRibbonActionList(KryptonRibbonDesigner owner)
             : base(owner.Component)
         {
             // Remember the ribbon instance
@@ -34,8 +36,17 @@ namespace Krypton.Ribbon
             _service = (IComponentChangeService)GetService(typeof(IComponentChangeService));
         }
         #endregion
-        
+
         #region Public
+
+        /// <summary>Gets or sets a value indicating whether [allow form integrate].</summary>
+        /// <value><c>true</c> if [allow form integrate]; otherwise, <c>false</c>.</value>
+        public bool AllowFormIntegrate
+        {
+            get => _ribbon.AllowFormIntegrate;
+            set => _ribbon.AllowFormIntegrate = value;
+        }
+
         /// <summary>
         /// Gets and sets use of design time helpers.
         /// </summary>
@@ -71,18 +82,19 @@ namespace Krypton.Ribbon
         public override DesignerActionItemCollection GetSortedActionItems()
         {
             // Create a new collection for holding the single item we want to create
-            DesignerActionItemCollection actions = new();
+            var actions = new DesignerActionItemCollection();
 
             // This can be null when deleting a control instance at design time
             if (_ribbon != null)
             {
                 // Add the list of button specific actions
                 actions.Add(new DesignerActionHeaderItem("Design"));
-                actions.Add(new DesignerActionPropertyItem("InDesignHelperMode", "Design Helpers", "Design", "Show design time helpers for creating items."));
+                actions.Add(new DesignerActionPropertyItem(nameof(InDesignHelperMode), "Design Helpers", "Design", "Show design time helpers for creating items."));
                 actions.Add(new DesignerActionHeaderItem("Visuals"));
-                actions.Add(new DesignerActionPropertyItem("PaletteMode", "Palette", "Visuals", "Palette applied to drawing"));
+                actions.Add(new DesignerActionPropertyItem(nameof(AllowFormIntegrate), "Allow Form Integration", "Visuals", "Integrate with operating system chrome instead of Krypton Palette."));
+                actions.Add(new DesignerActionPropertyItem(nameof(PaletteMode), "Palette", "Visuals", "Palette applied to drawing"));
             }
-            
+
             return actions;
         }
         #endregion

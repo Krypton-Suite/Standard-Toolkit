@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -24,7 +24,7 @@ namespace Krypton.Toolkit
         private bool _refresh;
         private bool _refreshAll;
         private readonly SimpleCall _refreshCall;
-        private VisualPopupShadow _shadow;
+        private VisualPopupShadow? _shadow;
         #endregion
 
         #region Identity
@@ -42,7 +42,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="renderer">Drawing renderer.</param>
         /// <param name="shadow">Does the popup need a shadow effect.</param>
-        public VisualPopup(IRenderer renderer,
+        public VisualPopup(IRenderer? renderer,
                            bool shadow)
             : this(new ViewManager(), renderer, shadow)
         {
@@ -55,7 +55,7 @@ namespace Krypton.Toolkit
         /// <param name="renderer">Drawing renderer.</param>
         /// <param name="shadow">Does the popup need a shadow effect.</param>
         public VisualPopup(ViewManager viewManager,
-                           IRenderer renderer,
+                           IRenderer? renderer,
                            bool shadow)
         {
             #region Default ControlStyle Values
@@ -79,9 +79,9 @@ namespace Krypton.Toolkit
             #endregion
 
             // We use double buffering to reduce drawing flicker
-            SetStyle(ControlStyles.OptimizedDoubleBuffer |
-                                                                                                     ControlStyles.AllPaintingInWmPaint |
-                                                                                                     ControlStyles.UserPaint, true);
+            SetStyle(ControlStyles.OptimizedDoubleBuffer
+                     | ControlStyles.AllPaintingInWmPaint
+                     | ControlStyles.UserPaint, true);
 
             // We need to repaint entire control whenever resized
             SetStyle(ControlStyles.ResizeRedraw, true);
@@ -212,17 +212,17 @@ namespace Krypton.Toolkit
             {
                 // Get the window handle of the window under this screen point
                 Point screenPt = PointToScreen(pt);
-                PI.POINT screenPIPt = new()
+                var screenPIPt = new PI.POINT
                 {
                     X = screenPt.X,
                     Y = screenPt.Y
                 };
-                IntPtr hWnd = PI.WindowFromPoint(screenPIPt);
+                var hWnd = PI.WindowFromPoint(screenPIPt);
 
                 // Assuming we got back a valid window handle
                 if (hWnd != IntPtr.Zero)
                 {
-                    StringBuilder className = new(256);
+                    var className = new StringBuilder(256);
                     var length = PI.GetClassName(hWnd, className, className.Capacity);
 
                     // If we got back a valid name
@@ -292,7 +292,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public virtual IPalette GetResolvedPalette() => null;
+        public virtual PaletteBase? GetResolvedPalette() => null;
 
         /// <summary>
         /// Gets access to the current renderer.
@@ -300,7 +300,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public IRenderer Renderer
+        public IRenderer? Renderer
         {
             [DebuggerStepThrough]
             get;
@@ -320,7 +320,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public EventHandler DismissedDelegate { get; set; }
+        public EventHandler? DismissedDelegate { get; set; }
 
         /// <summary>
         /// Gets a value indicating if the keyboard is passed to this popup.
@@ -333,7 +333,7 @@ namespace Krypton.Toolkit
         /// Gets access to the view manager of the popup.
         /// </summary>
         /// <returns></returns>
-        public ViewManager GetViewManager() => ViewManager;
+        public ViewManager? GetViewManager() => ViewManager;
 
         #endregion
 
@@ -341,7 +341,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the ViewManager instance.
         /// </summary>
-        protected ViewManager ViewManager
+        protected ViewManager? ViewManager
         {
             [DebuggerStepThrough]
             get;
@@ -372,7 +372,7 @@ namespace Krypton.Toolkit
         /// <param name="sender">Source of notification.</param>
         /// <param name="e">An NeedLayoutEventArgs containing event data.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        protected virtual void OnNeedPaint(object sender, NeedLayoutEventArgs e)
+        protected virtual void OnNeedPaint(object? sender, [DisallowNull] NeedLayoutEventArgs e)
         {
             Debug.Assert(e != null);
 

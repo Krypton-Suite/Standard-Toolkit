@@ -5,7 +5,9 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  
+ *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
  */
 #endregion
@@ -31,7 +33,7 @@ namespace Krypton.Ribbon
         private readonly PaletteTripleToPalette _triple;
         private readonly KryptonGallery _gallery;
         private ButtonStyle _style;
-        private readonly System.Windows.Forms.Timer _scrollTimer;
+        private readonly Timer _scrollTimer;
         private Size _itemSize;
         private int _lineItems;
         private int _displayLines;
@@ -54,12 +56,12 @@ namespace Krypton.Ribbon
         /// <param name="buttonUp">Reference to the up button.</param>
         /// <param name="buttonDown">Reference to the down button.</param>
         /// <param name="buttonContext">Reference to the context button.</param>
-        public ViewLayoutRibbonGalleryItems(IPalette palette,
-                                            KryptonGallery gallery,
-                                            NeedPaintHandler needPaint,
-                                            ViewDrawRibbonGalleryButton buttonUp,
-                                            ViewDrawRibbonGalleryButton buttonDown,
-                                            ViewDrawRibbonGalleryButton buttonContext)
+        public ViewLayoutRibbonGalleryItems([DisallowNull] PaletteBase palette,
+                                            [DisallowNull] KryptonGallery gallery,
+                                            [DisallowNull] NeedPaintHandler needPaint,
+                                            [DisallowNull] ViewDrawRibbonGalleryButton buttonUp,
+                                            [DisallowNull] ViewDrawRibbonGalleryButton buttonDown,
+                                            [DisallowNull] ViewDrawRibbonGalleryButton buttonContext)
         {
             Debug.Assert(palette != null);
             Debug.Assert(gallery != null);
@@ -89,7 +91,7 @@ namespace Krypton.Ribbon
                                                  PaletteContentStyle.ButtonLowProfile);
 
             // Setup timer to use for scrolling lines
-            _scrollTimer = new System.Windows.Forms.Timer
+            _scrollTimer = new Timer
             {
                 Interval = 40
             };
@@ -102,7 +104,7 @@ namespace Krypton.Ribbon
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            "ViewLayoutRibbonGalleryItems:" + Id;
+            $"ViewLayoutRibbonGalleryItems:{Id}";
 
         #endregion
 
@@ -356,14 +358,14 @@ namespace Krypton.Ribbon
         /// Discover the preferred size of the element.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override Size GetPreferredSize(ViewLayoutContext context)
+        public override Size GetPreferredSize([DisallowNull] ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 
             // Ensure that the correct number of children are created
             SyncChildren();
 
-            Size preferredSize = Size.Empty;
+            var preferredSize = Size.Empty;
 
             // Find size of the first item, if there is one
             if (Count > 0)
@@ -387,7 +389,7 @@ namespace Krypton.Ribbon
         /// Perform a layout of the elements.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override void Layout(ViewLayoutContext context)
+        public override void Layout([DisallowNull] ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 
@@ -566,7 +568,7 @@ namespace Krypton.Ribbon
             // Tell each item the image it should be displaying
             for (var i = 0; i < required; i++)
             {
-                ViewDrawRibbonGalleryItem item = (ViewDrawRibbonGalleryItem)this[i];
+                var item = (ViewDrawRibbonGalleryItem)this[i];
                 item.ImageList = imageList;
                 item.ImageIndex = i;
                 item.Checked = selectedIndex == i;
@@ -674,21 +676,28 @@ namespace Krypton.Ribbon
                         }
                     }
 
-                    // Update the begin line
-                    if (_offset < 0)
+                    switch (_offset)
                     {
-                        // Ensure the old top line can be displayed during scrolling
-                        if ((_beginLine == -1) || (_beginLine > prevTopLine))
+                        // Update the begin line
+                        case < 0:
                         {
-                            _beginLine = prevTopLine;
+                            // Ensure the old top line can be displayed during scrolling
+                            if ((_beginLine == -1) || (_beginLine > prevTopLine))
+                            {
+                                _beginLine = prevTopLine;
+                            }
+
+                            break;
                         }
-                    }
-                    else if (_offset > 0)
-                    {
-                        // Ensure the old top line can be displayed during scrolling
-                        if ((_beginLine == -1) || (_beginLine < prevTopLine))
+                        case > 0:
                         {
-                            _beginLine = prevTopLine;
+                            // Ensure the old top line can be displayed during scrolling
+                            if ((_beginLine == -1) || (_beginLine < prevTopLine))
+                            {
+                                _beginLine = prevTopLine;
+                            }
+
+                            break;
                         }
                     }
                 }

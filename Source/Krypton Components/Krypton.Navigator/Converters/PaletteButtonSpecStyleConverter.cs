@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -15,48 +15,38 @@ namespace Krypton.Navigator
     /// <summary>
     /// Custom type converter so that PaletteNavButtonSpecStyle values appear as neat text at design time.
     /// </summary>
-    internal class PaletteNavButtonSpecStyleConverter : StringLookupConverter
+    internal class PaletteNavButtonSpecStyleConverter : StringLookupConverter<PaletteNavButtonSpecStyle>
     {
         #region Static Fields
 
-        #endregion
-
-        #region Identity
-        /// <summary>
-        /// Initialize a new instance of the PaletteNavButtonSpecStyleConverter class.
-        /// </summary>
-        public PaletteNavButtonSpecStyleConverter()
-            : base(typeof(PaletteNavButtonSpecStyle))
+        [Localizable(true)]
+        private static readonly IReadOnlyDictionary<PaletteNavButtonSpecStyle, string> _pairs = new Dictionary<PaletteNavButtonSpecStyle, string>
         {
-        }
-        #endregion
-
-        #region Protected
-        /// <summary>
-        /// Gets an array of lookup pairs.
-        /// </summary>
-        protected override Pair[] Pairs { get; } =
-        { new(PaletteNavButtonSpecStyle.Generic,            "Generic"),
-            new(PaletteNavButtonSpecStyle.ArrowLeft,          "Arrow Left"),
-            new(PaletteNavButtonSpecStyle.ArrowRight,         "Arrow Right"),
-            new(PaletteNavButtonSpecStyle.ArrowUp,            "Arrow Up"),
-            new(PaletteNavButtonSpecStyle.ArrowDown,          "Arrow Down"),
-            new(PaletteNavButtonSpecStyle.DropDown,           "Drop Down"),
-            new(PaletteNavButtonSpecStyle.PinVertical,        "Pin Vertical"),
-            new(PaletteNavButtonSpecStyle.PinHorizontal,      "Pin Horizontal"),
-            new(PaletteNavButtonSpecStyle.FormClose,          "Form Close"),
-            new(PaletteNavButtonSpecStyle.FormMax,            "Form Max"),
-            new(PaletteNavButtonSpecStyle.FormMin,            "Form Min"),
-            new(PaletteNavButtonSpecStyle.FormRestore,        "Form Restore"),
-            new(PaletteNavButtonSpecStyle.FormHelp,        "Form Help"),
-            new(PaletteNavButtonSpecStyle.PendantClose,       "Pendant Close"),
-            new(PaletteNavButtonSpecStyle.PendantMin,         "Pendant Min"),
-            new(PaletteNavButtonSpecStyle.PendantRestore,     "Pendant Restore"),
-            new(PaletteNavButtonSpecStyle.WorkspaceMaximize,  "Workspace Maximize"),
-            new(PaletteNavButtonSpecStyle.WorkspaceRestore,   "Workspace Restore"),
-            new(PaletteNavButtonSpecStyle.RibbonMinimize,     "Ribbon Minimize"),
-            new(PaletteNavButtonSpecStyle.RibbonExpand,       "Ribbon Expand")};
+            {PaletteNavButtonSpecStyle.Generic, "Generic"},
+            {PaletteNavButtonSpecStyle.ArrowLeft, "Arrow Left"},
+            {PaletteNavButtonSpecStyle.ArrowRight, "Arrow Right"},
+            {PaletteNavButtonSpecStyle.ArrowUp, "Arrow Up"},
+            {PaletteNavButtonSpecStyle.ArrowDown, "Arrow Down"},
+            {PaletteNavButtonSpecStyle.DropDown, "Drop Down"},
+            {PaletteNavButtonSpecStyle.PinVertical, "Pin Vertical"},
+            {PaletteNavButtonSpecStyle.PinHorizontal, "Pin Horizontal"},
+            {PaletteNavButtonSpecStyle.FormClose, "Form Close"},
+            {PaletteNavButtonSpecStyle.FormMax, "Form Max"},
+            {PaletteNavButtonSpecStyle.FormMin, "Form Min"},
+            {PaletteNavButtonSpecStyle.FormRestore, "Form Restore"},
+            {PaletteNavButtonSpecStyle.FormHelp, "Form Help"},
+            {PaletteNavButtonSpecStyle.PendantClose, "Pendant Close"},
+            {PaletteNavButtonSpecStyle.PendantMin, "Pendant Min"},
+            {PaletteNavButtonSpecStyle.PendantRestore, "Pendant Restore"},
+            {PaletteNavButtonSpecStyle.WorkspaceMaximize, "Workspace Maximize"},
+            {PaletteNavButtonSpecStyle.WorkspaceRestore, "Workspace Restore"},
+            {PaletteNavButtonSpecStyle.RibbonMinimize, "Ribbon Minimize"},
+            {PaletteNavButtonSpecStyle.RibbonExpand, "Ribbon Expand" }
+        };
 
         #endregion
+
+        protected override IReadOnlyDictionary<PaletteNavButtonSpecStyle /*Enum*/, string /*Display*/> Pairs => _pairs;
+
     }
 }

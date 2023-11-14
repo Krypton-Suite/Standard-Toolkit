@@ -5,7 +5,9 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  
+ *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
  */
 #endregion
@@ -17,7 +19,7 @@ namespace Krypton.Ribbon
     /// </summary>
     [ToolboxItem(false)]
     [ToolboxBitmap(typeof(KryptonGalleryRange), "ToolboxBitmaps.KryptonGalleryRange.bmp")]
-    [DefaultProperty("Heading")]
+    [DefaultProperty(nameof(Heading))]
     [DesignerCategory(@"code")]
     [DesignTimeVisible(false)]
     public class KryptonGalleryRange : Component
@@ -34,7 +36,7 @@ namespace Krypton.Ribbon
         /// </summary>
         [Category(@"Gallery")]
         [Description(@"Occurs after the value of a property has changed.")]
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
         #endregion
 
         #region Identity
@@ -44,7 +46,7 @@ namespace Krypton.Ribbon
         public KryptonGalleryRange()
         {
             // Default fields
-            _heading = "Heading";
+            _heading = nameof(Heading);
             _imageIndexStart = -1;
             _imageIndexEnd = -1;
         }
@@ -58,7 +60,7 @@ namespace Krypton.Ribbon
         [Localizable(true)]
         [Category(@"Appearance")]
         [Description(@"Gallery range heading text.")]
-        [DefaultValue("Heading")]
+        [DefaultValue(nameof(Heading))]
         public string Heading
         {
             get => _heading;
@@ -119,10 +121,7 @@ namespace Krypton.Ribbon
         /// Raises the PropertyChanged event.
         /// </summary>
         /// <param name="propertyName">Name of property that has changed.</param>
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
+        protected virtual void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         #endregion
     }
 }

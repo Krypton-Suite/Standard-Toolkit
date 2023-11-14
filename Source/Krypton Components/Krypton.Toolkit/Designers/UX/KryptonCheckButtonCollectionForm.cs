@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -17,16 +17,12 @@ namespace Krypton.Toolkit
         #region Type Definitions
         private class ListEntry
         {
-            #region Instance Fields
-
-            #endregion
-
             #region Identity
             /// <summary>
             /// Initialize a new instance of the ListEntry class.
             /// </summary>
             /// <param name="checkButton">CheckButton to encapsulate.</param>
-            public ListEntry(KryptonCheckButton checkButton)
+            public ListEntry([DisallowNull] KryptonCheckButton checkButton)
             {
                 Debug.Assert(checkButton != null);
                 CheckButton = checkButton;
@@ -36,7 +32,7 @@ namespace Krypton.Toolkit
             /// Gets a string representation of the encapsulated check button.
             /// </summary>
             /// <returns>String instance.</returns>
-            public override string ToString() => CheckButton.Site.Name + "  (Text: " + CheckButton.Text + ")";
+            public override string ToString() => $"{CheckButton.Site.Name}  (Text: {CheckButton.Text})";
 
             #endregion
 
@@ -114,7 +110,7 @@ namespace Krypton.Toolkit
             for(var i=0; i<checkedListBox.Items.Count; i++)
             {
                 // Get access to the encapsulated list box entry
-                ListEntry entry = (ListEntry)checkedListBox.Items[i];
+                var entry = (ListEntry)checkedListBox.Items[i];
 
                 // Is this entry checked in the list box?
                 if (checkedListBox.GetItemChecked(i))

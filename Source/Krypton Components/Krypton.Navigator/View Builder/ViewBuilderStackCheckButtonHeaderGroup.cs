@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -27,7 +27,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="element">Element to search against.</param>
         /// <returns>Reference to ButtonSpec; otherwise null.</returns>
-        public override ButtonSpec ButtonSpecFromView(ViewBase element)
+        public override ButtonSpec? ButtonSpecFromView(ViewBase element)
         {
             // Check base class for page specific button specs
             ButtonSpec bs = base.ButtonSpecFromView(element) ?? _headerGroup.ButtonSpecFromView(element);
@@ -65,11 +65,11 @@ namespace Krypton.Navigator
         /// Process a change in the visible state for a page.
         /// </summary>
         /// <param name="page">Page that has changed visible state.</param>
-        public override void PageVisibleStateChanged(KryptonPage page)
+        public override void PageVisibleStateChanged(KryptonPage? page)
         {
             // If is possible the header group has not been created yet
             // Ensure buttons are recreated to reflect different previous/next visibility
-            _headerGroup?.UpdateButtons();
+            _headerGroup.UpdateButtons();
 
             // Let base class do standard work
             base.PageVisibleStateChanged(page);
@@ -79,7 +79,7 @@ namespace Krypton.Navigator
         /// Process a change in the enabled state for a page.
         /// </summary>
         /// <param name="page">Page that has changed enabled state.</param>
-        public override void PageEnabledStateChanged(KryptonPage page)
+        public override void PageEnabledStateChanged(KryptonPage? page)
         {
             if (_headerGroup != null)
             {
@@ -105,7 +105,7 @@ namespace Krypton.Navigator
         public override void UpdateStatePalettes()
         {
             // Update palettes for the header group
-            _headerGroup?.UpdateStatePalettes();
+            _headerGroup.UpdateStatePalettes();
 
             // Let base class do standard work
             base.UpdateStatePalettes();
@@ -148,7 +148,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="action">Requested action.</param>
         /// <param name="page">Selected page at time of action request.</param>
-        public override void PerformNextAction(DirectionButtonAction action, KryptonPage page)
+        public override void PerformNextAction(DirectionButtonAction action, KryptonPage? page)
         {
             // Ask the header group to update the action
             action = _headerGroup.NextActionEnabled(action);
@@ -176,7 +176,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="action">Requested action.</param>
         /// <param name="page">Selected page at time of action request.</param>
-        public override void PerformPreviousAction(DirectionButtonAction action, KryptonPage page)
+        public override void PerformPreviousAction(DirectionButtonAction action, KryptonPage? page)
         {
             // Ask the header group to update the action
             action = _headerGroup.PreviousActionEnabled(action);
@@ -205,7 +205,7 @@ namespace Krypton.Navigator
         /// Create the mode specific view hierarchy.
         /// </summary>
         /// <returns>View element to use as base of hierarchy.</returns>
-        protected override ViewBase CreateStackCheckButtonView()
+        protected override ViewBase? CreateStackCheckButtonView()
         {
             // Let base class do common stuff first
             base.CreateStackCheckButtonView();

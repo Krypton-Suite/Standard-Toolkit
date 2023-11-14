@@ -5,7 +5,9 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  
+ *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
  */
 #endregion
@@ -49,7 +51,7 @@ namespace Krypton.Ribbon
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            "ViewLayoutRibbonGroupButton:" + Id;
+            $"ViewLayoutRibbonGroupButton:{Id}";
 
         #endregion
 
@@ -57,7 +59,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets access to the controller used for the button.
         /// </summary>
-        public DialogLauncherButtonController DialogButtonController => _groupButton.DialogButtonController;
+        public DialogLauncherButtonController? DialogButtonController => _groupButton.DialogButtonController;
 
         #endregion
 
@@ -66,9 +68,9 @@ namespace Krypton.Ribbon
         /// Gets the view to use for the group dialog button.
         /// </summary>
         /// <returns>ViewBase if valid as a focus item; otherwise false.</returns>
-        public ViewBase GetFocusView()
+        public ViewBase? GetFocusView()
         {
-            if (Visible && Enabled && _groupButton.Visible && _groupButton.Enabled)
+            if (Visible && Enabled && _groupButton is { Visible: true, Enabled: true })
             {
                 return _groupButton;
             }

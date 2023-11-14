@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -17,16 +17,12 @@ namespace Krypton.Toolkit
     /// </summary>
     public class KryptonProfessionalRenderer : ToolStripProfessionalRenderer
     {
-        #region Instance Fields
-
-        #endregion
-
         #region Identity
         /// <summary>
         /// Initialise a new instance of the KryptonProfessionalRenderer class.
         /// </summary>
         /// <param name="kct">Source for text colors.</param>
-        public KryptonProfessionalRenderer(KryptonColorTable kct)
+        public KryptonProfessionalRenderer([DisallowNull] KryptonColorTable kct)
             : base(kct)
         {
             Debug.Assert(kct != null);
@@ -56,7 +52,7 @@ namespace Krypton.Toolkit
                 if (e.ToolStrip.Parent.TopLevelControl is Form f)
                 {
                     // Get the mdi control strip instance
-                    PropertyInfo piMCS = typeof(Form).GetProperty(@"MdiControlStrip", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.GetField);
+                    PropertyInfo? piMCS = typeof(Form).GetProperty(@"MdiControlStrip", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.GetField)!;
                     if (piMCS != null)
                     {
                         var mcs = piMCS.GetValue(f, null);
@@ -64,20 +60,20 @@ namespace Krypton.Toolkit
                         {
                             // Get the min/restore/close internal menu items
                             Type mcsType = mcs.GetType();
-                            FieldInfo fiM = mcsType.GetField("minimize", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.GetField);
-                            FieldInfo fiR = mcsType.GetField("restore", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.GetField);
-                            FieldInfo fiC = mcsType.GetField("close", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.GetField);
+                            FieldInfo? fiM = mcsType.GetField("minimize", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.GetField)!;
+                            FieldInfo? fiR = mcsType.GetField("restore", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.GetField)!;
+                            FieldInfo? fiC = mcsType.GetField("close", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.GetField)!;
                             if ((fiM != null) && (fiR != null) && (fiC != null))
                             {
 #pragma warning disable IDE0019 // Use pattern matching
-                                ToolStripMenuItem m = fiM.GetValue(mcs) as ToolStripMenuItem;
-                                ToolStripMenuItem r = fiR.GetValue(mcs) as ToolStripMenuItem;
-                                ToolStripMenuItem c = fiC.GetValue(mcs) as ToolStripMenuItem;
+                                var m = fiM.GetValue(mcs) as ToolStripMenuItem;
+                                var r = fiR.GetValue(mcs) as ToolStripMenuItem;
+                                var c = fiC.GetValue(mcs) as ToolStripMenuItem;
 #pragma warning restore IDE0019 // Use pattern matching
                                 if ((m != null) && (r != null) && (c != null))
                                 {
                                     // Compare the event provided image with the internal cached ones to discover the type of pendant button we are drawing
-                                    PaletteButtonSpecStyle specStyle = PaletteButtonSpecStyle.Generic;
+                                    var specStyle = PaletteButtonSpecStyle.Generic;
                                     if (m.Image == e.Image)
                                     {
                                         specStyle = PaletteButtonSpecStyle.PendantMin;
@@ -95,15 +91,15 @@ namespace Krypton.Toolkit
                                     if (specStyle != PaletteButtonSpecStyle.Generic)
                                     {
                                         // Grab the palette pendant details needed for drawing
-                                        Image paletteImage = KCT.Palette.GetButtonSpecImage(specStyle, PaletteState.Normal);
+                                        Image? paletteImage = KCT.Palette.GetButtonSpecImage(specStyle, PaletteState.Normal);
                                         Color transparentColor = KCT.Palette.GetButtonSpecImageTransparentColor(specStyle);
 
                                         // Finally we actually have an image to draw!
                                         if (paletteImage != null)
                                         {
-                                            using ImageAttributes attribs = new();
+                                            using var attribs = new ImageAttributes();
                                             // Setup mapping to make required color transparent
-                                            ColorMap remap = new()
+                                            var remap = new ColorMap
                                             {
                                                 OldColor = transparentColor,
                                                 NewColor = Color.Transparent

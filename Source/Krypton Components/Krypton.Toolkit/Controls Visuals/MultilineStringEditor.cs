@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -17,7 +17,7 @@ namespace Krypton.Toolkit
     /// <summary>
     /// Multiline String Editor Window.
     /// </summary>
-    internal sealed class MultilineStringEditor : KryptonForm //Form
+    internal sealed class MultilineStringEditor1 : KryptonForm //Form
     {
         #region Instance Members
         private bool _saveChanges = true;
@@ -31,7 +31,7 @@ namespace Krypton.Toolkit
         /// Initializes a new instance of the MultilineStringEditor class.
         /// </summary>
         /// <param name="owner"></param>
-        public MultilineStringEditor(KryptonTextBox owner)
+        public MultilineStringEditor1(KryptonTextBox owner)
         {
             SuspendLayout();
             _textBox = new KryptonTextBox { Dock = DockStyle.Fill, Multiline = true };
@@ -95,16 +95,13 @@ namespace Krypton.Toolkit
         {
             base.OnPaint(e);
             // Paint the sizing grip.
-            using (Bitmap gripImage = new(0x10, 0x10))
+            using (var gripImage = new Bitmap(0x10, 0x10))
             {
                 using (Graphics g = Graphics.FromImage(gripImage))
                 {
                     if (Application.RenderWithVisualStyles)
                     {
-                        if (_sizeGripRenderer == null)
-                        {
-                            _sizeGripRenderer = new VisualStyleRenderer(VisualStyleElement.Status.Gripper.Normal);
-                        }
+                        _sizeGripRenderer ??= new VisualStyleRenderer(VisualStyleElement.Status.Gripper.Normal);
 
                         _sizeGripRenderer.DrawBackground(g, new Rectangle(0, 0, 0x10, 0x10));
                     }
@@ -127,13 +124,14 @@ namespace Krypton.Toolkit
         protected override void WndProc(ref Message m)
         {
             var handled = false;
-            if (m.Msg == PI.WM_.NCHITTEST)
+            switch (m.Msg)
             {
-                handled = OnNcHitTest(ref m);
-            }
-            else if (m.Msg == PI.WM_.GETMINMAXINFO)
-            {
-                handled = OnGetMinMaxInfo(ref m);
+                case PI.WM_.NCHITTEST:
+                    handled = OnNcHitTest(ref m);
+                    break;
+                case PI.WM_.GETMINMAXINFO:
+                    handled = OnGetMinMaxInfo(ref m);
+                    break;
             }
 
             if (!handled)
@@ -207,7 +205,7 @@ namespace Krypton.Toolkit
         private bool OnNcHitTest(ref Message m)
         {
             Point clientLocation = PointToClient(Cursor.Position);
-            GripBounds gripBounds = new(ClientRectangle);
+            var gripBounds = new GripBounds(ClientRectangle);
             if (gripBounds.BottomRight.Contains(clientLocation))
             {
                 m.Result = (IntPtr)PI.HT.BOTTOMRIGHT;

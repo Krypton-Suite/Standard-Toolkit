@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -17,10 +17,10 @@ namespace Krypton.Toolkit
     /// </summary>
     [ToolboxItem(true)]
     [ToolboxBitmap(typeof(KryptonSplitContainer), "ToolboxBitmaps.KryptonSplitContainer.bmp")]
-    [DefaultEvent("SplitterMoved")]
-    [DefaultProperty("Orientation")]
+    [DefaultEvent(nameof(SplitterMoved))]
+    [DefaultProperty(nameof(Orientation))]
     [DesignerCategory(@"code")]
-    [Designer("Krypton.Toolkit.KryptonSplitContainerDesigner, Krypton.Toolkit")]
+    [Designer(typeof(KryptonSplitContainerDesigner))]
     [Description(@"Divide the container inside two resizable panels.")]
     [Docking(DockingBehavior.AutoDock)]
     public class KryptonSplitContainer : VisualControlContainment,
@@ -53,7 +53,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public new event EventHandler AutoSizeChanged;
+        public new event EventHandler? AutoSizeChanged;
 
         /// <summary>
         /// Occurs when the value of the BackgroundImage property changes.
@@ -61,7 +61,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public new event EventHandler BackgroundImageChanged;
+        public new event EventHandler? BackgroundImageChanged;
 
         /// <summary>
         /// Occurs when the value of the BackgroundImageLayout property changes.
@@ -69,7 +69,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public new event EventHandler BackgroundImageLayoutChanged;
+        public new event EventHandler? BackgroundImageLayoutChanged;
 
         /// <summary>
         /// Occurs when the value of the ControlAdded property changes.
@@ -77,7 +77,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public new event ControlEventHandler ControlAdded;
+        public new event ControlEventHandler? ControlAdded;
 
         /// <summary>
         /// Occurs when the value of the ControlRemoved property changes.
@@ -85,21 +85,21 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public new event ControlEventHandler ControlRemoved;
+        public new event ControlEventHandler? ControlRemoved;
 
         /// <summary>
         /// Occurs when the splitter control is moved.
         /// </summary>
         [Category(@"Behavior")]
         [Description(@"Occurs when the splitter is done being moved.")]
-        public event SplitterEventHandler SplitterMoved;
+        public event SplitterEventHandler? SplitterMoved;
 
         /// <summary>
         /// Occurs when the splitter control is in the process of moving.
         /// </summary>
         [Category(@"Behavior")]
         [Description(@"Occurs when the splitter is being moved.")]
-        public event SplitterCancelEventHandler SplitterMoving;
+        public event SplitterCancelEventHandler? SplitterMoving;
         #endregion
 
         #region Identity
@@ -181,6 +181,7 @@ namespace Krypton.Toolkit
         /// Gets and sets the name of the control.
         /// </summary>
         [Browsable(false)]
+        [AllowNull]
         public new string Name
         {
             get => base.Name;
@@ -188,8 +189,8 @@ namespace Krypton.Toolkit
             set
             {
                 base.Name = value;
-                Panel1.Name = value + ".Panel1";
-                Panel2.Name = value + ".Panel2";
+                Panel1.Name = $"{value}.Panel1";
+                Panel2.Name = $"{value}.Panel2";
             }
         }
 
@@ -214,10 +215,7 @@ namespace Krypton.Toolkit
 
         private bool ShouldSerializeContainerBackStyle() => ContainerBackStyle != PaletteBackStyle.PanelClient;
 
-        private void ResetContainerBackStyle()
-        {
-            ContainerBackStyle = PaletteBackStyle.PanelClient;
-        }
+        private void ResetContainerBackStyle() => ContainerBackStyle = PaletteBackStyle.PanelClient;
 
         /// <summary>
         /// Gets and sets the separator style.
@@ -242,10 +240,7 @@ namespace Krypton.Toolkit
 
         private bool ShouldSerializeSeparatorStyle() => SeparatorStyle != SeparatorStyle.LowProfile;
 
-        private void ResetSeparatorStyle()
-        {
-            SeparatorStyle = SeparatorStyle.LowProfile;
-        }
+        private void ResetSeparatorStyle() => SeparatorStyle = SeparatorStyle.LowProfile;
 
         /// <summary>
         /// Gets access to the common split container appearance that other states can override.
@@ -253,7 +248,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Overrides for defining common split container appearance that other states can override.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteSplitContainerRedirect StateCommon { get; }
+        public PaletteSplitContainerRedirect? StateCommon { get; }
 
         private bool ShouldSerializeStateCommon() => !StateCommon.IsDefault;
 
@@ -283,7 +278,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Overrides for defining hot tracking separator appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteSeparatorPadding StateTracking { get; }
+        public PaletteSeparatorPadding? StateTracking { get; }
 
         private bool ShouldSerializeStateTracking() => !StateTracking.IsDefault;
 
@@ -293,7 +288,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Overrides for defining pressed separator appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteSeparatorPadding StatePressed { get; }
+        public PaletteSeparatorPadding? StatePressed { get; }
 
         private bool ShouldSerializeStatePressed() => !StatePressed.IsDefault;
 
@@ -312,7 +307,7 @@ namespace Krypton.Toolkit
         [Category(@"Layout")]
         [Description(@"Determines the minimum distance of pixels of the splitter from the left or top edge of Panel1.")]
         [Localizable(true)]
-        [DefaultValue(typeof(int), "25")]
+        [DefaultValue(25)]
         public int Panel1MinSize
         {
             get => _panel1MinSize;
@@ -325,7 +320,7 @@ namespace Krypton.Toolkit
                     // Cannot assign a value of less than zero
                     if (value < 0)
                     {
-                        throw new ArgumentOutOfRangeException(@"Panel1MinSize", @"Value cannot be less than zero");
+                        throw new ArgumentOutOfRangeException(nameof(Panel1MinSize), @"Value cannot be less than zero");
                     }
 
                     // Use the new minimum size
@@ -416,7 +411,7 @@ namespace Krypton.Toolkit
         [Category(@"Layout")]
         [Description(@"Determines the minimum distance of pixels of the splitter from the right or bottom edge of Panel2.")]
         [Localizable(true)]
-        [DefaultValue(typeof(int), "25")]
+        [DefaultValue(25)]
         public int Panel2MinSize
         {
             get => _panel2MinSize;
@@ -429,7 +424,7 @@ namespace Krypton.Toolkit
                     // Cannot assign a value of less than zero
                     if (value < 0)
                     {
-                        throw new ArgumentOutOfRangeException(@"Panel2MinSize", @"Value cannot be less than zero");
+                        throw new ArgumentOutOfRangeException(nameof(Panel2MinSize), @"Value cannot be less than zero");
                     }
 
                     // Use the new minimum size
@@ -519,7 +514,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Layout")]
         [Description(@"Indicates the panel to keep the same size when resizing.")]
-        [DefaultValue(typeof(FixedPanel), "None")]
+        [DefaultValue(FixedPanel.None)]
         [Localizable(true)]
         public FixedPanel FixedPanel
         {
@@ -536,24 +531,26 @@ namespace Krypton.Toolkit
                     // Orientation determines the width/height to use
                     if (Orientation == Orientation.Vertical)
                     {
-                        if (_fixedPanel == FixedPanel.Panel1)
+                        switch (_fixedPanel)
                         {
-                            _fixedDistance = Panel1.Width;
-                        }
-                        else if (_fixedPanel == FixedPanel.Panel2)
-                        {
-                            _fixedDistance = Panel2.Width;
+                            case FixedPanel.Panel1:
+                                _fixedDistance = Panel1.Width;
+                                break;
+                            case FixedPanel.Panel2:
+                                _fixedDistance = Panel2.Width;
+                                break;
                         }
                     }
                     else
                     {
-                        if (_fixedPanel == FixedPanel.Panel1)
+                        switch (_fixedPanel)
                         {
-                            _fixedDistance = Panel1.Height;
-                        }
-                        else if (_fixedPanel == FixedPanel.Panel2)
-                        {
-                            _fixedDistance = Panel2.Height;
+                            case FixedPanel.Panel1:
+                                _fixedDistance = Panel1.Height;
+                                break;
+                            case FixedPanel.Panel2:
+                                _fixedDistance = Panel2.Height;
+                                break;
                         }
                     }
                 }
@@ -567,7 +564,7 @@ namespace Krypton.Toolkit
         [Description(@"Determines pixel distance of the splitter from the left or top edge.")]
         [Localizable(true)]
         [SettingsBindable(true)]
-        [DefaultValue(typeof(int), "50")]
+        [DefaultValue(50)]
         public int SplitterDistance
         {
             get => _splitterDistance;
@@ -592,7 +589,7 @@ namespace Krypton.Toolkit
                     // Limit check against the orientation direction
                     if (Orientation == Orientation.Vertical)
                     {
-                        // Enfore the minimum size of the second second
+                        // Enforce the minimum size of the second second
                         if ((value + SplitterWidth) > (Width - Panel2MinSize))
                         {
                             value = Width - Panel2MinSize - SplitterWidth;
@@ -606,7 +603,7 @@ namespace Krypton.Toolkit
                     }
                     else
                     {
-                        // Enfore the minimum size of the second second
+                        // Enforce the minimum size of the second second
                         if ((value + SplitterWidth) > (Height - Panel2MinSize))
                         {
                             value = Height - Panel2MinSize - SplitterWidth;
@@ -660,7 +657,7 @@ namespace Krypton.Toolkit
         [Category(@"Layout")]
         [Description(@"Determines the thickness of the splitter.")]
         [Localizable(true)]
-        [DefaultValue(typeof(int), "5")]
+        [DefaultValue(5)]
         public int SplitterWidth
         {
             get => _splitterWidth;
@@ -673,7 +670,7 @@ namespace Krypton.Toolkit
                     // Cannot assign a value of less than zero
                     if (value < 0)
                     {
-                        throw new ArgumentOutOfRangeException(@"SplitterWidth", @"Value cannot be less than zero");
+                        throw new ArgumentOutOfRangeException(nameof(SplitterWidth), @"Value cannot be less than zero");
                     }
 
                     // Use new width of the splitter area
@@ -700,7 +697,7 @@ namespace Krypton.Toolkit
         [Category(@"Layout")]
         [Description(@"Determines the number of pixels the splitter moves in increments.")]
         [Localizable(true)]
-        [DefaultValue(typeof(int), "1")]
+        [DefaultValue(1)]
         public int SplitterIncrement
         {
             get => _splitterIncrement;
@@ -713,7 +710,7 @@ namespace Krypton.Toolkit
                     // Cannot assign a value of less than zero
                     if (value < 1)
                     {
-                        throw new ArgumentOutOfRangeException(@"SplitterIncrement", @"Value cannot be less than one");
+                        throw new ArgumentOutOfRangeException(nameof(SplitterIncrement), @"Value cannot be less than one");
                     }
 
                     // Remember new value for use when moving the splitter
@@ -728,7 +725,7 @@ namespace Krypton.Toolkit
         [Category(@"Behavior")]
         [Description(@"Determines if the splitter is vertical or horizontal.")]
         [Localizable(true)]
-        [DefaultValue(typeof(Orientation), "Vertical")]
+        [DefaultValue(Orientation.Vertical)]
         public Orientation Orientation
         {
             get => _orientation;
@@ -887,7 +884,7 @@ namespace Krypton.Toolkit
             }
 
             // Fire the event that indicates the splitter is being moved
-            SplitterCancelEventArgs e = new(mouse.X, mouse.Y, splitter.X, splitter.Y);
+            var e = new SplitterCancelEventArgs(mouse.X, mouse.Y, splitter.X, splitter.Y);
             OnSplitterMoving(e);
 
             // Tell caller if the movement should be cancelled or not
@@ -913,7 +910,7 @@ namespace Krypton.Toolkit
             }
 
             // Fire the event that indicates the splitter has finished being moved
-            SplitterEventArgs e = new(mouse.X, mouse.Y, splitter.X, splitter.Y);
+            var e = new SplitterEventArgs(mouse.X, mouse.Y, splitter.X, splitter.Y);
             OnSplitterMoved(e);
         }
 
@@ -956,7 +953,7 @@ namespace Krypton.Toolkit
         /// <param name="pt">Mouse location.</param>
         /// <returns>Cursor to show.</returns>
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public Cursor DesignGetHitTest(Point pt)
+        public Cursor? DesignGetHitTest(Point pt)
         {
             // Is the cursor inside the splitter area or if currently moving the splitter
             if (_drawSeparator.ClientRectangle.Contains(pt) || _separatorController.IsMoving)
@@ -1073,7 +1070,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the default size of the control.
         /// </summary>
-        protected override Size DefaultSize => new(150, 150);
+        protected override Size DefaultSize => new Size(150, 150);
 
         /// <summary>
         /// Raises the Initialized event.
@@ -1166,7 +1163,7 @@ namespace Krypton.Toolkit
         /// <param name="levent">A LayoutEventArgs that contains the event data.</param>
         protected override void OnLayout(LayoutEventArgs levent)
         {
-            Rectangle separatorRect = Rectangle.Empty;
+            var separatorRect = Rectangle.Empty;
 
             // Only use layout logic if control is fully initialized or if being forced
             // to allow a relayout or if in design mode.
@@ -1248,7 +1245,7 @@ namespace Krypton.Toolkit
                                     // Find actual pixel width of first panel but limited to maximum allowed
                                     var panel1Width = Math.Min(SplitterDistance, panelMax);
 
-                                    // Enfore the minimum panel1 width
+                                    // Enforce the minimum panel1 width
                                     panel1Width = Math.Max(Panel1MinSize, panel1Width);
 
                                     // Size the panels
@@ -1318,7 +1315,7 @@ namespace Krypton.Toolkit
                                     // Find actual pixel height of first panel but limited to maximum allowed
                                     var panel1Height = Math.Min(SplitterDistance, panel1Max);
 
-                                    // Enfore the minimum panel1 height
+                                    // Enforce the minimum panel1 height
                                     panel1Height = Math.Max(Panel1MinSize, panel1Height);
 
                                     // Size the panels

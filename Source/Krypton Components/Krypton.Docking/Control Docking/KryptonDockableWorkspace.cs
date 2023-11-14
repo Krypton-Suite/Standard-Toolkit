@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -23,7 +23,7 @@ namespace Krypton.Docking
         /// Initialize a new instance of the KryptonDockableWorkspace class.
         /// </summary>
         public KryptonDockableWorkspace()
-            : base("Workspace") =>
+            : base(nameof(Workspace)) =>
             // Override the base class and allow the workspace context menu for the tab to be shown
             ContextMenus.ShowContextMenu = true;
 
@@ -31,7 +31,7 @@ namespace Krypton.Docking
         /// Gets a string representation of the instance.
         /// </summary>
         /// <returns>String.</returns>
-        public override string ToString() => "KryptonDockableWorkspace " + Dock.ToString();
+        public override string ToString() => $"KryptonDockableWorkspace {Dock}";
 
         #endregion
 
@@ -77,7 +77,7 @@ namespace Krypton.Docking
         protected override void OnActiveCellChanged(ActiveCellChangedEventArgs e)
         {
             // Ensure all but the newly selected cell have a lower profile appearance
-            KryptonWorkspaceCell cell = FirstCell();
+            KryptonWorkspaceCell? cell = FirstCell();
             while (cell != null)
             {
                 if (e.NewCell != cell)
@@ -101,7 +101,10 @@ namespace Krypton.Docking
         #region Implementation
         private void OnCellCloseAction(object sender, CloseActionEventArgs e)
         {
-            OnPageCloseClicked(new UniqueNameEventArgs(e.Item.UniqueName));
+            if (!string.IsNullOrWhiteSpace(e.Item?.UniqueName))
+            {
+                OnPageCloseClicked(new UniqueNameEventArgs(e.Item!.UniqueName));
+            }
         }
         #endregion
     }

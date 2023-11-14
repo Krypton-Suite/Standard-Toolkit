@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -48,7 +48,7 @@ namespace Krypton.Toolkit
             var enabled = provider.ProviderEnabled;
 
             // Always assume there is a first row of colors
-            ViewLayoutStack fillStack = new(false)
+            var fillStack = new ViewLayoutStack(false)
             {
                 CreateColumns(provider, colorColumns, colors, 0, 1, enabled)
             };
@@ -108,7 +108,7 @@ namespace Krypton.Toolkit
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            "ViewDrawMenuColorColumns:" + Id;
+            $"ViewDrawMenuColorColumns:{Id}";
 
         #endregion
 
@@ -117,7 +117,7 @@ namespace Krypton.Toolkit
         /// Perform a layout of the elements.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override void Layout(ViewLayoutContext context)
+        public override void Layout([DisallowNull] ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 
@@ -137,7 +137,7 @@ namespace Krypton.Toolkit
                                               bool enabled)
         {
             // Create a horizontal stack of columns
-            ViewLayoutStack columns = new(true)
+            var columns = new ViewLayoutStack(true)
             {
                 FillLastChild = false
             };
@@ -152,7 +152,8 @@ namespace Krypton.Toolkit
                 }
 
                 // Add container for the column, this draws the background
-                ViewDrawMenuColorColumn colorColumn = new(provider, colorColumns, colors[i], start, end, enabled);
+                var colorColumn =
+                    new ViewDrawMenuColorColumn(provider, colorColumns, colors[i], start, end, enabled);
                 columns.Add(colorColumn);
             }
 

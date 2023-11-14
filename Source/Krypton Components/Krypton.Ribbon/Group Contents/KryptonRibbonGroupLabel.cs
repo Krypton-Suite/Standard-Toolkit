@@ -5,7 +5,9 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  
+ *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
  */
 #endregion
@@ -17,7 +19,7 @@ namespace Krypton.Ribbon
     /// </summary>
     [ToolboxItem(false)]
     [ToolboxBitmap(typeof(KryptonRibbonGroupLabel), "ToolboxBitmaps.KryptonRibbonGroupLabel.bmp")]
-    [Designer("Krypton.Ribbon.KryptonRibbonGroupLabelDesigner, Krypton.Ribbon")]
+    [Designer(typeof(KryptonRibbonGroupLabelDesigner))]
     [DesignerCategory(@"code")]
     [DesignTimeVisible(false)]
     [DefaultProperty("Text")]
@@ -44,7 +46,7 @@ namespace Krypton.Ribbon
         /// </summary>
         [Category(@"Ribbon")]
         [Description(@"Occurs after the value of a property has changed.")]
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         /// <summary>
         /// Occurs when the design time context menu is requested.
@@ -53,7 +55,7 @@ namespace Krypton.Ribbon
         [Description(@"Occurs when the design time context menu is requested.")]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        public event MouseEventHandler DesignTimeContextMenu;
+        public event MouseEventHandler? DesignTimeContextMenu;
         #endregion
 
         #region Identity
@@ -67,7 +69,7 @@ namespace Krypton.Ribbon
             _enabled = true;
             _imageSmall = null;
             _imageLarge = null;
-            _textLine1 = "Label";
+            _textLine1 = nameof(Label);
             _textLine2 = string.Empty;
             _itemSizeCurrent = GroupItemSize.Medium;
 
@@ -89,7 +91,7 @@ namespace Krypton.Ribbon
         [Category(@"Appearance")]
         [Description(@"Small label image.")]
         [RefreshProperties(RefreshProperties.All)]
-        public Image ImageSmall
+        public Image? ImageSmall
         {
             get => _imageSmall;
 
@@ -113,7 +115,7 @@ namespace Krypton.Ribbon
         [Category(@"Appearance")]
         [Description(@"Large label image.")]
         [RefreshProperties(RefreshProperties.All)]
-        public Image ImageLarge
+        public Image? ImageLarge
         {
             get => _imageLarge;
 
@@ -137,7 +139,7 @@ namespace Krypton.Ribbon
         [Category(@"Appearance")]
         [Description(@"Label display text line 1.")]
         [RefreshProperties(RefreshProperties.All)]
-        [DefaultValue("Label")]
+        [DefaultValue(nameof(Label))]
         public string TextLine1
         {
             get => _textLine1;
@@ -147,7 +149,7 @@ namespace Krypton.Ribbon
                 // We never allow an empty text value
                 if (string.IsNullOrEmpty(value))
                 {
-                    value = "Label";
+                    value = nameof(Label);
                 }
 
                 if (value != _textLine1)
@@ -209,18 +211,12 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Make the ribbon group visible.
         /// </summary>
-        public void Show()
-        {
-            Visible = true;
-        }
+        public void Show() => Visible = true;
 
         /// <summary>
         /// Make the ribbon group hidden.
         /// </summary>
-        public void Hide()
-        {
-            Visible = false;
-        }
+        public void Hide() => Visible = false;
 
         /// <summary>
         /// Gets and sets the enabled state of the group label.
@@ -275,7 +271,7 @@ namespace Krypton.Ribbon
         [Category(@"Behavior")]
         [Description(@"Command associated with the group label.")]
         [DefaultValue(null)]
-        public KryptonCommand KryptonCommand
+        public KryptonCommand? KryptonCommand
         {
             get => _command;
 
@@ -377,19 +373,19 @@ namespace Krypton.Ribbon
         {
             switch (e.PropertyName)
             {
-                case "TextLine1":
+                case nameof(TextLine1):
                     OnPropertyChanged(nameof(TextLine1));
                     break;
                 case "ExtraText":
                     OnPropertyChanged(nameof(TextLine2));
                     break;
-                case "ImageSmall":
+                case nameof(ImageSmall):
                     OnPropertyChanged(nameof(ImageSmall));
                     break;
-                case "ImageLarge":
+                case nameof(ImageLarge):
                     OnPropertyChanged(nameof(ImageLarge));
                     break;
-                case "Enabled":
+                case nameof(Enabled):
                     OnPropertyChanged(nameof(Enabled));
                     break;
             }
@@ -399,19 +395,13 @@ namespace Krypton.Ribbon
         /// Raises the PropertyChanged event.
         /// </summary>
         /// <param name="propertyName">Name of property that has changed.</param>
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
+        protected virtual void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         #endregion
 
         #region Internal
-        internal NeedPaintHandler ViewPaintDelegate { get; set; }
+        internal NeedPaintHandler? ViewPaintDelegate { get; set; }
 
-        internal void OnDesignTimeContextMenu(MouseEventArgs e)
-        {
-            DesignTimeContextMenu?.Invoke(this, e);
-        }
+        internal void OnDesignTimeContextMenu(MouseEventArgs e) => DesignTimeContextMenu?.Invoke(this, e);
 
         internal override bool ProcessCmdKey(ref Message msg, Keys keyData) =>
             // A label never has any command keys to process
@@ -420,11 +410,9 @@ namespace Krypton.Ribbon
         #endregion
 
         #region Implementation
-        private void OnPaletteNeedPaint(object sender, NeedLayoutEventArgs e)
-        {
+        private void OnPaletteNeedPaint(object sender, NeedLayoutEventArgs e) =>
             // Pass request onto the view provided paint delegate
             ViewPaintDelegate?.Invoke(this, e);
-        }
         #endregion
     }
 }

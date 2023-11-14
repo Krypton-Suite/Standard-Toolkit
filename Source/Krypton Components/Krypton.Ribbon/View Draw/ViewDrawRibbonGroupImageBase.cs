@@ -5,7 +5,9 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  
+ *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
  */
 #endregion
@@ -18,16 +20,12 @@ namespace Krypton.Ribbon
     internal abstract class ViewDrawRibbonGroupImageBase : ViewLeaf
                                               
     {
-        #region Instance Fields
-
-        #endregion
-
         #region Identity
         /// <summary>
         /// Initialize a new instance of the ViewDrawRibbonGroupImageBase class.
         /// </summary>
         /// <param name="ribbon">Reference to owning ribbon control.</param>
-        public ViewDrawRibbonGroupImageBase(KryptonRibbon ribbon)
+        public ViewDrawRibbonGroupImageBase([DisallowNull] KryptonRibbon ribbon)
         {
             Debug.Assert(ribbon != null);
             Ribbon = ribbon;
@@ -39,7 +37,7 @@ namespace Krypton.Ribbon
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            @"ViewDrawRibbonGroupImageBase:" + Id;
+            $@"ViewDrawRibbonGroupImageBase:{Id}";
 
         #endregion
 
@@ -54,11 +52,9 @@ namespace Krypton.Ribbon
         /// Perform a layout of the elements.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override void Layout(ViewLayoutContext context)
-        {
+        public override void Layout(ViewLayoutContext context) =>
             // Take on all the provided area
             ClientRectangle = context.DisplayRectangle;
-        }
         #endregion
 
         #region Paint
@@ -78,7 +74,7 @@ namespace Krypton.Ribbon
                 {
                     // Have to rescale the image when drawing, so need to use own
                     // mechanism for the converting of the image to a disabled one
-                    using ImageAttributes attribs = new();
+                    using var attribs = new ImageAttributes();
                     // Use attributes to wash out the color to look disabled
                     attribs.SetColorMatrix(CommonHelper.MatrixDisabled);
 

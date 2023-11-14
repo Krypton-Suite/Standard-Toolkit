@@ -1,4 +1,16 @@
-﻿namespace Krypton.Workspace
+﻿#region BSD License
+/*
+ * 
+ * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
+ * 
+ *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  
+ */
+#endregion
+
+namespace Krypton.Workspace
 {
     /// <summary>
     /// Collection of workspace items.
@@ -18,12 +30,12 @@
         /// <summary>
         /// Occurs after a change has occurred to the collection.
         /// </summary>
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         /// <summary>
         /// Occurs when the user clicks the maximize/restore button.
         /// </summary>
-        public event EventHandler MaximizeRestoreClicked;
+        public event EventHandler? MaximizeRestoreClicked;
         #endregion
 
         #region Identity
@@ -37,7 +49,7 @@
         /// Obtains the String representation of this instance.
         /// </summary>
         /// <returns>User readable name of the instance.</returns>
-        public override string ToString() => Count.ToString() + " Children";
+        public override string ToString() => $"{Count} Children";
 
         #endregion
 
@@ -56,18 +68,13 @@
             {
                 foreach (Component c in this)
                 {
-                    // If we have a cell and that cell wants to be visible then we are done
-                    if ((c is KryptonWorkspaceCell { WorkspaceVisible: true }))
+                    switch (c)
                     {
-                        return true;
-                    }
-                    else
-                    {
+                        // If we have a cell and that cell wants to be visible then we are done
+                        case KryptonWorkspaceCell { WorkspaceVisible: true }:
                         // If we have a sequence and it is visible and contains a visible cell then we are done
-                        if ((c is KryptonWorkspaceSequence { WorkspaceVisible: true } sequence) && sequence.Children.ContainsVisibleCell)
-                        {
+                        case KryptonWorkspaceSequence { WorkspaceVisible: true, Children.ContainsVisibleCell: true }:
                             return true;
-                        }
                     }
                 }
 
@@ -91,14 +98,14 @@
                 workspaceItem.MaximizeRestoreClicked += OnChildMaximizeRestoreClicked;
             }
 
-            if (e.Item is KryptonWorkspaceCell cell)
+            switch (e.Item)
             {
-                cell.WorkspaceParent = _sequence;
-            }
-
-            if (e.Item is KryptonWorkspaceSequence sequence)
-            {
-                sequence.WorkspaceParent = _sequence;
+                case KryptonWorkspaceCell cell:
+                    cell.WorkspaceParent = _sequence;
+                    break;
+                case KryptonWorkspaceSequence sequence:
+                    sequence.WorkspaceParent = _sequence;
+                    break;
             }
 
             OnPropertyChanged(@"Children");
@@ -118,14 +125,14 @@
                 workspaceItem.MaximizeRestoreClicked -= OnChildMaximizeRestoreClicked;
             }
 
-            if (e.Item is KryptonWorkspaceCell cell)
+            switch (e.Item)
             {
-                cell.WorkspaceParent = null;
-            }
-
-            if (e.Item is KryptonWorkspaceSequence sequence)
-            {
-                sequence.WorkspaceParent = null;
+                case KryptonWorkspaceCell cell:
+                    cell.WorkspaceParent = null;
+                    break;
+                case KryptonWorkspaceSequence sequence:
+                    sequence.WorkspaceParent = null;
+                    break;
             }
 
             OnPropertyChanged(@"Children");
@@ -148,14 +155,14 @@
                     workspaceItem.MaximizeRestoreClicked -= OnChildMaximizeRestoreClicked;
                 }
 
-                if (c is KryptonWorkspaceCell cell)
+                switch (c)
                 {
-                    cell.WorkspaceParent = null;
-                }
-
-                if (c is KryptonWorkspaceSequence sequence)
-                {
-                    sequence.WorkspaceParent = null;
+                    case KryptonWorkspaceCell cell:
+                        cell.WorkspaceParent = null;
+                        break;
+                    case KryptonWorkspaceSequence sequence:
+                        sequence.WorkspaceParent = null;
+                        break;
                 }
             }
         }
@@ -175,38 +182,26 @@
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">Event arguments associated with the event.</param>
-        protected void OnChildPropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            OnPropertyChanged(e);
-        }
+        protected void OnChildPropertyChanged(object sender, PropertyChangedEventArgs e) => OnPropertyChanged(e);
 
         /// <summary>
         /// Handle a maximize/restore request from a child item.
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">Event arguments associated with the event.</param>
-        protected void OnChildMaximizeRestoreClicked(object sender, EventArgs e)
-        {
-            MaximizeRestoreClicked?.Invoke(sender, e);
-        }
+        protected void OnChildMaximizeRestoreClicked(object sender, EventArgs e) => MaximizeRestoreClicked?.Invoke(sender, e);
 
         /// <summary>
         /// Raises the PropertyChanged event.
         /// </summary>
         /// <param name="property">Name of the property that has changed.</param>
-        protected virtual void OnPropertyChanged(string property)
-        {
-            OnPropertyChanged(new PropertyChangedEventArgs(property));
-        }
+        protected virtual void OnPropertyChanged(string property) => OnPropertyChanged(new PropertyChangedEventArgs(property));
 
         /// <summary>
         /// Raises the PropertyChanged event.
         /// </summary>
         /// <param name="e">Event arguments associated with the event.</param>
-        protected virtual void OnPropertyChanged(PropertyChangedEventArgs e)
-        {
-            PropertyChanged?.Invoke(this, e);
-        }
+        protected virtual void OnPropertyChanged(PropertyChangedEventArgs e) => PropertyChanged?.Invoke(this, e);
         #endregion
     }
 }

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -17,17 +17,13 @@ namespace Krypton.Docking
     /// </summary>
     public class AutoHiddenShowingStateEventArgs : EventArgs
     {
-        #region Instance Fields
-
-        #endregion
-
         #region Identity
         /// <summary>
         /// Initialize a new instance of the AutoHiddenShowingStateEventArgs class.
         /// </summary>
         /// <param name="page">Page for which state has changed.</param>
         /// <param name="state">New state of the auto hidden page.</param>
-        public AutoHiddenShowingStateEventArgs(KryptonPage page, DockingAutoHiddenShowState state)
+        public AutoHiddenShowingStateEventArgs(KryptonPage? page, DockingAutoHiddenShowState state)
         {
             Page = page;
             NewState = state;
@@ -38,7 +34,7 @@ namespace Krypton.Docking
         /// <summary>
         /// Gets the page that has had the state change.
         /// </summary>
-        public KryptonPage Page { get; }
+        public KryptonPage? Page { get; }
 
         /// <summary>
         /// Gets the new state of the auto hidden page.

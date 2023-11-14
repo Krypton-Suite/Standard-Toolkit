@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -17,10 +17,6 @@ namespace Krypton.Navigator
     /// </summary>
     public class PaletteNavigatorOtherRedirect : Storage
     {
-        #region Instance Fields
-
-        #endregion
-
         #region Identity
         /// <summary>
         /// Initialize a new instance of the PaletteNavigatorOtherRedirect class.
@@ -31,11 +27,11 @@ namespace Krypton.Navigator
         /// <param name="redirectTab">inheritance redirection instance for the tab.</param>
         /// <param name="redirectRibbonTab">inheritance redirection instance for the ribbon tab.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public PaletteNavigatorOtherRedirect(PaletteRedirect redirectCheckButton,
-                                             PaletteRedirect redirectOverflowButton,
-                                             PaletteRedirect redirectMiniButton,
-                                             PaletteRedirect redirectTab,
-                                             PaletteRedirect redirectRibbonTab,
+        public PaletteNavigatorOtherRedirect(PaletteRedirect? redirectCheckButton,
+                                             PaletteRedirect? redirectOverflowButton,
+                                             PaletteRedirect? redirectMiniButton,
+                                             PaletteRedirect? redirectTab,
+                                             PaletteRedirect? redirectRibbonTab,
                                              NeedPaintHandler needPaint) 
         {
             // Create the palette storage

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -17,9 +17,9 @@ namespace Krypton.Toolkit
     /// </summary>
     [ToolboxItem(true)]
     [ToolboxBitmap(typeof(KryptonPanel), "ToolboxBitmaps.KryptonPanel.bmp")]
-    [DefaultEvent("Paint")]
+    [DefaultEvent(nameof(Paint))]
     [DefaultProperty("PanelStyle")]
-    [Designer("Krypton.Toolkit.KryptonPanelDesigner, Krypton.Toolkit")]
+    [Designer(typeof(KryptonPanelDesigner))]
     [DesignerCategory(@"code")]
     [Description(@"Enables you to group collections of controls.")]
     [Docking(DockingBehavior.Ask)]
@@ -27,9 +27,9 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
 
-        private readonly PaletteDoubleRedirect _stateCommon;
-        private readonly PaletteDouble _stateDisabled;
-        private readonly PaletteDouble _stateNormal;
+        private readonly PaletteDoubleRedirect? _stateCommon;
+        private readonly PaletteDouble? _stateDisabled;
+        private readonly PaletteDouble? _stateNormal;
         #endregion
 
         #region Identity
@@ -54,9 +54,9 @@ namespace Krypton.Toolkit
         /// <param name="stateCommon">Common appearance state to inherit from.</param>
         /// <param name="stateDisabled">Disabled appearance state.</param>
         /// <param name="stateNormal">Normal appearance state.</param>
-        public KryptonPanel(PaletteDoubleRedirect stateCommon,
-                            PaletteDouble stateDisabled,
-                            PaletteDouble stateNormal)
+        public KryptonPanel([DisallowNull] PaletteDoubleRedirect stateCommon,
+                            [DisallowNull] PaletteDouble stateDisabled,
+                            [DisallowNull] PaletteDouble stateNormal)
         {
             SetStyle(ControlStyles.SupportsTransparentBackColor | ControlStyles.OptimizedDoubleBuffer, true);
 
@@ -95,10 +95,7 @@ namespace Krypton.Toolkit
 
         private bool ShouldSerializePanelBackStyle() => PanelBackStyle != PaletteBackStyle.PanelClient;
 
-        private void ResetPanelBackStyle()
-        {
-            PanelBackStyle = PaletteBackStyle.PanelClient;
-        }
+        private void ResetPanelBackStyle() => PanelBackStyle = PaletteBackStyle.PanelClient;
 
         /// <summary>
         /// Gets access to the common panel appearance that other states can override.
@@ -134,11 +131,9 @@ namespace Krypton.Toolkit
         /// Fix the control to a particular palette state.
         /// </summary>
         /// <param name="state">Palette state to fix.</param>
-        public virtual void SetFixedState(PaletteState state)
-        {
+        public virtual void SetFixedState(PaletteState state) =>
             // Request fixed state from the view
             ViewDrawPanel.FixedState = state;
-        }
         #endregion
 
         #region Protected

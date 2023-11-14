@@ -5,7 +5,9 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  
+ *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
  */
 #endregion
@@ -38,20 +40,23 @@ namespace Krypton.Ribbon
             {
                 TransparentColor = Color.Magenta
             };
-            _imageList.Images.AddRange(new Image[]{Properties.Resources.KryptonRibbonGroupButton,                                                   
-                                                   Properties.Resources.KryptonRibbonGroupColorButton,                                                   
-                                                   Properties.Resources.KryptonRibbonGroupCheckBox,
-                                                   Properties.Resources.KryptonRibbonGroupRadioButton,
-                                                   Properties.Resources.KryptonRibbonGroupLabel,
-                                                   Properties.Resources.KryptonRibbonGroupCustomControl,
-                                                   Properties.Resources.KryptonRibbonGroupTextBox,
-                                                   Properties.Resources.KryptonRibbonGroupRichTextBox,
-                                                   Properties.Resources.KryptonRibbonGroupComboBox,
-                                                   Properties.Resources.KryptonRibbonGroupMaskedTextBox,
-                                                   Properties.Resources.KryptonRibbonGroupNumericUpDown,
-                                                   Properties.Resources.KryptonRibbonGroupDomainUpDown,
-                                                   Properties.Resources.KryptonRibbonGroupDateTimePicker,
-                                                   Properties.Resources.KryptonRibbonGroupTrackBar});
+            _imageList.Images.AddRange(new Image[]
+            {
+                GenericImageResources.KryptonRibbonGroupButton,
+                GenericImageResources.KryptonRibbonGroupColorButton,
+                GenericImageResources.KryptonRibbonGroupCheckBox,
+                GenericImageResources.KryptonRibbonGroupRadioButton,
+                GenericImageResources.KryptonRibbonGroupLabel,
+                GenericImageResources.KryptonRibbonGroupCustomControl,
+                GenericImageResources.KryptonRibbonGroupTextBox,
+                GenericImageResources.KryptonRibbonGroupRichTextBox,
+                GenericImageResources.KryptonRibbonGroupComboBox,
+                GenericImageResources.KryptonRibbonGroupMaskedTextBox,
+                GenericImageResources.KryptonRibbonGroupNumericUpDown,
+                GenericImageResources.KryptonRibbonGroupDomainUpDown,
+                GenericImageResources.KryptonRibbonGroupDateTimePicker,
+                GenericImageResources.KryptonRibbonGroupTrackBar
+            });
         }
 
         /// <summary>
@@ -62,7 +67,7 @@ namespace Krypton.Ribbon
         /// <param name="currentSize">Size the view should use.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
         public ViewDrawRibbonDesignGroupTriple(KryptonRibbon ribbon,
-                                               KryptonRibbonGroupTriple ribbonTriple,
+            [DisallowNull] KryptonRibbonGroupTriple ribbonTriple,
                                                GroupItemSize currentSize,
                                                NeedPaintHandler needPaint)
             : base(ribbon, needPaint)
@@ -83,7 +88,7 @@ namespace Krypton.Ribbon
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            @"ViewDrawRibbonDesignGroupTriple:" + Id;
+            $@"ViewDrawRibbonDesignGroupTriple:{Id}";
 
         #endregion
 
@@ -133,20 +138,21 @@ namespace Krypton.Ribbon
                 };
 
                 // Create child items
-                ToolStripMenuItem menuButton = new("Add Button", null, OnAddButton);
-                ToolStripMenuItem menuColorButton = new("Add Color Button", null, OnAddColorButton);
-                ToolStripMenuItem menuCheckBox = new("Add CheckBox", null, OnAddCheckBox);
-                ToolStripMenuItem menuCustomControl = new("Add Custom Control", null, OnAddCustomControl);
-                ToolStripMenuItem menuLabel = new("Add Label", null, OnAddLabel);
-                ToolStripMenuItem menuRadioButton = new("Add RadioButton", null, OnAddRadioButton);
-                ToolStripMenuItem menuTextBox = new("Add TextBox", null, OnAddTextBox);
-                ToolStripMenuItem menuMaskedTextBox = new("Add MaskedTextBox", null, OnAddMaskedTextBox);
-                ToolStripMenuItem menuRichTextBox = new("Add RichTextBox", null, OnAddRichTextBox);
-                ToolStripMenuItem menuComboBox = new("Add ComboBox", null, OnAddComboBox);
-                ToolStripMenuItem menuNumericUpDown = new("Add NumericUpDown", null, OnAddNumericUpDown);
-                ToolStripMenuItem menuDomainUpDown = new("Add DomainUpDown", null, OnAddDomainUpDown);
-                ToolStripMenuItem menuDateTimePicker = new("Add DateTimePicker", null, OnAddDateTimePicker);
-                ToolStripMenuItem menuTrackBar = new("Add TrackBar", null, OnAddTrackBar);
+                var menuButton = new ToolStripMenuItem("Add Button", null, OnAddButton);
+                var menuColorButton = new ToolStripMenuItem("Add Color Button", null, OnAddColorButton);
+                var menuCheckBox = new ToolStripMenuItem("Add CheckBox", null, OnAddCheckBox);
+                var menuCustomControl = new ToolStripMenuItem("Add Custom Control", null, OnAddCustomControl);
+                var menuLabel = new ToolStripMenuItem("Add Label", null, OnAddLabel);
+                var menuRadioButton = new ToolStripMenuItem("Add RadioButton", null, OnAddRadioButton);
+                var menuTextBox = new ToolStripMenuItem("Add TextBox", null, OnAddTextBox);
+                var menuMaskedTextBox = new ToolStripMenuItem("Add MaskedTextBox", null, OnAddMaskedTextBox);
+                var menuRichTextBox = new ToolStripMenuItem("Add RichTextBox", null, OnAddRichTextBox);
+                var menuComboBox = new ToolStripMenuItem("Add ComboBox", null, OnAddComboBox);
+                var menuNumericUpDown = new ToolStripMenuItem("Add NumericUpDown", null, OnAddNumericUpDown);
+                var menuDomainUpDown = new ToolStripMenuItem("Add DomainUpDown", null, OnAddDomainUpDown);
+                var menuDateTimePicker = new ToolStripMenuItem("Add DateTimePicker", null, OnAddDateTimePicker);
+                var menuTrackBar = new ToolStripMenuItem("Add TrackBar", null, OnAddTrackBar);
+                var menuThemeComboBox = new ToolStripMenuItem("Add Theme ComboBox", null, OnAddThemeComboBox);
 
                 // Assign correct images
                 menuButton.ImageIndex = 0;
@@ -163,9 +169,10 @@ namespace Krypton.Ribbon
                 menuDomainUpDown.ImageIndex = 11;
                 menuDateTimePicker.ImageIndex = 12;
                 menuTrackBar.ImageIndex = 13;
+                menuThemeComboBox.ImageIndex = 14;
 
                 // Finally, add all items to the strip
-                _cms.Items.AddRange(new ToolStripItem[] { menuButton, menuColorButton, menuCheckBox, menuComboBox, menuCustomControl, menuDateTimePicker, menuDomainUpDown, menuLabel, menuNumericUpDown, menuRadioButton, menuRichTextBox, menuTextBox, menuTrackBar, menuMaskedTextBox });
+                _cms.Items.AddRange(new ToolStripItem[] { menuButton, menuColorButton, menuCheckBox, menuComboBox, menuCustomControl, menuDateTimePicker, menuDomainUpDown, menuLabel, menuNumericUpDown, menuRadioButton, menuRichTextBox, menuTextBox, menuTrackBar, menuMaskedTextBox, menuThemeComboBox });
             }
 
             if (CommonHelper.ValidContextMenuStrip(_cms))
@@ -180,75 +187,36 @@ namespace Krypton.Ribbon
         #endregion
 
         #region Implementation
-        private void OnAddButton(object sender, EventArgs e)
-        {
-            _ribbonTriple.OnDesignTimeAddButton();
-        }
+        private void OnAddButton(object sender, EventArgs e) => _ribbonTriple.OnDesignTimeAddButton();
 
-        private void OnAddColorButton(object sender, EventArgs e)
-        {
-            _ribbonTriple.OnDesignTimeAddColorButton();
-        }
+        private void OnAddColorButton(object sender, EventArgs e) => _ribbonTriple.OnDesignTimeAddColorButton();
 
-        private void OnAddCheckBox(object sender, EventArgs e)
-        {
-            _ribbonTriple.OnDesignTimeAddCheckBox();
-        }
+        private void OnAddCheckBox(object sender, EventArgs e) => _ribbonTriple.OnDesignTimeAddCheckBox();
 
-        private void OnAddRadioButton(object sender, EventArgs e)
-        {
-            _ribbonTriple.OnDesignTimeAddRadioButton();
-        }
+        private void OnAddRadioButton(object sender, EventArgs e) => _ribbonTriple.OnDesignTimeAddRadioButton();
 
-        private void OnAddLabel(object sender, EventArgs e)
-        {
-            _ribbonTriple.OnDesignTimeAddLabel();
-        }
+        private void OnAddLabel(object sender, EventArgs e) => _ribbonTriple.OnDesignTimeAddLabel();
 
-        private void OnAddCustomControl(object sender, EventArgs e)
-        {
-            _ribbonTriple.OnDesignTimeAddCustomControl();
-        }
+        private void OnAddCustomControl(object sender, EventArgs e) => _ribbonTriple.OnDesignTimeAddCustomControl();
 
-        private void OnAddTextBox(object sender, EventArgs e)
-        {
-            _ribbonTriple.OnDesignTimeAddTextBox();
-        }
+        private void OnAddTextBox(object sender, EventArgs e) => _ribbonTriple.OnDesignTimeAddTextBox();
 
-        private void OnAddMaskedTextBox(object sender, EventArgs e)
-        {
-            _ribbonTriple.OnDesignTimeAddMaskedTextBox();
-        }
+        private void OnAddMaskedTextBox(object sender, EventArgs e) => _ribbonTriple.OnDesignTimeAddMaskedTextBox();
 
-        private void OnAddRichTextBox(object sender, EventArgs e)
-        {
-            _ribbonTriple.OnDesignTimeAddRichTextBox();
-        }
+        private void OnAddRichTextBox(object sender, EventArgs e) => _ribbonTriple.OnDesignTimeAddRichTextBox();
 
-        private void OnAddComboBox(object sender, EventArgs e)
-        {
-            _ribbonTriple.OnDesignTimeAddComboBox();
-        }
+        private void OnAddComboBox(object sender, EventArgs e) => _ribbonTriple.OnDesignTimeAddComboBox();
 
-        private void OnAddNumericUpDown(object sender, EventArgs e)
-        {
-            _ribbonTriple.OnDesignTimeAddNumericUpDown();
-        }
+        private void OnAddNumericUpDown(object sender, EventArgs e) => _ribbonTriple.OnDesignTimeAddNumericUpDown();
 
-        private void OnAddDomainUpDown(object sender, EventArgs e)
-        {
-            _ribbonTriple.OnDesignTimeAddDomainUpDown();
-        }
+        private void OnAddDomainUpDown(object sender, EventArgs e) => _ribbonTriple.OnDesignTimeAddDomainUpDown();
 
-        private void OnAddDateTimePicker(object sender, EventArgs e)
-        {
-            _ribbonTriple.OnDesignTimeAddDateTimePicker();
-        }
+        private void OnAddDateTimePicker(object sender, EventArgs e) => _ribbonTriple.OnDesignTimeAddDateTimePicker();
 
-        private void OnAddTrackBar(object sender, EventArgs e)
-        {
-            _ribbonTriple.OnDesignTimeAddTrackBar();
-        }
+        private void OnAddTrackBar(object sender, EventArgs e) => _ribbonTriple.OnDesignTimeAddTrackBar();
+
+        private void OnAddThemeComboBox(object sender, EventArgs e) => _ribbonTriple.OnDesignTimeAddThemeComboBox();
+
         #endregion
     }
 }

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -40,8 +40,8 @@ namespace Krypton.Toolkit
         /// <param name="target">Initial palette target for redirection.</param>
         /// <param name="plusMinusImages">Reference to source of tree view images.</param>
         /// <param name="checkboxImages">Reference to source of check box images.</param>
-        public PaletteRedirectTreeView(IPalette target,
-                                       TreeViewImages plusMinusImages,
+        public PaletteRedirectTreeView(PaletteBase? target,
+            [DisallowNull] TreeViewImages plusMinusImages,
                                        CheckBoxImages checkboxImages)
             : base(target)
         {
@@ -59,9 +59,9 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="expanded">Is the node expanded</param>
         /// <returns>Appropriate image for drawing; otherwise null.</returns>
-        public override Image GetTreeViewImage(bool expanded)
+        public override Image? GetTreeViewImage(bool expanded)
         {
-            Image retImage = (expanded ? _plusMinusImages.Minus : _plusMinusImages.Plus) ?? Target.GetTreeViewImage(expanded);
+            Image? retImage = (expanded ? _plusMinusImages.Minus : _plusMinusImages.Plus) ?? Target.GetTreeViewImage(expanded);
 
             // Not found, then inherit from target
 
@@ -76,7 +76,7 @@ namespace Krypton.Toolkit
         /// <param name="tracking">Is the check box being hot tracked.</param>
         /// <param name="pressed">Is the check box being pressed.</param>
         /// <returns>Appropriate image for drawing; otherwise null.</returns>
-        public override Image GetCheckBoxImage(bool enabled,
+        public override Image? GetCheckBoxImage(bool enabled,
                                                CheckState checkState,
                                                bool tracking,
                                                bool pressed)
@@ -147,10 +147,7 @@ namespace Krypton.Toolkit
             }
 
             // Not found, then get the common image
-            if (retImage == null)
-            {
-                retImage = _checkboxImages.Common;
-            }
+            retImage ??= _checkboxImages.Common;
 
             // Not found, then inherit from target
             return retImage ?? Target.GetCheckBoxImage(enabled, checkState, tracking, pressed);

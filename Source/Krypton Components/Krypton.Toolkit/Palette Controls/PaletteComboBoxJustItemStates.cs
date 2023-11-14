@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -17,17 +17,13 @@ namespace Krypton.Toolkit
     /// </summary>
     public class PaletteComboBoxJustItemStates : Storage
     {
-        #region Instance Fields
-
-        #endregion
-
         #region Identity
         /// <summary>
         /// Initialize a new instance of the PaletteComboBoxJustItemStates class.
         /// </summary>
         /// <param name="inheritItem">Source for inheriting item values.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public PaletteComboBoxJustItemStates(IPaletteTriple inheritItem,
+        public PaletteComboBoxJustItemStates([DisallowNull] IPaletteTriple inheritItem,
                                              NeedPaintHandler needPaint)
         {
             Debug.Assert(inheritItem != null);
@@ -87,7 +83,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="needLayout">True if a layout is also needed.</param>
-        protected void OnNeedPaint(object sender, bool needLayout) =>
+        protected void OnNeedPaint(object? sender, bool needLayout) =>
             // Pass request from child to our own handler
             PerformNeedPaint(needLayout);
 

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -18,7 +18,7 @@ namespace Krypton.Navigator
     public class PageDropEventArgs : CancelEventArgs
     {
         #region Instance Fields
-        private KryptonPage _page;
+        private KryptonPage? _page;
         #endregion
 
         #region Identity
@@ -26,7 +26,7 @@ namespace Krypton.Navigator
         /// Initialize a new instance of the PageDropEventArgs class.
         /// </summary>
         /// <param name="page">Page that is being dropped.</param>
-        public PageDropEventArgs(KryptonPage page) => _page = page;
+        public PageDropEventArgs(KryptonPage? page) => _page = page;
 
         #endregion
 
@@ -34,10 +34,10 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets and sets the page to be dropped.
         /// </summary>
-        public KryptonPage Page
+        public KryptonPage? Page
         {
             get => _page;
-            set => _page = Page;    // TODO: What is this supposed to be doing ?
+            set => _page = value;
         }
         #endregion
     }

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -18,10 +18,10 @@ namespace Krypton.Toolkit
     public class KryptonPaletteButtonSpecTyped : KryptonPaletteButtonSpecBase
     {
         #region Instance Fields
-        private Image _image;
+        private Image? _image;
         private string _text;
         private string _extraText;
-        private string _toolTipTitle;
+        private string? _toolTipTitle;
         private Color _colorMap;
         private bool _allowInheritImage;
         private bool _allowInheritText;
@@ -35,7 +35,7 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the KryptonPaletteButtonSpecCommon class.
         /// </summary>
         /// <param name="redirector">Palette redirector for sourcing inherited values.</param>
-        internal KryptonPaletteButtonSpecTyped(PaletteRedirect redirector)
+        internal KryptonPaletteButtonSpecTyped([DisallowNull] PaletteRedirect redirector)
             : base(redirector)
         {
             _image = null;
@@ -49,7 +49,7 @@ namespace Krypton.Toolkit
             _allowInheritToolTipTitle = true;
             ImageStates = new CheckButtonImageStates
             {
-                NeedPaint = OnImageStateChanged
+                NeedPaint = OnImageStateChanged!
             };
         }
         #endregion
@@ -104,7 +104,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Button image.")]
         [DefaultValue(null)]
-        public Image Image
+        public Image? Image
         {
             get => _image;
 
@@ -149,7 +149,7 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         [Category(@"Visuals")]
         [Description(@"Button text.")]
-        [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
+        [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
         [DefaultValue("")]
         public string Text
         {
@@ -182,7 +182,7 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         [Category(@"Visuals")]
         [Description(@"Button extra text.")]
-        [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
+        [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
         [DefaultValue("")]
         public string ExtraText
         {
@@ -215,9 +215,9 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         [Category(@"Visuals")]
         [Description(@"Button tooltip title text.")]
-        [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
+        [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
         [DefaultValue("")]
-        public string ToolTipTitle
+        public string? ToolTipTitle
         {
             get => _toolTipTitle;
 
@@ -399,7 +399,7 @@ namespace Krypton.Toolkit
         /// <param name="style">Style of button spec.</param>
         /// <param name="state">State for which image is required.</param>
         /// <returns>Image value.</returns>
-        public override Image GetButtonSpecImage(PaletteButtonSpecStyle style,
+        public override Image? GetButtonSpecImage(PaletteButtonSpecStyle style,
                                                  PaletteState state)
         {
             // Try and recover a state specific image
@@ -416,10 +416,7 @@ namespace Krypton.Toolkit
             };
 
             // Default to the image if no state specific image is found
-            if (image == null)
-            {
-                image = Image;
-            }
+            image ??= Image;
 
             return (image != null) || !AllowInheritImage ? image : base.GetButtonSpecImage(style, state);
         }
@@ -429,7 +426,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="style">Style of button spec.</param>
         /// <returns>String value.</returns>
-        public override string GetButtonSpecShortText(PaletteButtonSpecStyle style) =>
+        public override string? GetButtonSpecShortText(PaletteButtonSpecStyle style) =>
             (Text.Length > 0) || !AllowInheritText ? Text : base.GetButtonSpecShortText(style);
 
         /// <summary>
@@ -437,7 +434,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="style">Style of button spec.</param>
         /// <returns>String value.</returns>
-        public override string GetButtonSpecLongText(PaletteButtonSpecStyle style) =>
+        public override string? GetButtonSpecLongText(PaletteButtonSpecStyle style) =>
             (ExtraText.Length > 0) || !AllowInheritExtraText ? ExtraText : base.GetButtonSpecLongText(style);
 
         /// <summary>
@@ -445,7 +442,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="style">Style of button spec.</param>
         /// <returns>String value.</returns>
-        public override string GetButtonSpecToolTipTitle(PaletteButtonSpecStyle style) => (ToolTipTitle.Length > 0) || !AllowInheritToolTipTitle ? ToolTipTitle : base.GetButtonSpecToolTipTitle(style);
+        public override string? GetButtonSpecToolTipTitle(PaletteButtonSpecStyle style) => (ToolTipTitle.Length > 0) || !AllowInheritToolTipTitle ? ToolTipTitle : base.GetButtonSpecToolTipTitle(style);
 
         /// <summary>
         /// Gets the color to remap from the image to the container foreground.

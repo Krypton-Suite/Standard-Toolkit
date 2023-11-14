@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -17,9 +17,9 @@ namespace Krypton.Toolkit
     /// </summary>
     [ToolboxItem(true)]
     [ToolboxBitmap(typeof(KryptonBorderEdge), "ToolboxBitmaps.KryptonBorderEdge.bmp")]
-    [DefaultEvent(@"Paint")]
-    [DefaultProperty(@"Orientation")]
-    [Designer(@"Krypton.Toolkit.KryptonBorderEdgeDesigner, Krypton.Toolkit")]
+    [DefaultEvent(nameof(Paint))]
+    [DefaultProperty(nameof(Orientation))]
+    [Designer(typeof(KryptonBorderEdgeDesigner))]
     [DesignerCategory(@"code")]
     [Description(@"Displays a vertical or horizontal border edge.")]
     public class KryptonBorderEdge : VisualControlBase
@@ -81,6 +81,8 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [Bindable(false)]
+        [AmbientValue(null)]
+        [AllowNull]
         public override Font Font
         {
             get => base.Font;
@@ -155,7 +157,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Layout")]
         [Description(@"Specifies if the control grows and shrinks to fit the contents exactly.")]
-        [DefaultValue(typeof(AutoSizeMode), "GrowAndShrink")]
+        [DefaultValue(AutoSizeMode.GrowAndShrink)]
         public AutoSizeMode AutoSizeMode
         {
             // ReSharper disable RedundantBaseQualifier
@@ -199,10 +201,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void ResetBorderStyle()
-        {
-            BorderStyle = PaletteBorderStyle.ControlClient;
-        }
+        private void ResetBorderStyle() => BorderStyle = PaletteBorderStyle.ControlClient;
 
         private bool ShouldSerializeBorderStyle() => BorderStyle != PaletteBorderStyle.ControlClient;
 
@@ -211,7 +210,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Visuals")]
         [Description(@"Orientation of border edge used to determine sizing.")]
-        [DefaultValue(typeof(Orientation), "Horizontal")]
+        [DefaultValue(Orientation.Horizontal)]
         public virtual Orientation Orientation
         {
             get => _orientation;
@@ -286,18 +285,16 @@ namespace Krypton.Toolkit
         /// Fix the control to a particular palette state.
         /// </summary>
         /// <param name="state">Palette state to fix.</param>
-        public virtual void SetFixedState(PaletteState state)
-        {
+        public virtual void SetFixedState(PaletteState state) =>
             // Request fixed state from the view
             _drawPanel.FixedState = state;
-        }
         #endregion
 
         #region Protected Overrides
         /// <summary>
         /// Gets the default size of the control.
         /// </summary>
-        protected override Size DefaultSize => new(50, 50);
+        protected override Size DefaultSize => new Size(50, 50);
 
         /// <summary>
         /// Raises the EnabledChanged event.

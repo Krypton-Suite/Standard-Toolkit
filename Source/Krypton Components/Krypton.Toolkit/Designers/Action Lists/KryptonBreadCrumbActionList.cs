@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -15,7 +15,7 @@ namespace Krypton.Toolkit
     internal class KryptonBreadCrumbActionList : DesignerActionList
     {
         #region Instance Fields
-        private readonly KryptonBreadCrumb _breadCrumb;
+        private readonly KryptonBreadCrumb? _breadCrumb;
         private readonly IComponentChangeService _service;
         #endregion
 
@@ -34,7 +34,7 @@ namespace Krypton.Toolkit
             _service = (IComponentChangeService)GetService(typeof(IComponentChangeService));
         }
         #endregion
-        
+
         #region Public
         /// <summary>
         /// Gets and sets the background drawing style.
@@ -94,7 +94,7 @@ namespace Krypton.Toolkit
         {
             get => _breadCrumb.PaletteMode;
 
-            set 
+            set
             {
                 if (_breadCrumb.PaletteMode != value)
                 {
@@ -113,20 +113,20 @@ namespace Krypton.Toolkit
         public override DesignerActionItemCollection GetSortedActionItems()
         {
             // Create a new collection for holding the single item we want to create
-            DesignerActionItemCollection actions = new();
+            var actions = new DesignerActionItemCollection();
 
             // This can be null when deleting a control instance at design time
             if (_breadCrumb != null)
             {
                 // Add the list of bread crumb specific actions
-                actions.Add(new DesignerActionHeaderItem(@"Appearance"));
-                actions.Add(new DesignerActionPropertyItem(@"ControlBackStyle", @"Back Style", @"Appearance", @"Background drawing style."));
-                actions.Add(new DesignerActionPropertyItem(@"ControlBorderStyle", @"Border Style", @"Appearance", @"Border drawing style."));
-                actions.Add(new DesignerActionPropertyItem(@"CrumbButtonStyle", @"Crumb Style", @"Appearance", @"Crumb drawing style."));
+                actions.Add(new DesignerActionHeaderItem(nameof(Appearance)));
+                actions.Add(new DesignerActionPropertyItem(nameof(ControlBackStyle), @"Back Style", nameof(Appearance), @"Background drawing style."));
+                actions.Add(new DesignerActionPropertyItem(nameof(ControlBorderStyle), @"Border Style", nameof(Appearance), @"Border drawing style."));
+                actions.Add(new DesignerActionPropertyItem(nameof(CrumbButtonStyle), @"Crumb Style", nameof(Appearance), @"Crumb drawing style."));
                 actions.Add(new DesignerActionHeaderItem(@"Visuals"));
-                actions.Add(new DesignerActionPropertyItem(@"PaletteMode", @"Palette", @"Visuals", @"Palette applied to drawing"));
+                actions.Add(new DesignerActionPropertyItem(nameof(PaletteMode), @"Palette", @"Visuals", @"Palette applied to drawing"));
             }
-            
+
             return actions;
         }
         #endregion

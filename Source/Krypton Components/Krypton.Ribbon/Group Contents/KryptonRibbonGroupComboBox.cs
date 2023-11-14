@@ -5,8 +5,8 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved.
- *
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  
  */
 #endregion
 
@@ -17,11 +17,11 @@ namespace Krypton.Ribbon
     /// </summary>
     [ToolboxItem(false)]
     [ToolboxBitmap(typeof(KryptonRibbonGroupComboBox), "ToolboxBitmaps.KryptonRibbonGroupComboBox.bmp")]
-    [Designer("Krypton.Ribbon.KryptonRibbonGroupComboBoxDesigner, Krypton.Ribbon")]
+    [Designer(typeof(KryptonRibbonGroupComboBoxDesigner))]
     [DesignerCategory(@"code")]
     [DesignTimeVisible(false)]
     [DefaultEvent("SelectedTextChanged")]
-    [DefaultProperty("Text")]
+    [DefaultProperty(nameof(Text))]
     public class KryptonRibbonGroupComboBox : KryptonRibbonGroupItem
     {
         #region Instance Fields
@@ -37,156 +37,156 @@ namespace Krypton.Ribbon
         /// Occurs when the control receives focus.
         /// </summary>
         [Browsable(false)]
-        public event EventHandler GotFocus;
+        public event EventHandler? GotFocus;
 
         /// <summary>
         /// Occurs when the control loses focus.
         /// </summary>
         [Browsable(false)]
-        public event EventHandler LostFocus;
+        public event EventHandler? LostFocus;
 
         /// <summary>
         /// Occurs when a key is pressed while the control has focus. 
         /// </summary>
         [Description(@"Occurs when a key is pressed while the control has focus.")]
         [Category(@"Key")]
-        public event KeyPressEventHandler KeyPress;
+        public event KeyPressEventHandler? KeyPress;
 
         /// <summary>
         /// Occurs when a key is released while the control has focus. 
         /// </summary>
         [Description(@"Occurs when a key is released while the control has focus.")]
         [Category(@"Key")]
-        public event KeyEventHandler KeyUp;
+        public event KeyEventHandler? KeyUp;
 
         /// <summary>
         /// Occurs when a key is pressed while the control has focus.
         /// </summary>
         [Description(@"Occurs when a key is pressed while the control has focus.")]
         [Category(@"Key")]
-        public event KeyEventHandler KeyDown;
+        public event KeyEventHandler? KeyDown;
 
         /// <summary>
         /// Occurs before the KeyDown event when a key is pressed while focus is on this control.
         /// </summary>
         [Description(@"Occurs before the KeyDown event when a key is pressed while focus is on this control.")]
         [Category(@"Key")]
-        public event PreviewKeyDownEventHandler PreviewKeyDown;
+        public event PreviewKeyDownEventHandler? PreviewKeyDown;
 
         /// <summary>
         /// Occurs when the drop-down portion of the KryptonComboBox is shown.
         /// </summary>
         [Description(@"Occurs when the drop-down portion of the KryptonComboBox is shown.")]
         [Category(@"Behavior")]
-        public event EventHandler DropDown;
+        public event EventHandler? DropDown;
 
         /// <summary>
         /// Indicates that the drop-down portion of the KryptonComboBox has closed.
         /// </summary>
         [Description(@"Indicates that the drop-down portion of the KryptonComboBox has closed.")]
         [Category(@"Behavior")]
-        public event EventHandler DropDownClosed;
+        public event EventHandler? DropDownClosed;
 
         /// <summary>
         /// Occurs when the value of the DropDownStyle property changed.
         /// </summary>
         [Description(@"Occurs when the value of the DropDownStyle property changed.")]
         [Category(@"Behavior")]
-        public event EventHandler DropDownStyleChanged;
+        public event EventHandler? DropDownStyleChanged;
 
         /// <summary>
         /// Occurs when the value of the SelectedIndex property changes.
         /// </summary>
         [Description(@"Occurs when the value of the SelectedIndex property changes.")]
         [Category(@"Behavior")]
-        public event EventHandler SelectedIndexChanged;
+        public event EventHandler? SelectedIndexChanged;
 
         /// <summary>
         /// Occurs when an item is chosen from the drop-down list and the drop-down list is closed.
         /// </summary>
         [Description(@"Occurs when an item is chosen from the drop-down list and the drop-down list is closed.")]
         [Category(@"Behavior")]
-        public event EventHandler SelectionChangeCommitted;
+        public event EventHandler? SelectionChangeCommitted;
 
         /// <summary>
         /// Occurs when the value of the DataSource property changed.
         /// </summary>
         [Description(@"Occurs when the value of the DataSource property changed.")]
         [Category(@"PropertyChanged")]
-        public event EventHandler DataSourceChanged;
+        public event EventHandler? DataSourceChanged;
 
         /// <summary>
         /// Occurs when the value of the DisplayMember property changed.
         /// </summary>
         [Description(@"Occurs when the value of the DisplayMember property changed.")]
         [Category(@"PropertyChanged")]
-        public event EventHandler DisplayMemberChanged;
+        public event EventHandler? DisplayMemberChanged;
 
         /// <summary>
         /// Occurs when the list format has changed.
         /// </summary>
         [Description(@"Occurs when the list format has changed.")]
         [Category(@"PropertyChanged")]
-        public event EventHandler Format;
+        public event EventHandler? Format;
 
         /// <summary>
         /// Occurs when the value of the FormatInfo property changed.
         /// </summary>
         [Description(@"Occurs when the value of the FormatInfo property changed.")]
         [Category(@"PropertyChanged")]
-        public event EventHandler FormatInfoChanged;
+        public event EventHandler? FormatInfoChanged;
 
         /// <summary>
         /// Occurs when the value of the FormatString property changed.
         /// </summary>
         [Description(@"Occurs when the value of the FormatString property changed.")]
         [Category(@"PropertyChanged")]
-        public event EventHandler FormatStringChanged;
+        public event EventHandler? FormatStringChanged;
 
         /// <summary>
         /// Occurs when the value of the FormattingEnabled property changed.
         /// </summary>
         [Description(@"Occurs when the value of the FormattingEnabled property changed.")]
         [Category(@"PropertyChanged")]
-        public event EventHandler FormattingEnabledChanged;
+        public event EventHandler? FormattingEnabledChanged;
 
         /// <summary>
         /// Occurs when the value of the SelectedValue property changed.
         /// </summary>
         [Description(@"Occurs when the value of the SelectedValue property changed.")]
         [Category(@"PropertyChanged")]
-        public event EventHandler SelectedValueChanged;
+        public event EventHandler? SelectedValueChanged;
 
         /// <summary>
         /// Occurs when the value of the ValueMember property changed.
         /// </summary>
         [Description(@"Occurs when the value of the ValueMember property changed.")]
         [Category(@"PropertyChanged")]
-        public event EventHandler ValueMemberChanged;
+        public event EventHandler? ValueMemberChanged;
 
         /// <summary>
         /// Occurs when the KryptonComboBox text has changed.
         /// </summary>
         [Description(@"Occurs when the KryptonComboBox text has changed.")]
         [Category(@"Behavior")]
-        public event EventHandler TextUpdate;
+        public event EventHandler? TextUpdate;
 
         /// <summary>
         /// Occurs after the value of a property has changed.
         /// </summary>
         [Category(@"Ribbon")]
         [Description(@"Occurs after the value of a property has changed.")]
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         /// <summary>
         /// Occurs when the design time context menu is requested.
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        public event MouseEventHandler DesignTimeContextMenu;
+        public event MouseEventHandler? DesignTimeContextMenu;
 
-        internal event EventHandler MouseEnterControl;
-        internal event EventHandler MouseLeaveControl;
+        internal event EventHandler? MouseEnterControl;
+        internal event EventHandler? MouseLeaveControl;
         #endregion
 
         #region Identity
@@ -265,7 +265,7 @@ namespace Krypton.Ribbon
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public override KryptonRibbon Ribbon
+        public override KryptonRibbon? Ribbon
         {
             set
             {
@@ -275,8 +275,8 @@ namespace Krypton.Ribbon
                 {
                     // Use the same palette in the combo box as the ribbon, plus we need
                     // to know when the ribbon palette changes so we can reflect that change
-                    ComboBox.Palette = Ribbon.GetResolvedPalette();
-                    Ribbon.PaletteChanged += OnRibbonPaletteChanged;
+                    ComboBox.Palette = Ribbon!.GetResolvedPalette();
+                    Ribbon!.PaletteChanged += OnRibbonPaletteChanged;
                 }
             }
         }
@@ -293,10 +293,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Resets the ShortcutKeys property to its default value.
         /// </summary>
-        public void ResetShortcutKeys()
-        {
-            ShortcutKeys = Keys.None;
-        }
+        public void ResetShortcutKeys() => ShortcutKeys = Keys.None;
 
         /// <summary>
         /// Access to the actual embedded KryptonComboBox instance.
@@ -357,18 +354,12 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Make the ribbon group visible.
         /// </summary>
-        public void Show()
-        {
-            Visible = true;
-        }
+        public void Show() => Visible = true;
 
         /// <summary>
         /// Make the ribbon group hidden.
         /// </summary>
-        public void Hide()
-        {
-            Visible = false;
-        }
+        public void Hide() => Visible = false;
 
         /// <summary>
         /// Gets and sets the enabled state of the group combo box.
@@ -420,7 +411,8 @@ namespace Krypton.Ribbon
         /// </summary>
         [Category(@"Appearance")]
         [Description(@"Text associated with the control.")]
-        [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
+        [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
+        [AllowNull]
         public string Text
         {
             get => ComboBox.Text;
@@ -433,7 +425,7 @@ namespace Krypton.Ribbon
         [Category(@"Behavior")]
         [Description(@"The shortcut to display when the user right-clicks the control.")]
         [DefaultValue(null)]
-        public ContextMenuStrip ContextMenuStrip
+        public ContextMenuStrip? ContextMenuStrip
         {
             get => ComboBox.ContextMenuStrip;
             set => ComboBox.ContextMenuStrip = value;
@@ -445,7 +437,7 @@ namespace Krypton.Ribbon
         [Category(@"Behavior")]
         [Description(@"KryptonContextMenu to be shown when the combobox is right clicked.")]
         [DefaultValue(null)]
-        public KryptonContextMenu KryptonContextMenu
+        public KryptonContextMenu? KryptonContextMenu
         {
             get => ComboBox.KryptonContextMenu;
             set => ComboBox.KryptonContextMenu = value;
@@ -456,7 +448,7 @@ namespace Krypton.Ribbon
         /// </summary>
         [Category(@"Data")]
         [Description(@"Indicates the property to use as the actual value of the items in the control.")]
-        [Editor("System.Windows.Forms.Design.DataMemberFieldEditor, " + AssemblyRef.SystemDesign, typeof(UITypeEditor))]
+        [Editor(@"System.Windows.Forms.Design.DataMemberFieldEditor", typeof(UITypeEditor))]
         [DefaultValue("")]
         public string ValueMember
         {
@@ -483,8 +475,8 @@ namespace Krypton.Ribbon
         /// </summary>
         [Category(@"Data")]
         [Description(@"Indicates the property to display for the items in this control.")]
-        [TypeConverter("System.Windows.Forms.Design.DataMemberFieldConverter, " + AssemblyRef.SystemWinformsDesign)]
-        [Editor("System.Windows.Forms.Design.DataMemberFieldEditor, " + AssemblyRef.SystemDesign, typeof(UITypeEditor))]
+        [TypeConverter(@"System.Windows.Forms.Design.DataMemberFieldConverter")]
+        [Editor(@"System.Windows.Forms.Design.DataMemberFieldEditor", typeof(UITypeEditor))]
         [DefaultValue("")]
         public string DisplayMember
         {
@@ -497,7 +489,7 @@ namespace Krypton.Ribbon
         /// </summary>
         [Category(@"Appearance")]
         [Description(@"Controls the appearance and functionality of the KryptonComboBox.")]
-        [DefaultValue(typeof(ComboBoxStyle), "DropDown")]
+        [DefaultValue(typeof(ComboBoxStyle), nameof(DropDown))]
         [RefreshProperties(RefreshProperties.Repaint)]
         public ComboBoxStyle DropDownStyle
         {
@@ -588,13 +580,12 @@ namespace Krypton.Ribbon
         /// </summary>
         public override ToolTipValues ToolTipValues => ComboBox.ToolTipValues;
 
-
         /// <summary>
         /// Gets or sets the items in the KryptonComboBox.
         /// </summary>
         [Category(@"Data")]
         [Description(@"The items in the KryptonComboBox.")]
-        [Editor("System.Windows.Forms.Design.ListControlStringCollectionEditor, " + AssemblyRef.SystemDesign, typeof(UITypeEditor))]
+        [Editor(@"System.Windows.Forms.Design.ListControlStringCollectionEditor", typeof(UITypeEditor))]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         [MergableProperty(false)]
         [Localizable(true)]
@@ -636,7 +627,7 @@ namespace Krypton.Ribbon
         /// Gets or sets the StringCollection to use when the AutoCompleteSource property is set to CustomSource.
         /// </summary>
         [Description(@"The StringCollection to use when the AutoCompleteSource property is set to CustomSource.")]
-        [Editor("System.Windows.Forms.Design.ListControlStringCollectionEditor, " + AssemblyRef.SystemDesign, typeof(UITypeEditor))]
+        [Editor(@"System.Windows.Forms.Design.ListControlStringCollectionEditor", typeof(UITypeEditor))]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         [EditorBrowsable(EditorBrowsableState.Always)]
         [Localizable(true)]
@@ -677,7 +668,7 @@ namespace Krypton.Ribbon
         /// Gets or sets the format specifier characters that indicate how a value is to be Displayed.
         /// </summary>
         [Description(@"The format specifier characters that indicate how a value is to be Displayed.")]
-        [Editor("System.Windows.Forms.Design.FormatStringEditor, " + AssemblyRef.SystemDesign, typeof(UITypeEditor))]
+        [Editor(@"System.Windows.Forms.Design.FormatStringEditor", typeof(UITypeEditor))]
         [MergableProperty(false)]
         [DefaultValue("")]
         public string FormatString
@@ -703,7 +694,7 @@ namespace Krypton.Ribbon
         [DefaultValue(null)]
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public IFormatProvider FormatInfo
+        public IFormatProvider? FormatInfo
         {
             get => ComboBox.FormatInfo;
             set => ComboBox.FormatInfo = value;
@@ -772,7 +763,7 @@ namespace Krypton.Ribbon
         [Browsable(false)]
         [DefaultValue(null)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public object SelectedValue
+        public object? SelectedValue
         {
             get => ComboBox.SelectedValue;
             set => ComboBox.SelectedValue = value;
@@ -838,18 +829,12 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="start">The position of the first character in the current text selection within the text box.</param>
         /// <param name="length">The number of characters to select.</param>
-        public void Select(int start, int length)
-        {
-            ComboBox.Select(start, length);
-        }
+        public void Select(int start, int length) => ComboBox.Select(start, length);
 
         /// <summary>
         /// Selects all text in the control.
         /// </summary>
-        public void SelectAll()
-        {
-            ComboBox.SelectAll();
-        }
+        public void SelectAll() => ComboBox.SelectAll();
 
         /// <summary>
         /// Gets and sets the maximum allowed size of the item.
@@ -922,7 +907,7 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        public ViewBase ComboBoxView { get; set; }
+        public ViewBase? ComboBoxView { get; set; }
 
         #endregion
 
@@ -931,191 +916,128 @@ namespace Krypton.Ribbon
         /// Raises the TextUpdate event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnTextUpdate(EventArgs e)
-        {
-            TextUpdate?.Invoke(this, e);
-        }
+        protected virtual void OnTextUpdate(EventArgs e) => TextUpdate?.Invoke(this, e);
 
         /// <summary>
         /// Raises the SelectionChangeCommitted event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnSelectionChangeCommitted(EventArgs e)
-        {
-            SelectionChangeCommitted?.Invoke(this, e);
-        }
+        protected virtual void OnSelectionChangeCommitted(EventArgs e) => SelectionChangeCommitted?.Invoke(this, e);
 
         /// <summary>
         /// Raises the SelectedIndexChanged event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnSelectedIndexChanged(EventArgs e)
-        {
-            SelectedIndexChanged?.Invoke(this, e);
-        }
+        protected virtual void OnSelectedIndexChanged(EventArgs e) => SelectedIndexChanged?.Invoke(this, e);
 
         /// <summary>
         /// Raises the DropDownStyleChanged event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnDropDownStyleChanged(EventArgs e)
-        {
-            DropDownStyleChanged?.Invoke(this, e);
-        }
+        protected virtual void OnDropDownStyleChanged(EventArgs e) => DropDownStyleChanged?.Invoke(this, e);
 
         /// <summary>
         /// Raises the DataSourceChanged event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnDataSourceChanged(EventArgs e)
-        {
-            DataSourceChanged?.Invoke(this, e);
-        }
+        protected virtual void OnDataSourceChanged(EventArgs e) => DataSourceChanged?.Invoke(this, e);
 
         /// <summary>
         /// Raises the DisplayMemberChanged event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnDisplayMemberChanged(EventArgs e)
-        {
-            DisplayMemberChanged?.Invoke(this, e);
-        }
+        protected virtual void OnDisplayMemberChanged(EventArgs e) => DisplayMemberChanged?.Invoke(this, e);
 
         /// <summary>
         /// Raises the Format event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnFormat(EventArgs e)
-        {
-            Format?.Invoke(this, e);
-        }
+        protected virtual void OnFormat(EventArgs e) => Format?.Invoke(this, e);
 
         /// <summary>
         /// Raises the FormatInfoChanged event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnFormatInfoChanged(EventArgs e)
-        {
-            FormatInfoChanged?.Invoke(this, e);
-        }
+        protected virtual void OnFormatInfoChanged(EventArgs e) => FormatInfoChanged?.Invoke(this, e);
 
         /// <summary>
         /// Raises the FormatStringChanged event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnFormatStringChanged(EventArgs e)
-        {
-            FormatStringChanged?.Invoke(this, e);
-        }
+        protected virtual void OnFormatStringChanged(EventArgs e) => FormatStringChanged?.Invoke(this, e);
 
         /// <summary>
         /// Raises the FormattingEnabledChanged event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnFormattingEnabledChanged(EventArgs e)
-        {
-            FormattingEnabledChanged?.Invoke(this, e);
-        }
+        protected virtual void OnFormattingEnabledChanged(EventArgs e) => FormattingEnabledChanged?.Invoke(this, e);
 
         /// <summary>
         /// Raises the SelectedValueChanged event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnSelectedValueChanged(EventArgs e)
-        {
-            SelectedValueChanged?.Invoke(this, e);
-        }
+        protected virtual void OnSelectedValueChanged(EventArgs e) => SelectedValueChanged?.Invoke(this, e);
 
         /// <summary>
         /// Raises the ValueMemberChanged event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnValueMemberChanged(EventArgs e)
-        {
-            ValueMemberChanged?.Invoke(this, e);
-        }
+        protected virtual void OnValueMemberChanged(EventArgs e) => ValueMemberChanged?.Invoke(this, e);
 
         /// <summary>
         /// Raises the DropDownClosed event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnDropDownClosed(EventArgs e)
-        {
-            DropDownClosed?.Invoke(this, e);
-        }
+        protected virtual void OnDropDownClosed(EventArgs e) => DropDownClosed?.Invoke(this, e);
 
         /// <summary>
         /// Raises the DropDown event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnDropDown(EventArgs e)
-        {
-            DropDown?.Invoke(this, e);
-        }
+        protected virtual void OnDropDown(EventArgs e) => DropDown?.Invoke(this, e);
 
 
         /// <summary>
         /// Raises the GotFocus event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnGotFocus(EventArgs e)
-        {
-            GotFocus?.Invoke(this, e);
-        }
+        protected virtual void OnGotFocus(EventArgs e) => GotFocus?.Invoke(this, e);
 
         /// <summary>
         /// Raises the LostFocus event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnLostFocus(EventArgs e)
-        {
-            LostFocus?.Invoke(this, e);
-        }
+        protected virtual void OnLostFocus(EventArgs e) => LostFocus?.Invoke(this, e);
 
         /// <summary>
         /// Raises the KeyDown event.
         /// </summary>
         /// <param name="e">An KeyEventArgs containing the event data.</param>
-        protected virtual void OnKeyDown(KeyEventArgs e)
-        {
-            KeyDown?.Invoke(this, e);
-        }
+        protected virtual void OnKeyDown(KeyEventArgs e) => KeyDown?.Invoke(this, e);
 
         /// <summary>
         /// Raises the KeyUp event.
         /// </summary>
         /// <param name="e">An KeyEventArgs containing the event data.</param>
-        protected virtual void OnKeyUp(KeyEventArgs e)
-        {
-            KeyUp?.Invoke(this, e);
-        }
+        protected virtual void OnKeyUp(KeyEventArgs e) => KeyUp?.Invoke(this, e);
 
         /// <summary>
         /// Raises the KeyPress event.
         /// </summary>
         /// <param name="e">An KeyPressEventArgs containing the event data.</param>
-        protected virtual void OnKeyPress(KeyPressEventArgs e)
-        {
-            KeyPress?.Invoke(this, e);
-        }
+        protected virtual void OnKeyPress(KeyPressEventArgs e) => KeyPress?.Invoke(this, e);
 
         /// <summary>
         /// Raises the PreviewKeyDown event.
         /// </summary>
         /// <param name="e">An PreviewKeyDownEventArgs containing the event data.</param>
-        protected virtual void OnPreviewKeyDown(PreviewKeyDownEventArgs e)
-        {
-            PreviewKeyDown?.Invoke(this, e);
-        }
+        protected virtual void OnPreviewKeyDown(PreviewKeyDownEventArgs e) => PreviewKeyDown?.Invoke(this, e);
 
         /// <summary>
         /// Raises the PropertyChanged event.
         /// </summary>
         /// <param name="propertyName">Name of property that has changed.</param>
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
+        protected virtual void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         #endregion
 
         #region Internal
@@ -1123,12 +1045,9 @@ namespace Krypton.Ribbon
 
         internal KryptonComboBox LastComboBox { get; set; }
 
-        internal NeedPaintHandler ViewPaintDelegate { get; set; }
+        internal NeedPaintHandler? ViewPaintDelegate { get; set; }
 
-        internal void OnDesignTimeContextMenu(MouseEventArgs e)
-        {
-            DesignTimeContextMenu?.Invoke(this, e);
-        }
+        internal void OnDesignTimeContextMenu(MouseEventArgs e) => DesignTimeContextMenu?.Invoke(this, e);
 
         internal override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
@@ -1174,126 +1093,55 @@ namespace Krypton.Ribbon
             c.TrackMouseLeave -= OnControlLeave;
         }
 
-        private void OnControlEnter(object sender, EventArgs e)
-        {
-            MouseEnterControl?.Invoke(this, e);
-        }
+        private void OnControlEnter(object sender, EventArgs e) => MouseEnterControl?.Invoke(this, e);
 
-        private void OnControlLeave(object sender, EventArgs e)
-        {
-            MouseLeaveControl?.Invoke(this, e);
-        }
+        private void OnControlLeave(object sender, EventArgs e) => MouseLeaveControl?.Invoke(this, e);
 
-        private void OnPaletteNeedPaint(object sender, NeedLayoutEventArgs e)
-        {
+        private void OnPaletteNeedPaint(object sender, NeedLayoutEventArgs e) =>
             // Pass request onto the view provided paint delegate
             ViewPaintDelegate?.Invoke(this, e);
-        }
 
-        private void OnComboBoxGotFocus(object sender, EventArgs e)
-        {
-            OnGotFocus(e);
-        }
+        private void OnComboBoxGotFocus(object sender, EventArgs e) => OnGotFocus(e);
 
-        private void OnComboBoxLostFocus(object sender, EventArgs e)
-        {
-            OnLostFocus(e);
-        }
+        private void OnComboBoxLostFocus(object sender, EventArgs e) => OnLostFocus(e);
 
-        private void OnComboBoxTextUpdate(object sender, EventArgs e)
-        {
-            OnTextUpdate(e);
-        }
+        private void OnComboBoxTextUpdate(object sender, EventArgs e) => OnTextUpdate(e);
 
-        private void OnComboBoxSelectionChangeCommitted(object sender, EventArgs e)
-        {
-            OnSelectionChangeCommitted(e);
-        }
+        private void OnComboBoxSelectionChangeCommitted(object sender, EventArgs e) => OnSelectionChangeCommitted(e);
 
-        private void OnComboBoxSelectedIndexChanged(object sender, EventArgs e)
-        {
-            OnSelectedIndexChanged(e);
-        }
+        private void OnComboBoxSelectedIndexChanged(object sender, EventArgs e) => OnSelectedIndexChanged(e);
 
-        private void OnComboBoxDropDownStyleChanged(object sender, EventArgs e)
-        {
-            OnDropDownStyleChanged(e);
-        }
+        private void OnComboBoxDropDownStyleChanged(object sender, EventArgs e) => OnDropDownStyleChanged(e);
 
-        private void OnComboBoxDataSourceChanged(object sender, EventArgs e)
-        {
-            OnDataSourceChanged(e);
-        }
+        private void OnComboBoxDataSourceChanged(object sender, EventArgs e) => OnDataSourceChanged(e);
 
-        private void OnComboBoxDisplayMemberChanged(object sender, EventArgs e)
-        {
-            OnDisplayMemberChanged(e);
-        }
+        private void OnComboBoxDisplayMemberChanged(object sender, EventArgs e) => OnDisplayMemberChanged(e);
 
-        private void OnComboBoxDropDownClosed(object sender, EventArgs e)
-        {
-            OnDropDownClosed(e);
-        }
+        private void OnComboBoxDropDownClosed(object sender, EventArgs e) => OnDropDownClosed(e);
 
-        private void OnComboBoxDropDown(object sender, EventArgs e)
-        {
-            OnDropDown(e);
-        }
+        private void OnComboBoxDropDown(object sender, EventArgs e) => OnDropDown(e);
 
-        private void OnComboBoxKeyPress(object sender, KeyPressEventArgs e)
-        {
-            OnKeyPress(e);
-        }
+        private void OnComboBoxKeyPress(object sender, KeyPressEventArgs e) => OnKeyPress(e);
 
-        private void OnComboBoxKeyUp(object sender, KeyEventArgs e)
-        {
-            OnKeyUp(e);
-        }
+        private void OnComboBoxKeyUp(object sender, KeyEventArgs e) => OnKeyUp(e);
 
-        private void OnComboBoxKeyDown(object sender, KeyEventArgs e)
-        {
-            OnKeyDown(e);
-        }
+        private void OnComboBoxKeyDown(object sender, KeyEventArgs e) => OnKeyDown(e);
 
-        private void OnComboBoxPreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
-        {
-            OnPreviewKeyDown(e);
-        }
+        private void OnComboBoxPreviewKeyDown(object sender, PreviewKeyDownEventArgs e) => OnPreviewKeyDown(e);
 
-        private void OnComboBoxFormat(object sender, ListControlConvertEventArgs e)
-        {
-            OnFormat(e);
-        }
+        private void OnComboBoxFormat(object sender, ListControlConvertEventArgs e) => OnFormat(e);
 
-        private void OnComboBoxFormatInfoChanged(object sender, EventArgs e)
-        {
-            OnFormatInfoChanged(e);
-        }
+        private void OnComboBoxFormatInfoChanged(object sender, EventArgs e) => OnFormatInfoChanged(e);
 
-        private void OnComboBoxFormatStringChanged(object sender, EventArgs e)
-        {
-            OnFormatStringChanged(e);
-        }
+        private void OnComboBoxFormatStringChanged(object sender, EventArgs e) => OnFormatStringChanged(e);
 
-        private void OnComboBoxFormattingEnabledChanged(object sender, EventArgs e)
-        {
-            OnFormattingEnabledChanged(e);
-        }
+        private void OnComboBoxFormattingEnabledChanged(object sender, EventArgs e) => OnFormattingEnabledChanged(e);
 
-        private void OnComboBoxSelectedValueChanged(object sender, EventArgs e)
-        {
-            OnSelectedValueChanged(e);
-        }
+        private void OnComboBoxSelectedValueChanged(object sender, EventArgs e) => OnSelectedValueChanged(e);
 
-        private void OnComboBoxValueMemberChanged(object sender, EventArgs e)
-        {
-            OnValueMemberChanged(e);
-        }
+        private void OnComboBoxValueMemberChanged(object sender, EventArgs e) => OnValueMemberChanged(e);
 
-        private void OnRibbonPaletteChanged(object sender, EventArgs e)
-        {
-            ComboBox.Palette = Ribbon.GetResolvedPalette();
-        }
+        private void OnRibbonPaletteChanged(object sender, EventArgs e) => ComboBox.Palette = Ribbon.GetResolvedPalette();
         #endregion
     }
 }

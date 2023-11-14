@@ -5,7 +5,9 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  
+ *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
  */
 #endregion
@@ -17,7 +19,7 @@ namespace Krypton.Ribbon
     /// </summary>
     [ToolboxItem(false)]
     [ToolboxBitmap(typeof(KryptonRibbonContext), "ToolboxBitmaps.KryptonRibbonContext.bmp")]
-    [DefaultProperty("ContextName")]
+    [DefaultProperty(nameof(ContextName))]
     [DesignerCategory(@"code")]
     [DesignTimeVisible(false)]
     public class KryptonRibbonContext : Component
@@ -33,7 +35,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Occurs after the value of a property has changed.
         /// </summary>
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
         #endregion
 
         #region Identity
@@ -60,7 +62,7 @@ namespace Krypton.Ribbon
         {
             get => _contextName;
 
-            set 
+            set
             {
                 // We never allow an empty text value
                 if (string.IsNullOrEmpty(value))
@@ -93,7 +95,7 @@ namespace Krypton.Ribbon
                 // We never allow an empty text value
                 if (string.IsNullOrEmpty(value))
                 {
-                    value = "Context Tools";
+                    value = @"Context Tools";
                 }
 
                 if (value != _contextTitle)
@@ -112,6 +114,7 @@ namespace Krypton.Ribbon
         [Category(@"Appearance")]
         [Description(@"Display color for associated contextual tabs.")]
         [DefaultValue(typeof(Color), "Red")]
+        [DisallowNull]
         public Color ContextColor
         {
             get => _contextColor;
@@ -119,7 +122,7 @@ namespace Krypton.Ribbon
             set
             {
                 // We never allow a null or transparent color
-                if ((value == null) || (value == Color.Transparent))
+                if (value == Color.Transparent)
                 {
                     value = Color.Red;
                 }
@@ -155,10 +158,7 @@ namespace Krypton.Ribbon
 
         private bool ShouldSerializeTag() => Tag != null;
 
-        private void ResetTag()
-        {
-            Tag = null;
-        }
+        private void ResetTag() => Tag = null;
         #endregion
 
         #region Protected
@@ -166,10 +166,7 @@ namespace Krypton.Ribbon
         /// Raises the PropertyChanged event.
         /// </summary>
         /// <param name="propertyName">Name of property that has changed.</param>
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
+        protected virtual void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         #endregion
     }
 }

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -28,7 +28,7 @@ namespace Krypton.Toolkit
         private PaletteColorStyle _colorStyle;
         private PaletteRectangleAlign _colorAlign;
         private float _colorAngle;
-        private Image _image;
+        private Image? _image;
         private PaletteImageStyle _imageStyle;
         private PaletteRectangleAlign _imageAlign;
         private InheritBool _multiLine;
@@ -41,7 +41,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="inherit">Source for inheriting defaulted values.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public PaletteDataGridViewContentStates(IPaletteContent inherit,
+        public PaletteDataGridViewContentStates([DisallowNull] IPaletteContent inherit,
                                                 NeedPaintHandler needPaint)
         {
             Debug.Assert(inherit != null);
@@ -74,7 +74,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]  // SKC: Probably a special case for not exposing this event in the designer....
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public event EventHandler SyncPropertyChanged;
+        public event EventHandler? SyncPropertyChanged;
         #endregion
 
         #region IsDefault
@@ -102,10 +102,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Sets the inheritance parent.
         /// </summary>
-        public void SetInherit(IPaletteContent inherit)
-        {
-            Inherit = inherit;
-        }
+        public void SetInherit(IPaletteContent inherit) => Inherit = inherit;
         #endregion
 
         #region PopulateFromBase
@@ -137,7 +134,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category(@"Visuals")]
         [Description(@"Should content be drawn.")]
-        [DefaultValue(typeof(InheritBool), "Inherit")]
+        [DefaultValue(InheritBool.Inherit)]
         [RefreshProperties(RefreshProperties.All)]
         public InheritBool Draw
         {
@@ -234,7 +231,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category(@"Visuals")]
         [Description(@"Text rendering hint for the content text.")]
-        [DefaultValue(typeof(PaletteTextHint), "Inherit")]
+        [DefaultValue(PaletteTextHint.Inherit)]
         [RefreshProperties(RefreshProperties.All)]
         public virtual PaletteTextHint Hint
         {
@@ -276,7 +273,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category(@"Visuals")]
         [Description(@"Text trimming style for the content text.")]
-        [DefaultValue(typeof(PaletteTextTrim), "Inherit")]
+        [DefaultValue(PaletteTextTrim.Inherit)]
         [RefreshProperties(RefreshProperties.All)]
         public virtual PaletteTextTrim Trim
         {
@@ -328,7 +325,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category(@"Visuals")]
         [Description(@"Relative horizontal alignment of multiline content text.")]
-        [DefaultValue(typeof(PaletteRelativeAlign), "Inherit")]
+        [DefaultValue(PaletteRelativeAlign.Inherit)]
         [RefreshProperties(RefreshProperties.All)]
         public virtual PaletteRelativeAlign MultiLineH
         {
@@ -360,7 +357,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category(@"Visuals")]
         [Description(@"Flag indicating if multiline text is allowed..")]
-        [DefaultValue(typeof(InheritBool), "Inherit")]
+        [DefaultValue(InheritBool.Inherit)]
         [RefreshProperties(RefreshProperties.All)]
         public virtual InheritBool MultiLine
         {
@@ -457,7 +454,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category(@"Visuals")]
         [Description(@"Color drawing style for the text.")]
-        [DefaultValue(typeof(PaletteColorStyle), "Inherit")]
+        [DefaultValue(PaletteColorStyle.Inherit)]
         [RefreshProperties(RefreshProperties.All)]
         public virtual PaletteColorStyle ColorStyle
         {
@@ -489,7 +486,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category(@"Visuals")]
         [Description(@"Color alignment style for the text.")]
-        [DefaultValue(typeof(PaletteRectangleAlign), "Inherit")]
+        [DefaultValue(PaletteRectangleAlign.Inherit)]
         [RefreshProperties(RefreshProperties.All)]
         public virtual PaletteRectangleAlign ColorAlign
         {
@@ -555,7 +552,7 @@ namespace Krypton.Toolkit
         [Description(@"Image for the text.")]
         [DefaultValue(null)]
         [RefreshProperties(RefreshProperties.All)]
-        public virtual Image Image
+        public virtual Image? Image
         {
             get => _image;
 
@@ -574,7 +571,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image instance.</returns>
-        public Image GetContentShortTextImage(PaletteState state) => _image ?? Inherit.GetContentShortTextImage(state);
+        public Image? GetContentShortTextImage(PaletteState state) => _image ?? Inherit.GetContentShortTextImage(state);
 
         #endregion
 
@@ -585,7 +582,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category(@"Visuals")]
         [Description(@"Image style for the text.")]
-        [DefaultValue(typeof(PaletteImageStyle), "Inherit")]
+        [DefaultValue(PaletteImageStyle.Inherit)]
         [RefreshProperties(RefreshProperties.All)]
         public virtual PaletteImageStyle ImageStyle
         {
@@ -617,7 +614,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category(@"Visuals")]
         [Description(@"Image alignment style for the text.")]
-        [DefaultValue(typeof(PaletteRectangleAlign), "Inherit")]
+        [DefaultValue(PaletteRectangleAlign.Inherit)]
         [RefreshProperties(RefreshProperties.All)]
         public virtual PaletteRectangleAlign ImageAlign
         {
@@ -746,7 +743,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image instance.</returns>
-        public Image GetContentLongTextImage(PaletteState state) => Inherit.GetContentLongTextImage(state);
+        public Image? GetContentLongTextImage(PaletteState state) => Inherit.GetContentLongTextImage(state);
 
         /// <summary>
         /// Gets the image style for the long text.

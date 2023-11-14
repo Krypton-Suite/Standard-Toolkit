@@ -5,7 +5,9 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  
+ *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
  */
 #endregion
@@ -34,17 +36,17 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Occurs when the button is pressed.
         /// </summary>
-        public event EventHandler Click;
+        public event EventHandler? Click;
 
         /// <summary>
         /// Occurs when the button is released.
         /// </summary>
-        public event EventHandler MouseReleased;
+        public event EventHandler? MouseReleased;
 
         /// <summary>
         /// Occurs when a change in button state requires a repaint.
         /// </summary>
-        public event NeedPaintHandler NeedPaint;
+        public event NeedPaintHandler? NeedPaint;
         #endregion
 
         #region Identity
@@ -179,7 +181,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="c">Reference to the source control instance.</param>
         /// <param name="next">Reference to view that is next to have the mouse.</param>
-        public virtual void MouseLeave(Control c, ViewBase next)
+        public virtual void MouseLeave(Control c, ViewBase? next)
         {
             // Mouse is no longer over the target
             _mouseOver = false;
@@ -224,7 +226,7 @@ namespace Krypton.Ribbon
         /// Source control has lost the focus.
         /// </summary>
         /// <param name="c">Reference to the source control instance.</param>
-        public virtual void LostFocus(Control c)
+        public virtual void LostFocus([DisallowNull] Control c)
         {
             _hasFocus = false;
 
@@ -243,8 +245,8 @@ namespace Krypton.Ribbon
         /// <param name="e">A KeyEventArgs that contains the event data.</param>
         public void KeyDown(Control c, KeyEventArgs e)
         {
-            ViewBase newView = null;
-            KryptonRibbon ribbon = (KryptonRibbon)c;
+            ViewBase? newView = null;
+            var ribbon = (KryptonRibbon)c;
 
             switch (e.KeyData)
             {
@@ -270,16 +272,10 @@ namespace Krypton.Ribbon
                     }
 
                     // Move across to any far defined buttons
-                    if (newView == null)
-                    {
-                        newView = ribbon.TabsArea.ButtonSpecManager.GetFirstVisibleViewButton(PaletteRelativeEdgeAlign.Far);
-                    }
+                    newView ??= ribbon.TabsArea.ButtonSpecManager.GetFirstVisibleViewButton(PaletteRelativeEdgeAlign.Far);
 
                     // Move across to any inherit defined buttons
-                    if (newView == null)
-                    {
-                        newView = ribbon.TabsArea.ButtonSpecManager.GetFirstVisibleViewButton(PaletteRelativeEdgeAlign.Inherit);
-                    }
+                    newView ??= ribbon.TabsArea.ButtonSpecManager.GetFirstVisibleViewButton(PaletteRelativeEdgeAlign.Inherit);
                     break;
                 case Keys.Tab | Keys.Shift:
                 case Keys.Left:
@@ -307,16 +303,10 @@ namespace Krypton.Ribbon
                     }
 
                     // Get the last near edge button (the first near button is the rightmost one!)
-                    if (newView == null)
-                    {
-                        newView = ribbon.TabsArea.ButtonSpecManager.GetFirstVisibleViewButton(PaletteRelativeEdgeAlign.Near);
-                    }
+                    newView ??= ribbon.TabsArea.ButtonSpecManager.GetFirstVisibleViewButton(PaletteRelativeEdgeAlign.Near);
 
                     // Get the last qat button
-                    if (newView == null)
-                    {
-                        newView = ribbon.GetLastQATView();
-                    }
+                    newView ??= ribbon.GetLastQATView();
                     break;
                 case Keys.Space:
                 case Keys.Enter:
@@ -399,7 +389,7 @@ namespace Krypton.Ribbon
         protected void UpdateTargetState()
         {
             // By default the button is in the normal state
-            PaletteState newState = PaletteState.Normal;
+            var newState = PaletteState.Normal;
 
             // Only allow another state if the ribbon is enabled
             if (_ribbon.Enabled)
@@ -478,10 +468,7 @@ namespace Krypton.Ribbon
         /// <param name="needLayout">Does the palette change require a layout.</param>
         /// <param name="invalidRect">Client area to be invalidated.</param>
         protected virtual void OnNeedPaint(bool needLayout,
-                                           Rectangle invalidRect)
-        {
-            NeedPaint?.Invoke(this, new NeedLayoutEventArgs(needLayout, invalidRect));
-        }
+                                           Rectangle invalidRect) => NeedPaint?.Invoke(this, new NeedLayoutEventArgs(needLayout, invalidRect));
 
         /// <summary>
         /// Raises the Click event.
@@ -498,10 +485,7 @@ namespace Krypton.Ribbon
         /// Raises the MouseReleased event.
         /// </summary>
         /// <param name="e">A MouseEventArgs containing the event data.</param>
-        protected virtual void OnMouseReleased(MouseEventArgs e)
-        {
-            MouseReleased?.Invoke(this, e);
-        }
+        protected virtual void OnMouseReleased(MouseEventArgs e) => MouseReleased?.Invoke(this, e);
         #endregion
     }
 }

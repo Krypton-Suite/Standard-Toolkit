@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -15,7 +15,7 @@ namespace Krypton.Toolkit
     internal class KryptonBorderEdgeActionList : DesignerActionList
     {
         #region Instance Fields
-        private readonly KryptonBorderEdge _borderEdge;
+        private readonly KryptonBorderEdge? _borderEdge;
         private readonly IComponentChangeService _service;
         private string _action;
         #endregion
@@ -25,7 +25,7 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the KryptonBorderEdgeActionList class.
         /// </summary>
         /// <param name="owner">Designer that owns this action list instance.</param>
-        public KryptonBorderEdgeActionList(KryptonBorderEdgeDesigner owner) 
+        public KryptonBorderEdgeActionList(KryptonBorderEdgeDesigner owner)
             : base(owner.Component)
         {
             _borderEdge = owner.Component as KryptonBorderEdge;
@@ -34,7 +34,7 @@ namespace Krypton.Toolkit
             if (_borderEdge != null)
             {
                 // Get access to the actual Orientation property
-                PropertyDescriptor orientationProp = TypeDescriptor.GetProperties(_borderEdge)[@"Orientation"];
+                PropertyDescriptor orientationProp = TypeDescriptor.GetProperties(_borderEdge)[nameof(Orientation)];
 
                 // If we succeeded in getting the property
                 if (orientationProp != null)
@@ -57,7 +57,7 @@ namespace Krypton.Toolkit
         {
             get => _borderEdge.BorderStyle;
 
-            set 
+            set
             {
                 if (_borderEdge.BorderStyle != value)
                 {
@@ -108,7 +108,7 @@ namespace Krypton.Toolkit
         {
             get => _borderEdge.PaletteMode;
 
-            set 
+            set
             {
                 if (_borderEdge.PaletteMode != value)
                 {
@@ -127,20 +127,20 @@ namespace Krypton.Toolkit
         public override DesignerActionItemCollection GetSortedActionItems()
         {
             // Create a new collection for holding the single item we want to create
-            DesignerActionItemCollection actions = new();
+            var actions = new DesignerActionItemCollection();
 
             // This can be null when deleting a control instance at design time
             if (_borderEdge != null)
             {
                 // Add our own action to the end
-                actions.Add(new DesignerActionHeaderItem(@"Appearance"));
-                actions.Add(new DesignerActionPropertyItem(@"BorderStyle", @"Border style", @"Appearance", @"Border style"));
+                actions.Add(new DesignerActionHeaderItem(nameof(Appearance)));
+                actions.Add(new DesignerActionPropertyItem(nameof(BorderStyle), @"Border style", nameof(Appearance), @"Border style"));
                 actions.Add(new DesignerActionHeaderItem(@"Layout"));
-                actions.Add(new DesignerActionPropertyItem(@"AutoSize", @"AutoSize", @"Layout", @"Determines whether the control resizes based on its contents."));
-                actions.Add(new DesignerActionPropertyItem(@"Dock", @"Dock", @"Layout", @"Determines how the control is sized with its parent."));
+                actions.Add(new DesignerActionPropertyItem(nameof(AutoSize), nameof(AutoSize), @"Layout", @"Determines whether the control resizes based on its contents."));
+                actions.Add(new DesignerActionPropertyItem(nameof(Dock), nameof(Dock), @"Layout", @"Determines how the control is sized with its parent."));
                 actions.Add(new KryptonDesignerActionItem(new DesignerVerb(_action, OnOrientationClick), "Layout"));
                 actions.Add(new DesignerActionHeaderItem(@"Visuals"));
-                actions.Add(new DesignerActionPropertyItem(@"PaletteMode", @"Palette", @"Visuals", @"Palette applied to drawing"));
+                actions.Add(new DesignerActionPropertyItem(nameof(PaletteMode), @"Palette", @"Visuals", @"Palette applied to drawing"));
             }
 
             return actions;
@@ -162,7 +162,7 @@ namespace Krypton.Toolkit
                 _action = orientation == Orientation.Vertical ? "Horizontal border orientation" : "Vertical border orientation";
 
                 // Get access to the actual Orientation property
-                PropertyDescriptor orientationProp = TypeDescriptor.GetProperties(_borderEdge)[@"Orientation"];
+                PropertyDescriptor orientationProp = TypeDescriptor.GetProperties(_borderEdge)[nameof(Orientation)];
 
                 // If we succeeded in getting the property
                 // Update the actual property with the new value

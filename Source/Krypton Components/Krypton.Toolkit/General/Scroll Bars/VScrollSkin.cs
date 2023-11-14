@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -19,13 +19,13 @@ namespace Krypton.Toolkit
         #region "   Members   "
         //private static List<WeakReference> __ENCList = new List<WeakReference>();
 
-        [AccessedThroughProperty("_win")]
+        [AccessedThroughProperty(nameof(_win))]
         private Control __win;
 
-        [AccessedThroughProperty("VScrollBar1")]
+        [AccessedThroughProperty(nameof(VScrollBar1))]
         private KryptonScrollBar _vScrollBar1;
 
-        [AccessedThroughProperty("HScrollBar1")]
+        [AccessedThroughProperty(nameof(HScrollBar1))]
         private KryptonScrollBar _hScrollBar1;
 
         private readonly IContainer components;
@@ -35,7 +35,7 @@ namespace Krypton.Toolkit
         private VScrollBar VSB;
         private HScrollBar HSC;
 
-        private static IPalette _palette;
+        private static PaletteBase _palette;
         private readonly PaletteRedirect _paletteRedirect;
 
         #endregion
@@ -115,7 +115,7 @@ namespace Krypton.Toolkit
             _win.Top = 0;
             _win.Left = 0;
             _win.SendToBack();
-            Name = "skin" + _win.Name;
+            Name = $"skin{_win.Name}";
         }
 
         #endregion
@@ -135,7 +135,7 @@ namespace Krypton.Toolkit
             VScrollBar1.Maximum = 100;
             VScrollBar1.Minimum = 0;
             VScrollBar1.MinimumSize = new Size(0x13, 15); //(19,15)
-            VScrollBar1.Name = "VScrollBar1";
+            VScrollBar1.Name = nameof(VScrollBar1);
             VScrollBar1.Size = new Size(0x13, 0x7f);//(19,127)
             VScrollBar1.SmallChange = 1;
             VScrollBar1.TabIndex = 0;
@@ -149,7 +149,7 @@ namespace Krypton.Toolkit
             HScrollBar1.Maximum = 20;
             HScrollBar1.Minimum = 0;
             HScrollBar1.MinimumSize = new Size(15, 0x13);//(15,19)
-            HScrollBar1.Name = "HScrollBar1";
+            HScrollBar1.Name = nameof(HScrollBar1);
             HScrollBar1.Size = new Size(0x96, 15);//(150,15)
             HScrollBar1.SmallChange = 1;
             HScrollBar1.TabIndex = 1;
@@ -187,7 +187,7 @@ namespace Krypton.Toolkit
                 _win = e.Control;
                 if (_win.GetType() == typeof(DataGridView) || (_win.GetType() == typeof(KryptonDataGridView)))
                 {
-                    DataGridView dgv = (DataGridView)_win;
+                    var dgv = (DataGridView)_win;
                     dgv.Scroll += dgv_Scroll;
 
                     foreach (Control control in dgv.Controls)
@@ -219,10 +219,10 @@ namespace Krypton.Toolkit
         {
             if (_win.GetType() == typeof(ListView))
             {
-                ListView listView1 = (ListView)_win;
+                var listView1 = (ListView)_win;
 
-                IntPtr min = IntPtr.Zero;
-                IntPtr max = IntPtr.Zero;
+                var min = IntPtr.Zero;
+                var max = IntPtr.Zero;
                 PI.GetScrollRange(listView1.Handle, PI.SB_.VERT, ref min, ref max);
 
                 var nMax = max.ToInt32();
@@ -262,7 +262,7 @@ namespace Krypton.Toolkit
             {
                 if (_win.GetType() == typeof(DataGridView) || (_win.GetType() == typeof(KryptonDataGridView)))
                 {
-                    DataGridView dgv = (DataGridView)_win;
+                    var dgv = (DataGridView)_win;
                     if (GetDGVScrollbar(ref dgv, out VSB))
                     {
                         foreach (Control control in dgv.Controls)
@@ -343,7 +343,7 @@ namespace Krypton.Toolkit
         {
             if (_win.GetType() == typeof(ListView))
             {
-                ListView listView1 = (ListView)_win;
+                var listView1 = (ListView)_win;
 
                 var nIsAt = PI.GetScrollPos(listView1.Handle, PI.SB_.HORZ);
                 var nShouldBeAt = (int)e.NewValue;
@@ -358,7 +358,7 @@ namespace Krypton.Toolkit
             {
                 if (_win.GetType() == typeof(DataGridView) || (_win.GetType() == typeof(KryptonDataGridView)))
                 {
-                    DataGridView dgv = (DataGridView)_win;
+                    var dgv = (DataGridView)_win;
                     if (GetDGHScrollbar(ref dgv, out HSC))
                     {
                         foreach (Control control in dgv.Controls)
@@ -427,7 +427,7 @@ namespace Krypton.Toolkit
 
         private void VerticalScrollBar_VisibleChanged(object sender, EventArgs e)
         {
-            VScrollBar vscroll = (VScrollBar)sender;
+            var vscroll = (VScrollBar)sender;
             if (vscroll.Visible)
             {
                 _vScrollBar1.Visible = true;
@@ -440,7 +440,7 @@ namespace Krypton.Toolkit
 
         private void HorizontalScrollBar_VisibleChanged(object sender, EventArgs e)
         {
-            HScrollBar hscroll = (HScrollBar)sender;
+            var hscroll = (HScrollBar)sender;
             if (hscroll.Visible)
             {
                 _hScrollBar1.Visible = true;
@@ -457,7 +457,7 @@ namespace Krypton.Toolkit
 
         private void dgv_Scroll(object sender, ScrollEventArgs e)
         {
-            DataGridView dgv = (DataGridView)_win;
+            var dgv = (DataGridView)_win;
             if (GetDGVScrollbar(ref dgv, out VSB))
             {
                 if (VSB.Visible == true)
@@ -588,9 +588,9 @@ namespace Krypton.Toolkit
 
                 if (_win.GetType() == typeof(ListView))
                 {
-                    ListView listView1 = (ListView)_win;
+                    var listView1 = (ListView)_win;
 
-                    WIN32ScrollBars.ScrollInfo si = new();
+                    var si = new WIN32ScrollBars.ScrollInfo();
                     si.cbSize = Marshal.SizeOf(si);
                     si.fMask = (int)PI.SIF_.ALL;
                     if (PI.GetScrollInfo(listView1.Handle, PI.SB_.VERT, ref si))
@@ -615,7 +615,6 @@ namespace Krypton.Toolkit
                         HScrollBar1.Update();//.SyncThumbPositionWithLogicalValue();
                     }
                 }
-
             }
 
             base.WndProc(ref m);

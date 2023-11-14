@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -15,7 +15,7 @@ namespace Krypton.Toolkit
     internal class KryptonHeaderGroupActionList : DesignerActionList
     {
         #region Instance Fields
-        private readonly KryptonHeaderGroup _headerGroup;
+        private readonly KryptonHeaderGroup? _headerGroup;
         private readonly IComponentChangeService _service;
         private DesignerVerb _visible1;
         private DesignerVerb _visible2;
@@ -168,7 +168,7 @@ namespace Krypton.Toolkit
         public override DesignerActionItemCollection GetSortedActionItems()
         {
             // Create a new collection for holding the single item we want to create
-            DesignerActionItemCollection actions = new();
+            var actions = new DesignerActionItemCollection();
 
             // This can be null when deleting a control instance at design time
             if (_headerGroup != null)
@@ -186,19 +186,19 @@ namespace Krypton.Toolkit
                 _visible2 = new DesignerVerb(_text2, OnVisibleClick);
 
                 // Add the list of panel specific actions
-                actions.Add(new DesignerActionHeaderItem(@"Appearance"));
-                actions.Add(new DesignerActionPropertyItem(@"GroupBackStyle", @"Back style", @"Appearance", @"Background style"));
-                actions.Add(new DesignerActionPropertyItem(@"GroupBorderStyle", @"Border style", @"Appearance", @"Border style"));
+                actions.Add(new DesignerActionHeaderItem(nameof(Appearance)));
+                actions.Add(new DesignerActionPropertyItem(nameof(GroupBackStyle), @"Back style", nameof(Appearance), @"Background style"));
+                actions.Add(new DesignerActionPropertyItem(nameof(GroupBorderStyle), @"Border style", nameof(Appearance), @"Border style"));
                 actions.Add(new DesignerActionHeaderItem(@"Primary Header"));
                 actions.Add(new KryptonDesignerActionItem(_visible1, "Primary Header"));
-                actions.Add(new DesignerActionPropertyItem(@"HeaderStylePrimary", @"Style", @"Primary Header", @"Primary header style"));
-                actions.Add(new DesignerActionPropertyItem(@"HeaderPositionPrimary", @"Position", @"Primary Header", @"Primary header position"));
+                actions.Add(new DesignerActionPropertyItem(nameof(HeaderStylePrimary), @"Style", @"Primary Header", @"Primary header style"));
+                actions.Add(new DesignerActionPropertyItem(nameof(HeaderPositionPrimary), @"Position", @"Primary Header", @"Primary header position"));
                 actions.Add(new DesignerActionHeaderItem(@"Secondary Header"));
                 actions.Add(new KryptonDesignerActionItem(_visible2, "Secondary Header"));
-                actions.Add(new DesignerActionPropertyItem(@"HeaderStyleSecondary", @"Style", @"Secondary Header", @"Secondary header style"));
-                actions.Add(new DesignerActionPropertyItem(@"HeaderPositionSecondary", @"Position", @"Secondary Header", @"Secondary header position"));
+                actions.Add(new DesignerActionPropertyItem(nameof(HeaderStyleSecondary), @"Style", @"Secondary Header", @"Secondary header style"));
+                actions.Add(new DesignerActionPropertyItem(nameof(HeaderPositionSecondary), @"Position", @"Secondary Header", @"Secondary header position"));
                 actions.Add(new DesignerActionHeaderItem(@"Visuals"));
-                actions.Add(new DesignerActionPropertyItem(@"PaletteMode", @"Palette", @"Visuals", @"Palette applied to drawing"));
+                actions.Add(new DesignerActionPropertyItem(nameof(PaletteMode), @"Palette", @"Visuals", @"Palette applied to drawing"));
             }
 
             return actions;
@@ -209,7 +209,7 @@ namespace Krypton.Toolkit
         private void OnVisibleClick(object sender, EventArgs e)
         {
             // Cast to the correct type
-            DesignerVerb verb = sender as DesignerVerb;
+            var verb = sender as DesignerVerb;
 
             // Find out if this is the first or second header verb
             var header1 = verb == _visible1;

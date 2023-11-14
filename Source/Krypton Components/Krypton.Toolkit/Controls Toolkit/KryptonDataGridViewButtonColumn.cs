@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -24,7 +24,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Instance Fields
-        private string _text;
+        private string? _text;
         #endregion
 
         #region Identity
@@ -34,7 +34,7 @@ namespace Krypton.Toolkit
         public KryptonDataGridViewButtonColumn()
             : base(new KryptonDataGridViewButtonCell())
         {
-            DataGridViewCellStyle style = new()
+            var style = new DataGridViewCellStyle
             {
                 Alignment = DataGridViewContentAlignment.MiddleCenter
             };
@@ -47,7 +47,7 @@ namespace Krypton.Toolkit
         /// <returns>A String that represents the current Object.</returns>
         public override string ToString()
         {
-            StringBuilder builder = new(0x40);
+            var builder = new StringBuilder(0x40);
             builder.Append(@"KryptonDataGridViewButtonColumn { Name=");
             // ReSharper disable RedundantBaseQualifier
             builder.Append(base.Name);
@@ -65,7 +65,7 @@ namespace Krypton.Toolkit
         public override object Clone()
         {
             // Create a new instance
-            KryptonDataGridViewButtonColumn clone = base.Clone() as KryptonDataGridViewButtonColumn;
+            var clone = base.Clone() as KryptonDataGridViewButtonColumn;
             clone.Text = Text;
             return clone;
         }
@@ -77,6 +77,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        [DisallowNull]
         public override DataGridViewCell CellTemplate
         {
             get => base.CellTemplate;
@@ -108,7 +109,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Appearance")]
         [DefaultValue(null)]
-        public string Text
+        public string? Text
         {
             get => _text;
             set
@@ -165,7 +166,7 @@ namespace Krypton.Toolkit
                         var count = rows.Count;
                         for (var i = 0; i < count; i++)
                         {
-                            DataGridViewButtonCell cell = rows.SharedRow(i).Cells[Index] as KryptonDataGridViewButtonCell;
+                            DataGridViewButtonCell? cell = rows.SharedRow(i).Cells[Index] as KryptonDataGridViewButtonCell;
                             if (cell != null)
                             {
                                 SetUseColumnTextForButtonValueInternal(cell, value);
@@ -181,7 +182,7 @@ namespace Krypton.Toolkit
         /// Gets or sets a value indicating whether the Text property value is Displayed as the button text for cells in this column.
         /// </summary>
         [Category(@"Appearance")]
-        [DefaultValue(typeof(ButtonStyle), "Standalone")]
+        [DefaultValue(ButtonStyle.Standalone)]
         public ButtonStyle ButtonStyle
         {
             get =>

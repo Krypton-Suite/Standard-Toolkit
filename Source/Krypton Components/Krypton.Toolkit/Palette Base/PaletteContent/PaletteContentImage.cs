@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -51,7 +51,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Instance Fields
-        private InternalStorage _storage;
+        private InternalStorage? _storage;
         #endregion
 
         #region Events
@@ -60,7 +60,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]  // SKC: Probably a special case for not exposing this event in the designer....
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
         #endregion
 
         #region Identity
@@ -68,7 +68,7 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the PaletteContentImage class.
         /// </summary>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public PaletteContentImage(NeedPaintHandler needPaint) =>
+        public PaletteContentImage(NeedPaintHandler? needPaint) =>
             // Store the provided paint notification delegate
             NeedPaint = needPaint;
 
@@ -90,7 +90,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category(@"Visuals")]
         [Description(@"Relative horizontal alignment of content image.")]
-        [DefaultValue(typeof(PaletteRelativeAlign), "Inherit")]
+        [DefaultValue(PaletteRelativeAlign.Inherit)]
         [RefreshProperties(RefreshProperties.All)]
         public PaletteRelativeAlign ImageH
         {
@@ -130,7 +130,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category(@"Visuals")]
         [Description(@"Relative vertical alignment of content image.")]
-        [DefaultValue(typeof(PaletteRelativeAlign), "Inherit")]
+        [DefaultValue(PaletteRelativeAlign.Inherit)]
         [RefreshProperties(RefreshProperties.All)]
         public PaletteRelativeAlign ImageV
         {
@@ -170,7 +170,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category(@"Visuals")]
         [Description(@"Effect applied to drawing the image.")]
-        [DefaultValue(typeof(PaletteImageEffect), "Inherit")]
+        [DefaultValue(PaletteImageEffect.Inherit)]
         [RefreshProperties(RefreshProperties.All)]
         public PaletteImageEffect Effect
         {

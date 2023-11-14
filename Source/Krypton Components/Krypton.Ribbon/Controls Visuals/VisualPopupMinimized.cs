@@ -5,7 +5,9 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  
+ *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
  */
 #endregion
@@ -34,9 +36,9 @@ namespace Krypton.Ribbon
         /// <param name="viewManager">View manager instance for managing view display.</param>
         /// <param name="captionArea">View element that manages the custom chrome injection.</param>
         /// <param name="renderer">Drawing renderer.</param>
-        public VisualPopupMinimized(KryptonRibbon ribbon,
+        public VisualPopupMinimized([DisallowNull] KryptonRibbon ribbon,
                                     ViewManager viewManager,
-                                    ViewDrawRibbonCaptionArea captionArea,
+                                    [DisallowNull] ViewDrawRibbonCaptionArea captionArea,
                                     IRenderer renderer)
             : base(viewManager, renderer, true)
         {
@@ -60,7 +62,7 @@ namespace Krypton.Ribbon
                 ViewRibbonManager.MouseLeave(EventArgs.Empty);
 
                 // If this group is being dismissed with key tips showing
-                if (_ribbon.InKeyboardMode && (_ribbon.KeyTipMode == KeyTipMode.PopupMinimized))
+                if (_ribbon is { InKeyboardMode: true, KeyTipMode: KeyTipMode.PopupMinimized })
                 {
                     // Revert back to key tips for selected tab
                     _ribbon.KeyTipMode = KeyTipMode.Root;
@@ -210,12 +212,10 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="tabsArea">Tabs area of the </param>
         /// <param name="drawMinimizedPanel"></param>
-        public void Show(ViewLayoutRibbonTabsArea tabsArea, 
-                         ViewDrawPanel drawMinimizedPanel)
-        {
+        public void Show(ViewLayoutRibbonTabsArea tabsArea,
+                         ViewDrawPanel drawMinimizedPanel) =>
             // Show at the calculated position
             Show(CalculatePopupRect(tabsArea, drawMinimizedPanel));
-        }
 
         /// <summary>
         /// Update the displayed position to reflect a change in selected tab.
@@ -252,7 +252,7 @@ namespace Krypton.Ribbon
         protected override void OnKeyPress(KeyPressEventArgs e)
         {
             // If in keyboard mode then pass character onto the key tips
-            if (_ribbon.InKeyboardMode && _ribbon.InKeyTipsMode)
+            if (_ribbon is { InKeyboardMode: true, InKeyTipsMode: true })
             {
                 _ribbon.AppendKeyTipPress(char.ToUpper(e.KeyChar));
             }
@@ -268,7 +268,7 @@ namespace Krypton.Ribbon
             Size popupSize;
 
             // Get the preferred size of the groups area, we only really want the height
-            using (ViewLayoutContext context = new(_ribbon, Renderer))
+            using (var context = new ViewLayoutContext(_ribbon, Renderer))
             {
                 popupSize = drawMinimizedPanel.GetPreferredSize(context);
             }
@@ -281,7 +281,8 @@ namespace Krypton.Ribbon
             Rectangle parentTabsRect = _ribbon.RectangleToScreen(tabsArea.ClientRectangle);
 
             // Default popup is placed below the ribbon
-            Rectangle popupRect = new(parentRibbonRect.X, parentTabsRect.Bottom - 1, popupSize.Width, popupSize.Height);
+            var popupRect = new Rectangle(parentRibbonRect.X, parentTabsRect.Bottom - 1, popupSize.Width,
+                popupSize.Height);
 
             // Get the view element for the currently selected tab
             ViewDrawRibbonTab viewTab = tabsArea.LayoutTabs.GetViewForRibbonTab(_ribbon.SelectedTab);

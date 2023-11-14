@@ -5,11 +5,12 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
 
+// ReSharper disable InconsistentNaming
 namespace Krypton.Toolkit
 {
     /// <summary>
@@ -25,10 +26,6 @@ namespace Krypton.Toolkit
         [ToolboxItem(false)]
         public class MessageButton : KryptonButton
         {
-            #region Instance Fields
-
-            #endregion
-
             #region Identity
             /// <summary>
             /// Gets and sets the ignoring of Alt+F4
@@ -51,7 +48,7 @@ namespace Krypton.Toolkit
                         if (IgnoreAltF4)
                         {
                             // Extract the keys being pressed
-                            Keys keys = (Keys)(int)m.WParam.ToInt64();
+                            var keys = (Keys)(int)m.WParam.ToInt64();
 
                             // If the user standard combination ALT + F4
                             if ((keys == Keys.F4) && ((ModifierKeys & Keys.Alt) == Keys.Alt))
@@ -76,19 +73,19 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Instance Fields
-        private KryptonTaskDialog _taskDialog;
+        private KryptonTaskDialog? _taskDialog;
         private readonly string _windowTitle;
         private readonly string _mainInstruction;
         private readonly string _content;
         private readonly KryptonMessageBoxIcon _mainIcon;
-        private readonly Image _customMainIcon;
+        private readonly Image? _customMainIcon;
         private readonly KryptonTaskDialogCommandCollection _radioButtons;
         private readonly KryptonTaskDialogCommandCollection _commandButtons;
         private KryptonTaskDialogCommand _defaultRadioButton;
         private readonly TaskDialogButtons _commonButtons;
         private readonly TaskDialogButtons _defaultButton;
         private readonly KryptonMessageBoxIcon _footerIcon;
-        private readonly Image _customFooterIcon;
+        private readonly Image? _customFooterIcon;
         private readonly string _footerText;
         private readonly string _footerHyperlink;
         private readonly string _checkboxText;
@@ -235,55 +232,55 @@ namespace Krypton.Toolkit
                         _panelMainText.Left -= _messageIcon.Right;
                         break;
                     case KryptonMessageBoxIcon.Hand:
-                        _messageIcon.Image = VisualTaskDialogImageResources.HandSmall;
+                        _messageIcon.Image = TaskDialogImageResources.TaskDialogHandGeneric;
                         SystemSounds.Hand.Play();
                         break;
                     case KryptonMessageBoxIcon.Question:
-                        _messageIcon.Image = VisualTaskDialogImageResources.QuestionSmall;
+                        _messageIcon.Image = TaskDialogImageResources.TaskDialogQuestionGeneric;
                         SystemSounds.Question.Play();
                         break;
                     case KryptonMessageBoxIcon.Exclamation:
-                        _messageIcon.Image = VisualTaskDialogImageResources.WarningSmall;
+                        _messageIcon.Image = TaskDialogImageResources.TaskDialogWarningGeneric;
                         SystemSounds.Exclamation.Play();
                         break;
                     case KryptonMessageBoxIcon.Asterisk:
-                        _messageIcon.Image = VisualTaskDialogImageResources.AsteriskSmall;
+                        _messageIcon.Image = TaskDialogImageResources.TaskDialogAsteriskGeneric;
                         SystemSounds.Asterisk.Play();
                         break;
                     case KryptonMessageBoxIcon.Stop:
-                        _messageIcon.Image = VisualTaskDialogImageResources.StopSmall;
+                        _messageIcon.Image = TaskDialogImageResources.TaskDialogStopGeneric;
                         SystemSounds.Asterisk.Play();
                         break;
                     case KryptonMessageBoxIcon.Information:
-                        _messageIcon.Image = VisualTaskDialogImageResources.InformationSmall;
+                        _messageIcon.Image = TaskDialogImageResources.TaskDialogInformationGeneric;
                         SystemSounds.Asterisk.Play();
                         break;
                     case KryptonMessageBoxIcon.Warning:
-                        _messageIcon.Image = VisualTaskDialogImageResources.WarningSmall;
+                        _messageIcon.Image = TaskDialogImageResources.TaskDialogWarningGeneric;
                         SystemSounds.Exclamation.Play();
                         break;
                     case KryptonMessageBoxIcon.Error:
-                        _messageIcon.Image = VisualTaskDialogImageResources.CriticalSmall;
+                        _messageIcon.Image = TaskDialogImageResources.TaskDialogCriticalGeneric;
                         SystemSounds.Hand.Play();
                         break;
                     case KryptonMessageBoxIcon.Shield:
-                        _messageIcon.Image = IconUtilities.ScaleImage(SystemIcons.Shield.ToBitmap(), 16, 16);
+                        _messageIcon.Image = GraphicsExtensions.ScaleImage(SystemIcons.Shield.ToBitmap(), new Size(16, 16));
                         break;
                     case KryptonMessageBoxIcon.WindowsLogo:
                         // Because Windows 11 displays a generic application icon,
                         // we need to rely on a image instead
-                        if (Environment.OSVersion.Version.Major >= 10 && Environment.OSVersion.Version.Build >= 22000)
+                        if (OSUtilities.IsWindowsEleven)
                         {
-                            _messageIcon.Image = VisualTaskDialogImageResources.Windows_11_Small;
+                            _messageIcon.Image = TaskDialogImageResources.TaskDialog_Windows_11_Logo;
                         }
                         // Windows 10
-                        else if (Environment.OSVersion.Version.Major == 10 && Environment.OSVersion.Version.Build <= 19044 /* RTM - 21H2 */)
+                        else if (OSUtilities.IsWindowsTen)
                         {
-                            _messageIcon.Image = VisualTaskDialogImageResources.Windows_8_and_10_Logo_Small;
+                            _messageIcon.Image = TaskDialogImageResources.TaskDialog_Windows_8_and_10_Logo;
                         }
                         else
                         {
-                            _messageIcon.Image = IconUtilities.ScaleImage(SystemIcons.WinLogo.ToBitmap(), 16, 16);
+                            _messageIcon.Image = GraphicsExtensions.ScaleImage(SystemIcons.WinLogo.ToBitmap(), new Size(16, 16));
                         }
                         break;
                 }
@@ -301,11 +298,11 @@ namespace Krypton.Toolkit
                 _panelMainRadio.Controls.Clear();
                 _panelMainRadio.Visible = true;
 
-                Size maxButtonSize = Size.Empty;
+                var maxButtonSize = Size.Empty;
                 foreach (KryptonTaskDialogCommand command in _radioButtons)
                 {
                     // Create and add a new radio button instance
-                    KryptonRadioButton button = new()
+                    var button = new KryptonRadioButton
                     {
                         LabelStyle = LabelStyle.NormalPanel
                     };
@@ -333,7 +330,7 @@ namespace Krypton.Toolkit
                 maxButtonSize.Width = Math.Min(Math.Max(maxButtonSize.Width, 150), 400);
 
                 // Position the radio buttons in a vertical stack and size owning panel
-                Point offset = new(BUTTON_GAP - 1, 2);
+                var offset = new Point(BUTTON_GAP - 1, 2);
                 foreach (KryptonRadioButton button in _panelMainRadio.Controls)
                 {
                     button.Location = offset;
@@ -342,7 +339,7 @@ namespace Krypton.Toolkit
                 }
 
                 // Size to the contained command controls
-                _panelMainRadio.Size = new Size(maxButtonSize.Width, offset.Y);
+                _panelMainRadio.Size = maxButtonSize with { Height = offset.Y };
             }
         }
 
@@ -357,11 +354,11 @@ namespace Krypton.Toolkit
                 _panelMainCommands.Controls.Clear();
                 _panelMainCommands.Visible = true;
 
-                Size maxButtonSize = Size.Empty;
+                var maxButtonSize = Size.Empty;
                 foreach (KryptonTaskDialogCommand command in _commandButtons)
                 {
                     // Create and add a new button instance
-                    KryptonButton button = new()
+                    var button = new KryptonButton
                     {
                         ButtonStyle = ButtonStyle.Command
                     };
@@ -388,7 +385,7 @@ namespace Krypton.Toolkit
                 maxButtonSize.Width = Math.Min(Math.Max(maxButtonSize.Width, 150), 400);
 
                 // Position the buttons in a vertical stack and size owning panel
-                Point offset = new(BUTTON_GAP - 1, 2);
+                var offset = new Point(BUTTON_GAP - 1, 2);
                 foreach (KryptonButton button in _panelMainCommands.Controls)
                 {
                     button.Location = offset;
@@ -397,14 +394,14 @@ namespace Krypton.Toolkit
                 }
 
                 // Size to the contained command controls
-                _panelMainCommands.Size = new Size(maxButtonSize.Width, offset.Y);
+                _panelMainCommands.Size = maxButtonSize with { Height = offset.Y };
             }
         }
 
         private void UpdateButtons()
         {
-            MessageButton firstButton = null;
-            MessageButton defaultButton = null;
+            MessageButton? firstButton = null;
+            MessageButton? defaultButton = null;
 
             if ((_commonButtons & TaskDialogButtons.OK) == TaskDialogButtons.OK)
             {
@@ -414,7 +411,7 @@ namespace Krypton.Toolkit
                 }
 
                 firstButton = _buttonOK;
-                _buttonOK.Text = KryptonManager.Strings.OK;
+                _buttonOK.Text = KryptonLanguageManager.GeneralToolkitStrings.OK;
                 _buttonOK.Visible = true;
             }
             else
@@ -429,12 +426,9 @@ namespace Krypton.Toolkit
                     defaultButton = _buttonYes;
                 }
 
-                if (firstButton == null)
-                {
-                    firstButton = _buttonYes;
-                }
+                firstButton ??= _buttonYes;
 
-                _buttonYes.Text = KryptonManager.Strings.Yes;
+                _buttonYes.Text = KryptonLanguageManager.GeneralToolkitStrings.Yes;
                 _buttonYes.Visible = true;
             }
             else
@@ -449,12 +443,9 @@ namespace Krypton.Toolkit
                     defaultButton = _buttonNo;
                 }
 
-                if (firstButton == null)
-                {
-                    firstButton = _buttonNo;
-                }
+                firstButton ??= _buttonNo;
 
-                _buttonNo.Text = KryptonManager.Strings.No;
+                _buttonNo.Text = KryptonLanguageManager.GeneralToolkitStrings.No;
                 _buttonNo.Visible = true;
             }
             else
@@ -469,12 +460,9 @@ namespace Krypton.Toolkit
                     defaultButton = _buttonCancel;
                 }
 
-                if (firstButton == null)
-                {
-                    firstButton = _buttonCancel;
-                }
+                firstButton ??= _buttonCancel;
 
-                _buttonCancel.Text = KryptonManager.Strings.Cancel;
+                _buttonCancel.Text = KryptonLanguageManager.GeneralToolkitStrings.Cancel;
                 _buttonCancel.Visible = true;
             }
             else
@@ -489,12 +477,9 @@ namespace Krypton.Toolkit
                     defaultButton = _buttonRetry;
                 }
 
-                if (firstButton == null)
-                {
-                    firstButton = _buttonRetry;
-                }
+                firstButton ??= _buttonRetry;
 
-                _buttonRetry.Text = KryptonManager.Strings.Retry;
+                _buttonRetry.Text = KryptonLanguageManager.GeneralToolkitStrings.Retry;
                 _buttonRetry.Visible = true;
             }
             else
@@ -509,12 +494,9 @@ namespace Krypton.Toolkit
                     defaultButton = _buttonClose;
                 }
 
-                if (firstButton == null)
-                {
-                    firstButton = _buttonClose;
-                }
+                firstButton ??= _buttonClose;
 
-                _buttonClose.Text = KryptonManager.Strings.Close;
+                _buttonClose.Text = KryptonLanguageManager.GeneralToolkitStrings.Close;
                 _buttonClose.Visible = true;
             }
             else
@@ -557,43 +539,43 @@ namespace Krypton.Toolkit
                         _iconFooter.Visible = false;
                         break;
                     case KryptonMessageBoxIcon.Question:
-                        _iconFooter.Image = MessageBoxResources.Question;
+                        _iconFooter.Image = MessageBoxImageResources.GenericQuestion;
                         break;
                     case KryptonMessageBoxIcon.Information:
-                        _iconFooter.Image = MessageBoxResources.Information;
+                        _iconFooter.Image = MessageBoxImageResources.GenericInformation;
                         break;
                     case KryptonMessageBoxIcon.Warning:
-                        _iconFooter.Image = MessageBoxResources.Warning;
+                        _iconFooter.Image = MessageBoxImageResources.GenericWarning;
                         break;
                     case KryptonMessageBoxIcon.Error:
-                        _iconFooter.Image = MessageBoxResources.Critical;
+                        _iconFooter.Image = MessageBoxImageResources.GenericCritical;
                         break;
                     case KryptonMessageBoxIcon.Hand:
-                        _iconFooter.Image = MessageBoxResources.Hand;
+                        _iconFooter.Image = MessageBoxImageResources.GenericHand;
                         break;
                     case KryptonMessageBoxIcon.Exclamation:
-                        _iconFooter.Image = MessageBoxResources.Warning;
+                        _iconFooter.Image = MessageBoxImageResources.GenericWarning;
                         break;
                     case KryptonMessageBoxIcon.Asterisk:
-                        _iconFooter.Image = MessageBoxResources.Asterisk;
+                        _iconFooter.Image = MessageBoxImageResources.GenericAsterisk;
                         break;
                     case KryptonMessageBoxIcon.Stop:
-                        _iconFooter.Image = MessageBoxResources.Stop;
+                        _iconFooter.Image = MessageBoxImageResources.GenericStop;
                         break;
                     case KryptonMessageBoxIcon.Shield:
-                        _iconFooter.Image = IconUtilities.ScaleImage(SystemIcons.Shield.ToBitmap(), 16, 16);
+                        _iconFooter.Image = GraphicsExtensions.ScaleImage(SystemIcons.Shield.ToBitmap(), new Size(16, 16));
                         break;
                     case KryptonMessageBoxIcon.WindowsLogo:
                         // Because Windows 11 displays a generic application icon,
                         // we need to rely on a image instead
-                        if (Environment.OSVersion.Version.Major >= 10 && Environment.OSVersion.Version.Build >= 22000)
+                        if (OSUtilities.IsWindowsEleven)
                         {
-                            _iconFooter.Image = MessageBoxResources.Windows11;
+                            _iconFooter.Image = MessageBoxImageResources.Windows11;
                         }
                         // Windows 10
-                        else if (Environment.OSVersion.Version.Major == 10 && Environment.OSVersion.Version.Build <= 19044 /* RTM - 21H2 */)
+                        else if (OSUtilities.IsWindowsTen)
                         {
-                            _iconFooter.Image = MessageBoxResources.Windows_8_and_10_Logo;
+                            _iconFooter.Image = MessageBoxImageResources.Windows_8_and_10_Logo;
                         }
                         else
                         {
@@ -653,7 +635,7 @@ namespace Krypton.Toolkit
                 _messageText.UpdateFont();
                 _messageContent.UpdateFont();
                 _messageContentMultiline.Font = _messageContent.Font;
-                Size messageMainSize = g.MeasureString(_mainInstruction, _messageText.Font, 400).ToSize();
+                var messageMainSize = g.MeasureString(_mainInstruction, _messageText.Font, 400).ToSize();
                 messageContentSize = g.MeasureString(_content, _messageContent.Font, 400).ToSize();
 
                 // Get the display size and make sure that the content size is not greater than 0.6 of display size
@@ -661,7 +643,7 @@ namespace Krypton.Toolkit
 
                 var h = (int)Math.Min(messageContentSize.Height, dispSize.Height * 0.6);
                 var w = (int)Math.Min(messageContentSize.Width, dispSize.Width * 0.6);
-                Size sz = new(w, h);
+                var sz = new Size(w, h);
                 if (messageContentSize != sz)
                 {
                     messageContentSize = sz;
@@ -705,7 +687,7 @@ namespace Krypton.Toolkit
                 return Size.Empty;
             }
 
-            return new Size(_panelMainRadio.Size.Width + BUTTON_GAP + 2, _panelMainRadio.Size.Height);
+            return _panelMainRadio.Size with { Width = _panelMainRadio.Size.Width + BUTTON_GAP + 2 };
         }
 
         private Size UpdateCommandSizing()
@@ -718,7 +700,7 @@ namespace Krypton.Toolkit
                 return Size.Empty;
             }
 
-            return new Size(_panelMainCommands.Size.Width + BUTTON_GAP + 2, _panelMainCommands.Size.Height);
+            return _panelMainCommands.Size with { Width = _panelMainCommands.Size.Width + BUTTON_GAP + 2 };
         }
 
         private Size UpdateSpacerSizing()
@@ -730,7 +712,7 @@ namespace Krypton.Toolkit
         private Size UpdateButtonsSizing()
         {
             var numButtons = 0;
-            Size maxButtonSize = Size.Empty;
+            var maxButtonSize = Size.Empty;
 
             // Find the size of the largest button we need
             if ((_commonButtons & TaskDialogButtons.Close) == TaskDialogButtons.Close)
@@ -827,7 +809,7 @@ namespace Krypton.Toolkit
                 right -= maxButtonSize.Width + BUTTON_GAP;
             }
 
-            Size checkboxSize = Size.Empty;
+            var checkboxSize = Size.Empty;
             if (!string.IsNullOrEmpty(_checkboxText))
             {
                 checkboxSize = _checkBox.GetPreferredSize(Size.Empty);
@@ -851,7 +833,8 @@ namespace Krypton.Toolkit
             {
                 _panelButtons.Visible = true;
 
-                Size panelButtonSize = new((maxButtonSize.Width * numButtons) + (BUTTON_GAP * (numButtons + 1)), maxButtonSize.Height + (BUTTON_GAP * 2));
+                var panelButtonSize = new Size((maxButtonSize.Width * numButtons) + (BUTTON_GAP * (numButtons + 1)),
+                    maxButtonSize.Height + (BUTTON_GAP * 2));
 
                 if (!checkboxSize.IsEmpty)
                 {
@@ -870,8 +853,8 @@ namespace Krypton.Toolkit
             using Graphics g = CreateGraphics();
             // Find size of the labels when it has a maximum length of 400
             _footerLabel.UpdateFont();
-            Size footerTextSize = g.MeasureString(_footerText, _footerLabel.Font, 200).ToSize();
-            Size footerHyperlinkSize = g.MeasureString(_footerHyperlink, _footerLabel.Font, 200).ToSize();
+            var footerTextSize = g.MeasureString(_footerText, _footerLabel.Font, 200).ToSize();
+            var footerHyperlinkSize = g.MeasureString(_footerHyperlink, _footerLabel.Font, 200).ToSize();
 
             // Always add on an extra 5 pixels as sometimes the measure size does not draw the last 
             // character it contains, this ensures there is always definitely enough space for it all
@@ -881,7 +864,7 @@ namespace Krypton.Toolkit
             _linkLabelFooter.Size = footerHyperlinkSize;
 
             // Find required size of the footer panel
-            Size requiredSize = Size.Empty;
+            var requiredSize = Size.Empty;
 
             if (!string.IsNullOrEmpty(_footerText))
             {
@@ -943,9 +926,12 @@ namespace Krypton.Toolkit
 
         private void OnRadioButtonCheckedChanged(object sender, EventArgs e)
         {
-            KryptonRadioButton button = (KryptonRadioButton)sender;
-            _defaultRadioButton = (KryptonTaskDialogCommand)button.Tag;
-            _taskDialog.DefaultRadioButton = _defaultRadioButton;
+            var button = sender as KryptonRadioButton;
+            _defaultRadioButton = button?.Tag as KryptonTaskDialogCommand;
+            if (_taskDialog != null)
+            {
+                _taskDialog.DefaultRadioButton = _defaultRadioButton;
+            }
         }
 
         private void OnCommandClicked(object sender, EventArgs e)
@@ -953,11 +939,11 @@ namespace Krypton.Toolkit
             Close();
 
             // Update the result code from the command button
-            KryptonButton button = (KryptonButton)sender;
+            var button = (KryptonButton)sender;
             DialogResult = button.DialogResult;
 
             // Invoke any event handlers from the command button
-            KryptonTaskDialogCommand command = (KryptonTaskDialogCommand)button.Tag;
+            var command = (KryptonTaskDialogCommand)button.Tag;
             command.PerformExecute();
         }
 
@@ -998,10 +984,9 @@ namespace Krypton.Toolkit
             else
             {
                 // Pressing Ctrl+C should copy message text into the clipboard
-                if ((e.Modifiers == Keys.Control)
-                    && (e.KeyCode == Keys.C))
+                if (e is { Modifiers: Keys.Control, KeyCode: Keys.C })
                 {
-                    StringBuilder sb = new();
+                    var sb = new StringBuilder();
 
                     sb.AppendLine("---------------------------");
                     sb.AppendLine(_windowTitle);
@@ -1051,368 +1036,368 @@ namespace Krypton.Toolkit
 
         private void InitializeComponent()
         {
-            this._panelMain = new Krypton.Toolkit.KryptonPanel();
-            this._panelMainSpacer = new Krypton.Toolkit.KryptonPanel();
-            this._panelMainCommands = new Krypton.Toolkit.KryptonPanel();
-            this._panelMainRadio = new Krypton.Toolkit.KryptonPanel();
-            this._panelMainText = new Krypton.Toolkit.KryptonPanel();
-            this._messageContent = new Krypton.Toolkit.KryptonWrapLabel();
-            this._messageContentMultiline = new Krypton.Toolkit.KryptonTextBox();
-            this._messageText = new Krypton.Toolkit.KryptonWrapLabel();
-            this._panelIcon = new Krypton.Toolkit.KryptonPanel();
-            this._messageIcon = new System.Windows.Forms.PictureBox();
-            this._panelButtons = new Krypton.Toolkit.KryptonPanel();
-            this._checkBox = new Krypton.Toolkit.KryptonCheckBox();
-            this._panelButtonsBorderTop = new Krypton.Toolkit.KryptonBorderEdge();
-            this._buttonOK = new Krypton.Toolkit.VisualTaskDialog.MessageButton();
-            this._buttonYes = new Krypton.Toolkit.VisualTaskDialog.MessageButton();
-            this._buttonNo = new Krypton.Toolkit.VisualTaskDialog.MessageButton();
-            this._buttonRetry = new Krypton.Toolkit.VisualTaskDialog.MessageButton();
-            this._buttonCancel = new Krypton.Toolkit.VisualTaskDialog.MessageButton();
-            this._buttonClose = new Krypton.Toolkit.VisualTaskDialog.MessageButton();
-            this._panelFooter = new Krypton.Toolkit.KryptonPanel();
-            this._linkLabelFooter = new Krypton.Toolkit.KryptonLinkLabel();
-            this._iconFooter = new System.Windows.Forms.PictureBox();
-            this._footerLabel = new Krypton.Toolkit.KryptonWrapLabel();
-            this._panelFooterBorderTop = new Krypton.Toolkit.KryptonBorderEdge();
-            ((System.ComponentModel.ISupportInitialize)(this._panelMain)).BeginInit();
-            this._panelMain.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this._panelMainSpacer)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this._panelMainCommands)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this._panelMainRadio)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this._panelMainText)).BeginInit();
-            this._panelMainText.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this._panelIcon)).BeginInit();
-            this._panelIcon.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this._messageIcon)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this._panelButtons)).BeginInit();
-            this._panelButtons.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this._panelFooter)).BeginInit();
-            this._panelFooter.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this._iconFooter)).BeginInit();
-            this.SuspendLayout();
+            _panelMain = new KryptonPanel();
+            _panelMainSpacer = new KryptonPanel();
+            _panelMainCommands = new KryptonPanel();
+            _panelMainRadio = new KryptonPanel();
+            _panelMainText = new KryptonPanel();
+            _messageContent = new KryptonWrapLabel();
+            _messageContentMultiline = new KryptonTextBox();
+            _messageText = new KryptonWrapLabel();
+            _panelIcon = new KryptonPanel();
+            _messageIcon = new PictureBox();
+            _panelButtons = new KryptonPanel();
+            _checkBox = new KryptonCheckBox();
+            _panelButtonsBorderTop = new KryptonBorderEdge();
+            _buttonOK = new MessageButton();
+            _buttonYes = new MessageButton();
+            _buttonNo = new MessageButton();
+            _buttonRetry = new MessageButton();
+            _buttonCancel = new MessageButton();
+            _buttonClose = new MessageButton();
+            _panelFooter = new KryptonPanel();
+            _linkLabelFooter = new KryptonLinkLabel();
+            _iconFooter = new PictureBox();
+            _footerLabel = new KryptonWrapLabel();
+            _panelFooterBorderTop = new KryptonBorderEdge();
+            ((ISupportInitialize)(_panelMain)).BeginInit();
+            _panelMain.SuspendLayout();
+            ((ISupportInitialize)(_panelMainSpacer)).BeginInit();
+            ((ISupportInitialize)(_panelMainCommands)).BeginInit();
+            ((ISupportInitialize)(_panelMainRadio)).BeginInit();
+            ((ISupportInitialize)(_panelMainText)).BeginInit();
+            _panelMainText.SuspendLayout();
+            ((ISupportInitialize)(_panelIcon)).BeginInit();
+            _panelIcon.SuspendLayout();
+            ((ISupportInitialize)(_messageIcon)).BeginInit();
+            ((ISupportInitialize)(_panelButtons)).BeginInit();
+            _panelButtons.SuspendLayout();
+            ((ISupportInitialize)(_panelFooter)).BeginInit();
+            _panelFooter.SuspendLayout();
+            ((ISupportInitialize)(_iconFooter)).BeginInit();
+            SuspendLayout();
             // 
             // _panelMain
             // 
-            this._panelMain.AutoSize = true;
-            this._panelMain.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this._panelMain.Controls.Add(this._panelMainSpacer);
-            this._panelMain.Controls.Add(this._panelMainCommands);
-            this._panelMain.Controls.Add(this._panelMainRadio);
-            this._panelMain.Controls.Add(this._panelMainText);
-            this._panelMain.Controls.Add(this._panelIcon);
-            this._panelMain.Dock = System.Windows.Forms.DockStyle.Top;
-            this._panelMain.Location = new System.Drawing.Point(0, 0);
-            this._panelMain.Name = "_panelMain";
-            this._panelMain.Size = new System.Drawing.Size(578, 72);
-            this._panelMain.TabIndex = 0;
+            _panelMain.AutoSize = true;
+            _panelMain.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            _panelMain.Controls.Add(_panelMainSpacer);
+            _panelMain.Controls.Add(_panelMainCommands);
+            _panelMain.Controls.Add(_panelMainRadio);
+            _panelMain.Controls.Add(_panelMainText);
+            _panelMain.Controls.Add(_panelIcon);
+            _panelMain.Dock = DockStyle.Top;
+            _panelMain.Location = new Point(0, 0);
+            _panelMain.Name = "_panelMain";
+            _panelMain.Size = new Size(578, 72);
+            _panelMain.TabIndex = 0;
             // 
             // _panelMainSpacer
             // 
-            this._panelMainSpacer.Location = new System.Drawing.Point(42, 59);
-            this._panelMainSpacer.Name = "_panelMainSpacer";
-            this._panelMainSpacer.Size = new System.Drawing.Size(10, 10);
-            this._panelMainSpacer.TabIndex = 3;
+            _panelMainSpacer.Location = new Point(42, 59);
+            _panelMainSpacer.Name = "_panelMainSpacer";
+            _panelMainSpacer.Size = new Size(10, 10);
+            _panelMainSpacer.TabIndex = 3;
             // 
             // _panelMainCommands
             // 
-            this._panelMainCommands.AutoSize = true;
-            this._panelMainCommands.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this._panelMainCommands.Location = new System.Drawing.Point(208, 10);
-            this._panelMainCommands.Name = "_panelMainCommands";
-            this._panelMainCommands.Size = new System.Drawing.Size(0, 0);
-            this._panelMainCommands.TabIndex = 2;
+            _panelMainCommands.AutoSize = true;
+            _panelMainCommands.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            _panelMainCommands.Location = new Point(208, 10);
+            _panelMainCommands.Name = "_panelMainCommands";
+            _panelMainCommands.Size = new Size(0, 0);
+            _panelMainCommands.TabIndex = 2;
             // 
             // _panelMainRadio
             // 
-            this._panelMainRadio.AutoSize = true;
-            this._panelMainRadio.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this._panelMainRadio.Location = new System.Drawing.Point(208, 32);
-            this._panelMainRadio.Name = "_panelMainRadio";
-            this._panelMainRadio.Size = new System.Drawing.Size(0, 0);
-            this._panelMainRadio.TabIndex = 1;
+            _panelMainRadio.AutoSize = true;
+            _panelMainRadio.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            _panelMainRadio.Location = new Point(208, 32);
+            _panelMainRadio.Name = "_panelMainRadio";
+            _panelMainRadio.Size = new Size(0, 0);
+            _panelMainRadio.TabIndex = 1;
             // 
             // _panelMainText
             // 
-            this._panelMainText.AutoSize = true;
-            this._panelMainText.Controls.Add(this._messageContent);
-            this._panelMainText.Controls.Add(this._messageContentMultiline);
-            this._panelMainText.Controls.Add(this._messageText);
-            this._panelMainText.Location = new System.Drawing.Point(42, 0);
-            this._panelMainText.Margin = new System.Windows.Forms.Padding(0);
-            this._panelMainText.Name = "_panelMainText";
-            this._panelMainText.Padding = new System.Windows.Forms.Padding(5, 5, 5, 0);
-            this._panelMainText.Size = new System.Drawing.Size(407, 60);
-            this._panelMainText.TabIndex = 0;
+            _panelMainText.AutoSize = true;
+            _panelMainText.Controls.Add(_messageContent);
+            _panelMainText.Controls.Add(_messageContentMultiline);
+            _panelMainText.Controls.Add(_messageText);
+            _panelMainText.Location = new Point(42, 0);
+            _panelMainText.Margin = new Padding(0);
+            _panelMainText.Name = "_panelMainText";
+            _panelMainText.Padding = new Padding(5, 5, 5, 0);
+            _panelMainText.Size = new Size(407, 60);
+            _panelMainText.TabIndex = 0;
             // 
             // _messageContent
             // 
-            this._messageContent.AutoSize = false;
-            this._messageContent.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this._messageContent.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(57)))), ((int)(((byte)(91)))));
-            this._messageContent.Location = new System.Drawing.Point(6, 34);
-            this._messageContent.Margin = new System.Windows.Forms.Padding(0);
-            this._messageContent.Name = "_messageContent";
-            this._messageContent.Size = new System.Drawing.Size(78, 15);
-            this._messageContent.Text = "Content";
+            _messageContent.AutoSize = false;
+            _messageContent.Font = new Font("Segoe UI", 9F);
+            _messageContent.ForeColor = Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(57)))), ((int)(((byte)(91)))));
+            _messageContent.Location = new Point(6, 34);
+            _messageContent.Margin = new Padding(0);
+            _messageContent.Name = "_messageContent";
+            _messageContent.Size = new Size(78, 15);
+            _messageContent.Text = "Content";
             // 
             // _messageContentMultiline
             // 
-            this._messageContentMultiline.Location = new System.Drawing.Point(48, 45);
-            this._messageContentMultiline.Multiline = true;
-            this._messageContentMultiline.Name = "_messageContentMultiline";
-            this._messageContentMultiline.ReadOnly = true;
-            this._messageContentMultiline.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this._messageContentMultiline.Size = new System.Drawing.Size(351, 10);
-            this._messageContentMultiline.TabIndex = 4;
+            _messageContentMultiline.Location = new Point(48, 45);
+            _messageContentMultiline.Multiline = true;
+            _messageContentMultiline.Name = "_messageContentMultiline";
+            _messageContentMultiline.ReadOnly = true;
+            _messageContentMultiline.ScrollBars = ScrollBars.Both;
+            _messageContentMultiline.Size = new Size(351, 10);
+            _messageContentMultiline.TabIndex = 4;
             // 
             // _messageText
             // 
-            this._messageText.AutoSize = false;
-            this._messageText.Font = new System.Drawing.Font("Segoe UI", 13.5F, System.Drawing.FontStyle.Bold);
-            this._messageText.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(57)))), ((int)(((byte)(91)))));
-            this._messageText.LabelStyle = Krypton.Toolkit.LabelStyle.TitlePanel;
-            this._messageText.Location = new System.Drawing.Point(5, 5);
-            this._messageText.Margin = new System.Windows.Forms.Padding(0);
-            this._messageText.Name = "_messageText";
-            this._messageText.Size = new System.Drawing.Size(139, 27);
-            this._messageText.Text = "Message Text";
+            _messageText.AutoSize = false;
+            _messageText.Font = new Font("Segoe UI", 13.5F, FontStyle.Bold);
+            _messageText.ForeColor = Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(57)))), ((int)(((byte)(91)))));
+            _messageText.LabelStyle = LabelStyle.TitlePanel;
+            _messageText.Location = new Point(5, 5);
+            _messageText.Margin = new Padding(0);
+            _messageText.Name = "_messageText";
+            _messageText.Size = new Size(139, 27);
+            _messageText.Text = "Message Text";
             // 
             // _panelIcon
             // 
-            this._panelIcon.AutoSize = true;
-            this._panelIcon.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this._panelIcon.Controls.Add(this._messageIcon);
-            this._panelIcon.Location = new System.Drawing.Point(0, 0);
-            this._panelIcon.Margin = new System.Windows.Forms.Padding(0);
-            this._panelIcon.Name = "_panelIcon";
-            this._panelIcon.Padding = new System.Windows.Forms.Padding(10, 10, 0, 10);
-            this._panelIcon.Size = new System.Drawing.Size(42, 52);
-            this._panelIcon.TabIndex = 0;
+            _panelIcon.AutoSize = true;
+            _panelIcon.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            _panelIcon.Controls.Add(_messageIcon);
+            _panelIcon.Location = new Point(0, 0);
+            _panelIcon.Margin = new Padding(0);
+            _panelIcon.Name = "_panelIcon";
+            _panelIcon.Padding = new Padding(10, 10, 0, 10);
+            _panelIcon.Size = new Size(42, 52);
+            _panelIcon.TabIndex = 0;
             // 
             // _messageIcon
             // 
-            this._messageIcon.BackColor = System.Drawing.Color.Transparent;
-            this._messageIcon.Location = new System.Drawing.Point(10, 10);
-            this._messageIcon.Margin = new System.Windows.Forms.Padding(0);
-            this._messageIcon.Name = "_messageIcon";
-            this._messageIcon.Size = new System.Drawing.Size(32, 32);
-            this._messageIcon.TabIndex = 0;
-            this._messageIcon.TabStop = false;
+            _messageIcon.BackColor = Color.Transparent;
+            _messageIcon.Location = new Point(10, 10);
+            _messageIcon.Margin = new Padding(0);
+            _messageIcon.Name = "_messageIcon";
+            _messageIcon.Size = new Size(32, 32);
+            _messageIcon.TabIndex = 0;
+            _messageIcon.TabStop = false;
             // 
             // _panelButtons
             // 
-            this._panelButtons.Controls.Add(this._checkBox);
-            this._panelButtons.Controls.Add(this._panelButtonsBorderTop);
-            this._panelButtons.Controls.Add(this._buttonOK);
-            this._panelButtons.Controls.Add(this._buttonYes);
-            this._panelButtons.Controls.Add(this._buttonNo);
-            this._panelButtons.Controls.Add(this._buttonRetry);
-            this._panelButtons.Controls.Add(this._buttonCancel);
-            this._panelButtons.Controls.Add(this._buttonClose);
-            this._panelButtons.Dock = System.Windows.Forms.DockStyle.Top;
-            this._panelButtons.Location = new System.Drawing.Point(0, 72);
-            this._panelButtons.Margin = new System.Windows.Forms.Padding(0);
-            this._panelButtons.Name = "_panelButtons";
-            this._panelButtons.PanelBackStyle = Krypton.Toolkit.PaletteBackStyle.PanelAlternate;
-            this._panelButtons.Size = new System.Drawing.Size(578, 46);
-            this._panelButtons.TabIndex = 1;
+            _panelButtons.Controls.Add(_checkBox);
+            _panelButtons.Controls.Add(_panelButtonsBorderTop);
+            _panelButtons.Controls.Add(_buttonOK);
+            _panelButtons.Controls.Add(_buttonYes);
+            _panelButtons.Controls.Add(_buttonNo);
+            _panelButtons.Controls.Add(_buttonRetry);
+            _panelButtons.Controls.Add(_buttonCancel);
+            _panelButtons.Controls.Add(_buttonClose);
+            _panelButtons.Dock = DockStyle.Top;
+            _panelButtons.Location = new Point(0, 72);
+            _panelButtons.Margin = new Padding(0);
+            _panelButtons.Name = "_panelButtons";
+            _panelButtons.PanelBackStyle = PaletteBackStyle.PanelAlternate;
+            _panelButtons.Size = new Size(578, 46);
+            _panelButtons.TabIndex = 1;
             // 
             // _checkBox
             // 
-            this._checkBox.Location = new System.Drawing.Point(12, 12);
-            this._checkBox.Name = "_checkBox";
-            this._checkBox.Size = new System.Drawing.Size(75, 20);
-            this._checkBox.TabIndex = 0;
-            this._checkBox.Values.Text = "checkBox";
+            _checkBox.Location = new Point(12, 12);
+            _checkBox.Name = "_checkBox";
+            _checkBox.Size = new Size(75, 20);
+            _checkBox.TabIndex = 0;
+            _checkBox.Values.Text = "checkBox";
             // 
             // _panelButtonsBorderTop
             // 
-            this._panelButtonsBorderTop.BorderStyle = Krypton.Toolkit.PaletteBorderStyle.HeaderPrimary;
-            this._panelButtonsBorderTop.Dock = System.Windows.Forms.DockStyle.Top;
-            this._panelButtonsBorderTop.Location = new System.Drawing.Point(0, 0);
-            this._panelButtonsBorderTop.Name = "_panelButtonsBorderTop";
-            this._panelButtonsBorderTop.Size = new System.Drawing.Size(578, 1);
-            this._panelButtonsBorderTop.Text = "kryptonBorderEdge1";
+            _panelButtonsBorderTop.BorderStyle = PaletteBorderStyle.HeaderPrimary;
+            _panelButtonsBorderTop.Dock = DockStyle.Top;
+            _panelButtonsBorderTop.Location = new Point(0, 0);
+            _panelButtonsBorderTop.Name = "_panelButtonsBorderTop";
+            _panelButtonsBorderTop.Size = new Size(578, 1);
+            _panelButtonsBorderTop.Text = "kryptonBorderEdge1";
             // 
             // _buttonOK
             // 
-            this._buttonOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this._buttonOK.AutoSize = true;
-            this._buttonOK.CornerRoundingRadius = -1F;
-            this._buttonOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this._buttonOK.IgnoreAltF4 = false;
-            this._buttonOK.Location = new System.Drawing.Point(469, 9);
-            this._buttonOK.Margin = new System.Windows.Forms.Padding(0);
-            this._buttonOK.MinimumSize = new System.Drawing.Size(50, 26);
-            this._buttonOK.Name = "_buttonOK";
-            this._buttonOK.Size = new System.Drawing.Size(50, 26);
-            this._buttonOK.TabIndex = 1;
-            this._buttonOK.Values.Text = "OK";
+            _buttonOK.Anchor = ((AnchorStyles)((AnchorStyles.Top | AnchorStyles.Right)));
+            _buttonOK.AutoSize = true;
+            _buttonOK.CornerRoundingRadius = -1F;
+            _buttonOK.DialogResult = DialogResult.OK;
+            _buttonOK.IgnoreAltF4 = false;
+            _buttonOK.Location = new Point(469, 9);
+            _buttonOK.Margin = new Padding(0);
+            _buttonOK.MinimumSize = new Size(50, 26);
+            _buttonOK.Name = "_buttonOK";
+            _buttonOK.Size = new Size(50, 26);
+            _buttonOK.TabIndex = 1;
+            _buttonOK.Values.Text = "OK";
             // 
             // _buttonYes
             // 
-            this._buttonYes.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this._buttonYes.AutoSize = true;
-            this._buttonYes.CornerRoundingRadius = -1F;
-            this._buttonYes.DialogResult = System.Windows.Forms.DialogResult.Yes;
-            this._buttonYes.IgnoreAltF4 = false;
-            this._buttonYes.Location = new System.Drawing.Point(369, 9);
-            this._buttonYes.Margin = new System.Windows.Forms.Padding(0);
-            this._buttonYes.MinimumSize = new System.Drawing.Size(50, 26);
-            this._buttonYes.Name = "_buttonYes";
-            this._buttonYes.Size = new System.Drawing.Size(50, 26);
-            this._buttonYes.TabIndex = 2;
-            this._buttonYes.Values.Text = "Yes";
+            _buttonYes.Anchor = ((AnchorStyles)((AnchorStyles.Top | AnchorStyles.Right)));
+            _buttonYes.AutoSize = true;
+            _buttonYes.CornerRoundingRadius = -1F;
+            _buttonYes.DialogResult = DialogResult.Yes;
+            _buttonYes.IgnoreAltF4 = false;
+            _buttonYes.Location = new Point(369, 9);
+            _buttonYes.Margin = new Padding(0);
+            _buttonYes.MinimumSize = new Size(50, 26);
+            _buttonYes.Name = "_buttonYes";
+            _buttonYes.Size = new Size(50, 26);
+            _buttonYes.TabIndex = 2;
+            _buttonYes.Values.Text = "Yes";
             // 
             // _buttonNo
             // 
-            this._buttonNo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this._buttonNo.AutoSize = true;
-            this._buttonNo.CornerRoundingRadius = -1F;
-            this._buttonNo.DialogResult = System.Windows.Forms.DialogResult.No;
-            this._buttonNo.IgnoreAltF4 = false;
-            this._buttonNo.Location = new System.Drawing.Point(319, 9);
-            this._buttonNo.Margin = new System.Windows.Forms.Padding(0);
-            this._buttonNo.MinimumSize = new System.Drawing.Size(50, 26);
-            this._buttonNo.Name = "_buttonNo";
-            this._buttonNo.Size = new System.Drawing.Size(50, 26);
-            this._buttonNo.TabIndex = 3;
-            this._buttonNo.Values.Text = "No";
+            _buttonNo.Anchor = ((AnchorStyles)((AnchorStyles.Top | AnchorStyles.Right)));
+            _buttonNo.AutoSize = true;
+            _buttonNo.CornerRoundingRadius = -1F;
+            _buttonNo.DialogResult = DialogResult.No;
+            _buttonNo.IgnoreAltF4 = false;
+            _buttonNo.Location = new Point(319, 9);
+            _buttonNo.Margin = new Padding(0);
+            _buttonNo.MinimumSize = new Size(50, 26);
+            _buttonNo.Name = "_buttonNo";
+            _buttonNo.Size = new Size(50, 26);
+            _buttonNo.TabIndex = 3;
+            _buttonNo.Values.Text = "No";
             // 
             // _buttonRetry
             // 
-            this._buttonRetry.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this._buttonRetry.AutoSize = true;
-            this._buttonRetry.CornerRoundingRadius = -1F;
-            this._buttonRetry.DialogResult = System.Windows.Forms.DialogResult.Retry;
-            this._buttonRetry.IgnoreAltF4 = false;
-            this._buttonRetry.Location = new System.Drawing.Point(419, 9);
-            this._buttonRetry.Margin = new System.Windows.Forms.Padding(0);
-            this._buttonRetry.MinimumSize = new System.Drawing.Size(50, 26);
-            this._buttonRetry.Name = "_buttonRetry";
-            this._buttonRetry.Size = new System.Drawing.Size(50, 26);
-            this._buttonRetry.TabIndex = 5;
-            this._buttonRetry.Values.Text = "Retry";
+            _buttonRetry.Anchor = ((AnchorStyles)((AnchorStyles.Top | AnchorStyles.Right)));
+            _buttonRetry.AutoSize = true;
+            _buttonRetry.CornerRoundingRadius = -1F;
+            _buttonRetry.DialogResult = DialogResult.Retry;
+            _buttonRetry.IgnoreAltF4 = false;
+            _buttonRetry.Location = new Point(419, 9);
+            _buttonRetry.Margin = new Padding(0);
+            _buttonRetry.MinimumSize = new Size(50, 26);
+            _buttonRetry.Name = "_buttonRetry";
+            _buttonRetry.Size = new Size(50, 26);
+            _buttonRetry.TabIndex = 5;
+            _buttonRetry.Values.Text = "Retry";
             // 
             // _buttonCancel
             // 
-            this._buttonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this._buttonCancel.AutoSize = true;
-            this._buttonCancel.CornerRoundingRadius = -1F;
-            this._buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this._buttonCancel.IgnoreAltF4 = false;
-            this._buttonCancel.Location = new System.Drawing.Point(262, 9);
-            this._buttonCancel.Margin = new System.Windows.Forms.Padding(0);
-            this._buttonCancel.MinimumSize = new System.Drawing.Size(50, 26);
-            this._buttonCancel.Name = "_buttonCancel";
-            this._buttonCancel.Size = new System.Drawing.Size(57, 26);
-            this._buttonCancel.TabIndex = 4;
-            this._buttonCancel.Values.Text = "Cancel";
+            _buttonCancel.Anchor = ((AnchorStyles)((AnchorStyles.Top | AnchorStyles.Right)));
+            _buttonCancel.AutoSize = true;
+            _buttonCancel.CornerRoundingRadius = -1F;
+            _buttonCancel.DialogResult = DialogResult.Cancel;
+            _buttonCancel.IgnoreAltF4 = false;
+            _buttonCancel.Location = new Point(262, 9);
+            _buttonCancel.Margin = new Padding(0);
+            _buttonCancel.MinimumSize = new Size(50, 26);
+            _buttonCancel.Name = "_buttonCancel";
+            _buttonCancel.Size = new Size(57, 26);
+            _buttonCancel.TabIndex = 4;
+            _buttonCancel.Values.Text = "Cancel";
             // 
             // _buttonClose
             // 
-            this._buttonClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this._buttonClose.AutoSize = true;
-            this._buttonClose.CornerRoundingRadius = -1F;
-            this._buttonClose.IgnoreAltF4 = false;
-            this._buttonClose.Location = new System.Drawing.Point(519, 9);
-            this._buttonClose.Margin = new System.Windows.Forms.Padding(0);
-            this._buttonClose.MinimumSize = new System.Drawing.Size(50, 26);
-            this._buttonClose.Name = "_buttonClose";
-            this._buttonClose.Size = new System.Drawing.Size(50, 26);
-            this._buttonClose.TabIndex = 6;
-            this._buttonClose.Values.Text = "Close";
+            _buttonClose.Anchor = ((AnchorStyles)((AnchorStyles.Top | AnchorStyles.Right)));
+            _buttonClose.AutoSize = true;
+            _buttonClose.CornerRoundingRadius = -1F;
+            _buttonClose.IgnoreAltF4 = false;
+            _buttonClose.Location = new Point(519, 9);
+            _buttonClose.Margin = new Padding(0);
+            _buttonClose.MinimumSize = new Size(50, 26);
+            _buttonClose.Name = "_buttonClose";
+            _buttonClose.Size = new Size(50, 26);
+            _buttonClose.TabIndex = 6;
+            _buttonClose.Values.Text = "Close";
             // 
             // _panelFooter
             // 
-            this._panelFooter.Controls.Add(this._linkLabelFooter);
-            this._panelFooter.Controls.Add(this._iconFooter);
-            this._panelFooter.Controls.Add(this._footerLabel);
-            this._panelFooter.Controls.Add(this._panelFooterBorderTop);
-            this._panelFooter.Dock = System.Windows.Forms.DockStyle.Top;
-            this._panelFooter.Location = new System.Drawing.Point(0, 118);
-            this._panelFooter.Name = "_panelFooter";
-            this._panelFooter.PanelBackStyle = Krypton.Toolkit.PaletteBackStyle.PanelAlternate;
-            this._panelFooter.Size = new System.Drawing.Size(578, 49);
-            this._panelFooter.TabIndex = 2;
+            _panelFooter.Controls.Add(_linkLabelFooter);
+            _panelFooter.Controls.Add(_iconFooter);
+            _panelFooter.Controls.Add(_footerLabel);
+            _panelFooter.Controls.Add(_panelFooterBorderTop);
+            _panelFooter.Dock = DockStyle.Top;
+            _panelFooter.Location = new Point(0, 118);
+            _panelFooter.Name = "_panelFooter";
+            _panelFooter.PanelBackStyle = PaletteBackStyle.PanelAlternate;
+            _panelFooter.Size = new Size(578, 49);
+            _panelFooter.TabIndex = 2;
             // 
             // _linkLabelFooter
             // 
-            this._linkLabelFooter.Location = new System.Drawing.Point(127, 11);
-            this._linkLabelFooter.Name = "_linkLabelFooter";
-            this._linkLabelFooter.Size = new System.Drawing.Size(110, 20);
-            this._linkLabelFooter.TabIndex = 0;
-            this._linkLabelFooter.Values.Text = "kryptonLinkLabel1";
+            _linkLabelFooter.Location = new Point(127, 11);
+            _linkLabelFooter.Name = "_linkLabelFooter";
+            _linkLabelFooter.Size = new Size(110, 20);
+            _linkLabelFooter.TabIndex = 0;
+            _linkLabelFooter.Values.Text = "kryptonLinkLabel1";
             // 
             // _iconFooter
             // 
-            this._iconFooter.BackColor = System.Drawing.Color.Transparent;
-            this._iconFooter.Location = new System.Drawing.Point(10, 10);
-            this._iconFooter.Margin = new System.Windows.Forms.Padding(0);
-            this._iconFooter.Name = "_iconFooter";
-            this._iconFooter.Size = new System.Drawing.Size(16, 16);
-            this._iconFooter.TabIndex = 4;
-            this._iconFooter.TabStop = false;
+            _iconFooter.BackColor = Color.Transparent;
+            _iconFooter.Location = new Point(10, 10);
+            _iconFooter.Margin = new Padding(0);
+            _iconFooter.Name = "_iconFooter";
+            _iconFooter.Size = new Size(16, 16);
+            _iconFooter.TabIndex = 4;
+            _iconFooter.TabStop = false;
             // 
             // _footerLabel
             // 
-            this._footerLabel.AutoSize = false;
-            this._footerLabel.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this._footerLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(57)))), ((int)(((byte)(91)))));
-            this._footerLabel.Location = new System.Drawing.Point(36, 11);
-            this._footerLabel.Margin = new System.Windows.Forms.Padding(0);
-            this._footerLabel.Name = "_footerLabel";
-            this._footerLabel.Size = new System.Drawing.Size(78, 15);
-            this._footerLabel.Text = "Content";
+            _footerLabel.AutoSize = false;
+            _footerLabel.Font = new Font("Segoe UI", 9F);
+            _footerLabel.ForeColor = Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(57)))), ((int)(((byte)(91)))));
+            _footerLabel.Location = new Point(36, 11);
+            _footerLabel.Margin = new Padding(0);
+            _footerLabel.Name = "_footerLabel";
+            _footerLabel.Size = new Size(78, 15);
+            _footerLabel.Text = "Content";
             // 
             // _panelFooterBorderTop
             // 
-            this._panelFooterBorderTop.BorderStyle = Krypton.Toolkit.PaletteBorderStyle.HeaderPrimary;
-            this._panelFooterBorderTop.Dock = System.Windows.Forms.DockStyle.Top;
-            this._panelFooterBorderTop.Location = new System.Drawing.Point(0, 0);
-            this._panelFooterBorderTop.Name = "_panelFooterBorderTop";
-            this._panelFooterBorderTop.Size = new System.Drawing.Size(578, 1);
-            this._panelFooterBorderTop.Text = "kryptonBorderEdge1";
+            _panelFooterBorderTop.BorderStyle = PaletteBorderStyle.HeaderPrimary;
+            _panelFooterBorderTop.Dock = DockStyle.Top;
+            _panelFooterBorderTop.Location = new Point(0, 0);
+            _panelFooterBorderTop.Name = "_panelFooterBorderTop";
+            _panelFooterBorderTop.Size = new Size(578, 1);
+            _panelFooterBorderTop.Text = "kryptonBorderEdge1";
             // 
             // VisualTaskDialog
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.AutoScroll = true;
-            this.ClientSize = new System.Drawing.Size(595, 164);
-            this.Controls.Add(this._panelFooter);
-            this.Controls.Add(this._panelButtons);
-            this.Controls.Add(this._panelMain);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-            this.MaximizeBox = false;
-            this.MinimizeBox = false;
-            this.Name = "VisualTaskDialog";
-            this.ShowIcon = false;
-            this.ShowInTaskbar = false;
-            this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            ((System.ComponentModel.ISupportInitialize)(this._panelMain)).EndInit();
-            this._panelMain.ResumeLayout(false);
-            this._panelMain.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this._panelMainSpacer)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this._panelMainCommands)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this._panelMainRadio)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this._panelMainText)).EndInit();
-            this._panelMainText.ResumeLayout(false);
-            this._panelMainText.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this._panelIcon)).EndInit();
-            this._panelIcon.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this._messageIcon)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this._panelButtons)).EndInit();
-            this._panelButtons.ResumeLayout(false);
-            this._panelButtons.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this._panelFooter)).EndInit();
-            this._panelFooter.ResumeLayout(false);
-            this._panelFooter.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this._iconFooter)).EndInit();
-            this.ResumeLayout(false);
-            this.PerformLayout();
+            AutoScaleDimensions = new SizeF(6F, 13F);
+            AutoScaleMode = AutoScaleMode.Font;
+            AutoScroll = true;
+            ClientSize = new Size(595, 164);
+            Controls.Add(_panelFooter);
+            Controls.Add(_panelButtons);
+            Controls.Add(_panelMain);
+            FormBorderStyle = FormBorderStyle.FixedDialog;
+            MaximizeBox = false;
+            MinimizeBox = false;
+            Name = "VisualTaskDialog";
+            ShowIcon = false;
+            ShowInTaskbar = false;
+            SizeGripStyle = SizeGripStyle.Hide;
+            StartPosition = FormStartPosition.CenterParent;
+            ((ISupportInitialize)(_panelMain)).EndInit();
+            _panelMain.ResumeLayout(false);
+            _panelMain.PerformLayout();
+            ((ISupportInitialize)(_panelMainSpacer)).EndInit();
+            ((ISupportInitialize)(_panelMainCommands)).EndInit();
+            ((ISupportInitialize)(_panelMainRadio)).EndInit();
+            ((ISupportInitialize)(_panelMainText)).EndInit();
+            _panelMainText.ResumeLayout(false);
+            _panelMainText.PerformLayout();
+            ((ISupportInitialize)(_panelIcon)).EndInit();
+            _panelIcon.ResumeLayout(false);
+            ((ISupportInitialize)(_messageIcon)).EndInit();
+            ((ISupportInitialize)(_panelButtons)).EndInit();
+            _panelButtons.ResumeLayout(false);
+            _panelButtons.PerformLayout();
+            ((ISupportInitialize)(_panelFooter)).EndInit();
+            _panelFooter.ResumeLayout(false);
+            _panelFooter.PerformLayout();
+            ((ISupportInitialize)(_iconFooter)).EndInit();
+            ResumeLayout(false);
+            PerformLayout();
 
         }
         #endregion

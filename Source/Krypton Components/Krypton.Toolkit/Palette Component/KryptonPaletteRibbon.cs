@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -18,7 +18,7 @@ namespace Krypton.Toolkit
     public class KryptonPaletteRibbon : Storage
     {
         #region Instance Fields
-        private readonly PaletteRedirect _redirect;
+        private readonly PaletteRedirect? _redirect;
         private readonly PaletteRibbonBackInheritRedirect _ribbonAppMenuOuterInherit;
         private readonly PaletteRibbonBackInheritRedirect _ribbonAppMenuInnerInherit;
         private readonly PaletteRibbonBackInheritRedirect _ribbonAppMenuDocsInherit;
@@ -45,7 +45,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="redirect">Redirector to inherit values from.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public KryptonPaletteRibbon(PaletteRedirect redirect,
+        public KryptonPaletteRibbon([DisallowNull] PaletteRedirect? redirect,
                                       NeedPaintHandler needPaint)
         {
             Debug.Assert(redirect != null);

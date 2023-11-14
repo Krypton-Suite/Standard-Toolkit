@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -23,17 +23,17 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Instance Fields
-        private Image _image;
+        private Image? _image;
         private Color _transparent;
-        private string _heading;
+        private string? _heading;
         private string _description;
         #endregion
 
         #region Events
         /// <summary>
-        /// Occures when the value of the Text property changes.
+        /// Occurs when the value of the Text property changes.
         /// </summary>
-        public event EventHandler TextChanged;
+        public event EventHandler? TextChanged;
         #endregion
         
         #region Identity
@@ -41,7 +41,7 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the HeaderValuesBase class.
         /// </summary>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        protected HeaderValuesBase(NeedPaintHandler needPaint)
+        protected HeaderValuesBase(NeedPaintHandler? needPaint)
         {
             // Store the provided paint notification delegate
             NeedPaint = needPaint;
@@ -71,7 +71,7 @@ namespace Krypton.Toolkit
         /// Gets the default image value.
         /// </summary>
         /// <returns>Image reference.</returns>
-        protected virtual Image GetImageDefault() => _defaultImage;
+        protected virtual Image? GetImageDefault() => _defaultImage;
 
         /// <summary>
         /// Gets the default heading value.
@@ -94,7 +94,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Heading image.")]
         [RefreshProperties(RefreshProperties.All)]
-        public Image Image
+        public Image? Image
         {
             get => _image;
 
@@ -113,17 +113,14 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the Image property to its default value.
         /// </summary>
-        public void ResetImage()
-        {
-            Image = GetImageDefault();
-        }
+        public void ResetImage() => Image = GetImageDefault();
 
         /// <summary>
         /// Gets the content image.
         /// </summary>
         /// <param name="state">The state for which the image is needed.</param>
         /// <returns>Image value.</returns>
-        public virtual Image GetImage(PaletteState state) => Image;
+        public virtual Image? GetImage(PaletteState state) => Image;
 
         #endregion
 
@@ -155,10 +152,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the ImageTransparentColor property to its default value.
         /// </summary>
-        public void ResetImageTransparentColor()
-        {
-            ImageTransparentColor = Color.Empty;
-        }
+        public void ResetImageTransparentColor() => ImageTransparentColor = Color.Empty;
 
         /// <summary>
         /// Gets the content image transparent color.
@@ -177,10 +171,11 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Heading text.")]
         [RefreshProperties(RefreshProperties.All)]
-        [Editor(@"System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
+        [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
+        [AllowNull]
         public virtual string Heading
         {
-            get => _heading;
+            get => _heading ?? string.Empty;
 
             set
             {
@@ -198,10 +193,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the Heading property to its default value.
         /// </summary>
-        public void ResetHeading()
-        {
-            Heading = GetHeadingDefault();
-        }
+        public void ResetHeading() => Heading = GetHeadingDefault();
 
         /// <summary>
         /// Gets the content short text.
@@ -218,7 +210,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Header description text.")]
         [RefreshProperties(RefreshProperties.All)]
-        [Editor(@"System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
+        [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
         public virtual string Description
         {
             get => _description;
@@ -238,10 +230,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the Description property to its default value.
         /// </summary>
-        public void ResetDescription()
-        {
-            Description = GetDescriptionDefault();
-        }
+        public void ResetDescription() => Description = GetDescriptionDefault();
 
         /// <summary>
         /// Gets the content long text.

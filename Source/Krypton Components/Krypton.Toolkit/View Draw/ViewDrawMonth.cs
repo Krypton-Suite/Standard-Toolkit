@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -51,7 +51,7 @@ namespace Krypton.Toolkit
         private readonly PaletteBorderEdgeRedirect _borderEdgeRedirect;
         private readonly PaletteBorderEdge _borderEdge;
         private readonly ButtonSpecManagerDraw _buttonManager;
-        private readonly CalendarButtonSpecCollection _buttonSpecs;
+        private readonly CalendarButtonSpecCollection? _buttonSpecs;
         private readonly ButtonSpecCalendar _arrowPrev;
         private readonly ButtonSpecCalendar _arrowNext;
         private string _header;
@@ -67,7 +67,7 @@ namespace Krypton.Toolkit
         /// <param name="needPaintDelegate">Delegate for requesting paint changes.</param>
         public ViewDrawMonth(IKryptonMonthCalendar calendar, 
                              ViewLayoutMonths months,
-                             PaletteRedirect redirector,
+                             PaletteRedirect? redirector,
                              NeedPaintHandler needPaintDelegate)
             : base(false)
         {
@@ -104,9 +104,9 @@ namespace Krypton.Toolkit
                                                        _calendar.GetToolStripDelegate, needPaintDelegate);
 
             // Create stacks for holding display items
-            ViewLayoutStack namesStack = new(true);
-            ViewLayoutStack weeksStack = new(true);
-            ViewLayoutStack daysStack = new(false);
+            var namesStack = new ViewLayoutStack(true);
+            var weeksStack = new ViewLayoutStack(true);
+            var daysStack = new ViewLayoutStack(false);
             _numberStack = new ViewLayoutStack(false);
             weeksStack.Add(_numberStack);
             weeksStack.Add(daysStack);
@@ -124,7 +124,7 @@ namespace Krypton.Toolkit
             _borderEdge = new PaletteBorderEdge(_borderEdgeRedirect, null);
             _drawBorderEdge = new ViewDrawBorderEdge(_borderEdge, Orientation.Vertical);
             _drawWeekNumbers = new ViewDrawWeekNumbers(_calendar, _months);
-            ViewLayoutDocker borderLeftDock = new()
+            var borderLeftDock = new ViewLayoutDocker
             {
                 { _drawWeekNumbers, ViewDockStyle.Left },
                 { new ViewLayoutSeparator(0, 4), ViewDockStyle.Top },
@@ -134,10 +134,10 @@ namespace Krypton.Toolkit
             _numberStack.Add(borderLeftDock);
 
             // Add border between day names and individual days
-            PaletteBorderEdgeRedirect borderEdgeRedirect = new(_calendar.StateNormal.Header.Border, null);
-            PaletteBorderEdge borderEdge = new(borderEdgeRedirect, null);
-            ViewDrawBorderEdge drawBorderEdge = new(borderEdge, Orientation.Horizontal);
-            ViewLayoutDocker borderTopDock = new()
+            var borderEdgeRedirect = new PaletteBorderEdgeRedirect(_calendar.StateNormal.Header.Border, null);
+            var borderEdge = new PaletteBorderEdge(borderEdgeRedirect, null);
+            var drawBorderEdge = new ViewDrawBorderEdge(borderEdge, Orientation.Horizontal);
+            var borderTopDock = new ViewLayoutDocker
             {
                 { new ViewLayoutSeparator(4, 1), ViewDockStyle.Left },
                 { drawBorderEdge, ViewDockStyle.Fill },
@@ -160,7 +160,7 @@ namespace Krypton.Toolkit
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            "ViewDrawMonth:" + Id;
+            $"ViewDrawMonth:{Id}";
 
         #endregion
 
@@ -266,7 +266,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">The state for which the image is needed.</param>
         /// <returns>Image value.</returns>
-        public Image GetImage(PaletteState state) => null;
+        public Image? GetImage(PaletteState state) => null;
 
         /// <summary>
         /// Gets the image color that should be transparent.

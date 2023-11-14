@@ -5,7 +5,9 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  
+ *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
  */
 #endregion
@@ -17,15 +19,15 @@ namespace Krypton.Ribbon
     /// </summary>
     [ToolboxItem(false)]
     [ToolboxBitmap(typeof(KryptonRibbonQATButton), "ToolboxBitmaps.KryptonRibbonQATButton.bmp")]
-    [DefaultEvent("Click")]
-    [DefaultProperty("Image")]
+    [DefaultEvent(nameof(Click))]
+    [DefaultProperty(nameof(Image))]
     [DesignerCategory(@"code")]
     [DesignTimeVisible(false)]
     public class KryptonRibbonQATButton : Component,
                                           IQuickAccessToolbarButton
     {
         #region Static Fields
-        private static readonly Image _defaultImage = Properties.Resources.QATButtonDefault;
+        private static readonly Image _defaultImage = GenericImageResources.QATButtonDefault;
         #endregion
 
         #region Instance Fields
@@ -34,7 +36,7 @@ namespace Krypton.Ribbon
         private bool _visible;
         private bool _enabled;
         private string _text;
-        private KryptonCommand _command;
+        private KryptonCommand? _command;
 
         #endregion
 
@@ -42,12 +44,12 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Occurs when the quick access toolbar button has been clicked.
         /// </summary>
-        public event EventHandler Click;
+        public event EventHandler? Click;
 
         /// <summary>
         /// Occurs after the value of a property has changed.
         /// </summary>
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
         #endregion
 
         #region Identity
@@ -76,7 +78,7 @@ namespace Krypton.Ribbon
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public KryptonRibbon Ribbon { get; private set; }
+        public KryptonRibbon? Ribbon { get; private set; }
 
         /// <summary>
         /// Gets and sets the application button image.
@@ -86,7 +88,7 @@ namespace Krypton.Ribbon
         [Category(@"Values")]
         [Description(@"Application button image.")]
         [RefreshProperties(RefreshProperties.All)]
-        public Image Image
+        public Image? Image
         {
             get => _image;
 
@@ -149,18 +151,12 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Make the ribbon tab visible.
         /// </summary>
-        public void Show()
-        {
-            Visible = true;
-        }
+        public void Show() => Visible = true;
 
         /// <summary>
         /// Make the ribbon tab hidden.
         /// </summary>
-        public void Hide()
-        {
-            Visible = false;
-        }
+        public void Hide() => Visible = false;
 
         /// <summary>
         /// Gets and sets the enabled state of the ribbon quick access toolbar entry.
@@ -231,17 +227,14 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Resets the ShortcutKeys property to its default value.
         /// </summary>
-        public void ResetShortcutKeys()
-        {
-            ShortcutKeys = Keys.None;
-        }
+        public void ResetShortcutKeys() => ShortcutKeys = Keys.None;
 
         /// <summary>
         /// Gets and sets the tooltip label style for the quick access button.
         /// </summary>
         [Category(@"Appearance")]
         [Description(@"Tooltip style for the quick access toolbar button.")]
-        [DefaultValue(typeof(LabelStyle), "ToolTip")]
+        [DefaultValue(typeof(LabelStyle), nameof(ToolTip))]
         public LabelStyle ToolTipStyle { get; set; }
 
         /// <summary>
@@ -252,7 +245,7 @@ namespace Krypton.Ribbon
         [Description(@"Display image associated ToolTip.")]
         [DefaultValue(null)]
         [Localizable(true)]
-        public Image ToolTipImage { get; set; }
+        public Image? ToolTipImage { get; set; }
 
         /// <summary>
         /// Gets and sets the color to draw as transparent in the ToolTipImage.
@@ -270,7 +263,7 @@ namespace Krypton.Ribbon
         [Bindable(true)]
         [Category(@"Appearance")]
         [Description(@"Title text for use in associated ToolTip.")]
-        [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
+        [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
         [DefaultValue("")]
         [Localizable(true)]
         public string ToolTipTitle { get; set; }
@@ -281,7 +274,7 @@ namespace Krypton.Ribbon
         [Bindable(true)]
         [Category(@"Appearance")]
         [Description(@"Body text for use in associated ToolTip.")]
-        [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
+        [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
         [DefaultValue("")]
         [Localizable(true)]
         public string ToolTipBody { get; set; }
@@ -297,10 +290,7 @@ namespace Krypton.Ribbon
 
         private bool ShouldSerializeToolTipShadow() => !ToolTipShadow;
 
-        private void ResetToolTipShadow()
-        {
-            ToolTipShadow = true;
-        }
+        private void ResetToolTipShadow() => ToolTipShadow = true;
         #endregion
 
         /// <summary>
@@ -309,7 +299,7 @@ namespace Krypton.Ribbon
         [Category(@"Behavior")]
         [Description(@"Command associated with the quick access toolbar button.")]
         [DefaultValue(null)]
-        public KryptonCommand KryptonCommand
+        public KryptonCommand? KryptonCommand
         {
             get => _command;
 
@@ -362,10 +352,7 @@ namespace Krypton.Ribbon
 
         private bool ShouldSerializeTag() => Tag != null;
 
-        private void ResetTag()
-        {
-            Tag = null;
-        }
+        private void ResetTag() => Tag = null;
         #endregion
 
         #region IQuickAccessToolbarButton
@@ -374,17 +361,14 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="ribbon">Reference to owning instance.</param>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public void SetRibbon(KryptonRibbon ribbon)
-        {
-            Ribbon = ribbon;
-        }
+        public void SetRibbon(KryptonRibbon? ribbon) => Ribbon = ribbon;
 
         /// <summary>
         /// Gets the entry image.
         /// </summary>
         /// <returns>Image value.</returns>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public Image GetImage() => KryptonCommand?.ImageSmall ?? Image;
+        public Image? GetImage() => KryptonCommand?.ImageSmall ?? Image;
 
         /// <summary>
         /// Gets the entry text.
@@ -419,10 +403,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="visible"></param>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public void SetVisible(bool visible)
-        {
-            Visible = visible;
-        }
+        public void SetVisible(bool visible) => Visible = visible;
 
         /// <summary>
         /// Gets the tooltip label style.
@@ -461,10 +442,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Generates a Click event for a button.
         /// </summary>
-        public void PerformClick()
-        {
-            OnClick(EventArgs.Empty);
-        }
+        public void PerformClick() => OnClick(EventArgs.Empty);
         #endregion
 
         #region Protected
@@ -479,7 +457,7 @@ namespace Krypton.Ribbon
 
             switch (e.PropertyName)
             {
-                case "Text":
+                case nameof(Text):
                     refresh = true;
                     OnPropertyChanged(nameof(Text));
                     break;
@@ -487,7 +465,7 @@ namespace Krypton.Ribbon
                     refresh = true;
                     OnPropertyChanged(nameof(Image));
                     break;
-                case "Enabled":
+                case nameof(Enabled):
                     refresh = true;
                     OnPropertyChanged(nameof(Enabled));
                     break;
@@ -502,7 +480,7 @@ namespace Krypton.Ribbon
                 }
             }
         }
-        
+
         /// <summary>
         /// Raises the Click event.
         /// </summary>
@@ -511,7 +489,7 @@ namespace Krypton.Ribbon
         {
             // Perform processing that is common to any action that would dismiss
             // any popup controls such as the showing minimized group popup
-            Ribbon?.Actionoccurred();
+            Ribbon?.ActionOccurred();
 
             Click?.Invoke(this, e);
 
@@ -523,10 +501,7 @@ namespace Krypton.Ribbon
         /// Raises the PropertyChanged event.
         /// </summary>
         /// <param name="propertyName">Name of property that has changed.</param>
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
+        protected virtual void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         #endregion
     }
 

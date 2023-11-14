@@ -5,7 +5,9 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  
+ *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
  */
 #endregion
@@ -30,7 +32,7 @@ namespace Krypton.Ribbon
         /// Initialize a new instance of the ViewDrawRibbonMinimizeBar class.
         /// </summary>
         /// <param name="palette">Source for palette values.</param>
-        public ViewDrawRibbonMinimizeBar(IPaletteRibbonGeneral palette)
+        public ViewDrawRibbonMinimizeBar([DisallowNull] IPaletteRibbonGeneral palette)
             : base(SEP_WIDTH, true)
         {
             Debug.Assert(palette != null);
@@ -43,7 +45,7 @@ namespace Krypton.Ribbon
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            "ViewDrawRibbonMinimizeBar:" + Id;
+            $"ViewDrawRibbonMinimizeBar:{Id}";
 
         #endregion
 
@@ -54,8 +56,8 @@ namespace Krypton.Ribbon
         /// <param name="context">Rendering context.</param>
         public override void RenderBefore(RenderContext context)
         {
-            using Pen darkPen = new(_palette.GetRibbonMinimizeBarDark(PaletteState.Normal)),
-                lightPen = new(_palette.GetRibbonMinimizeBarLight(PaletteState.Normal));
+            using var darkPen = new Pen(_palette.GetRibbonMinimizeBarDark(PaletteState.Normal));
+            using var lightPen = new Pen(_palette.GetRibbonMinimizeBarLight(PaletteState.Normal));
             context.Graphics.DrawLine(darkPen, ClientRectangle.Left, ClientRectangle.Bottom - 2, ClientRectangle.Right - 1, ClientRectangle.Bottom - 2);
             context.Graphics.DrawLine(lightPen, ClientRectangle.Left, ClientRectangle.Bottom - 1, ClientRectangle.Right - 1, ClientRectangle.Bottom - 1);
         }

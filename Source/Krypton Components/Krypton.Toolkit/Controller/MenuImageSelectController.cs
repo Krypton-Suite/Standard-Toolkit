@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -26,7 +26,7 @@ namespace Krypton.Toolkit
         private readonly ViewDrawMenuImageSelectItem _target;
         private readonly ViewLayoutMenuItemSelect _layout;
         private readonly ViewContextMenuManager _viewManager;
-        private NeedPaintHandler _needPaint;
+        private NeedPaintHandler? _needPaint;
         private bool _mouseOver;
         #endregion
 
@@ -34,7 +34,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Occurs when the mouse is used to left click the target.
         /// </summary>
-        public event MouseEventHandler Click;
+        public event MouseEventHandler? Click;
         #endregion
 
         #region Identity
@@ -45,10 +45,10 @@ namespace Krypton.Toolkit
         /// <param name="target">Target for state changes.</param>
         /// <param name="layout">Reference to layout of the image items.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public MenuImageSelectController(ViewContextMenuManager viewManager,
-                                         ViewDrawMenuImageSelectItem target,
-                                         ViewLayoutMenuItemSelect layout,
-                                         NeedPaintHandler needPaint)
+        public MenuImageSelectController([DisallowNull] ViewContextMenuManager viewManager,
+                                         [DisallowNull] ViewDrawMenuImageSelectItem target,
+                                         [DisallowNull] ViewLayoutMenuItemSelect layout,
+                                         [DisallowNull] NeedPaintHandler needPaint)
         {
             Debug.Assert(viewManager != null);
             Debug.Assert(target != null);
@@ -250,7 +250,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="c">Reference to the source control instance.</param>
         /// <param name="next">Reference to view that is next to have the mouse.</param>
-        public virtual void MouseLeave(Control c, ViewBase next)
+        public virtual void MouseLeave(Control c, ViewBase? next)
         {
             // Only if mouse is leaving all the children monitored by controller.
             if (!_target.ContainsRecurse(next))
@@ -298,7 +298,7 @@ namespace Krypton.Toolkit
         /// Source control has lost the focus.
         /// </summary>
         /// <param name="c">Reference to the source control instance.</param>
-        public void LostFocus(Control c)
+        public void LostFocus([DisallowNull] Control c)
         {
         }
         #endregion
@@ -311,7 +311,7 @@ namespace Krypton.Toolkit
         /// <param name="c">Reference to the source control instance.</param>
         /// <param name="e">A KeyEventArgs that contains the event data.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public virtual void KeyDown(Control c, KeyEventArgs e)
+        public virtual void KeyDown([DisallowNull] Control c, [DisallowNull] KeyEventArgs e)
         {
             Debug.Assert(c != null);
             Debug.Assert(e != null);
@@ -333,7 +333,7 @@ namespace Krypton.Toolkit
                 case Keys.Space:
                     if (_layout.ItemEnabled)
                     {
-                        Point pt = new(int.MaxValue, int.MaxValue);
+                        var pt = new Point(int.MaxValue, int.MaxValue);
                         OnClick(new MouseEventArgs(MouseButtons.Left, 1, pt.X, pt.Y, 0));
                         UpdateTargetState(pt);
                     }
@@ -368,7 +368,7 @@ namespace Krypton.Toolkit
         /// <param name="c">Reference to the source control instance.</param>
         /// <param name="e">A KeyPressEventArgs that contains the event data.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public virtual void KeyPress(Control c, KeyPressEventArgs e)
+        public virtual void KeyPress([DisallowNull] Control c, [DisallowNull] KeyPressEventArgs e)
         {
             Debug.Assert(c != null);
             Debug.Assert(e != null);
@@ -394,7 +394,7 @@ namespace Krypton.Toolkit
         /// <param name="e">A KeyEventArgs that contains the event data.</param>
         /// <exception cref="ArgumentNullException"></exception>
         /// <returns>True if capturing input; otherwise false.</returns>
-        public virtual bool KeyUp(Control c, KeyEventArgs e)
+        public virtual bool KeyUp([DisallowNull] Control c, [DisallowNull] KeyEventArgs e)
         {
             Debug.Assert(c != null);
             Debug.Assert(e != null);
@@ -413,7 +413,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the need paint delegate for notifying paint requests.
         /// </summary>
-        public NeedPaintHandler NeedPaint
+        public NeedPaintHandler? NeedPaint
         {
             get => _needPaint;
 
@@ -461,7 +461,7 @@ namespace Krypton.Toolkit
             if (c is { IsDisposed: false })
             {
                 // Ensure control is inside a visible top level form
-                Form f = c.FindForm();
+                Form? f = c.FindForm();
                 if (f is { Visible: true })
                 {
                     UpdateTargetState(c.PointToClient(Control.MousePosition));

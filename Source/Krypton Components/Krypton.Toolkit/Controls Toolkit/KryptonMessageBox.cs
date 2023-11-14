@@ -5,10 +5,12 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
+
+using ContentAlignment = System.Drawing.ContentAlignment;
 
 // ReSharper disable ClassNeverInstantiated.Global
 // ReSharper disable UnusedMethodReturnValue.Global
@@ -22,7 +24,6 @@ namespace Krypton.Toolkit
     [DesignerCategory(@"code")]
     public static class KryptonMessageBox
     {
-
         #region Public
 
         /// <summary>
@@ -31,22 +32,46 @@ namespace Krypton.Toolkit
         /// <param name="text">The text to display in the message box.</param>
         /// <param name="caption" default="string.Empty">The text to display in the title bar of the message box. default="string.Empty"</param>
         /// <param name="showCtrlCopy">Show extraText in title. If null(default) then only when Warning or Error icon is used.</param>
+        /// <param name="contentAreaType">Specifies the <see cref="T:MessageBoxContentAreaType"/>.</param>
+        /// <param name="linkAreaCommand">Specifies a <see cref="T:KryptonCommand"/> if using the <see cref="T:MessageBoxContentAreaType.LinkLabel"/> type.</param>
+        /// <param name="linkLaunchArgument">Specifies the <see cref="ProcessStartInfo"/> if a <paramref name="linkAreaCommand"> has not been defined.</paramref></param>
+        /// <param name="contentLinkArea">Specifies the area within the <see cref="KryptonLinkWrapLabel"/> to be regarded as a link. See <see cref="LinkArea"/>.</param>
+        /// <param name="messageTextAlignment">Specifies how the message text should be aligned. See <see cref="System.Drawing.ContentAlignment"/> for supported values.</param>
         /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
-        public static DialogResult Show(string text, string caption, bool? showCtrlCopy = null) =>
-            InternalShow(null, text, caption, MessageBoxButtons.OK, KryptonMessageBoxIcon.None,
-                KryptonMessageBoxDefaultButton.Button4,
-                0, null, showCtrlCopy, null, null, @"", null);
+        public static DialogResult Show(string text, string caption, bool? showCtrlCopy = null,
+                                        MessageBoxContentAreaType? contentAreaType = null,
+                                        KryptonCommand? linkAreaCommand = null,
+                                        ProcessStartInfo? linkLaunchArgument = null,
+                                        LinkArea? contentLinkArea = null,
+                                        ContentAlignment? messageTextAlignment = ContentAlignment.MiddleLeft) =>
+            ShowCore(null, text, caption, KryptonMessageBoxButtons.OK, KryptonMessageBoxIcon.None,
+                     KryptonMessageBoxDefaultButton.Button4, 0, null, showCtrlCopy,
+                     null, null, @"", null, null, @"",
+                     contentAreaType, linkAreaCommand, linkLaunchArgument, contentLinkArea, messageTextAlignment);
 
         /// <summary>
         /// Displays a message box in front+center of the application and with the specified text, caption and buttons.
         /// </summary>
         /// <param name="text">The text to display in the message box.</param>
         /// <param name="showCtrlCopy">Show extraText in title. If null(default) then only when Warning or Error icon is used.</param>
+        /// <param name="contentAreaType">Specifies the <see cref="T:MessageBoxContentAreaType"/>.</param>
+        /// <param name="linkAreaCommand">Specifies a <see cref="T:KryptonCommand"/> if using the <see cref="T:MessageBoxContentAreaType.LinkLabel"/> type.</param>
+        /// <param name="linkLaunchArgument">Specifies the <see cref="ProcessStartInfo"/> if a <paramref name="linkAreaCommand"> has not been defined.</paramref></param>
+        /// <param name="contentLinkArea">Specifies the area within the <see cref="KryptonLinkWrapLabel"/> to be regarded as a link. See <see cref="LinkArea"/>.</param>
+        /// <param name="messageTextAlignment">Specifies how the message text should be aligned. See <see cref="System.Drawing.ContentAlignment"/> for supported values.</param>
         /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
-        public static DialogResult Show(string text, bool? showCtrlCopy = null) =>
-            InternalShow(null, text, @"", MessageBoxButtons.OK, KryptonMessageBoxIcon.None,
-                KryptonMessageBoxDefaultButton.Button4,
-                0, null, showCtrlCopy, false, null, @"", null);
+        public static DialogResult Show(string text, bool? showCtrlCopy = null,
+                                        MessageBoxContentAreaType? contentAreaType = null,
+                                        KryptonCommand? linkAreaCommand = null,
+                                        ProcessStartInfo? linkLaunchArgument = null,
+                                        LinkArea? contentLinkArea = null,
+                                        ContentAlignment? messageTextAlignment = ContentAlignment.MiddleLeft) =>
+            ShowCore(null, text, @"", KryptonMessageBoxButtons.OK, KryptonMessageBoxIcon.None,
+                     KryptonMessageBoxDefaultButton.Button4, 0,
+                     null, showCtrlCopy, false, null, @"",
+                     null, null, @"",
+                     contentAreaType, linkAreaCommand, linkLaunchArgument,
+                     contentLinkArea, messageTextAlignment);
 
         /// <summary>
         /// Displays a message box in front+center of the specified object and with the specified text, caption, buttons, icon, default button, and options.
@@ -54,11 +79,23 @@ namespace Krypton.Toolkit
         /// <param name="owner">Owner of the modal dialog box.</param>
         /// <param name="text">The text to display in the message box.</param>
         /// <param name="showCtrlCopy">Show extraText in title. If null(default) then only when Warning or Error icon is used.</param>
+        /// <param name="contentAreaType">Specifies the <see cref="T:MessageBoxContentAreaType"/>.</param>
+        /// <param name="linkAreaCommand">Specifies a <see cref="T:KryptonCommand"/> if using the <see cref="T:MessageBoxContentAreaType.LinkLabel"/> type.</param>
+        /// <param name="linkLaunchArgument">Specifies the <see cref="ProcessStartInfo"/> if a <paramref name="linkAreaCommand"> has not been defined.</paramref></param>
+        /// <param name="contentLinkArea">Specifies the area within the <see cref="KryptonLinkWrapLabel"/> to be regarded as a link. See <see cref="LinkArea"/>.</param>
+        /// <param name="messageTextAlignment">Specifies how the message text should be aligned. See <see cref="System.Drawing.ContentAlignment"/> for supported values.</param>
         /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
-        public static DialogResult Show(IWin32Window owner, string text, bool? showCtrlCopy = null) =>
-            InternalShow(owner, text, @"", MessageBoxButtons.OK, KryptonMessageBoxIcon.None,
-                KryptonMessageBoxDefaultButton.Button4,
-                0, null, showCtrlCopy, false, null, @"", null);
+        public static DialogResult Show(IWin32Window? owner, string text, bool? showCtrlCopy = null,
+                                        MessageBoxContentAreaType? contentAreaType = null,
+                                        KryptonCommand? linkAreaCommand = null,
+                                        ProcessStartInfo? linkLaunchArgument = null,
+                                        LinkArea? contentLinkArea = null,
+                                        ContentAlignment? messageTextAlignment = ContentAlignment.MiddleLeft) =>
+            ShowCore(owner, text, @"", KryptonMessageBoxButtons.OK, KryptonMessageBoxIcon.None,
+                     KryptonMessageBoxDefaultButton.Button4, 0, null, showCtrlCopy,
+                     false, null, @"", null,
+                     null, @"",
+                     contentAreaType, linkAreaCommand, linkLaunchArgument, contentLinkArea, messageTextAlignment);
 
         /// <summary>
         /// Displays a message box in front+center of the specified object and with the specified text, caption, buttons, icon, default button, and options.
@@ -67,33 +104,58 @@ namespace Krypton.Toolkit
         /// <param name="text">The text to display in the message box.</param>
         /// <param name="caption" default="string.Empty">The text to display in the title bar of the message box. default="string.Empty"</param>
         /// <param name="showCtrlCopy">Show extraText in title. If null(default) then only when Warning or Error icon is used.</param>
+        /// <param name="contentAreaType">Specifies the <see cref="T:MessageBoxContentAreaType"/>.</param>
+        /// <param name="linkAreaCommand">Specifies a <see cref="T:KryptonCommand"/> if using the <see cref="T:MessageBoxContentAreaType.LinkLabel"/> type.</param>
+        /// <param name="linkLaunchArgument">Specifies the <see cref="ProcessStartInfo"/> if a <paramref name="linkAreaCommand"> has not been defined.</paramref></param>
+        /// <param name="contentLinkArea">Specifies the area within the <see cref="KryptonLinkWrapLabel"/> to be regarded as a link. See <see cref="LinkArea"/>.</param>
+        /// <param name="messageTextAlignment">Specifies how the message text should be aligned. See <see cref="System.Drawing.ContentAlignment"/> for supported values.</param>
         /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
-        public static DialogResult Show(IWin32Window owner, string text, string caption, bool? showCtrlCopy = null) =>
-            InternalShow(owner, text, caption, MessageBoxButtons.OK, KryptonMessageBoxIcon.None,
-                KryptonMessageBoxDefaultButton.Button4,
-                0, null, showCtrlCopy, false, null, @"", null);
+        public static DialogResult Show(IWin32Window? owner, string text, string caption, bool? showCtrlCopy = null,
+                                        MessageBoxContentAreaType? contentAreaType = null,
+                                        KryptonCommand? linkAreaCommand = null,
+                                        ProcessStartInfo? linkLaunchArgument = null,
+                                        LinkArea? contentLinkArea = null,
+                                        ContentAlignment? messageTextAlignment = ContentAlignment.MiddleLeft) =>
+            ShowCore(owner, text, caption, KryptonMessageBoxButtons.OK, KryptonMessageBoxIcon.None,
+                     KryptonMessageBoxDefaultButton.Button4, 0, null, showCtrlCopy,
+                     false, null, @"", null,
+                     null, @"",
+                     contentAreaType, linkAreaCommand, linkLaunchArgument, contentLinkArea, messageTextAlignment);
 
         /// <summary>
         /// Displays a message box in front+center of the application and with the specified text, caption and buttons.
         /// </summary>
         /// <param name="text">The text to display in the message box.</param>
         /// <param name="caption" default="string.Empty">The text to display in the title bar of the message box. default="string.Empty"</param>
-        /// <param name="buttons">One of the System.Windows.Forms.MessageBoxButtons values that specifies which buttons to display in the message box.</param>
+        /// <param name="buttons">One of the System.Windows.Forms.KryptonMessageBoxButtons values that specifies which buttons to display in the message box.</param>
         /// <param name="showCtrlCopy">Show extraText in title. If null(default) then only when Warning or Error icon is used.</param>
+        /// <param name="contentAreaType">Specifies the <see cref="T:MessageBoxContentAreaType"/>.</param>
+        /// <param name="linkAreaCommand">Specifies a <see cref="T:KryptonCommand"/> if using the <see cref="T:MessageBoxContentAreaType.LinkLabel"/> type.</param>
+        /// <param name="linkLaunchArgument">Specifies the <see cref="ProcessStartInfo"/> if a <paramref name="linkAreaCommand"> has not been defined.</paramref></param>
+        /// <param name="contentLinkArea">Specifies the area within the <see cref="KryptonLinkWrapLabel"/> to be regarded as a link. See <see cref="LinkArea"/>.</param>
+        /// <param name="messageTextAlignment">Specifies how the message text should be aligned. See <see cref="System.Drawing.ContentAlignment"/> for supported values.</param>
         /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
-        public static DialogResult Show(string text, string caption, MessageBoxButtons buttons,
-            bool? showCtrlCopy = null) =>
-                                       InternalShow(null, text, caption, buttons, KryptonMessageBoxIcon.None, 
-                                           KryptonMessageBoxDefaultButton.Button1, 0,
-                                           new HelpInfo(@"", 0, null), showCtrlCopy,
-                                           null, null, @"", null);
+        public static DialogResult Show(string text, string caption, KryptonMessageBoxButtons buttons,
+                                        bool? showCtrlCopy = null,
+                                        MessageBoxContentAreaType? contentAreaType = null,
+                                        KryptonCommand? linkAreaCommand = null,
+                                        ProcessStartInfo? linkLaunchArgument = null,
+                                        LinkArea? contentLinkArea = null,
+                                        ContentAlignment? messageTextAlignment = ContentAlignment.MiddleLeft) =>
+                                       ShowCore(null, text, caption, buttons, KryptonMessageBoxIcon.None,
+                                                KryptonMessageBoxDefaultButton.Button1, 0,
+                                                new HelpInfo(@"", 0, null), showCtrlCopy,
+                                                null, null, @"",
+                                                null, null, @"",
+                                                contentAreaType, linkAreaCommand, linkLaunchArgument,
+                                                contentLinkArea, messageTextAlignment);
 
         /// <summary>
         /// Displays a message box in front+center of the application and with the specified text, caption, buttons, icon, default button, and options.
         /// </summary>
         /// <param name="text">The text to display in the message box.</param>
         /// <param name="caption" default="string.Empty">The text to display in the title bar of the message box. default="string.Empty"</param>
-        /// <param name="buttons">One of the System.Windows.Forms.MessageBoxButtons values that specifies which buttons to display in the message box.</param>
+        /// <param name="buttons">One of the System.Windows.Forms.KryptonMessageBoxButtons values that specifies which buttons to display in the message box.</param>
         /// <param name="icon" >One of the KryptonMessageBoxIcon values that specifies which icon to display in the message box.</param>
         /// <param name="defaultButton" default="KryptonMessageBoxDefaultButton.Button4">One of the KryptonMessageBoxDefaultButton values that specifies the default button for the message box.</param>
         /// <param name="options" default="0">One of the System.Windows.Forms.MessageBoxOptions values that specifies which display and association options will be used for the message box. You may pass in 0 if you wish to use the defaults.</param>
@@ -103,24 +165,33 @@ namespace Krypton.Toolkit
         /// <param name="showActionButton">Shows the optional action button.</param>
         /// <param name="actionButtonText">The action button text.</param>
         /// <param name="actionButtonCommand">The <see cref="KryptonCommand"/> attached to the action button.</param>
+        /// <param name="applicationImage">The image of the application.</param>
+        /// <param name="applicationPath">The application path. To be used in conjunction with <see cref="T:KryptonMessageBoxIcon.Application"/> type.</param>
+        /// <param name="contentAreaType">Specifies the <see cref="T:MessageBoxContentAreaType"/>.</param>
+        /// <param name="linkAreaCommand">Specifies a <see cref="T:KryptonCommand"/> if using the <see cref="T:MessageBoxContentAreaType.LinkLabel"/> type.</param>
+        /// <param name="linkLaunchArgument">Specifies the <see cref="ProcessStartInfo"/> if a <paramref name="linkAreaCommand"> has not been defined.</paramref></param>
+        /// <param name="contentLinkArea">Specifies the area within the <see cref="KryptonLinkWrapLabel"/> to be regarded as a link. See <see cref="LinkArea"/>.</param>
+        /// <param name="messageTextAlignment">Specifies how the message text should be aligned. See <see cref="System.Drawing.ContentAlignment"/> for supported values.</param>
         /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
-        public static DialogResult Show(string text,
-            string caption,
-            MessageBoxButtons buttons,
-            KryptonMessageBoxIcon icon,
-            KryptonMessageBoxDefaultButton defaultButton = KryptonMessageBoxDefaultButton.Button4,
-            MessageBoxOptions options = 0,
-            bool displayHelpButton = false,
-            bool? showCtrlCopy = null,
-            bool? showHelpButton = null,
-            bool? showActionButton = null,
-            string actionButtonText = @"",
-            KryptonCommand actionButtonCommand = null) 
+        public static DialogResult Show(string text, string caption, KryptonMessageBoxButtons buttons,
+                                         KryptonMessageBoxIcon icon,
+                                         KryptonMessageBoxDefaultButton defaultButton = KryptonMessageBoxDefaultButton.Button4,
+                                         MessageBoxOptions options = 0, bool displayHelpButton = false,
+                                         bool? showCtrlCopy = null, bool? showHelpButton = null, bool? showActionButton = null,
+                                         string? actionButtonText = @"", KryptonCommand? actionButtonCommand = null,
+                                         ProcessStartInfo? linkLaunchArgument = null, Image? applicationImage = null,
+                                         string? applicationPath = @"",
+                                         MessageBoxContentAreaType? contentAreaType = null,
+                                         KryptonCommand? linkAreaCommand = null,
+                                         LinkArea? contentLinkArea = null,
+                                         ContentAlignment? messageTextAlignment = ContentAlignment.MiddleLeft)
             =>
-                InternalShow(null, text, caption, buttons, icon, defaultButton, options,
-                             displayHelpButton ? new HelpInfo() : null, showCtrlCopy, 
-                             showHelpButton, showActionButton,
-                             actionButtonText, actionButtonCommand);
+                ShowCore(null, text, caption, buttons, icon, defaultButton, options,
+                         displayHelpButton ? new HelpInfo() : null, showCtrlCopy,
+                         showHelpButton, showActionButton,
+                         actionButtonText, actionButtonCommand, applicationImage, applicationPath,
+                         contentAreaType, linkAreaCommand, linkLaunchArgument,
+                         contentLinkArea, messageTextAlignment);
 
 
         /// <summary>
@@ -129,7 +200,7 @@ namespace Krypton.Toolkit
         /// <param name="owner">Owner of the modal dialog box.</param>
         /// <param name="text">The text to display in the message box.</param>
         /// <param name="caption">The text to display in the title bar of the message box. default="string.Empty"</param>
-        /// <param name="buttons">One of the System.Windows.Forms.MessageBoxButtons values that specifies which buttons to display in the message box.</param>
+        /// <param name="buttons">One of the System.Windows.Forms.KryptonMessageBoxButtons values that specifies which buttons to display in the message box.</param>
         /// <param name="icon">One of the KryptonMessageBoxIcon values that specifies which icon to display in the message box.</param>
         /// <param name="defaultButton" default="KryptonMessageBoxDefaultButton.Button4">One of the KryptonMessageBoxDefaultButton values that specifies the default button for the message box.</param>
         /// <param name="options" default="0">One of the System.Windows.Forms.MessageBoxOptions values that specifies which display and association options will be used for the message box. You may pass in 0 if you wish to use the defaults.</param>
@@ -139,28 +210,38 @@ namespace Krypton.Toolkit
         /// <param name="showActionButton">Shows the optional action button.</param>
         /// <param name="actionButtonText">The action button text.</param>
         /// <param name="actionButtonCommand">The <see cref="KryptonCommand"/> attached to the action button.</param>
+        /// <param name="applicationImage">The image of the application.</param>
+        /// <param name="applicationPath">The application path. To be used in conjunction with <see cref="T:KryptonMessageBoxIcon.Application"/> type.</param>
+        /// <param name="contentAreaType">Specifies the <see cref="T:MessageBoxContentAreaType"/>.</param>
+        /// <param name="linkAreaCommand">Specifies a <see cref="T:KryptonCommand"/> if using the <see cref="T:MessageBoxContentAreaType.LinkLabel"/> type.</param>
+        /// <param name="linkLaunchArgument">Specifies the <see cref="ProcessStartInfo"/> if a <paramref name="linkAreaCommand"> has not been defined.</paramref></param>
+        /// <param name="contentLinkArea">Specifies the area within the <see cref="KryptonLinkWrapLabel"/> to be regarded as a link. See <see cref="LinkArea"/>.</param>
+        /// <param name="messageTextAlignment">Specifies how the message text should be aligned. See <see cref="System.Drawing.ContentAlignment"/> for supported values.</param>
         /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
-        public static DialogResult Show(IWin32Window owner, string text, 
-            string caption, 
-            MessageBoxButtons buttons, 
-            KryptonMessageBoxIcon icon, 
-            KryptonMessageBoxDefaultButton defaultButton = KryptonMessageBoxDefaultButton.Button4, 
-            MessageBoxOptions options = 0, 
-            bool displayHelpButton = false,
-            bool? showCtrlCopy = null,
-            bool? showHelpButton = null,
-            bool? showActionButton = null,
-            string actionButtonText = @"",
-            KryptonCommand actionButtonCommand = null) 
+        public static DialogResult Show(IWin32Window? owner, string text, string caption,
+                                        KryptonMessageBoxButtons buttons, KryptonMessageBoxIcon icon,
+                                        KryptonMessageBoxDefaultButton defaultButton = KryptonMessageBoxDefaultButton.Button4,
+                                        MessageBoxOptions options = 0, bool displayHelpButton = false,
+                                        bool? showCtrlCopy = null, bool? showHelpButton = null,
+                                        bool? showActionButton = null, string? actionButtonText = @"",
+                                        KryptonCommand? actionButtonCommand = null, Image? applicationImage = null,
+                                        string? applicationPath = @"",
+                                        MessageBoxContentAreaType? contentAreaType = null,
+                                        KryptonCommand? linkAreaCommand = null,
+                                        ProcessStartInfo? linkLaunchArgument = null,
+                                        LinkArea? contentLinkArea = null,
+                                        ContentAlignment? messageTextAlignment = ContentAlignment.MiddleLeft)
             =>
-                InternalShow(owner, text, caption, buttons, icon, defaultButton, options,
-                             displayHelpButton ? new HelpInfo() : null, showCtrlCopy, 
-                             showHelpButton, showActionButton, actionButtonText,
-                             actionButtonCommand);
+                ShowCore(owner, text, caption, buttons, icon, defaultButton, options,
+                         displayHelpButton ? new HelpInfo() : null, showCtrlCopy,
+                         showHelpButton, showActionButton, actionButtonText,
+                         actionButtonCommand, applicationImage, applicationPath,
+                         contentAreaType, linkAreaCommand, linkLaunchArgument,
+                         contentLinkArea, messageTextAlignment);
 
         /// <param name="text">The text to display in the message box.</param>
         /// <param name="caption" >The text to display in the title bar of the message box. default="string.Empty"</param>
-        /// <param name="buttons" >One of the System.Windows.Forms.MessageBoxButtons values that specifies which buttons to display in the message box.</param>
+        /// <param name="buttons" >One of the System.Windows.Forms.KryptonMessageBoxButtons values that specifies which buttons to display in the message box.</param>
         /// <param name="icon" >One of the KryptonMessageBoxIcon values that specifies which icon to display in the message box.</param>
         /// <param name="defaultButton" >One of the KryptonMessageBoxDefaultButton values that specifies the default button for the message box.</param>
         /// <param name="options" >One of the System.Windows.Forms.MessageBoxOptions values that specifies which display and association options will be used for the message box. You may pass in 0 if you wish to use the defaults.</param>
@@ -172,17 +253,32 @@ namespace Krypton.Toolkit
         /// <param name="showActionButton">Shows the optional action button.</param>
         /// <param name="actionButtonText">The action button text.</param>
         /// <param name="actionButtonCommand">The <see cref="KryptonCommand"/> attached to the action button.</param>
+        /// <param name="applicationImage">The image of the application.</param>
+        /// <param name="applicationPath">The application path. To be used in conjunction with <see cref="T:KryptonMessageBoxIcon.Application"/> type.</param>
+        /// <param name="contentAreaType">Specifies the <see cref="T:MessageBoxContentAreaType"/>.</param>
+        /// <param name="linkAreaCommand">Specifies a <see cref="T:KryptonCommand"/> if using the <see cref="T:MessageBoxContentAreaType.LinkLabel"/> type.</param>
+        /// <param name="linkLaunchArgument">Specifies the <see cref="ProcessStartInfo"/> if a <paramref name="linkAreaCommand"> has not been defined.</paramref></param>
+        /// <param name="contentLinkArea">Specifies the area within the <see cref="KryptonLinkWrapLabel"/> to be regarded as a link. See <see cref="LinkArea"/>.</param>
+        /// <param name="messageTextAlignment">Specifies how the message text should be aligned. See <see cref="System.Drawing.ContentAlignment"/> for supported values.</param>
         /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
-        public static DialogResult Show(string text, string caption, MessageBoxButtons buttons, KryptonMessageBoxIcon icon, KryptonMessageBoxDefaultButton defaultButton, 
-            MessageBoxOptions options, string helpFilePath, HelpNavigator navigator, object param, bool? showCtrlCopy = null,
-            bool? showHelpButton = null,
-            bool? showActionButton = null,
-            string actionButtonText = @"",
-            KryptonCommand actionButtonCommand = null)
-            => InternalShow(null, text, caption, buttons, icon, defaultButton, options,
-                            new HelpInfo(helpFilePath, navigator, param), showCtrlCopy,
-                            showHelpButton, showActionButton, actionButtonText,
-                            actionButtonCommand);
+        public static DialogResult Show(string text, string caption, KryptonMessageBoxButtons buttons,
+                                        KryptonMessageBoxIcon icon, KryptonMessageBoxDefaultButton defaultButton,
+                                        MessageBoxOptions options, string? helpFilePath,
+                                        HelpNavigator navigator, object? param, bool? showCtrlCopy = null,
+                                        bool? showHelpButton = null, bool? showActionButton = null,
+                                        string? actionButtonText = @"", KryptonCommand? actionButtonCommand = null,
+                                        Image? applicationImage = null, string? applicationPath = @"",
+                                        MessageBoxContentAreaType? contentAreaType = null,
+                                        KryptonCommand? linkAreaCommand = null,
+                                        ProcessStartInfo? linkLaunchArgument = null,
+                                        LinkArea? contentLinkArea = null,
+                                        ContentAlignment? messageTextAlignment = ContentAlignment.MiddleLeft)
+            => ShowCore(null, text, caption, buttons, icon, defaultButton, options,
+                        new HelpInfo(helpFilePath, navigator, param), showCtrlCopy,
+                        showHelpButton, showActionButton, actionButtonText,
+                        actionButtonCommand, applicationImage, applicationPath,
+                        contentAreaType, linkAreaCommand, linkLaunchArgument,
+                        contentLinkArea, messageTextAlignment);
 
         /// <summary>
         /// Displays a message box with the specified text, caption, buttons, icon, default button, options, and Help button, using the specified Help file, HelpNavigator, and Help topic.
@@ -190,7 +286,7 @@ namespace Krypton.Toolkit
         /// <param name="owner">Owner of the modal dialog box.</param>
         /// <param name="text">The text to display in the message box.</param>
         /// <param name="caption">The text to display in the title bar of the message box.</param>
-        /// <param name="buttons">One of the System.Windows.Forms.MessageBoxButtons values that specifies which buttons to display in the message box.</param>
+        /// <param name="buttons">One of the System.Windows.Forms.KryptonMessageBoxButtons values that specifies which buttons to display in the message box.</param>
         /// <param name="icon">One of the KryptonMessageBoxIcon values that specifies which icon to display in the message box.</param>
         /// <param name="defaultButton">One of the KryptonMessageBoxDefaultButton values that specifies the default button for the message box.</param>
         /// <param name="options">One of the System.Windows.Forms.MessageBoxOptions values that specifies which display and association options will be used for the message box. You may pass in 0 if you wish to use the defaults.</param>
@@ -202,17 +298,39 @@ namespace Krypton.Toolkit
         /// <param name="showActionButton">Shows the optional action button.</param>
         /// <param name="actionButtonText">The action button text.</param>
         /// <param name="actionButtonCommand">The <see cref="KryptonCommand"/> attached to the action button.</param>
+        /// <param name="applicationImage">The image of the application.</param>
+        /// <param name="applicationPath">The application path. To be used in conjunction with <see cref="T:KryptonMessageBoxIcon.Application"/> type.</param>
+        /// <param name="contentAreaType">Specifies the <see cref="T:MessageBoxContentAreaType"/>.</param>
+        /// <param name="linkAreaCommand">Specifies a <see cref="T:KryptonCommand"/> if using the <see cref="T:MessageBoxContentAreaType.LinkLabel"/> type.</param>
+        /// <param name="linkLaunchArgument">Specifies the <see cref="ProcessStartInfo"/> if a <paramref name="linkAreaCommand"> has not been defined.</paramref></param>
+        /// <param name="contentLinkArea">Specifies the area within the <see cref="KryptonLinkWrapLabel"/> to be regarded as a link. See <see cref="LinkArea"/>.</param>
+        /// <param name="messageTextAlignment">Specifies how the message text should be aligned. See <see cref="System.Drawing.ContentAlignment"/> for supported values.</param>
         /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
-        public static DialogResult Show(IWin32Window owner, string text, string caption, MessageBoxButtons buttons, KryptonMessageBoxIcon icon, KryptonMessageBoxDefaultButton defaultButton,
-            MessageBoxOptions options, string helpFilePath, HelpNavigator navigator, object param, bool? showCtrlCopy = null,
-            bool? showHelpButton = null,
-            bool? showActionButton = null,
-            string actionButtonText = @"",
-            KryptonCommand actionButtonCommand = null)
-            => InternalShow(owner, text, caption, buttons, icon, defaultButton, options,
-                            new HelpInfo(helpFilePath, navigator, param), showCtrlCopy, 
-                            showHelpButton, showActionButton, actionButtonText,
-                            actionButtonCommand);
+        public static DialogResult Show(IWin32Window? owner, string text, string caption,
+                                        KryptonMessageBoxButtons buttons,
+                                        KryptonMessageBoxIcon icon,
+                                        KryptonMessageBoxDefaultButton defaultButton,
+                                        MessageBoxOptions options,
+                                        string? helpFilePath, HelpNavigator navigator,
+                                        object? param, bool? showCtrlCopy = null,
+                                        bool? showHelpButton = null,
+                                        bool? showActionButton = null,
+                                        string? actionButtonText = @"",
+                                        KryptonCommand? actionButtonCommand = null,
+                                        Image? applicationImage = null,
+                                        string? applicationPath = @"",
+                                        MessageBoxContentAreaType? contentAreaType = null,
+                                        KryptonCommand? linkAreaCommand = null,
+                                        ProcessStartInfo? linkLaunchArgument = null,
+                                        LinkArea? contentLinkArea = null,
+                                        ContentAlignment? messageTextAlignment = ContentAlignment.MiddleLeft)
+            => ShowCore(owner, text, caption, buttons, icon, defaultButton, options,
+                        new HelpInfo(helpFilePath, navigator, param),
+                        showCtrlCopy, showHelpButton, showActionButton,
+                        actionButtonText, actionButtonCommand, applicationImage,
+                        applicationPath, contentAreaType, linkAreaCommand,
+                        linkLaunchArgument, contentLinkArea, messageTextAlignment);
+
         #endregion
 
         #region Implementation
@@ -222,7 +340,7 @@ namespace Krypton.Toolkit
         /// <param name="owner">Owner of the modal dialog box.</param>
         /// <param name="text">The text to display in the message box.</param>
         /// <param name="caption">The text to display in the title bar of the message box.</param>
-        /// <param name="buttons">One of the System.Windows.Forms.MessageBoxButtons values that specifies which buttons to display in the message box.</param>
+        /// <param name="buttons">One of the System.Windows.Forms.KryptonMessageBoxButtons values that specifies which buttons to display in the message box.</param>
         /// <param name="icon">One of the KryptonMessageBoxIcon values that specifies which icon to display in the message box.</param>
         /// <param name="defaultButton">One of the KryptonMessageBoxDefaultButton values that specifies the default button for the message box.</param>
         /// <param name="options">One of the System.Windows.Forms.MessageBoxOptions values that specifies which display and association options will be used for the message box. You may pass in 0 if you wish to use the defaults.</param>
@@ -232,31 +350,50 @@ namespace Krypton.Toolkit
         /// <param name="showActionButton">Shows the optional action button.</param>
         /// <param name="actionButtonText">The action button text.</param>
         /// <param name="actionButtonCommand">The <see cref="KryptonCommand"/> attached to the action button.</param>
+        /// <param name="applicationImage">The image of the application.</param>
+        /// <param name="applicationPath">The application path. To be used in conjunction with <see cref="T:KryptonMessageBoxIcon.Application"/> type.</param>
+        /// <param name="contentAreaType">Specifies the <see cref="T:MessageBoxContentAreaType"/>.</param>
+        /// <param name="linkLabelCommand">Specifies a <see cref="T:KryptonCommand"/> if using the <see cref="T:MessageBoxContentAreaType.LinkLabel"/> type.</param>
+        /// <param name="linkLaunchArgument">Specifies the <see cref="ProcessStartInfo"/> if a <paramref name="linkLabelCommand"> has not been defined.</paramref></param>
+        /// <param name="contentLinkArea">Specifies the area within the <see cref="KryptonLinkWrapLabel"/> to be regarded as a link. See <see cref="LinkArea"/>.</param>
+        /// <param name="messageTextAlignment">Specifies how the message text should be aligned. See <see cref="System.Drawing.ContentAlignment"/> for supported values.</param>
         /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
-        private static DialogResult InternalShow(IWin32Window owner,
-                                                 string text, string caption,
-                                                 MessageBoxButtons buttons,
-                                                 KryptonMessageBoxIcon icon,
-                                                 KryptonMessageBoxDefaultButton defaultButton,
-                                                 MessageBoxOptions options,
-                                                 HelpInfo helpInfo, bool? showCtrlCopy, 
-                                                 bool? showHelpButton,
-                                                 bool? showActionButton, string actionButtonText,
-                                                 KryptonCommand actionButtonCommand)
+        private static DialogResult ShowCore(IWin32Window? owner,
+                                             string text, string caption,
+                                             KryptonMessageBoxButtons buttons,
+                                             KryptonMessageBoxIcon icon,
+                                             KryptonMessageBoxDefaultButton defaultButton,
+                                             MessageBoxOptions options,
+                                             HelpInfo? helpInfo, bool? showCtrlCopy,
+                                             bool? showHelpButton,
+                                             bool? showActionButton, string? actionButtonText,
+                                             KryptonCommand? actionButtonCommand,
+                                             Image? applicationImage, string? applicationPath,
+                                             MessageBoxContentAreaType? contentAreaType,
+                                             KryptonCommand? linkLabelCommand,
+                                             ProcessStartInfo? linkLaunchArgument,
+                                             LinkArea? contentLinkArea,
+                                             ContentAlignment? messageTextAlignment)
         {
             caption = string.IsNullOrEmpty(caption) ? @" " : caption;
 
-            IWin32Window showOwner = ValidateOptions(owner, options, helpInfo);
+            IWin32Window? showOwner = ValidateOptions(owner, options, helpInfo);
 
             // Show message box window as a modal dialog and then dispose of it afterwards
-            using KryptonMessageBoxForm kmb = new(showOwner, text, caption, buttons, icon, defaultButton, options, helpInfo, showCtrlCopy, showHelpButton, showActionButton, actionButtonText, actionButtonCommand);
+            using var kmb = new KryptonMessageBoxForm(showOwner, text, caption, buttons, icon,
+                                                      defaultButton, options, helpInfo, showCtrlCopy, showHelpButton,
+                                                      showActionButton, actionButtonText,
+                                                      actionButtonCommand, applicationImage, applicationPath,
+                                                      contentAreaType, linkLabelCommand,
+                                                      linkLaunchArgument, contentLinkArea, messageTextAlignment);
+
             kmb.StartPosition = showOwner == null ? FormStartPosition.CenterScreen : FormStartPosition.CenterParent;
 
             return kmb.ShowDialog(showOwner);
         }
 
         #region WinForm Compatibility
-        private static IWin32Window ValidateOptions(IWin32Window owner, MessageBoxOptions options, HelpInfo helpInfo)
+        private static IWin32Window? ValidateOptions(IWin32Window? owner, MessageBoxOptions options, HelpInfo? helpInfo)
         {
             // Check if trying to show a message box from a non-interactive process, this is not possible
             if (!SystemInformation.UserInteractive &&
@@ -279,7 +416,7 @@ namespace Krypton.Toolkit
                 throw new ArgumentException(@"Cannot show message box from a service with help specified", nameof(options));
             }
 
-            IWin32Window showOwner = null;
+            IWin32Window? showOwner = null;
             if ((helpInfo != null) ||
                 ((options & (MessageBoxOptions.ServiceNotification | MessageBoxOptions.DefaultDesktopOnly)) == 0))
             {
@@ -292,7 +429,7 @@ namespace Krypton.Toolkit
 
         #endregion
 
-        
+
         #endregion
     }
 }

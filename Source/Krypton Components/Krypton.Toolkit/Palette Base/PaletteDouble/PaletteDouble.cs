@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -28,7 +28,7 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the PaletteDouble class.
         /// </summary>
         /// <param name="inherit">Source for inheriting values.</param>
-        public PaletteDouble(IPaletteDouble inherit)
+        public PaletteDouble(IPaletteDouble? inherit)
             : this(inherit, null)
         {
         }
@@ -38,7 +38,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="inherit">Source for inheriting values.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public PaletteDouble(IPaletteDouble inherit,
+        public PaletteDouble(IPaletteDouble? inherit,
                              NeedPaintHandler needPaint)
         {
             // Store the provided paint notification delegate
@@ -93,7 +93,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Sets the inheritance parent.
         /// </summary>
-        public void SetInherit(IPaletteDouble inherit)
+        public void SetInherit(IPaletteDouble? inherit)
         {
             _back.SetInherit(inherit.PaletteBack);
             _border.SetInherit(inherit.PaletteBorder);
@@ -140,7 +140,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public virtual IPaletteBorder PaletteBorder => Border;
+        public virtual IPaletteBorder? PaletteBorder => Border;
 
         #endregion
 
@@ -150,7 +150,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="needLayout">True if a layout is also needed.</param>
-        protected void OnNeedPaint(object sender, bool needLayout) =>
+        protected void OnNeedPaint(object? sender, bool needLayout) =>
             // Pass request from child to our own handler
             PerformNeedPaint(needLayout);
 

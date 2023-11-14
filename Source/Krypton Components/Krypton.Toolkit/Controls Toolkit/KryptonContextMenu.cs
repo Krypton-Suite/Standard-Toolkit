@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -17,10 +17,10 @@ namespace Krypton.Toolkit
     /// </summary>
     [ToolboxItem(true)]
     [ToolboxBitmap(typeof(KryptonContextMenu), "ToolboxBitmaps.KryptonContextMenu.bmp")]
-    [DefaultEvent(@"Opening")]
-    [DefaultProperty(@"PaletteMode")]
+    [DefaultEvent(nameof(Opening))]
+    [DefaultProperty(nameof(PaletteMode))]
     [DesignerCategory(@"code")]
-    [Designer(@"Krypton.Toolkit.KryptonContextMenuDesigner, Krypton.Toolkit")]
+    [Designer(typeof(KryptonContextMenuDesigner))]
     [Description(@"Displays a shortcut menu in popup window.")]
     public class KryptonContextMenu : Component
     {
@@ -28,7 +28,6 @@ namespace Krypton.Toolkit
 
         private readonly PaletteRedirectContextMenu _redirectorImages;
         private readonly PaletteRedirect _redirector;
-        private readonly NeedPaintHandler _needPaintDelegate;
 
         #endregion
 
@@ -38,28 +37,28 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Action")]
         [Description(@"Occurs when context menu is opening but not Displayed as yet.")]
-        public event CancelEventHandler Opening;
+        public event CancelEventHandler? Opening;
 
         /// <summary>
         /// Occurs when the context menu is opened.
         /// </summary>
         [Category(@"Action")]
         [Description(@"Occurs when the context menu is fully opened for display.")]
-        public event EventHandler Opened;
+        public event EventHandler? Opened;
 
         /// <summary>
         /// Occurs when the context menu is about to close.
         /// </summary>
         [Category(@"Action")]
         [Description(@"Occurs when the context menu is about to close.")]
-        public event CancelEventHandler Closing;
+        public event CancelEventHandler? Closing;
 
         /// <summary>
         /// Occurs when the context menu has been closed.
         /// </summary>
         [Category(@"Action")]
         [Description(@"Occurs when the context menu has been closed.")]
-        public event ToolStripDropDownClosedEventHandler Closed;
+        public event ToolStripDropDownClosedEventHandler? Closed;
         #endregion
 
         #region Identity
@@ -69,18 +68,18 @@ namespace Krypton.Toolkit
         public KryptonContextMenu()
         {
             // Setup the need paint delegate
-            _needPaintDelegate = OnNeedPaint;
+            NeedPaintHandler needPaintDelegate = OnNeedPaint;
 
             // Set default settings
             Palette = null;
             PaletteMode = PaletteMode.Global;
-            Images = new ContextMenuImages(_needPaintDelegate);
+            Images = new ContextMenuImages(needPaintDelegate);
             _redirector = new PaletteRedirect(null);
             _redirectorImages = new PaletteRedirectContextMenu(_redirector, Images);
             Enabled = true;
 
             // Create the palette storage
-            StateCommon = new PaletteContextMenuRedirect(_redirector, _needPaintDelegate);
+            StateCommon = new PaletteContextMenuRedirect(_redirector, needPaintDelegate);
             StateNormal = new PaletteContextMenuItemState(StateCommon);
             StateDisabled = new PaletteContextMenuItemState(StateCommon);
             StateHighlight = new PaletteContextMenuItemStateHighlight(StateCommon);
@@ -181,16 +180,14 @@ namespace Krypton.Toolkit
         [Description(@"User-defined data associated with the object.")]
         [TypeConverter(typeof(StringConverter))]
         [Bindable(true)]
-        public object Tag { get; set; }
+        [DefaultValue(null)]
+        public object? Tag { get; set; }
 
         private bool ShouldSerializeTag() => Tag != null;
 
         /// <summary>
         /// </summary>
-        public void ResetTag()
-        {
-            Tag = null;
-        }
+        public void ResetTag() => Tag = null;
 
         /// <summary>
         /// Gets and sets if the context menu is enabled.
@@ -218,10 +215,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the PaletteMode property to its default value.
         /// </summary>
-        public void ResetPaletteMode()
-        {
-            PaletteMode = PaletteMode.Global;
-        }
+        public void ResetPaletteMode() => PaletteMode = PaletteMode.Global;
 
         /// <summary>
         /// Gets and sets the custom palette implementation.
@@ -229,7 +223,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Custom palette applied to drawing.")]
         [DefaultValue(null)]
-        public IPalette Palette
+        public PaletteBase? Palette
         {
             [DebuggerStepThrough]
             get;
@@ -239,10 +233,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the Palette property to its default value.
         /// </summary>
-        public void ResetPalette()
-        {
-            PaletteMode = PaletteMode.Global;
-        }
+        public void ResetPalette() => PaletteMode = PaletteMode.Global;
 
         /// <summary>
         /// Gets a reference to the caller that caused the context menu to be shown.
@@ -345,7 +336,7 @@ namespace Krypton.Toolkit
                          bool keyboardActivated,
                          bool constrain)
         {
-            var Displayed = false;
+            var displayed = false;
 
             // Only need to show if not already displaying it
             if (VisualContextMenu == null)
@@ -354,7 +345,7 @@ namespace Krypton.Toolkit
                 Caller = caller;
 
                 // Give event handler a change to cancel the open request
-                CancelEventArgs cea = new();
+                var cea = new CancelEventArgs();
                 OnOpening(cea);
 
                 if (!cea.Cancel)
@@ -381,11 +372,11 @@ namespace Krypton.Toolkit
                     OnOpened(EventArgs.Empty);
 
                     // The menu has actually become Displayed
-                    Displayed = true;
+                    displayed = true;
                 }
             }
 
-            return Displayed;
+            return displayed;
         }
 
         /// <summary>
@@ -431,14 +422,15 @@ namespace Krypton.Toolkit
         /// <param name="keyboardActivated">True is menu was keyboard initiated.</param>
         /// <returns>VisualContextMenu reference.</returns>
         protected virtual VisualContextMenu CreateContextMenu(KryptonContextMenu kcm,
-                                                              IPalette palette,
+                                                              PaletteBase? palette,
                                                               PaletteMode paletteMode,
-                                                              PaletteRedirect redirector,
+                                                              PaletteRedirect? redirector,
                                                               PaletteRedirectContextMenu redirectorImages,
                                                               KryptonContextMenuCollection items,
                                                               bool enabled,
                                                               bool keyboardActivated) =>
-            new (kcm, palette, paletteMode, redirector, redirectorImages, items, enabled, keyboardActivated);
+            new VisualContextMenu(kcm, palette, paletteMode, redirector, redirectorImages, items, enabled,
+                keyboardActivated);
 
         /// <summary>
         /// Raises the Opening event.
@@ -469,14 +461,14 @@ namespace Krypton.Toolkit
         #region Internal
         internal ToolStripDropDownCloseReason CloseReason { get; set; }
 
-        internal VisualContextMenu VisualContextMenu { get; private set; }
+        internal VisualContextMenu? VisualContextMenu { get; private set; }
 
         #endregion
 
         #region Implementation
         private void PerformNeedPaint(bool needLayout) => OnNeedPaint(this, new NeedLayoutEventArgs(needLayout));
 
-        private void OnNeedPaint(object sender, NeedLayoutEventArgs e)
+        private void OnNeedPaint(object? sender, [DisallowNull] NeedLayoutEventArgs e)
         {
             Debug.Assert(e != null);
 

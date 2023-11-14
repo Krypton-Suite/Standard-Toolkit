@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -32,7 +32,7 @@ namespace Krypton.Toolkit
         /// <param name="redirect">inheritance redirection instance.</param>
         /// <param name="backStyle">Initial background style.</param>
         /// <param name="borderStyle">Initial border style.</param>
-        public PaletteDoubleRedirect(PaletteRedirect redirect,
+        public PaletteDoubleRedirect(PaletteRedirect? redirect,
                                      PaletteBackStyle backStyle,
                                      PaletteBorderStyle borderStyle)
             : this(redirect, backStyle, borderStyle, null)
@@ -46,18 +46,18 @@ namespace Krypton.Toolkit
         /// <param name="backStyle">Initial background style.</param>
         /// <param name="borderStyle">Initial border style.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public PaletteDoubleRedirect(PaletteRedirect redirect,
+        public PaletteDoubleRedirect(PaletteRedirect? redirect,
                                      PaletteBackStyle backStyle,
                                      PaletteBorderStyle borderStyle,
                                      NeedPaintHandler needPaint)
         {
             // Store the inherit instances
-            PaletteBackInheritRedirect backInherit = new(redirect, backStyle);
-            PaletteBorderInheritRedirect borderInherit = new(redirect, borderStyle);
+            var backInherit = new PaletteBackInheritRedirect(redirect, backStyle);
+            var borderInherit = new PaletteBorderInheritRedirect(redirect, borderStyle);
 
             // Create storage that maps onto the inherit instances
-            PaletteBack back = new(backInherit, needPaint);
-            PaletteBorder border = new(borderInherit, needPaint);
+            var back = new PaletteBack(backInherit, needPaint);
+            var border = new PaletteBorder(borderInherit, needPaint);
 
             Construct(redirect, back, backInherit, border, borderInherit, needPaint);
         }
@@ -71,7 +71,7 @@ namespace Krypton.Toolkit
         /// <param name="border">Storage for border values.</param>
         /// <param name="borderInherit">inheritance for border values.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public PaletteDoubleRedirect(PaletteRedirect redirect,
+        public PaletteDoubleRedirect(PaletteRedirect? redirect,
                                      PaletteBack back,
                                      PaletteBackInheritRedirect backInherit,
                                      PaletteBorder border,
@@ -87,7 +87,7 @@ namespace Krypton.Toolkit
         /// Gets the redirector instance.
         /// </summary>
         /// <returns>Return the currently used redirector.</returns>
-        public PaletteRedirect GetRedirector() => _backInherit.GetRedirector();
+        public PaletteRedirect? GetRedirector() => _backInherit.GetRedirector();
 
         #endregion
 
@@ -96,7 +96,7 @@ namespace Krypton.Toolkit
         /// Update the redirector with new reference.
         /// </summary>
         /// <param name="redirect">Target redirector.</param>
-        public virtual void SetRedirector(PaletteRedirect redirect)
+        public virtual void SetRedirector(PaletteRedirect? redirect)
         {
             _backInherit.SetRedirector(redirect);
             BorderRedirect.SetRedirector(redirect);
@@ -243,7 +243,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public virtual IPaletteBorder PaletteBorder => Border;
+        public virtual IPaletteBorder? PaletteBorder => Border;
 
         /// <summary>
         /// Gets and sets the border palette style.
@@ -264,7 +264,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="needLayout">True if a layout is also needed.</param>
-        protected void OnNeedPaint(object sender, bool needLayout) =>
+        protected void OnNeedPaint(object? sender, bool needLayout) =>
             // Pass request from child to our own handler
             PerformNeedPaint(needLayout);
 
@@ -276,7 +276,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Private
-        private void Construct(PaletteRedirect redirect,
+        private void Construct(PaletteRedirect? redirect,
                                PaletteBack back,
                                PaletteBackInheritRedirect backInherit,
                                PaletteBorder border,

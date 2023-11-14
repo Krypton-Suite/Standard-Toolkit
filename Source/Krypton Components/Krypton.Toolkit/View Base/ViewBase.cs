@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -17,9 +17,9 @@ namespace Krypton.Toolkit
     /// </summary>
     public abstract class ViewBase : GlobalId,
                                      IDisposable,
-                                     IList<ViewBase>,
-                                     ICollection<ViewBase>,
-                                     IEnumerable<ViewBase>
+                                     IList<ViewBase>
+    //ICollection<ViewBase>,
+    //IEnumerable<ViewBase>
     {
         #region Instance Fields
 
@@ -27,12 +27,12 @@ namespace Krypton.Toolkit
         private bool _enableDependant;
         private bool _visible;
         private bool _fixed;
-        private ViewBase _enableDependantView;
+        private ViewBase? _enableDependantView;
         private RectangleF _clientRectF;
         private PaletteState _fixedState;
         private PaletteState _elementState;
 
-        private Control _owningControl;
+        private Control? _owningControl;
         private float _factorDpiY;
         private float _factorDpiX;
 
@@ -110,7 +110,7 @@ namespace Krypton.Toolkit
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            @"ViewBase:" + Id;
+            $@"ViewBase:{Id}";
 
         #endregion
 
@@ -118,9 +118,20 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets a reference to the control instance that contains this view element.
         /// </summary>
-        public virtual Control OwningControl
+        public virtual Control? OwningControl
         {
-            get => _owningControl ?? Parent?.OwningControl;
+            get
+            {
+                Control? owningCrl = _owningControl;
+                ViewBase? parent = Parent;
+                while (owningCrl is null
+                    && parent is not null)
+                {
+                    owningCrl = parent.OwningControl;
+                    parent = parent.Parent;
+                }
+                return owningCrl;
+            }
 
             set => _owningControl = value;
         }
@@ -161,6 +172,9 @@ namespace Krypton.Toolkit
             set => _clientRectF = value;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public virtual RectangleF ClientRectangleF
         {
             [DebuggerStepThrough]
@@ -213,14 +227,14 @@ namespace Krypton.Toolkit
         /// </summary>
         public float FactorDpiX
         {
-            get 
+            get
             {
                 if (_factorDpiX <= 0.1)
                 {
                     InitialiseFactors();
                 }
 
-                return _factorDpiX; 
+                return _factorDpiX;
             }
         }
 
@@ -228,7 +242,7 @@ namespace Krypton.Toolkit
         {
             // This does mean that the app will not change it's dpi awareness until restarted !
             // Do not use the control dpi, as these values are being used to target the screen
-            IntPtr screenDc = PI.GetDC(IntPtr.Zero);
+            var screenDc = PI.GetDC(IntPtr.Zero);
             if (screenDc != IntPtr.Zero)
             {
                 _factorDpiX = PI.GetDeviceCaps(screenDc, PI.DeviceCap.LOGPIXELSX) / 96f;
@@ -249,14 +263,14 @@ namespace Krypton.Toolkit
         /// </summary>
         public float FactorDpiY
         {
-            get 
+            get
             {
                 if (_factorDpiY <= 0.1)
                 {
                     InitialiseFactors();
                 }
 
-                return _factorDpiY; 
+                return _factorDpiY;
             }
         }
 
@@ -266,7 +280,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the component associated with the element.
         /// </summary>
-        public virtual Component Component { get; set; }
+        public virtual Component? Component { get; set; }
 
         #endregion
 
@@ -317,7 +331,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the parent view.
         /// </summary>
-        public ViewBase Parent
+        public ViewBase? Parent
         {
             [DebuggerStepThrough]
             get;
@@ -347,7 +361,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="item">ViewBase reference.</param>
         /// <returns>True if view found; otherwise false.</returns>
-        public abstract bool ContainsRecurse(ViewBase item);
+        public abstract bool ContainsRecurse(ViewBase? item);
 
         /// <summary>
         /// Copies views to specified array starting at particular index.
@@ -402,7 +416,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="index">ViewBase index.</param>
         /// <returns>ViewBase at specified index.</returns>
-        public abstract ViewBase this[int index] { get; set; }
+        public abstract ViewBase? this[int index] { get; set; }
 
         /// <summary>
         /// Shallow enumerate forward over children of the element.
@@ -443,7 +457,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the associated mouse controller.
         /// </summary>
-        public virtual IMouseController MouseController
+        public virtual IMouseController? MouseController
         {
             [DebuggerStepThrough]
             get;
@@ -453,7 +467,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the associated key controller.
         /// </summary>
-        public virtual IKeyController KeyController
+        public virtual IKeyController? KeyController
         {
             [DebuggerStepThrough]
             get;
@@ -463,7 +477,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the associated source controller.
         /// </summary>
-        public virtual ISourceController SourceController
+        public virtual ISourceController? SourceController
         {
             [DebuggerStepThrough]
             get;
@@ -476,7 +490,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Mouse has entered the view.
         /// </summary>
-        public virtual IMouseController FindMouseController() =>
+        public virtual IMouseController? FindMouseController() =>
             // Use mouse controller as first preference
             MouseController ?? Parent?.FindMouseController();
 
@@ -558,7 +572,7 @@ namespace Krypton.Toolkit
         /// Mouse has left the view.
         /// </summary>
         /// <param name="next">Reference to view that is next to have the mouse.</param>
-        public virtual void MouseLeave(ViewBase next)
+        public virtual void MouseLeave(ViewBase? next)
         {
             // Use mouse controller as first preference
             if (MouseController != null)
@@ -671,7 +685,7 @@ namespace Krypton.Toolkit
         /// Source control has lost the focus.
         /// </summary>
         /// <param name="c">Reference to the source control instance.</param>
-        public virtual void LostFocus(Control c)
+        public virtual void LostFocus([DisallowNull] Control c)
         {
             // Use source controller as first preference
             if (SourceController != null)
@@ -715,7 +729,7 @@ namespace Krypton.Toolkit
                     if (IsEnableDependant)
                     {
                         // If dependant view is disabled, then so are we
-                        if (!_enableDependantView.Enabled)
+                        if (_enableDependantView is { Enabled: false })
                         {
                             return PaletteState.Disabled;
                         }
@@ -756,11 +770,9 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Clear down the use of the fixed state
         /// </summary>
-        public virtual void ClearFixedState()
-        {
+        public virtual void ClearFixedState() =>
             // Clear down the fixed state
             _fixed = false;
-        }
 
         /// <summary>
         /// Gets a value indicating if view is using a fixed state.
@@ -776,7 +788,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Get and set the view the enabled state of this view element is dependant on.
         /// </summary>
-        public virtual ViewBase DependantEnabledState
+        public virtual ViewBase? DependantEnabledState
         {
             [DebuggerStepThrough]
             get => _enableDependantView;
@@ -797,7 +809,7 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>
-        /// Gets a value indicating if view enabled state is depedant on another view.
+        /// Gets a value indicating if view enabled state is dependent on another view.
         /// </summary>
         public virtual bool IsEnableDependant
         {
@@ -812,7 +824,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="pt">Point in view coordinates.</param>
         /// <returns>ViewBase if a match is found; otherwise false.</returns>
-        public abstract ViewBase ViewFromPoint(Point pt);
+        public abstract ViewBase? ViewFromPoint(Point pt);
         #endregion
     }
 }

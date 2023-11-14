@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -15,7 +15,7 @@ namespace Krypton.Toolkit
     internal class KryptonSplitContainerBehavior : Behavior
     {
         #region Instance Fields
-        private readonly KryptonSplitContainer _splitContainer;
+        private readonly KryptonSplitContainer? _splitContainer;
         #endregion
 
         #region Identity
@@ -33,7 +33,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="g">A Glyph.</param>
         /// <returns>true if the message was handled; otherwise, false.</returns>
-        public override bool OnMouseEnter(Glyph g)
+        public override bool OnMouseEnter(Glyph? g)
         {
             // Notify the split container so it can track mouse message
             _splitContainer?.DesignMouseEnter();
@@ -48,7 +48,7 @@ namespace Krypton.Toolkit
         /// <param name="button">A MouseButtons value indicating which button was clicked.</param>
         /// <param name="pt">The location at which the click occurred.</param>
         /// <returns>true if the message was handled; otherwise, false.</returns>
-        public override bool OnMouseDown(Glyph g, MouseButtons button, Point pt)
+        public override bool OnMouseDown(Glyph? g, MouseButtons button, Point pt)
         {
             if (_splitContainer != null)
             {
@@ -73,7 +73,7 @@ namespace Krypton.Toolkit
         /// <param name="button">A MouseButtons value indicating which button was clicked.</param>
         /// <param name="pt">The location at which the move occurred.</param>
         /// <returns>true if the message was handled; otherwise, false.</returns>
-        public override bool OnMouseMove(Glyph g, MouseButtons button, Point pt)
+        public override bool OnMouseMove(Glyph? g, MouseButtons button, Point pt)
         {
             if (_splitContainer != null)
             {
@@ -93,7 +93,7 @@ namespace Krypton.Toolkit
         /// <param name="g">A Glyph.</param>
         /// <param name="button">A MouseButtons value indicating which button was clicked.</param>
         /// <returns>true if the message was handled; otherwise, false.</returns>
-        public override bool OnMouseUp(Glyph g, MouseButtons button)
+        public override bool OnMouseUp(Glyph? g, MouseButtons button)
         {
             // Notify the split container so it can track mouse message
             _splitContainer?.DesignMouseUp(button);
@@ -106,7 +106,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="g">A Glyph.</param>
         /// <returns>true if the message was handled; otherwise, false.</returns>
-        public override bool OnMouseLeave(Glyph g)
+        public override bool OnMouseLeave(Glyph? g)
         {
             // Notify the split container so it can track mouse message
             _splitContainer?.DesignMouseLeave();
@@ -119,7 +119,7 @@ namespace Krypton.Toolkit
         private static Point PointToSplitContainer(Glyph g, Point pt)
         {
             // Cast the correct type
-            KryptonSplitContainerGlyph splitGlyph = (KryptonSplitContainerGlyph)g;
+            var splitGlyph = (KryptonSplitContainerGlyph)g;
 
             // Gets the bounds of the glyph in adorner coordinates
             Rectangle bounds = splitGlyph.Bounds;

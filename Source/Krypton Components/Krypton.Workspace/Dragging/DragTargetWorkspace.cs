@@ -1,14 +1,22 @@
-﻿namespace Krypton.Workspace
+﻿#region BSD License
+/*
+ * 
+ * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
+ * 
+ *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  
+ */
+#endregion
+
+namespace Krypton.Workspace
 {
     /// <summary>
     /// Target within the workspace.
     /// </summary>
     public abstract class DragTargetWorkspace : DragTarget
     {
-        #region Instance Fields
-
-        #endregion
-
         #region Identity
         /// <summary>
         /// Initialize a new instance of the DragTargetWorkspace class.
@@ -59,24 +67,24 @@
         /// <param name="target">Target workspace cell instance.</param>
         /// <param name="data">Dragged page data.</param>
         /// <returns>Last page to be transferred.</returns>
-        protected KryptonPage ProcessDragEndData(KryptonWorkspace workspace,
+        protected KryptonPage? ProcessDragEndData(KryptonWorkspace workspace,
                                                  KryptonWorkspaceCell target,
-                                                 PageDragEndData data)
+                                                 PageDragEndData? data)
         {
-            KryptonPage ret = null;
+            KryptonPage? ret = null;
 
             // Add each source page to the target
-            foreach (KryptonPage page in data.Pages)
+            foreach (KryptonPage? page in data.Pages)
             {
                 // Only add the page if one of the allow flags is set
                 if ((page.Flags & (int)AllowFlags) != 0)
                 {
                     // Use event to allow decision on if the page should be dropped
                     // (or even swap the page for a different page to be dropped)
-                    PageDropEventArgs e = new(page);
+                    var e = new PageDropEventArgs(page);
                     workspace.OnPageDrop(e);
 
-                    if (!e.Cancel && (e.Page != null))
+                    if (e is { Cancel: false, Page: not null })
                     {
                         target.Pages.Add(e.Page);
                         ret = e.Page;

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -19,7 +19,7 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
 
-        private readonly IContextMenuProvider _parent;
+        private readonly IContextMenuProvider? _parent;
         private ToolStripDropDownCloseReason? _closeReason;
 
         #endregion
@@ -28,17 +28,17 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Raises the Dispose event.
         /// </summary>
-        public event EventHandler Dispose;
+        public event EventHandler? Dispose;
 
         /// <summary>
         /// Raises the Closing event.
         /// </summary>
-        public event CancelEventHandler Closing;
+        public event CancelEventHandler? Closing;
 
         /// <summary>
         /// Raises the Close event.
         /// </summary>
-        public event EventHandler<CloseReasonEventArgs> Close;
+        public event EventHandler<CloseReasonEventArgs>? Close;
         #endregion
 
         #region Identity
@@ -88,9 +88,9 @@ namespace Krypton.Toolkit
         public ContextMenuProvider(KryptonContextMenu contextMenu,
                                    ViewContextMenuManager viewManager,
                                    ViewLayoutStack viewColumns,
-                                   IPalette palette,
+                                   PaletteBase? palette,
                                    PaletteMode paletteMode,
-                                   PaletteRedirect redirector,
+                                   PaletteRedirect? redirector,
                                    PaletteRedirectContextMenu redirectorImages,
                                    NeedPaintHandler needPaintDelegate,
                                    bool enabled)
@@ -132,14 +132,14 @@ namespace Krypton.Toolkit
         /// <param name="enabled">Enabled state of the context menu.</param>
         public ContextMenuProvider(ViewContextMenuManager viewManager,
                                    ViewLayoutStack viewColumns,
-                                   IPalette palette,
+                                   PaletteBase? palette,
                                    PaletteMode paletteMode,
                                    PaletteContextMenuRedirect stateCommon,
                                    PaletteContextMenuItemState stateDisabled,
                                    PaletteContextMenuItemState stateNormal,
                                    PaletteContextMenuItemStateHighlight stateHighlight,
                                    PaletteContextMenuItemStateChecked stateChecked,
-                                   PaletteRedirect redirector,
+                                   PaletteRedirect? redirector,
                                    PaletteRedirectContextMenu redirectorImages,
                                    NeedPaintHandler needPaintDelegate,
                                    bool enabled)
@@ -222,7 +222,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="menuItem">Menu item that needs to show sub menu.</param>
         /// <returns>True if the sub menu should be a fixed size.</returns>
-        public bool ProviderShowSubMenuFixed(KryptonContextMenuItem menuItem) => HasParentProvider && _parent.ProviderShowSubMenuFixed(menuItem);
+        public bool ProviderShowSubMenuFixed(KryptonContextMenuItem menuItem) => HasParentProvider && _parent!.ProviderShowSubMenuFixed(menuItem);
 
         /// <summary>
         /// Should the sub menu be shown at fixed screen location for this menu item.
@@ -230,7 +230,7 @@ namespace Krypton.Toolkit
         /// <param name="menuItem">Menu item that needs to show sub menu.</param>
         /// <returns>Screen rectangle to use as display rectangle.</returns>
         public Rectangle ProviderShowSubMenuFixedRect(KryptonContextMenuItem menuItem) =>
-            HasParentProvider ? _parent.ProviderShowSubMenuFixedRect(menuItem) : Rectangle.Empty;
+            HasParentProvider ? _parent!.ProviderShowSubMenuFixedRect(menuItem) : Rectangle.Empty;
 
         /// <summary>
         /// Sets the reason for the context menu being closed.
@@ -305,7 +305,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the custom palette.
         /// </summary>
-        public IPalette ProviderPalette { get; }
+        public PaletteBase? ProviderPalette { get; }
 
         /// <summary>
         /// Gets access to the palette mode.
@@ -315,7 +315,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the context menu redirector.
         /// </summary>
-        public PaletteRedirect ProviderRedirector { get; }
+        public PaletteRedirect? ProviderRedirector { get; }
 
         /// <summary>
         /// Gets a delegate used to indicate a repaint is required.

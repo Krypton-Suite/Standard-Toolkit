@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -17,10 +17,6 @@ namespace Krypton.Toolkit
     /// </summary>
     public class PaletteMonthCalendarStateRedirect : Storage
     {
-        #region Instance Fields
-
-        #endregion
-
         #region Identity
         /// <summary>
         /// Initialize a new instance of the PaletteMonthCalendarStateRedirect class.
@@ -35,7 +31,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="redirect">inheritance redirection instance.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public PaletteMonthCalendarStateRedirect(PaletteRedirect redirect,
+        public PaletteMonthCalendarStateRedirect(PaletteRedirect? redirect,
                                                  NeedPaintHandler needPaint) =>
                 Day = new PaletteTripleRedirect(redirect, 
                     PaletteBackStyle.ButtonCalendarDay, 
@@ -59,7 +55,7 @@ namespace Krypton.Toolkit
         /// Update the redirector with new reference.
         /// </summary>
         /// <param name="redirect">Target redirector.</param>
-        public void SetRedirector(PaletteRedirect redirect) => Day.SetRedirector(redirect);
+        public void SetRedirector(PaletteRedirect? redirect) => Day.SetRedirector(redirect);
 
         #endregion
 

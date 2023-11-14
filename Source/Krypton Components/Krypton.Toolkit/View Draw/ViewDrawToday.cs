@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -22,7 +22,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Occurs when the today button is clicked.
         /// </summary>
-        public event EventHandler Click;
+        public event EventHandler? Click;
         #endregion
 
         #region Instance Fields
@@ -55,7 +55,7 @@ namespace Krypton.Toolkit
             ButtonValues = this;
 
             // Define a controller so the button can be clicked
-            ButtonController controller = new(this, needPaintHandler);
+            var controller = new ButtonController(this, needPaintHandler);
             controller.Click += OnClick;
             MouseController = controller;
             SourceController = controller;
@@ -68,7 +68,7 @@ namespace Krypton.Toolkit
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            "ViewDrawToday:" + Id;
+            $"ViewDrawToday:{Id}";
 
         #endregion
 
@@ -78,7 +78,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">The state for which the image is needed.</param>
         /// <returns>Image value.</returns>
-        public Image GetImage(PaletteState state) => null;
+        public Image? GetImage(PaletteState state) => null;
 
         /// <summary>
         /// Gets the image color that should be transparent.
@@ -91,7 +91,8 @@ namespace Krypton.Toolkit
         /// Gets the content short text.
         /// </summary>
         /// <returns>String value.</returns>
-        public string GetShortText() => KryptonManager.Strings.Today + " " + _calendar.TodayDate.ToString(_calendar.TodayFormat);
+        public string GetShortText() =>
+            $"{KryptonLanguageManager.GeneralToolkitStrings.Today} {_calendar.TodayDate.ToString(_calendar.TodayFormat)}";
 
         /// <summary>
         /// Gets the content long text.
@@ -110,7 +111,7 @@ namespace Krypton.Toolkit
         /// Perform a layout of the elements.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override void Layout(ViewLayoutContext context)
+        public override void Layout([DisallowNull] ViewLayoutContext context)
         {
             Debug.Assert(context != null);
             base.Layout(context);

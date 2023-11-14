@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -17,15 +17,15 @@ namespace Krypton.Toolkit
     /// </summary>
     [ToolboxItem(true)]
     [ToolboxBitmap(typeof(WebBrowser), "ToolboxBitmaps.WebBrowser.bmp")]
-    [Designer("Krypton.Toolkit.KryptonWebBrowserDesigner, Krypton.Toolkit")]
+    [Designer(typeof(KryptonWebBrowserDesigner))]
     [DesignerCategory(@"code")]
     [Description(@"Enables the user to browse web page, inside your form. Mainly to be used as a Rich Text Editor")]
     public class KryptonWebBrowser : WebBrowser
     {
         #region Instance Fields
-        private IPalette _palette;
+        private PaletteBase? _palette;
         private readonly PaletteMode _paletteMode = PaletteMode.Global;
-        private KryptonContextMenu _kryptonContextMenu;
+        private KryptonContextMenu? _kryptonContextMenu;
         private IRenderer _renderer;
         #endregion Instance Fields
 
@@ -72,7 +72,7 @@ namespace Krypton.Toolkit
         [Category(@"Behavior")]
         [Description(@"Consider using KryptonContextMenu within the behaviors section.\nThe Winforms shortcut menu to show when the user right-clicks the page.\nNote: The ContextMenu will be rendered.")]
         [DefaultValue(null)]
-        public override ContextMenuStrip ContextMenuStrip
+        public override ContextMenuStrip? ContextMenuStrip
         {
             //[DebuggerStepThrough]
             get => base.ContextMenuStrip;
@@ -102,7 +102,7 @@ namespace Krypton.Toolkit
         [Category(@"Behavior")]
         [Description(@"The shortcut menu to show when the user right-clicks the page.")]
         [DefaultValue(null)]
-        public KryptonContextMenu KryptonContextMenu
+        public KryptonContextMenu? KryptonContextMenu
         {
             get => _kryptonContextMenu;
 
@@ -149,7 +149,7 @@ namespace Krypton.Toolkit
                 if (KryptonContextMenu != null)
                 {
                     // Extract the screen mouse position (if might not actually be provided)
-                    Point mousePt = new(PI.LOWORD(m.LParam), PI.HIWORD(m.LParam));
+                    var mousePt = new Point(PI.LOWORD(m.LParam), PI.HIWORD(m.LParam));
 
                     // If keyboard activated, the menu position is centered
                     if (((int) (long) m.LParam) == -1)
@@ -185,13 +185,11 @@ namespace Krypton.Toolkit
         }
 
 
-        private void OnKryptonContextMenuDisposed(object sender, EventArgs e)
-        {
+        private void OnKryptonContextMenuDisposed(object sender, EventArgs e) =>
             // When the current krypton context menu is disposed, we should remove 
             // it to prevent it being used again, as that would just throw an exception 
             // because it has been disposed.
             KryptonContextMenu = null;
-        }
 
         #endregion MenuStrip Overrides
 
@@ -199,7 +197,7 @@ namespace Krypton.Toolkit
 
         /// <summary>Sets the palette being used.</summary>
         /// <param name="palette">The chosen palette.</param>
-        private void SetPalette(IPalette palette)
+        private void SetPalette(PaletteBase? palette)
         {
             if (palette != _palette)
             {
@@ -228,11 +226,9 @@ namespace Krypton.Toolkit
         /// <summary>Called when there is a change in base renderer or base palette.</summary>
         /// <param name="sender">The sender.</param>
         /// <param name="e">The <see cref="EventArgs" /> instance containing the event data.</param>
-        private void OnBaseChanged(object sender, EventArgs e)
-        {
+        private void OnBaseChanged(object sender, EventArgs e) =>
             // Change in base renderer or base palette require we fetch the latest renderer
             _renderer = _palette.GetRenderer();
-        }
 
 
         /// <summary>
@@ -262,7 +258,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public IPalette GetResolvedPalette() => _palette;
+        public PaletteBase? GetResolvedPalette() => _palette;
 
         #endregion Palette Controls
     }

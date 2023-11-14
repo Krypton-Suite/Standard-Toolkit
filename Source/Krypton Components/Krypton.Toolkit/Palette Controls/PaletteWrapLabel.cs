@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -18,10 +18,11 @@ namespace Krypton.Toolkit
     public class PaletteWrapLabel : Storage
     {
         #region Instance Fields
-        private Font _font;
+        private Font? _font;
         private Color _textColor;
         private PaletteTextHint _hint;
         private readonly KryptonWrapLabel _wrapLabel;
+        private readonly KryptonLinkWrapLabel _linkWrapLabel;
         #endregion
 
         #region Identity
@@ -36,6 +37,17 @@ namespace Krypton.Toolkit
             _textColor = Color.Empty;
             _hint = PaletteTextHint.Inherit;
         }
+
+        /// <summary>Initializes a new instance of the <see cref="PaletteWrapLabel" /> class.</summary>
+        /// <param name="linkWrapLabel">The link wrap label.</param>
+        public PaletteWrapLabel(KryptonLinkWrapLabel linkWrapLabel)
+        {
+            _linkWrapLabel = linkWrapLabel;
+            _font = null;
+            _textColor = Color.Empty;
+            _hint = PaletteTextHint.Inherit;
+        }
+
         #endregion
 
         #region IsDefault
@@ -58,7 +70,7 @@ namespace Krypton.Toolkit
         [Description(@"Font for drawing the label text.")]
         [DefaultValue(null)]
         [RefreshProperties(RefreshProperties.All)]
-        public virtual Font Font
+        public virtual Font? Font
         {
             get => _font;
 
@@ -99,7 +111,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category(@"Visuals")]
         [Description(@"Text rendering hint for the content text.")]
-        [DefaultValue(typeof(PaletteTextHint), "Inherit")]
+        [DefaultValue(PaletteTextHint.Inherit)]
         [RefreshProperties(RefreshProperties.All)]
         public virtual PaletteTextHint Hint
         {

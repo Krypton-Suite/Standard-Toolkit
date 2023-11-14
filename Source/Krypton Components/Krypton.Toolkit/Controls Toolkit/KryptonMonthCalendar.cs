@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -17,16 +17,17 @@ namespace Krypton.Toolkit
     /// </summary>
     [ToolboxItem(true)]
     [ToolboxBitmap(typeof(KryptonMonthCalendar), "ToolboxBitmaps.KryptonMonthCalendar.bmp")]
-    [DefaultEvent("DateChanged")]
-    [DefaultProperty("SelectionRange")]
-    [DefaultBindingProperty("SelectionRange")]
-    [Designer("Krypton.Toolkit.KryptonMonthCalendarDesigner, Krypton.Toolkit")]
+    [DefaultEvent(nameof(DateChanged))]
+    [DefaultProperty(nameof(SelectionRange))]
+    [DefaultBindingProperty(nameof(SelectionRange))]
+    [Designer(typeof(KryptonMonthCalendarDesigner))]
     [DesignerCategory(@"code")]
     [Description(@"Select a date using a visual monthly calendar display.")]
     public class KryptonMonthCalendar : VisualSimpleBase,
                                         IKryptonMonthCalendar
     {
         #region Instance Fields
+
         private readonly ViewDrawDocker _drawDocker;
         private readonly ViewLayoutMonths _drawMonths;
         private readonly PaletteTripleOverride _boldedDisabled;
@@ -59,6 +60,10 @@ namespace Krypton.Toolkit
         private int _maxSelectionCount;
         private int _scrollChange;
         private bool _hasFocus;
+        private float _cornerRoundingRadius;
+        private float _dayCornerRoundingRadius;
+        private float _dayOfWeekCornerRoundingRadius;
+        private float _headerCornerRoundingRadius;
 
         #endregion
 
@@ -68,91 +73,91 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Action")]
         [Description(@"Occurs when the selected date changes.")]
-        public event DateRangeEventHandler DateChanged;
+        public event DateRangeEventHandler? DateChanged;
 
         /// <summary>
         /// Occurs when the selected start date changes.
         /// </summary>
         [Category(@"Property Changed")]
         [Description(@"Occurs when the selected start date changes.")]
-        public event EventHandler SelectionStartChanged;
+        public event EventHandler? SelectionStartChanged;
 
         /// <summary>
         /// Occurs when the selected end date changes.
         /// </summary>
         [Category(@"Property Changed")]
         [Description(@"Occurs when the selected end date changes.")]
-        public event EventHandler SelectionEndChanged;
+        public event EventHandler? SelectionEndChanged;
 
         /// <summary>
         /// Occurs when the control is clicked.
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public new event EventHandler Click;
+        public new event EventHandler? Click;
 
         /// <summary>
         /// Occurs when the control is double clicked.
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public new event EventHandler DoubleClick;
+        public new event EventHandler? DoubleClick;
 
         /// <summary>
         /// Occurs when the text value changes.
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public new event EventHandler TextChanged;
+        public new event EventHandler? TextChanged;
 
         /// <summary>
         /// Occurs when the foreground color value changes.
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public new event EventHandler ForeColorChanged;
+        public new event EventHandler? ForeColorChanged;
 
         /// <summary>
         /// Occurs when the font value changes.
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public new event EventHandler FontChanged;
+        public new event EventHandler? FontChanged;
 
         /// <summary>
         /// Occurs when the background image value changes.
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public new event EventHandler BackgroundImageChanged;
+        public new event EventHandler? BackgroundImageChanged;
 
         /// <summary>
         /// Occurs when the background image layout value changes.
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public new event EventHandler BackgroundImageLayoutChanged;
+        public new event EventHandler? BackgroundImageLayoutChanged;
 
         /// <summary>
         /// Occurs when the background color value changes.
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public new event EventHandler BackColorChanged;
+        public new event EventHandler? BackColorChanged;
 
         /// <summary>
         /// Occurs when the padding value changes.
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public new event EventHandler PaddingChanged;
+        public new event EventHandler? PaddingChanged;
 
         /// <summary>
         /// Occurs when the control needs to paint.
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public new event PaintEventHandler Paint;
+        public new event PaintEventHandler? Paint;
         #endregion
 
         #region Identity
@@ -235,10 +240,67 @@ namespace Krypton.Toolkit
             BoldedDatesList = new DateTimeList();
             _scrollChange = 0;
             _todayFormat = "d";
+
+            _cornerRoundingRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
+
+            _dayCornerRoundingRadius = GlobalStaticValues.SECONDARY_CORNER_ROUNDING_VALUE;
+
+            _dayOfWeekCornerRoundingRadius = GlobalStaticValues.SECONDARY_CORNER_ROUNDING_VALUE;
+
+            _headerCornerRoundingRadius = GlobalStaticValues.SECONDARY_CORNER_ROUNDING_VALUE;
         }
         #endregion
 
         #region Public
+
+        /// <summary>Gets or sets the corner rounding radius.</summary>
+        /// <value>The corner rounding radius.</value>
+        [Category(@"Visuals")]
+        [Description(@"Gets or sets the corner rounding radius.")]
+        [DefaultValue(GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE)]
+        public float CornerRoundingRadius
+        {
+            get => _cornerRoundingRadius;
+
+            set => SetCornerRoundingRadius(value);
+        }
+
+        /// <summary>Gets or sets the day corner rounding radius.</summary>
+        /// <value>The day corner rounding radius.</value>
+        [Category(@"Visuals")]
+        [Description(@"Gets or sets the day corner rounding radius.")]
+        [DefaultValue(GlobalStaticValues.SECONDARY_CORNER_ROUNDING_VALUE)]
+        public float DayCornerRoundingRadius
+        {
+            get => _dayCornerRoundingRadius;
+
+            set => SetDayCornerRoundingRadius(value);
+        }
+
+        /// <summary>Gets or sets the day of week corner rounding radius.</summary>
+        /// <value>The day of week corner rounding radius.</value>
+        [Category(@"Visuals")]
+        [Description(@"Gets or sets the day of week corner rounding radius.")]
+        [DefaultValue(GlobalStaticValues.SECONDARY_CORNER_ROUNDING_VALUE)]
+        public float DayOfWeekCornerRoundingRadius
+        {
+            get => _dayOfWeekCornerRoundingRadius;
+
+            set => SetDayOfWeekCornerRoundingRadius(value);
+        }
+
+        /// <summary>Gets or sets the header corner rounding radius.</summary>
+        /// <value>The header corner rounding radius.</value>
+        [Category(@"Visuals")]
+        [Description(@"Gets or sets the header corner rounding radius.")]
+        [DefaultValue(GlobalStaticValues.SECONDARY_CORNER_ROUNDING_VALUE)]
+        public float HeaderCornerRoundingRadius
+        {
+            get => _headerCornerRoundingRadius;
+
+            set => SetHeaderCornerRoundingRadius(value);
+        }
+
         /// <summary>
         /// Gets or sets the text associated with this control.
         /// </summary>
@@ -246,6 +308,7 @@ namespace Krypton.Toolkit
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         [Bindable(false)]
+        [AllowNull]
         public override string Text
         {
             get => base.Text;
@@ -405,10 +468,7 @@ namespace Krypton.Toolkit
 
             set
             {
-                if (value == null)
-                {
-                    value = Array.Empty<DateTime>();
-                }
+                value ??= Array.Empty<DateTime>();
 
                 _annualDates.Clear();
                 _annualDates.AddRange(value);
@@ -443,10 +503,7 @@ namespace Krypton.Toolkit
 
             set
             {
-                if (value == null)
-                {
-                    value = Array.Empty<DateTime>();
-                }
+                value ??= Array.Empty<DateTime>();
 
                 _monthlyDates.Clear();
                 _monthlyDates.AddRange(value);
@@ -662,7 +719,7 @@ namespace Krypton.Toolkit
         [Bindable(true)]
         public SelectionRange SelectionRange
         {
-            get => new(SelectionStart, SelectionEnd);
+            get => new SelectionRange(SelectionStart, SelectionEnd);
             set => SetSelectionRange(value.Start, value.End);
         }
 
@@ -714,7 +771,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Behavior")]
         [Description(@"First day of the week.")]
-        [DefaultValue(typeof(Day), "Default")]
+        [DefaultValue(Day.Default)]
         [Localizable(true)]
         public Day FirstDayOfWeek
         {
@@ -948,7 +1005,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Overrides for defining common month calendar appearance that other states can override.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteMonthCalendarRedirect StateCommon { get; }
+        public PaletteMonthCalendarRedirect? StateCommon { get; }
 
         private bool ShouldSerializeStateCommon() => !StateCommon.IsDefault;
 
@@ -1392,14 +1449,11 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="keyData">One of the Keys values.</param>
         /// <returns>true if the specified key is a regular input key; otherwise, false.</returns>
-        protected override bool IsInputKey(Keys keyData)
+        protected override bool IsInputKey(Keys keyData) => (keyData & ~Keys.Shift) switch
         {
-            return (keyData & ~Keys.Shift) switch
-            {
-                Keys.Left or Keys.Right or Keys.Up or Keys.Down => true,
-                _ => base.IsInputKey(keyData)
-            };
-        }
+            Keys.Left or Keys.Right or Keys.Up or Keys.Down => true,
+            _ => base.IsInputKey(keyData)
+        };
 
         /// <summary>
         /// Raises the KeyDown event.
@@ -1653,7 +1707,7 @@ namespace Krypton.Toolkit
 
         private void AdjustSize(ref int width, ref int height)
         {
-            using ViewLayoutContext context = new(this, Renderer);
+            using var context = new ViewLayoutContext(this, Renderer);
             // Ask back/border the size it requires
             Size backBorderSize = _drawDocker.GetNonChildSize(context);
 
@@ -1787,6 +1841,38 @@ namespace Krypton.Toolkit
         }
 
         private void UpdateFocusOverride(bool focus) => _hasFocus = focus;
+        #endregion
+
+        #region Implementation
+
+        private void SetCornerRoundingRadius(float? radius)
+        {
+            _cornerRoundingRadius = radius ?? GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
+
+            StateCommon.Border.Rounding = _cornerRoundingRadius;
+        }
+
+        private void SetDayCornerRoundingRadius(float? radius)
+        {
+            _dayCornerRoundingRadius = radius ?? GlobalStaticValues.SECONDARY_CORNER_ROUNDING_VALUE;
+
+            StateCommon.Day.Border.Rounding = _dayCornerRoundingRadius;
+        }
+
+        private void SetDayOfWeekCornerRoundingRadius(float? radius)
+        {
+            _dayOfWeekCornerRoundingRadius = radius ?? GlobalStaticValues.SECONDARY_CORNER_ROUNDING_VALUE;
+
+            StateCommon.DayOfWeek.Border.Rounding = _dayOfWeekCornerRoundingRadius;
+        }
+
+        private void SetHeaderCornerRoundingRadius(float? radius)
+        {
+            _headerCornerRoundingRadius = radius ?? GlobalStaticValues.SECONDARY_CORNER_ROUNDING_VALUE;
+
+            StateCommon.Header.Border.Rounding = _headerCornerRoundingRadius;
+        }
+
         #endregion
     }
 }

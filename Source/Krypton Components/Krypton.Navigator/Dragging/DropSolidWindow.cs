@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -19,7 +19,7 @@ namespace Krypton.Navigator
     {
         #region Instance Fields
         private readonly IPaletteDragDrop _paletteDragDrop;
-        private readonly IRenderer _renderer;
+        private readonly IRenderer? _renderer;
         private Rectangle _solidRect;
         #endregion
 
@@ -29,7 +29,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="paletteDragDrop">Drawing palette.</param>
         /// <param name="renderer">Drawing renderer.</param>
-        public DropSolidWindow(IPaletteDragDrop paletteDragDrop, IRenderer renderer)
+        public DropSolidWindow(IPaletteDragDrop paletteDragDrop, IRenderer? renderer)
         {
             _paletteDragDrop = paletteDragDrop;
             _renderer = renderer;
@@ -62,11 +62,9 @@ namespace Krypton.Navigator
         /// <summary>
         /// Show the window without taking activation.
         /// </summary>
-        public void ShowWithoutActivate()
-        {
+        public void ShowWithoutActivate() =>
             // Show the window without activating it (i.e. do not take focus)
             PI.ShowWindow(Handle, PI.ShowWindowCommands.SW_SHOWNOACTIVATE);
-        }
 
         /// <summary>
         /// Gets and sets the new solid rectangle area.
@@ -104,9 +102,11 @@ namespace Krypton.Navigator
             base.OnPaint(e);
 
             // If we have a solid rectangle to draw
-            if (!SolidRect.IsEmpty)
+            if (!SolidRect.IsEmpty
+                && (_renderer != null)
+                )
             {
-                using RenderContext context = new(this, e.Graphics, e.ClipRectangle, _renderer);
+                using var context = new RenderContext(this, e.Graphics, e.ClipRectangle, _renderer);
                 _renderer.RenderGlyph.DrawDragDropSolidGlyph(context, ClientRectangle, _paletteDragDrop);
             }
         }

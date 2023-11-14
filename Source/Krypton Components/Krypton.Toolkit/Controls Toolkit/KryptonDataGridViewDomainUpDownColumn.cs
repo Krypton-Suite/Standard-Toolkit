@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -15,31 +15,24 @@ namespace Krypton.Toolkit
     /// <summary>
     /// Hosts a collection of KryptonDataGridViewDomainUpDownCell cells.
     /// </summary>
-    [Designer(@"Krypton.Toolkit.KryptonDomainUpDownColumnDesigner, Krypton.Toolkit")]
+    [Designer(typeof(KryptonDomainUpDownColumnDesigner))]
     [ToolboxBitmap(typeof(KryptonDataGridViewDomainUpDownColumn), "ToolboxBitmaps.KryptonDomainUpDown.bmp")]
     public class KryptonDataGridViewDomainUpDownColumn : KryptonDataGridViewIconColumn
     {
-        #region Instance Fields
-
-        #endregion
-
-
         #region Identity
         /// <summary>
         /// Initialize a new instance of the KryptonDataGridViewDomainUpDownColumn class.
         /// </summary>
         public KryptonDataGridViewDomainUpDownColumn()
-            : base(new KryptonDataGridViewDomainUpDownCell())
-        {
+            : base(new KryptonDataGridViewDomainUpDownCell()) =>
             Items = new StringCollection();
-        }
 
         /// <summary>
         /// Returns a standard compact string representation of the column.
         /// </summary>
         public override string ToString()
         {
-            StringBuilder builder = new(0x40);
+            var builder = new StringBuilder(0x40);
             builder.Append(@"KryptonDataGridViewDomainUpDownColumn { Name=");
             // ReSharper disable RedundantBaseQualifier
             builder.Append(base.Name);
@@ -56,7 +49,7 @@ namespace Krypton.Toolkit
         /// <returns></returns>
         public override object Clone()
         {
-            KryptonDataGridViewDomainUpDownColumn cloned = base.Clone() as KryptonDataGridViewDomainUpDownColumn;
+            var cloned = base.Clone() as KryptonDataGridViewDomainUpDownColumn;
 
             // Convert collection of strings to an array
             var strings = new string[Items.Count];
@@ -97,7 +90,7 @@ namespace Krypton.Toolkit
         [Category(@"Data")]
         [Description(@"The allowable items of the domain up down.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        [Editor(@"System.Windows.Forms.Design.StringCollectionEditor, " + AssemblyRef.SystemDesign, typeof(UITypeEditor))]
+        [Editor(@"System.Windows.Forms.Design.StringCollectionEditor", typeof(UITypeEditor))]
         public StringCollection Items { get; }
 
         #endregion

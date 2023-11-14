@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -51,7 +51,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Property which represents the current formatted value of the editing control
         /// </summary>
-        public virtual object EditingControlFormattedValue
+        public virtual object? EditingControlFormattedValue
         {
             get => GetEditingControlFormattedValue(DataGridViewDataErrorContexts.Formatting);
             set => Text = (string)value;
@@ -94,19 +94,16 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Method called by the grid on keystrokes to determine if the editing control is interested in the key or not.
         /// </summary>
-        public virtual bool EditingControlWantsInputKey(Keys keyData, bool dataGridViewWantsInputKey)
+        public virtual bool EditingControlWantsInputKey(Keys keyData, bool dataGridViewWantsInputKey) => (keyData & Keys.KeyCode) switch
         {
-            return (keyData & Keys.KeyCode) switch
-            {
-                Keys.Right or Keys.Left or Keys.Down or Keys.Up or Keys.Home or Keys.Delete => true,
-                _ => !dataGridViewWantsInputKey
-            };
-        }
+            Keys.Right or Keys.Left or Keys.Down or Keys.Up or Keys.Home or Keys.Delete => true,
+            _ => !dataGridViewWantsInputKey
+        };
 
         /// <summary>
         /// Returns the current value of the editing control.
         /// </summary>
-        public virtual object GetEditingControlFormattedValue(DataGridViewDataErrorContexts context) => Text;
+        public virtual object? GetEditingControlFormattedValue(DataGridViewDataErrorContexts context) => Text;
 
         /// <summary>
         /// Called by the grid to give the editing control a chance to prepare itself for the editing session.

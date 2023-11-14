@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -18,9 +18,9 @@ namespace Krypton.Toolkit
     public class ContextMenuImages : Storage
     {
         #region Instance Fields
-        private Image _checked;
-        private Image _indeterminate;
-        private Image _subMenu;
+        private Image? _checked;
+        private Image? _indeterminate;
+        private Image? _subMenu;
         #endregion
 
         #region Identity
@@ -60,7 +60,7 @@ namespace Krypton.Toolkit
         [Description(@"Image for a checked context menu item.")]
         [DefaultValue(null)]
         [RefreshProperties(RefreshProperties.All)]
-        public Image Checked
+        public Image? Checked
         {
             get => _checked;
 
@@ -77,10 +77,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the Checked property to its default value.
         /// </summary>
-        public void ResetChecked()
-        {
-            Checked = null;
-        }
+        public void ResetChecked() => Checked = null;
         #endregion
 
         #region Indeterminate
@@ -92,7 +89,7 @@ namespace Krypton.Toolkit
         [Description(@"Image for an indeterminate context menu item.")]
         [DefaultValue(null)]
         [RefreshProperties(RefreshProperties.All)]
-        public Image Indeterminate
+        public Image? Indeterminate
         {
             get => _indeterminate;
 
@@ -109,10 +106,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the Indeterminate property to its default value.
         /// </summary>
-        public void ResetIndeterminate()
-        {
-            Indeterminate = null;
-        }
+        public void ResetIndeterminate() => Indeterminate = null;
         #endregion
 
         #region SubMenu
@@ -124,7 +118,7 @@ namespace Krypton.Toolkit
         [Description(@"Image indicating a sub-menu on a context menu item.")]
         [DefaultValue(null)]
         [RefreshProperties(RefreshProperties.All)]
-        public Image SubMenu
+        public Image? SubMenu
         {
             get => _subMenu;
 
@@ -141,10 +135,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the SubMenu property to its default value.
         /// </summary>
-        public void ResetSubMenu()
-        {
-            SubMenu = null;
-        }
+        public void ResetSubMenu() => SubMenu = null;
         #endregion
     }
 }

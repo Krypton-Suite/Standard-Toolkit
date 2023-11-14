@@ -5,7 +5,9 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  
+ *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
  */
 #endregion
@@ -18,7 +20,7 @@ namespace Krypton.Ribbon
     public class ButtonSpecViewRibbon : ButtonSpecView
     {
         #region Instance Fields
-        private ButtonSpecRibbonController _controller;
+        private ButtonSpecRibbonController? _controller;
         #endregion
 
         #region Identity
@@ -30,10 +32,10 @@ namespace Krypton.Ribbon
         /// <param name="metricPadding">Padding metric for border padding.</param>
         /// <param name="manager">Reference to owning manager.</param>
         /// <param name="buttonSpec">Access</param>
-        public ButtonSpecViewRibbon(PaletteRedirect redirector,
-                                    IPaletteMetric paletteMetric,
+        public ButtonSpecViewRibbon(PaletteRedirect? redirector,
+                                    IPaletteMetric? paletteMetric,
                                     PaletteMetricPadding metricPadding,
-                                    ButtonSpecManagerBase manager,
+                                    ButtonSpecManagerBase? manager,
                                     ButtonSpec buttonSpec)
             : base(redirector, paletteMetric, metricPadding, manager, buttonSpec)
         {
@@ -60,7 +62,7 @@ namespace Krypton.Ribbon
             _controller.Click += clickHandler;
 
             // If associated with a tooltip manager then pass mouse messages onto tooltip manager
-            IMouseController mouseController = _controller;
+            IMouseController? mouseController = _controller;
             if (Manager.ToolTipManager != null)
             {
                 mouseController = new ToolTipController(Manager.ToolTipManager, viewButton, _controller);
@@ -75,11 +77,9 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">An EventArgs that contains the event data.</param>
-        protected override void OnFinishDelegate(object sender, EventArgs e)
-        {
+        protected override void OnFinishDelegate(object sender, EventArgs e) =>
             // Ask the button to remove the fixed pressed appearance
             _controller.RemoveFixed();
-        }
         #endregion
     }
 }

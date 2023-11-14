@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -25,7 +25,7 @@ namespace Krypton.Navigator
         protected ViewLayoutPageShow _oldRoot;
         protected ViewLayoutDocker _viewLayout;
         protected ViewLayoutScrollViewport _viewScrollViewport;
-        private PageToNavCheckButton _pageLookup;
+        private PageToNavCheckButton? _pageLookup;
         private PageToButtonEdge _buttonEdgeLookup;
         private bool _hasFocus;
         private bool _events;
@@ -38,9 +38,9 @@ namespace Krypton.Navigator
         /// <param name="navigator">Reference to navigator instance.</param>
         /// <param name="manager">Reference to current manager.</param>
         /// <param name="redirector">Palette redirector.</param>
-        public override void Construct(KryptonNavigator navigator, 
-                                       ViewManager manager,
-                                       PaletteRedirect redirector)
+        public override void Construct([DisallowNull] KryptonNavigator navigator, 
+                                       [DisallowNull] ViewManager manager,
+                                       [DisallowNull] PaletteRedirect redirector)
         {
             // Let base class perform common operations
             base.Construct(navigator, manager, redirector);
@@ -69,7 +69,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="element">Element to search against.</param>
         /// <returns>Reference to KryptonPage; otherwise null.</returns>
-        public override KryptonPage PageFromView(ViewBase element)
+        public override KryptonPage? PageFromView(ViewBase element)
         {
             if (_pageLookup != null)
             {
@@ -90,23 +90,9 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="element">Element to search against.</param>
         /// <returns>Reference to ButtonSpec; otherwise null.</returns>
-        public override ButtonSpec ButtonSpecFromView(ViewBase element)
-        {
+        public override ButtonSpec? ButtonSpecFromView(ViewBase element) =>
             // Check each page level button spec
-            if (_pageLookup != null)
-            {
-                foreach (var pair in _pageLookup)
-                {
-                    ButtonSpec bs = pair.Value.ButtonSpecFromView(element);
-                    if (bs != null)
-                    {
-                        return bs;
-                    }
-                }
-            }
-
-            return null;
-        }
+            _pageLookup?.Select(pair => pair.Value.ButtonSpecFromView(element)).FirstOrDefault(static bs => bs != null);
 
         /// <summary>
         /// Process a change in the selected page
@@ -147,7 +133,7 @@ namespace Krypton.Navigator
         /// Process a change in the visible state for a page.
         /// </summary>
         /// <param name="page">Page that has changed visible state.</param>
-        public override void PageVisibleStateChanged(KryptonPage page)
+        public override void PageVisibleStateChanged(KryptonPage? page)
         {
             // It is possible the lookup has not been created yet
             if (_pageLookup != null)
@@ -173,7 +159,7 @@ namespace Krypton.Navigator
         /// Process a change in the enabled state for a page.
         /// </summary>
         /// <param name="page">Page that has changed enabled state.</param>
-        public override void PageEnabledStateChanged(KryptonPage page)
+        public override void PageEnabledStateChanged(KryptonPage? page)
         {
             if (_pageLookup != null)
             {
@@ -199,7 +185,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="page">Page that has changed.</param>
         /// <param name="property">Name of property that has changed.</param>
-        public override void PageAppearanceChanged(KryptonPage page, string property)
+        public override void PageAppearanceChanged([DisallowNull] KryptonPage page, [DisallowNull] string property)
         {
             Debug.Assert(page != null);
             Debug.Assert(property != null);
@@ -337,7 +323,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="element">Element that is being activated.</param>
         /// <returns>True to give navigator the focus; otherwise false.</returns>
-        public override bool GiveNavigatorFocus(ViewBase element)
+        public override bool GiveNavigatorFocus(ViewBase? element)
         {
             // Only need to take the focus if we do not already have it
             if (!_hasFocus)
@@ -383,15 +369,19 @@ namespace Krypton.Navigator
                         if (control)
                         {
                             // Are we allowed to perform a Ctrl+Tab change in selection
-                            CtrlTabCancelEventArgs ce = new(!shift);
+                            var ce = new CtrlTabCancelEventArgs(!shift);
                             Navigator.OnCtrlTabStart(ce);
 
                             if (!ce.Cancel)
                             {
                                 if (!shift)
+                                {
                                     SelectNextPage(Navigator.SelectedPage, true, true);
+                                }
                                 else
+                                {
                                     SelectPreviousPage(Navigator.SelectedPage, true, true);
+                                }
                             }
                         }
                         return true;
@@ -521,23 +511,21 @@ namespace Krypton.Navigator
         /// Create the mode specific view hierarchy.
         /// </summary>
         /// <returns>View element to use as base of hierarchy.</returns>
-        protected virtual ViewBase CreateStackCheckButtonView()
+        protected virtual ViewBase? CreateStackCheckButtonView()
         {
             // Set the initial preferred direction for the selected page
             _oldRoot.SetMinimumAsPreferred(!Navigator.AutoSize);
 
-            // Derived class should return something more usefull!
+            // Derived class should return something more useful!
             return null;
         }
 
         /// <summary>
         /// Destruct the mode specific view hierarchy.
         /// </summary>
-        protected virtual void DestructStackCheckButtonView()
-        {
+        protected virtual void DestructStackCheckButtonView() =>
             // Reset the preferred direction handling to original setting
             _oldRoot.SetMinimumAsPreferred(false);
-        }
 
         /// <summary>
         /// Allow operations to occur after main construct actions.
@@ -617,10 +605,10 @@ namespace Krypton.Navigator
             var dockTopLeft = (alignment != RelativePositionAlign.Far);
 
             // Create a check button to represent each krypton page
-            foreach (KryptonPage page in Navigator.Pages)
+            foreach (KryptonPage? page in Navigator.Pages)
             {
                 // Create the draw view element for the check button and provide page it represents
-                ViewDrawNavCheckButtonStack checkButton = new(Navigator, page, checkButtonOrient);
+                var checkButton = new ViewDrawNavCheckButtonStack(Navigator, page, checkButtonOrient);
 
                 // Provide the drag rectangle when requested for this button
                 checkButton.ButtonDragRectangle += OnCheckButtonDragRect;
@@ -636,7 +624,7 @@ namespace Krypton.Navigator
                 checkButton.Orientation = checkButtonOrient;
 
                 // Create the border edge for use next to the check button
-                ViewDrawBorderEdge buttonEdge = new(buttonEdgePalette, buttonEdgeOrient)
+                var buttonEdge = new ViewDrawBorderEdge(buttonEdgePalette, buttonEdgeOrient)
                 {
                     Visible = page.LastVisibleSet
                 };
@@ -756,7 +744,7 @@ namespace Krypton.Navigator
         private void BringPageIntoView(KryptonPage page)
         {
             // Remember the view for the requested page
-            ViewDrawNavCheckButtonBase viewPage = null;
+            ViewDrawNavCheckButtonBase? viewPage = null;
 
             // Make sure only the selected page is checked
             foreach (ViewDrawNavCheckButtonBase child in _pageLookup.Values)
@@ -782,7 +770,7 @@ namespace Krypton.Navigator
             if (!Navigator.IsDisposed && _events)
             {
                 // Create the draw view element for the check button and provide page it represents
-                ViewDrawNavCheckButtonStack checkButton = new(Navigator, e.Item, ResolveButtonOrientation());
+                var checkButton = new ViewDrawNavCheckButtonStack(Navigator, e.Item, ResolveButtonOrientation());
 
                 // Provide the drag rectangle when requested for this button
                 checkButton.ButtonDragRectangle += OnCheckButtonDragRect;
@@ -801,7 +789,7 @@ namespace Krypton.Navigator
                                                                            Navigator.StateDisabled.BorderEdge);
 
                 // Create the border edge for use next to the check button
-                ViewDrawBorderEdge buttonEdge = new(buttonEdgePalette, Navigator.Stack.StackOrientation)
+                var buttonEdge = new ViewDrawBorderEdge(buttonEdgePalette, Navigator.Stack.StackOrientation)
                 {
                     Visible = e.Item.LastVisibleSet
                 };
@@ -952,21 +940,16 @@ namespace Krypton.Navigator
             Navigator.Invalidate();
         }
 
-        private void OnAutoSizeChanged(object sender, EventArgs e)
-        {
+        private void OnAutoSizeChanged(object sender, EventArgs e) =>
             // Only use minimum instead of preferred if not using AutoSize
             _oldRoot.SetMinimumAsPreferred(!Navigator.AutoSize);
-        }
 
-        private void OnViewportAnimation(object sender, EventArgs e)
-        {
-            Navigator.PerformNeedPaint(true);
-        }
+        private void OnViewportAnimation(object sender, EventArgs e) => Navigator.PerformNeedPaint(true);
 
         private void OnCheckButtonDragRect(object sender, ButtonDragRectangleEventArgs e)
         {
             // Cast incoming reference to the actual check button view
-            ViewDrawNavCheckButtonStack reorderItem = (ViewDrawNavCheckButtonStack)sender;
+            var reorderItem = (ViewDrawNavCheckButtonStack)sender;
 
             e.PreDragOffset = (Navigator.AllowPageReorder && reorderItem.Page.AreFlagsSet(KryptonPageFlags.AllowPageReorder));
             Rectangle dragRect = Rectangle.Union(e.DragRect, _viewScrollViewport.ClientRectangle);
@@ -977,7 +960,7 @@ namespace Krypton.Navigator
         private void OnCheckButtonDragOffset(object sender, ButtonDragOffsetEventArgs e)
         {
             // Cast incoming reference to the actual check button view
-            ViewDrawNavCheckButtonStack reorderView = (ViewDrawNavCheckButtonStack)sender;
+            var reorderView = (ViewDrawNavCheckButtonStack)sender;
 
             // Scan the collection of children
             var foundReorderView = false;
@@ -985,7 +968,7 @@ namespace Krypton.Navigator
             foreach (KryptonPage page in Navigator.Pages)
             {
                 // If the mouse is over this button
-                ViewDrawNavCheckButtonStack childView = (ViewDrawNavCheckButtonStack)_pageLookup[page];
+                var childView = (ViewDrawNavCheckButtonStack)_pageLookup[page];
                 if (childView.ClientRectangle.Contains(e.PointOffset))
                 {
                     // Only interested if mouse over a different check button
@@ -1014,7 +997,7 @@ namespace Krypton.Navigator
                             {
                                 KryptonPage movePage = PageFromView(reorderView);
                                 KryptonPage targetPage = PageFromView(childView);
-                                PageReorderEventArgs reorder = new(movePage, targetPage, false);
+                                var reorder = new PageReorderEventArgs(movePage, targetPage, false);
 
                                 // Give event handlers a chance to cancel this reorder
                                 Navigator.OnBeforePageReorder(reorder);
@@ -1045,7 +1028,7 @@ namespace Krypton.Navigator
                             {
                                 KryptonPage movePage = PageFromView(reorderView);
                                 KryptonPage targetPage = PageFromView(childView);
-                                PageReorderEventArgs reorder = new(movePage, targetPage, true);
+                                var reorder = new PageReorderEventArgs(movePage, targetPage, true);
 
                                 // Give event handlers a chance to cancel this reorder
                                 Navigator.OnBeforePageReorder(reorder);
@@ -1086,7 +1069,7 @@ namespace Krypton.Navigator
             foreach (KryptonPage page in Navigator.Pages)
             {
                 // Grab the page associated view elements
-                ViewDrawNavCheckButtonStack checkButton = (ViewDrawNavCheckButtonStack)_pageLookup[page];
+                var checkButton = (ViewDrawNavCheckButtonStack)_pageLookup[page];
                 ViewDrawBorderEdge buttonEdge = _buttonEdgeLookup[page];
 
                 // Add to the child collection with the correct docking style

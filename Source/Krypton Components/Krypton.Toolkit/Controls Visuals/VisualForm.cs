@@ -5,11 +5,14 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
 
+// ReSharper disable CommentTypo
+// ReSharper disable IdentifierTypo
+// ReSharper disable InconsistentNaming
 namespace Krypton.Toolkit
 {
     /// <summary>
@@ -24,6 +27,10 @@ namespace Krypton.Toolkit
 
         private const int DEFAULT_COMPOSITION_HEIGHT = 30;
         private static readonly bool _themedApp;
+        private readonly PaletteDoubleRedirect _stateCommon;
+        private readonly PaletteContentInheritRedirect ItemShortcutTextRedirect;
+        private readonly PaletteContentJustShortText ItemShortcutText;
+
         #endregion
 
         #region Instance Fields
@@ -37,15 +44,16 @@ namespace Krypton.Toolkit
         private bool _disposing;
         private int _compositionHeight;
         private int _ignoreCount;
-        private ViewBase _capturedElement;
-        private IPalette _localPalette;
-        private IPalette _palette;
+        private ViewBase? _capturedElement;
+        private PaletteBase? _localPalette;
+        private PaletteBase? _palette;
         private PaletteMode _paletteMode;
         private readonly IntPtr _screenDC;
         private ShadowValues _shadowValues;
         private ShadowManager _shadowManager;
         private BlurValues _blurValues;
         private BlurManager _blurManager;
+        private readonly object lockObject = new object();
         #endregion
 
         #region Events
@@ -54,28 +62,28 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Property Changed")]
         [Description(@"Occurs when the value of the Palette property is changed.")]
-        public event EventHandler PaletteChanged;
+        public event EventHandler? PaletteChanged;
 
         /// <summary>
         /// Occurs when the use of custom chrome changes.
         /// </summary>
         [Browsable(false)]  // SKC: Probably a special case for not exposing this event in the designer....
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public event EventHandler ApplyCustomChromeChanged;
+        public event EventHandler? ApplyCustomChromeChanged;
 
         /// <summary>
         /// Occurs when the active window setting changes.
         /// </summary>
         [Browsable(false)]  // SKC: Probably a special case for not exposing this event in the designer....
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public event EventHandler WindowActiveChanged;
+        public event EventHandler? WindowActiveChanged;
 
         /// <summary>
         /// Occurs when the Global palette changes.
         /// </summary>
         [Category(@"Property Changed")]
         [Description(@"Occurs when the value of the GlobalPalette property is changed.")]
-        public event EventHandler GlobalPaletteChanged;
+        public event EventHandler? GlobalPaletteChanged;
         #endregion
 
         #region Identity
@@ -97,6 +105,10 @@ namespace Krypton.Toolkit
         /// </summary>
         public VisualForm()
         {
+            InitializeComponent();
+
+            base.DoubleBuffered = true;
+
             // Automatically redraw whenever the size of the window changes
             SetStyle(ControlStyles.ResizeRedraw, true);
 
@@ -116,9 +128,16 @@ namespace Krypton.Toolkit
 
             // Default the composition height
             _compositionHeight = DEFAULT_COMPOSITION_HEIGHT;
+            CloseBox = true;
 
             // Create constant target for resolving palette delegates
             Redirector = CreateRedirector();
+
+            _stateCommon = new PaletteDoubleRedirect(Redirector, PaletteBackStyle.ButtonCustom1,
+                PaletteBorderStyle.ButtonCustom1, NeedPaintDelegate);
+
+            ItemShortcutTextRedirect = new PaletteContentInheritRedirect(Redirector, PaletteContentStyle.LabelNormalPanel);
+            ItemShortcutText = new PaletteContentJustShortText(ItemShortcutTextRedirect, NeedPaintDelegate);
 
             // Hook into global static events
             KryptonManager.GlobalPaletteChanged += OnGlobalPaletteChanged;
@@ -172,6 +191,120 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Public
+
+        /// <inheritdoc />
+        [Browsable(false)]
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        protected override bool DoubleBuffered
+        {
+            get => true;
+            set
+            {
+                // Do Nothing
+            }
+        }
+
+        /// <inheritdoc />
+        [Browsable(false)]
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public override Color BackColor
+        {
+            get
+            {
+                Color rawBackColor = _stateCommon.Back.GetBackColor1(Enabled ? PaletteState.Disabled : PaletteState.Normal);
+                return !rawBackColor.IsEmpty ? rawBackColor : Control.DefaultBackColor;
+            }
+            set
+            {
+                //Do Nothing;
+            }
+        }
+
+        /// <inheritdoc />
+        [Browsable(false)]
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        [AmbientValue(null)]
+        public override Font Font
+        {
+            get => ItemShortcutText.GetContentShortTextFont(Enabled ? PaletteState.Disabled : PaletteState.Normal);
+            set
+            {
+                //Do Nothing;
+            }
+        }
+
+        /// <inheritdoc />
+        [Browsable(false)]
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public override Color ForeColor
+        {
+            get => ItemShortcutText.GetContentShortTextColor1(Enabled ? PaletteState.Disabled : PaletteState.Normal);
+            set
+            {
+                //Do Nothing;
+            }
+        }
+
+        /// <inheritdoc />
+        [Browsable(false)]
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        [DefaultValue(null)]
+        public override Image? BackgroundImage
+        {
+            get => _stateCommon.Back.GetBackImage(Enabled ? PaletteState.Disabled : PaletteState.Normal);
+            set
+            {
+                //Do Nothing;
+            }
+        }
+        /// <inheritdoc />
+        [Browsable(false)]
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        [DefaultValue(ImageLayout.Tile)]
+        public override ImageLayout BackgroundImageLayout
+        {
+            get
+            {
+                return _stateCommon.Back.GetBackImageStyle(Enabled ? PaletteState.Disabled : PaletteState.Normal) switch
+                {
+                    PaletteImageStyle.TopMiddle => ImageLayout.Center,
+                    PaletteImageStyle.CenterLeft => ImageLayout.Center,
+                    PaletteImageStyle.CenterMiddle => ImageLayout.Center,
+                    PaletteImageStyle.CenterRight => ImageLayout.Center,
+                    PaletteImageStyle.Stretch => ImageLayout.Stretch,
+                    PaletteImageStyle.Tile => ImageLayout.Tile,
+                    _ => ImageLayout.None
+                };
+            }
+            set
+            {
+                //Do Nothing;
+            }
+        }
+
+        /// <summary>Sets the default panel backcolor source i.e. PanelClient.</summary>
+        [DefaultValue(typeof(PaletteBackStyle), @"PaletteBackStyle.PanelClient")]
+        [Description(@"Sets the default panel backcolor source i.e. PanelClient.")]
+        public PaletteBackStyle BackStyle
+        {
+            get => _stateCommon.BackStyle;
+
+            set
+            {
+                if (_stateCommon.BackStyle != value)
+                {
+                    _stateCommon.BackStyle = value;
+
+                    PerformNeedPaint(true);
+                }
+            }
+        }
 
         /// <summary>
         /// Gets the DpiX of the view.
@@ -290,6 +423,14 @@ namespace Krypton.Toolkit
             }
         }
 
+        /// <summary>Gets or sets a value indicating whether the Close button is displayed in the caption bar of the form.</summary>
+        /// <returns>
+        /// <see langword="true" /> to display a Close button for the form; otherwise, <see langword="false" />. The default is <see langword="true" />.</returns>
+        [Category("Window Style")]
+        [DefaultValue(true)]
+        [Description("Form Close Button Visiblity: This will also Hide the System Menu `Close` and disable the `Alt+F4` action")]
+        public bool CloseBox { [DebuggerStepThrough] get; set; }
+
         /// <summary>
         /// Gets a value indicating if composition is being applied.
         /// </summary>
@@ -336,7 +477,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public IKryptonComposition Composition { get; set; }
+        public IKryptonComposition? Composition { get; set; }
 
         /// <summary>
         /// Gets or sets the palette to be applied.
@@ -439,7 +580,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Custom palette applied to drawing.")]
         [DefaultValue(null)]
-        public IPalette Palette
+        public PaletteBase? Palette
         {
             [DebuggerStepThrough]
             get => _localPalette;
@@ -450,7 +591,7 @@ namespace Krypton.Toolkit
                 if (_localPalette != value)
                 {
                     // Remember the starting palette
-                    IPalette old = _localPalette;
+                    PaletteBase? old = _localPalette;
 
                     // Use the provided palette value
                     SetPalette(value);
@@ -496,7 +637,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public IRenderer Renderer
+        public IRenderer? Renderer
         {
             [DebuggerStepThrough]
             get;
@@ -516,7 +657,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public IPalette GetResolvedPalette() => _palette;
+        public PaletteBase? GetResolvedPalette() => _palette;
 
         /// <summary>
         /// Create a tool strip renderer appropriate for the current renderer/palette pair.
@@ -587,6 +728,7 @@ namespace Krypton.Toolkit
         [Category(@"Window Style")]
         [DefaultValue(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        [Obsolete(@"Please use a ButtonSpec, as this gives greater flexibility!", false)]
         [Description(@"Please use a ButtonSpec, as this gives greater flexibility!")]
         public new bool HelpButton
         {
@@ -636,7 +778,13 @@ namespace Krypton.Toolkit
             }
         }
 #endif
-#endregion
+
+        /// <summary>Gets or sets the tool bar manager.</summary>
+        /// <value>The tool bar manager.</value>
+        [AllowNull, DefaultValue(null), Category(@"Visuals"), Description(@"Gets or sets the tool bar manager.")]
+        public KryptonIntegratedToolBarManager? ToolBarManager { get; set; }
+
+        #endregion
 
         #region Public Chrome
         /// <summary>
@@ -663,7 +811,7 @@ namespace Krypton.Toolkit
         /// Reset the internal counters.
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public void KryptonResetCounters() => ViewManager.ResetCounters();
+        public void KryptonResetCounters() => ViewManager?.ResetCounters();
 
         /// <summary>
         /// Gets the number of layout cycles performed since last reset.
@@ -671,7 +819,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public int KryptonLayoutCounter => ViewManager.LayoutCounter;
+        public int KryptonLayoutCounter => ViewManager?.LayoutCounter ?? 0;
 
         /// <summary>
         /// Gets the number of paint cycles performed since last reset.
@@ -679,7 +827,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public int KryptonPaintCounter => ViewManager.PaintCounter;
+        public int KryptonPaintCounter => ViewManager?.PaintCounter ?? 0;
 
         #endregion
 
@@ -687,7 +835,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the ViewManager instance.
         /// </summary>
-        protected ViewManager ViewManager
+        protected ViewManager? ViewManager
         {
             [DebuggerStepThrough]
             get;
@@ -697,7 +845,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the palette redirector.
         /// </summary>
-        protected PaletteRedirect Redirector
+        protected PaletteRedirect? Redirector
         {
             [DebuggerStepThrough]
             get;
@@ -748,32 +896,52 @@ namespace Krypton.Toolkit
         protected void InvalidateNonClient(Rectangle invalidRect,
                                            bool excludeClientArea)
         {
-            if (!IsDisposed && !Disposing && IsHandleCreated)
+            if (IsDisposed || Disposing || !IsHandleCreated)
+            {
+                return;
+            }
+
+            lock (lockObject)
             {
                 if (invalidRect.IsEmpty)
                 {
                     Padding realWindowBorders = RealWindowBorders;
                     Rectangle realWindowRectangle = RealWindowRectangle;
 
-                    invalidRect = new Rectangle(-realWindowBorders.Left,
-                                                -realWindowBorders.Top,
-                                                realWindowRectangle.Width,
-                                                realWindowRectangle.Height);
+                    invalidRect = realWindowRectangle with
+                    {
+                        X = -realWindowBorders.Left,
+                        Y = -realWindowBorders.Top
+                    };
                 }
 
-                using Region invalidRegion = new(invalidRect);
+                using var invalidRegion = new Region(invalidRect);
                 if (excludeClientArea)
                 {
                     invalidRegion.Exclude(ClientRectangle);
                 }
 
                 using Graphics g = Graphics.FromHwnd(Handle);
-                IntPtr hRgn = invalidRegion.GetHrgn(g);
+                IntPtr? hRgn = null;
+                try
+                {
+                    hRgn = invalidRegion.GetHrgn(g);
 
-                PI.RedrawWindow(Handle, IntPtr.Zero, hRgn,
-                    PI.RDW_FRAME | PI.RDW_UPDATENOW | PI.RDW_INVALIDATE);
-
-                PI.DeleteObject(hRgn);
+                    PI.RedrawWindow(Handle, IntPtr.Zero, hRgn.Value,
+                        PI.RDW_FRAME | PI.RDW_UPDATENOW | PI.RDW_INVALIDATE);
+                }
+                catch (InvalidOperationException ioEx)
+                {
+                    // Object is currently in use elsewhere. ??
+                    Debug.WriteLine(ioEx.Message);
+                }
+                finally
+                {
+                    if (hRgn != null)
+                    {
+                        PI.DeleteObject(hRgn.Value);
+                    }
+                }
             }
         }
 
@@ -786,7 +954,7 @@ namespace Krypton.Toolkit
             {
                 // Grab the actual current size of the window, this is more accurate than using
                 // the 'this.Size' which is out of date when performing a resize of the window.
-                PI.RECT windowRect = new();
+                var windowRect = new PI.RECT();
                 PI.GetWindowRect(Handle, ref windowRect);
 
                 // Create rectangle that encloses the entire window
@@ -844,8 +1012,8 @@ namespace Krypton.Toolkit
 
             base.OnResize(e);
 
-            if (ApplyCustomChrome 
-                && !((MdiParent != null) 
+            if (ApplyCustomChrome
+                && !((MdiParent != null)
                      && CommonHelper.IsFormMaximized(this))
                 )
             {
@@ -907,7 +1075,7 @@ namespace Krypton.Toolkit
             // If drawing with custom chrome and composition
             if (ApplyCustomChrome && ApplyComposition)
             {
-                Rectangle compositionRect = new(0, 0, Width, _compositionHeight);
+                var compositionRect = new Rectangle(0, 0, Width, _compositionHeight);
 
                 // Draw the extended area inside the client in black, this ensures
                 // it is treated as transparent by the desktop window manager
@@ -935,6 +1103,12 @@ namespace Krypton.Toolkit
 
             base.OnShown(e);
         }
+
+        protected override void OnPaint(PaintEventArgs e)
+        {
+            base.OnPaint(e);
+        }
+
         #endregion
 
         #region Protected Virtual
@@ -942,24 +1116,18 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Suspend processing of non-client painting.
         /// </summary>
-        protected virtual void SuspendPaint()
-        {
-            _ignoreCount++;
-        }
+        protected virtual void SuspendPaint() => _ignoreCount++;
 
         /// <summary>
         /// Resume processing of non-client painting.
         /// </summary>
-        protected virtual void ResumePaint()
-        {
-            _ignoreCount--;
-        }
+        protected virtual void ResumePaint() => _ignoreCount--;
 
         /// <summary>
         /// Create the redirector instance.
         /// </summary>
         /// <returns>PaletteRedirect derived class.</returns>
-        protected virtual PaletteRedirect CreateRedirector() => new (_palette);
+        protected virtual PaletteRedirect CreateRedirector() => new PaletteRedirect(_palette);
 
         /// <summary>
         /// Processes a notification from palette storage of a button spec change.
@@ -1006,7 +1174,7 @@ namespace Krypton.Toolkit
         /// <param name="sender">Source of notification.</param>
         /// <param name="e">An NeedLayoutEventArgs containing event data.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        protected virtual void OnNeedPaint(object sender, NeedLayoutEventArgs e)
+        protected virtual void OnNeedPaint(object? sender, [DisallowNull] NeedLayoutEventArgs e)
         {
             Debug.Assert(e != null);
 
@@ -1037,6 +1205,13 @@ namespace Krypton.Toolkit
                     InvalidateNonClient();
                 }
             }
+
+            // Force repaint of Background etc.
+            OnBackColorChanged(EventArgs.Empty);
+            OnBackgroundImageChanged(EventArgs.Empty);
+            OnBackgroundImageLayoutChanged(EventArgs.Empty);
+            OnFontChanged(EventArgs.Empty);
+            OnForeColorChanged(EventArgs.Empty);
         }
 
         /// <summary>
@@ -1051,7 +1226,8 @@ namespace Krypton.Toolkit
             // LayoutMdi call on the parent from working and cascading/tiling the children
             //if ((m.Msg == (int)PI.WM_NCCALCSIZE) && _themedApp &&
             //    ((MdiParent == null) || ApplyCustomChrome))
-            if (_themedApp
+            if (!CommonHelper.IsFormMaximized(this)
+                && _themedApp
                 && ((MdiParent == null) || ApplyCustomChrome)
                 )
             {
@@ -1134,13 +1310,13 @@ namespace Krypton.Toolkit
                             // Is this the command for closing the form?
                             if (sc == PI.SC_.CLOSE)
                             {
-                                PropertyInfo pi = typeof(Form).GetProperty(@"CloseReason",
+                                PropertyInfo? pi = typeof(Form).GetProperty(nameof(CloseReason),
                                     BindingFlags.Instance |
                                     BindingFlags.SetProperty |
                                     BindingFlags.NonPublic);
 
                                 // Update form with the reason for the close
-                                pi.SetValue(this, CloseReason.UserClosing, null);
+                                pi?.SetValue(this, CloseReason.UserClosing, null);
                             }
 
                             if (sc != PI.SC_.KEYMENU)
@@ -1195,7 +1371,7 @@ namespace Krypton.Toolkit
 
             // Adjust the maximized size and position to fit the work area of the correct monitor
             const int MONITOR_DEFAULT_TO_NEAREST = 0x00000002;
-            IntPtr monitor = PI.MonitorFromWindow(m.HWnd, MONITOR_DEFAULT_TO_NEAREST);
+            var monitor = PI.MonitorFromWindow(m.HWnd, MONITOR_DEFAULT_TO_NEAREST);
 
             if (monitor != IntPtr.Zero)
             {
@@ -1293,7 +1469,7 @@ namespace Krypton.Toolkit
         protected virtual bool OnWM_NCHITTEST(ref Message m)
         {
             // Extract the point in screen coordinates
-            Point screenPoint = new((int)m.LParam.ToInt64());
+            var screenPoint = new Point((int)m.LParam.ToInt64());
 
             // Convert to window coordinates
             Point windowPoint = ScreenToWindow(screenPoint);
@@ -1313,7 +1489,7 @@ namespace Krypton.Toolkit
         protected virtual bool OnCompWM_NCHITTEST(ref Message m)
         {
             // Let the desktop window manager process it first
-            PI.Dwm.DwmDefWindowProc(m.HWnd, m.Msg, m.WParam, m.LParam, out IntPtr result);
+            PI.Dwm.DwmDefWindowProc(m.HWnd, m.Msg, m.WParam, m.LParam, out var result);
             m.Result = result;
 
             // If no result returned then let the base window routine process it
@@ -1325,11 +1501,11 @@ namespace Krypton.Toolkit
             // If the window proc has decided it is in the CAPTION or CLIENT areas
             // then we might have something of our own in that area that we want to
             // override the return value for. So process it ourself.
-            if ((m.Result == (IntPtr)PI.HT.CAPTION) ||
-                (m.Result == (IntPtr)PI.HT.CLIENT))
+            if (m.Result == (IntPtr)PI.HT.CAPTION
+                    || m.Result == (IntPtr)PI.HT.CLIENT)
             {
                 // Extract the point in screen coordinates
-                Point screenPoint = new((int)m.LParam.ToInt64());
+                var screenPoint = new Point((int)m.LParam.ToInt64());
 
                 // Convert to window coordinates
                 Point windowPoint = ScreenToWindow(screenPoint);
@@ -1397,7 +1573,7 @@ namespace Krypton.Toolkit
         protected virtual bool OnWM_NCMOUSEMOVE(ref Message m)
         {
             // Extract the point in screen coordinates
-            Point screenPoint = new((int)m.LParam.ToInt64());
+            var screenPoint = new Point((int)m.LParam.ToInt64());
 
             // Convert to window coordinates
             Point windowPoint = ScreenToWindow(screenPoint);
@@ -1414,7 +1590,7 @@ namespace Krypton.Toolkit
             // If we are not tracking when the mouse leaves the non-client window
             if (!_trackingMouse)
             {
-                PI.TRACKMOUSEEVENTS tme = new()
+                var tme = new PI.TRACKMOUSEEVENTS
                 {
                     // This structure needs to know its own size in bytes
                     cbSize = (uint)Marshal.SizeOf(typeof(PI.TRACKMOUSEEVENTS)),
@@ -1449,7 +1625,7 @@ namespace Krypton.Toolkit
         protected virtual bool OnWM_NCLBUTTONDOWN(ref Message m)
         {
             // Extract the point in screen coordinates
-            Point screenPoint = new((int)m.LParam.ToInt64());
+            var screenPoint = new Point((int)m.LParam.ToInt64());
 
             // Convert to window coordinates
             Point windowPoint = ScreenToWindow(screenPoint);
@@ -1472,7 +1648,7 @@ namespace Krypton.Toolkit
         protected virtual bool OnWM_NCLBUTTONUP(ref Message m)
         {
             // Extract the point in screen coordinates
-            Point screenPoint = new((int)m.LParam.ToInt64());
+            var screenPoint = new Point((int)m.LParam.ToInt64());
 
             // Convert to window coordinates
             Point windowPoint = ScreenToWindow(screenPoint);
@@ -1519,7 +1695,7 @@ namespace Krypton.Toolkit
         protected virtual bool OnWM_MOUSEMOVE(ref Message m)
         {
             // Extract the point in client coordinates
-            Point clientPoint = new((int)m.LParam);
+            var clientPoint = new Point((int)m.LParam);
 
             // Convert to screen coordinates
             Point screenPoint = PointToScreen(clientPoint);
@@ -1551,7 +1727,7 @@ namespace Krypton.Toolkit
             _trackingMouse = false;
 
             // Extract the point in client coordinates
-            Point clientPoint = new((int)m.LParam);
+            var clientPoint = new Point((int)m.LParam);
 
             // Convert to screen coordinates
             Point screenPoint = PointToScreen(clientPoint);
@@ -1560,10 +1736,10 @@ namespace Krypton.Toolkit
             Point windowPoint = ScreenToWindow(screenPoint);
 
             // Pass message onto the view elements
-            ViewManager.MouseUp(new MouseEventArgs(MouseButtons.Left, 0, windowPoint.X, windowPoint.Y, 0), windowPoint);
+            ViewManager?.MouseUp(new MouseEventArgs(MouseButtons.Left, 0, windowPoint.X, windowPoint.Y, 0), windowPoint);
 
             // Pass message onto the view elements
-            ViewManager.MouseLeave(EventArgs.Empty);
+            ViewManager?.MouseLeave(EventArgs.Empty);
 
             // Need a repaint to show change
             InvalidateNonClient();
@@ -1579,16 +1755,16 @@ namespace Krypton.Toolkit
         protected virtual bool OnWM_NCLBUTTONDBLCLK(ref Message m)
         {
             // Extract the point in screen coordinates
-            Point screenPoint = new((int)m.LParam.ToInt64());
+            var screenPoint = new Point((int)m.LParam.ToInt64());
 
             // Convert to window coordinates
             Point windowPoint = ScreenToWindow(screenPoint);
 
             // Find the view element under the mouse
-            ViewBase pointView = ViewManager.Root.ViewFromPoint(windowPoint);
+            ViewBase? pointView = ViewManager?.Root?.ViewFromPoint(windowPoint);
 
             // Try and find a mouse controller for the active view
-            IMouseController controller = pointView?.FindMouseController();
+            IMouseController? controller = pointView?.FindMouseController();
 
             // Eat the message
             return controller != null;
@@ -1604,10 +1780,10 @@ namespace Krypton.Toolkit
             Rectangle windowBounds = RealWindowRectangle;
 
             // We can only draw a window that has some size
-            if ((windowBounds.Width > 0) && (windowBounds.Height > 0))
+            if (windowBounds is { Width: > 0, Height: > 0 })
             {
                 // Get the device context for this window
-                IntPtr hDC = PI.GetWindowDC(Handle);
+                var hDC = PI.GetWindowDC(Handle);
 
                 // If we managed to get a device context
                 if (hDC != IntPtr.Zero)
@@ -1616,14 +1792,13 @@ namespace Krypton.Toolkit
                     {
                         // Find the rectangle that covers the client area of the form
                         Padding borders = RealWindowBorders;
-                        Rectangle clipClientRect = new(borders.Left, borders.Top,
-                                                                 windowBounds.Width - borders.Horizontal,
-                                                                 windowBounds.Height - borders.Vertical);
+                        var clipClientRect = new Rectangle(borders.Left, borders.Top,
+                            windowBounds.Width - borders.Horizontal, windowBounds.Height - borders.Vertical);
 
                         var minimized = CommonHelper.IsFormMinimized(this);
 
                         // After excluding the client area, is there anything left to draw?
-                        if (minimized || ((clipClientRect.Width > 0) && (clipClientRect.Height > 0)))
+                        if (minimized || clipClientRect is { Width: > 0, Height: > 0 })
                         {
                             // If not minimized we need to clip the client area
                             if (!minimized)
@@ -1634,7 +1809,7 @@ namespace Krypton.Toolkit
                             }
 
                             // Create one the correct size and cache for future drawing
-                            IntPtr hBitmap = PI.CreateCompatibleBitmap(hDC, windowBounds.Width, windowBounds.Height);
+                            var hBitmap = PI.CreateCompatibleBitmap(hDC, windowBounds.Width, windowBounds.Height);
 
                             // If we managed to get a compatible bitmap
                             if (hBitmap != IntPtr.Zero)
@@ -1728,7 +1903,7 @@ namespace Krypton.Toolkit
         /// Perform non-client mouse movement processing.
         /// </summary>
         /// <param name="pt">Point in window coordinates.</param>
-        protected virtual void WindowChromeNonClientMouseMove(Point pt) => ViewManager.MouseMove(new MouseEventArgs(MouseButtons.None, 0, pt.X, pt.Y, 0), pt);
+        protected virtual void WindowChromeNonClientMouseMove(Point pt) => ViewManager?.MouseMove(new MouseEventArgs(MouseButtons.None, 0, pt.X, pt.Y, 0), pt);
 
         /// <summary>
         /// Process the left mouse down event.
@@ -1737,11 +1912,11 @@ namespace Krypton.Toolkit
         /// <returns>True if event is processed; otherwise false.</returns>
         protected virtual bool WindowChromeLeftMouseDown(Point windowPoint)
         {
-            ViewManager.MouseDown(new MouseEventArgs(MouseButtons.Left, 1, windowPoint.X, windowPoint.Y, 0), windowPoint);
+            ViewManager?.MouseDown(new MouseEventArgs(MouseButtons.Left, 1, windowPoint.X, windowPoint.Y, 0), windowPoint);
 
             // If we moused down on a active view element
             // Ask the controller if the mouse down should be ignored by wnd proc processing
-            IMouseController controller = ViewManager.ActiveView?.FindMouseController();
+            IMouseController? controller = ViewManager?.ActiveView?.FindMouseController();
             return controller is { IgnoreVisualFormLeftButtonDown: true };
         }
 
@@ -1752,7 +1927,7 @@ namespace Krypton.Toolkit
         /// <returns>True if event is processed; otherwise false.</returns>
         protected virtual bool WindowChromeLeftMouseUp(Point pt)
         {
-            ViewManager.MouseUp(new MouseEventArgs(MouseButtons.Left, 0, pt.X, pt.Y, 0), pt);
+            ViewManager?.MouseUp(new MouseEventArgs(MouseButtons.Left, 0, pt.X, pt.Y, 0), pt);
 
             // By default, we have not handled the mouse up event
             return false;
@@ -1763,7 +1938,7 @@ namespace Krypton.Toolkit
         /// </summary>
         protected virtual void WindowChromeMouseLeave() =>
             // Pass message onto the view elements
-            ViewManager.MouseLeave(EventArgs.Empty);
+            ViewManager?.MouseLeave(EventArgs.Empty);
 
         #endregion
 
@@ -1866,7 +2041,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void SetPalette(IPalette palette)
+        private void SetPalette(PaletteBase? palette)
         {
             if (palette != _palette)
             {
@@ -1884,7 +2059,7 @@ namespace Krypton.Toolkit
                 _palette = palette;
 
                 // Get the renderer associated with the palette
-                Renderer = _palette.GetRenderer();
+                Renderer = _palette?.GetRenderer();
 
                 // Hook to new palette events
                 if (_palette != null)
@@ -1899,25 +2074,19 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnBaseChanged(object sender, EventArgs e)
-        {
+        private void OnBaseChanged(object sender, EventArgs e) =>
             // Change in base renderer or base palette require we fetch the latest renderer
-            Renderer = _palette.GetRenderer();
-            // PaletteImageScaler.ScalePalette(FactorDpiX, FactorDpiY, _palette);
-        }
+            Renderer = _palette?.GetRenderer();// PaletteImageScaler.ScalePalette(FactorDpiX, FactorDpiY, _palette);
 
 #if !NET462
-        private void OnDpiChanged(object sender, DpiChangedEventArgs e)
-        {
-            UpdateDpiFactors();
-        }
+        private void OnDpiChanged(object sender, DpiChangedEventArgs e) => UpdateDpiFactors();
 #endif
         #endregion
 
         private void UpdateDpiFactors()
         {
             // Do not use the control dpi, as these values are being used to target the screen
-            IntPtr screenDc = PI.GetDC(IntPtr.Zero);
+            var screenDc = PI.GetDC(IntPtr.Zero);
             if (screenDc != IntPtr.Zero)
             {
                 FactorDpiX = PI.GetDeviceCaps(screenDc, PI.DeviceCap.LOGPIXELSX) / 96f;
@@ -1935,5 +2104,16 @@ namespace Krypton.Toolkit
             // PaletteImageScaler.ScalePalette(FactorDpiX, FactorDpiY, _palette);
         }
 
+        private void InitializeComponent()
+        {
+            SuspendLayout();
+            // 
+            // VisualForm
+            // 
+            ClientSize = new Size(284, 261);
+            Name = "VisualForm";
+            ResumeLayout(false);
+
+        }
     }
 }

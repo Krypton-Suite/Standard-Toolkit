@@ -5,7 +5,9 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  
+ *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
  */
 #endregion
@@ -44,9 +46,9 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Owning ribbon control instance.</param>
         /// <param name="ribbonTriple">Reference to triple definition.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public ViewLayoutRibbonGroupTriple(KryptonRibbon ribbon,
-                                           KryptonRibbonGroupTriple ribbonTriple,
-                                           NeedPaintHandler needPaint)
+        public ViewLayoutRibbonGroupTriple([DisallowNull] KryptonRibbon ribbon,
+                                           [DisallowNull] KryptonRibbonGroupTriple ribbonTriple,
+                                           [DisallowNull] NeedPaintHandler needPaint)
         {
             Debug.Assert(ribbon != null);
             Debug.Assert(ribbonTriple != null);
@@ -76,7 +78,7 @@ namespace Krypton.Ribbon
             // At design time we want to track the mouse and show feedback
             if (_ribbon.InDesignMode)
             {
-                ViewHightlightController controller = new(this, needPaint);
+                var controller = new ViewHightlightController(this, needPaint);
                 controller.ContextClick += OnContextClick;
                 MouseController = controller;
             }
@@ -88,7 +90,7 @@ namespace Krypton.Ribbon
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            "ViewLayoutRibbonGroupTriple:" + Id;
+            $"ViewLayoutRibbonGroupTriple:{Id}";
 
         /// <summary>
         /// Clean up any resources being used.
@@ -111,9 +113,9 @@ namespace Krypton.Ribbon
         /// Gets the first focus item from the container.
         /// </summary>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase GetFirstFocusItem()
+        public ViewBase? GetFirstFocusItem()
         {
-            ViewBase view = null;
+            ViewBase? view = null;
 
             // Scan all the children, which must be items
             foreach (ViewBase child in this)
@@ -144,9 +146,9 @@ namespace Krypton.Ribbon
         /// Gets the last focus item from the container.
         /// </summary>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase GetLastFocusItem()
+        public ViewBase? GetLastFocusItem()
         {
-            ViewBase view = null;
+            ViewBase? view = null;
 
             // Scan all the children, which must be items
             foreach (ViewBase child in Reverse())
@@ -179,9 +181,9 @@ namespace Krypton.Ribbon
         /// <param name="current">The view that is currently focused.</param>
         /// <param name="matched">Has the current focus item been matched yet.</param>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase GetNextFocusItem(ViewBase current, ref bool matched)
+        public ViewBase? GetNextFocusItem(ViewBase current, ref bool matched)
         {
-            ViewBase view = null;
+            ViewBase? view = null;
 
             // Scan all the children, which must be items
             foreach (ViewBase child in this)
@@ -215,9 +217,9 @@ namespace Krypton.Ribbon
         /// <param name="current">The view that is currently focused.</param>
         /// <param name="matched">Has the current focus item been matched yet.</param>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase GetPreviousFocusItem(ViewBase current, ref bool matched)
+        public ViewBase? GetPreviousFocusItem(ViewBase current, ref bool matched)
         {
-            ViewBase view = null;
+            ViewBase? view = null;
 
             // Scan all the children, which must be containers
             foreach (ViewBase child in Reverse())
@@ -292,7 +294,7 @@ namespace Krypton.Ribbon
                 ((int)_ribbonTriple.ItemSizeMinimum <= (int)GroupItemSize.Medium))
             {
                 ApplySize(GroupItemSize.Medium);
-                ItemSizeWidth mediumWidth = new(GroupItemSize.Medium, GetPreferredSize(context).Width);
+                var mediumWidth = new ItemSizeWidth(GroupItemSize.Medium, GetPreferredSize(context).Width);
 
                 if (_ribbon.InDesignHelperMode)
                 {
@@ -318,7 +320,7 @@ namespace Krypton.Ribbon
             if (_ribbonTriple.ItemSizeMinimum == GroupItemSize.Small)
             {
                 ApplySize(GroupItemSize.Small);
-                ItemSizeWidth smallWidth = new(GroupItemSize.Small, GetPreferredSize(context).Width);
+                var smallWidth = new ItemSizeWidth(GroupItemSize.Small, GetPreferredSize(context).Width);
 
                 if (_ribbon.InDesignHelperMode)
                 {
@@ -350,12 +352,10 @@ namespace Krypton.Ribbon
         /// Update the group with the provided sizing solution.
         /// </summary>
         /// <param name="size">Value for the container.</param>
-        public void SetSolutionSize(ItemSizeWidth size)
-        {
+        public void SetSolutionSize(ItemSizeWidth size) =>
             // Update the container definition, which itself will then
             // update all the child items inside the container for us
             _ribbonTriple.ItemSizeCurrent = size.GroupItemSize;
-        }
 
         /// <summary>
         /// Reset the container back to its requested size.
@@ -392,7 +392,7 @@ namespace Krypton.Ribbon
             // Sync child elements to the current group items
             SyncChildrenToRibbonGroupItems();
 
-            Size preferredSize = Size.Empty;
+            var preferredSize = Size.Empty;
 
             // Are we sizing horizontal or vertical?
             var horizontal = _currentSize == GroupItemSize.Large;
@@ -463,7 +463,7 @@ namespace Krypton.Ribbon
         /// Perform a layout of the elements.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override void Layout(ViewLayoutContext context)
+        public override void Layout([DisallowNull] ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 
@@ -495,7 +495,7 @@ namespace Krypton.Ribbon
                     if (child.Visible)
                     {
                         // Get the cached size of this view
-                        Size childSize = Size.Empty;
+                        var childSize = Size.Empty;
                         switch (_currentSize)
                         {
                             case GroupItemSize.Small:
@@ -630,7 +630,7 @@ namespace Krypton.Ribbon
             // Remove all child elements
             Clear();
 
-            ItemToView regenerate = new();
+            var regenerate = new ItemToView();
 
             // Add a view element for each group item
             foreach (IRibbonGroupItem item in _ribbonTriple.Items)
@@ -664,13 +664,10 @@ namespace Krypton.Ribbon
             if (_ribbon.InDesignHelperMode && (Count < 3))
             {
                 // Create the design time 'Add Tab' first time it is needed
-                if (_viewAddItem == null)
-                {
-                    _viewAddItem = new ViewDrawRibbonDesignGroupTriple(_ribbon, 
+                _viewAddItem ??= new ViewDrawRibbonDesignGroupTriple(_ribbon, 
                         _ribbonTriple, 
                         _currentSize,
                         _needPaint);
-                }
 
                 // Always add at end of the list of items
                 Add(_viewAddItem);
@@ -692,7 +689,7 @@ namespace Krypton.Ribbon
 
             switch (e.PropertyName)
             {
-                case "Visible":
+                case nameof(Visible):
                 case "ItemAlignment":
                     updateLayout = true;
                     break;

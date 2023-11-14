@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -17,10 +17,6 @@ namespace Krypton.Toolkit
     /// </summary>
     public class FixedContentValue : IContentValues
     {
-        #region Instance Fields
-
-        #endregion
-
         #region Identity
         /// <summary>
         /// Initialize a new instance of the FixedContentValue class.
@@ -37,9 +33,9 @@ namespace Krypton.Toolkit
         /// <param name="longText">Initial long text value.</param>
         /// <param name="image">Initial image value.</param>
         /// <param name="imageTransparentColor">Initial image transparent color value.</param>
-        public FixedContentValue(string shortText, 
-                                 string longText,
-                                 Image image,
+        public FixedContentValue(string? shortText, 
+                                 string? longText,
+                                 Image? image,
                                  Color imageTransparentColor)
         {
             ShortText = shortText;
@@ -57,7 +53,7 @@ namespace Krypton.Toolkit
         [Description(@"Main text.")]
         [Localizable(true)]
         [DefaultValue(@"")]
-        public string ShortText { get; set; }
+        public string? ShortText { get; set; }
 
         private bool ShouldSerializeShortText() => !string.IsNullOrEmpty(ShortText);
 
@@ -71,7 +67,7 @@ namespace Krypton.Toolkit
         [Description(@"Supplementary text.")]
         [Localizable(true)]
         [DefaultValue(@"")]
-        public string LongText { get; set; }
+        public string? LongText { get; set; }
 
         private bool ShouldSerializeLongText() => !string.IsNullOrEmpty(LongText);
 
@@ -84,7 +80,7 @@ namespace Krypton.Toolkit
         [Category(@"Appearance")]
         [Description(@"Image associated with item.")]
         [Localizable(true)]
-        public Image Image { get; set; }
+        public Image? Image { get; set; }
 
         private bool ShouldSerializeImage() => Image != null;
 
@@ -115,7 +111,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">The state for which the image is needed.</param>
         /// <returns>Image value.</returns>
-        public Image GetImage(PaletteState state) => Image;
+        public Image? GetImage(PaletteState state) => Image;
 
         /// <summary>
         /// Gets the image color that should be transparent.

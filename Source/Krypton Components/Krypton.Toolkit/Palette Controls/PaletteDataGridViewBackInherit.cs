@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -28,8 +28,8 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="inherit">Palette to inherit values from.</param>
         /// <param name="cellStyle">Cell style to recover values from.</param>
-        public void SetInherit(IPaletteBack inherit,
-                               DataGridViewCellStyle cellStyle)
+        public void SetInherit([DisallowNull] IPaletteBack inherit,
+                               [DisallowNull] DataGridViewCellStyle cellStyle)
         {
             Debug.Assert(inherit != null);
             Debug.Assert(cellStyle != null);
@@ -59,15 +59,12 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public override Color GetBackColor1(PaletteState state)
+        public override Color GetBackColor1(PaletteState state) => state switch
         {
-            return state switch
-            {
-                PaletteState.Normal => _cellStyle.BackColor,
-                PaletteState.CheckedNormal => _cellStyle.SelectionBackColor,
-                _ => _inherit.GetBackColor1(state)
-            };
-        }
+            PaletteState.Normal => _cellStyle.BackColor,
+            PaletteState.CheckedNormal => _cellStyle.SelectionBackColor,
+            _ => _inherit.GetBackColor1(state)
+        };
 
         /// <summary>
         /// Gets the second back color.
@@ -102,7 +99,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image instance.</returns>
-        public override Image GetBackImage(PaletteState state) => _inherit.GetBackImage(state);
+        public override Image? GetBackImage(PaletteState state) => _inherit.GetBackImage(state);
 
         /// <summary>
         /// Gets the background image style.

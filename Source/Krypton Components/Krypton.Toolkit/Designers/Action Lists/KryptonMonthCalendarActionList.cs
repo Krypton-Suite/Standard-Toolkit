@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -15,7 +15,7 @@ namespace Krypton.Toolkit
     internal class KryptonMonthCalendarActionList : DesignerActionList
     {
         #region Instance Fields
-        private readonly KryptonMonthCalendar _monthCalendar;
+        private readonly KryptonMonthCalendar? _monthCalendar;
         private readonly IComponentChangeService _service;
         #endregion
 
@@ -38,7 +38,7 @@ namespace Krypton.Toolkit
         #region Public
         /// <summary>Gets or sets the Krypton Context Menu.</summary>
         /// <value>The Krypton Context Menu.</value>
-        public KryptonContextMenu KryptonContextMenu
+        public KryptonContextMenu? KryptonContextMenu
         {
             get => _monthCalendar.KryptonContextMenu;
 
@@ -199,24 +199,24 @@ namespace Krypton.Toolkit
         public override DesignerActionItemCollection GetSortedActionItems()
         {
             // Create a new collection for holding the single item we want to create
-            DesignerActionItemCollection actions = new();
+            var actions = new DesignerActionItemCollection();
 
             // This can be null when deleting a control instance at design time
             if (_monthCalendar != null)
             {
                 // Add the list of bread crumb specific actions
-                actions.Add(new DesignerActionHeaderItem(@"Appearance"));
-                actions.Add(new DesignerActionPropertyItem(@"KryptonContextMenu", @"Krypton Context Menu", @"Appearance", @"The Krypton Context Menu for the control."));
-                actions.Add(new DesignerActionPropertyItem(@"DayStateCommonShortTextFont", @"Day State Common Short Text Font", @"Appearance", @"The State Common Short Text Font."));
-                actions.Add(new DesignerActionPropertyItem(@"DayStateCommonLongTextFont", @"Day State Common State Common Long Text Font", @"Appearance", @"The State Common State Common Long Text Font."));
-                actions.Add(new DesignerActionPropertyItem(@"StateCommonCornerRoundingRadius", @"State Common Corner Rounding Radius", @"Appearance", @"The corner rounding radius of the control."));
-                actions.Add(new DesignerActionHeaderItem(@"Behavior"));
-                actions.Add(new DesignerActionPropertyItem(@"MaxSelectionCount", @"MaxSelectionCount", @"Behavior", @"Maximum number of selected days"));
-                actions.Add(new DesignerActionPropertyItem(@"ShowToday", @"ShowToday", @"Behavior", @"Show the today button"));
-                actions.Add(new DesignerActionPropertyItem(@"ShowTodayCircle", @"ShowTodayCircle", @"Behavior", @"Show a circle around the today entry"));
-                actions.Add(new DesignerActionPropertyItem(@"ShowWeekNumbers", @"ShowWeekNumbers", @"Behavior", @"Show the week numbers"));
+                actions.Add(new DesignerActionHeaderItem(nameof(Appearance)));
+                actions.Add(new DesignerActionPropertyItem(nameof(KryptonContextMenu), @"Krypton Context Menu", nameof(Appearance), @"The Krypton Context Menu for the control."));
+                actions.Add(new DesignerActionPropertyItem(nameof(DayStateCommonShortTextFont), @"Day State Common Short Text Font", nameof(Appearance), @"The State Common Short Text Font."));
+                actions.Add(new DesignerActionPropertyItem(nameof(DayStateCommonLongTextFont), @"Day State Common State Common Long Text Font", nameof(Appearance), @"The State Common State Common Long Text Font."));
+                actions.Add(new DesignerActionPropertyItem(nameof(StateCommonCornerRoundingRadius), @"State Common Corner Rounding Radius", nameof(Appearance), @"The corner rounding radius of the control."));
+                actions.Add(new DesignerActionHeaderItem(nameof(Behavior)));
+                actions.Add(new DesignerActionPropertyItem(nameof(MaxSelectionCount), nameof(MaxSelectionCount), nameof(Behavior), @"Maximum number of selected days"));
+                actions.Add(new DesignerActionPropertyItem(nameof(ShowToday), nameof(ShowToday), nameof(Behavior), @"Show the today button"));
+                actions.Add(new DesignerActionPropertyItem(nameof(ShowTodayCircle), nameof(ShowTodayCircle), nameof(Behavior), @"Show a circle around the today entry"));
+                actions.Add(new DesignerActionPropertyItem(nameof(ShowWeekNumbers), nameof(ShowWeekNumbers), nameof(Behavior), @"Show the week numbers"));
                 actions.Add(new DesignerActionHeaderItem(@"Visuals"));
-                actions.Add(new DesignerActionPropertyItem(@"PaletteMode", @"Palette", @"Visuals", @"Palette applied to drawing"));
+                actions.Add(new DesignerActionPropertyItem(nameof(PaletteMode), @"Palette", @"Visuals", @"Palette applied to drawing"));
             }
 
             return actions;

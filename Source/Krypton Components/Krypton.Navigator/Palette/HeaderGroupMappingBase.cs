@@ -5,11 +5,12 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
 
+// ReSharper disable VirtualMemberCallInConstructor
 namespace Krypton.Navigator
 {
     /// <summary>
@@ -30,7 +31,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="navigator">Reference to owning navigator instance.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        protected HeaderGroupMappingBase(KryptonNavigator navigator,
+        protected HeaderGroupMappingBase([DisallowNull] KryptonNavigator navigator,
                                       NeedPaintHandler needPaint)
             : base(needPaint)
         {
@@ -51,7 +52,7 @@ namespace Krypton.Navigator
         /// Gets the default image value.
         /// </summary>
         /// <returns>Image reference.</returns>
-        protected override Image GetImageDefault() => null;
+        protected override Image? GetImageDefault() => null;
 
         /// <summary>
         /// Gets the default image mapping value.
@@ -90,7 +91,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="state">State for which the image is needed.</param>
         /// <returns>Image value.</returns>
-        public override Image GetImage(PaletteState state)
+        public override Image? GetImage(PaletteState state)
         {
             // If there is no selected page to map from or if the
             // mapping indicates to always use the static image
@@ -170,10 +171,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Resets the MapImage property to its default value.
         /// </summary>
-        public void ResetMapImage()
-        {
-            MapImage = GetMapImageDefault();
-        }
+        public void ResetMapImage() => MapImage = GetMapImageDefault();
         #endregion
 
         #region MapHeading
@@ -202,10 +200,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Resets the MapHeading property to its default value.
         /// </summary>
-        public void ResetMapHeading()
-        {
-            MapHeading = GetMapHeadingDefault();
-        }
+        public void ResetMapHeading() => MapHeading = GetMapHeadingDefault();
         #endregion
 
         #region MapDescription
@@ -234,10 +229,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Resets the MapDescription property to its default value.
         /// </summary>
-        public void ResetMapDescription()
-        {
-            MapDescription = GetMapDescriptionDefault();
-        }
+        public void ResetMapDescription() => MapDescription = GetMapDescriptionDefault();
         #endregion
     }
 }

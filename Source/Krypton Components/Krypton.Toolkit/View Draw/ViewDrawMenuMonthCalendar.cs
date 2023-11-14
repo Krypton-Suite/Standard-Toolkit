@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -80,7 +80,7 @@ namespace Krypton.Toolkit
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            "ViewDrawMenuMonthCalendar:" + Id;
+            $"ViewDrawMenuMonthCalendar:{Id}";
 
         #endregion
 
@@ -89,7 +89,7 @@ namespace Krypton.Toolkit
         /// Perform a layout of the elements.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override void Layout(ViewLayoutContext context)
+        public override void Layout([DisallowNull] ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 
@@ -117,7 +117,7 @@ namespace Krypton.Toolkit
         /// <returns>Render instance.</returns>
         public IRenderer GetRenderer()
         {
-            VisualContextMenu contextMenu = (VisualContextMenu)_provider.ProviderViewManager.Control;
+            var contextMenu = (VisualContextMenu)_provider.ProviderViewManager.Control;
             return contextMenu.Renderer;
         }
 
@@ -128,7 +128,7 @@ namespace Krypton.Toolkit
         {
             get 
             {
-                VisualContextMenu contextMenu = (VisualContextMenu)_provider.ProviderViewManager.Control;
+                var contextMenu = (VisualContextMenu)_provider.ProviderViewManager.Control;
                 return contextMenu.CreateToolStripRenderer;
             }
         }
@@ -200,7 +200,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the month calendar common appearance entries.
         /// </summary>
-        public PaletteMonthCalendarRedirect StateCommon => _monthCalendar.StateCommon;
+        public PaletteMonthCalendarRedirect? StateCommon => _monthCalendar.StateCommon;
 
         /// <summary>
         /// Gets access to the month calendar normal appearance entries.

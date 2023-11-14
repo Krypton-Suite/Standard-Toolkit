@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -17,17 +17,13 @@ namespace Krypton.Toolkit
     /// </summary>
     public class KryptonPaletteCheckButtons : Storage
     {
-        #region Instance Fields
-
-        #endregion
-
         #region Identity
         /// <summary>
         /// Initialize a new instance of the KryptonPaletteButtons class.
         /// </summary>
         /// <param name="redirector">Palette redirector for sourcing inherited values.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public KryptonPaletteCheckButtons(PaletteRedirect redirector,
+        public KryptonPaletteCheckButtons([DisallowNull] PaletteRedirect redirector,
                                        NeedPaintHandler needPaint)
         {
             Debug.Assert(redirector != null);
@@ -55,12 +51,10 @@ namespace Krypton.Toolkit
             ButtonCustom3 = new KryptonPaletteCheckButton(redirector, PaletteBackStyle.ButtonCustom3, PaletteBorderStyle.ButtonCustom3, PaletteContentStyle.ButtonCustom3, needPaint);
 
             // Create redirectors for inheriting from style specific to style common
-            PaletteRedirectTriple redirectCommon = new(redirector, 
-                                                                             ButtonCommon.StateDisabled, ButtonCommon.StateNormal,
-                                                                             ButtonCommon.StatePressed, ButtonCommon.StateTracking, 
-                                                                             ButtonCommon.StateCheckedNormal, ButtonCommon.StateCheckedPressed, 
-                                                                             ButtonCommon.StateCheckedTracking,ButtonCommon.OverrideFocus, 
-                                                                             ButtonCommon.OverrideDefault);
+            var redirectCommon = new PaletteRedirectTriple(redirector, ButtonCommon.StateDisabled,
+                ButtonCommon.StateNormal, ButtonCommon.StatePressed, ButtonCommon.StateTracking,
+                ButtonCommon.StateCheckedNormal, ButtonCommon.StateCheckedPressed, ButtonCommon.StateCheckedTracking,
+                ButtonCommon.OverrideFocus, ButtonCommon.OverrideDefault);
             // Inform the button style to use the new redirector
             ButtonStandalone.SetRedirector(redirectCommon);
             ButtonAlternate.SetRedirector(redirectCommon);

@@ -5,11 +5,12 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
 
+// ReSharper disable VirtualMemberCallInConstructor
 namespace Krypton.Navigator
 {
     /// <summary>
@@ -42,7 +43,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="navigator">Reference to owning navigator instance.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public NavigatorOutlook(KryptonNavigator navigator,
+        public NavigatorOutlook([DisallowNull] KryptonNavigator navigator,
                                 NeedPaintHandler needPaint)
         {
             Debug.Assert(navigator != null);
@@ -208,10 +209,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Resets the Orientation property to its default value.
         /// </summary>
-        public void ResetOrientation()
-        {
-            Orientation = Orientation.Vertical;
-        }
+        public void ResetOrientation() => Orientation = Orientation.Vertical;
         #endregion
 
         #region ItemOrientation
@@ -239,10 +237,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Resets the ItemOrientation property to its default value.
         /// </summary>
-        public void ResetItemOrientation()
-        {
-            ItemOrientation = ButtonOrientation.Auto;
-        }
+        public void ResetItemOrientation() => ItemOrientation = ButtonOrientation.Auto;
         #endregion
 
         #region HeaderSecondaryVisible
@@ -270,10 +265,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Resets the HeaderSecondaryVisible property to its default value.
         /// </summary>
-        public void ResetHeaderSecondaryVisible()
-        {
-            HeaderSecondaryVisible = InheritBool.False;
-        }
+        public void ResetHeaderSecondaryVisible() => HeaderSecondaryVisible = InheritBool.False;
         #endregion
 
         #region TextMoreButtons
@@ -290,10 +282,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Resets the TextMoreButtons property to its default value.
         /// </summary>
-        public void ResetTextMoreButtons()
-        {
-            TextMoreButtons = DEFAULT_MORE_BUTTONS;
-        }
+        public void ResetTextMoreButtons() => TextMoreButtons = DEFAULT_MORE_BUTTONS;
         #endregion
 
         #region TextFewerButtons
@@ -310,10 +299,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Resets the TextFewerButtons property to its default value.
         /// </summary>
-        public void ResetTextFewerButtons()
-        {
-            TextFewerButtons = DEFAULT_FEWER_BUTTONS;
-        }
+        public void ResetTextFewerButtons() => TextFewerButtons = DEFAULT_FEWER_BUTTONS;
         #endregion
 
         #region TextAddRemoveButtons
@@ -330,10 +316,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Resets the TextAddRemoveButtons property to its default value.
         /// </summary>
-        public void ResetTextAddRemoveButtons()
-        {
-            TextAddRemoveButtons = DEFAULT_ADD_REMOVE_BUTTONS;
-        }
+        public void ResetTextAddRemoveButtons() => TextAddRemoveButtons = DEFAULT_ADD_REMOVE_BUTTONS;
         #endregion
 
         #region ShowDropDownButton
@@ -361,10 +344,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Resets the ShowDropDownButton property to its default value.
         /// </summary>
-        public void ResetShowDropDownButton()
-        {
-            ShowDropDownButton = true;
-        }
+        public void ResetShowDropDownButton() => ShowDropDownButton = true;
         #endregion
     }
 }

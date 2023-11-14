@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -34,7 +34,7 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the PaletteRedirectBack class.
         /// </summary>
         /// <param name="target">Initial palette target for redirection.</param>
-        public PaletteRedirectBack(IPalette target)
+        public PaletteRedirectBack(PaletteBase? target)
             : this(target, null, null, null, null, null, null, null, null, null)
         {
         }
@@ -45,7 +45,7 @@ namespace Krypton.Toolkit
         /// <param name="target">Initial palette target for redirection.</param>
         /// <param name="disabled">Redirection for disabled state requests.</param>
         /// <param name="normal">Redirection for normal state requests.</param>
-        public PaletteRedirectBack(IPalette target,
+        public PaletteRedirectBack(PaletteBase? target,
                                    IPaletteBack disabled,
                                    IPaletteBack normal)
             : this(target, disabled, normal, null, null, null, null, null, null, null)
@@ -65,7 +65,7 @@ namespace Krypton.Toolkit
         /// <param name="checkedTracking">Redirection for checked tracking state requests.</param>
         /// <param name="focusOverride">Redirection for focus override state requests.</param>
         /// <param name="normalDefaultOverride">Redirection for normal default override state requests.</param>
-        public PaletteRedirectBack(IPalette target,
+        public PaletteRedirectBack(PaletteBase? target,
                                    IPaletteBack disabled,
                                    IPaletteBack normal,
                                    IPaletteBack pressed,
@@ -220,7 +220,7 @@ namespace Krypton.Toolkit
         /// <param name="style">Background style.</param>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image instance.</returns>
-        public override Image GetBackImage(PaletteBackStyle style, PaletteState state)
+        public override Image? GetBackImage(PaletteBackStyle style, PaletteState state)
         {
             IPaletteBack inherit = GetInherit(state);
 
@@ -248,14 +248,14 @@ namespace Krypton.Toolkit
         /// <returns>Image alignment style.</returns>
         public override PaletteRectangleAlign GetBackImageAlign(PaletteBackStyle style, PaletteState state)
         {
-            IPaletteBack inherit = GetInherit(state);
+            IPaletteBack? inherit = GetInherit(state);
 
             return inherit?.GetBackImageAlign(state) ?? Target.GetBackImageAlign(style, state);
         }
         #endregion
 
         #region Implementation
-        private IPaletteBack GetInherit(PaletteState state)
+        private IPaletteBack? GetInherit(PaletteState state)
         {
             switch (state)
             {

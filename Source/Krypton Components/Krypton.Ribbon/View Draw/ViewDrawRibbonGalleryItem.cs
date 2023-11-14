@@ -5,7 +5,9 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  
+ *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
  */
 #endregion
@@ -38,7 +40,7 @@ namespace Krypton.Ribbon
                                          IPaletteTriple palette,
                                          ViewLayoutRibbonGalleryItems layout,
                                          NeedPaintHandler needPaint)
-            : base(palette, palette, palette, palette, 
+            : base(palette, palette, palette, palette,
                    null, null, VisualOrientation.Top, false)
         {
             _gallery = gallery;
@@ -60,7 +62,7 @@ namespace Krypton.Ribbon
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            @"ViewDrawRibbonGalleryItem:" + Id;
+            $@"ViewDrawRibbonGalleryItem:{Id}";
 
         /// <summary>
         /// Clean up any resources being used.
@@ -111,9 +113,9 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Sets the image list to use for the source of the image.
         /// </summary>
-        public ImageList ImageList
+        public ImageList? ImageList
         {
-            set 
+            set
             {
                 if (_imageList != value)
                 {
@@ -135,7 +137,7 @@ namespace Krypton.Ribbon
         /// </summary>
         public int ImageIndex
         {
-            set 
+            set
             {
                 if (_imageIndex != value)
                 {
@@ -156,16 +158,15 @@ namespace Krypton.Ribbon
         /// Perform a render of the elements.
         /// </summary>
         /// <param name="context">Rendering context.</param>
-        public override void Render(RenderContext context)
+        public override void Render([DisallowNull] RenderContext context)
         {
             Debug.Assert(context != null);
-
 
             // If this item is being tracked, then show as tracking
             PaletteState tempState = ElementState;
             if (_gallery.TrackingIndex == _imageIndex)
             {
-                switch(tempState)
+                switch (tempState)
                 {
                     case PaletteState.Normal:
                         ElementState = PaletteState.Tracking;
@@ -188,13 +189,13 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="state">The state for which the image is needed.</param>
         /// <returns>Image value.</returns>
-        public virtual Image GetImage(PaletteState state)
+        public virtual Image? GetImage(PaletteState state)
         {
-           // Cache image so we do not copy it every time it is requested
-           if ((_image == null) && (_imageList != null) && (_imageIndex >= 0))
-           {
-               _image = _imageList.Images[_imageIndex];
-           }
+            // Cache image so we do not copy it every time it is requested
+            if ((_image == null) && (_imageList != null) && (_imageIndex >= 0))
+            {
+                _image = _imageList.Images[_imageIndex];
+            }
 
             return _image;
         }
@@ -219,10 +220,7 @@ namespace Krypton.Ribbon
         #endregion
 
         #region Private
-        private void OnItemClick(object sender, MouseEventArgs e)
-        {
-            _gallery.SelectedIndex = _imageIndex;
-        }
+        private void OnItemClick(object sender, MouseEventArgs e) => _gallery.SelectedIndex = _imageIndex;
         #endregion
     }
 }

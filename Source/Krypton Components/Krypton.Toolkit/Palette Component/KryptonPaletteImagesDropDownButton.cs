@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -18,12 +18,12 @@ namespace Krypton.Toolkit
     public class KryptonPaletteImagesDropDownButton : Storage
     {
         #region Instance Fields
-        private PaletteRedirect _redirect;
-        private Image _common;
-        private Image _disabled;
-        private Image _normal;
-        private Image _tracking;
-        private Image _pressed;
+        private PaletteRedirect? _redirect;
+        private Image? _common;
+        private Image? _disabled;
+        private Image? _normal;
+        private Image? _tracking;
+        private Image? _pressed;
         #endregion
 
         #region Identity
@@ -32,7 +32,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="redirect">Redirector to inherit values from.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public KryptonPaletteImagesDropDownButton(PaletteRedirect redirect,
+        public KryptonPaletteImagesDropDownButton(PaletteRedirect? redirect,
                                                   NeedPaintHandler needPaint) 
         {
             // Store the redirector
@@ -81,11 +81,9 @@ namespace Krypton.Toolkit
         /// Update the redirector with new reference.
         /// </summary>
         /// <param name="redirect">Target redirector.</param>
-        public void SetRedirector(PaletteRedirect redirect)
-        {
+        public void SetRedirector(PaletteRedirect? redirect) =>
             // Update our cached reference
             _redirect = redirect;
-        }
         #endregion
 
         #region Common
@@ -97,7 +95,7 @@ namespace Krypton.Toolkit
         [Description(@"Common image that other drop down button images inherit from.")]
         [DefaultValue(null)]
         [RefreshProperties(RefreshProperties.All)]
-        public Image Common
+        public Image? Common
         {
             get => _common;
 
@@ -114,10 +112,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the Common property to its default value.
         /// </summary>
-        public void ResetCommon()
-        {
-            Common = null;
-        }
+        public void ResetCommon() => Common = null;
         #endregion
 
         #region Disabled
@@ -129,7 +124,7 @@ namespace Krypton.Toolkit
         [Description(@"Image for use when the drop down button is disabled.")]
         [DefaultValue(null)]
         [RefreshProperties(RefreshProperties.All)]
-        public Image Disabled
+        public Image? Disabled
         {
             get => _disabled;
 
@@ -146,10 +141,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the Disabled property to its default value.
         /// </summary>
-        public void ResetDisabled()
-        {
-            Disabled = null;
-        }
+        public void ResetDisabled() => Disabled = null;
         #endregion
 
         #region Normal
@@ -161,7 +153,7 @@ namespace Krypton.Toolkit
         [Description(@"Image for use when the drop down button is not disabled.")]
         [DefaultValue(null)]
         [RefreshProperties(RefreshProperties.All)]
-        public Image Normal
+        public Image? Normal
         {
             get => _normal;
 
@@ -178,10 +170,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the Normal property to its default value.
         /// </summary>
-        public void ResetNormal()
-        {
-            Normal = null;
-        }
+        public void ResetNormal() => Normal = null;
         #endregion
 
         #region Tracking
@@ -193,7 +182,7 @@ namespace Krypton.Toolkit
         [Description(@"Image for use when the drop down button is tracking.")]
         [DefaultValue(null)]
         [RefreshProperties(RefreshProperties.All)]
-        public Image Tracking
+        public Image? Tracking
         {
             get => _tracking;
 
@@ -210,10 +199,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the Tracking property to its default value.
         /// </summary>
-        public void ResetTracking()
-        {
-            Tracking = null;
-        }
+        public void ResetTracking() => Tracking = null;
         #endregion
 
         #region Pressed
@@ -225,7 +211,7 @@ namespace Krypton.Toolkit
         [Description(@"Image for use when the drop down button is pressed.")]
         [DefaultValue(null)]
         [RefreshProperties(RefreshProperties.All)]
-        public Image Pressed
+        public Image? Pressed
         {
             get => _pressed;
 
@@ -242,10 +228,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the Pressed property to its default value.
         /// </summary>
-        public void ResetPressed()
-        {
-            Pressed = null;
-        }
+        public void ResetPressed() => Pressed = null;
         #endregion
     }
 }

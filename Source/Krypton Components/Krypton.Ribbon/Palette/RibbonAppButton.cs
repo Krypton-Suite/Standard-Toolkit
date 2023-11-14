@@ -5,8 +5,8 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved.
- *
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  
  */
 #endregion
 
@@ -18,7 +18,7 @@ namespace Krypton.Ribbon
     public class RibbonAppButton : Storage
     {
         #region Static Fields
-        private static readonly Image _defaultAppImage = Properties.Resources.AppButtonDefault;
+        private static readonly Image _defaultAppImage = GenericImageResources.AppButtonDefault;
         private const string DEFAULT_APP_TEXT = @"File";
         private static readonly Color _defaultAppBaseColorDark = Color.FromArgb(31, 72, 161);
         private static readonly Color _defaultAppBaseColorLight = Color.FromArgb(84, 158, 243);
@@ -28,8 +28,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Collection for managing ButtonSpecAppMenu instances.
         /// </summary>
-        public class AppMenuButtonSpecCollection : ButtonSpecCollection<ButtonSpecAppMenu> 
-        { 
+        public class AppMenuButtonSpecCollection : ButtonSpecCollection<ButtonSpecAppMenu>
+        {
             #region Identity
             /// <summary>
             /// Initialize a new instance of the AppMenuButtonSpecCollection class.
@@ -59,7 +59,7 @@ namespace Krypton.Ribbon
         /// Initialize a new instance of the RibbonAppButton class.
         /// </summary>
         /// <param name="ribbon">Reference to owning ribbon instance.</param>
-        public RibbonAppButton(KryptonRibbon ribbon)
+        public RibbonAppButton([DisallowNull] KryptonRibbon ribbon)
         {
             Debug.Assert(ribbon != null);
             _ribbon = ribbon;
@@ -154,9 +154,9 @@ namespace Krypton.Ribbon
         {
             get => _appButtonBaseColorDark;
 
-            set 
+            set
             {
-                if (_appButtonBaseColorDark != Color.Empty)
+                if (_appButtonBaseColorDark != value)
                 {
                     _appButtonBaseColorDark = value;
                     _ribbon.PerformNeedPaint(true);
@@ -178,9 +178,9 @@ namespace Krypton.Ribbon
         {
             get => _appButtonBaseColorLight;
 
-            set 
+            set
             {
-                if (_appButtonBaseColorLight != Color.Empty)
+                if (_appButtonBaseColorLight != value)
                 {
                     _appButtonBaseColorLight = value;
                     _ribbon.PerformNeedPaint(true);
@@ -202,9 +202,9 @@ namespace Krypton.Ribbon
         {
             get => _appButtonTextColor;
 
-            set 
+            set
             {
-                if (_appButtonTextColor != Color.Empty)
+                if (_appButtonTextColor != value)
                 {
                     _appButtonTextColor = value;
                     _ribbon.PerformNeedPaint(true);
@@ -221,15 +221,15 @@ namespace Krypton.Ribbon
         [Category(@"Appearance")]
         [Description(@"Text used for drawing an Office 2010 style application button.")]
         [KryptonDefaultColor()]
-        [DefaultValue("File")]
+        [DefaultValue(nameof(File))]
         [Localizable(true)]
         public string AppButtonText
         {
             get => _appButtonText;
 
-            set 
+            set
             {
-                if (_appButtonText != null)
+                if (_appButtonText != value)
                 {
                     _appButtonText = value;
                     _ribbon.PerformNeedPaint(true);
@@ -245,7 +245,7 @@ namespace Krypton.Ribbon
         [Category(@"Values")]
         [Description(@"Context menu items for the application button.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        [Editor(@"Krypton.Toolkit.KryptonContextMenuItemCollectionEditor, Krypton.Toolkit", typeof(UITypeEditor))]
+        [Editor(typeof(KryptonContextMenuItemCollectionEditor), typeof(UITypeEditor))]
         public virtual KryptonContextMenuItemCollection AppButtonMenuItems => _appButtonMenuItems.Items;
 
         #endregion
@@ -329,10 +329,7 @@ namespace Krypton.Ribbon
 
         private bool ShouldSerializeToolTipShadow() => !ToolTipShadow;
 
-        private void ResetToolTipShadow()
-        {
-            ToolTipShadow = true;
-        }
+        private void ResetToolTipShadow() => ToolTipShadow = true;
         #endregion
 
         #region AppButtonToolTipImage
@@ -344,7 +341,7 @@ namespace Krypton.Ribbon
         [Description(@"Display image associated ToolTip.")]
         [DefaultValue(null)]
         [Localizable(true)]
-        public Image AppButtonToolTipImage { get; set; }
+        public Image? AppButtonToolTipImage { get; set; }
 
         #endregion
 
@@ -368,7 +365,7 @@ namespace Krypton.Ribbon
         [Bindable(true)]
         [Category(@"Appearance")]
         [Description(@"Title text for use in associated ToolTip.")]
-        [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
+        [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
         [DefaultValue("")]
         [Localizable(true)]
         public string AppButtonToolTipTitle { get; set; }
@@ -382,7 +379,7 @@ namespace Krypton.Ribbon
         [Bindable(true)]
         [Category(@"Appearance")]
         [Description(@"Body text for use in associated ToolTip.")]
-        [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
+        [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
         [DefaultValue("")]
         [Localizable(true)]
         public string AppButtonToolTipBody { get; set; }

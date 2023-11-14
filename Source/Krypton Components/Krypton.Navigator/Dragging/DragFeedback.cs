@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -17,10 +17,6 @@ namespace Krypton.Navigator
     /// </summary>
     public abstract class DragFeedback : IDisposable
     {
-        #region Instance Fields
-
-        #endregion
-
         #region Identity
         /// <summary>
         /// Release resources.
@@ -81,10 +77,10 @@ namespace Krypton.Navigator
         /// <param name="renderer">Drawing renderer.</param>
         /// <param name="pageDragEndData">Drag data associated with drag operation.</param>
         /// <param name="dragTargets">List of all drag targets.</param>
-        public virtual void Start(IPaletteDragDrop paletteDragDrop,
-                                  IRenderer renderer,
-                                  PageDragEndData pageDragEndData, 
-                                  DragTargetList dragTargets)
+        public virtual void Start([DisallowNull] IPaletteDragDrop paletteDragDrop,
+            [DisallowNull] IRenderer renderer,
+            [DisallowNull] PageDragEndData pageDragEndData, 
+            [DisallowNull] DragTargetList dragTargets)
         {
             Debug.Assert(paletteDragDrop != null);
             Debug.Assert(renderer != null);
@@ -103,7 +99,7 @@ namespace Krypton.Navigator
         /// <param name="screenPt">Current screen point of mouse.</param>
         /// <param name="target">Target that needs feedback.</param>
         /// <returns>Updated drag target.</returns>
-        public abstract DragTarget Feedback(Point screenPt, DragTarget target);
+        public abstract DragTarget? Feedback(Point screenPt, DragTarget? target);
 
         /// <summary>
         /// Called to cleanup when dragging has finished.
@@ -124,17 +120,17 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets access to the cached drawing renderer.
         /// </summary>
-        protected IRenderer Renderer { get; private set; }
+        protected IRenderer? Renderer { get; private set; }
 
         /// <summary>
         /// Gets access to the cached drag data.
         /// </summary>
-        protected PageDragEndData PageDragEndData { get; private set; }
+        protected PageDragEndData? PageDragEndData { get; private set; }
 
         /// <summary>
         /// Gets access to the cached drag target list.
         /// </summary>
-        protected DragTargetList DragTargets { get; private set; }
+        protected DragTargetList? DragTargets { get; private set; }
 
         #endregion
     }

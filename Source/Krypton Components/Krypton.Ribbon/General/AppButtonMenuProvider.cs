@@ -5,7 +5,9 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  
+ *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
  */
 #endregion
@@ -19,7 +21,7 @@ namespace Krypton.Ribbon
     {
         #region Instance Fields
 
-        private readonly IContextMenuProvider _parent;
+        private readonly IContextMenuProvider? _parent;
         private ToolStripDropDownCloseReason? _closeReason;
         private readonly KryptonContextMenuItemCollection _menuCollection;
 
@@ -29,17 +31,17 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Raises the Dispose event.
         /// </summary>
-        public event EventHandler Dispose;
+        public event EventHandler? Dispose;
 
         /// <summary>
         /// Raises the Closing event.
         /// </summary>
-        public event CancelEventHandler Closing;
+        public event CancelEventHandler? Closing;
 
         /// <summary>
         /// Raises the Close event.
         /// </summary>
-        public event EventHandler<CloseReasonEventArgs> Close;
+        public event EventHandler<CloseReasonEventArgs>? Close;
         #endregion
 
         #region Identity
@@ -56,9 +58,9 @@ namespace Krypton.Ribbon
         public AppButtonMenuProvider(ViewContextMenuManager viewManager,
                                      KryptonContextMenuItemCollection menuCollection,
                                      ViewLayoutStack viewColumns,
-                                     IPalette palette,
+                                     PaletteBase? palette,
                                      PaletteMode paletteMode,
-                                     PaletteRedirect redirector,
+                                     PaletteRedirect? redirector,
                                      NeedPaintHandler needPaintDelegate)
         {
             // Store incoming state
@@ -98,10 +100,7 @@ namespace Krypton.Ribbon
         /// Fires the Dispose event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        public void OnDispose(EventArgs e)
-        {
-            Dispose?.Invoke(this, e);
-        }
+        public void OnDispose(EventArgs e) => Dispose?.Invoke(this, e);
 
         /// <summary>
         /// Fires the Closing event.
@@ -182,8 +181,8 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Sets the reason for the context menu being closed.
         /// </summary>
-        public ToolStripDropDownCloseReason? ProviderCloseReason 
-        { 
+        public ToolStripDropDownCloseReason? ProviderCloseReason
+        {
             get => _parent?.ProviderCloseReason ?? _closeReason;
 
             set
@@ -252,7 +251,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets access to the custom palette.
         /// </summary>
-        public IPalette ProviderPalette { get; }
+        public PaletteBase? ProviderPalette { get; }
 
         /// <summary>
         /// Gets access to the palette mode.
@@ -262,7 +261,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets access to the context menu redirector.
         /// </summary>
-        public PaletteRedirect ProviderRedirector { get; }
+        public PaletteRedirect? ProviderRedirector { get; }
 
         /// <summary>
         /// Gets a delegate used to indicate a repaint is required.

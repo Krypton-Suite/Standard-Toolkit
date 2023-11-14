@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -15,41 +15,33 @@ namespace Krypton.Toolkit
     /// <summary>
     /// Custom type converter so that PaletteImageEffect values appear as neat text at design time.
     /// </summary>
-    internal class PaletteImageEffectConverter : StringLookupConverter
+    internal class PaletteImageEffectConverter : StringLookupConverter<PaletteImageEffect>
     {
         #region Static Fields
 
-        private readonly Pair[] _pairs =
+        [Localizable(true)]
+        private static readonly IReadOnlyDictionary<PaletteImageEffect, string> _pairs = new Dictionary<PaletteImageEffect, string>
         {
-            new(PaletteImageEffect.Inherit, "Inherit"),
-            new(PaletteImageEffect.Light, "Light"),
-            new(PaletteImageEffect.LightLight, "LightLight"),
-            new(PaletteImageEffect.Normal, "Normal"),
-            new(PaletteImageEffect.Disabled, "Disabled"),
-            new(PaletteImageEffect.Dark, "Dark"),
-            new(PaletteImageEffect.DarkDark, "DarkDark"),
-            new(PaletteImageEffect.GrayScale, "GrayScale"),
-            new(PaletteImageEffect.GrayScaleRed, "GrayScale - Red"),
-            new(PaletteImageEffect.GrayScaleGreen, "GrayScale - Green"),
-            new(PaletteImageEffect.GrayScaleBlue, "GrayScale - Blue")
+            {PaletteImageEffect.Inherit, DesignTimeUtilities.DEFAULT_PALETTE_IMAGE_EFFECT_INHERIT},
+            {PaletteImageEffect.Light, DesignTimeUtilities.DEFAULT_PALETTE_IMAGE_EFFECT_LIGHT},
+            {PaletteImageEffect.LightLight, DesignTimeUtilities.DEFAULT_PALETTE_IMAGE_EFFECT_LIGHT_LIGHT},
+            {PaletteImageEffect.Normal, DesignTimeUtilities.DEFAULT_PALETTE_IMAGE_EFFECT_NORMAL},
+            {PaletteImageEffect.Disabled, DesignTimeUtilities.DEFAULT_PALETTE_IMAGE_EFFECT_DISABLED},
+            {PaletteImageEffect.Dark, DesignTimeUtilities.DEFAULT_PALETTE_IMAGE_EFFECT_DARK},
+            {PaletteImageEffect.DarkDark, DesignTimeUtilities.DEFAULT_PALETTE_IMAGE_EFFECT_DARK_DARK},
+            {PaletteImageEffect.GrayScale, DesignTimeUtilities.DEFAULT_PALETTE_IMAGE_EFFECT_GRAY_SCALE},
+            {PaletteImageEffect.GrayScaleRed, DesignTimeUtilities.DEFAULT_PALETTE_IMAGE_EFFECT_GRAY_SCALE_RED},
+            {PaletteImageEffect.GrayScaleGreen, DesignTimeUtilities.DEFAULT_PALETTE_IMAGE_EFFECT_GRAY_SCALE_GREEN},
+            {PaletteImageEffect.GrayScaleBlue, DesignTimeUtilities.DEFAULT_PALETTE_IMAGE_EFFECT_GRAY_SCALE_BLUE}
         };
-        #endregion
 
-        #region Identity
-        /// <summary>
-        /// Initialize a new instance of the PaletteImageEffectConverter class.
-        /// </summary>
-        public PaletteImageEffectConverter()
-            : base(typeof(PaletteImageEffect))
-        {
-        }
         #endregion
 
         #region Protected
         /// <summary>
         /// Gets an array of lookup pairs.
         /// </summary>
-        protected override Pair[] Pairs => _pairs;
+        protected override IReadOnlyDictionary<PaletteImageEffect /*Enum*/, string /*Display*/> Pairs => _pairs;
 
         #endregion
     }

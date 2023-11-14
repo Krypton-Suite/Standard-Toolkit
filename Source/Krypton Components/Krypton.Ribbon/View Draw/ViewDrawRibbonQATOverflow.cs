@@ -5,7 +5,9 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  
+ *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
  */
 #endregion
@@ -31,8 +33,8 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="ribbon">Reference to owning ribbon control.</param>
         /// <param name="needPaintDelegate">Delegate for notifying paint/layout changes.</param>
-        public ViewDrawRibbonQATOverflow(KryptonRibbon ribbon,
-                                         NeedPaintHandler needPaintDelegate)
+        public ViewDrawRibbonQATOverflow([DisallowNull] KryptonRibbon ribbon,
+                                         [DisallowNull] NeedPaintHandler needPaintDelegate)
         {
             Debug.Assert(ribbon != null);
             Debug.Assert(needPaintDelegate != null);
@@ -50,7 +52,7 @@ namespace Krypton.Ribbon
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            @"ViewDrawRibbonQATOverflow:" + Id;
+            $@"ViewDrawRibbonQATOverflow:{Id}";
 
         /// <summary>
         /// Clean up any resources being used.
@@ -92,7 +94,7 @@ namespace Krypton.Ribbon
         /// Perform a layout of the elements.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override void Layout(ViewLayoutContext context)
+        public override void Layout([DisallowNull] ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 
@@ -116,9 +118,7 @@ namespace Krypton.Ribbon
         /// Perform rendering before child elements are rendered.
         /// </summary>
         /// <param name="context">Rendering context.</param>
-        public override void RenderBefore(RenderContext context)
-        {
-            _memento = context.Renderer.RenderRibbon.DrawRibbonBack(_ribbon.RibbonShape,
+        public override void RenderBefore(RenderContext context) => _memento = context.Renderer.RenderRibbon.DrawRibbonBack(_ribbon.RibbonShape,
                                                                     context,
                                                                     ClientRectangle,
                                                                     PaletteState.Normal,
@@ -126,7 +126,6 @@ namespace Krypton.Ribbon
                                                                     VisualOrientation.Top,
                                                                     false,
                                                                     _memento);
-        }
         #endregion
     }
 }

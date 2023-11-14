@@ -5,7 +5,9 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  
+ *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
  */
 #endregion
@@ -33,7 +35,7 @@ namespace Krypton.Ribbon
         /// <param name="ribbonCheckBox">Reference to ribbon group check box definition.</param>
         /// <param name="large">Show the large image.</param>
         public ViewDrawRibbonGroupCheckBoxImage(KryptonRibbon ribbon,
-                                                KryptonRibbonGroupCheckBox ribbonCheckBox,
+            [DisallowNull] KryptonRibbonGroupCheckBox ribbonCheckBox,
                                                 bool large)
         {
             Debug.Assert(ribbonCheckBox != null);
@@ -43,7 +45,7 @@ namespace Krypton.Ribbon
             _large = large;
 
             // Use redirector to get the check box images and redirect to parent palette
-            PaletteRedirectCheckBox redirectImages = new(ribbon.GetRedirector(), ribbon.StateCommon.RibbonImages.CheckBox);
+            var redirectImages = new PaletteRedirectCheckBox(ribbon.GetRedirector(), ribbon.StateCommon.RibbonImages.CheckBox);
 
             // Create drawing element
             _drawCheckBox = new ViewDrawCheckBox(redirectImages);
@@ -61,7 +63,7 @@ namespace Krypton.Ribbon
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            @"ViewDrawRibbonGroupCheckBoxImage:" + Id;
+            $@"ViewDrawRibbonGroupCheckBoxImage:{Id}";
 
         #endregion
 
@@ -126,7 +128,7 @@ namespace Krypton.Ribbon
             ClientRectangle = context.DisplayRectangle;
 
             // Get the size of the check box when it is drawn
-            Rectangle checkBoxRect = new(Point.Empty, _drawCheckBox.GetPreferredSize(context));
+            var checkBoxRect = new Rectangle(Point.Empty, _drawCheckBox.GetPreferredSize(context));
 
             // Decide on correct position within our rectangle
             if (_large)

@@ -5,7 +5,9 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  
+ *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
  */
 #endregion
@@ -34,8 +36,8 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Reference to owning ribbon control.</param>
         /// <param name="ribbonGroup">Reference to ribbon group for display.</param>
         /// <param name="renderer">Drawing renderer.</param>
-        public VisualPopupGroup(KryptonRibbon ribbon,
-                                KryptonRibbonGroup ribbonGroup,
+        public VisualPopupGroup([DisallowNull] KryptonRibbon ribbon,
+                                [DisallowNull] KryptonRibbonGroup ribbonGroup,
                                 IRenderer renderer)
             : base(renderer, true)
         {
@@ -97,7 +99,7 @@ namespace Krypton.Ribbon
                 }
 
                 // If this group is being dismissed with key tips showing
-                if (_ribbon.InKeyboardMode &&(_ribbon.KeyTipMode == KeyTipMode.PopupGroup))
+                if (_ribbon is { InKeyboardMode: true, KeyTipMode: KeyTipMode.PopupGroup })
                 {
                     // Revert back to key tips for selected tab
                     KeyTipMode mode = _ribbon.RealMinimizedMode ? KeyTipMode.PopupMinimized : KeyTipMode.SelectedGroups;
@@ -217,7 +219,7 @@ namespace Krypton.Ribbon
             {
                 // Find the size the group requests to be
                 Size popupSize;
-                using (ViewLayoutContext context = new(this, Renderer))
+                using (var context = new ViewLayoutContext(this, Renderer))
                 {
                     popupSize = ViewGroup.GetPreferredSize(context);
                 }
@@ -244,10 +246,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Hide focus by giving it to the hidden control.
         /// </summary>
-        public void HideFocus()
-        {
-            _hiddenFocusTarget.Focus();
-        }
+        public void HideFocus() => _hiddenFocusTarget.Focus();
         #endregion
 
         #region Implementation
@@ -260,7 +259,7 @@ namespace Krypton.Ribbon
             workingArea.Width -= BOTTOMRIGHT_GAP;
             workingArea.Height -= BOTTOMRIGHT_GAP;
 
-            Point popupLocation = new(parentScreenRect.X, parentScreenRect.Bottom);
+            var popupLocation = new Point(parentScreenRect.X, parentScreenRect.Bottom);
 
             // Is there enough room below the parent for the entire popup height?
             if ((parentScreenRect.Bottom + popupSize.Height) <= workingArea.Bottom)
@@ -348,7 +347,7 @@ namespace Krypton.Ribbon
         protected override void OnKeyPress(KeyPressEventArgs e)
         {
             // If in keyboard mode then pass character onto the key tips
-            if (_ribbon.InKeyboardMode && _ribbon.InKeyTipsMode)
+            if (_ribbon is { InKeyboardMode: true, InKeyTipsMode: true })
             {
                 _ribbon.AppendKeyTipPress(char.ToUpper(e.KeyChar));
             }

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -18,48 +18,94 @@
 // ReSharper disable ArrangeTypeMemberModifiers
 // ReSharper disable BuiltInTypeReferenceStyle
 // ReSharper disable ClassNeverInstantiated.Global
-using System.Runtime.Versioning;
-using System.Security.Permissions;
+
+using Microsoft.Win32.SafeHandles;
+
+// ReSharper disable CommentTypo
+// ReSharper disable UnusedType.Local
+// ReSharper disable MemberHidesStaticFromOuterClass
+// ReSharper disable EnumUnderlyingTypeIsInt
+// ReSharper disable UnusedParameter.Local
+// ReSharper disable UnusedVariable
+#pragma warning disable IDE0090
 
 #pragma warning disable 649
 
 
 namespace Krypton.Toolkit
 {
+    internal static class Libraries
+    {
+        public const string Comctl32 = "comctl32.dll";
+        public const string Comdlg32 = "comdlg32.dll";
+        public const string DWMApi = @"dwmapi.dll";
+        public const string Gdi32 = "gdi32.dll";
+        public const string Gdiplus = "gdiplus.dll";
+        public const string Hhctrl = "hhctrl.ocx";
+        public const string Imm32 = "imm32.dll";
+        public const string Kernel32 = "kernel32.dll";
+        public const string NtDll = "ntdll.dll";
+        public const string Ole32 = "ole32.dll";
+        public const string Oleacc = "oleacc.dll";
+        public const string Oleaut32 = "oleaut32.dll";
+        public const string Powrprof = "Powrprof.dll";
+        public const string Propsys = "Propsys.dll";
+        public const string RichEdit41 = "MsftEdit.DLL";
+        public const string SHCore = "SHCore.dll";
+        public const string Shell32 = "shell32.dll";
+        public const string Shlwapi = "shlwapi.dll";
+        public const string UiaCore = "UIAutomationCore.dll";
+        public const string User32 = "user32.dll";
+        public const string UxTheme = "uxtheme.dll";
+    }
+
+    // inherits from SafeHandleZeroOrMinusOneIsInvalid, so IsInvalid is already implemented.
+    internal sealed class SafeModuleHandle : SafeHandleZeroOrMinusOneIsInvalid
+    {
+        // A default constructor is required for P/Invoke to instantiate the class
+        // ReSharper disable once ConvertToPrimaryConstructor
+        public SafeModuleHandle()
+            : base(true)
+        {
+        }
+
+        protected override bool ReleaseHandle() => PI.FreeLibrary(handle);
+    }
+
     internal partial class PI
     {
         #region statics
 
-        internal static readonly IntPtr InvalidIntPtr = new(-1);
-        internal static readonly IntPtr LPSTR_TEXTCALLBACK = new(-1);
-        internal static readonly HandleRef NullHandleRef = new(null, IntPtr.Zero);
+        internal static readonly IntPtr InvalidIntPtr = new IntPtr(-1);
+        internal static readonly IntPtr LPSTR_TEXTCALLBACK = new IntPtr(-1);
+        internal static readonly HandleRef NullHandleRef = new HandleRef(null, IntPtr.Zero);
 
         /// <summary>
         ///     Places the window above all non-topmost windows. The window maintains its topmost position even when it is deactivated.
         /// </summary>
-        internal static readonly IntPtr HWND_TOPMOST = new(-1);
+        internal static readonly IntPtr HWND_TOPMOST = new IntPtr(-1);
 
         /// <summary>
         ///     Places the window above all non-topmost windows (that is, behind all topmost windows). This flag has no effect if the window is already a non-topmost window.
         /// </summary>
-        internal static readonly IntPtr HWND_NOTOPMOST = new(-2);
+        internal static readonly IntPtr HWND_NOTOPMOST = new IntPtr(-2);
 
         /// <summary>
         ///     Places the window at the top of the Z order.
         /// </summary>
-        internal static readonly IntPtr HWND_TOP = new(0);
+        internal static readonly IntPtr HWND_TOP = new IntPtr(0);
 
         /// <summary>
         ///     Places the window at the bottom of the Z order. If the hWnd parameter identifies a topmost window, the window loses its topmost status and is placed at the bottom of all other windows.
         /// </summary>
-        internal static readonly IntPtr HWND_BOTTOM = new(1);
+        internal static readonly IntPtr HWND_BOTTOM = new IntPtr(1);
 
         internal const int BM_CLICK = 0x00F5;
         #endregion
 
         internal delegate IntPtr WndProc(IntPtr hWnd, int msg, IntPtr wParam, IntPtr lParam);
 
-        internal static object PtrToStructure(IntPtr lparam, Type cls) => Marshal.PtrToStructure(lparam, cls);
+        internal static object? PtrToStructure(IntPtr lparam, Type cls) => Marshal.PtrToStructure(lparam, cls);
         internal static void StructureToPtr(object cls, IntPtr lparam, bool deleteOld = false) => Marshal.StructureToPtr(cls, lparam, deleteOld);
 
         #region Constants
@@ -227,6 +273,7 @@ namespace Krypton.Toolkit
             /// </summary>
             BLTALIGNMENT = 119
         }
+
         /// <summary>
         ///  Blittable version of Windows BOOL type. It is convenient in situations where
         ///  manual marshalling is required, or to avoid overhead of regular bool marshalling.
@@ -1323,6 +1370,7 @@ namespace Krypton.Toolkit
             // The WM_SHOWWINDOW message is sent to a window when the window is about to be hidden or shown.
             // </summary>
             SHOWWINDOW = 0x0018,
+            CTLCOLOR = 0x0019, //replaced by https://learn.microsoft.com/en-us/windows/win32/devnotes/wm-ctlcolor-#remarks
             // <summary>
             // An application sends the WM_WININICHANGE message to all top-level windows after making a change to the WIN.INI file. The SystemParametersInfo function sends this message after an application uses the function to change a setting in WIN.INI.
             // Note  The WM_WININICHANGE message is provided only for compatibility with earlier versions of the system. Applications should use the WM_SETTINGCHANGE message.
@@ -1608,6 +1656,10 @@ namespace Krypton.Toolkit
             // The WM_NCXBUTTONDBLCLK message is posted when the user double-clicks the first or second X button while the cursor is in the nonclient area of a window. This message is posted to the window that contains the cursor. If a window has captured the mouse, this message is not posted.
             // </summary>
             NCXBUTTONDBLCLK = 0x00AD,
+            // These undocumented messages are sent to draw themed window borders. Block them to prevent drawing borders over the client area.
+            NCUAHDRAWCAPTION = 0x00AE,
+            // These undocumented messages are sent to draw themed window borders. Block them to prevent drawing borders over the client area.
+            NCUAHDRAWFRAME = 0x00AF,
             EM_GETSEL = 0xB0,
             EM_SETSEL = 0xB1,
             EM_GETRECT = 0xB2,
@@ -2226,6 +2278,8 @@ namespace Krypton.Toolkit
             // The WM_CPL_LAUNCHED message is sent when a Control Panel application, started by the WM_CPL_LAUNCH message, has closed. The WM_CPL_LAUNCHED message is sent to the window identified by the wParam parameter of the WM_CPL_LAUNCH message that started the application.
             // </summary>
             CPL_LAUNCHED = USER + 0x1001,
+
+            OCM_CTLCOLOR  = 0x2019,
             // if ( msg.Msg == PI.WM_.OCM_NOTIFY )
             //{
             //    PI.NMHEADER h2 = (PI.NMHEADER)m.GetLParam(typeof(PI.NMHEADER));
@@ -2507,7 +2561,7 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
         /// https://docs.microsoft.com/en-gb/windows/win32/winmsg/extended-window-styles
         /// </summary>
         internal struct WS_EX_
-        {   
+        {
             public const uint
                 None = 0,
                 DLGMODALFRAME = 0x00000001,
@@ -2537,6 +2591,46 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
                 NOACTIVATE = 0x08000000,
                 OVERLAPPEDWINDOW = WINDOWEDGE + CLIENTEDGE,
                 PALETTEWINDOW = WINDOWEDGE + TOOLWINDOW + TOPMOST;
+        }
+
+        internal enum MF_ : uint
+        {
+            INSERT = 0x00000000,
+            CHANGE = 0x00000080,
+            APPEND = 0x00000100,
+            DELETE = 0x00000200,
+            REMOVE = 0x00001000,
+
+            BYCOMMAND = 0x00000000,
+            BYPOSITION = 0x00000400,
+
+            SEPARATOR = 0x00000800,
+
+            ENABLED = 0x00000000,
+            GRAYED = 0x00000001,
+            DISABLED = 0x00000002,
+
+            UNCHECKED = 0x00000000,
+            CHECKED = 0x00000008,
+            USECHECKBITMAPS = 0x00000200,
+
+            STRING = 0x00000000,
+            BITMAP = 0x00000004,
+            OWNERDRAW = 0x00000100,
+
+            POPUP = 0x00000010,
+            MENUBARBREAK = 0x00000020,
+            MENUBREAK = 0x00000040,
+
+            UNHILITE = 0x00000000,
+            HILITE = 0x00000080,
+
+            DEFAULT = 0x00001000,
+            SYSMENU = 0x00002000,
+            HELP = 0x00004000,
+            RIGHTJUSTIFY = 0x00004000,
+
+            MOUSESELECT = 0x00008000
         }
 
         internal enum SC_
@@ -2638,6 +2732,13 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
             MOUSE_LL = 14
         }
 
+        [Flags]
+        public enum LWA_ : uint
+        {
+            COLORKEY = 0x00000001,
+            ALPHA = 0x00000002
+        }
+
         /// <summary>
         /// https://msdn.microsoft.com/en-us/library/windows/desktop/ms644991(v=vs.85).aspx 
         /// </summary>
@@ -2697,10 +2798,12 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
 
         internal static int MAKEHIWORD(int value) => (value & 0xFFFF) << 0x10;
 
-        internal static IntPtr MakeLParam(int LoWord, int HiWord) => new((long)((HiWord << 16) | (LoWord & 0xffff)));
+        internal static IntPtr MakeLParam(int LoWord, int HiWord) =>
+            new IntPtr((long)((HiWord << 16) | (LoWord & 0xffff)));
 
-        internal static IntPtr MakeWParam(int LoWord, int HiWord) => new((long)((HiWord << 16) | (LoWord & 0xffff)));
-        
+        internal static IntPtr MakeWParam(int LoWord, int HiWord) =>
+            new IntPtr((long)((HiWord << 16) | (LoWord & 0xffff)));
+
         /// <summary>
         /// Is the specified key currently pressed down.
         /// </summary>
@@ -2736,104 +2839,131 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
         #endregion
 
         #region Static User32
+        [DllImport(Libraries.User32)]
+        [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+        internal static extern BOOL EndDialog(IntPtr hDlg, IntPtr nResult);
 
-        [DllImport(@"user32.dll", SetLastError = true, EntryPoint = "SetWindowTextW", CharSet = CharSet.Unicode)]
+        internal static BOOL EndDialog(HandleRef hDlg, IntPtr nResult)
+        {
+            BOOL result = EndDialog(hDlg.Handle, nResult);
+            GC.KeepAlive(hDlg.Wrapper);
+            return result;
+        }
+
+        [DllImport(Libraries.User32, SetLastError = true, EntryPoint = "SetWindowTextW", CharSet = CharSet.Unicode)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern bool SetWindowText(IntPtr hwnd, String lpString);
 
         // https://docs.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-isdlgbuttonchecked
-        [DllImport(@"user32.dll")]
+        [DllImport(Libraries.User32)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern BST_ IsDlgButtonChecked(IntPtr hDlg, int nIDButton);
 
-        [DllImport(@"user32.dll")]
+        [DllImport(Libraries.User32)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern int GetDlgCtrlID(IntPtr hwndCtl);
 
-        [DllImport(@"user32.dll")]
+        [DllImport(Libraries.User32)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern bool DestroyWindow(IntPtr hWnd);
 
-        [DllImport(@"user32.dll", SetLastError = true)]
+        [DllImport(Libraries.User32, SetLastError = true)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern bool MoveWindow(IntPtr hWnd, int X, int Y, int nWidth, int nHeight, bool bRepaint);
 
-        [DllImport(@"user32.dll", SetLastError = true)]
+        [DllImport(Libraries.User32, SetLastError = true)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern IntPtr SetParent(IntPtr hWndChild, IntPtr hWndNewParent);
 
         internal delegate bool WindowEnumProc(IntPtr hwnd, IntPtr lparam);
 
-        [DllImport(@"user32.dll")]
+        [DllImport(Libraries.User32)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         [return: MarshalAs(UnmanagedType.Bool)]
         internal static extern bool EnumChildWindows(IntPtr hwnd, WindowEnumProc callback, IntPtr lParam);
 
-        [DllImport(@"user32.dll", ExactSpelling = true, CharSet = CharSet.Auto)]
+        [DllImport(Libraries.User32, ExactSpelling = true, CharSet = CharSet.Auto)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern IntPtr GetDlgItem(IntPtr hWnd, int nIDDlgItem);
 
-        [DllImport(@"user32.dll", EntryPoint = "GetWindowTextW", CharSet = CharSet.Unicode, SetLastError = true)]
+        [DllImport(Libraries.User32, EntryPoint = "GetWindowTextW", CharSet = CharSet.Unicode, SetLastError = true)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+        //If the function succeeds, the return value is the length, in characters, of the copied string,
+        //not including the terminating null character. If the window has no title bar or text,
+        //if the title bar is empty, or if the window or control handle is invalid,
+        //the return value is zero. To get extended error information, call GetLastError.
         internal static extern int GetWindowText(IntPtr hWnd, StringBuilder lpString, int nMaxCount);
 
-        [DllImport(@"user32.dll", SetLastError = true)]
+        public static string GetWindowText(IntPtr hwnd)
+        {
+            // Allocate correct string length first
+            int length = (int)SendMessage(hwnd, WM_.GETTEXTLENGTH, IntPtr.Zero, IntPtr.Zero);
+            StringBuilder sb = new StringBuilder(length + 1);
+            SendMessage(hwnd, WM_.GETTEXT, (IntPtr)sb.Capacity, sb);
+            return sb.ToString();
+        }
+
+        [DllImport(Libraries.User32, SetLastError = true)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern bool GetScrollInfo(IntPtr hWnd, SB_ nBar, ref WIN32ScrollBars.ScrollInfo lpScrollInfo);
 
-        [DllImport(@"user32.dll", SetLastError = true)]
+        [DllImport(Libraries.User32, SetLastError = true)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern int SetScrollInfo(IntPtr hwnd, SB_ nBar, ref WIN32ScrollBars.ScrollInfo lpcScrollInfo, bool redraw);
 
-        [DllImport(@"user32.dll")]
+        [DllImport(Libraries.User32)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern int GetScrollPos(IntPtr hWnd, SB_ nBar);
 
-        [DllImport(@"user32.dll")]
+        [DllImport(Libraries.User32)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern int SetScrollPos(IntPtr hWnd, SB_ nBar, int nPos, bool bRedraw);
 
-        [DllImport(@"user32.dll")]
+        [DllImport(Libraries.User32)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern bool GetScrollRange(IntPtr Handle, SB_ nBar, ref IntPtr min, ref IntPtr max);
 
-        [DllImport(@"user32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
+        [DllImport(Libraries.User32, SetLastError = true, CharSet = CharSet.Unicode)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern IntPtr LoadImage(IntPtr hinst, string lpszName, uint uType, int cxDesired, int cyDesired, uint fuLoad);
 
-        [DllImport(@"user32.dll", CharSet = CharSet.Auto)]
+        [DllImport(Libraries.User32, CharSet = CharSet.Auto)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern bool SetMenu(HandleRef hWnd, HandleRef hMenu);
 
-        [DllImport(@"user32.dll")]
+        [DllImport(Libraries.User32)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern int UnhookWindowsHookEx(IntPtr idHook);
 
         internal delegate IntPtr HookProc(int code, IntPtr wParam, IntPtr lParam);
 
-        [DllImport(@"user32.dll")]
+        [DllImport(Libraries.User32)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern IntPtr SetWindowsHookEx(WH_ idHook, HookProc lpfn, IntPtr hInstance, int threadId);
 
-        [DllImport(@"user32.dll")]
+        [DllImport(Libraries.User32)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern IntPtr CallNextHookEx(IntPtr idHook, int nCode, IntPtr wParam, IntPtr lParam);
 
-        [DllImport(@"user32.dll", CharSet = CharSet.Auto)]
+        [DllImport(Libraries.User32, CharSet = CharSet.Auto)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern bool PrintWindow(IntPtr hwnd, IntPtr hDC, uint nFlags);
 
-        [DllImport(@"user32.dll", CharSet = CharSet.Auto)]
+        [DllImport(Libraries.User32)]
+        [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+        internal static extern bool SetLayeredWindowAttributes(IntPtr hwnd, uint crKey, byte bAlpha, LWA_ dwFlags);
+
+        [DllImport(Libraries.User32, CharSet = CharSet.Auto)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern short VkKeyScan(char ch);
 
-        [DllImport(@"user32.dll", CharSet = CharSet.Auto)]
+        [DllImport(Libraries.User32, CharSet = CharSet.Auto)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern IntPtr WindowFromPoint(POINT pt);
 
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        [DllImport(@"user32.dll", EntryPoint = "GetWindowInfo", SetLastError = true)]
+        [DllImport(Libraries.User32, EntryPoint = "GetWindowInfo", SetLastError = true)]
         private static extern bool GetWindowInfoInt(IntPtr hwnd, ref WINDOWINFO pwi);
 
         [StructLayout(LayoutKind.Sequential)]
@@ -2860,7 +2990,7 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
             return GetWindowInfoInt(hwnd, ref pwi);
         }
 
-        [DllImport(@"user32.dll", CharSet = CharSet.Auto)]
+        [DllImport(Libraries.User32, CharSet = CharSet.Auto)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern uint GetWindowLong(IntPtr hWnd, GWL_ nIndex);
 
@@ -2877,11 +3007,11 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
             return ret;
         }
 
-        [DllImport(@"user32.dll", EntryPoint = "GetWindowLong", SetLastError = true)]
+        [DllImport(Libraries.User32, EntryPoint = "GetWindowLong", SetLastError = true)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         private static extern int GetWindowLongPtr32(IntPtr hWnd, GWL_ nIndex);
 
-        [DllImport(@"user32.dll", EntryPoint = "GetWindowLongPtr", SetLastError = true)]
+        [DllImport(Libraries.User32, EntryPoint = "GetWindowLongPtr", SetLastError = true)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         private static extern IntPtr GetWindowLongPtr64(IntPtr hWnd, GWL_ nIndex);
 
@@ -2919,51 +3049,54 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
             return ret;
         }
 
-        [DllImport(@"user32.dll", EntryPoint = @"GetClassLong", SetLastError = true)]
+        [DllImport(Libraries.User32, EntryPoint = @"GetClassLong", SetLastError = true)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         private static extern uint GetClassLongPtr32(IntPtr hWnd, int nIndex);
 
-        [DllImport(@"user32.dll", EntryPoint = @"GetClassLongPtr", SetLastError = true)]
+        [DllImport(Libraries.User32, EntryPoint = @"GetClassLongPtr", SetLastError = true)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         private static extern IntPtr GetClassLongPtr64(IntPtr hWnd, int nIndex);
 
-        [DllImport(@"user32.dll", EntryPoint = "SetClassLong")]
+        [DllImport(Libraries.User32, EntryPoint = "SetClassLong")]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern uint SetClassLongPtr32(IntPtr hWnd, int nIndex, uint dwNewLong);
 
-        [DllImport(@"user32.dll", EntryPoint = "SetClassLongPtr")]
+        [DllImport(Libraries.User32, EntryPoint = "SetClassLongPtr")]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern IntPtr SetClassLongPtr64(IntPtr hWnd, int nIndex, IntPtr dwNewLong);
 
-        [DllImport(@"user32.dll")]
+        [DllImport(Libraries.User32)]
         [return: MarshalAs(UnmanagedType.Bool)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern bool IntersectRect([Out] out RECT lprcDst, [In] ref RECT lprcSrc1, [In] ref RECT lprcSrc2);
 
-        [DllImport(@"user32.dll", CharSet = CharSet.Auto)]
+        [DllImport(Libraries.User32, CharSet = CharSet.Auto)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern bool InvalidateRect(IntPtr hWnd, RECT rect, bool erase);
 
-        [DllImport(@"user32.dll", CharSet = CharSet.Auto)]
+        [DllImport(Libraries.User32, CharSet = CharSet.Auto)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern bool InvalidateRect(IntPtr hWnd, IntPtr rect, bool erase);
 
-        [DllImport(@"user32.dll", CharSet = CharSet.Auto)]
-        [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
-        internal static extern bool UpdateWindow(IntPtr hWnd);
-
-
-        [DllImport(@"user32.dll")]
+        [DllImport(Libraries.User32)]
         [return: MarshalAs(UnmanagedType.Bool)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern bool IsWindowVisible(IntPtr hWnd);
 
-        [DllImport(@"user32.dll")]
+        [DllImport(Libraries.User32, SetLastError = true, CharSet = CharSet.Auto, BestFitMapping = false, ThrowOnUnmappableChar = true)]
+        [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+        internal static extern int LoadString(SafeModuleHandle hInstance, uint uID, StringBuilder lpBuffer, int nBufferMax);
+
+        [DllImport(Libraries.User32, CharSet = CharSet.Auto)]
+        [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+        internal static extern bool UpdateWindow(IntPtr hWnd);
+
+        [DllImport(Libraries.User32)]
         [return: MarshalAs(UnmanagedType.Bool)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern bool ScreenToClient(IntPtr hWnd, ref POINT lpPoint);
 
-        [DllImport(@"user32.dll", CharSet = CharSet.Auto)]
+        [DllImport(Libraries.User32, CharSet = CharSet.Auto)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern uint SetWindowLong(IntPtr hwnd, GWL_ nIndex, uint nLong);
 
@@ -2976,63 +3109,69 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
 
         [SuppressMessage("Microsoft.Interoperability", @"CA1400:PInvokeEntryPointsShouldExist")]
         [SuppressMessage("Microsoft.Performance", @"CA1811:AvoidUncalledPrivateCode")]
-        [DllImport(@"user32.dll", EntryPoint = "SetWindowLong", SetLastError = true)]
+        [DllImport(Libraries.User32, EntryPoint = "SetWindowLong", SetLastError = true)]
+        [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         private static extern int SetWindowLongPtr32(IntPtr hWnd, GWL_ nIndex, int dwNewLong);
 
         [SuppressMessage("Microsoft.Interoperability", @"CA1400:PInvokeEntryPointsShouldExist")]
         [SuppressMessage("Microsoft.Performance", @"CA1811:AvoidUncalledPrivateCode")]
-        [DllImport(@"user32.dll", EntryPoint = "SetWindowLongPtr", SetLastError = true)]
+        [DllImport(Libraries.User32, EntryPoint = "SetWindowLongPtr", SetLastError = true)]
+        [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         private static extern IntPtr SetWindowLongPtr64(IntPtr hWnd, GWL_ nIndex, IntPtr dwNewLong);
 
-        [DllImport(@"user32.dll", CharSet = CharSet.Auto)]
+        [DllImport(Libraries.User32, CharSet = CharSet.Auto)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern IntPtr GetActiveWindow();
 
-        [DllImport(@"user32.dll", CharSet = CharSet.Auto)]
+        [DllImport(Libraries.User32, CharSet = CharSet.Auto)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern int ShowWindow(IntPtr hWnd, ShowWindowCommands cmdShow);
 
-        [DllImport(@"user32.dll", CharSet = CharSet.Auto)]
+        [DllImport(Libraries.User32, CharSet = CharSet.Auto)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern IntPtr GetFocus();
 
-        [DllImport(@"user32.dll", CharSet = CharSet.Auto)]
+        [DllImport(Libraries.User32, CharSet = CharSet.Auto)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern IntPtr SetFocus(IntPtr hWnd);
 
-        [DllImport(@"user32.dll", CharSet = CharSet.Auto)]
+        [DllImport(Libraries.User32, CharSet = CharSet.Auto)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern bool HideCaret(IntPtr hWnd);
 
-        [DllImport(@"user32.dll", CharSet = CharSet.Auto)]
+        [DllImport(Libraries.User32, CharSet = CharSet.Auto)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern bool ShowCaret(IntPtr hWnd);
 
-        [DllImport(@"user32.dll", CharSet = CharSet.Auto)]
+        [DllImport(Libraries.User32, CharSet = CharSet.Auto)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern ushort GetKeyState(int virtKey);
 
-        [DllImport(@"user32.dll", CharSet = CharSet.Auto)]
+        [DllImport(Libraries.User32, CharSet = CharSet.Auto)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern IntPtr SendDlgItemMessage(IntPtr hDlg, int nIDDlgItem, int Msg, IntPtr wParam, IntPtr lParam);
 
-        [DllImport(@"user32.dll", CharSet = CharSet.Auto)]
+        [DllImport(Libraries.User32, CharSet = CharSet.Auto)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern uint SendMessage(IntPtr hWnd, int Msg, IntPtr wParam, IntPtr lParam);
 
-        [DllImport(@"user32.dll", EntryPoint = "SendMessageW")]
+        [DllImport(Libraries.User32, EntryPoint = "SendMessageW")]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern IntPtr SendMessage(IntPtr hWnd, uint Msg, IntPtr wParam, [MarshalAs(UnmanagedType.LPWStr)] string lParam);
 
-        [DllImport(@"user32.dll", CharSet = CharSet.Auto)]
+        [DllImport(Libraries.User32, CharSet = CharSet.Auto)]
+        [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+        static extern IntPtr SendMessage(IntPtr hWnd, uint Msg, IntPtr wParam, [Out] StringBuilder lParam);
+
+        [DllImport(Libraries.User32, CharSet = CharSet.Auto)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern uint SendMessage(IntPtr hWnd, uint Msg, IntPtr wParam, ref TITLEBARINFOEX lParam);
 
-        [DllImport(@"user32.dll", CharSet = CharSet.Auto)]
+        [DllImport(Libraries.User32, CharSet = CharSet.Auto)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern IntPtr SendMessage(HandleRef hWnd, int msg, int wParam, ref TV_ITEM lParam);
 
-        [DllImport(@"user32.dll", SetLastError = true)]
+        [DllImport(Libraries.User32, SetLastError = true)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern bool PostMessage(IntPtr hWnd, uint Msg, IntPtr wParam, IntPtr lParam);
 
@@ -3046,120 +3185,119 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
         }
 
 
-        [DllImport(@"user32.dll")]
+        [DllImport(Libraries.User32)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern IntPtr DeferWindowPos(IntPtr hWinPosInfo, IntPtr hWnd, IntPtr hWndInsertAfter, int x, int y, int cx, int cy, SWP_ uFlags);
 
-        [DllImport(@"user32.dll")]
+        [DllImport(Libraries.User32)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern IntPtr BeginDeferWindowPos(int nNumWindows);
 
-        [DllImport(@"user32.dll")]
+        [DllImport(Libraries.User32)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern bool EndDeferWindowPos(IntPtr hWinPosInfo);
 
-        [DllImport(@"user32.dll", CharSet = CharSet.Auto)]
+        [DllImport(Libraries.User32, CharSet = CharSet.Auto)]
         [return: MarshalAs(UnmanagedType.Bool)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndAfter, int X, int Y, int Width, int Height, SWP_ flags);
 
-        [DllImport(@"user32.dll")]
+        [DllImport(Libraries.User32)]
         [return: MarshalAs(UnmanagedType.Bool)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern bool SetForegroundWindow(IntPtr hWnd);
 
-        [DllImport(@"user32.dll", CharSet = CharSet.Auto)]
+        [DllImport(Libraries.User32, CharSet = CharSet.Auto)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern bool RedrawWindow(IntPtr hWnd, IntPtr rectUpdate, IntPtr hRgnUpdate, uint uFlags);
 
-        [DllImport(@"user32.dll", CharSet = CharSet.Auto)]
+        [DllImport(Libraries.User32, CharSet = CharSet.Auto)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern bool RedrawWindow(IntPtr hWnd, ref RECT rectUpdate, IntPtr hRgnUpdate, uint uFlags);
 
-        [DllImport(@"user32.dll", ExactSpelling = true, SetLastError = true)]
+        [DllImport(Libraries.User32, ExactSpelling = true, SetLastError = true)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern bool UpdateLayeredWindow(IntPtr hwnd, IntPtr hdcDst,
             ref POINT pptDst, ref SIZE psize, IntPtr hdcSrc, ref POINT pptSrc, uint crKey,
             [In] ref BLENDFUNCTION pblend, uint dwFlags);
 
-        [DllImport(@"user32.dll", CharSet = CharSet.Auto)]
+        [DllImport(Libraries.User32, CharSet = CharSet.Auto)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern bool TrackMouseEvent(ref TRACKMOUSEEVENTS tme);
 
-        [DllImport(@"user32.dll", CharSet = CharSet.Auto)]
+        [DllImport(Libraries.User32, CharSet = CharSet.Auto)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern IntPtr GetDC(IntPtr hWnd);
 
-        [DllImport(@"user32.dll", CharSet = CharSet.Auto)]
+        [DllImport(Libraries.User32, CharSet = CharSet.Auto)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern IntPtr GetDCEx(IntPtr hWnd, IntPtr hRgnClip, uint fdwOptions);
 
-        [DllImport(@"user32.dll", CharSet = CharSet.Auto)]
+        [DllImport(Libraries.User32, CharSet = CharSet.Auto)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern IntPtr GetWindowDC(IntPtr hwnd);
 
-        [DllImport(@"user32.dll", CharSet = CharSet.Auto)]
+        [DllImport(Libraries.User32, CharSet = CharSet.Auto)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern bool GetWindowRect(IntPtr hWnd, ref RECT rect);
 
-        [DllImport(@"user32.dll", CharSet = CharSet.Auto)]
+        [DllImport(Libraries.User32, CharSet = CharSet.Auto)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern int ReleaseDC(IntPtr hWnd, IntPtr hDC);
 
-        [DllImport(@"user32.dll", CharSet = CharSet.Auto)]
+        [DllImport(Libraries.User32, CharSet = CharSet.Auto)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern void DisableProcessWindowsGhosting();
 
-
-        [DllImport(@"user32.dll", CharSet = CharSet.Auto)]
+        [DllImport(Libraries.User32, CharSet = CharSet.Auto)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern void AdjustWindowRectEx(ref RECT rect, int dwStyle, bool hasMenu, int dwExSytle);
 
-        [DllImport(@"user32.dll", CharSet = CharSet.Auto)]
+        [DllImport(Libraries.User32, CharSet = CharSet.Auto)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern int MapWindowPoints(IntPtr hWndFrom, IntPtr hWndTo, [In, Out] POINTC pt, int cPoints);
 
-        [DllImport(@"user32.dll", CharSet = CharSet.Auto)]
+        [DllImport(Libraries.User32, CharSet = CharSet.Auto)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern bool TranslateMessage([In] ref MSG lpMsg);
 
-        [DllImport(@"user32.dll", CharSet = CharSet.Unicode)]
+        [DllImport(Libraries.User32, CharSet = CharSet.Unicode)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern int GetClassName(IntPtr hWnd, StringBuilder lpClassName, int nMaxCount);
 
-        [DllImport(@"user32.dll", CharSet = CharSet.Auto)]
+        [DllImport(Libraries.User32, CharSet = CharSet.Auto)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern IntPtr BeginPaint(IntPtr hwnd, ref PAINTSTRUCT ps);
 
-        [DllImport(@"user32.dll", CharSet = CharSet.Auto)]
+        [DllImport(Libraries.User32, CharSet = CharSet.Auto)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern bool EndPaint(IntPtr hwnd, ref PAINTSTRUCT ps);
 
-        [DllImport(@"user32.dll", CharSet = CharSet.Auto)]
+        [DllImport(Libraries.User32, CharSet = CharSet.Auto)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern bool GetClientRect(IntPtr hWnd, out RECT lpRect);
 
-        [DllImport(@"user32.dll", CharSet = CharSet.Auto)]
+        [DllImport(Libraries.User32, CharSet = CharSet.Auto)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern bool InflateRect(ref RECT lprc, int dx, int dy);
 
-        [DllImport(@"user32.dll", CharSet = CharSet.Auto)]
+        [DllImport(Libraries.User32, CharSet = CharSet.Auto)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern IntPtr GetWindow(IntPtr hWnd, uint uCmd);
 
-        [DllImport(@"user32.dll", CharSet = CharSet.Unicode)]
+        [DllImport(Libraries.User32, CharSet = CharSet.Unicode)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern uint RegisterWindowMessage(string lpString);
 
         [SuppressMessage("Microsoft.Performance", @"CA1811:AvoidUncalledPrivateCode")]
-        [DllImport(@"user32.dll", EntryPoint = "GetMonitorInfo", SetLastError = true)]
+        [DllImport(Libraries.User32, EntryPoint = "GetMonitorInfo", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         private static extern bool _GetMonitorInfo(IntPtr hMonitor, [In, Out] MONITORINFO lpmi);
 
         [SuppressMessage("Microsoft.Performance", @"CA1811:AvoidUncalledPrivateCode")]
         internal static MONITORINFO GetMonitorInfo(IntPtr hMonitor)
         {
-            MONITORINFO mi = new();
+            var mi = new MONITORINFO();
             if (!_GetMonitorInfo(hMonitor, mi))
             {
                 throw new Win32Exception();
@@ -3171,27 +3309,35 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern IntPtr MonitorFromWindow(IntPtr handle, int flags);
 
-        [DllImport(@"user32.dll")]
+        [DllImport(Libraries.User32)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern IntPtr GetSystemMenu(IntPtr hWnd, bool bRevert);
 
-        [DllImport(@"user32.dll")]
+        [DllImport("user32.dll")]
+        [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+        internal static extern int EnableMenuItem(IntPtr hMenu, SC_ targetId, MF_ state);
+
+        [DllImport("user32.dll")]
+        [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+        internal static extern IntPtr RemoveMenu(IntPtr hMenu, uint nPosition, MF_ wFlags);
+
+        [DllImport(Libraries.User32)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern int GetSystemMetrics(SM_ smIndex);
 
-        [DllImport(@"user32.dll", EntryPoint = "GetCursorInfo")]
+        [DllImport(Libraries.User32, EntryPoint = "GetCursorInfo")]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern bool GetCursorInfo(ref CURSORINFO pci);
 
-        [DllImport(@"user32.dll", EntryPoint = "CopyIcon")]
+        [DllImport(Libraries.User32, EntryPoint = "CopyIcon")]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern IntPtr CopyIcon(IntPtr hIcon);
 
-        [DllImport(@"user32.dll", EntryPoint = "GetIconInfo")]
+        [DllImport(Libraries.User32, EntryPoint = "GetIconInfo")]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern bool GetIconInfo(IntPtr hIcon, out ICONINFO piconinfo);
 
-        [DllImport(@"User32.dll", ExactSpelling = true)]
+        [DllImport(Libraries.User32, ExactSpelling = true)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern bool MessageBeep(BeepType type);
 
@@ -3209,23 +3355,23 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
         /// If the function succeeds, the return value is a window handle. If no window exists with the specified relationship
         /// to the specified window, the return value is NULL. To get extended error information, call GetLastError.
         /// </returns>
-        [DllImport(@"user32.dll", SetLastError = true)]
+        [DllImport(Libraries.User32, SetLastError = true)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern IntPtr GetWindow(IntPtr hWnd, GetWindowType uCmd);
 
-        [DllImport(@"user32.dll")]
+        [DllImport(Libraries.User32)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern IntPtr ChildWindowFromPoint(IntPtr hWndParent, POINT pt);
 
-        [DllImport(@"user32.dll", ExactSpelling = true, CharSet = CharSet.Auto)]
+        [DllImport(Libraries.User32, ExactSpelling = true, CharSet = CharSet.Auto)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern IntPtr GetParent(IntPtr hWnd);
 
-        [DllImport(@"user32.dll")]
+        [DllImport(Libraries.User32)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern int FillRect(IntPtr hDC, [In] ref RECT lprc, IntPtr hbr);
 
-        [DllImport(@"user32.dll")]
+        [DllImport(Libraries.User32)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern int SetWindowCompositionAttribute(IntPtr hwnd, ref WindowCompositionAttribData data);
 
@@ -3243,9 +3389,6 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
                 SizeOfData = sizeOfData;
             }
         }
-
-
-
 
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
         internal class LOGFONT
@@ -3293,160 +3436,160 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
 
         #region Static Gdi32
 
-        [DllImport(@"gdiplus.dll", CharSet = CharSet.Unicode, SetLastError = true)]
+        [DllImport(Libraries.Gdiplus, CharSet = CharSet.Unicode, SetLastError = true)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern int GdipCreateSolidFill(int color, out IntPtr brush);
 
-        [DllImport(@"gdiplus.dll", EntryPoint = "GdipDeleteBrush", CharSet = CharSet.Unicode, SetLastError = true)]
+        [DllImport(Libraries.Gdiplus, EntryPoint = "GdipDeleteBrush", CharSet = CharSet.Unicode, SetLastError = true)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern int GdipDeleteBrush(HandleRef brush);
 
-        [DllImport(@"gdi32.dll", CharSet = CharSet.Auto)]
+        [DllImport(Libraries.Gdi32, CharSet = CharSet.Auto)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern int BitBlt(IntPtr hDestDC, int x, int y, int nWidth, int nHeight, IntPtr hSrcDC, int xSrc, int ySrc, int dwRop);
 
-        [DllImport(@"gdi32.dll")]
+        [DllImport(Libraries.Gdi32)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern StretchBltMode SetStretchBltMode(IntPtr hdc, StretchBltMode iStretchMode);
 
-        [DllImport(@"gdi32.dll")]
+        [DllImport(Libraries.Gdi32)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern IntPtr CreateBitmap(int nWidth, int nHeight, uint cPlanes, uint cBitsPerPel, IntPtr lpvBits);
 
-        [DllImport(@"gdi32.dll", CharSet = CharSet.Auto)]
+        [DllImport(Libraries.Gdi32, CharSet = CharSet.Auto)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern IntPtr CreateCompatibleBitmap(IntPtr hDC, int nWidth, int nHeight);
 
-        [DllImport(@"gdi32.dll", CharSet = CharSet.Auto)]
+        [DllImport(Libraries.Gdi32, CharSet = CharSet.Auto)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern int ExcludeClipRect(IntPtr hDC, int x1, int y1, int x2, int y2);
 
-        [DllImport(@"gdi32.dll", CharSet = CharSet.Auto)]
+        [DllImport(Libraries.Gdi32, CharSet = CharSet.Auto)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern int IntersectClipRect(IntPtr hdc, int nLeftRect, int nTopRect, int nRightRect, int nBottomRect);
 
-        [DllImport(@"gdi32.dll", CharSet = CharSet.Auto)]
+        [DllImport(Libraries.Gdi32, CharSet = CharSet.Auto)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern int GetDeviceCaps(IntPtr hDC, DeviceCap nIndex);
 
-        [DllImport(@"gdi32.dll", CharSet = CharSet.Auto)]
+        [DllImport(Libraries.Gdi32, CharSet = CharSet.Auto)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern IntPtr CreateDIBSection(IntPtr hDC, [In] ref BITMAPINFO pBMI, uint iUsage, out IntPtr ppvBits, IntPtr hSection, uint dwOffset);
 
-        [DllImport(@"gdi32.dll", CharSet = CharSet.Auto)]
+        [DllImport(Libraries.Gdi32, CharSet = CharSet.Auto)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern IntPtr CreateCompatibleDC(IntPtr hDC);
 
-        [DllImport(@"gdi32.dll")]
+        [DllImport(Libraries.Gdi32)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern uint GetPixel(IntPtr hdc, int nXPos, int nYPos);
 
-        [DllImport(@"gdi32.dll")]
+        [DllImport(Libraries.Gdi32)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern uint SetPixel(IntPtr hdc, int X, int Y, uint crColor);
 
-        [DllImport(@"gdi32.dll")]
+        [DllImport(Libraries.Gdi32)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern int GetObject(IntPtr hgdiobj, int cbBuffer, ref BITMAP lpvObject);
 
-        [DllImport(@"gdi32.dll", CharSet = CharSet.Auto)]
+        [DllImport(Libraries.Gdi32, CharSet = CharSet.Auto)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern IntPtr SelectObject(IntPtr hDC, IntPtr hObject);
 
-        [DllImport(@"gdi32.dll", CharSet = CharSet.Auto)]
+        [DllImport(Libraries.Gdi32, CharSet = CharSet.Auto)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern IntPtr DeleteObject(IntPtr hObject);
 
-        [DllImport(@"gdi32.dll")]
+        [DllImport(Libraries.Gdi32)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern IntPtr GetStockObject(StockObjects fnObject);
 
-        [DllImport(@"gdi32.dll", CharSet = CharSet.Auto)]
+        [DllImport(Libraries.Gdi32, CharSet = CharSet.Auto)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern bool DeleteDC(IntPtr hDC);
 
-        [DllImport(@"gdi32.dll")]
+        [DllImport(Libraries.Gdi32)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern int SetDCPenColor(IntPtr hdc, int crColor);
 
-        [DllImport(@"gdi32.dll")]
+        [DllImport(Libraries.Gdi32)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern int SetDCBrushColor(IntPtr hdc, int crColor);
 
-        [DllImport(@"gdi32.dll", EntryPoint = "SaveDC", CharSet = CharSet.Auto, SetLastError = true, ExactSpelling = true)]
+        [DllImport(Libraries.Gdi32, EntryPoint = "SaveDC", CharSet = CharSet.Auto, SetLastError = true, ExactSpelling = true)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern int IntSaveDC(HandleRef hDC);
 
-        [DllImport(@"gdi32.dll", EntryPoint = "RestoreDC", CharSet = CharSet.Auto, SetLastError = true, ExactSpelling = true)]
+        [DllImport(Libraries.Gdi32, EntryPoint = "RestoreDC", CharSet = CharSet.Auto, SetLastError = true, ExactSpelling = true)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern bool IntRestoreDC(HandleRef hDC, int nSavedDC);
 
-        [DllImport(@"gdi32.dll", CharSet = CharSet.Auto, SetLastError = true, ExactSpelling = true)]
+        [DllImport(Libraries.Gdi32, CharSet = CharSet.Auto, SetLastError = true, ExactSpelling = true)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern bool GetViewportOrgEx(HandleRef hDC, [In, Out] POINTC point);
 
-        [DllImport(@"gdi32.dll")]
+        [DllImport(Libraries.Gdi32)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern bool OffsetViewportOrgEx(IntPtr hdc, int nXOffset, int nYOffset, out POINT lpPoint);
 
-        [DllImport(@"gdi32.dll", EntryPoint = "CreateRectRgn", CharSet = CharSet.Auto, SetLastError = true, ExactSpelling = true)]
+        [DllImport(Libraries.Gdi32, EntryPoint = "CreateRectRgn", CharSet = CharSet.Auto, SetLastError = true, ExactSpelling = true)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern IntPtr IntCreateRectRgn(int x1, int y1, int x2, int y2);
 
-        [DllImport(@"gdi32.dll", CharSet = CharSet.Auto, SetLastError = true, ExactSpelling = true)]
+        [DllImport(Libraries.Gdi32, CharSet = CharSet.Auto, SetLastError = true, ExactSpelling = true)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern int GetClipRgn(HandleRef hDC, HandleRef hRgn);
 
-        [DllImport(@"gdi32.dll", CharSet = CharSet.Auto, SetLastError = true, ExactSpelling = true)]
+        [DllImport(Libraries.Gdi32, CharSet = CharSet.Auto, SetLastError = true, ExactSpelling = true)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern bool SetViewportOrgEx(HandleRef hDC, int x, int y, [In, Out] POINTC point);
 
-        [DllImport(@"gdi32.dll", CharSet = CharSet.Auto, SetLastError = true, ExactSpelling = true)]
+        [DllImport(Libraries.Gdi32, CharSet = CharSet.Auto, SetLastError = true, ExactSpelling = true)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern int GetRgnBox(IntPtr hRegion, ref RECT clipRect);
 
-        [DllImport(@"gdi32.dll", CharSet = CharSet.Auto, SetLastError = true, ExactSpelling = true)]
+        [DllImport(Libraries.Gdi32, CharSet = CharSet.Auto, SetLastError = true, ExactSpelling = true)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern int CombineRgn(HandleRef hRgn, HandleRef hRgn1, HandleRef hRgn2, int nCombineMode);
 
-        [DllImport(@"gdi32.dll")]
+        [DllImport(Libraries.Gdi32)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern bool RoundRect(IntPtr hdc, int nLeftRect, int nTopRect, int nRightRect, int nBottomRect, int nEllipseWidth, int nEllipseHeight);
 
 
-        [DllImport(@"gdi32.dll", CharSet = CharSet.Auto, SetLastError = true, ExactSpelling = true)]
+        [DllImport(Libraries.Gdi32, CharSet = CharSet.Auto, SetLastError = true, ExactSpelling = true)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern int SelectClipRgn(HandleRef hDC, HandleRef hRgn);
 
-        [DllImport(@"gdi32.dll", CharSet = CharSet.Auto, SetLastError = true, ExactSpelling = true)]
+        [DllImport(Libraries.Gdi32, CharSet = CharSet.Auto, SetLastError = true, ExactSpelling = true)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern int SelectClipRgn(IntPtr hDC, IntPtr hRgn);
 
-        [DllImport(@"gdi32.dll", CharSet = CharSet.Auto, SetLastError = true, ExactSpelling = true)]
+        [DllImport(Libraries.Gdi32, CharSet = CharSet.Auto, SetLastError = true, ExactSpelling = true)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern uint SetTextColor(IntPtr hdc, int crColor);
 
-        [DllImport(@"gdi32.dll", CharSet = CharSet.Auto, SetLastError = true, ExactSpelling = true)]
+        [DllImport(Libraries.Gdi32, CharSet = CharSet.Auto, SetLastError = true, ExactSpelling = true)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern uint SetBkColor(IntPtr hdc, int crColor);
 
-        [DllImport(@"gdi32.dll", CharSet = CharSet.Auto, SetLastError = true, ExactSpelling = true)]
+        [DllImport(Libraries.Gdi32, CharSet = CharSet.Auto, SetLastError = true, ExactSpelling = true)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern uint SetBkMode(IntPtr hdc, int crColor);
 
-        [DllImport(@"gdi32.dll", CharSet = CharSet.Auto, SetLastError = true, ExactSpelling = true)]
+        [DllImport(Libraries.Gdi32, CharSet = CharSet.Auto, SetLastError = true, ExactSpelling = true)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern IntPtr CreateSolidBrush(int crColor);
 
-        [DllImport(@"gdi32.dll")]
+        [DllImport(Libraries.Gdi32)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern bool MoveToEx(IntPtr hdc, int X, int Y, IntPtr lpPoint);
 
-        [DllImport(@"gdi32.dll")]
+        [DllImport(Libraries.Gdi32)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern bool LineTo(IntPtr hdc, int nXEnd, int nYEnd);
 
-        [DllImport(@"gdi32.dll")]
+        [DllImport(Libraries.Gdi32)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern bool Rectangle(IntPtr hdc, int nLeftRect, int nTopRect, int nRightRect, int nBottomRect);
 
@@ -3462,32 +3605,32 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
 
             // https://msdn.microsoft.com/en-us/library/windows/desktop/aa969508(v=vs.85).aspx
 
-            [DllImport(@"dwmapi.dll")]
+            [DllImport(Libraries.DWMApi)]
             [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
             internal static extern int DwmEnableBlurBehindWindow(IntPtr hwnd, ref DWM_BLURBEHIND blurBehind);
 
             // https://msdn.microsoft.com/it-it/library/windows/desktop/aa969512(v=vs.85).aspx
-            [DllImport(@"dwmapi.dll")]
+            [DllImport(Libraries.DWMApi)]
             [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
             internal static extern int DwmExtendFrameIntoClientArea(IntPtr hWnd, ref MARGINS pMarInset);
 
             // https://msdn.microsoft.com/en-us/library/windows/desktop/aa969515(v=vs.85).aspx
-            [DllImport(@"dwmapi.dll")]
+            [DllImport(Libraries.DWMApi)]
             [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
             internal static extern int DwmGetWindowAttribute(IntPtr hwnd, DWMWINDOWATTRIBUTE attr, ref int attrValue,
                 int attrSize);
 
             //https://msdn.microsoft.com/en-us/library/windows/desktop/aa969524(v=vs.85).aspx
-            [DllImport(@"dwmapi.dll")]
+            [DllImport(Libraries.DWMApi)]
             [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
             internal static extern int DwmSetWindowAttribute(IntPtr hwnd, DWMWINDOWATTRIBUTE attr, ref int attrValue,
                 int attrSize);
 
-            [DllImport(@"dwmapi.dll")]
+            [DllImport(Libraries.DWMApi)]
             [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
             internal static extern int DwmIsCompositionEnabled(ref int pfEnabled);
 
-            [DllImport(@"dwmapi.dll", CharSet = CharSet.Auto)]
+            [DllImport(Libraries.DWMApi, CharSet = CharSet.Auto)]
             [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
             internal static extern int DwmDefWindowProc(IntPtr hWnd, int msg, IntPtr wParam, IntPtr lParam, out IntPtr result);
 
@@ -3522,12 +3665,12 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
             }
 
             // Values designating how Flip3D treats a given window.
-            enum DWMFLIP3DWINDOWPOLICY : uint
+            private enum DWMFLIP3DWINDOWPOLICY : uint
             {
                 Default, // Hide or include the window in Flip3D based on window style and visibility.
                 ExcludeBelow, // Display the window under Flip3D and disabled.
                 ExcludeAbove, // Display the window above Flip3D and enabled.
-            };
+            }
 
             [StructLayout(LayoutKind.Sequential)]
             public struct DWM_BLURBEHIND
@@ -3661,10 +3804,10 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
                     var accentSize = Marshal.SizeOf(accPolicy);
                     accentPtr = Marshal.AllocHGlobal(accentSize);
                     Marshal.StructureToPtr(accPolicy, accentPtr, false);
-                    var data = new PI.WindowCompositionAttribData(WindowCompositionAttribute.WCA_ACCENT_POLICY,
+                    var data = new WindowCompositionAttribData(WindowCompositionAttribute.WCA_ACCENT_POLICY,
                         accentPtr, accentSize);
 
-                    PI.SetWindowCompositionAttribute(hWnd, ref data);
+                    SetWindowCompositionAttribute(hWnd, ref data);
                 }
                 finally
                 {
@@ -3684,7 +3827,7 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
                 return result == 0;
             }
 
-            public static bool WindowExtendIntoClientArea(IntPtr hWnd, PI.MARGINS Margins)
+            public static bool WindowExtendIntoClientArea(IntPtr hWnd, MARGINS Margins)
             {
                 // Extend frame on the bottom of client area
                 var result = DwmExtendFrameIntoClientArea(hWnd, ref Margins);
@@ -3747,7 +3890,7 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
         }
 
         // Constant "FieldInfo" for getting the nativeImage from the Bitmap
-        private static readonly FieldInfo FIELD_INFO_NATIVE_IMAGE = typeof(Bitmap).GetField(@"nativeImage", BindingFlags.GetField | BindingFlags.Instance | BindingFlags.NonPublic);
+        private static readonly FieldInfo FIELD_INFO_NATIVE_IMAGE = typeof(Bitmap).GetField(@"nativeImage", BindingFlags.GetField | BindingFlags.Instance | BindingFlags.NonPublic)!;
         /// <summary>
         /// Get the nativeImage field from the bitmap
         /// </summary>
@@ -3755,72 +3898,83 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
         /// <returns>IntPtr</returns>
         internal static IntPtr GetNativeImage(Bitmap bitmap) => IntPtr.Zero;
 
-        internal static Guid BlurEffectGuid = new("{633C80A4-1843-482B-9EF2-BE2834C5FDD4}");
+        internal static Guid BlurEffectGuid = new Guid("{633C80A4-1843-482B-9EF2-BE2834C5FDD4}");
 
-        [DllImport(@"gdiplus.dll", SetLastError = true, ExactSpelling = true, CharSet = CharSet.Unicode)]
+        [DllImport(Libraries.Gdiplus, SetLastError = true, ExactSpelling = true, CharSet = CharSet.Unicode)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern int GdipCreateEffect(Guid guid, out IntPtr effect);
 
-        [DllImport(@"gdiplus.dll", SetLastError = true, ExactSpelling = true, CharSet = CharSet.Unicode)]
+        [DllImport(Libraries.Gdiplus, SetLastError = true, ExactSpelling = true, CharSet = CharSet.Unicode)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern int GdipSetEffectParameters(IntPtr effect, IntPtr parameters, uint size);
 
-        [DllImport(@"gdiplus.dll", SetLastError = true, ExactSpelling = true, CharSet = CharSet.Unicode)]
+        [DllImport(Libraries.Gdiplus, SetLastError = true, ExactSpelling = true, CharSet = CharSet.Unicode)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern int GdipBitmapApplyEffect(IntPtr bitmap, IntPtr effect, ref RECT rectOfInterest, bool useAuxData, IntPtr auxData, int auxDataSize);
 
-        [DllImport(@"gdiplus.dll", SetLastError = true, ExactSpelling = true, CharSet = CharSet.Unicode)]
+        [DllImport(Libraries.Gdiplus, SetLastError = true, ExactSpelling = true, CharSet = CharSet.Unicode)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern int GdipDeleteEffect(IntPtr effect);
 
         #endregion GDIPlus
 
         #region Static Ole32
-        [DllImport(@"ole32.dll", CharSet = CharSet.Auto)]
+        [DllImport(Libraries.Ole32, CharSet = CharSet.Auto)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern void CoCreateGuid(ref GUIDSTRUCT guid);
         #endregion
 
         #region Static Uxtheme
 
-        [DllImport(@"uxtheme.dll", CharSet = CharSet.Unicode)]
+        [DllImport(Libraries.UxTheme, CharSet = CharSet.Unicode)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern int DrawThemeTextEx(IntPtr hTheme, IntPtr hDC, int iPartId, int iStateId, string text, int iCharCount, int dwFlags, ref RECT pRect, ref DTTOPTS pOptions);
 
-        [DllImport(@"uxtheme.dll", EntryPoint = "#94", CharSet = CharSet.Unicode)]
+        [DllImport(Libraries.UxTheme, EntryPoint = "#94", CharSet = CharSet.Unicode)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern int GetImmersiveColorSetCount();
 
-        [DllImport(@"uxtheme.dll", EntryPoint = "#95", CharSet = CharSet.Unicode)]
+        [DllImport(Libraries.UxTheme, EntryPoint = "#95", CharSet = CharSet.Unicode)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern uint GetImmersiveColorFromColorSetEx(uint dwImmersiveColorSet, uint dwImmersiveColorType, bool bIgnoreHighContrast, uint dwHighContrastCacheMode);
 
-        [DllImport(@"uxtheme.dll", EntryPoint = "#96", CharSet = CharSet.Unicode)]
+        [DllImport(Libraries.UxTheme, EntryPoint = "#96", CharSet = CharSet.Unicode)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern uint GetImmersiveColorTypeFromName(string name);
 
-        [DllImport(@"uxtheme.dll", EntryPoint = "#98", CharSet = CharSet.Unicode)]
+        [DllImport(Libraries.UxTheme, EntryPoint = "#98", CharSet = CharSet.Unicode)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern uint GetImmersiveUserColorSetPreference(bool bForceCheckRegistry, bool bSkipCheckOnFail);
 
-        [DllImport(@"uxtheme.dll", EntryPoint = "#100", CharSet = CharSet.Unicode)]
+        [DllImport(Libraries.UxTheme, EntryPoint = "#100", CharSet = CharSet.Unicode)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern IntPtr GetImmersiveColorNamedTypeByIndex(uint dwIndex);
 
-        [DllImport(@"uxtheme.dll", CharSet = CharSet.Auto)]
+        [DllImport(Libraries.UxTheme, CharSet = CharSet.Auto)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern bool IsAppThemed();
 
-        [DllImport(@"uxtheme.dll", CharSet = CharSet.Auto)]
+        [DllImport(Libraries.UxTheme, CharSet = CharSet.Auto)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern bool IsThemeActive();
 
-        [DllImport(@"uxtheme.dll", CharSet = CharSet.Unicode)]
+        [DllImport(Libraries.UxTheme, CharSet = CharSet.Unicode)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
-        internal static extern int SetWindowTheme(IntPtr hWnd, string subAppName, string subIdList);
+        internal static extern int SetWindowTheme(IntPtr hWnd, string? subAppName, string? subIdList);
         #endregion
 
         #region Static Kernel32
+        [Flags]
+        public enum FORMAT_MESSAGE_ : uint
+        {
+            ALLOCATE_BUFFER = 0x00000100,
+            IGNORE_INSERTS = 0x00000200,
+            FROM_STRING = 0x00000400,
+            FROM_HMODULE = 0x00000800,
+            FROM_SYSTEM = 0x00001000,
+            ARGUMENT_ARRAY = 0x00002000
+        }
+
         [Flags]
         public enum GMEM : uint
         {
@@ -3843,34 +3997,73 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
             GHND = MOVEABLE | ZEROINIT,
             GPTR = FIXED | ZEROINIT
         }
-        [DllImport(@"kernel32.dll", CharSet = CharSet.Auto)]
+
+        [DllImport(Libraries.Kernel32, SetLastError = true)]
+        [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        internal static extern bool FreeLibrary([In] IntPtr hModule);
+
+        /// <summary>
+        /// Return the length of the string
+        /// </summary>
+        [DllImport(Libraries.Kernel32, SetLastError = true, CharSet = CharSet.Auto)]
+        [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+        public static extern uint FormatMessage(FORMAT_MESSAGE_ dwFlags, IntPtr lpSource,
+            uint dwMessageId, uint dwLanguageId, ref IntPtr lpBuffer,
+            uint nSize, string[] Arguments);
+
+        [DllImport(Libraries.Kernel32, CharSet = CharSet.Auto)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern IntPtr GlobalAlloc(GMEM uFlags, int dwBytes);
 
-        [DllImport(@"kernel32.dll", ExactSpelling = true)]
+        [DllImport(Libraries.Kernel32, ExactSpelling = true)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern IntPtr GlobalFree(IntPtr hMem);
 
-        [DllImport(@"kernel32.dll", CharSet = CharSet.Unicode, BestFitMapping = false, ThrowOnUnmappableChar = true)]
+        [DllImport(Libraries.Kernel32, CharSet = CharSet.Unicode, BestFitMapping = false, ThrowOnUnmappableChar = true, SetLastError = true)]
         //        [DllImport(ExternDll.Kernel32, CharSet=CharSet.Auto)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
-        [ResourceExposure(ResourceScope.Process)]
-        internal static extern IntPtr GetModuleHandle(string moduleName);
+        [System.Runtime.Versioning.ResourceExposure(System.Runtime.Versioning.ResourceScope.Process)]
+        internal static extern IntPtr GetModuleHandle(string? moduleName);
 
-        [DllImport(@"kernel32.dll")]
+        [DllImport(Libraries.Kernel32)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern int GetCurrentThreadId();
 
-        [DllImport(@"kernel32.dll", CharSet = CharSet.Unicode, ExactSpelling = true)]
+        [DllImport(Libraries.Kernel32, CharSet = CharSet.Unicode, SetLastError = true)]
+        [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+        internal static extern SafeModuleHandle
+            LoadLibraryEx([In] string lpFileName, IntPtr hFile/*=null*/, [In] LoadLibraryExFlags dwFlags);
+
+        [Flags]
+        internal enum LoadLibraryExFlags : uint
+        {
+            // https://learn.microsoft.com/en-us/windows/win32/api/libloaderapi/nf-libloaderapi-loadlibraryexa
+            DontResolveDllReferences = 0x00000001,
+            LoadLibraryAsDatafile = 0x00000002,
+            LoadWithAlteredSearchPath = 0x00000008,
+            LoadIgnoreCodeAuthzLevel = 0x00000010,
+            LOAD_LIBRARY_AS_IMAGE_RESOURCE = 0x00000020,
+            LOAD_LIBRARY_AS_DATAFILE_EXCLUSIVE = 0x00000040,
+            LOAD_LIBRARY_REQUIRE_SIGNED_TARGET = 0x00000080,
+            LOAD_LIBRARY_SEARCH_DLL_LOAD_DIR = 0x00000100,
+            LOAD_LIBRARY_SEARCH_APPLICATION_DIR = 0x00000200,
+            LOAD_LIBRARY_SEARCH_USER_DIRS = 0x00000400,
+            LoadLibrarySearchSystem32 = 0x00000800, // Introduced in KB2533623; with Windows 7 SP1.
+            LOAD_LIBRARY_SEARCH_DEFAULT_DIRS = 0x00001000,
+            LOAD_LIBRARY_SAFE_CURRENT_DIRS = 0x00002000
+        }
+
+        [DllImport(Libraries.Kernel32, CharSet = CharSet.Unicode, ExactSpelling = true)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern int MultiByteToWideChar(int codePage, int dwFlags, byte[] lpMultiByteStr,
             int cchMultiByte, char[] lpWideCharStr, int cchWideChar);
 
-        [DllImport(@"kernel32.dll", CharSet = CharSet.Auto)]
+        [DllImport(Libraries.Kernel32, CharSet = CharSet.Auto)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern short QueryPerformanceCounter(ref long var);
 
-        [DllImport(@"kernel32.dll", CharSet = CharSet.Auto)]
+        [DllImport(Libraries.Kernel32, CharSet = CharSet.Auto)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         internal static extern short QueryPerformanceFrequency(ref long var);
         #endregion
@@ -3883,11 +4076,32 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
             BUFFERTOOSMALL = 0x3003
         }
 
-        [DllImport(@"comdlg32.dll", ExactSpelling = true)]
+        public struct OFNOTIFYW
+        {
+            public NMHDR hdr;
+            public IntPtr lpOFN;
+            public IntPtr pszFile;
+        }
+
+        #region DialogChangeStatus
+        public enum CDN_ : uint
+        {
+            FIRST = 0xFFFFFDA7, // -601
+            INITDONE = (FIRST - 0x0000),
+            SELCHANGE = (FIRST - 0x0001), // -602
+            FOLDERCHANGE = (FIRST - 0x0002),
+            SHAREVIOLATION = (FIRST - 0x0003), // -604
+            HELP = (FIRST - 0x0004),
+            FILEOK = (FIRST - 0x0005), // -606
+            TYPECHANGE = (FIRST - 0x0006),
+        }
+        #endregion
+
+        [DllImport(Libraries.Comdlg32, ExactSpelling = true)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         public static extern FNERR CommDlgExtendedError();
 
-        [DllImport(@"comdlg32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+        [DllImport(Libraries.Comdlg32, CharSet = CharSet.Auto, SetLastError = true)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         public static extern bool ChooseFont([In, Out] CHOOSEFONT cf);
 
@@ -3915,16 +4129,17 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
         #endregion Static Comdlg32
 
         #region Structures
-        [StructLayout(LayoutKind.Sequential, CharSet=CharSet.Auto)]
-        public struct LVFINDINFO {
-            public int      flags;
-            public string   psz;
-            public IntPtr   lParam;
-            public int      ptX; // was POINT pt
-            public int      ptY;
-            public int      vkDirection;
+        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
+        public struct LVFINDINFO
+        {
+            public int flags;
+            public string psz;
+            public IntPtr lParam;
+            public int ptX; // was POINT pt
+            public int ptY;
+            public int vkDirection;
         }
-        
+
         [StructLayout(LayoutKind.Sequential)]
         public struct NMLVFINDITEM
         {
@@ -3932,17 +4147,18 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
             public int iStart;
             public LVFINDINFO lvfi;
         }
-    
+
         [StructLayout(LayoutKind.Sequential)]
         public struct NMHDR
         {
             public IntPtr hwndFrom;
             public IntPtr idFrom; //This is declared as UINT_PTR in winuser.h
-            public int code;
+            public uint code;
         }
 
         [StructLayout(LayoutKind.Sequential)]
-        public class NMHEADER {
+        public class NMHEADER
+        {
             public NMHDR nmhdr;
             public int iItem = 0;
             public int iButton = 0;
@@ -3990,9 +4206,9 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
                 X = x;
                 Y = y;
             }
-            public static implicit operator Point(POINT p) => new(p.X, p.Y);
+            public static implicit operator Point(POINT p) => new Point(p.X, p.Y);
 
-            public static implicit operator POINT(Point p) => new(p.X, p.Y);
+            public static implicit operator POINT(Point p) => new POINT(p.X, p.Y);
         }
 
         [StructLayout(LayoutKind.Sequential)]
@@ -4200,11 +4416,11 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
 
             /// <summary>
             /// </summary>            
-            public RECT rcMonitor = new();
+            public RECT rcMonitor = new RECT();
 
             /// <summary>
             /// </summary>            
-            public RECT rcWork = new();
+            public RECT rcWork = new RECT();
 
             /// <summary>
             /// </summary>            

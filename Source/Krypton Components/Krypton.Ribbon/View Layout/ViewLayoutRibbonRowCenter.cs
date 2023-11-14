@@ -5,7 +5,9 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  
+ *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
  */
 #endregion
@@ -50,7 +52,7 @@ namespace Krypton.Ribbon
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            "ViewLayoutRibbonRowCenter:" + Id;
+            $"ViewLayoutRibbonRowCenter:{Id}";
 
         #endregion
 
@@ -67,7 +69,7 @@ namespace Krypton.Ribbon
         /// Discover the preferred size of the element.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override Size GetPreferredSize(ViewLayoutContext context)
+        public override Size GetPreferredSize([DisallowNull] ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 
@@ -88,7 +90,7 @@ namespace Krypton.Ribbon
                     break;
             }
 
-            Size preferredSize = Size.Empty;
+            var preferredSize = Size.Empty;
 
             foreach (ViewBase child in this)
             {
@@ -141,7 +143,7 @@ namespace Krypton.Ribbon
         /// Perform a layout of the elements.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override void Layout(ViewLayoutContext context)
+        public override void Layout([DisallowNull] ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 
@@ -154,7 +156,7 @@ namespace Krypton.Ribbon
             // We take on all the available display area
             ClientRectangle = context.DisplayRectangle;
 
-            Size preferredSize = Size.Empty;
+            var preferredSize = Size.Empty;
 
             // Cache the size for the current item
             switch (CurrentSize)
@@ -180,7 +182,7 @@ namespace Krypton.Ribbon
                 if (child.Visible)
                 {
                     // Get the cached size of the child
-                    Size childPreferred = Size.Empty;
+                    var childPreferred = Size.Empty;
                     
                     switch (CurrentSize)
                     {

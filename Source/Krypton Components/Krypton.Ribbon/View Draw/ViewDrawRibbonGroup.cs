@@ -5,7 +5,9 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  
+ *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
  */
 #endregion
@@ -39,7 +41,7 @@ namespace Krypton.Ribbon
         private ViewDrawRibbonGroupText _viewCollapsedText1;
         private ViewDrawRibbonGroupText _viewCollapsedText2;
         private ViewLayoutRibbonCenterPadding _layoutCollapsedImagePadding;
-        private CollapsedGroupController _collapsedController;
+        private CollapsedGroupController? _collapsedController;
         private ViewLayoutRibbonTitle _layoutNormalMain;
         private ViewLayoutRibbonSeparator _layoutNormalSepTop;
         private ViewLayoutRibbonSeparator _layoutNormalSepLeft;
@@ -55,7 +57,7 @@ namespace Krypton.Ribbon
         private IDisposable _mementoRibbonBackArea;
         private IDisposable _mementoRibbonBackBorder;
         private IDisposable _mementoRibbonBack2;
-        private IDisposable _mementoStandardBack;
+        private IDisposable? _mementoStandardBack;
         private Control _container;
         private bool _collapsed;
         private int _totalBorders;
@@ -68,9 +70,9 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Reference to owning ribbon control.</param>
         /// <param name="ribbonGroup">Reference to ribbon group this represents.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public ViewDrawRibbonGroup(KryptonRibbon ribbon,
-                                   KryptonRibbonGroup ribbonGroup,
-                                   NeedPaintHandler needPaint)
+        public ViewDrawRibbonGroup([DisallowNull] KryptonRibbon ribbon,
+                                   [DisallowNull] KryptonRibbonGroup ribbonGroup,
+                                   [DisallowNull] NeedPaintHandler needPaint)
         {
             Debug.Assert(ribbon != null);
             Debug.Assert(ribbonGroup != null);
@@ -109,14 +111,14 @@ namespace Krypton.Ribbon
             COLLAPSED_IMAGE_PADDING_2007 = new Padding((int)(3 * FactorDpiX), (int)(3 * FactorDpiY), (int)(3 * FactorDpiX), (int)(4 * FactorDpiY));
             COLLAPSED_IMAGE_PADDING_2010 = new Padding((int)(3 * FactorDpiX), (int)(1 * FactorDpiY), (int)(5 * FactorDpiX), (int)(5 * FactorDpiY));
         }
-        
+
         /// <summary>
         /// Obtains the String representation of this instance.
         /// </summary>
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            "ViewDrawRibbonGroup:" + Id;
+            $"ViewDrawRibbonGroup:{Id}";
 
         /// <summary>
         /// Clean up any resources being used.
@@ -188,9 +190,9 @@ namespace Krypton.Ribbon
                 Rectangle viewRect = _ribbon.KeyTipToScreen(_layoutCollapsedMain);
 
                 // The keytip should be centered at the bottom of the view
-                Point screenPt = new(viewRect.Left + (viewRect.Width / 2), viewRect.Bottom + 4);
+                var screenPt = new Point(viewRect.Left + (viewRect.Width / 2), viewRect.Bottom + 4);
 
-                keyTipList.Add(new KeyTipInfo(true, _ribbonGroup.KeyTipGroup, screenPt, 
+                keyTipList.Add(new KeyTipInfo(true, _ribbonGroup.KeyTipGroup, screenPt,
                                               _layoutCollapsedMain.ClientRectangle, _collapsedController));
             }
             else
@@ -202,7 +204,7 @@ namespace Krypton.Ribbon
                     Rectangle viewRect = _ribbon.KeyTipToScreen(_viewNormalDialog);
 
                     // The keytip should be centered at the bottom of the view
-                    Point screenPt = new(viewRect.Left + (viewRect.Width / 2), viewRect.Bottom + 4);
+                    var screenPt = new Point(viewRect.Left + (viewRect.Width / 2), viewRect.Bottom + 4);
 
                     keyTipList.Add(new KeyTipInfo(true, _ribbonGroup.KeyTipDialogLauncher, screenPt,
                                                   _viewNormalDialog.ClientRectangle, _viewNormalDialog.DialogButtonController));
@@ -219,9 +221,9 @@ namespace Krypton.Ribbon
         /// Gets the first focus item from the group.
         /// </summary>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase GetFirstFocusItem()
+        public ViewBase? GetFirstFocusItem()
         {
-            ViewBase view = Collapsed ? _layoutCollapsedMain : _layoutNormalContent.GetFirstFocusItem();
+            ViewBase? view = Collapsed ? _layoutCollapsedMain : _layoutNormalContent.GetFirstFocusItem();
 
             return view;
         }
@@ -232,9 +234,9 @@ namespace Krypton.Ribbon
         /// Gets the last focus item from the group.
         /// </summary>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase GetLastFocusItem()
+        public ViewBase? GetLastFocusItem()
         {
-            ViewBase view = Collapsed ? _layoutCollapsedMain : _layoutNormalContent.GetLastFocusItem();
+            ViewBase? view = Collapsed ? _layoutCollapsedMain : _layoutNormalContent.GetLastFocusItem();
 
             return view;
         }
@@ -247,9 +249,9 @@ namespace Krypton.Ribbon
         /// <param name="current">The view that is currently focused.</param>
         /// <param name="matched">Has the current focus item been matched yet.</param>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase GetNextFocusItem(ViewBase current, ref bool matched)
+        public ViewBase? GetNextFocusItem(ViewBase current, ref bool matched)
         {
-            ViewBase view = null;
+            ViewBase? view = null;
 
             if (Collapsed)
             {
@@ -278,9 +280,9 @@ namespace Krypton.Ribbon
         /// <param name="current">The view that is currently focused.</param>
         /// <param name="matched">Has the current focus item been matched yet.</param>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase GetPreviousFocusItem(ViewBase current, ref bool matched)
+        public ViewBase? GetPreviousFocusItem(ViewBase current, ref bool matched)
         {
-            ViewBase view = null;
+            ViewBase? view = null;
 
             if (Collapsed)
             {
@@ -308,10 +310,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="needLayout">Does the palette change require a layout.</param>
         /// <param name="invalidRect">Rectangle to invalidate.</param>
-        public void PerformNeedPaint(bool needLayout, Rectangle invalidRect)
-        {
-            OnNeedPaint(needLayout, invalidRect);
-        }
+        public void PerformNeedPaint(bool needLayout, Rectangle invalidRect) => OnNeedPaint(needLayout, invalidRect);
         #endregion
 
         #region Layout
@@ -353,7 +352,7 @@ namespace Krypton.Ribbon
             var firstUnderMax = -1;
             var lastOverMin = -1;
             var smallestWidth = int.MaxValue;
-            for(var i=0; i<retWidths.Count; i++)
+            for (var i = 0; i < retWidths.Count; i++)
             {
                 // Add on the fixed widths of the left and right borders so that the
                 // permutations all reflect the actual width of the whole group
@@ -448,7 +447,7 @@ namespace Krypton.Ribbon
                     // Find the size of the group when collapsed
                     var collapsed = Collapsed;
                     Collapsed = true;
-                    GroupSizeWidth retCollapsed = new(GetPreferredSize(context).Width, null);
+                    var retCollapsed = new GroupSizeWidth(GetPreferredSize(context).Width, null);
                     Collapsed = collapsed;
 
                     // We never allow a collapsed state if that is smaller than the smallest valid permutation
@@ -492,7 +491,7 @@ namespace Krypton.Ribbon
         /// Perform a layout of the elements.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override void Layout(ViewLayoutContext context)
+        public override void Layout([DisallowNull] ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 
@@ -546,10 +545,7 @@ namespace Krypton.Ribbon
         /// Raises the NeedPaint event.
         /// </summary>
         /// <param name="needLayout">Does the palette change require a layout.</param>
-        protected virtual void OnNeedPaint(bool needLayout)
-        {
-            OnNeedPaint(needLayout, Rectangle.Empty);
-        }
+        protected virtual void OnNeedPaint(bool needLayout) => OnNeedPaint(needLayout, Rectangle.Empty);
 
         /// <summary>
         /// Raises the NeedPaint event.
@@ -596,7 +592,7 @@ namespace Krypton.Ribbon
                             _layoutNormalSepLeft.SeparatorSize = new Size(NORMAL_BORDER_LEFT2010, NORMAL_BORDER_LEFT2010);
                             _layoutNormalSepRight.SeparatorSize = new Size(NORMAL_BORDER_RIGHT2010, NORMAL_BORDER_RIGHT2010);
                             _layoutCollapsedImagePadding.PreferredPadding = COLLAPSED_IMAGE_PADDING_2010;
-                            _lastRibbonShape = PaletteRibbonShape.Office2010; 
+                            _lastRibbonShape = PaletteRibbonShape.Office2010;
                             break;
                     }
                 }
@@ -611,7 +607,7 @@ namespace Krypton.Ribbon
             if (_ribbon.InDesignMode)
             {
                 // At design time we need to know when the user right clicks the group
-                ContextClickController controller = new();
+                var controller = new ContextClickController();
                 controller.ContextClick += OnContextClick;
                 _layoutNormalMain.MouseController = controller;
             }
@@ -638,7 +634,7 @@ namespace Krypton.Ribbon
             _viewNormalDialog = new ViewLayoutRibbonGroupButton(_ribbon, _ribbonGroup, _needPaint);
             _layoutNormalContent.DialogView = _viewNormalDialog;
             _layoutNormalTitle.Add(_viewNormalDialog, ViewDockStyle.Right);
-            
+
             // Use this class to return the context color for any null values
             _paletteContextBackArea = new PaletteRibbonContextBack(_ribbon);
             _paletteContextBorder = new PaletteRibbonContextBack(_ribbon);
@@ -661,15 +657,15 @@ namespace Krypton.Ribbon
             _layoutCollapsedMain.KeyController = _collapsedController;
 
             // Reduce layout area to remove the group border
-            ViewLayoutRibbonPadding layoutCollapsedInsidePadding = new(COLLAPSED_PADDING);
+            var layoutCollapsedInsidePadding = new ViewLayoutRibbonPadding(COLLAPSED_PADDING);
             _layoutCollapsedMain.Add(layoutCollapsedInsidePadding, ViewDockStyle.Fill);
 
             // Position at top an area that is padded for containing the image
-            ViewLayoutDocker layoutCollapsedInside = new();
+            var layoutCollapsedInside = new ViewLayoutDocker();
             layoutCollapsedInsidePadding.Add(layoutCollapsedInside);
 
             // Create the layout for the second line of text
-            ViewLayoutRibbonRowCenter layoutCollapsedText2 = new();
+            var layoutCollapsedText2 = new ViewLayoutRibbonRowCenter();
             _viewCollapsedText2 = new ViewDrawRibbonGroupText(_ribbon, _ribbonGroup, false);
             layoutCollapsedText2.Add(_viewCollapsedText2);
             layoutCollapsedText2.Add(new ViewLayoutRibbonSeparator(2, 10, true));
@@ -680,13 +676,13 @@ namespace Krypton.Ribbon
             // Add the first line of text
             _viewCollapsedText1 = new ViewDrawRibbonGroupText(_ribbon, _ribbonGroup, true);
             layoutCollapsedInside.Add(_viewCollapsedText1, ViewDockStyle.Top);
-            
+
             // Add group image frame
             _layoutCollapsedImagePadding = new ViewLayoutRibbonCenterPadding(COLLAPSED_IMAGE_PADDING_2007);
             layoutCollapsedInside.Add(_layoutCollapsedImagePadding, ViewDockStyle.Top);
 
             // Finally we add the actual drawing element for the collapsed group image
-            ViewDrawRibbonGroupImage drawCollapsedImage = new(_ribbon, _ribbonGroup, this);
+            var drawCollapsedImage = new ViewDrawRibbonGroupImage(_ribbon, _ribbonGroup, this);
             _layoutCollapsedImagePadding.Add(drawCollapsedImage);
         }
 
@@ -873,7 +869,7 @@ namespace Krypton.Ribbon
                         IPaletteRibbonBack paletteBack = _ribbon.StatePressed.RibbonGroupCollapsedBack;
                         IPaletteRibbonBack paletteBorder = _ribbon.StatePressed.RibbonGroupCollapsedBorder;
 
-                        PaletteState state = PaletteState.Pressed;
+                        var state = PaletteState.Pressed;
 
                         // Are we a group inside a context tab?
                         if (!string.IsNullOrEmpty(_ribbon.SelectedTab?.ContextName))
@@ -958,7 +954,7 @@ namespace Krypton.Ribbon
 
             switch (e.PropertyName)
             {
-                case "Visible":
+                case nameof(Visible):
                 case "AllowCollapsed":
                 case "DialogBoxLauncher":
                 case "MaximumWidth":
@@ -975,7 +971,7 @@ namespace Krypton.Ribbon
                     _viewCollapsedText2.MakeDirty();
                     updateLayout = true;
                     break;
-                case "Image":
+                case nameof(Image):
                     updatePaint = true;
                     break;
             }
@@ -1007,10 +1003,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnContextClick(object sender, MouseEventArgs e)
-        {
-            _ribbonGroup.OnDesignTimeContextMenu(new MouseEventArgs(MouseButtons.Right, 1, e.X, e.Y, 0));
-        }
+        private void OnContextClick(object sender, MouseEventArgs e) => _ribbonGroup.OnDesignTimeContextMenu(new MouseEventArgs(MouseButtons.Right, 1, e.X, e.Y, 0));
         #endregion
     }
 }

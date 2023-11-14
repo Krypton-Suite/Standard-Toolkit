@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -17,17 +17,13 @@ namespace Krypton.Navigator
     /// </summary>
     public class PaletteNavigatorHeaderGroupRedirect : PaletteHeaderGroupRedirect
     {
-        #region Instance Fields
-
-        #endregion
-
         #region Identity
         /// <summary>
         /// Initialize a new instance of the PaletteNavigatorHeaderGroupRedirect class.
         /// </summary>
         /// <param name="redirect">inheritance redirection instance.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public PaletteNavigatorHeaderGroupRedirect(PaletteRedirect redirect,
+        public PaletteNavigatorHeaderGroupRedirect(PaletteRedirect? redirect,
                                                    NeedPaintHandler needPaint)
             : this(redirect, redirect, redirect, redirect, redirect, needPaint)
         {
@@ -42,11 +38,11 @@ namespace Krypton.Navigator
         /// <param name="redirectHeaderBar">inheritance redirection for bar header.</param>
         /// <param name="redirectHeaderOverflow">inheritance redirection for overflow header.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public PaletteNavigatorHeaderGroupRedirect(PaletteRedirect redirectHeaderGroup,
-                                                   PaletteRedirect redirectHeaderPrimary,
-                                                   PaletteRedirect redirectHeaderSecondary,
-                                                   PaletteRedirect redirectHeaderBar,
-                                                   PaletteRedirect redirectHeaderOverflow,
+        public PaletteNavigatorHeaderGroupRedirect(PaletteRedirect? redirectHeaderGroup,
+                                                   PaletteRedirect? redirectHeaderPrimary,
+                                                   PaletteRedirect? redirectHeaderSecondary,
+                                                   [DisallowNull] PaletteRedirect redirectHeaderBar,
+                                                   [DisallowNull] PaletteRedirect redirectHeaderOverflow,
                                                    NeedPaintHandler needPaint)
             : base(redirectHeaderGroup, redirectHeaderPrimary,
                    redirectHeaderSecondary, needPaint)

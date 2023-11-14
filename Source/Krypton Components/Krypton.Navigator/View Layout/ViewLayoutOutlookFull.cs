@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -17,10 +17,6 @@ namespace Krypton.Navigator
     /// </summary>
     internal class ViewLayoutOutlookFull : ViewLayoutScrollViewport
     {
-        #region Instance Fields
-
-        #endregion
-
         #region Identity
         /// <summary>
         /// Initialize a new instance of the ViewLayoutOutlookFull class.
@@ -37,7 +33,7 @@ namespace Krypton.Navigator
         /// <param name="animateChange">Animate changes in the viewport.</param>
         /// <param name="vertical">Is the viewport vertical.</param>
         /// <param name="needPaintDelegate">Delegate for notifying paint requests.</param>
-        public ViewLayoutOutlookFull(ViewBuilderOutlookBase viewBuilder,
+        public ViewLayoutOutlookFull([DisallowNull] ViewBuilderOutlookBase viewBuilder,
                                      VisualControl rootControl,
                                      ViewBase viewportFiller,
                                      PaletteBorderEdge paletteBorderEdge,
@@ -63,7 +59,7 @@ namespace Krypton.Navigator
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            "ViewLayoutOutlookFull:" + Id;
+            $"ViewLayoutOutlookFull:{Id}";
 
         #endregion
 

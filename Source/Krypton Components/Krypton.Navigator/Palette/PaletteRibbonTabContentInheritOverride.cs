@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -39,12 +39,12 @@ namespace Krypton.Navigator
         /// <param name="backupText">Backup inheritance text.</param>
         /// <param name="backupContent">Backup inheritance content.</param>
         /// <param name="state">Palette state to override.</param>
-        public PaletteRibbonTabContentInheritOverride(IPaletteRibbonBack primaryBack,
-                                                      IPaletteRibbonText primaryText,
-                                                      IPaletteContent primaryContent,
-                                                      IPaletteRibbonBack backupBack,
-                                                      IPaletteRibbonText backupText,
-                                                      IPaletteContent backupContent,
+        public PaletteRibbonTabContentInheritOverride([DisallowNull] IPaletteRibbonBack primaryBack,
+                                                      [DisallowNull] IPaletteRibbonText primaryText,
+                                                      [DisallowNull] IPaletteContent primaryContent,
+                                                      [DisallowNull] IPaletteRibbonBack backupBack,
+                                                      [DisallowNull] IPaletteRibbonText backupText,
+                                                      [DisallowNull] IPaletteContent backupContent,
                                                       PaletteState state)
         {
             Debug.Assert(primaryBack != null);
@@ -766,7 +766,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image instance.</returns>
-        public virtual Image GetContentShortTextImage(PaletteState state)
+        public virtual Image? GetContentShortTextImage(PaletteState state)
         {
             if (Apply)
             {
@@ -1159,7 +1159,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image instance.</returns>
-        public virtual Image GetContentLongTextImage(PaletteState state)
+        public virtual Image? GetContentLongTextImage(PaletteState state)
         {
             if (Apply)
             {

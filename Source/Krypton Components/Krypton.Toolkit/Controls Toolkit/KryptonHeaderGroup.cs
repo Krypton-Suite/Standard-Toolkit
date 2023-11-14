@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -17,9 +17,9 @@ namespace Krypton.Toolkit
     /// </summary>
     [ToolboxItem(true)]
     [ToolboxBitmap(typeof(KryptonHeaderGroup), "ToolboxBitmaps.KryptonHeaderGroup.bmp")]
-    [DefaultEvent("Paint")]
-    [DefaultProperty("ValuesPrimary")]
-    [Designer("Krypton.Toolkit.KryptonHeaderGroupDesigner, Krypton.Toolkit")]
+    [DefaultEvent(nameof(Paint))]
+    [DefaultProperty(nameof(ValuesPrimary))]
+    [Designer(typeof(KryptonHeaderGroupDesigner))]
     [DesignerCategory(@"code")]
     [Description(@"Group a collection of controls with a descriptive caption.")]
     [Docking(DockingBehavior.Ask)]
@@ -45,6 +45,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Instance Fields
+
         private HeaderStyle _style1;
         private HeaderStyle _style2;
         private VisualOrientation _position1;
@@ -57,15 +58,19 @@ namespace Krypton.Toolkit
         private readonly ViewDrawContent _drawContent2;
         private readonly ViewLayoutFill _layoutFill;
         private readonly ButtonSpecManagerDraw _buttonManager;
-        private VisualPopupToolTip _visualPopupToolTip;
-        private ScreenObscurer _obscurer;
-        private readonly EventHandler _removeObscurer;
+        private VisualPopupToolTip? _visualPopupToolTip;
+        private ScreenObscurer? _obscurer;
+        private readonly EventHandler? _removeObscurer;
         private bool _forcedLayout;
         private bool _visiblePrimary;
         private bool _visibleSecondary;
         private bool _collapsed;
         private readonly bool _ignoreLayout;
         private bool _layingOut;
+        private float _cornerRoundingRadius;
+        private float _headerPrimaryCornerRoundingRadius;
+        private float _headerSecondaryCornerRoundingRadius;
+
         #endregion
 
         #region Events
@@ -74,7 +79,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Property Changed")]
         [Description(@"Occurs when the value of the Collapsed property is changed.")]
-        public event EventHandler CollapsedChanged;
+        public event EventHandler? CollapsedChanged;
         #endregion
 
         #region Identity
@@ -112,7 +117,7 @@ namespace Krypton.Toolkit
             StateNormal = new PaletteHeaderGroup(StateCommon, StateCommon.HeaderPrimary, StateCommon.HeaderSecondary, NeedPaintDelegate);
 
             // Create the internal panel used for containing content
-            Panel = new KryptonGroupPanel(this, StateCommon, StateDisabled, StateNormal, OnGroupPanelPaint)
+            Panel = new KryptonGroupPanel(this, StateCommon, StateDisabled, StateNormal, OnGroupPanelPaint!)
             {
 
                 // Make sure the panel back style always mimics our back style
@@ -146,7 +151,7 @@ namespace Krypton.Toolkit
                                              PaletteMetricBool.HeaderGroupOverlay)
             {
 
-                // Layout child view ontop of the border space
+                // Layout child view on top of the border space
                 IgnoreBorderSpace = true,
 
                 // Prevent adjacent headers from having two borders
@@ -174,7 +179,7 @@ namespace Krypton.Toolkit
                                                        NeedPaintDelegate);
 
             // Create the manager for handling tooltips
-            ToolTipManager = new ToolTipManager();
+            ToolTipManager = new ToolTipManager(ToolTipValues);
             ToolTipManager.ShowToolTip += OnShowToolTip;
             ToolTipManager.CancelToolTip += OnCancelToolTip;
             _buttonManager.ToolTipManager = ToolTipManager;
@@ -196,6 +201,12 @@ namespace Krypton.Toolkit
             ((KryptonReadOnlyControls)Controls).AddInternal(Panel);
 
             _ignoreLayout = false;
+
+            _cornerRoundingRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
+
+            _headerPrimaryCornerRoundingRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
+
+            _headerSecondaryCornerRoundingRadius = GlobalStaticValues.SECONDARY_CORNER_ROUNDING_VALUE;
         }
 
         /// <summary>
@@ -207,13 +218,13 @@ namespace Krypton.Toolkit
             if (disposing)
             {
                 // Remove any cached obscurer
-                if (_obscurer != null)
+                if (_obscurer != null!)
                 {
                     try
                     {
                         _obscurer.Uncover();
                         _obscurer.Dispose();
-                        _obscurer = null;
+                        _obscurer = null!;
                     }
                     catch
                     {
@@ -233,10 +244,48 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Public
+
+        /// <summary>Gets or sets the corner rounding radius.</summary>
+        /// <value>The corner rounding radius.</value>
+        [Category(@"Visuals")]
+        [Description(@"Gets or sets the corner rounding radius.")]
+        [DefaultValue(GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE)]
+        public float CornerRoundingRadius
+        {
+            get => _cornerRoundingRadius;
+
+            set => SetCornerRoundingRadius(value);
+        }
+
+        /// <summary>Gets or sets the header primary corner rounding radius.</summary>
+        /// <value>The header primary corner rounding radius.</value>
+        [Category(@"Visuals")]
+        [Description(@"Gets or sets the header primary corner rounding radius.")]
+        [DefaultValue(GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE)]
+        public float HeaderPrimaryCornerRoundingRadius
+        {
+            get => _headerPrimaryCornerRoundingRadius;
+
+            set => SetHeaderPrimaryCornerRoundingRadius(value);
+        }
+
+        /// <summary>Gets or sets the header secondary corner rounding radius.</summary>
+        /// <value>The header secondary corner rounding radius.</value>
+        [Category(@"Visuals")]
+        [Description(@"Gets or sets the corner rounding radius.")]
+        [DefaultValue(GlobalStaticValues.SECONDARY_CORNER_ROUNDING_VALUE)]
+        public float HeaderSecondaryCornerRoundingRadius
+        {
+            get => _headerSecondaryCornerRoundingRadius;
+
+            set => SetHeaderSecondaryCornerRoundingRadius(value);
+        }
+
         /// <summary>
         /// Gets and sets the name of the control.
         /// </summary>
         [Browsable(false)]
+        [AllowNull]
         public new string Name
         {
             get => base.Name;
@@ -244,7 +293,7 @@ namespace Krypton.Toolkit
             set
             {
                 base.Name = value;
-                Panel.Name = value + ".Panel";
+                Panel.Name = $"{value}.Panel";
             }
         }
 
@@ -279,7 +328,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Layout")]
         [Description(@"Specifies if the control grows and shrinks to fit the contents exactly.")]
-        [DefaultValue(typeof(AutoSizeMode), "GrowAndShrink")]
+        [DefaultValue(AutoSizeMode.GrowAndShrink)]
         public AutoSizeMode AutoSizeMode
         {
             // ReSharper disable RedundantBaseQualifier
@@ -307,7 +356,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the text associated with this control. 
         /// </summary>
-        [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
+        [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
+        [AllowNull]
         public override string Text
         {
             get => ValuesPrimary.Heading;
@@ -351,7 +401,7 @@ namespace Krypton.Toolkit
         [Category(@"Appearance")]
         [Description(@"The internal panel that contains group content.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public KryptonGroupPanel Panel { get; }
+        public KryptonGroupPanel? Panel { get; }
 
         /// <summary>
         /// Gets or sets a value indicating if collapsed mode is auto toggled by arrow button specs.
@@ -544,7 +594,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Visuals")]
         [Description(@"Edge position of the primary header.")]
-        [DefaultValue(typeof(VisualOrientation), "Top")]
+        [DefaultValue(VisualOrientation.Top)]
         public VisualOrientation HeaderPositionPrimary
         {
             get => _position1;
@@ -566,7 +616,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Visuals")]
         [Description(@"Edge position of the secondary header.")]
-        [DefaultValue(typeof(VisualOrientation), "Bottom")]
+        [DefaultValue(VisualOrientation.Bottom)]
         public VisualOrientation HeaderPositionSecondary
         {
             get => _position2;
@@ -767,7 +817,7 @@ namespace Krypton.Toolkit
             }
 
             // Check if any of the button specs want the point
-            return (_buttonManager != null) && _buttonManager.DesignerGetHitTest(pt);
+            return _buttonManager.DesignerGetHitTest(pt);
         }
 
         /// <summary>
@@ -776,9 +826,9 @@ namespace Krypton.Toolkit
         /// <param name="pt">Mouse location.</param>
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        public Component DesignerComponentFromPoint(Point pt) =>
+        public Component? DesignerComponentFromPoint(Point pt) =>
             // Ignore call as view builder is already destructed
-            IsDisposed ? null : ViewManager.ComponentFromPoint(pt);
+            IsDisposed ? null : ViewManager?.ComponentFromPoint(pt);
 
         // Ask the current view for a decision
         /// <summary>
@@ -875,14 +925,17 @@ namespace Krypton.Toolkit
 
                 // Only use layout logic if control is fully initialized or if being forced
                 // to allow a relayout or if in design mode.
-                if (IsInitialized || _forcedLayout || (DesignMode && (Panel != null)))
+                if (Panel != null)
                 {
-                    Rectangle fillRect = _layoutFill.FillRect;
+                    if (IsInitialized || _forcedLayout || DesignMode )
+                    {
+                        Rectangle fillRect = _layoutFill.FillRect;
 
-                    Panel.SetBounds(fillRect.X,
-                                     fillRect.Y,
-                                     fillRect.Width,
-                                     fillRect.Height);
+                        Panel.SetBounds(fillRect.X,
+                            fillRect.Y,
+                            fillRect.Width,
+                            fillRect.Height);
+                    }
                 }
             }
 
@@ -989,7 +1042,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">Source of notification.</param>
         /// <param name="e">An NeedLayoutEventArgs containing event data.</param>
-        protected override void OnNeedPaint(object sender, NeedLayoutEventArgs e)
+        protected override void OnNeedPaint(object? sender, NeedLayoutEventArgs e)
         {
             if (IsInitialized || !e.NeedLayout)
             {
@@ -1011,29 +1064,28 @@ namespace Krypton.Toolkit
         /// <param name="m">A Windows-based message.</param>
         protected override void WndProc(ref Message m)
         {
-            if (m.Msg == PI.WM_.WINDOWPOSCHANGING)
+            switch (m.Msg)
             {
-                // First time around we need to create the obscurer
-                if (_obscurer == null)
+                case PI.WM_.WINDOWPOSCHANGING:
                 {
-                    _obscurer = new ScreenObscurer();
+                    // First time around we need to create the obscurer
+                    _obscurer ??= new ScreenObscurer();
+
+                    // Obscure the display area of the control
+                    if (!IsDisposed && IsHandleCreated && !DesignMode)
+                    {
+                        _obscurer.Cover(this);
+                    }
+
+                    // Just in case the WM_WINDOWPOSCHANGED does not occur we can 
+                    // ensure the obscurer is removed using this async delegate call
+                    BeginInvoke(_removeObscurer);
+                    break;
                 }
-
-                // Obscure the display area of the control
-                if (!IsDisposed && IsHandleCreated && !DesignMode)
-                {
-                    _obscurer.Cover(this);
-                }
-
-                // Just in case the WM_WINDOWPOSCHANGED does not occur we can 
-                // ensure the obscurer is removed using this async delegate call
-                BeginInvoke(_removeObscurer);
-            }
-
-            if (m.Msg == PI.WM_.WINDOWPOSCHANGED)
-            {
-                // Uncover from the covered area
-                _obscurer?.Uncover();
+                case PI.WM_.WINDOWPOSCHANGED:
+                    // Uncover from the covered area
+                    _obscurer?.Uncover();
+                    break;
             }
 
             base.WndProc(ref m);
@@ -1064,7 +1116,7 @@ namespace Krypton.Toolkit
             if (!IsDisposed)
             {
                 // Do not show tooltips when the form we are in does not have focus
-                Form topForm = FindForm();
+                Form? topForm = FindForm();
                 if (topForm is { ContainsFocus: false })
                 {
                     return;
@@ -1073,13 +1125,13 @@ namespace Krypton.Toolkit
                 // Never show tooltips are design time
                 if (!DesignMode)
                 {
-                    IContentValues sourceContent = null;
-                    LabelStyle toolTipStyle = LabelStyle.ToolTip;
+                    IContentValues? sourceContent = null;
+                    var toolTipStyle = LabelStyle.ToolTip;
 
-                    bool shadow = true;
+                    var shadow = true;
 
                     // Find the button spec associated with the tooltip request
-                    ButtonSpec buttonSpec = _buttonManager.ButtonSpecFromView(e.Target);
+                    ButtonSpec? buttonSpec = _buttonManager.ButtonSpecFromView(e.Target);
 
                     // If the tooltip is for a button spec
                     if (buttonSpec != null)
@@ -1088,7 +1140,7 @@ namespace Krypton.Toolkit
                         if (AllowButtonSpecToolTips)
                         {
                             // Create a helper object to provide tooltip values
-                            ButtonSpecToContent buttonSpecMapping = new(Redirector, buttonSpec);
+                            var buttonSpecMapping = new ButtonSpecToContent(Redirector, buttonSpec);
 
                             // Is there actually anything to show for the tooltip
                             if (buttonSpecMapping.HasContent)
@@ -1132,7 +1184,7 @@ namespace Krypton.Toolkit
         private void OnVisualPopupToolTipDisposed(object sender, EventArgs e)
         {
             // Unhook events from the specific instance that generated event
-            VisualPopupToolTip popupToolTip = (VisualPopupToolTip)sender;
+            var popupToolTip = (VisualPopupToolTip)sender;
             popupToolTip.Disposed -= OnVisualPopupToolTipDisposed;
 
             // Not showing a popup page any more
@@ -1151,7 +1203,7 @@ namespace Krypton.Toolkit
             if (AutoCollapseArrow)
             {
                 // Cast to correct type
-                ButtonSpecHeaderGroup buttonSpec = (ButtonSpecHeaderGroup)sender;
+                var buttonSpec = (ButtonSpecHeaderGroup)sender;
 
                 // Action depends on the arrow
                 switch (buttonSpec.Type)
@@ -1310,6 +1362,28 @@ namespace Krypton.Toolkit
             _drawHeading1.Visible = primaryVisible;
             _drawHeading2.Visible = secondaryVisible;
         }
+
+        private void SetCornerRoundingRadius(float? radius)
+        {
+            _cornerRoundingRadius = radius ?? GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
+
+            StateCommon.Border.Rounding = _cornerRoundingRadius;
+        }
+
+        private void SetHeaderPrimaryCornerRoundingRadius(float? radius)
+        {
+            _headerPrimaryCornerRoundingRadius = radius ?? GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
+
+            StateCommon.Border.Rounding = _headerPrimaryCornerRoundingRadius;
+        }
+
+        private void SetHeaderSecondaryCornerRoundingRadius(float? radius)
+        {
+            _headerSecondaryCornerRoundingRadius = radius ?? GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
+
+            StateCommon.Border.Rounding = _headerSecondaryCornerRoundingRadius;
+        }
+
         #endregion
 
         #region Implementation Static
@@ -1325,7 +1399,7 @@ namespace Krypton.Toolkit
             else
             {
                 // Then we need only the extra space between the client and the
-                // padding edge, as the rest is overlaped by the children
+                // padding edge, as the rest is overlapped by the children
                 return padding - client;
             }
         }

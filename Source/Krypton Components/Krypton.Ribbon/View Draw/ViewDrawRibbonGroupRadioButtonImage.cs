@@ -5,7 +5,9 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  
+ *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
  */
 #endregion
@@ -33,7 +35,7 @@ namespace Krypton.Ribbon
         /// <param name="ribbonRadioButton">Reference to ribbon group radio button definition.</param>
         /// <param name="large">Show the large image.</param>
         public ViewDrawRibbonGroupRadioButtonImage(KryptonRibbon ribbon,
-                                                   KryptonRibbonGroupRadioButton ribbonRadioButton,
+            [DisallowNull] KryptonRibbonGroupRadioButton ribbonRadioButton,
                                                    bool large)
         {
             Debug.Assert(ribbonRadioButton != null);
@@ -43,7 +45,7 @@ namespace Krypton.Ribbon
             _large = large;
 
             // Use redirector to get the radio button images and redirect to parent palette
-            PaletteRedirectRadioButton redirectImages = new(ribbon.GetRedirector(), ribbon.StateCommon.RibbonImages.RadioButton);
+            var redirectImages = new PaletteRedirectRadioButton(ribbon.GetRedirector(), ribbon.StateCommon.RibbonImages.RadioButton);
 
             // Create drawing element
             _drawRadioButton = new ViewDrawRadioButton(redirectImages);
@@ -60,7 +62,7 @@ namespace Krypton.Ribbon
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            @"ViewDrawRibbonGroupRadioButtonImage:" + Id;
+            $@"ViewDrawRibbonGroupRadioButtonImage:{Id}";
 
         #endregion
 
@@ -125,7 +127,7 @@ namespace Krypton.Ribbon
             ClientRectangle = context.DisplayRectangle;
 
             // Get the size of the radio button when it is drawn
-            Rectangle radioButtonRect = new(Point.Empty, _drawRadioButton.GetPreferredSize(context));
+            var radioButtonRect = new Rectangle(Point.Empty, _drawRadioButton.GetPreferredSize(context));
 
             // Decide on correct position within our rectangle
             if (_large)

@@ -5,7 +5,9 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  
+ *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
  */
 #endregion
@@ -46,10 +48,7 @@ namespace Krypton.Ribbon
         /// </summary>
         public override bool IgnoreVisualFormLeftButtonDown => true;
 
-        public override void MouseEnter(Control c)
-        {
-            base.MouseEnter(c);
-        }
+        public override void MouseEnter(Control c) => base.MouseEnter(c);
         #endregion
 
         #region Focus Notifications
@@ -70,7 +69,7 @@ namespace Krypton.Ribbon
         /// Source control has lost the focus.
         /// </summary>
         /// <param name="c">Reference to the source control instance.</param>
-        public virtual void LostFocus(Control c)
+        public virtual void LostFocus([DisallowNull] Control c)
         {
             _hasFocus = false;
 
@@ -88,9 +87,9 @@ namespace Krypton.Ribbon
         /// <param name="e">A KeyEventArgs that contains the event data.</param>
         public void KeyDown(Control c, KeyEventArgs e)
         {
-            if (c is VisualPopupQATOverflow)
+            if (c is VisualPopupQATOverflow overflow)
             {
-                KeyDownPopupOverflow(c as VisualPopupQATOverflow, e);
+                KeyDownPopupOverflow(overflow, e);
             }
             else
             {
@@ -160,7 +159,7 @@ namespace Krypton.Ribbon
         #region Implementation
         private void KeyDownRibbon(KeyEventArgs e)
         {
-            ViewBase newView = null;
+            ViewBase? newView = null;
 
             switch (e.KeyData)
             {

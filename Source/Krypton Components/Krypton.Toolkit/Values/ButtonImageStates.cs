@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -18,10 +18,10 @@ namespace Krypton.Toolkit
     public class ButtonImageStates : Storage
     {
         #region Instance Fields
-        private Image _imageNormal;
-        private Image _imageDisabled;
-        private Image _imagePressed;
-        private Image _imageTracking;
+        private Image? _imageNormal;
+        private Image? _imageDisabled;
+        private Image? _imagePressed;
+        private Image? _imageTracking;
         #endregion
 
         #region IsDefault
@@ -46,7 +46,7 @@ namespace Krypton.Toolkit
         [Description(@"Button image for normal state.")]
         [RefreshProperties(RefreshProperties.All)]
         [DefaultValue(null)]
-        public Image ImageNormal
+        public Image? ImageNormal
         {
             get => _imageNormal;
 
@@ -65,10 +65,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the ImageNormal property to its default value.
         /// </summary>
-        public void ResetImageNormal()
-        {
-            ImageNormal = null;
-        }
+        public void ResetImageNormal() => ImageNormal = null;
         #endregion
 
         #region ImageDisabled
@@ -81,7 +78,7 @@ namespace Krypton.Toolkit
         [Description(@"Button image for disabled state.")]
         [RefreshProperties(RefreshProperties.All)]
         [DefaultValue(null)]
-        public Image ImageDisabled
+        public Image? ImageDisabled
         {
             get => _imageDisabled;
 
@@ -100,10 +97,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the ImageDisabled property to its default value.
         /// </summary>
-        public void ResetImageDisabled()
-        {
-            ImageDisabled = null;
-        }
+        public void ResetImageDisabled() => ImageDisabled = null;
         #endregion
 
         #region ImagePressed
@@ -116,7 +110,7 @@ namespace Krypton.Toolkit
         [Description(@"Button image for pressed state.")]
         [RefreshProperties(RefreshProperties.All)]
         [DefaultValue(null)]
-        public Image ImagePressed
+        public Image? ImagePressed
         {
             get => _imagePressed;
 
@@ -135,10 +129,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the ImagePressed property to its default value.
         /// </summary>
-        public void ResetImagePressed()
-        {
-            ImagePressed = null;
-        }
+        public void ResetImagePressed() => ImagePressed = null;
         #endregion
 
         #region ImageTracking
@@ -151,7 +142,7 @@ namespace Krypton.Toolkit
         [Description(@"Button image for tracking state.")]
         [RefreshProperties(RefreshProperties.All)]
         [DefaultValue(null)]
-        public Image ImageTracking
+        public Image? ImageTracking
         {
             get => _imageTracking;
 
@@ -170,10 +161,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the ImageTracking property to its default value.
         /// </summary>
-        public void ResetImageTracking()
-        {
-            ImageTracking = null;
-        }
+        public void ResetImageTracking() => ImageTracking = null;
         #endregion
 
         #region ImageCheckedNormal
@@ -182,7 +170,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public virtual Image ImageCheckedNormal
+        public virtual Image? ImageCheckedNormal
         {
             get => null;
             set { }
@@ -196,7 +184,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public virtual Image ImageCheckedPressed
+        public virtual Image? ImageCheckedPressed
         {
             get => null;
             set { }
@@ -209,7 +197,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public virtual Image ImageCheckedTracking
+        public virtual Image? ImageCheckedTracking
         {
             get => null;
             set { }

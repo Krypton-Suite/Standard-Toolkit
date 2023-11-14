@@ -5,7 +5,9 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  
+ *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
  */
 #endregion
@@ -28,7 +30,7 @@ namespace Krypton.Ribbon
         private DesignerVerb _addColorButtonVerb;
         private DesignerVerb _clearItemsVerb;
         private DesignerVerb _deleteClusterVerb;
-        private ContextMenuStrip _cms;
+        private ContextMenuStrip? _cms;
         private ToolStripMenuItem _toggleHelpersMenu;
         private ToolStripMenuItem _visibleMenu;
         private ToolStripMenuItem _moveFirstMenu;
@@ -55,7 +57,7 @@ namespace Krypton.Ribbon
         /// Initializes the designer with the specified component.
         /// </summary>
         /// <param name="component">The IComponent to associate the designer with.</param>
-        public override void Initialize(IComponent component)
+        public override void Initialize([DisallowNull] IComponent component)
         {
             // Let base class do standard stuff
             base.Initialize(component);
@@ -87,7 +89,7 @@ namespace Krypton.Ribbon
         {
             get
             {
-                ArrayList compound = new(base.AssociatedComponents);
+                var compound = new ArrayList(base.AssociatedComponents);
                 compound.AddRange(_ribbonCluster.Items);
                 return compound;
             }
@@ -158,10 +160,10 @@ namespace Krypton.Ribbon
             var moveLast = false;
             var clearItems = false;
 
-            if (_ribbonCluster?.Ribbon != null)
+            if (_ribbonCluster.Ribbon != null)
             {
                 // Cast container to the correct type
-                KryptonRibbonGroupLines lines = (KryptonRibbonGroupLines)_ribbonCluster.RibbonContainer;
+                var lines = (KryptonRibbonGroupLines)_ribbonCluster.RibbonContainer;
 
                 moveFirst = lines.Items.IndexOf(_ribbonCluster) > 0;
                 movePrev = lines.Items.IndexOf(_ribbonCluster) > 0;
@@ -180,7 +182,7 @@ namespace Krypton.Ribbon
         private void OnToggleHelpers(object sender, EventArgs e)
         {
             // Invert the current toggle helper mode
-            if (_ribbonCluster?.Ribbon != null)
+            if (_ribbonCluster.Ribbon != null)
             {
                 _ribbonCluster.Ribbon.InDesignHelperMode = !_ribbonCluster.Ribbon.InDesignHelperMode;
             }
@@ -188,10 +190,10 @@ namespace Krypton.Ribbon
 
         private void OnMoveFirst(object sender, EventArgs e)
         {
-            if (_ribbonCluster?.Ribbon != null)
+            if (_ribbonCluster.Ribbon != null)
             {
                 // Cast container to the correct type
-                KryptonRibbonGroupLines lines = (KryptonRibbonGroupLines)_ribbonCluster.RibbonContainer;
+                var lines = (KryptonRibbonGroupLines)_ribbonCluster.RibbonContainer;
 
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupCluster MoveFirst");
@@ -220,10 +222,10 @@ namespace Krypton.Ribbon
 
         private void OnMovePrevious(object sender, EventArgs e)
         {
-            if (_ribbonCluster?.Ribbon != null)
+            if (_ribbonCluster.Ribbon != null)
             {
                 // Cast container to the correct type
-                KryptonRibbonGroupLines lines = (KryptonRibbonGroupLines)_ribbonCluster.RibbonContainer;
+                var lines = (KryptonRibbonGroupLines)_ribbonCluster.RibbonContainer;
 
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupCluster MovePrevious");
@@ -254,10 +256,10 @@ namespace Krypton.Ribbon
 
         private void OnMoveNext(object sender, EventArgs e)
         {
-            if (_ribbonCluster?.Ribbon != null)
+            if (_ribbonCluster.Ribbon != null)
             {
                 // Cast container to the correct type
-                KryptonRibbonGroupLines lines = (KryptonRibbonGroupLines)_ribbonCluster.RibbonContainer;
+                var lines = (KryptonRibbonGroupLines)_ribbonCluster.RibbonContainer;
 
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupCluster MoveNext");
@@ -288,10 +290,10 @@ namespace Krypton.Ribbon
 
         private void OnMoveLast(object sender, EventArgs e)
         {
-            if (_ribbonCluster?.Ribbon != null)
+            if (_ribbonCluster.Ribbon != null)
             {
                 // Cast container to the correct type
-                KryptonRibbonGroupLines lines = (KryptonRibbonGroupLines)_ribbonCluster.RibbonContainer;
+                var lines = (KryptonRibbonGroupLines)_ribbonCluster.RibbonContainer;
 
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupCluster MoveLast");
@@ -320,7 +322,7 @@ namespace Krypton.Ribbon
 
         private void OnAddButton(object sender, EventArgs e)
         {
-            if (_ribbonCluster?.Ribbon != null)
+            if (_ribbonCluster.Ribbon != null)
             {
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupCluster AddButton");
@@ -333,7 +335,7 @@ namespace Krypton.Ribbon
                     RaiseComponentChanging(propertyItems);
 
                     // Get designer to create a cluster button item
-                    KryptonRibbonGroupClusterButton button = (KryptonRibbonGroupClusterButton)_designerHost.CreateComponent(typeof(KryptonRibbonGroupClusterButton));
+                    var button = (KryptonRibbonGroupClusterButton)_designerHost.CreateComponent(typeof(KryptonRibbonGroupClusterButton));
                     _ribbonCluster.Items.Add(button);
 
                     RaiseComponentChanged(propertyItems, null, null);
@@ -348,7 +350,7 @@ namespace Krypton.Ribbon
 
         private void OnAddColorButton(object sender, EventArgs e)
         {
-            if (_ribbonCluster?.Ribbon != null)
+            if (_ribbonCluster.Ribbon != null)
             {
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupCluster AddColorButton");
@@ -361,7 +363,7 @@ namespace Krypton.Ribbon
                     RaiseComponentChanging(propertyItems);
 
                     // Get designer to create a cluster color button item
-                    KryptonRibbonGroupClusterColorButton button = (KryptonRibbonGroupClusterColorButton)_designerHost.CreateComponent(typeof(KryptonRibbonGroupClusterColorButton));
+                    var button = (KryptonRibbonGroupClusterColorButton)_designerHost.CreateComponent(typeof(KryptonRibbonGroupClusterColorButton));
                     _ribbonCluster.Items.Add(button);
 
                     RaiseComponentChanged(propertyItems, null, null);
@@ -376,7 +378,7 @@ namespace Krypton.Ribbon
 
         private void OnClearItems(object sender, EventArgs e)
         {
-            if (_ribbonCluster?.Ribbon != null)
+            if (_ribbonCluster.Ribbon != null)
             {
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupCluster ClearItems");
@@ -389,7 +391,7 @@ namespace Krypton.Ribbon
                     RaiseComponentChanging(propertyItems);
 
                     // Need access to host in order to delete a component
-                    IDesignerHost host = (IDesignerHost)GetService(typeof(IDesignerHost));
+                    var host = (IDesignerHost)GetService(typeof(IDesignerHost));
 
                     // We need to remove all the buttons from the cluster group
                     for (var i = _ribbonCluster.Items.Count - 1; i >= 0; i--)
@@ -411,10 +413,10 @@ namespace Krypton.Ribbon
 
         private void OnDeleteCluster(object sender, EventArgs e)
         {
-            if (_ribbonCluster?.Ribbon != null)
+            if (_ribbonCluster.Ribbon != null)
             {
                 // Cast container to the correct type
-                KryptonRibbonGroupLines lines = (KryptonRibbonGroupLines)_ribbonCluster.RibbonContainer;
+                var lines = (KryptonRibbonGroupLines)_ribbonCluster.RibbonContainer;
 
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupTriple DeleteTriple");
@@ -447,17 +449,14 @@ namespace Krypton.Ribbon
 
         private void OnVisible(object sender, EventArgs e)
         {
-            if (_ribbonCluster?.Ribbon != null)
+            if (_ribbonCluster.Ribbon != null)
             {
                 _changeService.OnComponentChanged(_ribbonCluster, null, _ribbonCluster.Visible, !_ribbonCluster.Visible);
                 _ribbonCluster.Visible = !_ribbonCluster.Visible;
             }
         }
 
-        private void OnComponentChanged(object sender, ComponentChangedEventArgs e)
-        {
-            UpdateVerbStatus();
-        }
+        private void OnComponentChanged(object sender, ComponentChangedEventArgs e) => UpdateVerbStatus();
 
         private void OnComponentRemoving(object sender, ComponentEventArgs e)
         {
@@ -465,7 +464,7 @@ namespace Krypton.Ribbon
             if (e.Component == _ribbonCluster)
             {
                 // Need access to host in order to delete a component
-                IDesignerHost host = (IDesignerHost)GetService(typeof(IDesignerHost));
+                var host = (IDesignerHost)GetService(typeof(IDesignerHost));
 
                 // We need to remove all items from the cluster
                 for (var j = _ribbonCluster.Items.Count - 1; j >= 0; j--)
@@ -478,7 +477,7 @@ namespace Krypton.Ribbon
                     }
                     else
                     {
-                        IRibbonGroupContainer container = _ribbonCluster.Items[j] as IRibbonGroupContainer;
+                        var container = _ribbonCluster.Items[j] as IRibbonGroupContainer;
                         _ribbonCluster.Items.Remove(container);
                         host.DestroyComponent(container as Component);
                     }
@@ -488,7 +487,7 @@ namespace Krypton.Ribbon
 
         private void OnContextMenu(object sender, MouseEventArgs e)
         {
-            if (_ribbonCluster?.Ribbon != null)
+            if (_ribbonCluster.Ribbon != null)
             {
                 // Create the menu strip the first time around
                 if (_cms == null)
@@ -496,14 +495,14 @@ namespace Krypton.Ribbon
                     _cms = new ContextMenuStrip();
                     _toggleHelpersMenu = new ToolStripMenuItem("Design Helpers", null, OnToggleHelpers);
                     _visibleMenu = new ToolStripMenuItem("Visible", null, OnVisible);
-                    _moveFirstMenu = new ToolStripMenuItem("Move Cluster First", Properties.Resources.MoveFirst, OnMoveFirst);
-                    _movePreviousMenu = new ToolStripMenuItem("Move Cluster Previous", Properties.Resources.MovePrevious, OnMovePrevious);
-                    _moveNextMenu = new ToolStripMenuItem("Move Cluster Next", Properties.Resources.MoveNext, OnMoveNext);
-                    _moveLastMenu = new ToolStripMenuItem("Move Cluster Last", Properties.Resources.MoveLast, OnMoveLast);
-                    _addButtonMenu = new ToolStripMenuItem("Add Button", Properties.Resources.KryptonRibbonGroupClusterButton, OnAddButton);
-                    _addColorButtonMenu = new ToolStripMenuItem("Add Color Button", Properties.Resources.KryptonRibbonGroupClusterColorButton, OnAddColorButton);
+                    _moveFirstMenu = new ToolStripMenuItem("Move Cluster First", GenericImageResources.MoveFirst, OnMoveFirst);
+                    _movePreviousMenu = new ToolStripMenuItem("Move Cluster Previous", GenericImageResources.MovePrevious, OnMovePrevious);
+                    _moveNextMenu = new ToolStripMenuItem("Move Cluster Next", GenericImageResources.MoveNext, OnMoveNext);
+                    _moveLastMenu = new ToolStripMenuItem("Move Cluster Last", GenericImageResources.MoveLast, OnMoveLast);
+                    _addButtonMenu = new ToolStripMenuItem("Add Button", GenericImageResources.KryptonRibbonGroupClusterButton, OnAddButton);
+                    _addColorButtonMenu = new ToolStripMenuItem("Add Color Button", GenericImageResources.KryptonRibbonGroupClusterColorButton, OnAddColorButton);
                     _clearItemsMenu = new ToolStripMenuItem("Clear Items", null, OnClearItems);
-                    _deleteClusterMenu = new ToolStripMenuItem("Delete Cluster", Properties.Resources.delete2, OnDeleteCluster);
+                    _deleteClusterMenu = new ToolStripMenuItem("Delete Cluster", GenericImageResources.Delete, OnDeleteCluster);
                     _cms.Items.AddRange(new ToolStripItem[] { _toggleHelpersMenu, new ToolStripSeparator(),
                                                               _visibleMenu, new ToolStripSeparator(),
                                                               _moveFirstMenu, _movePreviousMenu, _moveNextMenu, _moveLastMenu, new ToolStripSeparator(),

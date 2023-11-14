@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -17,15 +17,11 @@ namespace Krypton.Toolkit
     /// </summary>
     public class KryptonPaletteButtonSpecs : Storage
     {
-        #region Instance Fields
-
-        #endregion
-
         #region Events
         /// <summary>
         /// Occurs when a button spec change occurs.
         /// </summary>
-        public event EventHandler ButtonSpecChanged;
+        public event EventHandler? ButtonSpecChanged;
         #endregion
 
         #region Identity
@@ -33,7 +29,7 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the KryptonPaletteButtonSpecs class.
         /// </summary>
         /// <param name="redirector">Palette redirector for sourcing inherited values.</param>
-        public KryptonPaletteButtonSpecs(PaletteRedirect redirector)
+        public KryptonPaletteButtonSpecs([DisallowNull] PaletteRedirect redirector)
         {
             Debug.Assert(redirector != null);
 
@@ -65,7 +61,7 @@ namespace Krypton.Toolkit
             RibbonExpand = new KryptonPaletteButtonSpecTyped(redirector);
 
             // Create redirector for inheriting from style specific to style common
-            PaletteRedirectButtonSpec redirectCommon = new(redirector, Common);
+            var redirectCommon = new PaletteRedirectButtonSpec(redirector, Common);
 
             // Inform the button spec to use the new redirector
             Generic.SetRedirector(redirectCommon);

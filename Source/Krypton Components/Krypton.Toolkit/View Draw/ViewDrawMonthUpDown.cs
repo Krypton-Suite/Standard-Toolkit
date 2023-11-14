@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -49,12 +49,12 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Occurs when the button is clicked.
         /// </summary>
-        public event EventHandler Click;
+        public event EventHandler? Click;
 
         /// <summary>
         /// Occurs when the mouse is used to left select the target.
         /// </summary>
-        public event MouseEventHandler MouseSelect;
+        public event MouseEventHandler? MouseSelect;
         #endregion
 
         #region Identity
@@ -67,8 +67,8 @@ namespace Krypton.Toolkit
         /// <param name="glyph">Glyph to be drawn.</param>
         /// <param name="needPaintHandler">Delegate for requests repainting.</param>
         public ViewDrawMonthUpDown(IPaletteTriple paletteState,
-                                   IPaletteMetric paletteMetric,
-                                   IContentValues buttonValues,
+                                   IPaletteMetric? paletteMetric,
+                                   IContentValues? buttonValues,
                                    DrawMonthCalendarGlyph glyph,
                                    NeedPaintHandler needPaintHandler)        
             : base(paletteState, paletteState, paletteState, paletteState, 
@@ -91,7 +91,7 @@ namespace Krypton.Toolkit
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            "ViewDrawMonthUpDown:" + Id;
+            $"ViewDrawMonthUpDown:{Id}";
 
         #endregion
 
@@ -102,14 +102,14 @@ namespace Krypton.Toolkit
         /// <param name="context">Layout context.</param>
         public override Size GetPreferredSize(ViewLayoutContext context) =>
             // We want to be as wide as drop down buttons on standard controls
-            new (SystemInformation.VerticalScrollBarWidth - 2, 0);
+            new Size(SystemInformation.VerticalScrollBarWidth - 2, 0);
 
         /// <summary>
         /// Perform a layout of the elements.
         /// </summary>
         /// <param name="context">Layout context.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public override void Layout(ViewLayoutContext context)
+        public override void Layout([DisallowNull] ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 
@@ -123,12 +123,9 @@ namespace Krypton.Toolkit
             Rectangle beforeRect = context.DisplayRectangle;
             context.DisplayRectangle = _glyph switch
             {
-                DrawMonthCalendarGlyph.DropDownButton => new Rectangle(beforeRect.X, beforeRect.Y + 1, beforeRect.Width,
-                    beforeRect.Height - 2),
-                DrawMonthCalendarGlyph.UpButton => new Rectangle(beforeRect.X, beforeRect.Y + 1, beforeRect.Width,
-                    beforeRect.Height - 1),
-                DrawMonthCalendarGlyph.DownButton => new Rectangle(beforeRect.X, beforeRect.Y, beforeRect.Width,
-                    beforeRect.Height - 1),
+                DrawMonthCalendarGlyph.DropDownButton => beforeRect with { Y = beforeRect.Y + 1, Height = beforeRect.Height - 2 },
+                DrawMonthCalendarGlyph.UpButton => beforeRect with { Y = beforeRect.Y + 1, Height = beforeRect.Height - 1 },
+                DrawMonthCalendarGlyph.DownButton => beforeRect with { Height = beforeRect.Height - 1 },
                 _ => context.DisplayRectangle
             };
 

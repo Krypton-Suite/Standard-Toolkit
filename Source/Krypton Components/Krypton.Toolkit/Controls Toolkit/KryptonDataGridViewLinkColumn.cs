@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -25,7 +25,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Instance Fields
-        private string _text;
+        private string? _text;
         private LabelStyle _labelStyle;
         #endregion
 
@@ -44,7 +44,7 @@ namespace Krypton.Toolkit
         /// <returns>A String that represents the current Object.</returns>
         public override string ToString()
         {
-            StringBuilder builder = new(0x40);
+            var builder = new StringBuilder(0x40);
             builder.Append("KryptonDataGridViewLinkColumn { Name=");
             // ReSharper disable RedundantBaseQualifier
             builder.Append(base.Name);
@@ -62,7 +62,7 @@ namespace Krypton.Toolkit
         public override object Clone()
         {
             // Create a new instance
-            KryptonDataGridViewLinkColumn clone = base.Clone() as KryptonDataGridViewLinkColumn;
+            var clone = base.Clone() as KryptonDataGridViewLinkColumn;
             clone.Text = Text;
             clone.LabelStyle = LabelStyle;
             return clone;
@@ -95,7 +95,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Appearance")]
         [DefaultValue(null)]
-        public string Text
+        public string? Text
         {
             get => _text;
             set
@@ -135,7 +135,7 @@ namespace Krypton.Toolkit
         /// Gets or sets the default label style of link cell.
         /// </summary>
         [Category(@"Appearance")]
-        [DefaultValue(typeof(LabelStyle), "NormalPanel")]
+        [DefaultValue(LabelStyle.NormalPanel)]
         public LabelStyle LabelStyle
         {
             get => _labelStyle;
@@ -168,7 +168,7 @@ namespace Krypton.Toolkit
         /// Gets or sets a value that represents the behavior of links within cells in the column.
         /// </summary>
         [Category(@"Behavior")]
-        [DefaultValue(typeof(LinkBehavior), "AlwaysUnderline")]
+        [DefaultValue(LinkBehavior.AlwaysUnderline)]
         public LinkBehavior LinkBehavior
         {
             get =>
@@ -298,7 +298,7 @@ namespace Krypton.Toolkit
             if (_piTrackVisitedStateInternal == null)
             {
                 // Cache access to the internal property sette 'TrackVisitedStateInternal'
-                _piTrackVisitedStateInternal = typeof(DataGridViewLinkCell).GetProperty(@"TrackVisitedStateInternal", BindingFlags.Instance |
+                _piTrackVisitedStateInternal = typeof(DataGridViewLinkCell).GetProperty(nameof(TrackVisitedStateInternal), BindingFlags.Instance |
                                                                                                                      BindingFlags.NonPublic |
                                                                                                                      BindingFlags.SetProperty);
 

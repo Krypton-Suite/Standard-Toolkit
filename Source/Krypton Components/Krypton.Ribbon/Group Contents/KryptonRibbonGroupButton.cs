@@ -5,7 +5,9 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  
+ *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
  */
 #endregion
@@ -17,35 +19,35 @@ namespace Krypton.Ribbon
     /// </summary>
     [ToolboxItem(false)]
     [ToolboxBitmap(typeof(KryptonRibbonGroupButton), "ToolboxBitmaps.KryptonRibbonGroupButton.bmp")]
-    [Designer("Krypton.Ribbon.KryptonRibbonGroupButtonDesigner, Krypton.Ribbon")]
+    [Designer(typeof(KryptonRibbonGroupButtonDesigner))]
     [DesignerCategory(@"code")]
     [DesignTimeVisible(false)]
-    [DefaultEvent("Click")]
-    [DefaultProperty("ButtonType")]
+    [DefaultEvent(nameof(Click))]
+    [DefaultProperty(nameof(ButtonType))]
     public class KryptonRibbonGroupButton : KryptonRibbonGroupItem
     {
         #region Static Fields
-        private static readonly Image _defaultButtonImageSmall = Properties.Resources.ButtonImageSmall;
-        private static readonly Image _defaultButtonImageLarge = Properties.Resources.ButtonImageLarge;
+        private static readonly Image _defaultButtonImageSmall = GenericImageResources.ButtonImageSmall;
+        private static readonly Image _defaultButtonImageLarge = GenericImageResources.ButtonImageLarge;
         #endregion
 
         #region Instance Fields
         private bool _enabled;
         private bool _visible;
         private bool _checked;
-        private Image _imageSmall;
-        private Image _imageLarge;
+        private Image? _imageSmall;
+        private Image? _imageLarge;
         private string _textLine1;
         private string _textLine2;
         private string _keyTip;
         private GroupButtonType _buttonType;
-        private ContextMenuStrip _contextMenuStrip;
-        private KryptonContextMenu _kryptonContextMenu;
-        private EventHandler _kcmFinishDelegate;
+        private ContextMenuStrip? _contextMenuStrip;
+        private KryptonContextMenu? _kryptonContextMenu;
+        private EventHandler? _kcmFinishDelegate;
         private GroupItemSize _itemSizeMax;
         private GroupItemSize _itemSizeMin;
         private GroupItemSize _itemSizeCurrent;
-        private KryptonCommand _command;
+        private KryptonCommand? _command;
         #endregion
 
         #region Events
@@ -54,28 +56,28 @@ namespace Krypton.Ribbon
         /// </summary>
         [Category(@"Ribbon")]
         [Description(@"Occurs when the button is clicked.")]
-        public event EventHandler Click;
+        public event EventHandler? Click;
 
         /// <summary>
         /// Occurs when the drop down button type is pressed.
         /// </summary>
         [Category(@"Ribbon")]
         [Description(@"Occurs when the drop down button type is pressed.")]
-        public event EventHandler<ContextMenuArgs> DropDown;
+        public event EventHandler<ContextMenuArgs>? DropDown;
 
         /// <summary>
         /// Occurs after the value of a property has changed.
         /// </summary>
         [Category(@"Ribbon")]
         [Description(@"Occurs after the value of a property has changed.")]
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         /// <summary>
         /// Occurs when the design time context menu is requested.
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        public event MouseEventHandler DesignTimeContextMenu;
+        public event MouseEventHandler? DesignTimeContextMenu;
         #endregion
 
         #region Identity
@@ -91,7 +93,7 @@ namespace Krypton.Ribbon
             ShortcutKeys = Keys.None;
             _imageSmall = _defaultButtonImageSmall;
             _imageLarge = _defaultButtonImageLarge;
-            _textLine1 = "Button";
+            _textLine1 = nameof(Button);
             _textLine2 = string.Empty;
             _keyTip = "B";
             _buttonType = GroupButtonType.Push;
@@ -112,7 +114,7 @@ namespace Krypton.Ribbon
         [Category(@"Appearance")]
         [Description(@"Small button image.")]
         [RefreshProperties(RefreshProperties.All)]
-        public Image ImageSmall
+        public Image? ImageSmall
         {
             get => _imageSmall;
 
@@ -136,7 +138,7 @@ namespace Krypton.Ribbon
         [Category(@"Appearance")]
         [Description(@"Large button image.")]
         [RefreshProperties(RefreshProperties.All)]
-        public Image ImageLarge
+        public Image? ImageLarge
         {
             get => _imageLarge;
 
@@ -160,7 +162,7 @@ namespace Krypton.Ribbon
         [Category(@"Appearance")]
         [Description(@"Button display text line 1.")]
         [RefreshProperties(RefreshProperties.All)]
-        [DefaultValue("Button")]
+        [DefaultValue(nameof(Button))]
         public string TextLine1
         {
             get => _textLine1;
@@ -170,7 +172,7 @@ namespace Krypton.Ribbon
                 // We never allow an empty text value
                 if (string.IsNullOrEmpty(value))
                 {
-                    value = "Button";
+                    value = nameof(Button);
                 }
 
                 if (value != _textLine1)
@@ -220,7 +222,7 @@ namespace Krypton.Ribbon
             {
                 if (string.IsNullOrEmpty(value))
                 {
-                    value = "B";
+                    value = @"B";
                 }
 
                 _keyTip = value.ToUpper();
@@ -254,18 +256,12 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Make the ribbon group visible.
         /// </summary>
-        public void Show()
-        {
-            Visible = true;
-        }
+        public void Show() => Visible = true;
 
         /// <summary>
         /// Make the ribbon group hidden.
         /// </summary>
-        public void Hide()
-        {
-            Visible = false;
-        }
+        public void Hide() => Visible = false;
 
         /// <summary>
         /// Gets and sets the enabled state of the group entry.
@@ -343,10 +339,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Resets the ShortcutKeys property to its default value.
         /// </summary>
-        public void ResetShortcutKeys()
-        {
-            ShortcutKeys = Keys.None;
-        }
+        public void ResetShortcutKeys() => ShortcutKeys = Keys.None;
 
 
         /// <summary>
@@ -360,7 +353,7 @@ namespace Krypton.Ribbon
         [Category(@"Behavior")]
         [Description(@"Context menu strip to be shown when the button is pressed.")]
         [DefaultValue(null)]
-        public ContextMenuStrip ContextMenuStrip
+        public ContextMenuStrip? ContextMenuStrip
         {
             get => _contextMenuStrip;
 
@@ -380,7 +373,7 @@ namespace Krypton.Ribbon
         [Category(@"Behavior")]
         [Description(@"KryptonContextMenu to be shown when the button is pressed.")]
         [DefaultValue(null)]
-        public KryptonContextMenu KryptonContextMenu
+        public KryptonContextMenu? KryptonContextMenu
         {
             get => _kryptonContextMenu;
 
@@ -400,7 +393,7 @@ namespace Krypton.Ribbon
         [Category(@"Behavior")]
         [Description(@"Command associated with the group button.")]
         [DefaultValue(null)]
-        public KryptonCommand KryptonCommand
+        public KryptonCommand? KryptonCommand
         {
             get => _command;
 
@@ -501,36 +494,24 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Generates a Click event for a button.
         /// </summary>
-        public void PerformClick()
-        {
-            PerformClick(null);
-        }
+        public void PerformClick() => PerformClick(null);
 
         /// <summary>
         /// Generates a Click event for a button.
         /// </summary>
         /// <param name="finishDelegate">Delegate fired during event processing.</param>
-        public void PerformClick(EventHandler finishDelegate)
-        {
-            OnClick(finishDelegate);
-        }
+        public void PerformClick(EventHandler? finishDelegate) => OnClick(finishDelegate);
 
         /// <summary>
         /// Generates a DropDown event for a button.
         /// </summary>
-        public void PerformDropDown()
-        {
-            PerformDropDown(null);
-        }
+        public void PerformDropDown() => PerformDropDown(null);
 
         /// <summary>
         /// Generates a DropDown event for a button.
         /// </summary>
         /// <param name="finishDelegate">Delegate fired during event processing.</param>
-        public void PerformDropDown(EventHandler finishDelegate)
-        {
-            OnDropDown(finishDelegate);
-        }
+        public void PerformDropDown(EventHandler? finishDelegate) => OnDropDown(finishDelegate);
 
         /// <summary>
         /// Internal design time properties.
@@ -538,7 +519,7 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        public ViewBase ButtonView { get; set; }
+        public ViewBase? ButtonView { get; set; }
 
         #endregion
 
@@ -552,22 +533,22 @@ namespace Krypton.Ribbon
         {
             switch (e.PropertyName)
             {
-                case "TextLine1":
+                case nameof(TextLine1):
                     OnPropertyChanged(nameof(TextLine1));
                     break;
-                case "TextLine2":
+                case nameof(TextLine2):
                     OnPropertyChanged(nameof(TextLine2));
                     break;
-                case "ImageSmall":
+                case nameof(ImageSmall):
                     OnPropertyChanged(nameof(ImageSmall));
                     break;
-                case "ImageLarge":
+                case nameof(ImageLarge):
                     OnPropertyChanged(nameof(ImageLarge));
                     break;
-                case "Enabled":
+                case nameof(Enabled):
                     OnPropertyChanged(nameof(Enabled));
                     break;
-                case "Checked":
+                case nameof(Checked):
                     OnPropertyChanged(nameof(Checked));
                     break;
             }
@@ -577,7 +558,7 @@ namespace Krypton.Ribbon
         /// Raises the Click event.
         /// </summary>
         /// <param name="finishDelegate">Delegate fired during event processing.</param>
-        protected virtual void OnClick(EventHandler finishDelegate)
+        protected virtual void OnClick(EventHandler? finishDelegate)
         {
             var fireDelegate = true;
 
@@ -633,7 +614,7 @@ namespace Krypton.Ribbon
         /// Raises the DropDown event.
         /// </summary>
         /// <param name="finishDelegate">Delegate fired during event processing.</param>
-        protected virtual void OnDropDown(EventHandler finishDelegate)
+        protected virtual void OnDropDown(EventHandler? finishDelegate)
         {
             var fireDelegate = true;
 
@@ -642,21 +623,20 @@ namespace Krypton.Ribbon
                 // Events only occur when enabled
                 if (Enabled)
                 {
-                    if ((ButtonType == GroupButtonType.DropDown) ||
-                        (ButtonType == GroupButtonType.Split))
+                    if (ButtonType is GroupButtonType.DropDown or GroupButtonType.Split)
                     {
                         if (KryptonContextMenu != null)
                         {
-                            ContextMenuArgs contextArgs = new(KryptonContextMenu);
+                            var contextArgs = new ContextMenuArgs(KryptonContextMenu);
 
                             // Generate an event giving a chance for the krypton context menu strip to 
                             // be shown to be provided/modified or the action even to be cancelled
                             DropDown?.Invoke(this, contextArgs);
 
                             // If user did not cancel and there is still a krypton context menu strip to show
-                            if (!contextArgs.Cancel && (contextArgs.KryptonContextMenu != null))
+                            if (contextArgs is { Cancel: false, KryptonContextMenu: not null })
                             {
-                                Rectangle screenRect = Rectangle.Empty;
+                                var screenRect = Rectangle.Empty;
 
                                 // Convert the view for the button into screen coordinates
                                 if ((Ribbon != null) && (ButtonView != null))
@@ -680,16 +660,16 @@ namespace Krypton.Ribbon
                         }
                         else if (ContextMenuStrip != null)
                         {
-                            ContextMenuArgs contextArgs = new(ContextMenuStrip);
+                            var contextArgs = new ContextMenuArgs(ContextMenuStrip);
 
                             // Generate an event giving a chance for the context menu strip to be
                             // shown to be provided/modified or the action even to be cancelled
                             DropDown?.Invoke(this, contextArgs);
 
                             // If user did not cancel and there is still a context menu strip to show
-                            if (!contextArgs.Cancel && (contextArgs.ContextMenuStrip != null))
+                            if (contextArgs is { Cancel: false, ContextMenuStrip: not null })
                             {
-                                Rectangle screenRect = Rectangle.Empty;
+                                var screenRect = Rectangle.Empty;
 
                                 // Convert the view for the button into screen coordinates
                                 if ((Ribbon != null) && (ButtonView != null))
@@ -724,17 +704,11 @@ namespace Krypton.Ribbon
         /// Raises the PropertyChanged event.
         /// </summary>
         /// <param name="propertyName">Name of property that has changed.</param>
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
+        protected virtual void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         #endregion
 
         #region Internal
-        internal void OnDesignTimeContextMenu(MouseEventArgs e)
-        {
-            DesignTimeContextMenu?.Invoke(this, e);
-        }
+        internal void OnDesignTimeContextMenu(MouseEventArgs e) => DesignTimeContextMenu?.Invoke(this, e);
 
         internal override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
@@ -770,8 +744,7 @@ namespace Krypton.Ribbon
                 }
 
                 // Check the types that have a relevant context menu strip
-                if ((ButtonType == GroupButtonType.DropDown) ||
-                    (ButtonType == GroupButtonType.Split))
+                if (ButtonType is GroupButtonType.DropDown or GroupButtonType.Split)
                 {
                     if (KryptonContextMenu != null)
                     {
@@ -798,7 +771,7 @@ namespace Krypton.Ribbon
         #region Implementation
         private void OnKryptonContextMenuClosed(object sender, EventArgs e)
         {
-            KryptonContextMenu kcm = (KryptonContextMenu)sender;
+            var kcm = (KryptonContextMenu)sender;
             kcm.Closed -= OnKryptonContextMenuClosed;
 
             // Fire any associated finish delegate

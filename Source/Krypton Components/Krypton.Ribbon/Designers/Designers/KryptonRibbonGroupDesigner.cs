@@ -5,8 +5,8 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved.
- *
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  
  */
 #endregion
 
@@ -30,7 +30,7 @@ namespace Krypton.Ribbon
         private DesignerVerb _addGalleryVerb;
         private DesignerVerb _clearItemsVerb;
         private DesignerVerb _deleteGroupVerb;
-        private ContextMenuStrip _cms;
+        private ContextMenuStrip? _cms;
         private ToolStripMenuItem _toggleHelpersMenu;
         private ToolStripMenuItem _visibleMenu;
         private ToolStripMenuItem _collapsableMenu;
@@ -62,7 +62,7 @@ namespace Krypton.Ribbon
         /// Initializes the designer with the specified component.
         /// </summary>
         /// <param name="component">The IComponent to associate the designer with.</param>
-        public override void Initialize(IComponent component)
+        public override void Initialize([DisallowNull] IComponent component)
         {
             // Let base class do standard stuff
             base.Initialize(component);
@@ -96,7 +96,7 @@ namespace Krypton.Ribbon
         {
             get
             {
-                ArrayList compound = new(base.AssociatedComponents);
+                var compound = new ArrayList(base.AssociatedComponents);
                 compound.AddRange(_ribbonGroup.Items);
                 return compound;
             }
@@ -172,7 +172,7 @@ namespace Krypton.Ribbon
             var moveLast = false;
             var clearItems = false;
 
-            if ((_ribbonGroup?.Ribbon != null) && _ribbonGroup.RibbonTab.Groups.Contains(_ribbonGroup))
+            if ((_ribbonGroup.Ribbon != null) && _ribbonGroup.RibbonTab.Groups.Contains(_ribbonGroup))
             {
                 moveFirst = _ribbonGroup.RibbonTab.Groups.IndexOf(_ribbonGroup) > 0;
                 movePrev = _ribbonGroup.RibbonTab.Groups.IndexOf(_ribbonGroup) > 0;
@@ -191,7 +191,7 @@ namespace Krypton.Ribbon
         private void OnToggleHelpers(object sender, EventArgs e)
         {
             // Invert the current toggle helper mode
-            if (_ribbonGroup?.Ribbon != null)
+            if (_ribbonGroup.Ribbon != null)
             {
                 _ribbonGroup.Ribbon.InDesignHelperMode = !_ribbonGroup.Ribbon.InDesignHelperMode;
             }
@@ -199,7 +199,7 @@ namespace Krypton.Ribbon
 
         private void OnMoveFirst(object sender, EventArgs e)
         {
-            if ((_ribbonGroup?.Ribbon != null) && _ribbonGroup.RibbonTab.Groups.Contains(_ribbonGroup))
+            if ((_ribbonGroup.Ribbon != null) && _ribbonGroup.RibbonTab.Groups.Contains(_ribbonGroup))
             {
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroup MoveFirst");
@@ -229,7 +229,7 @@ namespace Krypton.Ribbon
 
         private void OnMovePrevious(object sender, EventArgs e)
         {
-            if ((_ribbonGroup?.Ribbon != null) && _ribbonGroup.RibbonTab.Groups.Contains(_ribbonGroup))
+            if ((_ribbonGroup.Ribbon != null) && _ribbonGroup.RibbonTab.Groups.Contains(_ribbonGroup))
             {
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroup MovePrevious");
@@ -261,7 +261,7 @@ namespace Krypton.Ribbon
 
         private void OnMoveNext(object sender, EventArgs e)
         {
-            if ((_ribbonGroup?.Ribbon != null) && _ribbonGroup.RibbonTab.Groups.Contains(_ribbonGroup))
+            if ((_ribbonGroup.Ribbon != null) && _ribbonGroup.RibbonTab.Groups.Contains(_ribbonGroup))
             {
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroup MoveNext");
@@ -293,7 +293,7 @@ namespace Krypton.Ribbon
 
         private void OnMoveLast(object sender, EventArgs e)
         {
-            if ((_ribbonGroup?.Ribbon != null) && _ribbonGroup.RibbonTab.Groups.Contains(_ribbonGroup))
+            if ((_ribbonGroup.Ribbon != null) && _ribbonGroup.RibbonTab.Groups.Contains(_ribbonGroup))
             {
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroup MoveLast");
@@ -323,7 +323,7 @@ namespace Krypton.Ribbon
 
         private void OnAddTriple(object sender, EventArgs e)
         {
-            if ((_ribbonGroup?.Ribbon != null) && _ribbonGroup.RibbonTab.Groups.Contains(_ribbonGroup))
+            if ((_ribbonGroup.Ribbon != null) && _ribbonGroup.RibbonTab.Groups.Contains(_ribbonGroup))
             {
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroup AddTriple");
@@ -336,7 +336,7 @@ namespace Krypton.Ribbon
                     RaiseComponentChanging(propertyItems);
 
                     // Get designer to create the new triple component
-                    KryptonRibbonGroupTriple triple = (KryptonRibbonGroupTriple)_designerHost.CreateComponent(typeof(KryptonRibbonGroupTriple));
+                    var triple = (KryptonRibbonGroupTriple)_designerHost.CreateComponent(typeof(KryptonRibbonGroupTriple));
                     _ribbonGroup.Items.Add(triple);
 
                     // Get access to the Triple.Items property
@@ -345,9 +345,9 @@ namespace Krypton.Ribbon
                     RaiseComponentChanging(propertyTripleItems);
 
                     // Get designer to create three new button components
-                    KryptonRibbonGroupButton button1 = (KryptonRibbonGroupButton)_designerHost.CreateComponent(typeof(KryptonRibbonGroupButton));
-                    KryptonRibbonGroupButton button2 = (KryptonRibbonGroupButton)_designerHost.CreateComponent(typeof(KryptonRibbonGroupButton));
-                    KryptonRibbonGroupButton button3 = (KryptonRibbonGroupButton)_designerHost.CreateComponent(typeof(KryptonRibbonGroupButton));
+                    var button1 = (KryptonRibbonGroupButton)_designerHost.CreateComponent(typeof(KryptonRibbonGroupButton));
+                    var button2 = (KryptonRibbonGroupButton)_designerHost.CreateComponent(typeof(KryptonRibbonGroupButton));
+                    var button3 = (KryptonRibbonGroupButton)_designerHost.CreateComponent(typeof(KryptonRibbonGroupButton));
                     triple.Items.Add(button1);
                     triple.Items.Add(button2);
                     triple.Items.Add(button3);
@@ -365,7 +365,7 @@ namespace Krypton.Ribbon
 
         private void OnAddLines(object sender, EventArgs e)
         {
-            if ((_ribbonGroup?.Ribbon != null) && _ribbonGroup.RibbonTab.Groups.Contains(_ribbonGroup))
+            if ((_ribbonGroup.Ribbon != null) && _ribbonGroup.RibbonTab.Groups.Contains(_ribbonGroup))
             {
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroup AddLines");
@@ -378,7 +378,7 @@ namespace Krypton.Ribbon
                     RaiseComponentChanging(propertyItems);
 
                     // Get designer to create the new lines component
-                    KryptonRibbonGroupLines lines = (KryptonRibbonGroupLines)_designerHost.CreateComponent(typeof(KryptonRibbonGroupLines));
+                    var lines = (KryptonRibbonGroupLines)_designerHost.CreateComponent(typeof(KryptonRibbonGroupLines));
                     _ribbonGroup.Items.Add(lines);
 
                     // Get access to the Lines.Items property
@@ -387,8 +387,8 @@ namespace Krypton.Ribbon
                     RaiseComponentChanging(propertyLinesItems);
 
                     // Get designer to create three new button components
-                    KryptonRibbonGroupButton button1 = (KryptonRibbonGroupButton)_designerHost.CreateComponent(typeof(KryptonRibbonGroupButton));
-                    KryptonRibbonGroupButton button2 = (KryptonRibbonGroupButton)_designerHost.CreateComponent(typeof(KryptonRibbonGroupButton));
+                    var button1 = (KryptonRibbonGroupButton)_designerHost.CreateComponent(typeof(KryptonRibbonGroupButton));
+                    var button2 = (KryptonRibbonGroupButton)_designerHost.CreateComponent(typeof(KryptonRibbonGroupButton));
                     lines.Items.Add(button1);
                     lines.Items.Add(button2);
 
@@ -405,7 +405,7 @@ namespace Krypton.Ribbon
 
         private void OnAddSep(object sender, EventArgs e)
         {
-            if ((_ribbonGroup?.Ribbon != null) && _ribbonGroup.RibbonTab.Groups.Contains(_ribbonGroup))
+            if ((_ribbonGroup.Ribbon != null) && _ribbonGroup.RibbonTab.Groups.Contains(_ribbonGroup))
             {
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroup AddSep");
@@ -418,7 +418,7 @@ namespace Krypton.Ribbon
                     RaiseComponentChanging(propertyItems);
 
                     // Get designer to create the new separator component
-                    KryptonRibbonGroupSeparator sep = (KryptonRibbonGroupSeparator)_designerHost.CreateComponent(typeof(KryptonRibbonGroupSeparator));
+                    var sep = (KryptonRibbonGroupSeparator)_designerHost.CreateComponent(typeof(KryptonRibbonGroupSeparator));
                     _ribbonGroup.Items.Add(sep);
 
                     RaiseComponentChanged(propertyItems, null, null);
@@ -433,7 +433,7 @@ namespace Krypton.Ribbon
 
         private void OnAddGallery(object sender, EventArgs e)
         {
-            if ((_ribbonGroup?.Ribbon != null) && _ribbonGroup.RibbonTab.Groups.Contains(_ribbonGroup))
+            if ((_ribbonGroup.Ribbon != null) && _ribbonGroup.RibbonTab.Groups.Contains(_ribbonGroup))
             {
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroup AddGallery");
@@ -446,7 +446,7 @@ namespace Krypton.Ribbon
                     RaiseComponentChanging(propertyItems);
 
                     // Get designer to create the new gallery component
-                    KryptonRibbonGroupGallery gallery = (KryptonRibbonGroupGallery)_designerHost.CreateComponent(typeof(KryptonRibbonGroupGallery));
+                    var gallery = (KryptonRibbonGroupGallery)_designerHost.CreateComponent(typeof(KryptonRibbonGroupGallery));
                     _ribbonGroup.Items.Add(gallery);
 
                     RaiseComponentChanged(propertyItems, null, null);
@@ -461,7 +461,7 @@ namespace Krypton.Ribbon
 
         private void OnClearItems(object sender, EventArgs e)
         {
-            if ((_ribbonGroup?.Ribbon != null) && _ribbonGroup.RibbonTab.Groups.Contains(_ribbonGroup))
+            if ((_ribbonGroup.Ribbon != null) && _ribbonGroup.RibbonTab.Groups.Contains(_ribbonGroup))
             {
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroup ClearItems");
@@ -474,7 +474,7 @@ namespace Krypton.Ribbon
                     RaiseComponentChanging(propertyItems);
 
                     // Need access to host in order to delete a component
-                    IDesignerHost host = (IDesignerHost)GetService(typeof(IDesignerHost));
+                    var host = (IDesignerHost)GetService(typeof(IDesignerHost));
 
                     // We need to remove all the items from the tab
                     for (var i = _ribbonGroup.Items.Count - 1; i >= 0; i--)
@@ -496,7 +496,7 @@ namespace Krypton.Ribbon
 
         private void OnDeleteGroup(object sender, EventArgs e)
         {
-            if ((_ribbonGroup?.Ribbon != null) && _ribbonGroup.RibbonTab.Groups.Contains(_ribbonGroup))
+            if ((_ribbonGroup.Ribbon != null) && _ribbonGroup.RibbonTab.Groups.Contains(_ribbonGroup))
             {
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroup DeleteGroup");
@@ -529,7 +529,7 @@ namespace Krypton.Ribbon
 
         private void OnVisible(object sender, EventArgs e)
         {
-            if ((_ribbonGroup?.Ribbon != null) && _ribbonGroup.RibbonTab.Groups.Contains(_ribbonGroup))
+            if ((_ribbonGroup.Ribbon != null) && _ribbonGroup.RibbonTab.Groups.Contains(_ribbonGroup))
             {
                 _changeService.OnComponentChanged(_ribbonGroup, null, _ribbonGroup.Visible, !_ribbonGroup.Visible);
                 _ribbonGroup.Visible = !_ribbonGroup.Visible;
@@ -538,7 +538,7 @@ namespace Krypton.Ribbon
 
         private void OnCollapsable(object sender, EventArgs e)
         {
-            if ((_ribbonGroup?.Ribbon != null) && _ribbonGroup.RibbonTab.Groups.Contains(_ribbonGroup))
+            if ((_ribbonGroup.Ribbon != null) && _ribbonGroup.RibbonTab.Groups.Contains(_ribbonGroup))
             {
                 _changeService.OnComponentChanged(_ribbonGroup, null, _ribbonGroup.AllowCollapsed, !_ribbonGroup.AllowCollapsed);
                 _ribbonGroup.AllowCollapsed = !_ribbonGroup.AllowCollapsed;
@@ -547,17 +547,14 @@ namespace Krypton.Ribbon
 
         private void OnDialogLauncher(object sender, EventArgs e)
         {
-            if ((_ribbonGroup?.Ribbon != null) && _ribbonGroup.RibbonTab.Groups.Contains(_ribbonGroup))
+            if ((_ribbonGroup.Ribbon != null) && _ribbonGroup.RibbonTab.Groups.Contains(_ribbonGroup))
             {
                 _changeService.OnComponentChanged(_ribbonGroup, null, _ribbonGroup.DialogBoxLauncher, !_ribbonGroup.DialogBoxLauncher);
                 _ribbonGroup.DialogBoxLauncher = !_ribbonGroup.DialogBoxLauncher;
             }
         }
 
-        private void OnComponentChanged(object sender, ComponentChangedEventArgs e)
-        {
-            UpdateVerbStatus();
-        }
+        private void OnComponentChanged(object sender, ComponentChangedEventArgs e) => UpdateVerbStatus();
 
         private void OnComponentRemoving(object sender, ComponentEventArgs e)
         {
@@ -565,12 +562,12 @@ namespace Krypton.Ribbon
             if (e.Component == _ribbonGroup)
             {
                 // Need access to host in order to delete a component
-                IDesignerHost host = (IDesignerHost)GetService(typeof(IDesignerHost));
+                var host = (IDesignerHost)GetService(typeof(IDesignerHost));
 
                 // We need to remove all containers from the group
                 for (var j = _ribbonGroup.Items.Count - 1; j >= 0; j--)
                 {
-                    KryptonRibbonGroupContainer item = _ribbonGroup.Items[j] as KryptonRibbonGroupContainer;
+                    var item = _ribbonGroup.Items[j] as KryptonRibbonGroupContainer;
                     _ribbonGroup.Items.Remove(item);
                     host.DestroyComponent(item);
                 }
@@ -579,7 +576,7 @@ namespace Krypton.Ribbon
 
         private void OnContextMenu(object sender, MouseEventArgs e)
         {
-            if ((_ribbonGroup?.Ribbon != null) && _ribbonGroup.RibbonTab.Groups.Contains(_ribbonGroup))
+            if ((_ribbonGroup.Ribbon != null) && _ribbonGroup.RibbonTab.Groups.Contains(_ribbonGroup))
             {
                 // Create the menu strip the first time around
                 if (_cms == null)
@@ -589,17 +586,17 @@ namespace Krypton.Ribbon
                     _visibleMenu = new ToolStripMenuItem("Visible", null, OnVisible);
                     _collapsableMenu = new ToolStripMenuItem("Allow Collapsed", null, OnCollapsable);
                     _dialogLauncherMenu = new ToolStripMenuItem("Dialog Launcher", null, OnDialogLauncher);
-                    _moveFirstMenu = new ToolStripMenuItem("Move Group First", Properties.Resources.MoveFirst, OnMoveFirst);
-                    _movePreviousMenu = new ToolStripMenuItem("Move Group Previous", Properties.Resources.MovePrevious, OnMovePrevious);
-                    _moveNextMenu = new ToolStripMenuItem("Move Group Next", Properties.Resources.MoveNext, OnMoveNext);
-                    _moveLastMenu = new ToolStripMenuItem("Move Group Last", Properties.Resources.MoveLast, OnMoveLast);
+                    _moveFirstMenu = new ToolStripMenuItem("Move Group First", GenericImageResources.MoveFirst, OnMoveFirst);
+                    _movePreviousMenu = new ToolStripMenuItem("Move Group Previous", GenericImageResources.MovePrevious, OnMovePrevious);
+                    _moveNextMenu = new ToolStripMenuItem("Move Group Next", GenericImageResources.MoveNext, OnMoveNext);
+                    _moveLastMenu = new ToolStripMenuItem("Move Group Last", GenericImageResources.MoveLast, OnMoveLast);
                     _moveToTabMenu = new ToolStripMenuItem("Move Group To Tab");
-                    _addTripleMenu = new ToolStripMenuItem("Add Triple", Properties.Resources.KryptonRibbonGroupTriple, OnAddTriple);
-                    _addLinesMenu = new ToolStripMenuItem("Add Lines", Properties.Resources.KryptonRibbonGroupLines, OnAddLines);
-                    _addSeparatorMenu = new ToolStripMenuItem("Add Separator", Properties.Resources.KryptonRibbonGroupSeparator, OnAddSep);
-                    _addGalleryMenu = new ToolStripMenuItem("Add Gallery", Properties.Resources.KryptonGallery, OnAddGallery);
+                    _addTripleMenu = new ToolStripMenuItem("Add Triple", GenericImageResources.KryptonRibbonGroupTriple, OnAddTriple);
+                    _addLinesMenu = new ToolStripMenuItem("Add Lines", GenericImageResources.KryptonRibbonGroupLines, OnAddLines);
+                    _addSeparatorMenu = new ToolStripMenuItem("Add Separator", GenericImageResources.KryptonRibbonGroupSeparator, OnAddSep);
+                    _addGalleryMenu = new ToolStripMenuItem("Add Gallery", GenericImageResources.KryptonGallery, OnAddGallery);
                     _clearItemsMenu = new ToolStripMenuItem("Clear Items", null, OnClearItems);
-                    _deleteGroupMenu = new ToolStripMenuItem("Delete Group", Properties.Resources.delete2, OnDeleteGroup);
+                    _deleteGroupMenu = new ToolStripMenuItem("Delete Group", GenericImageResources.Delete, OnDeleteGroup);
                     _cms.Items.AddRange(new ToolStripItem[] { _toggleHelpersMenu, new ToolStripSeparator(),
                                                               _visibleMenu, _collapsableMenu, _dialogLauncherMenu, new ToolStripSeparator(),
                                                               _moveFirstMenu, _movePreviousMenu, _moveNextMenu, _moveLastMenu, new ToolStripSeparator(),
@@ -620,7 +617,7 @@ namespace Krypton.Ribbon
                 // Update sub menu options available for the 'Move To Tab'
                 UpdateMoveToTab();
 
-                // Update menu items state from versb
+                // Update menu items state from verbs
                 _toggleHelpersMenu.Checked = _ribbonGroup.Ribbon.InDesignHelperMode;
                 _visibleMenu.Checked = _ribbonGroup.Visible;
                 _collapsableMenu.Checked = _ribbonGroup.AllowCollapsed;
@@ -651,11 +648,11 @@ namespace Krypton.Ribbon
                 // Create a new item per tab in the ribbon control
                 foreach (KryptonRibbonTab tab in _ribbonGroup.Ribbon.RibbonTabs)
                 {
-                    // Cannot move to ourself, so ignore outself
+                    // Cannot move to ourself, so ignore ourself
                     if (tab != _ribbonGroup.RibbonTab)
                     {
                         // Create menu item for the tab
-                        ToolStripMenuItem tabMenuItem = new()
+                        var tabMenuItem = new ToolStripMenuItem
                         {
                             Text = tab.Text,
                             Tag = tab
@@ -673,13 +670,13 @@ namespace Krypton.Ribbon
 
         private void OnMoveToTab(object sender, EventArgs e)
         {
-            if ((_ribbonGroup?.Ribbon != null) && _ribbonGroup.RibbonTab.Groups.Contains(_ribbonGroup))
+            if ((_ribbonGroup.Ribbon != null) && _ribbonGroup.RibbonTab.Groups.Contains(_ribbonGroup))
             {
                 // Cast to correct type
-                ToolStripMenuItem tabMenuItem = (ToolStripMenuItem)sender;
+                var tabMenuItem = (ToolStripMenuItem)sender;
 
                 // Get access to the destination tab
-                KryptonRibbonTab destination = (KryptonRibbonTab)tabMenuItem.Tag;
+                var destination = (KryptonRibbonTab)tabMenuItem.Tag;
 
                 // Use a transaction to support undo/redo actions
                 DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroup MoveTabTo");

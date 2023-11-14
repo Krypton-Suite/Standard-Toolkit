@@ -5,8 +5,8 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved.
- *
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  
  */
 #endregion
 
@@ -17,204 +17,39 @@ namespace Krypton.Ribbon
     /// </summary>
     public class RibbonThemeManager
     {
-        #region Methods        
-        /// <summary>
-        /// Propagates the theme selector.
-        /// </summary>
-        /// <param name="target">The target.</param>
-        public static void PropagateThemeSelector(KryptonRibbonGroupComboBox target)
-        {
-            try
-            {
-                foreach (var theme in ThemeManager.SupportedThemeArray)
-                {
-                    target.Items.Add(theme);
-                }
-            }
-            catch
-            {
+        #region Implementation
 
-                throw;
-            }
-        }
-
-        /// <summary>
-        /// Propagates the theme selector.
-        /// </summary>
-        /// <param name="target">The target.</param>
-        public static void PropagateThemeSelector(KryptonRibbonGroupDomainUpDown target)
-        {
-            try
-            {
-                foreach (var theme in ThemeManager.SupportedThemeArray)
-                {
-                    target.Items.Add(theme);
-                }
-            }
-            catch
-            {
-
-                throw;
-            }
-        }
-
-        #region Built-in Redundancy        
         /// <summary>
         /// Applies the theme.
         /// </summary>
-        /// <param name="paletteMode">The palette mode.</param>
+        /// <param name="mode">The mode.</param>
         /// <param name="manager">The manager.</param>
-        private static void ApplyTheme(PaletteModeManager paletteMode, KryptonManager manager)
+        private static void ApplyTheme(PaletteMode mode, KryptonManager manager) => manager.GlobalPaletteMode = mode;
+
+        /// <summary>Gets the palette mode.</summary>
+        /// <param name="manager">The manager.</param>
+        /// <returns>The current <see cref="PaletteMode"/>.</returns>
+        public static PaletteMode GetPaletteMode(KryptonManager manager) => ReturnPaletteMode(manager.GlobalPaletteMode);
+
+        private static PaletteMode ReturnPaletteMode(string themeName)
         {
-            switch (paletteMode)
-            {
-                case PaletteModeManager.ProfessionalSystem:
-                    manager.GlobalPaletteMode = PaletteModeManager.ProfessionalSystem;
-                    break;
-                case PaletteModeManager.ProfessionalOffice2003:
-                    manager.GlobalPaletteMode = PaletteModeManager.ProfessionalOffice2003;
-                    break;
-                case PaletteModeManager.Office2007Blue:
-                    manager.GlobalPaletteMode = PaletteModeManager.Office2007Blue;
-                    break;
-                case PaletteModeManager.Office2007Silver:
-                    manager.GlobalPaletteMode = PaletteModeManager.Office2007Silver;
-                    break;
-                case PaletteModeManager.Office2007White:
-                    manager.GlobalPaletteMode = PaletteModeManager.Office2007White;
-                    break;
-                case PaletteModeManager.Office2007Black:
-                    manager.GlobalPaletteMode = PaletteModeManager.Office2007Black;
-                    break;
-                case PaletteModeManager.Office2010Blue:
-                    manager.GlobalPaletteMode = PaletteModeManager.Office2010Blue;
-                    break;
-                case PaletteModeManager.Office2010Silver:
-                    manager.GlobalPaletteMode = PaletteModeManager.Office2010Silver;
-                    break;
-                case PaletteModeManager.Office2010White:
-                    manager.GlobalPaletteMode = PaletteModeManager.Office2010White;
-                    break;
-                case PaletteModeManager.Office2010Black:
-                    manager.GlobalPaletteMode = PaletteModeManager.Office2010Black;
-                    break;
-                /*case PaletteModeManager.Office2013:
-                    manager.GlobalPaletteMode = PaletteModeManager.Office2013;
-                    break;*/
-                case PaletteModeManager.Office2013White:
-                    manager.GlobalPaletteMode = PaletteModeManager.Office2013White;
-                    break;
-                case PaletteModeManager.Office365Black:
-                    manager.GlobalPaletteMode = PaletteModeManager.Office365Black;
-                    break;
-                case PaletteModeManager.Office365Blue:
-                    manager.GlobalPaletteMode = PaletteModeManager.Office365Blue;
-                    break;
-                case PaletteModeManager.Office365Silver:
-                    manager.GlobalPaletteMode = PaletteModeManager.Office365Silver;
-                    break;
-                case PaletteModeManager.Office365White:
-                    manager.GlobalPaletteMode = PaletteModeManager.Office365White;
-                    break;
-                case PaletteModeManager.SparkleBlue:
-                    manager.GlobalPaletteMode = PaletteModeManager.SparkleBlue;
-                    break;
-                case PaletteModeManager.SparkleOrange:
-                    manager.GlobalPaletteMode = PaletteModeManager.SparkleOrange;
-                    break;
-                case PaletteModeManager.SparklePurple:
-                    manager.GlobalPaletteMode = PaletteModeManager.SparklePurple;
-                    break;
-                case PaletteModeManager.Custom:
-                    manager.GlobalPaletteMode = PaletteModeManager.Custom;
-                    break;
-                default:
-                    break;
-            }
+            return PaletteModeStrings.SupportedThemesMap.TryGetValue(themeName, out var mode) 
+                ? mode 
+                : // Note: Needs to be filled out
+                PaletteMode.Custom;
         }
+
+        /// <summary>Returns the palette mode.</summary>
+        /// <param name="paletteMode">The palette mode manager.</param>
+        /// <returns>The selected <see cref="PaletteMode"/>.</returns>
+        private static PaletteMode ReturnPaletteMode(PaletteMode paletteMode) => paletteMode;
 
         /// <summary>
         /// Applies the theme.
         /// </summary>
         /// <param name="themeName">Name of the theme.</param>
         /// <param name="manager">The manager.</param>
-        /// <exception cref="ArgumentNullException"></exception>
-        private static void ApplyTheme(string themeName, KryptonManager manager)
-        {
-            switch (themeName)
-            {
-                case "Custom":
-                    ApplyTheme(PaletteModeManager.Custom, manager);
-                    break;
-                case "Professional - System":
-                    ApplyTheme(PaletteModeManager.ProfessionalSystem, manager);
-                    break;
-                case "Professional - Office 2003":
-                    ApplyTheme(PaletteModeManager.ProfessionalOffice2003, manager);
-                    break;
-                case "Office 2007 - Blue":
-                    ApplyTheme(PaletteModeManager.Office2007Blue, manager);
-                    break;
-                case "Office 2007 - Silver":
-                    ApplyTheme(PaletteModeManager.Office2007Silver, manager);
-                    break;
-                case "Office 2007 - White":
-                    ApplyTheme(PaletteModeManager.Office2007White, manager);
-                    break;
-                case "Office 2007 - Black":
-                    ApplyTheme(PaletteModeManager.Office2007Black, manager);
-                    break;
-                case "Office 2010 - Blue":
-                    ApplyTheme(PaletteModeManager.Office2010Blue, manager);
-                    break;
-                case "Office 2010 - Silver":
-                    ApplyTheme(PaletteModeManager.Office2010Silver, manager);
-                    break;
-                case "Office 2010 - White":
-                    ApplyTheme(PaletteModeManager.Office2010White, manager);
-                    break;
-                case "Office 2010 - Black":
-                    ApplyTheme(PaletteModeManager.Office2010Black, manager);
-                    break;
-                /*if (themeName == "Office 2013")
-            {
-                ApplyTheme(PaletteModeManager.Office2013, manager);
-            }*/
-                case "Office 2013 - White":
-                    ApplyTheme(PaletteModeManager.Office2013White, manager);
-                    break;
-                case "Sparkle - Blue":
-                    ApplyTheme(PaletteModeManager.SparkleBlue, manager);
-                    break;
-                case "Sparkle - Orange":
-                    ApplyTheme(PaletteModeManager.SparkleOrange, manager);
-                    break;
-                case "Sparkle - Purple":
-                    ApplyTheme(PaletteModeManager.SparklePurple, manager);
-                    break;
-                case "Office 365 - Black":
-                    ApplyTheme(PaletteModeManager.Office365Black, manager);
-                    break;
-                case "Office 365 - Blue":
-                    ApplyTheme(PaletteModeManager.Office365Blue, manager);
-                    break;
-                case "Office 365 - Silver":
-                    ApplyTheme(PaletteModeManager.Office365Silver, manager);
-                    break;
-                case "Office 365 - White":
-                    ApplyTheme(PaletteModeManager.Office365White, manager);
-                    break;
-                default:
-                    throw new ArgumentNullException(nameof(themeName));
-            }
-        }
-
-        /// <summary>
-        /// Gets the current palette mode.
-        /// </summary>
-        /// <param name="manager">The manager.</param>
-        /// <returns>The current <see cref="PaletteModeManager"/>.</returns>
-        public static PaletteModeManager GetCurrentPaletteMode(KryptonManager manager) => manager.GlobalPaletteMode;
+        public static void ApplyTheme(string themeName, KryptonManager manager) => ApplyTheme(PaletteModeStrings.SupportedThemesMap[themeName], manager);
 
         /// <summary>
         /// Sets the theme.
@@ -227,226 +62,131 @@ namespace Krypton.Ribbon
             {
                 ApplyTheme(themeName, manager);
 
-                ApplyGlobalTheme(manager, GetCurrentPaletteMode(manager));
+                ApplyGlobalTheme(manager, GetPaletteMode(manager));
             }
-            catch
+            catch (Exception exc)
             {
-                // Swallow ?
+                ExceptionHandler.CaptureException(exc);
             }
         }
 
         /// <summary>
         /// Returns the palette mode manager as string.
         /// </summary>
-        /// <param name="paletteModeManager">The palette mode manager.</param>
+        /// <param name="paletteMode">The palette mode manager.</param>
         /// <param name="manager">The manager.</param>
-        /// <returns>The current <see cref="PaletteModeManager"/> as a string.</returns>
-        public static string ReturnPaletteModeManagerAsString(PaletteModeManager paletteModeManager, KryptonManager manager = null)
+        /// <returns>The chosen theme as a string.</returns>
+        public static string? ReturnPaletteModeAsString(PaletteMode paletteMode, KryptonManager? manager)
         {
-            string result = null;
+            var mode = manager?.GlobalPaletteMode ?? paletteMode;
+            var cnvtr = new PaletteModeConverter();
+            return cnvtr.ConvertToString(mode);
+        }
 
-            if (manager != null)
+        /// <summary>
+        /// Loads the custom theme.
+        /// </summary>
+        /// <param name="palette">The palette.</param>
+        /// <param name="manager">The manager.</param>
+        /// <param name="themeFile">A custom theme file.</param>
+        /// <param name="silent">if set to <c>true</c> [silent].</param>
+        public static void LoadCustomTheme(KryptonCustomPaletteBase palette, KryptonManager manager, string themeFile = "", bool silent = false)
+        {
+            try
             {
-                if (manager.GlobalPaletteMode == PaletteModeManager.Custom) result = "Custom";
+                //throw new ApplicationException(@"Currently not implemented correctly");
 
-                if (manager.GlobalPaletteMode == PaletteModeManager.ProfessionalSystem) result = "Professional - System";
+                // Declare new instances
+                palette = new KryptonCustomPaletteBase();
 
-                if (manager.GlobalPaletteMode == PaletteModeManager.ProfessionalOffice2003) result = "Professional - Office 2003";
+                manager = new KryptonManager();
 
-                if (manager.GlobalPaletteMode == PaletteModeManager.Office2007Blue) result = "Office 2007 - Blue";
+                // Prompt user for palette definition
 
-                if (manager.GlobalPaletteMode == PaletteModeManager.Office2007Silver) result = "Office 2007 - Silver";
+                // TODO: Add silent option
+                if (silent)
+                {
+                    if (themeFile is not ("" and ""))
+                    {
+                        palette.Import(themeFile, silent);
+                    }
+                }
+                else
+                {
+                    palette.Import();
+                }
 
-                if (manager.GlobalPaletteMode == PaletteModeManager.Office2007White) result = "Office 2007 - White";
+                // Set manager
+                manager.GlobalPalette = palette;
 
-                if (manager.GlobalPaletteMode == PaletteModeManager.Office2007Black) result = "Office 2007 - Black";
-
-                if (manager.GlobalPaletteMode == PaletteModeManager.Office2010Blue) result = "Office 2010 - Blue";
-
-                if (manager.GlobalPaletteMode == PaletteModeManager.Office2010Silver) result = "Office 2010 - Silver";
-
-                if (manager.GlobalPaletteMode == PaletteModeManager.Office2010White) result = "Office 2010 - White";
-
-                if (manager.GlobalPaletteMode == PaletteModeManager.Office2010Black) result = "Office 2010 - Black";
-
-                //if (manager.GlobalPaletteMode == PaletteModeManager.Office2013) result = "Office 2013";
-
-                if (manager.GlobalPaletteMode == PaletteModeManager.Office2013White) result = "Office 2013 - White";
-
-                if (manager.GlobalPaletteMode == PaletteModeManager.SparkleBlue) result = "Sparkle - Blue";
-
-                if (manager.GlobalPaletteMode == PaletteModeManager.SparkleOrange) result = "Sparkle - Orange";
-
-                if (manager.GlobalPaletteMode == PaletteModeManager.SparklePurple) result = "Sparkle - Purple";
-
-                if (manager.GlobalPaletteMode == PaletteModeManager.Office365Blue) result = "Office 365 - Blue";
-
-                if (manager.GlobalPaletteMode == PaletteModeManager.Office365Silver) result = "Office 365 - Silver";
-
-                if (manager.GlobalPaletteMode == PaletteModeManager.Office365White) result = "Office 365 - White";
-
-                if (manager.GlobalPaletteMode == PaletteModeManager.Office365Black) result = "Office 365 - Black";
+                ApplyTheme(PaletteMode.Custom, manager);
             }
-            else
+            catch (Exception exc)
             {
-                if (paletteModeManager == PaletteModeManager.Custom) result = "Custom";
-
-                if (paletteModeManager == PaletteModeManager.ProfessionalSystem) result = "Professional - System";
-
-                if (paletteModeManager == PaletteModeManager.ProfessionalOffice2003) result = "Professional - Office 2003";
-
-                if (paletteModeManager == PaletteModeManager.Office2007Blue) result = "Office 2007 - Blue";
-
-                if (paletteModeManager == PaletteModeManager.Office2007Silver) result = "Office 2007 - Silver";
-
-                if (paletteModeManager == PaletteModeManager.Office2007White) result = "Office 2007 - White";
-
-                if (paletteModeManager == PaletteModeManager.Office2007Black) result = "Office 2007 - Black";
-
-                if (paletteModeManager == PaletteModeManager.Office2010Blue) result = "Office 2010 - Blue";
-
-                if (paletteModeManager == PaletteModeManager.Office2010Silver) result = "Office 2010 - Silver";
-
-                if (paletteModeManager == PaletteModeManager.Office2010White) result = "Office 2010 - White";
-
-                if (paletteModeManager == PaletteModeManager.Office2010Black) result = "Office 2010 - Black";
-
-                //if (paletteModeManager == PaletteModeManager.Office2013) result = "Office 2013";
-
-                if (paletteModeManager == PaletteModeManager.Office2013White) result = "Office 2013 - White";
-
-                if (paletteModeManager == PaletteModeManager.SparkleBlue) result = "Sparkle - Blue";
-
-                if (paletteModeManager == PaletteModeManager.SparkleOrange) result = "Sparkle - Orange";
-
-                if (paletteModeManager == PaletteModeManager.SparklePurple) result = "Sparkle - Purple";
-
-                if (paletteModeManager == PaletteModeManager.Office365Blue) result = "Office 365 - Blue";
-
-                if (paletteModeManager == PaletteModeManager.Office365Silver) result = "Office 365 - Silver";
-
-                if (paletteModeManager == PaletteModeManager.Office365White) result = "Office 365 - White";
-
-                if (paletteModeManager == PaletteModeManager.Office365Black) result = "Office 365 - Black";
+                ExceptionHandler.CaptureException(exc);
             }
-
-            return result;
         }
 
         /// <summary>
         /// Returns the palette mode as string.
         /// </summary>
         /// <param name="paletteMode">The palette mode.</param>
-        /// <returns>The current <see cref="PaletteMode"/> as a string.</returns>
-        public static string ReturnPaletteModeAsString(PaletteMode paletteMode)
+        /// <returns></returns>
+        public static string? ReturnPaletteModeAsString(PaletteMode paletteMode)
         {
-            string result = null;
+            var modeConverter = new PaletteModeConverter();
 
-            if (paletteMode == PaletteMode.Custom) result = "Custom";
-
-            if (paletteMode == PaletteMode.Global) result = "Global";
-
-            if (paletteMode == PaletteMode.ProfessionalSystem) result = "Professional - System";
-
-            if (paletteMode == PaletteMode.ProfessionalOffice2003) result = "Professional - Office 2003";
-
-            if (paletteMode == PaletteMode.Office2007Blue) result = "Office 2007 - Blue";
-
-            if (paletteMode == PaletteMode.Office2007Silver) result = "Office 2007 - Silver";
-
-            if (paletteMode == PaletteMode.Office2007White) result = "Office 2007 - White";
-
-            if (paletteMode == PaletteMode.Office2007Black) result = "Office 2007 - Black";
-
-            if (paletteMode == PaletteMode.Office2010Blue) result = "Office 2010 - Blue";
-
-            if (paletteMode == PaletteMode.Office2010Silver) result = "Office 2010 - Silver";
-
-            if (paletteMode == PaletteMode.Office2010White) result = "Office 2010 - White";
-
-            if (paletteMode == PaletteMode.Office2010Black) result = "Office 2010 - Black";
-
-            //if (paletteMode == PaletteMode.Office2013) result = "Office 2013";
-
-            if (paletteMode == PaletteMode.Office2013White) result = "Office 2013 - White";
-
-            if (paletteMode == PaletteMode.SparkleBlue) result = "Sparkle - Blue";
-
-            if (paletteMode == PaletteMode.SparkleOrange) result = "Sparkle - Orange";
-
-            if (paletteMode == PaletteMode.SparklePurple) result = "Sparkle - Purple";
-
-            if (paletteMode == PaletteMode.Office365Blue) result = "Office 365 - Blue";
-
-            if (paletteMode == PaletteMode.Office365Silver) result = "Office 365 - Silver";
-
-            if (paletteMode == PaletteMode.Office365White) result = "Office 365 - White";
-
-            if (paletteMode == PaletteMode.Office365Black) result = "Office 365 - Black";
-
-            return result;
+            return modeConverter.ConvertToString(paletteMode);
         }
 
         /// <summary>
         /// Applies the global theme.
         /// </summary>
         /// <param name="manager">The manager.</param>
-        /// <param name="paletteModeManager">The palette mode manager.</param>
-        private static void ApplyGlobalTheme(KryptonManager manager, PaletteModeManager paletteModeManager)
+        /// <param name="paletteMode">The palette mode manager.</param>
+        public static void ApplyGlobalTheme(KryptonManager manager, PaletteMode paletteMode)
         {
             try
             {
-                manager.GlobalPaletteMode = paletteModeManager;
+                manager.GlobalPaletteMode = paletteMode;
             }
-            catch
+            catch (Exception exc)
             {
-
-                throw;
+                ExceptionHandler.CaptureException(exc);
             }
         }
 
-        /// <summary>
-        /// Applies the global theme.
-        /// </summary>
-        /// <param name="manager">The manager.</param>
-        /// <param name="mode">The theme mode.</param>
-        private static void ApplyGlobalTheme(KryptonManager manager, PaletteMode mode)
+        private static void AddToCollection(IList target, string[] excludes)
         {
             try
             {
-                manager.GlobalPaletteMode = (PaletteModeManager)mode;
+                foreach (var theme in PaletteModeStrings.SupportedThemesMap.Keys)
+                {
+                    if (!excludes.Any(t => theme.IndexOf(t, StringComparison.InvariantCultureIgnoreCase) > -1))
+                    {
+                        target.Add(theme);
+                    }
+                }
             }
-            catch
+            catch (Exception exc)
             {
-
-                throw;
+                ExceptionHandler.CaptureException(exc);
             }
-        }
-
-        /// <summary>
-        /// Applies the theme mode.
-        /// </summary>
-        /// <param name="themeName">Name of the theme.</param>
-        /// <returns>The <see cref="PaletteMode"/> equivalent.</returns>
-        public static PaletteMode ApplyThemeMode(string themeName)
-        {
-            PaletteMode mode = (PaletteMode)Enum.Parse(typeof(PaletteMode), themeName);
-
-            return mode;
         }
 
         /// <summary>
         /// Applies the theme manager mode.
         /// </summary>
         /// <param name="themeName">Name of the theme.</param>
-        /// <returns>The <see cref="PaletteModeManager"/> equivalent.</returns>
-        public static PaletteModeManager ApplyThemeManagerMode(string themeName)
-        {
-            PaletteModeManager modeManager = (PaletteModeManager)Enum.Parse(typeof(PaletteModeManager), themeName);
+        /// <returns>The <see cref="PaletteMode"/> equivalent.</returns>
+        public static PaletteMode GetThemeManagerMode(string themeName) => PaletteModeStrings.SupportedThemesMap[themeName];
 
-            return modeManager;
-        }
-        #endregion
+        /// <summary>
+        /// Propagates the theme selector.
+        /// </summary>
+        /// <param name="target">The target.</param>
+        /// <param name="excludePartials">do not include any string containing</param>
+        public static void PropagateThemeSelector(KryptonRibbonGroupThemeComboBox target, params string[] excludePartials) => AddToCollection(target.Items, excludePartials);
 
         #endregion
     }

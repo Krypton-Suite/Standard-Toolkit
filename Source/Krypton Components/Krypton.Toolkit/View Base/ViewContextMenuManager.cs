@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -13,7 +13,7 @@
 namespace Krypton.Toolkit
 {
     /// <summary>
-    /// ViewMananger for context menu handling.
+    /// ViewManager for context menu handling.
     /// </summary>
     public class ViewContextMenuManager : ViewManager
     {
@@ -22,9 +22,9 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Instance Fields
-        private IContextMenuTarget _target;
-        private IContextMenuTarget _targetSubMenu;
-        private System.Windows.Forms.Timer _itemDelayTimer;
+        private IContextMenuTarget? _target;
+        private IContextMenuTarget? _targetSubMenu;
+        private System.Windows.Forms.Timer? _itemDelayTimer;
         #endregion
 
         #region Identity
@@ -87,24 +87,24 @@ namespace Krypton.Toolkit
                 // Tell current target to reset drawing
                 if (_target != null)
                 {
-                    _itemDelayTimer.Stop();
+                    _itemDelayTimer?.Stop();
                     _target.ClearTarget();
                     _target = null;
                 }
 
                 // Shift the active view to the new target
-                ActiveView = target?.GetActiveView();
+                ActiveView = target.GetActiveView();
 
                 _target = target;
 
                 // Tell new target to draw as highlighted and start delay timer
                 if (_target != null)
                 {
-                    _itemDelayTimer.Stop();
+                    _itemDelayTimer?.Stop();
 
                     if (startTimer)
                     {
-                        _itemDelayTimer.Start();
+                        _itemDelayTimer?.Start();
                     }
 
                     _target.ShowTarget();
@@ -115,7 +115,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Set the provided target as the current target and it is already showing a sub menu
         /// </summary>
-        public void SetTargetSubMenu(IContextMenuTarget target)
+        public void SetTargetSubMenu(IContextMenuTarget? target)
         {
             // Kill any running timer
             _itemDelayTimer?.Stop();
@@ -138,7 +138,7 @@ namespace Krypton.Toolkit
             // Tell current target to reset drawing
             if (_target != target)
             {
-                _target.ClearTarget();
+                _target?.ClearTarget();
                 _target = null;
             }
 
@@ -157,7 +157,7 @@ namespace Krypton.Toolkit
             // Is there a current target to clear down?
             if (_target != null)
             {
-                _itemDelayTimer.Stop();
+                _itemDelayTimer?.Stop();
                 _target.ClearTarget();
                 _target = null;
             }
@@ -196,7 +196,7 @@ namespace Krypton.Toolkit
             TargetList targets = ConstructKeyboardTargets(Root);
 
             // Find the next appropriate target
-            IContextMenuTarget newTarget = _target == null ? FindBottomLeftTarget(targets) : FindUpTarget(targets, _target);
+            IContextMenuTarget? newTarget = _target == null ? FindBottomLeftTarget(targets) : FindUpTarget(targets, _target);
 
             // If we found a new target, then make it the current target
             if ((newTarget != null) && (newTarget != _target))
@@ -213,7 +213,7 @@ namespace Krypton.Toolkit
             TargetList targets = ConstructKeyboardTargets(Root);
 
             // Find the next appropriate target
-            IContextMenuTarget newTarget = _target == null ? FindTopLeftTarget(targets) : FindDownTarget(targets, _target);
+            IContextMenuTarget? newTarget = _target == null ? FindTopLeftTarget(targets) : FindDownTarget(targets, _target);
 
             // If we found a new target, then make it the current target
             if ((newTarget != null) && (newTarget != _target))
@@ -233,7 +233,7 @@ namespace Krypton.Toolkit
             TargetList targets = ConstructKeyboardTargets(Root);
 
             // Find the next appropriate target
-            IContextMenuTarget newTarget = _target == null ? FindTopRightTarget(targets) : FindLeftTarget(targets, _target, wrap, ref hitEdge);
+            IContextMenuTarget? newTarget = _target == null ? FindTopRightTarget(targets) : FindLeftTarget(targets, _target, wrap, ref hitEdge);
 
             // If we found a new target, then make it the current target
             if ((newTarget != null) && (newTarget != _target))
@@ -252,7 +252,7 @@ namespace Krypton.Toolkit
             TargetList targets = ConstructKeyboardTargets(Root);
 
             // Find the next appropriate target
-            IContextMenuTarget newTarget = _target == null ? FindTopLeftTarget(targets) : FindRightTarget(targets, _target);
+            IContextMenuTarget? newTarget = _target == null ? FindTopLeftTarget(targets) : FindRightTarget(targets, _target);
 
             // If we found a new target, then make it the current target
             if ((newTarget != null) && (newTarget != _target))
@@ -311,7 +311,7 @@ namespace Krypton.Toolkit
                 {
                     // Find the currently selected target
                     TargetList targets = ConstructKeyboardTargets(Root);
-                    for(var i=0; i<targets.Count; i++)
+                    for (var i = 0; i < targets.Count; i++)
                     {
                         if (targets[i] == _target)
                         {
@@ -424,16 +424,21 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Implementation
-        private TargetList ConstructKeyboardTargets(ViewBase root)
+        private TargetList ConstructKeyboardTargets(ViewBase? root)
         {
-            TargetList targets = new();
+            var targets = new TargetList();
             FindKeyboardTargets(root, targets);
             return targets;
         }
 
-        private void FindKeyboardTargets(ViewBase parent, TargetList targets)
+        private void FindKeyboardTargets(ViewBase? parent, TargetList targets)
         {
-            IContextMenuTarget target = null;
+            if (parent == null)
+            {
+                return;
+            }
+
+            IContextMenuTarget? target = null;
 
             // Any target interface will be implemented on a controller instance
             if (parent.KeyController != null)
@@ -458,11 +463,11 @@ namespace Krypton.Toolkit
             }
         }
 
-        private IContextMenuTarget FindTopLeftTarget(TargetList targets)
+        private IContextMenuTarget? FindTopLeftTarget(TargetList targets)
         {
             // Best match found so far
-            IContextMenuTarget topLeftTarget = null;
-            Rectangle topLeftRect = Rectangle.Empty;
+            IContextMenuTarget? topLeftTarget = null;
+            var topLeftRect = Rectangle.Empty;
 
             // Search all targets, looking for a better match than the current best
             foreach (IContextMenuTarget target in targets)
@@ -492,11 +497,11 @@ namespace Krypton.Toolkit
             return topLeftTarget;
         }
 
-        private IContextMenuTarget FindTopRightTarget(TargetList targets)
+        private IContextMenuTarget? FindTopRightTarget(TargetList targets)
         {
             // Best match found so far
-            IContextMenuTarget topRightTarget = null;
-            Rectangle topRightRect = Rectangle.Empty;
+            IContextMenuTarget? topRightTarget = null;
+            var topRightRect = Rectangle.Empty;
 
             // Search all targets, looking for a better match than the current best
             foreach (IContextMenuTarget target in targets)
@@ -526,11 +531,11 @@ namespace Krypton.Toolkit
             return topRightTarget;
         }
 
-        private IContextMenuTarget FindBottomLeftTarget(TargetList targets)
+        private IContextMenuTarget? FindBottomLeftTarget(TargetList targets)
         {
             // Best match found so far
-            IContextMenuTarget bottomLeftTarget = null;
-            Rectangle bottomLeftRect = Rectangle.Empty;
+            IContextMenuTarget? bottomLeftTarget = null;
+            var bottomLeftRect = Rectangle.Empty;
 
             // Search all targets, looking for a better match than the current best
             foreach (IContextMenuTarget target in targets)
@@ -560,10 +565,10 @@ namespace Krypton.Toolkit
             return bottomLeftTarget;
         }
 
-        private IContextMenuTarget FindDownTarget(TargetList targets, IContextMenuTarget current)
+        private IContextMenuTarget? FindDownTarget(TargetList targets, IContextMenuTarget current)
         {
             // Find the next item below the current one
-            IContextMenuTarget newTarget = FindDownTarget(targets, current.ClientRectangle);
+            IContextMenuTarget? newTarget = FindDownTarget(targets, current.ClientRectangle);
 
             // If nothing found, then we must be at the bottom of the display
             if (newTarget == null)
@@ -580,15 +585,15 @@ namespace Krypton.Toolkit
             return newTarget;
         }
 
-        private IContextMenuTarget FindDownTarget(TargetList targets, Rectangle currentRect)
+        private IContextMenuTarget? FindDownTarget(TargetList targets, Rectangle currentRect)
         {
             // We compare from the bottom edge always
             currentRect.Y = currentRect.Bottom;
             currentRect.Height = 0;
 
             // Best match found so far
-            IContextMenuTarget nextTarget = null;
-            Rectangle nextRect = Rectangle.Empty;
+            IContextMenuTarget? nextTarget = null;
+            var nextRect = Rectangle.Empty;
 
             // Search all targets, looking for a better match than the current best
             foreach (IContextMenuTarget target in targets)
@@ -598,7 +603,7 @@ namespace Krypton.Toolkit
                 // Only interested in targets that are below the current one
                 if (targetRect.Top >= currentRect.Bottom)
                 {
-                    // It nothing found so far, it automatically becomes the best match
+                    // If nothing found so far, it automatically becomes the best match
                     if (nextTarget == null)
                     {
                         nextTarget = target;
@@ -606,8 +611,8 @@ namespace Krypton.Toolkit
                     }
                     else
                     {
-                        var currentDistance = CenterDistance(currentRect, new Rectangle(nextRect.X, nextRect.Y, nextRect.Width, 0));
-                        var nextDistance = CenterDistance(currentRect, new Rectangle(targetRect.X, targetRect.Y, targetRect.Width, 0));
+                        var currentDistance = CenterDistance(currentRect, nextRect with { Height = 0 });
+                        var nextDistance = CenterDistance(currentRect, targetRect with { Height = 0 });
 
                         // If next target is nearer than the current best...
                         if (nextDistance < currentDistance)
@@ -622,11 +627,11 @@ namespace Krypton.Toolkit
 
             return nextTarget;
         }
-        
-        private IContextMenuTarget FindUpTarget(TargetList targets, IContextMenuTarget current)
+
+        private IContextMenuTarget? FindUpTarget(TargetList targets, IContextMenuTarget current)
         {
             // Find the next item above the current one
-            IContextMenuTarget newTarget = FindUpTarget(targets, current.ClientRectangle);
+            IContextMenuTarget? newTarget = FindUpTarget(targets, current.ClientRectangle);
 
             // If nothing found, then we must be at the top of the display
             if (newTarget == null)
@@ -643,14 +648,14 @@ namespace Krypton.Toolkit
             return newTarget;
         }
 
-        private IContextMenuTarget FindUpTarget(TargetList targets, Rectangle currentRect)
+        private IContextMenuTarget? FindUpTarget(TargetList targets, Rectangle currentRect)
         {
             // We compare from the top edge always
             currentRect.Height = 0;
 
             // Best match found so far
-            IContextMenuTarget nextTarget = null;
-            Rectangle nextRect = Rectangle.Empty;
+            IContextMenuTarget? nextTarget = null;
+            var nextRect = Rectangle.Empty;
 
             // Search all targets, looking for a better match than the current best
             foreach (IContextMenuTarget target in targets)
@@ -668,8 +673,8 @@ namespace Krypton.Toolkit
                     }
                     else
                     {
-                        var currentDistance = CenterDistance(currentRect, new Rectangle(nextRect.X, nextRect.Bottom, nextRect.Width, 0));
-                        var nextDistance = CenterDistance(currentRect, new Rectangle(targetRect.X, targetRect.Bottom, targetRect.Width, 0));
+                        var currentDistance = CenterDistance(currentRect, nextRect with { Y = nextRect.Bottom, Height = 0 });
+                        var nextDistance = CenterDistance(currentRect, targetRect with { Y = targetRect.Bottom, Height = 0 });
 
                         // If next target is nearer than the current best...
                         if (nextDistance < currentDistance)
@@ -685,10 +690,10 @@ namespace Krypton.Toolkit
             return nextTarget;
         }
 
-        private IContextMenuTarget FindRightTarget(TargetList targets, IContextMenuTarget current)
+        private IContextMenuTarget? FindRightTarget(TargetList targets, IContextMenuTarget current)
         {
             // Find the next item after the current one
-            IContextMenuTarget newTarget = FindRightTarget(targets, current.ClientRectangle);
+            IContextMenuTarget? newTarget = FindRightTarget(targets, current.ClientRectangle);
 
             // If nothing found, then we must be at the right side of the display
             if (newTarget == null)
@@ -705,15 +710,15 @@ namespace Krypton.Toolkit
             return newTarget;
         }
 
-        private IContextMenuTarget FindRightTarget(TargetList targets, Rectangle currentRect)
+        private IContextMenuTarget? FindRightTarget(TargetList targets, Rectangle currentRect)
         {
             // We compare from the right edge always
             currentRect.X = currentRect.Right;
             currentRect.Width = 0;
 
             // Best match found so far
-            IContextMenuTarget nextTarget = null;
-            Rectangle nextRect = Rectangle.Empty;
+            IContextMenuTarget? nextTarget = null;
+            var nextRect = Rectangle.Empty;
 
             // Search all targets, looking for a better match than the current best
             foreach (IContextMenuTarget target in targets)
@@ -731,8 +736,8 @@ namespace Krypton.Toolkit
                     }
                     else
                     {
-                        var currentDistance = CenterDistance(currentRect, new Rectangle(nextRect.X, nextRect.Y, 0, nextRect.Height));
-                        var nextDistance = CenterDistance(currentRect, new Rectangle(targetRect.X, targetRect.Y, 0, targetRect.Height));
+                        var currentDistance = CenterDistance(currentRect, nextRect with { Width = 0 });
+                        var nextDistance = CenterDistance(currentRect, targetRect with { Width = 0 });
 
                         // If next target is nearer than the current best...
                         if (nextDistance < currentDistance)
@@ -748,13 +753,13 @@ namespace Krypton.Toolkit
             return nextTarget;
         }
 
-        private IContextMenuTarget FindLeftTarget(TargetList targets, 
+        private IContextMenuTarget? FindLeftTarget(TargetList targets,
                                                   IContextMenuTarget current,
                                                   bool wrap,
                                                   ref bool hitEdge)
         {
             // Find the item left of the current one
-            IContextMenuTarget newTarget = FindLeftTarget(targets, current.ClientRectangle);
+            IContextMenuTarget? newTarget = FindLeftTarget(targets, current.ClientRectangle);
 
             // If nothing found, then we must be at the left edge of the display
             if (newTarget == null)
@@ -778,14 +783,14 @@ namespace Krypton.Toolkit
             return newTarget;
         }
 
-        private IContextMenuTarget FindLeftTarget(TargetList targets, Rectangle currentRect)
+        private IContextMenuTarget? FindLeftTarget(TargetList targets, Rectangle currentRect)
         {
             // We compare from the left edge always
             currentRect.Width = 0;
 
             // Best match found so far
-            IContextMenuTarget nextTarget = null;
-            Rectangle nextRect = Rectangle.Empty;
+            IContextMenuTarget? nextTarget = null;
+            var nextRect = Rectangle.Empty;
 
             // Search all targets, looking for a better match than the current best
             foreach (IContextMenuTarget target in targets)
@@ -804,8 +809,8 @@ namespace Krypton.Toolkit
                     else
                     {
                         // Compare the right edge only
-                        var currentDistance = CenterDistance(currentRect, new Rectangle(nextRect.Right, nextRect.Y, 0, nextRect.Height));
-                        var nextDistance = CenterDistance(currentRect, new Rectangle(targetRect.Right, targetRect.Y, 0, targetRect.Height));
+                        var currentDistance = CenterDistance(currentRect, nextRect with { X = nextRect.Right, Width = 0 });
+                        var nextDistance = CenterDistance(currentRect, targetRect with { X = targetRect.Right, Width = 0 });
 
                         // If next target is nearer than the current best...
                         if (nextDistance < currentDistance)

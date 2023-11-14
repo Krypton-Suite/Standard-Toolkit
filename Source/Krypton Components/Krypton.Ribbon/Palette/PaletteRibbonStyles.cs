@@ -5,7 +5,9 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  
+ *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
  */
 #endregion
@@ -27,7 +29,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="ribbon">Source ribbon control instance.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public PaletteRibbonStyles(KryptonRibbon ribbon,
+        public PaletteRibbonStyles([DisallowNull] KryptonRibbon ribbon,
                                    NeedPaintHandler needPaint)
         {
             Debug.Assert(ribbon != null);
@@ -87,7 +89,7 @@ namespace Krypton.Ribbon
         /// </summary>
         [Category(@"Visuals")]
         [Description(@"Syle for buttons inside groups.")]
-        [DefaultValue(typeof(ButtonStyle), "ButtonSpec")]
+        [DefaultValue(typeof(ButtonStyle), nameof(ButtonSpec))]
         public ButtonStyle GroupButtonStyle
         {
             get => _ribbon.GroupButtonStyle;
@@ -129,7 +131,7 @@ namespace Krypton.Ribbon
         /// </summary>
         [Category(@"Visuals")]
         [Description(@"Dialog box launcher button style inside groups.")]
-        [DefaultValue(typeof(ButtonStyle), "ButtonSpec")]
+        [DefaultValue(typeof(ButtonStyle), nameof(ButtonSpec))]
         public ButtonStyle GroupDialogButtonStyle
         {
             get => _ribbon.GroupDialogButtonStyle;
@@ -143,7 +145,7 @@ namespace Krypton.Ribbon
         /// </summary>
         [Category(@"Visuals")]
         [Description(@"Quick access toolbar button style.")]
-        [DefaultValue(typeof(ButtonStyle), "ButtonSpec")]
+        [DefaultValue(typeof(ButtonStyle), nameof(ButtonSpec))]
         public ButtonStyle QATButtonStyle
         {
             get => _ribbon.QATButtonStyle;

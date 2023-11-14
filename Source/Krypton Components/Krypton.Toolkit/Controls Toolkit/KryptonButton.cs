@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -19,15 +19,23 @@ namespace Krypton.Toolkit
     /// </summary>
     [ToolboxItem(true)]
     [ToolboxBitmap(typeof(KryptonButton), "ToolboxBitmaps.KryptonButton.bmp")]
-    [DefaultEvent(@"Click")]
-    [DefaultProperty(@"Text")]
+    [DefaultEvent(nameof(Click))]
+    [DefaultProperty(nameof(Text))]
     [DesignerCategory(@"code")]
     [Description(@"Raises an event when the user clicks it.")]
-    [Designer(@"Krypton.Toolkit.KryptonButtonDesigner, Krypton.Toolkit")]
-
+    [Designer(typeof(KryptonButtonDesigner))]
     public class KryptonButton : VisualSimpleBase, IButtonControl, IContentValues
     {
+        #region Static Fields
+
+        private const int DEFAULT_PUSH_BUTTON_WIDTH = 14;
+
+        private static readonly int BORDER_SIZE = SystemInformation.Border3DSize.Width * 2;
+
+        #endregion
+
         #region Instance Fields
+
         private readonly ViewDrawButton _drawButton;
         private ButtonStyle _style;
         private readonly ButtonController _buttonController;
@@ -36,8 +44,20 @@ namespace Krypton.Toolkit
         private readonly PaletteTripleOverride _overrideNormal;
         private readonly PaletteTripleOverride _overrideTracking;
         private readonly PaletteTripleOverride _overridePressed;
-        private IKryptonCommand _command;
-        private bool _useAsDialogButton, _isDefault, _useMnemonic, _wasEnabled, _useAsUACElevationButton;
+        private IKryptonCommand? _command;
+        private bool _useAsDialogButton;
+        private bool _isDefault;
+        private bool _useMnemonic;
+        private bool _wasEnabled;
+        private bool _useAsUACElevationButton;
+        private bool _skipNextOpen;
+        private bool _showSplitOption;
+        //private bool _useOSUACShieldIcon;
+        private float _cornerRoundingRadius;
+        private Size _customUACShieldSize;
+        private UACShieldIconSize _uacShieldIconSize;
+        private Rectangle _dropDownRectangle;
+
         #endregion
 
         #region Events
@@ -46,7 +66,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Property Changed")]
         [Description(@"Occurs when the value of the KryptonCommand property changes.")]
-        public event EventHandler KryptonCommandChanged;
+        public event EventHandler? KryptonCommandChanged;
         #endregion
 
         #region Identity
@@ -59,7 +79,7 @@ namespace Krypton.Toolkit
             // production of them by the base Control class
             SetStyle(ControlStyles.StandardClick |
                      ControlStyles.StandardDoubleClick, false);
-
+            SetStyle(ControlStyles.UseTextForAccessibility, true);
             // Set default button properties
             _style = ButtonStyle.Standalone;
             DialogResult = DialogResult.None;
@@ -116,11 +136,24 @@ namespace Krypton.Toolkit
             ViewManager = new ViewManager(this, _drawButton);
 
             _useAsDialogButton = false;
-            
+
             _useAsUACElevationButton = false;
+
+            _uacShieldIconSize = GlobalStaticValues.DEFAULT_UAC_SHIELD_ICON_SIZE;
+
+            //_useOSUACShieldIcon = false;
+
+            _customUACShieldSize = GlobalStaticValues.DEFAULT_UAC_SHIELD_ICON_CUSTOM_SIZE;
 
             // Set `CornerRoundingRadius' to 'GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE' (-1)
             CornerRoundingRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
+
+            // Split settings
+            _showSplitOption = false;
+
+            _skipNextOpen = false;
+
+            _dropDownRectangle = new Rectangle();
         }
         #endregion
 
@@ -129,12 +162,12 @@ namespace Krypton.Toolkit
         /// <value>The corner rounding radius.</value>
         [Category(@"Visuals")]
         [Description(@"Gets or sets the corner rounding radius.")]
-        [DefaultValue(-1)]
+        [DefaultValue(GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE)]
         public float CornerRoundingRadius
         {
-            get => StateCommon.Border.Rounding;
+            get => _cornerRoundingRadius;
 
-            set => StateCommon.Border.Rounding = value;
+            set => SetCornerRoundingRadius(value);
         }
 
         /// <summary>
@@ -167,7 +200,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the text associated with this control. 
         /// </summary>
-        [Editor(@"System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
+        [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
+        [AllowNull]
         public override string Text
         {
             get => Values.Text;
@@ -191,7 +225,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Visuals")]
         [Description(@"Visual orientation of the control.")]
-        [DefaultValue(typeof(VisualOrientation), "Top")]
+        [DefaultValue(VisualOrientation.Top)]
         public virtual VisualOrientation Orientation
         {
             get => _orientation;
@@ -232,30 +266,67 @@ namespace Krypton.Toolkit
 
         private bool ShouldSerializeButtonStyle() => ButtonStyle != ButtonStyle.Standalone;
 
-        private void ResetButtonStyle()
-        {
-            ButtonStyle = ButtonStyle.Standalone;
-        }
+        private void ResetButtonStyle() => ButtonStyle = ButtonStyle.Standalone;
 
-        [DefaultValue(false), 
+        [DefaultValue(false),
          Description(@"If set to true, the text will pair up with the equivalent KryptonManager's dialog button text result. (Note: You'll lose any previous text)")]
-        public bool UseAsADialogButton 
-        { 
-            get => _useAsDialogButton; 
-            set => _useAsDialogButton = value; 
+        public bool UseAsADialogButton
+        {
+            get => _useAsDialogButton;
+            set => _useAsDialogButton = value;
         }
 
-        [DefaultValue(false), 
+        [DefaultValue(false),
          Description(@"Transforms the button into a UAC elevated button.")]
-        public bool UseAsUACElevationButton 
-        { 
-            get => _useAsUACElevationButton; 
-            set 
-            { 
-                _useAsUACElevationButton = value; 
-                ShowUACShield(value); 
-            } 
+        public bool UseAsUACElevationButton
+        {
+            get => _useAsUACElevationButton;
+            set
+            {
+                _useAsUACElevationButton = value;
+
+                switch (_uacShieldIconSize)
+                {
+                    //if (_customUACShieldSize.Height > 0 && _customUACShieldSize.Width > 0)
+                    //{
+                    //    ShowUACShield(value, UACShieldIconSize.Custom, _customUACShieldSize.Width, _customUACShieldSize.Height);
+                    //}
+                    //else if (_uacShieldIconSize != UACShieldIconSize.Custom)
+                    //{
+                    //    ShowUACShield(value, _uacShieldIconSize);
+                    //}
+                    case UACShieldIconSize.ExtraSmall:
+                        ShowUACShield(value, UACShieldIconSize.ExtraSmall);
+                        break;
+                    case UACShieldIconSize.Small:
+                        ShowUACShield(value, UACShieldIconSize.Small);
+                        break;
+                    case UACShieldIconSize.Medium:
+                        ShowUACShield(value, UACShieldIconSize.Medium);
+                        break;
+                    case UACShieldIconSize.Large:
+                        ShowUACShield(value, UACShieldIconSize.Large);
+                        break;
+                    case UACShieldIconSize.ExtraLarge:
+                        ShowUACShield(value, UACShieldIconSize.ExtraLarge);
+                        break;
+                    default:
+                        ShowUACShield(value, UACShieldIconSize.ExtraSmall);
+                        break;
+                }
+            }
         }
+
+        /*
+        [DefaultValue(false), Description(@"Use the operating system UAC shield icon image.")]
+        public bool UseOSUACShieldIcon { get => _useOSUACShieldIcon; set { _useOSUACShieldIcon = value; UpdateOSUACShieldIcon(); } }
+        
+        [DefaultValue(null), Description(@"")]
+        public Size CustomUACShieldSize { get => _customUACShieldSize; set { _customUACShieldSize = value; ShowUACShield(_useAsUACElevationButton, UACShieldIconSize.Custom, value.Width, value.Height); } }
+        */
+
+        [DefaultValue(UACShieldIconSize.ExtraSmall), Description(@"")]
+        public UACShieldIconSize UACShieldIconSize { get => _uacShieldIconSize; set { _uacShieldIconSize = value; ShowUACShield(_useAsUACElevationButton, value); } }
 
         /// <summary>
         /// Gets access to the button content.
@@ -266,6 +337,11 @@ namespace Krypton.Toolkit
         public ButtonValues Values { get; }
 
         private bool ShouldSerializeValues() => !Values.IsDefault;
+
+        //[Category(@"Visuals"), Description(@"UAC Shield Values"), DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        //public UACShieldValues UACShieldValues { get; }
+
+        //private bool ShouldSerializeUACShieldValues() => !UACShieldValues.IsDefault;
 
         /// <summary>
         /// Gets access to the common button appearance that other states can override.
@@ -342,7 +418,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Behavior")]
         [Description(@"The dialog-box result produced in a modal form by clicking the button.")]
-        [DefaultValue(typeof(DialogResult), "None")]
+        [DefaultValue(DialogResult.None)]
         public DialogResult DialogResult { get; set; }
 
         /// <summary>
@@ -351,7 +427,7 @@ namespace Krypton.Toolkit
         [Category(@"Behavior")]
         [Description(@"Command associated with the button.")]
         [DefaultValue(null)]
-        public virtual IKryptonCommand KryptonCommand
+        public virtual IKryptonCommand? KryptonCommand
         {
             get => _command;
 
@@ -466,6 +542,29 @@ namespace Krypton.Toolkit
             get => base.ImeMode;
             set => base.ImeMode = value;
         }
+
+        /// <summary>Gets or sets a value indicating whether [show split option].</summary>
+        /// <value><c>true</c> if [show split option]; otherwise, <c>false</c>.</value>
+        [Category(@"Visuals")]
+        [DefaultValue(false)]
+        [Description(@"Displays the split/dropdown option.")]
+        public bool ShowSplitOption
+        {
+            get => _showSplitOption;
+
+            set
+            {
+                if (value != _showSplitOption)
+                {
+                    _showSplitOption = value;
+
+                    Invalidate();
+
+                    Parent?.PerformLayout();
+                }
+            }
+        }
+
         #endregion
 
         #region IContentValues
@@ -486,7 +585,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">The state for which the image is needed.</param>
         /// <returns>Image value.</returns>
-        public Image GetImage(PaletteState state) => KryptonCommand?.ImageSmall ?? Values.GetImage(state);
+        public Image? GetImage(PaletteState state) => KryptonCommand?.ImageSmall ?? Values.GetImage(state);
 
         /// <summary>
         /// Gets the image colour that should be transparent.
@@ -497,11 +596,27 @@ namespace Krypton.Toolkit
             KryptonCommand?.ImageTransparentColor ?? Values.GetImageTransparentColor(state);
         #endregion
 
+        #region Public Overrides
+
+        public override Size GetPreferredSize(Size proposedSize)
+        {
+            Size preferredSize = base.GetPreferredSize(proposedSize);
+
+            if (_showSplitOption && !string.IsNullOrWhiteSpace(Text) && TextRenderer.MeasureText(Text, Font).Width + DEFAULT_PUSH_BUTTON_WIDTH > preferredSize.Width)
+            {
+                return preferredSize + new Size(DEFAULT_PUSH_BUTTON_WIDTH + BORDER_SIZE * 2, 0);
+            }
+
+            return preferredSize;
+        }
+
+        #endregion
+
         #region Protected Overrides
         /// <summary>
         /// Gets the default size of the control.
         /// </summary>
-        protected override Size DefaultSize => new(90, 25);
+        protected override Size DefaultSize => new Size(90, 25);
 
         /// <summary>
         /// Gets the default Input Method Editor (IME) mode supported by this control.
@@ -570,13 +685,33 @@ namespace Krypton.Toolkit
         protected override void OnClick(EventArgs e)
         {
             // Find the form this button is on
-            Form owner = FindForm();
+            Form? owner = FindForm();
 
             // If we find a valid owner
             if (owner != null)
             {
                 // Update owner with our dialog result setting
-                owner.DialogResult = DialogResult;
+                try
+                {
+                    owner.DialogResult = DialogResult;
+                }
+                catch (InvalidEnumArgumentException)
+                {
+                    // Is it https://github.com/Krypton-Suite/Standard-Toolkit/issues/728
+                    if (owner is KryptonMessageBoxForm)
+                    {
+                        // need to gain access to `dialogResult` and set it forcefully
+                        FieldInfo? fi = typeof(Form).GetField("dialogResult", BindingFlags.NonPublic | BindingFlags.Instance);
+                        if (fi != null)
+                        {
+                            fi.SetValue(owner, DialogResult);
+                        }
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
             }
 
             // Let base class fire standard event
@@ -637,42 +772,150 @@ namespace Krypton.Toolkit
             {
                 if (DialogResult == DialogResult.Abort)
                 {
-                    Text = KryptonManager.Strings.Abort;
+                    Text = KryptonLanguageManager.GeneralToolkitStrings.Abort;
                 }
 
                 if (DialogResult == DialogResult.Cancel)
                 {
-                    Text = KryptonManager.Strings.Cancel;
+                    Text = KryptonLanguageManager.GeneralToolkitStrings.Cancel;
                 }
 
                 if (DialogResult == DialogResult.OK)
                 {
-                    Text = KryptonManager.Strings.OK;
+                    Text = KryptonLanguageManager.GeneralToolkitStrings.OK;
                 }
 
                 if (DialogResult == DialogResult.Yes)
                 {
-                    Text = KryptonManager.Strings.Yes;
+                    Text = KryptonLanguageManager.GeneralToolkitStrings.Yes;
                 }
 
                 if (DialogResult == DialogResult.No)
                 {
-                    Text = KryptonManager.Strings.No;
+                    Text = KryptonLanguageManager.GeneralToolkitStrings.No;
                 }
 
                 if (DialogResult == DialogResult.Retry)
                 {
-                    Text = KryptonManager.Strings.Retry;
+                    Text = KryptonLanguageManager.GeneralToolkitStrings.Retry;
                 }
 
                 if (DialogResult == DialogResult.Ignore)
                 {
-                    Text = KryptonManager.Strings.Ignore;
+                    Text = KryptonLanguageManager.GeneralToolkitStrings.Ignore;
                 }
             }
 
             base.OnPaint(e);
+
+            #region Split Code
+
+            if (!_showSplitOption)
+            {
+                return;
+            }
+
+            Graphics g = e.Graphics;
+
+            Rectangle bounds = ClientRectangle;
+
+            _dropDownRectangle = new Rectangle(bounds.Right - DEFAULT_PUSH_BUTTON_WIDTH - 1, BORDER_SIZE, DEFAULT_PUSH_BUTTON_WIDTH, bounds.Height - BORDER_SIZE * 2);
+
+            var internalBorder = BORDER_SIZE;
+
+            var focusRectangle = new Rectangle(internalBorder, internalBorder,
+                bounds.Width - _dropDownRectangle.Width - internalBorder, bounds.Height - (internalBorder * 2));
+
+            PaletteBase? palette = KryptonManager.CurrentGlobalPalette;
+
+            Pen shadow = SystemPens.ButtonShadow, face = SystemPens.ButtonFace;
+
+            if (palette != null)
+            {
+                shadow = new Pen(palette.ColorTable.GripDark);
+
+                face = new Pen(palette.ColorTable.GripLight);
+            }
+
+            if (RightToLeft == RightToLeft.Yes)
+            {
+                _dropDownRectangle.X = bounds.Left + 1;
+
+                focusRectangle.X = _dropDownRectangle.Right;
+
+                g.DrawLine(shadow, bounds.Left + DEFAULT_PUSH_BUTTON_WIDTH, BORDER_SIZE, bounds.Left + DEFAULT_PUSH_BUTTON_WIDTH, bounds.Bottom - BORDER_SIZE);
+
+                g.DrawLine(face, bounds.Left + DEFAULT_PUSH_BUTTON_WIDTH + 1, BORDER_SIZE, bounds.Left + DEFAULT_PUSH_BUTTON_WIDTH + 1, bounds.Bottom - BORDER_SIZE);
+            }
+            else
+            {
+                // draw two lines at the edge of the dropdown button 
+                g.DrawLine(shadow, bounds.Right - DEFAULT_PUSH_BUTTON_WIDTH, BORDER_SIZE, bounds.Right - DEFAULT_PUSH_BUTTON_WIDTH, bounds.Bottom - BORDER_SIZE);
+
+                g.DrawLine(face, bounds.Right - DEFAULT_PUSH_BUTTON_WIDTH - 1, BORDER_SIZE, bounds.Right - DEFAULT_PUSH_BUTTON_WIDTH - 1, bounds.Bottom - BORDER_SIZE);
+            }
+
+            // Draw an arrow in the correct location 
+            PaintArrow(g, _dropDownRectangle);
+
+            #endregion
         }
+
+        protected override bool IsInputKey(Keys keyData)
+        {
+            if (keyData.Equals(Keys.Down) && _showSplitOption)
+            {
+                return true;
+            }
+            else
+            {
+                return base.IsInputKey(keyData);
+            }
+        }
+
+        protected override void OnKeyDown(KeyEventArgs e)
+        {
+            if (_showSplitOption && e.KeyCode.Equals(Keys.Down))
+            {
+                ShowContextMenuStrip();
+            }
+
+            base.OnKeyDown(e);
+        }
+
+        protected override void OnMouseDown(MouseEventArgs e)
+        {
+            if (!_showSplitOption)
+            {
+                base.OnMouseDown(e);
+                return;
+            }
+
+            if (_dropDownRectangle.Contains(e.Location))
+            {
+                ShowContextMenuStrip();
+            }
+            else
+            {
+                base.OnMouseDown(e);
+            }
+        }
+
+        protected override void OnMouseUp(MouseEventArgs e)
+        {
+            if (!_showSplitOption)
+            {
+                base.OnMouseUp(e);
+
+                return;
+            }
+
+            if (ContextMenuStrip == null || !ContextMenuStrip.Visible)
+            {
+                base.OnMouseUp(e);
+            }
+        }
+
         #endregion
 
         #region Protected Virtual
@@ -693,7 +936,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <returns>Set of button values.</returns>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        protected virtual ButtonValues CreateButtonValues(NeedPaintHandler needPaint) => new (needPaint);
+        protected virtual ButtonValues CreateButtonValues(NeedPaintHandler needPaint) => new ButtonValues(needPaint);
 
         /// <summary>
         /// Raises the KryptonCommandChanged event.
@@ -722,10 +965,10 @@ namespace Krypton.Toolkit
         {
             switch (e.PropertyName)
             {
-                case @"Enabled":
+                case nameof(Enabled):
                     Enabled = KryptonCommand.Enabled;
                     break;
-                case @"Text":
+                case nameof(Text):
                 case @"ExtraText":
                 case @"ImageSmall":
                 case @"ImageTransparentColor":
@@ -762,11 +1005,52 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void ShowUACShield(bool showUACShield)
+        private void SetCornerRoundingRadius(float? radius)
+        {
+            _cornerRoundingRadius = radius ?? GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
+
+            StateCommon.Border.Rounding = _cornerRoundingRadius;
+        }
+
+        #region UAC Stuff
+
+        /// <summary>Shows the uac shield.</summary>
+        /// <param name="showUACShield">if set to <c>true</c> [show uac shield].</param>
+        /// <param name="shieldIconSize">Size of the shield icon.</param>
+        /// <param name="width">The width.</param>
+        /// <param name="height">The height.</param>
+        private void ShowUACShield(bool showUACShield, UACShieldIconSize? shieldIconSize = null, int? width = null, int? height = null)
         {
             if (showUACShield)
             {
-                Values.Image = IconExtractor.LoadIcon(IconExtractor.IconType.Shield, SystemInformation.SmallIconSize).ToBitmap();
+                int h = height ?? 16, w = width ?? 16;
+
+                Image shield = SystemIcons.Shield.ToBitmap();
+
+                switch (shieldIconSize)
+                {
+                    //case UACShieldIconSize.Custom:
+                    //    Values.Image = GraphicsExtensions.ScaleImage(shield, w, h);
+                    //    break;
+                    case UACShieldIconSize.ExtraSmall:
+                        Values.Image = GraphicsExtensions.ScaleImage(shield, 16, 16);
+                        break;
+                    case UACShieldIconSize.Small:
+                        Values.Image = GraphicsExtensions.ScaleImage(shield, 32, 32);
+                        break;
+                    case UACShieldIconSize.Medium:
+                        Values.Image = GraphicsExtensions.ScaleImage(shield, 64, 64);
+                        break;
+                    case UACShieldIconSize.Large:
+                        Values.Image = GraphicsExtensions.ScaleImage(shield, 128, 128);
+                        break;
+                    case UACShieldIconSize.ExtraLarge:
+                        Values.Image = GraphicsExtensions.ScaleImage(shield, 256, 256);
+                        break;
+                    case null:
+                        Values.Image = GraphicsExtensions.ScaleImage(shield, 16, 16);
+                        break;
+                }
 
                 Invalidate();
             }
@@ -775,6 +1059,133 @@ namespace Krypton.Toolkit
                 Values.Image = null;
             }
         }
+
+        /// <summary>Updates the UAC shield icon.</summary>
+        /// <param name="iconSize">Size of the icon.</param>
+        /// <param name="customSize">Size of the custom.</param>
+        private void UpdateOSUACShieldIcon(UACShieldIconSize? iconSize = null, Size? customSize = null)
+        {
+            //if (OSUtilities.IsWindowsEleven)
+            //{
+            //    Image windowsElevenUacShieldImage = UACShieldIconResources.UACShieldWindows11;
+
+            //    if (iconSize == UACShieldIconSize.Custom)
+            //    {
+            //        UpdateShieldSize(UACShieldIconSize.Custom, customSize, windowsElevenUacShieldImage);
+            //    }
+            //    else
+            //    {
+            //        UpdateShieldSize(iconSize, null, windowsElevenUacShieldImage);
+            //    }
+            //}
+            //else if (OSUtilities.IsWindowsTen)
+            //{
+            //    Image windowsTenUacShieldImage = UACShieldIconResources.UACShieldWindows10;
+
+            //    if (iconSize == UACShieldIconSize.Custom)
+            //    {
+            //        UpdateShieldSize(UACShieldIconSize.Custom, customSize, windowsTenUacShieldImage);
+            //    }
+            //    else
+            //    {
+            //        UpdateShieldSize(iconSize, null, windowsTenUacShieldImage);
+            //    }
+            //}
+            //else if (OSUtilities.IsWindowsEightPointOne || OSUtilities.IsWindowsEight || OSUtilities.IsWindowsSeven)
+            //{
+            //    Image windowsEightUacShieldImage = UACShieldIconResources.UACShieldWindows7881;
+
+            //    if (iconSize == UACShieldIconSize.Custom)
+            //    {
+            //        UpdateShieldSize(UACShieldIconSize.Custom, customSize, windowsEightUacShieldImage);
+            //    }
+            //    else
+            //    {
+            //        UpdateShieldSize(iconSize, null, windowsEightUacShieldImage);
+            //    }
+            //}
+        }
+
+        #endregion
+
+        #region Splitter Stuff
+
+        private static void PaintArrow(Graphics graphics, Rectangle rectangle)
+        {
+            var midPoint = new Point(Convert.ToInt32(rectangle.Left + rectangle.Width / 2),
+                Convert.ToInt32(rectangle.Top + rectangle.Height / 2));
+
+            midPoint.X += (rectangle.Width % 2);
+
+            var arrow = new Point[] 
+            { 
+                new Point(midPoint.X - 2, midPoint.Y - 1),
+                new Point(midPoint.X + 3, midPoint.Y - 1), 
+                midPoint with { Y = midPoint.Y + 2 }
+            };
+
+            graphics.FillPolygon(SystemBrushes.ControlText, arrow);
+        }
+
+        private void ShowContextMenuStrip()
+        {
+            if (_skipNextOpen)
+            {
+                // we were called because we're closing the context menu strip 
+                // when clicking the dropdown button. 
+                _skipNextOpen = false;
+
+                return;
+            }
+
+            if (KryptonContextMenu != null)
+            {
+                KryptonContextMenu.Show(FindForm()!.PointToScreen(Location) + new Size(0, Height));
+
+                KryptonContextMenu.Closed += KryptonContextMenu_Closed;
+            }
+            else if (ContextMenuStrip != null)
+            {
+                ContextMenuStrip.Closing += ContextMenuStrip_Closing;
+
+                ContextMenuStrip.Show(this, new Point(0, Height), ToolStripDropDownDirection.BelowRight);
+            }
+        }
+
+        #endregion
+
+        #endregion
+
+        #region Event Handlers
+
+        private void KryptonContextMenu_Closed(object sender, ToolStripDropDownClosedEventArgs e)
+        {
+            var kcm = sender as KryptonContextMenu;
+            if (kcm != null)
+            {
+                kcm.Closed -= KryptonContextMenu_Closed;
+            }
+
+            //if (e.CloseReason == ToolStripDropDownCloseReason.AppClicked) 
+            //{ 
+            _skipNextOpen = (_dropDownRectangle.Contains(PointToClient(Cursor.Position)));
+            //} 
+        }
+
+        private void ContextMenuStrip_Closing(object sender, ToolStripDropDownClosingEventArgs e)
+        {
+            var cms = sender as ContextMenuStrip;
+            if (cms != null)
+            {
+                cms.Closing -= ContextMenuStrip_Closing;
+            }
+
+            if (e.CloseReason == ToolStripDropDownCloseReason.AppClicked)
+            {
+                _skipNextOpen = (_dropDownRectangle.Contains(PointToClient(Cursor.Position)));
+            }
+        }
+
         #endregion
     }
 }

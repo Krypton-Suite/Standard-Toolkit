@@ -5,7 +5,9 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  
+ *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
  */
 #endregion
@@ -42,11 +44,11 @@ namespace Krypton.Ribbon
         /// <param name="e">A KeyEventArgs that contains the event data.</param>
         public override void KeyDown(Control c, KeyEventArgs e)
         {
-            ViewBase newView = null;
-            KryptonRibbon ribbon = (KryptonRibbon)c;
+            ViewBase? newView = null;
+            var ribbon = (KryptonRibbon)c;
 
             // Get the button spec associated with this controller
-            ViewDrawButton viewButton = (ViewDrawButton)Target;
+            var viewButton = (ViewDrawButton)Target;
             ButtonSpec buttonSpec = ribbon.TabsArea.ButtonSpecManager.GetButtonSpecFromView(viewButton);
 
             // Note if we are on the near edge
@@ -77,16 +79,10 @@ namespace Krypton.Ribbon
                         }
 
                         // Get the first far edge button
-                        if (newView == null)
-                        {
-                            newView = ribbon.TabsArea.ButtonSpecManager.GetFirstVisibleViewButton(PaletteRelativeEdgeAlign.Far);
-                        }
+                        newView ??= ribbon.TabsArea.ButtonSpecManager.GetFirstVisibleViewButton(PaletteRelativeEdgeAlign.Far);
 
                         // Get the first inherit edge button
-                        if (newView == null)
-                        {
-                            newView = ribbon.TabsArea.ButtonSpecManager.GetFirstVisibleViewButton(PaletteRelativeEdgeAlign.Inherit);
-                        }
+                        newView ??= ribbon.TabsArea.ButtonSpecManager.GetFirstVisibleViewButton(PaletteRelativeEdgeAlign.Inherit);
 
                         // Rotate around to application button
                         if (newView == null)
@@ -173,16 +169,10 @@ namespace Krypton.Ribbon
                         }
 
                         // Get the last near edge button
-                        if (newView == null)
-                        {
-                            newView = ribbon.TabsArea.ButtonSpecManager.GetFirstVisibleViewButton(PaletteRelativeEdgeAlign.Near);
-                        }
+                        newView ??= ribbon.TabsArea.ButtonSpecManager.GetFirstVisibleViewButton(PaletteRelativeEdgeAlign.Near);
 
                         // Get the last qat button
-                        if (newView == null)
-                        {
-                            newView = ribbon.GetLastQATView();
-                        }
+                        newView ??= ribbon.GetLastQATView();
 
                         // Rotate around to application button
                         if (newView == null)
@@ -258,7 +248,7 @@ namespace Krypton.Ribbon
         /// Source control has lost the focus.
         /// </summary>
         /// <param name="c">Reference to the source control instance.</param>
-        public override void LostFocus(Control c)
+        public override void LostFocus([DisallowNull] Control c)
         {
             _hasFocus = false;
 

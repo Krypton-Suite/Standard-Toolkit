@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -21,7 +21,7 @@ namespace Krypton.Toolkit
         #region Instance Fields
         private bool _mouseOver;
         private readonly ViewDrawMenuItem _menuItem;
-        private NeedPaintHandler _needPaint;
+        private NeedPaintHandler? _needPaint;
 
         #endregion
 
@@ -32,9 +32,9 @@ namespace Krypton.Toolkit
         /// <param name="viewManager">Owning view manager instance.</param>
         /// <param name="menuItem">Target menu item view element.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public MenuItemController(ViewContextMenuManager viewManager,
-                                  ViewDrawMenuItem menuItem,
-                                  NeedPaintHandler needPaint)
+        public MenuItemController([DisallowNull] ViewContextMenuManager viewManager,
+                                  [DisallowNull] ViewDrawMenuItem menuItem,
+                                  [DisallowNull] NeedPaintHandler needPaint)
         {
             Debug.Assert(viewManager != null);
             Debug.Assert(menuItem != null);
@@ -200,7 +200,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="c">Reference to the source control instance.</param>
         /// <param name="next">Reference to view that is next to have the mouse.</param>
-        public virtual void MouseLeave(Control c, ViewBase next)
+        public virtual void MouseLeave(Control c, ViewBase? next)
         {
             // Only if mouse is leaving all the children monitored by controller.
             if (_mouseOver && !_menuItem.ContainsRecurse(next))
@@ -233,7 +233,7 @@ namespace Krypton.Toolkit
         /// <param name="c">Reference to the source control instance.</param>
         /// <param name="e">A KeyEventArgs that contains the event data.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public virtual void KeyDown(Control c, KeyEventArgs e)
+        public virtual void KeyDown([DisallowNull] Control c, [DisallowNull] KeyEventArgs e)
         {
             Debug.Assert(c != null);
             Debug.Assert(e != null);
@@ -293,7 +293,7 @@ namespace Krypton.Toolkit
                     break;
                 case Keys.Right:
                     // If enabled and with a sub menu, then show the sub menu
-                    if (_menuItem.ItemEnabled && _menuItem.HasSubMenu)
+                    if (_menuItem is { ItemEnabled: true, HasSubMenu: true })
                     {
                         _menuItem.ShowSubMenu(true);
                     }
@@ -312,7 +312,7 @@ namespace Krypton.Toolkit
         /// <param name="c">Reference to the source control instance.</param>
         /// <param name="e">A KeyPressEventArgs that contains the event data.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public virtual void KeyPress(Control c, KeyPressEventArgs e)
+        public virtual void KeyPress([DisallowNull] Control c, [DisallowNull] KeyPressEventArgs e)
         {
             Debug.Assert(c != null);
             Debug.Assert(e != null);
@@ -338,7 +338,7 @@ namespace Krypton.Toolkit
         /// <param name="e">A KeyEventArgs that contains the event data.</param>
         /// <exception cref="ArgumentNullException"></exception>
         /// <returns>True if capturing input; otherwise false.</returns>
-        public virtual bool KeyUp(Control c, KeyEventArgs e)
+        public virtual bool KeyUp([DisallowNull] Control c, [DisallowNull] KeyEventArgs e)
         {
             Debug.Assert(c != null);
             Debug.Assert(e != null);
@@ -366,7 +366,7 @@ namespace Krypton.Toolkit
         /// Source control has lost the focus.
         /// </summary>
         /// <param name="c">Reference to the source control instance.</param>
-        public virtual void LostFocus(Control c)
+        public virtual void LostFocus([DisallowNull] Control c)
         {
         }
         #endregion
@@ -375,7 +375,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the need paint delegate for notifying paint requests.
         /// </summary>
-        public NeedPaintHandler NeedPaint
+        public NeedPaintHandler? NeedPaint
         {
             get => _needPaint;
 
@@ -409,7 +409,7 @@ namespace Krypton.Toolkit
                 if (_menuItem.CanCloseMenu)
                 {
                     // Ask the original context menu definition, if we can close
-                    CancelEventArgs cea = new();
+                    var cea = new CancelEventArgs();
                     _menuItem.Closing(cea);
 
                     if (!cea.Cancel)

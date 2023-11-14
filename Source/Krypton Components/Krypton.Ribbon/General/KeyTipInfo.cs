@@ -5,7 +5,9 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  
+ *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
  */
 #endregion
@@ -18,7 +20,7 @@ namespace Krypton.Ribbon
     {
         #region Instance Fields
 
-        private readonly IRibbonKeyTipTarget _target;
+        private readonly IRibbonKeyTipTarget? _target;
         #endregion
 
         #region Identity
@@ -34,7 +36,7 @@ namespace Krypton.Ribbon
                           string keyString,
                           Point screenPt,
                           Rectangle clientRect,
-                          IRibbonKeyTipTarget target)
+                          IRibbonKeyTipTarget? target)
         {
             Enabled = enabled;
             KeyString = keyString;
@@ -75,10 +77,7 @@ namespace Krypton.Ribbon
         /// Perform actual selection of the item.
         /// </summary>
         /// <param name="ribbon">Reference to owning ribbon instance.</param>
-        public void KeyTipSelect(KryptonRibbon ribbon)
-        {
-            _target?.KeyTipSelect(ribbon);
-        }
+        public void KeyTipSelect(KryptonRibbon ribbon) => _target?.KeyTipSelect(ribbon);
         #endregion
     }
 }

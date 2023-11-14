@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -22,7 +22,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Instance Fields
-        private readonly PaletteDoubleMetricRedirect _paletteItemHighlight;
+        private readonly PaletteDoubleMetricRedirect? _paletteItemHighlight;
         private readonly ViewDrawMenuImageColumn _imageColumn;
         private ColumnToWidth _columnToWidth;
         #endregion
@@ -45,7 +45,7 @@ namespace Krypton.Toolkit
 
             // Create and place an image column inside a docker so it appears on the left side
             _imageColumn = new ViewDrawMenuImageColumn(items, provider.ProviderStateCommon.ItemImageColumn);
-            ViewLayoutDocker imageDocker = new()
+            var imageDocker = new ViewLayoutDocker
             {
                 { _imageColumn, ViewDockStyle.Left }
             };
@@ -60,7 +60,7 @@ namespace Krypton.Toolkit
             };
 
             // Use a docker with the item stack as the fill
-            ViewLayoutDocker stackDocker = new()
+            var stackDocker = new ViewLayoutDocker
             {
                 { ItemStack, ViewDockStyle.Fill }
             };
@@ -85,7 +85,7 @@ namespace Krypton.Toolkit
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            "ViewLayoutMenuItemsPile:" + Id;
+            $"ViewLayoutMenuItemsPile:{Id}";
 
         #endregion
 
@@ -102,7 +102,7 @@ namespace Krypton.Toolkit
         /// Discover the preferred size of the element.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override Size GetPreferredSize(ViewLayoutContext context)
+        public override Size GetPreferredSize([DisallowNull] ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 
@@ -130,7 +130,7 @@ namespace Krypton.Toolkit
         /// Perform a layout of the elements.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override void Layout(ViewLayoutContext context)
+        public override void Layout([DisallowNull] ViewLayoutContext context)
         {
             Debug.Assert(context != null);
             base.Layout(context);
@@ -204,7 +204,7 @@ namespace Krypton.Toolkit
         private void UpdateImageColumnWidth(IRenderer renderer)
         {
             // If there is an image column then we will have a entry for index 0
-            if (_columnToWidth.ContainsKey(0))
+            if (_columnToWidth.TryGetValue(0, out var imageColumnWidth))
             {
                 // Find the border padding that is applied to the content of the menu item
                 Padding borderPadding = renderer.RenderStandardBorder.GetBorderDisplayPadding(_paletteItemHighlight.Border,
@@ -212,7 +212,6 @@ namespace Krypton.Toolkit
                                                                                               VisualOrientation.Top);
 
                 // Add double the left edge to the right edge of the image background coumn
-                var imageColumnWidth = _columnToWidth[0];
                 imageColumnWidth += borderPadding.Left * 3;
 
                 // Add double the metric padding that occurs outside the item highlight

@@ -5,7 +5,9 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  
+ *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
  */
 #endregion
@@ -79,7 +81,7 @@ namespace Krypton.Ribbon
         /// Source control has lost the focus.
         /// </summary>
         /// <param name="c">Reference to the source control instance.</param>
-        public virtual void LostFocus(Control c)
+        public virtual void LostFocus([DisallowNull] Control c)
         {
             _hasFocus = false;
 
@@ -97,9 +99,9 @@ namespace Krypton.Ribbon
         /// <param name="e">A KeyEventArgs that contains the event data.</param>
         public void KeyDown(Control c, KeyEventArgs e)
         {
-            if (c is VisualPopupQATOverflow)
+            if (c is VisualPopupQATOverflow overflow)
             {
-                KeyDownPopupOverflow(c as VisualPopupQATOverflow, e);
+                KeyDownPopupOverflow(overflow, e);
             }
             else
             {
@@ -141,13 +143,12 @@ namespace Krypton.Ribbon
             OnClick(new MouseEventArgs(MouseButtons.Left, 1, 0, 0, 0));
 
             // We should have a visual popup for showing the qat overflow group
-            if (VisualPopupManager.Singleton.IsTracking 
-                && (VisualPopupManager.Singleton.CurrentPopup is VisualPopupQATOverflow popupOverflow)
+            if (VisualPopupManager.Singleton is { IsTracking: true, CurrentPopup: VisualPopupQATOverflow popupOverflow }
                 )
             {
                 // Grab the list of key tips from the popup group
                 Ribbon.KeyTipMode = KeyTipMode.PopupQATOverflow;
-                KeyTipInfoList keyTipList = new();
+                var keyTipList = new KeyTipInfoList();
                 keyTipList.AddRange(popupOverflow.ViewQATContents.GetQATKeyTips(null));
 
                 // Update key tips with those appropriate for this tab
@@ -183,7 +184,7 @@ namespace Krypton.Ribbon
         #region Implementation
         private void KeyDownRibbon(KeyEventArgs e)
         {
-            ViewBase newView = null;
+            ViewBase? newView = null;
 
             switch (e.KeyData)
             {
@@ -208,8 +209,7 @@ namespace Krypton.Ribbon
                     OnClick(new MouseEventArgs(MouseButtons.Left, 1, 0, 0, 0));
 
                     // Get access to the popup for the group
-                    if (!VisualPopupManager.Singleton.IsShowingCMS
-                        && (VisualPopupManager.Singleton.CurrentPopup is VisualPopupQATOverflow popupOverflow)
+                    if (VisualPopupManager.Singleton is { IsShowingCMS: false, CurrentPopup: VisualPopupQATOverflow popupOverflow }
                         )
                     {
                         popupOverflow.SetFirstFocusItem();
@@ -255,8 +255,7 @@ namespace Krypton.Ribbon
                     OnClick(new MouseEventArgs(MouseButtons.Left, 1, 0, 0, 0));
 
                     // Get access to the popup for the group
-                    if (!VisualPopupManager.Singleton.IsShowingCMS 
-                        && (VisualPopupManager.Singleton.CurrentPopup is VisualPopupQATOverflow popupOverflow)
+                    if (VisualPopupManager.Singleton is { IsShowingCMS: false, CurrentPopup: VisualPopupQATOverflow popupOverflow }
                         )
                     {
                         popupOverflow.SetFirstFocusItem();

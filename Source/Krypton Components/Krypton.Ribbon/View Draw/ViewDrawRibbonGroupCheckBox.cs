@@ -5,7 +5,9 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  
+ *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
  */
 #endregion
@@ -27,16 +29,16 @@ namespace Krypton.Ribbon
         private ViewDrawRibbonGroupCheckBoxImage _viewLargeImage;
         private ViewDrawRibbonGroupCheckBoxText _viewLargeText1;
         private ViewDrawRibbonGroupCheckBoxText _viewLargeText2;
-        private GroupCheckBoxController _viewLargeController;
-        private readonly EventHandler _finishDelegateLarge;
+        private GroupCheckBoxController? _viewLargeController;
+        private readonly EventHandler? _finishDelegateLarge;
         private ViewLayoutRibbonCheckBox _viewMediumSmall;
         private ViewLayoutRibbonRowCenter _viewMediumSmallCenter;
         private ViewDrawRibbonGroupCheckBoxImage _viewMediumSmallImage;
         private ViewDrawRibbonGroupCheckBoxText _viewMediumSmallText1;
         private ViewDrawRibbonGroupCheckBoxText _viewMediumSmallText2;
-        private GroupCheckBoxController _viewMediumSmallController;
-        private readonly EventHandler _finishDelegateMediumSmall;
-        private readonly NeedPaintHandler _needPaint;
+        private GroupCheckBoxController? _viewMediumSmallController;
+        private readonly EventHandler? _finishDelegateMediumSmall;
+        private readonly NeedPaintHandler? _needPaint;
         private GroupItemSize _currentSize;
         #endregion
 
@@ -47,9 +49,9 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Reference to owning ribbon control.</param>
         /// <param name="ribbonCheckBox">Reference to source check box definition.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public ViewDrawRibbonGroupCheckBox(KryptonRibbon ribbon,
-                                           KryptonRibbonGroupCheckBox ribbonCheckBox,
-                                           NeedPaintHandler needPaint)
+        public ViewDrawRibbonGroupCheckBox([DisallowNull] KryptonRibbon ribbon,
+                                           [DisallowNull] KryptonRibbonGroupCheckBox ribbonCheckBox,
+                                           [DisallowNull] NeedPaintHandler needPaint)
         {
             Debug.Assert(ribbon != null);
             Debug.Assert(ribbonCheckBox != null);
@@ -89,7 +91,7 @@ namespace Krypton.Ribbon
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            @"ViewDrawRibbonGroupCheckBox:" + Id;
+            $@"ViewDrawRibbonGroupCheckBox:{Id}";
 
         /// <summary>
         /// Clean up any resources being used.
@@ -99,14 +101,14 @@ namespace Krypton.Ribbon
         {
             if (disposing)
             {
-                if (GroupCheckBox != null)
+                if (GroupCheckBox != null!)
                 {
                     // Must unhook to prevent memory leaks
                     GroupCheckBox.PropertyChanged -= OnCheckBoxPropertyChanged;
 
                     // Remove association with definition
-                    GroupCheckBox.CheckBoxView = null;
-                    GroupCheckBox = null;
+                    GroupCheckBox.CheckBoxView = null!;
+                    GroupCheckBox = null!;
                 }
             }
 
@@ -127,10 +129,10 @@ namespace Krypton.Ribbon
         /// Gets the first focus item from the item.
         /// </summary>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase GetFirstFocusItem()
+        public ViewBase? GetFirstFocusItem()
         {
             // Only take focus if we are visible and enabled
-            if (GroupCheckBox.Visible && GroupCheckBox.Enabled)
+            if (GroupCheckBox is { Visible: true, Enabled: true })
             {
                 return _viewLarge == GroupCheckBox.CheckBoxView ? _viewLarge : _viewMediumSmall;
             }
@@ -146,10 +148,10 @@ namespace Krypton.Ribbon
         /// Gets the last focus item from the item.
         /// </summary>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase GetLastFocusItem()
+        public ViewBase? GetLastFocusItem()
         {
             // Only take focus if we are visible and enabled
-            if (GroupCheckBox.Visible && GroupCheckBox.Enabled)
+            if (GroupCheckBox is { Visible: true, Enabled: true })
             {
                 return _viewLarge == GroupCheckBox.CheckBoxView ? _viewLarge : _viewMediumSmall;
             }
@@ -167,7 +169,7 @@ namespace Krypton.Ribbon
         /// <param name="current">The view that is currently focused.</param>
         /// <param name="matched">Has the current focus item been matched yet.</param>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase GetNextFocusItem(ViewBase current, ref bool matched)
+        public ViewBase? GetNextFocusItem(ViewBase current, ref bool matched)
         {
             // Do we match the current item?
             matched = (current == _viewLarge) || (current == _viewMediumSmall);
@@ -182,7 +184,7 @@ namespace Krypton.Ribbon
         /// <param name="current">The view that is currently focused.</param>
         /// <param name="matched">Has the current focus item been matched yet.</param>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase GetPreviousFocusItem(ViewBase current, ref bool matched)
+        public ViewBase? GetPreviousFocusItem(ViewBase current, ref bool matched)
         {
             // Do we match the current item?
             matched = (current == _viewLarge) || (current == _viewMediumSmall);
@@ -204,8 +206,8 @@ namespace Krypton.Ribbon
                 // Get the screen location of the check box
                 Rectangle viewRect = _ribbon.KeyTipToScreen(this[0]);
 
-                Point screenPt = Point.Empty;
-                GroupCheckBoxController controller = null;
+                var screenPt = Point.Empty;
+                GroupCheckBoxController? controller = null;
 
                 // Determine the screen position of the key tip dependant on item location/size
                 switch (_currentSize)
@@ -232,18 +234,12 @@ namespace Krypton.Ribbon
         /// Override the group item size if possible.
         /// </summary>
         /// <param name="size">New size to use.</param>
-        public void SetGroupItemSize(GroupItemSize size)
-        {
-            UpdateItemSizeState(size);
-        }
+        public void SetGroupItemSize(GroupItemSize size) => UpdateItemSizeState(size);
 
         /// <summary>
         /// Reset the group item size to the item definition.
         /// </summary>
-        public void ResetGroupItemSize()
-        {
-            UpdateItemSizeState();
-        }
+        public void ResetGroupItemSize() => UpdateItemSizeState();
 
         /// <summary>
         /// Discover the preferred size of the element.
@@ -265,7 +261,7 @@ namespace Krypton.Ribbon
         /// Perform a layout of the elements.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override void Layout(ViewLayoutContext context)
+        public override void Layout([DisallowNull] ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 
@@ -287,10 +283,7 @@ namespace Krypton.Ribbon
         /// Raises the NeedPaint event.
         /// </summary>
         /// <param name="needLayout">Does the palette change require a layout.</param>
-        protected virtual void OnNeedPaint(bool needLayout)
-        {
-            OnNeedPaint(needLayout, Rectangle.Empty);
-        }
+        protected virtual void OnNeedPaint(bool needLayout) => OnNeedPaint(needLayout, Rectangle.Empty);
 
         /// <summary>
         /// Raises the NeedPaint event.
@@ -319,7 +312,7 @@ namespace Krypton.Ribbon
 
             // Add the large button at the top
             _viewLargeImage = new ViewDrawRibbonGroupCheckBoxImage(_ribbon, GroupCheckBox, true);
-            ViewLayoutRibbonCenterPadding largeImagePadding = new(_largeImagePadding)
+            var largeImagePadding = new ViewLayoutRibbonCenterPadding(_largeImagePadding)
             {
                 _viewLargeImage
             };
@@ -358,7 +351,7 @@ namespace Krypton.Ribbon
             _viewMediumSmallImage = new ViewDrawRibbonGroupCheckBoxImage(_ribbon, GroupCheckBox, false);
             _viewMediumSmallText1 = new ViewDrawRibbonGroupCheckBoxText(_ribbon, GroupCheckBox, true);
             _viewMediumSmallText2 = new ViewDrawRibbonGroupCheckBoxText(_ribbon, GroupCheckBox, false);
-            ViewLayoutRibbonCenterPadding imagePadding = new(_smallImagePadding)
+            var imagePadding = new ViewLayoutRibbonCenterPadding(_smallImagePadding)
             {
                 _viewMediumSmallImage
             };
@@ -387,7 +380,7 @@ namespace Krypton.Ribbon
                                                                      _viewMediumSmall, _viewMediumSmall.MouseController);
         }
 
-        private void DefineRootView(ViewBase view)
+        private void DefineRootView([DisallowNull] ViewBase view)
         {
             // Remove any existing view
             Clear();
@@ -432,10 +425,7 @@ namespace Krypton.Ribbon
             _viewMediumSmallImage.CheckState = newCheckState;
         }
 
-        private void UpdateItemSizeState()
-        {
-            UpdateItemSizeState(GroupCheckBox.ItemSizeCurrent);
-        }
+        private void UpdateItemSizeState() => UpdateItemSizeState(GroupCheckBox.ItemSizeCurrent);
 
         private void UpdateItemSizeState(GroupItemSize size)
         {
@@ -453,37 +443,28 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void OnLargeCheckBoxClick(object sender, EventArgs e)
-        {
-            GroupCheckBox.PerformClick(_finishDelegateLarge);
-        }
+        private void OnLargeCheckBoxClick(object sender, EventArgs e) => GroupCheckBox.PerformClick(_finishDelegateLarge);
 
-        private void OnMediumSmallCheckBoxClick(object sender, EventArgs e)
-        {
-            GroupCheckBox.PerformClick(_finishDelegateMediumSmall);
-        }
+        private void OnMediumSmallCheckBoxClick(object sender, EventArgs e) => GroupCheckBox.PerformClick(_finishDelegateMediumSmall);
 
-        private void OnContextClick(object sender, MouseEventArgs e)
-        {
-            GroupCheckBox.OnDesignTimeContextMenu(e);
-        }
+        private void OnContextClick(object sender, MouseEventArgs e) => GroupCheckBox.OnDesignTimeContextMenu(e);
 
         private void ActionFinishedLarge(object sender, EventArgs e)
         {
-            // Remove any popups that result from an action occuring
-            _ribbon?.Actionoccurred();
+            // Remove any popups that result from an action occurring
+            _ribbon.ActionOccurred();
 
             // Remove the fixed pressed appearance
-            _viewLargeController.RemoveFixed();
+            _viewLargeController?.RemoveFixed();
         }
 
         private void ActionFinishedMediumSmall(object sender, EventArgs e)
         {
-            // Remove any popups that result from an action occuring
-            _ribbon?.Actionoccurred();
+            // Remove any popups that result from an action occurring
+            _ribbon.ActionOccurred();
 
             // Remove the fixed pressed appearance
-            _viewMediumSmallController.RemoveFixed();
+            _viewMediumSmallController?.RemoveFixed();
         }
 
         private void OnCheckBoxPropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -493,7 +474,7 @@ namespace Krypton.Ribbon
 
             switch (e.PropertyName)
             {
-                case "Visible":
+                case nameof(Visible):
                     updateLayout = true;
                     break;
                 case "TextLine1":
@@ -507,11 +488,11 @@ namespace Krypton.Ribbon
                     _viewMediumSmallText2.MakeDirty();
                     break;
                 case "Checked":
-                case "CheckState":
+                case nameof(CheckState):
                     UpdateCheckState();
                     updatePaint = true;
                     break;
-                case "Enabled":
+                case nameof(Enabled):
                     UpdateEnabledState();
                     updatePaint = true;
                     break;
@@ -521,7 +502,7 @@ namespace Krypton.Ribbon
                     UpdateItemSizeState();
                     updateLayout = true;
                     break;
-                case "KryptonCommand":
+                case nameof(KryptonCommand):
                     _viewLargeText1.MakeDirty();
                     _viewLargeText2.MakeDirty();
                     _viewMediumSmallText1.MakeDirty();
@@ -566,7 +547,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="state"></param>
         /// <returns></returns>
-        public Image GetImage(PaletteState state) => null;
+        public Image? GetImage(PaletteState state) => null;
 
         /// <summary>
         /// Gets the image transparent color.

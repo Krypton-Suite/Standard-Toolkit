@@ -5,7 +5,9 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  
+ *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
  */
 #endregion
@@ -23,17 +25,14 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="heading">Heading of the gallery range instance.</param>
         /// <returns>Item at specified index.</returns>
-        public override KryptonGalleryRange this[string heading]
+        public override KryptonGalleryRange? this[string heading]
         {
             get
             {
                 // Search for a gallery range with the same heading as that requested.
-                foreach (KryptonGalleryRange range in this)
+                foreach (KryptonGalleryRange range in this.Where(range => range.Heading == heading))
                 {
-                    if (range.Heading == heading)
-                    {
-                        return range;
-                    }
+                    return range;
                 }
 
                 // Let base class perform standard processing

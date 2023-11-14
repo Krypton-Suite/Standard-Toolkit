@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -19,7 +19,7 @@ namespace Krypton.Navigator
     {
         #region Instance Fields
         private ViewBase _oldRoot;
-        private ViewletHeaderGroup _headerGroup;
+        private ViewletHeaderGroup? _headerGroup;
         #endregion
 
         #region Public
@@ -29,9 +29,9 @@ namespace Krypton.Navigator
         /// <param name="navigator">Reference to navigator instance.</param>
         /// <param name="manager">Reference to current manager.</param>
         /// <param name="redirector">Palette redirector.</param>
-        public override void Construct(KryptonNavigator navigator, 
-                                       ViewManager manager,
-                                       PaletteRedirect redirector)
+        public override void Construct([DisallowNull] KryptonNavigator navigator,
+                                       [DisallowNull] ViewManager manager,
+                                       [DisallowNull] PaletteRedirect redirector)
         {
             // Let base class perform common operations
             base.Construct(navigator, manager, redirector);
@@ -81,7 +81,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="element">Element to search against.</param>
         /// <returns>Reference to KryptonPage; otherwise null.</returns>
-        public override KryptonPage PageFromView(ViewBase element) =>
+        public override KryptonPage? PageFromView(ViewBase element) =>
             // There is no view for the page
             null;
 
@@ -90,7 +90,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="element">Element to search against.</param>
         /// <returns>Reference to ButtonSpec; otherwise null.</returns>
-        public override ButtonSpec ButtonSpecFromView(ViewBase element) =>
+        public override ButtonSpec? ButtonSpecFromView(ViewBase element) =>
             // Delegate lookup to the viewlet that has the button spec manager
             _headerGroup.ButtonSpecFromView(element);
 
@@ -122,7 +122,7 @@ namespace Krypton.Navigator
         /// Process a change in the visible state for a page.
         /// </summary>
         /// <param name="page">Page that has changed visible state.</param>
-        public override void PageVisibleStateChanged(KryptonPage page)
+        public override void PageVisibleStateChanged(KryptonPage? page)
         {
             // If is possible the header group has not been created yet
             // Ensure buttons are recreated to reflect different previous/next visibility
@@ -136,7 +136,7 @@ namespace Krypton.Navigator
         /// Process a change in the enabled state for a page.
         /// </summary>
         /// <param name="page">Page that has changed enabled state.</param>
-        public override void PageEnabledStateChanged(KryptonPage page)
+        public override void PageEnabledStateChanged(KryptonPage? page)
         {
             if (_headerGroup != null)
             {
@@ -161,7 +161,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="page">Page that has changed.</param>
         /// <param name="property">Name of property that has changed.</param>
-        public override void PageAppearanceChanged(KryptonPage page, string property)
+        public override void PageAppearanceChanged([DisallowNull] KryptonPage page, [DisallowNull] string property)
         {
             Debug.Assert(page != null);
             Debug.Assert(property != null);
@@ -193,7 +193,7 @@ namespace Krypton.Navigator
         public override void UpdateStatePalettes()
         {
             // Ask the header group to update its palettes
-            _headerGroup.UpdateStatePalettes();
+            _headerGroup?.UpdateStatePalettes();
 
             // Let base class do standard work
             base.UpdateStatePalettes();
@@ -205,7 +205,7 @@ namespace Krypton.Navigator
         /// <returns>Point in screen coordinates.</returns>
         public override Point GetContextShowPoint() =>
             // Ask the header group for screen point of context button
-            _headerGroup.GetContextShowPoint();
+            _headerGroup!.GetContextShowPoint();
 
         /// <summary>
         /// Is the provided over a part of the view that wants the mouse.
@@ -235,7 +235,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="action">Requested action.</param>
         /// <param name="page">Selected page at time of action request.</param>
-        public override void PerformNextAction(DirectionButtonAction action, KryptonPage page)
+        public override void PerformNextAction(DirectionButtonAction action, KryptonPage? page)
         {
             // Ask the header group to update the action
             action = _headerGroup.NextActionEnabled(action);
@@ -263,7 +263,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="action">Requested action.</param>
         /// <param name="page">Selected page at time of action request.</param>
-        public override void PerformPreviousAction(DirectionButtonAction action, KryptonPage page)
+        public override void PerformPreviousAction(DirectionButtonAction action, KryptonPage? page)
         {
             // Ask the header group to update the action
             action = _headerGroup.PreviousActionEnabled(action);
@@ -297,15 +297,19 @@ namespace Krypton.Navigator
                         if (control)
                         {
                             // Are we allowed to perform a Ctrl+Tab change in selection
-                            CtrlTabCancelEventArgs ce = new(!shift);
+                            var ce = new CtrlTabCancelEventArgs(!shift);
                             Navigator.OnCtrlTabStart(ce);
 
                             if (!ce.Cancel)
                             {
                                 if (!shift)
+                                {
                                     SelectNextPage(Navigator.SelectedPage, true, true);
+                                }
                                 else
+                                {
                                     SelectPreviousPage(Navigator.SelectedPage, true, true);
+                                }
                             }
                         }
                         return true;
@@ -344,10 +348,7 @@ namespace Krypton.Navigator
         #endregion
 
         #region Implementation
-        private void OnEnabledChanged(object sender, EventArgs e)
-        {
-            UpdateStatePalettes();
-        }
+        private void OnEnabledChanged(object sender, EventArgs e) => UpdateStatePalettes();
         #endregion
     }
 }

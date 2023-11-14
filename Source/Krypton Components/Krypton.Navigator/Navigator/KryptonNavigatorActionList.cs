@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -47,7 +47,7 @@ namespace Krypton.Navigator
             _serviceDesignerAction = (DesignerActionUIService)GetService(typeof(DesignerActionUIService));
         }
         #endregion
-        
+
         #region Public
         /// <summary>
         /// Gets and sets the navigator mode.
@@ -551,14 +551,14 @@ namespace Krypton.Navigator
         /// <returns>A DesignerActionItem array that contains the items in this list.</returns>
         public override DesignerActionItemCollection GetSortedActionItems()
         {
-            DesignerActionItemCollection actions = new();
+            var actions = new DesignerActionItemCollection();
 
             // This can be null when deleting a control instance at design time
             if (_navigator != null)
             {
                 // Add the list of button specific actions
-                actions.Add(new DesignerActionPropertyItem("NavigatorMode", "Mode", "Appearance", "Navigator mode"));
-                actions.Add(new DesignerActionPropertyItem("PageBackStyle", "Page Style", "Appearance", "Page background style."));
+                actions.Add(new DesignerActionPropertyItem(nameof(NavigatorMode), "Mode", nameof(Appearance), "Navigator mode"));
+                actions.Add(new DesignerActionPropertyItem(nameof(PageBackStyle), "Page Style", nameof(Appearance), "Page background style."));
 
                 // Add the categories appropriate to the mode
                 switch (_navigator.NavigatorMode)
@@ -647,7 +647,7 @@ namespace Krypton.Navigator
 
                 AddConstantActions(actions);
             }
-            
+
             return actions;
         }
 
@@ -686,52 +686,52 @@ namespace Krypton.Navigator
                                    bool ignore)
         {
             actions.Add(new DesignerActionHeaderItem("Bar"));
-            
+
             if (includeBarOrientation)
             {
-                actions.Add(new DesignerActionPropertyItem("BarOrientation", "Bar Orientation", "Bar", "Orientation of the bar."));
+                actions.Add(new DesignerActionPropertyItem(nameof(BarOrientation), "Bar Orientation", "Bar", "Orientation of the bar."));
             }
 
-            actions.Add(new DesignerActionPropertyItem("ItemOrientationBar", "Item Orientation", "Bar", "Orientation of the bar items."));
-            actions.Add(new DesignerActionPropertyItem("ItemAlignment", "Item Alignment", "Bar", "Alignment of items on the bar."));
-            actions.Add(new DesignerActionPropertyItem("ItemSizing", "Item Sizing", "Bar", "Sizing algorithm for bar items."));
+            actions.Add(new DesignerActionPropertyItem(nameof(ItemOrientationBar), "Item Orientation", "Bar", "Orientation of the bar items."));
+            actions.Add(new DesignerActionPropertyItem(nameof(ItemAlignment), "Item Alignment", "Bar", "Alignment of items on the bar."));
+            actions.Add(new DesignerActionPropertyItem(nameof(ItemSizing), "Item Sizing", "Bar", "Sizing algorithm for bar items."));
 
             if (!ignore)
             {
                 if (checkButton)
                 {
-                    actions.Add(new DesignerActionPropertyItem("CheckButtonStyleBar", "Item Style", "Bar", "Style of items on the bar."));
+                    actions.Add(new DesignerActionPropertyItem(nameof(CheckButtonStyleBar), "Item Style", "Bar", "Style of items on the bar."));
                 }
                 else
                 {
-                    actions.Add(new DesignerActionPropertyItem("TabBorderStyle", "Tab Border Style", "Bar", "Border style for tabs on the bar."));
-                    actions.Add(new DesignerActionPropertyItem("TabStyle", "Tab Style", "Bar", "Style for drawing tab colors and fonts."));
+                    actions.Add(new DesignerActionPropertyItem(nameof(TabBorderStyle), "Tab Border Style", "Bar", "Border style for tabs on the bar."));
+                    actions.Add(new DesignerActionPropertyItem(nameof(TabStyle), "Tab Style", "Bar", "Style for drawing tab colors and fonts."));
                 }
             }
         }
 
         private void AddStackActions(DesignerActionItemCollection actions)
         {
-            actions.Add(new DesignerActionHeaderItem("Stack"));
-            actions.Add(new DesignerActionPropertyItem("StackOrientation", "Stack Orientation", "Stack", "Orientation of the stack."));
-            actions.Add(new DesignerActionPropertyItem("StackAlignment", "Stack Alignment", "Stack", "Alignment of items in the stack."));
-            actions.Add(new DesignerActionPropertyItem("ItemOrientationStack", "Item Orientation", "Stack", "Orientation of the stack items."));
-            actions.Add(new DesignerActionPropertyItem("CheckButtonStyleStack", "Item Style", "Stack", "Style of items in the stack."));
+            actions.Add(new DesignerActionHeaderItem(nameof(Stack)));
+            actions.Add(new DesignerActionPropertyItem(nameof(StackOrientation), "Stack Orientation", nameof(Stack), "Orientation of the stack."));
+            actions.Add(new DesignerActionPropertyItem(nameof(StackAlignment), "Stack Alignment", nameof(Stack), "Alignment of items in the stack."));
+            actions.Add(new DesignerActionPropertyItem(nameof(ItemOrientationStack), "Item Orientation", nameof(Stack), "Orientation of the stack items."));
+            actions.Add(new DesignerActionPropertyItem(nameof(CheckButtonStyleStack), "Item Style", nameof(Stack), "Style of items in the stack."));
         }
 
         private void AddButtonsActions(DesignerActionItemCollection actions)
         {
-            actions.Add(new DesignerActionHeaderItem("Button"));
-            actions.Add(new DesignerActionPropertyItem("ButtonDisplayLogic", "Display Logic", "Button", "Logic used to determine button display."));
-            actions.Add(new DesignerActionPropertyItem("CloseButtonDisplay", "Close Display", "Button", "How should the close button be Displayed."));
-            actions.Add(new DesignerActionPropertyItem("CloseButtonAction", "Close Action", "Button", "Action to take when close button pressed."));
+            actions.Add(new DesignerActionHeaderItem(nameof(Button)));
+            actions.Add(new DesignerActionPropertyItem(nameof(ButtonDisplayLogic), "Display Logic", nameof(Button), "Logic used to determine button display."));
+            actions.Add(new DesignerActionPropertyItem(nameof(CloseButtonDisplay), "Close Display", nameof(Button), "How should the close button be Displayed."));
+            actions.Add(new DesignerActionPropertyItem(nameof(CloseButtonAction), "Close Action", nameof(Button), "Action to take when close button pressed."));
         }
 
         private void AddGroupActions(DesignerActionItemCollection actions)
         {
             actions.Add(new DesignerActionHeaderItem("Group"));
-            actions.Add(new DesignerActionPropertyItem("GroupBackStyle", "Back Style", "Group", "Group background style"));
-            actions.Add(new DesignerActionPropertyItem("GroupBorderStyle", "Border Style", "Group", "Group border style"));
+            actions.Add(new DesignerActionPropertyItem(nameof(GroupBackStyle), "Back Style", "Group", "Group background style"));
+            actions.Add(new DesignerActionPropertyItem(nameof(GroupBorderStyle), "Border Style", "Group", "Group border style"));
         }
 
         private void AddHeadersActions(DesignerActionItemCollection actions,
@@ -758,63 +758,63 @@ namespace Krypton.Navigator
 
             if (includeHeaderBar)
             {
-                actions.Add(new DesignerActionPropertyItem("BarHeaderStyle", "Bar Style", "Header", "Bar header style."));
-                actions.Add(new DesignerActionPropertyItem("BarHeaderPosition", "Bar Position", "Header", "Bar header position."));
+                actions.Add(new DesignerActionPropertyItem(nameof(BarHeaderStyle), "Bar Style", "Header", "Bar header style."));
+                actions.Add(new DesignerActionPropertyItem(nameof(BarHeaderPosition), "Bar Position", "Header", "Bar header position."));
                 actions.Add(new KryptonDesignerActionItem(_headerBarVisible, "Header"));
             }
 
             if (includeHeaderPrimary)
             {
-                actions.Add(new DesignerActionPropertyItem("PrimaryHeaderStyle", "Primary Style", "Header", "Primary header style."));
-                actions.Add(new DesignerActionPropertyItem("PrimaryHeaderPosition", "Primary Position", "Header", "Primary header position."));
+                actions.Add(new DesignerActionPropertyItem(nameof(PrimaryHeaderStyle), "Primary Style", "Header", "Primary header style."));
+                actions.Add(new DesignerActionPropertyItem(nameof(PrimaryHeaderPosition), "Primary Position", "Header", "Primary header position."));
                 actions.Add(new KryptonDesignerActionItem(_headerPrimaryVisible, "Header"));
             }
 
             if (includeHeaderSecondary)
             {
-                actions.Add(new DesignerActionPropertyItem("SecondaryHeaderStyle", "Secondary Style", "Header", "Secondary header style."));
-                actions.Add(new DesignerActionPropertyItem("SecondaryHeaderPosition", "Secondary Position", "Header", "Secondary header position."));
+                actions.Add(new DesignerActionPropertyItem(nameof(SecondaryHeaderStyle), "Secondary Style", "Header", "Secondary header style."));
+                actions.Add(new DesignerActionPropertyItem(nameof(SecondaryHeaderPosition), "Secondary Position", "Header", "Secondary header position."));
                 actions.Add(new KryptonDesignerActionItem(_headerSecondaryVisible, "Header"));
             }
         }
 
         private void AddPanelActions(DesignerActionItemCollection actions)
         {
-            actions.Add(new DesignerActionHeaderItem("Panel"));
-            actions.Add(new DesignerActionPropertyItem("PanelBackStyle", "Back Style", "Panel", "Panel background style"));
+            actions.Add(new DesignerActionHeaderItem(nameof(Panel)));
+            actions.Add(new DesignerActionPropertyItem(nameof(PanelBackStyle), "Back Style", nameof(Panel), "Panel background style"));
         }
 
         private void AddOutlookActions(DesignerActionItemCollection actions)
         {
             actions.Add(new DesignerActionHeaderItem("Outlook"));
-            actions.Add(new DesignerActionPropertyItem("OutlookOrientation", "Outlook Orientation", "Outlook", "Orientation of the view."));
-            actions.Add(new DesignerActionPropertyItem("ItemOrientationOutlook", "Item Orientation", "Outlook", "Orientation of the outlook items."));
-            actions.Add(new DesignerActionPropertyItem("CheckButtonStyleOutlook", "Item Style", "Outlook", "Style of items in the outlook stack."));
-            actions.Add(new DesignerActionPropertyItem("SecondaryHeaderOutlookVisible", "Secondary Header Visible", "Outlook", "How to decide if the secondary header is visible."));
+            actions.Add(new DesignerActionPropertyItem(nameof(OutlookOrientation), "Outlook Orientation", "Outlook", "Orientation of the view."));
+            actions.Add(new DesignerActionPropertyItem(nameof(ItemOrientationOutlook), "Item Orientation", "Outlook", "Orientation of the outlook items."));
+            actions.Add(new DesignerActionPropertyItem(nameof(CheckButtonStyleOutlook), "Item Style", "Outlook", "Style of items in the outlook stack."));
+            actions.Add(new DesignerActionPropertyItem(nameof(SecondaryHeaderOutlookVisible), "Secondary Header Visible", "Outlook", "How to decide if the secondary header is visible."));
         }
 
         private void AddConstantActions(DesignerActionItemCollection actions)
         {
             actions.Add(new DesignerActionHeaderItem("Actions"));
-            actions.Add(new DesignerActionMethodItem(this, "AddPage", "Add Page", "Actions"));
+            actions.Add(new DesignerActionMethodItem(this, nameof(AddPage), "Add Page", "Actions"));
 
             // Can only remove a page if one if selected
             if (_navigator.SelectedPage != null)
             {
-                actions.Add(new DesignerActionMethodItem(this, "RemovePage", "Remove Page", "Actions"));
+                actions.Add(new DesignerActionMethodItem(this, nameof(RemovePage), "Remove Page", "Actions"));
             }
 
             // Are there any pages to be removed
             if (_navigator.Pages.Count > 0)
             {
-                actions.Add(new DesignerActionMethodItem(this, "ClearPages", "Clear Pages", "Actions"));
+                actions.Add(new DesignerActionMethodItem(this, nameof(ClearPages), "Clear Pages", "Actions"));
             }
         }
 
         private void OnVisibleClick(object sender, EventArgs e)
         {
             // Cast to the correct type
-            DesignerVerb verb = sender as DesignerVerb;
+            var verb = sender as DesignerVerb;
 
             // Find out which verb has been used
             var headerBar = (verb == _headerBarVisible);

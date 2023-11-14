@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -42,7 +42,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Occurs when animation has moved another step.
         /// </summary>
-        public event EventHandler AnimateStep;
+        public event EventHandler? AnimateStep;
         #endregion
 
         #region Identity
@@ -108,7 +108,7 @@ namespace Krypton.Toolkit
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            "ViewLayoutViewport:" + Id;
+            $"ViewLayoutViewport:{Id}";
 
         #endregion
 
@@ -116,16 +116,13 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Updates the metrics source and metric to use.
         /// </summary>
-        /// <param name="paletteMetric">Source for aquiring metrics.</param>
-        public void SetMetrics(IPaletteMetric paletteMetric)
-        {
-            _paletteMetrics = paletteMetric;
-        }
+        /// <param name="paletteMetric">Source for acquiring metrics.</param>
+        public void SetMetrics(IPaletteMetric paletteMetric) => _paletteMetrics = paletteMetric;
 
         /// <summary>
         /// Updates the metrics source and metric to use.
         /// </summary>
-        /// <param name="paletteMetric">Source for aquiring metrics.</param>
+        /// <param name="paletteMetric">Source for acquiring metrics.</param>
         /// <param name="metricPadding">Actual padding metric to use.</param>
         /// <param name="metricOvers">Actual overs metric to use.</param>
         public void SetMetrics(IPaletteMetric paletteMetric,
@@ -241,8 +238,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the total extent of the scrolling view.
         /// </summary>
-        public Size ScrollExtent => new(Math.Abs(_extent.Width),
-            Math.Abs(_extent.Height));
+        public Size ScrollExtent => new Size(Math.Abs(_extent.Width), Math.Abs(_extent.Height));
 
         #endregion
 
@@ -250,8 +246,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets a scrolling offset within the viewport.
         /// </summary>
-        public Point ScrollOffset => new(Math.Abs(_offset.X),
-            Math.Abs(_offset.Y));
+        public Point ScrollOffset => new Point(Math.Abs(_offset.X), Math.Abs(_offset.Y));
 
         #endregion
 
@@ -468,7 +463,7 @@ namespace Krypton.Toolkit
         /// Perform a layout of the elements.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override void Layout(ViewLayoutContext context)
+        public override void Layout([DisallowNull] ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 
@@ -544,7 +539,7 @@ namespace Krypton.Toolkit
                 childOffsetY = CalculateAlignedOffset(AlignmentRTL, positionRectangle.Y, positionRectangle.Height, _offset.Y, _extent.Height, _limit.Y);
             }
 
-            Point childOffset = new(childOffsetX, childOffsetY);
+            Point childOffset = new Point(childOffsetX, childOffsetY);
 
             // Ask each child to layout in turn
             foreach (ViewBase child in this)
@@ -607,7 +602,7 @@ namespace Krypton.Toolkit
             }
 
             // New clipping region is at most our own client size
-            using Region combineRegion = new(clipRectangle);
+            using Region combineRegion = new Region(clipRectangle);
             // Remember the current clipping region
             Region clipRegion = context.Graphics.Clip.Clone();
 
@@ -957,7 +952,7 @@ namespace Krypton.Toolkit
             var distanceX = (_animationOffset.X - _offset.X) / 2;
             var distanceY = (_animationOffset.Y - _offset.Y) / 2;
 
-            // Enfore a minimum distance to move towards destination in order
+            // Enforce a minimum distance to move towards destination in order
             // to prevent small moves at the end of the animation duration
             if (_animationOffset.X < _offset.X)
             {
@@ -989,7 +984,7 @@ namespace Krypton.Toolkit
                 _animationTimer.Stop();
             }
 
-            // Enfore limits against the offset
+            // Enforce limits against the offset
             _offset.X = Math.Min(Math.Max(_offset.X, _limit.X), 0);
             _offset.Y = Math.Min(Math.Max(_offset.Y, _limit.Y), 0);
 

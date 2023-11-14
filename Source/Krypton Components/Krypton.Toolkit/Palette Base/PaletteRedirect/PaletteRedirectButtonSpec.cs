@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -27,7 +27,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="target">Initial palette target for redirection.</param>
         /// <param name="inherit">Redirection button spec requests.</param>
-        public PaletteRedirectButtonSpec(IPalette target, IPaletteButtonSpec inherit)
+        public PaletteRedirectButtonSpec(PaletteBase? target, IPaletteButtonSpec inherit)
             : base(target) =>
             _inherit = inherit;
 
@@ -40,7 +40,7 @@ namespace Krypton.Toolkit
         /// <param name="style">Style of button spec.</param>
         /// <param name="state">State for which image is required.</param>
         /// <returns>Image value.</returns>
-        public override Image GetButtonSpecImage(PaletteButtonSpecStyle style,
+        public override Image? GetButtonSpecImage(PaletteButtonSpecStyle style,
                                                  PaletteState state) =>
             _inherit.GetButtonSpecImage(style, state);
 
@@ -49,14 +49,14 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="style">Style of button spec.</param>
         /// <returns>String value.</returns>
-        public override string GetButtonSpecShortText(PaletteButtonSpecStyle style) => _inherit.GetButtonSpecShortText(style);
+        public override string? GetButtonSpecShortText(PaletteButtonSpecStyle style) => _inherit.GetButtonSpecShortText(style);
 
         /// <summary>
         /// Gets the long text to display for the button.
         /// </summary>
         /// <param name="style">Style of button spec.</param>
         /// <returns>String value.</returns>
-        public override string GetButtonSpecLongText(PaletteButtonSpecStyle style) => _inherit.GetButtonSpecLongText(style);
+        public override string? GetButtonSpecLongText(PaletteButtonSpecStyle style) => _inherit.GetButtonSpecLongText(style);
 
         /// <summary>
         /// Gets the color to remap from the image to the container foreground.

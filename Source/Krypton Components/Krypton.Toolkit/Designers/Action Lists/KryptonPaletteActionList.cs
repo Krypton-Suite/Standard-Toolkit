@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -15,7 +15,7 @@ namespace Krypton.Toolkit
     internal class KryptonPaletteActionList : DesignerActionList
     {
         #region Instance Fields
-        private readonly KryptonPalette _palette;
+        private readonly KryptonCustomPaletteBase? _palette;
         private readonly IComponentChangeService _service;
         #endregion
 
@@ -28,7 +28,7 @@ namespace Krypton.Toolkit
             : base(owner.Component)
         {
             // Remember the panel instance
-            _palette = owner.Component as KryptonPalette;
+            _palette = owner.Component as KryptonCustomPaletteBase;
 
             // Cache service used to notify when a property has changed
             _service = (IComponentChangeService)GetService(typeof(IComponentChangeService));
@@ -43,7 +43,7 @@ namespace Krypton.Toolkit
         public override DesignerActionItemCollection GetSortedActionItems()
         {
             // Create a new collection for holding the single item we want to create
-            DesignerActionItemCollection actions = new();
+            var actions = new DesignerActionItemCollection();
 
             // This can be null when deleting a component instance at design time
             if (_palette != null)
@@ -53,6 +53,9 @@ namespace Krypton.Toolkit
                 actions.Add(new KryptonDesignerActionItem(new DesignerVerb(@"Populate from Base", OnPopulateClick), "Actions"));
                 actions.Add(new KryptonDesignerActionItem(new DesignerVerb(@"Import from Xml file...", OnImportClick), "Actions"));
                 actions.Add(new KryptonDesignerActionItem(new DesignerVerb(@"Export to Xml file...", OnExportClick), "Actions"));
+                actions.Add(new KryptonDesignerActionItem(new DesignerVerb(@"Upgrade Palette", OnUpgradePalette), "Actions"));
+                // TODO: Uncomment when binary serialisation is implemented
+                //actions.Add(new KryptonDesignerActionItem(new DesignerVerb(@"Export theme to binary", OnExportToBinaryClick), "Actions"));
             }
 
             return actions;
@@ -64,10 +67,10 @@ namespace Krypton.Toolkit
         {
             if (_palette != null)
             {
-                if (MessageBox.Show("Are you sure you want to reset the palette?",
-                                    "Palette Reset",
-                                    MessageBoxButtons.YesNo,
-                                    MessageBoxIcon.Warning) == DialogResult.Yes)
+                if (KryptonMessageBox.Show(@"Are you sure you want to reset the palette?",
+                                    @"Palette Reset",
+                                    KryptonMessageBoxButtons.YesNo,
+                                    KryptonMessageBoxIcon.Warning) == DialogResult.Yes)
                 {
                     _palette.ResetToDefaults(false);
                     _service.OnComponentChanged(_palette, null, null, null);
@@ -79,10 +82,10 @@ namespace Krypton.Toolkit
         {
             if (_palette != null)
             {
-                if (MessageBox.Show("Are you sure you want to populate from the base?",
-                                    "Populate From Base",
-                                    MessageBoxButtons.YesNo,
-                                    MessageBoxIcon.Warning) == DialogResult.Yes)
+                if (KryptonMessageBox.Show(@"Are you sure you want to populate from the base?",
+                                    @"Populate From Base",
+                                    KryptonMessageBoxButtons.YesNo,
+                                    KryptonMessageBoxIcon.Warning) == DialogResult.Yes)
                 {
                     _palette.PopulateFromBase(false);
                     _service.OnComponentChanged(_palette, null, null, null);
@@ -100,6 +103,37 @@ namespace Krypton.Toolkit
         }
 
         private void OnExportClick(object sender, EventArgs e) => _palette?.Export();
+
+        private void OnUpgradePalette(object sender, EventArgs e)
+        {
+            try
+            {
+                using var kofd = new KryptonOpenFileDialog
+                {
+                    CheckFileExists = true,
+                    CheckPathExists = true,
+                    DefaultExt = @"xml",
+                    Filter = @"Palette files (*.xml)|*.xml|All files (*.*)|(*.*)",
+                    Title = @"Load Custom Palette"
+                };
+
+                string paletteFileName = (kofd.ShowDialog() == DialogResult.OK)
+                    ? kofd.FileName
+                    : string.Empty;
+                if (string.IsNullOrWhiteSpace(paletteFileName))
+                {
+                    return;
+                }
+
+                _palette.ImportWithUpgrade(File.OpenRead(paletteFileName));
+            }
+            catch (Exception exc)
+            {
+                ExceptionHandler.CaptureException(exc);
+            }
+        }
+
+        private void OnExportToBinaryClick(object sender, EventArgs e) => DebugTools.NotImplemented(@"OnExportToBinaryClick", @"KryptonPaletteActionList", 105);
 
         #endregion
     }

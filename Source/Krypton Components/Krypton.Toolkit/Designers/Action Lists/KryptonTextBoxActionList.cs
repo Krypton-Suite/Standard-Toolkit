@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -15,7 +15,7 @@ namespace Krypton.Toolkit
     internal class KryptonTextBoxActionList : DesignerActionList
     {
         #region Instance Fields
-        private readonly KryptonTextBox _textBox;
+        private readonly KryptonTextBox? _textBox;
         private readonly IComponentChangeService _service;
         #endregion
 
@@ -38,7 +38,7 @@ namespace Krypton.Toolkit
         #region Public
         /// <summary>Gets or sets the Krypton Context Menu.</summary>
         /// <value>The Krypton Context Menu.</value>
-        public KryptonContextMenu KryptonContextMenu
+        public KryptonContextMenu? KryptonContextMenu
         {
             get => _textBox.KryptonContextMenu;
 
@@ -46,7 +46,7 @@ namespace Krypton.Toolkit
             {
                 if (_textBox.KryptonContextMenu != value)
                 {
-                    _service.OnComponentChanged(_textBox, null, _textBox.KryptonContextMenu, value);
+                    _service.OnComponentChanged(_textBox, null, _textBox?.KryptonContextMenu, value);
 
                     _textBox.KryptonContextMenu = value;
                 }
@@ -64,7 +64,7 @@ namespace Krypton.Toolkit
             {
                 if (_textBox.PaletteMode != value)
                 {
-                    _service.OnComponentChanged(_textBox, null, _textBox.PaletteMode, value);
+                    _service.OnComponentChanged(_textBox, null, _textBox?.PaletteMode, value);
                     _textBox.PaletteMode = value;
                 }
             }
@@ -138,27 +138,9 @@ namespace Krypton.Toolkit
             }
         }
 
-        /// <summary>Gets or sets the hint.</summary>
-        /// <value>The hint.</value>
-        [Obsolete("Deprecated - Use CueHint.CueHintText")]
-        public string Hint
-        {
-            get => _textBox.CueHint.CueHintText;
-
-            set
-            {
-                if (_textBox.CueHint.CueHintText != value)
-                {
-                    _service.OnComponentChanged(_textBox, null, _textBox.CueHint.CueHintText, value);
-
-                    _textBox.CueHint.CueHintText = value;
-                }
-            }
-        }
-
         // <summary>Gets or sets the text box font.</summary>
         /// <value>The text box font.</value>
-        public Font Font
+        public Font? Font
         {
             get => _textBox.StateCommon.Content.Font;
 
@@ -200,24 +182,23 @@ namespace Krypton.Toolkit
         public override DesignerActionItemCollection GetSortedActionItems()
         {
             // Create a new collection for holding the single item we want to create
-            DesignerActionItemCollection actions = new();
+            var actions = new DesignerActionItemCollection();
 
             // This can be null when deleting a control instance at design time
             if (_textBox != null)
             {
                 // Add the list of label specific actions
-                actions.Add(new DesignerActionHeaderItem(@"Appearance"));
-                actions.Add(new DesignerActionPropertyItem(@"KryptonContextMenu", @"Krypton Context Menu", @"Appearance", @"The Krypton Context Menu for the control."));
-                actions.Add(new DesignerActionPropertyItem(@"InputControlStyle", @"Style", @"Appearance", @"TextBox display style."));
-                actions.Add(new DesignerActionPropertyItem(@"Font", @"Font", @"Appearance", @"Modifies the font of the control."));
-                actions.Add(new DesignerActionPropertyItem(@"StateCommonCornerRoundingRadius", @"State Common Corner Rounding Radius", @"Appearance", @"The corner rounding radius of the control."));
-                actions.Add(new DesignerActionHeaderItem(@"TextBox"));
-                actions.Add(new DesignerActionPropertyItem(@"Multiline", @"Multiline", @"TextBox", @"Should text span multiple lines."));
-                actions.Add(new DesignerActionPropertyItem(@"WordWrap", @"WordWrap", @"TextBox", @"Should words be wrapped over multiple lines."));
-                actions.Add(new DesignerActionPropertyItem(@"UseSystemPasswordChar", @"UseSystemPasswordChar", @"TextBox", @"Should characters be Displayed in password characters."));
-                actions.Add(new DesignerActionPropertyItem(@"Hint", @"Hint", @"TextBox", @"Sets the hint string for the textbox."));
+                actions.Add(new DesignerActionHeaderItem(nameof(Appearance)));
+                actions.Add(new DesignerActionPropertyItem(nameof(KryptonContextMenu), @"Krypton Context Menu", nameof(Appearance), @"The Krypton Context Menu for the control."));
+                actions.Add(new DesignerActionPropertyItem(nameof(InputControlStyle), @"Style", nameof(Appearance), @"TextBox display style."));
+                actions.Add(new DesignerActionPropertyItem(nameof(Font), nameof(Font), nameof(Appearance), @"Modifies the font of the control."));
+                actions.Add(new DesignerActionPropertyItem(nameof(StateCommonCornerRoundingRadius), @"State Common Corner Rounding Radius", nameof(Appearance), @"The corner rounding radius of the control."));
+                actions.Add(new DesignerActionHeaderItem(nameof(TextBox)));
+                actions.Add(new DesignerActionPropertyItem(nameof(Multiline), nameof(Multiline), nameof(TextBox), @"Should text span multiple lines."));
+                actions.Add(new DesignerActionPropertyItem(nameof(WordWrap), nameof(WordWrap), nameof(TextBox), @"Should words be wrapped over multiple lines."));
+                actions.Add(new DesignerActionPropertyItem(nameof(UseSystemPasswordChar), nameof(UseSystemPasswordChar), nameof(TextBox), @"Should characters be Displayed in password characters."));
                 actions.Add(new DesignerActionHeaderItem(@"Visuals"));
-                actions.Add(new DesignerActionPropertyItem(@"PaletteMode", @"Palette", @"Visuals", @"Palette applied to drawing"));
+                actions.Add(new DesignerActionPropertyItem(nameof(PaletteMode), @"Palette", @"Visuals", @"Palette applied to drawing"));
             }
 
             return actions;

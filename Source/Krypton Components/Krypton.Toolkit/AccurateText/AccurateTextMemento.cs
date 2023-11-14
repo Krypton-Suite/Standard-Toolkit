@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -19,7 +19,7 @@ namespace Krypton.Toolkit
                                        IDisposable
     {
         #region Static Fields
-        private static AccurateTextMemento _empty;
+        private static AccurateTextMemento? _empty;
         #endregion
 
         #region Instance Fields
@@ -37,10 +37,10 @@ namespace Krypton.Toolkit
         /// <param name="hint">Drawing hint.</param>
         /// <param name="disposeFont">Should the font be disposed.</param>
         internal AccurateTextMemento(string text,
-                                     Font font,
+                                     [DisallowNull] Font font,
                                      SizeF sizeF,
                                      StringFormat format,
-                                     TextRenderingHint hint,
+                                     TextRenderingHint hint, // TODO: What was this supposed to be used for ?
                                      bool disposeFont)
         {
             Text = text;
@@ -55,10 +55,9 @@ namespace Krypton.Toolkit
         /// </summary>
         public void Dispose()
         {
-            if (_disposeFont && (Font != null))
+            if (_disposeFont)
             {
                 Font.Dispose();
-                Font = null;
             }
             GC.SuppressFinalize(this);
         }
@@ -73,6 +72,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the drawing font.
         /// </summary>
+        [DisallowNull]
         public Font Font { get; set; }
 
         /// <summary>
@@ -100,7 +100,7 @@ namespace Krypton.Toolkit
         /// Only create the single instance when first requested
         /// </remarks>
         internal static AccurateTextMemento Empty => _empty ??= new AccurateTextMemento(string.Empty,
-            null,
+            SystemFonts.DefaultFont,
             Size.Empty,
             StringFormat.GenericDefault,
             TextRenderingHint.SystemDefault,

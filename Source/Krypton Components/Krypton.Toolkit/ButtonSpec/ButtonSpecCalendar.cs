@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -65,28 +65,28 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="palette">Palette to use for inheriting values.</param>
         /// <returns>Button visibility.</returns>
-        public override bool GetVisible(IPalette palette) => Visible;
+        public override bool GetVisible(PaletteBase? palette) => Visible;
 
         /// <summary>
         /// Gets the button enabled state.
         /// </summary>
         /// <param name="palette">Palette to use for inheriting values.</param>
         /// <returns>Button enabled state.</returns>
-        public override ButtonEnabled GetEnabled(IPalette palette) => Enabled ? ButtonEnabled.Container : ButtonEnabled.False;
+        public override ButtonEnabled GetEnabled(PaletteBase? palette) => Enabled ? ButtonEnabled.Container : ButtonEnabled.False;
 
         /// <summary>
         /// Gets the button checked state.
         /// </summary>
         /// <param name="palette">Palette to use for inheriting values.</param>
         /// <returns>Button checked state.</returns>
-        public override ButtonCheckState GetChecked(IPalette palette) => ButtonCheckState.Unchecked;
+        public override ButtonCheckState GetChecked(PaletteBase? palette) => ButtonCheckState.Unchecked;
 
         /// <summary>
         /// Gets the button edge to position against.
         /// </summary>
         /// <param name="palette">Palette to use for inheriting values.</param>
         /// <returns>Edge position.</returns>
-        public override RelativeEdgeAlign GetEdge(IPalette palette) => _edge;
+        public override RelativeEdgeAlign GetEdge(PaletteBase? palette) => _edge;
 
         #endregion
     }

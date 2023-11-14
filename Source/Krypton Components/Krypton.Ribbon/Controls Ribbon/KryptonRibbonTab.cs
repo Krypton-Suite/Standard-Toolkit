@@ -5,8 +5,8 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved.
- *
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  
  */
 #endregion
 
@@ -17,19 +17,19 @@ namespace Krypton.Ribbon
     /// </summary>
     [ToolboxItem(false)]
     [ToolboxBitmap(typeof(KryptonRibbonTab), "ToolboxBitmaps.KryptonRibbonTab.bmp")]
-    [Designer("Krypton.Ribbon.KryptonRibbonTabDesigner, Krypton.Ribbon")]
-    [DefaultProperty("Text")]
+    [Designer(typeof(KryptonRibbonTabDesigner))]
+    [DefaultProperty(nameof(Text))]
     [DesignerCategory(@"code")]
     [DesignTimeVisible(false)]
     public class KryptonRibbonTab : Component
     {
         #region Instance Fields
-        private object _tag;
+        private object? _tag;
         private string _text;
         private string _keyTip;
         private string _contextName;
         private bool _visible;
-        private KryptonRibbon _ribbon;
+        private KryptonRibbon? _ribbon;
 
         #endregion
 
@@ -39,21 +39,21 @@ namespace Krypton.Ribbon
         /// </summary>
         [Category(@"Ribbon")]
         [Description(@"Occurs after the value of a property has changed.")]
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         /// <summary>
         /// Occurs when the design time wants to add a group.
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        public event EventHandler DesignTimeAddGroup;
+        public event EventHandler? DesignTimeAddGroup;
 
         /// <summary>
         /// Occurs when the design time context menu is requested.
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        public event MouseEventHandler DesignTimeContextMenu;
+        public event MouseEventHandler? DesignTimeContextMenu;
         #endregion
 
         #region Identity
@@ -102,7 +102,7 @@ namespace Krypton.Ribbon
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public KryptonRibbon Ribbon
+        public KryptonRibbon? Ribbon
         {
             get => _ribbon;
 
@@ -137,7 +137,7 @@ namespace Krypton.Ribbon
                 // We never allow an empty text value
                 if (string.IsNullOrEmpty(value))
                 {
-                    value = "Tab";
+                    value = @"Tab";
                 }
 
                 if (value != _text)
@@ -170,7 +170,7 @@ namespace Krypton.Ribbon
             {
                 if (string.IsNullOrEmpty(value))
                 {
-                    value = "T";
+                    value = @"T";
                 }
 
                 _keyTip = value.ToUpper();
@@ -185,6 +185,7 @@ namespace Krypton.Ribbon
         [Category(@"Appearance")]
         [Description(@"Only display tab when this context is active.")]
         [DefaultValue("")]
+        [AllowNull]
         public string ContextName
         {
             get => _contextName;
@@ -192,10 +193,7 @@ namespace Krypton.Ribbon
             set
             {
                 // Always maintain a value reference
-                if (value == null)
-                {
-                    value = string.Empty;
-                }
+                value ??= string.Empty;
 
                 if (value != _contextName)
                 {
@@ -216,10 +214,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Reset the ContextName to the default value.
         /// </summary>
-        private void ResetContextName()
-        {
-            ContextName = string.Empty;
-        }
+        private void ResetContextName() => ContextName = string.Empty;
 
         /// <summary>
         /// Gets and sets the visible state of the ribbon tab.
@@ -257,18 +252,12 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Make the ribbon tab visible.
         /// </summary>
-        public void Show()
-        {
-            Visible = true;
-        }
+        public void Show() => Visible = true;
 
         /// <summary>
         /// Make the ribbon tab hidden.
         /// </summary>
-        public void Hide()
-        {
-            Visible = false;
-        }
+        public void Hide() => Visible = false;
 
         /// <summary>
         /// Gets the collection of ribbon tab groups.
@@ -286,7 +275,7 @@ namespace Krypton.Ribbon
         [Description(@"User-defined data associated with the object.")]
         [TypeConverter(typeof(StringConverter))]
         [Bindable(true)]
-        public object Tag
+        public object? Tag
         {
             get => _tag;
 
@@ -302,10 +291,7 @@ namespace Krypton.Ribbon
 
         private bool ShouldSerializeTag() => Tag != null;
 
-        private void ResetTag()
-        {
-            Tag = null;
-        }
+        private void ResetTag() => Tag = null;
 
         /// <summary>
         /// Internal design time properties.
@@ -313,7 +299,7 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        public ViewBase TabView { get; set; }
+        public ViewBase? TabView { get; set; }
 
         #endregion
 
@@ -322,22 +308,13 @@ namespace Krypton.Ribbon
         /// Raises the PropertyChanged event.
         /// </summary>
         /// <param name="propertyName">Name of property that has changed.</param>
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
+        protected virtual void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         #endregion
 
         #region Internal
-        internal void OnDesignTimeContextMenu(MouseEventArgs e)
-        {
-            DesignTimeContextMenu?.Invoke(this, e);
-        }
+        internal void OnDesignTimeContextMenu(MouseEventArgs e) => DesignTimeContextMenu?.Invoke(this, e);
 
-        internal void OnDesignTimeAddGroup()
-        {
-            DesignTimeAddGroup?.Invoke(this, EventArgs.Empty);
-        }
+        internal void OnDesignTimeAddGroup() => DesignTimeAddGroup?.Invoke(this, EventArgs.Empty);
 
         internal bool ProcessCmdKey(ref Message msg, Keys keyData)
         {

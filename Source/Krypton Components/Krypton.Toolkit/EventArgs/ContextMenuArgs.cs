@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -17,10 +17,6 @@ namespace Krypton.Toolkit
     /// </summary>
     public class ContextMenuArgs : CancelEventArgs
     {
-        #region Instance Fields
-
-        #endregion
-
         #region Identity
         /// <summary>
         /// Initialize a new instance of the ContextMenuArgs class.
@@ -53,8 +49,8 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="cms">Context menu strip that can be customized.</param>
         /// <param name="kcm">KryptonContextMenu that can be customized.</param>
-        public ContextMenuArgs(ContextMenuStrip cms,
-                               KryptonContextMenu kcm)
+        public ContextMenuArgs(ContextMenuStrip? cms,
+                               KryptonContextMenu? kcm)
         {
             ContextMenuStrip = cms;
             KryptonContextMenu = kcm;
@@ -65,12 +61,12 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the context menu strip instance.
         /// </summary>
-        public ContextMenuStrip ContextMenuStrip { get; }
+        public ContextMenuStrip? ContextMenuStrip { get; }
 
         /// <summary>
         /// Gets access to the KryptonContextMenu instance.
         /// </summary>
-        public KryptonContextMenu KryptonContextMenu { get; }
+        public KryptonContextMenu? KryptonContextMenu { get; }
 
         #endregion
     }

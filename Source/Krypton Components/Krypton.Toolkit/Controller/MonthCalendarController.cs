@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -22,7 +22,7 @@ namespace Krypton.Toolkit
                                            IContextMenuTarget
     {
         #region Instance Fields
-        private readonly KryptonContextMenuMonthCalendar _monthCalendar;
+        private readonly KryptonContextMenuMonthCalendar? _monthCalendar;
         private readonly ViewLayoutMonths _months;
         private readonly NeedPaintHandler _needPaint;
         private DateTime _selectionStart;
@@ -156,7 +156,7 @@ namespace Krypton.Toolkit
 
                         // Enforce the maximum number of days
                         DateTime selectStart = _selectionStart;
-                        TimeSpan span = new(_months.Calendar.MaxSelectionCount - 1, 0, 0, 0);
+                        var span = new TimeSpan(_months.Calendar.MaxSelectionCount - 1, 0, 0, 0);
                         if (selectEnd > selectStart)
                         {
                             if ((selectEnd - selectStart) > span)
@@ -258,7 +258,7 @@ namespace Krypton.Toolkit
                             if (_months.Provider.ProviderCanCloseMenu)
                             {
                                 // Ask the original context menu definition, if we can close
-                                CancelEventArgs cea = new();
+                                var cea = new CancelEventArgs();
                                 _months.Provider.OnClosing(cea);
 
                                 if (!cea.Cancel)
@@ -278,7 +278,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="c">Reference to the source control instance.</param>
         /// <param name="next">Reference to view that is next to have the mouse.</param>
-        public virtual void MouseLeave(Control c, ViewBase next)
+        public virtual void MouseLeave(Control c, ViewBase? next)
         {
             // Only if mouse is leaving all the children monitored by controller.
             if (_mouseOver && !_months.ContainsRecurse(next))
@@ -314,7 +314,7 @@ namespace Krypton.Toolkit
         /// <param name="c">Reference to the source control instance.</param>
         /// <param name="e">A KeyEventArgs that contains the event data.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public virtual void KeyDown(Control c, KeyEventArgs e)
+        public virtual void KeyDown([DisallowNull] Control c, [DisallowNull] KeyEventArgs e)
         {
             Debug.Assert(c != null);
             Debug.Assert(e != null);
@@ -403,7 +403,7 @@ namespace Krypton.Toolkit
                         // Is the menu capable of being closed?
                     {
                         // Ask the original context menu definition, if we can close
-                        CancelEventArgs cea = new();
+                        var cea = new CancelEventArgs();
                         _months.Provider.OnClosing(cea);
 
                         if (!cea.Cancel)
@@ -494,7 +494,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="c">Reference to the source control instance.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public virtual void GotFocus(Control c)
+        public virtual void GotFocus([DisallowNull] Control c)
         {
             Debug.Assert(c != null);
 
@@ -510,7 +510,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="c">Reference to the source control instance.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public virtual void LostFocus(Control c)
+        public virtual void LostFocus([DisallowNull] Control c)
         {
             Debug.Assert(c != null);
 
@@ -523,7 +523,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Implementation
-        private ViewContextMenuManager ViewManager { get; }
+        private ViewContextMenuManager? ViewManager { get; }
 
         #endregion
     }

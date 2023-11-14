@@ -1,4 +1,16 @@
-﻿namespace Krypton.Workspace
+﻿#region BSD License
+/*
+ * 
+ * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
+ * 
+ *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  
+ */
+#endregion
+
+namespace Krypton.Workspace
 {
     /// <summary>
     /// Represents a sequence of workspace items.
@@ -6,10 +18,10 @@
     [ToolboxItem(false)]
     [ToolboxBitmap(typeof(KryptonWorkspaceSequence), "ToolboxBitmaps.KryptonWorkspaceSequence.bmp")]
     [TypeConverter(typeof(KryptonWorkspaceSequenceConverter))]
-    [Designer("Krypton.Workspace.KryptonWorkspaceSequenceDesigner, Krypton.Workspace")]
+    [Designer(typeof(KryptonWorkspaceSequenceDesigner))]
     [DesignTimeVisible(false)]
     [DesignerCategory(@"code")]
-    [DefaultProperty("Children")]
+    [DefaultProperty(nameof(Children))]
     public class KryptonWorkspaceSequence : Component,
                                             IWorkspaceItem
     {
@@ -25,13 +37,13 @@
         /// Occurs after a change has occurred to the workspace.
         /// </summary>
         [Browsable(false)]
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         /// <summary>
         /// Occurs when the user clicks the maximize/restore button.
         /// </summary>
         [Browsable(false)]
-        public event EventHandler MaximizeRestoreClicked;
+        public event EventHandler? MaximizeRestoreClicked;
         #endregion
 
         #region Identity
@@ -90,7 +102,17 @@
         /// Obtains the String representation of this instance.
         /// </summary>
         /// <returns>User readable name of the instance.</returns>
-        public override string ToString() => Orientation + " (" + Children.Count.ToString() + " Children)";
+        public override string ToString()
+        {
+            if (Children != null)
+            {
+                return $@"{Orientation} ({Children.Count} Children)";
+            }
+            else
+            {
+                return string.Empty;
+            }
+        }
 
         #endregion
 
@@ -103,7 +125,7 @@
         [MergableProperty(false)]
         [Editor(@"Krypton.Workspace.KryptonWorkspaceCollectionEditor, Krypton.Workspace", typeof(UITypeEditor))]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public KryptonWorkspaceCollection Children { get; }
+        public KryptonWorkspaceCollection? Children { get; }
 
         /// <summary>
         /// Gets and sets the orientation for laying out the child entries.
@@ -188,10 +210,7 @@
         /// <summary>
         /// Resets the UniqueName property to its default value.
         /// </summary>
-        public void ResetUniqueName()
-        {
-            UniqueName = CommonHelper.UniqueString;
-        }
+        public void ResetUniqueName() => UniqueName = CommonHelper.UniqueString;
 
         /// <summary>
         /// Perform any compacting actions allowed by the flags.
@@ -202,11 +221,14 @@
             if (!DesignMode)
             {
                 // Compact each child
-                foreach (Component component in Children)
+                if (Children != null)
                 {
-                    if (component is IWorkspaceItem item)
+                    foreach (Component component in Children)
                     {
-                        item.Compact(flags);
+                        if (component is IWorkspaceItem item)
+                        {
+                            item.Compact(flags);
+                        }
                     }
                 }
 
@@ -222,7 +244,7 @@
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public IWorkspaceItem WorkspaceParent { get; internal set; }
+        public IWorkspaceItem? WorkspaceParent { get; internal set; }
 
         /// <summary>
         /// Current pixel size of the item.
@@ -240,31 +262,35 @@
         {
             get
             {
-                Size totalSize = Size.Empty;
+                var totalSize = Size.Empty;
 
                 // Search all the children to find the largest preferred size in each direction
-                foreach (Component component in Children)
+                if (Children != null)
                 {
-                    // Get can only grab values from the IWorkspaceItem interface
-                    if ((component is IWorkspaceItem { WorkspaceVisible: true } item))
+                    foreach (Component component in Children)
                     {
-                        StarSize itemStar = item.WorkspaceStarSize;
-                        var preferredWidth = (!itemStar.StarWidth.UsingStar && (itemStar.StarWidth.FixedSize < 0));
-                        var preferredHeight = (!itemStar.StarHeight.UsingStar && (itemStar.StarHeight.FixedSize < 0));
-
-                        // Does the item specify a preferred size in either direction?
-                        if (preferredWidth || preferredHeight)
+                        // Get can only grab values from the IWorkspaceItem interface
+                        if ((component is IWorkspaceItem { WorkspaceVisible: true } item))
                         {
-                            Size itemPreferred = item.WorkspacePreferredSize;
+                            StarSize itemStar = item.WorkspaceStarSize;
+                            var preferredWidth = itemStar.StarWidth is { UsingStar: false, FixedSize: < 0 };
+                            var preferredHeight = itemStar.StarHeight is { UsingStar: false, FixedSize: < 0 };
 
-                            // Track the largest values found
-                            if (preferredWidth)
+                            // Does the item specify a preferred size in either direction?
+                            if (preferredWidth || preferredHeight)
                             {
-                                totalSize.Width = Math.Max(totalSize.Width, itemPreferred.Width);
-                            }
-                            if (preferredHeight)
-                            {
-                                totalSize.Height = Math.Max(totalSize.Height, itemPreferred.Height);
+                                Size itemPreferred = item.WorkspacePreferredSize;
+
+                                // Track the largest values found
+                                if (preferredWidth)
+                                {
+                                    totalSize.Width = Math.Max(totalSize.Width, itemPreferred.Width);
+                                }
+
+                                if (preferredHeight)
+                                {
+                                    totalSize.Height = Math.Max(totalSize.Height, itemPreferred.Height);
+                                }
                             }
                         }
                     }
@@ -290,29 +316,32 @@
         {
             get
             {
-                Size minSize = Size.Empty;
+                var minSize = Size.Empty;
 
                 // Search all the children to find the largest minimum/fixed size
-                foreach (Component component in Children)
+                if (Children != null)
                 {
-                    // Get can only grab values from the IWorkspaceItem interface
-                    if ((component is IWorkspaceItem { WorkspaceVisible: true } item))
+                    foreach (Component component in Children)
                     {
-                        // Sequence minimum is the largest min value of the children
-                        Size itemMin = item.WorkspaceMinSize;
-                        minSize.Width = Math.Max(minSize.Width, itemMin.Width);
-                        minSize.Height = Math.Max(minSize.Height, itemMin.Height);
-
-                        // Sequence minimum should be enough to show fixed size items
-                        StarSize itemStar = item.WorkspaceStarSize;
-                        if (!itemStar.StarWidth.UsingStar)
+                        // Get can only grab values from the IWorkspaceItem interface
+                        if ((component is IWorkspaceItem { WorkspaceVisible: true } item))
                         {
-                            minSize.Width = Math.Max(minSize.Width, itemStar.StarWidth.FixedSize);
-                        }
+                            // Sequence minimum is the largest min value of the children
+                            Size itemMin = item.WorkspaceMinSize;
+                            minSize.Width = Math.Max(minSize.Width, itemMin.Width);
+                            minSize.Height = Math.Max(minSize.Height, itemMin.Height);
 
-                        if (!itemStar.StarHeight.UsingStar)
-                        {
-                            minSize.Height = Math.Max(minSize.Height, itemStar.StarHeight.FixedSize);
+                            // Sequence minimum should be enough to show fixed size items
+                            StarSize itemStar = item.WorkspaceStarSize;
+                            if (!itemStar.StarWidth.UsingStar)
+                            {
+                                minSize.Width = Math.Max(minSize.Width, itemStar.StarWidth.FixedSize);
+                            }
+
+                            if (!itemStar.StarHeight.UsingStar)
+                            {
+                                minSize.Height = Math.Max(minSize.Height, itemStar.StarHeight.FixedSize);
+                            }
                         }
                     }
                 }
@@ -330,55 +359,58 @@
         {
             get
             {
-                Size maxSize = new(int.MaxValue, int.MaxValue);
+                var maxSize = new Size(int.MaxValue, int.MaxValue);
 
                 // Search all children for the smallest defined maximum
-                foreach (Component component in Children)
+                if (Children != null)
                 {
-                    // Get can only grab values from the IWorkspaceItem interface
-                    if ((component is IWorkspaceItem { WorkspaceVisible: true } item))
+                    foreach (Component component in Children)
                     {
-                        // Sequence maximum is the smallest min value of the children
-                        Size itemMax = item.WorkspaceMaxSize;
-                        if (itemMax.Width > 0)
+                        // Get can only grab values from the IWorkspaceItem interface
+                        if ((component is IWorkspaceItem { WorkspaceVisible: true } item))
                         {
-                            maxSize.Width = Math.Min(maxSize.Width, itemMax.Width);
-                        }
+                            // Sequence maximum is the smallest min value of the children
+                            var itemMax = item.WorkspaceMaxSize;
+                            if (itemMax.Width > 0)
+                            {
+                                maxSize.Width = Math.Min(maxSize.Width, itemMax.Width);
+                            }
 
-                        if (itemMax.Height > 0)
-                        {
-                            maxSize.Height = Math.Min(maxSize.Height, itemMax.Height);
+                            if (itemMax.Height > 0)
+                            {
+                                maxSize.Height = Math.Min(maxSize.Height, itemMax.Height);
+                            }
                         }
                     }
-                }
 
-                // Ensure that the maximum is big enough to allow any fixed item to show
-                // (have to do this after the above loop as the fixed calculation should
-                //  override any values found in the above loop. doing it above would have
-                //  allowed subsequence items to override the fixed setting of previous items)
-                foreach (Component component in Children)
-                {
-                    // Get can only grab values from the IWorkspaceItem interface
-                    if ((component is IWorkspaceItem { WorkspaceVisible: true } item))
+                    // Ensure that the maximum is big enough to allow any fixed item to show
+                    // (have to do this after the above loop as the fixed calculation should
+                    //  override any values found in the above loop. doing it above would have
+                    //  allowed subsequence items to override the fixed setting of previous items)
+                    foreach (Component component in Children)
                     {
-                        // Sequence maximum should be enough to show fixed size items
-                        StarSize itemStar = item.WorkspaceStarSize;
-                        if (!itemStar.StarWidth.UsingStar)
+                        // Get can only grab values from the IWorkspaceItem interface
+                        if ((component is IWorkspaceItem { WorkspaceVisible: true } item))
                         {
-                            maxSize.Width = maxSize.Width < int.MaxValue
-                                ? Math.Max(maxSize.Width, itemStar.StarWidth.FixedSize)
-                                : itemStar.StarWidth.FixedSize;
-                        }
-
-                        if (!itemStar.StarHeight.UsingStar)
-                        {
-                            if (maxSize.Height < int.MaxValue)
+                            // Sequence maximum should be enough to show fixed size items
+                            StarSize itemStar = item.WorkspaceStarSize;
+                            if (!itemStar.StarWidth.UsingStar)
                             {
-                                maxSize.Height = Math.Max(maxSize.Height, itemStar.StarHeight.FixedSize);
+                                maxSize.Width = maxSize.Width < int.MaxValue
+                                    ? Math.Max(maxSize.Width, itemStar.StarWidth.FixedSize)
+                                    : itemStar.StarWidth.FixedSize;
                             }
-                            else
+
+                            if (!itemStar.StarHeight.UsingStar)
                             {
-                                maxSize.Width = itemStar.StarWidth.FixedSize;
+                                if (maxSize.Height < int.MaxValue)
+                                {
+                                    maxSize.Height = Math.Max(maxSize.Height, itemStar.StarHeight.FixedSize);
+                                }
+                                else
+                                {
+                                    maxSize.Width = itemStar.StarWidth.FixedSize;
+                                }
                             }
                         }
                     }
@@ -400,11 +432,14 @@
             get
             {
                 // If any child says no resizing then we cannot be resized
-                foreach (Component component in Children)
+                if (Children != null)
                 {
-                    if ((component is IWorkspaceItem { WorkspaceVisible: true, WorkspaceAllowResizing: false }))
+                    foreach (Component component in Children)
                     {
-                        return false;
+                        if ((component is IWorkspaceItem { WorkspaceVisible: true, WorkspaceAllowResizing: false }))
+                        {
+                            return false;
+                        }
                     }
                 }
 
@@ -425,11 +460,14 @@
                 if (Visible)
                 {
                     // If we have any visible children then we are visible
-                    foreach (Component component in Children)
+                    if (Children != null)
                     {
-                        if ((component is IWorkspaceItem { WorkspaceVisible: true }))
+                        foreach (Component component in Children)
                         {
-                            return true;
+                            if ((component is IWorkspaceItem { WorkspaceVisible: true }))
+                            {
+                                return true;
+                            }
                         }
                     }
                 }
@@ -458,16 +496,19 @@
             workspace.WriteSequenceElement(xmlWriter, this);
 
             // Persist each child sequence/cell in turn
-            foreach (object child in Children)
+            if (Children != null)
             {
-                if (child is KryptonWorkspaceSequence sequence)
+                foreach (object child in Children)
                 {
-                    sequence.SaveToXml(workspace, xmlWriter);
-                }
-
-                if (child is KryptonWorkspaceCell cell)
-                {
-                    cell.SaveToXml(workspace, xmlWriter);
+                    switch (child)
+                    {
+                        case KryptonWorkspaceSequence sequence:
+                            sequence.SaveToXml(workspace, xmlWriter);
+                            break;
+                        case KryptonWorkspaceCell cell:
+                            cell.SaveToXml(workspace, xmlWriter);
+                            break;
+                    }
                 }
             }
 
@@ -509,14 +550,19 @@
                     switch (xmlReader.Name)
                     {
                         case "WS":
-                            KryptonWorkspaceSequence sequence = new();
+                        {
+                            var sequence = new KryptonWorkspaceSequence();
                             sequence.LoadFromXml(workspace, xmlReader, existingPages);
-                            Children.Add(sequence);
+                            Children?.Add(sequence);
+                        }
                             break;
+
                         case "WC":
-                            KryptonWorkspaceCell cell = new();
+                        {
+                            var cell = new KryptonWorkspaceCell();
                             cell.LoadFromXml(workspace, xmlReader, existingPages);
-                            Children.Add(cell);
+                            Children?.Add(cell);
+                        }
                             break;
                         default:
                             throw new ArgumentException("Unknown element was encountered.");
@@ -540,18 +586,22 @@
         [EditorBrowsable(EditorBrowsableState.Never)]
         public void DebugOutput(int indent)
         {
-            Console.WriteLine("{0}Sequence Count:{1} Visible:{2} Orientation:{3}", new string(' ', indent * 2), Children.Count, Visible, Orientation.ToString());
-
-            foreach (object child in Children)
+            if (Children != null)
             {
-                if (child is KryptonWorkspaceSequence sequence)
-                {
-                    sequence.DebugOutput(indent + 1);
-                }
+                Console.WriteLine(@"{0}Sequence Count:{1} Visible:{2} Orientation:{3}", new string(' ', indent * 2),
+                    Children.Count, Visible, Orientation.ToString());
 
-                if (child is KryptonWorkspaceCell cell)
+                foreach (object child in Children)
                 {
-                    cell.DebugOutput(indent + 1);
+                    switch (child)
+                    {
+                        case KryptonWorkspaceSequence sequence:
+                            sequence.DebugOutput(indent + 1);
+                            break;
+                        case KryptonWorkspaceCell cell:
+                            cell.DebugOutput(indent + 1);
+                            break;
+                    }
                 }
             }
         }
@@ -563,38 +613,26 @@
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">Event arguments associated with the event.</param>
-        protected void OnChildrenPropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            OnPropertyChanged(e);
-        }
+        protected void OnChildrenPropertyChanged(object sender, PropertyChangedEventArgs e) => OnPropertyChanged(e);
 
         /// <summary>
         /// Handle a maximize/restore request from a child item.
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">Event arguments associated with the event.</param>
-        protected void OnChildrenMaximizeRestoreClicked(object sender, EventArgs e)
-        {
-            MaximizeRestoreClicked?.Invoke(sender, e);
-        }
+        protected void OnChildrenMaximizeRestoreClicked(object sender, EventArgs e) => MaximizeRestoreClicked?.Invoke(sender, e);
 
         /// <summary>
         /// Raises the PropertyChanged event.
         /// </summary>
         /// <param name="property">Name of property that has changed.</param>
-        protected virtual void OnPropertyChanged(string property)
-        {
-            OnPropertyChanged(new PropertyChangedEventArgs(property));
-        }
+        protected virtual void OnPropertyChanged(string property) => OnPropertyChanged(new PropertyChangedEventArgs(property));
 
         /// <summary>
         /// Raises the PropertyChanged event.
         /// </summary>
         /// <param name="e">A PropertyChangedEventArgs containing the event data.</param>
-        protected virtual void OnPropertyChanged(PropertyChangedEventArgs e)
-        {
-            PropertyChanged?.Invoke(this, e);
-        }
+        protected virtual void OnPropertyChanged(PropertyChangedEventArgs e) => PropertyChanged?.Invoke(this, e);
         #endregion
 
         #region Implementation
@@ -603,19 +641,22 @@
             if ((flags & CompactFlags.RemoveEmptyCells) == CompactFlags.RemoveEmptyCells)
             {
                 // Search for child cell items
-                for (var i = Children.Count - 1; i >= 0; i--)
+                if (Children != null)
                 {
-                    // If a cell and that cell does not have any pages
-                    if ((Children[i] is KryptonWorkspaceCell cell) && (cell.Pages.Count == 0))
+                    for (var i = Children.Count - 1; i >= 0; i--)
                     {
-                        Children.RemoveAt(i);
-
-                        // If the cell is not inside a controls collection then we need to dispose of it here
-                        // because the layout code will never try and dispose on remove from controls collection
-                        // as it is not inside the controls collection
-                        if ((cell.Parent == null) && (cell.DisposeOnRemove))
+                        // If a cell and that cell does not have any pages
+                        if ((Children[i] is KryptonWorkspaceCell { Pages.Count: 0 } cell))
                         {
-                            cell.Dispose();
+                            Children.RemoveAt(i);
+
+                            // If the cell is not inside a controls collection then we need to dispose of it here
+                            // because the layout code will never try and dispose on remove from controls collection
+                            // as it is not inside the controls collection
+                            if ((cell.Parent == null) && (cell.DisposeOnRemove))
+                            {
+                                cell.Dispose();
+                            }
                         }
                     }
                 }
@@ -627,12 +668,15 @@
             if ((flags & CompactFlags.RemoveEmptySequences) == CompactFlags.RemoveEmptySequences)
             {
                 // Search for child sequence items
-                for (var i = Children.Count - 1; i >= 0; i--)
+                if (Children != null)
                 {
-                    // If a sequence and that sequence does not have any children
-                    if ((Children[i] is KryptonWorkspaceSequence sequence) && (sequence.Children.Count == 0))
+                    for (var i = Children.Count - 1; i >= 0; i--)
                     {
-                        Children.RemoveAt(i);
+                        // If a sequence and that sequence does not have any children
+                        if ((Children[i] is KryptonWorkspaceSequence { Children.Count: 0 }))
+                        {
+                            Children.RemoveAt(i);
+                        }
                     }
                 }
             }
@@ -643,29 +687,32 @@
             if ((flags & CompactFlags.PromoteLeafs) == CompactFlags.PromoteLeafs)
             {
                 // Search for child sequence items
-                for (var i = Children.Count - 1; i >= 0; i--)
+                if (Children != null)
                 {
-                    // If a sequence and that sequence has just a single child
-                    if ((Children[i] is KryptonWorkspaceSequence sequence) && (sequence.Children.Count == 1))
+                    for (var i = Children.Count - 1; i >= 0; i--)
                     {
-                        // Extract the leaf
-                        Component leaf = sequence.Children[0];
-                        sequence.Children.RemoveAt(0);
-
-                        // Use the sequence size in the promoted child so the display remains constant
-                        if (leaf is KryptonWorkspaceCell cell)
+                        // If a sequence and that sequence has just a single child
+                        if ((Children[i] is KryptonWorkspaceSequence { Children.Count: 1 } sequence))
                         {
-                            cell.StarSize = sequence.StarSize;
-                        }
+                            // Extract the leaf
+                            Component leaf = sequence.Children[0];
+                            sequence.Children.RemoveAt(0);
 
-                        if (leaf is KryptonWorkspaceSequence workspaceSequence)
-                        {
-                            workspaceSequence.StarSize = sequence.StarSize;
-                        }
+                            switch (leaf)
+                            {
+                                // Use the sequence size in the promoted child so the display remains constant
+                                case KryptonWorkspaceCell cell:
+                                    cell.StarSize = sequence.StarSize;
+                                    break;
+                                case KryptonWorkspaceSequence workspaceSequence:
+                                    workspaceSequence.StarSize = sequence.StarSize;
+                                    break;
+                            }
 
-                        // Replace the sequence with its leaf child
-                        Children.RemoveAt(i);
-                        Children.Insert(i, leaf);
+                            // Replace the sequence with its leaf child
+                            Children.RemoveAt(i);
+                            Children.Insert(i, leaf);
+                        }
                     }
                 }
             }

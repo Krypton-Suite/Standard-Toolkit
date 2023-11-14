@@ -5,7 +5,9 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  
+ *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
  */
 #endregion
@@ -25,7 +27,7 @@ namespace Krypton.Ribbon
         private DesignerVerb _moveNextVerb;
         private DesignerVerb _moveLastVerb;
         private DesignerVerb _deleteCheckBoxVerb;
-        private ContextMenuStrip _cms;
+        private ContextMenuStrip? _cms;
         private ToolStripMenuItem _toggleHelpersMenu;
         private ToolStripMenuItem _visibleMenu;
         private ToolStripMenuItem _enabledMenu;
@@ -53,7 +55,7 @@ namespace Krypton.Ribbon
         /// Initializes the designer with the specified component.
         /// </summary>
         /// <param name="component">The IComponent to associate the designer with.</param>
-        public override void Initialize(IComponent component)
+        public override void Initialize([DisallowNull] IComponent component)
         {
             // Let base class do standard stuff
             base.Initialize(component);
@@ -134,7 +136,7 @@ namespace Krypton.Ribbon
             var moveNext = false;
             var moveLast = false;
 
-            if (_ribbonCheckBox?.Ribbon != null)
+            if (_ribbonCheckBox.Ribbon != null)
             {
                 var items = ParentItems;
                 moveFirst = items.IndexOf(_ribbonCheckBox) > 0;
@@ -152,7 +154,7 @@ namespace Krypton.Ribbon
         private void OnToggleHelpers(object sender, EventArgs e)
         {
             // Invert the current toggle helper mode
-            if (_ribbonCheckBox?.Ribbon != null)
+            if (_ribbonCheckBox.Ribbon != null)
             {
                 _ribbonCheckBox.Ribbon.InDesignHelperMode = !_ribbonCheckBox.Ribbon.InDesignHelperMode;
             }
@@ -160,7 +162,7 @@ namespace Krypton.Ribbon
 
         private void OnMoveFirst(object sender, EventArgs e)
         {
-            if (_ribbonCheckBox?.Ribbon != null)
+            if (_ribbonCheckBox.Ribbon != null)
             {
                 // Get access to the parent collection of items
                 var items = ParentItems;
@@ -192,7 +194,7 @@ namespace Krypton.Ribbon
 
         private void OnMovePrevious(object sender, EventArgs e)
         {
-            if (_ribbonCheckBox?.Ribbon != null)
+            if (_ribbonCheckBox.Ribbon != null)
             {
                 // Get access to the parent collection of items
                 var items = ParentItems;
@@ -226,7 +228,7 @@ namespace Krypton.Ribbon
 
         private void OnMoveNext(object sender, EventArgs e)
         {
-            if (_ribbonCheckBox?.Ribbon != null)
+            if (_ribbonCheckBox.Ribbon != null)
             {
                 // Get access to the parent collection of items
                 var items = ParentItems;
@@ -260,7 +262,7 @@ namespace Krypton.Ribbon
 
         private void OnMoveLast(object sender, EventArgs e)
         {
-            if (_ribbonCheckBox?.Ribbon != null)
+            if (_ribbonCheckBox.Ribbon != null)
             {
                 // Get access to the parent collection of items
                 var items = ParentItems;
@@ -292,7 +294,7 @@ namespace Krypton.Ribbon
 
         private void OnDeleteCheckBox(object sender, EventArgs e)
         {
-            if (_ribbonCheckBox?.Ribbon != null)
+            if (_ribbonCheckBox.Ribbon != null)
             {
                 // Get access to the parent collection of items
                 var items = ParentItems;
@@ -328,7 +330,7 @@ namespace Krypton.Ribbon
 
         private void OnVisible(object sender, EventArgs e)
         {
-            if (_ribbonCheckBox?.Ribbon != null)
+            if (_ribbonCheckBox.Ribbon != null)
             {
                 _changeService.OnComponentChanged(_ribbonCheckBox, null, _ribbonCheckBox.Visible, !_ribbonCheckBox.Visible);
                 _ribbonCheckBox.Visible = !_ribbonCheckBox.Visible;
@@ -337,7 +339,7 @@ namespace Krypton.Ribbon
 
         private void OnEnabled(object sender, EventArgs e)
         {
-            if (_ribbonCheckBox?.Ribbon != null)
+            if (_ribbonCheckBox.Ribbon != null)
             {
                 _changeService.OnComponentChanged(_ribbonCheckBox, null, _ribbonCheckBox.Enabled, !_ribbonCheckBox.Enabled);
                 _ribbonCheckBox.Enabled = !_ribbonCheckBox.Enabled;
@@ -346,7 +348,7 @@ namespace Krypton.Ribbon
 
         private void OnAutoCheck(object sender, EventArgs e)
         {
-            if (_ribbonCheckBox?.Ribbon != null)
+            if (_ribbonCheckBox.Ribbon != null)
             {
                 _changeService.OnComponentChanged(_ribbonCheckBox, null, _ribbonCheckBox.AutoCheck, !_ribbonCheckBox.AutoCheck);
                 _ribbonCheckBox.AutoCheck = !_ribbonCheckBox.AutoCheck;
@@ -355,7 +357,7 @@ namespace Krypton.Ribbon
 
         private void OnThreeState(object sender, EventArgs e)
         {
-            if (_ribbonCheckBox?.Ribbon != null)
+            if (_ribbonCheckBox.Ribbon != null)
             {
                 _changeService.OnComponentChanged(_ribbonCheckBox, null, _ribbonCheckBox.ThreeState, !_ribbonCheckBox.ThreeState);
                 _ribbonCheckBox.ThreeState = !_ribbonCheckBox.ThreeState;
@@ -364,21 +366,18 @@ namespace Krypton.Ribbon
 
         private void OnChecked(object sender, EventArgs e)
         {
-            if (_ribbonCheckBox?.Ribbon != null)
+            if (_ribbonCheckBox.Ribbon != null)
             {
                 _changeService.OnComponentChanged(_ribbonCheckBox, null, _ribbonCheckBox.Checked, !_ribbonCheckBox.Checked);
                 _ribbonCheckBox.Checked = !_ribbonCheckBox.Checked;
             }
         }
 
-        private void OnComponentChanged(object sender, ComponentChangedEventArgs e)
-        {
-            UpdateVerbStatus();
-        }
+        private void OnComponentChanged(object sender, ComponentChangedEventArgs e) => UpdateVerbStatus();
 
         private void OnContextMenu(object sender, MouseEventArgs e)
         {
-            if (_ribbonCheckBox?.Ribbon != null)
+            if (_ribbonCheckBox.Ribbon != null)
             {
                 // Create the menu strip the first time around
                 if (_cms == null)
@@ -390,11 +389,11 @@ namespace Krypton.Ribbon
                     _autoCheckMenu = new ToolStripMenuItem("AutoCheck", null, OnAutoCheck);
                     _checkedMenu = new ToolStripMenuItem("Checked", null, OnChecked);
                     _threeStateMenu = new ToolStripMenuItem("ThreeState", null, OnThreeState);
-                    _moveFirstMenu = new ToolStripMenuItem("Move CheckBox First", Properties.Resources.MoveFirst, OnMoveFirst);
-                    _movePreviousMenu = new ToolStripMenuItem("Move CheckBox Previous", Properties.Resources.MovePrevious, OnMovePrevious);
-                    _moveNextMenu = new ToolStripMenuItem("Move CheckBox Next", Properties.Resources.MoveNext, OnMoveNext);
-                    _moveLastMenu = new ToolStripMenuItem("Move CheckBox Last", Properties.Resources.MoveLast, OnMoveLast);
-                    _deleteCheckBoxMenu = new ToolStripMenuItem("Delete CheckBox", Properties.Resources.delete2, OnDeleteCheckBox);
+                    _moveFirstMenu = new ToolStripMenuItem("Move CheckBox First", GenericImageResources.MoveFirst, OnMoveFirst);
+                    _movePreviousMenu = new ToolStripMenuItem("Move CheckBox Previous", GenericImageResources.MovePrevious, OnMovePrevious);
+                    _moveNextMenu = new ToolStripMenuItem("Move CheckBox Next", GenericImageResources.MoveNext, OnMoveNext);
+                    _moveLastMenu = new ToolStripMenuItem("Move CheckBox Last", GenericImageResources.MoveLast, OnMoveLast);
+                    _deleteCheckBoxMenu = new ToolStripMenuItem("Delete CheckBox", GenericImageResources.Delete, OnDeleteCheckBox);
                     _cms.Items.AddRange(new ToolStripItem[] { _toggleHelpersMenu, new ToolStripSeparator(),
                                                               _visibleMenu, _enabledMenu, _autoCheckMenu, _checkedMenu, _threeStateMenu, new ToolStripSeparator(),
                                                               _moveFirstMenu, _movePreviousMenu, _moveNextMenu, _moveLastMenu, new ToolStripSeparator(),
@@ -425,7 +424,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private TypedRestrictCollection<KryptonRibbonGroupItem> ParentItems
+        private TypedRestrictCollection<KryptonRibbonGroupItem>? ParentItems
         {
             get
             {

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -75,7 +75,7 @@ namespace Krypton.Toolkit
         {
             try
             {
-                KryptonDataGridView kDGV = (KryptonDataGridView)DataGridView;
+                var kDGV = (KryptonDataGridView)DataGridView;
 
                 // Is this cell the currently active cell
                 var currentCell = (rowIndex == DataGridView.CurrentCellAddress.Y) &&
@@ -91,7 +91,7 @@ namespace Krypton.Toolkit
                 var pressed = currentCell && ((ButtonStateInternal & ButtonState.Pushed) == ButtonState.Pushed);
 
                 // Find out the requested size of the check box drawing
-                using ViewLayoutContext viewContent = new(kDGV, kDGV.Renderer);
+                using var viewContent = new ViewLayoutContext(kDGV, kDGV.Renderer);
                 Size checkBoxSize = kDGV.Renderer.RenderGlyph.GetCheckBoxPreferredSize(viewContent,
                     kDGV.Redirector,
                     kDGV.Enabled,
@@ -143,22 +143,19 @@ namespace Krypton.Toolkit
                 // Should we draw the content foreground?
                 if ((paintParts & DataGridViewPaintParts.ContentForeground) == DataGridViewPaintParts.ContentForeground)
                 {
-                    CheckState checkState = CheckState.Unchecked;
+                    var checkState = CheckState.Unchecked;
 
-                    if (formattedValue is CheckState state)
+                    switch (formattedValue)
                     {
-                        checkState = state;
-                    }
-                    else if (formattedValue is bool b)
-                    {
-                        if (b)
-                        {
+                        case CheckState state:
+                            checkState = state;
+                            break;
+                        case bool b when b:
                             checkState = CheckState.Checked;
-                        }
-                        else
-                        {
+                            break;
+                        case bool b:
                             checkState = CheckState.Unchecked;
-                        }
+                            break;
                     }
 
                     // Is this cell the currently active cell
@@ -174,11 +171,11 @@ namespace Krypton.Toolkit
                     var tracking = mouseCell && MouseInContentBoundsInternal;
                     var pressed = currentCell && ((ButtonStateInternal & ButtonState.Pushed) == ButtonState.Pushed);
 
-                    using RenderContext renderContext = new(kDgv, graphics, cellBounds, kDgv.Renderer);
+                    using var renderContext = new RenderContext(kDgv, graphics, cellBounds, kDgv.Renderer);
                     Size checkBoxSize;
 
                     // Find out the requested size of the check box drawing
-                    using (ViewLayoutContext viewContent = new(kDgv, kDgv.Renderer))
+                    using (var viewContent = new ViewLayoutContext(kDgv, kDgv.Renderer))
                     {
                         checkBoxSize = renderContext.Renderer.RenderGlyph.GetCheckBoxPreferredSize(viewContent, 
                             kDgv.Redirector,
@@ -231,9 +228,7 @@ namespace Krypton.Toolkit
                     cellBounds.Height = checkBoxSize.Height;
 
                     // Remember the current drawing bounds
-                    _contentBounds = new Rectangle(cellBounds.X - startBounds.X,
-                        cellBounds.Y - startBounds.Y,
-                        cellBounds.Width, cellBounds.Height);
+                    _contentBounds = cellBounds with { X = cellBounds.X - startBounds.X, Y = cellBounds.Y - startBounds.Y };
 
                     // Perform actual drawing of the check box
                     renderContext.Renderer.RenderGlyph.DrawCheckBox(renderContext,
@@ -263,7 +258,7 @@ namespace Krypton.Toolkit
                 if (_piButtonState == null)
                 {
                     // Cache access to the internal get property 'ButtonState'
-                    _piButtonState = typeof(DataGridViewCheckBoxCell).GetProperty(@"ButtonState", BindingFlags.Instance |
+                    _piButtonState = typeof(DataGridViewCheckBoxCell).GetProperty(nameof(ButtonState), BindingFlags.Instance |
                                                                                                  BindingFlags.NonPublic |
                                                                                                  BindingFlags.GetField);
 

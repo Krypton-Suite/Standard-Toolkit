@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -26,9 +26,9 @@ namespace Krypton.Navigator
         /// <param name="ribbonGeneral">Source for general ribbon settings.</param>
         /// <param name="ribbonTabText">Source for ribbon tab settings.</param>
         /// <param name="content">Source for content settings.</param>
-        public RibbonTabToContent(IPaletteRibbonGeneral ribbonGeneral,
-                                  IPaletteRibbonText ribbonTabText,
-                                  IPaletteContent content)
+        public RibbonTabToContent([DisallowNull] IPaletteRibbonGeneral ribbonGeneral,
+                                  [DisallowNull] IPaletteRibbonText ribbonTabText,
+                                  [DisallowNull] IPaletteContent content)
         {
             Debug.Assert(ribbonGeneral != null);
             Debug.Assert(ribbonTabText != null);
@@ -52,7 +52,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets and sets the ribbon tab content palette to use.
         /// </summary>
-        public IPaletteContent PaletteContent { get; set; }
+        public IPaletteContent? PaletteContent { get; set; }
 
         #endregion
 
@@ -209,7 +209,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image instance.</returns>
-        public Image GetContentShortTextImage(PaletteState state) => null;
+        public Image? GetContentShortTextImage(PaletteState state) => null;
 
         /// <summary>
         /// Gets the background image style.
@@ -328,7 +328,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image instance.</returns>
-        public Image GetContentLongTextImage(PaletteState state) => null;
+        public Image? GetContentLongTextImage(PaletteState state) => null;
 
         /// <summary>
         /// Gets the background image style for the long text.

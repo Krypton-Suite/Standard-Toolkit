@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -19,8 +19,8 @@ namespace Krypton.Toolkit
                                         IContentValues
     {
         #region Instance Fields
-        private readonly IPaletteContent _paletteContentNormal;
-        private readonly IPaletteContent _paletteContentDisabled;
+        private readonly IPaletteContent? _paletteContentNormal;
+        private readonly IPaletteContent? _paletteContentDisabled;
         #endregion
 
         #region Identity
@@ -29,8 +29,8 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="paletteContentDisabled">Palette source for the disabled content.</param>
         /// <param name="paletteContentNormal">Palette source for the normal content.</param>
-        public ViewDrawEmptyContent(IPaletteContent paletteContentDisabled,
-                                    IPaletteContent paletteContentNormal)
+        public ViewDrawEmptyContent(IPaletteContent? paletteContentDisabled,
+                                    IPaletteContent? paletteContentNormal)
             : base(paletteContentNormal, null, VisualOrientation.Top)
         {
             Values = this;
@@ -43,7 +43,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <returns>User readable name of the instance.</returns>
         // Return the class name and instance identifier
-        public override string ToString() => "ViewDrawEmptyContent:" + Id;
+        public override string ToString() => $"ViewDrawEmptyContent:{Id}";
         #endregion
 
         #region Layout
@@ -53,7 +53,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="context">Layout context.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public override Size GetPreferredSize(ViewLayoutContext context)
+        public override Size GetPreferredSize([DisallowNull] ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 
@@ -75,7 +75,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="context">Layout context.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public override void Layout(ViewLayoutContext context)
+        public override void Layout([DisallowNull] ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 
@@ -100,7 +100,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="context">Rendering context.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public override void RenderBefore(RenderContext context) 
+        public override void RenderBefore([DisallowNull] RenderContext context) 
         {
             Debug.Assert(context != null);
 
@@ -124,7 +124,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">The state for which the image is needed.</param>
         /// <returns>Image value.</returns>
-        public Image GetImage(PaletteState state) => null;
+        public Image? GetImage(PaletteState state) => null;
 
         /// <summary>
         /// Gets the image color that should be transparent.

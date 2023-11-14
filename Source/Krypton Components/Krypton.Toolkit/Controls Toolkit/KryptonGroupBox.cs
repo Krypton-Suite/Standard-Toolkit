@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -17,9 +17,9 @@ namespace Krypton.Toolkit
     /// </summary>
     [ToolboxItem(true)]
     [ToolboxBitmap(typeof(KryptonGroupBox), "ToolboxBitmaps.KryptonGroupBox.bmp")]
-    [DefaultEvent("Paint")]
+    [DefaultEvent(nameof(Paint))]
     [DefaultProperty("ValuesPrimary")]
-    [Designer("Krypton.Toolkit.KryptonGroupBoxDesigner, Krypton.Toolkit")]
+    [Designer(typeof(KryptonGroupBoxDesigner))]
     [DesignerCategory(@"code")]
     [Description(@"Display frame around a group of related controls with an optional caption.")]
     [Docking(DockingBehavior.Ask)]
@@ -33,11 +33,12 @@ namespace Krypton.Toolkit
         private readonly ViewDrawContent _drawContent;
         private readonly ViewLayoutFill _layoutFill;
         private ScreenObscurer _obscurer;
-        private readonly EventHandler _removeObscurer;
+        private readonly EventHandler? _removeObscurer;
         private bool _forcedLayout;
         private bool _captionVisible;
         private readonly bool _ignoreLayout;
         private bool _layingOut;
+        private float _cornerRoundingRadius;
         #endregion
 
         #region Identity
@@ -64,7 +65,7 @@ namespace Krypton.Toolkit
             StateNormal = new PaletteGroupBox(StateCommon, NeedPaintDelegate);
 
             // Create the internal panel used for containing content
-            Panel = new KryptonGroupBoxPanel(this, StateCommon, StateDisabled, StateNormal, OnGroupPanelPaint)
+            Panel = new KryptonGroupBoxPanel(this, StateCommon, StateDisabled, StateNormal, OnGroupPanelPaint!)
             {
 
                 // Make sure the panel back style always mimics our back style
@@ -103,6 +104,8 @@ namespace Krypton.Toolkit
             ((KryptonReadOnlyControls)Controls).AddInternal(Panel);
 
             _ignoreLayout = false;
+
+            _cornerRoundingRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
         }
 
         /// <summary>
@@ -114,13 +117,13 @@ namespace Krypton.Toolkit
             if (disposing)
             {
                 // Remove any cached obscurer
-                if (_obscurer != null)
+                if (_obscurer != null!)
                 {
                     try
                     {
                         _obscurer.Uncover();
                         _obscurer.Dispose();
-                        _obscurer = null;
+                        _obscurer = null!;
                     }
                     catch { }
                 }
@@ -131,10 +134,24 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Public
+
+        /// <summary>Gets or sets the corner rounding radius.</summary>
+        /// <value>The corner rounding radius.</value>
+        [Category(@"Visuals")]
+        [Description(@"Gets or sets the corner rounding radius.")]
+        [DefaultValue(GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE)]
+        public float CornerRoundingRadius
+        {
+            get => _cornerRoundingRadius;
+
+            set => SetCornerRoundingRadius(value);
+        }
+
         /// <summary>
         /// Gets and sets the name of the control.
         /// </summary>
         [Browsable(false)]
+        [AllowNull]
         public new string Name
         {
             get => base.Name;
@@ -142,7 +159,7 @@ namespace Krypton.Toolkit
             set
             {
                 base.Name = value;
-                Panel.Name = value + ".Panel";
+                Panel.Name = $"{value}.Panel";
             }
         }
 
@@ -177,7 +194,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Layout")]
         [Description(@"Specifies if the control grows and shrinks to fit the contents exactly.")]
-        [DefaultValue(typeof(AutoSizeMode), "GrowAndShrink")]
+        [DefaultValue(AutoSizeMode.GrowAndShrink)]
         public AutoSizeMode AutoSizeMode
         {
             // ReSharper disable RedundantBaseQualifier
@@ -205,7 +222,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the text associated with this control. 
         /// </summary>
-        [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
+        [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
+        [AllowNull]
         public override string Text
         {
             get => Values.Heading;
@@ -229,7 +247,7 @@ namespace Krypton.Toolkit
         [Category(@"Appearance")]
         [Description(@"The internal panel that contains group content.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public KryptonGroupBoxPanel Panel { get; }
+        public KryptonGroupBoxPanel? Panel { get; }
 
         /// <summary>
         /// Gets and the sets the percentage of overlap for the caption and group area.
@@ -260,7 +278,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Visuals")]
         [Description(@"Border style.")]
-        [DefaultValue(typeof(PaletteBorderStyle), "ControlGroupBox")]
+        [DefaultValue(PaletteBorderStyle.ControlGroupBox)]
         public PaletteBorderStyle GroupBorderStyle
         {
             get => StateCommon.BorderStyle;
@@ -275,10 +293,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void ResetGroupBorderStyle()
-        {
-            GroupBorderStyle = PaletteBorderStyle.ControlGroupBox;
-        }
+        private void ResetGroupBorderStyle() => GroupBorderStyle = PaletteBorderStyle.ControlGroupBox;
 
         private bool ShouldSerializeGroupBorderStyle() => GroupBorderStyle != PaletteBorderStyle.ControlGroupBox;
 
@@ -287,7 +302,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Visuals")]
         [Description(@"Background style.")]
-        [DefaultValue(typeof(PaletteBackStyle), "ControlGroupBox")]
+        [DefaultValue(PaletteBackStyle.ControlGroupBox)]
         public PaletteBackStyle GroupBackStyle
         {
             get => StateCommon.BackStyle;
@@ -312,7 +327,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Visuals")]
         [Description(@"Caption style.")]
-        [DefaultValue(typeof(LabelStyle), "GroupBoxCaption")]
+        [DefaultValue(LabelStyle.GroupBoxCaption)]
         public LabelStyle CaptionStyle
         {
             get => _captionStyle;
@@ -337,7 +352,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Visuals")]
         [Description(@"Edge position of the caption.")]
-        [DefaultValue(typeof(VisualOrientation), "Top")]
+        [DefaultValue(VisualOrientation.Top)]
         public VisualOrientation CaptionEdge
         {
             get => _captionEdge;
@@ -393,7 +408,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Visuals")]
         [Description(@"Orientation of the caption.")]
-        [DefaultValue(typeof(ButtonOrientation), "Auto")]
+        [DefaultValue(ButtonOrientation.Auto)]
         public ButtonOrientation CaptionOrientation
         {
             get => _captionOrientation;
@@ -466,7 +481,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Overrides for defining common header group appearance that other states can override.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteGroupBoxRedirect StateCommon { get; }
+        public PaletteGroupBoxRedirect? StateCommon { get; }
 
         private bool ShouldSerializeStateCommon() => !StateCommon.IsDefault;
 
@@ -476,7 +491,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Overrides for defining disabled header group appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteGroupBox StateDisabled { get; }
+        public PaletteGroupBox? StateDisabled { get; }
 
         private bool ShouldSerializeStateDisabled() => !StateDisabled.IsDefault;
 
@@ -486,7 +501,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Overrides for defining normal header group appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteGroupBox StateNormal { get; }
+        public PaletteGroupBox? StateNormal { get; }
 
         private bool ShouldSerializeStateNormal() => !StateNormal.IsDefault;
 
@@ -578,7 +593,7 @@ namespace Krypton.Toolkit
         protected void ForceControlLayout()
         {
             // Usually the layout will not occur if currently initializing but
-            // we need to force the layout processing because overwise the size
+            // we need to force the layout processing because otherwise the size
             // of the panel controls will not have been calculated when controls
             // are added to the panels. That would then cause problems with
             // anchor controls as they would then resize incorrectly.
@@ -645,14 +660,17 @@ namespace Krypton.Toolkit
 
                 // Only use layout logic if control is fully initialized or if being forced
                 // to allow a relayout or if in design mode.
-                if (IsInitialized || _forcedLayout || (DesignMode && (Panel != null)))
+                if ((Panel != null))
                 {
-                    Rectangle fillRect = _layoutFill.FillRect;
+                    if (IsInitialized || _forcedLayout || DesignMode)
+                    {
+                        Rectangle fillRect = _layoutFill.FillRect;
 
-                    Panel.SetBounds(fillRect.X,
-                                     fillRect.Y,
-                                     fillRect.Width,
-                                     fillRect.Height);
+                        Panel.SetBounds(fillRect.X,
+                            fillRect.Y,
+                            fillRect.Width,
+                            fillRect.Height);
+                    }
                 }
             }
 
@@ -705,7 +723,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">Source of notification.</param>
         /// <param name="e">An NeedLayoutEventArgs containing event data.</param>
-        protected override void OnNeedPaint(object sender, NeedLayoutEventArgs e)
+        protected override void OnNeedPaint(object? sender, NeedLayoutEventArgs e)
         {
             if (IsInitialized || !e.NeedLayout)
             {
@@ -727,29 +745,32 @@ namespace Krypton.Toolkit
         /// <param name="m">A Windows-based message.</param>
         protected override void WndProc(ref Message m)
         {
-            if (m.Msg == PI.WM_.WINDOWPOSCHANGING)
+            switch (m.Msg)
             {
-                // First time around we need to create the obscurer
-                if (_obscurer == null)
+                case PI.WM_.WINDOWPOSCHANGING:
                 {
-                    _obscurer = new ScreenObscurer();
+                    // First time around we need to create the obscurer
+                    _obscurer ??= new ScreenObscurer();
+
+                    // Obscure the display area of the control
+                    if (!IsDisposed && IsHandleCreated && !DesignMode)
+                    {
+                        _obscurer.Cover(this);
+                    }
+
+                    // Just in case the WM_WINDOWPOSCHANGED does not occur we can 
+                    // ensure the obscurer is removed using this async delegate call
+                    if (_removeObscurer != null)
+                    {
+                        BeginInvoke(_removeObscurer);
+                    }
+
+                    break;
                 }
-
-                // Obscure the display area of the control
-                if (!IsDisposed && IsHandleCreated && !DesignMode)
-                {
-                    _obscurer.Cover(this);
-                }
-
-                // Just in case the WM_WINDOWPOSCHANGED does not occur we can 
-                // ensure the obscurer is removed using this async delegate call
-                BeginInvoke(_removeObscurer);
-            }
-
-            if (m.Msg == PI.WM_.WINDOWPOSCHANGED)
-            {
-                // Uncover from the covered area
-                _obscurer?.Uncover();
+                case PI.WM_.WINDOWPOSCHANGED:
+                    // Uncover from the covered area
+                    _obscurer.Uncover();
+                    break;
             }
 
             base.WndProc(ref m);
@@ -757,9 +778,9 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Internal
-        internal Component DesignerComponentFromPoint(Point pt) =>
+        internal Component? DesignerComponentFromPoint(Point pt) =>
             // Ignore call as view builder is already destructed
-            IsDisposed ? null : ViewManager.ComponentFromPoint(pt);
+            IsDisposed ? null : ViewManager?.ComponentFromPoint(pt);
 
         // Ask the current view for a decision
         // Simulate the mouse leaving the control so that the tracking
@@ -769,7 +790,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Implementation
-        private void OnRemoveObscurer(object sender, EventArgs e) => _obscurer?.Uncover();
+        private void OnRemoveObscurer(object sender, EventArgs e) => _obscurer.Uncover();
 
         private void OnValuesTextChanged(object sender, EventArgs e) => OnTextChanged(EventArgs.Empty);
 
@@ -785,6 +806,14 @@ namespace Krypton.Toolkit
         }
 
         private void ReapplyVisible() => _drawContent.Visible = _captionVisible;
+
+        private void SetCornerRoundingRadius(float? radius)
+        {
+            _cornerRoundingRadius = radius ?? GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
+
+            StateCommon.Border.Rounding = _cornerRoundingRadius;
+        }
+
         #endregion
 
         #region Implementation Static

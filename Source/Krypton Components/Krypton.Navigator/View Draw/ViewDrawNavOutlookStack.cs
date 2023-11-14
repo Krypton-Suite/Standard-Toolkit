@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -29,7 +29,7 @@ namespace Krypton.Navigator
         /// <param name="page">Page this check button represents.</param>
         /// <param name="orientation">Orientation for the check button.</param>
         public ViewDrawNavOutlookStack(KryptonNavigator navigator,
-                                       KryptonPage page,
+                                       KryptonPage? page,
                                        VisualOrientation orientation)
             : base(navigator, page, orientation) =>
             // Are we mapping for the full or the mini mode?
@@ -41,7 +41,7 @@ namespace Krypton.Navigator
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            "ViewDrawNavOutlookStack:" + Id + " Text:" + Page.Text;
+            $"ViewDrawNavOutlookStack:{Id} Text:{Page.Text}";
 
         #endregion
 
@@ -71,7 +71,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="state">The state for which the image is needed.</param>
         /// <returns>Image value.</returns>
-        public override Image GetImage(PaletteState state) =>
+        public override Image? GetImage(PaletteState state) =>
             Page.GetImageMapping(_full ? Navigator.Outlook.Full.StackMapImage :
                 Navigator.Outlook.Mini.StackMapImage);
 

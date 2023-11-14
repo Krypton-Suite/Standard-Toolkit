@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -29,7 +29,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="redirect">inheritance redirection instance.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public PaletteRibbonTabContentRedirect(PaletteRedirect redirect,
+        public PaletteRibbonTabContentRedirect([DisallowNull] PaletteRedirect redirect,
                                                NeedPaintHandler needPaint)
         {
             Debug.Assert(redirect != null);
@@ -37,11 +37,11 @@ namespace Krypton.Navigator
             // Store the provided paint notification delegate
             NeedPaint = needPaint;
 
-            _drawRedirect = new PaletteRibbonDoubleRedirect(redirect, 
-                                                            PaletteRibbonBackStyle.RibbonTab, 
-                                                            PaletteRibbonTextStyle.RibbonTab, 
+            _drawRedirect = new PaletteRibbonDoubleRedirect(redirect,
+                                                            PaletteRibbonBackStyle.RibbonTab,
+                                                            PaletteRibbonTextStyle.RibbonTab,
                                                             needPaint);
-            
+
             _contentInherit = new PaletteContentInheritRedirect(redirect);
             _content = new PaletteNavContent(_contentInherit, needPaint);
         }
@@ -52,7 +52,7 @@ namespace Krypton.Navigator
         /// Update the redirector with new reference.
         /// </summary>
         /// <param name="redirect">Target redirector.</param>
-        public void SetRedirector(PaletteRedirect redirect)
+        public void SetRedirector(PaletteRedirect? redirect)
         {
             _drawRedirect.SetRedirector(redirect);
             _contentInherit.SetRedirector(redirect);

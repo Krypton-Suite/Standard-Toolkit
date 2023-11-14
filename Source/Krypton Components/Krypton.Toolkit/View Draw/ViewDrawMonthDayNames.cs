@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -21,7 +21,7 @@ namespace Krypton.Toolkit
         #region Instance Fields
         private readonly IKryptonMonthCalendar _calendar;
         private readonly ViewLayoutMonths _months;
-        private readonly IDisposable[] _dayMementos;
+        private readonly IDisposable?[] _dayMementos;
         private string _drawText;
         #endregion
 
@@ -46,7 +46,7 @@ namespace Krypton.Toolkit
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            "ViewDrawMonthDayNames:" + Id;
+            $"ViewDrawMonthDayNames:{Id}";
 
         /// <summary>
         /// Release unmanaged and optionally managed resources.
@@ -73,11 +73,11 @@ namespace Krypton.Toolkit
         /// Discover the preferred size of the element.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override Size GetPreferredSize(ViewLayoutContext context)
+        public override Size GetPreferredSize([DisallowNull] ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 
-            Size preferredSize = Size.Empty;
+            var preferredSize = Size.Empty;
 
             // Width is 7 days times the width of a day name
             preferredSize.Width = _months.SizeDays.Width * 7;
@@ -92,7 +92,7 @@ namespace Krypton.Toolkit
         /// Perform a layout of the elements.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override void Layout(ViewLayoutContext context)
+        public override void Layout([DisallowNull] ViewLayoutContext context)
         {
             Debug.Assert(context != null);
            
@@ -103,16 +103,13 @@ namespace Krypton.Toolkit
             PaletteState state = Enabled ? PaletteState.Normal : PaletteState.Disabled;
 
             // Layout the 7 day names
-            Rectangle layoutRect = new(ClientLocation, _months.SizeDays);
+            var layoutRect = new Rectangle(ClientLocation, _months.SizeDays);
             for (int i = 0, day=(int)_months.DisplayDayOfWeek; i < 7; i++, day++)
             {
                 // Define text to be drawn
                 _drawText = _months.DayNames[day % 7];
 
-                if (_dayMementos[i] != null)
-                {
-                    _dayMementos[i].Dispose();
-                }
+                _dayMementos[i]?.Dispose();
 
                 _dayMementos[i] = context.Renderer.RenderStandardContent.LayoutContent(context, layoutRect, _calendar.StateNormal.DayOfWeek.Content, this, 
                                                                                        VisualOrientation.Top, state, false,false);
@@ -131,7 +128,7 @@ namespace Krypton.Toolkit
         /// Perform rendering before child elements are rendered.
         /// </summary>
         /// <param name="context">Rendering context.</param>
-        public override void RenderBefore(RenderContext context)
+        public override void RenderBefore([DisallowNull] RenderContext context)
         {
             Debug.Assert(context != null);
 
@@ -139,7 +136,7 @@ namespace Krypton.Toolkit
             PaletteState state = Enabled ? PaletteState.Normal : PaletteState.Disabled;
 
             // Draw the 7 day names
-            Rectangle drawRect = new(ClientLocation, _months.SizeDays);
+            var drawRect = new Rectangle(ClientLocation, _months.SizeDays);
             for(int i=0, day=(int)_months.DisplayDayOfWeek; i<7; i++, day++)
             {
                 // Draw using memento cached from the layout call
@@ -162,7 +159,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">The state for which the image is needed.</param>
         /// <returns>Image value.</returns>
-        public Image GetImage(PaletteState state) => null;
+        public Image? GetImage(PaletteState state) => null;
 
         /// <summary>
         /// Gets the image color that should be transparent.

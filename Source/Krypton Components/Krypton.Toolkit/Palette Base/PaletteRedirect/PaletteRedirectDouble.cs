@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -18,10 +18,10 @@ namespace Krypton.Toolkit
     public class PaletteRedirectDouble : PaletteRedirect
     {
         #region Instance Fields
-        private IPaletteDouble _disabled;
-        private IPaletteDouble _normal;
-        private IPaletteDouble _pressed;
-        private IPaletteDouble _tracking;
+        private IPaletteDouble? _disabled;
+        private IPaletteDouble? _normal;
+        private IPaletteDouble? _pressed;
+        private IPaletteDouble? _tracking;
         private IPaletteDouble _checkedNormal;
         private IPaletteDouble _checkedPressed;
         private IPaletteDouble _checkedTracking;
@@ -42,7 +42,7 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the PaletteRedirectDouble class.
         /// </summary>
         /// <param name="target">Initial palette target for redirection.</param>
-        public PaletteRedirectDouble(IPalette target)
+        public PaletteRedirectDouble(PaletteBase? target)
             : this(target, null, null, null, null, null, null, null, null, null)
         {
         }
@@ -53,9 +53,9 @@ namespace Krypton.Toolkit
         /// <param name="target">Initial palette target for redirection.</param>
         /// <param name="disabled">Redirection for disabled state requests.</param>
         /// <param name="normal">Redirection for normal state requests.</param>
-        public PaletteRedirectDouble(IPalette target,
-                                     IPaletteDouble disabled,
-                                     IPaletteDouble normal)
+        public PaletteRedirectDouble(PaletteBase? target,
+                                     IPaletteDouble? disabled,
+                                     IPaletteDouble? normal)
             : this(target, disabled, normal, null, null, null, null, null, null, null)
         {
         }
@@ -68,11 +68,11 @@ namespace Krypton.Toolkit
         /// <param name="normal">Redirection for normal state requests.</param>
         /// <param name="pressed">Redirection for pressed state requests.</param>
         /// <param name="tracking">Redirection for tracking state requests.</param>
-        public PaletteRedirectDouble(IPalette target,
-                                     IPaletteDouble disabled,
-                                     IPaletteDouble normal,
-                                     IPaletteDouble pressed,
-                                     IPaletteDouble tracking)
+        public PaletteRedirectDouble(PaletteBase? target,
+                                     IPaletteDouble? disabled,
+                                     IPaletteDouble? normal,
+                                     IPaletteDouble? pressed,
+                                     IPaletteDouble? tracking)
             : this(target, disabled, normal, pressed, tracking, null, null, null, null, null)
         {
         }
@@ -90,11 +90,11 @@ namespace Krypton.Toolkit
         /// <param name="checkedTracking">Redirection for checked tracking state requests.</param>
         /// <param name="focusOverride">Redirection for focus override state requests.</param>
         /// <param name="normalDefaultOverride">Redirection for normal default override state requests.</param>
-        public PaletteRedirectDouble(IPalette target,
-                                     IPaletteDouble disabled,
-                                     IPaletteDouble normal,
-                                     IPaletteDouble pressed,
-                                     IPaletteDouble tracking,
+        public PaletteRedirectDouble(PaletteBase? target,
+                                     IPaletteDouble? disabled,
+                                     IPaletteDouble? normal,
+                                     IPaletteDouble? pressed,
+                                     IPaletteDouble? tracking,
                                      IPaletteDouble checkedNormal,
                                      IPaletteDouble checkedPressed,
                                      IPaletteDouble checkedTracking,
@@ -121,8 +121,8 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="disabled">Redirection for disabled state requests.</param>
         /// <param name="normal">Redirection for normal state requests.</param>
-        public virtual void SetRedirectStates(IPaletteDouble disabled,
-                                              IPaletteDouble normal)
+        public virtual void SetRedirectStates(IPaletteDouble? disabled,
+                                              IPaletteDouble? normal)
         {
             _disabled = disabled;
             _normal = normal;
@@ -137,10 +137,10 @@ namespace Krypton.Toolkit
         /// <param name="normal">Redirection for normal state requests.</param>
         /// <param name="pressed">Redirection for pressed state requests.</param>
         /// <param name="tracking">Redirection for tracking state requests.</param>
-        public virtual void SetRedirectStates(IPaletteDouble disabled,
-                                              IPaletteDouble normal,
-                                              IPaletteDouble pressed,
-                                              IPaletteDouble tracking)
+        public virtual void SetRedirectStates(IPaletteDouble? disabled,
+                                              IPaletteDouble? normal,
+                                              IPaletteDouble? pressed,
+                                              IPaletteDouble? tracking)
         {
             _disabled = disabled;
             _normal = normal;
@@ -265,7 +265,7 @@ namespace Krypton.Toolkit
         /// <param name="style">Background style.</param>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image instance.</returns>
-        public override Image GetBackImage(PaletteBackStyle style, PaletteState state)
+        public override Image? GetBackImage(PaletteBackStyle style, PaletteState state)
         {
             IPaletteDouble inherit = GetInherit(state);
 
@@ -436,7 +436,7 @@ namespace Krypton.Toolkit
         /// <param name="style">Border style.</param>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image instance.</returns>
-        public override Image GetBorderImage(PaletteBorderStyle style, PaletteState state)
+        public override Image? GetBorderImage(PaletteBorderStyle style, PaletteState state)
         {
             IPaletteDouble inherit = GetInherit(state);
 
@@ -471,7 +471,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Implementation
-        private IPaletteDouble GetInherit(PaletteState state)
+        private IPaletteDouble? GetInherit(PaletteState state)
         {
             switch (state)
             {

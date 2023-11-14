@@ -5,8 +5,8 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved.
- *
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  
  */
 #endregion
 
@@ -17,10 +17,10 @@ namespace Krypton.Ribbon
     /// </summary>
     [ToolboxItem(false)]
     [ToolboxBitmap(typeof(KryptonRibbonGroupLines), "ToolboxBitmaps.KryptonRibbonGroupLines.bmp")]
-    [Designer("Krypton.Ribbon.KryptonRibbonGroupLinesDesigner, Krypton.Ribbon")]
+    [Designer(typeof(KryptonRibbonGroupLinesDesigner))]
     [DesignerCategory(@"code")]
     [DesignTimeVisible(false)]
-    [DefaultProperty("Visible")]
+    [DefaultProperty(nameof(Visible))]
     public class KryptonRibbonGroupLines : KryptonRibbonGroupContainer
     {
         #region Instance Fields
@@ -38,119 +38,119 @@ namespace Krypton.Ribbon
         /// </summary>
         [Category(@"Ribbon")]
         [Description(@"Occurs after the value of a property has changed.")]
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         /// <summary>
         /// Occurs when the design time wants to add a button.
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        public event EventHandler DesignTimeAddButton;
+        public event EventHandler? DesignTimeAddButton;
 
         /// <summary>
         /// Occurs when the design time wants to add a color button.
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        public event EventHandler DesignTimeAddColorButton;
+        public event EventHandler? DesignTimeAddColorButton;
 
         /// <summary>
         /// Occurs when the design time wants to add a check box.
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        public event EventHandler DesignTimeAddCheckBox;
+        public event EventHandler? DesignTimeAddCheckBox;
 
         /// <summary>
-        /// Occurs when the design time wants to add a radoi button.
+        /// Occurs when the design time wants to add a radio button.
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        public event EventHandler DesignTimeAddRadioButton;
+        public event EventHandler? DesignTimeAddRadioButton;
 
         /// <summary>
         /// Occurs when the design time wants to add a label.
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        public event EventHandler DesignTimeAddLabel;
+        public event EventHandler? DesignTimeAddLabel;
 
         /// <summary>
         /// Occurs when the design time wants to add a custom control.
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        public event EventHandler DesignTimeAddCustomControl;
+        public event EventHandler? DesignTimeAddCustomControl;
 
         /// <summary>
         /// Occurs when the design time wants to add a cluster.
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        public event EventHandler DesignTimeAddCluster;
+        public event EventHandler? DesignTimeAddCluster;
 
         /// <summary>
         /// Occurs when the design time wants to add a text box.
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        public event EventHandler DesignTimeAddTextBox;
+        public event EventHandler? DesignTimeAddTextBox;
 
         /// <summary>
         /// Occurs when the design time wants to add a masked text box.
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        public event EventHandler DesignTimeAddMaskedTextBox;
+        public event EventHandler? DesignTimeAddMaskedTextBox;
 
         /// <summary>
         /// Occurs when the design time wants to add a rich text box.
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        public event EventHandler DesignTimeAddRichTextBox;
+        public event EventHandler? DesignTimeAddRichTextBox;
 
         /// <summary>
         /// Occurs when the design time wants to add a combobox.
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        public event EventHandler DesignTimeAddComboBox;
+        public event EventHandler? DesignTimeAddComboBox;
 
         /// <summary>
         /// Occurs when the design time wants to add a numeric up down.
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        public event EventHandler DesignTimeAddNumericUpDown;
+        public event EventHandler? DesignTimeAddNumericUpDown;
 
         /// <summary>
         /// Occurs when the design time wants to add a domain up down.
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        public event EventHandler DesignTimeAddDomainUpDown;
+        public event EventHandler? DesignTimeAddDomainUpDown;
 
         /// <summary>
         /// Occurs when the design time wants to add a date time picker.
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        public event EventHandler DesignTimeAddDateTimePicker;
+        public event EventHandler? DesignTimeAddDateTimePicker;
 
         /// <summary>
         /// Occurs when the design time wants to add a track bar.
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        public event EventHandler DesignTimeAddTrackBar;
+        public event EventHandler? DesignTimeAddTrackBar;
 
         /// <summary>
         /// Occurs when the design time context menu is requested.
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        public event MouseEventHandler DesignTimeContextMenu;
+        public event MouseEventHandler? DesignTimeContextMenu;
 
         #endregion
 
@@ -200,7 +200,7 @@ namespace Krypton.Ribbon
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public override KryptonRibbon Ribbon
+        public override KryptonRibbon? Ribbon
         {
             get => base.Ribbon;
 
@@ -223,7 +223,7 @@ namespace Krypton.Ribbon
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public override KryptonRibbonTab RibbonTab
+        public override KryptonRibbonTab? RibbonTab
         {
             get => base.RibbonTab;
 
@@ -267,18 +267,12 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Make the ribbon group visible.
         /// </summary>
-        public void Show()
-        {
-            Visible = true;
-        }
+        public void Show() => Visible = true;
 
         /// <summary>
         /// Make the ribbon group hidden.
         /// </summary>
-        public void Hide()
-        {
-            Visible = false;
-        }
+        public void Hide() => Visible = false;
 
         /// <summary>
         /// Gets and sets the maximum allowed size of the container.
@@ -338,10 +332,7 @@ namespace Krypton.Ribbon
                             }
                             break;
                         case GroupItemSize.Small:
-                            if (_itemSizeMin != GroupItemSize.Small)
-                            {
-                                _itemSizeMin = GroupItemSize.Small;
-                            }
+                            _itemSizeMin = GroupItemSize.Small;
                             break;
                     }
 
@@ -377,10 +368,7 @@ namespace Krypton.Ribbon
                     switch (_itemSizeMin)
                     {
                         case GroupItemSize.Large:
-                            if (_itemSizeMax != GroupItemSize.Large)
-                            {
-                                _itemSizeMax = GroupItemSize.Large;
-                            }
+                            _itemSizeMax = GroupItemSize.Large;
                             break;
                         case GroupItemSize.Medium:
                             if (_itemSizeMax == GroupItemSize.Small)
@@ -447,7 +435,7 @@ namespace Krypton.Ribbon
         [Category(@"Visuals")]
         [Description(@"Collection of ribbon group line items.")]
         [MergableProperty(false)]
-        [Editor(@"Krypton.Ribbon.KryptonRibbonGroupLinesCollectionEditor, Krypton.Ribbon", typeof(UITypeEditor))]
+        [Editor(typeof(KryptonRibbonGroupLinesCollectionEditor), typeof(UITypeEditor))]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public KryptonRibbonGroupLinesCollection Items { get; }
 
@@ -477,92 +465,41 @@ namespace Krypton.Ribbon
         /// Raises the PropertyChanged event.
         /// </summary>
         /// <param name="propertyName">Name of property that has changed.</param>
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
+        protected virtual void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         #endregion
 
         #region Internal
-        internal void OnDesignTimeAddButton()
-        {
-            DesignTimeAddButton?.Invoke(this, EventArgs.Empty);
-        }
+        internal void OnDesignTimeAddButton() => DesignTimeAddButton?.Invoke(this, EventArgs.Empty);
 
-        internal void OnDesignTimeAddColorButton()
-        {
-            DesignTimeAddColorButton?.Invoke(this, EventArgs.Empty);
-        }
+        internal void OnDesignTimeAddColorButton() => DesignTimeAddColorButton?.Invoke(this, EventArgs.Empty);
 
-        internal void OnDesignTimeAddCheckBox()
-        {
-            DesignTimeAddCheckBox?.Invoke(this, EventArgs.Empty);
-        }
+        internal void OnDesignTimeAddCheckBox() => DesignTimeAddCheckBox?.Invoke(this, EventArgs.Empty);
 
-        internal void OnDesignTimeAddRadioButton()
-        {
-            DesignTimeAddRadioButton?.Invoke(this, EventArgs.Empty);
-        }
+        internal void OnDesignTimeAddRadioButton() => DesignTimeAddRadioButton?.Invoke(this, EventArgs.Empty);
 
-        internal void OnDesignTimeAddLabel()
-        {
-            DesignTimeAddLabel?.Invoke(this, EventArgs.Empty);
-        }
+        internal void OnDesignTimeAddLabel() => DesignTimeAddLabel?.Invoke(this, EventArgs.Empty);
 
-        internal void OnDesignTimeAddCustomControl()
-        {
-            DesignTimeAddCustomControl?.Invoke(this, EventArgs.Empty);
-        }
+        internal void OnDesignTimeAddCustomControl() => DesignTimeAddCustomControl?.Invoke(this, EventArgs.Empty);
 
-        internal void OnDesignTimeAddCluster()
-        {
-            DesignTimeAddCluster?.Invoke(this, EventArgs.Empty);
-        }
+        internal void OnDesignTimeAddCluster() => DesignTimeAddCluster?.Invoke(this, EventArgs.Empty);
 
-        internal void OnDesignTimeAddTextBox()
-        {
-            DesignTimeAddTextBox?.Invoke(this, EventArgs.Empty);
-        }
+        internal void OnDesignTimeAddTextBox() => DesignTimeAddTextBox?.Invoke(this, EventArgs.Empty);
 
-        internal void OnDesignTimeAddMaskedTextBox()
-        {
-            DesignTimeAddMaskedTextBox?.Invoke(this, EventArgs.Empty);
-        }
+        internal void OnDesignTimeAddMaskedTextBox() => DesignTimeAddMaskedTextBox?.Invoke(this, EventArgs.Empty);
 
-        internal void OnDesignTimeAddRichTextBox()
-        {
-            DesignTimeAddRichTextBox?.Invoke(this, EventArgs.Empty);
-        }
+        internal void OnDesignTimeAddRichTextBox() => DesignTimeAddRichTextBox?.Invoke(this, EventArgs.Empty);
 
-        internal void OnDesignTimeAddComboBox()
-        {
-            DesignTimeAddComboBox?.Invoke(this, EventArgs.Empty);
-        }
+        internal void OnDesignTimeAddComboBox() => DesignTimeAddComboBox?.Invoke(this, EventArgs.Empty);
 
-        internal void OnDesignTimeAddNumericUpDown()
-        {
-            DesignTimeAddNumericUpDown?.Invoke(this, EventArgs.Empty);
-        }
+        internal void OnDesignTimeAddNumericUpDown() => DesignTimeAddNumericUpDown?.Invoke(this, EventArgs.Empty);
 
-        internal void OnDesignTimeAddDomainUpDown()
-        {
-            DesignTimeAddDomainUpDown?.Invoke(this, EventArgs.Empty);
-        }
+        internal void OnDesignTimeAddDomainUpDown() => DesignTimeAddDomainUpDown?.Invoke(this, EventArgs.Empty);
 
-        internal void OnDesignTimeAddDateTimePicker()
-        {
-            DesignTimeAddDateTimePicker?.Invoke(this, EventArgs.Empty);
-        }
+        internal void OnDesignTimeAddDateTimePicker() => DesignTimeAddDateTimePicker?.Invoke(this, EventArgs.Empty);
 
-        internal void OnDesignTimeAddTrackBar()
-        {
-            DesignTimeAddTrackBar?.Invoke(this, EventArgs.Empty);
-        }
+        internal void OnDesignTimeAddTrackBar() => DesignTimeAddTrackBar?.Invoke(this, EventArgs.Empty);
 
-        internal void OnDesignTimeContextMenu(MouseEventArgs e)
-        {
-            DesignTimeContextMenu?.Invoke(this, e);
-        }
+        internal void OnDesignTimeContextMenu(MouseEventArgs e) => DesignTimeContextMenu?.Invoke(this, e);
 
         internal override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -26,63 +26,55 @@ namespace Krypton.Toolkit
                                        IRenderGlyph
     {
         #region Static Fields
-        private static readonly object _threadLock = new();
+        private static readonly object _threadLock = new object();
 
-        private static readonly ColorMatrix _matrixGrayScale = new(new[]
-        {new[]{0.3f,0.3f,0.3f,0,0},
-                                                                                             new[]{0.59f,0.59f,0.59f,0,0},
-                                                                                             new[]{0.11f,0.11f,0.11f,0,0},
-                                                                                             new float[]{0,0,0,1,0},
-                                                                                             new float[]{0,0,0,0,1}});
+        private static readonly ColorMatrix _matrixGrayScale = new ColorMatrix(new[]
+        {
+            new[] { 0.3f, 0.3f, 0.3f, 0, 0 }, new[] { 0.59f, 0.59f, 0.59f, 0, 0 },
+            new[] { 0.11f, 0.11f, 0.11f, 0, 0 }, new float[] { 0, 0, 0, 1, 0 }, new float[] { 0, 0, 0, 0, 1 }
+        });
 
-        private static readonly ColorMatrix _matrixGrayScaleRed = new(new[]
-        {new float[]{1,0,0,0,0},
-                                                                                                new[]{0,0.59f,0.59f,0,0},
-                                                                                                new[]{0,0.11f,0.11f,0,0},
-                                                                                                new float[]{0,0,0,1,0},
-                                                                                                new float[]{0,0,0,0,1}});
+        private static readonly ColorMatrix _matrixGrayScaleRed = new ColorMatrix(new[]
+        {
+            new float[] { 1, 0, 0, 0, 0 }, new[] { 0, 0.59f, 0.59f, 0, 0 }, new[] { 0, 0.11f, 0.11f, 0, 0 },
+            new float[] { 0, 0, 0, 1, 0 }, new float[] { 0, 0, 0, 0, 1 }
+        });
 
-        private static readonly ColorMatrix _matrixGrayScaleGreen = new(new[]
-        {new[]{0.3f,0,0.3f,0,0},
-                                                                                                  new float[]{0,1,0,0,0},
-                                                                                                  new[]{0.11f,0,0.11f,0,0},
-                                                                                                  new float[]{0,0,0,1,0},
-                                                                                                  new float[]{0,0,0,0,1}});
+        private static readonly ColorMatrix _matrixGrayScaleGreen = new ColorMatrix(new[]
+        {
+            new[] { 0.3f, 0, 0.3f, 0, 0 }, new float[] { 0, 1, 0, 0, 0 }, new[] { 0.11f, 0, 0.11f, 0, 0 },
+            new float[] { 0, 0, 0, 1, 0 }, new float[] { 0, 0, 0, 0, 1 }
+        });
 
-        private static readonly ColorMatrix _matrixGrayScaleBlue = new(new[]
-        {new[]{0.3f,0.3f,0,0,0},
-                                                                                                 new[]{0.59f,0.59f,0,0,0},
-                                                                                                 new float[]{0,0,1,0,0},
-                                                                                                 new float[]{0,0,0,1,0},
-                                                                                                 new float[]{0,0,0,0,1}});
+        private static readonly ColorMatrix _matrixGrayScaleBlue = new ColorMatrix(new[]
+        {
+            new[] { 0.3f, 0.3f, 0, 0, 0 }, new[] { 0.59f, 0.59f, 0, 0, 0 }, new float[] { 0, 0, 1, 0, 0 },
+            new float[] { 0, 0, 0, 1, 0 }, new float[] { 0, 0, 0, 0, 1 }
+        });
 
-        private static readonly ColorMatrix _matrixLight = new(new[]
-        {new float[]{1,0,0,0,0},
-                                                                                         new float[]{0,1,0,0,0},
-                                                                                         new float[]{0,0,1,0,0},
-                                                                                         new float[]{0,0,0,1,0},
-                                                                                         new[]{0.1f,0.1f,0.1f,0,1}});
+        private static readonly ColorMatrix _matrixLight = new ColorMatrix(new[]
+        {
+            new float[] { 1, 0, 0, 0, 0 }, new float[] { 0, 1, 0, 0, 0 }, new float[] { 0, 0, 1, 0, 0 },
+            new float[] { 0, 0, 0, 1, 0 }, new[] { 0.1f, 0.1f, 0.1f, 0, 1 }
+        });
 
-        private static readonly ColorMatrix _matrixLightLight = new(new[]
-        {new float[]{1,0,0,0,0},
-                                                                                              new float[]{0,1,0,0,0},
-                                                                                              new float[]{0,0,1,0,0},
-                                                                                              new float[]{0,0,0,1,0},
-                                                                                              new[]{0.2f,0.2f,0.2f,0,1}});
+        private static readonly ColorMatrix _matrixLightLight = new ColorMatrix(new[]
+        {
+            new float[] { 1, 0, 0, 0, 0 }, new float[] { 0, 1, 0, 0, 0 }, new float[] { 0, 0, 1, 0, 0 },
+            new float[] { 0, 0, 0, 1, 0 }, new[] { 0.2f, 0.2f, 0.2f, 0, 1 }
+        });
 
-        private static readonly ColorMatrix _matrixDark = new(new[]
-        {new float[]{1,0,0,0,0},
-                                                                                        new float[]{0,1,0,0,0},
-                                                                                        new float[]{0,0,1,0,0},
-                                                                                        new float[]{0,0,0,1,0},
-                                                                                        new[]{-0.1f,-0.1f,-0.1f,0,1}});
+        private static readonly ColorMatrix _matrixDark = new ColorMatrix(new[]
+        {
+            new float[] { 1, 0, 0, 0, 0 }, new float[] { 0, 1, 0, 0, 0 }, new float[] { 0, 0, 1, 0, 0 },
+            new float[] { 0, 0, 0, 1, 0 }, new[] { -0.1f, -0.1f, -0.1f, 0, 1 }
+        });
 
-        private static readonly ColorMatrix _matrixDarkDark = new(new[]
-        {new float[]{1,0,0,0,0},
-                                                                                            new float[]{0,1,0,0,0},
-                                                                                            new float[]{0,0,1,0,0},
-                                                                                            new float[]{0,0,0,1,0},
-                                                                                            new[]{-0.25f,-0.25f,-0.25f,0,1}});
+        private static readonly ColorMatrix _matrixDarkDark = new ColorMatrix(new[]
+        {
+            new float[] { 1, 0, 0, 0, 0 }, new float[] { 0, 1, 0, 0, 0 }, new float[] { 0, 0, 1, 0, 0 },
+            new float[] { 0, 0, 0, 1, 0 }, new[] { -0.25f, -0.25f, -0.25f, 0, 1 }
+        });
         #endregion
 
         #region IRenderer
@@ -132,7 +124,7 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>
-        /// Gets the glpyh renderer.
+        /// Gets the glyph renderer.
         /// </summary>
         public IRenderGlyph RenderGlyph 
         {
@@ -144,7 +136,7 @@ namespace Krypton.Toolkit
         /// Gets a renderer for drawing the toolstrips.
         /// </summary>
         /// <param name="colorPalette">Color palette to use when rendering toolstrip.</param>
-        public abstract ToolStripRenderer RenderToolStrip(IPalette colorPalette);
+        public abstract ToolStripRenderer RenderToolStrip(PaletteBase? colorPalette);
         #endregion
 
         #region RenderStandardBorder
@@ -241,13 +233,13 @@ namespace Krypton.Toolkit
         /// <param name="orientation">Visual orientation of the background.</param>
         /// <param name="state">State associated with rendering.</param>
         /// <param name="memento">Cache used for drawing.</param>
-        public abstract IDisposable DrawBack(RenderContext context, 
+        public abstract IDisposable? DrawBack(RenderContext context, 
                                              Rectangle rect,
                                              GraphicsPath path, 
                                              IPaletteBack palette,
                                              VisualOrientation orientation,
                                              PaletteState state,
-                                             IDisposable memento);
+                                             IDisposable? memento);
         #endregion
 
         #region RenderStandardContent
@@ -301,7 +293,7 @@ namespace Krypton.Toolkit
         /// <param name="orientation">Visual orientation of the content.</param>
         /// <param name="state">State associated with rendering.</param>
         /// <param name="composition">Drawing onto a composition element.</param>
-        /// <param name="glowing">If compisition, should glowing be drawn.</param>
+        /// <param name="glowing">If composition, should glowing be drawn.</param>
         /// <param name="allowFocusRect">Allow drawing of focus rectangle.</param>
         public abstract void DrawContent(RenderContext context,
                                          Rectangle displayRect,
@@ -449,14 +441,14 @@ namespace Krypton.Toolkit
         /// <param name="orientation">Orientation for drawing.</param>
         /// <param name="composition">Drawing onto a composition element.</param>
         /// <param name="memento">Cached values to use when drawing.</param>
-        public abstract IDisposable DrawRibbonBack(PaletteRibbonShape shape,
+        public abstract IDisposable? DrawRibbonBack(PaletteRibbonShape shape,
                                                    RenderContext context,
                                                    Rectangle rect,
                                                    PaletteState state,
                                                    IPaletteRibbonBack palette,
                                                    VisualOrientation orientation,
                                                    bool composition,
-                                                   IDisposable memento);
+                                                   IDisposable? memento);
 
         /// <summary>
         /// Draw a context ribbon tab title.
@@ -552,7 +544,7 @@ namespace Krypton.Toolkit
         /// <param name="tracking">Should check box be Displayed as hot tracking.</param>
         /// <param name="pressed">Should check box be Displayed as pressed.</param>
         public abstract Size GetCheckBoxPreferredSize(ViewLayoutContext context,
-                                                      IPalette palette,
+                                                      PaletteBase? palette,
                                                       bool enabled,
                                                       CheckState checkState,
                                                       bool tracking,
@@ -570,7 +562,7 @@ namespace Krypton.Toolkit
         /// <param name="pressed">Should check box be Displayed as pressed.</param>
         public abstract void DrawCheckBox(RenderContext context,
                                           Rectangle displayRect,
-                                          IPalette palette,
+                                          PaletteBase? palette,
                                           bool enabled,
                                           CheckState checkState,
                                           bool tracking,
@@ -586,7 +578,7 @@ namespace Krypton.Toolkit
         /// <param name="tracking">Should check box be Displayed as hot tracking.</param>
         /// <param name="pressed">Should check box be Displayed as pressed.</param>
         public abstract Size GetRadioButtonPreferredSize(ViewLayoutContext context,
-                                                         IPalette palette,
+                                                         PaletteBase palette,
                                                          bool enabled,
                                                          bool checkState,
                                                          bool tracking,
@@ -603,7 +595,7 @@ namespace Krypton.Toolkit
         /// <param name="pressed">Should radio button be Displayed as pressed.</param>
         public abstract void DrawRadioButton(RenderContext context,
                                              Rectangle displayRect,
-                                             IPalette palette,
+                                             PaletteBase palette,
                                              bool enabled,
                                              bool checkState,
                                              bool tracking,
@@ -617,7 +609,7 @@ namespace Krypton.Toolkit
         /// <param name="state">State for which image size is needed.</param>
         /// <param name="orientation">How to orientate the image.</param>
         public abstract Size GetDropDownButtonPreferredSize(ViewLayoutContext context,
-                                                            IPalette palette,
+                                                            PaletteBase? palette,
                                                             PaletteState state,
                                                             VisualOrientation orientation);
 
@@ -631,7 +623,7 @@ namespace Krypton.Toolkit
         /// <param name="orientation">How to orientate the image.</param>
         public abstract void DrawDropDownButton(RenderContext context,
                                                 Rectangle displayRect,
-                                                IPalette palette,
+                                                PaletteBase? palette,
                                                 PaletteState state,
                                                 VisualOrientation orientation);
 
@@ -644,7 +636,7 @@ namespace Krypton.Toolkit
         /// <param name="state">State associated with rendering.</param>
         public abstract void DrawInputControlNumericUpGlyph(RenderContext context,
                                                             Rectangle cellRect,
-                                                            IPaletteContent paletteContent,
+                                                            IPaletteContent? paletteContent,
                                                             PaletteState state);
 
         /// <summary>
@@ -656,7 +648,7 @@ namespace Krypton.Toolkit
         /// <param name="state">State associated with rendering.</param>
         public abstract void DrawInputControlNumericDownGlyph(RenderContext context,
                                                               Rectangle cellRect,
-                                                              IPaletteContent paletteContent,
+                                                              IPaletteContent? paletteContent,
                                                               PaletteState state);
 
         /// <summary>
@@ -668,7 +660,7 @@ namespace Krypton.Toolkit
         /// <param name="state">State associated with rendering.</param>
         public abstract void DrawInputControlDropDownGlyph(RenderContext context,
                                                            Rectangle cellRect,
-                                                           IPaletteContent paletteContent,
+                                                           IPaletteContent? paletteContent,
                                                            PaletteState state);
         
 
@@ -755,7 +747,7 @@ namespace Krypton.Toolkit
         public abstract Rectangle DrawGridSortGlyph(RenderContext context,
                                                     SortOrder sortOrder,
                                                     Rectangle cellRect,
-                                                    IPaletteContent paletteContent,
+                                                    IPaletteContent? paletteContent,
                                                     PaletteState state,
                                                     bool rtl);
 
@@ -772,7 +764,7 @@ namespace Krypton.Toolkit
         public abstract Rectangle DrawGridRowGlyph(RenderContext context,
                                                    GridRowGlyph rowGlyph,
                                                    Rectangle cellRect,
-                                                   IPaletteContent paletteContent,
+                                                   IPaletteContent? paletteContent,
                                                    PaletteState state,
                                                    bool rtl);
 
@@ -896,7 +888,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Element state associated with palette.</param>
         /// <returns>True if transparent painting required.</returns>
         public abstract bool EvalTransparentPaint(IPaletteBack paletteBack,
-                                                  IPaletteBorder paletteBorder,
+                                                  IPaletteBorder? paletteBorder,
                                                   PaletteState state);
         #endregion
 
@@ -910,7 +902,7 @@ namespace Krypton.Toolkit
         /// <param name="iconRect">Destination rectangle.</param>
         /// <param name="orientation">Visual orientation.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        protected static void DrawIconHelper(ViewContext context,
+        protected static void DrawIconHelper([DisallowNull] ViewContext context,
                                              Icon icon,
                                              Rectangle iconRect,
                                              VisualOrientation orientation)
@@ -923,14 +915,8 @@ namespace Krypton.Toolkit
                 throw new ArgumentNullException(nameof(context));
             }
 
-            try
-            {
-                // Finally, just draw the icon and let the transforms do the rest
-                context.Graphics.DrawIcon(icon, iconRect);
-            }
-            finally
-            {
-            }
+            // Finally, just draw the icon and let the transforms do the rest
+            context.Graphics.DrawIcon(icon, iconRect);
         }
         #endregion
 
@@ -948,7 +934,7 @@ namespace Krypton.Toolkit
         /// <param name="remapColor">Image color to remap.</param>
         /// <param name="remapNew">New color for remap.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        protected static void DrawImageHelper(ViewContext context,
+        protected static void DrawImageHelper([DisallowNull] ViewContext context,
                                               Image image,
                                               Color remapTransparent,
                                               Rectangle imageRect,
@@ -970,7 +956,7 @@ namespace Krypton.Toolkit
                 }
 
                 // Use image attributes class to modify image drawing for effects
-                ImageAttributes attribs = new();
+                var attribs = new ImageAttributes();
 
                 switch (effect)
                 {
@@ -1016,7 +1002,7 @@ namespace Krypton.Toolkit
                     // Create remapping for the transparent color
                     if (remapTransparent != Color.Empty)
                     {
-                        ColorMap remap = new()
+                        var remap = new ColorMap
                         {
                             OldColor = remapTransparent,
                             NewColor = Color.Transparent
@@ -1027,7 +1013,7 @@ namespace Krypton.Toolkit
                     // Create remapping from source to target colors
                     if ((remapColor != Color.Empty) && (remapNew != Color.Empty))
                     {
-                        ColorMap remap = new()
+                        var remap = new ColorMap
                         {
                             OldColor = remapColor,
                             NewColor = remapNew
@@ -1054,7 +1040,7 @@ namespace Krypton.Toolkit
                         break;
                     case VisualOrientation.Left:
                         // Invert the dimensions of the rectangle for drawing upwards
-                        imageRect = new Rectangle(imageRect.X, imageRect.Y, imageRect.Height, imageRect.Width);
+                        imageRect = imageRect with { Width = imageRect.Height, Height = imageRect.Width };
 
                         // Translate back from a quarter left turn to the original place 
                         translateX = imageRect.X - imageRect.Y;
@@ -1063,7 +1049,7 @@ namespace Krypton.Toolkit
                         break;
                     case VisualOrientation.Right:
                         // Invert the dimensions of the rectangle for drawing upwards
-                        imageRect = new Rectangle(imageRect.X, imageRect.Y, imageRect.Height, imageRect.Width);
+                        imageRect = imageRect with { Width = imageRect.Height, Height = imageRect.Width };
 
                         // Translate back from a quarter right turn to the original place 
                         translateX = imageRect.X + imageRect.Y + imageRect.Height;

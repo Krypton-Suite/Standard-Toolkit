@@ -5,7 +5,9 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  
+ *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
  */
 #endregion
@@ -34,8 +36,8 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="ribbon">Source ribbon control.</param>
         /// <param name="ribbonGroup">Ribbon group to display title for.</param>
-        public ViewDrawRibbonGroupTitle(KryptonRibbon ribbon,
-                                        KryptonRibbonGroup ribbonGroup)
+        public ViewDrawRibbonGroupTitle([DisallowNull] KryptonRibbon ribbon,
+                                        [DisallowNull] KryptonRibbonGroup ribbonGroup)
         {
             Debug.Assert(ribbon != null);
             Debug.Assert(ribbonGroup != null);
@@ -54,7 +56,7 @@ namespace Krypton.Ribbon
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            @"ViewDrawRibbonGroupTitle:" + Id;
+            $@"ViewDrawRibbonGroupTitle:{Id}";
 
         /// <summary>
         /// Clean up any resources being used.
@@ -79,10 +81,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Make dirty so cached values are not used.
         /// </summary>
-        public void MakeDirty()
-        {
-            _dirtyPaletteLayout = 0;
-        }
+        public void MakeDirty() => _dirtyPaletteLayout = 0;
         #endregion
 
         #region PaletteRibbonGroup
@@ -109,13 +108,13 @@ namespace Krypton.Ribbon
         /// Discover the preferred size of the element.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override Size GetPreferredSize(ViewLayoutContext context) => new (0, Height);
+        public override Size GetPreferredSize(ViewLayoutContext context) => new Size(0, Height);
 
         /// <summary>
         /// Perform a layout of the elements.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override void Layout(ViewLayoutContext context)
+        public override void Layout([DisallowNull] ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 
@@ -177,7 +176,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="state">Tab state.</param>
         /// <returns>Image.</returns>
-        public Image GetImage(PaletteState state) => null;
+        public Image? GetImage(PaletteState state) => null;
 
         /// <summary>
         /// Gets the image color that should be interpreted as transparent.
@@ -194,7 +193,7 @@ namespace Krypton.Ribbon
         {
             if (!string.IsNullOrEmpty(_ribbonGroup.TextLine2))
             {
-                return _ribbonGroup.TextLine1 + " " + _ribbonGroup.TextLine2;
+                return $"{_ribbonGroup.TextLine1} {_ribbonGroup.TextLine2}";
             }
             else
             {

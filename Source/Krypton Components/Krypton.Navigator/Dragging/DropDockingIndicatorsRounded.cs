@@ -5,22 +5,23 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
 
+// ReSharper disable VirtualMemberCallInConstructor
 namespace Krypton.Navigator
 {
     /// <summary>
     /// Draws a window containing rounded docking indicators.
     /// </summary>
-    public class DropDockingIndicatorsRounded : NativeWindow, 
+    public class DropDockingIndicatorsRounded : NativeWindow,
                                                 IDisposable,
                                                 IDropDockingIndicator
     {
         #region Instance Fields
-        private readonly IRenderer _renderer;
+        private readonly IRenderer? _renderer;
         private readonly IPaletteDragDrop _paletteDragDrop;
         private readonly RenderDragDockingData _dragData;
         private Rectangle _showRect;
@@ -37,8 +38,8 @@ namespace Krypton.Navigator
         /// <param name="showTop">Show top hot area.</param>
         /// <param name="showBottom">Show bottom hot area.</param>
         /// <param name="showMiddle">Show middle hot area.</param>
-        public DropDockingIndicatorsRounded(IPaletteDragDrop paletteDragDrop, 
-                                            IRenderer renderer,
+        public DropDockingIndicatorsRounded(IPaletteDragDrop paletteDragDrop,
+                                            IRenderer? renderer,
                                             bool showLeft, bool showRight,
                                             bool showTop, bool showBottom,
                                             bool showMiddle)
@@ -50,13 +51,13 @@ namespace Krypton.Navigator
             _dragData = new RenderDragDockingData(showLeft, showRight, showTop, showBottom, showMiddle);
 
             // Ask the renderer to measure the sizing of the indicators that are Displayed
-            _renderer.RenderGlyph.MeasureDragDropDockingGlyph(_dragData, _paletteDragDrop, PaletteDragFeedback.Rounded);
+            _renderer?.RenderGlyph.MeasureDragDropDockingGlyph(_dragData, _paletteDragDrop, PaletteDragFeedback.Rounded);
             _showRect = new Rectangle(Point.Empty, _dragData.DockWindowSize);
 
             // Any old title will do as it will not be shown
-            CreateParams cp = new()
+            var cp = new CreateParams
             {
-                Caption = "DropDockingIndicatorsRounded",
+                Caption = nameof(DropDockingIndicatorsRounded),
 
                 // Define the screen position/size
                 X = _showRect.X,
@@ -108,30 +109,28 @@ namespace Krypton.Navigator
             var xHalf = _dragData.DockWindowSize.Width / 2;
 
             Point location;
-            if (_dragData.ShowLeft && !_dragData.ShowRight && !_dragData.ShowMiddle && !_dragData.ShowTop && !_dragData.ShowBottom)
+            switch (_dragData.ShowLeft)
             {
-                location = new Point(screenRect.Left + 10, yMid - yHalf);
-            }
-            else if (!_dragData.ShowLeft && _dragData.ShowRight && !_dragData.ShowMiddle && !_dragData.ShowTop && !_dragData.ShowBottom)
-            {
-                location = new Point(screenRect.Right - _dragData.DockWindowSize.Width - 10, yMid - yHalf);
-            }
-            else if (!_dragData.ShowLeft && !_dragData.ShowRight && !_dragData.ShowMiddle && _dragData.ShowTop && !_dragData.ShowBottom)
-            {
-                location = new Point(xMid - xHalf, screenRect.Top + 10);
-            }
-            else if (!_dragData.ShowLeft && !_dragData.ShowRight && !_dragData.ShowMiddle && !_dragData.ShowTop && _dragData.ShowBottom)
-            {
-                location = new Point(xMid - xHalf, screenRect.Bottom - _dragData.DockWindowSize.Height - 10);
-            }
-            else
-            {
-                location = new Point(xMid - xHalf, yMid - yHalf);
+                case true when _dragData is { ShowRight: false, ShowMiddle: false } and { ShowTop: false, ShowBottom: false }:
+                    location = new Point(screenRect.Left + 10, yMid - yHalf);
+                    break;
+                case false when _dragData is { ShowRight: true, ShowMiddle: false } and { ShowTop: false, ShowBottom: false }:
+                    location = new Point(screenRect.Right - _dragData.DockWindowSize.Width - 10, yMid - yHalf);
+                    break;
+                case false when _dragData is { ShowRight: false, ShowMiddle: false } and { ShowTop: true, ShowBottom: false }:
+                    location = new Point(xMid - xHalf, screenRect.Top + 10);
+                    break;
+                case false when _dragData is { ShowRight: false, ShowMiddle: false } and { ShowTop: false, ShowBottom: true }:
+                    location = new Point(xMid - xHalf, screenRect.Bottom - _dragData.DockWindowSize.Height - 10);
+                    break;
+                default:
+                    location = new Point(xMid - xHalf, yMid - yHalf);
+                    break;
             }
 
             // Update the image for display
             UpdateLayeredWindow(new Rectangle(location, _showRect.Size));
-            
+
             // Show the window without activating it (i.e. do not take focus)
             PI.ShowWindow(Handle, PI.ShowWindowCommands.SW_SHOWNOACTIVATE);
         }
@@ -139,10 +138,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Hide the window from display.
         /// </summary>
-        public void Hide()
-        {
-            PI.ShowWindow(Handle, PI.ShowWindowCommands.SW_HIDE);
-        }
+        public void Hide() => PI.ShowWindow(Handle, PI.ShowWindowCommands.SW_HIDE);
 
         /// <summary>
         /// Perform mouse hit testing against a screen point.
@@ -152,7 +148,7 @@ namespace Krypton.Navigator
         public int ScreenMouseMove(Point screenPoint)
         {
             // Convert from screen to client coordinates
-            Point pt = new(screenPoint.X - _showRect.X, screenPoint.Y - _showRect.Y);
+            var pt = new Point(screenPoint.X - _showRect.X, screenPoint.Y - _showRect.Y);
 
             // Remember the current active value
             var activeBefore = _dragData.ActiveFlags;
@@ -179,7 +175,7 @@ namespace Krypton.Navigator
             }
 
             // Only consider the middle if the others do not match
-            if ((_dragData.ActiveFlags == 0) && _dragData.ShowMiddle && _dragData.RectMiddle.Contains(pt))
+            if (_dragData is { ActiveFlags: 0, ShowMiddle: true } && _dragData.RectMiddle.Contains(pt))
             {
                 _dragData.ActiveMiddle = true;
             }
@@ -214,29 +210,30 @@ namespace Krypton.Navigator
             _showRect = rect;
 
             // Must have a visible rectangle to render
-            if ((rect.Width > 0) && (rect.Height > 0))
+            if (rect is { Width: > 0, Height: > 0 })
             {
                 // Draw onto a bitmap that is then used as the window display
-                Bitmap memoryBitmap = new(rect.Width, rect.Height, PixelFormat.Format32bppArgb);
+                var memoryBitmap = new Bitmap(rect.Width, rect.Height, PixelFormat.Format32bppArgb);
                 using Graphics g = Graphics.FromImage(memoryBitmap);
                 // Perform actual painting onto the bitmap
-                Rectangle area = new(0, 0, rect.Width, rect.Height);
-                using (RenderContext context = new(null, g, area, _renderer))
+                var area = rect with { X = 0, Y = 0 };
+                using (var context = new RenderContext(null, g, area, _renderer))
                 {
-                    _renderer.RenderGlyph.DrawDragDropDockingGlyph(context, _dragData, _paletteDragDrop, PaletteDragFeedback.Rounded);
+                    _renderer?.RenderGlyph.DrawDragDropDockingGlyph(context, _dragData, _paletteDragDrop,
+                        PaletteDragFeedback.Rounded);
                 }
 
                 // Get hold of the screen DC
-                IntPtr hDC = PI.GetDC(IntPtr.Zero);
+                var hDC = PI.GetDC(IntPtr.Zero);
 
                 // Create a memory based DC compatible with the screen DC
-                IntPtr memoryDC = PI.CreateCompatibleDC(hDC);
+                var memoryDC = PI.CreateCompatibleDC(hDC);
 
                 // Get access to the bitmap handle contained in the Bitmap object
-                IntPtr hBitmap = memoryBitmap.GetHbitmap(Color.FromArgb(0));
+                var hBitmap = memoryBitmap.GetHbitmap(Color.FromArgb(0));
 
                 // Select this bitmap for updating the window presentation
-                IntPtr oldBitmap = PI.SelectObject(memoryDC, hBitmap);
+                var oldBitmap = PI.SelectObject(memoryDC, hBitmap);
 
                 // New window size
                 PI.SIZE ulwsize;
@@ -244,12 +241,12 @@ namespace Krypton.Navigator
                 ulwsize.cy = rect.Height;
 
                 // New window position
-                PI.POINT topPos = new(rect.Left,rect.Top);
+                var topPos = new PI.POINT(rect.Left, rect.Top);
                 // Offset into memory bitmap is always zero
-                PI.POINT pointSource = new(0, 0);
+                var pointSource = new PI.POINT(0, 0);
 
                 // We want to make the entire bitmap opaque 
-                PI.BLENDFUNCTION blend = new()
+                var blend = new PI.BLENDFUNCTION
                 {
                     BlendOp = PI.AC_SRC_OVER,
                     BlendFlags = 0,

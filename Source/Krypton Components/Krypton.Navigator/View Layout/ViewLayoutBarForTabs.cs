@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -82,7 +82,7 @@ namespace Krypton.Navigator
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            "ViewLayoutBarForTabs:" + Id;
+            $"ViewLayoutBarForTabs:{Id}";
 
         #endregion
 
@@ -127,8 +127,8 @@ namespace Krypton.Navigator
                 if (child.Visible && child.ClientRectangle.IntersectsWith(context.ClipRect))
                 {
                     // If this is a page representation that can overlap group border
-                    ViewDrawNavCheckButtonBar buttonBar = child as ViewDrawNavCheckButtonBar;
-                    ViewDrawNavRibbonTab tab = child as ViewDrawNavRibbonTab;
+                    var buttonBar = child as ViewDrawNavCheckButtonBar;
+                    var tab = child as ViewDrawNavRibbonTab;
                     if ((buttonBar != null) ||
                         (tab != null))
                     {

@@ -5,7 +5,9 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  
+ *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
  */
 #endregion
@@ -30,11 +32,11 @@ namespace Krypton.Ribbon
         /// <param name="ribbonGroupTextDisabled">Source for ribbon group button disabled settings.</param>
         /// <param name="ribbonLabelTextNormal">Source for ribbon group label normal settings.</param>
         /// <param name="ribbonLabelTextDisabled">Source for ribbon group label disabled settings.</param>
-        public RibbonGroupLabelTextToContent(PaletteRibbonGeneral ribbonGeneral,
-                                             IPaletteRibbonText ribbonGroupTextNormal,
-                                             IPaletteRibbonText ribbonGroupTextDisabled,
-                                             IPaletteRibbonText ribbonLabelTextNormal,
-                                             IPaletteRibbonText ribbonLabelTextDisabled)
+        public RibbonGroupLabelTextToContent([DisallowNull] PaletteRibbonGeneral ribbonGeneral,
+                                             [DisallowNull] IPaletteRibbonText ribbonGroupTextNormal,
+                                             [DisallowNull] IPaletteRibbonText ribbonGroupTextDisabled,
+                                             [DisallowNull] IPaletteRibbonText ribbonLabelTextNormal,
+                                             [DisallowNull] IPaletteRibbonText ribbonLabelTextDisabled)
 
             : base(ribbonGeneral)
         {

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -17,10 +17,6 @@ namespace Krypton.Toolkit
     /// </summary>
     public class KryptonPaletteTMS : Storage
     {
-        #region Instance Fields
-
-        #endregion
-
         #region Identity
         /// <summary>
         /// Initialize a new instance of the KryptonPaletteKCT class.
@@ -28,8 +24,8 @@ namespace Krypton.Toolkit
         /// <param name="palette">Associated palettte instance.</param>
         /// <param name="baseKCT">Initial base KCT to inherit values from.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public KryptonPaletteTMS(IPalette palette,
-                                   KryptonColorTable baseKCT,
+        public KryptonPaletteTMS(PaletteBase palette,
+            [DisallowNull] KryptonColorTable baseKCT,
                                    NeedPaintHandler needPaint)
         {
             Debug.Assert(baseKCT != null);
@@ -200,7 +196,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category(@"ToolMenuStatus")]
         [Description(@"Should rendering use rounded or square edges.")]
-        [DefaultValue(typeof(InheritBool), "Inherit")]
+        [DefaultValue(InheritBool.Inherit)]
         public InheritBool UseRoundedEdges
         {
             get => InternalKCT.InternalUseRoundedEdges;
@@ -215,10 +211,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// esets the UseRoundedEdges property to its default value.
         /// </summary>
-        public void ResetUseRoundedEdges()
-        {
-            UseRoundedEdges = InheritBool.Inherit;
-        }
+        public void ResetUseRoundedEdges() => UseRoundedEdges = InheritBool.Inherit;
         #endregion
 
         #region Internal

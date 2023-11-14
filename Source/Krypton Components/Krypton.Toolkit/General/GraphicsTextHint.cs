@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -20,7 +20,7 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
         private readonly Graphics _graphics;
-        private readonly TextRenderingHint _textHint;
+        private readonly TextRenderingHint _oldTextHint;
         #endregion
 
         #region Identity
@@ -28,17 +28,17 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the GraphicsSmooth class.
         /// </summary>
         /// <param name="graphics">Graphics context.</param>
-        /// <param name="textHint">Temporary text rendering hint to apply.</param>
-        public GraphicsTextHint(Graphics graphics, TextRenderingHint textHint)
+        /// <param name="newTextHint">Temporary text rendering hint to apply.</param>
+        public GraphicsTextHint(Graphics graphics, TextRenderingHint newTextHint)
         {
             // Cache graphics instance
             _graphics = graphics;
 
             // Remember current text hint
-            _textHint = _graphics.TextRenderingHint;
+            _oldTextHint = _graphics.TextRenderingHint;
 
             // Apply new text hint
-            _graphics.TextRenderingHint = textHint;
+            _graphics.TextRenderingHint = newTextHint;
         }
 
         /// <summary>
@@ -46,15 +46,13 @@ namespace Krypton.Toolkit
         /// </summary>
         public void Dispose()
         {
-            if (_graphics != null)
+            try
             {
-                try
-                {
-                    // Put back to the original text hint
-                    _graphics.TextRenderingHint = _textHint;
-                }
-                catch { }
+                // Put back to the original text hint
+                _graphics.TextRenderingHint = _oldTextHint;
             }
+            catch { }
+
             GC.SuppressFinalize(this);
         }
         #endregion

@@ -5,11 +5,12 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
 
+// ReSharper disable RedundantNullableFlowAttribute
 namespace Krypton.Navigator
 {
     /// <summary>
@@ -20,7 +21,7 @@ namespace Krypton.Navigator
                                            IKeyController
     {
         #region Instance Fields
-        private NeedPaintHandler _needPaint;
+        private NeedPaintHandler? _needPaint;
         private readonly ViewBase _target;
         private bool _fixedTracking;
         private bool _mouseOver;
@@ -30,7 +31,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Occurs when a click portion is clicked.
         /// </summary>
-        public event EventHandler Click;
+        public event EventHandler? Click;
         #endregion
 
         #region Identity
@@ -40,7 +41,7 @@ namespace Krypton.Navigator
         /// <param name="target">Target for state changes.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
         public OutlookMiniController(ViewBase target,
-                                     NeedPaintHandler needPaint)
+            [DisallowNull] NeedPaintHandler needPaint)
         {
             Debug.Assert(needPaint != null);
 
@@ -91,11 +92,9 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="c">Reference to the source control instance.</param>
         /// <param name="pt">Mouse position relative to control.</param>
-        public virtual void MouseMove(Control c, Point pt)
-        {
+        public virtual void MouseMove(Control c, Point pt) =>
             // Update the visual state
             UpdateTargetState(pt);
-        }
 
         /// <summary>
         /// Mouse button has been pressed in the view.
@@ -109,7 +108,7 @@ namespace Krypton.Navigator
             // Only interested in left mouse pressing down
             if (button == MouseButtons.Left)
             {
-               // Capturing mouse input
+                // Capturing mouse input
                 Captured = true;
 
                 // Update the visual state
@@ -172,7 +171,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="c">Reference to the source control instance.</param>
         /// <param name="next">Reference to view that is next to have the mouse.</param>
-        public virtual void MouseLeave(Control c, ViewBase next)
+        public virtual void MouseLeave(Control c, ViewBase? next)
         {
             // Mouse is no longer over the target
             _mouseOver = false;
@@ -209,7 +208,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="c">Reference to the source control instance.</param>
         /// <param name="e">A KeyEventArgs that contains the event data.</param>
-        public virtual void KeyDown(Control c, KeyEventArgs e)
+        public virtual void KeyDown([DisallowNull] Control c, [DisallowNull] KeyEventArgs e)
         {
             Debug.Assert(c != null);
             Debug.Assert(e != null);
@@ -253,7 +252,7 @@ namespace Krypton.Navigator
         /// <param name="c">Reference to the source control instance.</param>
         /// <param name="e">A KeyEventArgs that contains the event data.</param>
         /// <returns>True if capturing input; otherwise false.</returns>
-        public virtual bool KeyUp(Control c, KeyEventArgs e)
+        public virtual bool KeyUp([DisallowNull] Control c, [DisallowNull] KeyEventArgs e)
         {
             Debug.Assert(c != null);
             Debug.Assert(e != null);
@@ -269,7 +268,7 @@ namespace Krypton.Navigator
             }
 
             // If the user pressed the escape key
-            if ((e.KeyCode == Keys.Escape) || (e.KeyCode == Keys.Space))
+            if (e.KeyCode is Keys.Escape or Keys.Space)
             {
                 // If we are capturing mouse input
                 if (Captured)
@@ -304,7 +303,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets and sets the need paint delegate for notifying paint requests.
         /// </summary>
-        public NeedPaintHandler NeedPaint
+        public NeedPaintHandler? NeedPaint
         {
             get => _needPaint;
 
@@ -322,10 +321,7 @@ namespace Krypton.Navigator
         /// Fires the NeedPaint event.
         /// </summary>
         /// <param name="needLayout">Does the palette change require a layout.</param>
-        public void PerformNeedPaint(bool needLayout)
-        {
-            OnNeedPaint(needLayout);
-        }
+        public void PerformNeedPaint(bool needLayout) => OnNeedPaint(needLayout);
         #endregion
 
         #region Protected
@@ -338,7 +334,7 @@ namespace Krypton.Navigator
         /// Set the correct visual state of the target.
         /// </summary>
         /// <param name="c">Owning control.</param>
-        protected void UpdateTargetState(Control c)
+        protected void UpdateTargetState(Control? c)
         {
             if ((c == null) || c.IsDisposed)
             {
@@ -393,19 +389,14 @@ namespace Krypton.Navigator
         /// Raises the Click event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnClick(EventArgs e)
-        {
-            Click?.Invoke(_target, e);
-        }
+        protected virtual void OnClick(EventArgs e) => Click?.Invoke(_target, e);
 
         /// <summary>
         /// Raises the NeedPaint event.
         /// </summary>
         /// <param name="needLayout">Does the palette change require a layout.</param>
-        protected virtual void OnNeedPaint(bool needLayout)
-        {
-            _needPaint?.Invoke(this, new NeedLayoutEventArgs(needLayout, _target.ClientRectangle));
-        }
+        protected virtual void OnNeedPaint(bool needLayout) => _needPaint?.Invoke(this, new NeedLayoutEventArgs(needLayout, _target.ClientRectangle));
+
         #endregion
     }
 }

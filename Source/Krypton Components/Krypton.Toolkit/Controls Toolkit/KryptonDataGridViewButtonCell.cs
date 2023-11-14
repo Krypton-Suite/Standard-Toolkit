@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -27,7 +27,7 @@ namespace Krypton.Toolkit
         private bool _styleSet;
         private ButtonStyle _buttonStyle;
         private PaletteTripleToPalette _palette;
-        private ShortTextValue _shortTextValue;
+        private ShortTextValue? _shortTextValue;
         private ViewDrawButton _viewButton;
         private Rectangle _contentBounds;
         #endregion
@@ -47,7 +47,7 @@ namespace Krypton.Toolkit
         /// <returns>New object instance.</returns>
         public override object Clone()
         {
-            KryptonDataGridViewButtonCell dataGridViewCell = base.Clone() as KryptonDataGridViewButtonCell;
+            var dataGridViewCell = base.Clone() as KryptonDataGridViewButtonCell;
             if (dataGridViewCell != null)
             {
                 dataGridViewCell._styleSet = _styleSet;
@@ -61,7 +61,7 @@ namespace Krypton.Toolkit
         /// Gets and sets the button style.
         /// </summary>
         [Category(@"Appearance")]
-        [DefaultValue(typeof(ButtonStyle), "Standalone")]
+        [DefaultValue(ButtonStyle.Standalone)]
         public ButtonStyle ButtonStyle
         {
             get => _buttonStyle;
@@ -104,7 +104,7 @@ namespace Krypton.Toolkit
         {
             try
             {
-                KryptonDataGridView kDGV = (KryptonDataGridView)DataGridView;
+                var kDGV = (KryptonDataGridView)DataGridView;
 
                 // Create the view elements and palette structure
                 CreateViewAndPalettes(kDGV);
@@ -155,7 +155,7 @@ namespace Krypton.Toolkit
                 }
 
                 // Position the button element inside the available cell area
-                using ViewLayoutContext layoutContext = new(kDGV, kDGV.Renderer);
+                using var layoutContext = new ViewLayoutContext(kDGV, kDGV.Renderer);
                 // Define the available area for layout
                 layoutContext.DisplayRectangle = new Rectangle(0, 0, int.MaxValue, int.MaxValue);
 
@@ -206,7 +206,7 @@ namespace Krypton.Toolkit
                 // Should we draw the content foreground?
                 if ((paintParts & DataGridViewPaintParts.ContentForeground) == DataGridViewPaintParts.ContentForeground)
                 {
-                    using RenderContext renderContext = new(kDgv, graphics, cellBounds, kDgv.Renderer);
+                    using var renderContext = new RenderContext(kDgv, graphics, cellBounds, kDgv.Renderer);
                     // Create the view elements and palette structure
                     CreateViewAndPalettes(kDgv);
 
@@ -279,7 +279,7 @@ namespace Krypton.Toolkit
                     cellBounds.Height -= cellStyle.Padding.Vertical;
 
                     // Position the button element inside the available cell area
-                    using (ViewLayoutContext layoutContext = new(kDgv, kDgv.Renderer))
+                    using (var layoutContext = new ViewLayoutContext(kDgv, kDgv.Renderer))
                     {
                         // Define the available area for layout
                         layoutContext.DisplayRectangle = cellBounds;
@@ -292,9 +292,7 @@ namespace Krypton.Toolkit
                     _viewButton.Render(renderContext);
 
                     // Remember the current drawing bounds
-                    _contentBounds = new Rectangle(cellBounds.X - startBounds.X,
-                        cellBounds.Y - startBounds.Y,
-                        cellBounds.Width, cellBounds.Height);
+                    _contentBounds = cellBounds with { X = cellBounds.X - startBounds.X, Y = cellBounds.Y - startBounds.Y };
                 }
             }
             else
@@ -351,7 +349,7 @@ namespace Krypton.Toolkit
                 if (_piButtonState == null)
                 {
                     // Cache access to the internal get property 'ButtonState'
-                    _piButtonState = typeof(DataGridViewButtonCell).GetProperty(@"ButtonState", BindingFlags.Instance |
+                    _piButtonState = typeof(DataGridViewButtonCell).GetProperty(nameof(ButtonState), BindingFlags.Instance |
                                                                                                BindingFlags.NonPublic |
                                                                                                BindingFlags.GetField);
 

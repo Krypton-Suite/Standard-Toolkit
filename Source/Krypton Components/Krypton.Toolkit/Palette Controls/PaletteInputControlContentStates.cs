@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -20,7 +20,7 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
 
-        private Font _font;
+        private Font? _font;
         private Color _color1;
         internal Padding _padding;
         internal PaletteRelativeAlign _shortTextH;
@@ -33,7 +33,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="inherit">Source for inheriting defaulted values.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public PaletteInputControlContentStates(IPaletteContent inherit,
+        public PaletteInputControlContentStates([DisallowNull] IPaletteContent inherit,
                                                 NeedPaintHandler needPaint)
         {
             Debug.Assert(inherit != null);
@@ -58,7 +58,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         public override bool IsDefault => (Font == null) &&
-                                           (Color1 == Color.Empty) &&
+                                           (Color1.IsEmpty) &&
                                            Padding.Equals(CommonHelper.InheritPadding)
                                            && (TextH == PaletteRelativeAlign.Inherit)
                                             ;
@@ -69,10 +69,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Sets the inheritance parent.
         /// </summary>
-        public void SetInherit(IPaletteContent inherit)
-        {
-            Inherit = inherit;
-        }
+        public void SetInherit(IPaletteContent inherit) => Inherit = inherit;
         #endregion
 
         #region PopulateFromBase
@@ -156,7 +153,7 @@ namespace Krypton.Toolkit
         [Description(@"Font for drawing the content text.")]
         [DefaultValue(null)]
         [RefreshProperties(RefreshProperties.All)]
-        public virtual Font Font
+        public virtual Font? Font
         {
             get => _font;
 
@@ -213,7 +210,7 @@ namespace Krypton.Toolkit
         [Description(@"Relative horizontal Content text alignment\nIn order to get this into the designer.cs you must also modify another value in this area!")]
         [RefreshProperties(RefreshProperties.All)]
         [DefaultValue(PaletteRelativeAlign.Inherit)]
-        public virtual PaletteRelativeAlign TextH
+        public PaletteRelativeAlign TextH
         {
             get => _shortTextH;
 
@@ -286,7 +283,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public Color GetContentShortTextColor1(PaletteState state) => _color1 != Color.Empty ? _color1 : Inherit.GetContentShortTextColor1(state);
+        public Color GetContentShortTextColor1(PaletteState state) => !_color1.IsEmpty ? _color1 : Inherit.GetContentShortTextColor1(state);
 
         /// <summary>
         /// Gets the second back color for the short text.
@@ -321,7 +318,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image instance.</returns>
-        public Image GetContentShortTextImage(PaletteState state) => Inherit.GetContentShortTextImage(state);
+        public Image? GetContentShortTextImage(PaletteState state) => Inherit.GetContentShortTextImage(state);
 
         /// <summary>
         /// Gets the image style for the short text.
@@ -443,7 +440,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image instance.</returns>
-        public Image GetContentLongTextImage(PaletteState state) => Inherit.GetContentLongTextImage(state);
+        public Image? GetContentLongTextImage(PaletteState state) => Inherit.GetContentLongTextImage(state);
 
         /// <summary>
         /// Gets the image style for the long text.

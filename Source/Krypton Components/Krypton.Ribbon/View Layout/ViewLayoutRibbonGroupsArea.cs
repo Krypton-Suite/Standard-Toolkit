@@ -5,7 +5,9 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  
+ *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
  */
 #endregion
@@ -18,10 +20,10 @@ namespace Krypton.Ribbon
     internal class ViewLayoutRibbonGroupsArea : ViewDrawPanel
     {
         #region Static Fields
-        private static readonly Padding _preferredNormalPadding = new(0, 0, 1, 0);
-        private static readonly Padding _preferredMinimizedPadding = new(0, 1, 1, 0);
-        private static readonly Padding _layoutNormalPadding = new(0, -1, 1, 1);
-        private static readonly Padding _layoutMinimizedPadding = new(0, 0, 1, 1);
+        private static readonly Padding _preferredNormalPadding = new Padding(0, 0, 1, 0);
+        private static readonly Padding _preferredMinimizedPadding = new Padding(0, 1, 1, 0);
+        private static readonly Padding _layoutNormalPadding = new Padding(0, -1, 1, 1);
+        private static readonly Padding _layoutMinimizedPadding = new Padding(0, 0, 1, 1);
         #endregion
 
         #region Instance Fields
@@ -36,9 +38,9 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Reference to owning ribbon control.</param>
         /// <param name="redirect">Reference to redirector for palette settings.</param>
         /// <param name="needPaintDelegate">Delegate for notifying paint/layout changes.</param>
-        public ViewLayoutRibbonGroupsArea(KryptonRibbon ribbon,
-                                          PaletteRedirect redirect,
-                                          NeedPaintHandler needPaintDelegate)
+        public ViewLayoutRibbonGroupsArea([DisallowNull] KryptonRibbon ribbon,
+                                          [DisallowNull] PaletteRedirect redirect,
+                                          [DisallowNull] NeedPaintHandler needPaintDelegate)
         {
             Debug.Assert(ribbon != null);
             Debug.Assert(redirect != null);
@@ -62,7 +64,7 @@ namespace Krypton.Ribbon
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            "ViewLayoutRibbonGroupsArea:" + Id;
+            $"ViewLayoutRibbonGroupsArea:{Id}";
 
         #endregion
 
@@ -93,7 +95,7 @@ namespace Krypton.Ribbon
         public override Size GetPreferredSize(ViewLayoutContext context)
         {
             // Get the preferred size of the contained content
-            Size preferredSize = new(0, _ribbon.CalculatedValues.GroupsHeight);
+            var preferredSize = new Size(0, _ribbon.CalculatedValues.GroupsHeight);
 
             // Add on the padding we need around edges
             if (_ribbon.RealMinimizedMode)
@@ -112,7 +114,7 @@ namespace Krypton.Ribbon
         /// Perform a layout of the elements.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override void Layout(ViewLayoutContext context)
+        public override void Layout([DisallowNull] ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -40,8 +40,8 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="itemSelect">Reference to owning instance.</param>
         /// <param name="provider">Provider of context menu information.</param>
-        public ViewLayoutMenuItemSelect(KryptonContextMenuImageSelect itemSelect,
-                                        IContextMenuProvider provider)
+        public ViewLayoutMenuItemSelect([DisallowNull] KryptonContextMenuImageSelect itemSelect,
+                                        [DisallowNull] IContextMenuProvider provider)
         {
             Debug.Assert(itemSelect != null);
             Debug.Assert(provider != null);
@@ -68,7 +68,7 @@ namespace Krypton.Toolkit
             _imageIndexEnd = Math.Min(_imageIndexEnd, _imageCount - 1);
             _imageIndexCount = Math.Max(0, _imageIndexEnd - _imageIndexStart + 1);
 
-            IPalette palette = provider.ProviderPalette ?? KryptonManager.GetPaletteForMode(provider.ProviderPaletteMode);
+            PaletteBase? palette = provider.ProviderPalette ?? KryptonManager.GetPaletteForMode(provider.ProviderPaletteMode);
 
             // Create triple that can be used by the draw button
             _triple = new PaletteTripleToPalette(palette,
@@ -86,7 +86,7 @@ namespace Krypton.Toolkit
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            "ViewLayoutMenuItemSelect:" + Id;
+            $"ViewLayoutMenuItemSelect:{Id}";
 
         #endregion
 
@@ -129,14 +129,14 @@ namespace Krypton.Toolkit
         /// Discover the preferred size of the element.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override Size GetPreferredSize(ViewLayoutContext context)
+        public override Size GetPreferredSize([DisallowNull] ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 
             // Ensure that the correct number of children are created
             SyncChildren();
 
-            Size preferredSize = Size.Empty;
+            var preferredSize = Size.Empty;
 
             // Find size of the first item, if there is one
             if (Count > 0)
@@ -161,7 +161,7 @@ namespace Krypton.Toolkit
         /// Perform a layout of the elements.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override void Layout(ViewLayoutContext context)
+        public override void Layout([DisallowNull] ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 
@@ -242,7 +242,7 @@ namespace Krypton.Toolkit
             for (var i = 0; i < _imageIndexCount; i++)
             {
                 var imageIndex = i + _imageIndexStart;
-                ViewDrawMenuImageSelectItem item = (ViewDrawMenuImageSelectItem)this[i];
+                var item = (ViewDrawMenuImageSelectItem)this[i];
                 item.ImageList = _imageList;
                 item.ImageIndex = imageIndex;
                 item.Checked = _selectedIndex == imageIndex;

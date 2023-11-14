@@ -5,7 +5,9 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  
+ *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
  */
 #endregion
@@ -18,11 +20,11 @@ namespace Krypton.Ribbon
         private readonly KryptonRibbon _ribbon;
         private readonly ViewDrawRibbonGroupsBorderSynch _viewGroups;
         private ViewDrawRibbonGroup _activeGroup;
-        private readonly NeedPaintHandler _needPaintDelegate;
+        private readonly NeedPaintHandler? _needPaintDelegate;
         private readonly bool _minimizedMode;
         private bool _active;
         private bool _layingOut;
-        private ViewBase _focusView;
+        private ViewBase? _focusView;
         #endregion
 
         #region Identity
@@ -35,10 +37,10 @@ namespace Krypton.Ribbon
         /// <param name="minimizedMode">Is this manager for handling the minimized mode popup.</param>
         /// <param name="needPaintDelegate">Delegate for requesting paint changes.</param>
         public ViewRibbonMinimizedManager(KryptonRibbon control,
-                                          ViewDrawRibbonGroupsBorderSynch viewGroups,
-                                          ViewBase root,
+            [DisallowNull] ViewDrawRibbonGroupsBorderSynch viewGroups,
+            [DisallowNull] ViewBase root,
                                           bool minimizedMode,
-                                          NeedPaintHandler needPaintDelegate)
+                                          [DisallowNull] NeedPaintHandler needPaintDelegate)
             : base(control, root)
         {
             Debug.Assert(viewGroups != null);
@@ -68,10 +70,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Application we are inside has become active.
         /// </summary>
-        public void Active()
-        {
-            _active = true;
-        }
+        public void Active() => _active = true;
         #endregion
 
         #region Inactive
@@ -145,7 +144,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="e">A MouseEventArgs that contains the event data.</param>
         /// <param name="rawPt">The actual point provided from the windows message.</param>
-        public override void MouseMove(MouseEventArgs e, Point rawPt)
+        public override void MouseMove([DisallowNull] MouseEventArgs e, Point rawPt)
         {
             Debug.Assert(e != null);
 
@@ -192,7 +191,7 @@ namespace Krypton.Ribbon
         /// Perform mouse leave processing.
         /// </summary>
         /// <param name="e">An EventArgs that contains the event data.</param>
-        public override void MouseLeave(EventArgs e)
+        public override void MouseLeave([DisallowNull] EventArgs e)
         {
             Debug.Assert(e != null);
 
@@ -242,11 +241,9 @@ namespace Krypton.Ribbon
         /// Perform key press handling.
         /// </summary>
         /// <param name="e">A KeyPressEventArgs that contains the event data.</param>
-        public override void KeyPress(KeyPressEventArgs e)
-        {
+        public override void KeyPress(KeyPressEventArgs e) =>
             // Tell current view of key event
             FocusView?.KeyPress(e);
-        }
 
         /// <summary>
         /// Perform key up handling.
@@ -294,7 +291,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets the view that has the focus.
         /// </summary>
-        public ViewBase FocusView
+        public ViewBase? FocusView
         {
             get => _focusView;
 
@@ -314,15 +311,9 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void PerformNeedPaint(bool needLayout)
-        {
-            PerformNeedPaint(needLayout, Rectangle.Empty);
-        }
+        private void PerformNeedPaint(bool needLayout) => PerformNeedPaint(needLayout, Rectangle.Empty);
 
-        private void PerformNeedPaint(bool needLayout, Rectangle invalidRect)
-        {
-            _needPaintDelegate?.Invoke(this, new NeedLayoutEventArgs(needLayout, invalidRect));
-        }
+        private void PerformNeedPaint(bool needLayout, Rectangle invalidRect) => _needPaintDelegate?.Invoke(this, new NeedLayoutEventArgs(needLayout, invalidRect));
         #endregion
     }
 }

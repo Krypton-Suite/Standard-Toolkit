@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -15,54 +15,46 @@ namespace Krypton.Toolkit
     /// <summary>
     /// Custom type converter so that TabBorderStyle values appear as neat text at design time.
     /// </summary>
-    internal class TabBorderStyleConverter : StringLookupConverter
+    internal class TabBorderStyleConverter : StringLookupConverter<TabBorderStyle>
     {
         #region Static Fields
 
-        private readonly Pair[] _pairs =
+        [Localizable(true)]
+        private static readonly IReadOnlyDictionary<TabBorderStyle, string> _pairs = new Dictionary<TabBorderStyle, string>
         {
-            new(TabBorderStyle.OneNote, "OneNote"),
-            new(TabBorderStyle.SquareEqualSmall, "Square Equal Small"),
-            new(TabBorderStyle.SquareEqualMedium, "Square Equal Medium"),
-            new(TabBorderStyle.SquareEqualLarge, "Square Equal Large"),
-            new(TabBorderStyle.SquareOutsizeSmall, "Square Outsize Small"),
-            new(TabBorderStyle.SquareOutsizeMedium, "Square Outsize Medium"),
-            new(TabBorderStyle.SquareOutsizeLarge, "Square Outsize Large"),
-            new(TabBorderStyle.RoundedEqualSmall, "Rounded Equal Small"),
-            new(TabBorderStyle.RoundedEqualMedium, "Rounded Equal Medium"),
-            new(TabBorderStyle.RoundedEqualLarge, "Rounded Equal Large"),
-            new(TabBorderStyle.RoundedOutsizeSmall, "Rounded Outsize Small"),
-            new(TabBorderStyle.RoundedOutsizeMedium, "Rounded Outsize Medium"),
-            new(TabBorderStyle.RoundedOutsizeLarge, "Rounded Outsize Large"),
-            new(TabBorderStyle.SlantEqualNear, "Slant Equal Near"),
-            new(TabBorderStyle.SlantEqualFar, "Slant Equal Far"),
-            new(TabBorderStyle.SlantEqualBoth, "Slant Equal Both"),
-            new(TabBorderStyle.SlantOutsizeNear, "Slant Outsize Near"),
-            new(TabBorderStyle.SlantOutsizeFar, "Slant Outsize Far"),
-            new(TabBorderStyle.SlantOutsizeBoth, "Slant Outsize Both"),
-            new(TabBorderStyle.SmoothEqual, "Smooth Equal"),
-            new(TabBorderStyle.SmoothOutsize, "Smooth Outsize"),
-            new(TabBorderStyle.DockEqual, "Dock Equal"),
-            new(TabBorderStyle.DockOutsize, "Dock Outsize")
+            {TabBorderStyle.OneNote, DesignTimeUtilities.DEFAULT_TAB_BORDER_STYLE_ONE_NOTE},
+            {TabBorderStyle.SquareEqualSmall, DesignTimeUtilities.DEFAULT_TAB_BORDER_STYLE_SQUARE_EQUAL_SMALL},
+            {TabBorderStyle.SquareEqualMedium, DesignTimeUtilities.DEFAULT_TAB_BORDER_STYLE_SQUARE_EQUAL_MEDIUM},
+            {TabBorderStyle.SquareEqualLarge, DesignTimeUtilities.DEFAULT_TAB_BORDER_STYLE_SQUARE_EQUAL_LARGE},
+            {TabBorderStyle.SquareOutsizeSmall, DesignTimeUtilities.DEFAULT_TAB_BORDER_STYLE_SQUARE_OUTSIZE_SMALL},
+            {TabBorderStyle.SquareOutsizeMedium, DesignTimeUtilities.DEFAULT_TAB_BORDER_STYLE_SQUARE_OUTSIZE_MEDIUM},
+            {TabBorderStyle.SquareOutsizeLarge, DesignTimeUtilities.DEFAULT_TAB_BORDER_STYLE_SQUARE_OUTSIZE_LARGE},
+            {TabBorderStyle.RoundedEqualSmall, DesignTimeUtilities.DEFAULT_TAB_BORDER_STYLE_ROUNDED_EQUAL_SMALL},
+            {TabBorderStyle.RoundedEqualMedium, DesignTimeUtilities.DEFAULT_TAB_BORDER_STYLE_ROUNDED_EQUAL_MEDIUM},
+            {TabBorderStyle.RoundedEqualLarge, DesignTimeUtilities.DEFAULT_TAB_BORDER_STYLE_ROUNDED_EQUAL_LARGE},
+            {TabBorderStyle.RoundedOutsizeSmall, DesignTimeUtilities.DEFAULT_TAB_BORDER_STYLE_ROUNDED_OUTSIZE_SMALL},
+            {TabBorderStyle.RoundedOutsizeMedium, DesignTimeUtilities.DEFAULT_TAB_BORDER_STYLE_ROUNDED_OUTSIZE_MEDIUM},
+            {TabBorderStyle.RoundedOutsizeLarge, DesignTimeUtilities.DEFAULT_TAB_BORDER_STYLE_ROUNDED_OUTSIZE_LARGE},
+            {TabBorderStyle.SlantEqualNear, DesignTimeUtilities.DEFAULT_TAB_BORDER_STYLE_SLANT_EQUAL_NEAR},
+            {TabBorderStyle.SlantEqualFar, DesignTimeUtilities.DEFAULT_TAB_BORDER_STYLE_SLANT_EQUAL_FAR},
+            {TabBorderStyle.SlantEqualBoth, DesignTimeUtilities.DEFAULT_TAB_BORDER_STYLE_SLANT_EQUAL_BOTH},
+            {TabBorderStyle.SlantOutsizeNear, DesignTimeUtilities.DEFAULT_TAB_BORDER_STYLE_SLANT_OUTSIZE_NEAR},
+            {TabBorderStyle.SlantOutsizeFar, DesignTimeUtilities.DEFAULT_TAB_BORDER_STYLE_SLANT_OUTSIZE_FAR},
+            {TabBorderStyle.SlantOutsizeBoth, DesignTimeUtilities.DEFAULT_TAB_BORDER_STYLE_SLANT_OUTSIZE_BOTH},
+            {TabBorderStyle.SmoothEqual, DesignTimeUtilities.DEFAULT_TAB_BORDER_STYLE_SMOOTH_EQUAL},
+            {TabBorderStyle.SmoothOutsize, DesignTimeUtilities.DEFAULT_TAB_BORDER_STYLE_SMOOTH_OUTSIZE},
+            {TabBorderStyle.DockEqual, DesignTimeUtilities.DEFAULT_TAB_BORDER_STYLE_DOCK_EQUAL},
+            {TabBorderStyle.DockOutsize, DesignTimeUtilities.DEFAULT_TAB_BORDER_STYLE_DOCK_OUTSIZE}
         };
-        #endregion  
 
-        #region Identity
-        /// <summary>
-        /// Initialize a new instance of the TabBorderStyleConverter class.
-        /// </summary>
-        public TabBorderStyleConverter()
-            : base(typeof(TabBorderStyle))
-        {
-        }
-        #endregion
+        #endregion  
 
         #region Protected
 
         /// <summary>
         /// Gets an array of lookup pairs.
         /// </summary>
-        protected override Pair[] Pairs => _pairs;
+        protected override IReadOnlyDictionary<TabBorderStyle /*Enum*/, string /*Display*/> Pairs => _pairs;
 
         #endregion
     }

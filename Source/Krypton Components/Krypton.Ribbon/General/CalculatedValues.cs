@@ -5,7 +5,9 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  
+ *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
  */
 #endregion
@@ -47,7 +49,7 @@ namespace Krypton.Ribbon
         /// Initialize a new instance of the CalculatedValues class.
         /// </summary>
         /// <param name="ribbon">Source control instance.</param>
-        public CalculatedValues(KryptonRibbon ribbon)
+        public CalculatedValues([DisallowNull] KryptonRibbon ribbon)
         {
             Debug.Assert(ribbon != null);
             _ribbon = ribbon;
@@ -74,8 +76,10 @@ namespace Krypton.Ribbon
                         _groupsHeightModifier = 0;
                         break;
                     case PaletteRibbonShape.Office2013:
-                    case PaletteRibbonShape.Office365:
+                    case PaletteRibbonShape.Microsoft365:
+                    case PaletteRibbonShape.VisualStudio:
                     case PaletteRibbonShape.Office2010:
+                    case PaletteRibbonShape.VisualStudio2010:
                         _groupHeightModifier = -3;
                         _groupsHeightModifier = -3;
                         break;

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -50,12 +50,12 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Occurs when the button is clicked.
         /// </summary>
-        public event EventHandler Click;
+        public event EventHandler? Click;
 
         /// <summary>
         /// Occurs when the mouse is used to left select the target.
         /// </summary>
-        public event MouseEventHandler MouseSelect;
+        public event MouseEventHandler? MouseSelect;
         #endregion
 
         #region Identity
@@ -71,8 +71,8 @@ namespace Krypton.Toolkit
         /// <param name="repeat">Should button repeat.</param>
         public ViewDrawDateTimeButton(KryptonDateTimePicker dateTimePicker,
                                       IPaletteTriple paletteState,
-                                      IPaletteMetric paletteMetric,
-                                      IContentValues buttonValues,
+                                      IPaletteMetric? paletteMetric,
+                                      IContentValues? buttonValues,
                                       DrawDateTimeGlyph glyph,
                                       NeedPaintHandler needPaintHandler,
                                       bool repeat)        
@@ -100,7 +100,7 @@ namespace Krypton.Toolkit
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            "ViewDrawDateTimeButton:" + Id;
+            $"ViewDrawDateTimeButton:{Id}";
 
         #endregion
 
@@ -119,14 +119,14 @@ namespace Krypton.Toolkit
         /// <param name="context">Layout context.</param>
         public override Size GetPreferredSize(ViewLayoutContext context) =>
             // We want to be as wide as drop down buttons on standard controls
-            new (SystemInformation.VerticalScrollBarWidth - 2, 0);
+            new Size(SystemInformation.VerticalScrollBarWidth - 2, 0);
 
         /// <summary>
         /// Perform a layout of the elements.
         /// </summary>
         /// <param name="context">Layout context.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public override void Layout(ViewLayoutContext context)
+        public override void Layout([DisallowNull] ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 
@@ -140,12 +140,9 @@ namespace Krypton.Toolkit
             Rectangle beforeRect = context.DisplayRectangle;
             context.DisplayRectangle = _glyph switch
             {
-                DrawDateTimeGlyph.DropDownButton => new Rectangle(beforeRect.X, beforeRect.Y + 1, beforeRect.Width,
-                    beforeRect.Height - 2),
-                DrawDateTimeGlyph.UpButton => new Rectangle(beforeRect.X, beforeRect.Y + 1, beforeRect.Width,
-                    beforeRect.Height - 1),
-                DrawDateTimeGlyph.DownButton => new Rectangle(beforeRect.X, beforeRect.Y, beforeRect.Width,
-                    beforeRect.Height - 1),
+                DrawDateTimeGlyph.DropDownButton => beforeRect with { Y = beforeRect.Y + 1, Height = beforeRect.Height - 2 },
+                DrawDateTimeGlyph.UpButton => beforeRect with { Y = beforeRect.Y + 1, Height = beforeRect.Height - 1 },
+                DrawDateTimeGlyph.DownButton => beforeRect with { Height = beforeRect.Height - 1 },
                 _ => context.DisplayRectangle
             };
 
@@ -199,7 +196,7 @@ namespace Krypton.Toolkit
                 if (ElementState is PaletteState.Normal or PaletteState.CheckedNormal)
                 {
                     // If the control is active then use the checked normal appearance, otherwise not active and so use the normal appearance
-                    if (_dateTimePicker.IsActive || (_dateTimePicker.IsFixedActive && (_dateTimePicker.InputControlStyle == InputControlStyle.Standalone)))
+                    if (_dateTimePicker.IsActive || _dateTimePicker is { IsFixedActive: true, InputControlStyle: InputControlStyle.Standalone })
                     {
                         state = PaletteState.CheckedNormal;
                     }

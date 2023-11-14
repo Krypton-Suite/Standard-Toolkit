@@ -5,7 +5,9 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  
+ *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
  */
 #endregion
@@ -24,7 +26,7 @@ namespace Krypton.Ribbon
         #region Instance Fields
         private readonly KryptonRibbon _ribbon;
         private readonly ViewDrawRibbonGroupCheckBoxImage _targetImage;
-        private NeedPaintHandler _needPaint;
+        private NeedPaintHandler? _needPaint;
         private bool _rightButtonDown;
         private bool _fixedPressed;
         private bool _mouseOver;
@@ -35,12 +37,12 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Occurs when a click portion is clicked.
         /// </summary>
-        public event EventHandler Click;
+        public event EventHandler? Click;
 
         /// <summary>
         /// Occurs when the user right clicks the view.
         /// </summary>
-        public event MouseEventHandler ContextClick;
+        public event MouseEventHandler? ContextClick;
         #endregion
 
         #region Identity
@@ -51,10 +53,10 @@ namespace Krypton.Ribbon
         /// <param name="targetMain">Target for main element changes.</param>
         /// <param name="targetImage">Target for image state changes.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public GroupCheckBoxController(KryptonRibbon ribbon,
-                                       ViewBase targetMain,
-                                       ViewDrawRibbonGroupCheckBoxImage targetImage,
-                                       NeedPaintHandler needPaint)
+        public GroupCheckBoxController([DisallowNull] KryptonRibbon ribbon,
+                                       [DisallowNull] ViewBase targetMain,
+                                       [DisallowNull] ViewDrawRibbonGroupCheckBoxImage targetImage,
+                                       [DisallowNull] NeedPaintHandler needPaint)
         {
             Debug.Assert(ribbon != null);
             Debug.Assert(targetMain != null);
@@ -114,20 +116,20 @@ namespace Krypton.Ribbon
         /// <returns>True if capturing input; otherwise false.</returns>
         public virtual bool MouseDown(Control c, Point pt, MouseButtons button)
         {
-            // Only interested in left mouse pressing down
-            if (button == MouseButtons.Left)
+            switch (button)
             {
-               // Capturing mouse input
-                Captured = true;
+                // Only interested in left mouse pressing down
+                case MouseButtons.Left:
+                    // Capturing mouse input
+                    Captured = true;
 
-                // Update the visual state
-                UpdateTargetState(pt);
-            }
-
-            // Remember the user has pressed the right mouse button down
-            if (button == MouseButtons.Right)
-            {
-                _rightButtonDown = true;
+                    // Update the visual state
+                    UpdateTargetState(pt);
+                    break;
+                // Remember the user has pressed the right mouse button down
+                case MouseButtons.Right:
+                    _rightButtonDown = true;
+                    break;
             }
 
             return Captured;
@@ -138,11 +140,9 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="c">Reference to the source control instance.</param>
         /// <param name="pt">Mouse position relative to control.</param>
-        public virtual void MouseMove(Control c, Point pt)
-        {
+        public virtual void MouseMove(Control c, Point pt) =>
             // Update the visual state
             UpdateTargetState(pt);
-        }
 
         /// <summary>
         /// Mouse button has been released in the view.
@@ -207,7 +207,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="c">Reference to the source control instance.</param>
         /// <param name="next">Reference to view that is next to have the mouse.</param>
-        public virtual void MouseLeave(Control c, ViewBase next)
+        public virtual void MouseLeave(Control c, ViewBase? next)
         {
             // Mouse is no longer over the target
             _mouseOver = false;
@@ -253,7 +253,7 @@ namespace Krypton.Ribbon
         /// Source control has lost the focus.
         /// </summary>
         /// <param name="c">Reference to the source control instance.</param>
-        public virtual void LostFocus(Control c)
+        public virtual void LostFocus([DisallowNull] Control c)
         {
             _hasFocus = false;
             UpdateTargetState(Point.Empty);
@@ -322,7 +322,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets the need paint delegate for notifying paint requests.
         /// </summary>
-        public NeedPaintHandler NeedPaint
+        public NeedPaintHandler? NeedPaint
         {
             get => _needPaint;
 
@@ -344,19 +344,13 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Fires the NeedPaint event.
         /// </summary>
-        public void PerformNeedPaint()
-        {
-            OnNeedPaint(false);
-        }
+        public void PerformNeedPaint() => OnNeedPaint(false);
 
         /// <summary>
         /// Fires the NeedPaint event.
         /// </summary>
         /// <param name="needLayout">Does the palette change require a layout.</param>
-        public void PerformNeedPaint(bool needLayout)
-        {
-            OnNeedPaint(needLayout);
-        }
+        public void PerformNeedPaint(bool needLayout) => OnNeedPaint(needLayout);
         #endregion
 
         #region Protected
@@ -427,34 +421,25 @@ namespace Krypton.Ribbon
         /// Raises the Click event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnClick(EventArgs e)
-        {
-            Click?.Invoke(TargetMain, e);
-        }
+        protected virtual void OnClick(EventArgs e) => Click?.Invoke(TargetMain, e);
 
         /// <summary>
         /// Raises the Click event.
         /// </summary>
         /// <param name="e">A MouseEventArgs containing the event data.</param>
-        protected virtual void OnContextClick(MouseEventArgs e)
-        {
-            ContextClick?.Invoke(this, e);
-        }
+        protected virtual void OnContextClick(MouseEventArgs e) => ContextClick?.Invoke(this, e);
 
         /// <summary>
         /// Raises the NeedPaint event.
         /// </summary>
         /// <param name="needLayout">Does the palette change require a layout.</param>
-        protected virtual void OnNeedPaint(bool needLayout)
-        {
-            _needPaint?.Invoke(this, new NeedLayoutEventArgs(needLayout, TargetMain.ClientRectangle));
-        }
+        protected virtual void OnNeedPaint(bool needLayout) => _needPaint?.Invoke(this, new NeedLayoutEventArgs(needLayout, TargetMain.ClientRectangle));
         #endregion
 
         #region Implementation
         private void KeyDownRibbon(KryptonRibbon ribbon, KeyEventArgs e)
         {
-            ViewBase newView = null;
+            ViewBase? newView = null;
 
             switch (e.KeyData)
             {

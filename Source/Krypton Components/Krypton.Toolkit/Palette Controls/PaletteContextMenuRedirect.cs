@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -17,17 +17,13 @@ namespace Krypton.Toolkit
     /// </summary>
     public class PaletteContextMenuRedirect : Storage
     {
-        #region Instance Fields
-
-        #endregion
-
         #region Identity
         /// <summary>
         /// Initialize a new instance of the PaletteContextMenuRedirect class.
         /// </summary>
         /// <param name="redirect">inheritance redirection.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public PaletteContextMenuRedirect(PaletteRedirect redirect,
+        public PaletteContextMenuRedirect([DisallowNull] PaletteRedirect redirect,
                                           NeedPaintHandler needPaint)
         {
             Debug.Assert(redirect != null);
@@ -65,7 +61,8 @@ namespace Krypton.Toolkit
                                            ItemSplit.IsDefault &&
                                            ItemTextAlternate.IsDefault &&
                                            ItemTextStandard.IsDefault &&
-                                           Separator.IsDefault;
+                                           Separator.IsDefault &&
+                                           HasShadow;
 
         #endregion
 
@@ -102,7 +99,7 @@ namespace Krypton.Toolkit
         /// Update the redirector with new reference.
         /// </summary>
         /// <param name="redirect">Target redirector.</param>
-        public void SetRedirector(PaletteRedirect redirect)
+        public void SetRedirector(PaletteRedirect? redirect)
         {
             ControlInner.SetRedirector(redirect);
             ControlOuter.SetRedirector(redirect);
@@ -146,6 +143,20 @@ namespace Krypton.Toolkit
 
         #endregion
 
+
+        #region HasShadow
+        /// <summary>
+        /// Gets access to the outer control window appearance entries.
+        /// </summary>
+        //[KryptonPersist]
+        [Category(@"Visuals")]
+        [DefaultValue(true)]
+        [Description(@"Should the Context menu have a shadow.")]
+        public bool HasShadow { get; set; } = true;
+
+        private bool ShouldSerializeHasShadow() => !HasShadow;
+        #endregion // HasShadow
+
         #region Heading
         /// <summary>
         /// Gets access to the heading entry appearance entries.
@@ -167,7 +178,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Overrides for defining item highlight appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteDoubleMetricRedirect ItemHighlight { get; }
+        public PaletteDoubleMetricRedirect? ItemHighlight { get; }
 
         private bool ShouldSerializeItemHighlight() => !ItemHighlight.IsDefault;
 
@@ -194,7 +205,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Overrides for defining item image column appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteDoubleRedirect ItemImageColumn { get; }
+        public PaletteDoubleRedirect? ItemImageColumn { get; }
 
         private bool ShouldSerializeItemImageColumn() => !ItemImageColumn.IsDefault;
 
@@ -220,7 +231,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Overrides for defining item split appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteDoubleRedirect ItemSplit { get; }
+        public PaletteDoubleRedirect? ItemSplit { get; }
 
         private bool ShouldSerializeItemSplit() => !ItemSplit.IsDefault;
 
@@ -260,7 +271,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Overrides for defining separator items appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteDoubleRedirect Separator { get; }
+        public PaletteDoubleRedirect? Separator { get; }
 
         private bool ShouldSerializeSeparator() => !Separator.IsDefault;
 

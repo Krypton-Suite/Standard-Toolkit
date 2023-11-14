@@ -1,14 +1,22 @@
-﻿namespace Krypton.Workspace
+﻿#region BSD License
+/*
+ * 
+ * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
+ *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
+ * 
+ *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  
+ */
+#endregion
+
+namespace Krypton.Workspace
 {
     /// <summary>
     /// A size where the width and height are in star notation.
     /// </summary>
     public class StarSize
     {
-        #region Internal Fields
-
-        #endregion
-
         #region Identity
         /// <summary>
         /// Initialize a new instance of the StarSize class.
@@ -63,8 +71,8 @@
                 }
 
                 // Parse both halfs, exceptions are thrown if a problem occurs
-                StarNumber width = new(parts[0]);
-                StarNumber height = new(parts[1]);
+                var width = new StarNumber(parts[0]);
+                var height = new StarNumber(parts[1]);
             
                 // No errors, so use the values
                 StarWidth.Value = width.Value;
@@ -87,7 +95,7 @@
         #region Internal
         internal string PersistString
         {
-            get => StarWidth.PersistString + ":" + StarHeight.PersistString;
+            get => $"{StarWidth.PersistString}:{StarHeight.PersistString}";
 
             set
             {

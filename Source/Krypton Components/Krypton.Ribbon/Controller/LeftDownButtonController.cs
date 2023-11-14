@@ -5,7 +5,9 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  
+ *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
  */
 #endregion
@@ -24,14 +26,14 @@ namespace Krypton.Ribbon
         private bool _mouseOver;
         private bool _mouseDown;
         private readonly NeedPaintHandler _needPaint;
-        private readonly System.Windows.Forms.Timer _updateTimer;
+        private readonly Timer _updateTimer;
         #endregion
 
         #region Events
         /// <summary>
         /// Occurs when the button is pressed.
         /// </summary>
-        public event MouseEventHandler Click;
+        public event MouseEventHandler? Click;
         #endregion
 
         #region Identity
@@ -41,9 +43,9 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Reference to owning ribbon instance.</param>
         /// <param name="target">Target for state changes.</param>
         /// <param name="needPaint">Delegate for notifying changes in display.</param>
-        public LeftDownButtonController(KryptonRibbon ribbon,
-                                        ViewBase target, 
-                                        NeedPaintHandler needPaint)
+        public LeftDownButtonController([DisallowNull] KryptonRibbon ribbon,
+                                        [DisallowNull] ViewBase target, 
+                                        [DisallowNull] NeedPaintHandler needPaint)
         {
             Debug.Assert(ribbon != null);
             Debug.Assert(target != null);
@@ -53,7 +55,7 @@ namespace Krypton.Ribbon
             Target = target;
             _needPaint = needPaint;
 
-            _updateTimer = new System.Windows.Forms.Timer
+            _updateTimer = new Timer
             {
                 Interval = 1
             };
@@ -97,11 +99,9 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Fix the display of the button.
         /// </summary>
-        public void SetFixed()
-        {
+        public void SetFixed() =>
             // Show the button as pressed, until told otherwise
             IsFixed = true;
-        }
         #endregion
 
         #region RemoveFixed
@@ -214,7 +214,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="c">Reference to the source control instance.</param>
         /// <param name="next">Reference to view that is next to have the mouse.</param>
-        public virtual void MouseLeave(Control c, ViewBase next)
+        public virtual void MouseLeave(Control c, ViewBase? next)
         {
             // Mouse is no longer over the target
             _mouseOver = false;
@@ -247,7 +247,7 @@ namespace Krypton.Ribbon
         protected virtual void UpdateTargetState()
         {
             // By default the button is in the normal state
-            PaletteState newState = PaletteState.Normal;
+            var newState = PaletteState.Normal;
 
             // Only allow another state if the ribbon is enabled
             if (Ribbon.Enabled)
@@ -294,19 +294,13 @@ namespace Krypton.Ribbon
         /// <param name="needLayout">Does the palette change require a layout.</param>
         /// <param name="invalidRect">Client area to be invalidated.</param>
         protected virtual void OnNeedPaint(bool needLayout,
-                                           Rectangle invalidRect)
-        {
-            _needPaint?.Invoke(this, new NeedLayoutEventArgs(needLayout, invalidRect));
-        }
+                                           Rectangle invalidRect) => _needPaint.Invoke(this, new NeedLayoutEventArgs(needLayout, invalidRect));
 
         /// <summary>
         /// Raises the Click event.
         /// </summary>
         /// <param name="e">A MouseEventArgs containing the event data.</param>
-        protected virtual void OnClick(MouseEventArgs e)
-        {
-            Click?.Invoke(this, e);
-        }
+        protected virtual void OnClick(MouseEventArgs e) => Click?.Invoke(this, e);
         #endregion
 
         #region Implementation

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -17,17 +17,13 @@ namespace Krypton.Toolkit
     /// </summary>
     public class KryptonPaletteGrids : Storage
     {
-        #region Instance Fields
-
-        #endregion
-
         #region Identity
         /// <summary>
         /// Initialize a new instance of the KryptonPaletteGrids class.
         /// </summary>
         /// <param name="redirector">Palette redirector for sourcing inherited values.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public KryptonPaletteGrids(PaletteRedirect redirector,
+        public KryptonPaletteGrids([DisallowNull] PaletteRedirect redirector,
                                      NeedPaintHandler needPaint)
         {
             Debug.Assert(redirector != null);
@@ -40,7 +36,7 @@ namespace Krypton.Toolkit
             GridCustom3 = new KryptonPaletteGrid(redirector, GridStyle.Custom3, needPaint);
 
             // Create redirectors for inheriting from style specific to style common
-            PaletteRedirectGrids redirectCommon = new(redirector, GridCommon);
+            var redirectCommon = new PaletteRedirectGrids(redirector, GridCommon);
 
             // Ensure the specific styles inherit to the common grid style
             GridList.SetRedirector(redirectCommon);

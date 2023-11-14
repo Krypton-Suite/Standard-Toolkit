@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -16,8 +16,7 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
 
-        private readonly KryptonScrollBar _scrollBar;
-
+        private readonly KryptonScrollBar? _scrollBar;
         private readonly IComponentChangeService _service;
 
         #endregion
@@ -104,16 +103,16 @@ namespace Krypton.Toolkit
         /// <returns>A <see cref="T:System.ComponentModel.Design.DesignerActionItem">DesignerActionItem</see> array that contains the items in this list.</returns>
         public override DesignerActionItemCollection GetSortedActionItems()
         {
-            DesignerActionItemCollection actions = new();
+            var actions = new DesignerActionItemCollection();
 
             if (_scrollBar != null)
             {
-                actions.Add(new DesignerActionHeaderItem(@"Appearance"));
-                actions.Add(new DesignerActionPropertyItem(@"Orientation", @"Orientation", @"Appearance", @"The appearance of the scrollbar."));
+                actions.Add(new DesignerActionHeaderItem(nameof(Appearance)));
+                actions.Add(new DesignerActionPropertyItem(nameof(Orientation), nameof(Orientation), nameof(Appearance), @"The appearance of the scrollbar."));
                 actions.Add(new DesignerActionHeaderItem(@"Values"));
-                actions.Add(new DesignerActionPropertyItem(@"Maximum", @"Maximum", @"Values", @"The maximum value that the scrollbar can accept."));
-                actions.Add(new DesignerActionPropertyItem(@"Minimum", @"Minimum", @"Values", @"The minimum value that the scrollbar can accept."));
-                actions.Add(new DesignerActionPropertyItem(@"Value", @"Value", @"Values", @"The current value of the scrollbar."));
+                actions.Add(new DesignerActionPropertyItem(nameof(Maximum), nameof(Maximum), @"Values", @"The maximum value that the scrollbar can accept."));
+                actions.Add(new DesignerActionPropertyItem(nameof(Minimum), nameof(Minimum), @"Values", @"The minimum value that the scrollbar can accept."));
+                actions.Add(new DesignerActionPropertyItem(nameof(Value), nameof(Value), @"Values", @"The current value of the scrollbar."));
 
             }
 

@@ -5,7 +5,9 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  
+ *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
  */
 #endregion
@@ -25,7 +27,7 @@ namespace Krypton.Ribbon
         #region Static Fields
 
         private const int EMPTY_WIDTH = 48;
-        private static readonly Padding _padding = new(1, 0, 1, 1);
+        private static readonly Padding _padding = new Padding(1, 0, 1, 1);
         #endregion
 
         #region Instance Fields
@@ -45,9 +47,9 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Owning ribbon control instance.</param>
         /// <param name="ribbonGroup">The ribbon group this layout is used to display.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public ViewLayoutRibbonGroupContent(KryptonRibbon ribbon,
-                                            KryptonRibbonGroup ribbonGroup,
-                                            NeedPaintHandler needPaint)
+        public ViewLayoutRibbonGroupContent([DisallowNull] KryptonRibbon ribbon,
+                                            [DisallowNull] KryptonRibbonGroup ribbonGroup,
+                                            [DisallowNull] NeedPaintHandler needPaint)
         {
             Debug.Assert(ribbon != null);
             Debug.Assert(ribbonGroup != null);
@@ -68,7 +70,7 @@ namespace Krypton.Ribbon
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            "ViewLayoutRibbonGroupContent:" + Id;
+            $"ViewLayoutRibbonGroupContent:{Id}";
 
         /// <summary>
         /// Clean up any resources being used.
@@ -123,9 +125,9 @@ namespace Krypton.Ribbon
         /// Gets the first focus item from the group content.
         /// </summary>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase GetFirstFocusItem()
+        public ViewBase? GetFirstFocusItem()
         {
-            ViewBase view = null;
+            ViewBase? view = null;
 
             // Scan all the children, which must be containers
             foreach (ViewBase child in this)
@@ -163,9 +165,9 @@ namespace Krypton.Ribbon
         /// Gets the last focus item from the group.
         /// </summary>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase GetLastFocusItem()
+        public ViewBase? GetLastFocusItem()
         {
-            ViewBase view = null;
+            ViewBase? view = null;
 
             if (_ribbonGroup.Visible)
             {
@@ -218,9 +220,9 @@ namespace Krypton.Ribbon
         /// <param name="current">The view that is currently focused.</param>
         /// <param name="matched">Has the current focus item been matched yet.</param>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase GetNextFocusItem(ViewBase current, ref bool matched)
+        public ViewBase? GetNextFocusItem(ViewBase current, ref bool matched)
         {
-            ViewBase view = null;
+            ViewBase? view = null;
 
             // Scan all the children, which must be containers
             foreach (ViewBase child in this)
@@ -285,9 +287,9 @@ namespace Krypton.Ribbon
         /// <param name="current">The view that is currently focused.</param>
         /// <param name="matched">Has the current focus item been matched yet.</param>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase GetPreviousFocusItem(ViewBase current, ref bool matched)
+        public ViewBase? GetPreviousFocusItem(ViewBase current, ref bool matched)
         {
-            ViewBase view = null;
+            ViewBase? view = null;
 
             // If matched then try using the dialog box launcher
             if (matched)
@@ -573,7 +575,7 @@ namespace Krypton.Ribbon
             // Sync child elements to the current group items
             SyncChildrenToRibbonGroupItems();
 
-            Size preferredSize = Size.Empty;
+            var preferredSize = Size.Empty;
 
             // Find total width and maximum height across all child elements
             for (int i = 0, j = 0; i < Count; i++)
@@ -621,7 +623,7 @@ namespace Krypton.Ribbon
         /// Perform a layout of the elements.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override void Layout(ViewLayoutContext context)
+        public override void Layout([DisallowNull] ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 
@@ -682,7 +684,7 @@ namespace Krypton.Ribbon
             // Remove all child elements
             Clear();
 
-            ContainerToView regenerate = new();
+            var regenerate = new ContainerToView();
 
             // Add a view element for each group item
             foreach (KryptonRibbonGroupContainer container in _ribbonGroup.Items)
@@ -705,10 +707,7 @@ namespace Krypton.Ribbon
             if (_ribbon.InDesignHelperMode)
             {
                 // Create the design time 'Add Container' first time it is needed
-                if (_viewAddContainer == null)
-                {
-                    _viewAddContainer = new ViewDrawRibbonDesignGroupContainer(_ribbon, _ribbonGroup, _needPaint);
-                }
+                _viewAddContainer ??= new ViewDrawRibbonDesignGroupContainer(_ribbon, _ribbonGroup, _needPaint);
 
                 // Always add at end of the list of tabs
                 Add(_viewAddContainer);

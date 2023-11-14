@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -25,7 +25,7 @@ namespace Krypton.Toolkit
 
         private string _caption, _cueText, _defaultResponse, _prompt;
 
-        private IWin32Window _owner = null;
+        private IWin32Window? _owner;
         #endregion
 
         #region Properties
@@ -92,7 +92,7 @@ namespace Krypton.Toolkit
 
         /// <summary>Returns the value of the Owner.</summary>
         /// <returns>The value of the Owner.</returns>
-        public IWin32Window GetOwner() => _owner;
+        public IWin32Window? GetOwner() => _owner;
         #endregion
 
         #region Methods
@@ -101,7 +101,7 @@ namespace Krypton.Toolkit
         {
             if (GetOwner() != null)
             {
-                KryptonInputBox.Show(_owner, _prompt, _caption, _defaultResponse, _cueText, _cueColour, _cueTypeface, _usePasswordOption);
+                KryptonInputBox.Show(_owner!, _prompt, _caption, _defaultResponse, _cueText, _cueColour, _cueTypeface, _usePasswordOption);
             }
             else
             {

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -20,9 +20,9 @@ namespace Krypton.Navigator
     {
         #region Instance Fields
 
-        private KryptonPage _page;
-        private NeedPaintHandler _needPaint;
-        private PageButtonController _buttonController;
+        private KryptonPage? _page;
+        private NeedPaintHandler? _needPaint;
+        private PageButtonController? _buttonController;
         private DateTime _lastClick;
 
         /// <summary>Override for accessing the disable state.</summary>
@@ -41,12 +41,12 @@ namespace Krypton.Navigator
         /// <summary>
         /// Occurs when the drag rectangle for the button is required.
         /// </summary>
-        public event EventHandler<ButtonDragRectangleEventArgs> ButtonDragRectangle;
+        public event EventHandler<ButtonDragRectangleEventArgs>? ButtonDragRectangle;
 
         /// <summary>
         /// Occurs when the drag offset for the button is changed.
         /// </summary>
-        public event EventHandler<ButtonDragOffsetEventArgs> ButtonDragOffset;
+        public event EventHandler<ButtonDragOffsetEventArgs>? ButtonDragOffset;
         #endregion
 
         #region Identity
@@ -58,7 +58,7 @@ namespace Krypton.Navigator
         /// <param name="orientation">Orientation for the check button.</param>
         /// <param name="overflow">Button is used on the overflow bar.</param>
         public ViewDrawNavCheckButtonBase(KryptonNavigator navigator,
-                                          KryptonPage page,
+                                          [DisallowNull] KryptonPage? page,
                                           VisualOrientation orientation,
                                           bool overflow)
             : this(navigator, page, orientation,
@@ -78,7 +78,7 @@ namespace Krypton.Navigator
         /// <param name="page">Page this check button represents.</param>
         /// <param name="orientation">Orientation for the check button.</param>
         public ViewDrawNavCheckButtonBase(KryptonNavigator navigator,
-                                          KryptonPage page,
+            [DisallowNull] KryptonPage? page,
                                           VisualOrientation orientation)
             : this(navigator, page, orientation,
                    page.StateDisabled.CheckButton, 
@@ -102,8 +102,8 @@ namespace Krypton.Navigator
         /// <param name="statePressed">Source for pressed state values.</param>
         /// <param name="stateSelected">Source for selected state values.</param>
         /// <param name="stateFocused">Source for focused state values.</param>
-        public ViewDrawNavCheckButtonBase(KryptonNavigator navigator,
-                                          KryptonPage page,
+        public ViewDrawNavCheckButtonBase([DisallowNull] KryptonNavigator navigator,
+                                          KryptonPage? page,
                                           VisualOrientation orientation,
                                           IPaletteTriple stateDisabled,
                                           IPaletteTriple stateNormal,
@@ -189,7 +189,7 @@ namespace Krypton.Navigator
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            "ViewDrawNavCheckButtonBase:" + Id;
+            $"ViewDrawNavCheckButtonBase:{Id}";
 
         #endregion
 
@@ -199,7 +199,7 @@ namespace Krypton.Navigator
         /// </summary>
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public NeedPaintHandler NeedPaint
+        public NeedPaintHandler? NeedPaint
         {
             get => _needPaint;
 
@@ -245,7 +245,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets the page this view represents.
         /// </summary>
-        public virtual KryptonPage Page
+        public virtual KryptonPage? Page
         {
             get => _page;
 
@@ -290,7 +290,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="element">Element to search against.</param>
         /// <returns>Reference to ButtonSpec; otherwise null.</returns>
-        public ButtonSpec ButtonSpecFromView(ViewBase element) => ButtonSpecManager?.ButtonSpecFromView(element);
+        public ButtonSpec? ButtonSpecFromView(ViewBase element) => ButtonSpecManager?.ButtonSpecFromView(element);
 
         #endregion
 
@@ -306,10 +306,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Raises the Click event for the button.
         /// </summary>
-        public void PerformClick()
-        {
-            OnClick(this, EventArgs.Empty);
-        }
+        public void PerformClick() => OnClick(this, EventArgs.Empty);
         #endregion
 
         #region IContentValues
@@ -318,7 +315,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="state">The state for which the image is needed.</param>
         /// <returns>Image value.</returns>
-        public abstract Image GetImage(PaletteState state);
+        public abstract Image? GetImage(PaletteState state);
 
         /// <summary>
         /// Gets the image color that should be transparent.
@@ -352,7 +349,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets access to the button spec manager used for this button.
         /// </summary>
-        public ButtonSpecNavManagerLayoutBar ButtonSpecManager { get; private set; }
+        public ButtonSpecNavManagerLayoutBar? ButtonSpecManager { get; private set; }
 
         #endregion
 
@@ -363,8 +360,11 @@ namespace Krypton.Navigator
         public virtual void UpdateButtonSpecMapping()
         {
             // Define a default mapping for text color and recreate to use that new setting
-            ButtonSpecManager.SetRemapTarget(Navigator.Bar.CheckButtonStyle);
-            ButtonSpecManager.RecreateButtons();
+            if (ButtonSpecManager != null)
+            {
+                ButtonSpecManager.SetRemapTarget(Navigator.Bar.CheckButtonStyle);
+                ButtonSpecManager.RecreateButtons();
+            }
         }
         #endregion
 
@@ -400,8 +400,8 @@ namespace Krypton.Navigator
             KeyController = _buttonController;
 
             // Create two decorators in order to support tooltips and hover events
-            ToolTipController toolTipController = new(Navigator.ToolTipManager, this, _buttonController);
-            ToolTipController hoverController = new(Navigator.HoverManager, this, toolTipController);
+            var toolTipController = new ToolTipController(Navigator.ToolTipManager, this, _buttonController);
+            var hoverController = new ToolTipController(Navigator.HoverManager, this, toolTipController);
             return hoverController;
         }
         #endregion
@@ -412,10 +412,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">An NeedLayoutEventArgs containing event data.</param>
-        protected virtual void OnNeedPaint(object sender, NeedLayoutEventArgs e)
-        {
-            _needPaint?.Invoke(this, e);
-        }
+        protected virtual void OnNeedPaint(object? sender, NeedLayoutEventArgs e) => _needPaint?.Invoke(this, e);
         #endregion
 
         #region OnClick
@@ -449,7 +446,7 @@ namespace Krypton.Navigator
             if ((Navigator.SelectedPage != _page) && Navigator.AllowTabSelect)
             {
                 // This event might have caused the page to be removed or hidden and so check the page is still present before selecting it
-                if (Navigator.ChildPanel.Controls.Contains(_page) && _page.LastVisibleSet)
+                if (Navigator.ChildPanel?.Controls.Contains(_page) == true && _page.LastVisibleSet)
                 {
                     Navigator.SelectedPage = _page;
                 }
@@ -470,7 +467,7 @@ namespace Krypton.Navigator
             }
 
             // Generate event so user can decide what, if any, context menu to show
-            ShowContextMenuArgs scma = new(_page, Navigator.Pages.IndexOf(_page));
+            var scma = new ShowContextMenuArgs(_page, Navigator.Pages.IndexOf(_page));
             Navigator.OnShowContextMenu(scma);
 
             // Do we need to show a context menu
@@ -492,35 +489,17 @@ namespace Krypton.Navigator
         #endregion
 
         #region Implementation
-        private void OnDragStart(object sender, DragStartEventCancelArgs e)
-        {
-            Navigator.InternalDragStart(e, _page);
-        }
+        private void OnDragStart(object sender, DragStartEventCancelArgs e) => Navigator.InternalDragStart(e, _page);
 
-        private void OnDragMove(object sender, PointEventArgs e)
-        {
-            Navigator.InternalDragMove(e);
-        }
+        private void OnDragMove(object sender, PointEventArgs e) => Navigator.InternalDragMove(e);
 
-        private void OnDragEnd(object sender, PointEventArgs e)
-        {
-            Navigator.InternalDragEnd(e);
-        }
+        private void OnDragEnd(object sender, PointEventArgs e) => Navigator.InternalDragEnd(e);
 
-        private void OnDragQuit(object sender, EventArgs e)
-        {
-            Navigator.InternalDragQuit();
-        }
+        private void OnDragQuit(object sender, EventArgs e) => Navigator.InternalDragQuit();
 
-        private void OnButtonDragRectangle(object sender, ButtonDragRectangleEventArgs e)
-        {
-            ButtonDragRectangle?.Invoke(this, e);
-        }
+        private void OnButtonDragRectangle(object sender, ButtonDragRectangleEventArgs e) => ButtonDragRectangle?.Invoke(this, e);
 
-        private void OnButtonDragOffset(object sender, ButtonDragOffsetEventArgs e)
-        {
-            ButtonDragOffset?.Invoke(this, e);
-        }
+        private void OnButtonDragOffset(object sender, ButtonDragOffsetEventArgs e) => ButtonDragOffset?.Invoke(this, e);
         #endregion
     }
 }

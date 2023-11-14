@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -21,7 +21,7 @@ namespace Krypton.Toolkit
         #region Instance Fields
         private readonly ToolTipManager _manager;
         private readonly ViewBase _targetElement;
-        private readonly IMouseController _targetController;
+        private readonly IMouseController? _targetController;
         #endregion
 
         #region Identity
@@ -31,9 +31,9 @@ namespace Krypton.Toolkit
         /// <param name="manager">Reference to manager of all tooltip functionality.</param>
         /// <param name="targetElement">Target element that controller is for.</param>
         /// <param name="targetController">Target controller that we are snooping.</param>
-        public ToolTipController(ToolTipManager manager,
-                                 ViewBase targetElement,
-                                 IMouseController targetController)
+        public ToolTipController([DisallowNull] ToolTipManager manager,
+            [DisallowNull] ViewBase targetElement,
+                                 IMouseController? targetController)
         {
             Debug.Assert(manager != null);
             Debug.Assert(targetElement != null);
@@ -101,7 +101,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="c">Reference to the source control instance.</param>
         /// <param name="next">Reference to view that is next to have the mouse.</param>
-        public void MouseLeave(Control c, ViewBase next)
+        public void MouseLeave(Control c, ViewBase? next)
         {
             _manager.MouseLeave(_targetElement, c, next);
 

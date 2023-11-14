@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -31,7 +31,7 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the DataGridViewStyles class.
         /// </summary>
         /// <param name="dataGridView">Reference to owning control.</param>
-        public DataGridViewStyles(KryptonDataGridView dataGridView)
+        public DataGridViewStyles([DisallowNull] KryptonDataGridView dataGridView)
         {
             Debug.Assert(dataGridView != null);
             _dataGridView = dataGridView;
@@ -110,10 +110,7 @@ namespace Krypton.Toolkit
 
         private bool ShouldSerializeStyle() => Style != DataGridViewStyle.List;
 
-        private void ResetStyle()
-        {
-            Style = DataGridViewStyle.List;
-        }
+        private void ResetStyle() => Style = DataGridViewStyle.List;
         #endregion
 
         #region StyleColumn
@@ -191,10 +188,7 @@ namespace Krypton.Toolkit
 
         private bool ShouldSerializeStyleColumn() => StyleColumn != GridStyle.List;
 
-        private void ResetStyleColumn()
-        {
-            StyleColumn = GridStyle.List;
-        }
+        private void ResetStyleColumn() => StyleColumn = GridStyle.List;
         #endregion
 
         #region StyleRow
@@ -272,10 +266,7 @@ namespace Krypton.Toolkit
 
         private bool ShouldSerializeStyleRow() => StyleRow != GridStyle.List;
 
-        private void ResetStyleRow()
-        {
-            StyleRow = GridStyle.List;
-        }
+        private void ResetStyleRow() => StyleRow = GridStyle.List;
         #endregion
 
         #region StyleDataCells
@@ -353,10 +344,7 @@ namespace Krypton.Toolkit
 
         private bool ShouldSerializeStyleDataCells() => StyleDataCells != GridStyle.List;
 
-        private void ResetStyleDataCells()
-        {
-            StyleDataCells = GridStyle.List;
-        }
+        private void ResetStyleDataCells() => StyleDataCells = GridStyle.List;
         #endregion
 
         #region StyleBackground
@@ -409,10 +397,7 @@ namespace Krypton.Toolkit
 
         private bool ShouldSerializeStyleBackground() => StyleBackground != PaletteBackStyle.GridBackgroundList;
 
-        private void ResetStyleBackground()
-        {
-            StyleBackground = PaletteBackStyle.GridBackgroundList;
-        }
+        private void ResetStyleBackground() => StyleBackground = PaletteBackStyle.GridBackgroundList;
         #endregion
     }
 }

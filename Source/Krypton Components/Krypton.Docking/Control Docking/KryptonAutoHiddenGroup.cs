@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -24,7 +24,7 @@ namespace Krypton.Docking
         /// <summary>
         /// Occurs when a page is becoming stored.
         /// </summary>
-        public event EventHandler<UniqueNameEventArgs> StoringPage;
+        public event EventHandler<UniqueNameEventArgs>? StoringPage;
         #endregion
 
         #region Identity
@@ -47,7 +47,7 @@ namespace Krypton.Docking
             Button.CloseButtonDisplay = ButtonDisplay.Hide;
             NavigatorMode = NavigatorMode.BarTabOnly;
 
-            // Edge dependant values
+            // Edge dependent values
             switch (edge)
             {
                 case DockingEdge.Left:
@@ -83,7 +83,8 @@ namespace Krypton.Docking
             var uniqueNames = new List<string>();
 
             // Create a list of pages that have not yet store placeholders
-            foreach(KryptonPage page in Pages)
+            // ReSharper disable once LoopCanBeConvertedToQuery
+            foreach (KryptonPage page in Pages)
             {
                 if (page is not KryptonStorePage)
                 {
@@ -98,19 +99,24 @@ namespace Krypton.Docking
         /// Convert the named pages into store placeholders.
         /// </summary>
         /// <param name="uniqueNames">Array of page names.</param>
-        public void StorePages(string[] uniqueNames)
+        public void StorePages(string[]? uniqueNames)
         {
+            if (uniqueNames == null)
+            {
+                return;
+            }
+
             foreach (var uniqueName in uniqueNames)
             {
                 // If a matching page exists and it is not a store placeholder already
-                KryptonPage page = Pages[uniqueName];
-                if ((page != null) && page is not KryptonStorePage)
+                KryptonPage? page = Pages[uniqueName];
+                if ((page is not null and not KryptonStorePage))
                 {
                     // Notify that we are storing a page, so handlers can ensure it will be unique to the auto hidden location
                     OnStoringPage(new UniqueNameEventArgs(page.UniqueName));
 
                     // Replace the existing page with a placeholder that has the same unique name
-                    KryptonStorePage placeholder = new(uniqueName, "AutoHiddenGroup");
+                    var placeholder = new KryptonStorePage(uniqueName, "AutoHiddenGroup");
                     Pages.Insert(Pages.IndexOf(page), placeholder);
                     Pages.Remove(page);
                 }
@@ -126,12 +132,15 @@ namespace Krypton.Docking
             foreach (KryptonPage page in pages)
             {
                 // If a matching page exists and it is not a store placeholder already
-                KryptonPage storePage = Pages[page.UniqueName];
-                if (storePage is KryptonStorePage)
+                if (!string.IsNullOrWhiteSpace(page.UniqueName))
                 {
-                    // Replace the existing placeholder with the actual page
-                    Pages.Insert(Pages.IndexOf(storePage), page);
-                    Pages.Remove(storePage);
+                    KryptonPage? storePage = Pages[page.UniqueName];
+                    if (storePage is KryptonStorePage)
+                    {
+                        // Replace the existing placeholder with the actual page
+                        Pages.Insert(Pages.IndexOf(storePage), page);
+                        Pages.Remove(storePage);
+                    }
                 }
             }
         }
@@ -142,10 +151,7 @@ namespace Krypton.Docking
         /// Raises the StoringPage event.
         /// </summary>
         /// <param name="e">An StorePageEventArgs containing the event data.</param>
-        protected virtual void OnStoringPage(UniqueNameEventArgs e)
-        {
-            StoringPage?.Invoke(this, e);
-        }
+        protected virtual void OnStoringPage(UniqueNameEventArgs e) => StoringPage?.Invoke(this, e);
 
         /// <summary>
         /// Raises the TabCountChanged event.

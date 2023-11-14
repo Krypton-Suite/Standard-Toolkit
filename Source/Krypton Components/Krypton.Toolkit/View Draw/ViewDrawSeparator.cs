@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -18,16 +18,16 @@ namespace Krypton.Toolkit
     public class ViewDrawSeparator : ViewLeaf
     {
         #region Instance Fields
-        internal IPaletteDouble _paletteDisabled;
-        internal IPaletteDouble _paletteNormal;
-        internal IPaletteDouble _paletteTracking;
-        internal IPaletteDouble _palettePressed;
-        internal IPaletteMetric _metricDisabled;
-        internal IPaletteMetric _metricNormal;
-        internal IPaletteMetric _metricTracking;
-        internal IPaletteMetric _metricPressed;
-        internal IPaletteDouble _palette;
-        internal IPaletteMetric _metric;
+        internal IPaletteDouble? _paletteDisabled;
+        internal IPaletteDouble? _paletteNormal;
+        internal IPaletteDouble? _paletteTracking;
+        internal IPaletteDouble? _palettePressed;
+        internal IPaletteMetric? _metricDisabled;
+        internal IPaletteMetric? _metricNormal;
+        internal IPaletteMetric? _metricTracking;
+        internal IPaletteMetric? _metricPressed;
+        internal IPaletteDouble? _palette;
+        internal IPaletteMetric? _metric;
 
         #endregion
 
@@ -45,10 +45,10 @@ namespace Krypton.Toolkit
         /// <param name="metricPressed">Palette source for pressed metric values.</param>
         /// <param name="metricPadding">Metric used to get padding values.</param>
         /// <param name="orientation">Visual orientation of the content.</param>
-        public ViewDrawSeparator(IPaletteDouble paletteDisabled, IPaletteDouble paletteNormal,
-                                 IPaletteDouble paletteTracking, IPaletteDouble palettePressed,
-                                 IPaletteMetric metricDisabled,  IPaletteMetric metricNormal,
-                                 IPaletteMetric metricTracking,  IPaletteMetric metricPressed,
+        public ViewDrawSeparator([DisallowNull] IPaletteDouble paletteDisabled, [DisallowNull] IPaletteDouble paletteNormal,
+                                 [DisallowNull] IPaletteDouble paletteTracking, [DisallowNull] IPaletteDouble palettePressed,
+                                 [DisallowNull] IPaletteMetric metricDisabled,  [DisallowNull] IPaletteMetric metricNormal,
+                                 [DisallowNull] IPaletteMetric metricTracking,  [DisallowNull] IPaletteMetric metricPressed,
                                  PaletteMetricPadding metricPadding,
                                  Orientation orientation)
         {
@@ -83,7 +83,7 @@ namespace Krypton.Toolkit
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            "ViewDrawSeparator:" + Id;
+            $"ViewDrawSeparator:{Id}";
 
         #endregion
 
@@ -131,14 +131,14 @@ namespace Krypton.Toolkit
         /// <param name="metricNormal">Palette source for normal metric values.</param>
         /// <param name="metricTracking">Palette source for tracking metric values.</param>
         /// <param name="metricPressed">Palette source for pressed metric values.</param>
-        public void SetPalettes(IPaletteDouble paletteDisabled,
-                                IPaletteDouble paletteNormal,
-                                IPaletteDouble paletteTracking,
-                                IPaletteDouble palettePressed,
-                                IPaletteMetric metricDisabled,
-                                IPaletteMetric metricNormal,
-                                IPaletteMetric metricTracking,
-                                IPaletteMetric metricPressed)
+        public void SetPalettes([DisallowNull] IPaletteDouble paletteDisabled,
+                                [DisallowNull] IPaletteDouble paletteNormal,
+                                [DisallowNull] IPaletteDouble paletteTracking,
+                                [DisallowNull] IPaletteDouble palettePressed,
+                                [DisallowNull] IPaletteMetric metricDisabled,
+                                [DisallowNull] IPaletteMetric metricNormal,
+                                [DisallowNull] IPaletteMetric metricTracking,
+                                [DisallowNull] IPaletteMetric metricPressed)
         {
             Debug.Assert(paletteDisabled != null);
             Debug.Assert(paletteNormal != null);
@@ -166,7 +166,7 @@ namespace Krypton.Toolkit
         /// Discover the preferred size of the element.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override Size GetPreferredSize(ViewLayoutContext context)
+        public override Size GetPreferredSize([DisallowNull] ViewLayoutContext context)
         {
             Debug.Assert(context != null);
             return new Size(Length, Length);
@@ -176,7 +176,7 @@ namespace Krypton.Toolkit
         /// Perform a layout of the elements.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override void Layout(ViewLayoutContext context)
+        public override void Layout([DisallowNull] ViewLayoutContext context)
         {
             Debug.Assert(context != null);
             ClientRectangle = context.DisplayRectangle;
@@ -190,7 +190,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="context">Rendering context.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public override void RenderBefore(RenderContext context)
+        public override void RenderBefore([DisallowNull] RenderContext context)
         {
             Debug.Assert(context != null);
 

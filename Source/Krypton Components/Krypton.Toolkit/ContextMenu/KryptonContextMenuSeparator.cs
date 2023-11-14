@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -19,12 +19,12 @@ namespace Krypton.Toolkit
     [ToolboxBitmap(typeof(KryptonContextMenuSeparator), "ToolboxBitmaps.KryptonContextMenuSeparator.bmp")]
     [DesignerCategory(@"code")]
     [DesignTimeVisible(false)]
-    [DefaultProperty(@"Horizontal")]
+    [DefaultProperty(nameof(Horizontal))]
     public class KryptonContextMenuSeparator : KryptonContextMenuItemBase
     {
         #region Instance Fields
         private bool _horizontal;
-        private readonly PaletteRedirectDouble _redirectSeparator;
+        private readonly PaletteRedirectDouble? _redirectSeparator;
         #endregion
 
         #region Identity
@@ -66,7 +66,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public override KryptonContextMenuItemBase this[int index] => null;
+        public override KryptonContextMenuItemBase? this[int index] => null;
 
         /// <summary>
         /// Test for the provided shortcut and perform relevant action if a match is found.
@@ -90,14 +90,17 @@ namespace Krypton.Toolkit
                                               bool standardStyle,
                                               bool imageColumn)
         {
+            SetProvider(provider);
             if (Horizontal && (parent is KryptonContextMenuItemCollection))
             {
                 // Create a stack of horizontal items inside the item
-                ViewLayoutDocker docker = new();
+                var docker = new ViewLayoutDocker();
 
                 // Take up same space as the image column, so separator starts close to actual text
-                ViewDrawContent imageContent = new(provider.ProviderStateCommon.ItemImage.Content, new FixedContentValue(null, null, null, Color.Empty), VisualOrientation.Top);
-                ViewDrawMenuImageCanvas imageCanvas = new(provider.ProviderStateCommon.ItemImage.Back, provider.ProviderStateCommon.ItemImage.Border, 0, true)
+                var imageContent = new ViewDrawContent(provider.ProviderStateCommon.ItemImage.Content,
+                    new FixedContentValue(null, null, null, Color.Empty), VisualOrientation.Top);
+                var imageCanvas = new ViewDrawMenuImageCanvas(provider.ProviderStateCommon.ItemImage.Back,
+                        provider.ProviderStateCommon.ItemImage.Border, 0, true)
                 {
                     imageContent
                 };
@@ -108,7 +111,7 @@ namespace Krypton.Toolkit
                 docker.Add(new ViewLayoutMenuSepGap(provider.ProviderStateCommon, standardStyle), ViewDockStyle.Left);
 
                 // Separator Display
-                ViewLayoutStack separatorStack = new(false)
+                var separatorStack = new ViewLayoutStack(false)
                 {
                     new ViewLayoutSeparator(1, 1),
                     new ViewDrawMenuSeparator(this, provider.ProviderStateCommon.Separator),
@@ -159,7 +162,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Internal
-        internal void SetPaletteRedirect(PaletteDoubleRedirect redirector) => _redirectSeparator.SetRedirectStates(redirector, redirector);
+        internal void SetPaletteRedirect(PaletteDoubleRedirect? redirector) => _redirectSeparator.SetRedirectStates(redirector, redirector);
 
         #endregion
     }

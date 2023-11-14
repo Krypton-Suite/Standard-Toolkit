@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -77,10 +77,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the StatusStripText property to its default value.
         /// </summary>
-        public void ResetStatusStripText()
-        {
-            StatusStripText = Color.Empty;
-        }
+        public void ResetStatusStripText() => StatusStripText = Color.Empty;
         #endregion
 
         #region StatusStripFont
@@ -91,7 +88,7 @@ namespace Krypton.Toolkit
         [Category(@"ToolMenuStatus")]
         [Description(@"Font to draw text on the StatusStrip.")]
         [DefaultValue(null)]
-        public Font StatusStripFont
+        public Font? StatusStripFont
         {
             get => InternalKCT.InternalStatusStripFont;
 
@@ -105,10 +102,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the StatusStripFont property to its default value.
         /// </summary>
-        public void ResetStatusStripFont()
-        {
-            StatusStripText = Color.Empty;
-        }
+        public void ResetStatusStripFont() => StatusStripText = Color.Empty;
         #endregion
 
         #region StatusStripGradientBegin
@@ -133,10 +127,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the StatusStripGradientBegin property to its default value.
         /// </summary>
-        public void ResetStatusStripGradientBegin()
-        {
-            StatusStripGradientBegin = Color.Empty;
-        }
+        public void ResetStatusStripGradientBegin() => StatusStripGradientBegin = Color.Empty;
         #endregion
 
         #region StatusStripGradientEnd
@@ -161,10 +152,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the StatusStripGradientEnd property to its default value.
         /// </summary>
-        public void ResetStatusStripGradientEnd()
-        {
-            StatusStripGradientEnd = Color.Empty;
-        }
+        public void ResetStatusStripGradientEnd() => StatusStripGradientEnd = Color.Empty;
         #endregion
     }
 }

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -15,28 +15,20 @@ namespace Krypton.Toolkit
     /// <summary>
     /// Custom type converter so that GridStyle values appear as neat text at design time.
     /// </summary>
-    internal class GridStyleConverter : StringLookupConverter
+    internal class GridStyleConverter : StringLookupConverter<GridStyle>
     {
         #region Static Fields
 
-        private readonly Pair[] _pairs =
+        [Localizable(true)]
+        private static readonly IReadOnlyDictionary<GridStyle, string> _pairs = new Dictionary<GridStyle, string>
         {
-            new(GridStyle.List, "List"),
-            new(GridStyle.Sheet, "Sheet"),
-            new(GridStyle.Custom1, "Custom1"),
-            new(GridStyle.Custom2, "Custom2"),
-            new(GridStyle.Custom3, "Custom3")
+            {GridStyle.List, DesignTimeUtilities.DEFAULT_GRID_STYLE_LIST},
+            {GridStyle.Sheet, DesignTimeUtilities.DEFAULT_GRID_STYLE_SHEET},
+            {GridStyle.Custom1, DesignTimeUtilities.DEFAULT_GRID_STYLE_CUSTOM_ONE},
+            {GridStyle.Custom2, DesignTimeUtilities.DEFAULT_GRID_STYLE_CUSTOM_TWO},
+            {GridStyle.Custom3, DesignTimeUtilities.DEFAULT_GRID_STYLE_CUSTOM_THREE}
         };
-        #endregion
 
-        #region Identity
-        /// <summary>
-        /// Initialize a new instance of the GridStyleConverter class.
-        /// </summary>
-        public GridStyleConverter()
-            : base(typeof(GridStyle))
-        {
-        }
         #endregion
 
         #region Protected
@@ -44,7 +36,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets an array of lookup pairs.
         /// </summary>
-        protected override Pair[] Pairs => _pairs;
+        protected override IReadOnlyDictionary<GridStyle /*Enum*/, string /*Display*/> Pairs => _pairs;
 
         #endregion
     }

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -18,7 +18,7 @@ namespace Krypton.Toolkit
     public class PaletteHeaderRedirect : PaletteTripleMetricRedirect
     {
         #region Instance Fields
-        private PaletteRedirect _redirect;
+        private PaletteRedirect? _redirect;
         private Padding _buttonPadding;
         private int _buttonEdgeInset;
         #endregion
@@ -32,7 +32,7 @@ namespace Krypton.Toolkit
         /// <param name="borderStyle">Style for the border.</param>
         /// <param name="contentStyle">Style for the content.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public PaletteHeaderRedirect(PaletteRedirect redirect,
+        public PaletteHeaderRedirect([DisallowNull] PaletteRedirect redirect,
                                      PaletteBackStyle backStyle,
                                      PaletteBorderStyle borderStyle,
                                      PaletteContentStyle contentStyle,
@@ -59,7 +59,7 @@ namespace Krypton.Toolkit
         /// Update the redirector with new reference.
         /// </summary>
         /// <param name="redirect">Target redirector.</param>
-        public override void SetRedirector(PaletteRedirect redirect)
+        public override void SetRedirector(PaletteRedirect? redirect)
         {
             base.SetRedirector(redirect);
             _redirect = redirect;
@@ -102,10 +102,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Reset the ButtonEdgeInset to the default value.
         /// </summary>
-        public void ResetButtonEdgeInset()
-        {
-            ButtonEdgeInset = -1;
-        }
+        public void ResetButtonEdgeInset() => ButtonEdgeInset = -1;
         #endregion
 
         #region ButtonPadding
@@ -133,10 +130,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Reset the ButtonPadding to the default value.
         /// </summary>
-        public void ResetButtonPadding()
-        {
-            ButtonPadding = CommonHelper.InheritPadding;
-        }
+        public void ResetButtonPadding() => ButtonPadding = CommonHelper.InheritPadding;
         #endregion
 
         #region IPaletteMetric

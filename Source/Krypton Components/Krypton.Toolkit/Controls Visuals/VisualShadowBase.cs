@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -36,7 +36,7 @@ namespace Krypton.Toolkit
             // Update form properties so we do not have a border and do not show
             // in the task bar. We draw the background in Magenta and set that as
             // the transparency key so it is a see through window.
-            CreateParams cp = new()
+            var cp = new CreateParams
             {
                 // Define the screen position/size
                 X = -2,
@@ -128,8 +128,7 @@ namespace Krypton.Toolkit
         public void ReCalcShadow(Bitmap sourceBitmap, Rectangle windowBounds)
         {
             Rectangle clipRect = CalcRectangle(windowBounds);
-            if (clipRect.Width > 0
-                && clipRect.Height > 0)
+            if (clipRect is { Width: > 0, Height: > 0 })
             {
                 _shadowClip = sourceBitmap.Clone(clipRect, sourceBitmap.PixelFormat);
             }
@@ -159,10 +158,10 @@ namespace Krypton.Toolkit
             }
 
             // Get device contexts
-            IntPtr screenDc = PI.GetDC(IntPtr.Zero);
-            IntPtr memDc = PI.CreateCompatibleDC(screenDc);
-            IntPtr hBitmap = IntPtr.Zero;
-            IntPtr hOldBitmap = IntPtr.Zero;
+            var screenDc = PI.GetDC(IntPtr.Zero);
+            var memDc = PI.CreateCompatibleDC(screenDc);
+            var hBitmap = IntPtr.Zero;
+            var hOldBitmap = IntPtr.Zero;
 
             try
             {
@@ -172,10 +171,10 @@ namespace Krypton.Toolkit
                 hOldBitmap = PI.SelectObject(memDc, hBitmap);
 
                 // Set parameters for layered window update.
-                PI.SIZE newSize = new(_shadowClip.Width, _shadowClip.Height);
-                PI.POINT sourceLocation = new(0, 0);
-                PI.POINT newLocation = new(TargetRect.Left, TargetRect.Top);
-                PI.BLENDFUNCTION blend = new()
+                var newSize = new PI.SIZE(_shadowClip.Width, _shadowClip.Height);
+                var sourceLocation = new PI.POINT(0, 0);
+                var newLocation = new PI.POINT(TargetRect.Left, TargetRect.Top);
+                var blend = new PI.BLENDFUNCTION
                 {
                     BlendOp = PI.AC_SRC_OVER,
                     BlendFlags = 0,

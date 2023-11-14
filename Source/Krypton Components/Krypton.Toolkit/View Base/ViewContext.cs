@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -20,8 +20,8 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
 
-        private Graphics _graphics;
-        private Control _topControl;
+        private Graphics? _graphics;
+        private Control? _topControl;
         private bool _disposeGraphics;
         private readonly bool _disposeManager;
         #endregion
@@ -34,10 +34,10 @@ namespace Krypton.Toolkit
         /// <param name="control">Control associated with rendering.</param>
         /// <param name="alignControl">Control used for aligning elements.</param>
         /// <param name="renderer">Rendering provider.</param>
-        public ViewContext(ViewManager manager,
+        public ViewContext(ViewManager? manager,
                            Control control, 
                            Control alignControl, 
-                           IRenderer renderer)
+                           IRenderer? renderer)
             : this(manager, control, alignControl, null, renderer)
         {
         }
@@ -51,8 +51,8 @@ namespace Krypton.Toolkit
         /// <param name="renderer">Rendering provider.</param>
         public ViewContext(Control control,
                            Control alignControl,
-                           Graphics graphics,
-                           IRenderer renderer)
+                           Graphics? graphics,
+                           IRenderer? renderer)
             : this(null, control, alignControl, graphics, renderer)
         {
         }
@@ -65,11 +65,11 @@ namespace Krypton.Toolkit
         /// <param name="alignControl">Control used for aligning elements.</param>
         /// <param name="graphics">Graphics instance for drawing.</param>
         /// <param name="renderer">Rendering provider.</param>
-        public ViewContext(ViewManager manager,
+        public ViewContext(ViewManager? manager,
                            Control control,
                            Control alignControl,
-                           Graphics graphics,
-                           IRenderer renderer)
+                           Graphics? graphics,
+                           IRenderer? renderer)
         {
             // Use the manager is provided, otherwise create a temporary one with a null view
             if (manager != null)
@@ -125,7 +125,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the owning view manager.
         /// </summary>
-        public ViewManager ViewManager
+        public ViewManager? ViewManager
         {
             [DebuggerStepThrough]
             get;
@@ -163,6 +163,7 @@ namespace Krypton.Toolkit
                 if (_graphics == null)
                 {
                     // If the control has been created...
+                    // ReSharper disable once ConvertIfStatementToConditionalTernaryExpression
                     if (Control.IsHandleCreated)
                     {
                         // Get the graphics instance from the control
@@ -228,7 +229,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the renderer provider.
         /// </summary>
-        public IRenderer Renderer
+        public IRenderer? Renderer
         {
             [DebuggerStepThrough]
             get;

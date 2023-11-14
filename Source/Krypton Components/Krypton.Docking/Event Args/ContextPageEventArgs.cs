@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -17,10 +17,6 @@ namespace Krypton.Docking
     /// </summary>
     public class ContextPageEventArgs : CancelEventArgs
     {
-        #region Instance Fields
-
-        #endregion
-
         #region Identity
         /// <summary>
         /// Initialize a new instance of the ContextPageEventArgs class.
@@ -28,7 +24,7 @@ namespace Krypton.Docking
         /// <param name="page">Page associated with the context menu.</param>
         /// <param name="contextMenu">Context menu that can be customized.</param>
         /// <param name="cancel">Initial value for the cancel property.</param>
-        public ContextPageEventArgs(KryptonPage page, 
+        public ContextPageEventArgs(KryptonPage? page, 
                                     KryptonContextMenu contextMenu,
                                     bool cancel)
             : base(cancel)
@@ -42,12 +38,12 @@ namespace Krypton.Docking
         /// <summary>
         /// Gets access to page associated with the context menu.
         /// </summary>
-        public KryptonPage Page { get; }
+        public KryptonPage? Page { get; }
 
         /// <summary>
         /// Gets access to context menu that can be customized.
         /// </summary>
-        public KryptonContextMenu KryptonContextMenu { get; }
+        public KryptonContextMenu? KryptonContextMenu { get; }
 
         #endregion
     }

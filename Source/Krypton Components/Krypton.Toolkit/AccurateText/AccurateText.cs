@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -21,6 +21,11 @@ namespace Krypton.Toolkit
 
         private const int GLOW_EXTRA_WIDTH = 14;
         private const int GLOW_EXTRA_HEIGHT = 3;
+
+        // DO NOT USE THIS CACHING, because when the Theme Font is changed and there is a global update, 
+        // the whole thing gets locked up in resizing......
+        //private static TimedCache<(string text, Font font, StringFormatFlags formatFlags, TextRenderingHint hint), AccurateTextMemento> _cache 
+        //    = new(TimeSpan.FromMinutes(10));
 
         #endregion
 
@@ -42,10 +47,10 @@ namespace Krypton.Toolkit
         /// <param name="disposeFont">Dispose of font when finished with it.</param>
         /// <exception cref="ArgumentNullException"></exception>
         /// <returns>A memento used to draw the text.</returns>
-        public static AccurateTextMemento MeasureString(Graphics g,
+        public static AccurateTextMemento MeasureString([DisallowNull] Graphics g,
                                                         RightToLeft rtl,
-                                                        string text,
-                                                        Font font,
+                                                        [DisallowNull] string text,
+                                                        [DisallowNull] Font font,
                                                         PaletteTextTrim trim,
                                                         PaletteRelativeAlign align,
                                                         PaletteTextHotkeyPrefix prefix,
@@ -80,7 +85,7 @@ namespace Krypton.Toolkit
             }
 
             // Create the format object used when measuring and drawing
-            StringFormat format = new() { FormatFlags = StringFormatFlags.NoClip };
+            var format = new StringFormat { FormatFlags = StringFormatFlags.NoClip };
 
             // Ensure that text reflects reversed RTL setting
             if (rtl == RightToLeft.Yes)
@@ -151,29 +156,40 @@ namespace Krypton.Toolkit
                     break;
             }
 
-            // Replace tab characters with a fixed four spaces
-            text = text.Replace("\t", @"    ");
-
-            // Perform actual measure of the text
-            using GraphicsTextHint graphicsHint = new(g, hint);
-            SizeF textSize = Size.Empty;
-
-            try
-            {
-                textSize = g.MeasureString(text, font, int.MaxValue, format);
-
-                if (composition && glowing) //Seb
+            // Optimisation: Lookup key before performing expensive / slow GDI functions
+            //var key = (text, font, format.FormatFlags, hint);
+            var memento = //_cache.GetOrCreate(key,
+                () =>
                 {
-                    textSize.Width += GLOW_EXTRA_WIDTH;
-                }
-            }
-            catch
-            {
-                // ignored
-            }
 
+                    // Replace tab characters with a fixed four spaces
+                    text = text.Replace("\t", @"    ");
+
+                    // Perform actual measure of the text
+                    using var graphicsHint = new GraphicsTextHint(g, hint);
+                    var textSize = SizeF.Empty;
+
+                    try
+                    {
+                        // Declare a proposed size with dimensions set to the maximum integer value.
+                        var proposedSize = new Size(int.MaxValue, int.MaxValue);
+                        textSize = g.MeasureString(text, font, proposedSize, format);
+
+                        if (composition && glowing) //Seb
+                        {
+                            textSize.Width += GLOW_EXTRA_WIDTH;
+                        }
+                    }
+                    catch
+                    {
+                        // ignored
+                    }
+
+                    return new AccurateTextMemento(text, font, textSize, format, hint, disposeFont);
+                };
+                //);
             // Return a memento with drawing details
-            return new AccurateTextMemento(text, font, textSize, format, hint, disposeFont);
+            return memento.Invoke();
         }
 
         /// <summary>
@@ -190,7 +206,7 @@ namespace Krypton.Toolkit
         /// <param name="glowing">When on composition draw with glowing.</param>
         /// <exception cref="ArgumentNullException"></exception>
         /// <returns>True if draw succeeded; False is draw produced an error.</returns>
-        public static bool DrawString(Graphics g,
+        public static bool DrawString([DisallowNull] Graphics g,
                                       Brush brush,
                                       Rectangle rect,
                                       RightToLeft rtl,
@@ -198,7 +214,7 @@ namespace Krypton.Toolkit
                                       bool composition,
                                       bool glowing,
                                       PaletteState state,
-                                      AccurateTextMemento memento)
+                                      [DisallowNull] AccurateTextMemento memento)
         {
             Debug.Assert(g != null);
             Debug.Assert(memento != null);
@@ -218,7 +234,7 @@ namespace Krypton.Toolkit
             var ret = true;
 
             // Is there a valid place to be drawn into
-            if ((rect.Width > 0) && (rect.Height > 0))
+            if (rect is { Width: > 0, Height: > 0 })
             {
                 // Does the memento contain something to draw?
                 if (!memento.IsEmpty)
@@ -237,18 +253,19 @@ namespace Krypton.Toolkit
                             translateY = (rect.Y * 2) + rect.Height;
                             rotation = 180f;
                             break;
+
                         case VisualOrientation.Left:
                             // Invert the dimensions of the rectangle for drawing upwards
-                            rect = new Rectangle(rect.X, rect.Y, rect.Height, rect.Width);
-
+                            rect = rect with { Width = rect.Height, Height = rect.Width };
                             // Translate back from a quarter left turn to the original place 
                             translateX = rect.X - rect.Y - 1;
                             translateY = rect.X + rect.Y + rect.Width;
                             rotation = 270;
                             break;
+
                         case VisualOrientation.Right:
                             // Invert the dimensions of the rectangle for drawing upwards
-                            rect = new Rectangle(rect.X, rect.Y, rect.Height, rect.Width);
+                            rect = rect with { Width = rect.Height, Height = rect.Width };
 
                             // Translate back from a quarter right turn to the original place 
                             translateX = rect.X + rect.Y + rect.Height + 1;
@@ -270,39 +287,25 @@ namespace Krypton.Toolkit
 
                     try
                     {
-                        if (Application.RenderWithVisualStyles && composition && glowing)
+                        switch (Application.RenderWithVisualStyles)
                         {
-                            //DrawCompositionGlowingText(g, memento.Text, memento.Font, rect, state,
-                            //                           SystemColors.ActiveCaptionText, true);
-
-                            // Why was this added?
-                            //if (Environment.OSVersion.Version.Major >= 10 &&
-                            //    Environment.OSVersion.Version.Build >= 10586)
-                            //{
-                            //    DrawCompositionGlowingText(g, memento.Text, memento.Font, rect, state,
-                            //        (state == PaletteState.Disabled)
-                            //            ? Color.FromArgb(170, 170, 170)
-                            //            : ContrastColor(AccentColorService.GetColorByTypeName(@"ImmersiveSystemAccent")),
-                            //        true);
-                            //}
-                            //else
-                            {
+                            case true when composition && glowing:
                                 DrawCompositionGlowingText(g, memento.Text, memento.Font, rect, state,
                                     SystemColors.ActiveCaptionText, true);
-                            }
-                        }
-                        else if (Application.RenderWithVisualStyles && composition)
-                        {
-                            //Check if correct in all cases
-                            SolidBrush tmpBrush = brush as SolidBrush;
-                            Color tmpColor = tmpBrush?.Color ?? SystemColors.ActiveCaptionText;
+                                break;
+                            case true when composition:
+                            {
+                                //Check if correct in all cases
+                                var tmpBrush = brush as SolidBrush;
+                                Color tmpColor = tmpBrush?.Color ?? SystemColors.ActiveCaptionText;
 
-                            DrawCompositionText(g, memento.Text, memento.Font, rect, state,
-                              tmpColor, true, memento.Format);
-                        }
-                        else
-                        {
-                            g.DrawString(memento.Text, memento.Font, brush, rect, memento.Format);
+                                DrawCompositionText(g, memento.Text, memento.Font, rect, state,
+                                    tmpColor, true, memento.Format);
+                                break;
+                            }
+                            default:
+                                g.DrawString(memento.Text, memento.Font, brush, rect, memento.Format);
+                                break;
                         }
                     }
                     catch
@@ -357,7 +360,7 @@ namespace Krypton.Toolkit
         /// <param name="state">State of the source element.</param>
         /// <param name="color"><see cref="Color"/> of the text.</param>
         /// <param name="copyBackground">Should existing background be copied into the bitmap.</param>
-        public static void DrawCompositionGlowingText(Graphics g,
+        public static void DrawCompositionGlowingText(Graphics? g,
                                                       string text,
                                                       Font font,
                                                       Rectangle bounds,
@@ -366,12 +369,12 @@ namespace Krypton.Toolkit
                                                       bool copyBackground)
         {
             // Get the hDC for the graphics instance and create a memory DC
-            IntPtr gDC = g.GetHdc();
+            var gDC = g?.GetHdc() ?? IntPtr.Zero;
             try
             {
-                IntPtr mDC = PI.CreateCompatibleDC(gDC);
+                var mDC = PI.CreateCompatibleDC(gDC);
 
-                PI.BITMAPINFO bmi = new()
+                var bmi = new PI.BITMAPINFO
                 {
                     biWidth = bounds.Width,
                     biHeight = -(bounds.Height + (GLOW_EXTRA_HEIGHT * 2)),
@@ -383,7 +386,7 @@ namespace Krypton.Toolkit
 
 
                 // Create a device independent bitmap and select into the memory DC
-                IntPtr hDIB = PI.CreateDIBSection(gDC, ref bmi, 0, out _, IntPtr.Zero, 0);
+                var hDIB = PI.CreateDIBSection(gDC, ref bmi, 0, out _, IntPtr.Zero, 0);
                 PI.SelectObject(mDC, hDIB);
 
                 if (copyBackground)
@@ -394,22 +397,23 @@ namespace Krypton.Toolkit
                 }
 
                 // Select the font for use when drawing
-                IntPtr hFont = font.ToHfont();
+                var hFont = font.ToHfont();
                 PI.SelectObject(mDC, hFont);
 
                 // Get renderer for the correct state
-                VisualStyleRenderer renderer = new(state == PaletteState.Normal ? VisualStyleElement.Window.Caption.Active :
-                                                                                                      VisualStyleElement.Window.Caption.Inactive);
+                var renderer = new VisualStyleRenderer(state == PaletteState.Normal
+                    ? VisualStyleElement.Window.Caption.Active
+                    : VisualStyleElement.Window.Caption.Inactive);
 
                 // Create structures needed for theme drawing call
-                PI.RECT textBounds = new()
+                var textBounds = new PI.RECT
                 {
                     left = 0,
                     top = 0,
                     right = bounds.Right - bounds.Left,
                     bottom = bounds.Bottom - bounds.Top + (GLOW_EXTRA_HEIGHT * 2)
                 };
-                PI.DTTOPTS dttOpts = new()
+                var dttOpts = new PI.DTTOPTS
                 {
                     dwSize = Marshal.SizeOf(typeof(PI.DTTOPTS)),
                     dwFlags = PI.DTT_COMPOSITED | PI.DTT_GLOWSIZE | PI.DTT_TEXTCOLOR,
@@ -447,7 +451,7 @@ namespace Krypton.Toolkit
             finally
             {
                 // Must remember to release the hDC
-                g.ReleaseHdc(gDC);
+                g?.ReleaseHdc(gDC);
             }
         }
 
@@ -462,7 +466,7 @@ namespace Krypton.Toolkit
         /// <param name="color"><see cref="Color"/> of the text.</param>
         /// <param name="copyBackground">Should existing background be copied into the bitmap.</param>
         /// <param name="sf">StringFormat of the memento.</param>
-        public static void DrawCompositionText(Graphics g,
+        public static void DrawCompositionText(Graphics? g,
                                                       string text,
                                                       Font font,
                                                       Rectangle bounds,
@@ -472,12 +476,12 @@ namespace Krypton.Toolkit
                                                       StringFormat sf)
         {
             // Get the hDC for the graphics instance and create a memory DC
-            IntPtr gDC = g.GetHdc();
+            var gDC = g?.GetHdc() ?? IntPtr.Zero;
             try
             {
-                IntPtr mDC = PI.CreateCompatibleDC(gDC);
+                var mDC = PI.CreateCompatibleDC(gDC);
 
-                PI.BITMAPINFO bmi = new()
+                var bmi = new PI.BITMAPINFO
                 {
                     biWidth = bounds.Width,
                     biHeight = -bounds.Height,
@@ -488,7 +492,7 @@ namespace Krypton.Toolkit
                 bmi.biSize = (uint)Marshal.SizeOf(bmi);
 
                 // Create a device independent bitmap and select into the memory DC
-                IntPtr hDIB = PI.CreateDIBSection(gDC, ref bmi, 0, out _, IntPtr.Zero, 0);
+                var hDIB = PI.CreateDIBSection(gDC, ref bmi, 0, out _, IntPtr.Zero, 0);
                 PI.SelectObject(mDC, hDIB);
 
                 if (copyBackground)
@@ -499,22 +503,23 @@ namespace Krypton.Toolkit
                 }
 
                 // Select the font for use when drawing
-                IntPtr hFont = font.ToHfont();
+                var hFont = font.ToHfont();
                 PI.SelectObject(mDC, hFont);
 
                 // Get renderer for the correct state
-                VisualStyleRenderer renderer = new(state == PaletteState.Normal ? VisualStyleElement.Window.Caption.Active :
-                                                                                                      VisualStyleElement.Window.Caption.Inactive);
+                var renderer = new VisualStyleRenderer(state == PaletteState.Normal
+                    ? VisualStyleElement.Window.Caption.Active
+                    : VisualStyleElement.Window.Caption.Inactive);
 
                 // Create structures needed for theme drawing call
-                PI.RECT textBounds = new()
+                var textBounds = new PI.RECT
                 {
                     left = 0,
                     top = 0,
                     right = bounds.Right - bounds.Left,
                     bottom = bounds.Bottom - bounds.Top
                 };
-                PI.DTTOPTS dttOpts = new()
+                var dttOpts = new PI.DTTOPTS
                 {
                     dwSize = Marshal.SizeOf(typeof(PI.DTTOPTS)),
                     dwFlags = PI.DTT_COMPOSITED | PI.DTT_TEXTCOLOR,
@@ -548,8 +553,6 @@ namespace Krypton.Toolkit
                 PI.DeleteObject(hFont);
                 PI.DeleteObject(hDIB);
                 PI.DeleteDC(mDC);
-
-               
             }
             catch
             {
@@ -558,14 +561,13 @@ namespace Krypton.Toolkit
             finally
             {
                 // Must remember to release the hDC
-                g.ReleaseHdc(gDC);
+                g?.ReleaseHdc(gDC);
             }
         }
 
-
         private static StringFormat FlagsToStringFormat(TextFormatFlags flags)
         {
-            StringFormat sf = new();
+            var sf = new StringFormat();
 
             // Translation table: http://msdn.microsoft.com/msdnmag/issues/06/03/TextRendering/default.aspx?fig=true#fig4
 
@@ -658,7 +660,7 @@ namespace Krypton.Toolkit
 
         private static TextFormatFlags StringFormatToFlags(StringFormat sf)
         {
-            TextFormatFlags flags = new();
+            var flags = new TextFormatFlags();
 
             // Translation table: http://msdn.microsoft.com/msdnmag/issues/06/03/TextRendering/default.aspx?fig=true#fig4
 
@@ -690,41 +692,37 @@ namespace Krypton.Toolkit
                     break;
             }
 
-            // Hotkey Prefix
-            if (sf.HotkeyPrefix == HotkeyPrefix.None)
+            switch (sf.HotkeyPrefix)
             {
-                flags &= TextFormatFlags.NoPrefix;
-            }
-            else if (sf.HotkeyPrefix == HotkeyPrefix.Hide)
-            {
-                flags &= TextFormatFlags.HidePrefix;
-            }
-
-            // Text Padding
-            if (sf.FormatFlags == StringFormatFlags.FitBlackBox)
-            {
-                flags &= TextFormatFlags.NoPadding;
+                // Hotkey Prefix
+                case HotkeyPrefix.None:
+                    flags &= TextFormatFlags.NoPrefix;
+                    break;
+                case HotkeyPrefix.Hide:
+                    flags &= TextFormatFlags.HidePrefix;
+                    break;
             }
 
-            // Text Wrapping
-            if (sf.FormatFlags == StringFormatFlags.NoWrap)
+            switch (sf.FormatFlags)
             {
-                flags &= TextFormatFlags.SingleLine;
-            }
-            else if (sf.FormatFlags == StringFormatFlags.LineLimit)
-            {
-                flags &= TextFormatFlags.TextBoxControl;
-            }
-
-            // Other Flags
-            if (sf.FormatFlags == StringFormatFlags.DirectionRightToLeft)
-            {
-                flags &= TextFormatFlags.RightToLeft;
-            }
-
-            if (sf.FormatFlags == StringFormatFlags.NoClip)
-            {
-                flags &= TextFormatFlags.NoClipping;
+                // Text Padding
+                case StringFormatFlags.FitBlackBox:
+                    flags &= TextFormatFlags.NoPadding;
+                    break;
+                // Text Wrapping
+                case StringFormatFlags.NoWrap:
+                    flags &= TextFormatFlags.SingleLine;
+                    break;
+                case StringFormatFlags.LineLimit:
+                    flags &= TextFormatFlags.TextBoxControl;
+                    break;
+                // Other Flags
+                case StringFormatFlags.DirectionRightToLeft:
+                    flags &= TextFormatFlags.RightToLeft;
+                    break;
+                case StringFormatFlags.NoClip:
+                    flags &= TextFormatFlags.NoClipping;
+                    break;
             }
 
             return flags;

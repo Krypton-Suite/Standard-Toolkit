@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -29,7 +29,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Occurs when a button spec change occurs.
         /// </summary>
-        public event EventHandler ButtonSpecChanged;
+        public event EventHandler? ButtonSpecChanged;
         #endregion
 
         #region Identity
@@ -37,7 +37,7 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the KryptonPaletteButtonSpecBase class.
         /// </summary>
         /// <param name="redirector">Palette redirector for sourcing inherited values.</param>
-        internal KryptonPaletteButtonSpecBase(PaletteRedirect redirector)
+        internal KryptonPaletteButtonSpecBase([DisallowNull] PaletteRedirect redirector)
         {
             Debug.Assert(redirector != null);
 
@@ -76,7 +76,7 @@ namespace Krypton.Toolkit
         /// Update the redirector with new reference.
         /// </summary>
         /// <param name="redirect">Target redirector.</param>
-        public void SetRedirector(PaletteRedirect redirect) => Redirector = redirect;
+        public void SetRedirector([DisallowNull] PaletteRedirect redirect) => Redirector = redirect;
 
         #endregion
 
@@ -101,7 +101,7 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         [Category(@"Visuals")]
         [Description(@"Button style.")]
-        [DefaultValue(typeof(PaletteButtonStyle), "Inherit")]
+        [DefaultValue(PaletteButtonStyle.Inherit)]
         public PaletteButtonStyle Style
         {
             get => _style;
@@ -131,7 +131,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Defines the button orientation.")]
         [RefreshProperties(RefreshProperties.All)]
-        [DefaultValue(typeof(PaletteButtonOrientation), "Inherit")]
+        [DefaultValue(PaletteButtonOrientation.Inherit)]
         public PaletteButtonOrientation Orientation
         {
             get => _orientation;
@@ -162,7 +162,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"The header edge to display the button against.")]
         [RefreshProperties(RefreshProperties.All)]
-        [DefaultValue(typeof(PaletteRelativeEdgeAlign), "Inherit")]
+        [DefaultValue(PaletteRelativeEdgeAlign.Inherit)]
         public PaletteRelativeEdgeAlign Edge
         {
             get => _edge;
@@ -190,7 +190,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="style">Style of button spec.</param>
         /// <returns>Icon value.</returns>
-        public virtual Icon GetButtonSpecIcon(PaletteButtonSpecStyle style) => Redirector.GetButtonSpecIcon(style);
+        public virtual Icon? GetButtonSpecIcon(PaletteButtonSpecStyle style) => Redirector.GetButtonSpecIcon(style);
 
         /// <summary>
         /// Gets the image to display for the button.
@@ -198,7 +198,7 @@ namespace Krypton.Toolkit
         /// <param name="style">Style of button spec.</param>
         /// <param name="state">State for which image is required.</param>
         /// <returns>Image value.</returns>
-        public virtual Image GetButtonSpecImage(PaletteButtonSpecStyle style,
+        public virtual Image? GetButtonSpecImage(PaletteButtonSpecStyle style,
                                                 PaletteState state) => Redirector.GetButtonSpecImage(style, state);
 
         /// <summary>
@@ -213,21 +213,21 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="style">Style of button spec.</param>
         /// <returns>String value.</returns>
-        public virtual string GetButtonSpecShortText(PaletteButtonSpecStyle style) => Redirector.GetButtonSpecShortText(style);
+        public virtual string? GetButtonSpecShortText(PaletteButtonSpecStyle style) => Redirector.GetButtonSpecShortText(style);
 
         /// <summary>
         /// Gets the long text to display for the button.
         /// </summary>
         /// <param name="style">Style of button spec.</param>
         /// <returns>String value.</returns>
-        public virtual string GetButtonSpecLongText(PaletteButtonSpecStyle style) => Redirector.GetButtonSpecLongText(style);
+        public virtual string? GetButtonSpecLongText(PaletteButtonSpecStyle style) => Redirector.GetButtonSpecLongText(style);
 
         /// <summary>
         /// Gets the tooltip title text to display for the button.
         /// </summary>
         /// <param name="style">Style of button spec.</param>
         /// <returns>String value.</returns>
-        public virtual string GetButtonSpecToolTipTitle(PaletteButtonSpecStyle style) => Redirector.GetButtonSpecToolTipTitle(style);
+        public virtual string? GetButtonSpecToolTipTitle(PaletteButtonSpecStyle style) => Redirector.GetButtonSpecToolTipTitle(style);
 
         /// <summary>
         /// Gets the color to remap from the image to the container foreground.

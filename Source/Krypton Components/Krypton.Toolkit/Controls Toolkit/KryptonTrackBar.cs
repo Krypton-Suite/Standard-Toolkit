@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -17,9 +17,9 @@ namespace Krypton.Toolkit
     /// </summary>
     [ToolboxItem(true)]
     [ToolboxBitmap(typeof(KryptonTrackBar), "ToolboxBitmaps.KryptonTrackBar.bmp")]
-    [DefaultEvent("ValueChanged")]
-    [DefaultProperty("Value")]
-    [Designer("Krypton.Toolkit.KryptonTrackBarDesigner, Krypton.Toolkit")]
+    [DefaultEvent(nameof(ValueChanged))]
+    [DefaultProperty(nameof(Value))]
+    [Designer(typeof(KryptonTrackBarDesigner))]
     [DesignerCategory(@"code")]
     [Description(@"Allow user to scroll between a range of values.")]
     public class KryptonTrackBar : VisualSimpleBase
@@ -39,14 +39,14 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Action")]
         [Description(@"Occurs when the value of the Value property changes.")]
-        public event EventHandler ValueChanged;
+        public event EventHandler? ValueChanged;
 
         /// <summary>
         /// Occurs when either a mouse or keyboard action moves the scroll box.
         /// </summary>
         [Category(@"Behavior")]
         [Description(@"Occurs when either a mouse or keyboard action moves the scroll box.")]
-        public event EventHandler Scroll;
+        public event EventHandler? Scroll;
         #endregion
 
         #region Identity
@@ -91,6 +91,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        [AllowNull]
         public override string Text
         {
             get => base.Text;
@@ -185,10 +186,7 @@ namespace Krypton.Toolkit
 
         private bool ShouldSerializeBackStyle() => BackStyle != PaletteBackStyle.PanelClient;
 
-        private void ResetBackStyle()
-        {
-            BackStyle = PaletteBackStyle.PanelClient;
-        }
+        private void ResetBackStyle() => BackStyle = PaletteBackStyle.PanelClient;
 
         /// <summary>
         /// Gets access to the track bar appearance when it has focus.
@@ -275,7 +273,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Appearance")]
         [Description(@"Determines size of the track bar elements.")]
-        [DefaultValue(typeof(PaletteTrackBarSize), "Medium")]
+        [DefaultValue(PaletteTrackBarSize.Medium)]
         public PaletteTrackBarSize TrackBarSize
         {
             get => _drawTrackBar.TrackBarSize;
@@ -296,7 +294,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Appearance")]
         [Description(@"Determines where tick marks are Displayed.")]
-        [DefaultValue(typeof(TickStyle), "BottomRight")]
+        [DefaultValue(TickStyle.BottomRight)]
         [RefreshProperties(RefreshProperties.All)]
         public TickStyle TickStyle
         {
@@ -338,7 +336,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Appearance")]
         [Description(@"Background style.")]
-        [DefaultValue(typeof(Orientation), "Horizontal")]
+        [DefaultValue(Orientation.Horizontal)]
         public Orientation Orientation
         {
             get => _drawTrackBar.Orientation;
@@ -507,7 +505,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the default size of the control.
         /// </summary>
-        protected override Size DefaultSize => new(150, 35);
+        protected override Size DefaultSize => new Size(150, 35);
 
         /// <summary>
         /// Raises the HandleCreated event.
@@ -556,14 +554,11 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="keyData">One of the Keys values.</param>
         /// <returns>true if the specified key is a regular input key; otherwise, false.</returns>
-        protected override bool IsInputKey(Keys keyData)
+        protected override bool IsInputKey(Keys keyData) => (keyData & ~Keys.Shift) switch
         {
-            return (keyData & ~Keys.Shift) switch
-            {
-                Keys.Left or Keys.Right or Keys.Up or Keys.Down or Keys.Home or Keys.End or Keys.PageDown or Keys.PageUp => true,
-                _ => base.IsInputKey(keyData)
-            };
-        }
+            Keys.Left or Keys.Right or Keys.Up or Keys.Down or Keys.Home or Keys.End or Keys.PageDown or Keys.PageUp => true,
+            _ => base.IsInputKey(keyData)
+        };
 
         /// <summary>
         /// Raises the MouseWheel event.

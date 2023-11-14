@@ -5,7 +5,9 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  
+ *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
  */
 #endregion
@@ -32,7 +34,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Occurs when the mouse is used to left click the target.
         /// </summary>
-        public event MouseEventHandler Click;
+        public event MouseEventHandler? Click;
         #endregion
 
         #region Identity
@@ -42,9 +44,9 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Reference to owning control instance.</param>
         /// <param name="target">View element that owns this controller.</param>
         /// <param name="needPaint">Paint delegate for notifying visual changes.</param>
-        public CollapsedGroupController(KryptonRibbon ribbon,
-                                        ViewLayoutDocker target,
-                                        NeedPaintHandler needPaint)
+        public CollapsedGroupController([DisallowNull] KryptonRibbon ribbon,
+            [DisallowNull]ViewLayoutDocker target,
+            [DisallowNull]NeedPaintHandler needPaint)
         {
             Debug.Assert(ribbon != null);
             Debug.Assert(target != null);
@@ -69,11 +71,9 @@ namespace Krypton.Ribbon
         /// Mouse has entered the view.
         /// </summary>
         /// <param name="c">Reference to the source control instance.</param>
-        public virtual void MouseEnter(Control c)
-        {
+        public virtual void MouseEnter(Control c) =>
             // Mouse is over the target
             _mouseOver = true;
-        }
 
         /// <summary>
         /// Mouse has moved inside the view.
@@ -117,12 +117,9 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="c">Reference to the source control instance.</param>
         /// <param name="next">Reference to view that is next to have the mouse.</param>
-        public virtual void MouseLeave(Control c, ViewBase next)
-        {
+        public virtual void MouseLeave(Control c, ViewBase? next) =>
             // Mouse is no longer over the target
             _mouseOver = false;
-
-        }
 
         /// <summary>
         /// Left mouse button double click.
@@ -198,7 +195,7 @@ namespace Krypton.Ribbon
         /// Source control has lost the focus.
         /// </summary>
         /// <param name="c">Reference to the source control instance.</param>
-        public virtual void LostFocus(Control c)
+        public virtual void LostFocus([DisallowNull] Control c)
         {
             HasFocus = false;
             OnNeedPaint(false, _target.ClientRectangle);
@@ -215,12 +212,11 @@ namespace Krypton.Ribbon
             OnClick(new MouseEventArgs(MouseButtons.Left, 1, 0, 0, 0));
 
             // We should have a visual popup for showing the collapsed group
-            if (VisualPopupManager.Singleton.IsTracking &&
-                (VisualPopupManager.Singleton.CurrentPopup is VisualPopupGroup visualPopupGroup))
+            if (VisualPopupManager.Singleton is { IsTracking: true, CurrentPopup: VisualPopupGroup visualPopupGroup })
             {
                 // Grab the list of key tips from the popup group
                 _ribbon.KeyTipMode = KeyTipMode.PopupGroup;
-                KeyTipInfoList keyTipList = new();
+                var keyTipList = new KeyTipInfoList();
                 visualPopupGroup.ViewGroup.GetGroupKeyTips(keyTipList);
 
                 // Update key tips with those appropriate for this tab
@@ -236,25 +232,19 @@ namespace Krypton.Ribbon
         /// <param name="needLayout">Does the palette change require a layout.</param>
         /// <param name="invalidRect">Client area to be invalidated.</param>
         protected virtual void OnNeedPaint(bool needLayout,
-                                           Rectangle invalidRect)
-        {
-            _needPaint?.Invoke(this, new NeedLayoutEventArgs(needLayout, invalidRect));
-        }
+                                           Rectangle invalidRect) => _needPaint.Invoke(this, new NeedLayoutEventArgs(needLayout, invalidRect));
 
         /// <summary>
         /// Raises the Click event.
         /// </summary>
         /// <param name="e">A MouseEventArgs containing the event data.</param>
-        protected virtual void OnClick(MouseEventArgs e)
-        {
-            Click?.Invoke(this, e);
-        }
+        protected virtual void OnClick(MouseEventArgs e) => Click?.Invoke(this, e);
         #endregion
 
         #region Implementation
         private void KeyDownRibbon(KryptonRibbon ribbon, KeyEventArgs e)
         {
-            ViewBase newView = null;
+            ViewBase? newView = null;
 
             switch (e.KeyData)
             {
@@ -273,10 +263,7 @@ namespace Krypton.Ribbon
                     // Move across to any far defined buttons
 
                     // Move across to any inherit defined buttons
-                    if (newView == null)
-                    {
-                        newView = ribbon.TabsArea.ButtonSpecManager.GetFirstVisibleViewButton(PaletteRelativeEdgeAlign.Inherit);
-                    }
+                    newView ??= ribbon.TabsArea.ButtonSpecManager.GetFirstVisibleViewButton(PaletteRelativeEdgeAlign.Inherit);
 
                     // Rotate around to application button
                     if (newView == null)

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -39,7 +39,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the icon to display.
         /// </summary>
-        public Image Icon
+        public Image? Icon
         {
             get;
             set;
@@ -62,7 +62,7 @@ namespace Krypton.Toolkit
         /// </returns>
         public object Clone()
         {
-            IconSpec spec = new()
+            var spec = new IconSpec
             {
                 Icon = Icon?.Clone() as Image,
                 Alignment = Alignment
@@ -89,10 +89,6 @@ namespace Krypton.Toolkit
 
     public abstract class KryptonDataGridViewIconColumn : DataGridViewColumn, IIconCell
     {
-        #region Instance Fields
-
-        #endregion
-
         #region Identity
 
         /// <summary>
@@ -110,7 +106,7 @@ namespace Krypton.Toolkit
         /// <returns></returns>
         public override object Clone()
         {
-            KryptonDataGridViewIconColumn cloned = base.Clone() as KryptonDataGridViewIconColumn;
+            var cloned = base.Clone() as KryptonDataGridViewIconColumn;
 
             foreach (IconSpec sp in IconSpecs)
             {

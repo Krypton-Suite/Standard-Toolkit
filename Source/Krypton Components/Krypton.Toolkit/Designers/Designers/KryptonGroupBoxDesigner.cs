@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -15,7 +15,7 @@ namespace Krypton.Toolkit
     internal class KryptonGroupBoxDesigner : ParentControlDesigner
     {
         #region Instance Fields
-        private KryptonGroupBox _groupBox;
+        private KryptonGroupBox? _groupBox;
         private IDesignerHost _designerHost;
         #endregion
 
@@ -24,7 +24,7 @@ namespace Krypton.Toolkit
         /// Initializes the designer with the specified component.
         /// </summary>
         /// <param name="component">The IComponent to associate the designer with.</param>
-        public override void Initialize(IComponent component)
+        public override void Initialize([DisallowNull] IComponent component)
         {
             // Let base class do standard stuff
             base.Initialize(component);
@@ -45,7 +45,7 @@ namespace Krypton.Toolkit
             // Let the internal panel in the container be designable
             if (_groupBox != null)
             {
-                EnableDesignMode(_groupBox.Panel, "Panel");
+                EnableDesignMode(_groupBox.Panel, nameof(Panel));
             }
         }
 
@@ -63,7 +63,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="internalControlIndex">A specified index to select the internal control designer. This index is zero-based.</param>
         /// <returns>A ControlDesigner at the specified index.</returns>
-        public override ControlDesigner InternalControlDesigner(int internalControlIndex) =>
+        public override ControlDesigner? InternalControlDesigner(int internalControlIndex) =>
             // Get the control designer for the requested indexed child control
             (_groupBox != null) && (internalControlIndex == 0) 
                 ? (ControlDesigner)_designerHost.GetDesigner(_groupBox.Panel) 
@@ -83,7 +83,7 @@ namespace Krypton.Toolkit
             get
             {
                 // Create a collection of action lists
-                DesignerActionListCollection actionLists = new()
+                var actionLists = new DesignerActionListCollection
                 {
                     // Add the group box specific list
                     new KryptonGroupBoxActionList(this)

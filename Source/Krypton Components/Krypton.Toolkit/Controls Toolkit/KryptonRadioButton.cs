@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -17,10 +17,10 @@ namespace Krypton.Toolkit
     /// </summary>
     [ToolboxItem(true)]
     [ToolboxBitmap(typeof(KryptonCheckBox), "ToolboxBitmaps.KryptonRadioButton.bmp")]
-    [DefaultEvent("CheckedChanged")]
-    [DefaultProperty("Text")]
-    [DefaultBindingProperty("Checked")]
-    [Designer("Krypton.Toolkit.KryptonRadioButtonDesigner, Krypton.Toolkit")]
+    [DefaultEvent(nameof(CheckedChanged))]
+    [DefaultProperty(nameof(Text))]
+    [DefaultBindingProperty(nameof(Checked))]
+    [Designer(typeof(KryptonRadioButtonDesigner))]
     [DesignerCategory(@"code")]
     [Description(@"Allow user to set or clear the associated option.")]
     public class KryptonRadioButton : VisualSimpleBase
@@ -49,7 +49,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public new event EventHandler DoubleClick;
+        public new event EventHandler? DoubleClick;
 
         /// <summary>
         /// Occurs when the control is mouse double clicked with the mouse.
@@ -57,7 +57,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public new event EventHandler MouseDoubleClick;
+        public new event EventHandler? MouseDoubleClick;
 
         /// <summary>
         /// Occurs when the value of the ImeMode property is changed.
@@ -65,14 +65,14 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public new event EventHandler ImeModeChanged;
+        public new event EventHandler? ImeModeChanged;
 
         /// <summary>
         /// Occurs when the value of the Checked property has changed.
         /// </summary>
         [Category(@"Misc")]
         [Description(@"Occurs whenever the Checked property has changed.")]
-        public event EventHandler CheckedChanged;
+        public event EventHandler? CheckedChanged;
         #endregion
 
         #region Identity
@@ -179,7 +179,7 @@ namespace Krypton.Toolkit
         [Localizable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        [DefaultValue(typeof(AutoSizeMode), "GrowAndShrink")]
+        [DefaultValue(AutoSizeMode.GrowAndShrink)]
         public new AutoSizeMode AutoSizeMode
         {
             get => base.AutoSizeMode;
@@ -202,7 +202,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the text associated with this control. 
         /// </summary>
-        [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
+        [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
+        [AllowNull]
         public override string Text
         {
             get => Values.Text;
@@ -226,7 +227,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Visuals")]
         [Description(@"Visual orientation of the control.")]
-        [DefaultValue(typeof(VisualOrientation), "Top")]
+        [DefaultValue(VisualOrientation.Top)]
         public virtual VisualOrientation Orientation
         {
             get => _orientation;
@@ -253,7 +254,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Visuals")]
         [Description(@"Visual position of the radio button.")]
-        [DefaultValue(typeof(VisualOrientation), "Left")]
+        [DefaultValue(VisualOrientation.Left)]
         [Localizable(true)]
         public virtual VisualOrientation CheckPosition
         {
@@ -293,10 +294,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void ResetLabelStyle()
-        {
-            LabelStyle = LabelStyle.NormalPanel;
-        }
+        private void ResetLabelStyle() => LabelStyle = LabelStyle.NormalPanel;
 
         private bool ShouldSerializeLabelStyle() => LabelStyle != LabelStyle.NormalPanel;
 
@@ -554,10 +552,7 @@ namespace Krypton.Toolkit
         /// Update the view elements based on the requested label style.
         /// </summary>
         /// <param name="style">New label style.</param>
-        protected virtual void SetLabelStyle(LabelStyle style)
-        {
-            _paletteCommonRedirect.Style = CommonHelper.ContentStyleFromLabelStyle(style);
-        }
+        protected virtual void SetLabelStyle(LabelStyle style) => _paletteCommonRedirect.Style = CommonHelper.ContentStyleFromLabelStyle(style);
 
         /// <summary>
         /// Processes a mnemonic character.
@@ -628,7 +623,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the default size of the control.
         /// </summary>
-        protected override Size DefaultSize => new(90, 25);
+        protected override Size DefaultSize => new Size(90, 25);
 
         /// <summary>
         /// Work out if this control needs to paint transparent areas.
@@ -660,7 +655,7 @@ namespace Krypton.Toolkit
                             // Cast to correct type
 
                             // If target allows auto check changed and is currently checked
-                            if (rb.AutoCheck && rb.Checked)
+                            if (rb is { AutoCheck: true, Checked: true })
                             {
                                 // Set back to not checked
                                 rb.Checked = false;

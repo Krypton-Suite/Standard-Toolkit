@@ -5,7 +5,9 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  
+ *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
  */
 #endregion
@@ -37,7 +39,7 @@ namespace Krypton.Ribbon
         #endregion
 
         #region Static Fields
-        private static readonly HandleRef NullHandleRef = new(null, IntPtr.Zero);
+        private static readonly HandleRef NullHandleRef = new HandleRef(null, IntPtr.Zero);
         private const int BUTTON_TAB_GAP_2007 = 5;
         private const int BUTTON_TAB_GAP_2010 = 0;  //TODO dpi 12 ? 
         private const int FAR_TAB_GAP = 1;
@@ -53,10 +55,10 @@ namespace Krypton.Ribbon
         private ViewLayoutRibbonSeparator _rightSeparator;
         private readonly ViewDrawRibbonCaptionArea _captionArea;
         private readonly ViewLayoutRibbonContextTitles _layoutContexts;
-        private readonly AppButtonController _appButtonController;
-        private readonly AppTabController _appTabController;
-        private VisualPopupToolTip _visualPopupToolTip;
-        private VisualPopupAppMenu _appMenu;
+        private readonly AppButtonController? _appButtonController;
+        private readonly AppTabController? _appTabController;
+        private VisualPopupToolTip? _visualPopupToolTip;
+        private VisualPopupAppMenu? _appMenu;
         private DateTime _lastAppButtonClick;
 
         // Fixed button specifications
@@ -68,9 +70,9 @@ namespace Krypton.Ribbon
         private ButtonSpecExpandRibbon _buttonSpecExpand;
 
         // Monitoring the containing form and mdi status
-        private System.Windows.Forms.Timer _invalidateTimer;
-        private Form _formContainer;
-        private Form _activeMdiChild;
+        private Timer _invalidateTimer;
+        private Form? _formContainer;
+        private Form? _activeMdiChild;
         private int _paintCount;
         private bool _setVisible;
         #endregion
@@ -79,7 +81,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Occurs when the background needs painting.
         /// </summary>
-        public event PaintEventHandler PaintBackground;
+        public event PaintEventHandler? PaintBackground;
         #endregion
 
         #region Identity
@@ -91,11 +93,11 @@ namespace Krypton.Ribbon
         /// <param name="captionArea">Reference to the caption area.</param>
         /// <param name="layoutContexts">Reference to layout of the context area.</param>
         /// <param name="needPaintDelegate">Delegate for notifying paint/layout changes.</param>
-        public ViewLayoutRibbonTabsArea(KryptonRibbon ribbon,
-                                        PaletteRedirect redirect,
-                                        ViewDrawRibbonCaptionArea captionArea,
-                                        ViewLayoutRibbonContextTitles layoutContexts,
-                                        NeedPaintHandler needPaintDelegate)
+        public ViewLayoutRibbonTabsArea([DisallowNull] KryptonRibbon ribbon,
+                                        [DisallowNull] PaletteRedirect? redirect,
+                                        [DisallowNull] ViewDrawRibbonCaptionArea captionArea,
+                                        [DisallowNull] ViewLayoutRibbonContextTitles layoutContexts,
+                                        [DisallowNull] NeedPaintHandler needPaintDelegate)
         {
             Debug.Assert(ribbon != null);
             Debug.Assert(redirect != null);
@@ -104,12 +106,12 @@ namespace Krypton.Ribbon
             Debug.Assert(needPaintDelegate != null);
 
             // Remember incoming references
-            _ribbon = ribbon;
-            _captionArea = captionArea;
-            _appButtonController = captionArea.AppButtonController;
-            _appTabController = captionArea.AppTabController;
-            _layoutContexts = layoutContexts;
-            NeedPaintDelegate = needPaintDelegate;
+            _ribbon = ribbon!;
+            _captionArea = captionArea!;
+            _appButtonController = _captionArea.AppButtonController;
+            _appTabController = _captionArea.AppTabController;
+            _layoutContexts = layoutContexts!;
+            NeedPaintDelegate = needPaintDelegate!;
 
             // Default other state
             _setVisible = true;
@@ -169,7 +171,7 @@ namespace Krypton.Ribbon
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            "ViewLayoutRibbonTabsArea:" + Id;
+            $"ViewLayoutRibbonTabsArea:{Id}";
 
         #endregion
 
@@ -194,7 +196,7 @@ namespace Krypton.Ribbon
             if (!_ribbon.IsDisposed)
             {
                 // Find the top most form we are inside
-                Form topForm = _ribbon.FindForm();
+                Form? topForm = _ribbon.FindForm();
 
                 // Just in case we have not been created as yet
                 if (topForm != null)
@@ -300,7 +302,7 @@ namespace Krypton.Ribbon
             buttonRect.X += 2;
 
             // The keytip should be centered on the top center of the bottom half
-            Point screenPt = new(buttonRect.Left + (buttonRect.Width / 2), buttonRect.Top);
+            var screenPt = new Point(buttonRect.Left + (buttonRect.Width / 2), buttonRect.Top);
 
             // Return key tip details
             return new KeyTipInfo(true, _ribbon.RibbonStrings.AppButtonKeyTip, screenPt,
@@ -316,7 +318,7 @@ namespace Krypton.Ribbon
             Rectangle buttonRect = _ribbon.RectangleToScreen(LayoutAppTab.ClientRectangle);
 
             // The keytip should be centered on the top center of the bottom half
-            Point screenPt = new(buttonRect.Left + (buttonRect.Width / 2), buttonRect.Bottom + 2);
+            var screenPt = new Point(buttonRect.Left + (buttonRect.Width / 2), buttonRect.Bottom + 2);
 
             // Return key tip details
             return new KeyTipInfo(true, _ribbon.RibbonStrings.AppButtonKeyTip, screenPt,
@@ -332,13 +334,13 @@ namespace Krypton.Ribbon
         /// <returns>Array of KeyTipInfo; otherwise null.</returns>
         public KeyTipInfo[] GetTabKeyTips()
         {
-            KeyTipInfoList keyTips = new();
+            var keyTips = new KeyTipInfoList();
 
             // Grab the list of key tips for all tab headers
             keyTips.AddRange(LayoutTabs.GetTabKeyTips());
 
             // Remove all those that do not intercept the scroll port the tabs are inside
-            Rectangle scrollRect = new(Point.Empty, _tabsViewport.ClientSize);
+            var scrollRect = new Rectangle(Point.Empty, _tabsViewport.ClientSize);
             foreach (KeyTipInfo ti in keyTips.Where(ti => !scrollRect.Contains(ti.ClientRect)))
             {
                 ti.Visible = false;
@@ -366,7 +368,7 @@ namespace Krypton.Ribbon
             context.DisplayRectangle = temp;
 
             // If using custom chrome but not using the composition (which does not need an extra draw)
-            if (_captionArea.UsingCustomChrome && !_captionArea.KryptonForm.ApplyComposition)
+            if (_captionArea is { UsingCustomChrome: true, KryptonForm.ApplyComposition: false })
             {
                 _paintCount = _captionArea.KryptonForm.PaintCount;
                 _invalidateTimer.Start();
@@ -397,7 +399,7 @@ namespace Krypton.Ribbon
             if (elapsed.TotalMilliseconds < SystemInformation.DoubleClickTime)
             {
                 // Close down the associated application window
-                Form ownerForm = _ribbon.FindForm();
+                Form? ownerForm = _ribbon.FindForm();
                 ownerForm?.Close();
             }
         }
@@ -410,7 +412,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets the button specification manager.
         /// </summary>
-        public ButtonSpecManagerLayoutRibbon ButtonSpecManager { get; private set; }
+        public ButtonSpecManagerLayoutRibbon? ButtonSpecManager { get; private set; }
 
         /// <summary>
         /// Recreate the button specifications.
@@ -441,7 +443,7 @@ namespace Krypton.Ribbon
         private void CreateController()
         {
             // Use a controller to initiate context menu when using right mouse click
-            RibbonTabsController controller = new(_ribbon);
+            var controller = new RibbonTabsController(_ribbon);
             controller.ContextClick += OnContextClicked;
             MouseController = controller;
         }
@@ -458,7 +460,7 @@ namespace Krypton.Ribbon
             _buttonSpecsFixed.AddRange(new ButtonSpec[] { _buttonSpecMinimize, _buttonSpecExpand, _buttonSpecMin, _buttonSpecRestore, _buttonSpecClose });
         }
 
-        private void CreateViewElements(PaletteRedirect redirect)
+        private void CreateViewElements(PaletteRedirect? redirect)
         {
             // Layout for individual tabs inside the header
             LayoutTabs = new ViewLayoutRibbonTabs(_ribbon, NeedPaintDelegate);
@@ -473,7 +475,7 @@ namespace Krypton.Ribbon
             LayoutTabs.NeedPaintDelegate = _tabsViewport.ViewControlPaintDelegate;
 
             // We use a layout docker as a child to prevent buttons going to the left of the app button
-            ViewLayoutDocker tabsDocker = new()
+            var tabsDocker = new ViewLayoutDocker
             {
 
                 // Place the tabs viewport as the fill inside ourself, the button specs will be placed 
@@ -486,19 +488,25 @@ namespace Krypton.Ribbon
             LayoutAppTab = new ViewLayoutRibbonAppTab(_ribbon);
 
             // Connect up the application button controller to the app button element
-            _appButtonController.Target3 = LayoutAppButton.AppButton;
-            _appButtonController.Click += OnAppButtonClicked;
-            _appButtonController.MouseReleased += OnAppButtonReleased;
-            LayoutAppButton.MouseController = _appButtonController;
-            LayoutAppButton.SourceController = _appButtonController;
-            LayoutAppButton.KeyController = _appButtonController;
+            if (_appButtonController != null)
+            {
+                _appButtonController.Target3 = LayoutAppButton.AppButton;
+                _appButtonController.Click += OnAppButtonClicked;
+                _appButtonController.MouseReleased += OnAppButtonReleased;
+                LayoutAppButton.MouseController = _appButtonController;
+                LayoutAppButton.SourceController = _appButtonController;
+                LayoutAppButton.KeyController = _appButtonController;
+            }
 
-            _appTabController.Target1 = LayoutAppTab.AppTab;
-            _appTabController.Click += OnAppButtonClicked;
-            _appTabController.MouseReleased += OnAppButtonReleased;
-            LayoutAppTab.MouseController = _appTabController;
-            LayoutAppTab.SourceController = _appTabController;
-            LayoutAppTab.KeyController = _appTabController;
+            if (_appTabController != null)
+            {
+                _appTabController.Target1 = LayoutAppTab.AppTab;
+                _appTabController.Click += OnAppButtonClicked;
+                _appTabController.MouseReleased += OnAppButtonReleased;
+                LayoutAppTab.MouseController = _appTabController;
+                LayoutAppTab.SourceController = _appTabController;
+                LayoutAppTab.KeyController = _appTabController;
+            }
 
             // When the app button is not visible we need separator instead before start of first tab
             _layoutAppButtonSep = new ViewLayoutSeparator(5, 0)
@@ -529,7 +537,7 @@ namespace Krypton.Ribbon
                                                                NeedPaintDelegate);
 
             // Create the manager for handling tooltips
-            ToolTipManager = new ToolTipManager();
+            ToolTipManager = new ToolTipManager(new ToolTipValues(null)); // use default, as each button "could" have different values ??!!??
             ToolTipManager.ShowToolTip += OnShowToolTip;
             ToolTipManager.CancelToolTip += OnCancelToolTip;
             ButtonSpecManager.ToolTipManager = ToolTipManager;
@@ -542,7 +550,7 @@ namespace Krypton.Ribbon
             // required to get the pendant buttons to operate as needed.
             _ribbon.ParentChanged += OnRibbonParentChanged;
 
-            _invalidateTimer = new System.Windows.Forms.Timer
+            _invalidateTimer = new Timer
             {
                 Interval = 1
             };
@@ -591,7 +599,7 @@ namespace Krypton.Ribbon
         private void OnRibbonMdiChildActivate(object sender, EventArgs e)
         {
             // Cast to correct type
-            Form topForm = sender as Form;
+            var topForm = sender as Form;
 
             // Unhook from watching any previous mdi child
             if (_activeMdiChild != null)
@@ -599,7 +607,7 @@ namespace Krypton.Ribbon
                 _activeMdiChild.SizeChanged -= OnRibbonMdiChildSizeChanged;
             }
 
-            _activeMdiChild = topForm.ActiveMdiChild;
+            _activeMdiChild = topForm?.ActiveMdiChild;
 
             // Start watching any new mdi child
             if (_activeMdiChild != null)
@@ -611,7 +619,7 @@ namespace Krypton.Ribbon
             _buttonSpecClose.MdiChild = _activeMdiChild;
             _buttonSpecRestore.MdiChild = _activeMdiChild;
             _buttonSpecMin.MdiChild = _activeMdiChild;
-            ButtonSpecManager.RecreateButtons();
+            ButtonSpecManager?.RecreateButtons();
             PerformNeedPaint(true);
 
             // We never want the mdi child window to have a system menu, we provide the 
@@ -629,7 +637,7 @@ namespace Krypton.Ribbon
         private void OnRibbonMdiChildSizeChanged(object sender, EventArgs e)
         {
             // Update pendant buttons to reflect new child state
-            ButtonSpecManager.RecreateButtons();
+            ButtonSpecManager?.RecreateButtons();
             PerformNeedPaint(true);
         }
 
@@ -637,7 +645,7 @@ namespace Krypton.Ribbon
         {
             _invalidateTimer.Stop();
 
-            if ((_captionArea?.KryptonForm != null) && _captionArea.UsingCustomChrome)
+            if (_captionArea is { KryptonForm: not null, UsingCustomChrome: true })
             {
                 if (_captionArea.KryptonForm.PaintCount == _paintCount)
                 {
@@ -665,7 +673,7 @@ namespace Krypton.Ribbon
             else
             {
                 // Give event handler a change to cancel the open request
-                CancelEventArgs cea = new();
+                var cea = new CancelEventArgs();
                 _ribbon.OnAppButtonMenuOpening(cea);
 
                 if (cea.Cancel)
@@ -683,7 +691,7 @@ namespace Krypton.Ribbon
                     // Give popups a change to cleanup
                     Application.DoEvents();
 
-                    if (!_ribbon.InDesignMode && !_ribbon.IsDisposed)
+                    if (_ribbon is { InDesignMode: false, IsDisposed: false })
                     {
                         Rectangle appRectTop;
                         Rectangle appRectBottom;
@@ -694,8 +702,8 @@ namespace Krypton.Ribbon
                             // Find screen location of the application button lower half
                             Rectangle appButtonRect = _ribbon.RectangleToScreen(LayoutAppButton.AppButton.ClientRectangle);
                             var localHalf = (int)(21 * FactorDpiY);
-                            appRectBottom = new Rectangle(appButtonRect.X, appButtonRect.Y + localHalf, appButtonRect.Width, appButtonRect.Height - localHalf);
-                            appRectTop = new Rectangle(appRectBottom.X, appRectBottom.Y - localHalf, appRectBottom.Width, localHalf);
+                            appRectBottom = appButtonRect with { Y = appButtonRect.Y + localHalf, Height = appButtonRect.Height - localHalf };
+                            appRectTop = appRectBottom with { Y = appRectBottom.Y - localHalf, Height = localHalf };
                             appRectShow = appRectBottom;
                         }
                         else
@@ -704,7 +712,7 @@ namespace Krypton.Ribbon
                             Rectangle appButtonRect = _ribbon.RectangleToScreen(LayoutAppTab.AppTab.ClientRectangle);
                             appRectBottom = Rectangle.Empty;
                             appRectTop = appButtonRect;
-                            appRectShow = new Rectangle(appButtonRect.X, appButtonRect.Bottom - 1, appButtonRect.Width, 0);
+                            appRectShow = appButtonRect with { Y = appButtonRect.Bottom - 1, Height = 0 };
                         }
 
                         // Create the actual control used to show the context menu
@@ -737,8 +745,9 @@ namespace Krypton.Ribbon
             _ribbon.KillKeyboardMode();
 
             // Remove the fixed 'pressed' state from the application button
-            _appButtonController.RemoveFixed();
-            _appTabController.RemoveFixed();
+            _appButtonController?.RemoveFixed();
+
+            _appTabController?.RemoveFixed();
 
             // Should still be caching a reference to actual display control
             if (_appMenu != null)
@@ -747,7 +756,7 @@ namespace Krypton.Ribbon
                 _appMenu.Disposed -= OnAppMenuDisposed;
 
                 // Discover the reason for the menu close
-                ToolStripDropDownCloseReason closeReason = ToolStripDropDownCloseReason.AppFocusChange;
+                var closeReason = ToolStripDropDownCloseReason.AppFocusChange;
                 if (_appMenu.CloseReason.HasValue)
                 {
                     closeReason = _appMenu.CloseReason.Value;
@@ -774,7 +783,7 @@ namespace Krypton.Ribbon
             if (!_ribbon.IsDisposed)
             {
                 // Do not show tooltips when the form we are in does not have focus
-                Form topForm = _ribbon.FindForm();
+                Form? topForm = _ribbon.FindForm();
                 if (topForm is { ContainsFocus: false })
                 {
                     return;
@@ -783,18 +792,19 @@ namespace Krypton.Ribbon
                 // Never show tooltips are design time
                 if (!_ribbon.InDesignMode)
                 {
-                    IContentValues sourceContent = null;
-                    LabelStyle toolTipStyle = LabelStyle.SuperTip;
-                    bool shadow = true;
-                    Rectangle screenRect = new(e.ControlMousePosition, new Size(1, 1));
+                    IContentValues? sourceContent = null;
+                    var toolTipStyle = LabelStyle.SuperTip;
+                    var shadow = true;
+                    var screenRect = new Rectangle(e.ControlMousePosition, new Size(1, 1));
 
                     // If the target is the application button
                     switch (e.Target)
                     {
-                        case ViewLayoutRibbonAppButton _:
-                        case ViewLayoutRibbonAppTab _:
+                        case ViewLayoutRibbonAppButton:
+                        case ViewLayoutRibbonAppTab:
+                        {
                             // Create a content that recovers values from a the ribbon for the app button/tab
-                            AppButtonToolTipToContent appButtonContent = new(_ribbon);
+                            var appButtonContent = new AppButtonToolTipToContent(_ribbon);
 
                             // Is there actually anything to show for the tooltip
                             if (appButtonContent.HasContent)
@@ -804,17 +814,19 @@ namespace Krypton.Ribbon
                                 // Grab the style from the app button settings
                                 toolTipStyle = _ribbon.RibbonAppButton.AppButtonToolTipStyle;
                                 shadow = _ribbon.RibbonAppButton.ToolTipShadow;
-                                
+
                                 // Display below the mouse cursor
                                 screenRect.Height += SystemInformation.CursorSize.Height / 3 * 2;
                             }
+                        }
                             break;
                         case ViewDrawRibbonQATButton viewElement1:
+                        {
                             // If the target is a QAT button
                             // Cast to correct type
 
                             // Create a content that recovers values from a IQuickAccessToolbarButton
-                            QATButtonToolTipToContent qatButtonContent = new(viewElement1.QATButton);
+                            var qatButtonContent = new QATButtonToolTipToContent(viewElement1.QATButton);
 
                             // Is there actually anything to show for the tooltip
                             if (qatButtonContent.HasContent)
@@ -828,11 +840,12 @@ namespace Krypton.Ribbon
                                 // Display below the mouse cursor
                                 screenRect.Height += SystemInformation.CursorSize.Height / 3 * 2;
                             }
+                        }
                             break;
                         default:
                             {
                                 // Find the button spec associated with the tooltip request
-                                ButtonSpec buttonSpec = ButtonSpecManager.ButtonSpecFromView(e.Target);
+                                ButtonSpec? buttonSpec = ButtonSpecManager?.ButtonSpecFromView(e.Target);
 
                                 // If the tooltip is for a button spec
                                 if (buttonSpec != null)
@@ -841,7 +854,7 @@ namespace Krypton.Ribbon
                                     if (_ribbon.AllowButtonSpecToolTips)
                                     {
                                         // Create a helper object to provide tooltip values
-                                        ButtonSpecToContent buttonSpecMapping = new(_ribbon.GetRedirector(), buttonSpec);
+                                        var buttonSpecMapping = new ButtonSpecToContent(_ribbon.GetRedirector(), buttonSpec);
 
                                         // Is there actually anything to show for the tooltip
                                         if (buttonSpecMapping.HasContent)
@@ -860,26 +873,21 @@ namespace Krypton.Ribbon
                                 else
                                 {
                                     // Cast to correct type
-                                    if (e.Target.Parent is { Component: IRibbonGroupItem groupItem })
+                                    if (e.Target.Parent is { Component: IRibbonGroupItem { ToolTipValues.EnableToolTips: true } groupItem })
+                                    // Is there actually anything to show for the tooltip
                                     {
+                                        sourceContent = groupItem.ToolTipValues;
 
-                                        // Is there actually anything to show for the tooltip
-                                        if (groupItem.ToolTipValues.EnableToolTips)
-                                        {
-                                            sourceContent = groupItem.ToolTipValues;
+                                        // Grab the style from the group radio button button settings
+                                        toolTipStyle = groupItem.ToolTipValues.ToolTipStyle;
+                                        shadow = groupItem.ToolTipValues.ToolTipShadow;
 
-                                            // Grab the style from the group radio button button settings
-                                            toolTipStyle = groupItem.ToolTipValues.ToolTipStyle;
-                                            shadow = groupItem.ToolTipValues.ToolTipShadow;
-
-                                            // Display below the bottom of the ribbon control
-                                            Rectangle ribbonScreenRect = _ribbon.ToolTipScreenRectangle;
-                                            screenRect.Y = ribbonScreenRect.Y;
-                                            screenRect.Height = ribbonScreenRect.Height;
-                                            screenRect.X = ribbonScreenRect.X + e.Target.Parent.ClientLocation.X;
-                                            screenRect.Width = e.Target.Parent.ClientWidth;
-                                        }
-
+                                        // Display below the bottom of the ribbon control
+                                        Rectangle ribbonScreenRect = _ribbon.ToolTipScreenRectangle;
+                                        screenRect.Y = ribbonScreenRect.Y;
+                                        screenRect.Height = ribbonScreenRect.Height;
+                                        screenRect.X = ribbonScreenRect.X + e.Target.Parent.ClientLocation.X;
+                                        screenRect.Width = e.Target.Parent.ClientWidth;
                                     }
                                 }
 
@@ -918,7 +926,7 @@ namespace Krypton.Ribbon
         private void OnVisualPopupToolTipDisposed(object sender, EventArgs e)
         {
             // Unhook events from the specific instance that generated event
-            VisualPopupToolTip popupToolTip = (VisualPopupToolTip)sender;
+            var popupToolTip = (VisualPopupToolTip)sender;
             popupToolTip.Disposed -= OnVisualPopupToolTipDisposed;
 
             // Not showing a popup page any more

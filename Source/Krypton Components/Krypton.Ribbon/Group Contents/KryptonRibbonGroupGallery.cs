@@ -5,7 +5,9 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  
+ *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
  */
 #endregion
@@ -17,14 +19,14 @@ namespace Krypton.Ribbon
     /// </summary>
     [ToolboxItem(false)]
     [ToolboxBitmap(typeof(KryptonRibbonGroupGallery), "ToolboxBitmaps.KryptonGallery.bmp")]
-    [Designer("Krypton.Ribbon.KryptonRibbonGroupGalleryDesigner, Krypton.Ribbon")]
+    [Designer(typeof(KryptonRibbonGroupGalleryDesigner))]
     [DesignerCategory(@"code")]
     [DesignTimeVisible(false)]
-    [DefaultProperty("Visible")]
+    [DefaultProperty(nameof(Visible))]
     public class KryptonRibbonGroupGallery : KryptonRibbonGroupContainer
     {
         #region Static Fields
-        private static readonly Image _defaultButtonImageLarge = Properties.Resources.ButtonImageLarge;
+        private static readonly Image _defaultButtonImageLarge = GenericImageResources.ButtonImageLarge;
         #endregion
 
         #region Instance Fields
@@ -32,7 +34,7 @@ namespace Krypton.Ribbon
         private bool _enabled;
         private string _textLine1;
         private string _textLine2;
-        private Image _imageLarge;
+        private Image? _imageLarge;
         private string _keyTip;
         private GroupItemSize _itemSizeMax;
         private GroupItemSize _itemSizeMin;
@@ -49,21 +51,21 @@ namespace Krypton.Ribbon
         /// </summary>
         [Category(@"Property Changed")]
         [Description(@"Occurs when the value of the ImageList property changes.")]
-        public event EventHandler ImageListChanged;
+        public event EventHandler? ImageListChanged;
 
         /// <summary>
         /// Occurs when the value of the SelectedIndex property changes.
         /// </summary>
         [Category(@"Property Changed")]
         [Description(@"Occurs when the value of the SelectedIndex property changes.")]
-        public event EventHandler SelectedIndexChanged;
+        public event EventHandler? SelectedIndexChanged;
 
         /// <summary>
         /// Occurs when the user is tracking over a color.
         /// </summary>
         [Category(@"Action")]
         [Description(@"Occurs when user is tracking over an image.")]
-        public event EventHandler<ImageSelectEventArgs> TrackingImage;
+        public event EventHandler<ImageSelectEventArgs>? TrackingImage;
 
         /// <summary>
         /// Occurs when the user invokes the drop down menu.
@@ -77,31 +79,31 @@ namespace Krypton.Ribbon
         /// </summary>
         [Category(@"Ribbon")]
         [Description(@"Occurs after the value of a property has changed.")]
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         /// <summary>
         /// Occurs when the control receives focus.
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        public event EventHandler GotFocus;
+        public event EventHandler? GotFocus;
 
         /// <summary>
         /// Occurs when the control loses focus.
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        public event EventHandler LostFocus;
+        public event EventHandler? LostFocus;
 
         /// <summary>
         /// Occurs when the design time context menu is requested.
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        public event MouseEventHandler DesignTimeContextMenu;
+        public event MouseEventHandler? DesignTimeContextMenu;
 
-        internal event EventHandler MouseEnterControl;
-        internal event EventHandler MouseLeaveControl;
+        internal event EventHandler? MouseEnterControl;
+        internal event EventHandler? MouseLeaveControl;
         #endregion
 
         #region Identity
@@ -121,7 +123,7 @@ namespace Krypton.Ribbon
             _mediumItemCount = 3;
             _dropButtonItemWidth = 9;
             _imageLarge = _defaultButtonImageLarge;
-            _textLine1 = "Gallery";
+            _textLine1 = nameof(Gallery);
             _textLine2 = string.Empty;
 
             // Create the actual text box control and set initial settings
@@ -186,7 +188,7 @@ namespace Krypton.Ribbon
         /// </summary>
         [Category(@"Visuals")]
         [Description(@"Collection of images for display and selection.")]
-        public ImageList ImageList
+        public ImageList? ImageList
         {
             get => Gallery.ImageList;
 
@@ -341,7 +343,7 @@ namespace Krypton.Ribbon
         [Category(@"Behavior")]
         [Description(@"The shortcut to display when the user right-clicks the control.")]
         [DefaultValue(null)]
-        public ContextMenuStrip ContextMenuStrip
+        public ContextMenuStrip? ContextMenuStrip
         {
             get => Gallery.ContextMenuStrip;
             set => Gallery.ContextMenuStrip = value;
@@ -353,7 +355,7 @@ namespace Krypton.Ribbon
         [Category(@"Behavior")]
         [Description(@"KryptonContextMenu to be shown when the gallery is right clicked.")]
         [DefaultValue(null)]
-        public KryptonContextMenu KryptonContextMenu
+        public KryptonContextMenu? KryptonContextMenu
         {
             get => Gallery.KryptonContextMenu;
             set => Gallery.KryptonContextMenu = value;
@@ -375,7 +377,7 @@ namespace Krypton.Ribbon
             {
                 if (string.IsNullOrEmpty(value))
                 {
-                    value = "X";
+                    value = @"X";
                 }
 
                 _keyTip = value.ToUpper();
@@ -390,7 +392,7 @@ namespace Krypton.Ribbon
         [Category(@"Appearance")]
         [Description(@"Large gallery button image.")]
         [RefreshProperties(RefreshProperties.All)]
-        public Image ImageLarge
+        public Image? ImageLarge
         {
             get => _imageLarge;
 
@@ -414,7 +416,7 @@ namespace Krypton.Ribbon
         [Category(@"Appearance")]
         [Description(@"Gallery button display text line 1.")]
         [RefreshProperties(RefreshProperties.All)]
-        [DefaultValue("Gallery")]
+        [DefaultValue(nameof(Gallery))]
         public string TextLine1
         {
             get => _textLine1;
@@ -424,7 +426,7 @@ namespace Krypton.Ribbon
                 // We never allow an empty text value
                 if (string.IsNullOrEmpty(value))
                 {
-                    value = "Gallery";
+                    value = nameof(Gallery);
                 }
 
                 if (value != _textLine1)
@@ -490,18 +492,12 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Make the ribbon group gallery visible.
         /// </summary>
-        public void Show()
-        {
-            Visible = true;
-        }
+        public void Show() => Visible = true;
 
         /// <summary>
         /// Make the ribbon group gallery hidden.
         /// </summary>
-        public void Hide()
-        {
-            Visible = false;
-        }
+        public void Hide() => Visible = false;
 
         /// <summary>
         /// Gets and sets the enabled state of the group gallery.
@@ -644,7 +640,7 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        public IKryptonDesignObject GalleryDesigner { get; set; }
+        public IKryptonDesignObject? GalleryDesigner { get; set; }
 
         /// <summary>
         /// Internal design time properties.
@@ -657,16 +653,13 @@ namespace Krypton.Ribbon
         #endregion
 
         #region Internal
-        internal Control LastParentControl { get; set; }
+        internal Control? LastParentControl { get; set; }
 
-        internal KryptonGallery LastGallery { get; set; }
+        internal KryptonGallery? LastGallery { get; set; }
 
         internal NeedPaintHandler ViewPaintDelegate { get; set; }
 
-        internal void OnDesignTimeContextMenu(MouseEventArgs e)
-        {
-            DesignTimeContextMenu?.Invoke(this, e);
-        }
+        internal void OnDesignTimeContextMenu(MouseEventArgs e) => DesignTimeContextMenu?.Invoke(this, e);
 
         internal int InternalItemCount { get; set; }
 
@@ -679,64 +672,43 @@ namespace Krypton.Ribbon
         /// Raises the ImageListChanged event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnImageListChanged(EventArgs e)
-        {
-            ImageListChanged?.Invoke(this, e);
-        }
+        protected virtual void OnImageListChanged(EventArgs e) => ImageListChanged?.Invoke(this, e);
 
         /// <summary>
         /// Raises the SelectedIndexChanged event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnSelectedIndexChanged(EventArgs e)
-        {
-            SelectedIndexChanged?.Invoke(this, e);
-        }
+        protected virtual void OnSelectedIndexChanged(EventArgs e) => SelectedIndexChanged?.Invoke(this, e);
 
         /// <summary>
         /// Raises the SelectedIndexChanged event.
         /// </summary>
         /// <param name="e">An ImageSelectEventArgs containing the event data.</param>
-        protected virtual void OnTrackingImage(ImageSelectEventArgs e)
-        {
-            TrackingImage?.Invoke(this, e);
-        }
+        protected virtual void OnTrackingImage(ImageSelectEventArgs e) => TrackingImage?.Invoke(this, e);
 
         /// <summary>
         /// Raises the GalleryDropMenu event.
         /// </summary>
         /// <param name="e">An GalleryDropMenuEventArgs containing the event data.</param>
-        protected virtual void OnGalleryDropMenu(GalleryDropMenuEventArgs e)
-        {
-            GalleryDropMenu?.Invoke(this, e);
-        }
+        protected virtual void OnGalleryDropMenu(GalleryDropMenuEventArgs e) => GalleryDropMenu.Invoke(this, e);
 
         /// <summary>
         /// Raises the GotFocus event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnGotFocus(EventArgs e)
-        {
-            GotFocus?.Invoke(this, e);
-        }
+        protected virtual void OnGotFocus(EventArgs e) => GotFocus?.Invoke(this, e);
 
         /// <summary>
         /// Raises the LostFocus event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnLostFocus(EventArgs e)
-        {
-            LostFocus?.Invoke(this, e);
-        }
+        protected virtual void OnLostFocus(EventArgs e) => LostFocus?.Invoke(this, e);
 
         /// <summary>
         /// Raises the PropertyChanged event.
         /// </summary>
         /// <param name="propertyName">Name of property that has changed.</param>
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
+        protected virtual void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         #endregion
 
         #region Implementation
@@ -752,45 +724,21 @@ namespace Krypton.Ribbon
             c.MouseLeave -= OnControlLeave;
         }
 
-        private void OnControlEnter(object sender, EventArgs e)
-        {
-            MouseEnterControl?.Invoke(this, e);
-        }
+        private void OnControlEnter(object sender, EventArgs e) => MouseEnterControl?.Invoke(this, e);
 
-        private void OnControlLeave(object sender, EventArgs e)
-        {
-            MouseLeaveControl?.Invoke(this, e);
-        }
+        private void OnControlLeave(object sender, EventArgs e) => MouseLeaveControl?.Invoke(this, e);
 
-        private void OnGalleryImageListChanged(object sender, EventArgs e)
-        {
-            OnImageListChanged(e);
-        }
+        private void OnGalleryImageListChanged(object sender, EventArgs e) => OnImageListChanged(e);
 
-        private void OnGallerySelectedIndexChanged(object sender, EventArgs e)
-        {
-            OnSelectedIndexChanged(e);
-        }
+        private void OnGallerySelectedIndexChanged(object sender, EventArgs e) => OnSelectedIndexChanged(e);
 
-        private void OnGalleryTrackingImage(object sender, ImageSelectEventArgs e)
-        {
-            OnTrackingImage(e);
-        }
+        private void OnGalleryTrackingImage(object sender, ImageSelectEventArgs e) => OnTrackingImage(e);
 
-        private void OnGalleryGalleryDropMenu(object sender, GalleryDropMenuEventArgs e)
-        {
-            OnGalleryDropMenu(e);
-        }
+        private void OnGalleryGalleryDropMenu(object sender, GalleryDropMenuEventArgs e) => OnGalleryDropMenu(e);
 
-        private void OnGalleryGotFocus(object sender, EventArgs e)
-        {
-            OnGotFocus(e);
-        }
+        private void OnGalleryGotFocus(object sender, EventArgs e) => OnGotFocus(e);
 
-        private void OnGalleryLostFocus(object sender, EventArgs e)
-        {
-            OnLostFocus(e);
-        }
+        private void OnGalleryLostFocus(object sender, EventArgs e) => OnLostFocus(e);
         #endregion
     }
 }

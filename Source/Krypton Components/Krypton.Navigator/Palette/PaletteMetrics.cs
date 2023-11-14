@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -18,7 +18,7 @@ namespace Krypton.Navigator
     public class PaletteMetrics : Storage
     {
         #region Instance Fields
-        private readonly KryptonNavigator _navigator;
+        private readonly KryptonNavigator? _navigator;
         private int _pageButtonSpecInset;
         private Padding _pageButtonSpecPadding;
         #endregion
@@ -29,7 +29,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="navigator">Reference to owning navigator.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public PaletteMetrics(KryptonNavigator navigator,
+        public PaletteMetrics(KryptonNavigator? navigator,
                               NeedPaintHandler needPaint)
         {
             _navigator = navigator;
@@ -79,10 +79,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Resets the PageButtonSpecInset property to its default value.
         /// </summary>
-        public void ResetPageButtonSpecInset()
-        {
-            PageButtonSpecInset = -1;
-        }
+        public void ResetPageButtonSpecInset() => PageButtonSpecInset = -1;
         #endregion
 
         #region PageButtonSpecPadding
@@ -110,10 +107,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Resets the PageButtonSpecPadding property to its default value.
         /// </summary>
-        public void ResetPageButtonSpecPadding()
-        {
-            PageButtonSpecPadding = CommonHelper.InheritPadding;
-        }
+        public void ResetPageButtonSpecPadding() => PageButtonSpecPadding = CommonHelper.InheritPadding;
 
         private bool ShouldSerializePageButtonSpecPadding() => !PageButtonSpecPadding.Equals(CommonHelper.InheritPadding);
 

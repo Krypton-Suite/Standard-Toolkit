@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -27,7 +27,7 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the PaletteRedirectTripleMetric class.
         /// </summary>
         /// <param name="target">Initial palette target for redirection.</param>
-        public PaletteRedirectTripleMetric(IPalette target)
+        public PaletteRedirectTripleMetric(PaletteBase? target)
             : this(target, null, null, null, null)
         {
         }
@@ -40,7 +40,7 @@ namespace Krypton.Toolkit
         /// <param name="disableMetric">Redirection for disabled metric requests.</param>
         /// <param name="normal">Redirection for normal state requests.</param>
         /// <param name="normalMetric">Redirection for normal metric requests.</param>
-        public PaletteRedirectTripleMetric(IPalette target,
+        public PaletteRedirectTripleMetric(PaletteBase? target,
                                            IPaletteTriple disabled, IPaletteMetric disableMetric,
                                            IPaletteTriple normal, IPaletteMetric normalMetric)
             : base(target, disabled, normal)
@@ -127,7 +127,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Implementation
-        private IPaletteMetric GetInherit(PaletteState state)
+        private IPaletteMetric? GetInherit(PaletteState state)
         {
             switch (state)
             {

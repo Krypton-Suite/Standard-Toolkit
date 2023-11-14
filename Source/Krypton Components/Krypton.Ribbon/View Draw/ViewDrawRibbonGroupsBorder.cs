@@ -5,7 +5,9 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  
+ *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
  */
 #endregion
@@ -23,6 +25,8 @@ namespace Krypton.Ribbon
         private readonly Padding _borderPadding2010; // = new(1, 1, 1, 3);
         private readonly Padding _borderPadding2013; // = new(1, 1, 1, 0);
         private readonly Padding _borderPadding365; // = new(1, 1, 1, 0);
+        private readonly Padding _borderPaddingVisualStudio2010;
+        private readonly Padding _borderPaddingVisualStudio;
         private IPaletteRibbonBack _inherit;
         private IDisposable _memento;
         private readonly bool _borderOutside;
@@ -35,9 +39,9 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Reference to owning ribbon control.</param>
         /// <param name="borderOutside">Should border be placed outside the contents.</param>
         /// <param name="needPaintDelegate">Delegate for notifying paint/layout changes.</param>
-        public ViewDrawRibbonGroupsBorder(KryptonRibbon ribbon,
+        public ViewDrawRibbonGroupsBorder([DisallowNull] KryptonRibbon ribbon,
                                           bool borderOutside,
-                                          NeedPaintHandler needPaintDelegate)
+                                          [DisallowNull] NeedPaintHandler needPaintDelegate)
         {
             Debug.Assert(ribbon != null);
             Debug.Assert(needPaintDelegate != null);
@@ -48,8 +52,10 @@ namespace Krypton.Ribbon
             _borderOutside = borderOutside;
             _borderPadding2007 = new Padding((int)(3 * FactorDpiX), (int)(3 * FactorDpiY), (int)(3 * FactorDpiX), (int)(2 * FactorDpiY));
             _borderPadding2010 = new Padding((int)(1 * FactorDpiX), (int)(1 * FactorDpiY), (int)(1 * FactorDpiX), (int)(3 * FactorDpiY));
+            _borderPaddingVisualStudio2010 = new Padding((int)(1 * FactorDpiX), (int)(1 * FactorDpiY), (int)(1 * FactorDpiX), (int)(3 * FactorDpiY));
             _borderPadding2013 = new Padding((int)(1 * FactorDpiX), (int)(1 * FactorDpiY), (int)(1 * FactorDpiX), 0);
             _borderPadding365 = new Padding((int)(1 * FactorDpiX), (int)(1 * FactorDpiY), (int)(1 * FactorDpiX), 0);
+            _borderPaddingVisualStudio = new Padding((int)(1 * FactorDpiX), (int)(1 * FactorDpiY), (int)(1 * FactorDpiX), 0);
         }
 
         /// <summary>
@@ -58,7 +64,7 @@ namespace Krypton.Ribbon
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
            // Return the class name and instance identifier
-           @"ViewDrawRibbonGroupsBorder:" + Id;
+           $@"ViewDrawRibbonGroupsBorder:{Id}";
 
         /// <summary>
         /// Clean up any resources being used.
@@ -96,8 +102,10 @@ namespace Krypton.Ribbon
                 return Ribbon.RibbonShape switch
                 {
                     PaletteRibbonShape.Office2010 => _borderPadding2010,
+                    PaletteRibbonShape.VisualStudio2010 => _borderPaddingVisualStudio2010,
                     PaletteRibbonShape.Office2013 => _borderPadding2013,
-                    PaletteRibbonShape.Office365 => _borderPadding365,
+                    PaletteRibbonShape.Microsoft365 => _borderPadding365,
+                    PaletteRibbonShape.VisualStudio => _borderPaddingVisualStudio,
                     _ => _borderPadding2007
                 };
             }
@@ -132,7 +140,7 @@ namespace Krypton.Ribbon
         /// Perform a layout of the elements.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override void Layout(ViewLayoutContext context)
+        public override void Layout([DisallowNull] ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 
@@ -317,13 +325,16 @@ namespace Krypton.Ribbon
             if (!string.IsNullOrEmpty(Ribbon.SelectedTab?.ContextName))
             {
                 // Find the context definition for this context
-                KryptonRibbonContext ribbonContext = Ribbon.RibbonContexts[Ribbon.SelectedTab.ContextName];
-
-                // Should always work, but you never know!
-                if (ribbonContext != null)
+                if (Ribbon.SelectedTab != null)
                 {
-                    // Return the context specific color
-                    return ribbonContext.ContextColor;
+                    KryptonRibbonContext? ribbonContext = Ribbon.RibbonContexts[Ribbon.SelectedTab.ContextName];
+
+                    // Should always work, but you never know!
+                    if (ribbonContext != null)
+                    {
+                        // Return the context specific color
+                        return ribbonContext.ContextColor;
+                    }
                 }
             }
 

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -17,17 +17,13 @@ namespace Krypton.Toolkit
     /// </summary>
     public class KryptonPalettePanels : Storage
     {
-        #region Instance Fields
-
-        #endregion
-
         #region Identity
         /// <summary>
         /// Initialize a new instance of the KryptonPalettePanels class.
         /// </summary>
         /// <param name="redirector">Palette redirector for sourcing inherited values.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public KryptonPalettePanels(PaletteRedirect redirector,
+        public KryptonPalettePanels([DisallowNull] PaletteRedirect redirector,
                                       NeedPaintHandler needPaint)
         {
             Debug.Assert(redirector != null);
@@ -42,7 +38,8 @@ namespace Krypton.Toolkit
             PanelCustom3 = new KryptonPalettePanel(redirector, PaletteBackStyle.PanelCustom3, needPaint);
 
             // Create redirectors for inheriting from style specific to style common
-            PaletteRedirectBack redirectCommon = new(redirector, PanelCommon.StateDisabled, PanelCommon.StateNormal);
+            var redirectCommon =
+                new PaletteRedirectBack(redirector, PanelCommon.StateDisabled, PanelCommon.StateNormal);
 
             // Inform the button style to use the new redirector
             PanelClient.SetRedirector(redirectCommon);

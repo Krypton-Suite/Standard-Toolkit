@@ -5,7 +5,9 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  
+ *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
  */
 #endregion
@@ -49,7 +51,7 @@ namespace Krypton.Ribbon
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            @"ViewDrawRibbonGroupsBorderSynch:" + Id;
+            $@"ViewDrawRibbonGroupsBorderSynch:{Id}";
 
         #endregion
 
@@ -59,7 +61,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="pt">Mouse point.</param>
         /// <returns>Reference if inside a group; otherwise null.</returns>
-        public ViewDrawRibbonGroup ViewGroupFromPoint(Point pt)
+        public ViewDrawRibbonGroup? ViewGroupFromPoint(Point pt)
         {
             // There can only be groups showing for the currently selected tab
             if (Ribbon.SelectedTab != null && _tabToView.ContainsKey(Ribbon.SelectedTab))
@@ -68,13 +70,13 @@ namespace Krypton.Ribbon
                 ViewLayoutRibbonScrollPort viewScrollPort = _tabToView[Ribbon.SelectedTab];
 
                 // The first child of the scroll port is always the view control
-                ViewLayoutControl viewControl = viewScrollPort[0] as ViewLayoutControl;
+                var viewControl = viewScrollPort[0] as ViewLayoutControl;
 
                 // The first child of the view control is always the ribbon groups
-                ViewLayoutRibbonGroups viewGroups = viewControl.ChildView as ViewLayoutRibbonGroups;
+                var viewGroups = viewControl?.ChildView as ViewLayoutRibbonGroups;
 
                 // Ask the view groups to find a matching group
-                return viewGroups.ViewGroupFromPoint(pt);
+                return viewGroups?.ViewGroupFromPoint(pt);
             }
 
             return null;
@@ -98,7 +100,7 @@ namespace Krypton.Ribbon
         /// Gets the first focus item within the currently selected tab.
         /// </summary>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase GetFirstFocusItem()
+        public ViewBase? GetFirstFocusItem()
         {
             if ((Ribbon.SelectedTab != null) &&
                 _tabToView.ContainsKey(Ribbon.SelectedTab))
@@ -117,7 +119,7 @@ namespace Krypton.Ribbon
         /// Gets the last focus item within the currently selected tab.
         /// </summary>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase GetLastFocusItem()
+        public ViewBase? GetLastFocusItem()
         {
             if ((Ribbon.SelectedTab != null) &&
                 _tabToView.ContainsKey(Ribbon.SelectedTab))
@@ -137,7 +139,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="current">The view that is currently focused.</param>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase GetNextFocusItem(ViewBase current)
+        public ViewBase? GetNextFocusItem(ViewBase current)
         {
             if ((Ribbon.SelectedTab != null) &&
                 _tabToView.ContainsKey(Ribbon.SelectedTab))
@@ -157,7 +159,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="current">The view that is currently focused.</param>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase GetPreviousFocusItem(ViewBase current)
+        public ViewBase? GetPreviousFocusItem(ViewBase current)
         {
             if ((Ribbon.SelectedTab != null) &&
                 _tabToView.ContainsKey(Ribbon.SelectedTab))
@@ -202,12 +204,12 @@ namespace Krypton.Ribbon
             Clear();
 
             // Create a new lookup that reflects any changes in tabs
-            TabToView regenerate = new();
+            var regenerate = new TabToView();
 
             // Make sure we have a view element to match each tab
             foreach (KryptonRibbonTab tab in Ribbon.RibbonTabs)
             {
-                ViewLayoutRibbonScrollPort view = null;
+                ViewLayoutRibbonScrollPort? view = null;
 
                 // Get the currently cached view for the tab
                 if (_tabToView.ContainsKey(tab))
@@ -218,7 +220,7 @@ namespace Krypton.Ribbon
                 // If a new tab, create a view for it now
                 if (view == null)
                 {
-                    ViewLayoutRibbonGroups groups = new(Ribbon, tab, NeedPaintDelegate);
+                    var groups = new ViewLayoutRibbonGroups(Ribbon, tab, NeedPaintDelegate);
                     view = new ViewLayoutRibbonScrollPort(Ribbon, Orientation.Horizontal, groups, false, SCROLL_SPEED, NeedPaintDelegate)
                     {
                         TransparentBackground = true

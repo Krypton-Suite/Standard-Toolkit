@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -25,19 +25,17 @@ namespace Krypton.Toolkit
         {
             get
             {
-                // Desktop composition is only available on Vista upwards
-                if (Environment.OSVersion.Version.Major < 6)
+                switch (Environment.OSVersion.Version.Major)
                 {
-                    return false;
-                }
-                else if (Environment.OSVersion.Version.Major < 10)
-                {
-                    // Ask the desktop window manager is composition is currently enabled
-                    return PI.Dwm.IsCompositionEnabled();
-                }
-                else //Win 10
-                {
-                    return UserSystemPreferencesService.IsTransparencyEnabled;
+                    // Desktop composition is only available on Vista upwards
+                    case < 6:
+                        return false;
+                    case < 10:
+                        // Ask the desktop window manager is composition is currently enabled
+                        return PI.Dwm.IsCompositionEnabled();
+                    //Win 10
+                    default:
+                        return UserSystemPreferencesService.IsTransparencyEnabled;
                 }
             }
         }
@@ -47,7 +45,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="hWnd">Window handle of form.</param>
         /// <param name="padding">Distance for each form edge.</param>
-        public static void ExtendFrameIntoClientArea(IntPtr hWnd, Padding padding)
+        public static void ExtendFrameIntoClientArea([DisallowNull] IntPtr hWnd, Padding padding)
         {
             // We can't use 'null', since the type of the object is 'IntPtr'. So we need to use 'IntPtr.Zero'.
             Debug.Assert(hWnd != IntPtr.Zero);

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -27,8 +27,8 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="target">Initial palette target for redirection.</param>
         /// <param name="images">Reference to source of context menu images.</param>
-        public PaletteRedirectContextMenu(IPalette target,
-                                          ContextMenuImages images)
+        public PaletteRedirectContextMenu(PaletteBase? target,
+            [DisallowNull] ContextMenuImages images)
             : base(target)
         {
             Debug.Assert(images != null);
@@ -43,7 +43,7 @@ namespace Krypton.Toolkit
         /// Gets a checked image appropriate for a context menu item.
         /// </summary>
         /// <returns>Appropriate image for drawing; otherwise null.</returns>
-        public override Image GetContextMenuCheckedImage()
+        public override Image? GetContextMenuCheckedImage()
         {
             Image retImage = _images.Checked ?? Target.GetContextMenuCheckedImage();
 
@@ -56,7 +56,7 @@ namespace Krypton.Toolkit
         /// Gets a indeterminate image appropriate for a context menu item.
         /// </summary>
         /// <returns>Appropriate image for drawing; otherwise null.</returns>
-        public override Image GetContextMenuIndeterminateImage()
+        public override Image? GetContextMenuIndeterminateImage()
         {
             Image retImage = _images.Indeterminate ?? Target.GetContextMenuIndeterminateImage();
 
@@ -69,7 +69,7 @@ namespace Krypton.Toolkit
         /// Gets an image indicating a sub-menu on a context menu item.
         /// </summary>
         /// <returns>Appropriate image for drawing; otherwise null.</returns>
-        public override Image GetContextMenuSubMenuImage()
+        public override Image? GetContextMenuSubMenuImage()
         {
             Image retImage = _images.SubMenu ?? Target.GetContextMenuSubMenuImage();
 

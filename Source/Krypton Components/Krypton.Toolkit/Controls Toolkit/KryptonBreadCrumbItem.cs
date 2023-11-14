@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -18,18 +18,18 @@ namespace Krypton.Toolkit
     [ToolboxItem(false)]
     [ToolboxBitmap(typeof(KryptonBreadCrumb), "ToolboxBitmaps.KryptonBreadCrumbItem.bmp")]
     [DesignTimeVisible(false)]
-    [Designer("Krypton.Toolkit.KryptonBreadCrumbItemDesigner, Krypton.Toolkit")]
+    [Designer(typeof(KryptonBreadCrumbItemDesigner))]
     public class KryptonBreadCrumbItem : KryptonListItem
     {
         #region Type Definitions
         /// <summary>
         /// Manages a collection of KryptonBreadCrumbItems
         /// </summary>
-        [Editor(@"Krypton.Toolkit.KryptonBreadCrumbItemsEditor, Krypton.Toolkit", typeof(UITypeEditor))]
+        [Editor(typeof(KryptonBreadCrumbItemsEditor), typeof(UITypeEditor))]
         public class BreadCrumbItems : TypedCollection<KryptonBreadCrumbItem>
         {
             #region Instance Fields
-            private readonly KryptonBreadCrumbItem _owner;
+            private readonly KryptonBreadCrumbItem? _owner;
             #endregion
 
             #region Identity
@@ -37,7 +37,7 @@ namespace Krypton.Toolkit
             /// Initialize a new instance of the BreadCrumbItems class.
             /// </summary>
             /// <param name="owner">Reference to owning item.</param>
-            internal BreadCrumbItems(KryptonBreadCrumbItem owner) => _owner = owner;
+            internal BreadCrumbItems(KryptonBreadCrumbItem? owner) => _owner = owner;
 
             #endregion
 
@@ -47,7 +47,7 @@ namespace Krypton.Toolkit
             /// </summary>
             /// <param name="name">Name of the ribbon tab instance.</param>
             /// <returns>Item at specified index.</returns>
-            public override KryptonBreadCrumbItem this[string name]
+            public override KryptonBreadCrumbItem? this[string name]
             {
                 get
                 {
@@ -96,7 +96,7 @@ namespace Krypton.Toolkit
                 base.OnInserted(e);
 
                 // Notify a change in the owners items property
-                _owner.OnPropertyChanged(new PropertyChangedEventArgs("Items"));
+                _owner.OnPropertyChanged(new PropertyChangedEventArgs(nameof(Items)));
             }
 
             /// <summary>
@@ -111,7 +111,7 @@ namespace Krypton.Toolkit
                 e.Item.Parent = null;
 
                 // Notify a change in the owners items property
-                _owner.OnPropertyChanged(new PropertyChangedEventArgs("Items"));
+                _owner.OnPropertyChanged(new PropertyChangedEventArgs(nameof(Items)));
             }
 
             /// <summary>
@@ -138,14 +138,10 @@ namespace Krypton.Toolkit
                 base.OnCleared(e);
 
                 // Notify a change in the owners items property
-                _owner.OnPropertyChanged(new PropertyChangedEventArgs("Items"));
+                _owner.OnPropertyChanged(new PropertyChangedEventArgs(nameof(Items)));
             }
             #endregion
         }
-        #endregion
-
-        #region Instance Fields
-
         #endregion
 
         #region Identity
@@ -208,7 +204,7 @@ namespace Krypton.Toolkit
         /// Gets the string representation of the object.
         /// </summary>
         /// <returns></returns>
-        public override string ToString() => "(" + Items.Count.ToString() + ") " + ShortText;
+        public override string ToString() => $"({Items.Count}) {ShortText}";
 
         #endregion
 
@@ -230,7 +226,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public KryptonBreadCrumbItem Parent { get; internal set; }
+        public KryptonBreadCrumbItem? Parent { get; internal set; }
 
         #endregion
 
@@ -245,7 +241,7 @@ namespace Krypton.Toolkit
             base.OnPropertyChanged(e);
 
             // If we have a parent instance
-            KryptonBreadCrumbItem parent = Parent;
+            KryptonBreadCrumbItem? parent = Parent;
             if (parent != null)
             {
                 // Find the root instance

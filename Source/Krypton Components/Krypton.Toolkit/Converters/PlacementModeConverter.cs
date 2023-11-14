@@ -5,45 +5,38 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
 
 namespace Krypton.Toolkit
 {
-    internal class PlacementModeConverter : StringLookupConverter
+    internal class PlacementModeConverter : StringLookupConverter<PlacementMode>
     {
         #region Static Fields
 
-        private readonly Pair[] _pairs =
+        [Localizable(true)]
+        private static readonly IReadOnlyDictionary<PlacementMode, string> _pairs = new Dictionary<PlacementMode, string>
         {
-            new(PlacementMode.Absolute, "Placement Mode - Absolute"),
-            new(PlacementMode.AbsolutePoint, "Placement Mode - Absolute Point"),
-            new(PlacementMode.Bottom, "Placement Mode - Bottom"),
-            new(PlacementMode.Center, "Placement Mode - Center"),
-            new(PlacementMode.Left, "Placement Mode - Left"),
-            new(PlacementMode.Mouse, "Placement Mode - Mouse"),
-            new(PlacementMode.MousePoint, "Placement Mode - Mouse Point"),
-            new(PlacementMode.Relative, "Placement Mode - Relative"),
-            new(PlacementMode.RelativePoint, "Placement Mode - Relative Point"),
-            new(PlacementMode.Right, "Placement Mode - Right"),
-            new(PlacementMode.Top, "Placement Mode - Top")
+            {PlacementMode.Absolute, DesignTimeUtilities.DEFAULT_PLACEMENT_MODE_ABSOLUTE},
+            {PlacementMode.AbsolutePoint, DesignTimeUtilities.DEFAULT_PLACEMENT_MODE_ABSOLUTE_POINT},
+            {PlacementMode.Bottom, DesignTimeUtilities.DEFAULT_PLACEMENT_MODE_BOTTOM},
+            {PlacementMode.Center, DesignTimeUtilities.DEFAULT_PLACEMENT_MODE_CENTER},
+            {PlacementMode.Left, DesignTimeUtilities.DEFAULT_PLACEMENT_MODE_LEFT},
+            {PlacementMode.Mouse, DesignTimeUtilities.DEFAULT_PLACEMENT_MODE_MOUSE},
+            {PlacementMode.MousePoint, DesignTimeUtilities.DEFAULT_PLACEMENT_MODE_MOUSE_POINT},
+            {PlacementMode.Relative, DesignTimeUtilities.DEFAULT_PLACEMENT_MODE_RELATIVE},
+            {PlacementMode.RelativePoint, DesignTimeUtilities.DEFAULT_PLACEMENT_MODE_RELATIVE_POINT},
+            {PlacementMode.Right, DesignTimeUtilities.DEFAULT_PLACEMENT_MODE_RIGHT},
+            {PlacementMode.Top, DesignTimeUtilities.DEFAULT_PLACEMENT_MODE_TOP}
         };
-
-        #endregion
-
-        #region Identity
-
-        public PlacementModeConverter() : base(typeof(PlacementMode))
-        {
-        }
 
         #endregion
 
         #region Protected
 
-        protected override Pair[] Pairs => _pairs;
+        protected override IReadOnlyDictionary<PlacementMode /*Enum*/, string /*Display*/> Pairs => _pairs;
 
         #endregion
     }

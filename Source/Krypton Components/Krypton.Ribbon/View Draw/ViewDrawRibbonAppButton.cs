@@ -5,7 +5,9 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  
+ *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
  */
 #endregion
@@ -19,7 +21,7 @@ namespace Krypton.Ribbon
     {
 
         #region Instance Fields
-        private IDisposable[] _mementos;
+        private IDisposable?[] _mementos;
         private readonly KryptonRibbon _ribbon;
         private readonly bool _bottomHalf;
         private Rectangle _clipRect;
@@ -35,7 +37,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="ribbon">Owning control instance.</param>
         /// <param name="bottomHalf">Scroller orientation.</param>
-        public ViewDrawRibbonAppButton(KryptonRibbon ribbon, bool bottomHalf)
+        public ViewDrawRibbonAppButton([DisallowNull] KryptonRibbon ribbon, bool bottomHalf)
         {
             Debug.Assert(ribbon != null);
 
@@ -43,7 +45,7 @@ namespace Krypton.Ribbon
             SIZE_TOP = new Size((int)(39 * FactorDpiX), (int)(22 * FactorDpiY));
             SIZE_BOTTOM = new Size((int)(39 * FactorDpiX), (int)(17 * FactorDpiY));
 
-            _ribbon = ribbon;
+            _ribbon = ribbon!;
             _bottomHalf = bottomHalf;
             _size = _bottomHalf ? SIZE_BOTTOM : SIZE_TOP;
             _mementos = new IDisposable[3];
@@ -55,7 +57,7 @@ namespace Krypton.Ribbon
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            @"ViewDrawRibbonAppButton:" + Id;
+            $@"ViewDrawRibbonAppButton:{Id}";
 
         /// <summary>
         /// Clean up any resources being used.
@@ -65,14 +67,14 @@ namespace Krypton.Ribbon
         {
             if (disposing)
             {
-                if (_mementos != null)
+                if (_mementos != null!)
                 {
-                    foreach (IDisposable memento in _mementos)
+                    foreach (IDisposable? memento in _mementos)
                     {
                         memento?.Dispose();
                     }
 
-                    _mementos = null;
+                    _mementos = null!;
                 }
             }
 
@@ -102,7 +104,7 @@ namespace Krypton.Ribbon
         /// Perform a layout of the elements.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override void Layout(ViewLayoutContext context)
+        public override void Layout([DisallowNull] ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 
@@ -130,7 +132,7 @@ namespace Krypton.Ribbon
         public override void RenderBefore(RenderContext context)
         {
             // New clipping region is at most our own client size
-            using Region combineRegion = new(_clipRect);
+            using var combineRegion = new Region(_clipRect);
             // Remember the current clipping region
             Region clipRegion = context.Graphics.Clip.Clone();
 
@@ -172,7 +174,8 @@ namespace Krypton.Ribbon
                 localImage = CommonHelper.ScaleImageForSizedDisplay(localImage, localImage.Width * FactorDpiX,
                     localImage.Height * FactorDpiY);
 
-                Rectangle imageRect = new(ClientLocation.X + (int)(7 * FactorDpiX), ClientLocation.Y + (int)(6 * FactorDpiY), (int)(24 * FactorDpiX), (int)(24 * FactorDpiY));
+                var imageRect = new Rectangle(ClientLocation.X + (int)(7 * FactorDpiX),
+                    ClientLocation.Y + (int)(6 * FactorDpiY), (int)(24 * FactorDpiX), (int)(24 * FactorDpiY));
 
                 if (_ribbon.Enabled)
                 {
@@ -181,7 +184,7 @@ namespace Krypton.Ribbon
                 else
                 {
                     // Use a color matrix to convert to black and white
-                    using ImageAttributes attribs = new();
+                    using var attribs = new ImageAttributes();
                     attribs.SetColorMatrix(CommonHelper.MatrixDisabled);
 
                     context.Graphics.DrawImage(localImage,

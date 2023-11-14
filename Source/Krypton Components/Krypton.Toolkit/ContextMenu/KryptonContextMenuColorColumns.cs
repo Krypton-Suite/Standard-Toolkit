@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -19,8 +19,8 @@ namespace Krypton.Toolkit
     [ToolboxBitmap(typeof(KryptonContextMenuColorColumns), "ToolboxBitmaps.KryptonContextMenuColorColumns.bmp")]
     [DesignerCategory(@"code")]
     [DesignTimeVisible(false)]
-    [DefaultProperty("ColorScheme")]
-    [DefaultEvent("SelectedColorChanged")]
+    [DefaultProperty(nameof(ColorScheme))]
+    [DefaultEvent(nameof(SelectedColorChanged))]
     public class KryptonContextMenuColorColumns : KryptonContextMenuItemBase
     {
         #region Static Fields
@@ -85,14 +85,14 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Action")]
         [Description(@"Occurs when the SelectedColor property changes value.")]
-        public event EventHandler<ColorEventArgs> SelectedColorChanged;
+        public event EventHandler<ColorEventArgs>? SelectedColorChanged;
 
         /// <summary>
         /// Occurs when the user is tracking over a color.
         /// </summary>
         [Category(@"Action")]
         [Description(@"Occurs when user is tracking over a color.")]
-        public event EventHandler<ColorEventArgs> TrackingColor;
+        public event EventHandler<ColorEventArgs>? TrackingColor;
         #endregion
 
         #region Identity
@@ -139,7 +139,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public override KryptonContextMenuItemBase this[int index] => null;
+        public override KryptonContextMenuItemBase? this[int index] => null;
 
         /// <summary>
         /// Test for the provided shortcut and perform relevant action if a match is found.
@@ -161,8 +161,11 @@ namespace Krypton.Toolkit
                                               object parent,
                                               ViewLayoutStack columns,
                                               bool standardStyle,
-                                              bool imageColumn) =>
-            new ViewDrawMenuColorColumns(provider, this);
+                                              bool imageColumn)
+        {
+            SetProvider(provider);
+            return new ViewDrawMenuColorColumns(provider, this);
+        }
 
         /// <summary>
         /// Gets and sets if clicking a color entry automatically closes the context menu.
@@ -191,7 +194,7 @@ namespace Krypton.Toolkit
         [KryptonPersist]
         [Category(@"Appearance")]
         [Description(@"Defines the set of colors to use for display.")]
-        [DefaultValue(typeof(ColorScheme), "OfficeThemes")]
+        [DefaultValue(ColorScheme.OfficeThemes)]
         public ColorScheme ColorScheme
         {
             get => _colorScheme;
@@ -212,7 +215,7 @@ namespace Krypton.Toolkit
         [KryptonPersist]
         [Category(@"Appearance")]
         [Description(@"Color that has been selected by the user.")]
-        [DefaultValue(typeof(Color), "")]
+        [DefaultValue(typeof(Color), "Empty")]
         public Color SelectedColor
         {
             get => _selectedColor;
@@ -275,7 +278,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="colors">An array of color arrays, each of which must be the same length.</param>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
-        public void SetCustomColors(Color[][] colors)
+        public void SetCustomColors(Color[]?[]? colors)
         {
             // Cannot accept an empty argument
             if ((colors == null) || (colors.Length == 0))
@@ -296,12 +299,12 @@ namespace Krypton.Toolkit
                     // Cache length of first child array
                     if (i == 0)
                     {
-                        rows = colors[i].Length;
+                        rows = colors[i]!.Length;
                     }
                     else
                     {
                         // All other child arrays must be the same length
-                        if (colors[i].Length != rows)
+                        if (colors[i]!.Length != rows)
                         {
                             throw new ArgumentOutOfRangeException(nameof(colors), "Each child color array must be the same length.");
                         }
@@ -309,7 +312,7 @@ namespace Krypton.Toolkit
                 }
             }
 
-            Colors = colors;
+            Colors = colors!;
         }
 
         /// <summary>
@@ -317,20 +320,11 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="color">Color to find.</param>
         /// <returns>True if found; otherwise false.</returns>
-        public bool ContainsColor(Color color)
+        public bool ContainsColor([DisallowNull] Color color)
         {
             if ((Colors != null) && (color != null))
             {
-                foreach (var column in Colors)
-                {
-                    foreach (Color row in column)
-                    {
-                        if (color.Equals(row))
-                        {
-                            return true;
-                        }
-                    }
-                }
+                return Colors.Any(column => column.Contains(color));
             }
 
             return false;

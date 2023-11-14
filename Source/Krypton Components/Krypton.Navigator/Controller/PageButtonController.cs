@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -35,7 +35,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="next">View to investigate.</param>
         /// <returns>True is part of button; otherwise false.</returns>
-        protected override bool ViewIsPartOfButton(ViewBase next)
+        protected override bool ViewIsPartOfButton(ViewBase? next)
         {
             // Do we need to investigate if the 'next' view might be a contained button?
             if ((next != null) && (Target != next))
@@ -45,12 +45,9 @@ namespace Krypton.Navigator
                 {
                     // If this is a button then we return 'false' cause the mouse is no longer in the target button
                     // Search for a layout docker as that is always the top of any button
-                    if (next is ViewLayoutDocker docker)
+                    if (next is ViewLayoutDocker { Tag: ViewDrawButton })
                     {
-                        if (docker.Tag is ViewDrawButton)
-                        {
-                            return false;
-                        }
+                        return false;
                     }
 
 

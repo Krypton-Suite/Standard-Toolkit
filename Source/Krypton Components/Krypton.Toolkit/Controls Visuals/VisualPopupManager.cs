@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -23,7 +23,7 @@ namespace Krypton.Toolkit
 
         #region Static Fields
         [ThreadStatic]
-        private static VisualPopupManager _singleton;
+        private static VisualPopupManager? _singleton;
         #endregion
 
         #region Instance Fields
@@ -31,8 +31,7 @@ namespace Krypton.Toolkit
         private IntPtr _activeWindow;
         private bool _filtering;
         private int _suspended;
-        private ContextMenuStrip _cms;
-        private EventHandler _cmsFinishDelegate;
+        private EventHandler? _cmsFinishDelegate;
         #endregion
 
         #region Identity
@@ -74,7 +73,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the current visual popup being tracked.
         /// </summary>
-        public VisualPopup CurrentPopup
+        public VisualPopup? CurrentPopup
         {
             [DebuggerStepThrough]
             get;
@@ -93,11 +92,11 @@ namespace Krypton.Toolkit
 
         #region TrackingByType
         /// <summary>
-        /// Gets the popup that matches the proveded type.
+        /// Gets the popup that matches the provided type.
         /// </summary>
         /// <param name="t">Type to find.</param>
         /// <returns>Matching instance; otherwise null.</returns>
-        public Control TrackingByType(Type t)
+        public Control? TrackingByType(Type t)
         {
             if (IsTracking)
             {
@@ -130,7 +129,7 @@ namespace Krypton.Toolkit
         /// Start tracking the provided popup.
         /// </summary>
         /// <param name="popup">Popup instance to track.</param>
-        public void StartTracking(VisualPopup popup)
+        public void StartTracking([DisallowNull] VisualPopup popup)
         {
             Debug.Assert(popup != null);
             Debug.Assert(!popup.IsDisposed);
@@ -290,9 +289,9 @@ namespace Krypton.Toolkit
         /// <param name="cms">Reference to ContextMenuStrip.</param>
         /// <param name="screenPt">Screen position for showing the context menu strip.</param>
         /// <param name="cmsFinishDelegate">Delegate to call when strip dismissed.</param>
-        public void ShowContextMenuStrip(ContextMenuStrip cms, 
+        public void ShowContextMenuStrip([DisallowNull] ContextMenuStrip cms, 
                                          Point screenPt,
-                                         EventHandler cmsFinishDelegate)
+                                         EventHandler? cmsFinishDelegate)
         {
             Debug.Assert(cms != null);
 
@@ -307,14 +306,13 @@ namespace Krypton.Toolkit
                 // Suspend processing of messages until context strip removed
                 _suspended++;
 
-                // Need to filter to prevent non-client mouse move from occuring
+                // Need to filter to prevent non-client mouse move from occurring
                 FilterMessages(true);
 
                 // We are showing a context menu strip
                 IsShowingCMS = true;
 
                 // Remember the strip reference for use in message processing
-                _cms = cms;
 
                 cms.Show(screenPt);
             }
@@ -355,7 +353,7 @@ namespace Krypton.Toolkit
                 else
                 {
                     // Get the active window
-                    IntPtr activeWindow = PI.GetActiveWindow();
+                    var activeWindow = PI.GetActiveWindow();
 
                     // Is there a change in active window?
                     if (activeWindow != _activeWindow)
@@ -417,7 +415,7 @@ namespace Krypton.Toolkit
                             // KeyPress events occur for the current popup.
                             if (!CurrentPopup.ContainsFocus)
                             {
-                                PI.MSG msg = new()
+                                var msg = new PI.MSG
                                 {
                                     hwnd = m.HWnd,
                                     message = m.Msg,
@@ -429,6 +427,7 @@ namespace Krypton.Toolkit
                             return ProcessKeyboard(ref m);
                         }
                         break;
+
                     case PI.WM_.CHAR:
                     case PI.WM_.KEYUP:
                     case PI.WM_.DEADCHAR:
@@ -440,8 +439,8 @@ namespace Krypton.Toolkit
                         {
                             return ProcessKeyboard(ref m);
                         }
-
                         break;
+
                     case PI.WM_.MOUSEMOVE:
                     case PI.WM_.NCMOUSEMOVE:
                         return ProcessMouseMove(ref m);
@@ -514,10 +513,8 @@ namespace Krypton.Toolkit
                     var popups = _stack.ToArray();
 
                     // Search from end towards the front, the last entry is the most recent 'Push'
-                    for (var i = 0; i < popups.Length; i++)
+                    foreach (VisualPopup popup in popups)
                     {
-                        // Ignore disposed popups
-                        VisualPopup popup = popups[i];
                         if (!popup.IsDisposed)
                         {
                             // If the mouse down is inside the popup instance
@@ -549,10 +546,8 @@ namespace Krypton.Toolkit
                         if (!processed)
                         {
                             // Search from end towards the front, the last entry is the most recent 'Push'
-                            for (var i = 0; i < popups.Length; i++)
+                            foreach (VisualPopup popup in popups)
                             {
-                                // Ignore disposed popups
-                                VisualPopup popup = popups[i];
                                 if (!popup.IsDisposed)
                                 {
                                     processed = popup.DoesMouseDownGetEaten(m, screenPt);
@@ -576,7 +571,7 @@ namespace Krypton.Toolkit
         private bool ProcessNonClientMouseDown(ref Message m)
         {
             // Extract the x and y mouse position from message
-            Point screenPt = new(PI.LOWORD((int)m.LParam), PI.HIWORD((int)m.LParam));
+            var screenPt = new Point(PI.LOWORD((int)m.LParam), PI.HIWORD((int)m.LParam));
 
             // Ask the popup if this message causes the entire stack to be killed
             if (CurrentPopup.DoesCurrentMouseDownEndAllTracking(m, ScreenPtToClientPt(screenPt)))
@@ -593,10 +588,8 @@ namespace Krypton.Toolkit
                 {
                     // Search from end towards the front, the last entry is the most recent 'Push'
                     var popups = _stack.ToArray();
-                    for (var i = 0; i < popups.Length; i++)
+                    foreach (VisualPopup popup in popups)
                     {
-                        // Ignore disposed popups
-                        VisualPopup popup = popups[i];
                         if (!popup.IsDisposed)
                         {
                             processed = popup.DoesMouseDownGetEaten(m, screenPt);
@@ -661,14 +654,14 @@ namespace Krypton.Toolkit
             Point screenPt = CommonHelper.ClientMouseMessageToScreenPt(m);
 
             // Convert from a class to a structure
-            PI.POINT screenPIPt = new()
+            var screenPIPt = new PI.POINT
             {
                 X = screenPt.X,
                 Y = screenPt.Y
             };
 
             // Get the window handle of the window under this screen point
-            IntPtr hWnd = PI.WindowFromPoint(screenPIPt);
+            var hWnd = PI.WindowFromPoint(screenPIPt);
 
             // Is the window handle that of the currently tracking popup
             if (CurrentPopup.Handle == hWnd)
@@ -678,26 +671,16 @@ namespace Krypton.Toolkit
 
             // Search all the stacked popups for any that match the window handle
             var popups = _stack.ToArray();
-            for (var i = 0; i<popups.Length; i++)
-            {
-                if (!popups[i].IsDisposed)
-                {
-                    if (popups[i].Handle == hWnd)
-                    {
-                        return true;
-                    }
-                }
-            }
+            return popups.Where(popup => !popup.IsDisposed).Any(popup => popup.Handle == hWnd);
 
             // Mouse move is not over a popup, so allow it
-            return false;
         }
 
         private Point ScreenPtToClientPt(Point pt) => ScreenPtToClientPt(pt, CurrentPopup.Handle);
 
         private Point ScreenPtToClientPt(Point pt, IntPtr handle)
         {
-            PI.POINTC clientPt = new()
+            var clientPt = new PI.POINTC
             {
                 x = pt.X,
                 y = pt.Y
@@ -716,7 +699,7 @@ namespace Krypton.Toolkit
             }
 
             // Convert a 0,0 point from client to screen to find offsetting
-            PI.POINTC zeroPIPt = new()
+            var zeroPIPt = new PI.POINTC
             {
                 x = 0,
                 y = 0
@@ -738,8 +721,7 @@ namespace Krypton.Toolkit
                 return true;
             }
 
-            return m.Msg is >= PI.WM_.NCMOUSEMOVE and <= PI.WM_.NCMBUTTONDBLCLK
-                    || m.Msg is >= PI.WM_.KEYDOWN and <= PI.WM_.KEYLAST;
+            return m.Msg is >= PI.WM_.NCMOUSEMOVE and <= PI.WM_.NCMBUTTONDBLCLK or >= PI.WM_.KEYDOWN and <= PI.WM_.KEYLAST;
         }
 
         private void FilterMessages(bool filter)
@@ -762,7 +744,7 @@ namespace Krypton.Toolkit
         private void OnCMSClosed(object sender, ToolStripDropDownClosedEventArgs e)
         {
             // Unhook event from object
-            ContextMenuStrip cms = sender as ContextMenuStrip;
+            var cms = sender as ContextMenuStrip;
             cms.Closed -= OnCMSClosed;
 
             // Revoke the suspended state
@@ -776,7 +758,6 @@ namespace Krypton.Toolkit
             }
 
             // No longer showing a context menu strip
-            _cms = null;
             IsShowingCMS = false;
 
             // Do we fire a delegate to notify end of the strip?

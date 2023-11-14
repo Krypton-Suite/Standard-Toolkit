@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -26,7 +26,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Initialize a new instance of the ViewLayoutPageShow class.
         /// </summary>
-        public ViewLayoutPageShow(KryptonNavigator navigator)
+        public ViewLayoutPageShow([DisallowNull] KryptonNavigator navigator)
         {
             Debug.Assert(navigator != null);
 
@@ -41,7 +41,7 @@ namespace Krypton.Navigator
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            "ViewLayoutPageShow:" + Id;
+            $"ViewLayoutPageShow:{Id}";
 
         #endregion
 
@@ -50,11 +50,9 @@ namespace Krypton.Navigator
         /// Sets if the minimum size should be used instead of preferred.
         /// </summary>
         /// <param name="minimum">Should minimum be used instead of preferred.</param>
-        public void SetMinimumAsPreferred(bool minimum)
-        {
+        public void SetMinimumAsPreferred(bool minimum) =>
             // Update preferred calculation details
             _minimumAsPreferred = minimum;
-        }
         #endregion
 
         #region Layout
@@ -62,11 +60,11 @@ namespace Krypton.Navigator
         /// Discover the preferred size of the element.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override Size GetPreferredSize(ViewLayoutContext context)
+        public override Size GetPreferredSize([DisallowNull] ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 
-            Size ret = Size.Empty;
+            var ret = Size.Empty;
 
             // Use the minimum size instead of preferred size?
             if (_minimumAsPreferred)
@@ -93,7 +91,7 @@ namespace Krypton.Navigator
         /// Perform a layout of the elements.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override void Layout(ViewLayoutContext context)
+        public override void Layout([DisallowNull] ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 
@@ -104,31 +102,28 @@ namespace Krypton.Navigator
             if (!context.ViewManager.DoNotLayoutControls)
             {
                 // Are we allowed to actually layout the pages?
-                if (_navigator.InternalCanLayout)
-                {
+                if (_navigator is { InternalCanLayout: true, IsChildPanelBorrowed: false })
                     // Do not position the child panel or pages if it is borrowed
-                    if (!_navigator.IsChildPanelBorrowed)
+                {
+                    // Position the child panel for showing page information
+                    _navigator.ChildPanel.SetBounds(ClientLocation.X,
+                        ClientLocation.Y,
+                        ClientWidth,
+                        ClientHeight);
+
+                    // Is there a selected page?
+                    if (_navigator.SelectedPage != null)
                     {
-                        // Position the child panel for showing page information
-                        _navigator.ChildPanel.SetBounds(ClientLocation.X,
-                                                        ClientLocation.Y,
-                                                        ClientWidth,
-                                                        ClientHeight);
-
-                        // Is there a selected page?
-                        if (_navigator.SelectedPage != null)
+                        // Position all the contained pages in to the correct area
+                        foreach (KryptonPage page in _navigator.Pages)
                         {
-                            // Position all the contained pages in to the correct area
-                            foreach (KryptonPage page in _navigator.Pages)
+                            if (page == _navigator.SelectedPage)
                             {
-                                if (page == _navigator.SelectedPage)
-                                {
-                                    page.SetBounds(0, 0, ClientWidth, ClientHeight);
+                                page.SetBounds(0, 0, ClientWidth, ClientHeight);
 
-                                    // Ensure the selected page is the highest in the z-order
-                                    _navigator.ChildPanel.Controls.SetChildIndex(_navigator.SelectedPage, 0);
-                                    _navigator.ChildPanel.Controls.SetChildIndex(_navigator.SelectedPage, 0);
-                                }
+                                // Ensure the selected page is the highest in the z-order
+                                _navigator.ChildPanel.Controls.SetChildIndex(_navigator.SelectedPage, 0);
+                                _navigator.ChildPanel.Controls.SetChildIndex(_navigator.SelectedPage, 0);
                             }
                         }
                     }

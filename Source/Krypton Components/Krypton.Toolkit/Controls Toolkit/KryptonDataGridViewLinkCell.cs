@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -50,7 +50,7 @@ namespace Krypton.Toolkit
         /// Gets or sets a value that represents the behavior of links.
         /// </summary>
         [Category(@"Behavior")]
-        [DefaultValue(typeof(LinkBehavior), "AlwaysUnderline")]
+        [DefaultValue(LinkBehavior.AlwaysUnderline)]
         public new LinkBehavior LinkBehavior
         {
             get => base.LinkBehavior;
@@ -69,7 +69,7 @@ namespace Krypton.Toolkit
         /// Gets or sets a display style for drawing link cell.
         /// </summary>
         [Category(@"Appearance")]
-        [DefaultValue(typeof(LabelStyle), "NormalPanel")]
+        [DefaultValue(LabelStyle.NormalPanel)]
         public LabelStyle LabelStyle
         {
             get => _labelStyle;
@@ -115,7 +115,7 @@ namespace Krypton.Toolkit
         {
             try
             {
-                KryptonDataGridView kDGV = (KryptonDataGridView)DataGridView;
+                var kDGV = (KryptonDataGridView)DataGridView;
 
                 // Ensure the view classes are created and hooked up
                 CreateViewAndPalettes(kDGV);
@@ -144,7 +144,7 @@ namespace Krypton.Toolkit
                 }
 
                 // Position the button element inside the available cell area
-                using ViewLayoutContext layoutContext = new(kDGV, kDGV.Renderer);
+                using var layoutContext = new ViewLayoutContext(kDGV, kDGV.Renderer);
                 // Define the available area for layout
                 layoutContext.DisplayRectangle = new Rectangle(0, 0, int.MaxValue, int.MaxValue);
 
@@ -184,7 +184,7 @@ namespace Krypton.Toolkit
             int rowIndex,
             DataGridViewElementStates cellState,
             object value,
-            object formattedValue,
+            object? formattedValue,
             string errorText,
             DataGridViewCellStyle cellStyle,
             DataGridViewAdvancedBorderStyle advancedBorderStyle,
@@ -195,7 +195,7 @@ namespace Krypton.Toolkit
                 // Should we draw the content foreground?
                 if ((paintParts & DataGridViewPaintParts.ContentForeground) == DataGridViewPaintParts.ContentForeground)
                 {
-                    using RenderContext renderContext = new(kDgv, graphics, cellBounds, kDgv.Renderer);
+                    using var renderContext = new RenderContext(kDgv, graphics, cellBounds, kDgv.Renderer);
                     // Cache the starting cell bounds
                     Rectangle startBounds = cellBounds;
 
@@ -243,7 +243,7 @@ namespace Krypton.Toolkit
                     cellBounds.Height -= cellStyle.Padding.Vertical;
 
                     // Position the button element inside the available cell area
-                    using (ViewLayoutContext layoutContext = new(kDgv, kDgv.Renderer))
+                    using (var layoutContext = new ViewLayoutContext(kDgv, kDgv.Renderer))
                     {
                         // Define the available area for calculating layout
                         layoutContext.DisplayRectangle = cellBounds;
@@ -296,9 +296,7 @@ namespace Krypton.Toolkit
                     _viewLabel.Render(renderContext);
 
                     // Remember the current drawing bounds
-                    _contentBounds = new Rectangle(cellBounds.X - startBounds.X,
-                        cellBounds.Y - startBounds.Y,
-                        cellBounds.Width, cellBounds.Height);
+                    _contentBounds = cellBounds with { X = cellBounds.X - startBounds.X, Y = cellBounds.Y - startBounds.Y };
                 }
             }
             else
@@ -388,7 +386,7 @@ namespace Krypton.Toolkit
                 if (_piLinkState == null)
                 {
                     // Cache access to the internal get property 'LinkState'
-                    _piLinkState = typeof(DataGridViewLinkCell).GetProperty(@"LinkState", BindingFlags.Instance |
+                    _piLinkState = typeof(DataGridViewLinkCell).GetProperty(nameof(LinkState), BindingFlags.Instance |
                                                                                          BindingFlags.NonPublic |
                                                                                          BindingFlags.GetField);
 

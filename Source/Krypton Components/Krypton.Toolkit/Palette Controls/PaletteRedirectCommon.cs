@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -29,9 +29,9 @@ namespace Krypton.Toolkit
         /// <param name="target">Initial palette target for redirection.</param>
         /// <param name="disabled">Redirection for disabled state requests.</param>
         /// <param name="others">Redirection for all other state requests.</param>
-        public PaletteRedirectCommon(IPalette target,
-                                     IPaletteTriple disabled,
-                                     IPaletteTriple others)
+        public PaletteRedirectCommon(PaletteBase? target,
+                                     [DisallowNull] IPaletteTriple disabled,
+                                     [DisallowNull] IPaletteTriple others)
             : base(target)
         {
             Debug.Assert(disabled != null);
@@ -134,7 +134,7 @@ namespace Krypton.Toolkit
         /// <param name="style">Background style.</param>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image instance.</returns>
-        public override Image GetBackImage(PaletteBackStyle style, PaletteState state)
+        public override Image? GetBackImage(PaletteBackStyle style, PaletteState state)
         {
             IPaletteTriple inherit = GetInherit(state);
             return inherit != null ? inherit.PaletteBack.GetBackImage(state) : base.GetBackImage(style, state);
@@ -292,7 +292,7 @@ namespace Krypton.Toolkit
         /// <param name="style">Border style.</param>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image instance.</returns>
-        public override Image GetBorderImage(PaletteBorderStyle style, PaletteState state)
+        public override Image? GetBorderImage(PaletteBorderStyle style, PaletteState state)
         {
             IPaletteTriple inherit = GetInherit(state);
             return inherit != null ? inherit.PaletteBorder.GetBorderImage(state) : base.GetBorderImage(style, state);
@@ -554,7 +554,7 @@ namespace Krypton.Toolkit
         /// <param name="style">Content style.</param>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image instance.</returns>
-        public override Image GetContentShortTextImage(PaletteContentStyle style, PaletteState state)
+        public override Image? GetContentShortTextImage(PaletteContentStyle style, PaletteState state)
         {
             IPaletteTriple inherit = GetInherit(state);
             return inherit != null ? inherit.PaletteContent.GetContentShortTextImage(state) : base.GetContentShortTextImage(style, state);
@@ -750,7 +750,7 @@ namespace Krypton.Toolkit
         /// <param name="style">Content style.</param>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image instance.</returns>
-        public override Image GetContentLongTextImage(PaletteContentStyle style, PaletteState state)
+        public override Image? GetContentLongTextImage(PaletteContentStyle style, PaletteState state)
         {
             IPaletteTriple inherit = GetInherit(state);
             return inherit != null ? inherit.PaletteContent.GetContentLongTextImage(state) : base.GetContentLongTextImage(style, state);
@@ -806,7 +806,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Implementation
-        private IPaletteTriple GetInherit(PaletteState state)
+        private IPaletteTriple? GetInherit(PaletteState state)
         {
             // Do not inherit the override states
             if (CommonHelper.IsOverrideState(state))

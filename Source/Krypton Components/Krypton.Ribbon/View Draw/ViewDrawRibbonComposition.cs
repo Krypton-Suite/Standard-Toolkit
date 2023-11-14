@@ -5,7 +5,9 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  
+ *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
  */
 #endregion
@@ -32,8 +34,8 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="ribbon">Owning control instance.</param>
         /// <param name="needPaint">Delegate for requested a paint.</param>
-        public ViewDrawRibbonComposition(KryptonRibbon ribbon,
-                                         NeedPaintHandler needPaint)
+        public ViewDrawRibbonComposition([DisallowNull] KryptonRibbon ribbon,
+                                         [DisallowNull] NeedPaintHandler needPaint)
         {
             Debug.Assert(ribbon != null);
             Debug.Assert(needPaint != null);
@@ -56,7 +58,7 @@ namespace Krypton.Ribbon
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            @"ViewDrawRibbonComposition:" + Id;
+            $@"ViewDrawRibbonComposition:{Id}";
 
         #endregion
 
@@ -68,7 +70,7 @@ namespace Krypton.Ribbon
         {
             get 
             {
-                if ((_ribbon.RibbonShape == PaletteRibbonShape.Office2010) && _ribbon.MainPanel.Visible)
+                if (_ribbon is { RibbonShape: PaletteRibbonShape.Office2010, MainPanel.Visible: true })
                 {
                     return _ribbon.TabsArea.ClientHeight + CONSTANT_COMPOSITION_HEIGHT;
                 }
@@ -128,11 +130,9 @@ namespace Krypton.Ribbon
         /// Request a repaint and optional layout.
         /// </summary>
         /// <param name="needLayout">Is a layout required.</param>
-        public void CompNeedPaint(bool needLayout)
-        {
+        public void CompNeedPaint(bool needLayout) =>
             // Pass request onto the ribbon instance
             _needPaint(this, new NeedLayoutEventArgs(needLayout));
-        }
         #endregion
 
         #region Layout
@@ -140,13 +140,13 @@ namespace Krypton.Ribbon
         /// Discover the preferred size of the element.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override Size GetPreferredSize(ViewLayoutContext context) => new (0, CONSTANT_COMPOSITION_HEIGHT);
+        public override Size GetPreferredSize(ViewLayoutContext context) => new Size(0, CONSTANT_COMPOSITION_HEIGHT);
 
         /// <summary>
         /// Perform a layout of the elements.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override void Layout(ViewLayoutContext context)
+        public override void Layout([DisallowNull] ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 
@@ -179,7 +179,7 @@ namespace Krypton.Ribbon
         /// Perform rendering before child elements are rendered.
         /// </summary>
         /// <param name="context">Rendering context.</param>
-        public override void RenderBefore(RenderContext context) 
+        public override void RenderBefore([DisallowNull] RenderContext context) 
         {
             Debug.Assert(_ownerForm != null);
 

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -19,7 +19,7 @@ namespace Krypton.Toolkit
                                                   IPaletteMetric
     {
         #region Instance Fields
-        private readonly PaletteRedirect _redirect;
+        private readonly PaletteRedirect? _redirect;
         private InheritBool _overlayHeaders;
         private Padding _primaryHeaderPadding;
         private Padding _secondaryHeaderPadding;
@@ -33,7 +33,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="redirect">Redirection for inheriting values.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public KryptonPaletteHeaderGroupState(PaletteRedirect redirect,
+        public KryptonPaletteHeaderGroupState([DisallowNull] PaletteRedirect redirect,
                                               NeedPaintHandler needPaint) 
         {
             Debug.Assert(redirect != null);
@@ -106,10 +106,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Reset the PrimaryHeaderPadding to the default value.
         /// </summary>
-        public void ResetPrimaryHeaderPadding()
-        {
-            PrimaryHeaderPadding = CommonHelper.InheritPadding;
-        }
+        public void ResetPrimaryHeaderPadding() => PrimaryHeaderPadding = CommonHelper.InheritPadding;
         #endregion
 
         #region SecondaryHeaderPadding
@@ -138,10 +135,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Reset the SecondaryHeaderPadding to the default value.
         /// </summary>
-        public void ResetSecondaryHeaderPadding()
-        {
-            SecondaryHeaderPadding = CommonHelper.InheritPadding;
-        }
+        public void ResetSecondaryHeaderPadding() => SecondaryHeaderPadding = CommonHelper.InheritPadding;
         #endregion
 
         #region DockInactiveHeaderPadding
@@ -170,10 +164,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Reset the DockInactiveHeaderPadding to the default value.
         /// </summary>
-        public void ResetDockInactiveHeaderPadding()
-        {
-            DockInactiveHeaderPadding = CommonHelper.InheritPadding;
-        }
+        public void ResetDockInactiveHeaderPadding() => DockInactiveHeaderPadding = CommonHelper.InheritPadding;
         #endregion
 
         #region DockActiveHeaderPadding
@@ -202,10 +193,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Reset the DockActiveHeaderPadding to the default value.
         /// </summary>
-        public void ResetDockActiveHeaderPadding()
-        {
-            DockActiveHeaderPadding = CommonHelper.InheritPadding;
-        }
+        public void ResetDockActiveHeaderPadding() => DockActiveHeaderPadding = CommonHelper.InheritPadding;
         #endregion
 
         #region OverlayHeaders
@@ -215,7 +203,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category(@"Visuals")]
         [Description(@"Should headers overlay the border.")]
-        [DefaultValue(typeof(InheritBool), "Inherit")]
+        [DefaultValue(InheritBool.Inherit)]
         [RefreshProperties(RefreshProperties.All)]
         public InheritBool OverlayHeaders
         {
@@ -234,10 +222,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the OverlayHeaders property to its default value.
         /// </summary>
-        public void ResetOverlayHeaders()
-        {
-            OverlayHeaders = InheritBool.Inherit;
-        }
+        public void ResetOverlayHeaders() => OverlayHeaders = InheritBool.Inherit;
         #endregion
 
         #region IPaletteMetric

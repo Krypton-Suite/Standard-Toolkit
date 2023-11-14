@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -17,34 +17,27 @@ namespace Krypton.Toolkit
     /// </summary>
     [ToolboxItem(false)]
     [DesignerCategory(@"code")]
+    [TypeConverter(typeof(ExpandableObjectConverter))]
     public class ToolTipValues : HeaderValues
     {
-        private LabelStyle _toolTipStyle;
+        private int _showIntervalDelay = 500;
+        private int _closeIntervalDelay = 5000;
+        private LabelStyle _toolTipStyle = LabelStyle.SuperTip;
 
         /// <summary>
         /// </summary>
         /// <param name="needPaint"></param>
-        public ToolTipValues(NeedPaintHandler needPaint)
+        public ToolTipValues(NeedPaintHandler? needPaint)
             : base(needPaint)
         {
             ResetToolTipStyle();
             ToolTipPosition = new PopupPositionValues();
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        public void Reset()
-        {
-            ResetEnableToolTips();
-            ResetToolTipStyle();
-            ResetToolTipPosition();
-            ResetImage();
-            ResetImageTransparentColor();
-            ResetHeading();
-            ResetDescription();
-        }
+        /// <inheritdoc />
+        protected override Image? GetImageDefault() => null;
 
+        #region EnableToolTips
         /// <summary>
         /// Make sure default values are         
         /// Gets and sets the EnableToolTips
@@ -54,16 +47,8 @@ namespace Krypton.Toolkit
 
         private bool ShouldSerializeEnableToolTips() => EnableToolTips;
 
-        /// <inheritdoc />
-        protected override Image GetImageDefault() => null;
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public void ResetEnableToolTips()
-        {
-            EnableToolTips = false;
-        }
+        private void ResetEnableToolTips() => EnableToolTips = false;
+        #endregion
 
         #region ToolTipShadow
         /// <summary>
@@ -76,12 +61,11 @@ namespace Krypton.Toolkit
 
         private bool ShouldSerializeToolTipShadow() => !ToolTipShadow;
 
-        private void ResetToolTipShadow()
-        {
-            ToolTipShadow = true;
-        }
+        private void ResetToolTipShadow() => ToolTipShadow = true;
+
         #endregion
 
+        #region ToolTipPosition
         /// <summary>
         /// Gets and sets the EnableToolTips
         /// </summary>
@@ -91,18 +75,16 @@ namespace Krypton.Toolkit
 
         private bool ShouldSerializeToolTipPosition() => !ToolTipPosition.IsDefault;
 
-        /// <summary>
-        /// Resets the ToolTipStyle property to its default value.
-        /// </summary>
-        public void ResetToolTipPosition() => ToolTipPosition.Reset();
-
+        private void ResetToolTipPosition() => ToolTipPosition.Reset();
+        #endregion
+        
         #region ToolTipStyle
 
         /// <summary>
         /// Gets and sets the tooltip label style.
         /// </summary>
         [Description(@"Button tooltip label style.")]
-        [DefaultValue(typeof(LabelStyle), "SuperTip")]
+        [DefaultValue(LabelStyle.SuperTip)]
         public LabelStyle ToolTipStyle
         {
             get => _toolTipStyle;
@@ -111,16 +93,82 @@ namespace Krypton.Toolkit
 
         private bool ShouldSerializeToolTipStyle() => ToolTipStyle != LabelStyle.SuperTip;
 
+        private void ResetToolTipStyle() => ToolTipStyle = LabelStyle.SuperTip;
+        #endregion
+
+        #region ShowIntervalDelay
         /// <summary>
-        /// Resets the ToolTipStyle property to its default value.
+        /// Gets and sets the tooltip label style.
         /// </summary>
-        public void ResetToolTipStyle()
+        [Category(@"ToolTip")]
+        [Description(@"Hover interval (in millisecs) before a tooltip is shown\n[Currently ONLY designer values used]")]
+        [DefaultValue(500)]
+        public int ShowIntervalDelay
         {
-            ToolTipStyle = LabelStyle.SuperTip;
+            get => _showIntervalDelay;
+            set
+            {
+                // Cannot have an interval less than 1ms
+                if (value < 0)
+                {
+                    value = 1;
+                }
+
+                _showIntervalDelay = value;
+                // TODO: Raise an event to cause the tooltipMgr to update !
+            }
         }
+
+        private bool ShouldSerializeShowIntervalDelay() => _showIntervalDelay != 500;
+
+        private void ResetShowIntervalDelay() => ShowIntervalDelay = 500;
+        #endregion
+
+        #region CloseIntervalDelay
+        /// <summary>
+        /// Gets and sets the tooltip label style.
+        /// </summary>
+        [Category(@"ToolTip")]
+        [Description(@"Interval (in millisecs) before a tooltip is closed\n[Currently ONLY designer values used]")]
+        [DefaultValue(5000)]
+        public int CloseIntervalDelay
+        {
+            get => _closeIntervalDelay;
+            set
+            {
+                // Cannot have an interval less than 1ms
+                if (value < 0)
+                {
+                    value = 1;
+                }
+
+                _closeIntervalDelay = value;
+                // TODO: Raise an event to cause the tooltipMgr to update !
+            }
+        }
+
+        private bool ShouldSerializeCloseIntervalDelay() => _closeIntervalDelay != 5000;
+
+        private void ResetCloseIntervalDelay() => CloseIntervalDelay = 5000;
         #endregion
 
         #region IsDefault
+        /// <summary>
+        /// 
+        /// </summary>
+        public void Reset()
+        {
+            ResetEnableToolTips();
+            ResetToolTipStyle();
+            ResetToolTipPosition();
+            ResetImage();
+            ResetImageTransparentColor();
+            ResetHeading();
+            ResetDescription();
+            ResetShowIntervalDelay();
+            ResetCloseIntervalDelay();
+        }
+
         /// <summary>
         /// Gets a value indicating if all values are default.
         /// </summary>
@@ -128,10 +176,10 @@ namespace Krypton.Toolkit
         public override bool IsDefault => !ShouldSerializeEnableToolTips()
                                            && !ShouldSerializeToolTipStyle()
                                            && !ShouldSerializeToolTipPosition()
+                                           && !ShouldSerializeShowIntervalDelay()
+                                           && !ShouldSerializeCloseIntervalDelay()
                                            && base.IsDefault
             ;
-
-
         #endregion
 
     }

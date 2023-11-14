@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -18,7 +18,7 @@ namespace Krypton.Toolkit
     public class PaletteDataGridViewRedirect : Storage
     {
         #region Instance Fields
-        private readonly PaletteDoubleRedirect _background;
+        private readonly PaletteDoubleRedirect? _background;
         private readonly PaletteDataGridViewTripleRedirect _dataCell;
         private readonly PaletteDataGridViewTripleRedirect _headerColumn;
         private readonly PaletteDataGridViewTripleRedirect _headerRow;
@@ -30,7 +30,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="redirect">Source for inheriting values.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public PaletteDataGridViewRedirect(PaletteRedirect redirect,
+        public PaletteDataGridViewRedirect([DisallowNull] PaletteRedirect redirect,
                                            NeedPaintHandler needPaint)
         {
             Debug.Assert(redirect != null);
@@ -63,7 +63,7 @@ namespace Krypton.Toolkit
         /// Update the redirector with new reference.
         /// </summary>
         /// <param name="redirect">Target redirector.</param>
-        public void SetRedirector(PaletteRedirect redirect)
+        public void SetRedirector(PaletteRedirect? redirect)
         {
             _background.SetRedirector(redirect);
             _dataCell.SetRedirector(redirect);
@@ -167,7 +167,7 @@ namespace Krypton.Toolkit
 
         private bool ShouldSerializeBackground() => !_background.IsDefault;
 
-        internal IPaletteDouble BackgroundDouble => _background;
+        internal IPaletteDouble? BackgroundDouble => _background;
 
         #endregion
 
@@ -219,7 +219,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="needLayout">True if a layout is also needed.</param>
-        protected void OnNeedPaint(object sender, bool needLayout) =>
+        protected void OnNeedPaint(object? sender, bool needLayout) =>
             // Pass request from child to our own handler
             PerformNeedPaint(needLayout);
 

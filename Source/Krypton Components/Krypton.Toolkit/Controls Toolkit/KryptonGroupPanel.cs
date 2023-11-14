@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -18,7 +18,7 @@ namespace Krypton.Toolkit
     [ToolboxItem(false)]
     [DesignerCategory(@"code")]
     [ToolboxBitmap(typeof(KryptonGroupPanel), "ToolboxBitmaps.KryptonGroupPanel.bmp")]
-    [Designer("Krypton.Toolkit.KryptonGroupPanelDesigner, Krypton.Toolkit")]
+    [Designer(typeof(KryptonGroupPanelDesigner))]
     [Description(@"Enables you to group collections of controls.")]
     [Docking(DockingBehavior.Never)]
     public class KryptonGroupPanel : KryptonPanel
@@ -26,7 +26,7 @@ namespace Krypton.Toolkit
         #region Instance Fields
         private readonly PaletteBackInheritForced _forcedDisabled;
         private readonly PaletteBackInheritForced _forcedNormal;
-        private readonly NeedPaintHandler _layoutHandler;
+        private readonly NeedPaintHandler? _layoutHandler;
         #endregion
 
         #region Events
@@ -36,7 +36,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public new event EventHandler AutoSizeChanged;
+        public new event EventHandler? AutoSizeChanged;
 
         /// <summary>
         /// Occurs when the value of the Dock property changes.
@@ -44,7 +44,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public new event EventHandler DockChanged;
+        public new event EventHandler? DockChanged;
 
         /// <summary>
         /// Occurs when the value of the Location property changes.
@@ -52,7 +52,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public new event EventHandler LocationChanged;
+        public new event EventHandler? LocationChanged;
 
         /// <summary>
         /// Occurs when the value of the TabIndex property changes.
@@ -60,7 +60,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public new event EventHandler TabIndexChanged;
+        public new event EventHandler? TabIndexChanged;
 
         /// <summary>
         /// Occurs when the value of the TabStop property changes.
@@ -68,7 +68,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public new event EventHandler TabStopChanged;
+        public new event EventHandler? TabStopChanged;
 
         /// <summary>
         /// Occurs when the value of the Visible property changes.
@@ -76,7 +76,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public new event EventHandler VisibleChanged;
+        public new event EventHandler? VisibleChanged;
         #endregion
 
         #region Identity
@@ -89,10 +89,10 @@ namespace Krypton.Toolkit
         /// <param name="stateNormal">Normal appearance state.</param>
         /// <param name="layoutHandler">Callback delegate for layout processing.</param>
         public KryptonGroupPanel(Control alignControl,
-                                 PaletteDoubleRedirect stateCommon,
-                                 PaletteDouble stateDisabled,
-                                 PaletteDouble stateNormal,
-                                 NeedPaintHandler layoutHandler)
+            [DisallowNull] PaletteDoubleRedirect stateCommon,
+            [DisallowNull] PaletteDouble stateDisabled,
+            [DisallowNull] PaletteDouble stateNormal,
+                                 NeedPaintHandler? layoutHandler)
             : base(stateCommon, stateDisabled, stateNormal)
         {
             // Remember the delegate used to notify layouts
@@ -217,6 +217,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        [AllowNull]
         public new string Name
         {
             get => base.Name;
@@ -229,7 +230,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public new Control Parent
+        public new Control? Parent
         {
             get => base.Parent;
             set => base.Parent = value;
@@ -314,7 +315,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public new IPalette Palette
+        public new PaletteBase Palette
         {
             get => base.Palette;
             set => base.Palette = value;
@@ -362,7 +363,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the space, in pixels, that is specified by default between controls.
         /// </summary>
-        protected override Padding DefaultMargin => new(0, 0, 0, 0);
+        protected override Padding DefaultMargin => new Padding(0, 0, 0, 0);
 
         /// <summary>
         /// Raises the Layout event.
@@ -392,7 +393,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the control reference that is the parent for transparent drawing.
         /// </summary>
-        protected override Control TransparentParent
+        protected override Control? TransparentParent
         {
             get
             {

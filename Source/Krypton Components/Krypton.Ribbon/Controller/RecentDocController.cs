@@ -5,7 +5,9 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  
+ *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
  */
 #endregion
@@ -24,7 +26,7 @@ namespace Krypton.Ribbon
         #region Instance Fields
         private bool _mouseOver;
         private readonly ViewDrawRibbonAppMenuRecentDec _menuItem;
-        private NeedPaintHandler _needPaint;
+        private NeedPaintHandler? _needPaint;
 
         #endregion
 
@@ -35,9 +37,9 @@ namespace Krypton.Ribbon
         /// <param name="viewManager">Owning view manager instance.</param>
         /// <param name="menuItem">Target menu item view element.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public RecentDocController(ViewContextMenuManager viewManager,
-                                   ViewDrawRibbonAppMenuRecentDec menuItem,
-                                   NeedPaintHandler needPaint)
+        public RecentDocController([DisallowNull] ViewContextMenuManager viewManager,
+                                   [DisallowNull] ViewDrawRibbonAppMenuRecentDec menuItem,
+                                   [DisallowNull] NeedPaintHandler needPaint)
         {
             Debug.Assert(viewManager != null);
             Debug.Assert(menuItem != null);
@@ -58,18 +60,12 @@ namespace Krypton.Ribbon
         /// <summary>
         /// This target should display as the active target.
         /// </summary>
-        public virtual void ShowTarget()
-        {
-            HighlightState();
-        }
+        public virtual void ShowTarget() => HighlightState();
 
         /// <summary>
         /// This target should clear any active display.
         /// </summary>
-        public virtual void ClearTarget()
-        {
-            NormalState();
-        }
+        public virtual void ClearTarget() => NormalState();
 
         /// <summary>
         /// This target should show any appropriate sub menu.
@@ -95,10 +91,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Activate the item because of a mnemonic key press.
         /// </summary>
-        public void MnemonicActivate()
-        {
-            PressMenuItem();
-        }
+        public void MnemonicActivate() => PressMenuItem();
 
         /// <summary>
         /// Gets the view element that should be used when this target is active.
@@ -158,17 +151,14 @@ namespace Krypton.Ribbon
         /// <param name="c">Reference to the source control instance.</param>
         /// <param name="pt">Mouse position relative to control.</param>
         /// <param name="button">Mouse button released.</param>
-        public virtual void MouseUp(Control c, Point pt, MouseButtons button)
-        {
-            PressMenuItem();
-        }
+        public virtual void MouseUp(Control c, Point pt, MouseButtons button) => PressMenuItem();
 
         /// <summary>
         /// Mouse has left the view.
         /// </summary>
         /// <param name="c">Reference to the source control instance.</param>
         /// <param name="next">Reference to view that is next to have the mouse.</param>
-        public virtual void MouseLeave(Control c, ViewBase next)
+        public virtual void MouseLeave(Control c, ViewBase? next)
         {
             // Only if mouse is leaving all the children monitored by controller.
             if (_mouseOver && !_menuItem.ContainsRecurse(next))
@@ -199,7 +189,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="c">Reference to the source control instance.</param>
         /// <param name="e">A KeyEventArgs that contains the event data.</param>
-        public virtual void KeyDown(Control c, KeyEventArgs e)
+        public virtual void KeyDown([DisallowNull] Control c, [DisallowNull] KeyEventArgs e)
         {
             Debug.Assert(c != null);
             Debug.Assert(e != null);
@@ -249,7 +239,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="c">Reference to the source control instance.</param>
         /// <param name="e">A KeyPressEventArgs that contains the event data.</param>
-        public virtual void KeyPress(Control c, KeyPressEventArgs e)
+        public virtual void KeyPress([DisallowNull] Control c, [DisallowNull] KeyPressEventArgs e)
         {
             Debug.Assert(c != null);
             Debug.Assert(e != null);
@@ -273,7 +263,7 @@ namespace Krypton.Ribbon
         /// <param name="c">Reference to the source control instance.</param>
         /// <param name="e">A KeyEventArgs that contains the event data.</param>
         /// <returns>True if capturing input; otherwise false.</returns>
-        public virtual bool KeyUp(Control c, KeyEventArgs e)
+        public virtual bool KeyUp([DisallowNull] Control c, [DisallowNull] KeyEventArgs e)
         {
             Debug.Assert(c != null);
             Debug.Assert(e != null);
@@ -305,7 +295,7 @@ namespace Krypton.Ribbon
         /// Source control has lost the focus.
         /// </summary>
         /// <param name="c">Reference to the source control instance.</param>
-        public virtual void LostFocus(Control c)
+        public virtual void LostFocus([DisallowNull] Control c)
         {
         }
         #endregion
@@ -314,7 +304,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets the need paint delegate for notifying paint requests.
         /// </summary>
-        public NeedPaintHandler NeedPaint
+        public NeedPaintHandler? NeedPaint
         {
             get => _needPaint;
 
@@ -332,10 +322,7 @@ namespace Krypton.Ribbon
         /// Fires the NeedPaint event.
         /// </summary>
         /// <param name="layout">Does a layout need to occur.</param>
-        public void PerformNeedPaint(bool layout)
-        {
-            OnNeedPaint(layout);
-        }
+        public void PerformNeedPaint(bool layout) => OnNeedPaint(layout);
         #endregion
 
         #region Implementation
@@ -347,7 +334,7 @@ namespace Krypton.Ribbon
             if (_menuItem.CanCloseMenu)
             {
                 // Ask the original context menu definition, if we can close
-                CancelEventArgs cea = new();
+                var cea = new CancelEventArgs();
                 _menuItem.Closing(cea);
 
                 if (!cea.Cancel)
@@ -384,10 +371,7 @@ namespace Krypton.Ribbon
         /// Raises the NeedPaint event.
         /// </summary>
         /// <param name="needLayout">Does the palette change require a layout.</param>
-        protected virtual void OnNeedPaint(bool needLayout)
-        {
-            _needPaint?.Invoke(this, new NeedLayoutEventArgs(needLayout, _menuItem.ClientRectangle));
-        }
+        protected virtual void OnNeedPaint(bool needLayout) => _needPaint?.Invoke(this, new NeedLayoutEventArgs(needLayout, _menuItem.ClientRectangle));
         #endregion
     }
 }

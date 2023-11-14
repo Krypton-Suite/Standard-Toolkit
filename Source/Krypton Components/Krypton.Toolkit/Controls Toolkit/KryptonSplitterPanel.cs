@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -18,15 +18,11 @@ namespace Krypton.Toolkit
     [ToolboxItem(false)]
     [DesignerCategory(@"code")]
     [ToolboxBitmap(typeof(KryptonSplitterPanel), "ToolboxBitmaps.KryptonGroupPanel.bmp")]
-    [Designer("Krypton.Toolkit.KryptonSplitterPanelDesigner, Krypton.Toolkit")]
+    [Designer(typeof(KryptonSplitterPanelDesigner))]
     [Description(@"Enables you to group collections of controls.")]
     [Docking(DockingBehavior.Never)]
     public sealed class KryptonSplitterPanel : KryptonPanel
     {
-        #region Instance Fields
-
-        #endregion
-
         #region Events
         /// <summary>
         /// Occurs when the value of the AutoSize property changes.
@@ -34,7 +30,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public new event EventHandler AutoSizeChanged;
+        public new event EventHandler? AutoSizeChanged;
 
         /// <summary>
         /// Occurs when the value of the Dock property changes.
@@ -42,7 +38,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public new event EventHandler DockChanged;
+        public new event EventHandler? DockChanged;
 
         /// <summary>
         /// Occurs when the value of the Location property changes.
@@ -50,7 +46,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public new event EventHandler LocationChanged;
+        public new event EventHandler? LocationChanged;
 
         /// <summary>
         /// Occurs when the value of the TabIndex property changes.
@@ -58,7 +54,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public new event EventHandler TabIndexChanged;
+        public new event EventHandler? TabIndexChanged;
 
         /// <summary>
         /// Occurs when the value of the TabStop property changes.
@@ -66,7 +62,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public new event EventHandler TabStopChanged;
+        public new event EventHandler? TabStopChanged;
 
         /// <summary>
         /// Occurs when the value of the Visible property changes.
@@ -74,7 +70,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public new event EventHandler VisibleChanged;
+        public new event EventHandler? VisibleChanged;
         #endregion
 
         #region Identity
@@ -82,7 +78,7 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the KryptonSplitterPanel class.
         /// </summary>
         /// <param name="container">Reference to owning container.</param>
-        public KryptonSplitterPanel(KryptonSplitContainer container)
+        public KryptonSplitterPanel([DisallowNull] KryptonSplitContainer container)
         {
             Debug.Assert(container != null);
 
@@ -218,6 +214,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        [AllowNull]
         public new string Name
         {
             get => base.Name;
@@ -230,7 +227,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public new Control Parent
+        public new Control? Parent
         {
             get => base.Parent;
             set => base.Parent = value;
@@ -305,7 +302,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the space, in pixels, that is specified by default between controls.
         /// </summary>
-        protected override Padding DefaultMargin => new(0, 0, 0, 0);
+        protected override Padding DefaultMargin => new Padding(0, 0, 0, 0);
 
         /// <summary>
         /// Raises the AutoSizeChanged event.

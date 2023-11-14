@@ -5,7 +5,9 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  
+ *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
  */
 #endregion
@@ -43,7 +45,7 @@ namespace Krypton.Ribbon
         /// Initialize a new instance of the ViewDrawRibbonTabSep class.
         /// </summary>
         /// <param name="palette">Source for palette values.</param>
-        public ViewDrawRibbonTabSep(IPaletteRibbonGeneral palette)
+        public ViewDrawRibbonTabSep([DisallowNull] IPaletteRibbonGeneral palette)
             : base(SEP_WIDTH, true)
         {
             Debug.Assert(palette != null);
@@ -56,7 +58,7 @@ namespace Krypton.Ribbon
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            "ViewDrawRibbonTabSep:" + Id;
+            $"ViewDrawRibbonTabSep:{Id}";
 
         #endregion
 
@@ -77,8 +79,9 @@ namespace Krypton.Ribbon
         {
             if (Draw)
             {
-                RectangleF rectF = new(ClientLocation.X, ClientLocation.Y - 0.5f, ClientWidth, ClientHeight + 1);
-                using LinearGradientBrush sepBrush = new(rectF, Color.Transparent, _palette.GetRibbonTabSeparatorColor(PaletteState.Normal), 90f);
+                var rectF = new RectangleF(ClientLocation.X, ClientLocation.Y - 0.5f, ClientWidth, ClientHeight + 1);
+                using var sepBrush = new LinearGradientBrush(rectF, Color.Transparent,
+                    _palette.GetRibbonTabSeparatorColor(PaletteState.Normal), 90f);
                 sepBrush.Blend = _fadeBlend;
 
                 switch (_palette.GetRibbonShape())
@@ -86,15 +89,15 @@ namespace Krypton.Ribbon
                     default:
                     case PaletteRibbonShape.Office2007:
                     case PaletteRibbonShape.Office2013:
-                        context.Graphics.FillRectangle(sepBrush, ClientLocation.X + 2, ClientLocation.Y, 1, ClientHeight - 1);
-                        break;
-                    case PaletteRibbonShape.Office365:
+                    case PaletteRibbonShape.Microsoft365:
+                    case PaletteRibbonShape.VisualStudio:
                         context.Graphics.FillRectangle(sepBrush, ClientLocation.X + 2, ClientLocation.Y, 1, ClientHeight - 1);
                         break;
                     case PaletteRibbonShape.Office2010:
+                    case PaletteRibbonShape.VisualStudio2010:
                         context.Graphics.FillRectangle(sepBrush, ClientLocation.X + 1, ClientLocation.Y, 1, ClientHeight - 1);
 
-                        using (LinearGradientBrush sepLightBrush = new(rectF, Color.Transparent, _lighten1, 90f))
+                        using (var sepLightBrush = new LinearGradientBrush(rectF, Color.Transparent, _lighten1, 90f))
                         {
                             context.Graphics.FillRectangle(sepLightBrush, ClientLocation.X + 2, ClientLocation.Y, 1, ClientHeight - 1);
                         }

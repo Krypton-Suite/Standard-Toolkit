@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -28,7 +28,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="redirect">inheritance redirection instance.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public PaletteGroupBoxRedirect(PaletteRedirect redirect,
+        public PaletteGroupBoxRedirect(PaletteRedirect? redirect,
                                        NeedPaintHandler needPaint)
             : this(redirect, redirect, needPaint)
         {
@@ -40,8 +40,8 @@ namespace Krypton.Toolkit
         /// <param name="redirectDouble">inheritance redirection for group border/background.</param>
         /// <param name="redirectContent">inheritance redirection for group header.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public PaletteGroupBoxRedirect(PaletteRedirect redirectDouble,
-                                       PaletteRedirect redirectContent,
+        public PaletteGroupBoxRedirect([DisallowNull] PaletteRedirect redirectDouble,
+                                       [DisallowNull] PaletteRedirect redirectContent,
                                        NeedPaintHandler needPaint)
             : base(redirectDouble, PaletteBackStyle.ControlGroupBox, PaletteBorderStyle.ControlGroupBox, needPaint)
         {
@@ -80,7 +80,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public IPaletteContent PaletteContent => Content;
+        public IPaletteContent? PaletteContent => Content;
 
         /// <summary>
         /// Gets and sets the content palette style.

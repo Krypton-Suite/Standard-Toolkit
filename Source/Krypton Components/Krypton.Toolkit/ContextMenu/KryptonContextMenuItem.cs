@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -17,11 +17,11 @@ namespace Krypton.Toolkit
     /// </summary>
     [ToolboxItem(false)]
     [ToolboxBitmap(typeof(KryptonContextMenuItem), "ToolboxBitmaps.KryptonContextMenuItem.bmp")]
-    [Designer(@"Krypton.Toolkit.KryptonContextMenuItemDesigner, Krypton.Toolkit")]
+    [Designer(typeof(KryptonContextMenuItemDesigner))]
     [DesignerCategory(@"code")]
     [DesignTimeVisible(false)]
-    [DefaultProperty(@"Text")]
-    [DefaultEvent(@"Click")]
+    [DefaultProperty(nameof(Text))]
+    [DefaultEvent(nameof(Click))]
     public class KryptonContextMenuItem : KryptonContextMenuItemBase
     {
         #region Instance Fields
@@ -34,12 +34,12 @@ namespace Krypton.Toolkit
         private string _text;
         private string _extraText;
         private string _shortcutKeyDisplayString;
-        private Image _image;
+        private Image? _image;
         private Color _imageTransparentColor;
         private CheckState _checkState;
         private Keys _shortcutKeys;
         private readonly PaletteContextMenuItemStateRedirect _stateRedirect;
-        private KryptonCommand _command;
+        private KryptonCommand? _command;
         #endregion
 
         #region Events
@@ -48,21 +48,21 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Action")]
         [Description(@"Occurs when the menu item is clicked.")]
-        public event EventHandler Click;
+        public event EventHandler? Click;
 
         /// <summary>
         /// Occurs when the menu item is clicked.
         /// </summary>
         [Category(@"Property Changed")]
         [Description(@"Occurs when the checked property changes.")]
-        public event EventHandler CheckedChanged;
+        public event EventHandler? CheckedChanged;
 
         /// <summary>
         /// Occurs when the menu item is clicked.
         /// </summary>
         [Category(@"Property Changed")]
         [Description(@"Occurs when the check state property changes.")]
-        public event EventHandler CheckStateChanged;
+        public event EventHandler? CheckStateChanged;
         #endregion
 
         #region Identity
@@ -89,7 +89,7 @@ namespace Krypton.Toolkit
         /// <param name="initialText">Initial text string.</param>
         /// <param name="clickHandler">Click handler.</param>
         public KryptonContextMenuItem(string initialText,
-                                      EventHandler clickHandler)
+                                      EventHandler? clickHandler)
             : this(initialText, null, clickHandler, Keys.None)
         {
         }
@@ -101,7 +101,7 @@ namespace Krypton.Toolkit
         /// <param name="clickHandler">Click handler.</param>
         /// <param name="shortcut">Shortcut key combination.</param>
         public KryptonContextMenuItem(string initialText,
-                                      EventHandler clickHandler,
+                                      EventHandler? clickHandler,
                                       Keys shortcut)
             : this(initialText, null, clickHandler, shortcut)
         {
@@ -114,8 +114,8 @@ namespace Krypton.Toolkit
         /// <param name="initialImage">Initial image.</param>
         /// <param name="clickHandler">Click handler.</param>
         public KryptonContextMenuItem(string initialText,
-                                      Image initialImage,
-                                      EventHandler clickHandler)
+                                      Image? initialImage,
+                                      EventHandler? clickHandler)
             : this(initialText, initialImage, clickHandler, Keys.None)
         {
         }
@@ -128,8 +128,8 @@ namespace Krypton.Toolkit
         /// <param name="clickHandler">Click handler.</param>
         /// <param name="shortcut">Shortcut key combination.</param>
         public KryptonContextMenuItem(string initialText,
-                                      Image initialImage,
-                                      EventHandler clickHandler,
+                                      Image? initialImage,
+                                      EventHandler? clickHandler,
                                       Keys shortcut)
         {
             // Initial values
@@ -185,7 +185,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public override KryptonContextMenuItemBase this[int index] => null;
+        public override KryptonContextMenuItemBase? this[int index] => null;
 
         /// <summary>
         /// Test for the provided shortcut and perform relevant action if a match is found.
@@ -227,7 +227,7 @@ namespace Krypton.Toolkit
         [KryptonPersist]
         [Category(@"Appearance")]
         [Description(@"Standard menu item text.")]
-        [Editor(@"System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
+        [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
         [DefaultValue(@"MenuItem")]
         [Localizable(true)]
         [Bindable(true)]
@@ -251,7 +251,7 @@ namespace Krypton.Toolkit
         [KryptonPersist]
         [Category(@"Appearance")]
         [Description(@"Standard menu item extra text.")]
-        [Editor(@"System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
+        [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
         [DefaultValue(@"")]
         [Localizable(true)]
         [Bindable(true)]
@@ -278,7 +278,7 @@ namespace Krypton.Toolkit
         [DefaultValue(null)]
         [Localizable(true)]
         [Bindable(true)]
-        public Image Image
+        public Image? Image
         {
             get => _image;
 
@@ -314,7 +314,8 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeImageTransparentColor() => (_imageTransparentColor == null) || !_imageTransparentColor.Equals(Color.Empty);
+        private bool ShouldSerializeImageTransparentColor() => !_imageTransparentColor.Equals(Color.Empty);
+        private void ResetImageTransparentColor() => _imageTransparentColor = Color.Empty;
 
         /// <summary>
         /// Gets and sets the shortcut key combination associated with the menu item.
@@ -322,7 +323,7 @@ namespace Krypton.Toolkit
         [KryptonPersist]
         [Category(@"Behavior")]
         [Description(@"The shortcut key combination associated with the menu item.")]
-        [DefaultValue(typeof(Keys), "None")]
+        [DefaultValue(Keys.None)]
         [Localizable(true)]
         public Keys ShortcutKeys
         {
@@ -513,7 +514,7 @@ namespace Krypton.Toolkit
         [Category(@"Appearance")]
         [Description(@"Indicates the checked state of the menu item.")]
         [RefreshProperties(RefreshProperties.All)]
-        [DefaultValue(typeof(CheckState), "Unchecked")]
+        [DefaultValue(CheckState.Unchecked)]
         [Bindable(true)]
         public CheckState CheckState
         {
@@ -545,7 +546,7 @@ namespace Krypton.Toolkit
         [Category(@"Data")]
         [Description(@"Collection of sub-menu items.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        [Editor(@"Krypton.Toolkit.KryptonContextMenuCollectionEditor, Krypton.Toolkit", typeof(UITypeEditor))]
+        [Editor(typeof(KryptonContextMenuCollectionEditor), typeof(UITypeEditor))]
         public KryptonContextMenuCollection Items { get; }
 
         /// <summary>
@@ -621,7 +622,7 @@ namespace Krypton.Toolkit
         [Category(@"Behavior")]
         [Description(@"Command associated with the menu item.")]
         [DefaultValue(null)]
-        public virtual KryptonCommand KryptonCommand
+        public virtual KryptonCommand? KryptonCommand
         {
             get => _command;
 
@@ -694,7 +695,6 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="e">An EventArgs that contains the event data.</param>
         protected virtual void OnCheckStateChanged(EventArgs e) => CheckStateChanged?.Invoke(this, e);
-
         #endregion
 
         #region Internal

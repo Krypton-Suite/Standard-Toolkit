@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -17,10 +17,6 @@ namespace Krypton.Toolkit
     /// </summary>
     public class KryptonReadOnlyControls : KryptonControlCollection
     {
-        #region Instance Fields
-
-        #endregion
-
         #region Identity
         /// <summary>
         /// Initialize a new instance of the KryptonReadOnlyControls class.
@@ -49,7 +45,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="value">The Control to add to the control collection.</param>
         /// <exception cref="NotSupportedException"></exception>
-        public override void Add(Control value)
+        public override void Add(Control? value)
         {
             if (AllowRemoveInternal)
             {
@@ -83,7 +79,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="value">The Control to remove from the Control.ControlCollection.</param>
         /// <exception cref="NotSupportedException"></exception>
-        public override void Remove(Control value)
+        public override void Remove(Control? value)
         {
             if (AllowRemoveInternal)
             {
@@ -103,7 +99,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="key">The name of the child control to remove.</param>
         /// <exception cref="NotSupportedException"></exception>
-        public override void RemoveByKey(string key)
+        public override void RemoveByKey(string? key)
         {
             if (AllowRemoveInternal)
             {

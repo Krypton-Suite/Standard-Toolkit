@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -38,11 +38,11 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="page">Page for which the check button is to be created.</param>
         /// <param name="orientation">Initial orientation of the check button.</param>
-        protected override INavCheckItem CreateCheckItem(KryptonPage page,
+        protected override INavCheckItem CreateCheckItem(KryptonPage? page,
                                                          VisualOrientation orientation)
         {
             // Create a check button view element
-            ViewDrawNavCheckButtonTab checkButton = new(Navigator, page, orientation);
+            var checkButton = new ViewDrawNavCheckButtonTab(Navigator, page, orientation);
 
             // Convert the button orientation to the appropriate visual orientations
             VisualOrientation orientBackBorder = ConvertButtonBorderBackOrientation();
@@ -142,7 +142,7 @@ namespace Krypton.Navigator
             {
                 foreach (var pair in PageLookup)
                 {
-                    ViewDrawNavCheckButtonTab tabHeader = (ViewDrawNavCheckButtonTab)pair.Value;
+                    var tabHeader = (ViewDrawNavCheckButtonTab)pair.Value;
                     tabHeader.ButtonSpecManager?.SetRemapTarget(Navigator.Bar.TabStyle);
                 }
             }

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -30,14 +30,14 @@ namespace Krypton.Toolkit
         private readonly IPaletteContent _paletteTracking;
         private readonly IPaletteContent _palettePressed;
         private readonly PaletteContentInheritOverride _pressed;
-        private NeedPaintHandler _needPaint;
+        private NeedPaintHandler? _needPaint;
         #endregion
 
         #region Events
         /// <summary>
         /// Occurs when the mouse is used to left click the target.
         /// </summary>
-        public event MouseEventHandler Click;
+        public event MouseEventHandler? Click;
         #endregion
 
         #region Identity
@@ -51,7 +51,7 @@ namespace Krypton.Toolkit
         /// <param name="palettePressed">Palette to use in the pressed state.</param>
         /// <param name="pressed">Override to update with the pressed state.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public LinkLabelController(ViewDrawContent target,
+        public LinkLabelController([DisallowNull] ViewDrawContent target,
                                    IPaletteContent paletteDisabled,
                                    IPaletteContent paletteNormal,
                                    IPaletteContent paletteTracking,
@@ -203,7 +203,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="c">Reference to the source control instance.</param>
         /// <param name="next">Reference to view that is next to have the mouse.</param>
-        public virtual void MouseLeave(Control c, ViewBase next)
+        public virtual void MouseLeave(Control c, ViewBase? next)
         {
             // Is the controller allowed to track/click
             if (IsOperating)
@@ -247,7 +247,7 @@ namespace Krypton.Toolkit
         /// <param name="c">Reference to the source control instance.</param>
         /// <param name="e">A KeyEventArgs that contains the event data.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public virtual void KeyDown(Control c, KeyEventArgs e)
+        public virtual void KeyDown([DisallowNull] Control c, [DisallowNull] KeyEventArgs e)
         {
             Debug.Assert(c != null);
             Debug.Assert(e != null);
@@ -304,7 +304,7 @@ namespace Krypton.Toolkit
         /// Source control has lost the focus.
         /// </summary>
         /// <param name="c">Reference to the source control instance.</param>
-        public virtual void LostFocus(Control c)
+        public virtual void LostFocus([DisallowNull] Control c)
         {
             // If we are capturing mouse input
             if (Captured)
@@ -326,7 +326,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the need paint delegate for notifying paint requests.
         /// </summary>
-        public NeedPaintHandler NeedPaint
+        public NeedPaintHandler? NeedPaint
         {
             get => _needPaint;
 

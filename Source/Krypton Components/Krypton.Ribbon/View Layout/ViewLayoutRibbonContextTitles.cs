@@ -5,7 +5,9 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  
+ *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
  */
 #endregion
@@ -18,7 +20,11 @@ namespace Krypton.Ribbon
     internal class ViewLayoutRibbonContextTitles : ViewLayoutDocker
     {
         #region Classes
-        private class ViewDrawRibbonContextTitleList : List<ViewDrawRibbonContextTitle> { }
+
+        private class ViewDrawRibbonContextTitleList : List<ViewDrawRibbonContextTitle>
+        {
+        };
+
         #endregion
 
         #region Instance Fields
@@ -33,8 +39,8 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="ribbon">Reference to source ribbon control.</param>
         /// <param name="captionArea">Reference to view element that tracks the top level form.</param>
-        public ViewLayoutRibbonContextTitles(KryptonRibbon ribbon,
-                                             ViewDrawRibbonCaptionArea captionArea)
+        public ViewLayoutRibbonContextTitles([DisallowNull] KryptonRibbon ribbon,
+                                             [DisallowNull] ViewDrawRibbonCaptionArea captionArea)
         {
             Debug.Assert(captionArea != null);
             Debug.Assert(ribbon != null);
@@ -51,7 +57,7 @@ namespace Krypton.Ribbon
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            @"ViewLayoutRibbonContextTitles:" + Id;
+            $@"ViewLayoutRibbonContextTitles:{Id}";
 
         /// <summary>
         /// Clean up any resources being used.
@@ -88,7 +94,7 @@ namespace Krypton.Ribbon
         /// Perform a layout of the elements.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override void Layout(ViewLayoutContext context)
+        public override void Layout([DisallowNull] ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 
@@ -116,7 +122,7 @@ namespace Krypton.Ribbon
                 Point rightTab = tabContext.GetRightScreenPosition();
 
                 // If our position is above the ribbon control we must be in the chrome
-                if (_captionArea.UsingCustomChrome && !_captionArea.KryptonForm.ApplyComposition)
+                if (_captionArea is { UsingCustomChrome: true, KryptonForm.ApplyComposition: false })
                 {
                     var leftPadding = _captionArea.RealWindowBorders.Left;
                     leftTab.X += leftPadding;
@@ -167,7 +173,7 @@ namespace Krypton.Ribbon
             clipRect.Height++;
 
             // Limit drawing to our client area
-            using Clipping clip = new(context.Graphics, clipRect);
+            using var clip = new Clipping(context.Graphics, clipRect);
             base.Render(context);
         }
         #endregion
@@ -176,9 +182,9 @@ namespace Krypton.Ribbon
         private void SyncChildrenToContexts()
         {
             // Find any filler child
-            ViewBase filler = null;
+            ViewBase? filler = null;
 
-            foreach(ViewBase child in this)
+            foreach (ViewBase child in this)
             {
                 if (GetDock(child) == ViewDockStyle.Fill)
                 {
@@ -196,7 +202,7 @@ namespace Krypton.Ribbon
                 for (var i = _contextTitlesCache.Count; i < ViewLayoutRibbonTabs.ContextTabSets.Count; i++)
                 {
                     // Create a new view element and an associated button controller
-                    ViewDrawRibbonContextTitle viewContextTitle = new(_ribbon, _ribbon.StateContextCheckedNormal.RibbonTab)
+                    var viewContextTitle = new ViewDrawRibbonContextTitle(_ribbon, _ribbon.StateContextCheckedNormal.RibbonTab)
                     {
                         MouseController = new ContextTitleController(_ribbon)
                     };
@@ -208,7 +214,7 @@ namespace Krypton.Ribbon
             for (var i = 0; i < ViewLayoutRibbonTabs.ContextTabSets.Count; i++)
             {
                 ViewDrawRibbonContextTitle viewContext = _contextTitlesCache[i];
-                ContextTitleController viewController = (ContextTitleController)viewContext.MouseController;
+                var viewController = (ContextTitleController)viewContext.MouseController;
                 viewContext.ContextTabSet = ViewLayoutRibbonTabs.ContextTabSets[i];
                 viewController.ContextTabSet = viewContext.ContextTabSet;
                 Add(viewContext);
@@ -228,13 +234,16 @@ namespace Krypton.Ribbon
             if (!string.IsNullOrEmpty(_ribbon.SelectedTab?.ContextName))
             {
                 // Find the context definition for this context
-                KryptonRibbonContext ribbonContext = _ribbon.RibbonContexts[_ribbon.SelectedTab.ContextName];
-
-                // Should always work, but you never know!
-                if (ribbonContext != null)
+                if (_ribbon.SelectedTab != null)
                 {
-                    // Return the context specific color
-                    return ribbonContext.ContextColor;
+                    KryptonRibbonContext? ribbonContext = _ribbon.RibbonContexts[_ribbon.SelectedTab.ContextName];
+
+                    // Should always work, but you never know!
+                    if (ribbonContext != null)
+                    {
+                        // Return the context specific color
+                        return ribbonContext.ContextColor;
+                    }
                 }
             }
 

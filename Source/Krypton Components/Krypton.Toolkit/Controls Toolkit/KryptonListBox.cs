@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -18,10 +18,10 @@ namespace Krypton.Toolkit
     /// </summary>
     [ToolboxItem(true)]
     [ToolboxBitmap(typeof(KryptonListBox), "ToolboxBitmaps.KryptonListBox.bmp")]
-    [DefaultEvent("SelectedIndexChanged")]
-    [DefaultProperty("Items")]
-    [DefaultBindingProperty("SelectedValue")]
-    [Designer("Krypton.Toolkit.KryptonListBoxDesigner, Krypton.Toolkit")]
+    [DefaultEvent(nameof(SelectedIndexChanged))]
+    [DefaultProperty(nameof(Items))]
+    [DefaultBindingProperty(nameof(SelectedValue))]
+    [Designer(typeof(KryptonListBoxDesigner))]
     [DesignerCategory(@"code")]
     [Description(@"Represents a list box control that allows single or multiple item selection.")]
     public class KryptonListBox : VisualControlBase,
@@ -31,7 +31,7 @@ namespace Krypton.Toolkit
         private class InternalListBox : ListBox
         {
             #region Instance Fields
-            private readonly ViewManager _viewManager;
+            private readonly ViewManager? _viewManager;
             private readonly KryptonListBox _kryptonListBox;
             private readonly IntPtr _screenDC;
             private bool _mouseOver;
@@ -42,12 +42,12 @@ namespace Krypton.Toolkit
             /// <summary>
             /// Occurs when the mouse enters the InternalListBox.
             /// </summary>
-            public event EventHandler TrackMouseEnter;
+            public event EventHandler? TrackMouseEnter;
 
             /// <summary>
             /// Occurs when the mouse leaves the InternalListBox.
             /// </summary>
-            public event EventHandler TrackMouseLeave;
+            public event EventHandler? TrackMouseLeave;
             #endregion
 
             #region Identity
@@ -166,7 +166,7 @@ namespace Krypton.Toolkit
                 base.OnLayout(levent);
 
                 // Ask the panel to layout given our available size
-                using ViewLayoutContext context = new(_viewManager, this, _kryptonListBox, _kryptonListBox.Renderer);
+                using var context = new ViewLayoutContext(_viewManager, this, _kryptonListBox, _kryptonListBox.Renderer);
                 ViewDrawPanel.Layout(context);
             }
 
@@ -210,7 +210,7 @@ namespace Krypton.Toolkit
                         else
                         {
                             // Find the item under the mouse
-                            Point mousePoint = new((int)m.LParam.ToInt64());
+                            var mousePoint = new Point((int)m.LParam.ToInt64());
                             var mouseIndex = IndexFromPoint(mousePoint);
 
                             // If we have an actual item from the point
@@ -255,18 +255,18 @@ namespace Krypton.Toolkit
             #region Private
             private void WmPaint(ref Message m)
             {
-                PI.PAINTSTRUCT ps = new();
+                var ps = new PI.PAINTSTRUCT();
 
                 // Do we need to BeginPaint or just take the given HDC?
-                IntPtr hdc = m.WParam == IntPtr.Zero ? PI.BeginPaint(Handle, ref ps) : m.WParam;
+                var hdc = m.WParam == IntPtr.Zero ? PI.BeginPaint(Handle, ref ps) : m.WParam;
 
                 // Create bitmap that all drawing occurs onto, then we can blit it later to remove flicker
                 Rectangle realRect = CommonHelper.RealClientRectangle(Handle);
 
                 // No point drawing when one of the dimensions is zero
-                if ((realRect.Width > 0) && (realRect.Height > 0))
+                if (realRect is { Width: > 0, Height: > 0 })
                 {
-                    IntPtr hBitmap = PI.CreateCompatibleBitmap(hdc, realRect.Width, realRect.Height);
+                    var hBitmap = PI.CreateCompatibleBitmap(hdc, realRect.Width, realRect.Height);
 
                     // If we managed to get a compatible bitmap
                     if (hBitmap != IntPtr.Zero)
@@ -281,26 +281,28 @@ namespace Krypton.Toolkit
                             using (Graphics g = Graphics.FromHdc(_screenDC))
                             {
                                 // Ask the view element to layout in given space, needs this before a render call
-                                using (ViewLayoutContext context = new(this, _kryptonListBox.Renderer))
+                                using (var context = new ViewLayoutContext(this, _kryptonListBox.Renderer))
                                 {
                                     context.DisplayRectangle = realRect;
                                     ViewDrawPanel.Layout(context);
                                 }
 
-                                using (RenderContext context = new(this, _kryptonListBox, g, realRect, _kryptonListBox.Renderer))
+                                using (var context = new RenderContext(this, _kryptonListBox, g, realRect,
+                                           _kryptonListBox.Renderer))
                                 {
                                     ViewDrawPanel.Render(context);
                                 }
 
                                 // Replace given DC with the screen DC for base window proc drawing
-                                IntPtr beforeDC = m.WParam;
+                                var beforeDC = m.WParam;
                                 m.WParam = _screenDC;
                                 DefWndProc(ref m);
                                 m.WParam = beforeDC;
 
                                 if (Items.Count == 0)
                                 {
-                                    using RenderContext context = new(this, _kryptonListBox, g, realRect, _kryptonListBox.Renderer);
+                                    using var context = new RenderContext(this, _kryptonListBox, g, realRect,
+                                        _kryptonListBox.Renderer);
                                     ViewDrawPanel.Render(context);
                                 }
                             }
@@ -312,7 +314,8 @@ namespace Krypton.Toolkit
                             if (Items.Count == 0)
                             {
                                 using Graphics g = Graphics.FromHdc(hdc);
-                                using RenderContext context = new(this, _kryptonListBox, g, realRect, _kryptonListBox.Renderer);
+                                using var context = new RenderContext(this, _kryptonListBox, g, realRect,
+                                    _kryptonListBox.Renderer);
                                 ViewDrawPanel.Render(context);
                             }
                         }
@@ -335,6 +338,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Instance Fields
+
         private readonly PaletteTripleOverride _overrideNormal;
         private readonly PaletteTripleOverride _overrideTracking;
         private readonly PaletteTripleOverride _overridePressed;
@@ -346,7 +350,7 @@ namespace Krypton.Toolkit
         private readonly ViewLayoutFill _layoutFill;
         private readonly ViewDrawButton _drawButton;
         private readonly InternalListBox _listBox;
-        private readonly FixedContentValue _contentValues;
+        private readonly FixedContentValue? _contentValues;
         private bool? _fixedActive;
         private ButtonStyle _style;
         private readonly IntPtr _screenDC;
@@ -356,6 +360,9 @@ namespace Krypton.Toolkit
         private bool _alwaysActive;
         private bool _forcedLayout;
         private bool _trackingMouseEnter;
+        private float _cornerRoundingRadius;
+        private float _itemCornerRoundingRadius;
+
         #endregion
 
         #region Events
@@ -364,112 +371,112 @@ namespace Krypton.Toolkit
         /// </summary>
         [Description(@"Occurs when the value of the DataSource property changes.")]
         [Category(@"Property Changed")]
-        public event EventHandler DataSourceChanged;
+        public event EventHandler? DataSourceChanged;
 
         /// <summary>
         /// Occurs when the value of the DisplayMember property changes.
         /// </summary>
         [Description(@"Occurs when the value of the DisplayMember property changes.")]
         [Category(@"Property Changed")]
-        public event EventHandler DisplayMemberChanged;
+        public event EventHandler? DisplayMemberChanged;
 
         /// <summary>
         /// Occurs when the property of a control is bound to a data value. 
         /// </summary>
         [Description(@"Occurs when the property of a control is bound to a data value.")]
         [Category(@"Property Changed")]
-        public event EventHandler Format;
+        public event EventHandler? Format;
 
         /// <summary>
         /// Occurs when the value of the FormatInfo property changes.
         /// </summary>
         [Description(@"Occurs when the value of the FormatInfo property changes.")]
         [Category(@"Property Changed")]
-        public event EventHandler FormatInfoChanged;
+        public event EventHandler? FormatInfoChanged;
 
         /// <summary>
         /// Occurs when the value of the FormatString property changes.
         /// </summary>
         [Description(@"Occurs when the value of the FormatString property changes.")]
         [Category(@"Property Changed")]
-        public event EventHandler FormatStringChanged;
+        public event EventHandler? FormatStringChanged;
 
         /// <summary>
         /// Occurs when the value of the FormattingEnabled property changes.
         /// </summary>
         [Description(@"Occurs when the value of the FormattingEnabled property changes.")]
         [Category(@"Property Changed")]
-        public event EventHandler FormattingEnabledChanged;
+        public event EventHandler? FormattingEnabledChanged;
 
         /// <summary>
         /// Occurs when the value of the SelectedValue property changes.
         /// </summary>
         [Description(@"Occurs when the value of the SelectedValue property changes.")]
         [Category(@"Property Changed")]
-        public event EventHandler SelectedValueChanged;
+        public event EventHandler? SelectedValueChanged;
 
         /// <summary>
         /// Occurs when the value of the SelectedIndex property changes.
         /// </summary>
         [Description(@"Occurs when the value of the SelectedIndex property changes.")]
         [Category(@"Behavior")]
-        public event EventHandler SelectedIndexChanged;
+        public event EventHandler? SelectedIndexChanged;
 
         /// <summary>
         /// Occurs when the value of the ValueMember property changes.
         /// </summary>
         [Description(@"Occurs when the value of the ValueMember property changes.")]
         [Category(@"Property Changed")]
-        public event EventHandler ValueMemberChanged;
+        public event EventHandler? ValueMemberChanged;
 
         /// <summary>
         /// Occurs when the value of the BackColor property changes.
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public new event EventHandler BackColorChanged;
+        public new event EventHandler? BackColorChanged;
 
         /// <summary>
         /// Occurs when the value of the BackgroundImage property changes.
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public new event EventHandler BackgroundImageChanged;
+        public new event EventHandler? BackgroundImageChanged;
 
         /// <summary>
         /// Occurs when the value of the BackgroundImageLayout property changes.
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public new event EventHandler BackgroundImageLayoutChanged;
+        public new event EventHandler? BackgroundImageLayoutChanged;
 
         /// <summary>
         /// Occurs when the value of the ForeColor property changes.
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public new event EventHandler ForeColorChanged;
+        public new event EventHandler? ForeColorChanged;
 
         /// <summary>
         /// Occurs when the value of the MouseClick property changes.
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public new event EventHandler PaddingChanged;
+        public new event EventHandler? PaddingChanged;
 
         /// <summary>
         /// Occurs when the value of the MouseClick property changes.
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public new event PaintEventHandler Paint;
+        public new event PaintEventHandler? Paint;
 
         /// <summary>
         /// Occurs when the value of the TextChanged property changes.
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public new event EventHandler TextChanged;
+        public new event EventHandler? TextChanged;
 
         /// <summary>
         /// Occurs when the mouse enters the control.
@@ -477,7 +484,7 @@ namespace Krypton.Toolkit
         [Description(@"Raises the TrackMouseEnter event in the wrapped control.")]
         [Category(@"Mouse")]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public event EventHandler TrackMouseEnter;
+        public event EventHandler? TrackMouseEnter;
 
         /// <summary>
         /// Occurs when the mouse leaves the control.
@@ -485,14 +492,14 @@ namespace Krypton.Toolkit
         [Description(@"Raises the TrackMouseLeave event in the wrapped control.")]
         [Category(@"Mouse")]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public event EventHandler TrackMouseLeave;
+        public event EventHandler? TrackMouseLeave;
 
         /// <summary>
         /// Occurs when [draw item].
         /// </summary>
         [Category(@"Behavior")]
         [Description(@"Occurs when an item needs to be Drawn.")]
-        public event DrawItemEventHandler DrawItem;
+        public event DrawItemEventHandler? DrawItem;
         #endregion
 
         #region Identity
@@ -554,7 +561,6 @@ namespace Krypton.Toolkit
             _listBox.ValueMemberChanged += OnListBoxValueMemberChanged;
             _listBox.SelectedIndexChanged += OnListBoxSelectedIndexChanged;
             _listBox.SelectedValueChanged += OnListBoxSelectedValueChanged;
-            _listBox.DisplayMemberChanged += OnListBoxDisplayMemberChanged;
             _listBox.Format += OnListBoxFormat;
             _listBox.FormatInfoChanged += OnListBoxFormatInfoChanged;
             _listBox.FormatStringChanged += OnListBoxFormatStringChanged;
@@ -596,6 +602,10 @@ namespace Krypton.Toolkit
 
             // Add list box to the controls collection
             ((KryptonReadOnlyControls)Controls).AddInternal(_listBox);
+
+            _cornerRoundingRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
+
+            _itemCornerRoundingRadius = GlobalStaticValues.SECONDARY_CORNER_ROUNDING_VALUE;
         }
 
         private void OnListBoxClick(object sender, EventArgs e) =>
@@ -618,6 +628,31 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Public
+
+        /// <summary>Gets or sets the corner rounding radius.</summary>
+        /// <value>The corner rounding radius.</value>
+        [Category(@"Visuals")]
+        [Description(@"Gets or sets the corner rounding radius.")]
+        [DefaultValue(GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE)]
+        public float CornerRoundingRadius
+        {
+            get => _cornerRoundingRadius;
+
+            set => SetCornerRoundingRadius(value);
+        }
+
+        /// <summary>Gets or sets the item corner rounding radius.</summary>
+        /// <value>The item corner rounding radius.</value>
+        [Category(@"Visuals")]
+        [Description(@"Gets or sets the item corner rounding radius.")]
+        [DefaultValue(GlobalStaticValues.SECONDARY_CORNER_ROUNDING_VALUE)]
+        public float ItemCornerRoundingRadius
+        {
+            get => _itemCornerRoundingRadius;
+
+            set => SetItemCornerRoundingRadius(value);
+        }
+
         /// <summary>
         /// Gets access to the contained ListBox instance.
         /// </summary>
@@ -641,9 +676,7 @@ namespace Krypton.Toolkit
         [Bindable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-#if NET6_0_OR_GREATER
-        [AllowNull]
-#endif
+        [DisallowNull]
         public override string Text
         {
             get => base.Text;
@@ -670,6 +703,7 @@ namespace Krypton.Toolkit
         [Bindable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        [DisallowNull]
         public override Font Font
         {
             get => base.Font;
@@ -725,7 +759,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         [DefaultValue(null)]
-        public object SelectedValue
+        public object? SelectedValue
         {
             get => _listBox.SelectedValue;
             set => _listBox.SelectedValue = value;
@@ -744,7 +778,7 @@ namespace Krypton.Toolkit
         [Bindable(true)]
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public object SelectedItem
+        public object? SelectedItem
         {
             get => _listBox.SelectedItem;
             set => _listBox.SelectedItem = value;
@@ -838,7 +872,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Behavior")]
         [Description(@"Indicates if the list box is to be single-select, multi-select or not selectable.")]
-        [DefaultValue(typeof(SelectionMode), "One")]
+        [DefaultValue(SelectionMode.One)]
         public virtual SelectionMode SelectionMode
         {
             get => _listBox.SelectionMode;
@@ -862,7 +896,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Data")]
         [Description(@"Indicates the property to use as the actual value of the items in the control.")]
-        [Editor("System.Windows.Forms.Design.DataMemberFieldEditor, " + AssemblyRef.SystemDesign, typeof(UITypeEditor))]
+        [Editor(@"System.Windows.Forms.Design.DataMemberFieldEditor", typeof(UITypeEditor))]
         [DefaultValue("")]
         public virtual string ValueMember
         {
@@ -878,7 +912,7 @@ namespace Krypton.Toolkit
         [AttributeProvider(typeof(IListSource))]
         [RefreshProperties(RefreshProperties.Repaint)]
         [DefaultValue(null)]
-        public virtual object DataSource
+        public virtual object? DataSource
         {
             get => _listBox.DataSource;
             set => _listBox.DataSource = value;
@@ -889,8 +923,8 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Data")]
         [Description(@"Indicates the property to display for the items in this control.")]
-        [TypeConverter("System.Windows.Forms.Design.DataMemberFieldConverter, " + AssemblyRef.SystemWinformsDesign)]
-        [Editor("System.Windows.Forms.Design.DataMemberFieldEditor, " + AssemblyRef.SystemDesign, typeof(UITypeEditor))]
+        [TypeConverter(@"System.Windows.Forms.Design.DataMemberFieldConverter")]
+        [Editor(@"System.Windows.Forms.Design.DataMemberFieldEditor", typeof(UITypeEditor))]
         [DefaultValue("")]
         public virtual string DisplayMember
         {
@@ -903,7 +937,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Data")]
         [Description(@"The items in the KryptonListBox.")]
-        [Editor("System.Windows.Forms.Design.ListControlStringCollectionEditor, " + AssemblyRef.SystemDesign, typeof(UITypeEditor))]
+        [Editor(@"System.Windows.Forms.Design.ListControlStringCollectionEditor", typeof(UITypeEditor))]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         [MergableProperty(false)]
         [Localizable(true)]
@@ -913,7 +947,7 @@ namespace Krypton.Toolkit
         /// Gets or sets the format specifier characters that indicate how a value is to be Displayed.
         /// </summary>
         [Description(@"The format specifier characters that indicate how a value is to be Displayed.")]
-        [Editor("System.Windows.Forms.Design.FormatStringEditor, " + AssemblyRef.SystemDesign, typeof(UITypeEditor))]
+        [Editor(@"System.Windows.Forms.Design.FormatStringEditor", typeof(UITypeEditor))]
         [MergableProperty(false)]
         [DefaultValue("")]
         public string FormatString
@@ -997,7 +1031,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Overrides for defining common appearance that other states can override.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteListStateRedirect StateCommon { get; }
+        public PaletteListStateRedirect? StateCommon { get; }
 
         private bool ShouldSerializeStateCommon() => !StateCommon.IsDefault;
 
@@ -1184,7 +1218,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="item">The object from which to get the contents to display.</param>
         /// <returns>If the DisplayMember property is not specified, the value returned by GetItemText is the value of the item's ToString method. Otherwise, the method returns the string value of the member specified in the DisplayMember property for the object specified in the item parameter.</returns>
-        public string GetItemText(object item) => _listBox.GetItemText(item);
+        public string? GetItemText(object? item) => _listBox.GetItemText(item);
 
         /// <summary>
         /// Maintains performance while items are added to the ListBox one at a time by preventing the control from drawing until the EndUpdate method is called.
@@ -1219,9 +1253,9 @@ namespace Krypton.Toolkit
         /// Activates the control.
         /// </summary>
         public new void Select() => ListBox?.Select();
-#endregion
+        #endregion
 
-#region Protected
+        #region Protected
         /// <summary>
         /// Force the layout logic to size and position the controls.
         /// </summary>
@@ -1234,9 +1268,9 @@ namespace Krypton.Toolkit
                 _forcedLayout = false;
             }
         }
-#endregion
+        #endregion
 
-#region Protected Virtual
+        #region Protected Virtual
         /// <summary>
         /// Raises the DataSourceChanged event.
         /// </summary>
@@ -1290,9 +1324,9 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
         protected virtual void OnFormattingEnabledChanged(EventArgs e) => FormattingEnabledChanged?.Invoke(this, e);
-#endregion
+        #endregion
 
-#region Protected Override
+        #region Protected Override
         /// <summary>
         /// Creates a new instance of the control collection for the KryptonListBox.
         /// </summary>
@@ -1437,7 +1471,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">Source of notification.</param>
         /// <param name="e">An NeedLayoutEventArgs containing event data.</param>
-        protected override void OnNeedPaint(object sender, NeedLayoutEventArgs e)
+        protected override void OnNeedPaint(object? sender, NeedLayoutEventArgs e)
         {
             if (IsHandleCreated && !e.NeedLayout)
             {
@@ -1497,11 +1531,11 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the default size of the control.
         /// </summary>
-        protected override Size DefaultSize => new(120, 96);
+        protected override Size DefaultSize => new Size(120, 96);
 
-#endregion
+        #endregion
 
-#region Implementation
+        #region Implementation
         private void UpdateStateAndPalettes()
         {
             if (!IsDisposed)
@@ -1542,7 +1576,7 @@ namespace Krypton.Toolkit
             UpdateContentFromItemIndex(e.Index);
 
             // By default the button is in the normal state
-            PaletteState buttonState = PaletteState.Normal;
+            var buttonState = PaletteState.Normal;
 
             // Is this item disabled
             if ((e.State & DrawItemState.Disabled) == DrawItemState.Disabled)
@@ -1586,12 +1620,12 @@ namespace Krypton.Toolkit
             _drawButton.ElementState = buttonState;
 
             // Grab the raw device context for the graphics instance
-            IntPtr hdc = e.Graphics.GetHdc();
+            var hdc = e.Graphics.GetHdc();
 
             try
             {
                 // Create bitmap that all drawing occurs onto, then we can blit it later to remove flicker
-                IntPtr hBitmap = PI.CreateCompatibleBitmap(hdc, e.Bounds.Right, e.Bounds.Bottom);
+                var hBitmap = PI.CreateCompatibleBitmap(hdc, e.Bounds.Right, e.Bounds.Bottom);
 
                 // If we managed to get a compatible bitmap
                 if (hBitmap != IntPtr.Zero)
@@ -1605,7 +1639,7 @@ namespace Krypton.Toolkit
                         // Easier to draw using a graphics instance than a DC!
                         using Graphics g = Graphics.FromHdc(_screenDC);
                         // Ask the view element to layout in given space, needs this before a render call
-                        using (ViewLayoutContext context = new(this, Renderer))
+                        using (var context = new ViewLayoutContext(this, Renderer))
                         {
                             context.DisplayRectangle = e.Bounds;
                             _listBox.ViewDrawPanel.Layout(context);
@@ -1613,7 +1647,7 @@ namespace Krypton.Toolkit
                         }
 
                         // Ask the view element to actually draw
-                        using (RenderContext context = new(this, g, e.Bounds, Renderer))
+                        using (var context = new RenderContext(this, g, e.Bounds, Renderer))
                         {
                             _listBox.ViewDrawPanel.Render(context);
                             _drawButton.Render(context);
@@ -1641,7 +1675,7 @@ namespace Krypton.Toolkit
             UpdateContentFromItemIndex(e.Index);
 
             // Ask the view element to layout in given space, needs this before a render call
-            using ViewLayoutContext context = new(this, Renderer);
+            using var context = new ViewLayoutContext(this, Renderer);
             Size size = _drawButton.GetPreferredSize(context);
             e.ItemWidth = size.Width;
             e.ItemHeight = size.Height;
@@ -1790,6 +1824,20 @@ namespace Krypton.Toolkit
 
         private void OnMouseDoubleClick(object sender, MouseEventArgs e) => base.OnMouseDoubleClick(e);
 
-#endregion
+        private void SetCornerRoundingRadius(float? radius)
+        {
+            _cornerRoundingRadius = radius ?? GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
+
+            StateCommon.Border.Rounding = _cornerRoundingRadius;
+        }
+
+        private void SetItemCornerRoundingRadius(float? radius)
+        {
+            _itemCornerRoundingRadius = radius ?? GlobalStaticValues.SECONDARY_CORNER_ROUNDING_VALUE;
+
+            StateCommon.Item.Border.Rounding = _itemCornerRoundingRadius;
+        }
+
+        #endregion
     }
 }

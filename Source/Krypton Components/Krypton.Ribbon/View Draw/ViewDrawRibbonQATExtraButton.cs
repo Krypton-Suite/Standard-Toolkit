@@ -5,7 +5,9 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  
+ *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
  */
 #endregion
@@ -17,13 +19,14 @@ namespace Krypton.Ribbon
     /// </summary>
     internal class ViewDrawRibbonQATExtraButton : ViewLeaf
     {
-        private static readonly Size _contentSize = new(-4, -7);
+        // TODO: Needs to be scaled
+        private static readonly Size _contentSize = new Size(-4, -7);
 
         #region Instance Fields
         private readonly Size _viewSize; // = new(13, 22);
         private readonly KryptonRibbon _ribbon;
-        private IDisposable _mementoBack;
-        private readonly EventHandler _finishDelegate;
+        private IDisposable? _mementoBack;
+        private readonly EventHandler? _finishDelegate;
 
         #endregion
 
@@ -31,7 +34,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Occurs when the quick access toolbar button has been clicked.
         /// </summary>
-        public event ClickAndFinishHandler ClickAndFinish;
+        public event ClickAndFinishHandler? ClickAndFinish;
         #endregion
 
         #region Identity
@@ -40,7 +43,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="ribbon">Reference to owning ribbon control.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public ViewDrawRibbonQATExtraButton(KryptonRibbon ribbon,
+        public ViewDrawRibbonQATExtraButton([DisallowNull] KryptonRibbon ribbon,
                                             NeedPaintHandler needPaint)
         {
             Debug.Assert(ribbon != null);
@@ -52,7 +55,7 @@ namespace Krypton.Ribbon
             _finishDelegate = ClickFinished;
 
             // Attach a controller to this element for the pressing of the button
-            QATExtraButtonController controller = new(ribbon, this, needPaint);
+            var controller = new QATExtraButtonController(ribbon, this, needPaint);
             controller.Click += OnClick;
             MouseController = controller;
             SourceController = controller;
@@ -66,7 +69,7 @@ namespace Krypton.Ribbon
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            @"ViewDrawRibbonQATExtraButton:" + Id;
+            $@"ViewDrawRibbonQATExtraButton:{Id}";
 
         /// <summary>
         /// Clean up any resources being used.
@@ -91,7 +94,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets the key tip target for this view.
         /// </summary>
-        public IRibbonKeyTipTarget KeyTipTarget => SourceController as IRibbonKeyTipTarget;
+        public IRibbonKeyTipTarget? KeyTipTarget => SourceController as IRibbonKeyTipTarget;
 
         #endregion
 
@@ -125,7 +128,7 @@ namespace Krypton.Ribbon
         /// Perform a layout of the elements.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override void Layout(ViewLayoutContext context)
+        public override void Layout([DisallowNull] ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 
@@ -191,26 +194,28 @@ namespace Krypton.Ribbon
         private void ClickFinished(object sender, EventArgs e)
         {
             // Get access to our mouse controller
-            LeftDownButtonController controller = (LeftDownButtonController)MouseController;
+            var controller = (LeftDownButtonController)MouseController;
 
             // Remove the fixed pressed appearance
-            controller.RemoveFixed();
+            controller?.RemoveFixed();
         }
 
         private void OnClick(object sender, MouseEventArgs e)
         {
-            Form ownerForm = _ribbon.FindForm();
+            Form? ownerForm = _ribbon.FindForm();
 
             // Ensure the form we are inside is active
             ownerForm?.Activate();
-
-            if ((ClickAndFinish != null) && !_ribbon.InDesignMode)
+            if ((ClickAndFinish != null))
             {
-                ClickAndFinish(this, _finishDelegate);
-            }
-            else
-            {
-                ClickFinished(this, EventArgs.Empty);
+                if (!_ribbon.InDesignMode)
+                {
+                    ClickAndFinish(this, _finishDelegate);
+                }
+                else
+                {
+                    ClickFinished(this, EventArgs.Empty);
+                }
             }
         }
         #endregion

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -77,10 +77,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// esets the MenuStripText property to its default value.
         /// </summary>
-        public void ResetMenuStripText()
-        {
-            MenuStripText = Color.Empty;
-        }
+        public void ResetMenuStripText() => MenuStripText = Color.Empty;
         #endregion
 
         #region MenuStripFont
@@ -91,7 +88,7 @@ namespace Krypton.Toolkit
         [Category(@"ToolMenuStatus")]
         [Description(@"Font to draw text on the MenuStrip.")]
         [DefaultValue(null)]
-        public Font MenuStripFont
+        public Font? MenuStripFont
         {
             get => InternalKCT.InternalMenuStripFont;
 
@@ -105,10 +102,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// esets the MenuStripFont property to its default value.
         /// </summary>
-        public void ResetMenuStripFont()
-        {
-            MenuStripFont = null;
-        }
+        public void ResetMenuStripFont() => MenuStripFont = null;
         #endregion
 
         #region MenuStripGradientBegin
@@ -133,10 +127,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// esets the MenuStripGradientBegin property to its default value.
         /// </summary>
-        public void ResetMenuStripGradientBegin()
-        {
-            MenuStripGradientBegin = Color.Empty;
-        }
+        public void ResetMenuStripGradientBegin() => MenuStripGradientBegin = Color.Empty;
         #endregion
 
         #region MenuStripGradientEnd
@@ -161,10 +152,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// esets the MenuStripGradientEnd property to its default value.
         /// </summary>
-        public void ResetMenuStripGradientEnd()
-        {
-            MenuStripGradientEnd = Color.Empty;
-        }
+        public void ResetMenuStripGradientEnd() => MenuStripGradientEnd = Color.Empty;
         #endregion
     }
 }

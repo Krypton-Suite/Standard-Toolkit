@@ -5,7 +5,9 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  
+ *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
  */
 #endregion
@@ -27,9 +29,9 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Reference to owning ribbon control.</param>
         /// <param name="contents">Reference to original contents which has overflow items.</param>
         /// <param name="renderer">Drawing renderer.</param>
-        public VisualPopupQATOverflow(KryptonRibbon ribbon,
+        public VisualPopupQATOverflow([DisallowNull] KryptonRibbon ribbon,
                                       ViewLayoutRibbonQATContents contents,
-                                      IRenderer renderer)
+                                      IRenderer? renderer)
             : base(renderer, true)
         {
             Debug.Assert(ribbon != null);
@@ -59,7 +61,7 @@ namespace Krypton.Ribbon
             if (disposing)
             {
                 // Ensure the manager believes the mouse has left the area
-                ViewManager.MouseLeave(EventArgs.Empty);
+                ViewManager?.MouseLeave(EventArgs.Empty);
 
                 // Remove all child controls so they do not become disposed
                 for (var i = Controls.Count - 1; i >= 0; i--)
@@ -68,7 +70,7 @@ namespace Krypton.Ribbon
                 }
 
                 // If this group is being dismissed with key tips showing
-                if (_ribbon.InKeyboardMode && (_ribbon.KeyTipMode == KeyTipMode.PopupQATOverflow))
+                if (_ribbon is { InKeyboardMode: true, KeyTipMode: KeyTipMode.PopupQATOverflow })
                 {
                     // Revert back to key tips for selected tab
                     _ribbon.KeyTipMode = KeyTipMode.Root;
@@ -126,7 +128,7 @@ namespace Krypton.Ribbon
         public void SetNextFocusItem()
         {
             // Find the next item in sequence
-            ViewBase view = ViewQATContents.GetNextQATView(ViewOverflowManager.FocusView);
+            ViewBase? view = ViewQATContents.GetNextQATView(ViewOverflowManager.FocusView);
 
             // Rotate around to the first item
             if (view == null)
@@ -170,12 +172,12 @@ namespace Krypton.Ribbon
         /// <param name="parentScreenRect">Screen rectangle of the parent.</param>
         /// <param name="finishDelegate">Delegate fired when popup dismissed.</param>
         public void ShowCalculatingSize(Rectangle parentScreenRect,
-                                        EventHandler finishDelegate)
+                                        EventHandler? finishDelegate)
         {
             Size popupSize;
 
             // Find the size the quick access toolbar requests to be
-            using (ViewLayoutContext context = new(this, Renderer))
+            using (var context = new ViewLayoutContext(this, Renderer))
             {
                 popupSize = _viewQAT.GetPreferredSize(context);
             }
@@ -206,7 +208,7 @@ namespace Krypton.Ribbon
         /// <param name="levent">An EventArgs that contains the event data.</param>
         protected override void OnLayout(LayoutEventArgs levent)
         {
-            // Let base class calulcate fill rectangle
+            // Let base class calculate fill rectangle
             base.OnLayout(levent);
             var borderRounding = _ribbon.RibbonShape switch
             {
@@ -226,7 +228,7 @@ namespace Krypton.Ribbon
         protected override void OnKeyPress(KeyPressEventArgs e)
         {
             // If in keyboard mode then pass character onto the key tips
-            if (_ribbon.InKeyboardMode && _ribbon.InKeyTipsMode)
+            if (_ribbon is { InKeyboardMode: true, InKeyTipsMode: true })
             {
                 _ribbon.AppendKeyTipPress(char.ToUpper(e.KeyChar));
             }

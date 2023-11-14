@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -17,10 +17,10 @@ namespace Krypton.Toolkit
     /// </summary>
     [ToolboxItem(true)]
     [ToolboxBitmap(typeof(KryptonLabel), "ToolboxBitmaps.KryptonLabel.bmp")]
-    [DefaultEvent("Click")]
-    [DefaultProperty("Text")]
-    [DefaultBindingProperty("Text")]
-    [Designer("Krypton.Toolkit.KryptonLabelDesigner, Krypton.Toolkit")]
+    [DefaultEvent(nameof(Click))]
+    [DefaultProperty(nameof(Text))]
+    [DefaultBindingProperty(nameof(Text))]
+    [Designer(typeof(KryptonLabelDesigner))]
     [DesignerCategory(@"code")]
     [Description(@"Displays descriptive information.")]
     public class KryptonLabel : VisualSimpleBase, IContentValues
@@ -30,10 +30,10 @@ namespace Krypton.Toolkit
         private VisualOrientation _orientation;
         private readonly ViewDrawContent _drawContent;
         private readonly PaletteContentInheritRedirect _paletteCommonRedirect;
-        private KryptonCommand _command;
+        private KryptonCommand? _command;
         private bool _useMnemonic;
         private bool _wasEnabled;
-        private Control _target;
+        private Control? _target;
         #endregion
 
         #region Events
@@ -42,7 +42,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Property Changed")]
         [Description(@"Occurs when the value of the KryptonCommand property changes.")]
-        public event EventHandler KryptonCommandChanged;
+        public event EventHandler? KryptonCommandChanged;
         #endregion
 
         #region Identity
@@ -52,6 +52,7 @@ namespace Krypton.Toolkit
         public KryptonLabel()
         {
             SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
+            SetStyle(ControlStyles.UseTextForAccessibility, true);
             // The label cannot take the focus
             SetStyle(ControlStyles.Selectable, false);
 
@@ -112,7 +113,7 @@ namespace Krypton.Toolkit
         [Localizable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        [DefaultValue(typeof(AutoSizeMode), "GrowAndShrink")]
+        [DefaultValue(AutoSizeMode.GrowAndShrink)]
         public new AutoSizeMode AutoSizeMode
         {
             get => base.AutoSizeMode;
@@ -135,8 +136,9 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the text associated with this control. 
         /// </summary>
-        [Editor("System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
+        [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
         [Localizable(false)]
+        [AllowNull]
         public override string Text
         {
             get => Values.Text;
@@ -159,7 +161,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Visuals")]
         [Description(@"Visual orientation of the control.")]
-        [DefaultValue(typeof(VisualOrientation), "Top")]
+        [DefaultValue(VisualOrientation.Top)]
         public virtual VisualOrientation Orientation
         {
             get => _orientation;
@@ -181,17 +183,14 @@ namespace Krypton.Toolkit
         private bool ShouldSerializeOrientation()
         => _orientation != VisualOrientation.Top;
 
-        private void ResetOrientation()
-        {
-            _orientation = VisualOrientation.Top;
-        }
+        private void ResetOrientation() => _orientation = VisualOrientation.Top;
 
         /// <summary>
         /// Gets and sets the label style.
         /// </summary>
         [Category(@"Visuals")]
         [Description(@"Label style.")]
-        [DefaultValue(typeof(LabelStyle), "NormalPanel")]
+        [DefaultValue(LabelStyle.NormalPanel)]
         public LabelStyle LabelStyle
         {
             get => _style;
@@ -277,7 +276,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Target control for mnemonic and click actions.")]
         [DefaultValue(null)]
-        public virtual Control Target
+        public virtual Control? Target
         {
             get => _target;
             set => _target = value;
@@ -289,7 +288,7 @@ namespace Krypton.Toolkit
         [Category(@"Behavior")]
         [Description(@"Command associated with the label.")]
         [DefaultValue(null)]
-        public virtual KryptonCommand KryptonCommand
+        public virtual KryptonCommand? KryptonCommand
         {
             get => _command;
 
@@ -325,11 +324,9 @@ namespace Krypton.Toolkit
         /// Fix the control to a particular palette state.
         /// </summary>
         /// <param name="state">Palette state to fix.</param>
-        public virtual void SetFixedState(PaletteState state)
-        {
+        public virtual void SetFixedState(PaletteState state) =>
             // Request fixed state from the view
             _drawContent.FixedState = state;
-        }
         #endregion
 
         #region IContentValues
@@ -350,7 +347,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">The state for which the image is needed.</param>
         /// <returns>Image value.</returns>
-        public Image GetImage(PaletteState state) => KryptonCommand?.ImageSmall ?? Values.GetImage(state);
+        public Image? GetImage(PaletteState state) => KryptonCommand?.ImageSmall ?? Values.GetImage(state);
 
         /// <summary>
         /// Gets the image color that should be transparent.
@@ -453,10 +450,10 @@ namespace Krypton.Toolkit
         {
             switch (e.PropertyName)
             {
-                case @"Enabled":
-                    Enabled = KryptonCommand.Enabled;
+                case nameof(Enabled):
+                    Enabled = KryptonCommand?.Enabled ?? false;
                     break;
-                case @"Text":
+                case nameof(Text):
                 case @"ExtraText":
                 case @"ImageSmall":
                 case @"ImageTransparentColor":
@@ -486,7 +483,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the default size of the control.
         /// </summary>
-        protected override Size DefaultSize => new(90, 25);
+        protected override Size DefaultSize => new Size(90, 25);
 
         /// <summary>
         /// Work out if this control needs to paint transparent areas.

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -23,7 +23,7 @@ namespace Krypton.Navigator
         /// <param name="context">An ITypeDescriptorContext that provides a format context.</param>
         /// <param name="destinationType">A Type that represents the type you want to convert to.</param>
         /// <returns>true if this converter can perform the conversion; otherwise, false.</returns>
-        public override bool CanConvertTo(ITypeDescriptorContext context, Type destinationType) =>
+        public override bool CanConvertTo(ITypeDescriptorContext? context, Type? destinationType) =>
             // Can always convert to a string representation
             destinationType == typeof(string) || base.CanConvertTo(context, destinationType);
 
@@ -36,21 +36,21 @@ namespace Krypton.Navigator
         /// <param name="value">The Object to convert.</param>
         /// <param name="destinationType">The Type to convert the value parameter to.</param>
         /// <returns>An Object that represents the converted value.</returns>
-        public override object ConvertTo(ITypeDescriptorContext context, 
-                                         System.Globalization.CultureInfo culture, 
-                                         object value, 
+        public override object? ConvertTo(ITypeDescriptorContext? context,
+                                         System.Globalization.CultureInfo? culture,
+                                         object? value,
                                          Type destinationType)
         {
             // Can always convert to a string representation
             if (destinationType == typeof(string))
             {
                 // Cast to correct type
-                ButtonSpecNavFixed buttonSpec = (ButtonSpecNavFixed)value;
+                var buttonSpec = (ButtonSpecNavFixed)value!;
 
                 // Ask the button spec for the correct string
                 return buttonSpec.ToString();
             }
-            
+
             // Let base class attempt other conversions
             return base.ConvertTo(context, culture, value, destinationType);
         }

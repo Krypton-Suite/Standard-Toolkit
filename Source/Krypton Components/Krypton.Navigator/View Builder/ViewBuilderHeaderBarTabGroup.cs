@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -35,7 +35,7 @@ namespace Krypton.Navigator
         /// <param name="redirector">Palette redirector.</param>
         public override void Construct(KryptonNavigator navigator,
                                        ViewManager manager,
-                                       PaletteRedirect redirector)
+                                       PaletteRedirect? redirector)
         {
             // Let base class perform common operations
             base.Construct(navigator, manager, redirector);
@@ -54,7 +54,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="element">Element to search against.</param>
         /// <returns>Reference to ButtonSpec; otherwise null.</returns>
-        public override ButtonSpec ButtonSpecFromView(ViewBase element) =>
+        public override ButtonSpec? ButtonSpecFromView(ViewBase element) =>
             // Ask the button manager for the button spec for this element
             _buttonManager.ButtonSpecFromView(element);
 
@@ -82,7 +82,7 @@ namespace Krypton.Navigator
         /// Process a change in the visible state for a page.
         /// </summary>
         /// <param name="page">Page that has changed visible state.</param>
-        public override void PageVisibleStateChanged(KryptonPage page)
+        public override void PageVisibleStateChanged(KryptonPage? page)
         {
             UpdateButtons();
             base.PageVisibleStateChanged(page);
@@ -92,7 +92,7 @@ namespace Krypton.Navigator
         /// Process a change in the enabled state for a page.
         /// </summary>
         /// <param name="page">Page that has changed enabled state.</param>
-        public override void PageEnabledStateChanged(KryptonPage page)
+        public override void PageEnabledStateChanged(KryptonPage? page)
         {
             // If the page we are showing has changed
             if (page == Navigator.SelectedPage)
@@ -119,7 +119,7 @@ namespace Krypton.Navigator
             Rectangle rect = _buttonManager.GetButtonRectangle(Navigator.Button.ContextButton);
 
             // We want the context menu to show just below the button
-            Point pt = new(rect.Left, rect.Bottom + 3);
+            var pt = new Point(rect.Left, rect.Bottom + 3);
 
             // Convert from control coordinates to screen coordinates
             return Navigator.PointToScreen(pt);
@@ -147,7 +147,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="action">Requested action.</param>
         /// <param name="page">Selected page at time of action request.</param>
-        public override void PerformNextAction(DirectionButtonAction action, KryptonPage page)
+        public override void PerformNextAction(DirectionButtonAction action, KryptonPage? page)
         {
             // Our mode appropriate action is always to select a page
             if (action == DirectionButtonAction.ModeAppropriateAction)
@@ -181,7 +181,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="action">Requested action.</param>
         /// <param name="page">Selected page at time of action request.</param>
-        public override void PerformPreviousAction(DirectionButtonAction action, KryptonPage page)
+        public override void PerformPreviousAction(DirectionButtonAction action, KryptonPage? page)
         {
             // Our mode appropriate action is always to select a page
             if (action == DirectionButtonAction.ModeAppropriateAction)
@@ -196,11 +196,9 @@ namespace Krypton.Navigator
         /// <summary>
         /// Recreate the buttons to reflect a change in selected page.
         /// </summary>
-        public void UpdateButtons()
-        {
+        public void UpdateButtons() =>
             // Ensure buttons are recreated to reflect different page
-            _buttonManager?.RecreateButtons();
-        }
+            _buttonManager.RecreateButtons();
         #endregion
 
         #region Protected
@@ -259,14 +257,9 @@ namespace Krypton.Navigator
             _drawGroup.Add(_oldRoot);
 
             // Create the view element that lays out the check/tab buttons
-            ViewLayoutBarForTabs layoutBar = new(Navigator.Bar.ItemSizing,
-                                                                      Navigator.Bar.ItemAlignment,
-                                                                      Navigator.Bar.BarMultiline,
-                                                                      Navigator.Bar.ItemMinimumSize,
-                                                                      Navigator.Bar.ItemMaximumSize,
-                                                                      Navigator.Bar.BarMinimumHeight,
-                                                                      Navigator.Bar.TabBorderStyle,
-                                                                      true);
+            var layoutBar = new ViewLayoutBarForTabs(Navigator.Bar.ItemSizing,
+                Navigator.Bar.ItemAlignment, Navigator.Bar.BarMultiline, Navigator.Bar.ItemMinimumSize,
+                Navigator.Bar.ItemMaximumSize, Navigator.Bar.BarMinimumHeight, Navigator.Bar.TabBorderStyle, true);
             _layoutBar = layoutBar;
 
             // Create the scroll spacer that restricts display
@@ -455,7 +448,7 @@ namespace Krypton.Navigator
                 case @"NextButtonAction":
                 case @"ContextButtonDisplay":
                 case @"CloseButtonDisplay":
-                case @"ButtonDisplayLogic":
+                case nameof(ButtonDisplayLogic):
                     _buttonManager.RecreateButtons();
                     break;
             }
@@ -468,7 +461,7 @@ namespace Krypton.Navigator
         private void CreateDragDrop()
         {
             // Create and attach the drag controller to the header view
-            DragViewController controller = new(_viewHeadingPrimary);
+            var controller = new DragViewController(_viewHeadingPrimary);
             _viewHeadingPrimary.MouseController = controller;
             _viewHeadingPrimary.KeyController = controller;
             _viewHeadingPrimary.SourceController = controller;
@@ -482,9 +475,8 @@ namespace Krypton.Navigator
             controller.RightMouseDown += OnRightMouseDown;
             controller.LeftDoubleClick += OnLeftDoubleClick;
         }
-        
-        protected override void CreateButtonSpecManager()
-        {
+
+        protected override void CreateButtonSpecManager() =>
             // Create button specification collection manager
             _buttonManager = new ButtonSpecManagerDraw(Navigator, Redirector, Navigator.Button.ButtonSpecs, Navigator.FixedSpecs,
                                                        new[] { _viewHeadingPrimary, _viewHeadingSecondary },
@@ -498,7 +490,6 @@ namespace Krypton.Navigator
                 // Hook up the tooltip manager so that tooltips can be generated
                 ToolTipManager = Navigator.ToolTipManager
             };
-        }
 
         private void UpdateHeaders()
         {
@@ -597,7 +588,7 @@ namespace Krypton.Navigator
             }
         }
 
-        private void SetPalettes(PaletteHeaderGroup palette)
+        private void SetPalettes([DisallowNull] PaletteHeaderGroup palette)
         {
             _viewHeadingPrimary.SetPalettes(palette.HeaderPrimary.Back, palette.HeaderPrimary.Border, palette.HeaderPrimary);
             _viewHeadingSecondary.SetPalettes(palette.HeaderSecondary.Back, palette.HeaderSecondary.Border, palette.HeaderSecondary);
@@ -619,40 +610,19 @@ namespace Krypton.Navigator
             _buttonManager.RecreateButtons();
         }
 
-        private void OnDragStart(object sender, DragStartEventCancelArgs e)
-        {
-            Navigator.InternalDragStart(e, null);
-        }
+        private void OnDragStart(object sender, DragStartEventCancelArgs e) => Navigator.InternalDragStart(e, null);
 
-        private void OnDragMove(object sender, PointEventArgs e)
-        {
-            Navigator.InternalDragMove(e);
-        }
+        private void OnDragMove(object sender, PointEventArgs e) => Navigator.InternalDragMove(e);
 
-        private void OnDragEnd(object sender, PointEventArgs e)
-        {
-            Navigator.InternalDragEnd(e);
-        }
+        private void OnDragEnd(object sender, PointEventArgs e) => Navigator.InternalDragEnd(e);
 
-        private void OnDragQuit(object sender, EventArgs e)
-        {
-            Navigator.InternalDragQuit();
-        }
+        private void OnDragQuit(object sender, EventArgs e) => Navigator.InternalDragQuit();
 
-        private void OnLeftMouseDown(object sender, EventArgs e)
-        {
-            Navigator.OnPrimaryHeaderLeftClicked(e);
-        }
+        private void OnLeftMouseDown(object sender, EventArgs e) => Navigator.OnPrimaryHeaderLeftClicked(e);
 
-        private void OnRightMouseDown(object sender, EventArgs e)
-        {
-            Navigator.OnPrimaryHeaderRightClicked(e);
-        }
+        private void OnRightMouseDown(object sender, EventArgs e) => Navigator.OnPrimaryHeaderRightClicked(e);
 
-        private void OnLeftDoubleClick(object sender, EventArgs e)
-        {
-            Navigator.OnPrimaryHeaderDoubleClicked(e);
-        }
+        private void OnLeftDoubleClick(object sender, EventArgs e) => Navigator.OnPrimaryHeaderDoubleClicked(e);
         #endregion
     }
 }

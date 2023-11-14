@@ -5,7 +5,9 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  
+ *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
  */
 #endregion
@@ -26,14 +28,14 @@ namespace Krypton.Ribbon
         /// Initialize a new instance of the ButtonSpecExpandRibbon class.
         /// </summary>
         /// <param name="ribbon">Reference to owning ribbon control.</param>
-        public ButtonSpecExpandRibbon(KryptonRibbon ribbon)
+        public ButtonSpecExpandRibbon([DisallowNull] KryptonRibbon ribbon)
         {
             Debug.Assert(ribbon != null);
             _ribbon = ribbon;
 
             // Fix the type
             ProtectedType = PaletteButtonSpecStyle.RibbonExpand;
-        }         
+        }
         #endregion
 
         #region AllowComponent
@@ -62,22 +64,22 @@ namespace Krypton.Ribbon
         /// Gets the button visible value.
         /// </summary>
         /// <param name="palette">Palette to use for inheriting values.</param>
-        /// <returns>Button visibiliy.</returns>
-        public override bool GetVisible(IPalette palette) => _ribbon.ShowMinimizeButton && _ribbon.MinimizedMode;
+        /// <returns>Button visibility.</returns>
+        public override bool GetVisible(PaletteBase? palette) => _ribbon is { ShowMinimizeButton: true, MinimizedMode: true };
 
         /// <summary>
         /// Gets the button enabled state.
         /// </summary>
         /// <param name="palette">Palette to use for inheriting values.</param>
         /// <returns>Button enabled state.</returns>
-        public override ButtonEnabled GetEnabled(IPalette palette) => ButtonEnabled.True;
+        public override ButtonEnabled GetEnabled(PaletteBase? palette) => ButtonEnabled.True;
 
         /// <summary>
         /// Gets the button checked state.
         /// </summary>
         /// <param name="palette">Palette to use for inheriting values.</param>
         /// <returns>Button checked state.</returns>
-        public override ButtonCheckState GetChecked(IPalette palette) =>
+        public override ButtonCheckState GetChecked(PaletteBase? palette) =>
             // Close button is never shown as checked
             ButtonCheckState.NotCheckButton;
 
@@ -86,11 +88,12 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="palette">Palette to use for inheriting values.</param>
         /// <returns>Button style.</returns>
-        public override ButtonStyle GetStyle(IPalette palette) => ButtonStyle.ButtonSpec;
+        public override ButtonStyle GetStyle(PaletteBase? palette) => ButtonStyle.ButtonSpec;
 
         #endregion    
 
         #region Protected Overrides
+
         /// <summary>
         /// Raises the Click event.
         /// </summary>

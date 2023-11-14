@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -17,23 +17,23 @@ namespace Krypton.Toolkit
     /// </summary>
     [ToolboxItem(true)]
     [ToolboxBitmap(typeof(KryptonTaskDialog), "ToolboxBitmaps.KryptonTaskDialog.bmp")]
-    [DefaultEvent("PropertyChanged")]
+    [DefaultEvent(nameof(PropertyChanged))]
     [DesignerCategory(@"code")]
     [Description(@"Displays a task dialog for presenting different options to the user.")]
     public class KryptonTaskDialog : Component, INotifyPropertyChanged
     {
         #region Instance Fields
-        private VisualTaskDialog _taskDialog;
+        private VisualTaskDialog? _taskDialog;
         private string _windowTitle;
         private string _mainInstruction;
         private string _content;
-        private Image _customIcon;
+        private Image? _customIcon;
         private KryptonMessageBoxIcon _icon;
         private KryptonTaskDialogCommand _defaultRadioButton;
         private TaskDialogButtons _commonButtons;
         private TaskDialogButtons _defaultButton;
         private KryptonMessageBoxIcon _footerIcon;
-        private Image _customFooterIcon;
+        private Image? _customFooterIcon;
         private string _footerText;
         private string _footerHyperlink;
         private string _checkboxText;
@@ -49,14 +49,14 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Action")]
         [Description(@"Occurs when the users clicks the footer hyperlink.")]
-        public event EventHandler FooterHyperlinkClicked;
+        public event EventHandler? FooterHyperlinkClicked;
 
         /// <summary>
         /// Occurs when a property has changed value.
         /// </summary>
         [Category(@"Property Changed")]
         [Description(@"Occurs when the value of property has changed.")]
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
         #endregion
 
         #region Identity
@@ -162,7 +162,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Appearance")]
         [Description(@"Predefined icon.")]
-        [DefaultValue(typeof(KryptonMessageBoxIcon), "None")]
+        [DefaultValue(KryptonMessageBoxIcon.None)]
         public KryptonMessageBoxIcon Icon
         {
             get => _icon;
@@ -183,7 +183,7 @@ namespace Krypton.Toolkit
         [Category(@"Appearance")]
         [Description(@"Custom icon.")]
         [DefaultValue(null)]
-        public Image CustomIcon
+        public Image? CustomIcon
         {
             get => _customIcon;
 
@@ -224,7 +224,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Appearance")]
         [Description(@"Common dialog buttons.")]
-        [DefaultValue(typeof(TaskDialogButtons), "OK")]
+        [DefaultValue(TaskDialogButtons.OK)]
         public TaskDialogButtons CommonButtons
         {
             get => _commonButtons;
@@ -244,7 +244,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Appearance")]
         [Description(@"Default radio button.")]
-        [DefaultValue(typeof(TaskDialogButtons), "None")]
+        [DefaultValue(TaskDialogButtons.None)]
         public KryptonTaskDialogCommand DefaultRadioButton
         {
             get => _defaultRadioButton;
@@ -264,7 +264,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Appearance")]
         [Description(@"Default Common button.")]
-        [DefaultValue(typeof(TaskDialogButtons), "None")]
+        [DefaultValue(TaskDialogButtons.None)]
         public TaskDialogButtons DefaultButton
         {
             get => _defaultButton;
@@ -284,7 +284,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Appearance")]
         [Description(@"Predefined footer icon.")]
-        [DefaultValue(typeof(KryptonMessageBoxIcon), "None")]
+        [DefaultValue(KryptonMessageBoxIcon.None)]
         public KryptonMessageBoxIcon FooterIcon
         {
             get => _footerIcon;
@@ -305,7 +305,7 @@ namespace Krypton.Toolkit
         [Category(@"Appearance")]
         [Description(@"Custom footer icon.")]
         [DefaultValue(null)]
-        public Image CustomFooterIcon
+        public Image? CustomFooterIcon
         {
             get => _customFooterIcon;
 
@@ -457,10 +457,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void ResetTag()
-        {
-            Tag = null;
-        }
+        private void ResetTag() => Tag = null;
 
         private bool ShouldSerializeTag() => Tag != null;
 
@@ -507,7 +504,7 @@ namespace Krypton.Toolkit
                                         TaskDialogButtons commonButtons)
         {
             // Create a temporary task dialog for storing definition whilst showing
-            using KryptonTaskDialog taskDialog = new();
+            using var taskDialog = new KryptonTaskDialog();
             // Store incoming values
             taskDialog.WindowTitle = windowTitle;
             taskDialog.MainInstruction = mainInstruction;

@@ -5,7 +5,9 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  
+ *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
  */
 #endregion
@@ -22,10 +24,6 @@ namespace Krypton.Ribbon
         private const Keys DEFAULT_TOGGLE_MINIMIZE_MODE = Keys.Control | Keys.F1;
         private const Keys DEFAULT_TOGGLE_KEYBOARD_ACCESS1 = Keys.RButton | Keys.ShiftKey | Keys.Alt;
         private const Keys DEFAULT_TOGGLE_KEYBOARD_ACCESS2 = Keys.F10;
-
-        #endregion
-
-        #region Instance Fields
 
         #endregion
 
@@ -69,10 +67,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Resets the ToggleMinimizeMode property to its default value.
         /// </summary>
-        public void ResetToggleMinimizeMode()
-        {
-            ToggleMinimizeMode = DEFAULT_TOGGLE_MINIMIZE_MODE;
-        }
+        public void ResetToggleMinimizeMode() => ToggleMinimizeMode = DEFAULT_TOGGLE_MINIMIZE_MODE;
         #endregion
 
         #region ToggleKeyboardAccess1
@@ -91,10 +86,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Resets the ToggleKeyboardAccess1 property to its default value.
         /// </summary>
-        public void ResetToggleKeyboardAccess1()
-        {
-            ToggleKeyboardAccess1 = DEFAULT_TOGGLE_KEYBOARD_ACCESS1;
-        }
+        public void ResetToggleKeyboardAccess1() => ToggleKeyboardAccess1 = DEFAULT_TOGGLE_KEYBOARD_ACCESS1;
         #endregion
 
         #region ToggleKeyboardAccess2
@@ -113,10 +105,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Resets the ToggleKeyboardAccess2 property to its default value.
         /// </summary>
-        public void ResetToggleKeyboardAccess2()
-        {
-            ToggleKeyboardAccess2 = DEFAULT_TOGGLE_KEYBOARD_ACCESS2;
-        }
+        public void ResetToggleKeyboardAccess2() => ToggleKeyboardAccess2 = DEFAULT_TOGGLE_KEYBOARD_ACCESS2;
         #endregion
     }
 }

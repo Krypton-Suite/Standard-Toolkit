@@ -5,11 +5,12 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
 
+// ReSharper disable CompareOfFloatsByEqualityOperator
 namespace Krypton.Navigator
 {
     /// <summary>
@@ -49,8 +50,8 @@ namespace Krypton.Navigator
         #endregion
 
         #region Instance Fields
-        private InternalStorage _storage;
-        private IPaletteContent _inherit;
+        private InternalStorage? _storage;
+        private IPaletteContent? _inherit;
         #endregion
 
         #region Identity
@@ -59,7 +60,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="inherit">Source for inheriting defaulted values.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public PaletteNavContent(IPaletteContent inherit,
+        public PaletteNavContent([DisallowNull] IPaletteContent inherit,
                                  NeedPaintHandler needPaint)
         {
             Debug.Assert(inherit != null);
@@ -69,7 +70,7 @@ namespace Krypton.Navigator
 
             // Store the provided paint notification delegate
             NeedPaint = needPaint;
-            
+
             // Create the content storage for sub objects
             Image = new PaletteContentImage(needPaint);
             ShortText = new PaletteNavContentText(needPaint);
@@ -82,10 +83,10 @@ namespace Krypton.Navigator
         /// Gets a value indicating if all values are default.
         /// </summary>
         [Browsable(false)]
-        public override bool IsDefault => ((Image.IsDefault) &&
-                                           (ShortText.IsDefault) &&
-                                           (LongText.IsDefault) &&
-                                           ((_storage == null) || _storage.IsDefault));
+        public override bool IsDefault => (Image!.IsDefault &&
+                                              ShortText.IsDefault &&
+                                           LongText.IsDefault &&
+                                           _storage == null || _storage!.IsDefault);
 
         #endregion
 
@@ -93,10 +94,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Sets the inheritance parent.
         /// </summary>
-        public void SetInherit(IPaletteContent inherit)
-        {
-            _inherit = inherit;
-        }
+        public void SetInherit(IPaletteContent? inherit) => _inherit = inherit;
         #endregion
 
         #region PopulateFromBase
@@ -109,11 +107,15 @@ namespace Krypton.Navigator
             // Get the values and set into storage
             Draw = GetContentDraw(state);
             DrawFocus = GetContentDrawFocus(state);
-            Image.ImageH = GetContentImageH(state);
-            Image.ImageV = GetContentImageV(state);
-            Image.Effect = GetContentImageEffect(state);
-            Image.ImageColorMap = GetContentImageColorMap(state);
-            Image.ImageColorTo = GetContentImageColorTo(state);
+            if (Image != null)
+            {
+                Image.ImageH = GetContentImageH(state);
+                Image.ImageV = GetContentImageV(state);
+                Image.Effect = GetContentImageEffect(state);
+                Image.ImageColorMap = GetContentImageColorMap(state);
+                Image.ImageColorTo = GetContentImageColorTo(state);
+            }
+
             ShortText.Prefix = GetContentShortTextPrefix(state);
             ShortText.Trim = GetContentShortTextTrim(state);
             ShortText.TextH = GetContentShortTextH(state);
@@ -174,7 +176,7 @@ namespace Krypton.Navigator
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>InheritBool value.</returns>
         public InheritBool GetContentDraw(PaletteState state) =>
-            Draw != InheritBool.Inherit ? Draw : _inherit.GetContentDraw(state);
+            Draw != InheritBool.Inherit ? Draw : _inherit!.GetContentDraw(state);
         #endregion
 
         #region DrawFocus
@@ -220,7 +222,7 @@ namespace Krypton.Navigator
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>InheritBool value.</returns>
         public InheritBool GetContentDrawFocus(PaletteState state) =>
-            DrawFocus != InheritBool.Inherit ? DrawFocus : _inherit.GetContentDrawFocus(state);
+            DrawFocus != InheritBool.Inherit ? DrawFocus : _inherit!.GetContentDrawFocus(state);
         #endregion
 
         #region Image
@@ -231,27 +233,27 @@ namespace Krypton.Navigator
         [Category(@"Visuals")]
         [Description(@"Overrides for defining image appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteContentImage Image { get; }
+        public PaletteContentImage? Image { get; }
 
-        private bool ShouldSerializeImage() => !Image.IsDefault;
+        private bool ShouldSerializeImage() => !Image!.IsDefault;
 
         /// <summary>
         /// Gets the actual content image horizontal alignment value.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>RelativeAlignment value.</returns>
-        public PaletteRelativeAlign GetContentImageH(PaletteState state) => Image.ImageH != PaletteRelativeAlign.Inherit
+        public PaletteRelativeAlign GetContentImageH(PaletteState state) => Image!.ImageH != PaletteRelativeAlign.Inherit
             ? Image.ImageH
-            : _inherit.GetContentImageH(state);
+            : _inherit!.GetContentImageH(state);
 
         /// <summary>
         /// Gets the actual content image vertical alignment value.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>RelativeAlignment value.</returns>
-        public PaletteRelativeAlign GetContentImageV(PaletteState state) => Image.ImageV != PaletteRelativeAlign.Inherit
+        public PaletteRelativeAlign GetContentImageV(PaletteState state) => Image!.ImageV != PaletteRelativeAlign.Inherit
             ? Image.ImageV
-            : _inherit.GetContentImageV(state);
+            : _inherit!.GetContentImageV(state);
 
         /// <summary>
         /// Gets the actual image drawing effect value.
@@ -259,25 +261,25 @@ namespace Krypton.Navigator
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>PaletteImageEffect value.</returns>
         public PaletteImageEffect GetContentImageEffect(PaletteState state) =>
-            Image.Effect != PaletteImageEffect.Inherit ? Image.Effect : _inherit.GetContentImageEffect(state);
+            Image!.Effect != PaletteImageEffect.Inherit ? Image.Effect : _inherit!.GetContentImageEffect(state);
 
         /// <summary>
         /// Gets the image color to remap into another color.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public Color GetContentImageColorMap(PaletteState state) => Image.ImageColorMap != Color.Empty
+        public Color GetContentImageColorMap(PaletteState state) => Image!.ImageColorMap != Color.Empty
             ? Image.ImageColorMap
-            : _inherit.GetContentImageColorMap(state);
+            : _inherit!.GetContentImageColorMap(state);
 
         /// <summary>
         /// Gets the color to use in place of the image map color.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public Color GetContentImageColorTo(PaletteState state) => Image.ImageColorTo != Color.Empty
+        public Color GetContentImageColorTo(PaletteState state) => Image!.ImageColorTo != Color.Empty
             ? Image.ImageColorTo
-            : _inherit.GetContentImageColorTo(state);
+            : _inherit!.GetContentImageColorTo(state);
 
         #endregion
 
@@ -299,7 +301,7 @@ namespace Krypton.Navigator
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
         public Font GetContentShortTextFont(PaletteState state) =>
-            ShortText.Font ?? _inherit.GetContentShortTextFont(state);
+            ShortText.Font ?? _inherit!.GetContentShortTextFont(state);
 
         /// <summary>
         /// Gets the font for the short text by generating a new font instance.
@@ -307,7 +309,7 @@ namespace Krypton.Navigator
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
         public Font GetContentShortTextNewFont(PaletteState state) =>
-            ShortText.Font ?? _inherit.GetContentShortTextNewFont(state);
+            ShortText.Font ?? _inherit!.GetContentShortTextNewFont(state);
 
         /// <summary>
         /// Gets the actual text rendering hint for short text.
@@ -316,7 +318,7 @@ namespace Krypton.Navigator
         /// <returns>PaletteTextHint value.</returns>
         public PaletteTextHint GetContentShortTextHint(PaletteState state) => ShortText.Hint != PaletteTextHint.Inherit
             ? ShortText.Hint
-            : _inherit.GetContentShortTextHint(state);
+            : _inherit!.GetContentShortTextHint(state);
 
         /// <summary>
         /// Gets the prefix drawing setting for short text.
@@ -326,7 +328,7 @@ namespace Krypton.Navigator
         public PaletteTextHotkeyPrefix GetContentShortTextPrefix(PaletteState state) =>
             ShortText.Prefix != PaletteTextHotkeyPrefix.Inherit
                 ? ShortText.Prefix
-                : _inherit.GetContentShortTextPrefix(state);
+                : _inherit!.GetContentShortTextPrefix(state);
 
         /// <summary>
         /// Gets the actual text trimming for the short text.
@@ -335,7 +337,7 @@ namespace Krypton.Navigator
         /// <returns>PaletteTextTrim value.</returns>
         public PaletteTextTrim GetContentShortTextTrim(PaletteState state) => ShortText.Trim != PaletteTextTrim.Inherit
             ? ShortText.Trim
-            : _inherit.GetContentShortTextTrim(state);
+            : _inherit!.GetContentShortTextTrim(state);
 
         /// <summary>
         /// Gets the actual content short text horizontal alignment value.
@@ -343,7 +345,7 @@ namespace Krypton.Navigator
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>RelativeAlignment value.</returns>
         public PaletteRelativeAlign GetContentShortTextH(PaletteState state) =>
-            ShortText.TextH != PaletteRelativeAlign.Inherit ? ShortText.TextH : _inherit.GetContentShortTextH(state);
+            ShortText.TextH != PaletteRelativeAlign.Inherit ? ShortText.TextH : _inherit!.GetContentShortTextH(state);
 
         /// <summary>
         /// Gets the actual content short text vertical alignment value.
@@ -351,7 +353,7 @@ namespace Krypton.Navigator
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>RelativeAlignment value.</returns>
         public PaletteRelativeAlign GetContentShortTextV(PaletteState state) =>
-            ShortText.TextV != PaletteRelativeAlign.Inherit ? ShortText.TextV : _inherit.GetContentShortTextV(state);
+            ShortText.TextV != PaletteRelativeAlign.Inherit ? ShortText.TextV : _inherit!.GetContentShortTextV(state);
 
         /// <summary>
         /// Gets the actual content short text horizontal multiline alignment value.
@@ -361,7 +363,7 @@ namespace Krypton.Navigator
         public PaletteRelativeAlign GetContentShortTextMultiLineH(PaletteState state) =>
             ShortText.MultiLineH != PaletteRelativeAlign.Inherit
                 ? ShortText.MultiLineH
-                : _inherit.GetContentShortTextMultiLineH(state);
+                : _inherit!.GetContentShortTextMultiLineH(state);
 
         /// <summary>
         /// Gets the flag indicating if multiline text is allowed for short text.
@@ -371,7 +373,7 @@ namespace Krypton.Navigator
         public InheritBool GetContentShortTextMultiLine(PaletteState state) =>
             ShortText.MultiLine != InheritBool.Inherit
             ? ShortText.MultiLine
-            : _inherit.GetContentShortTextMultiLine(state);
+            : _inherit!.GetContentShortTextMultiLine(state);
 
         /// <summary>
         /// Gets the first color for the short text.
@@ -380,7 +382,7 @@ namespace Krypton.Navigator
         /// <returns>Color value.</returns>
         public Color GetContentShortTextColor1(PaletteState state) => ShortText.Color1 != Color.Empty
             ? ShortText.Color1
-            : _inherit.GetContentShortTextColor1(state);
+            : _inherit!.GetContentShortTextColor1(state);
 
         /// <summary>
         /// Gets the second back color for the short text.
@@ -389,7 +391,7 @@ namespace Krypton.Navigator
         /// <returns>Color value.</returns>
         public Color GetContentShortTextColor2(PaletteState state) => ShortText.Color2 != Color.Empty
             ? ShortText.Color2
-            : _inherit.GetContentShortTextColor2(state);
+            : _inherit!.GetContentShortTextColor2(state);
 
         /// <summary>
         /// Gets the color drawing style for the short text.
@@ -399,7 +401,7 @@ namespace Krypton.Navigator
         public PaletteColorStyle GetContentShortTextColorStyle(PaletteState state) =>
             ShortText.ColorStyle != PaletteColorStyle.Inherit
                 ? ShortText.ColorStyle
-                : _inherit.GetContentShortTextColorStyle(state);
+                : _inherit!.GetContentShortTextColorStyle(state);
 
         /// <summary>
         /// Gets the color alignment style for the short text.
@@ -409,7 +411,7 @@ namespace Krypton.Navigator
         public PaletteRectangleAlign GetContentShortTextColorAlign(PaletteState state) =>
             ShortText.ColorAlign != PaletteRectangleAlign.Inherit
                 ? ShortText.ColorAlign
-                : _inherit.GetContentShortTextColorAlign(state);
+                : _inherit!.GetContentShortTextColorAlign(state);
 
         /// <summary>
         /// Gets the color angle for the short text.
@@ -418,15 +420,15 @@ namespace Krypton.Navigator
         /// <returns>Angle used for color drawing.</returns>
         public float GetContentShortTextColorAngle(PaletteState state) => ShortText.ColorAngle != -1
             ? ShortText.ColorAngle
-            : _inherit.GetContentShortTextColorAngle(state);
+            : _inherit!.GetContentShortTextColorAngle(state);
 
         /// <summary>
         /// Gets an image for the short text.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image instance.</returns>
-        public Image GetContentShortTextImage(PaletteState state) =>
-            ShortText.Image ?? _inherit.GetContentShortTextImage(state);
+        public Image? GetContentShortTextImage(PaletteState state) =>
+            ShortText.Image ?? _inherit!.GetContentShortTextImage(state);
 
         /// <summary>
         /// Gets the image style for the short text.
@@ -436,7 +438,7 @@ namespace Krypton.Navigator
         public PaletteImageStyle GetContentShortTextImageStyle(PaletteState state) =>
             ShortText.ImageStyle != PaletteImageStyle.Inherit
                 ? ShortText.ImageStyle
-                : _inherit.GetContentShortTextImageStyle(state);
+                : _inherit!.GetContentShortTextImageStyle(state);
 
         /// <summary>
         /// Gets the image alignment style for the short text.
@@ -446,7 +448,7 @@ namespace Krypton.Navigator
         public PaletteRectangleAlign GetContentShortTextImageAlign(PaletteState state) =>
             ShortText.ImageAlign != PaletteRectangleAlign.Inherit
                 ? ShortText.ImageAlign
-                : _inherit.GetContentShortTextImageAlign(state);
+                : _inherit!.GetContentShortTextImageAlign(state);
 
         #endregion
 
@@ -468,7 +470,7 @@ namespace Krypton.Navigator
         /// <returns>Font value.</returns>
         /// <param name="state">Palette value should be applicable to this state.</param>
         public Font GetContentLongTextFont(PaletteState state) =>
-            LongText.Font ?? _inherit.GetContentLongTextFont(state);
+            LongText.Font ?? _inherit!.GetContentLongTextFont(state);
 
         /// <summary>
         /// Gets the font for the long text by generating a new font instance.
@@ -476,7 +478,7 @@ namespace Krypton.Navigator
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
         public Font GetContentLongTextNewFont(PaletteState state) =>
-            LongText.Font ?? _inherit.GetContentLongTextNewFont(state);
+            LongText.Font ?? _inherit!.GetContentLongTextNewFont(state);
 
         /// <summary>
         /// Gets the actual text rendering hint for long text.
@@ -485,7 +487,7 @@ namespace Krypton.Navigator
         /// <returns>PaletteTextHint value.</returns>
         public PaletteTextHint GetContentLongTextHint(PaletteState state) => LongText.Hint != PaletteTextHint.Inherit
             ? LongText.Hint
-            : _inherit.GetContentLongTextHint(state);
+            : _inherit!.GetContentLongTextHint(state);
 
         /// <summary>
         /// Gets the prefix drawing setting for long text.
@@ -495,7 +497,7 @@ namespace Krypton.Navigator
         public PaletteTextHotkeyPrefix GetContentLongTextPrefix(PaletteState state) =>
             LongText.Prefix != PaletteTextHotkeyPrefix.Inherit
                 ? LongText.Prefix
-                : _inherit.GetContentLongTextPrefix(state);
+                : _inherit!.GetContentLongTextPrefix(state);
 
         /// <summary>
         /// Gets the actual text trimming for the long text.
@@ -504,7 +506,7 @@ namespace Krypton.Navigator
         /// <returns>PaletteTextTrim value.</returns>
         public PaletteTextTrim GetContentLongTextTrim(PaletteState state) => LongText.Trim != PaletteTextTrim.Inherit
             ? LongText.Trim
-            : _inherit.GetContentLongTextTrim(state);
+            : _inherit!.GetContentLongTextTrim(state);
 
         /// <summary>
         /// Gets the actual content long text horizontal alignment value.
@@ -512,7 +514,7 @@ namespace Krypton.Navigator
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>RelativeAlignment value.</returns>
         public PaletteRelativeAlign GetContentLongTextH(PaletteState state) =>
-            LongText.TextH != PaletteRelativeAlign.Inherit ? LongText.TextH : _inherit.GetContentLongTextH(state);
+            LongText.TextH != PaletteRelativeAlign.Inherit ? LongText.TextH : _inherit!.GetContentLongTextH(state);
 
         /// <summary>
         /// Gets the actual content long text vertical alignment value.
@@ -520,7 +522,7 @@ namespace Krypton.Navigator
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>RelativeAlignment value.</returns>
         public PaletteRelativeAlign GetContentLongTextV(PaletteState state) =>
-            LongText.TextV != PaletteRelativeAlign.Inherit ? LongText.TextV : _inherit.GetContentLongTextV(state);
+            LongText.TextV != PaletteRelativeAlign.Inherit ? LongText.TextV : _inherit!.GetContentLongTextV(state);
 
         /// <summary>
         /// Gets the actual content long text horizontal multiline alignment value.
@@ -530,7 +532,7 @@ namespace Krypton.Navigator
         public PaletteRelativeAlign GetContentLongTextMultiLineH(PaletteState state) =>
             LongText.MultiLineH != PaletteRelativeAlign.Inherit
                 ? LongText.MultiLineH
-                : _inherit.GetContentLongTextMultiLineH(state);
+                : _inherit!.GetContentLongTextMultiLineH(state);
 
         /// <summary>
         /// Gets the flag indicating if multiline text is allowed for long text.
@@ -539,7 +541,7 @@ namespace Krypton.Navigator
         /// <returns>InheritBool value.</returns>
         public InheritBool GetContentLongTextMultiLine(PaletteState state) => LongText.MultiLine != InheritBool.Inherit
             ? LongText.MultiLine
-            : _inherit.GetContentLongTextMultiLine(state);
+            : _inherit!.GetContentLongTextMultiLine(state);
 
         /// <summary>
         /// Gets the first color for the long text.
@@ -548,7 +550,7 @@ namespace Krypton.Navigator
         /// <returns>Color value.</returns>
         public Color GetContentLongTextColor1(PaletteState state) => LongText.Color1 != Color.Empty
             ? LongText.Color1
-            : _inherit.GetContentLongTextColor1(state);
+            : _inherit!.GetContentLongTextColor1(state);
 
         /// <summary>
         /// Gets the second back color for the long text.
@@ -557,7 +559,7 @@ namespace Krypton.Navigator
         /// <returns>Color value.</returns>
         public Color GetContentLongTextColor2(PaletteState state) => LongText.Color2 != Color.Empty
             ? LongText.Color2
-            : _inherit.GetContentLongTextColor2(state);
+            : _inherit!.GetContentLongTextColor2(state);
 
         /// <summary>
         /// Gets the color drawing style for the long text.
@@ -567,7 +569,7 @@ namespace Krypton.Navigator
         public PaletteColorStyle GetContentLongTextColorStyle(PaletteState state) =>
             LongText.ColorStyle != PaletteColorStyle.Inherit
             ? LongText.ColorStyle
-            : _inherit.GetContentLongTextColorStyle(state);
+            : _inherit!.GetContentLongTextColorStyle(state);
 
         /// <summary>
         /// Gets the color alignment style for the long text.
@@ -577,7 +579,7 @@ namespace Krypton.Navigator
         public PaletteRectangleAlign GetContentLongTextColorAlign(PaletteState state) =>
             LongText.ColorAlign != PaletteRectangleAlign.Inherit
                 ? LongText.ColorAlign
-                : _inherit.GetContentLongTextColorAlign(state);
+                : _inherit!.GetContentLongTextColorAlign(state);
 
         /// <summary>
         /// Gets the color angle for the long text.
@@ -586,15 +588,15 @@ namespace Krypton.Navigator
         /// <returns>Angle used for color drawing.</returns>
         public float GetContentLongTextColorAngle(PaletteState state) => LongText.ColorAngle != -1
             ? LongText.ColorAngle
-            : _inherit.GetContentLongTextColorAngle(state);
+            : _inherit!.GetContentLongTextColorAngle(state);
 
         /// <summary>
         /// Gets an image for the long text.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image instance.</returns>
-        public Image GetContentLongTextImage(PaletteState state) =>
-            LongText.Image ?? _inherit.GetContentLongTextImage(state);
+        public Image? GetContentLongTextImage(PaletteState state) =>
+            LongText.Image ?? _inherit!.GetContentLongTextImage(state);
 
         /// <summary>
         /// Gets the image style for the long text.
@@ -604,7 +606,7 @@ namespace Krypton.Navigator
         public PaletteImageStyle GetContentLongTextImageStyle(PaletteState state) =>
             LongText.ImageStyle != PaletteImageStyle.Inherit
                 ? LongText.ImageStyle
-                : _inherit.GetContentLongTextImageStyle(state);
+                : _inherit!.GetContentLongTextImageStyle(state);
 
         /// <summary>
         /// Gets the image alignment style for the long text.
@@ -614,7 +616,7 @@ namespace Krypton.Navigator
         public PaletteRectangleAlign GetContentLongTextImageAlign(PaletteState state) =>
             LongText.ImageAlign != PaletteRectangleAlign.Inherit
                 ? LongText.ImageAlign
-                : _inherit.GetContentLongTextImageAlign(state);
+                : _inherit!.GetContentLongTextImageAlign(state);
 
         #endregion
 
@@ -658,10 +660,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Reset the Padding to the default value.
         /// </summary>
-        public void ResetPadding()
-        {
-            Padding = CommonHelper.InheritPadding;
-        }
+        public void ResetPadding() => Padding = CommonHelper.InheritPadding;
 
         /// <summary>
         /// Gets the actual padding between the border and content drawing.
@@ -671,7 +670,7 @@ namespace Krypton.Navigator
         public Padding GetContentPadding(PaletteState state)
         {
             // Initialize the padding from inherited values
-            Padding paddingInherit = _inherit.GetContentPadding(state);
+            Padding paddingInherit = _inherit!.GetContentPadding(state);
             Padding paddingThis = Padding;
 
             // Override with specified values
@@ -736,10 +735,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Reset the AdjacentGap to the default value.
         /// </summary>
-        public void ResetAdjacentGap()
-        {
-            AdjacentGap = -1;
-        }
+        public void ResetAdjacentGap() => AdjacentGap = -1;
 
         /// <summary>
         /// Gets the actual padding between adjacent content items.
@@ -747,7 +743,7 @@ namespace Krypton.Navigator
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Integer value.</returns>
         public int GetContentAdjacentGap(PaletteState state) =>
-            AdjacentGap != -1 ? AdjacentGap : _inherit.GetContentAdjacentGap(state);
+            AdjacentGap != -1 ? AdjacentGap : _inherit!.GetContentAdjacentGap(state);
 
         #endregion
 
@@ -756,7 +752,7 @@ namespace Krypton.Navigator
         /// Gets the style appropriate for this content.
         /// </summary>
         /// <returns>Content style.</returns>
-        public PaletteContentStyle GetContentStyle() => _inherit.GetContentStyle();
+        public PaletteContentStyle GetContentStyle() => _inherit!.GetContentStyle();
 
         #endregion
     }

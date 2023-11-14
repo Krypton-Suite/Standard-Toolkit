@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -28,8 +28,8 @@ namespace Krypton.Navigator
 		/// </summary>
 		/// <param name="navigator">Reference to owning navigator instance.</param>
 		/// <param name="needPaint">Delegate for notifying paint requests.</param>
-		public NavigatorToolTips(KryptonNavigator navigator,
-								NeedPaintHandler needPaint)
+		public NavigatorToolTips([DisallowNull] KryptonNavigator navigator,
+            [DisallowNull] NeedPaintHandler needPaint)
 		{
 			Debug.Assert(navigator != null);
 			Debug.Assert(needPaint != null);
@@ -108,51 +108,42 @@ namespace Krypton.Navigator
 			set => _mapImage = value;
 		}
 
-		/// <summary>
-		/// Resets the MapImage property to its default value.
-		/// </summary>
-		public void ResetMapImage()
-		{
-			MapImage = MapKryptonPageImage.ToolTip;
-		}
-		#endregion
+        /// <summary>
+        /// Resets the MapImage property to its default value.
+        /// </summary>
+        public void ResetMapImage() => MapImage = MapKryptonPageImage.ToolTip;
+        #endregion
 
-		#region MapText
-		/// <summary>
-		/// Gets and sets the mapping used for the tooltip text.
-		/// </summary>
-		[Category(@"Visuals")]
+        #region MapText
+        /// <summary>
+        /// Gets and sets the mapping used for the tooltip text.
+        /// </summary>
+        [Category(@"Visuals")]
 		[Description(@"Mapping used for the tooltip text.")]
 		[RefreshProperties(RefreshProperties.All)]
 		//[DefaultValue(typeof(MapKryptonPageText), "ToolTipTitle")]
 		public MapKryptonPageText MapText { get; set; }
 
-		/// <summary>
-		/// Resets the MapText property to its default value.
-		/// </summary>
-		public void ResetMapText()
-		{
-			MapText = MapKryptonPageText.ToolTipTitle;
-		}
-		#endregion
+        /// <summary>
+        /// Resets the MapText property to its default value.
+        /// </summary>
+        public void ResetMapText() => MapText = MapKryptonPageText.ToolTipTitle;
+        #endregion
 
-		#region MapExtraText
-		/// <summary>
-		/// Gets and sets the mapping used for the tooltip description.
-		/// </summary>
-		[Category(@"Visuals")]
+        #region MapExtraText
+        /// <summary>
+        /// Gets and sets the mapping used for the tooltip description.
+        /// </summary>
+        [Category(@"Visuals")]
 		[Description(@"Mapping used for the tooltip description.")]
 		[RefreshProperties(RefreshProperties.All)]
 		//[DefaultValue(typeof(MapKryptonPageText), "ToolTipBody")]
 		public MapKryptonPageText MapExtraText { get; set; }
 
-		/// <summary>
-		/// Resets the MapExtraText property to its default value.
-		/// </summary>
-		public void ResetMapExtraText()
-		{
-			MapExtraText = MapKryptonPageText.ToolTipBody;
-		}
-		#endregion
-	}
+        /// <summary>
+        /// Resets the MapExtraText property to its default value.
+        /// </summary>
+        public void ResetMapExtraText() => MapExtraText = MapKryptonPageText.ToolTipBody;
+        #endregion
+    }
 }

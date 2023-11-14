@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -75,7 +75,7 @@ namespace Krypton.Docking
         {
             if (disposing)
             {
-                ControlElement = null;
+                ControlElement = null!;
             }
 
             base.Dispose(disposing);
@@ -99,7 +99,7 @@ namespace Krypton.Docking
         /// <param name="screenPt">Position in screen coordinates.</param>
         /// <param name="dragEndData">Data to be dropped at destination.</param>
         /// <returns>True if a match; otherwise false.</returns>
-        public override bool IsMatch(Point screenPt, PageDragEndData dragEndData) => true;
+        public override bool IsMatch(Point screenPt, PageDragEndData? dragEndData) => true;
 
         /// <summary>
         /// Perform the drop action associated with the target.
@@ -107,46 +107,49 @@ namespace Krypton.Docking
         /// <param name="screenPt">Position in screen coordinates.</param>
         /// <param name="data">Data to pass to the target to process drop.</param>
         /// <returns>Drop was performed and the source can perform any removal of pages as required.</returns>
-        public override bool PerformDrop(Point screenPt, PageDragEndData data)
+        public override bool PerformDrop(Point screenPt, PageDragEndData? data)
         {
             // Find our docking edge
-            KryptonDockingEdge dockingEdge = null;
+            KryptonDockingEdge? dockingEdge = null;
             switch (Edge)
             {
                 case VisualOrientation.Left:
-                    dockingEdge = ControlElement["Left"] as KryptonDockingEdge;
+                    dockingEdge = ControlElement[@"Left"] as KryptonDockingEdge;
                     break;
                 case VisualOrientation.Right:
-                    dockingEdge = ControlElement["Right"] as KryptonDockingEdge;
+                    dockingEdge = ControlElement[@"Right"] as KryptonDockingEdge;
                     break;
                 case VisualOrientation.Top:
-                    dockingEdge = ControlElement["Top"] as KryptonDockingEdge;
+                    dockingEdge = ControlElement[@"Top"] as KryptonDockingEdge;
                     break;
                 case VisualOrientation.Bottom:
-                    dockingEdge = ControlElement["Bottom"] as KryptonDockingEdge;
+                    dockingEdge = ControlElement[@"Bottom"] as KryptonDockingEdge;
                     break;
             }
 
             // Find the docked edge
-            KryptonDockingEdgeDocked dockedEdge = dockingEdge?["Docked"] as KryptonDockingEdgeDocked;
-            KryptonDockingManager manager = dockedEdge?.DockingManager;
+            var dockedEdge = dockingEdge?[@"Docked"] as KryptonDockingEdgeDocked;
+            KryptonDockingManager? manager = dockedEdge?.DockingManager;
             if (manager != null)
             {
                 // Create a list of pages that are allowed to be transferred into the dockspace
                 var transferPages = new List<KryptonPage>();
                 var transferUniqueNames = new List<string>();
-                foreach (KryptonPage page in data.Pages)
+                if (data != null)
                 {
-                    if (page.AreFlagsSet(KryptonPageFlags.DockingAllowDocked))
+                    foreach (KryptonPage page in data.Pages)
                     {
-                        // Use event to indicate the page is becoming docked and allow it to be cancelled
-                        CancelUniqueNameEventArgs args = new(page.UniqueName, false);
-                        manager?.RaisePageDockedRequest(args);
-
-                        if (!args.Cancel)
+                        if (page.AreFlagsSet(KryptonPageFlags.DockingAllowDocked))
                         {
-                            transferPages.Add(page);
-                            transferUniqueNames.Add(page.UniqueName);
+                            // Use event to indicate the page is becoming docked and allow it to be cancelled
+                            var args = new CancelUniqueNameEventArgs(page.UniqueName, false);
+                            manager?.RaisePageDockedRequest(args);
+
+                            if (!args.Cancel)
+                            {
+                                transferPages.Add(page);
+                                transferUniqueNames.Add(page.UniqueName);
+                            }
                         }
                     }
                 }
@@ -155,13 +158,16 @@ namespace Krypton.Docking
                 if (transferPages.Count > 0)
                 {
                     // Convert the incoming pages into store pages for restoring later
-                    manager.PropogateAction(DockingPropogateAction.StorePages, transferUniqueNames.ToArray());
+                    manager?.PropogateAction(DockingPropogateAction.StorePages, transferUniqueNames.ToArray());
 
                     // Create a new dockspace at the start of the list so it is closest to the control edge
-                    KryptonDockingDockspace dockspace = (_outsideEdge ? dockedEdge.InsertDockspace(0) : dockedEdge.AppendDockspace());
+                    if (dockedEdge != null)
+                    {
+                        KryptonDockingDockspace dockspace = (_outsideEdge ? dockedEdge.InsertDockspace(0) : dockedEdge.AppendDockspace());
 
-                    // Add pages into the target
-                    dockspace.Append(transferPages.ToArray());
+                        // Add pages into the target
+                        dockspace.Append(transferPages.ToArray());
+                    }
 
                     return true;
                 }

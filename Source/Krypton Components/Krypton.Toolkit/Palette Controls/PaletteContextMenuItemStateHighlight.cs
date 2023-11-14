@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -17,10 +17,6 @@ namespace Krypton.Toolkit
     /// </summary>
     public class PaletteContextMenuItemStateHighlight : Storage
     {
-        #region Instance Fields
-
-        #endregion
-
         #region Identity
         /// <summary>
         /// Initialize a new instance of the PaletteContextMenuItemStateHighlight class.
@@ -45,8 +41,8 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="redirectItemHighlight">Redirector for the ItemHighlight.</param>
         /// <param name="redirectItemSplit">Redirector for the ItemSplit.</param>
-        public PaletteContextMenuItemStateHighlight(PaletteDoubleMetricRedirect redirectItemHighlight,
-                                                    PaletteDoubleRedirect redirectItemSplit)
+        public PaletteContextMenuItemStateHighlight(PaletteDoubleMetricRedirect? redirectItemHighlight,
+                                                    PaletteDoubleRedirect? redirectItemSplit)
         {
             ItemHighlight = new PaletteDoubleMetric(redirectItemHighlight);
             ItemSplit = new PaletteDouble(redirectItemSplit);
@@ -103,7 +99,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Overrides for defining item split appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteDouble ItemSplit { get; }
+        public PaletteDouble? ItemSplit { get; }
 
         private bool ShouldSerializeItemSplit() => !ItemSplit.IsDefault;
 

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -247,7 +247,8 @@ namespace Krypton.Toolkit
         MenuMarginGradientStart = 227,
         MenuMarginGradientMiddle = 228,
         MenuMarginGradientEnd = 229,
-        DisabledMenuItemText = 230
+        DisabledMenuItemText = 230,
+        MenuStripText = 231
     }
 
     #endregion
@@ -285,14 +286,21 @@ namespace Krypton.Toolkit
 
     #endregion
 
-    #region Enumeration: KryptonPropertyGridColors
+    #region Enumeration: SchemeTrackingColors
 
-    internal enum KryptonPropertyGridColors
+    public enum SchemeTrackingColors
     {
-        HelpBackColor = 1,
-        HelpForeColor = 2,
-        LineColor = 3,
-        CategoryForeColor = 4
+        MenuItemSelectedBegin = 0,
+        MenuItemSelectedEnd = 1,
+        ContextMenuBackground = 2,
+        CheckBackground = 3,
+        ButtonSelectedBegin = 4,
+        ButtonSelectedEnd = 5,
+        ButtonPressedBegin = 6,
+        ButtonPressedEnd = 7,
+        ButtonCheckedBegin = 8,
+        ButtonCheckedEnd = 9
     }
+
     #endregion
-    }
+}

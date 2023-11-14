@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -16,8 +16,8 @@ namespace Krypton.Navigator
                                          IKryptonDesignerSelect
     {
         #region Instance Fields
-        private KryptonPage _page;
-        private DesignerVerbCollection _verbs;
+        private KryptonPage? _page;
+        private DesignerVerbCollection? _verbs;
         private DesignerVerb _verbEditFlags;
         private ISelectionService _selectionService;
         private IComponentChangeService _changeService;
@@ -28,7 +28,7 @@ namespace Krypton.Navigator
         /// Initializes the designer with the specified component.
         /// </summary>
         /// <param name="component">The IComponent to associate with the designer.</param>
-        public override void Initialize(IComponent component)
+        public override void Initialize([DisallowNull] IComponent component)
         {
             // Perform common base class initializating
             base.Initialize(component);
@@ -57,7 +57,7 @@ namespace Krypton.Navigator
             _changeService.ComponentRemoving += OnComponentRemoving;
 
             // Lock the component from user size/location change
-            PropertyDescriptor descriptor = TypeDescriptor.GetProperties(component)[@"Locked"];
+            PropertyDescriptor? descriptor = TypeDescriptor.GetProperties(component)[@"Locked"];
             if ((descriptor != null) && (ParentNavigator != null))
             {
                 descriptor.SetValue(component, true);
@@ -71,12 +71,12 @@ namespace Krypton.Navigator
         /// <returns>true if the control managed by the specified designer can parent the control managed by this designer; otherwise, false.</returns>
         public override bool CanBeParentedTo(IDesigner parentDesigner) =>
             // Can only place a KrytonPage in the KryptonNavigator
-            parentDesigner?.Component is KryptonNavigator;
+            parentDesigner.Component is KryptonNavigator;
 
         /// <summary>
         /// Gets the collection of components associated with the component managed by the designer.
         /// </summary>
-        public override ICollection AssociatedComponents => _page != null ? _page.ButtonSpecs : base.AssociatedComponents;
+        public override ICollection AssociatedComponents => _page?.ButtonSpecs ?? base.AssociatedComponents;
 
         /// <summary>
         ///  Gets the design-time action lists supported by the component associated with the designer.
@@ -86,7 +86,7 @@ namespace Krypton.Navigator
             get
             {
                 // Create a collection of action lists
-                DesignerActionListCollection actionLists = new()
+                var actionLists = new DesignerActionListCollection
                 {
 
                     // Add the navigator specific list
@@ -163,7 +163,7 @@ namespace Krypton.Navigator
             {
                 _selectionService.SetSelectedComponents(new object[] { ParentNavigator }, SelectionTypes.Primary);
             }
-            else if (_page.Parent != null)
+            else if (_page is { Parent: not null })
             {
                 _selectionService.SetSelectedComponents(new object[] { _page.Parent }, SelectionTypes.Primary);
             }
@@ -182,7 +182,10 @@ namespace Krypton.Navigator
                 if (disposing)
                 {
                     // Remove event hooks
-                    _page.FlagsChanged -= OnPageFlagsChanged;
+                    if (_page != null)
+                    {
+                        _page.FlagsChanged -= OnPageFlagsChanged;
+                    }
                 }
             }
             finally
@@ -209,35 +212,41 @@ namespace Krypton.Navigator
         #region Implementation
         private void OnEditFlags(object sender, EventArgs e)
         {
-            KryptonPageFormEditFlags editFlags = new(_page);
+            var editFlags = new KryptonPageFormEditFlags(_page);
             editFlags.ShowDialog();
         }
 
         private void OnPageFlagsChanged(object sender, KryptonPageFlagsEventArgs e)
         {
             // Get access to the Flags property
-            MemberDescriptor propertyFlags = TypeDescriptor.GetProperties(_page)[@"Flags"];
+            if (_page != null)
+            {
+                MemberDescriptor? propertyFlags = TypeDescriptor.GetProperties(_page)[@"Flags"];
 
-            // Notify that the flags property has been updated
-            RaiseComponentChanging(propertyFlags);
-            RaiseComponentChanged(propertyFlags, null, null);
+                // Notify that the flags property has been updated
+                RaiseComponentChanging(propertyFlags);
+                RaiseComponentChanged(propertyFlags, null, null);
+            }
         }
 
-        private KryptonNavigator ParentNavigator
+        private KryptonNavigator? ParentNavigator
         {
             get
             {
-                Control parent = _page.Parent;
-
-                // Search parent chain looking for navigator instance
-                while (parent != null)
+                if (_page != null)
                 {
-                    if (parent is KryptonNavigator navigator)
-                    {
-                        return navigator;
-                    }
+                    Control? parent = _page.Parent;
 
-                    parent = parent.Parent;
+                    // Search parent chain looking for navigator instance
+                    while (parent != null)
+                    {
+                        if (parent is KryptonNavigator navigator)
+                        {
+                            return navigator;
+                        }
+
+                        parent = parent.Parent;
+                    }
                 }
 
                 return null;
@@ -247,7 +256,7 @@ namespace Krypton.Navigator
         private void DrawBorder(Graphics graphics)
         {
             // Create a pen for drawing
-            using Pen borderPen = new(SystemColors.ControlDarkDark);
+            using var borderPen = new Pen(SystemColors.ControlDarkDark);
             // Always draw the border dashed
             borderPen.DashStyle = DashStyle.Dash;
 
@@ -271,7 +280,7 @@ namespace Krypton.Navigator
             if ((_page != null) && (e.Component == _page))
             {
                 // Need access to host in order to delete a component
-                IDesignerHost host = (IDesignerHost)GetService(typeof(IDesignerHost));
+                var host = (IDesignerHost)GetService(typeof(IDesignerHost));
 
                 // We need to remove all the button spec instances
                 for (var i = _page.ButtonSpecs.Count - 1; i >= 0; i--)

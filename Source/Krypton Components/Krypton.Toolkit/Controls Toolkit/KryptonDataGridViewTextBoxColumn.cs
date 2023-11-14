@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -18,23 +18,17 @@ namespace Krypton.Toolkit
     /// <summary>
     /// Hosts a collection of KryptonDataGridViewTextBoxCell cells.
     /// </summary>
-    [Designer("Krypton.Toolkit.KryptonTextBoxColumnDesigner, Krypton.Toolkit")]
+    [Designer(typeof(KryptonTextBoxColumnDesigner))]
     [ToolboxBitmap(typeof(KryptonDataGridViewTextBoxColumn), "ToolboxBitmaps.KryptonTextBox.bmp")]
     public class KryptonDataGridViewTextBoxColumn : KryptonDataGridViewIconColumn
     {
-        #region Instance Fields
-
-        #endregion
-
         #region Identity
         /// <summary>
         /// Initialize a new instance of the KryptonDataGridViewTextBoxColumn class.
         /// </summary>
         public KryptonDataGridViewTextBoxColumn()
-            : base(new KryptonDataGridViewTextBoxCell())
-        {
+            : base(new KryptonDataGridViewTextBoxCell()) =>
             SortMode = DataGridViewColumnSortMode.Automatic;
-        }
 
         /// <summary>
         /// Returns a String that represents the current Object.
@@ -42,7 +36,7 @@ namespace Krypton.Toolkit
         /// <returns>A String that represents the current Object.</returns>
         public override string ToString()
         {
-            StringBuilder builder = new(0x40);
+            var builder = new StringBuilder(0x40);
             builder.Append("KryptonDataGridViewTextBoxColumn { Name=");
             // ReSharper disable RedundantBaseQualifier
             builder.Append(base.Name);
@@ -59,7 +53,7 @@ namespace Krypton.Toolkit
         /// <returns></returns>
         public override object Clone()
         {
-            KryptonDataGridViewTextBoxColumn cloned = base.Clone() as KryptonDataGridViewTextBoxColumn;
+            var cloned = base.Clone() as KryptonDataGridViewTextBoxColumn;
 
             cloned.Multiline = Multiline;
             cloned.MultilineStringEditor = MultilineStringEditor;
@@ -78,7 +72,7 @@ namespace Krypton.Toolkit
 
             base.Dispose(disposing);
         }
-        
+
         #endregion
 
         #region Public
@@ -86,7 +80,7 @@ namespace Krypton.Toolkit
         /// Gets or sets the maximum number of characters that can be entered into the text box.
         /// </summary>
         [Category(@"Behavior")]
-        [DefaultValue(typeof(int), "32767")]
+        [DefaultValue(32767)]
         public int MaxInputLength
         {
             get =>
@@ -116,7 +110,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the sort mode for the column.
         /// </summary>
-        [DefaultValue(typeof(DataGridViewColumnSortMode), "Automatic")]
+        [DefaultValue(DataGridViewColumnSortMode.Automatic)]
         public new DataGridViewColumnSortMode SortMode
         {
             get => base.SortMode;
@@ -258,7 +252,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Private
-        private KryptonDataGridViewTextBoxCell TextBoxCellTemplate => (KryptonDataGridViewTextBoxCell)CellTemplate;
+        private KryptonDataGridViewTextBoxCell? TextBoxCellTemplate => (KryptonDataGridViewTextBoxCell)CellTemplate;
 
         #endregion
 

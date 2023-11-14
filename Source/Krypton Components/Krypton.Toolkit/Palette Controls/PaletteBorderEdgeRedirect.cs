@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -30,10 +30,10 @@ namespace Krypton.Toolkit
             /// Initialize a new instance of the BackToBorder class.
             /// </summary>
             /// <param name="parent">Parent to get border values from.</param>
-            public BackToBorder(IPaletteBorder parent)
+            public BackToBorder([DisallowNull] IPaletteBorder parent)
             {
                 Debug.Assert(parent != null);
-                _parent = parent;
+                _parent = parent!;
             }
             #endregion
 
@@ -94,7 +94,7 @@ namespace Krypton.Toolkit
             /// </summary>
             /// <param name="state">Palette value should be applicable to this state.</param>
             /// <returns>Image instance.</returns>
-            public Image GetBackImage(PaletteState state) => _parent.GetBorderImage(state);
+            public Image? GetBackImage(PaletteState state) => _parent.GetBorderImage(state);
 
             /// <summary>
             /// Gets the background image style.
@@ -127,7 +127,7 @@ namespace Krypton.Toolkit
         /// <param name="inherit">Source for inheriting defaulted values.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
         public PaletteBorderEdgeRedirect(IPaletteBorder inherit,
-                                         NeedPaintHandler needPaint)
+                                         NeedPaintHandler? needPaint)
             : base(null, needPaint)
         {
             // Remember inheritance
@@ -182,10 +182,7 @@ namespace Krypton.Toolkit
         /// Update the source palettes for drawing.
         /// </summary>
         /// <param name="paletteBorder">Palette source for the border.</param>
-        public virtual void SetPalette(IPaletteBorder paletteBorder)
-        {
-            _inherit = paletteBorder;
-        }
+        public virtual void SetPalette(IPaletteBorder paletteBorder) => _inherit = paletteBorder;
         #endregion
 
         #region IPaletteBorder
@@ -264,7 +261,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image instance.</returns>
-        public Image GetBorderImage(PaletteState state) => _inherit.GetBorderImage(state);
+        public Image? GetBorderImage(PaletteState state) => _inherit.GetBorderImage(state);
 
         /// <summary>
         /// Gets the border image style.

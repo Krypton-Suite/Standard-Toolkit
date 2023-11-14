@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -23,13 +23,13 @@ namespace Krypton.Toolkit
         private const int WEEKS = 6;
         private const int WEEKDAYS = 7;
         private const int DAYS = 42;
-        private static readonly TimeSpan TIMESPAN_1DAY = new(1, 0, 0, 0);
+        private static readonly TimeSpan TIMESPAN_1DAY = new TimeSpan(1, 0, 0, 0);
         #endregion
 
         #region Instance Fields
         private readonly IKryptonMonthCalendar _calendar;
         private readonly ViewLayoutMonths _months;
-        private readonly IDisposable[] _dayMementos;
+        private readonly IDisposable?[] _dayMementos;
         private readonly Rectangle[] _dayRects;
         private DateTime _lastDay;
         private DateTime _firstDay;
@@ -59,7 +59,7 @@ namespace Krypton.Toolkit
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            "ViewDrawMonthDays:" + Id;
+            $"ViewDrawMonthDays:{Id}";
 
         /// <summary>
         /// Release unmanaged and optionally managed resources.
@@ -211,7 +211,7 @@ namespace Krypton.Toolkit
         /// Discover the preferred size of the element.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override Size GetPreferredSize(ViewLayoutContext context)
+        public override Size GetPreferredSize([DisallowNull] ViewLayoutContext context)
         {
             Debug.Assert(context != null);
             return new Size(_months.SizeDays.Width * WEEKDAYS, _months.SizeDays.Height * WEEKS);
@@ -221,7 +221,7 @@ namespace Krypton.Toolkit
         /// Perform a layout of the elements.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override void Layout(ViewLayoutContext context)
+        public override void Layout([DisallowNull] ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 
@@ -236,8 +236,10 @@ namespace Krypton.Toolkit
 
             var layoutXCell = ClientLocation.X;
             var layoutXDay = ClientLocation.X + ((_months.SizeDays.Width - _months.SizeDay.Width) / 2);
-            Rectangle layoutRectCell = new(layoutXCell, ClientLocation.Y, _months.SizeDays.Width, _months.SizeDays.Height);
-            Rectangle layoutRectDay = new(layoutXDay, ClientLocation.Y, _months.SizeDay.Width, _months.SizeDays.Height);
+            var layoutRectCell = new Rectangle(layoutXCell, ClientLocation.Y, _months.SizeDays.Width,
+                _months.SizeDays.Height);
+            var layoutRectDay = new Rectangle(layoutXDay, ClientLocation.Y, _months.SizeDay.Width,
+                _months.SizeDays.Height);
 
             // Layout each week as a row
             DateTime todayDate = _calendar.TodayDate;
@@ -260,7 +262,7 @@ namespace Krypton.Toolkit
                     }
 
                     var skip = false;
-                    PaletteState paletteState = PaletteState.Normal;
+                    var paletteState = PaletteState.Normal;
                     IPaletteTriple paletteTriple = _calendar.OverrideNormal;
 
                     // If the display date is not within the allowed range, do not draw it
@@ -357,7 +359,7 @@ namespace Krypton.Toolkit
         /// Perform rendering before child elements are rendered.
         /// </summary>
         /// <param name="context">Rendering context.</param>
-        public override void RenderBefore(RenderContext context)
+        public override void RenderBefore([DisallowNull] RenderContext context)
         {
             Debug.Assert(context != null);
 
@@ -369,8 +371,10 @@ namespace Krypton.Toolkit
 
             var layoutXCell = ClientLocation.X;
             var layoutXDay = ClientLocation.X + ((_months.SizeDays.Width - _months.SizeDay.Width) / 2);
-            Rectangle drawRectCell = new(layoutXCell, ClientLocation.Y, _months.SizeDays.Width, _months.SizeDays.Height);
-            Rectangle drawRectDay = new(layoutXDay, ClientLocation.Y, _months.SizeDay.Width, _months.SizeDays.Height);
+            var drawRectCell = new Rectangle(layoutXCell, ClientLocation.Y, _months.SizeDays.Width,
+                _months.SizeDays.Height);
+            var drawRectDay = new Rectangle(layoutXDay, ClientLocation.Y, _months.SizeDay.Width,
+                _months.SizeDays.Height);
 
             // Draw each week as a row
             DateTime todayDate = _calendar.TodayDate;
@@ -387,7 +391,7 @@ namespace Krypton.Toolkit
                     if (_dayMementos[index] != null)
                     {
                         var skip = false;
-                        PaletteState paletteState = PaletteState.Normal;
+                        var paletteState = PaletteState.Normal;
                         IPaletteTriple paletteTriple = _calendar.OverrideNormal;
 
                         // If the display date is not within the allowed range, do not draw it
@@ -492,7 +496,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">The state for which the image is needed.</param>
         /// <returns>Image value.</returns>
-        public Image GetImage(PaletteState state) => null;
+        public Image? GetImage(PaletteState state) => null;
 
         /// <summary>
         /// Gets the image color that should be transparent.

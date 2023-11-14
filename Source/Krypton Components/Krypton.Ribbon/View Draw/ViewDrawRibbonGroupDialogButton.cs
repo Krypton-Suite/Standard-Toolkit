@@ -5,7 +5,9 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  
+ *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
  */
 #endregion
@@ -24,7 +26,7 @@ namespace Krypton.Ribbon
         private readonly Size _contentSize; // = new(-3, -3);
         private readonly KryptonRibbon _ribbon;
         private readonly KryptonRibbonGroup _ribbonGroup;
-        private IDisposable _mementoBack;
+        private IDisposable? _mementoBack;
         #endregion
 
         #region Identity
@@ -34,8 +36,8 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Reference to owning ribbon control.</param>
         /// <param name="ribbonGroup">Reference to ribbon group this represents.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public ViewDrawRibbonGroupDialogButton(KryptonRibbon ribbon,
-                                               KryptonRibbonGroup ribbonGroup,
+        public ViewDrawRibbonGroupDialogButton([DisallowNull] KryptonRibbon ribbon,
+                                               [DisallowNull] KryptonRibbonGroup ribbonGroup,
                                                NeedPaintHandler needPaint)
         {
             Debug.Assert(ribbon != null);
@@ -46,7 +48,7 @@ namespace Krypton.Ribbon
             _ribbonGroup = ribbonGroup;
 
             // Attach a controller to this element for the pressing of the button
-            DialogLauncherButtonController controller = new(ribbon, this, needPaint);
+            var controller = new DialogLauncherButtonController(ribbon, this, needPaint);
             controller.Click += OnClick;
             MouseController = controller;
             SourceController = controller;
@@ -63,7 +65,7 @@ namespace Krypton.Ribbon
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            @"ViewDrawRibbonGroupButton:" + Id;
+            $@"ViewDrawRibbonGroupButton:{Id}";
 
         /// <summary>
         /// Clean up any resources being used.
@@ -88,7 +90,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets access to the controller used for the button.
         /// </summary>
-        public DialogLauncherButtonController DialogButtonController => SourceController as DialogLauncherButtonController;
+        public DialogLauncherButtonController? DialogButtonController => SourceController as DialogLauncherButtonController;
 
         #endregion
 
@@ -103,7 +105,7 @@ namespace Krypton.Ribbon
         /// Perform a layout of the elements.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override void Layout(ViewLayoutContext context)
+        public override void Layout([DisallowNull] ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 

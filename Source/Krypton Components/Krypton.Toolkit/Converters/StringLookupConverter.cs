@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -15,43 +15,14 @@ namespace Krypton.Toolkit
     /// <summary>
     /// Helper base class used to convert from to/from a table of value,string pairs.
     /// </summary>
-    public abstract class StringLookupConverter : EnumConverter
+    public abstract class StringLookupConverter<TEnumType> : EnumConverter
     {
-        #region Type Definitions
-        /// <summary>
-        /// Represents a name/value pair association.
-        /// </summary>
-        protected struct Pair
-        {
-            /// <summary>
-            /// Enumeration value.
-            /// </summary>
-            public object Enum;
-
-            /// <summary>
-            /// Enumeration value display string.
-            /// </summary>
-            public string Display;
-
-            /// <summary>
-            /// Initialize a new instance of the Pair structure.
-            /// </summary>
-            /// <param name="obj">Object instance.</param>
-            /// <param name="str">String instance.</param>
-            public Pair(object obj, string str)
-            {
-                Enum = obj;
-                Display = str;
-            }
-        }
-        #endregion
-
         #region Identity
         /// <summary>
         /// Initialize a new instance of the StringLookupConverter class.
         /// </summary>
-        protected StringLookupConverter(Type enumType)
-            : base(enumType)
+        public StringLookupConverter()
+            : base(typeof(TEnumType))
         {
         }
         #endregion
@@ -60,7 +31,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets an array of lookup pairs.
         /// </summary>
-        protected abstract Pair[] Pairs { get; }
+        protected abstract IReadOnlyDictionary<TEnumType /*Enum*/, string /*Display*/> Pairs { get; }
         #endregion
 
         #region Public
@@ -72,21 +43,20 @@ namespace Krypton.Toolkit
         /// <param name="value">The Object to convert.</param>
         /// <param name="destinationType">The Type to convert the value parameter to.</param>
         /// <returns>An Object that represents the converted value.</returns>
-        public override object ConvertTo(ITypeDescriptorContext context,
-                                         CultureInfo culture, 
-                                         object value, 
+        public override object? ConvertTo(ITypeDescriptorContext? context,
+                                         CultureInfo? culture, 
+                                         object? value, 
                                          Type destinationType)
         {
             // We are only interested in adding functionality for converting to strings
-            if (destinationType == typeof(string))
+            if (value is TEnumType val
+                && destinationType == typeof(string)
+                )
             {
                 // Search for a matching value
-                foreach (Pair p in Pairs)
+                if ( Pairs.TryGetValue(val, out var display) )
                 {
-                    if (p.Enum.Equals(value))
-                    {
-                        return p.Display;
-                    }
+                        return display;
                 }
             }
 
@@ -101,20 +71,18 @@ namespace Krypton.Toolkit
         /// <param name="culture">The CultureInfo to use as the current culture.</param>
         /// <param name="value">The Object to convert.</param>
         /// <returns>An Object that represents the converted value.</returns>
-        public override object ConvertFrom(ITypeDescriptorContext context,
-                                           CultureInfo culture, 
-                                           object value)
+        public override object? ConvertFrom(ITypeDescriptorContext? context,
+                                           CultureInfo? culture, 
+                                           object? value)
         {
             // We are only interested in adding functionality for converting from strings
-            if (value is string)
+            if (value is string val)
             {
                 // Search for a matching string
-                foreach (Pair p in Pairs)
-                {
-                    if (p.Display.Equals(value))
-                    {
-                        return p.Enum;
-                    }
+                var key = Pairs.FirstOrDefault(x => x.Value == val).Key;
+                if ( key != null)
+                { 
+                    return key; 
                 }
             }
 

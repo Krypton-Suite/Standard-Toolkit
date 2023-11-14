@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -15,7 +15,7 @@ namespace Krypton.Toolkit
     internal class KryptonBreadCrumbItemDesigner : ComponentDesigner
     {
         #region Instance Fields
-        private KryptonBreadCrumbItem _crumbItem;
+        private KryptonBreadCrumbItem? _crumbItem;
         private IComponentChangeService _changeService;
         #endregion
 
@@ -24,7 +24,7 @@ namespace Krypton.Toolkit
         /// Initializes the designer with the specified component.
         /// </summary>
         /// <param name="component">The IComponent to associate the designer with.</param>
-        public override void Initialize(IComponent component)
+        public override void Initialize([DisallowNull] IComponent component)
         {
             // Let base class do standard stuff
             base.Initialize(component);
@@ -48,7 +48,7 @@ namespace Krypton.Toolkit
         {
             get
             {
-                ArrayList compound = new(base.AssociatedComponents);
+                var compound = new ArrayList(base.AssociatedComponents);
 
                 if (_crumbItem != null)
                 {
@@ -90,12 +90,12 @@ namespace Krypton.Toolkit
             if ((_crumbItem != null) && (e.Component == _crumbItem))
             {
                 // Need access to host in order to delete a component
-                IDesignerHost host = (IDesignerHost)GetService(typeof(IDesignerHost));
+                var host = (IDesignerHost)GetService(typeof(IDesignerHost));
 
                 // We need to remove all items from the child item collection
                 for (var j = _crumbItem.Items.Count - 1; j >= 0; j--)
                 {
-                    Component item = _crumbItem.Items[j] as Component;
+                    var item = _crumbItem.Items[j] as Component;
                     _crumbItem.Items.Remove(item);
                     host.DestroyComponent(item);
                 }

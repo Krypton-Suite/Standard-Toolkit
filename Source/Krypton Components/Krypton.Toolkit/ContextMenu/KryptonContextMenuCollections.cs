@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -15,7 +15,7 @@ namespace Krypton.Toolkit
     /// <summary>
     /// Manage the items that can be added to a top level context menu collection.
     /// </summary>
-    [Editor(@"Krypton.Toolkit.KryptonContextMenuCollectionEditor, Krypton.Toolkit", typeof(UITypeEditor))]
+    [Editor(typeof(KryptonContextMenuCollectionEditor), typeof(UITypeEditor))]
     public class KryptonContextMenuCollection : TypedRestrictCollection<KryptonContextMenuItemBase>
     {
         #region Static Fields
@@ -45,14 +45,13 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="keyData">Key data to check against shortcut definitions.</param>
         /// <returns>True if shortcut was handled, otherwise false.</returns>
-        public bool ProcessShortcut(Keys keyData)
-        {
+        public bool ProcessShortcut(Keys keyData) =>
             // Ask each individual item if it has a shortcut to be processed
-            return this.Any(item => item.ProcessShortcut(keyData));
-        }
+            this.Any(item => item.ProcessShortcut(keyData));
         #endregion
 
         #region Internal
+
         /// <summary>
         /// Create view elements appropriate for the collection items.
         /// </summary>
@@ -61,11 +60,13 @@ namespace Krypton.Toolkit
         /// <param name="columns">Collection of columns to create view inside.</param>
         /// <param name="standardStyle">Should the standard style be applied.</param>
         /// <param name="imageColumn">Should the image column be applied.</param>
+        /// <param name="needPaint"></param>
         public void GenerateView(IContextMenuProvider provider,
                                  object parent,
                                  ViewLayoutStack columns,
                                  bool standardStyle,
-                                 bool imageColumn)
+                                 bool imageColumn,
+                                 NeedPaintHandler? needPaint)
         {
             // Create the initial column
             ViewLayoutStack column = AddColumn(columns);
@@ -73,6 +74,7 @@ namespace Krypton.Toolkit
             // Process each item in the collection in turn
             foreach (KryptonContextMenuItemBase item in this.Where(static item => item.Visible))
             {
+                item.ToolTipValues.NeedPaint = needPaint;
                 // Special handling of separator items
                 if (item is KryptonContextMenuSeparator separator)
                 {
@@ -137,10 +139,8 @@ namespace Krypton.Toolkit
         #region Private
         private void OnRadioButtonCheckedChanged(object sender, EventArgs e)
         {
-            KryptonContextMenuRadioButton radioButton = sender as KryptonContextMenuRadioButton;
-
             // Only interested if the button has become checked
-            if (radioButton.Checked)
+            if (sender is KryptonContextMenuRadioButton { Checked: true } radioButton)
             {
                 // Find the position of this element in the collection
                 var index = IndexOf(radioButton);
@@ -187,7 +187,7 @@ namespace Krypton.Toolkit
 
         private ViewLayoutStack AddColumn(ViewLayoutStack columns)
         {
-            ViewLayoutStack column = new(false);
+            var column = new ViewLayoutStack(false);
             columns.Add(column);
             return column;
         }
@@ -219,11 +219,9 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="keyData">Key data to check against shortcut definitions.</param>
         /// <returns>True if shortcut was handled, otherwise false.</returns>
-        public bool ProcessShortcut(Keys keyData)
-        {
+        public bool ProcessShortcut(Keys keyData) =>
             // Ask each individual item if it has a shortcut to be processed
-            return this.Any(item => item.ProcessShortcut(keyData));
-        }
+            this.Any(item => item.ProcessShortcut(keyData));
         #endregion
 
         #region Internal
@@ -277,11 +275,11 @@ namespace Krypton.Toolkit
                                    bool imageColumn)
         {
             // Create a pile specific to organising menu items
-            ViewLayoutMenuItemsPile menuItemPile = new(provider, items, standardStyle, imageColumn);
+            var menuItemPile = new ViewLayoutMenuItemsPile(provider, items, standardStyle, imageColumn);
 
             // The pile is the root item for the new column
             columns.Add(menuItemPile);
-            
+
             // Child items are placed inside the column stack
             return menuItemPile.ItemStack;
         }

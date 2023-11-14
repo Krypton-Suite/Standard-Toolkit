@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -40,7 +40,7 @@ namespace Krypton.Navigator
 
         #region Instance Fields
 
-        private IPaletteMetric _paletteMetric;
+        private IPaletteMetric? _paletteMetric;
         private PaletteMetricInt _metricGap;
         private List<LineDetails> _lineDetails;
         private Size[] _childSizes;
@@ -51,11 +51,11 @@ namespace Krypton.Navigator
 
         #region Identity
         /// <summary>
-        /// Initialize a new instance of the ViewLayoutBar class.
+        /// Initialise a new instance of the ViewLayoutBar class.
         /// </summary>
         /// <param name="itemSizing">Method used to calculate item size.</param>
         /// <param name="itemAlignment">Method used to align items within lines.</param>
-        /// <param name="barMultiline">Multline showing of items.</param>
+        /// <param name="barMultiline">Multiline showing of items.</param>
         /// <param name="itemMinimumSize">Maximum allowed item size.</param>
         /// <param name="itemMaximumSize">Minimum allowed item size.</param>
         /// <param name="barMinimumHeight">Minimum height of the bar.</param>
@@ -77,13 +77,13 @@ namespace Krypton.Navigator
         }
 
         /// <summary>
-        /// Initialize a new instance of the ViewLayoutBar class.
+        /// Initialise a new instance of the ViewLayoutBar class.
         /// </summary>
         /// <param name="paletteMetric">Palette source for metric values.</param>
         /// <param name="metricGap">Metric for gap between each child item.</param>
         /// <param name="itemSizing">Method used to calculate item size.</param>
         /// <param name="itemAlignment">Method used to align items within lines.</param>
-        /// <param name="barMultiline">Multline showing of items.</param>
+        /// <param name="barMultiline">Multiline showing of items.</param>
         /// <param name="itemMinimumSize">Maximum allowed item size.</param>
         /// <param name="itemMaximumSize">Minimum allowed item size.</param>
         /// <param name="barMinimumHeight">Minimum height of the bar.</param>
@@ -106,13 +106,13 @@ namespace Krypton.Navigator
         }
 
         /// <summary>
-        /// Initialize a new instance of the ViewLayoutBar class.
+        /// Initialise a new instance of the ViewLayoutBar class.
         /// </summary>
         /// <param name="paletteMetric">Palette source for metric values.</param>
         /// <param name="metricGap">Metric for gap between each child item.</param>
         /// <param name="itemSizing">Method used to calculate item size.</param>
         /// <param name="itemAlignment">Method used to align items within lines.</param>
-        /// <param name="barMultiline">Multline showing of items.</param>
+        /// <param name="barMultiline">Multiline showing of items.</param>
         /// <param name="itemMinimumSize">Maximum allowed item size.</param>
         /// <param name="itemMaximumSize">Minimum allowed item size.</param>
         /// <param name="barMinimumHeight">Minimum height of the bar.</param>
@@ -152,7 +152,7 @@ namespace Krypton.Navigator
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            "ViewLayoutBar:" + Id;
+            $"ViewLayoutBar:{Id}";
 
         #endregion
 
@@ -275,11 +275,8 @@ namespace Krypton.Navigator
         /// <summary>
         /// Updates the metrics source and metric to use.
         /// </summary>
-        /// <param name="paletteMetric">Source for aquiring metrics.</param>
-        public void SetMetrics(IPaletteMetric paletteMetric)
-        {
-            _paletteMetric = paletteMetric;
-        }
+        /// <param name="paletteMetric">Source for acquiring metrics.</param>
+        public void SetMetrics(IPaletteMetric? paletteMetric) => _paletteMetric = paletteMetric;
 
         /// <summary>
         /// Updates the metrics source and metric to use.
@@ -299,7 +296,7 @@ namespace Krypton.Navigator
         /// Discover the preferred size of the element.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override Size GetPreferredSize(ViewLayoutContext context)
+        public override Size GetPreferredSize([DisallowNull] ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 
@@ -307,7 +304,7 @@ namespace Krypton.Navigator
             _maximumItem = Size.Empty;
 
             // Keep track of the total preferred size
-            Size preferredSize = Size.Empty;
+            var preferredSize = Size.Empty;
 
             // Nothing to calculate if there are no children
             if (Count > 0)
@@ -333,7 +330,7 @@ namespace Krypton.Navigator
                 {
                     // Get access to the indexed child
                     ViewBase child = this[reversed ? (Count - i - 1) : i];
-                    INavCheckItem checkItem = (INavCheckItem)child;
+                    var checkItem = (INavCheckItem)child;
 
                     // Only examine visible children
                     if (child.Visible)
@@ -347,7 +344,7 @@ namespace Krypton.Navigator
                         // Ask child for it's own preferred size
                         _childSizes[i] = child.GetPreferredSize(context);
 
-                        // Enfore the minimum and maximum sizes
+                        // Enforce the minimum and maximum sizes
                         if (ItemVertical)
                         {
                             _childSizes[i].Width = Math.Max(Math.Min(_childSizes[i].Width, ItemMaximumSize.Height), ItemMinimumSize.Height);
@@ -501,8 +498,7 @@ namespace Krypton.Navigator
                     if (yMaxPos > context.DisplayRectangle.Height)
                     {
                         // If the mode requires we do not extend over the line
-                        if ((BarMultiline == BarMultiline.Shrinkline) ||
-                            (BarMultiline == BarMultiline.Exactline))
+                        if (BarMultiline is BarMultiline.Shrinkline or BarMultiline.Exactline)
                         {
                             bool changed;
 
@@ -511,7 +507,7 @@ namespace Krypton.Navigator
                             {
                                 changed = false;
 
-                                // Are there any items avaiable for reducing?
+                                // Are there any items available for reducing?
                                 if (visibleItems > 0)
                                 {
                                     // How much do we need to shrink each item by?
@@ -555,8 +551,7 @@ namespace Krypton.Navigator
                     if (yMaxPos < context.DisplayRectangle.Height)
                     {
                         // If the mode requires we extend to the end of the line
-                        if ((BarMultiline == BarMultiline.Expandline) ||
-                            (BarMultiline == BarMultiline.Exactline))
+                        if (BarMultiline is BarMultiline.Expandline or BarMultiline.Exactline)
                         {
                             bool changed;
 
@@ -565,7 +560,7 @@ namespace Krypton.Navigator
                             {
                                 changed = false;
 
-                                // Are there any items avaiable for expanding?
+                                // Are there any items available for expanding?
                                 if (visibleItems > 0)
                                 {
                                     // How much do we need to expand each item by?
@@ -664,8 +659,7 @@ namespace Krypton.Navigator
                     if (xMaxPos > context.DisplayRectangle.Width)
                     {
                         // If the mode requires we do not extend over the line
-                        if ((BarMultiline == BarMultiline.Shrinkline) ||
-                            (BarMultiline == BarMultiline.Exactline))
+                        if (BarMultiline is BarMultiline.Shrinkline or BarMultiline.Exactline)
                         {
                             bool changed;
 
@@ -674,7 +668,7 @@ namespace Krypton.Navigator
                             {
                                 changed = false;
 
-                                // Are there any items avaiable for reducing?
+                                // Are there any items available for reducing?
                                 if (visibleItems > 0)
                                 {
                                     // How much do we need to shrink each item by?
@@ -718,8 +712,7 @@ namespace Krypton.Navigator
                     if (xMaxPos < context.DisplayRectangle.Width)
                     {
                         // If the mode requires we extend to the end of the line
-                        if ((BarMultiline == BarMultiline.Expandline) ||
-                            (BarMultiline == BarMultiline.Exactline))
+                        if (BarMultiline is BarMultiline.Expandline or BarMultiline.Exactline)
                         {
                             bool changed;
 
@@ -728,7 +721,7 @@ namespace Krypton.Navigator
                             {
                                 changed = false;
 
-                                // Are there any items avaiable for reducing?
+                                // Are there any items available for reducing?
                                 if (visibleItems > 0)
                                 {
                                     // How much do we need to expand each item by?
@@ -766,8 +759,7 @@ namespace Krypton.Navigator
 
                 // Reverse the order of the lines when at top or left edge, as the 
                 // items should be positioned from the inside edge moving outwards
-                if ((Orientation == VisualOrientation.Top) ||
-                    (Orientation == VisualOrientation.Left))
+                if (Orientation is VisualOrientation.Top or VisualOrientation.Left)
                 {
                     _lineDetails.Reverse();
                 }
@@ -789,8 +781,7 @@ namespace Krypton.Navigator
                                 LineDetails ld = _lineDetails[i];
                                 _lineDetails.RemoveAt(i);
 
-                                if ((Orientation == VisualOrientation.Top) ||
-                                    (Orientation == VisualOrientation.Left))
+                                if (Orientation is VisualOrientation.Top or VisualOrientation.Left)
                                 {
                                     // Move to end of the list
                                     _lineDetails.Add(ld);
@@ -806,7 +797,7 @@ namespace Krypton.Navigator
                 }
             }
 
-            // Enfore the minimum height of the bar
+            // Enforce the minimum height of the bar
             if (BarVertical)
             {
                 preferredSize.Width = Math.Max(preferredSize.Width, BarMinimumHeight);
@@ -823,7 +814,7 @@ namespace Krypton.Navigator
         /// Perform a layout of the elements.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override void Layout(ViewLayoutContext context)
+        public override void Layout([DisallowNull] ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 
@@ -1000,16 +991,11 @@ namespace Krypton.Navigator
         #endregion
 
         #region Implementation
-        private bool BarVertical => ((Orientation == VisualOrientation.Left) ||
-                                     (Orientation == VisualOrientation.Right));
+        private bool BarVertical => Orientation is VisualOrientation.Left or VisualOrientation.Right;
 
-        private bool ItemVertical => ((ItemOrientation == VisualOrientation.Left) ||
-                                      (ItemOrientation == VisualOrientation.Right));
+        private bool ItemVertical => ItemOrientation is VisualOrientation.Left or VisualOrientation.Right;
 
-        private bool IsOneLine => ((BarMultiline == BarMultiline.Singleline) ||
-                                   (BarMultiline == BarMultiline.Shrinkline) ||
-                                   (BarMultiline == BarMultiline.Expandline) ||
-                                   (BarMultiline == BarMultiline.Exactline));
+        private bool IsOneLine => BarMultiline is BarMultiline.Singleline or BarMultiline.Shrinkline or BarMultiline.Expandline or BarMultiline.Exactline;
 
         private int FindStartingXPosition(ViewLayoutContext context, 
                                           LineDetails lineDetails,
@@ -1020,13 +1006,14 @@ namespace Krypton.Navigator
             // Do we need to apply right to left by aligning in opposite direction?
             if (IsOneLine && !BarVertical && (context.Control.RightToLeft == RightToLeft.Yes))
             {
-                if (align == RelativePositionAlign.Near)
+                switch (align)
                 {
-                    align = RelativePositionAlign.Far;
-                }
-                else if (align == RelativePositionAlign.Far)
-                {
-                    align = RelativePositionAlign.Near;
+                    case RelativePositionAlign.Near:
+                        align = RelativePositionAlign.Far;
+                        break;
+                    case RelativePositionAlign.Far:
+                        align = RelativePositionAlign.Near;
+                        break;
                 }
             }
 
@@ -1058,13 +1045,14 @@ namespace Krypton.Navigator
             // Do we need to apply right to left by aligning in opposite direction?
             if (IsOneLine && !BarVertical && (context.Control.RightToLeft == RightToLeft.Yes))
             {
-                if (align == RelativePositionAlign.Near)
+                switch (align)
                 {
-                    align = RelativePositionAlign.Far;
-                }
-                else if (align == RelativePositionAlign.Far)
-                {
-                    align = RelativePositionAlign.Near;
+                    case RelativePositionAlign.Near:
+                        align = RelativePositionAlign.Far;
+                        break;
+                    case RelativePositionAlign.Far:
+                        align = RelativePositionAlign.Near;
+                        break;
                 }
             }
 

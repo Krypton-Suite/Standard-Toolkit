@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -31,7 +31,7 @@ namespace Krypton.Navigator
         /// <param name="redirect">inheritance redirection instance.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
         public PaletteNavigatorRedirect(KryptonNavigator navigator,
-                                        PaletteRedirect redirect,
+                                        PaletteRedirect? redirect,
                                         NeedPaintHandler needPaint)
             : this(navigator, redirect, redirect, redirect, 
                               redirect, redirect, redirect,
@@ -63,23 +63,23 @@ namespace Krypton.Navigator
         /// <param name="redirectNavigatorRibbonTab">inheritance redirection for ribbon tab.</param>
         /// <param name="redirectNavigatorRibbonGeneral">inheritance redirection for ribbon general.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public PaletteNavigatorRedirect(KryptonNavigator navigator,
-                                        PaletteRedirect redirectNavigator,
-                                        PaletteRedirect redirectNavigatorPage,
-                                        PaletteRedirect redirectNavigatorHeaderGroup,
-                                        PaletteRedirect redirectNavigatorHeaderPrimary,
-                                        PaletteRedirect redirectNavigatorHeaderSecondary,
-                                        PaletteRedirect redirectNavigatorHeaderBar,
-                                        PaletteRedirect redirectNavigatorHeaderOverflow,
-                                        PaletteRedirect redirectNavigatorCheckButton,
-                                        PaletteRedirect redirectNavigatorOverflowButton,
-                                        PaletteRedirect redirectNavigatorMiniButton,
-                                        PaletteRedirect redirectNavigatorBar,
-                                        PaletteRedirect redirectNavigatorBorderEdge,
-                                        PaletteRedirect redirectNavigatorSeparator,
-                                        PaletteRedirect redirectNavigatorTab,
-                                        PaletteRedirect redirectNavigatorRibbonTab,
-                                        PaletteRedirect redirectNavigatorRibbonGeneral,
+        public PaletteNavigatorRedirect(KryptonNavigator? navigator,
+                                        PaletteRedirect? redirectNavigator,
+                                        PaletteRedirect? redirectNavigatorPage,
+                                        PaletteRedirect? redirectNavigatorHeaderGroup,
+                                        PaletteRedirect? redirectNavigatorHeaderPrimary,
+                                        PaletteRedirect? redirectNavigatorHeaderSecondary,
+                                        PaletteRedirect? redirectNavigatorHeaderBar,
+                                        PaletteRedirect? redirectNavigatorHeaderOverflow,
+                                        PaletteRedirect? redirectNavigatorCheckButton,
+                                        PaletteRedirect? redirectNavigatorOverflowButton,
+                                        PaletteRedirect? redirectNavigatorMiniButton,
+                                        PaletteRedirect? redirectNavigatorBar,
+                                        PaletteRedirect? redirectNavigatorBorderEdge,
+                                        PaletteRedirect? redirectNavigatorSeparator,
+                                        PaletteRedirect? redirectNavigatorTab,
+                                        PaletteRedirect? redirectNavigatorRibbonTab,
+                                        PaletteRedirect? redirectNavigatorRibbonGeneral,
                                         NeedPaintHandler needPaint)
             : base(redirectNavigator, PaletteBackStyle.PanelClient,
                    PaletteBorderStyle.ControlClient, needPaint)
@@ -105,7 +105,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Update the redirector for the border edge.
         /// </summary>
-        public PaletteRedirect RedirectBorderEdge
+        public PaletteRedirect? RedirectBorderEdge
         {
             set => _paletteBorderEdgeInheritRedirect.SetRedirector(value);
         }
@@ -115,7 +115,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Update the redirector for the ribbon general.
         /// </summary>
-        public PaletteRedirect RedirectRibbonGeneral
+        public PaletteRedirect? RedirectRibbonGeneral
         {
             set => RibbonGeneral.SetRedirector(value);
         }
@@ -190,7 +190,7 @@ namespace Krypton.Navigator
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public override IPaletteBorder PaletteBorder => base.PaletteBorder;
+        public override IPaletteBorder? PaletteBorder => base.PaletteBorder;
 
         #endregion
 
@@ -253,7 +253,7 @@ namespace Krypton.Navigator
         [Category(@"Visuals")]
         [Description(@"Overrides for defining header group appearance entries.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteNavigatorHeaderGroupRedirect HeaderGroup { get; }
+        public PaletteNavigatorHeaderGroupRedirect? HeaderGroup { get; }
 
         private bool ShouldSerializeHeaderGroup() => !HeaderGroup.IsDefault;
 
@@ -305,7 +305,7 @@ namespace Krypton.Navigator
         [Category(@"Visuals")]
         [Description(@"Overrides for defining separator appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteSeparatorPaddingRedirect Separator { get; }
+        public PaletteSeparatorPaddingRedirect? Separator { get; }
 
         private bool ShouldSerializeSeparator() => !Separator.IsDefault;
 
@@ -397,7 +397,7 @@ namespace Krypton.Navigator
         #endregion
 
         #region Internal
-        internal PalettePageRedirect PalettePage { get; }
+        internal PalettePageRedirect? PalettePage { get; }
 
         internal PaletteBorderStyle BorderEdgeStyle
         {

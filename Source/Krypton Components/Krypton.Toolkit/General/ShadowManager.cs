@@ -1,14 +1,17 @@
 ﻿#region BSD License
 /*
  * 
- * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
- * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2020 - 2023. All rights reserved. 
  *  
  */
 #endregion
+
+// To get around bug in .NET 8, Preview 7
+// TODO: Remove when .NET 8 is GA
+#if NET8_0
+using MethodInvoker = System.Windows.Forms.MethodInvoker;
+#endif 
 
 namespace Krypton.Toolkit
 {
@@ -21,7 +24,7 @@ namespace Krypton.Toolkit
         private readonly VisualForm _parentForm;
         private readonly ShadowValues _shadowValues;
         private bool _allowDrawing;
-        private VisualShadowBase[] _shadowForms;
+        private VisualShadowBase[]? _shadowForms;
         #endregion
 
         #region Identity
@@ -38,7 +41,6 @@ namespace Krypton.Toolkit
             shadowValues.BlurDistanceChanged += ShadowValues_BlurDistanceChanged;
             shadowValues.ColourChanged += ShadowValues_ColourChanged;
             shadowValues.OpacityChanged += ShadowValues_OpacityChanged;
-
         }
 
         internal void WndProc(ref Message m)
@@ -135,7 +137,8 @@ namespace Krypton.Toolkit
 
         private void ShadowValues_EnableShadowsChanged(object sender, EventArgs e)
         {
-            if (!_allowDrawing)
+            if (!_allowDrawing
+                || _shadowForms == null)
             {
                 // Call before shown is complete
                 return;
@@ -156,7 +159,8 @@ namespace Krypton.Toolkit
 
         private void ReCalcBrushes()
         {
-            if (!AllowDrawing)
+            if (!AllowDrawing
+                || _shadowForms == null)
             {
                 return;
             }
@@ -185,7 +189,7 @@ namespace Krypton.Toolkit
             var solidW = clientRectangle.Width + blur * 2;
             var solidH = clientRectangle.Height + blur * 2;
             var blurOffset = _shadowValues.ExtraWidth - blur;
-            Bitmap bitmap = new(w, h);
+            var bitmap = new Bitmap(w, h);
             bitmap.MakeTransparent();
             using Graphics g = Graphics.FromImage(bitmap);
             // fill background
@@ -197,8 +201,8 @@ namespace Krypton.Toolkit
             // four dir gradient
             if (blurOffset > 0)
             {
-                using (LinearGradientBrush brush = new(new PointF(0, 0), new PointF(blurOffset, 0),
-                    Color.Transparent, _shadowValues.Colour))
+                using (var brush = new LinearGradientBrush(new PointF(0, 0), new PointF(blurOffset, 0),
+                           Color.Transparent, _shadowValues.Colour))
                 {
                     // Left
                     g.FillRectangle(brush, 0, blurOffset, blurOffset, solidH);
@@ -221,11 +225,11 @@ namespace Krypton.Toolkit
 
 
                 // four corner
-                using (GraphicsPath gp = new())
-                using (Matrix matrix = new())
+                using (var gp = new GraphicsPath())
+                using (var matrix = new Matrix())
                 {
                     gp.AddEllipse(0, 0, blurOffset * 2, blurOffset * 2);
-                    using (PathGradientBrush pgb = new(gp)
+                    using (var pgb = new PathGradientBrush(gp)
                     {
                         CenterColor = _shadowValues.Colour,
                         SurroundColors = new[] { Color.Transparent },
@@ -268,7 +272,8 @@ namespace Krypton.Toolkit
         /// </remarks>
         private void PositionShadowForms(bool move)
         {
-            if (!_allowDrawing)
+            if (!_allowDrawing
+                || _shadowForms == null)
             {
                 // Probably called before shown is complete
                 return;
@@ -288,7 +293,7 @@ namespace Krypton.Toolkit
 
                 Point desktopLocation = _parentForm.DesktopLocation;
 
-                IntPtr hWinPosInfo = PI.BeginDeferWindowPos(_shadowForms.Length);
+                var hWinPosInfo = PI.BeginDeferWindowPos(_shadowForms.Length);
 
                 foreach (VisualShadowBase shadowForm in _shadowForms)
                 {
@@ -317,7 +322,6 @@ namespace Krypton.Toolkit
             {
                 Mi();
             }
-
         }
     }
 
@@ -326,7 +330,7 @@ namespace Krypton.Toolkit
     /// </summary>
     internal static class FlashWindowExListener
     {
-        private static readonly Dictionary<IntPtr, Form> _forms = new();
+        private static readonly Dictionary<IntPtr, Form> _forms = new Dictionary<IntPtr, Form>();
         private static readonly IntPtr _hHook;
         // Keep the HookProc delegate alive manually, such as using a class member as shown below,
         // otherwise the garbage collector will clean up the hook delegate eventually,

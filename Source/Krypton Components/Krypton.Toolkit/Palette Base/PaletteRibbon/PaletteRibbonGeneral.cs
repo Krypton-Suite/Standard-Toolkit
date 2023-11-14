@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -23,7 +23,7 @@ namespace Krypton.Toolkit
         #region Instance Fields
         private PaletteRelativeAlign _contextTextAlign;
         private Color _contextTextColor;
-        private Font _contextTextFont;
+        private Font? _contextTextFont;
         private IPaletteRibbonGeneral _inherit;
         private PaletteRibbonShape _ribbonShape;
         private Color _dialogDarkColor;
@@ -40,7 +40,7 @@ namespace Krypton.Toolkit
         private Color _qatButtonLightColor;
         private Color _tabSeparatorColor;
         private Color _tabSeparatorContextColor;
-        private Font _textFont;
+        private Font? _textFont;
         private PaletteTextHint _textHint;
         #endregion
 
@@ -50,7 +50,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="inherit">Source for inheriting general values.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public PaletteRibbonGeneral(IPaletteRibbonGeneral inherit,
+        public PaletteRibbonGeneral([DisallowNull] IPaletteRibbonGeneral inherit,
                                     NeedPaintHandler needPaint)
         {
             Debug.Assert(inherit != null);
@@ -157,7 +157,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category(@"Visuals")]
         [Description(@"Text alignment for the ribbon context text.")]
-        [DefaultValue(typeof(PaletteRelativeAlign), "Inherit")]
+        [DefaultValue(PaletteRelativeAlign.Inherit)]
         [RefreshProperties(RefreshProperties.All)]
         public PaletteRelativeAlign ContextTextAlign
         {
@@ -199,7 +199,7 @@ namespace Krypton.Toolkit
         [Description(@"Font for the ribbon context text.")]
         [DefaultValue(null)]
         [RefreshProperties(RefreshProperties.All)]
-        public Font ContextTextFont
+        public Font? ContextTextFont
         {
             get => _contextTextFont;
 
@@ -234,7 +234,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category(@"Visuals")]
         [Description(@"Color used for ribbon context text.")]
-        [DefaultValue(typeof(Color), "")]
+        [DefaultValue(typeof(Color), "Empty")]
         [RefreshProperties(RefreshProperties.All)]
         public Color ContextTextColor
         {
@@ -273,7 +273,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category(@"Visuals")]
         [Description(@"Dark disabled color for ribbon glyphs.")]
-        [DefaultValue(typeof(Color), "")]
+        [DefaultValue(typeof(Color), "Empty")]
         [RefreshProperties(RefreshProperties.All)]
         public Color DisabledDark
         {
@@ -660,7 +660,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category(@"Visuals")]
         [Description(@"Ribbon shape.")]
-        [DefaultValue(typeof(PaletteRibbonShape), "Inherit")]
+        [DefaultValue(PaletteRibbonShape.Inherit)]
         public PaletteRibbonShape RibbonShape
         {
             get => _ribbonShape;
@@ -777,7 +777,7 @@ namespace Krypton.Toolkit
         [Description(@"Font for the ribbon text.")]
         [DefaultValue(null)]
         [RefreshProperties(RefreshProperties.All)]
-        public Font TextFont
+        public Font? TextFont
         {
             get => _textFont;
 
@@ -812,7 +812,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category(@"Visuals")]
         [Description(@"Rendering hint for the text font.")]
-        [DefaultValue(typeof(PaletteTextHint), "Inherit")]
+        [DefaultValue(PaletteTextHint.Inherit)]
         [RefreshProperties(RefreshProperties.All)]
         public PaletteTextHint TextHint
         {

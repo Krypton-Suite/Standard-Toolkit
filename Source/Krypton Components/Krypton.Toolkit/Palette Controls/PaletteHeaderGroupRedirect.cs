@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -19,7 +19,7 @@ namespace Krypton.Toolkit
                                               IPaletteMetric
     {
         #region Instance Fields
-        private readonly PaletteRedirect _redirect;
+        private readonly PaletteRedirect? _redirect;
         private InheritBool _overlayHeaders;
 
         #endregion
@@ -30,7 +30,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="redirect">inheritance redirection instance.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public PaletteHeaderGroupRedirect(PaletteRedirect redirect,
+        public PaletteHeaderGroupRedirect(PaletteRedirect? redirect,
                                           NeedPaintHandler needPaint)
             : this(redirect, redirect, redirect, needPaint)
         {
@@ -43,9 +43,9 @@ namespace Krypton.Toolkit
         /// <param name="redirectHeaderPrimary">inheritance redirection for primary header.</param>
         /// <param name="redirectHeaderSecondary">inheritance redirection for secondary header.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public PaletteHeaderGroupRedirect(PaletteRedirect redirectHeaderGroup,
-                                          PaletteRedirect redirectHeaderPrimary,
-                                          PaletteRedirect redirectHeaderSecondary,
+        public PaletteHeaderGroupRedirect([DisallowNull] PaletteRedirect redirectHeaderGroup,
+                                          [DisallowNull] PaletteRedirect redirectHeaderPrimary,
+                                          [DisallowNull] PaletteRedirect redirectHeaderSecondary,
                                           NeedPaintHandler needPaint)
             : base(redirectHeaderGroup, PaletteBackStyle.ControlClient, 
                    PaletteBorderStyle.ControlClient, needPaint)
@@ -110,7 +110,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Visuals")]
         [Description(@"Should headers overlay the border.")]
-        [DefaultValue(typeof(InheritBool), "Inherit")]
+        [DefaultValue(InheritBool.Inherit)]
         [RefreshProperties(RefreshProperties.All)]
         public InheritBool OverlayHeaders
         {

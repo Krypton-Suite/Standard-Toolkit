@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -27,6 +27,7 @@ namespace Krypton.Toolkit
         private ButtonCheckState _checked;
         private ButtonEnabled _wasEnabled;
         private ButtonCheckState _wasChecked;
+        private bool _showDrop;
         #endregion
 
         #region Identity
@@ -46,7 +47,7 @@ namespace Krypton.Toolkit
         /// <returns>New instance.</returns>
         public override object Clone()
         {
-            ButtonSpecAny clone = (ButtonSpecAny)base.Clone();
+            var clone = (ButtonSpecAny)base.Clone();
             clone.Visible = Visible;
             clone.Enabled = Enabled;
             clone.Checked = Checked;
@@ -93,10 +94,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the Visible property to its default value.
         /// </summary>
-        public void ResetVisible()
-        {
-            Visible = true;
-        }
+        public void ResetVisible() => Visible = true;
         #endregion
 
         #region Enabled
@@ -107,7 +105,7 @@ namespace Krypton.Toolkit
         [Category(@"Behavior")]
         [Description(@"Defines the button enabled state.")]
         [RefreshProperties(RefreshProperties.All)]
-        [DefaultValue(typeof(ButtonEnabled), "Container")]
+        [DefaultValue(ButtonEnabled.Container)]
         public ButtonEnabled Enabled
         {
             get => _enabled;
@@ -139,7 +137,7 @@ namespace Krypton.Toolkit
         [Category(@"Behavior")]
         [Description(@"Defines if the button is checked or capable of being checked.")]
         [RefreshProperties(RefreshProperties.All)]
-        [DefaultValue(typeof(ButtonCheckState), "NotCheckButton")]
+        [DefaultValue(ButtonCheckState.NotCheckButton)]
         public ButtonCheckState Checked
         {
             get => _checked;
@@ -163,6 +161,38 @@ namespace Krypton.Toolkit
 
         #endregion
 
+        #region ShowDrop
+        /// <summary>
+        /// Gets and sets if the button is checked or capable of being checked.
+        /// </summary>
+        [Localizable(true)]
+        [Category(@"Behavior")]
+        [Description(@"Defines if the button is checked or capable of being checked.")]
+        [RefreshProperties(RefreshProperties.All)]
+        [DefaultValue(false)]
+        public bool ShowDrop
+        {
+            get => _showDrop;
+
+            set
+            {
+                if (_showDrop != value)
+                {
+                    _showDrop = value;
+                    OnButtonSpecPropertyChanged(nameof(ShowDrop));
+                }
+            }
+        }
+
+        private bool ShouldSerializeShowDrop() => !ShowDrop;
+
+        /// <summary>
+        /// Resets the Checked property to its default value.
+        /// </summary>
+        public void ResetShowDrop() => ShowDrop = false;
+
+        #endregion
+
         #region KryptonCommand
         /// <summary>
         /// Gets and sets the associated KryptonCommand.
@@ -171,7 +201,7 @@ namespace Krypton.Toolkit
         [Description(@"Command associated with the button.")]
         [RefreshProperties(RefreshProperties.All)]
         [DefaultValue(null)]
-        public override KryptonCommand KryptonCommand
+        public override KryptonCommand? KryptonCommand
         {
             get => base.KryptonCommand;
 
@@ -205,7 +235,7 @@ namespace Krypton.Toolkit
         [Category(@"Behavior")]
         [Description(@"Defines the type of button specification.")]
         [RefreshProperties(RefreshProperties.All)]
-        [DefaultValue(typeof(PaletteButtonSpecStyle), "Generic")]
+        [DefaultValue(PaletteButtonSpecStyle.Generic)]
         public PaletteButtonSpecStyle Type
         {
             get => ProtectedType;
@@ -222,9 +252,6 @@ namespace Krypton.Toolkit
 
         private bool ShouldSerializeType() => Type != PaletteButtonSpecStyle.Generic;
 
-        /// <summary>
-        /// Resets the Type property to its default value.
-        /// </summary>
         private void ResetType() => Type = PaletteButtonSpecStyle.Generic;
 
         #endregion
@@ -252,21 +279,21 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="palette">Palette to use for inheriting values.</param>
         /// <returns>Button visibility.</returns>
-        public override bool GetVisible(IPalette palette) => Visible;
+        public override bool GetVisible(PaletteBase? palette) => Visible;
 
         /// <summary>
         /// Gets the button enabled state.
         /// </summary>
         /// <param name="palette">Palette to use for inheriting values.</param>
         /// <returns>Button enabled state.</returns>
-        public override ButtonEnabled GetEnabled(IPalette palette) => Enabled;
+        public override ButtonEnabled GetEnabled(PaletteBase? palette) => Enabled;
 
         /// <summary>
         /// Gets the button checked state.
         /// </summary>
         /// <param name="palette">Palette to use for inheriting values.</param>
         /// <returns>Button checked state.</returns>
-        public override ButtonCheckState GetChecked(IPalette palette) => Checked;
+        public override ButtonCheckState GetChecked(PaletteBase? palette) => Checked;
 
         #endregion
 
@@ -283,7 +310,7 @@ namespace Krypton.Toolkit
             {
                 switch (propertyName)
                 {
-                    case @"KryptonCommand":
+                    case nameof(KryptonCommand):
                         if (Checked != ButtonCheckState.NotCheckButton)
                         {
                             Checked = KryptonCommand.Checked ? ButtonCheckState.Checked : ButtonCheckState.Unchecked;
@@ -291,7 +318,7 @@ namespace Krypton.Toolkit
 
                         Enabled = KryptonCommand.Enabled ? ButtonEnabled.True : ButtonEnabled.False;
                         break;
-                    case @"Checked":
+                    case nameof(Checked):
                         KryptonCommand.Checked = Checked == ButtonCheckState.Checked;
                         break;
                 }
@@ -309,11 +336,11 @@ namespace Krypton.Toolkit
 
             switch (e.PropertyName)
             {
-                case @"Checked":
-                    Checked = KryptonCommand.Checked ? ButtonCheckState.Checked : ButtonCheckState.Unchecked;
+                case nameof(Checked):
+                    Checked = KryptonCommand?.Checked == true ? ButtonCheckState.Checked : ButtonCheckState.Unchecked;
                     break;
-                case @"Enabled":
-                    Enabled = KryptonCommand.Enabled ? ButtonEnabled.True : ButtonEnabled.False;
+                case nameof(Enabled):
+                    Enabled = KryptonCommand?.Enabled == true ? ButtonEnabled.True : ButtonEnabled.False;
                     break;
             }
         }

@@ -5,11 +5,12 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
 
+// ReSharper disable UnusedMember.Global
 namespace Krypton.Toolkit
 {
     #region Delegates
@@ -23,14 +24,14 @@ namespace Krypton.Toolkit
     /// </summary>
     /// <param name="parameter">Operation parameter.</param>
     /// <returns>Operation result.</returns>
-    public delegate object Operation(object parameter);
+    public delegate object? Operation(object? parameter);
 
     /// <summary>
     /// Signature of a method that returns a ToolStripRenderer instance.
     /// </summary>
     public delegate ToolStripRenderer GetToolStripRenderer();
     #endregion
-    
+
     /// <summary>
     /// Set of common helper routines for the Toolkit
     /// </summary>
@@ -40,21 +41,21 @@ namespace Krypton.Toolkit
         private const int VK_SHIFT = 0x10;
         private const int VK_CONTROL = 0x11;
         private const int VK_MENU = 0x12;
-        
+
         private static readonly char[] _singleDateFormat = { 'd', 'f', 'F', 'g', 'h', 'H', 'K', 'm', 'M', 's', 't', 'y', 'z' };
         //private static readonly int[] _daysInMonth = new int[12] { 0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334 };
 
         private static int _nextId = 1000;
         //private static readonly DateTime _baseDate = new(2000, 1, 1);
-        private static PropertyInfo _cachedShortcutPI;
-        private static PropertyInfo _cachedDesignModePI;
-        private static MethodInfo _cachedShortcutMI;
-        private static NullContentValues _nullContentValues;
-        private static readonly DoubleConverter _dc = new();
-        private static readonly SizeConverter _sc = new();
-        private static readonly PointConverter _pc = new();
-        private static readonly BooleanConverter _bc = new();
-        private static readonly ColorConverter _cc = new();
+        private static PropertyInfo? _cachedShortcutPI;
+        private static PropertyInfo? _cachedDesignModePI;
+        private static MethodInfo? _cachedShortcutMI;
+        private static NullContentValues? _nullContentValues;
+        private static readonly DoubleConverter _dc = new DoubleConverter();
+        private static readonly SizeConverter _sc = new SizeConverter();
+        private static readonly PointConverter _pc = new PointConverter();
+        private static readonly BooleanConverter _bc = new BooleanConverter();
+        private static readonly ColorConverter _cc = new ColorConverter();
 
         #endregion
 
@@ -65,7 +66,7 @@ namespace Krypton.Toolkit
         {
             [DebuggerStepThrough]
             get;
-        } = new(int.MaxValue, int.MaxValue);
+        } = new Point(int.MaxValue, int.MaxValue);
 
         /// <summary>
         /// Gets access to the global null rectangle value.
@@ -74,7 +75,7 @@ namespace Krypton.Toolkit
         {
             [DebuggerStepThrough]
             get;
-        } = new(int.MaxValue, int.MaxValue, 0, 0);
+        } = new Rectangle(int.MaxValue, int.MaxValue, 0, 0);
 
         /// <summary>
         /// Color matrix used to adjust colors to look disabled.
@@ -83,15 +84,11 @@ namespace Krypton.Toolkit
         {
             [DebuggerStepThrough]
             get;
-        } = new(new[]
-            {
-                new[]{0.3f,0.3f,0.3f,0,0},
-                new[]{0.59f,0.59f,0.59f,0,0},
-                new[]{0.11f,0.11f,0.11f,0,0},
-                new[]{0,0,0,0.5f,0},
-                new float[]{0,0,0,0,1}
-            }
-            );
+        } = new ColorMatrix(new[]
+        {
+            new[] { 0.3f, 0.3f, 0.3f, 0, 0 }, new[] { 0.59f, 0.59f, 0.59f, 0, 0 },
+            new[] { 0.11f, 0.11f, 0.11f, 0, 0 }, new[] { 0, 0, 0, 0.5f, 0 }, new float[] { 0, 0, 0, 0, 1 }
+        });
 
         /// <summary>
         /// Gets the next global identifier in sequence.
@@ -110,7 +107,7 @@ namespace Krypton.Toolkit
             get
             {
                 // Generate a GUID that is guaranteed to be unique
-                Guid guid = Guid.NewGuid();
+                var guid = Guid.NewGuid();
                 // Return as a hex formatted string.
                 return guid.ToString(@"N");
             }
@@ -123,7 +120,7 @@ namespace Krypton.Toolkit
         {
             [DebuggerStepThrough]
             get;
-        } = new(-1);
+        } = new Padding(-1);
 
         /// <summary>
         /// Check a short cut menu for a matching short and invoke that item if found.
@@ -132,8 +129,8 @@ namespace Krypton.Toolkit
         /// <param name="msg">Windows message that generated check.</param>
         /// <param name="keyData">Keyboard shortcut to check.</param>
         /// <returns>True if shortcut processed; otherwise false.</returns>
-        public static bool CheckContextMenuForShortcut(ContextMenuStrip cms, 
-                                                       ref Message msg, 
+        public static bool CheckContextMenuForShortcut(ContextMenuStrip? cms,
+                                                       ref Message msg,
                                                        Keys keyData)
         {
             if (cms != null)
@@ -152,14 +149,14 @@ namespace Krypton.Toolkit
                 }
 
                 // Get any menu item from context strip that matches the shortcut key combination
-                Hashtable shortcuts = (Hashtable)_cachedShortcutPI.GetValue(cms, null);
-                ToolStripMenuItem menuItem = (ToolStripMenuItem)shortcuts[keyData];
+                var shortcuts = (Hashtable)_cachedShortcutPI!.GetValue(cms, null);
+                var menuItem = (ToolStripMenuItem)shortcuts[keyData];
 
                 // If we found a match...
                 if (menuItem != null)
                 {
                     // Get the menu item to process the shortcut
-                    var ret = _cachedShortcutMI.Invoke(menuItem, new object[] { msg, keyData });
+                    var ret = _cachedShortcutMI!.Invoke(menuItem, new object[] { msg, keyData });
 
                     // Return the 'ProcessCmdKey' result
                     if (ret != null)
@@ -219,7 +216,7 @@ namespace Krypton.Toolkit
         /// <param name="padding">Padding to be applied.</param>
         /// <returns>Updated size.</returns>
         public static Size ApplyPadding(VisualOrientation orientation,
-                                        Size size, 
+                                        Size size,
                                         Padding padding)
         {
             // Ignore an empty padding value
@@ -257,7 +254,7 @@ namespace Krypton.Toolkit
         /// <param name="padding">Padding to be applied.</param>
         /// <returns>Updated rectangle.</returns>
         public static Rectangle ApplyPadding(Orientation orientation,
-                                             Rectangle rect, 
+                                             Rectangle rect,
                                              Padding padding)
         {
             // Ignore an empty padding value
@@ -297,7 +294,7 @@ namespace Krypton.Toolkit
         /// <param name="padding">Padding to be applied.</param>
         /// <returns>Updated rectangle.</returns>
         public static Rectangle ApplyPadding(VisualOrientation orientation,
-                                             Rectangle rect, 
+                                             Rectangle rect,
                                              Padding padding)
         {
             // Ignore an empty padding value
@@ -364,10 +361,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="rect">Rectangle to modify.</param>
         [DebuggerStepThrough]
-        public static void SwapRectangleSizes(ref Rectangle rect)
-        {
-            (rect.Width, rect.Height) = (rect.Height, rect.Width);
-        }
+        public static void SwapRectangleSizes(ref Rectangle rect) => (rect.Width, rect.Height) = (rect.Height, rect.Width);
 
         /// <summary>
         /// Gets the form level right to left setting.
@@ -381,7 +375,7 @@ namespace Krypton.Toolkit
 
             // We need a valid control to find a top level form
             // Search for a top level form associated with the control
-            Form topForm = control?.FindForm();
+            Form? topForm = control.FindForm();
 
             // If can find an owning form
             if (topForm != null)
@@ -398,18 +392,18 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="cms">Reference to context menu strip.</param>
         /// <returns>True to display; otherwise false.</returns>
-        public static bool ValidContextMenuStrip(ContextMenuStrip cms) =>
+        public static bool ValidContextMenuStrip(ContextMenuStrip? cms) =>
             // Must be a valid reference to examine
-            (cms != null) && (cms.Items.Count > 0);
+            cms is { Items.Count: > 0 };
 
         /// <summary>
         /// Decide if the KryptonContextMenu should be Displayed.
         /// </summary>
         /// <param name="kcm">Reference to context menu strip.</param>
         /// <returns>True to display; otherwise false.</returns>
-        public static bool ValidKryptonContextMenu(KryptonContextMenu kcm) =>
+        public static bool ValidKryptonContextMenu(KryptonContextMenu? kcm) =>
             // Must be a valid reference to examine
-            (kcm != null) && (kcm.Items.Count > 0);
+            kcm is { Items.Count: > 0 };
 
         /// <summary>
         /// Perform operation in a worker thread with wait dialog in main thread.
@@ -417,15 +411,15 @@ namespace Krypton.Toolkit
         /// <param name="op">Delegate of operation to be performed.</param>
         /// <param name="parameter">Parameter to be passed into the operation.</param>
         /// <returns>Result of performing the operation.</returns>
-        public static object PerformOperation(Operation op, object parameter)
+        public static object? PerformOperation(Operation op, object? parameter)
         {
             // Create a modal window for showing feedback
-            using ModalWaitDialog wait = new();
+            using var wait = new ModalWaitDialog();
             // Create the object that runs the operation in a separate thread
-            OperationThread opThread = new(op, parameter);
+            var opThread = new OperationThread(op, parameter);
 
             // Create the actual thread and provide thread entry point
-            Thread thread = new(opThread.Run);
+            var thread = new Thread(opThread.Run);
 
             // Kick off the thread action
             thread.Start();
@@ -562,7 +556,7 @@ namespace Krypton.Toolkit
                 return borders;
             }
 
-            PaletteDrawBorders ret = PaletteDrawBorders.None;
+            var ret = PaletteDrawBorders.None;
 
             // Apply orientation change to each side in turn
             switch (orientation)
@@ -666,7 +660,7 @@ namespace Krypton.Toolkit
                 return borders;
             }
 
-            PaletteDrawBorders ret = PaletteDrawBorders.None;
+            var ret = PaletteDrawBorders.None;
 
             // Apply orientation change to each side in turn
             switch (orientation)
@@ -829,7 +823,7 @@ namespace Krypton.Toolkit
         /// <returns>GraphicsPath instance.</returns>
         public static GraphicsPath RoundedRectanglePath(Rectangle rect, int rounding)
         {
-            GraphicsPath roundedPath = new();
+            var roundedPath = new GraphicsPath();
 
             // Only use a rounding that will fit inside the rect
             rounding = Math.Min(rounding, Math.Min(rect.Width / 2, rect.Height / 2) - rounding);
@@ -843,7 +837,7 @@ namespace Krypton.Toolkit
             else
             {
                 // We create the path using a floating point rectangle
-                RectangleF rectF = new(rect.X, rect.Y, rect.Width, rect.Height);
+                var rectF = new RectangleF(rect.X, rect.Y, rect.Width, rect.Height);
 
                 // The border is made of up a quarter of a circle arc, in each corner
                 var arcLength = rounding * 2;
@@ -882,7 +876,7 @@ namespace Krypton.Toolkit
         /// <param name="percentG">Percentage of green to keep.</param>
         /// <param name="percentB">Percentage of blue to keep.</param>
         /// <returns>Modified color.</returns>
-        public static Color WhitenColor(Color color1, 
+        public static Color WhitenColor(Color color1,
                                         float percentR,
                                         float percentG,
                                         float percentB)
@@ -1054,7 +1048,7 @@ namespace Krypton.Toolkit
         public static int ColorDepth()
         {
             // Get access to the desktop DC
-            IntPtr desktopDC = PI.GetDC(IntPtr.Zero);
+            var desktopDC = PI.GetDC(IntPtr.Zero);
 
             // Find raw values that define the color depth
             var planes = PI.GetDeviceCaps(desktopDC, PI.DeviceCap.PLANES);
@@ -1098,10 +1092,10 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="control">Top of the hierarchy to search.</param>
         /// <returns>Control with focus; otherwise null.</returns>
-        public static Control GetControlWithFocus(Control control)
+        public static Control? GetControlWithFocus(Control control)
         {
             // Does the provided control have the focus?
-            if (control.Focused 
+            if (control.Focused
                 && control is not IContainedInputControl
                 )
             {
@@ -1110,9 +1104,9 @@ namespace Krypton.Toolkit
             else
             {
                 // Check each child hierarchy in turn
-                return (from Control child in control.Controls 
-                            where child.ContainsFocus 
-                            select GetControlWithFocus(child)
+                return (from Control child in control.Controls
+                        where child.ContainsFocus
+                        select GetControlWithFocus(child)
                         ).FirstOrDefault();
             }
         }
@@ -1122,20 +1116,20 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="parent">Parent control.</param>
         /// <param name="c">Control to be added.</param>
-        public static void AddControlToParent(Control parent, Control c)
+        public static void AddControlToParent([DisallowNull] Control parent, [DisallowNull] Control c)
         {
             Debug.Assert(parent != null);
             Debug.Assert(c != null);
 
             // If the control is already inside a control collection, then remove it
-            if (c.Parent != null)
+            if (c!.Parent != null)
             {
                 RemoveControlFromParent(c);
             }
             // Then must use the internal method for adding a new instance
 
             // If the control collection is one of our internal collections...
-            if (parent.Controls is KryptonControlCollection cc)
+            if (parent!.Controls is KryptonControlCollection cc)
             {
                 cc.AddInternal(c);
             }
@@ -1150,12 +1144,12 @@ namespace Krypton.Toolkit
         /// Remove the provided control from its parent collection.
         /// </summary>
         /// <param name="c">Control to be removed.</param>
-        public static void RemoveControlFromParent(Control c)
+        public static void RemoveControlFromParent([DisallowNull] Control c)
         {
             Debug.Assert(c != null);
 
             // If the control is inside a parent collection
-            if (c.Parent != null)
+            if (c?.Parent != null)
             {
                 // Then must use the internal method for adding a new instance
                 // If the control collection is one of our internal collections...
@@ -1178,7 +1172,7 @@ namespace Krypton.Toolkit
         /// <returns>Border sizing.</returns>
         public static Padding GetWindowBorders(CreateParams cp)
         {
-            PI.RECT rect = new()
+            var rect = new PI.RECT
             {
                 // Start with a zero sized rectangle
                 left = 0,
@@ -1231,7 +1225,7 @@ namespace Krypton.Toolkit
         {
             // Grab the actual current size of the window, this is more accurate than using
             // the 'this.Size' which is out of date when performing a resize of the window.
-            PI.RECT windowRect = new();
+            var windowRect = new PI.RECT();
             PI.GetWindowRect(handle, ref windowRect);
 
             // Create rectangle that encloses the entire window
@@ -1250,6 +1244,8 @@ namespace Krypton.Toolkit
         {
             switch (style)
             {
+                case LabelStyle.AlternateControl:
+                    return PaletteContentStyle.LabelAlternateControl;
                 case LabelStyle.NormalControl:
                     return PaletteContentStyle.LabelNormalControl;
                 case LabelStyle.BoldControl:
@@ -1258,6 +1254,8 @@ namespace Krypton.Toolkit
                     return PaletteContentStyle.LabelItalicControl;
                 case LabelStyle.TitleControl:
                     return PaletteContentStyle.LabelTitleControl;
+                case LabelStyle.AlternatePanel:
+                    return PaletteContentStyle.LabelAlternatePanel;
                 case LabelStyle.NormalPanel:
                     return PaletteContentStyle.LabelNormalPanel;
                 case LabelStyle.BoldPanel:
@@ -1357,7 +1355,7 @@ namespace Krypton.Toolkit
                 if (format.IndexOfAny(_singleDateFormat) == 0)
                 {
                     // Insert the percentage sign so it is a custom format and not a predefined one
-                    format = "%" + format;
+                    format = $"%{format}";
                 }
             }
 
@@ -1370,7 +1368,7 @@ namespace Krypton.Toolkit
         /// <param name="itemType">Type of the item to create.</param>
         /// <param name="host">Designer host used if provided.</param>
         /// <returns>Reference to new instance.</returns>
-        public static object CreateInstance(Type itemType, IDesignerHost host)
+        public static object CreateInstance(Type itemType, IDesignerHost? host)
         {
             object retObj;
 
@@ -1378,7 +1376,7 @@ namespace Krypton.Toolkit
             if (typeof(IComponent).IsAssignableFrom(itemType) && (host != null))
             {
                 // Ask host to create component for us
-                retObj = host.CreateComponent(itemType, null);
+                retObj = host.CreateComponent(itemType, null!);
 
                 // If the new object has an associated designer then use that now to initialize the instance
                 if (host.GetDesigner((IComponent)retObj) is IComponentInitializer designer)
@@ -1389,7 +1387,7 @@ namespace Krypton.Toolkit
             else
             {
                 // Cannot use host for creation, so do it the standard way instead
-                retObj = TypeDescriptor.CreateInstance(host, itemType, null, null);
+                retObj = TypeDescriptor.CreateInstance(host, itemType, null!, null!);
             }
 
             return retObj;
@@ -1400,27 +1398,21 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="instance">Reference to item for destroying.</param>
         /// <param name="host">Designer host used if provided.</param>
-        public static void DestroyInstance(object instance, IDesignerHost host)
+        public static void DestroyInstance(object instance, IDesignerHost? host)
         {
-            if (instance is IComponent component)
+            switch (instance)
             {
                 // Use designer to remove component if possible
-                if (host != null)
-                {
+                case IComponent component when host != null:
                     host.DestroyComponent(component);
-                }
-                else
-                {
+                    break;
+                case IComponent component:
                     component.Dispose();
-                }
-            }
-            else
-            {
+                    break;
                 // Fallback to calling any exposed dispose method
-                if (instance is IDisposable disposable)
-                {
+                case IDisposable disposable:
                     disposable.Dispose();
-                }
+                    break;
             }
         }
 
@@ -1430,11 +1422,14 @@ namespace Krypton.Toolkit
         /// <param name="str">String to output.</param>
         public static void LogOutput(string str)
         {
-            FileInfo fi = new(Application.ExecutablePath);
-            using var writer = new StreamWriter(fi.DirectoryName + @"LogOutput.txt", true, Encoding.ASCII);
-            writer.Write(DateTime.Now.ToLongTimeString() + @" :  ");
-            writer.WriteLine(str);
-            writer.Flush();
+            // TODO: Make this thread aware !
+            // TODO: DO NOT WRITE to the application path, as that might / will be UAC protected !!
+            //var fi = new FileInfo(Application.ExecutablePath);
+            //using var writer = new StreamWriter($@"{fi.DirectoryName}LogOutput.txt", true, Encoding.ASCII);
+            //writer.Write($@"{DateTime.Now.ToLongTimeString()} :  ");
+            //writer.WriteLine(str);
+            //writer.Flush();
+            Debug.WriteLine(str);
         }
 
         /// <summary>
@@ -1442,18 +1437,18 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="c">Component to test.</param>
         /// <returns>True if in design mode; otherwise false.</returns>
-        public static bool DesignMode(Component c)
+        public static bool DesignMode(Component? c)
         {
             // Cache the info needed to sneak access to the component protected property
             if (_cachedDesignModePI == null)
             {
-                _cachedDesignModePI = typeof(ToolStrip).GetProperty(@"DesignMode",
+                _cachedDesignModePI = typeof(ToolStrip).GetProperty(nameof(DesignMode),
                                                                     BindingFlags.Instance |
                                                                     BindingFlags.GetProperty |
                                                                     BindingFlags.NonPublic);
             }
 
-            return (bool)_cachedDesignModePI.GetValue(c, null);
+            return (bool)_cachedDesignModePI!.GetValue(c, null);
         }
 
         /// <summary>
@@ -1461,7 +1456,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="d">Double to convert.</param>
         /// <returns>Culture invariant string representation.</returns>
-        public static string DoubleToString(double d) => _dc.ConvertToInvariantString(d);
+        public static string? DoubleToString(double d) => _dc.ConvertToInvariantString(d);
 
         /// <summary>
         /// Convert a culture invariant string value to a double.
@@ -1489,14 +1484,14 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="s">Size to convert.</param>
         /// <returns>Culture invariant string representation.</returns>
-        public static string PointToString(Point s) => _pc.ConvertToInvariantString(s);
+        public static string? PointToString(Point s) => _pc.ConvertToInvariantString(s);
 
         /// <summary>
         /// Convert a culture invariant string value to a Point.
         /// </summary>
         /// <param name="s">String to convert.</param>
         /// <returns>Point value.</returns>
-        public static Point StringToPoint(string s) => (Point)_pc.ConvertFromInvariantString(s);
+        public static Point StringToPoint(string? s) => (Point)_pc.ConvertFromInvariantString(s);
 
         /// <summary>
         /// Convert a Boolean to a culture invariant string value.
@@ -1534,7 +1529,7 @@ namespace Krypton.Toolkit
         public static Point ClientMouseMessageToScreenPt(Message m)
         {
             // Extract the x and y mouse position from message
-            PI.POINTC clientPt = new()
+            var clientPt = new PI.POINTC
             {
                 x = PI.LOWORD((int)m.LParam),
                 y = PI.HIWORD((int)m.LParam)
@@ -1553,7 +1548,7 @@ namespace Krypton.Toolkit
             }
 
             // Convert a 0,0 point from client to screen to find offsetting
-            PI.POINTC zeroPIPt = new()
+            var zeroPIPt = new PI.POINTC
             {
                 x = 0,
                 y = 0
@@ -1567,11 +1562,11 @@ namespace Krypton.Toolkit
             // Return as a managed point type
             return new Point(clientPt.x, clientPt.y);
         }
-        
+
         /// <summary>
         /// Gets a reference to the currently active floating window.
         /// </summary>
-        public static Form ActiveFloatingWindow { get; set; }
+        public static Form? ActiveFloatingWindow { get; set; }
 
         /// <summary>
         /// Gets the current active cursor, and if that is null use the current default cursor
@@ -1579,11 +1574,7 @@ namespace Krypton.Toolkit
         /// <returns>Cursor Hotspot</returns>
         public static Point CaptureCursor()
         {
-            Cursor cur = Cursor.Current;
-            if (cur == null)
-            {
-                cur = Cursors.Default;
-            }
+            Cursor cur = Cursor.Current ?? Cursors.Default;
 
             return cur.HotSpot;
         }
@@ -1597,8 +1588,8 @@ namespace Krypton.Toolkit
         {
             rect.X += margins.Left;
             rect.Y += margins.Top;
-            rect.Width -= margins.Left+margins.Right;
-            rect.Height -= margins.Top+margins.Bottom;
+            rect.Width -= margins.Left + margins.Right;
+            rect.Height -= margins.Top + margins.Bottom;
         }
 
         /// <summary>
@@ -1624,7 +1615,7 @@ namespace Krypton.Toolkit
             //srcRect.Offset(-trgtWidth%1, -trgtHeight%1);
             //gr.DrawImage(src, destRect, srcRect, GraphicsUnit.Pixel);
             gr.DrawImage(src, 0, 0, (int)trgtWidth, (int)trgtHeight);
-            
+
             return newImage;
         }
     }

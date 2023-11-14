@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -15,38 +15,32 @@ namespace Krypton.Toolkit
     /// <summary>
     /// Custom type converter so that LabelStyle values appear as neat text at design time.
     /// </summary>
-    internal class LabelStyleConverter : StringLookupConverter
+    internal class LabelStyleConverter : StringLookupConverter<LabelStyle>
     {
         #region Static Fields
 
-        private readonly Pair[] _pairs =
+        [Localizable(true)]
+        private static readonly IReadOnlyDictionary<LabelStyle, string> _pairs = new Dictionary<LabelStyle, string>
         {
-            new(LabelStyle.NormalControl, "Normal (Control)"),
-            new(LabelStyle.BoldControl, "Bold (Control)"),
-            new(LabelStyle.ItalicControl, "Italic (Control)"),
-            new(LabelStyle.TitleControl, "Title (Control)"),
-            new(LabelStyle.NormalPanel, "Normal (Panel)"),
-            new(LabelStyle.BoldPanel, "Bold (Panel)"),
-            new(LabelStyle.ItalicPanel, "Italic (Panel)"),
-            new(LabelStyle.TitlePanel, "Title (Panel)"),
-            new(LabelStyle.GroupBoxCaption, "Caption (Panel)"),
-            new(LabelStyle.ToolTip, "ToolTip"),
-            new(LabelStyle.SuperTip, "SuperTip"),
-            new(LabelStyle.KeyTip, "KeyTip"),
-            new(LabelStyle.Custom1, "Custom1"),
-            new(LabelStyle.Custom2, "Custom2"),
-            new(LabelStyle.Custom3, "Custom3")
+            {LabelStyle.AlternateControl, DesignTimeUtilities.DEFAULT_LABEL_STYLE_ALTERNATE_CONTROL},
+            {LabelStyle.NormalControl, DesignTimeUtilities.DEFAULT_LABEL_STYLE_NORMAL_CONTROL},
+            {LabelStyle.BoldControl, DesignTimeUtilities.DEFAULT_LABEL_STYLE_BOLD_CONTROL},
+            {LabelStyle.ItalicControl, DesignTimeUtilities.DEFAULT_LABEL_STYLE_ITALIC_CONTROL},
+            {LabelStyle.TitleControl, DesignTimeUtilities.DEFAULT_LABEL_STYLE_TITLE_CONTROL},
+            {LabelStyle.AlternatePanel, DesignTimeUtilities.DEFAULT_LABEL_STYLE_ALTERNATE_PANEL },
+            {LabelStyle.NormalPanel, DesignTimeUtilities.DEFAULT_LABEL_STYLE_NORMAL_PANEL},
+            {LabelStyle.BoldPanel, DesignTimeUtilities.DEFAULT_LABEL_STYLE_BOLD_PANEL},
+            {LabelStyle.ItalicPanel, DesignTimeUtilities.DEFAULT_LABEL_STYLE_ITALIC_PANEL},
+            {LabelStyle.TitlePanel, DesignTimeUtilities.DEFAULT_LABEL_STYLE_TITLE_PANEL},
+            {LabelStyle.GroupBoxCaption, DesignTimeUtilities.DEFAULT_LABEL_STYLE_GROUP_BOX_CAPTION},
+            {LabelStyle.ToolTip, DesignTimeUtilities.DEFAULT_LABEL_STYLE_TOOL_TIP},
+            {LabelStyle.SuperTip, DesignTimeUtilities.DEFAULT_LABEL_STYLE_SUPER_TIP},
+            {LabelStyle.KeyTip, DesignTimeUtilities.DEFAULT_LABEL_STYLE_KEY_TIP},
+            {LabelStyle.Custom1, DesignTimeUtilities.DEFAULT_LABEL_STYLE_CUSTOM_ONE},
+            {LabelStyle.Custom2, DesignTimeUtilities.DEFAULT_LABEL_STYLE_CUSTOM_TWO},
+            {LabelStyle.Custom3, DesignTimeUtilities.DEFAULT_LABEL_STYLE_CUSTOM_THREE}
         };
-        #endregion
 
-        #region Identity
-        /// <summary>
-        /// Initialize a new instance of the LabelStyleConverter class.
-        /// </summary>
-        public LabelStyleConverter()
-            : base(typeof(LabelStyle))
-        {
-        }
         #endregion
 
         #region Protected
@@ -54,7 +48,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets an array of lookup pairs.
         /// </summary>
-        protected override Pair[] Pairs => _pairs;
+        protected override IReadOnlyDictionary<LabelStyle /*Enum*/, string /*Display*/> Pairs => _pairs;
 
         #endregion
     }

@@ -5,11 +5,12 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
 
+// ReSharper disable VirtualMemberCallInConstructor
 namespace Krypton.Navigator
 {
     /// <summary>
@@ -33,7 +34,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="navigator">Reference to owning navigator instance.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public NavigatorOutlookFull(KryptonNavigator navigator,
+        public NavigatorOutlookFull([DisallowNull] KryptonNavigator navigator,
                                     NeedPaintHandler needPaint)
         {
             Debug.Assert(navigator != null);
@@ -94,10 +95,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Resets the OverflowMapImage property to its default value.
         /// </summary>
-        public void ResetOverflowMapImage()
-        {
-            OverflowMapImage = MapKryptonPageImage.Small;
-        }
+        public void ResetOverflowMapImage() => OverflowMapImage = MapKryptonPageImage.Small;
         #endregion
 
         #region OverflowMapText
@@ -125,10 +123,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Resets the OverflowMapText property to its default value.
         /// </summary>
-        public void ResetOverflowMapText()
-        {
-            OverflowMapText = MapKryptonPageText.None;
-        }
+        public void ResetOverflowMapText() => OverflowMapText = MapKryptonPageText.None;
         #endregion
 
         #region OverflowMapExtraText
@@ -156,10 +151,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Resets the OverflowMapExtraText property to its default value.
         /// </summary>
-        public void ResetOverflowMapExtraText()
-        {
-            OverflowMapExtraText = MapKryptonPageText.None;
-        }
+        public void ResetOverflowMapExtraText() => OverflowMapExtraText = MapKryptonPageText.None;
         #endregion
 
         #region StackMapImage
@@ -188,10 +180,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Resets the StackMapImage property to its default value.
         /// </summary>
-        public void ResetStackMapImage()
-        {
-            StackMapImage = MapKryptonPageImage.MediumSmall;
-        }
+        public void ResetStackMapImage() => StackMapImage = MapKryptonPageImage.MediumSmall;
         #endregion
 
         #region StackMapText
@@ -219,10 +208,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Resets the StackMapText property to its default value.
         /// </summary>
-        public void ResetStackMapText()
-        {
-            StackMapText = MapKryptonPageText.TextTitle;
-        }
+        public void ResetStackMapText() => StackMapText = MapKryptonPageText.TextTitle;
         #endregion
 
         #region StackMapExtraText
@@ -250,10 +236,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Resets the StackMapExtraText property to its default value.
         /// </summary>
-        public void ResetStackMapExtraText()
-        {
-            StackMapExtraText = MapKryptonPageText.None;
-        }
+        public void ResetStackMapExtraText() => StackMapExtraText = MapKryptonPageText.None;
         #endregion
     }
 }

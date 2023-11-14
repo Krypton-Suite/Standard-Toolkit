@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -18,7 +18,7 @@ namespace Krypton.Toolkit
     public abstract class ViewComposite : ViewBase
     {
         #region Instance Fields
-        private readonly List<ViewBase> _views;
+        private readonly List<ViewBase>? _views;
 
         #endregion
 
@@ -41,11 +41,11 @@ namespace Krypton.Toolkit
             {
                 while (Count > 0)
                 {
-                    this[0].Dispose();
+                    this[0]?.Dispose();
                     RemoveAt(0);
                 }
 
-                _views.Clear();
+                _views?.Clear();
             }
 
             // Must call base class to finish disposing
@@ -58,7 +58,7 @@ namespace Krypton.Toolkit
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier with child count
-            "ViewComposite:" + Id;
+            $"ViewComposite:{Id}";
 
         #endregion
 
@@ -76,7 +76,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="context">Evaluation context.</param>
         /// <returns>True if transparent areas exist; otherwise false.</returns>
-        public override bool EvalTransparentPaint(ViewContext context)
+        public override bool EvalTransparentPaint([DisallowNull] ViewContext context)
         {
             Debug.Assert(context != null);
 
@@ -104,12 +104,12 @@ namespace Krypton.Toolkit
         /// Discover the preferred size of the element.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override Size GetPreferredSize(ViewLayoutContext context)
+        public override Size GetPreferredSize([DisallowNull] ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 
             // As a composite we have no preferred size ourself
-            Size preferredSize = Size.Empty;
+            var preferredSize = Size.Empty;
 
             foreach (ViewBase child in this)
             {
@@ -139,7 +139,7 @@ namespace Krypton.Toolkit
         /// Perform a layout of the elements.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override void Layout(ViewLayoutContext context)
+        public override void Layout([DisallowNull] ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 
@@ -156,26 +156,29 @@ namespace Krypton.Toolkit
         /// Perform a render of the elements.
         /// </summary>
         /// <param name="context">Rendering context.</param>
-        public override void Render(RenderContext context)
+        public override void Render([DisallowNull] RenderContext context)
         {
             Debug.Assert(context != null);
 
             // Perform rendering before any children
-            RenderBefore(context);
-
-            var ordering = ReverseRenderOrder ? Reverse() : this;
-
-            // Ask each child to render in turn
-            foreach (ViewBase child in ordering
-                .Where(child => child.Visible 
-                                && child.ClientRectangle.IntersectsWith(context.ClipRect))
-                )
+            if (context != null)
             {
-                child.Render(context);
-            }
+                RenderBefore(context);
 
-            // Perform rendering after that of children
-            RenderAfter(context);
+                var ordering = ReverseRenderOrder ? Reverse() : this;
+
+                // Ask each child to render in turn
+                foreach (ViewBase child in ordering
+                             .Where(child => child.Visible
+                                             && child.ClientRectangle.IntersectsWith(context.ClipRect))
+                        )
+                {
+                    child.Render(context);
+                }
+
+                // Perform rendering after that of children
+                RenderAfter(context);
+            }
         }
         #endregion
 
@@ -186,7 +189,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="item">ViewBase reference.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public override void Add(ViewBase item)
+        public override void Add(ViewBase? item)
         {
             // We do not allow null references in the collection
             if (item == null)
@@ -236,7 +239,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="item">ViewBase reference.</param>
         /// <returns>True if view found; otherwise false.</returns>
-        public override bool ContainsRecurse(ViewBase item)
+        public override bool ContainsRecurse(ViewBase? item)
         {
             // Check against ourself
             if (this == item)
@@ -245,15 +248,7 @@ namespace Krypton.Toolkit
             }
 
             // Check against all children
-            foreach (ViewBase child in this)
-            {
-                if (child.ContainsRecurse(item))
-                {
-                    return true;
-                }
-            }
-
-            return false;
+            return this.Any(child => child.ContainsRecurse(item));
         }
 
         /// <summary>
@@ -270,10 +265,10 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="item">ViewBase reference.</param>
         /// <returns>True if removed; otherwise false.</returns>
-        public override bool Remove(ViewBase item)
+        public override bool Remove(ViewBase? item)
         {
             // Let type safe collection perform operation
-            var ret = _views?.Remove(item) ?? false;
+            var ret = _views?.Remove(item!) ?? false;
 
             // Remove back reference only when remove completed with success
             if (ret && item != null)
@@ -346,7 +341,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="index">ViewBase index.</param>
         /// <returns>ViewBase at specified index.</returns>
-        public override ViewBase this[int index] 
+        public override ViewBase? this[int index] 
         { 
             get => _views?[index];
 
@@ -489,9 +484,9 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="pt">Point in view coordinates.</param>
         /// <returns>ViewBase if a match is found; otherwise false.</returns>
-        public override ViewBase ViewFromPoint(Point pt)
+        public override ViewBase? ViewFromPoint(Point pt)
         {
-            ViewBase ret = null;
+            ViewBase? ret = null;
 
             // Do we contain the point?
             if (ClientRectangle.Contains(pt))
@@ -510,10 +505,7 @@ namespace Krypton.Toolkit
                 }
 
                 // If none of the children, match then we do
-                if (ret == null)
-                {
-                    ret = this;
-                }
+                ret ??= this;
             }
 
             return ret;

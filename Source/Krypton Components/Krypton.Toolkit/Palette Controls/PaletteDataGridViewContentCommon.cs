@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -19,7 +19,7 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
         private Padding _padding;
-        private Font _font;
+        private Font? _font;
         private PaletteRelativeAlign _textH;
         private PaletteRelativeAlign _textV;
         #endregion
@@ -78,7 +78,7 @@ namespace Krypton.Toolkit
         [Description(@"Font for drawing the content text.")]
         [DefaultValue(null)]
         [RefreshProperties(RefreshProperties.All)]
-        public virtual Font Font
+        public virtual Font? Font
         {
             get => _font;
 
@@ -109,7 +109,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category(@"Visuals")]
         [Description(@"Relative horizontal alignment of content text.")]
-        [DefaultValue(typeof(PaletteRelativeAlign), "Inherit")]
+        [DefaultValue(PaletteRelativeAlign.Inherit)]
         [RefreshProperties(RefreshProperties.All)]
         public virtual PaletteRelativeAlign TextH
         {
@@ -142,7 +142,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category(@"Visuals")]
         [Description(@"Relative vertical alignment of content text.")]
-        [DefaultValue(typeof(PaletteRelativeAlign), "Inherit")]
+        [DefaultValue(PaletteRelativeAlign.Inherit)]
         [RefreshProperties(RefreshProperties.All)]
         public virtual PaletteRelativeAlign TextV
         {
@@ -195,10 +195,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Reset the Padding to the default value.
         /// </summary>
-        public void ResetPadding()
-        {
-            Padding = CommonHelper.InheritPadding;
-        }
+        public void ResetPadding() => Padding = CommonHelper.InheritPadding;
 
         /// <summary>
         /// Gets the actual padding between the border and content drawing.

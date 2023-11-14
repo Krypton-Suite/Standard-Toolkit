@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -197,7 +197,7 @@ namespace Krypton.Navigator
         /// <param name="checkButtonOrient">Orientation of the check button.</param>
         /// <param name="dockFar">Docking position of the check button.</param>
         /// <returns></returns>
-        protected override ViewDrawNavOutlookOverflow CreateOverflowItem(KryptonPage page, 
+        protected override ViewDrawNavOutlookOverflow CreateOverflowItem(KryptonPage? page, 
                                                                          VisualOrientation checkButtonOrient,
                                                                          ViewDockStyle dockFar)
         {
@@ -227,7 +227,7 @@ namespace Krypton.Navigator
         protected override void BringPageIntoView(KryptonPage page)
         {
             // Remember the view for the requested page
-            ViewDrawNavCheckButtonBase viewPage = null;
+            ViewDrawNavCheckButtonBase? viewPage = null;
 
             // Make sure only the selected page is checked
             foreach (ViewDrawNavCheckButtonBase child in _pageStackLookup.Values)
@@ -268,10 +268,7 @@ namespace Krypton.Navigator
         #endregion
 
         #region Implementation
-        private void OnViewportAnimation(object sender, EventArgs e)
-        {
-            Navigator.PerformNeedPaint(true);
-        }
+        private void OnViewportAnimation(object sender, EventArgs e) => Navigator.PerformNeedPaint(true);
         #endregion
     }
 }

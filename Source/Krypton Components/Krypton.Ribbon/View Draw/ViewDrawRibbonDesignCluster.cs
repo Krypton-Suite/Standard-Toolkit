@@ -5,7 +5,9 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  
+ *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
  */
 #endregion
@@ -35,8 +37,11 @@ namespace Krypton.Ribbon
             {
                 TransparentColor = Color.Magenta
             };
-            _imageList.Images.AddRange(new Image[]{Properties.Resources.KryptonRibbonGroupClusterButton,
-                                                   Properties.Resources.KryptonRibbonGroupClusterColorButton});
+            _imageList.Images.AddRange(new Image[]
+            {
+                GenericImageResources.KryptonRibbonGroupClusterButton,
+                GenericImageResources.KryptonRibbonGroupClusterColorButton
+            });
         }
 
         /// <summary>
@@ -46,7 +51,7 @@ namespace Krypton.Ribbon
         /// <param name="ribbonCluster">Reference to cluster definition.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
         public ViewDrawRibbonDesignCluster(KryptonRibbon ribbon,
-                                           KryptonRibbonGroupCluster ribbonCluster,
+            [DisallowNull] KryptonRibbonGroupCluster ribbonCluster,
                                            NeedPaintHandler needPaint)
             : base(ribbon, needPaint)
         {
@@ -61,7 +66,7 @@ namespace Krypton.Ribbon
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            @"ViewDrawRibbonDesignCluster:" + Id;
+            $@"ViewDrawRibbonDesignCluster:{Id}";
 
         #endregion
 
@@ -103,8 +108,8 @@ namespace Krypton.Ribbon
                 };
 
                 // Create child items
-                ToolStripMenuItem menuButton = new("Add Cluster Button", null, OnAddButton);
-                ToolStripMenuItem menuColorButton = new("Add Cluster Color Button", null, OnAddColorButton);
+                var menuButton = new ToolStripMenuItem("Add Cluster Button", null, OnAddButton);
+                var menuColorButton = new ToolStripMenuItem("Add Cluster Color Button", null, OnAddColorButton);
 
                 // Assign correct images
                 menuButton.ImageIndex = 0;
@@ -126,15 +131,9 @@ namespace Krypton.Ribbon
         #endregion
 
         #region Implementation
-        private void OnAddButton(object sender, EventArgs e)
-        {
-            _ribbonCluster.OnDesignTimeAddButton();
-        }
+        private void OnAddButton(object sender, EventArgs e) => _ribbonCluster.OnDesignTimeAddButton();
 
-        private void OnAddColorButton(object sender, EventArgs e)
-        {
-            _ribbonCluster.OnDesignTimeAddColorButton();
-        }
+        private void OnAddColorButton(object sender, EventArgs e) => _ribbonCluster.OnDesignTimeAddColorButton();
         #endregion
     }
 }

@@ -5,8 +5,8 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved.
- *
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  
  */
 #endregion
 
@@ -17,11 +17,11 @@ namespace Krypton.Ribbon
     /// </summary>
     [ToolboxItem(false)]
     [ToolboxBitmap(typeof(KryptonRibbonGroupMaskedTextBox), "ToolboxBitmaps.KryptonRibbonGroupMaskedTextBox.bmp")]
-    [Designer("Krypton.Ribbon.KryptonRibbonGroupMaskedTextBoxDesigner, Krypton.Ribbon")]
+    [Designer(typeof(KryptonRibbonGroupMaskedTextBoxDesigner))]
     [DesignerCategory(@"code")]
     [DesignTimeVisible(false)]
-    [DefaultEvent("TextChanged")]
-    [DefaultProperty("Mask")]
+    [DefaultEvent(nameof(TextChanged))]
+    [DefaultProperty(nameof(Mask))]
     public class KryptonRibbonGroupMaskedTextBox : KryptonRibbonGroupItem
     {
         #region Instance Fields
@@ -37,121 +37,121 @@ namespace Krypton.Ribbon
         /// Occurs when the control receives focus.
         /// </summary>
         [Browsable(false)]
-        public event EventHandler GotFocus;
+        public event EventHandler? GotFocus;
 
         /// <summary>
         /// Occurs when the control loses focus.
         /// </summary>
         [Browsable(false)]
-        public event EventHandler LostFocus;
+        public event EventHandler? LostFocus;
 
         /// <summary>
         /// Occurs when the value of the Text property changes.
         /// </summary>
         [Description(@"Occurs when the value of the Text property changes.")]
         [Category(@"Property Changed")]
-        public event EventHandler TextChanged;
+        public event EventHandler? TextChanged;
 
         /// <summary>
         /// Occurs when a key is pressed while the control has focus. 
         /// </summary>
         [Description(@"Occurs when a key is pressed while the control has focus.")]
         [Category(@"Key")]
-        public event KeyPressEventHandler KeyPress;
+        public event KeyPressEventHandler? KeyPress;
 
         /// <summary>
         /// Occurs when a key is released while the control has focus. 
         /// </summary>
         [Description(@"Occurs when a key is released while the control has focus.")]
         [Category(@"Key")]
-        public event KeyEventHandler KeyUp;
+        public event KeyEventHandler? KeyUp;
 
         /// <summary>
         /// Occurs when a key is pressed while the control has focus.
         /// </summary>
         [Description(@"Occurs when a key is pressed while the control has focus.")]
         [Category(@"Key")]
-        public event KeyEventHandler KeyDown;
+        public event KeyEventHandler? KeyDown;
 
         /// <summary>
         /// Occurs before the KeyDown event when a key is pressed while focus is on this control.
         /// </summary>
         [Description(@"Occurs before the KeyDown event when a key is pressed while focus is on this control.")]
         [Category(@"Key")]
-        public event PreviewKeyDownEventHandler PreviewKeyDown;
+        public event PreviewKeyDownEventHandler? PreviewKeyDown;
 
         /// <summary>
         /// Occurs when the value of the HideSelection property changes.
         /// </summary>
         [Description(@"Occurs when the value of the HideSelection property changes.")]
         [Category(@"Property Changed")]
-        public event EventHandler HideSelectionChanged;
+        public event EventHandler? HideSelectionChanged;
 
         /// <summary>
         /// Occurs when the value of the Modified property changes.
         /// </summary>
         [Description(@"Occurs when the value of the Modified property changes.")]
         [Category(@"Property Changed")]
-        public event EventHandler ModifiedChanged;
+        public event EventHandler? ModifiedChanged;
 
         /// <summary>
         /// Occurs when the value of the ReadOnly property changes.
         /// </summary>
         [Description(@"Occurs when the value of the ReadOnly property changes.")]
         [Category(@"Property Changed")]
-        public event EventHandler ReadOnlyChanged;
+        public event EventHandler? ReadOnlyChanged;
 
         /// <summary>
         /// Occurs when the value of the TextAlign property changes.
         /// </summary>
         [Description(@"Occurs when the value of the TextAlign property changes.")]
         [Category(@"Property Changed")]
-        public event EventHandler TextAlignChanged;
+        public event EventHandler? TextAlignChanged;
 
         /// <summary>
         /// Occurs when the value of the Mask property changes.
         /// </summary>
         [Description(@"Occurs when the value of the Mask property changes.")]
         [Category(@"Property Changed")]
-        public event EventHandler MaskChanged;
+        public event EventHandler? MaskChanged;
 
         /// <summary>
         /// Occurs when the value of the IsOverwriteMode property changes.
         /// </summary>
         [Description(@"Occurs when the value of the IsOverwriteMode property changes.")]
         [Category(@"Property Changed")]
-        public event EventHandler IsOverwriteModeChanged;
+        public event EventHandler? IsOverwriteModeChanged;
 
         /// <summary>
         /// Occurs when the input character or text does not comply with the mask specification.
         /// </summary>
         [Description(@"Occurs when the input character or text does not comply with the mask specification.")]
         [Category(@"Behavior")]
-        public event MaskInputRejectedEventHandler MaskInputRejected;
+        public event MaskInputRejectedEventHandler? MaskInputRejected;
 
         /// <summary>
         /// Occurs when the validating type object has completed parsing the input text.
         /// </summary>
         [Description(@"Occurs when the validating type object has completed parsing the input text.")]
         [Category(@"Focus")]
-        public event TypeValidationEventHandler TypeValidationCompleted;
+        public event TypeValidationEventHandler? TypeValidationCompleted;
 
         /// <summary>
         /// Occurs after the value of a property has changed.
         /// </summary>
         [Category(@"Ribbon")]
         [Description(@"Occurs after the value of a property has changed.")]
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         /// <summary>
         /// Occurs when the design time context menu is requested.
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        public event MouseEventHandler DesignTimeContextMenu;
+        public event MouseEventHandler? DesignTimeContextMenu;
 
-        internal event EventHandler MouseEnterControl;
-        internal event EventHandler MouseLeaveControl;
+        internal event EventHandler? MouseEnterControl;
+        internal event EventHandler? MouseLeaveControl;
         #endregion
 
         #region Identity
@@ -225,7 +225,7 @@ namespace Krypton.Ribbon
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public override KryptonRibbon Ribbon
+        public override KryptonRibbon? Ribbon
         {
             set
             {
@@ -235,8 +235,8 @@ namespace Krypton.Ribbon
                 {
                     // Use the same palette in the masked text box as the ribbon, plus we need
                     // to know when the ribbon palette changes so we can reflect that change
-                    MaskedTextBox.Palette = Ribbon.GetResolvedPalette();
-                    Ribbon.PaletteChanged += OnRibbonPaletteChanged;
+                    MaskedTextBox.Palette = value.GetResolvedPalette();
+                    value.PaletteChanged += OnRibbonPaletteChanged;
                 }
             }
         }
@@ -254,10 +254,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Resets the ShortcutKeys property to its default value.
         /// </summary>
-        public void ResetShortcutKeys()
-        {
-            ShortcutKeys = Keys.None;
-        }
+        public void ResetShortcutKeys() => ShortcutKeys = Keys.None;
 
         /// <summary>
         /// Access to the actual embedded KryptonMaskedTextBox instance.
@@ -266,7 +263,7 @@ namespace Krypton.Ribbon
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Always)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public KryptonMaskedTextBox MaskedTextBox { get; private set; }
+        public KryptonMaskedTextBox? MaskedTextBox { get; private set; }
 
         /// <summary>
         /// Gets and sets the key tip for the ribbon group masked text box.
@@ -276,6 +273,7 @@ namespace Krypton.Ribbon
         [Category(@"Appearance")]
         [Description(@"Ribbon group masked text box key tip.")]
         [DefaultValue("X")]
+        [AllowNull]
         public string KeyTip
         {
             get => _keyTip;
@@ -284,7 +282,7 @@ namespace Krypton.Ribbon
             {
                 if (string.IsNullOrEmpty(value))
                 {
-                    value = "X";
+                    value = @"X";
                 }
 
                 _keyTip = value.ToUpper();
@@ -318,18 +316,12 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Make the ribbon group masked text box visible.
         /// </summary>
-        public void Show()
-        {
-            Visible = true;
-        }
+        public void Show() => Visible = true;
 
         /// <summary>
         /// Make the ribbon group masked text box hidden.
         /// </summary>
-        public void Hide()
-        {
-            Visible = false;
-        }
+        public void Hide() => Visible = false;
 
         /// <summary>
         /// Gets and sets the enabled state of the group masked text box.
@@ -360,8 +352,8 @@ namespace Krypton.Ribbon
         [DefaultValue(typeof(Size), "121, 0")]
         public Size MinimumSize
         {
-            get => MaskedTextBox.MinimumSize;
-            set => MaskedTextBox.MinimumSize = value;
+            get => MaskedTextBox!.MinimumSize;
+            set => MaskedTextBox!.MinimumSize = value;
         }
 
         /// <summary>
@@ -372,8 +364,8 @@ namespace Krypton.Ribbon
         [DefaultValue(typeof(Size), "121, 0")]
         public Size MaximumSize
         {
-            get => MaskedTextBox.MaximumSize;
-            set => MaskedTextBox.MaximumSize = value;
+            get => MaskedTextBox!.MaximumSize;
+            set => MaskedTextBox!.MaximumSize = value;
         }
 
         /// <summary>
@@ -424,11 +416,12 @@ namespace Krypton.Ribbon
         /// Gets and sets the text associated with the control.
         /// </summary>
         [Category(@"Appearance")]
-        [Editor("System.Windows.Forms.Design.MaskedTextBoxTextEditor, " + AssemblyRef.SystemDesign, typeof(UITypeEditor))]
+        [Editor(@"System.Windows.Forms.Design.MaskedTextBoxTextEditor", typeof(UITypeEditor))]
+        [AllowNull]
         public string Text
         {
-            get => MaskedTextBox.Text;
-            set => MaskedTextBox.Text = value;
+            get => MaskedTextBox?.Text ?? string.Empty;
+            set => MaskedTextBox!.Text = value;
         }
 
         /// <summary>
@@ -436,16 +429,17 @@ namespace Krypton.Ribbon
         /// </summary>
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public bool Modified => MaskedTextBox.Modified;
+        public bool Modified => MaskedTextBox!.Modified;
 
         /// <summary>
         /// Gets and sets the selected text within the control.
         /// </summary>
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        [AllowNull]
         public string SelectedText
         {
-            get => MaskedTextBox.SelectedText;
+            get => MaskedTextBox?.SelectedText ?? string.Empty;
             set => MaskedTextBox.SelectedText = value;
         }
 
@@ -456,7 +450,7 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public int SelectionLength
         {
-            get => MaskedTextBox.SelectionLength;
+            get => MaskedTextBox?.SelectionLength ?? 0;
             set => MaskedTextBox.SelectionLength = value;
         }
 
@@ -467,7 +461,7 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public int SelectionStart
         {
-            get => MaskedTextBox.SelectionStart;
+            get => MaskedTextBox?.SelectionStart ?? 0;
             set => MaskedTextBox.SelectionStart = value;
         }
 
@@ -476,32 +470,32 @@ namespace Krypton.Ribbon
         /// </summary>
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public int TextLength => MaskedTextBox.TextLength;
+        public int TextLength => MaskedTextBox?.TextLength ?? 0;
 
         /// <summary>
         /// Gets a value that specifies whether new user input overwrites existing input.
         /// </summary>
         [Browsable(false)]
-        public bool IsOverwriteMode => MaskedTextBox.IsOverwriteMode;
+        public bool IsOverwriteMode => MaskedTextBox?.IsOverwriteMode ?? false;
 
         /// <summary>
         /// Gets a value indicating whether all required inputs have been entered into the input mask.
         /// </summary>
         [Browsable(false)]
-        public bool MaskCompleted => MaskedTextBox.MaskCompleted;
+        public bool MaskCompleted => MaskedTextBox?.MaskCompleted ?? false;
 
         /// <summary>
         /// Gets a clone of the mask provider associated with this instance of the masked text box control.
         /// </summary>
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public MaskedTextProvider MaskedTextProvider => MaskedTextBox.MaskedTextProvider;
+        public MaskedTextProvider? MaskedTextProvider => MaskedTextBox?.MaskedTextProvider;
 
         /// <summary>
         /// Gets a value indicating whether all required and optional inputs have been entered into the input mask.
         /// </summary>
         [Browsable(false)]
-        public bool MaskFull => MaskedTextBox.MaskFull;
+        public bool MaskFull => MaskedTextBox?.MaskFull ?? false;
 
         /// <summary>
         /// Gets or sets the maximum number of characters that can be entered into the edit control.
@@ -510,7 +504,7 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public int MaxLength
         {
-            get => MaskedTextBox.MaxLength;
+            get => MaskedTextBox?.MaxLength ?? 0;
             set => MaskedTextBox.MaxLength = value;
         }
 
@@ -519,9 +513,9 @@ namespace Krypton.Ribbon
         /// </summary>
         [Browsable(false)]
         [DefaultValue(null)]
-        public Type ValidatingType
+        public Type? ValidatingType
         {
-            get => MaskedTextBox.ValidatingType;
+            get => MaskedTextBox?.ValidatingType;
             set => MaskedTextBox.ValidatingType = value;
         }
 
@@ -530,11 +524,11 @@ namespace Krypton.Ribbon
         /// </summary>
         [Category(@"Appearance")]
         [Description(@"Indicates how the text should be aligned for edit controls.")]
-        [DefaultValue(typeof(HorizontalAlignment), "Left")]
+        [DefaultValue(typeof(HorizontalAlignment), @"Left")]
         [Localizable(true)]
         public HorizontalAlignment TextAlign
         {
-            get => MaskedTextBox.TextAlign;
+            get => MaskedTextBox?.TextAlign ?? HorizontalAlignment.Left;
             set => MaskedTextBox.TextAlign = value;
         }
 
@@ -548,7 +542,7 @@ namespace Krypton.Ribbon
         [Localizable(true)]
         public char PromptChar
         {
-            get => MaskedTextBox.PromptChar;
+            get => MaskedTextBox?.PromptChar ?? '_';
             set => MaskedTextBox.PromptChar = value;
         }
 
@@ -560,7 +554,7 @@ namespace Krypton.Ribbon
         [DefaultValue(true)]
         public bool AllowPromptAsInput
         {
-            get => MaskedTextBox.AllowPromptAsInput;
+            get => MaskedTextBox?.AllowPromptAsInput ?? false;
             set => MaskedTextBox.AllowPromptAsInput = value;
         }
 
@@ -573,7 +567,7 @@ namespace Krypton.Ribbon
         [DefaultValue(false)]
         public bool AsciiOnly
         {
-            get => MaskedTextBox.AsciiOnly;
+            get => MaskedTextBox?.AsciiOnly ?? false;
             set => MaskedTextBox.AsciiOnly = value;
         }
 
@@ -585,7 +579,7 @@ namespace Krypton.Ribbon
         [DefaultValue(false)]
         public bool BeepOnError
         {
-            get => MaskedTextBox.BeepOnError;
+            get => MaskedTextBox?.BeepOnError ?? false;
             set => MaskedTextBox.BeepOnError = value;
         }
 
@@ -597,7 +591,7 @@ namespace Krypton.Ribbon
         [RefreshProperties(RefreshProperties.All)]
         public CultureInfo Culture
         {
-            get => MaskedTextBox.Culture;
+            get => MaskedTextBox?.Culture ?? CultureInfo.InvariantCulture;
             set => MaskedTextBox.Culture = value;
         }
 
@@ -609,10 +603,10 @@ namespace Krypton.Ribbon
         [Category(@"Behavior")]
         [Description(@"Indicates whether the text to be copied to the clipboard includes literals and/or prompt characters.")]
         [RefreshProperties(RefreshProperties.All)]
-        [DefaultValue(typeof(MaskFormat), "IncludeLiterals")]
+        [DefaultValue(typeof(MaskFormat), @"IncludeLiterals")]
         public MaskFormat CutCopyMaskFormat
         {
-            get => MaskedTextBox.CutCopyMaskFormat;
+            get => MaskedTextBox?.CutCopyMaskFormat ?? MaskFormat.IncludeLiterals;
             set => MaskedTextBox.CutCopyMaskFormat = value;
         }
 
@@ -625,7 +619,7 @@ namespace Krypton.Ribbon
         [DefaultValue(false)]
         public bool HidePromptOnLeave
         {
-            get => MaskedTextBox.HidePromptOnLeave;
+            get => MaskedTextBox?.HidePromptOnLeave ?? false;
             set => MaskedTextBox.HidePromptOnLeave = value;
         }
 
@@ -634,10 +628,10 @@ namespace Krypton.Ribbon
         /// </summary>
         [Category(@"Behavior")]
         [Description(@"Indicates the masked text box input character typing mode.")]
-        [DefaultValue(typeof(InsertKeyMode), "Default")]
+        [DefaultValue(typeof(InsertKeyMode), @"Default")]
         public InsertKeyMode InsertKeyMode
         {
-            get => MaskedTextBox.InsertKeyMode;
+            get => MaskedTextBox?.InsertKeyMode ?? InsertKeyMode.Default;
             set => MaskedTextBox.InsertKeyMode = value;
         }
 
@@ -650,9 +644,10 @@ namespace Krypton.Ribbon
         [MergableProperty(false)]
         [DefaultValue("")]
         [Localizable(true)]
+        [AllowNull]
         public string Mask
         {
-            get => MaskedTextBox.Mask;
+            get => MaskedTextBox?.Mask ?? string.Empty;
             set => MaskedTextBox.Mask = value;
         }
 
@@ -664,7 +659,7 @@ namespace Krypton.Ribbon
         [DefaultValue(true)]
         public bool HideSelection
         {
-            get => MaskedTextBox.HideSelection;
+            get => MaskedTextBox?.HideSelection ?? true;
             set => MaskedTextBox.HideSelection = value;
         }
 
@@ -677,7 +672,7 @@ namespace Krypton.Ribbon
         [DefaultValue(false)]
         public bool ReadOnly
         {
-            get => MaskedTextBox.ReadOnly;
+            get => MaskedTextBox?.ReadOnly ?? false;
             set => MaskedTextBox.ReadOnly = value;
         }
 
@@ -689,7 +684,7 @@ namespace Krypton.Ribbon
         [DefaultValue(false)]
         public bool RejectInputOnFirstFailure
         {
-            get => MaskedTextBox.RejectInputOnFirstFailure;
+            get => MaskedTextBox?.RejectInputOnFirstFailure ?? false;
             set => MaskedTextBox.RejectInputOnFirstFailure = value;
         }
 
@@ -701,7 +696,7 @@ namespace Krypton.Ribbon
         [DefaultValue(true)]
         public bool ResetOnPrompt
         {
-            get => MaskedTextBox.ResetOnPrompt;
+            get => MaskedTextBox?.ResetOnPrompt ?? true;
             set => MaskedTextBox.ResetOnPrompt = value;
         }
 
@@ -713,7 +708,7 @@ namespace Krypton.Ribbon
         [DefaultValue(true)]
         public bool ResetOnSpace
         {
-            get => MaskedTextBox.ResetOnSpace;
+            get => MaskedTextBox?.ResetOnSpace ?? true;
             set => MaskedTextBox.ResetOnSpace = value;
         }
 
@@ -725,7 +720,7 @@ namespace Krypton.Ribbon
         [DefaultValue(true)]
         public bool SkipLiterals
         {
-            get => MaskedTextBox.SkipLiterals;
+            get => MaskedTextBox?.SkipLiterals ?? true;
             set => MaskedTextBox.SkipLiterals = value;
         }
 
@@ -738,7 +733,7 @@ namespace Krypton.Ribbon
         [RefreshProperties(RefreshProperties.Repaint)]
         public MaskFormat TextMaskFormat
         {
-            get => MaskedTextBox.TextMaskFormat;
+            get => MaskedTextBox?.TextMaskFormat ?? MaskFormat.IncludeLiterals;
             set => MaskedTextBox.TextMaskFormat = value;
         }
 
@@ -752,7 +747,7 @@ namespace Krypton.Ribbon
         [Localizable(true)]
         public char PasswordChar
         {
-            get => MaskedTextBox.PasswordChar;
+            get => MaskedTextBox?.PasswordChar ?? '\0';
             set => MaskedTextBox.PasswordChar = value;
         }
 
@@ -765,7 +760,7 @@ namespace Krypton.Ribbon
         [DefaultValue(false)]
         public bool UseSystemPasswordChar
         {
-            get => MaskedTextBox.UseSystemPasswordChar;
+            get => MaskedTextBox?.UseSystemPasswordChar ?? false;
             set => MaskedTextBox.UseSystemPasswordChar = value;
         }
 
@@ -775,9 +770,9 @@ namespace Krypton.Ribbon
         [Category(@"Behavior")]
         [Description(@"The shortcut to display when the user right-clicks the control.")]
         [DefaultValue(null)]
-        public ContextMenuStrip ContextMenuStrip
+        public ContextMenuStrip? ContextMenuStrip
         {
-            get => MaskedTextBox.ContextMenuStrip;
+            get => MaskedTextBox?.ContextMenuStrip;
             set => MaskedTextBox.ContextMenuStrip = value;
         }
 
@@ -787,9 +782,9 @@ namespace Krypton.Ribbon
         [Category(@"Behavior")]
         [Description(@"KryptonContextMenu to be shown when the masked textbox is right clicked.")]
         [DefaultValue(null)]
-        public KryptonContextMenu KryptonContextMenu
+        public KryptonContextMenu? KryptonContextMenu
         {
-            get => MaskedTextBox.KryptonContextMenu;
+            get => MaskedTextBox?.KryptonContextMenu;
             set => MaskedTextBox.KryptonContextMenu = value;
         }
 
@@ -806,7 +801,7 @@ namespace Krypton.Ribbon
         [DefaultValue(false)]
         public bool AllowButtonSpecToolTips
         {
-            get => MaskedTextBox.AllowButtonSpecToolTips;
+            get => MaskedTextBox?.AllowButtonSpecToolTips ?? false;
             set => MaskedTextBox.AllowButtonSpecToolTips = value;
         }
 
@@ -818,7 +813,7 @@ namespace Krypton.Ribbon
         [DefaultValue(false)]
         public bool AllowButtonSpecToolTipPriority
         {
-            get => MaskedTextBox.AllowButtonSpecToolTipPriority;
+            get => MaskedTextBox?.AllowButtonSpecToolTipPriority ?? false;
             set => MaskedTextBox.AllowButtonSpecToolTipPriority = value;
         }
 
@@ -864,158 +859,107 @@ namespace Krypton.Ribbon
         /// Raises the TextChanged event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnTextChanged(EventArgs e)
-        {
-            TextChanged?.Invoke(this, e);
-        }
+        protected virtual void OnTextChanged(EventArgs e) => TextChanged?.Invoke(this, e);
 
         /// <summary>
         /// Raises the GotFocus event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnGotFocus(EventArgs e)
-        {
-            GotFocus?.Invoke(this, e);
-        }
+        protected virtual void OnGotFocus(EventArgs e) => GotFocus?.Invoke(this, e);
 
         /// <summary>
         /// Raises the LostFocus event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnLostFocus(EventArgs e)
-        {
-            LostFocus?.Invoke(this, e);
-        }
+        protected virtual void OnLostFocus(EventArgs e) => LostFocus?.Invoke(this, e);
 
         /// <summary>
         /// Raises the KeyDown event.
         /// </summary>
         /// <param name="e">An KeyEventArgs containing the event data.</param>
-        protected virtual void OnKeyDown(KeyEventArgs e)
-        {
-            KeyDown?.Invoke(this, e);
-        }
+        protected virtual void OnKeyDown(KeyEventArgs e) => KeyDown?.Invoke(this, e);
 
         /// <summary>
         /// Raises the KeyUp event.
         /// </summary>
         /// <param name="e">An KeyEventArgs containing the event data.</param>
-        protected virtual void OnKeyUp(KeyEventArgs e)
-        {
-            KeyUp?.Invoke(this, e);
-        }
+        protected virtual void OnKeyUp(KeyEventArgs e) => KeyUp?.Invoke(this, e);
 
         /// <summary>
         /// Raises the KeyPress event.
         /// </summary>
         /// <param name="e">An KeyPressEventArgs containing the event data.</param>
-        protected virtual void OnKeyPress(KeyPressEventArgs e)
-        {
-            KeyPress?.Invoke(this, e);
-        }
+        protected virtual void OnKeyPress(KeyPressEventArgs e) => KeyPress?.Invoke(this, e);
 
         /// <summary>
         /// Raises the PreviewKeyDown event.
         /// </summary>
         /// <param name="e">An PreviewKeyDownEventArgs containing the event data.</param>
-        protected virtual void OnPreviewKeyDown(PreviewKeyDownEventArgs e)
-        {
-            PreviewKeyDown?.Invoke(this, e);
-        }
+        protected virtual void OnPreviewKeyDown(PreviewKeyDownEventArgs e) => PreviewKeyDown?.Invoke(this, e);
 
         /// <summary>
         /// Raises the HideSelectionChanged event.
         /// </summary>
         /// <param name="e">An EventArgs that contains the event data.</param>
-        protected virtual void OnHideSelectionChanged(EventArgs e)
-        {
-            HideSelectionChanged?.Invoke(this, e);
-        }
+        protected virtual void OnHideSelectionChanged(EventArgs e) => HideSelectionChanged?.Invoke(this, e);
 
         /// <summary>
         /// Raises the ModifiedChanged event.
         /// </summary>
         /// <param name="e">An EventArgs that contains the event data.</param>
-        protected virtual void OnModifiedChanged(EventArgs e)
-        {
-            ModifiedChanged?.Invoke(this, e);
-        }
+        protected virtual void OnModifiedChanged(EventArgs e) => ModifiedChanged?.Invoke(this, e);
 
         /// <summary>
         /// Raises the ReadOnlyChanged event.
         /// </summary>
         /// <param name="e">An EventArgs that contains the event data.</param>
-        protected virtual void OnReadOnlyChanged(EventArgs e)
-        {
-            ReadOnlyChanged?.Invoke(this, e);
-        }
+        protected virtual void OnReadOnlyChanged(EventArgs e) => ReadOnlyChanged?.Invoke(this, e);
 
         /// <summary>
         /// Raises the MaskChanged event.
         /// </summary>
         /// <param name="e">An EventArgs that contains the event data.</param>
-        protected virtual void OnMaskChanged(EventArgs e)
-        {
-            MaskChanged?.Invoke(this, e);
-        }
+        protected virtual void OnMaskChanged(EventArgs e) => MaskChanged?.Invoke(this, e);
 
         /// <summary>
         /// Raises the TextAlignChanged event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnTextAlignChanged(EventArgs e)
-        {
-            TextAlignChanged?.Invoke(this, e);
-        }
+        protected virtual void OnTextAlignChanged(EventArgs e) => TextAlignChanged?.Invoke(this, e);
 
         /// <summary>
         /// Raises the IsOverwriteModeChanged event.
         /// </summary>
         /// <param name="e">An EventArgs that contains the event data.</param>
-        protected virtual void OnIsOverwriteModeChanged(EventArgs e)
-        {
-            IsOverwriteModeChanged?.Invoke(this, e);
-        }
+        protected virtual void OnIsOverwriteModeChanged(EventArgs e) => IsOverwriteModeChanged?.Invoke(this, e);
 
         /// <summary>
         /// Raises the MaskInputRejected event.
         /// </summary>
         /// <param name="e">An MaskInputRejectedEventArgs that contains the event data.</param>
-        protected virtual void OnMaskInputRejected(MaskInputRejectedEventArgs e)
-        {
-            MaskInputRejected?.Invoke(this, e);
-        }
+        protected virtual void OnMaskInputRejected(MaskInputRejectedEventArgs e) => MaskInputRejected?.Invoke(this, e);
 
         /// <summary>
         /// Raises the TypeValidationCompleted event.
         /// </summary>
         /// <param name="e">An EventArgs that contains the event data.</param>
-        protected virtual void OnTypeValidationCompleted(TypeValidationEventArgs e)
-        {
-            TypeValidationCompleted?.Invoke(this, e);
-        }
+        protected virtual void OnTypeValidationCompleted(TypeValidationEventArgs e) => TypeValidationCompleted?.Invoke(this, e);
 
         /// <summary>
         /// Raises the PropertyChanged event.
         /// </summary>
         /// <param name="propertyName">Name of property that has changed.</param>
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
+        protected virtual void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         #endregion
 
         #region Internal
         internal Control LastParentControl { get; set; }
 
-        internal KryptonMaskedTextBox LastMaskedTextBox { get; set; }
+        internal KryptonMaskedTextBox? LastMaskedTextBox { get; set; }
 
-        internal NeedPaintHandler ViewPaintDelegate { get; set; }
+        internal NeedPaintHandler? ViewPaintDelegate { get; set; }
 
-        internal void OnDesignTimeContextMenu(MouseEventArgs e)
-        {
-            DesignTimeContextMenu?.Invoke(this, e);
-        }
+        internal void OnDesignTimeContextMenu(MouseEventArgs e) => DesignTimeContextMenu?.Invoke(this, e);
 
         internal override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
@@ -1061,100 +1005,50 @@ namespace Krypton.Ribbon
             c.TrackMouseLeave -= OnControlLeave;
         }
 
-        private void OnControlEnter(object sender, EventArgs e)
-        {
-            MouseEnterControl?.Invoke(this, e);
-        }
+        private void OnControlEnter(object sender, EventArgs e) => MouseEnterControl?.Invoke(this, e);
 
-        private void OnControlLeave(object sender, EventArgs e)
-        {
-            MouseLeaveControl?.Invoke(this, e);
-        }
+        private void OnControlLeave(object sender, EventArgs e) => MouseLeaveControl?.Invoke(this, e);
 
-        private void OnPaletteNeedPaint(object sender, NeedLayoutEventArgs e)
-        {
+        private void OnPaletteNeedPaint(object sender, NeedLayoutEventArgs e) =>
             // Pass request onto the view provided paint delegate
             ViewPaintDelegate?.Invoke(this, e);
-        }
 
-        private void OnMaskedTextBoxTextChanged(object sender, EventArgs e)
-        {
-            OnTextChanged(e);
-        }
+        private void OnMaskedTextBoxTextChanged(object sender, EventArgs e) => OnTextChanged(e);
 
-        private void OnMaskedTextBoxTextAlignChanged(object sender, EventArgs e)
-        {
-            OnTextAlignChanged(e);
-        }
+        private void OnMaskedTextBoxTextAlignChanged(object sender, EventArgs e) => OnTextAlignChanged(e);
 
-        private void OnMaskedMaskChanged(object sender, EventArgs e)
-        {
-            OnMaskChanged(e);
-        }
+        private void OnMaskedMaskChanged(object sender, EventArgs e) => OnMaskChanged(e);
 
-        private void OnMaskedIsOverwriteModeChanged(object sender, EventArgs e)
-        {
-            OnIsOverwriteModeChanged(e);
-        }
+        private void OnMaskedIsOverwriteModeChanged(object sender, EventArgs e) => OnIsOverwriteModeChanged(e);
 
-        private void OnMaskedMaskInputRejected(object sender, MaskInputRejectedEventArgs e)
-        {
-            OnMaskInputRejected(e);
-        }
+        private void OnMaskedMaskInputRejected(object sender, MaskInputRejectedEventArgs e) => OnMaskInputRejected(e);
 
-        private void OnMaskedTypeValidationCompleted(object sender, TypeValidationEventArgs e)
-        {
-            OnTypeValidationCompleted(e);
-        }
+        private void OnMaskedTypeValidationCompleted(object sender, TypeValidationEventArgs e) => OnTypeValidationCompleted(e);
 
-        private void OnMaskedTextBoxHideSelectionChanged(object sender, EventArgs e)
-        {
-            OnHideSelectionChanged(e);
-        }
+        private void OnMaskedTextBoxHideSelectionChanged(object sender, EventArgs e) => OnHideSelectionChanged(e);
 
-        private void OnMaskedTextBoxModifiedChanged(object sender, EventArgs e)
-        {
-            OnModifiedChanged(e);
-        }
+        private void OnMaskedTextBoxModifiedChanged(object sender, EventArgs e) => OnModifiedChanged(e);
 
-        private void OnMaskedTextBoxReadOnlyChanged(object sender, EventArgs e)
-        {
-            OnReadOnlyChanged(e);
-        }
+        private void OnMaskedTextBoxReadOnlyChanged(object sender, EventArgs e) => OnReadOnlyChanged(e);
 
-        private void OnMaskedTextBoxGotFocus(object sender, EventArgs e)
-        {
-            OnGotFocus(e);
-        }
+        private void OnMaskedTextBoxGotFocus(object sender, EventArgs e) => OnGotFocus(e);
 
-        private void OnMaskedTextBoxLostFocus(object sender, EventArgs e)
-        {
-            OnLostFocus(e);
-        }
+        private void OnMaskedTextBoxLostFocus(object sender, EventArgs e) => OnLostFocus(e);
 
-        private void OnMaskedTextBoxKeyPress(object sender, KeyPressEventArgs e)
-        {
-            OnKeyPress(e);
-        }
+        private void OnMaskedTextBoxKeyPress(object sender, KeyPressEventArgs e) => OnKeyPress(e);
 
-        private void OnMaskedTextBoxKeyUp(object sender, KeyEventArgs e)
-        {
-            OnKeyUp(e);
-        }
+        private void OnMaskedTextBoxKeyUp(object sender, KeyEventArgs e) => OnKeyUp(e);
 
-        private void OnMaskedTextBoxKeyDown(object sender, KeyEventArgs e)
-        {
-            OnKeyDown(e);
-        }
+        private void OnMaskedTextBoxKeyDown(object sender, KeyEventArgs e) => OnKeyDown(e);
 
-        private void OnMaskedTextBoxPreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
-        {
-            OnPreviewKeyDown(e);
-        }
+        private void OnMaskedTextBoxPreviewKeyDown(object sender, PreviewKeyDownEventArgs e) => OnPreviewKeyDown(e);
 
         private void OnRibbonPaletteChanged(object sender, EventArgs e)
         {
-            MaskedTextBox.Palette = Ribbon.GetResolvedPalette();
+            if (MaskedTextBox != null)
+            {
+                MaskedTextBox.Palette = Ribbon?.GetResolvedPalette();
+            }
         }
         #endregion
     }

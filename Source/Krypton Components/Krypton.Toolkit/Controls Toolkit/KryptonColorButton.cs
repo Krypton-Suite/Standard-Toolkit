@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -17,9 +17,9 @@ namespace Krypton.Toolkit
     /// </summary>
     [ToolboxItem(true)]
     [ToolboxBitmap(typeof(KryptonColorButton), "ToolboxBitmaps.KryptonColorButton.bmp")]
-    [DefaultEvent(@"SelectedColorChanged")]
-    [DefaultProperty(@"SelectedColor")]
-    [Designer(@"Krypton.Toolkit.KryptonColorButtonDesigner, Krypton.Toolkit")]
+    [DefaultEvent(nameof(SelectedColorChanged))]
+    [DefaultProperty(nameof(SelectedColor))]
+    [Designer(typeof(KryptonColorButtonDesigner))]
     [DesignerCategory(@"code")]
     [Description(@"Raises an event when the user clicks it.")]
     public class KryptonColorButton : VisualSimpleBase, IButtonControl, IContentValues
@@ -33,7 +33,7 @@ namespace Krypton.Toolkit
         private readonly PaletteTripleOverride _overrideNormal;
         private readonly PaletteTripleOverride _overrideTracking;
         private readonly PaletteTripleOverride _overridePressed;
-        private KryptonCommand _command;
+        private KryptonCommand? _command;
         private Rectangle _selectedRect;
         private Color _selectedColor;
         private Color _emptyBorderColor;
@@ -71,35 +71,35 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Action")]
         [Description(@"Occurs when the drop down portion of the color button is pressed.")]
-        public event EventHandler<ContextPositionMenuArgs> DropDown;
+        public event EventHandler<ContextPositionMenuArgs>? DropDown;
 
         /// <summary>
         /// Occurs when the value of the KryptonCommand property changes.
         /// </summary>
         [Category(@"Property Changed")]
         [Description(@"Occurs when the value of the KryptonCommand property changes.")]
-        public event EventHandler KryptonCommandChanged;
+        public event EventHandler? KryptonCommandChanged;
 
         /// <summary>
         /// Occurs when the SelectedColor property changes value.
         /// </summary>
         [Category(@"Property Changed")]
         [Description(@"Occurs when the SelectedColor property changes value.")]
-        public event EventHandler<ColorEventArgs> SelectedColorChanged;
+        public event EventHandler<ColorEventArgs>? SelectedColorChanged;
 
         /// <summary>
         /// Occurs when the user is tracking over a color.
         /// </summary>
         [Category(@"Action")]
         [Description(@"Occurs when user is tracking over a color.")]
-        public event EventHandler<ColorEventArgs> TrackingColor;
+        public event EventHandler<ColorEventArgs>? TrackingColor;
 
         /// <summary>
         /// Occurs when the user selects the more colors option.
         /// </summary>
         [Category(@"Action")]
         [Description(@"Occurs when user selects the more colors option.")]
-        public event CancelEventHandler MoreColors;
+        public event CancelEventHandler? MoreColors;
         #endregion
 
         #region Identity
@@ -135,20 +135,20 @@ namespace Krypton.Toolkit
             // Create the context menu items
             _kryptonContextMenu = new KryptonContextMenu();
             _separatorTheme = new KryptonContextMenuSeparator();
-            _headingTheme = new KryptonContextMenuHeading(@"Theme Colors");
+            _headingTheme = new KryptonContextMenuHeading(KryptonLanguageManager.ColorStrings.ThemeColors); //@"Theme Colors");
             _colorsTheme = new KryptonContextMenuColorColumns(ColorScheme.OfficeThemes);
             _separatorStandard = new KryptonContextMenuSeparator();
-            _headingStandard = new KryptonContextMenuHeading(@"Standard Colors");
+            _headingStandard = new KryptonContextMenuHeading(KryptonLanguageManager.ColorStrings.StandardColors); //@"Standard Colors");
             _colorsStandard = new KryptonContextMenuColorColumns(ColorScheme.OfficeStandard);
             _separatorRecent = new KryptonContextMenuSeparator();
-            _headingRecent = new KryptonContextMenuHeading(@"Recent Colors");
+            _headingRecent = new KryptonContextMenuHeading(KryptonLanguageManager.ColorStrings.RecentColors); //@"Recent Colors");
             _colorsRecent = new KryptonContextMenuColorColumns(ColorScheme.None);
             _separatorNoColor = new KryptonContextMenuSeparator();
-            _itemNoColor = new KryptonContextMenuItem(@"&No Color", Resources.GenericImageResources.ButtonNoColor, OnClickNoColor);
+            _itemNoColor = new KryptonContextMenuItem(/*@"&No Color"*/ KryptonLanguageManager.ColorStrings.NoColor, GenericImageResources.ButtonNoColor, OnClickNoColor);
             _itemsNoColor = new KryptonContextMenuItems();
             _itemsNoColor.Items.Add(_itemNoColor);
             _separatorMoreColors = new KryptonContextMenuSeparator();
-            _itemMoreColors = new KryptonContextMenuItem(@"&More Colors...", OnClickMoreColors);
+            _itemMoreColors = new KryptonContextMenuItem(/*@"&More Colors..."*/ KryptonLanguageManager.ColorStrings.MoreColors, OnClickMoreColors);
             _itemsMoreColors = new KryptonContextMenuItems();
             _itemsMoreColors.Items.Add(_itemMoreColors);
             _kryptonContextMenu.Items.AddRange(new KryptonContextMenuItemBase[] { _separatorTheme, _headingTheme, _colorsTheme,
@@ -254,7 +254,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Action")]
         [Description(@"Override to allow your click event")]
-        public new event EventHandler Click
+        public new event EventHandler? Click
         {
             add
             {
@@ -273,7 +273,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the text associated with this control. 
         /// </summary>
-        [Editor(@"System.ComponentModel.Design.MultilineStringEditor", typeof(UITypeEditor))]
+        [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
+        [AllowNull]
         public override string Text
         {
             get => Values.Text;
@@ -298,7 +299,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public override ContextMenuStrip ContextMenuStrip
+        public override ContextMenuStrip? ContextMenuStrip
         {
             get => null;
             set { }
@@ -310,7 +311,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public override KryptonContextMenu KryptonContextMenu
+        public override KryptonContextMenu? KryptonContextMenu
         {
             get => null;
             set { }
@@ -377,7 +378,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Behavior")]
         [Description(@"Color scheme to use for the themes color set.")]
-        [DefaultValue(typeof(ColorScheme), "OfficeThemes")]
+        [DefaultValue(ColorScheme.OfficeThemes)]
         public ColorScheme SchemeThemes { get; set; }
 
         /// <summary>
@@ -385,7 +386,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Behavior")]
         [Description(@"Color scheme to use for the standard color set.")]
-        [DefaultValue(typeof(ColorScheme), "OfficeStandard")]
+        [DefaultValue(ColorScheme.OfficeStandard)]
         public ColorScheme SchemeStandard { get; set; }
 
         /// <summary>
@@ -459,7 +460,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Visuals")]
         [Description(@"Visual orientation of the control.")]
-        [DefaultValue(typeof(VisualOrientation), "Top")]
+        [DefaultValue(VisualOrientation.Top)]
         public virtual VisualOrientation ButtonOrientation
         {
             get => _drawButton.Orientation;
@@ -479,7 +480,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Visuals")]
         [Description(@"Position of the drop arrow within the color button.")]
-        [DefaultValue(typeof(VisualOrientation), "Right")]
+        [DefaultValue(VisualOrientation.Right)]
         public virtual VisualOrientation DropDownPosition
         {
             get => _drawButton.DropDownPosition;
@@ -499,7 +500,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Visuals")]
         [Description(@"Orientation of the drop arrow within the color button.")]
-        [DefaultValue(typeof(VisualOrientation), "Bottom")]
+        [DefaultValue(VisualOrientation.Bottom)]
         public virtual VisualOrientation DropDownOrientation
         {
             get
@@ -575,10 +576,7 @@ namespace Krypton.Toolkit
 
         private bool ShouldSerializeButtonStyle() => ButtonStyle != ButtonStyle.Standalone;
 
-        private void ResetButtonStyle()
-        {
-            ButtonStyle = ButtonStyle.Standalone;
-        }
+        private void ResetButtonStyle() => ButtonStyle = ButtonStyle.Standalone;
 
         /// <summary>
         /// Gets access to the color button content.
@@ -683,7 +681,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Behavior")]
         [Description(@"The dialog-box result produced in a modal form by clicking the color button.")]
-        [DefaultValue(typeof(DialogResult), "None")]
+        [DefaultValue(DialogResult.None)]
         public DialogResult DialogResult { get; set; }
 
         /// <summary>
@@ -692,7 +690,7 @@ namespace Krypton.Toolkit
         [Category(@"Behavior")]
         [Description(@"Command associated with the color button.")]
         [DefaultValue(null)]
-        public virtual KryptonCommand KryptonCommand
+        public virtual KryptonCommand? KryptonCommand
         {
             get => _command;
 
@@ -831,7 +829,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Allows the configuration of a custom colour preview shape.
         /// </summary>
-        [DefaultValue(typeof(KryptonColorButtonCustomColorPreviewShape), "KryptonColorButtonCustomColorPreviewShape.None"), Description(@"Allows the configuration of a custom colour preview shape.")]
+        [DefaultValue(KryptonColorButtonCustomColorPreviewShape.None)]
+        [Description(@"Allows the configuration of a custom colour preview shape.")]
         public KryptonColorButtonCustomColorPreviewShape CustomColorPreviewShape
         {
             get => _customColorPreviewShape;
@@ -868,7 +867,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">The state for which the image is needed.</param>
         /// <returns>Image value.</returns>
-        public Image GetImage(PaletteState state) => Values.GetImage(state);
+        public Image? GetImage(PaletteState state) => Values.GetImage(state);
 
         /// <summary>
         /// Gets the image color that should be transparent.
@@ -884,7 +883,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the default size of the control.
         /// </summary>
-        protected override Size DefaultSize => new(90, 25);
+        protected override Size DefaultSize => new Size(90, 25);
 
         /// <summary>
         /// Gets the default Input Method Editor (IME) mode supported by this control.
@@ -1099,14 +1098,14 @@ namespace Krypton.Toolkit
         {
             switch (e.PropertyName)
             {
-                case @"Enabled":
+                case nameof(Enabled):
                     Enabled = KryptonCommand.Enabled;
                     break;
                 case @"ImageSmall":
                     Values.Image = KryptonCommand.ImageSmall;
                     PerformNeedPaint(true);
                     break;
-                case @"Text":
+                case nameof(Text):
                 case @"ExtraText":
                 case @"ImageTransparentColor":
                     PerformNeedPaint(true);
@@ -1130,7 +1129,8 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <returns>Set of color button values.</returns>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        protected virtual ColorButtonValues CreateButtonValues(NeedPaintHandler needPaint) => new(needPaint);
+        protected virtual ColorButtonValues CreateButtonValues(NeedPaintHandler needPaint) =>
+            new ColorButtonValues(needPaint);
 
         /// <summary>
         /// Gets access to the view element for the color button.
@@ -1160,7 +1160,7 @@ namespace Krypton.Toolkit
                 // Raise event to indicate it was a mouse activated click
                 OnMouseClick(e);
             }
-            
+
             // If not showing a context menu then perform cleanup straight away
             if (!showingContextMenu)
             {
@@ -1189,95 +1189,84 @@ namespace Krypton.Toolkit
             }
 
             // Package up the context menu and positioning values we will use later
-            ContextPositionMenuArgs cpma = new(null,
-                                                   _kryptonContextMenu,
-                                                   GetPositionH(),
-                                                   GetPositionV());
+            var cpma = new ContextPositionMenuArgs(null,
+                _kryptonContextMenu, GetPositionH(), GetPositionV());
             // Let use examine and later values
             OnDropDown(cpma);
 
             // If we still want to show a context menu
-            if (!cpma.Cancel)
+            if (cpma is { Cancel: false, KryptonContextMenu: not null })
             {
-                if (cpma.KryptonContextMenu != null)
+                // Convert the client rect to screen coords
+                Rectangle screenRect = RectangleToScreen(ClientRectangle);
+                if (CommonHelper.ValidKryptonContextMenu(cpma.KryptonContextMenu))
                 {
-                    // Convert the client rect to screen coords
-                    Rectangle screenRect = RectangleToScreen(ClientRectangle);
-                    if (CommonHelper.ValidKryptonContextMenu(cpma.KryptonContextMenu))
+                    // Modify the screen rect so that we have a pixel gap between color button and menu
+                    switch (cpma.PositionV)
                     {
-                        // Modify the screen rect so that we have a pixel gap between color button and menu
-                        switch (cpma.PositionV)
-                        {
-                            case KryptonContextMenuPositionV.Above:
-                                screenRect.Y -= 1;
-                                break;
-                            case KryptonContextMenuPositionV.Below:
-                                screenRect.Height += 1;
-                                break;
-                        }
-
-                        switch (cpma.PositionH)
-                        {
-                            case KryptonContextMenuPositionH.Before:
-                                screenRect.X -= 1;
-                                break;
-                            case KryptonContextMenuPositionH.After:
-                                screenRect.Width += 1;
-                                break;
-                        }
-
-                        // We are showing a drop down
-                        showingContextMenu = true;
-
-                        // Decide which separators are needed
-                        DecideOnVisible(_separatorTheme, _colorsTheme);
-                        DecideOnVisible(_separatorStandard, _colorsStandard);
-                        DecideOnVisible(_separatorRecent, _colorsRecent);
-                        DecideOnVisible(_separatorNoColor, _itemsNoColor);
-                        DecideOnVisible(_separatorMoreColors, _itemsMoreColors);
-
-                        // Monitor relevant events inside the context menu
-                        HookContextMenuEvents(_kryptonContextMenu.Items, true);
-
-                        // Show relative to the screen rectangle
-                        cpma.KryptonContextMenu.Closed += OnKryptonContextMenuClosed;
-                        cpma.KryptonContextMenu.Show(this, screenRect, cpma.PositionH, cpma.PositionV);
+                        case KryptonContextMenuPositionV.Above:
+                            screenRect.Y -= 1;
+                            break;
+                        case KryptonContextMenuPositionV.Below:
+                            screenRect.Height += 1;
+                            break;
                     }
+
+                    switch (cpma.PositionH)
+                    {
+                        case KryptonContextMenuPositionH.Before:
+                            screenRect.X -= 1;
+                            break;
+                        case KryptonContextMenuPositionH.After:
+                            screenRect.Width += 1;
+                            break;
+                    }
+
+                    // We are showing a drop down
+                    showingContextMenu = true;
+
+                    // Decide which separators are needed
+                    DecideOnVisible(_separatorTheme, _colorsTheme);
+                    DecideOnVisible(_separatorStandard, _colorsStandard);
+                    DecideOnVisible(_separatorRecent, _colorsRecent);
+                    DecideOnVisible(_separatorNoColor, _itemsNoColor);
+                    DecideOnVisible(_separatorMoreColors, _itemsMoreColors);
+
+                    // Monitor relevant events inside the context menu
+                    HookContextMenuEvents(_kryptonContextMenu.Items, true);
+
+                    // Show relative to the screen rectangle
+                    cpma.KryptonContextMenu.Closed += OnKryptonContextMenuClosed;
+                    cpma.KryptonContextMenu.Show(this, screenRect, cpma.PositionH, cpma.PositionV);
                 }
             }
 
             return showingContextMenu;
         }
 
-        private KryptonContextMenuPositionH GetPositionH()
+        private KryptonContextMenuPositionH GetPositionH() => DropDownOrientation switch
         {
-            return DropDownOrientation switch
-            {
-                //VisualOrientation.Bottom => KryptonContextMenuPositionH.Left,
-                //VisualOrientation.Top => KryptonContextMenuPositionH.Left,
-                VisualOrientation.Left => KryptonContextMenuPositionH.Before,
-                VisualOrientation.Right => KryptonContextMenuPositionH.After,
-                _ => KryptonContextMenuPositionH.Left
-            };
-        }
+            //VisualOrientation.Bottom => KryptonContextMenuPositionH.Left,
+            //VisualOrientation.Top => KryptonContextMenuPositionH.Left,
+            VisualOrientation.Left => KryptonContextMenuPositionH.Before,
+            VisualOrientation.Right => KryptonContextMenuPositionH.After,
+            _ => KryptonContextMenuPositionH.Left
+        };
 
-        private KryptonContextMenuPositionV GetPositionV()
+        private KryptonContextMenuPositionV GetPositionV() => DropDownOrientation switch
         {
-            return DropDownOrientation switch
-            {
-                //VisualOrientation.Bottom => KryptonContextMenuPositionV.Below,
-                VisualOrientation.Top => KryptonContextMenuPositionV.Above,
-                VisualOrientation.Left => KryptonContextMenuPositionV.Top,
-                VisualOrientation.Right => KryptonContextMenuPositionV.Top,
-                _ => KryptonContextMenuPositionV.Below
-            };
-        }
+            //VisualOrientation.Bottom => KryptonContextMenuPositionV.Below,
+            VisualOrientation.Top => KryptonContextMenuPositionV.Above,
+            VisualOrientation.Left => KryptonContextMenuPositionV.Top,
+            VisualOrientation.Right => KryptonContextMenuPositionV.Top,
+            _ => KryptonContextMenuPositionV.Below
+        };
 
         private void OnContextMenuClosed(object sender, EventArgs e) => ContextMenuClosed();
 
         private void OnKryptonContextMenuClosed(object sender, EventArgs e)
         {
-            KryptonContextMenu kcm = (KryptonContextMenu)sender;
+            var kcm = (KryptonContextMenu)sender;
             kcm.Closed -= OnKryptonContextMenuClosed;
             ContextMenuClosed();
 
@@ -1285,7 +1274,7 @@ namespace Krypton.Toolkit
             HookContextMenuEvents(_kryptonContextMenu.Items, false);
         }
 
-        void OnButtonSelect(object sender, MouseEventArgs e)
+        private void OnButtonSelect(object sender, MouseEventArgs e)
         {
             // Take the focus if allowed
             if (CanFocus)
@@ -1315,6 +1304,30 @@ namespace Krypton.Toolkit
                         columns.SelectedColorChanged -= OnColumnsSelectedColorChanged;
                     }
                 }
+            }
+        }
+
+        /// <summary>
+        /// Add or update the recent colours to display.
+        /// Notes:
+        ///   - If number to display > MaxRecentColors(10) then the earliest ones will be removed
+        ///   - Colours will appear in reverse order to those passed in. 
+        /// </summary>
+        /// <param name="colors"></param>
+        public void AddUpdateRecentColors(IList<Color> colors)
+        {
+            foreach (Color color in colors
+                         .Where(static color => (color != null) && !color.Equals(Color.Empty))
+                         .Where(color => !Enumerable.Contains(_recentColors, color)))
+            {
+                // Add to start of the list
+                _recentColors.Insert(0, color);
+            }
+
+            // Enforce the maximum number of recent colors
+            if (_recentColors.Count > MaxRecentColors)
+            {
+                _recentColors.RemoveRange(MaxRecentColors, _recentColors.Count - MaxRecentColors);
             }
         }
 
@@ -1459,14 +1472,14 @@ namespace Krypton.Toolkit
         private void OnClickMoreColors(object sender, EventArgs e)
         {
             // Give user a chance to cancel showing the Krypton more colors dialog
-            CancelEventArgs cea = new();
+            var cea = new CancelEventArgs();
             OnMoreColors(cea);
 
             // If not instructed to cancel then...
             if (!cea.Cancel)
             {
                 // Use a Krypton color dialog for the selection of custom colors
-                KryptonColorDialog cd = new()
+                var cd = new KryptonColorDialog
                 {
                     Color = SelectedColor,
                     FullOpen = _allowFullOpen
@@ -1482,7 +1495,7 @@ namespace Krypton.Toolkit
 
         private void SetCustomColorPreviewShape(KryptonColorButtonCustomColorPreviewShape customShape)
         {
-             switch (customShape)
+            switch (customShape)
             {
                 case KryptonColorButtonCustomColorPreviewShape.None:
                     Values.Image = GenericImageResources.ButtonColorImageSmall;

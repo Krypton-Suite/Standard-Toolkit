@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -18,7 +18,7 @@ namespace Krypton.Toolkit
     public class PaletteBorderInheritRedirect : PaletteBorderInherit
     {
         #region Instance Fields
-        private PaletteRedirect _redirect;
+        private PaletteRedirect? _redirect;
 
         #endregion
 
@@ -27,7 +27,7 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the PaletteBorderInheritRedirect class.
         /// </summary>
         /// <param name="redirect">Source for inherit requests.</param>
-        public PaletteBorderInheritRedirect(PaletteRedirect redirect)
+        public PaletteBorderInheritRedirect(PaletteRedirect? redirect)
             : this(redirect, PaletteBorderStyle.ButtonStandalone)
         {
         }
@@ -37,7 +37,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="redirect">Source for inherit requests.</param>
         /// <param name="style">Style used in requests.</param>
-        public PaletteBorderInheritRedirect(PaletteRedirect redirect,
+        public PaletteBorderInheritRedirect(PaletteRedirect? redirect,
                                             PaletteBorderStyle style)
         {
             _redirect = redirect;
@@ -58,7 +58,7 @@ namespace Krypton.Toolkit
         /// Gets the redirector instance.
         /// </summary>
         /// <returns>Return the currently used redirector.</returns>
-        public PaletteRedirect GetRedirector() => _redirect;
+        public PaletteRedirect? GetRedirector() => _redirect;
 
         #endregion
 
@@ -67,10 +67,7 @@ namespace Krypton.Toolkit
         /// Update the redirector with new reference.
         /// </summary>
         /// <param name="redirect">Target redirector.</param>
-        public void SetRedirector(PaletteRedirect redirect)
-        {
-            _redirect = redirect;
-        }
+        public void SetRedirector(PaletteRedirect? redirect) => _redirect = redirect;
         #endregion
 
         #region Style
@@ -158,7 +155,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image instance.</returns>
-        public override Image GetBorderImage(PaletteState state) => _redirect.GetBorderImage(Style, state);
+        public override Image? GetBorderImage(PaletteState state) => _redirect.GetBorderImage(Style, state);
 
         /// <summary>
         /// Gets the border image style from the redirector.

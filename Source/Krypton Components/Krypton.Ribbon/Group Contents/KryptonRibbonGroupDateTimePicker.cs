@@ -5,7 +5,9 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  
+ *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
  */
 #endregion
@@ -17,12 +19,12 @@ namespace Krypton.Ribbon
     /// </summary>
     [ToolboxItem(false)]
     [ToolboxBitmap(typeof(KryptonRibbonGroupDateTimePicker), "ToolboxBitmaps.KryptonRibbonGroupDateTimePicker.bmp")]
-    [Designer("Krypton.Ribbon.KryptonRibbonGroupDateTimePickerDesigner, Krypton.Ribbon")]
+    [Designer(typeof(KryptonRibbonGroupDateTimePickerDesigner))]
     [DesignerCategory(@"code")]
     [DesignTimeVisible(false)]
-    [DefaultEvent("ValueChanged")]
-    [DefaultProperty("Value")]
-    [DefaultBindingProperty("Value")]
+    [DefaultEvent(nameof(ValueChanged))]
+    [DefaultProperty(nameof(Value))]
+    [DefaultBindingProperty(nameof(Value))]
     public class KryptonRibbonGroupDateTimePicker : KryptonRibbonGroupItem
     {
         #region Instance Fields
@@ -37,100 +39,100 @@ namespace Krypton.Ribbon
         /// Occurs when the control receives focus.
         /// </summary>
         [Browsable(false)]
-        public event EventHandler GotFocus;
+        public event EventHandler? GotFocus;
 
         /// <summary>
         /// Occurs when the control loses focus.
         /// </summary>
         [Browsable(false)]
-        public event EventHandler LostFocus;
+        public event EventHandler? LostFocus;
 
         /// <summary>
         /// Occurs when the Value property has changed value.
         /// </summary>
         [Category(@"Action")]
         [Description(@"Event raised when the value of the Value property is changed.")]
-        public event EventHandler ValueChanged;
+        public event EventHandler? ValueChanged;
 
         /// <summary>
         /// Occurs when the ValueNullable property has changed value.
         /// </summary>
         [Category(@"Action")]
         [Description(@"Event raised when the value of the ValueNullable property is changed.")]
-        public event EventHandler ValueNullableChanged;
+        public event EventHandler? ValueNullableChanged;
 
         /// <summary>
         /// Occurs when the drop down is shown.
         /// </summary>
         [Category(@"Action")]
         [Description(@"Event raised when the drop down is shown.")]
-        public event EventHandler<DateTimePickerDropArgs> DropDown;
+        public event EventHandler<DateTimePickerDropArgs>? DropDown;
 
         /// <summary>
         /// Occurs when the drop down has been closed.
         /// </summary>
         [Category(@"Action")]
         [Description(@"Event raised when the drop down has been closed.")]
-        public event EventHandler<DateTimePickerCloseArgs> CloseUp;
+        public event EventHandler<DateTimePickerCloseArgs>? CloseUp;
 
         /// <summary>
         /// Occurs when the Checked property has changed value.
         /// </summary>
         [Category(@"Property Changed")]
         [Description(@"Event raised when the value of the Checked property is changed.")]
-        public event EventHandler CheckedChanged;
+        public event EventHandler? CheckedChanged;
 
         /// <summary>
         /// Occurs when the Format property has changed value.
         /// </summary>
         [Category(@"Property Changed")]
         [Description(@"Event raised when the value of the Format property is changed.")]
-        public event EventHandler FormatChanged;
+        public event EventHandler? FormatChanged;
 
         /// <summary>
         /// Occurs when a key is pressed while the control has focus. 
         /// </summary>
         [Description(@"Occurs when a key is pressed while the control has focus.")]
         [Category(@"Key")]
-        public event KeyPressEventHandler KeyPress;
+        public event KeyPressEventHandler? KeyPress;
 
         /// <summary>
         /// Occurs when a key is released while the control has focus. 
         /// </summary>
         [Description(@"Occurs when a key is released while the control has focus.")]
         [Category(@"Key")]
-        public event KeyEventHandler KeyUp;
+        public event KeyEventHandler? KeyUp;
 
         /// <summary>
         /// Occurs when a key is pressed while the control has focus.
         /// </summary>
         [Description(@"Occurs when a key is pressed while the control has focus.")]
         [Category(@"Key")]
-        public event KeyEventHandler KeyDown;
+        public event KeyEventHandler? KeyDown;
 
         /// <summary>
         /// Occurs before the KeyDown event when a key is pressed while focus is on this control.
         /// </summary>
         [Description(@"Occurs before the KeyDown event when a key is pressed while focus is on this control.")]
         [Category(@"Key")]
-        public event PreviewKeyDownEventHandler PreviewKeyDown;
+        public event PreviewKeyDownEventHandler? PreviewKeyDown;
 
         /// <summary>
         /// Occurs after the value of a property has changed.
         /// </summary>
         [Category(@"Ribbon")]
         [Description(@"Occurs after the value of a property has changed.")]
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         /// <summary>
         /// Occurs when the design time context menu is requested.
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        public event MouseEventHandler DesignTimeContextMenu;
+        public event MouseEventHandler? DesignTimeContextMenu;
 
-        internal event EventHandler MouseEnterControl;
-        internal event EventHandler MouseLeaveControl;
+        internal event EventHandler? MouseEnterControl;
+        internal event EventHandler? MouseLeaveControl;
         #endregion
 
         #region Identity
@@ -200,7 +202,7 @@ namespace Krypton.Ribbon
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public override KryptonRibbon Ribbon
+        public override KryptonRibbon? Ribbon
         {
             set
             {
@@ -210,8 +212,8 @@ namespace Krypton.Ribbon
                 {
                     // Use the same palette in the date time picker as the ribbon, plus we need
                     // to know when the ribbon palette changes so we can reflect that change
-                    DateTimePicker.Palette = Ribbon.GetResolvedPalette();
-                    Ribbon.PaletteChanged += OnRibbonPaletteChanged;
+                    DateTimePicker.Palette = Ribbon!.GetResolvedPalette();
+                    Ribbon!.PaletteChanged += OnRibbonPaletteChanged;
                 }
             }
         }
@@ -229,10 +231,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Resets the ShortcutKeys property to its default value.
         /// </summary>
-        public void ResetShortcutKeys()
-        {
-            ShortcutKeys = Keys.None;
-        }
+        public void ResetShortcutKeys() => ShortcutKeys = Keys.None;
 
         /// <summary>
         /// Access to the actual embedded KryptonDateTimePicker instance.
@@ -293,18 +292,12 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Make the ribbon group date time picker visible.
         /// </summary>
-        public void Show()
-        {
-            Visible = true;
-        }
+        public void Show() => Visible = true;
 
         /// <summary>
         /// Make the ribbon group date time picker hidden.
         /// </summary>
-        public void Hide()
-        {
-            Visible = false;
-        }
+        public void Hide() => Visible = false;
 
         /// <summary>
         /// Gets and sets the enabled state of the group date time picker.
@@ -349,7 +342,7 @@ namespace Krypton.Ribbon
         [Category(@"Behavior")]
         [Description(@"The shortcut to display when the user right-clicks the control.")]
         [DefaultValue(null)]
-        public ContextMenuStrip ContextMenuStrip
+        public ContextMenuStrip? ContextMenuStrip
         {
             get => DateTimePicker.ContextMenuStrip;
             set => DateTimePicker.ContextMenuStrip = value;
@@ -361,7 +354,7 @@ namespace Krypton.Ribbon
         [Category(@"Behavior")]
         [Description(@"KryptonContextMenu to be shown when the date time picker is right clicked.")]
         [DefaultValue(null)]
-        public KryptonContextMenu KryptonContextMenu
+        public KryptonContextMenu? KryptonContextMenu
         {
             get => DateTimePicker.KryptonContextMenu;
             set => DateTimePicker.KryptonContextMenu = value;
@@ -430,10 +423,7 @@ namespace Krypton.Ribbon
             set => DateTimePicker.CalendarTodayText = value;
         }
 
-        private void ResetCalendarTodayText()
-        {
-            DateTimePicker.ResetCalendarTodayText();
-        }
+        private void ResetCalendarTodayText() => DateTimePicker.ResetCalendarTodayText();
 
         /// <summary>
         /// First day of the week.
@@ -507,10 +497,7 @@ namespace Krypton.Ribbon
             set => DateTimePicker.CalendarTodayDate = value;
         }
 
-        private void ResetCalendarTodayDate()
-        {
-            CalendarTodayDate = DateTime.Now.Date;
-        }
+        private void ResetCalendarTodayDate() => CalendarTodayDate = DateTime.Now.Date;
 
         private bool ShouldSerializeCalendarTodayDate() => CalendarTodayDate != DateTime.Now.Date;
 
@@ -526,10 +513,7 @@ namespace Krypton.Ribbon
             set => DateTimePicker.CalendarAnnuallyBoldedDates = value;
         }
 
-        private void ResetCalendarAnnuallyBoldedDates()
-        {
-            CalendarAnnuallyBoldedDates = null;
-        }
+        private void ResetCalendarAnnuallyBoldedDates() => CalendarAnnuallyBoldedDates = null;
 
         private bool ShouldSerializeCalendarAnnuallyBoldedDates() => DateTimePicker.ShouldSerializeCalendarAnnuallyBoldedDates();
 
@@ -545,10 +529,7 @@ namespace Krypton.Ribbon
             set => DateTimePicker.CalendarMonthlyBoldedDates = value;
         }
 
-        private void ResetCalendarMonthlyBoldedDates()
-        {
-            CalendarMonthlyBoldedDates = null;
-        }
+        private void ResetCalendarMonthlyBoldedDates() => CalendarMonthlyBoldedDates = null;
 
         private bool ShouldSerializeCalendarMonthlyBoldedDates() => DateTimePicker.ShouldSerializeCalendarMonthlyBoldedDates();
 
@@ -564,10 +545,7 @@ namespace Krypton.Ribbon
             set => DateTimePicker.CalendarBoldedDates = value;
         }
 
-        private void ResetCalendarBoldedDates()
-        {
-            CalendarBoldedDates = null;
-        }
+        private void ResetCalendarBoldedDates() => CalendarBoldedDates = null;
 
         private bool ShouldSerializeCalendarBoldedDates() => DateTimePicker.ShouldSerializeCalendarBoldedDates();
 
@@ -598,10 +576,7 @@ namespace Krypton.Ribbon
             set => DateTimePicker.ValueNullable = value;
         }
 
-        private void ResetValueNullable()
-        {
-            DateTimePicker.ResetValueNullable();
-        }
+        private void ResetValueNullable() => DateTimePicker.ResetValueNullable();
 
         private bool ShouldSerializeValueNullable() => DateTimePicker.ShouldSerializeValueNullable();
 
@@ -618,10 +593,7 @@ namespace Krypton.Ribbon
             set => DateTimePicker.Value = value;
         }
 
-        private void ResetValue()
-        {
-            DateTimePicker.ResetValue();
-        }
+        private void ResetValue() => DateTimePicker.ResetValue();
 
         private bool ShouldSerializeValue() => DateTimePicker.ShouldSerializeValue();
 
@@ -685,10 +657,7 @@ namespace Krypton.Ribbon
             set => DateTimePicker.MaxDate = value;
         }
 
-        private void ResetMaxDate()
-        {
-            MaxDate = DateTime.MaxValue;
-        }
+        private void ResetMaxDate() => MaxDate = DateTime.MaxValue;
 
         private bool ShouldSerializeMaxDate() => DateTimePicker.ShouldSerializeMaxDate();
 
@@ -703,10 +672,7 @@ namespace Krypton.Ribbon
             set => DateTimePicker.MinDate = value;
         }
 
-        private void ResetMinDate()
-        {
-            MinDate = DateTime.MinValue;
-        }
+        private void ResetMinDate() => MinDate = DateTime.MinValue;
 
         private bool ShouldSerializeMinDate() => DateTimePicker.ShouldSerializeMinDate();
 
@@ -777,10 +743,7 @@ namespace Krypton.Ribbon
             set => DateTimePicker.CalendarHeaderStyle = value;
         }
 
-        private void ResetCalendarHeaderStyle()
-        {
-            CalendarHeaderStyle = HeaderStyle.Calendar;
-        }
+        private void ResetCalendarHeaderStyle() => CalendarHeaderStyle = HeaderStyle.Calendar;
 
         private bool ShouldSerializeCalendarHeaderStyle() => CalendarHeaderStyle != HeaderStyle.Calendar;
 
@@ -795,10 +758,7 @@ namespace Krypton.Ribbon
             set => DateTimePicker.CalendarDayStyle = value;
         }
 
-        private void ResetCalendarDayStyle()
-        {
-            CalendarDayStyle = ButtonStyle.CalendarDay;
-        }
+        private void ResetCalendarDayStyle() => CalendarDayStyle = ButtonStyle.CalendarDay;
 
         private bool ShouldSerializeCalendarDayStyle() => CalendarDayStyle != ButtonStyle.CalendarDay;
 
@@ -813,10 +773,7 @@ namespace Krypton.Ribbon
             set => DateTimePicker.CalendarDayOfWeekStyle = value;
         }
 
-        private void ResetCalendarDayOfWeekStyle()
-        {
-            CalendarDayOfWeekStyle = ButtonStyle.CalendarDay;
-        }
+        private void ResetCalendarDayOfWeekStyle() => CalendarDayOfWeekStyle = ButtonStyle.CalendarDay;
 
         private bool ShouldSerializeCalendarDayOfWeekStyle() => CalendarDayOfWeekStyle != ButtonStyle.CalendarDay;
 
@@ -896,131 +853,89 @@ namespace Krypton.Ribbon
         /// Raises the GotFocus event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnGotFocus(EventArgs e)
-        {
-            GotFocus?.Invoke(this, e);
-        }
+        protected virtual void OnGotFocus(EventArgs e) => GotFocus?.Invoke(this, e);
 
         /// <summary>
         /// Raises the LostFocus event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnLostFocus(EventArgs e)
-        {
-            LostFocus?.Invoke(this, e);
-        }
+        protected virtual void OnLostFocus(EventArgs e) => LostFocus?.Invoke(this, e);
 
         /// <summary>
         /// Raises the FormatChanged event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnFormatChanged(EventArgs e)
-        {
-            FormatChanged?.Invoke(this, e);
-        }
+        protected virtual void OnFormatChanged(EventArgs e) => FormatChanged?.Invoke(this, e);
 
         /// <summary>
         /// Raises the CheckedChanged event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnCheckedChanged(EventArgs e)
-        {
-            CheckedChanged?.Invoke(this, e);
-        }
+        protected virtual void OnCheckedChanged(EventArgs e) => CheckedChanged?.Invoke(this, e);
 
         /// <summary>
         /// Raises the CloseUp event.
         /// </summary>
         /// <param name="e">An DateTimePickerCloseArgs containing the event data.</param>
-        protected virtual void OnCloseUp(DateTimePickerCloseArgs e)
-        {
-            CloseUp?.Invoke(this, e);
-        }
+        protected virtual void OnCloseUp(DateTimePickerCloseArgs e) => CloseUp?.Invoke(this, e);
 
         /// <summary>
         /// Raises the DropDown event.
         /// </summary>
         /// <param name="e">An DateTimePickerDropArgs containing the event data.</param>
-        protected virtual void OnDropDown(DateTimePickerDropArgs e)
-        {
-            DropDown?.Invoke(this, e);
-        }
+        protected virtual void OnDropDown(DateTimePickerDropArgs e) => DropDown?.Invoke(this, e);
 
         /// <summary>
         /// Raises the ValueNullableChanged event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnValueNullableChanged(EventArgs e)
-        {
-            ValueNullableChanged?.Invoke(this, e);
-        }
+        protected virtual void OnValueNullableChanged(EventArgs e) => ValueNullableChanged?.Invoke(this, e);
 
         /// <summary>
         /// Raises the ValueChanged event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnValueChanged(EventArgs e)
-        {
-            ValueChanged?.Invoke(this, e);
-        }
+        protected virtual void OnValueChanged(EventArgs e) => ValueChanged?.Invoke(this, e);
 
         /// <summary>
         /// Raises the KeyDown event.
         /// </summary>
         /// <param name="e">An KeyEventArgs containing the event data.</param>
-        protected virtual void OnKeyDown(KeyEventArgs e)
-        {
-            KeyDown?.Invoke(this, e);
-        }
+        protected virtual void OnKeyDown(KeyEventArgs e) => KeyDown?.Invoke(this, e);
 
         /// <summary>
         /// Raises the KeyUp event.
         /// </summary>
         /// <param name="e">An KeyEventArgs containing the event data.</param>
-        protected virtual void OnKeyUp(KeyEventArgs e)
-        {
-            KeyUp?.Invoke(this, e);
-        }
+        protected virtual void OnKeyUp(KeyEventArgs e) => KeyUp?.Invoke(this, e);
 
         /// <summary>
         /// Raises the KeyPress event.
         /// </summary>
         /// <param name="e">An KeyPressEventArgs containing the event data.</param>
-        protected virtual void OnKeyPress(KeyPressEventArgs e)
-        {
-            KeyPress?.Invoke(this, e);
-        }
+        protected virtual void OnKeyPress(KeyPressEventArgs e) => KeyPress?.Invoke(this, e);
 
         /// <summary>
         /// Raises the PreviewKeyDown event.
         /// </summary>
         /// <param name="e">An PreviewKeyDownEventArgs containing the event data.</param>
-        protected virtual void OnPreviewKeyDown(PreviewKeyDownEventArgs e)
-        {
-            PreviewKeyDown?.Invoke(this, e);
-        }
+        protected virtual void OnPreviewKeyDown(PreviewKeyDownEventArgs e) => PreviewKeyDown?.Invoke(this, e);
 
         /// <summary>
         /// Raises the PropertyChanged event.
         /// </summary>
         /// <param name="propertyName">Name of property that has changed.</param>
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
+        protected virtual void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         #endregion
 
         #region Internal
         internal Control LastParentControl { get; set; }
 
-        internal KryptonDateTimePicker LastDateTimePicker { get; set; }
+        internal KryptonDateTimePicker? LastDateTimePicker { get; set; }
 
-        internal NeedPaintHandler ViewPaintDelegate { get; set; }
+        internal NeedPaintHandler? ViewPaintDelegate { get; set; }
 
-        internal void OnDesignTimeContextMenu(MouseEventArgs e)
-        {
-            DesignTimeContextMenu?.Invoke(this, e);
-        }
+        internal void OnDesignTimeContextMenu(MouseEventArgs e) => DesignTimeContextMenu?.Invoke(this, e);
 
         internal override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
@@ -1062,86 +977,39 @@ namespace Krypton.Ribbon
             c.MouseLeave -= OnControlLeave;
         }
 
-        private void OnControlEnter(object sender, EventArgs e)
-        {
-            MouseEnterControl?.Invoke(this, e);
-        }
+        private void OnControlEnter(object sender, EventArgs e) => MouseEnterControl?.Invoke(this, e);
 
-        private void OnControlLeave(object sender, EventArgs e)
-        {
-            MouseLeaveControl?.Invoke(this, e);
-        }
+        private void OnControlLeave(object sender, EventArgs e) => MouseLeaveControl?.Invoke(this, e);
 
-        private void OnPaletteNeedPaint(object sender, NeedLayoutEventArgs e)
-        {
+        private void OnPaletteNeedPaint(object sender, NeedLayoutEventArgs e) =>
             // Pass request onto the view provided paint delegate
             ViewPaintDelegate?.Invoke(this, e);
-        }
 
-        private void OnDateTimePickerGotFocus(object sender, EventArgs e)
-        {
-            OnGotFocus(e);
-        }
+        private void OnDateTimePickerGotFocus(object sender, EventArgs e) => OnGotFocus(e);
 
-        private void OnDateTimePickerLostFocus(object sender, EventArgs e)
-        {
-            OnLostFocus(e);
-        }
+        private void OnDateTimePickerLostFocus(object sender, EventArgs e) => OnLostFocus(e);
 
-        private void OnDateTimePickerFormatChanged(object sender, EventArgs e)
-        {
-            OnFormatChanged(e);
-        }
+        private void OnDateTimePickerFormatChanged(object sender, EventArgs e) => OnFormatChanged(e);
 
-        private void OnDateTimePickerCheckedChanged(object sender, EventArgs e)
-        {
-            OnCheckedChanged(e);
-        }
+        private void OnDateTimePickerCheckedChanged(object sender, EventArgs e) => OnCheckedChanged(e);
 
-        private void OnDateTimePickerCloseUp(object sender, DateTimePickerCloseArgs e)
-        {
-            OnCloseUp(e);
-        }
+        private void OnDateTimePickerCloseUp(object sender, DateTimePickerCloseArgs e) => OnCloseUp(e);
 
-        private void OnDateTimePickerDropDown(object sender, DateTimePickerDropArgs e)
-        {
-            OnDropDown(e);
-        }
+        private void OnDateTimePickerDropDown(object sender, DateTimePickerDropArgs e) => OnDropDown(e);
 
-        private void OnDateTimePickerValueNullableChanged(object sender, EventArgs e)
-        {
-            OnValueNullableChanged(e);
-        }
+        private void OnDateTimePickerValueNullableChanged(object sender, EventArgs e) => OnValueNullableChanged(e);
 
-        private void OnDateTimePickerValueChanged(object sender, EventArgs e)
-        {
-            OnValueChanged(e);
-        }
+        private void OnDateTimePickerValueChanged(object sender, EventArgs e) => OnValueChanged(e);
 
-        private void OnDateTimePickerKeyPress(object sender, KeyPressEventArgs e)
-        {
-            OnKeyPress(e);
-        }
+        private void OnDateTimePickerKeyPress(object sender, KeyPressEventArgs e) => OnKeyPress(e);
 
-        private void OnDateTimePickerKeyUp(object sender, KeyEventArgs e)
-        {
-            OnKeyUp(e);
-        }
+        private void OnDateTimePickerKeyUp(object sender, KeyEventArgs e) => OnKeyUp(e);
 
-        private void OnDateTimePickerKeyDown(object sender, KeyEventArgs e)
-        {
-            OnKeyDown(e);
-        }
+        private void OnDateTimePickerKeyDown(object sender, KeyEventArgs e) => OnKeyDown(e);
 
-        private void OnDateTimePickerKeyDown(object sender, PreviewKeyDownEventArgs e)
-        {
-            OnPreviewKeyDown(e);
-        }
+        private void OnDateTimePickerKeyDown(object sender, PreviewKeyDownEventArgs e) => OnPreviewKeyDown(e);
 
-        private void OnRibbonPaletteChanged(object sender, EventArgs e)
-        {
-            DateTimePicker.Palette = Ribbon.GetResolvedPalette();
-        }
+        private void OnRibbonPaletteChanged(object sender, EventArgs e) => DateTimePicker.Palette = Ribbon.GetResolvedPalette();
         #endregion
     }
 }

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -15,7 +15,7 @@ namespace Krypton.Toolkit
     internal class KryptonHeaderActionList : DesignerActionList
     {
         #region Instance Fields
-        private readonly KryptonHeader _header;
+        private readonly KryptonHeader? _header;
         private readonly IComponentChangeService _service;
         #endregion
 
@@ -107,7 +107,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the header image.
         /// </summary>
-        public Image Image
+        public Image? Image
         {
             get => _header.Values.Image;
 
@@ -147,21 +147,21 @@ namespace Krypton.Toolkit
         public override DesignerActionItemCollection GetSortedActionItems()
         {
             // Create a new collection for holding the single item we want to create
-            DesignerActionItemCollection actions = new();
+            var actions = new DesignerActionItemCollection();
 
             // This can be null when deleting a control instance at design time
             if (_header != null)
             {
                 // Add the list of header specific actions
-                actions.Add(new DesignerActionHeaderItem(@"Appearance"));
-                actions.Add(new DesignerActionPropertyItem(@"HeaderStyle", @"Style", @"Appearance", @"Header style"));
-                actions.Add(new DesignerActionPropertyItem(@"Orientation", @"Orientation", @"Appearance", @"Header orientation"));
+                actions.Add(new DesignerActionHeaderItem(nameof(Appearance)));
+                actions.Add(new DesignerActionPropertyItem(nameof(HeaderStyle), @"Style", nameof(Appearance), @"Header style"));
+                actions.Add(new DesignerActionPropertyItem(nameof(Orientation), nameof(Orientation), nameof(Appearance), @"Header orientation"));
                 actions.Add(new DesignerActionHeaderItem(@"Values"));
-                actions.Add(new DesignerActionPropertyItem(@"Heading", @"Heading", @"Values", @"Heading text"));
-                actions.Add(new DesignerActionPropertyItem(@"Description", @"Description", @"Values", @"Header description text"));
-                actions.Add(new DesignerActionPropertyItem(@"Image", @"Image", @"Values", @"Heading image"));
+                actions.Add(new DesignerActionPropertyItem(nameof(Heading), nameof(Heading), @"Values", @"Heading text"));
+                actions.Add(new DesignerActionPropertyItem(nameof(Description), nameof(Description), @"Values", @"Header description text"));
+                actions.Add(new DesignerActionPropertyItem(nameof(Image), nameof(Image), @"Values", @"Heading image"));
                 actions.Add(new DesignerActionHeaderItem(@"Visuals"));
-                actions.Add(new DesignerActionPropertyItem(@"PaletteMode", @"Palette", @"Visuals", @"Palette applied to drawing"));
+                actions.Add(new DesignerActionPropertyItem(nameof(PaletteMode), @"Palette", @"Visuals", @"Palette applied to drawing"));
             }
             
             return actions;

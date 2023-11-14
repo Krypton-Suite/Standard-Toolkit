@@ -5,7 +5,9 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  
+ *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
  */
 #endregion
@@ -26,7 +28,7 @@ namespace Krypton.Ribbon
         /// Initialize a new instance of the AppButtonToolTipToContent class.
         /// </summary>
         /// <param name="ribbon">Reference to owning ribbon instance.</param>
-        public AppButtonToolTipToContent(KryptonRibbon ribbon)
+        public AppButtonToolTipToContent([DisallowNull] KryptonRibbon ribbon)
         {
             Debug.Assert(ribbon != null);
             _ribbon = ribbon;
@@ -49,7 +51,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="state">The state for which the image is needed.</param>
         /// <returns>Image value.</returns>
-        public Image GetImage(PaletteState state) => _ribbon.RibbonAppButton.AppButtonToolTipImage;
+        public Image? GetImage(PaletteState state) => _ribbon.RibbonAppButton.AppButtonToolTipImage;
 
         /// <summary>
         /// Gets the image color that should be transparent.

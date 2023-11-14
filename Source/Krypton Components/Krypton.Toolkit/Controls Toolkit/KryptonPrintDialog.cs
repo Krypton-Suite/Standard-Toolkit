@@ -1,19 +1,18 @@
 ﻿#region BSD License
 /*
  * 
- * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
- * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2021 - 2023. All rights reserved. 
  *  
  */
 #endregion
 
-using System.Drawing.Printing;
 
+// ReSharper disable ConvertToAutoProperty
 // ReSharper disable InconsistentNaming
 // ReSharper disable IdentifierTypo
+
+// ReSharper disable UnusedVariable
 #pragma warning disable IDE1006 // Naming Styles
 
 namespace Krypton.Toolkit
@@ -31,9 +30,9 @@ namespace Krypton.Toolkit
     /// This may go into the extended toolkit as a "Full replacement" if it is deemed necessary.
     /// </remarks>
     [DefaultProperty(nameof(Document))]
-    [ToolboxBitmap(typeof(PrintDialog))]
-    [Description(@"PrintDialog")]
-    [Designer("System.Windows.Forms.Design.PrintDialogDesigner, " + AssemblyRef.SystemDesign)]
+    [ToolboxBitmap(typeof(PrintDialog), "ToolboxBitmaps.KryptonPrintDialog.png")]
+    [Description(nameof(PrintDialog))]
+    [Designer("System.Windows.Forms.Design.PrintDialogDesigner")]
     public class KryptonPrintDialog : /*!! sealed PrintDialog !!*/ CommonDialog
     {
         private readonly CommonDialogHandler _commonDialogHandler;
@@ -41,8 +40,8 @@ namespace Krypton.Toolkit
         private const PD printRangeMask = PD.ALLPAGES | PD.PAGENUMS | PD.SELECTION | PD.CURRENTPAGE;
 
         // If PrintDocument != null, settings == printDocument.PrinterSettings
-        private PrinterSettings settings;
-        private PrintDocument printDocument;
+        private PrinterSettings? settings;
+        private PrintDocument? printDocument;
 
         //private bool _useExDialog;
 
@@ -58,12 +57,11 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Changes the default Icon to Developer set
         /// </summary>
-        //[Browsable(false), EditorBrowsable(EditorBrowsableState.Never)]
         public Icon Icon
         {
             get => _commonDialogHandler.Icon;
             set => _commonDialogHandler.Icon = value;
-        } 
+        }
 
         /// <summary>
         /// Changes the default Icon to Developer set
@@ -84,7 +82,7 @@ namespace Krypton.Toolkit
             _commonDialogHandler = new CommonDialogHandler(true)
             {
                 ClickCallback = ClickCallback,
-                Icon = CommonDialogIcons.Printer_V10,
+                Icon = DialogImageResources.Printer_V10,
                 ShowIcon = false
             };
 
@@ -113,7 +111,7 @@ namespace Krypton.Toolkit
         }
 
         private IntPtr? _editHwnd;
-        private KryptonCheckBox _collateCheckbox;
+        private KryptonCheckBox? _collateCheckbox;
 
         /// <inheritdoc />
         protected override IntPtr HookProc(IntPtr hWnd, int msg, IntPtr wparam, IntPtr lparam)
@@ -127,36 +125,47 @@ namespace Krypton.Toolkit
 
             if (!handled)
             {
-                if ((msg == PI.WM_.COMMAND)
-                    && (_editHwnd == lparam)
-                    && (PI.HIWORD(wparam) == PI.EN_CHANGE)
-                    )
+                switch (msg)
                 {
-                    var text = new StringBuilder(8);
-                    PI.GetWindowText(_editHwnd.Value, text, 8);
-                    _collateCheckbox.Enabled = int.Parse(text.ToString()) > 1;
-                }
-                else if (msg == PI.WM_.PRINTCLIENT )
-                {
-                    // Supposedly finished init, so go finalise the checkboxes and radios
-                    foreach (var control in _commonDialogHandler.Controls)
-                    {
-                        if (control.Button is KryptonCheckBox checkBox)
+                    case PI.WM_.COMMAND
+                    when (_editHwnd == lparam)
+                         && (PI.HIWORD(wparam) == PI.EN_CHANGE):
                         {
-                            var state = PI.IsDlgButtonChecked(hWnd, control.DlgCtrlId);
-                            checkBox.Checked = state != PI.BST_.UNCHECKED;
+                            var text = new StringBuilder(8);
+                            PI.GetWindowText(_editHwnd.Value, text, 8);
+                            if (_collateCheckbox != null)
+                            {
+                                _collateCheckbox.Enabled = int.Parse(text.ToString()) > 1;
+                            }
+                            break;
                         }
-                        else if (control.Button is KryptonRadioButton radioBut)
+                    case PI.WM_.PRINTCLIENT:
                         {
-                            var state = PI.IsDlgButtonChecked(hWnd, control.DlgCtrlId);
-                            radioBut.Checked = state != PI.BST_.UNCHECKED;
+                            // Supposedly finished init, so go finalise the checkboxes and radios
+                            foreach (var control in _commonDialogHandler.Controls)
+                            {
+                                switch (control.Button)
+                                {
+                                    case KryptonCheckBox checkBox:
+                                        {
+                                            var state = PI.IsDlgButtonChecked(hWnd, control.DlgCtrlId);
+                                            checkBox.Checked = state != PI.BST_.UNCHECKED;
+                                            break;
+                                        }
+                                    case KryptonRadioButton radioBut:
+                                        {
+                                            var state = PI.IsDlgButtonChecked(hWnd, control.DlgCtrlId);
+                                            radioBut.Checked = state != PI.BST_.UNCHECKED;
+                                            break;
+                                        }
+                                }
+                            }
+
+                            break;
                         }
-                    }
-                }
-                else if (msg == PI.WM_.ERASEBKGND)
-                {
-                    // Got to prevent the CommonDialog redrawing over the KryptonControls !!
-                    return IntPtr.Zero;
+                    case PI.WM_.ERASEBKGND:
+                        // Got to prevent the CommonDialog redrawing over the KryptonControls !!
+                        return IntPtr.Zero;
                 }
 
                 Debug.WriteLine(@"0x{0:X} : {1}", msg, hWnd);
@@ -201,8 +210,8 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Data")]
         [DefaultValue(null)]
-        [Description(@"Document")]
-        public PrintDocument Document
+        [Description(nameof(Document))]
+        public PrintDocument? Document
         {
             get => printDocument;
             set
@@ -214,17 +223,17 @@ namespace Krypton.Toolkit
             }
         }
 
-        private PageSettings PageSettings => Document is null ? PrinterSettings.DefaultPageSettings : Document.DefaultPageSettings;
+        private PageSettings? PageSettings => Document is null ? PrinterSettings.DefaultPageSettings : Document.DefaultPageSettings;
 
         /// <summary>
         ///  Gets or sets the Drawing.Printing.PrinterSettings the
         ///  dialog box will be modifying.
         /// </summary>
         [Category(@"Data")]
-        [DefaultValue(null)]
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         [Description(@"Printer Settings")]
+        [AllowNull]
         public PrinterSettings PrinterSettings
         {
             get => settings ??= new PrinterSettings();
@@ -268,7 +277,7 @@ namespace Krypton.Toolkit
         /////  UseEXDialog = false means to never use the EX versions of the dialog.
         /////  ShowHelp &amp; ShowNetwork will work in this case.
         ///// </summary>
-        [DefaultValue(false)]
+        //[DefaultValue(false)]
         //[Description(@"UseEX Dialog")]
         //public bool UseEXDialog
         //{
@@ -278,7 +287,7 @@ namespace Krypton.Toolkit
 
         private PD GetFlags()
         {
-            PD flags = PD.ALLPAGES;
+            var flags = PD.ALLPAGES;
 
             // Only set this flag when using PRINTDLG and PrintDlg,
             // and not when using PrintDlgEx and PRINTDLGEX.
@@ -307,26 +316,29 @@ namespace Krypton.Toolkit
                 flags |= PD.NOSELECTION;
             }
 
-            flags |= (PD)PrinterSettings.PrintRange;
-
-            if (PrintToFile)
+            if (PrinterSettings != null)
             {
-                flags |= PD.PRINTTOFILE;
-            }
+                flags |= (PD)PrinterSettings.PrintRange;
 
-            if (ShowHelp)
-            {
-                flags |= PD.SHOWHELP;
-            }
+                if (PrintToFile)
+                {
+                    flags |= PD.PRINTTOFILE;
+                }
 
-            if (!ShowNetwork)
-            {
-                flags |= PD.NONETWORKBUTTON;
-            }
+                if (ShowHelp)
+                {
+                    flags |= PD.SHOWHELP;
+                }
 
-            if (PrinterSettings.Collate)
-            {
-                flags |= PD.COLLATE;
+                if (!ShowNetwork)
+                {
+                    flags |= PD.NONETWORKBUTTON;
+                }
+
+                if (PrinterSettings.Collate)
+                {
+                    flags |= PD.COLLATE;
+                }
             }
 
             return flags;
@@ -351,7 +363,7 @@ namespace Krypton.Toolkit
 
         protected override bool RunDialog(IntPtr hwndOwner) =>
             //if (!this.UseEXDialog || Environment.OSVersion.Platform != PlatformID.Win32NT || Environment.OSVersion.Version.Major < 5)
-            this.ShowPrintDialog(hwndOwner, CreatePRINTDLG());
+            ShowPrintDialog(hwndOwner, CreatePRINTDLG());
 
         //return ShowPrintDialog(hwndOwner, CreatePRINTDLGEX());
         internal static PRINTDLG CreatePRINTDLG()
@@ -651,28 +663,31 @@ namespace Krypton.Toolkit
         // Due to the nature of PRINTDLGEX vs PRINTDLG, separate but similar methods
         // are required for updating the settings from the structure utilized by the dialog.
         // Take information from print dialog and put in PrinterSettings
-        private static void UpdatePrinterSettings(IntPtr hDevMode, IntPtr hDevNames, short copies, PD flags, PrinterSettings settings, PageSettings pageSettings)
+        private static void UpdatePrinterSettings(IntPtr hDevMode, IntPtr hDevNames, short copies, PD flags, PrinterSettings? settings, PageSettings? pageSettings)
         {
             // Mode
-            settings.SetHdevmode(hDevMode);
-            settings.SetHdevnames(hDevNames);
-
-            pageSettings?.SetHdevmode(hDevMode);
-
-            //Check for Copies == 1 since we might get the Right number of Copies from hdevMode.dmCopies...
-            if (settings.Copies == 1)
+            if (settings != null)
             {
-                settings.Copies = copies;
-            }
+                settings.SetHdevmode(hDevMode);
+                settings.SetHdevnames(hDevNames);
 
-            settings.PrintRange = (PrintRange)(flags & printRangeMask);
+                pageSettings?.SetHdevmode(hDevMode);
+
+                //Check for Copies == 1 since we might get the Right number of Copies from hdevMode.dmCopies...
+                if (settings.Copies == 1)
+                {
+                    settings.Copies = copies;
+                }
+
+                settings.PrintRange = (PrintRange)(flags & printRangeMask);
+            }
         }
 
-        [DllImport(@"comdlg32.dll", EntryPoint = @"PrintDlg", CharSet = CharSet.Auto, SetLastError = true)]
+        [DllImport(Libraries.Comdlg32, EntryPoint = nameof(PrintDlg), CharSet = CharSet.Auto, SetLastError = true)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         private static extern PI.BOOL PrintDlg_32([In, Out] PRINTDLG_32 lppd);
 
-        [DllImport(@"comdlg32.dll", EntryPoint = @"PrintDlg", CharSet = CharSet.Auto, SetLastError = true)]
+        [DllImport(Libraries.Comdlg32, EntryPoint = nameof(PrintDlg), CharSet = CharSet.Auto, SetLastError = true)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         private static extern PI.BOOL PrintDlg_64([In, Out] PRINTDLG_64 lppd);
 
@@ -696,7 +711,7 @@ namespace Krypton.Toolkit
             throw new InvalidOperationException($"Expected {nameof(PRINTDLG_64)} data struct");
         }
 
-        //[DllImport(@"comdlg32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+        //[DllImport(Libraries.Comdlg32, CharSet = CharSet.Auto, SetLastError = true)]
         //[DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         //internal static extern PI.HRESULT PrintDlgEx([In, Out] PRINTDLGEX lppdex);
 
@@ -727,12 +742,12 @@ namespace Krypton.Toolkit
         ENABLESETUPTEMPLATE = 0x00008000,
         ENABLEPRINTTEMPLATEHANDLE = 0x00010000,
         ENABLESETUPTEMPLATEHANDLE = 0x00020000,
-        USEDEVMODECOPIES           = 0x00040000,
+        USEDEVMODECOPIES = 0x00040000,
         USEDEVMODECOPIESANDCOLLATE = 0x00040000,
-        DISABLEPRINTTOFILE         = 0x00080000,
+        DISABLEPRINTTOFILE = 0x00080000,
         HIDEPRINTTOFILE = 0x00100000,
         NONETWORKBUTTON = 0x00200000,
-        CURRENTPAGE = 0x00400000,   
+        CURRENTPAGE = 0x00400000,
         NOCURRENTPAGE = 0x00800000,
         EXCLUSIONFLAGS = 0x01000000,
         USELARGETEMPLATE = 0x10000000
@@ -767,13 +782,13 @@ namespace Krypton.Toolkit
 
         IntPtr lCustData { get; set; }
 
-        PI.WndProc lpfnPrintHook { get; set; }
+        PI.WndProc? lpfnPrintHook { get; set; }
 
-        PI.WndProc lpfnSetupHook { get; set; }
+        PI.WndProc? lpfnSetupHook { get; set; }
 
-        string lpPrintTemplateName { get; set; }
+        string? lpPrintTemplateName { get; set; }
 
-        string lpSetupTemplateName { get; set; }
+        string? lpSetupTemplateName { get; set; }
 
         IntPtr hPrintTemplate { get; set; }
 
@@ -796,125 +811,125 @@ namespace Krypton.Toolkit
         private short m_nCopies;
         private IntPtr m_hInstance;
         private IntPtr m_lCustData;
-        private PI.WndProc m_lpfnPrintHook;
-        private PI.WndProc m_lpfnSetupHook;
-        private string m_lpPrintTemplateName;
-        private string m_lpSetupTemplateName;
+        private PI.WndProc? m_lpfnPrintHook;
+        private PI.WndProc? m_lpfnSetupHook;
+        private string? m_lpPrintTemplateName;
+        private string? m_lpSetupTemplateName;
         private IntPtr m_hPrintTemplate;
         private IntPtr m_hSetupTemplate;
 
         public int lStructSize
         {
-            get => this.m_lStructSize;
-            set => this.m_lStructSize = value;
+            get => m_lStructSize;
+            set => m_lStructSize = value;
         }
 
         public IntPtr hwndOwner
         {
-            get => this.m_hwndOwner;
-            set => this.m_hwndOwner = value;
+            get => m_hwndOwner;
+            set => m_hwndOwner = value;
         }
 
         public IntPtr hDevMode
         {
-            get => this.m_hDevMode;
-            set => this.m_hDevMode = value;
+            get => m_hDevMode;
+            set => m_hDevMode = value;
         }
 
         public IntPtr hDevNames
         {
-            get => this.m_hDevNames;
-            set => this.m_hDevNames = value;
+            get => m_hDevNames;
+            set => m_hDevNames = value;
         }
 
         public IntPtr hDC
         {
-            get => this.m_hDC;
-            set => this.m_hDC = value;
+            get => m_hDC;
+            set => m_hDC = value;
         }
 
         public PD Flags
         {
-            get => this.m_Flags;
-            set => this.m_Flags = value;
+            get => m_Flags;
+            set => m_Flags = value;
         }
 
         public short nFromPage
         {
-            get => this.m_nFromPage;
-            set => this.m_nFromPage = value;
+            get => m_nFromPage;
+            set => m_nFromPage = value;
         }
 
         public short nToPage
         {
-            get => this.m_nToPage;
-            set => this.m_nToPage = value;
+            get => m_nToPage;
+            set => m_nToPage = value;
         }
 
         public short nMinPage
         {
-            get => this.m_nMinPage;
-            set => this.m_nMinPage = value;
+            get => m_nMinPage;
+            set => m_nMinPage = value;
         }
 
         public short nMaxPage
         {
-            get => this.m_nMaxPage;
-            set => this.m_nMaxPage = value;
+            get => m_nMaxPage;
+            set => m_nMaxPage = value;
         }
 
         public short nCopies
         {
-            get => this.m_nCopies;
-            set => this.m_nCopies = value;
+            get => m_nCopies;
+            set => m_nCopies = value;
         }
 
         public IntPtr hInstance
         {
-            get => this.m_hInstance;
-            set => this.m_hInstance = value;
+            get => m_hInstance;
+            set => m_hInstance = value;
         }
 
         public IntPtr lCustData
         {
-            get => this.m_lCustData;
-            set => this.m_lCustData = value;
+            get => m_lCustData;
+            set => m_lCustData = value;
         }
 
-        public PI.WndProc lpfnPrintHook
+        public PI.WndProc? lpfnPrintHook
         {
-            get => this.m_lpfnPrintHook;
-            set => this.m_lpfnPrintHook = value;
+            get => m_lpfnPrintHook;
+            set => m_lpfnPrintHook = value;
         }
 
-        public PI.WndProc lpfnSetupHook
+        public PI.WndProc? lpfnSetupHook
         {
-            get => this.m_lpfnSetupHook;
-            set => this.m_lpfnSetupHook = value;
+            get => m_lpfnSetupHook;
+            set => m_lpfnSetupHook = value;
         }
 
-        public string lpPrintTemplateName
+        public string? lpPrintTemplateName
         {
-            get => this.m_lpPrintTemplateName;
-            set => this.m_lpPrintTemplateName = value;
+            get => m_lpPrintTemplateName;
+            set => m_lpPrintTemplateName = value;
         }
 
-        public string lpSetupTemplateName
+        public string? lpSetupTemplateName
         {
-            get => this.m_lpSetupTemplateName;
-            set => this.m_lpSetupTemplateName = value;
+            get => m_lpSetupTemplateName;
+            set => m_lpSetupTemplateName = value;
         }
 
         public IntPtr hPrintTemplate
         {
-            get => this.m_hPrintTemplate;
-            set => this.m_hPrintTemplate = value;
+            get => m_hPrintTemplate;
+            set => m_hPrintTemplate = value;
         }
 
         public IntPtr hSetupTemplate
         {
-            get => this.m_hSetupTemplate;
-            set => this.m_hSetupTemplate = value;
+            get => m_hSetupTemplate;
+            set => m_hSetupTemplate = value;
         }
     }
 
@@ -934,125 +949,125 @@ namespace Krypton.Toolkit
         private short m_nCopies;
         private IntPtr m_hInstance;
         private IntPtr m_lCustData;
-        private PI.WndProc m_lpfnPrintHook;
-        private PI.WndProc m_lpfnSetupHook;
-        private string m_lpPrintTemplateName;
-        private string m_lpSetupTemplateName;
+        private PI.WndProc? m_lpfnPrintHook;
+        private PI.WndProc? m_lpfnSetupHook;
+        private string? m_lpPrintTemplateName;
+        private string? m_lpSetupTemplateName;
         private IntPtr m_hPrintTemplate;
         private IntPtr m_hSetupTemplate;
 
         public int lStructSize
         {
-            get => this.m_lStructSize;
-            set => this.m_lStructSize = value;
+            get => m_lStructSize;
+            set => m_lStructSize = value;
         }
 
         public IntPtr hwndOwner
         {
-            get => this.m_hwndOwner;
-            set => this.m_hwndOwner = value;
+            get => m_hwndOwner;
+            set => m_hwndOwner = value;
         }
 
         public IntPtr hDevMode
         {
-            get => this.m_hDevMode;
-            set => this.m_hDevMode = value;
+            get => m_hDevMode;
+            set => m_hDevMode = value;
         }
 
         public IntPtr hDevNames
         {
-            get => this.m_hDevNames;
-            set => this.m_hDevNames = value;
+            get => m_hDevNames;
+            set => m_hDevNames = value;
         }
 
         public IntPtr hDC
         {
-            get => this.m_hDC;
-            set => this.m_hDC = value;
+            get => m_hDC;
+            set => m_hDC = value;
         }
 
         public PD Flags
         {
-            get => this.m_Flags;
-            set => this.m_Flags = value;
+            get => m_Flags;
+            set => m_Flags = value;
         }
 
         public short nFromPage
         {
-            get => this.m_nFromPage;
-            set => this.m_nFromPage = value;
+            get => m_nFromPage;
+            set => m_nFromPage = value;
         }
 
         public short nToPage
         {
-            get => this.m_nToPage;
-            set => this.m_nToPage = value;
+            get => m_nToPage;
+            set => m_nToPage = value;
         }
 
         public short nMinPage
         {
-            get => this.m_nMinPage;
-            set => this.m_nMinPage = value;
+            get => m_nMinPage;
+            set => m_nMinPage = value;
         }
 
         public short nMaxPage
         {
-            get => this.m_nMaxPage;
-            set => this.m_nMaxPage = value;
+            get => m_nMaxPage;
+            set => m_nMaxPage = value;
         }
 
         public short nCopies
         {
-            get => this.m_nCopies;
-            set => this.m_nCopies = value;
+            get => m_nCopies;
+            set => m_nCopies = value;
         }
 
         public IntPtr hInstance
         {
-            get => this.m_hInstance;
-            set => this.m_hInstance = value;
+            get => m_hInstance;
+            set => m_hInstance = value;
         }
 
         public IntPtr lCustData
         {
-            get => this.m_lCustData;
-            set => this.m_lCustData = value;
+            get => m_lCustData;
+            set => m_lCustData = value;
         }
 
-        public PI.WndProc lpfnPrintHook
+        public PI.WndProc? lpfnPrintHook
         {
-            get => this.m_lpfnPrintHook;
-            set => this.m_lpfnPrintHook = value;
+            get => m_lpfnPrintHook;
+            set => m_lpfnPrintHook = value;
         }
 
-        public PI.WndProc lpfnSetupHook
+        public PI.WndProc? lpfnSetupHook
         {
-            get => this.m_lpfnSetupHook;
-            set => this.m_lpfnSetupHook = value;
+            get => m_lpfnSetupHook;
+            set => m_lpfnSetupHook = value;
         }
 
-        public string lpPrintTemplateName
+        public string? lpPrintTemplateName
         {
-            get => this.m_lpPrintTemplateName;
-            set => this.m_lpPrintTemplateName = value;
+            get => m_lpPrintTemplateName;
+            set => m_lpPrintTemplateName = value;
         }
 
-        public string lpSetupTemplateName
+        public string? lpSetupTemplateName
         {
-            get => this.m_lpSetupTemplateName;
-            set => this.m_lpSetupTemplateName = value;
+            get => m_lpSetupTemplateName;
+            set => m_lpSetupTemplateName = value;
         }
 
         public IntPtr hPrintTemplate
         {
-            get => this.m_hPrintTemplate;
-            set => this.m_hPrintTemplate = value;
+            get => m_hPrintTemplate;
+            set => m_hPrintTemplate = value;
         }
 
         public IntPtr hSetupTemplate
         {
-            get => this.m_hSetupTemplate;
-            set => this.m_hSetupTemplate = value;
+            get => m_hSetupTemplate;
+            set => m_hSetupTemplate = value;
         }
     }
 

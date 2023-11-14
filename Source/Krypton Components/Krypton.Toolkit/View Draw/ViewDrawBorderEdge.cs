@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -29,7 +29,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="palette">Palette source for drawing details.</param>
         /// <param name="orientation">Initial orientation of the border.</param>
-        public ViewDrawBorderEdge(PaletteBorderEdge palette,
+        public ViewDrawBorderEdge([DisallowNull] PaletteBorderEdge palette,
                                   Orientation orientation)
             : base(palette)
         {
@@ -53,7 +53,7 @@ namespace Krypton.Toolkit
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            "ViewDrawBorderEdge:" + Id;
+            $"ViewDrawBorderEdge:{Id}";
 
         #endregion
 
@@ -70,7 +70,7 @@ namespace Krypton.Toolkit
         /// Update the source palette for drawing.
         /// </summary>
         /// <param name="palette">Palette source for drawing details.</param>
-        public void SetPalettes(PaletteBorderEdge palette)
+        public void SetPalettes([DisallowNull] PaletteBorderEdge palette)
         {
             Debug.Assert(palette != null);
 
@@ -88,12 +88,12 @@ namespace Krypton.Toolkit
         /// Discover the preferred size of the element.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override Size GetPreferredSize(ViewLayoutContext context)
+        public override Size GetPreferredSize([DisallowNull] ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 
             // We have no preferred size by default
-            Size preferredSize = Size.Empty;
+            var preferredSize = Size.Empty;
 
             // Apply the border width in appropriate orientation
             if (Orientation == Orientation.Horizontal)

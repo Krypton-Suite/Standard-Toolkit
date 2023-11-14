@@ -5,7 +5,9 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  
+ *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
  */
 #endregion
@@ -35,10 +37,13 @@ namespace Krypton.Ribbon
             {
                 TransparentColor = Color.Magenta
             };
-            _imageList.Images.AddRange(new Image[]{Properties.Resources.KryptonRibbonGroupTriple,
-                                                   Properties.Resources.KryptonRibbonGroupLines,
-                                                   Properties.Resources.KryptonRibbonGroupSeparator,
-                                                   Properties.Resources.KryptonGallery});
+            _imageList.Images.AddRange(new Image[]
+            {
+                GenericImageResources.KryptonRibbonGroupTriple,
+                GenericImageResources.KryptonRibbonGroupLines,
+                GenericImageResources.KryptonRibbonGroupSeparator,
+                GenericImageResources.KryptonGallery
+            });
         }
 
         /// <summary>
@@ -48,7 +53,7 @@ namespace Krypton.Ribbon
         /// <param name="ribbonGroup">Associated ribbon group.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
         public ViewDrawRibbonDesignGroupContainer(KryptonRibbon ribbon,
-                                                  KryptonRibbonGroup ribbonGroup,
+            [DisallowNull] KryptonRibbonGroup ribbonGroup,
                                                   NeedPaintHandler needPaint)
             : base(ribbon, needPaint)
         {
@@ -63,7 +68,7 @@ namespace Krypton.Ribbon
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            @"ViewDrawRibbonDesignGroupContainer:" + Id;
+            $@"ViewDrawRibbonDesignGroupContainer:{Id}";
 
         #endregion
 
@@ -105,10 +110,10 @@ namespace Krypton.Ribbon
                 };
 
                 // Create child items
-                ToolStripMenuItem menuTriple = new("Add Triple", null, OnAddTriple);
-                ToolStripMenuItem menuLines = new("Add Lines", null, OnAddLines);
-                ToolStripMenuItem menuSeparator = new("Add Separator", null, OnAddSeparator);
-                ToolStripMenuItem menuGallery = new("Add Gallery", null, OnAddGallery);
+                var menuTriple = new ToolStripMenuItem("Add Triple", null, OnAddTriple);
+                var menuLines = new ToolStripMenuItem("Add Lines", null, OnAddLines);
+                var menuSeparator = new ToolStripMenuItem("Add Separator", null, OnAddSeparator);
+                var menuGallery = new ToolStripMenuItem("Add Gallery", null, OnAddGallery);
 
                 // Assign correct images
                 menuTriple.ImageIndex = 0;
@@ -132,25 +137,13 @@ namespace Krypton.Ribbon
         #endregion
 
         #region Implementation
-        private void OnAddTriple(object sender, EventArgs e)
-        {
-            _ribbonGroup.OnDesignTimeAddTriple();
-        }
+        private void OnAddTriple(object sender, EventArgs e) => _ribbonGroup.OnDesignTimeAddTriple();
 
-        private void OnAddLines(object sender, EventArgs e)
-        {
-            _ribbonGroup.OnDesignTimeAddLines();
-        }
+        private void OnAddLines(object sender, EventArgs e) => _ribbonGroup.OnDesignTimeAddLines();
 
-        private void OnAddSeparator(object sender, EventArgs e)
-        {
-            _ribbonGroup.OnDesignTimeAddSeparator();
-        }
+        private void OnAddSeparator(object sender, EventArgs e) => _ribbonGroup.OnDesignTimeAddSeparator();
 
-        private void OnAddGallery(object sender, EventArgs e)
-        {
-            _ribbonGroup.OnDesignTimeAddGallery();
-        }
+        private void OnAddGallery(object sender, EventArgs e) => _ribbonGroup.OnDesignTimeAddGallery();
         #endregion
     }
 }

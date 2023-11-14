@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -15,29 +15,21 @@ namespace Krypton.Toolkit
     /// <summary>
     /// Custom type converter so that SeparatorStyle values appear as neat text at design time.
     /// </summary>
-    internal class SeparatorStyleConverter : StringLookupConverter
+    internal class SeparatorStyleConverter : StringLookupConverter<SeparatorStyle>
     {
         #region Static Fields
 
-        private readonly Pair[] _pairs =
+        [Localizable(true)]
+        private static readonly IReadOnlyDictionary<SeparatorStyle, string> _pairs = new Dictionary<SeparatorStyle, string>
         {
-            new(SeparatorStyle.LowProfile, "Low Profile"),
-            new(SeparatorStyle.HighProfile, "High Profile"),
-            new(SeparatorStyle.HighInternalProfile, "High Internal Profile"),
-            new(SeparatorStyle.Custom1, "Custom1"),
-            new(SeparatorStyle.Custom2, "Custom2"),
-            new(SeparatorStyle.Custom3, "Custom3")
+            {SeparatorStyle.LowProfile, DesignTimeUtilities.DEFAULT_SEPARATOR_STYLE_LOW_PROFILE},
+            {SeparatorStyle.HighProfile, DesignTimeUtilities.DEFAULT_SEPARATOR_STYLE_HIGH_PROFILE},
+            {SeparatorStyle.HighInternalProfile, DesignTimeUtilities.DEFAULT_SEPARATOR_STYLE_HIGH_INTERNAL_PROFILE},
+            {SeparatorStyle.Custom1, DesignTimeUtilities.DEFAULT_SEPARATOR_STYLE_CUSTOM1},
+            {SeparatorStyle.Custom2, DesignTimeUtilities.DEFAULT_SEPARATOR_STYLE_CUSTOM2},
+            {SeparatorStyle.Custom3, DesignTimeUtilities.DEFAULT_SEPARATOR_STYLE_CUSTOM3}
         };
-        #endregion
 
-        #region Identity
-        /// <summary>
-        /// Initialize a new instance of the SeparatorStyleConverter class.
-        /// </summary>
-        public SeparatorStyleConverter()
-            : base(typeof(SeparatorStyle))
-        {
-        }
         #endregion
 
         #region Protected
@@ -45,7 +37,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets an array of lookup pairs.
         /// </summary>
-        protected override Pair[] Pairs => _pairs;
+        protected override IReadOnlyDictionary<SeparatorStyle /*Enum*/, string /*Display*/> Pairs => _pairs;
 
         #endregion
     }

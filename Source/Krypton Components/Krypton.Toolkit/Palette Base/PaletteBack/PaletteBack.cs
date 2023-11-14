@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
  *  
  */
 #endregion
@@ -28,7 +28,7 @@ namespace Krypton.Toolkit
             public PaletteColorStyle BackColorStyle;
             public PaletteRectangleAlign BackColorAlign;
             public float BackColorAngle;
-            public Image BackImage;
+            public Image? BackImage;
             public PaletteImageStyle BackImageStyle;
             public PaletteRectangleAlign BackImageAlign;
 
@@ -66,8 +66,8 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Instance Fields
-        private IPaletteBack _inherit;
-        private InternalStorage _storage;
+        private IPaletteBack? _inherit;
+        private InternalStorage? _storage;
         #endregion
 
         #region Events
@@ -76,7 +76,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]  // SKC: Probably a special case for not exposing this event in the designer....
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
         #endregion
 
         #region Identity
@@ -85,8 +85,8 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="inherit">Source for inheriting defaulted values.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public PaletteBack(IPaletteBack inherit,
-                           NeedPaintHandler needPaint)
+        public PaletteBack(IPaletteBack? inherit,
+                           NeedPaintHandler? needPaint)
         {
             // Remember inheritance
             _inherit = inherit;
@@ -109,10 +109,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Sets the inheritance parent.
         /// </summary>
-        public void SetInherit(IPaletteBack inherit)
-        {
-            _inherit = inherit;
-        }
+        public void SetInherit(IPaletteBack inherit) => _inherit = inherit;
         #endregion
 
         #region PopulateFromBase
@@ -143,7 +140,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category(@"Visuals")]
         [Description(@"Should background be drawn.")]
-        [DefaultValue(typeof(InheritBool), "Inherit")]
+        [DefaultValue(InheritBool.Inherit)]
         [RefreshProperties(RefreshProperties.All)]
         public InheritBool Draw
         {
@@ -190,7 +187,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category(@"Visuals")]
         [Description(@"Hint for drawing graphics.")]
-        [DefaultValue(typeof(PaletteGraphicsHint), "Inherit")]
+        [DefaultValue(PaletteGraphicsHint.Inherit)]
         [RefreshProperties(RefreshProperties.All)]
         public PaletteGraphicsHint GraphicsHint
         {
@@ -332,7 +329,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category(@"Visuals")]
         [Description(@"Background color drawing style.")]
-        [DefaultValue(typeof(PaletteColorStyle), "Inherit")]
+        [DefaultValue(PaletteColorStyle.Inherit)]
         [RefreshProperties(RefreshProperties.All)]
         public PaletteColorStyle ColorStyle
         {
@@ -379,7 +376,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category(@"Visuals")]
         [Description(@"Background color alignment style.")]
-        [DefaultValue(typeof(PaletteRectangleAlign), "Inherit")]
+        [DefaultValue(PaletteRectangleAlign.Inherit)]
         [RefreshProperties(RefreshProperties.All)]
         public PaletteRectangleAlign ColorAlign
         {
@@ -477,7 +474,7 @@ namespace Krypton.Toolkit
         [Description(@"Background image.")]
         [DefaultValue(null)]
         [RefreshProperties(RefreshProperties.All)]
-        public Image Image
+        public Image? Image
         {
             get => _storage?.BackImage;
 
@@ -512,7 +509,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image instance.</returns>
-        public Image GetBackImage(PaletteState state) => Image ?? _inherit.GetBackImage(state);
+        public Image? GetBackImage(PaletteState state) => Image ?? _inherit.GetBackImage(state);
         #endregion
 
         #region ImageStyle
@@ -522,7 +519,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category(@"Visuals")]
         [Description(@"Background image style.")]
-        [DefaultValue(typeof(PaletteImageStyle), "Inherit")]
+        [DefaultValue(PaletteImageStyle.Inherit)]
         [RefreshProperties(RefreshProperties.All)]
         public PaletteImageStyle ImageStyle
         {
@@ -571,7 +568,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category(@"Visuals")]
         [Description(@"Background image alignment style.")]
-        [DefaultValue(typeof(PaletteRectangleAlign), "Inherit")]
+        [DefaultValue(PaletteRectangleAlign.Inherit)]
         [RefreshProperties(RefreshProperties.All)]
         public PaletteRectangleAlign ImageAlign
         {

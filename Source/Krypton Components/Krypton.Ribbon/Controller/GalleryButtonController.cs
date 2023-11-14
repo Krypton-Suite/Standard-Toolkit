@@ -5,7 +5,9 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), et al. 2017 - 2022. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  
+ *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
  */
 #endregion
@@ -22,15 +24,15 @@ namespace Krypton.Ribbon
 
         private bool _pressed;
         private bool _mouseOver;
-        private NeedPaintHandler _needPaint;
-        private readonly System.Windows.Forms.Timer _repeatTimer;
+        private NeedPaintHandler? _needPaint;
+        private readonly Timer _repeatTimer;
         #endregion
 
         #region Events
         /// <summary>
         /// Occurs when the mouse is used to left click the target.
         /// </summary>
-        public event MouseEventHandler Click;
+        public event MouseEventHandler? Click;
         #endregion
 
         #region Identity
@@ -40,7 +42,7 @@ namespace Krypton.Ribbon
         /// <param name="target">Target for state changes.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
         /// <param name="repeatTimer">Does the button repeat when pressed.</param>
-        public GalleryButtonController(ViewBase target,
+        public GalleryButtonController([DisallowNull] ViewBase target,
                                        NeedPaintHandler needPaint,
                                        bool repeatTimer)
         {
@@ -51,7 +53,7 @@ namespace Krypton.Ribbon
 
             if (repeatTimer)
             {
-                _repeatTimer = new System.Windows.Forms.Timer
+                _repeatTimer = new Timer
                 {
                     Interval = 250
                 };
@@ -71,7 +73,7 @@ namespace Krypton.Ribbon
                 _pressed = false;
                 _mouseOver = false;
                 UpdateTargetState(new Point(int.MaxValue, int.MaxValue));
-                _repeatTimer?.Stop();
+                _repeatTimer.Stop();
             }
         }
         #endregion
@@ -114,7 +116,7 @@ namespace Krypton.Ribbon
                 if (Target.Enabled)
                 {
                     OnClick(new MouseEventArgs(MouseButtons.Left, 1, pt.X, pt.Y, 0));
-                    _repeatTimer?.Start();
+                    _repeatTimer.Start();
                 }
             }
 
@@ -134,7 +136,7 @@ namespace Krypton.Ribbon
             {
                 _pressed = false;
                 UpdateTargetState(pt);
-                _repeatTimer?.Stop();
+                _repeatTimer.Stop();
             }
         }
 
@@ -143,7 +145,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="c">Reference to the source control instance.</param>
         /// <param name="next">Reference to view that is next to have the mouse.</param>
-        public virtual void MouseLeave(Control c, ViewBase next)
+        public virtual void MouseLeave(Control c, ViewBase? next)
         {
             // Only if mouse is leaving all the children monitored by controller.
             if (!Target.ContainsRecurse(next))
@@ -151,7 +153,7 @@ namespace Krypton.Ribbon
                 _pressed = false;
                 _mouseOver = false;
                 UpdateTargetState(c);
-                _repeatTimer?.Stop();
+                _repeatTimer.Stop();
             }
         }
 
@@ -175,7 +177,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets the need paint delegate for notifying paint requests.
         /// </summary>
-        public NeedPaintHandler NeedPaint
+        public NeedPaintHandler? NeedPaint
         {
             get => _needPaint;
 
@@ -197,19 +199,13 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Fires the NeedPaint event.
         /// </summary>
-        public void PerformNeedPaint()
-        {
-            OnNeedPaint(false);
-        }
+        public void PerformNeedPaint() => OnNeedPaint(false);
 
         /// <summary>
         /// Fires the NeedPaint event.
         /// </summary>
         /// <param name="needLayout">Does the palette change require a layout.</param>
-        public void PerformNeedPaint(bool needLayout)
-        {
-            OnNeedPaint(needLayout);
-        }
+        public void PerformNeedPaint(bool needLayout) => OnNeedPaint(needLayout);
         #endregion
 
         #region Protected
@@ -247,7 +243,7 @@ namespace Krypton.Ribbon
             if (!Target.Enabled)
             {
                 newState = PaletteState.Disabled;
-                _repeatTimer?.Stop();
+                _repeatTimer.Stop();
             }
             else
             {
@@ -269,19 +265,13 @@ namespace Krypton.Ribbon
         /// Raises the Click event.
         /// </summary>
         /// <param name="e">A MouseEventArgs containing the event data.</param>
-        protected virtual void OnClick(MouseEventArgs e)
-        {
-            Click?.Invoke(Target, e);
-        }
+        protected virtual void OnClick(MouseEventArgs e) => Click?.Invoke(Target, e);
 
         /// <summary>
         /// Raises the NeedPaint event.
         /// </summary>
         /// <param name="needLayout">Does the palette change require a layout.</param>
-        protected virtual void OnNeedPaint(bool needLayout)
-        {
-            _needPaint?.Invoke(this, new NeedLayoutEventArgs(needLayout, Target.ClientRectangle));
-        }
+        protected virtual void OnNeedPaint(bool needLayout) => _needPaint?.Invoke(this, new NeedLayoutEventArgs(needLayout, Target.ClientRectangle));
         #endregion
 
         #region Private
