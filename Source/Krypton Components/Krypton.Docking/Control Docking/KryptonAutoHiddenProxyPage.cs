@@ -170,7 +170,7 @@ namespace Krypton.Docking
         /// </summary>
         public override LabelStyle ToolTipStyle
         {
-            get => Page.ToolTipStyle
+            get => Page.ToolTipStyle;
 
             set => Page.ToolTipStyle = value;
         }
