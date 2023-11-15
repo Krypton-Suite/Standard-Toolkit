@@ -127,7 +127,7 @@ namespace Krypton.Toolkit
                 string paletteFileName = (ofd.ShowDialog() == DialogResult.OK)
                     ? ofd.FileName
                     : string.Empty;
-                    
+
                 if (string.IsNullOrWhiteSpace(paletteFileName))
                 {
                     return;

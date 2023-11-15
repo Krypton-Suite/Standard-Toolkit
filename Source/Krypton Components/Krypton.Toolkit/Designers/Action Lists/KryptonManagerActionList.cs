@@ -41,11 +41,11 @@ namespace Krypton.Toolkit
         /// </summary>
         public PaletteMode GlobalPaletteMode
         {
-            get => _manager.GlobalPaletteMode;
+            get => _manager!.GlobalPaletteMode;
 
             set
             {
-                if (_manager.GlobalPaletteMode != value)
+                if (_manager != null && _manager.GlobalPaletteMode != value)
                 {
                     _service.OnComponentChanged(_manager, null, _manager.GlobalPaletteMode, value);
                     _manager.GlobalPaletteMode = value;
@@ -69,12 +69,33 @@ namespace Krypton.Toolkit
             if (_manager != null)
             {
                 // Add the list of panel specific actions
+                actions.Add(new DesignerActionHeaderItem(@"Data"));
+                actions.Add(new KryptonDesignerActionItem(new DesignerVerb(@"Reset Toolkit Strings", OnResetToolkitStrings), @"Data"));
                 actions.Add(new DesignerActionHeaderItem(@"Visuals"));
                 actions.Add(new DesignerActionPropertyItem(nameof(GlobalPaletteMode), @"Global Palette", @"Visuals", @"Global palette setting"));
             }
 
             return actions;
         }
+        #endregion
+
+        #region Implementation
+
+        private void OnResetToolkitStrings(object sender, EventArgs e)
+        {
+            DialogResult result = KryptonMessageBox.Show(
+                @"Do you want to reset the toolkit strings back to their defaults?", @"Reset Toolkit Strings",
+                KryptonMessageBoxButtons.YesNo, KryptonMessageBoxIcon.Question);
+
+            if (result == DialogResult.Yes)
+            {
+                if (_manager != null)
+                {
+                    _manager.ResetToolkitStrings();
+                }
+            }
+        }
+
         #endregion
     }
 }

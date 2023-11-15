@@ -18,6 +18,10 @@ namespace Krypton.Toolkit
         /// <value>The current assembly.</value>
         public Assembly CurrentAssembly { get; set; }
 
+        /// <summary>Gets or sets the use full built on date.</summary>
+        /// <value>The use full built on date.</value>
+        public bool? UseFullBuiltOnDate { get; set; }
+
         /// <summary>Gets or sets the header image.</summary>
         /// <value>The header image.</value>
         public Image? HeaderImage { get; set; } //= GenericImageResources.InformationSmall;

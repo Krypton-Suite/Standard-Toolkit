@@ -446,6 +446,8 @@ namespace Krypton.Toolkit
         /// <value>The spec style strings.</value>
         public static ButtonStyleStrings ButtonStyles { get; } = new ButtonStyleStrings();
 
+        /// <summary>Gets the custom toolkit strings.</summary>
+        /// <value>The custom toolkit strings.</value>
         public static CustomToolkitStrings CustomToolkitStrings { get; } = new CustomToolkitStrings();
 
         /// <summary>Gets the strings.</summary>

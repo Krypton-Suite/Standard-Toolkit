@@ -31,6 +31,7 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.kryptonPanel1 = new Krypton.Toolkit.KryptonPanel();
+            this.kryptonButton8 = new Krypton.Toolkit.KryptonButton();
             this.kryptonComboBox1 = new Krypton.Toolkit.KryptonComboBox();
             this.kcbtnSizableToolWindow = new Krypton.Toolkit.KryptonCheckButton();
             this.kcbtnFixedToolWindow = new Krypton.Toolkit.KryptonCheckButton();
@@ -75,14 +76,18 @@
             this.buttonSpecAny9 = new Krypton.Toolkit.ButtonSpecAny();
             this.buttonSpecAny10 = new Krypton.Toolkit.ButtonSpecAny();
             this.kryptonIntegratedToolbarPrintCommand1 = new Krypton.Toolkit.KryptonIntegratedToolbarPrintCommand();
-            this.kryptonManager1 = new Krypton.Toolkit.KryptonManager(this.components);
             this.kryptonCheckSet1 = new Krypton.Toolkit.KryptonCheckSet(this.components);
-            this.kryptonButton8 = new Krypton.Toolkit.KryptonButton();
+            this.kryptonManager1 = new Krypton.Toolkit.KryptonManager(this.components);
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
             this.kryptonPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonComboBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonThemeComboBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonCheckSet1)).BeginInit();
+            this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // kryptonPanel1
@@ -120,6 +125,15 @@
             this.kryptonPanel1.Name = "kryptonPanel1";
             this.kryptonPanel1.Size = new System.Drawing.Size(600, 608);
             this.kryptonPanel1.TabIndex = 0;
+            // 
+            // kryptonButton8
+            // 
+            this.kryptonButton8.Location = new System.Drawing.Point(14, 384);
+            this.kryptonButton8.Name = "kryptonButton8";
+            this.kryptonButton8.Size = new System.Drawing.Size(185, 25);
+            this.kryptonButton8.TabIndex = 26;
+            this.kryptonButton8.Values.Text = "About Box";
+            this.kryptonButton8.Click += new System.EventHandler(this.kryptonButton8_Click);
             // 
             // kryptonComboBox1
             // 
@@ -354,14 +368,14 @@
             // kryptonContextMenu1
             // 
             this.kryptonContextMenu1.Items.AddRange(new Krypton.Toolkit.KryptonContextMenuItemBase[] {
-            this.kryptonContextMenuItems1});
+            ((Krypton.Toolkit.KryptonContextMenuItemBase)(this.kryptonContextMenuItems1))});
             // 
             // kryptonContextMenuItems1
             // 
             this.kryptonContextMenuItems1.Items.AddRange(new Krypton.Toolkit.KryptonContextMenuItemBase[] {
-            this.kryptonContextMenuItem1,
-            this.kryptonContextMenuItem2,
-            this.kryptonContextMenuItem3});
+            ((Krypton.Toolkit.KryptonContextMenuItemBase)(this.kryptonContextMenuItem1)),
+            ((Krypton.Toolkit.KryptonContextMenuItemBase)(this.kryptonContextMenuItem2)),
+            ((Krypton.Toolkit.KryptonContextMenuItemBase)(this.kryptonContextMenuItem3))});
             // 
             // kryptonContextMenuItem1
             // 
@@ -417,6 +431,8 @@
             // 
             // buttonSpecAny1
             // 
+            this.buttonSpecAny1.ContextMenuStrip = this.contextMenuStrip1;
+            this.buttonSpecAny1.Type = Krypton.Toolkit.PaletteButtonSpecStyle.Cut;
             this.buttonSpecAny1.UniqueName = "dd7cce66eb3d4d97a9536f5d03a58dd5";
             // 
             // buttonSpecAny2
@@ -459,6 +475,16 @@
             // 
             this.kryptonIntegratedToolbarPrintCommand1.Text = "Print";
             // 
+            // kryptonCheckSet1
+            // 
+            this.kryptonCheckSet1.CheckButtons.Add(this.kcbtnNone);
+            this.kryptonCheckSet1.CheckButtons.Add(this.kcbtnFixedSingle);
+            this.kryptonCheckSet1.CheckButtons.Add(this.kcbtnFixed3D);
+            this.kryptonCheckSet1.CheckButtons.Add(this.kcbtnFixedDialog);
+            this.kryptonCheckSet1.CheckButtons.Add(this.kcbtnSizable);
+            this.kryptonCheckSet1.CheckButtons.Add(this.kcbtnFixedToolWindow);
+            this.kryptonCheckSet1.CheckButtons.Add(this.kcbtnSizableToolWindow);
+            // 
             // kryptonManager1
             // 
             this.kryptonManager1.CustomPalette = this.kryptonCustomPaletteBase1;
@@ -474,24 +500,33 @@
             this.kryptonManager1.ToolkitStrings.KryptonAboutBoxStrings.Trademark = null;
             this.kryptonManager1.ToolkitStrings.KryptonAboutBoxStrings.Version = null;
             // 
-            // kryptonCheckSet1
+            // contextMenuStrip1
             // 
-            this.kryptonCheckSet1.CheckButtons.Add(this.kcbtnNone);
-            this.kryptonCheckSet1.CheckButtons.Add(this.kcbtnFixedSingle);
-            this.kryptonCheckSet1.CheckButtons.Add(this.kcbtnFixed3D);
-            this.kryptonCheckSet1.CheckButtons.Add(this.kcbtnFixedDialog);
-            this.kryptonCheckSet1.CheckButtons.Add(this.kcbtnSizable);
-            this.kryptonCheckSet1.CheckButtons.Add(this.kcbtnFixedToolWindow);
-            this.kryptonCheckSet1.CheckButtons.Add(this.kcbtnSizableToolWindow);
+            this.contextMenuStrip1.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItem1,
+            this.toolStripMenuItem2,
+            this.toolStripMenuItem3});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(181, 70);
             // 
-            // kryptonButton8
+            // toolStripMenuItem1
             // 
-            this.kryptonButton8.Location = new System.Drawing.Point(14, 384);
-            this.kryptonButton8.Name = "kryptonButton8";
-            this.kryptonButton8.Size = new System.Drawing.Size(185, 25);
-            this.kryptonButton8.TabIndex = 26;
-            this.kryptonButton8.Values.Text = "About Box";
-            this.kryptonButton8.Click += new System.EventHandler(this.kryptonButton8_Click);
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.toolStripMenuItem1.Text = "toolStripMenuItem1";
+            // 
+            // toolStripMenuItem2
+            // 
+            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(180, 22);
+            this.toolStripMenuItem2.Text = "toolStripMenuItem2";
+            // 
+            // toolStripMenuItem3
+            // 
+            this.toolStripMenuItem3.Name = "toolStripMenuItem3";
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(180, 22);
+            this.toolStripMenuItem3.Text = "toolStripMenuItem3";
             // 
             // Form1
             // 
@@ -509,7 +544,6 @@
             this.ButtonSpecs.Add(this.buttonSpecAny10);
             this.ClientSize = new System.Drawing.Size(600, 608);
             this.Controls.Add(this.kryptonPanel1);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.FormTitleAlign = Krypton.Toolkit.PaletteRelativeAlign.Inherit;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(2);
@@ -523,6 +557,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.kryptonComboBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonThemeComboBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonCheckSet1)).EndInit();
+            this.contextMenuStrip1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -556,7 +591,6 @@
         private Krypton.Toolkit.ButtonSpecAny buttonSpecAny10;
         private Krypton.Toolkit.KryptonIntegratedToolbarPrintCommand kryptonIntegratedToolbarPrintCommand1;
         private Krypton.Toolkit.KryptonButton kbtnIntegratedToolbar;
-        private Krypton.Toolkit.KryptonManager kryptonManager1;
         private Krypton.Toolkit.KryptonButton kryptonButton3;
         private Krypton.Toolkit.KryptonTrackBar ktrkProgressValues;
         private Krypton.Toolkit.KryptonProgressBar kryptonProgressBar1;
@@ -577,5 +611,10 @@
         private Krypton.Toolkit.KryptonCheckButton kcbtnSizableToolWindow;
         private Krypton.Toolkit.KryptonComboBox kryptonComboBox1;
         private Krypton.Toolkit.KryptonButton kryptonButton8;
+        private Krypton.Toolkit.KryptonManager kryptonManager1;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem3;
     }
 }

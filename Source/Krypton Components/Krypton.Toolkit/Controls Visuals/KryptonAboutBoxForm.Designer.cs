@@ -76,6 +76,7 @@
             this.clmnVersion = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.clmnBuiltOn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.clmnCodeBase = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.tlpDescription = new System.Windows.Forms.TableLayoutPanel();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
             this.kryptonPanel1.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
@@ -111,6 +112,7 @@
             this.tableLayoutPanel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonThemeComboBox1)).BeginInit();
             this.tsMain.SuspendLayout();
+            this.tlpDescription.SuspendLayout();
             this.SuspendLayout();
             // 
             // kryptonPanel1
@@ -298,7 +300,7 @@
             // 
             // kpnlDescription
             // 
-            this.kpnlDescription.Controls.Add(this.krtxtDescription);
+            this.kpnlDescription.Controls.Add(this.tlpDescription);
             this.kpnlDescription.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kpnlDescription.Location = new System.Drawing.Point(0, 0);
             this.kpnlDescription.Name = "kpnlDescription";
@@ -309,10 +311,11 @@
             // 
             this.krtxtDescription.Dock = System.Windows.Forms.DockStyle.Fill;
             this.krtxtDescription.InputControlStyle = Krypton.Toolkit.InputControlStyle.PanelClient;
-            this.krtxtDescription.Location = new System.Drawing.Point(0, 0);
+            this.krtxtDescription.Location = new System.Drawing.Point(10, 10);
+            this.krtxtDescription.Margin = new System.Windows.Forms.Padding(10);
             this.krtxtDescription.Name = "krtxtDescription";
             this.krtxtDescription.ReadOnly = true;
-            this.krtxtDescription.Size = new System.Drawing.Size(777, 328);
+            this.krtxtDescription.Size = new System.Drawing.Size(757, 308);
             this.krtxtDescription.TabIndex = 0;
             this.krtxtDescription.Text = "";
             // 
@@ -624,6 +627,19 @@
             this.clmnCodeBase.Name = "clmnCodeBase";
             this.clmnCodeBase.Width = 91;
             // 
+            // tlpDescription
+            // 
+            this.tlpDescription.ColumnCount = 1;
+            this.tlpDescription.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tlpDescription.Controls.Add(this.krtxtDescription, 0, 0);
+            this.tlpDescription.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tlpDescription.Location = new System.Drawing.Point(0, 0);
+            this.tlpDescription.Name = "tlpDescription";
+            this.tlpDescription.RowCount = 1;
+            this.tlpDescription.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tlpDescription.Size = new System.Drawing.Size(777, 328);
+            this.tlpDescription.TabIndex = 1;
+            // 
             // KryptonAboutBoxForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -681,6 +697,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.kryptonThemeComboBox1)).EndInit();
             this.tsMain.ResumeLayout(false);
             this.tsMain.PerformLayout();
+            this.tlpDescription.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -735,5 +752,6 @@
         private KryptonWrapLabel kwlBuiltOn;
         private KryptonWrapLabel kwlCopyright;
         private KryptonWrapLabel kryptonWrapLabel5;
+        private TableLayoutPanel tlpDescription;
     }
 }

@@ -51,11 +51,20 @@ namespace Krypton.Toolkit
             // ToDo: Review
             UpdateVersionLabel($"{KryptonManager.Strings.AboutBoxStrings.Version}: {KryptonAboutBoxUtilities.GetFileVersionInfo(Assembly.GetExecutingAssembly().Location).FileVersion}");
 
-            UpdateBuiltOnLabel($"{KryptonManager.Strings.AboutBoxStrings.BuildDate}: {KryptonAboutBoxUtilities.AssemblyBuildDate(Assembly.GetExecutingAssembly(), true)}");
+            if (aboutBoxData.UseFullBuiltOnDate != null || aboutBoxData.UseFullBuiltOnDate == false)
+            {
+                UpdateBuiltOnLabel($"{KryptonManager.Strings.AboutBoxStrings.BuildDate}: {KryptonAboutBoxUtilities.AssemblyBuildDate(Assembly.GetExecutingAssembly(), true).ToString("F")}");
+            }
+            else
+            {
+                UpdateBuiltOnLabel($"{KryptonManager.Strings.AboutBoxStrings.BuildDate}: {KryptonAboutBoxUtilities.AssemblyBuildDate(Assembly.GetExecutingAssembly(), true)}");
+            }
 
             UpdateCopyrightLabel($"{KryptonManager.Strings.AboutBoxStrings.Copyright}: {KryptonAboutBoxUtilities.GetFileVersionInfo(Assembly.GetExecutingAssembly().Location).LegalCopyright}");
 
             UpdateDescription(KryptonAboutBoxUtilities.GetFileVersionInfo(Assembly.GetEntryAssembly()!.Location).FileDescription);
+
+            kryptonWrapLabel5.Text = null;
         }
 
         private void UpdateDescription(string fileDescription) => krtxtDescription.Text = fileDescription;

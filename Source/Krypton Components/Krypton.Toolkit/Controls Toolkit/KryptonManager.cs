@@ -24,7 +24,7 @@ namespace Krypton.Toolkit
     {
         #region Static Fields
         // Initialize the global state
-        private static bool _globalApplyToolstrips = true;
+        private static bool _globalApplyToolStrips = true;
         private static bool _globalAllowFormChrome = true;
 
         // Initialize the default modes
@@ -36,8 +36,6 @@ namespace Krypton.Toolkit
         private static PaletteProfessionalSystem? _paletteProfessionalSystem;
 
         private static PaletteBase? _customPalette;
-
-        private static KryptonGlobalToolkitStrings? _languageManager;
 
         #region Office 2007 Themes
 
@@ -185,6 +183,9 @@ namespace Krypton.Toolkit
             }
 
             container.Add(this);
+
+            // Note: Not sure if this should be here?
+            Reset();
         }
 
         /// <summary> 
@@ -210,7 +211,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public bool IsDefault => !(ShouldSerializeGlobalPaletteMode() ||
                                    ShouldSerializeGlobalPalette() ||
-                                   ShouldSerializeGlobalApplyToolstrips() ||
+                                   ShouldSerializeGlobalApplyToolStrips() ||
                                    ShouldSerializeGlobalAllowFormChrome() ||
                                    ShouldSerializeToolkitStrings());
 
@@ -221,13 +222,11 @@ namespace Krypton.Toolkit
         {
             ResetGlobalPaletteMode();
             ResetGlobalPalette();
-            ResetGlobalApplyToolstrips();
+            ResetGlobalApplyToolStrips();
             ResetGlobalAllowFormChrome();
             ResetToolkitStrings();
 
             _customPalette = null;
-
-            _languageManager = null;
         }
 
         /// <summary>
@@ -363,15 +362,15 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Should the palette colors be applied to the toolstrips.")]
         [DefaultValue(true)]
-        public bool GlobalApplyToolstrips
+        public bool GlobalApplyToolStrips
         {
-            get => ApplyToolstrips;
-            set => ApplyToolstrips = value;
+            get => ApplyToolStrips;
+            set => ApplyToolStrips = value;
         }
 
-        private bool ShouldSerializeGlobalApplyToolstrips() => !GlobalApplyToolstrips;
+        private bool ShouldSerializeGlobalApplyToolStrips() => !GlobalApplyToolStrips;
 
-        private void ResetGlobalApplyToolstrips() => GlobalApplyToolstrips = true;
+        private void ResetGlobalApplyToolStrips() => GlobalApplyToolStrips = true;
 
         /// <summary>
         /// Gets or sets a value indicating if KryptonForm instances are allowed to show custom chrome.
@@ -389,8 +388,10 @@ namespace Krypton.Toolkit
 
         private void ResetGlobalAllowFormChrome() => GlobalAllowFormChrome = true;
 
+        /// <summary>Gets or sets the custom palette manager.</summary>
+        /// <value>The custom palette manager.</value>
         [Category(@"Visuals")]
-        [Description(@"")]
+        [Description(@"Specifies a custom palette manager.")]
         [DefaultValue(null)]
         public KryptonCustomPaletteManager? CustomPaletteManager
         {
@@ -411,8 +412,8 @@ namespace Krypton.Toolkit
 
 
         /// <summary>Gets the toolkit strings that can be localised.</summary>
-        [Category(@"Visuals")]
-        [Description(@"")]
+        [Category(@"Data")]
+        [Description(@"A collection of global toolkit strings that can be localised.")]
         [MergableProperty(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         [Localizable(true)]
@@ -420,12 +421,15 @@ namespace Krypton.Toolkit
 
         private bool ShouldSerializeToolkitStrings() => !Strings.IsDefault;
 
+        /// <summary>Resets the toolkit strings.</summary>
         public void ResetToolkitStrings() => Strings.Reset();
 
         #endregion
 
         #region Static Strings
 
+        /// <summary>Gets the strings.</summary>
+        /// <value>The strings.</value>
         public static KryptonGlobalToolkitStrings Strings { get; } = new KryptonGlobalToolkitStrings();
 
         #endregion
@@ -434,20 +438,20 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the global flag that decides if palette colors are applied to toolstrips.
         /// </summary>
-        public static bool ApplyToolstrips
+        public static bool ApplyToolStrips
         {
-            get => _globalApplyToolstrips;
+            get => _globalApplyToolStrips;
 
             set
             {
                 // Only interested if the value changes
-                if (_globalApplyToolstrips != value)
+                if (_globalApplyToolStrips != value)
                 {
                     // Use new value
-                    _globalApplyToolstrips = value;
+                    _globalApplyToolStrips = value;
 
                     // Change the toolstrip manager renderer as required
-                    if (_globalApplyToolstrips)
+                    if (_globalApplyToolStrips)
                     {
                         UpdateToolStripManager();
                     }
@@ -1177,7 +1181,7 @@ namespace Krypton.Toolkit
 
         private static void UpdateToolStripManager()
         {
-            if (_globalApplyToolstrips)
+            if (_globalApplyToolStrips)
             {
                 ToolStripManager.Renderer = InternalGlobalPalette?.GetRenderer()?.RenderToolStrip(InternalGlobalPalette);
             }

@@ -143,7 +143,7 @@ namespace TestForm
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            kcbtnNone.Checked = true;
+            kcbtnSizable.Checked = true;
         }
 
         private void kbtnExit_Click(object sender, EventArgs e)
@@ -201,6 +201,7 @@ namespace TestForm
             KryptonAboutBoxData data = new KryptonAboutBoxData()
             {
                 ApplicationName = @"Standard Toolkit",
+                UseFullBuiltOnDate = true,
                 CurrentAssembly = Assembly.GetExecutingAssembly(),
                 HeaderImage = null,
                 MainImage = null
