@@ -28,6 +28,11 @@ namespace Krypton.Toolkit
 
         #region Public
 
+		/// <summary>Gets or sets the default palette mode.</summary>
+        /// <value>The default palette mode.</value>
+        [Category(@"Visuals")]
+        [Description(@"The default palette mode.")]
+        [DefaultValue(PaletteMode.Microsoft365Blue)]
         public PaletteMode DefaultPalette
         {
             get => _defaultPalette;
@@ -95,7 +100,7 @@ namespace Krypton.Toolkit
 
         #region Implementation
 
-        private void UpdateDefaultPaletteIndex(PaletteMode  mode) => ThemeSelectedIndex = (int)mode +1;
+        private void UpdateDefaultPaletteIndex(PaletteMode mode) => ThemeSelectedIndex = (int)mode + 1;
 
         /// <summary>Returns the palette mode.</summary>
         /// <returns>
