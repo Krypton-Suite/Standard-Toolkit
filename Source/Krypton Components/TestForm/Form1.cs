@@ -209,5 +209,10 @@ namespace TestForm
 
             KryptonAboutBox.Show(data);
         }
+
+        private void kryptonThemeComboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            KryptonMessageBox.Show($"Index = {kryptonThemeComboBox1.SelectedIndex}");
+        }
     }
 }

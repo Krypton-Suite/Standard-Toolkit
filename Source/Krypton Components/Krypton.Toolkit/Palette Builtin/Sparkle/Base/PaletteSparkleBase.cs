@@ -18,6 +18,9 @@ namespace Krypton.Toolkit
     public class PaletteSparkleBase : PaletteBase
     {
         #region Static Fields
+
+        #region Padding
+
         private static readonly Padding _contentPaddingGrid = new Padding(2, 1, 2, 1);
         private static readonly Padding _contentPaddingHeader1 = new Padding(3, 2, 2, 2);
         private static readonly Padding _contentPaddingHeader2 = new Padding(3, 2, 2, 2);
@@ -55,6 +58,10 @@ namespace Krypton.Toolkit
         private static readonly Padding _metricPaddingBarOutside = new Padding(0, 0, 0, 3);
         private static readonly Padding _metricPaddingPageButtons = new Padding(1, 3, 1, 3);
         private static readonly Padding _metricPaddingContextMenuItemHighlight = new Padding(1, 0, 1, 0);
+
+        #endregion
+
+        #region Images
 
         private static readonly Image _disabledDropDown = DropDownArrowImageResources.DisabledDropDownButton2;
         private static readonly Image _disabledDropUp = DropDownArrowImageResources.DisabledDropUpButton;
@@ -99,6 +106,42 @@ namespace Krypton.Toolkit
         private static readonly Image? _treeExpandWhite = TreeItemImageResources.TreeExpandWhite;
         private static readonly Image? _treeCollapseBlack = TreeItemImageResources.TreeCollapseBlack;
 
+        #region Integrated Tool Bar Images
+
+        private static readonly Image _integratedToolbarNewNormal = Office2010ToolbarImageResources.Office2010ToolbarNewNormal;
+
+        private static readonly Image _integratedToolbarOpenNormal = Office2010ToolbarImageResources.Office2010ToolbarOpenNormal;
+
+        private static readonly Image _integratedToolbarSaveAllNormal = Office2010ToolbarImageResources.Office2010ToolbarSaveAllNormal;
+
+        private static readonly Image _integratedToolbarSaveAsNormal = Office2010ToolbarImageResources.Office2010ToolbarSaveAsNormal;
+
+        private static readonly Image _integratedToolbarSaveNormal = Office2010ToolbarImageResources.Office2010ToolbarSaveNormal;
+
+        private static readonly Image _integratedToolbarCutNormal = Office2010ToolbarImageResources.Office2010ToolbarCutNormal;
+
+        private static readonly Image _integratedToolbarCopyNormal = Office2010ToolbarImageResources.Office2010ToolbarCopyNormal;
+
+        private static readonly Image _integratedToolbarPasteNormal = Office2010ToolbarImageResources.Office2010ToolbarPasteNormal;
+
+        private static readonly Image _integratedToolbarUndoNormal = Office2010ToolbarImageResources.Office2010ToolbarUndoNormal;
+
+        private static readonly Image _integratedToolbarRedoNormal = Office2010ToolbarImageResources.Office2010ToolbarRedoNormal;
+
+        private static readonly Image _integratedToolbarPageSetupNormal = Office2010ToolbarImageResources.Office2010ToolbarPageSetupNormal;
+
+        private static readonly Image _integratedToolbarPrintPreviewNormal = Office2010ToolbarImageResources.Office2010ToolbarPrintPreviewNormal;
+
+        private static readonly Image _integratedToolbarPrintNormal = Office2010ToolbarImageResources.Office2010ToolbarPrintNormal;
+
+        private static readonly Image _integratedToolbarQuickPrintNormal = Office2010ToolbarImageResources.Office2010ToolbarQuickPrintNormal;
+
+#endregion
+
+        #endregion
+
+        #region Colours
+
         private static readonly Color _disabledText = Color.FromArgb(120, 120, 120);
         private static readonly Color _disabledBack = Color.FromArgb(224, 224, 224);
         private static readonly Color _disabledBack2 = Color.FromArgb(240, 240, 240);
@@ -141,6 +184,9 @@ namespace Krypton.Toolkit
         private static readonly Color _menuItemDisabledBack2 = Color.FromArgb(164, 190, 190, 190);
         private static readonly Color _menuItemDisabledBorder = Color.FromArgb(164, 172, 172, 172);
         private static readonly Color _menuItemDisabledImageBorder = Color.FromArgb(200, 200, 200);
+
+        #endregion
+
         #endregion
 
         #region Instance Fields
@@ -3149,6 +3195,34 @@ namespace Krypton.Toolkit
                     return _buttonSpecRibbonMinimize;
                 case PaletteButtonSpecStyle.RibbonExpand:
                     return _buttonSpecRibbonExpand;
+                case PaletteButtonSpecStyle.New:
+                    return _integratedToolbarNewNormal;
+                case PaletteButtonSpecStyle.Open:
+                    return _integratedToolbarOpenNormal;
+                case PaletteButtonSpecStyle.Save:
+                    return _integratedToolbarSaveNormal;
+                case PaletteButtonSpecStyle.SaveAs:
+                    return _integratedToolbarSaveAsNormal;
+                case PaletteButtonSpecStyle.SaveAll:
+                    return _integratedToolbarSaveAllNormal;
+                case PaletteButtonSpecStyle.Cut:
+                    return _integratedToolbarCutNormal;
+                case PaletteButtonSpecStyle.Copy:
+                    return _integratedToolbarCopyNormal;
+                case PaletteButtonSpecStyle.Paste:
+                    return _integratedToolbarPasteNormal;
+                case PaletteButtonSpecStyle.Undo:
+                    return _integratedToolbarUndoNormal;
+                case PaletteButtonSpecStyle.Redo:
+                    return _integratedToolbarRedoNormal;
+                case PaletteButtonSpecStyle.PageSetup:
+                    return _integratedToolbarPageSetupNormal;
+                case PaletteButtonSpecStyle.PrintPreview:
+                    return _integratedToolbarPrintPreviewNormal;
+                case PaletteButtonSpecStyle.Print:
+                    return _integratedToolbarPrintNormal;
+                case PaletteButtonSpecStyle.QuickPrint:
+                    return _integratedToolbarQuickPrintNormal;
                 case PaletteButtonSpecStyle.Generic:
                     return null;
                 default:

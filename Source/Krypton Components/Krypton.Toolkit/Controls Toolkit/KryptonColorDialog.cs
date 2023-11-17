@@ -16,7 +16,7 @@ namespace Krypton.Toolkit
     /// that are currently installed on the system.
     /// </summary>
     [ToolboxItem(true),
-     ToolboxBitmap(typeof(ColorDialog), "ToolboxBitmaps.KryptonColorDialog.png"),
+     ToolboxBitmap(typeof(ColorDialog)), //, "ToolboxBitmaps.KryptonColorDialog.png"),
      Description("Displays a Kryptonised version of the standard Colour dialog, which displays colours that are currently installed on the system.")]
     public class KryptonColorDialog : ColorDialog
     {
