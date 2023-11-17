@@ -199,8 +199,6 @@ namespace Krypton.Toolkit
 #pragma warning disable CS0618
             _useDropShadow = false;
 #pragma warning restore CS0618
-
-            BackStyle = PaletteBackStyle.PanelClient;
         }
 
         /// <summary>

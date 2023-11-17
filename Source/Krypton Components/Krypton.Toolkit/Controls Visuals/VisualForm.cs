@@ -28,8 +28,6 @@ namespace Krypton.Toolkit
         private const int DEFAULT_COMPOSITION_HEIGHT = 30;
         private static readonly bool _themedApp;
         private readonly PaletteDoubleRedirect _stateCommon;
-        private readonly PaletteContentInheritRedirect ItemShortcutTextRedirect;
-        private readonly PaletteContentJustShortText ItemShortcutText;
 
         #endregion
 
@@ -107,8 +105,6 @@ namespace Krypton.Toolkit
         {
             InitializeComponent();
 
-            base.DoubleBuffered = true;
-
             // Automatically redraw whenever the size of the window changes
             SetStyle(ControlStyles.ResizeRedraw, true);
 
@@ -135,9 +131,6 @@ namespace Krypton.Toolkit
 
             _stateCommon = new PaletteDoubleRedirect(Redirector, PaletteBackStyle.ButtonCustom1,
                 PaletteBorderStyle.ButtonCustom1, NeedPaintDelegate);
-
-            ItemShortcutTextRedirect = new PaletteContentInheritRedirect(Redirector, PaletteContentStyle.LabelNormalPanel);
-            ItemShortcutText = new PaletteContentJustShortText(ItemShortcutTextRedirect, NeedPaintDelegate);
 
             // Hook into global static events
             KryptonManager.GlobalPaletteChanged += OnGlobalPaletteChanged;
@@ -191,120 +184,6 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Public
-
-        /// <inheritdoc />
-        [Browsable(false)]
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        protected override bool DoubleBuffered
-        {
-            get => true;
-            set
-            {
-                // Do Nothing
-            }
-        }
-
-        /// <inheritdoc />
-        [Browsable(false)]
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public override Color BackColor
-        {
-            get
-            {
-                Color rawBackColor = _stateCommon.Back.GetBackColor1(Enabled ? PaletteState.Disabled : PaletteState.Normal);
-                return !rawBackColor.IsEmpty ? rawBackColor : Control.DefaultBackColor;
-            }
-            set
-            {
-                //Do Nothing;
-            }
-        }
-
-        /// <inheritdoc />
-        [Browsable(false)]
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        [AmbientValue(null)]
-        public override Font Font
-        {
-            get => ItemShortcutText.GetContentShortTextFont(Enabled ? PaletteState.Disabled : PaletteState.Normal);
-            set
-            {
-                //Do Nothing;
-            }
-        }
-
-        /// <inheritdoc />
-        [Browsable(false)]
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public override Color ForeColor
-        {
-            get => ItemShortcutText.GetContentShortTextColor1(Enabled ? PaletteState.Disabled : PaletteState.Normal);
-            set
-            {
-                //Do Nothing;
-            }
-        }
-
-        /// <inheritdoc />
-        [Browsable(false)]
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        [DefaultValue(null)]
-        public override Image? BackgroundImage
-        {
-            get => _stateCommon.Back.GetBackImage(Enabled ? PaletteState.Disabled : PaletteState.Normal);
-            set
-            {
-                //Do Nothing;
-            }
-        }
-        /// <inheritdoc />
-        [Browsable(false)]
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        [DefaultValue(ImageLayout.Tile)]
-        public override ImageLayout BackgroundImageLayout
-        {
-            get
-            {
-                return _stateCommon.Back.GetBackImageStyle(Enabled ? PaletteState.Disabled : PaletteState.Normal) switch
-                {
-                    PaletteImageStyle.TopMiddle => ImageLayout.Center,
-                    PaletteImageStyle.CenterLeft => ImageLayout.Center,
-                    PaletteImageStyle.CenterMiddle => ImageLayout.Center,
-                    PaletteImageStyle.CenterRight => ImageLayout.Center,
-                    PaletteImageStyle.Stretch => ImageLayout.Stretch,
-                    PaletteImageStyle.Tile => ImageLayout.Tile,
-                    _ => ImageLayout.None
-                };
-            }
-            set
-            {
-                //Do Nothing;
-            }
-        }
-
-        /// <summary>Sets the default panel backcolor source i.e. PanelClient.</summary>
-        [DefaultValue(typeof(PaletteBackStyle), @"PaletteBackStyle.PanelClient")]
-        [Description(@"Sets the default panel backcolor source i.e. PanelClient.")]
-        public PaletteBackStyle BackStyle
-        {
-            get => _stateCommon.BackStyle;
-
-            set
-            {
-                if (_stateCommon.BackStyle != value)
-                {
-                    _stateCommon.BackStyle = value;
-
-                    PerformNeedPaint(true);
-                }
-            }
-        }
 
         /// <summary>
         /// Gets the DpiX of the view.
@@ -1205,13 +1084,6 @@ namespace Krypton.Toolkit
                     InvalidateNonClient();
                 }
             }
-
-            // Force repaint of Background etc.
-            OnBackColorChanged(EventArgs.Empty);
-            OnBackgroundImageChanged(EventArgs.Empty);
-            OnBackgroundImageLayoutChanged(EventArgs.Empty);
-            OnFontChanged(EventArgs.Empty);
-            OnForeColorChanged(EventArgs.Empty);
         }
 
         /// <summary>
