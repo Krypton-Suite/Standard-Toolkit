@@ -772,37 +772,37 @@ namespace Krypton.Toolkit
             {
                 if (DialogResult == DialogResult.Abort)
                 {
-                    Text = KryptonLanguageManager.GeneralToolkitStrings.Abort;
+                    Text = KryptonManager.Strings.GeneralStrings.Abort;
                 }
 
                 if (DialogResult == DialogResult.Cancel)
                 {
-                    Text = KryptonLanguageManager.GeneralToolkitStrings.Cancel;
+                    Text = KryptonManager.Strings.GeneralStrings.Cancel;
                 }
 
                 if (DialogResult == DialogResult.OK)
                 {
-                    Text = KryptonLanguageManager.GeneralToolkitStrings.OK;
+                    Text = KryptonManager.Strings.GeneralStrings.OK;
                 }
 
                 if (DialogResult == DialogResult.Yes)
                 {
-                    Text = KryptonLanguageManager.GeneralToolkitStrings.Yes;
+                    Text = KryptonManager.Strings.GeneralStrings.Yes;
                 }
 
                 if (DialogResult == DialogResult.No)
                 {
-                    Text = KryptonLanguageManager.GeneralToolkitStrings.No;
+                    Text = KryptonManager.Strings.GeneralStrings.No;
                 }
 
                 if (DialogResult == DialogResult.Retry)
                 {
-                    Text = KryptonLanguageManager.GeneralToolkitStrings.Retry;
+                    Text = KryptonManager.Strings.GeneralStrings.Retry;
                 }
 
                 if (DialogResult == DialogResult.Ignore)
                 {
-                    Text = KryptonLanguageManager.GeneralToolkitStrings.Ignore;
+                    Text = KryptonManager.Strings.GeneralStrings.Ignore;
                 }
             }
 
@@ -1117,10 +1117,10 @@ namespace Krypton.Toolkit
 
             midPoint.X += (rectangle.Width % 2);
 
-            var arrow = new Point[] 
-            { 
+            var arrow = new Point[]
+            {
                 new Point(midPoint.X - 2, midPoint.Y - 1),
-                new Point(midPoint.X + 3, midPoint.Y - 1), 
+                new Point(midPoint.X + 3, midPoint.Y - 1),
                 midPoint with { Y = midPoint.Y + 2 }
             };
 

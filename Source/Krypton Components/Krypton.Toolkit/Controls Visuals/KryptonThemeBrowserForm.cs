@@ -40,7 +40,7 @@ namespace Krypton.Toolkit
 
             _startIndex = startIndex;
 
-            _windowTitle = windowTitle ?? KryptonLanguageManager.MiscellaneousThemeStrings.ThemeBrowserWindowTitle;
+            _windowTitle = windowTitle ?? KryptonManager.Strings.KryptonMiscellaneousThemeStrings.ThemeBrowserWindowTitle;
 
             AdjustUI();
         }
@@ -59,15 +59,15 @@ namespace Krypton.Toolkit
 
             StartPosition = _formStartPosition;
 
-            klblDescription.Text = KryptonLanguageManager.MiscellaneousThemeStrings.ThemeBrowserDescription;
+            klblDescription.Text = KryptonManager.Strings.KryptonMiscellaneousThemeStrings.ThemeBrowserDescription;
 
-            kbtnImport.Text = KryptonLanguageManager.MiscellaneousThemeStrings.Import;
+            kbtnImport.Text = KryptonManager.Strings.KryptonMiscellaneousThemeStrings.Import;
 
-            kchkSilent.Text = KryptonLanguageManager.MiscellaneousThemeStrings.Silent;
+            kchkSilent.Text = KryptonManager.Strings.KryptonMiscellaneousThemeStrings.Silent;
 
-            kbtnCancel.Text = KryptonLanguageManager.GeneralToolkitStrings.Cancel;
+            kbtnCancel.Text = KryptonManager.Strings.GeneralStrings.Cancel;
 
-            kbtnOK.Text = KryptonLanguageManager.GeneralToolkitStrings.OK;
+            kbtnOK.Text = KryptonManager.Strings.GeneralStrings.OK;
         }
 
         private void kbtnImport_Click(object sender, EventArgs e) => kcpbCustom.Import(kchkSilent.Checked);
