@@ -30,6 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             this.kryptonPanel1 = new Krypton.Toolkit.KryptonPanel();
+            this.kryptonButton8 = new Krypton.Toolkit.KryptonButton();
             this.kcbtnSizableToolWindow = new Krypton.Toolkit.KryptonCheckButton();
             this.kcbtnFixedToolWindow = new Krypton.Toolkit.KryptonCheckButton();
             this.kcbtnSizable = new Krypton.Toolkit.KryptonCheckButton();
@@ -75,7 +76,6 @@
             this.kryptonIntegratedToolbarPrintCommand1 = new Krypton.Toolkit.KryptonIntegratedToolbarPrintCommand();
             this.kryptonManager1 = new Krypton.Toolkit.KryptonManager(this.components);
             this.kryptonCheckSet1 = new Krypton.Toolkit.KryptonCheckSet(this.components);
-            this.kryptonButton8 = new Krypton.Toolkit.KryptonButton();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
             this.kryptonPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonThemeComboBox1)).BeginInit();
@@ -116,6 +116,14 @@
             this.kryptonPanel1.Name = "kryptonPanel1";
             this.kryptonPanel1.Size = new System.Drawing.Size(600, 606);
             this.kryptonPanel1.TabIndex = 0;
+            // 
+            // kryptonButton8
+            // 
+            this.kryptonButton8.Location = new System.Drawing.Point(15, 384);
+            this.kryptonButton8.Name = "kryptonButton8";
+            this.kryptonButton8.Size = new System.Drawing.Size(183, 25);
+            this.kryptonButton8.TabIndex = 32;
+            this.kryptonButton8.Values.Text = "Powered by Control";
             // 
             // kcbtnSizableToolWindow
             // 
@@ -309,6 +317,7 @@
             this.kryptonThemeComboBox1.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.kryptonThemeComboBox1.TabIndex = 4;
             this.kryptonThemeComboBox1.ValueMember = "Value";
+            this.kryptonThemeComboBox1.SelectedIndexChanged += new System.EventHandler(this.kryptonThemeComboBox1_SelectedIndexChanged);
             // 
             // kryptonButton1
             // 
@@ -433,14 +442,6 @@
             // kryptonManager1
             // 
             this.kryptonManager1.GlobalPaletteMode = Krypton.Toolkit.PaletteMode.SparklePurpleLightMode;
-            // 
-            // kryptonButton8
-            // 
-            this.kryptonButton8.Location = new System.Drawing.Point(15, 384);
-            this.kryptonButton8.Name = "kryptonButton8";
-            this.kryptonButton8.Size = new System.Drawing.Size(183, 25);
-            this.kryptonButton8.TabIndex = 32;
-            this.kryptonButton8.Values.Text = "Powered by Control";
             // 
             // Form1
             // 
