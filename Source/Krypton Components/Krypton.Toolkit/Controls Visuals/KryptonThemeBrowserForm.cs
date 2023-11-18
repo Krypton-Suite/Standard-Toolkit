@@ -8,7 +8,7 @@
 
 namespace Krypton.Toolkit
 {
-    public partial class KryptonThemeBrowserForm : KryptonForm
+    internal partial class KryptonThemeBrowserForm : KryptonForm
     {
         #region Instance Fields
 
