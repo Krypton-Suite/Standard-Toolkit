@@ -66,6 +66,8 @@
             this.tsbtnDeveloperInformation = new System.Windows.Forms.ToolStripButton();
             this.tssVersions = new System.Windows.Forms.ToolStripSeparator();
             this.tsbtnVersions = new System.Windows.Forms.ToolStripButton();
+            this.clmnFileName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.clmnVersion = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
             this.kryptonPanel1.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
@@ -447,6 +449,9 @@
             this.kdgvVersions.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.kdgvVersions.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.kdgvVersions.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.kdgvVersions.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.clmnFileName,
+            this.clmnVersion});
             this.kdgvVersions.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kdgvVersions.Location = new System.Drawing.Point(0, 0);
             this.kdgvVersions.Name = "kdgvVersions";
@@ -468,7 +473,7 @@
             this.tsbtnVersions});
             this.tsControls.Location = new System.Drawing.Point(3, 0);
             this.tsControls.Name = "tsControls";
-            this.tsControls.Size = new System.Drawing.Size(465, 25);
+            this.tsControls.Size = new System.Drawing.Size(434, 25);
             this.tsControls.TabIndex = 0;
             // 
             // tsbtnGeneralInformation
@@ -528,6 +533,18 @@
             this.tsbtnVersions.Size = new System.Drawing.Size(115, 22);
             this.tsbtnVersions.Text = "Version Information";
             this.tsbtnVersions.Click += new System.EventHandler(this.tsbtnVersions_Click);
+            // 
+            // clmnFileName
+            // 
+            this.clmnFileName.HeaderText = "Column1";
+            this.clmnFileName.Name = "clmnFileName";
+            this.clmnFileName.Width = 85;
+            // 
+            // clmnVersion
+            // 
+            this.clmnVersion.HeaderText = "Column1";
+            this.clmnVersion.Name = "clmnVersion";
+            this.clmnVersion.Width = 85;
             // 
             // KryptonAboutToolkitForm
             // 
@@ -621,5 +638,7 @@
         private ToolStripButton tsbtnDeveloperInformation;
         private ToolStripSeparator tssVersions;
         private ToolStripButton tsbtnVersions;
+        private DataGridViewTextBoxColumn clmnFileName;
+        private DataGridViewTextBoxColumn clmnVersion;
     }
 }
