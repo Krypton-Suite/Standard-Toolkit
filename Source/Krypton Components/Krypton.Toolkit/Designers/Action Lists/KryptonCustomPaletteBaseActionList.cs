@@ -12,19 +12,22 @@
 
 namespace Krypton.Toolkit
 {
-    internal class KryptonPaletteActionList : DesignerActionList
+    internal class KryptonCustomPaletteBaseActionList : DesignerActionList
     {
         #region Instance Fields
+
         private readonly KryptonCustomPaletteBase? _palette;
         private readonly IComponentChangeService _service;
+
         #endregion
 
         #region Identity
+
         /// <summary>
-        /// Initialize a new instance of the KryptonPaletteActionList class.
+        /// Initialize a new instance of the KryptonCustomPaletteBaseActionList class.
         /// </summary>
         /// <param name="owner">Designer that owns this action list instance.</param>
-        public KryptonPaletteActionList(KryptonPaletteDesigner owner)
+        public KryptonCustomPaletteBaseActionList(KryptonCustomPaletteBaseDesigner owner)
             : base(owner.Component)
         {
             // Remember the panel instance
@@ -33,9 +36,11 @@ namespace Krypton.Toolkit
             // Cache service used to notify when a property has changed
             _service = (IComponentChangeService)GetService(typeof(IComponentChangeService));
         }
+
         #endregion
 
         #region Public Override
+
         /// <summary>
         /// Returns the collection of DesignerActionItem objects contained in the list.
         /// </summary>
@@ -60,9 +65,11 @@ namespace Krypton.Toolkit
 
             return actions;
         }
+
         #endregion
 
         #region Implementation
+
         private void OnResetClick(object sender, EventArgs e)
         {
             if (_palette != null)
@@ -97,18 +104,18 @@ namespace Krypton.Toolkit
         {
             if (_palette != null)
             {
-                _palette.Import();
+                _palette.ActionListImport();
                 _service.OnComponentChanged(_palette, null, null, null);
             }
         }
 
-        private void OnExportClick(object sender, EventArgs e) => _palette?.Export();
+        private void OnExportClick(object sender, EventArgs e) => _palette?.ActionListExport();
 
         private void OnUpgradePalette(object sender, EventArgs e)
         {
             try
             {
-                using var kofd = new KryptonOpenFileDialog
+                using var ofd = new OpenFileDialog /*KryptonOpenFileDialog*/
                 {
                     CheckFileExists = true,
                     CheckPathExists = true,
@@ -117,15 +124,16 @@ namespace Krypton.Toolkit
                     Title = @"Load Custom Palette"
                 };
 
-                string paletteFileName = (kofd.ShowDialog() == DialogResult.OK)
-                    ? kofd.FileName
+                string paletteFileName = (ofd.ShowDialog() == DialogResult.OK)
+                    ? ofd.FileName
                     : string.Empty;
+
                 if (string.IsNullOrWhiteSpace(paletteFileName))
                 {
                     return;
                 }
 
-                _palette.ImportWithUpgrade(File.OpenRead(paletteFileName));
+                _palette?.ImportWithUpgrade(File.OpenRead(paletteFileName));
             }
             catch (Exception exc)
             {
@@ -133,7 +141,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnExportToBinaryClick(object sender, EventArgs e) => DebugTools.NotImplemented(@"OnExportToBinaryClick", @"KryptonPaletteActionList", 105);
+        private void OnExportToBinaryClick(object sender, EventArgs e) => DebugTools.NotImplemented(@"OnExportToBinaryClick", @"KryptonCustomPaletteBaseActionList", 105);
 
         #endregion
     }
