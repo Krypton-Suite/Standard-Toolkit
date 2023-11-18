@@ -23,27 +23,48 @@ namespace Krypton.Ribbon
     public class KryptonRibbonGroupThemeComboBox : KryptonRibbonGroupComboBox
     {
         #region Instance Fields
+
         private int _selectedIndex;
+
+        private readonly int _defaultPaletteIndex = (int)PaletteMode.Microsoft365Blue;
+
+        private PaletteMode _defaultPalette;
+
         #endregion
 
         #region Public
+
+        /// <summary>Gets or sets the default palette mode.</summary>
+        /// <value>The default palette mode.</value>
+        [Category(@"Visuals")]
+        [Description(@"The default palette mode.")]
+        [DefaultValue(PaletteMode.Microsoft365Blue)]
+        public PaletteMode DefaultPalette
+        {
+            get => _defaultPalette;
+            set
+            {
+                _defaultPalette = value;
+                UpdateDefaultPaletteIndex(value);
+            }
+        }
 
         /// <summary>
         /// Gets and sets the ThemeSelectedIndex.
         /// </summary>
         [Category(@"Visuals")]
         [Description(@"Theme Selected Index. (Default = `Office 365 - Blue`)")]
-        [DefaultValue(33)]
+        [DefaultValue((int)PaletteMode.Microsoft365Blue)]
         public int ThemeSelectedIndex
         {
             get => _selectedIndex;
 
-            set => SelectedIndex = value;
+            private set => SelectedIndex = value;
         }
 
-        private void ResetThemeSelectedIndex() => _selectedIndex = 33;
+        private void ResetThemeSelectedIndex() => _selectedIndex = (int)PaletteMode.Microsoft365Blue;
 
-        private bool ShouldSerializeThemeSelectedIndex() => _selectedIndex != 33;
+        private bool ShouldSerializeThemeSelectedIndex() => _selectedIndex != (int)PaletteMode.Microsoft365Blue;
 
         /// <summary>
         /// Gets and sets the ThemeSelectedIndex.
@@ -75,13 +96,17 @@ namespace Krypton.Ribbon
             }
             var cnvtr = new PaletteModeConverter();
             Text = cnvtr.ConvertToString(PaletteMode.Microsoft365Blue)!;
-            _selectedIndex = SelectedIndex;
-            Debug.Assert(_selectedIndex == 33, "Microsoft365Blue needs to be at the 33rd index for backward compatibility");
+
+            _selectedIndex = SelectedIndex = _defaultPaletteIndex;
+            _defaultPalette = PaletteMode.Microsoft365Blue;
+            Debug.Assert(_selectedIndex == _defaultPaletteIndex, $@"Microsoft365Blue needs to be at the index position of {_defaultPaletteIndex} for backward compatibility");
         }
 
         #endregion
 
         #region Implementation
+
+        private void UpdateDefaultPaletteIndex(PaletteMode mode) => _selectedIndex = (int)mode;
 
         /// <summary>Returns the palette mode.</summary>
         /// <returns>

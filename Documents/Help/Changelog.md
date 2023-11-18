@@ -2,6 +2,14 @@
 
 =======
 
+## 2023-11-17 - Build 2311 (Patch 1) - November 2023
+* Resolved issue where an assertion is made when using `KryptonThemeComboBox` or `KryptonRibbonGroupThemeComboBox`
+* Resolved issue where `Sparkle` themes would crash when using certain `ButtonSpecs`
+* Resolved [#1174](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1174), Unable to adjust height of `KryptonForm` when `KryptonRibbon` is added
+    - _Note:_ This disables features from [#1117](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1117), until further testing is completed
+
+=======
+
 ## 2023-11-14 - Build 2311 - November 2023
 * Implemented [#1117](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1117),  Is it possible to have the KForm back colour as the KPanel colour
 * Resolved [#1153](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1153), Whilst investigating #1152 found that "Start drag" in certain application causes an exception.

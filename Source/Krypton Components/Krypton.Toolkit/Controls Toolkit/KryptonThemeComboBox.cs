@@ -20,26 +20,47 @@ namespace Krypton.Toolkit
 
         private int _selectedIndex;
 
+        private readonly int _defaultPaletteIndex = (int)PaletteMode.Microsoft365Blue;
+
+        private PaletteMode _defaultPalette;
+
         #endregion
 
         #region Public
+
+		/// <summary>Gets or sets the default palette mode.</summary>
+        /// <value>The default palette mode.</value>
+        [Category(@"Visuals")]
+        [Description(@"The default palette mode.")]
+        [DefaultValue(PaletteMode.Microsoft365Blue)]
+        public PaletteMode DefaultPalette
+        {
+            get => _defaultPalette;
+
+            set
+            {
+                _defaultPalette = value;
+
+                UpdateDefaultPaletteIndex(value);
+            }
+        }
 
         /// <summary>
         /// Gets and sets the ThemeSelectedIndex.
         /// </summary>
         [Category(@"Visuals")]
         [Description(@"Theme Selected Index. (Default = `Office 365 - Blue`)")]
-        [DefaultValue(33)]
+        [DefaultValue((int)PaletteMode.Microsoft365Blue)]
         public int ThemeSelectedIndex
         {
-            get => _selectedIndex;
+            get => _selectedIndex = _defaultPaletteIndex;
 
-            set => _selectedIndex = SelectedIndex = value;
+            private set => _selectedIndex = SelectedIndex = value;
         }
 
-        private void ResetThemeSelectedIndex() => _selectedIndex = 33;
+        private void ResetThemeSelectedIndex() => _selectedIndex = _defaultPaletteIndex;
 
-        private bool ShouldSerializeThemeSelectedIndex() => _selectedIndex != 33;
+        private bool ShouldSerializeThemeSelectedIndex() => _selectedIndex != _defaultPaletteIndex;
 
         /// <summary>
         /// Gets and sets the ThemeSelectedIndex.
@@ -69,12 +90,17 @@ namespace Krypton.Toolkit
                 Items.Add(kvp.Key);
             }
             Text = ThemeManager.ReturnPaletteModeAsString(PaletteMode.Microsoft365Blue);
-            _selectedIndex = SelectedIndex;
-            Debug.Assert(_selectedIndex == 33, "Microsoft365Blue needs to be at the 33rd index for backward compatibility");
+            _selectedIndex = SelectedIndex = _defaultPaletteIndex;
+
+            _defaultPalette = PaletteMode.Microsoft365Blue;
+
+            Debug.Assert(_selectedIndex == _defaultPaletteIndex, $@"Microsoft365Blue needs to be at the index position of {_defaultPaletteIndex} for backward compatibility");
         }
         #endregion
 
         #region Implementation
+
+        private void UpdateDefaultPaletteIndex(PaletteMode mode) => ThemeSelectedIndex = (int)mode + 1;
 
         /// <summary>Returns the palette mode.</summary>
         /// <returns>
@@ -164,6 +190,10 @@ namespace Krypton.Toolkit
             get => base.AutoCompleteCustomSource;
             set => base.AutoCompleteCustomSource = value;
         }
+
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public new int SelectedIndex { get => base.SelectedIndex; set => base.SelectedIndex = value; }
 
         #endregion
     }
