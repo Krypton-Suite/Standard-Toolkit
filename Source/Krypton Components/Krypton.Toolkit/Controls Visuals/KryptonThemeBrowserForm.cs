@@ -28,7 +28,7 @@ namespace Krypton.Toolkit
         /// <param name="windowTitle">The window title.</param>
         /// <param name="showImportButton">The show import button.</param>
         /// <param name="showSilentOption">The show silent option.</param>
-        public KryptonThemeBrowserForm(FormStartPosition startPosition = FormStartPosition.CenterScreen, int startIndex = 34, string? windowTitle = null, bool? showImportButton = null, bool? showSilentOption = null)
+        public KryptonThemeBrowserForm(FormStartPosition startPosition = FormStartPosition.CenterScreen, int? startIndex = (int)PaletteMode.Microsoft365Blue, string? windowTitle = null, bool? showImportButton = null, bool? showSilentOption = null)
         {
             InitializeComponent();
 
@@ -38,7 +38,7 @@ namespace Krypton.Toolkit
 
             _formStartPosition = startPosition;
 
-            _startIndex = startIndex;
+            _startIndex = startIndex ?? (int)PaletteMode.Microsoft365Blue;
 
             _windowTitle = windowTitle ?? KryptonManager.Strings.KryptonMiscellaneousThemeStrings.ThemeBrowserWindowTitle;
 

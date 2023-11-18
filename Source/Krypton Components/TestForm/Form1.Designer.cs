@@ -277,6 +277,7 @@
             this.kryptonButton3.Size = new System.Drawing.Size(184, 25);
             this.kryptonButton3.TabIndex = 9;
             this.kryptonButton3.Values.Text = "ThemeBrowser Form";
+            this.kryptonButton3.Click += new System.EventHandler(this.kryptonButton3_Click);
             // 
             // kbtnIntegratedToolbar
             // 
@@ -311,8 +312,8 @@
             this.kryptonThemeComboBox1.Location = new System.Drawing.Point(12, 12);
             this.kryptonThemeComboBox1.Name = "kryptonThemeComboBox1";
             this.kryptonThemeComboBox1.Size = new System.Drawing.Size(185, 21);
-            this.kryptonThemeComboBox1.StateCommon.ComboBox.Border.DrawBorders = ((Krypton.Toolkit.PaletteDrawBorders)((((Krypton.Toolkit.PaletteDrawBorders.Top | Krypton.Toolkit.PaletteDrawBorders.Bottom) 
-            | Krypton.Toolkit.PaletteDrawBorders.Left) 
+            this.kryptonThemeComboBox1.StateCommon.ComboBox.Border.DrawBorders = ((Krypton.Toolkit.PaletteDrawBorders)((((Krypton.Toolkit.PaletteDrawBorders.Top | Krypton.Toolkit.PaletteDrawBorders.Bottom)
+            | Krypton.Toolkit.PaletteDrawBorders.Left)
             | Krypton.Toolkit.PaletteDrawBorders.Right)));
             this.kryptonThemeComboBox1.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.kryptonThemeComboBox1.TabIndex = 4;
