@@ -59,7 +59,7 @@ namespace Krypton.Toolkit
 
             StartPosition = _formStartPosition;
 
-            klbThemeList.SelectedIndex = _startIndex;
+            //klbThemeList.SelectedIndex = _startIndex;
 
             klblDescription.Text = KryptonManager.Strings.KryptonMiscellaneousThemeStrings.ThemeBrowserDescription;
 
