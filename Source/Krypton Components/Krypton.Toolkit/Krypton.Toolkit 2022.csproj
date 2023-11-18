@@ -164,6 +164,11 @@
         <Compile Update="Rendering\RenderStandard.cs">
             <SubType>Component</SubType>
         </Compile>
+        <Compile Update="ResourceFiles\AboutToolkit\AboutToolkitImageResources.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>AboutToolkitImageResources.resx</DependentUpon>
+        </Compile>
         <Compile Update="ResourceFiles\Arrows\BlueArrowResources.Designer.cs">
             <DesignTime>True</DesignTime>
             <AutoGen>True</AutoGen>
@@ -595,6 +600,10 @@
         <EmbeddedResource Update="Properties\Resources.resx">
             <Generator>ResXFileCodeGenerator</Generator>
             <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="ResourceFiles\AboutToolkit\AboutToolkitImageResources.resx">
+          <Generator>ResXFileCodeGenerator</Generator>
+          <LastGenOutput>AboutToolkitImageResources.Designer.cs</LastGenOutput>
         </EmbeddedResource>
         <EmbeddedResource Update="ResourceFiles\Arrows\BlueArrowResources.resx">
             <Generator>ResXFileCodeGenerator</Generator>
