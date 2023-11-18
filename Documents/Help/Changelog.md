@@ -6,6 +6,8 @@
 * New adjusting the size of a `KryptonComboBox` also changes the `DropDownWidth`
     - Note: The `DropDownWidth` can still be set independently from the `Size` property
 * Resolved [#1091](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1091), Krypton File Dialogs Missing Buttons
+* Implemented [#1009](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1009), Powered by Krypton Toolkit button
+    - Use `KryptonAboutToolkit.Show();` to invoke
 * New `KryptonLanguageManager` is now integrated into `KryptonManager` as `ToolkitStrings`
 * Removed support for .NET 7, in accordance with its official release cadence
 * Support for .NET 9
