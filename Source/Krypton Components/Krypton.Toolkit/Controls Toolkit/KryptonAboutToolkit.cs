@@ -9,7 +9,7 @@
 
 namespace Krypton.Toolkit
 {
-    /// <summary>The public interface to the <see cref="KryptonAboutToolkitForm"/> class.</summary>
+    /// <summary>The public interface to the <see cref="VisualKryptonAboutToolkitForm"/> class.</summary>
     [ToolboxItem(false)]
     [DesignerCategory(@"code")]
     public static class KryptonAboutToolkit
@@ -43,7 +43,7 @@ namespace Krypton.Toolkit
 
         private static DialogResult ShowCore(KryptonAboutToolkitData aboutToolkitData)
         {
-            using var kat = new KryptonAboutToolkitForm(aboutToolkitData);
+            using var kat = new VisualKryptonAboutToolkitForm(aboutToolkitData);
 
             return kat.ShowDialog();
         }

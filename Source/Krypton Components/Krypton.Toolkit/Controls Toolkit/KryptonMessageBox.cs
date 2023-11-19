@@ -380,7 +380,7 @@ namespace Krypton.Toolkit
             IWin32Window? showOwner = ValidateOptions(owner, options, helpInfo);
 
             // Show message box window as a modal dialog and then dispose of it afterwards
-            using var kmb = new KryptonMessageBoxForm(showOwner, text, caption, buttons, icon,
+            using var kmb = new VisualKryptonMessageBoxForm(showOwner, text, caption, buttons, icon,
                                                       defaultButton, options, helpInfo, showCtrlCopy, showHelpButton,
                                                       showActionButton, actionButtonText,
                                                       actionButtonCommand, applicationImage, applicationPath,

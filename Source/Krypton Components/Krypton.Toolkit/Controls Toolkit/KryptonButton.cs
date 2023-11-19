@@ -698,7 +698,7 @@ namespace Krypton.Toolkit
                 catch (InvalidEnumArgumentException)
                 {
                     // Is it https://github.com/Krypton-Suite/Standard-Toolkit/issues/728
-                    if (owner is KryptonMessageBoxForm)
+                    if (owner is VisualKryptonMessageBoxForm)
                     {
                         // need to gain access to `dialogResult` and set it forcefully
                         FieldInfo? fi = typeof(Form).GetField("dialogResult", BindingFlags.NonPublic | BindingFlags.Instance);

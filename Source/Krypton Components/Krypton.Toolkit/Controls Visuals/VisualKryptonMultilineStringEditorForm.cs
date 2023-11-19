@@ -8,7 +8,7 @@
 
 namespace Krypton.Toolkit
 {
-    public partial class KryptonMultilineStringEditorForm : KryptonForm
+    internal partial class VisualKryptonMultilineStringEditorForm : KryptonForm
     {
         #region Instance Fields
 
@@ -16,40 +16,17 @@ namespace Krypton.Toolkit
 
         private string _headerText;
 
+        private string _windowTitle;
+
         private string[]? _contents;
 
         private StringCollection? _collection;
 
         #endregion
 
-        #region Public
-
-        /// <summary>Gets or sets a value indicating whether to use a <see cref="KryptonRichTextBox"/> in place of a multiline <see cref="KryptonTextBox"/>.</summary>
-        /// <value><c>true</c> if [use rich text box]; otherwise, <c>false</c>.</value>
-        [Category(@"Visuals"), DefaultValue(false), Description(@"Use a KryptonRichTextBox in place of a multiline KryptonTextBox.")]
-        public bool UseRichTextBox { get => _useRichTextBox; set { _useRichTextBox = value; Invalidate(); } }
-
-        /// <summary>Gets or sets the header text.</summary>
-        /// <value>The header text.</value>
-        [Category(@"Visuals"), DefaultValue(@"Enter the strings in the collection (one per line):"), Description(@"The text of the header label.")]
-        public string HeaderText { get => _headerText; set { _headerText = value; Invalidate(); } }
-
-        /// <summary>Gets the contents of the text field.</summary>
-        /// <value>The contents of the text field.</value>
-        [Category(@"Data"),
-         DefaultValue(null),
-         Description(@"The contents of the text field.")]
-        public string[]? Contents
-        {
-            get => _contents;
-            private set => _contents = value;
-        }
-
-        #endregion
-
         #region Identity
 
-        public KryptonMultilineStringEditorForm()
+        public VisualKryptonMultilineStringEditorForm()
         {
             InitializeComponent();
 
@@ -58,15 +35,27 @@ namespace Krypton.Toolkit
             SetupControlsText();
         }
 
-        public KryptonMultilineStringEditorForm(string[]? contents, StringCollection? collection = null, bool? useRichTextBox = true, string? headerText = @"Enter the strings in the collection (one per line):", string windowTitle = @"String Collection Editor")
+        public VisualKryptonMultilineStringEditorForm(string[]? contents, StringCollection? collection, bool? useRichTextBox, string? headerText, string? windowTitle)
         {
             InitializeComponent();
 
-            SetupVariables(contents, collection, useRichTextBox, headerText, windowTitle);
+            _contents = contents ?? new string[] { string.Empty };
+
+            _collection = collection ?? new StringCollection();
+
+            _useRichTextBox = useRichTextBox ?? true;
+
+            _headerText = headerText ?? @"Enter the strings in the collection (one per line):";
+
+            _windowTitle = windowTitle ?? @"String Collection Editor";
+
+            klblHeader.Text = _headerText;
+
+            Text = _windowTitle;
 
             SetupControlsText();
 
-            UpdateInput(contents, collection);
+            UpdateInput(_contents, _collection);
         }
 
         #endregion
@@ -183,7 +172,7 @@ namespace Krypton.Toolkit
                 foreach (var line in krtbContents.Lines)
                 {
                     // TODO: This is not right.. It will only have the last line it !
-                    Contents = new string[]
+                    _contents = new string[]
                     {
                         line
                     };
@@ -194,7 +183,7 @@ namespace Krypton.Toolkit
                 foreach (var line in ktxtStringCollection.Lines)
                 {
                     // TODO: This is not right.. It will only have the last line it !
-                    Contents = new string[]
+                    _contents = new string[]
                     {
                         line
                     };
@@ -224,7 +213,7 @@ namespace Krypton.Toolkit
 
             IWin32Window? showOwner = owner ?? FromHandle(PI.GetActiveWindow());
 
-            using var kmse = new KryptonMultilineStringEditorForm(input, null, useRichTextBox, headerText, windowTitle);
+            using var kmse = new VisualKryptonMultilineStringEditorForm(input, null, useRichTextBox, headerText, windowTitle);
 
             kmse.StartPosition = showOwner == null ? FormStartPosition.CenterParent : FormStartPosition.CenterScreen;
 
@@ -239,7 +228,7 @@ namespace Krypton.Toolkit
 
             IWin32Window showOwner = owner ?? FromHandle(PI.GetActiveWindow());
 
-            using var kmse = new KryptonMultilineStringEditorForm(null, input, useRichTextBox, headerText, windowTitle);
+            using var kmse = new VisualKryptonMultilineStringEditorForm(null, input, useRichTextBox, headerText, windowTitle);
 
             kmse.StartPosition = showOwner == null ? FormStartPosition.CenterParent : FormStartPosition.CenterScreen;
 

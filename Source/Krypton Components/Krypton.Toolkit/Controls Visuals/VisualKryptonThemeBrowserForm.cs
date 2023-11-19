@@ -8,7 +8,7 @@
 
 namespace Krypton.Toolkit
 {
-    internal partial class KryptonThemeBrowserForm : KryptonForm
+    internal partial class VisualKryptonThemeBrowserForm : KryptonForm
     {
         #region Instance Fields
 
@@ -22,13 +22,13 @@ namespace Krypton.Toolkit
 
         #region Identity
 
-        /// <summary>Initializes a new instance of the <see cref="KryptonThemeBrowserForm" /> class.</summary>
+        /// <summary>Initializes a new instance of the <see cref="VisualKryptonThemeBrowserForm" /> class.</summary>
         /// <param name="startPosition">The start position.</param>
         /// <param name="startIndex">The start index.</param>
         /// <param name="windowTitle">The window title.</param>
         /// <param name="showImportButton">The show import button.</param>
         /// <param name="showSilentOption">The show silent option.</param>
-        public KryptonThemeBrowserForm(FormStartPosition startPosition = FormStartPosition.CenterScreen, int? startIndex = (int)PaletteMode.Microsoft365Blue, string? windowTitle = null, bool? showImportButton = null, bool? showSilentOption = null)
+        public VisualKryptonThemeBrowserForm(FormStartPosition startPosition = FormStartPosition.CenterScreen, int? startIndex = (int)PaletteMode.Microsoft365Blue, string? windowTitle = null, bool? showImportButton = null, bool? showSilentOption = null)
         {
             InitializeComponent();
 

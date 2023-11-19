@@ -9,7 +9,7 @@
 
 namespace Krypton.Toolkit
 {
-    internal partial class KryptonAboutToolkitForm : KryptonForm
+    internal partial class VisualKryptonAboutToolkitForm : KryptonForm
     {
         #region Static Fields
 
@@ -87,9 +87,9 @@ namespace Krypton.Toolkit
 
         #region Identity
 
-        /// <summary>Initializes a new instance of the <see cref="KryptonAboutToolkitForm" /> class.</summary>
+        /// <summary>Initializes a new instance of the <see cref="VisualKryptonAboutToolkitForm" /> class.</summary>
         /// <param name="aboutToolkitData">The about toolkit data.</param>
-        public KryptonAboutToolkitForm(KryptonAboutToolkitData aboutToolkitData)
+        public VisualKryptonAboutToolkitForm(KryptonAboutToolkitData aboutToolkitData)
         {
             InitializeComponent();
 
