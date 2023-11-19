@@ -123,7 +123,8 @@
             this.kryptonButton8.Name = "kryptonButton8";
             this.kryptonButton8.Size = new System.Drawing.Size(183, 25);
             this.kryptonButton8.TabIndex = 32;
-            this.kryptonButton8.Values.Text = "Powered by Control";
+            this.kryptonButton8.Values.Text = "About Box";
+            this.kryptonButton8.Click += new System.EventHandler(this.kryptonButton8_Click);
             // 
             // kcbtnSizableToolWindow
             // 
@@ -232,6 +233,7 @@
             this.kryptonButton4.Size = new System.Drawing.Size(185, 25);
             this.kryptonButton4.TabIndex = 14;
             this.kryptonButton4.Values.Text = "Form 4";
+            this.kryptonButton4.Click += new System.EventHandler(this.kryptonButton4_Click);
             // 
             // kbtnVisualStudio2010Theme
             // 
@@ -240,6 +242,7 @@
             this.kbtnVisualStudio2010Theme.Size = new System.Drawing.Size(184, 25);
             this.kbtnVisualStudio2010Theme.TabIndex = 13;
             this.kbtnVisualStudio2010Theme.Values.Text = "Visual Studio 2010 Theme (Form5)";
+            this.kbtnVisualStudio2010Theme.Click += new System.EventHandler(this.kbtnVisualStudio2010Theme_Click);
             // 
             // kchkUseProgressValueAsText
             // 
@@ -248,6 +251,7 @@
             this.kchkUseProgressValueAsText.Size = new System.Drawing.Size(165, 20);
             this.kchkUseProgressValueAsText.TabIndex = 12;
             this.kchkUseProgressValueAsText.Values.Text = "Use progress value as text";
+            this.kchkUseProgressValueAsText.CheckedChanged += new System.EventHandler(this.kchkUseProgressValueAsText_CheckedChanged);
             // 
             // kryptonProgressBar1
             // 
@@ -269,6 +273,7 @@
             this.ktrkProgressValues.Size = new System.Drawing.Size(388, 33);
             this.ktrkProgressValues.TabIndex = 10;
             this.ktrkProgressValues.TickStyle = System.Windows.Forms.TickStyle.Both;
+            this.ktrkProgressValues.ValueChanged += new System.EventHandler(this.ktrkProgressValues_ValueChanged);
             // 
             // kryptonButton3
             // 
@@ -286,6 +291,7 @@
             this.kbtnIntegratedToolbar.Size = new System.Drawing.Size(184, 25);
             this.kbtnIntegratedToolbar.TabIndex = 8;
             this.kbtnIntegratedToolbar.Values.Text = "Integrated Toolbar (Form5)";
+            this.kbtnIntegratedToolbar.Click += new System.EventHandler(this.kbtnIntegratedToolbar_Click);
             // 
             // kbtnTestMessagebox
             // 
@@ -294,6 +300,7 @@
             this.kbtnTestMessagebox.Size = new System.Drawing.Size(185, 25);
             this.kbtnTestMessagebox.TabIndex = 7;
             this.kbtnTestMessagebox.Values.Text = "Test Messagebox";
+            this.kbtnTestMessagebox.Click += new System.EventHandler(this.kbtnTestMessagebox_Click);
             // 
             // kryptonButton2
             // 
@@ -329,6 +336,7 @@
             this.kryptonButton1.Size = new System.Drawing.Size(185, 25);
             this.kryptonButton1.TabIndex = 5;
             this.kryptonButton1.Values.Text = "Button (form2)";
+            this.kryptonButton1.Click += new System.EventHandler(this.kryptonButton1_Click);
             // 
             // kryptonContextMenu1
             // 
