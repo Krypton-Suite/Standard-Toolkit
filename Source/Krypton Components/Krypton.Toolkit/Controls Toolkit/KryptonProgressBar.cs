@@ -385,7 +385,6 @@ namespace Krypton.Toolkit
             }
         }
 
-
         /// <summary>
         /// Gets or sets the text associated with this control. 
         /// </summary>
@@ -610,15 +609,19 @@ namespace Krypton.Toolkit
                 // to draw from the border part of the renderer. It will return a path that is  //
                 // appropriate for use drawing within the border settings.                      //
                 //////////////////////////////////////////////////////////////////////////////////
-                using (GraphicsPath path = renderer.RenderStandardBorder.GetBackPath(renderContext,
+                using (GraphicsPath fullLozengePath = renderer.RenderStandardBorder.GetBackPath(renderContext,
                            ClientRectangle,
-                    barPaletteState.PaletteBorder,
-                    Orientation,
-                    barState))
+                           barPaletteState.PaletteBorder,
+                           Orientation,
+                           barState))
                 {
                     // Ask renderer to draw the background
-                    _mementoBackProgressBar = renderer.RenderStandardBack.DrawBack(renderContext, ClientRectangle, path, barPaletteState.PaletteBack,
+                    _mementoBackProgressBar = renderer.RenderStandardBack.DrawBack(renderContext, ClientRectangle,
+                        fullLozengePath, barPaletteState.PaletteBack,
                         Orientation, barState, _mementoBackProgressBar);
+                    using var region = new Region(fullLozengePath);
+                    // Set the clipping region, So that "Small" rounded values do not escape the draw area
+                    e.Graphics.SetClip(region, CombineMode.Replace);
                 }
 
                 // Create a rectangle inset
@@ -701,14 +704,14 @@ namespace Krypton.Toolkit
                     }
                 }
 
-                using (GraphicsPath path = renderer.RenderStandardBorder.GetBackPath(renderContext,
+                using (GraphicsPath valueLozengePath = renderer.RenderStandardBorder.GetBackPath(renderContext,
                            innerRect,
                            barPaletteState.PaletteBorder,
                            Orientation,
                            barState))
                 {
-                    // Ask renderer to draw the background
-                    _mementoBackProgressValue = renderer.RenderStandardBack.DrawBack(renderContext, innerRect, path, _stateBackValue,
+                    // Ask renderer to Fill the Progress lozenge
+                    _mementoBackProgressValue = renderer.RenderStandardBack.DrawBack(renderContext, innerRect, valueLozengePath, _stateBackValue,
                         Orientation, barState, _mementoBackProgressValue);
                 }
 
@@ -808,14 +811,9 @@ namespace Krypton.Toolkit
 
         private void UpdateTextWithValue(bool value)
         {
-            if (value)
-            {
-                Text = $@"{Value}%";
-            }
-            else
-            {
-                Text = string.Empty;
-            }
+            Text = value 
+                ? $@"{Value}%" 
+                : string.Empty;
         }
 
         #endregion
