@@ -3,6 +3,7 @@
 =======
 
 ## 2024-11-xx - Build 2411 - November 2024
+* Resolved [#1169](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1169), Button Spec Krypton Context Menu (Canary)
 * New adjusting the size of a `KryptonComboBox` also changes the `DropDownWidth`
     - Note: The `DropDownWidth` can still be set independently from the `Size` property
 * Resolved [#1091](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1091), Krypton File Dialogs Missing Buttons
