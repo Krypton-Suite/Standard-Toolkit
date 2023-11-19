@@ -1,6 +1,6 @@
 ﻿namespace Krypton.Toolkit
 {
-    partial class KryptonAboutToolkitForm
+    partial class VisualKryptonAboutToolkitForm
     {
         /// <summary>
         /// Required designer variable.

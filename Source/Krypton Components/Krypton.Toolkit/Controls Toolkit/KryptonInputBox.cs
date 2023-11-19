@@ -62,7 +62,7 @@
             Color cueColour,
             Font? cueTypeface,
             bool usePasswordOption) =>
-            KryptonInputBoxForm.InternalShow(owner, prompt, caption, defaultResponse, cueText, cueColour,
+            VisualKryptonInputBoxForm.InternalShow(owner, prompt, caption, defaultResponse, cueText, cueColour,
                 cueTypeface, usePasswordOption);
 
         #endregion

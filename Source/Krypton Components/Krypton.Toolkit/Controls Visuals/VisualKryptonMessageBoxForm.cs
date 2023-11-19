@@ -16,7 +16,7 @@ using ContentAlignment = System.Drawing.ContentAlignment;
 
 namespace Krypton.Toolkit
 {
-    internal partial class KryptonMessageBoxForm : KryptonForm
+    internal partial class VisualKryptonMessageBoxForm : KryptonForm
     {
         #region Static Fields
         private const int GAP = 10;
@@ -55,15 +55,15 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Identity
-        static KryptonMessageBoxForm() => OS_MAJOR_VERSION = Environment.OSVersion.Version.Major;
+        static VisualKryptonMessageBoxForm() => OS_MAJOR_VERSION = Environment.OSVersion.Version.Major;
 
-        public KryptonMessageBoxForm()
+        public VisualKryptonMessageBoxForm()
         {
             InitializeComponent();
         }
 
 
-        internal KryptonMessageBoxForm(IWin32Window? showOwner, string text, string caption,
+        internal VisualKryptonMessageBoxForm(IWin32Window? showOwner, string text, string caption,
                                        KryptonMessageBoxButtons buttons,
                                        KryptonMessageBoxIcon icon,
                                        KryptonMessageBoxDefaultButton defaultButton,

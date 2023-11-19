@@ -379,13 +379,11 @@ namespace Krypton.Toolkit
             // Never show a context menu in design mode
             if (!CommonHelper.DesignMode(Manager.Control))
             {
-                var showMenu = false;
-                var performDefaultClick = true;
-                if (ButtonSpec is ButtonSpecAny { ShowDrop: true })
-                {
-                    showMenu = ViewButton?.SplitRectangle.Contains(e.Location) ?? false;
-                    performDefaultClick = !showMenu;
-                }
+                // ButtonSpec's used to drop menu's if they had a context menu;
+                // BUT; Disable default action, if this is a drop button and it is clicked
+                bool performDefaultClick = !(ButtonSpec is ButtonSpecAny { ShowDrop: true }
+                                             && ViewButton != null
+                                             && ViewButton.SplitRectangle.Contains(e.Location));
 
                 if (performDefaultClick)
                 {
@@ -393,7 +391,7 @@ namespace Krypton.Toolkit
                     ButtonSpec.PerformClick(e);
                 }
 
-                if (showMenu)
+                // ToDo: Is this 'else' or remove brackets?
                 {
                     // Does the button spec define a krypton context menu?
                     if ((ButtonSpec.KryptonContextMenu != null) && (ViewButton != null))
@@ -444,7 +442,7 @@ namespace Krypton.Toolkit
 
         private void OnKryptonContextMenuClosed(object sender, ToolStripDropDownClosedEventArgs e)
         {
-            // Unhook from context menu event so it could garbage collected in the future
+            // Unhook from context menu event, so that it can garbage collected in the future
             var kcm = (KryptonContextMenu)sender;
             kcm.Closed -= OnKryptonContextMenuClosed;
 
