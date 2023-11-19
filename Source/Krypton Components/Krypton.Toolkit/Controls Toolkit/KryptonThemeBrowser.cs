@@ -71,10 +71,10 @@ namespace Krypton.Toolkit
                                      int startIndex, string? windowTitle,
                                      bool? showImportButton, bool? showSilentOption)
         {
-            //using var ktb = new KryptonThemeBrowserForm(startPosition, startIndex, windowTitle, showImportButton,
-            //    showSilentOption);
+            using var ktb = new KryptonThemeBrowserForm(startPosition, startIndex, windowTitle, showImportButton,
+                showSilentOption);
 
-            //ktb.ShowDialog();
+            ktb.ShowDialog();
         }
 
         #endregion

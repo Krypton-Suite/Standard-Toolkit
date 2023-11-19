@@ -2,6 +2,19 @@
 
 =======
 
+## 2024-11-xx - Build 2411 - November 2024
+* New adjusting the size of a `KryptonComboBox` also changes the `DropDownWidth`
+    - Note: The `DropDownWidth` can still be set independently from the `Size` property
+* Resolved [#1091](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1091), Krypton File Dialogs Missing Buttons
+* Implemented [#1009](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1009), Powered by Krypton Toolkit button
+    - Use `KryptonAboutToolkit.Show();` to invoke
+* New `KryptonLanguageManager` is now integrated into `KryptonManager` as `ToolkitStrings`
+* Removed support for .NET 7, in accordance with its official release cadence
+* Support for .NET 9
+* Version bump `80.xx.xx.xx` -> `90.xx.xx.xx`
+
+=======
+
 ## 2023-11-17 - Build 2311 (Patch 1) - November 2023
 * Resolved issue where an assertion is made when using `KryptonThemeComboBox` or `KryptonRibbonGroupThemeComboBox`
 * Resolved issue where `Sparkle` themes would crash when using certain `ButtonSpecs`

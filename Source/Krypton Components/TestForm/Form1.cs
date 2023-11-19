@@ -95,9 +95,7 @@ namespace TestForm
 
         private void kryptonButton3_Click(object sender, EventArgs e)
         {
-            KryptonThemeBrowserForm themeBrowser = new KryptonThemeBrowserForm();
-
-            themeBrowser.ShowDialog();
+            KryptonThemeBrowser.Show();
         }
 
         private void kchkUseProgressValueAsText_CheckedChanged(object sender, EventArgs e)
@@ -124,9 +122,9 @@ namespace TestForm
 
         private void kryptonButton5_Click(object sender, EventArgs e)
         {
-            Form6 poweredByControl = new Form6();
+            KryptonAboutToolkitData data = new KryptonAboutToolkitData();
 
-            poweredByControl.Show();
+            KryptonAboutToolkit.Show(data);
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -146,6 +144,13 @@ namespace TestForm
         private void kryptonButton7_Click(object sender, EventArgs e)
         {
             kryptonCustomPaletteBase1.Export();
+        }
+
+        private void kryptonThemeComboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            KryptonMessageBox.Show(
+                $"Selected Theme Index: {kryptonThemeComboBox1.SelectedIndex} - Theme Name: {kryptonThemeComboBox1.Text}",
+                "Test", KryptonMessageBoxButtons.OK, KryptonMessageBoxIcon.Information);
         }
     }
 }
