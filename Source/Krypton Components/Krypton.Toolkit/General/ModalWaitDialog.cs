@@ -26,6 +26,8 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Instance Fields
+
+        private readonly bool _showProgressBar;
         private bool _startTimestamped;
         private DateTime _startTimestamp;
         private DateTime _spinTimestamp;
@@ -36,9 +38,11 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Initialize a new instance of the ModalWaitDialog class. 
         /// </summary>
-        public ModalWaitDialog()
+        public ModalWaitDialog(bool? showProgressBar)
         {
             InitializeComponent();
+
+            _showProgressBar = showProgressBar ?? false;
 
             // Remove redraw flicker by using double buffering
             SetStyle(ControlStyles.DoubleBuffer |

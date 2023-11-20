@@ -446,11 +446,10 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="align">Edge of buttons caller is interested in searching.</param>
         /// <returns>ViewDrawButton reference; otherwise false.</returns>
-        public virtual ViewDrawButton? GetFirstVisibleViewButton(PaletteRelativeEdgeAlign align) => (from specView in _specLookup.Values
-                                                                                                     where specView.ViewCenter.Visible && specView.ViewButton.Enabled
-                                                                                                     where specView.ButtonSpec.Edge == align
-                                                                                                     select specView.ViewButton
-                    )
+        public virtual ViewDrawButton? GetFirstVisibleViewButton(PaletteRelativeEdgeAlign align) => (_specLookup.Values
+                .Where(specView => specView.ViewButton != null && specView.ViewCenter.Visible && specView.ViewButton.Enabled)
+                .Where(specView => specView.ButtonSpec.Edge == align)
+                .Select(specView => specView.ViewButton))
                 .FirstOrDefault();
 
         /// <summary>

@@ -13,7 +13,7 @@
 namespace Krypton.Toolkit
 {
     /// <summary>
-    /// Implement storage but remove accesss to the non short text properties.
+    /// Implement storage but remove access to the non short text properties.
     /// </summary>
     public class PaletteContentJustShortText : PaletteContentJustText
     {
@@ -40,8 +40,8 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="inherit">Source for inheriting defaulted values.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public PaletteContentJustShortText(IPaletteContent inherit,
-                                           NeedPaintHandler needPaint)
+        public PaletteContentJustShortText(IPaletteContent? inherit,
+                                           NeedPaintHandler? needPaint)
             : base(inherit, needPaint)
         {
         }

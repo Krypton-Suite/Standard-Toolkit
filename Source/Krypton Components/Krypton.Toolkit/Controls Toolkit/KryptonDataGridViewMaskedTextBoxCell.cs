@@ -414,7 +414,7 @@ namespace Krypton.Toolkit
                 dataGridViewCell.TextMaskFormat = TextMaskFormat;
                 dataGridViewCell.UseSystemPasswordChar = UseSystemPasswordChar;
             }
-            return dataGridViewCell;
+            return dataGridViewCell!;
         }
 
         /// <summary>
@@ -424,7 +424,7 @@ namespace Krypton.Toolkit
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         public override void DetachEditingControl()
         {
-            DataGridView dataGridView = DataGridView;
+            DataGridView? dataGridView = DataGridView;
             if (dataGridView?.EditingControl == null)
             {
                 throw new InvalidOperationException("Cell is detached or its grid has no editing control.");
@@ -548,7 +548,7 @@ namespace Krypton.Toolkit
 
         #region Private
 
-        private KryptonDataGridViewMaskedTextBoxEditingControl EditingMaskedTextBox => DataGridView.EditingControl as KryptonDataGridViewMaskedTextBoxEditingControl;
+        private KryptonDataGridViewMaskedTextBoxEditingControl? EditingMaskedTextBox => DataGridView.EditingControl as KryptonDataGridViewMaskedTextBoxEditingControl;
 
         private Rectangle GetAdjustedEditingControlBounds(Rectangle editingControlBounds,
             DataGridViewCellStyle cellStyle)
@@ -591,8 +591,8 @@ namespace Krypton.Toolkit
         }
 
         private bool OwnsEditingMaskedTextBox(int rowIndex) =>
-            rowIndex != -1 
-            && DataGridView is { EditingControl: KryptonDataGridViewMaskedTextBoxEditingControl control } 
+            rowIndex != -1
+            && DataGridView is { EditingControl: KryptonDataGridViewMaskedTextBoxEditingControl control }
             && (rowIndex == ((IDataGridViewEditingControl)control).EditingControlRowIndex);
 
         private static bool PartPainted(DataGridViewPaintParts paintParts, DataGridViewPaintParts paintPart) => (paintParts & paintPart) != 0;
@@ -605,7 +605,7 @@ namespace Krypton.Toolkit
             _promptChar = value;
             if (OwnsEditingMaskedTextBox(rowIndex))
             {
-                EditingMaskedTextBox.PromptChar = value;
+                EditingMaskedTextBox!.PromptChar = value;
             }
         }
 
@@ -614,7 +614,7 @@ namespace Krypton.Toolkit
             _allowPromptAsInput = value;
             if (OwnsEditingMaskedTextBox(rowIndex))
             {
-                EditingMaskedTextBox.AllowPromptAsInput = value;
+                EditingMaskedTextBox!.AllowPromptAsInput = value;
             }
         }
 
@@ -623,7 +623,7 @@ namespace Krypton.Toolkit
             _asciiOnly = value;
             if (OwnsEditingMaskedTextBox(rowIndex))
             {
-                EditingMaskedTextBox.AsciiOnly = value;
+                EditingMaskedTextBox!.AsciiOnly = value;
             }
         }
 
@@ -632,7 +632,7 @@ namespace Krypton.Toolkit
             _beepOnError = value;
             if (OwnsEditingMaskedTextBox(rowIndex))
             {
-                EditingMaskedTextBox.BeepOnError = value;
+                EditingMaskedTextBox!.BeepOnError = value;
             }
         }
 
@@ -641,7 +641,7 @@ namespace Krypton.Toolkit
             _cutCopyMaskFormat = value;
             if (OwnsEditingMaskedTextBox(rowIndex))
             {
-                EditingMaskedTextBox.CutCopyMaskFormat = value;
+                EditingMaskedTextBox!.CutCopyMaskFormat = value;
             }
         }
 
@@ -650,7 +650,7 @@ namespace Krypton.Toolkit
             _hidePromptOnLeave = value;
             if (OwnsEditingMaskedTextBox(rowIndex))
             {
-                EditingMaskedTextBox.HidePromptOnLeave = value;
+                EditingMaskedTextBox!.HidePromptOnLeave = value;
             }
         }
 
@@ -659,7 +659,7 @@ namespace Krypton.Toolkit
             _hideSelection = value;
             if (OwnsEditingMaskedTextBox(rowIndex))
             {
-                EditingMaskedTextBox.HideSelection = value;
+                EditingMaskedTextBox!.HideSelection = value;
             }
         }
 
@@ -668,7 +668,7 @@ namespace Krypton.Toolkit
             _insertKeyMode = value;
             if (OwnsEditingMaskedTextBox(rowIndex))
             {
-                EditingMaskedTextBox.InsertKeyMode = value;
+                EditingMaskedTextBox!.InsertKeyMode = value;
             }
         }
 
@@ -677,7 +677,7 @@ namespace Krypton.Toolkit
             _mask = value;
             if (OwnsEditingMaskedTextBox(rowIndex))
             {
-                EditingMaskedTextBox.Mask = value;
+                EditingMaskedTextBox!.Mask = value;
             }
         }
 
@@ -686,7 +686,7 @@ namespace Krypton.Toolkit
             _passwordChar = value;
             if (OwnsEditingMaskedTextBox(rowIndex))
             {
-                EditingMaskedTextBox.PasswordChar = value;
+                EditingMaskedTextBox!.PasswordChar = value;
             }
         }
 
@@ -695,7 +695,7 @@ namespace Krypton.Toolkit
             _rejectInputOnFirstFailure = value;
             if (OwnsEditingMaskedTextBox(rowIndex))
             {
-                EditingMaskedTextBox.RejectInputOnFirstFailure = value;
+                EditingMaskedTextBox!.RejectInputOnFirstFailure = value;
             }
         }
 
@@ -704,7 +704,7 @@ namespace Krypton.Toolkit
             _resetOnPrompt = value;
             if (OwnsEditingMaskedTextBox(rowIndex))
             {
-                EditingMaskedTextBox.ResetOnPrompt = value;
+                EditingMaskedTextBox!.ResetOnPrompt = value;
             }
         }
 
@@ -713,7 +713,7 @@ namespace Krypton.Toolkit
             _resetOnSpace = value;
             if (OwnsEditingMaskedTextBox(rowIndex))
             {
-                EditingMaskedTextBox.ResetOnSpace = value;
+                EditingMaskedTextBox!.ResetOnSpace = value;
             }
         }
 
@@ -722,7 +722,7 @@ namespace Krypton.Toolkit
             _skipLiterals = value;
             if (OwnsEditingMaskedTextBox(rowIndex))
             {
-                EditingMaskedTextBox.SkipLiterals = value;
+                EditingMaskedTextBox!.SkipLiterals = value;
             }
         }
 
@@ -731,7 +731,7 @@ namespace Krypton.Toolkit
             _textMaskFormat = value;
             if (OwnsEditingMaskedTextBox(rowIndex))
             {
-                EditingMaskedTextBox.TextMaskFormat = value;
+                EditingMaskedTextBox!.TextMaskFormat = value;
             }
         }
 
@@ -740,7 +740,7 @@ namespace Krypton.Toolkit
             _useSystemPasswordChar = value;
             if (OwnsEditingMaskedTextBox(rowIndex))
             {
-                EditingMaskedTextBox.UseSystemPasswordChar = value;
+                EditingMaskedTextBox!.UseSystemPasswordChar = value;
             }
         }
 

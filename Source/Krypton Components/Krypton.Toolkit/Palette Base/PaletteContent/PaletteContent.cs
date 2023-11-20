@@ -86,7 +86,7 @@ namespace Krypton.Toolkit
             Debug.Assert(inherit != null);
 
             // Remember inheritance
-            _inherit = inherit;
+            _inherit = inherit!;
 
             // Store the provided paint notification delegate
             NeedPaint = needPaint;
@@ -127,7 +127,7 @@ namespace Krypton.Toolkit
             // Get the values and set into storage
             Draw = GetContentDraw(state);
             DrawFocus = GetContentDrawFocus(state);
-            Image.ImageH = GetContentImageH(state);
+            Image!.ImageH = GetContentImageH(state);
             Image.ImageV = GetContentImageV(state);
             Image.Effect = GetContentImageEffect(state);
             Image.ImageColorMap = GetContentImageColorMap(state);
@@ -373,7 +373,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>PaletteTextTrim value.</returns>
-        public PaletteTextTrim GetContentShortTextTrim(PaletteState state) => 
+        public PaletteTextTrim GetContentShortTextTrim(PaletteState state) =>
             _shortText.Trim != PaletteTextTrim.Inherit
             ? _shortText.Trim
             : _inherit.GetContentShortTextTrim(state);
@@ -419,7 +419,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public Color GetContentShortTextColor1(PaletteState state) => 
+        public Color GetContentShortTextColor1(PaletteState state) =>
             ShortText.Color1 != Color.Empty
             ? ShortText.Color1
             : _inherit.GetContentShortTextColor1(state);
@@ -558,7 +558,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>RelativeAlignment value.</returns>
-        public PaletteRelativeAlign GetContentLongTextV(PaletteState state) => 
+        public PaletteRelativeAlign GetContentLongTextV(PaletteState state) =>
             _longText.TextV != PaletteRelativeAlign.Inherit
             ? _longText.TextV
             : _inherit.GetContentLongTextV(state);
@@ -578,7 +578,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>InheritBool value.</returns>
-        public InheritBool GetContentLongTextMultiLine(PaletteState state) => 
+        public InheritBool GetContentLongTextMultiLine(PaletteState state) =>
             _longText.MultiLine != InheritBool.Inherit
             ? _longText.MultiLine
             : _inherit.GetContentLongTextMultiLine(state);
@@ -588,7 +588,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public Color GetContentLongTextColor1(PaletteState state) => 
+        public Color GetContentLongTextColor1(PaletteState state) =>
             LongText.Color1 != Color.Empty
             ? LongText.Color1
             : _inherit.GetContentLongTextColor1(state);
@@ -598,7 +598,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public Color GetContentLongTextColor2(PaletteState state) => 
+        public Color GetContentLongTextColor2(PaletteState state) =>
             LongText.Color2 != Color.Empty
             ? LongText.Color2
             : _inherit.GetContentLongTextColor2(state);
@@ -628,7 +628,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Angle used for color drawing.</returns>
-        public float GetContentLongTextColorAngle(PaletteState state) => 
+        public float GetContentLongTextColorAngle(PaletteState state) =>
             LongText.ColorAngle != -1
             ? LongText.ColorAngle
             : _inherit.GetContentLongTextColorAngle(state);

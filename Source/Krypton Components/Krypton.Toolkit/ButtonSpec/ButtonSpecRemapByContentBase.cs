@@ -32,7 +32,7 @@ namespace Krypton.Toolkit
             : base(target)
         {
             Debug.Assert(buttonSpec != null);
-            _buttonSpec = buttonSpec;
+            _buttonSpec = buttonSpec!;
         }
         #endregion
 
@@ -80,7 +80,7 @@ namespace Krypton.Toolkit
             Color mapColor = OverrideImageColor(state);
 
             // If mapping occurring then return the target remap color
-            if ((mapColor != Color.Empty)  && (PaletteContent != null))
+            if ((mapColor != Color.Empty) && (PaletteContent != null))
             {
                 PaletteState getState = PaletteState;
 
