@@ -284,10 +284,11 @@ namespace Krypton.Toolkit
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         public override void DetachEditingControl()
         {
-            DataGridView dataGridView = DataGridView;
-            if (dataGridView?.EditingControl == null)
+            DataGridView? dataGridView = DataGridView;
+            switch (dataGridView?.EditingControl)
             {
-                throw new InvalidOperationException(@"Cell is detached or its grid has no editing control.");
+                case null:
+                    throw new InvalidOperationException(@"Cell is detached or its grid has no editing control.");
             }
 
             if (dataGridView.EditingControl is KryptonComboBox comboBox)
@@ -467,8 +468,8 @@ namespace Krypton.Toolkit
         }
 
         private bool OwnsEditingComboBox(int rowIndex) =>
-            rowIndex != -1 
-            && DataGridView is { EditingControl: KryptonDataGridViewComboBoxEditingControl control } 
+            rowIndex != -1
+            && DataGridView is { EditingControl: KryptonDataGridViewComboBoxEditingControl control }
             && (rowIndex == ((IDataGridViewEditingControl)control).EditingControlRowIndex);
 
         private static bool PartPainted(DataGridViewPaintParts paintParts, DataGridViewPaintParts paintPart) => (paintParts & paintPart) != 0;

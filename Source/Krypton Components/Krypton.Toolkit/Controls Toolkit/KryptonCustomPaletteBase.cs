@@ -3576,10 +3576,10 @@ namespace Krypton.Toolkit
                                 // Grab the property object
                                 var childObj = prop.GetValue(obj, null);
 
-                                // Should be test if the object contains only default values?
+                                // Test if the object contains only default values?
                                 if (ignoreDefaults)
                                 {
-                                    PropertyDescriptor propertyIsDefault = TypeDescriptor.GetProperties(childObj)[nameof(IsDefault)];
+                                    PropertyDescriptor? propertyIsDefault = TypeDescriptor.GetProperties(childObj)[nameof(IsDefault)];
 
                                     // All compound objects are expected to have an 'IsDefault' returning a boolean
                                     if (propertyIsDefault != null && propertyIsDefault.PropertyType == typeof(bool))
@@ -3757,7 +3757,7 @@ namespace Krypton.Toolkit
                                     // Grab the property object
                                     var childObj = prop.GetValue(obj, null);
 
-                                    PropertyDescriptor propertyIsDefault = TypeDescriptor.GetProperties(childObj)[nameof(IsDefault)];
+                                    PropertyDescriptor? propertyIsDefault = TypeDescriptor.GetProperties(childObj)[nameof(IsDefault)];
 
                                     // All compound objects are expected to have an 'IsDefault' returning a boolean
                                     if (propertyIsDefault != null && propertyIsDefault.PropertyType == typeof(bool))

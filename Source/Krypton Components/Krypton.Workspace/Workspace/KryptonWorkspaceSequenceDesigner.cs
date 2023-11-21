@@ -44,10 +44,10 @@ namespace Krypton.Workspace
             _sequence = component as KryptonWorkspaceSequence;
 
             // Get access to the services
-            _changeService = (IComponentChangeService)GetService(typeof(IComponentChangeService));
+            _changeService = GetService(typeof(IComponentChangeService)) as IComponentChangeService;
 
             // We need to know when we are being removed/changed
-            _changeService.ComponentRemoving += OnComponentRemoving;
+            _changeService!.ComponentRemoving += OnComponentRemoving;
         }
 
         /// <summary>
@@ -61,7 +61,7 @@ namespace Krypton.Workspace
                 var compound = new ArrayList();
 
                 // Add the list of collection items
-                compound.AddRange(_sequence.Children);
+                compound.AddRange(_sequence?.Children!);
 
                 return compound;
             }
@@ -79,7 +79,7 @@ namespace Krypton.Workspace
             {
                 if (disposing)
                 {
-                    _changeService.ComponentRemoving -= OnComponentRemoving;
+                    _changeService!.ComponentRemoving -= OnComponentRemoving;
                 }
             }
             finally
@@ -97,11 +97,11 @@ namespace Krypton.Workspace
             if (e.Component == _sequence)
             {
                 // Need access to host in order to delete a component
-                var host = (IDesignerHost)GetService(typeof(IDesignerHost));
+                var host = GetService(typeof(IDesignerHost)) as IDesignerHost;
 
                 // Climb the workspace item tree to get the top most sequence
                 KryptonWorkspace? workspace = null;
-                IWorkspaceItem workspaceItem = _sequence;
+                IWorkspaceItem? workspaceItem = _sequence;
                 while (workspaceItem?.WorkspaceParent != null)
                 {
                     workspaceItem = workspaceItem.WorkspaceParent;
@@ -114,7 +114,7 @@ namespace Krypton.Workspace
                 }
 
                 // We need to remove all children from the sequence
-                for (var j = _sequence.Children.Count - 1; j >= 0; j--)
+                for (var j = _sequence.Children!.Count - 1; j >= 0; j--)
                 {
                     var comp = _sequence.Children[j] as Component;
 
@@ -126,7 +126,7 @@ namespace Krypton.Workspace
                         readOnlyControls.RemoveInternal(control);
                     }
 
-                    host.DestroyComponent(comp);
+                    host?.DestroyComponent(comp);
 
                     // Must remove the child after it has been destroyed otherwise the component destroy method 
                     // will not be able to climb the sequence chain to find the parent workspace instance

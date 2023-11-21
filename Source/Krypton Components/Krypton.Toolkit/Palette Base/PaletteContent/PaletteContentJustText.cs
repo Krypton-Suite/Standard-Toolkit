@@ -40,8 +40,8 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="inherit">Source for inheriting defaulted values.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public PaletteContentJustText(IPaletteContent inherit,
-                                      NeedPaintHandler needPaint)
+        public PaletteContentJustText(IPaletteContent? inherit,
+                                      NeedPaintHandler? needPaint)
             : base(inherit, needPaint)
         {
         }

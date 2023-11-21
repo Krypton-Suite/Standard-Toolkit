@@ -15,7 +15,7 @@ namespace Krypton.Navigator
 
         private bool _enabled = true;
 
-        private KryptonNavigator _navigator;
+        private readonly KryptonNavigator _navigator;
 
         #endregion
 

@@ -424,8 +424,8 @@ namespace Krypton.Workspace
         /// <summary>
         /// Gets and sets the active page.
         /// </summary>
-        [Browsable(true), 
-         Description(@"Gets and sets the active page."), 
+        [Browsable(true),
+         Description(@"Gets and sets the active page."),
          DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public KryptonPage? ActivePage { get; set; }
 
@@ -1246,7 +1246,7 @@ namespace Krypton.Workspace
                         StarSize itemSize = item.WorkspaceStarSize;
 
                         // Should the new width be applied?
-                        if ((itemSize.StarWidth.UsingStar && applyStar) 
+                        if ((itemSize.StarWidth.UsingStar && applyStar)
                             || (!itemSize.StarWidth.UsingStar && applyFixed)
                             )
                         {
@@ -1258,7 +1258,7 @@ namespace Krypton.Workspace
                         }
 
                         // Should the new height be applied?
-                        if ((itemSize.StarHeight.UsingStar && applyStar) 
+                        if ((itemSize.StarHeight.UsingStar && applyStar)
                             || (!itemSize.StarHeight.UsingStar && applyFixed)
                             )
                         {
@@ -1323,7 +1323,7 @@ namespace Krypton.Workspace
                 // Create a new cell with entire list of pages as the only workspace item
                 var cell = new KryptonWorkspaceCell();
                 cell.Pages.AddRange(pages.ToArray());
-                Root.Children.Add(cell);
+                Root.Children!.Add(cell);
 
                 // Make sure the same page is active as it was before the change
                 // but only if the target cell is allowed to have selected tabs
@@ -1423,7 +1423,7 @@ namespace Krypton.Workspace
                     // If no cells then do we need to create a new empty cell?
                     if (createCellIfEmpty)
                     {
-                        Root.Children.Add(new KryptonWorkspaceCell());
+                        Root.Children!.Add(new KryptonWorkspaceCell());
                     }
                 }
                 else
@@ -1444,18 +1444,18 @@ namespace Krypton.Workspace
                                 // If there are no more cells then create one now
                                 if (cells.Count == 0)
                                 {
-                                    sequence.Children.Add(new KryptonWorkspaceCell());
+                                    sequence.Children!.Add(new KryptonWorkspaceCell());
                                 }
                                 else
                                 {
                                     KryptonWorkspaceCell cell = cells[0];
                                     cells.RemoveAt(0);
-                                    sequence.Children.Add(cell);
+                                    sequence.Children!.Add(cell);
                                 }
                             }
                         }
 
-                        Root.Children.Add(sequence);
+                        Root.Children!.Add(sequence);
                     }
                 }
             }
@@ -1555,7 +1555,7 @@ namespace Krypton.Workspace
                     // If no pages then do we need to create a cell?
                     if (createCellIfNoPages)
                     {
-                        Root.Children.Add(new KryptonWorkspaceCell());
+                        Root.Children!.Add(new KryptonWorkspaceCell());
                     }
                 }
                 else
@@ -1588,11 +1588,11 @@ namespace Krypton.Workspace
                                     }
                                 }
 
-                                sequence.Children.Add(cell);
+                                sequence.Children!.Add(cell);
                             }
                         }
 
-                        Root.Children.Add(sequence);
+                        Root.Children!.Add(sequence);
                     }
                 }
             }
@@ -1661,7 +1661,7 @@ namespace Krypton.Workspace
             var visibleCells = 0;
             var numPages = 0;
 
-            if (MaximizedCell is { AllowDroppingPages: true } )
+            if (MaximizedCell is { AllowDroppingPages: true })
             {
                 // Generate targets for maximized cell only
                 visibleCells = CellVisibleCount;
@@ -1925,7 +1925,7 @@ namespace Krypton.Workspace
                     UniqueNameToPage existingPages = BuildUniqueNameDictionary(availablePages);
 
                     // Remove all existing contents
-                    Root.Children.Clear();
+                    Root.Children!.Clear();
 
                     // Read to custom data element
                     if (!xmlReader.Read())
@@ -2067,10 +2067,10 @@ namespace Krypton.Workspace
         public virtual string ReadCellElement(XmlReader xmlReader, KryptonWorkspaceCell cell)
         {
             // Grab the mandatory attributes
-            cell.UniqueName = xmlReader.GetAttribute(@"UN");
-            cell.WorkspaceStarSize.PersistString = xmlReader.GetAttribute(@"S");
+            cell.UniqueName = xmlReader.GetAttribute(@"UN")!;
+            cell.WorkspaceStarSize.PersistString = xmlReader.GetAttribute(@"S")!;
             var selectedPageUniqueName = xmlReader.GetAttribute(@"SP");
-            cell.NavigatorMode = (NavigatorMode)Enum.Parse(typeof(NavigatorMode), xmlReader.GetAttribute(@"NM"));
+            cell.NavigatorMode = (NavigatorMode)Enum.Parse(typeof(NavigatorMode), xmlReader.GetAttribute(@"NM")!);
             cell.UseMnemonic = CommonHelper.StringToBool(XmlHelper.XmlAttributeToText(xmlReader, @"UM", @"True"));
             cell.AllowTabFocus = CommonHelper.StringToBool(XmlHelper.XmlAttributeToText(xmlReader, @"ATF", @"False"));
             cell.AllowPageDrag = CommonHelper.StringToBool(XmlHelper.XmlAttributeToText(xmlReader, @"APD", @"True"));
@@ -2080,7 +2080,7 @@ namespace Krypton.Workspace
             cell.DisposeOnRemove = CommonHelper.StringToBool(XmlHelper.XmlAttributeToText(xmlReader, @"DOR", @"True"));
             cell.MinimumSize = CommonHelper.StringToSize(XmlHelper.XmlAttributeToText(xmlReader, @"MINS", @"0, 0"));
             cell.MaximumSize = CommonHelper.StringToSize(XmlHelper.XmlAttributeToText(xmlReader, @"MAXS", @"0, 0"));
-            return selectedPageUniqueName;
+            return selectedPageUniqueName!;
         }
 
 
@@ -2103,9 +2103,9 @@ namespace Krypton.Workspace
         /// <param name="sequence">Reference to sequence.</param>
         public virtual void ReadSequenceElement(XmlReader xmlReader, KryptonWorkspaceSequence sequence)
         {
-            sequence.UniqueName = xmlReader.GetAttribute(@"UN");
-            sequence.WorkspaceStarSize.PersistString = xmlReader.GetAttribute(@"S");
-            sequence.Orientation = (Orientation)Enum.Parse(typeof(Orientation), xmlReader.GetAttribute(@"D"));
+            sequence.UniqueName = xmlReader.GetAttribute(@"UN")!;
+            sequence.WorkspaceStarSize.PersistString = xmlReader.GetAttribute(@"S")!;
+            sequence.Orientation = (Orientation)Enum.Parse(typeof(Orientation), xmlReader.GetAttribute(@"D")!);
         }
 
         /// <summary>
@@ -2133,7 +2133,7 @@ namespace Krypton.Workspace
 
             //Seb
             //TODO store object instead of strings
-            XmlHelper.TextToXmlAttribute(xmlWriter, @"TAG", page.Tag?.ToString());
+            XmlHelper.TextToXmlAttribute(xmlWriter, @"TAG", page.Tag?.ToString()!);
             //End Seb
 
             // Write out images as child elements
@@ -2510,7 +2510,7 @@ namespace Krypton.Workspace
                 // Remove all view separators no longer needed
                 for (var i = _drawPanel.Count - 1; i >= 0; i--)
                 {
-                    if ( _drawPanel[i] is ViewDrawWorkspaceSeparator separator)
+                    if (_drawPanel[i] is ViewDrawWorkspaceSeparator separator)
                     {
                         if (!separators.Contains(separator))
                         {
@@ -2530,7 +2530,7 @@ namespace Krypton.Workspace
 
                         // If the control has the expected interface
                         if (c is IWorkspaceItem { DisposeOnRemove: true })
-                            // Does the item want to be disposed on removal?
+                        // Does the item want to be disposed on removal?
                         {
                             c.Dispose();
                         }
@@ -2580,8 +2580,8 @@ namespace Krypton.Workspace
                 }
 
                 // If we have a maximized cell then ensure it has focus and not some other cell
-                if (MaximizedCell is { ContainsFocus: false } 
-                    && ContainsFocus )
+                if (MaximizedCell is { ContainsFocus: false }
+                    && ContainsFocus)
                 {
                     MaximizedCell.Select();
                 }
@@ -2825,7 +2825,7 @@ namespace Krypton.Workspace
                 if (offset != 0)
                 {
                     // Update the sizing value for each item in the sequence
-                    foreach (Component child in parentSequence.Children)
+                    foreach (Component child in parentSequence.Children!)
                     {
                         // Can only process IWorkspaceItem items
                         if (child is IWorkspaceItem item)
@@ -3009,7 +3009,7 @@ namespace Krypton.Workspace
             var availableSpace = (seq.Orientation == Orientation.Vertical) ? client.Height : client.Width;
 
             // Temporary structures used to cache info during calculations
-            var info = new LayoutInfo[seq.Children.Count];
+            var info = new LayoutInfo[seq.Children!.Count];
 
             var visibleChildren = 0;
             var visibleStarChildren = 0;
@@ -3088,8 +3088,8 @@ namespace Krypton.Workspace
                         {
                             // Otherwise we get the preferred size of the item in sequence orientation
                             displaySpace = seq.Orientation == Orientation.Vertical
-                                ? info[i].WorkspaceItem.WorkspacePreferredSize.Height
-                                : info[i].WorkspaceItem.WorkspacePreferredSize.Width;
+                                ? info[i].WorkspaceItem!.WorkspacePreferredSize.Height
+                                : info[i].WorkspaceItem!.WorkspacePreferredSize.Width;
                         }
 
                         info[i].DisplaySpace = displaySpace;
@@ -3203,7 +3203,7 @@ namespace Krypton.Workspace
                 if (workspaceItem != null)
                 {
                     // If no separator is associated with workspace, then create one now
-                    if ( !_workspaceToSeparator.TryGetValue(workspaceItem, out ViewDrawWorkspaceSeparator viewSeparator))
+                    if (!_workspaceToSeparator.TryGetValue(workspaceItem, out var viewSeparator))
                     {
                         // Create a view for the separator area
                         viewSeparator = new ViewDrawWorkspaceSeparator(this, workspaceItem, seq.Orientation)
@@ -3339,7 +3339,7 @@ namespace Krypton.Workspace
         private void LayoutSequenceIsHidden(KryptonWorkspaceSequence sequence, ControlList controls)
         {
             // Process all children of the sequence
-            foreach (Component child in sequence.Children)
+            foreach (Component child in sequence.Children!)
             {
                 // Is the child an actual control
                 switch (child)
@@ -3360,7 +3360,7 @@ namespace Krypton.Workspace
                                                    KryptonWorkspaceCell target)
         {
             // Scan all sequence children looking for a matching cell
-            for (var i = 0; i < sequence.Children.Count; i++)
+            for (var i = 0; i < sequence.Children!.Count; i++)
             {
                 // If we find the target, then done
                 if (sequence.Children[i] == target)
@@ -3383,7 +3383,7 @@ namespace Krypton.Workspace
                                                                  bool forwards,
                                                                  bool onlyVisible)
         {
-            var count = sequence.Children.Count;
+            var count = sequence.Children!.Count;
             var index = sequence.Children.IndexOf(target);
 
             // Are we look for entries after the provided one?
@@ -3401,14 +3401,14 @@ namespace Krypton.Workspace
                             }
                             break;
                         case KryptonWorkspaceSequence child:
-                        {
-                            // Search inside the sequence for the first leaf in the specified direction
-                            KryptonWorkspaceCell? ret = RecursiveFindCellInSequence(child, forwards, onlyVisible);
-                            if (ret != null)
                             {
-                                return ret;
+                                // Search inside the sequence for the first leaf in the specified direction
+                                KryptonWorkspaceCell? ret = RecursiveFindCellInSequence(child, forwards, onlyVisible);
+                                if (ret != null)
+                                {
+                                    return ret;
+                                }
                             }
-                        }
                             break;
                     }
                 }
@@ -3454,7 +3454,7 @@ namespace Krypton.Workspace
                                                                  bool forwards,
                                                                  bool onlyVisible)
         {
-            var count = sequence.Children.Count;
+            var count = sequence.Children!.Count;
 
             for (var i = 0; i < count; i++)
             {
@@ -3471,14 +3471,14 @@ namespace Krypton.Workspace
                         }
                         break;
                     case KryptonWorkspaceSequence child:
-                    {
-                        // Search inside the sequence 
-                        KryptonWorkspaceCell? ret = RecursiveFindCellInSequence(child, forwards, onlyVisible);
-                        if (ret != null)
                         {
-                            return ret;
+                            // Search inside the sequence 
+                            KryptonWorkspaceCell? ret = RecursiveFindCellInSequence(child, forwards, onlyVisible);
+                            if (ret != null)
+                            {
+                                return ret;
+                            }
                         }
-                    }
                         break;
                 }
             }
@@ -3499,7 +3499,7 @@ namespace Krypton.Workspace
 
             // Previous items might be invisible and so search till we find the visible one we expect
             before = null;
-            for (var i = beforeSequence.Children.IndexOf(after) - 1; i >= 0; i--)
+            for (var i = beforeSequence.Children!.IndexOf(after) - 1; i >= 0; i--)
             {
                 if ((beforeSequence.Children[i] is IWorkspaceItem { WorkspaceVisible: true } item))
                 {
@@ -3560,7 +3560,7 @@ namespace Krypton.Workspace
             CellList cells = CopyToCellList();
 
             // Remove existing workspace hierarchy
-            Root.Children.Clear();
+            Root.Children?.Clear();
 
             return cells;
         }
@@ -3610,7 +3610,7 @@ namespace Krypton.Workspace
             }
 
             // Remove existing workspace hierarchy
-            Root.Children.Clear();
+            Root.Children?.Clear();
 
             return pages;
         }
@@ -3627,7 +3627,7 @@ namespace Krypton.Workspace
                 }
                 else
                 {
-                    cell.HideAllPages(excludeType);
+                    cell.HideAllPages(excludeType!);
                 }
 
                 cell.Visible = cell.Pages.VisibleCount > 0;
@@ -3676,7 +3676,7 @@ namespace Krypton.Workspace
         private void CompactAtLeastOneVisibleCell()
         {
             // If there are no visible cells found in entire hierarchy
-            if (!Root.Children.ContainsVisibleCell)
+            if (Root.Children != null && !Root.Children.ContainsVisibleCell)
             {
                 Root.Children.Add(new KryptonWorkspaceCell());
             }
