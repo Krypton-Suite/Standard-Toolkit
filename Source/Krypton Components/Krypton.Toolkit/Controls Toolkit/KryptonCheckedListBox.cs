@@ -119,7 +119,7 @@ namespace Krypton.Toolkit
             /// </summary>
             /// <param name="index">Item index.</param>
             /// <returns>Item at specified index.</returns>
-            public object this[int index]
+            public object? this[int index]
             {
                 get
                 {
@@ -132,13 +132,13 @@ namespace Krypton.Toolkit
             #endregion
 
             #region Private
-            int IList.Add(object value) => throw new NotSupportedException(@"Read Only Collection");
+            int IList.Add(object? value) => throw new NotSupportedException(@"Read Only Collection");
 
             void IList.Clear() => throw new NotSupportedException(@"Read Only Collection");
 
-            void IList.Insert(int index, object value) => throw new NotSupportedException(@"Read Only Collection");
+            void IList.Insert(int index, object? value) => throw new NotSupportedException(@"Read Only Collection");
 
-            void IList.Remove(object value) => throw new NotSupportedException(@"Read Only Collection");
+            void IList.Remove(object? value) => throw new NotSupportedException(@"Read Only Collection");
 
             void IList.RemoveAt(int index) => throw new NotSupportedException(@"Read Only Collection");
 
@@ -291,9 +291,9 @@ namespace Krypton.Toolkit
 
             void IList.Clear() => throw new NotSupportedException(@"Read Only Collection");
 
-            void IList.Insert(int index, object value) => throw new NotSupportedException(@"Read Only Collection");
+            void IList.Insert(int index, object? value) => throw new NotSupportedException(@"Read Only Collection");
 
-            void IList.Remove(object value) => throw new NotSupportedException(@"Read Only Collection");
+            void IList.Remove(object? value) => throw new NotSupportedException(@"Read Only Collection");
 
             void IList.RemoveAt(int index) => throw new NotSupportedException(@"Read Only Collection");
 

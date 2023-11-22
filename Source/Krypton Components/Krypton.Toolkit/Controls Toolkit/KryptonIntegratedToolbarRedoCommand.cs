@@ -70,7 +70,7 @@ namespace Krypton.Toolkit
         {
             _imageStates = new ButtonImageStates();
 
-            Text = KryptonLanguageManager.ToolBarStrings.Redo;
+            Text = KryptonManager.Strings.IntegratedToolBarStrings.Redo;
         }
 
         #endregion

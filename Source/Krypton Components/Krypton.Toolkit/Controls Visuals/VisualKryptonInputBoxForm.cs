@@ -15,7 +15,7 @@ namespace Krypton.Toolkit
     /// <summary>
     /// 
     /// </summary>
-    public partial class KryptonInputBoxForm : KryptonForm
+    public partial class VisualKryptonInputBoxForm : KryptonForm
     {
         #region Instance Fields
         private bool _usePasswordOption;
@@ -32,12 +32,12 @@ namespace Krypton.Toolkit
         /// <summary>
         /// 
         /// </summary>
-        public KryptonInputBoxForm()
+        public VisualKryptonInputBoxForm()
         {
             InitializeComponent();
         }
 
-        /// <summary>Initializes a new instance of the <see cref="KryptonInputBoxForm" /> class.</summary>
+        /// <summary>Initializes a new instance of the <see cref="VisualKryptonInputBoxForm" /> class.</summary>
         /// <param name="prompt">The prompt.</param>
         /// <param name="caption">The caption.</param>
         /// <param name="defaultResponse">The default response.</param>
@@ -45,7 +45,7 @@ namespace Krypton.Toolkit
         /// <param name="cueColour">The cue colour.</param>
         /// <param name="cueTypeface">The cue typeface.</param>
         /// <param name="usePasswordOption">if set to <c>true</c> [use password option].</param>
-        public KryptonInputBoxForm(string prompt,
+        public VisualKryptonInputBoxForm(string prompt,
                                    string caption,
                                    string defaultResponse,
                                    string cueText,
@@ -100,12 +100,12 @@ namespace Krypton.Toolkit
             IWin32Window? showOwner = owner ?? FromHandle(PI.GetActiveWindow());
 
             // Show input box window as a modal dialog and then dispose of it afterwards
-            using var ib = new KryptonInputBoxForm(prompt, caption, defaultResponse, cueText, cueColour,
+            using var ib = new VisualKryptonInputBoxForm(prompt, caption, defaultResponse, cueText, cueColour,
                 cueTypeface, usePasswordOption);
             ib.StartPosition = showOwner == null ? FormStartPosition.CenterScreen : FormStartPosition.CenterParent;
 
-            return ib.ShowDialog(showOwner) == DialogResult.OK 
-                ? ib.InputResponse 
+            return ib.ShowDialog(showOwner) == DialogResult.OK
+                ? ib.InputResponse
                 : string.Empty;
         }
 
@@ -136,8 +136,8 @@ namespace Krypton.Toolkit
 
         private void UpdateButtons()
         {
-            _buttonOk.Text = KryptonLanguageManager.GeneralToolkitStrings.OK;
-            _buttonCancel.Text = KryptonLanguageManager.GeneralToolkitStrings.Cancel;
+            _buttonOk.Text = KryptonManager.Strings.GeneralStrings.OK;
+            _buttonCancel.Text = KryptonManager.Strings.GeneralStrings.Cancel;
         }
 
         private void Response_KeyDown(object sender, KeyEventArgs e)

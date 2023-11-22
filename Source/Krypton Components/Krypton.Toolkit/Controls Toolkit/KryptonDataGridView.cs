@@ -1209,50 +1209,67 @@ namespace Krypton.Toolkit
                         {
                             // If this is a column header cell
                             case { RowIndex: -1, ColumnIndex: >= 0 }:
-                            {
-                                // If this column needs a sort glyph drawn
-                                if (Columns[e.ColumnIndex].HeaderCell.SortGlyphDirection != SortOrder.None)
                                 {
-                                    // Draw the sort glyph and update the remainder cell bounds left over
-                                    tempCellBounds = Renderer.RenderGlyph.DrawGridSortGlyph(renderContext, Columns[e.ColumnIndex].HeaderCell.SortGlyphDirection, tempCellBounds, paletteContent, state, rtl);
-                                }
-
-                                // If this column supports icons, see if it has any.
-                                if (Columns[e.ColumnIndex] is IIconCell iconColumn)
-                                {
-                                    foreach (IconSpec spec in iconColumn.IconSpecs)
+                                    // If this column needs a sort glyph drawn
+                                    if (Columns[e.ColumnIndex].HeaderCell.SortGlyphDirection != SortOrder.None)
                                     {
-                                        if (spec.Icon == null)
-                                        {
-                                            continue;
-                                        }
-                                        // Draw icon and update the remainder cell bounds left over
-                                        var iconWidth = spec.Icon.Width + 5;
-                                        var width = tempCellBounds.Width - iconWidth;
-                                        var iconBounds = new Rectangle(
-                                            tempCellBounds.X + (spec.Alignment == IconSpec.IconAlignment.Left
-                                                ? 5
-                                                : width), tempCellBounds.Y + 3, spec.Icon.Width, spec.Icon.Height);
-                                        renderContext.Graphics.DrawImage(spec.Icon, iconBounds);
-                                        tempCellBounds = tempCellBounds with { X = tempCellBounds.X +
-                                            (spec.Alignment == IconSpec.IconAlignment.Left ? iconWidth : 0), Width = width };
+                                        // Draw the sort glyph and update the remainder cell bounds left over
+                                        tempCellBounds = Renderer.RenderGlyph.DrawGridSortGlyph(renderContext, Columns[e.ColumnIndex].HeaderCell.SortGlyphDirection, tempCellBounds, paletteContent, state, rtl);
                                     }
-                                }
 
-                                break;
-                            }
+                                    // If this column supports icons, see if it has any.
+                                    if (Columns[e.ColumnIndex] is IIconCell iconColumn)
+                                    {
+                                        foreach (IconSpec spec in iconColumn.IconSpecs)
+                                        {
+                                            if (spec.Icon == null)
+                                            {
+                                                continue;
+                                            }
+                                            // Draw icon and update the remainder cell bounds left over
+                                            var iconWidth = spec.Icon.Width + 5;
+                                            var width = tempCellBounds.Width - iconWidth;
+                                            var iconBounds = new Rectangle(
+                                                tempCellBounds.X + (spec.Alignment == IconSpec.IconAlignment.Left
+                                                    ? 5
+                                                    : width), tempCellBounds.Y + 3, spec.Icon.Width, spec.Icon.Height);
+                                            renderContext.Graphics.DrawImage(spec.Icon, iconBounds);
+                                            tempCellBounds = tempCellBounds with
+                                            {
+                                                X = tempCellBounds.X +
+                                                (spec.Alignment == IconSpec.IconAlignment.Left ? iconWidth : 0),
+                                                Width = width
+                                            };
+                                        }
+                                    }
+
+                                    break;
+                                }
                             // If this is a row header cell
                             case { RowIndex: >= 0, ColumnIndex: -1 }:
-                            {
-                                // By default there is no glyph needed for the row
-                                var glyph = GridRowGlyph.None;
-
-                                // Find the correct glyph that should be drawn
-                                if (CurrentCellAddress.Y == e.RowIndex)
                                 {
-                                    if (VirtualMode)
+                                    // By default there is no glyph needed for the row
+                                    var glyph = GridRowGlyph.None;
+
+                                    // Find the correct glyph that should be drawn
+                                    if (CurrentCellAddress.Y == e.RowIndex)
                                     {
-                                        if (IsCurrentRowDirty && ShowEditingIcon)
+                                        if (VirtualMode)
+                                        {
+                                            if (IsCurrentRowDirty && ShowEditingIcon)
+                                            {
+                                                glyph = GridRowGlyph.Pencil;
+                                            }
+                                            else if (NewRowIndex == e.RowIndex)
+                                            {
+                                                glyph = GridRowGlyph.ArrowStar;
+                                            }
+                                            else
+                                            {
+                                                glyph = GridRowGlyph.Arrow;
+                                            }
+                                        }
+                                        else if (IsCurrentCellDirty && ShowEditingIcon)
                                         {
                                             glyph = GridRowGlyph.Pencil;
                                         }
@@ -1265,98 +1282,89 @@ namespace Krypton.Toolkit
                                             glyph = GridRowGlyph.Arrow;
                                         }
                                     }
-                                    else if (IsCurrentCellDirty && ShowEditingIcon)
-                                    {
-                                        glyph = GridRowGlyph.Pencil;
-                                    }
                                     else if (NewRowIndex == e.RowIndex)
                                     {
-                                        glyph = GridRowGlyph.ArrowStar;
+                                        glyph = GridRowGlyph.Star;
                                     }
-                                    else
+
+                                    // Do we need to draw an image?
+                                    if (glyph != GridRowGlyph.None)
                                     {
-                                        glyph = GridRowGlyph.Arrow;
+                                        // Draw the row glyph and update the remainder cell bounds left over
+                                        tempCellBounds = Renderer.RenderGlyph.DrawGridRowGlyph(renderContext, glyph, tempCellBounds, paletteContent, state, rtl);
                                     }
-                                }
-                                else if (NewRowIndex == e.RowIndex)
-                                {
-                                    glyph = GridRowGlyph.Star;
-                                }
 
-                                // Do we need to draw an image?
-                                if (glyph != GridRowGlyph.None)
-                                {
-                                    // Draw the row glyph and update the remainder cell bounds left over
-                                    tempCellBounds = Renderer.RenderGlyph.DrawGridRowGlyph(renderContext, glyph, tempCellBounds, paletteContent, state, rtl);
-                                }
-
-                                // Is there an error icon associated with the row that needs showing
-                                if (ShowRowErrors && !string.IsNullOrEmpty(Rows[e.RowIndex].ErrorText))
-                                {
-                                    // Draw error icon and update the remainder cell bounds left over
-                                    Rectangle beforeCellBounds = tempCellBounds;
-                                    tempCellBounds = Renderer.RenderGlyph.DrawGridErrorGlyph(renderContext, tempCellBounds, state, rtl);
+                                    // Is there an error icon associated with the row that needs showing
+                                    if (ShowRowErrors && !string.IsNullOrEmpty(Rows[e.RowIndex].ErrorText))
+                                    {
+                                        // Draw error icon and update the remainder cell bounds left over
+                                        Rectangle beforeCellBounds = tempCellBounds;
+                                        tempCellBounds = Renderer.RenderGlyph.DrawGridErrorGlyph(renderContext, tempCellBounds, state, rtl);
 
                                         // Calculate the icon rectangle
                                         var iconBounds = new Rectangle(tempCellBounds.Right + 1, tempCellBounds.Top,
                                         beforeCellBounds.Width - tempCellBounds.Width, tempCellBounds.Height);
 
-                                    // Cache the icon area
-                                    if (_rowCache.ContainsKey(e.RowIndex))
-                                    {
-                                        _rowCache[e.RowIndex] = iconBounds;
+                                        // Cache the icon area
+                                        if (_rowCache.ContainsKey(e.RowIndex))
+                                        {
+                                            _rowCache[e.RowIndex] = iconBounds;
+                                        }
+                                        else
+                                        {
+                                            _rowCache.Add(e.RowIndex, iconBounds);
+                                        }
                                     }
                                     else
                                     {
-                                        _rowCache.Add(e.RowIndex, iconBounds);
+                                        // Remove any cache entry
+                                        if (_rowCache.ContainsKey(e.RowIndex))
+                                        {
+                                            _rowCache.Remove(e.RowIndex);
+                                        }
                                     }
-                                }
-                                else
-                                {
-                                    // Remove any cache entry
-                                    if (_rowCache.ContainsKey(e.RowIndex))
-                                    {
-                                        _rowCache.Remove(e.RowIndex);
-                                    }
-                                }
 
-                                break;
-                            }
+                                    break;
+                                }
                             // Is this a data cell
                             case { RowIndex: >= 0, ColumnIndex: >= 0 }:
-                            {
-                                // If this cell supports icons, see if it has any.
-                                if (Rows[e.RowIndex].Cells[e.ColumnIndex] is IIconCell iconColumn)
                                 {
-                                    foreach (IconSpec spec in iconColumn.IconSpecs)
+                                    // If this cell supports icons, see if it has any.
+                                    if (Rows[e.RowIndex].Cells[e.ColumnIndex] is IIconCell iconColumn)
                                     {
-                                        if (spec.Icon == null)
+                                        foreach (IconSpec spec in iconColumn.IconSpecs)
                                         {
-                                            continue;
+                                            if (spec.Icon == null)
+                                            {
+                                                continue;
+                                            }
+
+                                            // Draw icon and update the remainder cell bounds left over
+                                            var iconWidth = spec.Icon.Width + 5;
+                                            var width = tempCellBounds.Width - iconWidth;
+                                            var iconBounds = new Rectangle(
+                                                tempCellBounds.X + (spec.Alignment == IconSpec.IconAlignment.Left
+                                                    ? 5
+                                                    : width), tempCellBounds.Y + 3, spec.Icon.Width, spec.Icon.Height);
+                                            renderContext.Graphics.DrawImage(spec.Icon, iconBounds);
+                                            tempCellBounds = tempCellBounds with
+                                            {
+                                                X = tempCellBounds.X +
+                                                (spec.Alignment == IconSpec.IconAlignment.Left ? iconWidth : 0),
+                                                Width = width
+                                            };
                                         }
-
-                                        // Draw icon and update the remainder cell bounds left over
-                                        var iconWidth = spec.Icon.Width + 5;
-                                        var width = tempCellBounds.Width - iconWidth;
-                                        var iconBounds = new Rectangle(
-                                            tempCellBounds.X + (spec.Alignment == IconSpec.IconAlignment.Left
-                                                ? 5
-                                                : width), tempCellBounds.Y + 3, spec.Icon.Width, spec.Icon.Height);
-                                        renderContext.Graphics.DrawImage(spec.Icon, iconBounds);
-                                        tempCellBounds = tempCellBounds with { X = tempCellBounds.X +
-                                            (spec.Alignment == IconSpec.IconAlignment.Left ? iconWidth : 0), Width = width };
                                     }
-                                }
 
-                                // Is there an error icon associated with the cell that needs showing
-                                if (ShowCellErrors && !string.IsNullOrEmpty(Rows[e.RowIndex].Cells[e.ColumnIndex].ErrorText))
-                                {
-                                    // Draw error icon and update the remainder cell bounds left over
-                                    tempCellBounds = Renderer.RenderGlyph.DrawGridErrorGlyph(renderContext, tempCellBounds, state, rtl);
-                                }
+                                    // Is there an error icon associated with the cell that needs showing
+                                    if (ShowCellErrors && !string.IsNullOrEmpty(Rows[e.RowIndex].Cells[e.ColumnIndex].ErrorText))
+                                    {
+                                        // Draw error icon and update the remainder cell bounds left over
+                                        tempCellBounds = Renderer.RenderGlyph.DrawGridErrorGlyph(renderContext, tempCellBounds, state, rtl);
+                                    }
 
-                                break;
-                            }
+                                    break;
+                                }
                         }
 
                         if (((e.PaintParts & DataGridViewPaintParts.ContentForeground) == DataGridViewPaintParts.ContentForeground) ||
@@ -2395,7 +2403,7 @@ namespace Krypton.Toolkit
 
             try
             {
-                return (string)_miGTTT.Invoke(cell, new object[] { row });
+                return _miGTTT.Invoke(cell, new object[] { row }) as string ?? string.Empty;
             }
             catch
             {
@@ -2416,7 +2424,7 @@ namespace Krypton.Toolkit
 
             try
             {
-                return (string)_miGET.Invoke(cell, new object[] { row });
+                return _miGET.Invoke(cell, new object[] { row }) as string ?? string.Empty;
             }
             catch
             {
@@ -2478,7 +2486,7 @@ namespace Krypton.Toolkit
                                                                            BindingFlags.GetField);
             }
 
-            return (string)_miATT.Invoke(this, new object[] { false, string.Empty, -1, -1 });
+            return _miATT.Invoke(this, new object[] { false, string.Empty, -1, -1 }) as string ?? string.Empty;
         }
 
         private string TruncateToolTipText(string toolTipText)
@@ -2605,11 +2613,11 @@ namespace Krypton.Toolkit
         }
         #endregion
 
-        #region menus
+        #region Menus
         private void OnContextMenuStripOpening(object sender, CancelEventArgs e)
         {
             // Get the actual strip instance
-            ContextMenuStrip cms = base.ContextMenuStrip;
+            ContextMenuStrip? cms = base.ContextMenuStrip;
 
             // Make sure it has the correct renderer
             cms.Renderer = CreateToolStripRenderer();
@@ -2620,7 +2628,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public ToolStripRenderer CreateToolStripRenderer() => Renderer.RenderToolStrip(GetResolvedPalette());
+        public ToolStripRenderer CreateToolStripRenderer() => Renderer?.RenderToolStrip(GetResolvedPalette())!;
 
         private void OnKryptonContextMenuDisposed(object sender, EventArgs e) =>
             // When the current krypton context menu is disposed, we should remove 

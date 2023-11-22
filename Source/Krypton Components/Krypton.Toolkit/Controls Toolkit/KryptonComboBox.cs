@@ -1373,10 +1373,9 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>
-        /// Gets and sets the text associated associated with the control.
+        /// Gets and sets the text associated with the control.
         /// </summary>
-        [AllowNull]
-        public override string Text
+        public override string? Text
         {
             get => _comboBox.Text;
             set => _comboBox.Text = value;
@@ -1388,7 +1387,7 @@ namespace Krypton.Toolkit
         [Bindable(true)]
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public object SelectedItem
+        public object? SelectedItem
         {
             get => _comboBox.SelectedItem;
             set => _comboBox.SelectedItem = value;
@@ -1399,7 +1398,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public string SelectedText
+        public string? SelectedText
         {
             get => _comboBox.SelectedText;
             set => _comboBox.SelectedText = value;
@@ -2150,6 +2149,20 @@ namespace Krypton.Toolkit
             // Simulate the mouse leaving the control so that the tracking
             // element that thinks it has the focus is informed it does not
             OnMouseLeave(EventArgs.Empty);
+
+        /// <summary>Gets or sets the height and width of the control.</summary>
+        [DefaultValue(typeof(Size), "121, 21")]
+        public new Size Size
+        {
+            get => base.Size;
+
+            set
+            {
+                base.Size = value;
+
+                UpdateDropDownWidth(value);
+            }
+        }
 
         #endregion
 
@@ -3146,6 +3159,8 @@ namespace Krypton.Toolkit
 
             StateCommon.ComboBox.Border.Rounding = _cornerRoundingRadius;
         }
+
+        private void UpdateDropDownWidth(Size value) => DropDownWidth = value.Width;
 
         #endregion
     }

@@ -1,6 +1,6 @@
 ﻿namespace Krypton.Toolkit
 {
-    partial class KryptonInputBoxForm
+    partial class VisualKryptonInputBoxForm
     {
         /// <summary>
         /// Required designer variable.

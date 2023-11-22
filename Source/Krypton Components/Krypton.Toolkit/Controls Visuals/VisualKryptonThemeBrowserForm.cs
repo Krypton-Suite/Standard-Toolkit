@@ -8,7 +8,7 @@
 
 namespace Krypton.Toolkit
 {
-    public partial class KryptonThemeBrowserForm : KryptonForm
+    internal partial class VisualKryptonThemeBrowserForm : KryptonForm
     {
         #region Instance Fields
 
@@ -22,13 +22,13 @@ namespace Krypton.Toolkit
 
         #region Identity
 
-        /// <summary>Initializes a new instance of the <see cref="KryptonThemeBrowserForm" /> class.</summary>
+        /// <summary>Initializes a new instance of the <see cref="VisualKryptonThemeBrowserForm" /> class.</summary>
         /// <param name="startPosition">The start position.</param>
         /// <param name="startIndex">The start index.</param>
         /// <param name="windowTitle">The window title.</param>
         /// <param name="showImportButton">The show import button.</param>
         /// <param name="showSilentOption">The show silent option.</param>
-        public KryptonThemeBrowserForm(FormStartPosition startPosition = FormStartPosition.CenterScreen, int startIndex = 34, string? windowTitle = null, bool? showImportButton = null, bool? showSilentOption = null)
+        public VisualKryptonThemeBrowserForm(FormStartPosition startPosition = FormStartPosition.CenterScreen, int? startIndex = (int)PaletteMode.Microsoft365Blue, string? windowTitle = null, bool? showImportButton = null, bool? showSilentOption = null)
         {
             InitializeComponent();
 
@@ -38,9 +38,9 @@ namespace Krypton.Toolkit
 
             _formStartPosition = startPosition;
 
-            _startIndex = startIndex;
+            _startIndex = startIndex ?? (int)PaletteMode.Microsoft365Blue;
 
-            _windowTitle = windowTitle ?? KryptonLanguageManager.MiscellaneousThemeStrings.ThemeBrowserWindowTitle;
+            _windowTitle = windowTitle ?? KryptonManager.Strings.KryptonMiscellaneousThemeStrings.ThemeBrowserWindowTitle;
 
             AdjustUI();
         }
@@ -59,15 +59,17 @@ namespace Krypton.Toolkit
 
             StartPosition = _formStartPosition;
 
-            klblDescription.Text = KryptonLanguageManager.MiscellaneousThemeStrings.ThemeBrowserDescription;
+            //klbThemeList.SelectedIndex = _startIndex;
 
-            kbtnImport.Text = KryptonLanguageManager.MiscellaneousThemeStrings.Import;
+            klblDescription.Text = KryptonManager.Strings.KryptonMiscellaneousThemeStrings.ThemeBrowserDescription;
 
-            kchkSilent.Text = KryptonLanguageManager.MiscellaneousThemeStrings.Silent;
+            kbtnImport.Text = KryptonManager.Strings.KryptonMiscellaneousThemeStrings.Import;
 
-            kbtnCancel.Text = KryptonLanguageManager.GeneralToolkitStrings.Cancel;
+            kchkSilent.Text = KryptonManager.Strings.KryptonMiscellaneousThemeStrings.Silent;
 
-            kbtnOK.Text = KryptonLanguageManager.GeneralToolkitStrings.OK;
+            kbtnCancel.Text = KryptonManager.Strings.GeneralStrings.Cancel;
+
+            kbtnOK.Text = KryptonManager.Strings.GeneralStrings.OK;
         }
 
         private void kbtnImport_Click(object sender, EventArgs e) => kcpbCustom.Import(kchkSilent.Checked);

@@ -1,6 +1,6 @@
 ﻿namespace Krypton.Toolkit
 {
-    partial class KryptonMultilineStringEditorForm
+    partial class VisualKryptonMultilineStringEditorForm
     {
         /// <summary>
         /// Required designer variable.

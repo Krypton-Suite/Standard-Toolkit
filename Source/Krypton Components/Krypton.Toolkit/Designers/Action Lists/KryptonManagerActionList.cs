@@ -53,46 +53,11 @@ namespace Krypton.Toolkit
             }
         }
 
-        /// <summary>Gets or sets the language manager.</summary>
-        /// <value>The language manager.</value>
-        public KryptonLanguageManager? LanguageManager
-        {
-            get => _manager.LanguageManager;
-
-            set
-            {
-                if (_manager != null && _manager.LanguageManager != value)
-                {
-                    _service.OnComponentChanged(_manager, null, _manager.LanguageManager, value);
-                    _manager.LanguageManager = value;
-                }
-            }
-        }
         #endregion
 
         #region Implementation
 
-        private void OnAddLanguageManager(object sender, EventArgs e)
-        {
-            if (_manager is { LanguageManager: null })
-            {
-                _manager.LanguageManager = new KryptonLanguageManager();
 
-                var languageManager = new KryptonLanguageManager();
-
-                _service.OnComponentChanged(_manager, null, null, languageManager);
-            }
-        }
-
-        private void OnRemoveLanguageManager(object sender, EventArgs e)
-        {
-            if (_manager?.LanguageManager != null)
-            {
-                _manager.LanguageManager = null;
-
-                _service.OnComponentChanged(_manager, null, _manager.LanguageManager, null);
-            }
-        }
 
         #endregion
 
@@ -114,7 +79,7 @@ namespace Krypton.Toolkit
                 actions.Add(new KryptonDesignerActionItem(new DesignerVerb(@"Add language manager", OnAddLanguageManager), "Actions"));
                 actions.Add(new KryptonDesignerActionItem(new DesignerVerb(@"Remove language manager", OnRemoveLanguageManager), "Actions")); */
                 actions.Add(new DesignerActionHeaderItem(@"Data"));
-                actions.Add(new DesignerActionPropertyItem(nameof(LanguageManager), @"Language Manager", @"Data", @"Global string settings"));
+
                 actions.Add(new DesignerActionHeaderItem(@"Visuals"));
                 actions.Add(new DesignerActionPropertyItem(nameof(GlobalPaletteMode), @"Global Palette", @"Visuals", @"Global palette setting"));
             }

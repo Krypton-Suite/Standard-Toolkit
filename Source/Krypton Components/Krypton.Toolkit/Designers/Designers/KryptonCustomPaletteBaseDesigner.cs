@@ -12,7 +12,7 @@
 
 namespace Krypton.Toolkit
 {
-    internal class KryptonPaletteDesigner : ComponentDesigner
+    internal class KryptonCustomPaletteBaseDesigner : ComponentDesigner
     {
         #region Public Overrides
         /// <summary>
@@ -26,7 +26,7 @@ namespace Krypton.Toolkit
                 var actionLists = new DesignerActionListCollection
                 {
                     // Add the palette specific list
-                    new KryptonPaletteActionList(this)
+                    new KryptonCustomPaletteBaseActionList(this)
                 };
 
                 return actionLists;

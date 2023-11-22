@@ -33,6 +33,8 @@ namespace Krypton.Toolkit
         private const string DEFAULT_NO_TO_ALL = @"No t&o All"; // Accelerator key - O
         private const string DEFAULT_OK_TO_ALL = @"O&k to All"; // Accelerator key - K
         private const string DEFAULT_RESET = @"&Reset"; // Accelerator key - R
+        private const string DEFAULT_SYSTEM_INFORMATION = "S&ystem Information";
+        private const string DEFAULT_CURRENT_THEME = @"Current Theme";
 
         // Note: The following may not be needed...
         /*private const string DEFAULT_MORE_DETAILS = "M&ore Details...";
@@ -78,8 +80,11 @@ namespace Krypton.Toolkit
                                  YesToAll.Equals(DEFAULT_YES_TO_ALL) &&
                                  NoToAll.Equals(DEFAULT_NO_TO_ALL) &&
                                  OkToAll.Equals(DEFAULT_OK_TO_ALL) &&
-                                 Reset.Equals(DEFAULT_RESET);
+                                 Reset.Equals(DEFAULT_RESET) &&
+                                 SystemInformation.Equals(DEFAULT_SYSTEM_INFORMATION) &&
+                                 CurrentTheme.Equals(DEFAULT_CURRENT_THEME);
 
+        /// <summary>Resets the values.</summary>
         public void ResetValues()
         {
             Apply = DEFAULT_APPLY;
@@ -100,6 +105,8 @@ namespace Krypton.Toolkit
             NoToAll = DEFAULT_NO_TO_ALL;
             OkToAll = DEFAULT_OK_TO_ALL;
             Reset = DEFAULT_RESET;
+            SystemInformation = DEFAULT_SYSTEM_INFORMATION;
+            CurrentTheme = DEFAULT_CURRENT_THEME;
         }
 
         /// <summary>Gets or sets the collapse string used in expandable footers.</summary>
@@ -249,6 +256,19 @@ namespace Krypton.Toolkit
         [DefaultValue(DEFAULT_RESET)]
         public string Reset { get; set; }
 
+        /// <summary>Gets or sets the system information string used for custom situations.</summary>
+        [Localizable(true)]
+        [Category(@"Visuals")]
+        [Description(@"System information string used for custom situations.")]
+        [DefaultValue(DEFAULT_SYSTEM_INFORMATION)]
+        public string SystemInformation { get; set; }
+
+        /// <summary>Gets or sets the current theme string used for custom situations.</summary>
+        [Localizable(true)]
+        [Category(@"Visuals")]
+        [Description(@"Current theme string used for custom situations.")]
+        [DefaultValue(DEFAULT_CURRENT_THEME)]
+        public string CurrentTheme { get; set; }
 
         #endregion
     }

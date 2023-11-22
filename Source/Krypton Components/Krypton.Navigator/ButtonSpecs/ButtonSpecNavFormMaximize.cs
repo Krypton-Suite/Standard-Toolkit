@@ -13,7 +13,7 @@ namespace Krypton.Navigator
     {
         #region Instance Fields
 
-        private KryptonNavigator _navigator;
+        private readonly KryptonNavigator _navigator;
 
         #endregion
 

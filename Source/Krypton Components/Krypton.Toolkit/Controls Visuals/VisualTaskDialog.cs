@@ -411,7 +411,7 @@ namespace Krypton.Toolkit
                 }
 
                 firstButton = _buttonOK;
-                _buttonOK.Text = KryptonLanguageManager.GeneralToolkitStrings.OK;
+                _buttonOK.Text = KryptonManager.Strings.GeneralStrings.OK;
                 _buttonOK.Visible = true;
             }
             else
@@ -428,7 +428,7 @@ namespace Krypton.Toolkit
 
                 firstButton ??= _buttonYes;
 
-                _buttonYes.Text = KryptonLanguageManager.GeneralToolkitStrings.Yes;
+                _buttonYes.Text = KryptonManager.Strings.GeneralStrings.Yes;
                 _buttonYes.Visible = true;
             }
             else
@@ -445,7 +445,7 @@ namespace Krypton.Toolkit
 
                 firstButton ??= _buttonNo;
 
-                _buttonNo.Text = KryptonLanguageManager.GeneralToolkitStrings.No;
+                _buttonNo.Text = KryptonManager.Strings.GeneralStrings.No;
                 _buttonNo.Visible = true;
             }
             else
@@ -462,7 +462,7 @@ namespace Krypton.Toolkit
 
                 firstButton ??= _buttonCancel;
 
-                _buttonCancel.Text = KryptonLanguageManager.GeneralToolkitStrings.Cancel;
+                _buttonCancel.Text = KryptonManager.Strings.GeneralStrings.Cancel;
                 _buttonCancel.Visible = true;
             }
             else
@@ -479,7 +479,7 @@ namespace Krypton.Toolkit
 
                 firstButton ??= _buttonRetry;
 
-                _buttonRetry.Text = KryptonLanguageManager.GeneralToolkitStrings.Retry;
+                _buttonRetry.Text = KryptonManager.Strings.GeneralStrings.Retry;
                 _buttonRetry.Visible = true;
             }
             else
@@ -496,7 +496,7 @@ namespace Krypton.Toolkit
 
                 firstButton ??= _buttonClose;
 
-                _buttonClose.Text = KryptonLanguageManager.GeneralToolkitStrings.Close;
+                _buttonClose.Text = KryptonManager.Strings.GeneralStrings.Close;
                 _buttonClose.Visible = true;
             }
             else

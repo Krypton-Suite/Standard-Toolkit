@@ -8,7 +8,7 @@
 
 namespace Krypton.Toolkit
 {
-    /// <summary>Public API to display the <see cref="KryptonThemeBrowserForm"/>.</summary>
+    /// <summary>Public API to display the <see cref="VisualKryptonThemeBrowserForm"/>.</summary>
     public class KryptonThemeBrowser
     {
         #region Public
@@ -71,10 +71,10 @@ namespace Krypton.Toolkit
                                      int startIndex, string? windowTitle,
                                      bool? showImportButton, bool? showSilentOption)
         {
-            //using var ktb = new KryptonThemeBrowserForm(startPosition, startIndex, windowTitle, showImportButton,
-            //    showSilentOption);
+            using var ktb = new VisualKryptonThemeBrowserForm(startPosition, startIndex, windowTitle, showImportButton,
+                showSilentOption);
 
-            //ktb.ShowDialog();
+            ktb.ShowDialog();
         }
 
         #endregion

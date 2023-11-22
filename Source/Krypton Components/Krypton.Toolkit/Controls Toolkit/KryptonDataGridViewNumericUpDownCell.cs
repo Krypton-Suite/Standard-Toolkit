@@ -249,7 +249,7 @@ namespace Krypton.Toolkit
                 dataGridViewCell.AllowDecimals = AllowDecimals;
                 dataGridViewCell.TrailingZeroes = TrailingZeroes;
             }
-            return dataGridViewCell;
+            return dataGridViewCell!;
         }
 
         /// <summary>
@@ -398,7 +398,7 @@ namespace Krypton.Toolkit
                     return formattedDecimal.ToString((ThousandsSeparator ? "N" : "F") + DecimalPlaces.ToString());
                 }
             }
-            return formattedValue;
+            return formattedValue!;
         }
 
         /// <summary>
@@ -424,7 +424,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Private
-        private KryptonDataGridViewNumericUpDownEditingControl EditingNumericUpDown => DataGridView.EditingControl as KryptonDataGridViewNumericUpDownEditingControl;
+        private KryptonDataGridViewNumericUpDownEditingControl? EditingNumericUpDown => DataGridView.EditingControl as KryptonDataGridViewNumericUpDownEditingControl;
 
         private decimal Constrain(decimal value)
         {
@@ -482,7 +482,7 @@ namespace Krypton.Toolkit
         }
 
         private bool OwnsEditingNumericUpDown(int rowIndex) =>
-            rowIndex != -1 && DataGridView is { EditingControl: KryptonDataGridViewNumericUpDownEditingControl control } 
+            rowIndex != -1 && DataGridView is { EditingControl: KryptonDataGridViewNumericUpDownEditingControl control }
                            && (rowIndex == ((IDataGridViewEditingControl)control).EditingControlRowIndex);
 
         private static bool PartPainted(DataGridViewPaintParts paintParts, DataGridViewPaintParts paintPart) => (paintParts & paintPart) != 0;
@@ -495,7 +495,7 @@ namespace Krypton.Toolkit
             _allowDecimals = value;
             if (OwnsEditingNumericUpDown(rowIndex))
             {
-                EditingNumericUpDown.AllowDecimals = value;
+                EditingNumericUpDown!.AllowDecimals = value;
             }
         }
 
@@ -504,7 +504,7 @@ namespace Krypton.Toolkit
             _trailingZeroes = value;
             if (OwnsEditingNumericUpDown(rowIndex))
             {
-                EditingNumericUpDown.TrailingZeroes = value;
+                EditingNumericUpDown!.TrailingZeroes = value;
             }
         }
 
@@ -513,7 +513,7 @@ namespace Krypton.Toolkit
             _decimalPlaces = value;
             if (OwnsEditingNumericUpDown(rowIndex))
             {
-                EditingNumericUpDown.DecimalPlaces = value;
+                EditingNumericUpDown!.DecimalPlaces = value;
             }
         }
 
@@ -522,7 +522,7 @@ namespace Krypton.Toolkit
             _hexadecimal = value;
             if (OwnsEditingNumericUpDown(rowIndex))
             {
-                EditingNumericUpDown.Hexadecimal = value;
+                EditingNumericUpDown!.Hexadecimal = value;
             }
         }
 
@@ -531,7 +531,7 @@ namespace Krypton.Toolkit
             _increment = value;
             if (OwnsEditingNumericUpDown(rowIndex))
             {
-                EditingNumericUpDown.Increment = value;
+                EditingNumericUpDown!.Increment = value;
             }
         }
 
@@ -556,7 +556,7 @@ namespace Krypton.Toolkit
 
             if (OwnsEditingNumericUpDown(rowIndex))
             {
-                EditingNumericUpDown.Maximum = value;
+                EditingNumericUpDown!.Maximum = value;
             }
         }
 
@@ -581,7 +581,7 @@ namespace Krypton.Toolkit
 
             if (OwnsEditingNumericUpDown(rowIndex))
             {
-                EditingNumericUpDown.Minimum = value;
+                EditingNumericUpDown!.Minimum = value;
             }
         }
 
@@ -590,7 +590,7 @@ namespace Krypton.Toolkit
             _thousandsSeparator = value;
             if (OwnsEditingNumericUpDown(rowIndex))
             {
-                EditingNumericUpDown.ThousandsSeparator = value;
+                EditingNumericUpDown!.ThousandsSeparator = value;
             }
         }
 

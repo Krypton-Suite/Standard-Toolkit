@@ -119,7 +119,7 @@ namespace Krypton.Toolkit
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         public override void DetachEditingControl()
         {
-            DataGridView dataGridView = DataGridView;
+            DataGridView? dataGridView = DataGridView;
             if (dataGridView?.EditingControl == null)
             {
                 throw new InvalidOperationException("Cell is detached or its grid has no editing control.");
@@ -251,7 +251,7 @@ namespace Krypton.Toolkit
 
         #region Private
 
-        private KryptonDataGridViewTextBoxEditingControl EditingTextBox => DataGridView.EditingControl as KryptonDataGridViewTextBoxEditingControl;
+        private KryptonDataGridViewTextBoxEditingControl? EditingTextBox => DataGridView.EditingControl as KryptonDataGridViewTextBoxEditingControl;
 
         private Rectangle GetAdjustedEditingControlBounds(Rectangle editingControlBounds,
             DataGridViewCellStyle cellStyle)

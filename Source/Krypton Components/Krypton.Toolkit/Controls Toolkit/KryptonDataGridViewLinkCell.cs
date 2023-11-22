@@ -10,6 +10,7 @@
  */
 #endregion
 
+// ReSharper disable InconsistentNaming
 namespace Krypton.Toolkit
 {
     /// <summary>
@@ -115,7 +116,7 @@ namespace Krypton.Toolkit
         {
             try
             {
-                var kDGV = (KryptonDataGridView)DataGridView;
+                var kDGV = DataGridView as KryptonDataGridView;
 
                 // Ensure the view classes are created and hooked up
                 CreateViewAndPalettes(kDGV);
@@ -126,16 +127,16 @@ namespace Krypton.Toolkit
                 // Update the display text
                 if ((rowIndex >= 0) && !string.IsNullOrEmpty(FormattedValue?.ToString()))
                 {
-                    _shortTextValue.ShortText = FormattedValue.ToString();
+                    _shortTextValue.ShortText = FormattedValue!.ToString();
                 }
                 else
                 {
-                    if ((kDGV.Columns[ColumnIndex] is KryptonDataGridViewButtonColumn
+                    if ((kDGV?.Columns[ColumnIndex] is KryptonDataGridViewButtonColumn
                         {
                             UseColumnTextForButtonValue: true
                         } col) && !kDGV.Rows[rowIndex].IsNewRow)
                     {
-                        _shortTextValue.ShortText = col.Text;
+                        _shortTextValue.ShortText = col.Text!;
                     }
                     else
                     {
@@ -144,7 +145,7 @@ namespace Krypton.Toolkit
                 }
 
                 // Position the button element inside the available cell area
-                using var layoutContext = new ViewLayoutContext(kDGV, kDGV.Renderer);
+                using var layoutContext = new ViewLayoutContext(kDGV!, kDGV?.Renderer);
                 // Define the available area for layout
                 layoutContext.DisplayRectangle = new Rectangle(0, 0, int.MaxValue, int.MaxValue);
 
@@ -208,7 +209,7 @@ namespace Krypton.Toolkit
                     // Update the display text
                     if (!string.IsNullOrEmpty(formattedValue?.ToString()))
                     {
-                        _shortTextValue.ShortText = formattedValue.ToString();
+                        _shortTextValue.ShortText = formattedValue!.ToString();
                     }
                     else
                     {
@@ -217,7 +218,7 @@ namespace Krypton.Toolkit
                                 UseColumnTextForButtonValue: true
                             } col) && !kDgv.Rows[rowIndex].IsNewRow)
                         {
-                            _shortTextValue.ShortText = col.Text;
+                            _shortTextValue.ShortText = col.Text!;
                         }
                         else
                         {
@@ -333,7 +334,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Private
-        private void CreateViewAndPalettes(KryptonDataGridView kDGV)
+        private void CreateViewAndPalettes(KryptonDataGridView? kDGV)
         {
             // Create the view element when first needed
             if (_viewLabel == null)

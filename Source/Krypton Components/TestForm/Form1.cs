@@ -95,9 +95,7 @@ namespace TestForm
 
         private void kryptonButton3_Click(object sender, EventArgs e)
         {
-            KryptonThemeBrowserForm themeBrowser = new KryptonThemeBrowserForm();
-
-            themeBrowser.ShowDialog();
+            KryptonThemeBrowser.Show();
         }
 
         private void kchkUseProgressValueAsText_CheckedChanged(object sender, EventArgs e)
@@ -124,13 +122,16 @@ namespace TestForm
 
         private void kryptonButton5_Click(object sender, EventArgs e)
         {
-            Form6 poweredByControl = new Form6();
+            KryptonAboutToolkitData data = new KryptonAboutToolkitData();
 
-            poweredByControl.Show();
+            KryptonAboutToolkit.Show(data);
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            FormBorderStyle = FormBorderStyle.Sizable;
+
+            kcbtnSizable.Checked = true;
         }
 
         private void kbtnExit_Click(object sender, EventArgs e)
@@ -146,6 +147,162 @@ namespace TestForm
         private void kryptonButton7_Click(object sender, EventArgs e)
         {
             kryptonCustomPaletteBase1.Export();
+        }
+
+        private void kryptonThemeComboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            KryptonMessageBox.Show(
+                $"Selected Theme Index: {kryptonThemeComboBox1.SelectedIndex} - Theme Name: {kryptonThemeComboBox1.Text}",
+                "Test", KryptonMessageBoxButtons.OK, KryptonMessageBoxIcon.Information);
+        }
+
+        private void kryptonButton8_Click(object sender, EventArgs e)
+        {
+            KryptonAboutBoxData data = new KryptonAboutBoxData();
+
+            KryptonAboutBox.Show(data);
+        }
+
+        private void kcbtnNone_Click(object sender, EventArgs e) => UpdateBorderStyle(FormBorderStyle.None);
+
+        private void kcbtnFixedSingle_Click(object sender, EventArgs e) => UpdateBorderStyle(FormBorderStyle.FixedSingle);
+
+        private void kcbtnFixed3D_Click(object sender, EventArgs e) => UpdateBorderStyle(FormBorderStyle.Fixed3D);
+
+        private void kcbtnFixedDialog_Click(object sender, EventArgs e) => UpdateBorderStyle(FormBorderStyle.FixedDialog);
+
+        private void kcbtnSizable_Click(object sender, EventArgs e) => UpdateBorderStyle(FormBorderStyle.Sizable);
+
+        private void kcbtnFixedToolWindow_Click(object sender, EventArgs e) => UpdateBorderStyle(FormBorderStyle.FixedToolWindow);
+
+        private void kcbtnSizableToolWindow_Click(object sender, EventArgs e) => UpdateBorderStyle(FormBorderStyle.SizableToolWindow);
+
+        private void UpdateBorderStyle(FormBorderStyle borderStyle)
+        {
+            switch (borderStyle)
+            {
+                case FormBorderStyle.None:
+                    FormBorderStyle = FormBorderStyle.None;
+
+                    kcbtnNone.Checked = true;
+
+                    kcbtnFixed3D.Checked = false;
+
+                    kcbtnFixedDialog.Checked = false;
+
+                    kcbtnFixedSingle.Checked = false;
+
+                    kcbtnFixedToolWindow.Checked = false;
+
+                    kcbtnSizable.Checked = false;
+
+                    kcbtnSizableToolWindow.Checked = false;
+                    break;
+                case FormBorderStyle.FixedSingle:
+                    FormBorderStyle = FormBorderStyle.FixedSingle;
+
+                    kcbtnNone.Checked = false;
+
+                    kcbtnFixed3D.Checked = false;
+
+                    kcbtnFixedDialog.Checked = false;
+
+                    kcbtnFixedSingle.Checked = true;
+
+                    kcbtnFixedToolWindow.Checked = false;
+
+                    kcbtnSizable.Checked = false;
+
+                    kcbtnSizableToolWindow.Checked = false;
+                    break;
+                case FormBorderStyle.Fixed3D:
+                    FormBorderStyle = FormBorderStyle.Fixed3D;
+
+                    kcbtnNone.Checked = false;
+
+                    kcbtnFixed3D.Checked = true;
+
+                    kcbtnFixedDialog.Checked = false;
+
+                    kcbtnFixedSingle.Checked = false;
+
+                    kcbtnFixedToolWindow.Checked = false;
+
+                    kcbtnSizable.Checked = false;
+
+                    kcbtnSizableToolWindow.Checked = false;
+                    break;
+                case FormBorderStyle.FixedDialog:
+                    FormBorderStyle = FormBorderStyle.FixedDialog;
+
+                    kcbtnNone.Checked = false;
+
+                    kcbtnFixed3D.Checked = false;
+
+                    kcbtnFixedDialog.Checked = true;
+
+                    kcbtnFixedSingle.Checked = false;
+
+                    kcbtnFixedToolWindow.Checked = false;
+
+                    kcbtnSizable.Checked = false;
+
+                    kcbtnSizableToolWindow.Checked = false;
+                    break;
+                case FormBorderStyle.Sizable:
+                    FormBorderStyle = FormBorderStyle.Sizable;
+
+                    kcbtnNone.Checked = false;
+
+                    kcbtnFixed3D.Checked = false;
+
+                    kcbtnFixedDialog.Checked = false;
+
+                    kcbtnFixedSingle.Checked = false;
+
+                    kcbtnFixedToolWindow.Checked = false;
+
+                    kcbtnSizable.Checked = true;
+
+                    kcbtnSizableToolWindow.Checked = false;
+                    break;
+                case FormBorderStyle.FixedToolWindow:
+                    FormBorderStyle = FormBorderStyle.FixedToolWindow;
+
+                    kcbtnNone.Checked = false;
+
+                    kcbtnFixed3D.Checked = false;
+
+                    kcbtnFixedDialog.Checked = false;
+
+                    kcbtnFixedSingle.Checked = false;
+
+                    kcbtnFixedToolWindow.Checked = true;
+
+                    kcbtnSizable.Checked = false;
+
+                    kcbtnSizableToolWindow.Checked = false;
+                    break;
+                case FormBorderStyle.SizableToolWindow:
+                    FormBorderStyle = FormBorderStyle.SizableToolWindow;
+
+                    kcbtnNone.Checked = false;
+
+                    kcbtnFixed3D.Checked = false;
+
+                    kcbtnFixedDialog.Checked = false;
+
+                    kcbtnFixedSingle.Checked = false;
+
+                    kcbtnFixedToolWindow.Checked = false;
+
+                    kcbtnSizable.Checked = false;
+
+                    kcbtnSizableToolWindow.Checked = true;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(borderStyle), borderStyle, null);
+            }
         }
     }
 }
