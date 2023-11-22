@@ -139,7 +139,7 @@ namespace Krypton.Navigator
         [Description(@"Collection of button specifications.")]
         [MergableProperty(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public NavigatorButtonSpecCollection ButtonSpecs { get; }
+        public NavigatorButtonSpecCollection? ButtonSpecs { get; }
 
         #endregion
 

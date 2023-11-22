@@ -300,7 +300,7 @@ namespace Krypton.Navigator
         [Category(@"Visuals")]
         [Description(@"Collection of button specifications.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public virtual PageButtonSpecCollection ButtonSpecs { get; }
+        public virtual PageButtonSpecCollection? ButtonSpecs { get; }
 
         /// <summary>
         /// Gets access to the common page appearance entries.

@@ -41,7 +41,7 @@ namespace Krypton.Navigator
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            $"ViewDrawNavOutlookStack:{Id} Text:{Page.Text}";
+            $"ViewDrawNavOutlookStack:{Id} Text:{Page!.Text}";
 
         #endregion
 
@@ -52,8 +52,8 @@ namespace Krypton.Navigator
         public override void UpdateButtonSpecMapping()
         {
             // Define a default mapping for text color and recreate to use that new setting
-            ButtonSpecManager.SetRemapTarget(Navigator.Outlook.CheckButtonStyle);
-            ButtonSpecManager.RecreateButtons();
+            ButtonSpecManager?.SetRemapTarget(Navigator.Outlook.CheckButtonStyle);
+            ButtonSpecManager?.RecreateButtons();
         }
         #endregion
 
@@ -72,7 +72,7 @@ namespace Krypton.Navigator
         /// <param name="state">The state for which the image is needed.</param>
         /// <returns>Image value.</returns>
         public override Image? GetImage(PaletteState state) =>
-            Page.GetImageMapping(_full ? Navigator.Outlook.Full.StackMapImage :
+            Page?.GetImageMapping(_full ? Navigator.Outlook.Full.StackMapImage :
                 Navigator.Outlook.Mini.StackMapImage);
 
         /// <summary>
@@ -80,7 +80,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <returns>String value.</returns>
         public override string GetShortText() =>
-            Page.GetTextMapping(_full ? Navigator.Outlook.Full.StackMapText :
+            Page!.GetTextMapping(_full ? Navigator.Outlook.Full.StackMapText :
                 Navigator.Outlook.Mini.StackMapText);
 
         /// <summary>
@@ -88,7 +88,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <returns>String value.</returns>
         public override string GetLongText() =>
-            Page.GetTextMapping(_full ? Navigator.Outlook.Full.StackMapExtraText :
+            Page!.GetTextMapping(_full ? Navigator.Outlook.Full.StackMapExtraText :
                 Navigator.Outlook.Mini.StackMapExtraText);
 
         #endregion

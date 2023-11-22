@@ -55,7 +55,7 @@ namespace Krypton.Navigator
         private ViewDrawBorderEdge _viewSeparatorEdge;
         private ViewDrawSeparator _viewSeparator;
         private ButtonSpecAny _specDropDown;
-        private OutlookButtonSpecCollection _buttons;
+        private OutlookButtonSpecCollection? _buttons;
         private ButtonSpecNavManagerLayoutBar? _buttonManager;
         private PageToButtonEdge? _buttonEdgeLookup;
         private SeparatorController _separatorController;
@@ -1045,7 +1045,7 @@ namespace Krypton.Navigator
                 foreach (var page in Navigator.Pages)
                 {
                     // Double check that it exists in the lookup
-                    if (_pageOverflowLookup.ContainsKey(page))
+                    if (_pageOverflowLookup.ContainsKey(page)!)
                     {
                         // Construct state by concatenating visible values
                         ret += (_pageOverflowLookup[page].Visible ? "T" : "F");
@@ -1078,7 +1078,7 @@ namespace Krypton.Navigator
                             _buttonEdgeLookup[page].Visible = showPageStack;
                         }
 
-                        if (_pageOverflowLookup.ContainsKey(page)!)
+                        if (_pageOverflowLookup.ContainsKey(page))
                         {
                             var showPageOverflow = page.LastVisibleSet && !showPageStack;
                             _pageOverflowLookup[page].Visible = showPageOverflow;

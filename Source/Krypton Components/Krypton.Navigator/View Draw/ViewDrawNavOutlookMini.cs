@@ -33,8 +33,8 @@ namespace Krypton.Navigator
                                       KryptonPage? page,
                                       VisualOrientation orientation)
             : base(navigator, page, orientation,
-                   navigator.StateDisabled.MiniButton,
-                   navigator.StateNormal.MiniButton,
+                   navigator.StateDisabled!.MiniButton,
+                   navigator.StateNormal!.MiniButton,
                    navigator.StateTracking.MiniButton,
                    navigator.StatePressed.MiniButton,
                    navigator.StateSelected.MiniButton,
@@ -48,7 +48,7 @@ namespace Krypton.Navigator
         /// <returns>User readable name of the instance.</returns>
         public override string ToString() =>
             // Return the class name and instance identifier
-            $"ViewDrawNavOutlookMini:{Id} Text:{Page.Text}";
+            $"ViewDrawNavOutlookMini:{Id} Text:{Page!.Text}";
 
         #endregion
 
@@ -64,16 +64,16 @@ namespace Krypton.Navigator
 
                 if (Page != null)
                 {
-                    _overrideDisabled.SetPalettes(Page.OverrideFocus.MiniButton, Page.StateDisabled.MiniButton);
-                    _overrideNormal.SetPalettes(Page.OverrideFocus.MiniButton, Page.StateNormal.MiniButton);
-                    _overrideTracking.SetPalettes(Page.OverrideFocus.MiniButton, Page.StateTracking.MiniButton);
-                    _overridePressed.SetPalettes(Page.OverrideFocus.MiniButton, Page.StatePressed.MiniButton);
-                    _overrideSelected.SetPalettes(Page.OverrideFocus.MiniButton, Page.StateSelected.MiniButton);
+                    _overrideDisabled.SetPalettes(Page!.OverrideFocus.MiniButton, Page!.StateDisabled!.MiniButton);
+                    _overrideNormal.SetPalettes(Page!.OverrideFocus.MiniButton, Page!.StateNormal!.MiniButton);
+                    _overrideTracking.SetPalettes(Page!.OverrideFocus.MiniButton, Page!.StateTracking.MiniButton);
+                    _overridePressed.SetPalettes(Page!.OverrideFocus.MiniButton, Page!.StatePressed.MiniButton);
+                    _overrideSelected.SetPalettes(Page!.OverrideFocus.MiniButton, Page!.StateSelected.MiniButton);
                 }
                 else
                 {
-                    _overrideDisabled.SetPalettes(Navigator.OverrideFocus.MiniButton, Navigator.StateDisabled.MiniButton);
-                    _overrideNormal.SetPalettes(Navigator.OverrideFocus.MiniButton, Navigator.StateNormal.MiniButton);
+                    _overrideDisabled.SetPalettes(Navigator.OverrideFocus.MiniButton, Navigator.StateDisabled!.MiniButton);
+                    _overrideNormal.SetPalettes(Navigator.OverrideFocus.MiniButton, Navigator.StateNormal!.MiniButton);
                     _overrideTracking.SetPalettes(Navigator.OverrideFocus.MiniButton, Navigator.StateTracking.MiniButton);
                     _overridePressed.SetPalettes(Navigator.OverrideFocus.MiniButton, Navigator.StatePressed.MiniButton);
                     _overrideSelected.SetPalettes(Navigator.OverrideFocus.MiniButton, Navigator.StateSelected.MiniButton);
@@ -130,7 +130,7 @@ namespace Krypton.Navigator
             // Ask the navigator to show the specified page as a popup window 
             // relative to our location as an element and firing the provided
             // delegate when the popup is dismissed.
-            Navigator.ShowPopupPage(Page, this, _finishDelegate);
+            Navigator.ShowPopupPage(Page!, this, _finishDelegate);
 
         private void OnPopupFinished(object sender, EventArgs e) =>
             // Remove the fixed display of the button, now the associated popup has been removed

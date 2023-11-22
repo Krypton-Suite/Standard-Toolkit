@@ -20,9 +20,9 @@ namespace Krypton.Navigator
         #region Type Definitons
         protected class PageToButtonEdge : Dictionary<KryptonPage, ViewDrawBorderEdge> { }
         #endregion
-        
+
         #region Instance Fields
-        protected ViewLayoutPageShow _oldRoot;
+        protected ViewLayoutPageShow? _oldRoot;
         protected ViewLayoutDocker _viewLayout;
         protected ViewLayoutScrollViewport _viewScrollViewport;
         private PageToNavCheckButton? _pageLookup;
@@ -38,18 +38,18 @@ namespace Krypton.Navigator
         /// <param name="navigator">Reference to navigator instance.</param>
         /// <param name="manager">Reference to current manager.</param>
         /// <param name="redirector">Palette redirector.</param>
-        public override void Construct([DisallowNull] KryptonNavigator navigator, 
+        public override void Construct([DisallowNull] KryptonNavigator navigator,
                                        [DisallowNull] ViewManager manager,
-                                       [DisallowNull] PaletteRedirect? redirector)
+                                       PaletteRedirect? redirector)
         {
             // Let base class perform common operations
             base.Construct(navigator, manager, redirector);
 
             // Get the current root element
-            _oldRoot = (ViewLayoutPageShow)ViewManager.Root;
+            _oldRoot = ViewManager!.Root as ViewLayoutPageShow;
 
             // Create and initialize all objects
-            ViewManager.Root = CreateStackCheckButtonView();
+            ViewManager.Root = CreateStackCheckButtonView()!;
             CreateNavCheckButtons();
             UpdateCheckButtonStyle();
             PostConstruct();
@@ -106,12 +106,12 @@ namespace Krypton.Navigator
             if (Navigator.SelectedPage != null)
             {
                 // We should have a view for representing the page
-                if (_pageLookup.ContainsKey(Navigator.SelectedPage))
+                if (_pageLookup!.ContainsKey(Navigator.SelectedPage))
                 {
                     // Get the check button used to represent the selected page
                     ViewDrawNavCheckButtonBase selected = _pageLookup[Navigator.SelectedPage];
 
-                    // Make sure the layout is upto date
+                    // Make sure the layout is up-to date
                     Navigator.CheckPerformLayout();
 
                     // Get the client rectangle of the check button
@@ -140,10 +140,10 @@ namespace Krypton.Navigator
             {
                 // Sometimes the page is noticed as changed in visibility before the
                 // page has been processed and has a view added, so need to check lookup
-                if (_pageLookup.ContainsKey(page))
+                if (_pageLookup.ContainsKey(page!))
                 {
                     // Reflect new state in the check button
-                    _pageLookup[page].Visible = page.LastVisibleSet;
+                    _pageLookup[page!].Visible = page!.LastVisibleSet;
                     _buttonEdgeLookup[page].Visible = page.LastVisibleSet;
 
                     // Need to repaint to show the change
@@ -165,11 +165,11 @@ namespace Krypton.Navigator
             {
                 // Sometimes the page is noticed as changed in enabled state before the
                 // page has been processed and has a view added, so need to check lookup
-                if (_pageLookup.ContainsKey(page))
+                if (_pageLookup.ContainsKey(page!))
                 {
                     // Reflect new state in the check button
                     UpdateStatePalettes();
-                    _pageLookup[page].Enabled = page.Enabled;
+                    _pageLookup[page!].Enabled = page!.Enabled;
 
                     // Need to repaint to show the change
                     Navigator.PerformNeedPaint(true);
@@ -191,7 +191,7 @@ namespace Krypton.Navigator
             Debug.Assert(property != null);
 
             // We are only interested if the page is visible
-            if (page.LastVisibleSet)
+            if (page!.LastVisibleSet)
             {
                 switch (property)
                 {
@@ -208,7 +208,7 @@ namespace Krypton.Navigator
             }
 
             // Let base class do standard work
-            base.PageAppearanceChanged(page, property);
+            base.PageAppearanceChanged(page, property!);
         }
 
         /// <summary>
@@ -228,18 +228,18 @@ namespace Krypton.Navigator
                 if (Navigator.SelectedPage == null)
                 {
                     // Then use the states defined in the navigator itself
-                    buttonEdge = Navigator.Enabled ? Navigator.StateNormal.BorderEdge : Navigator.StateDisabled.BorderEdge;
+                    buttonEdge = Navigator.Enabled ? Navigator.StateNormal!.BorderEdge : Navigator.StateDisabled!.BorderEdge;
                 }
                 else
                 {
                     // Use states defined in the selected page
                     if (Navigator.SelectedPage.Enabled)
                     {
-                        buttonEdge = Navigator.SelectedPage.StateNormal.BorderEdge;
+                        buttonEdge = Navigator.SelectedPage.StateNormal!.BorderEdge;
                     }
                     else
                     {
-                        buttonEdge = Navigator.SelectedPage.StateDisabled.BorderEdge;
+                        buttonEdge = Navigator.SelectedPage.StateDisabled!.BorderEdge;
 
                         // If page is disabled then all of view should look disabled
                         checkEnabled = false;
@@ -277,7 +277,7 @@ namespace Krypton.Navigator
             DestructStackCheckButtonView();
 
             // Put the old root back again
-            ViewManager.Root = _oldRoot;
+            ViewManager!.Root = _oldRoot!;
 
             // Let base class perform common operations
             base.Destruct();
@@ -484,10 +484,10 @@ namespace Krypton.Navigator
             if (_viewScrollViewport.ClientRectangle.Contains(pt))
             {
                 // Get the control that owns the view layout
-                Control owningControl = _viewLayout.OwningControl;
+                Control? owningControl = _viewLayout.OwningControl;
 
                 // Convert incoming point from navigator to owning control
-                pt = owningControl.PointToClient(Navigator.PointToScreen(pt));
+                pt = owningControl!.PointToClient(Navigator.PointToScreen(pt));
 
                 // Check if any of the stack check buttons want the point
                 foreach (ViewBase item in _viewLayout)
@@ -514,7 +514,7 @@ namespace Krypton.Navigator
         protected virtual ViewBase? CreateStackCheckButtonView()
         {
             // Set the initial preferred direction for the selected page
-            _oldRoot.SetMinimumAsPreferred(!Navigator.AutoSize);
+            _oldRoot!.SetMinimumAsPreferred(!Navigator.AutoSize);
 
             // Derived class should return something more useful!
             return null;
@@ -525,7 +525,7 @@ namespace Krypton.Navigator
         /// </summary>
         protected virtual void DestructStackCheckButtonView() =>
             // Reset the preferred direction handling to original setting
-            _oldRoot.SetMinimumAsPreferred(false);
+            _oldRoot!.SetMinimumAsPreferred(false);
 
         /// <summary>
         /// Allow operations to occur after main construct actions.
@@ -548,7 +548,7 @@ namespace Krypton.Navigator
             switch (e.PropertyName)
             {
                 case @"BorderEdgeStyleStack":
-                    Navigator.StateCommon.BorderEdgeStyle = Navigator.Stack.BorderEdgeStyle;
+                    Navigator.StateCommon!.BorderEdgeStyle = Navigator.Stack.BorderEdgeStyle;
                     Navigator.PerformNeedPaint(true);
                     break;
                 case @"CheckButtonStyleStack":
@@ -561,7 +561,7 @@ namespace Krypton.Navigator
                     break;
                 case @"StackOrientation":
                     // We only use minimum values if not calculating based on auto sizing
-                    _oldRoot.SetMinimumAsPreferred(!Navigator.AutoSize);
+                    _oldRoot!.SetMinimumAsPreferred(!Navigator.AutoSize);
                     _viewScrollViewport.VerticalViewport = (Navigator.Stack.StackOrientation == Orientation.Vertical);
                     ReorderCheckButtons();
                     Navigator.PerformNeedPaint(true);
@@ -598,8 +598,8 @@ namespace Krypton.Navigator
             ViewDockStyle dockFar = (stackOrient == Orientation.Vertical ? ViewDockStyle.Bottom : ViewDockStyle.Right);
 
             // Cache the border edge palette to use
-            PaletteBorderEdge buttonEdgePalette = (Navigator.Enabled ? Navigator.StateNormal.BorderEdge : 
-                                                                       Navigator.StateDisabled.BorderEdge);
+            PaletteBorderEdge buttonEdgePalette = (Navigator.Enabled ? Navigator.StateNormal!.BorderEdge :
+                                                                       Navigator.StateDisabled!.BorderEdge);
 
             // Start stacking from the top/left if not explicitly set to be far aligned
             var dockTopLeft = (alignment != RelativePositionAlign.Far);
@@ -677,7 +677,7 @@ namespace Krypton.Navigator
         private void DestructCheckButtons()
         {
             // Must tell each check button it is no longer required
-            foreach (ViewDrawNavCheckButtonBase checkButton in _pageLookup.Values)
+            foreach (ViewDrawNavCheckButtonBase checkButton in _pageLookup!.Values)
             {
                 // Must unhook from events
                 checkButton.ButtonDragRectangle -= OnCheckButtonDragRect;
@@ -701,14 +701,14 @@ namespace Krypton.Navigator
                 _viewLayout.Remove(buttonEdge);
             }
 
-            // Remove all associations from the lookup dictionarys
+            // Remove all associations from the lookup dictionaries
             _pageLookup.Clear();
             _buttonEdgeLookup.Clear();
         }
 
         private void UpdateCheckButtonStyle()
         {
-            Navigator.StateCommon.CheckButton.SetStyles(Navigator.Stack.CheckButtonStyle);
+            Navigator.StateCommon!.CheckButton.SetStyles(Navigator.Stack.CheckButtonStyle);
             Navigator.OverrideFocus.CheckButton.SetStyles(Navigator.Stack.CheckButtonStyle);
 
             // Update each individual button with the new style for remapping page level button specs
@@ -727,7 +727,7 @@ namespace Krypton.Navigator
             if ((Navigator.SelectedPage != null) && (_pageLookup != null))
             {
                 // We should have a view for representing the page
-                if (_pageLookup.ContainsKey(Navigator.SelectedPage))
+                if (_pageLookup.ContainsKey(Navigator.SelectedPage)!)
                 {
                     // Get the associated view element for the page
                     ViewDrawNavCheckButtonBase checkButton = _pageLookup[Navigator.SelectedPage];
@@ -741,13 +741,14 @@ namespace Krypton.Navigator
             }
         }
 
+        // ToDo: What does 'page' do?
         private void BringPageIntoView(KryptonPage page)
         {
             // Remember the view for the requested page
             ViewDrawNavCheckButtonBase? viewPage = null;
 
             // Make sure only the selected page is checked
-            foreach (ViewDrawNavCheckButtonBase child in _pageLookup.Values)
+            foreach (ViewDrawNavCheckButtonBase child in _pageLookup!.Values)
             {
                 // Should this check button be selected
                 if (Navigator.SelectedPage == child.Page)
@@ -780,13 +781,13 @@ namespace Krypton.Navigator
                 checkButton.NeedPaint = NeedPaintDelegate;
 
                 // Set the initial state
-                checkButton.Visible = e.Item.LastVisibleSet;
+                checkButton.Visible = e.Item!.LastVisibleSet;
                 checkButton.Enabled = e.Item.Enabled;
                 checkButton.Checked = (Navigator.SelectedPage == e.Item);
 
                 // Find the border edge palette to use
-                PaletteBorderEdge buttonEdgePalette = (Navigator.Enabled ? Navigator.StateNormal.BorderEdge :
-                                                                           Navigator.StateDisabled.BorderEdge);
+                PaletteBorderEdge buttonEdgePalette = (Navigator.Enabled ? Navigator.StateNormal!.BorderEdge :
+                                                                           Navigator.StateDisabled!.BorderEdge);
 
                 // Create the border edge for use next to the check button
                 var buttonEdge = new ViewDrawBorderEdge(buttonEdgePalette, Navigator.Stack.StackOrientation)
@@ -795,7 +796,7 @@ namespace Krypton.Navigator
                 };
 
                 // Add to lookup dictionary
-                _pageLookup.Add(e.Item, checkButton);
+                _pageLookup!.Add(e.Item, checkButton);
                 _buttonEdgeLookup.Add(e.Item, buttonEdge);
 
                 // Set correct ordering and dock setting
@@ -811,8 +812,8 @@ namespace Krypton.Navigator
             if (!Navigator.IsDisposed && _events)
             {
                 // Get the associated check button view element
-                ViewDrawNavCheckButtonBase checkButton = _pageLookup[e.Item];
-                ViewDrawBorderEdge buttonEdge = _buttonEdgeLookup[e.Item];
+                ViewDrawNavCheckButtonBase checkButton = _pageLookup![e.Item!];
+                ViewDrawBorderEdge buttonEdge = _buttonEdgeLookup[e.Item!];
 
                 // Must unhook from events
                 checkButton.ButtonDragRectangle -= OnCheckButtonDragRect;
@@ -827,9 +828,9 @@ namespace Krypton.Navigator
                 _viewLayout.Remove(checkButton);
                 _viewLayout.Remove(buttonEdge);
 
-                // Remove associations from the lookup dictionarys
-                _pageLookup.Remove(e.Item);
-                _buttonEdgeLookup.Remove(e.Item);
+                // Remove associations from the lookup dictionaries
+                _pageLookup.Remove(e.Item!);
+                _buttonEdgeLookup.Remove(e.Item!);
 
                 // Set correct ordering and dock setting
                 ReorderCheckButtons();
@@ -873,7 +874,7 @@ namespace Krypton.Navigator
             foreach (KryptonPage page in Navigator.Pages)
             {
                 // Check that a view element exists for the page
-                if (_pageLookup.ContainsKey(page))
+                if (_pageLookup!.ContainsKey(page))
                 {
                     // Get the associated view elements
                     ViewDrawNavCheckButtonBase checkButton = _pageLookup[page];
@@ -932,7 +933,7 @@ namespace Krypton.Navigator
                     return VisualOrientation.Top;
             }
         }
-        
+
         private void OnEnabledChanged(object sender, EventArgs e)
         {
             UpdateStatePalettes();
@@ -942,7 +943,7 @@ namespace Krypton.Navigator
 
         private void OnAutoSizeChanged(object sender, EventArgs e) =>
             // Only use minimum instead of preferred if not using AutoSize
-            _oldRoot.SetMinimumAsPreferred(!Navigator.AutoSize);
+            _oldRoot!.SetMinimumAsPreferred(!Navigator.AutoSize);
 
         private void OnViewportAnimation(object sender, EventArgs e) => Navigator.PerformNeedPaint(true);
 
@@ -951,7 +952,7 @@ namespace Krypton.Navigator
             // Cast incoming reference to the actual check button view
             var reorderItem = (ViewDrawNavCheckButtonStack)sender;
 
-            e.PreDragOffset = (Navigator.AllowPageReorder && reorderItem.Page.AreFlagsSet(KryptonPageFlags.AllowPageReorder));
+            e.PreDragOffset = (Navigator.AllowPageReorder && reorderItem.Page!.AreFlagsSet(KryptonPageFlags.AllowPageReorder));
             Rectangle dragRect = Rectangle.Union(e.DragRect, _viewScrollViewport.ClientRectangle);
             dragRect.Inflate(new Size(15, 15));
             e.DragRect = dragRect;
@@ -968,8 +969,8 @@ namespace Krypton.Navigator
             foreach (KryptonPage page in Navigator.Pages)
             {
                 // If the mouse is over this button
-                var childView = (ViewDrawNavCheckButtonStack)_pageLookup[page];
-                if (childView.ClientRectangle.Contains(e.PointOffset))
+                var childView = _pageLookup![page] as ViewDrawNavCheckButtonStack;
+                if (childView!.ClientRectangle.Contains(e.PointOffset))
                 {
                     // Only interested if mouse over a different check button
                     if (childView != reorderView)
@@ -995,19 +996,19 @@ namespace Krypton.Navigator
                             // ourself as the moved button. Otherwise we just end up toggling back and forth.
                             if (childRect.Contains(e.PointOffset))
                             {
-                                KryptonPage movePage = PageFromView(reorderView);
-                                KryptonPage targetPage = PageFromView(childView);
-                                var reorder = new PageReorderEventArgs(movePage, targetPage, false);
+                                KryptonPage? movePage = PageFromView(reorderView);
+                                KryptonPage? targetPage = PageFromView(childView);
+                                var reorder = new PageReorderEventArgs(movePage!, targetPage!, false);
 
                                 // Give event handlers a chance to cancel this reorder
                                 Navigator.OnBeforePageReorder(reorder);
                                 if (!reorder.Cancel)
                                 {
-                                    Navigator.Pages.MoveAfter(movePage, PageFromView(childView));
+                                    Navigator.Pages.MoveAfter(movePage!, PageFromView(childView)!);
                                     RecreateView();
                                     Navigator.PerformLayout();
                                     Navigator.Refresh();
-                                    Navigator.OnTabMoved(new TabMovedEventArgs(movePage, Navigator.Pages.IndexOf(movePage)));
+                                    Navigator.OnTabMoved(new TabMovedEventArgs(movePage!, Navigator.Pages.IndexOf(movePage!)));
                                 }
                             }
                         }
@@ -1026,19 +1027,19 @@ namespace Krypton.Navigator
                             // ourself as the moved button. Otherwise we just end up toggling back and forth.
                             if (childRect.Contains(e.PointOffset))
                             {
-                                KryptonPage movePage = PageFromView(reorderView);
-                                KryptonPage targetPage = PageFromView(childView);
-                                var reorder = new PageReorderEventArgs(movePage, targetPage, true);
+                                KryptonPage? movePage = PageFromView(reorderView);
+                                KryptonPage? targetPage = PageFromView(childView);
+                                var reorder = new PageReorderEventArgs(movePage!, targetPage!, true);
 
                                 // Give event handlers a chance to cancel this reorder
                                 Navigator.OnBeforePageReorder(reorder);
                                 if (!reorder.Cancel)
                                 {
-                                    Navigator.Pages.MoveBefore(movePage, PageFromView(childView));
+                                    Navigator.Pages.MoveBefore(movePage!, PageFromView(childView)!);
                                     RecreateView();
                                     Navigator.PerformLayout();
                                     Navigator.Refresh();
-                                    Navigator.OnTabMoved(new TabMovedEventArgs(movePage, Navigator.Pages.IndexOf(movePage)));
+                                    Navigator.OnTabMoved(new TabMovedEventArgs(movePage!, Navigator.Pages.IndexOf(movePage!)));
                                 }
                             }
                         }
@@ -1053,8 +1054,8 @@ namespace Krypton.Navigator
 
         private void RecreateView()
         {
-            // Remove all the existing layout content except the old root at postiion 0
-            ViewBase firstChild = _viewLayout[0];
+            // Remove all the existing layout content except the old root at position 0
+            ViewBase firstChild = _viewLayout[0]!;
             _viewLayout.Clear();
             _viewLayout.Add(firstChild);
 
@@ -1069,26 +1070,26 @@ namespace Krypton.Navigator
             foreach (KryptonPage page in Navigator.Pages)
             {
                 // Grab the page associated view elements
-                var checkButton = (ViewDrawNavCheckButtonStack)_pageLookup[page];
+                var checkButton = _pageLookup![page] as ViewDrawNavCheckButtonStack;
                 ViewDrawBorderEdge buttonEdge = _buttonEdgeLookup[page];
 
                 // Add to the child collection with the correct docking style
                 if (dockTopLeft)
                 {
-                    _viewLayout.Insert(1, checkButton);
+                    _viewLayout.Insert(1, checkButton!);
                     _viewLayout.Insert(1, buttonEdge);
                     _viewLayout.SetDock(buttonEdge, dockNear);
-                    _viewLayout.SetDock(checkButton, dockNear);
+                    _viewLayout.SetDock(checkButton!, dockNear);
                 }
                 else
                 {
                     _viewLayout.Add(buttonEdge, dockFar);
-                    _viewLayout.Add(checkButton, dockFar);
+                    _viewLayout.Add(checkButton!, dockFar);
                 }
 
                 // All entries after the selected page are docked at the bottom/right unless
                 // we have been set to stack near or far, in which case we do not change.
-                if (checkButton.Checked && (alignment == RelativePositionAlign.Center))
+                if (checkButton!.Checked && (alignment == RelativePositionAlign.Center))
                 {
                     dockTopLeft = false;
                 }

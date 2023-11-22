@@ -41,7 +41,7 @@ namespace Krypton.Navigator
         /// <param name="paletteState">Palette state for color remapping.</param>
         public ButtonSpecNavManagerLayoutHeaderBar(Control control,
                                                    PaletteRedirect? redirector,
-                                                   ButtonSpecCollectionBase variableSpecs,
+                                                   ButtonSpecCollectionBase? variableSpecs,
                                                    ButtonSpecCollectionBase? fixedSpecs,
                                                    ViewLayoutDocker[] viewDockers,
                                                    IPaletteMetric[] viewMetrics,
