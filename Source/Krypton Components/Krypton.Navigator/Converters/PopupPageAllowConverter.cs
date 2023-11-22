@@ -22,9 +22,9 @@ namespace Krypton.Navigator
         [Localizable(true)]
         private static readonly IReadOnlyDictionary<PopupPageAllow, string> _pairs = new Dictionary<PopupPageAllow, string>
         {
-            {PopupPageAllow.Never, "Never"},
-            {PopupPageAllow.OnlyCompatibleModes, "Only Compatible Modes"},
-            {PopupPageAllow.OnlyOutlookMiniMode, "Only Outlook Mini Mode"}
+            {PopupPageAllow.Never, @"Never"},
+            {PopupPageAllow.OnlyCompatibleModes, @"Only Compatible Modes"},
+            {PopupPageAllow.OnlyOutlookMiniMode, @"Only Outlook Mini Mode"}
         };
 
         #endregion

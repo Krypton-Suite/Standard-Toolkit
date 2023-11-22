@@ -50,7 +50,7 @@ namespace Krypton.Navigator
                 case @"BarOrientation":
                     UpdateOrientation();
                     UpdateItemOrientation();
-                    _buttonManager.RecreateButtons();
+                    _buttonManager?.RecreateButtons();
                     Navigator.PerformNeedPaint(true);
                     break;
                 case @"BarFirstItemInset":

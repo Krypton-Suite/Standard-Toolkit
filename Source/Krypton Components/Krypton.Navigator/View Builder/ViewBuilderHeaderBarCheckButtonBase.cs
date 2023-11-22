@@ -59,7 +59,7 @@ namespace Krypton.Navigator
             // Create button specification collection manager
             _buttonManager = new ButtonSpecNavManagerLayoutHeaderBar(Navigator, Redirector, Navigator.Button.ButtonSpecs, Navigator.FixedSpecs,
                                                                      new[] { _layoutBarDocker },
-                                                                     new IPaletteMetric[] { Navigator.StateCommon.Bar },
+                                                                     new IPaletteMetric[] { Navigator.StateCommon!.Bar },
                                                                      new[] { PaletteMetricInt.BarButtonEdgeInside },
                                                                      new[] { PaletteMetricInt.BarButtonEdgeOutside },
                                                                      new[] { PaletteMetricPadding.BarButtonPadding },
@@ -78,7 +78,7 @@ namespace Krypton.Navigator
         /// </summary>
         protected override void PostCreate()
         {
-            SetHeaderStyle(_viewHeadingBar, Navigator.StateCommon.HeaderGroup.HeaderBar, Navigator.Header.HeaderStyleBar);
+            SetHeaderStyle(_viewHeadingBar, Navigator.StateCommon!.HeaderGroup!.HeaderBar, Navigator.Header.HeaderStyleBar);
             _viewHeadingBar.Visible = Navigator.Header.HeaderVisibleBar;
             base.PostCreate();
         }
@@ -137,7 +137,7 @@ namespace Krypton.Navigator
             switch (e.PropertyName)
             {
                 case @"HeaderStyleBar":
-                    SetHeaderStyle(_viewHeadingBar, Navigator.StateCommon.HeaderGroup.HeaderBar, Navigator.Header.HeaderStyleBar);
+                    SetHeaderStyle(_viewHeadingBar, Navigator.StateCommon!.HeaderGroup!.HeaderBar, Navigator.Header.HeaderStyleBar);
                     UpdateStatePalettes();
                     Navigator.PerformNeedPaint(true);
                     break;
@@ -148,7 +148,7 @@ namespace Krypton.Navigator
                 case @"HeaderPositionBar":
                     UpdateOrientation();
                     UpdateItemOrientation();
-                    _buttonManager.RecreateButtons();
+                    _buttonManager!.RecreateButtons();
                     Navigator.PerformNeedPaint(true);
                     break;
                 default:
@@ -233,8 +233,8 @@ namespace Krypton.Navigator
         }
 
         private IPaletteContent GetRemappingPaletteContent() => Navigator.Enabled
-            ? Navigator.StateNormal.HeaderGroup.HeaderBar.Content
-            : Navigator.StateDisabled.HeaderGroup.HeaderBar.Content;
+            ? Navigator.StateNormal!.HeaderGroup!.HeaderBar.Content
+            : Navigator.StateDisabled!.HeaderGroup!.HeaderBar.Content;
 
         private PaletteState GetRemappingPaletteState() =>
             Navigator.Enabled ? PaletteState.Normal : PaletteState.Disabled;
@@ -244,10 +244,10 @@ namespace Krypton.Navigator
             if (_buttonManager != null)
             {
                 // Cast button manager to correct type
-                var headerBarBM = (ButtonSpecNavManagerLayoutHeaderBar)_buttonManager;
+                var headerBarBM = _buttonManager as ButtonSpecNavManagerLayoutHeaderBar;
 
                 // Update with newly calculated values
-                headerBarBM.UpdateRemapping(GetRemappingPaletteContent(),
+                headerBarBM?.UpdateRemapping(GetRemappingPaletteContent(),
                                             GetRemappingPaletteState());
             }
         }

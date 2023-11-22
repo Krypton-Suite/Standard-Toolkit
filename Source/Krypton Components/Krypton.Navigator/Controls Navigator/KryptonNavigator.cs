@@ -1909,7 +1909,7 @@ namespace Krypton.Navigator
             Debug.Assert(page != null);
 
             // Get the index of the page
-            var pos = Pages.IndexOf(page);
+            var pos = Pages.IndexOf(page!);
 
             // Search backwards towards start of pages collection
             for (var i = pos - 1; i >= 0; i--)
@@ -1929,7 +1929,7 @@ namespace Krypton.Navigator
             Debug.Assert(page != null);
 
             // Get the index of the page
-            var pos = Pages.IndexOf(page);
+            var pos = Pages.IndexOf(page!);
 
             // Search towards end of pages collection
             for (var i = pos + 1; i < Pages.Count; i++)
@@ -2024,7 +2024,7 @@ namespace Krypton.Navigator
             {
                 // Must cast to the correct type in order to access the 
                 // internal method that allows a child control to be added
-                ((KryptonReadOnlyControls)Controls).AddInternal(ChildPanel);
+                ((KryptonReadOnlyControls)Controls).AddInternal(ChildPanel!);
                 IsChildPanelBorrowed = false;
             }
         }
@@ -2205,9 +2205,9 @@ namespace Krypton.Navigator
             if (StateCommon != null && StateDisabled != null && StateNormal != null)
             {
                 ChildPanel = new KryptonGroupPanel(this,
-                    StateCommon.HeaderGroup,
-                    StateDisabled.HeaderGroup,
-                    StateNormal.HeaderGroup,
+                    StateCommon.HeaderGroup!,
+                    StateDisabled.HeaderGroup!,
+                    StateNormal.HeaderGroup!,
                     OnGroupPanelPaint!)
                 {
                     // Make sure the panel back style always mimics our back style
@@ -2467,7 +2467,7 @@ namespace Krypton.Navigator
                 }
 
                 // Inform the current view builder of possible appearance change
-                ViewBuilder.PageAppearanceChanged(page, e.PropertyName);
+                ViewBuilder.PageAppearanceChanged(page!, e?.PropertyName!);
             }
         }
 
@@ -2786,7 +2786,7 @@ namespace Krypton.Navigator
                             || page is { LastVisibleSet: true, Enabled: true })
                         {
                             // Add a vertical break after every 20 items
-                            if ((menuItems > 0) 
+                            if ((menuItems > 0)
                                 && ((menuItems % 20) == 0)
                                 )
                             {
@@ -2919,7 +2919,7 @@ namespace Krypton.Navigator
                         _visualPopupToolTip?.Dispose();
 
                         // Create the actual tooltip popup object
-                        _visualPopupToolTip = new VisualPopupToolTip(Redirector,
+                        _visualPopupToolTip = new VisualPopupToolTip(Redirector!,
                                                                      sourceContent,
                                                                      Renderer,
                                                                      PaletteBackStyle.ControlToolTip,

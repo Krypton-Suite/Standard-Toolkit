@@ -22,25 +22,25 @@ namespace Krypton.Navigator
         [Localizable(true)]
         private static readonly IReadOnlyDictionary<NavigatorMode, string> _pairs = new Dictionary<NavigatorMode, string>
         {
-            {NavigatorMode.BarTabGroup, "Bar - Tab - Group"},
-            {NavigatorMode.BarTabOnly, "Bar - Tab - Only"},
-            {NavigatorMode.BarRibbonTabGroup, "Bar - RibbonTab - Group"},
-            {NavigatorMode.BarRibbonTabOnly, "Bar - RibbonTab - Only"},
-            {NavigatorMode.BarCheckButtonGroupOutside, "Bar - CheckButton - Group - Outside"},
-            {NavigatorMode.BarCheckButtonGroupInside, "Bar - CheckButton - Group - Inside"},
-            {NavigatorMode.BarCheckButtonGroupOnly, "Bar - CheckButton - Group - Only"},
-            {NavigatorMode.BarCheckButtonOnly, "Bar - CheckButton - Only"},
-            {NavigatorMode.HeaderBarCheckButtonGroup, "HeaderBar - CheckButton - Group"},
-            {NavigatorMode.HeaderBarCheckButtonHeaderGroup, "HeaderBar - CheckButton - HeaderGroup"},
-            {NavigatorMode.HeaderBarCheckButtonOnly, "HeaderBar - CheckButton - Only"},
-            {NavigatorMode.StackCheckButtonGroup, "Stack - CheckButton - Group"},
-            {NavigatorMode.StackCheckButtonHeaderGroup, "Stack - CheckButton - HeaderGroup"},
-            {NavigatorMode.OutlookFull, "Outlook - Full"}, 
-            {NavigatorMode.OutlookMini, "Outlook - Mini"},
+            {NavigatorMode.BarTabGroup, @"Bar - Tab - Group"},
+            {NavigatorMode.BarTabOnly, @"Bar - Tab - Only"},
+            {NavigatorMode.BarRibbonTabGroup, @"Bar - RibbonTab - Group"},
+            {NavigatorMode.BarRibbonTabOnly, @"Bar - RibbonTab - Only"},
+            {NavigatorMode.BarCheckButtonGroupOutside, @"Bar - CheckButton - Group - Outside"},
+            {NavigatorMode.BarCheckButtonGroupInside, @"Bar - CheckButton - Group - Inside"},
+            {NavigatorMode.BarCheckButtonGroupOnly, @"Bar - CheckButton - Group - Only"},
+            {NavigatorMode.BarCheckButtonOnly, @"Bar - CheckButton - Only"},
+            {NavigatorMode.HeaderBarCheckButtonGroup, @"HeaderBar - CheckButton - Group"},
+            {NavigatorMode.HeaderBarCheckButtonHeaderGroup, @"HeaderBar - CheckButton - HeaderGroup"},
+            {NavigatorMode.HeaderBarCheckButtonOnly, @"HeaderBar - CheckButton - Only"},
+            {NavigatorMode.StackCheckButtonGroup, @"Stack - CheckButton - Group"},
+            {NavigatorMode.StackCheckButtonHeaderGroup, @"Stack - CheckButton - HeaderGroup"},
+            {NavigatorMode.OutlookFull, @"Outlook - Full"}, 
+            {NavigatorMode.OutlookMini, @"Outlook - Mini"},
             {NavigatorMode.Panel, nameof(Panel)}, 
-            {NavigatorMode.Group, "Group"},
-            {NavigatorMode.HeaderGroup, "HeaderGroup"},
-            {NavigatorMode.HeaderGroupTab, "HeaderGroup - Tab"}
+            {NavigatorMode.Group, @"Group"},
+            {NavigatorMode.HeaderGroup, @"HeaderGroup"},
+            {NavigatorMode.HeaderGroupTab, @"HeaderGroup - Tab"}
         };
 
         #endregion

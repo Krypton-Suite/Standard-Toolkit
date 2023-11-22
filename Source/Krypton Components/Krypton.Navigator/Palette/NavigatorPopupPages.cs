@@ -42,9 +42,9 @@ namespace Krypton.Navigator
         {
             Debug.Assert(navigator != null);
             Debug.Assert(needPaint != null);
-            
+
             // Remember back reference
-            _navigator = navigator;
+            _navigator = navigator!;
 
             // Store the provided paint notification delegate
             NeedPaint = needPaint;

@@ -22,10 +22,10 @@ namespace Krypton.Navigator
         [Localizable(true)]
         private static readonly IReadOnlyDictionary<CloseButtonAction, string> _pairs = new Dictionary<CloseButtonAction, string>
         {
-                {CloseButtonAction.None, "None (Do nothing)"},
-                {CloseButtonAction.RemovePage, "RemovePage"},
-                {CloseButtonAction.RemovePageAndDispose, "RemovePage & Dispose"},
-                { CloseButtonAction.HidePage, "Hide Page"}
+                {CloseButtonAction.None, @"None (Do nothing)"},
+                {CloseButtonAction.RemovePage, @"Remove Page"},
+                {CloseButtonAction.RemovePageAndDispose, @"Remove Page & Dispose"},
+                { CloseButtonAction.HidePage, @"Hide Page"}
             };
         #endregion
 

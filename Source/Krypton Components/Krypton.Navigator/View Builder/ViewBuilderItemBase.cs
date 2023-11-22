@@ -40,13 +40,13 @@ namespace Krypton.Navigator
         /// <param name="redirector">Palette redirector.</param>
         public override void Construct([DisallowNull] KryptonNavigator navigator,
                 [DisallowNull] ViewManager manager,
-                [DisallowNull] PaletteRedirect redirector)
+                                        PaletteRedirect? redirector)
         {
             // Let base class perform common operations
-            base.Construct(navigator, manager, redirector);
+            base.Construct(navigator, manager, redirector!);
 
             // Get the current root element
-            _oldRoot = ViewManager.Root;
+            _oldRoot = ViewManager?.Root!;
 
             // Create and initialize all objects
             CreateCheckItemView();
@@ -61,7 +61,7 @@ namespace Krypton.Navigator
             _buttonManager?.RecreateButtons();
 
             // Canvas becomes the new root
-            ViewManager.Root = _newRoot;
+            ViewManager!.Root = _newRoot;
 
             // Need to monitor changes in the enabled state
             Navigator.EnabledChanged += OnNavigatorEnabledChanged;
@@ -82,7 +82,7 @@ namespace Krypton.Navigator
             Navigator.RightToLeftChanged -= OnNavigatorRightToLeftChanged;
 
             // Put the old root back again
-            ViewManager.Root = _oldRoot;
+            ViewManager!.Root = _oldRoot;
 
             // Let base class perform common operations
             base.Destruct();
@@ -118,11 +118,11 @@ namespace Krypton.Navigator
             // If we found a selected page
             if (selected != null)
             {
-                // Make sure the layout is upto date
+                // Make sure the layout is up-to date
                 Navigator.CheckPerformLayout();
 
                 // Get the client rectangle of the check button
-                Rectangle buttonRect = selected.ClientRectangle;
+                var buttonRect = selected.ClientRectangle;
 
                 // Ask the viewport to bring this rectangle into view
                 _layoutBarViewport.BringIntoView(buttonRect);
@@ -152,10 +152,10 @@ namespace Krypton.Navigator
             {
                 // Sometimes the page is noticed as changed in visibility before the
                 // page has been processed and has a view added, so need to check lookup
-                if (_pageLookup.ContainsKey(page))
+                if (_pageLookup.ContainsKey(page!))
                 {
                     // Reflect new state in the check button
-                    _pageLookup[page].View.Visible = page.LastVisibleSet;
+                    _pageLookup[page!].View.Visible = page!.LastVisibleSet;
 
                     // Need to repaint to show the change
                     Navigator.PerformNeedPaint(true);
@@ -176,10 +176,10 @@ namespace Krypton.Navigator
             {
                 // Sometimes the page is noticed as changed in enabled state before the
                 // page has been processed and has a view added, so need to check lookup
-                if (_pageLookup.ContainsKey(page))
+                if (_pageLookup.ContainsKey(page!))
                 {
                     // Reflect new state in the check button
-                    _pageLookup[page].View.Enabled = page.Enabled;
+                    _pageLookup[page!].View.Enabled = page!.Enabled;
 
                     // Need to repaint to show the change
                     Navigator.PerformNeedPaint(true);
@@ -211,7 +211,7 @@ namespace Krypton.Navigator
             ButtonSpec? bs = (_buttonManager?.ButtonSpecFromView(element));
 
             // Check each page level button spec
-            if ((bs == null) && (_pageLookup != null))
+            if (bs == null && _pageLookup != null)
             {
                 foreach (var pair in _pageLookup)
                 {
@@ -249,7 +249,7 @@ namespace Krypton.Navigator
             }
 
             // Let base class do standard work
-            base.PageAppearanceChanged(page, property);
+            base.PageAppearanceChanged(page!, property!);
         }
 
         /// <summary>
@@ -294,7 +294,7 @@ namespace Krypton.Navigator
             // Only update the group if we have one
             if (_drawGroup != null)
             {
-                _drawGroup.SetPalettes(paletteState.HeaderGroup.Back, paletteState.HeaderGroup.Border);
+                _drawGroup.SetPalettes(paletteState!.HeaderGroup!.Back, paletteState.HeaderGroup.Border);
 
                 _drawGroup.Enabled = enabled;
             }
@@ -302,15 +302,15 @@ namespace Krypton.Navigator
             // Only update the panel if we have one
             if (_drawPanel != null)
             {
-                _drawPanel.SetPalettes(paletteState.Back);
+                _drawPanel.SetPalettes(paletteState!.Back);
                 _drawPanel.Enabled = Navigator.Enabled;
             }
 
             // Update metrics from state common
-            _layoutBar.SetMetrics(paletteCommon.Bar);
-            _layoutBarViewport.SetMetrics(paletteCommon.Bar);
+            _layoutBar.SetMetrics(paletteCommon?.Bar);
+            _layoutBarViewport.SetMetrics(paletteCommon!.Bar);
 
-            _buttonManager?.SetDockerMetrics(_layoutBarDocker, paletteCommon.Bar);
+            _buttonManager?.SetDockerMetrics(_layoutBarDocker, paletteCommon!.Bar);
 
             // Let base class perform common actions
             base.UpdateStatePalettes();
@@ -696,7 +696,7 @@ namespace Krypton.Navigator
             // Create button specification collection manager
             _buttonManager = new ButtonSpecNavManagerLayoutBar(Navigator, Redirector, Navigator.Button.ButtonSpecs, Navigator.FixedSpecs,
                                                                new[] { _layoutBarDocker },
-                                                               new IPaletteMetric[] { Navigator.StateCommon.Bar },
+                                                               new IPaletteMetric[] { Navigator.StateCommon!.Bar },
                                                                new[] { PaletteMetricInt.BarButtonEdgeInside },
                                                                new[] { PaletteMetricInt.BarButtonEdgeOutside },
                                                                new[] { PaletteMetricPadding.BarButtonPadding },
@@ -763,7 +763,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets access to the collection of pages.
         /// </summary>
-        protected PageToNavCheckItem PageLookup => _pageLookup;
+        protected PageToNavCheckItem? PageLookup => _pageLookup;
 
         /// <summary>
         /// Update the bar orientation.
@@ -980,7 +980,7 @@ namespace Krypton.Navigator
 
         private void UpdateCheckItemStyle()
         {
-            Navigator.StateCommon.CheckButton.SetStyles(Navigator.Bar.CheckButtonStyle);
+            Navigator.StateCommon!.CheckButton.SetStyles(Navigator.Bar.CheckButtonStyle);
             Navigator.OverrideFocus.CheckButton.SetStyles(Navigator.Bar.CheckButtonStyle);
 
             // Update each individual button with the new style for remapping page level button specs
@@ -1016,7 +1016,7 @@ namespace Krypton.Navigator
             if (Navigator.SelectedPage != null)
             {
                 // We should have a view for representing the page
-                if (_pageLookup.ContainsKey(Navigator.SelectedPage))
+                if (_pageLookup!.ContainsKey(Navigator.SelectedPage))
                 {
                     // Get the associated view element for the page
                     INavCheckItem checkItem = _pageLookup[Navigator.SelectedPage];
@@ -1033,7 +1033,7 @@ namespace Krypton.Navigator
         private void DestructCheckButtons()
         {
             // Must tell each check button it is no longer required
-            foreach (ViewBase child in _layoutBar)
+            foreach (var child in _layoutBar)
             {
                 var checkItem = (INavCheckItem)child;
 
@@ -1050,7 +1050,7 @@ namespace Krypton.Navigator
             _layoutBar.Clear();
 
             // Remove all associations from the lookup dictionary
-            _pageLookup.Clear();
+            _pageLookup?.Clear();
         }
 
         private void RefreshButtons()
@@ -1072,7 +1072,7 @@ namespace Krypton.Navigator
             ViewBase? viewPage = null;
 
             // Make sure only the selected page is checked
-            foreach (ViewBase child in _layoutBar)
+            foreach (var child in _layoutBar)
             {
                 var checkItem = (INavCheckItem)child;
 
@@ -1111,7 +1111,7 @@ namespace Krypton.Navigator
             if (!Navigator.IsDisposed && (_events > 0))
             {
                 // Get the associated check button view element
-                INavCheckItem checkItem = _pageLookup[e.Item];
+                INavCheckItem? checkItem = _pageLookup![e.Item!];
 
                 // Must unhook from events
                 checkItem.ButtonDragRectangle -= OnCheckButtonDragRect;
@@ -1125,7 +1125,7 @@ namespace Krypton.Navigator
                 _layoutBar.Remove(checkItem.View);
 
                 // Remove association from the lookup dictionary
-                _pageLookup.Remove(e.Item);
+                _pageLookup.Remove(e.Item!);
 
                 // Need to repaint to show the change
                 Navigator.PerformNeedPaint(true);
@@ -1147,12 +1147,15 @@ namespace Krypton.Navigator
                 checkItem.NeedPaint = NeedPaintDelegate;
 
                 // Set the initial state
-                checkItem.View.Visible = e.Item.LastVisibleSet;
-                checkItem.View.Enabled = e.Item.Enabled;
-                checkItem.Checked = (Navigator.SelectedPage == e.Item);
+                if (e.Item != null)
+                {
+                    checkItem.View.Visible = e.Item.LastVisibleSet;
+                    checkItem.View.Enabled = e.Item.Enabled;
+                    checkItem.Checked = (Navigator.SelectedPage == e.Item);
 
-                // Add to lookup dictionary
-                _pageLookup.Add(e.Item, checkItem);
+                    // Add to lookup dictionary
+                    _pageLookup!.Add(e.Item, checkItem);
+                }
 
                 // Add to the bar layout element for positioning
                 _layoutBar.Insert(e.Index, checkItem.View);
@@ -1171,10 +1174,14 @@ namespace Krypton.Navigator
         private void OnCheckButtonDragRect(object sender, ButtonDragRectangleEventArgs e)
         {
             // Cast incoming reference to the actual button view
-            var reorderItem = (INavCheckItem)sender;
+            var reorderItem = sender as INavCheckItem;
 
-            e.PreDragOffset = (Navigator.AllowPageReorder && reorderItem.Page.AreFlagsSet(KryptonPageFlags.AllowPageReorder));
-            Rectangle dragRect = Rectangle.Union(e.DragRect, _layoutBarViewport.ClientRectangle);
+            if (reorderItem!.Page != null)
+            {
+                e.PreDragOffset = (Navigator.AllowPageReorder &&
+                                     reorderItem.Page.AreFlagsSet(KryptonPageFlags.AllowPageReorder));
+            }
+            var dragRect = Rectangle.Union(e.DragRect, _layoutBarViewport.ClientRectangle);
             dragRect.Inflate(new Size(10, 10));
             e.DragRect = dragRect;
         }
@@ -1183,19 +1190,19 @@ namespace Krypton.Navigator
         {
             // Cast incoming reference to the actual button view
             var reorderItem = (INavCheckItem)sender;
-            ViewBase reorderView = reorderItem.View;
+            var reorderView = reorderItem.View;
 
             // Scan the collection of children
             var foundReorderView = false;
-            VisualOrientation orientation = ConvertButtonBorderBackOrientation();
-            foreach (ViewBase childView in Navigator.Pages.Select(page => (ViewBase)_pageLookup[page]))
+            var orientation = ConvertButtonBorderBackOrientation();
+            foreach (var childView in Navigator.Pages.Select(page => _pageLookup![page] as ViewBase))
             {
-                if (childView.ClientRectangle.Contains(e.PointOffset))
+                if (childView!.ClientRectangle.Contains(e.PointOffset))
                 {
                     // Only interested if mouse over a different check button
                     if (childView != reorderView)
                     {
-                        Rectangle childRect = childView.ClientRectangle;
+                        var childRect = childView.ClientRectangle;
 
                         if (foundReorderView)
                         {
@@ -1216,19 +1223,19 @@ namespace Krypton.Navigator
                             // ourself as the moved button. Otherwise we just end up toggling back and forth.
                             if (childRect.Contains(e.PointOffset))
                             {
-                                KryptonPage movePage = PageFromView(reorderView);
-                                KryptonPage targetPage = PageFromView(childView);
-                                var reorder = new PageReorderEventArgs(movePage, targetPage, false);
+                                KryptonPage? movePage = PageFromView(reorderView);
+                                KryptonPage? targetPage = PageFromView(childView);
+                                var reorder = new PageReorderEventArgs(movePage!, targetPage!, false);
 
                                 // Give event handlers a chance to cancel this reorder
                                 Navigator.OnBeforePageReorder(reorder);
                                 if (!reorder.Cancel)
                                 {
-                                    Navigator.Pages.MoveAfter(movePage, targetPage);
+                                    Navigator.Pages.MoveAfter(movePage!, targetPage!);
                                     RecreateView();
                                     Navigator.PerformLayout();
                                     Navigator.Refresh();
-                                    Navigator.OnTabMoved(new TabMovedEventArgs(movePage, Navigator.Pages.IndexOf(movePage)));
+                                    Navigator.OnTabMoved(new TabMovedEventArgs(movePage!, Navigator.Pages.IndexOf(movePage!)));
                                 }
                             }
                         }
@@ -1247,19 +1254,19 @@ namespace Krypton.Navigator
                             // ourself as the moved button. Otherwise we just end up toggling back and forth.
                             if (childRect.Contains(e.PointOffset))
                             {
-                                KryptonPage movePage = PageFromView(reorderView);
-                                KryptonPage targetPage = PageFromView(childView);
-                                var reorder = new PageReorderEventArgs(movePage, targetPage, true);
+                                KryptonPage? movePage = PageFromView(reorderView);
+                                KryptonPage? targetPage = PageFromView(childView);
+                                var reorder = new PageReorderEventArgs(movePage!, targetPage!, true);
 
                                 // Give event handlers a chance to cancel this reorder
                                 Navigator.OnBeforePageReorder(reorder);
                                 if (!reorder.Cancel)
                                 {
-                                    Navigator.Pages.MoveBefore(movePage, PageFromView(childView));
+                                    Navigator.Pages.MoveBefore(movePage!, PageFromView(childView)!);
                                     RecreateView();
                                     Navigator.PerformLayout();
                                     Navigator.Refresh();
-                                    Navigator.OnTabMoved(new TabMovedEventArgs(movePage, Navigator.Pages.IndexOf(movePage)));
+                                    Navigator.OnTabMoved(new TabMovedEventArgs(movePage!, Navigator.Pages.IndexOf(movePage!)));
                                 }
                             }
                         }
@@ -1278,7 +1285,7 @@ namespace Krypton.Navigator
             _layoutBar.Clear();
 
             // Reorder the layout bar children to match the pages ordering
-            foreach (INavCheckItem checkItem in Navigator.Pages.Select(page => _pageLookup[page]))
+            foreach (var checkItem in Navigator.Pages.Select(page => _pageLookup![page]))
             {
                 _layoutBar.Add(checkItem.View);
             }

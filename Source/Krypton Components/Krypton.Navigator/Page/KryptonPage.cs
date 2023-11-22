@@ -150,8 +150,8 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="text">Initial text.</param>
         /// <param name="uniqueName">Initial unique name.</param>
-        public KryptonPage(string text, string uniqueName)
-            : this(text, null, uniqueName)
+        public KryptonPage(string text, string? uniqueName)
+            : this(text, null, uniqueName ?? string.Empty)
         {
         }
 
@@ -165,7 +165,7 @@ namespace Krypton.Navigator
         /// <remarks>
         /// If Min Size not set in the Embedded control, then will default to 150, 50
         /// </remarks>
-        public KryptonPage(string text, Bitmap? imageSmall, string uniqueName)
+        public KryptonPage(string text, Bitmap? imageSmall, string? uniqueName)
             : this(text, imageSmall, uniqueName, new Size(150, 50))
         {
 
@@ -178,7 +178,7 @@ namespace Krypton.Navigator
         /// <param name="imageSmall">Initial small image.</param>
         /// <param name="uniqueName">Initial unique name.</param>
         /// <param name="minSize">Min Size of dragged docked control, if not set by Embedded</param>
-        public KryptonPage(string text, Bitmap? imageSmall, string uniqueName, Size minSize)
+        public KryptonPage(string text, Bitmap? imageSmall, string? uniqueName, Size minSize)
         {
             // Default properties
             Text = text;
@@ -193,7 +193,7 @@ namespace Krypton.Navigator
             _imageSmall = imageSmall;
             _setVisible = true;
             _autoHiddenSlideSize = new Size(200, 200);
-            _uniqueName = string.IsNullOrEmpty(uniqueName) ? CommonHelper.UniqueString : uniqueName;
+            _uniqueName = string.IsNullOrEmpty(uniqueName) ? CommonHelper.UniqueString : uniqueName ?? string.Empty;
             _flags.Flags = (int)KryptonPageFlags.All;
             _flags.ClearFlags((int)KryptonPageFlags.PageInOverflowBarForOutlookMode);
 

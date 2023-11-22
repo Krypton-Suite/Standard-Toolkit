@@ -19,11 +19,12 @@ namespace Krypton.Navigator
     {
         #region Static Fields
 
-        [Localizable(true)] private static readonly IReadOnlyDictionary<ContextButtonAction, string> _pairs =
+        [Localizable(true)]
+        private static readonly IReadOnlyDictionary<ContextButtonAction, string> _pairs =
             new Dictionary<ContextButtonAction, string>
             {
-                { ContextButtonAction.None, "None (Do nothing)" },
-                { ContextButtonAction.SelectPage, "Select Page" }
+                { ContextButtonAction.None, @"None (Do nothing)" },
+                { ContextButtonAction.SelectPage, @"Select Page" }
             };
         #endregion
 

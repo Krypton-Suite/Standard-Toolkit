@@ -40,7 +40,7 @@ namespace Krypton.Navigator
         /// <param name="redirector">Palette redirector.</param>
         public override void Construct([DisallowNull] KryptonNavigator navigator, 
                                        [DisallowNull] ViewManager manager,
-                                       [DisallowNull] PaletteRedirect redirector)
+                                       [DisallowNull] PaletteRedirect? redirector)
         {
             // Let base class perform common operations
             base.Construct(navigator, manager, redirector);

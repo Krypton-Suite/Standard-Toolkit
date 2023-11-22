@@ -58,7 +58,7 @@ namespace Krypton.Navigator
         public override void Layout(ViewLayoutContext context)
         {
             // Make all stacking items that should be visible are visible
-            ViewBuilder.UnshrinkAppropriatePages();
+            ViewBuilder.UnShrinkAppropriatePages();
 
             // Let base class continue with standard layout
             base.Layout(context);

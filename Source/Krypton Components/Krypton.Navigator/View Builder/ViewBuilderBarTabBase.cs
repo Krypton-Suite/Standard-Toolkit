@@ -134,7 +134,7 @@ namespace Krypton.Navigator
         /// </summary>
         protected void UpdateTabStyle()
         {
-            Navigator.StateCommon.Tab.SetStyles(Navigator.Bar.TabStyle);
+            Navigator.StateCommon!.Tab.SetStyles(Navigator.Bar.TabStyle);
             Navigator.OverrideFocus.Tab.SetStyles(Navigator.Bar.TabStyle);
 
             // Update each individual tab with the new style for remapping page level button specs
@@ -142,8 +142,8 @@ namespace Krypton.Navigator
             {
                 foreach (var pair in PageLookup)
                 {
-                    var tabHeader = (ViewDrawNavCheckButtonTab)pair.Value;
-                    tabHeader.ButtonSpecManager?.SetRemapTarget(Navigator.Bar.TabStyle);
+                    var tabHeader = pair.Value as ViewDrawNavCheckButtonTab;
+                    tabHeader!.ButtonSpecManager!.SetRemapTarget(Navigator.Bar.TabStyle);
                 }
             }
         }
@@ -156,7 +156,7 @@ namespace Krypton.Navigator
             TabBorderStyle tabBorderStyle = Navigator.Bar.TabBorderStyle;
 
             // Update the border style of each check button
-            foreach (ViewDrawNavCheckButtonTab tab in _pageLookup.Values)
+            foreach (ViewDrawNavCheckButtonTab tab in _pageLookup!.Values!)
             {
                 tab.TabBorderStyle = tabBorderStyle;
             }

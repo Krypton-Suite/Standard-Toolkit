@@ -19,10 +19,10 @@ namespace Krypton.Navigator
     {
         private static readonly IReadOnlyDictionary<ButtonDisplay, string> _pairs = new Dictionary<ButtonDisplay, string>
             {
-                {ButtonDisplay.Hide, "Hide"},
-                {ButtonDisplay.ShowDisabled, "Show Disabled"},
-                {ButtonDisplay.ShowEnabled, "Show Enabled"},
-                {ButtonDisplay.Logic, "Logic"}
+                {ButtonDisplay.Hide, @"Hide"},
+                {ButtonDisplay.ShowDisabled, @"Show Disabled"},
+                {ButtonDisplay.ShowEnabled, @"Show Enabled"},
+                {ButtonDisplay.Logic, @"Logic"}
             };
 
         #region Protected

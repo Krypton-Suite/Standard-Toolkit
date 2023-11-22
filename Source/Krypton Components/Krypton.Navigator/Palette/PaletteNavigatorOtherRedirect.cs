@@ -32,10 +32,10 @@ namespace Krypton.Navigator
                                              PaletteRedirect? redirectMiniButton,
                                              PaletteRedirect? redirectTab,
                                              PaletteRedirect? redirectRibbonTab,
-                                             NeedPaintHandler needPaint) 
+                                             NeedPaintHandler needPaint)
         {
             // Create the palette storage
-            CheckButton = new PaletteTripleRedirect(redirectCheckButton, 
+            CheckButton = new PaletteTripleRedirect(redirectCheckButton,
                                                             PaletteBackStyle.ButtonStandalone,
                                                             PaletteBorderStyle.ButtonStandalone,
                                                             PaletteContentStyle.ButtonStandalone,
@@ -53,13 +53,13 @@ namespace Krypton.Navigator
                                                             PaletteContentStyle.ButtonNavigatorMini,
                                                             needPaint);
 
-            Tab = new PaletteTabTripleRedirect(redirectTab,
+            Tab = new PaletteTabTripleRedirect(redirectTab!,
                                                        PaletteBackStyle.TabHighProfile,
                                                        PaletteBorderStyle.TabHighProfile,
                                                        PaletteContentStyle.TabHighProfile,
                                                        needPaint);
 
-            RibbonTab = new PaletteRibbonTabContentRedirect(redirectRibbonTab, needPaint);
+            RibbonTab = new PaletteRibbonTabContentRedirect(redirectRibbonTab!, needPaint);
         }
         #endregion
 

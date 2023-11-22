@@ -31,23 +31,23 @@ namespace Krypton.Navigator
         /// <param name="redirector">Palette redirector.</param>
         public override void Construct([DisallowNull] KryptonNavigator navigator,
                                        [DisallowNull] ViewManager manager,
-                                       [DisallowNull] PaletteRedirect redirector)
+                                       PaletteRedirect? redirector)
         {
             // Let base class perform common operations
             base.Construct(navigator, manager, redirector);
 
             // Get the current root element
-            _oldRoot = ViewManager.Root;
+            _oldRoot = ViewManager?.Root!;
 
             // Construct the viewlet instance
-            _headerGroup = new ViewletHeaderGroup(navigator, redirector, NeedPaintDelegate);
+            _headerGroup = new ViewletHeaderGroup(navigator, redirector!, NeedPaintDelegate);
 
             // Create and initialize all objects
             ViewBase newRoot = _headerGroup.Construct(_oldRoot);
-            _headerGroup.PostCreate();
+            _headerGroup?.PostCreate();
 
             // Assign the new root
-            ViewManager.Root = newRoot;
+            ViewManager!.Root = newRoot;
 
             // Need to monitor changes in the enabled state
             Navigator.EnabledChanged += OnEnabledChanged;
@@ -62,10 +62,10 @@ namespace Krypton.Navigator
             Navigator.EnabledChanged -= OnEnabledChanged;
 
             // Pull down the header group view hierarchy
-            _headerGroup.Destruct();
+            _headerGroup?.Destruct();
 
             // Put the old root back again
-            ViewManager.Root = _oldRoot;
+            ViewManager!.Root = _oldRoot;
 
             // Let base class do standard work
             base.Destruct();
@@ -92,7 +92,7 @@ namespace Krypton.Navigator
         /// <returns>Reference to ButtonSpec; otherwise null.</returns>
         public override ButtonSpec? ButtonSpecFromView(ViewBase element) =>
             // Delegate lookup to the viewlet that has the button spec manager
-            _headerGroup.ButtonSpecFromView(element);
+            _headerGroup?.ButtonSpecFromView(element);
 
         /// <summary>
         /// Process a change in the selected page
@@ -100,7 +100,7 @@ namespace Krypton.Navigator
         public override void SelectedPageChanged()
         {
             UpdateStatePalettes();
-            _headerGroup.UpdateButtons();
+            _headerGroup?.UpdateButtons();
 
             // Let base class do standard work
             base.SelectedPageChanged();
@@ -112,7 +112,7 @@ namespace Krypton.Navigator
         public override void PageCollectionChanged()
         {
             UpdateStatePalettes();
-            _headerGroup.UpdateButtons();
+            _headerGroup?.UpdateButtons();
 
             // Let base class do standard work
             base.PageCollectionChanged();
@@ -145,7 +145,7 @@ namespace Krypton.Navigator
                 {
                     // Update to use the correct enabled/disabled palette
                     UpdateStatePalettes();
-                    _headerGroup.UpdateButtons();
+                    _headerGroup?.UpdateButtons();
 
                     // Need to repaint to show the change
                     Navigator.PerformNeedPaint(true);
@@ -184,7 +184,7 @@ namespace Krypton.Navigator
             }
 
             // Let base class do standard work
-            base.PageAppearanceChanged(page, property);
+            base.PageAppearanceChanged(page!, property!);
         }
 
         /// <summary>
@@ -214,7 +214,7 @@ namespace Krypton.Navigator
         /// <returns>True if the view wants the mouse position; otherwise false.</returns>
         public override bool DesignerGetHitTest(Point pt) =>
             // Check if the header group wants the mouse
-            _headerGroup.DesignerGetHitTest(pt);
+            _headerGroup!.DesignerGetHitTest(pt);
 
         /// <summary>
         /// Calculate the enabled state of the next button based on the required action.
@@ -224,7 +224,7 @@ namespace Krypton.Navigator
         public override ButtonEnabled NextActionEnabled(DirectionButtonAction action)
         {
             // Ask the header group to update the action
-            action = _headerGroup.NextActionEnabled(action);
+            action = _headerGroup!.NextActionEnabled(action);
 
             // Let base class perform basic action calculations
             return base.NextActionEnabled(action);
@@ -238,7 +238,7 @@ namespace Krypton.Navigator
         public override void PerformNextAction(DirectionButtonAction action, KryptonPage? page)
         {
             // Ask the header group to update the action
-            action = _headerGroup.NextActionEnabled(action);
+            action = _headerGroup!.NextActionEnabled(action);
 
             // Let base class perform basic actions
             base.PerformNextAction(action, page);
@@ -252,7 +252,7 @@ namespace Krypton.Navigator
         public override ButtonEnabled PreviousActionEnabled(DirectionButtonAction action)
         {
             // Ask the header group to update the action
-            action = _headerGroup.PreviousActionEnabled(action);
+            action = _headerGroup!.PreviousActionEnabled(action);
 
             // Let base class perform basic action calculations
             return base.PreviousActionEnabled(action);
@@ -266,7 +266,7 @@ namespace Krypton.Navigator
         public override void PerformPreviousAction(DirectionButtonAction action, KryptonPage? page)
         {
             // Ask the header group to update the action
-            action = _headerGroup.PreviousActionEnabled(action);
+            action = _headerGroup!.PreviousActionEnabled(action);
 
             // Let base class perform basic actions
             base.PerformPreviousAction(action, page);
@@ -340,7 +340,7 @@ namespace Krypton.Navigator
         protected override void OnViewBuilderPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             // Let the header group process the property
-            _headerGroup.ViewBuilderPropertyChanged(e);
+            _headerGroup?.ViewBuilderPropertyChanged(e);
 
             // Let the base process it as well
             base.OnViewBuilderPropertyChanged(sender, e);

@@ -22,16 +22,16 @@ namespace Krypton.Navigator
         [Localizable(true)]
         private static readonly IReadOnlyDictionary<MapKryptonPageImage, string> _pairs = new Dictionary<MapKryptonPageImage, string>
         {
-            {MapKryptonPageImage.None, "None (Null image)"}, 
-            {MapKryptonPageImage.Small, "Small"},
-            {MapKryptonPageImage.SmallMedium, "Small - Medium"},
-            {MapKryptonPageImage.SmallMediumLarge, "Small - Medium - Large"},
-            {MapKryptonPageImage.Medium, "Medium"}, 
-            {MapKryptonPageImage.MediumSmall, "Medium - Small"},
-            {MapKryptonPageImage.MediumLarge, "Medium - Large"}, 
-            {MapKryptonPageImage.Large, "Large"},
-            {MapKryptonPageImage.LargeMedium, "Large - Medium"},
-            {MapKryptonPageImage.LargeMediumSmall, "Large - Medium - Small"},
+            {MapKryptonPageImage.None, @"None (Null image)"},
+            {MapKryptonPageImage.Small, @"Small"},
+            {MapKryptonPageImage.SmallMedium, @"Small - Medium"},
+            {MapKryptonPageImage.SmallMediumLarge, @"Small - Medium - Large"},
+            {MapKryptonPageImage.Medium, @"Medium"},
+            {MapKryptonPageImage.MediumSmall, @"Medium - Small"},
+            {MapKryptonPageImage.MediumLarge, @"Medium - Large"},
+            {MapKryptonPageImage.Large, @"Large"},
+            {MapKryptonPageImage.LargeMedium, @"Large - Medium"},
+            {MapKryptonPageImage.LargeMediumSmall, @"Large - Medium - Small"},
             {MapKryptonPageImage.ToolTip, nameof(ToolTip)}
         };
         #endregion

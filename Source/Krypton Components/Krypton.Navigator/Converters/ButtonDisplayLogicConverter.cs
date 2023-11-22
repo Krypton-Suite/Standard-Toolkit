@@ -19,10 +19,10 @@ namespace Krypton.Navigator
     {
         private static readonly IReadOnlyDictionary<ButtonDisplayLogic, string> _pairs = new Dictionary<ButtonDisplayLogic, string>
             {
-                {ButtonDisplayLogic.None, "None"},
-                {ButtonDisplayLogic.Context, "Context"},
-                {ButtonDisplayLogic.NextPrevious, "Next/Previous"},
-                {ButtonDisplayLogic.ContextNextPrevious, "Context & Next/Previous"}
+                {ButtonDisplayLogic.None, @"None"},
+                {ButtonDisplayLogic.Context, @"Context"},
+                {ButtonDisplayLogic.NextPrevious, @"Next/Previous"},
+                {ButtonDisplayLogic.ContextNextPrevious, @"Context & Next/Previous"}
             };
 
         #region Protected

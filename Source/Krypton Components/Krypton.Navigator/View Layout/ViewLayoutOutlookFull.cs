@@ -106,7 +106,7 @@ namespace Krypton.Navigator
             var beforeOverflowState = ViewBuilder.GetOverflowButtonStates();
 
             // Make all stacking items visible so all that can be shown will be
-            ViewBuilder.UnshrinkAppropriatePages();
+            ViewBuilder.UnShrinkAppropriatePages();
 
             // Do not actually change the layout of any child controls
             context.ViewManager.DoNotLayoutControls = true;

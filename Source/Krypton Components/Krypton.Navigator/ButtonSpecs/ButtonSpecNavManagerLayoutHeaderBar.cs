@@ -111,11 +111,11 @@ namespace Krypton.Navigator
         /// <param name="buttonView">Associated ButtonSpecView instance.</param>
         /// <param name="viewDockerIndex">Index of view docker button is placed onto.</param>
         protected override void ButtonSpecCreated(ButtonSpec buttonSpec,
-                                                  ButtonSpecView buttonView,
+                                                  ButtonSpecView? buttonView,
                                                   int viewDockerIndex)
         {
             // Cast the remapping palette to the correct type
-            var remapPalette = (ButtonSpecRemapByContentCache)buttonView.RemapPalette!;
+            var remapPalette = (ButtonSpecRemapByContentCache)buttonView?.RemapPalette!;
 
             // Update button with the foreground used for color mapping
             remapPalette.SetPaletteContent(_paletteContent);

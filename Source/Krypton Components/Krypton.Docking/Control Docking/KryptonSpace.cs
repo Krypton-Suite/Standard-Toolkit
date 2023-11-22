@@ -294,9 +294,9 @@ namespace Krypton.Docking
 
                     // Add recreated page to the looking dictionary
                     if (!string.IsNullOrWhiteSpace(page?.UniqueName)
-                        && !existingPages.ContainsKey(page.UniqueName))
+                        && !existingPages.ContainsKey(page?.UniqueName!))
                     {
-                        existingPages.Add(page.UniqueName, page);
+                        existingPages.Add(page?.UniqueName!, page!);
                     }
                 }
             }
@@ -319,7 +319,7 @@ namespace Krypton.Docking
             // Read past the page start element                 
             if (!xmlReader.Read())
             {
-                throw new ArgumentException(@"An element was expected but could not be read in.", nameof(xmlReader));
+                throw new ArgumentException(@"An element was expected, but could not be read in.", nameof(xmlReader));
             }
 
             return page;

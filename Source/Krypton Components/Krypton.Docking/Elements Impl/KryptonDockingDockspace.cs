@@ -318,7 +318,7 @@ namespace Krypton.Docking
             KryptonDockingManager? dockingManager = DockingManager;
             if (dockingManager != null)
             {
-                var args = new CancelUniqueNameEventArgs(e.Page.UniqueName, false);
+                var args = new CancelUniqueNameEventArgs(e.Page?.UniqueName!, false);
                 dockingManager.RaisePageDockedRequest(args);
 
                 // Pass back the result of the event
@@ -419,7 +419,7 @@ namespace Krypton.Docking
             {
                 DockspaceControl.Dispose();
                 // TODO: Is this safe ?. It means that whatever uses this afterwards could be accessing null things !
-                SpaceControl = null;
+                SpaceControl = null!;
             }
         }
         #endregion
@@ -481,7 +481,7 @@ namespace Krypton.Docking
             KryptonDockingManager? dockingManager = DockingManager;
             if (dockingManager != null)
             {
-                e.Cancel = !dockingManager.ShowPageContextMenuRequest(e.Page, e.KryptonContextMenu);
+                e.Cancel = !dockingManager.ShowPageContextMenuRequest(e.Page!, e.KryptonContextMenu!);
             }
         }
 
