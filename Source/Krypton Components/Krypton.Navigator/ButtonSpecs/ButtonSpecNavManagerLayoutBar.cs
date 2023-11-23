@@ -33,14 +33,14 @@ namespace Krypton.Navigator
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
         public ButtonSpecNavManagerLayoutBar(Control control,
                                              PaletteRedirect? redirector,
-                                             ButtonSpecCollectionBase variableSpecs,
+                                             ButtonSpecCollectionBase? variableSpecs,
                                              ViewLayoutDocker[] viewDockers,
                                              IPaletteMetric[] viewMetrics,
                                              PaletteMetricInt[] viewMetricIntOutside,
                                              PaletteMetricInt[] viewMetricIntInside,
                                              PaletteMetricPadding[] viewMetricPaddings,
                                              GetToolStripRenderer getRenderer,
-                                             NeedPaintHandler needPaint)
+                                             NeedPaintHandler? needPaint)
             : this(control, redirector, variableSpecs,
                    null, viewDockers, viewMetrics,
                    viewMetricIntOutside, viewMetricIntInside,
@@ -64,7 +64,7 @@ namespace Krypton.Navigator
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
         public ButtonSpecNavManagerLayoutBar(Control control,
                                              PaletteRedirect? redirector,
-                                             ButtonSpecCollectionBase variableSpecs,
+                                             ButtonSpecCollectionBase? variableSpecs,
                                              ButtonSpecCollectionBase? fixedSpecs,
                                              ViewLayoutDocker[] viewDockers,
                                              IPaletteMetric[] viewMetrics,
@@ -72,7 +72,7 @@ namespace Krypton.Navigator
                                              PaletteMetricInt[] viewMetricIntInside,
                                              PaletteMetricPadding[] viewMetricPaddings,
                                              GetToolStripRenderer getRenderer,
-                                             NeedPaintHandler needPaint)
+                                             NeedPaintHandler? needPaint)
             : base(control, redirector, variableSpecs, fixedSpecs,
                    viewDockers, viewMetrics, viewMetricIntOutside,
                    viewMetricIntInside, viewMetricPaddings, getRenderer,

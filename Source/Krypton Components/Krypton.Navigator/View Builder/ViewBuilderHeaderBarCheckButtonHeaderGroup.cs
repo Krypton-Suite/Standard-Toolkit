@@ -33,10 +33,10 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="element">Element to search against.</param>
         /// <returns>Reference to ButtonSpec; otherwise null.</returns>
-        public override ButtonSpec? ButtonSpecFromView(ViewBase element)
+        public override ButtonSpec ButtonSpecFromView(ViewBase element)
         {
             // Always check base class first
-            ButtonSpec bs = base.ButtonSpecFromView(element) ?? _headerGroup.ButtonSpecFromView(element);
+            ButtonSpec bs = base.ButtonSpecFromView(element) ?? _headerGroup!.ButtonSpecFromView(element)!;
 
             // Call onto the contained header group implementation
 
@@ -51,7 +51,7 @@ namespace Krypton.Navigator
         protected override void CreateCheckItemView()
         {
             // Create the view element that lays out the check buttons
-            _layoutBar = new ViewLayoutBar(Navigator.StateCommon.Bar,
+            _layoutBar = new ViewLayoutBar(Navigator.StateCommon!.Bar,
                                            PaletteMetricInt.CheckButtonGap,
                                            Navigator.Bar.ItemSizing,
                                            Navigator.Bar.ItemAlignment,
@@ -79,9 +79,9 @@ namespace Krypton.Navigator
             };
 
             // Place the bar inside a header style area
-            _viewHeadingBar = new ViewDrawDocker(Navigator.StateNormal.HeaderGroup.HeaderBar.Back,
-                                                 Navigator.StateNormal.HeaderGroup.HeaderBar.Border,
-                                                 Navigator.StateNormal.HeaderGroup.HeaderBar,
+            _viewHeadingBar = new ViewDrawDocker(Navigator.StateNormal!.HeaderGroup!.HeaderBar.Back,
+                                                 Navigator.StateNormal!.HeaderGroup!.HeaderBar.Border,
+                                                 Navigator.StateNormal!.HeaderGroup!.HeaderBar,
                                                  PaletteMetricBool.None,
                                                  PaletteMetricPadding.HeaderGroupPaddingSecondary,
                                                  VisualOrientation.Top)
@@ -90,7 +90,7 @@ namespace Krypton.Navigator
             };
 
             // Construct the viewlet instance
-            _headerGroup = new ViewletHeaderGroup(Navigator, Redirector, NeedPaintDelegate);
+            _headerGroup = new ViewletHeaderGroup(Navigator, Redirector!, NeedPaintDelegate);
 
             // Create and initialize the standard header group view elements
             _viewGroup = _headerGroup.Construct(_oldRoot);
@@ -99,7 +99,7 @@ namespace Krypton.Navigator
             _viewGroup.Insert(0, _viewHeadingBar);
             _viewGroup.SetDock(_viewHeadingBar, ViewDockStyle.Top);
 
-            // Define the new root for the view hieararchy
+            // Define the new root for the view hierarchy
             _newRoot = _viewGroup;
 
             // Must call the base class to perform common actions
@@ -112,7 +112,7 @@ namespace Krypton.Navigator
         protected override void PostCreate()
         {
             // Ask the header group to finish the create phase
-            _headerGroup.PostCreate();
+            _headerGroup!.PostCreate();
 
             // Let base class perform standard actions
             base.PostCreate();
@@ -124,7 +124,7 @@ namespace Krypton.Navigator
         protected override void DestructCheckItemView()
         {
             // Must remember to get the header group to destruct itself
-            _headerGroup.Destruct();
+            _headerGroup!.Destruct();
 
             // Must call the base class to perform common actions
             base.DestructCheckItemView();
@@ -148,7 +148,7 @@ namespace Krypton.Navigator
         protected override void OnViewBuilderPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             // Let the header group process the property
-            _headerGroup.ViewBuilderPropertyChanged(e);
+            _headerGroup!.ViewBuilderPropertyChanged(e);
 
             // Let the base process it as well
             base.OnViewBuilderPropertyChanged(sender, e);
@@ -202,7 +202,7 @@ namespace Krypton.Navigator
             base.SelectedPageChanged();
 
             // Ask the header group to update the 
-            _headerGroup.UpdateButtons();
+            _headerGroup!.UpdateButtons();
         }
 
         /// <summary>
@@ -211,7 +211,7 @@ namespace Krypton.Navigator
         public override void PageCollectionChanged()
         {
             UpdateStatePalettes();
-            _headerGroup.UpdateButtons();
+            _headerGroup!.UpdateButtons();
 
             // Let base class do standard work
             base.PageCollectionChanged();

@@ -48,7 +48,7 @@ namespace Krypton.Toolkit
         public ViewLayoutScrollViewport([DisallowNull] VisualControl rootControl,
             [DisallowNull] ViewBase viewportFiller,
                                         PaletteBorderEdge paletteBorderEdge,
-                                        IPaletteMetric paletteMetrics,
+                                        IPaletteMetric? paletteMetrics,
                                         PaletteMetricPadding metricPadding,
                                         PaletteMetricInt metricOvers,
                                         VisualOrientation orientation,
@@ -176,7 +176,7 @@ namespace Krypton.Toolkit
         /// </summary>
         public bool VerticalViewport
         {
-            set 
+            set
             {
                 if (_viewportVertical != value)
                 {

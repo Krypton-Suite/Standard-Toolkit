@@ -506,7 +506,7 @@ namespace Krypton.Navigator
                 if (component != null)
                 {
                     // Force the layout to be update for any change in selection
-                    Navigator.PerformLayout();
+                    Navigator?.PerformLayout();
 
                     // Select the component
                     var selectionList = new ArrayList

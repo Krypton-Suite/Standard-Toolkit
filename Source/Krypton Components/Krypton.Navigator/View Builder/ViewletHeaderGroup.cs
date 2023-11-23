@@ -36,7 +36,7 @@ namespace Krypton.Navigator
         /// <param name="redirector">Palette redirector.</param>
         /// <param name="needPaintDelegate">Delegate for notifying paint requests.</param>
         public ViewletHeaderGroup([DisallowNull] KryptonNavigator navigator,
-                                  [DisallowNull] PaletteRedirect redirector,
+                                  PaletteRedirect? redirector,
                                   [DisallowNull] NeedPaintHandler needPaintDelegate)
         {
             Debug.Assert(navigator != null);
@@ -44,9 +44,9 @@ namespace Krypton.Navigator
             Debug.Assert(needPaintDelegate != null);
 
             // Remember references
-            Navigator = navigator;
+            Navigator = navigator!;
             Redirector = redirector;
-            _needPaintDelegate = needPaintDelegate;
+            _needPaintDelegate = needPaintDelegate!;
         }
         #endregion
 
@@ -59,7 +59,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets access to the palette redirector reference.
         /// </summary>
-        public PaletteRedirect Redirector { get; }
+        public PaletteRedirect? Redirector { get; }
 
         /// <summary>
         /// Construct the view appropriate for this builder.
@@ -132,19 +132,19 @@ namespace Krypton.Navigator
             {
                 // Then use the states defined in the navigator itself
                 SetPalettes(Navigator.Enabled
-                    ? Navigator.StateNormal.HeaderGroup
-                    : Navigator.StateDisabled.HeaderGroup);
+                    ? Navigator.StateNormal!.HeaderGroup
+                    : Navigator.StateDisabled!.HeaderGroup);
             }
             else
             {
                 // Use states defined in the selected page
                 if (Navigator.SelectedPage.Enabled)
                 {
-                    SetPalettes(Navigator.SelectedPage.StateNormal.HeaderGroup);
+                    SetPalettes(Navigator.SelectedPage.StateNormal!.HeaderGroup);
                 }
                 else
                 {
-                    SetPalettes(Navigator.SelectedPage.StateDisabled.HeaderGroup);
+                    SetPalettes(Navigator.SelectedPage.StateDisabled!.HeaderGroup);
 
                     // If page is disabled then all of view should look disabled
                     enabled = false;
@@ -221,12 +221,12 @@ namespace Krypton.Navigator
             switch (e.PropertyName)
             {
                 case @"HeaderStylePrimary":
-                    SetHeaderStyle(_viewHeadingPrimary, Navigator.StateCommon.HeaderGroup.HeaderPrimary, Navigator.Header.HeaderStylePrimary);
+                    SetHeaderStyle(_viewHeadingPrimary, Navigator.StateCommon!.HeaderGroup!.HeaderPrimary, Navigator.Header.HeaderStylePrimary);
                     UpdateStatePalettes();
                     Navigator.PerformNeedPaint(true);
                     break;
                 case @"HeaderStyleSecondary":
-                    SetHeaderStyle(_viewHeadingSecondary, Navigator.StateCommon.HeaderGroup.HeaderSecondary, Navigator.Header.HeaderStyleSecondary);
+                    SetHeaderStyle(_viewHeadingSecondary, Navigator.StateCommon!.HeaderGroup!.HeaderSecondary, Navigator.Header.HeaderStyleSecondary);
                     UpdateStatePalettes();
                     Navigator.PerformNeedPaint(true);
                     break;
@@ -286,7 +286,7 @@ namespace Krypton.Navigator
         private void CreateHeaderGroupView(ViewBase filler)
         {
             // Create the top level group view
-            _viewGroup = new ViewDrawDocker(Navigator.StateNormal.HeaderGroup.Back,
+            _viewGroup = new ViewDrawDocker(Navigator.StateNormal!.HeaderGroup!.Back,
                                             Navigator.StateNormal.HeaderGroup.Border,
                                             Navigator.StateNormal.HeaderGroup,
                                             PaletteMetricBool.HeaderGroupOverlay);
@@ -351,9 +351,9 @@ namespace Krypton.Navigator
 
         private void CreateButtonSpecManager() =>
             // Create button specification collection manager
-            _buttonManager = new ButtonSpecManagerDraw(Navigator, Redirector, Navigator.Button.ButtonSpecs, Navigator.FixedSpecs,
+            _buttonManager = new ButtonSpecManagerDraw(Navigator, Redirector!, Navigator.Button.ButtonSpecs, Navigator.FixedSpecs,
                                                        new[] { _viewHeadingPrimary, _viewHeadingSecondary },
-                                                       new IPaletteMetric[] { Navigator.StateCommon.HeaderGroup.HeaderPrimary, Navigator.StateCommon.HeaderGroup.HeaderSecondary },
+                                                       new IPaletteMetric[] { Navigator.StateCommon!.HeaderGroup!.HeaderPrimary, Navigator.StateCommon.HeaderGroup.HeaderSecondary },
                                                        new[] { PaletteMetricInt.HeaderButtonEdgeInsetPrimary, PaletteMetricInt.HeaderButtonEdgeInsetSecondary },
                                                        new[] { PaletteMetricPadding.HeaderButtonPaddingPrimary, PaletteMetricPadding.HeaderButtonPaddingSecondary },
                                                        Navigator.CreateToolStripRenderer,
@@ -366,7 +366,7 @@ namespace Krypton.Navigator
 
         private void UpdateHeaders()
         {
-            SetHeaderStyle(_viewHeadingPrimary, Navigator.StateCommon.HeaderGroup.HeaderPrimary, Navigator.Header.HeaderStylePrimary);
+            SetHeaderStyle(_viewHeadingPrimary, Navigator.StateCommon!.HeaderGroup!.HeaderPrimary, Navigator.Header.HeaderStylePrimary);
             SetHeaderStyle(_viewHeadingSecondary, Navigator.StateCommon.HeaderGroup.HeaderSecondary, Navigator.Header.HeaderStyleSecondary);
             SetHeaderPosition(_viewHeadingPrimary, _viewContentPrimary, Navigator.Header.HeaderPositionPrimary);
             SetHeaderPosition(_viewHeadingSecondary, _viewContentSecondary, Navigator.Header.HeaderPositionSecondary);
@@ -463,7 +463,7 @@ namespace Krypton.Navigator
 
         private void SetPalettes(PaletteHeaderGroup? palette)
         {
-            _viewGroup.SetPalettes(palette.Back, palette.Border, palette);
+            _viewGroup.SetPalettes(palette!.Back, palette.Border, palette);
 
             _viewHeadingPrimary.SetPalettes(palette.HeaderPrimary.Back, palette.HeaderPrimary.Border, palette.HeaderPrimary);
             _viewHeadingSecondary.SetPalettes(palette.HeaderSecondary.Back, palette.HeaderSecondary.Border, palette.HeaderSecondary);

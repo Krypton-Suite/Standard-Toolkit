@@ -48,8 +48,8 @@ namespace Krypton.Navigator
         public override void UpdateButtonSpecMapping()
         {
             // Define a default mapping for text color and recreate to use that new setting
-            ButtonSpecManager.SetRemapTarget(Navigator.Stack.CheckButtonStyle);
-            ButtonSpecManager.RecreateButtons();
+            ButtonSpecManager?.SetRemapTarget(Navigator.Stack.CheckButtonStyle);
+            ButtonSpecManager?.RecreateButtons();
         }
         #endregion
 
@@ -59,19 +59,19 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="state">The state for which the image is needed.</param>
         /// <returns>Image value.</returns>
-        public override Image? GetImage(PaletteState state) => Page.GetImageMapping(Navigator.Stack.StackMapImage);
+        public override Image? GetImage(PaletteState state) => Page?.GetImageMapping(Navigator.Stack.StackMapImage);
 
         /// <summary>
         /// Gets the content short text.
         /// </summary>
         /// <returns>String value.</returns>
-        public override string GetShortText() => Page.GetTextMapping(Navigator.Stack.StackMapText);
+        public override string GetShortText() => Page?.GetTextMapping(Navigator.Stack.StackMapText)!;
 
         /// <summary>
         /// Gets the content long text.
         /// </summary>
         /// <returns>String value.</returns>
-        public override string GetLongText() => Page.GetTextMapping(Navigator.Stack.StackMapExtraText);
+        public override string GetLongText() => Page?.GetTextMapping(Navigator.Stack.StackMapExtraText)!;
 
         #endregion
     }

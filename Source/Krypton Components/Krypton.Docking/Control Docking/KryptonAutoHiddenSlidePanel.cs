@@ -121,21 +121,21 @@ namespace Krypton.Docking
             _edge = edge;
             _panel = panel;
             _state = DockingAutoHiddenShowState.Hidden;
-            _checkMakeHidden = OnCheckMakeHidden!;
+            _checkMakeHidden = OnCheckMakeHidden;
 
             // We need to a timer to automate sliding in and out
             _slideTimer = new Timer
             {
                 Interval = SLIDE_INTERVAL
             };
-            _slideTimer.Tick += OnSlideTimerTick!;
+            _slideTimer.Tick += OnSlideTimerTick;
 
             // Timer used to delay between notification of need to slide inwards and performing actual slide
             _dismissTimer = new Timer
             {
                 Interval = DISMISS_INTERVAL
             };
-            _dismissTimer.Tick += OnDismissTimerTick!;
+            _dismissTimer.Tick += OnDismissTimerTick;
             _dismissRunning = false;
 
             // Create inner panel that holds the actual dockspace and separator
@@ -144,14 +144,14 @@ namespace Krypton.Docking
                 Dock = DockStyle.Fill,
                 AutoHiddenHost = true
             };
-            _dockspaceSlide.PageCloseClicked += OnDockspacePageCloseClicked!;
-            _dockspaceSlide.PageAutoHiddenClicked += OnDockspacePageAutoHiddenClicked!;
-            _dockspaceSlide.PageDropDownClicked += OnDockspacePageDropDownClicked!;
+            _dockspaceSlide.PageCloseClicked += OnDockspacePageCloseClicked;
+            _dockspaceSlide.PageAutoHiddenClicked += OnDockspacePageAutoHiddenClicked;
+            _dockspaceSlide.PageDropDownClicked += OnDockspacePageDropDownClicked;
 
             SeparatorControl = new KryptonDockspaceSeparator(edge, true);
-            SeparatorControl.SplitterMoving += OnDockspaceSeparatorMoving!;
-            SeparatorControl.SplitterMoved += OnDockspaceSeparatorMoved!;
-            SeparatorControl.SplitterMoveRect += OnDockspaceSeparatorMoveRect!;
+            SeparatorControl.SplitterMoving += OnDockspaceSeparatorMoving;
+            SeparatorControl.SplitterMoved += OnDockspaceSeparatorMoved;
+            SeparatorControl.SplitterMoveRect += OnDockspaceSeparatorMoveRect;
 
             _inner = new KryptonPanel();
             _inner.Controls.AddRange(new Control[] { _dockspaceSlide, SeparatorControl });
@@ -169,7 +169,7 @@ namespace Krypton.Docking
             Controls.Add(_dummyTarget);
 
             // Add ourselves into the target control for docking
-            control.SizeChanged += OnControlSizeChanged!;
+            control.SizeChanged += OnControlSizeChanged;
             control.Controls.Add(this);
 
             // Need to peek at windows messages, so we can determine if mouse is over the slide out panel
@@ -211,13 +211,13 @@ namespace Krypton.Docking
                 _dockspaceSlide.ClearAllPages();
 
                 // Unhook from events/static references to allow garbage collection
-                SeparatorControl.SplitterMoving -= OnDockspaceSeparatorMoving!;
-                SeparatorControl.SplitterMoved -= OnDockspaceSeparatorMoved!;
-                SeparatorControl.SplitterMoveRect -= OnDockspaceSeparatorMoveRect!;
-                _dockspaceSlide.CellLosesFocus -= OnDockspaceCellLosesFocus!;
-                _dockspaceSlide.PageCloseClicked -= OnDockspacePageCloseClicked!;
-                _dockspaceSlide.PageAutoHiddenClicked -= OnDockspacePageAutoHiddenClicked!;
-                _dockspaceSlide.PageDropDownClicked -= OnDockspacePageDropDownClicked!;
+                SeparatorControl.SplitterMoving -= OnDockspaceSeparatorMoving;
+                SeparatorControl.SplitterMoved -= OnDockspaceSeparatorMoved;
+                SeparatorControl.SplitterMoveRect -= OnDockspaceSeparatorMoveRect;
+                _dockspaceSlide.CellLosesFocus -= OnDockspaceCellLosesFocus;
+                _dockspaceSlide.PageCloseClicked -= OnDockspacePageCloseClicked;
+                _dockspaceSlide.PageAutoHiddenClicked -= OnDockspacePageAutoHiddenClicked;
+                _dockspaceSlide.PageDropDownClicked -= OnDockspacePageDropDownClicked;
                 Application.RemoveMessageFilter(this);
             }
 
@@ -246,7 +246,7 @@ namespace Krypton.Docking
         /// <summary>
         /// Gets and sets the drag page notify interface associated with the embedded dockspace.
         /// </summary>
-        public IDragPageNotify DragPageNotify
+        public IDragPageNotify? DragPageNotify
         {
             get => _dockspaceSlide.DragPageNotify;
             set => _dockspaceSlide.DragPageNotify = value;
@@ -308,7 +308,7 @@ namespace Krypton.Docking
                         if (select)
                         {
                             DockspaceControl.Select();
-                            DockspaceControl.CellLosesFocus += OnDockspaceCellLosesFocus!;
+                            DockspaceControl.CellLosesFocus += OnDockspaceCellLosesFocus;
                         }
                         return;
                     }
@@ -328,7 +328,7 @@ namespace Krypton.Docking
                         if (select)
                         {
                             DockspaceControl.Select();
-                            DockspaceControl.CellLosesFocus += OnDockspaceCellLosesFocus!;
+                            DockspaceControl.CellLosesFocus += OnDockspaceCellLosesFocus;
                         }
                         return;
                     }
@@ -365,7 +365,7 @@ namespace Krypton.Docking
             CalculateStartAndEnd();
 
             // Set initial positions of ourselves and the contained inner panel
-            _inner.SetBounds(0, 0, _endRect.Width, _endRect.Height);
+            _inner!.SetBounds(0, 0, _endRect.Width, _endRect.Height);
             SetBounds(_startRect.X, _startRect.Y, _startRect.Width, _startRect.Height);
 
             // Make sure we are at the top of the z-order and visible
@@ -381,7 +381,7 @@ namespace Krypton.Docking
             if (select)
             {
                 DockspaceControl.Select();
-                DockspaceControl.CellLosesFocus += OnDockspaceCellLosesFocus!;
+                DockspaceControl.CellLosesFocus += OnDockspaceCellLosesFocus;
             }
 
             // Raises event to indicate change in auto hidden showing state
@@ -432,7 +432,7 @@ namespace Krypton.Docking
                 {
                     case DockingEdge.Left:
                         _endRect.Width += width;
-                        _inner.SetBounds(0, 0, _inner.Width + width, _inner.Height);
+                        _inner!.SetBounds(0, 0, _inner.Width + width, _inner.Height);
                         SetBounds(Left, Top, Width + width, Height);
 
                         // Update the page with the new size to use in the future
@@ -448,7 +448,7 @@ namespace Krypton.Docking
                     case DockingEdge.Right:
                         _endRect.X += width;
                         _endRect.Width -= width;
-                        _inner.SetBounds(0, 0, _inner.Width - width, _inner.Height);
+                        _inner!.SetBounds(0, 0, _inner.Width - width, _inner.Height);
                         SetBounds(Left + width, Top, Width - width, Height);
 
                         // Update the page with the new size to use in the future
@@ -463,7 +463,7 @@ namespace Krypton.Docking
                         break;
                     case DockingEdge.Top:
                         _endRect.Height += width;
-                        _inner.SetBounds(0, 0, _inner.Width, _inner.Height + height);
+                        _inner!.SetBounds(0, 0, _inner.Width, _inner.Height + height);
                         SetBounds(Left, Top, Width, Height + height);
 
                         // Update the page with the new size to use in the future
@@ -479,7 +479,7 @@ namespace Krypton.Docking
                     case DockingEdge.Bottom:
                         _endRect.Y += height;
                         _endRect.Height -= height;
-                        _inner.SetBounds(0, 0, _inner.Width, _inner.Height - height);
+                        _inner!.SetBounds(0, 0, _inner.Width, _inner.Height - height);
                         SetBounds(Left, Top + height, Width, Height - height);
 
                         // Update the page with the new size to use in the future
@@ -653,7 +653,7 @@ namespace Krypton.Docking
                     // If the dockspace has the focus we need to push focus elsewhere
                     if (DockspaceControl.ContainsFocus)
                     {
-                        DockspaceControl.CellLosesFocus -= OnDockspaceCellLosesFocus!;
+                        DockspaceControl.CellLosesFocus -= OnDockspaceCellLosesFocus;
                         _dummyTarget.Select();
                     }
 
@@ -679,7 +679,7 @@ namespace Krypton.Docking
                 // If the dockspace has the focus we need to push focus elsewhere
                 if (DockspaceControl.ContainsFocus)
                 {
-                    DockspaceControl.CellLosesFocus -= OnDockspaceCellLosesFocus!;
+                    DockspaceControl.CellLosesFocus -= OnDockspaceCellLosesFocus;
                     _dummyTarget.Select();
                 }
 
@@ -691,7 +691,7 @@ namespace Krypton.Docking
         private void CalculateStartAndEnd()
         {
             // Find the preferred size of the slider area by combining the separator and dockspace
-            Size dockspacePreferred = Page.AutoHiddenSlideSize;
+            Size dockspacePreferred = Page!.AutoHiddenSlideSize;
             Size separatorPreferred = SeparatorControl.GetPreferredSize(_control.Size);
             var slideSize = new Size(separatorPreferred.Width + dockspacePreferred.Width,
                 separatorPreferred.Height + dockspacePreferred.Height);
@@ -796,7 +796,7 @@ namespace Krypton.Docking
                         var finished = true;
                         Size newSlideSize = Size;
                         Point newSlideLocation = Location;
-                        Point newInnerLocation = _inner.Location;
+                        Point newInnerLocation = _inner!.Location;
 
                         // Find the new size and location when sliding out from the edge
                         switch (_edge)
@@ -842,7 +842,7 @@ namespace Krypton.Docking
                         var finished = true;
                         Size newSlideSize = Size;
                         Point newSlideLocation = Location;
-                        Point newInnerLocation = _inner.Location;
+                        Point newInnerLocation = _inner!.Location;
 
                         // Find the new size and location when sliding inwards to the edge
                         switch (_edge)
@@ -932,7 +932,7 @@ namespace Krypton.Docking
             }
 
             // No longer need the lost focus because we have been notified
-            DockspaceControl.CellLosesFocus -= OnDockspaceCellLosesFocus!;
+            DockspaceControl.CellLosesFocus -= OnDockspaceCellLosesFocus;
 
             // Action depends on the current state
             switch (_state)

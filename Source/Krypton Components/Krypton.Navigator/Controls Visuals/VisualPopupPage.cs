@@ -46,11 +46,11 @@ namespace Krypton.Navigator
             Debug.Assert(page != null);
 
             // Remember references needed later
-            _navigator = navigator;
+            _navigator = navigator!;
             _page = page;
 
             // Always var the layout that positions the actual page
-            var layoutPage = new ViewLayoutPopupPage(_navigator, _page);
+            var layoutPage = new ViewLayoutPopupPage(_navigator, _page!);
 
             // Create the internal panel used for containing content
             if (_navigator.StateNormal?.HeaderGroup != null)

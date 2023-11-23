@@ -28,9 +28,9 @@ namespace Krypton.Navigator
                                          KryptonPage? page,
                                          VisualOrientation orientation)
             : base(navigator, page, orientation,
-                   page.StateDisabled.Tab, 
-                   page.StateNormal.Tab,
-                   page.StateTracking.Tab, 
+                   page!.StateDisabled!.Tab,
+                   page!.StateNormal!.Tab,
+                   page.StateTracking.Tab,
                    page.StatePressed.Tab,
                    page.StateSelected.Tab,
                    page.OverrideFocus.Tab)
@@ -54,8 +54,8 @@ namespace Krypton.Navigator
         public override void UpdateButtonSpecMapping()
         {
             // Update the button spec manager for this tab to use a tab style for remapping
-            ButtonSpecManager.SetRemapTarget(Navigator.Bar.TabStyle);
-            ButtonSpecManager.RecreateButtons();
+            ButtonSpecManager?.SetRemapTarget(Navigator.Bar.TabStyle);
+            ButtonSpecManager?.RecreateButtons();
         }
         #endregion
 

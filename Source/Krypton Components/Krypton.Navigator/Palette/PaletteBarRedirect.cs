@@ -370,7 +370,7 @@ namespace Krypton.Navigator
             }
 
             // Pass onto the inheritance
-            return _redirect.GetMetricInt(state, metric);
+            return _redirect!.GetMetricInt(state, metric);
         }
 
         /// <summary>
@@ -381,7 +381,7 @@ namespace Krypton.Navigator
         /// <returns>InheritBool value.</returns>
         public override InheritBool GetMetricBool(PaletteState state, PaletteMetricBool metric) =>
             // Always pass onto the inheritance
-            _redirect.GetMetricBool(state, metric);
+            _redirect!.GetMetricBool(state, metric);
 
         /// <summary>
         /// Gets a padding metric value.
@@ -426,7 +426,7 @@ namespace Krypton.Navigator
             }
 
             // Pass onto the inheritance
-            return _redirect.GetMetricPadding(state, metric);
+            return _redirect!.GetMetricPadding(state, metric);
         }
         #endregion
     }

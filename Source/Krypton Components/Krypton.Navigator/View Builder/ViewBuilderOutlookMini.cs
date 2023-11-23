@@ -89,7 +89,7 @@ namespace Krypton.Navigator
                                 _selectedButton.HasFocus = false;
 
                                 // We should have a stack view for the page
-                                if (_pageStackLookup.ContainsKey(Navigator.SelectedPage))
+                                if (_pageStackLookup!.ContainsKey(Navigator.SelectedPage))
                                 {
                                     // Get the associated view element for the page
                                     ViewDrawNavCheckButtonBase checkButton = _pageStackLookup[Navigator.SelectedPage];
@@ -118,7 +118,7 @@ namespace Krypton.Navigator
                                 if (Navigator.SelectedPage != null)
                                 {
                                     // We should have a stack view for the page
-                                    if (_pageStackLookup.ContainsKey(Navigator.SelectedPage))
+                                    if (_pageStackLookup!.ContainsKey(Navigator.SelectedPage))
                                     {
                                         // Get the associated view element for the page
                                         ViewDrawNavCheckButtonBase checkButton = _pageStackLookup[Navigator.SelectedPage];
@@ -239,7 +239,7 @@ namespace Krypton.Navigator
             {
                 if (page.LastVisibleSet && page.AreFlagsSet(KryptonPageFlags.PageInOverflowBarForOutlookMode))
                 {
-                    return (ViewDrawNavOutlookOverflow)_pageOverflowLookup[page];
+                    return _pageOverflowLookup![page] as ViewDrawNavOutlookOverflow;
                 }
             }
 
@@ -277,7 +277,7 @@ namespace Krypton.Navigator
                     if (Navigator.SelectedPage != null)
                     {
                         // We should have a stack view for the page
-                        if (_pageStackLookup.ContainsKey(Navigator.SelectedPage))
+                        if (_pageStackLookup!.ContainsKey(Navigator.SelectedPage))
                         {
                             // Get the associated view element for the page
                             ViewDrawNavCheckButtonBase checkButton = _pageStackLookup[Navigator.SelectedPage];

@@ -32,7 +32,7 @@ namespace Krypton.Navigator
             if (Navigator.SelectedPage != null)
             {
                 // Grab the view for the page
-                INavCheckItem checkItem = _pageLookup[Navigator.SelectedPage];
+                INavCheckItem checkItem = _pageLookup![Navigator.SelectedPage];
 
                 // If the item also has the focus
                 if (checkItem.HasFocus)
@@ -51,7 +51,7 @@ namespace Krypton.Navigator
         protected override void CreateCheckItemView()
         {
             // Create the view element that lays out the check buttons
-            _layoutBar = new ViewLayoutBar(Navigator.StateCommon.Bar,
+            _layoutBar = new ViewLayoutBar(Navigator.StateCommon!.Bar,
                                            PaletteMetricInt.RibbonTabGap,
                                            Navigator.Bar.ItemSizing,
                                            Navigator.Bar.ItemAlignment,
@@ -93,7 +93,7 @@ namespace Krypton.Navigator
             };
 
             // Create the top level panel and put a layout docker inside it
-            _drawPanel = new ViewDrawPanel(Navigator.StateNormal.Back)
+            _drawPanel = new ViewDrawPanel(Navigator.StateNormal!.Back)
             {
                 _layoutPanelDocker
             };

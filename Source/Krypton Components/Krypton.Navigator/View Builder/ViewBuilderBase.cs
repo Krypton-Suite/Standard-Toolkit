@@ -49,7 +49,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets access to the view manager instance.
         /// </summary>
-        public ViewManager ViewManager
+        public ViewManager? ViewManager
         {
             [DebuggerStepThrough]
             get;
@@ -59,7 +59,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets the palette redirector.
         /// </summary>
-        public PaletteRedirect Redirector
+        public PaletteRedirect? Redirector
         {
             [DebuggerStepThrough]
             get;
@@ -79,9 +79,9 @@ namespace Krypton.Navigator
         /// <param name="navigator">Reference to navigator instance.</param>
         /// <param name="manager">Reference to current manager.</param>
         /// <param name="redirector">Palette redirector.</param>
-        public virtual void Construct([DisallowNull] KryptonNavigator navigator, 
-            [DisallowNull] ViewManager manager,
-            [DisallowNull] PaletteRedirect redirector)
+        public virtual void Construct([DisallowNull] KryptonNavigator navigator,
+                                      [DisallowNull] ViewManager manager,
+                                       PaletteRedirect? redirector)
         {
             Debug.Assert(navigator != null, $"{nameof(navigator)} != null");
             Debug.Assert(manager != null);
@@ -89,8 +89,8 @@ namespace Krypton.Navigator
             Debug.Assert(_constructed == false);
 
             // Save provided references
-            Navigator = navigator;
-            ViewManager = manager;
+            Navigator = navigator!;
+            ViewManager = manager!;
             Redirector = redirector;
             _constructed = true;
 
@@ -107,7 +107,7 @@ namespace Krypton.Navigator
             Debug.Assert(Navigator != null, $"{nameof(Navigator)} != null");
 
             // Unhook from the navigator events
-            Navigator.ViewBuilderPropertyChanged -= OnViewBuilderPropertyChanged;
+            Navigator!.ViewBuilderPropertyChanged -= OnViewBuilderPropertyChanged;
 
             // No longer constructed
             _constructed = false;
@@ -467,7 +467,7 @@ namespace Krypton.Navigator
         /// <param name="wrap">Wrap around end of collection to the start.</param>
         /// <param name="ctrlTab">Associated with a Ctrl+Tab action.</param>
         /// <returns>True if new page selected; otherwise false.</returns>
-        public virtual bool SelectNextPage(KryptonPage? page, 
+        public virtual bool SelectNextPage(KryptonPage? page,
                                            bool wrap,
                                            bool ctrlTab)
         {
@@ -566,7 +566,7 @@ namespace Krypton.Navigator
         /// <param name="wrap">Wrap around end of collection to the start.</param>
         /// <param name="ctrlTab">Associated with a Ctrl+Tab action.</param>
         /// <returns>True if new page selected; otherwise false.</returns>
-        public virtual bool SelectPreviousPage(KryptonPage? page, 
+        public virtual bool SelectPreviousPage(KryptonPage? page,
                                                bool wrap,
                                                bool ctrlTab)
         {
@@ -725,11 +725,11 @@ namespace Krypton.Navigator
                     }
 
                     Debug.Assert(Navigator.StateCommon.HeaderGroup != null, "Navigator.StateCommon.HeaderGroup != null");
-                    Navigator.StateCommon.HeaderGroup.BackStyle = Navigator.Group.GroupBackStyle;
+                    Navigator.StateCommon!.HeaderGroup!.BackStyle = Navigator.Group.GroupBackStyle;
                     Navigator.PerformNeedPaint(true);
                     break;
                 case @"GroupBorderStyle":
-                    Navigator.StateCommon.HeaderGroup.BorderStyle = Navigator.Group.GroupBorderStyle;
+                    Navigator!.StateCommon!.HeaderGroup!.BorderStyle = Navigator.Group.GroupBorderStyle;
                     Navigator.PerformNeedPaint(true);
                     break;
             }
@@ -775,10 +775,10 @@ namespace Krypton.Navigator
                 case NavigatorMode.HeaderBarCheckButtonHeaderGroup:
                     return new ViewBuilderHeaderBarCheckButtonHeaderGroup();
                 case NavigatorMode.OutlookFull:
-                   return new ViewBuilderOutlookFull();
-               case NavigatorMode.OutlookMini:
-                   return new ViewBuilderOutlookMini();
-               case NavigatorMode.HeaderGroup:
+                    return new ViewBuilderOutlookFull();
+                case NavigatorMode.OutlookMini:
+                    return new ViewBuilderOutlookMini();
+                case NavigatorMode.HeaderGroup:
                     return new ViewBuilderHeaderGroup();
                 case NavigatorMode.Group:
                     return new ViewBuilderGroup();

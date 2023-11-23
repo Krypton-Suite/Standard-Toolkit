@@ -41,118 +41,122 @@ namespace Krypton.Navigator
         #region Implementation
         private void OnLoad(object sender, EventArgs e)
         {
-            checkBoxPageInOverflowBarForOutlookMode.Checked = _page.AreFlagsSet(KryptonPageFlags.PageInOverflowBarForOutlookMode);
-            checkBoxAllowPageDrag.Checked = _page.AreFlagsSet(KryptonPageFlags.AllowPageDrag);
-            checkBoxAllowPageReorder.Checked = _page.AreFlagsSet(KryptonPageFlags.AllowPageReorder);
-            checkBoxAllowConfigSave.Checked = _page.AreFlagsSet(KryptonPageFlags.AllowConfigSave);
-            checkBoxDockingAllowClose.Checked = _page.AreFlagsSet(KryptonPageFlags.DockingAllowClose);
-            checkBoxDockingAllowDropDown.Checked = _page.AreFlagsSet(KryptonPageFlags.DockingAllowDropDown);
-            checkBoxDockingAllowAutoHidden.Checked = _page.AreFlagsSet(KryptonPageFlags.DockingAllowAutoHidden);
-            checkBoxDockingAllowDocked.Checked = _page.AreFlagsSet(KryptonPageFlags.DockingAllowDocked);
-            checkBoxDockingAllowFloating.Checked = _page.AreFlagsSet(KryptonPageFlags.DockingAllowFloating);
-            checkBoxDockingAllowWorkspace.Checked = _page.AreFlagsSet(KryptonPageFlags.DockingAllowWorkspace);
-            checkBoxDockingAllowNavigator.Checked = _page.AreFlagsSet(KryptonPageFlags.DockingAllowNavigator);
+            if (_page != null)
+            {
+                checkBoxPageInOverflowBarForOutlookMode.Checked =
+                    _page.AreFlagsSet(KryptonPageFlags.PageInOverflowBarForOutlookMode);
+                checkBoxAllowPageDrag.Checked = _page.AreFlagsSet(KryptonPageFlags.AllowPageDrag);
+                checkBoxAllowPageReorder.Checked = _page.AreFlagsSet(KryptonPageFlags.AllowPageReorder);
+                checkBoxAllowConfigSave.Checked = _page.AreFlagsSet(KryptonPageFlags.AllowConfigSave);
+                checkBoxDockingAllowClose.Checked = _page.AreFlagsSet(KryptonPageFlags.DockingAllowClose);
+                checkBoxDockingAllowDropDown.Checked = _page.AreFlagsSet(KryptonPageFlags.DockingAllowDropDown);
+                checkBoxDockingAllowAutoHidden.Checked = _page.AreFlagsSet(KryptonPageFlags.DockingAllowAutoHidden);
+                checkBoxDockingAllowDocked.Checked = _page.AreFlagsSet(KryptonPageFlags.DockingAllowDocked);
+                checkBoxDockingAllowFloating.Checked = _page.AreFlagsSet(KryptonPageFlags.DockingAllowFloating);
+                checkBoxDockingAllowWorkspace.Checked = _page.AreFlagsSet(KryptonPageFlags.DockingAllowWorkspace);
+                checkBoxDockingAllowNavigator.Checked = _page.AreFlagsSet(KryptonPageFlags.DockingAllowNavigator);
+            }
         }
-        
+
         private void buttonOK_Click(object sender, EventArgs e)
         {
             if (checkBoxPageInOverflowBarForOutlookMode.Checked)
             {
-                _page.SetFlags(KryptonPageFlags.PageInOverflowBarForOutlookMode);
+                _page?.SetFlags(KryptonPageFlags.PageInOverflowBarForOutlookMode);
             }
             else
             {
-                _page.ClearFlags(KryptonPageFlags.PageInOverflowBarForOutlookMode);
+                _page?.ClearFlags(KryptonPageFlags.PageInOverflowBarForOutlookMode);
             }
 
             if (checkBoxAllowPageDrag.Checked)
             {
-                _page.SetFlags(KryptonPageFlags.AllowPageDrag);
+                _page?.SetFlags(KryptonPageFlags.AllowPageDrag);
             }
             else
             {
-                _page.ClearFlags(KryptonPageFlags.AllowPageDrag);
+                _page?.ClearFlags(KryptonPageFlags.AllowPageDrag);
             }
 
             if (checkBoxAllowPageReorder.Checked)
             {
-                _page.SetFlags(KryptonPageFlags.AllowPageReorder);
+                _page?.SetFlags(KryptonPageFlags.AllowPageReorder);
             }
             else
             {
-                _page.ClearFlags(KryptonPageFlags.AllowPageReorder);
+                _page?.ClearFlags(KryptonPageFlags.AllowPageReorder);
             }
 
             if (checkBoxAllowConfigSave.Checked)
             {
-                _page.SetFlags(KryptonPageFlags.AllowConfigSave);
+                _page?.SetFlags(KryptonPageFlags.AllowConfigSave);
             }
             else
             {
-                _page.ClearFlags(KryptonPageFlags.AllowConfigSave);
+                _page?.ClearFlags(KryptonPageFlags.AllowConfigSave);
             }
 
             if (checkBoxDockingAllowClose.Checked)
             {
-                _page.SetFlags(KryptonPageFlags.DockingAllowClose);
+                _page?.SetFlags(KryptonPageFlags.DockingAllowClose);
             }
             else
             {
-                _page.ClearFlags(KryptonPageFlags.DockingAllowClose);
+                _page?.ClearFlags(KryptonPageFlags.DockingAllowClose);
             }
 
             if (checkBoxDockingAllowDropDown.Checked)
             {
-                _page.SetFlags(KryptonPageFlags.DockingAllowDropDown);
+                _page?.SetFlags(KryptonPageFlags.DockingAllowDropDown);
             }
             else
             {
-                _page.ClearFlags(KryptonPageFlags.DockingAllowDropDown);
+                _page?.ClearFlags(KryptonPageFlags.DockingAllowDropDown);
             }
 
             if (checkBoxDockingAllowAutoHidden.Checked)
             {
-                _page.SetFlags(KryptonPageFlags.DockingAllowAutoHidden);
+                _page?.SetFlags(KryptonPageFlags.DockingAllowAutoHidden);
             }
             else
             {
-                _page.ClearFlags(KryptonPageFlags.DockingAllowAutoHidden);
+                _page?.ClearFlags(KryptonPageFlags.DockingAllowAutoHidden);
             }
 
             if (checkBoxDockingAllowDocked.Checked)
             {
-                _page.SetFlags(KryptonPageFlags.DockingAllowDocked);
+                _page?.SetFlags(KryptonPageFlags.DockingAllowDocked);
             }
             else
             {
-                _page.ClearFlags(KryptonPageFlags.DockingAllowDocked);
+                _page?.ClearFlags(KryptonPageFlags.DockingAllowDocked);
             }
 
             if (checkBoxDockingAllowFloating.Checked)
             {
-                _page.SetFlags(KryptonPageFlags.DockingAllowFloating);
+                _page?.SetFlags(KryptonPageFlags.DockingAllowFloating);
             }
             else
             {
-                _page.ClearFlags(KryptonPageFlags.DockingAllowFloating);
+                _page?.ClearFlags(KryptonPageFlags.DockingAllowFloating);
             }
 
             if (checkBoxDockingAllowWorkspace.Checked)
             {
-                _page.SetFlags(KryptonPageFlags.DockingAllowWorkspace);
+                _page?.SetFlags(KryptonPageFlags.DockingAllowWorkspace);
             }
             else
             {
-                _page.ClearFlags(KryptonPageFlags.DockingAllowWorkspace);
+                _page?.ClearFlags(KryptonPageFlags.DockingAllowWorkspace);
             }
 
             if (checkBoxDockingAllowNavigator.Checked)
             {
-                _page.SetFlags(KryptonPageFlags.DockingAllowNavigator);
+                _page?.SetFlags(KryptonPageFlags.DockingAllowNavigator);
             }
             else
             {
-                _page.ClearFlags(KryptonPageFlags.DockingAllowNavigator);
+                _page?.ClearFlags(KryptonPageFlags.DockingAllowNavigator);
             }
         }
         #endregion

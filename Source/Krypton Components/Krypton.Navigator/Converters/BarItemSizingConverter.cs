@@ -20,10 +20,10 @@ namespace Krypton.Navigator
         [Localizable(true)]
         private static readonly IReadOnlyDictionary<BarItemSizing, string> _pairs = new Dictionary<BarItemSizing, string>
         {
-            {BarItemSizing.Individual, "Individual Sizing"},
-            {BarItemSizing.SameHeight, "All Same Height"},
-            {BarItemSizing.SameWidth, "All Same Width"},
-            {BarItemSizing.SameWidthAndHeight, "All Same Width & Height"}
+            {BarItemSizing.Individual, @"Individual Sizing"},
+            {BarItemSizing.SameHeight, @"All Same Height"},
+            {BarItemSizing.SameWidth, @"All Same Width"},
+            {BarItemSizing.SameWidthAndHeight, @"All Same Width & Height"}
         };
 
         #region Protected

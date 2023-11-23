@@ -33,7 +33,7 @@ namespace Krypton.Navigator
         public PaletteNavigatorRedirect(KryptonNavigator navigator,
                                         PaletteRedirect? redirect,
                                         NeedPaintHandler needPaint)
-            : this(navigator, redirect, redirect, redirect, 
+            : this(navigator, redirect, redirect, redirect,
                               redirect, redirect, redirect,
                               redirect, redirect, redirect,
                               redirect, redirect, redirect,
@@ -86,17 +86,17 @@ namespace Krypton.Navigator
         {
             // Create the palette storage
             PalettePage = new PalettePageRedirect(redirectNavigatorPage, needPaint);
-            HeaderGroup = new PaletteNavigatorHeaderGroupRedirect(redirectNavigatorHeaderGroup, redirectNavigatorHeaderPrimary, redirectNavigatorHeaderSecondary, redirectNavigatorHeaderBar, redirectNavigatorHeaderOverflow, needPaint);
+            HeaderGroup = new PaletteNavigatorHeaderGroupRedirect(redirectNavigatorHeaderGroup, redirectNavigatorHeaderPrimary, redirectNavigatorHeaderSecondary, redirectNavigatorHeaderBar!, redirectNavigatorHeaderOverflow!, needPaint);
             CheckButton = new PaletteTripleRedirect(redirectNavigatorCheckButton, PaletteBackStyle.ButtonStandalone, PaletteBorderStyle.ButtonStandalone, PaletteContentStyle.ButtonStandalone, needPaint);
             OverflowButton = new PaletteTripleRedirect(redirectNavigatorOverflowButton, PaletteBackStyle.ButtonNavigatorOverflow, PaletteBorderStyle.ButtonNavigatorOverflow, PaletteContentStyle.ButtonNavigatorOverflow, needPaint);
             MiniButton = new PaletteTripleRedirect(redirectNavigatorMiniButton, PaletteBackStyle.ButtonNavigatorMini, PaletteBorderStyle.ButtonNavigatorMini, PaletteContentStyle.ButtonNavigatorMini, needPaint);
-            Bar = new PaletteBarRedirect(redirectNavigatorBar, needPaint);
+            Bar = new PaletteBarRedirect(redirectNavigatorBar!, needPaint);
             _paletteBorderEdgeInheritRedirect = new PaletteBorderInheritRedirect(redirectNavigatorBorderEdge, PaletteBorderStyle.ControlClient);
             BorderEdge = new PaletteBorderEdgeRedirect(_paletteBorderEdgeInheritRedirect, needPaint);
-            Separator = new PaletteSeparatorPaddingRedirect(redirectNavigatorSeparator, PaletteBackStyle.SeparatorHighInternalProfile, PaletteBorderStyle.SeparatorHighInternalProfile, needPaint);
-            Tab = new PaletteTabTripleRedirect(redirectNavigatorTab, PaletteBackStyle.TabHighProfile, PaletteBorderStyle.TabHighProfile, PaletteContentStyle.TabHighProfile, needPaint);
-            RibbonTab = new PaletteRibbonTabContentRedirect(redirectNavigatorRibbonTab, needPaint);
-            RibbonGeneral = new PaletteRibbonGeneralNavRedirect(redirectNavigatorRibbonGeneral, needPaint);
+            Separator = new PaletteSeparatorPaddingRedirect(redirectNavigatorSeparator!, PaletteBackStyle.SeparatorHighInternalProfile, PaletteBorderStyle.SeparatorHighInternalProfile, needPaint);
+            Tab = new PaletteTabTripleRedirect(redirectNavigatorTab!, PaletteBackStyle.TabHighProfile, PaletteBorderStyle.TabHighProfile, PaletteContentStyle.TabHighProfile, needPaint);
+            RibbonTab = new PaletteRibbonTabContentRedirect(redirectNavigatorRibbonTab!, needPaint);
+            RibbonGeneral = new PaletteRibbonGeneralNavRedirect(redirectNavigatorRibbonGeneral!, needPaint);
             Metrics = new PaletteMetrics(navigator, needPaint);
         }
         #endregion
@@ -127,14 +127,14 @@ namespace Krypton.Navigator
         /// </summary>
         [Browsable(false)]
         public override bool IsDefault => (base.IsDefault &&
-                                           PalettePage.IsDefault &&
-                                           HeaderGroup.IsDefault &&
+                                           PalettePage!.IsDefault &&
+                                           HeaderGroup!.IsDefault &&
                                            CheckButton.IsDefault &&
                                            OverflowButton.IsDefault &&
                                            MiniButton.IsDefault &&
                                            Bar.IsDefault &&
                                            BorderEdge.IsDefault &&
-                                           Separator.IsDefault &&
+                                           Separator!.IsDefault &&
                                            Tab.IsDefault &&
                                            RibbonTab.IsDefault &&
                                            RibbonGeneral.IsDefault &&
@@ -255,7 +255,7 @@ namespace Krypton.Navigator
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteNavigatorHeaderGroupRedirect? HeaderGroup { get; }
 
-        private bool ShouldSerializeHeaderGroup() => !HeaderGroup.IsDefault;
+        private bool ShouldSerializeHeaderGroup() => !HeaderGroup!.IsDefault;
 
         #endregion
 
@@ -266,9 +266,9 @@ namespace Krypton.Navigator
         [Category(@"Visuals")]
         [Description(@"Overrides for defining page appearance entries.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteBack Page => PalettePage.Back;
+        public PaletteBack Page => PalettePage!.Back;
 
-        private bool ShouldSerializePage() => !PalettePage.Back.IsDefault;
+        private bool ShouldSerializePage() => !PalettePage!.Back.IsDefault;
 
         #endregion
 
@@ -307,7 +307,7 @@ namespace Krypton.Navigator
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteSeparatorPaddingRedirect? Separator { get; }
 
-        private bool ShouldSerializeSeparator() => !Separator.IsDefault;
+        private bool ShouldSerializeSeparator() => !Separator!.IsDefault;
 
         #endregion
 

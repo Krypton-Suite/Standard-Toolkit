@@ -10,6 +10,7 @@
  */
 #endregion
 
+// ReSharper disable RedundantNullableFlowAttribute
 namespace Krypton.Toolkit
 {
     /// <summary>
@@ -52,7 +53,7 @@ namespace Krypton.Toolkit
         /// <param name="getRenderer">Delegate for returning a tool strip renderer.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
         protected ButtonSpecManagerBase([DisallowNull] Control control,
-                                     [DisallowNull] PaletteRedirect? redirector,
+                                        PaletteRedirect? redirector,
                                      ButtonSpecCollectionBase? variableSpecs,
                                      ButtonSpecCollectionBase? fixedSpecs,
                                      IPaletteMetric[] viewMetrics,
@@ -765,7 +766,7 @@ namespace Krypton.Toolkit
                 (_viewMetrics.Length > viewDockerIndex) &&
                 (_viewMetricPaddings.Length > viewDockerIndex))
             {
-                IPaletteMetric? viewPaletteMetric = _viewMetrics[viewDockerIndex];
+                IPaletteMetric viewPaletteMetric = _viewMetrics[viewDockerIndex];
                 PaletteMetricPadding viewMetricPadding = _viewMetricPaddings[viewDockerIndex];
 
                 // Create an instance to manage the individual button spec
@@ -775,7 +776,7 @@ namespace Krypton.Toolkit
                 _specLookup.Add(buttonSpec, buttonView);
 
                 // Update the button with the same orientation as the view header
-                buttonView.ViewButton.Orientation = CalculateOrientation(DockerOrientation(viewDockerIndex),
+                buttonView.ViewButton!.Orientation = CalculateOrientation(DockerOrientation(viewDockerIndex),
                                                                          buttonSpec.GetOrientation(_redirector));
 
                 buttonView.ViewCenter.Orientation = DockerOrientation(viewDockerIndex);

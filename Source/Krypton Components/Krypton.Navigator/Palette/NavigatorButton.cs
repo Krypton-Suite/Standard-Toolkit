@@ -52,14 +52,14 @@ namespace Krypton.Navigator
             Debug.Assert(navigator != null);
 
             // Remember back reference
-            _navigator = navigator;
+            _navigator = navigator!;
 
             // Store the provided paint notification delegate
             NeedPaint = needPaint;
 
             // Create collection for use defined and fixed buttons
-            ButtonSpecs = new NavigatorButtonSpecCollection(navigator);
-            FixedSpecs = new NavFixedButtonSpecCollection(navigator);
+            ButtonSpecs = new NavigatorButtonSpecCollection(navigator!);
+            FixedSpecs = new NavFixedButtonSpecCollection(navigator!);
 
             // Create the fixed buttons
             PreviousButton = new ButtonSpecNavPrevious(_navigator);
@@ -139,7 +139,7 @@ namespace Krypton.Navigator
         [Description(@"Collection of button specifications.")]
         [MergableProperty(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public NavigatorButtonSpecCollection ButtonSpecs { get; }
+        public NavigatorButtonSpecCollection? ButtonSpecs { get; }
 
         #endregion
 
