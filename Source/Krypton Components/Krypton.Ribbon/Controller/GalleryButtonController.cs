@@ -48,8 +48,8 @@ namespace Krypton.Ribbon
         {
             Debug.Assert(target != null);
 
-            Target = target;
-            NeedPaint = needPaint;
+            Target = target!;
+            NeedPaint = needPaint!;
 
             if (repeatTimer)
             {
@@ -219,7 +219,7 @@ namespace Krypton.Ribbon
             if (c is { IsDisposed: false })
             {
                 // Ensure control is inside a visible top level form
-                Form f = c.FindForm();
+                Form? f = c.FindForm();
                 if (f is { Visible: true })
                 {
                     UpdateTargetState(c.PointToClient(Control.MousePosition));
@@ -286,7 +286,7 @@ namespace Krypton.Ribbon
                 _repeatTimer.Stop();
             }
         }
-            
+
         #endregion
     }
 }

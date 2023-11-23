@@ -78,8 +78,8 @@ namespace Krypton.Navigator
             var myAssembly = Assembly.GetAssembly(typeof(ViewBuilderOutlookBase));
 
             // Get the resource streams containing the images
-            Stream? streamBlueUp = myAssembly.GetManifestResourceStream(@"Krypton.Navigator.Resources.BlueUp.bmp");
-            Stream? streamBlueDown = myAssembly.GetManifestResourceStream(@"Krypton.Navigator.Resources.BlueDown.bmp");
+            Stream? streamBlueUp = myAssembly!.GetManifestResourceStream(@"Krypton.Navigator.Resources.BlueUp.bmp");
+            Stream? streamBlueDown = myAssembly!.GetManifestResourceStream(@"Krypton.Navigator.Resources.BlueDown.bmp");
 
             // Load the bitmap from stream
             if (streamBlueUp != null)

@@ -59,11 +59,11 @@ namespace Krypton.Ribbon
         /// <param name="viewMetricPadding">Target metric padding.</param>
         /// <param name="buttonSpec">ButtonSpec instance.</param>
         /// <returns>ButtonSpecView derived class.</returns>
-        protected override ButtonSpecView CreateButtonSpecView(PaletteRedirect? redirector, 
-                                                               IPaletteMetric? viewPaletteMetric, 
-                                                               PaletteMetricPadding viewMetricPadding, 
+        protected override ButtonSpecView CreateButtonSpecView(PaletteRedirect? redirector,
+                                                               IPaletteMetric? viewPaletteMetric,
+                                                               PaletteMetricPadding viewMetricPadding,
                                                                ButtonSpec buttonSpec) =>
-            new ButtonSpecViewRibbon(redirector, viewPaletteMetric, 
+            new ButtonSpecViewRibbon(redirector, viewPaletteMetric,
                 viewMetricPadding, this, buttonSpec);
 
         #endregion

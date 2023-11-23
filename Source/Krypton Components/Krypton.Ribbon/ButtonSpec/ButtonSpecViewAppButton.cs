@@ -37,7 +37,7 @@ namespace Krypton.Ribbon
                                        PaletteMetricPadding metricPadding,
                                        ButtonSpecManagerBase? manager,
                                        ButtonSpec buttonSpec)
-            : base(redirector, paletteMetric, metricPadding, manager, buttonSpec)
+            : base(redirector!, paletteMetric, metricPadding, manager!, buttonSpec)
         {
         }
         #endregion
@@ -52,7 +52,7 @@ namespace Krypton.Ribbon
         /// <returns>Controller instance.</returns>
         public override ButtonSpecViewControllers CreateController(ViewDrawButton viewButton,
                                                                    NeedPaintHandler needPaint,
-                                                                   MouseEventHandler clickHandler)
+                                                                   MouseEventHandler? clickHandler)
         {
             // Create a ribbon specific button controller
             var managerAppButton = (ButtonSpecManagerLayoutAppButton)Manager;
@@ -78,9 +78,9 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">An EventArgs that contains the event data.</param>
-        protected override void OnFinishDelegate(object sender, EventArgs e) =>
+        protected override void OnFinishDelegate(object sender, EventArgs? e) =>
             // Ask the button to remove the fixed pressed appearance
-            _controller.RemoveFixed();
+            _controller?.RemoveFixed();
         #endregion
     }
 }

@@ -32,7 +32,7 @@ namespace Krypton.Ribbon
             : base(PaletteButtonSpecStyle.PendantClose)
         {
             Debug.Assert(ribbon != null);
-            _ribbon = ribbon;
+            _ribbon = ribbon!;
         }
         #endregion
 
@@ -85,7 +85,7 @@ namespace Krypton.Ribbon
             {
                 if (!_ribbon.InDesignMode)
                 {
-                    MdiChild.Close();
+                    MdiChild?.Close();
 
                     // Let base class fire any other attached events
                     base.OnClick(e);

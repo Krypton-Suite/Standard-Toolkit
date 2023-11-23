@@ -170,7 +170,7 @@ namespace Krypton.Ribbon
             {
                 _viewColumns
             };
-            mainBackground.KeyController = new ContextMenuController((ViewContextMenuManager)ViewManager);
+            mainBackground.KeyController = new ContextMenuController((ViewContextMenuManager)ViewManager!);
             return mainBackground;
         }
 
@@ -206,16 +206,16 @@ namespace Krypton.Ribbon
             _drawOutsideBorder = new PaletteBorderToPalette(Redirector, PaletteBorderStyle.ControlRibbonAppMenu);
             _drawOutsideDocker = new ViewDrawRibbonAppMenu(_drawOutsideBack, _drawOutsideBorder, _appButtonBottom, _rectAppButtonBottomHalf)
             {
-                KeyController = new ContextMenuController((ViewContextMenuManager)ViewManager)
+                KeyController = new ContextMenuController((ViewContextMenuManager)ViewManager!)
             };
             _drawOutsideDocker.Add(_drawOutsideBacking, ViewDockStyle.Fill);
-            ViewManager.Root = _drawOutsideDocker;
+            ViewManager!.Root = _drawOutsideDocker;
         }
 
         private void CreateButtonManager(RibbonAppButton appButton)
         {
-            _buttonManager = new ButtonSpecManagerLayoutAppButton((ViewContextMenuManager)ViewManager,
-                                                                  this, Redirector, appButton.AppButtonSpecs, null,
+            _buttonManager = new ButtonSpecManagerLayoutAppButton((ViewContextMenuManager)ViewManager!,
+                                                                  this, Redirector!, appButton.AppButtonSpecs, null,
                                                                   new[] { _viewButtonSpecDocker },
                                                                   new IPaletteMetric[] { _ribbon.StateCommon },
                                                                   new[] { PaletteMetricInt.None },
@@ -321,7 +321,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets access to the view manager for the context menu.
         /// </summary>
-        public ViewContextMenuManager ViewContextMenuManager => (ViewContextMenuManager)ViewManager;
+        public ViewContextMenuManager ViewContextMenuManager => (ViewContextMenuManager)ViewManager!;
 
         /// <summary>
         /// Should a mouse down at the provided point cause an end to popup tracking.
@@ -441,7 +441,7 @@ namespace Krypton.Ribbon
             using var context = new RenderContext(this, null, ClientRectangle, Renderer);
             // Grab a path that is the outside edge of the border
             Rectangle borderRect = ClientRectangle;
-            GraphicsPath borderPath1 = Renderer.RenderStandardBorder.GetOutsideBorderPath(context, borderRect, _drawOutsideBorder, VisualOrientation.Top, PaletteState.Normal);
+            GraphicsPath borderPath1 = Renderer!.RenderStandardBorder.GetOutsideBorderPath(context, borderRect, _drawOutsideBorder, VisualOrientation.Top, PaletteState.Normal);
             borderRect.Inflate(-1, -1);
             GraphicsPath borderPath2 = Renderer.RenderStandardBorder.GetOutsideBorderPath(context, borderRect, _drawOutsideBorder, VisualOrientation.Top, PaletteState.Normal);
             borderRect.Inflate(-1, -1);
@@ -474,7 +474,7 @@ namespace Krypton.Ribbon
             {
                 // Find the preferred size which fits exactly the calculated contents size
                 using var context = new ViewLayoutContext(this, Renderer);
-                return ViewManager.Root.GetPreferredSize(context);
+                return ViewManager!.Root!.GetPreferredSize(context);
             }
             finally
             {
@@ -499,7 +499,10 @@ namespace Krypton.Ribbon
                 _palette = palette;
 
                 // Update redirector to use palette as source for obtaining values
-                Redirector.Target = _palette;
+                if (Redirector != null)
+                {
+                    Redirector.Target = _palette;
+                }
 
                 // Hook to new palette events
                 if (_palette != null)

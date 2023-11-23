@@ -33,7 +33,7 @@ namespace Krypton.Ribbon
         public ContextTitleController([DisallowNull] KryptonRibbon ribbon)
         {
             Debug.Assert(ribbon != null);
-            _ribbon = ribbon;
+            _ribbon = ribbon!;
         }
         #endregion
 
@@ -41,7 +41,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets the associated context tab set.
         /// </summary>
-        public ContextTabSet ContextTabSet { get; set; }
+        public ContextTabSet? ContextTabSet { get; set; }
 
         #endregion
 
@@ -84,7 +84,7 @@ namespace Krypton.Ribbon
                         if (_ribbon is { InDesignMode: false, Enabled: true })
                         {
                             // Select the first tab in the context
-                            ContextTabSet.FirstTab.RibbonTab.Ribbon.SelectedTab = ContextTabSet.FirstTab.RibbonTab;
+                            ContextTabSet.FirstTab.RibbonTab!.Ribbon!.SelectedTab = ContextTabSet.FirstTab.RibbonTab;
                         }
                     }
                 }

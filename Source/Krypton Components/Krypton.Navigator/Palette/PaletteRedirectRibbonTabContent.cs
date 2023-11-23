@@ -74,24 +74,24 @@ namespace Krypton.Navigator
         /// <param name="selectedContent">Redirection for content selected states requests.</param>
         /// <param name="focusOverrideContent">Redirection for content focus override state requests.</param>
         public PaletteRedirectRibbonTabContent(PaletteBase? target,
-                                               IPaletteRibbonBack disabledBack,
-                                               IPaletteRibbonBack normalBack,
-                                               IPaletteRibbonBack pressedBack,
-                                               IPaletteRibbonBack trackingBack,
-                                               IPaletteRibbonBack selectedBack,
-                                               IPaletteRibbonBack focusOverrideBack,
-                                               IPaletteRibbonText disabledText,
-                                               IPaletteRibbonText normalText,
-                                               IPaletteRibbonText pressedText,
-                                               IPaletteRibbonText trackingText,
-                                               IPaletteRibbonText selectedText,
-                                               IPaletteRibbonText focusOverrideText,
-                                               IPaletteContent disabledContent,
-                                               IPaletteContent normalContent,
-                                               IPaletteContent pressedContent,
-                                               IPaletteContent trackingContent,
-                                               IPaletteContent selectedContent,
-                                               IPaletteContent focusOverrideContent)
+                                               IPaletteRibbonBack? disabledBack,
+                                               IPaletteRibbonBack? normalBack,
+                                               IPaletteRibbonBack? pressedBack,
+                                               IPaletteRibbonBack? trackingBack,
+                                               IPaletteRibbonBack? selectedBack,
+                                               IPaletteRibbonBack? focusOverrideBack,
+                                               IPaletteRibbonText? disabledText,
+                                               IPaletteRibbonText? normalText,
+                                               IPaletteRibbonText? pressedText,
+                                               IPaletteRibbonText? trackingText,
+                                               IPaletteRibbonText? selectedText,
+                                               IPaletteRibbonText? focusOverrideText,
+                                               IPaletteContent? disabledContent,
+                                               IPaletteContent? normalContent,
+                                               IPaletteContent? pressedContent,
+                                               IPaletteContent? trackingContent,
+                                               IPaletteContent? selectedContent,
+                                               IPaletteContent? focusOverrideContent)
             : base(target)
         {
             // Remember state specific inheritance

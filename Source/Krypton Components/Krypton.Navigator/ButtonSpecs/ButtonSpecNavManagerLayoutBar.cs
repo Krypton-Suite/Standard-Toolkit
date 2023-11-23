@@ -76,7 +76,7 @@ namespace Krypton.Navigator
             : base(control, redirector, variableSpecs, fixedSpecs,
                    viewDockers, viewMetrics, viewMetricIntOutside,
                    viewMetricIntInside, viewMetricPaddings, getRenderer,
-                   needPaint) =>
+                   needPaint!) =>
             RemapTarget = ButtonSpecNavRemap.ButtonSpecRemapTarget.LabelPanel;
 
         #endregion

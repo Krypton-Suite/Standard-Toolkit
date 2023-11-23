@@ -551,7 +551,7 @@ namespace Krypton.Ribbon
         private void OnRibbonGroupItemsInserted(object sender, TypedCollectionEventArgs<KryptonRibbonGroupContainer> e)
         {
             // Setup the back references
-            e.Item.Ribbon = _ribbon;
+            e.Item!.Ribbon = _ribbon;
             e.Item.RibbonTab = _ribbonTab;
             e.Item.RibbonGroup = this;
 
@@ -568,7 +568,7 @@ namespace Krypton.Ribbon
         private void OnRibbonGroupItemsRemoved(object sender, TypedCollectionEventArgs<KryptonRibbonGroupContainer> e)
         {
             // Remove the back references
-            e.Item.Ribbon = null;
+            e.Item!.Ribbon = null;
             e.Item.RibbonTab = null;
             e.Item.RibbonGroup = null;
 

@@ -69,7 +69,7 @@ namespace Krypton.Navigator
                                     int barMinimumHeight,
                                     TabBorderStyle tabBorderStyle,
                                     bool reorderSelectedLine)
-            : base(paletteMetric, metricGap, itemSizing, 
+            : base(paletteMetric, metricGap, itemSizing,
                    itemAlignment, barMultiline, itemMinimumSize,
                    itemMaximumSize, barMinimumHeight, tabBorderStyle,
                    reorderSelectedLine)
@@ -118,7 +118,7 @@ namespace Krypton.Navigator
         private void RenderChildren(RenderContext context, bool drawChecked)
         {
             // Use tab style to decide what order the children are drawn in
-            var orderedChildren = context.Renderer.RenderTabBorder.GetTabBorderLeftDrawing(TabBorderStyle) ? this : Reverse();
+            var orderedChildren = context.Renderer!.RenderTabBorder.GetTabBorderLeftDrawing(TabBorderStyle) ? this : Reverse();
 
             // Ask each child to render in turn
             foreach (ViewBase child in orderedChildren)
@@ -132,7 +132,7 @@ namespace Krypton.Navigator
                     if ((buttonBar != null) ||
                         (tab != null))
                     {
-                        var itemChecked = buttonBar?.Checked ?? tab.Checked;
+                        var itemChecked = buttonBar?.Checked ?? tab!.Checked;
 
                         // Are we allowed to draw the checked item?
                         if ((!itemChecked && !drawChecked) ||

@@ -45,16 +45,16 @@ namespace Krypton.Ribbon
         /// <param name="target">View element that owns this controller.</param>
         /// <param name="needPaint">Paint delegate for notifying visual changes.</param>
         public CollapsedGroupController([DisallowNull] KryptonRibbon ribbon,
-            [DisallowNull]ViewLayoutDocker target,
-            [DisallowNull]NeedPaintHandler needPaint)
+            [DisallowNull] ViewLayoutDocker target,
+            [DisallowNull] NeedPaintHandler needPaint)
         {
             Debug.Assert(ribbon != null);
             Debug.Assert(target != null);
             Debug.Assert(needPaint != null);
 
-            _ribbon = ribbon;
-            _target = target;
-            _needPaint = needPaint;
+            _ribbon = ribbon!;
+            _target = target!;
+            _needPaint = needPaint!;
         }
         #endregion
 
@@ -145,7 +145,7 @@ namespace Krypton.Ribbon
         public virtual void KeyDown(Control c, KeyEventArgs e)
         {
             // Get the root control that owns the provided control
-            c = _ribbon.GetControllerControl(c);
+            c = _ribbon.GetControllerControl(c)!;
 
             switch (c)
             {
@@ -258,12 +258,12 @@ namespace Krypton.Ribbon
                 case Keys.Tab:
                 case Keys.Right:
                     // Get the next focus item for the currently selected page
-                    newView = ribbon.GroupsArea.ViewGroups.GetNextFocusItem(_target) ?? ribbon.TabsArea.ButtonSpecManager.GetFirstVisibleViewButton(PaletteRelativeEdgeAlign.Far);
+                    newView = ribbon.GroupsArea.ViewGroups.GetNextFocusItem(_target) ?? ribbon.TabsArea.ButtonSpecManager?.GetFirstVisibleViewButton(PaletteRelativeEdgeAlign.Far);
 
                     // Move across to any far defined buttons
 
                     // Move across to any inherit defined buttons
-                    newView ??= ribbon.TabsArea.ButtonSpecManager.GetFirstVisibleViewButton(PaletteRelativeEdgeAlign.Inherit);
+                    newView ??= ribbon.TabsArea.ButtonSpecManager?.GetFirstVisibleViewButton(PaletteRelativeEdgeAlign.Inherit);
 
                     // Rotate around to application button
                     if (newView == null)

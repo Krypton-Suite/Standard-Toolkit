@@ -19,7 +19,7 @@ namespace Krypton.Toolkit
                                          IKeyController
     {
         #region Instance Fields
-        private readonly ViewContextMenuManager _viewManager;
+        private readonly ViewContextMenuManager? _viewManager;
         #endregion
 
         #region Identity
@@ -27,7 +27,7 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the ContextMenuController class.
         /// </summary>
         /// <param name="viewManager">Owning view manager instance.</param>
-        public ContextMenuController(ViewContextMenuManager viewManager) => _viewManager = viewManager;
+        public ContextMenuController(ViewContextMenuManager? viewManager) => _viewManager = viewManager;
 
         #endregion
 

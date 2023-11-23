@@ -44,16 +44,16 @@ namespace Krypton.Ribbon
         /// <param name="target">Target for state changes.</param>
         /// <param name="needPaint">Delegate for notifying changes in display.</param>
         public LeftDownButtonController([DisallowNull] KryptonRibbon ribbon,
-                                        [DisallowNull] ViewBase target, 
+                                        [DisallowNull] ViewBase target,
                                         [DisallowNull] NeedPaintHandler needPaint)
         {
             Debug.Assert(ribbon != null);
             Debug.Assert(target != null);
             Debug.Assert(needPaint != null);
 
-            Ribbon = ribbon;
-            Target = target;
-            _needPaint = needPaint;
+            Ribbon = ribbon!;
+            Target = target!;
+            _needPaint = needPaint!;
 
             _updateTimer = new Timer
             {
@@ -135,7 +135,7 @@ namespace Krypton.Ribbon
             _mouseOver = true;
 
             // Get the form we are inside
-            KryptonForm ownerForm = Ribbon.FindKryptonForm();
+            KryptonForm? ownerForm = Ribbon.FindKryptonForm();
             _active = ownerForm is { WindowActive: true } ||
                       VisualPopupManager.Singleton.IsTracking ||
                       Ribbon.InDesignMode ||

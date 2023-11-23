@@ -31,7 +31,7 @@ namespace Krypton.Ribbon
         public ButtonSpecMinimizeRibbon([DisallowNull] KryptonRibbon ribbon)
         {
             Debug.Assert(ribbon != null);
-            _ribbon = ribbon;
+            _ribbon = ribbon!;
 
             // Fix the type
             ProtectedType = PaletteButtonSpecStyle.RibbonMinimize;

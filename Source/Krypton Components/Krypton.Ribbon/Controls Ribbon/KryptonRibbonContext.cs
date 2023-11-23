@@ -28,7 +28,7 @@ namespace Krypton.Ribbon
         private string _contextName;
         private string _contextTitle;
         private Color _contextColor;
-        private object _tag;
+        private object? _tag;
         #endregion
 
         #region Events
@@ -142,7 +142,7 @@ namespace Krypton.Ribbon
         [Description(@"User-defined data associated with the object.")]
         [TypeConverter(typeof(StringConverter))]
         [Bindable(true)]
-        public object Tag
+        public object? Tag
         {
             get => _tag;
 
