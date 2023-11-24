@@ -109,7 +109,7 @@ namespace Krypton.Navigator
         /// Gets a value indicating if all values are default.
         /// </summary>
         [Browsable(false)]
-        public override bool IsDefault => ((ButtonSpecs.Count == 0) &&
+        public override bool IsDefault => ((ButtonSpecs!.Count == 0) &&
                                            PreviousButton.IsDefault &&
                                            (PreviousButtonAction == DirectionButtonAction.ModeAppropriateAction) &&
                                            (PreviousButtonDisplay == ButtonDisplay.Logic) &&

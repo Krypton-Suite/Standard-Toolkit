@@ -258,7 +258,7 @@ namespace Krypton.Ribbon
                 case Keys.Tab:
                 case Keys.Right:
                     // Ask the ribbon to get use the first view for the qat
-                    newView = ribbon.GetFirstQATView() ?? ribbon.TabsArea.ButtonSpecManager.GetLastVisibleViewButton(PaletteRelativeEdgeAlign.Near);
+                    newView = ribbon.GetFirstQATView() ?? ribbon.TabsArea.ButtonSpecManager?.GetLastVisibleViewButton(PaletteRelativeEdgeAlign.Near);
 
                     // Get the first near edge button (the last near button is the leftmost one!)
 
@@ -277,16 +277,16 @@ namespace Krypton.Ribbon
                     }
 
                     // Move across to any far defined buttons
-                    newView ??= ribbon.TabsArea.ButtonSpecManager.GetFirstVisibleViewButton(PaletteRelativeEdgeAlign.Far);
+                    newView ??= ribbon.TabsArea.ButtonSpecManager?.GetFirstVisibleViewButton(PaletteRelativeEdgeAlign.Far);
 
                     // Move across to any inherit defined buttons
-                    newView ??= ribbon.TabsArea.ButtonSpecManager.GetFirstVisibleViewButton(PaletteRelativeEdgeAlign.Inherit);
+                    newView ??= ribbon.TabsArea.ButtonSpecManager?.GetFirstVisibleViewButton(PaletteRelativeEdgeAlign.Inherit);
                     break;
                 case Keys.Tab | Keys.Shift:
                 case Keys.Left:
                     // Move across to any far defined buttons
-                    newView = ribbon.TabsArea.ButtonSpecManager.GetLastVisibleViewButton(PaletteRelativeEdgeAlign.Far) ??
-                              ribbon.TabsArea.ButtonSpecManager.GetLastVisibleViewButton(PaletteRelativeEdgeAlign.Inherit);
+                    newView = ribbon.TabsArea.ButtonSpecManager?.GetLastVisibleViewButton(PaletteRelativeEdgeAlign.Far) ??
+                              ribbon.TabsArea.ButtonSpecManager?.GetLastVisibleViewButton(PaletteRelativeEdgeAlign.Inherit);
 
                     // Move across to any inherit defined buttons
 
@@ -295,11 +295,11 @@ namespace Krypton.Ribbon
                         if (e.KeyData != Keys.Left)
                         {
                             // Get the last control on the selected tab
-                            newView = ribbon.GroupsArea.ViewGroups.GetLastFocusItem() ?? 
+                            newView = ribbon.GroupsArea.ViewGroups.GetLastFocusItem() ??
                                       (ribbon.SelectedTab != null   // Get the currently selected tab page
                                           ? ribbon.TabsArea.LayoutTabs.GetViewForRibbonTab(ribbon.SelectedTab)
                                           : ribbon.TabsArea.LayoutTabs.GetViewForLastRibbonTab());
-                           
+
                         }
                         else
                         {
@@ -309,7 +309,7 @@ namespace Krypton.Ribbon
                     }
 
                     // Get the last near edge button (the first near button is the rightmost one!)
-                    newView ??= ribbon.TabsArea.ButtonSpecManager.GetFirstVisibleViewButton(PaletteRelativeEdgeAlign.Near);
+                    newView ??= ribbon.TabsArea.ButtonSpecManager?.GetFirstVisibleViewButton(PaletteRelativeEdgeAlign.Near);
 
                     // Get the last qat button
                     newView ??= ribbon.GetLastQATView();
@@ -330,9 +330,9 @@ namespace Krypton.Ribbon
             }
 
             // If we have a new view to focus and it is not ourself...
-            if ((newView != null) 
-                && (newView != Target1) 
-                && (newView != Target2) 
+            if ((newView != null)
+                && (newView != Target1)
+                && (newView != Target2)
                 && (newView != Target3)
                 )
             {
@@ -383,7 +383,7 @@ namespace Krypton.Ribbon
             UpdateTargetState();
 
             // Switch focus to ourself
-            ribbon.FocusView =  ribbon.TabsArea.LayoutAppButton.AppButton;
+            ribbon.FocusView = ribbon.TabsArea.LayoutAppButton.AppButton;
 
             // Generate a click event
             Keyboard = true;

@@ -26,7 +26,7 @@ namespace Krypton.Ribbon
         /// Initialize a new instance of the KryptonGalleryActionList class.
         /// </summary>
         /// <param name="owner">Designer that owns this action list instance.</param>
-        public KryptonGalleryActionList(KryptonGalleryDesigner owner) 
+        public KryptonGalleryActionList(KryptonGalleryDesigner owner)
             : base(owner.Component)
         {
             // Remember the gallery instance
@@ -36,18 +36,18 @@ namespace Krypton.Ribbon
             _service = (IComponentChangeService)GetService(typeof(IComponentChangeService));
         }
         #endregion
-        
+
         #region Public
         /// <summary>
         /// Gets and sets the palette mode.
         /// </summary>
         public PaletteMode PaletteMode
         {
-            get => _gallery.PaletteMode;
+            get => _gallery!.PaletteMode;
 
             set
             {
-                if (_gallery.PaletteMode != value)
+                if (_gallery!.PaletteMode != value)
                 {
                     _service.OnComponentChanged(_gallery, null, _gallery.PaletteMode, value);
                     _gallery.PaletteMode = value;
@@ -73,7 +73,7 @@ namespace Krypton.Ribbon
                 actions.Add(new DesignerActionHeaderItem("Visuals"));
                 actions.Add(new DesignerActionPropertyItem(nameof(PaletteMode), "Palette", "Visuals", "Palette applied to drawing"));
             }
-            
+
             return actions;
         }
         #endregion

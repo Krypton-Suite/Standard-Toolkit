@@ -280,10 +280,10 @@ namespace Krypton.Navigator
             if ((_page != null) && (e.Component == _page))
             {
                 // Need access to host in order to delete a component
-                var host = (IDesignerHost)GetService(typeof(IDesignerHost));
+                var host = (IDesignerHost)GetService(typeof(IDesignerHost))!;
 
                 // We need to remove all the button spec instances
-                for (var i = _page.ButtonSpecs.Count - 1; i >= 0; i--)
+                for (var i = _page.ButtonSpecs!.Count - 1; i >= 0; i--)
                 {
                     // Get access to the indexed button spec
                     ButtonSpec spec = _page.ButtonSpecs[i];

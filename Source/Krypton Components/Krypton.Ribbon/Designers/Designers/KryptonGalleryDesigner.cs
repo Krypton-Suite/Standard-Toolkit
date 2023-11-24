@@ -17,7 +17,7 @@ namespace Krypton.Ribbon
     internal class KryptonGalleryDesigner : ParentControlDesigner
     {
         #region Instance Fields
-        private KryptonGallery _gallery;
+        private KryptonGallery? _gallery;
         private IComponentChangeService _changeService;
         #endregion
 
@@ -63,7 +63,7 @@ namespace Krypton.Ribbon
                 var compound = new ArrayList(base.AssociatedComponents);
 
                 // Add all the display ranges
-                foreach (KryptonGalleryRange dropRange in _gallery.DropButtonRanges)
+                foreach (KryptonGalleryRange dropRange in _gallery?.DropButtonRanges!)
                 {
                     compound.Add(dropRange);
                 }
@@ -133,7 +133,7 @@ namespace Krypton.Ribbon
                 var host = (IDesignerHost)GetService(typeof(IDesignerHost));
 
                 // We need to remove all the range instances
-                for (var i = _gallery.DropButtonRanges.Count - 1; i >= 0; i--)
+                for (var i = _gallery!.DropButtonRanges.Count - 1; i >= 0; i--)
                 {
                     KryptonGalleryRange dropRange = _gallery.DropButtonRanges[i];
                     _gallery.DropButtonRanges.Remove(dropRange);

@@ -51,9 +51,9 @@ namespace Krypton.Ribbon
             Debug.Assert(layout != null);
 
             MousePoint = CommonHelper.NullPoint;
-            _target = target;
-            _layout = layout;
-            NeedPaint = needPaint;
+            _target = target!;
+            _layout = layout!;
+            NeedPaint = needPaint!;
         }
         #endregion
 
@@ -191,7 +191,7 @@ namespace Krypton.Ribbon
                 _mouseOver = false;
 
                 // Not tracking the mouse means a null value
-                MousePoint = CommonHelper.NullPoint; 
+                MousePoint = CommonHelper.NullPoint;
 
                 // If leaving the view then cannot be capturing mouse input anymore
                 Captured = false;
@@ -379,7 +379,7 @@ namespace Krypton.Ribbon
             if (c is { IsDisposed: false })
             {
                 // Ensure control is inside a visible top level form
-                Form f = c.FindForm();
+                Form? f = c.FindForm();
                 if (f is { Visible: true })
                 {
                     UpdateTargetState(c.PointToClient(Control.MousePosition));

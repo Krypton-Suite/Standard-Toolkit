@@ -43,9 +43,9 @@ namespace Krypton.Ribbon
             Debug.Assert(comboBox != null);
             Debug.Assert(target != null);
 
-            _ribbon = ribbon;
-            _comboBox = comboBox;
-            _target = target;
+            _ribbon = ribbon!;
+            _comboBox = comboBox!;
+            _target = target!;
         }
         #endregion
 
@@ -81,7 +81,7 @@ namespace Krypton.Ribbon
         public void KeyDown(Control c, KeyEventArgs e)
         {
             // Get the root control that owns the provided control
-            c = _ribbon.GetControllerControl(c);
+            c = _ribbon.GetControllerControl(c)!;
 
             switch (c)
             {
@@ -138,7 +138,7 @@ namespace Krypton.Ribbon
                 ribbon.KillKeyboardMode();
 
                 // Push focus to the specified target control
-                _comboBox.LastComboBox.ComboBox.Focus();
+                _comboBox.LastComboBox.ComboBox?.Focus();
                 // Ensure that the previous ribbon focus is restored when the popup window is dismissed
 
                 // If the textbox is inside a popup window
@@ -167,12 +167,12 @@ namespace Krypton.Ribbon
                 case Keys.Tab:
                 case Keys.Right:
                     // Get the next focus item for the currently selected page
-                    newView = ribbon.GroupsArea.ViewGroups.GetNextFocusItem(_target) ?? ribbon.TabsArea.ButtonSpecManager.GetFirstVisibleViewButton(PaletteRelativeEdgeAlign.Far);
+                    newView = ribbon.GroupsArea.ViewGroups.GetNextFocusItem(_target) ?? ribbon.TabsArea.ButtonSpecManager!.GetFirstVisibleViewButton(PaletteRelativeEdgeAlign.Far)!;
 
                     // Move across to any far defined buttons
 
                     // Move across to any inherit defined buttons
-                    newView ??= ribbon.TabsArea.ButtonSpecManager.GetFirstVisibleViewButton(PaletteRelativeEdgeAlign.Inherit);
+                    newView ??= ribbon.TabsArea.ButtonSpecManager!.GetFirstVisibleViewButton(PaletteRelativeEdgeAlign.Inherit);
 
                     // Rotate around to application button
                     if (newView == null)
@@ -185,7 +185,7 @@ namespace Krypton.Ribbon
                         {
                             newView = ribbon.TabsArea.LayoutAppTab.AppTab;
                         }
-                    }                        
+                    }
                     break;
             }
 

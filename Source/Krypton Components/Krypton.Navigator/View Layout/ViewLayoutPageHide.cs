@@ -36,7 +36,7 @@ namespace Krypton.Navigator
             Debug.Assert(navigator != null);
 
             // Remember back reference
-            _navigator = navigator;
+            _navigator = navigator!;
         }
 
         /// <summary>
@@ -69,17 +69,17 @@ namespace Krypton.Navigator
             Debug.Assert(context != null);
 
             // We take on all the available display area
-            ClientRectangle = context.DisplayRectangle;
+            ClientRectangle = context!.DisplayRectangle;
 
             // Are we allowed to layout child controls?
-            if (!context.ViewManager.DoNotLayoutControls)
+            if (!context.ViewManager!.DoNotLayoutControls)
             {
                 // Are we allowed to actually layout the pages?
                 if (_navigator is { InternalCanLayout: true, IsChildPanelBorrowed: false })
-                    // Do not position the child panel if it is borrowed
+                // Do not position the child panel if it is borrowed
                 {
                     // Position the child panel for showing page information
-                    _navigator.ChildPanel.SetBounds(HIDDEN_OFFSET,
+                    _navigator.ChildPanel!.SetBounds(HIDDEN_OFFSET,
                         HIDDEN_OFFSET,
                         ClientWidth,
                         ClientHeight);

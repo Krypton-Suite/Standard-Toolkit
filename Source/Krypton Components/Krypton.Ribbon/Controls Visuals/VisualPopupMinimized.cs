@@ -46,8 +46,8 @@ namespace Krypton.Ribbon
             Debug.Assert(captionArea != null);
 
             // Remember incoming references
-            _ribbon = ribbon;
-            _captionArea = captionArea;
+            _ribbon = ribbon!;
+            _captionArea = captionArea!;
         }
 
         /// <summary>
@@ -59,7 +59,7 @@ namespace Krypton.Ribbon
             if (disposing)
             {
                 // Ensure the manager believes the mouse has left the area
-                ViewRibbonManager.MouseLeave(EventArgs.Empty);
+                ViewRibbonManager?.MouseLeave(EventArgs.Empty);
 
                 // If this group is being dismissed with key tips showing
                 if (_ribbon is { InKeyboardMode: true, KeyTipMode: KeyTipMode.PopupMinimized })
@@ -93,19 +93,19 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets the view for the popup group.
         /// </summary>
-        public ViewRibbonMinimizedManager ViewRibbonManager => ViewManager as ViewRibbonMinimizedManager;
+        public ViewRibbonMinimizedManager? ViewRibbonManager => ViewManager as ViewRibbonMinimizedManager;
 
         /// <summary>
         /// Sets focus to the first focus item inside the selected tab.
         /// </summary>
         public void SetFirstFocusItem()
         {
-            ViewBase newView = _ribbon.GroupsArea.ViewGroups.GetFirstFocusItem();
+            ViewBase? newView = _ribbon.GroupsArea.ViewGroups.GetFirstFocusItem();
 
             // Make the item the new focus for the popup
             if (newView != null)
             {
-                ViewRibbonManager.FocusView = newView;
+                ViewRibbonManager!.FocusView = newView;
                 PerformNeedPaint(false);
             }
         }
@@ -116,12 +116,12 @@ namespace Krypton.Ribbon
         /// <returns>ViewBase of item; otherwise false.</returns>
         public void SetLastFocusItem()
         {
-            ViewBase newView = _ribbon.GroupsArea.ViewGroups.GetLastFocusItem();
+            ViewBase? newView = _ribbon.GroupsArea.ViewGroups.GetLastFocusItem();
 
             // Make the item the new focus for the popup
             if (newView != null)
             {
-                ViewRibbonManager.FocusView = newView;
+                ViewRibbonManager!.FocusView = newView;
                 PerformNeedPaint(false);
             }
         }
@@ -132,7 +132,7 @@ namespace Krypton.Ribbon
         public void SetNextFocusItem()
         {
             // Find the next item in sequence
-            ViewBase newView = _ribbon.GroupsArea.ViewGroups.GetNextFocusItem(ViewRibbonManager.FocusView);
+            ViewBase? newView = _ribbon.GroupsArea.ViewGroups.GetNextFocusItem(ViewRibbonManager!.FocusView!);
 
             // Rotate around to the first item
             if (newView == null)
@@ -152,7 +152,7 @@ namespace Krypton.Ribbon
         public void SetPreviousFocusItem()
         {
             // Find the previous item in sequence
-            ViewBase newView = _ribbon.GroupsArea.ViewGroups.GetPreviousFocusItem(ViewRibbonManager.FocusView);
+            ViewBase? newView = _ribbon.GroupsArea.ViewGroups.GetPreviousFocusItem(ViewRibbonManager!.FocusView!);
 
             // Rotate around to the last item
             if (newView == null)
@@ -222,7 +222,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="tabsArea">Tabs area of the </param>
         /// <param name="drawMinimizedPanel"></param>
-        public void UpdatePosition(ViewLayoutRibbonTabsArea tabsArea, 
+        public void UpdatePosition(ViewLayoutRibbonTabsArea tabsArea,
                                    ViewDrawPanel drawMinimizedPanel)
         {
             // Move to the newly calculated position
@@ -240,7 +240,7 @@ namespace Krypton.Ribbon
             get
             {
                 CreateParams cp = base.CreateParams;
-                cp.Style |= (int) PI.WS_.CLIPCHILDREN;
+                cp.Style |= (int)PI.WS_.CLIPCHILDREN;
                 return cp;
             }
         }
@@ -285,10 +285,10 @@ namespace Krypton.Ribbon
                 popupSize.Height);
 
             // Get the view element for the currently selected tab
-            ViewDrawRibbonTab viewTab = tabsArea.LayoutTabs.GetViewForRibbonTab(_ribbon.SelectedTab);
+            ViewDrawRibbonTab? viewTab = tabsArea.LayoutTabs.GetViewForRibbonTab(_ribbon.SelectedTab);
 
             // Convert the view tab client area to screen coordinates
-            Rectangle viewTabRect = _ribbon.RectangleToScreen(viewTab.ClientRectangle);
+            Rectangle viewTabRect = _ribbon.RectangleToScreen(viewTab!.ClientRectangle!);
 
             // Get the screen that the tab is mostly within
             Screen screen = Screen.FromRectangle(viewTabRect);

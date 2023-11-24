@@ -32,7 +32,7 @@ namespace Krypton.Ribbon
             : base(PaletteButtonSpecStyle.PendantRestore)
         {
             Debug.Assert(ribbon != null);
-            _ribbon = ribbon;
+            _ribbon = ribbon!;
         }
         #endregion
 
@@ -109,7 +109,7 @@ namespace Krypton.Ribbon
             {
                 if (!_ribbon.InDesignMode)
                 {
-                    MdiChild.WindowState = FormWindowState.Normal;
+                    MdiChild!.WindowState = FormWindowState.Normal;
 
                     // Let base class fire any other attached events
                     base.OnClick(e);

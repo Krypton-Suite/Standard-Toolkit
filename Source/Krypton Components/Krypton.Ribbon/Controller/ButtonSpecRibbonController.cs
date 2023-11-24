@@ -49,9 +49,9 @@ namespace Krypton.Ribbon
 
             // Get the button spec associated with this controller
             var viewButton = (ViewDrawButton)Target;
-            ButtonSpec buttonSpec = ribbon.TabsArea.ButtonSpecManager.GetButtonSpecFromView(viewButton);
+            ButtonSpec buttonSpec = ribbon.TabsArea.ButtonSpecManager!.GetButtonSpecFromView(viewButton)!;
 
-            // Note if we are on the near edge
+            // Note If we are on the near edge
             var isNear = buttonSpec.Edge == PaletteRelativeEdgeAlign.Near;
 
             switch (e.KeyData)
@@ -156,7 +156,7 @@ namespace Krypton.Ribbon
                             if (e.KeyData != Keys.Left)
                             {
                                 // Get the last control on the selected tab
-                                newView = ribbon.GroupsArea.ViewGroups.GetLastFocusItem() ?? 
+                                newView = ribbon.GroupsArea.ViewGroups.GetLastFocusItem() ??
                                           (ribbon.SelectedTab != null // Get the currently selected tab page
                                               ? ribbon.TabsArea.LayoutTabs.GetViewForRibbonTab(ribbon.SelectedTab)
                                               : ribbon.TabsArea.LayoutTabs.GetViewForLastRibbonTab());
