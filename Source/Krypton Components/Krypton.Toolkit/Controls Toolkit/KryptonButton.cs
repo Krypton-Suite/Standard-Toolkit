@@ -766,7 +766,7 @@ namespace Krypton.Toolkit
         /// </summary>
         protected override void ContextMenuClosed() => _buttonController.RemoveFixed();
 
-        protected override void OnPaint(PaintEventArgs e)
+        protected override void OnPaint(PaintEventArgs? e)
         {
             if (_useAsDialogButton)
             {

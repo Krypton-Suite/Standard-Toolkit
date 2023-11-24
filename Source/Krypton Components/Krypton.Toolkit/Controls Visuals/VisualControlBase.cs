@@ -160,7 +160,7 @@ namespace Krypton.Toolkit
                 _palette = null;
                 Renderer = null;
                 _localPalette = null;
-                Redirector.Target = null;
+                Redirector!.Target = null;
             }
 
             base.Dispose(disposing);
@@ -262,7 +262,7 @@ namespace Krypton.Toolkit
                         _layoutDirty = false;
 
                         // Ask the view to perform a layout
-                        ViewManager.Layout(Renderer);
+                        ViewManager.Layout(Renderer!);
 
                     } while (_layoutDirty && (max-- > 0));
                 }
@@ -379,7 +379,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public IRenderer Renderer
+        public IRenderer? Renderer
         {
             [DebuggerStepThrough]
             get;
@@ -391,7 +391,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public ToolStripRenderer CreateToolStripRenderer() => Renderer.RenderToolStrip(GetResolvedPalette());
+        public ToolStripRenderer? CreateToolStripRenderer() => Renderer?.RenderToolStrip(GetResolvedPalette());
 
         /// <summary>
         /// Gets or sets the background image displayed in the control.
@@ -487,7 +487,7 @@ namespace Krypton.Toolkit
         /// Reset the internal counters.
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public void KryptonResetCounters() => ViewManager.ResetCounters();
+        public void KryptonResetCounters() => ViewManager?.ResetCounters();
 
         /// <summary>
         /// Gets the number of layout cycles performed since last reset.
@@ -495,7 +495,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public int KryptonLayoutCounter => ViewManager.LayoutCounter;
+        public int KryptonLayoutCounter => ViewManager!.LayoutCounter;
 
         /// <summary>
         /// Gets the number of paint cycles performed since last reset.
@@ -503,7 +503,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public int KryptonPaintCounter => ViewManager.PaintCounter;
+        public int KryptonPaintCounter => ViewManager!.PaintCounter;
 
         /// <summary>
         /// Gets the view associated with the provided client location.
@@ -559,7 +559,7 @@ namespace Krypton.Toolkit
                 if (ViewManager != null)
                 {
                     // Ask the view to perform a layout
-                    ViewManager.Layout(Renderer);
+                    ViewManager.Layout(Renderer!);
 
                     return true;
                 }
@@ -645,7 +645,7 @@ namespace Krypton.Toolkit
         /// <returns>True if paint required; otherwise false.</returns>
         protected virtual bool EvalTransparentPaint() =>
             // Do we have a manager to use for asking about painting?
-            ViewManager != null && ViewManager.EvalTransparentPaint(Renderer);
+            ViewManager != null && ViewManager.EvalTransparentPaint(Renderer!);
 
         /// <summary>
         /// Work out if this control needs to use Invoke to force a repaint.
@@ -681,7 +681,7 @@ namespace Krypton.Toolkit
         protected virtual void OnPaletteChanged(EventArgs e)
         {
             // Update the redirector with latest palette
-            Redirector.Target = _palette;
+            Redirector!.Target = _palette;
 
             // Need to recalculate anything relying on the palette
             DirtyPaletteCounter++;
@@ -820,7 +820,7 @@ namespace Krypton.Toolkit
                         _layoutDirty = false;
 
                         // Ask the view to perform a layout
-                        ViewManager.Layout(Renderer);
+                        ViewManager.Layout(Renderer!);
 
                     } while (_layoutDirty && (max-- > 0));
                 }
@@ -834,7 +834,7 @@ namespace Krypton.Toolkit
         /// Raises the Paint event.
         /// </summary>
         /// <param name="e">A PaintEventArgs that contains the event data.</param>
-        protected override void OnPaint(PaintEventArgs e)
+        protected override void OnPaint(PaintEventArgs? e)
         {
             // Cannot process a message for a disposed control
             if (!IsDisposed && !Disposing)
@@ -865,7 +865,7 @@ namespace Krypton.Toolkit
                     PaintTransparentBackground(e);
 
                     // Ask the view to repaint the visual structure
-                    ViewManager.Paint(Renderer, e);
+                    ViewManager.Paint(Renderer!, e);
 
                     // Request for a refresh has been serviced
                     _refresh = false;
@@ -883,7 +883,7 @@ namespace Krypton.Toolkit
             // Cannot process a message for a disposed control
             if (!IsDisposed && !Disposing)
             {
-                _toolTipManager.MouseEnter(ViewManager?.ActiveView ?? ViewManager?.Root, this);
+                _toolTipManager.MouseEnter(ViewManager?.ActiveView ?? ViewManager?.Root!, this);
             }
 
             // Let base class fire events
@@ -899,7 +899,7 @@ namespace Krypton.Toolkit
             // Cannot process a message for a disposed control
             if (!IsDisposed && !Disposing)
             {
-                _toolTipManager.MouseMove(ViewManager?.ActiveView ?? ViewManager?.Root, this, e.Location);
+                _toolTipManager.MouseMove(ViewManager?.ActiveView ?? ViewManager?.Root!, this, e.Location);
                 // Do we have a manager for processing mouse messages?
                 ViewManager?.MouseMove(e, e.Location);
             }
@@ -917,7 +917,7 @@ namespace Krypton.Toolkit
             // Cannot process a message for a disposed control
             if (!IsDisposed && !Disposing)
             {
-                _toolTipManager.MouseDown(ViewManager?.ActiveView ?? ViewManager?.Root, this, e.Location, e.Button);
+                _toolTipManager.MouseDown(ViewManager?.ActiveView ?? ViewManager?.Root!, this, e.Location, e.Button);
                 // Do we have a manager for processing mouse messages?
                 ViewManager?.MouseDown(e, e.Location);
             }
@@ -935,7 +935,7 @@ namespace Krypton.Toolkit
             // Cannot process a message for a disposed control
             if (!IsDisposed && !Disposing)
             {
-                _toolTipManager.MouseUp(ViewManager?.ActiveView ?? ViewManager?.Root, this, e.Location, e.Button);
+                _toolTipManager.MouseUp(ViewManager?.ActiveView ?? ViewManager?.Root!, this, e.Location, e.Button);
                 // Do we have a manager for processing mouse messages?
                 ViewManager?.MouseUp(e, e.Location);
             }
@@ -1060,7 +1060,7 @@ namespace Krypton.Toolkit
                 // Update self with the new global palette
                 _localPalette = null;
                 SetPalette(KryptonManager.CurrentGlobalPalette);
-                Redirector.Target = _palette;
+                Redirector!.Target = _palette;
 
                 // Need to recalculate anything relying on the palette
                 DirtyPaletteCounter++;
@@ -1193,9 +1193,9 @@ namespace Krypton.Toolkit
 
         private void OnBaseChanged(object sender, EventArgs e) =>
             // Change in base renderer or base palette require we fetch the latest renderer
-            Renderer = _palette.GetRenderer();
+            Renderer = _palette?.GetRenderer();
 
-        private void PaintTransparentBackground(PaintEventArgs e)
+        private void PaintTransparentBackground(PaintEventArgs? e)
         {
             // Get the parent control for transparent drawing purposes
             Control? parent = TransparentParent;
@@ -1211,15 +1211,15 @@ namespace Krypton.Toolkit
                                                        BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.InvokeMethod,
                                                        null, CallingConventions.HasThis,
                                                        new[] { typeof(PaintEventArgs), typeof(Rectangle), typeof(Region) },
-                                                       null);
+                                                       null)!;
                 }
 
-                _miPTB.Invoke(this, new object[] { e, ClientRectangle, null });
+                _miPTB.Invoke(this, new object[] { e!, ClientRectangle, null! });
             }
             else
             {
                 // Request the background be painted in the system colors
-                PaintBackground(e.Graphics, SystemBrushes.Control, ClientRectangle);
+                PaintBackground(e!.Graphics, SystemBrushes.Control, ClientRectangle);
             }
         }
 
@@ -1296,7 +1296,7 @@ namespace Krypton.Toolkit
 
                     // Create the actual tooltip popup object
                     // ReSharper disable once UseObjectOrCollectionInitializer
-                    visualBasePopupToolTip = new VisualPopupToolTip(Redirector,
+                    visualBasePopupToolTip = new VisualPopupToolTip(Redirector!,
                         ToolTipValues,
                         Renderer,
                         PaletteBackStyle.ControlToolTip,

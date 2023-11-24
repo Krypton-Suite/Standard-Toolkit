@@ -38,7 +38,7 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the DropDownButtonImages class.
         /// </summary>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public DropDownButtonImages(NeedPaintHandler needPaint) 
+        public DropDownButtonImages(NeedPaintHandler? needPaint)
         {
             // Store the provided paint notification delegate
             NeedPaint = needPaint;

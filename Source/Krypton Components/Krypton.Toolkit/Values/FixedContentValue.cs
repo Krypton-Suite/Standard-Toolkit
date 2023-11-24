@@ -33,7 +33,7 @@ namespace Krypton.Toolkit
         /// <param name="longText">Initial long text value.</param>
         /// <param name="image">Initial image value.</param>
         /// <param name="imageTransparentColor">Initial image transparent color value.</param>
-        public FixedContentValue(string? shortText, 
+        public FixedContentValue(string? shortText,
                                  string? longText,
                                  Image? image,
                                  Color imageTransparentColor)
@@ -104,7 +104,7 @@ namespace Krypton.Toolkit
         /// Gets the content short text.
         /// </summary>
         /// <returns>String value.</returns>
-        public string GetShortText() => ShortText;
+        public string GetShortText() => ShortText!;
 
         /// <summary>
         /// Gets the content image.
@@ -124,7 +124,7 @@ namespace Krypton.Toolkit
         /// Gets the content long text.
         /// </summary>
         /// <returns>String value.</returns>
-        public string GetLongText() => LongText;
+        public string GetLongText() => LongText!;
 
         #endregion
     }

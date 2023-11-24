@@ -38,7 +38,7 @@ namespace Krypton.Toolkit
 
         #region Font
 
-        public Font CueFont { get; set; }
+        public Font? CueFont { get; set; }
 
         public void ResetCueFont() => CueFont = null;
 

@@ -149,8 +149,8 @@ namespace Krypton.Toolkit
                 }
 
                 // Get any menu item from context strip that matches the shortcut key combination
-                var shortcuts = (Hashtable)_cachedShortcutPI!.GetValue(cms, null);
-                var menuItem = (ToolStripMenuItem)shortcuts[keyData];
+                var shortcuts = _cachedShortcutPI!.GetValue(cms, null) as Hashtable;
+                var menuItem = shortcuts![keyData] as ToolStripMenuItem;
 
                 // If we found a match...
                 if (menuItem != null)
@@ -1470,7 +1470,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="s">Size to convert.</param>
         /// <returns>Culture invariant string representation.</returns>
-        public static string SizeToString(Size s) => _sc.ConvertToInvariantString(s);
+        public static string? SizeToString(Size s) => _sc.ConvertToInvariantString(s);
 
         /// <summary>
         /// Convert a culture invariant string value to a Size.
@@ -1498,7 +1498,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="b">Boolean to convert.</param>
         /// <returns>Culture invariant string representation.</returns>
-        public static string BoolToString(bool b) => _bc.ConvertToInvariantString(b);
+        public static string? BoolToString(bool b) => _bc.ConvertToInvariantString(b);
 
         /// <summary>
         /// Convert a culture invariant string value to a Boolean.
@@ -1512,7 +1512,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="c">Color to convert.</param>
         /// <returns>Culture invariant string representation.</returns>
-        public static string ColorToString(Color c) => _cc.ConvertToInvariantString(c);
+        public static string? ColorToString(Color c) => _cc.ConvertToInvariantString(c);
 
         /// <summary>
         /// Convert a culture invariant string value to a Color.

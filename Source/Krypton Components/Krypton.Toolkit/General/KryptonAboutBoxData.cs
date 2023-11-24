@@ -9,7 +9,7 @@
 
 namespace Krypton.Toolkit
 {
-    /// <summary>A structure that contains basic information for <see cref="KryptonAboutBoxForm"/>.</summary>
+    /// <summary>A structure that contains basic information for <see cref="VisualKryptonAboutBoxForm"/>.</summary>
     public struct KryptonAboutBoxData
     {
         #region Public

@@ -42,7 +42,7 @@ namespace Krypton.Toolkit
             Debug.Assert(redirector != null);
 
             // Remember reference to redirector
-            Redirector = redirector;
+            Redirector = redirector!;
 
             // Default the generic overridable values
             _style = PaletteButtonStyle.Inherit;

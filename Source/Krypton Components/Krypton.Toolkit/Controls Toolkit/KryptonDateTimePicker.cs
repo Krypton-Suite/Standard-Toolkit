@@ -1943,7 +1943,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="e">A PaintEventArgs that contains the event data.</param>
         /// <returns></returns>
-        protected override void OnPaint(PaintEventArgs e) => base.OnPaint(e);
+        protected override void OnPaint(PaintEventArgs? e) => base.OnPaint(e);
 
         #endregion
 

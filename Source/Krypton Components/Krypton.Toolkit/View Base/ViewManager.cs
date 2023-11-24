@@ -101,16 +101,16 @@ namespace Krypton.Toolkit
         /// Gets and sets the view root.
         /// </summary>
         [DisallowNull]
-        public ViewBase? Root
+        public ViewBase Root
         {
             [DebuggerStepThrough]
-            get => _root;
+            get => _root!;
 
             set
             {
                 Debug.Assert(value != null);
                 _root = value;
-                _root.OwningControl = Control;
+                _root!.OwningControl = Control;
             }
         }
 
@@ -216,7 +216,7 @@ namespace Krypton.Toolkit
             // Create a layout context for calculating size and positioning
             using var context = new ViewContext(this, Control, AlignControl, renderer);
             // Ask the view to perform operation
-            return Root.EvalTransparentPaint(context);
+            return Root!.EvalTransparentPaint(context);
         }
         #endregion
 
@@ -254,7 +254,7 @@ namespace Krypton.Toolkit
         public virtual Component? ComponentFromPoint(Point pt)
         {
             // Find the view element associated with the point
-            ViewBase? target = Root?.ViewFromPoint(pt);
+            ViewBase? target = Root.ViewFromPoint(pt);
 
             // Climb parent chain looking for the first element that has a component
             while (target != null)
@@ -306,7 +306,7 @@ namespace Krypton.Toolkit
         public virtual void Layout([DisallowNull] ViewLayoutContext context)
         {
             Debug.Assert(context != null);
-            Debug.Assert(context.Renderer != null);
+            Debug.Assert(context!.Renderer != null);
             Debug.Assert(Root != null);
 
             // Do nothing if the control is disposed
@@ -327,7 +327,7 @@ namespace Krypton.Toolkit
                 LayoutBefore?.Invoke(this, EventArgs.Empty);
 
                 // Ask the view to perform a layout
-                Root.Layout(context);
+                Root?.Layout(context);
 
                 // If someone is interested, tell them the layout cycle has finished
                 LayoutAfter?.Invoke(this, EventArgs.Empty);
@@ -360,7 +360,7 @@ namespace Krypton.Toolkit
         /// <param name="renderer">Renderer provider.</param>
         /// <param name="e">A PaintEventArgs that contains the event data.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public virtual void Paint([DisallowNull] IRenderer renderer, PaintEventArgs e)
+        public virtual void Paint([DisallowNull] IRenderer renderer, PaintEventArgs? e)
         {
             Debug.Assert(renderer != null);
             Debug.Assert(e != null);
@@ -411,7 +411,7 @@ namespace Krypton.Toolkit
                 }
 
                 // Ask the view to paint itself
-                Root.Render(context);
+                Root?.Render(context);
 
                 if (OutputDebug)
                 {

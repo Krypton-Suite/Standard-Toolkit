@@ -35,7 +35,7 @@ namespace Krypton.Toolkit
             _graphics = graphics;
 
             // Remember current smoothing mode
-            _smoothingMode = _graphics.SmoothingMode;
+            _smoothingMode = _graphics!.SmoothingMode;
 
             // Apply new hint
             switch (hint)

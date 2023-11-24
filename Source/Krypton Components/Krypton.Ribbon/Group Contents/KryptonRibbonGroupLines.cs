@@ -437,7 +437,7 @@ namespace Krypton.Ribbon
         [MergableProperty(false)]
         [Editor(typeof(KryptonRibbonGroupLinesCollectionEditor), typeof(UITypeEditor))]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public KryptonRibbonGroupLinesCollection Items { get; }
+        public KryptonRibbonGroupLinesCollection? Items { get; }
 
         /// <summary>
         /// Gets an array of all the contained components.

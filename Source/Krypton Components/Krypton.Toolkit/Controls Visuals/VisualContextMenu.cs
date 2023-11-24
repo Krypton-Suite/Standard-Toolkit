@@ -92,8 +92,8 @@ namespace Krypton.Toolkit
             _viewColumns = new ViewLayoutStack(true);
 
             // Create provider instance
-            _provider = new ContextMenuProvider(contextMenu, (ViewContextMenuManager)ViewManager, _viewColumns, 
-                                                palette, paletteMode, redirector, redirectorImages, 
+            _provider = new ContextMenuProvider(contextMenu, (ViewContextMenuManager)ViewManager, _viewColumns,
+                                                palette, paletteMode, redirector, redirectorImages,
                                                 NeedPaintDelegate, enabled);
 
             _provider.Closing += OnProviderClosing;
@@ -227,7 +227,7 @@ namespace Krypton.Toolkit
                     {
                         // Then switch to positioning before
                         horz = KryptonContextMenuPositionH.Before;
-                        screenPt.X = screenRect.Left - preferredSize.Width; 
+                        screenPt.X = screenRect.Left - preferredSize.Width;
                     }
                 }
 
@@ -332,7 +332,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the view manager for the context menu.
         /// </summary>
-        public ViewContextMenuManager ViewContextMenuManager => (ViewContextMenuManager)ViewManager;
+        public ViewContextMenuManager? ViewContextMenuManager => ViewManager as ViewContextMenuManager;
 
         /// <summary>
         /// Should a mouse down at the provided point cause it to become the current tracking popup.
@@ -342,7 +342,7 @@ namespace Krypton.Toolkit
         /// <returns>True to become current; otherwise false.</returns>
         public override bool DoesStackedClientMouseDownBecomeCurrent(Message m, Point pt) =>
             // Ask the manager if the mouse down should make the stacked menu the current one
-            ViewContextMenuManager.DoesStackedClientMouseDownBecomeCurrent(m, pt);
+            ViewContextMenuManager!.DoesStackedClientMouseDownBecomeCurrent(m, pt);
 
         #endregion
 
@@ -369,7 +369,7 @@ namespace Krypton.Toolkit
                 if (e.KeyData == Keys.Escape)
                 {
                     // Using the escape key should give a close reason of keyboard
-                    _provider.ProviderCloseReason = ToolStripDropDownCloseReason.Keyboard;                    
+                    _provider.ProviderCloseReason = ToolStripDropDownCloseReason.Keyboard;
                 }
             }
 
@@ -390,11 +390,11 @@ namespace Krypton.Toolkit
             using var context = new RenderContext(this, null, ClientRectangle, Renderer);
             // Grab a path that is the outside edge of the border
             Rectangle borderRect = ClientRectangle;
-            GraphicsPath borderPath1 = Renderer.RenderStandardBorder.GetOutsideBorderPath(context, borderRect, _provider.ProviderStateCommon.ControlOuter.Border, VisualOrientation.Top, PaletteState.Normal);
+            GraphicsPath borderPath1 = Renderer?.RenderStandardBorder.GetOutsideBorderPath(context, borderRect, _provider.ProviderStateCommon.ControlOuter.Border, VisualOrientation.Top, PaletteState.Normal)!;
             borderRect.Inflate(-1, -1);
-            GraphicsPath borderPath2 = Renderer.RenderStandardBorder.GetOutsideBorderPath(context, borderRect, _provider.ProviderStateCommon.ControlOuter.Border, VisualOrientation.Top, PaletteState.Normal);
+            GraphicsPath borderPath2 = Renderer?.RenderStandardBorder.GetOutsideBorderPath(context, borderRect, _provider.ProviderStateCommon.ControlOuter.Border, VisualOrientation.Top, PaletteState.Normal)!;
             borderRect.Inflate(-1, -1);
-            GraphicsPath borderPath3 = Renderer.RenderStandardBorder.GetOutsideBorderPath(context, borderRect, _provider.ProviderStateCommon.ControlOuter.Border, VisualOrientation.Top, PaletteState.Normal);
+            GraphicsPath borderPath3 = Renderer?.RenderStandardBorder.GetOutsideBorderPath(context, borderRect, _provider.ProviderStateCommon.ControlOuter.Border, VisualOrientation.Top, PaletteState.Normal)!;
 
             // Update the region of the popup to be the border path
             Region = new Region(borderPath1);
@@ -429,7 +429,7 @@ namespace Krypton.Toolkit
             };
 
             var layoutDocker = new ViewLayoutDocker();
-            Padding outerPadding = _provider.ProviderRedirector.GetMetricPadding(PaletteState.Normal, PaletteMetricPadding.ContextMenuItemOuter);
+            Padding outerPadding = _provider.ProviderRedirector!.GetMetricPadding(PaletteState.Normal, PaletteMetricPadding.ContextMenuItemOuter);
             layoutDocker.Add(new ViewLayoutSeparator(outerPadding.Top), ViewDockStyle.Top);
             layoutDocker.Add(new ViewLayoutSeparator(outerPadding.Bottom), ViewDockStyle.Bottom);
             layoutDocker.Add(new ViewLayoutSeparator(outerPadding.Left), ViewDockStyle.Left);
@@ -441,8 +441,8 @@ namespace Krypton.Toolkit
             {
                 { layoutDocker, ViewDockStyle.Fill }
             };
-            _drawDocker.KeyController = new ContextMenuController((ViewContextMenuManager)ViewManager);
-            ViewManager.Root = _drawDocker;
+            _drawDocker.KeyController = new ContextMenuController(ViewManager as ViewContextMenuManager);
+            ViewManager!.Root = _drawDocker;
 
             // With keyboard activate we select the first valid item
             if (keyboardActivated)
@@ -460,7 +460,7 @@ namespace Krypton.Toolkit
             {
                 // Find the preferred size which fits exactly the calculated contents size
                 using var context = new ViewLayoutContext(this, Renderer);
-                return ViewManager.Root.GetPreferredSize(context);
+                return ViewManager!.Root!.GetPreferredSize(context);
             }
             finally
             {
@@ -485,10 +485,10 @@ namespace Krypton.Toolkit
                 _palette = palette;
 
                 // Update redirector to use palette as source for obtaining values
-                Redirector.Target = _palette;
+                Redirector!.Target = _palette;
 
                 // Get the renderer associated with the palette
-                Renderer = _palette.GetRenderer();
+                Renderer = _palette?.GetRenderer();
 
                 // Hook to new palette events
                 if (_palette != null)
@@ -502,7 +502,7 @@ namespace Krypton.Toolkit
 
         private void OnBaseChanged(object sender, EventArgs e) =>
             // Change in base renderer or base palette require we fetch the latest renderer
-            Renderer = _palette.GetRenderer();
+            Renderer = _palette?.GetRenderer();
 
         private void OnProviderClosing(object sender, CancelEventArgs e) => _contextMenu?.OnClosing(e);
 
@@ -511,10 +511,10 @@ namespace Krypton.Toolkit
         private void OnProviderClose(object sender, EventArgs e)
         {
             // Unhook from event source
-            var provider = (ContextMenuProvider)sender;
+            var provider = sender as ContextMenuProvider;
             _provider.Dispose -= OnProviderClose;
 
-            // Kill this poup window
+            // Kill this pop-up window
             Dispose();
         }
         #endregion

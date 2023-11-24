@@ -27,7 +27,7 @@ namespace Krypton.Toolkit
                                            NeedPaintHandler needPaint)
         {
             // Create the storage objects
-            StateCommon = new PaletteContextMenuRedirect(redirect, needPaint);
+            StateCommon = new PaletteContextMenuRedirect(redirect!, needPaint);
             StateNormal = new PaletteContextMenuItemState(StateCommon);
             StateDisabled = new PaletteContextMenuItemState(StateCommon);
             StateHighlight = new PaletteContextMenuItemStateHighlight(StateCommon);

@@ -35,7 +35,7 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the TreeViewImages class.
         /// </summary>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public TreeViewImages(NeedPaintHandler needPaint) 
+        public TreeViewImages(NeedPaintHandler? needPaint)
         {
             // Store the provided paint notification delegate
             NeedPaint = needPaint;

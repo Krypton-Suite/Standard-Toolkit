@@ -543,7 +543,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public ToolStripRenderer CreateToolStripRenderer() => Renderer.RenderToolStrip(GetResolvedPalette());
+        public ToolStripRenderer? CreateToolStripRenderer() => Renderer?.RenderToolStrip(GetResolvedPalette());
 
         /// <summary>
         /// Send the provided system command to the window for processing.
@@ -660,7 +660,7 @@ namespace Krypton.Toolkit
 
         /// <summary>Gets or sets the tool bar manager.</summary>
         /// <value>The tool bar manager.</value>
-        [AllowNull, DefaultValue(null), Category(@"Visuals"), Description(@"Gets or sets the tool bar manager.")]
+        [DefaultValue(null), Category(@"Visuals"), Description(@"Gets or sets the tool bar manager.")]
         public KryptonIntegratedToolBarManager? ToolBarManager { get; set; }
 
         #endregion
@@ -1024,7 +1024,7 @@ namespace Krypton.Toolkit
         protected virtual void OnPaletteChanged(EventArgs e)
         {
             // Update the redirector with latest palette
-            Redirector.Target = _palette;
+            Redirector!.Target = _palette;
 
             // A new palette source means we need to layout and redraw
             OnNeedPaint(Palette, new NeedLayoutEventArgs(true));
@@ -1886,7 +1886,7 @@ namespace Krypton.Toolkit
                 // Update ourself with the new global palette
                 _localPalette = null;
                 SetPalette(KryptonManager.CurrentGlobalPalette);
-                Redirector.Target = _palette;
+                Redirector!.Target = _palette;
 
                 // A new palette source means we need to layout and redraw
                 OnNeedPaint(Palette, new NeedLayoutEventArgs(true));

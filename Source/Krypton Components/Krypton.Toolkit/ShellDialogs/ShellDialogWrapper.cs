@@ -37,7 +37,7 @@ namespace Krypton.Toolkit
                 _cbt.Install();
                 _cwp.Install();
                 _commonDialogHandler = new CommonDialogHandler(true);
-                if ( !string.IsNullOrWhiteSpace(Title))
+                if (!string.IsNullOrWhiteSpace(Title))
                 {
                     _commonDialogHandler.Title = Title;
                 }
@@ -91,10 +91,10 @@ namespace Krypton.Toolkit
                 using var g  = _commonDialogHandler._wrapperForm.CreateGraphics();
                 _scaleFactor = g.DpiX / 96.0f;
 #else
-                _scaleFactor = _commonDialogHandler._wrapperForm.DeviceDpi / 96.0f;
+                _scaleFactor = _commonDialogHandler._wrapperForm!.DeviceDpi / 96.0f;
 #endif
                 _commonDialogHandler._wrapperForm.Resize += FormResize;
-                _commonDialogHandler._wrapperForm.MinimumSize = new SizeF(440 *_scaleFactor, 345 * _scaleFactor).ToSize();
+                _commonDialogHandler._wrapperForm.MinimumSize = new SizeF(440 * _scaleFactor, 345 * _scaleFactor).ToSize();
             }
         }
 
@@ -107,7 +107,7 @@ namespace Krypton.Toolkit
         private protected virtual void FormResize(object sender, EventArgs e)
         {
             // Align the button underneath the drop down
-            var clientSize = _commonDialogHandler._wrapperForm.ClientSize;
+            var clientSize = _commonDialogHandler._wrapperForm!.ClientSize;
             foreach (var button in _commonDialogHandler.Controls.Where(static ctl => ctl.Button != null))
             {
                 if (button.Button?.Parent is Panel panel)
@@ -116,13 +116,13 @@ namespace Krypton.Toolkit
                     {
                         // Do not use strings as they will be localised
                         case 1: // @"&Save"
-                        // case @"&Open":
-                        // case @"Select Folder":
+                                // case @"&Open":
+                                // case @"Select Folder":
                             panel.Location = new Point((int)(clientSize.Width - 116 * _scaleFactor - button.Button.Width * 1.1),
                                 (int)(clientSize.Height - 12 * _scaleFactor - button.Button.Height));
                             break;
                         case 2:
-                        //case @"Cancel":
+                            //case @"Cancel":
                             panel.Location = new Point((int)(clientSize.Width - 30 * _scaleFactor - button.Button.Width),
                                 (int)(clientSize.Height - 12 * _scaleFactor - button.Button.Height));
                             break;
