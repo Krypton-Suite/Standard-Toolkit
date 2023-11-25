@@ -179,9 +179,9 @@ namespace Krypton.Toolkit
         private int _separatorIncrements;
         private Rectangle _separatorBox;
         private Orientation _separatorOrientation;
-        private SeparatorMessageFilter _filter;
+        private SeparatorMessageFilter? _filter;
         private readonly ISeparatorSource _source;
-        private SeparatorIndicator _indicator;
+        private SeparatorIndicator? _indicator;
 
         #endregion
 
@@ -203,7 +203,7 @@ namespace Krypton.Toolkit
         {
             Debug.Assert(source != null);
 
-            _source = source;
+            _source = source!;
             _splitCursors = splitCursors;
             _drawIndicator = drawIndicator;
         }
@@ -213,7 +213,7 @@ namespace Krypton.Toolkit
         /// </summary>
         public void Dispose()
         {
-            UnregisterFilter();
+            UnRegisterFilter();
             GC.SuppressFinalize(this);
         }
         #endregion
@@ -315,7 +315,7 @@ namespace Krypton.Toolkit
 
                     // Remove the message filter, as long as it is registered 
                     // it will prevent the class from being garbage collected.
-                    UnregisterFilter();
+                    UnRegisterFilter();
 
                     // Callback to the source to show movement has finished
                     Point splitPt = RecalcClient(pt);
@@ -345,7 +345,7 @@ namespace Krypton.Toolkit
 
                 // Remove the message filter, as long as it is registered 
                 // it will prevent the class from being garbage collected.
-                UnregisterFilter();
+                UnRegisterFilter();
 
                 // Remove any showing separator indicator
                 DrawSeparatorRemoved();
@@ -459,7 +459,7 @@ namespace Krypton.Toolkit
 
                 // Remove the message filter, as long as it is registered 
                 // it will prevent the class from being garbage collected.
-                UnregisterFilter();
+                UnRegisterFilter();
 
                 // Remove any showing separator indicator
                 DrawSeparatorRemoved();
@@ -649,7 +649,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void UnregisterFilter()
+        private void UnRegisterFilter()
         {
             if (_filter != null)
             {
@@ -682,7 +682,7 @@ namespace Krypton.Toolkit
         {
             Debug.Assert(controller != null);
 
-            _controller = controller;
+            _controller = controller!;
         }
         #endregion
 

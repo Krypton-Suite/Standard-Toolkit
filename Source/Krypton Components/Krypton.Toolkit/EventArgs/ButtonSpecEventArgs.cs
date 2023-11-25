@@ -29,7 +29,7 @@ namespace Krypton.Toolkit
             Debug.Assert(index >= 0);
 
             // Remember parameter details
-            ButtonSpec = spec;
+            ButtonSpec = spec!;
             Index = index;
         }
         #endregion

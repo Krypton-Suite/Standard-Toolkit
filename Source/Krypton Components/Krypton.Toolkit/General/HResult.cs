@@ -26,7 +26,7 @@ namespace Krypton.Toolkit
             E_POINTER = 0x80004003,
             E_ABORT = 0x80004004,
             E_FAIL = 0x80004005,
-                
+
             // These are CLR PI.HRESULT
             InvalidArgFailure = 0x80008081,
             CoreHostLibLoadFailure = 0x80008082,

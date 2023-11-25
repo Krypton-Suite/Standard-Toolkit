@@ -142,7 +142,7 @@ namespace Krypton.Toolkit
                 if (FromHandle(m.HWnd) != null)
                 {
                     // Find the form that the control is inside
-                    Form f = FromHandle(m.HWnd).FindForm();
+                    Form? f = FromHandle(m.HWnd).FindForm();
 
                     // If the message is for this dialog then let it be dispatched
                     if ((f != null) && (f == this))

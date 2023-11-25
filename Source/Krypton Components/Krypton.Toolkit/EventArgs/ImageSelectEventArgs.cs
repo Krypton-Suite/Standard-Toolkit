@@ -23,7 +23,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="imageList">Defined image list.</param>
         /// <param name="imageIndex">Index within the image list.</param>
-        public ImageSelectEventArgs(ImageList imageList, int imageIndex)
+        public ImageSelectEventArgs(ImageList? imageList, int imageIndex)
         {
             ImageList = imageList;
             ImageIndex = imageIndex;

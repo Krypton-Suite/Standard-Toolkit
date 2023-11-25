@@ -1264,7 +1264,7 @@ namespace Krypton.Toolkit
             ContextMenuStrip cms = base.ContextMenuStrip;
 
             // Make sure it has the correct renderer
-            cms.Renderer = CreateToolStripRenderer();
+            cms.Renderer = CreateToolStripRenderer()!;
         }
 
         private void OnKryptonContextMenuDisposed(object sender, EventArgs e) =>

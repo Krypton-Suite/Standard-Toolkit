@@ -54,9 +54,9 @@ namespace Krypton.Toolkit
             Debug.Assert(checkBox != null);
             Debug.Assert(needPaint != null);
 
-            ViewManager = viewManager;
-            _target = target;
-            _menuCheckBox = checkBox;
+            ViewManager = viewManager!;
+            _target = target!;
+            _menuCheckBox = checkBox!;
             NeedPaint = needPaint;
         }
         #endregion
@@ -131,7 +131,7 @@ namespace Krypton.Toolkit
         public bool DoesStackedClientMouseDownBecomeCurrent(Point pt) => true;
 
         #endregion
-        
+
         #region Mouse Notifications
         /// <summary>
         /// Mouse has entered the view.

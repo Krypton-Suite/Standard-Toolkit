@@ -54,9 +54,9 @@ namespace Krypton.Toolkit
             Debug.Assert(radioButton != null);
             Debug.Assert(needPaint != null);
 
-            ViewManager = viewManager;
-            _target = target;
-            _menuRadioButton = radioButton;
+            ViewManager = viewManager!;
+            _target = target!;
+            _menuRadioButton = radioButton!;
             NeedPaint = needPaint;
         }
         #endregion
@@ -131,7 +131,7 @@ namespace Krypton.Toolkit
         public bool DoesStackedClientMouseDownBecomeCurrent(Point pt) => true;
 
         #endregion
-        
+
         #region Mouse Notifications
         /// <summary>
         /// Mouse has entered the view.
@@ -410,7 +410,7 @@ namespace Krypton.Toolkit
 
             // Do we need to automatically change the checked state?
             if (_menuRadioButton.KryptonContextMenuRadioButton is { AutoCheck: true, Checked: false })
-                // We only alter state if it is currently not checked
+            // We only alter state if it is currently not checked
             {
                 _menuRadioButton.KryptonContextMenuRadioButton.Checked = true;
             }

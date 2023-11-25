@@ -56,9 +56,9 @@ namespace Krypton.Toolkit
             Debug.Assert(needPaint != null);
 
             MousePoint = CommonHelper.NullPoint;
-            _viewManager = viewManager;
-            _target = target;
-            _layout = layout;
+            _viewManager = viewManager!;
+            _target = target!;
+            _layout = layout!;
             NeedPaint = needPaint;
         }
         #endregion
@@ -259,7 +259,7 @@ namespace Krypton.Toolkit
                 _mouseOver = false;
 
                 // Not tracking the mouse means a null value
-                MousePoint = CommonHelper.NullPoint; 
+                MousePoint = CommonHelper.NullPoint;
 
                 // If leaving the view then cannot be capturing mouse input anymore
                 Captured = false;

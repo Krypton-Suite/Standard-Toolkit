@@ -58,25 +58,25 @@ namespace Krypton.Toolkit
             switch (e.KeyCode)
             {
                 case Keys.Tab:
-                    _viewManager.KeyTab(e.Shift);
+                    _viewManager?.KeyTab(e.Shift);
                     break;
                 case Keys.Home:
-                    _viewManager.KeyHome();
+                    _viewManager?.KeyHome();
                     break;
                 case Keys.End:
-                    _viewManager.KeyEnd();
+                    _viewManager?.KeyEnd();
                     break;
                 case Keys.Up:
-                    _viewManager.KeyUp();
+                    _viewManager?.KeyUp();
                     break;
                 case Keys.Down:
-                    _viewManager.KeyDown();
+                    _viewManager?.KeyDown();
                     break;
                 case Keys.Left:
-                    _viewManager.KeyLeft(false);
+                    _viewManager?.KeyLeft(false);
                     break;
                 case Keys.Right:
-                    _viewManager.KeyRight();
+                    _viewManager?.KeyRight();
                     break;
             }
         }
@@ -103,7 +103,7 @@ namespace Krypton.Toolkit
                 throw new ArgumentNullException(nameof(e));
             }
 
-            _viewManager.KeyMnemonic(e.KeyChar);
+            _viewManager?.KeyMnemonic(e.KeyChar);
         }
 
         /// <summary>

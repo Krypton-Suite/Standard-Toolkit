@@ -29,7 +29,7 @@ namespace Krypton.Toolkit
         private string _content;
         private Image? _customIcon;
         private KryptonMessageBoxIcon _icon;
-        private KryptonTaskDialogCommand _defaultRadioButton;
+        private KryptonTaskDialogCommand? _defaultRadioButton;
         private TaskDialogButtons _commonButtons;
         private TaskDialogButtons _defaultButton;
         private KryptonMessageBoxIcon _footerIcon;
@@ -245,7 +245,7 @@ namespace Krypton.Toolkit
         [Category(@"Appearance")]
         [Description(@"Default radio button.")]
         [DefaultValue(TaskDialogButtons.None)]
-        public KryptonTaskDialogCommand DefaultRadioButton
+        public KryptonTaskDialogCommand? DefaultRadioButton
         {
             get => _defaultRadioButton;
 

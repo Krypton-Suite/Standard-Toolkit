@@ -44,7 +44,7 @@ namespace Krypton.Toolkit
         /// Occurs when the mouse is used to right click the target.
         /// </summary>
         public event MouseEventHandler? RightClick;
-        
+
         /// <summary>
         /// Occurs when the mouse is used to left select the target.
         /// </summary>
@@ -98,7 +98,7 @@ namespace Krypton.Toolkit
             AllowDragging = false;
             _dragging = false;
             ClickOnDown = false;
-            Target = target;
+            Target = target!;
             Repeat = false;
             NeedPaint = needPaint;
         }
@@ -286,67 +286,67 @@ namespace Krypton.Toolkit
                     {
                         // Only interested in left mouse pressing down
                         case MouseButtons.Left:
-                        {
-                            // Capturing mouse input
-                            Captured = true;
-                            _draggingAttempt = false;
+                            {
+                                // Capturing mouse input
+                                Captured = true;
+                                _draggingAttempt = false;
 
                                 // Use event to discover the rectangle that causes dragging to begin
                                 var args = new ButtonDragRectangleEventArgs(pt);
-                            OnButtonDragRectangle(args);
-                            _dragRect = args.DragRect;
-                            _preDragOffset = args.PreDragOffset;
+                                OnButtonDragRectangle(args);
+                                _dragRect = args.DragRect;
+                                _preDragOffset = args.PreDragOffset;
 
-                            if (!_fixedPressed)
-                            {
-                                // Update the visual state
-                                UpdateTargetState(pt);
-
-                                // Do we become fixed in the pressed state until RemoveFixed is called?
-                                if (BecomesFixed)
+                                if (!_fixedPressed)
                                 {
-                                    _fixedPressed = true;
-                                }
+                                    // Update the visual state
+                                    UpdateTargetState(pt);
 
-                                // Indicate that the mouse wants to select the elment
-                                OnMouseSelect(new MouseEventArgs(MouseButtons.Left, 1, pt.X, pt.Y, 0));
-
-                                // Generate a click event if we generate click on mouse down
-                                if (ClickOnDown)
-                                {
-                                    OnClick(new MouseEventArgs(MouseButtons.Left, 1, pt.X, pt.Y, 0));
-
-                                    // If we need to perform click repeats then use a timer...
-                                    if (Repeat)
+                                    // Do we become fixed in the pressed state until RemoveFixed is called?
+                                    if (BecomesFixed)
                                     {
-                                        _repeatTimer = new System.Windows.Forms.Timer
+                                        _fixedPressed = true;
+                                    }
+
+                                    // Indicate that the mouse wants to select the elment
+                                    OnMouseSelect(new MouseEventArgs(MouseButtons.Left, 1, pt.X, pt.Y, 0));
+
+                                    // Generate a click event if we generate click on mouse down
+                                    if (ClickOnDown)
+                                    {
+                                        OnClick(new MouseEventArgs(MouseButtons.Left, 1, pt.X, pt.Y, 0));
+
+                                        // If we need to perform click repeats then use a timer...
+                                        if (Repeat)
                                         {
-                                            Interval = SystemInformation.DoubleClickTime
-                                        };
-                                        _repeatTimer.Tick += OnRepeatTimer;
-                                        _repeatTimer.Start();
+                                            _repeatTimer = new System.Windows.Forms.Timer
+                                            {
+                                                Interval = SystemInformation.DoubleClickTime
+                                            };
+                                            _repeatTimer.Tick += OnRepeatTimer;
+                                            _repeatTimer.Start();
+                                        }
                                     }
                                 }
-                            }
 
-                            break;
-                        }
+                                break;
+                            }
                         case MouseButtons.Right:
-                        {
-                            if (!_fixedPressed)
                             {
-                                // Do we become fixed in the pressed state until RemoveFixed is called?
-                                if (BecomesRightFixed)
+                                if (!_fixedPressed)
                                 {
-                                    _fixedPressed = true;
+                                    // Do we become fixed in the pressed state until RemoveFixed is called?
+                                    if (BecomesRightFixed)
+                                    {
+                                        _fixedPressed = true;
+                                    }
+
+                                    // Indicate the right mouse was used on the button
+                                    OnRightClick(new MouseEventArgs(MouseButtons.Right, 1, pt.X, pt.Y, 0));
                                 }
 
-                                // Indicate the right mouse was used on the button
-                                OnRightClick(new MouseEventArgs(MouseButtons.Right, 1, pt.X, pt.Y, 0));
+                                break;
                             }
-
-                            break;
-                        }
                     }
                 }
             }
@@ -457,7 +457,7 @@ namespace Krypton.Toolkit
                     if (!_fixedPressed)
                     {
                         // Not tracking the mouse means a null value
-                        MousePoint = CommonHelper.NullPoint; 
+                        MousePoint = CommonHelper.NullPoint;
 
                         // If leaving the view then cannot be capturing mouse input anymore
                         Captured = false;
@@ -600,7 +600,7 @@ namespace Krypton.Toolkit
                     UpdateTargetState(c);
                 }
             }
-            
+
             return Captured;
         }
         #endregion
@@ -633,7 +633,7 @@ namespace Krypton.Toolkit
             if (Captured)
             {
                 // Quit out of any dragging operation
-                if (_dragging) 
+                if (_dragging)
                 {
                     // Do not release capture!
                     OnDragQuit();
@@ -829,7 +829,10 @@ namespace Krypton.Toolkit
         protected virtual void OnDragStart(Point mousePt, Point offset, Control c)
         {
             // Convert point from client to screen coordinates
-            mousePt = Target.OwningControl.PointToScreen(mousePt);
+            if (Target.OwningControl != null)
+            {
+                mousePt = Target.OwningControl.PointToScreen(mousePt);
+            }
             var ce = new DragStartEventCancelArgs(mousePt, offset, c);
 
             DragStart?.Invoke(this, ce);
@@ -847,7 +850,10 @@ namespace Krypton.Toolkit
             if (DragMove != null)
             {
                 // Convert point from client to screen coordinates
-                mousePt = Target.OwningControl.PointToScreen(mousePt);
+                if (Target.OwningControl != null)
+                {
+                    mousePt = Target.OwningControl.PointToScreen(mousePt);
+                }
                 DragMove(this, new PointEventArgs(mousePt));
             }
         }
@@ -862,7 +868,10 @@ namespace Krypton.Toolkit
             if (DragEnd != null)
             {
                 // Convert point from client to screen coordinates
-                mousePt = Target.OwningControl.PointToScreen(mousePt);
+                if (Target.OwningControl != null)
+                {
+                    mousePt = Target.OwningControl.PointToScreen(mousePt);
+                }
                 DragEnd(this, new PointEventArgs(mousePt));
             }
         }
