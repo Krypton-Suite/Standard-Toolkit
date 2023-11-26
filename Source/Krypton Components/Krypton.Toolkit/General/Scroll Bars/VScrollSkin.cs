@@ -35,7 +35,7 @@ namespace Krypton.Toolkit
         private VScrollBar VSB;
         private HScrollBar HSC;
 
-        private static PaletteBase _palette;
+        private static PaletteBase? _palette;
         private readonly PaletteRedirect _paletteRedirect;
 
         #endregion
@@ -129,7 +129,7 @@ namespace Krypton.Toolkit
             SuspendLayout();
 
             //VScrollBar1.Anchor = AnchorStyles.Right | AnchorStyles.Bottom | AnchorStyles.Top;
-            VScrollBar1.Anchor = (AnchorStyles)(AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right); VScrollBar1.Dock = DockStyle.Right;
+            VScrollBar1.Anchor = (AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right); VScrollBar1.Dock = DockStyle.Right;
             VScrollBar1.LargeChange = 10;
             VScrollBar1.Location = new Point(0x91, 0); // (145,0)
             VScrollBar1.Maximum = 100;
@@ -185,7 +185,7 @@ namespace Krypton.Toolkit
             if ((Controls.Count != 1) && (_win == null))
             {
                 _win = e.Control;
-                if (_win.GetType() == typeof(DataGridView) || (_win.GetType() == typeof(KryptonDataGridView)))
+                if (_win!.GetType() == typeof(DataGridView) || (_win.GetType() == typeof(KryptonDataGridView)))
                 {
                     var dgv = (DataGridView)_win;
                     dgv.Scroll += dgv_Scroll;
@@ -694,12 +694,12 @@ namespace Krypton.Toolkit
             var hsVisible = (wndStyle & PI.WS_.HSCROLL) != 0;
             var vsVisible = (wndStyle & PI.WS_.VSCROLL) != 0;
 
-            return hsVisible 
-                ? vsVisible 
-                    ? ScrollBars.Both 
-                    : ScrollBars.Horizontal 
-                : vsVisible 
-                    ? ScrollBars.Vertical 
+            return hsVisible
+                ? vsVisible
+                    ? ScrollBars.Both
+                    : ScrollBars.Horizontal
+                : vsVisible
+                    ? ScrollBars.Vertical
                     : ScrollBars.None;
         }
 

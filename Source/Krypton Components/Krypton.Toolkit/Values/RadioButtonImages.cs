@@ -42,7 +42,7 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the RadioButtonImages class.
         /// </summary>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public RadioButtonImages(NeedPaintHandler needPaint) 
+        public RadioButtonImages(NeedPaintHandler? needPaint)
         {
             // Store the provided paint notification delegate
             NeedPaint = needPaint;

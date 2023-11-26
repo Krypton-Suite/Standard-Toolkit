@@ -1600,7 +1600,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Internal
-        internal PaletteRedirect Redirector
+        internal PaletteRedirect? Redirector
         {
             [DebuggerStepThrough]
             get;

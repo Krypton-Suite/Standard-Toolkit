@@ -40,7 +40,7 @@ namespace Krypton.Toolkit
         /// <param name="needPaint">Delegate for handling repainting requests.</param>
         public MonthCalendarController(KryptonContextMenuMonthCalendar monthCalendar,
                                        ViewContextMenuManager viewManager,
-                                       ViewLayoutMonths months, 
+                                       ViewLayoutMonths months,
                                        NeedPaintHandler needPaint)
         {
             _monthCalendar = monthCalendar;
@@ -63,7 +63,7 @@ namespace Krypton.Toolkit
         /// </summary>
         public virtual void ShowTarget()
         {
-            _months.FocusDay = _monthCalendar.SelectionStart;
+            _months.FocusDay = _monthCalendar?.SelectionStart;
             _needPaint(this, new NeedLayoutEventArgs(false));
         }
 
@@ -400,7 +400,7 @@ namespace Krypton.Toolkit
                         {
                             ProviderCanCloseMenu: true
                         })
-                        // Is the menu capable of being closed?
+                    // Is the menu capable of being closed?
                     {
                         // Ask the original context menu definition, if we can close
                         var cea = new CancelEventArgs();

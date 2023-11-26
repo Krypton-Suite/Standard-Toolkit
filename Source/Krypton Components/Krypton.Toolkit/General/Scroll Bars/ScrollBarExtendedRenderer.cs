@@ -54,7 +54,7 @@ namespace Krypton.Toolkit
         /// </summary>
         public static Color[] gripColours = new Color[2];
 
-        private static PaletteBase _palette;
+        private static PaletteBase? _palette;
         private static PaletteRedirect _paletteRedirect;
         #endregion
 
@@ -182,7 +182,7 @@ namespace Krypton.Toolkit
             arrowBorderColours[3] = Color.FromArgb(99, 110, 125);
 
             //Border colors
-            borderColours[0] = _palette.GetBorderColor1(PaletteBorderStyle.InputControlCustom1, PaletteState.Normal);
+            borderColours[0] = _palette!.GetBorderColor1(PaletteBorderStyle.InputControlCustom1, PaletteState.Normal);
             borderColours[1] = _palette.GetBorderColor1(PaletteBorderStyle.InputControlCustom1, PaletteState.Normal); ;
 
             //Grip colors

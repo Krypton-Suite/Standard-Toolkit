@@ -35,7 +35,7 @@ namespace Krypton.Toolkit
 
         private HScrollBar HSB;
 
-        private static PaletteBase _palette;
+        private static PaletteBase? _palette;
         private readonly PaletteRedirect _paletteRedirect;
         #endregion
 
@@ -230,7 +230,7 @@ namespace Krypton.Toolkit
                 var listView1 = (ListView)_win;
 
                 var nIsAt = PI.GetScrollPos(listView1.Handle, PI.SB_.HORZ);
-                var nShouldBeAt = (int)e.NewValue;
+                var nShouldBeAt = e.NewValue;
 
                 var pixelsToScroll = Convert.ToInt32(nShouldBeAt - nIsAt);
 
@@ -350,7 +350,7 @@ namespace Krypton.Toolkit
             var dgv = (DataGridView)sender;
             if (GetDGVScrollbar(ref dgv, out HSB))
             {
-                if (HSB.Visible == true)
+                if (HSB.Visible)
                 {
                     HScrollBar1.Visible = true;
                     SetDGVScrollBarValue(ref dgv, ref HSB);
@@ -405,7 +405,7 @@ namespace Krypton.Toolkit
             if (!DesignMode && !(!Parent.CanFocus | (_win == null)))
             {
 
-                var wndStyle = PI.GetWindowLong(_win.Handle, PI.GWL_.STYLE);
+                var wndStyle = PI.GetWindowLong(_win!.Handle, PI.GWL_.STYLE);
                 var hsVisible = (wndStyle & PI.WS_.HSCROLL) != 0;
                 var vsVisible = (wndStyle & PI.WS_.VSCROLL) != 0;
 
@@ -502,12 +502,12 @@ namespace Krypton.Toolkit
             var hsVisible = (wndStyle & PI.WS_.HSCROLL) != 0;
             var vsVisible = (wndStyle & PI.WS_.VSCROLL) != 0;
 
-            return hsVisible 
-                ? vsVisible 
-                    ? ScrollBars.Both 
-                    : ScrollBars.Horizontal 
-                : vsVisible 
-                    ? ScrollBars.Vertical 
+            return hsVisible
+                ? vsVisible
+                    ? ScrollBars.Both
+                    : ScrollBars.Horizontal
+                : vsVisible
+                    ? ScrollBars.Vertical
                     : ScrollBars.None;
         }
 

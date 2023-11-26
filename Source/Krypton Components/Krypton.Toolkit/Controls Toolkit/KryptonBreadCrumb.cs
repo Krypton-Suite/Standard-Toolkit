@@ -125,12 +125,12 @@ namespace Krypton.Toolkit
             ViewManager = new ViewManager(this, _drawDocker);
 
             // Create button specification collection manager
-            _buttonManager = new ButtonSpecManagerDraw(this, Redirector, ButtonSpecs, null,
+            _buttonManager = new ButtonSpecManagerDraw(this, Redirector!, ButtonSpecs, null,
                                                        new[] { _drawDocker },
                                                        new IPaletteMetric[] { StateCommon },
                                                        new[] { PaletteMetricInt.HeaderButtonEdgeInsetPrimary },
                                                        new[] { PaletteMetricPadding.None },
-                                                       CreateToolStripRenderer,
+                                                       CreateToolStripRenderer!,
                                                        NeedPaintDelegate);
 
             // Create the manager for handling tooltips
@@ -154,7 +154,7 @@ namespace Krypton.Toolkit
                 OnCancelToolTip(this, EventArgs.Empty);
 
                 // Remember to pull down the manager instance
-                _buttonManager.Destruct();
+                _buttonManager?.Destruct();
             }
 
             base.Dispose(disposing);
@@ -262,13 +262,13 @@ namespace Krypton.Toolkit
         [DefaultValue(true)]
         public bool UseMnemonic
         {
-            get => _buttonManager?.UseMnemonic?? true;
+            get => _buttonManager?.UseMnemonic ?? true;
 
             set
             {
                 if (_buttonManager?.UseMnemonic != value)
                 {
-                    _buttonManager.UseMnemonic = value;
+                    _buttonManager!.UseMnemonic = value;
                     PerformNeedPaint(true);
                 }
             }
@@ -325,11 +325,11 @@ namespace Krypton.Toolkit
         [Description(@"Background style for the control.")]
         public PaletteBackStyle ControlBackStyle
         {
-            get => StateCommon.BackStyle;
+            get => StateCommon!.BackStyle;
 
             set
             {
-                if (StateCommon.BackStyle != value)
+                if (StateCommon!.BackStyle != value)
                 {
                     StateCommon.BackStyle = value;
                     PerformNeedPaint(true);
@@ -355,7 +355,7 @@ namespace Krypton.Toolkit
                 if (_buttonStyle != value)
                 {
                     _buttonStyle = value;
-                    StateCommon.BreadCrumb.SetStyles(value);
+                    StateCommon!.BreadCrumb.SetStyles(value);
                     PerformNeedPaint(true);
                 }
             }
@@ -373,11 +373,11 @@ namespace Krypton.Toolkit
         [DefaultValue(PaletteBorderStyle.ControlClient)]
         public PaletteBorderStyle ControlBorderStyle
         {
-            get => StateCommon.BorderStyle;
+            get => StateCommon!.BorderStyle;
 
             set
             {
-                if (StateCommon.BorderStyle != value)
+                if (StateCommon!.BorderStyle != value)
                 {
                     StateCommon.BorderStyle = value;
                     PerformNeedPaint(true);
@@ -439,7 +439,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteBreadCrumbRedirect? StateCommon { get; }
 
-        private bool ShouldSerializeStateCommon() => !StateCommon.IsDefault;
+        private bool ShouldSerializeStateCommon() => !StateCommon!.IsDefault;
 
         /// <summary>
         /// Gets access to the disabled appearance entries.
@@ -556,7 +556,7 @@ namespace Krypton.Toolkit
             if (UseMnemonic && CanProcessMnemonic())
             {
                 // Pass request onto the button spec manager
-                if (_buttonManager.ProcessMnemonic(charCode))
+                if (_buttonManager!.ProcessMnemonic(charCode))
                 {
                     return true;
                 }
@@ -705,7 +705,7 @@ namespace Krypton.Toolkit
                         if (AllowButtonSpecToolTips)
                         {
                             // Create a helper object to provide tooltip values
-                            var buttonSpecMapping = new ButtonSpecToContent(Redirector, buttonSpec);
+                            var buttonSpecMapping = new ButtonSpecToContent(Redirector!, buttonSpec);
 
                             // Is there actually anything to show for the tooltip
                             if (buttonSpecMapping.HasContent)
@@ -728,7 +728,7 @@ namespace Krypton.Toolkit
                         }
 
                         // Create the actual tooltip popup object
-                        _visualPopupToolTip = new VisualPopupToolTip(Redirector,
+                        _visualPopupToolTip = new VisualPopupToolTip(Redirector!,
                                                                      sourceContent,
                                                                      Renderer,
                                                                      PaletteBackStyle.ControlToolTip,
@@ -761,7 +761,7 @@ namespace Krypton.Toolkit
         {
             _cornerRoundingRadius = radius ?? GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
 
-            StateCommon.Border.Rounding = _cornerRoundingRadius;
+            StateCommon!.Border.Rounding = _cornerRoundingRadius;
         }
 
         #endregion

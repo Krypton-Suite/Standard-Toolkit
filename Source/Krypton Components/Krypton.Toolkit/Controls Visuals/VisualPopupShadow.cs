@@ -24,9 +24,9 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Instance Fields
-        private GraphicsPath _path1;
-        private GraphicsPath _path2;
-        private GraphicsPath _path3;
+        private GraphicsPath? _path1;
+        private GraphicsPath? _path2;
+        private GraphicsPath? _path3;
         #endregion
 
         #region Identity
@@ -177,9 +177,9 @@ namespace Krypton.Toolkit
 
         private void DrawPaths(Graphics g)
         {
-            g.FillPath(_brushes[2], _path1);
-            g.FillPath(_brushes[1],_path2);
-            g.FillPath(_brushes[0], _path3);
+            g.FillPath(_brushes[2], _path1!);
+            g.FillPath(_brushes[1], _path2!);
+            g.FillPath(_brushes[0], _path3!);
         }
 
         private void DrawShadow(Graphics g, Rectangle area)

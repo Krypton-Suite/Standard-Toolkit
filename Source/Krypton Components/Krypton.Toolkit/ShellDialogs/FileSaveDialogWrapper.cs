@@ -41,18 +41,18 @@ namespace Krypton.Toolkit
                 var pnl = new KryptonPanel
                 {
                     Dock = DockStyle.Bottom,
-                    Height = (int)(56*_scaleFactor),
+                    Height = (int)(56 * _scaleFactor),
                     Name = "kryptonPanel2",
                     Margin = new Padding(0),
                     Padding = new Padding(0)
                 };
-                _commonDialogHandler._wrapperForm.Controls.Add(pnl);
+                _commonDialogHandler._wrapperForm?.Controls.Add(pnl);
                 foreach (KryptonPanel? parent in _commonDialogHandler.Controls.Where(static ctl => ctl.Button != null)
                              .Select(static ctl => ctl.Button)
-                             .Select(ctl => ctl.Parent as KryptonPanel)
+                             .Select(ctl => ctl?.Parent as KryptonPanel)
                         )
                 {
-                    parent.Top = (int)(16*_scaleFactor);
+                    parent!.Top = (int)(16 * _scaleFactor);
                     parent.Anchor = AnchorStyles.Right;
                     pnl.Controls.Add(parent);
                 }

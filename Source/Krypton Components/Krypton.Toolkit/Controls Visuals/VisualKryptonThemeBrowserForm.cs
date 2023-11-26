@@ -93,7 +93,7 @@ namespace Krypton.Toolkit
 
         private void klbThemeList_SelectedIndexChanged(object sender, EventArgs e)
         {
-            ThemeManager.ApplyTheme(klbThemeList.GetItemText(klbThemeList.SelectedItem), new());
+            ThemeManager.ApplyTheme(klbThemeList.GetItemText(klbThemeList.SelectedItem)!, new());
 
             SetIndexText($@"{klbThemeList.GetItemText(klbThemeList.SelectedItem)} - Index: {klbThemeList.SelectedIndex}");
         }

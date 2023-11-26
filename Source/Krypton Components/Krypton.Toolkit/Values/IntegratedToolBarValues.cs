@@ -88,7 +88,8 @@ namespace Krypton.Toolkit
         #region Implementation
 
         [Browsable(false)]
-        public bool IsDefault => ShowIntegratedToolBar.Equals(DEFAULT_SHOW_INTEGRATED_TOOLBAR) &&
+        public bool IsDefault => FlipArrayItems.Equals(false) &&
+                                 ShowIntegratedToolBar.Equals(DEFAULT_SHOW_INTEGRATED_TOOLBAR) &&
                                  ShowAllToolbarItems.Equals(DEFAULT_SHOW_ALL_TOOLBAR_ITEMS) &&
                                  IntegratedToolBarItems.Equals(SetupToolbarArray()) &&
                                  ButtonOrientation.Equals(PaletteButtonOrientation.Auto) &&
@@ -190,6 +191,8 @@ namespace Krypton.Toolkit
         private void ShowToolBar(bool showToolBar) => _integratedToolbarManager.ShowToolBar(showToolBar);
 
         internal void SetupToolBar() => _integratedToolBarItems = SetupToolbarArray();
+
+        public bool FlipArrayItems { get => _flipArrayItems; set => _flipArrayItems = value; }
 
         public ButtonSpecAny[] ReturnToolBarButtonArray() => _integratedToolBarItems;
 

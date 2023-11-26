@@ -10,6 +10,8 @@
  */
 #endregion
 
+using Timer = System.Windows.Forms.Timer;
+
 namespace Krypton.Toolkit
 {
     /// <summary>
@@ -22,7 +24,7 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
         private readonly ViewDrawTP _drawTB;
-        private System.Windows.Forms.Timer _repeatTimer;
+        private Timer? _repeatTimer;
         private bool _captured;
         private int _targetValue;
         private Point _lastMovePt;
@@ -307,7 +309,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Implementation
-        private void OnRepeatTimer(object sender, EventArgs e)
+        private void OnRepeatTimer(object? sender, EventArgs e)
         {
             var current = _drawTB.ViewDrawTrackBar.Value;
             if (current != _targetValue)

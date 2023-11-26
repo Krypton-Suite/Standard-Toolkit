@@ -48,8 +48,8 @@ namespace Krypton.Toolkit
             NeedPaint = needPaint;
 
             // Remember target for state changes
-            _target = target;
-            _top = top;
+            _target = target!;
+            _top = top!;
         }
         #endregion
 
@@ -145,7 +145,7 @@ namespace Krypton.Toolkit
                     {
                         // Only if radio button is still pressed
                         if (_target is { Pressed: true, Enabled: true })
-                            // Can only click if enabled
+                        // Can only click if enabled
                         {
                             OnClick(EventArgs.Empty);
                         }

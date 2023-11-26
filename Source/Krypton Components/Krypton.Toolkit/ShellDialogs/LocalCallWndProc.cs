@@ -12,43 +12,44 @@ using MsdnMag;
 // ReSharper disable IdentifierTypo
 // ReSharper disable InconsistentNaming
 
-namespace Krypton.Toolkit;
-
-internal struct CWPRETSTRUCT
+namespace Krypton.Toolkit
 {
-    public IntPtr retValue;
-    public IntPtr lParam;
-    public IntPtr wParam;
-    public int message;
-    public IntPtr hWnd;
-}
-
-internal class LocalCallWndProc : LocalWindowsHook
-{
-    public LocalCallWndProc()
-        : base(HookType.WH_CALLWNDPROCRET ) =>
-        m_filterFunc = CwpHookProc;
-
-    public delegate void CwpEventHandler(object sender, CWPRETSTRUCT e, out bool actioned);
-
-    public event CwpEventHandler? WindowMessage;
-
-    internal IntPtr TargetWnd { get; set; }
-
-    private int CwpHookProc(int code, IntPtr wParam, IntPtr lParam)
+    internal struct CWPRETSTRUCT
     {
-        if (code < 0)
-        {
-            return CallNextHookEx(m_hHook, code, wParam, lParam);
-        }
+        public IntPtr retValue;
+        public IntPtr lParam;
+        public IntPtr wParam;
+        public int message;
+        public IntPtr hWnd;
+    }
 
-        var actioned = false;
-        var msg = (CWPRETSTRUCT)Marshal.PtrToStructure(lParam, typeof(CWPRETSTRUCT));
-        if (msg.hWnd == TargetWnd)
-        {
-            WindowMessage?.Invoke(this, msg, out actioned);
-        }
+    internal class LocalCallWndProc : LocalWindowsHook
+    {
+        public LocalCallWndProc()
+            : base(HookType.WH_CALLWNDPROCRET) =>
+            m_filterFunc = CwpHookProc;
 
-        return actioned ? 0 : CallNextHookEx(m_hHook, code, wParam, lParam);
+        public delegate void CwpEventHandler(object sender, CWPRETSTRUCT e, out bool actioned);
+
+        public event CwpEventHandler? WindowMessage;
+
+        internal IntPtr TargetWnd { get; set; }
+
+        private int CwpHookProc(int code, IntPtr wParam, IntPtr lParam)
+        {
+            if (code < 0)
+            {
+                return CallNextHookEx(m_hHook, code, wParam, lParam);
+            }
+
+            var actioned = false;
+            var msg = (CWPRETSTRUCT)Marshal.PtrToStructure(lParam, typeof(CWPRETSTRUCT));
+            if (msg.hWnd == TargetWnd)
+            {
+                WindowMessage?.Invoke(this, msg, out actioned);
+            }
+
+            return actioned ? 0 : CallNextHookEx(m_hHook, code, wParam, lParam);
+        }
     }
 }

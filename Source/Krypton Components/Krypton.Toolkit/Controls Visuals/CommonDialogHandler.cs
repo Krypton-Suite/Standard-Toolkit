@@ -113,8 +113,8 @@ namespace Krypton.Toolkit
                         var labelLogFont = _labelFont.ToHfont();
                         //var buttonFont = _kryptonManager.GlobalPalette.GetContentShortTextFont(PaletteContentStyle.ButtonStandalone, PaletteState.Normal);
                         //var buttonLogFont = buttonFont.ToHfont();
-                        var editFont = _kryptonManager.GlobalPalette.GetContentShortTextFont(PaletteContentStyle.InputControlStandalone, PaletteState.Normal);
-                        var editLogFont = editFont.ToHfont();
+                        var editFont = _kryptonManager.GlobalPalette?.GetContentShortTextFont(PaletteContentStyle.InputControlStandalone, PaletteState.Normal);
+                        var editLogFont = editFont!.ToHfont();
                         foreach (Attributes control in _controls)
                         {
                             switch (control.ClassName)
@@ -321,7 +321,7 @@ namespace Krypton.Toolkit
                             using (Graphics g = Graphics.FromHdc(hdc))
                             {
                                 g.SmoothingMode = SmoothingMode.AntiAlias;
-                                var lineColor = _kryptonManager.GlobalPalette.GetBorderColor1(PaletteBorderStyle.ControlGroupBox, PaletteState.Normal);
+                                var lineColor = _kryptonManager.GlobalPalette!.GetBorderColor1(PaletteBorderStyle.ControlGroupBox, PaletteState.Normal);
                                 DrawRoundedRectangle(g, new Pen(lineColor), new Point(0, 10),
                                     control.Size - new Size(1, 11), 5);
                                 var font = _kryptonManager.GlobalPalette.GetContentShortTextFont(PaletteContentStyle.LabelNormalPanel, PaletteState.Normal);
@@ -366,7 +366,7 @@ namespace Krypton.Toolkit
                         // Buttons with these styles are always drawn with the default system colors.
                         // Drawing push buttons requires several different brushes-face, highlight, and shadow
                         // but the WM_CTLCOLORBTN message allows only one brush to be returned.
-                        var fontColour = _kryptonManager.GlobalPalette.GetContentShortTextColor1(PaletteContentStyle.ButtonStandalone, PaletteState.Normal);
+                        var fontColour = _kryptonManager.GlobalPalette!.GetContentShortTextColor1(PaletteContentStyle.ButtonStandalone, PaletteState.Normal);
                         var backColour = _kryptonManager.GlobalPalette.GetBackColor1(PaletteBackStyle.ButtonStandalone, PaletteState.Normal);
                         PI.SetTextColor(wParam, ColorTranslator.ToWin32(fontColour));
                         PI.SetDCBrushColor(wParam, ColorTranslator.ToWin32(backColour));
@@ -455,7 +455,7 @@ namespace Krypton.Toolkit
             else
             {
                 _resizeHandle = hWnd;
-                _wrapperForm.Resize += FormResize!;
+                _wrapperForm.Resize += FormResize;
             }
 
             var wrapperParent = PI.GetParent(hWnd);

@@ -85,7 +85,7 @@ namespace Krypton.Toolkit
         /// Gets and sets the root control for point translation and message dispatch. 
         /// </summary>
         /// <param name="parent">Parent control.</param>
-        public void UpdateParent(Control parent)
+        public void UpdateParent(Control? parent)
         {
             // Keep looking till we run out of parents
             while (parent != null)
@@ -107,7 +107,7 @@ namespace Krypton.Toolkit
                 }
 
                 // Move up another level
-                parent = parent.Parent;
+                parent = parent.Parent!;
             }
         }
         #endregion
@@ -144,7 +144,7 @@ namespace Krypton.Toolkit
         protected override void OnPaint(PaintEventArgs e)
         {
             // Cannot process a message for a disposed control
-            if (!IsDisposed && !Disposing && !RootInstance.IsDisposed)
+            if (!IsDisposed && !Disposing && !RootInstance!.IsDisposed)
             {
 
                 // Do we need to paint the background as the foreground of the parent
@@ -160,7 +160,7 @@ namespace Krypton.Toolkit
                 using var context = new RenderContext(GetViewManager(), this, RootInstance, e.Graphics,
                     e.ClipRectangle, Renderer);
                 // Ask the view to paint itself
-                ViewLayoutControl.ChildView.Render(context);
+                ViewLayoutControl.ChildView?.Render(context);
             }
         }
 
@@ -171,7 +171,7 @@ namespace Krypton.Toolkit
         protected override void OnDoubleClick(EventArgs e)
         {
             // Cannot process a message for a disposed control
-            if (!IsDisposed && !Disposing && !RootInstance.IsDisposed)
+            if (!IsDisposed && !Disposing && !RootInstance!.IsDisposed)
             {
                 // Do we have a manager for processing mouse messages?
                 // Use the root controls view manager to process the event
@@ -189,7 +189,7 @@ namespace Krypton.Toolkit
         protected override void OnMouseMove(MouseEventArgs e)
         {
             // Cannot process a message for a disposed control
-            if (!IsDisposed && !Disposing && !RootInstance.IsDisposed)
+            if (!IsDisposed && !Disposing && !RootInstance!.IsDisposed)
             {
                 // Do we have a manager for processing mouse messages?
                 ViewManager? viewManager = GetViewManager();
@@ -219,7 +219,7 @@ namespace Krypton.Toolkit
         protected override void OnMouseDown(MouseEventArgs e)
         {
             // Cannot process a message for a disposed control
-            if (!IsDisposed && !Disposing && !RootInstance.IsDisposed)
+            if (!IsDisposed && !Disposing && !RootInstance!.IsDisposed)
             {
                 // Do we have a manager for processing mouse messages?
                 ViewManager? viewManager = GetViewManager();
@@ -259,7 +259,7 @@ namespace Krypton.Toolkit
         protected override void OnMouseUp(MouseEventArgs e)
         {
             // Cannot process a message for a disposed control
-            if (!IsDisposed && !Disposing && !RootInstance.IsDisposed)
+            if (!IsDisposed && !Disposing && !RootInstance!.IsDisposed)
             {
                 // Do we have a manager for processing mouse messages?
                 ViewManager? viewManager = GetViewManager();
@@ -289,7 +289,7 @@ namespace Krypton.Toolkit
         protected override void OnMouseLeave(EventArgs e)
         {
             // Cannot process a message for a disposed control
-            if (!IsDisposed && !Disposing && !RootInstance.IsDisposed)
+            if (!IsDisposed && !Disposing && !RootInstance!.IsDisposed)
             {
                 // Do we have a manager for processing mouse messages?
                 // Use the root controls view manager to process the event
@@ -307,7 +307,7 @@ namespace Krypton.Toolkit
         protected override void OnKeyDown(KeyEventArgs e)
         {
             // Cannot process a message for a disposed control
-            if (!IsDisposed && !Disposing && !RootInstance.IsDisposed)
+            if (!IsDisposed && !Disposing && !RootInstance!.IsDisposed)
             {
                 // Do we have a manager for processing mouse messages?
                 GetViewManager()?.KeyDown(e);
@@ -324,7 +324,7 @@ namespace Krypton.Toolkit
         protected override void OnKeyPress(KeyPressEventArgs e)
         {
             // Cannot process a message for a disposed control
-            if (!IsDisposed && !Disposing && !RootInstance.IsDisposed)
+            if (!IsDisposed && !Disposing && !RootInstance!.IsDisposed)
             {
                 // Do we have a manager for processing mouse messages?
                 GetViewManager()?.KeyPress(e);
@@ -341,7 +341,7 @@ namespace Krypton.Toolkit
         protected override void OnKeyUp(KeyEventArgs e)
         {
             // Cannot process a message for a disposed control
-            if (!IsDisposed && !Disposing && !RootInstance.IsDisposed)
+            if (!IsDisposed && !Disposing && !RootInstance!.IsDisposed)
             {
                 // Do we have a manager for processing mouse messages?
                 GetViewManager()?.KeyUp(e);
@@ -494,7 +494,7 @@ namespace Krypton.Toolkit
 
                 try
                 {
-                    _ = _miPTB.Invoke(this, new object[] { e, ClientRectangle, null });
+                    _ = _miPTB?.Invoke(this, new object[] { e, ClientRectangle, null! });
                 }
                 catch
                 {

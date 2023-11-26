@@ -462,7 +462,7 @@ namespace Krypton.Ribbon
         [MergableProperty(false)]
         [Editor(typeof(KryptonRibbonGroupTripleCollectionEditor), typeof(UITypeEditor))]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public KryptonRibbonGroupTripleCollection Items { get; }
+        public KryptonRibbonGroupTripleCollection? Items { get; }
 
         /// <summary>
         /// Gets an array of all the contained components.

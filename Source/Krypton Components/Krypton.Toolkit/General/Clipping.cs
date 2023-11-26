@@ -161,9 +161,9 @@ namespace Krypton.Toolkit
                 try
                 {
                     // Restore the original clipping region
-                    _graphics.Clip = _previousRegion;
+                    _graphics.Clip = _previousRegion!;
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     CommonHelper.LogOutput(ex.Message);
                 }
