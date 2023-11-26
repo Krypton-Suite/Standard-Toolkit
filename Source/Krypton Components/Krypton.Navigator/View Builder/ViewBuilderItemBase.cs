@@ -700,7 +700,7 @@ namespace Krypton.Navigator
                                                                new[] { PaletteMetricInt.BarButtonEdgeInside },
                                                                new[] { PaletteMetricInt.BarButtonEdgeOutside },
                                                                new[] { PaletteMetricPadding.BarButtonPadding },
-                                                               Navigator.CreateToolStripRenderer,
+                                                               Navigator.CreateToolStripRenderer!,
                                                                NeedPaintDelegate)
             {
                 // Hook up the tooltip manager so that tooltips can be generated

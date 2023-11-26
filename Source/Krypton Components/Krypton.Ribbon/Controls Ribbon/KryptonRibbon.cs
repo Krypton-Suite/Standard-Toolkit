@@ -1189,9 +1189,9 @@ namespace Krypton.Ribbon
         /// <returns>Mouse point.</returns>
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        public Point ViewRectangleToPoint(ViewBase view)
+        public Point ViewRectangleToPoint(ViewBase? view)
         {
-            Rectangle screenRect = view.OwningControl!.RectangleToScreen(view.ClientRectangle);
+            Rectangle screenRect = view!.OwningControl!.RectangleToScreen(view.ClientRectangle);
             return new Point(screenRect.Left, screenRect.Bottom);
         }
 
@@ -3211,7 +3211,7 @@ namespace Krypton.Ribbon
             // Create a popup control with the minimized panel as the view
             var popupManager = new ViewRibbonMinimizedManager(this, GroupsArea.ViewGroups,
                 _drawMinimizedPanel, true, _needPaintGroups);
-            _minimizedPopup = new VisualPopupMinimized(this, popupManager, CaptionArea!, Renderer);
+            _minimizedPopup = new VisualPopupMinimized(this, popupManager, CaptionArea!, Renderer!);
             _minimizedPopup.Disposed += OnMinimizedPopupDisposed;
             popupManager.Attach(_minimizedPopup, _drawMinimizedPanel);
 

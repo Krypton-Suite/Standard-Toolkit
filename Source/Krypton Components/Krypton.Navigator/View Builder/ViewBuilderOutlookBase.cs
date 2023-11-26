@@ -1746,7 +1746,7 @@ namespace Krypton.Navigator
                                                                new[] { PaletteMetricInt.HeaderButtonEdgeInsetInputControl },
                                                                new[] { PaletteMetricInt.HeaderButtonEdgeInsetInputControl },
                                                                new[] { PaletteMetricPadding.None },
-                                                               Navigator.CreateToolStripRenderer,
+                                                               Navigator.CreateToolStripRenderer!,
                                                                NeedPaintDelegate);
         }
 

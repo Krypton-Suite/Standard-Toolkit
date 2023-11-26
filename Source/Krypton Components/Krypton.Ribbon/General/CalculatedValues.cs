@@ -52,7 +52,7 @@ namespace Krypton.Ribbon
         public CalculatedValues([DisallowNull] KryptonRibbon ribbon)
         {
             Debug.Assert(ribbon != null);
-            _ribbon = ribbon;
+            _ribbon = ribbon!;
 
             _lastShape = PaletteRibbonShape.Inherit;
         }

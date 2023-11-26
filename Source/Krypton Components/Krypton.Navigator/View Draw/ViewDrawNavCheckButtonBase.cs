@@ -154,7 +154,7 @@ namespace Krypton.Navigator
                                                                    new[] { PaletteMetricInt.PageButtonInset },
                                                                    new[] { PaletteMetricInt.PageButtonInset },
                                                                    new[] { PaletteMetricPadding.PageButtonPadding },
-                                                                   Navigator.CreateToolStripRenderer,
+                                                                   Navigator.CreateToolStripRenderer!,
                                                                    null)
                 {
 

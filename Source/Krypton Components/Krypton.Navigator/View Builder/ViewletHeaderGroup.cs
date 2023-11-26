@@ -356,7 +356,7 @@ namespace Krypton.Navigator
                                                        new IPaletteMetric[] { Navigator.StateCommon!.HeaderGroup!.HeaderPrimary, Navigator.StateCommon.HeaderGroup.HeaderSecondary },
                                                        new[] { PaletteMetricInt.HeaderButtonEdgeInsetPrimary, PaletteMetricInt.HeaderButtonEdgeInsetSecondary },
                                                        new[] { PaletteMetricPadding.HeaderButtonPaddingPrimary, PaletteMetricPadding.HeaderButtonPaddingSecondary },
-                                                       Navigator.CreateToolStripRenderer,
+                                                       Navigator.CreateToolStripRenderer!,
                                                        _needPaintDelegate)
             {
 

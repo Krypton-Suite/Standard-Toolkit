@@ -24,7 +24,7 @@ namespace Krypton.Toolkit
         /// <param name="name">Attribute name.</param>
         /// <param name="value">Attribute value.</param>
         /// <param name="defaultValue">Default value.</param>
-        public static void TextToXmlAttribute(XmlWriter xmlWriter, string name, string value, string defaultValue = @"")
+        public static void TextToXmlAttribute(XmlWriter xmlWriter, string name, string? value, string defaultValue = @"")
         {
             if (!string.IsNullOrEmpty(value) && (value != defaultValue))
             {

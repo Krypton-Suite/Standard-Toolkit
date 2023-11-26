@@ -220,7 +220,7 @@ namespace Krypton.Ribbon
                                                                   new IPaletteMetric[] { _ribbon.StateCommon },
                                                                   new[] { PaletteMetricInt.None },
                                                                   new[] { PaletteMetricPadding.RibbonAppButton },
-                                                                  CreateToolStripRenderer,
+                                                                  CreateToolStripRenderer!,
                                                                   OnButtonSpecPaint);
 
             _buttonManager.RecreateButtons();
