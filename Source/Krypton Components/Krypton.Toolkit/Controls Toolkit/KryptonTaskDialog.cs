@@ -39,6 +39,7 @@ namespace Krypton.Toolkit
         private string _checkboxText;
         private bool _checkboxState;
         private bool _allowDialogClose;
+        private bool _useNativeOSIcons;
         private string _textExtra;
 
         #endregion
@@ -427,6 +428,26 @@ namespace Krypton.Toolkit
             }
         }
 
+        /// <summary>Gets or sets a value indicating whether [use native os icons].</summary>
+        /// <value><c>true</c> if [use native os icons]; otherwise, <c>false</c>.</value>
+        [Category(@"Appearance")]
+        [Description(@"Use the native OS icons.")]
+        [DefaultValue(true)]
+        public bool UseNativeOSIcons
+        {
+            get => _useNativeOSIcons;
+
+            set
+            {
+                if (_useNativeOSIcons != value)
+                {
+                    _useNativeOSIcons = value;
+
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(UseNativeOSIcons)));
+                }
+            }
+        }
+
         /// <summary>
         /// Gets and sets user-defined data associated with the object.
         /// </summary>
@@ -434,7 +455,7 @@ namespace Krypton.Toolkit
         [Description(@"User-defined data associated with the object.")]
         [TypeConverter(typeof(StringConverter))]
         [Bindable(true)]
-        public object Tag { get; set; }
+        public object? Tag { get; set; }
 
         /// <summary>
         /// Allows user to override the default "Ctrl+c to copy" in window caption
@@ -501,7 +522,8 @@ namespace Krypton.Toolkit
                                         string mainInstruction,
                                         string content,
                                         KryptonMessageBoxIcon icon,
-                                        TaskDialogButtons commonButtons)
+                                        TaskDialogButtons commonButtons,
+                                        bool? useNativeOSIcons)
         {
             // Create a temporary task dialog for storing definition whilst showing
             using var taskDialog = new KryptonTaskDialog();
@@ -511,6 +533,7 @@ namespace Krypton.Toolkit
             taskDialog.Content = content;
             taskDialog.Icon = icon;
             taskDialog.CommonButtons = commonButtons;
+            taskDialog.UseNativeOSIcons = useNativeOSIcons ?? true;
 
             // Show as a modal dialog
             return taskDialog.ShowDialog();

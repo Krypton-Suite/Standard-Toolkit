@@ -91,6 +91,7 @@ namespace Krypton.Toolkit
         private readonly string _checkboxText;
         private bool _checkboxState;
         private readonly bool _allowDialogClose;
+        private readonly bool _useNativeOSIcons;
 
         // User Interface
         private KryptonPanel _panelMain;
@@ -150,6 +151,7 @@ namespace Krypton.Toolkit
             _checkboxText = taskDialog.CheckboxText;
             _checkboxState = taskDialog.CheckboxState;
             _allowDialogClose = taskDialog.AllowDialogClose;
+            _useNativeOSIcons = taskDialog.UseNativeOSIcons;
 
             InitializeComponent();
             TextExtra = taskDialog.TextExtra;
@@ -538,28 +540,28 @@ namespace Krypton.Toolkit
                         _iconFooter.Visible = false;
                         break;
                     case KryptonMessageBoxIcon.Question:
-                        _iconFooter.Image = TaskDialogImageResources.TaskDialogQuestionGeneric;
+                        ChangeFooterIcon(KryptonMessageBoxIcon.Question, _useNativeOSIcons);
                         break;
                     case KryptonMessageBoxIcon.Information:
-                        _iconFooter.Image = TaskDialogImageResources.TaskDialogInformationGeneric;
+                        ChangeFooterIcon(KryptonMessageBoxIcon.Information, _useNativeOSIcons);
                         break;
                     case KryptonMessageBoxIcon.Warning:
-                        _iconFooter.Image = TaskDialogImageResources.TaskDialogWarningGeneric;
+                        ChangeFooterIcon(KryptonMessageBoxIcon.Warning, _useNativeOSIcons);
                         break;
                     case KryptonMessageBoxIcon.Error:
-                        _iconFooter.Image = TaskDialogImageResources.TaskDialogCriticalGeneric;
+                        ChangeFooterIcon(KryptonMessageBoxIcon.Error, _useNativeOSIcons);
                         break;
                     case KryptonMessageBoxIcon.Hand:
-                        _iconFooter.Image = TaskDialogImageResources.TaskDialogHandGeneric;
+                        ChangeFooterIcon(KryptonMessageBoxIcon.Hand, _useNativeOSIcons);
                         break;
                     case KryptonMessageBoxIcon.Exclamation:
-                        _iconFooter.Image = TaskDialogImageResources.TaskDialogWarningGeneric;
+                        ChangeFooterIcon(KryptonMessageBoxIcon.Exclamation, _useNativeOSIcons);
                         break;
                     case KryptonMessageBoxIcon.Asterisk:
-                        _iconFooter.Image = TaskDialogImageResources.TaskDialogAsteriskGeneric;
+                        ChangeFooterIcon(KryptonMessageBoxIcon.Asterisk, _useNativeOSIcons);
                         break;
                     case KryptonMessageBoxIcon.Stop:
-                        _iconFooter.Image = TaskDialogImageResources.TaskDialogStopGeneric;
+                        ChangeFooterIcon(KryptonMessageBoxIcon.Stop, _useNativeOSIcons);
                         break;
                     case KryptonMessageBoxIcon.Shield:
                         _iconFooter.Image = GraphicsExtensions.ScaleImage(SystemIcons.Shield.ToBitmap(), new Size(16, 16));
@@ -588,6 +590,103 @@ namespace Krypton.Toolkit
 
             _footerLabel.Text = _footerText;
             _linkLabelFooter.Text = _footerHyperlink;
+        }
+
+        private void ChangeFooterIcon(KryptonMessageBoxIcon icon, bool useNativeOsIcons)
+        {
+            switch (icon)
+            {
+                case KryptonMessageBoxIcon.Hand:
+                    if (useNativeOsIcons)
+                    {
+                        _iconFooter.Image =
+                            GraphicsExtensions.ScaleImage(SystemIcons.Hand.ToBitmap(), new Size(16, 16));
+                    }
+                    else
+                    {
+                        _iconFooter.Image = TaskDialogImageResources.TaskDialogHandGeneric;
+                    }
+                    break;
+                case KryptonMessageBoxIcon.Question:
+                    if (useNativeOsIcons)
+                    {
+                        _iconFooter.Image =
+                            GraphicsExtensions.ScaleImage(SystemIcons.Question.ToBitmap(), new Size(16, 16));
+                    }
+                    else
+                    {
+                        _iconFooter.Image = TaskDialogImageResources.TaskDialogQuestionGeneric;
+                    }
+                    break;
+                case KryptonMessageBoxIcon.Exclamation:
+                    if (useNativeOsIcons)
+                    {
+                        _iconFooter.Image =
+                            GraphicsExtensions.ScaleImage(SystemIcons.Exclamation.ToBitmap(), new Size(16, 16));
+                    }
+                    else
+                    {
+                        _iconFooter.Image = TaskDialogImageResources.TaskDialogWarningGeneric;
+                    }
+                    break;
+                case KryptonMessageBoxIcon.Asterisk:
+                    if (useNativeOsIcons)
+                    {
+                        _iconFooter.Image =
+                            GraphicsExtensions.ScaleImage(SystemIcons.Asterisk.ToBitmap(), new Size(16, 16));
+                    }
+                    else
+                    {
+                        _iconFooter.Image = TaskDialogImageResources.TaskDialogAsteriskGeneric;
+                    }
+                    break;
+                case KryptonMessageBoxIcon.Stop:
+                    if (useNativeOsIcons)
+                    {
+                        _iconFooter.Image =
+                            GraphicsExtensions.ScaleImage(SystemIcons.Asterisk.ToBitmap(), new Size(16, 16));
+                    }
+                    else
+                    {
+                        _iconFooter.Image = TaskDialogImageResources.TaskDialogStopGeneric;
+                    }
+                    break;
+                case KryptonMessageBoxIcon.Error:
+                    if (useNativeOsIcons)
+                    {
+                        _iconFooter.Image =
+                            GraphicsExtensions.ScaleImage(SystemIcons.Error.ToBitmap(), new Size(16, 16));
+                    }
+                    else
+                    {
+                        _iconFooter.Image = TaskDialogImageResources.TaskDialogAsteriskGeneric;
+                    }
+                    break;
+                case KryptonMessageBoxIcon.Warning:
+                    if (useNativeOsIcons)
+                    {
+                        _iconFooter.Image =
+                            GraphicsExtensions.ScaleImage(SystemIcons.Warning.ToBitmap(), new Size(16, 16));
+                    }
+                    else
+                    {
+                        _iconFooter.Image = TaskDialogImageResources.TaskDialogWarningGeneric;
+                    }
+                    break;
+                case KryptonMessageBoxIcon.Information:
+                    if (useNativeOsIcons)
+                    {
+                        _iconFooter.Image =
+                            GraphicsExtensions.ScaleImage(SystemIcons.Information.ToBitmap(), new Size(16, 16));
+                    }
+                    else
+                    {
+                        _iconFooter.Image = TaskDialogImageResources.TaskDialogInformationGeneric;
+                    }
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(icon), icon, null);
+            }
         }
 
         private void UpdateChrome()
