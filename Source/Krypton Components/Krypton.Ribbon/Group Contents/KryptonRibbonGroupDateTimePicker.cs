@@ -493,7 +493,7 @@ namespace Krypton.Ribbon
         [Description(@"Today's date.")]
         public DateTime CalendarTodayDate
         {
-            get => DateTimePicker.CalendarTodayDate;
+            get => DateTimePicker.CalendarTodayDate ?? DateTime.Now.Date;
             set => DateTimePicker.CalendarTodayDate = value;
         }
 
@@ -507,7 +507,7 @@ namespace Krypton.Ribbon
         [Category(@"MonthCalendar")]
         [Description(@"Indicates which annual dates should be boldface.")]
         [Localizable(true)]
-        public DateTime[] CalendarAnnuallyBoldedDates
+        public DateTime[]? CalendarAnnuallyBoldedDates
         {
             get => DateTimePicker.CalendarAnnuallyBoldedDates;
             set => DateTimePicker.CalendarAnnuallyBoldedDates = value;
@@ -523,7 +523,7 @@ namespace Krypton.Ribbon
         [Category(@"MonthCalendar")]
         [Description(@"Indicates which monthly dates should be boldface.")]
         [Localizable(true)]
-        public DateTime[] CalendarMonthlyBoldedDates
+        public DateTime[]? CalendarMonthlyBoldedDates
         {
             get => DateTimePicker.CalendarMonthlyBoldedDates;
             set => DateTimePicker.CalendarMonthlyBoldedDates = value;
@@ -539,7 +539,7 @@ namespace Krypton.Ribbon
         [Category(@"MonthCalendar")]
         [Description(@"Indicates which dates should be boldface.")]
         [Localizable(true)]
-        public DateTime[] CalendarBoldedDates
+        public DateTime[]? CalendarBoldedDates
         {
             get => DateTimePicker.CalendarBoldedDates;
             set => DateTimePicker.CalendarBoldedDates = value;

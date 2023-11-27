@@ -808,7 +808,7 @@ namespace Krypton.Toolkit
         [Category(@"MonthCalendar")]
         [Description(@"Indicates which annual dates should be boldface.")]
         [Localizable(true)]
-        public DateTime[] CalendarAnnuallyBoldedDates
+        public DateTime[]? CalendarAnnuallyBoldedDates
         {
             get => _annualDates.ToArray();
 
@@ -835,7 +835,7 @@ namespace Krypton.Toolkit
         [Category(@"MonthCalendar")]
         [Description(@"Indicates which monthly dates should be boldface.")]
         [Localizable(true)]
-        public DateTime[] CalendarMonthlyBoldedDates
+        public DateTime[]? CalendarMonthlyBoldedDates
         {
             get => _monthlyDates.ToArray();
 
@@ -862,7 +862,7 @@ namespace Krypton.Toolkit
         [Category(@"MonthCalendar")]
         [Description(@"Indicates which dates should be boldface.")]
         [Localizable(true)]
-        public DateTime[] CalendarBoldedDates
+        public DateTime[]? CalendarBoldedDates
         {
             get => _dates.ToArray();
 

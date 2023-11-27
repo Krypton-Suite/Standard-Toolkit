@@ -1,6 +1,7 @@
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Reflection;
 using System.Windows.Forms;
 
 using Krypton.Toolkit;
@@ -158,9 +159,18 @@ namespace TestForm
 
         private void kryptonButton8_Click(object sender, EventArgs e)
         {
-            KryptonAboutBoxData data = new KryptonAboutBoxData();
+            KryptonAboutBoxData aboutBoxData = new KryptonAboutBoxData()
+            {
+                ApplicationName = @"TestForm",
+                CurrentAssembly = Assembly.GetExecutingAssembly(),
+                HeaderImage = null,
+                MainImage = null,
+                ShowToolkitInformation = true,
+            };
 
-            KryptonAboutBox.Show(data);
+            KryptonAboutToolkitData aboutToolkitData = new KryptonAboutToolkitData();
+
+            KryptonAboutBox.Show(aboutBoxData, aboutToolkitData);
         }
 
         private void kcbtnNone_Click(object sender, EventArgs e) => UpdateBorderStyle(FormBorderStyle.None);

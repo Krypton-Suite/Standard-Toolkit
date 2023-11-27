@@ -1188,7 +1188,7 @@ namespace Krypton.Toolkit
             this._panelMain.Dock = System.Windows.Forms.DockStyle.Top;
             this._panelMain.Location = new System.Drawing.Point(0, 0);
             this._panelMain.Name = "_panelMain";
-            this._panelMain.Size = new System.Drawing.Size(646, 72);
+            this._panelMain.Size = new System.Drawing.Size(748, 72);
             this._panelMain.TabIndex = 0;
             // 
             // _panelMainSpacer
@@ -1233,7 +1233,7 @@ namespace Krypton.Toolkit
             // 
             this._messageContent.AutoSize = false;
             this._messageContent.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this._messageContent.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(57)))), ((int)(((byte)(91)))));
+            this._messageContent.ForeColor = System.Drawing.Color.White;
             this._messageContent.LabelStyle = Krypton.Toolkit.LabelStyle.AlternateControl;
             this._messageContent.Location = new System.Drawing.Point(6, 34);
             this._messageContent.Margin = new System.Windows.Forms.Padding(0);
@@ -1255,7 +1255,7 @@ namespace Krypton.Toolkit
             // 
             this._messageText.AutoSize = false;
             this._messageText.Font = new System.Drawing.Font("Segoe UI", 13.5F, System.Drawing.FontStyle.Bold);
-            this._messageText.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(57)))), ((int)(((byte)(91)))));
+            this._messageText.ForeColor = System.Drawing.Color.White;
             this._messageText.LabelStyle = Krypton.Toolkit.LabelStyle.TitlePanel;
             this._messageText.Location = new System.Drawing.Point(5, 5);
             this._messageText.Margin = new System.Windows.Forms.Padding(0);
@@ -1300,7 +1300,7 @@ namespace Krypton.Toolkit
             this._panelButtons.Margin = new System.Windows.Forms.Padding(0);
             this._panelButtons.Name = "_panelButtons";
             this._panelButtons.PanelBackStyle = Krypton.Toolkit.PaletteBackStyle.PanelAlternate;
-            this._panelButtons.Size = new System.Drawing.Size(646, 46);
+            this._panelButtons.Size = new System.Drawing.Size(748, 46);
             this._panelButtons.TabIndex = 1;
             // 
             // _checkBox
@@ -1317,7 +1317,7 @@ namespace Krypton.Toolkit
             this._panelButtonsBorderTop.Dock = System.Windows.Forms.DockStyle.Top;
             this._panelButtonsBorderTop.Location = new System.Drawing.Point(0, 0);
             this._panelButtonsBorderTop.Name = "_panelButtonsBorderTop";
-            this._panelButtonsBorderTop.Size = new System.Drawing.Size(646, 1);
+            this._panelButtonsBorderTop.Size = new System.Drawing.Size(748, 1);
             this._panelButtonsBorderTop.Text = "kryptonBorderEdge1";
             // 
             // _buttonOK
@@ -1326,7 +1326,7 @@ namespace Krypton.Toolkit
             this._buttonOK.AutoSize = true;
             this._buttonOK.DialogResult = System.Windows.Forms.DialogResult.OK;
             this._buttonOK.IgnoreAltF4 = false;
-            this._buttonOK.Location = new System.Drawing.Point(537, 9);
+            this._buttonOK.Location = new System.Drawing.Point(639, 9);
             this._buttonOK.Margin = new System.Windows.Forms.Padding(0);
             this._buttonOK.MinimumSize = new System.Drawing.Size(50, 26);
             this._buttonOK.Name = "_buttonOK";
@@ -1340,7 +1340,7 @@ namespace Krypton.Toolkit
             this._buttonYes.AutoSize = true;
             this._buttonYes.DialogResult = System.Windows.Forms.DialogResult.Yes;
             this._buttonYes.IgnoreAltF4 = false;
-            this._buttonYes.Location = new System.Drawing.Point(437, 9);
+            this._buttonYes.Location = new System.Drawing.Point(539, 9);
             this._buttonYes.Margin = new System.Windows.Forms.Padding(0);
             this._buttonYes.MinimumSize = new System.Drawing.Size(50, 26);
             this._buttonYes.Name = "_buttonYes";
@@ -1354,7 +1354,7 @@ namespace Krypton.Toolkit
             this._buttonNo.AutoSize = true;
             this._buttonNo.DialogResult = System.Windows.Forms.DialogResult.No;
             this._buttonNo.IgnoreAltF4 = false;
-            this._buttonNo.Location = new System.Drawing.Point(387, 9);
+            this._buttonNo.Location = new System.Drawing.Point(489, 9);
             this._buttonNo.Margin = new System.Windows.Forms.Padding(0);
             this._buttonNo.MinimumSize = new System.Drawing.Size(50, 26);
             this._buttonNo.Name = "_buttonNo";
@@ -1368,7 +1368,7 @@ namespace Krypton.Toolkit
             this._buttonRetry.AutoSize = true;
             this._buttonRetry.DialogResult = System.Windows.Forms.DialogResult.Retry;
             this._buttonRetry.IgnoreAltF4 = false;
-            this._buttonRetry.Location = new System.Drawing.Point(487, 9);
+            this._buttonRetry.Location = new System.Drawing.Point(589, 9);
             this._buttonRetry.Margin = new System.Windows.Forms.Padding(0);
             this._buttonRetry.MinimumSize = new System.Drawing.Size(50, 26);
             this._buttonRetry.Name = "_buttonRetry";
@@ -1382,7 +1382,7 @@ namespace Krypton.Toolkit
             this._buttonCancel.AutoSize = true;
             this._buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this._buttonCancel.IgnoreAltF4 = false;
-            this._buttonCancel.Location = new System.Drawing.Point(330, 9);
+            this._buttonCancel.Location = new System.Drawing.Point(432, 9);
             this._buttonCancel.Margin = new System.Windows.Forms.Padding(0);
             this._buttonCancel.MinimumSize = new System.Drawing.Size(50, 26);
             this._buttonCancel.Name = "_buttonCancel";
@@ -1395,7 +1395,7 @@ namespace Krypton.Toolkit
             this._buttonClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this._buttonClose.AutoSize = true;
             this._buttonClose.IgnoreAltF4 = false;
-            this._buttonClose.Location = new System.Drawing.Point(587, 9);
+            this._buttonClose.Location = new System.Drawing.Point(689, 9);
             this._buttonClose.Margin = new System.Windows.Forms.Padding(0);
             this._buttonClose.MinimumSize = new System.Drawing.Size(50, 26);
             this._buttonClose.Name = "_buttonClose";
@@ -1413,7 +1413,7 @@ namespace Krypton.Toolkit
             this._panelFooter.Location = new System.Drawing.Point(0, 118);
             this._panelFooter.Name = "_panelFooter";
             this._panelFooter.PanelBackStyle = Krypton.Toolkit.PaletteBackStyle.PanelAlternate;
-            this._panelFooter.Size = new System.Drawing.Size(646, 49);
+            this._panelFooter.Size = new System.Drawing.Size(748, 49);
             this._panelFooter.TabIndex = 2;
             // 
             // _linkLabelFooter
@@ -1438,7 +1438,7 @@ namespace Krypton.Toolkit
             // 
             this._footerLabel.AutoSize = false;
             this._footerLabel.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this._footerLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(57)))), ((int)(((byte)(91)))));
+            this._footerLabel.ForeColor = System.Drawing.Color.White;
             this._footerLabel.LabelStyle = Krypton.Toolkit.LabelStyle.AlternateControl;
             this._footerLabel.Location = new System.Drawing.Point(36, 11);
             this._footerLabel.Margin = new System.Windows.Forms.Padding(0);
@@ -1452,7 +1452,7 @@ namespace Krypton.Toolkit
             this._panelFooterBorderTop.Dock = System.Windows.Forms.DockStyle.Top;
             this._panelFooterBorderTop.Location = new System.Drawing.Point(0, 0);
             this._panelFooterBorderTop.Name = "_panelFooterBorderTop";
-            this._panelFooterBorderTop.Size = new System.Drawing.Size(646, 1);
+            this._panelFooterBorderTop.Size = new System.Drawing.Size(748, 1);
             this._panelFooterBorderTop.Text = "kryptonBorderEdge1";
             // 
             // VisualTaskDialog
@@ -1460,7 +1460,7 @@ namespace Krypton.Toolkit
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
-            this.ClientSize = new System.Drawing.Size(663, 164);
+            this.ClientSize = new System.Drawing.Size(765, 164);
             this.Controls.Add(this._panelFooter);
             this.Controls.Add(this._panelButtons);
             this.Controls.Add(this._panelMain);

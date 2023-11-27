@@ -22,6 +22,13 @@ namespace Krypton.Toolkit
         public static DialogResult Show(KryptonAboutBoxData aboutBoxData)
             => ShowCore(aboutBoxData);
 
+        /// <summary>Shows a new <see cref="VisualKryptonAboutBoxForm"/></summary>
+        /// <param name="aboutBoxData">The about box data.</param>
+        /// <param name="aboutToolkitData">The about toolkit data.</param>
+        /// <returns>A new <see cref="VisualKryptonAboutBoxForm"/> with the specified data.</returns>
+        public static DialogResult Show(KryptonAboutBoxData aboutBoxData, KryptonAboutToolkitData aboutToolkitData) =>
+            ShowCore(aboutBoxData, aboutToolkitData);
+
         #endregion
 
         #region Implementation
@@ -29,6 +36,13 @@ namespace Krypton.Toolkit
         private static DialogResult ShowCore(KryptonAboutBoxData aboutBoxData)
         {
             using var kab = new VisualKryptonAboutBoxForm(aboutBoxData);
+
+            return kab.ShowDialog();
+        }
+
+        private static DialogResult ShowCore(KryptonAboutBoxData aboutBoxData, KryptonAboutToolkitData aboutToolkitData)
+        {
+            using var kab = new VisualKryptonAboutBoxForm(aboutBoxData, aboutToolkitData);
 
             return kab.ShowDialog();
         }

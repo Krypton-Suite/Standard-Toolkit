@@ -28,6 +28,8 @@ namespace Krypton.Toolkit
         #region Instance Fields
 
         private readonly bool _showProgressBar;
+        private readonly int _minimumProgressValue;
+        private readonly int _maximumProgressValue;
         private bool _startTimestamped;
         private DateTime _startTimestamp;
         private DateTime _spinTimestamp;
@@ -38,11 +40,9 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Initialize a new instance of the ModalWaitDialog class. 
         /// </summary>
-        public ModalWaitDialog(bool? showProgressBar)
+        public ModalWaitDialog()
         {
             InitializeComponent();
-
-            _showProgressBar = showProgressBar ?? false;
 
             // Remove redraw flicker by using double buffering
             SetStyle(ControlStyles.DoubleBuffer |
@@ -51,6 +51,33 @@ namespace Krypton.Toolkit
             // Hook into dispatch of windows messages
             Application.AddMessageFilter(this);
         }
+
+        /// <summary>Initializes a new instance of the <see cref="ModalWaitDialog" /> class.</summary>
+        /// <param name="showProgressBar">The show progress bar.</param>
+        /// <param name="minimumProgressValue">The minimum progress value.</param>
+        /// <param name="maximumProgressValue">The maximum progress value.</param>
+        public ModalWaitDialog(bool? showProgressBar, int? minimumProgressValue, int? maximumProgressValue)
+        {
+            InitializeComponent();
+
+            _showProgressBar = showProgressBar ?? false;
+
+            _minimumProgressValue = minimumProgressValue ?? 0;
+
+            _maximumProgressValue = maximumProgressValue ?? 100;
+
+            ShowProgressBar(_showProgressBar);
+
+            UpdateProgressBarValueBounds(_minimumProgressValue, _maximumProgressValue);
+
+            // Remove redraw flicker by using double buffering
+            SetStyle(ControlStyles.DoubleBuffer |
+                     ControlStyles.AllPaintingInWmPaint, true);
+
+            // Hook into dispatch of windows messages
+            Application.AddMessageFilter(this);
+        }
+
         #endregion
 
         #region Protected
@@ -159,6 +186,25 @@ namespace Krypton.Toolkit
                 return false;
             }
         }
+
+        /// <summary>Shows the progress bar.</summary>
+        /// <param name="showProgressBar">if set to <c>true</c> [show progress bar].</param>
+        private void ShowProgressBar(bool showProgressBar) => kpbModalProgress.Visible = showProgressBar;
+
+        /// <summary>Updates the progress bar value.</summary>
+        /// <param name="value">The value.</param>
+        public void UpdateProgressBarValue(int value) => kpbModalProgress.Value = value;
+
+        /// <summary>Updates the progress bar value bounds.</summary>
+        /// <param name="minimumValue">The minimum value.</param>
+        /// <param name="maximumValue">The maximum value.</param>
+        private void UpdateProgressBarValueBounds(int? minimumValue, int? maximumValue)
+        {
+            kpbModalProgress.Minimum = minimumValue ?? 0;
+
+            kpbModalProgress.Maximum = maximumValue ?? 100;
+        }
+
         #endregion
     }
 }

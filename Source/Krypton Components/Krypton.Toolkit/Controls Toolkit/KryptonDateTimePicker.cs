@@ -63,7 +63,7 @@ namespace Krypton.Toolkit
         private readonly ViewDrawDateTimeButton _buttonDown;
         private readonly ViewDrawDateTimeText _drawText;
         private readonly ViewLayoutCenter _layoutCheckBox;
-        private readonly ButtonSpecManagerDraw _buttonManager;
+        private readonly ButtonSpecManagerDraw? _buttonManager;
         private VisualPopupToolTip? _visualPopupToolTip;
         private KryptonContextMenuMonthCalendar? _kmc;
         private InputControlStyle _inputControlStyle;
@@ -216,7 +216,7 @@ namespace Krypton.Toolkit
             ButtonSpecs = new DateTimePickerButtonSpecCollection(this);
 
             // Create the palette storage
-            StateCommon = new PaletteInputControlTripleRedirect(Redirector, PaletteBackStyle.InputControlStandalone, PaletteBorderStyle.InputControlStandalone, PaletteContentStyle.InputControlStandalone, NeedPaintDelegate);
+            StateCommon = new PaletteInputControlTripleRedirect(Redirector!, PaletteBackStyle.InputControlStandalone, PaletteBorderStyle.InputControlStandalone, PaletteContentStyle.InputControlStandalone, NeedPaintDelegate);
             StateDisabled = new PaletteInputControlTripleStates(StateCommon, NeedPaintDelegate);
             StateNormal = new PaletteInputControlTripleStates(StateCommon, NeedPaintDelegate);
             StateActive = new PaletteInputControlTripleStates(StateCommon, NeedPaintDelegate);
@@ -257,9 +257,9 @@ namespace Krypton.Toolkit
             _paletteUpDown = new PaletteTripleToPalette(Redirector, PaletteBackStyle.ButtonInputControl, PaletteBorderStyle.ButtonInputControl, PaletteContentStyle.ButtonInputControl);
 
             // Create buttons for drawing the drop down and up/down buttons
-            _buttonDropDown = new ViewDrawDateTimeButton(this, _paletteDropDown, new PaletteMetricRedirect(Redirector), this, ViewDrawDateTimeButton.DrawDateTimeGlyph.DropDownButton, NeedPaintDelegate, false);
-            _buttonUp = new ViewDrawDateTimeButton(this, _paletteUpDown, new PaletteMetricRedirect(Redirector), this, ViewDrawDateTimeButton.DrawDateTimeGlyph.UpButton, NeedPaintDelegate, true);
-            _buttonDown = new ViewDrawDateTimeButton(this, _paletteUpDown, new PaletteMetricRedirect(Redirector), this, ViewDrawDateTimeButton.DrawDateTimeGlyph.DownButton, NeedPaintDelegate, true);
+            _buttonDropDown = new ViewDrawDateTimeButton(this, _paletteDropDown, new PaletteMetricRedirect(Redirector!), this, ViewDrawDateTimeButton.DrawDateTimeGlyph.DropDownButton, NeedPaintDelegate, false);
+            _buttonUp = new ViewDrawDateTimeButton(this, _paletteUpDown, new PaletteMetricRedirect(Redirector!), this, ViewDrawDateTimeButton.DrawDateTimeGlyph.UpButton, NeedPaintDelegate, true);
+            _buttonDown = new ViewDrawDateTimeButton(this, _paletteUpDown, new PaletteMetricRedirect(Redirector!), this, ViewDrawDateTimeButton.DrawDateTimeGlyph.DownButton, NeedPaintDelegate, true);
             _buttonDropDown.Click += OnDropDownClick;
             _buttonUp.Click += OnUpClick;
             _buttonDown.Click += OnDownClick;
@@ -290,12 +290,12 @@ namespace Krypton.Toolkit
             ViewManager = new ViewManager(this, _drawDockerOuter);
 
             // Create button specification collection manager
-            _buttonManager = new ButtonSpecManagerDraw(this, Redirector, ButtonSpecs, null,
+            _buttonManager = new ButtonSpecManagerDraw(this, Redirector!, ButtonSpecs, null,
                                                        new[] { _drawDockerOuter },
                                                        new IPaletteMetric[] { StateCommon },
                                                        new[] { PaletteMetricInt.HeaderButtonEdgeInsetPrimary },
                                                        new[] { PaletteMetricPadding.HeaderButtonPaddingPrimary },
-                                                       CreateToolStripRenderer,
+                                                       CreateToolStripRenderer!,
                                                        NeedPaintDelegate);
 
             // Create the manager for handling tooltips
@@ -323,7 +323,7 @@ namespace Krypton.Toolkit
                 OnCancelToolTip(this, EventArgs.Empty);
 
                 // Remember to pull down the manager instance
-                _buttonManager.Destruct();
+                _buttonManager?.Destruct();
             }
 
             base.Dispose(disposing);
@@ -486,7 +486,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"MonthCalendar")]
         [Description(@"Today's date.")]
-        public DateTime CalendarTodayDate
+        public DateTime? CalendarTodayDate
         {
             get => _todayDate;
 
@@ -497,7 +497,7 @@ namespace Krypton.Toolkit
                     value = DateTime.Now.Date;
                 }
 
-                _todayDate = value;
+                _todayDate = value ?? DateTime.Now.Date;
             }
         }
 
@@ -511,7 +511,7 @@ namespace Krypton.Toolkit
         [Category(@"MonthCalendar")]
         [Description(@"Indicates which annual dates should be boldface.")]
         [Localizable(true)]
-        public DateTime[] CalendarAnnuallyBoldedDates
+        public DateTime[]? CalendarAnnuallyBoldedDates
         {
             get => _annualDates.ToArray();
 
@@ -538,7 +538,7 @@ namespace Krypton.Toolkit
         [Category(@"MonthCalendar")]
         [Description(@"Indicates which monthly dates should be boldface.")]
         [Localizable(true)]
-        public DateTime[] CalendarMonthlyBoldedDates
+        public DateTime[]? CalendarMonthlyBoldedDates
         {
             get => _monthlyDates.ToArray();
 
@@ -565,7 +565,7 @@ namespace Krypton.Toolkit
         [Category(@"MonthCalendar")]
         [Description(@"Indicates which dates should be boldface.")]
         [Localizable(true)]
-        public DateTime[] CalendarBoldedDates
+        public DateTime[]? CalendarBoldedDates
         {
             get => _dates.ToArray();
 
@@ -834,11 +834,11 @@ namespace Krypton.Toolkit
         [DefaultValue(true)]
         public bool UseMnemonic
         {
-            get => _buttonManager.UseMnemonic;
+            get => _buttonManager!.UseMnemonic;
 
             set
             {
-                if (_buttonManager.UseMnemonic != value)
+                if (_buttonManager!.UseMnemonic != value)
                 {
                     _buttonManager.UseMnemonic = value;
                     PerformNeedPaint(true);
@@ -989,7 +989,7 @@ namespace Krypton.Toolkit
         [DefaultValue("")]
         [RefreshProperties(RefreshProperties.Repaint)]
         [Localizable(true)]
-        public string CustomFormat
+        public string? CustomFormat
         {
             get => _customFormat;
 
@@ -1489,9 +1489,9 @@ namespace Krypton.Toolkit
         /// <param name="pt">Mouse location.</param>
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        public Component DesignerComponentFromPoint(Point pt) =>
+        public Component? DesignerComponentFromPoint(Point pt) =>
             // Ignore call as view builder is already destructed
-            IsDisposed ? null : ViewManager.ComponentFromPoint(pt);
+            IsDisposed ? null : ViewManager?.ComponentFromPoint(pt);
 
         // Ask the current view for a decision
         /// <summary>
@@ -1621,7 +1621,7 @@ namespace Krypton.Toolkit
             if (UseMnemonic && CanProcessMnemonic())
             {
                 // Pass request onto the button spec manager
-                if (_buttonManager.ProcessMnemonic(charCode))
+                if (_buttonManager!.ProcessMnemonic(charCode))
                 {
                     return true;
                 }
@@ -1718,7 +1718,7 @@ namespace Krypton.Toolkit
             _drawDockerOuter.Enabled = Enabled;
 
             // Update state to reflect change in enabled state
-            _buttonManager.RefreshButtons();
+            _buttonManager?.RefreshButtons();
 
             // Change in enabled state requires a layout and repaint
             PerformNeedPaint(true);
@@ -1932,7 +1932,7 @@ namespace Krypton.Toolkit
         protected override void OnButtonSpecChanged(object sender, EventArgs e)
         {
             // Recreate all the button specs with new values
-            _buttonManager.RecreateButtons();
+            _buttonManager?.RecreateButtons();
 
             // Let base class perform standard processing
             base.OnButtonSpecChanged(sender, e);
@@ -1986,7 +1986,7 @@ namespace Krypton.Toolkit
         {
             // Get the correct palette settings to use
             IPaletteTriple tripleState = GetTripleState();
-            _drawDockerOuter.SetPalettes(tripleState.PaletteBack, tripleState.PaletteBorder);
+            _drawDockerOuter.SetPalettes(tripleState.PaletteBack, tripleState.PaletteBorder!);
 
             // Update enabled state
             _drawDockerOuter.Enabled = Enabled;
@@ -2044,7 +2044,7 @@ namespace Krypton.Toolkit
                     var shadow = true;
 
                     // Find the button spec associated with the tooltip request
-                    ButtonSpec? buttonSpec = _buttonManager.ButtonSpecFromView(e.Target);
+                    ButtonSpec? buttonSpec = _buttonManager?.ButtonSpecFromView(e.Target);
 
                     // If the tooltip is for a button spec
                     if (buttonSpec != null)
@@ -2053,7 +2053,7 @@ namespace Krypton.Toolkit
                         if (AllowButtonSpecToolTips)
                         {
                             // Create a helper object to provide tooltip values
-                            var buttonSpecMapping = new ButtonSpecToContent(Redirector, buttonSpec);
+                            var buttonSpecMapping = new ButtonSpecToContent(Redirector!, buttonSpec);
 
                             // Is there actually anything to show for the tooltip
                             if (buttonSpecMapping.HasContent)
@@ -2076,7 +2076,7 @@ namespace Krypton.Toolkit
                         }
 
                         // Create the actual tooltip popup object
-                        _visualPopupToolTip = new VisualPopupToolTip(Redirector,
+                        _visualPopupToolTip = new VisualPopupToolTip(Redirector!,
                                                                      sourceContent,
                                                                      Renderer,
                                                                      PaletteBackStyle.ControlToolTip,
@@ -2103,7 +2103,7 @@ namespace Krypton.Toolkit
                 // Just in case the user is inputting characters, end it
                 _drawText.EndInputDigits();
 
-                // Reset the cacheed value indicating if a date is selected in the month calendar
+                // Reset the cached value indicating if a date is selected in the month calendar
                 _dropDownMonthChanged = false;
 
                 // Create a new krypton context menu each time we drop the menu
@@ -2124,7 +2124,7 @@ namespace Krypton.Toolkit
                     ShowTodayCircle = CalendarShowTodayCircle,
                     ShowWeekNumbers = CalendarShowWeekNumbers,
                     CloseOnTodayClick = CalendarCloseOnTodayClick,
-                    TodayDate = CalendarTodayDate,
+                    TodayDate = CalendarTodayDate ?? DateTime.Now.Date,
                     AnnuallyBoldedDates = CalendarAnnuallyBoldedDates,
                     MonthlyBoldedDates = CalendarMonthlyBoldedDates,
                     BoldedDates = CalendarBoldedDates,
@@ -2283,7 +2283,7 @@ namespace Krypton.Toolkit
         {
             // Unhook events from the specific instance that generated event
             var popupToolTip = (VisualPopupToolTip)sender;
-            popupToolTip.Disposed -= OnVisualPopupToolTipDisposed!;
+            popupToolTip.Disposed -= OnVisualPopupToolTipDisposed;
 
             // Not showing a popup page any more
             _visualPopupToolTip = null;
