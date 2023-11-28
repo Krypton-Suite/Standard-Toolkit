@@ -1914,7 +1914,8 @@ namespace Krypton.Toolkit
         GeneralInformation = 0,
         Description = 1,
         FileInformation = 2,
-        Theme = 3
+        Theme = 3,
+        ToolkitInformation = 4
     }
 
     #endregion

@@ -14,6 +14,10 @@ namespace Krypton.Toolkit
     {
         #region Public
 
+        /// <summary>Gets or sets the show toolkit information.</summary>
+        /// <value>The show toolkit information.</value>
+        public bool? ShowToolkitInformation { get; set; }
+
         /// <summary>Gets or sets the current assembly.</summary>
         /// <value>The current assembly.</value>
         public Assembly CurrentAssembly { get; set; }

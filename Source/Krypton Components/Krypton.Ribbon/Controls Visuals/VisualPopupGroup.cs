@@ -49,19 +49,19 @@ namespace Krypton.Ribbon
             _ribbonGroup = ribbonGroup!;
 
             // Create a view element for drawing the group
-            ViewGroup = new ViewDrawRibbonGroup(ribbon, ribbonGroup, NeedPaintDelegate)
+            ViewGroup = new ViewDrawRibbonGroup(ribbon!, ribbonGroup!, NeedPaintDelegate)
             {
                 Collapsed = false
             };
 
             // Create the background that will contain the actual group instance
-            _viewBackground = new ViewDrawRibbonGroupsBorder(ribbon, true, NeedPaintDelegate)
+            _viewBackground = new ViewDrawRibbonGroupsBorder(ribbon!, true, NeedPaintDelegate)
             {
                 ViewGroup
             };
 
             // Attach the root to the view manager instance
-            ViewManager = new ViewRibbonPopupGroupManager(this, ribbon, _viewBackground, ViewGroup, NeedPaintDelegate);
+            ViewManager = new ViewRibbonPopupGroupManager(this, ribbon!, _viewBackground, ViewGroup, NeedPaintDelegate);
 
             // Create and add a hidden button to act as the focus target
             _hiddenFocusTarget = new Button

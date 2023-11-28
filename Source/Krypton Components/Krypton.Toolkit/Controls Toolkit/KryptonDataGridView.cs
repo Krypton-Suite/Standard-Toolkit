@@ -134,7 +134,7 @@ namespace Krypton.Toolkit
         private bool _hideOuterBorders;
         private string _toolTipText;
         private byte _oldLocation;
-        private DataGridViewCell _oldCell;
+        private DataGridViewCell? _oldCell;
         private KryptonContextMenu? _kryptonContextMenu;
 
         //Seb
@@ -213,7 +213,7 @@ namespace Krypton.Toolkit
                 SystemEvents.UserPreferenceChanged -= OnUserPreferenceChanged;
 
                 // Dispose of view manager related resources
-                ViewManager.Dispose();
+                ViewManager?.Dispose();
             }
 
             base.Dispose(disposing);
@@ -847,7 +847,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the ViewManager instance.
         /// </summary>
-        protected ViewManager ViewManager
+        protected ViewManager? ViewManager
         {
             [DebuggerStepThrough]
             get;
@@ -957,7 +957,7 @@ namespace Krypton.Toolkit
         protected virtual void OnPaletteChanged(EventArgs e)
         {
             // Update the redirector with latest palette
-            Redirector.Target = _palette;
+            Redirector!.Target = _palette;
 
             // A new palette source means we need to layout and redraw
             OnNeedPaint(Palette, new NeedLayoutEventArgs(true));
@@ -971,7 +971,7 @@ namespace Krypton.Toolkit
         /// <returns>True if paint required; otherwise false.</returns>
         protected virtual bool EvalTransparentPaint() =>
             // Do we have a manager to use for asking about painting?
-            ViewManager != null && ViewManager.EvalTransparentPaint(Renderer);
+            ViewManager != null && ViewManager.EvalTransparentPaint(Renderer!);
 
         /// <summary>
         /// Work out if this control needs to use Invoke to force a repaint.
@@ -1028,7 +1028,7 @@ namespace Krypton.Toolkit
         protected override void OnCellMouseMove(DataGridViewCellMouseEventArgs e)
         {
             // Cache mouse location before calling base class
-            DataGridViewCell cell = GetCellInternal(e.ColumnIndex, e.RowIndex);
+            DataGridViewCell? cell = GetCellInternal(e.ColumnIndex, e.RowIndex);
 
             var oldLocation = CurrentMouseLocation(cell);
             if ((cell is DataGridViewRowHeaderCell) && (_oldCell == cell))
@@ -1184,7 +1184,7 @@ namespace Krypton.Toolkit
                         _borderForced.MaxBorderEdges = GetCellMaxBorderEdges(e.CellBounds, e.ColumnIndex, e.RowIndex);
 
                         // Get the padding used to decide how to draw the background
-                        Padding borderPadding = Renderer.RenderStandardBorder.GetBorderRawPadding(_borderForced, state, VisualOrientation.Top);
+                        Padding borderPadding = Renderer!.RenderStandardBorder.GetBorderRawPadding(_borderForced, state, VisualOrientation.Top);
 
                         // Get the border path used to limit drawing of the background
                         GraphicsPath borderPath = Renderer.RenderStandardBorder.GetBackPath(renderContext, tempCellBounds, _borderForced, VisualOrientation.Top, state);
@@ -1437,20 +1437,21 @@ namespace Krypton.Toolkit
                             else
                             {
                                 // Update the content interceptor class
-                                _contentInherit.SetInherit(paletteContent, e.CellStyle);
+                                _contentInherit.SetInherit(paletteContent!, e.CellStyle);
 
                                 // Is there any text to be Displayed?
                                 if (e.FormattedValue != null)
                                 {
                                     // Use the display value of the header cell
-                                    _shortTextValue.ShortText = e.FormattedValue.ToString();
+                                    _shortTextValue.ShortText = e!.FormattedValue.ToString();
 
                                     using var layoutContext = new ViewLayoutContext(this, Renderer);
                                     // If a column header cell...
                                     if ((e.RowIndex == -1) && (e.ColumnIndex != -1))
                                     {
                                         // Find size needed to show header text fully
-                                        Size prefSize = Renderer.RenderStandardContent.GetContentPreferredSize(layoutContext, _contentInherit, _shortTextValue,
+                                        Size prefSize = Renderer.RenderStandardContent.GetContentPreferredSize(
+                                            layoutContext, _contentInherit, _shortTextValue,
                                             VisualOrientation.Top, state, false, false);
 
                                         var contentsFit = (prefSize.Width <= tempCellBounds.Width) &&
@@ -1468,7 +1469,8 @@ namespace Krypton.Toolkit
                                     }
 
                                     // Find the correct layout for the header content
-                                    using IDisposable memento = Renderer.RenderStandardContent.LayoutContent(layoutContext, tempCellBounds,
+                                    using IDisposable memento = Renderer.RenderStandardContent.LayoutContent(
+                                        layoutContext, tempCellBounds,
                                         _contentInherit, _shortTextValue,
                                         VisualOrientation.Top, state, false, false);
                                     // Perform actual drawing of the content
@@ -1479,7 +1481,7 @@ namespace Krypton.Toolkit
                                 }
 
                                 // Blit the image onto the screen
-                                e.Graphics.DrawImage(tempBitmap, e.CellBounds.Location);
+                                e?.Graphics.DrawImage(tempBitmap, e.CellBounds.Location);
                             }
                         }
                         else
@@ -1491,7 +1493,7 @@ namespace Krypton.Toolkit
                 }
             }
 
-            if ((e.PaintParts & DataGridViewPaintParts.Focus) == DataGridViewPaintParts.Focus)
+            if (e != null && (e.PaintParts & DataGridViewPaintParts.Focus) == DataGridViewPaintParts.Focus)
             {
                 // Only consider drawing the focus rectangle if the control has focus wants to show the cues
                 if (ShowFocusCues && Focused)
@@ -1513,14 +1515,14 @@ namespace Krypton.Toolkit
                                 focusCellBounds.X++;
                             }
 
-                            ControlPaint.DrawFocusRectangle(e.Graphics, focusCellBounds, Color.Empty, paletteContent.GetContentShortTextColor1(state));
+                            ControlPaint.DrawFocusRectangle(e.Graphics, focusCellBounds, Color.Empty, paletteContent!.GetContentShortTextColor1(state));
                         }
                     }
                 }
             }
 
             // Prevent base class from doing the standard drawing
-            e.Handled = true;
+            e!.Handled = true;
 
             base.OnCellPainting(e);
         }
@@ -1629,8 +1631,8 @@ namespace Krypton.Toolkit
                 {
                     // Cache access to the internal get property 'RightToLeftInternal'
                     _piRTL = typeof(DataGridView).GetProperty(nameof(RightToLeftInternal), BindingFlags.Instance |
-                                                                                     BindingFlags.NonPublic |
-                                                                                     BindingFlags.GetField);
+                        BindingFlags.NonPublic |
+                        BindingFlags.GetField)!;
 
                 }
 
@@ -1672,7 +1674,7 @@ namespace Krypton.Toolkit
         private void SetupViewAndStates()
         {
             // Create the state storage objects
-            StateCommon = new PaletteDataGridViewRedirect(Redirector, NeedPaintDelegate);
+            StateCommon = new PaletteDataGridViewRedirect(Redirector!, NeedPaintDelegate);
             StateDisabled = new PaletteDataGridViewAll(StateCommon, NeedPaintDelegate);
             StateNormal = new PaletteDataGridViewAll(StateCommon, NeedPaintDelegate);
             StateTracking = new PaletteDataGridViewHeaders(StateCommon, NeedPaintDelegate);
@@ -2095,7 +2097,7 @@ namespace Krypton.Toolkit
         }
 
         private byte UpdateLocationForRowErrors(DataGridViewCellMouseEventArgs e,
-                                                DataGridViewCell cell,
+                                                DataGridViewCell? cell,
                                                 byte location)
         {
             // If over the main area of a row header cell...
@@ -2230,7 +2232,7 @@ namespace Krypton.Toolkit
                         _layoutDirty = false;
 
                         // Ask the view to perform a layout
-                        ViewManager.Layout(Renderer);
+                        ViewManager.Layout(Renderer!);
 
                     } while (_layoutDirty && (max-- > 0));
 
@@ -2240,7 +2242,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void CellDataAreaMouseEnterInternal(DataGridViewCell cell)
+        private void CellDataAreaMouseEnterInternal(DataGridViewCell? cell)
         {
             Point currentCellAddress = CurrentCellAddress;
 
@@ -2248,11 +2250,11 @@ namespace Krypton.Toolkit
             {
                 // Are we allowed to show a tooltip?
                 if (ShowCellToolTips &&
-                    ((currentCellAddress.X == -1) || (currentCellAddress.X != cell.ColumnIndex) ||
+                    ((currentCellAddress.X == -1) || (currentCellAddress.X != cell!.ColumnIndex) ||
                     (currentCellAddress.Y != cell.RowIndex) || (EditingControl == null)))
                 {
                     // Grab the correct tooltip text for the cell
-                    _toolTipText = GetToolTipText(cell, cell.RowIndex);
+                    _toolTipText = GetToolTipText(cell, cell!.RowIndex);
 
                     // No explicit text provided?
                     if (string.IsNullOrEmpty(_toolTipText))
@@ -2269,11 +2271,11 @@ namespace Krypton.Toolkit
                                     var editedValue = cell.GetEditedFormattedValue(cell.RowIndex, DataGridViewDataErrorContexts.Display) as string;
                                     if (!string.IsNullOrEmpty(editedValue))
                                     {
-                                        _toolTipText = TruncateToolTipText(editedValue);
+                                        _toolTipText = TruncateToolTipText(editedValue!);
                                     }
                                 }
                             }
-                            else if ((cell.RowIndex == -1) && (cell.ColumnIndex != -1) && _columnCache.ContainsKey(cell.ColumnIndex))
+                            else if ((cell.RowIndex == -1) && (cell.ColumnIndex != -1) && _columnCache.ContainsKey(cell.ColumnIndex)!)
                             {
                                 // If for a column cell and the contents do not fit...
                                 if (!_columnCache[cell.ColumnIndex])
@@ -2283,7 +2285,7 @@ namespace Krypton.Toolkit
                                         var editedValue = cell.GetEditedFormattedValue(cell.RowIndex, DataGridViewDataErrorContexts.Display) as string;
                                         if (!string.IsNullOrEmpty(editedValue))
                                         {
-                                            _toolTipText = TruncateToolTipText(editedValue);
+                                            _toolTipText = TruncateToolTipText(editedValue!);
                                         }
                                     }
                                     catch
@@ -2309,10 +2311,10 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void CellErrorAreaMouseEnterInternal(DataGridViewCell cell)
+        private void CellErrorAreaMouseEnterInternal(DataGridViewCell? cell)
         {
             // Grab the correct error text for the cell
-            _toolTipText = GetErrorText(cell, cell.RowIndex);
+            _toolTipText = GetErrorText(cell, cell!.RowIndex);
 
             // Restart the timer for showing the error tooltip
             if (_showTimer != null)
@@ -2360,7 +2362,7 @@ namespace Krypton.Toolkit
                     _visualPopupToolTip?.Dispose();
 
                     // Create the actual tooltip popup object
-                    _visualPopupToolTip = new VisualPopupToolTip(Redirector,
+                    _visualPopupToolTip = new VisualPopupToolTip(Redirector!,
                                                                  new ToolTipContent(_toolTipText),
                                                                  Renderer,
                                                                  PaletteBackStyle.ControlToolTip,
@@ -2376,7 +2378,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private DataGridViewCell GetCellInternal(int column, int row)
+        private DataGridViewCell? GetCellInternal(int column, int row)
         {
             // Only need to cache reflection info the first time around
             if (_miGCI == null)
@@ -2384,13 +2386,13 @@ namespace Krypton.Toolkit
                 // Cache access to the internal method 'GetCellInternal'
                 _miGCI = typeof(DataGridView).GetMethod(nameof(GetCellInternal), BindingFlags.Instance |
                                                                            BindingFlags.NonPublic |
-                                                                           BindingFlags.GetField);
+                                                                           BindingFlags.GetField)!;
             }
 
-            return (DataGridViewCell)_miGCI.Invoke(this, new object[] { column, row });
+            return _miGCI.Invoke(this, new object[] { column, row }) as DataGridViewCell;
         }
 
-        private string GetToolTipText(DataGridViewCell cell, int row)
+        private string GetToolTipText(DataGridViewCell? cell, int row)
         {
             // Only need to cache reflection info the first time around
             if (_miGTTT == null)
@@ -2398,7 +2400,7 @@ namespace Krypton.Toolkit
                 // Cache access to the internal get property 'GetToolTipText'
                 _miGTTT = typeof(DataGridViewCell).GetMethod(nameof(GetToolTipText), BindingFlags.Instance |
                                                                                BindingFlags.NonPublic |
-                                                                               BindingFlags.GetField);
+                                                                               BindingFlags.GetField)!;
             }
 
             try
@@ -2411,7 +2413,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private string GetErrorText(DataGridViewCell cell, int row)
+        private string GetErrorText(DataGridViewCell? cell, int row)
         {
             // Only need to cache reflection info the first time around
             if (_miGET == null)
@@ -2419,7 +2421,7 @@ namespace Krypton.Toolkit
                 // Cache access to the internal get property 'GetErrorText'
                 _miGET = typeof(DataGridViewCell).GetMethod(nameof(GetErrorText), BindingFlags.Instance |
                                                                             BindingFlags.NonPublic |
-                                                                            BindingFlags.GetField);
+                                                                            BindingFlags.GetField)!;
             }
 
             try
@@ -2432,7 +2434,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private byte CurrentMouseLocation(DataGridViewCell cell)
+        private byte CurrentMouseLocation(DataGridViewCell? cell)
         {
             // Only need to cache reflection info the first time around
             if (_piCML == null)
@@ -2440,14 +2442,14 @@ namespace Krypton.Toolkit
                 // Cache access to the internal get property 'CurrentMouseLocation'
                 _piCML = typeof(DataGridViewCell).GetProperty(nameof(CurrentMouseLocation), BindingFlags.Instance |
                                                                                       BindingFlags.NonPublic |
-                                                                                      BindingFlags.GetField);
+                                                                                      BindingFlags.GetField)!;
             }
 
             // Grab the internal calculated value of the right to left setting
             return (byte)_piCML.GetValue(cell, null);
         }
 
-        private int GetCellPreferredWidth(DataGridViewCell cell)
+        private int GetCellPreferredWidth(DataGridViewCell? cell)
         {
             // Only need to cache reflection info the first time around
             if (_miGPW == null)
@@ -2455,13 +2457,13 @@ namespace Krypton.Toolkit
                 // Cache access to the internal method 'GetPreferredWidth' of cells
                 _miGPW = typeof(DataGridViewCell).GetMethod(@"GetPreferredWidth", BindingFlags.Instance |
                                                                                  BindingFlags.NonPublic |
-                                                                                 BindingFlags.GetField);
+                                                                                 BindingFlags.GetField)!;
             }
 
-            return (int)_miGPW.Invoke(cell, new object[] { cell.RowIndex, cell.OwningRow.Height });
+            return (int)_miGPW.Invoke(cell, new object[] { cell!.RowIndex, cell.OwningRow.Height });
         }
 
-        private int GetCellPreferredHeight(DataGridViewCell cell)
+        private int GetCellPreferredHeight(DataGridViewCell? cell)
         {
             // Only need to cache reflection info the first time around
             if (_miGPH == null)
@@ -2469,10 +2471,10 @@ namespace Krypton.Toolkit
                 // Cache access to the internal method 'GetPreferredHeight' of cells
                 _miGPH = typeof(DataGridViewCell).GetMethod(@"GetPreferredHeight", BindingFlags.Instance |
                                                                                   BindingFlags.NonPublic |
-                                                                                  BindingFlags.GetField);
+                                                                                  BindingFlags.GetField)!;
             }
 
-            return (int)_miGPH.Invoke(cell, new object[] { cell.RowIndex, cell.OwningColumn.Width });
+            return (int)_miGPH.Invoke(cell, new object[] { cell!.RowIndex, cell.OwningColumn.Width });
         }
 
         private string DismissBaseToolTips()
@@ -2483,7 +2485,7 @@ namespace Krypton.Toolkit
                 // Cache access to the internal get property 'ActivateToolTip'
                 _miATT = typeof(DataGridView).GetMethod(@"ActivateToolTip", BindingFlags.Instance |
                                                                            BindingFlags.NonPublic |
-                                                                           BindingFlags.GetField);
+                                                                           BindingFlags.GetField)!;
             }
 
             return _miATT.Invoke(this, new object[] { false, string.Empty, -1, -1 }) as string ?? string.Empty;
@@ -2515,7 +2517,7 @@ namespace Krypton.Toolkit
                 _palette = palette;
 
                 // Get the renderer associated with the palette
-                Renderer = _palette.GetRenderer();
+                Renderer = _palette?.GetRenderer();
 
                 // Hook to new palette events
                 if (_palette != null)
@@ -2546,10 +2548,10 @@ namespace Krypton.Toolkit
                                                        BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.InvokeMethod,
                                                        null, CallingConventions.HasThis,
                                                        new[] { typeof(PaintEventArgs), typeof(Rectangle), typeof(Region) },
-                                                       null);
+                                                       null)!;
                 }
 
-                _miPTB.Invoke(this, new object[] { new PaintEventArgs(g, clipRect), ClientRectangle, null });
+                _miPTB.Invoke(this, new object[] { new PaintEventArgs(g, clipRect), ClientRectangle, null! });
             }
         }
 
@@ -2586,7 +2588,7 @@ namespace Krypton.Toolkit
                 // Update ourself with the new global palette
                 _localPalette = null;
                 SetPalette(KryptonManager.CurrentGlobalPalette);
-                Redirector.Target = _palette;
+                Redirector!.Target = _palette;
                 SyncCellStylesWithPalette();
 
                 // A new palette source means we need to layout and redraw
@@ -2594,7 +2596,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnUserPreferenceChanged(object sender, UserPreferenceChangedEventArgs e) => OnNeedResyncPaint(Palette, new NeedLayoutEventArgs(true));
+        private void OnUserPreferenceChanged(object sender, UserPreferenceChangedEventArgs e) => OnNeedResyncPaint(Palette!, new NeedLayoutEventArgs(true));
 
         private void OnSyncPropertyChanged(object sender, EventArgs e) =>
             // Ensure the current cell style values are in sync with the new palette 
@@ -2620,7 +2622,10 @@ namespace Krypton.Toolkit
             ContextMenuStrip? cms = base.ContextMenuStrip;
 
             // Make sure it has the correct renderer
-            cms.Renderer = CreateToolStripRenderer();
+            if (cms != null)
+            {
+                cms.Renderer = CreateToolStripRenderer();
+            }
         }
 
         /// <summary>

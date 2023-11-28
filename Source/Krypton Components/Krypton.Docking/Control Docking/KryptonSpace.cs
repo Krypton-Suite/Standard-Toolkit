@@ -505,7 +505,7 @@ namespace Krypton.Docking
                         KryptonContextMenu = new KryptonContextMenu()
                     };
                     cellState.DropDownButtonSpec.KryptonContextMenu.Opening += OnCellDropDownOpening;
-                    cell.Button.ButtonSpecs.Add(cellState.DropDownButtonSpec);
+                    cell.Button.ButtonSpecs?.Add(cellState.DropDownButtonSpec);
                 }
 
                 cellState.DropDownButtonSpec.Visible = cell.SelectedPage != null &&
@@ -524,7 +524,7 @@ namespace Krypton.Docking
                         ToolTipTitle = PinTooltip
                     };
                     cellState.PinButtonSpec.Click += OnCellAutoHiddenAction;
-                    cell.Button.ButtonSpecs.Add(cellState.PinButtonSpec);
+                    cell.Button.ButtonSpecs?.Add(cellState.PinButtonSpec);
                 }
 
                 if (cell.SelectedPage == null)
@@ -550,7 +550,7 @@ namespace Krypton.Docking
                         ToolTipTitle = CloseTooltip
                     };
                     cellState.CloseButtonSpec.Click += OnCellCloseAction;
-                    cell.Button.ButtonSpecs.Add(cellState.CloseButtonSpec);
+                    cell.Button.ButtonSpecs?.Add(cellState.CloseButtonSpec);
                 }
 
                 cellState.CloseButtonSpec.Visible = cell.SelectedPage != null &&
@@ -560,19 +560,19 @@ namespace Krypton.Docking
         #endregion
 
         #region Implementation
-        private void FocusMonitorControl(Control c, bool adding)
+        private void FocusMonitorControl(Control? c, bool adding)
         {
             // Hook/Unhook this control
             if (adding)
             {
-                c.GotFocus += OnFocusChanged;
+                c!.GotFocus += OnFocusChanged;
                 c.LostFocus += OnFocusChanged;
                 c.ControlAdded += OnFocusControlAdded;
                 c.ControlRemoved += OnFocusControlRemoved;
             }
             else
             {
-                c.GotFocus -= OnFocusChanged;
+                c!.GotFocus -= OnFocusChanged;
                 c.LostFocus -= OnFocusChanged;
                 c.ControlAdded -= OnFocusControlAdded;
                 c.ControlRemoved -= OnFocusControlRemoved;

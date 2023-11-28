@@ -63,7 +63,7 @@ namespace Krypton.Navigator
                                                                      new[] { PaletteMetricInt.BarButtonEdgeInside },
                                                                      new[] { PaletteMetricInt.BarButtonEdgeOutside },
                                                                      new[] { PaletteMetricPadding.BarButtonPadding },
-                                                                     Navigator.CreateToolStripRenderer,
+                                                                     Navigator.CreateToolStripRenderer!,
                                                                      NeedPaintDelegate,
                                                                      GetRemappingPaletteContent(),
                                                                      GetRemappingPaletteState())
