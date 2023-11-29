@@ -23,7 +23,7 @@ namespace Krypton.Toolkit
     public class KryptonTaskDialog : Component, INotifyPropertyChanged
     {
         #region Instance Fields
-        private VisualTaskDialog? _taskDialog;
+        private VisualTaskDialogForm? _taskDialog;
         private string _windowTitle;
         private string _mainInstruction;
         private string _content;
@@ -499,7 +499,7 @@ namespace Krypton.Toolkit
             _taskDialog?.Dispose();
 
             // Create visual form to show our defined task properties
-            _taskDialog = new VisualTaskDialog(this)
+            _taskDialog = new VisualTaskDialogForm(this)
             {
                 StartPosition = owner == null ? FormStartPosition.CenterScreen : FormStartPosition.CenterParent
             };

@@ -1,6 +1,6 @@
 ﻿namespace Krypton.Toolkit
 {
-    partial class VisualKryptonThemeBrowserForm
+    partial class VisualThemeBrowserForm
     {
         /// <summary>
         /// Required designer variable.

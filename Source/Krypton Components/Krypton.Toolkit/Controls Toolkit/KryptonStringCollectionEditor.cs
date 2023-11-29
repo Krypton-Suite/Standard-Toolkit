@@ -77,7 +77,7 @@ namespace Krypton.Toolkit
         /// <param name="windowTitle">The window title.</param>
         /// <returns>A collection of string items.</returns>
         private static string[] InternalShow(IWin32Window owner, string[] input, bool? useRichTextBox, string? headerText, string windowTitle)
-            => VisualKryptonMultilineStringEditorForm.InternalShow(owner, input, useRichTextBox, headerText, windowTitle);
+            => VisualMultilineStringEditorForm.InternalShow(owner, input, useRichTextBox, headerText, windowTitle);
 
         /// <summary>Shows the string collection editor.</summary>
         /// <param name="owner">The owner.</param>
@@ -87,7 +87,7 @@ namespace Krypton.Toolkit
         /// <param name="windowTitle">The window title.</param>
         /// <returns>A collection of string items.</returns>
         private static StringCollection InternalShowStringCollection(IWin32Window owner, StringCollection input, bool useRichTextBox, string? headerText, string windowTitle)
-            => VisualKryptonMultilineStringEditorForm.InternalShowStringCollection(owner, input, useRichTextBox, headerText, windowTitle);
+            => VisualMultilineStringEditorForm.InternalShowStringCollection(owner, input, useRichTextBox, headerText, windowTitle);
 
         #endregion
     }

@@ -8,7 +8,7 @@
 
 namespace Krypton.Toolkit
 {
-    internal partial class VisualKryptonMultilineStringEditorForm : KryptonForm
+    internal partial class VisualMultilineStringEditorForm : KryptonForm
     {
         #region Instance Fields
 
@@ -26,7 +26,7 @@ namespace Krypton.Toolkit
 
         #region Identity
 
-        public VisualKryptonMultilineStringEditorForm()
+        public VisualMultilineStringEditorForm()
         {
             InitializeComponent();
 
@@ -35,7 +35,7 @@ namespace Krypton.Toolkit
             SetupControlsText();
         }
 
-        public VisualKryptonMultilineStringEditorForm(string[]? contents, StringCollection? collection, bool? useRichTextBox, string? headerText, string? windowTitle)
+        public VisualMultilineStringEditorForm(string[]? contents, StringCollection? collection, bool? useRichTextBox, string? headerText, string? windowTitle)
         {
             InitializeComponent();
 
@@ -213,7 +213,7 @@ namespace Krypton.Toolkit
 
             IWin32Window? showOwner = owner ?? FromHandle(PI.GetActiveWindow());
 
-            using var kmse = new VisualKryptonMultilineStringEditorForm(input, null, useRichTextBox, headerText, windowTitle);
+            using var kmse = new VisualMultilineStringEditorForm(input, null, useRichTextBox, headerText, windowTitle);
 
             kmse.StartPosition = showOwner == null ? FormStartPosition.CenterParent : FormStartPosition.CenterScreen;
 
@@ -228,7 +228,7 @@ namespace Krypton.Toolkit
 
             IWin32Window showOwner = owner ?? FromHandle(PI.GetActiveWindow());
 
-            using var kmse = new VisualKryptonMultilineStringEditorForm(null, input, useRichTextBox, headerText, windowTitle);
+            using var kmse = new VisualMultilineStringEditorForm(null, input, useRichTextBox, headerText, windowTitle);
 
             kmse.StartPosition = showOwner == null ? FormStartPosition.CenterParent : FormStartPosition.CenterScreen;
 

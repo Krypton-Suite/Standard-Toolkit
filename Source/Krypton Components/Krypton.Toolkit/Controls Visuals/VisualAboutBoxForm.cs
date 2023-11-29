@@ -9,7 +9,7 @@
 
 namespace Krypton.Toolkit
 {
-    internal partial class VisualKryptonAboutBoxForm : KryptonForm
+    internal partial class VisualAboutBoxForm : KryptonForm
     {
         #region Instance Fields
 
@@ -23,7 +23,7 @@ namespace Krypton.Toolkit
 
         #region Identity
 
-        public VisualKryptonAboutBoxForm(KryptonAboutBoxData aboutBoxData)
+        public VisualAboutBoxForm(KryptonAboutBoxData aboutBoxData)
         {
             InitializeComponent();
 
@@ -36,7 +36,7 @@ namespace Krypton.Toolkit
             kbtnSystemInformation.Text = KryptonManager.Strings.CustomStrings.SystemInformation;
         }
 
-        public VisualKryptonAboutBoxForm(KryptonAboutBoxData aboutBoxData, KryptonAboutToolkitData aboutToolkitData)
+        public VisualAboutBoxForm(KryptonAboutBoxData aboutBoxData, KryptonAboutToolkitData aboutToolkitData)
         {
             InitializeComponent();
 
@@ -85,7 +85,8 @@ namespace Krypton.Toolkit
 
             UpdateCopyrightLabel($"{KryptonManager.Strings.AboutBoxStrings.Copyright}: {KryptonAboutBoxUtilities.GetFileVersionInfo(Assembly.GetExecutingAssembly().Location).LegalCopyright}");
 
-            UpdateDescription(KryptonAboutBoxUtilities.GetFileVersionInfo(Assembly.GetEntryAssembly()!.Location).FileDescription);
+            UpdateDescription(KryptonAboutBoxUtilities.GetFileVersionInfo(Assembly.GetEntryAssembly()!.Location)
+                .FileDescription);
 
             kryptonWrapLabel5.Text = null;
         }
@@ -501,12 +502,12 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void SwitchPages(AboutToolkitPage page)
+        private void SwitchToolkitInformationPage(AboutToolkitPage page)
         {
             switch (page)
             {
                 case AboutToolkitPage.GeneralInformation:
-                    kpnlGeneralInformation.Visible = true;
+                    kpnlToolkitGeneralInformation.Visible = true;
 
                     kpnlDiscord.Visible = false;
 
@@ -514,7 +515,7 @@ namespace Krypton.Toolkit
 
                     kpnlVersions.Visible = false;
 
-                    tsbtnGeneralInformation.Checked = true;
+                    tsbtnToolkitGeneralInformation.Checked = true;
 
                     tsbtnDiscord.Checked = false;
 
@@ -523,7 +524,7 @@ namespace Krypton.Toolkit
                     tsbtnVersions.Checked = false;
                     break;
                 case AboutToolkitPage.Discord:
-                    kpnlGeneralInformation.Visible = false;
+                    kpnlToolkitGeneralInformation.Visible = false;
 
                     kpnlDiscord.Visible = true;
 
@@ -531,7 +532,7 @@ namespace Krypton.Toolkit
 
                     kpnlVersions.Visible = false;
 
-                    tsbtnGeneralInformation.Checked = false;
+                    tsbtnToolkitGeneralInformation.Checked = false;
 
                     tsbtnDiscord.Checked = true;
 
@@ -540,7 +541,7 @@ namespace Krypton.Toolkit
                     tsbtnVersions.Checked = false;
                     break;
                 case AboutToolkitPage.DeveloperInformation:
-                    kpnlGeneralInformation.Visible = false;
+                    kpnlToolkitGeneralInformation.Visible = false;
 
                     kpnlDiscord.Visible = false;
 
@@ -548,7 +549,7 @@ namespace Krypton.Toolkit
 
                     kpnlVersions.Visible = false;
 
-                    tsbtnGeneralInformation.Checked = false;
+                    tsbtnToolkitGeneralInformation.Checked = false;
 
                     tsbtnDiscord.Checked = false;
 
@@ -557,7 +558,7 @@ namespace Krypton.Toolkit
                     tsbtnVersions.Checked = false;
                     break;
                 case AboutToolkitPage.Versions:
-                    kpnlGeneralInformation.Visible = false;
+                    kpnlToolkitGeneralInformation.Visible = false;
 
                     kpnlDiscord.Visible = false;
 
@@ -565,7 +566,7 @@ namespace Krypton.Toolkit
 
                     kpnlVersions.Visible = true;
 
-                    tsbtnGeneralInformation.Checked = false;
+                    tsbtnToolkitGeneralInformation.Checked = false;
 
                     tsbtnDiscord.Checked = false;
 
@@ -591,7 +592,7 @@ namespace Krypton.Toolkit
             {
                 //FileVersionInfo fileInfo = FileVersionInfo.GetVersionInfo(file);
 
-                // Fill datagrid view
+                // Fill data grid view
                 kdgvVersions.Rows.Add(assembly.Name, assembly.Version.ToString());
             }
         }
@@ -600,13 +601,13 @@ namespace Krypton.Toolkit
 
         private void tsbtnToolkitInformation_Click(object sender, EventArgs e) => SwitchAboutBoxPage(AboutBoxPage.ToolkitInformation);
 
-        private void tsbtnToolkitGeneralInformation_Click(object sender, EventArgs e) => SwitchPages(AboutToolkitPage.GeneralInformation);
+        private void tsbtnToolkitGeneralInformation_Click(object sender, EventArgs e) => SwitchToolkitInformationPage(AboutToolkitPage.GeneralInformation);
 
-        private void tsbtnDiscord_Click(object sender, EventArgs e) => SwitchPages(AboutToolkitPage.Discord);
+        private void tsbtnDiscord_Click(object sender, EventArgs e) => SwitchToolkitInformationPage(AboutToolkitPage.Discord);
 
-        private void tsbtnDeveloperInformation_Click(object sender, EventArgs e) => SwitchPages(AboutToolkitPage.DeveloperInformation);
+        private void tsbtnDeveloperInformation_Click(object sender, EventArgs e) => SwitchToolkitInformationPage(AboutToolkitPage.DeveloperInformation);
 
-        private void tsbtnVersions_Click(object sender, EventArgs e) => SwitchPages(AboutToolkitPage.Versions);
+        private void tsbtnVersions_Click(object sender, EventArgs e) => SwitchToolkitInformationPage(AboutToolkitPage.Versions);
 
         private void klwlblGeneralInformation_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) => GlobalToolkitUtilities.LaunchProcess(@"https://github.com/Krypton-Suite/Standard-Toolkit");
 

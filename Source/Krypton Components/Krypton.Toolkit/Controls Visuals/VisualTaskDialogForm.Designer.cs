@@ -41,12 +41,12 @@
             this._panelButtons = new Krypton.Toolkit.KryptonPanel();
             this._checkBox = new Krypton.Toolkit.KryptonCheckBox();
             this._panelButtonsBorderTop = new Krypton.Toolkit.KryptonBorderEdge();
-            this._buttonOK = new Krypton.Toolkit.VisualTaskDialog.MessageButton();
-            this._buttonYes = new Krypton.Toolkit.VisualTaskDialog.MessageButton();
-            this._buttonNo = new Krypton.Toolkit.VisualTaskDialog.MessageButton();
-            this._buttonRetry = new Krypton.Toolkit.VisualTaskDialog.MessageButton();
-            this._buttonCancel = new Krypton.Toolkit.VisualTaskDialog.MessageButton();
-            this._buttonClose = new Krypton.Toolkit.VisualTaskDialog.MessageButton();
+            this._buttonOK = new Krypton.Toolkit.TaskDialogMessageButton();
+            this._buttonYes = new Krypton.Toolkit.TaskDialogMessageButton();
+            this._buttonNo = new Krypton.Toolkit.TaskDialogMessageButton();
+            this._buttonRetry = new Krypton.Toolkit.TaskDialogMessageButton();
+            this._buttonCancel = new Krypton.Toolkit.TaskDialogMessageButton();
+            this._buttonClose = new Krypton.Toolkit.TaskDialogMessageButton();
             this._panelFooter = new Krypton.Toolkit.KryptonPanel();
             this._linkLabelFooter = new Krypton.Toolkit.KryptonLinkLabel();
             this._iconFooter = new System.Windows.Forms.PictureBox();
@@ -81,7 +81,7 @@
             this._panelMain.Dock = System.Windows.Forms.DockStyle.Top;
             this._panelMain.Location = new System.Drawing.Point(0, 0);
             this._panelMain.Name = "_panelMain";
-            this._panelMain.Size = new System.Drawing.Size(680, 72);
+            this._panelMain.Size = new System.Drawing.Size(782, 72);
             this._panelMain.TabIndex = 1;
             // 
             // _panelMainSpacer
@@ -193,7 +193,7 @@
             this._panelButtons.Margin = new System.Windows.Forms.Padding(0);
             this._panelButtons.Name = "_panelButtons";
             this._panelButtons.PanelBackStyle = Krypton.Toolkit.PaletteBackStyle.PanelAlternate;
-            this._panelButtons.Size = new System.Drawing.Size(680, 46);
+            this._panelButtons.Size = new System.Drawing.Size(782, 46);
             this._panelButtons.TabIndex = 2;
             // 
             // _checkBox
@@ -210,7 +210,7 @@
             this._panelButtonsBorderTop.Dock = System.Windows.Forms.DockStyle.Top;
             this._panelButtonsBorderTop.Location = new System.Drawing.Point(0, 0);
             this._panelButtonsBorderTop.Name = "_panelButtonsBorderTop";
-            this._panelButtonsBorderTop.Size = new System.Drawing.Size(680, 1);
+            this._panelButtonsBorderTop.Size = new System.Drawing.Size(782, 1);
             this._panelButtonsBorderTop.Text = "kryptonBorderEdge1";
             // 
             // _buttonOK
@@ -219,7 +219,7 @@
             this._buttonOK.AutoSize = true;
             this._buttonOK.DialogResult = System.Windows.Forms.DialogResult.OK;
             this._buttonOK.IgnoreAltF4 = false;
-            this._buttonOK.Location = new System.Drawing.Point(571, 9);
+            this._buttonOK.Location = new System.Drawing.Point(673, 9);
             this._buttonOK.Margin = new System.Windows.Forms.Padding(0);
             this._buttonOK.MinimumSize = new System.Drawing.Size(50, 26);
             this._buttonOK.Name = "_buttonOK";
@@ -233,7 +233,7 @@
             this._buttonYes.AutoSize = true;
             this._buttonYes.DialogResult = System.Windows.Forms.DialogResult.Yes;
             this._buttonYes.IgnoreAltF4 = false;
-            this._buttonYes.Location = new System.Drawing.Point(471, 9);
+            this._buttonYes.Location = new System.Drawing.Point(573, 9);
             this._buttonYes.Margin = new System.Windows.Forms.Padding(0);
             this._buttonYes.MinimumSize = new System.Drawing.Size(50, 26);
             this._buttonYes.Name = "_buttonYes";
@@ -247,7 +247,7 @@
             this._buttonNo.AutoSize = true;
             this._buttonNo.DialogResult = System.Windows.Forms.DialogResult.No;
             this._buttonNo.IgnoreAltF4 = false;
-            this._buttonNo.Location = new System.Drawing.Point(421, 9);
+            this._buttonNo.Location = new System.Drawing.Point(523, 9);
             this._buttonNo.Margin = new System.Windows.Forms.Padding(0);
             this._buttonNo.MinimumSize = new System.Drawing.Size(50, 26);
             this._buttonNo.Name = "_buttonNo";
@@ -261,7 +261,7 @@
             this._buttonRetry.AutoSize = true;
             this._buttonRetry.DialogResult = System.Windows.Forms.DialogResult.Retry;
             this._buttonRetry.IgnoreAltF4 = false;
-            this._buttonRetry.Location = new System.Drawing.Point(521, 9);
+            this._buttonRetry.Location = new System.Drawing.Point(623, 9);
             this._buttonRetry.Margin = new System.Windows.Forms.Padding(0);
             this._buttonRetry.MinimumSize = new System.Drawing.Size(50, 26);
             this._buttonRetry.Name = "_buttonRetry";
@@ -275,7 +275,7 @@
             this._buttonCancel.AutoSize = true;
             this._buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this._buttonCancel.IgnoreAltF4 = false;
-            this._buttonCancel.Location = new System.Drawing.Point(364, 9);
+            this._buttonCancel.Location = new System.Drawing.Point(466, 9);
             this._buttonCancel.Margin = new System.Windows.Forms.Padding(0);
             this._buttonCancel.MinimumSize = new System.Drawing.Size(50, 26);
             this._buttonCancel.Name = "_buttonCancel";
@@ -288,7 +288,7 @@
             this._buttonClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this._buttonClose.AutoSize = true;
             this._buttonClose.IgnoreAltF4 = false;
-            this._buttonClose.Location = new System.Drawing.Point(621, 9);
+            this._buttonClose.Location = new System.Drawing.Point(723, 9);
             this._buttonClose.Margin = new System.Windows.Forms.Padding(0);
             this._buttonClose.MinimumSize = new System.Drawing.Size(50, 26);
             this._buttonClose.Name = "_buttonClose";
@@ -306,7 +306,7 @@
             this._panelFooter.Location = new System.Drawing.Point(0, 118);
             this._panelFooter.Name = "_panelFooter";
             this._panelFooter.PanelBackStyle = Krypton.Toolkit.PaletteBackStyle.PanelAlternate;
-            this._panelFooter.Size = new System.Drawing.Size(680, 49);
+            this._panelFooter.Size = new System.Drawing.Size(782, 49);
             this._panelFooter.TabIndex = 3;
             // 
             // _linkLabelFooter
@@ -345,7 +345,7 @@
             this._panelFooterBorderTop.Dock = System.Windows.Forms.DockStyle.Top;
             this._panelFooterBorderTop.Location = new System.Drawing.Point(0, 0);
             this._panelFooterBorderTop.Name = "_panelFooterBorderTop";
-            this._panelFooterBorderTop.Size = new System.Drawing.Size(680, 1);
+            this._panelFooterBorderTop.Size = new System.Drawing.Size(782, 1);
             this._panelFooterBorderTop.Text = "kryptonBorderEdge1";
             // 
             // VisualTaskDialogForm
@@ -353,11 +353,15 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
-            this.ClientSize = new System.Drawing.Size(697, 164);
+            this.ClientSize = new System.Drawing.Size(799, 164);
             this.Controls.Add(this._panelFooter);
             this.Controls.Add(this._panelButtons);
             this.Controls.Add(this._panelMain);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.FormTitleAlign = Krypton.Toolkit.PaletteRelativeAlign.Near;
+            this.GroupBackStyle = Krypton.Toolkit.PaletteBackStyle.FormMain;
+            this.GroupBorderStyle = Krypton.Toolkit.PaletteBorderStyle.FormMain;
+            this.HeaderStyle = Krypton.Toolkit.HeaderStyle.Form;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "VisualTaskDialogForm";
@@ -365,6 +369,7 @@
             this.ShowInTaskbar = false;
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.TitleStyle = Krypton.Toolkit.KryptonFormTitleStyle.Inherit;
             ((System.ComponentModel.ISupportInitialize)(this._panelMain)).EndInit();
             this._panelMain.ResumeLayout(false);
             this._panelMain.PerformLayout();
@@ -404,12 +409,12 @@
         private KryptonPanel _panelButtons;
         private KryptonCheckBox _checkBox;
         private KryptonBorderEdge _panelButtonsBorderTop;
-        private VisualTaskDialog.MessageButton _buttonOK;
-        private VisualTaskDialog.MessageButton _buttonYes;
-        private VisualTaskDialog.MessageButton _buttonNo;
-        private VisualTaskDialog.MessageButton _buttonRetry;
-        private VisualTaskDialog.MessageButton _buttonCancel;
-        private VisualTaskDialog.MessageButton _buttonClose;
+        private TaskDialogMessageButton _buttonOK;
+        private TaskDialogMessageButton _buttonYes;
+        private TaskDialogMessageButton _buttonNo;
+        private TaskDialogMessageButton _buttonRetry;
+        private TaskDialogMessageButton _buttonCancel;
+        private TaskDialogMessageButton _buttonClose;
         private KryptonPanel _panelFooter;
         private KryptonLinkLabel _linkLabelFooter;
         private PictureBox _iconFooter;

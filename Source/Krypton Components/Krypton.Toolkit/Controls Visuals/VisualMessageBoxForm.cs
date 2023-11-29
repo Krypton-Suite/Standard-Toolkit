@@ -16,7 +16,7 @@ using ContentAlignment = System.Drawing.ContentAlignment;
 
 namespace Krypton.Toolkit
 {
-    internal partial class VisualKryptonMessageBoxForm : KryptonForm
+    internal partial class VisualMessageBoxForm : KryptonForm
     {
         #region Static Fields
         private const int GAP = 10;
@@ -32,6 +32,7 @@ namespace Krypton.Toolkit
         private readonly KryptonMessageBoxButtons _buttons;
         private readonly KryptonMessageBoxIcon _kryptonMessageBoxIcon;
         private readonly Image? _applicationImage;
+        private readonly bool? _forceUseOfOperatingSystemIcons;
 
         private readonly KryptonMessageBoxDefaultButton _defaultButton;
         private readonly MessageBoxOptions _options; // https://github.com/Krypton-Suite/Standard-Toolkit/issues/313
@@ -55,15 +56,15 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Identity
-        static VisualKryptonMessageBoxForm() => OS_MAJOR_VERSION = Environment.OSVersion.Version.Major;
+        static VisualMessageBoxForm() => OS_MAJOR_VERSION = Environment.OSVersion.Version.Major;
 
-        public VisualKryptonMessageBoxForm()
+        public VisualMessageBoxForm()
         {
             InitializeComponent();
         }
 
 
-        internal VisualKryptonMessageBoxForm(IWin32Window? showOwner, string text, string caption,
+        internal VisualMessageBoxForm(IWin32Window? showOwner, string text, string caption,
                                        KryptonMessageBoxButtons buttons,
                                        KryptonMessageBoxIcon icon,
                                        KryptonMessageBoxDefaultButton defaultButton,
@@ -78,7 +79,8 @@ namespace Krypton.Toolkit
                                        KryptonCommand? linkLabelCommand,
                                        ProcessStartInfo? linkLaunchArgument,
                                        LinkArea? contentLinkArea,
-                                       ContentAlignment? messageTextAlignment)
+                                       ContentAlignment? messageTextAlignment,
+                                       bool? forceUseOfOperatingSystemIcons)
         {
             // Store incoming values
             _text = text;
@@ -100,6 +102,7 @@ namespace Krypton.Toolkit
             _contentLinkArea = contentLinkArea ?? new LinkArea(0, text.Length);
             _linkLaunchArgument = linkLaunchArgument ?? new ProcessStartInfo();
             _messageTextAlignment = messageTextAlignment ?? ContentAlignment.MiddleLeft;
+            _forceUseOfOperatingSystemIcons = forceUseOfOperatingSystemIcons ?? false;
 
             // Create the form contents
             InitializeComponent();
@@ -121,6 +124,52 @@ namespace Krypton.Toolkit
 
             // Finally calculate and set form sizing
             UpdateSizing(showOwner);
+        }
+
+        public VisualMessageBoxForm(KryptonMessageBoxData messageBoxData)
+        {
+            // Store incoming values
+            _text = messageBoxData.MessageText;
+            _caption = messageBoxData.Caption;
+            _buttons = messageBoxData.Buttons;
+            _kryptonMessageBoxIcon = messageBoxData.Icon;
+            _defaultButton = messageBoxData.DefaultButton ?? KryptonMessageBoxDefaultButton.Button1;
+            _options = messageBoxData.Options;
+            _helpInfo = messageBoxData.HelpInfo;
+            _showOwner = messageBoxData.Owner;
+            _showHelpButton = messageBoxData.ShowHelpButton ?? (messageBoxData.HelpInfo != null);
+            _showActionButton = messageBoxData.ShowActionButton ?? false;
+            _actionButtonText = messageBoxData.ActionButtonText ?? string.Empty;
+            _actionButtonCommand = messageBoxData.ActionButtonCommand;
+            _applicationImage = messageBoxData.ApplicationImage;
+            _applicationPath = messageBoxData.ApplicationPath ?? string.Empty;
+            _contentAreaType = messageBoxData.MessageContentAreaType ?? MessageBoxContentAreaType.Normal;
+            _linkLabelCommand = messageBoxData.LinkLabelCommand ?? new KryptonCommand();
+            _contentLinkArea = messageBoxData.ContentLinkArea ?? new LinkArea(0, messageBoxData.MessageText.Length);
+            _linkLaunchArgument = messageBoxData.LinkLaunchArgument ?? new ProcessStartInfo();
+            _messageTextAlignment = messageBoxData.MessageTextAlignment ?? ContentAlignment.MiddleLeft;
+            _forceUseOfOperatingSystemIcons = messageBoxData.ForceUseOfOperatingSystemIcons ?? false;
+
+            // Create the form contents
+            InitializeComponent();
+
+            RightToLeftLayout = _options.HasFlag(MessageBoxOptions.RtlReading);
+
+            // Update contents to match requirements
+            UpdateText();
+            UpdateIcon();
+            UpdateButtons();
+            UpdateDefault();
+            UpdateHelp();
+            UpdateTextExtra(messageBoxData.ShowCtrlCopy);
+            UpdateContentAreaType(messageBoxData.MessageContentAreaType);
+            UpdateContentAreaTextAlignment(messageBoxData.MessageContentAreaType, messageBoxData.MessageTextAlignment);
+            UpdateContentLinkArea(messageBoxData.ContentLinkArea);
+
+            SetupActionButtonUI(_showActionButton);
+
+            // Finally calculate and set form sizing
+            UpdateSizing(messageBoxData.Owner);
         }
 
         #endregion Identity
@@ -842,7 +891,7 @@ namespace Krypton.Toolkit
     }
 
     #region Types
-    internal class HelpInfo
+    public class HelpInfo
     {
         #region Identity
 
