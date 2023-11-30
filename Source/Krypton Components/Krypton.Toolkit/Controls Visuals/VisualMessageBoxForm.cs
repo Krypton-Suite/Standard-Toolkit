@@ -969,7 +969,7 @@ namespace Krypton.Toolkit
 
                     MethodInfo? mInfoMethod = control.GetType().GetMethod(nameof(OnHelpRequested), BindingFlags.Instance | BindingFlags.NonPublic,
                         Type.DefaultBinder, new[] { typeof(HelpEventArgs) }, null)!;
-                    mInfoMethod?.Invoke(control, new object[] { new HelpEventArgs(MousePosition) });
+                    mInfoMethod.Invoke(control, new object[] { new HelpEventArgs(MousePosition) });
                     if (_helpInfo != null)
                     {
                         if (string.IsNullOrWhiteSpace(_helpInfo.HelpFilePath))
