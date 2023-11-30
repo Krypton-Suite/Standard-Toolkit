@@ -925,8 +925,10 @@ namespace Krypton.Toolkit
                 helpButton.Visible = true;
                 helpButton.Enabled = true;
                 helpButton.Text = KryptonManager.Strings.GeneralStrings.Help;
-                helpButton.KeyPress += (_, _) => LaunchHelp();
-                helpButton.Click += (_, _) => LaunchHelp();
+
+                helpButton.KeyPress += (_, _) => LaunchHelp(_messageBoxData.Owner);
+
+                helpButton.Click += (_, _) => LaunchHelp(_messageBoxData.Owner);
             }
         }
 
@@ -952,6 +954,47 @@ namespace Krypton.Toolkit
                 helpButton.KeyPress += (_, _) => LaunchHelp();
                 helpButton.Click += (_, _) => LaunchHelp();
             }
+        }
+
+        /// <summary>
+        /// When the user clicks the Help button, the Help file specified in the helpFilePath parameter
+        /// is opened and the Help keyword topic identified by the keyword parameter is Displayed.
+        /// The form that owns the message box (or the active form) also receives the HelpRequested event.
+        /// </summary>
+        private void LaunchHelp(IWin32Window? owner)
+        {
+            try
+            {
+                if (owner != null)
+                {
+                    Control control = FromHandle(owner.Handle);
+
+                    MethodInfo? mInfoMethod = control.GetType().GetMethod(nameof(OnHelpRequested), BindingFlags.Instance | BindingFlags.NonPublic,
+                        Type.DefaultBinder, new[] { typeof(HelpEventArgs) }, null)!;
+                    mInfoMethod.Invoke(control, new object[] { new HelpEventArgs(MousePosition) });
+                    if (_helpInfo != null)
+                    {
+                        if (string.IsNullOrWhiteSpace(_helpInfo.HelpFilePath))
+                        {
+                            return;
+                        }
+
+                        if (!string.IsNullOrWhiteSpace(_helpInfo.Keyword))
+                        {
+                            Help.ShowHelp(control, _helpInfo.HelpFilePath, _helpInfo.Keyword);
+                        }
+                        else
+                        {
+                            Help.ShowHelp(control, _helpInfo.HelpFilePath, _helpInfo.Navigator, _helpInfo.Param);
+                        }
+                    }
+                }
+            }
+            catch
+            {
+                // Do nothing if failure to send to Parent
+            }
+
         }
 
         /// <summary>
