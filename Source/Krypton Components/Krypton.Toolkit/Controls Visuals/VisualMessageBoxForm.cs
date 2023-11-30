@@ -131,31 +131,11 @@ namespace Krypton.Toolkit
         {
             // Store incoming values
             _messageBoxData = messageBoxData;
-            _text = messageBoxData.MessageText;
-            _caption = messageBoxData.Caption;
-            _buttons = messageBoxData.Buttons;
-            _kryptonMessageBoxIcon = messageBoxData.Icon;
-            _defaultButton = messageBoxData.DefaultButton ?? KryptonMessageBoxDefaultButton.Button1;
-            _options = messageBoxData.Options;
-            _helpInfo = messageBoxData.HelpInfo;
-            _showOwner = messageBoxData.Owner;
-            _showHelpButton = messageBoxData.ShowHelpButton ?? (messageBoxData.HelpInfo != null);
-            _showActionButton = messageBoxData.ShowActionButton ?? false;
-            _actionButtonText = messageBoxData.ActionButtonText ?? string.Empty;
-            _actionButtonCommand = messageBoxData.ActionButtonCommand;
-            _applicationImage = messageBoxData.ApplicationImage;
-            _applicationPath = messageBoxData.ApplicationPath ?? string.Empty;
-            _contentAreaType = messageBoxData.MessageContentAreaType ?? MessageBoxContentAreaType.Normal;
-            _linkLabelCommand = messageBoxData.LinkLabelCommand ?? new KryptonCommand();
-            _contentLinkArea = messageBoxData.ContentLinkArea ?? new LinkArea(0, messageBoxData.MessageText.Length);
-            _linkLaunchArgument = messageBoxData.LinkLaunchArgument ?? new ProcessStartInfo();
-            _messageTextAlignment = messageBoxData.MessageTextAlignment ?? ContentAlignment.MiddleLeft;
-            _forceUseOfOperatingSystemIcons = messageBoxData.ForceUseOfOperatingSystemIcons ?? false;
 
             // Create the form contents
             InitializeComponent();
 
-            RightToLeftLayout = _options.HasFlag(MessageBoxOptions.RtlReading);
+            RightToLeftLayout = _messageBoxData.Options.HasFlag(MessageBoxOptions.RtlReading);
 
             // Update contents to match requirements
             UpdateText(_messageBoxData.Caption, _messageBoxData.MessageText, _messageBoxData.Options, _messageBoxData.MessageContentAreaType);
