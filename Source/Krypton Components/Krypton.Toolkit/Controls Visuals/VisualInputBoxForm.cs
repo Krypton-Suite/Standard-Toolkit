@@ -15,7 +15,7 @@ namespace Krypton.Toolkit
     /// <summary>
     /// 
     /// </summary>
-    public partial class VisualKryptonInputBoxForm : KryptonForm
+    public partial class VisualInputBoxForm : KryptonForm
     {
         #region Instance Fields
         private bool _usePasswordOption;
@@ -32,12 +32,12 @@ namespace Krypton.Toolkit
         /// <summary>
         /// 
         /// </summary>
-        public VisualKryptonInputBoxForm()
+        public VisualInputBoxForm()
         {
             InitializeComponent();
         }
 
-        /// <summary>Initializes a new instance of the <see cref="VisualKryptonInputBoxForm" /> class.</summary>
+        /// <summary>Initializes a new instance of the <see cref="VisualInputBoxForm" /> class.</summary>
         /// <param name="prompt">The prompt.</param>
         /// <param name="caption">The caption.</param>
         /// <param name="defaultResponse">The default response.</param>
@@ -45,7 +45,7 @@ namespace Krypton.Toolkit
         /// <param name="cueColour">The cue colour.</param>
         /// <param name="cueTypeface">The cue typeface.</param>
         /// <param name="usePasswordOption">if set to <c>true</c> [use password option].</param>
-        public VisualKryptonInputBoxForm(string prompt,
+        public VisualInputBoxForm(string prompt,
                                    string caption,
                                    string defaultResponse,
                                    string cueText,
@@ -100,7 +100,7 @@ namespace Krypton.Toolkit
             IWin32Window? showOwner = owner ?? FromHandle(PI.GetActiveWindow());
 
             // Show input box window as a modal dialog and then dispose of it afterwards
-            using var ib = new VisualKryptonInputBoxForm(prompt, caption, defaultResponse, cueText, cueColour,
+            using var ib = new VisualInputBoxForm(prompt, caption, defaultResponse, cueText, cueColour,
                 cueTypeface, usePasswordOption);
             ib.StartPosition = showOwner == null ? FormStartPosition.CenterScreen : FormStartPosition.CenterParent;
 

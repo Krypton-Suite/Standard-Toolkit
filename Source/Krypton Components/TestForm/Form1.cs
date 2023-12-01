@@ -121,13 +121,6 @@ namespace TestForm
             new Form4().Show();
         }
 
-        private void kryptonButton5_Click(object sender, EventArgs e)
-        {
-            KryptonAboutToolkitData data = new KryptonAboutToolkitData();
-
-            KryptonAboutToolkit.Show(data);
-        }
-
         private void Form1_Load(object sender, EventArgs e)
         {
             FormBorderStyle = FormBorderStyle.Sizable;
@@ -313,6 +306,11 @@ namespace TestForm
                 default:
                     throw new ArgumentOutOfRangeException(nameof(borderStyle), borderStyle, null);
             }
+        }
+
+        private void kryptonButton5_Click(object sender, EventArgs e)
+        {
+            kryptonTaskDialog1.ShowDialog();
         }
     }
 }

@@ -9,7 +9,7 @@
 
 namespace Krypton.Toolkit
 {
-    /// <summary>This class does the heavy lifting for <see cref="VisualKryptonAboutBoxForm"/> and its associated components.</summary>
+    /// <summary>This class does the heavy lifting for <see cref="VisualAboutBoxForm"/> and its associated components.</summary>
     internal class KryptonAboutBoxUtilities
     {
         #region Identity

@@ -1,6 +1,6 @@
 ﻿namespace Krypton.Toolkit
 {
-    partial class VisualKryptonAboutBoxForm
+    partial class VisualAboutBoxForm
     {
         /// <summary>
         /// Required designer variable.
@@ -71,7 +71,7 @@
             this.kwlCurrentTheme = new Krypton.Toolkit.KryptonWrapLabel();
             this.kpnlToolkitInformation = new Krypton.Toolkit.KryptonPanel();
             this.tscToolkitInformation = new System.Windows.Forms.ToolStripContainer();
-            this.kryptonPanel1 = new Krypton.Toolkit.KryptonPanel();
+            this.kpnlToolkitGeneralInformation = new Krypton.Toolkit.KryptonPanel();
             this.tlpGeneralInformation = new System.Windows.Forms.TableLayoutPanel();
             this.pbxLogo = new System.Windows.Forms.PictureBox();
             this.klwlblGeneralInformation = new Krypton.Toolkit.KryptonLinkWrapLabel();
@@ -148,8 +148,8 @@
             this.tscToolkitInformation.ContentPanel.SuspendLayout();
             this.tscToolkitInformation.TopToolStripPanel.SuspendLayout();
             this.tscToolkitInformation.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
-            this.kryptonPanel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.kpnlToolkitGeneralInformation)).BeginInit();
+            this.kpnlToolkitGeneralInformation.SuspendLayout();
             this.tlpGeneralInformation.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbxLogo)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ktcmbCurrentTheme)).BeginInit();
@@ -637,7 +637,7 @@
             // 
             // tscToolkitInformation.ContentPanel
             // 
-            this.tscToolkitInformation.ContentPanel.Controls.Add(this.kryptonPanel1);
+            this.tscToolkitInformation.ContentPanel.Controls.Add(this.kpnlToolkitGeneralInformation);
             this.tscToolkitInformation.ContentPanel.Controls.Add(this.kpnlDiscord);
             this.tscToolkitInformation.ContentPanel.Controls.Add(this.kpnlDeveloperInformation);
             this.tscToolkitInformation.ContentPanel.Controls.Add(this.kpnlVersions);
@@ -653,14 +653,14 @@
             // 
             this.tscToolkitInformation.TopToolStripPanel.Controls.Add(this.tsToolkitInformation);
             // 
-            // kryptonPanel1
+            // kpnlToolkitGeneralInformation
             // 
-            this.kryptonPanel1.Controls.Add(this.tlpGeneralInformation);
-            this.kryptonPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.kryptonPanel1.Location = new System.Drawing.Point(0, 0);
-            this.kryptonPanel1.Name = "kryptonPanel1";
-            this.kryptonPanel1.Size = new System.Drawing.Size(777, 301);
-            this.kryptonPanel1.TabIndex = 3;
+            this.kpnlToolkitGeneralInformation.Controls.Add(this.tlpGeneralInformation);
+            this.kpnlToolkitGeneralInformation.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.kpnlToolkitGeneralInformation.Location = new System.Drawing.Point(0, 0);
+            this.kpnlToolkitGeneralInformation.Name = "kpnlToolkitGeneralInformation";
+            this.kpnlToolkitGeneralInformation.Size = new System.Drawing.Size(777, 301);
+            this.kpnlToolkitGeneralInformation.TabIndex = 3;
             // 
             // tlpGeneralInformation
             // 
@@ -894,7 +894,7 @@
             this.tsbtnVersions});
             this.tsToolkitInformation.Location = new System.Drawing.Point(3, 0);
             this.tsToolkitInformation.Name = "tsToolkitInformation";
-            this.tsToolkitInformation.Size = new System.Drawing.Size(465, 25);
+            this.tsToolkitInformation.Size = new System.Drawing.Size(434, 25);
             this.tsToolkitInformation.TabIndex = 0;
             // 
             // tsbtnToolkitGeneralInformation
@@ -1047,7 +1047,7 @@
             this.tsbtnToolkitInformation.Visible = false;
             this.tsbtnToolkitInformation.Click += new System.EventHandler(this.tsbtnToolkitInformation_Click);
             // 
-            // VisualKryptonAboutBoxForm
+            // VisualAboutBoxForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -1058,7 +1058,7 @@
             this.FormTitleAlign = Krypton.Toolkit.PaletteRelativeAlign.Inherit;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "VisualKryptonAboutBoxForm";
+            this.Name = "VisualAboutBoxForm";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             ((System.ComponentModel.ISupportInitialize)(this.kpnlButtons)).EndInit();
@@ -1112,8 +1112,8 @@
             this.tscToolkitInformation.TopToolStripPanel.PerformLayout();
             this.tscToolkitInformation.ResumeLayout(false);
             this.tscToolkitInformation.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).EndInit();
-            this.kryptonPanel1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.kpnlToolkitGeneralInformation)).EndInit();
+            this.kpnlToolkitGeneralInformation.ResumeLayout(false);
             this.tlpGeneralInformation.ResumeLayout(false);
             this.tlpGeneralInformation.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbxLogo)).EndInit();
@@ -1190,7 +1190,7 @@
         private ToolStripButton tsbtnToolkitInformation;
         private KryptonPanel kpnlToolkitInformation;
         private ToolStripContainer tscToolkitInformation;
-        private KryptonPanel kryptonPanel1;
+        private KryptonPanel kpnlToolkitGeneralInformation;
         private TableLayoutPanel tlpGeneralInformation;
         private PictureBox pbxLogo;
         private KryptonLinkWrapLabel klwlblGeneralInformation;
