@@ -18,7 +18,7 @@ namespace Krypton.Toolkit
     [DisplayName("Krypton Command Link")]
     [Description("A Krypton Command Link Button.")]
     [ToolboxItem(true)]
-    [ToolboxBitmap(typeof(KryptonButton))]
+    [ToolboxBitmap(typeof(KryptonAlternateCommandLinkButton), @"ToolboxBitmaps.KryptonCommandLinkButton.bmp")]
     public class KryptonAlternateCommandLinkButton : KryptonButton
     {
         #region Static Fields

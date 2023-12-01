@@ -11,7 +11,7 @@ namespace Krypton.Toolkit
 {
     /// <summary>Combines button functionality with the styling features of the Krypton Toolkit.</summary>
     /// <remarks>Main code taken from KryptonButton, then trimmed out to force the CommandLink layout.</remarks>
-    [ToolboxBitmap(typeof(KryptonButton))]
+    [ToolboxBitmap(typeof(KryptonCommandLinkButton), @"ToolboxBitmaps.KryptonCommandLinkButton.bmp")]
     [ToolboxItem(true)]
     [DefaultEvent("Click")]
     [DefaultProperty("Heading")]
