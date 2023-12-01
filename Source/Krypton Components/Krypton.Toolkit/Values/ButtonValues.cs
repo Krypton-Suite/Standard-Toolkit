@@ -26,6 +26,7 @@ namespace Krypton.Toolkit
         #region Instance Fields
 
         private bool _showUACShield;
+        private bool _useAsDialogButton;
         private Image? _image;
         private Color _transparent;
         private string? _text;
@@ -238,6 +239,18 @@ namespace Krypton.Toolkit
         private bool ShouldSerializeShowUACShield() => !ShowUACShield;
 
         public void ResetShowUACShield() => ShowUACShield = false;
+
+        #endregion
+
+        #region UseAsADialogButton
+
+        [DefaultValue(false),
+         Description(@"If set to true, the text will pair up with the equivalent KryptonManager's dialog button text result. (Note: You'll lose any previous text)")]
+        public bool UseAsADialogButton
+        {
+            get => _useAsDialogButton;
+            set => _useAsDialogButton = value;
+        }
 
         #endregion
 
