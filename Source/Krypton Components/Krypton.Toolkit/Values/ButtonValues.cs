@@ -24,6 +24,8 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Instance Fields
+
+        private bool _showUACShield;
         private Image? _image;
         private Color _transparent;
         private string? _text;
@@ -216,6 +218,27 @@ namespace Krypton.Toolkit
         /// Resets the Description property to its default value.
         /// </summary>
         public void ResetExtraText() => ExtraText = _defaultExtraText;
+        #endregion
+
+        #region ShowUACShield
+
+        public bool ShowUACShield
+        {
+            get => _showUACShield;
+
+            set
+            {
+                if (_showUACShield != value)
+                {
+                    _showUACShield = value;
+                }
+            }
+        }
+
+        private bool ShouldSerializeShowUACShield() => !ShowUACShield;
+
+        public void ResetShowUACShield() => ShowUACShield = false;
+
         #endregion
 
         #region CreateImageStates
