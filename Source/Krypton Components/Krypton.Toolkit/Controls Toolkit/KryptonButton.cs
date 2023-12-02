@@ -531,11 +531,12 @@ namespace Krypton.Toolkit
 
         #region Public Overrides
 
+        /// <inheritdoc />
         public override Size GetPreferredSize(Size proposedSize)
         {
             Size preferredSize = base.GetPreferredSize(proposedSize);
 
-            if (_showSplitOption && !string.IsNullOrWhiteSpace(Text) && TextRenderer.MeasureText(Text, Font).Width + DEFAULT_PUSH_BUTTON_WIDTH > preferredSize.Width)
+            if (Values.ShowSplitOption && !string.IsNullOrWhiteSpace(Text) && TextRenderer.MeasureText(Text, Font).Width + DEFAULT_PUSH_BUTTON_WIDTH > preferredSize.Width)
             {
                 return preferredSize + new Size(DEFAULT_PUSH_BUTTON_WIDTH + BORDER_SIZE * 2, 0);
             }
@@ -763,12 +764,12 @@ namespace Krypton.Toolkit
 
             #region Split Code
 
-            if (!_showSplitOption)
+            if (!Values.ShowSplitOption)
             {
                 return;
             }
 
-            Graphics g = e.Graphics;
+            Graphics g = e?.Graphics!;
 
             Rectangle bounds = ClientRectangle;
 
@@ -816,7 +817,7 @@ namespace Krypton.Toolkit
 
         protected override bool IsInputKey(Keys keyData)
         {
-            if (keyData.Equals(Keys.Down) && _showSplitOption)
+            if (keyData.Equals(Keys.Down) && Values.ShowSplitOption)
             {
                 return true;
             }
@@ -828,7 +829,7 @@ namespace Krypton.Toolkit
 
         protected override void OnKeyDown(KeyEventArgs e)
         {
-            if (_showSplitOption && e.KeyCode.Equals(Keys.Down))
+            if (Values.ShowSplitOption && e.KeyCode.Equals(Keys.Down))
             {
                 ShowContextMenuStrip();
             }
@@ -838,7 +839,7 @@ namespace Krypton.Toolkit
 
         protected override void OnMouseDown(MouseEventArgs e)
         {
-            if (!_showSplitOption)
+            if (!Values.ShowSplitOption)
             {
                 base.OnMouseDown(e);
                 return;
@@ -856,7 +857,7 @@ namespace Krypton.Toolkit
 
         protected override void OnMouseUp(MouseEventArgs e)
         {
-            if (!_showSplitOption)
+            if (!Values.ShowSplitOption)
             {
                 base.OnMouseUp(e);
 
