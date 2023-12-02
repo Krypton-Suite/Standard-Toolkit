@@ -182,7 +182,7 @@ There are list of changes that have occurred during the development of the V90.#
 As of V90.##, support for .NET 7 has been removed due to their release cadences.
 
 ### `KryptonButton` Properties
-Some properties previously found in the root such as, `ShowDropDown`, `ShowUACShield`, `UseAsADialogButton`, `UseAsUACElevationButton` and `UACShieldIconSize` are now located in the `Values` section.
+Some properties previously found in the root such as, `ShowDropDown`, `UseAsADialogButton`, `UseAsUACElevationButton` and `UACShieldIconSize` are now located in the `Values` section.
 
 ## V80.## (2023-11-14 - Build 2311 - November 2023)
 There are list of changes that have occurred during the development of the V80.## version

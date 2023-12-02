@@ -25,7 +25,6 @@ namespace Krypton.Toolkit
 
         #region Instance Fields
 
-        private bool _showUACShield;
         private bool _useAsDialogButton;
         private bool _useAsUACElevationButton;
         private UACShieldIconSize _uacShieldIconSize;
@@ -58,7 +57,6 @@ namespace Krypton.Toolkit
             _transparent = Color.Empty;
             _text = _defaultText;
             _extraText = _defaultExtraText;
-            _showUACShield = false;
             _useAsDialogButton = false;
             _useAsUACElevationButton = false;
             _uacShieldIconSize = GlobalStaticValues.DEFAULT_UAC_SHIELD_ICON_SIZE;
@@ -74,7 +72,6 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         public override bool IsDefault => ImageStates.IsDefault &&
                                            (Image == null) &&
-                                           (ShowUACShield == false) &&
                                            (UseAsADialogButton == false) &&
                                            (UseAsUACElevationButton == false) &&
                                            //(UACShieldIconSize == UACShieldIconSize.ExtraSmall)
@@ -229,29 +226,6 @@ namespace Krypton.Toolkit
         /// Resets the Description property to its default value.
         /// </summary>
         public void ResetExtraText() => ExtraText = _defaultExtraText;
-        #endregion
-
-        #region ShowUACShield
-
-        public bool ShowUACShield
-        {
-            get => _showUACShield;
-
-            set
-            {
-                if (_showUACShield != value)
-                {
-                    _showUACShield = value;
-
-                    PerformNeedPaint(true);
-                }
-            }
-        }
-
-        private bool ShouldSerializeShowUACShield() => !ShowUACShield;
-
-        public void ResetShowUACShield() => ShowUACShield = false;
-
         #endregion
 
         #region UseAsADialogButton

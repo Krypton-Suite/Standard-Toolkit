@@ -30,6 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             this.kryptonPanel1 = new Krypton.Toolkit.KryptonPanel();
+            this.kryptonButton9 = new Krypton.Toolkit.KryptonButton();
             this.kryptonButton5 = new Krypton.Toolkit.KryptonButton();
             this.kryptonButton8 = new Krypton.Toolkit.KryptonButton();
             this.kcbtnSizableToolWindow = new Krypton.Toolkit.KryptonCheckButton();
@@ -77,7 +78,6 @@
             this.kryptonManager1 = new Krypton.Toolkit.KryptonManager(this.components);
             this.kryptonCheckSet1 = new Krypton.Toolkit.KryptonCheckSet(this.components);
             this.kryptonTaskDialog1 = new Krypton.Toolkit.KryptonTaskDialog();
-            this.kryptonButton9 = new Krypton.Toolkit.KryptonButton();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
             this.kryptonPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonThemeComboBox1)).BeginInit();
@@ -120,12 +120,23 @@
             this.kryptonPanel1.Size = new System.Drawing.Size(1112, 752);
             this.kryptonPanel1.TabIndex = 0;
             // 
+            // kryptonButton9
+            // 
+            this.kryptonButton9.Location = new System.Drawing.Point(15, 415);
+            this.kryptonButton9.Name = "kryptonButton9";
+            this.kryptonButton9.Size = new System.Drawing.Size(183, 25);
+            this.kryptonButton9.TabIndex = 34;
+            this.kryptonButton9.Values.ShowUACShield = false;
+            this.kryptonButton9.Values.Text = "Command Links";
+            this.kryptonButton9.Click += new System.EventHandler(this.kryptonButton9_Click);
+            // 
             // kryptonButton5
             // 
             this.kryptonButton5.Location = new System.Drawing.Point(15, 384);
             this.kryptonButton5.Name = "kryptonButton5";
             this.kryptonButton5.Size = new System.Drawing.Size(183, 25);
             this.kryptonButton5.TabIndex = 33;
+            this.kryptonButton5.Values.ShowUACShield = false;
             this.kryptonButton5.Values.Text = "Task Dialog";
             this.kryptonButton5.Click += new System.EventHandler(this.kryptonButton5_Click);
             // 
@@ -135,6 +146,7 @@
             this.kryptonButton8.Name = "kryptonButton8";
             this.kryptonButton8.Size = new System.Drawing.Size(183, 25);
             this.kryptonButton8.TabIndex = 32;
+            this.kryptonButton8.Values.ShowUACShield = false;
             this.kryptonButton8.Values.Text = "About Box";
             this.kryptonButton8.Click += new System.EventHandler(this.kryptonButton8_Click);
             // 
@@ -145,6 +157,7 @@
             this.kcbtnSizableToolWindow.Name = "kcbtnSizableToolWindow";
             this.kcbtnSizableToolWindow.Size = new System.Drawing.Size(141, 25);
             this.kcbtnSizableToolWindow.TabIndex = 31;
+            this.kcbtnSizableToolWindow.Values.ShowUACShield = false;
             this.kcbtnSizableToolWindow.Values.Text = "SizableToolWindow";
             this.kcbtnSizableToolWindow.Click += new System.EventHandler(this.kcbtnSizableToolWindow_Click);
             // 
@@ -155,6 +168,7 @@
             this.kcbtnFixedToolWindow.Name = "kcbtnFixedToolWindow";
             this.kcbtnFixedToolWindow.Size = new System.Drawing.Size(141, 25);
             this.kcbtnFixedToolWindow.TabIndex = 30;
+            this.kcbtnFixedToolWindow.Values.ShowUACShield = false;
             this.kcbtnFixedToolWindow.Values.Text = "FixedToolWindow";
             this.kcbtnFixedToolWindow.Click += new System.EventHandler(this.kcbtnFixedToolWindow_Click);
             // 
@@ -165,6 +179,7 @@
             this.kcbtnSizable.Name = "kcbtnSizable";
             this.kcbtnSizable.Size = new System.Drawing.Size(141, 25);
             this.kcbtnSizable.TabIndex = 29;
+            this.kcbtnSizable.Values.ShowUACShield = false;
             this.kcbtnSizable.Values.Text = "Sizable";
             this.kcbtnSizable.Click += new System.EventHandler(this.kcbtnSizable_Click);
             // 
@@ -175,6 +190,7 @@
             this.kcbtnFixedDialog.Name = "kcbtnFixedDialog";
             this.kcbtnFixedDialog.Size = new System.Drawing.Size(141, 25);
             this.kcbtnFixedDialog.TabIndex = 28;
+            this.kcbtnFixedDialog.Values.ShowUACShield = false;
             this.kcbtnFixedDialog.Values.Text = "FixedDialog";
             this.kcbtnFixedDialog.Click += new System.EventHandler(this.kcbtnFixedDialog_Click);
             // 
@@ -185,6 +201,7 @@
             this.kcbtnFixed3D.Name = "kcbtnFixed3D";
             this.kcbtnFixed3D.Size = new System.Drawing.Size(141, 25);
             this.kcbtnFixed3D.TabIndex = 27;
+            this.kcbtnFixed3D.Values.ShowUACShield = false;
             this.kcbtnFixed3D.Values.Text = "Fixed3D";
             this.kcbtnFixed3D.Click += new System.EventHandler(this.kcbtnFixed3D_Click);
             // 
@@ -195,6 +212,7 @@
             this.kcbtnFixedSingle.Name = "kcbtnFixedSingle";
             this.kcbtnFixedSingle.Size = new System.Drawing.Size(141, 25);
             this.kcbtnFixedSingle.TabIndex = 26;
+            this.kcbtnFixedSingle.Values.ShowUACShield = false;
             this.kcbtnFixedSingle.Values.Text = "FixedSingle";
             this.kcbtnFixedSingle.Click += new System.EventHandler(this.kcbtnFixedSingle_Click);
             // 
@@ -205,6 +223,7 @@
             this.kcbtnNone.Name = "kcbtnNone";
             this.kcbtnNone.Size = new System.Drawing.Size(141, 25);
             this.kcbtnNone.TabIndex = 25;
+            this.kcbtnNone.Values.ShowUACShield = false;
             this.kcbtnNone.Values.Text = "None";
             this.kcbtnNone.Click += new System.EventHandler(this.kcbtnNone_Click);
             // 
@@ -215,6 +234,7 @@
             this.kryptonButton7.Name = "kryptonButton7";
             this.kryptonButton7.Size = new System.Drawing.Size(90, 25);
             this.kryptonButton7.TabIndex = 17;
+            this.kryptonButton7.Values.ShowUACShield = false;
             this.kryptonButton7.Values.Text = "Export";
             this.kryptonButton7.Click += new System.EventHandler(this.kryptonButton7_Click);
             // 
@@ -225,6 +245,7 @@
             this.kryptonButton6.Name = "kryptonButton6";
             this.kryptonButton6.Size = new System.Drawing.Size(90, 25);
             this.kryptonButton6.TabIndex = 16;
+            this.kryptonButton6.Values.ShowUACShield = false;
             this.kryptonButton6.Values.Text = "Import";
             this.kryptonButton6.Click += new System.EventHandler(this.kryptonButton6_Click);
             // 
@@ -235,6 +256,7 @@
             this.kbtnExit.Name = "kbtnExit";
             this.kbtnExit.Size = new System.Drawing.Size(90, 25);
             this.kbtnExit.TabIndex = 15;
+            this.kbtnExit.Values.ShowUACShield = false;
             this.kbtnExit.Values.Text = "Exit";
             this.kbtnExit.Click += new System.EventHandler(this.kbtnExit_Click);
             // 
@@ -244,6 +266,7 @@
             this.kryptonButton4.Name = "kryptonButton4";
             this.kryptonButton4.Size = new System.Drawing.Size(185, 25);
             this.kryptonButton4.TabIndex = 14;
+            this.kryptonButton4.Values.ShowUACShield = false;
             this.kryptonButton4.Values.Text = "Form 4";
             this.kryptonButton4.Click += new System.EventHandler(this.kryptonButton4_Click);
             // 
@@ -253,6 +276,7 @@
             this.kbtnVisualStudio2010Theme.Name = "kbtnVisualStudio2010Theme";
             this.kbtnVisualStudio2010Theme.Size = new System.Drawing.Size(184, 25);
             this.kbtnVisualStudio2010Theme.TabIndex = 13;
+            this.kbtnVisualStudio2010Theme.Values.ShowUACShield = false;
             this.kbtnVisualStudio2010Theme.Values.Text = "Visual Studio 2010 Theme (Form5)";
             this.kbtnVisualStudio2010Theme.Click += new System.EventHandler(this.kbtnVisualStudio2010Theme_Click);
             // 
@@ -296,6 +320,7 @@
             this.kryptonButton3.Name = "kryptonButton3";
             this.kryptonButton3.Size = new System.Drawing.Size(184, 25);
             this.kryptonButton3.TabIndex = 9;
+            this.kryptonButton3.Values.ShowUACShield = false;
             this.kryptonButton3.Values.Text = "ThemeBrowser Form";
             this.kryptonButton3.Click += new System.EventHandler(this.kryptonButton3_Click);
             // 
@@ -305,6 +330,7 @@
             this.kbtnIntegratedToolbar.Name = "kbtnIntegratedToolbar";
             this.kbtnIntegratedToolbar.Size = new System.Drawing.Size(184, 25);
             this.kbtnIntegratedToolbar.TabIndex = 8;
+            this.kbtnIntegratedToolbar.Values.ShowUACShield = false;
             this.kbtnIntegratedToolbar.Values.Text = "Integrated Toolbar (Form5)";
             this.kbtnIntegratedToolbar.Click += new System.EventHandler(this.kbtnIntegratedToolbar_Click);
             // 
@@ -314,6 +340,7 @@
             this.kbtnTestMessagebox.Name = "kbtnTestMessagebox";
             this.kbtnTestMessagebox.Size = new System.Drawing.Size(185, 25);
             this.kbtnTestMessagebox.TabIndex = 7;
+            this.kbtnTestMessagebox.Values.ShowUACShield = false;
             this.kbtnTestMessagebox.Values.Text = "Test Messagebox";
             this.kbtnTestMessagebox.Click += new System.EventHandler(this.kbtnTestMessagebox_Click);
             // 
@@ -323,6 +350,7 @@
             this.kryptonButton2.Name = "kryptonButton2";
             this.kryptonButton2.Size = new System.Drawing.Size(185, 25);
             this.kryptonButton2.TabIndex = 6;
+            this.kryptonButton2.Values.ShowUACShield = false;
             this.kryptonButton2.Values.Text = "Ribbon (Form3)";
             this.kryptonButton2.Click += new System.EventHandler(this.kryptonButton2_Click);
             // 
@@ -350,6 +378,7 @@
             this.kryptonButton1.ShowSplitOption = true;
             this.kryptonButton1.Size = new System.Drawing.Size(185, 25);
             this.kryptonButton1.TabIndex = 5;
+            this.kryptonButton1.Values.ShowUACShield = false;
             this.kryptonButton1.Values.Text = "Button (form2)";
             this.kryptonButton1.Click += new System.EventHandler(this.kryptonButton1_Click);
             // 
@@ -480,15 +509,6 @@
             this.kryptonTaskDialog1.TextExtra = "Ctrl+C to copy";
             this.kryptonTaskDialog1.UseNativeOSIcons = false;
             this.kryptonTaskDialog1.WindowTitle = null;
-            // 
-            // kryptonButton9
-            // 
-            this.kryptonButton9.Location = new System.Drawing.Point(15, 415);
-            this.kryptonButton9.Name = "kryptonButton9";
-            this.kryptonButton9.Size = new System.Drawing.Size(183, 25);
-            this.kryptonButton9.TabIndex = 34;
-            this.kryptonButton9.Values.Text = "Command Links";
-            this.kryptonButton9.Click += new System.EventHandler(this.kryptonButton9_Click);
             // 
             // Form1
             // 

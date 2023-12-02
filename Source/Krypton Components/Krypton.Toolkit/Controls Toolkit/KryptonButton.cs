@@ -743,7 +743,7 @@ namespace Krypton.Toolkit
                 }
             }
 
-            if (Values.ShowUACShield)
+            if (Values.UseAsUACElevationButton)
             {
                 switch (Values.UACShieldIconSize)
                 {
