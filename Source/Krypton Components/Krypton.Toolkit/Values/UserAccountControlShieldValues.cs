@@ -7,7 +7,7 @@
 
 namespace Krypton.Toolkit
 {
-    public class UserAccountControlShieldValues : ButtonValues
+    public class UserAccountControlShieldValues : Storage, IContentValues
     {
         #region Instance Fields
 
@@ -29,9 +29,15 @@ namespace Krypton.Toolkit
 
         #region Identity
 
-        public UserAccountControlShieldValues(NeedPaintHandler needPaint) : base(needPaint)
+        public UserAccountControlShieldValues(NeedPaintHandler needPaint)
         {
-            ShieldIconSize = UACShieldIconSize.ExtraSmall;
+            NeedPaint = needPaint;
+
+            _useAsUACShieldButton = false;
+
+            _useOSStyleImage = true;
+
+            _iconSize = UACShieldIconSize.Small;
         }
 
         #endregion
@@ -47,5 +53,25 @@ namespace Krypton.Toolkit
         public Size CustomImageSize { get => _customImageSize; set => _customImageSize = value; }
 
         #endregion
+
+        public Image? GetImage(PaletteState state)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Color GetImageTransparentColor(PaletteState state)
+        {
+            throw new NotImplementedException();
+        }
+
+        public string GetShortText()
+        {
+            throw new NotImplementedException();
+        }
+
+        public string GetLongText()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

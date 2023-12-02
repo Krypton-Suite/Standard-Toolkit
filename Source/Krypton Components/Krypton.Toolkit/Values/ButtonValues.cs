@@ -10,8 +10,6 @@
  */
 #endregion
 
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
-
 namespace Krypton.Toolkit
 {
     /// <summary>
