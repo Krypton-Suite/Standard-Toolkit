@@ -7,7 +7,7 @@
 
 namespace Krypton.Toolkit
 {
-    public class UACShieldValues : ButtonValues
+    public class UserAccountControlShieldValues : ButtonValues
     {
         #region Instance Fields
 
@@ -29,7 +29,7 @@ namespace Krypton.Toolkit
 
         #region Identity
 
-        public UACShieldValues(NeedPaintHandler needPaint) : base(needPaint)
+        public UserAccountControlShieldValues(NeedPaintHandler needPaint) : base(needPaint)
         {
             ShieldIconSize = UACShieldIconSize.ExtraSmall;
         }
