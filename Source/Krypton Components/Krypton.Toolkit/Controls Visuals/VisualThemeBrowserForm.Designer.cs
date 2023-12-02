@@ -49,7 +49,6 @@
             // kcpbCustom
             // 
             this.kcpbCustom.BaseFont = new System.Drawing.Font("Segoe UI", 9F);
-            this.kcpbCustom.BaseFontSize = 9F;
             this.kcpbCustom.BasePaletteMode = Krypton.Toolkit.PaletteMode.Microsoft365Blue;
             this.kcpbCustom.BasePaletteType = Krypton.Toolkit.BasePaletteType.Custom;
             this.kcpbCustom.ThemeName = null;
