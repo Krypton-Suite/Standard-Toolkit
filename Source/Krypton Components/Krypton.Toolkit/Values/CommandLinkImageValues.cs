@@ -115,7 +115,7 @@ namespace Krypton.Toolkit
 
         public void ResetImage() => Image = DEFAULT_IMAGE;
 
-        [DefaultValue(UACShieldIconSize.ExtraSmall), Description(@"")]
+        [DefaultValue(UACShieldIconSize.Small), Description(@"")]
         public UACShieldIconSize UACShieldIconSize
         {
             get => _uacShieldIconSize;
@@ -140,15 +140,15 @@ namespace Krypton.Toolkit
 
             _displayUACShield = false;
 
-            _uacShieldIconSize = UACShieldIconSize.Medium;
+            _uacShieldIconSize = UACShieldIconSize.Small;
 
-            _image = DEFAULT_IMAGE;
+            //_image = DEFAULT_IMAGE;
 
-            _transparencyKey = Color.Empty;
+            //_transparencyKey = Color.Empty;
 
-            //ResetImage();
+            ResetImage();
 
-            //ResetImageTransparentColor();
+            ResetImageTransparentColor();
         }
 
         #endregion
@@ -160,7 +160,7 @@ namespace Krypton.Toolkit
         public override bool IsDefault => (DisplayUACShield.Equals(false) &&
                                            Image!.Equals(DEFAULT_IMAGE) &&
                                            ImageTransparentColor.Equals(Color.Empty) &&
-                                           UACShieldIconSize.Equals(UACShieldIconSize.Medium));
+                                           UACShieldIconSize.Equals(UACShieldIconSize.Small));
 
         #endregion
 
