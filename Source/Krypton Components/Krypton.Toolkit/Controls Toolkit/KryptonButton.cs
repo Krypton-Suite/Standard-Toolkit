@@ -45,11 +45,9 @@ namespace Krypton.Toolkit
         private readonly PaletteTripleOverride _overrideTracking;
         private readonly PaletteTripleOverride _overridePressed;
         private IKryptonCommand? _command;
-        private bool _useAsDialogButton;
         private bool _isDefault;
         private bool _useMnemonic;
         private bool _wasEnabled;
-        private bool _useAsUACElevationButton;
         private bool _skipNextOpen;
         private bool _showSplitOption;
         //private bool _useOSUACShieldIcon;
@@ -134,10 +132,6 @@ namespace Krypton.Toolkit
 
             // Create the view manager instance
             ViewManager = new ViewManager(this, _drawButton);
-
-            _useAsDialogButton = false;
-
-            _useAsUACElevationButton = false;
 
             _uacShieldIconSize = GlobalStaticValues.DEFAULT_UAC_SHIELD_ICON_SIZE;
 
@@ -662,7 +656,7 @@ namespace Krypton.Toolkit
             // If we have an attached command then execute it
             KryptonCommand?.PerformExecute();
 
-            if (_useAsUACElevationButton)
+            if (Values.UseAsUACElevationButton)
             {
                 var rawUACShield = SystemIcons.Shield.ToBitmap();
 

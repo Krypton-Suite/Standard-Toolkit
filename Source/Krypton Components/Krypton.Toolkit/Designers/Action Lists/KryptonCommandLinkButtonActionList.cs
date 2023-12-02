@@ -2,7 +2,7 @@
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2023 - 2023. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved.
  *
  */
 #endregion
@@ -12,8 +12,8 @@ namespace Krypton.Toolkit
     internal class KryptonCommandLinkButtonActionList : DesignerActionList
     {
         #region Instance Fields
-        private readonly KryptonCommandLinkButton _button;
-        private readonly IComponentChangeService _service;
+        private readonly KryptonCommandLinkButton? _button;
+        private readonly IComponentChangeService? _service;
         #endregion
 
         #region Identity
@@ -28,7 +28,7 @@ namespace Krypton.Toolkit
             _button = owner.Component as KryptonCommandLinkButton;
 
             // Cache service used to notify when a property has changed
-            _service = (IComponentChangeService)GetService(typeof(IComponentChangeService));
+            _service = GetService(typeof(IComponentChangeService)) as IComponentChangeService;
         }
         #endregion
 
@@ -38,13 +38,13 @@ namespace Krypton.Toolkit
         /// </summary>
         public ButtonStyle ButtonStyle
         {
-            get => _button.ButtonStyle;
+            get => _button!.ButtonStyle;
 
             set
             {
-                if (_button.ButtonStyle != value)
+                if (_button!.ButtonStyle != value)
                 {
-                    _service.OnComponentChanged(_button, null, _button.ButtonStyle, value);
+                    _service?.OnComponentChanged(_button, null, _button.ButtonStyle, value);
                     _button.ButtonStyle = value;
                 }
             }
@@ -55,13 +55,13 @@ namespace Krypton.Toolkit
         /// </summary>
         public VisualOrientation Orientation
         {
-            get => _button.Orientation;
+            get => _button!.Orientation;
 
             set
             {
-                if (_button.Orientation != value)
+                if (_button!.Orientation != value)
                 {
-                    _service.OnComponentChanged(_button, null, _button.Orientation, value);
+                    _service?.OnComponentChanged(_button, null, _button.Orientation, value);
                     _button.Orientation = value;
                 }
             }
@@ -72,13 +72,13 @@ namespace Krypton.Toolkit
         /// </summary>
         public string Heading
         {
-            get => _button.CommandLinkTextValues.Heading;
+            get => _button!.CommandLinkTextValues.Heading;
 
             set
             {
-                if (_button.CommandLinkTextValues.Heading != value)
+                if (_button!.CommandLinkTextValues.Heading != value)
                 {
-                    _service.OnComponentChanged(_button, null, _button.CommandLinkTextValues.Heading, value);
+                    _service?.OnComponentChanged(_button, null, _button.CommandLinkTextValues.Heading, value);
                     _button.CommandLinkTextValues.Heading = value;
                 }
             }
@@ -89,13 +89,13 @@ namespace Krypton.Toolkit
         /// </summary>
         public string Description
         {
-            get => _button.CommandLinkTextValues.Description;
+            get => _button!.CommandLinkTextValues.Description;
 
             set
             {
-                if (_button.CommandLinkTextValues.Description != value)
+                if (_button!.CommandLinkTextValues.Description != value)
                 {
-                    _service.OnComponentChanged(_button, null, _button.CommandLinkTextValues.Description, value);
+                    _service?.OnComponentChanged(_button, null, _button.CommandLinkTextValues.Description, value);
                     _button.CommandLinkTextValues.Description = value;
                 }
             }
@@ -106,13 +106,13 @@ namespace Krypton.Toolkit
         /// </summary>
         public Image Image
         {
-            get => _button.CommandLinkImageValues.Image;
+            get => _button!.CommandLinkImageValues.Image;
 
             set
             {
-                if (_button.CommandLinkImageValues.Image != value)
+                if (_button!.CommandLinkImageValues.Image != value)
                 {
-                    _service.OnComponentChanged(_button, null, _button.CommandLinkImageValues.Image, value);
+                    _service?.OnComponentChanged(_button, null, _button.CommandLinkImageValues.Image, value);
                     _button.CommandLinkImageValues.Image = value;
                 }
             }
@@ -123,13 +123,13 @@ namespace Krypton.Toolkit
         /// </summary>
         public PaletteMode PaletteMode
         {
-            get => _button.PaletteMode;
+            get => _button!.PaletteMode;
 
             set
             {
-                if (_button.PaletteMode != value)
+                if (_button!.PaletteMode != value)
                 {
-                    _service.OnComponentChanged(_button, null, _button.PaletteMode, value);
+                    _service?.OnComponentChanged(_button, null, _button.PaletteMode, value);
                     _button.PaletteMode = value;
                 }
             }

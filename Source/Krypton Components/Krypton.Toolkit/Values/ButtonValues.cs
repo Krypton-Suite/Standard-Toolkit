@@ -58,6 +58,10 @@ namespace Krypton.Toolkit
             _transparent = Color.Empty;
             _text = _defaultText;
             _extraText = _defaultExtraText;
+            _showUACShield = false;
+            _useAsDialogButton = false;
+            _useAsUACElevationButton = false;
+            _uacShieldIconSize = GlobalStaticValues.DEFAULT_UAC_SHIELD_ICON_SIZE;
             ImageStates = CreateImageStates();
             ImageStates.NeedPaint = needPaint;
         }
@@ -70,6 +74,10 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         public override bool IsDefault => ImageStates.IsDefault &&
                                            (Image == null) &&
+                                           (ShowUACShield == false) &&
+                                           (UseAsADialogButton == false) &&
+                                           (UseAsUACElevationButton == false) &&
+                                           //(UACShieldIconSize == UACShieldIconSize.ExtraSmall)
                                            (ImageTransparentColor == Color.Empty) &&
                                            (Text == _defaultText) &&
                                            (ExtraText == _defaultExtraText);
@@ -234,6 +242,8 @@ namespace Krypton.Toolkit
                 if (_showUACShield != value)
                 {
                     _showUACShield = value;
+
+                    PerformNeedPaint(true);
                 }
             }
         }
@@ -255,6 +265,8 @@ namespace Krypton.Toolkit
         }
 
         #endregion
+
+        #region UseAsUACElevationButton
 
         [DefaultValue(false),
          Description(@"Transforms the button into a UAC elevated button.")]
@@ -297,16 +309,61 @@ namespace Krypton.Toolkit
             }
         }
 
+        #endregion
+
+        #region UseOSUACShieldIcon
+
         /*
         [DefaultValue(false), Description(@"Use the operating system UAC shield icon image.")]
-        public bool UseOSUACShieldIcon { get => _useOSUACShieldIcon; set { _useOSUACShieldIcon = value; UpdateOSUACShieldIcon(); } }
+        public bool UseOSUACShieldIcon
+        {
+        get => _useOSUACShieldIcon; 
         
-        [DefaultValue(null), Description(@"")]
-        public Size CustomUACShieldSize { get => _customUACShieldSize; set { _customUACShieldSize = value; ShowUACShield(_useAsUACElevationButton, UACShieldIconSize.Custom, value.Width, value.Height); } }
+        set
+        {
+        _useOSUACShieldIcon = value; 
+        
+        UpdateOSUACShieldIcon();
+        }
+        }
         */
 
+        #endregion
+
+        #region CustomUACShieldSize
+
+        /*
+        [DefaultValue(null), Description(@"")]
+        public Size CustomUACShieldSize 
+        {
+        get => _customUACShieldSize;
+        
+        set 
+        { _customUACShieldSize = value; 
+        
+        ShowUACShield(_useAsUACElevationButton, UACShieldIconSize.Custom, value.Width, value.Height); 
+        }
+        }
+        */
+
+        #endregion
+
+        #region UACShieldIconSize
+
         [DefaultValue(UACShieldIconSize.ExtraSmall), Description(@"")]
-        public UACShieldIconSize UACShieldIconSize { get => _uacShieldIconSize; set { _uacShieldIconSize = value; ShowUACShieldImage(_useAsUACElevationButton, value); } }
+        public UACShieldIconSize UACShieldIconSize
+        {
+            get => _uacShieldIconSize;
+
+            set
+            {
+                _uacShieldIconSize = value;
+
+                ShowUACShieldImage(_useAsUACElevationButton, value);
+            }
+        }
+
+        #endregion
 
         #region CreateImageStates
         /// <summary>
@@ -391,7 +448,8 @@ namespace Krypton.Toolkit
                         break;
                 }
 
-                //Invalidate();
+                // Force a repaint
+                PerformNeedPaint(true);
             }
             else
             {

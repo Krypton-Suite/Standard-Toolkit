@@ -19,6 +19,9 @@
 * [Discord Server](#discord-server)
 * [Version History](#version-history)
 * [Breaking Changes](#breaking-changes)
+	* [V90.## (2024-11-xx - Build 2411 - November 2024)](v90-24-11-xx--build-2411---november-2024)
+	    * [Support for .NET 7](#support-for-net-7)
+		* [`KryptonButton` Properties](#kryptonbutton-properties)
 	* [V80.## (2023-11-14 - Build 2311 - November 2023)](#v80-2023-11-14---build-2311---november-2023)
 		* [Support for .NET Core 3.1 and .NET 5](#support-for-net-core-31-and-net-5)
 		* [KryptonMessageBoxButtons](#kryptonmessageboxbuttons)
@@ -171,6 +174,15 @@ Follow the links to see the different objects and layouts that this framework al
 =======
 
 # Breaking Changes
+
+## V90.## (2024-11-xx - Build 2411 - November 2024)
+There are list of changes that have occurred during the development of the V90.## version
+
+### Support for .NET 7
+As of V90.##, support for .NET 7 has been removed due to their release cadences.
+
+### `KryptonButton` Properties
+Some properties previously found in the root such as, `ShowDropDown`, `ShowUACShield`, `UseAsADialogButton`, `UseAsUACElevationButton` and `UACShieldIconSize` are now located in the `Values` section.
 
 ## V80.## (2023-11-14 - Build 2311 - November 2023)
 There are list of changes that have occurred during the development of the V80.## version
