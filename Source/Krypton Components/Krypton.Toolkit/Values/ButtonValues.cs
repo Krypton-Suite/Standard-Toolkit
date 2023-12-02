@@ -10,6 +10,8 @@
  */
 #endregion
 
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
+
 namespace Krypton.Toolkit
 {
     /// <summary>
@@ -27,6 +29,7 @@ namespace Krypton.Toolkit
 
         private bool _useAsDialogButton;
         private bool _useAsUACElevationButton;
+        private bool _showSplitOption;
         private UACShieldIconSize _uacShieldIconSize;
         private Image? _image;
         private Color _transparent;
@@ -59,6 +62,7 @@ namespace Krypton.Toolkit
             _extraText = _defaultExtraText;
             _useAsDialogButton = false;
             _useAsUACElevationButton = false;
+            _showSplitOption = false;
             _uacShieldIconSize = GlobalStaticValues.DEFAULT_UAC_SHIELD_ICON_SIZE;
             ImageStates = CreateImageStates();
             ImageStates.NeedPaint = needPaint;
@@ -74,6 +78,7 @@ namespace Krypton.Toolkit
                                            (Image == null) &&
                                            (UseAsADialogButton == false) &&
                                            (UseAsUACElevationButton == false) &&
+                                           (ShowSplitOption == false) &&
                                            //(UACShieldIconSize == UACShieldIconSize.ExtraSmall)
                                            (ImageTransparentColor == Color.Empty) &&
                                            (Text == _defaultText) &&
@@ -334,6 +339,32 @@ namespace Krypton.Toolkit
                 _uacShieldIconSize = value;
 
                 ShowUACShieldImage(_useAsUACElevationButton, value);
+            }
+        }
+
+        #endregion
+
+        #region ShowSpltOption
+
+        /// <summary>Gets or sets a value indicating whether [show split option].</summary>
+        /// <value><c>true</c> if [show split option]; otherwise, <c>false</c>.</value>
+        [Category(@"Visuals")]
+        [DefaultValue(false)]
+        [Description(@"Displays the split/dropdown option.")]
+        public bool ShowSplitOption
+        {
+            get => _showSplitOption;
+
+            set
+            {
+                if (value != _showSplitOption)
+                {
+                    _showSplitOption = value;
+
+                    PerformNeedPaint(true);
+
+                    //Parent?.PerformLayout();
+                }
             }
         }
 

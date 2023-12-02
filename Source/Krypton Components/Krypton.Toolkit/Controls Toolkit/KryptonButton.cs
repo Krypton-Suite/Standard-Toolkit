@@ -49,7 +49,7 @@ namespace Krypton.Toolkit
         private bool _useMnemonic;
         private bool _wasEnabled;
         private bool _skipNextOpen;
-        private bool _showSplitOption;
+        //private bool _showSplitOption;
         //private bool _useOSUACShieldIcon;
         private float _cornerRoundingRadius;
         private Size _customUACShieldSize;
@@ -141,9 +141,6 @@ namespace Krypton.Toolkit
 
             // Set `CornerRoundingRadius' to 'GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE' (-1)
             CornerRoundingRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
-
-            // Split settings
-            _showSplitOption = false;
 
             _skipNextOpen = false;
 
@@ -479,7 +476,7 @@ namespace Krypton.Toolkit
             set => base.ImeMode = value;
         }
 
-        /// <summary>Gets or sets a value indicating whether [show split option].</summary>
+        /*/// <summary>Gets or sets a value indicating whether [show split option].</summary>
         /// <value><c>true</c> if [show split option]; otherwise, <c>false</c>.</value>
         [Category(@"Visuals")]
         [DefaultValue(false)]
@@ -499,7 +496,7 @@ namespace Krypton.Toolkit
                     Parent?.PerformLayout();
                 }
             }
-        }
+        }*/
 
         #endregion
 
