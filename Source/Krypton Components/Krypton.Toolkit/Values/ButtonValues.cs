@@ -411,6 +411,19 @@ namespace Krypton.Toolkit
 
         #endregion
 
+        #region UserAccountControlValues
+
+        /*
+        /// <summary>Gets the user account control values.</summary>
+        /// <value>The user account control values.</value>
+        [Category(@"Visuals")]
+        [Description(@"Button values")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        public UserAccountControlShieldValues UserAccountControlValues { get; }
+        */
+
+        #endregion
+
         #region UAC Stuff
 
         /// <summary>Shows the uac shield.</summary>
