@@ -312,5 +312,12 @@ namespace TestForm
         {
             kryptonTaskDialog1.ShowDialog();
         }
+
+        private void kryptonButton9_Click(object sender, EventArgs e)
+        {
+            Form7 commandLinks = new Form7();
+
+            commandLinks.ShowDialog();
+        }
     }
 }

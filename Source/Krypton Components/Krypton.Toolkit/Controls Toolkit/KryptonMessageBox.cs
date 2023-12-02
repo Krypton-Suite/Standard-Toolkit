@@ -10,6 +10,7 @@
  */
 #endregion
 
+// Only used in this class
 using ContentAlignment = System.Drawing.ContentAlignment;
 
 // ReSharper disable ClassNeverInstantiated.Global

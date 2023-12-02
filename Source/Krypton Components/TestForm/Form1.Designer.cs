@@ -29,7 +29,9 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.kryptonPanel1 = new Krypton.Toolkit.KryptonPanel();
+            this.kryptonButton9 = new Krypton.Toolkit.KryptonButton();
             this.kryptonButton5 = new Krypton.Toolkit.KryptonButton();
             this.kryptonButton8 = new Krypton.Toolkit.KryptonButton();
             this.kcbtnSizableToolWindow = new Krypton.Toolkit.KryptonCheckButton();
@@ -85,6 +87,7 @@
             // 
             // kryptonPanel1
             // 
+            this.kryptonPanel1.Controls.Add(this.kryptonButton9);
             this.kryptonPanel1.Controls.Add(this.kryptonButton5);
             this.kryptonPanel1.Controls.Add(this.kryptonButton8);
             this.kryptonPanel1.Controls.Add(this.kcbtnSizableToolWindow);
@@ -117,6 +120,15 @@
             this.kryptonPanel1.Name = "kryptonPanel1";
             this.kryptonPanel1.Size = new System.Drawing.Size(1112, 752);
             this.kryptonPanel1.TabIndex = 0;
+            // 
+            // kryptonButton9
+            // 
+            this.kryptonButton9.Location = new System.Drawing.Point(15, 415);
+            this.kryptonButton9.Name = "kryptonButton9";
+            this.kryptonButton9.Size = new System.Drawing.Size(183, 25);
+            this.kryptonButton9.TabIndex = 34;
+            this.kryptonButton9.Values.Text = "Command Links";
+            this.kryptonButton9.Click += new System.EventHandler(this.kryptonButton9_Click);
             // 
             // kryptonButton5
             // 
@@ -321,7 +333,9 @@
             this.kryptonButton2.Name = "kryptonButton2";
             this.kryptonButton2.Size = new System.Drawing.Size(185, 25);
             this.kryptonButton2.TabIndex = 6;
+            this.kryptonButton2.Values.Image = ((System.Drawing.Image)(resources.GetObject("kryptonButton2.Values.Image")));
             this.kryptonButton2.Values.Text = "Ribbon (Form3)";
+            this.kryptonButton2.Values.UseAsUACElevationButton = true;
             this.kryptonButton2.Click += new System.EventHandler(this.kryptonButton2_Click);
             // 
             // kryptonThemeComboBox1
@@ -345,9 +359,9 @@
             this.kryptonButton1.KryptonContextMenu = this.kryptonContextMenu1;
             this.kryptonButton1.Location = new System.Drawing.Point(12, 132);
             this.kryptonButton1.Name = "kryptonButton1";
-            this.kryptonButton1.ShowSplitOption = true;
             this.kryptonButton1.Size = new System.Drawing.Size(185, 25);
             this.kryptonButton1.TabIndex = 5;
+            this.kryptonButton1.Values.ShowSplitOption = true;
             this.kryptonButton1.Values.Text = "Button (form2)";
             this.kryptonButton1.Click += new System.EventHandler(this.kryptonButton1_Click);
             // 
@@ -561,5 +575,6 @@
         private Krypton.Toolkit.KryptonButton kryptonButton8;
         private Krypton.Toolkit.KryptonButton kryptonButton5;
         private Krypton.Toolkit.KryptonTaskDialog kryptonTaskDialog1;
+        private Krypton.Toolkit.KryptonButton kryptonButton9;
     }
 }

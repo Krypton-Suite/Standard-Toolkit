@@ -95,7 +95,7 @@
             this.kbtnOK.Name = "kbtnOK";
             this.kbtnOK.Size = new System.Drawing.Size(90, 25);
             this.kbtnOK.TabIndex = 3;
-            this.kbtnOK.UseAsADialogButton = true;
+            this.kbtnOK.Values.UseAsADialogButton = true;
             this.kbtnOK.Values.Text = "O&K";
             this.kbtnOK.Click += new System.EventHandler(this.kbtnOK_Click);
             // 
@@ -106,7 +106,7 @@
             this.kbtnCancel.Name = "kbtnCancel";
             this.kbtnCancel.Size = new System.Drawing.Size(90, 25);
             this.kbtnCancel.TabIndex = 2;
-            this.kbtnCancel.UseAsADialogButton = true;
+            this.kbtnCancel.Values.UseAsADialogButton = true;
             this.kbtnCancel.Values.Text = "Cance&l";
             this.kbtnCancel.Click += new System.EventHandler(this.kbtnCancel_Click);
             // 

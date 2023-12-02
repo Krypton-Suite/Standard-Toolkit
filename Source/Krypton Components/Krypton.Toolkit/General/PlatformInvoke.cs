@@ -18,9 +18,6 @@
 // ReSharper disable ArrangeTypeMemberModifiers
 // ReSharper disable BuiltInTypeReferenceStyle
 // ReSharper disable ClassNeverInstantiated.Global
-
-using Microsoft.Win32.SafeHandles;
-
 // ReSharper disable CommentTypo
 // ReSharper disable UnusedType.Local
 // ReSharper disable MemberHidesStaticFromOuterClass
@@ -30,6 +27,9 @@ using Microsoft.Win32.SafeHandles;
 #pragma warning disable IDE0090
 
 #pragma warning disable 649
+
+// Note: DO NOT REMOVE!!!
+using Microsoft.Win32.SafeHandles;
 
 
 namespace Krypton.Toolkit
@@ -2279,7 +2279,7 @@ namespace Krypton.Toolkit
             // </summary>
             CPL_LAUNCHED = USER + 0x1001,
 
-            OCM_CTLCOLOR  = 0x2019,
+            OCM_CTLCOLOR = 0x2019,
             // if ( msg.Msg == PI.WM_.OCM_NOTIFY )
             //{
             //    PI.NMHEADER h2 = (PI.NMHEADER)m.GetLParam(typeof(PI.NMHEADER));
