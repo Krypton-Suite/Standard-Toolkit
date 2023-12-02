@@ -66,6 +66,10 @@ namespace Krypton.Toolkit
             }
         }
 
+        private bool ShouldSerializeDisplayUACShield() => !DisplayUACShield;
+
+        public void ResetDisplayUACShield() => DisplayUACShield = false;
+
         /// <summary>Gets and sets the heading image transparent color.</summary>
         [Localizable(true)]
         [Category("Visuals")]
@@ -128,6 +132,10 @@ namespace Krypton.Toolkit
             }
         }
 
+        private bool ShouldSerializeUACShieldIconSize() => UACShieldIconSize != UACShieldIconSize.Small;
+
+        public void ResetUACShieldIconSize() => UACShieldIconSize = UACShieldIconSize.Small;
+
         #endregion
 
         #region Identity
@@ -138,17 +146,13 @@ namespace Krypton.Toolkit
         {
             NeedPaint = needPaint;
 
-            _displayUACShield = false;
-
-            _uacShieldIconSize = UACShieldIconSize.Small;
-
-            //_image = DEFAULT_IMAGE;
-
-            //_transparencyKey = Color.Empty;
+            ResetDisplayUACShield();
 
             ResetImage();
 
             ResetImageTransparentColor();
+
+            ResetUACShieldIconSize();
         }
 
         #endregion
