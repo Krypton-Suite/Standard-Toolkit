@@ -16,7 +16,7 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
         private readonly KryptonCheckButton? _checkButton;
-        private readonly IComponentChangeService _service;
+        private readonly IComponentChangeService? _service;
         private string _action;
         #endregion
 
@@ -35,7 +35,7 @@ namespace Krypton.Toolkit
             if (_checkButton != null)
             {
                 // Get access to the actual Orientation property
-                PropertyDescriptor checkedProp = TypeDescriptor.GetProperties(_checkButton)[nameof(Checked)];
+                PropertyDescriptor? checkedProp = TypeDescriptor.GetProperties(_checkButton)[nameof(Checked)];
 
                 // If we succeeded in getting the property
                 if (checkedProp != null)
@@ -46,7 +46,7 @@ namespace Krypton.Toolkit
             }
 
             // Cache service used to notify when a property has changed
-            _service = (IComponentChangeService)GetService(typeof(IComponentChangeService));
+            _service = GetService(typeof(IComponentChangeService)) as IComponentChangeService;
         }
         #endregion
 
@@ -56,13 +56,13 @@ namespace Krypton.Toolkit
         /// </summary>
         public bool Checked
         {
-            get => _checkButton.Checked;
+            get => _checkButton!.Checked;
 
             set
             {
-                if (_checkButton.Checked != value)
+                if (_checkButton!.Checked != value)
                 {
-                    _service.OnComponentChanged(_checkButton, null, _checkButton.Checked, value);
+                    _service?.OnComponentChanged(_checkButton, null, _checkButton.Checked, value);
                     _checkButton.Checked = value;
                 }
             }
