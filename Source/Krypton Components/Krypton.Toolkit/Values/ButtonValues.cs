@@ -31,6 +31,7 @@ namespace Krypton.Toolkit
         private UACShieldIconSize _uacShieldIconSize;
         private Image? _image;
         private Color _transparent;
+        private Color? _dropDownArrowColor;
         private string? _text;
         private string _extraText;
 
@@ -56,6 +57,7 @@ namespace Krypton.Toolkit
             // Set initial values
             _image = null;
             _transparent = Color.Empty;
+            _dropDownArrowColor = Color.Empty;
             _text = _defaultText;
             _extraText = _defaultExtraText;
             _useAsDialogButton = false;
@@ -77,6 +79,7 @@ namespace Krypton.Toolkit
                                            (UseAsADialogButton == false) &&
                                            (UseAsUACElevationButton == false) &&
                                            (ShowSplitOption == false) &&
+                                           (DropDownArrowColor == Color.Empty) &&
                                            //(UACShieldIconSize == UACShieldIconSize.ExtraSmall)
                                            (ImageTransparentColor == Color.Empty) &&
                                            (Text == _defaultText) &&
@@ -362,6 +365,30 @@ namespace Krypton.Toolkit
                     PerformNeedPaint(true);
 
                     //Parent?.PerformLayout();
+                }
+            }
+        }
+
+        #endregion
+
+        #region DropDownArrowColor
+
+        /// <summary>Gets or sets the color of the drop down arrow.</summary>
+        /// <value>The color of the drop down arrow.</value>
+        [Category(@"Visuals")]
+        [Description(@"Sets the drop down arrow color.")]
+        [DefaultValue(typeof(Color), @"Empty")]
+        public Color? DropDownArrowColor
+        {
+            get => _dropDownArrowColor;
+
+            set
+            {
+                if (_dropDownArrowColor != null)
+                {
+                    _dropDownArrowColor = value;
+
+                    PerformNeedPaint(true);
                 }
             }
         }

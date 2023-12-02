@@ -108,7 +108,7 @@ namespace Krypton.Toolkit
                                              _overrideNormal,
                                              _overrideTracking,
                                              _overridePressed,
-                                             new PaletteMetricRedirect(Redirector),
+                                             new PaletteMetricRedirect(Redirector!),
                                              this,
                                              Orientation,
                                              UseMnemonic)
@@ -810,7 +810,7 @@ namespace Krypton.Toolkit
             }
 
             // Draw an arrow in the correct location 
-            PaintArrow(g, _dropDownRectangle);
+            PaintArrow(Values.DropDownArrowColor, g, _dropDownRectangle);
 
             #endregion
         }
@@ -920,7 +920,7 @@ namespace Krypton.Toolkit
             switch (e.PropertyName)
             {
                 case nameof(Enabled):
-                    Enabled = KryptonCommand.Enabled;
+                    Enabled = KryptonCommand!.Enabled;
                     break;
                 case nameof(Text):
                 case @"ExtraText":
@@ -968,12 +968,19 @@ namespace Krypton.Toolkit
 
         #region Splitter Stuff
 
-        private static void PaintArrow(Graphics graphics, Rectangle rectangle)
+        /// <summary>Paints the drop-down arrow.</summary>
+        /// <param name="graphics">The drop-down arrow graphics.</param>
+        /// <param name="rectangle">The drop-down rectangle area.</param>
+        private static void PaintArrow(Color? dropDownArrowColor, Graphics graphics, Rectangle rectangle)
         {
             var midPoint = new Point(Convert.ToInt32(rectangle.Left + rectangle.Width / 2),
                 Convert.ToInt32(rectangle.Top + rectangle.Height / 2));
 
             midPoint.X += (rectangle.Width % 2);
+
+            Color color = dropDownArrowColor ?? Color.Black;
+
+            SolidBrush dropDownBrush = new SolidBrush(color);
 
             var arrow = new Point[]
             {
@@ -982,7 +989,7 @@ namespace Krypton.Toolkit
                 midPoint with { Y = midPoint.Y + 2 }
             };
 
-            graphics.FillPolygon(SystemBrushes.ControlText, arrow);
+            graphics.FillPolygon(dropDownBrush, arrow);
         }
 
         private void ShowContextMenuStrip()
