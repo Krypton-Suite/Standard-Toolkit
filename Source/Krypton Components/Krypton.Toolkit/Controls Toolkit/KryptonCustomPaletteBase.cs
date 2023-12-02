@@ -2929,24 +2929,26 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         public override KryptonColorTable ColorTable => ToolMenuStatus.InternalKCT;
 
+        /// <inheritdoc />
         [Browsable(false)]
         public new bool UseKryptonFileDialogs
         { get => _basePalette!.UseKryptonFileDialogs; set => _basePalette!.UseKryptonFileDialogs = value; }
 
-        [Browsable(false)]
-        public new float BaseFontSize
-        { get => _basePalette!.BaseFontSize; set => _basePalette!.BaseFontSize = value; }
-
+        /// <inheritdoc />
         [Browsable(false)]
         [DisallowNull]
         public new Font BaseFont
         { get => _basePalette!.BaseFont; set => _basePalette!.BaseFont = value; }
+        private void ResetBaseFont() => _basePalette!.ResetBaseFont();
+        private bool ShouldSerializeBaseFont() => _basePalette!.ShouldSerializeBaseFont();
 
+        /// <inheritdoc />
         [Browsable(false)]
         [DisallowNull]
         public new string ThemeName
         { get => _basePalette!.ThemeName; set => _basePalette!.ThemeName = value; }
 
+        /// <inheritdoc />
         [Browsable(false)]
         public new BasePaletteType BasePaletteType
         { get => _basePalette!.BasePaletteType; set => _basePalette!.BasePaletteType = value; }

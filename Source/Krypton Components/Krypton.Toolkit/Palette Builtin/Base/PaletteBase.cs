@@ -20,11 +20,8 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
 
-        private bool _useKryptonFileDialogs;
-        private BasePaletteType _basePaletteType;
         private Padding? _inputControlPadding;
         private PaletteDragFeedback _dragFeedback;
-        private string _themeName;
 
         private readonly Font _defaultFontStyle = new Font("Segoe UI", 9f, FontStyle.Regular);
 
@@ -91,11 +88,11 @@ namespace Krypton.Toolkit
             // Inherit means we need to calculate the value next time it is requested
             _dragFeedback = PaletteDragFeedback.Inherit;
 
-            _themeName = string.Empty;
+            ThemeName = string.Empty;
 
-            _useKryptonFileDialogs = true;
+            UseKryptonFileDialogs = true;
 
-            _baseFont = _defaultFontStyle;
+            BaseFont = _defaultFontStyle;
         }
         #endregion
 
@@ -1698,28 +1695,7 @@ namespace Krypton.Toolkit
         /// <summary>Gets or sets a value indicating whether [use krypton file dialogs].</summary>
         /// <value><c>true</c> if [use krypton file dialogs]; otherwise, <c>false</c>.</value>
         [DefaultValue(false), Description(@"Use Krypton style file dialogs for exporting/importing palettes.")]
-        public bool UseKryptonFileDialogs { get => _useKryptonFileDialogs; set => _useKryptonFileDialogs = value; }
-
-        /// <summary>Gets and sets the base font size used when defining fonts.</summary>
-        [Description(@"Gets and sets the base font size used when defining fonts.")]
-        public float BaseFontSize
-        {
-            get => _baseFont.Size;
-
-            set
-            {
-                if (value <= 0)
-                {
-                    value = _defaultFontStyle.Size;
-                }
-
-                // Is there a change in value?
-                if (_baseFont.Size != value)
-                {
-                    BaseFont = new Font(_baseFont.Name, value, _baseFont.Style);
-                }
-            }
-        }
+        public bool UseKryptonFileDialogs { get; set; }
 
         /// <summary>Gets or sets the base palette font.</summary>
         /// <value>The base palette font.</value>
@@ -1736,16 +1712,18 @@ namespace Krypton.Toolkit
                 OnPalettePaint(this, new PaletteLayoutEventArgs(true, false));
             }
         }
+        internal void ResetBaseFont() => BaseFont = _defaultFontStyle;
+        internal bool ShouldSerializeBaseFont() => !Equals(BaseFont, _defaultFontStyle);
 
         /// <summary>Gets or sets the name of the theme.</summary>
         /// <value>The name of the theme.</value>
         [DisallowNull, Description(@"Gets or sets the name of the theme.")]
-        public string ThemeName { get => _themeName; set => _themeName = value; }
+        public string ThemeName { get; set; }
 
         /// <summary>Gets or sets the type of the base palette.</summary>
         /// <value>The type of the base palette.</value>
         [Description(@"Gets or sets the type of the base palette.")]
-        public BasePaletteType BasePaletteType { get => _basePaletteType; set => _basePaletteType = value; }
+        public BasePaletteType BasePaletteType { get; set; }
 
         #endregion
 
