@@ -702,9 +702,10 @@ namespace Krypton.Toolkit
         /// </summary>
         protected override void ContextMenuClosed() => _buttonController.RemoveFixed();
 
+        /// <inheritdoc />
         protected override void OnPaint(PaintEventArgs? e)
         {
-            if (_useAsDialogButton)
+            if (Values.UseAsADialogButton)
             {
                 if (DialogResult == DialogResult.Abort)
                 {
@@ -739,6 +740,25 @@ namespace Krypton.Toolkit
                 if (DialogResult == DialogResult.Ignore)
                 {
                     Text = KryptonManager.Strings.GeneralStrings.Ignore;
+                }
+            }
+
+            if (Values.ShowUACShield)
+            {
+                switch (Values.UACShieldIconSize)
+                {
+                    case UACShieldIconSize.ExtraSmall:
+                        break;
+                    case UACShieldIconSize.Small:
+                        break;
+                    case UACShieldIconSize.Medium:
+                        break;
+                    case UACShieldIconSize.Large:
+                        break;
+                    case UACShieldIconSize.ExtraLarge:
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
                 }
             }
 

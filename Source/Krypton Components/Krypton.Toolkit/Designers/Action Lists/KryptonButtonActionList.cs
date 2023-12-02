@@ -228,19 +228,19 @@ namespace Krypton.Toolkit
         [DefaultValue(false)]
         public bool UseAsUACElevatedButton
         {
-            get => _button.UseAsUACElevationButton;
+            get => _button.Values.UseAsUACElevationButton;
 
             set
             {
-                if (_button.UseAsUACElevationButton != value)
+                if (_button.Values.UseAsUACElevationButton != value)
                 {
-                    _service.OnComponentChanged(_button, null, _button.UseAsUACElevationButton, value);
+                    _service.OnComponentChanged(_button, null, _button.Values.UseAsUACElevationButton, value);
 
-                    _button.UseAsUACElevationButton = value;
+                    _button.Values.UseAsUACElevationButton = value;
                 }
             }
         }
-        
+
         #endregion
 
         #region Public Override
