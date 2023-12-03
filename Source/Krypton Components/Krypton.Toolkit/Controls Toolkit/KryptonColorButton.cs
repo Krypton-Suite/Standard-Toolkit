@@ -47,7 +47,7 @@ namespace Krypton.Toolkit
         private KryptonColorButtonCustomColorPreviewShape _customColorPreviewShape;
 
         // Context menu items
-        private readonly KryptonContextMenu _kryptonContextMenu;
+        private readonly KryptonContextMenu? _kryptonContextMenu;
         private readonly KryptonContextMenuSeparator _separatorTheme;
         private readonly KryptonContextMenuSeparator _separatorStandard;
         private readonly KryptonContextMenuSeparator _separatorRecent;
@@ -186,7 +186,7 @@ namespace Krypton.Toolkit
                                              _overrideNormal,
                                              _overrideTracking,
                                              _overridePressed,
-                                             new PaletteMetricRedirect(Redirector),
+                                             new PaletteMetricRedirect(Redirector!),
                                              this,
                                              VisualOrientation.Top,
                                              UseMnemonic)
@@ -705,7 +705,7 @@ namespace Krypton.Toolkit
                     else
                     {
                         _wasEnabled = Enabled;
-                        _wasImage = Values.Image;
+                        _wasImage = Values.Image!;
                     }
 
                     _command = value;

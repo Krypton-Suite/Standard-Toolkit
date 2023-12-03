@@ -41,11 +41,11 @@ namespace Krypton.Toolkit
         /// </summary>
         public ButtonStyle ButtonStyle
         {
-            get => _button.ButtonStyle;
+            get => _button!.ButtonStyle;
 
             set
             {
-                if (_button.ButtonStyle != value)
+                if (_button!.ButtonStyle != value)
                 {
                     _service.OnComponentChanged(_button, null, _button.ButtonStyle, value);
                     _button.ButtonStyle = value;
@@ -57,11 +57,11 @@ namespace Krypton.Toolkit
         /// <value>The dialog result.</value>
         public DialogResult DialogResult
         {
-            get => _button.DialogResult;
+            get => _button!.DialogResult;
 
             set
             {
-                if (_button.DialogResult != value)
+                if (_button!.DialogResult != value)
                 {
                     _service.OnComponentChanged(_button, null, _button.DialogResult, value);
                     _button.DialogResult = value;
@@ -73,11 +73,11 @@ namespace Krypton.Toolkit
         /// <value>The krypton context menu.</value>
         public KryptonContextMenu? KryptonContextMenu
         {
-            get => _button.KryptonContextMenu;
+            get => _button!.KryptonContextMenu;
 
             set
             {
-                if (_button.KryptonContextMenu != value)
+                if (_button!.KryptonContextMenu != value)
                 {
                     _service.OnComponentChanged(_button, null, _button.KryptonContextMenu, value);
 
@@ -91,11 +91,11 @@ namespace Krypton.Toolkit
         /// </summary>
         public VisualOrientation Orientation
         {
-            get => _button.Orientation;
+            get => _button!.Orientation;
 
             set
             {
-                if (_button.Orientation != value)
+                if (_button!.Orientation != value)
                 {
                     _service.OnComponentChanged(_button, null, _button.Orientation, value);
                     _button.Orientation = value;
@@ -108,11 +108,11 @@ namespace Krypton.Toolkit
         /// </summary>
         public string Text
         {
-            get => _button.Values.Text;
+            get => _button!.Values.Text;
 
             set
             {
-                if (_button.Values.Text != value)
+                if (_button!.Values.Text != value)
                 {
                     _service.OnComponentChanged(_button, null, _button.Values.Text, value);
                     _button.Values.Text = value;
@@ -125,11 +125,11 @@ namespace Krypton.Toolkit
         /// </summary>
         public string ExtraText
         {
-            get => _button.Values.ExtraText;
+            get => _button!.Values.ExtraText;
 
             set
             {
-                if (_button.Values.ExtraText != value)
+                if (_button!.Values.ExtraText != value)
                 {
                     _service.OnComponentChanged(_button, null, _button.Values.ExtraText, value);
                     _button.Values.ExtraText = value;
@@ -142,11 +142,11 @@ namespace Krypton.Toolkit
         /// </summary>
         public Image? Image
         {
-            get => _button.Values.Image;
+            get => _button!.Values.Image;
 
             set
             {
-                if (_button.Values.Image != value)
+                if (_button!.Values.Image != value)
                 {
                     _service.OnComponentChanged(_button, null, _button.Values.Image, value);
                     _button.Values.Image = value;
@@ -159,11 +159,11 @@ namespace Krypton.Toolkit
         /// </summary>
         public PaletteMode PaletteMode
         {
-            get => _button.PaletteMode;
+            get => _button!.PaletteMode;
 
             set
             {
-                if (_button.PaletteMode != value)
+                if (_button!.PaletteMode != value)
                 {
                     _service.OnComponentChanged(_button, null, _button.PaletteMode, value);
                     _button.PaletteMode = value;
@@ -173,13 +173,13 @@ namespace Krypton.Toolkit
 
         /// <summary>Gets or sets the font.</summary>
         /// <value>The font.</value>
-        public Font StateCommonShortTextFont
+        public Font? StateCommonShortTextFont
         {
-            get => _button.StateCommon.Content.ShortText.Font;
+            get => _button!.StateCommon.Content.ShortText.Font;
 
             set
             {
-                if (_button.StateCommon.Content.ShortText.Font != value)
+                if (_button!.StateCommon.Content.ShortText.Font != value)
                 {
                     _service.OnComponentChanged(_button, null, _button.StateCommon.Content.ShortText.Font, value);
 
@@ -190,13 +190,13 @@ namespace Krypton.Toolkit
 
         /// <summary>Gets or sets the font.</summary>
         /// <value>The font.</value>
-        public Font StateCommonLongTextFont
+        public Font? StateCommonLongTextFont
         {
-            get => _button.StateCommon.Content.LongText.Font;
+            get => _button!.StateCommon.Content.LongText.Font;
 
             set
             {
-                if (_button.StateCommon.Content.LongText.Font != value)
+                if (_button!.StateCommon.Content.LongText.Font != value)
                 {
                     _service.OnComponentChanged(_button, null, _button.StateCommon.Content.LongText.Font, value);
 
@@ -210,11 +210,11 @@ namespace Krypton.Toolkit
         [DefaultValue(GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE)]
         public float StateCommonCornerRoundingRadius
         {
-            get => _button.StateCommon.Border.Rounding;
+            get => _button!.StateCommon.Border.Rounding;
 
             set
             {
-                if (_button.StateCommon.Border.Rounding != value)
+                if (_button!.StateCommon.Border.Rounding != value)
                 {
                     _service.OnComponentChanged(_button, null, _button.StateCommon.Border.Rounding, value);
 
@@ -228,11 +228,11 @@ namespace Krypton.Toolkit
         [DefaultValue(false)]
         public bool UseAsUACElevatedButton
         {
-            get => _button.Values.UseAsUACElevationButton;
+            get => _button!.Values.UseAsUACElevationButton;
 
             set
             {
-                if (_button.Values.UseAsUACElevationButton != value)
+                if (_button!.Values.UseAsUACElevationButton != value)
                 {
                     _service.OnComponentChanged(_button, null, _button.Values.UseAsUACElevationButton, value);
 

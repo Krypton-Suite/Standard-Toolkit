@@ -10,8 +10,6 @@
  */
 #endregion
 
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
-
 namespace Krypton.Toolkit
 {
     /// <summary>
@@ -33,6 +31,7 @@ namespace Krypton.Toolkit
         private UACShieldIconSize _uacShieldIconSize;
         private Image? _image;
         private Color _transparent;
+        private Color? _dropDownArrowColor;
         private string? _text;
         private string _extraText;
 
@@ -58,6 +57,7 @@ namespace Krypton.Toolkit
             // Set initial values
             _image = null;
             _transparent = Color.Empty;
+            _dropDownArrowColor = Color.Empty;
             _text = _defaultText;
             _extraText = _defaultExtraText;
             _useAsDialogButton = false;
@@ -79,6 +79,7 @@ namespace Krypton.Toolkit
                                            (UseAsADialogButton == false) &&
                                            (UseAsUACElevationButton == false) &&
                                            (ShowSplitOption == false) &&
+                                           (DropDownArrowColor == Color.Empty) &&
                                            //(UACShieldIconSize == UACShieldIconSize.ExtraSmall)
                                            (ImageTransparentColor == Color.Empty) &&
                                            (Text == _defaultText) &&
@@ -370,6 +371,30 @@ namespace Krypton.Toolkit
 
         #endregion
 
+        #region DropDownArrowColor
+
+        /// <summary>Gets or sets the color of the drop down arrow.</summary>
+        /// <value>The color of the drop down arrow.</value>
+        [Category(@"Visuals")]
+        [Description(@"Sets the drop down arrow color.")]
+        [DefaultValue(typeof(Color), @"Empty")]
+        public Color? DropDownArrowColor
+        {
+            get => _dropDownArrowColor;
+
+            set
+            {
+                if (_dropDownArrowColor != null)
+                {
+                    _dropDownArrowColor = value;
+
+                    PerformNeedPaint(true);
+                }
+            }
+        }
+
+        #endregion
+
         #region CreateImageStates
         /// <summary>
         /// Create the storage for the image states.
@@ -410,6 +435,19 @@ namespace Krypton.Toolkit
         /// Gets the content long text.
         /// </summary>
         public virtual string GetLongText() => ExtraText;
+
+        #endregion
+
+        #region UserAccountControlValues
+
+        /*
+        /// <summary>Gets the user account control values.</summary>
+        /// <value>The user account control values.</value>
+        [Category(@"Visuals")]
+        [Description(@"Button values")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        public UserAccountControlShieldValues UserAccountControlValues { get; }
+        */
 
         #endregion
 

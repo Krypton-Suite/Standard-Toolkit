@@ -17,7 +17,8 @@ namespace Krypton.Toolkit
     [DesignerCategory("Code")]
     [DisplayName("Krypton Command Link")]
     [Description("A Krypton Command Link Button.")]
-    [ToolboxItem(true)]
+    [ToolboxItem(false)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
     [ToolboxBitmap(typeof(KryptonAlternateCommandLinkButton), @"ToolboxBitmaps.KryptonCommandLinkButton.bmp")]
     public class KryptonAlternateCommandLinkButton : KryptonButton
     {

@@ -319,5 +319,10 @@ namespace TestForm
 
             commandLinks.ShowDialog();
         }
+
+        private void kryptonColorButton1_SelectedColorChanged(object sender, ColorEventArgs e)
+        {
+            kryptonButton1.Values.DropDownArrowColor = e.Color;
+        }
     }
 }
