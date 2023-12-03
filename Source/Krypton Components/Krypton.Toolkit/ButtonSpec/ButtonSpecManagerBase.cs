@@ -154,7 +154,7 @@ namespace Krypton.Toolkit
                     PaletteMetricInt viewMetricIntOutside = _viewMetricIntOutside[i];
 
                     // Create storage for the spacers
-                    _viewSpacers[i] = new ListSpacers();
+                    _viewSpacers[i] = [];
 
                     // Always create the outside edge spacers
                     var spacerL1 = new ViewLayoutMetricSpacer(viewMetric, viewMetricIntOutside);

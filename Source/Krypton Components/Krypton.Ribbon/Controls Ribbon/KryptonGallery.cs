@@ -107,7 +107,7 @@ namespace Krypton.Ribbon
 
             // Create content storage
             Images = new GalleryImages(NeedPaintDelegate);
-            DropButtonRanges = new KryptonGalleryRangeCollection();
+            DropButtonRanges = [];
 
             // Create the palette storage
             StateCommon = new PaletteGalleryRedirect(Redirector!, NeedPaintDelegate);

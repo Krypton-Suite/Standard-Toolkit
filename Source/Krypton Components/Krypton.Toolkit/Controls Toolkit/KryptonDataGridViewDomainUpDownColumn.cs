@@ -25,7 +25,7 @@ namespace Krypton.Toolkit
         /// </summary>
         public KryptonDataGridViewDomainUpDownColumn()
             : base(new KryptonDataGridViewDomainUpDownCell()) =>
-            Items = new StringCollection();
+            Items = [];
 
         /// <summary>
         /// Returns a standard compact string representation of the column.

@@ -2647,19 +2647,19 @@ namespace Krypton.Ribbon
 
         private void CreateRibbonCollections()
         {
-            RibbonContexts = new KryptonRibbonContextCollection();
+            RibbonContexts = [];
             RibbonContexts.Clearing += OnRibbonContextsClearing;
             RibbonContexts.Cleared += OnRibbonContextsCleared;
             RibbonContexts.Inserted += OnRibbonContextsInserted;
             RibbonContexts.Removed += OnRibbonContextsRemoved;
 
-            RibbonTabs = new KryptonRibbonTabCollection();
+            RibbonTabs = [];
             RibbonTabs.Clearing += OnRibbonTabsClearing;
             RibbonTabs.Cleared += OnRibbonTabsCleared;
             RibbonTabs.Inserted += OnRibbonTabsInserted;
             RibbonTabs.Removed += OnRibbonTabsRemoved;
 
-            QATButtons = new KryptonRibbonQATButtonCollection();
+            QATButtons = [];
             QATButtons.Clearing += OnRibbonQATButtonsClearing;
             QATButtons.Cleared += OnRibbonQATButtonsCleared;
             QATButtons.Inserted += OnRibbonQATButtonsInserted;

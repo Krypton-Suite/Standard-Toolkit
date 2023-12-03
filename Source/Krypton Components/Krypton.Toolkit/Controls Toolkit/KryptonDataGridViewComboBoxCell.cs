@@ -21,7 +21,7 @@ namespace Krypton.Toolkit
     {
         #region Static Fields
         [ThreadStatic]
-        private static KryptonComboBox _paintingComboBox;
+        private static KryptonComboBox? _paintingComboBox;
         private static readonly Type _defaultEditType = typeof(KryptonDataGridViewComboBoxEditingControl);
         private static readonly Type _defaultValueType = typeof(string);
         private static readonly Size _sizeLarge = new Size(10000, 10000);
@@ -86,7 +86,7 @@ namespace Krypton.Toolkit
 
         /// <summary>Gets the items in the combobox.</summary>
         /// <value>The items.</value>
-        public ComboBox.ObjectCollection Items => _paintingComboBox.ComboBox.Items;
+        public ComboBox.ObjectCollection Items => _paintingComboBox!.ComboBox.Items;
 
         /// <summary>
         /// Clones a DataGridViewComboBoxCell cell, copies all the custom properties.
@@ -106,7 +106,7 @@ namespace Krypton.Toolkit
                 dataGridViewCell.ValueMember = ValueMember;
                 dataGridViewCell.DataSource = DataSource;
             }
-            return dataGridViewCell;
+            return dataGridViewCell!;
         }
         /// <summary>
         /// The DropDownStyle property replicates the one from the KryptonComboBox control
@@ -320,7 +320,7 @@ namespace Krypton.Toolkit
                     {
                         strings[i] = comboColumn.Items[i];
                     }
-
+                    comboBox.Items.Clear();
                     comboBox.Items.AddRange(strings);
 
                     var autoAppend = new string[comboColumn.AutoCompleteCustomSource.Count];
@@ -343,14 +343,7 @@ namespace Krypton.Toolkit
                 comboBox.ValueMember = ValueMember;
                 comboBox.DataSource = DataSource;
 
-                if (initialFormattedValue is not string initialFormattedValueStr)
-                {
-                    comboBox.Text = string.Empty;
-                }
-                else
-                {
-                    comboBox.Text = initialFormattedValueStr;
-                }
+                comboBox.Text = initialFormattedValue as string ?? string.Empty;
             }
         }
 
@@ -386,17 +379,8 @@ namespace Krypton.Toolkit
         /// </summary>
         protected override Rectangle GetErrorIconBounds(Graphics graphics, DataGridViewCellStyle cellStyle, int rowIndex)
         {
-            const int BUTTONS_WIDTH = 16;
-
             Rectangle errorIconBounds = base.GetErrorIconBounds(graphics, cellStyle, rowIndex);
-            if (DataGridView.RightToLeft == RightToLeft.Yes)
-            {
-                errorIconBounds.X = errorIconBounds.Left + BUTTONS_WIDTH;
-            }
-            else
-            {
-                errorIconBounds.X = errorIconBounds.Left - BUTTONS_WIDTH;
-            }
+            errorIconBounds.X = errorIconBounds.Left;
 
             return errorIconBounds;
         }
@@ -406,20 +390,9 @@ namespace Krypton.Toolkit
         /// </summary>
         protected override Size GetPreferredSize(Graphics graphics, DataGridViewCellStyle cellStyle, int rowIndex, Size constraintSize)
         {
-            if (DataGridView == null)
-            {
-                return new Size(-1, -1);
-            }
-
-            Size preferredSize = base.GetPreferredSize(graphics, cellStyle, rowIndex, constraintSize);
-            if (constraintSize.Width == 0)
-            {
-                const int BUTTONS_WIDTH = 16; // Account for the width of the up/down buttons.
-                const int BUTTON_MARGIN = 8;  // Account for some blank pixels between the text and buttons.
-                preferredSize.Width += BUTTONS_WIDTH + BUTTON_MARGIN;
-            }
-
-            return preferredSize;
+            return DataGridView == null 
+                ? new Size(-1, -1) 
+                : base.GetPreferredSize(graphics, cellStyle, rowIndex, constraintSize);
         }
         #endregion
 

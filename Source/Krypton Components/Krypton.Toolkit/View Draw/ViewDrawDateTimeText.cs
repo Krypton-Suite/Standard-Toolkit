@@ -44,7 +44,7 @@ namespace Krypton.Toolkit
                 _dateTimePicker = dateTimePicker;
                 _timeText = timeText;
                 _needPaint = needPaint;
-                _fragments = new FormatFragmentList();
+                _fragments = [];
                 _activeFragment = -1;
                 _inputDigits = null;
                 RightToLeftLayout = false;
@@ -659,7 +659,7 @@ namespace Krypton.Toolkit
 
             private FormatFragmentList ParseFormatToFragments(string format)
             {
-                FormatFragmentList fragList = new FormatFragmentList();
+                FormatFragmentList fragList = [];
 
                 // Grab the string used for formatting
                 var length = format.Length;

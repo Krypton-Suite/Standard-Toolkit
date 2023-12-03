@@ -47,7 +47,7 @@ namespace Krypton.Toolkit
             // Default fields
             _standardStyle = true;
             _imageColumn = true;
-            Items = new KryptonContextMenuItemCollection();
+            Items = [];
 
             // Add any initial set of item
             if (children != null)

@@ -16,7 +16,7 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
 
-        private readonly ArrayList _installedLanguagesList = new ArrayList();
+        private readonly ArrayList _installedLanguagesList = [];
 
         #endregion
 

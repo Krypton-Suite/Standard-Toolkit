@@ -157,7 +157,7 @@ namespace Krypton.Ribbon
             _imageSmall = _defaultButtonImageSmall;
             _buttonType = GroupButtonType.Split;
             _maxRecentColors = 10;
-            _recentColors = new List<Color>();
+            _recentColors = [];
 
             // Create the context menu items
             _kryptonContextMenu = new KryptonContextMenu();

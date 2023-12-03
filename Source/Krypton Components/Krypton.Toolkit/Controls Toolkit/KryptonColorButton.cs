@@ -129,7 +129,7 @@ namespace Krypton.Toolkit
             DialogResult = DialogResult.None;
             _useMnemonic = true;
             MaxRecentColors = 10;
-            _recentColors = new List<Color>();
+            _recentColors = [];
             _allowFullOpen = true;
 
             // Create the context menu items

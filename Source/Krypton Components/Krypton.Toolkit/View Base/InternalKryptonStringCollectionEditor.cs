@@ -423,9 +423,10 @@ namespace Krypton.Toolkit
             {
                 foreach (var line in ktxtStringCollection.Lines)
                 {
-                    List<string> list = new List<string>();
-
-                    list.Add(line);
+                    List<string> list =
+                    [
+                        line
+                    ];
 
                     Contents = list.ToArray();
                 }
@@ -434,9 +435,10 @@ namespace Krypton.Toolkit
             {
                 foreach (var line in krtbContents.Lines)
                 {
-                    List<string> list = new List<string>();
-
-                    list.Add(line);
+                    List<string> list =
+                    [
+                        line
+                    ];
 
                     Contents = list.ToArray();
                 }

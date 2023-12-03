@@ -34,7 +34,7 @@ namespace Krypton.Toolkit
             public VisualControlBase? Button { get; set; }
         }
 
-        private readonly List<Attributes> _controls = new List<Attributes>();
+        private readonly List<Attributes> _controls = [];
         internal readonly Color _backColour;
         private readonly Color _defaultFontColour;
         private readonly Color _inputFontColour;

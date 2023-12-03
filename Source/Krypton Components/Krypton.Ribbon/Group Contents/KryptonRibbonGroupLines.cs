@@ -167,7 +167,7 @@ namespace Krypton.Ribbon
             _itemSizeCurrent = GroupItemSize.Large;
 
             // Create collection for holding triple items
-            Items = new KryptonRibbonGroupLinesCollection();
+            Items = [];
             Items.Clearing += OnRibbonGroupLineClearing;
             Items.Cleared += OnRibbonGroupLineCleared;
             Items.Inserted += OnRibbonGroupLineInserted;

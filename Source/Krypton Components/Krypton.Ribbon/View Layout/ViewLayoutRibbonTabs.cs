@@ -48,7 +48,7 @@ namespace Krypton.Ribbon
         #endregion
 
         #region Identity
-        static ViewLayoutRibbonTabs() => ContextTabSets = new ContextTabSetCollection();
+        static ViewLayoutRibbonTabs() => ContextTabSets = [];
 
         /// <summary>
         /// Initialize a new instance of the ViewLayoutRibbonTabs class.
@@ -66,8 +66,8 @@ namespace Krypton.Ribbon
             _needPaint = needPaint;
 
             // Create cache of draw elements
-            _tabCache = new ViewDrawRibbonTabList();
-            _tabSepCache = new ViewDrawRibbonTabSepList();
+            _tabCache = [];
+            _tabSepCache = [];
         }
 
         /// <summary>
@@ -774,7 +774,7 @@ namespace Krypton.Ribbon
             // Create list first time around, otherwise clear it down
             if (_cachedSelectedContext == null)
             {
-                _cachedSelectedContext = new ContextNameList();
+                _cachedSelectedContext = [];
             }
             else
             {

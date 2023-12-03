@@ -3530,7 +3530,7 @@ namespace Krypton.Toolkit
                                 var formatter = new BinaryFormatter();
                                 var old = (Image)formatter.Deserialize(memory);
 #pragma warning restore SYSLIB0011
-                                resurrect = old is Bitmap bitmap ? bitmap : new Bitmap(old);
+                                resurrect = old as Bitmap ?? new Bitmap(old);
                             }
 
                             // Add into the lookup dictionary

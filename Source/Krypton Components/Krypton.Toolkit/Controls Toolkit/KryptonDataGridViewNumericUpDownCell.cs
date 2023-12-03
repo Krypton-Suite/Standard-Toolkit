@@ -298,7 +298,7 @@ namespace Krypton.Toolkit
                 numericUpDown.Minimum = Minimum;
                 numericUpDown.ThousandsSeparator = ThousandsSeparator;
                 numericUpDown.Hexadecimal = Hexadecimal;
-                numericUpDown.Text = initialFormattedValue is string initialFormattedValueStr ? initialFormattedValueStr : string.Empty;
+                numericUpDown.Text = initialFormattedValue as string ?? string.Empty;
             }
         }
 
@@ -355,12 +355,8 @@ namespace Krypton.Toolkit
         /// </summary>
         protected override Rectangle GetErrorIconBounds(Graphics graphics, DataGridViewCellStyle cellStyle, int rowIndex)
         {
-            const int BUTTONS_WIDTH = 16;
-
             Rectangle errorIconBounds = base.GetErrorIconBounds(graphics, cellStyle, rowIndex);
-            errorIconBounds.X = DataGridView.RightToLeft == RightToLeft.Yes
-                ? errorIconBounds.Left + BUTTONS_WIDTH
-                : errorIconBounds.Left - BUTTONS_WIDTH;
+            errorIconBounds.X = errorIconBounds.Left;
 
             return errorIconBounds;
         }
@@ -406,20 +402,9 @@ namespace Krypton.Toolkit
         /// </summary>
         protected override Size GetPreferredSize(Graphics graphics, DataGridViewCellStyle cellStyle, int rowIndex, Size constraintSize)
         {
-            if (DataGridView == null)
-            {
-                return new Size(-1, -1);
-            }
-
-            Size preferredSize = base.GetPreferredSize(graphics, cellStyle, rowIndex, constraintSize);
-            if (constraintSize.Width == 0)
-            {
-                const int BUTTONS_WIDTH = 16; // Account for the width of the up/down buttons.
-                const int BUTTON_MARGIN = 8;  // Account for some blank pixels between the text and buttons.
-                preferredSize.Width += BUTTONS_WIDTH + BUTTON_MARGIN;
-            }
-
-            return preferredSize;
+            return DataGridView == null 
+                ? new Size(-1, -1) 
+                : base.GetPreferredSize(graphics, cellStyle, rowIndex, constraintSize);
         }
         #endregion
 

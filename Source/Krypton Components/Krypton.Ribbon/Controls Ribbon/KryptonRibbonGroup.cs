@@ -116,7 +116,7 @@ namespace Krypton.Ribbon
             _maximumWidth = -1;
 
             // Create collection for holding child items
-            Items = new KryptonRibbonGroupContainerCollection();
+            Items = [];
             Items.Clearing += OnRibbonGroupItemsClearing;
             Items.Cleared += OnRibbonGroupItemsCleared;
             Items.Inserted += OnRibbonGroupItemsInserted;

@@ -96,7 +96,7 @@ namespace Krypton.Toolkit
         /// </summary>
         protected KryptonDataGridViewIconColumn(DataGridViewCell cellTemplate)
             : base(cellTemplate) =>
-            IconSpecs = new List<IconSpec>();
+            IconSpecs = [];
 
         #endregion
 

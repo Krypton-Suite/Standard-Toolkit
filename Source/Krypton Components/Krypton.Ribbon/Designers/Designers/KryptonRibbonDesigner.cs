@@ -137,7 +137,7 @@ namespace Krypton.Ribbon
                 // Create verbs first time around
                 if (_verbs == null)
                 {
-                    _verbs = new DesignerVerbCollection();
+                    _verbs = [];
                     _toggleHelpersVerb = new DesignerVerb(@"Toggle Helpers", OnToggleHelpers);
                     _addTabVerb = new DesignerVerb(@"Add Tab", OnAddTab);
                     _clearTabsVerb = new DesignerVerb(@"Clear Tabs", OnClearTabs);

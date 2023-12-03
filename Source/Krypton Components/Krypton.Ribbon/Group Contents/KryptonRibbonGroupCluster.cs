@@ -74,7 +74,7 @@ namespace Krypton.Ribbon
             _visible = true;
 
             // Create collection for holding triple items
-            Items = new KryptonRibbonGroupClusterCollection();
+            Items = [];
             Items.Clearing += OnRibbonGroupClusterClearing;
             Items.Cleared += OnRibbonGroupClusterCleared;
             Items.Inserted += OnRibbonGroupClusterInserted;

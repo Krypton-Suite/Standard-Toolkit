@@ -28,8 +28,8 @@ namespace Krypton.Toolkit
         public KryptonDataGridViewComboBoxColumn()
             : base(new KryptonDataGridViewComboBoxCell())
         {
-            Items = new List<object>();
-            AutoCompleteCustomSource = new AutoCompleteStringCollection();
+            Items = [];
+            AutoCompleteCustomSource = [];
         }
 
         /// <summary>
@@ -468,7 +468,7 @@ namespace Krypton.Toolkit
         [Description(@"Indicates the Datasource for the items in this control.")]
         [TypeConverter(@"System.Windows.Forms.Design.DataSourceConverter")]
         [Editor(@"System.Windows.Forms.Design.DataSourceListEditor", typeof(UITypeEditor))]
-        public object DataSource
+        public object? DataSource
         {
 
             get =>
@@ -493,7 +493,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Small utility function that returns the template cell as a KryptonDataGridViewComboBoxCell
         /// </summary>
-        private KryptonDataGridViewComboBoxCell? ComboBoxCellTemplate => (KryptonDataGridViewComboBoxCell)CellTemplate;
+        private KryptonDataGridViewComboBoxCell? ComboBoxCellTemplate => CellTemplate as KryptonDataGridViewComboBoxCell;
 
         #endregion
 

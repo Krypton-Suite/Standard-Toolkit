@@ -28,7 +28,7 @@ namespace Krypton.Toolkit
         /// </summary>
         protected ViewComposite() =>
             // Default state
-            _views = new List<ViewBase>();
+            _views = [];
 
         /// <summary>
         /// Release unmanaged and optionally managed resources.
