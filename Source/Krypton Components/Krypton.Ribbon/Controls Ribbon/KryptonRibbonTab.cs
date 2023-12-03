@@ -69,7 +69,7 @@ namespace Krypton.Ribbon
             _visible = true;
 
             // Create the collection for defining groups
-            Groups = new KryptonRibbonGroupCollection();
+            Groups = [];
             Groups.Clearing += OnRibbonGroupsClearing;
             Groups.Cleared += OnRibbonGroupsCleared;
             Groups.Inserted += OnRibbonGroupsInserted;

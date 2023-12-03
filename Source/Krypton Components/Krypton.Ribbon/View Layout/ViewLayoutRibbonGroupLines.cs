@@ -86,12 +86,12 @@ namespace Krypton.Ribbon
             // Use hashtable to store relationships
             _itemToView = new ItemToView();
             _viewToItem = new ViewToItem();
-            _sizeLargeList = new SizeList();
-            _sizeMediumList = new SizeList();
-            _sizeSmallList = new SizeList();
-            _viewLargeList = new ViewList();
-            _viewMediumList = new ViewList();
-            _viewSmallList = new ViewList();
+            _sizeLargeList = [];
+            _sizeMediumList = [];
+            _sizeSmallList = [];
+            _viewLargeList = [];
+            _viewMediumList = [];
+            _viewSmallList = [];
             _viewToLargeGap = new ViewToGap();
             _viewToMediumGap = new ViewToGap();
             _viewToSmallGap = new ViewToGap();

@@ -234,7 +234,7 @@ namespace Krypton.Toolkit
 
             if (kmse._useRichTextBox)
             {
-                collection = new StringCollection();
+                collection = [];
 
                 string[] tmp = kmse.krtbContents.Lines;
 
@@ -242,7 +242,7 @@ namespace Krypton.Toolkit
             }
             else
             {
-                collection = new StringCollection();
+                collection = [];
 
                 string[] tmp = kmse.ktxtStringCollection.Lines;
 

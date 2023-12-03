@@ -812,7 +812,7 @@ namespace Krypton.Toolkit
         /// Highlight search strings in the DataGridView 
         /// </summary>
         /// <param name="s">The string to search.</param>
-        public void HighlightSearch(string s) => HighlightSearch(s, new List<int>());
+        public void HighlightSearch(string s) => HighlightSearch(s, []);
 
         /// <summary>
         /// Highlight search strings in the DataGridView 

@@ -33,9 +33,9 @@ namespace Krypton.Toolkit
         public KryptonDataGridViewDateTimePickerColumn()
             : base(new KryptonDataGridViewDateTimePickerCell())
         {
-            _annualDates = new DateTimeList();
-            _monthlyDates = new DateTimeList();
-            _dates = new DateTimeList();
+            _annualDates = [];
+            _monthlyDates = [];
+            _dates = [];
         }
 
         /// <summary>

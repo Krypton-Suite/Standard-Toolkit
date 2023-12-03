@@ -65,7 +65,7 @@ namespace Krypton.Ribbon
             _groupToView = new GroupToView();
 
             // Create cache of group separator elements
-            _groupSepCache = new ViewDrawRibbonGroupSepList();
+            _groupSepCache = [];
         }
 
         /// <summary>

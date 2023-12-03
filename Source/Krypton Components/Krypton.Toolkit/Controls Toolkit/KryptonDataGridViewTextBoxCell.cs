@@ -152,7 +152,7 @@ namespace Krypton.Toolkit
 
             if (DataGridView.EditingControl is KryptonTextBox textBox)
             {
-                textBox.Text = initialFormattedValue is not string initialFormattedValueStr ? string.Empty : initialFormattedValueStr;
+                textBox.Text = initialFormattedValue as string ?? string.Empty;
 
                 DataGridViewTriState wrapMode = Style.WrapMode;
                 if (wrapMode == DataGridViewTriState.NotSet)
@@ -211,17 +211,8 @@ namespace Krypton.Toolkit
         /// </summary>
         protected override Rectangle GetErrorIconBounds(Graphics graphics, DataGridViewCellStyle cellStyle, int rowIndex)
         {
-            const int BUTTONS_WIDTH = 16;
-
             Rectangle errorIconBounds = base.GetErrorIconBounds(graphics, cellStyle, rowIndex);
-            if (DataGridView.RightToLeft == RightToLeft.Yes)
-            {
-                errorIconBounds.X = errorIconBounds.Left + BUTTONS_WIDTH;
-            }
-            else
-            {
-                errorIconBounds.X = errorIconBounds.Left - BUTTONS_WIDTH;
-            }
+            errorIconBounds.X = errorIconBounds.Left;
 
             return errorIconBounds;
         }
@@ -231,20 +222,9 @@ namespace Krypton.Toolkit
         /// </summary>
         protected override Size GetPreferredSize(Graphics graphics, DataGridViewCellStyle cellStyle, int rowIndex, Size constraintSize)
         {
-            if (DataGridView == null)
-            {
-                return new Size(-1, -1);
-            }
-
-            Size preferredSize = base.GetPreferredSize(graphics, cellStyle, rowIndex, constraintSize);
-
-            if (constraintSize.Width == 0)
-            {
-                const int BUTTONS_WIDTH = 16; // Account for the width of the up/down buttons.
-                const int BUTTON_MARGIN = 8;  // Account for some blank pixels between the text and buttons.
-                preferredSize.Width += BUTTONS_WIDTH + BUTTON_MARGIN;
-            }
-            return preferredSize;
+            return DataGridView == null 
+                ? new Size(-1, -1) 
+                : base.GetPreferredSize(graphics, cellStyle, rowIndex, constraintSize);
         }
 
         #endregion
@@ -328,6 +308,6 @@ namespace Krypton.Toolkit
         [Category(@"Data")]
         [Description(@"Set of extra icons to appear with control.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public List<IconSpec> IconSpecs { get; } = new List<IconSpec>();
+        public List<IconSpec> IconSpecs { get; } = [];
     }
 }

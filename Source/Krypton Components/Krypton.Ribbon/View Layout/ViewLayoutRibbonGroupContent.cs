@@ -355,7 +355,7 @@ namespace Krypton.Ribbon
             SyncChildrenToRibbonGroupItems();
 
             // Get the permutations available for each child container
-            _listWidths = new List<ItemSizeWidth[]>();
+            _listWidths = [];
 
             // Scan all child containers
             var pixelGaps = 0;

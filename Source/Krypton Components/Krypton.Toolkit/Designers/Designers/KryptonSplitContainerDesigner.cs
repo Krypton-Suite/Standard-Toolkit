@@ -126,12 +126,7 @@ namespace Krypton.Toolkit
             get
             {
                 // Create a collection of action lists
-                DesignerActionListCollection actionLists = new DesignerActionListCollection
-                {
-
-                    // Add the orientation list
-                    new KryptonSplitContainerActionList(this)
-                };
+                DesignerActionListCollection actionLists = [new KryptonSplitContainerActionList(this)];
 
                 return actionLists;
             }

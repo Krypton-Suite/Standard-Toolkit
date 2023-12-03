@@ -154,7 +154,7 @@ namespace Krypton.Toolkit
             _shortcutKeys = shortcut;
             _shortcutKeyDisplayString = string.Empty;
             _checkState = CheckState.Unchecked;
-            Items = new KryptonContextMenuCollection();
+            Items = [];
 
             // Create the common storage for palette override values
             _stateRedirect = new PaletteContextMenuItemStateRedirect();

@@ -27,7 +27,7 @@ namespace Krypton.Toolkit
 
         #region Identity
         /// <summary>
-        /// Initalize a new instance of the KryptonDataGridViewComboBoxEditingControl class.
+        /// Initialize a new instance of the KryptonDataGridViewComboBoxEditingControl class.
         /// </summary>
         public KryptonDataGridViewComboBoxEditingControl()
         {
@@ -54,7 +54,7 @@ namespace Krypton.Toolkit
         public virtual object? EditingControlFormattedValue
         {
             get => GetEditingControlFormattedValue(DataGridViewDataErrorContexts.Formatting);
-            set => Text = (string)value;
+            set => Text = value as string;
         }
 
         /// <summary>
@@ -82,7 +82,7 @@ namespace Krypton.Toolkit
         public virtual bool RepositionEditingControlOnValueChange => false;
 
         /// <summary>
-        /// Method called by the grid before the editing control is shown so it can adapt to the provided cell style.
+        /// Method called by the grid before the editing control is shown, so it can adapt to the provided cell style.
         /// </summary>
         public virtual void ApplyCellStyleToEditingControl(DataGridViewCellStyle dataGridViewCellStyle)
         {

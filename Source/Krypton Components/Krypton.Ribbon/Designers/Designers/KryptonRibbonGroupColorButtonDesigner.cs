@@ -123,7 +123,7 @@ namespace Krypton.Ribbon
             // Create verbs first time around
             if (_verbs == null)
             {
-                _verbs = new DesignerVerbCollection();
+                _verbs = [];
                 _toggleHelpersVerb = new DesignerVerb(@"Toggle Helpers", OnToggleHelpers);
                 _moveFirstVerb = new DesignerVerb(@"Move Color Button First", OnMoveFirst);
                 _movePrevVerb = new DesignerVerb(@"Move Color Button Previous", OnMovePrevious);

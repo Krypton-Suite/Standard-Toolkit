@@ -208,9 +208,9 @@ namespace Krypton.Toolkit
             CalendarDimensions = new Size(1, 1);
             _today = DEFAULT_TODAY;
             CalendarFirstDayOfWeek = Day.Default;
-            _annualDates = new DateTimeList();
-            _monthlyDates = new DateTimeList();
-            _dates = new DateTimeList();
+            _annualDates = [];
+            _monthlyDates = [];
+            _dates = [];
 
             // Create storage objects
             ButtonSpecs = new DateTimePickerButtonSpecCollection(this);

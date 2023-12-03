@@ -86,7 +86,7 @@ namespace Krypton.Toolkit
             StateChecked = new PaletteContextMenuItemStateChecked(StateCommon);
 
             // Create the top level collection for menu items
-            Items = new KryptonContextMenuCollection();
+            Items = [];
         }
 
         /// <summary> 

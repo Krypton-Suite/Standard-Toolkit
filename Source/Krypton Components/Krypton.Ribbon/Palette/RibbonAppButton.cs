@@ -71,7 +71,7 @@ namespace Krypton.Ribbon
             };
             _appButtonImage = _defaultAppImage;
             AppButtonSpecs = new AppMenuButtonSpecCollection(ribbon);
-            AppButtonRecentDocs = new KryptonRibbonRecentDocCollection();
+            AppButtonRecentDocs = [];
             AppButtonToolTipTitle = string.Empty;
             AppButtonToolTipBody = string.Empty;
             AppButtonToolTipImageTransparentColor = Color.Empty;

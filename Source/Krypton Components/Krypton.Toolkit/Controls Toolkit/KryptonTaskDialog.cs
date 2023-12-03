@@ -66,8 +66,8 @@ namespace Krypton.Toolkit
         /// </summary>
         public KryptonTaskDialog()
         {
-            RadioButtons = new KryptonTaskDialogCommandCollection();
-            CommandButtons = new KryptonTaskDialogCommandCollection();
+            RadioButtons = [];
+            CommandButtons = [];
             _commonButtons = TaskDialogButtons.OK;
             _textExtra = @"Ctrl+C to copy";
         }

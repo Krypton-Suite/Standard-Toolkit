@@ -68,7 +68,7 @@ namespace Krypton.Ribbon
         public void SetKeyTips(KeyTipInfoList keyTips)
         {
             // Create a new list of key tip views
-            _viewList = new List<ViewDrawRibbonKeyTip>();
+            _viewList = [];
 
             var enclosingRect = Rectangle.Empty;
 
