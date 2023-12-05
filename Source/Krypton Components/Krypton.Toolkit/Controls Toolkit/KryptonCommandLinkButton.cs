@@ -2,7 +2,7 @@
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2023 - 2023. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved.
  *
  */
 #endregion
@@ -75,6 +75,7 @@ namespace Krypton.Toolkit
 
             // Create content storage
             CommandLinkImageValues = new CommandLinkImageValues(NeedPaintDelegate);
+            CommandLinkImageValues.Image = CommandLinkImageResources.Windows_11_CommandLink_Arrow;
             CommandLinkTextValues = new CommandLinkTextValues(NeedPaintDelegate);
 
             // Create the palette storage
@@ -182,19 +183,14 @@ namespace Krypton.Toolkit
             set => CommandLinkTextValues.Heading = value;
         }
 
-        private bool ShouldSerializeText()
-        {
+        private bool ShouldSerializeText() =>
             // Never serialize, let the button values serialize instead
-            return false;
-        }
+            false;
 
         /// <summary>
         /// Resets the Text property to its default value.
         /// </summary>
-        public override void ResetText()
-        {
-            CommandLinkTextValues.ResetText();
-        }
+        public override void ResetText() => CommandLinkTextValues.ResetText();
 
         /// <summary>
         /// Gets and sets the visual orientation of the control.
@@ -240,15 +236,9 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeButtonStyle()
-        {
-            return (ButtonStyle != ButtonStyle.Command);
-        }
+        private bool ShouldSerializeButtonStyle() => (ButtonStyle != ButtonStyle.Command);
 
-        private void ResetButtonStyle()
-        {
-            ButtonStyle = ButtonStyle.Command;
-        }
+        private void ResetButtonStyle() => ButtonStyle = ButtonStyle.Command;
 
         /// <summary>
         /// Gets access to the button content.
@@ -266,10 +256,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public CommandLinkImageValues CommandLinkImageValues { get; }
 
-        private bool ShouldSerializeValues()
-        {
-            return false;
-        }
+        private bool ShouldSerializeValues() => false;
 
         /// <summary>
         /// Gets access to the common button appearance that other states can override.
@@ -279,10 +266,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteTripleRedirect StateCommon { get; }
 
-        private bool ShouldSerializeStateCommon()
-        {
-            return !StateCommon.IsDefault;
-        }
+        private bool ShouldSerializeStateCommon() => !StateCommon.IsDefault;
 
         /// <summary>
         /// Gets access to the disabled button appearance entries.
@@ -499,7 +483,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the default size of the control.
         /// </summary>
-        protected override Size DefaultSize => new Size(287, 61);
+        protected override Size DefaultSize => new Size(319, 61);
 
         /// <summary>
         /// Gets the default Input Method Editor (IME) mode supported by this control.
@@ -618,11 +602,59 @@ namespace Krypton.Toolkit
         /// <inheritdoc />
         protected override void OnPaint(PaintEventArgs? e)
         {
-            //if (CommandLinkImageValues.ShowUACShield)
-            //{
-            //    SendMessage(new HandleRef(this, Handle), BCM_SETSHIELD, IntPtr.Zero,
-            //        CommandLinkImageValues.ShowUACShield);
-            //}
+            if (CommandLinkTextValues.DescriptionFont != null)
+            {
+                StateCommon.Content.LongText.Font = CommandLinkTextValues.DescriptionFont;
+            }
+            else
+            {
+                StateCommon.Content.LongText.Font = null;
+            }
+
+            if (CommandLinkTextValues.HeadingFont != null)
+            {
+                StateCommon.Content.ShortText.Font = CommandLinkTextValues.HeadingFont;
+            }
+            else
+            {
+                StateCommon.Content.ShortText.Font = null;
+            }
+
+            if (CommandLinkTextValues.DescriptionTextHAlignment != null)
+            {
+                StateCommon.Content.LongText.TextH = CommandLinkTextValues.DescriptionTextHAlignment ?? PaletteRelativeAlign.Near;
+            }
+            else
+            {
+                StateCommon.Content.LongText.TextH = PaletteRelativeAlign.Near;
+            }
+
+            if (CommandLinkTextValues.DescriptionTextVAlignment != null)
+            {
+                StateCommon.Content.LongText.TextV = CommandLinkTextValues.DescriptionTextVAlignment ?? PaletteRelativeAlign.Far;
+            }
+            else
+            {
+                StateCommon.Content.LongText.TextV = PaletteRelativeAlign.Far;
+            }
+
+            if (CommandLinkTextValues.HeadingTextHAlignment != null)
+            {
+                StateCommon.Content.ShortText.TextH = CommandLinkTextValues.HeadingTextHAlignment ?? PaletteRelativeAlign.Near;
+            }
+            else
+            {
+                StateCommon.Content.ShortText.TextH = PaletteRelativeAlign.Near;
+            }
+
+            if (CommandLinkTextValues.HeadingTextVAlignment != null)
+            {
+                StateCommon.Content.ShortText.TextV = CommandLinkTextValues.HeadingTextVAlignment ?? PaletteRelativeAlign.Center;
+            }
+            else
+            {
+                StateCommon.Content.ShortText.TextV = PaletteRelativeAlign.Center;
+            }
 
             base.OnPaint(e);
         }

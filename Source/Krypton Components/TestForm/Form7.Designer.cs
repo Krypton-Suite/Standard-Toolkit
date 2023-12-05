@@ -57,8 +57,6 @@
             // kryptonCommandLinkButton5
             // 
             this.kryptonCommandLinkButton5.ButtonStyle = Krypton.Toolkit.ButtonStyle.Standalone;
-            this.kryptonCommandLinkButton5.CommandLinkImageValues.DisplayUACShield = false;
-            this.kryptonCommandLinkButton5.CommandLinkImageValues.Image = null;
             this.kryptonCommandLinkButton5.CommandLinkTextValues.Description = "What happens when the text is really long, \r\nand wants to go off the edge?\r\nThen " +
     "Use a Multi-line ;-)\r\n";
             this.kryptonCommandLinkButton5.CommandLinkTextValues.Heading = "&Control the World";
@@ -86,7 +84,6 @@
             this.kryptonCommandLinkButton5.StateCommon.Content.LongText.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.kryptonCommandLinkButton5.StateCommon.Content.LongText.TextV = Krypton.Toolkit.PaletteRelativeAlign.Far;
             this.kryptonCommandLinkButton5.StateCommon.Content.LongText.Trim = Krypton.Toolkit.PaletteTextTrim.Word;
-            this.kryptonCommandLinkButton5.StateCommon.Content.ShortText.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.kryptonCommandLinkButton5.StateCommon.Content.ShortText.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.kryptonCommandLinkButton5.StateCommon.Content.ShortText.TextV = Krypton.Toolkit.PaletteRelativeAlign.Center;
             this.kryptonCommandLinkButton5.TabIndex = 5;
@@ -94,7 +91,6 @@
             // kryptonCommandLinkButton4
             // 
             this.kryptonCommandLinkButton4.ButtonStyle = Krypton.Toolkit.ButtonStyle.NavigatorMini;
-            this.kryptonCommandLinkButton4.CommandLinkImageValues.DisplayUACShield = false;
             this.kryptonCommandLinkButton4.CommandLinkImageValues.Image = ((System.Drawing.Image)(resources.GetObject("kryptonCommandLinkButton4.CommandLinkImageValues.Image")));
             this.kryptonCommandLinkButton4.CommandLinkTextValues.Description = " Demo the Shortcut display and rounded borders";
             this.kryptonCommandLinkButton4.CommandLinkTextValues.Heading = "&Disabled Navigator Mini style";
@@ -116,7 +112,6 @@
             this.kryptonCommandLinkButton4.StateCommon.Border.Width = 2;
             this.kryptonCommandLinkButton4.StateCommon.Content.LongText.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.kryptonCommandLinkButton4.StateCommon.Content.LongText.TextV = Krypton.Toolkit.PaletteRelativeAlign.Far;
-            this.kryptonCommandLinkButton4.StateCommon.Content.ShortText.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.kryptonCommandLinkButton4.StateCommon.Content.ShortText.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.kryptonCommandLinkButton4.StateCommon.Content.ShortText.TextV = Krypton.Toolkit.PaletteRelativeAlign.Center;
             this.kryptonCommandLinkButton4.TabIndex = 4;
@@ -124,8 +119,6 @@
             // kryptonCommandLinkButton3
             // 
             this.kryptonCommandLinkButton3.ButtonStyle = Krypton.Toolkit.ButtonStyle.NavigatorMini;
-            this.kryptonCommandLinkButton3.CommandLinkImageValues.DisplayUACShield = false;
-            this.kryptonCommandLinkButton3.CommandLinkImageValues.Image = null;
             this.kryptonCommandLinkButton3.CommandLinkTextValues.Description = " Demo the Shortcut display and rounded borders";
             this.kryptonCommandLinkButton3.CommandLinkTextValues.Heading = "&Navigator Mini style";
             this.kryptonCommandLinkButton3.Location = new System.Drawing.Point(12, 247);
@@ -145,7 +138,6 @@
             this.kryptonCommandLinkButton3.StateCommon.Border.Width = 2;
             this.kryptonCommandLinkButton3.StateCommon.Content.LongText.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.kryptonCommandLinkButton3.StateCommon.Content.LongText.TextV = Krypton.Toolkit.PaletteRelativeAlign.Far;
-            this.kryptonCommandLinkButton3.StateCommon.Content.ShortText.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.kryptonCommandLinkButton3.StateCommon.Content.ShortText.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.kryptonCommandLinkButton3.StateCommon.Content.ShortText.TextV = Krypton.Toolkit.PaletteRelativeAlign.Center;
             this.kryptonCommandLinkButton3.TabIndex = 3;
@@ -153,8 +145,6 @@
             // kryptonCommandLinkButton2
             // 
             this.kryptonCommandLinkButton2.ButtonStyle = Krypton.Toolkit.ButtonStyle.Standalone;
-            this.kryptonCommandLinkButton2.CommandLinkImageValues.DisplayUACShield = false;
-            this.kryptonCommandLinkButton2.CommandLinkImageValues.Image = null;
             this.kryptonCommandLinkButton2.CommandLinkTextValues.Description = " Here be the extra Text with some spaces";
             this.kryptonCommandLinkButton2.CommandLinkTextValues.Heading = "Standalone Style";
             this.kryptonCommandLinkButton2.Location = new System.Drawing.Point(12, 180);
@@ -167,7 +157,6 @@
             this.kryptonCommandLinkButton2.Size = new System.Drawing.Size(341, 61);
             this.kryptonCommandLinkButton2.StateCommon.Content.LongText.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.kryptonCommandLinkButton2.StateCommon.Content.LongText.TextV = Krypton.Toolkit.PaletteRelativeAlign.Far;
-            this.kryptonCommandLinkButton2.StateCommon.Content.ShortText.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.kryptonCommandLinkButton2.StateCommon.Content.ShortText.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.kryptonCommandLinkButton2.StateCommon.Content.ShortText.TextV = Krypton.Toolkit.PaletteRelativeAlign.Center;
             this.kryptonCommandLinkButton2.TabIndex = 2;
@@ -190,8 +179,6 @@
             // 
             // kryptonCommandLinkButton1
             // 
-            this.kryptonCommandLinkButton1.CommandLinkImageValues.DisplayUACShield = false;
-            this.kryptonCommandLinkButton1.CommandLinkImageValues.UACShieldIconSize = Krypton.Toolkit.UACShieldIconSize.Small;
             this.kryptonCommandLinkButton1.CommandLinkTextValues.Description = "Here be the \"Note Text\"";
             this.kryptonCommandLinkButton1.CommandLinkTextValues.Heading = "Default Ext Command Link";
             this.kryptonCommandLinkButton1.Location = new System.Drawing.Point(12, 99);
@@ -204,7 +191,6 @@
             this.kryptonCommandLinkButton1.Size = new System.Drawing.Size(341, 61);
             this.kryptonCommandLinkButton1.StateCommon.Content.LongText.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.kryptonCommandLinkButton1.StateCommon.Content.LongText.TextV = Krypton.Toolkit.PaletteRelativeAlign.Far;
-            this.kryptonCommandLinkButton1.StateCommon.Content.ShortText.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.kryptonCommandLinkButton1.StateCommon.Content.ShortText.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.kryptonCommandLinkButton1.StateCommon.Content.ShortText.TextV = Krypton.Toolkit.PaletteRelativeAlign.Center;
             this.kryptonCommandLinkButton1.TabIndex = 0;

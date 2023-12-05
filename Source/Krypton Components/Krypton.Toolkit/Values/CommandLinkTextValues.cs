@@ -9,7 +9,7 @@
 
 namespace Krypton.Toolkit
 {
-    public class CommandLinkTextValues : CaptionValues
+    public class CommandLinkTextValues : CaptionValues, IContentValues
     {
         #region Static Fields
 
@@ -19,12 +19,39 @@ namespace Krypton.Toolkit
 
         #endregion
 
+        #region Instance Fields
+
+        private Font? _descriptionFont;
+
+        private Font? _headingFont;
+
+        private PaletteRelativeAlign? _descriptionTextHAlignment;
+
+        private PaletteRelativeAlign? _descriptionTextVAlignment;
+
+        private PaletteRelativeAlign? _headingTextHAlignment;
+
+        private PaletteRelativeAlign? _headingTextVAlignment;
+
+        #endregion
+
         #region Identity
 
         /// <summary>Initializes a new instance of the <see cref="CommandLinkTextValues" /> class.</summary>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
         public CommandLinkTextValues(NeedPaintHandler needPaint) : base(needPaint)
         {
+            _descriptionFont = null;
+
+            _headingFont = null;
+
+            _descriptionTextHAlignment = PaletteRelativeAlign.Near;
+
+            _descriptionTextVAlignment = PaletteRelativeAlign.Far;
+
+            _headingTextHAlignment = PaletteRelativeAlign.Near;
+
+            _headingTextVAlignment = PaletteRelativeAlign.Center;
         }
 
         #endregion
@@ -51,6 +78,106 @@ namespace Krypton.Toolkit
             Heading = DEFAULT_HEADING;
 
             Description = DEFAULT_DESCRIPTION;
+
+            DescriptionFont = _descriptionFont;
+
+            HeadingFont = _headingFont;
+        }
+
+        [DefaultValue(null)]
+        public Font? DescriptionFont
+        {
+            get => _descriptionFont;
+
+            set
+            {
+                if (_descriptionFont != value)
+                {
+                    _descriptionFont = value;
+
+                    PerformNeedPaint(true);
+                }
+            }
+        }
+
+        [DefaultValue(null)]
+        public Font? HeadingFont
+        {
+            get => _headingFont;
+
+            set
+            {
+                if (_headingFont != value)
+                {
+                    _headingFont = value;
+
+                    PerformNeedPaint(true);
+                }
+            }
+        }
+
+        [DefaultValue(null)]
+        public PaletteRelativeAlign? DescriptionTextHAlignment
+        {
+            get => _descriptionTextHAlignment;
+
+            set
+            {
+                if (_descriptionTextHAlignment != value)
+                {
+                    _descriptionTextHAlignment = value;
+
+                    PerformNeedPaint(true);
+                }
+            }
+        }
+
+        [DefaultValue(null)]
+        public PaletteRelativeAlign? DescriptionTextVAlignment
+        {
+            get => _descriptionTextVAlignment;
+
+            set
+            {
+                if (_descriptionTextVAlignment != value)
+                {
+                    _descriptionTextVAlignment = value;
+
+                    PerformNeedPaint(true);
+                }
+            }
+        }
+
+        [DefaultValue(null)]
+        public PaletteRelativeAlign? HeadingTextHAlignment
+        {
+            get => _headingTextHAlignment;
+
+            set
+            {
+                if (_headingTextHAlignment != value)
+                {
+                    _headingTextHAlignment = value;
+
+                    PerformNeedPaint(true);
+                }
+            }
+        }
+
+        [DefaultValue(null)]
+        public PaletteRelativeAlign? HeadingTextVAlignment
+        {
+            get => _headingTextVAlignment;
+
+            set
+            {
+                if (_headingTextVAlignment != value)
+                {
+                    _headingTextVAlignment = value;
+
+                    PerformNeedPaint(true);
+                }
+            }
         }
 
         #endregion
