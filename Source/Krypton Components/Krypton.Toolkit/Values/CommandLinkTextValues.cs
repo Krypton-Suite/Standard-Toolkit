@@ -7,9 +7,10 @@
  */
 #endregion
 
+// ReSharper disable PossibleUnintendedReferenceComparison
 namespace Krypton.Toolkit
 {
-    public class CommandLinkTextValues : CaptionValues, IContentValues
+    public class CommandLinkTextValues : CaptionValues
     {
         #region Static Fields
 
@@ -69,6 +70,8 @@ namespace Krypton.Toolkit
         #region Implementation
 
         /// <inheritdoc />
+        [Category(@"CommandLink")]
+        [Description(@"The description text for the command link button.")]
         [DefaultValue(DEFAULT_DESCRIPTION)]
         public override string Description { get => base.Description; set => base.Description = value; }
 
@@ -83,6 +86,11 @@ namespace Krypton.Toolkit
 
             HeadingFont = _headingFont;
         }
+
+        /// <summary>Gets or sets the description font.</summary>
+        /// <value>The description font.</value>
+        [Category(@"CommandLink")]
+        [Description(@"The description text font for the command link button.")]
 
         [DefaultValue(null)]
         public Font? DescriptionFont
@@ -100,6 +108,10 @@ namespace Krypton.Toolkit
             }
         }
 
+        /// <summary>Gets or sets the heading font.</summary>
+        /// <value>The heading font.</value>
+        [Category(@"CommandLink")]
+        [Description(@"The heading text font for the command link button.")]
         [DefaultValue(null)]
         public Font? HeadingFont
         {
@@ -116,6 +128,10 @@ namespace Krypton.Toolkit
             }
         }
 
+        /// <summary>Gets or sets the description text horizontal alignment.</summary>
+        /// <value>The description text horizontal alignment.</value>
+        [Category(@"CommandLink")]
+        [Description(@"The description text horizontal alignment for the command link button.")]
         [DefaultValue(null)]
         public PaletteRelativeAlign? DescriptionTextHAlignment
         {
@@ -132,6 +148,10 @@ namespace Krypton.Toolkit
             }
         }
 
+        /// <summary>Gets or sets the description text vertical alignment.</summary>
+        /// <value>The description text vertical alignment.</value>
+        [Category(@"CommandLink")]
+        [Description(@"The description text verticl alignment for the command link button.")]
         [DefaultValue(null)]
         public PaletteRelativeAlign? DescriptionTextVAlignment
         {
@@ -148,6 +168,10 @@ namespace Krypton.Toolkit
             }
         }
 
+        /// <summary>Gets or sets the heading text horizontal alignment.</summary>
+        /// <value>The heading text horizontal alignment.</value>
+        [Category(@"CommandLink")]
+        [Description(@"The heading text horizontal alignment for the command link button.")]
         [DefaultValue(null)]
         public PaletteRelativeAlign? HeadingTextHAlignment
         {
@@ -164,6 +188,10 @@ namespace Krypton.Toolkit
             }
         }
 
+        /// <summary>Gets or sets the heading text vertical alignment.</summary>
+        /// <value>The heading text vertical alignment.</value>
+        [Category(@"CommandLink")]
+        [Description(@"The heading text vertical alignment for the command link button.")]
         [DefaultValue(null)]
         public PaletteRelativeAlign? HeadingTextVAlignment
         {
