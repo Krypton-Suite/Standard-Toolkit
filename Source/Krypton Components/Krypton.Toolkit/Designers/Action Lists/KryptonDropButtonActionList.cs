@@ -41,11 +41,11 @@ namespace Krypton.Toolkit
         /// </summary>
         public ButtonStyle ButtonStyle
         {
-            get => _dropButton.ButtonStyle;
+            get => _dropButton!.ButtonStyle;
 
             set
             {
-                if (_dropButton.ButtonStyle != value)
+                if (_dropButton!.ButtonStyle != value)
                 {
                     _service.OnComponentChanged(_dropButton, null, _dropButton.ButtonStyle, value);
                     _dropButton.ButtonStyle = value;
@@ -58,11 +58,11 @@ namespace Krypton.Toolkit
         /// </summary>
         public VisualOrientation ButtonOrientation
         {
-            get => _dropButton.ButtonOrientation;
+            get => _dropButton!.ButtonOrientation;
 
             set
             {
-                if (_dropButton.ButtonOrientation != value)
+                if (_dropButton!.ButtonOrientation != value)
                 {
                     _service.OnComponentChanged(_dropButton, null, _dropButton.ButtonOrientation, value);
                     _dropButton.ButtonOrientation = value;
@@ -74,11 +74,11 @@ namespace Krypton.Toolkit
         /// <value>The Krypton Context Menu.</value>
         public KryptonContextMenu? KryptonContextMenu
         {
-            get => _dropButton.KryptonContextMenu;
+            get => _dropButton!.KryptonContextMenu;
 
             set
             {
-                if (_dropButton.KryptonContextMenu != value)
+                if (_dropButton!.KryptonContextMenu != value)
                 {
                     _service.OnComponentChanged(_dropButton, null, _dropButton.KryptonContextMenu, value);
 
@@ -92,11 +92,11 @@ namespace Krypton.Toolkit
         /// </summary>
         public VisualOrientation DropDownPosition
         {
-            get => _dropButton.DropDownPosition;
+            get => _dropButton!.DropDownPosition;
 
             set
             {
-                if (_dropButton.DropDownPosition != value)
+                if (_dropButton!.DropDownPosition != value)
                 {
                     _service.OnComponentChanged(_dropButton, null, _dropButton.DropDownPosition, value);
                     _dropButton.DropDownPosition = value;
@@ -109,11 +109,11 @@ namespace Krypton.Toolkit
         /// </summary>
         public VisualOrientation DropDownOrientation
         {
-            get => _dropButton.DropDownOrientation;
+            get => _dropButton!.DropDownOrientation;
 
             set
             {
-                if (_dropButton.DropDownOrientation != value)
+                if (_dropButton!.DropDownOrientation != value)
                 {
                     _service.OnComponentChanged(_dropButton, null, _dropButton.DropDownOrientation, value);
                     _dropButton.DropDownOrientation = value;
@@ -126,11 +126,11 @@ namespace Krypton.Toolkit
         /// </summary>
         public bool Splitter
         {
-            get => _dropButton.Splitter;
+            get => _dropButton!.Splitter;
 
             set
             {
-                if (_dropButton.Splitter != value)
+                if (_dropButton!.Splitter != value)
                 {
                     _service.OnComponentChanged(_dropButton, null, _dropButton.Splitter, value);
                     _dropButton.Splitter = value;
@@ -143,11 +143,11 @@ namespace Krypton.Toolkit
         /// </summary>
         public string Text
         {
-            get => _dropButton.Values.Text;
+            get => _dropButton!.Values.Text;
 
             set
             {
-                if (_dropButton.Values.Text != value)
+                if (_dropButton!.Values.Text != value)
                 {
                     _service.OnComponentChanged(_dropButton, null, _dropButton.Values.Text, value);
                     _dropButton.Values.Text = value;
@@ -160,11 +160,11 @@ namespace Krypton.Toolkit
         /// </summary>
         public string ExtraText
         {
-            get => _dropButton.Values.ExtraText;
+            get => _dropButton!.Values.ExtraText;
 
             set
             {
-                if (_dropButton.Values.ExtraText != value)
+                if (_dropButton!.Values.ExtraText != value)
                 {
                     _service.OnComponentChanged(_dropButton, null, _dropButton.Values.ExtraText, value);
                     _dropButton.Values.ExtraText = value;
@@ -177,11 +177,11 @@ namespace Krypton.Toolkit
         /// </summary>
         public Image? Image
         {
-            get => _dropButton.Values.Image;
+            get => _dropButton!.Values.Image;
 
             set
             {
-                if (_dropButton.Values.Image != value)
+                if (_dropButton!.Values.Image != value)
                 {
                     _service.OnComponentChanged(_dropButton, null, _dropButton.Values.Image, value);
                     _dropButton.Values.Image = value;
@@ -194,11 +194,11 @@ namespace Krypton.Toolkit
         /// </summary>
         public PaletteMode PaletteMode
         {
-            get => _dropButton.PaletteMode;
+            get => _dropButton!.PaletteMode;
 
             set
             {
-                if (_dropButton.PaletteMode != value)
+                if (_dropButton!.PaletteMode != value)
                 {
                     _service.OnComponentChanged(_dropButton, null, _dropButton.PaletteMode, value);
                     _dropButton.PaletteMode = value;
@@ -208,13 +208,13 @@ namespace Krypton.Toolkit
 
         /// <summary>Gets or sets the font.</summary>
         /// <value>The font.</value>
-        public Font StateCommonShortTextFont
+        public Font? StateCommonShortTextFont
         {
-            get => _dropButton.StateCommon.Content.ShortText.Font;
+            get => _dropButton!.StateCommon.Content.ShortText.Font;
 
             set
             {
-                if (_dropButton.StateCommon.Content.ShortText.Font != value)
+                if (_dropButton!.StateCommon.Content.ShortText.Font != value)
                 {
                     _service.OnComponentChanged(_dropButton, null, _dropButton.StateCommon.Content.ShortText.Font, value);
 
@@ -225,13 +225,13 @@ namespace Krypton.Toolkit
 
         /// <summary>Gets or sets the font.</summary>
         /// <value>The font.</value>
-        public Font StateCommonLongTextFont
+        public Font? StateCommonLongTextFont
         {
-            get => _dropButton.StateCommon.Content.LongText.Font;
+            get => _dropButton!.StateCommon.Content.LongText.Font;
 
             set
             {
-                if (_dropButton.StateCommon.Content.LongText.Font != value)
+                if (_dropButton!.StateCommon.Content.LongText.Font != value)
                 {
                     _service.OnComponentChanged(_dropButton, null, _dropButton.StateCommon.Content.LongText.Font, value);
 
@@ -245,11 +245,11 @@ namespace Krypton.Toolkit
         [DefaultValue(GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE)]
         public float StateCommonCornerRoundingRadius
         {
-            get => _dropButton.StateCommon.Border.Rounding;
+            get => _dropButton!.StateCommon.Border.Rounding;
 
             set
             {
-                if (_dropButton.StateCommon.Border.Rounding != value)
+                if (_dropButton!.StateCommon.Border.Rounding != value)
                 {
                     _service.OnComponentChanged(_dropButton, null, _dropButton.StateCommon.Border.Rounding, value);
 

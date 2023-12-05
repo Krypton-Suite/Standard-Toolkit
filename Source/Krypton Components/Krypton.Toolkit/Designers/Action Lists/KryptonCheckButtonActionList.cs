@@ -114,7 +114,7 @@ namespace Krypton.Toolkit
                 _action = isChecked ? "Uncheck the button" : "Check the button";
 
                 // Get access to the actual Orientation property
-                PropertyDescriptor checkedProp = TypeDescriptor.GetProperties(_checkButton)[nameof(Checked)];
+                PropertyDescriptor? checkedProp = TypeDescriptor.GetProperties(_checkButton)[nameof(Checked)];
 
                 // If we succeeded in getting the property
                 // Update the actual property with the new value
