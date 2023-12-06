@@ -35,9 +35,9 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Reference to owning ribbon instance.</param>
         /// <param name="comboBox">Source definition.</param>
         /// <param name="target">Target view element.</param>
-        public ComboBoxController([DisallowNull] KryptonRibbon ribbon,
-                                  [DisallowNull] KryptonRibbonGroupComboBox comboBox,
-                                  [DisallowNull] ViewDrawRibbonGroupComboBox target)
+        public ComboBoxController(KryptonRibbon ribbon,
+                                  KryptonRibbonGroupComboBox comboBox,
+                                  ViewDrawRibbonGroupComboBox target)
         {
             Debug.Assert(ribbon != null);
             Debug.Assert(comboBox != null);
@@ -67,7 +67,7 @@ namespace Krypton.Ribbon
         /// Source control has lost the focus.
         /// </summary>
         /// <param name="c">Reference to the source control instance.</param>
-        public void LostFocus([DisallowNull] Control c)
+        public void LostFocus(Control c)
         {
         }
         #endregion

@@ -22,7 +22,7 @@ namespace Krypton.Navigator
         /// Initialize a new instance of the ViewLayoutOutlookMini class.
         /// </summary>
         /// <param name="viewBuilder">View builder reference.</param>
-        public ViewLayoutOutlookMini([DisallowNull] ViewBuilderOutlookBase viewBuilder)
+        public ViewLayoutOutlookMini(ViewBuilderOutlookBase viewBuilder)
         {
             Debug.Assert(viewBuilder != null);
             ViewBuilder = viewBuilder!;

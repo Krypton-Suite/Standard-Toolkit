@@ -34,8 +34,8 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="ribbon">Owning control instance.</param>
         /// <param name="needPaint">Delegate for requested a paint.</param>
-        public ViewDrawRibbonComposition([DisallowNull] KryptonRibbon ribbon,
-                                         [DisallowNull] NeedPaintHandler needPaint)
+        public ViewDrawRibbonComposition(KryptonRibbon ribbon,
+                                         NeedPaintHandler needPaint)
         {
             Debug.Assert(ribbon != null);
             Debug.Assert(needPaint != null);
@@ -146,7 +146,7 @@ namespace Krypton.Ribbon
         /// Perform a layout of the elements.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override void Layout([DisallowNull] ViewLayoutContext context)
+        public override void Layout(ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 
@@ -179,7 +179,7 @@ namespace Krypton.Ribbon
         /// Perform rendering before child elements are rendered.
         /// </summary>
         /// <param name="context">Rendering context.</param>
-        public override void RenderBefore([DisallowNull] RenderContext context) 
+        public override void RenderBefore(RenderContext context) 
         {
             Debug.Assert(_ownerForm != null);
 

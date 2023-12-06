@@ -31,7 +31,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="navigator">Reference to owning navigator instance.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        protected HeaderGroupMappingBase([DisallowNull] KryptonNavigator navigator,
+        protected HeaderGroupMappingBase(KryptonNavigator navigator,
                                       NeedPaintHandler needPaint)
             : base(needPaint)
         {

@@ -28,8 +28,8 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="navigator">Reference to owning navigator control.</param>
         /// <param name="page">Page to the positioned.</param>
-        public ViewLayoutPopupPage([DisallowNull] KryptonNavigator navigator,
-                                   [DisallowNull] KryptonPage page)
+        public ViewLayoutPopupPage(KryptonNavigator navigator,
+                                   KryptonPage page)
         {
             Debug.Assert(navigator != null);
             Debug.Assert(page != null);
@@ -53,7 +53,7 @@ namespace Krypton.Navigator
         /// Discover the preferred size of the element.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override Size GetPreferredSize([DisallowNull] ViewLayoutContext context)
+        public override Size GetPreferredSize(ViewLayoutContext context)
         {
             Debug.Assert(context != null);
             return _page.GetPreferredSize(context!.DisplayRectangle.Size);
@@ -63,7 +63,7 @@ namespace Krypton.Navigator
         /// Perform a layout of the elements.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override void Layout([DisallowNull] ViewLayoutContext context)
+        public override void Layout(ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 

@@ -32,11 +32,11 @@ namespace Krypton.Ribbon
         /// <param name="ribbonGroupTextDisabled">Source for ribbon group button disabled settings.</param>
         /// <param name="ribbonLabelTextNormal">Source for ribbon group label normal settings.</param>
         /// <param name="ribbonLabelTextDisabled">Source for ribbon group label disabled settings.</param>
-        public RibbonGroupLabelTextToContent([DisallowNull] PaletteRibbonGeneral ribbonGeneral,
-                                             [DisallowNull] IPaletteRibbonText ribbonGroupTextNormal,
-                                             [DisallowNull] IPaletteRibbonText ribbonGroupTextDisabled,
-                                             [DisallowNull] IPaletteRibbonText ribbonLabelTextNormal,
-                                             [DisallowNull] IPaletteRibbonText ribbonLabelTextDisabled)
+        public RibbonGroupLabelTextToContent(PaletteRibbonGeneral ribbonGeneral,
+                                             IPaletteRibbonText ribbonGroupTextNormal,
+                                             IPaletteRibbonText ribbonGroupTextDisabled,
+                                             IPaletteRibbonText ribbonLabelTextNormal,
+                                             IPaletteRibbonText ribbonLabelTextDisabled)
 
             : base(ribbonGeneral)
         {

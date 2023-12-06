@@ -42,7 +42,7 @@ namespace Krypton.Ribbon
         /// <param name="target">Target for state changes.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
         /// <param name="repeatTimer">Does the button repeat when pressed.</param>
-        public GalleryButtonController([DisallowNull] ViewBase target,
+        public GalleryButtonController(ViewBase target,
                                        NeedPaintHandler needPaint,
                                        bool repeatTimer)
         {

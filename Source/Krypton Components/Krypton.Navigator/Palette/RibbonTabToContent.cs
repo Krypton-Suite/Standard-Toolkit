@@ -26,9 +26,9 @@ namespace Krypton.Navigator
         /// <param name="ribbonGeneral">Source for general ribbon settings.</param>
         /// <param name="ribbonTabText">Source for ribbon tab settings.</param>
         /// <param name="content">Source for content settings.</param>
-        public RibbonTabToContent([DisallowNull] IPaletteRibbonGeneral ribbonGeneral,
-                                  [DisallowNull] IPaletteRibbonText ribbonTabText,
-                                  [DisallowNull] IPaletteContent content)
+        public RibbonTabToContent(IPaletteRibbonGeneral ribbonGeneral,
+                                  IPaletteRibbonText ribbonTabText,
+                                  IPaletteContent content)
         {
             Debug.Assert(ribbonGeneral != null);
             Debug.Assert(ribbonTabText != null);

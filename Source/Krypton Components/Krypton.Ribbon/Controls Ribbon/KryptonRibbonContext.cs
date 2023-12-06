@@ -114,7 +114,6 @@ namespace Krypton.Ribbon
         [Category(@"Appearance")]
         [Description(@"Display color for associated contextual tabs.")]
         [DefaultValue(typeof(Color), "Red")]
-        [DisallowNull]
         public Color ContextColor
         {
             get => _contextColor;

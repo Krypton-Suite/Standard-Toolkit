@@ -43,10 +43,10 @@ namespace Krypton.Toolkit
         /// <param name="target">Target for state changes.</param>
         /// <param name="colorBlock">Drawing element that owns color block display.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public MenuColorBlockController([DisallowNull] ViewContextMenuManager viewManager,
-                                        [DisallowNull] ViewBase target,
-                                        [DisallowNull] ViewDrawMenuColorBlock colorBlock,
-                                        [DisallowNull] NeedPaintHandler needPaint)
+        public MenuColorBlockController(ViewContextMenuManager viewManager,
+                                        ViewBase target,
+                                        ViewDrawMenuColorBlock colorBlock,
+                                        NeedPaintHandler needPaint)
         {
             Debug.Assert(viewManager != null);
             Debug.Assert(target != null);
@@ -229,7 +229,7 @@ namespace Krypton.Toolkit
         /// <param name="c">Reference to the source control instance.</param>
         /// <param name="e">A KeyEventArgs that contains the event data.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public virtual void KeyDown([DisallowNull] Control c, [DisallowNull] KeyEventArgs e)
+        public virtual void KeyDown(Control c, KeyEventArgs e)
         {
             Debug.Assert(c != null);
             Debug.Assert(e != null);
@@ -286,7 +286,7 @@ namespace Krypton.Toolkit
         /// <param name="c">Reference to the source control instance.</param>
         /// <param name="e">A KeyPressEventArgs that contains the event data.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public virtual void KeyPress([DisallowNull] Control c, [DisallowNull] KeyPressEventArgs e)
+        public virtual void KeyPress(Control c, KeyPressEventArgs e)
         {
             Debug.Assert(c != null);
             Debug.Assert(e != null);
@@ -312,7 +312,7 @@ namespace Krypton.Toolkit
         /// <param name="e">A KeyEventArgs that contains the event data.</param>
         /// <exception cref="ArgumentNullException"></exception>
         /// <returns>True if capturing input; otherwise false.</returns>
-        public virtual bool KeyUp([DisallowNull] Control c, [DisallowNull] KeyEventArgs e)
+        public virtual bool KeyUp(Control c, KeyEventArgs e)
         {
             Debug.Assert(c != null);
             Debug.Assert(e != null);
@@ -340,7 +340,7 @@ namespace Krypton.Toolkit
         /// Source control has lost the focus.
         /// </summary>
         /// <param name="c">Reference to the source control instance.</param>
-        public virtual void LostFocus([DisallowNull] Control c)
+        public virtual void LostFocus(Control c)
         {
         }
         #endregion

@@ -77,10 +77,10 @@ namespace Krypton.Navigator
         /// <param name="renderer">Drawing renderer.</param>
         /// <param name="pageDragEndData">Drag data associated with drag operation.</param>
         /// <param name="dragTargets">List of all drag targets.</param>
-        public virtual void Start([DisallowNull] IPaletteDragDrop paletteDragDrop,
-            [DisallowNull] IRenderer renderer,
-            [DisallowNull] PageDragEndData pageDragEndData,
-            [DisallowNull] DragTargetList dragTargets)
+        public virtual void Start(IPaletteDragDrop paletteDragDrop,
+            IRenderer renderer,
+            PageDragEndData pageDragEndData,
+            DragTargetList dragTargets)
         {
             Debug.Assert(paletteDragDrop != null);
             Debug.Assert(renderer != null);

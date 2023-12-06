@@ -36,7 +36,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="navigator">Reference to owning navigator instance.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public NavigatorStack([DisallowNull] KryptonNavigator navigator,
+        public NavigatorStack(KryptonNavigator navigator,
                               NeedPaintHandler needPaint)
         {
             Debug.Assert(navigator != null);

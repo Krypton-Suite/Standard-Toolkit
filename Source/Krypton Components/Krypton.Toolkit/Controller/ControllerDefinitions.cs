@@ -114,7 +114,7 @@ namespace Krypton.Toolkit
         /// Source control has lost the focus.
         /// </summary>
         /// <param name="c">Reference to the source control instance.</param>
-        void LostFocus([DisallowNull] Control c);
+        void LostFocus(Control c);
     }
     #endregion
 }

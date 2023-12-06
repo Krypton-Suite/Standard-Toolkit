@@ -37,10 +37,10 @@ namespace Krypton.Ribbon
         /// <param name="minimizedMode">Is this manager for handling the minimized mode popup.</param>
         /// <param name="needPaintDelegate">Delegate for requesting paint changes.</param>
         public ViewRibbonMinimizedManager(KryptonRibbon control,
-            [DisallowNull] ViewDrawRibbonGroupsBorderSynch viewGroups,
-            [DisallowNull] ViewBase root,
+            ViewDrawRibbonGroupsBorderSynch viewGroups,
+            ViewBase root,
                                           bool minimizedMode,
-                                          [DisallowNull] NeedPaintHandler needPaintDelegate)
+                                          NeedPaintHandler needPaintDelegate)
             : base(control, root)
         {
             Debug.Assert(viewGroups != null);
@@ -144,7 +144,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="e">A MouseEventArgs that contains the event data.</param>
         /// <param name="rawPt">The actual point provided from the windows message.</param>
-        public override void MouseMove([DisallowNull] MouseEventArgs e, Point rawPt)
+        public override void MouseMove(MouseEventArgs e, Point rawPt)
         {
             Debug.Assert(e != null);
 
@@ -191,7 +191,7 @@ namespace Krypton.Ribbon
         /// Perform mouse leave processing.
         /// </summary>
         /// <param name="e">An EventArgs that contains the event data.</param>
-        public override void MouseLeave([DisallowNull] EventArgs e)
+        public override void MouseLeave(EventArgs e)
         {
             Debug.Assert(e != null);
 

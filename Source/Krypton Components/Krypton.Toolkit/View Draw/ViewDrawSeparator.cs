@@ -45,10 +45,10 @@ namespace Krypton.Toolkit
         /// <param name="metricPressed">Palette source for pressed metric values.</param>
         /// <param name="metricPadding">Metric used to get padding values.</param>
         /// <param name="orientation">Visual orientation of the content.</param>
-        public ViewDrawSeparator([DisallowNull] IPaletteDouble paletteDisabled, [DisallowNull] IPaletteDouble paletteNormal,
-                                 [DisallowNull] IPaletteDouble paletteTracking, [DisallowNull] IPaletteDouble palettePressed,
-                                 [DisallowNull] IPaletteMetric metricDisabled,  [DisallowNull] IPaletteMetric metricNormal,
-                                 [DisallowNull] IPaletteMetric metricTracking,  [DisallowNull] IPaletteMetric metricPressed,
+        public ViewDrawSeparator(IPaletteDouble paletteDisabled, IPaletteDouble paletteNormal,
+                                 IPaletteDouble paletteTracking, IPaletteDouble palettePressed,
+                                 IPaletteMetric metricDisabled,  IPaletteMetric metricNormal,
+                                 IPaletteMetric metricTracking,  IPaletteMetric metricPressed,
                                  PaletteMetricPadding metricPadding,
                                  Orientation orientation)
         {
@@ -131,14 +131,14 @@ namespace Krypton.Toolkit
         /// <param name="metricNormal">Palette source for normal metric values.</param>
         /// <param name="metricTracking">Palette source for tracking metric values.</param>
         /// <param name="metricPressed">Palette source for pressed metric values.</param>
-        public void SetPalettes([DisallowNull] IPaletteDouble paletteDisabled,
-                                [DisallowNull] IPaletteDouble paletteNormal,
-                                [DisallowNull] IPaletteDouble paletteTracking,
-                                [DisallowNull] IPaletteDouble palettePressed,
-                                [DisallowNull] IPaletteMetric metricDisabled,
-                                [DisallowNull] IPaletteMetric metricNormal,
-                                [DisallowNull] IPaletteMetric metricTracking,
-                                [DisallowNull] IPaletteMetric metricPressed)
+        public void SetPalettes(IPaletteDouble paletteDisabled,
+                                IPaletteDouble paletteNormal,
+                                IPaletteDouble paletteTracking,
+                                IPaletteDouble palettePressed,
+                                IPaletteMetric metricDisabled,
+                                IPaletteMetric metricNormal,
+                                IPaletteMetric metricTracking,
+                                IPaletteMetric metricPressed)
         {
             Debug.Assert(paletteDisabled != null);
             Debug.Assert(paletteNormal != null);
@@ -166,7 +166,7 @@ namespace Krypton.Toolkit
         /// Discover the preferred size of the element.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override Size GetPreferredSize([DisallowNull] ViewLayoutContext context)
+        public override Size GetPreferredSize(ViewLayoutContext context)
         {
             Debug.Assert(context != null);
             return new Size(Length, Length);
@@ -176,7 +176,7 @@ namespace Krypton.Toolkit
         /// Perform a layout of the elements.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override void Layout([DisallowNull] ViewLayoutContext context)
+        public override void Layout(ViewLayoutContext context)
         {
             Debug.Assert(context != null);
             ClientRectangle = context.DisplayRectangle;
@@ -190,7 +190,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="context">Rendering context.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public override void RenderBefore([DisallowNull] RenderContext context)
+        public override void RenderBefore(RenderContext context)
         {
             Debug.Assert(context != null);
 

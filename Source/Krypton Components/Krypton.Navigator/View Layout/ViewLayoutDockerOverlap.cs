@@ -30,9 +30,9 @@ namespace Krypton.Navigator
         /// <param name="drawCanvas">Canvas used to recover border width/rounding for overlapping.</param>
         /// <param name="layoutOverlap">Overlapping element.</param>
         /// <param name="layoutTabs">Tab item container element.</param>
-        public ViewLayoutDockerOverlap([DisallowNull] ViewDrawCanvas drawCanvas,
-                                       [DisallowNull] ViewLayoutInsetOverlap layoutOverlap,
-                                       [DisallowNull] ViewLayoutBarForTabs layoutTabs)
+        public ViewLayoutDockerOverlap(ViewDrawCanvas drawCanvas,
+                                       ViewLayoutInsetOverlap layoutOverlap,
+                                       ViewLayoutBarForTabs layoutTabs)
         {
             Debug.Assert(drawCanvas != null);
             Debug.Assert(layoutOverlap != null);

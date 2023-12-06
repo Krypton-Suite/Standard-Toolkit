@@ -28,7 +28,7 @@ namespace Krypton.Navigator
         /// Initializes the designer with the specified component.
         /// </summary>
         /// <param name="component">The IComponent to associate with the designer.</param>
-        public override void Initialize([DisallowNull] IComponent component)
+        public override void Initialize(IComponent component)
         {
             // Perform common base class initializating
             base.Initialize(component);

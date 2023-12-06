@@ -41,8 +41,8 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Reference to owning ribbon instance.</param>
         /// <param name="target">Target for state changes.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public LeftUpButtonController([DisallowNull] KryptonRibbon ribbon,
-                                      [DisallowNull] ViewBase target,
+        public LeftUpButtonController(KryptonRibbon ribbon,
+                                      ViewBase target,
                                       NeedPaintHandler needPaint)
         {
             Debug.Assert(ribbon != null);

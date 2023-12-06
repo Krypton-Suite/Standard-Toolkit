@@ -30,8 +30,8 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="ribbon">Reference to owning ribbon..</param>
         /// <param name="palette">Palette source for drawing details.</param>
-        public ViewDrawRibbonGroupClusterEdge([DisallowNull] KryptonRibbon ribbon,
-                                              [DisallowNull] PaletteBorderEdge palette)
+        public ViewDrawRibbonGroupClusterEdge(KryptonRibbon ribbon,
+                                              PaletteBorderEdge palette)
             : base(palette, Orientation.Vertical)
         {
             Debug.Assert(ribbon != null);

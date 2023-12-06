@@ -1904,7 +1904,7 @@ namespace Krypton.Navigator
             return null;
         }
 
-        internal KryptonPage? PreviousActionPage([DisallowNull] KryptonPage page)
+        internal KryptonPage? PreviousActionPage(KryptonPage page)
         {
             Debug.Assert(page != null);
 
@@ -1924,7 +1924,7 @@ namespace Krypton.Navigator
             return null;
         }
 
-        internal KryptonPage? NextActionPage([DisallowNull] KryptonPage page)
+        internal KryptonPage? NextActionPage(KryptonPage page)
         {
             Debug.Assert(page != null);
 
@@ -1956,8 +1956,8 @@ namespace Krypton.Navigator
             return position;
         }
 
-        internal void ShowPopupPage([DisallowNull] KryptonPage? page,
-            [DisallowNull] ViewBase? relative,
+        internal void ShowPopupPage(KryptonPage? page,
+            ViewBase? relative,
                                          EventHandler? finishDelegate)
         {
             Debug.Assert(page != null);

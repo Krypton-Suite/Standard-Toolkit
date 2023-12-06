@@ -138,8 +138,8 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="paletteBack">Palette source for the background.</param>        
         /// <param name="paletteBorder">Palette source for the border.</param>
-        public virtual void SetPalettes([DisallowNull] IPaletteBack paletteBack,
-            [DisallowNull] IPaletteBorder paletteBorder) =>
+        public virtual void SetPalettes(IPaletteBack paletteBack,
+            IPaletteBorder paletteBorder) =>
             SetPalettes(paletteBack, paletteBorder, null);
 
         /// <summary>
@@ -148,7 +148,7 @@ namespace Krypton.Toolkit
         /// <param name="paletteBack">Palette source for the background.</param>        
         /// <param name="paletteBorder">Palette source for the border.</param>
         /// <param name="paletteMetric">Palette source for the metric.</param>
-        public virtual void SetPalettes([DisallowNull] IPaletteBack paletteBack, 
+        public virtual void SetPalettes(IPaletteBack paletteBack, 
             [DisallowNull]IPaletteBorder paletteBorder,
                                         IPaletteMetric? paletteMetric)
         {
@@ -337,7 +337,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="context">Evaluation context.</param>
         /// <returns>True if transparent areas exist; otherwise false.</returns>
-        public override bool EvalTransparentPaint([DisallowNull] ViewContext context)
+        public override bool EvalTransparentPaint(ViewContext context)
         {
             Debug.Assert(context != null);
 
@@ -354,7 +354,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="context">Layout context.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public override Size GetPreferredSize([DisallowNull] ViewLayoutContext context)
+        public override Size GetPreferredSize(ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 
@@ -399,7 +399,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="context">Layout context.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public override void Layout([DisallowNull] ViewLayoutContext context)
+        public override void Layout(ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 
@@ -460,7 +460,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="context">Rendering context.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public override void RenderBefore([DisallowNull] RenderContext context) 
+        public override void RenderBefore(RenderContext context) 
         {
             Debug.Assert(context != null);
 
@@ -537,7 +537,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="context">Rendering context.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public override void RenderAfter([DisallowNull] RenderContext context)
+        public override void RenderAfter(RenderContext context)
         {
             Debug.Assert(context != null);
 
@@ -570,7 +570,7 @@ namespace Krypton.Toolkit
         /// Draw the canvas border.
         /// </summary>
         /// <param name="context"></param>
-        public virtual void RenderBorder([DisallowNull] RenderContext context)
+        public virtual void RenderBorder(RenderContext context)
         {
             Debug.Assert(context != null);
 

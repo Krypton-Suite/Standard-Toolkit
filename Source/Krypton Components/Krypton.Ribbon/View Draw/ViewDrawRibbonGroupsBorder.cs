@@ -39,9 +39,9 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Reference to owning ribbon control.</param>
         /// <param name="borderOutside">Should border be placed outside the contents.</param>
         /// <param name="needPaintDelegate">Delegate for notifying paint/layout changes.</param>
-        public ViewDrawRibbonGroupsBorder([DisallowNull] KryptonRibbon ribbon,
+        public ViewDrawRibbonGroupsBorder(KryptonRibbon ribbon,
                                           bool borderOutside,
-                                          [DisallowNull] NeedPaintHandler needPaintDelegate)
+                                          NeedPaintHandler needPaintDelegate)
         {
             Debug.Assert(ribbon != null);
             Debug.Assert(needPaintDelegate != null);
@@ -140,7 +140,7 @@ namespace Krypton.Ribbon
         /// Perform a layout of the elements.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override void Layout([DisallowNull] ViewLayoutContext context)
+        public override void Layout(ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 

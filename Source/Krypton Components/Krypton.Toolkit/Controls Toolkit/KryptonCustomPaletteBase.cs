@@ -3120,7 +3120,7 @@ namespace Krypton.Toolkit
             return null;
         }
 
-        private object? ImportFromFile([DisallowNull] object? parameter)
+        private object? ImportFromFile(object? parameter)
         {
             // Cast to correct type
             if (parameter is not string filename)
@@ -3146,7 +3146,7 @@ namespace Krypton.Toolkit
             return filename;
         }
 
-        private object? ImportFromStream([DisallowNull] object? parameter)
+        private object? ImportFromStream(object? parameter)
         {
             // Cast to correct type
             if (parameter is not Stream stream)
@@ -3166,7 +3166,7 @@ namespace Krypton.Toolkit
             return stream;
         }
 
-        private object? ImportFromByteArray([DisallowNull] object? parameter)
+        private object? ImportFromByteArray(object? parameter)
         {
             // Cast to an array of parameters
             if (parameter is not byte[] byteArray)
@@ -3186,7 +3186,7 @@ namespace Krypton.Toolkit
             return null;
         }
 
-        private void ImportFromXmlDocument([DisallowNull] XmlDocument doc)
+        private void ImportFromXmlDocument(XmlDocument doc)
         {
             // Remember the current culture setting
             CultureInfo culture = Thread.CurrentThread.CurrentCulture;
@@ -3258,7 +3258,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private object? ExportToFile([DisallowNull] object? parameter)
+        private object? ExportToFile(object? parameter)
         {
             // Cast to an array of parameters
             if (parameter is not object[] parameters)
@@ -3287,7 +3287,7 @@ namespace Krypton.Toolkit
             return filename;
         }
 
-        private object? ExportToStream([DisallowNull] object? parameter)
+        private object? ExportToStream(object? parameter)
         {
             // Cast to an array of parameters
             if (parameter is not object[] parameters)
@@ -3312,7 +3312,7 @@ namespace Krypton.Toolkit
             return stream;
         }
 
-        private object? ExportToByteArray([DisallowNull] object? parameter)
+        private object? ExportToByteArray(object? parameter)
         {
             // Cast to an array of parameters
             if (parameter is not object[] parameters)

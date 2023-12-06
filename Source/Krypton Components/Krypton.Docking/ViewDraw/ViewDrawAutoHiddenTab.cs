@@ -30,7 +30,7 @@ namespace Krypton.Docking
         /// </summary>
         /// <param name="page">Reference to the page this tab represents.</param>
         /// <param name="orientation">Visual orientation used for drawing the tab.</param>
-        public ViewDrawAutoHiddenTab([DisallowNull] KryptonPage page,
+        public ViewDrawAutoHiddenTab(KryptonPage page,
                                      VisualOrientation orientation)
             : base(page.StateDisabled!.CheckButton,
                    page.StateNormal!.CheckButton,

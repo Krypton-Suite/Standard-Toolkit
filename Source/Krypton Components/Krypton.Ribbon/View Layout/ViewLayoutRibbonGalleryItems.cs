@@ -56,12 +56,12 @@ namespace Krypton.Ribbon
         /// <param name="buttonUp">Reference to the up button.</param>
         /// <param name="buttonDown">Reference to the down button.</param>
         /// <param name="buttonContext">Reference to the context button.</param>
-        public ViewLayoutRibbonGalleryItems([DisallowNull] PaletteBase palette,
-                                            [DisallowNull] KryptonGallery gallery,
-                                            [DisallowNull] NeedPaintHandler needPaint,
-                                            [DisallowNull] ViewDrawRibbonGalleryButton buttonUp,
-                                            [DisallowNull] ViewDrawRibbonGalleryButton buttonDown,
-                                            [DisallowNull] ViewDrawRibbonGalleryButton buttonContext)
+        public ViewLayoutRibbonGalleryItems(PaletteBase palette,
+                                            KryptonGallery gallery,
+                                            NeedPaintHandler needPaint,
+                                            ViewDrawRibbonGalleryButton buttonUp,
+                                            ViewDrawRibbonGalleryButton buttonDown,
+                                            ViewDrawRibbonGalleryButton buttonContext)
         {
             Debug.Assert(palette != null);
             Debug.Assert(gallery != null);
@@ -358,7 +358,7 @@ namespace Krypton.Ribbon
         /// Discover the preferred size of the element.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override Size GetPreferredSize([DisallowNull] ViewLayoutContext context)
+        public override Size GetPreferredSize(ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 
@@ -389,7 +389,7 @@ namespace Krypton.Ribbon
         /// Perform a layout of the elements.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override void Layout([DisallowNull] ViewLayoutContext context)
+        public override void Layout(ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 

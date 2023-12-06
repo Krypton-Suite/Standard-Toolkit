@@ -45,7 +45,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the palette to inherit from.
         /// </summary>
-        public void SetInherit([DisallowNull] IPaletteBorder paletteBorder)
+        public void SetInherit(IPaletteBorder paletteBorder)
         {
             Debug.Assert(paletteBorder != null);
             _inherit = paletteBorder;

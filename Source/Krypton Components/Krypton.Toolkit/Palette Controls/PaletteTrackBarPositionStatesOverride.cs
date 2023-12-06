@@ -26,8 +26,8 @@ namespace Krypton.Toolkit
         /// <param name="overrideStates">Override state values.</param>
         /// <param name="overrideState">State to override.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public PaletteTrackBarPositionStatesOverride([DisallowNull] PaletteTrackBarRedirect normalStates,
-                                                     [DisallowNull] PaletteTrackBarPositionStates overrideStates,
+        public PaletteTrackBarPositionStatesOverride(PaletteTrackBarRedirect normalStates,
+                                                     PaletteTrackBarPositionStates overrideStates,
                                                      PaletteState overrideState)
         {
             Debug.Assert(normalStates != null);

@@ -45,7 +45,7 @@ namespace Krypton.Ribbon
         /// Initialize a new instance of the ViewDrawRibbonTabSep class.
         /// </summary>
         /// <param name="palette">Source for palette values.</param>
-        public ViewDrawRibbonTabSep([DisallowNull] IPaletteRibbonGeneral palette)
+        public ViewDrawRibbonTabSep(IPaletteRibbonGeneral palette)
             : base(SEP_WIDTH, true)
         {
             Debug.Assert(palette != null);

@@ -29,7 +29,7 @@ namespace Krypton.Ribbon
         /// Initialize a new instance of the PaletteRibbonContextBack class.
         /// </summary>
         /// <param name="ribbon">Reference to ribbon control.</param>
-        public PaletteRibbonContextBack([DisallowNull] KryptonRibbon ribbon)
+        public PaletteRibbonContextBack(KryptonRibbon ribbon)
         {
             Debug.Assert(ribbon != null);
             _ribbon = ribbon;

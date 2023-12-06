@@ -26,7 +26,7 @@ namespace Krypton.Docking
         /// </summary>
         /// <param name="uniqueName">UniqueName of the page this is placeholding.</param>
         /// <param name="storeName">Storage name associated with this page location.</param>
-        public KryptonStorePage([DisallowNull] string uniqueName, string storeName)
+        public KryptonStorePage(string uniqueName, string storeName)
         {
             Visible = false;
             UniqueName = uniqueName;

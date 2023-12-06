@@ -30,7 +30,7 @@ namespace Krypton.Toolkit
             /// Initialize a new instance of the BackToBorder class.
             /// </summary>
             /// <param name="parent">Parent to get border values from.</param>
-            public BackToBorder([DisallowNull] IPaletteBorder parent)
+            public BackToBorder(IPaletteBorder parent)
             {
                 Debug.Assert(parent != null);
                 _parent = parent!;

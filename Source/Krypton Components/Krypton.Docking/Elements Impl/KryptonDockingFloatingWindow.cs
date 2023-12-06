@@ -36,7 +36,7 @@ namespace Krypton.Docking
         /// <param name="owner">Reference to form that owns the floating windows.</param>
         /// <param name="floatspace">Reference to form that will own all the floating window.</param>
         /// <param name="useMinimiseBox">Allow window to be minimised.</param>
-        public KryptonDockingFloatingWindow(string? name, [DisallowNull] Form owner, [DisallowNull] KryptonDockingFloatspace floatspace, bool useMinimiseBox)
+        public KryptonDockingFloatingWindow(string? name, Form owner, KryptonDockingFloatspace floatspace, bool useMinimiseBox)
             : base(name)
         {
             if (owner == null)

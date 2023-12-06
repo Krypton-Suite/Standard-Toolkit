@@ -23,7 +23,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="internalKCT">Reference to inherited values.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        internal KryptonPaletteTMSBase([DisallowNull] KryptonInternalKCT internalKCT,
+        internal KryptonPaletteTMSBase(KryptonInternalKCT internalKCT,
                                        NeedPaintHandler needPaint)
         {
             Debug.Assert(internalKCT != null);

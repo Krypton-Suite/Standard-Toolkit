@@ -22,7 +22,7 @@ namespace Krypton.Toolkit
         /// Initialise a new instance of the KryptonProfessionalRenderer class.
         /// </summary>
         /// <param name="kct">Source for text colors.</param>
-        public KryptonProfessionalRenderer([DisallowNull] KryptonColorTable kct)
+        public KryptonProfessionalRenderer(KryptonColorTable kct)
             : base(kct)
         {
             Debug.Assert(kct != null);

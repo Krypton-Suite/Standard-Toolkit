@@ -25,7 +25,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Initialize a new instance of the ViewBase class.
         /// </summary>
-        protected ViewDecorator([DisallowNull] ViewBase child)
+        protected ViewDecorator(ViewBase child)
         {
             Debug.Assert(child != null);
             _child = child;

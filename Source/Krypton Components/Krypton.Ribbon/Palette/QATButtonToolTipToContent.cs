@@ -28,7 +28,7 @@ namespace Krypton.Ribbon
         /// Initialize a new instance of the QATButtonToolTipToContent class.
         /// </summary>
         /// <param name="qatButton">Source quick access toolbar button.</param>
-        public QATButtonToolTipToContent([DisallowNull] IQuickAccessToolbarButton qatButton)
+        public QATButtonToolTipToContent(IQuickAccessToolbarButton qatButton)
         {
             Debug.Assert(qatButton != null);
             _qatButton = qatButton;

@@ -53,7 +53,7 @@ namespace Krypton.Ribbon
         /// <param name="ribbonGroup">Associated ribbon group.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
         public ViewDrawRibbonDesignGroupContainer(KryptonRibbon ribbon,
-            [DisallowNull] KryptonRibbonGroup ribbonGroup,
+            KryptonRibbonGroup ribbonGroup,
                                                   NeedPaintHandler needPaint)
             : base(ribbon, needPaint)
         {

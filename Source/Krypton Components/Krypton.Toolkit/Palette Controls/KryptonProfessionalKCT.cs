@@ -25,7 +25,7 @@ namespace Krypton.Toolkit
         /// <param name="colors">Set of colors to customize with.</param>
         /// <param name="useSystemColors">Should be forced to use system colors.</param>
         /// <param name="palette">Reference to associated palette.</param>
-        public KryptonProfessionalKCT([DisallowNull] Color[] colors, 
+        public KryptonProfessionalKCT(Color[] colors, 
                                       bool useSystemColors,
                                       PaletteBase palette)
             : base(palette)

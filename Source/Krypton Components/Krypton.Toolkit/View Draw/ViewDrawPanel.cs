@@ -37,7 +37,7 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the ViewDrawPanel class.
         /// </summary>
         /// <param name="paletteBack">Palette source for the background.</param>        
-        public ViewDrawPanel([DisallowNull] IPaletteBack paletteBack)
+        public ViewDrawPanel(IPaletteBack paletteBack)
         {
             Debug.Assert(paletteBack != null);
             _paletteBack = paletteBack;
@@ -92,7 +92,7 @@ namespace Krypton.Toolkit
         /// Update the source palettes for drawing.
         /// </summary>
         /// <param name="paletteBack">Palette source for the background.</param>        
-        public void SetPalettes([DisallowNull] IPaletteBack paletteBack)
+        public void SetPalettes(IPaletteBack paletteBack)
         {
             Debug.Assert(paletteBack != null);
 
@@ -114,7 +114,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="context">Evaluation context.</param>
         /// <returns>True if transparent areas exist; otherwise false.</returns>
-        public override bool EvalTransparentPaint([DisallowNull] ViewContext context)
+        public override bool EvalTransparentPaint(ViewContext context)
         {
             Debug.Assert(context != null);
 
@@ -130,7 +130,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="context">Layout context.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public override void Layout([DisallowNull] ViewLayoutContext context)
+        public override void Layout(ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 
@@ -155,7 +155,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="context">Rendering context.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public override void RenderBefore([DisallowNull] RenderContext context) 
+        public override void RenderBefore(RenderContext context) 
         {
             Debug.Assert(context != null);
 

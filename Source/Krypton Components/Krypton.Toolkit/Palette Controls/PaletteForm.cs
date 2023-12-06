@@ -30,8 +30,8 @@ namespace Krypton.Toolkit
         /// <param name="inheritForm">Source for inheriting palette defaulted values.</param>
         /// <param name="inheritHeader">Source for inheriting header defaulted values.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public PaletteForm([DisallowNull] PaletteFormRedirect inheritForm,
-            [DisallowNull] PaletteTripleMetricRedirect inheritHeader,
+        public PaletteForm(PaletteFormRedirect inheritForm,
+            PaletteTripleMetricRedirect inheritHeader,
                            NeedPaintHandler needPaint)
             : base(inheritForm, needPaint)
         {

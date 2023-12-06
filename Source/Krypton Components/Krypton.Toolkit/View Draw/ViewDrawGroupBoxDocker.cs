@@ -76,7 +76,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="context">Rendering context.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public override void RenderBefore([DisallowNull] RenderContext context)
+        public override void RenderBefore(RenderContext context)
         {
             Debug.Assert(context != null);
 
@@ -137,7 +137,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="context">Rendering context.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public override void RenderAfter([DisallowNull] RenderContext context)
+        public override void RenderAfter(RenderContext context)
         {
             Debug.Assert(context != null);
 

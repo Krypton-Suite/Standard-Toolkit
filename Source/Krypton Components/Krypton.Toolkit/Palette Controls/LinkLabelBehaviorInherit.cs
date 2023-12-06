@@ -25,7 +25,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="inherit">Palette to inherit from.</param>
         /// <param name="linkBehavior">Link behavior to use.</param>
-        public LinkLabelBehaviorInherit([DisallowNull] IPaletteContent inherit,
+        public LinkLabelBehaviorInherit(IPaletteContent inherit,
                                         KryptonLinkBehavior linkBehavior)
         {
             Debug.Assert(inherit != null);

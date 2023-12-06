@@ -27,7 +27,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="target">Initial palette target for redirection.</param>
         /// <param name="grid">Grid reference for directing palette requests.</param>
-        public PaletteRedirectGrids(PaletteBase? target, [DisallowNull] KryptonPaletteGrid grid)
+        public PaletteRedirectGrids(PaletteBase? target, KryptonPaletteGrid grid)
             : base(target)
         {
             Debug.Assert(grid != null);

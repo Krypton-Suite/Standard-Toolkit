@@ -33,7 +33,7 @@ namespace Krypton.Navigator
         /// <param name="animateChange">Animate changes in the viewport.</param>
         /// <param name="vertical">Is the viewport vertical.</param>
         /// <param name="needPaintDelegate">Delegate for notifying paint requests.</param>
-        public ViewLayoutOutlookFull([DisallowNull] ViewBuilderOutlookBase viewBuilder,
+        public ViewLayoutOutlookFull(ViewBuilderOutlookBase viewBuilder,
                                      VisualControl rootControl,
                                      ViewBase viewportFiller,
                                      PaletteBorderEdge paletteBorderEdge,

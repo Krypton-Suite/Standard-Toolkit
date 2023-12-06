@@ -416,10 +416,10 @@ namespace Krypton.Toolkit
         /// <param name="paletteNormal">Palette source for the normal state.</param>
         /// <param name="paletteTracking">Palette source for the tracking state.</param>
         /// <param name="palettePressed">Palette source for the pressed state.</param>
-        public void SetPalettes([DisallowNull] IPaletteTriple paletteDisabled,
-                                [DisallowNull] IPaletteTriple paletteNormal,
-                                [DisallowNull] IPaletteTriple paletteTracking,
-                                [DisallowNull] IPaletteTriple palettePressed)
+        public void SetPalettes(IPaletteTriple paletteDisabled,
+                                IPaletteTriple paletteNormal,
+                                IPaletteTriple paletteTracking,
+                                IPaletteTriple palettePressed)
         {
             Debug.Assert(paletteDisabled != null);
             Debug.Assert(paletteNormal != null);
@@ -442,9 +442,9 @@ namespace Krypton.Toolkit
         /// <param name="paletteCheckedNormal">Palette source for the normal checked state.</param>
         /// <param name="paletteCheckedTracking">Palette source for the tracking checked state.</param>
         /// <param name="paletteCheckedPressed">Palette source for the pressed checked state.</param>
-        public void SetCheckedPalettes([DisallowNull] IPaletteTriple paletteCheckedNormal,
-                                       [DisallowNull] IPaletteTriple paletteCheckedTracking,
-                                       [DisallowNull] IPaletteTriple paletteCheckedPressed)
+        public void SetCheckedPalettes(IPaletteTriple paletteCheckedNormal,
+                                       IPaletteTriple paletteCheckedTracking,
+                                       IPaletteTriple paletteCheckedPressed)
         {
             Debug.Assert(paletteCheckedNormal != null);
             Debug.Assert(paletteCheckedTracking != null);
@@ -466,7 +466,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="context">Evaluation context.</param>
         /// <returns>True if transparent areas exist; otherwise false.</returns>
-        public override bool EvalTransparentPaint([DisallowNull] ViewContext context)
+        public override bool EvalTransparentPaint(ViewContext context)
         {
             Debug.Assert(context != null);
 
@@ -483,7 +483,7 @@ namespace Krypton.Toolkit
         /// Discover the preferred size of the element.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override Size GetPreferredSize([DisallowNull] ViewLayoutContext context)
+        public override Size GetPreferredSize(ViewLayoutContext context)
         {
             Debug.Assert(context != null);
             Debug.Assert(_drawCanvas != null);
@@ -500,7 +500,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="context">Layout context.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public override void Layout([DisallowNull] ViewLayoutContext context)
+        public override void Layout(ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 
@@ -576,7 +576,7 @@ namespace Krypton.Toolkit
         /// Perform a render of the elements.
         /// </summary>
         /// <param name="context">Rendering context.</param>
-        public override void Render([DisallowNull] RenderContext context)
+        public override void Render(RenderContext context)
         {
             Debug.Assert(context != null);
 

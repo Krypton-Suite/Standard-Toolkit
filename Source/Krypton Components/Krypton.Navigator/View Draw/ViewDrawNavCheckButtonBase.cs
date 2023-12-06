@@ -102,7 +102,7 @@ namespace Krypton.Navigator
         /// <param name="statePressed">Source for pressed state values.</param>
         /// <param name="stateSelected">Source for selected state values.</param>
         /// <param name="stateFocused">Source for focused state values.</param>
-        public ViewDrawNavCheckButtonBase([DisallowNull] KryptonNavigator navigator,
+        public ViewDrawNavCheckButtonBase(KryptonNavigator navigator,
                                           KryptonPage? page,
                                           VisualOrientation orientation,
                                           IPaletteTriple stateDisabled,

@@ -44,8 +44,8 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="target">Target for state changes.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public ViewHightlightController([DisallowNull] ViewBase target,
-                                        [DisallowNull] NeedPaintHandler needPaint)
+        public ViewHightlightController(ViewBase target,
+                                        NeedPaintHandler needPaint)
         {
             Debug.Assert(target != null);
             Debug.Assert(needPaint != null);

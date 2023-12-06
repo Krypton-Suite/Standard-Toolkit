@@ -40,7 +40,7 @@ namespace Krypton.Docking
         /// </summary>
         /// <param name="name">Initial name of the element.</param>
         /// <param name="control">Reference to control derived instance.</param>
-        public KryptonDockingControl(string name, [DisallowNull] Control control)
+        public KryptonDockingControl(string name, Control control)
             : base(name)
         {
             if (control == null)
@@ -57,7 +57,7 @@ namespace Krypton.Docking
         /// <param name="name">Initial name of the element.</param>
         /// <param name="control">Reference to control derived instance.</param>
         /// <param name="navigator">Inner space occupied by a KryptonDockingNavigator.</param>
-        public KryptonDockingControl(string name, [DisallowNull] Control control, [DisallowNull] KryptonDockingNavigator navigator)
+        public KryptonDockingControl(string name, Control control, KryptonDockingNavigator navigator)
             : base(name)
         {
             if (control == null)
@@ -79,7 +79,7 @@ namespace Krypton.Docking
         /// <param name="name">Initial name of the element.</param>
         /// <param name="control">Reference to control derived instance.</param>
         /// <param name="workspace">Inner space occupied by a KryptonDockingNavigator.</param>
-        public KryptonDockingControl(string name, [DisallowNull] Control control, [DisallowNull] KryptonDockingWorkspace workspace)
+        public KryptonDockingControl(string name, Control control, KryptonDockingWorkspace workspace)
             : base(name)
         {
             if (control == null)

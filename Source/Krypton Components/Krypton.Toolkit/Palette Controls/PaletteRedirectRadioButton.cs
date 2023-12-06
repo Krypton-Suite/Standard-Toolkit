@@ -37,7 +37,7 @@ namespace Krypton.Toolkit
         /// <param name="target">Initial palette target for redirection.</param>
         /// <param name="images">Reference to source of radio button images.</param>
         public PaletteRedirectRadioButton(PaletteBase? target,
-            [DisallowNull] RadioButtonImages images)
+            RadioButtonImages images)
             : base(target)
         {
             Debug.Assert(images != null);

@@ -23,7 +23,7 @@ namespace Krypton.Docking
         /// </summary>
         /// <param name="uniqueName">Unique name of page.</param>
         /// <param name="cancel">Initial value for the cancel property.</param>
-        public CancelUniqueNameEventArgs([DisallowNull] string uniqueName, bool cancel)
+        public CancelUniqueNameEventArgs(string uniqueName, bool cancel)
             : base(uniqueName) =>
             Cancel = cancel;
 

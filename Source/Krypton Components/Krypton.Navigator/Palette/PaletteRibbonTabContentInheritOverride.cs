@@ -39,12 +39,12 @@ namespace Krypton.Navigator
         /// <param name="backupText">Backup inheritance text.</param>
         /// <param name="backupContent">Backup inheritance content.</param>
         /// <param name="state">Palette state to override.</param>
-        public PaletteRibbonTabContentInheritOverride([DisallowNull] IPaletteRibbonBack primaryBack,
-                                                      [DisallowNull] IPaletteRibbonText primaryText,
-                                                      [DisallowNull] IPaletteContent primaryContent,
-                                                      [DisallowNull] IPaletteRibbonBack backupBack,
-                                                      [DisallowNull] IPaletteRibbonText backupText,
-                                                      [DisallowNull] IPaletteContent backupContent,
+        public PaletteRibbonTabContentInheritOverride(IPaletteRibbonBack primaryBack,
+                                                      IPaletteRibbonText primaryText,
+                                                      IPaletteContent primaryContent,
+                                                      IPaletteRibbonBack backupBack,
+                                                      IPaletteRibbonText backupText,
+                                                      IPaletteContent backupContent,
                                                       PaletteState state)
         {
             Debug.Assert(primaryBack != null);

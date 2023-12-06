@@ -29,7 +29,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="ribbon">Source ribbon control instance.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public PaletteRibbonStyles([DisallowNull] KryptonRibbon ribbon,
+        public PaletteRibbonStyles(KryptonRibbon ribbon,
                                    NeedPaintHandler needPaint)
         {
             Debug.Assert(ribbon != null);

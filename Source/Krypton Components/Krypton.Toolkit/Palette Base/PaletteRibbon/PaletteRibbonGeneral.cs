@@ -50,7 +50,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="inherit">Source for inheriting general values.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public PaletteRibbonGeneral([DisallowNull] IPaletteRibbonGeneral inherit,
+        public PaletteRibbonGeneral(IPaletteRibbonGeneral inherit,
                                     NeedPaintHandler needPaint)
         {
             Debug.Assert(inherit != null);

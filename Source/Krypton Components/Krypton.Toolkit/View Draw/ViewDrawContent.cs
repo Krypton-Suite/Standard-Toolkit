@@ -165,7 +165,7 @@ namespace Krypton.Toolkit
         /// Update the source palette for drawing.
         /// </summary>
         /// <param name="paletteContent">Palette source for the content.</param>
-        public void SetPalette([DisallowNull] IPaletteContent paletteContent)
+        public void SetPalette(IPaletteContent paletteContent)
         {
             Debug.Assert(paletteContent != null);
 
@@ -190,7 +190,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="context">ViewLayoutContext context.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public bool IsImageDisplayed([DisallowNull] ViewContext context)
+        public bool IsImageDisplayed(ViewContext context)
         {
             Debug.Assert(context != null);
 
@@ -219,7 +219,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="context">ViewLayoutContext context.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public Rectangle ImageRectangle([DisallowNull] ViewContext context)
+        public Rectangle ImageRectangle(ViewContext context)
         {
             Debug.Assert(context != null);
 
@@ -248,7 +248,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <exception cref="ArgumentNullException"></exception>
         /// <returns>Rectangle of short text drawing.</returns>
-        public Rectangle ShortTextRect([DisallowNull] ViewContext context)
+        public Rectangle ShortTextRect(ViewContext context)
         {
             Debug.Assert(context != null);
 
@@ -277,7 +277,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <exception cref="ArgumentNullException"></exception>
         /// <returns>Rectangle of short text drawing.</returns>
-        public Rectangle LongTextRect([DisallowNull] ViewContext context)
+        public Rectangle LongTextRect(ViewContext context)
         {
             Debug.Assert(context != null);
 
@@ -306,7 +306,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="context">Layout context.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public override Size GetPreferredSize([DisallowNull] ViewLayoutContext context)
+        public override Size GetPreferredSize(ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 
@@ -340,7 +340,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="context">Layout context.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public override void Layout([DisallowNull] ViewLayoutContext context)
+        public override void Layout(ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 
@@ -382,7 +382,7 @@ namespace Krypton.Toolkit
         /// Perform rendering before child elements are rendered.
         /// </summary>
         /// <param name="context">Rendering context.</param>
-        public override void RenderBefore([DisallowNull] RenderContext context) 
+        public override void RenderBefore(RenderContext context) 
         {
             Debug.Assert(context != null);
 

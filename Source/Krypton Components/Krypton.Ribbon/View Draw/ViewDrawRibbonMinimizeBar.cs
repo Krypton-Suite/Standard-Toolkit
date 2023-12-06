@@ -32,7 +32,7 @@ namespace Krypton.Ribbon
         /// Initialize a new instance of the ViewDrawRibbonMinimizeBar class.
         /// </summary>
         /// <param name="palette">Source for palette values.</param>
-        public ViewDrawRibbonMinimizeBar([DisallowNull] IPaletteRibbonGeneral palette)
+        public ViewDrawRibbonMinimizeBar(IPaletteRibbonGeneral palette)
             : base(SEP_WIDTH, true)
         {
             Debug.Assert(palette != null);

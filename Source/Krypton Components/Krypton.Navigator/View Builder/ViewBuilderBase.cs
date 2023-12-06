@@ -79,8 +79,8 @@ namespace Krypton.Navigator
         /// <param name="navigator">Reference to navigator instance.</param>
         /// <param name="manager">Reference to current manager.</param>
         /// <param name="redirector">Palette redirector.</param>
-        public virtual void Construct([DisallowNull] KryptonNavigator navigator,
-                                      [DisallowNull] ViewManager manager,
+        public virtual void Construct(KryptonNavigator navigator,
+                                      ViewManager manager,
                                        PaletteRedirect? redirector)
         {
             Debug.Assert(navigator != null, $"{nameof(navigator)} != null");
@@ -151,7 +151,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="page">Page that has changed.</param>
         /// <param name="property">Name of property that has changed.</param>
-        public virtual void PageAppearanceChanged([DisallowNull] KryptonPage page, [DisallowNull] string property)
+        public virtual void PageAppearanceChanged(KryptonPage page, string property)
         {
         }
 

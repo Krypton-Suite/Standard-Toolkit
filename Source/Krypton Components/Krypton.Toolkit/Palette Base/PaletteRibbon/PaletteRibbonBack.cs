@@ -34,7 +34,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="inheritBack">Source for inheriting background values.</param>
         /// <param name="needPaint">Delegate for notifying changes in value.</param>
-        public PaletteRibbonBack([DisallowNull] IPaletteRibbonBack inheritBack,
+        public PaletteRibbonBack(IPaletteRibbonBack inheritBack,
                                  NeedPaintHandler needPaint) 
         {
             Debug.Assert(inheritBack != null);

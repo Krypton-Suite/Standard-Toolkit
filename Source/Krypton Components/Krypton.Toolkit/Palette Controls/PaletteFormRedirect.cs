@@ -42,8 +42,8 @@ namespace Krypton.Toolkit
         /// <param name="redirectForm">inheritance redirection for form group.</param>
         /// <param name="redirectHeader">inheritance redirection for header.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public PaletteFormRedirect([DisallowNull] PaletteRedirect redirectForm,
-                                   [DisallowNull] PaletteRedirect? redirectHeader,
+        public PaletteFormRedirect(PaletteRedirect redirectForm,
+                                   PaletteRedirect? redirectHeader,
                                    NeedPaintHandler needPaint)
             : base(redirectForm, 
                    PaletteBackStyle.FormMain,

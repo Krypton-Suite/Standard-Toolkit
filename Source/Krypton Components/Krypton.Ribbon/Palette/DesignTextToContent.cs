@@ -25,7 +25,7 @@ namespace Krypton.Ribbon
         /// Initialize a new instance of the DesignTextToContent class.
         /// </summary>
         /// <param name="ribbon">Reference to the owning ribbon control.</param>
-        public DesignTextToContent([DisallowNull] KryptonRibbon ribbon)
+        public DesignTextToContent(KryptonRibbon ribbon)
             : base(ribbon.StateCommon.RibbonGeneral)
         {
             Debug.Assert(ribbon != null);

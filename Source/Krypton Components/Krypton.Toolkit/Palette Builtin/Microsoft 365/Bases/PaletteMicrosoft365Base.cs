@@ -261,10 +261,10 @@ namespace Krypton.Toolkit
         /// <param name="galleryButtonList">The gallery button list.</param>
         /// <param name="radioButtonArray">The radio button array.</param>
         /// <param name="trackBarColours">The track bar colours.</param>
-        protected PaletteMicrosoft365Base([DisallowNull] Color[] schemeColours,
-            [DisallowNull] ImageList checkBoxList,
-            [DisallowNull] ImageList galleryButtonList,
-            [DisallowNull] Image[] radioButtonArray, Color[] trackBarColours)
+        protected PaletteMicrosoft365Base(Color[] schemeColours,
+            ImageList checkBoxList,
+            ImageList galleryButtonList,
+            Image[] radioButtonArray, Color[] trackBarColours)
         {
             Debug.Assert(schemeColours != null);
             Debug.Assert(checkBoxList != null);

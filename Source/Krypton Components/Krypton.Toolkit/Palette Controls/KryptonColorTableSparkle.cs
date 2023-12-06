@@ -50,8 +50,8 @@ namespace Krypton.Toolkit
         /// <param name="sparkleColors">Source of sparkle colors.</param>
         /// <param name="roundedEdges">Should have rounded edges.</param>
         /// <param name="palette">Associated palette instance.</param>
-        public KryptonColorTableSparkle([DisallowNull] Color[] colors,
-                                        [DisallowNull] Color[] sparkleColors,
+        public KryptonColorTableSparkle(Color[] colors,
+                                        Color[] sparkleColors,
                                         InheritBool roundedEdges,
                                         PaletteBase palette)
             : base(palette)

@@ -26,7 +26,7 @@ namespace Krypton.Ribbon
         /// Initialize a new instance of the PaletteGalleryBackBorder class.
         /// </summary>
         /// <param name="state">Initial state for background/border.</param>
-        public PaletteGalleryBackBorder([DisallowNull] PaletteGalleryState state)
+        public PaletteGalleryBackBorder(PaletteGalleryState state)
         {
             Debug.Assert(state != null);
             _state = state;
@@ -38,7 +38,7 @@ namespace Krypton.Ribbon
         /// Define the new state to use for sourcing values.
         /// </summary>
         /// <param name="state">New state for background/border.</param>
-        public void SetState([DisallowNull] PaletteGalleryState state)
+        public void SetState(PaletteGalleryState state)
         {
             Debug.Assert(state != null);
             _state = state;

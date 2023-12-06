@@ -24,7 +24,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="redirector">Palette redirector for sourcing inherited values.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public KryptonPaletteImages([DisallowNull] PaletteRedirect redirector,
+        public KryptonPaletteImages(PaletteRedirect redirector,
                                       NeedPaintHandler needPaint)
         {
             Debug.Assert(redirector != null);

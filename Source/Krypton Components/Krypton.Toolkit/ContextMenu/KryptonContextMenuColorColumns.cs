@@ -320,7 +320,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="color">Color to find.</param>
         /// <returns>True if found; otherwise false.</returns>
-        public bool ContainsColor([DisallowNull] Color color)
+        public bool ContainsColor(Color color)
         {
             if ((Colors != null) && (color != null))
             {

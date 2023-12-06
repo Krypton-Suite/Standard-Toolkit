@@ -23,7 +23,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="separator">Reference to owning separator entry.</param>
         /// <param name="palette">Palette for obtaining drawing values.</param>
-        public ViewDrawMenuSeparator([DisallowNull] KryptonContextMenuSeparator separator,
+        public ViewDrawMenuSeparator(KryptonContextMenuSeparator separator,
                                      PaletteDoubleRedirect? palette)
             : base(separator.StateNormal.Back, separator.StateNormal.Border)
         {
@@ -43,7 +43,7 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the ViewDrawMenuSeparator class.
         /// </summary>
         /// <param name="state">State specific source of palette values.</param>
-        public ViewDrawMenuSeparator([DisallowNull] PaletteDouble state)
+        public ViewDrawMenuSeparator(PaletteDouble state)
             : base(state.Back, state.Border)
         {
             // We need to be big enough to contain 1 pixel square spacer
@@ -74,7 +74,7 @@ namespace Krypton.Toolkit
         /// Perform a render of the elements.
         /// </summary>
         /// <param name="context">Rendering context.</param>
-        public override void Render([DisallowNull] RenderContext context)
+        public override void Render(RenderContext context)
         {
             Debug.Assert(context != null);
 

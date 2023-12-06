@@ -29,7 +29,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="inherit">Source for inheriting defaulted values.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public PaletteInputControlBackStates([DisallowNull] IPaletteBack inherit,
+        public PaletteInputControlBackStates(IPaletteBack inherit,
                                              NeedPaintHandler? needPaint)
         {
             Debug.Assert(inherit != null);

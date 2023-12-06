@@ -129,7 +129,7 @@ namespace Krypton.Toolkit
         /// Start tracking the provided popup.
         /// </summary>
         /// <param name="popup">Popup instance to track.</param>
-        public void StartTracking([DisallowNull] VisualPopup popup)
+        public void StartTracking(VisualPopup popup)
         {
             Debug.Assert(popup != null);
             Debug.Assert(!popup!.IsDisposed);
@@ -289,7 +289,7 @@ namespace Krypton.Toolkit
         /// <param name="cms">Reference to ContextMenuStrip.</param>
         /// <param name="screenPt">Screen position for showing the context menu strip.</param>
         /// <param name="cmsFinishDelegate">Delegate to call when strip dismissed.</param>
-        public void ShowContextMenuStrip([DisallowNull] ContextMenuStrip cms,
+        public void ShowContextMenuStrip(ContextMenuStrip cms,
                                          Point screenPt,
                                          EventHandler? cmsFinishDelegate)
         {

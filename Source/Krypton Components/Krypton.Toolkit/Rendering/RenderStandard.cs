@@ -375,7 +375,7 @@ namespace Krypton.Toolkit
         /// Gets a renderer for drawing the toolstrips.
         /// </summary>
         /// <param name="colorPalette">Color palette to use when rendering toolstrip.</param>
-        public override ToolStripRenderer RenderToolStrip([DisallowNull] PaletteBase? colorPalette)
+        public override ToolStripRenderer RenderToolStrip(PaletteBase? colorPalette)
         {
             Debug.Assert(colorPalette != null);
 
@@ -407,7 +407,7 @@ namespace Krypton.Toolkit
         /// <param name="orientation">Visual orientation of the border.</param>
         /// <exception cref="ArgumentNullException"></exception>
         /// <returns>Padding structure detailing all four edges.</returns>
-        public override Padding GetBorderRawPadding([DisallowNull] IPaletteBorder palette,
+        public override Padding GetBorderRawPadding(IPaletteBorder palette,
                                                     PaletteState state,
                                                     VisualOrientation orientation)
         {
@@ -478,7 +478,7 @@ namespace Krypton.Toolkit
         /// <param name="orientation">Visual orientation of the border.</param>
         /// <exception cref="ArgumentNullException"></exception>
         /// <returns>Padding structure detailing all four edges.</returns>
-        public override Padding GetBorderDisplayPadding([DisallowNull] IPaletteBorder palette,
+        public override Padding GetBorderDisplayPadding(IPaletteBorder palette,
                                                         PaletteState state,
                                                         VisualOrientation orientation)
         {
@@ -572,9 +572,9 @@ namespace Krypton.Toolkit
         /// <param name="state">State associated with rendering.</param>
         /// <exception cref="ArgumentNullException"></exception>
         /// <returns>GraphicsPath instance.</returns>
-        public override GraphicsPath GetOutsideBorderPath([DisallowNull] RenderContext context,
+        public override GraphicsPath GetOutsideBorderPath(RenderContext context,
                                                           Rectangle rect,
-                                                          [DisallowNull] IPaletteBorder palette,
+                                                          IPaletteBorder palette,
                                                           VisualOrientation orientation,
                                                           PaletteState state)
         {
@@ -614,9 +614,9 @@ namespace Krypton.Toolkit
         /// <param name="state">State associated with rendering.</param>
         /// <exception cref="ArgumentNullException"></exception>
         /// <returns>GraphicsPath instance.</returns>
-        public override GraphicsPath GetBorderPath([DisallowNull] RenderContext context,
+        public override GraphicsPath GetBorderPath(RenderContext context,
                                                    Rectangle rect,
-                                                   [DisallowNull] IPaletteBorder palette,
+                                                   IPaletteBorder palette,
                                                    VisualOrientation orientation,
                                                    PaletteState state)
         {
@@ -658,9 +658,9 @@ namespace Krypton.Toolkit
         /// <param name="state">State associated with rendering.</param>
         /// <exception cref="ArgumentNullException"></exception>
         /// <returns>GraphicsPath instance.</returns>
-        public override GraphicsPath GetBackPath([DisallowNull] RenderContext context,
+        public override GraphicsPath GetBackPath(RenderContext context,
                                                  Rectangle rect,
-                                                 [DisallowNull] IPaletteBorder palette,
+                                                 IPaletteBorder palette,
                                                  VisualOrientation orientation,
                                                  PaletteState state)
         {
@@ -701,9 +701,9 @@ namespace Krypton.Toolkit
         /// <param name="orientation">Visual orientation of the border.</param>
         /// <param name="state">State associated with rendering.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public override void DrawBorder([DisallowNull] RenderContext context,
+        public override void DrawBorder(RenderContext context,
                                         Rectangle rect,
-                                        [DisallowNull] IPaletteBorder palette,
+                                        IPaletteBorder palette,
                                         VisualOrientation orientation,
                                         PaletteState state)
         {
@@ -827,10 +827,10 @@ namespace Krypton.Toolkit
         /// <param name="state">State associated with rendering.</param>
         /// <param name="memento">Cache used for drawing.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public override IDisposable? DrawBack([DisallowNull] RenderContext context,
+        public override IDisposable? DrawBack(RenderContext context,
                                              Rectangle rect,
-                                             [DisallowNull] GraphicsPath path,
-                                             [DisallowNull] IPaletteBack palette,
+                                             GraphicsPath path,
+                                             IPaletteBack palette,
                                              VisualOrientation orientation,
                                              PaletteState state,
                                              IDisposable? memento)
@@ -1039,9 +1039,9 @@ namespace Krypton.Toolkit
         /// <param name="glowing">If composition, should glowing be drawn.</param>
         /// <exception cref="ArgumentNullException"></exception>
         /// <returns>Preferred size.</returns>
-        public override Size GetContentPreferredSize([DisallowNull] ViewLayoutContext context,
-            [DisallowNull] IPaletteContent palette,
-            [DisallowNull] IContentValues values,
+        public override Size GetContentPreferredSize(ViewLayoutContext context,
+            IPaletteContent palette,
+            IContentValues values,
                                                      VisualOrientation orientation,
                                                      PaletteState state,
                                                      bool composition,
@@ -1138,10 +1138,10 @@ namespace Krypton.Toolkit
         /// <param name="glowing">If composition, should glowing be drawn.</param>
         /// <exception cref="ArgumentNullException"></exception>
         /// <returns>Memento with cached information.</returns>
-        public override IDisposable LayoutContent([DisallowNull] ViewLayoutContext context,
+        public override IDisposable LayoutContent(ViewLayoutContext context,
                                                   Rectangle availableRect,
-                                                  [DisallowNull] IPaletteContent palette,
-                                                  [DisallowNull] IContentValues values,
+                                                  IPaletteContent palette,
+                                                  IContentValues values,
                                                   VisualOrientation orientation,
                                                   PaletteState state,
                                                   bool composition,
@@ -1296,10 +1296,10 @@ namespace Krypton.Toolkit
         /// <param name="glowing">If composition should glowing be drawn.</param>
         /// <param name="allowFocusRect">Allow drawing of focus rectangle.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public override void DrawContent([DisallowNull] RenderContext context,
+        public override void DrawContent(RenderContext context,
                                          Rectangle displayRect,
-                                         [DisallowNull] IPaletteContent palette,
-                                         [DisallowNull] IDisposable memento,
+                                         IPaletteContent palette,
+                                         IDisposable memento,
                                          VisualOrientation orientation,
                                          PaletteState state,
                                          bool composition,
@@ -1693,7 +1693,7 @@ namespace Krypton.Toolkit
         /// <exception cref="ArgumentNullException"></exception>
         /// <returns>Padding structure detailing all four edges.</returns>
         public override Padding GetTabBorderDisplayPadding(ViewLayoutContext context,
-            [DisallowNull] IPaletteBorder palette,
+            IPaletteBorder palette,
                                                            PaletteState state,
                                                            VisualOrientation orientation,
                                                            TabBorderStyle tabBorderStyle)
@@ -1865,9 +1865,9 @@ namespace Krypton.Toolkit
         /// <param name="tabBorderStyle">Style of tab border.</param>
         /// <exception cref="ArgumentNullException"></exception>
         /// <returns>GraphicsPath instance.</returns>
-        public override GraphicsPath GetTabBorderPath([DisallowNull] RenderContext context,
+        public override GraphicsPath GetTabBorderPath(RenderContext context,
                                                       Rectangle rect,
-                                                      [DisallowNull] IPaletteBorder palette,
+                                                      IPaletteBorder palette,
                                                       VisualOrientation orientation,
                                                       PaletteState state,
                                                       TabBorderStyle tabBorderStyle)
@@ -1906,9 +1906,9 @@ namespace Krypton.Toolkit
         /// <param name="tabBorderStyle">Style of tab border.</param>
         /// <exception cref="ArgumentNullException"></exception>
         /// <returns>GraphicsPath instance.</returns>
-        public override GraphicsPath GetTabBackPath([DisallowNull] RenderContext context,
+        public override GraphicsPath GetTabBackPath(RenderContext context,
                                                     Rectangle rect,
-                                                    [DisallowNull] IPaletteBorder palette,
+                                                    IPaletteBorder palette,
                                                     VisualOrientation orientation,
                                                     PaletteState state,
                                                     TabBorderStyle tabBorderStyle)
@@ -1946,9 +1946,9 @@ namespace Krypton.Toolkit
         /// <param name="state">State associated with rendering.</param>
         /// <param name="tabBorderStyle">Style of tab border.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public override void DrawTabBorder([DisallowNull] RenderContext context,
+        public override void DrawTabBorder(RenderContext context,
                                            Rectangle rect,
-                                           [DisallowNull] IPaletteBorder palette,
+                                           IPaletteBorder palette,
                                            VisualOrientation orientation,
                                            PaletteState state,
                                            TabBorderStyle tabBorderStyle)
@@ -2223,9 +2223,9 @@ namespace Krypton.Toolkit
         /// <param name="paletteBack">Palette used for recovering drawing details.</param>
         /// <param name="state">State associated with rendering.</param>
         public override void DrawRibbonClusterEdge(PaletteRibbonShape shape,
-            [DisallowNull] RenderContext context,
+            RenderContext context,
                                                    Rectangle displayRect,
-                                                   [DisallowNull] IPaletteBack paletteBack,
+                                                   IPaletteBack paletteBack,
                                                    PaletteState state)
         {
             Debug.Assert(context != null);
@@ -2250,10 +2250,10 @@ namespace Krypton.Toolkit
         /// <param name="state">State associated with rendering.</param>
         /// <param name="canMove">Can the separator be moved.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public override void DrawSeparator([DisallowNull] RenderContext context,
+        public override void DrawSeparator(RenderContext context,
                                            Rectangle displayRect,
-                                           [DisallowNull] IPaletteBack paletteBack,
-                                           [DisallowNull] IPaletteBorder paletteBorder,
+                                           IPaletteBack paletteBack,
+                                           IPaletteBorder paletteBorder,
                                            Orientation orientation,
                                            PaletteState state,
                                            bool canMove)
@@ -2324,8 +2324,8 @@ namespace Krypton.Toolkit
         /// <param name="tracking">Should check box be Displayed as hot tracking.</param>
         /// <param name="pressed">Should check box be Displayed as pressed.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public override Size GetCheckBoxPreferredSize([DisallowNull] ViewLayoutContext context,
-            [DisallowNull] PaletteBase? palette,
+        public override Size GetCheckBoxPreferredSize(ViewLayoutContext context,
+            PaletteBase? palette,
                                                       bool enabled,
                                                       CheckState checkState,
                                                       bool tracking,
@@ -2374,9 +2374,9 @@ namespace Krypton.Toolkit
         /// <param name="tracking">Should check box be Displayed as hot tracking.</param>
         /// <param name="pressed">Should check box be Displayed as pressed.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public override void DrawCheckBox([DisallowNull] RenderContext context,
+        public override void DrawCheckBox(RenderContext context,
                                           Rectangle displayRect,
-                                          [DisallowNull] PaletteBase? palette,
+                                          PaletteBase? palette,
                                           bool enabled,
                                           CheckState checkState,
                                           bool tracking,
@@ -2431,7 +2431,7 @@ namespace Krypton.Toolkit
         /// <param name="tracking">Should check box be Displayed as hot tracking.</param>
         /// <param name="pressed">Should check box be Displayed as pressed.</param>
         public override Size GetRadioButtonPreferredSize(ViewLayoutContext context,
-                                                         [DisallowNull] PaletteBase palette,
+                                                         PaletteBase palette,
                                                          bool enabled,
                                                          bool checkState,
                                                          bool tracking,
@@ -2465,9 +2465,9 @@ namespace Krypton.Toolkit
         /// <param name="tracking">Should radio button be Displayed as hot tracking.</param>
         /// <param name="pressed">Should radio button be Displayed as pressed.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public override void DrawRadioButton([DisallowNull] RenderContext context,
+        public override void DrawRadioButton(RenderContext context,
                                              Rectangle displayRect,
-                                             [DisallowNull] PaletteBase palette,
+                                             PaletteBase palette,
                                              bool enabled,
                                              bool checkState,
                                              bool tracking,
@@ -2520,7 +2520,7 @@ namespace Krypton.Toolkit
         /// <param name="state">State for which image size is needed.</param>
         /// <param name="orientation">How to orientate the image.</param>
         public override Size GetDropDownButtonPreferredSize(ViewLayoutContext context,
-                                                            [DisallowNull] PaletteBase? palette,
+                                                            PaletteBase? palette,
                                                             PaletteState state,
                                                             VisualOrientation orientation)
         {
@@ -2553,9 +2553,9 @@ namespace Krypton.Toolkit
         /// <param name="state">State for which image size is needed.</param>
         /// <param name="orientation">How to orientate the image.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public override void DrawDropDownButton([DisallowNull] RenderContext context,
+        public override void DrawDropDownButton(RenderContext context,
                                                 Rectangle displayRect,
-                                                [DisallowNull] PaletteBase? palette,
+                                                PaletteBase? palette,
                                                 PaletteState state,
                                                 VisualOrientation orientation)
         {
@@ -2591,9 +2591,9 @@ namespace Krypton.Toolkit
         /// <param name="paletteContent">Content palette for getting colors.</param>
         /// <param name="state">State associated with rendering.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public override void DrawInputControlNumericUpGlyph([DisallowNull] RenderContext context,
+        public override void DrawInputControlNumericUpGlyph(RenderContext context,
                                                             Rectangle cellRect,
-                                                            [DisallowNull] IPaletteContent? paletteContent,
+                                                            IPaletteContent? paletteContent,
                                                             PaletteState state)
         {
             Debug.Assert(context != null);
@@ -2634,9 +2634,9 @@ namespace Krypton.Toolkit
         /// <param name="paletteContent">Content palette for getting colors.</param>
         /// <param name="state">State associated with rendering.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public override void DrawInputControlNumericDownGlyph([DisallowNull] RenderContext context,
+        public override void DrawInputControlNumericDownGlyph(RenderContext context,
                                                               Rectangle cellRect,
-                                                              [DisallowNull] IPaletteContent? paletteContent,
+                                                              IPaletteContent? paletteContent,
                                                               PaletteState state)
         {
             Debug.Assert(context != null);
@@ -2677,9 +2677,9 @@ namespace Krypton.Toolkit
         /// <param name="paletteContent">Content palette for getting colors.</param>
         /// <param name="state">State associated with rendering.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public override void DrawInputControlDropDownGlyph([DisallowNull] RenderContext context,
+        public override void DrawInputControlDropDownGlyph(RenderContext context,
                                                            Rectangle cellRect,
-                                                           [DisallowNull] IPaletteContent? paletteContent,
+                                                           IPaletteContent? paletteContent,
                                                            PaletteState state)
         {
             Debug.Assert(context != null);
@@ -2722,9 +2722,9 @@ namespace Krypton.Toolkit
         /// <param name="state">State associated with rendering.</param>
         /// <exception cref="ArgumentNullException"></exception>
         public override void DrawRibbonDialogBoxLauncher(PaletteRibbonShape shape,
-            [DisallowNull] RenderContext context,
+            RenderContext context,
                                                          Rectangle displayRect,
-                                                         [DisallowNull] IPaletteRibbonGeneral paletteGeneral,
+                                                         IPaletteRibbonGeneral paletteGeneral,
                                                          PaletteState state)
         {
             Debug.Assert(context != null);
@@ -2815,9 +2815,9 @@ namespace Krypton.Toolkit
         /// <param name="state">State associated with rendering.</param>
         /// <exception cref="ArgumentNullException"></exception>
         public override void DrawRibbonDropArrow(PaletteRibbonShape shape,
-            [DisallowNull] RenderContext context,
+            RenderContext context,
                                                  Rectangle displayRect,
-                                                 [DisallowNull] IPaletteRibbonGeneral paletteGeneral,
+                                                 IPaletteRibbonGeneral paletteGeneral,
                                                  PaletteState state)
         {
             Debug.Assert(context != null);
@@ -2889,9 +2889,9 @@ namespace Krypton.Toolkit
         /// <param name="state">State associated with rendering.</param>
         /// <exception cref="ArgumentNullException"></exception>
         public override void DrawRibbonContextArrow(PaletteRibbonShape shape,
-            [DisallowNull] RenderContext context,
+            RenderContext context,
                                                     Rectangle displayRect,
-                                                    [DisallowNull] IPaletteRibbonGeneral paletteGeneral,
+                                                    IPaletteRibbonGeneral paletteGeneral,
                                                     PaletteState state)
         {
             Debug.Assert(context != null);
@@ -2949,9 +2949,9 @@ namespace Krypton.Toolkit
         /// <param name="state">State associated with rendering.</param>
         /// <exception cref="ArgumentNullException"></exception>
         public override void DrawRibbonOverflow(PaletteRibbonShape shape,
-            [DisallowNull] RenderContext context,
+            RenderContext context,
                                                 Rectangle displayRect,
-                                                [DisallowNull] IPaletteRibbonGeneral paletteGeneral,
+                                                IPaletteRibbonGeneral paletteGeneral,
                                                 PaletteState state)
         {
             Debug.Assert(context != null);
@@ -3008,9 +3008,9 @@ namespace Krypton.Toolkit
         /// <param name="state">State associated with rendering.</param>
         /// <exception cref="ArgumentNullException"></exception>
         public override void DrawRibbonGroupSeparator(PaletteRibbonShape shape,
-            [DisallowNull] RenderContext context,
+            RenderContext context,
                                                       Rectangle displayRect,
-                                                      [DisallowNull] IPaletteRibbonGeneral paletteGeneral,
+                                                      IPaletteRibbonGeneral paletteGeneral,
                                                       PaletteState state)
         {
             Debug.Assert(context != null);
@@ -3079,10 +3079,10 @@ namespace Krypton.Toolkit
         /// <param name="state">State associated with rendering.</param>
         /// <param name="rtl">Should be drawn from right to left.</param>
         /// <returns>Remainder space left over for other drawing.</returns>
-        public override Rectangle DrawGridSortGlyph([DisallowNull] RenderContext context,
+        public override Rectangle DrawGridSortGlyph(RenderContext context,
                                                     SortOrder sortOrder,
                                                     Rectangle cellRect,
-                                                    [DisallowNull] IPaletteContent? paletteContent,
+                                                    IPaletteContent? paletteContent,
                                                     PaletteState state,
                                                     bool rtl)
         {
@@ -3141,10 +3141,10 @@ namespace Krypton.Toolkit
         /// <param name="state">State associated with rendering.</param>
         /// <param name="rtl">Should be drawn from right to left.</param>
         /// <returns>Remainder space left over for other drawing.</returns>
-        public override Rectangle DrawGridRowGlyph([DisallowNull] RenderContext context,
+        public override Rectangle DrawGridRowGlyph(RenderContext context,
                                                    GridRowGlyph rowGlyph,
                                                    Rectangle cellRect,
-                                                   [DisallowNull] IPaletteContent? paletteContent,
+                                                   IPaletteContent? paletteContent,
                                                    PaletteState state,
                                                    bool rtl)
         {
@@ -3219,7 +3219,7 @@ namespace Krypton.Toolkit
         /// <param name="state">State associated with rendering.</param>
         /// <param name="rtl">Should be drawn from right to left.</param>
         /// <returns>Remainder space left over for other drawing.</returns>
-        public override Rectangle DrawGridErrorGlyph([DisallowNull] RenderContext context,
+        public override Rectangle DrawGridErrorGlyph(RenderContext context,
                                                      Rectangle cellRect,
                                                      PaletteState state,
                                                      bool rtl)
@@ -3264,9 +3264,9 @@ namespace Krypton.Toolkit
         /// <param name="context">Render context.</param>
         /// <param name="drawRect">Drawing rectangle space.</param>
         /// <param name="dragDropPalette">Palette source of drawing values.</param>
-        public override void DrawDragDropSolidGlyph([DisallowNull] RenderContext context,
+        public override void DrawDragDropSolidGlyph(RenderContext context,
                                                     Rectangle drawRect,
-                                                    [DisallowNull] IPaletteDragDrop dragDropPalette)
+                                                    IPaletteDragDrop dragDropPalette)
         {
             Debug.Assert(context != null);
             Debug.Assert(dragDropPalette != null);
@@ -3288,8 +3288,8 @@ namespace Krypton.Toolkit
         /// <param name="dragData">Set of drag docking data.</param>
         /// <param name="dragDropPalette">Palette source of drawing values.</param>
         /// <param name="feedback">Feedback requested.</param>
-        public override void MeasureDragDropDockingGlyph([DisallowNull] RenderDragDockingData dragData,
-            [DisallowNull] IPaletteDragDrop dragDropPalette,
+        public override void MeasureDragDropDockingGlyph(RenderDragDockingData dragData,
+            IPaletteDragDrop dragDropPalette,
                                                          PaletteDragFeedback feedback)
         {
             Debug.Assert(dragData != null);
@@ -3312,9 +3312,9 @@ namespace Krypton.Toolkit
         /// <param name="dragData">Set of drag docking data.</param>
         /// <param name="dragDropPalette">Palette source of drawing values.</param>
         /// <param name="feedback">Feedback requested.</param>
-        public override void DrawDragDropDockingGlyph([DisallowNull] RenderContext context,
-                                                      [DisallowNull] RenderDragDockingData dragData,
-                                                      [DisallowNull] IPaletteDragDrop dragDropPalette,
+        public override void DrawDragDropDockingGlyph(RenderContext context,
+                                                      RenderDragDockingData dragData,
+                                                      IPaletteDragDrop dragDropPalette,
                                                       PaletteDragFeedback feedback)
         {
             Debug.Assert(context != null);
@@ -3380,7 +3380,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Element state associated with palette.</param>
         /// <returns>True if transparent painting required.</returns>
         public override bool EvalTransparentPaint(IPaletteBack paletteBack,
-                                                  [DisallowNull] IPaletteBorder? paletteBorder,
+                                                  IPaletteBorder? paletteBorder,
                                                   PaletteState state)
         {
             // If the border takes up some visual space
@@ -5247,7 +5247,7 @@ namespace Krypton.Toolkit
         }
 
         private static Brush CreateImageBrush(Rectangle rect,
-            [DisallowNull] Image image,
+            Image image,
                                               PaletteImageStyle imageStyle)
         {
             // Create brush based on the provided image
@@ -5709,11 +5709,11 @@ namespace Krypton.Toolkit
             return c as KryptonForm;
         }
 
-        private static void AllocateImageSpace([DisallowNull] StandardContentMemento memento,
-            [DisallowNull] IPaletteContent? paletteContent,
-            [DisallowNull] IContentValues contentValues,
+        private static void AllocateImageSpace(StandardContentMemento memento,
+            IPaletteContent? paletteContent,
+            IContentValues contentValues,
                                                PaletteState state,
-                                               [DisallowNull] Rectangle displayRect,
+                                               Rectangle displayRect,
                                                RightToLeft rtl,
                                                ref Size[,] allocation)
         {
@@ -5765,9 +5765,9 @@ namespace Krypton.Toolkit
         }
 
         private static void AllocateShortTextSpace(ViewLayoutContext context,
-            [DisallowNull] Graphics g,
+            Graphics g,
                                                    StandardContentMemento memento,
-                                                   [DisallowNull] IPaletteContent? paletteContent,
+                                                   IPaletteContent? paletteContent,
                                                    IContentValues contentValues,
                                                    PaletteState state,
                                                    Rectangle displayRect,
@@ -5853,8 +5853,8 @@ namespace Krypton.Toolkit
 
         private static void AllocateLongTextSpace(ViewLayoutContext context,
                                                   Graphics? g,
-                                                  [DisallowNull] StandardContentMemento memento,
-                                                  [DisallowNull] IPaletteContent? paletteContent,
+                                                  StandardContentMemento memento,
+                                                  IPaletteContent? paletteContent,
                                                   IContentValues contentValues,
                                                   PaletteState state,
                                                   Rectangle displayRect,
@@ -6171,8 +6171,8 @@ namespace Krypton.Toolkit
             }
         }
 
-        private static void PositionAlignContent([DisallowNull] StandardContentMemento memento,
-            [DisallowNull] IPaletteContent paletteContent,
+        private static void PositionAlignContent(StandardContentMemento memento,
+            IPaletteContent paletteContent,
                                                  PaletteState state,
                                                  RightToLeft rtl,
                                                  PaletteRelativeAlign alignH,

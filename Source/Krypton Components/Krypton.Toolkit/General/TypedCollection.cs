@@ -98,7 +98,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="value">Object reference.</param>
         /// <returns>The position into which the new item was inserted.</returns>
-        public virtual int Add([DisallowNull] object value)
+        public virtual int Add(object value)
         {
             // Use strongly typed implementation
             Add((value as T)!);
@@ -166,7 +166,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="item">Item reference.</param>
         /// <returns>-1 if not found; otherwise index position.</returns>
-        public int IndexOf([DisallowNull] T item)
+        public int IndexOf(T item)
         {
             Debug.Assert(item != null);
             return _list.IndexOf(item);
@@ -179,7 +179,7 @@ namespace Krypton.Toolkit
         /// <param name="item">Item reference.</param>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
-        public virtual void Insert(int index, [DisallowNull] T item)
+        public virtual void Insert(int index, T item)
         {
             Debug.Assert(item != null);
 
@@ -280,7 +280,7 @@ namespace Krypton.Toolkit
         /// <param name="item">Item reference.</param>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
-        public virtual void Add([DisallowNull] T item)
+        public virtual void Add(T item)
         {
             Debug.Assert(item != null);
 
@@ -333,7 +333,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="array">Target array.</param>
         /// <param name="arrayIndex">Starting array index.</param>
-        public void CopyTo([DisallowNull] T[] array, int arrayIndex)
+        public void CopyTo(T[] array, int arrayIndex)
         {
             Debug.Assert(array != null);
             _list.CopyTo(array, arrayIndex);
@@ -354,7 +354,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="item">Item reference.</param>
         /// <returns>True if removed; otherwise false.</returns>
-        public virtual bool Remove([DisallowNull] T item)
+        public virtual bool Remove(T item)
         {
             Debug.Assert(item != null);
 
@@ -382,7 +382,7 @@ namespace Krypton.Toolkit
         /// <param name="array">The Array that is the destination of the elements copied from the collection.</param>
         /// <param name="index">The index in array at which copying begins.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public void CopyTo([DisallowNull] Array array, int index)
+        public void CopyTo(Array array, int index)
         {
             Debug.Assert(array != null);
 

@@ -23,7 +23,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="spec">Button spec effected by event.</param>
         /// <param name="index">Index of page in the owning collection.</param>
-        public ButtonSpecEventArgs([DisallowNull] ButtonSpec spec, int index)
+        public ButtonSpecEventArgs(ButtonSpec spec, int index)
         {
             Debug.Assert(spec != null);
             Debug.Assert(index >= 0);

@@ -31,7 +31,7 @@ namespace Krypton.Toolkit
         /// <param name="borderStyle">Style for the border.</param>
         /// <param name="contentStyle">Style for the content.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public PaletteTripleMetricRedirect([DisallowNull] PaletteRedirect? redirect,
+        public PaletteTripleMetricRedirect(PaletteRedirect? redirect,
                                            PaletteBackStyle backStyle,
                                            PaletteBorderStyle borderStyle,
                                            PaletteContentStyle contentStyle,

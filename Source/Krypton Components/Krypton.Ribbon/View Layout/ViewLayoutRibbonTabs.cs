@@ -55,8 +55,8 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="ribbon">Owning ribbon control instance.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public ViewLayoutRibbonTabs([DisallowNull] KryptonRibbon ribbon,
-                                    [DisallowNull] NeedPaintHandler needPaint)
+        public ViewLayoutRibbonTabs(KryptonRibbon ribbon,
+                                    NeedPaintHandler needPaint)
         {
             Debug.Assert(ribbon != null);
             Debug.Assert(needPaint != null);
@@ -435,7 +435,7 @@ namespace Krypton.Ribbon
         /// Perform a layout of the elements.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override void Layout([DisallowNull] ViewLayoutContext context)
+        public override void Layout(ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 

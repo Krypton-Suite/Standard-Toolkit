@@ -40,8 +40,8 @@ namespace Krypton.Toolkit
         /// <param name="redirectDouble">inheritance redirection for group border/background.</param>
         /// <param name="redirectContent">inheritance redirection for group header.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public PaletteGroupBoxRedirect([DisallowNull] PaletteRedirect redirectDouble,
-                                       [DisallowNull] PaletteRedirect redirectContent,
+        public PaletteGroupBoxRedirect(PaletteRedirect redirectDouble,
+                                       PaletteRedirect redirectContent,
                                        NeedPaintHandler needPaint)
             : base(redirectDouble, PaletteBackStyle.ControlGroupBox, PaletteBorderStyle.ControlGroupBox, needPaint)
         {

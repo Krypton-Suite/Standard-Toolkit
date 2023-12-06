@@ -51,9 +51,9 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Reference to owning ribbon control.</param>
         /// <param name="ribbonColorButton">Reference to source color button definition.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public ViewDrawRibbonGroupColorButton([DisallowNull] KryptonRibbon ribbon,
-                                              [DisallowNull] KryptonRibbonGroupColorButton ribbonColorButton,
-                                              [DisallowNull] NeedPaintHandler needPaint)
+        public ViewDrawRibbonGroupColorButton(KryptonRibbon ribbon,
+                                              KryptonRibbonGroupColorButton ribbonColorButton,
+                                              NeedPaintHandler needPaint)
         {
             Debug.Assert(ribbon != null);
             Debug.Assert(ribbonColorButton != null);
@@ -268,7 +268,7 @@ namespace Krypton.Ribbon
         /// Perform a layout of the elements.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override void Layout([DisallowNull] ViewLayoutContext context)
+        public override void Layout(ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 

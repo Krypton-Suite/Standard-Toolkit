@@ -29,8 +29,8 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="primary">First choice inheritance.</param>
         /// <param name="backup">Backup inheritance.</param>
-        public PaletteBackInheritOverride([DisallowNull] IPaletteBack primary,
-                                          [DisallowNull] IPaletteBack backup)
+        public PaletteBackInheritOverride(IPaletteBack primary,
+                                          IPaletteBack backup)
         {
             Debug.Assert(primary != null);
             Debug.Assert(backup != null);

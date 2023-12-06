@@ -37,7 +37,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="ribbon">Owning control instance.</param>
         /// <param name="bottomHalf">Scroller orientation.</param>
-        public ViewDrawRibbonAppButton([DisallowNull] KryptonRibbon ribbon, bool bottomHalf)
+        public ViewDrawRibbonAppButton(KryptonRibbon ribbon, bool bottomHalf)
         {
             Debug.Assert(ribbon != null);
 
@@ -104,7 +104,7 @@ namespace Krypton.Ribbon
         /// Perform a layout of the elements.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override void Layout([DisallowNull] ViewLayoutContext context)
+        public override void Layout(ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 

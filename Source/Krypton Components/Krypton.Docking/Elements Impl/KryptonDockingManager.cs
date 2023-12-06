@@ -491,7 +491,7 @@ namespace Krypton.Docking
         /// </summary>
         /// <param name="path">Comma separated list of names to resolve.</param>
         /// <returns>IDockingElement reference if path was resolved with success; otherwise null.</returns>
-        public override IDockingElement? ResolvePath([DisallowNull] string path)
+        public override IDockingElement? ResolvePath(string path)
         {
             // Cannot resolve a null reference
             if (path == null)
@@ -513,7 +513,7 @@ namespace Krypton.Docking
         /// Show all display elements of the provided page.
         /// </summary>
         /// <param name="page">Reference to page that should be shown.</param>
-        public void ShowPage([DisallowNull] KryptonPage page)
+        public void ShowPage(KryptonPage page)
         {
             // Cannot show a null reference
             if (page == null)
@@ -528,7 +528,7 @@ namespace Krypton.Docking
         /// Show all display elements of the provided page.
         /// </summary>
         /// <param name="uniqueName">Unique name of the page that should be shown.</param>
-        public void ShowPage([DisallowNull] string uniqueName)
+        public void ShowPage(string uniqueName)
         {
             // Cannot show a null reference
             if (uniqueName == null)
@@ -543,7 +543,7 @@ namespace Krypton.Docking
         /// Show all display elements of the provided pages.
         /// </summary>
         /// <param name="pages">Array of references to pages that should be shown.</param>
-        public void ShowPages([DisallowNull] KryptonPage[] pages)
+        public void ShowPages(KryptonPage[] pages)
         {
             // Cannot show a null reference
             if (pages == null)
@@ -573,7 +573,7 @@ namespace Krypton.Docking
         /// Show all display elements of the provided pages.
         /// </summary>
         /// <param name="uniqueNames">Array of unique names of the pages that should be shown.</param>
-        public void ShowPages([DisallowNull] string[] uniqueNames)
+        public void ShowPages(string[] uniqueNames)
         {
             // Cannot show a null reference
             if (uniqueNames == null)
@@ -615,7 +615,7 @@ namespace Krypton.Docking
         /// Hide all display elements of the provided page.
         /// </summary>
         /// <param name="page">Reference to page that should be hidden.</param>
-        public void HidePage([DisallowNull] KryptonPage page)
+        public void HidePage(KryptonPage page)
         {
             // Cannot hide a null reference
             if (page == null)
@@ -630,7 +630,7 @@ namespace Krypton.Docking
         /// Hide all display elements of the provided page.
         /// </summary>
         /// <param name="uniqueName">Unique name of the page that should be hidden.</param>
-        public void HidePage([DisallowNull] string uniqueName)
+        public void HidePage(string uniqueName)
         {
             // Cannot hide a null reference
             if (string.IsNullOrWhiteSpace(uniqueName))
@@ -648,7 +648,7 @@ namespace Krypton.Docking
         /// Hide all display elements of the provided pages.
         /// </summary>
         /// <param name="pages">Array of references to pages that should be hidden.</param>
-        public void HidePages([DisallowNull] KryptonPage[] pages)
+        public void HidePages(KryptonPage[] pages)
         {
             // Cannot hide a null reference
             if (pages == null)
@@ -679,7 +679,7 @@ namespace Krypton.Docking
         /// Hide all display elements of the provided pages.
         /// </summary>
         /// <param name="uniqueNames">Array of unique names of the pages that should be hidden.</param>
-        public void HidePages([DisallowNull] string[] uniqueNames)
+        public void HidePages(string[] uniqueNames)
         {
             // Cannot hide a null reference
             if (uniqueNames == null)
@@ -722,7 +722,7 @@ namespace Krypton.Docking
         /// </summary>
         /// <param name="page">Reference to page.</param>
         /// <returns>True if the page is present and showing; otherwise false.</returns>
-        public bool IsPageShowing([DisallowNull] KryptonPage page)
+        public bool IsPageShowing(KryptonPage page)
         {
             // Cannot search for a null reference
             if (page == null)
@@ -738,7 +738,7 @@ namespace Krypton.Docking
         /// </summary>
         /// <param name="uniqueName">Unique name of page..</param>
         /// <returns>True if the page is present and showing; otherwise false.</returns>
-        public bool IsPageShowing([DisallowNull] string uniqueName)
+        public bool IsPageShowing(string uniqueName)
         {
             // Cannot search for a null reference
             if (string.IsNullOrWhiteSpace(uniqueName))
@@ -764,7 +764,7 @@ namespace Krypton.Docking
         /// </summary>
         /// <param name="page">Reference to page that should be removed.</param>
         /// <param name="disposePage">Should the page be disposed when removed.</param>
-        public void RemovePage([DisallowNull] KryptonPage page, bool disposePage)
+        public void RemovePage(KryptonPage page, bool disposePage)
         {
             // Cannot remove a null reference
             if (page == null)
@@ -780,7 +780,7 @@ namespace Krypton.Docking
         /// </summary>
         /// <param name="uniqueName">Unique name of the page that should be removed.</param>
         /// <param name="disposePage">Should the page be disposed when removed.</param>
-        public void RemovePage([DisallowNull] string uniqueName, bool disposePage)
+        public void RemovePage(string uniqueName, bool disposePage)
         {
             // Cannot remove a null reference
             if (uniqueName == null)
@@ -802,7 +802,7 @@ namespace Krypton.Docking
         /// </summary>
         /// <param name="pages">Array of references to pages that should be removed.</param>
         /// <param name="disposePage">Should the page be disposed when removed.</param>
-        public void RemovePages([DisallowNull] KryptonPage[] pages, bool disposePage)
+        public void RemovePages(KryptonPage[] pages, bool disposePage)
         {
             // Cannot remove a null reference
             if (pages == null)
@@ -834,7 +834,7 @@ namespace Krypton.Docking
         /// </summary>
         /// <param name="uniqueNames">Array of unique names of the pages that should be removed.</param>
         /// <param name="disposePage">Should the page be disposed when removed.</param>
-        public void RemovePages([DisallowNull] string[] uniqueNames, bool disposePage)
+        public void RemovePages(string[] uniqueNames, bool disposePage)
         {
             // Cannot remove a null reference
             if (uniqueNames == null)
@@ -880,7 +880,7 @@ namespace Krypton.Docking
         /// </summary>
         /// <param name="page">Reference to page that should be found.</param>
         /// <returns>True if the page is present; otherwise false.</returns>
-        public bool ContainsPage([DisallowNull] KryptonPage page)
+        public bool ContainsPage(KryptonPage page)
         {
             // Cannot find a null reference
             if (page == null)
@@ -896,7 +896,7 @@ namespace Krypton.Docking
         /// </summary>
         /// <param name="uniqueName">Unique name of page that should be found.</param>
         /// <returns>True if the page is present; otherwise false.</returns>
-        public bool ContainsPage([DisallowNull] string uniqueName)
+        public bool ContainsPage(string uniqueName)
         {
             // Cannot find a null reference
             if (string.IsNullOrWhiteSpace(uniqueName))
@@ -922,7 +922,7 @@ namespace Krypton.Docking
         /// </summary>
         /// <param name="uniqueName">Unique name of page that should be found.</param>
         /// <returns>Reference to page if the named page exists in the docking hierarchy; otherwise false.</returns>
-        public KryptonPage? PageForUniqueName([DisallowNull] string uniqueName)
+        public KryptonPage? PageForUniqueName(string uniqueName)
         {
             // Cannot find a null reference
             if (uniqueName == null)
@@ -944,7 +944,7 @@ namespace Krypton.Docking
         /// Replace named page with a store placeholder so it can be restored at a later time.
         /// </summary>
         /// <param name="page">Reference to page that should be replaced.</param>
-        public void StorePage([DisallowNull] KryptonPage page)
+        public void StorePage(KryptonPage page)
         {
             // Cannot replace a null reference
             if (page == null)
@@ -959,7 +959,7 @@ namespace Krypton.Docking
         /// Replace page with a store placeholder so it can be restored at a later time.
         /// </summary>
         /// <param name="uniqueName">Unique name of the page that should be replaced.</param>
-        public void StorePage([DisallowNull] string uniqueName)
+        public void StorePage(string uniqueName)
         {
             // Cannot replace a null reference
             if (uniqueName == null)
@@ -980,7 +980,7 @@ namespace Krypton.Docking
         /// Replace named pages with store placeholders so they can be restored at a later time.
         /// </summary>
         /// <param name="pages">Array of references to pages that should be replaced.</param>
-        public void StorePages([DisallowNull] KryptonPage[] pages)
+        public void StorePages(KryptonPage[] pages)
         {
             // Cannot replace a null reference
             if (pages == null)
@@ -1011,7 +1011,7 @@ namespace Krypton.Docking
         /// Replace pages with store placeholders so they can be restored at a later time.
         /// </summary>
         /// <param name="uniqueNames">Array of unique names of the pages that should be replaced.</param>
-        public void StorePages([DisallowNull] string[] uniqueNames)
+        public void StorePages(string[] uniqueNames)
         {
             // Cannot replace a null reference
             if (uniqueNames == null)
@@ -1053,7 +1053,7 @@ namespace Krypton.Docking
         /// Clear away any store pages for the provided pages.
         /// </summary>
         /// <param name="pages">Array of references to pages that should be shown.</param>
-        public void ClearStoredPages([DisallowNull] KryptonPage[] pages)
+        public void ClearStoredPages(KryptonPage[] pages)
         {
             // Cannot show a null reference
             if (pages == null)
@@ -1083,7 +1083,7 @@ namespace Krypton.Docking
         /// Clear away any store pages for the provided unique named pages.
         /// </summary>
         /// <param name="uniqueNames">Array of unique names of the pages that should have store pages removed.</param>
-        public void ClearStoredPages([DisallowNull] string[] uniqueNames)
+        public void ClearStoredPages(string[] uniqueNames)
         {
             // Cannot clear a null reference
             if (uniqueNames == null)
@@ -1129,7 +1129,7 @@ namespace Krypton.Docking
         /// </summary>
         /// <param name="page">Reference to page.</param>
         /// <returns>Enumeration value indicating docking location.</returns>
-        public DockingLocation FindPageLocation([DisallowNull] KryptonPage? page)
+        public DockingLocation FindPageLocation(KryptonPage? page)
         {
             // Cannot find a null reference
             if (page == null)
@@ -1145,7 +1145,7 @@ namespace Krypton.Docking
         /// </summary>
         /// <param name="uniqueName">Unique name of the page.</param>
         /// <returns>Enumeration value indicating docking location.</returns>
-        public override DockingLocation FindPageLocation([DisallowNull] string uniqueName)
+        public override DockingLocation FindPageLocation(string uniqueName)
         {
             // Cannot replace a null reference
             if (string.IsNullOrWhiteSpace(uniqueName))
@@ -1168,7 +1168,7 @@ namespace Krypton.Docking
         /// </summary>
         /// <param name="page">Reference to page.</param>
         /// <returns>IDockingElement reference if page is found; otherwise null.</returns>
-        public IDockingElement? FindPageElement([DisallowNull] KryptonPage page)
+        public IDockingElement? FindPageElement(KryptonPage page)
         {
             // Cannot find a null reference
             if (page == null)
@@ -1184,7 +1184,7 @@ namespace Krypton.Docking
         /// </summary>
         /// <param name="uniqueName">Unique name of the page.</param>
         /// <returns>IDockingElement reference if page is found; otherwise null.</returns>
-        public override IDockingElement? FindPageElement([DisallowNull] string uniqueName)
+        public override IDockingElement? FindPageElement(string uniqueName)
         {
             // Cannot replace a null reference
             if (string.IsNullOrWhiteSpace(uniqueName))
@@ -1208,7 +1208,7 @@ namespace Krypton.Docking
         /// <param name="location">Location to be searched.</param>
         /// <param name="page">Reference to page.</param>
         /// <returns>IDockingElement reference if store page is found; otherwise null.</returns>
-        public IDockingElement? FindStorePageElement(DockingLocation location, [DisallowNull] KryptonPage page)
+        public IDockingElement? FindStorePageElement(DockingLocation location, KryptonPage page)
         {
             // Cannot find a null reference
             if (page == null)
@@ -1225,7 +1225,7 @@ namespace Krypton.Docking
         /// <param name="location">Location to be searched.</param>
         /// <param name="uniqueName">Unique name of the page to be found.</param>
         /// <returns>IDockingElement reference if store page is found; otherwise null.</returns>
-        public override IDockingElement? FindStorePageElement(DockingLocation location, [DisallowNull] string uniqueName)
+        public override IDockingElement? FindStorePageElement(DockingLocation location, string uniqueName)
         {
             // Cannot replace a null reference
             if (string.IsNullOrWhiteSpace(uniqueName))
@@ -1406,7 +1406,7 @@ namespace Krypton.Docking
         /// Perform the close request for a set of named pages.
         /// </summary>
         /// <param name="uniqueNames">Array of unique names that need action performed.</param>
-        public virtual void CloseRequest([DisallowNull] IReadOnlyList<string> uniqueNames)
+        public virtual void CloseRequest(IReadOnlyList<string> uniqueNames)
         {
             // Cannot action a null reference
             if (uniqueNames == null)
@@ -1466,7 +1466,7 @@ namespace Krypton.Docking
         /// Make the named page auto hidden.
         /// </summary>
         /// <param name="uniqueName">Unique name of page to become auto hidden.</param>
-        public virtual void MakeAutoHiddenRequest([DisallowNull] string uniqueName)
+        public virtual void MakeAutoHiddenRequest(string uniqueName)
         {
             // Cannot process a null reference
             if (uniqueName == null)
@@ -1531,7 +1531,7 @@ namespace Krypton.Docking
         /// Make the named page docked.
         /// </summary>
         /// <param name="uniqueName">Unique name of page to become docked.</param>
-        public virtual void MakeDockedRequest([DisallowNull] string uniqueName)
+        public virtual void MakeDockedRequest(string uniqueName)
         {
             // Cannot process a null reference
             if (uniqueName == null)
@@ -1604,7 +1604,7 @@ namespace Krypton.Docking
         /// Make the named page floating.
         /// </summary>
         /// <param name="uniqueName">Unique name of page to become floating.</param>
-        public virtual void MakeFloatingRequest([DisallowNull] string uniqueName)
+        public virtual void MakeFloatingRequest(string uniqueName)
         {
             // Cannot process a null reference
             if (string.IsNullOrWhiteSpace(uniqueName))
@@ -1679,7 +1679,7 @@ namespace Krypton.Docking
         /// Make the named page workspace tabbed.
         /// </summary>
         /// <param name="uniqueName">Unique name of page to become workspace tabbed.</param>
-        public virtual void MakeWorkspaceRequest([DisallowNull] string uniqueName)
+        public virtual void MakeWorkspaceRequest(string uniqueName)
         {
             // Cannot process a null reference
             if (uniqueName == null)
@@ -1748,7 +1748,7 @@ namespace Krypton.Docking
         /// Make the named page navigator tabbed.
         /// </summary>
         /// <param name="uniqueName">Unique name of page to become navigator tabbed.</param>
-        public virtual void MakeNavigatorRequest([DisallowNull] string uniqueName)
+        public virtual void MakeNavigatorRequest(string uniqueName)
         {
             // Cannot process a null reference
             if (uniqueName == null)
@@ -1823,7 +1823,7 @@ namespace Krypton.Docking
         /// <param name="page">Reference to page.</param>
         /// <param name="kcm">Reference to context menu.</param>
         /// <returns>True if the context menu should be displayed; otherwise false.</returns>
-        public virtual bool ShowPageContextMenuRequest([DisallowNull] KryptonPage? page, [DisallowNull] KryptonContextMenu kcm)
+        public virtual bool ShowPageContextMenuRequest(KryptonPage? page, KryptonContextMenu kcm)
         {
             // Cannot action a null reference
             if (page == null)
@@ -1945,7 +1945,7 @@ namespace Krypton.Docking
         /// </summary>
         /// <param name="uniqueName">Unique name of page inside docked cell that needs switching.</param>
         /// <returns>KryptonDockingAutoHiddenGroup reference on success; otherwise null.</returns>
-        public virtual KryptonDockingAutoHiddenGroup? SwitchDockedCellToAutoHiddenGroupRequest([DisallowNull] string uniqueName)
+        public virtual KryptonDockingAutoHiddenGroup? SwitchDockedCellToAutoHiddenGroupRequest(string uniqueName)
         {
             // Cannot switch a null reference
             if (uniqueName == null)
@@ -2036,7 +2036,7 @@ namespace Krypton.Docking
         /// </summary>
         /// <param name="uniqueNames">Unique name of pages inside a docked cell that needs switching.</param>
         /// <returns>KryptonDockingFloatingWindow reference on success; otherwise null.</returns>
-        public virtual KryptonDockingFloatingWindow? SwitchDockedToFloatingWindowRequest([DisallowNull] IReadOnlyList<string> uniqueNames)
+        public virtual KryptonDockingFloatingWindow? SwitchDockedToFloatingWindowRequest(IReadOnlyList<string> uniqueNames)
         {
             // Cannot action a null reference
             if (uniqueNames == null)
@@ -2163,7 +2163,7 @@ namespace Krypton.Docking
         /// </summary>
         /// <param name="uniqueNames">Unique name of floating pages that need switching.</param>
         /// <returns>KryptonDockingDockspace reference if a new dockspace needed to be created; otherwise false.</returns>
-        public virtual KryptonDockingDockspace? SwitchFloatingToDockedRequest([DisallowNull] string[] uniqueNames)
+        public virtual KryptonDockingDockspace? SwitchFloatingToDockedRequest(string[] uniqueNames)
         {
             // Cannot action a null reference
             if (uniqueNames == null)
@@ -2305,7 +2305,7 @@ namespace Krypton.Docking
         /// </summary>
         /// <param name="uniqueNames">Unique name of floating pages that need switching.</param>
         /// <returns>KryptonDockingFloatingWindow reference on success; otherwise false.</returns>
-        public virtual KryptonDockingFloatingWindow? SwitchFloatingToFloatingWindowRequest([DisallowNull] IReadOnlyList<string> uniqueNames)
+        public virtual KryptonDockingFloatingWindow? SwitchFloatingToFloatingWindowRequest(IReadOnlyList<string> uniqueNames)
         {
             // Cannot action a null reference
             if (uniqueNames == null)
@@ -2409,7 +2409,7 @@ namespace Krypton.Docking
         /// </summary>
         /// <param name="uniqueName">Unique name of page inside auto hidden group that needs switching.</param>
         /// <returns>KryptonDockingDockspace reference if a new dockspace needed to be created; otherwise false.</returns>
-        public virtual KryptonDockingDockspace? SwitchAutoHiddenGroupToDockedCellRequest([DisallowNull] string uniqueName)
+        public virtual KryptonDockingDockspace? SwitchAutoHiddenGroupToDockedCellRequest(string uniqueName)
         {
             // Cannot switch a null reference
             if (uniqueName == null)
@@ -2532,7 +2532,7 @@ namespace Krypton.Docking
         /// <returns>KryptonDockingDockspace reference.</returns>
         public virtual KryptonDockingDockspace AddDockspace(string path,
                                                             DockingEdge edge,
-                                                            [DisallowNull] KryptonPage[] pages,
+                                                            KryptonPage[] pages,
                                                             params KryptonPage[][] stackPages)
         {
             // Cannot add a null array
@@ -2640,7 +2640,7 @@ namespace Krypton.Docking
         /// <returns>KryptonDockingAutoHiddenGroup reference.</returns>
         public virtual KryptonDockingAutoHiddenGroup AddAutoHiddenGroup(string path,
                                                                         DockingEdge edge,
-                                                                        [DisallowNull] KryptonPage[] pages,
+                                                                        KryptonPage[] pages,
                                                                         params KryptonPage[][] extraPages)
         {
             // Cannot add a null array
@@ -2743,7 +2743,7 @@ namespace Krypton.Docking
         /// <param name="clientSize">Initial client size of the floating window.</param>
         /// <returns>KryptonDockingFloatingWindow reference.</returns>
         public virtual KryptonDockingFloatingWindow AddFloatingWindow(string path,
-            [DisallowNull] KryptonPage[] pages,
+            KryptonPage[] pages,
                                                                       Point location,
                                                                       Size clientSize)
         {
@@ -2802,7 +2802,7 @@ namespace Krypton.Docking
         /// <param name="path">Path for finding the target KryptonDockingWorkspace.</param>
         /// <param name="pages">Array of pages to be added.</param>
         /// <returns>KryptonDockingWorkspace reference.</returns>
-        public virtual KryptonDockingWorkspace AddToWorkspace(string path, [DisallowNull] KryptonPage[] pages)
+        public virtual KryptonDockingWorkspace AddToWorkspace(string path, KryptonPage[] pages)
         {
             // Cannot add a null array
             if (pages == null)
@@ -2839,7 +2839,7 @@ namespace Krypton.Docking
         /// <param name="path">Path for finding the target KryptonDockingNavigator.</param>
         /// <param name="pages">Array of pages to be added.</param>
         /// <returns>KryptonDockingNavigator reference.</returns>
-        public virtual KryptonDockingNavigator AddToNavigator(string path, [DisallowNull] KryptonPage[] pages)
+        public virtual KryptonDockingNavigator AddToNavigator(string path, KryptonPage[] pages)
         {
             // Cannot add a null array
             if (pages == null)
@@ -2882,7 +2882,7 @@ namespace Krypton.Docking
         public virtual KryptonDockingDockspace InsertDockspace(string path,
                                                                DockingEdge edge,
                                                                int index,
-                                                               [DisallowNull] KryptonPage[] pages,
+                                                               KryptonPage[] pages,
                                                                params KryptonPage[][] stackPages)
         {
             // Cannot add a null array
@@ -2972,7 +2972,7 @@ namespace Krypton.Docking
         public virtual KryptonDockingAutoHiddenGroup InsertAutoHiddenGroup(string path,
                                                                            DockingEdge edge,
                                                                            int index,
-                                                                           [DisallowNull] KryptonPage[] pages,
+                                                                           KryptonPage[] pages,
                                                                            params KryptonPage[][] extraPages)
         {
             // Cannot add a null array
@@ -3042,7 +3042,7 @@ namespace Krypton.Docking
         /// <param name="c">Control that started the drag operation.</param>
         /// <param name="pages">Set of pages requested to be dragged.</param>
         public virtual void DoDragDrop(Point screenPoint, Point elementOffset, Control c,
-            [DisallowNull] KryptonPageCollection pages)
+            KryptonPageCollection pages)
         {
             // Cannot drag a null reference
             if (pages == null)
@@ -3186,7 +3186,7 @@ namespace Krypton.Docking
         /// <param name="c">Control that started the drag operation.</param>
         /// <param name="window">Reference to floating window element that should be dragged.</param>
         public virtual void DoDragDrop(Point screenPoint, Point elementOffset, Control? c,
-            [DisallowNull] KryptonDockingFloatingWindow window)
+            KryptonDockingFloatingWindow window)
         {
             // Cannot drag a null reference
             if (window == null)

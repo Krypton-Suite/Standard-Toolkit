@@ -28,7 +28,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="inherit">Source for inheriting values.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public PaletteDataGridViewHeaders([DisallowNull] PaletteDataGridViewRedirect inherit,
+        public PaletteDataGridViewHeaders(PaletteDataGridViewRedirect inherit,
                                           NeedPaintHandler needPaint)
         {
             Debug.Assert(inherit != null);

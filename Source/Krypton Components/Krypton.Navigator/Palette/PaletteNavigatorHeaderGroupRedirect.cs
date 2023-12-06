@@ -41,8 +41,8 @@ namespace Krypton.Navigator
         public PaletteNavigatorHeaderGroupRedirect(PaletteRedirect? redirectHeaderGroup,
                                                    PaletteRedirect? redirectHeaderPrimary,
                                                    PaletteRedirect? redirectHeaderSecondary,
-                                                   [DisallowNull] PaletteRedirect? redirectHeaderBar,
-                                                   [DisallowNull] PaletteRedirect? redirectHeaderOverflow,
+                                                   PaletteRedirect? redirectHeaderBar,
+                                                   PaletteRedirect? redirectHeaderOverflow,
                                                    NeedPaintHandler needPaint)
             : base(redirectHeaderGroup!, redirectHeaderPrimary!,
                    redirectHeaderSecondary!, needPaint)

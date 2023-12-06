@@ -31,9 +31,9 @@ namespace Krypton.Toolkit
         /// <param name="inheritHeaderPrimary">Source for inheriting primary header defaulted values.</param>
         /// <param name="inheritHeaderSecondary">Source for inheriting secondary header defaulted values.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public PaletteHeaderGroup([DisallowNull] PaletteHeaderGroupRedirect? inheritHeaderGroup,
-                                  [DisallowNull] PaletteHeaderPaddingRedirect inheritHeaderPrimary,
-                                  [DisallowNull] PaletteHeaderPaddingRedirect inheritHeaderSecondary,
+        public PaletteHeaderGroup(PaletteHeaderGroupRedirect? inheritHeaderGroup,
+                                  PaletteHeaderPaddingRedirect inheritHeaderPrimary,
+                                  PaletteHeaderPaddingRedirect inheritHeaderSecondary,
                                   NeedPaintHandler needPaint)
             : base(inheritHeaderGroup, needPaint)
         {

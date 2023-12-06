@@ -30,7 +30,7 @@ namespace Krypton.Ribbon
         /// Initialize a new instance of the ContextTitleController class.
         /// </summary>
         /// <param name="ribbon">Reference to owning ribbon instance.</param>
-        public ContextTitleController([DisallowNull] KryptonRibbon ribbon)
+        public ContextTitleController(KryptonRibbon ribbon)
         {
             Debug.Assert(ribbon != null);
             _ribbon = ribbon!;

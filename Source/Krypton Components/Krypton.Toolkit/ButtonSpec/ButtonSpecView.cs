@@ -34,11 +34,11 @@ namespace Krypton.Toolkit
         /// <param name="metricPadding">Padding metric for border padding.</param>
         /// <param name="manager">Reference to owning manager.</param>
         /// <param name="buttonSpec">Access</param>
-        public ButtonSpecView([DisallowNull] PaletteRedirect redirector,
+        public ButtonSpecView(PaletteRedirect redirector,
                               IPaletteMetric? paletteMetric,
                               PaletteMetricPadding metricPadding,
-                              [DisallowNull] ButtonSpecManagerBase manager,
-                              [DisallowNull] ButtonSpec buttonSpec)
+                              ButtonSpecManagerBase manager,
+                              ButtonSpec buttonSpec)
         {
             Debug.Assert(redirector != null);
             Debug.Assert(manager != null);

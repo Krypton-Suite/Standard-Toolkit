@@ -38,7 +38,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="ribbon">Owning control instance.</param>
         /// <param name="bottomHalf">Scroller orientation.</param>
-        public ViewLayoutRibbonAppButton([DisallowNull] KryptonRibbon ribbon,
+        public ViewLayoutRibbonAppButton(KryptonRibbon ribbon,
                                          bool bottomHalf)
         {
             Debug.Assert(ribbon != null);

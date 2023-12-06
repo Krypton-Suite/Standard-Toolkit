@@ -59,9 +59,9 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Source control instance.</param>
         /// <param name="target">Target for state changes.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public GroupButtonController([DisallowNull] KryptonRibbon ribbon,
-                                     [DisallowNull] ViewDrawRibbonGroupButtonBackBorder target,
-                                     [DisallowNull] NeedPaintHandler needPaint)
+        public GroupButtonController(KryptonRibbon ribbon,
+                                     ViewDrawRibbonGroupButtonBackBorder target,
+                                     NeedPaintHandler needPaint)
         {
             Debug.Assert(ribbon != null);
             Debug.Assert(target != null);
@@ -374,7 +374,7 @@ namespace Krypton.Ribbon
         /// Source control has lost the focus.
         /// </summary>
         /// <param name="c">Reference to the source control instance.</param>
-        public virtual void LostFocus([DisallowNull] Control c)
+        public virtual void LostFocus(Control c)
         {
             _hasFocus = false;
             UpdateTargetState(Point.Empty);

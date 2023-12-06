@@ -35,7 +35,7 @@ namespace Krypton.Ribbon
         /// <param name="ribbonCheckBox">Reference to ribbon group check box definition.</param>
         /// <param name="large">Show the large image.</param>
         public ViewDrawRibbonGroupCheckBoxImage(KryptonRibbon ribbon,
-            [DisallowNull] KryptonRibbonGroupCheckBox ribbonCheckBox,
+            KryptonRibbonGroupCheckBox ribbonCheckBox,
                                                 bool large)
         {
             Debug.Assert(ribbonCheckBox != null);

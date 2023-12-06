@@ -31,8 +31,8 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="tab">Reference to first tab of the set.</param>
         /// <param name="context">Reference to owning context details.</param>
-        public ContextTabSet([DisallowNull] ViewDrawRibbonTab tab,
-                             [DisallowNull] KryptonRibbonContext context)
+        public ContextTabSet(ViewDrawRibbonTab tab,
+                             KryptonRibbonContext context)
         {
             Debug.Assert(tab != null);
             Debug.Assert(context != null);
@@ -74,7 +74,7 @@ namespace Krypton.Ribbon
         /// Update the last tab in the set with new refernece.
         /// </summary>
         /// <param name="tab">Reference to new last tab.</param>
-        public void UpdateLastTab([DisallowNull] ViewDrawRibbonTab tab)
+        public void UpdateLastTab(ViewDrawRibbonTab tab)
         {
             Debug.Assert(tab != null);
             _lastTab = tab;

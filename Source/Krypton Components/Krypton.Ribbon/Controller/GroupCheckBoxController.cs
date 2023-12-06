@@ -53,10 +53,10 @@ namespace Krypton.Ribbon
         /// <param name="targetMain">Target for main element changes.</param>
         /// <param name="targetImage">Target for image state changes.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public GroupCheckBoxController([DisallowNull] KryptonRibbon ribbon,
-                                       [DisallowNull] ViewBase targetMain,
-                                       [DisallowNull] ViewDrawRibbonGroupCheckBoxImage targetImage,
-                                       [DisallowNull] NeedPaintHandler needPaint)
+        public GroupCheckBoxController(KryptonRibbon ribbon,
+                                       ViewBase targetMain,
+                                       ViewDrawRibbonGroupCheckBoxImage targetImage,
+                                       NeedPaintHandler needPaint)
         {
             Debug.Assert(ribbon != null);
             Debug.Assert(targetMain != null);
@@ -253,7 +253,7 @@ namespace Krypton.Ribbon
         /// Source control has lost the focus.
         /// </summary>
         /// <param name="c">Reference to the source control instance.</param>
-        public virtual void LostFocus([DisallowNull] Control c)
+        public virtual void LostFocus(Control c)
         {
             _hasFocus = false;
             UpdateTargetState(Point.Empty);

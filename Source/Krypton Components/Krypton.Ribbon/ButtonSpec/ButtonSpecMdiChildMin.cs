@@ -28,7 +28,7 @@ namespace Krypton.Ribbon
         /// Initialize a new instance of the ButtonSpecMdiChildMin class.
         /// </summary>
         /// <param name="ribbon">Reference to owning ribbon control.</param>
-        public ButtonSpecMdiChildMin([DisallowNull] KryptonRibbon ribbon)
+        public ButtonSpecMdiChildMin(KryptonRibbon ribbon)
             : base(PaletteButtonSpecStyle.PendantMin)
         {
             Debug.Assert(ribbon != null);

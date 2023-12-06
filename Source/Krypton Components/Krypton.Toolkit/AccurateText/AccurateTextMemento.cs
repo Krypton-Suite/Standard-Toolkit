@@ -37,7 +37,7 @@ namespace Krypton.Toolkit
         /// <param name="hint">Drawing hint.</param>
         /// <param name="disposeFont">Should the font be disposed.</param>
         internal AccurateTextMemento(string text,
-                                     [DisallowNull] Font font,
+                                     Font font,
                                      SizeF sizeF,
                                      StringFormat format,
                                      TextRenderingHint hint, // TODO: What was this supposed to be used for ?
