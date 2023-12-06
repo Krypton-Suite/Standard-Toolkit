@@ -24,7 +24,7 @@ namespace Krypton.Toolkit
         /// Initializes the designer with the specified component.
         /// </summary>
         /// <param name="component">The IComponent to associate the designer with.</param>
-        public override void Initialize([DisallowNull] IComponent component)
+        public override void Initialize(IComponent component)
         {
             // Let base class do standard stuff
             base.Initialize(component);
@@ -65,8 +65,8 @@ namespace Krypton.Toolkit
         /// <returns>A ControlDesigner at the specified index.</returns>
         public override ControlDesigner? InternalControlDesigner(int internalControlIndex) =>
             // Get the control designer for the requested indexed child control
-            (_groupBox != null) && (internalControlIndex == 0) 
-                ? (ControlDesigner)_designerHost.GetDesigner(_groupBox.Panel) 
+            (_groupBox != null) && (internalControlIndex == 0)
+                ? (ControlDesigner)_designerHost.GetDesigner(_groupBox.Panel!)!
                 : null;
 
         /// <summary>

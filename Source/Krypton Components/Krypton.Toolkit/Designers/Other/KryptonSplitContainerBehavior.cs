@@ -116,13 +116,13 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Implementation Static
-        private static Point PointToSplitContainer(Glyph g, Point pt)
+        private static Point PointToSplitContainer(Glyph? g, Point pt)
         {
             // Cast the correct type
-            var splitGlyph = (KryptonSplitContainerGlyph)g;
+            var splitGlyph = g as KryptonSplitContainerGlyph;
 
             // Gets the bounds of the glyph in adorner coordinates
-            Rectangle bounds = splitGlyph.Bounds;
+            Rectangle bounds = splitGlyph!.Bounds;
 
             // Convert from adorner coordinates to the control client coordinates
             return new Point(pt.X - bounds.X, pt.Y - bounds.Y);

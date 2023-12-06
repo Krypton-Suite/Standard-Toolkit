@@ -32,7 +32,7 @@ namespace Krypton.Toolkit
             protected class CrumbProxy
             {
                 #region Instance Fields
-                private readonly KryptonBreadCrumbItem _item;
+                private readonly KryptonBreadCrumbItem? _item;
                 #endregion
 
                 #region Identity
@@ -40,7 +40,7 @@ namespace Krypton.Toolkit
                 /// Initialize a new instance of the KryptonBreadCrumbItem class.
                 /// </summary>
                 /// <param name="item">Item to act as proxy for.</param>
-                public CrumbProxy(KryptonBreadCrumbItem item) => _item = item;
+                public CrumbProxy(KryptonBreadCrumbItem? item) => _item = item;
 
                 #endregion
 
@@ -51,8 +51,8 @@ namespace Krypton.Toolkit
                 [Category(@"Appearance")]
                 public string ShortText
                 {
-                    get => _item.ShortText;
-                    set => _item.ShortText = value;
+                    get => _item!.ShortText;
+                    set => _item!.ShortText = value;
                 }
                 #endregion
 
@@ -63,8 +63,8 @@ namespace Krypton.Toolkit
                 [Category(@"Appearance")]
                 public string LongText
                 {
-                    get => _item.LongText;
-                    set => _item.LongText = value;
+                    get => _item!.LongText;
+                    set => _item!.LongText = value;
                 }
                 #endregion
 
@@ -76,8 +76,8 @@ namespace Krypton.Toolkit
                 [DefaultValue(null)]
                 public Image? Image
                 {
-                    get => _item.Image;
-                    set => _item.Image = value;
+                    get => _item!.Image;
+                    set => _item!.Image = value;
                 }
                 #endregion
 
@@ -89,8 +89,8 @@ namespace Krypton.Toolkit
                 [DefaultValue(typeof(Color), "Empty")]
                 public Color ImageTransparentColor
                 {
-                    get => _item.ImageTransparentColor;
-                    set => _item.ImageTransparentColor = value;
+                    get => _item!.ImageTransparentColor;
+                    set => _item!.ImageTransparentColor = value;
                 }
                 #endregion
 
@@ -103,8 +103,8 @@ namespace Krypton.Toolkit
                 [DefaultValue(null)]
                 public object? Tag
                 {
-                    get => _item.Tag;
-                    set => _item.Tag = value;
+                    get => _item!.Tag;
+                    set => _item!.Tag = value;
                 }
                 #endregion
             }
@@ -119,15 +119,18 @@ namespace Krypton.Toolkit
                 /// Initialize a new instance of the MenuTreeNode class.
                 /// </summary>
                 /// <param name="item">Menu item to represent.</param>
-                public MenuTreeNode(KryptonBreadCrumbItem item)
+                public MenuTreeNode(KryptonBreadCrumbItem? item)
                 {
                     Item = item;
                     PropertyObject = item;
 
-                    Text = Item.ToString();
+                    Text = Item?.ToString();
 
                     // Hook into property changes
-                    Item.PropertyChanged += OnPropertyChanged;
+                    if (Item != null)
+                    {
+                        Item.PropertyChanged += OnPropertyChanged;
+                    }
                 }
                 #endregion
 
@@ -135,26 +138,26 @@ namespace Krypton.Toolkit
                 /// <summary>
                 /// Gets access to the associated item.
                 /// </summary>
-                public KryptonBreadCrumbItem Item { get; }
+                public KryptonBreadCrumbItem? Item { get; }
 
                 /// <summary>
                 /// Gets access to object wrapper for use in the property grid.
                 /// </summary>
-                public object PropertyObject { get; }
+                public object? PropertyObject { get; }
 
                 #endregion
 
                 #region Implementation
                 private void OnPropertyChanged(object sender, PropertyChangedEventArgs e) =>
                     // Update with correct string for new state
-                    Text = Item.ToString();
+                    Text = Item?.ToString();
                 #endregion
             }
 
             /// <summary>
             /// Site that allows the property grid to discover Visual Studio services.
             /// </summary>
-            protected class PropertyGridSite : ISite, IServiceProvider
+            protected class PropertyGridSite : ISite
             {
                 #region Instance Fields
 
@@ -436,7 +439,7 @@ namespace Krypton.Toolkit
 
                     // Add all the top level clones
                     treeView1.Nodes.Clear();
-                    foreach (KryptonBreadCrumbItem item in Items)
+                    foreach (KryptonBreadCrumbItem? item in Items)
                     {
                         AddMenuTreeNode(item, null);
                     }
@@ -460,7 +463,7 @@ namespace Krypton.Toolkit
             private void buttonOK_Click(object sender, EventArgs e)
             {
                 // Create an array with all the root items
-                var rootItems = new object[treeView1.Nodes.Count];
+                var rootItems = new object?[treeView1.Nodes.Count];
                 for (var i = 0; i < rootItems.Length; i++)
                 {
                     rootItems[i] = ((MenuTreeNode)treeView1.Nodes[i]).Item;
@@ -595,7 +598,7 @@ namespace Krypton.Toolkit
                         // Remove cell from parent collection
                         var parentNode = (MenuTreeNode)node.Parent;
                         TreeNodeCollection parentCollection = node.Parent == null ? treeView1.Nodes : node.Parent.Nodes;
-                        parentNode?.Item.Items.Remove(node.Item);
+                        parentNode?.Item?.Items.Remove(node.Item!);
                         parentCollection.Remove(node);
 
                         if (contained)
@@ -618,13 +621,13 @@ namespace Krypton.Toolkit
                                 }
                             }
 
-                            previousParent?.Item.Items.Insert(pageIndex, node.Item);
+                            previousParent?.Item?.Items.Insert(pageIndex, node.Item!);
                             parentCollection.Insert(pageIndex, node);
                         }
                         else
                         {
                             parentNode = previousNode;
-                            parentNode.Item.Items.Insert(parentNode.Nodes.Count, node.Item);
+                            parentNode.Item?.Items.Insert(parentNode.Nodes.Count, node.Item!);
                             parentNode.Nodes.Insert(parentNode.Nodes.Count, node);
                         }
                     }
@@ -652,7 +655,7 @@ namespace Krypton.Toolkit
                         // Remove cell from parent collection
                         var parentNode = node.Parent as MenuTreeNode;
                         TreeNodeCollection parentCollection = node.Parent == null ? treeView1.Nodes : node.Parent.Nodes;
-                        parentNode?.Item.Items.Remove(node.Item);
+                        parentNode?.Item?.Items.Remove(node.Item!);
                         parentCollection.Remove(node);
 
                         if (contained)
@@ -661,13 +664,13 @@ namespace Krypton.Toolkit
                             var previousParent = (MenuTreeNode)nextNode.Parent;
                             parentCollection = nextNode.Parent == null ? treeView1.Nodes : nextNode.Parent.Nodes;
                             var pageIndex = parentCollection.IndexOf(nextNode);
-                            previousParent?.Item.Items.Insert(pageIndex + 1, node.Item);
+                            previousParent?.Item?.Items.Insert(pageIndex + 1, node.Item!);
                             parentCollection.Insert(pageIndex + 1, node);
                         }
                         else
                         {
                             parentNode = nextNode;
-                            parentNode.Item.Items.Insert(0, node.Item);
+                            parentNode.Item?.Items.Insert(0, node.Item!);
                             parentNode.Nodes.Insert(0, node);
                         }
                     }
@@ -683,7 +686,7 @@ namespace Krypton.Toolkit
             private void buttonAddSibling_Click(object sender, EventArgs e)
             {
                 var item = CreateInstance(typeof(KryptonBreadCrumbItem)) as KryptonBreadCrumbItem;
-                TreeNode newNode = new MenuTreeNode(item);
+                TreeNode? newNode = new MenuTreeNode(item);
                 TreeNode selectedNode = treeView1.SelectedNode;
 
                 // If there is no selection then append to root
@@ -702,7 +705,7 @@ namespace Krypton.Toolkit
                     else
                     {
                         var parentMenu = (MenuTreeNode)parentNode;
-                        parentMenu.Item.Items.Insert(parentNode.Nodes.IndexOf(selectedNode) + 1, item);
+                        parentMenu.Item?.Items.Insert(parentNode.Nodes.IndexOf(selectedNode) + 1, item!);
                         parentNode.Nodes.Insert(parentNode.Nodes.IndexOf(selectedNode) + 1, newNode);
                     }
                 }
@@ -721,7 +724,7 @@ namespace Krypton.Toolkit
             private void buttonAddChild_Click(object sender, EventArgs e)
             {
                 var item = (KryptonBreadCrumbItem)CreateInstance(typeof(KryptonBreadCrumbItem));
-                TreeNode newNode = new MenuTreeNode(item);
+                TreeNode? newNode = new MenuTreeNode(item);
                 TreeNode selectedNode = treeView1.SelectedNode;
 
                 // If there is no selection then append to root
@@ -732,7 +735,7 @@ namespace Krypton.Toolkit
                 else
                 {
                     var selectedMenu = (MenuTreeNode)selectedNode;
-                    selectedMenu.Item.Items.Add(item);
+                    selectedMenu.Item?.Items.Add(item);
                     selectedNode.Nodes.Add(newNode);
                 }
 
@@ -765,7 +768,7 @@ namespace Krypton.Toolkit
                     {
                         TreeNode parentNode = node.Parent;
                         var treeParentNode = parentNode as MenuTreeNode;
-                        treeParentNode.Item.Items.Remove(treeNode.Item);
+                        treeParentNode?.Item?.Items.Remove(treeNode?.Item!);
                         node.Parent.Nodes.Remove(node);
                     }
 
@@ -793,10 +796,10 @@ namespace Krypton.Toolkit
             private void UpdatePropertyGrid()
             {
                 TreeNode node = treeView1.SelectedNode;
-                propertyGrid1.SelectedObject = node == null ? null : new CrumbProxy((KryptonBreadCrumbItem)((MenuTreeNode)node).PropertyObject);
+                propertyGrid1.SelectedObject = node == null ? null : new CrumbProxy(((MenuTreeNode)node).PropertyObject as KryptonBreadCrumbItem);
             }
 
-            private DictItemBase CreateItemsDictionary(object[] items)
+            private DictItemBase CreateItemsDictionary(object?[] items)
             {
                 var dictItems = new DictItemBase();
 
@@ -820,7 +823,7 @@ namespace Krypton.Toolkit
                 }
             }
 
-            private void AddMenuTreeNode(KryptonBreadCrumbItem item, MenuTreeNode? parent)
+            private void AddMenuTreeNode(KryptonBreadCrumbItem? item, MenuTreeNode? parent)
             {
                 // Create a node to match the item
                 var node = new MenuTreeNode(item);
@@ -836,7 +839,7 @@ namespace Krypton.Toolkit
                 }
 
                 // Add children of an items collection
-                foreach (KryptonBreadCrumbItem child in item.Items)
+                foreach (KryptonBreadCrumbItem? child in item?.Items!)
                 {
                     AddMenuTreeNode(child, node);
                 }
@@ -866,7 +869,7 @@ namespace Krypton.Toolkit
                     }
                 }
 
-                var changeService = (IComponentChangeService)GetService(typeof(IComponentChangeService));
+                var changeService = GetService(typeof(IComponentChangeService)) as IComponentChangeService;
                 if (changeService != null)
                 {
                     // Mark components as changed when not added or removed

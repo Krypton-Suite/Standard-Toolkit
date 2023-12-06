@@ -10,6 +10,7 @@
  */
 #endregion
 
+// Only used in this class
 using ContentAlignment = System.Drawing.ContentAlignment;
 
 namespace Krypton.Toolkit
@@ -38,11 +39,11 @@ namespace Krypton.Toolkit
                 /// Initialize a new instance of the MenuTreeNode class.
                 /// </summary>
                 /// <param name="item">Menu item to represent.</param>
-                public MenuTreeNode([DisallowNull] KryptonContextMenuItemBase item)
+                public MenuTreeNode(KryptonContextMenuItemBase item)
                 {
                     Debug.Assert(item != null);
-                    Item = item;
-                    PropertyObject = item;
+                    Item = item!;
+                    PropertyObject = item!;
 
                     // Setup the initial starting image and description strings
                     ImageIndex = ImageIndexFromItem();
@@ -739,12 +740,12 @@ namespace Krypton.Toolkit
                         switch (treeParentNode?.Item)
                         {
                             case KryptonContextMenuItems items1:
-                                items1.Items.Remove(treeNode.Item);
-                                items1.Items.Insert(index - 1, treeNode.Item);
+                                items1.Items.Remove(treeNode?.Item!);
+                                items1.Items.Insert(index - 1, treeNode?.Item);
                                 break;
                             case KryptonContextMenuItem items:
-                                items.Items.Remove(treeNode.Item);
-                                items.Items.Insert(index - 1, treeNode.Item);
+                                items.Items.Remove(treeNode?.Item!);
+                                items.Items.Insert(index - 1, treeNode?.Item);
                                 break;
                         }
 
@@ -785,12 +786,12 @@ namespace Krypton.Toolkit
                         switch (treeParentNode?.Item)
                         {
                             case KryptonContextMenuItems items1:
-                                items1.Items.Remove(treeNode.Item);
-                                items1.Items.Insert(index + 1, treeNode.Item);
+                                items1.Items.Remove(treeNode?.Item!);
+                                items1.Items.Insert(index + 1, treeNode?.Item);
                                 break;
                             case KryptonContextMenuItem items:
-                                items.Items.Remove(treeNode.Item);
-                                items.Items.Insert(index + 1, treeNode.Item);
+                                items.Items.Remove(treeNode?.Item!);
+                                items.Items.Insert(index + 1, treeNode?.Item);
                                 break;
                         }
 
@@ -852,10 +853,10 @@ namespace Krypton.Toolkit
                         switch (treeParentNode?.Item)
                         {
                             case KryptonContextMenuItems items1:
-                                items1.Items.Remove(treeNode.Item);
+                                items1.Items.Remove(treeNode?.Item!);
                                 break;
                             case KryptonContextMenuItem items:
-                                items.Items.Remove(treeNode.Item);
+                                items.Items.Remove(treeNode?.Item!);
                                 break;
                         }
 
@@ -961,7 +962,7 @@ namespace Krypton.Toolkit
                                 {
                                     var treeSelectedNode = selectedNode as MenuTreeNode;
                                     Debug.Assert(treeSelectedNode?.Item is KryptonContextMenuItem);
-                                    var items = treeSelectedNode.Item as KryptonContextMenuItem;
+                                    var items = treeSelectedNode?.Item as KryptonContextMenuItem;
                                     items!.Items.Add(item);
                                     selectedNode.Nodes.Add(newNode);
                                 }
@@ -976,7 +977,7 @@ namespace Krypton.Toolkit
                                 {
                                     var treeSelectedNode = selectedNode as MenuTreeNode;
                                     Debug.Assert(treeSelectedNode?.Item is KryptonContextMenuItems);
-                                    var items = treeSelectedNode.Item as KryptonContextMenuItems;
+                                    var items = treeSelectedNode?.Item as KryptonContextMenuItems;
                                     items!.Items.Add(item);
                                     selectedNode.Nodes.Add(newNode);
                                 }
@@ -1007,7 +1008,7 @@ namespace Krypton.Toolkit
                     {
                         parentNodeCount = node.Parent.Nodes.Count;
                         nodeIndex = node.Parent.Nodes.IndexOf(node);
-                        node = node.Parent! as MenuTreeNode;
+                        node = (node.Parent! as MenuTreeNode)!;
                         if (node != null)
                         {
                             parent = node.Item;
@@ -1017,17 +1018,17 @@ namespace Krypton.Toolkit
 
                 _buttonMoveUp.Enabled = (item != null) && (nodeIndex > 0);
                 _buttonMoveDown.Enabled = (item != null) && (nodeIndex < (parentNodeCount - 1));
-                _buttonAddItem.Enabled = AllowAddItem(item, parent, typeof(KryptonContextMenuItem));
-                _buttonAddItems.Enabled = AllowAddItem(item, parent, typeof(KryptonContextMenuItems));
-                _buttonAddSeparator.Enabled = AllowAddItem(item, parent, typeof(KryptonContextMenuSeparator));
-                _buttonAddHeading.Enabled = AllowAddItem(item, parent, typeof(KryptonContextMenuHeading));
-                _buttonAddMonthCalendar.Enabled = AllowAddItem(item, parent, typeof(KryptonContextMenuMonthCalendar));
-                _buttonAddCheckBox.Enabled = AllowAddItem(item, parent, typeof(KryptonContextMenuCheckBox));
-                _buttonAddCheckButton.Enabled = AllowAddItem(item, parent, typeof(KryptonContextMenuCheckButton));
-                _buttonAddRadioButton.Enabled = AllowAddItem(item, parent, typeof(KryptonContextMenuRadioButton));
-                _buttonAddLinkLabel.Enabled = AllowAddItem(item, parent, typeof(KryptonContextMenuLinkLabel));
-                _buttonAddColorColumns.Enabled = AllowAddItem(item, parent, typeof(KryptonContextMenuColorColumns));
-                _buttonAddImageSelect.Enabled = AllowAddItem(item, parent, typeof(KryptonContextMenuImageSelect));
+                _buttonAddItem.Enabled = AllowAddItem(item!, parent!, typeof(KryptonContextMenuItem));
+                _buttonAddItems.Enabled = AllowAddItem(item!, parent!, typeof(KryptonContextMenuItems));
+                _buttonAddSeparator.Enabled = AllowAddItem(item!, parent!, typeof(KryptonContextMenuSeparator));
+                _buttonAddHeading.Enabled = AllowAddItem(item!, parent!, typeof(KryptonContextMenuHeading));
+                _buttonAddMonthCalendar.Enabled = AllowAddItem(item!, parent!, typeof(KryptonContextMenuMonthCalendar));
+                _buttonAddCheckBox.Enabled = AllowAddItem(item!, parent!, typeof(KryptonContextMenuCheckBox));
+                _buttonAddCheckButton.Enabled = AllowAddItem(item!, parent!, typeof(KryptonContextMenuCheckButton));
+                _buttonAddRadioButton.Enabled = AllowAddItem(item!, parent!, typeof(KryptonContextMenuRadioButton));
+                _buttonAddLinkLabel.Enabled = AllowAddItem(item!, parent!, typeof(KryptonContextMenuLinkLabel));
+                _buttonAddColorColumns.Enabled = AllowAddItem(item!, parent!, typeof(KryptonContextMenuColorColumns));
+                _buttonAddImageSelect.Enabled = AllowAddItem(item!, parent!, typeof(KryptonContextMenuImageSelect));
                 _buttonDelete.Enabled = item != null;
             }
 
@@ -1137,7 +1138,7 @@ namespace Krypton.Toolkit
                     context.Container?.Remove(item);
                 }
 
-                var changeService = (IComponentChangeService)GetService(typeof(IComponentChangeService));
+                var changeService = GetService(typeof(IComponentChangeService)) as IComponentChangeService;
                 if (changeService != null)
                 {
                     // Mark components as changed when not added or removed

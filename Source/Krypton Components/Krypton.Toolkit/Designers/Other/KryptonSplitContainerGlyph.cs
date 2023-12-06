@@ -17,7 +17,7 @@ namespace Krypton.Toolkit
         #region Instance Fields
         private readonly KryptonSplitContainer? _splitContainer;
         private readonly ISelectionService _selectionService;
-        private readonly BehaviorService _behaviorService; 
+        private readonly BehaviorService _behaviorService;
         private readonly Adorner _adorner;
         #endregion
 
@@ -29,10 +29,10 @@ namespace Krypton.Toolkit
         /// <param name="behaviorService">Reference to the behavior service.</param>
         /// <param name="adorner">Reference to the containing adorner.</param>
         /// <param name="relatedDesigner">Reference to the containing designer.</param>
-        public KryptonSplitContainerGlyph([DisallowNull] ISelectionService selectionService,
-                                          [DisallowNull] BehaviorService behaviorService,
-                                          [DisallowNull] Adorner adorner,
-                                          [DisallowNull] IDesigner relatedDesigner)
+        public KryptonSplitContainerGlyph(ISelectionService selectionService,
+                                          BehaviorService behaviorService,
+                                          Adorner adorner,
+                                          IDesigner relatedDesigner)
             : base(new KryptonSplitContainerBehavior(relatedDesigner))
         {
             Debug.Assert(selectionService != null);
@@ -41,12 +41,12 @@ namespace Krypton.Toolkit
             Debug.Assert(relatedDesigner != null);
 
             // Remember incoming references
-            _selectionService = selectionService;
-            _behaviorService = behaviorService;
-            _adorner = adorner;
+            _selectionService = selectionService!;
+            _behaviorService = behaviorService!;
+            _adorner = adorner!;
 
             // Find the related control
-            _splitContainer = relatedDesigner.Component as KryptonSplitContainer;
+            _splitContainer = relatedDesigner!.Component as KryptonSplitContainer;
 
             // We want to know whenever the selection has changed or a property has changed
             _selectionService.SelectionChanged += OnSelectionChanged;

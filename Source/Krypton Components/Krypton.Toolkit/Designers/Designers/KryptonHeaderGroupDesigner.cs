@@ -32,8 +32,8 @@ namespace Krypton.Toolkit
             if (_headerGroup != null)
             {
                 // Unhook from events
-                _headerGroup.GetViewManager().MouseUpProcessed -= OnHeaderGroupMouseUp;
-                _headerGroup.GetViewManager().DoubleClickProcessed -= OnHeaderGroupDoubleClick;
+                _headerGroup.GetViewManager()!.MouseUpProcessed -= OnHeaderGroupMouseUp;
+                _headerGroup.GetViewManager()!.DoubleClickProcessed -= OnHeaderGroupDoubleClick;
             }
 
             _changeService.ComponentRemoving -= OnComponentRemoving;
@@ -48,7 +48,7 @@ namespace Krypton.Toolkit
         /// Initializes the designer with the specified component.
         /// </summary>
         /// <param name="component">The IComponent to associate the designer with.</param>
-        public override void Initialize([DisallowNull] IComponent component)
+        public override void Initialize(IComponent component)
         {
             // Let base class do standard stuff
             base.Initialize(component);
@@ -61,8 +61,8 @@ namespace Krypton.Toolkit
             if (_headerGroup != null)
             {
                 // Hook into header event
-                _headerGroup.GetViewManager().MouseUpProcessed += OnHeaderGroupMouseUp;
-                _headerGroup.GetViewManager().DoubleClickProcessed += OnHeaderGroupDoubleClick;
+                _headerGroup.GetViewManager()!.MouseUpProcessed += OnHeaderGroupMouseUp;
+                _headerGroup.GetViewManager()!.DoubleClickProcessed += OnHeaderGroupDoubleClick;
             }
 
             // The resizing handles around the control need to change depending on the
@@ -129,7 +129,7 @@ namespace Krypton.Toolkit
         /// <returns>A ControlDesigner at the specified index.</returns>
         public override ControlDesigner? InternalControlDesigner(int internalControlIndex) =>
             // Get the control designer for the requested indexed child control
-            (_headerGroup != null) && (internalControlIndex == 0) ? (ControlDesigner)_designerHost.GetDesigner(_headerGroup.Panel) : null;
+            (_headerGroup != null) && (internalControlIndex == 0) ? _designerHost.GetDesigner(_headerGroup.Panel!) as ControlDesigner : null;
 
         /// <summary>
         /// Returns the number of internal control designers in the ControlDesigner.
@@ -224,15 +224,15 @@ namespace Krypton.Toolkit
         private void OnHeaderGroupDoubleClick(object sender, Point pt)
         {
             // Get any component associated with the current mouse position
-            Component? component = _headerGroup.DesignerComponentFromPoint(pt);
+            Component? component = _headerGroup?.DesignerComponentFromPoint(pt);
 
             if (component != null)
             {
                 // Get the designer for the component
-                IDesigner designer = _designerHost.GetDesigner(component);
+                IDesigner? designer = _designerHost.GetDesigner(component);
 
                 // Request code for the default event be generated
-                designer.DoDefaultAction();
+                designer?.DoDefaultAction();
             }
         }
 
@@ -242,10 +242,10 @@ namespace Krypton.Toolkit
             if (e.Component == _headerGroup)
             {
                 // Need access to host in order to delete a component
-                var host = (IDesignerHost)GetService(typeof(IDesignerHost));
+                var host = GetService(typeof(IDesignerHost)) as IDesignerHost;
 
                 // We need to remove all the button spec instances
-                for (var i = _headerGroup.ButtonSpecs.Count - 1; i >= 0; i--)
+                for (var i = _headerGroup!.ButtonSpecs.Count - 1; i >= 0; i--)
                 {
                     // Get access to the indexed button spec
                     ButtonSpec spec = _headerGroup.ButtonSpecs[i];
@@ -257,7 +257,7 @@ namespace Krypton.Toolkit
                     _headerGroup.ButtonSpecs.Remove(spec);
 
                     // Get host to remove it from design time
-                    host.DestroyComponent(spec);
+                    host?.DestroyComponent(spec);
 
                     // Must wrap button spec removal in change notifications
                     _changeService.OnComponentChanged(_headerGroup, null, null, null);

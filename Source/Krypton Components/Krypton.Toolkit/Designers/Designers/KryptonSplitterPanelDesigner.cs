@@ -25,7 +25,7 @@ namespace Krypton.Toolkit
         /// Initializes the designer with the specified component.
         /// </summary>
         /// <param name="component">The IComponent to associate with the designer.</param>
-        public override void Initialize([DisallowNull] IComponent component)
+        public override void Initialize(IComponent component)
         {
             // Perform common base class initializating
             base.Initialize(component);
@@ -48,8 +48,8 @@ namespace Krypton.Toolkit
             // If inside a Krypton split container then always lock the component from user size/location change
             if (_panel != null)
             {
-                PropertyDescriptor descriptor = TypeDescriptor.GetProperties(component)[@"Locked"];
-                if ((descriptor != null) && (_panel.Parent is KryptonSplitContainer))
+                PropertyDescriptor? descriptor = TypeDescriptor.GetProperties(component)[@"Locked"];
+                if (descriptor != null && _panel.Parent is KryptonSplitContainer)
                 {
                     descriptor.SetValue(component, true);
                 }
@@ -152,10 +152,10 @@ namespace Krypton.Toolkit
             foreach (DictionaryEntry entry in properties)
             {
                 // Get the property descriptor for the entry
-                var descriptor = (PropertyDescriptor)entry.Value;
+                var descriptor = entry.Value as PropertyDescriptor;
 
                 // Is this the 'Name' we are searching for?
-                if (descriptor.Name.Equals((@"Name")) && descriptor.DesignTimeOnly)
+                if (descriptor!.Name.Equals(@"Name") && descriptor.DesignTimeOnly)
                 {
                     // Hide the 'Name' property so the user cannot modify it
                     var attributeArray = new Attribute[2] { BrowsableAttribute.No, DesignerSerializationVisibilityAttribute.Hidden };
@@ -170,7 +170,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets an attribute that indicates the type of inheritance of the associated component.
         /// </summary>
-        protected override InheritanceAttribute InheritanceAttribute
+        protected override InheritanceAttribute? InheritanceAttribute
         {
             get
             {
@@ -178,7 +178,7 @@ namespace Krypton.Toolkit
                 if (_panel?.Parent != null)
                 {
                     // Then get the attribute associated with the parent of the panel
-                    return (InheritanceAttribute)TypeDescriptor.GetAttributes(_panel.Parent)[typeof(InheritanceAttribute)];
+                    return TypeDescriptor.GetAttributes(_panel.Parent)[typeof(InheritanceAttribute)] as InheritanceAttribute;
                 }
                 else
                 {
@@ -225,8 +225,8 @@ namespace Krypton.Toolkit
                 SizeF sizeF = g.MeasureString(drawText, f);
 
                 // Find the drawing position to centre the text
-                var middleX = (clientRect.Width / 2) - (((int)sizeF.Width) / 2);
-                var middleY = (clientRect.Height / 2) - (((int)sizeF.Height) / 2);
+                var middleX = clientRect.Width / 2 - (int)sizeF.Width / 2;
+                var middleY = clientRect.Height / 2 - (int)sizeF.Height / 2;
 
                 // Draw the name of the panel in the centre
                 TextRenderer.DrawText(g, drawText, f,

@@ -38,18 +38,18 @@ namespace Krypton.Toolkit
             _service = (IComponentChangeService)GetService(typeof(IComponentChangeService));
         }
         #endregion
-        
+
         #region Public
         /// <summary>
         /// Gets and sets the group background style.
         /// </summary>
         public PaletteBackStyle GroupBackStyle
         {
-            get => _headerGroup.GroupBackStyle;
+            get => _headerGroup!.GroupBackStyle;
 
-            set 
+            set
             {
-                if (_headerGroup.GroupBackStyle != value)
+                if (_headerGroup!.GroupBackStyle != value)
                 {
                     _service.OnComponentChanged(_headerGroup, null, _headerGroup.GroupBackStyle, value);
                     _headerGroup.GroupBackStyle = value;
@@ -62,11 +62,11 @@ namespace Krypton.Toolkit
         /// </summary>
         public PaletteBorderStyle GroupBorderStyle
         {
-            get => _headerGroup.GroupBorderStyle;
+            get => _headerGroup!.GroupBorderStyle;
 
-            set 
+            set
             {
-                if (_headerGroup.GroupBorderStyle != value)
+                if (_headerGroup!.GroupBorderStyle != value)
                 {
                     _service.OnComponentChanged(_headerGroup, null, _headerGroup.GroupBorderStyle, value);
                     _headerGroup.GroupBorderStyle = value;
@@ -79,11 +79,11 @@ namespace Krypton.Toolkit
         /// </summary>
         public HeaderStyle HeaderStylePrimary
         {
-            get => _headerGroup.HeaderStylePrimary;
+            get => _headerGroup!.HeaderStylePrimary;
 
-            set 
-            { 
-                if (_headerGroup.HeaderStylePrimary != value)
+            set
+            {
+                if (_headerGroup!.HeaderStylePrimary != value)
                 {
                     _service.OnComponentChanged(_headerGroup, null, _headerGroup.HeaderStylePrimary, value);
                     _headerGroup.HeaderStylePrimary = value;
@@ -96,11 +96,11 @@ namespace Krypton.Toolkit
         /// </summary>
         public HeaderStyle HeaderStyleSecondary
         {
-            get => _headerGroup.HeaderStyleSecondary;
+            get => _headerGroup!.HeaderStyleSecondary;
 
-            set 
+            set
             {
-                if (_headerGroup.HeaderStyleSecondary != value)
+                if (_headerGroup!.HeaderStyleSecondary != value)
                 {
                     _service.OnComponentChanged(_headerGroup, null, _headerGroup.HeaderStyleSecondary, value);
                     _headerGroup.HeaderStyleSecondary = value;
@@ -113,11 +113,11 @@ namespace Krypton.Toolkit
         /// </summary>
         public VisualOrientation HeaderPositionPrimary
         {
-            get => _headerGroup.HeaderPositionPrimary;
+            get => _headerGroup!.HeaderPositionPrimary;
 
-            set 
+            set
             {
-                if (_headerGroup.HeaderPositionPrimary != value)
+                if (_headerGroup!.HeaderPositionPrimary != value)
                 {
                     _service.OnComponentChanged(_headerGroup, null, _headerGroup.HeaderPositionPrimary, value);
                     _headerGroup.HeaderPositionPrimary = value;
@@ -130,11 +130,11 @@ namespace Krypton.Toolkit
         /// </summary>
         public VisualOrientation HeaderPositionSecondary
         {
-            get => _headerGroup.HeaderPositionSecondary;
+            get => _headerGroup!.HeaderPositionSecondary;
 
-            set 
+            set
             {
-                if (_headerGroup.HeaderPositionSecondary != value)
+                if (_headerGroup!.HeaderPositionSecondary != value)
                 {
                     _service.OnComponentChanged(_headerGroup, null, _headerGroup.HeaderPositionSecondary, value);
                     _headerGroup.HeaderPositionSecondary = value;
@@ -147,11 +147,11 @@ namespace Krypton.Toolkit
         /// </summary>
         public PaletteMode PaletteMode
         {
-            get => _headerGroup.PaletteMode;
+            get => _headerGroup!.PaletteMode;
 
-            set 
+            set
             {
-                if (_headerGroup.PaletteMode != value)
+                if (_headerGroup!.PaletteMode != value)
                 {
                     _service.OnComponentChanged(_headerGroup, null, _headerGroup.PaletteMode, value);
                     _headerGroup.PaletteMode = value;
@@ -215,7 +215,7 @@ namespace Krypton.Toolkit
             var header1 = verb == _visible1;
 
             // The new visible value should be the opposite of the current value
-            var newVisible = !(header1 ? _headerGroup.HeaderVisiblePrimary : _headerGroup.HeaderVisibleSecondary);
+            var newVisible = !(header1 ? _headerGroup!.HeaderVisiblePrimary : _headerGroup!.HeaderVisibleSecondary);
 
             // Assign the new text to the correct header text
             if (header1)

@@ -28,7 +28,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="verb">Verb instance to wrap.</param>
         /// <param name="category">Name of the category the action belongs to.</param>
-        public KryptonDesignerActionItem([DisallowNull] DesignerVerb verb, [DisallowNull] string category)
+        public KryptonDesignerActionItem(DesignerVerb verb, string category)
             : base(null, null, null)
         {
             Debug.Assert(verb != null);
@@ -69,7 +69,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the name of the method that this item is associated with.
         /// </summary>
-        public override string MemberName => null;
+        public override string? MemberName => null;
 
         #endregion
     }

@@ -27,7 +27,7 @@ namespace Krypton.Toolkit
         /// Initializes the designer with the specified component.
         /// </summary>
         /// <param name="component">The IComponent to associate the designer with.</param>
-        public override void Initialize([DisallowNull] IComponent component)
+        public override void Initialize(IComponent component)
         {
             // Let base class do standard stuff
             base.Initialize(component);
@@ -45,8 +45,8 @@ namespace Krypton.Toolkit
             if (_dateTimePicker != null)
             {
                 // Hook into date time picker events
-                _dateTimePicker.GetViewManager().MouseUpProcessed += OnDateTimePickerMouseUp;
-                _dateTimePicker.GetViewManager().DoubleClickProcessed += OnDateTimePickerDoubleClick;
+                _dateTimePicker.GetViewManager()!.MouseUpProcessed += OnDateTimePickerMouseUp;
+                _dateTimePicker.GetViewManager()!.DoubleClickProcessed += OnDateTimePickerDoubleClick;
             }
 
             // Acquire service interfaces
@@ -105,8 +105,8 @@ namespace Krypton.Toolkit
             if (_dateTimePicker != null)
             {
                 // Unhook from events
-                _dateTimePicker.GetViewManager().MouseUpProcessed -= OnDateTimePickerMouseUp;
-                _dateTimePicker.GetViewManager().DoubleClickProcessed -= OnDateTimePickerDoubleClick;
+                _dateTimePicker.GetViewManager()!.MouseUpProcessed -= OnDateTimePickerMouseUp;
+                _dateTimePicker.GetViewManager()!.DoubleClickProcessed -= OnDateTimePickerDoubleClick;
             }
 
             _changeService.ComponentRemoving -= OnComponentRemoving;
@@ -182,15 +182,15 @@ namespace Krypton.Toolkit
         private void OnDateTimePickerDoubleClick(object sender, Point pt)
         {
             // Get any component associated with the current mouse position
-            Component? component = _dateTimePicker.DesignerComponentFromPoint(pt);
+            Component? component = _dateTimePicker?.DesignerComponentFromPoint(pt);
 
             if (component != null)
             {
                 // Get the designer for the component
-                IDesigner designer = _designerHost.GetDesigner(component);
+                IDesigner? designer = _designerHost.GetDesigner(component);
 
                 // Request code for the default event be generated
-                designer.DoDefaultAction();
+                designer?.DoDefaultAction();
             }
         }
 
@@ -200,10 +200,10 @@ namespace Krypton.Toolkit
             if (e.Component == _dateTimePicker)
             {
                 // Need access to host in order to delete a component
-                var host = (IDesignerHost)GetService(typeof(IDesignerHost));
+                var host = GetService(typeof(IDesignerHost)) as IDesignerHost;
 
                 // We need to remove all the button spec instances
-                for (var i = _dateTimePicker.ButtonSpecs.Count - 1; i >= 0; i--)
+                for (var i = _dateTimePicker!.ButtonSpecs.Count - 1; i >= 0; i--)
                 {
                     // Get access to the indexed button spec
                     ButtonSpec spec = _dateTimePicker.ButtonSpecs[i];
@@ -215,7 +215,7 @@ namespace Krypton.Toolkit
                     _dateTimePicker.ButtonSpecs.Remove(spec);
 
                     // Get host to remove it from design time
-                    host.DestroyComponent(spec);
+                    host?.DestroyComponent(spec);
 
                     // Must wrap button spec removal in change notifications
                     _changeService.OnComponentChanged(_dateTimePicker, null, null, null);

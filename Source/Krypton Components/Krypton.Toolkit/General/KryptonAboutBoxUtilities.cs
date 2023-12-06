@@ -36,13 +36,15 @@ namespace Krypton.Toolkit
             }
             catch (Exception e)
             {
+                ExceptionHandler.CaptureException(e);
+
                 return DateTime.MaxValue;
             }
         }
 
         public static DateTime AssemblyBuildDate(Assembly assembly, bool forceFileDate)
         {
-            Version assemblyVersion = assembly.GetName().Version;
+            Version? assemblyVersion = assembly.GetName().Version;
 
             DateTime dateTime;
 
@@ -52,7 +54,7 @@ namespace Krypton.Toolkit
             }
             else
             {
-                dateTime = DateTime.Parse(@"01/01/1970").AddDays(assemblyVersion.Build).AddSeconds(assemblyVersion.Revision * 2);
+                dateTime = DateTime.Parse(@"01/01/1970").AddDays(assemblyVersion!.Build).AddSeconds(assemblyVersion.Revision * 2);
 
                 if (TimeZone.IsDaylightSavingTime(dateTime, TimeZone.CurrentTimeZone.GetDaylightChanges(dateTime.Year)))
                 {
@@ -167,7 +169,7 @@ namespace Krypton.Toolkit
             // codebase
             try
             {
-                nvc.Add("CodeBase", assembly.CodeBase.Replace("file:///", ""));
+                nvc.Add("CodeBase", assembly.CodeBase?.Replace("file:///", ""));
             }
             catch (NotSupportedException)
             {
