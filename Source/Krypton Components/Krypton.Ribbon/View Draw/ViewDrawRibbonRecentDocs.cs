@@ -39,7 +39,7 @@ namespace Krypton.Ribbon
             // Use a class to convert from ribbon recent docs to content interface
             _contentProvider = new RibbonRecentDocsTitleToContent(ribbon.StateCommon.RibbonGeneral,
                                                                   ribbon.StateCommon.RibbonAppMenuDocsTitle);
-        }        
+        }
 
         /// <summary>
         /// Obtains the String representation of this instance.
@@ -99,9 +99,9 @@ namespace Krypton.Ribbon
             }
 
             // Use the renderer to layout the text
-            _memento = context.Renderer.RenderStandardContent.LayoutContent(context, ClientRectangle, 
+            _memento = context.Renderer.RenderStandardContent.LayoutContent(context, ClientRectangle,
                                                                             _contentProvider, this,
-                                                                            VisualOrientation.Top, 
+                                                                            VisualOrientation.Top,
                                                                             PaletteState.Normal, false, false);
         }
         #endregion
@@ -111,7 +111,7 @@ namespace Krypton.Ribbon
         /// Perform rendering before child elements are rendered.
         /// </summary>
         /// <param name="context">Rendering context.</param>
-        public override void RenderBefore(RenderContext context) 
+        public override void RenderBefore(RenderContext context)
         {
             // Use renderer to draw the text content
             if (_memento != null)
