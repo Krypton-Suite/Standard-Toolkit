@@ -602,59 +602,30 @@ namespace Krypton.Toolkit
         /// <inheritdoc />
         protected override void OnPaint(PaintEventArgs? e)
         {
-            if (CommandLinkTextValues.DescriptionFont != null)
-            {
-                StateCommon.Content.LongText.Font = CommandLinkTextValues.DescriptionFont;
-            }
-            else
-            {
-                StateCommon.Content.LongText.Font = null;
-            }
+            StateCommon.Content.LongText.Font = CommandLinkTextValues.DescriptionFont != null
+                ? CommandLinkTextValues.DescriptionFont
+                : null;
 
-            if (CommandLinkTextValues.HeadingFont != null)
-            {
-                StateCommon.Content.ShortText.Font = CommandLinkTextValues.HeadingFont;
-            }
-            else
-            {
-                StateCommon.Content.ShortText.Font = null;
-            }
+            StateCommon.Content.ShortText.Font =
+                CommandLinkTextValues.HeadingFont != null
+                    ? CommandLinkTextValues.HeadingFont
+                    : null;
 
-            if (CommandLinkTextValues.DescriptionTextHAlignment != null)
-            {
-                StateCommon.Content.LongText.TextH = CommandLinkTextValues.DescriptionTextHAlignment ?? PaletteRelativeAlign.Near;
-            }
-            else
-            {
-                StateCommon.Content.LongText.TextH = PaletteRelativeAlign.Near;
-            }
+            StateCommon.Content.LongText.TextH = CommandLinkTextValues.DescriptionTextHAlignment != null
+                ? CommandLinkTextValues.DescriptionTextHAlignment ?? PaletteRelativeAlign.Near
+                : PaletteRelativeAlign.Near;
 
-            if (CommandLinkTextValues.DescriptionTextVAlignment != null)
-            {
-                StateCommon.Content.LongText.TextV = CommandLinkTextValues.DescriptionTextVAlignment ?? PaletteRelativeAlign.Far;
-            }
-            else
-            {
-                StateCommon.Content.LongText.TextV = PaletteRelativeAlign.Far;
-            }
+            StateCommon.Content.LongText.TextV = CommandLinkTextValues.DescriptionTextVAlignment != null
+                ? CommandLinkTextValues.DescriptionTextVAlignment ?? PaletteRelativeAlign.Far
+                : PaletteRelativeAlign.Far;
 
-            if (CommandLinkTextValues.HeadingTextHAlignment != null)
-            {
-                StateCommon.Content.ShortText.TextH = CommandLinkTextValues.HeadingTextHAlignment ?? PaletteRelativeAlign.Near;
-            }
-            else
-            {
-                StateCommon.Content.ShortText.TextH = PaletteRelativeAlign.Near;
-            }
+            StateCommon.Content.ShortText.TextH = CommandLinkTextValues.HeadingTextHAlignment != null
+                ? CommandLinkTextValues.HeadingTextHAlignment ?? PaletteRelativeAlign.Near
+                : PaletteRelativeAlign.Near;
 
-            if (CommandLinkTextValues.HeadingTextVAlignment != null)
-            {
-                StateCommon.Content.ShortText.TextV = CommandLinkTextValues.HeadingTextVAlignment ?? PaletteRelativeAlign.Center;
-            }
-            else
-            {
-                StateCommon.Content.ShortText.TextV = PaletteRelativeAlign.Center;
-            }
+            StateCommon.Content.ShortText.TextV = CommandLinkTextValues.HeadingTextVAlignment != null
+                ? CommandLinkTextValues.HeadingTextVAlignment ?? PaletteRelativeAlign.Center
+                : PaletteRelativeAlign.Center;
 
             base.OnPaint(e);
         }

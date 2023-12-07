@@ -971,6 +971,7 @@ namespace Krypton.Toolkit
         /// <summary>Paints the drop-down arrow.</summary>
         /// <param name="graphics">The drop-down arrow graphics.</param>
         /// <param name="rectangle">The drop-down rectangle area.</param>
+        /// <param name="dropDownArrowColor">The color of the drop-down arrow.</param>
         private static void PaintArrow(Color? dropDownArrowColor, Graphics graphics, Rectangle rectangle)
         {
             var midPoint = new Point(Convert.ToInt32(rectangle.Left + rectangle.Width / 2),
