@@ -15,7 +15,7 @@ namespace Krypton.Toolkit
     internal class KryptonTrackBarDesigner : ControlDesigner
     {
         #region Instance Fields
-        private KryptonTrackBar? _trackBar;
+        private KryptonTrackBar _trackBar;
         #endregion
 
         #region Public Overrides
@@ -23,7 +23,7 @@ namespace Krypton.Toolkit
         /// Initializes the designer with the specified component.
         /// </summary>
         /// <param name="component">The IComponent to associate the designer with.</param>
-        public override void Initialize(IComponent component)
+        public override void Initialize([DisallowNull] IComponent component)
         {
             // ReSharper disable RedundantBaseQualifier
             // Let base class do standard stuff
@@ -45,7 +45,7 @@ namespace Krypton.Toolkit
         {
             get
             {
-                if (!_trackBar!.AutoSize)
+                if (!_trackBar.AutoSize)
                 {
                     return SelectionRules.AllSizeable | SelectionRules.Moveable;
                 }

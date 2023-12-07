@@ -27,7 +27,7 @@ namespace Krypton.Toolkit
         /// Initializes the designer with the specified component.
         /// </summary>
         /// <param name="component">The IComponent to associate the designer with.</param>
-        public override void Initialize(IComponent component)
+        public override void Initialize([DisallowNull] IComponent component)
         {
             // Let base class do standard stuff
             base.Initialize(component);
@@ -45,8 +45,8 @@ namespace Krypton.Toolkit
             if (_breadCrumb != null)
             {
                 // Hook into bread crumb events
-                _breadCrumb.GetViewManager()!.MouseUpProcessed += OnBreadCrumbMouseUp;
-                _breadCrumb.GetViewManager()!.DoubleClickProcessed += OnBreadCrumbDoubleClick;
+                _breadCrumb.GetViewManager().MouseUpProcessed += OnBreadCrumbMouseUp;
+                _breadCrumb.GetViewManager().DoubleClickProcessed += OnBreadCrumbDoubleClick;
             }
 
             // Get access to the design services
@@ -106,8 +106,8 @@ namespace Krypton.Toolkit
             // Unhook from events
             if (_breadCrumb != null)
             {
-                _breadCrumb.GetViewManager()!.MouseUpProcessed -= OnBreadCrumbMouseUp;
-                _breadCrumb.GetViewManager()!.DoubleClickProcessed -= OnBreadCrumbDoubleClick;
+                _breadCrumb.GetViewManager().MouseUpProcessed -= OnBreadCrumbMouseUp;
+                _breadCrumb.GetViewManager().DoubleClickProcessed -= OnBreadCrumbDoubleClick;
             }
 
             _changeService.ComponentRemoving -= OnComponentRemoving;
@@ -188,10 +188,10 @@ namespace Krypton.Toolkit
             if (component != null)
             {
                 // Get the designer for the component
-                IDesigner? designer = _designerHost.GetDesigner(component);
+                IDesigner designer = _designerHost.GetDesigner(component);
 
                 // Request code for the default event be generated
-                designer?.DoDefaultAction();
+                designer.DoDefaultAction();
             }
         }
 
@@ -201,7 +201,7 @@ namespace Krypton.Toolkit
             if ((_breadCrumb != null) && (e.Component == _breadCrumb))
             {
                 // Need access to host in order to delete a component
-                var host = GetService(typeof(IDesignerHost)) as IDesignerHost;
+                var host = (IDesignerHost)GetService(typeof(IDesignerHost));
 
                 // We need to remove all the button spec instances
                 for (var i = _breadCrumb.ButtonSpecs.Count - 1; i >= 0; i--)

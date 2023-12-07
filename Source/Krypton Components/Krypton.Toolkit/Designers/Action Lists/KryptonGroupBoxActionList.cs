@@ -41,11 +41,11 @@ namespace Krypton.Toolkit
         /// </summary>
         public PaletteBackStyle GroupBackStyle
         {
-            get => _groupBox!.GroupBackStyle;
+            get => _groupBox.GroupBackStyle;
 
             set
             {
-                if (_groupBox!.GroupBackStyle != value)
+                if (_groupBox.GroupBackStyle != value)
                 {
                     _service.OnComponentChanged(_groupBox, null, _groupBox.GroupBackStyle, value);
                     _groupBox.GroupBackStyle = value;
@@ -58,11 +58,11 @@ namespace Krypton.Toolkit
         /// </summary>
         public PaletteBorderStyle GroupBorderStyle
         {
-            get => _groupBox!.GroupBorderStyle;
+            get => _groupBox.GroupBorderStyle;
 
             set
             {
-                if (_groupBox!.GroupBorderStyle != value)
+                if (_groupBox.GroupBorderStyle != value)
                 {
                     _service.OnComponentChanged(_groupBox, null, _groupBox.GroupBorderStyle, value);
                     _groupBox.GroupBorderStyle = value;
@@ -75,11 +75,11 @@ namespace Krypton.Toolkit
         /// </summary>
         public LabelStyle CaptionStyle
         {
-            get => _groupBox!.CaptionStyle;
+            get => _groupBox.CaptionStyle;
 
             set
             {
-                if (_groupBox!.CaptionStyle != value)
+                if (_groupBox.CaptionStyle != value)
                 {
                     _service.OnComponentChanged(_groupBox, null, _groupBox.CaptionStyle, value);
                     _groupBox.CaptionStyle = value;
@@ -92,11 +92,11 @@ namespace Krypton.Toolkit
         /// </summary>
         public VisualOrientation CaptionEdge
         {
-            get => _groupBox!.CaptionEdge;
+            get => _groupBox.CaptionEdge;
 
             set
             {
-                if (_groupBox!.CaptionEdge != value)
+                if (_groupBox.CaptionEdge != value)
                 {
                     _service.OnComponentChanged(_groupBox, null, _groupBox.CaptionEdge, value);
                     _groupBox.CaptionEdge = value;
@@ -109,11 +109,11 @@ namespace Krypton.Toolkit
         /// </summary>
         public double CaptionOverlap
         {
-            get => _groupBox!.CaptionOverlap;
+            get => _groupBox.CaptionOverlap;
 
             set
             {
-                if (_groupBox!.CaptionOverlap != value)
+                if (_groupBox.CaptionOverlap != value)
                 {
                     _service.OnComponentChanged(_groupBox, null, _groupBox.CaptionOverlap, value);
                     _groupBox.CaptionOverlap = value;
@@ -126,11 +126,11 @@ namespace Krypton.Toolkit
         /// </summary>
         public PaletteMode PaletteMode
         {
-            get => _groupBox!.PaletteMode;
+            get => _groupBox.PaletteMode;
 
             set
             {
-                if (_groupBox!.PaletteMode != value)
+                if (_groupBox.PaletteMode != value)
                 {
                     _service.OnComponentChanged(_groupBox, null, _groupBox.PaletteMode, value);
                     _groupBox.PaletteMode = value;
@@ -142,11 +142,11 @@ namespace Krypton.Toolkit
         /// <value>The description.</value>
         public string Description
         {
-            get => _groupBox!.Values.Description;
+            get => _groupBox.Values.Description;
 
             set
             {
-                if (_groupBox!.Values.Description != value)
+                if (_groupBox.Values.Description != value)
                 {
                     _service.OnComponentChanged(_groupBox, null, _groupBox.Values.Description, value);
 
@@ -159,11 +159,11 @@ namespace Krypton.Toolkit
         /// <value>The heading.</value>
         public string Heading
         {
-            get => _groupBox!.Values.Heading;
+            get => _groupBox.Values.Heading;
 
             set
             {
-                if (_groupBox!.Values.Heading != value)
+                if (_groupBox.Values.Heading != value)
                 {
                     _service.OnComponentChanged(_groupBox, null, _groupBox.Values.Heading, value);
 
@@ -176,11 +176,11 @@ namespace Krypton.Toolkit
         /// <value>The image.</value>
         public Image? Image
         {
-            get => _groupBox!.Values.Image;
+            get => _groupBox.Values.Image;
 
             set
             {
-                if (_groupBox!.Values.Image != value)
+                if (_groupBox.Values.Image != value)
                 {
                     _service.OnComponentChanged(_groupBox, null, _groupBox.Values.Image, value);
 
@@ -191,34 +191,34 @@ namespace Krypton.Toolkit
 
         /// <summary>Gets or sets the State Common State Common Long Text Font.</summary>
         /// <value>The State Common State Common Long Text Font.</value>
-        public Font? StateCommonLongTextFont
+        public Font StateCommonLongTextFont
         {
-            get => _groupBox!.StateCommon!.Content.LongText.Font;
+            get => _groupBox.StateCommon.Content.LongText.Font;
 
             set
             {
-                if (_groupBox!.StateCommon?.Content.LongText.Font != value)
+                if (_groupBox.StateCommon.Content.LongText.Font != value)
                 {
-                    _service.OnComponentChanged(_groupBox, null, _groupBox.StateCommon?.Content.LongText.Font, value);
+                    _service.OnComponentChanged(_groupBox, null, _groupBox.StateCommon.Content.LongText.Font, value);
 
-                    _groupBox.StateCommon!.Content.LongText.Font = value;
+                    _groupBox.StateCommon.Content.LongText.Font = value;
                 }
             }
         }
 
         /// <summary>Gets or sets the State Common Short Text Font.</summary>
         /// <value>The State Common Short Text Font.</value>
-        public Font? StateCommonShortTextFont
+        public Font StateCommonShortTextFont
         {
-            get => _groupBox!.StateCommon!.Content.ShortText.Font;
+            get => _groupBox.StateCommon.Content.ShortText.Font;
 
             set
             {
-                if (_groupBox!.StateCommon?.Content.ShortText.Font != value)
+                if (_groupBox.StateCommon.Content.ShortText.Font != value)
                 {
-                    _service.OnComponentChanged(_groupBox, null, _groupBox.StateCommon?.Content.ShortText.Font, value);
+                    _service.OnComponentChanged(_groupBox, null, _groupBox.StateCommon.Content.ShortText.Font, value);
 
-                    _groupBox.StateCommon!.Content.ShortText.Font = value;
+                    _groupBox.StateCommon.Content.ShortText.Font = value;
                 }
             }
         }

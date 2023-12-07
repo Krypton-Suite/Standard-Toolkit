@@ -34,18 +34,18 @@ namespace Krypton.Toolkit
             _service = (IComponentChangeService)GetService(typeof(IComponentChangeService));
         }
         #endregion
-
+        
         #region Public
         /// <summary>
         /// Gets and sets the header style.
         /// </summary>
         public HeaderStyle HeaderStyle
         {
-            get => _header!.HeaderStyle;
+            get => _header.HeaderStyle;
 
-            set
+            set 
             {
-                if (_header!.HeaderStyle != value)
+                if (_header.HeaderStyle != value)
                 {
                     _service.OnComponentChanged(_header, null, _header.HeaderStyle, value);
                     _header.HeaderStyle = value;
@@ -58,11 +58,11 @@ namespace Krypton.Toolkit
         /// </summary>
         public VisualOrientation Orientation
         {
-            get => _header!.Orientation;
+            get => _header.Orientation;
 
-            set
+            set 
             {
-                if (_header!.Orientation != value)
+                if (_header.Orientation != value)
                 {
                     _service.OnComponentChanged(_header, null, _header.Orientation, value);
                     _header.Orientation = value;
@@ -75,11 +75,11 @@ namespace Krypton.Toolkit
         /// </summary>
         public string Heading
         {
-            get => _header!.Values.Heading;
+            get => _header.Values.Heading;
 
-            set
+            set 
             {
-                if (_header!.Values.Heading != value)
+                if (_header.Values.Heading != value)
                 {
                     _service.OnComponentChanged(_header, null, _header.Values.Heading, value);
                     _header.Values.Heading = value;
@@ -92,11 +92,11 @@ namespace Krypton.Toolkit
         /// </summary>
         public string Description
         {
-            get => _header!.Values.Description;
+            get => _header.Values.Description;
 
-            set
+            set 
             {
-                if (_header!.Values.Description != value)
+                if (_header.Values.Description != value)
                 {
                     _service.OnComponentChanged(_header, null, _header.Values.Description, value);
                     _header.Values.Description = value;
@@ -109,11 +109,11 @@ namespace Krypton.Toolkit
         /// </summary>
         public Image? Image
         {
-            get => _header!.Values.Image;
+            get => _header.Values.Image;
 
-            set
+            set 
             {
-                if (_header!.Values.Image != value)
+                if (_header.Values.Image != value)
                 {
                     _service.OnComponentChanged(_header, null, _header.Values.Image, value);
                     _header.Values.Image = value;
@@ -126,11 +126,11 @@ namespace Krypton.Toolkit
         /// </summary>
         public PaletteMode PaletteMode
         {
-            get => _header!.PaletteMode;
+            get => _header.PaletteMode;
 
-            set
+            set 
             {
-                if (_header!.PaletteMode != value)
+                if (_header.PaletteMode != value)
                 {
                     _service.OnComponentChanged(_header, null, _header.PaletteMode, value);
                     _header.PaletteMode = value;
@@ -163,7 +163,7 @@ namespace Krypton.Toolkit
                 actions.Add(new DesignerActionHeaderItem(@"Visuals"));
                 actions.Add(new DesignerActionPropertyItem(nameof(PaletteMode), @"Palette", @"Visuals", @"Palette applied to drawing"));
             }
-
+            
             return actions;
         }
         #endregion

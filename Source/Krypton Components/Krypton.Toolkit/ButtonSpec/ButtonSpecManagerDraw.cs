@@ -81,7 +81,6 @@ namespace Krypton.Toolkit
                    viewMetricPaddings, getRenderer, needPaint)
         {
             Debug.Assert(viewDockers != null);
-            Debug.Assert(viewDockers != null, nameof(viewDockers) + " != null");
             Debug.Assert(viewDockers.Length == viewMetrics.Length);
             Debug.Assert(viewDockers.Length == viewMetricPaddings.Length);
 

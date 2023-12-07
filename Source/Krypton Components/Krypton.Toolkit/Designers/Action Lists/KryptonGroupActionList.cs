@@ -24,7 +24,7 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the KryptonGroupActionList class.
         /// </summary>
         /// <param name="owner">Designer that owns this action list instance.</param>
-        public KryptonGroupActionList(KryptonGroupDesigner owner)
+        public KryptonGroupActionList(KryptonGroupDesigner owner) 
             : base(owner.Component)
         {
             // Remember the group instance
@@ -34,18 +34,18 @@ namespace Krypton.Toolkit
             _service = (IComponentChangeService)GetService(typeof(IComponentChangeService));
         }
         #endregion
-
+        
         #region Public
         /// <summary>
         /// Gets and sets the group background style.
         /// </summary>
         public PaletteBackStyle GroupBackStyle
         {
-            get => _group!.GroupBackStyle;
+            get => _group.GroupBackStyle;
 
             set
             {
-                if (_group!.GroupBackStyle != value)
+                if (_group.GroupBackStyle != value)
                 {
                     _service.OnComponentChanged(_group, null, _group.GroupBackStyle, value);
                     _group.GroupBackStyle = value;
@@ -58,11 +58,11 @@ namespace Krypton.Toolkit
         /// </summary>
         public PaletteBorderStyle GroupBorderStyle
         {
-            get => _group!.GroupBorderStyle;
+            get => _group.GroupBorderStyle;
 
-            set
+            set 
             {
-                if (_group!.GroupBorderStyle != value)
+                if (_group.GroupBorderStyle != value)
                 {
                     _service.OnComponentChanged(_group, null, _group.GroupBorderStyle, value);
                     _group.GroupBorderStyle = value;
@@ -75,11 +75,11 @@ namespace Krypton.Toolkit
         /// </summary>
         public PaletteMode PaletteMode
         {
-            get => _group!.PaletteMode;
+            get => _group.PaletteMode;
 
-            set
+            set 
             {
-                if (_group!.PaletteMode != value)
+                if (_group.PaletteMode != value)
                 {
                     _service.OnComponentChanged(_group, null, _group.PaletteMode, value);
                     _group.PaletteMode = value;
@@ -108,7 +108,7 @@ namespace Krypton.Toolkit
                 actions.Add(new DesignerActionHeaderItem(@"Visuals"));
                 actions.Add(new DesignerActionPropertyItem(nameof(PaletteMode), @"Palette", @"Visuals", @"Palette applied to drawing"));
             }
-
+            
             return actions;
         }
         #endregion

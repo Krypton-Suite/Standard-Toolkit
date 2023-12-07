@@ -13,7 +13,7 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
         private readonly KryptonLinkWrapLabel? _linkWrapLabel;
-        private readonly IComponentChangeService? _service;
+        private readonly IComponentChangeService _service;
         #endregion
 
         #region Identity
@@ -28,7 +28,7 @@ namespace Krypton.Toolkit
             _linkWrapLabel = owner.Component as KryptonLinkWrapLabel;
 
             // Cache service used to notify when a property has changed
-            _service = GetService(typeof(IComponentChangeService)) as IComponentChangeService;
+            _service = (IComponentChangeService)GetService(typeof(IComponentChangeService));
         }
         #endregion
 
@@ -38,13 +38,13 @@ namespace Krypton.Toolkit
         /// </summary>
         public LabelStyle LabelStyle
         {
-            get => _linkWrapLabel!.LabelStyle;
+            get => _linkWrapLabel.LabelStyle;
 
             set
             {
-                if (_linkWrapLabel!.LabelStyle != value)
+                if (_linkWrapLabel.LabelStyle != value)
                 {
-                    _service?.OnComponentChanged(_linkWrapLabel, null, _linkWrapLabel.LabelStyle, value);
+                    _service.OnComponentChanged(_linkWrapLabel, null, _linkWrapLabel.LabelStyle, value);
                     _linkWrapLabel.LabelStyle = value;
                 }
             }
@@ -55,13 +55,13 @@ namespace Krypton.Toolkit
         /// </summary>
         public PaletteMode PaletteMode
         {
-            get => _linkWrapLabel!.PaletteMode;
+            get => _linkWrapLabel.PaletteMode;
 
             set
             {
-                if (_linkWrapLabel!.PaletteMode != value)
+                if (_linkWrapLabel.PaletteMode != value)
                 {
-                    _service?.OnComponentChanged(_linkWrapLabel, null, _linkWrapLabel.PaletteMode, value);
+                    _service.OnComponentChanged(_linkWrapLabel, null, _linkWrapLabel.PaletteMode, value);
                     _linkWrapLabel.PaletteMode = value;
                 }
             }
@@ -69,15 +69,15 @@ namespace Krypton.Toolkit
 
         /// <summary>Gets or sets the font.</summary>
         /// <value>The font.</value>
-        public Font? Font
+        public Font Font
         {
-            get => _linkWrapLabel!.StateCommon.Font;
+            get => _linkWrapLabel.StateCommon.Font;
 
             set
             {
-                if (_linkWrapLabel!.StateCommon.Font != value)
+                if (_linkWrapLabel.StateCommon.Font != value)
                 {
-                    _service?.OnComponentChanged(_linkWrapLabel, null, _linkWrapLabel.StateCommon.Font, value);
+                    _service.OnComponentChanged(_linkWrapLabel, null, _linkWrapLabel.StateCommon.Font, value);
 
                     _linkWrapLabel.StateCommon.Font = value;
                 }

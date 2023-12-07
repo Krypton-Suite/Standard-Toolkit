@@ -22,17 +22,17 @@ namespace Krypton.Toolkit
             /// Initialize a new instance of the ListEntry class.
             /// </summary>
             /// <param name="checkButton">CheckButton to encapsulate.</param>
-            public ListEntry(KryptonCheckButton checkButton)
+            public ListEntry([DisallowNull] KryptonCheckButton checkButton)
             {
                 Debug.Assert(checkButton != null);
-                CheckButton = checkButton!;
+                CheckButton = checkButton;
             }
 
             /// <summary>
             /// Gets a string representation of the encapsulated check button.
             /// </summary>
             /// <returns>String instance.</returns>
-            public override string ToString() => $"{CheckButton.Site?.Name}  (Text: {CheckButton.Text})";
+            public override string ToString() => $"{CheckButton.Site.Name}  (Text: {CheckButton.Text})";
 
             #endregion
 
@@ -47,7 +47,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Instance Fields
-        private readonly KryptonCheckSet? _checkSet;
+        private readonly KryptonCheckSet _checkSet;
         #endregion
 
         #region Identity
@@ -62,7 +62,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Initialize a new instance of the KryptonCheckButtonCollectionForm class.
         /// </summary>
-        public KryptonCheckButtonCollectionForm(KryptonCheckSet? checkSet)
+        public KryptonCheckButtonCollectionForm(KryptonCheckSet checkSet)
         {
             // Remember the owning control
             _checkSet = checkSet;
@@ -75,7 +75,7 @@ namespace Krypton.Toolkit
         private void KryptonCheckButtonCollectionForm_Load(object sender, EventArgs e)
         {
             // Get access to the container of the check set
-            IContainer? container = _checkSet?.Container;
+            IContainer container = _checkSet.Container;
 
             // Assuming we manage to find a container
             if (container != null)
@@ -91,7 +91,7 @@ namespace Krypton.Toolkit
                         // Add a new entry to the list box but only check it if 
                         // it is already present in the check buttons collection
                         checkedListBox.Items.Add(new ListEntry(checkButton),
-                                                 _checkSet!.CheckButtons.Contains(checkButton));
+                                                 _checkSet.CheckButtons.Contains(checkButton));
                     }
                 }
             }
@@ -101,13 +101,13 @@ namespace Krypton.Toolkit
         {
             // Create a copy of the current check set buttons
             var copy = new List<KryptonCheckButton>();
-            foreach (KryptonCheckButton checkButton in _checkSet?.CheckButtons!)
+            foreach (KryptonCheckButton checkButton in _checkSet.CheckButtons)
             {
                 copy.Add(checkButton);
             }
 
             // Process each of the list entries in turn
-            for (var i = 0; i < checkedListBox.Items.Count; i++)
+            for(var i=0; i<checkedListBox.Items.Count; i++)
             {
                 // Get access to the encapsulated list box entry
                 var entry = (ListEntry)checkedListBox.Items[i];
@@ -138,7 +138,7 @@ namespace Krypton.Toolkit
 
             // If there are any dangling references in the checkset that are
             // not in the component list from the list box then remove them
-            foreach (KryptonCheckButton checkButton in copy)
+            foreach(KryptonCheckButton checkButton in copy)
             {
                 _checkSet.CheckButtons.Remove(checkButton);
             }

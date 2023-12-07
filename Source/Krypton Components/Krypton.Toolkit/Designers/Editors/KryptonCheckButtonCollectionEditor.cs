@@ -34,7 +34,7 @@ namespace Krypton.Toolkit
             if ((context?.Instance != null) && (provider != null))
             {
                 // Must use the editor service for showing dialogs
-                var editorService = provider.GetService(typeof(IWindowsFormsEditorService)) as IWindowsFormsEditorService;
+                var editorService = (IWindowsFormsEditorService)provider.GetService(typeof(IWindowsFormsEditorService));
 
                 if (editorService != null)
                 {

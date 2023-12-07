@@ -18,7 +18,7 @@ namespace Krypton.Toolkit
         private bool _lastHitTest;
         private KryptonHeader? _header;
         private IDesignerHost _designerHost;
-        private IComponentChangeService? _changeService;
+        private IComponentChangeService _changeService;
         private ISelectionService _selectionService;
         #endregion
 
@@ -30,7 +30,7 @@ namespace Krypton.Toolkit
         protected override void Dispose(bool disposing)
         {
             // Unhook from events
-            ViewManager? vm = _header?.GetViewManager();
+            ViewManager vm = _header?.GetViewManager();
             if (vm != null)
             {
                 vm.MouseUpProcessed -= OnHeaderMouseUp;
@@ -52,7 +52,7 @@ namespace Krypton.Toolkit
         /// Initializes the designer with the specified component.
         /// </summary>
         /// <param name="component">The IComponent to associate the designer with.</param>
-        public override void Initialize(IComponent component)
+        public override void Initialize([DisallowNull] IComponent component)
         {
             // Let base class do standard stuff
             base.Initialize(component);
@@ -70,8 +70,8 @@ namespace Krypton.Toolkit
             if (_header != null)
             {
                 // Hook into header event
-                _header.GetViewManager()!.MouseUpProcessed += OnHeaderMouseUp;
-                _header.GetViewManager()!.DoubleClickProcessed += OnHeaderDoubleClick;
+                _header.GetViewManager().MouseUpProcessed += OnHeaderMouseUp;
+                _header.GetViewManager().DoubleClickProcessed += OnHeaderDoubleClick;
             }
 
             // Get access to the design services
@@ -181,10 +181,10 @@ namespace Krypton.Toolkit
             if (component != null)
             {
                 // Get the designer for the component
-                IDesigner? designer = _designerHost.GetDesigner(component);
+                IDesigner designer = _designerHost.GetDesigner(component);
 
                 // Request code for the default event be generated
-                designer?.DoDefaultAction();
+                designer.DoDefaultAction();
             }
         }
 
@@ -194,7 +194,7 @@ namespace Krypton.Toolkit
             if ((_header != null) && (e.Component == _header))
             {
                 // Need access to host in order to delete a component
-                var host = GetService(typeof(IDesignerHost)) as IDesignerHost;
+                var host = (IDesignerHost)GetService(typeof(IDesignerHost));
 
                 // We need to remove all the button spec instances
                 for (var i = _header.ButtonSpecs.Count - 1; i >= 0; i--)
@@ -203,16 +203,16 @@ namespace Krypton.Toolkit
                     ButtonSpec spec = _header.ButtonSpecs[i];
 
                     // Must wrap button spec removal in change notifications
-                    _changeService?.OnComponentChanging(_header, null);
+                    _changeService.OnComponentChanging(_header, null);
 
                     // Perform actual removal of button spec from header
                     _header.ButtonSpecs.Remove(spec);
 
                     // Get host to remove it from design time
-                    host?.DestroyComponent(spec);
+                    host.DestroyComponent(spec);
 
                     // Must wrap button spec removal in change notifications
-                    _changeService?.OnComponentChanged(_header, null, null, null);
+                    _changeService.OnComponentChanged(_header, null, null, null);
                 }
             }
         }
