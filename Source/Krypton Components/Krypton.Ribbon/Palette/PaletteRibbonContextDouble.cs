@@ -31,7 +31,7 @@ namespace Krypton.Ribbon
         /// Initialize a new instance of the PaletteRibbonContextDouble class.
         /// </summary>
         /// <param name="ribbon">Reference to ribbon control.</param>
-        public PaletteRibbonContextDouble(KryptonRibbon ribbon)
+        public PaletteRibbonContextDouble([DisallowNull] KryptonRibbon ribbon)
         {
             Debug.Assert(ribbon != null);
             _ribbon = ribbon;

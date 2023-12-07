@@ -55,7 +55,7 @@ namespace Krypton.Toolkit
         /// <param name="colors">Source of </param>
         /// <param name="roundedEdges">Should have rounded edges.</param>
         /// <param name="palette">Associated palette instance.</param>
-        public KryptonColorTable365(Color[] colors, 
+        public KryptonColorTable365([DisallowNull] Color[] colors, 
             InheritBool roundedEdges, PaletteBase palette) 
             : base(palette)
         {

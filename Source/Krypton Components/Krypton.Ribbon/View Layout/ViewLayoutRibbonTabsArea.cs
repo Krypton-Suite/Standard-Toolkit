@@ -93,11 +93,11 @@ namespace Krypton.Ribbon
         /// <param name="captionArea">Reference to the caption area.</param>
         /// <param name="layoutContexts">Reference to layout of the context area.</param>
         /// <param name="needPaintDelegate">Delegate for notifying paint/layout changes.</param>
-        public ViewLayoutRibbonTabsArea(KryptonRibbon ribbon,
+        public ViewLayoutRibbonTabsArea([DisallowNull] KryptonRibbon ribbon,
                                         [DisallowNull] PaletteRedirect? redirect,
-                                        ViewDrawRibbonCaptionArea captionArea,
-                                        ViewLayoutRibbonContextTitles layoutContexts,
-                                        NeedPaintHandler needPaintDelegate)
+                                        [DisallowNull] ViewDrawRibbonCaptionArea captionArea,
+                                        [DisallowNull] ViewLayoutRibbonContextTitles layoutContexts,
+                                        [DisallowNull] NeedPaintHandler needPaintDelegate)
         {
             Debug.Assert(ribbon != null);
             Debug.Assert(redirect != null);

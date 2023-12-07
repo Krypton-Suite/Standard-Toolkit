@@ -38,8 +38,8 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Owning ribbon control instance.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
         /// <param name="showExtraButton">Should the extra button be shown.</param>
-        public ViewLayoutRibbonQATContents(KryptonRibbon ribbon,
-            NeedPaintHandler needPaint,
+        public ViewLayoutRibbonQATContents([DisallowNull] KryptonRibbon ribbon,
+            [DisallowNull] NeedPaintHandler needPaint,
                                            bool showExtraButton)
         {
             Debug.Assert(ribbon != null);
@@ -253,7 +253,7 @@ namespace Krypton.Ribbon
         /// Perform a layout of the elements.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override void Layout(ViewLayoutContext context)
+        public override void Layout([DisallowNull] ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 

@@ -28,7 +28,7 @@ namespace Krypton.Ribbon
         /// Initialize a new instance of the ButtonSpecMdiChildClose class.
         /// </summary>
         /// <param name="ribbon">Reference to owning ribbon control.</param>
-        public ButtonSpecMdiChildClose(KryptonRibbon ribbon)
+        public ButtonSpecMdiChildClose([DisallowNull] KryptonRibbon ribbon)
             : base(PaletteButtonSpecStyle.PendantClose)
         {
             Debug.Assert(ribbon != null);

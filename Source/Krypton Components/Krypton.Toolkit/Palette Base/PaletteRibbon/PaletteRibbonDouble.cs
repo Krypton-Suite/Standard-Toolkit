@@ -37,8 +37,8 @@ namespace Krypton.Toolkit
         /// <param name="inheritBack">Source for inheriting background values.</param>
         /// <param name="inheritText">Source for inheriting text values.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public PaletteRibbonDouble(IPaletteRibbonBack inheritBack,
-                                   IPaletteRibbonText inheritText,
+        public PaletteRibbonDouble([DisallowNull] IPaletteRibbonBack inheritBack,
+                                   [DisallowNull] IPaletteRibbonText inheritText,
                                    NeedPaintHandler needPaint) 
         {
             Debug.Assert(inheritBack != null);

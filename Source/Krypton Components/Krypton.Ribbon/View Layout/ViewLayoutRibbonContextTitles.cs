@@ -39,8 +39,8 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="ribbon">Reference to source ribbon control.</param>
         /// <param name="captionArea">Reference to view element that tracks the top level form.</param>
-        public ViewLayoutRibbonContextTitles(KryptonRibbon ribbon,
-                                             ViewDrawRibbonCaptionArea captionArea)
+        public ViewLayoutRibbonContextTitles([DisallowNull] KryptonRibbon ribbon,
+                                             [DisallowNull] ViewDrawRibbonCaptionArea captionArea)
         {
             Debug.Assert(captionArea != null);
             Debug.Assert(ribbon != null);
@@ -94,7 +94,7 @@ namespace Krypton.Ribbon
         /// Perform a layout of the elements.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override void Layout(ViewLayoutContext context)
+        public override void Layout([DisallowNull] ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 

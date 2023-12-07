@@ -27,7 +27,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Initialize a new instance of the ViewLayoutInsetOverlap class.
         /// </summary>
-        public ViewLayoutInsetOverlap(ViewDrawCanvas drawCanvas)
+        public ViewLayoutInsetOverlap([DisallowNull] ViewDrawCanvas drawCanvas)
         {
             Debug.Assert(drawCanvas != null);
 
@@ -92,7 +92,7 @@ namespace Krypton.Navigator
         /// Discover the preferred size of the element.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override Size GetPreferredSize(ViewLayoutContext context)
+        public override Size GetPreferredSize([DisallowNull] ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 
@@ -118,7 +118,7 @@ namespace Krypton.Navigator
         /// Perform a layout of the elements.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override void Layout(ViewLayoutContext context)
+        public override void Layout([DisallowNull] ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 

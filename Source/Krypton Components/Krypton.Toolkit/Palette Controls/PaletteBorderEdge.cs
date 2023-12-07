@@ -28,7 +28,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="inherit">Source for inheriting defaulted values.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public PaletteBorderEdge(PaletteBorderEdgeRedirect inherit,
+        public PaletteBorderEdge([DisallowNull] PaletteBorderEdgeRedirect inherit,
                                  NeedPaintHandler? needPaint)
             : base(inherit, needPaint)
         {

@@ -31,8 +31,8 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="ribbonGeneral">Source for general ribbon settings.</param>
         /// <param name="ribbonRecentTitleText">Source for ribbon recent document title settings.</param>
-        public RibbonRecentDocsTitleToContent(PaletteRibbonGeneral ribbonGeneral,
-            IPaletteRibbonText ribbonRecentTitleText)
+        public RibbonRecentDocsTitleToContent([DisallowNull] PaletteRibbonGeneral ribbonGeneral,
+            [DisallowNull] IPaletteRibbonText ribbonRecentTitleText)
             : base(ribbonGeneral)
         {
             Debug.Assert(ribbonRecentTitleText != null);

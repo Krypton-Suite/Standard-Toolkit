@@ -52,7 +52,7 @@ namespace Krypton.Toolkit
         /// <param name="viewMetricPaddings">Array of target metrics for button padding.</param>
         /// <param name="getRenderer">Delegate for returning a tool strip renderer.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        protected ButtonSpecManagerBase(Control control,
+        protected ButtonSpecManagerBase([DisallowNull] Control control,
                                         PaletteRedirect? redirector,
                                      ButtonSpecCollectionBase? variableSpecs,
                                      ButtonSpecCollectionBase? fixedSpecs,
@@ -60,7 +60,7 @@ namespace Krypton.Toolkit
                                      PaletteMetricInt[] viewMetricIntOutside,
                                      PaletteMetricInt[] viewMetricIntInside,
                                      PaletteMetricPadding[] viewMetricPaddings,
-                                     GetToolStripRenderer getRenderer,
+                                     [DisallowNull] GetToolStripRenderer getRenderer,
                                      NeedPaintHandler needPaint)
         {
             Debug.Assert(control != null);
@@ -562,7 +562,7 @@ namespace Krypton.Toolkit
         /// <param name="buttonSpec">ButtonSpec instance.</param>
         /// <returns>Palette redirector for the button spec instance.</returns>
         public virtual PaletteRedirect CreateButtonSpecRemap(PaletteRedirect? redirector,
-            ButtonSpec buttonSpec) =>
+            [DisallowNull] ButtonSpec buttonSpec) =>
             new ButtonSpecRemapByContentView(redirector, buttonSpec);
 
         #endregion
@@ -651,7 +651,7 @@ namespace Krypton.Toolkit
         /// <param name="viewMetricPadding">Target metric padding.</param>
         /// <param name="buttonSpec">ButtonSpec instance.</param>
         /// <returns>ButtonSpecView derived class.</returns>
-        protected virtual ButtonSpecView CreateButtonSpecView(PaletteRedirect redirector,
+        protected virtual ButtonSpecView CreateButtonSpecView([DisallowNull] PaletteRedirect redirector,
                                                               IPaletteMetric? viewPaletteMetric,
                                                               PaletteMetricPadding viewMetricPadding,
                                                               ButtonSpec buttonSpec) =>

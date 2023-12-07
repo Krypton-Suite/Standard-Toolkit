@@ -40,8 +40,8 @@ namespace Krypton.Toolkit
         /// <param name="target">Target for state changes.</param>
         /// <param name="top">Top element for the check box control.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public CheckBoxController(ViewDrawCheckBox target,
-            ViewBase top,
+        public CheckBoxController([DisallowNull] ViewDrawCheckBox target,
+            [DisallowNull] ViewBase top,
                                   NeedPaintHandler needPaint)
         {
             Debug.Assert(target != null);
@@ -207,7 +207,7 @@ namespace Krypton.Toolkit
         /// <param name="c">Reference to the source control instance.</param>
         /// <param name="e">A KeyEventArgs that contains the event data.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public virtual void KeyDown(Control c, KeyEventArgs e)
+        public virtual void KeyDown([DisallowNull] Control c, [DisallowNull] KeyEventArgs e)
         {
             Debug.Assert(c != null);
             Debug.Assert(e != null);
@@ -251,7 +251,7 @@ namespace Krypton.Toolkit
         /// <param name="e">A KeyEventArgs that contains the event data.</param>
         /// <exception cref="ArgumentNullException"></exception>
         /// <returns>True if capturing input; otherwise false.</returns>
-        public virtual bool KeyUp(Control c, KeyEventArgs e)
+        public virtual bool KeyUp([DisallowNull] Control c, [DisallowNull] KeyEventArgs e)
         {
             Debug.Assert(c != null);
             Debug.Assert(e != null);

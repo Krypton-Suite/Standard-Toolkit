@@ -717,10 +717,10 @@ namespace Krypton.Ribbon
         /// <param name="redirect">Reference to redirector for palette settings.</param>
         /// <param name="compositionArea">Reference to the composition element.</param>
         /// <param name="needPaintDelegate">Delegate for notifying paint/layout changes.</param>
-        public ViewDrawRibbonCaptionArea(KryptonRibbon ribbon,
-                                         PaletteRedirect redirect,
-                                         ViewDrawRibbonComposition compositionArea,
-                                         NeedPaintHandler needPaintDelegate)
+        public ViewDrawRibbonCaptionArea([DisallowNull] KryptonRibbon ribbon,
+                                         [DisallowNull] PaletteRedirect redirect,
+                                         [DisallowNull] ViewDrawRibbonComposition compositionArea,
+                                         [DisallowNull] NeedPaintHandler needPaintDelegate)
         {
             Debug.Assert(ribbon != null);
             Debug.Assert(redirect != null);
@@ -1057,7 +1057,7 @@ namespace Krypton.Ribbon
         /// Discover the preferred size of the element.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override Size GetPreferredSize(ViewLayoutContext context)
+        public override Size GetPreferredSize([DisallowNull] ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 

@@ -30,7 +30,7 @@ namespace Krypton.Navigator
         public PaletteNavigatorHeaderGroup(PaletteHeaderGroupRedirect? inheritHeaderGroup,
                                            PaletteHeaderPaddingRedirect inheritHeaderPrimary,
                                            PaletteHeaderPaddingRedirect inheritHeaderSecondary,
-                                           PaletteHeaderPaddingRedirect inheritHeaderBar,
+                                           [DisallowNull] PaletteHeaderPaddingRedirect inheritHeaderBar,
                                            PaletteHeaderPaddingRedirect inheritHeaderOverflow,
                                            NeedPaintHandler needPaint)
             : base(inheritHeaderGroup!, inheritHeaderPrimary,

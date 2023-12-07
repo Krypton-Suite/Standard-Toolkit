@@ -46,7 +46,7 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the ButtonSpecCollectionBase class.
         /// </summary>
         /// <param name="owner">Reference to owning object instance.</param>
-        protected ButtonSpecCollectionBase(object owner)
+        protected ButtonSpecCollectionBase([DisallowNull] object owner)
         {
             Debug.Assert(owner != null);
             Owner = owner!;
@@ -224,7 +224,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="item">T reference.</param>
         /// <returns>-1 if not found; otherwise index position.</returns>
-        public int IndexOf(T item)
+        public int IndexOf([DisallowNull] T item)
         {
             Debug.Assert(item != null);
             return _specs.IndexOf(item!);
@@ -236,7 +236,7 @@ namespace Krypton.Toolkit
         /// <param name="index">Insert index.</param>
         /// <param name="item">T reference.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public void Insert(int index, T item)
+        public void Insert(int index, [DisallowNull] T item)
         {
             Debug.Assert(item != null);
 
@@ -323,7 +323,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="item">T reference.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public void Add(T item)
+        public void Add([DisallowNull] T item)
         {
             Debug.Assert(item != null);
 
@@ -354,7 +354,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="item">T reference.</param>
         /// <returns>True if spec found; otherwise false.</returns>
-        public bool Contains(T item)
+        public bool Contains([DisallowNull] T item)
         {
             Debug.Assert(item != null);
             return _specs.Contains(item!);
@@ -365,7 +365,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="array">Target array.</param>
         /// <param name="arrayIndex">Starting array index.</param>
-        public void CopyTo(T[] array, int arrayIndex)
+        public void CopyTo([DisallowNull] T[] array, int arrayIndex)
         {
             Debug.Assert(array != null);
             _specs.CopyTo(array, arrayIndex);
@@ -386,7 +386,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="item">T reference.</param>
         /// <returns>True if removed; otherwise false.</returns>
-        public bool Remove(T item)
+        public bool Remove([DisallowNull] T item)
         {
             Debug.Assert(item != null, nameof(item) + " != null");
 
@@ -414,7 +414,7 @@ namespace Krypton.Toolkit
         /// <param name="array">The Array that is the destination of the elements copied from the collection.</param>
         /// <param name="index">The index in array at which copying begins.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public void CopyTo(Array array, int index)
+        public void CopyTo([DisallowNull] Array array, int index)
         {
             Debug.Assert(array != null);
 

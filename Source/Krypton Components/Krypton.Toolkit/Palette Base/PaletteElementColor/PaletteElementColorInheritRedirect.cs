@@ -28,7 +28,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="redirect">Source for inherit requests.</param>
         /// <param name="element">Element value..</param>
-        public PaletteElementColorInheritRedirect(PaletteRedirect redirect,
+        public PaletteElementColorInheritRedirect([DisallowNull] PaletteRedirect redirect,
                                                   PaletteElement element)
         {
             Debug.Assert(redirect != null);

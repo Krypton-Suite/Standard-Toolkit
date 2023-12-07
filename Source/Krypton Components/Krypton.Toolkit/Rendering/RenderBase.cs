@@ -902,7 +902,7 @@ namespace Krypton.Toolkit
         /// <param name="iconRect">Destination rectangle.</param>
         /// <param name="orientation">Visual orientation.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        protected static void DrawIconHelper(ViewContext context,
+        protected static void DrawIconHelper([DisallowNull] ViewContext context,
                                              Icon icon,
                                              Rectangle iconRect,
                                              VisualOrientation orientation)
@@ -934,7 +934,7 @@ namespace Krypton.Toolkit
         /// <param name="remapColor">Image color to remap.</param>
         /// <param name="remapNew">New color for remap.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        protected static void DrawImageHelper(ViewContext context,
+        protected static void DrawImageHelper([DisallowNull] ViewContext context,
                                               Image image,
                                               Color remapTransparent,
                                               Rectangle imageRect,

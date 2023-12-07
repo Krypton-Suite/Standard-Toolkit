@@ -38,9 +38,9 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Reference to owning ribbon control.</param>
         /// <param name="redirect">Reference to redirector for palette settings.</param>
         /// <param name="needPaintDelegate">Delegate for notifying paint/layout changes.</param>
-        public ViewLayoutRibbonGroupsArea(KryptonRibbon ribbon,
-                                          PaletteRedirect redirect,
-                                          NeedPaintHandler needPaintDelegate)
+        public ViewLayoutRibbonGroupsArea([DisallowNull] KryptonRibbon ribbon,
+                                          [DisallowNull] PaletteRedirect redirect,
+                                          [DisallowNull] NeedPaintHandler needPaintDelegate)
         {
             Debug.Assert(ribbon != null);
             Debug.Assert(redirect != null);
@@ -114,7 +114,7 @@ namespace Krypton.Ribbon
         /// Perform a layout of the elements.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override void Layout(ViewLayoutContext context)
+        public override void Layout([DisallowNull] ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 

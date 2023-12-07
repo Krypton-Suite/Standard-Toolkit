@@ -78,7 +78,7 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the KryptonSplitterPanel class.
         /// </summary>
         /// <param name="container">Reference to owning container.</param>
-        public KryptonSplitterPanel(KryptonSplitContainer container)
+        public KryptonSplitterPanel([DisallowNull] KryptonSplitContainer container)
         {
             Debug.Assert(container != null);
 

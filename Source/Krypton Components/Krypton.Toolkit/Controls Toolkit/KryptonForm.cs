@@ -499,7 +499,7 @@ namespace Krypton.Toolkit
         /// <param name="element">Reference to view element.</param>
         /// <param name="style">Docking style of the element.</param>
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public void InjectViewElement(ViewBase element, ViewDockStyle style)
+        public void InjectViewElement([DisallowNull] ViewBase element, ViewDockStyle style)
         {
             Debug.Assert(element != null);
             Debug.Assert(_drawHeading != null);
@@ -535,7 +535,7 @@ namespace Krypton.Toolkit
         /// <param name="element">Reference to view element.</param>
         /// <param name="style">Docking style of the element.</param>
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public void RevokeViewElement(ViewBase element, ViewDockStyle style)
+        public void RevokeViewElement([DisallowNull] ViewBase element, ViewDockStyle style)
         {
             Debug.Assert(element != null);
 
@@ -935,7 +935,7 @@ namespace Krypton.Toolkit
         /// <param name="sender">Source of notification.</param>
         /// <param name="e">An EventArgs containing event data.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        protected override void OnButtonSpecChanged(object sender, EventArgs e)
+        protected override void OnButtonSpecChanged(object sender, [DisallowNull] EventArgs e)
         {
             Debug.Assert(e != null);
 

@@ -54,8 +54,8 @@ namespace Krypton.Toolkit
         /// <param name="borderStyle">Style for the tooltip border.</param>
         /// <param name="contentStyle">Style for the tooltip content.</param>
         /// <param name="shadow">Does the Tooltip need a shadow effect.</param>
-        public VisualPopupToolTip(PaletteRedirect? redirector,
-            IContentValues contentValues,
+        public VisualPopupToolTip([DisallowNull] PaletteRedirect? redirector,
+            [DisallowNull] IContentValues contentValues,
                                     IRenderer? renderer,
                                     PaletteBackStyle backStyle,
                                     PaletteBorderStyle borderStyle,

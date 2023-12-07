@@ -41,7 +41,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="context">Evaluation context.</param>
         /// <returns>True if transparent areas exist; otherwise false.</returns>
-        public override bool EvalTransparentPaint(ViewContext context)
+        public override bool EvalTransparentPaint([DisallowNull] ViewContext context)
         {
             Debug.Assert(context != null);
             return false;
@@ -53,7 +53,7 @@ namespace Krypton.Toolkit
         /// Perform a render of the elements.
         /// </summary>
         /// <param name="context">Rendering context.</param>
-        public override void Render(RenderContext context)
+        public override void Render([DisallowNull] RenderContext context)
         {
             Debug.Assert(context != null);
 

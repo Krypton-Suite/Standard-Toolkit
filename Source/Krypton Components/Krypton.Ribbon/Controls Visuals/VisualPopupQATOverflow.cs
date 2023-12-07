@@ -29,7 +29,7 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Reference to owning ribbon control.</param>
         /// <param name="contents">Reference to original contents which has overflow items.</param>
         /// <param name="renderer">Drawing renderer.</param>
-        public VisualPopupQATOverflow(KryptonRibbon ribbon,
+        public VisualPopupQATOverflow([DisallowNull] KryptonRibbon ribbon,
                                       ViewLayoutRibbonQATContents contents,
                                       IRenderer? renderer)
             : base(renderer, true)

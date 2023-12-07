@@ -23,7 +23,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="inheritItem">Source for inheriting item values.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public PaletteComboBoxJustItemStates(IPaletteTriple inheritItem,
+        public PaletteComboBoxJustItemStates([DisallowNull] IPaletteTriple inheritItem,
                                              NeedPaintHandler needPaint)
         {
             Debug.Assert(inheritItem != null);

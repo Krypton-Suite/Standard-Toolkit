@@ -31,8 +31,8 @@ namespace Krypton.Toolkit
         /// <param name="manager">Reference to manager of all tooltip functionality.</param>
         /// <param name="targetElement">Target element that controller is for.</param>
         /// <param name="targetController">Target controller that we are snooping.</param>
-        public ToolTipController(ToolTipManager manager,
-            ViewBase targetElement,
+        public ToolTipController([DisallowNull] ToolTipManager manager,
+            [DisallowNull] ViewBase targetElement,
                                  IMouseController? targetController)
         {
             Debug.Assert(manager != null);

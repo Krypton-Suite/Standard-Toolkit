@@ -44,9 +44,9 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Reference to owning control instance.</param>
         /// <param name="target">View element that owns this controller.</param>
         /// <param name="needPaint">Paint delegate for notifying visual changes.</param>
-        public CollapsedGroupController(KryptonRibbon ribbon,
-            ViewLayoutDocker target,
-            NeedPaintHandler needPaint)
+        public CollapsedGroupController([DisallowNull] KryptonRibbon ribbon,
+            [DisallowNull] ViewLayoutDocker target,
+            [DisallowNull] NeedPaintHandler needPaint)
         {
             Debug.Assert(ribbon != null);
             Debug.Assert(target != null);
@@ -195,7 +195,7 @@ namespace Krypton.Ribbon
         /// Source control has lost the focus.
         /// </summary>
         /// <param name="c">Reference to the source control instance.</param>
-        public virtual void LostFocus(Control c)
+        public virtual void LostFocus([DisallowNull] Control c)
         {
             HasFocus = false;
             OnNeedPaint(false, _target.ClientRectangle);

@@ -30,7 +30,7 @@ namespace Krypton.Navigator
         /// <param name="manager">Reference to current manager.</param>
         /// <param name="redirector">Palette redirector.</param>
         public override void Construct(KryptonNavigator navigator,
-                                       ViewManager manager,
+                                       [DisallowNull] ViewManager manager,
                                        PaletteRedirect? redirector)
         {
             // Let base class perform common operations

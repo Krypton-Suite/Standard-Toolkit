@@ -47,10 +47,10 @@ namespace Krypton.Toolkit
         /// <param name="disposeFont">Dispose of font when finished with it.</param>
         /// <exception cref="ArgumentNullException"></exception>
         /// <returns>A memento used to draw the text.</returns>
-        public static AccurateTextMemento MeasureString(Graphics g,
+        public static AccurateTextMemento MeasureString([DisallowNull] Graphics g,
                                                         RightToLeft rtl,
-                                                        string text,
-                                                        Font font,
+                                                        [DisallowNull] string text,
+                                                        [DisallowNull] Font font,
                                                         PaletteTextTrim trim,
                                                         PaletteRelativeAlign align,
                                                         PaletteTextHotkeyPrefix prefix,
@@ -206,7 +206,7 @@ namespace Krypton.Toolkit
         /// <param name="glowing">When on composition draw with glowing.</param>
         /// <exception cref="ArgumentNullException"></exception>
         /// <returns>True if draw succeeded; False is draw produced an error.</returns>
-        public static bool DrawString(Graphics g,
+        public static bool DrawString([DisallowNull] Graphics g,
                                       Brush brush,
                                       Rectangle rect,
                                       RightToLeft rtl,
@@ -214,7 +214,7 @@ namespace Krypton.Toolkit
                                       bool composition,
                                       bool glowing,
                                       PaletteState state,
-                                      AccurateTextMemento memento)
+                                      [DisallowNull] AccurateTextMemento memento)
         {
             Debug.Assert(g != null);
             Debug.Assert(memento != null);

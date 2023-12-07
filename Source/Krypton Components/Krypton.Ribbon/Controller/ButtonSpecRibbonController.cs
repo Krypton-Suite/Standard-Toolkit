@@ -248,7 +248,7 @@ namespace Krypton.Ribbon
         /// Source control has lost the focus.
         /// </summary>
         /// <param name="c">Reference to the source control instance.</param>
-        public override void LostFocus(Control c)
+        public override void LostFocus([DisallowNull] Control c)
         {
             _hasFocus = false;
 

@@ -153,7 +153,7 @@ namespace Krypton.Docking
         /// Show all display elements of the provided page.
         /// </summary>
         /// <param name="uniqueName">Unique name of the page that should be shown.</param>
-        public void ShowPage(string uniqueName)
+        public void ShowPage([DisallowNull] string uniqueName)
         {
             // Cannot show a null reference
             if (string.IsNullOrWhiteSpace(uniqueName))
@@ -198,7 +198,7 @@ namespace Krypton.Docking
         /// Show all display elements of the provided pages.
         /// </summary>
         /// <param name="uniqueNames">Array of unique names of the pages that should be shown.</param>
-        public void ShowPages(string[] uniqueNames)
+        public void ShowPages([DisallowNull] string[] uniqueNames)
         {
             // Cannot show a null reference
             if (uniqueNames == null)

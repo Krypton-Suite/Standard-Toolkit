@@ -35,9 +35,9 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Reference to owning ribbon instance.</param>
         /// <param name="domainUpDown">Source definition.</param>
         /// <param name="target">Target view element.</param>
-        public DomainUpDownController(KryptonRibbon ribbon,
-                                      KryptonRibbonGroupDomainUpDown domainUpDown,
-                                      ViewDrawRibbonGroupDomainUpDown target)
+        public DomainUpDownController([DisallowNull] KryptonRibbon ribbon,
+                                      [DisallowNull] KryptonRibbonGroupDomainUpDown domainUpDown,
+                                      [DisallowNull] ViewDrawRibbonGroupDomainUpDown target)
         {
             Debug.Assert(ribbon != null);
             Debug.Assert(domainUpDown != null);
@@ -67,7 +67,7 @@ namespace Krypton.Ribbon
         /// Source control has lost the focus.
         /// </summary>
         /// <param name="c">Reference to the source control instance.</param>
-        public void LostFocus(Control c)
+        public void LostFocus([DisallowNull] Control c)
         {
         }
         #endregion

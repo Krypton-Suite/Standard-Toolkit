@@ -193,7 +193,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="child">Child view element.</param>
         /// <returns>Docking setting.</returns>
-        public ViewDockStyle GetDock(ViewBase child)
+        public ViewDockStyle GetDock([DisallowNull] ViewBase child)
         {
             Debug.Assert(child != null);
 
@@ -212,7 +212,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="child">Child view element.</param>
         /// <param name="dock">DockStyle setting.</param>
-        public void SetDock(ViewBase child, ViewDockStyle dock)
+        public void SetDock([DisallowNull] ViewBase child, ViewDockStyle dock)
         {
             Debug.Assert(child != null);
 
@@ -252,7 +252,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="context">Evaluation context.</param>
         /// <returns>True if transparent areas exist; otherwise false.</returns>
-        public override bool EvalTransparentPaint(ViewContext context)
+        public override bool EvalTransparentPaint([DisallowNull] ViewContext context)
         {
             Debug.Assert(context != null);
 
@@ -297,7 +297,7 @@ namespace Krypton.Toolkit
         /// Gets the size required for all except the contents.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public Size GetNonChildSize(ViewLayoutContext context)
+        public Size GetNonChildSize([DisallowNull] ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 
@@ -356,7 +356,7 @@ namespace Krypton.Toolkit
         /// Discover the preferred size of the element.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override Size GetPreferredSize(ViewLayoutContext context)
+        public override Size GetPreferredSize([DisallowNull] ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 
@@ -508,7 +508,7 @@ namespace Krypton.Toolkit
         /// Perform a layout of the elements.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override void Layout(ViewLayoutContext context)
+        public override void Layout([DisallowNull] ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 

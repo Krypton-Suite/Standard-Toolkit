@@ -50,8 +50,8 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Reference to owning control.</param>
         /// <param name="target">Target for state changes.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public RibbonTabController(KryptonRibbon ribbon,
-                                   ViewDrawRibbonTab target,
+        public RibbonTabController([DisallowNull] KryptonRibbon ribbon,
+                                   [DisallowNull] ViewDrawRibbonTab target,
                                    NeedPaintHandler needPaint)
         {
             Debug.Assert(ribbon != null);
@@ -207,7 +207,7 @@ namespace Krypton.Ribbon
         /// Source control has lost the focus.
         /// </summary>
         /// <param name="c">Reference to the source control instance.</param>
-        public virtual void LostFocus(Control c)
+        public virtual void LostFocus([DisallowNull] Control c)
         {
             _target.HasFocus = false;
 

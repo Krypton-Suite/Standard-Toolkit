@@ -1059,7 +1059,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        private void UpdateRecentColors(Color color)
+        private void UpdateRecentColors([DisallowNull] Color color)
         {
             // Do we need to update the recent colors collection?
             if (AutoRecentColors)

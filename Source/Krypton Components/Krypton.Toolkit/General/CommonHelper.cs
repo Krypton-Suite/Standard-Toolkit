@@ -1116,7 +1116,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="parent">Parent control.</param>
         /// <param name="c">Control to be added.</param>
-        public static void AddControlToParent(Control parent, Control c)
+        public static void AddControlToParent([DisallowNull] Control parent, [DisallowNull] Control c)
         {
             Debug.Assert(parent != null);
             Debug.Assert(c != null);
@@ -1144,7 +1144,7 @@ namespace Krypton.Toolkit
         /// Remove the provided control from its parent collection.
         /// </summary>
         /// <param name="c">Control to be removed.</param>
-        public static void RemoveControlFromParent(Control c)
+        public static void RemoveControlFromParent([DisallowNull] Control c)
         {
             Debug.Assert(c != null);
 

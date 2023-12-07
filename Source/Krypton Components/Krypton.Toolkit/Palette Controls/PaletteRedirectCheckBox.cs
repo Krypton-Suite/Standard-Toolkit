@@ -37,7 +37,7 @@ namespace Krypton.Toolkit
         /// <param name="target">Initial palette target for redirection.</param>
         /// <param name="images">Reference to source of check box images.</param>
         public PaletteRedirectCheckBox(PaletteBase? target,
-            CheckBoxImages images)
+            [DisallowNull] CheckBoxImages images)
             : base(target)
         {
             Debug.Assert(images != null);

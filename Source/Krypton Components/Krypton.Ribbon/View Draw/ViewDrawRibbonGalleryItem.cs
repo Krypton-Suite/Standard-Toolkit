@@ -158,7 +158,7 @@ namespace Krypton.Ribbon
         /// Perform a render of the elements.
         /// </summary>
         /// <param name="context">Rendering context.</param>
-        public override void Render(RenderContext context)
+        public override void Render([DisallowNull] RenderContext context)
         {
             Debug.Assert(context != null);
 

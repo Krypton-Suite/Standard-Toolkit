@@ -95,7 +95,7 @@ namespace Krypton.Toolkit
             bool standardStyle,
             bool imageColumn);
 
-        internal void SetProvider(IContextMenuProvider provider)
+        internal void SetProvider([DisallowNull] IContextMenuProvider provider)
         {
             Debug.Assert(provider.ProviderRedirector != null);
             _provider = provider;

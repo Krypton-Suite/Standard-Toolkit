@@ -53,7 +53,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="context">Layout context.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public override Size GetPreferredSize(ViewLayoutContext context)
+        public override Size GetPreferredSize([DisallowNull] ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 
@@ -75,7 +75,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="context">Layout context.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public override void Layout(ViewLayoutContext context)
+        public override void Layout([DisallowNull] ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 
@@ -100,7 +100,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="context">Rendering context.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public override void RenderBefore(RenderContext context) 
+        public override void RenderBefore([DisallowNull] RenderContext context) 
         {
             Debug.Assert(context != null);
 

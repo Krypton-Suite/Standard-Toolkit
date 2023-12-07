@@ -171,7 +171,7 @@ namespace Krypton.Docking
         /// <param name="cell">Reference to existing workspace cell.</param>
         /// <param name="index">Index for inserting new pages.</param>
         /// <param name="pages">Array of KryptonPage instances to be added.</param>
-        public void CellInsert(KryptonWorkspaceCell cell, int index, KryptonPage[]? pages)
+        public void CellInsert([DisallowNull] KryptonWorkspaceCell cell, int index, KryptonPage[]? pages)
         {
             // Demand that pages are not already present
             DemandPagesNotBePresent(pages);

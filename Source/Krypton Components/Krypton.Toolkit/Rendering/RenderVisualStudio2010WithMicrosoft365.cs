@@ -37,9 +37,9 @@ namespace Krypton.Toolkit
         /// <param name="paletteBack">Palette used for recovering drawing details.</param>
         /// <param name="state">State associated with rendering.</param>
         public override void DrawRibbonClusterEdge(PaletteRibbonShape shape,
-            RenderContext context,
+            [DisallowNull] RenderContext context,
             Rectangle displayRect,
-            IPaletteBack paletteBack, PaletteState state)
+            [DisallowNull] IPaletteBack paletteBack, PaletteState state)
         {
             Debug.Assert(context != null);
 
@@ -60,7 +60,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="colourPalette">The colour palette.</param>
         /// <returns></returns>
-        public override ToolStripRenderer RenderToolStrip(PaletteBase colourPalette)
+        public override ToolStripRenderer RenderToolStrip([DisallowNull] PaletteBase colourPalette)
         {
             Debug.Assert(colourPalette != null);
 

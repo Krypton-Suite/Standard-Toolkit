@@ -28,8 +28,8 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="inherit">Palette to inherit values from.</param>
         /// <param name="cellStyle">Cell style to recover values from.</param>
-        public void SetInherit(IPaletteBack inherit,
-                               DataGridViewCellStyle cellStyle)
+        public void SetInherit([DisallowNull] IPaletteBack inherit,
+                               [DisallowNull] DataGridViewCellStyle cellStyle)
         {
             Debug.Assert(inherit != null);
             Debug.Assert(cellStyle != null);

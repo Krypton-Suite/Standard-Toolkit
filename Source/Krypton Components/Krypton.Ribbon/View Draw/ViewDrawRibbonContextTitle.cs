@@ -43,8 +43,8 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="ribbon">Source ribbon control.</param>
         /// <param name="inherit">Source for inheriting the ribbon bacgkground colors.</param>
-        public ViewDrawRibbonContextTitle(KryptonRibbon ribbon,
-                                          IPaletteRibbonBack inherit)
+        public ViewDrawRibbonContextTitle([DisallowNull] KryptonRibbon ribbon,
+                                          [DisallowNull] IPaletteRibbonBack inherit)
         {
             Debug.Assert(ribbon != null);
             Debug.Assert(inherit != null);
@@ -148,7 +148,7 @@ namespace Krypton.Ribbon
         /// Perform a layout of the elements.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override void Layout(ViewLayoutContext context)
+        public override void Layout([DisallowNull] ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 

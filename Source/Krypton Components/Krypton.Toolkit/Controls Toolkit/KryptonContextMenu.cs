@@ -468,7 +468,7 @@ namespace Krypton.Toolkit
         #region Implementation
         private void PerformNeedPaint(bool needLayout) => OnNeedPaint(this, new NeedLayoutEventArgs(needLayout));
 
-        private void OnNeedPaint(object? sender, NeedLayoutEventArgs e)
+        private void OnNeedPaint(object? sender, [DisallowNull] NeedLayoutEventArgs e)
         {
             Debug.Assert(e != null);
 

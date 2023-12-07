@@ -29,7 +29,7 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the KryptonPaletteButtonSpecs class.
         /// </summary>
         /// <param name="redirector">Palette redirector for sourcing inherited values.</param>
-        public KryptonPaletteButtonSpecs(PaletteRedirect redirector)
+        public KryptonPaletteButtonSpecs([DisallowNull] PaletteRedirect redirector)
         {
             Debug.Assert(redirector != null);
 

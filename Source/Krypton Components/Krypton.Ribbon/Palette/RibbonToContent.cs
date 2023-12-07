@@ -21,7 +21,7 @@ namespace Krypton.Ribbon
         /// Initialize a new instance of the RibbonToContent class.
         /// </summary>
         /// <param name="ribbonGeneral">Source for general ribbon settings.</param>
-        public RibbonToContent(PaletteRibbonGeneral ribbonGeneral)
+        public RibbonToContent([DisallowNull] PaletteRibbonGeneral ribbonGeneral)
         {
             Debug.Assert(ribbonGeneral != null);
             RibbonGeneral = ribbonGeneral;

@@ -32,7 +32,7 @@ namespace Krypton.Ribbon
             /// Initialize a new instance of the ViewControl class.
             /// </summary>
             /// <param name="ribbon">Top level ribbon control.</param>
-            public RibbonViewControl(KryptonRibbon ribbon)
+            public RibbonViewControl([DisallowNull] KryptonRibbon ribbon)
                 : base(ribbon)
             {
                 Debug.Assert(ribbon != null);
@@ -148,12 +148,12 @@ namespace Krypton.Ribbon
         /// <param name="insetForTabs">Should scoller be inset for use in tabs area.</param>
         /// <param name="scrollSpeed">Scrolling speed.</param>
         /// <param name="needPaintDelegate">Delegate for notifying paint/layout requests.</param>
-        public ViewLayoutRibbonScrollPort(KryptonRibbon ribbon,
+        public ViewLayoutRibbonScrollPort([DisallowNull] KryptonRibbon ribbon,
                                           Orientation orientation,
-                                          ViewBase viewFiller,
+                                          [DisallowNull] ViewBase viewFiller,
                                           bool insetForTabs,
                                           int scrollSpeed,
-                                          NeedPaintHandler needPaintDelegate)
+                                          [DisallowNull] NeedPaintHandler needPaintDelegate)
         {
             Debug.Assert(ribbon != null);
             Debug.Assert(viewFiller != null);
@@ -451,7 +451,7 @@ namespace Krypton.Ribbon
         /// Perform a layout of the elements.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override void Layout(ViewLayoutContext context)
+        public override void Layout([DisallowNull] ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 
@@ -629,7 +629,7 @@ namespace Krypton.Ribbon
         /// Perform a render of the elements.
         /// </summary>
         /// <param name="context">Rendering context.</param>
-        public override void Render(RenderContext context)
+        public override void Render([DisallowNull] RenderContext context)
         {
             Debug.Assert(context != null);
 

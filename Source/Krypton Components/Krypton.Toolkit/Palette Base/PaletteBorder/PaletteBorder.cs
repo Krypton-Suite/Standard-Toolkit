@@ -94,7 +94,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="inherit">Source for inheriting defaulted values.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public PaletteBorder(IPaletteBorder inherit,
+        public PaletteBorder([DisallowNull] IPaletteBorder inherit,
                              NeedPaintHandler? needPaint)
         {
             Debug.Assert(inherit != null);

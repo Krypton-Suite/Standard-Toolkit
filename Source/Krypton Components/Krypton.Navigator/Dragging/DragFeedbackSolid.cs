@@ -48,7 +48,7 @@ namespace Krypton.Navigator
         /// <param name="dragTargets">List of all drag targets.</param>
         public override void Start(IPaletteDragDrop paletteDragDrop,
                                    IRenderer renderer,
-                                   PageDragEndData? pageDragEndData, 
+                                   [DisallowNull] PageDragEndData? pageDragEndData, 
                                    DragTargetList dragTargets)
         {
             base.Start(paletteDragDrop, renderer, pageDragEndData, dragTargets);

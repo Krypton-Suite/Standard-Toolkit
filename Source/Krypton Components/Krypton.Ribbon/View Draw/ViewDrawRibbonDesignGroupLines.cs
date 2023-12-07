@@ -65,7 +65,7 @@ namespace Krypton.Ribbon
         /// <param name="currentSize">Size the view should use.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
         public ViewDrawRibbonDesignGroupLines(KryptonRibbon ribbon,
-            KryptonRibbonGroupLines ribbonLines,
+            [DisallowNull] KryptonRibbonGroupLines ribbonLines,
                                               GroupItemSize currentSize,
                                               NeedPaintHandler needPaint)
             : base(ribbon, needPaint)

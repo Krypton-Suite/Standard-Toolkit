@@ -43,8 +43,8 @@ namespace Krypton.Ribbon
         /// <param name="target">Target for state changes.</param>
         /// <param name="layout">Reference to layout of the image items.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public GalleryItemController(ViewDrawRibbonGalleryItem target,
-                                     ViewLayoutRibbonGalleryItems layout,
+        public GalleryItemController([DisallowNull] ViewDrawRibbonGalleryItem target,
+                                     [DisallowNull] ViewLayoutRibbonGalleryItems layout,
                                      NeedPaintHandler needPaint)
         {
             Debug.Assert(target != null);
@@ -230,7 +230,7 @@ namespace Krypton.Ribbon
         /// Source control has lost the focus.
         /// </summary>
         /// <param name="c">Reference to the source control instance.</param>
-        public void LostFocus(Control c)
+        public void LostFocus([DisallowNull] Control c)
         {
         }
         #endregion
@@ -241,7 +241,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="c">Reference to the source control instance.</param>
         /// <param name="e">A KeyEventArgs that contains the event data.</param>
-        public virtual void KeyDown(Control c, KeyEventArgs e)
+        public virtual void KeyDown([DisallowNull] Control c, [DisallowNull] KeyEventArgs e)
         {
             Debug.Assert(c != null);
             Debug.Assert(e != null);
@@ -309,7 +309,7 @@ namespace Krypton.Ribbon
         /// <param name="c">Reference to the source control instance.</param>
         /// <param name="e">A KeyEventArgs that contains the event data.</param>
         /// <returns>True if capturing input; otherwise false.</returns>
-        public virtual bool KeyUp(Control c, KeyEventArgs e)
+        public virtual bool KeyUp([DisallowNull] Control c, [DisallowNull] KeyEventArgs e)
         {
             Debug.Assert(c != null);
             Debug.Assert(e != null);

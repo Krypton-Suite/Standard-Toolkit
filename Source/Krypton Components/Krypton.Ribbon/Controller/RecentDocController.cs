@@ -37,9 +37,9 @@ namespace Krypton.Ribbon
         /// <param name="viewManager">Owning view manager instance.</param>
         /// <param name="menuItem">Target menu item view element.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public RecentDocController(ViewContextMenuManager viewManager,
-                                   ViewDrawRibbonAppMenuRecentDec menuItem,
-                                   NeedPaintHandler needPaint)
+        public RecentDocController([DisallowNull] ViewContextMenuManager viewManager,
+                                   [DisallowNull] ViewDrawRibbonAppMenuRecentDec menuItem,
+                                   [DisallowNull] NeedPaintHandler needPaint)
         {
             Debug.Assert(viewManager != null);
             Debug.Assert(menuItem != null);
@@ -189,7 +189,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="c">Reference to the source control instance.</param>
         /// <param name="e">A KeyEventArgs that contains the event data.</param>
-        public virtual void KeyDown(Control c, KeyEventArgs e)
+        public virtual void KeyDown([DisallowNull] Control c, [DisallowNull] KeyEventArgs e)
         {
             Debug.Assert(c != null);
             Debug.Assert(e != null);
@@ -239,7 +239,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="c">Reference to the source control instance.</param>
         /// <param name="e">A KeyPressEventArgs that contains the event data.</param>
-        public virtual void KeyPress(Control c, KeyPressEventArgs e)
+        public virtual void KeyPress([DisallowNull] Control c, [DisallowNull] KeyPressEventArgs e)
         {
             Debug.Assert(c != null);
             Debug.Assert(e != null);
@@ -263,7 +263,7 @@ namespace Krypton.Ribbon
         /// <param name="c">Reference to the source control instance.</param>
         /// <param name="e">A KeyEventArgs that contains the event data.</param>
         /// <returns>True if capturing input; otherwise false.</returns>
-        public virtual bool KeyUp(Control c, KeyEventArgs e)
+        public virtual bool KeyUp([DisallowNull] Control c, [DisallowNull] KeyEventArgs e)
         {
             Debug.Assert(c != null);
             Debug.Assert(e != null);
@@ -295,7 +295,7 @@ namespace Krypton.Ribbon
         /// Source control has lost the focus.
         /// </summary>
         /// <param name="c">Reference to the source control instance.</param>
-        public virtual void LostFocus(Control c)
+        public virtual void LostFocus([DisallowNull] Control c)
         {
         }
         #endregion

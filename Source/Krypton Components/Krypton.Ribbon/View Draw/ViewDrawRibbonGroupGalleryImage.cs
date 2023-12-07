@@ -32,7 +32,7 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Reference to owning ribbon control.</param>
         /// <param name="ribbonGallery">Reference to ribbon group gallery definition.</param>
         public ViewDrawRibbonGroupGalleryImage(KryptonRibbon ribbon,
-            KryptonRibbonGroupGallery ribbonGallery)
+            [DisallowNull] KryptonRibbonGroupGallery ribbonGallery)
             : base(ribbon)
         {
             Debug.Assert(ribbonGallery != null);

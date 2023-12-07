@@ -30,9 +30,9 @@ namespace Krypton.Ribbon
         /// <param name="control">Owning control.</param>
         /// <param name="qatContents">View that will handle focus requests.</param>
         /// <param name="root">View for group we are tracking.</param>
-        public ViewRibbonQATOverflowManager(KryptonRibbon ribbon,
+        public ViewRibbonQATOverflowManager([DisallowNull] KryptonRibbon ribbon,
                                             Control control,
-                                            ViewLayoutRibbonQATContents qatContents,
+                                            [DisallowNull] ViewLayoutRibbonQATContents qatContents,
                                             ViewBase root)
             : base(control, root)
         {

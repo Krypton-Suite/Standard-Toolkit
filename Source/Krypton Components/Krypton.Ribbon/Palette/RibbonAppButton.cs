@@ -59,7 +59,7 @@ namespace Krypton.Ribbon
         /// Initialize a new instance of the RibbonAppButton class.
         /// </summary>
         /// <param name="ribbon">Reference to owning ribbon instance.</param>
-        public RibbonAppButton(KryptonRibbon ribbon)
+        public RibbonAppButton([DisallowNull] KryptonRibbon ribbon)
         {
             Debug.Assert(ribbon != null);
             _ribbon = ribbon;

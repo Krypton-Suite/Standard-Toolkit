@@ -70,7 +70,7 @@ namespace Krypton.Navigator
         /// Initialize a new instance of the DragViewController class.
         /// </summary>
         /// <param name="target">Target for state changes.</param>
-        public DragViewController(ViewBase target)
+        public DragViewController([DisallowNull] ViewBase target)
         {
             Debug.Assert(target != null);
 
@@ -268,7 +268,7 @@ namespace Krypton.Navigator
         /// <param name="c">Reference to the source control instance.</param>
         /// <param name="e">A KeyEventArgs that contains the event data.</param>
         /// <returns>True if capturing input; otherwise false.</returns>
-        public virtual bool KeyUp(Control c, KeyEventArgs e)
+        public virtual bool KeyUp([DisallowNull] Control c, [DisallowNull] KeyEventArgs e)
         {
             Debug.Assert(c != null);
             Debug.Assert(e != null);
@@ -322,7 +322,7 @@ namespace Krypton.Navigator
         /// Source control has lost the focus.
         /// </summary>
         /// <param name="c">Reference to the source control instance.</param>
-        public virtual void LostFocus(Control c)
+        public virtual void LostFocus([DisallowNull] Control c)
         {
             Debug.Assert(c != null);
 

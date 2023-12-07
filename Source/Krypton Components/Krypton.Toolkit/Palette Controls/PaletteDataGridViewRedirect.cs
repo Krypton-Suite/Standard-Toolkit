@@ -30,7 +30,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="redirect">Source for inheriting values.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public PaletteDataGridViewRedirect(PaletteRedirect? redirect,
+        public PaletteDataGridViewRedirect([DisallowNull] PaletteRedirect? redirect,
                                            NeedPaintHandler needPaint)
         {
             Debug.Assert(redirect != null);

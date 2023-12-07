@@ -43,9 +43,9 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Reference to owning ribbon instance.</param>
         /// <param name="target">Target for state changes.</param>
         /// <param name="needPaint">Delegate for notifying changes in display.</param>
-        public LeftDownButtonController(KryptonRibbon ribbon,
-                                        ViewBase target,
-                                        NeedPaintHandler needPaint)
+        public LeftDownButtonController([DisallowNull] KryptonRibbon ribbon,
+                                        [DisallowNull] ViewBase target,
+                                        [DisallowNull] NeedPaintHandler needPaint)
         {
             Debug.Assert(ribbon != null);
             Debug.Assert(target != null);

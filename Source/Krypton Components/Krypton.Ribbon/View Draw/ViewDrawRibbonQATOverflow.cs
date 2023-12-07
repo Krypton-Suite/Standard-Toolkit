@@ -33,8 +33,8 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="ribbon">Reference to owning ribbon control.</param>
         /// <param name="needPaintDelegate">Delegate for notifying paint/layout changes.</param>
-        public ViewDrawRibbonQATOverflow(KryptonRibbon ribbon,
-                                         NeedPaintHandler needPaintDelegate)
+        public ViewDrawRibbonQATOverflow([DisallowNull] KryptonRibbon ribbon,
+                                         [DisallowNull] NeedPaintHandler needPaintDelegate)
         {
             Debug.Assert(ribbon != null);
             Debug.Assert(needPaintDelegate != null);
@@ -94,7 +94,7 @@ namespace Krypton.Ribbon
         /// Perform a layout of the elements.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override void Layout(ViewLayoutContext context)
+        public override void Layout([DisallowNull] ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 

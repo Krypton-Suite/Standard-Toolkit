@@ -45,8 +45,8 @@ namespace Krypton.Toolkit
         /// <param name="animateChange">Animate changes in the viewport.</param>
         /// <param name="vertical">Is the viewport vertical.</param>
         /// <param name="needPaintDelegate">Delegate for notifying paint requests.</param>
-        public ViewLayoutScrollViewport(VisualControl rootControl,
-            ViewBase viewportFiller,
+        public ViewLayoutScrollViewport([DisallowNull] VisualControl rootControl,
+            [DisallowNull] ViewBase viewportFiller,
                                         PaletteBorderEdge paletteBorderEdge,
                                         IPaletteMetric? paletteMetrics,
                                         PaletteMetricPadding metricPadding,
@@ -55,7 +55,7 @@ namespace Krypton.Toolkit
                                         RelativePositionAlign alignment,
                                         bool animateChange,
                                         bool vertical,
-                                        NeedPaintHandler needPaintDelegate)
+                                        [DisallowNull] NeedPaintHandler needPaintDelegate)
         {
             Debug.Assert(rootControl != null);
             Debug.Assert(viewportFiller != null);

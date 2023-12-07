@@ -36,8 +36,8 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="ribbon">Source ribbon control.</param>
         /// <param name="ribbonGroup">Ribbon group to display title for.</param>
-        public ViewDrawRibbonGroupTitle(KryptonRibbon ribbon,
-                                        KryptonRibbonGroup ribbonGroup)
+        public ViewDrawRibbonGroupTitle([DisallowNull] KryptonRibbon ribbon,
+                                        [DisallowNull] KryptonRibbonGroup ribbonGroup)
         {
             Debug.Assert(ribbon != null);
             Debug.Assert(ribbonGroup != null);
@@ -114,7 +114,7 @@ namespace Krypton.Ribbon
         /// Perform a layout of the elements.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override void Layout(ViewLayoutContext context)
+        public override void Layout([DisallowNull] ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 

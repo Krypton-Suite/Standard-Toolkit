@@ -40,7 +40,7 @@ namespace Krypton.Ribbon
         /// <param name="ribbonColorButton">Reference to ribbon group color button definition.</param>
         /// <param name="large">Show the large image.</param>
         public ViewDrawRibbonGroupColorButtonImage(KryptonRibbon ribbon,
-            KryptonRibbonGroupColorButton ribbonColorButton,
+            [DisallowNull] KryptonRibbonGroupColorButton ribbonColorButton,
                                                    bool large)
             : base(ribbon)
         {

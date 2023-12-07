@@ -24,7 +24,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="form">Reference to owning krypton form.</param>
         /// <param name="fixedStyle">Fixed style to use.</param>
-        protected ButtonSpecFormFixed(KryptonForm form,
+        protected ButtonSpecFormFixed([DisallowNull] KryptonForm form,
                                    PaletteButtonSpecStyle fixedStyle)
         {
             Debug.Assert(form != null);

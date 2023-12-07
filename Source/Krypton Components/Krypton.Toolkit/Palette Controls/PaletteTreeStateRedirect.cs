@@ -33,7 +33,7 @@ namespace Krypton.Toolkit
         /// <param name="border">Storage for border values.</param>
         /// <param name="borderInherit">inheritance for border values.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public PaletteTreeStateRedirect(PaletteRedirect redirect,
+        public PaletteTreeStateRedirect([DisallowNull] PaletteRedirect redirect,
                                         PaletteBack back,
                                         PaletteBackInheritRedirect backInherit,
                                         PaletteBorder border,

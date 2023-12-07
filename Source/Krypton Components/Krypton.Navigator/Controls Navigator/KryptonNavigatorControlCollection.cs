@@ -23,7 +23,7 @@ namespace Krypton.Navigator
         /// Initialize a new instance of the KryptonNavigatorControlCollection class.
         /// </summary>
         /// <param name="owner">Control containing this collection.</param>
-        public KryptonNavigatorControlCollection(KryptonNavigator owner)
+        public KryptonNavigatorControlCollection([DisallowNull] KryptonNavigator owner)
             : base(owner)
         {
             Debug.Assert(owner != null);
@@ -35,7 +35,7 @@ namespace Krypton.Navigator
         /// Adds the specified control to the control collection.
         /// </summary>
         /// <param name="value">The KryptonPage to add to the control collection.</param>
-        public override void Add(Control value)
+        public override void Add([DisallowNull] Control value)
         {
             Debug.Assert(value != null);
 

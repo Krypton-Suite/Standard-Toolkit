@@ -43,8 +43,8 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Reference to owning ribbon control.</param>
         /// <param name="needPaintDelegate">Delegate for notifying paint/layout changes.</param>
         /// <param name="minibar">Minibar or full bar drawing.</param>
-        public ViewDrawRibbonQATBorder(KryptonRibbon ribbon,
-            NeedPaintHandler needPaintDelegate,
+        public ViewDrawRibbonQATBorder([DisallowNull] KryptonRibbon ribbon,
+            [DisallowNull] NeedPaintHandler needPaintDelegate,
                                        bool minibar)
         {
             Debug.Assert(ribbon != null);
@@ -154,7 +154,7 @@ namespace Krypton.Ribbon
         /// Perform a layout of the elements.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override void Layout(ViewLayoutContext context)
+        public override void Layout([DisallowNull] ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 

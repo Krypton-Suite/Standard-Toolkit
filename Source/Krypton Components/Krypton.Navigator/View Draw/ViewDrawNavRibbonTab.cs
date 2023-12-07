@@ -65,8 +65,8 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="navigator">Owning navigator instance.</param>
         /// <param name="page">Page this ribbon tab represents.</param>
-        public ViewDrawNavRibbonTab(KryptonNavigator navigator,
-                                    KryptonPage page)
+        public ViewDrawNavRibbonTab([DisallowNull] KryptonNavigator navigator,
+                                    [DisallowNull] KryptonPage page)
         {
             Debug.Assert(navigator != null);
             Debug.Assert(page != null);

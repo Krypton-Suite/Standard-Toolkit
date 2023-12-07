@@ -43,9 +43,9 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Reference to owning ribbon control.</param>
         /// <param name="ribbonGroup">Reference to ribbon group definition.</param>
         /// <param name="viewGroup">Reference to top level group element.</param>
-        public ViewDrawRibbonGroupImage(KryptonRibbon ribbon,
-                                        KryptonRibbonGroup ribbonGroup,
-                                        ViewDrawRibbonGroup viewGroup)
+        public ViewDrawRibbonGroupImage([DisallowNull] KryptonRibbon ribbon,
+                                        [DisallowNull] KryptonRibbonGroup ribbonGroup,
+                                        [DisallowNull] ViewDrawRibbonGroup viewGroup)
         {
             Debug.Assert(ribbon != null);
             Debug.Assert(ribbonGroup != null);

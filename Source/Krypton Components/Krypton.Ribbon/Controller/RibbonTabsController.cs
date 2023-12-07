@@ -37,7 +37,7 @@ namespace Krypton.Ribbon
         /// Initialize a new instance of the RibbonTabsController class.
         /// </summary>
         /// <param name="ribbon">Reference to owning control.</param>
-        public RibbonTabsController(KryptonRibbon ribbon)
+        public RibbonTabsController([DisallowNull] KryptonRibbon ribbon)
         {
             Debug.Assert(ribbon != null);
             _ribbon = ribbon!;

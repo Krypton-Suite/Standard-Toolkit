@@ -35,7 +35,7 @@ namespace Krypton.Toolkit
         /// <param name="control">Control to be added.</param>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public void AddInternal(Control control) =>
+        public void AddInternal([DisallowNull] Control control) =>
             // ReSharper disable RedundantBaseQualifier
             // Do not remove base, as the KryptonReadOnlyControls is a mess !
             base.Add(control);

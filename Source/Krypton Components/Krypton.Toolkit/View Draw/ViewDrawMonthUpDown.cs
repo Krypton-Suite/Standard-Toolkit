@@ -109,7 +109,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="context">Layout context.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public override void Layout(ViewLayoutContext context)
+        public override void Layout([DisallowNull] ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 

@@ -35,9 +35,9 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Reference to owning ribbon instance.</param>
         /// <param name="dateTimePicker">Source definition.</param>
         /// <param name="target">Target view element.</param>
-        public DateTimePickerController(KryptonRibbon ribbon,
-                                        KryptonRibbonGroupDateTimePicker dateTimePicker,
-                                        ViewDrawRibbonGroupDateTimePicker target)
+        public DateTimePickerController([DisallowNull] KryptonRibbon ribbon,
+                                        [DisallowNull] KryptonRibbonGroupDateTimePicker dateTimePicker,
+                                        [DisallowNull] ViewDrawRibbonGroupDateTimePicker target)
         {
             Debug.Assert(ribbon != null);
             Debug.Assert(dateTimePicker != null);
@@ -67,7 +67,7 @@ namespace Krypton.Ribbon
         /// Source control has lost the focus.
         /// </summary>
         /// <param name="c">Reference to the source control instance.</param>
-        public void LostFocus(Control c)
+        public void LostFocus([DisallowNull] Control c)
         {
         }
         #endregion

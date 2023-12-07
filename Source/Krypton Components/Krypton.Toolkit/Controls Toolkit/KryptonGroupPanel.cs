@@ -89,9 +89,9 @@ namespace Krypton.Toolkit
         /// <param name="stateNormal">Normal appearance state.</param>
         /// <param name="layoutHandler">Callback delegate for layout processing.</param>
         public KryptonGroupPanel(Control alignControl,
-            PaletteDoubleRedirect stateCommon,
-            PaletteDouble stateDisabled,
-            PaletteDouble stateNormal,
+            [DisallowNull] PaletteDoubleRedirect stateCommon,
+            [DisallowNull] PaletteDouble stateDisabled,
+            [DisallowNull] PaletteDouble stateNormal,
                                  NeedPaintHandler? layoutHandler)
             : base(stateCommon, stateDisabled, stateNormal)
         {

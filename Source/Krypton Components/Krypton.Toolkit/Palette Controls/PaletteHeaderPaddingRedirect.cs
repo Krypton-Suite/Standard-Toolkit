@@ -31,7 +31,7 @@ namespace Krypton.Toolkit
         /// <param name="borderStyle">Initial border style.</param>
         /// <param name="contentStyle">Initial content style.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public PaletteHeaderPaddingRedirect(PaletteRedirect? redirect,
+        public PaletteHeaderPaddingRedirect([DisallowNull] PaletteRedirect? redirect,
                                             PaletteBackStyle backStyle,
                                             PaletteBorderStyle borderStyle,
                                             PaletteContentStyle contentStyle,

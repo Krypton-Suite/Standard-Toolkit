@@ -43,8 +43,8 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Reference to owning control.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
         /// <param name="target">Target for state changes.</param>
-        public RepeatButtonController(KryptonRibbon ribbon,
-                                      ViewBase target,
+        public RepeatButtonController([DisallowNull] KryptonRibbon ribbon,
+                                      [DisallowNull] ViewBase target,
                                       NeedPaintHandler needPaint)
         {
             Debug.Assert(ribbon != null);

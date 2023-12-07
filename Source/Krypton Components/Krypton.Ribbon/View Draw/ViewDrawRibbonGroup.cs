@@ -70,9 +70,9 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Reference to owning ribbon control.</param>
         /// <param name="ribbonGroup">Reference to ribbon group this represents.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public ViewDrawRibbonGroup(KryptonRibbon ribbon,
-                                   KryptonRibbonGroup ribbonGroup,
-                                   NeedPaintHandler needPaint)
+        public ViewDrawRibbonGroup([DisallowNull] KryptonRibbon ribbon,
+                                   [DisallowNull] KryptonRibbonGroup ribbonGroup,
+                                   [DisallowNull] NeedPaintHandler needPaint)
         {
             Debug.Assert(ribbon != null);
             Debug.Assert(ribbonGroup != null);
@@ -491,7 +491,7 @@ namespace Krypton.Ribbon
         /// Perform a layout of the elements.
         /// </summary>
         /// <param name="context">Layout context.</param>
-        public override void Layout(ViewLayoutContext context)
+        public override void Layout([DisallowNull] ViewLayoutContext context)
         {
             Debug.Assert(context != null);
 

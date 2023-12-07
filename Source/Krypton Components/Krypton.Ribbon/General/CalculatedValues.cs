@@ -49,7 +49,7 @@ namespace Krypton.Ribbon
         /// Initialize a new instance of the CalculatedValues class.
         /// </summary>
         /// <param name="ribbon">Source control instance.</param>
-        public CalculatedValues(KryptonRibbon ribbon)
+        public CalculatedValues([DisallowNull] KryptonRibbon ribbon)
         {
             Debug.Assert(ribbon != null);
             _ribbon = ribbon!;

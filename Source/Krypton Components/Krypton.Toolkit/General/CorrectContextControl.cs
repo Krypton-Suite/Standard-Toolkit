@@ -28,7 +28,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="context">Context to update.</param>
         /// <param name="control">Actual parent control instance.</param>
-        public CorrectContextControl(ViewLayoutContext context,
+        public CorrectContextControl([DisallowNull] ViewLayoutContext context,
                                      Control control)
         {
             Debug.Assert(context != null);

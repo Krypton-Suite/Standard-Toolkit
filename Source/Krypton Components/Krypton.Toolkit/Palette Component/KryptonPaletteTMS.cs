@@ -25,7 +25,7 @@ namespace Krypton.Toolkit
         /// <param name="baseKCT">Initial base KCT to inherit values from.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
         public KryptonPaletteTMS(PaletteBase palette,
-            KryptonColorTable baseKCT,
+            [DisallowNull] KryptonColorTable baseKCT,
                                    NeedPaintHandler needPaint)
         {
             Debug.Assert(baseKCT != null);
