@@ -128,7 +128,7 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the KryptonPalette class.
         /// </summary>
         /// <param name="container">Container that owns the component.</param>
-        public KryptonCustomPaletteBase(IContainer container)
+        public KryptonCustomPaletteBase([DisallowNull] IContainer container)
             : this()
         {
             Debug.Assert(container != null);
@@ -4436,15 +4436,15 @@ namespace Krypton.Toolkit
                 case PaletteBackStyle.ControlCustom3:
                     return GetPaletteBackControl(ControlStyles.ControlCustom3, state);
                 case PaletteBackStyle.InputControlStandalone:
-                    return GetPaletteInputControl(InputControlStyles.InputControlStandalone, state)!.Back;
+                    return GetPaletteInputControl(InputControlStyles.InputControlStandalone, state).Back;
                 case PaletteBackStyle.InputControlRibbon:
-                    return GetPaletteInputControl(InputControlStyles.InputControlRibbon, state)!.Back;
+                    return GetPaletteInputControl(InputControlStyles.InputControlRibbon, state).Back;
                 case PaletteBackStyle.InputControlCustom1:
-                    return GetPaletteInputControl(InputControlStyles.InputControlCustom1, state)!.Back;
+                    return GetPaletteInputControl(InputControlStyles.InputControlCustom1, state).Back;
                 case PaletteBackStyle.InputControlCustom2:
-                    return GetPaletteInputControl(InputControlStyles.InputControlCustom2, state)!.Back;
+                    return GetPaletteInputControl(InputControlStyles.InputControlCustom2, state).Back;
                 case PaletteBackStyle.InputControlCustom3:
-                    return GetPaletteInputControl(InputControlStyles.InputControlCustom3, state)!.Back;
+                    return GetPaletteInputControl(InputControlStyles.InputControlCustom3, state).Back;
                 case PaletteBackStyle.FormMain:
                     return GetPaletteBackForm(FormStyles.FormMain, state);
                 case PaletteBackStyle.FormCustom1:
@@ -4566,9 +4566,9 @@ namespace Krypton.Toolkit
                 case PaletteBackStyle.ContextMenuItemSplit:
                     return GetPaletteBackContextMenuItemSplit(state);
                 case PaletteBackStyle.ContextMenuItemImageColumn:
-                    return ContextMenu.StateCommon.ItemImageColumn!.Back;
+                    return ContextMenu.StateCommon.ItemImageColumn.Back;
                 case PaletteBackStyle.ContextMenuSeparator:
-                    return ContextMenu.StateCommon.Separator!.Back;
+                    return ContextMenu.StateCommon.Separator.Back;
                 default:
                     // Should never happen!
                     Debug.Assert(false);
@@ -4640,15 +4640,15 @@ namespace Krypton.Toolkit
                 case PaletteBorderStyle.ControlCustom3:
                     return GetPaletteBorderControl(ControlStyles.ControlCustom3, state);
                 case PaletteBorderStyle.InputControlStandalone:
-                    return GetPaletteInputControl(InputControlStyles.InputControlStandalone, state)!.Border;
+                    return GetPaletteInputControl(InputControlStyles.InputControlStandalone, state).Border;
                 case PaletteBorderStyle.InputControlRibbon:
-                    return GetPaletteInputControl(InputControlStyles.InputControlRibbon, state)!.Border;
+                    return GetPaletteInputControl(InputControlStyles.InputControlRibbon, state).Border;
                 case PaletteBorderStyle.InputControlCustom1:
-                    return GetPaletteInputControl(InputControlStyles.InputControlCustom1, state)!.Border;
+                    return GetPaletteInputControl(InputControlStyles.InputControlCustom1, state).Border;
                 case PaletteBorderStyle.InputControlCustom2:
-                    return GetPaletteInputControl(InputControlStyles.InputControlCustom2, state)!.Border;
+                    return GetPaletteInputControl(InputControlStyles.InputControlCustom2, state).Border;
                 case PaletteBorderStyle.InputControlCustom3:
-                    return GetPaletteInputControl(InputControlStyles.InputControlCustom3, state)!.Border;
+                    return GetPaletteInputControl(InputControlStyles.InputControlCustom3, state).Border;
                 case PaletteBorderStyle.FormMain:
                     return GetPaletteBorderForm(FormStyles.FormMain, state);
                 case PaletteBorderStyle.FormCustom1:
@@ -4748,9 +4748,9 @@ namespace Krypton.Toolkit
                 case PaletteBorderStyle.ContextMenuItemSplit:
                     return GetPaletteBorderContextMenuItemSplit(state);
                 case PaletteBorderStyle.ContextMenuItemImageColumn:
-                    return ContextMenu.StateCommon.ItemImageColumn!.Border;
+                    return ContextMenu.StateCommon.ItemImageColumn.Border;
                 case PaletteBorderStyle.ContextMenuSeparator:
-                    return ContextMenu.StateCommon.Separator!.Border;
+                    return ContextMenu.StateCommon.Separator.Border;
                 default:
                     // Should never happen!
                     Debug.Assert(false);
@@ -4882,15 +4882,15 @@ namespace Krypton.Toolkit
                 case PaletteContentStyle.LabelCustom3:
                     return GetPaletteLabel(LabelStyles.LabelCustom3, state);
                 case PaletteContentStyle.InputControlStandalone:
-                    return GetPaletteInputControl(InputControlStyles.InputControlStandalone, state)!.Content;
+                    return GetPaletteInputControl(InputControlStyles.InputControlStandalone, state).Content;
                 case PaletteContentStyle.InputControlRibbon:
-                    return GetPaletteInputControl(InputControlStyles.InputControlRibbon, state)!.Content;
+                    return GetPaletteInputControl(InputControlStyles.InputControlRibbon, state).Content;
                 case PaletteContentStyle.InputControlCustom1:
-                    return GetPaletteInputControl(InputControlStyles.InputControlCustom1, state)!.Content;
+                    return GetPaletteInputControl(InputControlStyles.InputControlCustom1, state).Content;
                 case PaletteContentStyle.InputControlCustom2:
-                    return GetPaletteInputControl(InputControlStyles.InputControlCustom2, state)!.Content;
+                    return GetPaletteInputControl(InputControlStyles.InputControlCustom2, state).Content;
                 case PaletteContentStyle.InputControlCustom3:
-                    return GetPaletteInputControl(InputControlStyles.InputControlCustom3, state)!.Content;
+                    return GetPaletteInputControl(InputControlStyles.InputControlCustom3, state).Content;
                 case PaletteContentStyle.TabHighProfile:
                     return GetPaletteContentTab(TabStyles.TabHighProfile, state);
                 case PaletteContentStyle.TabStandardProfile:
@@ -5715,11 +5715,11 @@ namespace Krypton.Toolkit
             switch (state)
             {
                 case PaletteState.Disabled:
-                    return ContextMenu.StateDisabled.ItemSplit!.Back;
+                    return ContextMenu.StateDisabled.ItemSplit.Back;
                 case PaletteState.Normal:
-                    return ContextMenu.StateNormal.ItemSplit!.Back;
+                    return ContextMenu.StateNormal.ItemSplit.Back;
                 case PaletteState.Tracking:
-                    return ContextMenu.StateHighlight.ItemSplit!.Back;
+                    return ContextMenu.StateHighlight.ItemSplit.Back;
                 default:
                     // Should never happen!
                     Debug.Assert(false);
@@ -5732,9 +5732,9 @@ namespace Krypton.Toolkit
             switch (state)
             {
                 case PaletteState.Disabled:
-                    return ContextMenu.StateDisabled.ItemHighlight!.Back;
+                    return ContextMenu.StateDisabled.ItemHighlight.Back;
                 case PaletteState.Normal:
-                    return ContextMenu.StateNormal.ItemHighlight!.Back;
+                    return ContextMenu.StateNormal.ItemHighlight.Back;
                 case PaletteState.Tracking:
                     return ContextMenu.StateHighlight.ItemHighlight.Back;
                 default:
@@ -5766,9 +5766,9 @@ namespace Krypton.Toolkit
             switch (state)
             {
                 case PaletteState.Disabled:
-                    return ContextMenu.StateDisabled.ItemHighlight!.Border;
+                    return ContextMenu.StateDisabled.ItemHighlight.Border;
                 case PaletteState.Normal:
-                    return ContextMenu.StateNormal.ItemHighlight!.Border;
+                    return ContextMenu.StateNormal.ItemHighlight.Border;
                 case PaletteState.Tracking:
                     return ContextMenu.StateHighlight.ItemHighlight.Border;
                 default:
@@ -5783,11 +5783,11 @@ namespace Krypton.Toolkit
             switch (state)
             {
                 case PaletteState.Disabled:
-                    return ContextMenu.StateDisabled.ItemSplit!.Border;
+                    return ContextMenu.StateDisabled.ItemSplit.Border;
                 case PaletteState.Normal:
-                    return ContextMenu.StateNormal.ItemSplit!.Border;
+                    return ContextMenu.StateNormal.ItemSplit.Border;
                 case PaletteState.Tracking:
-                    return ContextMenu.StateHighlight.ItemSplit!.Border;
+                    return ContextMenu.StateHighlight.ItemSplit.Border;
                 default:
                     // Should never happen!
                     Debug.Assert(false);
@@ -5919,7 +5919,7 @@ namespace Krypton.Toolkit
                 _redirector.Target = _basePalette;
 
                 // Update the color table we inherit from
-                ToolMenuStatus.BaseKCT = _basePalette!.ColorTable;
+                ToolMenuStatus.BaseKCT = _basePalette.ColorTable;
 
                 // Hook to new palette events
                 if (_basePalette != null)
