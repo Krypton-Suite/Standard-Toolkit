@@ -40,11 +40,11 @@ namespace Krypton.Toolkit
         /// <value>The Krypton Context Menu.</value>
         public KryptonContextMenu? KryptonContextMenu
         {
-            get => _domainUpDown!.KryptonContextMenu;
+            get => _domainUpDown.KryptonContextMenu;
 
             set
             {
-                if (_domainUpDown!.KryptonContextMenu != value)
+                if (_domainUpDown.KryptonContextMenu != value)
                 {
                     _service.OnComponentChanged(_domainUpDown, null, _domainUpDown.KryptonContextMenu, value);
 
@@ -58,11 +58,11 @@ namespace Krypton.Toolkit
         /// </summary>
         public PaletteMode PaletteMode
         {
-            get => _domainUpDown!.PaletteMode;
+            get => _domainUpDown.PaletteMode;
 
             set
             {
-                if (_domainUpDown!.PaletteMode != value)
+                if (_domainUpDown.PaletteMode != value)
                 {
                     _service.OnComponentChanged(_domainUpDown, null, _domainUpDown.PaletteMode, value);
                     _domainUpDown.PaletteMode = value;
@@ -75,11 +75,11 @@ namespace Krypton.Toolkit
         /// </summary>
         public InputControlStyle InputControlStyle
         {
-            get => _domainUpDown!.InputControlStyle;
+            get => _domainUpDown.InputControlStyle;
 
             set
             {
-                if (_domainUpDown!.InputControlStyle != value)
+                if (_domainUpDown.InputControlStyle != value)
                 {
                     _service.OnComponentChanged(_domainUpDown, null, _domainUpDown.InputControlStyle, value);
                     _domainUpDown.InputControlStyle = value;
@@ -87,13 +87,13 @@ namespace Krypton.Toolkit
             }
         }
 
-        public Font? Font
+        public Font Font
         {
-            get => _domainUpDown!.StateCommon.Content.Font;
+            get => _domainUpDown.StateCommon.Content.Font;
 
             set
             {
-                if (_domainUpDown!.StateCommon.Content.Font != value)
+                if (_domainUpDown.StateCommon.Content.Font != value)
                 {
                     _service.OnComponentChanged(_domainUpDown, null, _domainUpDown.StateCommon.Content.Font, value);
 
@@ -107,11 +107,11 @@ namespace Krypton.Toolkit
         [DefaultValue(GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE)]
         public float StateCommonCornerRoundingRadius
         {
-            get => _domainUpDown!.StateCommon.Border.Rounding;
+            get => _domainUpDown.StateCommon.Border.Rounding;
 
             set
             {
-                if (_domainUpDown!.StateCommon.Border.Rounding != value)
+                if (_domainUpDown.StateCommon.Border.Rounding != value)
                 {
                     _service.OnComponentChanged(_domainUpDown, null, _domainUpDown.StateCommon.Border.Rounding, value);
 

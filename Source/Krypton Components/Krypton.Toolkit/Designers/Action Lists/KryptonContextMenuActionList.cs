@@ -66,11 +66,11 @@ namespace Krypton.Toolkit
         /// </summary>
         public PaletteMode PaletteMode
         {
-            get => _contextMenu!.PaletteMode;
+            get => _contextMenu.PaletteMode;
 
             set
             {
-                if (_contextMenu!.PaletteMode != value)
+                if (_contextMenu.PaletteMode != value)
                 {
                     _service.OnComponentChanged(_contextMenu, null, _contextMenu.PaletteMode, value);
                     _contextMenu.PaletteMode = value;
@@ -82,11 +82,11 @@ namespace Krypton.Toolkit
         /// <value>The items.</value>
         public KryptonContextMenuCollection Items
         {
-            get => _contextMenu!.Items;
+            get => _contextMenu.Items;
 
             set
             {
-                if (_contextMenu!.Items != value)
+                if (_contextMenu.Items != value)
                 {
                     _service.OnComponentChanged(_contextMenu, null, _contextMenu.Items, value);
 
