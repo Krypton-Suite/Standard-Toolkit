@@ -63,6 +63,7 @@ namespace Krypton.Toolkit
             get => base.Description;
             set => base.Description = value;
         }
+
         #endregion
     }
 }

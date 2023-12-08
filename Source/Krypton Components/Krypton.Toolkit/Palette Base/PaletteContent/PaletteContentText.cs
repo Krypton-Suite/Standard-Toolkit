@@ -273,7 +273,7 @@ namespace Krypton.Toolkit
             }
         }
         #endregion
-        
+
         #region TextH
         /// <summary>
         /// Gets the horizontal relative alignment of the text.

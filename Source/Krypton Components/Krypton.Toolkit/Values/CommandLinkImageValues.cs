@@ -15,6 +15,10 @@ namespace Krypton.Toolkit
 
         private static readonly Image DEFAULT_IMAGE = MessageBoxImageResources.GenericQuestion;
 
+        private static readonly Image DEFAULT_WINDOWS_11_IMAGE = CommandLinkImageResources.Windows_11_CommandLink_Arrow;
+
+        private static readonly Image DEFAULT_WINDOWS_10_IMAGE = CommandLinkImageResources.Windows_10_CommandLink_Arrow;
+
         #endregion
 
         #region Instance Fields
@@ -31,6 +35,7 @@ namespace Krypton.Toolkit
 
         #region Public
 
+        [DefaultValue(false)]
         public bool DisplayUACShield
         {
             get => _displayUACShield;
@@ -101,6 +106,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("The image.")]
         [RefreshProperties(RefreshProperties.All)]
+        //[DefaultValue()]
         public Image? Image
         {
             get => _image;
@@ -115,9 +121,29 @@ namespace Krypton.Toolkit
 
         }
 
-        private bool ShouldSerializeImage() => Image != DEFAULT_IMAGE;
+        private bool ShouldSerializeImage() => Image != DEFAULT_WINDOWS_11_IMAGE;
 
-        public void ResetImage() => Image = DEFAULT_IMAGE;
+        public void ResetImage()
+        {
+            //if (OSUtilities.IsWindowsEleven)
+            //{
+            //    Image = DEFAULT_WINDOWS_11_IMAGE;
+            //}
+            //else if (OSUtilities.IsWindowsTen)
+            //{
+            //    Image = DEFAULT_WINDOWS_10_IMAGE;
+            //}
+            //else if (OSUtilities.IsWindowsEightPointOne || OSUtilities.IsWindowsEight || OSUtilities.IsWindowsSeven)
+            //{
+
+            //}
+            //else
+            //{
+            //    Image = DEFAULT_IMAGE;
+            //}
+
+            Image = DEFAULT_WINDOWS_11_IMAGE;
+        }
 
         [DefaultValue(UACShieldIconSize.Small), Description(@"")]
         public UACShieldIconSize UACShieldIconSize

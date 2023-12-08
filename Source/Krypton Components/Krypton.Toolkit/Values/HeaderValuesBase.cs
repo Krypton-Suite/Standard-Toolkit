@@ -19,7 +19,9 @@ namespace Krypton.Toolkit
                                              IContentValues
     {
         #region Static Fields
+
         private static readonly Image _defaultImage = GenericImageResources.KryptonLogoGeneric;
+
         #endregion
 
         #region Instance Fields
@@ -35,7 +37,7 @@ namespace Krypton.Toolkit
         /// </summary>
         public event EventHandler? TextChanged;
         #endregion
-        
+
         #region Identity
         /// <summary>
         /// Initialize a new instance of the HeaderValuesBase class.
@@ -45,7 +47,7 @@ namespace Krypton.Toolkit
         {
             // Store the provided paint notification delegate
             NeedPaint = needPaint;
-            
+
             // Set initial values to the default
             _image = GetImageDefault();
             _transparent = Color.Empty;
@@ -67,6 +69,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Default Values
+
         /// <summary>
         /// Gets the default image value.
         /// </summary>
@@ -162,7 +165,7 @@ namespace Krypton.Toolkit
         public virtual Color GetImageTransparentColor(PaletteState state) => ImageTransparentColor;
 
         #endregion
-        
+
         #region Heading
         /// <summary>
         /// Gets and sets the heading text.

@@ -48,6 +48,7 @@ global using System.Xml;
 global using Krypton.Toolkit.ResourceFiles.Arrows;
 global using Krypton.Toolkit.ResourceFiles.ButtonSpecs;
 global using Krypton.Toolkit.ResourceFiles.CheckBoxes;
+global using Krypton.Toolkit.ResourceFiles.CommandLink;
 global using Krypton.Toolkit.ResourceFiles.ControlBox;
 global using Krypton.Toolkit.ResourceFiles.Dialogs;
 global using Krypton.Toolkit.ResourceFiles.DropDown;
