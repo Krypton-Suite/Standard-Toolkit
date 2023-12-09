@@ -35,8 +35,6 @@ namespace Krypton.Toolkit
         private static PaletteProfessionalOffice2003? _paletteProfessionalOffice2003;
         private static PaletteProfessionalSystem? _paletteProfessionalSystem;
 
-        private static PaletteBase? _customPalette;
-
         #region Office 2007 Themes
 
         private static PaletteOffice2007DarkGray? _paletteOffice2007DarkGray;
@@ -130,7 +128,6 @@ namespace Krypton.Toolkit
         private static RenderVisualStudio2010WithMicrosoft365? _renderVisualStudio2010WithMicrosoft365;
         private static RenderVisualStudio? _renderVisualStudio;
 
-        private static KryptonCustomPaletteManager? _customPaletteManager;
         #endregion
 
         #region Static Events
@@ -223,7 +220,6 @@ namespace Krypton.Toolkit
             ResetGlobalAllowFormChrome();
             ResetToolkitStrings();
 
-            _customPalette = null;
         }
 
         /// <summary>
@@ -384,28 +380,6 @@ namespace Krypton.Toolkit
         private bool ShouldSerializeGlobalAllowFormChrome() => !GlobalAllowFormChrome;
 
         private void ResetGlobalAllowFormChrome() => GlobalAllowFormChrome = true;
-
-        /// <summary>Specify a custom palette outside the existing palettes.</summary>
-        /// <value>A custom palette.</value>
-        [Category(@"Visuals")]
-        [Description(@"Specify a custom palette outside the existing palettes.")]
-        [DefaultValue(null)]
-        public KryptonCustomPaletteManager? CustomPaletteManager
-        {
-            get => _customPaletteManager;
-            set => _customPaletteManager = value;
-        }
-
-        /// <summary>Specify a custom palette outside the existing palettes.</summary>
-        /// <value>A custom palette.</value>
-        [Category(@"Visuals")]
-        [Description(@"Specify a custom palette outside the existing palettes.")]
-        [DefaultValue(null)]
-        public PaletteBase? CustomPalette
-        {
-            get => _customPalette;
-            set => _customPalette = value;
-        }
 
         /// <summary>Gets the toolkit strings that can be localised.</summary>
         [Category(@"Data")]
