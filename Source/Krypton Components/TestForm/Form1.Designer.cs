@@ -452,7 +452,6 @@
             this.kryptonCustomPaletteBase1.BasePaletteMode = Krypton.Toolkit.PaletteMode.Microsoft365Black;
             this.kryptonCustomPaletteBase1.BasePaletteType = Krypton.Toolkit.BasePaletteType.Microsoft365;
             this.kryptonCustomPaletteBase1.ThemeName = "";
-            this.kryptonCustomPaletteBase1.UseKryptonFileDialogs = true;
             // 
             // kcmdMessageboxTest
             // 

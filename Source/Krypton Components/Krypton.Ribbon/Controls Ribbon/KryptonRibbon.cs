@@ -974,7 +974,7 @@ namespace Krypton.Ribbon
         /// Internal design time method.
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public bool InDesignMode => DesignMode;
+        public new bool InDesignMode => DesignMode;
 
         /// <summary>
         /// Internal design time method.

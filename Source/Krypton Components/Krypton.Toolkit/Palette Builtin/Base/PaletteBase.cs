@@ -90,8 +90,6 @@ namespace Krypton.Toolkit
 
             ThemeName = string.Empty;
 
-            UseKryptonFileDialogs = true;
-
             BaseFont = _defaultFontStyle;
         }
         #endregion
@@ -1691,11 +1689,6 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Public
-
-        /// <summary>Gets or sets a value indicating whether [use krypton file dialogs].</summary>
-        /// <value><c>true</c> if [use krypton file dialogs]; otherwise, <c>false</c>.</value>
-        [DefaultValue(false), Description(@"Use Krypton style file dialogs for exporting/importing palettes.")]
-        public bool UseKryptonFileDialogs { get; set; }
 
         /// <summary>Gets or sets the base palette font.</summary>
         /// <value>The base palette font.</value>

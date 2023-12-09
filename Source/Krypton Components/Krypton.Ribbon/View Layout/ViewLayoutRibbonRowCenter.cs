@@ -187,18 +187,18 @@ namespace Krypton.Ribbon
                     switch (CurrentSize)
                     {
                         case GroupItemSize.Small:
-                            childPreferred = _viewToSmall.ContainsKey(child)
-                                ? _viewToSmall[child]
+                            childPreferred = _viewToSmall.TryGetValue(child, out Size value)
+                                ? value
                                 : child.GetPreferredSize(context);
                             break;
                         case GroupItemSize.Medium:
-                            childPreferred = _viewToMedium.ContainsKey(child)
-                                ? _viewToMedium[child]
+                            childPreferred = _viewToMedium.TryGetValue(child, out Size value1)
+                                ? value1
                                 : child.GetPreferredSize(context);
                             break;
                         case GroupItemSize.Large:
-                            childPreferred = _viewToLarge.ContainsKey(child)
-                                ? _viewToLarge[child]
+                            childPreferred = _viewToLarge.TryGetValue(child, out Size value2)
+                                ? value2
                                 : child.GetPreferredSize(context);
                             break;
                     }

@@ -546,11 +546,10 @@ namespace Krypton.Ribbon
                     if (previousChild != null)
                     {
                         if (_viewToItem.ContainsKey(child) &&
-                            _viewToItem.ContainsKey(previousChild))
+                            _viewToItem.TryGetValue(previousChild, out IRibbonGroupItem? previousItem))
                         {
                             // Cast to correct type
                             IRibbonGroupItem childItem = _viewToItem[child];
-                            IRibbonGroupItem previousItem = _viewToItem[previousChild];
 
                             // Find the requested gap between them
                             _viewToGap.Add(child, childItem.ItemGap(previousItem));
@@ -1001,9 +1000,9 @@ namespace Krypton.Ribbon
                     }
 
                     // If not the first item on the line, then get the pixel gap between them
-                    if ((previousChild != null) && _viewToGap.ContainsKey(child))
+                    if ((previousChild != null) && _viewToGap.TryGetValue(child, out var value))
                     {
-                        x += _viewToGap[child];
+                        x += value;
                     }
 
                     // Get the size of the child item
@@ -1088,9 +1087,9 @@ namespace Krypton.Ribbon
                     }
 
                     // If not the first item on the line, then get the pixel gap between them
-                    if ((previousChild != null) && _viewToGap.ContainsKey(child))
+                    if ((previousChild != null) && _viewToGap.TryGetValue(child, out var value))
                     {
-                        x += _viewToGap[child];
+                        x += value;
                     }
 
                     // Get the size of the child item

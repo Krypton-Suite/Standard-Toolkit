@@ -1069,19 +1069,19 @@ namespace Krypton.Navigator
                 // specifically requested to be placed on the overflow bar area.
                 foreach (var page in Navigator.Pages)
                 {
-                    if (_pageStackLookup.ContainsKey(page))
+                    if (_pageStackLookup.TryGetValue(page, out ViewDrawNavCheckButtonBase? value))
                     {
                         var showPageStack = page.LastVisibleSet && !page.AreFlagsSet(KryptonPageFlags.PageInOverflowBarForOutlookMode);
-                        _pageStackLookup[page].Visible = showPageStack;
+                        value.Visible = showPageStack;
                         if (_buttonEdgeLookup != null)
                         {
                             _buttonEdgeLookup[page].Visible = showPageStack;
                         }
 
-                        if (_pageOverflowLookup.ContainsKey(page))
+                        if (_pageOverflowLookup.TryGetValue(page, out ViewDrawNavCheckButtonBase? value1))
                         {
                             var showPageOverflow = page.LastVisibleSet && !showPageStack;
-                            _pageOverflowLookup[page].Visible = showPageOverflow;
+                            value1.Visible = showPageOverflow;
                         }
                     }
                 }
