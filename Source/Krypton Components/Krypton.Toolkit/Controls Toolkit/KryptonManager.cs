@@ -26,6 +26,7 @@ namespace Krypton.Toolkit
         // Initialize the global state
         private static bool _globalApplyToolstrips = true;
         private static bool _globalAllowFormChrome = true;
+        internal static bool _globalUseKryptonFileDialogs = true;
 
         // Initialize the default modes
 
@@ -207,7 +208,9 @@ namespace Krypton.Toolkit
                                    ShouldSerializeGlobalPalette() ||
                                    ShouldSerializeGlobalApplyToolstrips() ||
                                    ShouldSerializeGlobalAllowFormChrome() ||
-                                   ShouldSerializeToolkitStrings());
+                                   ShouldSerializeToolkitStrings() ||
+                                   ShouldSerializeUseKryptonFileDialogs()
+                                   );
 
         /// <summary>
         /// Reset All values
@@ -219,7 +222,7 @@ namespace Krypton.Toolkit
             ResetGlobalApplyToolstrips();
             ResetGlobalAllowFormChrome();
             ResetToolkitStrings();
-
+            ResetUseKryptonFileDialogs();
         }
 
         /// <summary>
@@ -280,9 +283,7 @@ namespace Krypton.Toolkit
                 }
             }
         }
-
         private bool ShouldSerializeGlobalPaletteMode() => GlobalPaletteMode != PaletteMode.Microsoft365Blue;
-
         private void ResetGlobalPaletteMode() => GlobalPaletteMode = PaletteMode.Microsoft365Blue;
 
         /// <summary>
@@ -344,9 +345,7 @@ namespace Krypton.Toolkit
                 }
             }
         }
-
         private bool ShouldSerializeGlobalPalette() => GlobalPalette != CurrentGlobalPalette;
-
         private void ResetGlobalPalette() => GlobalPalette = CurrentGlobalPalette;
 
         /// <summary>
@@ -360,10 +359,22 @@ namespace Krypton.Toolkit
             get => ApplyToolstrips;
             set => ApplyToolstrips = value;
         }
-
         private bool ShouldSerializeGlobalApplyToolstrips() => !GlobalApplyToolstrips;
-
         private void ResetGlobalApplyToolstrips() => GlobalApplyToolstrips = true;
+
+        /// <summary>Gets or sets a value indicating whether [use krypton file dialogs for internal openings like CustomPalette Import].</summary>
+        /// <value><c>true</c> if [use krypton file dialogs]; otherwise, <c>false</c>.</value>
+        [Category(@"Visuals")]
+        [Description(@"Should use krypton file dialogs for internal openings like CustomPalette Import")]
+        [DefaultValue(true)]
+        public bool UseKryptonFileDialogs
+        {
+            get => _globalUseKryptonFileDialogs;
+            set => _globalUseKryptonFileDialogs = value; 
+        }
+        private bool ShouldSerializeUseKryptonFileDialogs() => !UseKryptonFileDialogs;
+        private void ResetUseKryptonFileDialogs() => UseKryptonFileDialogs = true;
+
 
         /// <summary>
         /// Gets or sets a value indicating if KryptonForm instances are allowed to show custom chrome.

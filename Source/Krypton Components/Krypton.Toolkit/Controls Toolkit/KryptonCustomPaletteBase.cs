@@ -2055,7 +2055,7 @@ namespace Krypton.Toolkit
         public string Import(bool silent = false)
         {
             string paletteFileName = string.Empty;
-            if (UseKryptonFileDialogs)
+            if (KryptonManager._globalUseKryptonFileDialogs)
             {
                 using var kofd = new KryptonOpenFileDialog
                 {
@@ -2406,7 +2406,7 @@ namespace Krypton.Toolkit
         /// <returns>Fullpath of exported filename; otherwise empty string.</returns>
         public string? Export()
         {
-            if (UseKryptonFileDialogs)
+            if (KryptonManager._globalUseKryptonFileDialogs)
             {
                 using var ksfd = new KryptonSaveFileDialog
                 {
@@ -2918,11 +2918,6 @@ namespace Krypton.Toolkit
         private bool ShouldSerializeBaseRenderer() => BaseRenderer != null;
         private void ResetBaseRenderer() => BaseRenderer = null;
 
-        //protected override void DefineFonts()
-        //{
-        //    // This class has no font fields
-        //}
-
         /// <summary>
         /// Gets access to the color table instance.
         /// </summary>
@@ -2931,16 +2926,11 @@ namespace Krypton.Toolkit
 
         /// <inheritdoc />
         [Browsable(false)]
-        public new bool UseKryptonFileDialogs
-        { get => _basePalette!.UseKryptonFileDialogs; set => _basePalette!.UseKryptonFileDialogs = value; }
-
-        /// <inheritdoc />
-        [Browsable(false)]
         [DisallowNull]
         public new Font BaseFont
         { get => _basePalette!.BaseFont; set => _basePalette!.BaseFont = value; }
-        private void ResetBaseFont() => _basePalette!.ResetBaseFont();
-        private bool ShouldSerializeBaseFont() => _basePalette!.ShouldSerializeBaseFont();
+        private new void ResetBaseFont() => _basePalette!.ResetBaseFont();
+        private new bool ShouldSerializeBaseFont() => _basePalette!.ShouldSerializeBaseFont();
 
         /// <inheritdoc />
         [Browsable(false)]
@@ -3510,7 +3500,7 @@ namespace Krypton.Toolkit
                             var name = imageElement.GetAttribute(@"Name");
 
                             // Grab the CDATA section that contains the base64 value
-                            var cdata = imageElement.ChildNodes[0] as XmlCDataSection;
+                            var cdata = (XmlCDataSection)imageElement.ChildNodes[0];
 
                             // Convert to back from a string to bytes
                             var bytes = Convert.FromBase64String(cdata.Value);
@@ -3663,21 +3653,24 @@ namespace Krypton.Toolkit
                                         }
 
                                         // Have we already encountered the image?
-                                        if (imageCache != null && imageCache.ContainsKey(image))
+                                        if (imageCache != null)
                                         {
-                                            // Save reference to the existing cached image
-                                            childElement.SetAttribute(@"Value", imageCache[image]);
-                                        }
-                                        else
-                                        {
-                                            // Generate a placeholder string
-                                            var imageName = $@"ImageCache{(imageCache.Count + 1)}";
+                                            if (imageCache.TryGetValue(image, out var value))
+                                            {
+                                                // Save reference to the existing cached image
+                                                childElement.SetAttribute(@"Value", value);
+                                            }
+                                            else
+                                            {
+                                                // Generate a placeholder string
+                                                var imageName = $@"ImageCache{(imageCache.Count + 1)}";
 
-                                            // Add the actual image instance into the cache
-                                            imageCache.Add(image, imageName);
+                                                // Add the actual image instance into the cache
+                                                imageCache.Add(image, imageName);
 
-                                            // Save the placeholder name instead of the actual image
-                                            childElement.SetAttribute(@"Value", imageName);
+                                                // Save the placeholder name instead of the actual image
+                                                childElement.SetAttribute(@"Value", imageName);
+                                            }
                                         }
                                     }
                                 }
