@@ -420,7 +420,7 @@ namespace Krypton.Toolkit
             {
                 try
                 {
-                    if (_forms.TryGetValue(wParam, out Form f))
+                    if (_forms.TryGetValue(wParam, out var f))
                     {
                         FlashEvent(f, (int)lParam == 1);
                     }

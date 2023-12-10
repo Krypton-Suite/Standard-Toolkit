@@ -1873,6 +1873,221 @@ namespace Krypton.Toolkit
 
     #endregion
 
+    #region Enum KryptonMessageBoxIcon
+
+    /// <summary>Specifies the icon type for <see cref="T:KryptonMessageBox"/>.</summary>
+    public enum KryptonMessageBoxIcon
+    {
+        /// <summary>Specify no icon.</summary>
+        None = 0,
+
+        /// <summary>Specify a hand icon.</summary>
+        Hand = 1,
+
+        /// <summary>Specify the system hand icon.</summary>
+        SystemHand = MessageBoxIcon.Hand,
+
+        /// <summary>Specify a question icon.</summary>
+        Question = 2,
+
+        /// <summary>Specify the system question icon.</summary>
+        SystemQuestion = MessageBoxIcon.Question,
+
+        /// <summary>Specify a exclamation icon.</summary>
+        Exclamation = 3,
+
+        /// <summary>Specify the system exclamation icon.</summary>
+        SystemExclamation = MessageBoxIcon.Exclamation,
+
+        /// <summary>Specify a asterisk icon.</summary>
+        Asterisk = 4,
+
+        /// <summary>Specify the system asterisk icon.</summary>
+        SystemAsterisk = MessageBoxIcon.Asterisk,
+
+        /// <summary>Specify a stop icon.</summary>
+        Stop = 5,
+
+        /// <summary>Specify the system stop icon.</summary>
+        SystemStop = MessageBoxIcon.Stop,
+
+        /// <summary>Specify a error icon.</summary>
+        Error = 6,
+
+        /// <summary>Specify the system error icon.</summary>
+        SystemError = MessageBoxIcon.Error,
+
+        /// <summary>Specify a warning icon.</summary>
+        Warning = 7,
+
+        /// <summary>Specify the system warning icon.</summary>
+        SystemWarning = MessageBoxIcon.Warning,
+
+        /// <summary>Specify a information icon.</summary>
+        Information = 8,
+
+        /// <summary>Specify the system information icon.</summary>
+        SystemInformation = MessageBoxIcon.Information,
+
+        /// <summary>Specify a UAC shield icon.</summary>
+        Shield = 9,
+
+        /// <summary>Specify a Windows logo icon.</summary>
+        WindowsLogo = 10,
+
+        /// <summary>Specify your application icon.</summary>
+        Application = 11,
+
+        /// <summary>Specify the default system application icon. See <see cref="SystemIcons.Application"/>.</summary>
+        SystemApplication = 12
+    }
+
+    #endregion
+
+    #region Enum KryptonMessageBoxButtons
+
+    // <summary>Specifies constants defining which buttons to display on a <see cref="T:KryptonMessageBox" />.</summary>
+    public enum KryptonMessageBoxButtons
+    {
+        /// <summary>
+        ///  Specifies that the message box contains an OK button.
+        /// </summary>
+        OK = MessageBoxButtons.OK,
+
+        /// <summary>
+        ///  Specifies that the message box contains OK and Cancel buttons.
+        /// </summary>
+        OKCancel = MessageBoxButtons.OKCancel,
+
+        /// <summary>
+        ///  Specifies that the message box contains Abort, Retry, and Ignore buttons.
+        /// </summary>
+        AbortRetryIgnore = MessageBoxButtons.AbortRetryIgnore,
+
+        /// <summary>
+        ///  Specifies that the message box contains Yes, No, and Cancel buttons.
+        /// </summary>
+        YesNoCancel = MessageBoxButtons.YesNoCancel,
+
+        /// <summary>
+        ///  Specifies that the message box contains Yes and No buttons.
+        /// </summary>
+        YesNo = MessageBoxButtons.YesNo,
+
+        /// <summary>
+        ///  Specifies that the message box contains Retry and Cancel buttons.
+        /// </summary>
+        RetryCancel = MessageBoxButtons.RetryCancel,
+
+        /// <summary>
+        ///  Specifies that the message box contains Cancel, Try Again, and Continue buttons.
+        /// </summary>
+#if NET60_OR_GREATER
+            CancelTryContinue = MessageBoxButtons.CancelTryContinue
+#else
+        CancelTryContinue = 0x00000006
+#endif
+    }
+
+    #endregion
+
+    #region Enum KryptonMessageBoxDefaultButton
+
+    /// <summary>Specifies constants defining the default button on a <seealso cref="T:KryptonMessageBox"/>.</summary>
+    public enum KryptonMessageBoxDefaultButton
+    {
+        /// <summary>The first button on the message box is the default button.</summary>
+        Button1 = 0,
+
+        /// <summary>The second button on the message box is the default button.</summary>
+        Button2 = 256,
+
+        /// <summary>The third button on the message box is the default button.</summary>
+        Button3 = 512,
+
+        /// <summary>Specifies that the Help button on the message box should be the default button.</summary>
+        Button4 = 768,
+
+        /// <summary>The accelerator button.</summary>
+        Button5 = 1024
+    }
+
+    #endregion
+
+    #region Enum KryptonToastNotificationIcon
+
+    public enum KryptonToastNotificationIcon
+    {
+        /// <summary>Specify no icon.</summary>
+        None = 0,
+
+        /// <summary>Specify a hand icon.</summary>
+        Hand = 1,
+
+        /// <summary>Specify the system hand icon.</summary>
+        SystemHand = MessageBoxIcon.Hand,
+
+        /// <summary>Specify a question icon.</summary>
+        Question = 2,
+
+        /// <summary>Specify the system question icon.</summary>
+        SystemQuestion = MessageBoxIcon.Question,
+
+        /// <summary>Specify a exclamation icon.</summary>
+        Exclamation = 3,
+
+        /// <summary>Specify the system exclamation icon.</summary>
+        SystemExclamation = MessageBoxIcon.Exclamation,
+
+        /// <summary>Specify a asterisk icon.</summary>
+        Asterisk = 4,
+
+        /// <summary>Specify the system asterisk icon.</summary>
+        SystemAsterisk = MessageBoxIcon.Asterisk,
+
+        /// <summary>Specify a stop icon.</summary>
+        Stop = 5,
+
+        /// <summary>Specify the system stop icon.</summary>
+        SystemStop = MessageBoxIcon.Stop,
+
+        /// <summary>Specify a error icon.</summary>
+        Error = 6,
+
+        /// <summary>Specify the system error icon.</summary>
+        SystemError = MessageBoxIcon.Error,
+
+        /// <summary>Specify a warning icon.</summary>
+        Warning = 7,
+
+        /// <summary>Specify the system warning icon.</summary>
+        SystemWarning = MessageBoxIcon.Warning,
+
+        /// <summary>Specify a information icon.</summary>
+        Information = 8,
+
+        /// <summary>Specify the system information icon.</summary>
+        SystemInformation = MessageBoxIcon.Information,
+
+        /// <summary>Specify a UAC shield icon.</summary>
+        Shield = 9,
+
+        /// <summary>Specify a Windows logo icon.</summary>
+        WindowsLogo = 10,
+
+        /// <summary>Specify your application icon.</summary>
+        Application = 11,
+
+        /// <summary>Specify the default system application icon. See <see cref="SystemIcons.Application"/>.</summary>
+        SystemApplication = 12,
+
+        Ok = 13,
+
+        Custom = 14,
+    }
+
+    #endregion
+
     #region Enum ToolkitType
 
     public enum ToolkitType

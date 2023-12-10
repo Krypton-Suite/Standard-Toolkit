@@ -120,7 +120,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets the parent control.
         /// </summary>
-        public Control ParentControl { get; set; }
+        public Control? ParentControl { get; set; }
 
         #endregion
 

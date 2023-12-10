@@ -181,7 +181,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        internal ToolTipManager ToolTipManager { get; }
+        internal ToolTipManager? ToolTipManager { get; }
 
         internal void OnShowToolTip(object sender, ToolTipEventArgs e)
         {
