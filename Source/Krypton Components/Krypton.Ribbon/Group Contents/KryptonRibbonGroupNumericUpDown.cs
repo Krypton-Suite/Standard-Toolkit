@@ -574,7 +574,7 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        public IKryptonDesignObject NumericUpDownDesigner { get; set; }
+        public IKryptonDesignObject? NumericUpDownDesigner { get; set; }
 
         /// <summary>
         /// Internal design time properties.
@@ -582,7 +582,7 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        public ViewBase NumericUpDownView { get; set; }
+        public ViewBase? NumericUpDownView { get; set; }
 
         #endregion
 
@@ -637,7 +637,7 @@ namespace Krypton.Ribbon
         #endregion
 
         #region Internal
-        internal Control LastParentControl { get; set; }
+        internal Control? LastParentControl { get; set; }
 
         internal KryptonNumericUpDown? LastNumericUpDown { get; set; }
 
