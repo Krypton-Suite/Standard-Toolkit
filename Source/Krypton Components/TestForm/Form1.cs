@@ -324,5 +324,22 @@ namespace TestForm
         {
             kryptonButton1.Values.DropDownArrowColor = e.Color;
         }
+
+        private void kryptonButton10_Click(object sender, EventArgs e)
+        {
+            KryptonToastData toastData = new KryptonToastData();
+
+            toastData.CountDownSeconds = 60;
+
+            toastData.NotificationContentText = @"Hello world";
+
+            toastData.Title = @"Test";
+
+            toastData.ToastNotificationInputAreaType = KryptonToastNotificationInputAreaType.None;
+
+            //toastData.
+
+            KryptonToast.Show(toastData);
+        }
     }
 }

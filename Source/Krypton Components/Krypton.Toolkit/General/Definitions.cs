@@ -2088,6 +2088,64 @@ namespace Krypton.Toolkit
 
     #endregion
 
+    #region Enum KryptonToastNotificationContentAreaType
+
+    public enum KryptonToastNotificationContentAreaType
+    {
+        RichTextBox = 0,
+        MultiLineTextBox = 1,
+        WrapLinkLabel = 2,
+        WrapLabel = 3
+    }
+
+    #endregion
+
+    #region Enum KryptonToastNotificationInputAreaType
+
+    public enum KryptonToastNotificationInputAreaType
+    {
+        None = 0,
+        DomainDropDown = 1,
+        NumericDropDown = 2,
+        MaskedTextBox = 3,
+        TextBox = 4
+    }
+
+    #endregion
+
+    #region Enum KryptonToastNotificationActionButton
+
+    public enum KryptonToastNotificationActionButton
+    {
+        Button1 = 0,
+        Button2 = 1,
+        //Button3 = 2
+    }
+
+    #endregion
+
+    #region Enum KryptonToastNotificationActionType
+
+    public enum KryptonToastNotificationActionType
+    {
+        Default = 0,
+        Dismiss = 1,
+        LaunchProcess = 2,
+        Open = 3
+    }
+
+    #endregion
+
+    #region Enum KryptonToastNotificationDismissButtonLocation
+
+    public enum KryptonToastNotificationDismissButtonLocation
+    {
+        Left = 0,
+        Right = 1,
+    }
+
+    #endregion
+
     #region Enum ToolkitType
 
     public enum ToolkitType

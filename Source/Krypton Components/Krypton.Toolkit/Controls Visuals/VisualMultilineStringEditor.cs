@@ -179,7 +179,7 @@ namespace Krypton.Toolkit
         /// </returns>
         private bool OnGetMinMaxInfo(ref Message m)
         {
-            PI.MINMAXINFO minMax = (PI.MINMAXINFO)Marshal.PtrToStructure(m.LParam, typeof(PI.MINMAXINFO));
+            var minMax = (PI.MINMAXINFO)Marshal.PtrToStructure(m.LParam, typeof(PI.MINMAXINFO));
             if (!MaximumSize.IsEmpty)
             {
                 minMax.ptMaxTrackSize.X = MaximumSize.Width;

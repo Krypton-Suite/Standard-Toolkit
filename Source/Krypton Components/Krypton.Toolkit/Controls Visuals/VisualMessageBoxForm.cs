@@ -18,11 +18,6 @@ namespace Krypton.Toolkit
 {
     internal partial class VisualMessageBoxForm : KryptonForm
     {
-        #region Static Fields
-        private const int GAP = 10;
-        private static readonly int OS_MAJOR_VERSION;
-        #endregion
-
         #region Instance Fields
 
         private readonly bool _showHelpButton;
@@ -57,7 +52,6 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Identity
-        static VisualMessageBoxForm() => OS_MAJOR_VERSION = Environment.OSVersion.Version.Major;
 
         public VisualMessageBoxForm()
         {
@@ -242,7 +236,7 @@ namespace Krypton.Toolkit
                 {
                     case KryptonMessageBoxIcon.None:
                         // Windows XP and before will Beep, Vista and above do not!
-                        if (OS_MAJOR_VERSION < 6)
+                        if (GlobalStaticValues.OS_MAJOR_VERSION < 6)
                         {
                             SystemSounds.Beep.Play();
                         }
@@ -314,7 +308,7 @@ namespace Krypton.Toolkit
                 {
                     case KryptonMessageBoxIcon.None:
                         // Windows XP and before will Beep, Vista and above do not!
-                        if (OS_MAJOR_VERSION < 6)
+                        if (GlobalStaticValues.OS_MAJOR_VERSION < 6)
                         {
                             SystemSounds.Beep.Play();
                         }
@@ -440,7 +434,7 @@ namespace Krypton.Toolkit
                 {
                     case KryptonMessageBoxIcon.None:
                         // Windows XP and before will Beep, Vista and above do not!
-                        if (OS_MAJOR_VERSION < 6)
+                        if (GlobalStaticValues.OS_MAJOR_VERSION < 6)
                         {
                             SystemSounds.Beep.Play();
                         }
@@ -512,7 +506,7 @@ namespace Krypton.Toolkit
                 {
                     case KryptonMessageBoxIcon.None:
                         // Windows XP and before will Beep, Vista and above do not!
-                        if (OS_MAJOR_VERSION < 6)
+                        if (GlobalStaticValues.OS_MAJOR_VERSION < 6)
                         {
                             SystemSounds.Beep.Play();
                         }
@@ -967,11 +961,11 @@ namespace Krypton.Toolkit
             {
                 if (owner != null)
                 {
-                    Control control = FromHandle(owner.Handle);
+                    Control? control = FromHandle(owner.Handle);
 
-                    MethodInfo? mInfoMethod = control.GetType().GetMethod(nameof(OnHelpRequested), BindingFlags.Instance | BindingFlags.NonPublic,
+                    var mInfoMethod = control!.GetType().GetMethod(nameof(OnHelpRequested), BindingFlags.Instance | BindingFlags.NonPublic,
                         Type.DefaultBinder, new[] { typeof(HelpEventArgs) }, null)!;
-                    mInfoMethod.Invoke(control, new object[] { new HelpEventArgs(MousePosition) });
+                    mInfoMethod.Invoke(control!, new object[] { new HelpEventArgs(MousePosition) });
                     if (_helpInfo != null)
                     {
                         if (string.IsNullOrWhiteSpace(_helpInfo.HelpFilePath))
@@ -1008,9 +1002,9 @@ namespace Krypton.Toolkit
             {
                 if (_showOwner != null)
                 {
-                    Control control = FromHandle(_showOwner.Handle);
+                    Control? control = FromHandle(_showOwner.Handle);
 
-                    MethodInfo? mInfoMethod = control.GetType().GetMethod(nameof(OnHelpRequested), BindingFlags.Instance | BindingFlags.NonPublic,
+                    var mInfoMethod = control.GetType().GetMethod(nameof(OnHelpRequested), BindingFlags.Instance | BindingFlags.NonPublic,
                         Type.DefaultBinder, new[] { typeof(HelpEventArgs) }, null)!;
                     mInfoMethod.Invoke(control, new object[] { new HelpEventArgs(MousePosition) });
                     if (_helpInfo != null)
@@ -1088,14 +1082,14 @@ namespace Krypton.Toolkit
 
             // Button1 is always visible
             Size button1Size = _button1.GetPreferredSize(Size.Empty);
-            var maxButtonSize = button1Size with { Width = button1Size.Width + GAP };
+            var maxButtonSize = button1Size with { Width = button1Size.Width + GlobalStaticValues.GLOBAL_BUTTON_PADDING };
 
             // If Button2 is visible
             if (_button2.Enabled)
             {
                 numButtons++;
                 Size button2Size = _button2.GetPreferredSize(Size.Empty);
-                maxButtonSize.Width = Math.Max(maxButtonSize.Width, button2Size.Width + GAP);
+                maxButtonSize.Width = Math.Max(maxButtonSize.Width, button2Size.Width + GlobalStaticValues.GLOBAL_BUTTON_PADDING);
                 maxButtonSize.Height = Math.Max(maxButtonSize.Height, button2Size.Height);
             }
 
@@ -1104,7 +1098,7 @@ namespace Krypton.Toolkit
             {
                 numButtons++;
                 Size button3Size = _button3.GetPreferredSize(Size.Empty);
-                maxButtonSize.Width = Math.Max(maxButtonSize.Width, button3Size.Width + GAP);
+                maxButtonSize.Width = Math.Max(maxButtonSize.Width, button3Size.Width + GlobalStaticValues.GLOBAL_BUTTON_PADDING);
                 maxButtonSize.Height = Math.Max(maxButtonSize.Height, button3Size.Height);
             }
             // If Button4 is visible
@@ -1112,7 +1106,7 @@ namespace Krypton.Toolkit
             {
                 numButtons++;
                 Size button4Size = _button4.GetPreferredSize(Size.Empty);
-                maxButtonSize.Width = Math.Max(maxButtonSize.Width, button4Size.Width + GAP);
+                maxButtonSize.Width = Math.Max(maxButtonSize.Width, button4Size.Width + GlobalStaticValues.GLOBAL_BUTTON_PADDING);
                 maxButtonSize.Height = Math.Max(maxButtonSize.Height, button4Size.Height);
             }
 
@@ -1121,56 +1115,56 @@ namespace Krypton.Toolkit
             {
                 numButtons++;
                 Size actionButtonSize = _button5.GetPreferredSize(Size.Empty);
-                maxButtonSize.Width = Math.Max(maxButtonSize.Width, actionButtonSize.Width + GAP);
+                maxButtonSize.Width = Math.Max(maxButtonSize.Width, actionButtonSize.Width + GlobalStaticValues.GLOBAL_BUTTON_PADDING);
                 maxButtonSize.Height = Math.Max(maxButtonSize.Height, actionButtonSize.Height);
             }
 
             // Start positioning buttons 10 pixels from right edge
-            var right = _panelButtons.Right - GAP;
+            var right = _panelButtons.Right - GlobalStaticValues.GLOBAL_BUTTON_PADDING;
 
-            var left = _panelButtons.Left - GAP;
+            var left = _panelButtons.Left - GlobalStaticValues.GLOBAL_BUTTON_PADDING;
 
             // If Action button is visible
             if (_button5.Enabled)
             {
-                _button5.Location = new Point(left - maxButtonSize.Width, GAP);
+                _button5.Location = new Point(left - maxButtonSize.Width, GlobalStaticValues.GLOBAL_BUTTON_PADDING);
                 _button5.Size = maxButtonSize;
-                left -= maxButtonSize.Width + GAP;
+                left -= maxButtonSize.Width + GlobalStaticValues.GLOBAL_BUTTON_PADDING;
             }
 
             // If Button4 is visible
             if (_button4.Enabled)
             {
-                _button4.Location = new Point(right - maxButtonSize.Width, GAP);
+                _button4.Location = new Point(right - maxButtonSize.Width, GlobalStaticValues.GLOBAL_BUTTON_PADDING);
                 _button4.Size = maxButtonSize;
-                right -= maxButtonSize.Width + GAP;
+                right -= maxButtonSize.Width + GlobalStaticValues.GLOBAL_BUTTON_PADDING;
             }
 
             // If Button3 is visible
             if (_button3.Enabled)
             {
-                _button3.Location = new Point(right - maxButtonSize.Width, GAP);
+                _button3.Location = new Point(right - maxButtonSize.Width, GlobalStaticValues.GLOBAL_BUTTON_PADDING);
                 _button3.Size = maxButtonSize;
-                right -= maxButtonSize.Width + GAP;
+                right -= maxButtonSize.Width + GlobalStaticValues.GLOBAL_BUTTON_PADDING;
             }
 
             // If Button2 is visible
             if (_button2.Enabled)
             {
-                _button2.Location = new Point(right - maxButtonSize.Width, GAP);
+                _button2.Location = new Point(right - maxButtonSize.Width, GlobalStaticValues.GLOBAL_BUTTON_PADDING);
                 _button2.Size = maxButtonSize;
-                right -= maxButtonSize.Width + GAP;
+                right -= maxButtonSize.Width + GlobalStaticValues.GLOBAL_BUTTON_PADDING;
             }
 
             // Button1 is always visible
-            _button1.Location = new Point(right - maxButtonSize.Width, GAP);
+            _button1.Location = new Point(right - maxButtonSize.Width, GlobalStaticValues.GLOBAL_BUTTON_PADDING);
             _button1.Size = maxButtonSize;
 
             // Size the panel for the buttons
-            _panelButtons.Size = new Size((maxButtonSize.Width * numButtons) + (GAP * (numButtons + 1)), maxButtonSize.Height + (GAP * 2));
+            _panelButtons.Size = new Size((maxButtonSize.Width * numButtons) + (GlobalStaticValues.GLOBAL_BUTTON_PADDING * (numButtons + 1)), maxButtonSize.Height + (GlobalStaticValues.GLOBAL_BUTTON_PADDING * 2));
 
             // Button area is the number of buttons with gaps between them and 10 pixels around all edges
-            return new Size((maxButtonSize.Width * numButtons) + (GAP * (numButtons + 1)), maxButtonSize.Height + (GAP * 2));
+            return new Size((maxButtonSize.Width * numButtons) + (GlobalStaticValues.GLOBAL_BUTTON_PADDING * (numButtons + 1)), maxButtonSize.Height + (GlobalStaticValues.GLOBAL_BUTTON_PADDING * 2));
         }
 
         private void AnyKeyDown(object sender, KeyEventArgs e)
@@ -1280,6 +1274,13 @@ namespace Krypton.Toolkit
 
                     _messageText.Visible = false;
                     break;
+                case null:
+                    _linkLabelMessageText.Visible = false;
+
+                    _messageText.Visible = true;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(contentAreaType), contentAreaType, null);
             }
         }
 

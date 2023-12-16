@@ -154,7 +154,7 @@ namespace Krypton.Toolkit
                 _palette = null;
                 Renderer = null;
                 _localPalette = null;
-                Redirector.Target = null;
+                Redirector!.Target = null;
             }
 
             base.Dispose(disposing);

@@ -121,7 +121,7 @@
   <data name="kryptonColorButton1.Values.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAL
-        DwAACw8BkvkDpQAAAAd0SU1FB9gBBwMpBNNjwEAAAADzSURBVDhPnZGhCoUwFIYHgiD4AlbB5AuYfAGT
+        DQAACw0B7QfALAAAAAd0SU1FB9gBBwMpBNNjwEAAAADzSURBVDhPnZGhCoUwFIYHgiD4AlbB5AuYfAGT
         SRBMZsFkMhlMJkEQBIPVahJsstc6lzPYcG4X7m74wvl3zrcdRiilX1nXFVzXheu6QHeOaENOmqZACIG6
         rs0FeKvv+0zgeR7c962VKAGnaRqoqgriOGaSvu/NBGEYwnEcMI4jE2Ct61MCZFkWiKJIDARBwCTzPCsS
         qeAkSQJd14nmtm2ZANd59iFSgZznCbZts4E3lmXBvu+SRBpG8MvyPFduKoqCSbIs+y4YhgEcx4FpmhTB
@@ -166,5 +166,8 @@
   </metadata>
   <metadata name="kryptonTaskDialog1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>167, 54</value>
+  </metadata>
+  <metadata name="kryptonInputBoxManager1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>324, 54</value>
   </metadata>
 </root>
