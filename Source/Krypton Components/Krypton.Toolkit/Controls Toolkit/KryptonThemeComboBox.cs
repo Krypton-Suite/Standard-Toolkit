@@ -70,7 +70,7 @@ namespace Krypton.Toolkit
         [DefaultValue(null)]
         public KryptonCustomPaletteBase? KryptonCustomPalette { get; set; }
 
-        [EditorBrowsable(EditorBrowsableState.Never)]
+        //[EditorBrowsable(EditorBrowsableState.Never)]
         public KryptonManager Manager
         {
             get;
@@ -133,7 +133,7 @@ namespace Krypton.Toolkit
                 && (KryptonCustomPalette != null)
                )
             {
-                Manager.GlobalPalette = KryptonCustomPalette;
+                Manager.GlobalCustomPalette= KryptonCustomPalette;
             }
         }
 

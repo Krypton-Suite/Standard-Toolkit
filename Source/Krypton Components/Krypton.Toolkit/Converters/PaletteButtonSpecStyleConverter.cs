@@ -20,7 +20,8 @@ namespace Krypton.Toolkit
         #region Static Fields
 
         [Localizable(true)]
-        private static readonly IReadOnlyDictionary<PaletteButtonSpecStyle, string> _pairs = new Dictionary<PaletteButtonSpecStyle, string>
+        private static readonly BiDictionary<PaletteButtonSpecStyle, string> _pairs = new BiDictionary<PaletteButtonSpecStyle, string>(
+            new Dictionary<PaletteButtonSpecStyle, string>
         {
             {PaletteButtonSpecStyle.Close, DesignTimeUtilities.DEFAULT_PALETTE_BUTTON_SPEC_STYLE_CLOSE},
             {PaletteButtonSpecStyle.Context, DesignTimeUtilities.DEFAULT_PALETTE_BUTTON_SPEC_STYLE_CONTEXT},
@@ -60,7 +61,7 @@ namespace Krypton.Toolkit
             {PaletteButtonSpecStyle.PrintPreview, DesignTimeUtilities.DEFAULT_PALETTE_BUTTON_SPEC_STYLE_PRINT_PREVIEW},
             {PaletteButtonSpecStyle.Print, DesignTimeUtilities.DEFAULT_PALETTE_BUTTON_SPEC_STYLE_PRINT},
             {PaletteButtonSpecStyle.QuickPrint, DesignTimeUtilities.DEFAULT_PALETTE_BUTTON_SPEC_STYLE_QUICK_PRINT}
-        };
+        });
 
         #endregion
 
@@ -69,7 +70,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets an array of lookup pairs.
         /// </summary>
-        protected override IReadOnlyDictionary<PaletteButtonSpecStyle /*Enum*/, string /*Display*/> Pairs => _pairs;
+        protected override IReadOnlyDictionary<PaletteButtonSpecStyle /*Enum*/, string /*Display*/> PairsEnumToString => _pairs.FirstToSecond;
+        protected override IReadOnlyDictionary<string /*Display*/, PaletteButtonSpecStyle /*Enum*/ > PairsStringToEnum => _pairs.SecondToFirst;
 
         #endregion
     }

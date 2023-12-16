@@ -219,7 +219,8 @@ namespace Krypton.Ribbon
                 {
                     // Use the same palette in the text box as the ribbon, plus we need
                     // to know when the ribbon palette changes so we can reflect that change
-                    TextBox.Palette = Ribbon.GetResolvedPalette();
+                    TextBox.PaletteMode = Ribbon!.PaletteMode;
+                    TextBox.LocalCustomPalette = Ribbon!.LocalCustomPalette;
                     Ribbon.PaletteChanged += OnRibbonPaletteChanged;
                 }
             }
@@ -1045,7 +1046,12 @@ namespace Krypton.Ribbon
 
         private void OnTextBoxPreviewKeyDown(object sender, PreviewKeyDownEventArgs e) => OnPreviewKeyDown(e);
 
-        private void OnRibbonPaletteChanged(object sender, EventArgs e) => TextBox.Palette = Ribbon.GetResolvedPalette();
+        private void OnRibbonPaletteChanged(object sender, EventArgs e)
+        {
+            TextBox.PaletteMode = Ribbon!.PaletteMode;
+            TextBox.LocalCustomPalette = Ribbon!.LocalCustomPalette;
+        }
+
         #endregion
     }
 }

@@ -21,7 +21,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets an array of lookup pairs.
         /// </summary>
-        protected override IReadOnlyDictionary<PaletteMode /*Enum*/, string /*Display*/> Pairs => PaletteModeStrings.SupportedThemes.SecondToFirst;
+        protected override IReadOnlyDictionary<string /*Display*/, PaletteMode /*Enum*/ > PairsStringToEnum => PaletteModeStrings.SupportedThemes.FirstToSecond;
+        protected override IReadOnlyDictionary<PaletteMode /*Enum*/, string /*Display*/> PairsEnumToString => PaletteModeStrings.SupportedThemes.SecondToFirst;
 
         #endregion
     }

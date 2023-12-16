@@ -40,7 +40,7 @@ namespace Krypton.Toolkit
         public ButtonSpecAny? HelpButton
         {
             get => _helpButtonSpec ?? new ButtonSpecAny();
-            set { _helpButtonSpec = value; UpdateImage(KryptonManager.InternalGlobalPaletteMode); }
+            set { _helpButtonSpec = value; UpdateImage(KryptonManager.CurrentGlobalPaletteMode); }
         }
 
         /* /// <summary>

@@ -17,20 +17,21 @@ namespace Krypton.Navigator
     /// </summary>
     public class ButtonDisplayLogicConverter : StringLookupConverter<ButtonDisplayLogic>
     {
-        private static readonly IReadOnlyDictionary<ButtonDisplayLogic, string> _pairs = new Dictionary<ButtonDisplayLogic, string>
+        private static readonly BiDictionary<ButtonDisplayLogic, string> _pairs = new BiDictionary<ButtonDisplayLogic, string>(
+            new Dictionary<ButtonDisplayLogic, string>
             {
                 {ButtonDisplayLogic.None, @"None"},
                 {ButtonDisplayLogic.Context, @"Context"},
                 {ButtonDisplayLogic.NextPrevious, @"Next/Previous"},
                 {ButtonDisplayLogic.ContextNextPrevious, @"Context & Next/Previous"}
-            };
+            });
 
         #region Protected
         /// <summary>
         /// Gets an array of lookup pairs.
         /// </summary>
-        protected override IReadOnlyDictionary<ButtonDisplayLogic /*Enum*/, string /*Display*/> Pairs => _pairs;
-
+        protected override IReadOnlyDictionary<string /*Display*/, ButtonDisplayLogic /*Enum*/ > PairsStringToEnum  => _pairs.SecondToFirst;
+        protected override IReadOnlyDictionary<ButtonDisplayLogic /*Enum*/, string /*Display*/> PairsEnumToString => _pairs.FirstToSecond;
         #endregion
     }
 }

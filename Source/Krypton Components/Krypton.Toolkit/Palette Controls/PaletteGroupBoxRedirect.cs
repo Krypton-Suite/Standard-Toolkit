@@ -28,7 +28,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="redirect">inheritance redirection instance.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public PaletteGroupBoxRedirect(PaletteRedirect? redirect,
+        public PaletteGroupBoxRedirect(PaletteRedirect redirect,
                                        NeedPaintHandler needPaint)
             : this(redirect, redirect, needPaint)
         {

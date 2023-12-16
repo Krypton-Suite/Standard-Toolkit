@@ -178,7 +178,11 @@ Follow the links to see the different objects and layouts that this framework al
 
 ## V90.## (2024-11-xx - Build 2411 - November 2024)
 There are list of changes that have occurred during the development of the V90.## version
-- [#1206](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1206), Remove the Font Size (as it is already covered by the actual font !)
+- [#1206](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1206), Remove the `Font Size` (as it is already covered by the actual font !)
+- [#1224](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1224), Move `GlobalPaletteMode` into `GlobalPalette` and rename 
+  - BaseFont is now part of the KryptonManager class, and will override the applied palette font(s)
+  - `CustomPalette` must be derived from the `KryptonCustomPaletteBase` class
+  - `BasePaletteMode` has been removed from `KryptonCustomPaletteBase` class
 
 ### Support for .NET 7
 As of V90.##, support for .NET 7 has been removed due to their release cadences.

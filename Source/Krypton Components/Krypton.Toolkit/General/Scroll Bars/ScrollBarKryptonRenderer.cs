@@ -54,7 +54,7 @@ namespace Krypton.Toolkit
         /// </summary>
         public static Color[] gripColours = new Color[2];
 
-        private static PaletteBase? _palette;
+        private static PaletteBase _palette;
         private static PaletteRedirect _paletteRedirect;
         #endregion
 
@@ -952,7 +952,7 @@ namespace Krypton.Toolkit
         #region ... Krypton ...
 
 
-        //Kripton Palette Events
+        //Krypton Palette Events
         private static void OnGlobalPaletteChanged(object sender, EventArgs e)
         {
             if (_palette != null)
@@ -974,7 +974,7 @@ namespace Krypton.Toolkit
             //Invalidate();
         }
 
-        //Kripton Palette Events
+        //Krypton Palette Events
         private static void OnPalettePaint(object sender, PaletteLayoutEventArgs e)
         {
             //Invalidate();

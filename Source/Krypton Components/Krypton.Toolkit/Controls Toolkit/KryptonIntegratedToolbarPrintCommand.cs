@@ -48,7 +48,7 @@ namespace Krypton.Toolkit
         public ButtonSpecAny? ToolBarPrintButton
         {
             get => _printButtonSpec ?? new ButtonSpecAny();
-            set { _printButtonSpec = value; UpdateImage(KryptonManager.InternalGlobalPaletteMode); UpdateButtonSpec(); }
+            set { _printButtonSpec = value; UpdateImage(KryptonManager.CurrentGlobalPaletteMode); UpdateButtonSpec(); }
         }
 
         /// <summary>Gets the active image.</summary>

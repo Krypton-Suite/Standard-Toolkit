@@ -59,7 +59,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets the palette redirector.
         /// </summary>
-        public PaletteRedirect? Redirector
+        public PaletteRedirect Redirector
         {
             [DebuggerStepThrough]
             get;
@@ -81,7 +81,7 @@ namespace Krypton.Navigator
         /// <param name="redirector">Palette redirector.</param>
         public virtual void Construct([DisallowNull] KryptonNavigator navigator,
                                       [DisallowNull] ViewManager manager,
-                                       PaletteRedirect? redirector)
+                                       PaletteRedirect redirector)
         {
             Debug.Assert(navigator != null, $"{nameof(navigator)} != null");
             Debug.Assert(manager != null);

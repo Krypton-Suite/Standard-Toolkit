@@ -26,7 +26,7 @@ namespace Krypton.Navigator
 
             #region Instance Fields
             private readonly IPaletteDragDrop _paletteDragDrop;
-            private readonly IRenderer? _renderer;
+            private readonly IRenderer _renderer;
             private HintToTarget? _hintToTarget;
             private IDropDockingIndicator? _indicators;
             #endregion
@@ -39,7 +39,7 @@ namespace Krypton.Navigator
             /// <param name="renderer">Drawing renderer.</param>
             /// <param name="target">Initial target for the cluster.</param>
             public DockCluster(IPaletteDragDrop paletteDragDrop,
-                               IRenderer? renderer,
+                               IRenderer renderer,
                                DragTarget target)
             {
                 _paletteDragDrop = paletteDragDrop;

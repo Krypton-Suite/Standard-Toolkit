@@ -28,7 +28,7 @@ namespace Krypton.Toolkit
         private readonly PaletteBorderInheritForced _borderForced;
         private VisualPopupToolTip? _visualPopupToolTip;
         private readonly ViewDrawToday _drawToday;
-        private readonly ButtonSpecRemapByContentView? _remapPalette;
+        private readonly ButtonSpecRemapByContentView _remapPalette;
         private readonly ViewDrawEmptyContent _emptyContent;
         private readonly PaletteTripleRedirect _palette;
         private readonly ToolTipManager _toolTipManager;
@@ -43,7 +43,7 @@ namespace Krypton.Toolkit
         private DateTime? _trackingDay;
         private DateTime? _anchorDay;
         private readonly NeedPaintHandler _needPaintDelegate;
-        private readonly PaletteRedirect? _redirector;
+        private readonly PaletteRedirect _redirector;
         private bool _showWeekNumbers;
         private bool _showTodayCircle;
         private bool _showToday;
@@ -64,7 +64,7 @@ namespace Krypton.Toolkit
                                 KryptonContextMenuMonthCalendar monthCalendar,
                                 ViewContextMenuManager viewManager,
                                 IKryptonMonthCalendar calendar,
-                                PaletteRedirect? redirector,
+                                PaletteRedirect redirector,
                                 NeedPaintHandler needPaintDelegate)
         {
             Provider = provider;

@@ -144,7 +144,8 @@ namespace Krypton.Ribbon
                 {
                     // Use the same palette in the track bar as the ribbon, plus we need
                     // to know when the ribbon palette changes so we can reflect that change
-                    TrackBar.Palette = Ribbon.GetResolvedPalette();
+                    TrackBar.PaletteMode = Ribbon!.PaletteMode;
+                    TrackBar.LocalCustomPalette = Ribbon!.LocalCustomPalette;
                     Ribbon.PaletteChanged += OnRibbonPaletteChanged;
                 }
             }
@@ -588,7 +589,12 @@ namespace Krypton.Ribbon
 
         private void OnTrackBarValueChanged(object sender, EventArgs e) => ValueChanged?.Invoke(this, e);
 
-        private void OnRibbonPaletteChanged(object sender, EventArgs e) => TrackBar.Palette = Ribbon.GetResolvedPalette();
+        private void OnRibbonPaletteChanged(object sender, EventArgs e)
+        {
+            TrackBar.PaletteMode = Ribbon!.PaletteMode;
+            TrackBar.LocalCustomPalette = Ribbon!.LocalCustomPalette;
+        }
+
         #endregion
     }
 }

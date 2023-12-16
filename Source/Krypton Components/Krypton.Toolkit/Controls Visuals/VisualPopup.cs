@@ -42,7 +42,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="renderer">Drawing renderer.</param>
         /// <param name="shadow">Does the popup need a shadow effect.</param>
-        public VisualPopup(IRenderer? renderer,
+        public VisualPopup(IRenderer renderer,
                            bool shadow)
             : this(new ViewManager(), renderer, shadow)
         {
@@ -55,7 +55,7 @@ namespace Krypton.Toolkit
         /// <param name="renderer">Drawing renderer.</param>
         /// <param name="shadow">Does the popup need a shadow effect.</param>
         public VisualPopup(ViewManager viewManager,
-                           IRenderer? renderer,
+                           IRenderer renderer,
                            bool shadow)
         {
             #region Default ControlStyle Values
@@ -292,7 +292,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public virtual PaletteBase? GetResolvedPalette() => null;
+        public virtual PaletteBase GetResolvedPalette() => null;
 
         /// <summary>
         /// Gets access to the current renderer.
@@ -300,7 +300,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public IRenderer? Renderer
+        public IRenderer Renderer
         {
             [DebuggerStepThrough]
             get;

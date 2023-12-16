@@ -50,7 +50,7 @@ namespace Krypton.Toolkit
         public static AccurateTextMemento MeasureString([DisallowNull] Graphics g,
                                                         RightToLeft rtl,
                                                         [DisallowNull] string text,
-                                                        [DisallowNull] Font font,
+                                                        [DisallowNull] Font? font,
                                                         PaletteTextTrim trim,
                                                         PaletteRelativeAlign align,
                                                         PaletteTextHotkeyPrefix prefix,
@@ -362,7 +362,7 @@ namespace Krypton.Toolkit
         /// <param name="copyBackground">Should existing background be copied into the bitmap.</param>
         public static void DrawCompositionGlowingText(Graphics? g,
                                                       string text,
-                                                      Font font,
+                                                      Font? font,
                                                       Rectangle bounds,
                                                       PaletteState state,
                                                       Color color,
@@ -468,7 +468,7 @@ namespace Krypton.Toolkit
         /// <param name="sf">StringFormat of the memento.</param>
         public static void DrawCompositionText(Graphics? g,
                                                       string text,
-                                                      Font font,
+                                                      Font? font,
                                                       Rectangle bounds,
                                                       PaletteState state,
                                                       Color color,

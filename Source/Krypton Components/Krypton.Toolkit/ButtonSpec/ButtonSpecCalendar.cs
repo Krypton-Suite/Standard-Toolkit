@@ -65,14 +65,14 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="palette">Palette to use for inheriting values.</param>
         /// <returns>Button visibility.</returns>
-        public override bool GetVisible(PaletteBase? palette) => Visible;
+        public override bool GetVisible(PaletteBase palette) => Visible;
 
         /// <summary>
         /// Gets the button enabled state.
         /// </summary>
         /// <param name="palette">Palette to use for inheriting values.</param>
         /// <returns>Button enabled state.</returns>
-        public override ButtonEnabled GetEnabled(PaletteBase? palette) => Enabled ? ButtonEnabled.Container : ButtonEnabled.False;
+        public override ButtonEnabled GetEnabled(PaletteBase palette) => Enabled ? ButtonEnabled.Container : ButtonEnabled.False;
 
         /// <summary>
         /// Gets the button checked state.

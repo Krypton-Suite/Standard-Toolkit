@@ -107,7 +107,7 @@ namespace Krypton.Toolkit
         /// Gets the renderer to use for this palette.
         /// </summary>
         /// <returns>Renderer to use for drawing palette settings.</returns>
-        public abstract IRenderer? GetRenderer();
+        public abstract IRenderer GetRenderer();
         #endregion
 
         #region Back
@@ -369,7 +369,7 @@ namespace Krypton.Toolkit
         /// <param name="style">Content style.</param>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
-        public abstract Font GetContentShortTextFont(PaletteContentStyle style, PaletteState state);
+        public abstract Font? GetContentShortTextFont(PaletteContentStyle style, PaletteState state);
 
         /// <summary>
         /// Gets the font for the short text by generating a new font instance.
@@ -377,7 +377,7 @@ namespace Krypton.Toolkit
         /// <param name="style">Content style.</param>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
-        public abstract Font GetContentShortTextNewFont(PaletteContentStyle style, PaletteState state);
+        public abstract Font? GetContentShortTextNewFont(PaletteContentStyle style, PaletteState state);
 
         /// <summary>
         /// Gets the rendering hint for the short text.
@@ -505,7 +505,7 @@ namespace Krypton.Toolkit
         /// <param name="style">Content style.</param>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
-        public abstract Font GetContentLongTextFont(PaletteContentStyle style, PaletteState state);
+        public abstract Font? GetContentLongTextFont(PaletteContentStyle style, PaletteState state);
 
         /// <summary>
         /// Gets the font for the long text by generating a new font instance.
@@ -513,7 +513,7 @@ namespace Krypton.Toolkit
         /// <param name="style">Content style.</param>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
-        public abstract Font GetContentLongTextNewFont(PaletteContentStyle style, PaletteState state);
+        public abstract Font? GetContentLongTextNewFont(PaletteContentStyle style, PaletteState state);
 
         /// <summary>
         /// Gets the rendering hint for the long text.

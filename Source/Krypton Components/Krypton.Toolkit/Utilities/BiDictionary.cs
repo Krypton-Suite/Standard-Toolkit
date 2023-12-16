@@ -14,7 +14,7 @@ namespace Krypton.Toolkit
     /// </summary>
     /// <typeparam name="TFirst"></typeparam>
     /// <typeparam name="TSecond"></typeparam>
-    internal class BiDictionary<TFirst, TSecond> where TFirst : notnull where TSecond : notnull
+    public class BiDictionary<TFirst, TSecond> where TFirst : notnull where TSecond : notnull
     {
         private static readonly IList<TFirst> _emptyFirstList = Array.Empty<TFirst>();
         private static readonly IList<TSecond> _emptySecondList = Array.Empty<TSecond>();

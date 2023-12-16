@@ -131,7 +131,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the remapping palette.
         /// </summary>
-        public PaletteRedirect? RemapPalette { get; }
+        public PaletteRedirect RemapPalette { get; }
 
         /// <summary>
         /// Gets and sets the composition setting for the button.

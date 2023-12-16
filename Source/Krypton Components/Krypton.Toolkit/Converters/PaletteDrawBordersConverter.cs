@@ -115,7 +115,7 @@ namespace Krypton.Toolkit
         /// <returns>An Object that represents the converted value.</returns>
         public override object? ConvertFrom(ITypeDescriptorContext? context,
                                            CultureInfo? culture,
-                                           object value)
+                                           object? value)
         {
             // Convert incoming value to a string
             // We are only interested in adding functionality for converting from strings
@@ -162,7 +162,7 @@ namespace Krypton.Toolkit
             }
 
             // Let base class perform default conversion
-            return base.ConvertFrom(context, culture, value);
+            return base.ConvertFrom(context!, culture!, value);
         }
         #endregion
     }

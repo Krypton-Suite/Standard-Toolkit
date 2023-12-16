@@ -30,7 +30,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="redirect">inheritance redirection instance.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public PaletteHeaderGroupRedirect(PaletteRedirect? redirect,
+        public PaletteHeaderGroupRedirect(PaletteRedirect redirect,
                                           NeedPaintHandler needPaint)
             : this(redirect, redirect, redirect, needPaint)
         {
@@ -44,8 +44,8 @@ namespace Krypton.Toolkit
         /// <param name="redirectHeaderSecondary">inheritance redirection for secondary header.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
         public PaletteHeaderGroupRedirect([DisallowNull] PaletteRedirect redirectHeaderGroup,
-                                          [DisallowNull] PaletteRedirect? redirectHeaderPrimary,
-                                          [DisallowNull] PaletteRedirect? redirectHeaderSecondary,
+                                          [DisallowNull] PaletteRedirect redirectHeaderPrimary,
+                                          [DisallowNull] PaletteRedirect redirectHeaderSecondary,
                                           NeedPaintHandler needPaint)
             : base(redirectHeaderGroup, PaletteBackStyle.ControlClient, 
                    PaletteBorderStyle.ControlClient, needPaint)

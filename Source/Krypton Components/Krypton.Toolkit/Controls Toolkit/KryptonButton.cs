@@ -780,7 +780,7 @@ namespace Krypton.Toolkit
             var focusRectangle = new Rectangle(internalBorder, internalBorder,
                 bounds.Width - _dropDownRectangle.Width - internalBorder, bounds.Height - (internalBorder * 2));
 
-            PaletteBase? palette = KryptonManager.CurrentGlobalPalette;
+            PaletteBase palette = KryptonManager.CurrentGlobalPalette;
 
             Pen shadow = SystemPens.ButtonShadow, face = SystemPens.ButtonFace;
 

@@ -39,7 +39,7 @@ namespace Krypton.Navigator
         /// <param name="renderer">Drawing renderer.</param>
         public VisualPopupPage([DisallowNull] KryptonNavigator navigator,
             [DisallowNull] KryptonPage page,
-                               IRenderer? renderer)
+                               IRenderer renderer)
             : base(renderer, true)
         {
             Debug.Assert(navigator != null);

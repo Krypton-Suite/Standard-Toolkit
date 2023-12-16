@@ -19,7 +19,7 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
         private readonly ButtonSpec _buttonSpec;
-        private readonly PaletteBase? _palette;
+        private readonly PaletteBase _palette;
         #endregion
 
         #region Identity
@@ -28,7 +28,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="palette">Palette for sourcing information.</param>
         /// <param name="buttonSpec">Source button spec instance.</param>
-        public ButtonSpecToContent([DisallowNull] PaletteBase? palette,
+        public ButtonSpecToContent([DisallowNull] PaletteBase palette,
             [DisallowNull] ButtonSpec buttonSpec)
         {
             Debug.Assert(palette != null);

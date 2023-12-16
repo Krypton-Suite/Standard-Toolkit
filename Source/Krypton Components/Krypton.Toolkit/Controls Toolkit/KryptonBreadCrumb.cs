@@ -644,7 +644,7 @@ namespace Krypton.Toolkit
         #region Internal
         internal PaletteBreadCrumbRedirect? GetStateCommon() => StateCommon;
 
-        internal PaletteRedirect? GetRedirector() => Redirector;
+        internal PaletteRedirect GetRedirector() => Redirector;
 
         #endregion
 

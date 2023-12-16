@@ -20,7 +20,8 @@ namespace Krypton.Toolkit
         #region Static Fields
 
         [Localizable(true)]
-        private static readonly IReadOnlyDictionary<PaletteButtonStyle, string> _pairs = new Dictionary<PaletteButtonStyle, string>
+        private static readonly BiDictionary<PaletteButtonStyle, string> _pairs = new BiDictionary<PaletteButtonStyle, string>(
+            new Dictionary<PaletteButtonStyle, string>
         {
             {PaletteButtonStyle.Inherit, DesignTimeUtilities.DEFAULT_PALETTE_BUTTON_STYLE_INHERIT},
             {PaletteButtonStyle.Standalone, DesignTimeUtilities.DEFAULT_PALETTE_BUTTON_STYLE_STANDALONE},
@@ -40,7 +41,7 @@ namespace Krypton.Toolkit
             {PaletteButtonStyle.Custom1, DesignTimeUtilities.DEFAULT_PALETTE_BUTTON_STYLE_CUSTOM1},
             {PaletteButtonStyle.Custom2, DesignTimeUtilities.DEFAULT_PALETTE_BUTTON_STYLE_CUSTOM2},
             {PaletteButtonStyle.Custom3, DesignTimeUtilities.DEFAULT_PALETTE_BUTTON_STYLE_CUSTOM3}
-        };
+        });
 
         #endregion
 
@@ -48,7 +49,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets an array of lookup pairs.
         /// </summary>
-        protected override IReadOnlyDictionary<PaletteButtonStyle /*Enum*/, string /*Display*/> Pairs => _pairs;
+        protected override IReadOnlyDictionary<PaletteButtonStyle /*Enum*/, string /*Display*/> PairsEnumToString => _pairs.FirstToSecond;
+        protected override IReadOnlyDictionary<string /*Display*/, PaletteButtonStyle /*Enum*/ > PairsStringToEnum => _pairs.SecondToFirst;
 
         #endregion
     }

@@ -31,7 +31,7 @@ namespace Krypton.Ribbon
         /// <param name="renderer">Drawing renderer.</param>
         public VisualPopupQATOverflow([DisallowNull] KryptonRibbon ribbon,
                                       ViewLayoutRibbonQATContents contents,
-                                      IRenderer? renderer)
+                                      IRenderer renderer)
             : base(renderer, true)
         {
             Debug.Assert(ribbon != null);

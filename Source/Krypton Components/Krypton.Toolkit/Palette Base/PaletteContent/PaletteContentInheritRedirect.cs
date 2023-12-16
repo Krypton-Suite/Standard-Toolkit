@@ -18,7 +18,7 @@ namespace Krypton.Toolkit
     public class PaletteContentInheritRedirect : PaletteContentInherit
     {
         #region Instance Fields
-        private PaletteRedirect? _redirect;
+        private PaletteRedirect _redirect;
 
         #endregion
 
@@ -36,7 +36,7 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the PaletteContentInheritRedirect class.
         /// </summary>
         /// <param name="redirect">Source for inherit requests.</param>
-        public PaletteContentInheritRedirect(PaletteRedirect? redirect)
+        public PaletteContentInheritRedirect(PaletteRedirect redirect)
             : this(redirect, PaletteContentStyle.ButtonStandalone)
         {
         }
@@ -46,7 +46,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="redirect">Source for inherit requests.</param>
         /// <param name="style">Style used in requests.</param>
-        public PaletteContentInheritRedirect(PaletteRedirect? redirect,
+        public PaletteContentInheritRedirect(PaletteRedirect redirect,
                                              PaletteContentStyle style)
         {
             _redirect = redirect;
@@ -59,7 +59,7 @@ namespace Krypton.Toolkit
         /// Gets the redirector instance.
         /// </summary>
         /// <returns>Return the currently used redirector.</returns>
-        public PaletteRedirect? GetRedirector() => _redirect;
+        public PaletteRedirect GetRedirector() => _redirect;
 
         #endregion
 
@@ -68,7 +68,7 @@ namespace Krypton.Toolkit
         /// Update the redirector with new reference.
         /// </summary>
         /// <param name="redirect">Target redirector.</param>
-        public void SetRedirector(PaletteRedirect? redirect) => _redirect = redirect;
+        public void SetRedirector(PaletteRedirect redirect) => _redirect = redirect;
         #endregion
 
         #region Style
@@ -134,14 +134,14 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
-        public override Font GetContentShortTextFont(PaletteState state) => _redirect.GetContentShortTextFont(Style, state);
+        public override Font? GetContentShortTextFont(PaletteState state) => _redirect.GetContentShortTextFont(Style, state);
 
         /// <summary>
         /// Gets the font for the short text by generating a new font instance.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
-        public override Font GetContentShortTextNewFont(PaletteState state) => _redirect.GetContentShortTextNewFont(Style, state);
+        public override Font? GetContentShortTextNewFont(PaletteState state) => _redirect.GetContentShortTextNewFont(Style, state);
 
         /// <summary>
         /// Gets the rendering hint for the short text.
@@ -253,14 +253,14 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
-        public override Font GetContentLongTextFont(PaletteState state) => _redirect.GetContentLongTextFont(Style, state);
+        public override Font? GetContentLongTextFont(PaletteState state) => _redirect.GetContentLongTextFont(Style, state);
 
         /// <summary>
         /// Gets the font for the long text by generating a new font instance.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
-        public override Font GetContentLongTextNewFont(PaletteState state) => _redirect.GetContentLongTextNewFont(Style, state);
+        public override Font? GetContentLongTextNewFont(PaletteState state) => _redirect.GetContentLongTextNewFont(Style, state);
 
         /// <summary>
         /// Gets the rendering hint for the long text.

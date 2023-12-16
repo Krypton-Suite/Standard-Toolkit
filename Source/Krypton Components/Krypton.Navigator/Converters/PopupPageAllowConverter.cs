@@ -20,16 +20,22 @@ namespace Krypton.Navigator
         #region Static Fields
 
         [Localizable(true)]
-        private static readonly IReadOnlyDictionary<PopupPageAllow, string> _pairs = new Dictionary<PopupPageAllow, string>
+        private static readonly BiDictionary<PopupPageAllow, string> _pairs = new BiDictionary<PopupPageAllow, string>(
+            new Dictionary<PopupPageAllow, string>
         {
             {PopupPageAllow.Never, @"Never"},
             {PopupPageAllow.OnlyCompatibleModes, @"Only Compatible Modes"},
             {PopupPageAllow.OnlyOutlookMiniMode, @"Only Outlook Mini Mode"}
-        };
+        });
 
         #endregion
-        protected override IReadOnlyDictionary<PopupPageAllow /*Enum*/, string /*Display*/> Pairs => _pairs;
 
-
+        #region Protected
+        /// <summary>
+        /// Gets an array of lookup pairs.
+        /// </summary>
+        protected override IReadOnlyDictionary<string /*Display*/, PopupPageAllow /*Enum*/ > PairsStringToEnum  => _pairs.SecondToFirst;
+        protected override IReadOnlyDictionary<PopupPageAllow /*Enum*/, string /*Display*/> PairsEnumToString => _pairs.FirstToSecond;
+        #endregion
     }
 }

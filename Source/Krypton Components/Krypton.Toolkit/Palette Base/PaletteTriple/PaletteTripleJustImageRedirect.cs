@@ -46,7 +46,7 @@ namespace Krypton.Toolkit
         /// <param name="backStyle">Initial background style.</param>
         /// <param name="borderStyle">Initial border style.</param>
         /// <param name="contentStyle">Initial content style.</param>
-        public PaletteTripleJustImageRedirect(PaletteRedirect? redirect,
+        public PaletteTripleJustImageRedirect(PaletteRedirect redirect,
                                               PaletteBackStyle backStyle,
                                               PaletteBorderStyle borderStyle,
                                               PaletteContentStyle contentStyle)
@@ -62,7 +62,7 @@ namespace Krypton.Toolkit
         /// <param name="borderStyle">Initial border style.</param>
         /// <param name="contentStyle">Initial content style.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public PaletteTripleJustImageRedirect(PaletteRedirect? redirect,
+        public PaletteTripleJustImageRedirect(PaletteRedirect redirect,
                                               PaletteBackStyle backStyle,
                                               PaletteBorderStyle borderStyle,
                                               PaletteContentStyle contentStyle,
@@ -99,7 +99,7 @@ namespace Krypton.Toolkit
         /// Gets the redirector instance.
         /// </summary>
         /// <returns>Return the currently used redirector.</returns>
-        public PaletteRedirect? GetRedirector() => _backInherit.GetRedirector();
+        public PaletteRedirect GetRedirector() => _backInherit.GetRedirector();
 
         #endregion
 
@@ -108,7 +108,7 @@ namespace Krypton.Toolkit
         /// Update the redirector with new reference.
         /// </summary>
         /// <param name="redirect">Target redirector.</param>
-        public virtual void SetRedirector(PaletteRedirect? redirect)
+        public virtual void SetRedirector(PaletteRedirect redirect)
         {
             _backInherit.SetRedirector(redirect);
             _borderInherit.SetRedirector(redirect);

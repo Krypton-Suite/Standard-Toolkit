@@ -29,7 +29,7 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the PaletteRedirectRibbonGeneral class.
         /// </summary>
         /// <param name="target">Initial palette target for redirection.</param>
-        public PaletteRedirectRibbonGeneral(PaletteBase? target)
+        public PaletteRedirectRibbonGeneral(PaletteBase target)
             : this(target, null, null, null, null)
         {
         }
@@ -42,7 +42,7 @@ namespace Krypton.Toolkit
         /// <param name="normal">Redirection for normal state requests.</param>
         /// <param name="pressed">Redirection for pressed state requests.</param>
         /// <param name="tracking">Redirection for tracking state requests.</param>
-        public PaletteRedirectRibbonGeneral(PaletteBase? target,
+        public PaletteRedirectRibbonGeneral(PaletteBase target,
                                             IPaletteRibbonGeneral disabled,
                                             IPaletteRibbonGeneral normal,
                                             IPaletteRibbonGeneral pressed,

@@ -20,7 +20,6 @@ namespace Krypton.Toolkit
     internal class CommonDialogHandler
     {
         private readonly bool _embed;
-        private readonly KryptonManager _kryptonManager;
 
         internal class Attributes
         {
@@ -49,11 +48,11 @@ namespace Krypton.Toolkit
         {
             _embed = embed;
             // Gain access to the global palette
-            _kryptonManager = new KryptonManager();
-            _backColour = _kryptonManager.GlobalPalette!.GetBackColor1(PaletteBackStyle.PanelClient, PaletteState.Normal);
-            _defaultFontColour = _kryptonManager.GlobalPalette.GetContentShortTextColor1(PaletteContentStyle.LabelNormalPanel, PaletteState.Normal);
-            _inputFontColour = _kryptonManager.GlobalPalette.GetContentShortTextColor1(PaletteContentStyle.InputControlStandalone, PaletteState.Normal);
-            _labelFont = _kryptonManager.GlobalPalette.GetContentShortTextFont(PaletteContentStyle.LabelNormalPanel, PaletteState.Normal);
+            var igp = KryptonManager.CurrentGlobalPalette!;
+            _backColour = igp.GetBackColor1(PaletteBackStyle.PanelClient, PaletteState.Normal);
+            _defaultFontColour = igp.GetContentShortTextColor1(PaletteContentStyle.LabelNormalPanel, PaletteState.Normal);
+            _inputFontColour = igp.GetContentShortTextColor1(PaletteContentStyle.InputControlStandalone, PaletteState.Normal);
+            _labelFont = igp.GetContentShortTextFont(PaletteContentStyle.LabelNormalPanel, PaletteState.Normal)!;
         }
 
         internal string Title { get; set; }
@@ -113,7 +112,7 @@ namespace Krypton.Toolkit
                         var labelLogFont = _labelFont.ToHfont();
                         //var buttonFont = _kryptonManager.GlobalPalette.GetContentShortTextFont(PaletteContentStyle.ButtonStandalone, PaletteState.Normal);
                         //var buttonLogFont = buttonFont.ToHfont();
-                        var editFont = _kryptonManager.GlobalPalette?.GetContentShortTextFont(PaletteContentStyle.InputControlStandalone, PaletteState.Normal);
+                        var editFont = KryptonManager.CurrentGlobalPalette?.GetContentShortTextFont(PaletteContentStyle.InputControlStandalone, PaletteState.Normal);
                         var editLogFont = editFont!.ToHfont();
                         foreach (Attributes control in _controls)
                         {
@@ -321,10 +320,10 @@ namespace Krypton.Toolkit
                             using (Graphics g = Graphics.FromHdc(hdc))
                             {
                                 g.SmoothingMode = SmoothingMode.AntiAlias;
-                                var lineColor = _kryptonManager.GlobalPalette!.GetBorderColor1(PaletteBorderStyle.ControlGroupBox, PaletteState.Normal);
+                                var lineColor = KryptonManager.CurrentGlobalPalette!.GetBorderColor1(PaletteBorderStyle.ControlGroupBox, PaletteState.Normal);
                                 DrawRoundedRectangle(g, new Pen(lineColor), new Point(0, 10),
                                     control.Size - new Size(1, 11), 5);
-                                var font = _kryptonManager.GlobalPalette.GetContentShortTextFont(PaletteContentStyle.LabelNormalPanel, PaletteState.Normal);
+                                var font = KryptonManager.CurrentGlobalPalette.GetContentShortTextFont(PaletteContentStyle.LabelNormalPanel, PaletteState.Normal);
                                 TextRenderer.DrawText(g, control.Text, font, new Point(4, 0), _defaultFontColour,
                                     _backColour,
                                     TextFormatFlags.HidePrefix | TextFormatFlags.NoClipping);
@@ -366,8 +365,8 @@ namespace Krypton.Toolkit
                         // Buttons with these styles are always drawn with the default system colors.
                         // Drawing push buttons requires several different brushes-face, highlight, and shadow
                         // but the WM_CTLCOLORBTN message allows only one brush to be returned.
-                        var fontColour = _kryptonManager.GlobalPalette!.GetContentShortTextColor1(PaletteContentStyle.ButtonStandalone, PaletteState.Normal);
-                        var backColour = _kryptonManager.GlobalPalette.GetBackColor1(PaletteBackStyle.ButtonStandalone, PaletteState.Normal);
+                        var fontColour = KryptonManager.CurrentGlobalPalette!.GetContentShortTextColor1(PaletteContentStyle.ButtonStandalone, PaletteState.Normal);
+                        var backColour = KryptonManager.CurrentGlobalPalette.GetBackColor1(PaletteBackStyle.ButtonStandalone, PaletteState.Normal);
                         PI.SetTextColor(wParam, ColorTranslator.ToWin32(fontColour));
                         PI.SetDCBrushColor(wParam, ColorTranslator.ToWin32(backColour));
                         PI.SetBkMode(wParam, ColorTranslator.ToWin32(Color.Transparent));

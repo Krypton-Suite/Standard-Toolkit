@@ -67,7 +67,7 @@ namespace Krypton.Toolkit
         /// <param name="needPaintDelegate">Delegate for requesting paint changes.</param>
         public ViewDrawMonth(IKryptonMonthCalendar calendar, 
                              ViewLayoutMonths months,
-                             PaletteRedirect? redirector,
+                             PaletteRedirect redirector,
                              NeedPaintHandler needPaintDelegate)
             : base(false)
         {

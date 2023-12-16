@@ -128,7 +128,7 @@ namespace Krypton.Ribbon
             base.OnSelectedIndexChanged(e);
             if ((RibbonThemeManager.GetThemeManagerMode(Text) == PaletteMode.Custom) && (KryptonCustomPalette != null))
             {
-                Manager.GlobalPalette = KryptonCustomPalette;
+                Manager.GlobalCustomPalette = KryptonCustomPalette;
             }
         }
 

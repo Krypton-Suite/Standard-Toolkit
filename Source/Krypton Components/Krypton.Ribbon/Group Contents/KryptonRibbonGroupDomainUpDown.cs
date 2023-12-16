@@ -187,7 +187,8 @@ namespace Krypton.Ribbon
                 {
                     // Use the same palette in the domain up-down as the ribbon, plus we need
                     // to know when the ribbon palette changes so we can reflect that change
-                    DomainUpDown.Palette = Ribbon!.GetResolvedPalette();
+                    DomainUpDown.PaletteMode = Ribbon!.PaletteMode;
+                    DomainUpDown.LocalCustomPalette = Ribbon!.LocalCustomPalette;
                     Ribbon!.PaletteChanged += OnRibbonPaletteChanged;
                 }
             }
@@ -710,7 +711,12 @@ namespace Krypton.Ribbon
 
         private void OnDomainUpDownPreviewKeyDown(object sender, PreviewKeyDownEventArgs e) => OnPreviewKeyDown(e);
 
-        private void OnRibbonPaletteChanged(object sender, EventArgs e) => DomainUpDown.Palette = Ribbon.GetResolvedPalette();
+        private void OnRibbonPaletteChanged(object sender, EventArgs e)
+        {
+            DomainUpDown.PaletteMode = Ribbon!.PaletteMode;
+            DomainUpDown.LocalCustomPalette = Ribbon!.LocalCustomPalette;
+        }
+
         #endregion
     }
 }

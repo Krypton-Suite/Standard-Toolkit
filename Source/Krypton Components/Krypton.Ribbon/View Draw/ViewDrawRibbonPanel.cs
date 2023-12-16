@@ -126,7 +126,7 @@ namespace Krypton.Ribbon
                     case PaletteRibbonShape.VisualStudio2010:
                         {
                             //Adjust Color of the gradient
-                            Color gradientColor = KryptonManager.CurrentGlobalPalette == KryptonManager.PaletteOffice2010Black
+                            Color gradientColor = KryptonManager.CurrentGlobalPaletteMode.ToString().StartsWith( PaletteMode.Office2010Black.ToString())
                                 ? Color.FromArgb(39, 39, 39)
                                 : Color.White;
 

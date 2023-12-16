@@ -120,7 +120,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets access to the cached drawing renderer.
         /// </summary>
-        protected IRenderer? Renderer { get; private set; }
+        protected IRenderer Renderer { get; private set; }
 
         /// <summary>
         /// Gets access to the cached drag data.

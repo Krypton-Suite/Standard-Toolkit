@@ -65,14 +65,14 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="palette">Palette to use for inheriting values.</param>
         /// <returns>Button visibility.</returns>
-        public override bool GetVisible(PaletteBase? palette) => _ribbon is { ShowMinimizeButton: true, MinimizedMode: true };
+        public override bool GetVisible(PaletteBase palette) => _ribbon is { ShowMinimizeButton: true, MinimizedMode: true };
 
         /// <summary>
         /// Gets the button enabled state.
         /// </summary>
         /// <param name="palette">Palette to use for inheriting values.</param>
         /// <returns>Button enabled state.</returns>
-        public override ButtonEnabled GetEnabled(PaletteBase? palette) => ButtonEnabled.True;
+        public override ButtonEnabled GetEnabled(PaletteBase palette) => ButtonEnabled.True;
 
         /// <summary>
         /// Gets the button checked state.
@@ -88,7 +88,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="palette">Palette to use for inheriting values.</param>
         /// <returns>Button style.</returns>
-        public override ButtonStyle GetStyle(PaletteBase? palette) => ButtonStyle.ButtonSpec;
+        public override ButtonStyle GetStyle(PaletteBase palette) => ButtonStyle.ButtonSpec;
 
         #endregion    
 

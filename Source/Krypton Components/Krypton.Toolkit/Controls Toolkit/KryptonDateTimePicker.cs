@@ -1086,10 +1086,10 @@ namespace Krypton.Toolkit
         [Category(@"Visuals - DateTimePicker")]
         [Description(@"Custom palette applied to drawing.")]
         [DefaultValue(null)]
-        public new PaletteBase? Palette
+        public new KryptonCustomPaletteBase LocalCustomPalette
         {
-            get => base.Palette;
-            set => base.Palette = value;
+            get => base.LocalCustomPalette;
+            set => base.LocalCustomPalette = value;
         }
 
         /// <summary>
@@ -2142,7 +2142,7 @@ namespace Krypton.Toolkit
                 }
                 else
                 {
-                    kcm.Palette = Palette;
+                    kcm.LocalCustomPalette = LocalCustomPalette;
                 }
 
                 // Give user a change to modify the context menu or even cancel the menu entirely
@@ -2333,9 +2333,9 @@ namespace Krypton.Toolkit
         /// <param name="keyboardActivated">True is menu was keyboard initiated.</param>
         /// <returns>VisualContextMenu reference.</returns>
         protected override VisualContextMenu CreateContextMenu(KryptonContextMenu kcm,
-                                                               PaletteBase? palette,
+                                                               PaletteBase palette,
                                                                PaletteMode paletteMode,
-                                                               PaletteRedirect? redirector,
+                                                               PaletteRedirect redirector,
                                                                PaletteRedirectContextMenu redirectorImages,
                                                                KryptonContextMenuCollection items,
                                                                bool enabled,
