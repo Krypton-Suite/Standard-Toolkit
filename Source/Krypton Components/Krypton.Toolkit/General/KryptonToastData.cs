@@ -16,29 +16,53 @@ namespace Krypton.Toolkit
     {
         #region Public
 
+        /// <summary>Gets or sets a value indicating whether [show close button].</summary>
+        /// <value><c>true</c> if [show close button]; otherwise, <c>false</c>.</value>
         public bool ShowCloseButton { get; set; }
 
+        /// <summary>Gets or sets a value indicating whether [show countdown percentage].</summary>
+        /// <value><c>true</c> if [show countdown percentage]; otherwise, <c>false</c>.</value>
         public bool ShowCountdownPercentage { get; set; }
 
+        /// <summary>Gets or sets a value indicating whether [show title].</summary>
+        /// <value><c>true</c> if [show title]; otherwise, <c>false</c>.</value>
         public bool ShowTitle { get; set; }
 
+        /// <summary>Gets or sets a value indicating whether [show action button].</summary>
+        /// <value><c>true</c> if [show action button]; otherwise, <c>false</c>.</value>
         public bool ShowActionButton { get; set; }
 
+        /// <summary>Gets or sets a value indicating whether [show progress bar].</summary>
+        /// <value><c>true</c> if [show progress bar]; otherwise, <c>false</c>.</value>
         public bool ShowProgressBar { get; set; }
 
+        /// <summary>Gets or sets the color of the user response prompt.</summary>
+        /// <value>The color of the user response prompt.</value>
         public Color? UserResponsePromptColor { get; set; }
 
+        /// <summary>Gets or sets the label content text alignment.</summary>
+        /// <value>The label content text alignment.</value>
         public ContentAlignment? LabelContentTextAlignment { get; set; }
 
+        /// <summary>Gets or sets the title text alignment.</summary>
+        /// <value>The title text alignment.</value>
         public ContentAlignment? TitleTextAlignment { get; set; }
 
+        /// <summary>Gets or sets the user response prompt font.</summary>
+        /// <value>The user response prompt font.</value>
         public Font? UserResponsePromptFont { get; set; }
 
+        /// <summary>Gets or sets the user input control style.</summary>
+        /// <value>The user input control style.</value>
         public InputControlStyle? UserInputControlStyle { get; set; }
 
-        public PaletteRelativeAlign? UserResponsePromptAlignHorizontal { get; set; }
+        /// <summary>Gets or sets the user response prompt horizontal alignment.</summary>
+        /// <value>The user response prompt horizontal alignment.</value>
+        public PaletteRelativeAlign? UserResponsePromptAlignmentHorizontal { get; set; }
 
-        public PaletteRelativeAlign? UserResponsePromptAlignVertical { get; set; }
+        /// <summary>Gets or sets the user response prompt vertical alignment.</summary>
+        /// <value>The user response prompt vertical alignment.</value>
+        public PaletteRelativeAlign? UserResponsePromptAlignmentVertical { get; set; }
 
         /// <summary>Gets or sets the text box content text horizontal alignment.</summary>
         /// <value>The text box content text horizontal alignment.</value>
