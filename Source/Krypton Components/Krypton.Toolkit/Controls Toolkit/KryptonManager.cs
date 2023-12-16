@@ -928,7 +928,10 @@ namespace Krypton.Toolkit
         /// </summary>
         public static PaletteMode CurrentGlobalPaletteMode { get; private set; } = PaletteMode.Microsoft365Blue;
 
-        internal static PaletteBase CurrentGlobalPalette { get; private set; } = GetPaletteForMode(CurrentGlobalPaletteMode);
+        /// <summary>
+        /// Access the Current Palette
+        /// </summary>
+        public static PaletteBase CurrentGlobalPalette { get; private set; } = GetPaletteForMode(CurrentGlobalPaletteMode);
 
         #endregion
 
