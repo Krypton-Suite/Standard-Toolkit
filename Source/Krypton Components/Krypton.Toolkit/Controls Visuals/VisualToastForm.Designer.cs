@@ -39,7 +39,7 @@
             this.pbxImage = new System.Windows.Forms.PictureBox();
             this.kryptonProgressBar1 = new Krypton.Toolkit.KryptonProgressBar();
             this.tlpContent = new System.Windows.Forms.TableLayoutPanel();
-            this.kryptonWrapLabel1 = new Krypton.Toolkit.KryptonWrapLabel();
+            this.kwlblToastTitle = new Krypton.Toolkit.KryptonWrapLabel();
             this.kpnlContentArea = new Krypton.Toolkit.KryptonPanel();
             this.ktxtNotificationContent = new Krypton.Toolkit.KryptonTextBox();
             this.krtxtNotificationContent = new Krypton.Toolkit.KryptonRichTextBox();
@@ -196,7 +196,7 @@
             // 
             this.tlpContent.ColumnCount = 1;
             this.tlpContent.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlpContent.Controls.Add(this.kryptonWrapLabel1, 0, 0);
+            this.tlpContent.Controls.Add(this.kwlblToastTitle, 0, 0);
             this.tlpContent.Controls.Add(this.kpnlContentArea, 0, 1);
             this.tlpContent.Controls.Add(this.kpnlUserPromptArea, 0, 2);
             this.tlpContent.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -209,16 +209,16 @@
             this.tlpContent.Size = new System.Drawing.Size(720, 362);
             this.tlpContent.TabIndex = 2;
             // 
-            // kryptonWrapLabel1
+            // kwlblToastTitle
             // 
-            this.kryptonWrapLabel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.kryptonWrapLabel1.Font = new System.Drawing.Font("Segoe UI", 13.5F, System.Drawing.FontStyle.Bold);
-            this.kryptonWrapLabel1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(57)))), ((int)(((byte)(91)))));
-            this.kryptonWrapLabel1.LabelStyle = Krypton.Toolkit.LabelStyle.TitleControl;
-            this.kryptonWrapLabel1.Location = new System.Drawing.Point(3, 0);
-            this.kryptonWrapLabel1.Name = "kryptonWrapLabel1";
-            this.kryptonWrapLabel1.Size = new System.Drawing.Size(714, 25);
-            this.kryptonWrapLabel1.Text = "kryptonWrapLabel1";
+            this.kwlblToastTitle.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.kwlblToastTitle.Font = new System.Drawing.Font("Segoe UI", 13.5F, System.Drawing.FontStyle.Bold);
+            this.kwlblToastTitle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(57)))), ((int)(((byte)(91)))));
+            this.kwlblToastTitle.LabelStyle = Krypton.Toolkit.LabelStyle.TitleControl;
+            this.kwlblToastTitle.Location = new System.Drawing.Point(3, 0);
+            this.kwlblToastTitle.Name = "kwlblToastTitle";
+            this.kwlblToastTitle.Size = new System.Drawing.Size(714, 25);
+            this.kwlblToastTitle.Text = "kwlblToastTitle";
             // 
             // kpnlContentArea
             // 
@@ -381,7 +381,7 @@
         private PictureBox pbxImage;
         private KryptonProgressBar kryptonProgressBar1;
         private TableLayoutPanel tlpContent;
-        private KryptonWrapLabel kryptonWrapLabel1;
+        private KryptonWrapLabel kwlblToastTitle;
         private KryptonPanel kpnlContentArea;
         private KryptonWrapLabel kwlblNotificationContent;
         private KryptonPanel kpnlUserPromptArea;
