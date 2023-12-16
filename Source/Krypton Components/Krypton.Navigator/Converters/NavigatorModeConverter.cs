@@ -20,7 +20,8 @@ namespace Krypton.Navigator
         #region Static Fields
 
         [Localizable(true)]
-        private static readonly IReadOnlyDictionary<NavigatorMode, string> _pairs = new Dictionary<NavigatorMode, string>
+        private static readonly BiDictionary<NavigatorMode, string> _pairs = new BiDictionary<NavigatorMode, string>(
+            new Dictionary<NavigatorMode, string>
         {
             {NavigatorMode.BarTabGroup, @"Bar - Tab - Group"},
             {NavigatorMode.BarTabOnly, @"Bar - Tab - Only"},
@@ -41,10 +42,16 @@ namespace Krypton.Navigator
             {NavigatorMode.Group, @"Group"},
             {NavigatorMode.HeaderGroup, @"HeaderGroup"},
             {NavigatorMode.HeaderGroupTab, @"HeaderGroup - Tab"}
-        };
+        });
 
         #endregion
 
-        protected override IReadOnlyDictionary<NavigatorMode /*Enum*/, string /*Display*/> Pairs => _pairs;
+        #region Protected
+        /// <summary>
+        /// Gets an array of lookup pairs.
+        /// </summary>
+        protected override IReadOnlyDictionary<string /*Display*/, NavigatorMode /*Enum*/ > PairsStringToEnum  => _pairs.SecondToFirst;
+        protected override IReadOnlyDictionary<NavigatorMode /*Enum*/, string /*Display*/> PairsEnumToString => _pairs.FirstToSecond;
+        #endregion
     }
 }

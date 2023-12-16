@@ -18,7 +18,7 @@ namespace Krypton.Toolkit
     public class PaletteRibbonDoubleInheritRedirect : PaletteRibbonDoubleInherit
     {
         #region Instance Fields
-        private PaletteRedirect? _redirect;
+        private PaletteRedirect _redirect;
 
         #endregion
 
@@ -29,7 +29,7 @@ namespace Krypton.Toolkit
         /// <param name="redirect">Source for inherit requests.</param>
         /// <param name="styleBack">Ribbon item background style.</param>
         /// <param name="styleText">Ribbon item text style.</param>
-        public PaletteRibbonDoubleInheritRedirect([DisallowNull] PaletteRedirect? redirect,
+        public PaletteRibbonDoubleInheritRedirect([DisallowNull] PaletteRedirect redirect,
                                                   PaletteRibbonBackStyle styleBack,
                                                   PaletteRibbonTextStyle styleText)
         {
@@ -46,7 +46,7 @@ namespace Krypton.Toolkit
         /// Update the redirector with new reference.
         /// </summary>
         /// <param name="redirect">Target redirector.</param>
-        public void SetRedirector(PaletteRedirect? redirect) => _redirect = redirect;
+        public void SetRedirector(PaletteRedirect redirect) => _redirect = redirect;
 
         #endregion
 

@@ -59,7 +59,7 @@ namespace Krypton.Navigator
 
         #region ButtonSpecNavFixed Implementation
 
-        public override bool GetVisible(PaletteBase? palette)
+        public override bool GetVisible(PaletteBase palette)
         {
             // We do not show if the custom chrome is combined with composition,
             // in which case the form buttons are handled by the composition
@@ -74,7 +74,7 @@ namespace Krypton.Navigator
 
         public override ButtonCheckState GetChecked(PaletteBase? palette) => ButtonCheckState.NotCheckButton;
 
-        public override ButtonEnabled GetEnabled(PaletteBase? palette) => _navigator.Owner!.CloseBox && Enabled ? ButtonEnabled.True : ButtonEnabled.False;
+        public override ButtonEnabled GetEnabled(PaletteBase palette) => _navigator.Owner!.CloseBox && Enabled ? ButtonEnabled.True : ButtonEnabled.False;
 
         #endregion
 

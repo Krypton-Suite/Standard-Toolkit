@@ -42,7 +42,7 @@ namespace Krypton.Toolkit
         public ButtonSpecAny? ToolBarSaveAsButton
         {
             get => _saveAsButtonSpec ?? new ButtonSpecAny();
-            set { _saveAsButtonSpec = value; UpdateImage(KryptonManager.InternalGlobalPaletteMode); }
+            set { _saveAsButtonSpec = value; UpdateImage(KryptonManager.CurrentGlobalPaletteMode); }
         }
 
         /// <summary>Gets the active image.</summary>

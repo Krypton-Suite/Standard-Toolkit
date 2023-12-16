@@ -23,7 +23,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="redirect">Redirector to inherit values from.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public KryptonPaletteRibbonGroupCheckBoxText(PaletteRedirect? redirect,
+        public KryptonPaletteRibbonGroupCheckBoxText(PaletteRedirect redirect,
                                                      NeedPaintHandler needPaint)
             : base(redirect, PaletteRibbonTextStyle.RibbonGroupCheckBoxText, needPaint)
         {

@@ -27,7 +27,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="target">Initial palette target for redirection.</param>
         /// <param name="grid">Grid reference for directing palette requests.</param>
-        public PaletteRedirectGrids(PaletteBase? target, [DisallowNull] KryptonPaletteGrid grid)
+        public PaletteRedirectGrids(PaletteBase target, [DisallowNull] KryptonPaletteGrid grid)
             : base(target)
         {
             Debug.Assert(grid != null);
@@ -410,7 +410,7 @@ namespace Krypton.Toolkit
         /// <param name="style">Content style.</param>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
-        public override Font GetContentShortTextFont(PaletteContentStyle style, PaletteState state)
+        public override Font? GetContentShortTextFont(PaletteContentStyle style, PaletteState state)
         {
             IPaletteContent inherit = GetInheritContent(style, state);
 
@@ -618,7 +618,7 @@ namespace Krypton.Toolkit
         /// <param name="style">Content style.</param>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
-        public override Font GetContentLongTextFont(PaletteContentStyle style, PaletteState state)
+        public override Font? GetContentLongTextFont(PaletteContentStyle style, PaletteState state)
         {
             IPaletteContent inherit = GetInheritContent(style, state);
 

@@ -42,7 +42,7 @@ namespace Krypton.Toolkit
         public ButtonSpecAny? ToolBarCopyButton
         {
             get => _copyButtonSpec ?? new ButtonSpecAny();
-            set { _copyButtonSpec = value; UpdateImage(KryptonManager.InternalGlobalPaletteMode); }
+            set { _copyButtonSpec = value; UpdateImage(KryptonManager.CurrentGlobalPaletteMode); }
         }
 
         /// <summary>Gets the active image.</summary>

@@ -72,7 +72,7 @@ namespace Krypton.Toolkit
         /// Gets a renderer for drawing the toolstrips.
         /// </summary>
         /// <param name="colorPalette">Color palette to use when rendering toolstrip.</param>
-        ToolStripRenderer RenderToolStrip(PaletteBase? colorPalette);
+        ToolStripRenderer RenderToolStrip(PaletteBase colorPalette);
     }
     #endregion
 
@@ -515,7 +515,7 @@ namespace Krypton.Toolkit
         /// <param name="tracking">Should check box be Displayed as hot tracking.</param>
         /// <param name="pressed">Should check box be Displayed as pressed.</param>
         Size GetCheckBoxPreferredSize(ViewLayoutContext context,
-                                      PaletteBase? palette,
+                                      PaletteBase palette,
                                       bool enabled,
                                       CheckState checkState,
                                       bool tracking,
@@ -533,7 +533,7 @@ namespace Krypton.Toolkit
         /// <param name="pressed">Should check box be Displayed as pressed.</param>
         void DrawCheckBox(RenderContext context,
                           Rectangle displayRect,
-                          PaletteBase? palette,
+                          PaletteBase palette,
                           bool enabled,
                           CheckState checkState,
                           bool tracking,
@@ -581,7 +581,7 @@ namespace Krypton.Toolkit
         /// <param name="state">State for which image size is needed.</param>
         /// <param name="orientation">How to orientate the image.</param>
         Size GetDropDownButtonPreferredSize(ViewLayoutContext context,
-                                            PaletteBase? palette,
+                                            PaletteBase palette,
                                             PaletteState state,
                                             VisualOrientation orientation);
 
@@ -595,7 +595,7 @@ namespace Krypton.Toolkit
         /// <param name="orientation">How to orientate the image.</param>
         void DrawDropDownButton(RenderContext context,
                                 Rectangle displayRect,
-                                PaletteBase? palette,
+                                PaletteBase palette,
                                 PaletteState state,
                                 VisualOrientation orientation);
 

@@ -1713,7 +1713,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">Source of notification.</param>
         /// <param name="e">An NeedLayoutEventArgs containing event data.</param>
-        protected override void OnNeedPaint(object? sender, NeedLayoutEventArgs e)
+        protected override void OnNeedPaint(object sender, NeedLayoutEventArgs e)
         {
             if (IsHandleCreated && !e.NeedLayout)
             {
@@ -1734,7 +1734,7 @@ namespace Krypton.Toolkit
                 _textBox.ForeColor = triple.PaletteContent.GetContentShortTextColor1(state);
 
                 // Only set the font if the text box has been created
-                Font font = triple.PaletteContent.GetContentShortTextFont(state);
+                Font? font = triple.PaletteContent.GetContentShortTextFont(state);
                 if ((_textBox.Handle != IntPtr.Zero) && !_textBox.Font.Equals(font))
                 {
                     _textBox.Font = font;

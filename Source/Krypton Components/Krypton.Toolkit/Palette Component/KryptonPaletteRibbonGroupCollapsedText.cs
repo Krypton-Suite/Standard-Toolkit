@@ -28,7 +28,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="redirect">Redirector to inherit values from.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public KryptonPaletteRibbonGroupCollapsedText(PaletteRedirect? redirect,
+        public KryptonPaletteRibbonGroupCollapsedText(PaletteRedirect redirect,
                                                       NeedPaintHandler needPaint) 
         {
             // Create the storage objects
@@ -46,7 +46,7 @@ namespace Krypton.Toolkit
         /// Update the redirector with new reference.
         /// </summary>
         /// <param name="redirect">Target redirector.</param>
-        public void SetRedirector(PaletteRedirect? redirect) => _stateInherit.SetRedirector(redirect);
+        public void SetRedirector(PaletteRedirect redirect) => _stateInherit.SetRedirector(redirect);
 
         #endregion
 

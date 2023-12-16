@@ -18,7 +18,7 @@ namespace Krypton.Toolkit
     public class PaletteContentToPalette : IPaletteContent
     {
         #region Instance Fields
-        private readonly PaletteBase? _palette;
+        private readonly PaletteBase _palette;
 
         #endregion
 
@@ -28,7 +28,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="palette">Source for getting all values.</param>
         /// <param name="style">Style of values required.</param>
-        public PaletteContentToPalette(PaletteBase? palette, PaletteContentStyle style)
+        public PaletteContentToPalette(PaletteBase palette, PaletteContentStyle style)
         {
             // Remember source palette
             _palette = palette;
@@ -117,14 +117,14 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
-        public Font GetContentShortTextFont(PaletteState state) => _palette.GetContentShortTextFont(ContentStyle, state);
+        public Font? GetContentShortTextFont(PaletteState state) => _palette.GetContentShortTextFont(ContentStyle, state);
 
         /// <summary>
         /// Gets the font for the short text by generating a new font instance.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
-        public Font GetContentShortTextNewFont(PaletteState state) => _palette.GetContentShortTextNewFont(ContentStyle, state);
+        public Font? GetContentShortTextNewFont(PaletteState state) => _palette.GetContentShortTextNewFont(ContentStyle, state);
 
         /// <summary>
         /// Gets the actual text rendering hint for short text.
@@ -239,14 +239,14 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <returns>Font value.</returns>
         /// <param name="state">Palette value should be applicable to this state.</param>
-        public Font GetContentLongTextFont(PaletteState state) => _palette.GetContentLongTextFont(ContentStyle, state);
+        public Font? GetContentLongTextFont(PaletteState state) => _palette.GetContentLongTextFont(ContentStyle, state);
 
         /// <summary>
         /// Gets the font for the long text by generating a new font instance.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
-        public Font GetContentLongTextNewFont(PaletteState state) => _palette.GetContentLongTextNewFont(ContentStyle, state);
+        public Font? GetContentLongTextNewFont(PaletteState state) => _palette.GetContentLongTextNewFont(ContentStyle, state);
 
         /// <summary>
         /// Gets the actual text rendering hint for long text.

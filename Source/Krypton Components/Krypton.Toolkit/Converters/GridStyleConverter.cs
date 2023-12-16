@@ -20,14 +20,15 @@ namespace Krypton.Toolkit
         #region Static Fields
 
         [Localizable(true)]
-        private static readonly IReadOnlyDictionary<GridStyle, string> _pairs = new Dictionary<GridStyle, string>
+        private static readonly BiDictionary<GridStyle, string> _pairs = new BiDictionary<GridStyle, string>( 
+            new Dictionary<GridStyle, string>
         {
             {GridStyle.List, DesignTimeUtilities.DEFAULT_GRID_STYLE_LIST},
             {GridStyle.Sheet, DesignTimeUtilities.DEFAULT_GRID_STYLE_SHEET},
             {GridStyle.Custom1, DesignTimeUtilities.DEFAULT_GRID_STYLE_CUSTOM_ONE},
             {GridStyle.Custom2, DesignTimeUtilities.DEFAULT_GRID_STYLE_CUSTOM_TWO},
             {GridStyle.Custom3, DesignTimeUtilities.DEFAULT_GRID_STYLE_CUSTOM_THREE}
-        };
+        });
 
         #endregion
 
@@ -36,7 +37,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets an array of lookup pairs.
         /// </summary>
-        protected override IReadOnlyDictionary<GridStyle /*Enum*/, string /*Display*/> Pairs => _pairs;
+        protected override IReadOnlyDictionary<GridStyle /*Enum*/, string /*Display*/> PairsEnumToString => _pairs.FirstToSecond;
+        protected override IReadOnlyDictionary<string /*Display*/, GridStyle /*Enum*/ > PairsStringToEnum => _pairs.SecondToFirst;
 
         #endregion
     }

@@ -1707,7 +1707,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="sender">Source of notification.</param>
         /// <param name="e">An NeedLayoutEventArgs containing event data.</param>
-        protected override void OnNeedPaint(object? sender, NeedLayoutEventArgs e)
+        protected override void OnNeedPaint(object sender, NeedLayoutEventArgs e)
         {
             // When in minimized mode...
             if (RealMinimizedMode)
@@ -2552,7 +2552,7 @@ namespace Krypton.Ribbon
 
         internal PaletteRibbonShape RibbonShape => StateCommon.RibbonGeneral.GetRibbonShape();
 
-        internal PaletteRedirect? GetRedirector() => Redirector;
+        internal PaletteRedirect GetRedirector() => Redirector;
 
         internal Control? GetControllerControl(Control? c)
         {

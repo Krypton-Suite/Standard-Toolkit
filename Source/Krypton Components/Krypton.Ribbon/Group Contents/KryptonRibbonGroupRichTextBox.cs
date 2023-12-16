@@ -253,7 +253,8 @@ namespace Krypton.Ribbon
                 {
                     // Use the same palette in the text box as the ribbon, plus we need
                     // to know when the ribbon palette changes so we can reflect that change
-                    RichTextBox.Palette = Ribbon.GetResolvedPalette();
+                    RichTextBox.PaletteMode = Ribbon!.PaletteMode;
+                    RichTextBox.LocalCustomPalette = Ribbon!.LocalCustomPalette;
                     Ribbon.PaletteChanged += OnRibbonPaletteChanged;
                 }
             }
@@ -1406,7 +1407,12 @@ namespace Krypton.Ribbon
 
         private void OnRichTextBoxLinkClicked(object sender, LinkClickedEventArgs e) => OnLinkClicked(e);
 
-        private void OnRibbonPaletteChanged(object sender, EventArgs e) => RichTextBox.Palette = Ribbon.GetResolvedPalette();
+        private void OnRibbonPaletteChanged(object sender, EventArgs e)
+        {
+            RichTextBox.PaletteMode = Ribbon!.PaletteMode;
+            RichTextBox.LocalCustomPalette = Ribbon!.LocalCustomPalette;
+        }
+
         #endregion
     }
 }

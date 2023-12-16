@@ -17,7 +17,7 @@ namespace Krypton.Toolkit
     public class KryptonPropertyGrid : PropertyGrid
     {
         #region Variables
-        private PaletteBase? _palette;
+        private PaletteBase _palette;
 
         private readonly PaletteRedirect? _paletteRedirect;
         private readonly PaletteInputControlTripleRedirect _stateCommon;

@@ -20,7 +20,8 @@ namespace Krypton.Navigator
         #region Static Fields
 
         [Localizable(true)]
-        private static readonly IReadOnlyDictionary<PaletteNavButtonSpecStyle, string> _pairs = new Dictionary<PaletteNavButtonSpecStyle, string>
+        private static readonly BiDictionary<PaletteNavButtonSpecStyle, string> _pairs = new BiDictionary<PaletteNavButtonSpecStyle, string>(
+            new Dictionary<PaletteNavButtonSpecStyle, string>
         {
             {PaletteNavButtonSpecStyle.Generic, @"Generic"},
             {PaletteNavButtonSpecStyle.ArrowLeft, @"Arrow Left"},
@@ -42,11 +43,17 @@ namespace Krypton.Navigator
             {PaletteNavButtonSpecStyle.WorkspaceRestore, @"Workspace Restore"},
             {PaletteNavButtonSpecStyle.RibbonMinimize, @"Ribbon Minimize"},
             {PaletteNavButtonSpecStyle.RibbonExpand, @"Ribbon Expand" }
-        };
+        });
 
         #endregion
 
-        protected override IReadOnlyDictionary<PaletteNavButtonSpecStyle /*Enum*/, string /*Display*/> Pairs => _pairs;
+        #region Protected
+        /// <summary>
+        /// Gets an array of lookup pairs.
+        /// </summary>
+        protected override IReadOnlyDictionary<string /*Display*/, PaletteNavButtonSpecStyle /*Enum*/ > PairsStringToEnum  => _pairs.SecondToFirst;
+        protected override IReadOnlyDictionary<PaletteNavButtonSpecStyle /*Enum*/, string /*Display*/> PairsEnumToString => _pairs.FirstToSecond;
+        #endregion
 
     }
 }

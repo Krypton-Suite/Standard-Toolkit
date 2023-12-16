@@ -20,7 +20,8 @@ namespace Krypton.Toolkit
         #region Static Fields
 
         [Localizable(true)]
-        private static readonly IReadOnlyDictionary<PaletteTextTrim, string> _pairs = new Dictionary<PaletteTextTrim, string>
+        private static readonly BiDictionary<PaletteTextTrim, string> _pairs = new BiDictionary<PaletteTextTrim, string>(
+            new Dictionary<PaletteTextTrim, string>
         {
             {PaletteTextTrim.Inherit, DesignTimeUtilities.DEFAULT_PALETTE_TEXT_TRIM_INHERIT},
             {PaletteTextTrim.Hide, DesignTimeUtilities.DEFAULT_PALETTE_TEXT_TRIM_HIDE},
@@ -29,7 +30,7 @@ namespace Krypton.Toolkit
             {PaletteTextTrim.EllipsisCharacter, DesignTimeUtilities.DEFAULT_PALETTE_TEXT_TRIM_ELLIPSIS_CHARACTER},
             {PaletteTextTrim.EllipsisWord, DesignTimeUtilities.DEFAULT_PALETTE_TEXT_TRIM_ELLIPSIS_WORD},
             {PaletteTextTrim.EllipsisPath, DesignTimeUtilities.DEFAULT_PALETTE_TEXT_TRIM_ELLIPSIS_PATH}
-        };
+        });
 
         #endregion
 
@@ -37,7 +38,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets an array of lookup pairs.
         /// </summary>
-        protected override IReadOnlyDictionary<PaletteTextTrim /*Enum*/, string /*Display*/> Pairs => _pairs;
+        protected override IReadOnlyDictionary<PaletteTextTrim /*Enum*/, string /*Display*/> PairsEnumToString => _pairs.FirstToSecond;
+        protected override IReadOnlyDictionary<string /*Display*/, PaletteTextTrim /*Enum*/ > PairsStringToEnum => _pairs.SecondToFirst;
 
         #endregion
     }

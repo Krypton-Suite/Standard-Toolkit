@@ -212,7 +212,8 @@ namespace Krypton.Ribbon
                 {
                     // Use the same palette in the date time picker as the ribbon, plus we need
                     // to know when the ribbon palette changes so we can reflect that change
-                    DateTimePicker.Palette = Ribbon!.GetResolvedPalette();
+                    DateTimePicker.PaletteMode = Ribbon!.PaletteMode;
+                    DateTimePicker.LocalCustomPalette = Ribbon!.LocalCustomPalette;
                     Ribbon!.PaletteChanged += OnRibbonPaletteChanged;
                 }
             }
@@ -1009,7 +1010,12 @@ namespace Krypton.Ribbon
 
         private void OnDateTimePickerKeyDown(object sender, PreviewKeyDownEventArgs e) => OnPreviewKeyDown(e);
 
-        private void OnRibbonPaletteChanged(object sender, EventArgs e) => DateTimePicker.Palette = Ribbon.GetResolvedPalette();
+        private void OnRibbonPaletteChanged(object sender, EventArgs e)
+        {
+            DateTimePicker.PaletteMode = Ribbon!.PaletteMode;
+            DateTimePicker.LocalCustomPalette = Ribbon!.LocalCustomPalette;
+        }
+
         #endregion
     }
 }

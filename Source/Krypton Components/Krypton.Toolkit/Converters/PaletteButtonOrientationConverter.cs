@@ -20,7 +20,8 @@ namespace Krypton.Toolkit
         #region Static Fields
 
         [Localizable(true)]
-        private static readonly IReadOnlyDictionary<PaletteButtonOrientation, string> _pairs = new Dictionary<PaletteButtonOrientation, string>
+        private static readonly BiDictionary<PaletteButtonOrientation, string> _pairs = new BiDictionary<PaletteButtonOrientation, string>(
+            new Dictionary<PaletteButtonOrientation, string>
         {
             {PaletteButtonOrientation.Inherit, DesignTimeUtilities.DEFAULT_PALETTE_BUTTON_ORIENTATION_INHERIT},
             {PaletteButtonOrientation.Auto, DesignTimeUtilities.DEFAULT_PALETTE_BUTTON_ORIENTATION_AUTO},
@@ -28,7 +29,7 @@ namespace Krypton.Toolkit
             {PaletteButtonOrientation.FixedBottom, DesignTimeUtilities.DEFAULT_PALETTE_BUTTON_ORIENTATION_FIXED_BOTTOM},
             {PaletteButtonOrientation.FixedLeft, DesignTimeUtilities.DEFAULT_PALETTE_BUTTON_ORIENTATION_FIXED_LEFT},
             {PaletteButtonOrientation.FixedRight, DesignTimeUtilities.DEFAULT_PALETTE_BUTTON_ORIENTATION_FIXED_RIGHT}
-        };
+        });
 
         #endregion
 
@@ -36,7 +37,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets an array of lookup pairs.
         /// </summary>
-        protected override IReadOnlyDictionary<PaletteButtonOrientation /*Enum*/, string /*Display*/> Pairs => _pairs;
+        protected override IReadOnlyDictionary<PaletteButtonOrientation /*Enum*/, string /*Display*/> PairsEnumToString => _pairs.FirstToSecond;
+        protected override IReadOnlyDictionary<string /*Display*/, PaletteButtonOrientation /*Enum*/ > PairsStringToEnum => _pairs.SecondToFirst;
 
         #endregion
     }

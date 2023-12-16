@@ -24,7 +24,7 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
         private bool _horizontal;
-        private readonly PaletteRedirectDouble? _redirectSeparator;
+        private readonly PaletteRedirectDouble _redirectSeparator;
         #endregion
 
         #region Identity

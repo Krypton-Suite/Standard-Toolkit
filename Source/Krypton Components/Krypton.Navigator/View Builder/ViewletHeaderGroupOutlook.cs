@@ -29,7 +29,7 @@ namespace Krypton.Navigator
         /// <param name="redirector">Palette redirector.</param>
         /// <param name="needPaintDelegate">Delegate for notifying paint requests.</param>
         public ViewletHeaderGroupOutlook(KryptonNavigator navigator,
-                                         PaletteRedirect? redirector,
+                                         PaletteRedirect redirector,
                                          NeedPaintHandler needPaintDelegate)
             : base(navigator, redirector, needPaintDelegate) =>
             // Are we using the full or mini outlook mode.

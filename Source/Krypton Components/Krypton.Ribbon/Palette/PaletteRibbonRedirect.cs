@@ -161,7 +161,7 @@ namespace Krypton.Ribbon
         /// Update the redirector with new reference.
         /// </summary>
         /// <param name="redirect">Target redirector.</param>
-        public override void SetRedirector(PaletteRedirect? redirect)
+        public override void SetRedirector(PaletteRedirect redirect)
         {
             base.SetRedirector(redirect);
             RibbonGroupButton.SetRedirector(redirect);

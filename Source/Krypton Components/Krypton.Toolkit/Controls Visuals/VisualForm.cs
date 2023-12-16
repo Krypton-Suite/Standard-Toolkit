@@ -43,8 +43,8 @@ namespace Krypton.Toolkit
         private int _compositionHeight;
         private int _ignoreCount;
         private ViewBase? _capturedElement;
-        private PaletteBase? _localPalette;
-        private PaletteBase? _palette;
+        private KryptonCustomPaletteBase _localCustomPalette;
+        private PaletteBase _palette;
         private PaletteMode _paletteMode;
         private readonly IntPtr _screenDC;
         private ShadowValues _shadowValues;
@@ -115,7 +115,7 @@ namespace Krypton.Toolkit
             NeedPaintDelegate = OnNeedPaint;
 
             // Set the palette and renderer to the defaults as specified by the manager
-            _localPalette = null;
+            _localCustomPalette = null;
             SetPalette(KryptonManager.CurrentGlobalPalette);
             _paletteMode = PaletteMode.Global;
 
@@ -384,7 +384,7 @@ namespace Krypton.Toolkit
                             _paletteMode = value;
 
                             // Get a reference to the standard palette from its name
-                            _localPalette = null;
+                            _localCustomPalette = null;
                             SetPalette(KryptonManager.GetPaletteForMode(_paletteMode));
 
                             // Must raise event to change palette in redirector
@@ -397,13 +397,8 @@ namespace Krypton.Toolkit
                 }
             }
         }
-
+        private void ResetPaletteMode() => PaletteMode = PaletteMode.Global;
         private bool ShouldSerializePaletteMode() => PaletteMode != PaletteMode.Global;
-
-        /// <summary>
-        /// Resets the PaletteMode property to its default value.
-        /// </summary>
-        public void ResetPaletteMode() => PaletteMode = PaletteMode.Global;
 
         /// <summary>
         /// Gets access to the button content.
@@ -459,18 +454,18 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Custom palette applied to drawing.")]
         [DefaultValue(null)]
-        public PaletteBase? Palette
+        public KryptonCustomPaletteBase LocalCustomPalette
         {
             [DebuggerStepThrough]
-            get => _localPalette;
+            get => _localCustomPalette;
 
             set
             {
                 // Only interested in changes of value
-                if (_localPalette != value)
+                if (_localCustomPalette != value)
                 {
                     // Remember the starting palette
-                    PaletteBase? old = _localPalette;
+                    PaletteBase old = _localCustomPalette;
 
                     // Use the provided palette value
                     SetPalette(value);
@@ -482,18 +477,18 @@ namespace Krypton.Toolkit
                         _paletteMode = PaletteMode.Global;
 
                         // Get the appropriate palette for the global mode
-                        _localPalette = null;
+                        _localCustomPalette = null;
                         SetPalette(KryptonManager.GetPaletteForMode(_paletteMode));
                     }
                     else
                     {
                         // No longer using a standard palette
-                        _localPalette = value;
+                        _localCustomPalette = value;
                         _paletteMode = PaletteMode.Custom;
                     }
 
                     // If real change has occurred
-                    if (old != _localPalette)
+                    if (old != _localCustomPalette)
                     {
                         // Raise the change event
                         OnPaletteChanged(EventArgs.Empty);
@@ -508,7 +503,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resets the Palette property to its default value.
         /// </summary>
-        public void ResetPalette() => _localPalette = null;
+        public void ResetPalette() => _localCustomPalette = null;
 
         /// <summary>
         /// Gets access to the current renderer.
@@ -516,7 +511,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public IRenderer? Renderer
+        public IRenderer Renderer
         {
             [DebuggerStepThrough]
             get;
@@ -536,7 +531,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public PaletteBase? GetResolvedPalette() => _palette;
+        public PaletteBase GetResolvedPalette() => _palette;
 
         /// <summary>
         /// Create a tool strip renderer appropriate for the current renderer/palette pair.
@@ -724,7 +719,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the palette redirector.
         /// </summary>
-        protected PaletteRedirect? Redirector
+        protected PaletteRedirect Redirector
         {
             [DebuggerStepThrough]
             get;
@@ -1027,7 +1022,7 @@ namespace Krypton.Toolkit
             Redirector!.Target = _palette;
 
             // A new palette source means we need to layout and redraw
-            OnNeedPaint(Palette, new NeedLayoutEventArgs(true));
+            OnNeedPaint(LocalCustomPalette, new NeedLayoutEventArgs(true));
 
             PaletteChanged?.Invoke(this, e);
         }
@@ -1053,7 +1048,7 @@ namespace Krypton.Toolkit
         /// <param name="sender">Source of notification.</param>
         /// <param name="e">An NeedLayoutEventArgs containing event data.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        protected virtual void OnNeedPaint(object? sender, [DisallowNull] NeedLayoutEventArgs e)
+        protected virtual void OnNeedPaint(object sender, [DisallowNull] NeedLayoutEventArgs e)
         {
             Debug.Assert(e != null);
 
@@ -1884,12 +1879,12 @@ namespace Krypton.Toolkit
             if (PaletteMode == PaletteMode.Global)
             {
                 // Update ourself with the new global palette
-                _localPalette = null;
+                _localCustomPalette = null;
                 SetPalette(KryptonManager.CurrentGlobalPalette);
                 Redirector!.Target = _palette;
 
                 // A new palette source means we need to layout and redraw
-                OnNeedPaint(Palette, new NeedLayoutEventArgs(true));
+                OnNeedPaint(LocalCustomPalette, new NeedLayoutEventArgs(true));
 
                 GlobalPaletteChanged?.Invoke(sender, e);
             }
@@ -1913,7 +1908,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void SetPalette(PaletteBase? palette)
+        private void SetPalette(PaletteBase palette)
         {
             if (palette != _palette)
             {

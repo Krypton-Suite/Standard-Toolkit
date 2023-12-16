@@ -162,7 +162,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="renderer">Renderer provider.</param>
         /// <param name="proposedSize">The custom-sized area for a control.</param>
-        public virtual Size GetPreferredSize(IRenderer? renderer,
+        public virtual Size GetPreferredSize(IRenderer renderer,
                                              Size proposedSize)
         {
             if ((renderer == null) || (Root == null))

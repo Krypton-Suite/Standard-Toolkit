@@ -20,7 +20,8 @@ namespace Krypton.Toolkit
         #region Static Fields
 
         [Localizable(true)]
-        private static readonly IReadOnlyDictionary<InputControlStyle, string> _pairs = new Dictionary<InputControlStyle, string>
+        private static readonly BiDictionary<InputControlStyle, string> _pairs = new BiDictionary<InputControlStyle, string>(
+            new Dictionary<InputControlStyle, string>
         {
             {InputControlStyle.Standalone, DesignTimeUtilities.DEFAULT_INPUT_CONTROL_STYLE_STANDALONE},
             {InputControlStyle.Ribbon, DesignTimeUtilities.DEFAULT_INPUT_CONTROL_STYLE_RIBBON},
@@ -30,7 +31,7 @@ namespace Krypton.Toolkit
             {InputControlStyle.PanelClient, DesignTimeUtilities.DEFAULT_INPUT_CONTROL_STYLE_PANEL_CLIENT},
             {InputControlStyle.PanelAlternate, DesignTimeUtilities.DEFAULT_INPUT_CONTROL_STYLE_PANEL_ALTERNATE},
             // new(InputControlStyle.Disabled, "Disabled")
-        };
+        });
 
         #endregion
 
@@ -38,7 +39,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets an array of lookup pairs.
         /// </summary>
-        protected override IReadOnlyDictionary<InputControlStyle /*Enum*/, string /*Display*/> Pairs => _pairs;
+        protected override IReadOnlyDictionary<InputControlStyle /*Enum*/, string /*Display*/> PairsEnumToString => _pairs.FirstToSecond;
+        protected override IReadOnlyDictionary<string /*Display*/, InputControlStyle /*Enum*/ > PairsStringToEnum => _pairs.SecondToFirst;
 
         #endregion
     }

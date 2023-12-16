@@ -375,7 +375,7 @@ namespace Krypton.Toolkit
         /// Gets a renderer for drawing the toolstrips.
         /// </summary>
         /// <param name="colorPalette">Color palette to use when rendering toolstrip.</param>
-        public override ToolStripRenderer RenderToolStrip([DisallowNull] PaletteBase? colorPalette)
+        public override ToolStripRenderer RenderToolStrip([DisallowNull] PaletteBase colorPalette)
         {
             Debug.Assert(colorPalette != null);
 
@@ -2325,7 +2325,7 @@ namespace Krypton.Toolkit
         /// <param name="pressed">Should check box be Displayed as pressed.</param>
         /// <exception cref="ArgumentNullException"></exception>
         public override Size GetCheckBoxPreferredSize([DisallowNull] ViewLayoutContext context,
-            [DisallowNull] PaletteBase? palette,
+            [DisallowNull] PaletteBase palette,
                                                       bool enabled,
                                                       CheckState checkState,
                                                       bool tracking,
@@ -2376,7 +2376,7 @@ namespace Krypton.Toolkit
         /// <exception cref="ArgumentNullException"></exception>
         public override void DrawCheckBox([DisallowNull] RenderContext context,
                                           Rectangle displayRect,
-                                          [DisallowNull] PaletteBase? palette,
+                                          [DisallowNull] PaletteBase palette,
                                           bool enabled,
                                           CheckState checkState,
                                           bool tracking,
@@ -2520,7 +2520,7 @@ namespace Krypton.Toolkit
         /// <param name="state">State for which image size is needed.</param>
         /// <param name="orientation">How to orientate the image.</param>
         public override Size GetDropDownButtonPreferredSize(ViewLayoutContext context,
-                                                            [DisallowNull] PaletteBase? palette,
+                                                            [DisallowNull] PaletteBase palette,
                                                             PaletteState state,
                                                             VisualOrientation orientation)
         {
@@ -2555,7 +2555,7 @@ namespace Krypton.Toolkit
         /// <exception cref="ArgumentNullException"></exception>
         public override void DrawDropDownButton([DisallowNull] RenderContext context,
                                                 Rectangle displayRect,
-                                                [DisallowNull] PaletteBase? palette,
+                                                [DisallowNull] PaletteBase palette,
                                                 PaletteState state,
                                                 VisualOrientation orientation)
         {
@@ -5666,8 +5666,8 @@ namespace Krypton.Toolkit
             return original;
         }
 
-        private static Font ContentFontForButtonForm(ViewLayoutContext context,
-                                                     Font font)
+        private static Font? ContentFontForButtonForm(ViewLayoutContext context,
+                                                     Font? font)
         {
             // Get the krypton form that contains this control
             KryptonForm? kryptonForm = OwningKryptonForm(context.TopControl);
@@ -5807,12 +5807,12 @@ namespace Krypton.Toolkit
             memento.ShortTextTrimming = paletteContent.GetContentShortTextTrim(state);
 
             var fontChanged = false;
-            Font textFont = paletteContent.GetContentShortTextFont(state);
+            Font? textFont = paletteContent.GetContentShortTextFont(state);
 
             // Get the appropriate font to use in the caption area
             if (paletteContent.GetContentStyle() == PaletteContentStyle.HeaderForm)
             {
-                Font captionFont = ContentFontForButtonForm(context, textFont);
+                Font? captionFont = ContentFontForButtonForm(context, textFont);
                 fontChanged = captionFont != textFont;
                 textFont = captionFont;
             }
@@ -5891,12 +5891,12 @@ namespace Krypton.Toolkit
                 memento.LongTextTrimming = paletteContent.GetContentLongTextTrim(state);
 
                 var fontChanged = false;
-                Font textFont = paletteContent.GetContentLongTextFont(state);
+                Font? textFont = paletteContent.GetContentLongTextFont(state);
 
                 // Get the appropriate font to use in the caption area
                 if (paletteContent.GetContentStyle() == PaletteContentStyle.HeaderForm)
                 {
-                    Font captionFont = ContentFontForButtonForm(context, textFont);
+                    Font? captionFont = ContentFontForButtonForm(context, textFont);
                     fontChanged = captionFont != textFont;
                     textFont = captionFont;
                 }

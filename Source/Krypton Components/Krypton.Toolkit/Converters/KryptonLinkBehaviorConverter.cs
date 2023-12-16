@@ -20,12 +20,13 @@ namespace Krypton.Toolkit
         #region Static Fields
 
         [Localizable(true)]
-        private static readonly IReadOnlyDictionary<KryptonLinkBehavior, string> _pairs = new Dictionary<KryptonLinkBehavior, string>
+        private static readonly BiDictionary<KryptonLinkBehavior, string> _pairs = new BiDictionary<KryptonLinkBehavior, string>(
+            new Dictionary<KryptonLinkBehavior, string>
         {
             {KryptonLinkBehavior.AlwaysUnderline, DesignTimeUtilities.DEFAULT_LINK_BEHAVIOR_ALWAYS_UNDERLINE},
             {KryptonLinkBehavior.HoverUnderline, DesignTimeUtilities.DEFAULT_LINK_BEHAVIOR_HOVER_UNDERLINE},
             {KryptonLinkBehavior.NeverUnderline, DesignTimeUtilities.DEFAULT_LINK_BEHAVIOR_NEVER_UNDERLINE}
-        };
+        });
 
         #endregion
 
@@ -33,7 +34,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets an array of lookup pairs.
         /// </summary>
-        protected override IReadOnlyDictionary<KryptonLinkBehavior /*Enum*/, string /*Display*/> Pairs => _pairs;
+        protected override IReadOnlyDictionary<KryptonLinkBehavior /*Enum*/, string /*Display*/> PairsEnumToString => _pairs.FirstToSecond;
+        protected override IReadOnlyDictionary<string /*Display*/, KryptonLinkBehavior /*Enum*/ > PairsStringToEnum => _pairs.SecondToFirst;
 
         #endregion
     }

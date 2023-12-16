@@ -246,11 +246,11 @@ namespace Krypton.Ribbon
         {
             if (disposing)
             {
-                if (ComboBox != null)
+                if (ComboBox != null!)
                 {
                     UnmonitorControl(ComboBox);
                     ComboBox.Dispose();
-                    ComboBox = null;
+                    ComboBox = null!;
                 }
             }
 
@@ -275,7 +275,8 @@ namespace Krypton.Ribbon
                 {
                     // Use the same palette in the combo box as the ribbon, plus we need
                     // to know when the ribbon palette changes so we can reflect that change
-                    ComboBox.Palette = Ribbon!.GetResolvedPalette();
+                    ComboBox.PaletteMode = Ribbon!.PaletteMode;
+                    ComboBox.LocalCustomPalette = Ribbon!.LocalCustomPalette;
                     Ribbon!.PaletteChanged += OnRibbonPaletteChanged;
                 }
             }
@@ -311,7 +312,7 @@ namespace Krypton.Ribbon
         [Localizable(true)]
         [Category(@"Appearance")]
         [Description(@"Ribbon group text box key tip.")]
-        [DefaultValue("X")]
+        [DefaultValue(@"X")]
         public string KeyTip
         {
             get => _keyTip;
@@ -320,7 +321,7 @@ namespace Krypton.Ribbon
             {
                 if (string.IsNullOrEmpty(value))
                 {
-                    value = "X";
+                    value = @"X";
                 }
 
                 _keyTip = value.ToUpper();
@@ -413,7 +414,7 @@ namespace Krypton.Ribbon
         [Description(@"Text associated with the control.")]
         [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
         [AllowNull]
-        public string Text
+        public string? Text
         {
             get => ComboBox.Text;
             set => ComboBox.Text = value;
@@ -464,7 +465,7 @@ namespace Krypton.Ribbon
         [AttributeProvider(typeof(IListSource))]
         [RefreshProperties(RefreshProperties.Repaint)]
         [DefaultValue(null)]
-        public object DataSource
+        public object? DataSource
         {
             get => ComboBox.DataSource;
             set => ComboBox.DataSource = value;
@@ -728,7 +729,7 @@ namespace Krypton.Ribbon
         [Bindable(true)]
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public object SelectedItem
+        public object? SelectedItem
         {
             get => ComboBox.SelectedItem;
             set => ComboBox.SelectedItem = value;
@@ -739,7 +740,7 @@ namespace Krypton.Ribbon
         /// </summary>
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public string SelectedText
+        public string? SelectedText
         {
             get => ComboBox.SelectedText;
             set => ComboBox.SelectedText = value;
@@ -822,7 +823,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="item">The object from which to get the contents to display.</param>
         /// <returns>If the DisplayMember property is not specified, the value returned by GetItemText is the value of the item's ToString method. Otherwise, the method returns the string value of the member specified in the DisplayMember property for the object specified in the item parameter.</returns>
-        public string GetItemText(object item) => ComboBox.GetItemText(item);
+        public string? GetItemText(object item) => ComboBox.GetItemText(item);
 
         /// <summary>
         /// Selects a range of text in the control.
@@ -1064,7 +1065,7 @@ namespace Krypton.Ribbon
                         // Can the combo box take the focus
                         if (LastComboBox is { CanFocus: true })
                         {
-                            LastComboBox.ComboBox.Focus();
+                            LastComboBox.ComboBox!.Focus();
                         }
 
                         return true;
@@ -1141,7 +1142,12 @@ namespace Krypton.Ribbon
 
         private void OnComboBoxValueMemberChanged(object sender, EventArgs e) => OnValueMemberChanged(e);
 
-        private void OnRibbonPaletteChanged(object sender, EventArgs e) => ComboBox.Palette = Ribbon.GetResolvedPalette();
+        private void OnRibbonPaletteChanged(object sender, EventArgs e)
+        {
+            ComboBox.PaletteMode = Ribbon!.PaletteMode;
+            ComboBox.LocalCustomPalette = Ribbon!.LocalCustomPalette;
+        }
+
         #endregion
     }
 }

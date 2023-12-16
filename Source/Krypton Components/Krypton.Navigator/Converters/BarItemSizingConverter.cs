@@ -18,21 +18,21 @@ namespace Krypton.Navigator
     public class BarItemSizingConverter : StringLookupConverter<BarItemSizing>
     {
         [Localizable(true)]
-        private static readonly IReadOnlyDictionary<BarItemSizing, string> _pairs = new Dictionary<BarItemSizing, string>
+        private static readonly BiDictionary<BarItemSizing, string> _pairs = new BiDictionary<BarItemSizing, string>(
+            new Dictionary<BarItemSizing, string>
         {
             {BarItemSizing.Individual, @"Individual Sizing"},
             {BarItemSizing.SameHeight, @"All Same Height"},
             {BarItemSizing.SameWidth, @"All Same Width"},
             {BarItemSizing.SameWidthAndHeight, @"All Same Width & Height"}
-        };
+        });
 
         #region Protected
-
         /// <summary>
         /// Gets an array of lookup pairs.
         /// </summary>
-        protected override IReadOnlyDictionary<BarItemSizing /*Enum*/, string /*Display*/> Pairs => _pairs;
-
+        protected override IReadOnlyDictionary<string /*Display*/, BarItemSizing /*Enum*/ > PairsStringToEnum  => _pairs.SecondToFirst;
+        protected override IReadOnlyDictionary<BarItemSizing /*Enum*/, string /*Display*/> PairsEnumToString => _pairs.FirstToSecond;
         #endregion
     }
 }

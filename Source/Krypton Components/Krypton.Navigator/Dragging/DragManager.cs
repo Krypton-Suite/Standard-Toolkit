@@ -29,9 +29,9 @@ namespace Krypton.Navigator
         #endregion
 
         #region Instance Fields
-        private PaletteBase? _dragPalette;
-        private PaletteBase? _localPalette;
-        private IRenderer? _dragRenderer;
+        private PaletteBase _dragPalette;
+        private PaletteBase _localPalette;
+        private IRenderer _dragRenderer;
         private PaletteMode _paletteMode;
         private readonly PaletteRedirect _redirector;
         private PageDragEndData? _pageDragEndData;
@@ -158,7 +158,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets and sets the custom palette implementation.
         /// </summary>
-        public PaletteBase? Palette
+        public PaletteBase Palette
         {
             get => _localPalette;
 

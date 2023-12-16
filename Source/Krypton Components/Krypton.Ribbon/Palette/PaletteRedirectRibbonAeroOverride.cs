@@ -30,7 +30,7 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Reference to owning Ribbon instance.</param>
         /// <param name="redirect">Source for inheriting values.</param>
         public PaletteRedirectRibbonAeroOverride(KryptonRibbon ribbon,
-                                                 PaletteRedirect? redirect)
+                                                 PaletteRedirect redirect)
             : base(redirect) =>
             _ribbon = ribbon;
 

@@ -1830,7 +1830,7 @@ namespace Krypton.Navigator
 
         internal ButtonSpecCollectionBase? FixedSpecs => Button.FixedSpecs;
 
-        internal PaletteRedirect? InternalRedirector => Redirector;
+        internal PaletteRedirect InternalRedirector => Redirector;
 
         internal void InternalForceViewLayout() => ForceViewLayout();
 
@@ -2456,7 +2456,7 @@ namespace Krypton.Navigator
                 if (SelectedPage == page)
                 {
                     // And a change in a palette setting has occurred...
-                    if (e.PropertyName == nameof(Palette))
+                    if (e.PropertyName == @"Palette")
                     {
                         // ...then need to repaint and layout to effect change
                         if (page != null)

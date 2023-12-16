@@ -34,7 +34,7 @@ namespace Krypton.Ribbon
         /// <param name="getRenderer">Delegate for returning a tool strip renderer.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
         public ButtonSpecManagerLayoutRibbon(KryptonRibbon ribbon,
-                                             PaletteRedirect? redirector,
+                                             PaletteRedirect redirector,
                                              ButtonSpecCollectionBase variableSpecs,
                                              ButtonSpecCollectionBase fixedSpecs,
                                              ViewLayoutDocker[] viewDockers,

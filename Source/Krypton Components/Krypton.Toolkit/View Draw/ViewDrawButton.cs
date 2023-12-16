@@ -234,7 +234,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the drop down capability of the button.
         /// </summary>
-        public PaletteBase? DropDownPalette
+        public PaletteBase DropDownPalette
         {
             get => _drawDropDownButton.Palette;
             set => _drawDropDownButton.Palette = value;

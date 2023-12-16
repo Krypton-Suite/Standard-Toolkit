@@ -35,7 +35,7 @@ namespace Krypton.Toolkit
         private VScrollBar VSB;
         private HScrollBar HSC;
 
-        private static PaletteBase? _palette;
+        private static PaletteBase _palette;
         private readonly PaletteRedirect _paletteRedirect;
 
         #endregion
@@ -731,7 +731,7 @@ namespace Krypton.Toolkit
         #region ... Krypton ...
 
 
-        //Kripton Palette Events
+        //Krypton Palette Events
         private void OnGlobalPaletteChanged(object sender, EventArgs e)
         {
             if (_palette != null)
@@ -750,7 +750,7 @@ namespace Krypton.Toolkit
             Invalidate();
         }
 
-        //Kripton Palette Events
+        //Krypton Palette Events
         private void OnPalettePaint(object sender, PaletteLayoutEventArgs e) => Invalidate();
 
         #endregion

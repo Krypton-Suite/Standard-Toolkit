@@ -27,8 +27,8 @@ namespace Krypton.Toolkit
     public class KryptonListView : ListView
     {
         #region Variables
-        private PaletteBase? _localPalette;
-        private PaletteBase? _palette;
+        private PaletteBase _localPalette;
+        private PaletteBase _palette;
         private PaletteMode _paletteMode;
         private bool _layoutDirty;
         private bool _refreshAll;
@@ -222,7 +222,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the palette redirector.
         /// </summary>
-        protected PaletteRedirect? Redirector
+        protected PaletteRedirect Redirector
         {
             [DebuggerStepThrough]
             get;
@@ -241,7 +241,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public IRenderer? Renderer
+        public IRenderer Renderer
         {
             [DebuggerStepThrough]
             get;
@@ -280,7 +280,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Custom palette applied to drawing.")]
         [DefaultValue(null)]
-        public PaletteBase? Palette
+        public PaletteBase Palette
         {
             [DebuggerStepThrough]
             get => _localPalette;
@@ -1088,7 +1088,7 @@ namespace Krypton.Toolkit
             Invalidate();
         }
 
-        private void CacheNewPalette(PaletteBase? palette)
+        private void CacheNewPalette(PaletteBase palette)
         {
             if (palette != _palette)
             {

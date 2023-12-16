@@ -20,7 +20,7 @@ namespace Krypton.Ribbon
     internal class ViewDrawRibbonGalleryButton : ViewLeaf, IContentValues
     {
         #region Instance Fields
-        private readonly PaletteBase? _palette;
+        private readonly PaletteBase _palette;
         private readonly GalleryImages _images;
         private readonly GalleryButtonController _controller;
         private readonly PaletteRibbonGalleryButton _button;
@@ -49,7 +49,7 @@ namespace Krypton.Ribbon
         /// <param name="button">Button content to display.</param>
         /// <param name="images">Button images.</param>
         /// <param name="needPaint">Paint event delegate.</param>
-        public ViewDrawRibbonGalleryButton(PaletteBase? palette,
+        public ViewDrawRibbonGalleryButton(PaletteBase palette,
                                            PaletteRelativeAlign alignment,
                                            PaletteRibbonGalleryButton button,
                                            GalleryImages images,
