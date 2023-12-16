@@ -1004,7 +1004,7 @@ namespace Krypton.Toolkit
                 {
                     Control? control = FromHandle(_showOwner.Handle);
 
-                    var mInfoMethod = control.GetType().GetMethod(nameof(OnHelpRequested), BindingFlags.Instance | BindingFlags.NonPublic,
+                    var mInfoMethod = control!.GetType().GetMethod(nameof(OnHelpRequested), BindingFlags.Instance | BindingFlags.NonPublic,
                         Type.DefaultBinder, new[] { typeof(HelpEventArgs) }, null)!;
                     mInfoMethod.Invoke(control, new object[] { new HelpEventArgs(MousePosition) });
                     if (_helpInfo != null)
@@ -1050,7 +1050,7 @@ namespace Krypton.Toolkit
             {
                 // Find size of the label, with a max of 2/3 screen width
                 Screen? screen = showOwner != null ? Screen.FromHandle(showOwner.Handle) : Screen.PrimaryScreen;
-                SizeF scaledMonitorSize = screen.Bounds.Size;
+                SizeF scaledMonitorSize = screen!.Bounds.Size;
                 scaledMonitorSize.Width *= 2 / 3.0f;
                 scaledMonitorSize.Height *= 0.95f;
                 _messageText.UpdateFont();

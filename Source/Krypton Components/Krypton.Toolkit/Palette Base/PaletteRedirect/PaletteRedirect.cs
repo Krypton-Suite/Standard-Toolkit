@@ -34,11 +34,11 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the PaletteRedirect class.
         /// </summary>
         /// <param name="target">Initial palette target for redirection.</param>
-        public PaletteRedirect(PaletteBase target)
+        public PaletteRedirect(PaletteBase? target)
         {
             Id = CommonHelper.NextId;
             // Remember incoming target
-            _target = target;
+            _target = target!;
         }
 
         #endregion
@@ -47,7 +47,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the redirection target.
         /// </summary>
-        public virtual PaletteBase Target
+        public virtual PaletteBase? Target
         {
             get => _target;
             set => _target = value;
@@ -68,7 +68,7 @@ namespace Krypton.Toolkit
         /// Gets the renderer to use for this palette.
         /// </summary>
         /// <returns>Renderer to use for drawing palette settings.</returns>
-        public override IRenderer GetRenderer() => _target?.GetRenderer();
+        public override IRenderer GetRenderer() => _target.GetRenderer();
 
         #endregion
 

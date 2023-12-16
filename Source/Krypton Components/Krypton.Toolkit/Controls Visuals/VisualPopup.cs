@@ -55,7 +55,7 @@ namespace Krypton.Toolkit
         /// <param name="renderer">Drawing renderer.</param>
         /// <param name="shadow">Does the popup need a shadow effect.</param>
         public VisualPopup(ViewManager viewManager,
-                           IRenderer renderer,
+                           IRenderer? renderer,
                            bool shadow)
         {
             #region Default ControlStyle Values
@@ -90,7 +90,7 @@ namespace Krypton.Toolkit
             SetStyle(ControlStyles.Selectable, false);
 
             // Cache incoming references
-            Renderer = renderer;
+            Renderer = renderer!;
             ViewManager = viewManager;
 
             // Setup the need paint delegate
@@ -285,14 +285,14 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public ToolStripRenderer? CreateToolStripRenderer() => Renderer?.RenderToolStrip(GetResolvedPalette());
+        public ToolStripRenderer? CreateToolStripRenderer() => Renderer.RenderToolStrip(GetResolvedPalette()!);
 
         /// <summary>
         /// Gets the resolved palette to actually use when drawing.
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public virtual PaletteBase GetResolvedPalette() => null;
+        public virtual PaletteBase? GetResolvedPalette() => null;
 
         /// <summary>
         /// Gets access to the current renderer.
