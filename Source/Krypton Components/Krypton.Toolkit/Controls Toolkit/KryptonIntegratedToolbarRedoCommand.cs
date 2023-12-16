@@ -42,7 +42,7 @@ namespace Krypton.Toolkit
         public ButtonSpecAny? ToolBarRedoButton
         {
             get => _redoButtonSpec ?? new ButtonSpecAny();
-            set { _redoButtonSpec = value; UpdateImage(KryptonManager.InternalGlobalPaletteMode); }
+            set { _redoButtonSpec = value; UpdateImage(KryptonManager.CurrentGlobalPaletteMode); }
         }
 
         /// <summary>Gets the active image.</summary>

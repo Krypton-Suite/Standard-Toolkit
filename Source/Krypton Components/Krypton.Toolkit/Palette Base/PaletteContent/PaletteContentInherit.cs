@@ -73,14 +73,14 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
-        public abstract Font GetContentShortTextFont(PaletteState state);
+        public abstract Font? GetContentShortTextFont(PaletteState state);
 
         /// <summary>
         /// Gets the font for the short text by generating a new font instance.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
-        public abstract Font GetContentShortTextNewFont(PaletteState state);
+        public abstract Font? GetContentShortTextNewFont(PaletteState state);
 
         /// <summary>
         /// Gets the rendering hint for the short text.
@@ -192,14 +192,14 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
-        public abstract Font GetContentLongTextFont(PaletteState state);
+        public abstract Font? GetContentLongTextFont(PaletteState state);
 
         /// <summary>
         /// Gets the font for the long text by generating a new font instance.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
-        public abstract Font GetContentLongTextNewFont(PaletteState state);
+        public abstract Font? GetContentLongTextNewFont(PaletteState state);
         
         /// <summary>
         /// Gets the rendering hint for the long text.

@@ -495,7 +495,7 @@ namespace Krypton.Toolkit
             /// <param name="format">Format string to parse.</param>
             /// <param name="g">Graphics instance used to measure text.</param>
             /// <param name="font">Font used to measure text.</param>
-            public void ParseFormat(string format, Graphics? g, Font font)
+            public void ParseFormat(string format, Graphics? g, Font? font)
             {
                 // Split the format into a set of fragments
                 _fragments = ParseFormatToFragments(format);
@@ -520,7 +520,7 @@ namespace Krypton.Toolkit
             /// <param name="textColor">Text color.</param>
             /// <param name="backColor">Back color.</param>
             /// <param name="enabled">If text enabled.</param>
-            public void Render(RenderContext context, Font font, Rectangle rect, 
+            public void Render(RenderContext context, Font? font, Rectangle rect, 
                                Color textColor, Color backColor, bool enabled)
             {
                 if (enabled || string.IsNullOrEmpty(_dateTimePicker.CustomNullText))
@@ -632,7 +632,7 @@ namespace Krypton.Toolkit
 
             private bool ImplRightToLeft => RightToLeftLayout && (_dateTimePicker.RightToLeft == RightToLeft.Yes);
 
-            private void MeasureFragments(Graphics? g, Font font, DateTime dt)
+            private void MeasureFragments(Graphics? g, Font? font, DateTime dt)
             {
                 // Create a character range/character region for each of the fragments
                 var charRanges = new CharacterRange[_fragments.Count];
@@ -1599,7 +1599,7 @@ namespace Krypton.Toolkit
             _formatHandler.DateTime = _dateTimePicker.Value;
 
             // Grab the font used to draw the text
-            Font font = GetFont();
+            Font? font = GetFont();
 
             // Find the width of the text we are drawing
             Size retSize = TextRenderer.MeasureText(GetFullDisplayText(), font, Size.Empty, MEASURE_FLAGS);
@@ -1665,7 +1665,7 @@ namespace Krypton.Toolkit
 
         private void PerformNeedPaint(bool needLayout) => _needPaint(this, new NeedLayoutEventArgs(needLayout));
 
-        private Font GetFont()
+        private Font? GetFont()
         {
             if (!Enabled || _dateTimePicker.InternalDateTimeNull())
             {

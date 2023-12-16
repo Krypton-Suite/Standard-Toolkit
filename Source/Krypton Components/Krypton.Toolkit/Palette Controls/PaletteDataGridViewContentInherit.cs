@@ -94,14 +94,14 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
-        public override Font GetContentShortTextFont(PaletteState state) => _cellStyle != null ? _cellStyle.Font : SystemFonts.DefaultFont;
+        public override Font? GetContentShortTextFont(PaletteState state) => _cellStyle != null ? _cellStyle.Font : SystemFonts.DefaultFont;
 
         /// <summary>
         /// Gets the font for the short text by generating a new font instance.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
-        public override Font GetContentShortTextNewFont(PaletteState state) => _cellStyle != null ? _cellStyle.Font : SystemFonts.DefaultFont;
+        public override Font? GetContentShortTextNewFont(PaletteState state) => _cellStyle != null ? _cellStyle.Font : SystemFonts.DefaultFont;
 
         /// <summary>
         /// Gets the rendering hint for the short text.
@@ -230,14 +230,14 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
-        public override Font GetContentLongTextFont(PaletteState state) => _cellStyle.Font;
+        public override Font? GetContentLongTextFont(PaletteState state) => _cellStyle.Font;
 
         /// <summary>
         /// Gets the font for the long text by generating a new font instance.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
-        public override Font GetContentLongTextNewFont(PaletteState state) => _cellStyle.Font;
+        public override Font? GetContentLongTextNewFont(PaletteState state) => _cellStyle.Font;
 
         /// <summary>
         /// Gets the rendering hint for the long text.

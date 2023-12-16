@@ -99,7 +99,7 @@ namespace Krypton.Toolkit
         /// Update the redirector with new reference.
         /// </summary>
         /// <param name="redirect">Target redirector.</param>
-        public void SetRedirector(PaletteRedirect? redirect)
+        public void SetRedirector(PaletteRedirect redirect)
         {
             ControlInner.SetRedirector(redirect);
             ControlOuter.SetRedirector(redirect);

@@ -96,14 +96,14 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
-        public override Font GetContentShortTextFont(PaletteState state) => TreeNode?.NodeFont ?? _inherit.GetContentShortTextFont(state);
+        public override Font? GetContentShortTextFont(PaletteState state) => TreeNode?.NodeFont ?? _inherit.GetContentShortTextFont(state);
 
         /// <summary>
         /// Gets the font for the short text by generating a new font instance.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
-        public override Font GetContentShortTextNewFont(PaletteState state) => TreeNode?.NodeFont ?? _inherit.GetContentShortTextNewFont(state);
+        public override Font? GetContentShortTextNewFont(PaletteState state) => TreeNode?.NodeFont ?? _inherit.GetContentShortTextNewFont(state);
 
         /// <summary>
         /// Gets the rendering hint for the short text.
@@ -215,7 +215,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
-        public override Font GetContentLongTextFont(PaletteState state) =>
+        public override Font? GetContentLongTextFont(PaletteState state) =>
             (TreeNode is KryptonTreeNode { LongNodeFont: not null } kryptonNode)
                 ? kryptonNode.LongNodeFont
                 : _inherit.GetContentLongTextFont(state);
@@ -225,7 +225,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
-        public override Font GetContentLongTextNewFont(PaletteState state) => _inherit.GetContentLongTextNewFont(state);
+        public override Font? GetContentLongTextNewFont(PaletteState state) => _inherit.GetContentLongTextNewFont(state);
 
         /// <summary>
         /// Gets the rendering hint for the long text.

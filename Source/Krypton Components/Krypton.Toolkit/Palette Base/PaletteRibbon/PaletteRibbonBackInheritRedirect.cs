@@ -18,7 +18,7 @@ namespace Krypton.Toolkit
     public class PaletteRibbonBackInheritRedirect : PaletteRibbonBackInherit
     {
         #region Instance Fields
-        private PaletteRedirect? _redirect;
+        private PaletteRedirect _redirect;
 
         #endregion
 
@@ -28,7 +28,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="redirect">Source for inherit requests.</param>
         /// <param name="styleBack">Ribbon item background style.</param>
-        public PaletteRibbonBackInheritRedirect([DisallowNull] PaletteRedirect? redirect,
+        public PaletteRibbonBackInheritRedirect([DisallowNull] PaletteRedirect redirect,
                                                 PaletteRibbonBackStyle styleBack)
         {
             Debug.Assert(redirect != null);
@@ -43,7 +43,7 @@ namespace Krypton.Toolkit
         /// Update the redirector with new reference.
         /// </summary>
         /// <param name="redirect">Target redirector.</param>
-        public void SetRedirector(PaletteRedirect? redirect) => _redirect = redirect;
+        public void SetRedirector(PaletteRedirect redirect) => _redirect = redirect;
 
         #endregion
 

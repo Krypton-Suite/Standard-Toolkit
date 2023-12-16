@@ -45,7 +45,7 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the PaletteRedirectTriple class.
         /// </summary>
         /// <param name="target">Initial palette target for redirection.</param>
-        public PaletteRedirectTriple(PaletteBase? target)
+        public PaletteRedirectTriple(PaletteBase target)
             : this(target, null, null, null, null, null, null, null, null, null)
         {
         }
@@ -56,7 +56,7 @@ namespace Krypton.Toolkit
         /// <param name="target">Initial palette target for redirection.</param>
         /// <param name="disabled">Redirection for disabled state requests.</param>
         /// <param name="normal">Redirection for normal state requests.</param>
-        public PaletteRedirectTriple(PaletteBase? target,
+        public PaletteRedirectTriple(PaletteBase target,
                                      IPaletteTriple disabled,
                                      IPaletteTriple normal)
             : this(target, disabled, normal, null, null, null, null, null, null, null)
@@ -70,7 +70,7 @@ namespace Krypton.Toolkit
         /// <param name="disabled">Redirection for disabled state requests.</param>
         /// <param name="normal">Redirection for normal state requests.</param>
         /// <param name="tracking">Redirection for tracking state requests.</param>
-        public PaletteRedirectTriple(PaletteBase? target,
+        public PaletteRedirectTriple(PaletteBase target,
                                      IPaletteTriple disabled,
                                      IPaletteTriple normal,
                                      IPaletteTriple tracking)
@@ -89,7 +89,7 @@ namespace Krypton.Toolkit
         /// <param name="contextNormal">Redirection for context normal state requests.</param>
         /// <param name="contextPressed">Redirection for context pressed state requests.</param>
         /// <param name="contextTracking">Redirection for context tracking state requests.</param>
-        public PaletteRedirectTriple(PaletteBase? target,
+        public PaletteRedirectTriple(PaletteBase target,
                                     IPaletteTriple disabled,
                                     IPaletteTriple normal,
                                     IPaletteTriple tracking,
@@ -114,7 +114,7 @@ namespace Krypton.Toolkit
         /// <param name="tracking">Redirection for tracking state requests.</param>
         /// <param name="selected">Redirection for all checked states.</param>
         /// <param name="focusOverride">Redirection for focus override state requests.</param>
-        public PaletteRedirectTriple(PaletteBase? target,
+        public PaletteRedirectTriple(PaletteBase target,
                                      IPaletteTriple disabled,
                                      IPaletteTriple normal,
                                      IPaletteTriple pressed,
@@ -139,7 +139,7 @@ namespace Krypton.Toolkit
         /// <param name="checkedTracking">Redirection for checked tracking state requests.</param>
         /// <param name="focusOverride">Redirection for focus override state requests.</param>
         /// <param name="normalDefaultOverride">Redirection for normal default override state requests.</param>
-        public PaletteRedirectTriple(PaletteBase? target,
+        public PaletteRedirectTriple(PaletteBase target,
                                      IPaletteTriple? disabled,
                                      IPaletteTriple? normal,
                                      IPaletteTriple? pressed,
@@ -630,7 +630,7 @@ namespace Krypton.Toolkit
         /// <param name="style">Content style.</param>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
-        public override Font GetContentShortTextFont(PaletteContentStyle style, PaletteState state)
+        public override Font? GetContentShortTextFont(PaletteContentStyle style, PaletteState state)
         {
             IPaletteTriple? inherit = GetInherit(state);
 
@@ -852,7 +852,7 @@ namespace Krypton.Toolkit
         /// <param name="style">Content style.</param>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
-        public override Font GetContentLongTextFont(PaletteContentStyle style, PaletteState state)
+        public override Font? GetContentLongTextFont(PaletteContentStyle style, PaletteState state)
         {
             IPaletteTriple? inherit = GetInherit(state);
 

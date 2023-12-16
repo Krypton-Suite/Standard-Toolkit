@@ -26,7 +26,7 @@ namespace Krypton.Toolkit
         #region Instance Fields
         private bool _standardStyle;
         private bool _imageColumn;
-        private readonly PaletteRedirectDouble? _redirectImageColumn;
+        private readonly PaletteRedirectDouble _redirectImageColumn;
         #endregion
 
         #region Identity

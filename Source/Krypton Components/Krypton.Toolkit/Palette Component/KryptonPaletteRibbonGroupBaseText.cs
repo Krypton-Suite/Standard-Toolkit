@@ -29,7 +29,7 @@ namespace Krypton.Toolkit
         /// <param name="redirect">Redirector to inherit values from.</param>
         /// <param name="textStyle">Inherit text style.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public KryptonPaletteRibbonGroupBaseText(PaletteRedirect? redirect,
+        public KryptonPaletteRibbonGroupBaseText(PaletteRedirect redirect,
                                                  PaletteRibbonTextStyle textStyle,
                                                  NeedPaintHandler needPaint) 
         {
@@ -46,7 +46,7 @@ namespace Krypton.Toolkit
         /// Update the redirector with new reference.
         /// </summary>
         /// <param name="redirect">Target redirector.</param>
-        public void SetRedirector(PaletteRedirect? redirect) => _stateInherit.SetRedirector(redirect);
+        public void SetRedirector(PaletteRedirect redirect) => _stateInherit.SetRedirector(redirect);
 
         #endregion
 

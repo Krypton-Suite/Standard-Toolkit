@@ -42,7 +42,7 @@ namespace Krypton.Toolkit
         public ButtonSpecAny? ToolBarPageSetupButton
         {
             get => _pageSetupButtonSpec ?? new ButtonSpecAny();
-            set { _pageSetupButtonSpec = value; UpdateImage(KryptonManager.InternalGlobalPaletteMode); }
+            set { _pageSetupButtonSpec = value; UpdateImage(KryptonManager.CurrentGlobalPaletteMode); }
         }
 
         /// <summary>Gets the active image.</summary>

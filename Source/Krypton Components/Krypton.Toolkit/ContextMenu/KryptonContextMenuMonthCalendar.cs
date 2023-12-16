@@ -1295,7 +1295,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Internal
-        internal void SetPaletteRedirect(PaletteRedirect? redirector)
+        internal void SetPaletteRedirect(PaletteRedirect redirector)
         {
             StateCommon?.SetRedirector(redirector);
             OverrideFocus.SetRedirector(redirector);

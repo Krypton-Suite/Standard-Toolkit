@@ -47,7 +47,7 @@ namespace Krypton.Toolkit
         /// <param name="target">Initial palette target for redirection.</param>
         /// <param name="disabled">Redirection for disabled state requests.</param>
         /// <param name="normal">Redirection for normal state requests.</param>
-        public PaletteRedirectContent(PaletteBase? target,
+        public PaletteRedirectContent(PaletteBase target,
                                       IPaletteContent disabled,
                                       IPaletteContent normal)
             : this(target, disabled, normal, null, null, null, null, null, null, null, null, null, null)
@@ -70,7 +70,7 @@ namespace Krypton.Toolkit
         /// <param name="linkVisitedOverride">Redirection for link visited override state requests.</param>
         /// <param name="linkNotVisitedOverride">Redirection for link not visited override state requests.</param>
         /// <param name="linkPressedOverride">Redirection for link pressed override state requests.</param>
-        public PaletteRedirectContent(PaletteBase? target,
+        public PaletteRedirectContent(PaletteBase target,
                                       IPaletteContent disabled,
                                       IPaletteContent normal,
                                       IPaletteContent pressed,
@@ -250,7 +250,7 @@ namespace Krypton.Toolkit
         /// <param name="style">Content style.</param>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
-        public override Font GetContentShortTextFont(PaletteContentStyle style, PaletteState state)
+        public override Font? GetContentShortTextFont(PaletteContentStyle style, PaletteState state)
         {
             IPaletteContent? inherit = GetInherit(state);
 
@@ -458,7 +458,7 @@ namespace Krypton.Toolkit
         /// <param name="style">Content style.</param>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
-        public override Font GetContentLongTextFont(PaletteContentStyle style, PaletteState state)
+        public override Font? GetContentLongTextFont(PaletteContentStyle style, PaletteState state)
         {
             IPaletteContent? inherit = GetInherit(state);
 

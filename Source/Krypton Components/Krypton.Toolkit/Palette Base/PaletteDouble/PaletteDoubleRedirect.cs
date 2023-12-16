@@ -32,7 +32,7 @@ namespace Krypton.Toolkit
         /// <param name="redirect">inheritance redirection instance.</param>
         /// <param name="backStyle">Initial background style.</param>
         /// <param name="borderStyle">Initial border style.</param>
-        public PaletteDoubleRedirect(PaletteRedirect? redirect,
+        public PaletteDoubleRedirect(PaletteRedirect redirect,
                                      PaletteBackStyle backStyle,
                                      PaletteBorderStyle borderStyle)
             : this(redirect, backStyle, borderStyle, null)
@@ -46,7 +46,7 @@ namespace Krypton.Toolkit
         /// <param name="backStyle">Initial background style.</param>
         /// <param name="borderStyle">Initial border style.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public PaletteDoubleRedirect(PaletteRedirect? redirect,
+        public PaletteDoubleRedirect(PaletteRedirect redirect,
                                      PaletteBackStyle backStyle,
                                      PaletteBorderStyle borderStyle,
                                      NeedPaintHandler needPaint)
@@ -71,7 +71,7 @@ namespace Krypton.Toolkit
         /// <param name="border">Storage for border values.</param>
         /// <param name="borderInherit">inheritance for border values.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public PaletteDoubleRedirect(PaletteRedirect? redirect,
+        public PaletteDoubleRedirect(PaletteRedirect redirect,
                                      PaletteBack back,
                                      PaletteBackInheritRedirect backInherit,
                                      PaletteBorder border,
@@ -87,7 +87,7 @@ namespace Krypton.Toolkit
         /// Gets the redirector instance.
         /// </summary>
         /// <returns>Return the currently used redirector.</returns>
-        public PaletteRedirect? GetRedirector() => _backInherit.GetRedirector();
+        public PaletteRedirect GetRedirector() => _backInherit.GetRedirector();
 
         #endregion
 
@@ -96,7 +96,7 @@ namespace Krypton.Toolkit
         /// Update the redirector with new reference.
         /// </summary>
         /// <param name="redirect">Target redirector.</param>
-        public virtual void SetRedirector(PaletteRedirect? redirect)
+        public virtual void SetRedirector(PaletteRedirect redirect)
         {
             _backInherit.SetRedirector(redirect);
             BorderRedirect.SetRedirector(redirect);
@@ -276,7 +276,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Private
-        private void Construct(PaletteRedirect? redirect,
+        private void Construct(PaletteRedirect redirect,
                                PaletteBack back,
                                PaletteBackInheritRedirect backInherit,
                                PaletteBorder border,

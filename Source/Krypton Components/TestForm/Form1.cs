@@ -133,15 +133,15 @@ namespace TestForm
             Application.Exit();
         }
 
-        private void kryptonButton6_Click(object sender, EventArgs e)
-        {
-            kryptonCustomPaletteBase1.Import();
-        }
+        //private void kryptonButton6_Click(object sender, EventArgs e)
+        //{
+        //    kryptonCustomPaletteBase1.Import();
+        //}
 
-        private void kryptonButton7_Click(object sender, EventArgs e)
-        {
-            kryptonCustomPaletteBase1.Export();
-        }
+        //private void kryptonButton7_Click(object sender, EventArgs e)
+        //{
+        //    kryptonCustomPaletteBase1.Export();
+        //}
 
         private void kryptonThemeComboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {

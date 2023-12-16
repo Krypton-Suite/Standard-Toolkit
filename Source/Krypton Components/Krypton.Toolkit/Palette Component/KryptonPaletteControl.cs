@@ -25,7 +25,7 @@ namespace Krypton.Toolkit
         /// <param name="backStyle">Background style.</param>
         /// <param name="borderStyle">Border style.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public KryptonPaletteControl(PaletteRedirect? redirect,
+        public KryptonPaletteControl(PaletteRedirect redirect,
                                      PaletteBackStyle backStyle,
                                      PaletteBorderStyle borderStyle,
                                      NeedPaintHandler needPaint)

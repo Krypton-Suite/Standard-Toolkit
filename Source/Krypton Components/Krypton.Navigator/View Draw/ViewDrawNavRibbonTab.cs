@@ -306,7 +306,7 @@ namespace Krypton.Navigator
             CheckPaletteState(context);
 
             // Cache the ribbon shape
-            _lastRibbonShape = Navigator.Palette?.GetRibbonShape() ?? PaletteRibbonShape.Office2007;
+            _lastRibbonShape = Navigator.GetResolvedPalette()?.GetRibbonShape() ?? PaletteRibbonShape.Office2007;
 
             // We take on all the provided size
             ClientRectangle = context.DisplayRectangle;

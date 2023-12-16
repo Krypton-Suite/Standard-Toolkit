@@ -27,20 +27,20 @@ namespace Krypton.Navigator
     {
         #region Instance Fields
         private readonly ViewDrawPanel _drawPanel;
-        private readonly PaletteRedirectDoubleMetric? _redirectNavigator;
-        private readonly PaletteRedirectDoubleMetric? _redirectNavigatorHeaderGroup;
-        private readonly PaletteRedirectTripleMetric? _redirectNavigatorHeaderPrimary;
-        private readonly PaletteRedirectTripleMetric? _redirectNavigatorHeaderSecondary;
-        private readonly PaletteRedirectTripleMetric? _redirectNavigatorHeaderBar;
-        private readonly PaletteRedirectTripleMetric? _redirectNavigatorHeaderOverflow;
-        private readonly PaletteRedirectTriple? _redirectNavigatorCheckButton;
-        private readonly PaletteRedirectTriple? _redirectNavigatorOverflowButton;
-        private readonly PaletteRedirectTriple? _redirectNavigatorMiniButton;
-        private readonly PaletteRedirectTriple? _redirectNavigatorTab;
-        private readonly PaletteRedirectRibbonTabContent? _redirectNavigatorRibbonTab;
-        private readonly PaletteRedirectMetric? _redirectNavigatorBar;
-        private readonly PaletteRedirectDouble? _redirectNavigatorPage;
-        private readonly PaletteRedirectDoubleMetric? _redirectNavigatorSeparator;
+        private readonly PaletteRedirectDoubleMetric _redirectNavigator;
+        private readonly PaletteRedirectDoubleMetric _redirectNavigatorHeaderGroup;
+        private readonly PaletteRedirectTripleMetric _redirectNavigatorHeaderPrimary;
+        private readonly PaletteRedirectTripleMetric _redirectNavigatorHeaderSecondary;
+        private readonly PaletteRedirectTripleMetric _redirectNavigatorHeaderBar;
+        private readonly PaletteRedirectTripleMetric _redirectNavigatorHeaderOverflow;
+        private readonly PaletteRedirectTriple _redirectNavigatorCheckButton;
+        private readonly PaletteRedirectTriple _redirectNavigatorOverflowButton;
+        private readonly PaletteRedirectTriple _redirectNavigatorMiniButton;
+        private readonly PaletteRedirectTriple _redirectNavigatorTab;
+        private readonly PaletteRedirectRibbonTabContent _redirectNavigatorRibbonTab;
+        private readonly PaletteRedirectMetric _redirectNavigatorBar;
+        private readonly PaletteRedirectDouble _redirectNavigatorPage;
+        private readonly PaletteRedirectDoubleMetric _redirectNavigatorSeparator;
         private readonly PaletteNavigatorRedirect? _stateCommon;
         private readonly PaletteNavigator? _stateDisabled;
         private readonly PaletteNavigator? _stateNormal;
@@ -287,7 +287,7 @@ namespace Krypton.Navigator
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public new PaletteBase? Palette
+        public new PaletteBase Palette
         {
             [DebuggerStepThrough]
             get => base.Palette;

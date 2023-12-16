@@ -453,7 +453,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private IRenderer? Renderer
+        private IRenderer Renderer
         {
             get
             {

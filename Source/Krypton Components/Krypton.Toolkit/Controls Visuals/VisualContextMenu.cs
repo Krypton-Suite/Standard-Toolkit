@@ -19,7 +19,7 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
         private readonly KryptonContextMenu? _contextMenu;
-        private PaletteBase? _palette;
+        private PaletteBase _palette;
         private readonly ContextMenuProvider _provider;
         private ViewDrawDocker _drawDocker;
         private readonly ViewLayoutStack _viewColumns;
@@ -70,9 +70,9 @@ namespace Krypton.Toolkit
         /// <param name="enabled">Enabled state of the context menu.</param>
         /// <param name="keyboardActivated">Was the context menu activate by a keyboard action.</param>
         public VisualContextMenu(KryptonContextMenu contextMenu,
-                                 PaletteBase? palette,
+                                 PaletteBase palette,
                                  PaletteMode paletteMode,
-                                 PaletteRedirect? redirector,
+                                 PaletteRedirect redirector,
                                  PaletteRedirectContextMenu redirectorImages,
                                  KryptonContextMenuCollection items,
                                  bool enabled,
@@ -350,7 +350,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the palette redirector.
         /// </summary>
-        protected PaletteRedirect? Redirector
+        protected PaletteRedirect Redirector
         {
             [DebuggerStepThrough]
             get;
@@ -469,7 +469,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void SetPalette(PaletteBase? palette)
+        private void SetPalette(PaletteBase palette)
         {
             if (palette != _palette)
             {

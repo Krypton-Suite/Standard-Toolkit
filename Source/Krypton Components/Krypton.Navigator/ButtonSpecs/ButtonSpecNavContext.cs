@@ -38,7 +38,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="palette">Palette to use for inheriting values.</param>
         /// <returns>Button visibiliy.</returns>
-        public override bool GetVisible(PaletteBase? palette)
+        public override bool GetVisible(PaletteBase palette)
         {
             switch (Navigator.Button.ContextButtonDisplay)
             {
@@ -76,7 +76,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="palette">Palette to use for inheriting values.</param>
         /// <returns>Button enabled state.</returns>
-        public override ButtonEnabled GetEnabled(PaletteBase? palette)
+        public override ButtonEnabled GetEnabled(PaletteBase palette)
         {
             switch (Navigator.Button.ContextButtonDisplay)
             {

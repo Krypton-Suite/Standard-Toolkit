@@ -52,7 +52,7 @@ namespace Krypton.Navigator
         /// Update the redirector with new reference.
         /// </summary>
         /// <param name="redirect">Target redirector.</param>
-        public void SetRedirector(PaletteRedirect? redirect) => _inherit.SetRedirector(redirect);
+        public void SetRedirector(PaletteRedirect redirect) => _inherit.SetRedirector(redirect);
         #endregion
 
         #region IsDefault

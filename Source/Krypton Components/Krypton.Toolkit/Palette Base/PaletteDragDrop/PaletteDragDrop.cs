@@ -19,7 +19,7 @@ namespace Krypton.Toolkit
                                    IPaletteDragDrop
     {
         #region Instance Fields
-        private PaletteBase? _inherit;
+        private PaletteBase _inherit;
         private PaletteDragFeedback _feedback;
         private Color _solidBack;
         private Color _solidBorder;
@@ -36,7 +36,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="inherit">Source for inheriting values.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public PaletteDragDrop(PaletteBase? inherit,
+        public PaletteDragDrop(PaletteBase inherit,
                                NeedPaintHandler? needPaint)
         {
             // Remember inheritance
@@ -77,7 +77,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Sets the inheritance parent.
         /// </summary>
-        public void SetInherit(PaletteBase? inherit) => _inherit = inherit;
+        public void SetInherit(PaletteBase inherit) => _inherit = inherit;
         #endregion
 
         #region PopulateFromBase

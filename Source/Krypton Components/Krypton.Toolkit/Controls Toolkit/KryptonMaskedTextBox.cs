@@ -601,7 +601,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         [EditorBrowsable(EditorBrowsableState.Always)]
         [Browsable(false)]
-        public MaskedTextBox? MaskedTextBox => _maskedTextBox;
+        public MaskedTextBox MaskedTextBox => _maskedTextBox;
 
         /// <summary>
         /// Gets access to the contained input control.
@@ -1676,7 +1676,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">Source of notification.</param>
         /// <param name="e">An NeedLayoutEventArgs containing event data.</param>
-        protected override void OnNeedPaint(object? sender, NeedLayoutEventArgs e)
+        protected override void OnNeedPaint(object sender, NeedLayoutEventArgs e)
         {
             if (!e.NeedLayout)
             {
@@ -1697,7 +1697,7 @@ namespace Krypton.Toolkit
                 _maskedTextBox.ForeColor = triple.PaletteContent.GetContentShortTextColor1(state);
 
                 // Only set the font if the masked text box has been created
-                Font font = triple.PaletteContent.GetContentShortTextFont(state);
+                Font? font = triple.PaletteContent.GetContentShortTextFont(state);
                 if ((_maskedTextBox.Handle != IntPtr.Zero) && !_maskedTextBox.Font.Equals(font))
                 {
                     _maskedTextBox.Font = font;

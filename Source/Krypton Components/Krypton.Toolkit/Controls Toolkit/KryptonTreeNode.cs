@@ -21,7 +21,7 @@ namespace Krypton.Toolkit
         #region Instance Fields
         private string _longText;
         private Color _longForeColor;
-        private Font _longNodeFont;
+        private Font? _longNodeFont;
         private bool _isCheckBoxVisible;
         #endregion
 
@@ -153,7 +153,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Appearance")]
         [Description(@"Font of the long text")]
-        public Font LongNodeFont
+        public Font? LongNodeFont
         {
             get => _longNodeFont;
 

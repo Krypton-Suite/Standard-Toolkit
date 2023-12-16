@@ -1184,7 +1184,7 @@ namespace Krypton.Toolkit
                 }
                 else
                 {
-                    _kryptonContextMenu.Palette = Palette;
+                    _kryptonContextMenu.LocalCustomPalette = LocalCustomPalette;
                 }
             }
 

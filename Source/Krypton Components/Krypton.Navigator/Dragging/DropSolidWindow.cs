@@ -19,7 +19,7 @@ namespace Krypton.Navigator
     {
         #region Instance Fields
         private readonly IPaletteDragDrop _paletteDragDrop;
-        private readonly IRenderer? _renderer;
+        private readonly IRenderer _renderer;
         private Rectangle _solidRect;
         #endregion
 
@@ -29,7 +29,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="paletteDragDrop">Drawing palette.</param>
         /// <param name="renderer">Drawing renderer.</param>
-        public DropSolidWindow(IPaletteDragDrop paletteDragDrop, IRenderer? renderer)
+        public DropSolidWindow(IPaletteDragDrop paletteDragDrop, IRenderer renderer)
         {
             _paletteDragDrop = paletteDragDrop;
             _renderer = renderer;

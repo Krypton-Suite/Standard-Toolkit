@@ -100,7 +100,7 @@ namespace Krypton.Toolkit
 
             if ((ThemeManager.GetThemeManagerMode(GetItemText(SelectedItem)) == PaletteMode.Custom) && (KryptonCustomPalette != null))
             {
-                Manager.GlobalPalette = KryptonCustomPalette;
+                Manager.GlobalCustomPalette = KryptonCustomPalette;
             }
         }
 

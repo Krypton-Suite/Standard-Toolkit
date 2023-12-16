@@ -32,7 +32,7 @@ namespace Krypton.Navigator
         /// <param name="getRenderer">Delegate for returning a tool strip renderer.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
         public ButtonSpecNavManagerLayoutBar(Control control,
-                                             PaletteRedirect? redirector,
+                                             PaletteRedirect redirector,
                                              ButtonSpecCollectionBase? variableSpecs,
                                              ViewLayoutDocker[] viewDockers,
                                              IPaletteMetric[] viewMetrics,
@@ -63,7 +63,7 @@ namespace Krypton.Navigator
         /// <param name="getRenderer">Delegate for returning a tool strip renderer.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
         public ButtonSpecNavManagerLayoutBar(Control control,
-                                             PaletteRedirect? redirector,
+                                             PaletteRedirect redirector,
                                              ButtonSpecCollectionBase? variableSpecs,
                                              ButtonSpecCollectionBase? fixedSpecs,
                                              ViewLayoutDocker[] viewDockers,
@@ -205,7 +205,7 @@ namespace Krypton.Navigator
         /// <param name="redirector">Base palette class.</param>
         /// <param name="buttonSpec">ButtonSpec instance.</param>
         /// <returns>Palette redirector for the button spec instance.</returns>
-        public override PaletteRedirect CreateButtonSpecRemap(PaletteRedirect? redirector,
+        public override PaletteRedirect CreateButtonSpecRemap(PaletteRedirect redirector,
                                                               ButtonSpec buttonSpec) =>
             new ButtonSpecNavRemap(redirector, buttonSpec, RemapTarget);
 

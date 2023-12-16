@@ -27,11 +27,11 @@ namespace Krypton.Navigator
         /// <param name="redirectTab">inheritance redirection instance for the tab.</param>
         /// <param name="redirectRibbonTab">inheritance redirection instance for the ribbon tab.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public PaletteNavigatorOtherRedirect(PaletteRedirect? redirectCheckButton,
-                                             PaletteRedirect? redirectOverflowButton,
-                                             PaletteRedirect? redirectMiniButton,
-                                             PaletteRedirect? redirectTab,
-                                             PaletteRedirect? redirectRibbonTab,
+        public PaletteNavigatorOtherRedirect(PaletteRedirect redirectCheckButton,
+                                             PaletteRedirect redirectOverflowButton,
+                                             PaletteRedirect redirectMiniButton,
+                                             PaletteRedirect redirectTab,
+                                             PaletteRedirect redirectRibbonTab,
                                              NeedPaintHandler needPaint)
         {
             // Create the palette storage

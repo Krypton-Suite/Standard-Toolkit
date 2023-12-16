@@ -94,7 +94,7 @@ namespace Krypton.Ribbon
         /// <param name="layoutContexts">Reference to layout of the context area.</param>
         /// <param name="needPaintDelegate">Delegate for notifying paint/layout changes.</param>
         public ViewLayoutRibbonTabsArea([DisallowNull] KryptonRibbon ribbon,
-                                        /*[DisallowNull]*/ PaletteRedirect? redirect,
+                                        [DisallowNull] PaletteRedirect redirect,
                                         [DisallowNull] ViewDrawRibbonCaptionArea captionArea,
                                         [DisallowNull] ViewLayoutRibbonContextTitles layoutContexts,
                                         [DisallowNull] NeedPaintHandler needPaintDelegate)
@@ -460,7 +460,7 @@ namespace Krypton.Ribbon
             _buttonSpecsFixed.AddRange(new ButtonSpec[] { _buttonSpecMinimize, _buttonSpecExpand, _buttonSpecMin, _buttonSpecRestore, _buttonSpecClose });
         }
 
-        private void CreateViewElements(PaletteRedirect? redirect)
+        private void CreateViewElements(PaletteRedirect redirect)
         {
             // Layout for individual tabs inside the header
             LayoutTabs = new ViewLayoutRibbonTabs(_ribbon, NeedPaintDelegate);
@@ -717,7 +717,7 @@ namespace Krypton.Ribbon
 
                         // Create the actual control used to show the context menu
                         _appMenu = new VisualPopupAppMenu(_ribbon, _ribbon.RibbonAppButton,
-                                                          _ribbon.Palette, _ribbon.PaletteMode,
+                                                          _ribbon.LocalCustomPalette, _ribbon.PaletteMode,
                                                           _ribbon.GetRedirector(),
                                                           appRectTop, appRectBottom,
                                                           _appButtonController!.Keyboard);

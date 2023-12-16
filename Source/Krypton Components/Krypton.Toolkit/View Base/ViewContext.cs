@@ -37,7 +37,7 @@ namespace Krypton.Toolkit
         public ViewContext(ViewManager? manager,
                            Control control, 
                            Control alignControl, 
-                           IRenderer? renderer)
+                           IRenderer renderer)
             : this(manager, control, alignControl, null, renderer)
         {
         }
@@ -52,7 +52,7 @@ namespace Krypton.Toolkit
         public ViewContext(Control control,
                            Control alignControl,
                            Graphics? graphics,
-                           IRenderer? renderer)
+                           IRenderer renderer)
             : this(null, control, alignControl, graphics, renderer)
         {
         }
@@ -69,7 +69,7 @@ namespace Krypton.Toolkit
                            Control control,
                            Control alignControl,
                            Graphics? graphics,
-                           IRenderer? renderer)
+                           IRenderer renderer)
         {
             // Use the manager is provided, otherwise create a temporary one with a null view
             if (manager != null)
@@ -229,7 +229,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the renderer provider.
         /// </summary>
-        public IRenderer? Renderer
+        public IRenderer Renderer
         {
             [DebuggerStepThrough]
             get;

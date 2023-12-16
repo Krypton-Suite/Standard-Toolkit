@@ -20,7 +20,8 @@ namespace Krypton.Navigator
         #region Static Fields
 
         [Localizable(true)]
-        private static readonly IReadOnlyDictionary<MapKryptonPageText, string> _pairs = new Dictionary<MapKryptonPageText, string>
+        private static readonly BiDictionary<MapKryptonPageText, string> _pairs = new BiDictionary<MapKryptonPageText, string>(
+            new Dictionary<MapKryptonPageText, string>
         {
             {MapKryptonPageText.None, @"None (Empty string)"},
             {MapKryptonPageText.Text, @"Text"},
@@ -36,10 +37,16 @@ namespace Krypton.Navigator
             {MapKryptonPageText.DescriptionTitleText, @"Description - Title - Text"},
             {MapKryptonPageText.ToolTipTitle, @"ToolTipTitle"},
             {MapKryptonPageText.ToolTipBody, @"ToolTipBody"}
-        };
+        });
 
         #endregion
 
-        protected override IReadOnlyDictionary<MapKryptonPageText /*Enum*/, string /*Display*/> Pairs => _pairs;
+        #region Protected
+        /// <summary>
+        /// Gets an array of lookup pairs.
+        /// </summary>
+        protected override IReadOnlyDictionary<string /*Display*/, MapKryptonPageText /*Enum*/ > PairsStringToEnum  => _pairs.SecondToFirst;
+        protected override IReadOnlyDictionary<MapKryptonPageText /*Enum*/, string /*Display*/> PairsEnumToString => _pairs.FirstToSecond;
+        #endregion
     }
 }

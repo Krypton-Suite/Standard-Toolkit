@@ -511,7 +511,7 @@ namespace Krypton.Toolkit
 
         internal PaletteTripleOverride OverridePressed { get; }
 
-        internal void SetPaletteRedirect(PaletteRedirect? redirector)
+        internal void SetPaletteRedirect(PaletteRedirect redirector)
         {
             StateCommon.SetRedirector(redirector);
             OverrideFocus.SetRedirector(redirector);

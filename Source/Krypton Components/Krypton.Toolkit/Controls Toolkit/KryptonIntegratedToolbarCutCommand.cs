@@ -42,7 +42,7 @@ namespace Krypton.Toolkit
         public ButtonSpecAny? ToolBarCutButton
         {
             get => _cutButtonSpec ?? new ButtonSpecAny();
-            set { _cutButtonSpec = value; UpdateImage(KryptonManager.InternalGlobalPaletteMode); }
+            set { _cutButtonSpec = value; UpdateImage(KryptonManager.CurrentGlobalPaletteMode); }
         }
 
         /// <summary>Gets the active image.</summary>

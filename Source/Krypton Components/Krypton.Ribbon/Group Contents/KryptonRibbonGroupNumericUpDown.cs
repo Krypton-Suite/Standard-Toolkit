@@ -179,7 +179,8 @@ namespace Krypton.Ribbon
                 {
                     // Use the same palette in the numeric up-down as the ribbon, plus we need
                     // to know when the ribbon palette changes so we can reflect that change
-                    NumericUpDown.Palette = Ribbon.GetResolvedPalette();
+                    NumericUpDown.PaletteMode = Ribbon!.PaletteMode;
+                    NumericUpDown.LocalCustomPalette = Ribbon!.LocalCustomPalette;
                     Ribbon.PaletteChanged += OnRibbonPaletteChanged;
                 }
             }
@@ -712,7 +713,12 @@ namespace Krypton.Ribbon
 
         private void OnNumericUpDownPreviewKeyDown(object sender, PreviewKeyDownEventArgs e) => OnPreviewKeyDown(e);
 
-        private void OnRibbonPaletteChanged(object sender, EventArgs e) => NumericUpDown.Palette = Ribbon.GetResolvedPalette();
+        private void OnRibbonPaletteChanged(object sender, EventArgs e)
+        {
+            NumericUpDown.PaletteMode = Ribbon!.PaletteMode;
+            NumericUpDown.LocalCustomPalette = Ribbon!.LocalCustomPalette;
+        }
+
         #endregion
     }
 }

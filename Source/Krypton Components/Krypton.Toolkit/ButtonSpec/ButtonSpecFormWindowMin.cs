@@ -34,7 +34,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="palette">Palette to use for inheriting values.</param>
         /// <returns>Button visibility.</returns>
-        public override bool GetVisible(PaletteBase? palette)
+        public override bool GetVisible(PaletteBase palette)
         {
             // We do not show if the custom chrome is combined with composition,
             // in which case the form buttons are handled by the composition
@@ -66,7 +66,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="palette">Palette to use for inheriting values.</param>
         /// <returns>Button enabled state.</returns>
-        public override ButtonEnabled GetEnabled(PaletteBase? palette) =>
+        public override ButtonEnabled GetEnabled(PaletteBase palette) =>
             // Has the minimize buttons been turned off?
             !KryptonForm.MinimizeBox ? ButtonEnabled.False : ButtonEnabled.True;
 

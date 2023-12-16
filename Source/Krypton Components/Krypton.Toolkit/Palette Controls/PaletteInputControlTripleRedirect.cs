@@ -76,7 +76,7 @@ namespace Krypton.Toolkit
         /// Update the redirector with new reference.
         /// </summary>
         /// <param name="redirect">Target redirector.</param>
-        public virtual void SetRedirector(PaletteRedirect? redirect)
+        public virtual void SetRedirector(PaletteRedirect redirect)
         {
             _backInherit.SetRedirector(redirect);
             _borderInherit.SetRedirector(redirect);

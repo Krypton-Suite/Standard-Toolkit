@@ -20,7 +20,8 @@ namespace Krypton.Toolkit
         #region Static Fields
 
         [Localizable(true)]
-        private static readonly IReadOnlyDictionary<TabBorderStyle, string> _pairs = new Dictionary<TabBorderStyle, string>
+        private static readonly BiDictionary<TabBorderStyle, string> _pairs = new BiDictionary<TabBorderStyle, string>(
+            new Dictionary<TabBorderStyle, string>
         {
             {TabBorderStyle.OneNote, DesignTimeUtilities.DEFAULT_TAB_BORDER_STYLE_ONE_NOTE},
             {TabBorderStyle.SquareEqualSmall, DesignTimeUtilities.DEFAULT_TAB_BORDER_STYLE_SQUARE_EQUAL_SMALL},
@@ -45,7 +46,7 @@ namespace Krypton.Toolkit
             {TabBorderStyle.SmoothOutsize, DesignTimeUtilities.DEFAULT_TAB_BORDER_STYLE_SMOOTH_OUTSIZE},
             {TabBorderStyle.DockEqual, DesignTimeUtilities.DEFAULT_TAB_BORDER_STYLE_DOCK_EQUAL},
             {TabBorderStyle.DockOutsize, DesignTimeUtilities.DEFAULT_TAB_BORDER_STYLE_DOCK_OUTSIZE}
-        };
+        });
 
         #endregion  
 
@@ -54,7 +55,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets an array of lookup pairs.
         /// </summary>
-        protected override IReadOnlyDictionary<TabBorderStyle /*Enum*/, string /*Display*/> Pairs => _pairs;
+        protected override IReadOnlyDictionary<TabBorderStyle /*Enum*/, string /*Display*/> PairsEnumToString => _pairs.FirstToSecond;
+        protected override IReadOnlyDictionary<string /*Display*/, TabBorderStyle /*Enum*/ > PairsStringToEnum => _pairs.SecondToFirst;
 
         #endregion
     }

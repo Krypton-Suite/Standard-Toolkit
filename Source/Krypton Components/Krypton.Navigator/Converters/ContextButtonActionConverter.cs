@@ -20,19 +20,20 @@ namespace Krypton.Navigator
         #region Static Fields
 
         [Localizable(true)]
-        private static readonly IReadOnlyDictionary<ContextButtonAction, string> _pairs =
+        private static readonly BiDictionary<ContextButtonAction, string> _pairs = new BiDictionary<ContextButtonAction, string>(
             new Dictionary<ContextButtonAction, string>
             {
                 { ContextButtonAction.None, @"None (Do nothing)" },
                 { ContextButtonAction.SelectPage, @"Select Page" }
-            };
+            });
         #endregion
 
         #region Protected
         /// <summary>
         /// Gets an array of lookup pairs.
         /// </summary>
-        protected override IReadOnlyDictionary<ContextButtonAction /*Enum*/, string /*Display*/> Pairs => _pairs;
+        protected override IReadOnlyDictionary<string /*Display*/, ContextButtonAction /*Enum*/ > PairsStringToEnum  => _pairs.SecondToFirst;
+        protected override IReadOnlyDictionary<ContextButtonAction /*Enum*/, string /*Display*/> PairsEnumToString => _pairs.FirstToSecond;
         #endregion
     }
 }

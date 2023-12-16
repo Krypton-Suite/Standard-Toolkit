@@ -20,7 +20,8 @@ namespace Krypton.Navigator
         #region Static Fields
 
         [Localizable(true)]
-        private static readonly IReadOnlyDictionary<PopupPagePosition, string> _pairs = new Dictionary<PopupPagePosition, string>
+        private static readonly BiDictionary<PopupPagePosition, string> _pairs = new BiDictionary<PopupPagePosition, string>(
+            new Dictionary<PopupPagePosition, string>
         {
             {PopupPagePosition.ModeAppropriate, @"Mode Appropriate"},
             {PopupPagePosition.AboveFar, @"Above Element - Far Aligned"},
@@ -35,11 +36,15 @@ namespace Krypton.Navigator
             {PopupPagePosition.NearBottom, @"Near Side of Element - Bottom Aligned"},
             {PopupPagePosition.NearMatch, @"Near Side of Element - Element Height"},
             {PopupPagePosition.NearTop, @"Near Side of Element - Top Aligned"}
-        };
+        });
 
         #endregion
-        protected override IReadOnlyDictionary<PopupPagePosition /*Enum*/, string /*Display*/> Pairs => _pairs;
-
-
+        #region Protected
+        /// <summary>
+        /// Gets an array of lookup pairs.
+        /// </summary>
+        protected override IReadOnlyDictionary<string /*Display*/, PopupPagePosition /*Enum*/ > PairsStringToEnum  => _pairs.SecondToFirst;
+        protected override IReadOnlyDictionary<PopupPagePosition /*Enum*/, string /*Display*/> PairsEnumToString => _pairs.FirstToSecond;
+        #endregion
     }
 }

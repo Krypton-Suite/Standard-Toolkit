@@ -536,7 +536,7 @@ namespace Krypton.Toolkit
 
         internal PaletteRedirectCheckBox? StateCheckBoxImages { get; }
 
-        internal void SetPaletteRedirect(PaletteRedirect? redirector)
+        internal void SetPaletteRedirect(PaletteRedirect redirector)
         {
             _stateCommonRedirect.SetRedirector(redirector);
             StateCheckBoxImages!.Target = redirector;
