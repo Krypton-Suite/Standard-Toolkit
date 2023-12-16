@@ -1160,7 +1160,7 @@ namespace Krypton.Ribbon
             }
 
             // Get the view the mouse is currently over
-            ViewBase? mouseView = ViewManager?.Root?.ViewFromPoint(pt);
+            ViewBase? mouseView = ViewManager?.Root.ViewFromPoint(pt);
 
             // Do we match of the views we always allow?
             var matchView = (mouseView?.Parent != null)
@@ -1210,7 +1210,7 @@ namespace Krypton.Ribbon
             }
 
             // Get the view the mouse is currently over
-            ViewBase? mouseView = ViewManager?.Root?.ViewFromPoint(pt);
+            ViewBase? mouseView = ViewManager?.Root.ViewFromPoint(pt);
 
             if (mouseView is ViewDrawRibbonGroupDateTimePicker picker)
             {
@@ -1270,7 +1270,7 @@ namespace Krypton.Ribbon
             // Cannot process a message for a disposed control
             if (!IsDisposed && !Disposing)
             {
-                TabsArea?.AppButtonVisibleChanged();
+                TabsArea.AppButtonVisibleChanged();
 
                 CaptionArea?.AppButtonVisibleChanged();
             }
@@ -2524,7 +2524,7 @@ namespace Krypton.Ribbon
 
         internal Rectangle ViewRectangleToScreen(ViewBase view) => view.OwningControl!.RectangleToScreen(view.ClientRectangle);
 
-        internal Rectangle KeyTipToScreen(ViewBase view) => view.OwningControl!.RectangleToScreen(view.ClientRectangle);
+        internal Rectangle KeyTipToScreen(ViewBase? view) => view!.OwningControl!.RectangleToScreen(view.ClientRectangle);
 
         internal ViewBase? FocusView
         {
@@ -2674,7 +2674,7 @@ namespace Krypton.Ribbon
             RibbonStrings = new RibbonStrings();
             RibbonAppButton = new RibbonAppButton(this);
             RibbonStyles = new PaletteRibbonStyles(this, NeedPaintPaletteDelegate);
-            StateCommon = new PaletteRibbonRedirect(Redirector!, PaletteBackStyle.PanelClient, NeedPaintPaletteDelegate);
+            StateCommon = new PaletteRibbonRedirect(Redirector, PaletteBackStyle.PanelClient, NeedPaintPaletteDelegate);
             StateDisabled = new PaletteRibbonDisabled(StateCommon, NeedPaintPaletteDelegate);
             StateNormal = new PaletteRibbonNormal(StateCommon, NeedPaintPaletteDelegate);
             StateTracking = new PaletteRibbonAppGroupTab(StateCommon, NeedPaintPaletteDelegate);
@@ -2685,7 +2685,7 @@ namespace Krypton.Ribbon
             StateContextTracking = new PaletteRibbonGroupTab(StateCommon, NeedPaintPaletteDelegate);
             StateContextCheckedNormal = new PaletteRibbonGroupAreaTab(StateCommon, NeedPaintPaletteDelegate);
             StateContextCheckedTracking = new PaletteRibbonJustTab(StateCommon, NeedPaintPaletteDelegate);
-            OverrideFocus = new PaletteRibbonFocus(Redirector!, NeedPaintPaletteDelegate);
+            OverrideFocus = new PaletteRibbonFocus(Redirector, NeedPaintPaletteDelegate);
         }
 
         private void CreateViewManager()
@@ -2713,14 +2713,14 @@ namespace Krypton.Ribbon
             };
 
             // Create caption area which is used if custom chrome cannot perform task
-            CaptionArea = new ViewDrawRibbonCaptionArea(this, Redirector!, _compositionArea, NeedPaintDelegate);
+            CaptionArea = new ViewDrawRibbonCaptionArea(this, Redirector, _compositionArea, NeedPaintDelegate);
 
             // Create tabs area containing the tabs, pendant buttons etc...
-            TabsArea = new ViewLayoutRibbonTabsArea(this, Redirector!, CaptionArea, CaptionArea.ContextTitles!, NeedPaintDelegate);
+            TabsArea = new ViewLayoutRibbonTabsArea(this, Redirector, CaptionArea, CaptionArea.ContextTitles!, NeedPaintDelegate);
             TabsArea.PaintBackground += OnTabsAreaPaintBackground;
 
             // Create groups area containing the groups of the selected tab
-            GroupsArea = new ViewLayoutRibbonGroupsArea(this, Redirector!, _needPaintGroups);
+            GroupsArea = new ViewLayoutRibbonGroupsArea(this, Redirector, _needPaintGroups);
 
             // Create the quick access toolbar for when below the ribbon
             _qatBelowContents = new ViewLayoutRibbonQATFromRibbon(this, NeedPaintDelegate, true);
@@ -3101,9 +3101,10 @@ namespace Krypton.Ribbon
         private void OnRibbonQATButtonsClearing(object sender, EventArgs e)
         {
             // Stop tracking changes in button properties
-            foreach (IQuickAccessToolbarButton qatButton in QATButtons)
+            foreach (var component in QATButtons)
             {
-                qatButton.PropertyChanged -= OnQATButtonPropertyChanged;
+                var qatButton = component as IQuickAccessToolbarButton;
+                qatButton!.PropertyChanged -= OnQATButtonPropertyChanged;
             }
         }
 
@@ -3211,7 +3212,7 @@ namespace Krypton.Ribbon
             // Create a popup control with the minimized panel as the view
             var popupManager = new ViewRibbonMinimizedManager(this, GroupsArea.ViewGroups,
                 _drawMinimizedPanel, true, _needPaintGroups);
-            _minimizedPopup = new VisualPopupMinimized(this, popupManager, CaptionArea!, Renderer!);
+            _minimizedPopup = new VisualPopupMinimized(this, popupManager, CaptionArea!, Renderer);
             _minimizedPopup.Disposed += OnMinimizedPopupDisposed;
             popupManager.Attach(_minimizedPopup, _drawMinimizedPanel);
 

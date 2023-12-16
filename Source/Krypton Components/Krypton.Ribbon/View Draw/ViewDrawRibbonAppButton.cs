@@ -109,7 +109,7 @@ namespace Krypton.Ribbon
             Debug.Assert(context != null);
 
             // We take on all the available display area
-            ClientRectangle = context.DisplayRectangle;
+            ClientRectangle = context!.DisplayRectangle;
             _clipRect = ClientRectangle;
 
             // Update to reflect full size of actual button
@@ -164,7 +164,7 @@ namespace Krypton.Ribbon
             }
 
             // Draw the background
-            _mementos[memento] = context.Renderer.RenderRibbon.DrawRibbonApplicationButton(_ribbon.RibbonShape, context, ClientRectangle, State, palette, _mementos[memento]);
+            _mementos[memento] = context.Renderer.RenderRibbon.DrawRibbonApplicationButton(_ribbon.RibbonShape, context, ClientRectangle, State, palette, _mementos[memento]!);
 
             // If there is an application button to be drawn
             if (_ribbon.RibbonAppButton.AppButtonImage != null)
