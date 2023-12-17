@@ -28,6 +28,52 @@ namespace Krypton.Toolkit
         [Browsable(false)] 
         public bool IsDefault => true;
 
+        public string Application { get; set; }
+
+        public string Asterisk { get; set; }
+
+        public string Custom { get; set; }
+
+        public string Error { get; set; }
+
+        public string Exclamation { get; set; }
+
+        public string Hand { get; set; }
+
+        public string Information { get; set; }
+
+        public string None { get; set; }
+
+        public string Ok { get; set; }
+
+        public string Question { get; set; }
+
+        public string Shield { get; set; }
+
+        public string Stop { get; set; }
+
+        public string SystemApplication { get; set; }
+
+        public string SystemAsterisk { get; set; }
+
+        public string SystemError { get; set; }
+
+        public string SystemExclamation { get; set; }
+
+        public string SystemHand { get; set; }
+
+        public string SystemInformation { get; set; }
+
+        public string SystemQuestion { get; set; }
+
+        public string SystemStop { get; set; }
+
+        public string SystemWarning { get; set; }
+
+        public string Warning { get; set; }
+
+        public string WindowsLogo { get; set; }
+
         #endregion
 
         #region Implementation
