@@ -1893,13 +1893,13 @@ namespace Krypton.Toolkit
         /// <summary>Specify the system question icon.</summary>
         SystemQuestion = MessageBoxIcon.Question,
 
-        /// <summary>Specify a exclamation icon.</summary>
+        /// <summary>Specify an exclamation icon.</summary>
         Exclamation = 3,
 
         /// <summary>Specify the system exclamation icon.</summary>
         SystemExclamation = MessageBoxIcon.Exclamation,
 
-        /// <summary>Specify a asterisk icon.</summary>
+        /// <summary>Specify an asterisk icon.</summary>
         Asterisk = 4,
 
         /// <summary>Specify the system asterisk icon.</summary>
@@ -1923,7 +1923,7 @@ namespace Krypton.Toolkit
         /// <summary>Specify the system warning icon.</summary>
         SystemWarning = MessageBoxIcon.Warning,
 
-        /// <summary>Specify a information icon.</summary>
+        /// <summary>Specify an information icon.</summary>
         Information = 8,
 
         /// <summary>Specify the system information icon.</summary>
@@ -1946,7 +1946,7 @@ namespace Krypton.Toolkit
 
     #region Enum KryptonMessageBoxButtons
 
-    // <summary>Specifies constants defining which buttons to display on a <see cref="T:KryptonMessageBox" />.</summary>
+    /// <summary>Specifies constants defining which buttons to display on a <see cref="T:KryptonMessageBox" />.</summary>
     public enum KryptonMessageBoxButtons
     {
         /// <summary>
@@ -2016,6 +2016,7 @@ namespace Krypton.Toolkit
 
     #region Enum KryptonToastNotificationIcon
 
+    [TypeConverter(typeof(KryptonToastNotificationIconConverter))]
     public enum KryptonToastNotificationIcon
     {
         /// <summary>Specify no icon.</summary>
@@ -2033,13 +2034,13 @@ namespace Krypton.Toolkit
         /// <summary>Specify the system question icon.</summary>
         SystemQuestion = MessageBoxIcon.Question,
 
-        /// <summary>Specify a exclamation icon.</summary>
+        /// <summary>Specify an exclamation icon.</summary>
         Exclamation = 3,
 
         /// <summary>Specify the system exclamation icon.</summary>
         SystemExclamation = MessageBoxIcon.Exclamation,
 
-        /// <summary>Specify a asterisk icon.</summary>
+        /// <summary>Specify an asterisk icon.</summary>
         Asterisk = 4,
 
         /// <summary>Specify the system asterisk icon.</summary>
@@ -2063,7 +2064,7 @@ namespace Krypton.Toolkit
         /// <summary>Specify the system warning icon.</summary>
         SystemWarning = MessageBoxIcon.Warning,
 
-        /// <summary>Specify a information icon.</summary>
+        /// <summary>Specify an information icon.</summary>
         Information = 8,
 
         /// <summary>Specify the system information icon.</summary>
@@ -2081,8 +2082,10 @@ namespace Krypton.Toolkit
         /// <summary>Specify the default system application icon. See <see cref="SystemIcons.Application"/>.</summary>
         SystemApplication = 12,
 
+        /// <summary>Specify an ok icon.</summary>
         Ok = 13,
 
+        /// <summary>Specify a custom icon.</summary>
         Custom = 14,
     }
 
