@@ -107,7 +107,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("The image.")]
         [RefreshProperties(RefreshProperties.All)]
-        //[DefaultValue()]
+        [DefaultValue(typeof(Image), @"DEFAULT_IMAGE")]
         public Image? Image
         {
             get => _image;
