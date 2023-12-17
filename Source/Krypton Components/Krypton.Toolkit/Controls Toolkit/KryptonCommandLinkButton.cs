@@ -81,7 +81,7 @@ namespace Krypton.Toolkit
             // Create the palette storage
             StateCommon = new PaletteTripleRedirect(Redirector, PaletteBackStyle.ButtonCommand, PaletteBorderStyle.ButtonCommand, PaletteContentStyle.ButtonCommand, NeedPaintDelegate);
             PaletteContentText contentShortText = StateCommon.Content.ShortText;
-            contentShortText.Font = new Font(@"Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            contentShortText.Font = KryptonManager.CurrentGlobalPalette.BaseFont; //new Font(@"Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             contentShortText.TextH = PaletteRelativeAlign.Near;
             contentShortText.TextV = PaletteRelativeAlign.Center;
             StateCommon.Content.LongText.TextH = PaletteRelativeAlign.Near;
@@ -110,7 +110,7 @@ namespace Krypton.Toolkit
                                              _overrideNormal,
                                              _overrideTracking,
                                              _overridePressed,
-                                             new PaletteMetricRedirect(Redirector!),
+                                             new PaletteMetricRedirect(Redirector),
                                              CommandLinkImageValues, CommandLinkTextValues,
                                              Orientation,
                                              UseMnemonic)

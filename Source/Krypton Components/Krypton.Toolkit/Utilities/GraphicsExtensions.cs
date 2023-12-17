@@ -118,20 +118,35 @@ namespace Krypton.Toolkit
         /// <param name="height">The height.</param>
         public static Bitmap? ScaleImage(Image? image, int width, int height) => ScaleImage(image, new Size(width, height));
 
-        // TODO: Remove, as this is redundant
-        //public enum IconType
-        //{
-        //    Warning = 101,
-        //    Help = 102,
-        //    Error = 103,
-        //    Info = 104,
-        //    Shield = 106
-        //}
-
         /// <summary>Sets the icon.</summary>
         /// <param name="image">The image.</param>
         /// <param name="size">The size.</param>
         public static Image SetIcon(Image image, Size size) => new Bitmap(image, size);
+
+        /// <summary>Extracts an icon from a DLL. Code from https://stackoverflow.com/questions/6872957/how-can-i-use-the-images-within-shell32-dll-in-my-c-sharp-project.</summary>
+        /// <param name="file">The file.</param>
+        /// <param name="imageIndex">Index of the image.</param>
+        /// <param name="largeIcon">if set to <c>true</c> [large icon].</param>
+        /// <returns>
+        ///   <br />
+        /// </returns>
+        public static Icon? ExtractIcon(string file, int imageIndex, bool largeIcon)
+        {
+            IntPtr large;
+
+            IntPtr small;
+
+            ImageNativeMethods.ExtractIconEx(file, imageIndex, out large, out small, 1);
+
+            try
+            {
+                return Icon.FromHandle(largeIcon ? large : small);
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+        }
     }
 
     #endregion
