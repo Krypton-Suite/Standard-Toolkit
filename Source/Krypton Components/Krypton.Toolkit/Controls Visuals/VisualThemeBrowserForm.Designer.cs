@@ -1,6 +1,6 @@
 ﻿namespace Krypton.Toolkit
 {
-    partial class VisualKryptonThemeBrowserForm
+    partial class VisualThemeBrowserForm
     {
         /// <summary>
         /// Required designer variable.
@@ -48,12 +48,6 @@
             // 
             // kcpbCustom
             // 
-            this.kcpbCustom.BaseFont = new System.Drawing.Font("Segoe UI", 9F);
-            this.kcpbCustom.BaseFontSize = 9F;
-            this.kcpbCustom.BasePaletteMode = Krypton.Toolkit.PaletteMode.Microsoft365Blue;
-            this.kcpbCustom.BasePaletteType = Krypton.Toolkit.BasePaletteType.Custom;
-            this.kcpbCustom.ThemeName = null;
-            this.kcpbCustom.UseKryptonFileDialogs = true;
             // 
             // kryptonPanel1
             // 
@@ -95,7 +89,7 @@
             this.kbtnOK.Name = "kbtnOK";
             this.kbtnOK.Size = new System.Drawing.Size(90, 25);
             this.kbtnOK.TabIndex = 3;
-            this.kbtnOK.UseAsADialogButton = true;
+            this.kbtnOK.Values.UseAsADialogButton = true;
             this.kbtnOK.Values.Text = "O&K";
             this.kbtnOK.Click += new System.EventHandler(this.kbtnOK_Click);
             // 
@@ -106,7 +100,7 @@
             this.kbtnCancel.Name = "kbtnCancel";
             this.kbtnCancel.Size = new System.Drawing.Size(90, 25);
             this.kbtnCancel.TabIndex = 2;
-            this.kbtnCancel.UseAsADialogButton = true;
+            this.kbtnCancel.Values.UseAsADialogButton = true;
             this.kbtnCancel.Values.Text = "Cance&l";
             this.kbtnCancel.Click += new System.EventHandler(this.kbtnCancel_Click);
             // 

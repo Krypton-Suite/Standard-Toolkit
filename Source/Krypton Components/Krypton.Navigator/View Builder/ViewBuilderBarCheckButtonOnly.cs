@@ -26,9 +26,9 @@ namespace Krypton.Navigator
         /// <param name="redirector">Palette redirector.</param>
         public override void Construct(KryptonNavigator navigator,
                                        ViewManager manager,
-                                       PaletteRedirect? redirector) =>
+                                       PaletteRedirect redirector) =>
             // Let base class perform common operations
-            base.Construct(navigator, manager, redirector);
+            base.Construct(navigator, manager, redirector!);
 
         /// <summary>
         /// Gets a value indicating if the mode is a tab strip style mode.
@@ -44,7 +44,7 @@ namespace Krypton.Navigator
             if (Navigator.SelectedPage != null)
             {
                 // Grab the view for the page
-                INavCheckItem checkItem = _pageLookup[Navigator.SelectedPage];
+                INavCheckItem? checkItem = _pageLookup![Navigator.SelectedPage];
 
                 // If the item also has the focus
                 if (checkItem.HasFocus)
@@ -70,7 +70,7 @@ namespace Krypton.Navigator
         protected override void CreateCheckItemView()
         {
             // Create the view element that lays out the check buttons
-            _layoutBar = new ViewLayoutBar(Navigator.StateCommon.Bar,
+            _layoutBar = new ViewLayoutBar(Navigator.StateCommon!.Bar,
                                            PaletteMetricInt.CheckButtonGap,
                                            Navigator.Bar.ItemSizing,
                                            Navigator.Bar.ItemAlignment,
@@ -111,7 +111,7 @@ namespace Krypton.Navigator
             };
 
             // Create the top level panel and put a layout docker inside it
-            _drawPanel = new ViewDrawPanel(Navigator.StateNormal.Back)
+            _drawPanel = new ViewDrawPanel(Navigator.StateNormal!.Back)
             {
                 _layoutPanelDocker
             };
@@ -119,7 +119,7 @@ namespace Krypton.Navigator
 
             // Must call the base class to perform common actions
             base.CreateCheckItemView();
-        }       
+        }
         #endregion
     }
 }

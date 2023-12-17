@@ -48,7 +48,7 @@ namespace Krypton.Ribbon
             _captionArea = captionArea;
 
             // Create cache of draw elements
-            _contextTitlesCache = new ViewDrawRibbonContextTitleList();
+            _contextTitlesCache = [];
         }
 
         /// <summary>

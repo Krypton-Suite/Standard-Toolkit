@@ -27,15 +27,15 @@ namespace Krypton.Navigator
         /// <param name="redirectTab">inheritance redirection instance for the tab.</param>
         /// <param name="redirectRibbonTab">inheritance redirection instance for the ribbon tab.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public PaletteNavigatorOtherRedirect(PaletteRedirect? redirectCheckButton,
-                                             PaletteRedirect? redirectOverflowButton,
-                                             PaletteRedirect? redirectMiniButton,
-                                             PaletteRedirect? redirectTab,
-                                             PaletteRedirect? redirectRibbonTab,
-                                             NeedPaintHandler needPaint) 
+        public PaletteNavigatorOtherRedirect(PaletteRedirect redirectCheckButton,
+                                             PaletteRedirect redirectOverflowButton,
+                                             PaletteRedirect redirectMiniButton,
+                                             PaletteRedirect redirectTab,
+                                             PaletteRedirect redirectRibbonTab,
+                                             NeedPaintHandler needPaint)
         {
             // Create the palette storage
-            CheckButton = new PaletteTripleRedirect(redirectCheckButton, 
+            CheckButton = new PaletteTripleRedirect(redirectCheckButton,
                                                             PaletteBackStyle.ButtonStandalone,
                                                             PaletteBorderStyle.ButtonStandalone,
                                                             PaletteContentStyle.ButtonStandalone,
@@ -53,13 +53,13 @@ namespace Krypton.Navigator
                                                             PaletteContentStyle.ButtonNavigatorMini,
                                                             needPaint);
 
-            Tab = new PaletteTabTripleRedirect(redirectTab,
+            Tab = new PaletteTabTripleRedirect(redirectTab!,
                                                        PaletteBackStyle.TabHighProfile,
                                                        PaletteBorderStyle.TabHighProfile,
                                                        PaletteContentStyle.TabHighProfile,
                                                        needPaint);
 
-            RibbonTab = new PaletteRibbonTabContentRedirect(redirectRibbonTab, needPaint);
+            RibbonTab = new PaletteRibbonTabContentRedirect(redirectRibbonTab!, needPaint);
         }
         #endregion
 

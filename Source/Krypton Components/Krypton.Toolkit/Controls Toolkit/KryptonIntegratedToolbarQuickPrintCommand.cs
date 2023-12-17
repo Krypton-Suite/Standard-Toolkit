@@ -42,7 +42,7 @@ namespace Krypton.Toolkit
         public ButtonSpecAny? ToolBarQuickPrintButton
         {
             get => _quickPrintButtonSpec ?? new ButtonSpecAny();
-            set { _quickPrintButtonSpec = value; UpdateImage(KryptonManager.InternalGlobalPaletteMode); }
+            set { _quickPrintButtonSpec = value; UpdateImage(KryptonManager.CurrentGlobalPaletteMode); }
         }
 
         /// <summary>Gets the active image.</summary>

@@ -8,7 +8,7 @@
 
 namespace Krypton.Toolkit
 {
-    internal partial class VisualKryptonThemeBrowserForm : KryptonForm
+    internal partial class VisualThemeBrowserForm : KryptonForm
     {
         #region Instance Fields
 
@@ -22,13 +22,13 @@ namespace Krypton.Toolkit
 
         #region Identity
 
-        /// <summary>Initializes a new instance of the <see cref="VisualKryptonThemeBrowserForm" /> class.</summary>
+        /// <summary>Initializes a new instance of the <see cref="VisualThemeBrowserForm" /> class.</summary>
         /// <param name="startPosition">The start position.</param>
         /// <param name="startIndex">The start index.</param>
         /// <param name="windowTitle">The window title.</param>
         /// <param name="showImportButton">The show import button.</param>
         /// <param name="showSilentOption">The show silent option.</param>
-        public VisualKryptonThemeBrowserForm(FormStartPosition startPosition = FormStartPosition.CenterScreen, int? startIndex = (int)PaletteMode.Microsoft365Blue, string? windowTitle = null, bool? showImportButton = null, bool? showSilentOption = null)
+        public VisualThemeBrowserForm(FormStartPosition startPosition = FormStartPosition.CenterScreen, int? startIndex = (int)PaletteMode.Microsoft365Blue, string? windowTitle = null, bool? showImportButton = null, bool? showSilentOption = null)
         {
             InitializeComponent();
 
@@ -93,7 +93,7 @@ namespace Krypton.Toolkit
 
         private void klbThemeList_SelectedIndexChanged(object sender, EventArgs e)
         {
-            ThemeManager.ApplyTheme(klbThemeList.GetItemText(klbThemeList.SelectedItem), new());
+            ThemeManager.ApplyTheme(klbThemeList.GetItemText(klbThemeList.SelectedItem)!, new());
 
             SetIndexText($@"{klbThemeList.GetItemText(klbThemeList.SelectedItem)} - Index: {klbThemeList.SelectedIndex}");
         }

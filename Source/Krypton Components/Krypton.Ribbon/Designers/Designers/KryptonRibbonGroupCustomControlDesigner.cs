@@ -19,7 +19,7 @@ namespace Krypton.Ribbon
         #region Instance Fields
         private IDesignerHost _designerHost;
         private IComponentChangeService _changeService;
-        private KryptonRibbonGroupCustomControl _ribbonCustomControl;
+        private KryptonRibbonGroupCustomControl? _ribbonCustomControl;
         private DesignerVerbCollection _verbs;
         private DesignerVerb _toggleHelpersVerb;
         private DesignerVerb _moveFirstVerb;
@@ -128,7 +128,7 @@ namespace Krypton.Ribbon
                 if (disposing)
                 {
                     // Unhook from events
-                    _ribbonCustomControl.DesignTimeContextMenu -= OnContextMenu;
+                    _ribbonCustomControl!.DesignTimeContextMenu -= OnContextMenu;
                     _changeService.ComponentChanged -= OnComponentChanged;
                 }
             }
@@ -154,7 +154,7 @@ namespace Krypton.Ribbon
             // Adjust our list of properties
             for (var i = 0; i < strArray.Length; i++)
             {
-                var descrip = (PropertyDescriptor)properties[strArray[i]];
+                var descrip = properties[strArray[i]] as PropertyDescriptor;
                 if (descrip != null)
                 {
                     properties[strArray[i]] = TypeDescriptor.CreateProperty(typeof(KryptonRibbonGroupCustomControlDesigner), descrip, attributes);
@@ -184,7 +184,7 @@ namespace Krypton.Ribbon
             // Create verbs first time around
             if (_verbs == null)
             {
-                _verbs = new DesignerVerbCollection();
+                _verbs = [];
                 _toggleHelpersVerb = new DesignerVerb(@"Toggle Helpers", OnToggleHelpers);
                 _moveFirstVerb = new DesignerVerb(@"Move Custom Control First", OnMoveFirst);
                 _movePrevVerb = new DesignerVerb(@"Move Custom Control Previous", OnMovePrevious);
@@ -200,10 +200,10 @@ namespace Krypton.Ribbon
             var moveNext = false;
             var moveLast = false;
 
-            if (_ribbonCustomControl.Ribbon != null)
+            if (_ribbonCustomControl!.Ribbon != null)
             {
                 var items = ParentItems;
-                moveFirst = items.IndexOf(_ribbonCustomControl) > 0;
+                moveFirst = items!.IndexOf(_ribbonCustomControl) > 0;
                 movePrev = items.IndexOf(_ribbonCustomControl) > 0;
                 moveNext = items.IndexOf(_ribbonCustomControl) < (items.Count - 1);
                 moveLast = items.IndexOf(_ribbonCustomControl) < (items.Count - 1);
@@ -218,7 +218,7 @@ namespace Krypton.Ribbon
         private void OnToggleHelpers(object sender, EventArgs e)
         {
             // Invert the current toggle helper mode
-            if (_ribbonCustomControl.Ribbon != null)
+            if (_ribbonCustomControl!.Ribbon != null)
             {
                 _ribbonCustomControl.Ribbon.InDesignHelperMode = !_ribbonCustomControl.Ribbon.InDesignHelperMode;
             }
@@ -226,7 +226,7 @@ namespace Krypton.Ribbon
 
         private void OnMoveFirst(object sender, EventArgs e)
         {
-            if (_ribbonCustomControl.Ribbon != null)
+            if (_ribbonCustomControl!.Ribbon != null)
             {
                 // Get access to the parent collection of items
                 var items = ParentItems;
@@ -237,13 +237,13 @@ namespace Krypton.Ribbon
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonCustomControl.RibbonContainer)[@"Items"];
+                    MemberDescriptor? propertyItems = TypeDescriptor.GetProperties(_ribbonCustomControl!.RibbonContainer!)[@"Items"];
 
                     RaiseComponentChanging(propertyItems);
 
                     // Move position of the custom control
-                    items.Remove(_ribbonCustomControl);
-                    items.Insert(0, _ribbonCustomControl);
+                    items?.Remove(_ribbonCustomControl);
+                    items?.Insert(0, _ribbonCustomControl);
                     UpdateVerbStatus();
 
                     RaiseComponentChanged(propertyItems, null, null);
@@ -258,7 +258,7 @@ namespace Krypton.Ribbon
 
         private void OnMovePrevious(object sender, EventArgs e)
         {
-            if (_ribbonCustomControl.Ribbon != null)
+            if (_ribbonCustomControl!.Ribbon != null)
             {
                 // Get access to the parent collection of items
                 var items = ParentItems;
@@ -269,15 +269,15 @@ namespace Krypton.Ribbon
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonCustomControl.RibbonContainer)[@"Items"];
+                    MemberDescriptor? propertyItems = TypeDescriptor.GetProperties(_ribbonCustomControl!.RibbonContainer!)[@"Items"];
 
                     RaiseComponentChanging(propertyItems);
 
                     // Move position of the custom control
-                    var index = items.IndexOf(_ribbonCustomControl) - 1;
+                    var index = items!.IndexOf(_ribbonCustomControl) - 1;
                     index = Math.Max(index, 0);
-                    items.Remove(_ribbonCustomControl);
-                    items.Insert(index, _ribbonCustomControl);
+                    items?.Remove(_ribbonCustomControl);
+                    items?.Insert(index, _ribbonCustomControl);
                     UpdateVerbStatus();
 
                     RaiseComponentChanged(propertyItems, null, null);
@@ -292,7 +292,7 @@ namespace Krypton.Ribbon
 
         private void OnMoveNext(object sender, EventArgs e)
         {
-            if (_ribbonCustomControl.Ribbon != null)
+            if (_ribbonCustomControl!.Ribbon != null)
             {
                 // Get access to the parent collection of items
                 var items = ParentItems;
@@ -303,15 +303,15 @@ namespace Krypton.Ribbon
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonCustomControl.RibbonContainer)[@"Items"];
+                    MemberDescriptor? propertyItems = TypeDescriptor.GetProperties(_ribbonCustomControl!.RibbonContainer!)[@"Items"];
 
                     RaiseComponentChanging(propertyItems);
 
                     // Move position of the custom control
-                    var index = items.IndexOf(_ribbonCustomControl) + 1;
+                    var index = items!.IndexOf(_ribbonCustomControl) + 1;
                     index = Math.Min(index, items.Count - 1);
-                    items.Remove(_ribbonCustomControl);
-                    items.Insert(index, _ribbonCustomControl);
+                    items?.Remove(_ribbonCustomControl);
+                    items?.Insert(index, _ribbonCustomControl);
                     UpdateVerbStatus();
 
                     RaiseComponentChanged(propertyItems, null, null);
@@ -326,7 +326,7 @@ namespace Krypton.Ribbon
 
         private void OnMoveLast(object sender, EventArgs e)
         {
-            if (_ribbonCustomControl.Ribbon != null)
+            if (_ribbonCustomControl!.Ribbon != null)
             {
                 // Get access to the parent collection of items
                 var items = ParentItems;
@@ -337,13 +337,13 @@ namespace Krypton.Ribbon
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonCustomControl.RibbonContainer)[@"Items"];
+                    MemberDescriptor? propertyItems = TypeDescriptor.GetProperties(_ribbonCustomControl!.RibbonContainer!)[@"Items"];
 
                     RaiseComponentChanging(propertyItems);
 
                     // Move position of the triple
-                    items.Remove(_ribbonCustomControl);
-                    items.Insert(items.Count, _ribbonCustomControl);
+                    items?.Remove(_ribbonCustomControl);
+                    items?.Insert(items.Count, _ribbonCustomControl);
                     UpdateVerbStatus();
 
                     RaiseComponentChanged(propertyItems, null, null);
@@ -358,7 +358,7 @@ namespace Krypton.Ribbon
 
         private void OnDeleteCustomControl(object sender, EventArgs e)
         {
-            if (_ribbonCustomControl.Ribbon != null)
+            if (_ribbonCustomControl!.Ribbon != null)
             {
                 // Get access to the parent collection of items
                 var items = ParentItems;
@@ -369,14 +369,14 @@ namespace Krypton.Ribbon
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonCustomControl.RibbonContainer)[@"Items"];
+                    MemberDescriptor? propertyItems = TypeDescriptor.GetProperties(_ribbonCustomControl!.RibbonContainer!)[@"Items"];
 
                     // Remove the ribbon group from the ribbon tab
                     RaiseComponentChanging(null);
                     RaiseComponentChanging(propertyItems);
 
                     // Remove the custom control from the group
-                    items.Remove(_ribbonCustomControl);
+                    items?.Remove(_ribbonCustomControl);
 
                     // Get designer to destroy it
                     _designerHost.DestroyComponent(_ribbonCustomControl);
@@ -394,10 +394,10 @@ namespace Krypton.Ribbon
 
         private void OnEnabled(object sender, EventArgs e)
         {
-            if (_ribbonCustomControl.Ribbon != null)
+            if (_ribbonCustomControl!.Ribbon != null)
             {
-                PropertyDescriptor propertyEnabled = TypeDescriptor.GetProperties(_ribbonCustomControl)[nameof(Enabled)];
-                var oldValue = (bool)propertyEnabled.GetValue(_ribbonCustomControl);
+                PropertyDescriptor? propertyEnabled = TypeDescriptor.GetProperties(_ribbonCustomControl)[nameof(Enabled)];
+                var oldValue = (bool)propertyEnabled!.GetValue(_ribbonCustomControl)!;
                 var newValue = !oldValue;
                 _changeService.OnComponentChanged(_ribbonCustomControl, null, oldValue, newValue);
                 propertyEnabled.SetValue(_ribbonCustomControl, newValue);
@@ -406,10 +406,10 @@ namespace Krypton.Ribbon
 
         private void OnVisible(object sender, EventArgs e)
         {
-            if (_ribbonCustomControl.Ribbon != null)
+            if (_ribbonCustomControl!.Ribbon != null)
             {
-                PropertyDescriptor propertyVisible = TypeDescriptor.GetProperties(_ribbonCustomControl)[nameof(Visible)];
-                var oldValue = (bool)propertyVisible.GetValue(_ribbonCustomControl);
+                PropertyDescriptor? propertyVisible = TypeDescriptor.GetProperties(_ribbonCustomControl)[nameof(Visible)];
+                var oldValue = (bool)propertyVisible?.GetValue(_ribbonCustomControl)!;
                 var newValue = !oldValue;
                 _changeService.OnComponentChanged(_ribbonCustomControl, null, oldValue, newValue);
                 propertyVisible.SetValue(_ribbonCustomControl, newValue);
@@ -420,7 +420,7 @@ namespace Krypton.Ribbon
 
         private void OnContextMenu(object sender, MouseEventArgs e)
         {
-            if (_ribbonCustomControl.Ribbon != null)
+            if (_ribbonCustomControl!.Ribbon != null)
             {
                 // Create the menu strip the first time around
                 if (_cms == null)
@@ -463,7 +463,7 @@ namespace Krypton.Ribbon
         {
             get
             {
-                switch (_ribbonCustomControl.RibbonContainer)
+                switch (_ribbonCustomControl!.RibbonContainer)
                 {
                     case KryptonRibbonGroupTriple triple:
                         return triple.Items;

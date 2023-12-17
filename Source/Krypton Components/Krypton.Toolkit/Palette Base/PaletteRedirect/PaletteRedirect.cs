@@ -18,7 +18,7 @@ namespace Krypton.Toolkit
     public class PaletteRedirect : PaletteBase, IGlobalId
     {
         #region Instance Fields
-        private PaletteBase? _target;
+        private PaletteBase _target;
         #endregion
 
         #region Identity
@@ -34,7 +34,7 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the PaletteRedirect class.
         /// </summary>
         /// <param name="target">Initial palette target for redirection.</param>
-        public PaletteRedirect(PaletteBase? target)
+        public PaletteRedirect(PaletteBase target)
         {
             Id = CommonHelper.NextId;
             // Remember incoming target
@@ -47,7 +47,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the redirection target.
         /// </summary>
-        public virtual PaletteBase? Target
+        public virtual PaletteBase Target
         {
             get => _target;
             set => _target = value;
@@ -68,7 +68,7 @@ namespace Krypton.Toolkit
         /// Gets the renderer to use for this palette.
         /// </summary>
         /// <returns>Renderer to use for drawing palette settings.</returns>
-        public override IRenderer? GetRenderer() => _target?.GetRenderer();
+        public override IRenderer GetRenderer() => _target?.GetRenderer();
 
         #endregion
 
@@ -327,7 +327,7 @@ namespace Krypton.Toolkit
         /// <param name="style">Content style.</param>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
-        public override Font GetContentShortTextFont(PaletteContentStyle style, PaletteState state) => _target.GetContentShortTextFont(style, state);
+        public override Font? GetContentShortTextFont(PaletteContentStyle style, PaletteState state) => _target.GetContentShortTextFont(style, state);
 
         /// <summary>
         /// Gets the font for the short text by generating a new font instance.
@@ -335,7 +335,7 @@ namespace Krypton.Toolkit
         /// <param name="style">Content style.</param>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
-        public override Font GetContentShortTextNewFont(PaletteContentStyle style, PaletteState state) => _target.GetContentShortTextNewFont(style, state);
+        public override Font? GetContentShortTextNewFont(PaletteContentStyle style, PaletteState state) => _target.GetContentShortTextNewFont(style, state);
 
         /// <summary>
         /// Gets the rendering hint for the short text.
@@ -463,7 +463,7 @@ namespace Krypton.Toolkit
         /// <param name="style">Content style.</param>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
-        public override Font GetContentLongTextFont(PaletteContentStyle style, PaletteState state) => _target.GetContentLongTextFont(style, state);
+        public override Font? GetContentLongTextFont(PaletteContentStyle style, PaletteState state) => _target.GetContentLongTextFont(style, state);
 
         /// <summary>
         /// Gets the font for the long text by generating a new font instance.
@@ -471,7 +471,7 @@ namespace Krypton.Toolkit
         /// <param name="style">Content style.</param>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
-        public override Font GetContentLongTextNewFont(PaletteContentStyle style, PaletteState state) => _target.GetContentLongTextNewFont(style, state);
+        public override Font? GetContentLongTextNewFont(PaletteContentStyle style, PaletteState state) => _target.GetContentLongTextNewFont(style, state);
 
         /// <summary>
         /// Gets the rendering hint for the long text.
@@ -1083,9 +1083,6 @@ namespace Krypton.Toolkit
         #endregion
 
         #region ColorTable
-
-        /// <inheritdoc />
-        protected override void DefineFonts() => throw new NotImplementedException();
 
         /// <summary>
         /// Gets access to the color table instance.

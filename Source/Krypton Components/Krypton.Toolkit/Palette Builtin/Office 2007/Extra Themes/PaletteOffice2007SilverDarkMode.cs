@@ -2885,7 +2885,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         /// <returns>Font value.</returns>
-        public override Font GetContentShortTextFont(PaletteContentStyle style, PaletteState state)
+        public override Font? GetContentShortTextFont(PaletteContentStyle style, PaletteState state)
         {
             if (CommonHelper.IsOverrideState(state))
             {
@@ -2922,7 +2922,7 @@ namespace Krypton.Toolkit
         /// <param name="style">Content style.</param>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
-        public override Font GetContentShortTextNewFont(PaletteContentStyle style, PaletteState state)
+        public override Font? GetContentShortTextNewFont(PaletteContentStyle style, PaletteState state)
         {
             DefineFonts();
             return GetContentShortTextFont(style, state);
@@ -3401,7 +3401,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         /// <returns>Font value.</returns>
-        public override Font GetContentLongTextFont(PaletteContentStyle style, PaletteState state)
+        public override Font? GetContentLongTextFont(PaletteContentStyle style, PaletteState state)
         {
             if (CommonHelper.IsOverrideState(state))
             {
@@ -3431,7 +3431,7 @@ namespace Krypton.Toolkit
         /// <param name="style">Content style.</param>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
-        public override Font GetContentLongTextNewFont(PaletteContentStyle style, PaletteState state)
+        public override Font? GetContentLongTextNewFont(PaletteContentStyle style, PaletteState state)
         {
             DefineFonts();
             return GetContentLongTextFont(style, state);

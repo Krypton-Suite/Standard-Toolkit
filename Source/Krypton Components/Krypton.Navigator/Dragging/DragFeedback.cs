@@ -79,7 +79,7 @@ namespace Krypton.Navigator
         /// <param name="dragTargets">List of all drag targets.</param>
         public virtual void Start([DisallowNull] IPaletteDragDrop paletteDragDrop,
             [DisallowNull] IRenderer renderer,
-            [DisallowNull] PageDragEndData pageDragEndData, 
+            [DisallowNull] PageDragEndData pageDragEndData,
             [DisallowNull] DragTargetList dragTargets)
         {
             Debug.Assert(paletteDragDrop != null);
@@ -87,7 +87,7 @@ namespace Krypton.Navigator
             Debug.Assert(pageDragEndData != null);
             Debug.Assert(dragTargets != null);
 
-            PaletteDragDrop = paletteDragDrop;
+            PaletteDragDrop = paletteDragDrop!;
             Renderer = renderer;
             PageDragEndData = pageDragEndData;
             DragTargets = dragTargets;
@@ -120,7 +120,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets access to the cached drawing renderer.
         /// </summary>
-        protected IRenderer? Renderer { get; private set; }
+        protected IRenderer Renderer { get; private set; }
 
         /// <summary>
         /// Gets access to the cached drag data.

@@ -19,7 +19,7 @@ namespace Krypton.Ribbon
         #region Instance Fields
         private IDesignerHost _designerHost;
         private IComponentChangeService _changeService;
-        private KryptonRibbonGroupComboBox _ribbonComboBox;
+        private KryptonRibbonGroupComboBox? _ribbonComboBox;
         private DesignerVerbCollection _verbs;
         private DesignerVerb _toggleHelpersVerb;
         private DesignerVerb _moveFirstVerb;
@@ -131,7 +131,7 @@ namespace Krypton.Ribbon
                 if (disposing)
                 {
                     // Unhook from events
-                    _ribbonComboBox.DesignTimeContextMenu -= OnContextMenu;
+                    _ribbonComboBox!.DesignTimeContextMenu -= OnContextMenu;
                     _changeService.ComponentChanged -= OnComponentChanged;
                 }
             }
@@ -157,7 +157,7 @@ namespace Krypton.Ribbon
             // Adjust our list of properties
             for (var i = 0; i < strArray.Length; i++)
             {
-                var descrip = (PropertyDescriptor)properties[strArray[i]];
+                var descrip = properties[strArray[i]] as PropertyDescriptor;
                 if (descrip != null)
                 {
                     properties[strArray[i]] = TypeDescriptor.CreateProperty(typeof(KryptonRibbonGroupComboBoxDesigner), descrip, attributes);
@@ -187,7 +187,7 @@ namespace Krypton.Ribbon
             // Create verbs first time around
             if (_verbs == null)
             {
-                _verbs = new DesignerVerbCollection();
+                _verbs = [];
                 _toggleHelpersVerb = new DesignerVerb(@"Toggle Helpers", OnToggleHelpers);
                 _moveFirstVerb = new DesignerVerb(@"Move ComboBox First", OnMoveFirst);
                 _movePrevVerb = new DesignerVerb(@"Move ComboBox Previous", OnMovePrevious);
@@ -203,13 +203,13 @@ namespace Krypton.Ribbon
             var moveNext = false;
             var moveLast = false;
 
-            if (_ribbonComboBox.Ribbon != null)
+            if (_ribbonComboBox!.Ribbon != null)
             {
                 var items = ParentItems;
-                moveFirst = items.IndexOf(_ribbonComboBox) > 0;
-                movePrev = items.IndexOf(_ribbonComboBox) > 0;
-                moveNext = items.IndexOf(_ribbonComboBox) < (items.Count - 1);
-                moveLast = items.IndexOf(_ribbonComboBox) < (items.Count - 1);
+                moveFirst = items?.IndexOf(_ribbonComboBox) > 0;
+                movePrev = items?.IndexOf(_ribbonComboBox) > 0;
+                moveNext = items?.IndexOf(_ribbonComboBox) < (items?.Count - 1);
+                moveLast = items?.IndexOf(_ribbonComboBox) < (items?.Count - 1);
             }
 
             _moveFirstVerb.Enabled = moveFirst;
@@ -221,7 +221,7 @@ namespace Krypton.Ribbon
         private void OnToggleHelpers(object sender, EventArgs e)
         {
             // Invert the current toggle helper mode
-            if (_ribbonComboBox.Ribbon != null)
+            if (_ribbonComboBox!.Ribbon != null)
             {
                 _ribbonComboBox.Ribbon.InDesignHelperMode = !_ribbonComboBox.Ribbon.InDesignHelperMode;
             }
@@ -229,7 +229,7 @@ namespace Krypton.Ribbon
 
         private void OnMoveFirst(object sender, EventArgs e)
         {
-            if (_ribbonComboBox.Ribbon != null)
+            if (_ribbonComboBox!.Ribbon != null)
             {
                 // Get access to the parent collection of items
                 var items = ParentItems;
@@ -240,13 +240,13 @@ namespace Krypton.Ribbon
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonComboBox.RibbonContainer)[@"Items"];
+                    MemberDescriptor? propertyItems = TypeDescriptor.GetProperties(_ribbonComboBox.RibbonContainer!)[@"Items"];
 
                     RaiseComponentChanging(propertyItems);
 
                     // Move position of the combobox
-                    items.Remove(_ribbonComboBox);
-                    items.Insert(0, _ribbonComboBox);
+                    items?.Remove(_ribbonComboBox);
+                    items?.Insert(0, _ribbonComboBox);
                     UpdateVerbStatus();
 
                     RaiseComponentChanged(propertyItems, null, null);
@@ -261,7 +261,7 @@ namespace Krypton.Ribbon
 
         private void OnMovePrevious(object sender, EventArgs e)
         {
-            if (_ribbonComboBox.Ribbon != null)
+            if (_ribbonComboBox!.Ribbon != null)
             {
                 // Get access to the parent collection of items
                 var items = ParentItems;
@@ -272,15 +272,15 @@ namespace Krypton.Ribbon
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonComboBox.RibbonContainer)[@"Items"];
+                    MemberDescriptor? propertyItems = TypeDescriptor.GetProperties(_ribbonComboBox.RibbonContainer!)[@"Items"];
 
                     RaiseComponentChanging(propertyItems);
 
                     // Move position of the combotextbox
-                    var index = items.IndexOf(_ribbonComboBox) - 1;
+                    var index = items!.IndexOf(_ribbonComboBox) - 1;
                     index = Math.Max(index, 0);
-                    items.Remove(_ribbonComboBox);
-                    items.Insert(index, _ribbonComboBox);
+                    items?.Remove(_ribbonComboBox);
+                    items?.Insert(index, _ribbonComboBox);
                     UpdateVerbStatus();
 
                     RaiseComponentChanged(propertyItems, null, null);
@@ -295,7 +295,7 @@ namespace Krypton.Ribbon
 
         private void OnMoveNext(object sender, EventArgs e)
         {
-            if (_ribbonComboBox.Ribbon != null)
+            if (_ribbonComboBox!.Ribbon != null)
             {
                 // Get access to the parent collection of items
                 var items = ParentItems;
@@ -306,15 +306,15 @@ namespace Krypton.Ribbon
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonComboBox.RibbonContainer)[@"Items"];
+                    MemberDescriptor? propertyItems = TypeDescriptor.GetProperties(_ribbonComboBox.RibbonContainer!)[@"Items"];
 
                     RaiseComponentChanging(propertyItems);
 
                     // Move position of the combobox
-                    var index = items.IndexOf(_ribbonComboBox) + 1;
+                    var index = items!.IndexOf(_ribbonComboBox) + 1;
                     index = Math.Min(index, items.Count - 1);
-                    items.Remove(_ribbonComboBox);
-                    items.Insert(index, _ribbonComboBox);
+                    items?.Remove(_ribbonComboBox);
+                    items?.Insert(index, _ribbonComboBox);
                     UpdateVerbStatus();
 
                     RaiseComponentChanged(propertyItems, null, null);
@@ -329,7 +329,7 @@ namespace Krypton.Ribbon
 
         private void OnMoveLast(object sender, EventArgs e)
         {
-            if (_ribbonComboBox.Ribbon != null)
+            if (_ribbonComboBox!.Ribbon != null)
             {
                 // Get access to the parent collection of items
                 var items = ParentItems;
@@ -340,13 +340,13 @@ namespace Krypton.Ribbon
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonComboBox.RibbonContainer)[@"Items"];
+                    MemberDescriptor? propertyItems = TypeDescriptor.GetProperties(_ribbonComboBox.RibbonContainer!)[@"Items"];
 
                     RaiseComponentChanging(propertyItems);
 
                     // Move position of the combobox
-                    items.Remove(_ribbonComboBox);
-                    items.Insert(items.Count, _ribbonComboBox);
+                    items?.Remove(_ribbonComboBox);
+                    items?.Insert(items.Count, _ribbonComboBox);
                     UpdateVerbStatus();
 
                     RaiseComponentChanged(propertyItems, null, null);
@@ -361,7 +361,7 @@ namespace Krypton.Ribbon
 
         private void OnDeleteTextBox(object sender, EventArgs e)
         {
-            if (_ribbonComboBox.Ribbon != null)
+            if (_ribbonComboBox!.Ribbon != null)
             {
                 // Get access to the parent collection of items
                 var items = ParentItems;
@@ -372,13 +372,13 @@ namespace Krypton.Ribbon
                 try
                 {
                     // Get access to the Items property
-                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonComboBox.RibbonContainer)[@"Items"];
+                    MemberDescriptor? propertyItems = TypeDescriptor.GetProperties(_ribbonComboBox.RibbonContainer!)[@"Items"];
 
                     RaiseComponentChanging(null);
                     RaiseComponentChanging(propertyItems);
 
                     // Remove the combobox from the group
-                    items.Remove(_ribbonComboBox);
+                    items?.Remove(_ribbonComboBox);
 
                     // Get designer to destroy it
                     _designerHost.DestroyComponent(_ribbonComboBox);
@@ -396,10 +396,10 @@ namespace Krypton.Ribbon
 
         private void OnEnabled(object sender, EventArgs e)
         {
-            if (_ribbonComboBox.Ribbon != null)
+            if (_ribbonComboBox!.Ribbon != null)
             {
-                PropertyDescriptor propertyEnabled = TypeDescriptor.GetProperties(_ribbonComboBox)[nameof(Enabled)];
-                var oldValue = (bool)propertyEnabled.GetValue(_ribbonComboBox);
+                PropertyDescriptor? propertyEnabled = TypeDescriptor.GetProperties(_ribbonComboBox)[nameof(Enabled)];
+                var oldValue = (bool)propertyEnabled?.GetValue(_ribbonComboBox)!;
                 var newValue = !oldValue;
                 _changeService.OnComponentChanged(_ribbonComboBox, null, oldValue, newValue);
                 propertyEnabled.SetValue(_ribbonComboBox, newValue);
@@ -408,10 +408,10 @@ namespace Krypton.Ribbon
 
         private void OnVisible(object sender, EventArgs e)
         {
-            if (_ribbonComboBox.Ribbon != null)
+            if (_ribbonComboBox!.Ribbon != null)
             {
-                PropertyDescriptor propertyVisible = TypeDescriptor.GetProperties(_ribbonComboBox)[nameof(Visible)];
-                var oldValue = (bool)propertyVisible.GetValue(_ribbonComboBox);
+                PropertyDescriptor? propertyVisible = TypeDescriptor.GetProperties(_ribbonComboBox)[nameof(Visible)];
+                var oldValue = (bool)propertyVisible?.GetValue(_ribbonComboBox)!;
                 var newValue = !oldValue;
                 _changeService.OnComponentChanged(_ribbonComboBox, null, oldValue, newValue);
                 propertyVisible.SetValue(_ribbonComboBox, newValue);
@@ -422,7 +422,7 @@ namespace Krypton.Ribbon
 
         private void OnContextMenu(object sender, MouseEventArgs e)
         {
-            if (_ribbonComboBox.Ribbon != null)
+            if (_ribbonComboBox!.Ribbon != null)
             {
                 // Create the menu strip the first time around
                 if (_cms == null)
@@ -465,7 +465,7 @@ namespace Krypton.Ribbon
         {
             get
             {
-                switch (_ribbonComboBox.RibbonContainer)
+                switch (_ribbonComboBox!.RibbonContainer)
                 {
                     case KryptonRibbonGroupTriple triple:
                         return triple.Items;

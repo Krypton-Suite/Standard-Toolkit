@@ -51,8 +51,8 @@ namespace Krypton.Ribbon
             Debug.Assert(target != null);
 
             // Remember incoming references
-            _target = target;
-            _ribbon = ribbon;
+            _target = target!;
+            _ribbon = ribbon!;
 
             // Store the provided paint notification delegate
             NeedPaint = needPaint;
@@ -323,9 +323,9 @@ namespace Krypton.Ribbon
                     }
                     else
                     {
-                        Form topForm = _ribbon.FindForm();
+                        Form? topForm = _ribbon.FindForm();
                         return (CommonHelper.ActiveFloatingWindow != null) ||
-                               ((topForm != null) && 
+                               ((topForm != null) &&
                                 (topForm.ContainsFocus ||
                                 ((topForm.Parent != null) && topForm is { Visible: true, Enabled: true })));
                     }

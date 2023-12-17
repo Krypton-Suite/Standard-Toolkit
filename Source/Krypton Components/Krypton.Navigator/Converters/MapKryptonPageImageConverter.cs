@@ -20,23 +20,29 @@ namespace Krypton.Navigator
         #region Static Fields
 
         [Localizable(true)]
-        private static readonly IReadOnlyDictionary<MapKryptonPageImage, string> _pairs = new Dictionary<MapKryptonPageImage, string>
+        private static readonly BiDictionary<MapKryptonPageImage, string> _pairs = new BiDictionary<MapKryptonPageImage, string>(
+            new Dictionary<MapKryptonPageImage, string>
         {
-            {MapKryptonPageImage.None, "None (Null image)"}, 
-            {MapKryptonPageImage.Small, "Small"},
-            {MapKryptonPageImage.SmallMedium, "Small - Medium"},
-            {MapKryptonPageImage.SmallMediumLarge, "Small - Medium - Large"},
-            {MapKryptonPageImage.Medium, "Medium"}, 
-            {MapKryptonPageImage.MediumSmall, "Medium - Small"},
-            {MapKryptonPageImage.MediumLarge, "Medium - Large"}, 
-            {MapKryptonPageImage.Large, "Large"},
-            {MapKryptonPageImage.LargeMedium, "Large - Medium"},
-            {MapKryptonPageImage.LargeMediumSmall, "Large - Medium - Small"},
+            {MapKryptonPageImage.None, @"None (Null image)"},
+            {MapKryptonPageImage.Small, @"Small"},
+            {MapKryptonPageImage.SmallMedium, @"Small - Medium"},
+            {MapKryptonPageImage.SmallMediumLarge, @"Small - Medium - Large"},
+            {MapKryptonPageImage.Medium, @"Medium"},
+            {MapKryptonPageImage.MediumSmall, @"Medium - Small"},
+            {MapKryptonPageImage.MediumLarge, @"Medium - Large"},
+            {MapKryptonPageImage.Large, @"Large"},
+            {MapKryptonPageImage.LargeMedium, @"Large - Medium"},
+            {MapKryptonPageImage.LargeMediumSmall, @"Large - Medium - Small"},
             {MapKryptonPageImage.ToolTip, nameof(ToolTip)}
-        };
+        });
         #endregion
 
-        protected override IReadOnlyDictionary<MapKryptonPageImage /*Enum*/, string /*Display*/> Pairs => _pairs;
-
+        #region Protected
+        /// <summary>
+        /// Gets an array of lookup pairs.
+        /// </summary>
+        protected override IReadOnlyDictionary<string /*Display*/, MapKryptonPageImage /*Enum*/ > PairsStringToEnum  => _pairs.SecondToFirst;
+        protected override IReadOnlyDictionary<MapKryptonPageImage /*Enum*/, string /*Display*/> PairsEnumToString => _pairs.FirstToSecond;
+        #endregion
     }
 }

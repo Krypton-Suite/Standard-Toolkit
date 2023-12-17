@@ -19,6 +19,10 @@
 * [Discord Server](#discord-server)
 * [Version History](#version-history)
 * [Breaking Changes](#breaking-changes)
+	* [V90.## (2024-11-xx - Build 2411 - November 2024)](v90-24-11-xx--build-2411---november-2024)
+	    * [Support for .NET 7](#support-for-net-7)
+		* [`KryptonButton` Properties](#kryptonbutton-properties)
+		* [API Changes](#api-changes)
 	* [V80.## (2023-11-14 - Build 2311 - November 2023)](#v80-2023-11-14---build-2311---november-2023)
 		* [Support for .NET Core 3.1 and .NET 5](#support-for-net-core-31-and-net-5)
 		* [KryptonMessageBoxButtons](#kryptonmessageboxbuttons)
@@ -171,6 +175,23 @@ Follow the links to see the different objects and layouts that this framework al
 =======
 
 # Breaking Changes
+
+## V90.## (2024-11-xx - Build 2411 - November 2024)
+There are list of changes that have occurred during the development of the V90.## version
+- [#1206](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1206), Remove the `Font Size` (as it is already covered by the actual font !)
+- [#1224](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1224), Move `GlobalPaletteMode` into `GlobalPalette` and rename 
+  - BaseFont is now part of the KryptonManager class, and will override the applied palette font(s)
+  - `CustomPalette` must be derived from the `KryptonCustomPaletteBase` class
+  - `BasePaletteMode` has been removed from `KryptonCustomPaletteBase` class
+
+### Support for .NET 7
+As of V90.##, support for .NET 7 has been removed due to their release cadences.
+
+### `KryptonButton` Properties
+Some properties previously found in the root such as, `ShowSplitOption`, `UseAsADialogButton`, `UseAsUACElevationButton` and `UACShieldIconSize` are now located in the `Values` section.
+
+### API Changes
+If using `KryptonAboutToolkit`, please note that this has been superceeded by `KryptonAboutBox`. Or if you use `KryptonThemeBrowserForm`, it has now been moved to `KryptonThemeBrowser` as the public facing API.
 
 ## V80.## (2023-11-14 - Build 2311 - November 2023)
 There are list of changes that have occurred during the development of the V80.## version

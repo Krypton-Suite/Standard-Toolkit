@@ -211,7 +211,7 @@ namespace Krypton.Ribbon
         [AllowNull]
         public BindingContext BindingContext
         {
-            get => _bindingContext ??= new BindingContext();
+            get => _bindingContext ??= [];
             set => _bindingContext = value;
         }
 

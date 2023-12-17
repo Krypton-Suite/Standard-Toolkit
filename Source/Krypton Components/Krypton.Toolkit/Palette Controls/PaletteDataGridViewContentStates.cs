@@ -213,14 +213,14 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
-        public virtual Font GetContentShortTextFont(PaletteState state) => Inherit.GetContentShortTextFont(state);
+        public virtual Font? GetContentShortTextFont(PaletteState state) => Inherit.GetContentShortTextFont(state);
 
         /// <summary>
         /// Gets the font for the short text by generating a new font instance.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
-        public virtual Font GetContentShortTextNewFont(PaletteState state) => Inherit.GetContentShortTextNewFont(state);
+        public virtual Font? GetContentShortTextNewFont(PaletteState state) => Inherit.GetContentShortTextNewFont(state);
 
         #endregion
 
@@ -645,14 +645,14 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <returns>Font value.</returns>
         /// <param name="state">Palette value should be applicable to this state.</param>
-        public Font GetContentLongTextFont(PaletteState state) => Inherit.GetContentLongTextFont(state);
+        public Font? GetContentLongTextFont(PaletteState state) => Inherit.GetContentLongTextFont(state);
 
         /// <summary>
         /// Gets the font for the long text by generating a new font instance.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
-        public Font GetContentLongTextNewFont(PaletteState state) => Inherit.GetContentLongTextNewFont(state);
+        public Font? GetContentLongTextNewFont(PaletteState state) => Inherit.GetContentLongTextNewFont(state);
 
         /// <summary>
         /// Gets the actual text rendering hint for long text.

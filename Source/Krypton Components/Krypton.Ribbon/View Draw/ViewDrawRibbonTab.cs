@@ -425,7 +425,8 @@ namespace Krypton.Ribbon
 
                     //_paletteContextCurrent.LightBackground = _ribbon.CaptionArea.DrawCaptionOnComposition;
                     _paletteContextCurrent.LightBackground = Ribbon.CaptionArea.DrawCaptionOnComposition
-                                                             && (KryptonManager.CurrentGlobalPalette != KryptonManager.PaletteOffice2010Black);
+                                                             && KryptonManager.CurrentGlobalPaletteMode.ToString()
+                                                                 .StartsWith(PaletteMode.Office2010Black.ToString());
                     break;
             }
 

@@ -86,20 +86,18 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Loads the custom theme.
         /// </summary>
-        /// <param name="palette">The palette.</param>
-        /// <param name="manager">The manager.</param>
         /// <param name="themeFile">A custom theme file.</param>
         /// <param name="silent">if set to <c>true</c> [silent].</param>
-        public static void LoadCustomTheme(KryptonCustomPaletteBase palette, KryptonManager manager, string themeFile = "", bool silent = false)
+        public static void LoadCustomTheme(string themeFile = "", bool silent = false)
         {
             try
             {
                 //throw new ApplicationException(@"Currently not implemented correctly");
 
                 // Declare new instances
-                palette = new KryptonCustomPaletteBase();
+                var custPalette = new KryptonCustomPaletteBase();
 
-                manager = new KryptonManager();
+                var manager = new KryptonManager();
 
                 // Prompt user for palette definition
 
@@ -108,16 +106,16 @@ namespace Krypton.Ribbon
                 {
                     if (themeFile is not ("" and ""))
                     {
-                        palette.Import(themeFile, silent);
+                        custPalette.Import(themeFile, silent);
                     }
                 }
                 else
                 {
-                    palette.Import();
+                    custPalette.Import();
                 }
 
                 // Set manager
-                manager.GlobalPalette = palette;
+                manager.GlobalCustomPalette = custPalette;
 
                 ApplyTheme(PaletteMode.Custom, manager);
             }

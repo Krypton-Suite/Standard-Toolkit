@@ -17,7 +17,8 @@ namespace Krypton.Toolkit
         #region Static Fields
 
         [Localizable(true)]
-        private static readonly IReadOnlyDictionary<PlacementMode, string> _pairs = new Dictionary<PlacementMode, string>
+        private static readonly BiDictionary<PlacementMode, string> _pairs = new BiDictionary<PlacementMode, string>(
+            new Dictionary<PlacementMode, string>
         {
             {PlacementMode.Absolute, DesignTimeUtilities.DEFAULT_PLACEMENT_MODE_ABSOLUTE},
             {PlacementMode.AbsolutePoint, DesignTimeUtilities.DEFAULT_PLACEMENT_MODE_ABSOLUTE_POINT},
@@ -30,13 +31,14 @@ namespace Krypton.Toolkit
             {PlacementMode.RelativePoint, DesignTimeUtilities.DEFAULT_PLACEMENT_MODE_RELATIVE_POINT},
             {PlacementMode.Right, DesignTimeUtilities.DEFAULT_PLACEMENT_MODE_RIGHT},
             {PlacementMode.Top, DesignTimeUtilities.DEFAULT_PLACEMENT_MODE_TOP}
-        };
+        });
 
         #endregion
 
         #region Protected
 
-        protected override IReadOnlyDictionary<PlacementMode /*Enum*/, string /*Display*/> Pairs => _pairs;
+        protected override IReadOnlyDictionary<PlacementMode /*Enum*/, string /*Display*/> PairsEnumToString => _pairs.FirstToSecond;
+        protected override IReadOnlyDictionary<string /*Display*/, PlacementMode /*Enum*/ > PairsStringToEnum => _pairs.SecondToFirst;
 
         #endregion
     }

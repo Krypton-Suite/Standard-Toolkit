@@ -164,7 +164,7 @@ namespace Krypton.Ribbon
             _itemSizeMin = GroupItemSize.Small;
             _itemSizeCurrent = GroupItemSize.Large;
             _maxRecentColors = 10;
-            _recentColors = new List<Color>();
+            _recentColors = [];
 
             // Create the context menu items
             _kryptonContextMenu = new KryptonContextMenu();

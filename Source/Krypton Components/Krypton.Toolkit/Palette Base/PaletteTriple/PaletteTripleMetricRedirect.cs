@@ -19,7 +19,7 @@ namespace Krypton.Toolkit
                                                IPaletteMetric
     {
         #region Instance Fields
-        private PaletteRedirect? _redirect;
+        private PaletteRedirect _redirect;
         #endregion
 
         #region Identity
@@ -54,7 +54,7 @@ namespace Krypton.Toolkit
         /// Update the redirector with new reference.
         /// </summary>
         /// <param name="redirect">Target redirector.</param>
-        public override void SetRedirector(PaletteRedirect? redirect)
+        public override void SetRedirector(PaletteRedirect redirect)
         {
             base.SetRedirector(redirect);
             _redirect = redirect;

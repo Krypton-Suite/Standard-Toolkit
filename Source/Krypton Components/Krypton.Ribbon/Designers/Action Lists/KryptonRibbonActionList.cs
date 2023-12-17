@@ -43,8 +43,8 @@ namespace Krypton.Ribbon
         /// <value><c>true</c> if [allow form integrate]; otherwise, <c>false</c>.</value>
         public bool AllowFormIntegrate
         {
-            get => _ribbon.AllowFormIntegrate;
-            set => _ribbon.AllowFormIntegrate = value;
+            get => _ribbon!.AllowFormIntegrate;
+            set => _ribbon!.AllowFormIntegrate = value;
         }
 
         /// <summary>
@@ -52,8 +52,8 @@ namespace Krypton.Ribbon
         /// </summary>
         public bool InDesignHelperMode
         {
-            get => _ribbon.InDesignHelperMode;
-            set => _ribbon.InDesignHelperMode = value;
+            get => _ribbon!.InDesignHelperMode;
+            set => _ribbon!.InDesignHelperMode = value;
         }
 
         /// <summary>
@@ -61,11 +61,11 @@ namespace Krypton.Ribbon
         /// </summary>
         public PaletteMode PaletteMode
         {
-            get => _ribbon.PaletteMode;
+            get => _ribbon!.PaletteMode;
 
             set
             {
-                if (_ribbon.PaletteMode != value)
+                if (_ribbon!.PaletteMode != value)
                 {
                     _service.OnComponentChanged(_ribbon, null, _ribbon.PaletteMode, value);
                     _ribbon.PaletteMode = value;

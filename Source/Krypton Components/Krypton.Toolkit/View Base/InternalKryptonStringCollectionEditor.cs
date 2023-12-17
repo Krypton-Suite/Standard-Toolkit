@@ -223,8 +223,8 @@ namespace Krypton.Toolkit
             // 
             // ktxtStringCollection
             // 
-            ktxtStringCollection.Anchor = ((AnchorStyles)((((AnchorStyles.Top | AnchorStyles.Bottom) 
-            | AnchorStyles.Left) 
+            ktxtStringCollection.Anchor = ((AnchorStyles)((((AnchorStyles.Top | AnchorStyles.Bottom)
+            | AnchorStyles.Left)
             | AnchorStyles.Right)));
             ktxtStringCollection.KryptonContextMenu = kcmTextBoxMenu;
             ktxtStringCollection.Location = new Point(13, 39);
@@ -364,13 +364,13 @@ namespace Krypton.Toolkit
 
         /// <summary>Gets the contents of the text field.</summary>
         /// <value>The contents of the text field.</value>
-        [Category(@"Data"), 
-         DefaultValue(null), 
+        [Category(@"Data"),
+         DefaultValue(null),
          Description(@"The contents of the text field.")]
-        public string[]? Contents 
-        { 
-            get => _contents; 
-            private set => _contents = value; 
+        public string[]? Contents
+        {
+            get => _contents;
+            private set => _contents = value;
         }
 
         /// <summary>Gets the ok button.</summary>
@@ -383,8 +383,8 @@ namespace Krypton.Toolkit
 
         /// <summary>Gets or sets the owner.</summary>
         /// <value>The owner.</value>
-        [Category(@"Data"), 
-         DefaultValue(null), 
+        [Category(@"Data"),
+         DefaultValue(null),
          Description(@"")]
         public KryptonForm? Owner { get; set; }
 
@@ -415,7 +415,7 @@ namespace Krypton.Toolkit
 
         #region Implementation
 
-        private void kbtnCancel_Click(object sender, EventArgs e) => Owner.DialogResult = DialogResult.Cancel;
+        private void kbtnCancel_Click(object sender, EventArgs e) => Owner!.DialogResult = DialogResult.Cancel;
 
         private void kbtnOk_Click(object sender, EventArgs e)
         {
@@ -423,9 +423,10 @@ namespace Krypton.Toolkit
             {
                 foreach (var line in ktxtStringCollection.Lines)
                 {
-                    List<string> list = new List<string>();
-
-                    list.Add(line);
+                    List<string> list =
+                    [
+                        line
+                    ];
 
                     Contents = list.ToArray();
                 }
@@ -434,15 +435,16 @@ namespace Krypton.Toolkit
             {
                 foreach (var line in krtbContents.Lines)
                 {
-                    List<string> list = new List<string>();
-
-                    list.Add(line);
+                    List<string> list =
+                    [
+                        line
+                    ];
 
                     Contents = list.ToArray();
                 }
             }
 
-            Owner.DialogResult = DialogResult.OK;
+            Owner!.DialogResult = DialogResult.OK;
         }
 
         private void kcRichTextBoxCut_Execute(object sender, EventArgs e) => krtbContents.Cut();

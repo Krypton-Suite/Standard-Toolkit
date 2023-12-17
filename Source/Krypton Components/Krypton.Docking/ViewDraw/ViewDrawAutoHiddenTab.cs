@@ -10,6 +10,7 @@
  */
 #endregion
 
+// ReSharper disable RedundantNullableFlowAttribute
 namespace Krypton.Docking
 {
     /// <summary>
@@ -31,9 +32,9 @@ namespace Krypton.Docking
         /// <param name="orientation">Visual orientation used for drawing the tab.</param>
         public ViewDrawAutoHiddenTab([DisallowNull] KryptonPage page,
                                      VisualOrientation orientation)
-            : base(page.StateDisabled.CheckButton, 
-                   page.StateNormal.CheckButton,
-                   page.StateTracking.CheckButton, 
+            : base(page.StateDisabled!.CheckButton,
+                   page.StateNormal!.CheckButton,
+                   page.StateTracking.CheckButton,
                    page.StatePressed.CheckButton,
                    null, null, orientation, false)
         {

@@ -20,11 +20,8 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
 
-        private bool _useKryptonFileDialogs;
-        private BasePaletteType _basePaletteType;
         private Padding? _inputControlPadding;
         private PaletteDragFeedback _dragFeedback;
-        private string _themeName;
 
         private readonly Font _defaultFontStyle = new Font("Segoe UI", 9f, FontStyle.Regular);
 
@@ -91,11 +88,9 @@ namespace Krypton.Toolkit
             // Inherit means we need to calculate the value next time it is requested
             _dragFeedback = PaletteDragFeedback.Inherit;
 
-            _themeName = string.Empty;
+            ThemeName = string.Empty;
 
-            _useKryptonFileDialogs = true;
-
-            _baseFont = _defaultFontStyle;
+            BaseFont = _defaultFontStyle;
         }
         #endregion
 
@@ -112,7 +107,7 @@ namespace Krypton.Toolkit
         /// Gets the renderer to use for this palette.
         /// </summary>
         /// <returns>Renderer to use for drawing palette settings.</returns>
-        public abstract IRenderer? GetRenderer();
+        public abstract IRenderer GetRenderer();
         #endregion
 
         #region Back
@@ -374,7 +369,7 @@ namespace Krypton.Toolkit
         /// <param name="style">Content style.</param>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
-        public abstract Font GetContentShortTextFont(PaletteContentStyle style, PaletteState state);
+        public abstract Font? GetContentShortTextFont(PaletteContentStyle style, PaletteState state);
 
         /// <summary>
         /// Gets the font for the short text by generating a new font instance.
@@ -382,7 +377,7 @@ namespace Krypton.Toolkit
         /// <param name="style">Content style.</param>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
-        public abstract Font GetContentShortTextNewFont(PaletteContentStyle style, PaletteState state);
+        public abstract Font? GetContentShortTextNewFont(PaletteContentStyle style, PaletteState state);
 
         /// <summary>
         /// Gets the rendering hint for the short text.
@@ -510,7 +505,7 @@ namespace Krypton.Toolkit
         /// <param name="style">Content style.</param>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
-        public abstract Font GetContentLongTextFont(PaletteContentStyle style, PaletteState state);
+        public abstract Font? GetContentLongTextFont(PaletteContentStyle style, PaletteState state);
 
         /// <summary>
         /// Gets the font for the long text by generating a new font instance.
@@ -518,7 +513,7 @@ namespace Krypton.Toolkit
         /// <param name="style">Content style.</param>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
-        public abstract Font GetContentLongTextNewFont(PaletteContentStyle style, PaletteState state);
+        public abstract Font? GetContentLongTextNewFont(PaletteContentStyle style, PaletteState state);
 
         /// <summary>
         /// Gets the rendering hint for the long text.
@@ -1695,32 +1690,6 @@ namespace Krypton.Toolkit
 
         #region Public
 
-        /// <summary>Gets or sets a value indicating whether [use krypton file dialogs].</summary>
-        /// <value><c>true</c> if [use krypton file dialogs]; otherwise, <c>false</c>.</value>
-        [DefaultValue(false), Description(@"Use Krypton style file dialogs for exporting/importing palettes.")]
-        public bool UseKryptonFileDialogs { get => _useKryptonFileDialogs; set => _useKryptonFileDialogs = value; }
-
-        /// <summary>Gets and sets the base font size used when defining fonts.</summary>
-        [Description(@"Gets and sets the base font size used when defining fonts.")]
-        public float BaseFontSize
-        {
-            get => _baseFont.Size;
-
-            set
-            {
-                if (value <= 0)
-                {
-                    value = _defaultFontStyle.Size;
-                }
-
-                // Is there a change in value?
-                if (_baseFont.Size != value)
-                {
-                    BaseFont = new Font(_baseFont.Name, value, _baseFont.Style);
-                }
-            }
-        }
-
         /// <summary>Gets or sets the base palette font.</summary>
         /// <value>The base palette font.</value>
         [DisallowNull, Description(@"Gets or sets the base palette font.")]
@@ -1736,16 +1705,18 @@ namespace Krypton.Toolkit
                 OnPalettePaint(this, new PaletteLayoutEventArgs(true, false));
             }
         }
+        internal void ResetBaseFont() => BaseFont = _defaultFontStyle;
+        internal bool ShouldSerializeBaseFont() => !Equals(BaseFont, _defaultFontStyle);
 
         /// <summary>Gets or sets the name of the theme.</summary>
         /// <value>The name of the theme.</value>
         [DisallowNull, Description(@"Gets or sets the name of the theme.")]
-        public string ThemeName { get => _themeName; set => _themeName = value; }
+        public string ThemeName { get; set; }
 
         /// <summary>Gets or sets the type of the base palette.</summary>
         /// <value>The type of the base palette.</value>
         [Description(@"Gets or sets the type of the base palette.")]
-        public BasePaletteType BasePaletteType { get => _basePaletteType; set => _basePaletteType = value; }
+        public BasePaletteType BasePaletteType { get; set; }
 
         #endregion
 

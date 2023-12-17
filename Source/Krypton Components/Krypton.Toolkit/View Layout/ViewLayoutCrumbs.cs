@@ -407,9 +407,9 @@ namespace Krypton.Toolkit
                     var kcm = new KryptonContextMenu
                     {
                         // Use same palette settings for context menu as the main control
-                        Palette = _kryptonBreadCrumb.Palette
+                        LocalCustomPalette = _kryptonBreadCrumb.LocalCustomPalette
                     };
-                    if (kcm.Palette == null)
+                    if (kcm.LocalCustomPalette == null)
                     {
                         kcm.PaletteMode = _kryptonBreadCrumb.PaletteMode;
                     }
@@ -517,9 +517,9 @@ namespace Krypton.Toolkit
                 var kcm = new KryptonContextMenu
                 {
                     // Use same palette settings for context menu as the main control
-                    Palette = _kryptonBreadCrumb.Palette
+                    LocalCustomPalette = _kryptonBreadCrumb.LocalCustomPalette
                 };
-                if (kcm.Palette == null)
+                if (kcm.LocalCustomPalette == null)
                 {
                     kcm.PaletteMode = _kryptonBreadCrumb.PaletteMode;
                 }

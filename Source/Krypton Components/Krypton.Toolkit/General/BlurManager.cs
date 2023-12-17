@@ -20,7 +20,7 @@ namespace Krypton.Toolkit
         #region Instance Fields
         private readonly VisualForm _parentForm;
         private readonly BlurValues _blurValues;
-        private VisualBlur _visualBlur;
+        private VisualBlur? _visualBlur;
         private readonly System.Windows.Forms.Timer _detectIsActiveTimer;
         private Bitmap? _currentFormDisplay;
         private double? _parentBeforeOpacity;
@@ -105,7 +105,7 @@ namespace Krypton.Toolkit
                     visited.Add(activeForm.Handle);
                 }
 
-                visited.Add(_visualBlur.Handle);
+                visited.Add(_visualBlur!.Handle);
 
 
                 var thisRect = new PI.RECT();
@@ -177,7 +177,7 @@ namespace Krypton.Toolkit
             _visualBlur.SetTargetRect(_parentForm.DesktopLocation, clientRectangle);
 
             Rectangle targetRect = _visualBlur.TargetRect;
-            _visualBlur.UpdateBlur(_currentFormDisplay);
+            _visualBlur.UpdateBlur(_currentFormDisplay!);
             // As UpdateBlur can take a few moments, then it is possible for the app to be closed before getting to the next line
             if ((_visualBlur == null)
                 || _parentForm.IsDisposed

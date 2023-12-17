@@ -1,6 +1,7 @@
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Reflection;
 using System.Windows.Forms;
 
 using Krypton.Toolkit;
@@ -120,13 +121,6 @@ namespace TestForm
             new Form4().Show();
         }
 
-        private void kryptonButton5_Click(object sender, EventArgs e)
-        {
-            KryptonAboutToolkitData data = new KryptonAboutToolkitData();
-
-            KryptonAboutToolkit.Show(data);
-        }
-
         private void Form1_Load(object sender, EventArgs e)
         {
             FormBorderStyle = FormBorderStyle.Sizable;
@@ -139,15 +133,15 @@ namespace TestForm
             Application.Exit();
         }
 
-        private void kryptonButton6_Click(object sender, EventArgs e)
-        {
-            kryptonCustomPaletteBase1.Import();
-        }
+        //private void kryptonButton6_Click(object sender, EventArgs e)
+        //{
+        //    kryptonCustomPaletteBase1.Import();
+        //}
 
-        private void kryptonButton7_Click(object sender, EventArgs e)
-        {
-            kryptonCustomPaletteBase1.Export();
-        }
+        //private void kryptonButton7_Click(object sender, EventArgs e)
+        //{
+        //    kryptonCustomPaletteBase1.Export();
+        //}
 
         private void kryptonThemeComboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -158,9 +152,18 @@ namespace TestForm
 
         private void kryptonButton8_Click(object sender, EventArgs e)
         {
-            KryptonAboutBoxData data = new KryptonAboutBoxData();
+            KryptonAboutBoxData aboutBoxData = new KryptonAboutBoxData()
+            {
+                ApplicationName = @"TestForm",
+                CurrentAssembly = Assembly.GetExecutingAssembly(),
+                HeaderImage = null,
+                MainImage = null,
+                ShowToolkitInformation = true,
+            };
 
-            KryptonAboutBox.Show(data);
+            KryptonAboutToolkitData aboutToolkitData = new KryptonAboutToolkitData();
+
+            KryptonAboutBox.Show(aboutBoxData, aboutToolkitData);
         }
 
         private void kcbtnNone_Click(object sender, EventArgs e) => UpdateBorderStyle(FormBorderStyle.None);
@@ -303,6 +306,23 @@ namespace TestForm
                 default:
                     throw new ArgumentOutOfRangeException(nameof(borderStyle), borderStyle, null);
             }
+        }
+
+        private void kryptonButton5_Click(object sender, EventArgs e)
+        {
+            kryptonTaskDialog1.ShowDialog();
+        }
+
+        private void kryptonButton9_Click(object sender, EventArgs e)
+        {
+            Form7 commandLinks = new Form7();
+
+            commandLinks.ShowDialog();
+        }
+
+        private void kryptonColorButton1_SelectedColorChanged(object sender, ColorEventArgs e)
+        {
+            kryptonButton1.Values.DropDownArrowColor = e.Color;
         }
     }
 }

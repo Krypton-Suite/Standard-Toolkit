@@ -20,7 +20,8 @@ namespace Krypton.Toolkit
         #region Static Fields
 
         [Localizable(true)]
-        private static readonly IReadOnlyDictionary<LabelStyle, string> _pairs = new Dictionary<LabelStyle, string>
+        private static readonly BiDictionary<LabelStyle, string> _pairs = new BiDictionary<LabelStyle, string>(
+            new Dictionary<LabelStyle, string>
         {
             {LabelStyle.AlternateControl, DesignTimeUtilities.DEFAULT_LABEL_STYLE_ALTERNATE_CONTROL},
             {LabelStyle.NormalControl, DesignTimeUtilities.DEFAULT_LABEL_STYLE_NORMAL_CONTROL},
@@ -39,7 +40,7 @@ namespace Krypton.Toolkit
             {LabelStyle.Custom1, DesignTimeUtilities.DEFAULT_LABEL_STYLE_CUSTOM_ONE},
             {LabelStyle.Custom2, DesignTimeUtilities.DEFAULT_LABEL_STYLE_CUSTOM_TWO},
             {LabelStyle.Custom3, DesignTimeUtilities.DEFAULT_LABEL_STYLE_CUSTOM_THREE}
-        };
+        });
 
         #endregion
 
@@ -48,7 +49,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets an array of lookup pairs.
         /// </summary>
-        protected override IReadOnlyDictionary<LabelStyle /*Enum*/, string /*Display*/> Pairs => _pairs;
+        protected override IReadOnlyDictionary<LabelStyle /*Enum*/, string /*Display*/> PairsEnumToString => _pairs.FirstToSecond;
+        protected override IReadOnlyDictionary<string /*Display*/, LabelStyle /*Enum*/ > PairsStringToEnum => _pairs.SecondToFirst;
 
         #endregion
     }

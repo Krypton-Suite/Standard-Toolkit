@@ -26,6 +26,8 @@ namespace Krypton.Toolkit
         // Initialize the global state
         private static bool _globalApplyToolstrips = true;
         private static bool _globalAllowFormChrome = true;
+        internal static bool _globalUseKryptonFileDialogs = true;
+        private static Font? _baseFont;
 
         // Initialize the default modes
 
@@ -34,8 +36,6 @@ namespace Krypton.Toolkit
         // Singleton instances are created on demand
         private static PaletteProfessionalOffice2003? _paletteProfessionalOffice2003;
         private static PaletteProfessionalSystem? _paletteProfessionalSystem;
-
-        private static PaletteBase? _customPalette;
 
         #region Office 2007 Themes
 
@@ -130,7 +130,6 @@ namespace Krypton.Toolkit
         private static RenderVisualStudio2010WithMicrosoft365? _renderVisualStudio2010WithMicrosoft365;
         private static RenderVisualStudio? _renderVisualStudio;
 
-        private static KryptonCustomPaletteManager? _customPaletteManager;
         #endregion
 
         #region Static Events
@@ -162,9 +161,9 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Initialize a new instance of the KryptonManager class.
         /// </summary>
-        public KryptonManager() =>
-            // This may not be the first form / object to init, so set to the global static
-            GlobalPaletteMode = InternalGlobalPaletteMode;
+        public KryptonManager()
+        {
+        }
 
         /// <summary>
         /// Initialize a new instance of the KryptonManager class.
@@ -206,152 +205,133 @@ namespace Krypton.Toolkit
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public bool IsDefault => !(ShouldSerializeGlobalPaletteMode() ||
-                                   ShouldSerializeGlobalPalette() ||
+        public bool IsDefault => !(ShouldSerializeGlobalCustomPalette() ||
                                    ShouldSerializeGlobalApplyToolstrips() ||
                                    ShouldSerializeGlobalAllowFormChrome() ||
-                                   ShouldSerializeToolkitStrings());
+                                   ShouldSerializeToolkitStrings() ||
+                                   ShouldSerializeUseKryptonFileDialogs() ||
+                                   ShouldSerializeBaseFont()
+                                   );
 
         /// <summary>
         /// Reset All values
         /// </summary>
         public void Reset()
         {
-            ResetGlobalPaletteMode();
-            ResetGlobalPalette();
+            ResetGlobalCustomPalette();
             ResetGlobalApplyToolstrips();
             ResetGlobalAllowFormChrome();
             ResetToolkitStrings();
-
-            _customPalette = null;
+            ResetUseKryptonFileDialogs();
+            ResetBaseFont();
         }
 
         /// <summary>
         /// Gets or sets the global palette used for drawing.
         /// </summary>
-        [Category(@"Visuals")]
-        [Description(@"Global palette applied to drawing.")]
+        [Category(@"GlobalPalette")]
+        [Description(@"Easy Set for the theme palette")]
         [DefaultValue(PaletteMode.Microsoft365Blue)]
         public PaletteMode GlobalPaletteMode
         {
-            get => InternalGlobalPaletteMode;
-
+            get => CurrentGlobalPaletteMode;
             set
             {
-                // Only interested in changes of value
-                if (InternalGlobalPaletteMode != value)
+                if (value != CurrentGlobalPaletteMode)
                 {
-                    // Action depends on the value
-                    switch (value)
+                    if (value != PaletteMode.Custom)
                     {
-                        case PaletteMode.Custom:
-                            // Do nothing, you must assign a palette to the 
-                            // 'GlobalPalette' property in order to get the custom mode
-                            break;
-                        default:
-                            // Cache the new values
-                            PaletteMode tempMode = InternalGlobalPaletteMode;
-                            PaletteBase? tempPalette = InternalGlobalPalette;
+                        CurrentGlobalPalette = GetPaletteForMode(value);
+                        // Get a reference to the standard palette from its name
+                        SetPalette(CurrentGlobalPalette);
+                    }
+                    CurrentGlobalPaletteMode = value;
+                    if (_baseFont != null)
+                    {
+                        CurrentGlobalPalette.BaseFont = _baseFont;
+                    }
 
-                            // Use the new value
-                            InternalGlobalPaletteMode = value;
-                            InternalGlobalPalette = null;
-
-                            // If the new value creates a circular reference
-                            if (HasCircularReference())
-                            {
-                                // Restore the original values before throwing
-                                InternalGlobalPaletteMode = tempMode;
-                                InternalGlobalPalette = tempPalette;
-
-                                throw new ArgumentOutOfRangeException(nameof(value),
-                                    @"Cannot use palette that would create a circular reference");
-                            }
-                            else
-                            {
-                                // Restore the original global palette as 'SetPalette' will not 
-                                // work correctly unless it still has the old value in place
-                                InternalGlobalPalette = tempPalette;
-                            }
-
-                            // Get a reference to the standard palette from its name
-                            SetPalette(CurrentGlobalPalette);
-
-                            // Raise the palette changed event
-                            OnGlobalPaletteChanged(EventArgs.Empty);
-                            break;
+                    if (value != PaletteMode.Custom)
+                    {
+                        // Raise the palette changed event
+                        OnGlobalPaletteChanged(EventArgs.Empty);
                     }
                 }
             }
         }
-
         private bool ShouldSerializeGlobalPaletteMode() => GlobalPaletteMode != PaletteMode.Microsoft365Blue;
-
         private void ResetGlobalPaletteMode() => GlobalPaletteMode = PaletteMode.Microsoft365Blue;
+
 
         /// <summary>
         /// Gets and sets the global custom applied to drawing.
         /// </summary>
-        [Category(@"Visuals")]
+        [Category(@"GlobalPalette")]
         [Description(@"Global custom palette applied to drawing.")]
         [DefaultValue(null)]
-        public PaletteBase? GlobalPalette
+        public KryptonCustomPaletteBase? GlobalCustomPalette
         {
-            get => InternalGlobalPalette;
+            get => CurrentGlobalPalette as KryptonCustomPaletteBase;
 
             set
             {
                 // Only interested in changes of value
-                if (InternalGlobalPalette != value)
+                if (CurrentGlobalPalette != value)
                 {
-                    // Cache the current values
-                    PaletteMode tempMode = InternalGlobalPaletteMode;
-                    PaletteBase? tempPalette = InternalGlobalPalette;
-
-                    // Use the new values
-                    InternalGlobalPaletteMode = (value == null) ? PaletteMode.Microsoft365Blue : PaletteMode.Custom;
-                    InternalGlobalPalette = value;
-
-                    // If the new value creates a circular reference
-                    if (HasCircularReference())
+                    if (value != null)
                     {
-                        // Restore the original values
-                        InternalGlobalPaletteMode = tempMode;
-                        InternalGlobalPalette = tempPalette;
-
-                        throw new ArgumentOutOfRangeException(nameof(value), @"Cannot use palette that would create a circular reference");
+                        // If no custom palette is required
+                        CurrentGlobalPalette = value;
+                        // Use the provided palette value
+                        SetPalette(value);
+                        CurrentGlobalPaletteMode = GetModeForPalette(value);
                     }
                     else
                     {
-                        // Restore the original global palette as 'SetPalette' will not 
-                        // work correctly unless it still has the old value in place
-                        InternalGlobalPalette = tempPalette;
+                        ResetGlobalPaletteMode();
+                        CurrentGlobalPalette = GetPaletteForMode(GlobalPaletteMode);
                     }
-
-                    // Use the provided palette value
-                    SetPalette(value);
-
-                    // If no custom palette is required
-                    if (value == null)
-                    {
-                        // Get a reference to current global palette defined by the mode
-                        SetPalette(CurrentGlobalPalette);
-                    }
-                    else
-                    {
-                        // No longer using a standard palette
-                        InternalGlobalPaletteMode = PaletteMode.Custom;
-                    }
-
                     // Raise the palette changed event
                     OnGlobalPaletteChanged(EventArgs.Empty);
                 }
             }
         }
+        private void ResetGlobalCustomPalette()
+        {
+            GlobalCustomPalette = null;
+            ResetGlobalPaletteMode();
+        }
+        private bool ShouldSerializeGlobalCustomPalette() => GlobalCustomPalette != null;
 
-        private bool ShouldSerializeGlobalPalette() => GlobalPalette != null;
+        /// <summary>Override the Current global palette font.</summary>
+        [Category(@"GlobalPalette")]
+        [Description(@"Override the Current global palette font.")]
+        [AllowNull]
+        public Font BaseFont
+        {
+            get => _baseFont ?? CurrentGlobalPalette.BaseFont;
 
-        private void ResetGlobalPalette() => GlobalPaletteMode = PaletteMode.Microsoft365Blue;
+            set
+            {
+                if (value != null)
+                {
+                    _baseFont = value;
+                    CurrentGlobalPalette.BaseFont = value;
+                }
+                else
+                {
+                    ResetBaseFont();
+                }
+            }
+        }
+
+        internal void ResetBaseFont()
+        {
+            _baseFont = null;
+            CurrentGlobalPalette.ResetBaseFont();
+        }
+
+        internal bool ShouldSerializeBaseFont() => _baseFont != null;
 
         /// <summary>
         /// Gets or sets a value indicating if the palette colors are applied to the tool-strips.
@@ -364,10 +344,22 @@ namespace Krypton.Toolkit
             get => ApplyToolstrips;
             set => ApplyToolstrips = value;
         }
-
         private bool ShouldSerializeGlobalApplyToolstrips() => !GlobalApplyToolstrips;
-
         private void ResetGlobalApplyToolstrips() => GlobalApplyToolstrips = true;
+
+        /// <summary>Gets or sets a value indicating whether [use krypton file dialogs for internal openings like CustomPalette Import].</summary>
+        /// <value><c>true</c> if [use krypton file dialogs]; otherwise, <c>false</c>.</value>
+        [Category(@"Visuals")]
+        [Description(@"Should use krypton file dialogs for internal openings like CustomPalette Import")]
+        [DefaultValue(true)]
+        public bool UseKryptonFileDialogs
+        {
+            get => _globalUseKryptonFileDialogs;
+            set => _globalUseKryptonFileDialogs = value;
+        }
+        private bool ShouldSerializeUseKryptonFileDialogs() => !UseKryptonFileDialogs;
+        private void ResetUseKryptonFileDialogs() => UseKryptonFileDialogs = true;
+
 
         /// <summary>
         /// Gets or sets a value indicating if KryptonForm instances are allowed to show custom chrome.
@@ -380,32 +372,8 @@ namespace Krypton.Toolkit
             get => AllowFormChrome;
             set => AllowFormChrome = value;
         }
-
         private bool ShouldSerializeGlobalAllowFormChrome() => !GlobalAllowFormChrome;
-
         private void ResetGlobalAllowFormChrome() => GlobalAllowFormChrome = true;
-
-        /// <summary>Specify a custom palette outside the existing palettes.</summary>
-        /// <value>A custom palette.</value>
-        [Category(@"Visuals")]
-        [Description(@"Specify a custom palette outside the existing palettes.")]
-        [DefaultValue(null)]
-        public KryptonCustomPaletteManager? CustomPaletteManager
-        {
-            get => _customPaletteManager;
-            set => _customPaletteManager = value;
-        }
-
-        /// <summary>Specify a custom palette outside the existing palettes.</summary>
-        /// <value>A custom palette.</value>
-        [Category(@"Visuals")]
-        [Description(@"Specify a custom palette outside the existing palettes.")]
-        [DefaultValue(null)]
-        public PaletteBase? CustomPalette
-        {
-            get => _customPalette;
-            set => _customPalette = value;
-        }
 
         /// <summary>Gets the toolkit strings that can be localised.</summary>
         [Category(@"Data")]
@@ -414,11 +382,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         [Localizable(true)]
         public KryptonGlobalToolkitStrings ToolkitStrings => Strings;
-
         private bool ShouldSerializeToolkitStrings() => !Strings.IsDefault;
-
-        /// <summary>Resets the toolkit strings.</summary>
-        public void ResetToolkitStrings() => Strings.Reset();
+        private void ResetToolkitStrings() => Strings.Reset();
 
         #endregion
 
@@ -485,126 +450,11 @@ namespace Krypton.Toolkit
 
         #region Static Palette
         /// <summary>
-        /// Gets the current global palette instance given the manager settings.
-        /// </summary>
-        public static PaletteBase? CurrentGlobalPalette
-        {
-            get
-            {
-                switch (InternalGlobalPaletteMode)
-                {
-                    case PaletteMode.ProfessionalSystem:
-                        return PaletteProfessionalSystem;
-                    case PaletteMode.ProfessionalOffice2003:
-                        return PaletteProfessionalOffice2003;
-                    case PaletteMode.Office2007DarkGray:
-                        return PaletteOffice2007DarkGray;
-                    case PaletteMode.Office2007Blue:
-                        return PaletteOffice2007Blue;
-                    case PaletteMode.Office2007BlueDarkMode:
-                        return PaletteOffice2007BlueDarkMode;
-                    case PaletteMode.Office2007BlueLightMode:
-                        return PaletteOffice2007BlueLightMode;
-                    case PaletteMode.Office2007Silver:
-                        return PaletteOffice2007Silver;
-                    case PaletteMode.Office2007SilverDarkMode:
-                        return PaletteOffice2007SilverDarkMode;
-                    case PaletteMode.Office2007SilverLightMode:
-                        return PaletteOffice2007SilverLightMode;
-                    case PaletteMode.Office2007White:
-                        return PaletteOffice2007White;
-                    case PaletteMode.Office2007Black:
-                        return PaletteOffice2007Black;
-                    case PaletteMode.Office2007BlackDarkMode:
-                        return PaletteOffice2007BlackDarkMode;
-                    case PaletteMode.Office2010DarkGray:
-                        return PaletteOffice2010DarkGray;
-                    case PaletteMode.Office2010Blue:
-                        return PaletteOffice2010Blue;
-                    case PaletteMode.Office2010BlueDarkMode:
-                        return PaletteOffice2010BlueDarkMode;
-                    case PaletteMode.Office2010BlueLightMode:
-                        return PaletteOffice2010BlueLightMode;
-                    case PaletteMode.Office2010Silver:
-                        return PaletteOffice2010Silver;
-                    case PaletteMode.Office2010SilverDarkMode:
-                        return PaletteOffice2010SilverDarkMode;
-                    case PaletteMode.Office2010SilverLightMode:
-                        return PaletteOffice2010SilverLightMode;
-                    case PaletteMode.Office2010White:
-                        return PaletteOffice2010White;
-                    case PaletteMode.Office2010Black:
-                        return PaletteOffice2010Black;
-                    case PaletteMode.Office2010BlackDarkMode:
-                        return PaletteOffice2010BlackDarkMode;
-                    case PaletteMode.Office2013DarkGray:
-                        return PaletteOffice2013DarkGray;
-                    case PaletteMode.Office2013LightGray:
-                        return PaletteOffice2013LightGray;
-                    case PaletteMode.Office2013White:
-                        return PaletteOffice2013White;
-                    case PaletteMode.SparkleBlue:
-                        return PaletteSparkleBlue;
-                    case PaletteMode.SparkleBlueDarkMode:
-                        return PaletteSparkleBlueDarkMode;
-                    case PaletteMode.SparkleBlueLightMode:
-                        return PaletteSparkleBlueLightMode;
-                    case PaletteMode.SparkleOrange:
-                        return PaletteSparkleOrange;
-                    case PaletteMode.SparkleOrangeDarkMode:
-                        return PaletteSparkleOrangeDarkMode;
-                    case PaletteMode.SparkleOrangeLightMode:
-                        return PaletteSparkleOrangeLightMode;
-                    case PaletteMode.SparklePurple:
-                        return PaletteSparklePurple;
-                    case PaletteMode.SparklePurpleDarkMode:
-                        return PaletteSparklePurpleDarkMode;
-                    case PaletteMode.SparklePurpleLightMode:
-                        return PaletteSparklePurpleLightMode;
-                    case PaletteMode.Microsoft365Black:
-                        return PaletteMicrosoft365Black;
-                    case PaletteMode.Microsoft365BlackDarkMode:
-                        return PaletteMicrosoft365BlackDarkMode;
-                    case PaletteMode.Microsoft365Blue:
-                        return PaletteMicrosoft365Blue;
-                    case PaletteMode.Microsoft365BlueDarkMode:
-                        return PaletteMicrosoft365BlueDarkMode;
-                    case PaletteMode.Microsoft365BlueLightMode:
-                        return PaletteMicrosoft365BlueLightMode;
-                    case PaletteMode.Microsoft365DarkGray:
-                        return PaletteMicrosoft365DarkGray;
-                    case PaletteMode.Microsoft365Silver:
-                        return PaletteMicrosoft365Silver;
-                    case PaletteMode.Microsoft365SilverDarkMode:
-                        return PaletteMicrosoft365SilverDarkMode;
-                    case PaletteMode.Microsoft365SilverLightMode:
-                        return PaletteMicrosoft365SilverLightMode;
-                    case PaletteMode.Microsoft365White:
-                        return PaletteMicrosoft365White;
-                    case PaletteMode.VisualStudio2010Render2007:
-                        return PaletteVisualStudio2010Office2007Variation;
-                    case PaletteMode.VisualStudio2010Render2010:
-                        return PaletteVisualStudio2010Office2010Variation;
-                    case PaletteMode.VisualStudio2010Render2013:
-                        return PaletteVisualStudio2010Office2013Variation;
-                    case PaletteMode.VisualStudio2010Render365:
-                        return PaletteVisualStudio2010Microsoft365Variation;
-                    case PaletteMode.Custom:
-                    case PaletteMode.Global:
-                        return InternalGlobalPalette;
-                    default:
-                        Debug.Assert(false);
-                        return null;
-                }
-            }
-        }
-
-        /// <summary>
         /// Gets the implementation for the requested palette mode.
         /// </summary>
         /// <param name="mode">Requested palette mode.</param>
-        /// <returns>PaletteBase reference is available; otherwise false.</returns>
-        public static PaletteBase? GetPaletteForMode(PaletteMode mode)
+        /// <returns>PaletteBase reference is available; otherwise null exception.</returns>
+        public static PaletteBase GetPaletteForMode(PaletteMode mode)
         {
             switch (mode)
             {
@@ -696,8 +546,6 @@ namespace Krypton.Toolkit
                     return PaletteMicrosoft365SilverLightMode;
                 case PaletteMode.Microsoft365White:
                     return PaletteMicrosoft365White;
-                case PaletteMode.Global:
-                    return CurrentGlobalPalette;
                 case PaletteMode.VisualStudio2010Render2007:
                     return PaletteVisualStudio2010Office2007Variation;
                 case PaletteMode.VisualStudio2010Render2010:
@@ -706,11 +554,42 @@ namespace Krypton.Toolkit
                     return PaletteVisualStudio2010Office2013Variation;
                 case PaletteMode.VisualStudio2010Render365:
                     return PaletteVisualStudio2010Microsoft365Variation;
+
                 case PaletteMode.Custom:
+                case PaletteMode.Global:
+                    return CurrentGlobalPalette;
                 default:
                     Debug.Assert(false);
-                    return null;
+                    throw new ArgumentOutOfRangeException(nameof(mode), @"mode must be PaletteMode value.");
             }
+        }
+
+        /// <summary>
+        /// Gets the implementation for the requested palette mode.
+        /// </summary>
+        /// <param name="palette">Requested palette to mode.</param>
+        /// <returns>PaletteMode is available; otherwise Custom.</returns>
+        public static PaletteMode GetModeForPalette(PaletteBase? palette)
+        {
+            if (palette is KryptonCustomPaletteBase)
+            {
+                return PaletteMode.Custom;
+            }
+
+            object? mode = null;
+            if (palette != null)
+            {
+                var modeConverter = new Krypton.Toolkit.Converters.PaletteClassTypeConverter();
+
+                mode = modeConverter.ConvertFrom(palette.GetType());
+            }
+
+            if (mode == null)
+            {
+                return PaletteMode.Global;
+            }
+
+            return (PaletteMode)mode;
         }
 
         /// <summary>
@@ -957,7 +836,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="mode">Requested renderer mode.</param>
         /// <returns>IRenderer reference is available; otherwise false.</returns>
-        public static IRenderer? GetRendererForMode(RendererMode mode)
+        public static IRenderer GetRendererForMode(RendererMode mode)
         {
             switch (mode)
             {
@@ -990,7 +869,7 @@ namespace Krypton.Toolkit
                 default:
                     // Should never be passed
                     Debug.Assert(false);
-                    return null;
+                    throw new ArgumentOutOfRangeException(nameof(mode), @"mode must be RendererMode value.");
             }
         }
 
@@ -1044,58 +923,16 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Static Internal
-        internal static PaletteMode InternalGlobalPaletteMode { get; private set; } = PaletteMode.Microsoft365Blue;
+        /// <summary>
+        /// What is the CurrentGlobalPaletteMode in use
+        /// </summary>
+        public static PaletteMode CurrentGlobalPaletteMode { get; private set; } = PaletteMode.Microsoft365Blue;
 
-        internal static PaletteBase? InternalGlobalPalette { get; private set; } = CurrentGlobalPalette;
+        /// <summary>
+        /// Access the Current Palette
+        /// </summary>
+        public static PaletteBase CurrentGlobalPalette { get; private set; } = GetPaletteForMode(CurrentGlobalPaletteMode);
 
-        internal static bool HasCircularReference()
-        {
-            // Use a dictionary as a set to check for existence
-            var paletteSet = new Dictionary<PaletteBase, bool>();
-
-            PaletteBase? palette = null;
-
-            // Get the next palette up in hierarchy
-            if (InternalGlobalPaletteMode == PaletteMode.Custom)
-            {
-                palette = InternalGlobalPalette;
-            }
-
-            // Keep searching until no more palettes found
-            while (palette != null)
-            {
-                // If the palette has already been encountered then it is a circular reference
-                if (paletteSet.ContainsKey(palette))
-                {
-                    return true;
-                }
-                else
-                {
-                    // Otherwise, add to the set
-                    paletteSet.Add(palette, true);
-                    // Cast to correct type
-
-                    // If this is a KryptonPalette instance
-                    if (palette is KryptonCustomPaletteBase owner)
-                    {
-                        // Get the next palette up in hierarchy
-                        palette = owner.BasePaletteMode switch
-                        {
-                            PaletteMode.Custom => owner.BasePalette,
-                            PaletteMode.Global => InternalGlobalPalette,
-                            _ => null
-                        };
-                    }
-                    else
-                    {
-                        palette = null;
-                    }
-                }
-            }
-
-            // No circular reference encountered
-            return false;
-        }
         #endregion
 
         #region Static Implementation
@@ -1145,23 +982,23 @@ namespace Krypton.Toolkit
             }
         }
 
-        private static void SetPalette(PaletteBase? globalPalette)
+        private static void SetPalette(PaletteBase globalPalette)
         {
-            if (globalPalette != InternalGlobalPalette)
+            if (globalPalette != CurrentGlobalPalette)
             {
                 // Unhook from current palette events
-                if (InternalGlobalPalette != null)
+                if (CurrentGlobalPalette != null)
                 {
-                    InternalGlobalPalette.PalettePaint -= OnPalettePaint;
+                    CurrentGlobalPalette.PalettePaint -= OnPalettePaint;
                 }
 
                 // Remember the new palette
-                InternalGlobalPalette = globalPalette;
+                CurrentGlobalPalette = globalPalette;
 
                 // Hook to new palette events
-                if (InternalGlobalPalette != null)
+                if (CurrentGlobalPalette != null)
                 {
-                    InternalGlobalPalette.PalettePaint += OnPalettePaint;
+                    CurrentGlobalPalette.PalettePaint += OnPalettePaint;
                 }
             }
         }
@@ -1179,7 +1016,7 @@ namespace Krypton.Toolkit
         {
             if (_globalApplyToolstrips)
             {
-                ToolStripManager.Renderer = InternalGlobalPalette?.GetRenderer()?.RenderToolStrip(InternalGlobalPalette);
+                ToolStripManager.Renderer = CurrentGlobalPalette?.GetRenderer()?.RenderToolStrip(CurrentGlobalPalette);
             }
         }
 

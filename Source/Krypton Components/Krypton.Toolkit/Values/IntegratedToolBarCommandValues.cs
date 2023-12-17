@@ -81,33 +81,33 @@ namespace Krypton.Toolkit
         /// <summary>Resets this instance.</summary>
         public void Reset()
         {
-            NewButtonCommand = DEFAULT_INTEGRATED_NEW_TOOL_BAR_COMMAND;
+            NewButtonCommand = DEFAULT_INTEGRATED_NEW_TOOL_BAR_COMMAND!;
 
-            OpenButtonCommand = DEFAULT_INTEGRATED_OPEN_TOOL_BAR_COMMAND;
+            OpenButtonCommand = DEFAULT_INTEGRATED_OPEN_TOOL_BAR_COMMAND!;
 
-            SaveButtonCommand = DEFAULT_INTEGRATED_SAVE_TOOL_BAR_COMMAND;
+            SaveButtonCommand = DEFAULT_INTEGRATED_SAVE_TOOL_BAR_COMMAND!;
 
-            SaveAllButtonCommand = DEFAULT_INTEGRATED_SAVE_ALL_TOOL_BAR_COMMAND;
+            SaveAllButtonCommand = DEFAULT_INTEGRATED_SAVE_ALL_TOOL_BAR_COMMAND!;
 
-            SaveAsButtonCommand = DEFAULT_INTEGRATED_SAVE_AS_TOOL_BAR_COMMAND;
+            SaveAsButtonCommand = DEFAULT_INTEGRATED_SAVE_AS_TOOL_BAR_COMMAND!;
 
-            CutButtonCommand = DEFAULT_INTEGRATED_CUT_TOOL_BAR_COMMAND;
+            CutButtonCommand = DEFAULT_INTEGRATED_CUT_TOOL_BAR_COMMAND!;
 
-            CopyButtonCommand = DEFAULT_INTEGRATED_COPY_TOOL_BAR_COMMAND;
+            CopyButtonCommand = DEFAULT_INTEGRATED_COPY_TOOL_BAR_COMMAND!;
 
-            PasteButtonCommand = DEFAULT_INTEGRATED_PASTE_TOOL_BAR_COMMAND;
+            PasteButtonCommand = DEFAULT_INTEGRATED_PASTE_TOOL_BAR_COMMAND!;
 
-            UndoButtonCommand = DEFAULT_INTEGRATED_UNDO_TOOL_BAR_COMMAND;
+            UndoButtonCommand = DEFAULT_INTEGRATED_UNDO_TOOL_BAR_COMMAND!;
 
-            RedoButtonCommand = DEFAULT_INTEGRATED_REDO_TOOL_BAR_COMMAND;
+            RedoButtonCommand = DEFAULT_INTEGRATED_REDO_TOOL_BAR_COMMAND!;
 
-            PageSetupButtonCommand = DEFAULT_INTEGRATED_PAGE_SETUP_TOOL_BAR_COMMAND;
+            PageSetupButtonCommand = DEFAULT_INTEGRATED_PAGE_SETUP_TOOL_BAR_COMMAND!;
 
-            PrintPreviewButtonCommand = DEFAULT_INTEGRATED_PRINT_PREVIEW_TOOL_BAR_COMMAND;
+            PrintPreviewButtonCommand = DEFAULT_INTEGRATED_PRINT_PREVIEW_TOOL_BAR_COMMAND!;
 
-            PrintButtonCommand = DEFAULT_INTEGRATED_PRINT_TOOL_BAR_COMMAND;
+            PrintButtonCommand = DEFAULT_INTEGRATED_PRINT_TOOL_BAR_COMMAND!;
 
-            QuickPrintButtonCommand = DEFAULT_INTEGRATED_QUICK_PRINT_TOOL_BAR_COMMAND;
+            QuickPrintButtonCommand = DEFAULT_INTEGRATED_QUICK_PRINT_TOOL_BAR_COMMAND!;
         }
 
         public KryptonIntegratedToolbarNewCommand NewButtonCommand { get; set; }

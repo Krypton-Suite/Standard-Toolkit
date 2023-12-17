@@ -31,7 +31,7 @@ namespace Krypton.Ribbon
         public ButtonSpecMinimizeRibbon([DisallowNull] KryptonRibbon ribbon)
         {
             Debug.Assert(ribbon != null);
-            _ribbon = ribbon;
+            _ribbon = ribbon!;
 
             // Fix the type
             ProtectedType = PaletteButtonSpecStyle.RibbonMinimize;
@@ -65,14 +65,14 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="palette">Palette to use for inheriting values.</param>
         /// <returns>Button visibiliy.</returns>
-        public override bool GetVisible(PaletteBase? palette) => _ribbon is { ShowMinimizeButton: true, MinimizedMode: false };
+        public override bool GetVisible(PaletteBase palette) => _ribbon is { ShowMinimizeButton: true, MinimizedMode: false };
 
         /// <summary>
         /// Gets the button enabled state.
         /// </summary>
         /// <param name="palette">Palette to use for inheriting values.</param>
         /// <returns>Button enabled state.</returns>
-        public override ButtonEnabled GetEnabled(PaletteBase? palette) => ButtonEnabled.True;
+        public override ButtonEnabled GetEnabled(PaletteBase palette) => ButtonEnabled.True;
 
         /// <summary>
         /// Gets the button checked state.
@@ -88,7 +88,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="palette">Palette to use for inheriting values.</param>
         /// <returns>Button style.</returns>
-        public override ButtonStyle GetStyle(PaletteBase? palette) => ButtonStyle.ButtonSpec;
+        public override ButtonStyle GetStyle(PaletteBase palette) => ButtonStyle.ButtonSpec;
 
         #endregion    
 

@@ -274,11 +274,11 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
-        public override Font GetContentShortTextFont(PaletteState state)
+        public override Font? GetContentShortTextFont(PaletteState state)
         {
             if (Apply)
             {
-                Font ret = _primary.GetContentShortTextFont(Override ? OverrideState : state) ?? _backup.GetContentShortTextFont(state);
+                Font? ret = _primary.GetContentShortTextFont(Override ? OverrideState : state) ?? _backup.GetContentShortTextFont(state);
 
                 return ret;
             }
@@ -293,11 +293,11 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
-        public override Font GetContentShortTextNewFont(PaletteState state)
+        public override Font? GetContentShortTextNewFont(PaletteState state)
         {
             if (Apply)
             {
-                Font ret = _primary.GetContentShortTextNewFont(Override ? OverrideState : state) ?? _backup.GetContentShortTextNewFont(state);
+                Font? ret = _primary.GetContentShortTextNewFont(Override ? OverrideState : state) ?? _backup.GetContentShortTextNewFont(state);
 
                 return ret;
             }
@@ -667,11 +667,11 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
-        public override Font GetContentLongTextFont(PaletteState state)
+        public override Font? GetContentLongTextFont(PaletteState state)
         {
             if (Apply)
             {
-                Font ret = _primary.GetContentLongTextFont(Override ? OverrideState : state) ?? _backup.GetContentLongTextFont(state);
+                Font? ret = _primary.GetContentLongTextFont(Override ? OverrideState : state) ?? _backup.GetContentLongTextFont(state);
 
                 return ret;
             }
@@ -686,11 +686,11 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
-        public override Font GetContentLongTextNewFont(PaletteState state)
+        public override Font? GetContentLongTextNewFont(PaletteState state)
         {
             if (Apply)
             {
-                Font ret = _primary.GetContentLongTextNewFont(Override ? OverrideState : state) ?? _backup.GetContentLongTextNewFont(state);
+                Font? ret = _primary.GetContentLongTextNewFont(Override ? OverrideState : state) ?? _backup.GetContentLongTextNewFont(state);
 
                 return ret;
             }

@@ -435,7 +435,7 @@ namespace Krypton.Toolkit
                                     rectangle = CommonHelper.ApplyPadding(VisualOrientation.Top, rectangle, states.Content.GetContentPadding(state));
                                     // Find correct text color
                                     Color textColor = states.Content.GetContentShortTextColor1(state);
-                                    Font contentShortTextFont = states.Content.GetContentShortTextFont(state);
+                                    Font? contentShortTextFont = states.Content.GetContentShortTextFont(state);
                                     // Find correct background color
                                     Color backColor = states.PaletteBack.GetBackColor1(state);
 
@@ -2419,7 +2419,7 @@ namespace Krypton.Toolkit
         /// Raises the Paint event.
         /// </summary>
         /// <param name="e">An PaintEventArgs that contains the event data.</param>
-        protected override void OnPaint(PaintEventArgs e)
+        protected override void OnPaint(PaintEventArgs? e)
         {
             // First time we paint we perform a layout to ensure drawing works correctly
             if (_firstTimePaint)
@@ -2583,7 +2583,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">Source of notification.</param>
         /// <param name="e">An NeedLayoutEventArgs containing event data.</param>
-        protected override void OnNeedPaint(object? sender, NeedLayoutEventArgs e)
+        protected override void OnNeedPaint(object sender, NeedLayoutEventArgs e)
         {
             if (!e.NeedLayout)
             {

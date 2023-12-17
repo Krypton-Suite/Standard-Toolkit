@@ -32,7 +32,7 @@ namespace Krypton.Navigator
         protected override void CreateCheckItemView()
         {
             // Create the view element that lays out the check buttons
-            _layoutBar = new ViewLayoutBar(Navigator.StateCommon.Bar,
+            _layoutBar = new ViewLayoutBar(Navigator.StateCommon!.Bar,
                                            PaletteMetricInt.CheckButtonGap,
                                            Navigator.Bar.ItemSizing,
                                            Navigator.Bar.ItemAlignment,
@@ -60,7 +60,7 @@ namespace Krypton.Navigator
             };
 
             // Place the bar inside a header style area
-            _viewHeadingBar = new ViewDrawDocker(Navigator.StateNormal.HeaderGroup.HeaderBar.Back,
+            _viewHeadingBar = new ViewDrawDocker(Navigator.StateNormal!.HeaderGroup!.HeaderBar.Back,
                                                  Navigator.StateNormal.HeaderGroup.HeaderBar.Border,
                                                  Navigator.StateNormal.HeaderGroup.HeaderBar,
                                                  PaletteMetricBool.None,

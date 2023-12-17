@@ -27,20 +27,20 @@ namespace Krypton.Navigator
     {
         #region Instance Fields
         private readonly ViewDrawPanel _drawPanel;
-        private readonly PaletteRedirectDoubleMetric? _redirectNavigator;
-        private readonly PaletteRedirectDoubleMetric? _redirectNavigatorHeaderGroup;
-        private readonly PaletteRedirectTripleMetric? _redirectNavigatorHeaderPrimary;
-        private readonly PaletteRedirectTripleMetric? _redirectNavigatorHeaderSecondary;
-        private readonly PaletteRedirectTripleMetric? _redirectNavigatorHeaderBar;
-        private readonly PaletteRedirectTripleMetric? _redirectNavigatorHeaderOverflow;
-        private readonly PaletteRedirectTriple? _redirectNavigatorCheckButton;
-        private readonly PaletteRedirectTriple? _redirectNavigatorOverflowButton;
-        private readonly PaletteRedirectTriple? _redirectNavigatorMiniButton;
-        private readonly PaletteRedirectTriple? _redirectNavigatorTab;
-        private readonly PaletteRedirectRibbonTabContent? _redirectNavigatorRibbonTab;
-        private readonly PaletteRedirectMetric? _redirectNavigatorBar;
-        private readonly PaletteRedirectDouble? _redirectNavigatorPage;
-        private readonly PaletteRedirectDoubleMetric? _redirectNavigatorSeparator;
+        private readonly PaletteRedirectDoubleMetric _redirectNavigator;
+        private readonly PaletteRedirectDoubleMetric _redirectNavigatorHeaderGroup;
+        private readonly PaletteRedirectTripleMetric _redirectNavigatorHeaderPrimary;
+        private readonly PaletteRedirectTripleMetric _redirectNavigatorHeaderSecondary;
+        private readonly PaletteRedirectTripleMetric _redirectNavigatorHeaderBar;
+        private readonly PaletteRedirectTripleMetric _redirectNavigatorHeaderOverflow;
+        private readonly PaletteRedirectTriple _redirectNavigatorCheckButton;
+        private readonly PaletteRedirectTriple _redirectNavigatorOverflowButton;
+        private readonly PaletteRedirectTriple _redirectNavigatorMiniButton;
+        private readonly PaletteRedirectTriple _redirectNavigatorTab;
+        private readonly PaletteRedirectRibbonTabContent _redirectNavigatorRibbonTab;
+        private readonly PaletteRedirectMetric _redirectNavigatorBar;
+        private readonly PaletteRedirectDouble _redirectNavigatorPage;
+        private readonly PaletteRedirectDoubleMetric _redirectNavigatorSeparator;
         private readonly PaletteNavigatorRedirect? _stateCommon;
         private readonly PaletteNavigator? _stateDisabled;
         private readonly PaletteNavigator? _stateNormal;
@@ -150,8 +150,8 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="text">Initial text.</param>
         /// <param name="uniqueName">Initial unique name.</param>
-        public KryptonPage(string text, string uniqueName)
-            : this(text, null, uniqueName)
+        public KryptonPage(string text, string? uniqueName)
+            : this(text, null, uniqueName ?? string.Empty)
         {
         }
 
@@ -165,7 +165,7 @@ namespace Krypton.Navigator
         /// <remarks>
         /// If Min Size not set in the Embedded control, then will default to 150, 50
         /// </remarks>
-        public KryptonPage(string text, Bitmap? imageSmall, string uniqueName)
+        public KryptonPage(string text, Bitmap? imageSmall, string? uniqueName)
             : this(text, imageSmall, uniqueName, new Size(150, 50))
         {
 
@@ -178,7 +178,7 @@ namespace Krypton.Navigator
         /// <param name="imageSmall">Initial small image.</param>
         /// <param name="uniqueName">Initial unique name.</param>
         /// <param name="minSize">Min Size of dragged docked control, if not set by Embedded</param>
-        public KryptonPage(string text, Bitmap? imageSmall, string uniqueName, Size minSize)
+        public KryptonPage(string text, Bitmap? imageSmall, string? uniqueName, Size minSize)
         {
             // Default properties
             Text = text;
@@ -193,7 +193,7 @@ namespace Krypton.Navigator
             _imageSmall = imageSmall;
             _setVisible = true;
             _autoHiddenSlideSize = new Size(200, 200);
-            _uniqueName = string.IsNullOrEmpty(uniqueName) ? CommonHelper.UniqueString : uniqueName;
+            _uniqueName = string.IsNullOrEmpty(uniqueName) ? CommonHelper.UniqueString : uniqueName ?? string.Empty;
             _flags.Flags = (int)KryptonPageFlags.All;
             _flags.ClearFlags((int)KryptonPageFlags.PageInOverflowBarForOutlookMode);
 
@@ -287,7 +287,7 @@ namespace Krypton.Navigator
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public new PaletteBase? Palette
+        public new PaletteBase Palette
         {
             [DebuggerStepThrough]
             get => base.Palette;
@@ -300,7 +300,7 @@ namespace Krypton.Navigator
         [Category(@"Visuals")]
         [Description(@"Collection of button specifications.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public virtual PageButtonSpecCollection ButtonSpecs { get; }
+        public virtual PageButtonSpecCollection? ButtonSpecs { get; }
 
         /// <summary>
         /// Gets access to the common page appearance entries.

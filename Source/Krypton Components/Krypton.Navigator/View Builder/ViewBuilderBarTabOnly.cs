@@ -32,7 +32,7 @@ namespace Krypton.Navigator
             if (Navigator.SelectedPage != null)
             {
                 // Grab the view for the page
-                INavCheckItem checkItem = _pageLookup[Navigator.SelectedPage];
+                INavCheckItem checkItem = _pageLookup![Navigator.SelectedPage];
 
                 // If the item also has the focus
                 if (checkItem.HasFocus)
@@ -61,7 +61,7 @@ namespace Krypton.Navigator
                                            true);
 
             // Create the scroll spacer that restricts display
-            _layoutBarViewport = new ViewLayoutViewport(Navigator.StateCommon.Bar,
+            _layoutBarViewport = new ViewLayoutViewport(Navigator.StateCommon!.Bar,
                                                         PaletteMetricPadding.BarPaddingTabs,
                                                         PaletteMetricInt.CheckButtonGap,
                                                         Navigator.Bar.BarOrientation,
@@ -91,7 +91,7 @@ namespace Krypton.Navigator
             };
 
             // Create the top level panel and put a layout docker inside it
-            _drawPanel = new ViewDrawPanel(Navigator.StateNormal.Back)
+            _drawPanel = new ViewDrawPanel(Navigator.StateNormal!.Back)
             {
                 _layoutPanelDocker
             };

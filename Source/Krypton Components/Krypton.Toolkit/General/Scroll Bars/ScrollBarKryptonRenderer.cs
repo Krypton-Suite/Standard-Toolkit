@@ -84,7 +84,7 @@ namespace Krypton.Toolkit
 
             //Init Colors
             // hot state
-            thumbColours[0, 0] = _palette.GetBorderColor1(PaletteBorderStyle.ButtonStandalone, PaletteState.Normal); //Color.FromArgb(96, 111, 148); // border color
+            thumbColours[0, 0] = _palette!.GetBorderColor1(PaletteBorderStyle.ButtonStandalone, PaletteState.Normal); //Color.FromArgb(96, 111, 148); // border color
             thumbColours[0, 1] = _palette.GetBackColor2(PaletteBackStyle.ButtonStandalone, PaletteState.Normal); //Color.FromArgb(232, 233, 233); // left/top start color
             thumbColours[0, 2] = _palette.GetBackColor1(PaletteBackStyle.ButtonStandalone, PaletteState.Normal); //Color.FromArgb(230, 233, 241); // left/top end color
             thumbColours[0, 3] = _palette.GetBackColor2(PaletteBackStyle.ButtonStandalone, PaletteState.Normal); //Color.FromArgb(233, 237, 242); // right/bottom line color
@@ -183,7 +183,7 @@ namespace Krypton.Toolkit
 
             //Border colors
             borderColours[0] = _palette.GetBorderColor1(PaletteBorderStyle.InputControlCustom1, PaletteState.Normal);
-            borderColours[1] = _palette.GetBorderColor1(PaletteBorderStyle.InputControlCustom1, PaletteState.Normal); ;
+            borderColours[1] = _palette.GetBorderColor1(PaletteBorderStyle.InputControlCustom1, PaletteState.Normal);
 
             //Grip colors
             gripColours[0] = _palette.ColorTable.GripLight;
@@ -952,7 +952,7 @@ namespace Krypton.Toolkit
         #region ... Krypton ...
 
 
-        //Kripton Palette Events
+        //Krypton Palette Events
         private static void OnGlobalPaletteChanged(object sender, EventArgs e)
         {
             if (_palette != null)
@@ -974,7 +974,7 @@ namespace Krypton.Toolkit
             //Invalidate();
         }
 
-        //Kripton Palette Events
+        //Krypton Palette Events
         private static void OnPalettePaint(object sender, PaletteLayoutEventArgs e)
         {
             //Invalidate();

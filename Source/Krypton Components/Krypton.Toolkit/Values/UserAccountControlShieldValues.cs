@@ -7,7 +7,8 @@
 
 namespace Krypton.Toolkit
 {
-    public class UACShieldValues : ButtonValues
+    [TypeConverter(typeof(ExpandableObjectConverter))]
+    public class UserAccountControlShieldValues : NullContentValues
     {
         #region Instance Fields
 
@@ -21,17 +22,15 @@ namespace Krypton.Toolkit
 
         #endregion
 
-        public override bool IsDefault =>
-                                             (UseAsUACShieldButton == false) &&
-                                             (UseOSStyleImage == false) &&
-                                             (ShieldIconSize == UACShieldIconSize.ExtraSmall) &&
-                                             (CustomImageSize == Size.Empty);
-
         #region Identity
 
-        public UACShieldValues(NeedPaintHandler needPaint) : base(needPaint)
+        public UserAccountControlShieldValues()
         {
-            ShieldIconSize = UACShieldIconSize.ExtraSmall;
+            _useAsUACShieldButton = false;
+
+            _useOSStyleImage = true;
+
+            _iconSize = UACShieldIconSize.Small;
         }
 
         #endregion

@@ -37,7 +37,7 @@ namespace Krypton.Navigator
                                      VisualControl rootControl,
                                      ViewBase viewportFiller,
                                      PaletteBorderEdge paletteBorderEdge,
-                                     IPaletteMetric paletteMetrics,
+                                     IPaletteMetric? paletteMetrics,
                                      PaletteMetricPadding metricPadding,
                                      PaletteMetricInt metricOvers,
                                      VisualOrientation orientation,
@@ -45,12 +45,12 @@ namespace Krypton.Navigator
                                      bool animateChange,
                                      bool vertical,
                                      NeedPaintHandler needPaintDelegate)
-            : base(rootControl, viewportFiller, paletteBorderEdge, paletteMetrics, 
-                   metricPadding, metricOvers, orientation, alignment, animateChange, 
+            : base(rootControl, viewportFiller, paletteBorderEdge, paletteMetrics,
+                   metricPadding, metricOvers, orientation, alignment, animateChange,
                    vertical, needPaintDelegate)
         {
             Debug.Assert(viewBuilder != null);
-            ViewBuilder = viewBuilder;
+            ViewBuilder = viewBuilder!;
         }
 
         /// <summary>
@@ -106,10 +106,10 @@ namespace Krypton.Navigator
             var beforeOverflowState = ViewBuilder.GetOverflowButtonStates();
 
             // Make all stacking items visible so all that can be shown will be
-            ViewBuilder.UnshrinkAppropriatePages();
+            ViewBuilder.UnShrinkAppropriatePages();
 
             // Do not actually change the layout of any child controls
-            context.ViewManager.DoNotLayoutControls = true;
+            context.ViewManager!.DoNotLayoutControls = true;
 
             do
             {

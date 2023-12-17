@@ -65,7 +65,7 @@ namespace Krypton.Toolkit
             NeedPaint = needPaint;
 
             // Remember target for state changes
-            _target = target;
+            _target = target!;
             _paletteDisabled = paletteDisabled;
             _paletteNormal = paletteNormal;
             _paletteTracking = paletteTracking;
@@ -482,7 +482,7 @@ namespace Krypton.Toolkit
         protected virtual void OnClick(MouseEventArgs e)
         {
             // Find how long since the last click occurred
-            TimeSpan clickInterval =  DateTime.Now - _clickTime;
+            TimeSpan clickInterval = DateTime.Now - _clickTime;
 
             // If less than the double click interval then ignore
             if (SystemInformation.DoubleClickTime < clickInterval.TotalMilliseconds)

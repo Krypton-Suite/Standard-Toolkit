@@ -24,7 +24,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Initialize a new instance of the PaletteCueHintText class.
         /// </summary>
-        public PaletteCueHintText(PaletteRedirect? redirect,
+        public PaletteCueHintText(PaletteRedirect redirect,
             NeedPaintHandler needPaint)
             : base(new PaletteContentInheritRedirect(redirect, PaletteContentStyle.InputControlStandalone), needPaint)
         {
@@ -99,7 +99,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
-        public override Font GetContentShortTextNewFont(PaletteState state)
+        public override Font? GetContentShortTextNewFont(PaletteState state)
         {
             if (Font != null)
             {
@@ -163,7 +163,7 @@ namespace Krypton.Toolkit
                 layoutRectangle.Height -= padding.Top + padding.Bottom;
             }
 
-            using Font font = GetContentShortTextNewFont(PaletteState.Normal);
+            using Font? font = GetContentShortTextNewFont(PaletteState.Normal);
             using var foreBrush = new SolidBrush(GetContentShortTextColor1(PaletteState.Normal));
             var drawText = string.IsNullOrEmpty(CueHintText) ? textBox.Text : CueHintText;
             g.DrawString(drawText, font, foreBrush, layoutRectangle, stringFormat);

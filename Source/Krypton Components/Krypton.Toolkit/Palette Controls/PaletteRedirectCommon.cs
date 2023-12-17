@@ -29,7 +29,7 @@ namespace Krypton.Toolkit
         /// <param name="target">Initial palette target for redirection.</param>
         /// <param name="disabled">Redirection for disabled state requests.</param>
         /// <param name="others">Redirection for all other state requests.</param>
-        public PaletteRedirectCommon(PaletteBase? target,
+        public PaletteRedirectCommon(PaletteBase target,
                                      [DisallowNull] IPaletteTriple disabled,
                                      [DisallowNull] IPaletteTriple others)
             : base(target)
@@ -390,7 +390,7 @@ namespace Krypton.Toolkit
         /// <param name="style">Content style.</param>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
-        public override Font GetContentShortTextFont(PaletteContentStyle style, PaletteState state)
+        public override Font? GetContentShortTextFont(PaletteContentStyle style, PaletteState state)
         {
             IPaletteTriple inherit = GetInherit(state);
             return inherit != null ? inherit.PaletteContent.GetContentShortTextFont(state) : base.GetContentShortTextFont(style, state);
@@ -594,7 +594,7 @@ namespace Krypton.Toolkit
         /// <param name="style">Content style.</param>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
-        public override Font GetContentLongTextFont(PaletteContentStyle style, PaletteState state)
+        public override Font? GetContentLongTextFont(PaletteContentStyle style, PaletteState state)
         {
             IPaletteTriple inherit = GetInherit(state);
             return inherit != null ? inherit.PaletteContent.GetContentLongTextFont(state) : base.GetContentLongTextFont(style, state);

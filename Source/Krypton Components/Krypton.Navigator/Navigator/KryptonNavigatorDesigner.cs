@@ -162,7 +162,7 @@ namespace Krypton.Navigator
                 // Add all the navigator components
                 if (Navigator != null)
                 {
-                    compound.AddRange(Navigator.Button.ButtonSpecs);
+                    compound.AddRange(Navigator.Button.ButtonSpecs!);
                     compound.AddRange(Navigator.Pages);
                 }
 
@@ -318,12 +318,12 @@ namespace Krypton.Navigator
             if (e.Component == Navigator)
             {
                 // Need access to host in order to delete a component
-                var host = (IDesignerHost)GetService(typeof(IDesignerHost));
+                var host = (IDesignerHost)GetService(typeof(IDesignerHost))!;
 
                 // We need to remove all the button spec instances
                 if (Navigator != null)
                 {
-                    for (var i = Navigator.Button.ButtonSpecs.Count - 1; i >= 0; i--)
+                    for (var i = Navigator.Button.ButtonSpecs!.Count - 1; i >= 0; i--)
                     {
                         ButtonSpec spec = Navigator.Button.ButtonSpecs[i];
                         _changeService.OnComponentChanging(Navigator, null);
@@ -506,7 +506,7 @@ namespace Krypton.Navigator
                 if (component != null)
                 {
                     // Force the layout to be update for any change in selection
-                    Navigator.PerformLayout();
+                    Navigator?.PerformLayout();
 
                     // Select the component
                     var selectionList = new ArrayList

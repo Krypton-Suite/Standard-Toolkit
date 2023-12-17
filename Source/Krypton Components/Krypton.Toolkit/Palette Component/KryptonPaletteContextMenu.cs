@@ -27,7 +27,7 @@ namespace Krypton.Toolkit
                                            NeedPaintHandler needPaint)
         {
             // Create the storage objects
-            StateCommon = new PaletteContextMenuRedirect(redirect, needPaint);
+            StateCommon = new PaletteContextMenuRedirect(redirect!, needPaint);
             StateNormal = new PaletteContextMenuItemState(StateCommon);
             StateDisabled = new PaletteContextMenuItemState(StateCommon);
             StateHighlight = new PaletteContextMenuItemStateHighlight(StateCommon);
@@ -40,7 +40,7 @@ namespace Krypton.Toolkit
         /// Update the redirector with new reference.
         /// </summary>
         /// <param name="redirect">Target redirector.</param>
-        public void SetRedirector(PaletteRedirect? redirect) => StateCommon.SetRedirector(redirect);
+        public void SetRedirector(PaletteRedirect redirect) => StateCommon.SetRedirector(redirect);
 
         #endregion
 

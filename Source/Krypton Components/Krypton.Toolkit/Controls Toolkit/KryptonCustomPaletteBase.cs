@@ -24,7 +24,7 @@ namespace Krypton.Toolkit
     [ToolboxItem(true)]
     [ToolboxBitmap(typeof(KryptonCustomPaletteBase), "ToolboxBitmaps.KryptonPalette.bmp")]
     [DefaultEvent(nameof(PalettePaint))]
-    [DefaultProperty(nameof(BasePaletteMode))]
+    //[DefaultProperty(nameof(BasePaletteMode))]
     [DesignerCategory(@"code")]
     [Designer(typeof(KryptonCustomPaletteBaseDesigner))]
     [Description(@"A customisable palette component.")]
@@ -44,14 +44,13 @@ namespace Krypton.Toolkit
         #region Instance Fields
 
         private int _suspendCount;
-        private IRenderer? _baseRenderer;
+        private IRenderer _baseRenderer;
         private RendererMode _baseRenderMode;
-        private PaletteBase? _basePalette;
-        private PaletteMode _basePaletteMode;
+        private PaletteBase _basePalette;
+        //private PaletteMode _basePaletteMode;
         private InheritBool _allowFormChrome;
         private readonly PaletteRedirect _redirector;
         private readonly NeedPaintHandler _needPaintDelegate;
-        private string _themeName;
 
         #endregion
 
@@ -66,7 +65,6 @@ namespace Krypton.Toolkit
 
             // Set the default palette/palette mode
             _basePalette = KryptonManager.GetPaletteForMode(PaletteMode.Microsoft365Blue);
-            _basePaletteMode = PaletteMode.Microsoft365Blue;
 
             // Set the default renderer
             _baseRenderer = null;
@@ -120,8 +118,6 @@ namespace Krypton.Toolkit
                 _basePalette.BasePaletteChanged += OnBasePaletteChanged;
                 _basePalette.BaseRendererChanged += OnBaseRendererChanged;
             }
-
-            _themeName = string.Empty;
         }
 
         /// <summary>
@@ -847,7 +843,7 @@ namespace Krypton.Toolkit
         /// <param name="style">Content style.</param>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
-        public override Font GetContentShortTextFont(PaletteContentStyle style, PaletteState state)
+        public override Font? GetContentShortTextFont(PaletteContentStyle style, PaletteState state)
         => GetPaletteContent(style, state).GetContentShortTextFont(state);
 
         /// <summary>
@@ -856,7 +852,7 @@ namespace Krypton.Toolkit
         /// <param name="style">Content style.</param>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
-        public override Font GetContentShortTextNewFont(PaletteContentStyle style, PaletteState state)
+        public override Font? GetContentShortTextNewFont(PaletteContentStyle style, PaletteState state)
         => GetPaletteContent(style, state).GetContentShortTextFont(state);
 
         /// <summary>
@@ -1000,7 +996,7 @@ namespace Krypton.Toolkit
         /// <param name="style">Content style.</param>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
-        public override Font GetContentLongTextFont(PaletteContentStyle style, PaletteState state)
+        public override Font? GetContentLongTextFont(PaletteContentStyle style, PaletteState state)
         => GetPaletteContent(style, state).GetContentLongTextFont(state);
 
         /// <summary>
@@ -1009,7 +1005,7 @@ namespace Krypton.Toolkit
         /// <param name="style">Content style.</param>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
-        public override Font GetContentLongTextNewFont(PaletteContentStyle style, PaletteState state)
+        public override Font? GetContentLongTextNewFont(PaletteContentStyle style, PaletteState state)
         => GetPaletteContent(style, state).GetContentLongTextFont(state);
 
         /// <summary>
@@ -2055,7 +2051,7 @@ namespace Krypton.Toolkit
         public string Import(bool silent = false)
         {
             string paletteFileName = string.Empty;
-            if (UseKryptonFileDialogs)
+            if (KryptonManager._globalUseKryptonFileDialogs)
             {
                 using var kofd = new KryptonOpenFileDialog
                 {
@@ -2406,7 +2402,7 @@ namespace Krypton.Toolkit
         /// <returns>Fullpath of exported filename; otherwise empty string.</returns>
         public string? Export()
         {
-            if (UseKryptonFileDialogs)
+            if (KryptonManager._globalUseKryptonFileDialogs)
             {
                 using var ksfd = new KryptonSaveFileDialog
                 {
@@ -2668,7 +2664,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public bool IsDefault => !(ShouldSerializeCustomisedKryptonPaletteFilePath()
             || ShouldSerializePaletteName()
-            || ShouldSerializeBasePaletteMode()
+            //|| ShouldSerializeBasePaletteMode()
             || ShouldSerializeBasePalette()
             || ShouldSerializeBaseRendererMode()
             || ShouldSerializeBaseRenderer()
@@ -2681,7 +2677,7 @@ namespace Krypton.Toolkit
         {
             ResetCustomisedKryptonPaletteFilePath();
             ResetPaletteName();
-            ResetBasePaletteMode();
+            //ResetBasePaletteMode();
             ResetBasePalette();
             ResetBaseRendererMode();
             ResetBaseRenderer();
@@ -2709,71 +2705,69 @@ namespace Krypton.Toolkit
         private bool ShouldSerializePaletteName() => !string.IsNullOrWhiteSpace(PaletteName);
         private void ResetPaletteName() => PaletteName = string.Empty;
 
-        /// <summary>
-        /// Gets or sets the base palette used to inherit from.
-        /// </summary>
-        [KryptonPersist(false, false)]
-        [Category(@"Visuals")]
-        [Description(@"Base palette used to inherit from.")]
-        [DefaultValue(PaletteMode.Microsoft365Blue)]
-        public PaletteMode BasePaletteMode
-        {
-            get => _basePaletteMode;
+        ///// <summary>
+        ///// Gets or sets the base palette used to inherit from.
+        ///// </summary>
+        //[KryptonPersist(false, false)]
+        //[Category(@"Visuals")]
+        //[Description(@"Base palette used to inherit from.")]
+        //[DefaultValue(PaletteMode.Microsoft365Blue)]
+        //public PaletteMode BasePaletteMode
+        //{
+        //    get => _basePaletteMode;
 
-            set
-            {
-                if (_basePaletteMode != value)
-                {
-                    // Action depends on new value
-                    switch (value)
-                    {
-                        case PaletteMode.Custom:
-                            // Do nothing, you must assign a palette to the 
-                            // 'BasePalette' property in order to get the custom mode
-                            break;
-                        default:
-                            // Cache the original values
-                            PaletteMode tempMode = _basePaletteMode;
-                            PaletteBase? tempPalette = _basePalette;
+        //    set
+        //    {
+        //        if (_basePaletteMode != value)
+        //        {
+        //            // Action depends on new value
+        //            switch (value)
+        //            {
+        //                case PaletteMode.Custom:
+        //                    // Do nothing, you must assign a palette to the 
+        //                    // 'BasePalette' property in order to get the custom mode
+        //                    break;
+        //                default:
+        //                    // Cache the original values
+        //                    PaletteMode tempMode = _basePaletteMode;
+        //                    PaletteBase? tempPalette = _basePalette;
 
-                            // Use the new value
-                            _basePaletteMode = value;
-                            _basePalette = KryptonManager.GetPaletteForMode(_basePaletteMode);
+        //                    // Use the new value
+        //                    _basePaletteMode = value;
+        //                    _basePalette = KryptonManager.GetPaletteForMode(_basePaletteMode);
 
-                            // If the new value creates a circular reference
-                            if (HasCircularReference())
-                            {
-                                // Restore the original values
-                                _basePaletteMode = tempMode;
-                                _basePalette = tempPalette;
+        //                    // If the new value creates a circular reference
+        //                    if (HasCircularReference())
+        //                    {
+        //                        // Restore the original values
+        //                        _basePaletteMode = tempMode;
+        //                        _basePalette = tempPalette;
 
-                                throw new ArgumentOutOfRangeException(nameof(value), @"Cannot use palette that would create a circular reference");
-                            }
-                            else
-                            {
-                                // Restore the original base palette as 'SetPalette' will not 
-                                // work correctly unless it still has the old value in place
-                                _basePalette = tempPalette;
-                            }
+        //                        throw new ArgumentOutOfRangeException(nameof(value), @"Cannot use palette that would create a circular reference");
+        //                    }
+        //                    else
+        //                    {
+        //                        // Restore the original base palette as 'SetPalette' will not 
+        //                        // work correctly unless it still has the old value in place
+        //                        _basePalette = tempPalette;
+        //                    }
 
-                            // Get a reference to the standard palette from its name
-                            SetPalette(KryptonManager.GetPaletteForMode(_basePaletteMode));
+        //                    // Get a reference to the standard palette from its name
+        //                    SetPalette(KryptonManager.GetPaletteForMode(_basePaletteMode));
 
-                            // Fire events to indicate a change in palette values
-                            OnBasePaletteChanged(this, EventArgs.Empty);
-                            OnBaseRendererChanged(this, EventArgs.Empty);
-                            OnAllowFormChromeChanged(this, EventArgs.Empty);
-                            OnButtonSpecChanged(this, EventArgs.Empty);
-                            OnPalettePaint(this, new PaletteLayoutEventArgs(true, true));
-                            break;
-                    }
-                }
-            }
-        }
-
-        private bool ShouldSerializeBasePaletteMode() => BasePaletteMode != PaletteMode.Microsoft365Blue;
-
-        private void ResetBasePaletteMode() => BasePaletteMode = PaletteMode.Microsoft365Blue;
+        //                    // Fire events to indicate a change in palette values
+        //                    OnBasePaletteChanged(this, EventArgs.Empty);
+        //                    OnBaseRendererChanged(this, EventArgs.Empty);
+        //                    OnAllowFormChromeChanged(this, EventArgs.Empty);
+        //                    OnButtonSpecChanged(this, EventArgs.Empty);
+        //                    OnPalettePaint(this, new PaletteLayoutEventArgs(true, true));
+        //                    break;
+        //            }
+        //        }
+        //    }
+        //}
+        //private bool ShouldSerializeBasePaletteMode() => BasePaletteMode != PaletteMode.Microsoft365Blue;
+        //private void ResetBasePaletteMode() => BasePaletteMode = PaletteMode.Microsoft365Blue;
 
         /// <summary>
         /// Gets and sets the KryptonPalette used to inherit from.
@@ -2781,7 +2775,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"KryptonPalette used to inherit from.")]
         [DefaultValue(null)]
-        public PaletteBase? BasePalette
+        public PaletteBase BasePalette
         {
             get => _basePalette;
 
@@ -2791,23 +2785,23 @@ namespace Krypton.Toolkit
                 if (_basePalette != value)
                 {
                     // Store the original values
-                    PaletteMode tempMode = _basePaletteMode;
-                    PaletteBase? tempPalette = _basePalette;
+                    //PaletteMode tempMode = _basePaletteMode;
+                    PaletteBase tempPalette = _basePalette;
 
                     // Find the new palette mode based on the incoming value
-                    _basePaletteMode = value == null ? PaletteMode.Microsoft365Blue : PaletteMode.Custom;
+                    //_basePaletteMode = value == null ? PaletteMode.Microsoft365Blue : PaletteMode.Custom;
                     _basePalette = value;
 
                     // If the new value creates a circular reference
-                    if (HasCircularReference())
-                    {
-                        // Put back the original palette details
-                        _basePaletteMode = tempMode;
-                        _basePalette = tempPalette;
+                    //if (HasCircularReference())
+                    //{
+                    //    // Put back the original palette details
+                    //    //_basePaletteMode = tempMode;
+                    //    _basePalette = tempPalette;
 
-                        throw new ArgumentOutOfRangeException(nameof(value), @"Cannot use palette that would create a circular reference");
-                    }
-                    else
+                    //    throw new ArgumentOutOfRangeException(nameof(value), @"Cannot use palette that would create a circular reference");
+                    //}
+                    //else
                     {
                         // Restore the original base palette as 'SetPalette' will not 
                         // work correctly unless it still has the old value in place
@@ -2821,7 +2815,7 @@ namespace Krypton.Toolkit
                     if (value == null)
                     {
                         // Get the appropriate palette for the global mode
-                        SetPalette(KryptonManager.GetPaletteForMode(_basePaletteMode));
+                        SetPalette(KryptonManager.GetPaletteForMode(PaletteMode.Microsoft365Blue/*_basePaletteMode*/));
                     }
 
                     // Indicate the palette values have changed
@@ -2893,7 +2887,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Custom renderer to be used with this palette.")]
         [DefaultValue(null)]
-        public IRenderer? BaseRenderer
+        public IRenderer BaseRenderer
         {
             get => _baseRenderer;
 
@@ -2914,39 +2908,31 @@ namespace Krypton.Toolkit
                 }
             }
         }
-
         private bool ShouldSerializeBaseRenderer() => BaseRenderer != null;
         private void ResetBaseRenderer() => BaseRenderer = null;
-
-        //protected override void DefineFonts()
-        //{
-        //    // This class has no font fields
-        //}
 
         /// <summary>
         /// Gets access to the color table instance.
         /// </summary>
         [Browsable(false)]
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public override KryptonColorTable ColorTable => ToolMenuStatus.InternalKCT;
 
-        [Browsable(false)]
-        public new bool UseKryptonFileDialogs
-        { get => _basePalette!.UseKryptonFileDialogs; set => _basePalette!.UseKryptonFileDialogs = value; }
-
-        [Browsable(false)]
-        public new float BaseFontSize
-        { get => _basePalette!.BaseFontSize; set => _basePalette!.BaseFontSize = value; }
-
+        /// <inheritdoc />
         [Browsable(false)]
         [DisallowNull]
         public new Font BaseFont
         { get => _basePalette!.BaseFont; set => _basePalette!.BaseFont = value; }
+        private new void ResetBaseFont() => _basePalette!.ResetBaseFont();
+        private new bool ShouldSerializeBaseFont() => _basePalette!.ShouldSerializeBaseFont();
 
+        /// <inheritdoc />
         [Browsable(false)]
         [DisallowNull]
         public new string ThemeName
         { get => _basePalette!.ThemeName; set => _basePalette!.ThemeName = value; }
 
+        /// <inheritdoc />
         [Browsable(false)]
         public new BasePaletteType BasePaletteType
         { get => _basePalette!.BasePaletteType; set => _basePalette!.BasePaletteType = value; }
@@ -3030,49 +3016,49 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Internal
-        internal bool HasCircularReference()
-        {
-            // Use a dictionary as a set to check for existence
-            var paletteSet = new Dictionary<PaletteBase, bool>();
+        //internal bool HasCircularReference()
+        //{
+        //    // Use a dictionary as a set to check for existence
+        //    var paletteSet = new Dictionary<PaletteBase, bool>();
 
-            // Start processing from ourself upwards
-            PaletteBase? palette = this;
+        //    // Start processing from ourself upwards
+        //    PaletteBase? palette = this;
 
-            // Keep searching until no more palettes found
-            while (palette != null)
-            {
-                // If the palette has already been encountered then it is a circular reference
-                if (paletteSet.ContainsKey(palette))
-                {
-                    return true;
-                }
-                else
-                {
-                    // Otherwise, add to the set
-                    paletteSet.Add(palette, true);
-                    // Cast to correct type
+        //    // Keep searching until no more palettes found
+        //    while (palette != null)
+        //    {
+        //        // If the palette has already been encountered then it is a circular reference
+        //        if (paletteSet.ContainsKey(palette))
+        //        {
+        //            return true;
+        //        }
+        //        else
+        //        {
+        //            // Otherwise, add to the set
+        //            paletteSet.Add(palette, true);
+        //            // Cast to correct type
 
-                    // If this is a KryptonPalette instance
-                    if (palette is KryptonCustomPaletteBase owner)
-                    {
-                        // Get the next palette up in hierarchy
-                        palette = owner.BasePaletteMode switch
-                        {
-                            PaletteMode.Custom => owner.BasePalette,
-                            PaletteMode.Global => KryptonManager.InternalGlobalPalette,
-                            _ => null
-                        };
-                    }
-                    else
-                    {
-                        palette = null;
-                    }
-                }
-            }
+        //            // If this is a KryptonPalette instance
+        //            if (palette is KryptonCustomPaletteBase owner)
+        //            {
+        //                // Get the next palette up in hierarchy
+        //                palette = owner.BasePaletteMode switch
+        //                {
+        //                    PaletteMode.Custom => owner.BasePalette,
+        //                    PaletteMode.Global => KryptonManager.InternalGlobalPalette,
+        //                    _ => null
+        //                };
+        //            }
+        //            else
+        //            {
+        //                palette = null;
+        //            }
+        //        }
+        //    }
 
-            // No circular reference encountered
-            return false;
-        }
+        //    // No circular reference encountered
+        //    return false;
+        //}
         #endregion
 
         #region Implementation Persistence, Used by threading
@@ -3508,7 +3494,7 @@ namespace Krypton.Toolkit
                             var name = imageElement.GetAttribute(@"Name");
 
                             // Grab the CDATA section that contains the base64 value
-                            var cdata = imageElement.ChildNodes[0] as XmlCDataSection;
+                            var cdata = (XmlCDataSection)imageElement.ChildNodes[0];
 
                             // Convert to back from a string to bytes
                             var bytes = Convert.FromBase64String(cdata.Value);
@@ -3528,7 +3514,7 @@ namespace Krypton.Toolkit
                                 var formatter = new BinaryFormatter();
                                 var old = (Image)formatter.Deserialize(memory);
 #pragma warning restore SYSLIB0011
-                                resurrect = old is Bitmap bitmap ? bitmap : new Bitmap(old);
+                                resurrect = old as Bitmap ?? new Bitmap(old);
                             }
 
                             // Add into the lookup dictionary
@@ -3661,21 +3647,24 @@ namespace Krypton.Toolkit
                                         }
 
                                         // Have we already encountered the image?
-                                        if (imageCache != null && imageCache.ContainsKey(image))
+                                        if (imageCache != null)
                                         {
-                                            // Save reference to the existing cached image
-                                            childElement.SetAttribute(@"Value", imageCache[image]);
-                                        }
-                                        else
-                                        {
-                                            // Generate a placeholder string
-                                            var imageName = $@"ImageCache{(imageCache.Count + 1)}";
+                                            if (imageCache.TryGetValue(image, out var value))
+                                            {
+                                                // Save reference to the existing cached image
+                                                childElement.SetAttribute(@"Value", value);
+                                            }
+                                            else
+                                            {
+                                                // Generate a placeholder string
+                                                var imageName = $@"ImageCache{(imageCache.Count + 1)}";
 
-                                            // Add the actual image instance into the cache
-                                            imageCache.Add(image, imageName);
+                                                // Add the actual image instance into the cache
+                                                imageCache.Add(image, imageName);
 
-                                            // Save the placeholder name instead of the actual image
-                                            childElement.SetAttribute(@"Value", imageName);
+                                                // Save the placeholder name instead of the actual image
+                                                childElement.SetAttribute(@"Value", imageName);
+                                            }
                                         }
                                     }
                                 }
@@ -5895,7 +5884,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void SetPalette(PaletteBase? basePalette)
+        private void SetPalette(PaletteBase basePalette)
         {
             if (basePalette != _basePalette)
             {

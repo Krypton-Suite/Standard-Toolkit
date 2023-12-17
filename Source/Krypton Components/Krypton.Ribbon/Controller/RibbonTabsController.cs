@@ -40,7 +40,7 @@ namespace Krypton.Ribbon
         public RibbonTabsController([DisallowNull] KryptonRibbon ribbon)
         {
             Debug.Assert(ribbon != null);
-            _ribbon = ribbon;
+            _ribbon = ribbon!;
         }
         #endregion
 

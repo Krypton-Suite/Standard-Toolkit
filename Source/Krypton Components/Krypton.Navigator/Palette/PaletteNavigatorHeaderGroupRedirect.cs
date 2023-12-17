@@ -23,9 +23,9 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="redirect">inheritance redirection instance.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public PaletteNavigatorHeaderGroupRedirect(PaletteRedirect? redirect,
+        public PaletteNavigatorHeaderGroupRedirect(PaletteRedirect redirect,
                                                    NeedPaintHandler needPaint)
-            : this(redirect, redirect, redirect, redirect, redirect, needPaint)
+            : this(redirect, redirect, redirect, redirect!, redirect!, needPaint)
         {
         }
 
@@ -38,21 +38,21 @@ namespace Krypton.Navigator
         /// <param name="redirectHeaderBar">inheritance redirection for bar header.</param>
         /// <param name="redirectHeaderOverflow">inheritance redirection for overflow header.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public PaletteNavigatorHeaderGroupRedirect(PaletteRedirect? redirectHeaderGroup,
-                                                   PaletteRedirect? redirectHeaderPrimary,
-                                                   PaletteRedirect? redirectHeaderSecondary,
+        public PaletteNavigatorHeaderGroupRedirect(PaletteRedirect redirectHeaderGroup,
+                                                   PaletteRedirect redirectHeaderPrimary,
+                                                   PaletteRedirect redirectHeaderSecondary,
                                                    [DisallowNull] PaletteRedirect redirectHeaderBar,
                                                    [DisallowNull] PaletteRedirect redirectHeaderOverflow,
                                                    NeedPaintHandler needPaint)
-            : base(redirectHeaderGroup, redirectHeaderPrimary,
-                   redirectHeaderSecondary, needPaint)
+            : base(redirectHeaderGroup!, redirectHeaderPrimary!,
+                   redirectHeaderSecondary!, needPaint)
         {
             Debug.Assert(redirectHeaderBar != null);
             Debug.Assert(redirectHeaderOverflow != null);
 
             // Create the palette storage
-            HeaderBar = new PaletteHeaderPaddingRedirect(redirectHeaderBar, PaletteBackStyle.HeaderSecondary, PaletteBorderStyle.HeaderSecondary, PaletteContentStyle.HeaderSecondary, needPaint);
-            HeaderOverflow = new PaletteHeaderPaddingRedirect(redirectHeaderOverflow, PaletteBackStyle.ButtonNavigatorStack, PaletteBorderStyle.HeaderSecondary, PaletteContentStyle.HeaderSecondary, needPaint);
+            HeaderBar = new PaletteHeaderPaddingRedirect(redirectHeaderBar!, PaletteBackStyle.HeaderSecondary, PaletteBorderStyle.HeaderSecondary, PaletteContentStyle.HeaderSecondary, needPaint);
+            HeaderOverflow = new PaletteHeaderPaddingRedirect(redirectHeaderOverflow!, PaletteBackStyle.ButtonNavigatorStack, PaletteBorderStyle.HeaderSecondary, PaletteContentStyle.HeaderSecondary, needPaint);
         }
         #endregion
 

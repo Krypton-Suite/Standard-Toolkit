@@ -18,7 +18,7 @@ namespace Krypton.Toolkit
     public class VisualPopupManager : IMessageFilter
     {
         #region Type Declarations
-        private class PopupStack : Stack<VisualPopup> {}
+        private class PopupStack : Stack<VisualPopup> { }
         #endregion
 
         #region Static Fields
@@ -60,7 +60,7 @@ namespace Krypton.Toolkit
         public bool IsShowingCMS { get; private set; }
 
         #endregion
-        
+
         #region IsTracking
         /// <summary>
         /// Gets a value indicating if currently tracking a popup.
@@ -101,7 +101,7 @@ namespace Krypton.Toolkit
             if (IsTracking)
             {
                 // Is the current popup matching the type?
-                if (CurrentPopup.GetType() == t)
+                if (CurrentPopup?.GetType() == t)
                 {
                     return CurrentPopup;
                 }
@@ -132,7 +132,7 @@ namespace Krypton.Toolkit
         public void StartTracking([DisallowNull] VisualPopup popup)
         {
             Debug.Assert(popup != null);
-            Debug.Assert(!popup.IsDisposed);
+            Debug.Assert(!popup!.IsDisposed);
             Debug.Assert(popup.IsHandleCreated);
             Debug.Assert(_suspended == 0);
 
@@ -289,7 +289,7 @@ namespace Krypton.Toolkit
         /// <param name="cms">Reference to ContextMenuStrip.</param>
         /// <param name="screenPt">Screen position for showing the context menu strip.</param>
         /// <param name="cmsFinishDelegate">Delegate to call when strip dismissed.</param>
-        public void ShowContextMenuStrip([DisallowNull] ContextMenuStrip cms, 
+        public void ShowContextMenuStrip([DisallowNull] ContextMenuStrip cms,
                                          Point screenPt,
                                          EventHandler? cmsFinishDelegate)
         {
@@ -463,7 +463,7 @@ namespace Krypton.Toolkit
         private bool ProcessKeyboard(ref Message m)
         {
             // If focus is not inside the current popup...
-            if (!CurrentPopup.ContainsFocus)
+            if (!CurrentPopup!.ContainsFocus)
             {
                 // ...then redirect the message to the popup so it can process all
                 // keyboard input. We just send the message on by altering the handle
@@ -481,12 +481,12 @@ namespace Krypton.Toolkit
         private bool ProcessClientMouseDown(ref Message m)
         {
             var processed = false;
-            
+
             // Convert the client position to screen point
             Point screenPt = CommonHelper.ClientMouseMessageToScreenPt(m);
 
             // Is this message for the current popup?
-            if (m.HWnd == CurrentPopup.Handle)
+            if (m.HWnd == CurrentPopup!.Handle)
             {
                 // Message is intended for the current popup which means we ask the popup if it
                 // would like to kill the entire stack because it knows the mouse down should
@@ -574,7 +574,7 @@ namespace Krypton.Toolkit
             var screenPt = new Point(PI.LOWORD((int)m.LParam), PI.HIWORD((int)m.LParam));
 
             // Ask the popup if this message causes the entire stack to be killed
-            if (CurrentPopup.DoesCurrentMouseDownEndAllTracking(m, ScreenPtToClientPt(screenPt)))
+            if (CurrentPopup!.DoesCurrentMouseDownEndAllTracking(m, ScreenPtToClientPt(screenPt)))
             {
                 EndAllTracking();
             }
@@ -608,7 +608,7 @@ namespace Krypton.Toolkit
         private bool ProcessMouseMove(ref Message m)
         {
             // Is this message for a different window?
-            if (m.HWnd != CurrentPopup.Handle)
+            if (m.HWnd != CurrentPopup!.Handle)
             {
                 // Convert the client position to screen point
                 Point screenPt = CommonHelper.ClientMouseMessageToScreenPt(m);
@@ -676,7 +676,7 @@ namespace Krypton.Toolkit
             // Mouse move is not over a popup, so allow it
         }
 
-        private Point ScreenPtToClientPt(Point pt) => ScreenPtToClientPt(pt, CurrentPopup.Handle);
+        private Point ScreenPtToClientPt(Point pt) => ScreenPtToClientPt(pt, CurrentPopup!.Handle);
 
         private Point ScreenPtToClientPt(Point pt, IntPtr handle)
         {
@@ -745,7 +745,7 @@ namespace Krypton.Toolkit
         {
             // Unhook event from object
             var cms = sender as ContextMenuStrip;
-            cms.Closed -= OnCMSClosed;
+            cms!.Closed -= OnCMSClosed;
 
             // Revoke the suspended state
             _suspended--;

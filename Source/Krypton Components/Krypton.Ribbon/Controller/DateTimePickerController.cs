@@ -18,7 +18,7 @@ namespace Krypton.Ribbon
     /// Process mouse events for a ribbon group date time picker.
     /// </summary>
     internal class DateTimePickerController : GlobalId,
-                                              ISourceController,   
+                                              ISourceController,
                                               IKeyController,
                                               IRibbonKeyTipTarget
     {
@@ -43,9 +43,9 @@ namespace Krypton.Ribbon
             Debug.Assert(dateTimePicker != null);
             Debug.Assert(target != null);
 
-            _ribbon = ribbon;
-            _dateTimePicker = dateTimePicker;
-            _target = target;
+            _ribbon = ribbon!;
+            _dateTimePicker = dateTimePicker!;
+            _target = target!;
         }
         #endregion
 
@@ -81,7 +81,7 @@ namespace Krypton.Ribbon
         public void KeyDown(Control c, KeyEventArgs e)
         {
             // Get the root control that owns the provided control
-            c = _ribbon.GetControllerControl(c);
+            c = _ribbon.GetControllerControl(c)!;
 
             switch (c)
             {
@@ -124,7 +124,7 @@ namespace Krypton.Ribbon
         public void KeyTipSelect(KryptonRibbon ribbon)
         {
             // Can the date time picker take the focus
-            if (_dateTimePicker.LastDateTimePicker.CanFocus)
+            if (_dateTimePicker.LastDateTimePicker!.CanFocus)
             {
                 // Prevent the ribbon from killing keyboard mode when it loses the focus,
                 // as this causes the tracking windows to be killed and we want them kept
@@ -167,12 +167,12 @@ namespace Krypton.Ribbon
                 case Keys.Tab:
                 case Keys.Right:
                     // Get the next focus item for the currently selected page
-                    newView = ribbon.GroupsArea.ViewGroups.GetNextFocusItem(_target) ?? ribbon.TabsArea.ButtonSpecManager.GetFirstVisibleViewButton(PaletteRelativeEdgeAlign.Far);
+                    newView = ribbon.GroupsArea.ViewGroups.GetNextFocusItem(_target) ?? ribbon.TabsArea.ButtonSpecManager!.GetFirstVisibleViewButton(PaletteRelativeEdgeAlign.Far);
 
                     // Move across to any far defined buttons
 
                     // Move across to any inherit defined buttons
-                    newView ??= ribbon.TabsArea.ButtonSpecManager.GetFirstVisibleViewButton(PaletteRelativeEdgeAlign.Inherit);
+                    newView ??= ribbon.TabsArea.ButtonSpecManager!.GetFirstVisibleViewButton(PaletteRelativeEdgeAlign.Inherit);
 
                     // Rotate around to application button
                     if (newView == null)
@@ -185,7 +185,7 @@ namespace Krypton.Ribbon
                         {
                             newView = ribbon.TabsArea.LayoutAppTab.AppTab;
                         }
-                    }                        
+                    }
                     break;
             }
 

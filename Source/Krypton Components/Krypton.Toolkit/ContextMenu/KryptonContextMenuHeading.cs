@@ -28,7 +28,7 @@ namespace Krypton.Toolkit
         private string? _extraText;
         private Image? _image;
         private Color _imageTransparentColor;
-        private readonly PaletteRedirectTriple? _redirectHeading;
+        private readonly PaletteRedirectTriple _redirectHeading;
         #endregion
 
         /// <summary>

@@ -340,14 +340,14 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
-        public Font GetContentShortTextFont(PaletteState state) => _shortText.Font ?? _inherit.GetContentShortTextFont(state);
+        public Font? GetContentShortTextFont(PaletteState state) => _shortText.Font ?? _inherit.GetContentShortTextFont(state);
 
         /// <summary>
         /// Gets the font for the short text by generating a new font instance.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
-        public Font GetContentShortTextNewFont(PaletteState state) => _shortText.Font ?? _inherit.GetContentShortTextNewFont(state);
+        public Font? GetContentShortTextNewFont(PaletteState state) => _shortText.Font ?? _inherit.GetContentShortTextNewFont(state);
 
         /// <summary>
         /// Gets the actual text rendering hint for short text.
@@ -508,14 +508,14 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <returns>Font value.</returns>
         /// <param name="state">Palette value should be applicable to this state.</param>
-        public Font GetContentLongTextFont(PaletteState state) => _longText.Font ?? _inherit.GetContentLongTextFont(state);
+        public Font? GetContentLongTextFont(PaletteState state) => _longText.Font ?? _inherit.GetContentLongTextFont(state);
 
         /// <summary>
         /// Gets the font for the long text by generating a new font instance.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
-        public Font GetContentLongTextNewFont(PaletteState state) => _longText.Font ?? _inherit.GetContentLongTextNewFont(state);
+        public Font? GetContentLongTextNewFont(PaletteState state) => _longText.Font ?? _inherit.GetContentLongTextNewFont(state);
 
         /// <summary>
         /// Gets the actual text rendering hint for long text.

@@ -25,7 +25,7 @@ namespace Krypton.Ribbon
         #region Instance Fields
         private bool _hasFocus;
         #endregion
-        
+
         #region Identity
         /// <summary>
         /// Initialize a new instance of the DialogLauncherButtonController class.
@@ -78,7 +78,7 @@ namespace Krypton.Ribbon
         public void KeyDown(Control c, KeyEventArgs e)
         {
             // Get the root control that owns the provided control
-            c = Ribbon.GetControllerControl(c);
+            c = Ribbon.GetControllerControl(c)!;
 
             switch (c)
             {
@@ -170,12 +170,12 @@ namespace Krypton.Ribbon
                 case Keys.Tab:
                 case Keys.Right:
                     // Get the next focus item for the currently selected page
-                    newView = Ribbon.GroupsArea.ViewGroups.GetNextFocusItem(Target) ?? Ribbon.TabsArea.ButtonSpecManager.GetFirstVisibleViewButton(PaletteRelativeEdgeAlign.Far);
+                    newView = Ribbon.GroupsArea.ViewGroups.GetNextFocusItem(Target) ?? Ribbon.TabsArea.ButtonSpecManager!.GetFirstVisibleViewButton(PaletteRelativeEdgeAlign.Far);
 
                     // Move across to any far defined buttons
 
                     // Move across to any inherit defined buttons
-                    newView ??= Ribbon.TabsArea.ButtonSpecManager.GetFirstVisibleViewButton(PaletteRelativeEdgeAlign.Inherit);
+                    newView ??= Ribbon.TabsArea.ButtonSpecManager!.GetFirstVisibleViewButton(PaletteRelativeEdgeAlign.Inherit);
 
                     // Rotate around to application button
                     if (newView == null)
@@ -188,7 +188,7 @@ namespace Krypton.Ribbon
                         {
                             newView = Ribbon.TabsArea.LayoutAppTab.AppTab;
                         }
-                    }                        
+                    }
                     break;
                 case Keys.Space:
                 case Keys.Enter:

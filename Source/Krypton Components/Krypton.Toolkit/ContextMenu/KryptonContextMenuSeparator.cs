@@ -24,7 +24,7 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
         private bool _horizontal;
-        private readonly PaletteRedirectDouble? _redirectSeparator;
+        private readonly PaletteRedirectDouble _redirectSeparator;
         #endregion
 
         #region Identity
@@ -138,7 +138,7 @@ namespace Krypton.Toolkit
         {
             get => _horizontal;
 
-            set 
+            set
             {
                 if (_horizontal != value)
                 {
@@ -162,7 +162,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Internal
-        internal void SetPaletteRedirect(PaletteDoubleRedirect? redirector) => _redirectSeparator.SetRedirectStates(redirector, redirector);
+        internal void SetPaletteRedirect(PaletteDoubleRedirect? redirector) => _redirectSeparator?.SetRedirectStates(redirector, redirector);
 
         #endregion
     }

@@ -32,11 +32,11 @@ namespace Krypton.Toolkit
         /// <param name="contentValues">Source of content values.</param>
         /// <param name="renderer">Drawing renderer.</param>
         /// <param name="shadow">Does the Tooltip need a shadow effect.</param>
-        public VisualPopupToolTip(PaletteRedirect? redirector,
+        public VisualPopupToolTip(PaletteRedirect redirector,
             IContentValues contentValues,
             IRenderer renderer,
             bool shadow)
-            : this(redirector, contentValues, renderer,
+            : this(redirector!, contentValues, renderer,
                 PaletteBackStyle.ControlToolTip,
                 PaletteBorderStyle.ControlToolTip,
                 PaletteContentStyle.LabelToolTip,
@@ -56,7 +56,7 @@ namespace Krypton.Toolkit
         /// <param name="shadow">Does the Tooltip need a shadow effect.</param>
         public VisualPopupToolTip([DisallowNull] PaletteRedirect redirector,
             [DisallowNull] IContentValues contentValues,
-                                    IRenderer? renderer,
+                                    IRenderer renderer,
                                     PaletteBackStyle backStyle,
                                     PaletteBorderStyle borderStyle,
                                     PaletteContentStyle contentStyle,
@@ -66,7 +66,7 @@ namespace Krypton.Toolkit
             Debug.Assert(contentValues != null);
 
             // Remember references needed later
-            _contentValues = contentValues;
+            _contentValues = contentValues!;
 
             // Create the triple redirector needed by view elements
             _palette = new PaletteTripleMetricRedirect(redirector, backStyle, borderStyle, contentStyle, NeedPaintDelegate);
@@ -154,7 +154,7 @@ namespace Krypton.Toolkit
             }
 
             // Get the size the popup would like to be
-            Size popupSize = ViewManager.GetPreferredSize(Renderer, new Size(100, 10));
+            Size popupSize = ViewManager!.GetPreferredSize(Renderer, new Size(100, 10));
             Point popupLocation;
 
             switch (position.PlacementMode)
@@ -214,7 +214,7 @@ namespace Krypton.Toolkit
         public void ShowCalculatingSize(Point controlMousePosition)
         {
             // Get the size the popup would like to be
-            Size popupSize = ViewManager.GetPreferredSize(Renderer, Size.Empty);
+            Size popupSize = ViewManager!.GetPreferredSize(Renderer, Size.Empty);
 
             // Find the screen position the popup will be relative to
             Point currentCursorHotSpot = CommonHelper.CaptureCursor();
@@ -238,11 +238,11 @@ namespace Krypton.Toolkit
             using var context = new RenderContext(this, null, ClientRectangle, Renderer);
             // Grab a path that is the outside edge of the border
             Rectangle borderRect = ClientRectangle;
-            GraphicsPath borderPath1 = Renderer.RenderStandardBorder.GetOutsideBorderPath(context, borderRect, _palette.Border, VisualOrientation.Top, PaletteState.Normal);
+            GraphicsPath borderPath1 = Renderer?.RenderStandardBorder.GetOutsideBorderPath(context, borderRect, _palette.Border, VisualOrientation.Top, PaletteState.Normal)!;
             borderRect.Inflate(-1, -1);
-            GraphicsPath borderPath2 = Renderer.RenderStandardBorder.GetOutsideBorderPath(context, borderRect, _palette.Border, VisualOrientation.Top, PaletteState.Normal);
+            GraphicsPath borderPath2 = Renderer?.RenderStandardBorder.GetOutsideBorderPath(context, borderRect, _palette.Border, VisualOrientation.Top, PaletteState.Normal)!;
             borderRect.Inflate(-1, -1);
-            GraphicsPath borderPath3 = Renderer.RenderStandardBorder.GetOutsideBorderPath(context, borderRect, _palette.Border, VisualOrientation.Top, PaletteState.Normal);
+            GraphicsPath borderPath3 = Renderer?.RenderStandardBorder.GetOutsideBorderPath(context, borderRect, _palette.Border, VisualOrientation.Top, PaletteState.Normal)!;
 
             // Update the region of the popup to be the border path
             Region = new Region(borderPath1);

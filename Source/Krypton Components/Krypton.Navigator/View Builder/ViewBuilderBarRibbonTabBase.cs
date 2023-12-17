@@ -27,7 +27,7 @@ namespace Krypton.Navigator
                                                          VisualOrientation orientation)
         {
             // Create a check button view element
-            var ribbonTab = new ViewDrawNavRibbonTab(Navigator, page);
+            var ribbonTab = new ViewDrawNavRibbonTab(Navigator, page!);
 
             // Convert the button orientation to the appropriate visual orientations
             VisualOrientation orientBackBorder = ConvertButtonBorderBackOrientation();
@@ -40,7 +40,7 @@ namespace Krypton.Navigator
         }
 
         /// <summary>
-        /// Gets the visual orientation of the check buttton.
+        /// Gets the visual orientation of the check button.
         /// </summary>
         /// <returns>Visual orientation.</returns>
         protected override VisualOrientation ConvertButtonBorderBackOrientation()

@@ -26,9 +26,9 @@ namespace Krypton.Navigator
         /// <param name="redirector">Palette redirector.</param>
         public override void Construct(KryptonNavigator navigator,
                                        ViewManager manager,
-                                       PaletteRedirect? redirector) =>
+                                       PaletteRedirect redirector) =>
             // Let base class perform common operations
-            base.Construct(navigator, manager, redirector);
+            base.Construct(navigator, manager, redirector!);
 
         /// <summary>
         /// Gets a value indicating if the mode is a tab strip style mode.
@@ -50,13 +50,13 @@ namespace Krypton.Navigator
         protected override void CreateCheckItemView()
         {
             // Create a canvas for containing the selected page and put old root inside it
-            _drawGroup = new ViewDrawCanvas(Navigator.StateNormal.HeaderGroup.Back, Navigator.StateNormal.HeaderGroup.Border, VisualOrientation.Top)
+            _drawGroup = new ViewDrawCanvas(Navigator.StateNormal!.HeaderGroup!.Back, Navigator.StateNormal.HeaderGroup.Border, VisualOrientation.Top)
             {
                 _oldRoot
             };
 
             // Create the view element that lays out the check buttons
-            _layoutBar = new ViewLayoutBar(Navigator.StateCommon.Bar,
+            _layoutBar = new ViewLayoutBar(Navigator.StateCommon!.Bar,
                                            PaletteMetricInt.CheckButtonGap,
                                            Navigator.Bar.ItemSizing,
                                            Navigator.Bar.ItemAlignment,
@@ -113,11 +113,11 @@ namespace Krypton.Navigator
         protected override void DestructCheckItemView()
         {
             // Remove the old root from the canvas
-            _drawPanel.Clear();
+            _drawPanel?.Clear();
 
             // Must call the base class to perform common actions
             base.CreateCheckItemView();
-        }        
+        }
         #endregion
     }
 }

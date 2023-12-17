@@ -47,7 +47,7 @@ namespace Krypton.Docking
         }
 
         /// <summary>
-        /// Gets the storgate name associated with this page.
+        /// Gets the storage name associated with this page.
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Advanced)]

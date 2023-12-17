@@ -167,7 +167,7 @@ namespace Krypton.Ribbon
             _itemAlignment = RibbonItemAlignment.Near;
 
             // Create collection for holding triple items
-            Items = new KryptonRibbonGroupTripleCollection();
+            Items = [];
             Items.Clearing += OnRibbonGroupTripleClearing;
             Items.Cleared += OnRibbonGroupTripleCleared;
             Items.Inserted += OnRibbonGroupTripleInserted;
@@ -462,7 +462,7 @@ namespace Krypton.Ribbon
         [MergableProperty(false)]
         [Editor(typeof(KryptonRibbonGroupTripleCollectionEditor), typeof(UITypeEditor))]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public KryptonRibbonGroupTripleCollection Items { get; }
+        public KryptonRibbonGroupTripleCollection? Items { get; }
 
         /// <summary>
         /// Gets an array of all the contained components.

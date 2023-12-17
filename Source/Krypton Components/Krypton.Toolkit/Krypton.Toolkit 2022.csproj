@@ -204,6 +204,11 @@
             <AutoGen>True</AutoGen>
             <DependentUpon>ColourScaleImageResources.resx</DependentUpon>
         </Compile>
+        <Compile Update="ResourceFiles\CommandLink\CommandLinkImageResources.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>CommandLinkImageResources.resx</DependentUpon>
+        </Compile>
         <Compile Update="ResourceFiles\ControlBox\Microsoft365ControlBoxResources.Designer.cs">
             <DesignTime>True</DesignTime>
             <AutoGen>True</AutoGen>
@@ -632,6 +637,10 @@
         <EmbeddedResource Update="ResourceFiles\ColourScales\ColourScaleImageResources.resx">
             <Generator>ResXFileCodeGenerator</Generator>
             <LastGenOutput>ColourScaleImageResources.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="ResourceFiles\CommandLink\CommandLinkImageResources.resx">
+          <Generator>ResXFileCodeGenerator</Generator>
+          <LastGenOutput>CommandLinkImageResources.Designer.cs</LastGenOutput>
         </EmbeddedResource>
         <EmbeddedResource Update="ResourceFiles\ControlBox\Microsoft365ControlBoxResources.resx">
             <Generator>ResXFileCodeGenerator</Generator>

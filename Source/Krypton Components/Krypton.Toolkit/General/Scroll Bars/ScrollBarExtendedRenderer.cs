@@ -182,7 +182,7 @@ namespace Krypton.Toolkit
             arrowBorderColours[3] = Color.FromArgb(99, 110, 125);
 
             //Border colors
-            borderColours[0] = _palette.GetBorderColor1(PaletteBorderStyle.InputControlCustom1, PaletteState.Normal);
+            borderColours[0] = _palette!.GetBorderColor1(PaletteBorderStyle.InputControlCustom1, PaletteState.Normal);
             borderColours[1] = _palette.GetBorderColor1(PaletteBorderStyle.InputControlCustom1, PaletteState.Normal); ;
 
             //Grip colors
@@ -931,7 +931,7 @@ namespace Krypton.Toolkit
         #region ... Krypton ...
 
 
-        //Kripton Palette Events
+        //Krypton Palette Events
         private static void OnGlobalPaletteChanged(object sender, EventArgs e)
         {
             if (_palette != null)
@@ -953,7 +953,7 @@ namespace Krypton.Toolkit
             //Invalidate();
         }
 
-        //Kripton Palette Events
+        //Krypton Palette Events
         private static void OnPalettePaint(object sender, PaletteLayoutEventArgs e)
         {
             //Invalidate();

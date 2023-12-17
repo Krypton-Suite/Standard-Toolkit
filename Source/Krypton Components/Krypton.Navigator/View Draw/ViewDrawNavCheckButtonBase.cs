@@ -58,16 +58,16 @@ namespace Krypton.Navigator
         /// <param name="orientation">Orientation for the check button.</param>
         /// <param name="overflow">Button is used on the overflow bar.</param>
         public ViewDrawNavCheckButtonBase(KryptonNavigator navigator,
-                                          [DisallowNull] KryptonPage? page,
+                                          KryptonPage? page,
                                           VisualOrientation orientation,
                                           bool overflow)
             : this(navigator, page, orientation,
-                   page.StateDisabled.OverflowButton,
-                   page.StateNormal.OverflowButton,
-                   page.StateTracking.OverflowButton,
-                   page.StatePressed.OverflowButton,
-                   page.StateSelected.OverflowButton,
-                   page.OverrideFocus.OverflowButton)
+                   page?.StateDisabled?.OverflowButton!,
+                   page?.StateNormal?.OverflowButton!,
+                   page?.StateTracking.OverflowButton!,
+                   page?.StatePressed.OverflowButton!,
+                   page?.StateSelected.OverflowButton!,
+                   page?.OverrideFocus?.OverflowButton!)
         {
         }
 
@@ -78,15 +78,15 @@ namespace Krypton.Navigator
         /// <param name="page">Page this check button represents.</param>
         /// <param name="orientation">Orientation for the check button.</param>
         public ViewDrawNavCheckButtonBase(KryptonNavigator navigator,
-            [DisallowNull] KryptonPage? page,
+                                          KryptonPage? page,
                                           VisualOrientation orientation)
             : this(navigator, page, orientation,
-                   page.StateDisabled.CheckButton, 
-                   page.StateNormal.CheckButton,
-                   page.StateTracking.CheckButton, 
-                   page.StatePressed.CheckButton,
-                   page.StateSelected.CheckButton,
-                   page.OverrideFocus.CheckButton)
+                   page?.StateDisabled?.CheckButton!,
+                   page?.StateNormal?.CheckButton!,
+                   page?.StateTracking.CheckButton!,
+                   page?.StatePressed.CheckButton!,
+                   page?.StateSelected.CheckButton!,
+                   page?.OverrideFocus.CheckButton!)
         {
         }
 
@@ -111,19 +111,19 @@ namespace Krypton.Navigator
                                           IPaletteTriple statePressed,
                                           IPaletteTriple stateSelected,
                                           IPaletteTriple stateFocused)
-            : base(stateDisabled, stateNormal, stateTracking, 
+            : base(stateDisabled, stateNormal, stateTracking,
                    statePressed, null, null, orientation, true)
         {
             Debug.Assert(navigator != null);
 
-            Navigator = navigator;
+            Navigator = navigator!;
             _page = page;
             _lastClick = DateTime.Now.AddDays(-1);
 
             // Associate the page component with this view element
             Component = page;
 
-            // Prevent user from unchecking the selected check button
+            // Prevent user from un-checking the selected check button
             AllowUncheck = false;
 
             // Set the source for values to ourself
@@ -148,13 +148,13 @@ namespace Krypton.Navigator
             if (AllowButtonSpecs)
             {
                 // Create button specification collection manager
-                ButtonSpecManager = new ButtonSpecNavManagerLayoutBar(Navigator, Navigator.InternalRedirector, Page.ButtonSpecs, null,
+                ButtonSpecManager = new ButtonSpecNavManagerLayoutBar(Navigator, Navigator.InternalRedirector, Page?.ButtonSpecs, null,
                                                                    new[] { LayoutDocker },
-                                                                   new IPaletteMetric[] { Navigator.StateCommon },
+                                                                   new IPaletteMetric[] { Navigator.StateCommon! },
                                                                    new[] { PaletteMetricInt.PageButtonInset },
                                                                    new[] { PaletteMetricInt.PageButtonInset },
                                                                    new[] { PaletteMetricPadding.PageButtonPadding },
-                                                                   Navigator.CreateToolStripRenderer,
+                                                                   Navigator.CreateToolStripRenderer!,
                                                                    null)
                 {
 
@@ -257,16 +257,16 @@ namespace Krypton.Navigator
 
                     if (_page != null)
                     {
-                        _overrideDisabled.SetPalettes(_page.OverrideFocus.CheckButton, _page.StateDisabled.CheckButton);
-                        _overrideNormal.SetPalettes(_page.OverrideFocus.CheckButton, _page.StateNormal.CheckButton);
+                        _overrideDisabled.SetPalettes(_page.OverrideFocus.CheckButton, _page.StateDisabled!.CheckButton);
+                        _overrideNormal.SetPalettes(_page.OverrideFocus.CheckButton, _page.StateNormal!.CheckButton);
                         _overrideTracking.SetPalettes(_page.OverrideFocus.CheckButton, _page.StateTracking.CheckButton);
                         _overridePressed.SetPalettes(_page.OverrideFocus.CheckButton, _page.StatePressed.CheckButton);
                         _overrideSelected.SetPalettes(_page.OverrideFocus.CheckButton, _page.StateSelected.CheckButton);
                     }
                     else
                     {
-                        _overrideDisabled.SetPalettes(Navigator.OverrideFocus.CheckButton, Navigator.StateDisabled.CheckButton);
-                        _overrideNormal.SetPalettes(Navigator.OverrideFocus.CheckButton, Navigator.StateNormal.CheckButton);
+                        _overrideDisabled.SetPalettes(Navigator.OverrideFocus.CheckButton, Navigator.StateDisabled!.CheckButton);
+                        _overrideNormal.SetPalettes(Navigator.OverrideFocus.CheckButton, Navigator.StateNormal!.CheckButton);
                         _overrideTracking.SetPalettes(Navigator.OverrideFocus.CheckButton, Navigator.StateTracking.CheckButton);
                         _overridePressed.SetPalettes(Navigator.OverrideFocus.CheckButton, Navigator.StatePressed.CheckButton);
                         _overrideSelected.SetPalettes(Navigator.OverrideFocus.CheckButton, Navigator.StateSelected.CheckButton);
@@ -424,18 +424,18 @@ namespace Krypton.Navigator
         protected virtual void OnClick(object sender, EventArgs e)
         {
             // Generate click event for the page header
-            Navigator.OnTabClicked(new KryptonPageEventArgs(_page, Navigator.Pages.IndexOf(_page)));
+            Navigator.OnTabClicked(new KryptonPageEventArgs(_page, Navigator.Pages.IndexOf(_page!)));
 
             // If this click is within the double click time of the last one, generate the double click event.
             DateTime now = DateTime.Now;
             if ((now - _lastClick).TotalMilliseconds < SystemInformation.DoubleClickTime)
             {
                 // Tell button controller to abort any drag attempt
-                _buttonController.ClearDragRect();
+                _buttonController!.ClearDragRect();
 
                 // Generate click event for the page header
-                Navigator.OnTabDoubleClicked(new KryptonPageEventArgs(_page, Navigator.Pages.IndexOf(_page)));
-                
+                Navigator.OnTabDoubleClicked(new KryptonPageEventArgs(_page, Navigator.Pages.IndexOf(_page!)));
+
                 // Prevent a third click causing another double click by resetting the now time backwards
                 now = now.AddDays(-1);
             }
@@ -446,7 +446,7 @@ namespace Krypton.Navigator
             if ((Navigator.SelectedPage != _page) && Navigator.AllowTabSelect)
             {
                 // This event might have caused the page to be removed or hidden and so check the page is still present before selecting it
-                if (Navigator.ChildPanel?.Controls.Contains(_page) == true && _page.LastVisibleSet)
+                if (Navigator.ChildPanel?.Controls.Contains(_page) == true && _page!.LastVisibleSet)
                 {
                     Navigator.SelectedPage = _page;
                 }
@@ -467,7 +467,7 @@ namespace Krypton.Navigator
             }
 
             // Generate event so user can decide what, if any, context menu to show
-            var scma = new ShowContextMenuArgs(_page, Navigator.Pages.IndexOf(_page));
+            var scma = new ShowContextMenuArgs(_page, Navigator.Pages.IndexOf(_page!));
             Navigator.OnShowContextMenu(scma);
 
             // Do we need to show a context menu
@@ -475,13 +475,13 @@ namespace Krypton.Navigator
             {
                 if (CommonHelper.ValidKryptonContextMenu(scma.KryptonContextMenu))
                 {
-                    scma.KryptonContextMenu.Show(Navigator, Navigator.PointToScreen(new Point(e.X, e.Y)));
+                    scma.KryptonContextMenu!.Show(Navigator, Navigator.PointToScreen(new Point(e.X, e.Y)));
                 }
-                else 
+                else
                 {
                     if (CommonHelper.ValidContextMenuStrip(scma.ContextMenuStrip))
                     {
-                        scma.ContextMenuStrip.Show(Navigator.PointToScreen(new Point(e.X, e.Y)));
+                        scma.ContextMenuStrip!.Show(Navigator.PointToScreen(new Point(e.X, e.Y)));
                     }
                 }
             }

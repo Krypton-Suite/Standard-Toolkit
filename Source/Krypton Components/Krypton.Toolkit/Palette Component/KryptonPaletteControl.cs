@@ -25,10 +25,10 @@ namespace Krypton.Toolkit
         /// <param name="backStyle">Background style.</param>
         /// <param name="borderStyle">Border style.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public KryptonPaletteControl(PaletteRedirect? redirect,
+        public KryptonPaletteControl(PaletteRedirect redirect,
                                      PaletteBackStyle backStyle,
                                      PaletteBorderStyle borderStyle,
-                                     NeedPaintHandler needPaint) 
+                                     NeedPaintHandler needPaint)
             : base(redirect, backStyle, borderStyle, needPaint)
         {
         }
@@ -44,10 +44,10 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteDoubleRedirect? StateCommon => _stateCommon;
 
-        private bool ShouldSerializeStateCommon() => !_stateCommon.IsDefault;
+        private bool ShouldSerializeStateCommon() => !_stateCommon!.IsDefault;
 
         #endregion
-    
+
         #region StateDisabled
         /// <summary>
         /// Gets access to the disabled control appearance entries.
@@ -58,7 +58,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteDouble? StateDisabled => _stateDisabled;
 
-        private bool ShouldSerializeStateDisabled() => !_stateDisabled.IsDefault;
+        private bool ShouldSerializeStateDisabled() => !_stateDisabled!.IsDefault;
 
         #endregion
 
@@ -72,7 +72,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteDouble? StateNormal => _stateNormal;
 
-        private bool ShouldSerializeStateNormal() => !_stateNormal.IsDefault;
+        private bool ShouldSerializeStateNormal() => !_stateNormal!.IsDefault;
 
         #endregion
     }

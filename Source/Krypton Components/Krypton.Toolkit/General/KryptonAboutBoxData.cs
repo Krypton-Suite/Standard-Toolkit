@@ -9,10 +9,14 @@
 
 namespace Krypton.Toolkit
 {
-    /// <summary>A structure that contains basic information for <see cref="KryptonAboutBoxForm"/>.</summary>
+    /// <summary>A structure that contains basic information for <see cref="VisualAboutBoxForm"/>.</summary>
     public struct KryptonAboutBoxData
     {
         #region Public
+
+        /// <summary>Gets or sets the show toolkit information.</summary>
+        /// <value>The show toolkit information.</value>
+        public bool? ShowToolkitInformation { get; set; }
 
         /// <summary>Gets or sets the current assembly.</summary>
         /// <value>The current assembly.</value>

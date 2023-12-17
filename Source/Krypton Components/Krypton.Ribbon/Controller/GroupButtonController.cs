@@ -67,9 +67,9 @@ namespace Krypton.Ribbon
             Debug.Assert(target != null);
             Debug.Assert(needPaint != null);
 
-            _ribbon = ribbon;
-            _target = target;
-            NeedPaint = needPaint;
+            _ribbon = ribbon!;
+            _target = target!;
+            NeedPaint = needPaint!;
 
             // Default other fields
             ButtonType = GroupButtonType.Push;
@@ -177,50 +177,50 @@ namespace Krypton.Ribbon
                 // Only interested in left mouse pressing down
                 // Can only click if enabled
                 case MouseButtons.Left when ClickOnDown(pt) && _target.Enabled:
-                {
-                    Captured = true;
-
-                    // If already in fixed mode, then ignore mouse down
-                    if (!_fixedPressed)
                     {
-                        // Mouse is being pressed
-                        UpdateTargetState(pt);
+                        Captured = true;
 
-                        // Show the button as pressed, until told otherwise
-                        _fixedPressed = true;
-
-                        // Raise the appropriate event
-                        switch (ButtonType)
+                        // If already in fixed mode, then ignore mouse down
+                        if (!_fixedPressed)
                         {
-                            case GroupButtonType.Split:
-                                // Track if the mouse is inside the split area
-                                if (ButtonType == GroupButtonType.Split)
-                                {
-                                    MouseInSplit = _splitRectangle.Contains(pt);
-                                }
+                            // Mouse is being pressed
+                            UpdateTargetState(pt);
 
-                                if (_splitRectangle.Contains(pt))
-                                {
+                            // Show the button as pressed, until told otherwise
+                            _fixedPressed = true;
+
+                            // Raise the appropriate event
+                            switch (ButtonType)
+                            {
+                                case GroupButtonType.Split:
+                                    // Track if the mouse is inside the split area
+                                    if (ButtonType == GroupButtonType.Split)
+                                    {
+                                        MouseInSplit = _splitRectangle.Contains(pt);
+                                    }
+
+                                    if (_splitRectangle.Contains(pt))
+                                    {
+                                        OnDropDown(new MouseEventArgs(MouseButtons.Left, 1, pt.X, pt.Y, 0));
+                                    }
+                                    else
+                                    {
+                                        OnClick(new MouseEventArgs(MouseButtons.Left, 1, pt.X, pt.Y, 0));
+                                    }
+                                    break;
+                                case GroupButtonType.DropDown:
                                     OnDropDown(new MouseEventArgs(MouseButtons.Left, 1, pt.X, pt.Y, 0));
-                                }
-                                else
-                                {
+                                    break;
+                                case GroupButtonType.Push:
+                                case GroupButtonType.Check:
+                                default:
                                     OnClick(new MouseEventArgs(MouseButtons.Left, 1, pt.X, pt.Y, 0));
-                                }
-                                break;
-                            case GroupButtonType.DropDown:
-                                OnDropDown(new MouseEventArgs(MouseButtons.Left, 1, pt.X, pt.Y, 0));
-                                break;
-                            case GroupButtonType.Push:
-                            case GroupButtonType.Check:
-                            default:
-                                OnClick(new MouseEventArgs(MouseButtons.Left, 1, pt.X, pt.Y, 0));
-                                break;
+                                    break;
+                            }
                         }
-                    }
 
-                    break;
-                }
+                        break;
+                    }
                 case MouseButtons.Left:
                     // Capturing mouse input
                     Captured = true;
@@ -390,7 +390,7 @@ namespace Krypton.Ribbon
         public void KeyDown(Control c, KeyEventArgs e)
         {
             // Get the root control that owns the provided control
-            c = _ribbon.GetControllerControl(c);
+            c = _ribbon.GetControllerControl(c)!;
 
             switch (c)
             {
@@ -507,7 +507,7 @@ namespace Krypton.Ribbon
         /// <param name="c">Owning control.</param>
         protected void UpdateTargetState(Control c)
         {
-            if ((c == null) || c.IsDisposed)
+            if (c == null || c.IsDisposed)
             {
                 UpdateTargetState(new Point(int.MaxValue, int.MaxValue));
             }
@@ -552,7 +552,7 @@ namespace Krypton.Ribbon
                     if (_mouseOver || _hasFocus)
                     {
                         newState = PaletteState.Tracking;
-                        
+
                         // We always show the button as being in the split when it has focus
                         if (_hasFocus)
                         {
@@ -620,8 +620,8 @@ namespace Krypton.Ribbon
                 case Keys.Tab:
                 case Keys.Right:
                     // Get the next focus item for the currently selected page
-                    newView = (ribbon.GroupsArea.ViewGroups.GetNextFocusItem(_target) ?? ribbon.TabsArea.ButtonSpecManager.GetFirstVisibleViewButton(PaletteRelativeEdgeAlign.Far)) ??
-                              ribbon.TabsArea.ButtonSpecManager.GetFirstVisibleViewButton(PaletteRelativeEdgeAlign.Inherit);
+                    newView = (ribbon.GroupsArea.ViewGroups.GetNextFocusItem(_target) ?? ribbon.TabsArea.ButtonSpecManager!.GetFirstVisibleViewButton(PaletteRelativeEdgeAlign.Far)) ??
+                              ribbon.TabsArea.ButtonSpecManager!.GetFirstVisibleViewButton(PaletteRelativeEdgeAlign.Inherit);
 
                     // Move across to any far defined buttons
 
@@ -638,7 +638,7 @@ namespace Krypton.Ribbon
                         {
                             newView = ribbon.TabsArea.LayoutAppTab.AppTab;
                         }
-                    }                        
+                    }
                     break;
                 case Keys.Space:
                 case Keys.Enter:

@@ -13,7 +13,7 @@
 
 namespace Krypton.Toolkit
 {
-    partial class VisualKryptonMessageBoxForm
+    partial class VisualMessageBoxForm
     {
         /// <summary>
         /// Required designer variable.

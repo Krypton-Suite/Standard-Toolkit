@@ -18,7 +18,7 @@ namespace Krypton.Toolkit
     public class KryptonPaletteRibbon : Storage
     {
         #region Instance Fields
-        private readonly PaletteRedirect? _redirect;
+        private readonly PaletteRedirect _redirect;
         private readonly PaletteRibbonBackInheritRedirect _ribbonAppMenuOuterInherit;
         private readonly PaletteRibbonBackInheritRedirect _ribbonAppMenuInnerInherit;
         private readonly PaletteRibbonBackInheritRedirect _ribbonAppMenuDocsInherit;
@@ -45,7 +45,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="redirect">Redirector to inherit values from.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public KryptonPaletteRibbon([DisallowNull] PaletteRedirect? redirect,
+        public KryptonPaletteRibbon([DisallowNull] PaletteRedirect redirect,
                                       NeedPaintHandler needPaint)
         {
             Debug.Assert(redirect != null);

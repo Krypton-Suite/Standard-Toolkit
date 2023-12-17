@@ -31,7 +31,7 @@ namespace Krypton.Navigator
         /// <param name="redirector">Palette redirector.</param>
         public override void Construct([DisallowNull] KryptonNavigator navigator,
                                        [DisallowNull] ViewManager manager,
-                                       [DisallowNull] PaletteRedirect? redirector)
+                                       PaletteRedirect redirector)
         {
             // Let base class perform common operations
             if (redirector != null)
@@ -40,14 +40,14 @@ namespace Krypton.Navigator
             }
 
             // Get the current root element
-            _oldRoot = ViewManager.Root;
+            _oldRoot = ViewManager!.Root;
 
             // Create a canvas for the background
             if (_oldRoot != null)
             {
                 _drawPanel = new ViewDrawPanel(Navigator.StateNormal?.Back!)
                 {
-                    // Put the exisint root into the canvas
+                    // Put the existing root into the canvas
                     _oldRoot
                 };
             }
@@ -169,7 +169,7 @@ namespace Krypton.Navigator
             _drawPanel.Clear();
 
             // Put the old root back again
-            ViewManager.Root = _oldRoot;
+            ViewManager!.Root = _oldRoot!;
 
             // Let base class perform common operations
             base.Destruct();

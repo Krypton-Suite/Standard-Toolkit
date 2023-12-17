@@ -146,7 +146,7 @@ namespace Krypton.Toolkit
         {
             get => _padding;
 
-            set 
+            set
             {
                 if (_padding != value)
                 {
@@ -336,8 +336,8 @@ namespace Krypton.Toolkit
         {
             get => _trackingIndex;
 
-            set 
-            { 
+            set
+            {
                 if (_trackingIndex != value)
                 {
                     _trackingIndex = value;

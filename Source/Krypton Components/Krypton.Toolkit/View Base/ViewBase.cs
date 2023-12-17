@@ -502,7 +502,7 @@ namespace Krypton.Toolkit
             // Use mouse controller as first preference
             if (MouseController != null)
             {
-                MouseController.MouseEnter(OwningControl);
+                MouseController.MouseEnter(OwningControl!);
             }
             else
             {
@@ -520,7 +520,7 @@ namespace Krypton.Toolkit
             // Use mouse controller as first preference
             if (MouseController != null)
             {
-                MouseController.MouseMove(OwningControl, pt);
+                MouseController.MouseMove(OwningControl!, pt);
             }
             else
             {
@@ -540,7 +540,7 @@ namespace Krypton.Toolkit
             // Use mouse controller as first preference
             if (MouseController != null)
             {
-                return MouseController.MouseDown(OwningControl, pt, button);
+                return MouseController.MouseDown(OwningControl!, pt, button);
             }
             else
             {
@@ -559,7 +559,7 @@ namespace Krypton.Toolkit
             // Use mouse controller as first preference
             if (MouseController != null)
             {
-                MouseController.MouseUp(OwningControl, pt, button);
+                MouseController.MouseUp(OwningControl!, pt, button);
             }
             else
             {
@@ -577,7 +577,7 @@ namespace Krypton.Toolkit
             // Use mouse controller as first preference
             if (MouseController != null)
             {
-                MouseController.MouseLeave(OwningControl, next);
+                MouseController.MouseLeave(OwningControl!, next);
             }
             else
             {
@@ -615,7 +615,7 @@ namespace Krypton.Toolkit
             // Use key controller as first preference
             if (KeyController != null)
             {
-                KeyController.KeyDown(OwningControl, e);
+                KeyController.KeyDown(OwningControl!, e);
             }
             else
             {
@@ -633,7 +633,7 @@ namespace Krypton.Toolkit
             // Use mouse controller as first preference
             if (KeyController != null)
             {
-                KeyController.KeyPress(OwningControl, e);
+                KeyController.KeyPress(OwningControl!, e);
             }
             else
             {
@@ -652,7 +652,7 @@ namespace Krypton.Toolkit
             // Use mouse controller as first preference
             if (KeyController != null)
             {
-                return KeyController.KeyUp(OwningControl, e);
+                return KeyController.KeyUp(OwningControl!, e);
             }
             else
             {

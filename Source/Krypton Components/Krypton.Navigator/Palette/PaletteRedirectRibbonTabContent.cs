@@ -43,7 +43,7 @@ namespace Krypton.Navigator
         /// Initialize a new instance of the PaletteRedirectRibbonDouble class.
         /// </summary>
         /// <param name="target">Initial palette target for redirection.</param>
-        public PaletteRedirectRibbonTabContent(PaletteBase? target)
+        public PaletteRedirectRibbonTabContent(PaletteBase target)
             : this(target,
                    null, null, null, null, null, null,
                    null, null, null, null, null, null,
@@ -73,7 +73,7 @@ namespace Krypton.Navigator
         /// <param name="trackingContent">Redirection for content tracking state requests.</param>
         /// <param name="selectedContent">Redirection for content selected states requests.</param>
         /// <param name="focusOverrideContent">Redirection for content focus override state requests.</param>
-        public PaletteRedirectRibbonTabContent(PaletteBase? target,
+        public PaletteRedirectRibbonTabContent(PaletteBase target,
                                                IPaletteRibbonBack disabledBack,
                                                IPaletteRibbonBack normalBack,
                                                IPaletteRibbonBack pressedBack,
@@ -192,7 +192,7 @@ namespace Krypton.Navigator
         {
             IPaletteRibbonBack inherit = GetBackInherit(state);
 
-            return inherit?.GetRibbonBackColorStyle(state) ?? Target.GetRibbonBackColorStyle(style, state);
+            return inherit?.GetRibbonBackColorStyle(state) ?? Target!.GetRibbonBackColorStyle(style, state);
         }
 
         /// <summary>
@@ -205,7 +205,7 @@ namespace Krypton.Navigator
         {
             IPaletteRibbonBack inherit = GetBackInherit(state);
 
-            return inherit?.GetRibbonBackColor1(state) ?? Target.GetRibbonBackColor1(style, state);
+            return inherit?.GetRibbonBackColor1(state) ?? Target!.GetRibbonBackColor1(style, state);
         }
 
         /// <summary>
@@ -218,7 +218,7 @@ namespace Krypton.Navigator
         {
             IPaletteRibbonBack inherit = GetBackInherit(state);
 
-            return inherit?.GetRibbonBackColor2(state) ?? Target.GetRibbonBackColor2(style, state);
+            return inherit?.GetRibbonBackColor2(state) ?? Target!.GetRibbonBackColor2(style, state);
         }
 
         /// <summary>
@@ -231,7 +231,7 @@ namespace Krypton.Navigator
         {
             IPaletteRibbonBack inherit = GetBackInherit(state);
 
-            return inherit?.GetRibbonBackColor3(state) ?? Target.GetRibbonBackColor3(style, state);
+            return inherit?.GetRibbonBackColor3(state) ?? Target!.GetRibbonBackColor3(style, state);
         }
 
         /// <summary>
@@ -244,7 +244,7 @@ namespace Krypton.Navigator
         {
             IPaletteRibbonBack inherit = GetBackInherit(state);
 
-            return inherit?.GetRibbonBackColor4(state) ?? Target.GetRibbonBackColor4(style, state);
+            return inherit?.GetRibbonBackColor4(state) ?? Target!.GetRibbonBackColor4(style, state);
         }
 
         /// <summary>
@@ -257,7 +257,7 @@ namespace Krypton.Navigator
         {
             IPaletteRibbonBack inherit = GetBackInherit(state);
 
-            return inherit?.GetRibbonBackColor5(state) ?? Target.GetRibbonBackColor5(style, state);
+            return inherit?.GetRibbonBackColor5(state) ?? Target!.GetRibbonBackColor5(style, state);
         }
         #endregion
 
@@ -272,7 +272,7 @@ namespace Krypton.Navigator
         {
             IPaletteRibbonText inherit = GetTextInherit(state);
 
-            return inherit?.GetRibbonTextColor(state) ?? Target.GetRibbonTextColor(style, state);
+            return inherit?.GetRibbonTextColor(state) ?? Target!.GetRibbonTextColor(style, state);
         }
         #endregion
 
@@ -287,7 +287,7 @@ namespace Krypton.Navigator
         {
             IPaletteContent inherit = GetContentInherit(state);
 
-            return inherit?.GetContentDraw(state) ?? Target.GetContentDraw(style, state);
+            return inherit?.GetContentDraw(state) ?? Target!.GetContentDraw(style, state);
         }
 
         /// <summary>
@@ -300,7 +300,7 @@ namespace Krypton.Navigator
         {
             IPaletteContent inherit = GetContentInherit(state);
 
-            return inherit?.GetContentDrawFocus(state) ?? Target.GetContentDrawFocus(style, state);
+            return inherit?.GetContentDrawFocus(state) ?? Target!.GetContentDrawFocus(style, state);
         }
 
         /// <summary>
@@ -313,7 +313,7 @@ namespace Krypton.Navigator
         {
             IPaletteContent inherit = GetContentInherit(state);
 
-            return inherit?.GetContentImageH(state) ?? Target.GetContentImageH(style, state);
+            return inherit?.GetContentImageH(state) ?? Target!.GetContentImageH(style, state);
         }
 
         /// <summary>
@@ -326,7 +326,7 @@ namespace Krypton.Navigator
         {
             IPaletteContent inherit = GetContentInherit(state);
 
-            return inherit?.GetContentImageV(state) ?? Target.GetContentImageV(style, state);
+            return inherit?.GetContentImageV(state) ?? Target!.GetContentImageV(style, state);
         }
 
         /// <summary>
@@ -339,7 +339,7 @@ namespace Krypton.Navigator
         {
             IPaletteContent inherit = GetContentInherit(state);
 
-            return inherit?.GetContentImageEffect(state) ?? Target.GetContentImageEffect(style, state);
+            return inherit?.GetContentImageEffect(state) ?? Target!.GetContentImageEffect(style, state);
         }
 
         /// <summary>
@@ -352,7 +352,7 @@ namespace Krypton.Navigator
         {
             IPaletteContent inherit = GetContentInherit(state);
 
-            return inherit?.GetContentShortTextFont(state) ?? Target.GetContentShortTextFont(style, state);
+            return inherit?.GetContentShortTextFont(state) ?? Target!.GetContentShortTextFont(style, state);
         }
 
         /// <summary>
@@ -365,7 +365,7 @@ namespace Krypton.Navigator
         {
             IPaletteContent inherit = GetContentInherit(state);
 
-            return inherit?.GetContentShortTextHint(state) ?? Target.GetContentShortTextHint(style, state);
+            return inherit?.GetContentShortTextHint(state) ?? Target!.GetContentShortTextHint(style, state);
         }
 
         /// <summary>
@@ -378,7 +378,7 @@ namespace Krypton.Navigator
         {
             IPaletteContent inherit = GetContentInherit(state);
 
-            return inherit?.GetContentShortTextPrefix(state) ?? Target.GetContentShortTextPrefix(style, state);
+            return inherit?.GetContentShortTextPrefix(state) ?? Target!.GetContentShortTextPrefix(style, state);
         }
 
         /// <summary>
@@ -391,7 +391,7 @@ namespace Krypton.Navigator
         {
             IPaletteContent inherit = GetContentInherit(state);
 
-            return inherit?.GetContentShortTextMultiLine(state) ?? Target.GetContentShortTextMultiLine(style, state);
+            return inherit?.GetContentShortTextMultiLine(state) ?? Target!.GetContentShortTextMultiLine(style, state);
         }
 
         /// <summary>
@@ -404,7 +404,7 @@ namespace Krypton.Navigator
         {
             IPaletteContent inherit = GetContentInherit(state);
 
-            return inherit?.GetContentShortTextTrim(state) ?? Target.GetContentShortTextTrim(style, state);
+            return inherit?.GetContentShortTextTrim(state) ?? Target!.GetContentShortTextTrim(style, state);
         }
 
         /// <summary>
@@ -417,7 +417,7 @@ namespace Krypton.Navigator
         {
             IPaletteContent inherit = GetContentInherit(state);
 
-            return inherit?.GetContentShortTextH(state) ?? Target.GetContentShortTextH(style, state);
+            return inherit?.GetContentShortTextH(state) ?? Target!.GetContentShortTextH(style, state);
         }
 
         /// <summary>
@@ -430,7 +430,7 @@ namespace Krypton.Navigator
         {
             IPaletteContent inherit = GetContentInherit(state);
 
-            return inherit?.GetContentShortTextV(state) ?? Target.GetContentShortTextV(style, state);
+            return inherit?.GetContentShortTextV(state) ?? Target!.GetContentShortTextV(style, state);
         }
 
         /// <summary>
@@ -443,7 +443,7 @@ namespace Krypton.Navigator
         {
             IPaletteContent inherit = GetContentInherit(state);
 
-            return inherit?.GetContentShortTextMultiLineH(state) ?? Target.GetContentShortTextMultiLineH(style, state);
+            return inherit?.GetContentShortTextMultiLineH(state) ?? Target!.GetContentShortTextMultiLineH(style, state);
         }
 
         /// <summary>
@@ -456,7 +456,7 @@ namespace Krypton.Navigator
         {
             IPaletteContent inherit = GetContentInherit(state);
 
-            return inherit?.GetContentShortTextColor1(state) ?? Target.GetContentShortTextColor1(style, state);
+            return inherit?.GetContentShortTextColor1(state) ?? Target!.GetContentShortTextColor1(style, state);
         }
 
         /// <summary>
@@ -469,7 +469,7 @@ namespace Krypton.Navigator
         {
             IPaletteContent inherit = GetContentInherit(state);
 
-            return inherit?.GetContentShortTextColor2(state) ?? Target.GetContentShortTextColor2(style, state);
+            return inherit?.GetContentShortTextColor2(state) ?? Target!.GetContentShortTextColor2(style, state);
         }
 
         /// <summary>
@@ -482,7 +482,7 @@ namespace Krypton.Navigator
         {
             IPaletteContent inherit = GetContentInherit(state);
 
-            return inherit?.GetContentShortTextColorStyle(state) ?? Target.GetContentShortTextColorStyle(style, state);
+            return inherit?.GetContentShortTextColorStyle(state) ?? Target!.GetContentShortTextColorStyle(style, state);
         }
 
         /// <summary>
@@ -495,7 +495,7 @@ namespace Krypton.Navigator
         {
             IPaletteContent inherit = GetContentInherit(state);
 
-            return inherit?.GetContentShortTextColorAlign(state) ?? Target.GetContentShortTextColorAlign(style, state);
+            return inherit?.GetContentShortTextColorAlign(state) ?? Target!.GetContentShortTextColorAlign(style, state);
         }
 
         /// <summary>
@@ -508,7 +508,7 @@ namespace Krypton.Navigator
         {
             IPaletteContent inherit = GetContentInherit(state);
 
-            return inherit?.GetContentShortTextColorAngle(state) ?? Target.GetContentShortTextColorAngle(style, state);
+            return inherit?.GetContentShortTextColorAngle(state) ?? Target!.GetContentShortTextColorAngle(style, state);
         }
 
         /// <summary>
@@ -521,7 +521,7 @@ namespace Krypton.Navigator
         {
             IPaletteContent inherit = GetContentInherit(state);
 
-            return inherit?.GetContentShortTextImage(state) ?? Target.GetContentShortTextImage(style, state);
+            return inherit?.GetContentShortTextImage(state) ?? Target!.GetContentShortTextImage(style, state);
         }
 
         /// <summary>
@@ -534,7 +534,7 @@ namespace Krypton.Navigator
         {
             IPaletteContent inherit = GetContentInherit(state);
 
-            return inherit?.GetContentShortTextImageStyle(state) ?? Target.GetContentShortTextImageStyle(style, state);
+            return inherit?.GetContentShortTextImageStyle(state) ?? Target!.GetContentShortTextImageStyle(style, state);
         }
 
         /// <summary>
@@ -547,7 +547,7 @@ namespace Krypton.Navigator
         {
             IPaletteContent inherit = GetContentInherit(state);
 
-            return inherit?.GetContentShortTextImageAlign(state) ?? Target.GetContentShortTextImageAlign(style, state);
+            return inherit?.GetContentShortTextImageAlign(state) ?? Target!.GetContentShortTextImageAlign(style, state);
         }
 
         /// <summary>
@@ -560,7 +560,7 @@ namespace Krypton.Navigator
         {
             IPaletteContent inherit = GetContentInherit(state);
 
-            return inherit?.GetContentLongTextFont(state) ?? Target.GetContentLongTextFont(style, state);
+            return inherit?.GetContentLongTextFont(state) ?? Target!.GetContentLongTextFont(style, state);
         }
 
         /// <summary>
@@ -573,7 +573,7 @@ namespace Krypton.Navigator
         {
             IPaletteContent inherit = GetContentInherit(state);
 
-            return inherit?.GetContentLongTextHint(state) ?? Target.GetContentLongTextHint(style, state);
+            return inherit?.GetContentLongTextHint(state) ?? Target!.GetContentLongTextHint(style, state);
         }
 
         /// <summary>
@@ -586,7 +586,7 @@ namespace Krypton.Navigator
         {
             IPaletteContent inherit = GetContentInherit(state);
 
-            return inherit?.GetContentLongTextMultiLine(state) ?? Target.GetContentLongTextMultiLine(style, state);
+            return inherit?.GetContentLongTextMultiLine(state) ?? Target!.GetContentLongTextMultiLine(style, state);
         }
 
         /// <summary>
@@ -599,7 +599,7 @@ namespace Krypton.Navigator
         {
             IPaletteContent inherit = GetContentInherit(state);
 
-            return inherit?.GetContentLongTextTrim(state) ?? Target.GetContentLongTextTrim(style, state);
+            return inherit?.GetContentLongTextTrim(state) ?? Target!.GetContentLongTextTrim(style, state);
         }
 
         /// <summary>
@@ -612,7 +612,7 @@ namespace Krypton.Navigator
         {
             IPaletteContent inherit = GetContentInherit(state);
 
-            return inherit?.GetContentLongTextPrefix(state) ?? Target.GetContentLongTextPrefix(style, state);
+            return inherit?.GetContentLongTextPrefix(state) ?? Target!.GetContentLongTextPrefix(style, state);
         }
 
         /// <summary>
@@ -625,7 +625,7 @@ namespace Krypton.Navigator
         {
             IPaletteContent inherit = GetContentInherit(state);
 
-            return inherit?.GetContentLongTextH(state) ?? Target.GetContentLongTextH(style, state);
+            return inherit?.GetContentLongTextH(state) ?? Target!.GetContentLongTextH(style, state);
         }
 
         /// <summary>
@@ -638,7 +638,7 @@ namespace Krypton.Navigator
         {
             IPaletteContent inherit = GetContentInherit(state);
 
-            return inherit?.GetContentLongTextV(state) ?? Target.GetContentLongTextV(style, state);
+            return inherit?.GetContentLongTextV(state) ?? Target!.GetContentLongTextV(style, state);
         }
 
         /// <summary>
@@ -651,7 +651,7 @@ namespace Krypton.Navigator
         {
             IPaletteContent inherit = GetContentInherit(state);
 
-            return inherit?.GetContentLongTextMultiLineH(state) ?? Target.GetContentLongTextMultiLineH(style, state);
+            return inherit?.GetContentLongTextMultiLineH(state) ?? Target!.GetContentLongTextMultiLineH(style, state);
         }
 
         /// <summary>
@@ -664,7 +664,7 @@ namespace Krypton.Navigator
         {
             IPaletteContent inherit = GetContentInherit(state);
 
-            return inherit?.GetContentLongTextColor1(state) ?? Target.GetContentLongTextColor1(style, state);
+            return inherit?.GetContentLongTextColor1(state) ?? Target!.GetContentLongTextColor1(style, state);
         }
 
         /// <summary>
@@ -677,7 +677,7 @@ namespace Krypton.Navigator
         {
             IPaletteContent inherit = GetContentInherit(state);
 
-            return inherit?.GetContentLongTextColor2(state) ?? Target.GetContentLongTextColor2(style, state);
+            return inherit?.GetContentLongTextColor2(state) ?? Target!.GetContentLongTextColor2(style, state);
         }
 
         /// <summary>
@@ -690,7 +690,7 @@ namespace Krypton.Navigator
         {
             IPaletteContent inherit = GetContentInherit(state);
 
-            return inherit?.GetContentLongTextColorStyle(state) ?? Target.GetContentLongTextColorStyle(style, state);
+            return inherit?.GetContentLongTextColorStyle(state) ?? Target!.GetContentLongTextColorStyle(style, state);
         }
 
         /// <summary>
@@ -703,7 +703,7 @@ namespace Krypton.Navigator
         {
             IPaletteContent inherit = GetContentInherit(state);
 
-            return inherit?.GetContentLongTextColorAlign(state) ?? Target.GetContentLongTextColorAlign(style, state);
+            return inherit?.GetContentLongTextColorAlign(state) ?? Target!.GetContentLongTextColorAlign(style, state);
         }
 
         /// <summary>
@@ -716,7 +716,7 @@ namespace Krypton.Navigator
         {
             IPaletteContent inherit = GetContentInherit(state);
 
-            return inherit?.GetContentLongTextImage(state) ?? Target.GetContentLongTextImage(style, state);
+            return inherit?.GetContentLongTextImage(state) ?? Target!.GetContentLongTextImage(style, state);
         }
 
         /// <summary>
@@ -729,7 +729,7 @@ namespace Krypton.Navigator
         {
             IPaletteContent inherit = GetContentInherit(state);
 
-            return inherit?.GetContentLongTextImageStyle(state) ?? Target.GetContentLongTextImageStyle(style, state);
+            return inherit?.GetContentLongTextImageStyle(state) ?? Target!.GetContentLongTextImageStyle(style, state);
         }
 
         /// <summary>
@@ -742,7 +742,7 @@ namespace Krypton.Navigator
         {
             IPaletteContent inherit = GetContentInherit(state);
 
-            return inherit?.GetContentLongTextImageAlign(state) ?? Target.GetContentLongTextImageAlign(style, state);
+            return inherit?.GetContentLongTextImageAlign(state) ?? Target!.GetContentLongTextImageAlign(style, state);
         }
 
         /// <summary>
@@ -755,7 +755,7 @@ namespace Krypton.Navigator
         {
             IPaletteContent inherit = GetContentInherit(state);
 
-            return inherit?.GetContentPadding(state) ?? Target.GetContentPadding(style, state);
+            return inherit?.GetContentPadding(state) ?? Target!.GetContentPadding(style, state);
         }
 
         /// <summary>
@@ -768,12 +768,12 @@ namespace Krypton.Navigator
         {
             IPaletteContent inherit = GetContentInherit(state);
 
-            return inherit?.GetContentAdjacentGap(state) ?? Target.GetContentAdjacentGap(style, state);
+            return inherit?.GetContentAdjacentGap(state) ?? Target!.GetContentAdjacentGap(style, state);
         }
         #endregion
 
         #region Implementation
-        private IPaletteRibbonBack? GetBackInherit(PaletteState state)
+        private IPaletteRibbonBack GetBackInherit(PaletteState state)
         {
             switch (state)
             {
@@ -794,11 +794,11 @@ namespace Krypton.Navigator
                 default:
                     // Should never happen!
                     Debug.Assert(false);
-                    return null;
+                    throw new ArgumentOutOfRangeException(nameof(state), @"state must be PaletteState value.");
             }
         }
 
-        private IPaletteRibbonText? GetTextInherit(PaletteState state)
+        private IPaletteRibbonText GetTextInherit(PaletteState state)
         {
             switch (state)
             {
@@ -819,11 +819,11 @@ namespace Krypton.Navigator
                 default:
                     // Should never happen!
                     Debug.Assert(false);
-                    return null;
+                    throw new ArgumentOutOfRangeException(nameof(state), @"state must be PaletteState value.");
             }
         }
 
-        private IPaletteContent? GetContentInherit(PaletteState state)
+        private IPaletteContent GetContentInherit(PaletteState state)
         {
             switch (state)
             {
@@ -844,7 +844,7 @@ namespace Krypton.Navigator
                 default:
                     // Should never happen!
                     Debug.Assert(false);
-                    return null;
+                    throw new ArgumentOutOfRangeException(nameof(state), @"state must be PaletteState value.");
             }
         }
         #endregion

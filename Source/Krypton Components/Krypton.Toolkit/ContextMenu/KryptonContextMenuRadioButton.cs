@@ -456,7 +456,7 @@ namespace Krypton.Toolkit
 
         internal PaletteRedirectRadioButton StateRadioButtonImages { get; }
 
-        internal void SetPaletteRedirect(PaletteRedirect? redirector)
+        internal void SetPaletteRedirect(PaletteRedirect redirector)
         {
             _stateCommonRedirect.SetRedirector(redirector);
             StateRadioButtonImages.Target = redirector;

@@ -52,13 +52,13 @@ namespace Krypton.Toolkit
             _internalOpenFileDialog.AddExtension = false;
             _internalOpenFileDialog.CheckFileExists = false;
             _internalOpenFileDialog.DereferenceLinks = true;
-            _internalOpenFileDialog.Filter = "folders|\n";
+            _internalOpenFileDialog.Filter = @"folders|\n";
             _internalOpenFileDialog.Multiselect = false;
             _internalOpenFileDialog.ValidateNames = false;
             _internalOpenFileDialog.CheckPathExists = true;
             _internalOpenFileDialog.FileName = "Folder Selection.";
             var options = _ofd.GetField(@"options", BindingFlags.Instance | BindingFlags.Static | BindingFlags.NonPublic);
-            var value = (int)options.GetValue(_internalOpenFileDialog);
+            var value = (int)options?.GetValue(_internalOpenFileDialog)!;
             options.SetValue(_internalOpenFileDialog, value | (int)(FOS_.FORCEFILESYSTEM | FOS_.PICKFOLDERS));
 
             return _internalOpenFileDialog.ShowDialog(owner);
@@ -94,7 +94,7 @@ namespace Krypton.Toolkit
 
         public string SelectedPath
         {
-            get => Path.GetDirectoryName(_internalOpenFileDialog.FileName);
+            get => Path.GetDirectoryName(_internalOpenFileDialog.FileName)!;
             set => _internalOpenFileDialog.InitialDirectory = value;
         }
 

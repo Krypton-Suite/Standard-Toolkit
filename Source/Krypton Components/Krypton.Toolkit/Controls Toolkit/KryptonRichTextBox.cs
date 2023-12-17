@@ -2005,7 +2005,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">Source of notification.</param>
         /// <param name="e">An NeedLayoutEventArgs containing event data.</param>
-        protected override void OnNeedPaint(object? sender, NeedLayoutEventArgs e)
+        protected override void OnNeedPaint(object sender, NeedLayoutEventArgs e)
         {
             if (!e.NeedLayout)
             {
@@ -2036,7 +2036,7 @@ namespace Krypton.Toolkit
                 }
 
                 // Only set the font if the rich text box has been created
-                Font font = triple.PaletteContent.GetContentShortTextFont(state);
+                Font? font = triple.PaletteContent.GetContentShortTextFont(state);
                 if ((_richTextBox.Handle != IntPtr.Zero) && !_richTextBox.Font.Equals(font))
                 {
                     _richTextBox.Font = font;
@@ -2050,7 +2050,7 @@ namespace Krypton.Toolkit
         /// Raises the Paint event.
         /// </summary>
         /// <param name="e">A PaintEventArgs containing the event data.</param>
-        protected override void OnPaint(PaintEventArgs e)
+        protected override void OnPaint(PaintEventArgs? e)
         {
             if (_firstPaint)
             {

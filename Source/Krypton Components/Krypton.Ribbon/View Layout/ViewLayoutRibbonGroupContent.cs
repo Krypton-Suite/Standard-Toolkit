@@ -355,7 +355,7 @@ namespace Krypton.Ribbon
             SyncChildrenToRibbonGroupItems();
 
             // Get the permutations available for each child container
-            _listWidths = new List<ItemSizeWidth[]>();
+            _listWidths = [];
 
             // Scan all child containers
             var pixelGaps = 0;
@@ -690,8 +690,8 @@ namespace Krypton.Ribbon
             foreach (KryptonRibbonGroupContainer container in _ribbonGroup.Items)
             {
                 // Do we already have a view for this container definition
-                ViewBase containerView = _containerToView.ContainsKey(container)
-                    ? _containerToView[container]
+                ViewBase containerView = _containerToView.TryGetValue(container, out ViewBase? value)
+                    ? value
                     : container.CreateView(_ribbon, _needPaint);
 
                 // Update the visible state of the item

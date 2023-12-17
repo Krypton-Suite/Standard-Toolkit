@@ -10,6 +10,7 @@
  */
 #endregion
 
+// ReSharper disable PossibleLossOfFraction
 namespace Krypton.Navigator
 {
     /// <summary>
@@ -31,7 +32,7 @@ namespace Krypton.Navigator
             Debug.Assert(drawCanvas != null);
 
             // Remember source of the rounding values
-            _drawCanvas = drawCanvas;
+            _drawCanvas = drawCanvas!;
 
             // Default other state
             Orientation = VisualOrientation.Top;
@@ -69,11 +70,11 @@ namespace Krypton.Navigator
             get
             {
                 // Get the rounding and width values for the border
-                var rounding = _drawCanvas.PaletteBorder.GetBorderRounding(_drawCanvas.State);
+                var rounding = _drawCanvas.PaletteBorder!.GetBorderRounding(_drawCanvas.State);
                 var width = _drawCanvas.PaletteBorder.GetBorderWidth(_drawCanvas.State);
 
                 // We have to add half the width as that increases the rounding effect
-                return rounding + (width / 2);
+                return rounding + width / 2;
             }
         }
         #endregion
@@ -82,7 +83,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets the rounding value to apply on the edges.
         /// </summary>
-        public int BorderWidth => _drawCanvas.PaletteBorder.GetBorderWidth(_drawCanvas.State);
+        public int BorderWidth => _drawCanvas.PaletteBorder!.GetBorderWidth(_drawCanvas.State);
 
         #endregion
 
@@ -96,7 +97,7 @@ namespace Krypton.Navigator
             Debug.Assert(context != null);
 
             // Get the preferred size requested by the children
-            Size size = base.GetPreferredSize(context);
+            Size size = base.GetPreferredSize(context!);
 
             // Apply the rounding in the appropriate orientation
             if (Orientation is VisualOrientation.Top or VisualOrientation.Bottom)
@@ -122,7 +123,7 @@ namespace Krypton.Navigator
             Debug.Assert(context != null);
 
             // We take on all the available display area
-            ClientRectangle = context.DisplayRectangle;
+            ClientRectangle = context!.DisplayRectangle;
 
             // Find the rectangle available to each child by removing the rounding
             RectangleF childRectF = ClientRectangle;

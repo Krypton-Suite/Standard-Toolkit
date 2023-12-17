@@ -50,8 +50,8 @@ namespace Krypton.Ribbon
             Debug.Assert(target != null);
             Debug.Assert(needPaint != null);
 
-            Target = target;
-            NeedPaint = needPaint;
+            Target = target!;
+            NeedPaint = needPaint!;
         }
         #endregion
 
@@ -87,7 +87,7 @@ namespace Krypton.Ribbon
         /// <returns>True if capturing input; otherwise false.</returns>
         public virtual bool MouseDown(Control c, Point pt, MouseButtons button)
         {
-            if (_mouseOver 
+            if (_mouseOver
                 && (button == MouseButtons.Left))
             {
                 OnClick(EventArgs.Empty);

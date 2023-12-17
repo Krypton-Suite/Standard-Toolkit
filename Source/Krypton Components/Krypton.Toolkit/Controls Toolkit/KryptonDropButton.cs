@@ -813,7 +813,7 @@ namespace Krypton.Toolkit
                 }
                 else
                 {
-                    KryptonContextMenu.Palette = Palette;
+                    KryptonContextMenu.LocalCustomPalette = LocalCustomPalette;
                 }
             }
 

@@ -45,13 +45,11 @@ namespace Krypton.Toolkit
         private readonly PaletteTripleOverride _overrideTracking;
         private readonly PaletteTripleOverride _overridePressed;
         private IKryptonCommand? _command;
-        private bool _useAsDialogButton;
         private bool _isDefault;
         private bool _useMnemonic;
         private bool _wasEnabled;
-        private bool _useAsUACElevationButton;
         private bool _skipNextOpen;
-        private bool _showSplitOption;
+        //private bool _showSplitOption;
         //private bool _useOSUACShieldIcon;
         private float _cornerRoundingRadius;
         private Size _customUACShieldSize;
@@ -110,7 +108,7 @@ namespace Krypton.Toolkit
                                              _overrideNormal,
                                              _overrideTracking,
                                              _overridePressed,
-                                             new PaletteMetricRedirect(Redirector),
+                                             new PaletteMetricRedirect(Redirector!),
                                              this,
                                              Orientation,
                                              UseMnemonic)
@@ -135,10 +133,6 @@ namespace Krypton.Toolkit
             // Create the view manager instance
             ViewManager = new ViewManager(this, _drawButton);
 
-            _useAsDialogButton = false;
-
-            _useAsUACElevationButton = false;
-
             _uacShieldIconSize = GlobalStaticValues.DEFAULT_UAC_SHIELD_ICON_SIZE;
 
             //_useOSUACShieldIcon = false;
@@ -147,9 +141,6 @@ namespace Krypton.Toolkit
 
             // Set `CornerRoundingRadius' to 'GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE' (-1)
             CornerRoundingRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
-
-            // Split settings
-            _showSplitOption = false;
 
             _skipNextOpen = false;
 
@@ -268,65 +259,7 @@ namespace Krypton.Toolkit
 
         private void ResetButtonStyle() => ButtonStyle = ButtonStyle.Standalone;
 
-        [DefaultValue(false),
-         Description(@"If set to true, the text will pair up with the equivalent KryptonManager's dialog button text result. (Note: You'll lose any previous text)")]
-        public bool UseAsADialogButton
-        {
-            get => _useAsDialogButton;
-            set => _useAsDialogButton = value;
-        }
 
-        [DefaultValue(false),
-         Description(@"Transforms the button into a UAC elevated button.")]
-        public bool UseAsUACElevationButton
-        {
-            get => _useAsUACElevationButton;
-            set
-            {
-                _useAsUACElevationButton = value;
-
-                switch (_uacShieldIconSize)
-                {
-                    //if (_customUACShieldSize.Height > 0 && _customUACShieldSize.Width > 0)
-                    //{
-                    //    ShowUACShield(value, UACShieldIconSize.Custom, _customUACShieldSize.Width, _customUACShieldSize.Height);
-                    //}
-                    //else if (_uacShieldIconSize != UACShieldIconSize.Custom)
-                    //{
-                    //    ShowUACShield(value, _uacShieldIconSize);
-                    //}
-                    case UACShieldIconSize.ExtraSmall:
-                        ShowUACShield(value, UACShieldIconSize.ExtraSmall);
-                        break;
-                    case UACShieldIconSize.Small:
-                        ShowUACShield(value, UACShieldIconSize.Small);
-                        break;
-                    case UACShieldIconSize.Medium:
-                        ShowUACShield(value, UACShieldIconSize.Medium);
-                        break;
-                    case UACShieldIconSize.Large:
-                        ShowUACShield(value, UACShieldIconSize.Large);
-                        break;
-                    case UACShieldIconSize.ExtraLarge:
-                        ShowUACShield(value, UACShieldIconSize.ExtraLarge);
-                        break;
-                    default:
-                        ShowUACShield(value, UACShieldIconSize.ExtraSmall);
-                        break;
-                }
-            }
-        }
-
-        /*
-        [DefaultValue(false), Description(@"Use the operating system UAC shield icon image.")]
-        public bool UseOSUACShieldIcon { get => _useOSUACShieldIcon; set { _useOSUACShieldIcon = value; UpdateOSUACShieldIcon(); } }
-        
-        [DefaultValue(null), Description(@"")]
-        public Size CustomUACShieldSize { get => _customUACShieldSize; set { _customUACShieldSize = value; ShowUACShield(_useAsUACElevationButton, UACShieldIconSize.Custom, value.Width, value.Height); } }
-        */
-
-        [DefaultValue(UACShieldIconSize.ExtraSmall), Description(@"")]
-        public UACShieldIconSize UACShieldIconSize { get => _uacShieldIconSize; set { _uacShieldIconSize = value; ShowUACShield(_useAsUACElevationButton, value); } }
 
         /// <summary>
         /// Gets access to the button content.
@@ -543,7 +476,7 @@ namespace Krypton.Toolkit
             set => base.ImeMode = value;
         }
 
-        /// <summary>Gets or sets a value indicating whether [show split option].</summary>
+        /*/// <summary>Gets or sets a value indicating whether [show split option].</summary>
         /// <value><c>true</c> if [show split option]; otherwise, <c>false</c>.</value>
         [Category(@"Visuals")]
         [DefaultValue(false)]
@@ -563,7 +496,7 @@ namespace Krypton.Toolkit
                     Parent?.PerformLayout();
                 }
             }
-        }
+        }*/
 
         #endregion
 
@@ -598,11 +531,12 @@ namespace Krypton.Toolkit
 
         #region Public Overrides
 
+        /// <inheritdoc />
         public override Size GetPreferredSize(Size proposedSize)
         {
             Size preferredSize = base.GetPreferredSize(proposedSize);
 
-            if (_showSplitOption && !string.IsNullOrWhiteSpace(Text) && TextRenderer.MeasureText(Text, Font).Width + DEFAULT_PUSH_BUTTON_WIDTH > preferredSize.Width)
+            if (Values.ShowSplitOption && !string.IsNullOrWhiteSpace(Text) && TextRenderer.MeasureText(Text, Font).Width + DEFAULT_PUSH_BUTTON_WIDTH > preferredSize.Width)
             {
                 return preferredSize + new Size(DEFAULT_PUSH_BUTTON_WIDTH + BORDER_SIZE * 2, 0);
             }
@@ -698,7 +632,7 @@ namespace Krypton.Toolkit
                 catch (InvalidEnumArgumentException)
                 {
                     // Is it https://github.com/Krypton-Suite/Standard-Toolkit/issues/728
-                    if (owner is VisualKryptonMessageBoxForm)
+                    if (owner is VisualMessageBoxForm)
                     {
                         // need to gain access to `dialogResult` and set it forcefully
                         FieldInfo? fi = typeof(Form).GetField("dialogResult", BindingFlags.NonPublic | BindingFlags.Instance);
@@ -720,7 +654,7 @@ namespace Krypton.Toolkit
             // If we have an attached command then execute it
             KryptonCommand?.PerformExecute();
 
-            if (_useAsUACElevationButton)
+            if (Values.UseAsUACElevationButton)
             {
                 var rawUACShield = SystemIcons.Shield.ToBitmap();
 
@@ -766,9 +700,10 @@ namespace Krypton.Toolkit
         /// </summary>
         protected override void ContextMenuClosed() => _buttonController.RemoveFixed();
 
-        protected override void OnPaint(PaintEventArgs e)
+        /// <inheritdoc />
+        protected override void OnPaint(PaintEventArgs? e)
         {
-            if (_useAsDialogButton)
+            if (Values.UseAsADialogButton)
             {
                 if (DialogResult == DialogResult.Abort)
                 {
@@ -806,16 +741,35 @@ namespace Krypton.Toolkit
                 }
             }
 
+            if (Values.UseAsUACElevationButton)
+            {
+                switch (Values.UACShieldIconSize)
+                {
+                    case UACShieldIconSize.ExtraSmall:
+                        break;
+                    case UACShieldIconSize.Small:
+                        break;
+                    case UACShieldIconSize.Medium:
+                        break;
+                    case UACShieldIconSize.Large:
+                        break;
+                    case UACShieldIconSize.ExtraLarge:
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+            }
+
             base.OnPaint(e);
 
             #region Split Code
 
-            if (!_showSplitOption)
+            if (!Values.ShowSplitOption)
             {
                 return;
             }
 
-            Graphics g = e.Graphics;
+            Graphics g = e?.Graphics!;
 
             Rectangle bounds = ClientRectangle;
 
@@ -826,7 +780,7 @@ namespace Krypton.Toolkit
             var focusRectangle = new Rectangle(internalBorder, internalBorder,
                 bounds.Width - _dropDownRectangle.Width - internalBorder, bounds.Height - (internalBorder * 2));
 
-            PaletteBase? palette = KryptonManager.CurrentGlobalPalette;
+            PaletteBase palette = KryptonManager.CurrentGlobalPalette;
 
             Pen shadow = SystemPens.ButtonShadow, face = SystemPens.ButtonFace;
 
@@ -856,14 +810,14 @@ namespace Krypton.Toolkit
             }
 
             // Draw an arrow in the correct location 
-            PaintArrow(g, _dropDownRectangle);
+            PaintArrow(Values.DropDownArrowColor, g, _dropDownRectangle);
 
             #endregion
         }
 
         protected override bool IsInputKey(Keys keyData)
         {
-            if (keyData.Equals(Keys.Down) && _showSplitOption)
+            if (keyData.Equals(Keys.Down) && Values.ShowSplitOption)
             {
                 return true;
             }
@@ -875,7 +829,7 @@ namespace Krypton.Toolkit
 
         protected override void OnKeyDown(KeyEventArgs e)
         {
-            if (_showSplitOption && e.KeyCode.Equals(Keys.Down))
+            if (Values.ShowSplitOption && e.KeyCode.Equals(Keys.Down))
             {
                 ShowContextMenuStrip();
             }
@@ -885,7 +839,7 @@ namespace Krypton.Toolkit
 
         protected override void OnMouseDown(MouseEventArgs e)
         {
-            if (!_showSplitOption)
+            if (!Values.ShowSplitOption)
             {
                 base.OnMouseDown(e);
                 return;
@@ -903,7 +857,7 @@ namespace Krypton.Toolkit
 
         protected override void OnMouseUp(MouseEventArgs e)
         {
-            if (!_showSplitOption)
+            if (!Values.ShowSplitOption)
             {
                 base.OnMouseUp(e);
 
@@ -966,7 +920,7 @@ namespace Krypton.Toolkit
             switch (e.PropertyName)
             {
                 case nameof(Enabled):
-                    Enabled = KryptonCommand.Enabled;
+                    Enabled = KryptonCommand!.Enabled;
                     break;
                 case nameof(Text):
                 case @"ExtraText":
@@ -1012,110 +966,22 @@ namespace Krypton.Toolkit
             StateCommon.Border.Rounding = _cornerRoundingRadius;
         }
 
-        #region UAC Stuff
-
-        /// <summary>Shows the uac shield.</summary>
-        /// <param name="showUACShield">if set to <c>true</c> [show uac shield].</param>
-        /// <param name="shieldIconSize">Size of the shield icon.</param>
-        /// <param name="width">The width.</param>
-        /// <param name="height">The height.</param>
-        private void ShowUACShield(bool showUACShield, UACShieldIconSize? shieldIconSize = null, int? width = null, int? height = null)
-        {
-            if (showUACShield)
-            {
-                int h = height ?? 16, w = width ?? 16;
-
-                Image shield = SystemIcons.Shield.ToBitmap();
-
-                switch (shieldIconSize)
-                {
-                    //case UACShieldIconSize.Custom:
-                    //    Values.Image = GraphicsExtensions.ScaleImage(shield, w, h);
-                    //    break;
-                    case UACShieldIconSize.ExtraSmall:
-                        Values.Image = GraphicsExtensions.ScaleImage(shield, 16, 16);
-                        break;
-                    case UACShieldIconSize.Small:
-                        Values.Image = GraphicsExtensions.ScaleImage(shield, 32, 32);
-                        break;
-                    case UACShieldIconSize.Medium:
-                        Values.Image = GraphicsExtensions.ScaleImage(shield, 64, 64);
-                        break;
-                    case UACShieldIconSize.Large:
-                        Values.Image = GraphicsExtensions.ScaleImage(shield, 128, 128);
-                        break;
-                    case UACShieldIconSize.ExtraLarge:
-                        Values.Image = GraphicsExtensions.ScaleImage(shield, 256, 256);
-                        break;
-                    case null:
-                        Values.Image = GraphicsExtensions.ScaleImage(shield, 16, 16);
-                        break;
-                }
-
-                Invalidate();
-            }
-            else
-            {
-                Values.Image = null;
-            }
-        }
-
-        /// <summary>Updates the UAC shield icon.</summary>
-        /// <param name="iconSize">Size of the icon.</param>
-        /// <param name="customSize">Size of the custom.</param>
-        private void UpdateOSUACShieldIcon(UACShieldIconSize? iconSize = null, Size? customSize = null)
-        {
-            //if (OSUtilities.IsWindowsEleven)
-            //{
-            //    Image windowsElevenUacShieldImage = UACShieldIconResources.UACShieldWindows11;
-
-            //    if (iconSize == UACShieldIconSize.Custom)
-            //    {
-            //        UpdateShieldSize(UACShieldIconSize.Custom, customSize, windowsElevenUacShieldImage);
-            //    }
-            //    else
-            //    {
-            //        UpdateShieldSize(iconSize, null, windowsElevenUacShieldImage);
-            //    }
-            //}
-            //else if (OSUtilities.IsWindowsTen)
-            //{
-            //    Image windowsTenUacShieldImage = UACShieldIconResources.UACShieldWindows10;
-
-            //    if (iconSize == UACShieldIconSize.Custom)
-            //    {
-            //        UpdateShieldSize(UACShieldIconSize.Custom, customSize, windowsTenUacShieldImage);
-            //    }
-            //    else
-            //    {
-            //        UpdateShieldSize(iconSize, null, windowsTenUacShieldImage);
-            //    }
-            //}
-            //else if (OSUtilities.IsWindowsEightPointOne || OSUtilities.IsWindowsEight || OSUtilities.IsWindowsSeven)
-            //{
-            //    Image windowsEightUacShieldImage = UACShieldIconResources.UACShieldWindows7881;
-
-            //    if (iconSize == UACShieldIconSize.Custom)
-            //    {
-            //        UpdateShieldSize(UACShieldIconSize.Custom, customSize, windowsEightUacShieldImage);
-            //    }
-            //    else
-            //    {
-            //        UpdateShieldSize(iconSize, null, windowsEightUacShieldImage);
-            //    }
-            //}
-        }
-
-        #endregion
-
         #region Splitter Stuff
 
-        private static void PaintArrow(Graphics graphics, Rectangle rectangle)
+        /// <summary>Paints the drop-down arrow.</summary>
+        /// <param name="graphics">The drop-down arrow graphics.</param>
+        /// <param name="rectangle">The drop-down rectangle area.</param>
+        /// <param name="dropDownArrowColor">The color of the drop-down arrow.</param>
+        private static void PaintArrow(Color? dropDownArrowColor, Graphics graphics, Rectangle rectangle)
         {
             var midPoint = new Point(Convert.ToInt32(rectangle.Left + rectangle.Width / 2),
                 Convert.ToInt32(rectangle.Top + rectangle.Height / 2));
 
             midPoint.X += (rectangle.Width % 2);
+
+            Color color = dropDownArrowColor ?? Color.Black;
+
+            SolidBrush dropDownBrush = new SolidBrush(color);
 
             var arrow = new Point[]
             {
@@ -1124,7 +990,7 @@ namespace Krypton.Toolkit
                 midPoint with { Y = midPoint.Y + 2 }
             };
 
-            graphics.FillPolygon(SystemBrushes.ControlText, arrow);
+            graphics.FillPolygon(dropDownBrush, arrow);
         }
 
         private void ShowContextMenuStrip()

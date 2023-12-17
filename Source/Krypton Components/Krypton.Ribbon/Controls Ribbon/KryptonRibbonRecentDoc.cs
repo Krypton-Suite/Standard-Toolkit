@@ -29,7 +29,7 @@ namespace Krypton.Ribbon
         private Color _imageTransparentColor;
         private string _text;
         private string _extraText;
-        private object _tag;
+        private object? _tag;
         #endregion
 
         #region Events
@@ -155,7 +155,7 @@ namespace Krypton.Ribbon
         [Description(@"User-defined data associated with the object.")]
         [TypeConverter(typeof(StringConverter))]
         [Bindable(true)]
-        public object Tag
+        public object? Tag
         {
             get => _tag;
 

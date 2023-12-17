@@ -3,8 +3,21 @@
 =======
 
 ## 2024-11-xx - Build 2411 - November 2024
+* Implemented [#1224](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1224), **[Breaking Change]** Move `GlobalPaletteMode` into `GlobalPalette` and rename 
+* Implemented [#1223](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1223), Move `UseKryptonFileDialogs` to a better designer location
+* Implemented [#1222](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1222), Remove `CustomPalette` (Should be part of the palette definition)
+* Implemented [#1204](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1204), Build on `KryptonCommandLinkButtons`
+    - [#1216](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1216), Add support for fonts
+    - [#1217](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1217), Add support for text alignment
+* Resolved [#996](https://github.com/Krypton-Suite/Standard-Toolkit/issues/996), DataGridView ComboBox Adding list over and over
+* Resolved [#1207](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1207), Microsoft 365 - Black (Dark Mode) Drop button is not visible
+* Resolved [#1206](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1206), Remove the Font Size (as it is already covered by the actual font !)
+* Resolved [#1197](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1197), `KryptonTaskDialog` Footer Images
+* Resolved [#1189](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1189), The Context and Next/Pervious buttons of the `KryptonDockableNavigator` cannot be used
+* Implemented [#1187](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1187), Bring over the `KryptonCommandLinkButtons`
 * Resolved [#1176](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1176), KryptonProgressBar: small values escape drawing area
 * Resolved [#1169](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1169), Button Spec Krypton Context Menu (Canary)
+* Implemented [#1166](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1166), Use a struct to contain `KryptonMessageBox` data
 * Implemented [#1161](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1161), A proper about box
 * New adjusting the size of a `KryptonComboBox` also changes the `DropDownWidth`
     - Note: The `DropDownWidth` can still be set independently from the `Size` property
@@ -23,6 +36,7 @@
 * Resolved issue where `Sparkle` themes would crash when using certain `ButtonSpecs`
 * Resolved [#1174](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1174), Unable to adjust height of `KryptonForm` when `KryptonRibbon` is added
     - _Note:_ This disables features from [#1117](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1117), until further testing is completed
+    * Backed-out [#1117](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1117),  Is it possible to have the KForm back colour as the KPanel colour
 
 =======
 

@@ -129,7 +129,7 @@ namespace Krypton.Toolkit
             SuspendLayout();
 
             //VScrollBar1.Anchor = AnchorStyles.Right | AnchorStyles.Bottom | AnchorStyles.Top;
-            VScrollBar1.Anchor = (AnchorStyles)(AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right); VScrollBar1.Dock = DockStyle.Right;
+            VScrollBar1.Anchor = (AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right); VScrollBar1.Dock = DockStyle.Right;
             VScrollBar1.LargeChange = 10;
             VScrollBar1.Location = new Point(0x91, 0); // (145,0)
             VScrollBar1.Maximum = 100;
@@ -185,7 +185,7 @@ namespace Krypton.Toolkit
             if ((Controls.Count != 1) && (_win == null))
             {
                 _win = e.Control;
-                if (_win.GetType() == typeof(DataGridView) || (_win.GetType() == typeof(KryptonDataGridView)))
+                if (_win!.GetType() == typeof(DataGridView) || (_win.GetType() == typeof(KryptonDataGridView)))
                 {
                     var dgv = (DataGridView)_win;
                     dgv.Scroll += dgv_Scroll;
@@ -694,12 +694,12 @@ namespace Krypton.Toolkit
             var hsVisible = (wndStyle & PI.WS_.HSCROLL) != 0;
             var vsVisible = (wndStyle & PI.WS_.VSCROLL) != 0;
 
-            return hsVisible 
-                ? vsVisible 
-                    ? ScrollBars.Both 
-                    : ScrollBars.Horizontal 
-                : vsVisible 
-                    ? ScrollBars.Vertical 
+            return hsVisible
+                ? vsVisible
+                    ? ScrollBars.Both
+                    : ScrollBars.Horizontal
+                : vsVisible
+                    ? ScrollBars.Vertical
                     : ScrollBars.None;
         }
 
@@ -731,7 +731,7 @@ namespace Krypton.Toolkit
         #region ... Krypton ...
 
 
-        //Kripton Palette Events
+        //Krypton Palette Events
         private void OnGlobalPaletteChanged(object sender, EventArgs e)
         {
             if (_palette != null)
@@ -750,7 +750,7 @@ namespace Krypton.Toolkit
             Invalidate();
         }
 
-        //Kripton Palette Events
+        //Krypton Palette Events
         private void OnPalettePaint(object sender, PaletteLayoutEventArgs e) => Invalidate();
 
         #endregion

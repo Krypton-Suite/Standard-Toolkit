@@ -212,7 +212,8 @@ namespace Krypton.Ribbon
                 {
                     // Use the same palette in the date time picker as the ribbon, plus we need
                     // to know when the ribbon palette changes so we can reflect that change
-                    DateTimePicker.Palette = Ribbon!.GetResolvedPalette();
+                    DateTimePicker.PaletteMode = Ribbon!.PaletteMode;
+                    DateTimePicker.LocalCustomPalette = Ribbon!.LocalCustomPalette;
                     Ribbon!.PaletteChanged += OnRibbonPaletteChanged;
                 }
             }
@@ -493,7 +494,7 @@ namespace Krypton.Ribbon
         [Description(@"Today's date.")]
         public DateTime CalendarTodayDate
         {
-            get => DateTimePicker.CalendarTodayDate;
+            get => DateTimePicker.CalendarTodayDate ?? DateTime.Now.Date;
             set => DateTimePicker.CalendarTodayDate = value;
         }
 
@@ -507,7 +508,7 @@ namespace Krypton.Ribbon
         [Category(@"MonthCalendar")]
         [Description(@"Indicates which annual dates should be boldface.")]
         [Localizable(true)]
-        public DateTime[] CalendarAnnuallyBoldedDates
+        public DateTime[]? CalendarAnnuallyBoldedDates
         {
             get => DateTimePicker.CalendarAnnuallyBoldedDates;
             set => DateTimePicker.CalendarAnnuallyBoldedDates = value;
@@ -523,7 +524,7 @@ namespace Krypton.Ribbon
         [Category(@"MonthCalendar")]
         [Description(@"Indicates which monthly dates should be boldface.")]
         [Localizable(true)]
-        public DateTime[] CalendarMonthlyBoldedDates
+        public DateTime[]? CalendarMonthlyBoldedDates
         {
             get => DateTimePicker.CalendarMonthlyBoldedDates;
             set => DateTimePicker.CalendarMonthlyBoldedDates = value;
@@ -539,7 +540,7 @@ namespace Krypton.Ribbon
         [Category(@"MonthCalendar")]
         [Description(@"Indicates which dates should be boldface.")]
         [Localizable(true)]
-        public DateTime[] CalendarBoldedDates
+        public DateTime[]? CalendarBoldedDates
         {
             get => DateTimePicker.CalendarBoldedDates;
             set => DateTimePicker.CalendarBoldedDates = value;
@@ -1009,7 +1010,12 @@ namespace Krypton.Ribbon
 
         private void OnDateTimePickerKeyDown(object sender, PreviewKeyDownEventArgs e) => OnPreviewKeyDown(e);
 
-        private void OnRibbonPaletteChanged(object sender, EventArgs e) => DateTimePicker.Palette = Ribbon.GetResolvedPalette();
+        private void OnRibbonPaletteChanged(object sender, EventArgs e)
+        {
+            DateTimePicker.PaletteMode = Ribbon!.PaletteMode;
+            DateTimePicker.LocalCustomPalette = Ribbon!.LocalCustomPalette;
+        }
+
         #endregion
     }
 }

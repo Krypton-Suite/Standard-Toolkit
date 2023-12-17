@@ -235,9 +235,9 @@ namespace Krypton.Toolkit
             _maxDate = DateTimePicker.MaximumDateTime;
             _maxSelectionCount = 7;
             AnnuallyBoldedDatesMask = new int[12];
-            _annualDates = new DateTimeList();
-            _monthlyDates = new DateTimeList();
-            BoldedDatesList = new DateTimeList();
+            _annualDates = [];
+            _monthlyDates = [];
+            BoldedDatesList = [];
             _scrollChange = 0;
             _todayFormat = "d";
 
@@ -1529,7 +1529,7 @@ namespace Krypton.Toolkit
         /// Raises the Paint event.
         /// </summary>
         /// <param name="e">An PaintEventArgs that contains the event data.</param>
-        protected override void OnPaint(PaintEventArgs e)
+        protected override void OnPaint(PaintEventArgs? e)
         {
             Paint?.Invoke(this, e);
 

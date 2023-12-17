@@ -55,12 +55,12 @@ namespace Krypton.Navigator
             Debug.Assert(backupContent != null);
 
             // Remember values
-            _primaryBack = primaryBack;
-            _primaryText = primaryText;
-            _primaryContent = primaryContent;
-            _backupBack = backupBack;
-            _backupText = backupText;
-            _backupContent = backupContent;
+            _primaryBack = primaryBack!;
+            _primaryText = primaryText!;
+            _primaryContent = primaryContent!;
+            _backupBack = backupBack!;
+            _backupText = backupText!;
+            _backupContent = backupContent!;
 
             // Default state
             Apply = false;
@@ -770,7 +770,7 @@ namespace Krypton.Navigator
         {
             if (Apply)
             {
-                Image ret = _primaryContent.GetContentShortTextImage(Override ? OverrideState : state) ?? _backupContent.GetContentShortTextImage(state);
+                Image? ret = _primaryContent.GetContentShortTextImage(Override ? OverrideState : state) ?? _backupContent.GetContentShortTextImage(state);
 
                 return ret;
             }
@@ -1163,7 +1163,7 @@ namespace Krypton.Navigator
         {
             if (Apply)
             {
-                Image ret = _primaryContent.GetContentLongTextImage(Override ? OverrideState : state) ?? _backupContent.GetContentLongTextImage(state);
+                Image? ret = _primaryContent.GetContentLongTextImage(Override ? OverrideState : state) ?? _backupContent.GetContentLongTextImage(state);
 
                 return ret;
             }

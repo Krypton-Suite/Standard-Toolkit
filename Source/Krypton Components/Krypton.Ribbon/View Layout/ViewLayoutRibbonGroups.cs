@@ -65,7 +65,7 @@ namespace Krypton.Ribbon
             _groupToView = new GroupToView();
 
             // Create cache of group separator elements
-            _groupSepCache = new ViewDrawRibbonGroupSepList();
+            _groupSepCache = [];
         }
 
         /// <summary>
@@ -391,9 +391,9 @@ namespace Krypton.Ribbon
                 ViewDrawRibbonGroup? view = null;
 
                 // Get the currently cached view for the group
-                if (_groupToView.ContainsKey(ribGroup))
+                if (_groupToView.TryGetValue(ribGroup, out ViewDrawRibbonGroup? value))
                 {
-                    view = _groupToView[ribGroup];
+                    view = value;
                 }
 
                 // If a new group, create a view for it now

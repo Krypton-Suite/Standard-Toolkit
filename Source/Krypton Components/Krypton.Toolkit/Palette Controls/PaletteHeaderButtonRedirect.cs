@@ -18,7 +18,7 @@ namespace Krypton.Toolkit
     public class PaletteHeaderButtonRedirect : PaletteTripleMetricRedirect
     {
         #region Instance Fields
-        private readonly PaletteRedirect? _redirect;
+        private readonly PaletteRedirect _redirect;
         private Padding _buttonPadding;
         private int _buttonEdgeInset;
         #endregion

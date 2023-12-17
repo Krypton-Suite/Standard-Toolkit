@@ -117,11 +117,37 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="kryptonColorButton1.Values.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAL
+        DAAACwwBP0AiyAAAAAd0SU1FB9gBBwMpBNNjwEAAAADzSURBVDhPnZGhCoUwFIYHgiD4AlbB5AuYfAGT
+        SRBMZsFkMhlMJkEQBIPVahJsstc6lzPYcG4X7m74wvl3zrcdRiilX1nXFVzXheu6QHeOaENOmqZACIG6
+        rs0FeKvv+0zgeR7c962VKAGnaRqoqgriOGaSvu/NBGEYwnEcMI4jE2Ct61MCZFkWiKJIDARBwCTzPCsS
+        qeAkSQJd14nmtm2ZANd59iFSgZznCbZts4E3lmXBvu+SRBpG8MvyPFduKoqCSbIs+y4YhgEcx4FpmhTB
+        tm3iFc/1RAPfk1OWpWh6nyGYSYJ/0YYmaEMTtKEJ2vB3KPkALW4yqONYazYAAAAASUVORK5CYII=
+</value>
+  </data>
+  <data name="kryptonButton2.Values.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAALBSURBVDhPjZFvSFNhFMYPi8zU6pMafoi2SkuwVPw7depy
+        trzpzDWydC7CqNkMK/sDYnNgKYXhh8gELZNQkwSVtrR0VqamVFYIBrUvYpH/yjSzEPb03uuFCox64HC5
+        vO/zO885Ly0lEEk0ccE7OI4zpiVzRt+gJDWRWSIe/12NnuSRHuu/R5564OnavVdR0OTA5HAl2svDYDIk
+        9koDOB2RzkO8viidTueiVHNlCo2+PlB73CE1XIHrsT7QwUFY7AvAbB3Q7Y/vHbFovaxEkUnpyM5QNWi4
+        xDK1Wr2CXhK5++4rdq48PQRJ3iAobwiU+xyU9QTm9q/AZC2c9/2BR3KgL5J9o/CjR4Hqwlg2KUvznsht
+        fWb5FOW/ZcZnINMAKKcflPkboN0fTnsknJ0MYI8ABsLRVKr4RHTSXQBIMy5N0YnhX2YjD+iGuY0BJnjA
+        ZsHs7IhgFc6ShOF2sQjgR9ioOzdN2S9Y7F6hM2+mZDvyW2aAsUo4W7zgtPmx8gVsm4BOX1Scjf4ijNBI
+        5KLNKRyxdHxjkeeE2HxnMzN3vQOw8IpBKoDxGywNX9eBqRqUFhhGidgSeZmy9Y34cAv4XCvMzMfGeKVg
+        fugALM0zsNhmYbHOoMg6hwt3p5CedfiOYOblFxCf0lwSAvRsYfOK1erFOl/DGWYm1QNQWhdoN6u0fqze
+        eRGJ0dtSRTsvsyRdq7JOWOMZhC2KXxibmY9tsTEAb2bPSlkDWGNoh0KtvcfecJloFuWdLD2VnTAyb48B
+        HocvLowHsNhCZ2Z2NXQjdNehUWO0l0x0/alVG5LkBUdUH6fbGMTOts0ARdZZlqAP7oYuhKQcHdsfJ4sS
+        ry+t5T5JgUa96vWbmq3AfB1K7ICbph5RnOG1XuETJF77l5K9ue2hVQ3V51FYdhMB8oSq3EDyFA//X+tk
+        YcqYYJlS/F1CRD8BOQO3yqWFS54AAAAASUVORK5CYII=
+</value>
+  </data>
   <metadata name="kryptonContextMenu1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>539, 16</value>
-  </metadata>
-  <metadata name="kryptonCustomPaletteBase1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>166, 16</value>
   </metadata>
   <metadata name="kcmdMessageboxTest.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>369, 16</value>
@@ -134,5 +160,8 @@
   </metadata>
   <metadata name="kryptonCheckSet1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 54</value>
+  </metadata>
+  <metadata name="kryptonTaskDialog1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>167, 54</value>
   </metadata>
 </root>

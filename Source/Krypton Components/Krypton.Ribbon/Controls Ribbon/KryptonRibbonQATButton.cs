@@ -27,12 +27,12 @@ namespace Krypton.Ribbon
                                           IQuickAccessToolbarButton
     {
         #region Static Fields
-        private static readonly Image _defaultImage = GenericImageResources.QATButtonDefault;
+        private static readonly Image? _defaultImage = GenericImageResources.QATButtonDefault;
         #endregion
 
         #region Instance Fields
-        private object _tag;
-        private Image _image;
+        private object? _tag;
+        private Image? _image;
         private bool _visible;
         private bool _enabled;
         private string _text;
@@ -203,7 +203,7 @@ namespace Krypton.Ribbon
                 // We never allow an empty text value
                 if (string.IsNullOrEmpty(value))
                 {
-                    value = "QAT Button";
+                    value = @"QAT Button";
                 }
 
                 if (value != _text)
@@ -336,7 +336,7 @@ namespace Krypton.Ribbon
         [Description(@"User-defined data associated with the object.")]
         [TypeConverter(typeof(StringConverter))]
         [Bindable(true)]
-        public object Tag
+        public object? Tag
         {
             get => _tag;
 
@@ -415,7 +415,7 @@ namespace Krypton.Ribbon
         /// Gets and sets the image for the item ToolTip.
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public Image GetToolTipImage() => ToolTipImage;
+        public Image GetToolTipImage() => ToolTipImage!;
 
         /// <summary>
         /// Gets and sets the color to draw as transparent in the ToolTipImage.

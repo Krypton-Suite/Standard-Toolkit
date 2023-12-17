@@ -58,9 +58,9 @@ namespace Krypton.Ribbon
         public AppButtonMenuProvider(ViewContextMenuManager viewManager,
                                      KryptonContextMenuItemCollection menuCollection,
                                      ViewLayoutStack viewColumns,
-                                     PaletteBase? palette,
+                                     PaletteBase palette,
                                      PaletteMode paletteMode,
-                                     PaletteRedirect? redirector,
+                                     PaletteRedirect redirector,
                                      NeedPaintHandler needPaintDelegate)
         {
             // Store incoming state
@@ -78,7 +78,7 @@ namespace Krypton.Ribbon
             ProviderCanCloseMenu = true;
             ProviderShowHorz = KryptonContextMenuPositionH.After;
             ProviderShowVert = KryptonContextMenuPositionV.Top;
-            ProviderStateCommon = new PaletteContextMenuRedirect(redirector, needPaintDelegate);
+            ProviderStateCommon = new PaletteContextMenuRedirect(redirector!, needPaintDelegate);
             ProviderStateNormal = new PaletteContextMenuItemState(ProviderStateCommon);
             ProviderStateDisabled = new PaletteContextMenuItemState(ProviderStateCommon);
             ProviderStateHighlight = new PaletteContextMenuItemStateHighlight(ProviderStateCommon);
@@ -166,7 +166,7 @@ namespace Krypton.Ribbon
         {
             if (ProviderShowSubMenuFixed(menuItem))
             {
-                Rectangle screenRect = FixedViewBase.OwningControl.RectangleToScreen(FixedViewBase.ClientRectangle);
+                Rectangle screenRect = FixedViewBase.OwningControl!.RectangleToScreen(FixedViewBase.ClientRectangle);
                 screenRect.Y++;
                 screenRect.Width -= 3;
                 screenRect.Height -= 4;
@@ -251,7 +251,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets access to the custom palette.
         /// </summary>
-        public PaletteBase? ProviderPalette { get; }
+        public PaletteBase ProviderPalette { get; }
 
         /// <summary>
         /// Gets access to the palette mode.
@@ -261,7 +261,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets access to the context menu redirector.
         /// </summary>
-        public PaletteRedirect? ProviderRedirector { get; }
+        public PaletteRedirect ProviderRedirector { get; }
 
         /// <summary>
         /// Gets a delegate used to indicate a repaint is required.

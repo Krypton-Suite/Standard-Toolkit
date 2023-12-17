@@ -89,7 +89,7 @@ namespace Krypton.Toolkit
         /// <summary>
         ///  Gets the design-time action lists supported by the component associated with the designer.
         /// </summary>
-        public override DesignerActionListCollection ActionLists => new DesignerActionListCollection();
+        public override DesignerActionListCollection ActionLists => [];
 
         /// <summary>
         /// Should painting be performed for the selection glyph.

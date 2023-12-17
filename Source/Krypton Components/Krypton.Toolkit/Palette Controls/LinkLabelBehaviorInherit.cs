@@ -97,10 +97,10 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
-        public override Font GetContentShortTextFont(PaletteState state)
+        public override Font? GetContentShortTextFont(PaletteState state)
         {
             // Get the actual base font from inheritance chain
-            Font ret = _inherit.GetContentShortTextFont(state);
+            Font? ret = _inherit.GetContentShortTextFont(state);
 
             // We never try and modify an empty font
             if (ret != null)
@@ -116,10 +116,10 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
-        public override Font GetContentShortTextNewFont(PaletteState state)
+        public override Font? GetContentShortTextNewFont(PaletteState state)
         {
             // Get the actual base font from inheritance chain
-            Font ret = _inherit.GetContentShortTextNewFont(state);
+            Font? ret = _inherit.GetContentShortTextNewFont(state);
 
             // We never try and modify an empty font
             if (ret != null)
@@ -240,14 +240,14 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
-        public override Font GetContentLongTextFont(PaletteState state) => _inherit.GetContentLongTextFont(state);
+        public override Font? GetContentLongTextFont(PaletteState state) => _inherit.GetContentLongTextFont(state);
 
         /// <summary>
         /// Gets the font for the long text by generating a new font instance.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
-        public override Font GetContentLongTextNewFont(PaletteState state) => _inherit.GetContentLongTextNewFont(state);
+        public override Font? GetContentLongTextNewFont(PaletteState state) => _inherit.GetContentLongTextNewFont(state);
 
         /// <summary>
         /// Gets the rendering hint for the long text.
@@ -377,7 +377,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Private
-        private Font GetContentFont(PaletteState state, Font font)
+        private Font? GetContentFont(PaletteState state, Font? font)
         {
             // We never do anything for the override states
             if (!CommonHelper.IsOverrideState(state))

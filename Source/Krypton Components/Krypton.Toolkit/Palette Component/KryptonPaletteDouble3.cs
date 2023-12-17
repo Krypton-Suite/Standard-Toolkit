@@ -31,10 +31,10 @@ namespace Krypton.Toolkit
         /// <param name="backStyle">Background style.</param>
         /// <param name="borderStyle">Border style.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        protected KryptonPaletteDouble3(PaletteRedirect? redirect,
+        protected KryptonPaletteDouble3(PaletteRedirect redirect,
                                      PaletteBackStyle backStyle,
                                      PaletteBorderStyle borderStyle,
-                                     NeedPaintHandler needPaint) 
+                                     NeedPaintHandler needPaint)
         {
             // Create the storage objects
             _stateCommon = new PaletteDoubleRedirect(redirect, backStyle, borderStyle, needPaint);
@@ -48,7 +48,7 @@ namespace Krypton.Toolkit
         /// Update the redirector with new reference.
         /// </summary>
         /// <param name="redirect">Target redirector.</param>
-        public void SetRedirector(PaletteRedirect? redirect) => _stateCommon.SetRedirector(redirect);
+        public void SetRedirector(PaletteRedirect redirect) => _stateCommon!.SetRedirector(redirect);
 
         #endregion
 
@@ -57,9 +57,9 @@ namespace Krypton.Toolkit
         /// Gets a value indicating if all values are default.
         /// </summary>
         [Browsable(false)]
-        public override bool IsDefault => _stateCommon.IsDefault &&
-                                          _stateDisabled.IsDefault &&
-                                          _stateNormal.IsDefault;
+        public override bool IsDefault => _stateCommon!.IsDefault &&
+                                          _stateDisabled!.IsDefault &&
+                                          _stateNormal!.IsDefault;
 
         #endregion
 
@@ -70,8 +70,8 @@ namespace Krypton.Toolkit
         public void PopulateFromBase()
         {
             // Populate only the designated styles
-            _stateDisabled.PopulateFromBase(PaletteState.Disabled);
-            _stateNormal.PopulateFromBase(PaletteState.Normal);
+            _stateDisabled!.PopulateFromBase(PaletteState.Disabled);
+            _stateNormal!.PopulateFromBase(PaletteState.Normal);
         }
         #endregion
     }

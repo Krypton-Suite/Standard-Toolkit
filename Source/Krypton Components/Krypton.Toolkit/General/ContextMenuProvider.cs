@@ -88,9 +88,9 @@ namespace Krypton.Toolkit
         public ContextMenuProvider(KryptonContextMenu contextMenu,
                                    ViewContextMenuManager viewManager,
                                    ViewLayoutStack viewColumns,
-                                   PaletteBase? palette,
+                                   PaletteBase palette,
                                    PaletteMode paletteMode,
-                                   PaletteRedirect? redirector,
+                                   PaletteRedirect redirector,
                                    PaletteRedirectContextMenu redirectorImages,
                                    NeedPaintHandler needPaintDelegate,
                                    bool enabled)
@@ -132,14 +132,14 @@ namespace Krypton.Toolkit
         /// <param name="enabled">Enabled state of the context menu.</param>
         public ContextMenuProvider(ViewContextMenuManager viewManager,
                                    ViewLayoutStack viewColumns,
-                                   PaletteBase? palette,
+                                   PaletteBase palette,
                                    PaletteMode paletteMode,
                                    PaletteContextMenuRedirect stateCommon,
                                    PaletteContextMenuItemState stateDisabled,
                                    PaletteContextMenuItemState stateNormal,
                                    PaletteContextMenuItemStateHighlight stateHighlight,
                                    PaletteContextMenuItemStateChecked stateChecked,
-                                   PaletteRedirect? redirector,
+                                   PaletteRedirect redirector,
                                    PaletteRedirectContextMenu redirectorImages,
                                    NeedPaintHandler needPaintDelegate,
                                    bool enabled)
@@ -305,7 +305,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the custom palette.
         /// </summary>
-        public PaletteBase? ProviderPalette { get; }
+        public PaletteBase ProviderPalette { get; }
 
         /// <summary>
         /// Gets access to the palette mode.
@@ -315,7 +315,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the context menu redirector.
         /// </summary>
-        public PaletteRedirect? ProviderRedirector { get; }
+        public PaletteRedirect ProviderRedirector { get; }
 
         /// <summary>
         /// Gets a delegate used to indicate a repaint is required.

@@ -69,7 +69,7 @@ namespace Krypton.Ribbon
             _visible = true;
 
             // Create the collection for defining groups
-            Groups = new KryptonRibbonGroupCollection();
+            Groups = [];
             Groups.Clearing += OnRibbonGroupsClearing;
             Groups.Cleared += OnRibbonGroupsCleared;
             Groups.Inserted += OnRibbonGroupsInserted;
@@ -354,7 +354,7 @@ namespace Krypton.Ribbon
         private void OnRibbonGroupsInserted(object sender, TypedCollectionEventArgs<KryptonRibbonGroup> e)
         {
             // Setup the back references
-            e.Item.Ribbon = _ribbon;
+            e.Item!.Ribbon = _ribbon;
             e.Item.RibbonTab = this;
 
             // Only need to update display if this tab is selected and the group is visible
@@ -367,7 +367,7 @@ namespace Krypton.Ribbon
         private void OnRibbonGroupsRemoved(object sender, TypedCollectionEventArgs<KryptonRibbonGroup> e)
         {
             // Remove the back references
-            e.Item.Ribbon = null;
+            e.Item!.Ribbon = null;
             e.Item.RibbonTab = null;
 
             // Only need to update display if this tab is selected and the group was visible

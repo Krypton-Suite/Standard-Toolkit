@@ -20,12 +20,13 @@ namespace Krypton.Toolkit
         #region Static Fields
 
         [Localizable(true)]
-        private static readonly IReadOnlyDictionary<HeaderGroupCollapsedTarget, string> _pairs = new Dictionary<HeaderGroupCollapsedTarget, string>
+        private static readonly BiDictionary<HeaderGroupCollapsedTarget, string> _pairs = new BiDictionary<HeaderGroupCollapsedTarget, string>(
+            new Dictionary<HeaderGroupCollapsedTarget, string>
         {
             { HeaderGroupCollapsedTarget.CollapsedToPrimary, DesignTimeUtilities.DEFAULT_HEADER_GROUP_COLLAPSED_TARGET_COLLAPSED_TO_PRIMARY},
             {HeaderGroupCollapsedTarget.CollapsedToSecondary, DesignTimeUtilities.DEFAULT_HEADER_GROUP_COLLAPSED_TARGET_COLLAPSED_TO_SECONDARY},
             {HeaderGroupCollapsedTarget.CollapsedToBoth, DesignTimeUtilities.DEFAULT_HEADER_GROUP_COLLAPSED_TARGET_COLLAPSED_TO_BOTH}
-        };
+        });
 
         #endregion
 
@@ -34,7 +35,8 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets an array of lookup pairs.
         /// </summary>
-        protected override IReadOnlyDictionary<HeaderGroupCollapsedTarget /*Enum*/, string /*Display*/> Pairs => _pairs;
+        protected override IReadOnlyDictionary<HeaderGroupCollapsedTarget /*Enum*/, string /*Display*/> PairsEnumToString => _pairs.FirstToSecond;
+        protected override IReadOnlyDictionary<string /*Display*/, HeaderGroupCollapsedTarget /*Enum*/ > PairsStringToEnum => _pairs.SecondToFirst;
 
         #endregion
     }

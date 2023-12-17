@@ -107,10 +107,10 @@ namespace Krypton.Ribbon
 
             // Create content storage
             Images = new GalleryImages(NeedPaintDelegate);
-            DropButtonRanges = new KryptonGalleryRangeCollection();
+            DropButtonRanges = [];
 
             // Create the palette storage
-            StateCommon = new PaletteGalleryRedirect(Redirector, NeedPaintDelegate);
+            StateCommon = new PaletteGalleryRedirect(Redirector!, NeedPaintDelegate);
             StateNormal = new PaletteGalleryState(StateCommon, NeedPaintDelegate);
             StateDisabled = new PaletteGalleryState(StateCommon, NeedPaintDelegate);
             StateActive = new PaletteGalleryState(StateCommon, NeedPaintDelegate);
@@ -129,7 +129,7 @@ namespace Krypton.Ribbon
             // The draw layout that contains the actual selection images
             _backBorder = new PaletteGalleryBackBorder(StateNormal);
             _drawDocker = new ViewDrawDocker(_backBorder, _backBorder);
-            _drawItems = new ViewLayoutRibbonGalleryItems(Redirector, this, NeedPaintDelegate, _buttonUp, _buttonDown, _buttonContext);
+            _drawItems = new ViewLayoutRibbonGalleryItems(Redirector!, this, NeedPaintDelegate, _buttonUp, _buttonDown, _buttonContext);
             _drawDocker.Add(_drawItems, ViewDockStyle.Fill);
 
             // Top level layout view
@@ -623,13 +623,13 @@ namespace Krypton.Ribbon
                             // If inside a ribbon then we ignore the movement keys
                             if (Ribbon is null or { InKeyboardMode: false })
                             {
-                                _drawItems[_trackingIndex].KeyDown(new KeyEventArgs(keyData));
+                                _drawItems[_trackingIndex]?.KeyDown(new KeyEventArgs(keyData));
                                 return true;
                             }
                             break;
                         case Keys.Space:
                         case Keys.Enter:
-                            _drawItems[_trackingIndex].KeyDown(new KeyEventArgs(keyData));
+                            _drawItems[_trackingIndex]?.KeyDown(new KeyEventArgs(keyData));
                             return true;
                     }
                 }
@@ -643,7 +643,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="sender">Source of notification.</param>
         /// <param name="e">An NeedLayoutEventArgs containing event data.</param>
-        protected override void OnNeedPaint(object? sender, NeedLayoutEventArgs e)
+        protected override void OnNeedPaint(object sender, NeedLayoutEventArgs e)
         {
             if (IsHandleCreated)
             {
@@ -731,9 +731,9 @@ namespace Krypton.Ribbon
 
         internal bool DesignerGetHitTest(Point pt) => false;
 
-        internal Component DesignerComponentFromPoint(Point pt) =>
+        internal Component? DesignerComponentFromPoint(Point pt) =>
             // Ignore call as view builder is already destructed
-            IsDisposed ? null : ViewManager.ComponentFromPoint(pt);
+            IsDisposed ? null : ViewManager?.ComponentFromPoint(pt);
 
         // Ask the current view for a decision
         internal void DesignerMouseLeave() =>
@@ -830,7 +830,7 @@ namespace Krypton.Ribbon
                 }
 
                 // Need to know when the menu is dismissed
-                args.KryptonContextMenu.Closed += OnDropMenuClosed;
+                args.KryptonContextMenu!.Closed += OnDropMenuClosed;
 
                 // Remember the delegate we need to fire when the menu is dismissed
                 _finishDelegate = finishDelegate;
@@ -919,7 +919,7 @@ namespace Krypton.Ribbon
                 // But only generate if actual event would yield a different value
                 if (_eventTrackingIndex != _trackingIndex)
                 {
-                    OnTrackingImage(new ImageSelectEventArgs(_imageList, _trackingIndex));
+                    OnTrackingImage(new ImageSelectEventArgs(_imageList!, _trackingIndex));
                 }
             }
             else

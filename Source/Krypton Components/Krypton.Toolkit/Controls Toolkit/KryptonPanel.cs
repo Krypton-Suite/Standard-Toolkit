@@ -54,7 +54,7 @@ namespace Krypton.Toolkit
         /// <param name="stateCommon">Common appearance state to inherit from.</param>
         /// <param name="stateDisabled">Disabled appearance state.</param>
         /// <param name="stateNormal">Normal appearance state.</param>
-        public KryptonPanel([DisallowNull] PaletteDoubleRedirect stateCommon,
+        public KryptonPanel([DisallowNull] PaletteDoubleRedirect? stateCommon,
                             [DisallowNull] PaletteDouble stateDisabled,
                             [DisallowNull] PaletteDouble stateNormal)
         {

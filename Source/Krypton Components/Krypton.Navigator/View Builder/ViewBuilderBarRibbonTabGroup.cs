@@ -36,7 +36,7 @@ namespace Krypton.Navigator
         protected override void CreateCheckItemView()
         {
             // Create a canvas for containing the selected page and put old root inside it
-            _drawGroup = new ViewDrawCanvas(Navigator.StateNormal.HeaderGroup.Back,
+            _drawGroup = new ViewDrawCanvas(Navigator.StateNormal!.HeaderGroup!.Back,
                                             Navigator.StateNormal.HeaderGroup.Border,
                                             VisualOrientation.Top)
             {
@@ -44,7 +44,7 @@ namespace Krypton.Navigator
             };
 
             // Create the view element that lays out the check buttons
-            var layoutBar = new ViewLayoutBarForTabs(Navigator.StateCommon.Bar,
+            var layoutBar = new ViewLayoutBarForTabs(Navigator.StateCommon!.Bar,
                 PaletteMetricInt.RibbonTabGap, Navigator.Bar.ItemSizing, Navigator.Bar.ItemAlignment,
                 Navigator.Bar.BarMultiline, Navigator.Bar.ItemMinimumSize, Navigator.Bar.ItemMaximumSize,
                 Navigator.Bar.BarMinimumHeight, Navigator.Bar.TabBorderStyle, true);

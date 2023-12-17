@@ -26,9 +26,9 @@ namespace Krypton.Navigator
         /// <param name="redirector">Palette redirector.</param>
         public override void Construct(KryptonNavigator navigator,
                                        ViewManager manager,
-                                       PaletteRedirect? redirector) =>
+                                       PaletteRedirect redirector) =>
             // Let base class perform common operations
-            base.Construct(navigator, manager, redirector);
+            base.Construct(navigator, manager, redirector!);
 
         /// <summary>
         /// Gets a value indicating if the mode is a tab strip style mode.
@@ -44,7 +44,7 @@ namespace Krypton.Navigator
             if (Navigator.SelectedPage != null)
             {
                 // Grab the view for the page
-                INavCheckItem checkItem = _pageLookup[Navigator.SelectedPage];
+                INavCheckItem? checkItem = _pageLookup![Navigator.SelectedPage];
 
                 // If the item also has the focus
                 if (checkItem.HasFocus)
@@ -70,7 +70,7 @@ namespace Krypton.Navigator
         protected override void CreateCheckItemView()
         {
             // Create the view element that lays out the check buttons
-            _layoutBar = new ViewLayoutBar(Navigator.StateCommon.Bar,
+            _layoutBar = new ViewLayoutBar(Navigator.StateCommon!.Bar,
                                            PaletteMetricInt.CheckButtonGap,
                                            Navigator.Bar.ItemSizing,
                                            Navigator.Bar.ItemAlignment,
@@ -111,7 +111,7 @@ namespace Krypton.Navigator
             };
 
             // Create a canvas for containing the selected page and put old root inside it
-            _drawGroup = new ViewDrawCanvas(Navigator.StateNormal.HeaderGroup.Back, Navigator.StateNormal.HeaderGroup.Border, VisualOrientation.Top)
+            _drawGroup = new ViewDrawCanvas(Navigator.StateNormal!.HeaderGroup!.Back, Navigator.StateNormal.HeaderGroup.Border, VisualOrientation.Top)
             {
                 _layoutPanelDocker
             };
@@ -130,10 +130,10 @@ namespace Krypton.Navigator
             base.CreateButtonSpecManager();
 
             // Modify the way that button specs are remapped
-            var barManager = (ButtonSpecNavManagerLayoutBar)_buttonManager;
+            var barManager = _buttonManager as ButtonSpecNavManagerLayoutBar;
 
             // Remap the normal color onto the button text
-            barManager.RemapTarget = ButtonSpecNavRemap.ButtonSpecRemapTarget.ButtonStandalone;
+            barManager!.RemapTarget = ButtonSpecNavRemap.ButtonSpecRemapTarget.ButtonStandalone;
         }
         #endregion
     }

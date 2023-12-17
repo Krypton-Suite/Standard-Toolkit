@@ -912,8 +912,8 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="palette">Palette to use for inheriting values.</param>
         /// <returns>Tooltip title string.</returns>
-        public virtual string GetToolTipTitle(PaletteBase? palette) => !string.IsNullOrEmpty(ToolTipTitle)
-                   || !AllowInheritToolTipTitle
+        public virtual string GetToolTipTitle(PaletteBase palette) => !string.IsNullOrEmpty(ToolTipTitle)
+                                                                      || !AllowInheritToolTipTitle
                 ? ToolTipTitle
                 : palette?.GetButtonSpecToolTipTitle(ProtectedType) ?? string.Empty;
 
@@ -922,7 +922,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="palette">Palette to use for inheriting values.</param>
         /// <returns>Color value.</returns>
-        public virtual Color GetColorMap(PaletteBase? palette) => ColorMap != Color.Empty
+        public virtual Color GetColorMap(PaletteBase palette) => ColorMap != Color.Empty
                 ? ColorMap
                 : palette?.GetButtonSpecColorMap(ProtectedType) ?? Color.Empty;
 
@@ -931,7 +931,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="palette">Palette to use for inheriting values.</param>
         /// <returns>Button style.</returns>
-        public virtual ButtonStyle GetStyle(PaletteBase? palette) => ConvertToButtonStyle(Style != PaletteButtonStyle.Inherit
+        public virtual ButtonStyle GetStyle(PaletteBase palette) => ConvertToButtonStyle(Style != PaletteButtonStyle.Inherit
                 ? Style
                 : palette?.GetButtonSpecStyle(ProtectedType));
 
@@ -967,7 +967,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="palette">Palette to use for inheriting values.</param>
         /// <returns>Button enabled state.</returns>
-        public abstract ButtonEnabled GetEnabled(PaletteBase? palette);
+        public abstract ButtonEnabled GetEnabled(PaletteBase palette);
 
         /// <summary>
         /// Sets the current view associated with the button spec.
@@ -992,7 +992,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="palette">Palette to use for inheriting values.</param>
         /// <returns>Button visibility.</returns>
-        public abstract bool GetVisible(PaletteBase? palette);
+        public abstract bool GetVisible(PaletteBase palette);
 
         /// <summary>
         /// Gets the button checked state.

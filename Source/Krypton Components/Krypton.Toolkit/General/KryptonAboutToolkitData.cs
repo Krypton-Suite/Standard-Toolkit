@@ -9,7 +9,7 @@
 
 namespace Krypton.Toolkit
 {
-    /// <summary>Contains the information used for creating a new <see cref="VisualKryptonAboutToolkitForm"/>.</summary>
+    /// <summary>Contains the information used for creating a new <see cref="VisualAboutToolkitForm"/>.</summary>
     public struct KryptonAboutToolkitData
     {
         #region Static Fields

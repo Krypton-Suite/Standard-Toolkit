@@ -27,7 +27,7 @@ namespace Krypton.Toolkit
         /// <param name="backSeparatorStyle">Initial separator background style.</param>
         /// <param name="borderSeparatorStyle">Initial separator border style.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public PaletteSplitContainerRedirect(PaletteRedirect? redirect,
+        public PaletteSplitContainerRedirect(PaletteRedirect redirect,
                                              PaletteBackStyle backContainerStyle,
                                              PaletteBorderStyle borderContainerStyle,
                                              PaletteBackStyle backSeparatorStyle,

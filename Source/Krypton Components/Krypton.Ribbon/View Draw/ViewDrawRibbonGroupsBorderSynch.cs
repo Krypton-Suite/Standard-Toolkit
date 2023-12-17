@@ -64,10 +64,9 @@ namespace Krypton.Ribbon
         public ViewDrawRibbonGroup? ViewGroupFromPoint(Point pt)
         {
             // There can only be groups showing for the currently selected tab
-            if (Ribbon.SelectedTab != null && _tabToView.ContainsKey(Ribbon.SelectedTab))
+            if (Ribbon.SelectedTab != null && _tabToView.TryGetValue(Ribbon.SelectedTab, out ViewLayoutRibbonScrollPort? viewScrollPort))
             {
                 // Get the scroll port for this tab
-                ViewLayoutRibbonScrollPort viewScrollPort = _tabToView[Ribbon.SelectedTab];
 
                 // The first child of the scroll port is always the view control
                 var viewControl = viewScrollPort[0] as ViewLayoutControl;
@@ -212,9 +211,9 @@ namespace Krypton.Ribbon
                 ViewLayoutRibbonScrollPort? view = null;
 
                 // Get the currently cached view for the tab
-                if (_tabToView.ContainsKey(tab))
+                if (_tabToView.TryGetValue(tab, out ViewLayoutRibbonScrollPort? value))
                 {
-                    view = _tabToView[tab];
+                    view = value;
                 }
 
                 // If a new tab, create a view for it now

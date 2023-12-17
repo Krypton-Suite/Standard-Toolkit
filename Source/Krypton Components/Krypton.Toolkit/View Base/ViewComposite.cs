@@ -28,7 +28,7 @@ namespace Krypton.Toolkit
         /// </summary>
         protected ViewComposite() =>
             // Default state
-            _views = new List<ViewBase>();
+            _views = [];
 
         /// <summary>
         /// Release unmanaged and optionally managed resources.
@@ -87,7 +87,7 @@ namespace Krypton.Toolkit
                 if (child.Visible)
                 {
                     // Any child that returns 'true' completes the process
-                    if (child.EvalTransparentPaint(context))
+                    if (child.EvalTransparentPaint(context!))
                     {
                         return true;
                     }
@@ -117,7 +117,7 @@ namespace Krypton.Toolkit
                 if (child.Visible)
                 {
                     // Ask child for it's own preferred size
-                    Size childPreferred = child.GetPreferredSize(context);
+                    Size childPreferred = child.GetPreferredSize(context!);
 
                     // As a composite we need to be big enough to encompass the largest child
                     if (childPreferred.Width > preferredSize.Width)
@@ -146,7 +146,7 @@ namespace Krypton.Toolkit
             // Ask each child to layout in turn
             foreach (ViewBase child in this.Where(static child => child.Visible))
             {
-                child.Layout(context);
+                child.Layout(context!);
             }
         }
         #endregion
@@ -341,8 +341,8 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="index">ViewBase index.</param>
         /// <returns>ViewBase at specified index.</returns>
-        public override ViewBase? this[int index] 
-        { 
+        public override ViewBase? this[int index]
+        {
             get => _views?[index];
 
             set

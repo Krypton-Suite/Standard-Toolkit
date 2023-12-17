@@ -116,9 +116,9 @@ namespace Krypton.Toolkit
             _maxDate = DateTimePicker.MaximumDateTime;
             _maxSelectionCount = 7;
             AnnuallyBoldedDatesMask = new int[12];
-            _annualDates = new DateTimeList();
-            _monthlyDates = new DateTimeList();
-            BoldedDatesList = new DateTimeList();
+            _annualDates = [];
+            _monthlyDates = [];
+            BoldedDatesList = [];
             _today = DEFAULT_TODAY;
             _todayFormat = "d";
 
@@ -334,7 +334,7 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         [Description(@"Indicates which annual dates should be boldface.")]
         [AllowNull]
-        public DateTime[] AnnuallyBoldedDates
+        public DateTime[]? AnnuallyBoldedDates
         {
             get => _annualDates.ToArray();
 
@@ -371,7 +371,7 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         [Description(@"Indicates which monthly dates should be boldface.")]
         [AllowNull]
-        public DateTime[] MonthlyBoldedDates
+        public DateTime[]? MonthlyBoldedDates
         {
             get => _monthlyDates.ToArray();
 
@@ -404,7 +404,7 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         [Description(@"Indicates which dates should be boldface.")]
         [AllowNull]
-        public DateTime[] BoldedDates
+        public DateTime[]? BoldedDates
         {
             get => BoldedDatesList.ToArray();
 
@@ -827,7 +827,7 @@ namespace Krypton.Toolkit
                 if (_headerStyle != value)
                 {
                     _headerStyle = value;
-                    StateCommon.Header.SetStyles(_headerStyle);
+                    StateCommon?.Header.SetStyles(_headerStyle);
                     OnPropertyChanged(new PropertyChangedEventArgs(nameof(HeaderStyle)));
                 }
             }
@@ -851,7 +851,7 @@ namespace Krypton.Toolkit
                 if (_dayStyle != value)
                 {
                     _dayStyle = value;
-                    StateCommon.DayStyle = value;
+                    StateCommon!.DayStyle = value;
                     OverrideFocus.DayStyle = value;
                     OverrideBolded.DayStyle = value;
                     OverrideToday.DayStyle = value;
@@ -880,7 +880,7 @@ namespace Krypton.Toolkit
                 if (_dayOfWeekStyle != value)
                 {
                     _dayOfWeekStyle = value;
-                    StateCommon.DayOfWeekStyle = value;
+                    StateCommon!.DayOfWeekStyle = value;
                     OnPropertyChanged(new PropertyChangedEventArgs(nameof(DayOfWeekStyle)));
                 }
             }
@@ -932,7 +932,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteMonthCalendarRedirect? StateCommon { get; }
 
-        private bool ShouldSerializeStateCommon() => !StateCommon.IsDefault;
+        private bool ShouldSerializeStateCommon() => !StateCommon!.IsDefault;
 
         /// <summary>
         /// Gets access to the month calendar disabled appearance entries.
@@ -1295,9 +1295,9 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Internal
-        internal void SetPaletteRedirect(PaletteRedirect? redirector)
+        internal void SetPaletteRedirect(PaletteRedirect redirector)
         {
-            StateCommon.SetRedirector(redirector);
+            StateCommon?.SetRedirector(redirector);
             OverrideFocus.SetRedirector(redirector);
             OverrideBolded.SetRedirector(redirector);
             OverrideToday.SetRedirector(redirector);

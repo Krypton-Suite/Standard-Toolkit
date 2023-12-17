@@ -19,7 +19,7 @@ namespace Krypton.Toolkit
                                          IPaletteMetric
     {
         #region Instance Fields
-        private PaletteRedirect? _redirect;
+        private PaletteRedirect _redirect;
         #endregion
 
         #region Identity
@@ -27,7 +27,7 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the PaletteMetricRedirect class.
         /// </summary>
         /// <param name="redirect">inheritance redirection instance.</param>
-        public PaletteMetricRedirect([DisallowNull] PaletteRedirect? redirect)
+        public PaletteMetricRedirect([DisallowNull] PaletteRedirect redirect)
         {
             Debug.Assert(redirect != null);
 
@@ -41,7 +41,7 @@ namespace Krypton.Toolkit
         /// Update the redirector with new reference.
         /// </summary>
         /// <param name="redirect">Target redirector.</param>
-        public virtual void SetRedirector(PaletteRedirect? redirect) => _redirect = redirect;
+        public virtual void SetRedirector(PaletteRedirect redirect) => _redirect = redirect;
         #endregion
 
         #region IsDefault

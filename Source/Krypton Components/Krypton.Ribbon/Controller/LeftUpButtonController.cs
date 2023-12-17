@@ -49,8 +49,8 @@ namespace Krypton.Ribbon
             Debug.Assert(target != null);
 
             // Remember target for state changes
-            Ribbon = ribbon;
-            Target = target;
+            Ribbon = ribbon!;
+            Target = target!;
 
             // Store the provided paint notification delegate
             NeedPaint = needPaint;
@@ -84,7 +84,7 @@ namespace Krypton.Ribbon
             _mouseOver = true;
 
             // Get the form we are inside
-            KryptonForm ownerForm = Ribbon.FindKryptonForm();
+            KryptonForm? ownerForm = Ribbon.FindKryptonForm();
             _active = ownerForm is { WindowActive: true } ||
                       VisualPopupManager.Singleton.IsTracking ||
                       Ribbon.InDesignMode ||
@@ -194,7 +194,7 @@ namespace Krypton.Ribbon
                 UpdateTargetState(c);
             }
         }
-        
+
         /// <summary>
         /// Left mouse button double click.
         /// </summary>

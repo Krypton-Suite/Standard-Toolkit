@@ -407,49 +407,49 @@ namespace Krypton.Toolkit
                 case KryptonCommandType.General:
                     break;
                 case KryptonCommandType.HelpCommand:
-                    SwitchToHelpCommand(KryptonManager.InternalGlobalPaletteMode);
+                    SwitchToHelpCommand(KryptonManager.CurrentGlobalPaletteMode);
                     break;
                 case KryptonCommandType.IntegratedToolBarCopyCommand:
-                    SwitchToCopyCommand(KryptonManager.InternalGlobalPaletteMode);
+                    SwitchToCopyCommand(KryptonManager.CurrentGlobalPaletteMode);
                     break;
                 case KryptonCommandType.IntegratedToolBarCutCommand:
-                    SwitchToCutCommand(KryptonManager.InternalGlobalPaletteMode);
+                    SwitchToCutCommand(KryptonManager.CurrentGlobalPaletteMode);
                     break;
                 case KryptonCommandType.IntegratedToolBarNewCommand:
-                    SwitchToNewCommand(KryptonManager.InternalGlobalPaletteMode);
+                    SwitchToNewCommand(KryptonManager.CurrentGlobalPaletteMode);
                     break;
                 case KryptonCommandType.IntegratedToolBarOpenCommand:
-                    SwitchToOpenCommand(KryptonManager.InternalGlobalPaletteMode);
+                    SwitchToOpenCommand(KryptonManager.CurrentGlobalPaletteMode);
                     break;
                 case KryptonCommandType.IntegratedToolBarPageSetupCommand:
-                    SwitchToPageSetupCommand(KryptonManager.InternalGlobalPaletteMode);
+                    SwitchToPageSetupCommand(KryptonManager.CurrentGlobalPaletteMode);
                     break;
                 case KryptonCommandType.IntegratedToolBarPasteCommand:
-                    SwitchToPasteCommand(KryptonManager.InternalGlobalPaletteMode);
+                    SwitchToPasteCommand(KryptonManager.CurrentGlobalPaletteMode);
                     break;
                 case KryptonCommandType.IntegratedToolBarPrintCommand:
-                    SwitchToPrintCommand(KryptonManager.InternalGlobalPaletteMode);
+                    SwitchToPrintCommand(KryptonManager.CurrentGlobalPaletteMode);
                     break;
                 case KryptonCommandType.IntegratedToolBarPrintPreviewCommand:
-                    SwitchToPrintPreviewCommand(KryptonManager.InternalGlobalPaletteMode);
+                    SwitchToPrintPreviewCommand(KryptonManager.CurrentGlobalPaletteMode);
                     break;
                 case KryptonCommandType.IntegratedToolBarQuickPrintCommand:
-                    SwitchToQuickPrintCommand(KryptonManager.InternalGlobalPaletteMode);
+                    SwitchToQuickPrintCommand(KryptonManager.CurrentGlobalPaletteMode);
                     break;
                 case KryptonCommandType.IntegratedToolBarRedoCommand:
-                    SwitchToRedoCommand(KryptonManager.InternalGlobalPaletteMode);
+                    SwitchToRedoCommand(KryptonManager.CurrentGlobalPaletteMode);
                     break;
                 case KryptonCommandType.IntegratedToolBarSaveAllCommand:
-                    SwitchToSaveAllCommand(KryptonManager.InternalGlobalPaletteMode);
+                    SwitchToSaveAllCommand(KryptonManager.CurrentGlobalPaletteMode);
                     break;
                 case KryptonCommandType.IntegratedToolBarSaveAsCommand:
-                    SwitchToSaveAsCommand(KryptonManager.InternalGlobalPaletteMode);
+                    SwitchToSaveAsCommand(KryptonManager.CurrentGlobalPaletteMode);
                     break;
                 case KryptonCommandType.IntegratedToolBarSaveCommand:
-                    SwitchToSaveCommand(KryptonManager.InternalGlobalPaletteMode);
+                    SwitchToSaveCommand(KryptonManager.CurrentGlobalPaletteMode);
                     break;
                 case KryptonCommandType.IntegratedToolBarUndoCommand:
-                    SwitchToUndoCommand(KryptonManager.InternalGlobalPaletteMode);
+                    SwitchToUndoCommand(KryptonManager.CurrentGlobalPaletteMode);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(commandType), commandType, null);

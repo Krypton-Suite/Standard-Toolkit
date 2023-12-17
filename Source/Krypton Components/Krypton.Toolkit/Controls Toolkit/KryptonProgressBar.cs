@@ -25,7 +25,7 @@ namespace Krypton.Toolkit
 
         private ProgressBarStyle _style;
         private VisualOrientation _orientation;
-        private PaletteBase? _palette;
+        private PaletteBase _palette;
         private readonly PaletteRedirect _paletteRedirect;
         private readonly PaletteBackInheritRedirect _paletteBackClientPanel;
         private IDisposable? _mementoContent;
@@ -586,7 +586,7 @@ namespace Krypton.Toolkit
             if (_palette != null)
             {
                 // Get the renderer associated with this palette
-                IRenderer? renderer = _palette.GetRenderer();
+                IRenderer renderer = _palette.GetRenderer();
 
                 // Create the rendering context that is passed into all renderer calls
                 using var renderContext = new RenderContext(this, e.Graphics, e.ClipRectangle, renderer);

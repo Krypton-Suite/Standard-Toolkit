@@ -31,7 +31,7 @@ namespace Krypton.Toolkit
         public AntiAlias(Graphics? g)
         {
             _g = g;
-            _old = _g.SmoothingMode;
+            _old = _g!.SmoothingMode;
             _g.SmoothingMode = SmoothingMode.AntiAlias;
         }
 

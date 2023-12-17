@@ -38,7 +38,7 @@ namespace Krypton.Navigator
             Debug.Assert(navigator != null);
 
             // Remember back reference to owning control
-            _navigator = navigator;
+            _navigator = navigator!;
 
             // Set initial values to the default
             _mapImage = GetMapImageDefault();

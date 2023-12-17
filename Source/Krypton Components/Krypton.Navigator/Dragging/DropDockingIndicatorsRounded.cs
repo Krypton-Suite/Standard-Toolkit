@@ -21,7 +21,7 @@ namespace Krypton.Navigator
                                                 IDropDockingIndicator
     {
         #region Instance Fields
-        private readonly IRenderer? _renderer;
+        private readonly IRenderer _renderer;
         private readonly IPaletteDragDrop _paletteDragDrop;
         private readonly RenderDragDockingData _dragData;
         private Rectangle _showRect;
@@ -39,7 +39,7 @@ namespace Krypton.Navigator
         /// <param name="showBottom">Show bottom hot area.</param>
         /// <param name="showMiddle">Show middle hot area.</param>
         public DropDockingIndicatorsRounded(IPaletteDragDrop paletteDragDrop,
-                                            IRenderer? renderer,
+                                            IRenderer renderer,
                                             bool showLeft, bool showRight,
                                             bool showTop, bool showBottom,
                                             bool showMiddle)

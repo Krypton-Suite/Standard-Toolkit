@@ -39,9 +39,9 @@ namespace Krypton.Navigator
             Debug.Assert(layoutTabs != null);
 
             // Remember provided references
-            _drawCanvas = drawCanvas;
-            _layoutOverlap = layoutOverlap;
-            _layoutTabs = layoutTabs;
+            _drawCanvas = drawCanvas!;
+            _layoutOverlap = layoutOverlap!;
+            _layoutTabs = layoutTabs!;
         }
 
         /// <summary>
@@ -58,7 +58,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets the rounding value to apply on the edges.
         /// </summary>
-        public int BorderWidth => _drawCanvas.PaletteBorder.GetBorderWidth(_drawCanvas.State);
+        public int BorderWidth => _drawCanvas.PaletteBorder!.GetBorderWidth(_drawCanvas.State);
 
         #endregion
 
@@ -67,7 +67,7 @@ namespace Krypton.Navigator
         /// Perform rendering after child elements are rendered.
         /// </summary>
         /// <param name="context">Rendering context.</param>
-        public override void RenderAfter(RenderContext context) 
+        public override void RenderAfter(RenderContext context)
         {
             // Ask for another draw of the child but this time only drawing the selected tab
             _layoutTabs.DrawChecked = true;
@@ -112,7 +112,7 @@ namespace Krypton.Navigator
         /// <param name="fillerRect">Original filler rectangle.</param>
         /// <param name="control">Owning control instance.</param>
         /// <returns>Modified rectangle.</returns>
-        protected override Rectangle UpdateFillerRect(Rectangle fillerRect, 
+        protected override Rectangle UpdateFillerRect(Rectangle fillerRect,
                                                       Control control)
         {
             var borderWidth = BorderWidth;

@@ -32,7 +32,7 @@ namespace Krypton.Ribbon
             : base(PaletteButtonSpecStyle.PendantClose)
         {
             Debug.Assert(ribbon != null);
-            _ribbon = ribbon;
+            _ribbon = ribbon!;
         }
         #endregion
 
@@ -42,7 +42,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="palette">Palette to use for inheriting values.</param>
         /// <returns>Button visibility.</returns>
-        public override bool GetVisible(PaletteBase? palette)
+        public override bool GetVisible(PaletteBase palette)
         {
             // Cannot be seen if not attached to an mdi child window and cannot be seen
             // if the window is not maximized and so needing the pendant buttons
@@ -60,7 +60,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="palette">Palette to use for inheriting values.</param>
         /// <returns>Button enabled state.</returns>
-        public override ButtonEnabled GetEnabled(PaletteBase? palette) => ButtonEnabled.True;
+        public override ButtonEnabled GetEnabled(PaletteBase palette) => ButtonEnabled.True;
 
         /// <summary>
         /// Gets the button checked state.
@@ -85,7 +85,7 @@ namespace Krypton.Ribbon
             {
                 if (!_ribbon.InDesignMode)
                 {
-                    MdiChild.Close();
+                    MdiChild?.Close();
 
                     // Let base class fire any other attached events
                     base.OnClick(e);

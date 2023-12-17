@@ -95,7 +95,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="palette">Palette to use for inheriting values.</param>
         /// <returns>Tooltip title string.</returns>
-        string GetToolTipTitle(PaletteBase? palette);
+        string GetToolTipTitle(PaletteBase palette);
 
         /// <summary>
         /// Gets and image color to remap to container foreground.
@@ -109,14 +109,14 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="palette">Palette to use for inheriting values.</param>
         /// <returns>Button visibility value.</returns>
-        bool GetVisible(PaletteBase? palette);
+        bool GetVisible(PaletteBase palette);
 
         /// <summary>
         /// Gets the button enabled state.
         /// </summary>
         /// <param name="palette">Palette to use for inheriting values.</param>
         /// <returns>Button enabled value.</returns>
-        ButtonEnabled GetEnabled(PaletteBase? palette);
+        ButtonEnabled GetEnabled(PaletteBase palette);
 
         /// <summary>
         /// Sets the current view associated with the button spec.
@@ -148,7 +148,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="palette">Palette to use for inheriting values.</param>
         /// <returns>Button style value.</returns>
-        ButtonStyle GetStyle(PaletteBase? palette);
+        ButtonStyle GetStyle(PaletteBase palette);
 
         /// <summary>
         /// Gets the button location value.
@@ -292,7 +292,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the custom palette.
         /// </summary>
-        PaletteBase? ProviderPalette { get; }
+        PaletteBase ProviderPalette { get; }
 
         /// <summary>
         /// Gets access to the palette mode.
@@ -302,7 +302,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the context menu redirector.
         /// </summary>
-        PaletteRedirect? ProviderRedirector { get; }
+        PaletteRedirect ProviderRedirector { get; }
 
         /// <summary>
         /// Gets a delegate used to indicate a repaint is required.
@@ -1914,7 +1914,8 @@ namespace Krypton.Toolkit
         GeneralInformation = 0,
         Description = 1,
         FileInformation = 2,
-        Theme = 3
+        Theme = 3,
+        ToolkitInformation = 4
     }
 
     #endregion

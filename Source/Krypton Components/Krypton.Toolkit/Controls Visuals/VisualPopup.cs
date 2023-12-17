@@ -42,7 +42,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="renderer">Drawing renderer.</param>
         /// <param name="shadow">Does the popup need a shadow effect.</param>
-        public VisualPopup(IRenderer? renderer,
+        public VisualPopup(IRenderer renderer,
                            bool shadow)
             : this(new ViewManager(), renderer, shadow)
         {
@@ -55,7 +55,7 @@ namespace Krypton.Toolkit
         /// <param name="renderer">Drawing renderer.</param>
         /// <param name="shadow">Does the popup need a shadow effect.</param>
         public VisualPopup(ViewManager viewManager,
-                           IRenderer? renderer,
+                           IRenderer renderer,
                            bool shadow)
         {
             #region Default ControlStyle Values
@@ -285,14 +285,14 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public ToolStripRenderer CreateToolStripRenderer() => Renderer.RenderToolStrip(GetResolvedPalette());
+        public ToolStripRenderer? CreateToolStripRenderer() => Renderer?.RenderToolStrip(GetResolvedPalette());
 
         /// <summary>
         /// Gets the resolved palette to actually use when drawing.
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public virtual PaletteBase? GetResolvedPalette() => null;
+        public virtual PaletteBase GetResolvedPalette() => null;
 
         /// <summary>
         /// Gets access to the current renderer.
@@ -300,7 +300,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public IRenderer? Renderer
+        public IRenderer Renderer
         {
             [DebuggerStepThrough]
             get;
@@ -451,7 +451,7 @@ namespace Krypton.Toolkit
                         _layoutDirty = false;
 
                         // Ask the view to perform a layout
-                        ViewManager.Layout(Renderer);
+                        ViewManager.Layout(Renderer!);
 
                     } while (_layoutDirty && (max-- > 0));
                 }
@@ -465,7 +465,7 @@ namespace Krypton.Toolkit
         /// Raises the Paint event.
         /// </summary>
         /// <param name="e">A PaintEventArgs that contains the event data.</param>
-        protected override void OnPaint(PaintEventArgs e)
+        protected override void OnPaint(PaintEventArgs? e)
         {
             // Cannot process a message for a disposed control
             if (!IsDisposed)
@@ -493,7 +493,7 @@ namespace Krypton.Toolkit
                     }
 
                     // Ask the view to repaint the visual structure
-                    ViewManager.Paint(Renderer, e);
+                    ViewManager.Paint(Renderer!, e);
 
                     // Request for a refresh has been serviced
                     _refresh = false;

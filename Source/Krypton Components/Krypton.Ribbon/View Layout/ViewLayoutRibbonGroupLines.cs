@@ -86,12 +86,12 @@ namespace Krypton.Ribbon
             // Use hashtable to store relationships
             _itemToView = new ItemToView();
             _viewToItem = new ViewToItem();
-            _sizeLargeList = new SizeList();
-            _sizeMediumList = new SizeList();
-            _sizeSmallList = new SizeList();
-            _viewLargeList = new ViewList();
-            _viewMediumList = new ViewList();
-            _viewSmallList = new ViewList();
+            _sizeLargeList = [];
+            _sizeMediumList = [];
+            _sizeSmallList = [];
+            _viewLargeList = [];
+            _viewMediumList = [];
+            _viewSmallList = [];
             _viewToLargeGap = new ViewToGap();
             _viewToMediumGap = new ViewToGap();
             _viewToSmallGap = new ViewToGap();
@@ -546,11 +546,10 @@ namespace Krypton.Ribbon
                     if (previousChild != null)
                     {
                         if (_viewToItem.ContainsKey(child) &&
-                            _viewToItem.ContainsKey(previousChild))
+                            _viewToItem.TryGetValue(previousChild, out IRibbonGroupItem? previousItem))
                         {
                             // Cast to correct type
                             IRibbonGroupItem childItem = _viewToItem[child];
-                            IRibbonGroupItem previousItem = _viewToItem[previousChild];
 
                             // Find the requested gap between them
                             _viewToGap.Add(child, childItem.ItemGap(previousItem));
@@ -1001,9 +1000,9 @@ namespace Krypton.Ribbon
                     }
 
                     // If not the first item on the line, then get the pixel gap between them
-                    if ((previousChild != null) && _viewToGap.ContainsKey(child))
+                    if ((previousChild != null) && _viewToGap.TryGetValue(child, out var value))
                     {
-                        x += _viewToGap[child];
+                        x += value;
                     }
 
                     // Get the size of the child item
@@ -1088,9 +1087,9 @@ namespace Krypton.Ribbon
                     }
 
                     // If not the first item on the line, then get the pixel gap between them
-                    if ((previousChild != null) && _viewToGap.ContainsKey(child))
+                    if ((previousChild != null) && _viewToGap.TryGetValue(child, out var value))
                     {
-                        x += _viewToGap[child];
+                        x += value;
                     }
 
                     // Get the size of the child item

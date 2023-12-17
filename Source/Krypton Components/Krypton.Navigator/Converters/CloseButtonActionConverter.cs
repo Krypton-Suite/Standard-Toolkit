@@ -20,21 +20,22 @@ namespace Krypton.Navigator
         #region Static Fields
 
         [Localizable(true)]
-        private static readonly IReadOnlyDictionary<CloseButtonAction, string> _pairs = new Dictionary<CloseButtonAction, string>
-        {
-                {CloseButtonAction.None, "None (Do nothing)"},
-                {CloseButtonAction.RemovePage, "RemovePage"},
-                {CloseButtonAction.RemovePageAndDispose, "RemovePage & Dispose"},
-                { CloseButtonAction.HidePage, "Hide Page"}
-            };
+        private static readonly BiDictionary<CloseButtonAction, string> _pairs = new BiDictionary<CloseButtonAction, string>(
+            new Dictionary<CloseButtonAction, string>
+            {
+                {CloseButtonAction.None, @"None (Do nothing)"},
+                {CloseButtonAction.RemovePage, @"Remove Page"},
+                {CloseButtonAction.RemovePageAndDispose, @"Remove Page & Dispose"},
+                { CloseButtonAction.HidePage, @"Hide Page"}
+            });
         #endregion
 
         #region Protected
         /// <summary>
         /// Gets an array of lookup pairs.
         /// </summary>
-        protected override IReadOnlyDictionary<CloseButtonAction /*Enum*/, string /*Display*/> Pairs => _pairs;
-
+        protected override IReadOnlyDictionary<string /*Display*/, CloseButtonAction /*Enum*/ > PairsStringToEnum => _pairs.SecondToFirst;
+        protected override IReadOnlyDictionary<CloseButtonAction /*Enum*/, string /*Display*/> PairsEnumToString => _pairs.FirstToSecond;
         #endregion
     }
 }

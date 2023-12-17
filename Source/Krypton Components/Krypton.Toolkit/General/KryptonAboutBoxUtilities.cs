@@ -9,7 +9,7 @@
 
 namespace Krypton.Toolkit
 {
-    /// <summary>This class does the heavy lifting for <see cref="KryptonAboutBoxForm"/> and its associated components.</summary>
+    /// <summary>This class does the heavy lifting for <see cref="VisualAboutBoxForm"/> and its associated components.</summary>
     internal class KryptonAboutBoxUtilities
     {
         #region Identity
@@ -279,15 +279,24 @@ namespace Krypton.Toolkit
 
             foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
             {
-                PopulateAssemblySummary(assembly, dataStore);
+                PopulateAssemblySummary(assembly, dataStore, assemblyList);
             }
 
             assemblyList.SelectedIndex = assemblyList.FindStringExact(_entryAssemblyName);
         }
 
-        private static void PopulateAssemblySummary(Assembly assembly, KryptonDataGridView dataStore)
+        private static void PopulateAssemblySummary(Assembly assembly, KryptonDataGridView dataStore, KryptonComboBox assemblyItems)
         {
-            throw new NotImplementedException();
+            NameValueCollection collection = AssemblyAttribs(assembly);
+
+            string assemblyName = assembly.GetName().Name;
+
+            foreach (var value in collection)
+            {
+                dataStore.Rows.Add(value);
+            }
+
+            assemblyItems.Items.Add(assemblyName);
         }
 
         public static FileVersionInfo GetFileVersionInfo(string assemblyLocation)

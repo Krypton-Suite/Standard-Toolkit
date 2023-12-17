@@ -42,7 +42,7 @@ namespace Krypton.Toolkit
         public ButtonSpecAny? ToolBarUndoButton
         {
             get => _undoButtonSpec ?? new ButtonSpecAny();
-            set { _undoButtonSpec = value; UpdateImage(KryptonManager.InternalGlobalPaletteMode); }
+            set { _undoButtonSpec = value; UpdateImage(KryptonManager.CurrentGlobalPaletteMode); }
         }
 
         /// <summary>Gets the active image.</summary>

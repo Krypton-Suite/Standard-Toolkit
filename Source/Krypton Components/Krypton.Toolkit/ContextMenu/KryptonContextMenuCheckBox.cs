@@ -167,7 +167,7 @@ namespace Krypton.Toolkit
         {
             get => _autoClose;
 
-            set 
+            set
             {
                 if (_autoClose != value)
                 {
@@ -189,7 +189,7 @@ namespace Krypton.Toolkit
         {
             get => _text;
 
-            set 
+            set
             {
                 if (_text != value)
                 {
@@ -212,7 +212,7 @@ namespace Krypton.Toolkit
         {
             get => _extraText ?? string.Empty;
 
-            set 
+            set
             {
                 if (_extraText != value)
                 {
@@ -234,7 +234,7 @@ namespace Krypton.Toolkit
         {
             get => _image;
 
-            set 
+            set
             {
                 if (_image != value)
                 {
@@ -256,7 +256,7 @@ namespace Krypton.Toolkit
         {
             get => _imageTransparentColor;
 
-            set 
+            set
             {
                 if (_imageTransparentColor != value)
                 {
@@ -316,7 +316,7 @@ namespace Krypton.Toolkit
         {
             get => _enabled;
 
-            set 
+            set
             {
                 if (_enabled != value)
                 {
@@ -399,7 +399,7 @@ namespace Krypton.Toolkit
         {
             get => _autoCheck;
 
-            set 
+            set
             {
                 if (_autoCheck != value)
                 {
@@ -420,7 +420,7 @@ namespace Krypton.Toolkit
         {
             get => _threeState;
 
-            set 
+            set
             {
                 if (_threeState != value)
                 {
@@ -536,10 +536,10 @@ namespace Krypton.Toolkit
 
         internal PaletteRedirectCheckBox? StateCheckBoxImages { get; }
 
-        internal void SetPaletteRedirect(PaletteRedirect? redirector)
+        internal void SetPaletteRedirect(PaletteRedirect redirector)
         {
             _stateCommonRedirect.SetRedirector(redirector);
-            StateCheckBoxImages.Target = redirector;
+            StateCheckBoxImages!.Target = redirector;
         }
         #endregion
 

@@ -63,10 +63,10 @@ namespace Krypton.Ribbon
             Debug.Assert(targetImage != null);
             Debug.Assert(needPaint != null);
 
-            _ribbon = ribbon;
-            TargetMain = targetMain;
-            _targetImage = targetImage;
-            NeedPaint = needPaint;
+            _ribbon = ribbon!;
+            TargetMain = targetMain!;
+            _targetImage = targetImage!;
+            NeedPaint = needPaint!;
         }
         #endregion
 
@@ -269,7 +269,7 @@ namespace Krypton.Ribbon
         public void KeyDown(Control c, KeyEventArgs e)
         {
             // Get the root control that owns the provided control
-            c = _ribbon.GetControllerControl(c);
+            c = _ribbon.GetControllerControl(c)!;
 
             switch (c)
             {
@@ -365,7 +365,7 @@ namespace Krypton.Ribbon
         /// <param name="c">Owning control.</param>
         protected void UpdateTargetState(Control c)
         {
-            if ((c == null) || c.IsDisposed)
+            if (c == null || c.IsDisposed)
             {
                 UpdateTargetState(new Point(int.MaxValue, int.MaxValue));
             }
@@ -453,8 +453,8 @@ namespace Krypton.Ribbon
                 case Keys.Tab:
                 case Keys.Right:
                     // Get the next focus item for the currently selected page
-                    newView = (ribbon.GroupsArea.ViewGroups.GetNextFocusItem(TargetMain) ?? ribbon.TabsArea.ButtonSpecManager.GetFirstVisibleViewButton(PaletteRelativeEdgeAlign.Far)) ??
-                              ribbon.TabsArea.ButtonSpecManager.GetFirstVisibleViewButton(PaletteRelativeEdgeAlign.Inherit);
+                    newView = (ribbon.GroupsArea.ViewGroups.GetNextFocusItem(TargetMain) ?? ribbon.TabsArea.ButtonSpecManager!.GetFirstVisibleViewButton(PaletteRelativeEdgeAlign.Far)) ??
+                              ribbon.TabsArea.ButtonSpecManager!.GetFirstVisibleViewButton(PaletteRelativeEdgeAlign.Inherit);
 
                     // Move across to any far defined buttons
 
@@ -471,7 +471,7 @@ namespace Krypton.Ribbon
                         {
                             newView = ribbon.TabsArea.LayoutAppTab.AppTab;
                         }
-                    }                        
+                    }
                     break;
                 case Keys.Space:
                 case Keys.Enter:
