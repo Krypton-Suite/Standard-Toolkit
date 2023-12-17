@@ -7,8 +7,6 @@
  */
 #endregion
 
-using static System.Net.Mime.MediaTypeNames;
-
 namespace Krypton.Toolkit
 {
     /// <summary>Custom type converter so that <see cref="T:KryptonToastNotificationIcon"/> values appear as neat text at design time.</summary>

@@ -1876,6 +1876,7 @@ namespace Krypton.Toolkit
     #region Enum KryptonMessageBoxIcon
 
     /// <summary>Specifies the icon type for <see cref="T:KryptonMessageBox"/>.</summary>
+    [TypeConverter(typeof(KryptonMessageBoxIconConverter))]
     public enum KryptonMessageBoxIcon
     {
         /// <summary>Specify no icon.</summary>
