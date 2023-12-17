@@ -127,7 +127,7 @@ namespace Krypton.Toolkit
         /// <param name="filePath">The file path to ingest.</param>
         /// <param name="imageIndex">Index of the image.</param>
         /// <param name="largeIcon">if set to <c>true</c> [large icon].</param>
-        /// <returns></returns>
+        /// <returns>A specified icon from a chosen DLL file.</returns>
         public static Icon? ExtractIcon(string filePath, int imageIndex, bool largeIcon = true)
         {
             if (string.IsNullOrEmpty(filePath))
