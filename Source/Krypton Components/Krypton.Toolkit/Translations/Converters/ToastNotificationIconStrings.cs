@@ -13,5 +13,30 @@ namespace Krypton.Toolkit
     [TypeConverter(typeof(ExpandableObjectConverter))]
     public class ToastNotificationIconStrings : GlobalId
     {
+        #region Identity
+
+        /// <summary>Initializes a new instance of the <see cref="ToastNotificationIconStrings" /> class.</summary>
+        public ToastNotificationIconStrings()
+        {
+            Reset();
+        }
+
+        #endregion
+
+        #region Public
+
+        [Browsable(false)] 
+        public bool IsDefault => true;
+
+        #endregion
+
+        #region Implementation
+
+        public void Reset()
+        {
+
+        }
+
+        #endregion
     }
 }
