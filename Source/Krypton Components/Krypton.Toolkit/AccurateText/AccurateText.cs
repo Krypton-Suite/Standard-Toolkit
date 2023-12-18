@@ -397,7 +397,7 @@ namespace Krypton.Toolkit
                 }
 
                 // Select the font for use when drawing
-                var hFont = font.ToHfont();
+                var hFont = font!.ToHfont();
                 PI.SelectObject(mDC, hFont);
 
                 // Get renderer for the correct state
@@ -503,7 +503,7 @@ namespace Krypton.Toolkit
                 }
 
                 // Select the font for use when drawing
-                var hFont = font.ToHfont();
+                var hFont = font!.ToHfont();
                 PI.SelectObject(mDC, hFont);
 
                 // Get renderer for the correct state

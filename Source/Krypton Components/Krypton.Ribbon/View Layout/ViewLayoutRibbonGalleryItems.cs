@@ -70,11 +70,11 @@ namespace Krypton.Ribbon
             Debug.Assert(buttonDown != null);
             Debug.Assert(buttonContext != null);
 
-            _gallery = gallery;
-            _needPaint = needPaint;
-            _buttonUp = buttonUp;
-            _buttonDown = buttonDown;
-            _buttonContext = buttonContext;
+            _gallery = gallery!;
+            _needPaint = needPaint!;
+            _buttonUp = buttonUp!;
+            _buttonDown = buttonDown!;
+            _buttonContext = buttonContext!;
             _bringIntoView = -1;
             ScrollIntoView = true;
 
@@ -370,8 +370,8 @@ namespace Krypton.Ribbon
             // Find size of the first item, if there is one
             if (Count > 0)
             {
-                // Ask child for it's own preferred size
-                preferredSize = this[0].GetPreferredSize(context);
+                // Ask child for its own preferred size
+                preferredSize = this[0]!.GetPreferredSize(context!);
 
                 // Find preferred size from the preferred item size
                 preferredSize.Width *= _gallery.PreferredItemSize.Width;
@@ -412,7 +412,7 @@ namespace Krypton.Ribbon
                 Rectangle displayRect = CommonHelper.ApplyPadding(Orientation.Horizontal, ClientRectangle, _gallery.Padding);
 
                 // Get size of the first child, assume all others are same size
-                _itemSize = this[0].GetPreferredSize(context);
+                _itemSize = this[0]!.GetPreferredSize(context);
 
                 // Number of items that can be placed on a single line
                 _lineItems = Math.Max(1, displayRect.Width / _itemSize.Width);
@@ -426,7 +426,7 @@ namespace Krypton.Ribbon
                 // Index of last line that can be the top line
                 _endLine = _layoutLines - _displayLines;
 
-                // Update topline and offset to reflect any outstanding bring into view request
+                // Update top-line and offset to reflect any outstanding bring into view request
                 ProcessBringIntoView();
 
                 // Limit check the top line is within the valid range
@@ -489,16 +489,16 @@ namespace Krypton.Ribbon
                 // Position all children on single line from left to right
                 for (var i = 0; i < Count; i++)
                 {
-                    ViewBase childItem = this[i];
+                    ViewBase? childItem = this[i];
 
                     // Should this item be visible
                     if ((i < start) || (i >= end))
                     {
-                        childItem.Visible = false;
+                        childItem!.Visible = false;
                     }
                     else
                     {
-                        childItem.Visible = true;
+                        childItem!.Visible = true;
 
                         // Find rectangle for the child
                         context.DisplayRectangle = new Rectangle(nextPoint, _itemSize);
@@ -537,12 +537,12 @@ namespace Krypton.Ribbon
         {
             var required = 0;
             var selectedIndex = _gallery.SelectedIndex;
-            ImageList imageList = _gallery.ImageList;
+            ImageList? imageList = _gallery.ImageList;
 
             // Find out how many children we need
             if (imageList != null)
             {
-                required = _gallery.ImageList.Images.Count;
+                required = _gallery.ImageList!.Images.Count;
             }
 
             // If we do not have enough already
@@ -568,8 +568,8 @@ namespace Krypton.Ribbon
             // Tell each item the image it should be displaying
             for (var i = 0; i < required; i++)
             {
-                var item = (ViewDrawRibbonGalleryItem)this[i];
-                item.ImageList = imageList;
+                var item = this[i] as ViewDrawRibbonGalleryItem;
+                item!.ImageList = imageList;
                 item.ImageIndex = i;
                 item.Checked = selectedIndex == i;
             }

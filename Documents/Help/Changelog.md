@@ -7,8 +7,9 @@
 * Implemented [#1223](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1223), Move `UseKryptonFileDialogs` to a better designer location
 * Implemented [#1222](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1222), Remove `CustomPalette` (Should be part of the palette definition)
 * Implemented [#1204](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1204), Build on `KryptonCommandLinkButtons`
-    - [#1216](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1216), Add support for fonts
+    - [#1218](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1218), Default 'arrow' images, depending on OS version
     - [#1217](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1217), Add support for text alignment
+    - [#1216](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1216), Add support for fonts
 * Resolved [#996](https://github.com/Krypton-Suite/Standard-Toolkit/issues/996), DataGridView ComboBox Adding list over and over
 * Resolved [#1207](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1207), Microsoft 365 - Black (Dark Mode) Drop button is not visible
 * Resolved [#1206](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1206), Remove the Font Size (as it is already covered by the actual font !)

@@ -23,6 +23,7 @@
 	    * [Support for .NET 7](#support-for-net-7)
 		* [`KryptonButton` Properties](#kryptonbutton-properties)
 		* [API Changes](#api-changes)
+		* [`KryptonInputBox`](#kryptoninputbox)
 	* [V80.## (2023-11-14 - Build 2311 - November 2023)](#v80-2023-11-14---build-2311---november-2023)
 		* [Support for .NET Core 3.1 and .NET 5](#support-for-net-core-31-and-net-5)
 		* [KryptonMessageBoxButtons](#kryptonmessageboxbuttons)
@@ -192,6 +193,9 @@ Some properties previously found in the root such as, `ShowSplitOption`, `UseAsA
 
 ### API Changes
 If using `KryptonAboutToolkit`, please note that this has been superceeded by `KryptonAboutBox`. Or if you use `KryptonThemeBrowserForm`, it has now been moved to `KryptonThemeBrowser` as the public facing API.
+
+### `KryptonInputBox`
+The `KryptonInputBox` now uses the new `KryptonInputBoxData` API, to handle data.
 
 ## V80.## (2023-11-14 - Build 2311 - November 2023)
 There are list of changes that have occurred during the development of the V80.## version

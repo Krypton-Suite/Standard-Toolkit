@@ -38,7 +38,7 @@ namespace Krypton.Ribbon
         private readonly KryptonRibbon _ribbon;
         private readonly KryptonRibbonGroupLines _ribbonLines;
         private ViewDrawRibbonDesignGroupLines? _viewAddItem;
-        private readonly NeedPaintHandler _needPaint;
+        private readonly NeedPaintHandler? _needPaint;
         private GroupItemSize _currentSize;
         private ItemToView _itemToView;
         private ViewToItem _viewToItem;
@@ -76,9 +76,9 @@ namespace Krypton.Ribbon
             Debug.Assert(needPaint != null);
 
             // Cache references
-            _ribbon = ribbon;
-            _ribbonLines = ribbonLines;
-            _needPaint = needPaint;
+            _ribbon = ribbon!;
+            _ribbonLines = ribbonLines!;
+            _needPaint = needPaint!;
 
             // Associate the component with this view element for design time selection
             Component = _ribbonLines;
@@ -97,7 +97,7 @@ namespace Krypton.Ribbon
             _viewToSmallGap = new ViewToGap();
 
             // Get the initial size used for sizing and positioning
-            ApplySize(ribbonLines.ItemSizeCurrent);
+            ApplySize(ribbonLines!.ItemSizeCurrent);
 
             // Hook into changes in the ribbon triple definition
             _ribbonLines.PropertyChanged += OnLinesPropertyChanged;
@@ -106,7 +106,7 @@ namespace Krypton.Ribbon
             // At design time we want to track the mouse and show feedback
             if (_ribbon.InDesignMode)
             {
-                var controller = new ViewHightlightController(this, needPaint);
+                var controller = new ViewHightlightController(this, needPaint!);
                 controller.ContextClick += OnContextClick;
                 MouseController = controller;
             }
@@ -529,10 +529,10 @@ namespace Krypton.Ribbon
             // Find the size of each individual visible child item
             for (var i = 0; i < Count; i++)
             {
-                ViewBase child = this[i];
+                ViewBase? child = this[i];
 
                 // Only interested in visible items
-                if (child.Visible)
+                if (child!.Visible)
                 {
                     // Inform cluster if it is immediately after another cluster (and so potentially needs a separator)
                     // Are we positioning a cluster?
@@ -601,7 +601,7 @@ namespace Krypton.Ribbon
             Debug.Assert(context != null);
 
             // Store the provided client area
-            ClientRectangle = context.DisplayRectangle;
+            ClientRectangle = context!.DisplayRectangle;
 
             // Are there any children to layout?
             if (Count > 0)
@@ -730,7 +730,7 @@ namespace Krypton.Ribbon
             var regenViewToItem = new ViewToItem();
 
             // Add a view element for each group item
-            foreach (IRibbonGroupItem item in _ribbonLines.Items)
+            foreach (IRibbonGroupItem item in _ribbonLines.Items!)
             {
                 ViewBase? itemView;
 
@@ -745,7 +745,7 @@ namespace Krypton.Ribbon
                 else
                 {
                     // Ask the item definition to return an appropriate view
-                    itemView = item.CreateView(_ribbon, _needPaint);
+                    itemView = item.CreateView(_ribbon, _needPaint!);
                 }
 
                 // Update the visible state of the item
@@ -765,14 +765,14 @@ namespace Krypton.Ribbon
                 _viewAddItem ??= new ViewDrawRibbonDesignGroupLines(_ribbon,
                         _ribbonLines,
                         _currentSize,
-                        _needPaint);
+                        _needPaint!);
 
                 // Always add at end of the list of items
                 Add(_viewAddItem);
             }
 
             // Dispose of all the items no longer needed
-            foreach (ViewBase view in _itemToView.Values)
+            foreach (var view in _itemToView.Values)
             {
                 view.Dispose();
             }
@@ -976,10 +976,10 @@ namespace Krypton.Ribbon
             // Position the visible items in turn
             for (int i = 0, visibleIndex = 0; i < Count; i++)
             {
-                ViewBase child = this[i];
+                ViewBase? child = this[i];
 
                 // We only position visible items
-                if (child.Visible)
+                if (child!.Visible)
                 {
                     // Are we positioning a cluster?
                     if (child is ViewLayoutRibbonGroupCluster clusterChild1)
@@ -1012,7 +1012,7 @@ namespace Krypton.Ribbon
                     context.DisplayRectangle = new Rectangle(x, y, childSize.Width, childSize.Height);
 
                     // Position the element
-                    this[i].Layout(context);
+                    this[i]?.Layout(context);
 
                     // Do we need to split after this item
                     if (split1 == visibleIndex)
@@ -1063,10 +1063,10 @@ namespace Krypton.Ribbon
             // Position the visible items in turn
             for (int i = 0, visibleIndex = 0; i < Count; i++)
             {
-                ViewBase child = this[i];
+                ViewBase? child = this[i];
 
                 // We only position visible items
-                if (child.Visible)
+                if (child!.Visible)
                 {
                     // Are we positioning a cluster?
                     if (child is ViewLayoutRibbonGroupCluster clusterChild1)
@@ -1099,7 +1099,7 @@ namespace Krypton.Ribbon
                     context.DisplayRectangle = new Rectangle(x, y, childSize.Width, childSize.Height);
 
                     // Position the element
-                    this[i].Layout(context);
+                    this[i]?.Layout(context);
 
                     // Do we need to split after this item
                     if ((_split1Small == visibleIndex) || (_split2Small == visibleIndex))

@@ -43,7 +43,7 @@ namespace Krypton.Toolkit
         private int _compositionHeight;
         private int _ignoreCount;
         private ViewBase? _capturedElement;
-        private KryptonCustomPaletteBase _localCustomPalette;
+        private KryptonCustomPaletteBase? _localCustomPalette;
         private PaletteBase _palette;
         private PaletteMode _paletteMode;
         private readonly IntPtr _screenDC;
@@ -454,7 +454,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Custom palette applied to drawing.")]
         [DefaultValue(null)]
-        public KryptonCustomPaletteBase LocalCustomPalette
+        public KryptonCustomPaletteBase? LocalCustomPalette
         {
             [DebuggerStepThrough]
             get => _localCustomPalette;
@@ -465,7 +465,7 @@ namespace Krypton.Toolkit
                 if (_localCustomPalette != value)
                 {
                     // Remember the starting palette
-                    PaletteBase old = _localCustomPalette;
+                    PaletteBase? old = _localCustomPalette;
 
                     // Use the provided palette value
                     SetPalette(value);
@@ -1022,7 +1022,7 @@ namespace Krypton.Toolkit
             Redirector!.Target = _palette;
 
             // A new palette source means we need to layout and redraw
-            OnNeedPaint(LocalCustomPalette, new NeedLayoutEventArgs(true));
+            OnNeedPaint(LocalCustomPalette!, new NeedLayoutEventArgs(true));
 
             PaletteChanged?.Invoke(this, e);
         }
@@ -1234,7 +1234,7 @@ namespace Krypton.Toolkit
         /// <param name="m">A Windows-based message.</param>
         protected virtual void OnWM_GETMINMAXINFO(ref Message m)
         {
-            PI.MINMAXINFO mmi = (PI.MINMAXINFO)Marshal.PtrToStructure(m.LParam, typeof(PI.MINMAXINFO));
+            PI.MINMAXINFO mmi = (PI.MINMAXINFO)Marshal.PtrToStructure(m.LParam, typeof(PI.MINMAXINFO))!;
 
             // Adjust the maximized size and position to fit the work area of the correct monitor
             const int MONITOR_DEFAULT_TO_NEAREST = 0x00000002;
@@ -1283,7 +1283,7 @@ namespace Krypton.Toolkit
                 Padding borders = FormBorderStyle == FormBorderStyle.None ? Padding.Empty : RealWindowBorders;
 
                 // Extract the Win32 NCCALCSIZE_PARAMS structure from LPARAM
-                PI.NCCALCSIZE_PARAMS calcsize = (PI.NCCALCSIZE_PARAMS)m.GetLParam(typeof(PI.NCCALCSIZE_PARAMS));
+                PI.NCCALCSIZE_PARAMS calcsize = (PI.NCCALCSIZE_PARAMS)m.GetLParam(typeof(PI.NCCALCSIZE_PARAMS))!;
 
                 // If using composition in the custom chrome
                 if (ApplyComposition)
@@ -1884,7 +1884,7 @@ namespace Krypton.Toolkit
                 Redirector!.Target = _palette;
 
                 // A new palette source means we need to layout and redraw
-                OnNeedPaint(LocalCustomPalette, new NeedLayoutEventArgs(true));
+                OnNeedPaint(LocalCustomPalette!, new NeedLayoutEventArgs(true));
 
                 GlobalPaletteChanged?.Invoke(sender, e);
             }
@@ -1908,7 +1908,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void SetPalette(PaletteBase palette)
+        private void SetPalette(PaletteBase? palette)
         {
             if (palette != _palette)
             {
@@ -1923,10 +1923,10 @@ namespace Krypton.Toolkit
                 }
 
                 // Remember the new palette
-                _palette = palette;
+                _palette = palette!;
 
                 // Get the renderer associated with the palette
-                Renderer = _palette?.GetRenderer();
+                Renderer = _palette.GetRenderer();
 
                 // Hook to new palette events
                 if (_palette != null)
@@ -1943,7 +1943,7 @@ namespace Krypton.Toolkit
 
         private void OnBaseChanged(object sender, EventArgs e) =>
             // Change in base renderer or base palette require we fetch the latest renderer
-            Renderer = _palette?.GetRenderer();// PaletteImageScaler.ScalePalette(FactorDpiX, FactorDpiY, _palette);
+            Renderer = _palette.GetRenderer();// PaletteImageScaler.ScalePalette(FactorDpiX, FactorDpiY, _palette);
 
 #if !NET462
         private void OnDpiChanged(object sender, DpiChangedEventArgs e) => UpdateDpiFactors();

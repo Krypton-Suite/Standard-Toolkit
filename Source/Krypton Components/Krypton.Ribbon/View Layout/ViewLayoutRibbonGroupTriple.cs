@@ -28,7 +28,7 @@ namespace Krypton.Ribbon
         #region Instance Fields
         private readonly KryptonRibbon _ribbon;
         private readonly KryptonRibbonGroupTriple _ribbonTriple;
-        private ViewDrawRibbonDesignGroupTriple _viewAddItem;
+        private ViewDrawRibbonDesignGroupTriple? _viewAddItem;
         private readonly NeedPaintHandler _needPaint;
         private GroupItemSize _currentSize;
         private ItemToView _itemToView;
@@ -55,9 +55,9 @@ namespace Krypton.Ribbon
             Debug.Assert(needPaint != null);
 
             // Cache references
-            _ribbon = ribbon;
-            _ribbonTriple = ribbonTriple;
-            _needPaint = needPaint;
+            _ribbon = ribbon!;
+            _ribbonTriple = ribbonTriple!;
+            _needPaint = needPaint!;
 
             // Associate the component with this view element for design time selection
             Component = _ribbonTriple;
@@ -69,7 +69,7 @@ namespace Krypton.Ribbon
             _largeCache = new ViewToSize();
 
             // Get the initial size used for sizing and positioning
-            SetCurrentSize(ribbonTriple.ItemSizeCurrent);
+            SetCurrentSize(ribbonTriple!.ItemSizeCurrent);
 
             // Hook into changes in the ribbon triple definition
             _ribbonTriple.PropertyChanged += OnTriplePropertyChanged;
@@ -78,7 +78,7 @@ namespace Krypton.Ribbon
             // At design time we want to track the mouse and show feedback
             if (_ribbon.InDesignMode)
             {
-                var controller = new ViewHightlightController(this, needPaint);
+                var controller = new ViewHightlightController(this, needPaint!);
                 controller.ContextClick += OnContextClick;
                 MouseController = controller;
             }
@@ -400,10 +400,10 @@ namespace Krypton.Ribbon
             // Find total width and maximum height across all child elements
             for (var i = 0; i < Count; i++)
             {
-                ViewBase child = this[i];
+                ViewBase? child = this[i];
 
                 // Only interested in visible items
-                if (child.Visible)
+                if (child!.Visible)
                 {
                     // Cache preferred size of the child
                     Size childSize = child.GetPreferredSize(context);
@@ -468,7 +468,7 @@ namespace Krypton.Ribbon
             Debug.Assert(context != null);
 
             // Store the provided client area
-            ClientRectangle = context.DisplayRectangle;
+            ClientRectangle = context!.DisplayRectangle;
 
             // Are we sizing horizontal or vertical?
             var horizontal = _currentSize == GroupItemSize.Large;
@@ -489,10 +489,10 @@ namespace Krypton.Ribbon
                 // Position each item from left/top to right/bottom 
                 for (var i = 0; i < Count; i++)
                 {
-                    ViewBase child = this[i];
+                    ViewBase? child = this[i];
 
                     // We only position visible items
-                    if (child.Visible)
+                    if (child!.Visible)
                     {
                         // Get the cached size of this view
                         var childSize = Size.Empty;
@@ -515,7 +515,7 @@ namespace Krypton.Ribbon
                             context.DisplayRectangle = new Rectangle(x, y, childSize.Width, ClientHeight);
 
                             // Position the element
-                            this[i].Layout(context);
+                            this[i]?.Layout(context);
 
                             // Move across to next position (add 1 extra as the spacing gap)
                             x += childSize.Width + 1;
@@ -537,7 +537,7 @@ namespace Krypton.Ribbon
                             }
 
                             // Position the element
-                            this[i].Layout(context);
+                            this[i]?.Layout(context);
 
                             // Move down to next position
                             y += childSize.Height;
@@ -633,7 +633,7 @@ namespace Krypton.Ribbon
             var regenerate = new ItemToView();
 
             // Add a view element for each group item
-            foreach (IRibbonGroupItem item in _ribbonTriple.Items)
+            foreach (IRibbonGroupItem item in _ribbonTriple.Items!)
             {
                 ViewBase itemView;
 

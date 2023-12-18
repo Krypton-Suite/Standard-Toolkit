@@ -55,7 +55,7 @@ namespace Krypton.Toolkit
 
             // Intercept calls from the button for color remapping and instead use
             // the button spec defined map and the container foreground color
-            RemapPalette = Manager.CreateButtonSpecRemap(redirector, ButtonSpec);
+            RemapPalette = Manager.CreateButtonSpecRemap(redirector!, ButtonSpec);
 
             // Use a redirector to get button values directly from palette
             _palette = new PaletteTripleRedirect(RemapPalette,
@@ -71,7 +71,7 @@ namespace Krypton.Toolkit
 
             var images = new DropDownButtonImages(needPaint);
             // Image need an extra redirector to check the local images first
-            var paletteDropDownButtonImages = new PaletteRedirectDropDownButton(redirector, images);
+            var paletteDropDownButtonImages = new PaletteRedirectDropDownButton(redirector!, images);
             ViewButton.DropDownPalette = paletteDropDownButtonImages;
 
             // Associate the view with the source component (for design time support)

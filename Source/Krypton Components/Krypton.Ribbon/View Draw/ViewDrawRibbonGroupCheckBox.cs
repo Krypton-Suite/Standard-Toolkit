@@ -58,8 +58,8 @@ namespace Krypton.Ribbon
             Debug.Assert(needPaint != null);
 
             // Remember incoming references
-            _ribbon = ribbon;
-            GroupCheckBox = ribbonCheckBox;
+            _ribbon = ribbon!;
+            GroupCheckBox = ribbonCheckBox!;
             _needPaint = needPaint;
             _currentSize = GroupCheckBox.ItemSizeCurrent;
 
@@ -224,7 +224,7 @@ namespace Krypton.Ribbon
                 }
 
                 keyTipList.Add(new KeyTipInfo(GroupCheckBox.Enabled, GroupCheckBox.KeyTip, 
-                                              screenPt, this[0].ClientRectangle, controller));
+                                              screenPt, this[0]!.ClientRectangle, controller));
             }
         }
         #endregion
@@ -271,7 +271,7 @@ namespace Krypton.Ribbon
             UpdateItemSizeState();
 
             // We take on all the available display area
-            ClientRectangle = context.DisplayRectangle;
+            ClientRectangle = context!.DisplayRectangle;
 
             // Let child elements layout in given space
             base.Layout(context);
@@ -330,7 +330,7 @@ namespace Krypton.Ribbon
             _viewLarge.Add(new ViewLayoutRibbonSeparator(1, false), ViewDockStyle.Bottom);
 
             // Create controller for handling mouse, keyboard and focus
-            _viewLargeController = new GroupCheckBoxController(_ribbon, _viewLarge, _viewLargeImage, _needPaint);
+            _viewLargeController = new GroupCheckBoxController(_ribbon, _viewLarge, _viewLargeImage, _needPaint!);
             _viewLargeController.Click += OnLargeCheckBoxClick;
             _viewLargeController.ContextClick += OnContextClick;
             _viewLarge.MouseController = _viewLargeController;
@@ -338,7 +338,7 @@ namespace Krypton.Ribbon
             _viewLarge.KeyController = _viewLargeController;
 
             // Create controller for intercepting events to determine tool tip handling
-            _viewLarge.MouseController = new ToolTipController(_ribbon.TabsArea.ButtonSpecManager.ToolTipManager, 
+            _viewLarge.MouseController = new ToolTipController(_ribbon.TabsArea.ButtonSpecManager!.ToolTipManager!, 
                                                                _viewLarge, _viewLarge.MouseController);
         }
 
@@ -368,7 +368,7 @@ namespace Krypton.Ribbon
             _viewMediumSmall.Add(_viewMediumSmallCenter, ViewDockStyle.Fill);
 
             // Create controller for handling mouse, keyboard and focus
-            _viewMediumSmallController = new GroupCheckBoxController(_ribbon, _viewMediumSmall, _viewMediumSmallImage, _needPaint);
+            _viewMediumSmallController = new GroupCheckBoxController(_ribbon, _viewMediumSmall, _viewMediumSmallImage, _needPaint!);
             _viewMediumSmallController.Click += OnMediumSmallCheckBoxClick;
             _viewMediumSmallController.ContextClick += OnContextClick;
             _viewMediumSmall.MouseController = _viewMediumSmallController;
@@ -376,7 +376,7 @@ namespace Krypton.Ribbon
             _viewMediumSmall.KeyController = _viewMediumSmallController;
 
             // Create controller for intercepting events to determine tool tip handling
-            _viewMediumSmall.MouseController = new ToolTipController(_ribbon.TabsArea.ButtonSpecManager.ToolTipManager,
+            _viewMediumSmall.MouseController = new ToolTipController(_ribbon.TabsArea.ButtonSpecManager!.ToolTipManager!,
                                                                      _viewMediumSmall, _viewMediumSmall.MouseController);
         }
 

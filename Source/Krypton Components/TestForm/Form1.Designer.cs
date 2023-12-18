@@ -31,6 +31,7 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.kryptonPanel1 = new Krypton.Toolkit.KryptonPanel();
+            this.kryptonButton10 = new Krypton.Toolkit.KryptonButton();
             this.kryptonColorButton1 = new Krypton.Toolkit.KryptonColorButton();
             this.kryptonButton9 = new Krypton.Toolkit.KryptonButton();
             this.kryptonButton5 = new Krypton.Toolkit.KryptonButton();
@@ -79,6 +80,7 @@
             this.kryptonManager1 = new Krypton.Toolkit.KryptonManager(this.components);
             this.kryptonCheckSet1 = new Krypton.Toolkit.KryptonCheckSet(this.components);
             this.kryptonTaskDialog1 = new Krypton.Toolkit.KryptonTaskDialog();
+            this.kryptonInputBoxManager1 = new Krypton.Toolkit.KryptonInputBoxManager();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
             this.kryptonPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonThemeComboBox1)).BeginInit();
@@ -87,6 +89,7 @@
             // 
             // kryptonPanel1
             // 
+            this.kryptonPanel1.Controls.Add(this.kryptonButton10);
             this.kryptonPanel1.Controls.Add(this.kryptonColorButton1);
             this.kryptonPanel1.Controls.Add(this.kryptonButton9);
             this.kryptonPanel1.Controls.Add(this.kryptonButton5);
@@ -121,6 +124,15 @@
             this.kryptonPanel1.Name = "kryptonPanel1";
             this.kryptonPanel1.Size = new System.Drawing.Size(1483, 926);
             this.kryptonPanel1.TabIndex = 0;
+            // 
+            // kryptonButton10
+            // 
+            this.kryptonButton10.Location = new System.Drawing.Point(15, 446);
+            this.kryptonButton10.Name = "kryptonButton10";
+            this.kryptonButton10.Size = new System.Drawing.Size(183, 25);
+            this.kryptonButton10.TabIndex = 36;
+            this.kryptonButton10.Values.Text = "Toast";
+            this.kryptonButton10.Click += new System.EventHandler(this.kryptonButton10_Click);
             // 
             // kryptonColorButton1
             // 
@@ -535,7 +547,6 @@
             this.ButtonSpecs.Add(this.buttonSpecAny10);
             this.ClientSize = new System.Drawing.Size(1483, 926);
             this.Controls.Add(this.kryptonPanel1);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.FormTitleAlign = Krypton.Toolkit.PaletteRelativeAlign.Inherit;
             this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "Form1";
@@ -601,5 +612,7 @@
         private Krypton.Toolkit.KryptonTaskDialog kryptonTaskDialog1;
         private Krypton.Toolkit.KryptonButton kryptonButton9;
         private Krypton.Toolkit.KryptonColorButton kryptonColorButton1;
+        private Krypton.Toolkit.KryptonButton kryptonButton10;
+        private Krypton.Toolkit.KryptonInputBoxManager kryptonInputBoxManager1;
     }
 }
