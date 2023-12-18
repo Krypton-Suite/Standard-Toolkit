@@ -3101,10 +3101,9 @@ namespace Krypton.Ribbon
         private void OnRibbonQATButtonsClearing(object sender, EventArgs e)
         {
             // Stop tracking changes in button properties
-            foreach (var component in QATButtons)
+            foreach (IQuickAccessToolbarButton component in QATButtons)
             {
-                var qatButton = component as IQuickAccessToolbarButton;
-                qatButton!.PropertyChanged -= OnQATButtonPropertyChanged;
+                component.PropertyChanged -= OnQATButtonPropertyChanged;
             }
         }
 
