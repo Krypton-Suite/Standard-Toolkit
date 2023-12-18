@@ -3101,6 +3101,7 @@ namespace Krypton.Ribbon
         private void OnRibbonQATButtonsClearing(object sender, EventArgs e)
         {
             // Stop tracking changes in button properties
+            // TODO: Use typed 'where' clause
             foreach (IQuickAccessToolbarButton component in QATButtons)
             {
                 component.PropertyChanged -= OnQATButtonPropertyChanged;
