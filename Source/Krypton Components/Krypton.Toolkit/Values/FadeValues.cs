@@ -20,7 +20,9 @@ namespace Krypton.Toolkit
 
         private const bool DEFAULT_SHOULD_CLOSE_ON_FADE_OUT = true;
 
-        private const int DEFAULT_FADE_SPEED = 50;
+        private const float DEFAULT_FADE_SPEED = 0.5f;
+
+        private const int DEFAULT_FADE_DURATION = 50;
 
         private const VisualForm? DEFAULT_PARENT_FORM = null;
 
@@ -47,11 +49,18 @@ namespace Krypton.Toolkit
         /// <summary>Gets or sets the fade speed.</summary>
         /// <value>The fade speed.</value>
         [Category(@"Data")]
-        [Description(@"Controls the fading speed. Default is '50'.")]
+        [Description(@"Controls the fading speed. Default is '0.5'.")]
         [DefaultValue(DEFAULT_FADE_SPEED)]
-        public int FadeSpeed { get; set; }
+        public float FadeSpeed { get; set; }
 
-        /// <summary>Gets or sets the parent form.</summary>
+        /// <summary>Gets or sets the duration of the fade.</summary>
+        /// <value>The duration of the fade.</value>
+        [Category(@"Data")]
+        [Description(@"Controls the fading duration. Default is '50'.")]
+        [DefaultValue(DEFAULT_FADE_DURATION)]
+        public int FadeDuration { get; set; }
+
+        /*/// <summary>Gets or sets the parent form.</summary>
         /// <value>The parent form.</value>
         [Category(@"Visuals")]
         [Description(@"The KryptonForm to apply fading effects to. Default is 'null'.")]
@@ -64,7 +73,7 @@ namespace Krypton.Toolkit
         [Description(@"The child KryptonForm to apply fading effects to. Default is 'null'.")]
         [DefaultValue(DEFAULT_NEXT_FORM)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public VisualForm? NextWindow { get; set; }
+        public VisualForm? NextWindow { get; set; }*/
 
         #endregion
 
@@ -82,9 +91,10 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         public override bool IsDefault => FadingEnabled.Equals(DEFAULT_FADING_ENABLED) &&
                                           ShouldCloseOnFadeOut.Equals(DEFAULT_SHOULD_CLOSE_ON_FADE_OUT) &&
-                                          FadeSpeed.Equals(DEFAULT_FADE_SPEED) &&
+                                          FadeDuration.Equals(DEFAULT_FADE_DURATION) &&
+                                          FadeSpeed.Equals(DEFAULT_FADE_SPEED) /*&&
                                           ParentForm!.Equals(DEFAULT_PARENT_FORM) &&
-                                          NextWindow!.Equals(DEFAULT_NEXT_FORM);
+                                          NextWindow!.Equals(DEFAULT_NEXT_FORM)*/;
 
         #endregion
 
@@ -96,11 +106,13 @@ namespace Krypton.Toolkit
 
             ShouldCloseOnFadeOut = DEFAULT_SHOULD_CLOSE_ON_FADE_OUT;
 
+            FadeDuration = DEFAULT_FADE_DURATION;
+
             FadeSpeed = DEFAULT_FADE_SPEED;
 
-            ParentForm = DEFAULT_PARENT_FORM;
+            //ParentForm = DEFAULT_PARENT_FORM;
 
-            NextWindow = DEFAULT_NEXT_FORM;
+            //NextWindow = DEFAULT_NEXT_FORM;
         }
 
         #endregion

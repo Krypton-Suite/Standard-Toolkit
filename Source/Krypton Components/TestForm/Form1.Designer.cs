@@ -120,7 +120,7 @@
             this.kryptonPanel1.Controls.Add(this.textBox1);
             this.kryptonPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kryptonPanel1.Location = new System.Drawing.Point(0, 0);
-            this.kryptonPanel1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.kryptonPanel1.Margin = new System.Windows.Forms.Padding(2);
             this.kryptonPanel1.Name = "kryptonPanel1";
             this.kryptonPanel1.Size = new System.Drawing.Size(1112, 752);
             this.kryptonPanel1.TabIndex = 0;
@@ -128,7 +128,7 @@
             // kryptonButton10
             // 
             this.kryptonButton10.Location = new System.Drawing.Point(15, 445);
-            this.kryptonButton10.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.kryptonButton10.Margin = new System.Windows.Forms.Padding(2);
             this.kryptonButton10.Name = "kryptonButton10";
             this.kryptonButton10.Size = new System.Drawing.Size(182, 24);
             this.kryptonButton10.TabIndex = 36;
@@ -363,7 +363,7 @@
             // kryptonThemeComboBox1
             // 
             this.kryptonThemeComboBox1.DisplayMember = "Key";
-            this.kryptonThemeComboBox1.DropDownWidth = 713;
+            this.kryptonThemeComboBox1.DropDownWidth = 535;
             this.kryptonThemeComboBox1.IntegralHeight = false;
             this.kryptonThemeComboBox1.Location = new System.Drawing.Point(12, 12);
             this.kryptonThemeComboBox1.Name = "kryptonThemeComboBox1";
@@ -419,7 +419,7 @@
             // 
             this.kryptonListBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.kryptonListBox1.Location = new System.Drawing.Point(715, 9);
-            this.kryptonListBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.kryptonListBox1.Margin = new System.Windows.Forms.Padding(2);
             this.kryptonListBox1.Name = "kryptonListBox1";
             this.kryptonListBox1.Size = new System.Drawing.Size(388, 346);
             this.kryptonListBox1.TabIndex = 2;
@@ -427,7 +427,7 @@
             // kryptonTextBox1
             // 
             this.kryptonTextBox1.Location = new System.Drawing.Point(12, 104);
-            this.kryptonTextBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.kryptonTextBox1.Margin = new System.Windows.Forms.Padding(2);
             this.kryptonTextBox1.Name = "kryptonTextBox1";
             this.kryptonTextBox1.Size = new System.Drawing.Size(186, 22);
             this.kryptonTextBox1.TabIndex = 1;
@@ -436,7 +436,7 @@
             // textBox1
             // 
             this.textBox1.Location = new System.Drawing.Point(55, 49);
-            this.textBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.textBox1.Margin = new System.Windows.Forms.Padding(2);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(76, 20);
             this.textBox1.TabIndex = 0;
@@ -523,9 +523,10 @@
             this.ButtonSpecs.Add(this.buttonSpecAny10);
             this.ClientSize = new System.Drawing.Size(1112, 752);
             this.Controls.Add(this.kryptonPanel1);
-            this.FadeValues.ParentForm = this;
+            this.FadeValues.FadeSpeed = 5F;
+            this.FadeValues.FadingEnabled = true;
             this.FormTitleAlign = Krypton.Toolkit.PaletteRelativeAlign.Inherit;
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "Form1";
             this.Text = "Form1";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;

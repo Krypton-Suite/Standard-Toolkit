@@ -4,6 +4,7 @@
 
 ## 2024-11-xx - Build 2411 - November 2024
 * Implemented [#1220](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1220), Is it time to bring over `KryptonToast`s
+    - [#1240](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1240), New fade in/out ability for `KryptonForm`s
     - [#1237](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1237), Core 'Toast' UI
 * Implemented [#1224](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1224), **[Breaking Change]** Move `GlobalPaletteMode` into `GlobalPalette` and rename 
 * Implemented [#1223](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1223), Move `UseKryptonFileDialogs` to a better designer location

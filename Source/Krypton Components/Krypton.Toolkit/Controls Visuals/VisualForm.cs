@@ -998,7 +998,11 @@ namespace Krypton.Toolkit
         {
             if (FadeValues.FadingEnabled)
             {
-                KryptonFormFadeController.FadeFormIn(FadeValues.ParentForm!, FadeValues.FadeSpeed);
+#if NETCOREAPP3_0_OR_GREATER
+                KryptonFormFadeController.ModernFadeFormIn(this, FadeValues.FadeDuration);
+#else
+                KryptonFormFadeController.FadeIn(this, FadeValues.FadeSpeed);
+#endif
             }
 
             base.OnLoad(e);
@@ -1006,9 +1010,13 @@ namespace Krypton.Toolkit
 
         protected override void OnClosing(CancelEventArgs e)
         {
-            if (FadeValues.FadingEnabled && FadeValues.ShouldCloseOnFadeOut)
+            if (FadeValues.FadingEnabled)
             {
-                KryptonFormFadeController.FadeFormOut(FadeValues.ParentForm!, FadeValues.NextWindow, FadeValues.FadeSpeed);
+#if NETCOREAPP3_0_OR_GREATER
+                KryptonFormFadeController.ModernFadeFormOut(this, FadeValues.FadeDuration);
+#else
+                KryptonFormFadeController.FadeOut(this, FadeValues.FadeSpeed);
+#endif
             }
 
             base.OnClosing(e);
