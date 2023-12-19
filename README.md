@@ -20,7 +20,7 @@
 * [Version History](#version-history)
 * [Breaking Changes](#breaking-changes)
 	* [V90.## (2024-11-xx - Build 2411 - November 2024)](v90-24-11-xx--build-2411---november-2024)
-	    * [Support for .NET 6/7](#support-for-net-6/7)
+	    * [Support for .NET 6/7](#support-for-net-67)
 		* [`KryptonButton` Properties](#kryptonbutton-properties)
 		* [API Changes](#api-changes)
 		* [`KryptonInputBox`](#kryptoninputbox)
