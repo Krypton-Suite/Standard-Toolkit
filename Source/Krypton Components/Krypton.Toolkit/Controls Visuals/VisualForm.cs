@@ -1010,7 +1010,7 @@ namespace Krypton.Toolkit
 
         protected override void OnClosing(CancelEventArgs e)
         {
-            if (FadeValues.FadingEnabled)
+            if (FadeValues.FadingEnabled && FadeValues.ShouldCloseOnFadeOut)
             {
 #if NETCOREAPP3_0_OR_GREATER
                 KryptonFormFadeController.ModernFadeFormOut(this, FadeValues.FadeDuration);
