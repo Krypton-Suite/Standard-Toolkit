@@ -49,14 +49,14 @@ namespace Krypton.Toolkit
         /// <summary>Gets or sets the fade speed.</summary>
         /// <value>The fade speed.</value>
         [Category(@"Data")]
-        [Description(@"Controls the fading speed. Default is '0.5'.")]
+        [Description(@"Controls the fading speed. Default is '0.5'. (Use this if you are using .NET FrameWork 4.x)")]
         [DefaultValue(DEFAULT_FADE_SPEED)]
         public float FadeSpeed { get; set; }
 
         /// <summary>Gets or sets the duration of the fade.</summary>
         /// <value>The duration of the fade.</value>
         [Category(@"Data")]
-        [Description(@"Controls the fading duration. Default is '50'.")]
+        [Description(@"Controls the fading duration. Default is '50'. (Use this if you are using .NET)")]
         [DefaultValue(DEFAULT_FADE_DURATION)]
         public int FadeDuration { get; set; }
 
