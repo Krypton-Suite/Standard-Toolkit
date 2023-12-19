@@ -30,7 +30,7 @@
 * Implemented [#1009](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1009), Powered by Krypton Toolkit button
     - Use `KryptonAboutToolkit.Show();` to invoke
 * New `KryptonLanguageManager` is now integrated into `KryptonManager` as `ToolkitStrings`
-* Removed support for .NET 6 and 7, in accordance with its official release cadence
+* Removed support for .NET 6 and 7, in accordance with their official release cadences
 * Support for .NET 9
 * Version bump `80.xx.xx.xx` -> `90.xx.xx.xx`
 
