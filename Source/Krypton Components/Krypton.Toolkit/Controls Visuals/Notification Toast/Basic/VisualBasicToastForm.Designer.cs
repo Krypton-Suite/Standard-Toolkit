@@ -182,7 +182,7 @@
             this.itbtnButton1.Location = new System.Drawing.Point(10, 13);
             this.itbtnButton1.Margin = new System.Windows.Forms.Padding(10);
             this.itbtnButton1.Name = "itbtnButton1";
-            this.itbtnButton1.Owner = null;
+            this.itbtnButton1.BasicToastForm = this;
             this.itbtnButton1.Size = new System.Drawing.Size(22, 22);
             this.itbtnButton1.TabIndex = 0;
             this.itbtnButton1.Values.DropDownArrowColor = System.Drawing.Color.Empty;
@@ -197,7 +197,7 @@
             this.itbtnButton2.Location = new System.Drawing.Point(535, 13);
             this.itbtnButton2.Margin = new System.Windows.Forms.Padding(10);
             this.itbtnButton2.Name = "itbtnButton2";
-            this.itbtnButton2.Owner = null;
+            this.itbtnButton2.BasicToastForm = this;
             this.itbtnButton2.Size = new System.Drawing.Size(22, 22);
             this.itbtnButton2.TabIndex = 1;
             this.itbtnButton2.Values.DropDownArrowColor = System.Drawing.Color.Empty;
@@ -212,7 +212,7 @@
             this.itbtnButton3.Location = new System.Drawing.Point(577, 13);
             this.itbtnButton3.Margin = new System.Windows.Forms.Padding(10);
             this.itbtnButton3.Name = "itbtnButton3";
-            this.itbtnButton3.Owner = null;
+            this.itbtnButton3.BasicToastForm = this;
             this.itbtnButton3.Size = new System.Drawing.Size(22, 22);
             this.itbtnButton3.TabIndex = 2;
             this.itbtnButton3.Values.DropDownArrowColor = System.Drawing.Color.Empty;

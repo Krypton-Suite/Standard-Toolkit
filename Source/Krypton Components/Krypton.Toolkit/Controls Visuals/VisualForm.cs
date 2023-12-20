@@ -397,7 +397,9 @@ namespace Krypton.Toolkit
                 }
             }
         }
+
         private void ResetPaletteMode() => PaletteMode = PaletteMode.Global;
+
         private bool ShouldSerializePaletteMode() => PaletteMode != PaletteMode.Global;
 
         /// <summary>Gets access to the fade values.</summary>
@@ -409,7 +411,7 @@ namespace Krypton.Toolkit
         private bool ShouldSerializeFadeValues() => !FadeValues.IsDefault;
 
         /// <summary>Resets the fade values.</summary>
-        public void ResetFadeValues() => FadeValues.Reset();
+        private void ResetFadeValues() => FadeValues.Reset();
 
         /// <summary>
         /// Gets access to the button content.
@@ -999,9 +1001,9 @@ namespace Krypton.Toolkit
             if (FadeValues.FadingEnabled)
             {
 #if NETCOREAPP3_0_OR_GREATER
-                KryptonFormFadeController.ModernFadeFormIn(this, FadeValues.FadeDuration);
+                KryptonFormFadeController.ModernFadeFormIn(FadeValues.Owner ?? this, FadeValues.FadeDuration);
 #else
-                KryptonFormFadeController.FadeIn(this, FadeValues.FadeSpeed);
+                KryptonFormFadeController.FadeIn(FadeValues.Owner ?? this, FadeValues.FadeSpeed);
 #endif
             }
 
@@ -1010,12 +1012,12 @@ namespace Krypton.Toolkit
 
         protected override void OnClosing(CancelEventArgs e)
         {
-            if (FadeValues.FadingEnabled && FadeValues.ShouldCloseOnFadeOut)
+            if (FadeValues is { FadingEnabled: true, ShouldCloseOnFadeOut: true })
             {
 #if NETCOREAPP3_0_OR_GREATER
-                KryptonFormFadeController.ModernFadeFormOut(this, FadeValues.FadeDuration);
+                KryptonFormFadeController.ModernFadeFormOut(FadeValues.Owner ?? this, FadeValues.FadeDuration);
 #else
-                KryptonFormFadeController.FadeOut(this, FadeValues.FadeSpeed);
+                KryptonFormFadeController.FadeOut(FadeValues.Owner ?? this, FadeValues.FadeSpeed);
 #endif
             }
 

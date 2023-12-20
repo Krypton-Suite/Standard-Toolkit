@@ -11,7 +11,7 @@ namespace Krypton.Toolkit
 {
     [ToolboxItem(true)]
     [ToolboxBitmap(typeof(KryptonToastNotificationManager), @"ToolboxBitmaps.KryptonInputBox.bmp")]
-    public sealed class KryptonToastNotificationManager : Component
+    public class KryptonToastNotificationManager : Component
     {
     }
 }

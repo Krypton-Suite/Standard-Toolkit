@@ -17,7 +17,7 @@ namespace Krypton.Toolkit
 
         private bool _isDismissButton;
 
-        private VisualToastForm? _owner;
+        private VisualBasicToastForm? _basicToast;
 
         #endregion
 
@@ -47,11 +47,11 @@ namespace Krypton.Toolkit
             }
         }
 
-        public VisualToastForm? Owner
+        public VisualBasicToastForm? BasicToastForm
         {
-            get => _owner;
+            get => _basicToast;
 
-            set => _owner = value;
+            set => _basicToast = value;
         }
 
         #endregion
@@ -65,7 +65,7 @@ namespace Krypton.Toolkit
 
             _isDismissButton = false;
 
-            _owner = null;
+            _basicToast = null;
         }
 
         #endregion
@@ -78,9 +78,9 @@ namespace Krypton.Toolkit
             {
                 _isActionButton = false;
 
-                if (_owner != null)
+                if (_basicToast != null)
                 {
-                    _owner.AcceptButton = this;
+                    _basicToast.AcceptButton = this;
                 }
             }
 
@@ -89,14 +89,14 @@ namespace Krypton.Toolkit
 
         protected override void OnClick(EventArgs e)
         {
-            if (_isActionButton && _owner != null && _owner.ActionButtonCommand != null)
+            if (_isActionButton && _basicToast != null /*&& _basicToast.ActionButtonCommand != null*/)
             {
-                _owner.ActionButtonCommand.PerformExecute();
+                //_basicToast.ActionButtonCommand.PerformExecute();
             }
 
             if (_isDismissButton)
             {
-                _owner?.Close();
+                _basicToast?.Close();
             }
 
             base.OnClick(e);
