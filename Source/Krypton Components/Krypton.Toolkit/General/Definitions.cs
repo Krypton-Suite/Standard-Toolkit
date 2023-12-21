@@ -1876,7 +1876,8 @@ namespace Krypton.Toolkit
     #region Enum KryptonMessageBoxIcon
 
     /// <summary>Specifies the icon type for <see cref="T:KryptonMessageBox"/>.</summary>
-    [TypeConverter(typeof(KryptonMessageBoxIconConverter))]
+    // ToDo: Fix converter, as it throws errors...
+    //[TypeConverter(typeof(KryptonMessageBoxIconConverter))]
     public enum KryptonMessageBoxIcon
     {
         /// <summary>Specify no icon.</summary>
@@ -2193,6 +2194,59 @@ namespace Krypton.Toolkit
         FileInformation = 2,
         Theme = 3,
         ToolkitInformation = 4
+    }
+
+    #endregion
+
+    #region Enum FormFadeDirection
+
+    public enum FormFadeDirection
+    {
+        In = 0,
+        Out = 1
+    }
+
+    #endregion
+
+    #region Enum FadeSpeedChoice
+
+    /// <summary>
+    /// Chooses the fading speed of a <see cref="VisualForm"/>
+    /// </summary>
+    public enum FadeSpeedChoice
+    {
+        /// <summary>
+        /// Use the slowest fade speed possible. This is tied to the corresponding float value in <see cref="KryptonFormFadeSpeed"/>, which is 1.
+        /// </summary>
+        Slowest = 0,
+        /// <summary>
+        /// Use the second-slowest fade speed possible. This is tied to the corresponding float value in <see cref="KryptonFormFadeSpeed"/>, which is 10.
+        /// </summary>
+        Slower = 1,
+        /// <summary>
+        /// Use the third-slowest fade speed possible. This is tied to the corresponding float value in <see cref="KryptonFormFadeSpeed"/>, which is 25.
+        /// </summary>
+        Slow = 2,
+        /// <summary>
+        /// Use a normal fade speed. This is tied to the corresponding float value in <see cref="KryptonFormFadeSpeed"/>, which is 50.
+        /// </summary>
+        Normal = 3,
+        /// <summary>
+        /// Use a fast fading speed. This is tied to the corresponding float value in <see cref="KryptonFormFadeSpeed"/>, which is 60.
+        /// </summary>
+        Fast = 4,
+        /// <summary>
+        /// Use a slightly faster fading speed. This is tied to the corresponding float value in <see cref="KryptonFormFadeSpeed"/>, which is 75.
+        /// </summary>
+        Faster = 5,
+        /// <summary>
+        /// Use the fastest fading speed possible. This is tied to the corresponding float value in <see cref="KryptonFormFadeSpeed"/>, which is 100.
+        /// </summary>
+        Fastest = 6,
+        /// <summary>
+        /// Define your own fading speed.
+        /// </summary>
+        Custom = 7
     }
 
     #endregion

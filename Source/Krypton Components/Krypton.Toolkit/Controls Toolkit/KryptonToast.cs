@@ -24,30 +24,30 @@ namespace Krypton.Toolkit
 
         private static void ShowCore(KryptonToastData toastData)
         {
-            using var kt = new VisualToastForm(toastData.ShowCloseButton, toastData.ShowProgressBar,
-                       toastData.ShowCountdownPercentage,
-                                               toastData.ShowActionButton, toastData.ShowUserResponse, 
-                                               toastData.UserResponsePromptColor,
-                                               toastData.LabelContentTextAlignment, 
-                           toastData.TitleTextAlignment, toastData.UserResponsePromptFont,
-                                               toastData.UserInputControlStyle, 
-                                               toastData.UserResponsePromptAlignmentHorizontal,
-                                               toastData.UserResponsePromptAlignmentVertical,
-                                               toastData.UserResponseTextAlignmentHorizontal,
-                                               toastData.NotificationContentRichTextBoxAlignment,
-                                               toastData.NotificationContentTextBoxAlignment,
-                                               toastData.ActionButton, toastData.ActionType,
-                                               toastData.ToastNotificationContentAreaType, toastData.NotificationIcon,
-                                               toastData.ToastNotificationInputAreaType, toastData.CountDownSeconds,
-                                               toastData.CountDownTimerInterval,
-                                               toastData.NumericUpDownInputMaximum, toastData.ProgressBarMaximum, toastData.CustomImage,
-                                               toastData.SoundStream, toastData.RightToLeft, toastData.Title,
-                                               toastData.NotificationContentText,
-                                               toastData.SoundPath, toastData.UserResponsePromptText, 
-                                               toastData.NotificationContentLinkArea,
-                                               toastData.NotificationContentLinkDestination, toastData.ActionButtonCommand);
+            //using var kt = new VisualToastForm(toastData.ShowCloseButton, toastData.ShowProgressBar,
+            //           toastData.ShowCountdownPercentage,
+            //                                   toastData.ShowActionButton, toastData.ShowUserResponse, 
+            //                                   toastData.UserResponsePromptColor,
+            //                                   toastData.LabelContentTextAlignment, 
+            //               toastData.TitleTextAlignment, toastData.UserResponsePromptFont,
+            //                                   toastData.UserInputControlStyle, 
+            //                                   toastData.UserResponsePromptAlignmentHorizontal,
+            //                                   toastData.UserResponsePromptAlignmentVertical,
+            //                                   toastData.UserResponseTextAlignmentHorizontal,
+            //                                   toastData.NotificationContentRichTextBoxAlignment,
+            //                                   toastData.NotificationContentTextBoxAlignment,
+            //                                   toastData.ActionButton, toastData.ActionType,
+            //                                   toastData.ToastNotificationContentAreaType, toastData.NotificationIcon,
+            //                                   toastData.ToastNotificationInputAreaType, toastData.CountDownSeconds,
+            //                                   toastData.CountDownTimerInterval,
+            //                                   toastData.NumericUpDownInputMaximum, toastData.ProgressBarMaximum, toastData.CustomImage,
+            //                                   toastData.SoundStream, toastData.RightToLeft, toastData.Title,
+            //                                   toastData.NotificationContentText,
+            //                                   toastData.SoundPath, toastData.UserResponsePromptText, 
+            //                                   toastData.NotificationContentLinkArea,
+            //                                   toastData.NotificationContentLinkDestination, toastData.ActionButtonCommand);
 
-            kt.Show();
+            //kt.Show();
         }
 
         #endregion
