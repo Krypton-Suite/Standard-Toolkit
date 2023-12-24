@@ -29,6 +29,7 @@ namespace Krypton.Toolkit
         private readonly Image? _applicationImage;
         private readonly bool? _forceUseOfOperatingSystemIcons;
         private readonly KryptonMessageBoxData _messageBoxData;
+        private readonly bool? _showCloseButton;
 
         private readonly KryptonMessageBoxDefaultButton _defaultButton;
         private readonly MessageBoxOptions _options; // https://github.com/Krypton-Suite/Standard-Toolkit/issues/313
@@ -186,6 +187,8 @@ namespace Krypton.Toolkit
             {
                 SetCheckBoxCheckedState(_messageBoxData.CheckBoxCheckState);
             }
+
+            ShowCloseButton(_messageBoxData.ShowCloseButton);
 
             // Finally calculate and set form sizing
             UpdateSizing(_messageBoxData.Owner);
@@ -1366,6 +1369,8 @@ namespace Krypton.Toolkit
                 kchkMessageboxCheckBox.Visible = false;
             }
         }
+
+        private void ShowCloseButton(bool? showCloseButton) => CloseBox = showCloseButton ?? true;
 
         #region Static Methods
 

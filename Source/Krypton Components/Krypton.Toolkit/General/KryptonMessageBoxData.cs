@@ -124,6 +124,8 @@ namespace Krypton.Toolkit
         /// <value>The state of the CheckBox <see cref="CheckState"/>.</value>
         public CheckState? CheckBoxCheckState { get; set; }
 
+        public bool? ShowCloseButton { get; set; }
+
         #endregion
 
         #region Identity
