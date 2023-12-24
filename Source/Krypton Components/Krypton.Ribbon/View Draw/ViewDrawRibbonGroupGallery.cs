@@ -72,7 +72,7 @@ namespace Krypton.Ribbon
 
             if (_ribbon.InDesignMode)
             {
-                // At design time we need to know when the user right clicks the gallery
+                // At design time we need to know when the user right-clicks the gallery
                 var controller = new ContextClickController();
                 controller.ContextClick += OnContextClick;
                 MouseController = controller;
@@ -84,7 +84,7 @@ namespace Krypton.Ribbon
             KeyController = _controller;
 
             // We need to rest visibility of the gallery for each layout cycle
-            _ribbon.ViewRibbonManager.LayoutBefore += OnLayoutAction;
+            _ribbon.ViewRibbonManager!.LayoutBefore += OnLayoutAction;
             _ribbon.ViewRibbonManager.LayoutAfter += OnLayoutAction;
 
             // Define back reference to view for the gallery definition
@@ -127,7 +127,7 @@ namespace Krypton.Ribbon
                     GroupGallery.MouseLeaveControl -= OnMouseLeaveControl;
                     GroupGallery.ViewPaintDelegate = null;
                     GroupGallery.PropertyChanged -= OnGalleryPropertyChanged;
-                    _ribbon.ViewRibbonManager.LayoutAfter -= OnLayoutAction;
+                    _ribbon.ViewRibbonManager!.LayoutAfter -= OnLayoutAction;
                     _ribbon.ViewRibbonManager.LayoutBefore -= OnLayoutAction;
 
                     // Remove association with definition
