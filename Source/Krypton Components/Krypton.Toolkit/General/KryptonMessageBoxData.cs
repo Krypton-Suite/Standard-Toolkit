@@ -22,7 +22,7 @@ namespace Krypton.Toolkit
 
         /// <summary>Gets or sets the message text.</summary>
         /// <value>The message text.</value>
-        public string MessageText { get; set; }
+        public string? MessageText { get; set; }
 
         /// <summary>Gets or sets the window caption.</summary>
         /// <value>The window caption.</value>
