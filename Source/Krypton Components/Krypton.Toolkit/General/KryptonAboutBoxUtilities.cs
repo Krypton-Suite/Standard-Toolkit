@@ -174,11 +174,11 @@ namespace Krypton.Toolkit
             // codebase
             try
             {
-                nvc.Add("CodeBase", assembly.CodeBase.Replace("file:///", ""));
+                nvc.Add("CodeBase", assembly.EscapedCodeBase.Replace("file:///", ""));
             }
             catch (NotSupportedException)
             {
-                nvc.Add("CodeBase", "(not supported)");
+                nvc.Add("CodeBasee", "(not supported)");
             }
             // build date
             var dt = AssemblyBuildDate(assembly, false);
@@ -282,14 +282,14 @@ namespace Krypton.Toolkit
 
         public static void PopulateAssemblies(KryptonComboBox assemblyList, KryptonDataGridView dataStore)
         {
-            string _entryAssemblyName = Assembly.GetEntryAssembly()!.GetName().Name;
+            string entryAssemblyName = Assembly.GetEntryAssembly()!.GetName().Name;
 
             foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
             {
                 PopulateAssemblySummary(assembly, dataStore, assemblyList);
             }
 
-            assemblyList.SelectedIndex = assemblyList.FindStringExact(_entryAssemblyName);
+            assemblyList.SelectedIndex = assemblyList.FindStringExact(entryAssemblyName);
         }
 
         private static void PopulateAssemblySummary(Assembly assembly, KryptonDataGridView dataStore, KryptonComboBox assemblyItems)
