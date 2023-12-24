@@ -31,6 +31,7 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.kryptonPanel1 = new Krypton.Toolkit.KryptonPanel();
+            this.kryptonCheckBox1 = new Krypton.Toolkit.KryptonCheckBox();
             this.kryptonButton11 = new Krypton.Toolkit.KryptonButton();
             this.kryptonButton10 = new Krypton.Toolkit.KryptonButton();
             this.kryptonColorButton1 = new Krypton.Toolkit.KryptonColorButton();
@@ -82,7 +83,6 @@
             this.kryptonCheckSet1 = new Krypton.Toolkit.KryptonCheckSet(this.components);
             this.kryptonTaskDialog1 = new Krypton.Toolkit.KryptonTaskDialog();
             this.kryptonInputBoxManager1 = new Krypton.Toolkit.KryptonInputBoxManager();
-            this.kryptonCheckBox1 = new Krypton.Toolkit.KryptonCheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
             this.kryptonPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonThemeComboBox1)).BeginInit();
@@ -128,6 +128,14 @@
             this.kryptonPanel1.Name = "kryptonPanel1";
             this.kryptonPanel1.Size = new System.Drawing.Size(1112, 752);
             this.kryptonPanel1.TabIndex = 0;
+            // 
+            // kryptonCheckBox1
+            // 
+            this.kryptonCheckBox1.Location = new System.Drawing.Point(456, 227);
+            this.kryptonCheckBox1.Name = "kryptonCheckBox1";
+            this.kryptonCheckBox1.Size = new System.Drawing.Size(176, 19);
+            this.kryptonCheckBox1.TabIndex = 38;
+            this.kryptonCheckBox1.Values.Text = "Show Close Button";
             // 
             // kryptonButton11
             // 
@@ -457,6 +465,7 @@
             // kcmdMessageboxTest
             // 
             this.kcmdMessageboxTest.Text = "kryptonCommand1";
+            this.kcmdMessageboxTest.Execute += new System.EventHandler(this.kcmdMessageboxTest_Execute);
             // 
             // buttonSpecAny1
             // 
@@ -519,14 +528,6 @@
             this.kryptonTaskDialog1.TextExtra = "Ctrl+C to copy";
             this.kryptonTaskDialog1.UseNativeOSIcons = false;
             this.kryptonTaskDialog1.WindowTitle = null;
-            // 
-            // kryptonCheckBox1
-            // 
-            this.kryptonCheckBox1.Location = new System.Drawing.Point(456, 227);
-            this.kryptonCheckBox1.Name = "kryptonCheckBox1";
-            this.kryptonCheckBox1.Size = new System.Drawing.Size(176, 19);
-            this.kryptonCheckBox1.TabIndex = 38;
-            this.kryptonCheckBox1.Values.Text = "Show Close Button";
             // 
             // Form1
             // 

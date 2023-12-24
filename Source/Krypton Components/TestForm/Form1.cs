@@ -86,7 +86,7 @@ namespace TestForm
 
             KryptonMessageBox.Show(@"This is a test!", @"Testing", KryptonMessageBoxButtons.OK,
                 KryptonMessageBoxIcon.Information, contentAreaType: MessageBoxContentAreaType.LinkLabel,
-                linkAreaCommand: kcmdMessageboxTest);
+                linkAreaCommand: kcmdMessageboxTest, showCloseButton: kryptonCheckBox1.Checked);
         }
 
         private void kcmdMessageboxTest_Execute(object sender, EventArgs e)
