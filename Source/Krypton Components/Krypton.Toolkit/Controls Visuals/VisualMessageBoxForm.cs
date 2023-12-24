@@ -94,14 +94,9 @@ namespace Krypton.Toolkit
             _applicationPath = applicationPath ?? string.Empty;
             _contentAreaType = contentAreaType ?? MessageBoxContentAreaType.Normal;
             _linkLabelCommand = linkLabelCommand ?? new KryptonCommand();
-            if (string.IsNullOrEmpty(text))
-            {
-                _contentLinkArea = new LinkArea(0, 0);
-            }
-            else
-            {
-                _contentLinkArea = contentLinkArea ?? new LinkArea(0, text.Length);
-            }
+            _contentLinkArea = string.IsNullOrEmpty(text)
+                ? new LinkArea(0, 0)
+                : contentLinkArea ?? new LinkArea(0, text!.Length);
             _linkLaunchArgument = linkLaunchArgument ?? new ProcessStartInfo();
             _messageTextAlignment = messageTextAlignment ?? ContentAlignment.MiddleLeft;
             _forceUseOfOperatingSystemIcons = forceUseOfOperatingSystemIcons ?? false;
