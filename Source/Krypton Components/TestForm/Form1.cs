@@ -341,5 +341,10 @@ namespace TestForm
 
             KryptonToast.Show(toastData);
         }
+
+        private void kryptonButton11_Click(object sender, EventArgs e)
+        {
+            KryptonMessageBox.Show((string)null, @"Test with no Text");
+        }
     }
 }

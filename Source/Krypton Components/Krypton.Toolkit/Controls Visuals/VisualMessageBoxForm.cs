@@ -59,7 +59,7 @@ namespace Krypton.Toolkit
         }
 
 
-        internal VisualMessageBoxForm(IWin32Window? showOwner, string text, string caption,
+        internal VisualMessageBoxForm(IWin32Window? showOwner, string? text, string caption,
                                        KryptonMessageBoxButtons buttons,
                                        KryptonMessageBoxIcon icon,
                                        KryptonMessageBoxDefaultButton defaultButton,
@@ -78,7 +78,7 @@ namespace Krypton.Toolkit
                                        bool? forceUseOfOperatingSystemIcons)
         {
             // Store incoming values
-            _text = text;
+            _text = text ?? string.Empty;
             _caption = caption;
             _buttons = buttons;
             _kryptonMessageBoxIcon = icon;
@@ -94,7 +94,14 @@ namespace Krypton.Toolkit
             _applicationPath = applicationPath ?? string.Empty;
             _contentAreaType = contentAreaType ?? MessageBoxContentAreaType.Normal;
             _linkLabelCommand = linkLabelCommand ?? new KryptonCommand();
-            _contentLinkArea = contentLinkArea ?? new LinkArea(0, text.Length);
+            if (string.IsNullOrEmpty(text))
+            {
+                _contentLinkArea = new LinkArea(0, 0);
+            }
+            else
+            {
+                _contentLinkArea = contentLinkArea ?? new LinkArea(0, text.Length);
+            }
             _linkLaunchArgument = linkLaunchArgument ?? new ProcessStartInfo();
             _messageTextAlignment = messageTextAlignment ?? ContentAlignment.MiddleLeft;
             _forceUseOfOperatingSystemIcons = forceUseOfOperatingSystemIcons ?? false;
