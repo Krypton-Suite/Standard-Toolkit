@@ -822,17 +822,6 @@ namespace Krypton.Toolkit
         }
         #endregion
 
-        #region AllowFormChrome        
-        /// <summary>
-        /// Gets a value indicating if KryptonForm instances should show custom chrome.
-        /// </summary>
-        /// <returns>
-        /// InheritBool value.
-        /// </returns>
-        public override InheritBool GetAllowFormChrome() => InheritBool.True;
-
-        #endregion
-
         #region Renderer        
         /// <summary>
         /// Gets the renderer to use for this palette.

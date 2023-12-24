@@ -38,7 +38,7 @@ namespace Krypton.Toolkit
         {
             // We do not show if the custom chrome is combined with composition,
             // in which case the form buttons are handled by the composition
-            if (KryptonForm is { ApplyComposition: true, ApplyCustomChrome: true })
+            if (KryptonForm is { ApplyComposition: true })
             {
                 return false;
             }

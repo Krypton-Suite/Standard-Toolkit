@@ -59,7 +59,7 @@ namespace Krypton.Ribbon
             var preferredSize = Size.Empty;
 
             // We need an owning form to perform calculations
-            if (CompOwnerForm is { ApplyCustomChrome: true, ApplyComposition: true })
+            if (CompOwnerForm is { ApplyComposition: true })
                 // We only have size if custom chrome is being used with composition
             {
                 try

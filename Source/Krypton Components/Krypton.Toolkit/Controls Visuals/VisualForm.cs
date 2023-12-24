@@ -27,22 +27,19 @@ namespace Krypton.Toolkit
 
         private const int DEFAULT_COMPOSITION_HEIGHT = 30;
         private static readonly bool _themedApp;
-        private readonly PaletteDoubleRedirect _stateCommon;
-
         #endregion
 
         #region Instance Fields
         private bool _activated;
         private bool _windowActive;
         private bool _trackingMouse;
-        private bool _applyCustomChrome;
+        private bool _useThemeFormChromeBorderWidth;
         private bool _allowComposition;
         private bool _insideUpdateComposition;
         private bool _captured;
         private bool _disposing;
         private int _compositionHeight;
         private int _ignoreCount;
-        private ViewBase? _capturedElement;
         private KryptonCustomPaletteBase? _localCustomPalette;
         private PaletteBase _palette;
         private PaletteMode _paletteMode;
@@ -51,7 +48,7 @@ namespace Krypton.Toolkit
         private ShadowManager _shadowManager;
         private BlurValues _blurValues;
         private BlurManager _blurManager;
-        private readonly object lockObject = new object();
+        private readonly object lockObject = new ();
         #endregion
 
         #region Events
@@ -67,7 +64,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]  // SKC: Probably a special case for not exposing this event in the designer....
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public event EventHandler? ApplyCustomChromeChanged;
+        public event EventHandler? ApplyUseThemeFormChromeBorderWidthChanged;
 
         /// <summary>
         /// Occurs when the active window setting changes.
@@ -101,7 +98,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Initialize a new instance of the VisualForm class. 
         /// </summary>
-        public VisualForm()
+        protected VisualForm()
         {
             InitializeComponent();
 
@@ -129,9 +126,6 @@ namespace Krypton.Toolkit
             // Create constant target for resolving palette delegates
             Redirector = CreateRedirector();
 
-            _stateCommon = new PaletteDoubleRedirect(Redirector, PaletteBackStyle.ButtonCustom1,
-                PaletteBorderStyle.ButtonCustom1, NeedPaintDelegate);
-
             // Hook into global static events
             KryptonManager.GlobalPaletteChanged += OnGlobalPaletteChanged;
             SystemEvents.UserPreferenceChanged += OnUserPreferenceChanged;
@@ -158,13 +152,14 @@ namespace Krypton.Toolkit
             if (disposing)
             {
                 // Must unhook from the palette paint events
-                if (_palette != null)
+                if (_palette != null!)
                 {
                     _palette.PalettePaint -= OnNeedPaint;
                     _palette.ButtonSpecChanged -= OnButtonSpecChanged;
-                    _palette.AllowFormChromeChanged -= OnAllowFormChromeChanged;
+                    _palette.UseThemeFormChromeBorderWidthChanged -= OnUseThemeFormChromeBorderWidthChanged;
                     _palette.BasePaletteChanged -= OnBaseChanged;
                     _palette.BaseRendererChanged -= OnBaseChanged;
+                    _palette = null!;
                 }
 
                 // Unhook from global static events
@@ -217,36 +212,36 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public bool ApplyCustomChrome
+        internal bool UseThemeFormChromeBorderWidth
         {
             [DebuggerStepThrough]
-            get => _applyCustomChrome;
+            get => _useThemeFormChromeBorderWidth;
 
-            internal set
+            set
             {
                 // Only interested in changed values
-                if (_applyCustomChrome != value)
+                if (_useThemeFormChromeBorderWidth != value)
                 {
                     // Cache old setting
-                    var oldApplyCustomChrome = _applyCustomChrome;
+                    var oldUseThemeFormChromeBorderWidth = _useThemeFormChromeBorderWidth;
 
                     // Store the new setting
-                    _applyCustomChrome = value;
+                    _useThemeFormChromeBorderWidth = value;
 
                     // If we need custom chrome drawing...
-                    if (_applyCustomChrome)
+                    if (_useThemeFormChromeBorderWidth)
                     {
                         try
                         {
                             // Set back to false in case we decide that the operating system 
                             // is not capable of supporting our custom chrome implementation
-                            _applyCustomChrome = false;
+                            _useThemeFormChromeBorderWidth = false;
 
                             // Only need to remove the window theme, if there is one
                             if (PI.IsAppThemed() && PI.IsThemeActive())
                             {
                                 // Assume that we can apply custom chrome
-                                _applyCustomChrome = true;
+                                _useThemeFormChromeBorderWidth = true;
 
                                 // Retest if composition should be applied
                                 UpdateComposition();
@@ -270,7 +265,7 @@ namespace Krypton.Toolkit
                         catch
                         {
                             // Failed and so cannot provide custom chrome
-                            _applyCustomChrome = false;
+                            _useThemeFormChromeBorderWidth = false;
                         }
                     }
                     else
@@ -293,10 +288,10 @@ namespace Krypton.Toolkit
                     }
 
                     // Raise event to notify a change in setting
-                    if (_applyCustomChrome != oldApplyCustomChrome)
+                    if (_useThemeFormChromeBorderWidth != oldUseThemeFormChromeBorderWidth)
                     {
                         // Generate change event
-                        OnApplyCustomChromeChanged(EventArgs.Empty);
+                        OnApplyUseThemeFormChromeBorderWidthChanged(EventArgs.Empty);
                     }
                 }
             }
@@ -335,7 +330,7 @@ namespace Krypton.Toolkit
                     _allowComposition = value;
 
                     // If custom chrome is not enabled, then no need to make changes
-                    if (ApplyCustomChrome)
+                    //if (ApplyCustomChrome)
                     {
                         UpdateComposition();
                     }
@@ -480,9 +475,6 @@ namespace Krypton.Toolkit
                     // Remember the starting palette
                     PaletteBase? old = _localCustomPalette;
 
-                    // Use the provided palette value
-                    SetPalette(value);
-
                     // If no custom palette is required
                     if (value == null)
                     {
@@ -498,6 +490,8 @@ namespace Krypton.Toolkit
                         // No longer using a standard palette
                         _localCustomPalette = value;
                         _paletteMode = PaletteMode.Custom;
+                        // Use the provided palette value
+                        SetPalette(value);
                     }
 
                     // If real change has occurred
@@ -551,7 +545,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public ToolStripRenderer? CreateToolStripRenderer() => Renderer?.RenderToolStrip(GetResolvedPalette());
+        public ToolStripRenderer CreateToolStripRenderer() => Renderer.RenderToolStrip(GetResolvedPalette());
 
         /// <summary>
         /// Send the provided system command to the window for processing.
@@ -577,7 +571,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public Padding RealWindowBorders => CommonHelper.GetWindowBorders(CreateParams);
+        public Padding RealWindowBorders => CommonHelper.GetWindowBorders(CreateParams, this as KryptonForm);
 
         /// <summary>
         /// Gets a count of the number of paints that have occurred.
@@ -880,12 +874,9 @@ namespace Krypton.Toolkit
         /// <param name="element">Target element for the capture events.</param>
         protected void StartCapture(ViewBase element)
         {
-            // Capture mouse input so we notice the WM_LBUTTONUP when the mouse is released
+            // Capture mouse input, so we notice the WM_LBUTTONUP when the mouse is released
             Capture = true;
             _captured = true;
-
-            // Remember the view element that wants the mouse input during capture
-            _capturedElement = element;
         }
 
         /// <summary>
@@ -899,8 +890,8 @@ namespace Krypton.Toolkit
 
             base.OnResize(e);
 
-            if (ApplyCustomChrome
-                && !((MdiParent != null)
+            if (/*ApplyCustomChrome
+                &&*/ !((MdiParent != null)
                      && CommonHelper.IsFormMaximized(this))
                 )
             {
@@ -960,7 +951,7 @@ namespace Krypton.Toolkit
         protected override void OnPaintBackground(PaintEventArgs e)
         {
             // If drawing with custom chrome and composition
-            if (ApplyCustomChrome && ApplyComposition)
+            if (/*ApplyCustomChrome &&*/ ApplyComposition)
             {
                 var compositionRect = new Rectangle(0, 0, Width, _compositionHeight);
 
@@ -1060,7 +1051,7 @@ namespace Krypton.Toolkit
         protected virtual void OnPaletteChanged(EventArgs e)
         {
             // Update the redirector with latest palette
-            Redirector!.Target = _palette;
+            Redirector.Target = _palette;
 
             // A new palette source means we need to layout and redraw
             OnNeedPaint(LocalCustomPalette!, new NeedLayoutEventArgs(true));
@@ -1069,17 +1060,17 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>
-        /// Raises the ApplyCustomChrome event.
+        /// Raises the ApplyUseThemeFormChromeBorderWidth event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnApplyCustomChromeChanged(EventArgs e) => ApplyCustomChromeChanged?.Invoke(this, e);
+        protected virtual void OnApplyUseThemeFormChromeBorderWidthChanged(EventArgs e) => ApplyUseThemeFormChromeBorderWidthChanged?.Invoke(this, e);
 
         /// <summary>
-        /// Occurs when the AllowFormChromeChanged event is fired for the current palette.
+        /// Occurs when the UseThemeFormChromeBorderWidthChanged event is fired for the current palette.
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected virtual void OnAllowFormChromeChanged(object sender, EventArgs e)
+        protected virtual void OnUseThemeFormChromeBorderWidthChanged(object sender, EventArgs e)
         {
         }
 
@@ -1100,7 +1091,7 @@ namespace Krypton.Toolkit
             }
 
             // Do nothing unless we are applying custom chrome
-            if (ApplyCustomChrome)
+            //if (ApplyCustomChrome)
             {
                 // If using composition drawing
                 if (ApplyComposition
@@ -1136,7 +1127,7 @@ namespace Krypton.Toolkit
             //    ((MdiParent == null) || ApplyCustomChrome))
             if (!CommonHelper.IsFormMaximized(this)
                 && _themedApp
-                && ((MdiParent == null) || ApplyCustomChrome)
+                //&& ((MdiParent == null) || ApplyCustomChrome)
                 )
             {
                 switch (m.Msg)
@@ -1146,17 +1137,17 @@ namespace Krypton.Toolkit
                         break;
                     case PI.WM_.GETMINMAXINFO:
                         OnWM_GETMINMAXINFO(ref m);
-                        /* Setting handled to false enables the application to process it's own Min/Max requirements,
+                        /* Setting handled to false enables the application to process its own Min/Max requirements,
                 * as mentioned by jason.bullard (comment from September 22, 2011) on http://gallery.expression.microsoft.com/ZuneWindowBehavior/ */
                         // https://github.com/Krypton-Suite/Standard-Toolkit/issues/459
-                        // Still got to call - base - to allow the "application to process it's own Min/Max requirements" !!
+                        // Still got to call - base - to allow the "application to process its own Min/Max requirements" !!
                         base.WndProc(ref m);
                         return;
                 }
             }
 
             // Do we need to override message processing?
-            if (ApplyCustomChrome && !IsDisposed && !Disposing)
+            if (/*ApplyCustomChrome &&*/ !IsDisposed && !Disposing)
             {
                 switch (m.Msg)
                 {
@@ -1486,7 +1477,7 @@ namespace Krypton.Toolkit
             // Convert to window coordinates
             Point windowPoint = ScreenToWindow(screenPoint);
 
-            // In composition we need to adjust for the left window border
+            // In composition, we need to adjust for the left window border
             if (ApplyComposition)
             {
                 windowPoint.X -= RealWindowBorders.Left;
@@ -1538,7 +1529,7 @@ namespace Krypton.Toolkit
             // Convert to window coordinates
             Point windowPoint = ScreenToWindow(screenPoint);
 
-            // In composition we need to adjust for the left window border
+            // In composition, we need to adjust for the left window border
             if (ApplyComposition)
             {
                 windowPoint.X -= RealWindowBorders.Left;
@@ -1561,7 +1552,7 @@ namespace Krypton.Toolkit
             // Convert to window coordinates
             Point windowPoint = ScreenToWindow(screenPoint);
 
-            // In composition we need to adjust for the left window border
+            // In composition, we need to adjust for the left window border
             if (ApplyComposition)
             {
                 windowPoint.X -= RealWindowBorders.Left;
@@ -1628,9 +1619,6 @@ namespace Krypton.Toolkit
             _captured = false;
             Capture = false;
 
-            // No longer have a target element for events
-            _capturedElement = null;
-
             // Next time the mouse enters the window we need to track it leaving
             _trackingMouse = false;
 
@@ -1669,7 +1657,7 @@ namespace Krypton.Toolkit
             Point windowPoint = ScreenToWindow(screenPoint);
 
             // Find the view element under the mouse
-            ViewBase? pointView = ViewManager?.Root?.ViewFromPoint(windowPoint);
+            ViewBase? pointView = ViewManager?.Root.ViewFromPoint(windowPoint);
 
             // Try and find a mouse controller for the active view
             IMouseController? controller = pointView?.FindMouseController();
@@ -1700,6 +1688,7 @@ namespace Krypton.Toolkit
                     {
                         // Find the rectangle that covers the client area of the form
                         Padding borders = RealWindowBorders;
+
                         var clipClientRect = new Rectangle(borders.Left, borders.Top,
                             windowBounds.Width - borders.Horizontal, windowBounds.Height - borders.Vertical);
 
@@ -1794,7 +1783,7 @@ namespace Krypton.Toolkit
         /// Perform hit testing.
         /// </summary>
         /// <param name="pt">Point in window coordinates.</param>
-        /// <param name="composition">Are we performing composition.</param>
+        /// <param name="composition">Are we performing composition</param>
         /// <returns></returns>
         protected virtual IntPtr WindowChromeHitTest(Point pt, bool composition) => (IntPtr)PI.HT.CLIENT;
 
@@ -1822,7 +1811,7 @@ namespace Krypton.Toolkit
         {
             ViewManager?.MouseDown(new MouseEventArgs(MouseButtons.Left, 1, windowPoint.X, windowPoint.Y, 0), windowPoint);
 
-            // If we moused down on a active view element
+            // If we moused down on an active view element
             // Ask the controller if the mouse down should be ignored by wnd proc processing
             IMouseController? controller = ViewManager?.ActiveView?.FindMouseController();
             return controller is { IgnoreVisualFormLeftButtonDown: true };
@@ -1861,7 +1850,7 @@ namespace Krypton.Toolkit
                 // Are we allowed to apply composition to the window
                 var applyComposition = !DesignMode &&
                                        TopLevel &&
-                                       ApplyCustomChrome &&
+                                       //ApplyCustomChrome &&
                                        AllowComposition &&
                                        DWM.IsCompositionEnabled;
 
@@ -1882,15 +1871,15 @@ namespace Krypton.Toolkit
                         _compositionHeight = DEFAULT_COMPOSITION_HEIGHT;
                     }
 
-                    // With composition we extend the top into the client area
+                    // With composition, we extend the top into the client area
                     DWM.ExtendFrameIntoClientArea(Handle, new Padding(0, ApplyComposition ? _compositionHeight : 0, 0, 0));
 
                     // A change in composition when using custom chrome must turn custom chrome
                     // off and on again to have it reprocess correctly to the new composition state
-                    if (ApplyCustomChrome)
+                    //if (ApplyCustomChrome)
                     {
-                        ApplyCustomChrome = false;
-                        ApplyCustomChrome = true;
+                        UseThemeFormChromeBorderWidth = false;
+                        UseThemeFormChromeBorderWidth = true;
                     }
                 }
                 else if (ApplyComposition)
@@ -1922,7 +1911,7 @@ namespace Krypton.Toolkit
                 // Update ourself with the new global palette
                 _localCustomPalette = null;
                 SetPalette(KryptonManager.CurrentGlobalPalette);
-                Redirector!.Target = _palette;
+                Redirector.Target = _palette;
 
                 // A new palette source means we need to layout and redraw
                 OnNeedPaint(LocalCustomPalette!, new NeedLayoutEventArgs(true));
@@ -1933,7 +1922,7 @@ namespace Krypton.Toolkit
 
         private void OnUserPreferenceChanged(object sender, UserPreferenceChangedEventArgs e)
         {
-            // If a change has occurred that could effect the color table then it needs regenerating
+            // If a change has occurred that could affect the color table then it needs regenerating
             switch (e.Category)
             {
                 case UserPreferenceCategory.Icon:
@@ -1949,16 +1938,16 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void SetPalette(PaletteBase? palette)
+        private void SetPalette([DisallowNull] PaletteBase palette)
         {
             if (palette != _palette)
             {
                 // Unhook from current palette events
-                if (_palette != null)
+                if (_palette != null!)  // Will be null on first set !
                 {
                     _palette.PalettePaint -= OnNeedPaint;
                     _palette.ButtonSpecChanged -= OnButtonSpecChanged;
-                    _palette.AllowFormChromeChanged -= OnAllowFormChromeChanged;
+                    _palette.UseThemeFormChromeBorderWidthChanged -= OnUseThemeFormChromeBorderWidthChanged;
                     _palette.BasePaletteChanged -= OnBaseChanged;
                     _palette.BaseRendererChanged -= OnBaseChanged;
                 }
@@ -1970,15 +1959,12 @@ namespace Krypton.Toolkit
                 Renderer = _palette.GetRenderer();
 
                 // Hook to new palette events
-                if (_palette != null)
-                {
-                    _palette.PalettePaint += OnNeedPaint;
-                    _palette.ButtonSpecChanged += OnButtonSpecChanged;
-                    _palette.AllowFormChromeChanged += OnAllowFormChromeChanged;
-                    _palette.BasePaletteChanged += OnBaseChanged;
-                    _palette.BaseRendererChanged += OnBaseChanged;
-                    // PaletteImageScaler.ScalePalette(FactorDpiX, FactorDpiY, _palette);
-                }
+                _palette.PalettePaint += OnNeedPaint;
+                _palette.ButtonSpecChanged += OnButtonSpecChanged;
+                _palette.UseThemeFormChromeBorderWidthChanged += OnUseThemeFormChromeBorderWidthChanged;
+                _palette.BasePaletteChanged += OnBaseChanged;
+                _palette.BaseRendererChanged += OnBaseChanged;
+                // PaletteImageScaler.ScalePalette(FactorDpiX, FactorDpiY, _palette);
             }
         }
 

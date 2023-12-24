@@ -664,7 +664,7 @@ namespace Krypton.Toolkit
                         // Get the window borders
 
                         // Finally check that the actual form is using custom chrome
-                        if (kryptonForm.ApplyCustomChrome)
+                        //if (kryptonForm.ApplyCustomChrome)
                         {
                             // Extend down into the bottom border
                             Padding borders = kryptonForm.RealWindowBorders;

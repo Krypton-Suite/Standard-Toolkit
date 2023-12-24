@@ -63,7 +63,7 @@ namespace Krypton.Navigator
         {
             // We do not show if the custom chrome is combined with composition,
             // in which case the form buttons are handled by the composition
-            if (_navigator.Owner!.ApplyComposition && _navigator.Owner.ApplyCustomChrome)
+            if (_navigator.Owner!.ApplyComposition && _navigator.Owner.UseThemeFormChromeBorderWidth)
             {
                 return false;
             }
