@@ -154,7 +154,7 @@ namespace Krypton.Toolkit
 
         #region Implementation
 
-        private void UpdateText(string caption, string text, MessageBoxOptions options, MessageBoxContentAreaType? contentAreaType)
+        private void UpdateText(string caption, string? text, MessageBoxOptions options, MessageBoxContentAreaType? contentAreaType)
         {
             // Set the text of the form
             Text = string.IsNullOrEmpty(caption) ? string.Empty : caption.Split(Environment.NewLine.ToCharArray())[0];
