@@ -51,7 +51,7 @@ namespace Krypton.Toolkit
         /// <returns>True if all values are defaulted; otherwise false.</returns>
         [Browsable(false)]
         public bool IsDefault => Color.Equals(DEFAULT_COLOR) &&
-                                 Color.Equals(DEFAULT_COLORS) &&
+                                 Colors.Equals(DEFAULT_COLORS) &&
                                  MoreColors.Equals(DEFAULT_MORE_COLORS) &&
                                  ThemeColors.Equals(DEFAULT_THEME_COLORS) &&
                                  StandardColors.Equals(DEFAULT_STANDARD_COLORS) &&

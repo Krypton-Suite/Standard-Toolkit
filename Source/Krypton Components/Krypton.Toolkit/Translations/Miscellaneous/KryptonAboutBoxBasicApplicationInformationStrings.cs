@@ -47,6 +47,8 @@ namespace Krypton.Toolkit
             Reset();
         }
 
+
+        /// <inheritdoc />
         public override string ToString() => !IsDefault ? "Modified" : string.Empty;
 
         #endregion
@@ -74,7 +76,7 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         [Category(@"Visuals")]
         [Description(@"The cache path string.")]
-        [DefaultValue(DEFAULT_ENTRY_ASSEMBLY)]
+        [DefaultValue(DEFAULT_CACHE_PATH)]
         public string CachePath { get; set; }
 
         /// <summary>Gets or sets the configuration file string.</summary>

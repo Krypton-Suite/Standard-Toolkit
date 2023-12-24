@@ -131,7 +131,7 @@ namespace Krypton.Toolkit
         /// <summary>Gets or sets the OneNote tab style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The OneNote tab style.")]
-        [DefaultValue(DEFAULT_TAB_STYLE_CUSTOM1)]
+        [DefaultValue(DEFAULT_TAB_STYLE_ONE_NOTE)]
         [RefreshProperties(RefreshProperties.All)]
         public string OneNote { get; set; }
 

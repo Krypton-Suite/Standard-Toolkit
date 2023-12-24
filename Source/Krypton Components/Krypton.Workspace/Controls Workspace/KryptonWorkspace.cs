@@ -2894,7 +2894,7 @@ namespace Krypton.Workspace
                     // Create drag manager the first time it is needed
                     if (_dragManager == null)
                     {
-                        _dragManager = new DragManager();
+                        _dragManager = new DragManager(Redirector);
                         _dragManager.DragTargetProviders.Add(this);
                     }
 

@@ -52,7 +52,7 @@ namespace Krypton.Toolkit
                                  ScrollHere.Equals(DEFAULT_SCROLL_BAR_SCROLL_HERE) &&
                                  ScrollUp.Equals(DEFAULT_SCROLL_BAR_SCROLL_UP) &&
                                  ScrollLeft.Equals(DEFAULT_SCROLL_BAR_SCROLL_LEFT) &&
-                                 ScrollRight.Equals(DEFAULT_SCROLL_BAR_SCROLL_LEFT);
+                                 ScrollRight.Equals(DEFAULT_SCROLL_BAR_SCROLL_RIGHT);
 
         /// <summary>Resets this instance.</summary>
         public void Reset()
