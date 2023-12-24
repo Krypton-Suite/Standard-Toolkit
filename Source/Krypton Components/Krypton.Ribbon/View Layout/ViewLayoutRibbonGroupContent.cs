@@ -37,7 +37,7 @@ namespace Krypton.Ribbon
         private readonly NeedPaintHandler _needPaint;
         private ContainerToView _containerToView;
         private List<ItemSizeWidth[]> _listWidths;
-        private int[] _containerWidths;
+        private int[]? _containerWidths;
         #endregion
 
         #region Identity
@@ -56,9 +56,9 @@ namespace Krypton.Ribbon
             Debug.Assert(needPaint != null);
 
             // Cache references
-            _ribbon = ribbon;
-            _ribbonGroup = ribbonGroup;
-            _needPaint = needPaint;
+            _ribbon = ribbon!;
+            _ribbonGroup = ribbonGroup!;
+            _needPaint = needPaint!;
 
             // Use hashtable to store relationships
             _containerToView = new ContainerToView();
@@ -362,7 +362,7 @@ namespace Krypton.Ribbon
             var maxEntries = 0;
             for (var i = 0; i < Count; i++)
             {
-                if (this[i].Visible 
+                if (this[i]!.Visible 
                     && (this[i] is IRibbonViewGroupContainerView container)
                     )
                 {
@@ -526,7 +526,7 @@ namespace Krypton.Ribbon
         /// Update the group with the provided sizing solution.
         /// </summary>
         /// <param name="size">Solution size.</param>
-        public void SetSolutionSize(ItemSizeWidth[] size)
+        public void SetSolutionSize(ItemSizeWidth[]? size)
         {
             // Do we need to restore each container to its default size?
             if ((size == null) || (size.Length == 0))
@@ -534,7 +534,7 @@ namespace Krypton.Ribbon
                 // Look for visible child containers
                 for (var i = 0; i < Count; i++)
                 {
-                    if (this[i].Visible 
+                    if (this[i]!.Visible 
                         && (this[i] is IRibbonViewGroupContainerView container)
                         )
                     {
@@ -552,7 +552,7 @@ namespace Krypton.Ribbon
                 // Look for visible child containers
                 for (int i = 0, j = 0; i < Count; i++)
                 {
-                    if (this[i].Visible 
+                    if (this[i]!.Visible 
                         && (this[i] is IRibbonViewGroupContainerView container)
                         )
                     {
@@ -580,10 +580,10 @@ namespace Krypton.Ribbon
             // Find total width and maximum height across all child elements
             for (int i = 0, j = 0; i < Count; i++)
             {
-                ViewBase child = this[i];
+                ViewBase? child = this[i];
 
                 // Only interested in visible items
-                if (child.Visible)
+                if (child!.Visible)
                 {
                     Size childSize;
 
@@ -628,7 +628,7 @@ namespace Krypton.Ribbon
             Debug.Assert(context != null);
 
             // We take on all the available display area and then remove our constant padding
-            ClientRectangle = CommonHelper.ApplyPadding(Orientation.Horizontal, context.DisplayRectangle, _padding);
+            ClientRectangle = CommonHelper.ApplyPadding(Orientation.Horizontal, context!.DisplayRectangle, _padding);
 
             var x = ClientLocation.X;
 
@@ -641,10 +641,10 @@ namespace Krypton.Ribbon
                 // Position each item from left to right taking up entire height
                 for (int i = 0, j = 0; i < Count; i++)
                 {
-                    ViewBase child = this[i];
+                    ViewBase? child = this[i];
 
                     // We only position visible items
-                    if (child.Visible)
+                    if (child!.Visible)
                     {
                         Size childSize;
 
@@ -664,7 +664,7 @@ namespace Krypton.Ribbon
                             context.DisplayRectangle = new Rectangle(x, y, childSize.Width, height);
 
                             // Position the element
-                            this[i].Layout(context);
+                            this[i]!.Layout(context);
 
                             // Move across to next position (add 1 extra as the spacing gap)
                             x += childSize.Width + 1;

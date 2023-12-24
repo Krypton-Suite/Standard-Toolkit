@@ -110,7 +110,7 @@ namespace Krypton.Ribbon
             DropButtonRanges = [];
 
             // Create the palette storage
-            StateCommon = new PaletteGalleryRedirect(Redirector!, NeedPaintDelegate);
+            StateCommon = new PaletteGalleryRedirect(Redirector, NeedPaintDelegate);
             StateNormal = new PaletteGalleryState(StateCommon, NeedPaintDelegate);
             StateDisabled = new PaletteGalleryState(StateCommon, NeedPaintDelegate);
             StateActive = new PaletteGalleryState(StateCommon, NeedPaintDelegate);
@@ -129,7 +129,7 @@ namespace Krypton.Ribbon
             // The draw layout that contains the actual selection images
             _backBorder = new PaletteGalleryBackBorder(StateNormal);
             _drawDocker = new ViewDrawDocker(_backBorder, _backBorder);
-            _drawItems = new ViewLayoutRibbonGalleryItems(Redirector!, this, NeedPaintDelegate, _buttonUp, _buttonDown, _buttonContext);
+            _drawItems = new ViewLayoutRibbonGalleryItems(Redirector, this, NeedPaintDelegate, _buttonUp, _buttonDown, _buttonContext);
             _drawDocker.Add(_drawItems, ViewDockStyle.Fill);
 
             // Top level layout view

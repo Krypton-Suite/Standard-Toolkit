@@ -57,7 +57,7 @@ namespace Krypton.Toolkit
         {
             if (_disposeFont)
             {
-                Font.Dispose();
+                Font?.Dispose();
             }
             GC.SuppressFinalize(this);
         }

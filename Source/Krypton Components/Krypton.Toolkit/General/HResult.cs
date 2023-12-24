@@ -97,7 +97,7 @@ namespace Krypton.Toolkit
                 ? $"HRESULT {hr} [0x{(int)hr:X} ({(int)hr:D})]"
                 : $"HRESULT [0x{(int)hr:X} ({(int)hr:D})]";
 
-        public static Exception GetExceptionForHR(this PI.HRESULT errorCode) => Marshal.GetExceptionForHR((int)errorCode);
+        public static Exception GetExceptionForHR(this PI.HRESULT errorCode) => Marshal.GetExceptionForHR((int)errorCode)!;
 
         public static void ThrowExceptionIfFailed(this PI.HRESULT hr)
         {

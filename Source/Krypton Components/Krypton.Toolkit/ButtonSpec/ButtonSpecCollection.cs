@@ -391,16 +391,16 @@ namespace Krypton.Toolkit
             Debug.Assert(item != null, nameof(item) + " != null");
 
             // Cache the index of the button spec
-            var index = IndexOf(item);
+            var index = IndexOf(item!);
 
             // Generate before event
-            OnRemoving(new ButtonSpecEventArgs(item, index));
+            OnRemoving(new ButtonSpecEventArgs(item!, index));
 
             // Remove from the internal list
-            var ret = _specs.Remove(item);
+            var ret = _specs.Remove(item!);
 
             // Generate after event
-            OnRemoved(new ButtonSpecEventArgs(item, index));
+            OnRemoved(new ButtonSpecEventArgs(item!, index));
 
             return ret;
         }

@@ -70,7 +70,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="width">Width available for sizing a group.</param>
         /// <param name="sizing">Sizing information for applying to group.</param>
-        public GroupSizeWidth(int width, ItemSizeWidth[] sizing)
+        public GroupSizeWidth(int width, ItemSizeWidth[]? sizing)
         {
             Width = width;
             Sizing = sizing;
@@ -86,7 +86,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets the array of sizing information for group.
         /// </summary>
-        public ItemSizeWidth[] Sizing { get; set; }
+        public ItemSizeWidth[]? Sizing { get; set; }
 
         #endregion
     }

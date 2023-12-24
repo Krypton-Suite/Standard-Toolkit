@@ -30,6 +30,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Configuration", "Configurat
 		..\.editorconfig = ..\.editorconfig
 		..\..\.gitattributes = ..\..\.gitattributes
 		..\..\.gitignore = ..\..\.gitignore
+		Krypton Toolkit Suite 2022 - VS2022.sln.DotSettings = Krypton Toolkit Suite 2022 - VS2022.sln.DotSettings
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Source", "Source", "{950EE50E-C0E8-4A28-96D3-4735F5313610}"

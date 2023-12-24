@@ -392,8 +392,21 @@ namespace Krypton.Toolkit
                 }
             }
         }
+
         private void ResetPaletteMode() => PaletteMode = PaletteMode.Global;
+
         private bool ShouldSerializePaletteMode() => PaletteMode != PaletteMode.Global;
+
+        /// <summary>Gets access to the fade values.</summary>
+        [Category(@"Visuals")]
+        [Description(@"Form fading.")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        public FadeValues FadeValues { get; } = new FadeValues();
+
+        private bool ShouldSerializeFadeValues() => !FadeValues.IsDefault;
+
+        /// <summary>Resets the fade values.</summary>
+        private void ResetFadeValues() => FadeValues.Reset();
 
         /// <summary>
         /// Gets access to the button content.
@@ -969,6 +982,39 @@ namespace Krypton.Toolkit
             base.OnShown(e);
         }
 
+        protected override void OnPaint(PaintEventArgs e)
+        {
+            base.OnPaint(e);
+        }
+
+        protected override void OnLoad(EventArgs e)
+        {
+            if (FadeValues.FadingEnabled)
+            {
+#if NETCOREAPP3_0_OR_GREATER
+                KryptonFormFadeController.ModernFadeFormIn(FadeValues.Owner ?? this, FadeValues.FadeDuration);
+#else
+                KryptonFormFadeController.FadeIn(FadeValues.Owner ?? this, FadeValues.FadeSpeed);
+#endif
+            }
+
+            base.OnLoad(e);
+        }
+
+        protected override void OnClosing(CancelEventArgs e)
+        {
+            if (FadeValues is { FadingEnabled: true, ShouldCloseOnFadeOut: true })
+            {
+#if NETCOREAPP3_0_OR_GREATER
+                KryptonFormFadeController.ModernFadeFormOut(FadeValues.Owner ?? this, FadeValues.FadeDuration);
+#else
+                KryptonFormFadeController.FadeOut(FadeValues.Owner ?? this, FadeValues.FadeSpeed);
+#endif
+            }
+
+            base.OnClosing(e);
+        }
+
         #endregion
 
         #region Protected Virtual
@@ -1220,7 +1266,7 @@ namespace Krypton.Toolkit
         /// <param name="m">A Windows-based message.</param>
         protected virtual void OnWM_GETMINMAXINFO(ref Message m)
         {
-            PI.MINMAXINFO mmi = (PI.MINMAXINFO)Marshal.PtrToStructure(m.LParam, typeof(PI.MINMAXINFO));
+            PI.MINMAXINFO mmi = (PI.MINMAXINFO)Marshal.PtrToStructure(m.LParam, typeof(PI.MINMAXINFO))!;
 
             // Adjust the maximized size and position to fit the work area of the correct monitor
             const int MONITOR_DEFAULT_TO_NEAREST = 0x00000002;
@@ -1269,7 +1315,7 @@ namespace Krypton.Toolkit
                 Padding borders = FormBorderStyle == FormBorderStyle.None ? Padding.Empty : RealWindowBorders;
 
                 // Extract the Win32 NCCALCSIZE_PARAMS structure from LPARAM
-                PI.NCCALCSIZE_PARAMS calcsize = (PI.NCCALCSIZE_PARAMS)m.GetLParam(typeof(PI.NCCALCSIZE_PARAMS));
+                PI.NCCALCSIZE_PARAMS calcsize = (PI.NCCALCSIZE_PARAMS)m.GetLParam(typeof(PI.NCCALCSIZE_PARAMS))!;
 
                 // If using composition in the custom chrome
                 if (ApplyComposition)
@@ -1907,7 +1953,7 @@ namespace Krypton.Toolkit
                 }
 
                 // Remember the new palette
-                _palette = palette;
+                _palette = palette!;
 
                 // Get the renderer associated with the palette
                 Renderer = _palette.GetRenderer();

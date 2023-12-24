@@ -181,8 +181,8 @@ namespace Krypton.Ribbon
         /// </summary>
         public void HookToolTipHandling()
         {
-            LayoutAppButton.MouseController = new ToolTipController(_ribbon.TabsArea.ButtonSpecManager.ToolTipManager, LayoutAppButton, _appButtonController);
-            LayoutAppTab.MouseController = new ToolTipController(_ribbon.TabsArea.ButtonSpecManager.ToolTipManager, LayoutAppTab, _appTabController);
+            LayoutAppButton.MouseController = new ToolTipController(_ribbon.TabsArea.ButtonSpecManager?.ToolTipManager!, LayoutAppButton, _appButtonController);
+            LayoutAppTab.MouseController = new ToolTipController(_ribbon.TabsArea?.ButtonSpecManager!.ToolTipManager!, LayoutAppTab, _appTabController);
         }
         #endregion
 
@@ -232,7 +232,7 @@ namespace Krypton.Ribbon
                                 // If using custom chrome
                                 if (_captionArea.UsingCustomChrome)
                                 {
-                                    _paintCount = _captionArea.KryptonForm.PaintCount;
+                                    _paintCount = _captionArea.KryptonForm!.PaintCount;
                                     _invalidateTimer.Start();
                                 }
                             }
@@ -533,7 +533,7 @@ namespace Krypton.Ribbon
                                                                new IPaletteMetric[] { _ribbon.StateCommon },
                                                                new[] { PaletteMetricInt.HeaderButtonEdgeInsetPrimary },
                                                                new[] { PaletteMetricPadding.RibbonButtonPadding },
-                                                               _ribbon.CreateToolStripRenderer,
+                                                               _ribbon.CreateToolStripRenderer!,
                                                                NeedPaintDelegate);
 
             // Create the manager for handling tooltips
@@ -584,13 +584,13 @@ namespace Krypton.Ribbon
 
         private void OnRibbonFormActivated(object sender, EventArgs e)
         {
-            _ribbon.ViewRibbonManager.Active();
+            _ribbon.ViewRibbonManager?.Active();
             _ribbon.UpdateBackStyle();
         }
 
         private void OnRibbonFormDeactivate(object sender, EventArgs e)
         {
-            _ribbon.ViewRibbonManager.Inactive();
+            _ribbon.ViewRibbonManager?.Inactive();
             _ribbon.UpdateBackStyle();
         }
 
@@ -624,7 +624,7 @@ namespace Krypton.Ribbon
 
             // We never want the mdi child window to have a system menu, we provide the 
             // pendant buttons as part of the ribbon and so replace the need for it.
-            PI.SetMenu(new HandleRef(_ribbon, topForm.Handle), NullHandleRef);
+            PI.SetMenu(new HandleRef(_ribbon, topForm!.Handle), NullHandleRef);
 
             if (_activeMdiChild != null)
             {
@@ -720,12 +720,12 @@ namespace Krypton.Ribbon
                                                           _ribbon.LocalCustomPalette, _ribbon.PaletteMode,
                                                           _ribbon.GetRedirector(),
                                                           appRectTop, appRectBottom,
-                                                          _appButtonController.Keyboard);
+                                                          _appButtonController!.Keyboard);
 
                         // Need to know when the visual control is removed
                         _appMenu.Disposed += OnAppMenuDisposed;
 
-                        // Adjust the screen rect of the app button/tab, so we show half way down the button
+                        // Adjust the screen rect of the app button/tab, so we show half-way down the button
                         appRectShow.X -= 3;
                         appRectShow.Height = 0;
 
@@ -854,7 +854,7 @@ namespace Krypton.Ribbon
                                     if (_ribbon.AllowButtonSpecToolTips)
                                     {
                                         // Create a helper object to provide tooltip values
-                                        var buttonSpecMapping = new ButtonSpecToContent(_ribbon.GetRedirector(), buttonSpec);
+                                        var buttonSpecMapping = new ButtonSpecToContent(_ribbon.GetRedirector()!, buttonSpec);
 
                                         // Is there actually anything to show for the tooltip
                                         if (buttonSpecMapping.HasContent)
@@ -901,7 +901,7 @@ namespace Krypton.Ribbon
                         _visualPopupToolTip?.Dispose();
 
                         // Create the actual tooltip popup object
-                        _visualPopupToolTip = new VisualPopupToolTip(_ribbon.GetRedirector(),
+                        _visualPopupToolTip = new VisualPopupToolTip(_ribbon.GetRedirector()!,
                                                                      sourceContent,
                                                                      _ribbon.Renderer,
                                                                      PaletteBackStyle.ControlToolTip,

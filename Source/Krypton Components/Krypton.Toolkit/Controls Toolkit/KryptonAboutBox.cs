@@ -14,7 +14,7 @@ namespace Krypton.Toolkit
     [DesignerCategory(@"code")]
     public static class KryptonAboutBox
     {
-        #region Implementation
+        #region Public
 
         /// <summary>Shows a new <see cref="VisualAboutBoxForm"/>.</summary>
         /// <param name="aboutBoxData">The data to pass through.</param>

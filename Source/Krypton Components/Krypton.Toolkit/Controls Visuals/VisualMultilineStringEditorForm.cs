@@ -226,7 +226,7 @@ namespace Krypton.Toolkit
         {
             StringCollection? collection;
 
-            IWin32Window showOwner = owner ?? FromHandle(PI.GetActiveWindow());
+            IWin32Window? showOwner = owner ?? FromHandle(PI.GetActiveWindow());
 
             using var kmse = new VisualMultilineStringEditorForm(null, input, useRichTextBox, headerText, windowTitle);
 

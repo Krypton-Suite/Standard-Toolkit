@@ -401,7 +401,7 @@ namespace Krypton.Ribbon
             CheckPaletteState(context);
 
             // Grab the context tab set that relates to this tab
-            ContextTabSet? cts = ViewLayoutRibbonTabs.ContextTabSets[RibbonTab?.ContextName];
+            ContextTabSet? cts = ViewLayoutRibbonTabs.ContextTabSets[RibbonTab!.ContextName];
 
             switch (Ribbon.RibbonShape)
             {
@@ -424,7 +424,7 @@ namespace Krypton.Ribbon
                     }
 
                     //_paletteContextCurrent.LightBackground = _ribbon.CaptionArea.DrawCaptionOnComposition;
-                    _paletteContextCurrent.LightBackground = Ribbon.CaptionArea.DrawCaptionOnComposition
+                    _paletteContextCurrent.LightBackground = Ribbon.CaptionArea!.DrawCaptionOnComposition
                                                              && KryptonManager.CurrentGlobalPaletteMode.ToString()
                                                                  .StartsWith(PaletteMode.Office2010Black.ToString());
                     break;
@@ -442,7 +442,7 @@ namespace Krypton.Ribbon
         public override void RenderAfter(RenderContext context)
         {
             // Grab the context tab set that relates to this tab
-            ContextTabSet cts = ViewLayoutRibbonTabs.ContextTabSets[RibbonTab.ContextName];
+            ContextTabSet? cts = ViewLayoutRibbonTabs.ContextTabSets[RibbonTab!.ContextName];
 
             // Is this tab part of a context?
             if (cts != null)
@@ -506,7 +506,7 @@ namespace Krypton.Ribbon
                 // Grab the color we draw the context separator in
                 Color sepColor = _paletteGeneral.GetRibbonTabSeparatorContextColor(PaletteState.Normal);
 
-                Rectangle parentRect = Parent.ClientRectangle;
+                Rectangle parentRect = Parent!.ClientRectangle;
                 var contextRect = parentRect with { X = ClientRectangle.X - 1, Width = ClientRectangle.Width + 2 };
                 var gradientRect = new Rectangle(ClientRectangle.X - 1, parentRect.Y - 1,
                     ClientRectangle.Width + 2, parentRect.Height + 2);
@@ -613,7 +613,7 @@ namespace Krypton.Ribbon
             // Better check we have a child!
             if (Count > 0)
             {
-                this[0].Enabled = enabled;
+                this[0]!.Enabled = enabled;
             }
 
             // If disabled...
@@ -631,7 +631,7 @@ namespace Krypton.Ribbon
                 Checked = Ribbon.SelectedTab == RibbonTab;
 
                 // Is this tab a context tab?
-                var contextTab = !string.IsNullOrEmpty(RibbonTab.ContextName);
+                var contextTab = !string.IsNullOrEmpty(RibbonTab!.ContextName);
 
                 // Apply the checked state if not fixed
                 if (!IsFixed)
@@ -706,7 +706,7 @@ namespace Krypton.Ribbon
                 // Better check we have a child!
                 if (Count > 0)
                 {
-                    this[0].ElementState = buttonState;
+                    this[0]!.ElementState = buttonState;
                 }
 
                 // Update the actual source palette
@@ -734,12 +734,12 @@ namespace Krypton.Ribbon
         {
             if (Ribbon.InDesignMode)
             {
-                _ribbonTab.OnDesignTimeContextMenu(new MouseEventArgs(MouseButtons.Right, 1, e.X, e.Y, 0));
+                _ribbonTab?.OnDesignTimeContextMenu(new MouseEventArgs(MouseButtons.Right, 1, e.X, e.Y, 0));
             }
             else
             {
                 // Convert the mouse point to screen coords from the containing control
-                Point screenPt = Ribbon.TabsArea.TabsContainerControl.ChildControl.PointToScreen(new Point(e.X, e.Y));
+                Point screenPt = Ribbon.TabsArea.TabsContainerControl.ChildControl!.PointToScreen(new Point(e.X, e.Y));
 
                 // Convert back to ribbon client coords, needed for the show context menu call
                 Point clientPt = Ribbon.PointToClient(screenPt);

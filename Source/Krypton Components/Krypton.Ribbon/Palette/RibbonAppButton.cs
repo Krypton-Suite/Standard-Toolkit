@@ -18,7 +18,7 @@ namespace Krypton.Ribbon
     public class RibbonAppButton : Storage
     {
         #region Static Fields
-        private static readonly Image _defaultAppImage = GenericImageResources.AppButtonDefault;
+        private static readonly Image? _defaultAppImage = GenericImageResources.AppButtonDefault;
         private const string DEFAULT_APP_TEXT = @"File";
         private static readonly Color _defaultAppBaseColorDark = Color.FromArgb(31, 72, 161);
         private static readonly Color _defaultAppBaseColorLight = Color.FromArgb(84, 158, 243);
@@ -45,7 +45,7 @@ namespace Krypton.Ribbon
 
         #region Instance Fields
         private readonly KryptonRibbon _ribbon;
-        private Image _appButtonImage;
+        private Image? _appButtonImage;
         private readonly KryptonContextMenuItems _appButtonMenuItems;
         private bool _appButtonVisible;
         private Color _appButtonBaseColorDark;
@@ -62,7 +62,7 @@ namespace Krypton.Ribbon
         public RibbonAppButton([DisallowNull] KryptonRibbon ribbon)
         {
             Debug.Assert(ribbon != null);
-            _ribbon = ribbon;
+            _ribbon = ribbon!;
 
             // Default values
             _appButtonMenuItems = new KryptonContextMenuItems
@@ -70,7 +70,7 @@ namespace Krypton.Ribbon
                 ImageColumn = false
             };
             _appButtonImage = _defaultAppImage;
-            AppButtonSpecs = new AppMenuButtonSpecCollection(ribbon);
+            AppButtonSpecs = new AppMenuButtonSpecCollection(ribbon!);
             AppButtonRecentDocs = [];
             AppButtonToolTipTitle = string.Empty;
             AppButtonToolTipBody = string.Empty;
@@ -121,7 +121,7 @@ namespace Krypton.Ribbon
         [Category(@"Values")]
         [Description(@"Application button image.")]
         [RefreshProperties(RefreshProperties.All)]
-        public Image AppButtonImage
+        public Image? AppButtonImage
         {
             get => _appButtonImage;
 

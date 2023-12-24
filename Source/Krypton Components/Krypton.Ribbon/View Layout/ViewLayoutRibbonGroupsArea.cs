@@ -47,14 +47,14 @@ namespace Krypton.Ribbon
             Debug.Assert(needPaintDelegate != null);
 
             // Remember the incoming reference
-            _ribbon = ribbon;
+            _ribbon = ribbon!;
 
             // Create access to the redirector and use as our palette source
             _backInherit = new PaletteBackInheritRedirect(redirect, PaletteBackStyle.PanelClient);
             SetPalettes(_backInherit);
 
             // Create and add the only child we need, the groups area border element
-            ViewGroups = new ViewDrawRibbonGroupsBorderSynch(ribbon, needPaintDelegate);
+            ViewGroups = new ViewDrawRibbonGroupsBorderSynch(ribbon!, needPaintDelegate!);
             Add(ViewGroups);
         }
 
@@ -119,7 +119,7 @@ namespace Krypton.Ribbon
             Debug.Assert(context != null);
 
             // We take on all the available display area
-            ClientRectangle = context.DisplayRectangle;
+            ClientRectangle = context!.DisplayRectangle;
 
             // Find the correct padding to use
             Padding padding = _ribbon.RealMinimizedMode ? _layoutMinimizedPadding : _layoutNormalPadding;

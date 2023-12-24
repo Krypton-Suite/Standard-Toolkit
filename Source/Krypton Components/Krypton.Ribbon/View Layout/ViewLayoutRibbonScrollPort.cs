@@ -36,7 +36,7 @@ namespace Krypton.Ribbon
                 : base(ribbon)
             {
                 Debug.Assert(ribbon != null);
-                _ribbon = ribbon;
+                _ribbon = ribbon!;
 
                 // Create and add a hidden button to act as the focus target
                 _hiddenFocusTarget = new Button
@@ -65,7 +65,7 @@ namespace Krypton.Ribbon
             protected override bool ProcessDialogKey(Keys keyData)
             {
                 // Grab the controlling control that is a parent
-                Control c = _ribbon.GetControllerControl(this);
+                Control? c = _ribbon.GetControllerControl(this);
 
                 // Grab the view manager handling the focus view
                 ViewBase? focusView = null;
@@ -73,14 +73,14 @@ namespace Krypton.Ribbon
                 {
                     case VisualPopupGroup popGroup:
                     {
-                        var manager = (ViewRibbonPopupGroupManager)popGroup.GetViewManager();
-                        focusView = manager.FocusView;
+                        var manager = popGroup.GetViewManager() as ViewRibbonPopupGroupManager;
+                        focusView = manager?.FocusView;
                         break;
                     }
                     case VisualPopupMinimized minimized:
                     {
-                        var manager = (ViewRibbonMinimizedManager)minimized.GetViewManager();
-                        focusView = manager.FocusView;
+                        var manager = minimized.GetViewManager() as ViewRibbonMinimizedManager;
+                        focusView = manager?.FocusView;
                         break;
                     }
                 }
@@ -124,7 +124,7 @@ namespace Krypton.Ribbon
         private readonly ViewBase _viewFiller;
         private readonly ViewLayoutRibbonScroller _nearScroller;
         private readonly ViewLayoutRibbonScroller _farScroller;
-        private readonly ViewLayoutRibbonTabs _ribbonTabs;
+        private readonly ViewLayoutRibbonTabs? _ribbonTabs;
         private readonly RibbonViewControl _viewControlContent;
         private Rectangle _viewClipRect;
         private int _scrollOffset;
@@ -160,23 +160,23 @@ namespace Krypton.Ribbon
             Debug.Assert(needPaintDelegate != null);
 
             // Remember initial settings
-            _ribbon = ribbon;
+            _ribbon = ribbon!;
             _orientation = orientation;
-            _viewFiller = viewFiller;
-            _needPaintDelegate = needPaintDelegate;
+            _viewFiller = viewFiller!;
+            _needPaintDelegate = needPaintDelegate!;
             _scrollSpeed = scrollSpeed;
             _ribbonTabs = viewFiller as ViewLayoutRibbonTabs;
 
             // Default to left hand scroll position
             _scrollOffset = 0;
 
-            // Place the child view inside a actual control, so that the contents of the 
+            // Place the child view inside an actual control, so that the contents of the 
             // filler are clipped to the control size. This is needed if the child view
             // contains controls and need clipping inside this area and so prevent them
             // from drawing over the end scrollers.
-            _viewControlContent = new RibbonViewControl(ribbon);
+            _viewControlContent = new RibbonViewControl(ribbon!);
             _viewControlContent.PaintBackground += OnViewControlPaintBackground;
-            ViewLayoutControl = new ViewLayoutControl(_viewControlContent, ribbon, _viewFiller);
+            ViewLayoutControl = new ViewLayoutControl(_viewControlContent, ribbon!, _viewFiller);
 
             // Removed because of this
             // https://github.com/Krypton-Suite/Standard-Toolkit/issues/372
@@ -189,8 +189,8 @@ namespace Krypton.Ribbon
             //}
 
             // Create the two scrollers used when not enough space for filler
-            _nearScroller = new ViewLayoutRibbonScroller(ribbon, NearOrientation, insetForTabs, needPaintDelegate);
-            _farScroller = new ViewLayoutRibbonScroller(ribbon, FarOrientation, insetForTabs, needPaintDelegate);
+            _nearScroller = new ViewLayoutRibbonScroller(ribbon!, NearOrientation, insetForTabs, needPaintDelegate!);
+            _farScroller = new ViewLayoutRibbonScroller(ribbon!, FarOrientation, insetForTabs, needPaintDelegate!);
 
             // Hook into scroller events
             _nearScroller.Click += OnNearClick;
@@ -459,18 +459,18 @@ namespace Krypton.Ribbon
             Enabled = _ribbon.Enabled;
 
             // We take on all the available display area
-            ClientRectangle = context.DisplayRectangle;
+            ClientRectangle = context!.DisplayRectangle;
 
             Rectangle layoutRect = ClientRectangle;
             var controlRect = new Rectangle(Point.Empty, ClientSize);
 
-            // Reset the the view control layout offset to be zero again
+            // Reset the view control layout offset to be zero again
             ViewLayoutControl.LayoutOffset = Point.Empty;
 
             // Ask the view control the size it would like to be, this is the requested filler
             // size of the control. If it wants more than we can give then scroll buttons are
             // needed, otherwise we can give it the requested size and any extra available.
-            _ribbon.GetViewManager().DoNotLayoutControls = true;
+            _ribbon.GetViewManager()!.DoNotLayoutControls = true;
             ViewLayoutControl.GetPreferredSize(context);
 
             // Ensure context has the correct control
@@ -480,7 +480,7 @@ namespace Krypton.Ribbon
                 _viewFiller.Layout(context);
             }
 
-            _ribbon.GetViewManager().DoNotLayoutControls = false;
+            _ribbon.GetViewManager()!.DoNotLayoutControls = false;
             Size fillerSize = _viewFiller.ClientSize;
 
             // Limit check the scroll offset
@@ -611,10 +611,10 @@ namespace Krypton.Ribbon
                 if (_ribbon.SelectedTab != null)
                 {
                     // Cast to correct type
-                    ViewBase viewTab = layoutTabs.GetViewForRibbonTab(_ribbon.SelectedTab);
+                    ViewBase? viewTab = layoutTabs.GetViewForRibbonTab(_ribbon.SelectedTab);
 
                     // If a scroll change is required to bring it into view
-                    if (ScrollIntoView(viewTab.ClientRectangle, false))
+                    if (ScrollIntoView(viewTab!.ClientRectangle, false))
                     {
                         // Call ourself again to take change into account
                         Layout(context);
@@ -645,13 +645,13 @@ namespace Krypton.Ribbon
                         // New clipping region is at most our own client size
                         using var combineRegion = new Region(_viewClipRect);
                         // Remember the current clipping region
-                        Region clipRegion = context.Graphics.Clip.Clone();
+                        Region clipRegion = context?.Graphics.Clip.Clone()!;
 
                         // Reduce clipping region down by the existing clipping region
                         combineRegion.Intersect(clipRegion);
 
                         // Use new region that restricts drawing to our client size only
-                        context.Graphics.Clip = combineRegion;
+                        context!.Graphics.Clip = combineRegion;
 
                         child.Render(context);
 
@@ -660,7 +660,7 @@ namespace Krypton.Ribbon
                     }
                     else
                     {
-                        child.Render(context);
+                        child.Render(context!);
                     }
                 }
             }
