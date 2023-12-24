@@ -22,23 +22,16 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Identity
-        /// <summary>
-        /// Initialize a new instance of the PaletteRedirect class.
-        /// </summary>
-        public PaletteRedirect()
-            : this(null)
-        {
-        }
 
         /// <summary>
         /// Initialize a new instance of the PaletteRedirect class.
         /// </summary>
         /// <param name="target">Initial palette target for redirection.</param>
-        public PaletteRedirect(PaletteBase target)
+        public PaletteRedirect(PaletteBase? target)
         {
             Id = CommonHelper.NextId;
             // Remember incoming target
-            _target = target;
+            _target = target!;
         }
 
         #endregion
@@ -54,21 +47,25 @@ namespace Krypton.Toolkit
         }
         #endregion
 
-        #region AllowFormChrome
+        #region UseThemeFormChromeBorderWidth
         /// <summary>
-        /// Gets a value indicating if KryptonForm instances should show custom chrome.
+        /// Gets a value indicating if KryptonForm instances should UseThemeFormChromeBorderWidth.
         /// </summary>
         /// <returns>InheritBool value.</returns>
-        public override InheritBool GetAllowFormChrome() => _target?.GetAllowFormChrome() ?? InheritBool.False;
+        public override InheritBool UseThemeFormChromeBorderWidth
+        {
+            get => _target.UseThemeFormChromeBorderWidth;
+            set => _target.UseThemeFormChromeBorderWidth = value;
+        }
 
         #endregion
 
-        #region Renderer
-        /// <summary>
-        /// Gets the renderer to use for this palette.
-        /// </summary>
-        /// <returns>Renderer to use for drawing palette settings.</returns>
-        public override IRenderer GetRenderer() => _target?.GetRenderer();
+            #region Renderer
+            /// <summary>
+            /// Gets the renderer to use for this palette.
+            /// </summary>
+            /// <returns>Renderer to use for drawing palette settings.</returns>
+        public override IRenderer GetRenderer() => _target.GetRenderer();
 
         #endregion
 
@@ -79,7 +76,7 @@ namespace Krypton.Toolkit
         /// <param name="style">Background style.</param>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>InheritBool value.</returns>
-        public override InheritBool GetBackDraw(PaletteBackStyle style, PaletteState state) => _target?.GetBackDraw(style, state) ?? InheritBool.False;
+        public override InheritBool GetBackDraw(PaletteBackStyle style, PaletteState state) => _target.GetBackDraw(style, state);
 
         /// <summary>
         /// Gets the graphics drawing hint for the background.
@@ -135,7 +132,7 @@ namespace Krypton.Toolkit
         /// <param name="style">Background style.</param>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image instance.</returns>
-        public override Image? GetBackImage(PaletteBackStyle style, PaletteState state) => _target?.GetBackImage(style, state);
+        public override Image? GetBackImage(PaletteBackStyle style, PaletteState state) => _target.GetBackImage(style, state);
 
         /// <summary>
         /// Gets the background image style.
@@ -162,7 +159,7 @@ namespace Krypton.Toolkit
         /// <param name="style">Border style.</param>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>InheritBool value.</returns>
-        public override InheritBool GetBorderDraw(PaletteBorderStyle style, PaletteState state) => _target?.GetBorderDraw(style, state) ?? InheritBool.False;
+        public override InheritBool GetBorderDraw(PaletteBorderStyle style, PaletteState state) => _target.GetBorderDraw(style, state);
 
         /// <summary>
         /// Gets a value indicating which borders to draw.
@@ -242,7 +239,7 @@ namespace Krypton.Toolkit
         /// <param name="style">Border style.</param>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image instance.</returns>
-        public override Image? GetBorderImage(PaletteBorderStyle style, PaletteState state) => _target?.GetBorderImage(style, state);
+        public override Image? GetBorderImage(PaletteBorderStyle style, PaletteState state) => _target.GetBorderImage(style, state);
 
         /// <summary>
         /// Gets the border image style.
@@ -268,7 +265,7 @@ namespace Krypton.Toolkit
         /// <param name="style">Content style.</param>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>InheritBool value.</returns>
-        public override InheritBool GetContentDraw(PaletteContentStyle style, PaletteState state) => _target?.GetContentDraw(style, state) ?? InheritBool.False;
+        public override InheritBool GetContentDraw(PaletteContentStyle style, PaletteState state) => _target.GetContentDraw(style, state);
 
         /// <summary>
         /// Gets a value indicating if content should be drawn with focus indication.
@@ -359,7 +356,7 @@ namespace Krypton.Toolkit
         /// <param name="style">Content style.</param>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>InheritBool value.</returns>
-        public override InheritBool GetContentShortTextMultiLine(PaletteContentStyle style, PaletteState state) => _target?.GetContentShortTextMultiLine(style, state) ?? InheritBool.False;
+        public override InheritBool GetContentShortTextMultiLine(PaletteContentStyle style, PaletteState state) => _target.GetContentShortTextMultiLine(style, state);
 
         /// <summary>
         /// Gets the text trimming to use for short text.
@@ -439,7 +436,7 @@ namespace Krypton.Toolkit
         /// <param name="style">Content style.</param>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image instance.</returns>
-        public override Image? GetContentShortTextImage(PaletteContentStyle style, PaletteState state) => _target?.GetContentShortTextImage(style, state);
+        public override Image? GetContentShortTextImage(PaletteContentStyle style, PaletteState state) => _target.GetContentShortTextImage(style, state);
 
         /// <summary>
         /// Gets the background image style.
@@ -487,7 +484,7 @@ namespace Krypton.Toolkit
         /// <param name="style">Content style.</param>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>InheritBool value.</returns>
-        public override InheritBool GetContentLongTextMultiLine(PaletteContentStyle style, PaletteState state) => _target?.GetContentLongTextMultiLine(style, state) ?? InheritBool.False;
+        public override InheritBool GetContentLongTextMultiLine(PaletteContentStyle style, PaletteState state) => _target.GetContentLongTextMultiLine(style, state);
 
         /// <summary>
         /// Gets the text trimming to use for long text.
@@ -575,7 +572,7 @@ namespace Krypton.Toolkit
         /// <param name="style">Content style.</param>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image instance.</returns>
-        public override Image? GetContentLongTextImage(PaletteContentStyle style, PaletteState state) => _target?.GetContentLongTextImage(style, state);
+        public override Image? GetContentLongTextImage(PaletteContentStyle style, PaletteState state) => _target.GetContentLongTextImage(style, state);
 
         /// <summary>
         /// Gets the background image style for the long text.
@@ -626,7 +623,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <param name="metric">Requested metric.</param>
         /// <returns>InheritBool value.</returns>
-        public override InheritBool GetMetricBool(PaletteState state, PaletteMetricBool metric) => _target?.GetMetricBool(state, metric) ?? InheritBool.False;
+        public override InheritBool GetMetricBool(PaletteState state, PaletteMetricBool metric) => _target.GetMetricBool(state, metric);
 
         /// <summary>
         /// Gets a padding metric value.
@@ -644,7 +641,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="expanded">Is the node expanded</param>
         /// <returns>Appropriate image for drawing; otherwise null.</returns>
-        public override Image? GetTreeViewImage(bool expanded) => _target?.GetTreeViewImage(expanded);
+        public override Image? GetTreeViewImage(bool expanded) => _target.GetTreeViewImage(expanded);
 
         /// <summary>
         /// Gets a check box image appropriate for the provided state.
@@ -654,7 +651,7 @@ namespace Krypton.Toolkit
         /// <param name="tracking">Is the check box being hot tracked.</param>
         /// <param name="pressed">Is the check box being pressed.</param>
         /// <returns>Appropriate image for drawing; otherwise null.</returns>
-        public override Image? GetCheckBoxImage(bool enabled, CheckState checkState, bool tracking, bool pressed) => _target?.GetCheckBoxImage(enabled, checkState, tracking, pressed);
+        public override Image? GetCheckBoxImage(bool enabled, CheckState checkState, bool tracking, bool pressed) => _target.GetCheckBoxImage(enabled, checkState, tracking, pressed);
 
         /// <summary>
         /// Gets a check box image appropriate for the provided state.
@@ -664,25 +661,25 @@ namespace Krypton.Toolkit
         /// <param name="tracking">Is the radio button being hot tracked.</param>
         /// <param name="pressed">Is the radio button being pressed.</param>
         /// <returns>Appropriate image for drawing; otherwise null.</returns>
-        public override Image? GetRadioButtonImage(bool enabled, bool checkState, bool tracking, bool pressed) => _target?.GetRadioButtonImage(enabled, checkState, tracking, pressed);
+        public override Image? GetRadioButtonImage(bool enabled, bool checkState, bool tracking, bool pressed) => _target.GetRadioButtonImage(enabled, checkState, tracking, pressed);
 
         /// <summary>
         /// Gets a drop down button image appropriate for the provided state.
         /// </summary>
         /// <param name="state">PaletteState for which image is required.</param>
-        public override Image? GetDropDownButtonImage(PaletteState state) => _target?.GetDropDownButtonImage(state);
+        public override Image? GetDropDownButtonImage(PaletteState state) => _target.GetDropDownButtonImage(state);
 
         /// <summary>
         /// Gets a checked image appropriate for a context menu item.
         /// </summary>
         /// <returns>Appropriate image for drawing; otherwise null.</returns>
-        public override Image? GetContextMenuCheckedImage() => _target?.GetContextMenuCheckedImage();
+        public override Image? GetContextMenuCheckedImage() => _target.GetContextMenuCheckedImage();
 
         /// <summary>
         /// Gets a indeterminate image appropriate for a context menu item.
         /// </summary>
         /// <returns>Appropriate image for drawing; otherwise null.</returns>
-        public override Image? GetContextMenuIndeterminateImage() => _target?.GetContextMenuIndeterminateImage();
+        public override Image? GetContextMenuIndeterminateImage() => _target.GetContextMenuIndeterminateImage();
 
         /// <summary>
         /// Gets an image indicating a sub-menu on a context menu item.
@@ -696,7 +693,7 @@ namespace Krypton.Toolkit
         /// <param name="button">Enum of the button to fetch.</param>
         /// <param name="state">State of the button to fetch.</param>
         /// <returns>Appropriate image for drawing; otherwise null.</returns>
-        public override Image? GetGalleryButtonImage(PaletteRibbonGalleryButton button, PaletteState state) => _target?.GetGalleryButtonImage(button, state);
+        public override Image? GetGalleryButtonImage(PaletteRibbonGalleryButton button, PaletteState state) => _target.GetGalleryButtonImage(button, state);
 
         #endregion
 
@@ -706,7 +703,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="style">Style of button spec.</param>
         /// <returns>Icon value.</returns>
-        public override Icon? GetButtonSpecIcon(PaletteButtonSpecStyle style) => _target?.GetButtonSpecIcon(style);
+        public override Icon? GetButtonSpecIcon(PaletteButtonSpecStyle style) => _target.GetButtonSpecIcon(style);
 
         /// <summary>
         /// Gets the image to display for the button.
@@ -714,7 +711,7 @@ namespace Krypton.Toolkit
         /// <param name="style">Style of button spec.</param>
         /// <param name="state">State for which image is required.</param>
         /// <returns>Image value.</returns>
-        public override Image? GetButtonSpecImage(PaletteButtonSpecStyle style, PaletteState state) => _target?.GetButtonSpecImage(style, state);
+        public override Image? GetButtonSpecImage(PaletteButtonSpecStyle style, PaletteState state) => _target.GetButtonSpecImage(style, state);
 
         /// <summary>
         /// Gets the image transparent color.
@@ -728,14 +725,14 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="style">Style of button spec.</param>
         /// <returns>String value.</returns>
-        public override string? GetButtonSpecShortText(PaletteButtonSpecStyle style) => _target?.GetButtonSpecShortText(style);
+        public override string? GetButtonSpecShortText(PaletteButtonSpecStyle style) => _target.GetButtonSpecShortText(style);
 
         /// <summary>
         /// Gets the long text to display for the button.
         /// </summary>
         /// <param name="style">Style of button spec.</param>
         /// <returns>String value.</returns>
-        public override string? GetButtonSpecLongText(PaletteButtonSpecStyle style) => _target?.GetButtonSpecLongText(style);
+        public override string? GetButtonSpecLongText(PaletteButtonSpecStyle style) => _target.GetButtonSpecLongText(style);
 
         /// <summary>
         /// Gets the tooltip title text to display for the button.

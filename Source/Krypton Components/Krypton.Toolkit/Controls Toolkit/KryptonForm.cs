@@ -145,7 +145,6 @@ namespace Krypton.Toolkit
                                               PaletteMetricPadding.None,
                                               VisualOrientation.Top)
             {
-
                 // We need the border drawn before content to allow any injected elements
                 // such as the application button for the ribbon to draw over borders.
                 ForceBorderFirst = true
@@ -184,7 +183,7 @@ namespace Krypton.Toolkit
             _buttonManager.ToolTipManager = ToolTipManager;
 
             // Hook into global static events
-            KryptonManager.GlobalAllowFormChromeChanged += OnGlobalAllowFormChromeChanged;
+            KryptonManager.GlobalUseThemeFormChromeBorderWidthChanged += OnGlobalUseThemeFormChromeBorderWidthChanged;
             KryptonManager.GlobalPaletteChanged += OnGlobalPaletteChanged;
 
             // Create the view manager instance
@@ -217,7 +216,7 @@ namespace Krypton.Toolkit
 
                 // Unhook from the global static events
                 KryptonManager.GlobalPaletteChanged -= OnGlobalPaletteChanged;
-                KryptonManager.GlobalAllowFormChromeChanged -= OnGlobalAllowFormChromeChanged;
+                KryptonManager.GlobalUseThemeFormChromeBorderWidthChanged -= OnGlobalUseThemeFormChromeBorderWidthChanged;
 
                 // Clear down the cached bitmap
                 if (_cacheBitmap != null)
@@ -268,7 +267,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Should custom chrome be allowed for this KryptonForm instance.")]
         [DefaultValue(true)]
-        public bool AllowFormChrome
+        public new bool UseThemeFormChromeBorderWidth
         {
             get => _allowFormChrome;
             set
@@ -278,7 +277,8 @@ namespace Krypton.Toolkit
                     _allowFormChrome = value;
 
                     // Do we want to switch on/off the custom chrome?
-                    UpdateCustomChromeDecision();
+                    UpdateUseThemeFormChromeBorderWidthDecision();
+                    RecalcNonClient();
                 }
             }
         }
@@ -916,7 +916,7 @@ namespace Krypton.Toolkit
             base.OnLoad(e);
 
             // We only apply custom chrome when control is already created and positioned
-            UpdateCustomChromeDecision();
+            UpdateUseThemeFormChromeBorderWidthDecision();
         }
 
         /// <summary>
@@ -973,7 +973,7 @@ namespace Krypton.Toolkit
             _drawContent.Enabled = WindowActive;
 
             // Only need to redraw if showing custom chrome
-            if (ApplyCustomChrome)
+            //if (ApplyCustomChrome)
             {
                 PerformNeedPaint(false);
             }
@@ -991,17 +991,17 @@ namespace Krypton.Toolkit
             base.OnPaletteChanged(e);
 
             // Test if we need to change the custom chrome usage
-            UpdateCustomChromeDecision();
+            UpdateUseThemeFormChromeBorderWidthDecision();
         }
 
         /// <summary>
-        /// Occurs when the AllowFormChromeChanged event is fired for the current palette.
+        /// Occurs when the UseThemeFormChromeBorderWidthChanged event is fired for the current palette.
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">An EventArgs containing the event data.</param>
-        protected override void OnAllowFormChromeChanged(object sender, EventArgs e) =>
+        protected override void OnUseThemeFormChromeBorderWidthChanged(object sender, EventArgs e) =>
             // Test if we need to change the custom chrome usage
-            UpdateCustomChromeDecision();
+            UpdateUseThemeFormChromeBorderWidthDecision();
 
         #endregion
 
@@ -1445,7 +1445,7 @@ namespace Krypton.Toolkit
                             // Track the window state at the time the region is created
                             _regionWindowState = WindowState;
 
-                            // Get the path for the border so we can shape the form using it
+                            // Get the path for the border, so we can shape the form using it
                             using var context = new RenderContext(this, null, Bounds, Renderer);
                             using GraphicsPath? path = _drawDocker.GetOuterBorderPath(context);
                             if (!_firstCheckView)
@@ -1536,22 +1536,26 @@ namespace Krypton.Toolkit
             oldRegion?.Dispose();
         }
 
-        private void UpdateCustomChromeDecision()
+        private bool _hasUseThemeFormChromeBorderWidthFirstRun;
+        private void UpdateUseThemeFormChromeBorderWidthDecision()
         {
             if (IsHandleCreated)
             {
                 // Decide if we should have custom chrome applied
-                var needChrome = AllowFormChrome &&
-                                 KryptonManager.AllowFormChrome &&
-                                 (GetResolvedPalette().GetAllowFormChrome() == InheritBool.True);
+                var needChrome = UseThemeFormChromeBorderWidth &&
+                                 KryptonManager.UseThemeFormChromeBorderWidth &&
+                                 (GetResolvedPalette().UseThemeFormChromeBorderWidth == InheritBool.True);
 
                 // Is there a change in custom chrome requirement?
-                if (ApplyCustomChrome != needChrome)
+                if (UseThemeFormChromeBorderWidth != needChrome
+                    || !_hasUseThemeFormChromeBorderWidthFirstRun)
                 {
+                    _hasUseThemeFormChromeBorderWidthFirstRun = true;
                     _recreateButtons = true;
                     _firstCheckView = true;
-                    ApplyCustomChrome = needChrome;
-                    PerformNeedPaint(needChrome);
+                    UseThemeFormChromeBorderWidth = needChrome;
+                    base.UseThemeFormChromeBorderWidth = true; // make sure "Form" buttons are drawn correctly
+                    PerformNeedPaint(true);     // Force Layout size change 
                 }
             }
         }
@@ -1708,14 +1712,14 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnGlobalAllowFormChromeChanged(object sender, EventArgs e) => UpdateCustomChromeDecision();
+        private void OnGlobalUseThemeFormChromeBorderWidthChanged(object sender, EventArgs e) => UpdateUseThemeFormChromeBorderWidthDecision();
 
         private void OnGlobalPaletteChanged(object sender, EventArgs e)
         {
             // We only care if we are using the global palette
             if (PaletteMode == PaletteMode.Global)
             {
-                UpdateCustomChromeDecision();
+                UpdateUseThemeFormChromeBorderWidthDecision();
             }
         }
 

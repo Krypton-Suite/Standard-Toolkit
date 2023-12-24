@@ -737,15 +737,14 @@ namespace Krypton.Toolkit
                 // Cache commonly used values
                 var borderWidth = palette.GetBorderWidth(state);
 
-                // Get the orientation correct borders value
-                borders = CommonHelper.OrientateDrawBorders(borders, orientation);
-
                 // Is there any border to actually draw?
                 if (borderWidth > 0)
                 {
+                    // Get the orientation correct borders value
+                    borders = CommonHelper.OrientateDrawBorders(borders, orientation);
                     using var clip = new Clipping(context.Graphics, rect);
                     // We always create the first border path variant
-                    GraphicsPath borderPath0 = CreateBorderBackPath(true, true, rect, borders, borderWidth,
+                    using GraphicsPath borderPath0 = CreateBorderBackPath(true, true, rect, borders, borderWidth,
                         palette.GetBorderRounding(state),
                         smoothMode == SmoothingMode.AntiAlias, 0);
 
@@ -806,8 +805,6 @@ namespace Krypton.Toolkit
                     }
 
                     // Remember to dispose of resources
-                    borderPath0.Dispose();
-
                     borderPath1?.Dispose();
                 }
             }
@@ -5729,6 +5726,14 @@ namespace Krypton.Toolkit
             {
                 try
                 {
+                    if ( (displayRect.Width <0)
+                        || (displayRect.Height<0)
+                        )
+                    {
+                        // Target area is not valid
+                        memento.DrawImage = false;
+                        return;
+                    }
                     // Check for enough space to show all of the image
                     if ((displayRect.Width < memento.Image.Width)
                         || (displayRect.Height < memento.Image.Height)
@@ -5758,7 +5763,7 @@ namespace Krypton.Toolkit
                 catch
                 {
                     // Image is not valid, so do not use it!
-                    memento.Image = null;
+                    //memento.Image = null;
                     memento.DrawImage = false;
                 }
             }

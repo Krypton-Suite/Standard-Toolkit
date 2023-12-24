@@ -183,9 +183,13 @@ There are list of changes that have occurred during the development of the V90.#
   - BaseFont is now part of the KryptonManager class, and will override the applied palette font(s)
   - `CustomPalette` must be derived from the `KryptonCustomPaletteBase` class
   - `BasePaletteMode` has been removed from `KryptonCustomPaletteBase` class
+- [#124](https://github.com/Krypton-Suite/Standard-Toolkit/issues/124), When setting AllowFormChrome = false, then the Form Bar should still be Theme rendered
+  - `AllowFormChrome` has been removed and replaced with `UseThemeFormChromeBorderWidth` to better explain what it is doing
+  - It means that a theme can get closer to "Material Design", and that the Title bar can still be themed (And rounded)
 
 ### Support for .NET 7
 As of V90.##, support for .NET 7 has been removed due to their release cadences.
+
 
 ### `KryptonButton` Properties
 Some properties previously found in the root such as, `ShowSplitOption`, `UseAsADialogButton`, `UseAsUACElevationButton` and `UACShieldIconSize` are now located in the `Values` section.
