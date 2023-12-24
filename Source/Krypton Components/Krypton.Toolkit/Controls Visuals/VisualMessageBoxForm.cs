@@ -54,6 +54,19 @@ namespace Krypton.Toolkit
         private readonly bool? _isCheckBoxChecked;
         private readonly CheckState? _checkBoxCheckState;
 
+        private KryptonMessageBoxResult _messageBoxResult;
+
+        #endregion
+
+        #region Public
+
+        public KryptonMessageBoxResult MessageBoxResult
+        {
+            get => _messageBoxResult;
+
+            set => _messageBoxResult = value;
+        }
+
         #endregion
 
         #region Identity
@@ -1382,6 +1395,17 @@ namespace Krypton.Toolkit
             var messageBox = new VisualMessageBoxForm();
 
             return messageBox.kchkMessageboxCheckBox.CheckState;
+        }
+
+        #endregion
+
+        #region KryptonMessageBoxResult Methods
+
+        public KryptonMessageBoxResult ShowMessageBox() => ShowMessageBox(null);
+
+        public KryptonMessageBoxResult ShowMessageBox(IWin32Window? owner)
+        {
+            return KryptonMessageBoxResult.Ignore;
         }
 
         #endregion
