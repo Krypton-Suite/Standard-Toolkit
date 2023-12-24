@@ -95,7 +95,8 @@ namespace Krypton.Toolkit
                                        LinkArea? contentLinkArea,
                                        ContentAlignment? messageTextAlignment,
                                        bool? forceUseOfOperatingSystemIcons, string? checkBoxText,
-                                       bool? isCheckBoxChecked, CheckState? checkBoxCheckState)
+                                       bool? isCheckBoxChecked, CheckState? checkBoxCheckState,
+                                       bool? showCloseButton)
         {
             // Store incoming values
             _text = text ?? string.Empty;
@@ -123,6 +124,7 @@ namespace Krypton.Toolkit
             _checkBoxText = checkBoxText ?? string.Empty;
             _isCheckBoxChecked = isCheckBoxChecked ?? false;
             _checkBoxCheckState = checkBoxCheckState ?? CheckState.Unchecked;
+            _showCloseButton = showCloseButton ?? true;
 
             // Create the form contents
             InitializeComponent();
@@ -150,6 +152,8 @@ namespace Krypton.Toolkit
             SetCheckBoxChecked(_isCheckBoxChecked);
 
             SetCheckBoxCheckedState(_checkBoxCheckState);
+
+            ShowCloseButton(showCloseButton);
         }
 
         public VisualMessageBoxForm(KryptonMessageBoxData messageBoxData)

@@ -84,7 +84,9 @@ namespace TestForm
                 ShowCloseButton = kryptonCheckBox1.Checked
             };
 
-            KryptonMessageBox.Show(data);
+            KryptonMessageBox.Show(@"This is a test!", @"Testing", KryptonMessageBoxButtons.OK,
+                KryptonMessageBoxIcon.Information, contentAreaType: MessageBoxContentAreaType.LinkLabel,
+                linkAreaCommand: kcmdMessageboxTest);
         }
 
         private void kcmdMessageboxTest_Execute(object sender, EventArgs e)
