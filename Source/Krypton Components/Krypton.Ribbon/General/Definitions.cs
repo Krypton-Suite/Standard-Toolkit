@@ -313,7 +313,7 @@ namespace Krypton.Ribbon
         /// Update the group with the provided sizing solution.
         /// </summary>
         /// <param name="size">Array of values for the group containers.</param>
-        void SetSolutionSize(ItemSizeWidth[] size);
+        void SetSolutionSize(ItemSizeWidth[]? size);
     }
     #endregion
 

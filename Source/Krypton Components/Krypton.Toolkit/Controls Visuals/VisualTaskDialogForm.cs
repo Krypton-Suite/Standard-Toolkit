@@ -945,12 +945,12 @@ namespace Krypton.Toolkit
             Close();
 
             // Update the result code from the command button
-            var button = (KryptonButton)sender;
-            DialogResult = button.DialogResult;
+            var button = sender as KryptonButton;
+            DialogResult = button!.DialogResult;
 
             // Invoke any event handlers from the command button
-            var command = (KryptonTaskDialogCommand)button.Tag;
-            command.PerformExecute();
+            var command = button.Tag as KryptonTaskDialogCommand;
+            command?.PerformExecute();
         }
 
         private void OnTaskDialogFormClosing(object sender, FormClosingEventArgs e)

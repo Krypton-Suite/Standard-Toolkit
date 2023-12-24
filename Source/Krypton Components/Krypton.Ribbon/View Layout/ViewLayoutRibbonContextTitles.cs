@@ -44,8 +44,8 @@ namespace Krypton.Ribbon
         {
             Debug.Assert(captionArea != null);
             Debug.Assert(ribbon != null);
-            _ribbon = ribbon;
-            _captionArea = captionArea;
+            _ribbon = ribbon!;
+            _captionArea = captionArea!;
 
             // Create cache of draw elements
             _contextTitlesCache = [];
@@ -102,10 +102,10 @@ namespace Krypton.Ribbon
             SyncChildrenToContexts();
 
             // We take on all the available display area
-            ClientRectangle = context.DisplayRectangle;
+            ClientRectangle = context!.DisplayRectangle;
 
             // Find any filler child
-            ViewBase filler = this.FirstOrDefault(child => GetDock(child) == ViewDockStyle.Fill);
+            ViewBase? filler = this.FirstOrDefault(child => GetDock(child) == ViewDockStyle.Fill);
 
             var xLeftMost = ClientRectangle.Right;
             var xRightMost = ClientRectangle.Left;
@@ -214,9 +214,9 @@ namespace Krypton.Ribbon
             for (var i = 0; i < ViewLayoutRibbonTabs.ContextTabSets.Count; i++)
             {
                 ViewDrawRibbonContextTitle viewContext = _contextTitlesCache[i];
-                var viewController = (ContextTitleController)viewContext.MouseController;
+                var viewController = viewContext.MouseController as ContextTitleController;
                 viewContext.ContextTabSet = ViewLayoutRibbonTabs.ContextTabSets[i];
-                viewController.ContextTabSet = viewContext.ContextTabSet;
+                viewController!.ContextTabSet = viewContext.ContextTabSet;
                 Add(viewContext);
             }
 

@@ -42,9 +42,9 @@ namespace Krypton.Ribbon
                                          bool bottomHalf)
         {
             Debug.Assert(ribbon != null);
-            _ribbon = ribbon;
+            _ribbon = ribbon!;
 
-            AppButton = new ViewDrawRibbonAppButton(ribbon, bottomHalf);
+            AppButton = new ViewDrawRibbonAppButton(ribbon!, bottomHalf);
             _separator = new ViewLayoutRibbonSeparator(APPBUTTON_GAP, true);
 
             // Dock it against the appropriate edge

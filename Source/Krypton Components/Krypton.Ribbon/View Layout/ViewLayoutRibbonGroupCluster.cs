@@ -61,8 +61,8 @@ namespace Krypton.Ribbon
             Debug.Assert(needPaint != null);
 
             // Cache references
-            _ribbon = ribbon;
-            _ribbonCluster = ribbonCluster;
+            _ribbon = ribbon!;
+            _ribbonCluster = ribbonCluster!;
             _needPaint = needPaint;
             _currentSize = GroupItemSize.Medium;
 
@@ -93,7 +93,7 @@ namespace Krypton.Ribbon
             // At design time we want to track the mouse and show feedback
             if (_ribbon.InDesignMode)
             {
-                var controller = new ViewHightlightController(this, needPaint);
+                var controller = new ViewHightlightController(this, needPaint!);
                 controller.ContextClick += OnContextClick;
                 MouseController = controller;
             }
@@ -336,8 +336,8 @@ namespace Krypton.Ribbon
             }
 
             // Our current size is based on the parent one
-            var viewLines = (ViewLayoutRibbonGroupLines)Parent;
-            _currentSize = viewLines.CurrentSize == GroupItemSize.Small ? GroupItemSize.Small : GroupItemSize.Medium;
+            var viewLines = Parent as ViewLayoutRibbonGroupLines;
+            _currentSize = viewLines?.CurrentSize == GroupItemSize.Small ? GroupItemSize.Small : GroupItemSize.Medium;
         }
 
         /// <summary>
@@ -360,10 +360,10 @@ namespace Krypton.Ribbon
             // Find total width and maximum height across all child elements
             for (var i = 0; i < Count; i++)
             {
-                ViewBase child = this[i];
+                ViewBase? child = this[i];
 
                 // Only interested in visible items
-                if (child.Visible)
+                if (child!.Visible)
                 {
                     // Cache preferred size of the child
                     Size childSize = child.GetPreferredSize(context);
@@ -397,7 +397,7 @@ namespace Krypton.Ribbon
             Debug.Assert(context != null);
 
             // Store the provided client area
-            ClientRectangle = context.DisplayRectangle;
+            ClientRectangle = context!.DisplayRectangle;
 
             // Define visible state of the separators
             _startSep.Visible = _startSepVisible && (_lastShape == PaletteRibbonShape.Office2010);
@@ -422,10 +422,10 @@ namespace Krypton.Ribbon
                 // Position each item from left/top to right/bottom 
                 for (var i = 0; i < Count; i++)
                 {
-                    ViewBase child = this[i];
+                    ViewBase? child = this[i];
 
                     // We only position visible items
-                    if (child.Visible)
+                    if (child!.Visible)
                     {
                         // Cache preferred size of the child
                         Size childSize = viewToSize[child];
@@ -434,7 +434,7 @@ namespace Krypton.Ribbon
                         context.DisplayRectangle = new Rectangle(x, y, childSize.Width, ClientHeight);
 
                         // Position the element
-                        this[i].Layout(context);
+                        this[i]?.Layout(context);
 
                         // Move across to next position
                         x += childSize.Width;
@@ -528,7 +528,7 @@ namespace Krypton.Ribbon
                 else
                 {
                     // Ask the item definition to return an appropriate view
-                    itemView = item.CreateView(_ribbon, _needPaint);
+                    itemView = item.CreateView(_ribbon, _needPaint!);
 
                     // Create a border edge to go with the item view
                     itemEdge = new ViewDrawRibbonGroupClusterEdge(_ribbon, _paletteBorderEdge);
@@ -621,12 +621,12 @@ namespace Krypton.Ribbon
                 view.Dispose();
             }
 
-            foreach (ViewBase view in _viewToEdge.Values)
+            foreach (var view in _viewToEdge.Values)
             {
                 view.Dispose();
             }
 
-            // Always add the end separator as the last view element (excluding any desing time additions)
+            // Always add the end separator as the last view element (excluding any design time additions)
             Add(_endSep);
 
             // Define visible state of the separators
@@ -639,7 +639,7 @@ namespace Krypton.Ribbon
                 // Create the design time 'Item' first time it is needed
                 _viewAddItem ??= new ViewDrawRibbonDesignCluster(_ribbon,
                         _ribbonCluster,
-                        _needPaint);
+                        _needPaint!);
 
                 // Always add at end of the list of items
                 Add(_viewAddItem);

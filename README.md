@@ -20,9 +20,10 @@
 * [Version History](#version-history)
 * [Breaking Changes](#breaking-changes)
 	* [V90.## (2024-11-xx - Build 2411 - November 2024)](v90-24-11-xx--build-2411---november-2024)
-	    * [Support for .NET 7](#support-for-net-7)
+	    * [Support for .NET 6/7](#support-for-net-67)
 		* [`KryptonButton` Properties](#kryptonbutton-properties)
 		* [API Changes](#api-changes)
+		* [`KryptonInputBox`](#kryptoninputbox)
 	* [V80.## (2023-11-14 - Build 2311 - November 2023)](#v80-2023-11-14---build-2311---november-2023)
 		* [Support for .NET Core 3.1 and .NET 5](#support-for-net-core-31-and-net-5)
 		* [KryptonMessageBoxButtons](#kryptonmessageboxbuttons)
@@ -184,14 +185,17 @@ There are list of changes that have occurred during the development of the V90.#
   - `CustomPalette` must be derived from the `KryptonCustomPaletteBase` class
   - `BasePaletteMode` has been removed from `KryptonCustomPaletteBase` class
 
-### Support for .NET 7
-As of V90.##, support for .NET 7 has been removed due to their release cadences.
+### Support for .NET 6/7
+As of V90.##, support for .NET 6 and 7 has been removed due to their release cadences.
 
 ### `KryptonButton` Properties
 Some properties previously found in the root such as, `ShowSplitOption`, `UseAsADialogButton`, `UseAsUACElevationButton` and `UACShieldIconSize` are now located in the `Values` section.
 
 ### API Changes
 If using `KryptonAboutToolkit`, please note that this has been superceeded by `KryptonAboutBox`. Or if you use `KryptonThemeBrowserForm`, it has now been moved to `KryptonThemeBrowser` as the public facing API.
+
+### `KryptonInputBox`
+The `KryptonInputBox` now uses the new `KryptonInputBoxData` API, to handle data.
 
 ## V80.## (2023-11-14 - Build 2311 - November 2023)
 There are list of changes that have occurred during the development of the V80.## version

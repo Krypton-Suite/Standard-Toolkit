@@ -955,7 +955,7 @@ namespace Krypton.Toolkit
         protected override void OnClick(EventArgs e)
         {
             // Find the form this color button is on
-            Form owner = FindForm();
+            Form? owner = FindForm();
 
             // If we find a valid owner
             if (owner != null)
@@ -1099,10 +1099,10 @@ namespace Krypton.Toolkit
             switch (e.PropertyName)
             {
                 case nameof(Enabled):
-                    Enabled = KryptonCommand.Enabled;
+                    Enabled = KryptonCommand!.Enabled;
                     break;
                 case @"ImageSmall":
-                    Values.Image = KryptonCommand.ImageSmall;
+                    Values.Image = KryptonCommand!.ImageSmall;
                     PerformNeedPaint(true);
                     break;
                 case nameof(Text):
@@ -1233,7 +1233,7 @@ namespace Krypton.Toolkit
                     DecideOnVisible(_separatorMoreColors, _itemsMoreColors);
 
                     // Monitor relevant events inside the context menu
-                    HookContextMenuEvents(_kryptonContextMenu.Items, true);
+                    HookContextMenuEvents(_kryptonContextMenu!.Items, true);
 
                     // Show relative to the screen rectangle
                     cpma.KryptonContextMenu.Closed += OnKryptonContextMenuClosed;
@@ -1271,7 +1271,7 @@ namespace Krypton.Toolkit
             ContextMenuClosed();
 
             // Unhook from item events
-            HookContextMenuEvents(_kryptonContextMenu.Items, false);
+            HookContextMenuEvents(_kryptonContextMenu!.Items, false);
         }
 
         private void OnButtonSelect(object sender, MouseEventArgs e)
@@ -1337,9 +1337,9 @@ namespace Krypton.Toolkit
             if (AutoRecentColors)
             {
                 // We do not add to recent colors if it is inside another color columns 
-                foreach (KryptonContextMenuItemBase item in _kryptonContextMenu.Items)
+                foreach (KryptonContextMenuItemBase item in _kryptonContextMenu!.Items)
                 {
-                    // Only interested in the non-recent colors color columns
+                    // Only interested in the non-recent colors, color columns
                     if ((item != _colorsRecent) && (item is KryptonContextMenuColorColumns colors))
                     {
                         // Cast to correct type
@@ -1439,7 +1439,7 @@ namespace Krypton.Toolkit
             if (target.Visible)
             {
                 // Check all items before the target
-                foreach (KryptonContextMenuItemBase item in _kryptonContextMenu.Items)
+                foreach (KryptonContextMenuItemBase item in _kryptonContextMenu!.Items)
                 {
                     // Finish when we reach the target
                     if (item == target)

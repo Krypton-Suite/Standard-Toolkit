@@ -31,8 +31,8 @@ namespace Krypton.Toolkit
         private bool _paintTransparent;
         private bool _evalTransparent;
         private bool _globalEvents;
-        private KryptonCustomPaletteBase _localCustomPalette;
-        private PaletteBase _palette;
+        private KryptonCustomPaletteBase? _localCustomPalette;
+        private PaletteBase? _palette;
         private PaletteMode _paletteMode;
         private readonly SimpleCall _refreshCall;
         private readonly SimpleCall _layoutCall;
@@ -160,7 +160,7 @@ namespace Krypton.Toolkit
                 _palette = null;
                 Renderer = null!;
                 _localCustomPalette = null;
-                Redirector!.Target = null;
+                Redirector.Target = null;
             }
 
             base.Dispose(disposing);
@@ -321,7 +321,7 @@ namespace Krypton.Toolkit
         public KryptonCustomPaletteBase LocalCustomPalette
         {
             [DebuggerStepThrough]
-            get => _localCustomPalette;
+            get => _localCustomPalette!;
 
             set
             {
@@ -329,7 +329,7 @@ namespace Krypton.Toolkit
                 if (_localCustomPalette != value)
                 {
                     // Remember the starting palette
-                    PaletteBase old = _localCustomPalette;
+                    PaletteBase? old = _localCustomPalette;
 
                     // Use the provided palette value
                     SetPalette(value);
@@ -387,7 +387,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public ToolStripRenderer? CreateToolStripRenderer() => Renderer?.RenderToolStrip(GetResolvedPalette());
+        public ToolStripRenderer CreateToolStripRenderer() => Renderer.RenderToolStrip(GetResolvedPalette());
 
         /// <summary>
         /// Gets or sets the background image displayed in the control.
@@ -423,7 +423,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public PaletteBase GetResolvedPalette() => _palette;
+        public PaletteBase GetResolvedPalette() => _palette!;
 
         /// <summary>
         /// Gets and sets the dirty palette counter.
@@ -625,7 +625,7 @@ namespace Krypton.Toolkit
                 }
 
                 // Move up one level
-                c = c.Parent;
+                c = c.Parent!;
             }
 
             // Every control in chain is visible and enabled, so allow mnemonics
@@ -706,7 +706,7 @@ namespace Krypton.Toolkit
         /// <param name="sender">Source of notification.</param>
         /// <param name="e">An NeedLayoutEventArgs containing event data.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        protected virtual void OnNeedPaint(object sender, [DisallowNull] NeedLayoutEventArgs e)
+        protected virtual void OnNeedPaint(object? sender, [DisallowNull] NeedLayoutEventArgs e)
         {
             Debug.Assert(e != null);
 
@@ -1189,7 +1189,7 @@ namespace Krypton.Toolkit
 
         private void OnBaseChanged(object sender, EventArgs e) =>
             // Change in base renderer or base palette require we fetch the latest renderer
-            Renderer = _palette?.GetRenderer();
+            Renderer = _palette?.GetRenderer()!;
 
         private void PaintTransparentBackground(PaintEventArgs? e)
         {
@@ -1257,10 +1257,10 @@ namespace Krypton.Toolkit
         private void OnContextMenuStripOpening(object sender, CancelEventArgs e)
         {
             // Get the actual strip instance
-            ContextMenuStrip cms = base.ContextMenuStrip;
+            ContextMenuStrip? cms = base.ContextMenuStrip;
 
             // Make sure it has the correct renderer
-            cms.Renderer = CreateToolStripRenderer()!;
+            cms!.Renderer = CreateToolStripRenderer()!;
         }
 
         private void OnKryptonContextMenuDisposed(object sender, EventArgs e) =>

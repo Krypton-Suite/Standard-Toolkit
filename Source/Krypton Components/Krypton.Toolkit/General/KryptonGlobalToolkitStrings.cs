@@ -246,6 +246,20 @@ namespace Krypton.Toolkit
         private bool ShouldSerializeTabStyleStrings() => !TabStyles.IsDefault;
         private void ResetTabStyleStrings() => TabStyles.Reset();
 
+        /// <summary>Gets the toast notification icon strings.</summary>
+        /// <value>The toast notification icon strings.</value>
+        [Category(@"Visuals")]
+        [Description(@"Collection of toast notification icon strings.")]
+        [MergableProperty(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        [Localizable(true)]
+        public ToastNotificationIconStrings ToastNotificationIconStrings => ToastNotificationIcon;
+
+        private bool ShouldSerializeToastNotificationIconStrings() => !ToastNotificationIcon.IsDefault;
+
+        /// <summary>Resets the toast notification icon strings.</summary>
+        public void ResetToastNotificationIconStrings() => ToastNotificationIcon.Reset();
+
         /// <summary>Gets the krypton about box basic application information strings.</summary>
         /// <value>The krypton about box basic application information strings.</value>
         [Category(@"Visuals")]
@@ -456,6 +470,10 @@ namespace Krypton.Toolkit
         /// <value>The tab styles.</value>
         public static TabStyleStrings TabStyles { get; } = new TabStyleStrings();
 
+        /// <summary>Gets the toast notification icon.</summary>
+        /// <value>The toast notification icon.</value>
+        public static ToastNotificationIconStrings ToastNotificationIcon { get; } = new ToastNotificationIconStrings();
+
         /// <summary>Gets the basic application information strings.</summary>
         /// <value>The basic application information strings.</value>
         public static KryptonAboutBoxBasicApplicationInformationStrings BasicApplicationInformationStrings { get; } = new KryptonAboutBoxBasicApplicationInformationStrings();
@@ -516,6 +534,7 @@ namespace Krypton.Toolkit
        ShouldSerializeSeparatorStyleStrings() ||
        ShouldSerializeTabBorderStyleStrings() ||
        ShouldSerializeTabStyleStrings() ||
+       ShouldSerializeToastNotificationIconStrings() ||
        ShouldSerializeKryptonAboutBoxBasicApplicationInformationStrings() ||
        ShouldSerializeKryptonAboutBoxStrings() ||
        ShouldSerializeKryptonMiscellaneousThemeStrings() ||
@@ -573,6 +592,8 @@ namespace Krypton.Toolkit
             ResetTabBorderStyleStrings();
 
             ResetTabStyleStrings();
+
+            ResetToastNotificationIconStrings();
 
             ResetKryptonKryptonAboutBoxBasicApplicationInformationStrings();
 

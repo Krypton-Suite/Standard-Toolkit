@@ -81,7 +81,7 @@ namespace Krypton.Toolkit
             /// </summary>
             /// <param name="checkButton">The KryptonCheckButton to locate in the collection.</param>
             /// <returns>True if found in collection; otherwise false.</returns>
-            public bool Contains(KryptonCheckButton checkButton) =>
+            public bool Contains(KryptonCheckButton? checkButton) =>
                 // ReSharper disable RedundantBaseQualifier
                 base.List.Contains(checkButton);
             // ReSharper restore RedundantBaseQualifier
@@ -91,7 +91,7 @@ namespace Krypton.Toolkit
             /// </summary>
             /// <param name="checkButton">The KryptonCheckButton to locate.</param>
             /// <returns>Index of reference; otherwise -1.</returns>
-            public int IndexOf(KryptonCheckButton checkButton) =>
+            public int IndexOf(KryptonCheckButton? checkButton) =>
                 // ReSharper disable RedundantBaseQualifier
                 base.List.IndexOf(checkButton);
             // ReSharper restore RedundantBaseQualifier
@@ -157,7 +157,7 @@ namespace Krypton.Toolkit
             /// </summary>
             /// <param name="index">Index of entry to return.</param>
             /// <returns>Reference of KryptonCheckButton instance.</returns>
-            public KryptonCheckButton this[int index]
+            public KryptonCheckButton? this[int index]
             {
                 get
                 {
@@ -167,7 +167,7 @@ namespace Krypton.Toolkit
                     }
 
                     // ReSharper disable RedundantBaseQualifier
-                    return (KryptonCheckButton)base.List[index];
+                    return base.List[index] as KryptonCheckButton;
                     // ReSharper restore RedundantBaseQualifier
                 }
             }

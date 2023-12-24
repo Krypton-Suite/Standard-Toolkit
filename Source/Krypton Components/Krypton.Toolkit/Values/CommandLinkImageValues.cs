@@ -7,13 +7,14 @@
  */
 #endregion
 
+// ReSharper disable InconsistentNaming
 namespace Krypton.Toolkit
 {
     public class CommandLinkImageValues : Storage, IContentValues
     {
         #region Static Fields
 
-        private static readonly Image DEFAULT_IMAGE = MessageBoxImageResources.GenericQuestion;
+        private static readonly Image? DEFAULT_IMAGE = /*MessageBoxImageResources.GenericQuestion*/ GraphicsExtensions.ScaleImage(GraphicsExtensions.ExtractIcon(Libraries.Shell32, 16805, true)?.ToBitmap(), 32, 32);
 
         private static readonly Image DEFAULT_WINDOWS_11_IMAGE = CommandLinkImageResources.Windows_11_CommandLink_Arrow;
 
@@ -106,7 +107,7 @@ namespace Krypton.Toolkit
         [Category("Visuals")]
         [Description("The image.")]
         [RefreshProperties(RefreshProperties.All)]
-        //[DefaultValue()]
+        [DefaultValue(typeof(Image), @"DEFAULT_IMAGE")]
         public Image? Image
         {
             get => _image;
@@ -121,28 +122,13 @@ namespace Krypton.Toolkit
 
         }
 
-        private bool ShouldSerializeImage() => Image != DEFAULT_WINDOWS_11_IMAGE;
+        private bool ShouldSerializeImage() => Image != DEFAULT_IMAGE;
 
         public void ResetImage()
         {
-            //if (OSUtilities.IsWindowsEleven)
-            //{
-            //    Image = DEFAULT_WINDOWS_11_IMAGE;
-            //}
-            //else if (OSUtilities.IsWindowsTen)
-            //{
-            //    Image = DEFAULT_WINDOWS_10_IMAGE;
-            //}
-            //else if (OSUtilities.IsWindowsEightPointOne || OSUtilities.IsWindowsEight || OSUtilities.IsWindowsSeven)
-            //{
+            Image = DEFAULT_IMAGE;
 
-            //}
-            //else
-            //{
-            //    Image = DEFAULT_IMAGE;
-            //}
-
-            Image = DEFAULT_WINDOWS_11_IMAGE;
+            // Image = DEFAULT_WINDOWS_11_IMAGE;
         }
 
         [DefaultValue(UACShieldIconSize.Small), Description(@"")]

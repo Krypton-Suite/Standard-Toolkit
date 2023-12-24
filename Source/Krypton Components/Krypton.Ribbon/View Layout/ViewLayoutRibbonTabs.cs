@@ -62,8 +62,8 @@ namespace Krypton.Ribbon
             Debug.Assert(needPaint != null);
 
             // Cache references
-            _ribbon = ribbon;
-            _needPaint = needPaint;
+            _ribbon = ribbon!;
+            _needPaint = needPaint!;
 
             // Create cache of draw elements
             _tabCache = [];
@@ -120,7 +120,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets the parent control.
         /// </summary>
-        public Control ParentControl { get; set; }
+        public Control? ParentControl { get; set; }
 
         #endregion
 
@@ -254,13 +254,13 @@ namespace Krypton.Ribbon
                 {
 
                     // Get the screen location of the view tab
-                    Rectangle tabRect = viewTab.OwningControl.RectangleToScreen(viewTab.ClientRectangle);
+                    Rectangle tabRect = viewTab.OwningControl!.RectangleToScreen(viewTab.ClientRectangle);
 
                     // The keytip should be centered on the bottom center of the view
                     var screenPt = new Point(tabRect.Left + (tabRect.Width / 2), tabRect.Bottom + 2);
 
                     // Create new key tip that invokes the tab controller when selected
-                    keyTipList.Add(new KeyTipInfo(true, viewTab.RibbonTab.KeyTip,
+                    keyTipList.Add(new KeyTipInfo(true, viewTab.RibbonTab!.KeyTip,
                                                   screenPt, viewTab.ClientRectangle,
                                                   viewTab.KeyTipTarget));
                 }
@@ -357,10 +357,10 @@ namespace Krypton.Ribbon
             // Find total width and maximum height across all child elements
             for (var i = 0; i < Count; i++)
             {
-                ViewBase child = this[i];
+                ViewBase? child = this[i];
 
                 // Only interested in visible items
-                if (child.Visible)
+                if (child!.Visible)
                 {
                     // Cache preferred size of the child
                     _cachedSizes[i] = child.GetPreferredSize(context);
@@ -443,7 +443,7 @@ namespace Krypton.Ribbon
             SyncChildrenToRibbonTabs();
 
             // We take on all the available display area
-            ClientRectangle = context.DisplayRectangle;
+            ClientRectangle = context!.DisplayRectangle;
 
             var x = ClientLocation.X;
 
@@ -484,7 +484,7 @@ namespace Krypton.Ribbon
                         }
 
                         // Position the element
-                        this[i].Layout(context);
+                        this[i]?.Layout(context);
 
                         // Move across to next position
                         x += layoutSizes[i].Width;
@@ -511,12 +511,12 @@ namespace Krypton.Ribbon
             }
 
             // We have an owning form we need to update the custom area it treats as a caption
-            if (_ribbon.CaptionArea.KryptonForm != null)
+            if (_ribbon.CaptionArea?.KryptonForm != null)
             {
                 if (!customCaptionRect.IsEmpty)
                 {
                     // Convert the rectangle to the owning form coordinates
-                    customCaptionRect = ParentControl.RectangleToScreen(customCaptionRect);
+                    customCaptionRect = ParentControl!.RectangleToScreen(customCaptionRect);
                     customCaptionRect = _ribbon.CaptionArea.KryptonForm.RectangleToClient(customCaptionRect);
                 }
 
@@ -627,7 +627,7 @@ namespace Krypton.Ribbon
                         // Create tab set when first needed, otherwise this tab must be the last one
                         if (cts == null)
                         {
-                            cts = new ContextTabSet(drawTab, _ribbon.RibbonContexts[ribbonTab.ContextName]);
+                            cts = new ContextTabSet(drawTab, _ribbon.RibbonContexts[ribbonTab.ContextName]!);
                         }
                         else
                         {
@@ -784,7 +784,7 @@ namespace Krypton.Ribbon
             // In design mode 
             if (_ribbon.InDesignHelperMode)
             {
-                // All all the defined ribbon contexts
+                // All the defined ribbon contexts
                 foreach (KryptonRibbonContext context in _ribbon.RibbonContexts)
                 {
                     _cachedSelectedContext.Add(context.ContextName);

@@ -45,8 +45,8 @@ namespace Krypton.Ribbon
             Debug.Assert(ribbon != null);
             Debug.Assert(needPaint != null);
 
-            Ribbon = ribbon;
-            _needPaint = needPaint;
+            Ribbon = ribbon!;
+            _needPaint = needPaint!;
 
             // Create initial lookup table
             _qatButtonToView = new QATButtonToView();
@@ -54,7 +54,7 @@ namespace Krypton.Ribbon
             // Create the extra button for customization/overflow
             if (showExtraButton)
             {
-                _extraButton = new ViewDrawRibbonQATExtraButton(ribbon, needPaint);
+                _extraButton = new ViewDrawRibbonQATExtraButton(ribbon!, needPaint!);
                 _extraButton.ClickAndFinish += OnExtraButtonClick;
             }
         }
@@ -203,19 +203,19 @@ namespace Krypton.Ribbon
             // Find total width and maximum height across all child elements
             for (var i = 0; i < Count; i++)
             {
-                ViewBase child = this[i];
+                ViewBase? child = this[i];
 
                 // Only interested in visible items that are not the extra button
                 if (child != _extraButton)
                 {
                     // Cast child to correct type
-                    var view = (ViewDrawRibbonQATButton)child;
+                    var view = child as ViewDrawRibbonQATButton;
 
                     // If the quick access toolbar button wants to be visible
-                    if (view.QATButton.GetVisible() || Ribbon.InDesignHelperMode)
+                    if (view!.QATButton.GetVisible() || Ribbon.InDesignHelperMode)
                     {
                         // Cache preferred size of the child
-                        Size childSize = child.GetPreferredSize(context);
+                        Size childSize = child!.GetPreferredSize(context);
 
                         // Only need extra processing for children that have some width
                         if (childSize.Width > 0)
@@ -261,7 +261,7 @@ namespace Krypton.Ribbon
             SyncChildren(true);
 
             // We take on all the available display area
-            ClientRectangle = context.DisplayRectangle;
+            ClientRectangle = context!.DisplayRectangle;
 
             var x = ClientLocation.X;
             var right = ClientRectangle.Right;
@@ -286,15 +286,15 @@ namespace Krypton.Ribbon
                 // Position each item from left to right taking up entire height
                 for (var i = 0; i < Count; i++)
                 {
-                    ViewBase child = this[i];
+                    ViewBase? child = this[i];
 
-                    // We only position visible items and we always ignore the extra button
+                    // We only position visible items, and we always ignore the extra button
                     if (child != _extraButton)
                     {
-                        if (child.Visible)
+                        if (child!.Visible)
                         {
                             // Cache preferred size of the child
-                            Size childSize = this[i].GetPreferredSize(context);
+                            Size childSize = this[i]!.GetPreferredSize(context);
 
                             // Is there enough width for this item to be displayed
                             if ((childSize.Width + x) <= right)
@@ -303,7 +303,7 @@ namespace Krypton.Ribbon
                                 context.DisplayRectangle = new Rectangle(x, y, childSize.Width, height);
 
                                 // Position the element
-                                this[i].Layout(context);
+                                this[i]!.Layout(context);
 
                                 // Move across to next position
                                 x += childSize.Width;
@@ -529,7 +529,7 @@ namespace Krypton.Ribbon
             foreach (IQuickAccessToolbarButton qatButton in qatButtons)
             {
                 // Get the currently cached view for the button
-                if (!_qatButtonToView.TryGetValue(qatButton, out ViewDrawRibbonQATButton view))
+                if (!_qatButtonToView.TryGetValue(qatButton, out var view))
                 {
                     // If a new button, create a view for it now
                     view = new ViewDrawRibbonQATButton(Ribbon, qatButton, _needPaint);

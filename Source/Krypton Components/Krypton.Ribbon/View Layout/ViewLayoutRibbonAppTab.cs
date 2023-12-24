@@ -32,9 +32,9 @@ namespace Krypton.Ribbon
         public ViewLayoutRibbonAppTab([DisallowNull] KryptonRibbon ribbon)
         {
             Debug.Assert(ribbon != null);
-            _ribbon = ribbon;
+            _ribbon = ribbon!;
 
-            AppTab = new ViewDrawRibbonAppTab(ribbon);
+            AppTab = new ViewDrawRibbonAppTab(ribbon!);
 
             // Dock it against the appropriate edge
             Add(AppTab, ViewDockStyle.Bottom);

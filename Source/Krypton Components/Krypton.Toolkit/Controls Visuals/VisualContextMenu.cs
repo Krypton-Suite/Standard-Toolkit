@@ -93,7 +93,7 @@ namespace Krypton.Toolkit
 
             // Create provider instance
             _provider = new ContextMenuProvider(contextMenu, (ViewContextMenuManager)ViewManager, _viewColumns,
-                                                palette, paletteMode, redirector, redirectorImages,
+                                                palette!, paletteMode, redirector, redirectorImages,
                                                 NeedPaintDelegate, enabled);
 
             _provider.Closing += OnProviderClosing;
@@ -488,7 +488,7 @@ namespace Krypton.Toolkit
                 Redirector!.Target = _palette;
 
                 // Get the renderer associated with the palette
-                Renderer = _palette?.GetRenderer();
+                Renderer = _palette.GetRenderer();
 
                 // Hook to new palette events
                 if (_palette != null)
@@ -502,7 +502,7 @@ namespace Krypton.Toolkit
 
         private void OnBaseChanged(object sender, EventArgs e) =>
             // Change in base renderer or base palette require we fetch the latest renderer
-            Renderer = _palette?.GetRenderer();
+            Renderer = _palette.GetRenderer();
 
         private void OnProviderClosing(object sender, CancelEventArgs e) => _contextMenu?.OnClosing(e);
 

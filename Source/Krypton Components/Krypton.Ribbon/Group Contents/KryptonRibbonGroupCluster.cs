@@ -315,7 +315,7 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        public ViewBase ClusterView { get; set; }
+        public ViewBase? ClusterView { get; set; }
 
         #endregion
 
