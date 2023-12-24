@@ -33,7 +33,7 @@ namespace Krypton.Toolkit
         private readonly KryptonMessageBoxDefaultButton _defaultButton;
         private readonly MessageBoxOptions _options; // https://github.com/Krypton-Suite/Standard-Toolkit/issues/313
 
-        // If help information provided or we are not a service/default desktop application then grab an owner for showing the message box
+        // If help information provided, or we are not a service/default desktop application then grab an owner for showing the message box
         private readonly IWin32Window? _showOwner;
         private readonly HelpInfo? _helpInfo;
 
@@ -48,6 +48,11 @@ namespace Krypton.Toolkit
         private readonly ProcessStartInfo? _linkLaunchArgument;
         private readonly ContentAlignment? _messageTextAlignment;
         private readonly LinkArea _contentLinkArea;
+
+        // For check box
+        private readonly string? _checkBoxText;
+        private readonly bool? _isCheckBoxChecked;
+        private readonly CheckState? _checkBoxCheckState;
 
         #endregion
 
@@ -75,7 +80,8 @@ namespace Krypton.Toolkit
                                        ProcessStartInfo? linkLaunchArgument,
                                        LinkArea? contentLinkArea,
                                        ContentAlignment? messageTextAlignment,
-                                       bool? forceUseOfOperatingSystemIcons)
+                                       bool? forceUseOfOperatingSystemIcons, string? checkBoxText,
+                                       bool? isCheckBoxChecked, CheckState? checkBoxCheckState)
         {
             // Store incoming values
             _text = text ?? string.Empty;
@@ -100,6 +106,9 @@ namespace Krypton.Toolkit
             _linkLaunchArgument = linkLaunchArgument ?? new ProcessStartInfo();
             _messageTextAlignment = messageTextAlignment ?? ContentAlignment.MiddleLeft;
             _forceUseOfOperatingSystemIcons = forceUseOfOperatingSystemIcons ?? false;
+            _checkBoxText = checkBoxText ?? string.Empty;
+            _isCheckBoxChecked = isCheckBoxChecked ?? false;
+            _checkBoxCheckState = checkBoxCheckState ?? CheckState.Unchecked;
 
             // Create the form contents
             InitializeComponent();
@@ -121,6 +130,12 @@ namespace Krypton.Toolkit
 
             // Finally calculate and set form sizing
             UpdateSizing(showOwner);
+
+            UpdateCheckBox(_checkBoxText);
+
+            SetCheckBoxChecked(_isCheckBoxChecked);
+
+            SetCheckBoxCheckedState(_checkBoxCheckState);
         }
 
         public VisualMessageBoxForm(KryptonMessageBoxData messageBoxData)
@@ -146,6 +161,19 @@ namespace Krypton.Toolkit
 
             SetupActionButtonUI(_messageBoxData.ShowActionButton);
 
+            UpdateCheckBox(_messageBoxData.CheckBoxText);
+
+            if (_messageBoxData.IsCheckBoxChecked != null)
+            {
+
+                SetCheckBoxChecked(_messageBoxData.IsCheckBoxChecked);
+            }
+
+            if (_messageBoxData.CheckBoxCheckState != null)
+            {
+                SetCheckBoxCheckedState(_messageBoxData.CheckBoxCheckState);
+            }
+
             // Finally calculate and set form sizing
             UpdateSizing(_messageBoxData.Owner);
         }
@@ -162,15 +190,15 @@ namespace Krypton.Toolkit
             switch (contentAreaType)
             {
                 case MessageBoxContentAreaType.Normal:
-                    _messageText.Text = text;
+                    kwlblMessageText.Text = text;
 
-                    _messageText.RightToLeft = options.HasFlag(MessageBoxOptions.RightAlign) ? RightToLeft.Yes :
+                    kwlblMessageText.RightToLeft = options.HasFlag(MessageBoxOptions.RightAlign) ? RightToLeft.Yes :
                         options.HasFlag(MessageBoxOptions.RtlReading) ? RightToLeft.Inherit : RightToLeft.No;
                     break;
                 case MessageBoxContentAreaType.LinkLabel:
-                    _linkLabelMessageText.Text = text;
+                    klwlblMessageText.Text = text;
 
-                    _linkLabelMessageText.RightToLeft = options.HasFlag(MessageBoxOptions.RightAlign)
+                    klwlblMessageText.RightToLeft = options.HasFlag(MessageBoxOptions.RightAlign)
                         ?
                         RightToLeft.Yes
                         : options.HasFlag(MessageBoxOptions.RtlReading)
@@ -178,9 +206,9 @@ namespace Krypton.Toolkit
                             : RightToLeft.No;
                     break;
                 case null:
-                    _messageText.Text = text;
+                    kwlblMessageText.Text = text;
 
-                    _messageText.RightToLeft = options.HasFlag(MessageBoxOptions.RightAlign) ? RightToLeft.Yes :
+                    kwlblMessageText.RightToLeft = options.HasFlag(MessageBoxOptions.RightAlign) ? RightToLeft.Yes :
                         options.HasFlag(MessageBoxOptions.RtlReading) ? RightToLeft.Inherit : RightToLeft.No;
                     break;
                 default:
@@ -194,9 +222,9 @@ namespace Krypton.Toolkit
 
             if (_contentAreaType == MessageBoxContentAreaType.Normal)
             {
-                _messageText.Text = _text;
+                kwlblMessageText.Text = _text;
 
-                _messageText.RightToLeft = _options.HasFlag(MessageBoxOptions.RightAlign)
+                kwlblMessageText.RightToLeft = _options.HasFlag(MessageBoxOptions.RightAlign)
                     ? RightToLeft.Yes
                     : _options.HasFlag(MessageBoxOptions.RtlReading)
                         ? RightToLeft.Inherit
@@ -204,9 +232,9 @@ namespace Krypton.Toolkit
             }
             else
             {
-                _linkLabelMessageText.Text = _text;
+                klwlblMessageText.Text = _text;
 
-                _linkLabelMessageText.RightToLeft = _options.HasFlag(MessageBoxOptions.RightAlign) ? RightToLeft.Yes :
+                klwlblMessageText.RightToLeft = _options.HasFlag(MessageBoxOptions.RightAlign) ? RightToLeft.Yes :
                     _options.HasFlag(MessageBoxOptions.RtlReading) ? RightToLeft.Inherit : RightToLeft.No;
             }
         }
@@ -1055,10 +1083,10 @@ namespace Krypton.Toolkit
                 SizeF scaledMonitorSize = screen!.Bounds.Size;
                 scaledMonitorSize.Width *= 2 / 3.0f;
                 scaledMonitorSize.Height *= 0.95f;
-                _messageText.UpdateFont();
-                SizeF messageSize = g.MeasureString(_text, _messageText.Font, scaledMonitorSize);
+                kwlblMessageText.UpdateFont();
+                SizeF messageSize = g.MeasureString(_text, kwlblMessageText.Font, scaledMonitorSize);
                 // SKC: Don't forget to add the TextExtra into the calculation
-                SizeF captionSize = g.MeasureString($@"{_caption} {TextExtra}", _messageText.Font, scaledMonitorSize);
+                SizeF captionSize = g.MeasureString($@"{_caption} {TextExtra}", kwlblMessageText.Font, scaledMonitorSize);
 
                 var messageXSize = Math.Max(messageSize.Width, captionSize.Width);
                 // Work out DPI adjustment factor
@@ -1074,7 +1102,7 @@ namespace Krypton.Toolkit
             }
 
             return new Size(textSize.Width + _messageIcon.Width + _messageIcon.Margin.Left + _messageIcon.Margin.Right +
-                            _messageText.Margin.Left + _messageText.Margin.Right,
+                            kwlblMessageText.Margin.Left + kwlblMessageText.Margin.Right,
                 Math.Max(_messageIcon.Height + 10, textSize.Height));
         }
 
@@ -1194,7 +1222,7 @@ namespace Krypton.Toolkit
             sb.AppendLine(DIVIDER);
             sb.AppendLine(Text);
             sb.AppendLine(DIVIDER);
-            sb.AppendLine(_messageText.Text);
+            sb.AppendLine(kwlblMessageText.Text);
             sb.AppendLine(DIVIDER);
             sb.Append(_button1.Text).Append(BUTTON_TEXT_SPACER);
             if (_button2.Enabled)
@@ -1267,19 +1295,19 @@ namespace Krypton.Toolkit
             switch (contentAreaType)
             {
                 case MessageBoxContentAreaType.Normal:
-                    _linkLabelMessageText.Visible = false;
+                    klwlblMessageText.Visible = false;
 
-                    _messageText.Visible = true;
+                    kwlblMessageText.Visible = true;
                     break;
                 case MessageBoxContentAreaType.LinkLabel:
-                    _linkLabelMessageText.Visible = true;
+                    klwlblMessageText.Visible = true;
 
-                    _messageText.Visible = false;
+                    kwlblMessageText.Visible = false;
                     break;
                 case null:
-                    _linkLabelMessageText.Visible = false;
+                    klwlblMessageText.Visible = false;
 
-                    _messageText.Visible = true;
+                    kwlblMessageText.Visible = true;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(contentAreaType), contentAreaType, null);
@@ -1291,13 +1319,13 @@ namespace Krypton.Toolkit
             switch (contentAreaType)
             {
                 case MessageBoxContentAreaType.Normal:
-                    _messageText.TextAlign = messageTextAlignment ?? ContentAlignment.MiddleLeft;
+                    kwlblMessageText.TextAlign = messageTextAlignment ?? ContentAlignment.MiddleLeft;
                     break;
                 case MessageBoxContentAreaType.LinkLabel:
-                    _linkLabelMessageText.TextAlign = messageTextAlignment ?? ContentAlignment.MiddleLeft;
+                    klwlblMessageText.TextAlign = messageTextAlignment ?? ContentAlignment.MiddleLeft;
                     break;
                 case null:
-                    _messageText.TextAlign = messageTextAlignment ?? ContentAlignment.MiddleLeft;
+                    kwlblMessageText.TextAlign = messageTextAlignment ?? ContentAlignment.MiddleLeft;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(contentAreaType), contentAreaType, null);
@@ -1308,9 +1336,55 @@ namespace Krypton.Toolkit
         {
             if (contentLinkArea != null)
             {
-                _linkLabelMessageText.LinkArea = (LinkArea)contentLinkArea;
+                klwlblMessageText.LinkArea = (LinkArea)contentLinkArea;
             }
         }
+
+        private void UpdateCheckBox(string? checkBoxText)
+        {
+            if (!string.IsNullOrEmpty(checkBoxText))
+            {
+                kchkMessageboxCheckBox.Visible = true;
+
+                kchkMessageboxCheckBox.Text = checkBoxText;
+            }
+            else
+            {
+                kchkMessageboxCheckBox.Visible = false;
+            }
+        }
+
+        #region Static Methods
+
+        private static void SetCheckBoxChecked(bool? isChecked)
+        {
+            var messageBox = new VisualMessageBoxForm();
+
+            messageBox.kchkMessageboxCheckBox.Checked = isChecked ?? false;
+        }
+
+        public static bool GetCheckBoxChecked()
+        {
+            var messageBox = new VisualMessageBoxForm();
+
+            return messageBox.kchkMessageboxCheckBox.Checked;
+        }
+
+        private static void SetCheckBoxCheckedState(CheckState? checkState)
+        {
+            var messageBox = new VisualMessageBoxForm();
+
+            messageBox.kchkMessageboxCheckBox.CheckState = checkState ?? CheckState.Unchecked;
+        }
+
+        public static CheckState GetCheckBoxCheckedState()
+        {
+            var messageBox = new VisualMessageBoxForm();
+
+            return messageBox.kchkMessageboxCheckBox.CheckState;
+        }
+
+        #endregion
 
         #endregion
     }

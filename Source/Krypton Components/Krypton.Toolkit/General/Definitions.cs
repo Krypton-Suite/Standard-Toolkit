@@ -2250,4 +2250,22 @@ namespace Krypton.Toolkit
     }
 
     #endregion
+
+    #region Enum KryptonMessageBoxResult
+
+    public enum KryptonMessageBoxResult : int
+    {
+        None = DialogResult.None,
+        Ok = DialogResult.OK,
+        Cancel = DialogResult.Cancel,
+        Abort = DialogResult.Abort,
+        Retry = DialogResult.Retry,
+        Ignore = DialogResult.Ignore,
+        Yes = DialogResult.Yes,
+        No = DialogResult.No,
+        Checked = 8,
+        CheckState = 9
+    }
+
+    #endregion
 }
