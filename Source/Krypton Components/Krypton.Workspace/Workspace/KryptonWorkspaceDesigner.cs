@@ -16,7 +16,7 @@ namespace Krypton.Workspace
     {
         #region Instance Fields
         private KryptonWorkspace? _workspace;
-        private IComponentChangeService _changeService;
+        private IComponentChangeService? _changeService;
         #endregion
 
         #region Public Overrides
@@ -40,10 +40,10 @@ namespace Krypton.Workspace
             _workspace = component as KryptonWorkspace;
 
             // Get access to the services
-            _changeService = (IComponentChangeService)GetService(typeof(IComponentChangeService));
+            _changeService = GetService(typeof(IComponentChangeService)) as IComponentChangeService;
 
             // We need to know when we are being removed/changed
-            _changeService.ComponentRemoving += OnComponentRemoving;
+            _changeService!.ComponentRemoving += OnComponentRemoving;
         }
 
         /// <summary>
@@ -57,7 +57,7 @@ namespace Krypton.Workspace
 
                 if (_workspace != null)
                 {
-                    compound.AddRange(_workspace.Root.Children);
+                    compound.AddRange(_workspace.Root.Children!);
                 }
 
                 return compound;
@@ -98,7 +98,7 @@ namespace Krypton.Workspace
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
-            _changeService.ComponentRemoving -= OnComponentRemoving;
+            _changeService!.ComponentRemoving -= OnComponentRemoving;
 
             // Ensure base class is always disposed
             base.Dispose(disposing);
@@ -127,17 +127,17 @@ namespace Krypton.Workspace
         private void OnComponentRemoving(object sender, ComponentEventArgs e)
         {
             // If our workspace is being removed
-            if (e.Component == _workspace)
+            if (e.Component.Equals(_workspace))
             {
                 // Prevent layout being performed during removal of children otherwise the layout
                 // code will cause the controls to be added back before they are actually destroyed
-                _workspace.SuspendLayout();
+                _workspace?.SuspendLayout();
 
                 // Need access to host in order to delete a component
-                var host = (IDesignerHost)GetService(typeof(IDesignerHost));
+                var host = GetService(typeof(IDesignerHost)) as IDesignerHost;
 
                 // We need to remove all children from the workspace
-                for (var i = _workspace.Root.Children.Count - 1; i >= 0; i--)
+                for (var i = _workspace!.Root.Children!.Count - 1; i >= 0; i--)
                 {
                     var comp = _workspace.Root.Children[i] as Component;
 
@@ -145,11 +145,11 @@ namespace Krypton.Workspace
                     if (comp is Control control)
                     {
                         // We need to manually remove it from the workspace controls collection
-                        var readOnlyControls = (KryptonReadOnlyControls)_workspace.Controls;
-                        readOnlyControls.RemoveInternal(control);
+                        var readOnlyControls = _workspace.Controls as KryptonReadOnlyControls;
+                        readOnlyControls?.RemoveInternal(control);
                     }
 
-                    host.DestroyComponent(comp);
+                    host?.DestroyComponent(comp);
 
                     // Must remove the child after it has been destroyed otherwise the component destroy method 
                     // will not be able to climb the sequence chain to find the parent workspace instance

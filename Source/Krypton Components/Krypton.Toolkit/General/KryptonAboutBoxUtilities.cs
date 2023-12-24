@@ -34,7 +34,7 @@ namespace Krypton.Toolkit
             {
                 return File.GetLastWriteTime(assembly.Location);
             }
-            catch (Exception e)
+            catch
             {
                 return DateTime.MaxValue;
             }

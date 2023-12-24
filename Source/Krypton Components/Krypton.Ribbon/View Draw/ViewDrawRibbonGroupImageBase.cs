@@ -100,7 +100,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets the image to be drawn.
         /// </summary>
-        protected abstract Image DrawImage { get; }
+        protected abstract Image? DrawImage { get; }
         #endregion
     }
 }
