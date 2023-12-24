@@ -9,6 +9,7 @@
 
 namespace Krypton.Toolkit
 {
+    /// <summary></summary>
     [TypeConverter(typeof(ExpandableObjectConverter))]
     public class ProgressBarValues : Storage
     {
