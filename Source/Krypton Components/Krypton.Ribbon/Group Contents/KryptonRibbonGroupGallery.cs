@@ -648,7 +648,7 @@ namespace Krypton.Ribbon
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        public ViewBase GalleryView { get; set; }
+        public ViewBase? GalleryView { get; set; }
 
         #endregion
 
@@ -657,7 +657,7 @@ namespace Krypton.Ribbon
 
         internal KryptonGallery? LastGallery { get; set; }
 
-        internal NeedPaintHandler ViewPaintDelegate { get; set; }
+        internal NeedPaintHandler? ViewPaintDelegate { get; set; }
 
         internal void OnDesignTimeContextMenu(MouseEventArgs e) => DesignTimeContextMenu?.Invoke(this, e);
 

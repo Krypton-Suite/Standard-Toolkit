@@ -1042,9 +1042,9 @@ namespace Krypton.Ribbon
         #endregion
 
         #region Internal
-        internal Control LastParentControl { get; set; }
+        internal Control? LastParentControl { get; set; }
 
-        internal KryptonComboBox LastComboBox { get; set; }
+        internal KryptonComboBox? LastComboBox { get; set; }
 
         internal NeedPaintHandler? ViewPaintDelegate { get; set; }
 

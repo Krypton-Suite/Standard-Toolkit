@@ -759,7 +759,7 @@ namespace Krypton.Ribbon
                     {
                         _captionAppButton.OwnerForm = null;
                         _kryptonForm.AllowIconDisplay = true;
-                        _kryptonForm.RevokeViewElement(_contextTiles, ViewDockStyle.Fill);
+                        _kryptonForm.RevokeViewElement(_contextTiles!, ViewDockStyle.Fill);
                         _kryptonForm.RevokeViewElement(_captionAppButton, ViewDockStyle.Left);
                         _kryptonForm.RevokeViewElement(_captionQAT, ViewDockStyle.Left);
                         _integrated = false;
@@ -807,8 +807,8 @@ namespace Krypton.Ribbon
         /// </summary>
         public void HookToolTipHandling()
         {
-            _captionAppButton.MouseController = new ToolTipController(_ribbon.TabsArea.ButtonSpecManager.ToolTipManager!, _captionAppButton, _captionAppButton.MouseController!);
-            _otherAppButton.MouseController = new ToolTipController(_ribbon.TabsArea.ButtonSpecManager.ToolTipManager!, _otherAppButton, _otherAppButton.MouseController!);
+            _captionAppButton.MouseController = new ToolTipController(_ribbon.TabsArea.ButtonSpecManager?.ToolTipManager!, _captionAppButton, _captionAppButton.MouseController!);
+            _otherAppButton.MouseController = new ToolTipController(_ribbon.TabsArea.ButtonSpecManager?.ToolTipManager!, _otherAppButton, _otherAppButton.MouseController!);
         }
         #endregion
 
@@ -1229,13 +1229,13 @@ namespace Krypton.Ribbon
                             _compoRightInjected = true;
                         }
 
-                        _kryptonForm.InjectViewElement(_contextTiles, ViewDockStyle.Fill);
+                        _kryptonForm.InjectViewElement(_contextTiles!, ViewDockStyle.Fill);
                     }
                     else
                     {
                         _captionAppButton.OwnerForm = null;
                         _captionQAT.OwnerForm = null;
-                        _kryptonForm.RevokeViewElement(_contextTiles, ViewDockStyle.Fill);
+                        _kryptonForm.RevokeViewElement(_contextTiles!, ViewDockStyle.Fill);
 
                         // At runtime under vista we do not remove the compo right border
                         if (_ribbon.InDesignMode ||

@@ -1390,7 +1390,7 @@ namespace Krypton.Toolkit
                 retObj = TypeDescriptor.CreateInstance(host, itemType, null!, null!);
             }
 
-            return retObj;
+            return retObj ?? false;
         }
 
         /// <summary>

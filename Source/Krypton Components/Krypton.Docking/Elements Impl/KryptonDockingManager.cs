@@ -4094,7 +4094,7 @@ namespace Krypton.Docking
         }
 
         private void OnStringPropertyChanged(object sender, PropertyChangedEventArgs e) =>
-            // Piggy back the name of the changed property in the unique name parameter
+            // Piggyback the name of the changed property in the unique name parameter
             PropogateAction(DockingPropogateAction.StringChanged, new[] { e.PropertyName });
 
         private void OnDropDownWorkspaceClicked(object sender, EventArgs e)

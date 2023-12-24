@@ -922,18 +922,18 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="palette">Palette to use for inheriting values.</param>
         /// <returns>Color value.</returns>
-        public virtual Color GetColorMap(PaletteBase palette) => ColorMap != Color.Empty
+        public virtual Color GetColorMap(PaletteBase? palette) => ColorMap != Color.Empty
             ? ColorMap
-            : palette.GetButtonSpecColorMap(ProtectedType);
+            : palette!.GetButtonSpecColorMap(ProtectedType);
 
         /// <summary>
         /// Gets the button style.
         /// </summary>
         /// <param name="palette">Palette to use for inheriting values.</param>
         /// <returns>Button style.</returns>
-        public virtual ButtonStyle GetStyle(PaletteBase palette) => ConvertToButtonStyle(Style != PaletteButtonStyle.Inherit
+        public virtual ButtonStyle GetStyle(PaletteBase? palette) => ConvertToButtonStyle(Style != PaletteButtonStyle.Inherit
                 ? Style
-                : palette.GetButtonSpecStyle(ProtectedType));
+                : palette?.GetButtonSpecStyle(ProtectedType));
 
         /// <summary>
         /// Gets the button orientation.

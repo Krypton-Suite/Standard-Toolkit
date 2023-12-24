@@ -7,8 +7,6 @@
  */
 #endregion
 
-using System.Windows.Forms;
-
 namespace Krypton.Toolkit
 {
     /// <summary>This deals with the fading in and out of <see cref="VisualForm"/>. The developer must explicitly enable this, as it is turned off by default. Original library: (https://gist.github.com/nathan-fiscaletti/3c0514862fe88b5664b10444e1098778).</summary>

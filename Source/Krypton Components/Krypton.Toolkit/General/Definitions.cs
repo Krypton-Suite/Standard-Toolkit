@@ -102,7 +102,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="palette">Palette to use for inheriting values.</param>
         /// <returns>Color value.</returns>
-        Color GetColorMap(PaletteBase palette);
+        Color GetColorMap(PaletteBase? palette);
 
         /// <summary>
         /// Gets the button visibility.

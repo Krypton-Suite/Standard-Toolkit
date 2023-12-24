@@ -81,6 +81,7 @@
             this.kryptonCheckSet1 = new Krypton.Toolkit.KryptonCheckSet(this.components);
             this.kryptonTaskDialog1 = new Krypton.Toolkit.KryptonTaskDialog();
             this.kryptonInputBoxManager1 = new Krypton.Toolkit.KryptonInputBoxManager();
+            this.kryptonButton11 = new Krypton.Toolkit.KryptonButton();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
             this.kryptonPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonThemeComboBox1)).BeginInit();
@@ -89,6 +90,7 @@
             // 
             // kryptonPanel1
             // 
+            this.kryptonPanel1.Controls.Add(this.kryptonButton11);
             this.kryptonPanel1.Controls.Add(this.kryptonButton10);
             this.kryptonPanel1.Controls.Add(this.kryptonColorButton1);
             this.kryptonPanel1.Controls.Add(this.kryptonButton9);
@@ -507,6 +509,15 @@
             this.kryptonTaskDialog1.UseNativeOSIcons = false;
             this.kryptonTaskDialog1.WindowTitle = null;
             // 
+            // kryptonButton11
+            // 
+            this.kryptonButton11.Location = new System.Drawing.Point(204, 227);
+            this.kryptonButton11.Name = "kryptonButton11";
+            this.kryptonButton11.Size = new System.Drawing.Size(245, 25);
+            this.kryptonButton11.TabIndex = 37;
+            this.kryptonButton11.Values.Text = "Test Messagebox (no text)";
+            this.kryptonButton11.Click += new System.EventHandler(this.kryptonButton11_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -525,6 +536,7 @@
             this.Controls.Add(this.kryptonPanel1);
             this.FadeValues.FadeSpeed = 5F;
             this.FadeValues.FadingEnabled = true;
+            this.FadeValues.Owner = null;
             this.FormTitleAlign = Krypton.Toolkit.PaletteRelativeAlign.Inherit;
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "Form1";
@@ -592,5 +604,6 @@
         private Krypton.Toolkit.KryptonColorButton kryptonColorButton1;
         private Krypton.Toolkit.KryptonButton kryptonButton10;
         private Krypton.Toolkit.KryptonInputBoxManager kryptonInputBoxManager1;
+        private Krypton.Toolkit.KryptonButton kryptonButton11;
     }
 }

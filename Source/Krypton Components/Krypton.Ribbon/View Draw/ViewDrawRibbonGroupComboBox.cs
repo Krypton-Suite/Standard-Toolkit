@@ -25,7 +25,7 @@ namespace Krypton.Ribbon
         private readonly KryptonRibbon _ribbon;
         private ViewDrawRibbonGroup? _activeGroup;
         private readonly ComboBoxController? _controller;
-        private readonly NeedPaintHandler _needPaint;
+        private readonly NeedPaintHandler? _needPaint;
         private GroupItemSize _currentSize;
         #endregion
 
@@ -59,7 +59,7 @@ namespace Krypton.Ribbon
 
             if (_ribbon.InDesignMode)
             {
-                // At design time we need to know when the user right clicks the combobox
+                // At design time we need to know when the user right-clicks the combobox
                 var controller = new ContextClickController();
                 controller.ContextClick += OnContextClick;
                 MouseController = controller;
@@ -71,7 +71,7 @@ namespace Krypton.Ribbon
             KeyController = _controller;
 
             // We need to rest visibility of the combobox for each layout cycle
-            _ribbon.ViewRibbonManager.LayoutBefore += OnLayoutAction;
+            _ribbon.ViewRibbonManager!.LayoutBefore += OnLayoutAction;
             _ribbon.ViewRibbonManager.LayoutAfter += OnLayoutAction;
 
             // Define back reference to view for the combo box definition
@@ -109,7 +109,7 @@ namespace Krypton.Ribbon
                     GroupComboBox.MouseLeaveControl -= OnMouseLeaveControl;
                     GroupComboBox.ViewPaintDelegate = null;
                     GroupComboBox.PropertyChanged -= OnComboBoxPropertyChanged;
-                    _ribbon.ViewRibbonManager.LayoutAfter -= OnLayoutAction;
+                    _ribbon.ViewRibbonManager!.LayoutAfter -= OnLayoutAction;
                     _ribbon.ViewRibbonManager.LayoutBefore -= OnLayoutAction;
 
                     // Remove association with definition
@@ -138,7 +138,7 @@ namespace Krypton.Ribbon
         public override void LostFocus(Control c)
         {
             // Ask ribbon to shift focus to the hidden control
-            _ribbon.HideFocus(GroupComboBox.ComboBox);
+            _ribbon.HideFocus(GroupComboBox?.ComboBox);
             base.LostFocus(c);
         }
         #endregion
@@ -218,7 +218,7 @@ namespace Krypton.Ribbon
         public void GetGroupKeyTips(KeyTipInfoList keyTipList, int lineHint)
         {
             // Only provide a key tip if we are visible and the target control can accept focus
-            if (Visible && LastComboBox.CanFocus)
+            if (Visible && LastComboBox!.CanFocus)
             {
                 // Get the screen location of the button
                 Rectangle viewRect = _ribbon.KeyTipToScreen(this);
@@ -226,7 +226,7 @@ namespace Krypton.Ribbon
                 // Determine the screen position of the key tip
                 var screenPt = Point.Empty;
 
-                // Determine the screen position of the key tip dependant on item location/size
+                // Determine the screen position of the key tip dependent on item location/size
                 switch (_currentSize)
                 {
                     case GroupItemSize.Large:
@@ -238,7 +238,7 @@ namespace Krypton.Ribbon
                         break;
                 }
 
-                keyTipList.Add(new KeyTipInfo(GroupComboBox.Enabled, 
+                keyTipList.Add(new KeyTipInfo(GroupComboBox!.Enabled, 
                                               GroupComboBox.KeyTip,
                                               screenPt, 
                                               ClientRectangle,
@@ -257,7 +257,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Reset the group item size to the item definition.
         /// </summary>
-        public void ResetGroupItemSize() => _currentSize = GroupComboBox.ItemSizeCurrent;
+        public void ResetGroupItemSize() => _currentSize = GroupComboBox!.ItemSizeCurrent;
 
         /// <summary>
         /// Discover the preferred size of the element.
@@ -305,7 +305,7 @@ namespace Krypton.Ribbon
             ClientRectangle = context.DisplayRectangle;
 
             // Are we allowed to change the layout of controls?
-            if (!context.ViewManager.DoNotLayoutControls)
+            if (!context.ViewManager!.DoNotLayoutControls)
             {
                 // If we have an actual control, position it with a pixel padding all around
                 LastComboBox?.SetBounds(ClientLocation.X + 1,
@@ -329,7 +329,7 @@ namespace Krypton.Ribbon
             Debug.Assert(context != null);
 
             // If we do not have a combobox
-            if (GroupComboBox.ComboBox == null)
+            if (GroupComboBox?.ComboBox == null)
             {
                 // And we are in design time
                 if (_ribbon.InDesignMode)
@@ -374,7 +374,7 @@ namespace Krypton.Ribbon
         #endregion
 
         #region Implementation
-        private void OnContextClick(object sender, MouseEventArgs e) => GroupComboBox.OnDesignTimeContextMenu(e);
+        private void OnContextClick(object sender, MouseEventArgs e) => GroupComboBox?.OnDesignTimeContextMenu(e);
 
         private void OnComboBoxPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
@@ -398,7 +398,7 @@ namespace Krypton.Ribbon
             if (updateLayout)
             {
                 // If we are on the currently selected tab then...
-                if ((GroupComboBox.RibbonTab != null) &&
+                if ((GroupComboBox?.RibbonTab != null) &&
                     (_ribbon.SelectedTab == GroupComboBox.RibbonTab))
                 {
                     // ...layout so the visible change is made
@@ -410,7 +410,7 @@ namespace Krypton.Ribbon
 #pragma warning disable 162
             {
                 // If this button is actually defined as visible...
-                if (GroupComboBox.Visible || _ribbon.InDesignMode)
+                if (GroupComboBox!.Visible || _ribbon.InDesignMode)
                 {
                     // ...and on the currently selected tab then...
                     if ((GroupComboBox.RibbonTab != null) &&
@@ -427,13 +427,13 @@ namespace Krypton.Ribbon
         private Control? LastParentControl
         {
             get => GroupComboBox?.LastParentControl;
-            set => GroupComboBox.LastParentControl = value;
+            set => GroupComboBox!.LastParentControl = value;
         }
 
         private KryptonComboBox? LastComboBox
         {
             get => GroupComboBox?.LastComboBox;
-            set => GroupComboBox.LastComboBox = value;
+            set => GroupComboBox!.LastComboBox = value;
         }
 
         private void UpdateParent(Control parentControl)
@@ -444,7 +444,7 @@ namespace Krypton.Ribbon
                 (LastComboBox != GroupComboBox?.ComboBox))
             {
                 // We only modify the parent and visible state if processing for correct container
-                if ((GroupComboBox.RibbonContainer.RibbonGroup.ShowingAsPopup && (parentControl is VisualPopupGroup)) ||
+                if ((GroupComboBox!.RibbonContainer!.RibbonGroup!.ShowingAsPopup && (parentControl is VisualPopupGroup)) ||
                     (!GroupComboBox.RibbonContainer.RibbonGroup.ShowingAsPopup && parentControl is not VisualPopupGroup))
                 {
                     // If we have added the custom control to a parent before
@@ -484,10 +484,10 @@ namespace Krypton.Ribbon
             if (c != null)
             {
                 // Start with the enabled state of the group element
-                var enabled = GroupComboBox.Enabled;
+                var enabled = GroupComboBox!.Enabled;
 
                 // If we have an associated designer setup...
-                if (!_ribbon.InDesignHelperMode && (GroupComboBox.ComboBoxDesigner != null))
+                if (!_ribbon.InDesignHelperMode && (GroupComboBox?.ComboBoxDesigner != null))
                 {
                     // And we are not using the design helpers, then use the design specified value
                     enabled = GroupComboBox.ComboBoxDesigner.DesignEnabled;
@@ -502,10 +502,10 @@ namespace Krypton.Ribbon
             if (c != null)
             {
                 // Start with the visible state of the group element
-                var visible = GroupComboBox.Visible;
+                var visible = GroupComboBox!.Visible;
 
                 // If we have an associated designer setup...
-                if (!_ribbon.InDesignHelperMode && (GroupComboBox.ComboBoxDesigner != null))
+                if (!_ribbon.InDesignHelperMode && (GroupComboBox?.ComboBoxDesigner != null))
                 {
                     // And we are not using the design helpers, then use the design specified value
                     visible = GroupComboBox.ComboBoxDesigner.DesignVisible;
@@ -522,10 +522,10 @@ namespace Krypton.Ribbon
             if (c != null)
             {
                 // Start with the visible state of the group element
-                var visible = GroupComboBox.Visible;
+                var visible = GroupComboBox!.Visible;
 
                 // If we have an associated designer setup...
-                if (!_ribbon.InDesignHelperMode && (GroupComboBox.ComboBoxDesigner != null))
+                if (!_ribbon.InDesignHelperMode && (GroupComboBox?.ComboBoxDesigner != null))
                 {
                     // And we are not using the design helpers, then use the design specified value
                     visible = GroupComboBox.ComboBoxDesigner.DesignVisible;
@@ -534,7 +534,7 @@ namespace Krypton.Ribbon
                 if (visible)
                 {
                     // Only visible if on the currently selected page
-                    if ((GroupComboBox.RibbonTab == null) ||
+                    if ((GroupComboBox?.RibbonTab == null) ||
                         (_ribbon.SelectedTab != GroupComboBox.RibbonTab))
                     {
                         visible = false;
@@ -551,7 +551,7 @@ namespace Krypton.Ribbon
                         else
                         {
                             // Check that the group is not collapsed
-                            if (GroupComboBox.RibbonContainer.RibbonGroup.IsCollapsed &&
+                            if (GroupComboBox.RibbonContainer!.RibbonGroup!.IsCollapsed &&
                                 ((_ribbon.GetControllerControl(GroupComboBox.ComboBox) is KryptonRibbon) ||
                                  (_ribbon.GetControllerControl(GroupComboBox.ComboBox) is VisualPopupMinimized)))
                             {
@@ -573,7 +573,7 @@ namespace Krypton.Ribbon
                                     }
 
                                     // Move up a level
-                                    container = container.RibbonContainer;
+                                    container = container.RibbonContainer!;
                                 }
                             }
                         }
@@ -619,7 +619,7 @@ namespace Krypton.Ribbon
             if (_activeGroup != null)
             {
                 _activeGroup.Tracking = true;
-                _needPaint(this, new NeedLayoutEventArgs(false, _activeGroup.ClientRectangle));
+                _needPaint?.Invoke(this, new NeedLayoutEventArgs(false, _activeGroup.ClientRectangle));
             }
         }
 
@@ -629,7 +629,7 @@ namespace Krypton.Ribbon
             if (_activeGroup != null)
             {
                 _activeGroup.Tracking = false;
-                _needPaint(this, new NeedLayoutEventArgs(false, _activeGroup.ClientRectangle));
+                _needPaint?.Invoke(this, new NeedLayoutEventArgs(false, _activeGroup.ClientRectangle));
                 _activeGroup = null;
             }
         }
