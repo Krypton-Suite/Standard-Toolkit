@@ -25,7 +25,7 @@ namespace Krypton.Toolkit
 
         private ProgressBarStyle _style;
         private VisualOrientation _orientation;
-        private PaletteBase _palette;
+        private PaletteBase? _palette;
         private readonly PaletteRedirect _paletteRedirect;
         private readonly PaletteBackInheritRedirect _paletteBackClientPanel;
         private IDisposable? _mementoContent;
@@ -74,7 +74,7 @@ namespace Krypton.Toolkit
             {
                 Interval = _marqueeSpeed
             };
-            _marqueeTimer.Tick += OnMarqueeTick!;
+            _marqueeTimer.Tick += OnMarqueeTick;
 
             // Cache the current global palette setting
             _palette = KryptonManager.CurrentGlobalPalette;
@@ -82,7 +82,7 @@ namespace Krypton.Toolkit
             // Hook into palette events
             if (_palette != null)
             {
-                _palette.PalettePaint += OnPalettePaint!;
+                _palette.PalettePaint += OnPalettePaint;
             }
 
             // Create content storage
@@ -90,10 +90,10 @@ namespace Krypton.Toolkit
             {
                 Text = string.Empty
             };
-            Values.TextChanged += OnLabelTextChanged!;
+            Values.TextChanged += OnLabelTextChanged;
 
             // We want to be notified whenever the global palette changes
-            KryptonManager.GlobalPaletteChanged += OnGlobalPaletteChanged!;
+            KryptonManager.GlobalPaletteChanged += OnGlobalPaletteChanged;
 
             // Create redirection object to the base palette
             _paletteRedirect = new PaletteRedirect(_palette);
@@ -152,12 +152,12 @@ namespace Krypton.Toolkit
                 // Unhook from the palette events
                 if (_palette != null)
                 {
-                    _palette.PalettePaint -= OnPalettePaint!;
+                    _palette.PalettePaint -= OnPalettePaint;
                     _palette = null;
                 }
 
                 // Unhook from the static events, otherwise we cannot be garbage collected
-                KryptonManager.GlobalPaletteChanged -= OnGlobalPaletteChanged!;
+                KryptonManager.GlobalPaletteChanged -= OnGlobalPaletteChanged;
             }
 
             base.Dispose(disposing);
@@ -500,6 +500,15 @@ namespace Krypton.Toolkit
             }
         }
 
+        [Category(@"Visuals")]
+        [Description(@"Progress bar values")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        public ProgressBarValues ProgressBarValues { get; }
+
+        private bool ShouldSerializeProgressBarValues() => !ProgressBarValues.IsDefault;
+
+        public void ResetProgressBarValues() => ProgressBarValues.Reset();
+
         #endregion
 
         #region IContentValues
@@ -563,7 +572,7 @@ namespace Krypton.Toolkit
                 var (barPaletteState, barState) = GetBarPaletteState();
 
                 // Get the renderer associated with this palette
-                IRenderer renderer = _palette.GetRenderer()!;
+                IRenderer renderer = _palette.GetRenderer();
 
                 // Create a layout context used to allow the renderer to layout the content
                 using var viewContext = new ViewLayoutContext(this, renderer);
@@ -573,7 +582,7 @@ namespace Krypton.Toolkit
 
                 // Ask the renderer to work out how the Content values will be laid out and
                 // return a memento object that we cache for use when actually performing painting
-                _mementoContent = renderer.RenderStandardContent.LayoutContent(viewContext, ClientRectangle, barPaletteState.PaletteContent,
+                _mementoContent = renderer.RenderStandardContent.LayoutContent(viewContext, ClientRectangle, barPaletteState.PaletteContent!,
                     this, Orientation, barState, false, true);
             }
 
@@ -611,7 +620,7 @@ namespace Krypton.Toolkit
                 //////////////////////////////////////////////////////////////////////////////////
                 using (GraphicsPath fullLozengePath = renderer.RenderStandardBorder.GetBackPath(renderContext,
                            ClientRectangle,
-                           barPaletteState.PaletteBorder,
+                           barPaletteState.PaletteBorder!,
                            Orientation,
                            barState))
                 {
@@ -706,7 +715,7 @@ namespace Krypton.Toolkit
 
                 using (GraphicsPath valueLozengePath = renderer.RenderStandardBorder.GetBackPath(renderContext,
                            innerRect,
-                           barPaletteState.PaletteBorder,
+                           barPaletteState.PaletteBorder!,
                            Orientation,
                            barState))
                 {
@@ -716,12 +725,12 @@ namespace Krypton.Toolkit
                 }
 
                 // Now we draw the border of the inner area
-                renderer.RenderStandardBorder.DrawBorder(renderContext, ClientRectangle, barPaletteState.PaletteBorder,
+                renderer.RenderStandardBorder.DrawBorder(renderContext, ClientRectangle, barPaletteState.PaletteBorder!,
                     Orientation, barState);
 
                 // Last of all we draw the content over the top of the border and background
                 renderer.RenderStandardContent.DrawContent(renderContext, ClientRectangle,
-                    barPaletteState.PaletteContent, _mementoContent,
+                    barPaletteState.PaletteContent!, _mementoContent!,
                     Orientation, barState, false, true, false);
             }
 
@@ -750,7 +759,7 @@ namespace Krypton.Toolkit
             // Unhook events from old palette
             if (_palette != null)
             {
-                _palette.PalettePaint -= OnPalettePaint!;
+                _palette.PalettePaint -= OnPalettePaint;
             }
 
             // Cache the new PaletteBase that is the global palette
@@ -760,7 +769,7 @@ namespace Krypton.Toolkit
             // Hook into events for the new palette
             if (_palette != null)
             {
-                _palette.PalettePaint += OnPalettePaint!;
+                _palette.PalettePaint += OnPalettePaint;
             }
 
             // Change of palette means we should repaint to show any changes
