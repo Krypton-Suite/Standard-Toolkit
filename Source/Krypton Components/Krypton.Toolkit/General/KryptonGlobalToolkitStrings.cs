@@ -23,11 +23,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         [Localizable(true)]
         public GlobalColorStrings GlobalColorStrings => ColorStrings;
-
         private bool ShouldSerializeColorStrings() => !ColorStrings.IsDefault;
-
-        /// <summary>Resets the color strings.</summary>
-        public void ResetColorStrings() => ColorStrings.Reset();
+        private void ResetColorStrings() => ColorStrings.Reset();
 
         /// <summary>Gets the button spec style strings.</summary>
         /// <value>The button spec style strings.</value>
@@ -37,11 +34,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         [Localizable(true)]
         public ButtonStyleStrings ButtonStyleStrings => ButtonStyles;
-
         private bool ShouldSerializeButtonSpecStyleStrings() => !ButtonStyles.IsDefault;
-
-        /// <summary>Resets the button spec style strings.</summary>
-        public void ResetButtonSpecStyleStrings() => ButtonStyles.Reset();
+        private void ResetButtonSpecStyleStrings() => ButtonStyles.Reset();
 
         /// <summary>Gets the custom toolkit strings.</summary>
         /// <value>The custom toolkit strings.</value>
@@ -51,11 +45,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         [Localizable(true)]
         public CustomToolkitStrings CustomStrings => CustomToolkitStrings;
-
         private bool ShouldSerializeCustomStrings() => !CustomToolkitStrings.IsDefault;
-
-        /// <summary>Resets the custom strings.</summary>
-        public void ResetCustomStrings() => CustomToolkitStrings.ResetValues();
+        private void ResetCustomStrings() => CustomToolkitStrings.ResetValues();
 
         /// <summary>Gets the general toolkit strings.</summary>
         /// <value>The general toolkit strings.</value>
@@ -65,11 +56,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         [Localizable(true)]
         public GeneralToolkitStrings GeneralStrings => GeneralToolkitStrings;
-
         private bool ShouldSerializeGeneralStrings() => !GeneralToolkitStrings.IsDefault;
-
-        /// <summary>Resets the general strings.</summary>
-        public void ResetGeneralStrings() => GeneralToolkitStrings.Reset();
+        private void ResetGeneralStrings() => GeneralToolkitStrings.Reset();
 
         /// <summary>Gets the integrated toolbar button strings.</summary>
         /// <value>The integrated toolbar button strings.</value>
@@ -79,11 +67,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         [Localizable(true)]
         public IntegratedToolBarStrings IntegratedToolBarStrings => ToolBarStrings;
-
         private bool ShouldSerializeIntegratedToolBarStrings() => !ToolBarStrings.IsDefault;
-
-        /// <summary>Resets the integrated tool bar strings.</summary>
-        public void ResetIntegratedToolBarStrings() => ToolBarStrings.Reset();
+        private void ResetIntegratedToolBarStrings() => ToolBarStrings.Reset();
 
         /// <summary>Gets the link behavior style strings.</summary>
         /// <value>The link behavior style strings.</value>
@@ -93,11 +78,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         [Localizable(true)]
         public KryptonLinkBehaviorStrings KryptonLinkBehaviorStrings => LinkBehaviorStrings;
-
         private bool ShouldSerializeKryptonLinkBehaviorStrings() => !LinkBehaviorStrings.IsDefault;
-
-        /// <summary>Resets the krypton link behavior strings.</summary>
-        public void ResetKryptonLinkBehaviorStrings() => LinkBehaviorStrings.Reset();
+        private void ResetKryptonLinkBehaviorStrings() => LinkBehaviorStrings.Reset();
 
         /// <summary>Gets the link style strings.</summary>
         /// <value>The link style strings.</value>
@@ -107,11 +89,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         [Localizable(true)]
         public LabelStyleStrings LabelStyleStrings => KryptonLabelStyleStrings;
-
         private bool ShouldSerializeLabelStyleStrings() => !LabelStyleStrings.IsDefault;
-
-        /// <summary>Resets the label style strings.</summary>
-        public void ResetLabelStyleStrings() => LabelStyleStrings.Reset();
+        private void ResetLabelStyleStrings() => LabelStyleStrings.Reset();
 
         /// <summary>Gets the palette back style strings.</summary>
         /// <value>The palette back style strings.</value>
@@ -121,11 +100,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         [Localizable(true)]
         public PaletteBackStyleStrings PaletteBackStyleStrings => BackStyleStrings;
-
         private bool ShouldSerializePaletteBackStyleStrings() => !BackStyleStrings.IsDefault;
-
-        /// <summary>Resets the palette back style strings.</summary>
-        public void ResetPaletteBackStyleStrings() => BackStyleStrings.Reset();
+        private void ResetPaletteBackStyleStrings() => BackStyleStrings.Reset();
 
         /// <summary>Gets the palette border style strings.</summary>
         /// <value>The palette border style strings.</value>
@@ -135,11 +111,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         [Localizable(true)]
         public PaletteBorderStyleStrings PaletteBorderStyleStrings => BorderStyleStrings;
-
         private bool ShouldSerializePaletteBorderStyleStrings() => !BorderStyleStrings.IsDefault;
-
-        /// <summary>Resets the palette border style strings.</summary>
-        public void ResetPaletteBorderStyleStrings() => BorderStyleStrings.Reset();
+        private void ResetPaletteBorderStyleStrings() => BorderStyleStrings.Reset();
 
         /// <summary>Gets the palette button orientation strings.</summary>
         /// <value>The palette button orientation strings.</value>
@@ -149,11 +122,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         [Localizable(true)]
         public PaletteButtonOrientationStrings PaletteButtonOrientationStrings => ButtonOrientationStrings;
-
         private bool ShouldSerializePaletteButtonOrientationStrings() => !ButtonOrientationStrings.IsDefault;
-
-        /// <summary>Resets the palette button orientation strings.</summary>
-        public void ResetPaletteButtonOrientationStrings() => ButtonOrientationStrings.Reset();
+        private void ResetPaletteButtonOrientationStrings() => ButtonOrientationStrings.Reset();
 
         /// <summary>Gets the palette button spec style strings.</summary>
         /// <value>The palette button spec style strings.</value>
@@ -163,11 +133,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         [Localizable(true)]
         public PaletteButtonSpecStyleStrings PaletteButtonSpecStyleStrings => ButtonSpecStyles;
-
         private bool ShouldSerializePaletteButtonSpecStyleStrings() => !ButtonSpecStyles.IsDefault;
-
-        /// <summary>Resets the palette button spec style strings.</summary>
-        public void ResetPaletteButtonSpecStyleStrings() => ButtonSpecStyles.Reset();
+        private void ResetPaletteButtonSpecStyleStrings() => ButtonSpecStyles.Reset();
 
         /// <summary>Gets the palette button style strings.</summary>
         /// <value>The palette button style strings.</value>
@@ -177,9 +144,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         [Localizable(true)]
         public PaletteButtonStyleStrings PaletteButtonStyleStrings => PaletteButtonStyles;
-
         private bool ShouldSerializePaletteButtonStyleStrings() => !PaletteButtonStyles.IsDefault;
-
         private void ResetPaletteButtonStyleStrings() => PaletteButtonStyles.Reset();
 
         /// <summary>Gets the palette content style strings.</summary>
@@ -190,11 +155,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         [Localizable(true)]
         public PaletteContentStyleStrings PaletteContentStyleStrings => ContentStyleStrings;
-
         private bool ShouldSerializePaletteContentStyleStrings() => !ContentStyleStrings.IsDefault;
-
-        /// <summary>Resets the palette content style strings.</summary>
-        public void ResetPaletteContentStyleStrings() => ContentStyleStrings.Reset();
+        private void ResetPaletteContentStyleStrings() => ContentStyleStrings.Reset();
 
         /// <summary>Gets the image effect strings.</summary>
         /// <value>The image effect strings.</value>
@@ -204,11 +166,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         [Localizable(true)]
         public PaletteImageEffectStrings PaletteImageEffectStrings => ImageEffectStrings;
-
         private bool ShouldSerializePaletteImageEffectStrings() => !ImageEffectStrings.IsDefault;
-
-        /// <summary>Resets the palette image effect strings.</summary>
-        public void ResetPaletteImageEffectStrings() => ImageEffectStrings.Reset();
+        private void ResetPaletteImageEffectStrings() => ImageEffectStrings.Reset();
 
         /// <summary>Gets the image style strings.</summary>
         /// <value>The image style strings.</value>
@@ -218,11 +177,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         [Localizable(true)]
         public PaletteImageStyleStrings PaletteImageStyleStrings => ImageStyleStrings;
-
         private bool ShouldSerializePaletteImageStyleStrings() => !ImageStyleStrings.IsDefault;
-
-        /// <summary>Resets the palette image style strings.</summary>
-        public void ResetPaletteImageStyleStrings() => ImageStyleStrings.Reset();
+        private void ResetPaletteImageStyleStrings() => ImageStyleStrings.Reset();
 
         /// <summary>Gets the palette mode strings.</summary>
         /// <value>The palette mode strings.</value>
@@ -232,11 +188,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         [Localizable(true)]
         public PaletteModeStrings PaletteModeStrings => ModeStrings;
-
         private bool ShouldSerializePaletteModeStrings() => !ModeStrings.IsDefault;
-
-        /// <summary>Resets the palette mode strings.</summary>
-        public void ResetPaletteModeStrings() => ModeStrings.Reset();
+        private void ResetPaletteModeStrings() => ModeStrings.Reset();
 
         /// <summary>Gets the palette text trim strings.</summary>
         /// <value>The palette text trim strings.</value>
@@ -246,11 +199,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         [Localizable(true)]
         public PaletteTextTrimStrings PaletteTextTrimStrings => TextTrimStrings;
-
         private bool ShouldSerializePaletteTextTrimStrings() => !TextTrimStrings.IsDefault;
-
-        /// <summary>Resets the palette text trim strings.</summary>
-        public void ResetPaletteTextTrimStrings() => TextTrimStrings.Reset();
+        private void ResetPaletteTextTrimStrings() => TextTrimStrings.Reset();
 
         /// <summary>Gets the placement mode strings.</summary>
         /// <value>The placement mode strings.</value>
@@ -260,11 +210,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         [Localizable(true)]
         public PlacementModeStrings PlacementMode => PlacementModeStrings;
-
         private bool ShouldSerializePlacementModeStrings() => !PlacementModeStrings.IsDefault;
-
-        /// <summary>Resets the placement mode strings.</summary>
-        public void ResetPlacementModeStrings() => PlacementModeStrings.Reset();
+        private void ResetPlacementModeStrings() => PlacementModeStrings.Reset();
 
         /// <summary>Gets the separator style strings.</summary>
         /// <value>The separator style strings.</value>
@@ -274,11 +221,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         [Localizable(true)]
         public SeparatorStyleStrings SeparatorStyleStrings => SeparatorStyles;
-
         private bool ShouldSerializeSeparatorStyleStrings() => !SeparatorStyles.IsDefault;
-
-        /// <summary>Resets the separator style strings.</summary>
-        public void ResetSeparatorStyleStrings() => SeparatorStyles.Reset();
+        private void ResetSeparatorStyleStrings() => SeparatorStyles.Reset();
 
         /// <summary>Gets the tab border style strings.</summary>
         /// <value>The tab border style strings.</value>
@@ -288,11 +232,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         [Localizable(true)]
         public TabBorderStyleStrings TabBorderStyleStrings => TabBorderStyles;
-
         private bool ShouldSerializeTabBorderStyleStrings() => !TabBorderStyles.IsDefault;
-
-        /// <summary>Resets the tab border style strings.</summary>
-        public void ResetTabBorderStyleStrings() => TabBorderStyles.Reset();
+        private void ResetTabBorderStyleStrings() => TabBorderStyles.Reset();
 
         /// <summary>Gets the tab style strings.</summary>
         /// <value>The tab style strings.</value>
@@ -302,11 +243,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         [Localizable(true)]
         public TabStyleStrings TabStyleStrings => TabStyles;
-
         private bool ShouldSerializeTabStyleStrings() => !TabStyles.IsDefault;
-        
-        /// <summary>Resets the tab style strings.</summary>
-        public void ResetTabStyleStrings() => TabStyles.Reset();
+        private void ResetTabStyleStrings() => TabStyles.Reset();
 
         /// <summary>Gets the toast notification icon strings.</summary>
         /// <value>The toast notification icon strings.</value>
@@ -330,11 +268,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         [Localizable(true)]
         public KryptonAboutBoxBasicApplicationInformationStrings KryptonAboutBoxBasicApplicationInformationStrings => BasicApplicationInformationStrings;
-
         private bool ShouldSerializeKryptonAboutBoxBasicApplicationInformationStrings() => !BasicApplicationInformationStrings.IsDefault;
-
-        /// <summary>Resets the krypton about box basic application information strings.</summary>
-        public void ResetKryptonKryptonAboutBoxBasicApplicationInformationStrings() => BasicApplicationInformationStrings.Reset();
+        private void ResetKryptonKryptonAboutBoxBasicApplicationInformationStrings() => BasicApplicationInformationStrings.Reset();
 
         /// <summary>Gets the krypton about box strings.</summary>
         /// <value>The krypton about box strings.</value>
@@ -344,11 +279,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         [Localizable(true)]
         public KryptonAboutBoxStrings KryptonAboutBoxStrings => AboutBoxStrings;
-
         private bool ShouldSerializeKryptonAboutBoxStrings() => !AboutBoxStrings.IsDefault;
-
-        /// <summary>Resets the krypton about box strings.</summary>
-        public void ResetKryptonAboutBoxStrings() => AboutBoxStrings.Reset();
+        private void ResetKryptonAboutBoxStrings() => AboutBoxStrings.Reset();
 
         /// <summary>Gets the krypton miscellaneous theme strings.</summary>
         /// <value>The krypton miscellaneous theme strings.</value>
@@ -358,11 +290,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         [Localizable(true)]
         public KryptonMiscellaneousThemeStrings KryptonMiscellaneousThemeStrings => MiscellaneousThemeStrings;
-
         private bool ShouldSerializeKryptonMiscellaneousThemeStrings() => !MiscellaneousThemeStrings.IsDefault;
-
-        /// <summary>Resets the krypton miscellaneous theme strings.</summary>
-        public void ResetKryptonMiscellaneousThemeStrings() => MiscellaneousThemeStrings.Reset();
+        private void ResetKryptonMiscellaneousThemeStrings() => MiscellaneousThemeStrings.Reset();
 
         /// <summary>Gets the scrollbar strings.</summary>
         /// <value>The scrollbar strings.</value>
@@ -372,11 +301,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         [Localizable(true)]
         public KryptonScrollBarStrings KryptonScrollBarStrings => ScrollBarStrings;
-
         private bool ShouldSerializeKryptonScrollBarStrings() => !ScrollBarStrings.IsDefault;
-
-        /// <summary>Resets the krypton scroll bar strings.</summary>
-        public void ResetKryptonScrollBarStrings() => ScrollBarStrings.Reset();
+        private void ResetKryptonScrollBarStrings() => ScrollBarStrings.Reset();
 
         /// <summary>Gets the data grid view strings.</summary>
         /// <value>The data grid view strings.</value>
@@ -386,11 +312,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         [Localizable(true)]
         public DataGridViewStyleStrings GridViewStyleStrings => DataGridViewStyles;
-
         private bool ShouldSerializeGridViewStyleStrings() => !DataGridViewStyles.IsDefault;
-
-        /// <summary>Resets the data grid view strings.</summary>
-        public void ResetGridViewStyleStrings() => DataGridViewStyles.Reset();
+        private void ResetGridViewStyleStrings() => DataGridViewStyles.Reset();
 
         /// <summary>Gets the grid style strings.</summary>
         /// <value>The grid style strings.</value>
@@ -400,11 +323,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         [Localizable(true)]
         public GridStyleStrings GridStyleStrings => GridStyles;
-
         private bool ShouldSerializeGridStyleStrings() => !GridStyles.IsDefault;
-
-        /// <summary>Resets the grid style strings.</summary>
-        public void ResetGridStyleStrings() => GridStyles.Reset();
+        private void ResetGridStyleStrings() => GridStyles.Reset();
 
         /// <summary>Gets the header group collapsed target strings.</summary>
         /// <value>The header group collapsed target strings.</value>
@@ -414,11 +334,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         [Localizable(true)]
         public HeaderGroupCollapsedTargetStrings HeaderGroupCollapsedTargetStrings => GroupCollapsedTargetStrings;
-
         private bool ShouldSerializeHeaderGroupCollapsedTargetStrings() => !GroupCollapsedTargetStrings.IsDefault;
-
-        /// <summary>Resets the header group collapsed target strings.</summary>
-        public void ResetHeaderGroupCollapsedTargetStrings() => GroupCollapsedTargetStrings.Reset();
+        private void ResetHeaderGroupCollapsedTargetStrings() => GroupCollapsedTargetStrings.Reset();
 
         /// <summary>Gets the header style strings.</summary>
         /// <value>The header style strings.</value>
@@ -428,11 +345,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         [Localizable(true)]
         public HeaderStyleStrings HeaderStyleStrings => HeaderStyles;
-
         private bool ShouldSerializeHeaderStyleStrings() => !HeaderStyles.IsDefault;
-
-        /// <summary>Resets the header style strings.</summary>
-        public void ResetHeaderStyleStrings() => HeaderStyles.Reset();
+        private void ResetHeaderStyleStrings() => HeaderStyles.Reset();
 
         /// <summary>Gets the input control style strings.</summary>
         /// <value>The input control style strings.</value>
@@ -442,11 +356,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         [Localizable(true)]
         public InputControlStyleStrings InputControlStyleStrings => InputControlStyles;
-
         private bool ShouldSerializeInputControlStyleStrings() => !InputControlStyles.IsDefault;
-
-        /// <summary>Resets the input control style strings.</summary>
-        public void ResetInputControlStyleStrings() => InputControlStyles.Reset();
+        private void ResetInputControlStyleStrings() => InputControlStyles.Reset();
 
         #endregion
 

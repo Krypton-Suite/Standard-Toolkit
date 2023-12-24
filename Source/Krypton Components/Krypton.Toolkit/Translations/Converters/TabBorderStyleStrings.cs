@@ -257,7 +257,7 @@ namespace Krypton.Toolkit
         /// <summary>Gets or sets the slant outsize both tab border style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The slant outsize both tab border style.")]
-        [DefaultValue(DEFAULT_TAB_BORDER_STYLE_SLANT_OUTSIZE_NEAR)]
+        [DefaultValue(DEFAULT_TAB_BORDER_STYLE_SLANT_OUTSIZE_BOTH)]
         [RefreshProperties(RefreshProperties.All)]
         public string SlantOutsizeBoth { get; set; }
 

@@ -915,7 +915,7 @@ namespace Krypton.Toolkit
         public virtual string GetToolTipTitle(PaletteBase palette) => !string.IsNullOrEmpty(ToolTipTitle)
                                                                       || !AllowInheritToolTipTitle
                 ? ToolTipTitle
-                : palette?.GetButtonSpecToolTipTitle(ProtectedType) ?? string.Empty;
+                : palette.GetButtonSpecToolTipTitle(ProtectedType) ?? string.Empty;
 
         /// <summary>
         /// Gets the color to remap from the image to the container foreground.
@@ -923,8 +923,8 @@ namespace Krypton.Toolkit
         /// <param name="palette">Palette to use for inheriting values.</param>
         /// <returns>Color value.</returns>
         public virtual Color GetColorMap(PaletteBase palette) => ColorMap != Color.Empty
-                ? ColorMap
-                : palette?.GetButtonSpecColorMap(ProtectedType) ?? Color.Empty;
+            ? ColorMap
+            : palette.GetButtonSpecColorMap(ProtectedType);
 
         /// <summary>
         /// Gets the button style.
@@ -933,7 +933,7 @@ namespace Krypton.Toolkit
         /// <returns>Button style.</returns>
         public virtual ButtonStyle GetStyle(PaletteBase palette) => ConvertToButtonStyle(Style != PaletteButtonStyle.Inherit
                 ? Style
-                : palette?.GetButtonSpecStyle(ProtectedType));
+                : palette.GetButtonSpecStyle(ProtectedType));
 
         /// <summary>
         /// Gets the button orientation.

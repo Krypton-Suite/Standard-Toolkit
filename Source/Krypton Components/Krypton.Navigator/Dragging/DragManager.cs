@@ -62,10 +62,10 @@ namespace Krypton.Navigator
         /// <summary>
         /// Initialize a new instance of the DragManager class.
         /// </summary>
-        public DragManager()
+        public DragManager(PaletteBase? target = null)
         {
-            _redirector = new PaletteRedirect();
-            StateCommon = new PaletteDragDrop(null, null);
+            _redirector = new PaletteRedirect(target);
+            StateCommon = new PaletteDragDrop(target, null);
             _paletteMode = PaletteMode.Global;
             DragTargetProviders = new DragTargetProviderCollection();
             _dragTargets = new DragTargetList();
