@@ -21,6 +21,7 @@ namespace Krypton.Toolkit
         #region Static Fields
         private static readonly Type[] _types = [
             typeof(KryptonContextMenuItems),
+            typeof(KryptonContextMenuItem),
             typeof(KryptonContextMenuSeparator),
             typeof(KryptonContextMenuHeading),
             typeof(KryptonContextMenuLinkLabel),
@@ -202,8 +203,10 @@ namespace Krypton.Toolkit
     public class KryptonContextMenuItemCollection : TypedRestrictCollection<KryptonContextMenuItemBase>
     {
         #region Static Fields
-        private static readonly Type[] _types = [
+        private static readonly Type[] _types = 
+        [
             typeof(KryptonContextMenuItems),
+            typeof(KryptonContextMenuItem),
             typeof(KryptonContextMenuSeparator),
             typeof(KryptonContextMenuHeading),
             typeof(KryptonContextMenuLinkLabel),
