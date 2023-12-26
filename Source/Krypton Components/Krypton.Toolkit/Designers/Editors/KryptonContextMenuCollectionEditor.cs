@@ -41,6 +41,7 @@ namespace Krypton.Toolkit
         protected override Type[] CreateNewItemTypes() =>
             [
                 typeof(KryptonContextMenuItems),
+                typeof(KryptonContextMenuItem),
                 typeof(KryptonContextMenuSeparator),
                 typeof(KryptonContextMenuHeading),
                 typeof(KryptonContextMenuLinkLabel),
