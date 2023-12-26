@@ -122,7 +122,7 @@ namespace Krypton.Toolkit
         [Category(@"Data")]
         [Description(@"Collection of standard menu items.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        [Editor(typeof(KryptonContextMenuItemCollectionEditor), typeof(UITypeEditor))]
+        [Editor(typeof(KryptonContextMenuCollectionEditor), typeof(UITypeEditor))]
         public KryptonContextMenuItemCollection Items { get; }
 
         /// <summary>
@@ -147,7 +147,7 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>
-        /// Gets and sets if the an image column is provided for background of images.
+        /// Gets and sets if the image column is provided for background of images.
         /// </summary>
         [KryptonPersist]
         [Category(@"Appearance")]

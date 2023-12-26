@@ -19,16 +19,18 @@ namespace Krypton.Toolkit
     public class KryptonContextMenuCollection : TypedRestrictCollection<KryptonContextMenuItemBase>
     {
         #region Static Fields
-        private static readonly Type[] _types = { typeof(KryptonContextMenuItems),
-                                                             typeof(KryptonContextMenuSeparator),
-                                                             typeof(KryptonContextMenuHeading),
-                                                             typeof(KryptonContextMenuLinkLabel),
-                                                             typeof(KryptonContextMenuCheckBox),
-                                                             typeof(KryptonContextMenuCheckButton),
-                                                             typeof(KryptonContextMenuRadioButton),
-                                                             typeof(KryptonContextMenuColorColumns),
-                                                             typeof(KryptonContextMenuMonthCalendar),
-                                                             typeof(KryptonContextMenuImageSelect)};
+        private static readonly Type[] _types = [
+            typeof(KryptonContextMenuItems),
+            typeof(KryptonContextMenuSeparator),
+            typeof(KryptonContextMenuHeading),
+            typeof(KryptonContextMenuLinkLabel),
+            typeof(KryptonContextMenuCheckBox),
+            typeof(KryptonContextMenuCheckButton),
+            typeof(KryptonContextMenuRadioButton),
+            typeof(KryptonContextMenuColorColumns),
+            typeof(KryptonContextMenuMonthCalendar),
+            typeof(KryptonContextMenuImageSelect)
+        ];
         #endregion
 
         #region Restrict
@@ -200,9 +202,18 @@ namespace Krypton.Toolkit
     public class KryptonContextMenuItemCollection : TypedRestrictCollection<KryptonContextMenuItemBase>
     {
         #region Static Fields
-        private static readonly Type[] _types = { typeof(KryptonContextMenuItem),
-                                                             typeof(KryptonContextMenuSeparator),
-                                                             typeof(KryptonContextMenuHeading) };
+        private static readonly Type[] _types = [
+            typeof(KryptonContextMenuItems),
+            typeof(KryptonContextMenuSeparator),
+            typeof(KryptonContextMenuHeading),
+            typeof(KryptonContextMenuLinkLabel),
+            typeof(KryptonContextMenuCheckBox),
+            typeof(KryptonContextMenuCheckButton),
+            typeof(KryptonContextMenuRadioButton),
+            typeof(KryptonContextMenuColorColumns),
+            typeof(KryptonContextMenuMonthCalendar),
+            typeof(KryptonContextMenuImageSelect)
+        ];
         #endregion
 
         #region Restrict

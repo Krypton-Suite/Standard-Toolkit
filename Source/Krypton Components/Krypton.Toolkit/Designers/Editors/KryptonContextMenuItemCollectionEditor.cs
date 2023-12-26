@@ -29,8 +29,18 @@ namespace Krypton.Toolkit
         /// Gets the data types that this collection editor can contain. 
         /// </summary>
         /// <returns>An array of data types that this collection can contain.</returns>
-        protected override Type[] CreateNewItemTypes() => new[] { typeof(KryptonContextMenuItem),
-                                typeof(KryptonContextMenuSeparator),
-                                typeof(KryptonContextMenuHeading) };
+        protected override Type[] CreateNewItemTypes() =>
+        [
+            typeof(KryptonContextMenuItems),
+            typeof(KryptonContextMenuSeparator),
+            typeof(KryptonContextMenuHeading),
+            typeof(KryptonContextMenuLinkLabel),
+            typeof(KryptonContextMenuCheckBox),
+            typeof(KryptonContextMenuCheckButton),
+            typeof(KryptonContextMenuRadioButton),
+            typeof(KryptonContextMenuColorColumns),
+            typeof(KryptonContextMenuMonthCalendar),
+            typeof(KryptonContextMenuImageSelect)
+        ];
     }
 }

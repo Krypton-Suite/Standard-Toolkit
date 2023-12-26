@@ -67,11 +67,10 @@ namespace Krypton.Toolkit
             get
             {
                 // Create a collection of action lists
-                var actionLists = new DesignerActionListCollection
-                {
-                    // Add the palette specific list
-                    new KryptonContextMenuActionList(this)
-                };
+                var actionLists = new DesignerActionListCollection();
+                actionLists.AddRange(base.ActionLists);
+                // Add the palette specific list
+                actionLists.Add((DesignerActionList)new KryptonContextMenuActionList(this));
 
                 return actionLists;
             }
