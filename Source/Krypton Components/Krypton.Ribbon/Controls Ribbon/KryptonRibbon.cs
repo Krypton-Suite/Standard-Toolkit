@@ -1270,7 +1270,7 @@ namespace Krypton.Ribbon
             // Cannot process a message for a disposed control
             if (!IsDisposed && !Disposing)
             {
-                TabsArea.AppButtonVisibleChanged();
+                TabsArea?.AppButtonVisibleChanged();
 
                 CaptionArea?.AppButtonVisibleChanged();
             }
@@ -1707,7 +1707,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="sender">Source of notification.</param>
         /// <param name="e">An NeedLayoutEventArgs containing event data.</param>
-        protected override void OnNeedPaint(object sender, NeedLayoutEventArgs e)
+        protected override void OnNeedPaint(object? sender, NeedLayoutEventArgs e)
         {
             // When in minimized mode...
             if (RealMinimizedMode)
