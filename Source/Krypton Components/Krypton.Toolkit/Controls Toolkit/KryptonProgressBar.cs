@@ -118,6 +118,8 @@ namespace Krypton.Toolkit
             ((PaletteBack)StateNormal.PaletteBack).ColorStyle = PaletteColorStyle.OneNote;
             _stateBackValue = new PaletteTriple(StateCommon, OnNeedPaintHandler).Back;
             _stateBackValue.ColorStyle = PaletteColorStyle.SolidAllLine;
+
+            ProgressBarValues = new ProgressBarValues(OnNeedPaintHandler);
         }
 
         /// <inheritdoc />
