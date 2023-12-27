@@ -6,9 +6,6 @@
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
- *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
@@ -731,13 +728,13 @@ namespace Krypton.Ribbon
             CAPTION_TEXT_GAPS = (int)(FactorDpiX * 10);        // 4 below and 6 above
             MIN_SELF_HEIGHT = (int)(FactorDpiY * 28);          // Min height to show application button and the mini bar and context tabs
             // Remember incoming references
-            _ribbon = ribbon;
-            _compositionArea = compositionArea;
-            _needPaintDelegate = needPaintDelegate;
+            _ribbon = ribbon!;
+            _compositionArea = compositionArea!;
+            _needPaintDelegate = needPaintDelegate!;
             _needIntegratedDelegate = OnIntegratedNeedPaint;
 
             // Create a special redirector for overriding the border setting
-            _redirect = new PaletteCaptionRedirect(redirect);
+            _redirect = new PaletteCaptionRedirect(redirect!);
 
             CreateViewElements();
             SetupParentMonitoring();
@@ -765,7 +762,7 @@ namespace Krypton.Ribbon
                         _integrated = false;
                     }
 
-                    _kryptonForm.ApplyCustomChromeChanged -= OnFormChromeCheck;
+                    _kryptonForm.ApplyUseThemeFormChromeBorderWidthChanged -= OnFormChromeCheck;
                     _kryptonForm.ClientSizeChanged -= OnFormChromeCheck;
                     _kryptonForm.WindowActiveChanged -= OnWindowActiveChanged;
                     _kryptonForm = null;
@@ -1062,7 +1059,7 @@ namespace Krypton.Ribbon
             Debug.Assert(context != null);
 
             // Enforce the minimum height
-            Size preferredSize = base.GetPreferredSize(context);
+            Size preferredSize = base.GetPreferredSize(context!);
             preferredSize.Height = Math.Max(_calculatedHeight, preferredSize.Height);
 
             return preferredSize;
@@ -1138,7 +1135,7 @@ namespace Krypton.Ribbon
         }
 
         private void SetupParentMonitoring() =>
-            // We have to know when the parent of the ribbon changes so we can then hook
+            // We have to know when the parent of the ribbon changes, so we can then hook
             // into monitoring the top level custom chrome control. We need information this
             // decide if we integrate with top chrome or show this control instead.
             _ribbon.ParentChanged += OnRibbonParentChanged;
@@ -1148,7 +1145,7 @@ namespace Krypton.Ribbon
             // Unhook from any current krypton form monitoring
             if (_kryptonForm != null)
             {
-                _kryptonForm.ApplyCustomChromeChanged -= OnFormChromeCheck;
+                _kryptonForm.ApplyUseThemeFormChromeBorderWidthChanged -= OnFormChromeCheck;
                 _kryptonForm.ClientSizeChanged -= OnFormChromeCheck;
                 _kryptonForm.WindowActiveChanged -= OnWindowActiveChanged;
                 _kryptonForm = null;
@@ -1165,7 +1162,7 @@ namespace Krypton.Ribbon
                 {
                     _kryptonForm = form;
                     _kryptonForm.Composition = _compositionArea;
-                    _kryptonForm.ApplyCustomChromeChanged += OnFormChromeCheck;
+                    _kryptonForm.ApplyUseThemeFormChromeBorderWidthChanged += OnFormChromeCheck;
                     _kryptonForm.ClientSizeChanged += OnFormChromeCheck;
                     _kryptonForm.WindowActiveChanged += OnWindowActiveChanged;
                 }
@@ -1181,7 +1178,7 @@ namespace Krypton.Ribbon
             var integrated = false;
 
             // Are we inside a KryptonForm instance that is using custom chrome?
-            if (_kryptonForm is { ApplyCustomChrome: true })
+            if (_kryptonForm != null)
             {
                 // Ribbon must be placed at the top left of the forms client area
                 if (_ribbon.Location == Point.Empty)
@@ -1198,10 +1195,7 @@ namespace Krypton.Ribbon
                     // Update width of the separator used in place of the app button when app button not visible
                     _spaceInsteadOfAppButton.SeparatorSize = new Size(_kryptonForm.RealWindowBorders.Left, 0);
                 }
-            }
 
-            if (_kryptonForm != null)
-            {
                 var overrideIntegrated = integrated;
 
                 // If told to prevent the integration, then prevent it now
@@ -1279,7 +1273,7 @@ namespace Krypton.Ribbon
                 Font ribbonFont = _ribbon.StateCommon.RibbonGeneral.GetRibbonTextFont(PaletteState.Normal);
 
                 // Can we use the cached font height?
-                if (ribbonFont != _cacheRibbonFont)
+                if (!Equals(ribbonFont, _cacheRibbonFont))
                 {
                     _cacheRibbonFont = ribbonFont;
                     _cacheRibbonFontHeight = ribbonFont.Height;
@@ -1310,7 +1304,7 @@ namespace Krypton.Ribbon
 
         private void OnWindowActiveChanged(object sender, EventArgs e)
         {
-            if (_kryptonForm is { ApplyCustomChrome: true, ApplyComposition: true })
+            if (_kryptonForm is { ApplyComposition: true })
             // When integrated into composition we need to repaint whenever the
             // owning form changes active status, as we are drawing the caption
             {

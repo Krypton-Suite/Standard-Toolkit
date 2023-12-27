@@ -18,7 +18,7 @@ namespace Krypton.Toolkit
     public class ViewDrawForm : ViewDrawDocker
     {
         #region Instance Fields
-        private StatusStrip? _renderStrip;
+        private StatusStrip _renderStrip;
 
         #endregion
 
@@ -42,10 +42,10 @@ namespace Krypton.Toolkit
         {
             if (disposing)
             {
-                if (_renderStrip != null)
+                if (_renderStrip != null!)
                 {
                     _renderStrip.Dispose();
-                    _renderStrip = null;
+                    _renderStrip = null!;
                 }
             }
 
@@ -79,9 +79,7 @@ namespace Krypton.Toolkit
         {
             // Do we have a status strip to try and merge?
             // Is the status strip using the global renderer?
-            if ((_renderStrip != null)
-                && (StatusStrip?.RenderMode == ToolStripRenderMode.ManagerRenderMode)
-                )
+            if (StatusStrip?.RenderMode == ToolStripRenderMode.ManagerRenderMode)
             {
                 // Cast to correct type
 

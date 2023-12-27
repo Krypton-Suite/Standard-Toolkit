@@ -24,7 +24,7 @@ namespace Krypton.Navigator
         private ViewDrawContent _viewContentPrimary;
         private ViewDrawDocker _viewHeadingSecondary;
         private ViewDrawContent _viewContentSecondary;
-        private ButtonSpecManagerDraw _buttonManager;
+        private ButtonSpecManagerDraw? _buttonManager;  // Can be null in the designer
         private readonly NeedPaintHandler _needPaintDelegate;
         #endregion
 
@@ -84,7 +84,7 @@ namespace Krypton.Navigator
             UpdateStatePalettes();
 
             // Force buttons to be recreated in the headers
-            _buttonManager.RecreateButtons();
+            _buttonManager?.RecreateButtons();
         }
 
         /// <summary>
@@ -92,11 +92,14 @@ namespace Krypton.Navigator
         /// </summary>
         public void Destruct()
         {
-            // Remove paint delegate so we can be garbage collected
-            _buttonManager.NeedPaint = null;
+            if (_buttonManager != null)
+            {
+                // Remove paint delegate so we can be garbage collected
+                _buttonManager.NeedPaint = null;
 
-            // Cleanup the button manager events and processing
-            _buttonManager.Destruct();
+                // Cleanup the button manager events and processing
+                _buttonManager.Destruct();
+            }
 
             // Remove the old root from the canvas
             _viewGroup.Dispose();
@@ -110,14 +113,14 @@ namespace Krypton.Navigator
         /// <returns>Reference to ButtonSpec; otherwise null.</returns>
         public ButtonSpec? ButtonSpecFromView(ViewBase element) =>
             // Ask the button manager for the button spec for this element
-            _buttonManager.ButtonSpecFromView(element);
+            _buttonManager?.ButtonSpecFromView(element);
 
         /// <summary>
         /// Recreate the buttons to reflect a change in selected page.
         /// </summary>
         public void UpdateButtons() =>
             // Ensure buttons are recreated to reflect different page
-            _buttonManager.RecreateButtons();
+            _buttonManager?.RecreateButtons();
 
         /// <summary>
         /// Ensure the correct state palettes are being used.
@@ -162,7 +165,7 @@ namespace Krypton.Navigator
         public Point GetContextShowPoint()
         {
             // Get the display rectangle of the context button
-            Rectangle rect = _buttonManager.GetButtonRectangle(Navigator.Button.ContextButton);
+            Rectangle rect = _buttonManager!.GetButtonRectangle(Navigator.Button.ContextButton);
 
             // We want the context menu to show just below the button
             var pt = new Point(rect.Left, rect.Bottom + 3);
@@ -178,7 +181,7 @@ namespace Krypton.Navigator
         /// <returns>True if the view wants the mouse position; otherwise false.</returns>
         public bool DesignerGetHitTest(Point pt) =>
             // Check if any of the buttons want the point
-            _buttonManager.DesignerGetHitTest(pt);
+            _buttonManager?.DesignerGetHitTest(pt) ?? false;
 
         /// <summary>
         /// Get the appropriate action for the header group next action.
@@ -232,12 +235,12 @@ namespace Krypton.Navigator
                     break;
                 case @"HeaderPositionPrimary":
                     SetHeaderPosition(_viewHeadingPrimary, _viewContentPrimary, Navigator.Header.HeaderPositionPrimary);
-                    _buttonManager.RecreateButtons();
+                    _buttonManager?.RecreateButtons();
                     Navigator.PerformNeedPaint(true);
                     break;
                 case @"HeaderPositionSecondary":
                     SetHeaderPosition(_viewHeadingSecondary, _viewContentSecondary, Navigator.Header.HeaderPositionSecondary);
-                    _buttonManager.RecreateButtons();
+                    _buttonManager?.RecreateButtons();
                     Navigator.PerformNeedPaint(true);
                     break;
                 case @"HeaderVisiblePrimary":
@@ -255,7 +258,7 @@ namespace Krypton.Navigator
                 case @"ContextButtonDisplay":
                 case @"CloseButtonDisplay":
                 case nameof(ButtonDisplayLogic):
-                    _buttonManager.RecreateButtons();
+                    _buttonManager?.RecreateButtons();
                     break;
             }
         }
@@ -381,47 +384,47 @@ namespace Krypton.Navigator
             switch (style)
             {
                 case HeaderStyle.Primary:
-                    _buttonManager.SetDockerMetrics(drawDocker, palette,
+                    _buttonManager?.SetDockerMetrics(drawDocker, palette,
                                                     PaletteMetricInt.HeaderButtonEdgeInsetPrimary,
                                                     PaletteMetricPadding.HeaderButtonPaddingPrimary);
                     break;
                 case HeaderStyle.Secondary:
-                    _buttonManager.SetDockerMetrics(drawDocker, palette,
+                    _buttonManager?.SetDockerMetrics(drawDocker, palette,
                                                     PaletteMetricInt.HeaderButtonEdgeInsetSecondary,
                                                     PaletteMetricPadding.HeaderButtonPaddingSecondary);
                     break;
                 case HeaderStyle.DockActive:
-                    _buttonManager.SetDockerMetrics(drawDocker, palette,
+                    _buttonManager?.SetDockerMetrics(drawDocker, palette,
                                                     PaletteMetricInt.HeaderButtonEdgeInsetDockActive,
                                                     PaletteMetricPadding.HeaderButtonPaddingDockActive);
                     break;
                 case HeaderStyle.DockInactive:
-                    _buttonManager.SetDockerMetrics(drawDocker, palette,
+                    _buttonManager?.SetDockerMetrics(drawDocker, palette,
                                                     PaletteMetricInt.HeaderButtonEdgeInsetDockInactive,
                                                     PaletteMetricPadding.HeaderButtonPaddingDockInactive);
                     break;
                 case HeaderStyle.Form:
-                    _buttonManager.SetDockerMetrics(drawDocker, palette,
+                    _buttonManager?.SetDockerMetrics(drawDocker, palette,
                                                     PaletteMetricInt.HeaderButtonEdgeInsetForm,
                                                     PaletteMetricPadding.HeaderButtonPaddingForm);
                     break;
                 case HeaderStyle.Calendar:
-                    _buttonManager.SetDockerMetrics(drawDocker, palette,
+                    _buttonManager?.SetDockerMetrics(drawDocker, palette,
                                                     PaletteMetricInt.HeaderButtonEdgeInsetCalendar,
                                                     PaletteMetricPadding.HeaderButtonPaddingCalendar);
                     break;
                 case HeaderStyle.Custom1:
-                    _buttonManager.SetDockerMetrics(drawDocker, palette,
+                    _buttonManager?.SetDockerMetrics(drawDocker, palette,
                                                     PaletteMetricInt.HeaderButtonEdgeInsetCustom1,
                                                     PaletteMetricPadding.HeaderButtonPaddingCustom1);
                     break;
                 case HeaderStyle.Custom2:
-                    _buttonManager.SetDockerMetrics(drawDocker, palette,
+                    _buttonManager?.SetDockerMetrics(drawDocker, palette,
                                                     PaletteMetricInt.HeaderButtonEdgeInsetCustom2,
                                                     PaletteMetricPadding.HeaderButtonPaddingCustom2);
                     break;
                 case HeaderStyle.Custom3:
-                    _buttonManager.SetDockerMetrics(drawDocker, palette,
+                    _buttonManager?.SetDockerMetrics(drawDocker, palette,
                         PaletteMetricInt.HeaderButtonEdgeInsetCustom3,
                         PaletteMetricPadding.HeaderButtonPaddingCustom3);
                     break;
@@ -468,8 +471,8 @@ namespace Krypton.Navigator
             _viewHeadingPrimary.SetPalettes(palette.HeaderPrimary.Back, palette.HeaderPrimary.Border, palette.HeaderPrimary);
             _viewHeadingSecondary.SetPalettes(palette.HeaderSecondary.Back, palette.HeaderSecondary.Border, palette.HeaderSecondary);
 
-            _buttonManager.SetDockerMetrics(_viewHeadingPrimary, palette.HeaderPrimary);
-            _buttonManager.SetDockerMetrics(_viewHeadingSecondary, palette.HeaderSecondary);
+            _buttonManager?.SetDockerMetrics(_viewHeadingPrimary, palette.HeaderPrimary);
+            _buttonManager?.SetDockerMetrics(_viewHeadingSecondary, palette.HeaderSecondary);
 
             _viewContentPrimary.SetPalette(palette.HeaderPrimary.Content);
             _viewContentSecondary.SetPalette(palette.HeaderSecondary.Content);
@@ -482,7 +485,7 @@ namespace Krypton.Navigator
             _viewHeadingSecondary.Enabled = enabled;
             _viewContentPrimary.Enabled = enabled;
             _viewContentSecondary.Enabled = enabled;
-            _buttonManager.RecreateButtons();
+            _buttonManager?.RecreateButtons();
         }
 
         private void OnDragStart(object sender, DragStartEventCancelArgs e) => Navigator.InternalDragStart(e, null);

@@ -48,7 +48,6 @@ namespace Krypton.Toolkit
         private RendererMode _baseRenderMode;
         private PaletteBase _basePalette;
         //private PaletteMode _basePaletteMode;
-        private InheritBool _allowFormChrome;
         private readonly PaletteRedirect _redirector;
         private readonly NeedPaintHandler _needPaintDelegate;
 
@@ -72,9 +71,6 @@ namespace Krypton.Toolkit
 
             // Create the redirector for passing requests onto the inherited palette
             _redirector = new PaletteRedirect(_basePalette);
-
-            // Set default value of properties
-            _allowFormChrome = InheritBool.Inherit;
 
             // Create the storage for the common states
             Common = new KryptonPaletteCommon(_redirector, _needPaintDelegate);
@@ -160,30 +156,20 @@ namespace Krypton.Toolkit
         }
         #endregion
 
-        #region AllowFormChrome
+        #region UseThemeFormChromeBorderWidth
         /// <summary>
-        /// Gets or sets a value indicating if KryptonForm instances should show custom chrome.
+        /// Gets or sets a value indicating if KryptonForm instances should UseThemeFormChromeBorderWidth.
         /// </summary>
         [KryptonPersist(false)]
         [Category(@"Visuals")]
-        [Description(@"Should KryptonForm instances show custom chrome.")]
+        [Description(@"Should KryptonForm instances UseThemeFormChromeBorderWidth.")]
         [DefaultValue(InheritBool.Inherit)]
-        public InheritBool AllowFormChrome
+        public new InheritBool UseThemeFormChromeBorderWidth
         {
-            get => _allowFormChrome;
+            get => _basePalette.UseThemeFormChromeBorderWidth;
 
-            set
-            {
-                if (_allowFormChrome != value)
-                {
-                    _allowFormChrome = value;
-                    OnAllowFormChromeChanged(this, EventArgs.Empty);
-                }
-            }
+            set => _basePalette.UseThemeFormChromeBorderWidth = value;
         }
-
-        private bool ShouldSerializeAllowFormChrome() => AllowFormChrome != InheritBool.Inherit;
-
         #endregion
 
         #region ButtonSpecs
@@ -544,14 +530,6 @@ namespace Krypton.Toolkit
             RendererMode.Custom => _baseRenderer,
             _ => KryptonManager.GetRendererForMode(_baseRenderMode)
         };
-        #endregion
-
-        #region IPalette
-        /// <summary>
-        /// Gets a value indicating if KryptonForm instances should show custom chrome.
-        /// </summary>
-        /// <returns>InheritBool value.</returns>
-        public override InheritBool GetAllowFormChrome() => AllowFormChrome == InheritBool.Inherit ? _basePalette.GetAllowFormChrome() : AllowFormChrome;
         #endregion
 
         #region PaletteBase Back
@@ -2758,7 +2736,7 @@ namespace Krypton.Toolkit
         //                    // Fire events to indicate a change in palette values
         //                    OnBasePaletteChanged(this, EventArgs.Empty);
         //                    OnBaseRendererChanged(this, EventArgs.Empty);
-        //                    OnAllowFormChromeChanged(this, EventArgs.Empty);
+        //                    OnUseThemeFormChromeBorderWidthChanged(this, EventArgs.Empty);
         //                    OnButtonSpecChanged(this, EventArgs.Empty);
         //                    OnPalettePaint(this, new PaletteLayoutEventArgs(true, true));
         //                    break;
@@ -2821,7 +2799,7 @@ namespace Krypton.Toolkit
                     // Indicate the palette values have changed
                     OnBasePaletteChanged(this, EventArgs.Empty);
                     OnBaseRendererChanged(this, EventArgs.Empty);
-                    OnAllowFormChromeChanged(this, EventArgs.Empty);
+                    OnUseThemeFormChromeBorderWidthChanged(this, EventArgs.Empty);
                     OnButtonSpecChanged(this, EventArgs.Empty);
                     OnPalettePaint(this, new PaletteLayoutEventArgs(true, true));
                 }
@@ -2959,16 +2937,16 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>
-        /// Raises the AllowFormChromeChanged event.
+        /// Raises the UseThemeFormChromeBorderWidthChanged event.
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">An EventArgs containing event data.</param>
-        protected override void OnAllowFormChromeChanged(object sender, EventArgs e)
+        protected override void OnUseThemeFormChromeBorderWidthChanged(object sender, EventArgs e)
         {
             // Can only generate change events if not suspended
             if (_suspendCount == 0)
             {
-                base.OnAllowFormChromeChanged(this, e);
+                base.OnUseThemeFormChromeBorderWidthChanged(this, e);
             }
         }
 
@@ -3075,10 +3053,6 @@ namespace Krypton.Toolkit
             ResetObjectToDefault(this, true);
 
             // Ask each part of the palette to populate itself
-            if (_basePalette != null)
-            {
-                _allowFormChrome = _basePalette.GetAllowFormChrome();
-            }
             ButtonStyles.PopulateFromBase(Common);
             CalendarDay.PopulateFromBase();
             ButtonSpecs.PopulateFromBase();

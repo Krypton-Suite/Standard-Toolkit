@@ -11,6 +11,7 @@
 #endregion
 
 // ReSharper disable UnusedMember.Global
+
 namespace Krypton.Toolkit
 {
     #region Delegates
@@ -1169,8 +1170,9 @@ namespace Krypton.Toolkit
         /// Gets the size of the borders requested by the real window.
         /// </summary>
         /// <param name="cp">Window style parameters.</param>
+        /// <param name="form">Optional VisualForm base to detect usage of Chrome drawing</param>
         /// <returns>Border sizing.</returns>
-        public static Padding GetWindowBorders(CreateParams cp)
+        public static Padding GetWindowBorders(CreateParams cp, KryptonForm? form)
         {
             var rect = new PI.RECT
             {
@@ -1180,12 +1182,20 @@ namespace Krypton.Toolkit
                 top = 0,
                 bottom = 0
             };
-
             // Adjust rectangle to add on the borders required
             PI.AdjustWindowRectEx(ref rect, cp.Style, false, cp.ExStyle);
-
             // Return the per side border values
-            return new Padding(-rect.left, -rect.top, rect.right, rect.bottom);
+            if (form is { UseThemeFormChromeBorderWidth: false })
+            {
+                // https://github.com/Krypton-Suite/Standard-Toolkit/issues/139
+                int xPad = PI.GetSystemMetrics(PI.SM_.CXFIXEDFRAME);
+                int yPad = PI.GetSystemMetrics(PI.SM_.CYFIXEDFRAME);
+                return new Padding(xPad, -rect.top, xPad, yPad);
+            }
+            else
+            {
+                return new Padding(-rect.left, -rect.top, rect.right, rect.bottom);
+            }
         }
 
         /// <summary>
@@ -1600,13 +1610,14 @@ namespace Krypton.Toolkit
         /// <param name="trgtWidth"></param>
         /// <param name="trgtHeight"></param>
         /// <returns></returns>
+        /// <exception >thrown if targets are negative</exception>
         public static Bitmap ScaleImageForSizedDisplay(Image src, float trgtWidth, float trgtHeight)
         {
             if (trgtWidth <= 0 || trgtHeight <= 0)
             {
                 // For some reason, in the designer it can send a rect that has a negative size element,
                 // therefore the targets will also be negative
-                return new Bitmap(0, 0);
+                return new Bitmap(0, 0);    // This will throw an exception
             }
 
             var newImage = new Bitmap((int)trgtWidth, (int)trgtHeight);

@@ -58,9 +58,9 @@ namespace Krypton.Toolkit
         public event EventHandler<PaletteLayoutEventArgs>? PalettePaint;
 
         /// <summary>
-        /// Occurs when the AllowFormChrome setting changes.
+        /// Occurs when the UseThemeFormChromeBorderWidth setting changes.
         /// </summary>
-        public event EventHandler? AllowFormChromeChanged;
+        public event EventHandler? UseThemeFormChromeBorderWidthChanged;
 
         /// <summary>
         /// Occurs when the BasePalette/BasePaletteMode setting changes.
@@ -94,12 +94,32 @@ namespace Krypton.Toolkit
         }
         #endregion
 
-        #region AllowFormChrome
+        #region UseThemeFormChromeBorderWidth
+        private InheritBool _allowFormChrome = InheritBool.True;
+
         /// <summary>
-        /// Gets a value indicating if KryptonForm instances should show custom chrome.
+        /// Gets or sets a value indicating if KryptonForm instances should UseThemeFormChromeBorderWidth.
         /// </summary>
         /// <returns>InheritBool value.</returns>
-        public abstract InheritBool GetAllowFormChrome();
+        [KryptonPersist(false)]
+        [Category(@"Visuals")]
+        [Description(@"Should KryptonForm instances UseThemeFormChromeBorderWidth.")]
+        [DefaultValue(InheritBool.Inherit)]
+        public virtual InheritBool UseThemeFormChromeBorderWidth
+        {
+            get => _allowFormChrome;
+
+            set
+            {
+                if (_allowFormChrome != value)
+                {
+                    _allowFormChrome = value;
+                    OnUseThemeFormChromeBorderWidthChanged(this, EventArgs.Empty);
+                }
+            }
+        }
+        private void ResetUseThemeFormChromeBorderWidth() => UseThemeFormChromeBorderWidth = InheritBool.True;
+        private bool ShouldSerializeUseThemeFormChromeBorderWidth() => UseThemeFormChromeBorderWidth != InheritBool.True;
         #endregion
 
         #region Renderer
@@ -1941,14 +1961,14 @@ namespace Krypton.Toolkit
 
         #endregion
 
-        #region OnAllowFormChromeChanged
+        #region OnUseThemeFormChromeBorderWidthChanged
 
         /// <summary>
-        /// Raises the AllowFormChromeChanged event.
+        /// Raises the UseThemeFormChromeBorderWidthChanged event.
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">An EventArgs containing event data.</param>
-        protected virtual void OnAllowFormChromeChanged(object sender, EventArgs e) => AllowFormChromeChanged?.Invoke(this, e);
+        protected virtual void OnUseThemeFormChromeBorderWidthChanged(object sender, EventArgs e) => UseThemeFormChromeBorderWidthChanged?.Invoke(this, e);
 
         #endregion
 

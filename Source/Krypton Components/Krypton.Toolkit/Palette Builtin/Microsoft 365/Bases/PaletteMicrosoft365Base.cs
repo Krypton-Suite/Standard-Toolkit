@@ -300,17 +300,6 @@ namespace Krypton.Toolkit
         }
         #endregion
 
-        #region AllowFormChrome        
-        /// <summary>
-        /// Gets a value indicating if KryptonForm instances should show custom chrome.
-        /// </summary>
-        /// <returns>
-        /// InheritBool value.
-        /// </returns>
-        public override InheritBool GetAllowFormChrome() => InheritBool.True;
-
-        #endregion
-
         #region Renderer        
         /// <summary>
         /// Gets the renderer to use for this palette.
@@ -1557,8 +1546,66 @@ namespace Krypton.Toolkit
 
             return style switch
             {
-                PaletteBorderStyle.SeparatorLowProfile or PaletteBorderStyle.SeparatorHighInternalProfile or PaletteBorderStyle.SeparatorHighProfile or PaletteBorderStyle.SeparatorCustom1 or PaletteBorderStyle.SeparatorCustom2 or PaletteBorderStyle.SeparatorCustom3 or PaletteBorderStyle.ContextMenuInner => 0,
-                PaletteBorderStyle.ControlClient or PaletteBorderStyle.ControlAlternate or PaletteBorderStyle.ControlGroupBox or PaletteBorderStyle.ControlToolTip or PaletteBorderStyle.ControlRibbon or PaletteBorderStyle.ControlRibbonAppMenu or PaletteBorderStyle.ControlCustom1 or PaletteBorderStyle.ControlCustom2 or PaletteBorderStyle.ControlCustom3 or PaletteBorderStyle.ContextMenuOuter or PaletteBorderStyle.ContextMenuHeading or PaletteBorderStyle.ContextMenuSeparator or PaletteBorderStyle.ContextMenuItemSplit or PaletteBorderStyle.ContextMenuItemImageColumn or PaletteBorderStyle.ContextMenuItemImage or PaletteBorderStyle.ContextMenuItemHighlight or PaletteBorderStyle.InputControlStandalone or PaletteBorderStyle.InputControlRibbon or PaletteBorderStyle.InputControlCustom1 or PaletteBorderStyle.InputControlCustom2 or PaletteBorderStyle.InputControlCustom3 or PaletteBorderStyle.FormMain or PaletteBorderStyle.FormCustom1 or PaletteBorderStyle.FormCustom2 or PaletteBorderStyle.FormCustom3 or PaletteBorderStyle.HeaderPrimary or PaletteBorderStyle.HeaderDockInactive or PaletteBorderStyle.HeaderDockActive or PaletteBorderStyle.HeaderCalendar or PaletteBorderStyle.HeaderSecondary or PaletteBorderStyle.HeaderForm or PaletteBorderStyle.HeaderCustom1 or PaletteBorderStyle.HeaderCustom2 or PaletteBorderStyle.HeaderCustom3 or PaletteBorderStyle.TabHighProfile or PaletteBorderStyle.TabStandardProfile or PaletteBorderStyle.TabLowProfile or PaletteBorderStyle.TabOneNote or PaletteBorderStyle.TabDock or PaletteBorderStyle.TabDockAutoHidden or PaletteBorderStyle.TabCustom1 or PaletteBorderStyle.TabCustom2 or PaletteBorderStyle.TabCustom3 or PaletteBorderStyle.ButtonStandalone or PaletteBorderStyle.ButtonGallery or PaletteBorderStyle.ButtonAlternate or PaletteBorderStyle.ButtonLowProfile or PaletteBorderStyle.ButtonBreadCrumb or PaletteBorderStyle.ButtonListItem or PaletteBorderStyle.ButtonCommand or PaletteBorderStyle.ButtonButtonSpec or PaletteBorderStyle.ButtonCalendarDay or PaletteBorderStyle.ButtonCluster or PaletteBorderStyle.ButtonInputControl or PaletteBorderStyle.ButtonNavigatorStack or PaletteBorderStyle.ButtonNavigatorOverflow or PaletteBorderStyle.ButtonNavigatorMini or PaletteBorderStyle.ButtonForm or PaletteBorderStyle.ButtonFormClose or PaletteBorderStyle.ButtonCustom1 or PaletteBorderStyle.ButtonCustom2 or PaletteBorderStyle.ButtonCustom3 or PaletteBorderStyle.GridHeaderColumnList or PaletteBorderStyle.GridHeaderColumnSheet or PaletteBorderStyle.GridHeaderColumnCustom1 or PaletteBorderStyle.GridHeaderColumnCustom2 or PaletteBorderStyle.GridHeaderColumnCustom3 or PaletteBorderStyle.GridHeaderRowList or PaletteBorderStyle.GridHeaderRowSheet or PaletteBorderStyle.GridHeaderRowCustom1 or PaletteBorderStyle.GridHeaderRowCustom2 or PaletteBorderStyle.GridHeaderRowCustom3 or PaletteBorderStyle.GridDataCellList or PaletteBorderStyle.GridDataCellSheet or PaletteBorderStyle.GridDataCellCustom1 or PaletteBorderStyle.GridDataCellCustom2 or PaletteBorderStyle.GridDataCellCustom3 => 1,
+                PaletteBorderStyle.SeparatorLowProfile 
+                    or PaletteBorderStyle.SeparatorHighInternalProfile 
+                    or PaletteBorderStyle.SeparatorHighProfile 
+                    or PaletteBorderStyle.SeparatorCustom1 
+                    or PaletteBorderStyle.SeparatorCustom2 
+                    or PaletteBorderStyle.SeparatorCustom3 
+                    or PaletteBorderStyle.ContextMenuInner => 0,
+                PaletteBorderStyle.ControlClient 
+                    or PaletteBorderStyle.ControlAlternate 
+                    or PaletteBorderStyle.ControlGroupBox 
+                    or PaletteBorderStyle.ControlToolTip 
+                    or PaletteBorderStyle.ControlRibbon 
+                    or PaletteBorderStyle.ControlRibbonAppMenu 
+                    or PaletteBorderStyle.ControlCustom1 
+                    or PaletteBorderStyle.ControlCustom2 
+                    or PaletteBorderStyle.ControlCustom3 
+                    or PaletteBorderStyle.ContextMenuOuter 
+                    or PaletteBorderStyle.ContextMenuHeading 
+                    or PaletteBorderStyle.ContextMenuSeparator 
+                    or PaletteBorderStyle.ContextMenuItemSplit 
+                    or PaletteBorderStyle.ContextMenuItemImageColumn 
+                    or PaletteBorderStyle.ContextMenuItemImage
+                    or PaletteBorderStyle.ContextMenuItemHighlight
+                    or PaletteBorderStyle.InputControlStandalone 
+                    or PaletteBorderStyle.InputControlRibbon
+                    or PaletteBorderStyle.InputControlCustom1
+                    or PaletteBorderStyle.InputControlCustom2
+                    or PaletteBorderStyle.InputControlCustom3
+                    or PaletteBorderStyle.FormMain
+                    or PaletteBorderStyle.FormCustom1
+                    or PaletteBorderStyle.FormCustom2
+                    or PaletteBorderStyle.FormCustom3
+                    or PaletteBorderStyle.HeaderPrimary
+                    or PaletteBorderStyle.HeaderDockInactive
+                    or PaletteBorderStyle.HeaderDockActive
+                    or PaletteBorderStyle.HeaderCalendar
+                    or PaletteBorderStyle.HeaderSecondary
+                    or PaletteBorderStyle.HeaderForm
+                    or PaletteBorderStyle.HeaderCustom1
+                    or PaletteBorderStyle.HeaderCustom2
+                    or PaletteBorderStyle.HeaderCustom3
+                    or PaletteBorderStyle.TabHighProfile
+                    or PaletteBorderStyle.TabStandardProfile
+                    or PaletteBorderStyle.TabLowProfile
+                    or PaletteBorderStyle.TabOneNote
+                    or PaletteBorderStyle.TabDock
+                    or PaletteBorderStyle.TabDockAutoHidden
+                    or PaletteBorderStyle.TabCustom1
+                    or PaletteBorderStyle.TabCustom2
+                    or PaletteBorderStyle.TabCustom3
+                    or PaletteBorderStyle.ButtonStandalone
+                    or PaletteBorderStyle.ButtonGallery
+                    or PaletteBorderStyle.ButtonAlternate 
+                    or PaletteBorderStyle.ButtonLowProfile
+                    or PaletteBorderStyle.ButtonBreadCrumb 
+                    or PaletteBorderStyle.ButtonListItem 
+                    or PaletteBorderStyle.ButtonCommand 
+                    or PaletteBorderStyle.ButtonButtonSpec
+                    or PaletteBorderStyle.ButtonCalendarDay or PaletteBorderStyle.ButtonCluster or PaletteBorderStyle.ButtonInputControl or PaletteBorderStyle.ButtonNavigatorStack or PaletteBorderStyle.ButtonNavigatorOverflow or PaletteBorderStyle.ButtonNavigatorMini or PaletteBorderStyle.ButtonForm or PaletteBorderStyle.ButtonFormClose or PaletteBorderStyle.ButtonCustom1 or PaletteBorderStyle.ButtonCustom2 or PaletteBorderStyle.ButtonCustom3 or PaletteBorderStyle.GridHeaderColumnList or PaletteBorderStyle.GridHeaderColumnSheet or PaletteBorderStyle.GridHeaderColumnCustom1 or PaletteBorderStyle.GridHeaderColumnCustom2 or PaletteBorderStyle.GridHeaderColumnCustom3 or PaletteBorderStyle.GridHeaderRowList or PaletteBorderStyle.GridHeaderRowSheet or PaletteBorderStyle.GridHeaderRowCustom1 or PaletteBorderStyle.GridHeaderRowCustom2 or PaletteBorderStyle.GridHeaderRowCustom3 or PaletteBorderStyle.GridDataCellList or PaletteBorderStyle.GridDataCellSheet or PaletteBorderStyle.GridDataCellCustom1 or PaletteBorderStyle.GridDataCellCustom2 
+                    or PaletteBorderStyle.GridDataCellCustom3 => 1,
                 _ => throw new ArgumentOutOfRangeException(nameof(style))
             };
         }

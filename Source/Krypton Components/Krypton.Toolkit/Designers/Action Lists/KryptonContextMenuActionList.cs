@@ -49,9 +49,6 @@ namespace Krypton.Toolkit
             if (_contextMenu != null)
             {
                 // Add the list of panel specific actions
-                // Note: Why does this keep on crashing Visual Studio?
-                // actions.Add(new DesignerActionHeaderItem(@"Data"));
-                // actions.Add(new DesignerActionPropertyItem(@"KryptonContextMenuCollection", @"Items", @"Data", @"Krypton context menu items."));
                 actions.Add(new DesignerActionHeaderItem(@"Visuals"));
                 actions.Add(new DesignerActionPropertyItem(nameof(PaletteMode), @"Palette", @"Visuals", @"Palette applied to drawing"));
             }
@@ -66,13 +63,13 @@ namespace Krypton.Toolkit
         /// </summary>
         public PaletteMode PaletteMode
         {
-            get => _contextMenu.PaletteMode;
+            get => _contextMenu?.PaletteMode ?? PaletteMode.Global;
 
             set
             {
-                if (_contextMenu.PaletteMode != value)
+                if (_contextMenu?.PaletteMode != value)
                 {
-                    _service.OnComponentChanged(_contextMenu, null, _contextMenu.PaletteMode, value);
+                    _service.OnComponentChanged(_contextMenu, null, _contextMenu!.PaletteMode, value);
                     _contextMenu.PaletteMode = value;
                 }
             }
@@ -89,8 +86,6 @@ namespace Krypton.Toolkit
                 if (_contextMenu.Items != value)
                 {
                     _service.OnComponentChanged(_contextMenu, null, _contextMenu.Items, value);
-
-                    //_contextMenu.Items = value;
                 }
             }
         }
