@@ -51,13 +51,13 @@ namespace Krypton.Ribbon
         public TSecond GetByFirst(TFirst first)
         {
             _firstToSecond.TryGetValue(first, out var second);
-            return second;
+            return second!;
         }
 
         public TFirst GetBySecond(TSecond second)
         {
             _secondToFirst.TryGetValue(second, out var first);
-            return first;
+            return first!;
         }
 
         public ICollection<TFirst> GetAllFirsts() => _firstToSecond.Keys;

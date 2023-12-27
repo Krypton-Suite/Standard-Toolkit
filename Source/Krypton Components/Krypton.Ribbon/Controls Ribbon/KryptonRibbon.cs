@@ -88,7 +88,7 @@ namespace Krypton.Ribbon
         private bool _minimizedMode;
         private bool _allowFormIntegrate;
         private bool _showMinimizeButton;
-        private string _selectedContext;
+        private string? _selectedContext;
         private Size _hideRibbonSize;
         private QATLocation _qatLocation;
         private ButtonStyle _groupButtonStyle;
@@ -661,7 +661,7 @@ namespace Krypton.Ribbon
         [Category(@"Values")]
         [Description(@"Common separated list of selected context names.")]
         [DefaultValue("")]
-        public string SelectedContext
+        public string? SelectedContext
         {
             get => _selectedContext;
 
@@ -2823,10 +2823,10 @@ namespace Krypton.Ribbon
                 if (!string.IsNullOrEmpty(SelectedContext))
                 {
                     // Get list of all valid contexts
-                    var contexts = SelectedContext.Split(',');
+                    var contexts = SelectedContext?.Split(',');
 
                     // If the tab context name is one of the selected contexts, then fine
-                    foreach (var context in contexts)
+                    foreach (var context in contexts!)
                     {
                         if (context == tab.ContextName)
                         {
