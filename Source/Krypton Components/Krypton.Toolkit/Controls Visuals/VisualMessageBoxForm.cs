@@ -53,6 +53,7 @@ namespace Krypton.Toolkit
         // For check box
         private readonly string? _checkBoxText;
         private readonly bool? _isCheckBoxChecked;
+        private readonly bool? _useCheckBoxThreeState;
         private readonly CheckState? _checkBoxCheckState;
 
         private KryptonMessageBoxResult _messageBoxResult;
@@ -180,6 +181,8 @@ namespace Krypton.Toolkit
             SetupActionButtonUI(_messageBoxData.ShowActionButton);
 
             UpdateCheckBox(_messageBoxData.CheckBoxText);
+
+            UseCheckBoxThreeState(_messageBoxData.UseCheckBoxThreeState);
 
             if (_messageBoxData.IsCheckBoxChecked != null)
             {
@@ -1373,6 +1376,8 @@ namespace Krypton.Toolkit
                 kchkMessageboxCheckBox.Visible = false;
             }
         }
+
+        private void UseCheckBoxThreeState(bool? threeState) => kchkMessageboxCheckBox.ThreeState = threeState ?? false;
 
         private void ShowCloseButton(bool? showCloseButton) => CloseBox = showCloseButton ?? true;
 

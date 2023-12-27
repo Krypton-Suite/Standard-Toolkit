@@ -33,30 +33,156 @@ namespace Krypton.Toolkit
 
         #endregion
 
+        #region Instance Fields
+
+        private bool? _useThreeColorIndicator;
+
+        private bool? _useValueAsText;
+
+        private Color? _colorOne;
+
+        private Color? _colorTwo;
+
+        private Color? _colorThree;
+
+        private int? _minimum;
+
+        private int? _maximum;
+
+        private int? _step;
+
+        #endregion
+
         #region Public
 
-        public bool UseThreeColors { get; set; }
+        public bool? UseThreeColors 
+        {
+            get => _useThreeColorIndicator; 
+       
+            set
+            {
+                if (_useThreeColorIndicator != value)
+                {
+                    _useThreeColorIndicator = value;
 
-        public bool UseValueAsText { get; set; }
+                    PerformNeedPaint(true);
+                }
+            }
+        }
 
-        public Color? ColorOne { get; set; }
+        public bool? UseValueAsText 
+        {
+            get => _useValueAsText; 
+       
+            set
+            {
+                if (_useValueAsText != value)
+                {
+                    _useValueAsText = value;
 
-        public Color? ColorTwo { get; set; }
+                    PerformNeedPaint(true);
+                }
+            }
+        }
 
-        public Color? ColorThree { get; set; }
+        public Color? ColorOne 
+        {
+            get => _colorOne; 
+       
+            set
+            {
+                if (_colorOne != value)
+                {
+                    _colorOne = value;
 
-        public int Minimum { get; set; }
+                    PerformNeedPaint(true);
+                }
+            }
+        }
 
-        public int Maximum { get; set; }
+        public Color? ColorTwo 
+        {
+            get => _colorTwo; 
+       
+            set
+            {
+                if (_colorTwo != value)
+                {
+                    _colorTwo = value;
 
-        public int Step { get; set; }
+                    PerformNeedPaint(true);
+                }
+            }
+        }
+
+        public Color? ColorThree 
+        {
+            get => _colorThree; 
+       
+            set
+            {
+                if (_colorThree != value)
+                {
+                    _colorThree = value;
+
+                    PerformNeedPaint(true);
+                }
+            }
+        }
+
+        public int? Minimum 
+        {
+            get => _minimum; 
+       
+            set
+            {
+                if (_minimum != value)
+                {
+                    _minimum = value;
+
+                    PerformNeedPaint(true);
+                }
+            }
+        }
+
+        public int? Maximum 
+        {
+            get => _maximum; 
+       
+            set
+            {
+                if (_maximum != value)
+                {
+                    _maximum = value;
+
+                    PerformNeedPaint(true);
+                }
+            }
+        }
+
+        public int? Step 
+        {
+            get => _step; 
+       
+            set
+            {
+                if (_step != value)
+                {
+                    _step = value;
+
+                    PerformNeedPaint(true);
+                }
+            }
+        }
 
         #endregion
 
         #region Identity
 
-        public ProgressBarValues()
+        public ProgressBarValues(NeedPaintHandler needPaint)
         {
+            NeedPaint = needPaint;
+
             Reset();
         }
 

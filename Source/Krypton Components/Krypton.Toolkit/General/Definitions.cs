@@ -2253,6 +2253,9 @@ namespace Krypton.Toolkit
 
     #region Enum KryptonMessageBoxResult
 
+    /// <summary>
+    /// Options for <see cref="KryptonMessageBox"/>.
+    /// </summary>
     public enum KryptonMessageBoxResult : int
     {
         None = DialogResult.None,
@@ -2263,8 +2266,8 @@ namespace Krypton.Toolkit
         Ignore = DialogResult.Ignore,
         Yes = DialogResult.Yes,
         No = DialogResult.No,
-        Checked = 8,
-        CheckState = 9
+        Checked = 0x000003EE, // 1006
+        Indeterminate = 0x000003EF // 1007
     }
 
     #endregion
