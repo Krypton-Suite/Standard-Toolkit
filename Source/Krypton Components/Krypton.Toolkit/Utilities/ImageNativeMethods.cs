@@ -23,13 +23,13 @@ namespace Krypton.Toolkit
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         public static extern IntPtr LoadImage(IntPtr hInt, string lpszName, uint uType, int cxDesired, int cyDesired, uint fuLoad);
 
-        [DllImport(SHELL32, CharSet = CharSet.Unicode)]
+        [DllImport(SHELL32, EntryPoint = "ExtractIconExW", CharSet = CharSet.Unicode, ExactSpelling = true, CallingConvention = CallingConvention.StdCall)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
-        public static extern int ExtractIconEx(string lpszFile, int nIconIndex, out IntPtr phiconLarge, IntPtr phiconSmall, int nIcons);
+        public static extern int ExtractIconEx(string lpszFile, int nIconIndex, IntPtr[]? phiconLarge, IntPtr[]? phiconSmall, int amountIcons);
 
-        
-        [DllImport(SHELL32, CharSet = CharSet.Unicode)]
+        [DllImport(USER32, EntryPoint = "DestroyIcon", SetLastError = true)]
         [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
-        public static extern int ExtractIconEx(string lpszFile, int nIconIndex, IntPtr phiconLarge, out IntPtr phiconSmall, int nIcons);
+        public static extern int DestroyIcon(IntPtr hIcon);
+
     }
 }

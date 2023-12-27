@@ -15,25 +15,20 @@ namespace Krypton.Toolkit
     public class GlobalStaticValues
     {
         // Used for 'Material' themes
-        public const float MATERIAL_THEME_CORNER_ROUNDING_VALUE = -1;
+        public const float MATERIAL_THEME_CORNER_ROUNDING_VALUE = -1f;
 
         // Used for the default control corners
-        public const float PRIMARY_CORNER_ROUNDING_VALUE = -1;
+        public const float PRIMARY_CORNER_ROUNDING_VALUE = -1f;
 
         // Used for text controls
-        public const float PRIMARY_CORNER_TEXT_CONTROLS_ROUNDING_VALUE = -1;
+        public const float PRIMARY_CORNER_TEXT_CONTROLS_ROUNDING_VALUE = -1f;
 
         // Used for nodes etc
-        public const float SECONDARY_CORNER_ROUNDING_VALUE = -1;
+        public const float SECONDARY_CORNER_ROUNDING_VALUE = -1f;
 
-        public const float MAXIMUM_PRIMARY_CORNER_ROUNDING_VALUE = 25;
+        public const float MAXIMUM_PRIMARY_CORNER_ROUNDING_VALUE = 25f;
 
-        public const float MAXIMUM_SECONDARY_CORNER_ROUNDING_VALUE = 25;
-
-        // Used for fonts
-        public static string DEFAULT_FONT_NAME = "Segoe UI";
-
-        public static float DEFAULT_FONT_SIZE = 9F;
+        public const float MAXIMUM_SECONDARY_CORNER_ROUNDING_VALUE = 25f;
 
         public static UACShieldIconSize DEFAULT_UAC_SHIELD_ICON_SIZE = UACShieldIconSize.ExtraSmall;
 
