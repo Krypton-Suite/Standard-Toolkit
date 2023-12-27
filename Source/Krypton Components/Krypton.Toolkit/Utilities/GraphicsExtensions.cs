@@ -123,7 +123,9 @@ namespace Krypton.Toolkit
         /// <param name="size">The size.</param>
         public static Image SetIcon(Image image, Size size) => new Bitmap(image, size);
 
-        /// <summary>Extracts an icon from a DLL. Code from https://stackoverflow.com/questions/6872957/how-can-i-use-the-images-within-shell32-dll-in-my-c-sharp-project.</summary>
+        /// <summary>Extracts an icon from a DLL.
+        /// Code from https://www.pinvoke.net/default.aspx/shell32.extracticonex
+        /// </summary>
         /// <param name="filePath">The file path to ingest.</param>
         /// <param name="imageIndex">Index of the image.</param>
         /// <param name="largeIcon">if set to <c>true</c> [large icon].</param>
@@ -134,21 +136,44 @@ namespace Krypton.Toolkit
             {
                 throw new ArgumentNullException(nameof(filePath));
             }
-
-            IntPtr hIcon;
-
-            if (largeIcon)
+            var hIconEx = new IntPtr[] { IntPtr.Zero };
+            try
             {
-                ImageNativeMethods.ExtractIconEx(filePath, imageIndex, out hIcon, IntPtr.Zero, 1);
+                int readIconCount = largeIcon 
+                    ? ImageNativeMethods.ExtractIconEx(filePath, -imageIndex, hIconEx, null, 1) 
+                    : ImageNativeMethods.ExtractIconEx(filePath, -imageIndex, null, hIconEx, 1);
+                if (readIconCount > 0 && hIconEx[0] != IntPtr.Zero)
+                {
+                    // GET FIRST EXTRACTED ICON
+                    Icon extractedIcon = (Icon)Icon.FromHandle(hIconEx[0]).Clone();
+
+                    return extractedIcon;
+                }
+                else
+                {
+                    // NO ICONS READ
+                    return null;
+                }
             }
-            else
+            catch (Exception ex)
             {
-                ImageNativeMethods.ExtractIconEx(filePath, imageIndex, IntPtr.Zero, out hIcon, 1);
+                // /* EXTRACT ICON ERROR */
+                //// BUBBLE UP
+                //throw new ApplicationException("Could not extract icon", ex);
+                return null;
             }
-            
-            return hIcon != IntPtr.Zero ? Icon.FromHandle(hIcon) : null;
+            finally
+            {
+                // RELEASE RESOURCES
+                foreach (IntPtr ptr in hIconEx)
+                {
+                    if (ptr != IntPtr.Zero)
+                    {
+                        ImageNativeMethods.DestroyIcon(ptr);
+                    }
+                }
+            }
         }
     }
-
     #endregion
 }

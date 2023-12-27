@@ -623,7 +623,7 @@ namespace Krypton.Toolkit
                 }
                 else
                 {
-                    if (value != -1f)
+                    if (value != GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE)
                     {
                         _storage = new InternalStorage
                         {
@@ -635,6 +635,9 @@ namespace Krypton.Toolkit
                 }
             }
         }
+
+        private void ResetRounding() => Rounding = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
+        private bool ShouldSerializeRounding() => Rounding != GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
 
         /// <summary>
         /// Gets the border rounding.
