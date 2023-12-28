@@ -186,7 +186,7 @@ namespace Krypton.Toolkit
         {
             #region Instance Fields
 
-            private readonly InternalDomainUpDown _internalDomainUpDown;
+            private readonly InternalDomainUpDown? _internalDomainUpDown;
             private bool _mouseOver;
 
             #endregion
@@ -212,7 +212,7 @@ namespace Krypton.Toolkit
             /// <param name="internalDomainUpDown">Reference to internal domain control.</param>
             public SubclassEdit(IntPtr editControl,
                                 KryptonDomainUpDown kryptonDomainUpDown,
-                                InternalDomainUpDown internalDomainUpDown)
+                                InternalDomainUpDown? internalDomainUpDown)
             {
                 DomainUpDown = kryptonDomainUpDown;
                 _internalDomainUpDown = internalDomainUpDown;
@@ -455,7 +455,7 @@ namespace Krypton.Toolkit
             /// <param name="internalDomainUpDown">Reference to internal domain control.</param>
             public SubclassButtons(IntPtr buttonsPtr,
                                    KryptonDomainUpDown kryptonDomainUpDown,
-                                   InternalDomainUpDown internalDomainUpDown)
+                                   InternalDomainUpDown? internalDomainUpDown)
                 : base(buttonsPtr, kryptonDomainUpDown, internalDomainUpDown)
             {
                 _mousePressed = new Point(-int.MaxValue, -int.MaxValue);
@@ -697,7 +697,7 @@ namespace Krypton.Toolkit
         private readonly ViewLayoutDocker _drawDockerInner;
         private readonly ViewDrawDocker _drawDockerOuter;
         private readonly ViewLayoutFill _layoutFill;
-        private readonly InternalDomainUpDown _domainUpDown;
+        private readonly InternalDomainUpDown? _domainUpDown;
         private InputControlStyle _inputControlStyle;
         private ButtonStyle _upDownButtonStyle;
         private SubclassEdit? _subclassEdit;
@@ -927,7 +927,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         [EditorBrowsable(EditorBrowsableState.Always)]
         [Browsable(false)]
-        public DomainUpDown DomainUpDown => _domainUpDown;
+        public DomainUpDown? DomainUpDown => _domainUpDown;
 
         /// <summary>
         /// Gets access to the contained input control.
@@ -935,7 +935,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         [EditorBrowsable(EditorBrowsableState.Always)]
         [Browsable(false)]
-        public Control ContainedControl => DomainUpDown;
+        public Control? ContainedControl => DomainUpDown;
 
         /// <summary>
         /// Gets or sets the background color for the control.

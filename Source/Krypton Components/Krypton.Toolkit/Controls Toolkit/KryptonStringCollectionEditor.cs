@@ -30,7 +30,7 @@ namespace Krypton.Toolkit
             string windowText = @"String Collection Editor")
             => InternalShow(null, inputStrings, useRichTextBox, headerText, windowText);
 
-        public static string[] Show(IWin32Window owner, string[] inputStrings, bool useRichTextBox = true,
+        public static string[] Show(IWin32Window? owner, string[] inputStrings, bool useRichTextBox = true,
             string? headerText = @"Enter the strings in the collection (one per line):",
             string windowText = @"String Collection Editor")
             => InternalShow(owner, inputStrings, useRichTextBox, headerText, windowText);
@@ -40,7 +40,7 @@ namespace Krypton.Toolkit
             string windowText = @"String Collection Editor")
             => InternalShow(null, null, useRichTextBox, headerText, windowText);
 
-        public static string[] Show(IWin32Window owner, bool useRichTextBox = true,
+        public static string[] Show(IWin32Window? owner, bool useRichTextBox = true,
             string? headerText = @"Enter the strings in the collection (one per line):",
             string windowText = @"String Collection Editor")
             => InternalShow(owner, null, useRichTextBox, headerText, windowText);
@@ -76,8 +76,8 @@ namespace Krypton.Toolkit
         /// <param name="headerText">The header text.</param>
         /// <param name="windowTitle">The window title.</param>
         /// <returns>A collection of string items.</returns>
-        private static string[] InternalShow(IWin32Window owner, string[] input, bool? useRichTextBox, string? headerText, string windowTitle)
-            => VisualMultilineStringEditorForm.InternalShow(owner, input, useRichTextBox, headerText, windowTitle);
+        private static string[] InternalShow(IWin32Window? owner, string[]? input, bool? useRichTextBox, string? headerText, string windowTitle)
+            => VisualMultilineStringEditorForm.InternalShow(owner, input!, useRichTextBox, headerText, windowTitle)!;
 
         /// <summary>Shows the string collection editor.</summary>
         /// <param name="owner">The owner.</param>
@@ -86,8 +86,8 @@ namespace Krypton.Toolkit
         /// <param name="headerText">The header text.</param>
         /// <param name="windowTitle">The window title.</param>
         /// <returns>A collection of string items.</returns>
-        private static StringCollection InternalShowStringCollection(IWin32Window owner, StringCollection input, bool useRichTextBox, string? headerText, string windowTitle)
-            => VisualMultilineStringEditorForm.InternalShowStringCollection(owner, input, useRichTextBox, headerText, windowTitle);
+        private static StringCollection InternalShowStringCollection(IWin32Window? owner, StringCollection? input, bool useRichTextBox, string? headerText, string windowTitle)
+            => VisualMultilineStringEditorForm.InternalShowStringCollection(owner, input!, useRichTextBox, headerText, windowTitle)!;
 
         #endregion
     }

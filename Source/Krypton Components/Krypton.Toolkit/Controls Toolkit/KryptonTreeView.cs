@@ -320,7 +320,7 @@ namespace Krypton.Toolkit
         private readonly ViewLayoutCenter _layoutImageCenterState;
         private readonly ViewLayoutSeparator _layoutImage;
         private readonly ViewLayoutSeparator _layoutImageState;
-        private readonly InternalTreeView _treeView;
+        private readonly InternalTreeView? _treeView;
         private readonly FixedContentValue? _contentValues;
         private bool? _fixedActive;
         private ButtonStyle _style;
@@ -721,7 +721,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         [EditorBrowsable(EditorBrowsableState.Always)]
         [Browsable(false)]
-        public Control ContainedControl => TreeView;
+        public Control? ContainedControl => TreeView;
 
         /// <summary>
         /// Gets or sets the text for the control.

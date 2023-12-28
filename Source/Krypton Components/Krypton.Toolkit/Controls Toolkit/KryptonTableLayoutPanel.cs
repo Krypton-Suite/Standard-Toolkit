@@ -84,7 +84,7 @@ namespace Krypton.Toolkit
         public override Font Font
         {
             get => base.Font;
-            set => base.Font = value;
+            set => base.Font = value!;
         }
 
         /// <summary>
@@ -169,7 +169,7 @@ namespace Krypton.Toolkit
         public PaletteBase Palette
         {
             [DebuggerStepThrough]
-            get => _backGroundPanel.Palette;
+            get => _backGroundPanel.Palette!;
             set
             {
                 _backGroundPanel.Palette = value;
@@ -341,7 +341,7 @@ namespace Krypton.Toolkit
                 {
                     // Do the move thing first
                     base.WndProc(ref m);
-                    PI.WINDOWPOS structure = (PI.WINDOWPOS)Marshal.PtrToStructure(m.LParam, typeof(PI.WINDOWPOS));
+                    PI.WINDOWPOS structure = (PI.WINDOWPOS)Marshal.PtrToStructure(m.LParam, typeof(PI.WINDOWPOS))!;
                     if (!structure.flags.HasFlag(PI.SWP_.NOZORDER))
                     {
                         if (_backGroundPanel.Parent != null

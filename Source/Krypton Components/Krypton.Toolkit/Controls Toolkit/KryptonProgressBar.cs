@@ -596,7 +596,7 @@ namespace Krypton.Toolkit
                 // Draw the background of the entire control over the entire client area. 
                 using (GraphicsPath path = CreateRectGraphicsPath(ClientRectangle))
                 {
-                    var panelState = !Parent.Enabled
+                    var panelState = !Parent!.Enabled
                         ? PaletteState.Disabled
                         : PaletteState.Normal;
                     // Ask renderer to draw the background
@@ -843,7 +843,7 @@ namespace Krypton.Toolkit
         [EditorBrowsable(EditorBrowsableState.Never)]
         public override Image BackgroundImage
         {
-            get => base.BackgroundImage;
+            get => base.BackgroundImage!;
             set => base.BackgroundImage = value;
         }
 
@@ -899,7 +899,7 @@ namespace Krypton.Toolkit
         [EditorBrowsable(EditorBrowsableState.Never)]
         public override ContextMenuStrip ContextMenuStrip
         {
-            get => base.ContextMenuStrip;
+            get => base.ContextMenuStrip!;
             set => base.ContextMenuStrip = value;
         }
 

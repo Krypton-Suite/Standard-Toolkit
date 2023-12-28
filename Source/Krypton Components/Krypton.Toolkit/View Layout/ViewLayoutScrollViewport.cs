@@ -148,7 +148,7 @@ namespace Krypton.Toolkit
         /// Make the provided control parented to ourself.
         /// </summary>
         /// <param name="c">Control to reparent.</param>
-        public void MakeParent(Control c) =>
+        public void MakeParent(Control? c) =>
             // Ask the view control to perform reparenting
             ViewControl.MakeParent(c);
 
@@ -160,7 +160,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="newParent">Control to become parent.</param>
         /// <param name="c">Control to reparent.</param>
-        public void RevertParent(Control newParent, Control c)
+        public void RevertParent(Control newParent, Control? c)
         {
             // Remove control from current collection
             CommonHelper.RemoveControlFromParent(c);

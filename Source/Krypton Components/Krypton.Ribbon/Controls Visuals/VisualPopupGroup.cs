@@ -26,7 +26,7 @@ namespace Krypton.Ribbon
         private readonly KryptonRibbon _ribbon;
         private readonly KryptonRibbonGroup _ribbonGroup;
         private readonly ViewDrawRibbonGroupsBorder _viewBackground;
-        private readonly Button _hiddenFocusTarget;
+        private readonly Button? _hiddenFocusTarget;
         #endregion
 
         #region Identity

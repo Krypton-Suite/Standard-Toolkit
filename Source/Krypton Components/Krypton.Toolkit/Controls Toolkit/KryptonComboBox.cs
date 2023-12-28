@@ -815,7 +815,7 @@ namespace Krypton.Toolkit
         private readonly ViewDrawDocker _drawDockerOuter;
         private readonly ViewLayoutFill _layoutFill;
         private readonly InternalComboBox _comboBox;
-        private readonly InternalPanel _comboHolder;
+        private readonly InternalPanel? _comboHolder;
         private SubclassEdit? _subclassEdit;
         private ButtonStyle _dropButtonStyle;
         private PaletteBackStyle _dropBackStyle;
@@ -1316,7 +1316,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         [EditorBrowsable(EditorBrowsableState.Always)]
         [Browsable(false)]
-        public Control ContainedControl => ComboBox;
+        public Control? ContainedControl => ComboBox;
 
         /// <summary>
         /// Gets a value indicating whether the control has input focus.

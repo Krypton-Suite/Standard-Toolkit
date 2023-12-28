@@ -119,8 +119,8 @@ namespace Krypton.Toolkit
             Images = new CheckBoxImages(NeedPaintDelegate);
 
             // Create palette redirector
-            _paletteCommonRedirect = new PaletteContentInheritRedirect(Redirector, PaletteContentStyle.LabelNormalPanel);
-            _paletteCheckBoxImages = new PaletteRedirectCheckBox(Redirector, Images);
+            _paletteCommonRedirect = new PaletteContentInheritRedirect(Redirector!, PaletteContentStyle.LabelNormalPanel);
+            _paletteCheckBoxImages = new PaletteRedirectCheckBox(Redirector!, Images);
 
             // Create the palette provider
             StateCommon = new PaletteContent(_paletteCommonRedirect, NeedPaintDelegate);
@@ -674,10 +674,10 @@ namespace Krypton.Toolkit
             switch (e.PropertyName)
             {
                 case nameof(Enabled):
-                    Enabled = KryptonCommand.Enabled;
+                    Enabled = KryptonCommand!.Enabled;
                     break;
                 case nameof(CheckState):
-                    CheckState = KryptonCommand.CheckState;
+                    CheckState = KryptonCommand!.CheckState;
                     break;
                 case nameof(Text):
                 case @"ExtraText":

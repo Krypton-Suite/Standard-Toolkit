@@ -160,7 +160,7 @@ namespace Krypton.Toolkit
                 _palette = null;
                 Renderer = null!;
                 _localCustomPalette = null;
-                Redirector.Target = null;
+                Redirector!.Target = null;
             }
 
             base.Dispose(disposing);
@@ -262,7 +262,7 @@ namespace Krypton.Toolkit
                         _layoutDirty = false;
 
                         // Ask the view to perform a layout
-                        ViewManager.Layout(Renderer!);
+                        ViewManager.Layout(Renderer);
 
                     } while (_layoutDirty && (max-- > 0));
                 }
@@ -318,7 +318,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Custom palette applied to drawing.")]
         [DefaultValue(null)]
-        public KryptonCustomPaletteBase LocalCustomPalette
+        public KryptonCustomPaletteBase? LocalCustomPalette
         {
             [DebuggerStepThrough]
             get => _localCustomPalette!;
@@ -506,7 +506,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="pt">Point to lookup.</param>
         /// <returns>ViewBase associated with the point.</returns>
-        public ViewBase? ViewFromPoint(Point pt) => ViewManager?.Root?.ViewFromPoint(pt);
+        public ViewBase? ViewFromPoint(Point pt) => ViewManager?.Root.ViewFromPoint(pt);
 
         #endregion
 
@@ -526,7 +526,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the palette redirector.
         /// </summary>
-        protected PaletteRedirect Redirector
+        protected PaletteRedirect? Redirector
         {
             [DebuggerStepThrough]
             get;
@@ -555,7 +555,7 @@ namespace Krypton.Toolkit
                 if (ViewManager != null)
                 {
                     // Ask the view to perform a layout
-                    ViewManager.Layout(Renderer!);
+                    ViewManager.Layout(Renderer);
 
                     return true;
                 }
@@ -613,7 +613,7 @@ namespace Krypton.Toolkit
         /// <returns>True to allow; otherwise false.</returns>
         protected bool CanProcessMnemonic()
         {
-            Control c = this;
+            Control? c = this;
 
             // Test each control in parent chain
             while (c != null)
@@ -641,7 +641,7 @@ namespace Krypton.Toolkit
         /// <returns>True if paint required; otherwise false.</returns>
         protected virtual bool EvalTransparentPaint() =>
             // Do we have a manager to use for asking about painting?
-            ViewManager != null && ViewManager.EvalTransparentPaint(Renderer!);
+            ViewManager != null && ViewManager.EvalTransparentPaint(Renderer);
 
         /// <summary>
         /// Work out if this control needs to use Invoke to force a repaint.
@@ -816,7 +816,7 @@ namespace Krypton.Toolkit
                         _layoutDirty = false;
 
                         // Ask the view to perform a layout
-                        ViewManager.Layout(Renderer!);
+                        ViewManager.Layout(Renderer);
 
                     } while (_layoutDirty && (max-- > 0));
                 }
@@ -861,7 +861,7 @@ namespace Krypton.Toolkit
                     PaintTransparentBackground(e);
 
                     // Ask the view to repaint the visual structure
-                    ViewManager.Paint(Renderer!, e);
+                    ViewManager.Paint(Renderer, e);
 
                     // Request for a refresh has been serviced
                     _refresh = false;
@@ -1157,7 +1157,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Implementation
-        private void SetPalette(PaletteBase palette)
+        private void SetPalette(PaletteBase? palette)
         {
             if (palette != _palette)
             {
@@ -1260,7 +1260,7 @@ namespace Krypton.Toolkit
             ContextMenuStrip? cms = base.ContextMenuStrip;
 
             // Make sure it has the correct renderer
-            cms!.Renderer = CreateToolStripRenderer()!;
+            cms!.Renderer = CreateToolStripRenderer();
         }
 
         private void OnKryptonContextMenuDisposed(object sender, EventArgs e) =>

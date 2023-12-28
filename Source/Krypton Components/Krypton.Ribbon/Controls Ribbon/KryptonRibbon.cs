@@ -68,7 +68,7 @@ namespace Krypton.Ribbon
         private KeyTipControl? _keyTipControlE;
         private KeyTipControl? _keyTipControlD;
         private KeyTipMode _keyTipMode;
-        private Button _hiddenFocusTarget;
+        private Button? _hiddenFocusTarget;
 
         // View Elements
         private ViewDrawPanel _drawMinimizedPanel;

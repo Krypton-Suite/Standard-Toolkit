@@ -46,7 +46,7 @@ namespace Krypton.Toolkit
 
                     if (string.IsNullOrEmpty(Text) && !string.IsNullOrWhiteSpace(Hint))
                     {
-                        PI.SendMessage(Handle, PI.EM_SETCUEBANNER, (IntPtr)1, Hint);
+                        PI.SendMessage(Handle, PI.EM_SETCUEBANNER, (IntPtr)1, Hint!);
                     }
 
                     Refresh();
@@ -193,7 +193,7 @@ namespace Krypton.Toolkit
                                     // Set the correct text rendering hint for the text drawing. We only draw if the edit text is disabled so we
                                     // just always grab the disable state value. Without this line the wrong hint can occur because it inherits
                                     // it from the device context. Resulting in blurred text.
-                                    g.TextRenderingHint = CommonHelper.PaletteTextHintToRenderingHint(_kryptonMaskedTextBox.StateDisabled.PaletteContent.GetContentShortTextHint(PaletteState.Disabled));
+                                    g.TextRenderingHint = CommonHelper.PaletteTextHintToRenderingHint(_kryptonMaskedTextBox.StateDisabled.PaletteContent!.GetContentShortTextHint(PaletteState.Disabled));
 
                                     // Define the string formatting requirements
                                     var stringFormat = new StringFormat
@@ -230,7 +230,7 @@ namespace Krypton.Toolkit
                                     catch (ArgumentException)
                                     {
                                         using var foreBrush = new SolidBrush(ForeColor);
-                                        g.DrawString(drawText, _kryptonMaskedTextBox.GetTripleState().PaletteContent.GetContentShortTextFont(PaletteState.Disabled), foreBrush,
+                                        g.DrawString(drawText, _kryptonMaskedTextBox.GetTripleState().PaletteContent?.GetContentShortTextFont(PaletteState.Disabled)!, foreBrush,
                                             new RectangleF(rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top),
                                             stringFormat);
                                     }
@@ -316,7 +316,7 @@ namespace Krypton.Toolkit
         private readonly ViewLayoutDocker _drawDockerInner;
         private readonly ViewDrawDocker _drawDockerOuter;
         private readonly ViewLayoutFill _layoutFill;
-        private readonly InternalMaskedTextBox _maskedTextBox;
+        private readonly InternalMaskedTextBox? _maskedTextBox;
         private InputControlStyle _inputControlStyle;
         private bool? _fixedActive;
         private bool _forcedLayout;
@@ -536,7 +536,7 @@ namespace Krypton.Toolkit
                 OnCancelToolTip(this, EventArgs.Empty);
 
                 // Remember to pull down the manager instance
-                _buttonManager.Destruct();
+                _buttonManager?.Destruct();
             }
 
             base.Dispose(disposing);
@@ -601,7 +601,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         [EditorBrowsable(EditorBrowsableState.Always)]
         [Browsable(false)]
-        public MaskedTextBox MaskedTextBox => _maskedTextBox;
+        public MaskedTextBox? MaskedTextBox => _maskedTextBox;
 
         /// <summary>
         /// Gets access to the contained input control.
@@ -609,7 +609,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         [EditorBrowsable(EditorBrowsableState.Always)]
         [Browsable(false)]
-        public Control ContainedControl => MaskedTextBox;
+        public Control? ContainedControl => MaskedTextBox;
 
         /// <summary>
         /// Gets a value indicating whether the control has input focus.
@@ -662,7 +662,7 @@ namespace Krypton.Toolkit
         public override Font Font
         {
             get => base.Font;
-            set => base.Font = value;
+            set => base.Font = value!;
         }
 
         /// <summary>
@@ -818,11 +818,11 @@ namespace Krypton.Toolkit
         [DefaultValue(true)]
         public bool UseMnemonic
         {
-            get => _buttonManager.UseMnemonic;
+            get => _buttonManager!.UseMnemonic;
 
             set
             {
-                if (_buttonManager.UseMnemonic != value)
+                if (_buttonManager!.UseMnemonic != value)
                 {
                     _buttonManager.UseMnemonic = value;
                     PerformNeedPaint(true);
@@ -1520,7 +1520,7 @@ namespace Krypton.Toolkit
             _drawDockerOuter.Enabled = Enabled;
 
             // Update state to reflect change in enabled state
-            _buttonManager.RefreshButtons();
+            _buttonManager?.RefreshButtons();
 
             PerformNeedPaint(true);
 
@@ -1574,7 +1574,7 @@ namespace Krypton.Toolkit
             if (!IsDisposed && !Disposing)
             {
                 // Update with latest content padding for placing around the contained text box control
-                Padding contentPadding = GetTripleState().PaletteContent.GetContentPadding(_drawDockerOuter.State);
+                Padding contentPadding = GetTripleState().PaletteContent!.GetContentPadding(_drawDockerOuter.State);
                 _layoutFill.DisplayPadding = contentPadding;
             }
 
@@ -1676,7 +1676,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">Source of notification.</param>
         /// <param name="e">An NeedLayoutEventArgs containing event data.</param>
-        protected override void OnNeedPaint(object sender, NeedLayoutEventArgs e)
+        protected override void OnNeedPaint(object? sender, NeedLayoutEventArgs e)
         {
             if (!e.NeedLayout)
             {
@@ -1694,13 +1694,13 @@ namespace Krypton.Toolkit
                 IPaletteTriple triple = GetTripleState();
                 PaletteState state = _drawDockerOuter.State;
                 _maskedTextBox.BackColor = triple.PaletteBack.GetBackColor1(state);
-                _maskedTextBox.ForeColor = triple.PaletteContent.GetContentShortTextColor1(state);
+                _maskedTextBox.ForeColor = triple.PaletteContent!.GetContentShortTextColor1(state);
 
                 // Only set the font if the masked text box has been created
                 Font? font = triple.PaletteContent.GetContentShortTextFont(state);
                 if ((_maskedTextBox.Handle != IntPtr.Zero) && !_maskedTextBox.Font.Equals(font))
                 {
-                    _maskedTextBox.Font = font;
+                    _maskedTextBox.Font = font!;
                 }
             }
 
@@ -1775,7 +1775,7 @@ namespace Krypton.Toolkit
         {
             // Get the correct palette settings to use
             IPaletteTriple tripleState = GetTripleState();
-            _drawDockerOuter.SetPalettes(tripleState.PaletteBack, tripleState.PaletteBorder);
+            _drawDockerOuter.SetPalettes(tripleState.PaletteBack, tripleState.PaletteBorder!);
 
             // Update enabled state
             _drawDockerOuter.Enabled = Enabled;
@@ -1873,7 +1873,7 @@ namespace Krypton.Toolkit
                     var shadow = true;
 
                     // Find the button spec associated with the tooltip request
-                    ButtonSpec? buttonSpec = _buttonManager.ButtonSpecFromView(e.Target);
+                    ButtonSpec? buttonSpec = _buttonManager?.ButtonSpecFromView(e.Target);
 
                     // If the tooltip is for a button spec
                     if (buttonSpec != null)

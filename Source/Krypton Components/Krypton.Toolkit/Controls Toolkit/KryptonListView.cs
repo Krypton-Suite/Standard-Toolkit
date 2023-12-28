@@ -27,8 +27,8 @@ namespace Krypton.Toolkit
     public class KryptonListView : ListView
     {
         #region Variables
-        private PaletteBase _localPalette;
-        private PaletteBase _palette;
+        private PaletteBase? _localPalette;
+        private PaletteBase? _palette;
         private PaletteMode _paletteMode;
         private bool _layoutDirty;
         private bool _refreshAll;
@@ -230,7 +230,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the ViewManager instance.
         /// </summary>
-        public ViewManager ViewManager
+        public ViewManager? ViewManager
         {
             [DebuggerStepThrough]
             get;
@@ -280,7 +280,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Custom palette applied to drawing.")]
         [DefaultValue(null)]
-        public PaletteBase Palette
+        public PaletteBase? Palette
         {
             [DebuggerStepThrough]
             get => _localPalette;
@@ -422,7 +422,7 @@ namespace Krypton.Toolkit
                 // Get the correct palette settings to use
                 IPaletteDouble doubleState = GetDoubleState();
                 ViewDrawPanel.SetPalettes(doubleState.PaletteBack);
-                _drawDockerOuter.SetPalettes(doubleState.PaletteBack, doubleState.PaletteBorder);
+                _drawDockerOuter.SetPalettes(doubleState.PaletteBack, doubleState.PaletteBorder!);
                 _drawDockerOuter.Enabled = Enabled;
 
                 // Find the new state of the main view element
@@ -454,7 +454,7 @@ namespace Krypton.Toolkit
             }
 
             // Do we need an image?
-            ImageList imgList = View switch
+            ImageList? imgList = View switch
             {
                 View.LargeIcon => LargeImageList,
                 View.Tile => LargeImageList,
@@ -505,7 +505,7 @@ namespace Krypton.Toolkit
             {
                 _drawCheckBox.CheckState = e.Item.Checked ? CheckState.Checked : CheckState.Unchecked;
             }
-            _contentValues.ShortText = View switch
+            _contentValues!.ShortText = View switch
             {
                 View.LargeIcon => e.Item.Text,
                 View.Tile => e.Item.Text,
@@ -513,7 +513,7 @@ namespace Krypton.Toolkit
                 _ => null
             };
 
-            // By default the button is in the normal state
+            // By default, the button is in the normal state
             PaletteState buttonState;
 
             if (e.State.HasFlag(ListViewItemStates.Grayed))
@@ -828,11 +828,11 @@ namespace Krypton.Toolkit
         [Description(@"Style used to draw the background.")]
         public PaletteBackStyle BackStyle
         {
-            get => StateCommon.BackStyle;
+            get => StateCommon!.BackStyle;
 
             set
             {
-                if (StateCommon.BackStyle != value)
+                if (StateCommon!.BackStyle != value)
                 {
                     StateCommon.BackStyle = value;
                     PerformNeedPaint(true);
@@ -851,11 +851,11 @@ namespace Krypton.Toolkit
         [Description(@"Style used to draw the border.")]
         public new PaletteBorderStyle BorderStyle
         {
-            get => StateCommon.BorderStyle;
+            get => StateCommon!.BorderStyle;
 
             set
             {
-                if (StateCommon.BorderStyle != value)
+                if (StateCommon!.BorderStyle != value)
                 {
                     StateCommon.BorderStyle = value;
                     PerformNeedPaint(true);
@@ -909,12 +909,12 @@ namespace Krypton.Toolkit
                     case View.List:
                         throw new NotSupportedException(@"Use the Krypton ListBox for this view type");
                     case View.LargeIcon:
-                        StateCommon.Item.Content.ShortText.MultiLineH = PaletteRelativeAlign.Center;
+                        StateCommon!.Item.Content.ShortText.MultiLineH = PaletteRelativeAlign.Center;
                         StateCommon.Item.Content.ShortText.TextH = PaletteRelativeAlign.Center;
                         break;
                     case View.SmallIcon:
                     case View.Tile:
-                        StateCommon.Item.Content.ShortText.MultiLineH = PaletteRelativeAlign.Inherit;
+                        StateCommon!.Item.Content.ShortText.MultiLineH = PaletteRelativeAlign.Inherit;
                         StateCommon.Item.Content.ShortText.TextH = PaletteRelativeAlign.Inherit;
                         break;
                 }
@@ -931,7 +931,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteListStateRedirect? StateCommon { get; }
 
-        private bool ShouldSerializeStateCommon() => !StateCommon.IsDefault;
+        private bool ShouldSerializeStateCommon() => !StateCommon!.IsDefault;
 
         /// <summary>
         /// Gets access to the disabled appearance entries.
@@ -1088,7 +1088,7 @@ namespace Krypton.Toolkit
             Invalidate();
         }
 
-        private void CacheNewPalette(PaletteBase palette)
+        private void CacheNewPalette(PaletteBase? palette)
         {
             if (palette != _palette)
             {
@@ -1205,7 +1205,7 @@ namespace Krypton.Toolkit
                 if (_style != value)
                 {
                     _style = value;
-                    StateCommon.Item.SetStyles(_style);
+                    StateCommon?.Item.SetStyles(_style);
                     OverrideFocus.Item.SetStyles(_style);
                     PerformNeedPaint(true);
                 }
@@ -1215,10 +1215,10 @@ namespace Krypton.Toolkit
         private void OnContextMenuStripOpening(object sender, CancelEventArgs e)
         {
             // Get the actual strip instance
-            ContextMenuStrip cms = base.ContextMenuStrip;
+            ContextMenuStrip? cms = base.ContextMenuStrip;
 
             // Make sure it has the correct renderer
-            cms.Renderer = Renderer.RenderToolStrip(_palette);
+            cms!.Renderer = Renderer.RenderToolStrip(_palette!);
         }
 
         private void OnKryptonContextMenuDisposed(object sender, EventArgs e) =>
@@ -1244,14 +1244,14 @@ namespace Krypton.Toolkit
         {
             _cornerRoundingRadius = radius ?? GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
 
-            StateCommon.Border.Rounding = _cornerRoundingRadius;
+            StateCommon!.Border.Rounding = _cornerRoundingRadius;
         }
 
         private void SetItemCornerRoundingRadius(float? radius)
         {
             _itemCornerRoundingRadius = radius ?? GlobalStaticValues.SECONDARY_CORNER_ROUNDING_VALUE;
 
-            StateCommon.Item.Border.Rounding = _itemCornerRoundingRadius;
+            StateCommon!.Item.Border.Rounding = _itemCornerRoundingRadius;
         }
 
         #endregion

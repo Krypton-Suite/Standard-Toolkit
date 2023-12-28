@@ -119,8 +119,8 @@ namespace Krypton.Toolkit
             StatePressed = new PaletteSeparatorPadding(StateCommon.Separator, StateCommon.Separator, NeedPaintDelegate);
 
             // Our view contains just a simple canvas that covers entire client area and a separator view
-            _drawSeparator = new ViewDrawSeparator(StateDisabled.Separator, StateNormal.Separator, StateTracking, StatePressed,
-                                                   StateDisabled.Separator, StateNormal.Separator, StateTracking, StatePressed,
+            _drawSeparator = new ViewDrawSeparator(StateDisabled.Separator!, StateNormal.Separator!, StateTracking, StatePressed,
+                                                   StateDisabled.Separator!, StateNormal.Separator!, StateTracking, StatePressed,
                                                     PaletteMetricPadding.SeparatorPaddingLowProfile, Orientation.Vertical);
 
             _drawPanel = new ViewDrawPanel(StateNormal.Back)
@@ -201,11 +201,11 @@ namespace Krypton.Toolkit
         [Description(@"Container background style.")]
         public PaletteBackStyle ContainerBackStyle
         {
-            get => StateCommon.BackStyle;
+            get => StateCommon!.BackStyle;
 
             set
             {
-                if (StateCommon.BackStyle != value)
+                if (StateCommon!.BackStyle != value)
                 {
                     StateCommon.BackStyle = value;
                     PerformNeedPaint(true);
@@ -250,7 +250,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteSplitContainerRedirect? StateCommon { get; }
 
-        private bool ShouldSerializeStateCommon() => !StateCommon.IsDefault;
+        private bool ShouldSerializeStateCommon() => !StateCommon!.IsDefault;
 
         /// <summary>
         /// Gets access to the disabled split container appearance.
@@ -280,7 +280,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteSeparatorPadding? StateTracking { get; }
 
-        private bool ShouldSerializeStateTracking() => !StateTracking.IsDefault;
+        private bool ShouldSerializeStateTracking() => !StateTracking!.IsDefault;
 
         /// <summary>
         /// Gets access to the pressed separator appearance entries.
@@ -290,7 +290,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteSeparatorPadding? StatePressed { get; }
 
-        private bool ShouldSerializeStatePressed() => !StatePressed.IsDefault;
+        private bool ShouldSerializeStatePressed() => !StatePressed!.IsDefault;
 
         /// <summary>
         /// Gets access to the first krypton splitter panel.
@@ -299,7 +299,7 @@ namespace Krypton.Toolkit
         [Category(@"Appearance")]
         [Description(@"The Left or Top panel in the KryptonSplitContainer.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public KryptonSplitterPanel Panel1 { get; }
+        public KryptonSplitterPanel? Panel1 { get; }
 
         /// <summary>
         /// Gets and sets the minium size of panel1.
@@ -403,7 +403,7 @@ namespace Krypton.Toolkit
         [Category(@"Appearance")]
         [Description(@"The Right or Bottom panel in the KryptonSplitContainer.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public KryptonSplitterPanel Panel2 { get; }
+        public KryptonSplitterPanel? Panel2 { get; }
 
         /// <summary>
         /// Gets and sets the minium size of panel2.
@@ -1404,7 +1404,7 @@ namespace Krypton.Toolkit
         #region Implementation
         private bool Collapsed => Panel1.Collapsed || Panel2.Collapsed;
 
-        private void SetStyles(SeparatorStyle separatorStyle) => StateCommon.Separator.SetStyles(separatorStyle);
+        private void SetStyles(SeparatorStyle separatorStyle) => StateCommon?.Separator.SetStyles(separatorStyle);
 
         #endregion
     }

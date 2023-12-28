@@ -260,7 +260,7 @@ namespace Krypton.Toolkit
         {
             Checked = e.PropertyName switch
             {
-                nameof(CheckState) => KryptonCommand.Checked,
+                nameof(CheckState) => KryptonCommand!.Checked,
                 _ => Checked
             };
 

@@ -81,11 +81,11 @@ namespace Krypton.Toolkit
         [Description(@"Panel style.")]
         public PaletteBackStyle PanelBackStyle
         {
-            get => _stateCommon.BackStyle;
+            get => _stateCommon!.BackStyle;
 
             set
             {
-                if (_stateCommon.BackStyle != value)
+                if (_stateCommon!.BackStyle != value)
                 {
                     _stateCommon.BackStyle = value;
                     PerformNeedPaint(true);
@@ -103,9 +103,9 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Overrides for defining common panel appearance that other states can override.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteBack StateCommon => _stateCommon.Back;
+        public PaletteBack StateCommon => _stateCommon!.Back;
 
-        private bool ShouldSerializeStateCommon() => !_stateCommon.Back.IsDefault;
+        private bool ShouldSerializeStateCommon() => !_stateCommon!.Back.IsDefault;
 
         /// <summary>
         /// Gets access to the disabled panel appearance.
@@ -113,9 +113,9 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Overrides for defining disabled panel appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteBack StateDisabled => _stateDisabled.Back;
+        public PaletteBack StateDisabled => _stateDisabled!.Back;
 
-        private bool ShouldSerializeStateDisabled() => !_stateDisabled.Back.IsDefault;
+        private bool ShouldSerializeStateDisabled() => !_stateDisabled!.Back.IsDefault;
 
         /// <summary>
         /// Gets access to the normal panel appearance.
@@ -123,9 +123,9 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Overrides for defining normal panel appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteBack StateNormal => _stateNormal.Back;
+        public PaletteBack StateNormal => _stateNormal!.Back;
 
-        private bool ShouldSerializeStateNormal() => !_stateNormal.Back.IsDefault;
+        private bool ShouldSerializeStateNormal() => !_stateNormal!.Back.IsDefault;
 
         /// <summary>
         /// Fix the control to a particular palette state.
@@ -149,7 +149,7 @@ namespace Krypton.Toolkit
         protected override void OnEnabledChanged(EventArgs e)
         {
             // Push correct palettes into the view
-            ViewDrawPanel.SetPalettes(Enabled ? _stateNormal.Back : _stateDisabled.Back);
+            ViewDrawPanel.SetPalettes(Enabled ? _stateNormal!.Back : _stateDisabled!.Back);
 
             // Update with latest enabled state
             ViewDrawPanel.Enabled = Enabled;
@@ -166,7 +166,7 @@ namespace Krypton.Toolkit
         private void Construct()
         {
             // Our view contains just a simple canvas that covers entire client area
-            ViewDrawPanel = new ViewDrawPanel(_stateNormal.Back);
+            ViewDrawPanel = new ViewDrawPanel(_stateNormal!.Back);
 
             // Create the view manager instance
             ViewManager = new ViewManager(this, ViewDrawPanel);

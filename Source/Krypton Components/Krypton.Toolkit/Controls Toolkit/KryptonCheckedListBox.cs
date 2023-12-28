@@ -806,7 +806,7 @@ namespace Krypton.Toolkit
                     _miGetEnumerator = InnerArray?.GetType().GetMethod(@"GetEnumerator", new[] { typeof(int), typeof(bool) }, null);
                 }
 
-                return (IEnumerator)_miGetEnumerator.Invoke(InnerArray, new object[] { stateMask, anyBit });
+                return (IEnumerator)_miGetEnumerator?.Invoke(InnerArray, new object[] { stateMask, anyBit })!;
             }
             #endregion
 
@@ -1264,7 +1264,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         [EditorBrowsable(EditorBrowsableState.Always)]
         [Browsable(false)]
-        public Control ContainedControl => ListBox!;
+        public Control? ContainedControl => ListBox!;
 
         /// <summary>
         /// Gets or sets the text for the control.

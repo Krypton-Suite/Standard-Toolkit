@@ -29,7 +29,7 @@ namespace Krypton.Toolkit
         private LabelStyle _captionStyle;
         private VisualOrientation _captionEdge;
         private ButtonOrientation _captionOrientation;
-        private readonly ViewDrawGroupBoxDocker _drawDocker;
+        private readonly ViewDrawGroupBoxDocker? _drawDocker;
         private readonly ViewDrawContent _drawContent;
         private readonly ViewLayoutFill _layoutFill;
         private ScreenObscurer _obscurer;
@@ -81,11 +81,11 @@ namespace Krypton.Toolkit
             _layoutFill = new ViewLayoutFill(Panel);
 
             // Add caption into the docker with initial dock edges defined
-            _drawDocker.Add(_drawContent, ViewDockStyle.Top);
-            _drawDocker.Add(_layoutFill, ViewDockStyle.Fill);
+            _drawDocker?.Add(_drawContent, ViewDockStyle.Top);
+            _drawDocker?.Add(_layoutFill, ViewDockStyle.Fill);
 
             // Create the view manager instance
-            ViewManager = new ViewManager(this, _drawDocker);
+            ViewManager = new ViewManager(this, _drawDocker!);
 
             // We want to default to shrinking and growing (base class defaults to GrowOnly)
             AutoSizeMode = AutoSizeMode.GrowAndShrink;
@@ -125,7 +125,10 @@ namespace Krypton.Toolkit
                         _obscurer.Dispose();
                         _obscurer = null!;
                     }
-                    catch { }
+                    catch
+                    {
+                        // Ignored
+                    }
                 }
             }
 
@@ -159,7 +162,7 @@ namespace Krypton.Toolkit
             set
             {
                 base.Name = value;
-                Panel.Name = $"{value}.Panel";
+                Panel!.Name = $"{value}.Panel";
             }
         }
 
@@ -258,11 +261,11 @@ namespace Krypton.Toolkit
         [DefaultValue(0.5)]
         public double CaptionOverlap
         {
-            get => _drawDocker.CaptionOverlap;
+            get => _drawDocker!.CaptionOverlap;
 
             set
             {
-                if (_drawDocker.CaptionOverlap != value)
+                if (_drawDocker != null && _drawDocker.CaptionOverlap != value)
                 {
 
                     // Enforce limits on the value between 0 and 1 (0% and 100%)
@@ -281,11 +284,11 @@ namespace Krypton.Toolkit
         [DefaultValue(PaletteBorderStyle.ControlGroupBox)]
         public PaletteBorderStyle GroupBorderStyle
         {
-            get => StateCommon.BorderStyle;
+            get => StateCommon!.BorderStyle;
 
             set
             {
-                if (StateCommon.BorderStyle != value)
+                if (StateCommon!.BorderStyle != value)
                 {
                     StateCommon.BorderStyle = value;
                     PerformNeedPaint(true);
@@ -305,14 +308,14 @@ namespace Krypton.Toolkit
         [DefaultValue(PaletteBackStyle.ControlGroupBox)]
         public PaletteBackStyle GroupBackStyle
         {
-            get => StateCommon.BackStyle;
+            get => StateCommon!.BackStyle;
 
             set
             {
-                if (StateCommon.BackStyle != value)
+                if (StateCommon!.BackStyle != value)
                 {
                     StateCommon.BackStyle = value;
-                    Panel.PanelBackStyle = value;
+                    Panel!.PanelBackStyle = value;
                     PerformNeedPaint(true);
                 }
             }
@@ -337,7 +340,7 @@ namespace Krypton.Toolkit
                 if (_captionStyle != value)
                 {
                     _captionStyle = value;
-                    StateCommon.ContentStyle = CommonHelper.ContentStyleFromLabelStyle(_captionStyle);
+                    StateCommon!.ContentStyle = CommonHelper.ContentStyleFromLabelStyle(_captionStyle);
                     PerformNeedPaint(true);
                 }
             }
@@ -370,7 +373,7 @@ namespace Krypton.Toolkit
                                 _drawContent.Orientation = VisualOrientation.Top;
                             }
 
-                            _drawDocker.SetDock(_drawContent, ViewDockStyle.Top);
+                            _drawDocker?.SetDock(_drawContent, ViewDockStyle.Top);
                             break;
                         case VisualOrientation.Bottom:
                             if (_captionOrientation == ButtonOrientation.Auto)
@@ -378,7 +381,7 @@ namespace Krypton.Toolkit
                                 _drawContent.Orientation = VisualOrientation.Top;
                             }
 
-                            _drawDocker.SetDock(_drawContent, ViewDockStyle.Bottom);
+                            _drawDocker?.SetDock(_drawContent, ViewDockStyle.Bottom);
                             break;
                         case VisualOrientation.Left:
                             if (_captionOrientation == ButtonOrientation.Auto)
@@ -386,7 +389,7 @@ namespace Krypton.Toolkit
                                 _drawContent.Orientation = VisualOrientation.Left;
                             }
 
-                            _drawDocker.SetDock(_drawContent, ViewDockStyle.Left);
+                            _drawDocker?.SetDock(_drawContent, ViewDockStyle.Left);
                             break;
                         case VisualOrientation.Right:
                             if (_captionOrientation == ButtonOrientation.Auto)
@@ -394,7 +397,7 @@ namespace Krypton.Toolkit
                                 _drawContent.Orientation = VisualOrientation.Right;
                             }
 
-                            _drawDocker.SetDock(_drawContent, ViewDockStyle.Right);
+                            _drawDocker?.SetDock(_drawContent, ViewDockStyle.Right);
                             break;
                     }
 
@@ -483,7 +486,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteGroupBoxRedirect? StateCommon { get; }
 
-        private bool ShouldSerializeStateCommon() => !StateCommon.IsDefault;
+        private bool ShouldSerializeStateCommon() => !StateCommon!.IsDefault;
 
         /// <summary>
         /// Gets access to the disabled header group appearance entries.
@@ -493,7 +496,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteGroupBox? StateDisabled { get; }
 
-        private bool ShouldSerializeStateDisabled() => !StateDisabled.IsDefault;
+        private bool ShouldSerializeStateDisabled() => !StateDisabled!.IsDefault;
 
         /// <summary>
         /// Gets access to the normal header group appearance entries.
@@ -503,7 +506,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteGroupBox? StateNormal { get; }
 
-        private bool ShouldSerializeStateNormal() => !StateNormal.IsDefault;
+        private bool ShouldSerializeStateNormal() => !StateNormal!.IsDefault;
 
         /// <summary>
         /// Gets access to the caption content.
@@ -570,7 +573,7 @@ namespace Krypton.Toolkit
                 ForceViewLayout();
 
                 // The inside panel is the client rectangle size
-                return new Rectangle(Panel.Location, Panel.Size);
+                return new Rectangle(Panel!.Location, Panel.Size);
             }
         }
 
@@ -581,8 +584,8 @@ namespace Krypton.Toolkit
         public virtual void SetFixedState(PaletteState state)
         {
             // Request fixed state from the view
-            _drawDocker.FixedState = state;
-            Panel.SetFixedState(state);
+            _drawDocker!.FixedState = state;
+            Panel?.SetFixedState(state);
         }
         #endregion
 
@@ -686,17 +689,17 @@ namespace Krypton.Toolkit
             // Push correct palettes into the view
             if (Enabled)
             {
-                _drawContent.SetPalette(StateNormal.Content);
-                _drawDocker.SetPalettes(StateNormal.Back, StateNormal.Border);
+                _drawContent.SetPalette(StateNormal!.Content);
+                _drawDocker?.SetPalettes(StateNormal.Back, StateNormal.Border);
             }
             else
             {
-                _drawContent.SetPalette(StateDisabled.Content);
-                _drawDocker.SetPalettes(StateDisabled.Back, StateNormal.Border);
+                _drawContent.SetPalette(StateDisabled!.Content);
+                _drawDocker?.SetPalettes(StateDisabled.Back, StateNormal!.Border);
             }
 
             _drawContent.Enabled = Enabled;
-            _drawDocker.Enabled = Enabled;
+            _drawDocker!.Enabled = Enabled;
 
             // Change in enabled state requires a layout and repaint
             PerformNeedPaint(true);
@@ -723,13 +726,13 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">Source of notification.</param>
         /// <param name="e">An NeedLayoutEventArgs containing event data.</param>
-        protected override void OnNeedPaint(object sender, NeedLayoutEventArgs e)
+        protected override void OnNeedPaint(object? sender, NeedLayoutEventArgs e)
         {
             if (IsInitialized || !e.NeedLayout)
             {
                 // As the contained group panel is using our palette storage
                 // we also need to pass on any paint request to it as well
-                Panel.PerformNeedPaint(e.NeedLayout);
+                Panel?.PerformNeedPaint(e.NeedLayout);
             }
             else
             {
@@ -811,7 +814,7 @@ namespace Krypton.Toolkit
         {
             _cornerRoundingRadius = radius ?? GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
 
-            StateCommon.Border.Rounding = _cornerRoundingRadius;
+            StateCommon!.Border.Rounding = _cornerRoundingRadius;
         }
 
         #endregion

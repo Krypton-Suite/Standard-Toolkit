@@ -486,7 +486,7 @@ namespace Krypton.Toolkit
         /// Shows the task dialog as a modal dialog box with the currently active window set as its owner.
         /// </summary>
         /// <returns>One of the DialogResult values.</returns>
-        public DialogResult ShowDialog() => ShowDialog(Control.FromHandle(PI.GetActiveWindow()));
+        public DialogResult ShowDialog() => ShowDialog(Control.FromHandle(PI.GetActiveWindow())!);
 
         /// <summary>
         /// Shows the form as a modal dialog box with the specified owner.
@@ -517,6 +517,7 @@ namespace Krypton.Toolkit
         /// <param name="content">Extra text.</param>
         /// <param name="icon">Predefined icon.</param>
         /// <param name="commonButtons">Common buttons.</param>
+        /// <param name="useNativeOSIcons">Use the OS set of icons.</param>
         /// <returns>One of the DialogResult values.</returns>
         public static DialogResult Show(string windowTitle,
                                         string mainInstruction,

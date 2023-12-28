@@ -643,7 +643,7 @@ namespace Krypton.Toolkit
             // Only uncheck others if we are checked and in auto check
             if (AutoCheck && Checked)
             {
-                Control parent = Parent;
+                Control? parent = Parent;
                 if (parent != null)
                 {
                     // Search all sibling controls

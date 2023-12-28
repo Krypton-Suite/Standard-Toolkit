@@ -29,7 +29,7 @@ namespace Krypton.Toolkit
         #region Instance Fields
 
         private readonly ViewDrawDocker _drawDocker;
-        private readonly ViewLayoutMonths _drawMonths;
+        private readonly ViewLayoutMonths? _drawMonths;
         private readonly PaletteTripleOverride _boldedDisabled;
         private readonly PaletteTripleOverride _boldedNormal;
         private readonly PaletteTripleOverride _boldedTracking;
@@ -462,7 +462,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Localizable(true)]
         [Description(@"Indicates which annual dates should be boldface.")]
-        public DateTime[] AnnuallyBoldedDates
+        public DateTime[]? AnnuallyBoldedDates
         {
             get => _annualDates.ToArray();
 
@@ -497,7 +497,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Localizable(true)]
         [Description(@"Indicates which monthly dates should be boldface.")]
-        public DateTime[] MonthlyBoldedDates
+        public DateTime[]? MonthlyBoldedDates
         {
             get => _monthlyDates.ToArray();
 
@@ -528,7 +528,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Localizable(true)]
         [Description(@"Indicates which dates should be boldface.")]
-        public DateTime[] BoldedDates
+        public DateTime[]? BoldedDates
         {
             get => BoldedDatesList.ToArray();
 
@@ -794,11 +794,11 @@ namespace Krypton.Toolkit
         [Description(@"Background style for the month calendar.")]
         public PaletteBackStyle ControlBackStyle
         {
-            get => StateCommon.BackStyle;
+            get => StateCommon!.BackStyle;
 
             set
             {
-                if (StateCommon.BackStyle != value)
+                if (StateCommon!.BackStyle != value)
                 {
                     StateCommon.BackStyle = value;
                     PerformNeedPaint(true);
@@ -817,11 +817,11 @@ namespace Krypton.Toolkit
         [Description(@"Border style for the month calendar.")]
         public PaletteBorderStyle ControlBorderStyle
         {
-            get => StateCommon.BorderStyle;
+            get => StateCommon!.BorderStyle;
 
             set
             {
-                if (StateCommon.BorderStyle != value)
+                if (StateCommon!.BorderStyle != value)
                 {
                     StateCommon.BorderStyle = value;
                     PerformNeedPaint(true);
@@ -847,7 +847,7 @@ namespace Krypton.Toolkit
                 if (_headerStyle != value)
                 {
                     _headerStyle = value;
-                    StateCommon.Header.SetStyles(_headerStyle);
+                    StateCommon?.Header.SetStyles(_headerStyle);
                     PerformNeedPaint(true);
                 }
             }
@@ -871,7 +871,7 @@ namespace Krypton.Toolkit
                 if (_dayStyle != value)
                 {
                     _dayStyle = value;
-                    StateCommon.DayStyle = value;
+                    StateCommon!.DayStyle = value;
                     OverrideBolded.DayStyle = value;
                     OverrideFocus.DayStyle = value;
                     OverrideToday.DayStyle = value;
@@ -898,7 +898,7 @@ namespace Krypton.Toolkit
                 if (_dayOfWeekStyle != value)
                 {
                     _dayOfWeekStyle = value;
-                    StateCommon.DayOfWeekStyle = value;
+                    StateCommon!.DayOfWeekStyle = value;
                     PerformNeedPaint(true);
                 }
             }
@@ -917,11 +917,11 @@ namespace Krypton.Toolkit
         [DefaultValue(true)]
         public bool ShowToday
         {
-            get => _drawMonths.ShowToday;
+            get => _drawMonths!.ShowToday;
 
             set
             {
-                if (_drawMonths.ShowToday != value)
+                if (_drawMonths!.ShowToday != value)
                 {
                     _drawMonths.ShowToday = value;
                     PerformNeedPaint(true);
@@ -937,11 +937,11 @@ namespace Krypton.Toolkit
         [DefaultValue(true)]
         public bool ShowTodayCircle
         {
-            get => _drawMonths.ShowTodayCircle;
+            get => _drawMonths!.ShowTodayCircle;
 
             set
             {
-                if (_drawMonths.ShowTodayCircle != value)
+                if (_drawMonths!.ShowTodayCircle != value)
                 {
                     _drawMonths.ShowTodayCircle = value;
                     PerformNeedPaint(true);
@@ -957,11 +957,11 @@ namespace Krypton.Toolkit
         [DefaultValue(false)]
         public bool ShowWeekNumbers
         {
-            get => _drawMonths.ShowWeekNumbers;
+            get => _drawMonths!.ShowWeekNumbers;
 
             set
             {
-                if (_drawMonths.ShowWeekNumbers != value)
+                if (_drawMonths!.ShowWeekNumbers != value)
                 {
                     _drawMonths.ShowWeekNumbers = value;
                     PerformNeedPaint(true);
@@ -1007,7 +1007,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteMonthCalendarRedirect? StateCommon { get; }
 
-        private bool ShouldSerializeStateCommon() => !StateCommon.IsDefault;
+        private bool ShouldSerializeStateCommon() => !StateCommon!.IsDefault;
 
         /// <summary>
         /// Gets access to the month calendar disabled appearance entries.
@@ -1085,7 +1085,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Collection of button specifications.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public MonthCalendarButtonSpecCollection ButtonSpecs => _drawMonths.ButtonSpecs;
+        public MonthCalendarButtonSpecCollection ButtonSpecs => _drawMonths!.ButtonSpecs;
 
         /// <summary>
         /// Gets and sets a value indicating if tooltips should be Displayed for button specs.
@@ -1095,8 +1095,8 @@ namespace Krypton.Toolkit
         [DefaultValue(false)]
         public bool AllowButtonSpecToolTips
         {
-            get => _drawMonths.AllowButtonSpecToolTips;
-            set => _drawMonths.AllowButtonSpecToolTips = value;
+            get => _drawMonths!.AllowButtonSpecToolTips;
+            set => _drawMonths!.AllowButtonSpecToolTips = value;
         }
 
         /// <summary>
@@ -1403,9 +1403,9 @@ namespace Krypton.Toolkit
         /// <param name="pt">Mouse location.</param>
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        public Component DesignerComponentFromPoint(Point pt) =>
+        public Component? DesignerComponentFromPoint(Point pt) =>
             // Ignore call as view builder is already destructed
-            IsDisposed ? null : ViewManager.ComponentFromPoint(pt);
+            IsDisposed ? null : ViewManager?.ComponentFromPoint(pt);
 
         // Ask the current view for a decision
         /// <summary>
@@ -1429,7 +1429,7 @@ namespace Krypton.Toolkit
         protected override void OnButtonSpecChanged(object sender, EventArgs e)
         {
             // Recreate all the button specs with new values
-            _drawMonths.RecreateButtons();
+            _drawMonths?.RecreateButtons();
 
             // Let base class perform standard processing
             base.OnButtonSpecChanged(sender, e);
@@ -1464,7 +1464,7 @@ namespace Krypton.Toolkit
             // Cannot process a message for a disposed control
             if (!IsDisposed && !Disposing)
             {
-                if (_drawMonths.ProcessKeyDown(this, e))
+                if (_drawMonths!.ProcessKeyDown(this, e))
                 {
                     return;
                 }
@@ -1531,7 +1531,7 @@ namespace Krypton.Toolkit
         /// <param name="e">An PaintEventArgs that contains the event data.</param>
         protected override void OnPaint(PaintEventArgs? e)
         {
-            Paint?.Invoke(this, e);
+            Paint?.Invoke(this, e!);
 
             base.OnPaint(e);
         }
@@ -1643,7 +1643,7 @@ namespace Krypton.Toolkit
         {
             // Update view elements
             _drawDocker.Enabled = Enabled;
-            _drawMonths.Enabled = Enabled;
+            _drawMonths!.Enabled = Enabled;
 
             // Change in enabled state requires a layout and repaint
             PerformNeedPaint(true);
@@ -1712,7 +1712,7 @@ namespace Krypton.Toolkit
             Size backBorderSize = _drawDocker.GetNonChildSize(context);
 
             // Ask for the size needed to draw a single month
-            Size singleMonthSize = _drawMonths.GetSingleMonthSize(context);
+            Size singleMonthSize = _drawMonths!.GetSingleMonthSize(context);
 
             // How many full months can be fit in each dimension (with a minimum of 1 month showing)
             var gap = ViewLayoutMonths.GAP;
@@ -1849,28 +1849,28 @@ namespace Krypton.Toolkit
         {
             _cornerRoundingRadius = radius ?? GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
 
-            StateCommon.Border.Rounding = _cornerRoundingRadius;
+            StateCommon!.Border.Rounding = _cornerRoundingRadius;
         }
 
         private void SetDayCornerRoundingRadius(float? radius)
         {
             _dayCornerRoundingRadius = radius ?? GlobalStaticValues.SECONDARY_CORNER_ROUNDING_VALUE;
 
-            StateCommon.Day.Border.Rounding = _dayCornerRoundingRadius;
+            StateCommon!.Day.Border.Rounding = _dayCornerRoundingRadius;
         }
 
         private void SetDayOfWeekCornerRoundingRadius(float? radius)
         {
             _dayOfWeekCornerRoundingRadius = radius ?? GlobalStaticValues.SECONDARY_CORNER_ROUNDING_VALUE;
 
-            StateCommon.DayOfWeek.Border.Rounding = _dayOfWeekCornerRoundingRadius;
+            StateCommon!.DayOfWeek.Border.Rounding = _dayOfWeekCornerRoundingRadius;
         }
 
         private void SetHeaderCornerRoundingRadius(float? radius)
         {
             _headerCornerRoundingRadius = radius ?? GlobalStaticValues.SECONDARY_CORNER_ROUNDING_VALUE;
 
-            StateCommon.Header.Border.Rounding = _headerCornerRoundingRadius;
+            StateCommon!.Header.Border.Rounding = _headerCornerRoundingRadius;
         }
 
         #endregion

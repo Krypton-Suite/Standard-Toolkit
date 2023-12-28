@@ -238,7 +238,7 @@ namespace Krypton.Toolkit
                                         using var foreBrush = new SolidBrush(ForeColor);
                                         g.DrawString(drawString,
                                             _kryptonTextBox.GetTripleState().PaletteContent?
-                                                .GetContentShortTextFont(PaletteState.Disabled), foreBrush,
+                                                .GetContentShortTextFont(PaletteState.Disabled)!, foreBrush,
                                             new RectangleF(rect.left, rect.top, rect.right - rect.left,
                                                 rect.bottom - rect.top),
                                             stringFormat);
@@ -325,7 +325,7 @@ namespace Krypton.Toolkit
         private readonly ViewLayoutDocker _drawDockerInner;
         private readonly ViewDrawDocker _drawDockerOuter;
         private readonly ViewLayoutFill _layoutFill;
-        private readonly InternalTextBox _textBox;
+        private readonly InternalTextBox? _textBox;
         private InputControlStyle _inputControlStyle;
         private bool? _fixedActive;
         private bool _forcedLayout;
@@ -461,7 +461,7 @@ namespace Krypton.Toolkit
             StateDisabled = new PaletteInputControlTripleStates(StateCommon, NeedPaintDelegate);
             StateNormal = new PaletteInputControlTripleStates(StateCommon, NeedPaintDelegate);
             StateActive = new PaletteInputControlTripleStates(StateCommon, NeedPaintDelegate);
-            CueHint = new PaletteCueHintText(Redirector, NeedPaintDelegate);
+            CueHint = new PaletteCueHintText(Redirector!, NeedPaintDelegate);
 
             // Create the internal text box used for containing content
             _textBox = new InternalTextBox(this);
@@ -505,7 +505,7 @@ namespace Krypton.Toolkit
             ViewManager = new ViewManager(this, _drawDockerOuter);
 
             // Create button specification collection manager
-            _buttonManager = new ButtonSpecManagerLayout(this, Redirector, ButtonSpecs, null,
+            _buttonManager = new ButtonSpecManagerLayout(this, Redirector!, ButtonSpecs, null,
                                                          new[] { _drawDockerInner },
                                                          new IPaletteMetric[] { StateCommon },
                                                          new[] { PaletteMetricInt.HeaderButtonEdgeInsetInputControl },
@@ -611,8 +611,8 @@ namespace Krypton.Toolkit
         /// </summary>
         public new bool TabStop
         {
-            get => _textBox.TabStop;
-            set => _textBox.TabStop = value;
+            get => _textBox!.TabStop;
+            set => _textBox!.TabStop = value;
         }
 
         /// <summary>
@@ -654,7 +654,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         [EditorBrowsable(EditorBrowsableState.Always)]
         [Browsable(false)]
-        public TextBox TextBox => _textBox;
+        public TextBox? TextBox => _textBox;
 
         /// <summary>
         /// Gets access to the contained input control.
@@ -662,7 +662,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         [EditorBrowsable(EditorBrowsableState.Always)]
         [Browsable(false)]
-        public Control ContainedControl => TextBox;
+        public Control? ContainedControl => TextBox;
 
         /// <summary>
         /// Gets and sets a value indicating if the control is automatically sized.
@@ -692,7 +692,7 @@ namespace Krypton.Toolkit
         /// Gets a value indicating whether the control has input focus.
         /// </summary>
         [Browsable(false)]
-        public override bool Focused => TextBox.Focused;
+        public override bool Focused => TextBox!.Focused;
 
         /// <summary>
         /// Gets or sets the background color for the control.
@@ -715,7 +715,7 @@ namespace Krypton.Toolkit
         public override Font Font
         {
             get => base.Font;
-            set => base.Font = value;
+            set => base.Font = value!;
         }
 
         /// <summary>
@@ -749,8 +749,8 @@ namespace Krypton.Toolkit
         [AllowNull]
         public override string Text
         {
-            get => _textBox.Text;
-            set => _textBox.Text = value;
+            get => _textBox!.Text;
+            set => _textBox!.Text = value;
         }
 
         /// <summary>
@@ -763,7 +763,7 @@ namespace Krypton.Toolkit
             set
             {
                 base.ContextMenuStrip = value;
-                _textBox.ContextMenuStrip = value;
+                _textBox!.ContextMenuStrip = value;
             }
         }
 
@@ -772,14 +772,14 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public bool CanUndo => _textBox.CanUndo;
+        public bool CanUndo => _textBox!.CanUndo;
 
         /// <summary>
         /// Gets a value indicating whether the contents have changed since last last.
         /// </summary>
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public bool Modified => _textBox.Modified;
+        public bool Modified => _textBox!.Modified;
 
         /// <summary>
         /// Gets and sets the selected text within the control.
@@ -788,8 +788,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public string SelectedText
         {
-            get => _textBox.SelectedText;
-            set => _textBox.SelectedText = value;
+            get => _textBox!.SelectedText;
+            set => _textBox!.SelectedText = value;
         }
 
         /// <summary>
@@ -799,8 +799,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public int SelectionLength
         {
-            get => _textBox.SelectionLength;
-            set => _textBox.SelectionLength = value;
+            get => _textBox!.SelectionLength;
+            set => _textBox!.SelectionLength = value;
         }
 
         /// <summary>
@@ -810,8 +810,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public int SelectionStart
         {
-            get => _textBox.SelectionStart;
-            set => _textBox.SelectionStart = value;
+            get => _textBox!.SelectionStart;
+            set => _textBox!.SelectionStart = value;
         }
 
         /// <summary>
@@ -819,7 +819,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public int TextLength => _textBox.TextLength;
+        public int TextLength => _textBox!.TextLength;
 
         /// <summary>
         /// Gets or sets a value indicating whether mnemonics will fire button spec buttons.
@@ -829,11 +829,11 @@ namespace Krypton.Toolkit
         [DefaultValue(true)]
         public bool UseMnemonic
         {
-            get => _buttonManager.UseMnemonic;
+            get => _buttonManager!.UseMnemonic;
 
             set
             {
-                if (_buttonManager.UseMnemonic != value)
+                if (_buttonManager!.UseMnemonic != value)
                 {
                     _buttonManager.UseMnemonic = value;
                     PerformNeedPaint(true);
@@ -872,8 +872,8 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         public string[] Lines
         {
-            get => _textBox.Lines;
-            set => _textBox.Lines = value;
+            get => _textBox!.Lines;
+            set => _textBox!.Lines = value;
         }
 
         /// <summary>
@@ -885,8 +885,8 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         public ScrollBars ScrollBars
         {
-            get => _textBox.ScrollBars;
-            set => _textBox.ScrollBars = value;
+            get => _textBox!.ScrollBars;
+            set => _textBox!.ScrollBars = value;
         }
 
         /// <summary>
@@ -898,8 +898,8 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         public HorizontalAlignment TextAlign
         {
-            get => _textBox.TextAlign;
-            set => _textBox.TextAlign = value;
+            get => _textBox!.TextAlign;
+            set => _textBox!.TextAlign = value;
         }
 
         /// <summary>
@@ -911,8 +911,8 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         public bool WordWrap
         {
-            get => _textBox.WordWrap;
-            set => _textBox.WordWrap = value;
+            get => _textBox!.WordWrap;
+            set => _textBox!.WordWrap = value;
         }
 
         /// <summary>
@@ -925,11 +925,11 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         public bool Multiline
         {
-            get => _textBox.Multiline;
+            get => _textBox!.Multiline;
 
             set
             {
-                if (_textBox.Multiline != value)
+                if (_textBox!.Multiline != value)
                 {
                     _textBox.Multiline = value;
 
@@ -950,8 +950,8 @@ namespace Krypton.Toolkit
         [DefaultValue(false)]
         public bool AcceptsReturn
         {
-            get => _textBox.AcceptsReturn;
-            set => _textBox.AcceptsReturn = value;
+            get => _textBox!.AcceptsReturn;
+            set => _textBox!.AcceptsReturn = value;
         }
 
         /// <summary>
@@ -962,8 +962,8 @@ namespace Krypton.Toolkit
         [DefaultValue(false)]
         public bool AcceptsTab
         {
-            get => _textBox.AcceptsTab;
-            set => _textBox.AcceptsTab = value;
+            get => _textBox!.AcceptsTab;
+            set => _textBox!.AcceptsTab = value;
         }
 
         /// <summary>
@@ -974,8 +974,8 @@ namespace Krypton.Toolkit
         [DefaultValue(CharacterCasing.Normal)]
         public CharacterCasing CharacterCasing
         {
-            get => _textBox.CharacterCasing;
-            set => _textBox.CharacterCasing = value;
+            get => _textBox!.CharacterCasing;
+            set => _textBox!.CharacterCasing = value;
         }
 
         /// <summary>
@@ -986,8 +986,8 @@ namespace Krypton.Toolkit
         [DefaultValue(true)]
         public bool HideSelection
         {
-            get => _textBox.HideSelection;
-            set => _textBox.HideSelection = value;
+            get => _textBox!.HideSelection;
+            set => _textBox!.HideSelection = value;
         }
 
         /// <summary>
@@ -999,8 +999,8 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         public int MaxLength
         {
-            get => _textBox.MaxLength;
-            set => _textBox.MaxLength = value;
+            get => _textBox!.MaxLength;
+            set => _textBox!.MaxLength = value;
         }
 
         /// <summary>
@@ -1012,8 +1012,8 @@ namespace Krypton.Toolkit
         [DefaultValue(false)]
         public bool ReadOnly
         {
-            get => _textBox.ReadOnly;
-            set => _textBox.ReadOnly = value;
+            get => _textBox!.ReadOnly;
+            set => _textBox!.ReadOnly = value;
         }
 
         /// <summary>
@@ -1024,8 +1024,8 @@ namespace Krypton.Toolkit
         [DefaultValue(true)]
         public bool ShortcutsEnabled
         {
-            get => _textBox.ShortcutsEnabled;
-            set => _textBox.ShortcutsEnabled = value;
+            get => _textBox!.ShortcutsEnabled;
+            set => _textBox!.ShortcutsEnabled = value;
         }
 
         /// <summary>
@@ -1038,8 +1038,8 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         public char PasswordChar
         {
-            get => _textBox.PasswordChar;
-            set => _textBox.PasswordChar = value;
+            get => _textBox!.PasswordChar;
+            set => _textBox!.PasswordChar = value;
         }
 
         /// <summary>
@@ -1051,8 +1051,8 @@ namespace Krypton.Toolkit
         [DefaultValue(false)]
         public bool UseSystemPasswordChar
         {
-            get => _textBox.UseSystemPasswordChar;
-            set => _textBox.UseSystemPasswordChar = value;
+            get => _textBox!.UseSystemPasswordChar;
+            set => _textBox!.UseSystemPasswordChar = value;
         }
 
         /// <summary>
@@ -1090,8 +1090,8 @@ namespace Krypton.Toolkit
         [Browsable(true)]
         public AutoCompleteStringCollection AutoCompleteCustomSource
         {
-            get => _textBox.AutoCompleteCustomSource;
-            set => _textBox.AutoCompleteCustomSource = value;
+            get => _textBox!.AutoCompleteCustomSource;
+            set => _textBox!.AutoCompleteCustomSource = value;
         }
 
         /// <summary>
@@ -1103,8 +1103,8 @@ namespace Krypton.Toolkit
         [Browsable(true)]
         public AutoCompleteMode AutoCompleteMode
         {
-            get => _textBox.AutoCompleteMode;
-            set => _textBox.AutoCompleteMode = value;
+            get => _textBox!.AutoCompleteMode;
+            set => _textBox!.AutoCompleteMode = value;
         }
 
         /// <summary>
@@ -1116,8 +1116,8 @@ namespace Krypton.Toolkit
         [Browsable(true)]
         public AutoCompleteSource AutoCompleteSource
         {
-            get => _textBox.AutoCompleteSource;
-            set => _textBox.AutoCompleteSource = value;
+            get => _textBox!.AutoCompleteSource;
+            set => _textBox!.AutoCompleteSource = value;
         }
 
         /// <summary>
@@ -1188,100 +1188,100 @@ namespace Krypton.Toolkit
         /// Appends text to the current text of a rich text box.
         /// </summary>
         /// <param name="text">The text to append to the current contents of the text box.</param>
-        public void AppendText(string text) => _textBox.AppendText(text);
+        public void AppendText(string text) => _textBox?.AppendText(text);
 
         /// <summary>
         /// Clears all text from the text box control.
         /// </summary>
-        public void Clear() => _textBox.Clear();
+        public void Clear() => _textBox?.Clear();
 
         /// <summary>
         /// Clears information about the most recent operation from the undo buffer of the rich text box. 
         /// </summary>
-        public void ClearUndo() => _textBox.ClearUndo();
+        public void ClearUndo() => _textBox?.ClearUndo();
 
         /// <summary>
         /// Copies the current selection in the text box to the Clipboard.
         /// </summary>
-        public void Copy() => _textBox.Copy();
+        public void Copy() => _textBox?.Copy();
 
         /// <summary>
         /// Moves the current selection in the text box to the Clipboard.
         /// </summary>
-        public void Cut() => _textBox.Cut();
+        public void Cut() => _textBox?.Cut();
 
         /// <summary>
         /// Replaces the current selection in the text box with the contents of the Clipboard.
         /// </summary>
-        public void Paste() => _textBox.Paste();
+        public void Paste() => _textBox?.Paste();
 
         /// <summary>
         /// Scrolls the contents of the control to the current caret position.
         /// </summary>
-        public void ScrollToCaret() => _textBox.ScrollToCaret();
+        public void ScrollToCaret() => _textBox?.ScrollToCaret();
 
         /// <summary>
         /// Selects a range of text in the control.
         /// </summary>
         /// <param name="start">The position of the first character in the current text selection within the text box.</param>
         /// <param name="length">The number of characters to select.</param>
-        public void Select(int start, int length) => _textBox.Select(start, length);
+        public void Select(int start, int length) => _textBox?.Select(start, length);
 
         /// <summary>
         /// Selects all text in the control.
         /// </summary>
-        public void SelectAll() => _textBox.SelectAll();
+        public void SelectAll() => _textBox?.SelectAll();
 
         /// <summary>
         /// Undoes the last edit operation in the text box.
         /// </summary>
-        public void Undo() => _textBox.Undo();
+        public void Undo() => _textBox?.Undo();
 
         /// <summary>
         /// Specifies that the value of the SelectionLength property is zero so that no characters are selected in the control.
         /// </summary>
-        public void DeselectAll() => _textBox.DeselectAll();
+        public void DeselectAll() => _textBox?.DeselectAll();
 
         /// <summary>
         /// Retrieves the character that is closest to the specified location within the control.
         /// </summary>
         /// <param name="pt">The location from which to seek the nearest character.</param>
         /// <returns>The character at the specified location.</returns>
-        public int GetCharFromPosition(Point pt) => _textBox.GetCharFromPosition(pt);
+        public int GetCharFromPosition(Point pt) => _textBox!.GetCharFromPosition(pt);
 
         /// <summary>
         /// Retrieves the index of the character nearest to the specified location.
         /// </summary>
         /// <param name="pt">The location to search.</param>
         /// <returns>The zero-based character index at the specified location.</returns>
-        public int GetCharIndexFromPosition(Point pt) => _textBox.GetCharIndexFromPosition(pt);
+        public int GetCharIndexFromPosition(Point pt) => _textBox!.GetCharIndexFromPosition(pt);
 
         /// <summary>
         /// Retrieves the index of the first character of a given line.
         /// </summary>
         /// <param name="lineNumber">The line for which to get the index of its first character.</param>
         /// <returns>The zero-based character index in the specified line.</returns>
-        public int GetFirstCharIndexFromLine(int lineNumber) => _textBox.GetFirstCharIndexFromLine(lineNumber);
+        public int GetFirstCharIndexFromLine(int lineNumber) => _textBox!.GetFirstCharIndexFromLine(lineNumber);
 
         /// <summary>
         /// Retrieves the index of the first character of the current line.
         /// </summary>
         /// <returns>The zero-based character index in the current line.</returns>
-        public int GetFirstCharIndexOfCurrentLine() => _textBox.GetFirstCharIndexOfCurrentLine();
+        public int GetFirstCharIndexOfCurrentLine() => _textBox!.GetFirstCharIndexOfCurrentLine();
 
         /// <summary>
         /// Retrieves the line number from the specified character position within the text of the RichTextBox control.
         /// </summary>
         /// <param name="index">The character index position to search.</param>
         /// <returns>The zero-based line number in which the character index is located.</returns>
-        public int GetLineFromCharIndex(int index) => _textBox.GetLineFromCharIndex(index);
+        public int GetLineFromCharIndex(int index) => _textBox!.GetLineFromCharIndex(index);
 
         /// <summary>
         /// Retrieves the location within the control at the specified character index.
         /// </summary>
         /// <param name="index">The index of the character for which to retrieve the location.</param>
         /// <returns>The location of the specified character.</returns>
-        public Point GetPositionFromCharIndex(int index) => _textBox.GetPositionFromCharIndex(index);
+        public Point GetPositionFromCharIndex(int index) => _textBox!.GetPositionFromCharIndex(index);
 
         /// <summary>
         /// Sets the fixed state of the control.
@@ -1301,18 +1301,18 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public bool IsActive => _fixedActive ?? DesignMode || AlwaysActive || ContainsFocus || _mouseOver || _textBox.MouseOver;
+        public bool IsActive => _textBox != null && (_fixedActive ?? DesignMode || AlwaysActive || ContainsFocus || _mouseOver || _textBox.MouseOver);
 
         /// <summary>
         /// Sets input focus to the control.
         /// </summary>
         /// <returns>true if the input focus request was successful; otherwise, false.</returns>
-        public new bool Focus() => TextBox.Focus() == true;
+        public new bool Focus() => TextBox?.Focus() == true;
 
         /// <summary>
         /// Activates the control.
         /// </summary>
-        public new void Select() => TextBox.Select();
+        public new void Select() => TextBox?.Select();
 
         /// <summary>
         /// Get the preferred size of the control based on a proposed size.
@@ -1369,7 +1369,7 @@ namespace Krypton.Toolkit
                 ForceViewLayout();
 
                 // The inside text box is the client rectangle size
-                return new Rectangle(_textBox.Location, _textBox.Size);
+                return new Rectangle(_textBox!.Location, _textBox.Size);
             }
         }
 
@@ -1399,7 +1399,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         public Component? DesignerComponentFromPoint(Point pt) =>
             // Ignore call as view builder is already destructed
-            IsDisposed ? null : ViewManager.ComponentFromPoint(pt);
+            IsDisposed ? null : ViewManager?.ComponentFromPoint(pt);
 
         // Ask the current view for a decision
         /// <summary>
@@ -1565,7 +1565,7 @@ namespace Krypton.Toolkit
         protected override void OnGotFocus(EventArgs e)
         {
             base.OnGotFocus(e);
-            _textBox.Focus();
+            _textBox?.Focus();
         }
 
         /// <summary>
@@ -1634,7 +1634,7 @@ namespace Krypton.Toolkit
             {
                 Rectangle fillRect = _layoutFill.FillRect;
                 //  for centering the inner text field vertically
-                var y = Height / 2 - _textBox.Height / 2;
+                var y = Height / 2 - _textBox!.Height / 2;
 
                 _textBox.SetBounds(fillRect.X, y, fillRect.Width, fillRect.Height);
             }
@@ -1648,7 +1648,7 @@ namespace Krypton.Toolkit
         {
             _mouseOver = true;
             PerformNeedPaint(true);
-            _textBox.Invalidate();
+            _textBox?.Invalidate();
             base.OnMouseEnter(e);
         }
 
@@ -1660,7 +1660,7 @@ namespace Krypton.Toolkit
         {
             _mouseOver = false;
             PerformNeedPaint(true);
-            _textBox.Invalidate();
+            _textBox?.Invalidate();
             base.OnMouseLeave(e);
         }
 
@@ -1713,11 +1713,11 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">Source of notification.</param>
         /// <param name="e">An NeedLayoutEventArgs containing event data.</param>
-        protected override void OnNeedPaint(object sender, NeedLayoutEventArgs e)
+        protected override void OnNeedPaint(object? sender, NeedLayoutEventArgs e)
         {
             if (IsHandleCreated && !e.NeedLayout)
             {
-                _textBox.Invalidate();
+                _textBox?.Invalidate();
             }
             else
             {
@@ -1730,14 +1730,14 @@ namespace Krypton.Toolkit
                 UpdateStateAndPalettes();
                 IPaletteTriple triple = GetTripleState();
                 PaletteState state = _drawDockerOuter.State;
-                _textBox.BackColor = triple.PaletteBack.GetBackColor1(state);
-                _textBox.ForeColor = triple.PaletteContent.GetContentShortTextColor1(state);
+                _textBox!.BackColor = triple.PaletteBack.GetBackColor1(state);
+                _textBox.ForeColor = triple.PaletteContent!.GetContentShortTextColor1(state);
 
                 // Only set the font if the text box has been created
                 Font? font = triple.PaletteContent.GetContentShortTextFont(state);
                 if ((_textBox.Handle != IntPtr.Zero) && !_textBox.Font.Equals(font))
                 {
-                    _textBox.Font = font;
+                    _textBox.Font = font!;
                 }
             }
 
@@ -1768,7 +1768,7 @@ namespace Krypton.Toolkit
         /// <param name="e">An EventArgs that contains the event data.</param>
         protected override void OnTabStopChanged(EventArgs e)
         {
-            TextBox.TabStop = TabStop;
+            TextBox!.TabStop = TabStop;
             base.OnTabStopChanged(e);
         }
 
@@ -1778,7 +1778,7 @@ namespace Krypton.Toolkit
         /// <param name="e">An EventArgs that contains the event data.</param>
         protected override void OnCausesValidationChanged(EventArgs e)
         {
-            TextBox.CausesValidation = CausesValidation;
+            TextBox!.CausesValidation = CausesValidation;
             base.OnCausesValidationChanged(e);
         }
 
@@ -1823,7 +1823,7 @@ namespace Krypton.Toolkit
         {
             // Get the correct palette settings to use
             IPaletteTriple tripleState = GetTripleState();
-            _drawDockerOuter.SetPalettes(tripleState.PaletteBack, tripleState.PaletteBorder);
+            _drawDockerOuter.SetPalettes(tripleState.PaletteBack, tripleState.PaletteBorder!);
 
             // Update enabled state
             _drawDockerOuter.Enabled = Enabled;
@@ -1951,12 +1951,12 @@ namespace Krypton.Toolkit
 
                             if (AllowButtonSpecToolTipPriority)
                             {
-                                visualBasePopupToolTip.Dispose();
+                                visualBasePopupToolTip?.Dispose();
                             }
                         }
 
                         // Create the actual tooltip popup object
-                        _visualPopupToolTip = new VisualPopupToolTip(Redirector,
+                        _visualPopupToolTip = new VisualPopupToolTip(Redirector!,
                                                                      sourceContent,
                                                                      Renderer,
                                                                      PaletteBackStyle.ControlToolTip,
@@ -1987,7 +1987,7 @@ namespace Krypton.Toolkit
         private void OnTextBoxMouseChange(object sender, EventArgs e)
         {
             // Change in tracking state?
-            if (_textBox.MouseOver != _trackingMouseEnter)
+            if (_textBox!.MouseOver != _trackingMouseEnter)
             {
                 _trackingMouseEnter = _textBox.MouseOver;
 
