@@ -76,7 +76,7 @@ namespace Krypton.Toolkit
             ButtonSpecs = new HeaderButtonSpecCollection(this);
 
             // Create the palette storage
-            StateCommon = new PaletteHeaderRedirect(Redirector, PaletteBackStyle.HeaderPrimary, PaletteBorderStyle.HeaderPrimary, PaletteContentStyle.HeaderPrimary, NeedPaintDelegate);
+            StateCommon = new PaletteHeaderRedirect(Redirector!, PaletteBackStyle.HeaderPrimary, PaletteBorderStyle.HeaderPrimary, PaletteContentStyle.HeaderPrimary, NeedPaintDelegate);
             StateDisabled = new PaletteTripleMetric(StateCommon, NeedPaintDelegate);
             StateNormal = new PaletteTripleMetric(StateCommon, NeedPaintDelegate);
 
@@ -89,7 +89,7 @@ namespace Krypton.Toolkit
             ViewManager = new ViewManager(this, _drawDocker);
 
             // Create button specification collection manager
-            _buttonManager = new ButtonSpecManagerDraw(this, Redirector, ButtonSpecs, null,
+            _buttonManager = new ButtonSpecManagerDraw(this, Redirector!, ButtonSpecs, null,
                                                        new[] { _drawDocker },
                                                        new IPaletteMetric[] { StateCommon },
                                                        new[] { PaletteMetricInt.HeaderButtonEdgeInsetPrimary },
@@ -540,7 +540,7 @@ namespace Krypton.Toolkit
                         if (AllowButtonSpecToolTips)
                         {
                             // Create a helper object to provide tooltip values
-                            var buttonSpecMapping = new ButtonSpecToContent(Redirector, buttonSpec);
+                            var buttonSpecMapping = new ButtonSpecToContent(Redirector!, buttonSpec);
 
                             // Is there actually anything to show for the tooltip
                             if (buttonSpecMapping.HasContent)
@@ -563,7 +563,7 @@ namespace Krypton.Toolkit
                         }
 
                         // Create the actual tooltip popup object
-                        _visualPopupToolTip = new VisualPopupToolTip(Redirector,
+                        _visualPopupToolTip = new VisualPopupToolTip(Redirector!,
                                                                      sourceContent,
                                                                      Renderer,
                                                                      PaletteBackStyle.ControlToolTip,

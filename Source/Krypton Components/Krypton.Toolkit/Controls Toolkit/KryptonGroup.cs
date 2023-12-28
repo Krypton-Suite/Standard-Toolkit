@@ -44,7 +44,7 @@ namespace Krypton.Toolkit
             SetStyle(ControlStyles.SupportsTransparentBackColor | ControlStyles.OptimizedDoubleBuffer, true);
 
             // Create the palette storage
-            StateCommon = new PaletteDoubleRedirect(Redirector, PaletteBackStyle.ControlClient, PaletteBorderStyle.ControlClient, NeedPaintDelegate);
+            StateCommon = new PaletteDoubleRedirect(Redirector!, PaletteBackStyle.ControlClient, PaletteBorderStyle.ControlClient, NeedPaintDelegate);
             StateDisabled = new PaletteDouble(StateCommon, NeedPaintDelegate);
             StateNormal = new PaletteDouble(StateCommon, NeedPaintDelegate);
 

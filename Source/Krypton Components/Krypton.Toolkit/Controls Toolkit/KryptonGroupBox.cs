@@ -60,7 +60,7 @@ namespace Krypton.Toolkit
             Values.TextChanged += OnValuesTextChanged;
 
             // Create the palette storage
-            StateCommon = new PaletteGroupBoxRedirect(Redirector, NeedPaintDelegate);
+            StateCommon = new PaletteGroupBoxRedirect(Redirector!, NeedPaintDelegate);
             StateDisabled = new PaletteGroupBox(StateCommon, NeedPaintDelegate);
             StateNormal = new PaletteGroupBox(StateCommon, NeedPaintDelegate);
 
