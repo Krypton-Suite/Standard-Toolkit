@@ -47,7 +47,7 @@ namespace Krypton.Ribbon
         /// <param name="keyboardActivated">Was the context menu activated by a keyboard action.</param>
         public VisualPopupAppMenu(KryptonRibbon ribbon,
                                   RibbonAppButton appButton,
-                                  PaletteBase palette,
+                                  PaletteBase? palette,
                                   PaletteMode paletteMode,
                                   PaletteRedirect redirector,
                                   Rectangle rectAppButtonTopHalf,

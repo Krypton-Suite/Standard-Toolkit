@@ -292,7 +292,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the custom palette.
         /// </summary>
-        PaletteBase ProviderPalette { get; }
+        PaletteBase? ProviderPalette { get; }
 
         /// <summary>
         /// Gets access to the palette mode.
