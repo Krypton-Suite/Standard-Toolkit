@@ -118,8 +118,6 @@ namespace Krypton.Toolkit
             ((PaletteBack)StateNormal.PaletteBack).ColorStyle = PaletteColorStyle.OneNote;
             _stateBackValue = new PaletteTriple(StateCommon, OnNeedPaintHandler).Back;
             _stateBackValue.ColorStyle = PaletteColorStyle.SolidAllLine;
-
-            ProgressBarValues = new ProgressBarValues(OnNeedPaintHandler);
         }
 
         /// <inheritdoc />
@@ -501,15 +499,6 @@ namespace Krypton.Toolkit
                 UpdateTextWithValue(value);
             }
         }
-
-        [Category(@"Visuals")]
-        [Description(@"Progress bar values")]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public ProgressBarValues ProgressBarValues { get; }
-
-        private bool ShouldSerializeProgressBarValues() => !ProgressBarValues.IsDefault;
-
-        public void ResetProgressBarValues() => ProgressBarValues.Reset();
 
         #endregion
 
