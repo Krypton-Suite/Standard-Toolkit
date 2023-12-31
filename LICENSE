@@ -1,6 +1,6 @@
 BSD 3-Clause License
 
-Copyright (c) 2017 - 2024, Krypton Suite
+Copyright (c) 2017 - 2023, Krypton Suite
 
 All rights reserved.
 
