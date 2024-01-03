@@ -8,9 +8,9 @@ using Krypton.Toolkit;
 
 namespace TestForm
 {
-    public partial class Form1 : KryptonForm
+    public partial class Main : KryptonForm
     {
-        public Form1()
+        public Main()
         {
             InitializeComponent();
         }
@@ -59,14 +59,14 @@ namespace TestForm
 
         private void kryptonButton1_Click(object sender, EventArgs e)
         {
-            var form2 = new Form2();
+            var form2 = new BreadCrumbTest();
 
             form2.ShowDialog();
         }
 
         private void kryptonButton2_Click(object sender, EventArgs e)
         {
-            var form3 = new Form3();
+            var form3 = new RibbonTest();
 
             form3.ShowDialog();
         }
@@ -103,7 +103,7 @@ namespace TestForm
 
         private void kbtnIntegratedToolbar_Click(object sender, EventArgs e)
         {
-            Form5 integratedToolBar = new Form5();
+            ThemeTest integratedToolBar = new ThemeTest();
 
             integratedToolBar.Show();
         }
@@ -125,14 +125,14 @@ namespace TestForm
 
         private void kbtnVisualStudio2010Theme_Click(object sender, EventArgs e)
         {
-            Form5 vsTheme = new Form5();
+            ThemeTest vsTheme = new ThemeTest();
 
             vsTheme.Show();
         }
 
         private void kryptonButton4_Click(object sender, EventArgs e)
         {
-            new Form4().Show();
+            new GroupBoxTest().Show();
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -329,7 +329,7 @@ namespace TestForm
 
         private void kryptonButton9_Click(object sender, EventArgs e)
         {
-            Form7 commandLinks = new Form7();
+            CommandLinkButtons commandLinks = new CommandLinkButtons();
 
             commandLinks.ShowDialog();
         }
@@ -359,6 +359,13 @@ namespace TestForm
         private void kryptonButton11_Click(object sender, EventArgs e)
         {
             KryptonMessageBox.Show((string)null, @"Test with no Text");
+        }
+
+        private void kryptonButton12_Click(object sender, EventArgs e)
+        {
+            FadeFormTest fadeForm = new FadeFormTest();
+
+            fadeForm.ShowDialog();
         }
     }
 }

@@ -2,9 +2,9 @@
 
 namespace TestForm
 {
-    public partial class Form2 : KryptonForm
+    public partial class BreadCrumbTest : KryptonForm
     {
-        public Form2()
+        public BreadCrumbTest()
         {
             InitializeComponent();
         }

@@ -2,9 +2,9 @@
 
 namespace TestForm
 {
-    public partial class Form7 : KryptonForm
+    public partial class CommandLinkButtons : KryptonForm
     {
-        public Form7()
+        public CommandLinkButtons()
         {
             InitializeComponent();
             //StateCommon.Border.Draw = InheritBool.False;

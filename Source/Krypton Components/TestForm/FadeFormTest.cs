@@ -12,16 +12,11 @@ using Krypton.Toolkit;
 
 namespace TestForm
 {
-    public partial class Form6 : KryptonForm
+    public partial class FadeFormTest : KryptonForm
     {
-        public Form6()
+        public FadeFormTest()
         {
             InitializeComponent();
-        }
-
-        private void Form6_Load(object sender, EventArgs e)
-        {
-
         }
     }
 }

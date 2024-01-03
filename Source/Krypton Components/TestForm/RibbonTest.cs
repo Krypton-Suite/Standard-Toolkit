@@ -12,9 +12,9 @@ using Krypton.Toolkit;
 
 namespace TestForm
 {
-    public partial class Form3 : KryptonForm
+    public partial class RibbonTest : KryptonForm
     {
-        public Form3()
+        public RibbonTest()
         {
             InitializeComponent();
         }
