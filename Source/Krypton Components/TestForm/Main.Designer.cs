@@ -210,9 +210,10 @@
             // kcbtnSizableToolWindow
             // 
             this.kcbtnSizableToolWindow.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.kcbtnSizableToolWindow.AutoSize = true;
             this.kcbtnSizableToolWindow.Location = new System.Drawing.Point(14, 715);
             this.kcbtnSizableToolWindow.Name = "kcbtnSizableToolWindow";
-            this.kcbtnSizableToolWindow.Size = new System.Drawing.Size(141, 25);
+            this.kcbtnSizableToolWindow.Size = new System.Drawing.Size(161, 25);
             this.kcbtnSizableToolWindow.TabIndex = 31;
             this.kcbtnSizableToolWindow.Values.Text = "SizableToolWindow";
             this.kcbtnSizableToolWindow.Click += new System.EventHandler(this.kcbtnSizableToolWindow_Click);
@@ -220,9 +221,10 @@
             // kcbtnFixedToolWindow
             // 
             this.kcbtnFixedToolWindow.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.kcbtnFixedToolWindow.AutoSize = true;
             this.kcbtnFixedToolWindow.Location = new System.Drawing.Point(308, 683);
             this.kcbtnFixedToolWindow.Name = "kcbtnFixedToolWindow";
-            this.kcbtnFixedToolWindow.Size = new System.Drawing.Size(141, 25);
+            this.kcbtnFixedToolWindow.Size = new System.Drawing.Size(143, 25);
             this.kcbtnFixedToolWindow.TabIndex = 30;
             this.kcbtnFixedToolWindow.Values.Text = "FixedToolWindow";
             this.kcbtnFixedToolWindow.Click += new System.EventHandler(this.kcbtnFixedToolWindow_Click);
