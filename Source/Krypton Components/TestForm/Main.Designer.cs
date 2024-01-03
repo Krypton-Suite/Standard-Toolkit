@@ -31,6 +31,7 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
             this.kryptonPanel1 = new Krypton.Toolkit.KryptonPanel();
+            this.kryptonButton12 = new Krypton.Toolkit.KryptonButton();
             this.kryptonCheckBox1 = new Krypton.Toolkit.KryptonCheckBox();
             this.kryptonButton11 = new Krypton.Toolkit.KryptonButton();
             this.kryptonButton10 = new Krypton.Toolkit.KryptonButton();
@@ -83,7 +84,6 @@
             this.kryptonCheckSet1 = new Krypton.Toolkit.KryptonCheckSet(this.components);
             this.kryptonTaskDialog1 = new Krypton.Toolkit.KryptonTaskDialog();
             this.kryptonInputBoxManager1 = new Krypton.Toolkit.KryptonInputBoxManager();
-            this.kryptonButton12 = new Krypton.Toolkit.KryptonButton();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
             this.kryptonPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonThemeComboBox1)).BeginInit();
@@ -131,8 +131,20 @@
             this.kryptonPanel1.Size = new System.Drawing.Size(1112, 752);
             this.kryptonPanel1.TabIndex = 0;
             // 
+            // kryptonButton12
+            // 
+            this.kryptonButton12.Location = new System.Drawing.Point(14, 482);
+            this.kryptonButton12.Margin = new System.Windows.Forms.Padding(2);
+            this.kryptonButton12.Name = "kryptonButton12";
+            this.kryptonButton12.Size = new System.Drawing.Size(182, 24);
+            this.kryptonButton12.TabIndex = 39;
+            this.kryptonButton12.Values.Text = "Fading Test";
+            this.kryptonButton12.Click += new System.EventHandler(this.kryptonButton12_Click);
+            // 
             // kryptonCheckBox1
             // 
+            this.kryptonCheckBox1.Checked = true;
+            this.kryptonCheckBox1.CheckState = System.Windows.Forms.CheckState.Checked;
             this.kryptonCheckBox1.Location = new System.Drawing.Point(456, 227);
             this.kryptonCheckBox1.Name = "kryptonCheckBox1";
             this.kryptonCheckBox1.Size = new System.Drawing.Size(176, 19);
@@ -412,14 +424,14 @@
             // kryptonContextMenu1
             // 
             this.kryptonContextMenu1.Items.AddRange(new Krypton.Toolkit.KryptonContextMenuItemBase[] {
-            ((Krypton.Toolkit.KryptonContextMenuItemBase)(this.kryptonContextMenuItems1))});
+            this.kryptonContextMenuItems1});
             // 
             // kryptonContextMenuItems1
             // 
             this.kryptonContextMenuItems1.Items.AddRange(new Krypton.Toolkit.KryptonContextMenuItemBase[] {
-            ((Krypton.Toolkit.KryptonContextMenuItemBase)(this.kryptonContextMenuItem1)),
-            ((Krypton.Toolkit.KryptonContextMenuItemBase)(this.kryptonContextMenuItem2)),
-            ((Krypton.Toolkit.KryptonContextMenuItemBase)(this.kryptonContextMenuItem3))});
+            this.kryptonContextMenuItem1,
+            this.kryptonContextMenuItem2,
+            this.kryptonContextMenuItem3});
             // 
             // kryptonContextMenuItem1
             // 
@@ -530,16 +542,6 @@
             this.kryptonTaskDialog1.TextExtra = "Ctrl+C to copy";
             this.kryptonTaskDialog1.UseNativeOSIcons = false;
             this.kryptonTaskDialog1.WindowTitle = null;
-            // 
-            // kryptonButton12
-            // 
-            this.kryptonButton12.Location = new System.Drawing.Point(14, 482);
-            this.kryptonButton12.Margin = new System.Windows.Forms.Padding(2);
-            this.kryptonButton12.Name = "kryptonButton12";
-            this.kryptonButton12.Size = new System.Drawing.Size(182, 24);
-            this.kryptonButton12.TabIndex = 39;
-            this.kryptonButton12.Values.Text = "Fading Test";
-            this.kryptonButton12.Click += new System.EventHandler(this.kryptonButton12_Click);
             // 
             // Main
             // 
