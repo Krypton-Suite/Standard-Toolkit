@@ -24,7 +24,7 @@ namespace Krypton.Ribbon
         {
             #region Instance Fields
             private readonly KryptonRibbon _ribbon;
-            private readonly Button _hiddenFocusTarget;
+            private readonly Button? _hiddenFocusTarget;
             #endregion
 
             #region Identity

@@ -112,7 +112,7 @@ namespace Krypton.Toolkit
             ButtonSpecs.Removed += OnButtonSpecRemoved;
 
             // Create the palette storage
-            StateCommon = new PaletteHeaderGroupRedirect(Redirector, NeedPaintDelegate);
+            StateCommon = new PaletteHeaderGroupRedirect(Redirector!, NeedPaintDelegate);
             StateDisabled = new PaletteHeaderGroup(StateCommon, StateCommon.HeaderPrimary, StateCommon.HeaderSecondary, NeedPaintDelegate);
             StateNormal = new PaletteHeaderGroup(StateCommon, StateCommon.HeaderPrimary, StateCommon.HeaderSecondary, NeedPaintDelegate);
 
@@ -170,7 +170,7 @@ namespace Krypton.Toolkit
             ViewManager = new ViewManager(this, _drawDocker);
 
             // Create button specification collection manager
-            _buttonManager = new ButtonSpecManagerDraw(this, Redirector, ButtonSpecs, null,
+            _buttonManager = new ButtonSpecManagerDraw(this, Redirector!, ButtonSpecs, null,
                                                        new[] { _drawHeading1, _drawHeading2 },
                                                        new IPaletteMetric[] { StateCommon.HeaderPrimary, StateCommon.HeaderSecondary },
                                                        new[] { PaletteMetricInt.HeaderButtonEdgeInsetPrimary, PaletteMetricInt.HeaderButtonEdgeInsetSecondary },
@@ -293,7 +293,7 @@ namespace Krypton.Toolkit
             set
             {
                 base.Name = value;
-                Panel.Name = $"{value}.Panel";
+                Panel!.Name = $"{value}.Panel";
             }
         }
 
@@ -431,7 +431,7 @@ namespace Krypton.Toolkit
                     {
                         _collapsed = value;
                         _layoutFill.Visible = !value;
-                        Panel.Visible = !value;
+                        Panel!.Visible = !value;
                         ReapplyVisible();
                         OnCollapsedChanged(EventArgs.Empty);
                         PerformNeedPaint(false);
@@ -501,11 +501,11 @@ namespace Krypton.Toolkit
         [Description(@"Border style.")]
         public PaletteBorderStyle GroupBorderStyle
         {
-            get => StateCommon.BorderStyle;
+            get => StateCommon!.BorderStyle;
 
             set
             {
-                if (StateCommon.BorderStyle != value)
+                if (StateCommon!.BorderStyle != value)
                 {
                     StateCommon.BorderStyle = value;
                     PerformNeedPaint(true);
@@ -524,14 +524,14 @@ namespace Krypton.Toolkit
         [Description(@"Background style.")]
         public PaletteBackStyle GroupBackStyle
         {
-            get => StateCommon.BackStyle;
+            get => StateCommon!.BackStyle;
 
             set
             {
-                if (StateCommon.BackStyle != value)
+                if (StateCommon!.BackStyle != value)
                 {
                     StateCommon.BackStyle = value;
-                    Panel.PanelBackStyle = value;
+                    Panel!.PanelBackStyle = value;
                     PerformNeedPaint(true);
                 }
             }
@@ -555,7 +555,7 @@ namespace Krypton.Toolkit
                 if (_style1 != value)
                 {
                     _style1 = value;
-                    SetHeaderStyle(_drawHeading1, StateCommon.HeaderPrimary, _style1);
+                    SetHeaderStyle(_drawHeading1, StateCommon!.HeaderPrimary, _style1);
                     PerformNeedPaint(true);
                 }
             }
@@ -579,7 +579,7 @@ namespace Krypton.Toolkit
                 if (_style2 != value)
                 {
                     _style2 = value;
-                    SetHeaderStyle(_drawHeading2, StateCommon.HeaderSecondary, _style2);
+                    SetHeaderStyle(_drawHeading2, StateCommon!.HeaderSecondary, _style2);
                     PerformNeedPaint(true);
                 }
             }
@@ -683,7 +683,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteHeaderGroupRedirect? StateCommon { get; }
 
-        private bool ShouldSerializeStateCommon() => !StateCommon.IsDefault;
+        private bool ShouldSerializeStateCommon() => !StateCommon!.IsDefault;
 
         /// <summary>
         /// Gets access to the disabled header group appearance entries.
@@ -780,7 +780,7 @@ namespace Krypton.Toolkit
                 ForceViewLayout();
 
                 // The inside panel is the client rectangle size
-                return new Rectangle(Panel.Location, Panel.Size);
+                return new Rectangle(Panel!.Location, Panel.Size);
             }
         }
 
@@ -792,7 +792,7 @@ namespace Krypton.Toolkit
         {
             // Request fixed state from the view
             _drawDocker.FixedState = state;
-            Panel.SetFixedState(state);
+            Panel?.SetFixedState(state);
         }
 
         /// <summary>
@@ -1042,13 +1042,13 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">Source of notification.</param>
         /// <param name="e">An NeedLayoutEventArgs containing event data.</param>
-        protected override void OnNeedPaint(object sender, NeedLayoutEventArgs e)
+        protected override void OnNeedPaint(object? sender, NeedLayoutEventArgs e)
         {
             if (IsInitialized || !e.NeedLayout)
             {
                 // As the contained group panel is using our palette storage
                 // we also need to pass on any paint request to it as well
-                Panel.PerformNeedPaint(e.NeedLayout);
+                Panel?.PerformNeedPaint(e.NeedLayout);
             }
             else
             {
@@ -1079,7 +1079,7 @@ namespace Krypton.Toolkit
 
                     // Just in case the WM_WINDOWPOSCHANGED does not occur we can 
                     // ensure the obscurer is removed using this async delegate call
-                    BeginInvoke(_removeObscurer);
+                    BeginInvoke(_removeObscurer!);
                     break;
                 }
                 case PI.WM_.WINDOWPOSCHANGED:
@@ -1140,7 +1140,7 @@ namespace Krypton.Toolkit
                         if (AllowButtonSpecToolTips)
                         {
                             // Create a helper object to provide tooltip values
-                            var buttonSpecMapping = new ButtonSpecToContent(Redirector, buttonSpec);
+                            var buttonSpecMapping = new ButtonSpecToContent(Redirector!, buttonSpec);
 
                             // Is there actually anything to show for the tooltip
                             if (buttonSpecMapping.HasContent)
@@ -1163,7 +1163,7 @@ namespace Krypton.Toolkit
                         }
 
                         // Create the actual tooltip popup object
-                        _visualPopupToolTip = new VisualPopupToolTip(Redirector,
+                        _visualPopupToolTip = new VisualPopupToolTip(Redirector!,
                                                                      sourceContent,
                                                                      Renderer,
                                                                      PaletteBackStyle.ControlToolTip,
@@ -1367,21 +1367,21 @@ namespace Krypton.Toolkit
         {
             _cornerRoundingRadius = radius ?? GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
 
-            StateCommon.Border.Rounding = _cornerRoundingRadius;
+            StateCommon!.Border.Rounding = _cornerRoundingRadius;
         }
 
         private void SetHeaderPrimaryCornerRoundingRadius(float? radius)
         {
             _headerPrimaryCornerRoundingRadius = radius ?? GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
 
-            StateCommon.Border.Rounding = _headerPrimaryCornerRoundingRadius;
+            StateCommon!.Border.Rounding = _headerPrimaryCornerRoundingRadius;
         }
 
         private void SetHeaderSecondaryCornerRoundingRadius(float? radius)
         {
             _headerSecondaryCornerRoundingRadius = radius ?? GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
 
-            StateCommon.Border.Rounding = _headerSecondaryCornerRoundingRadius;
+            StateCommon!.Border.Rounding = _headerSecondaryCornerRoundingRadius;
         }
 
         #endregion

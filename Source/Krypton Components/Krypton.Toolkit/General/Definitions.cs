@@ -292,7 +292,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the custom palette.
         /// </summary>
-        PaletteBase ProviderPalette { get; }
+        PaletteBase? ProviderPalette { get; }
 
         /// <summary>
         /// Gets access to the palette mode.
@@ -406,7 +406,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the contained input control.
         /// </summary>
-        Control ContainedControl { get; }
+        Control? ContainedControl { get; }
     }
     #endregion
 
@@ -2247,6 +2247,27 @@ namespace Krypton.Toolkit
         /// Define your own fading speed.
         /// </summary>
         Custom = 7
+    }
+
+    #endregion
+
+    #region Enum KryptonMessageBoxResult
+
+    /// <summary>
+    /// Options for <see cref="KryptonMessageBox"/>.
+    /// </summary>
+    public enum KryptonMessageBoxResult : int
+    {
+        None = DialogResult.None,
+        Ok = DialogResult.OK,
+        Cancel = DialogResult.Cancel,
+        Abort = DialogResult.Abort,
+        Retry = DialogResult.Retry,
+        Ignore = DialogResult.Ignore,
+        Yes = DialogResult.Yes,
+        No = DialogResult.No,
+        Checked = 0x000003EE, // 1006
+        Indeterminate = 0x000003EF // 1007
     }
 
     #endregion

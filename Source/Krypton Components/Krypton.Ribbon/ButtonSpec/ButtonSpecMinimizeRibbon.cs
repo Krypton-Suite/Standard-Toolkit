@@ -88,7 +88,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="palette">Palette to use for inheriting values.</param>
         /// <returns>Button style.</returns>
-        public override ButtonStyle GetStyle(PaletteBase palette) => ButtonStyle.ButtonSpec;
+        public override ButtonStyle GetStyle(PaletteBase? palette) => ButtonStyle.ButtonSpec;
 
         #endregion    
 

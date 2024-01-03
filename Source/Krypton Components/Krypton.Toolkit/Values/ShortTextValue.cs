@@ -18,7 +18,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the short text value to use.
         /// </summary>
-        public string ShortText { get; set; }
+        public string? ShortText { get; set; }
 
         #endregion
 
@@ -27,7 +27,7 @@ namespace Krypton.Toolkit
         /// Gets the content short text.
         /// </summary>
         /// <returns>String value.</returns>
-        public override string GetShortText() => ShortText;
+        public override string GetShortText() => ShortText!;
 
         #endregion
     }

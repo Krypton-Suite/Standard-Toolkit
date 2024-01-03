@@ -60,9 +60,9 @@ namespace Krypton.Toolkit
         /// <param name="calendar">Reference to calendar provider.</param>
         /// <param name="redirector">Redirector for getting values.</param>
         /// <param name="needPaintDelegate">Delegate for requesting paint changes.</param>
-        public ViewLayoutMonths(IContextMenuProvider provider,
-                                KryptonContextMenuMonthCalendar monthCalendar,
-                                ViewContextMenuManager viewManager,
+        public ViewLayoutMonths(IContextMenuProvider? provider,
+                                KryptonContextMenuMonthCalendar? monthCalendar,
+                                ViewContextMenuManager? viewManager,
                                 IKryptonMonthCalendar calendar,
                                 PaletteRedirect redirector,
                                 NeedPaintHandler needPaintDelegate)

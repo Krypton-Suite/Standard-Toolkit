@@ -81,7 +81,7 @@ namespace Krypton.Toolkit
                 {
                     try
                     {
-                        ViewControl vc = ChildControl;
+                        ViewControl? vc = ChildControl;
                         ChildControl = null;
                         CommonHelper.RemoveControlFromParent(vc);
                     }
@@ -192,7 +192,7 @@ namespace Krypton.Toolkit
         /// Reparent the provided control as a child of ourself.
         /// </summary>
         /// <param name="c">Control to reparent.</param>
-        public void MakeParent(Control c)
+        public void MakeParent(Control? c)
         {
             // Remove control from current collection
             CommonHelper.RemoveControlFromParent(c);

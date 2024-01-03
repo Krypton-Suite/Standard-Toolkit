@@ -125,7 +125,7 @@ namespace Krypton.Toolkit
             _progressTimer.Tick += ProgressTimerTick;
 
             // no image margin in context menu
-            _contextMenu.ShowImageMargin = false;
+            _contextMenu!.ShowImageMargin = false;
             ContextMenuStrip = _contextMenu;
 
             _maximum = 100;
@@ -461,7 +461,7 @@ namespace Krypton.Toolkit
         /// <param name="e">The <see cref="ScrollEventArgs"/> that contains the event data.</param>
         protected virtual void OnScroll(ScrollEventArgs e) =>
             // if event handler is attached - raise scroll event
-            Scroll.Invoke(this, e);
+            Scroll?.Invoke(this, e);
 
         /// <summary>
         /// Paints the background of the control.

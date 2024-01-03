@@ -205,7 +205,7 @@ namespace Krypton.Toolkit
         private void OnCalendarDoubleClick(object sender, Point pt)
         {
             // Get any component associated with the current mouse position
-            Component component = _monthCalendar.DesignerComponentFromPoint(pt);
+            Component? component = _monthCalendar.DesignerComponentFromPoint(pt);
 
             if (component != null)
             {

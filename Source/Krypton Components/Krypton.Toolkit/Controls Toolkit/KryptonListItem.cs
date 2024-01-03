@@ -22,8 +22,8 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
         private string _shortText;
-        private string _longText;
-        private Image _image;
+        private string? _longText;
+        private Image? _image;
         private Color _imageTransparentColor;
 
         #endregion
@@ -73,7 +73,7 @@ namespace Krypton.Toolkit
         /// <param name="image">Initial image value.</param>
         public KryptonListItem(string shortText,
                                string longText,
-                               Image image)
+                               Image? image)
             : this(shortText, longText, image, Color.Empty)
         {
         }
@@ -86,8 +86,8 @@ namespace Krypton.Toolkit
         /// <param name="image">Initial image value.</param>
         /// <param name="imageTransparentColor">Initial transparent image color.</param>
         public KryptonListItem(string shortText,
-                               string longText,
-                               Image image,
+                               string? longText,
+                               Image? image,
                                Color imageTransparentColor)
         {
             _shortText = shortText;
@@ -138,7 +138,7 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         public string LongText
         {
-            get => _longText;
+            get => _longText!;
 
             set 
             {
@@ -241,7 +241,7 @@ namespace Krypton.Toolkit
         /// Gets the content long text.
         /// </summary>
         /// <returns>String value.</returns>
-        public string GetLongText() => _longText;
+        public string GetLongText() => _longText!;
 
         #endregion
 

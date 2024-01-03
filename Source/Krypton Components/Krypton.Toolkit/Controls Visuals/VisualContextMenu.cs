@@ -70,7 +70,7 @@ namespace Krypton.Toolkit
         /// <param name="enabled">Enabled state of the context menu.</param>
         /// <param name="keyboardActivated">Was the context menu activate by a keyboard action.</param>
         public VisualContextMenu(KryptonContextMenu contextMenu,
-                                 PaletteBase palette,
+                                 PaletteBase? palette,
                                  PaletteMode paletteMode,
                                  PaletteRedirect redirector,
                                  PaletteRedirectContextMenu redirectorImages,

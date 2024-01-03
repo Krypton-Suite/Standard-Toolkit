@@ -195,10 +195,10 @@ namespace Krypton.Toolkit
             // - Enable Add custom colour
             if (originalControl.DlgCtrlId == 0x000002CF)
             {
-                originalControl.Button.Enabled = false;
+                originalControl.Button!.Enabled = false;
                 foreach (CommonDialogHandler.Attributes control in _commonDialogHandler.Controls.Where(static control => control.DlgCtrlId == 0x000002C8))
                 {
-                    control.Button.Enabled = true;
+                    control.Button!.Enabled = true;
                     break;
                 }
             }
@@ -218,24 +218,24 @@ namespace Krypton.Toolkit
                 if (!FullOpen)
                 {
                     // Find the Static colour set 000002D0
-                    var _clrColourBox = _commonDialogHandler.Controls.FirstOrDefault(ctl => ctl.DlgCtrlId == 0x000002D0);
-                    if (_clrColourBox != null)
+                    var clrColourBox = _commonDialogHandler.Controls.FirstOrDefault(ctl => ctl.DlgCtrlId == 0x000002D0);
+                    if (clrColourBox != null)
                     {
-                        var rcClient = _clrColourBox.WinInfo.rcClient;
+                        var rcClient = clrColourBox.WinInfo.rcClient;
                         var lpPoint = new PI.POINT(rcClient.left, rcClient.top);
                         PI.ScreenToClient(hWnd, ref lpPoint);
-                        _clrColourBox.ClientLocation = new Point(lpPoint.X, lpPoint.Y);
-                        _clrColourBox.Size = new Size(rcClient.right - rcClient.left, rcClient.bottom - rcClient.top);
+                        clrColourBox.ClientLocation = new Point(lpPoint.X, lpPoint.Y);
+                        clrColourBox.Size = new Size(rcClient.right - rcClient.left, rcClient.bottom - rcClient.top);
                     }
                     // Find the bottom of the OK button (Might not have OK text !!) 00000001
                     var btnOk = _commonDialogHandler.Controls.First(static ctl => ctl.DlgCtrlId == 0x00000001);
 
                     // Now adjust the size so that it the correct display on "All" supported OS's
                     // https://github.com/Krypton-Suite/Standard-Toolkit/issues/415
-                    Size toolBoxSize = _commonDialogHandler._wrapperForm.ClientSize;
-                    if (_clrColourBox != null)
+                    Size toolBoxSize = _commonDialogHandler._wrapperForm!.ClientSize;
+                    if (clrColourBox != null)
                     {
-                        toolBoxSize.Width = _clrColourBox.Size.Width + 2 * _clrColourBox.ClientLocation.X;
+                        toolBoxSize.Width = clrColourBox.Size.Width + 2 * clrColourBox.ClientLocation.X;
                     }
 
                     if (btnOk != null)
@@ -250,17 +250,17 @@ namespace Krypton.Toolkit
                     if (_showAlphaSlider)
                     {
                         // Find the Static colour set 000002C5
-                        var _clrSolidColourBox = _commonDialogHandler.Controls.FirstOrDefault(ctl => ctl.DlgCtrlId == 0x000002C5);
-                        if (_clrSolidColourBox != null)
+                        var clrSolidColourBox = _commonDialogHandler.Controls.FirstOrDefault(ctl => ctl.DlgCtrlId == 0x000002C5);
+                        if (clrSolidColourBox != null)
                         {
-                            var rcClient = _clrSolidColourBox.WinInfo.rcClient;
+                            var rcClient = clrSolidColourBox.WinInfo.rcClient;
                             var lpPoint = new PI.POINT(rcClient.left, rcClient.top);
                             PI.ScreenToClient(hWnd, ref lpPoint);
                             _alphaPanel.Location = new Point(lpPoint.X, lpPoint.Y);
                             _alphaPanel.Size = new Size((rcClient.right - rcClient.left) / 2, rcClient.bottom - rcClient.top);
                         }
 
-                        _commonDialogHandler._wrapperForm.Controls[0].Controls.Add(_alphaPanel);
+                        _commonDialogHandler._wrapperForm!.Controls[0].Controls.Add(_alphaPanel);
                         // find the colour edit box's
                         _redEdit = _commonDialogHandler.Controls.First(ctl => ctl.DlgCtrlId == 0x000002C2);
                         _greenEdit = _commonDialogHandler.Controls.First(ctl => ctl.DlgCtrlId == 0x000002C3);
@@ -272,7 +272,7 @@ namespace Krypton.Toolkit
                         _commonDialogHandler._wrapperForm.Controls[0].Controls.Add(_alphaSlider);
                         // Find the Add button 
                         var btnAdd = _commonDialogHandler.Controls.First(static ctl => ctl.DlgCtrlId == 0x00002C8);
-                        btnAdd.Button.Parent.Width -= 16;
+                        btnAdd.Button!.Parent!.Width -= 16;
 
                         _alphaLabel.Location = Point.Add(_blueEdit.ClientLocation, new Size(_blueEdit.Size.Width + 2, _blueEdit.Size.Height));
                         _commonDialogHandler._wrapperForm.Controls[0].Controls.Add(_alphaLabel);
@@ -293,7 +293,7 @@ namespace Krypton.Toolkit
                 {
                     var newSize = new Size(pos.cx, pos.cy);
                     if (!FullOpen
-                        && newSize.Width > _commonDialogHandler._wrapperForm.Size.Width
+                        && newSize.Width > _commonDialogHandler._wrapperForm!.Size.Width
                        )
                     {
                         // Need to fiddle the width and height to workaround the Magic hidden "&d" button

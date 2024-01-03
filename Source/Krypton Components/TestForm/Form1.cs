@@ -71,9 +71,23 @@ namespace TestForm
             form3.ShowDialog();
         }
 
-        private void kbtnTestMessagebox_Click(object sender, EventArgs e) => KryptonMessageBox.Show(@"This is a test!", @"Testing", KryptonMessageBoxButtons.OK,
+        private void kbtnTestMessagebox_Click(object sender, EventArgs e)
+        {
+            KryptonMessageBoxData data = new KryptonMessageBoxData()
+            {
+                MessageText = @"This is a test!",
+                Caption = @"Hello World",
+                Buttons = KryptonMessageBoxButtons.OK,
+                Icon = KryptonMessageBoxIcon.Information,
+                MessageContentAreaType = MessageBoxContentAreaType.LinkLabel,
+                ActionButtonCommand = kcmdMessageboxTest,
+                ShowCloseButton = kryptonCheckBox1.Checked
+            };
+
+            KryptonMessageBox.Show(@"This is a test!", @"Testing", KryptonMessageBoxButtons.OK,
                 KryptonMessageBoxIcon.Information, contentAreaType: MessageBoxContentAreaType.LinkLabel,
-                linkAreaCommand: kcmdMessageboxTest);
+                linkAreaCommand: kcmdMessageboxTest, showCloseButton: kryptonCheckBox1.Checked);
+        }
 
         private void kcmdMessageboxTest_Execute(object sender, EventArgs e)
         {

@@ -82,7 +82,7 @@ namespace Krypton.Toolkit
             protected override void OnInserting(TypedCollectionEventArgs<KryptonBreadCrumbItem> e)
             {
                 // Setup parent relationship
-                e.Item.Parent = _owner;
+                e.Item!.Parent = _owner;
 
                 base.OnInserting(e);
             }
@@ -96,7 +96,7 @@ namespace Krypton.Toolkit
                 base.OnInserted(e);
 
                 // Notify a change in the owners items property
-                _owner.OnPropertyChanged(new PropertyChangedEventArgs(nameof(Items)));
+                _owner?.OnPropertyChanged(new PropertyChangedEventArgs(nameof(Items)));
             }
 
             /// <summary>
@@ -108,10 +108,10 @@ namespace Krypton.Toolkit
                 base.OnRemoved(e);
 
                 // Clear down parent relationship
-                e.Item.Parent = null;
+                e.Item!.Parent = null;
 
                 // Notify a change in the owners items property
-                _owner.OnPropertyChanged(new PropertyChangedEventArgs(nameof(Items)));
+                _owner?.OnPropertyChanged(new PropertyChangedEventArgs(nameof(Items)));
             }
 
             /// <summary>
@@ -138,7 +138,7 @@ namespace Krypton.Toolkit
                 base.OnCleared(e);
 
                 // Notify a change in the owners items property
-                _owner.OnPropertyChanged(new PropertyChangedEventArgs(nameof(Items)));
+                _owner?.OnPropertyChanged(new PropertyChangedEventArgs(nameof(Items)));
             }
             #endregion
         }
@@ -180,7 +180,7 @@ namespace Krypton.Toolkit
         /// <param name="image">Initial image value.</param>
         public KryptonBreadCrumbItem(string shortText,
                                      string longText,
-                                     Image image)
+                                     Image? image)
             : this(shortText, longText, image, Color.Empty)
         {
         }
@@ -193,8 +193,8 @@ namespace Krypton.Toolkit
         /// <param name="image">Initial image value.</param>
         /// <param name="imageTransparentColor">Initial transparent image color.</param>
         public KryptonBreadCrumbItem(string shortText,
-                                     string longText,
-                                     Image image,
+                                     string? longText,
+                                     Image? image,
                                      Color imageTransparentColor)
             : base(shortText, longText, image, imageTransparentColor) =>
             // Create child collection

@@ -88,7 +88,7 @@ namespace Krypton.Toolkit
         public ContextMenuProvider(KryptonContextMenu contextMenu,
                                    ViewContextMenuManager viewManager,
                                    ViewLayoutStack viewColumns,
-                                   PaletteBase palette,
+                                   PaletteBase? palette,
                                    PaletteMode paletteMode,
                                    PaletteRedirect redirector,
                                    PaletteRedirectContextMenu redirectorImages,
@@ -132,7 +132,7 @@ namespace Krypton.Toolkit
         /// <param name="enabled">Enabled state of the context menu.</param>
         public ContextMenuProvider(ViewContextMenuManager viewManager,
                                    ViewLayoutStack viewColumns,
-                                   PaletteBase palette,
+                                   PaletteBase? palette,
                                    PaletteMode paletteMode,
                                    PaletteContextMenuRedirect stateCommon,
                                    PaletteContextMenuItemState stateDisabled,
@@ -305,7 +305,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the custom palette.
         /// </summary>
-        public PaletteBase ProviderPalette { get; }
+        public PaletteBase? ProviderPalette { get; }
 
         /// <summary>
         /// Gets access to the palette mode.

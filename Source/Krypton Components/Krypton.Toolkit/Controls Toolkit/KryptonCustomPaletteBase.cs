@@ -44,7 +44,7 @@ namespace Krypton.Toolkit
         #region Instance Fields
 
         private int _suspendCount;
-        private IRenderer _baseRenderer;
+        private IRenderer? _baseRenderer;
         private RendererMode _baseRenderMode;
         private PaletteBase _basePalette;
         //private PaletteMode _basePaletteMode;
@@ -609,7 +609,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image instance.</returns>
         public override Image? GetBackImage(PaletteBackStyle style, PaletteState state)
-        => GetPaletteBack(style, state).GetBackImage(state);
+        => GetPaletteBack(style, state)?.GetBackImage(state);
 
         /// <summary>
         /// Gets the background image style.
@@ -618,7 +618,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image style value.</returns>
         public override PaletteImageStyle GetBackImageStyle(PaletteBackStyle style, PaletteState state)
-        => GetPaletteBack(style, state).GetBackImageStyle(state);
+        => GetPaletteBack(style, state)!.GetBackImageStyle(state);
 
         /// <summary>
         /// Gets the image alignment.
@@ -728,7 +728,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image instance.</returns>
         public override Image? GetBorderImage(PaletteBorderStyle style, PaletteState state)
-        => GetPaletteBorder(style, state).GetBorderImage(state);
+        => GetPaletteBorder(style, state)?.GetBorderImage(state);
 
         /// <summary>
         /// Gets the border image style.
@@ -737,7 +737,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image style value.</returns>
         public override PaletteImageStyle GetBorderImageStyle(PaletteBorderStyle style, PaletteState state)
-        => GetPaletteBorder(style, state).GetBorderImageStyle(state);
+        => GetPaletteBorder(style, state)!.GetBorderImageStyle(state);
 
         /// <summary>
         /// Gets the image border alignment.
@@ -746,7 +746,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image alignment style.</returns>
         public override PaletteRectangleAlign GetBorderImageAlign(PaletteBorderStyle style, PaletteState state)
-        => GetPaletteBorder(style, state).GetBorderImageAlign(state);
+        => GetPaletteBorder(style, state)!.GetBorderImageAlign(state);
         #endregion
 
         #region PaletteBase Content
@@ -3468,10 +3468,10 @@ namespace Krypton.Toolkit
                             var name = imageElement.GetAttribute(@"Name");
 
                             // Grab the CDATA section that contains the base64 value
-                            var cdata = (XmlCDataSection)imageElement.ChildNodes[0];
+                            var cdata = imageElement.ChildNodes[0] as XmlCDataSection;
 
                             // Convert to back from a string to bytes
-                            var bytes = Convert.FromBase64String(cdata.Value);
+                            var bytes = Convert.FromBase64String(cdata!.Value);
 
                             // Convert the bytes back into an Image
                             using var memory = new MemoryStream(bytes);

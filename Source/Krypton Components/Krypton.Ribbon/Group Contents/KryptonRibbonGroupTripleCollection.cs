@@ -51,7 +51,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="value">Object reference.</param>
         /// <returns>The position into which the new item was inserted.</returns>
-        public override int Add(object value)
+        public override int Add(object? value)
         {
             // Restrict contents to three items max
             if (Count == 3)
@@ -67,7 +67,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="index">Insert index.</param>
         /// <param name="value">Object reference.</param>
-        public override void Insert(int index, object value)
+        public override void Insert(int index, object? value)
         {
             // Restrict contents to three items max
             if (Count == 3)
@@ -85,7 +85,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="index">Insert index.</param>
         /// <param name="item">Item reference.</param>
-        public override void Insert(int index, KryptonRibbonGroupItem item)
+        public override void Insert(int index, KryptonRibbonGroupItem? item)
         {
             // Restrict contents to three items max
             if (Count == 3)
@@ -102,7 +102,7 @@ namespace Krypton.Ribbon
         /// Append an item to the collection.
         /// </summary>
         /// <param name="item">Item reference.</param>
-        public override void Add(KryptonRibbonGroupItem item)
+        public override void Add(KryptonRibbonGroupItem? item)
         {
             // Restrict contents to three items max
             if (Count == 3)

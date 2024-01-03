@@ -707,7 +707,7 @@ namespace Krypton.Ribbon
         /// </summary>
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public string RedoActionName => RichTextBox.RedoActionName;
+        public string? RedoActionName => RichTextBox.RedoActionName;
 
         /// <summary>
         /// Gets and sets the name of the action to be undone.

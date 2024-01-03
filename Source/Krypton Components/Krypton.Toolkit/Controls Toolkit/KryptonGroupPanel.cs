@@ -110,7 +110,7 @@ namespace Krypton.Toolkit
             ViewDrawPanel.SetPalettes(Enabled ? _forcedNormal : _forcedDisabled);
 
             // Make sure the alignment of the group panel is as that of the parent
-            ViewManager.AlignControl = alignControl;
+            ViewManager!.AlignControl = alignControl;
         }
         #endregion
 
@@ -315,7 +315,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public new PaletteBase Palette
+        public new PaletteBase? Palette
         {
             get => base.Palette;
             set => base.Palette = value;

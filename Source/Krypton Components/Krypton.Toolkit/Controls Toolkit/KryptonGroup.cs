@@ -44,7 +44,7 @@ namespace Krypton.Toolkit
             SetStyle(ControlStyles.SupportsTransparentBackColor | ControlStyles.OptimizedDoubleBuffer, true);
 
             // Create the palette storage
-            StateCommon = new PaletteDoubleRedirect(Redirector, PaletteBackStyle.ControlClient, PaletteBorderStyle.ControlClient, NeedPaintDelegate);
+            StateCommon = new PaletteDoubleRedirect(Redirector!, PaletteBackStyle.ControlClient, PaletteBorderStyle.ControlClient, NeedPaintDelegate);
             StateDisabled = new PaletteDouble(StateCommon, NeedPaintDelegate);
             StateNormal = new PaletteDouble(StateCommon, NeedPaintDelegate);
 
@@ -104,7 +104,7 @@ namespace Krypton.Toolkit
             set
             {
                 base.Name = value;
-                Panel.Name = $"{value}.Panel";
+                Panel!.Name = $"{value}.Panel";
             }
         }
 
@@ -171,7 +171,7 @@ namespace Krypton.Toolkit
         [Category(@"Appearance")]
         [Description(@"The internal panel that contains group content.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public KryptonGroupPanel Panel { get; }
+        public KryptonGroupPanel? Panel { get; }
 
         /// <summary>
         /// Gets and sets the border style.
@@ -180,11 +180,11 @@ namespace Krypton.Toolkit
         [Description(@"Border style.")]
         public PaletteBorderStyle GroupBorderStyle
         {
-            get => StateCommon.BorderStyle;
+            get => StateCommon!.BorderStyle;
 
             set
             {
-                if (StateCommon.BorderStyle != value)
+                if (StateCommon!.BorderStyle != value)
                 {
                     StateCommon.BorderStyle = value;
                     PerformNeedPaint(true);
@@ -203,14 +203,14 @@ namespace Krypton.Toolkit
         [Description(@"Background style.")]
         public PaletteBackStyle GroupBackStyle
         {
-            get => StateCommon.BackStyle;
+            get => StateCommon!.BackStyle;
 
             set
             {
-                if (StateCommon.BackStyle != value)
+                if (StateCommon!.BackStyle != value)
                 {
                     StateCommon.BackStyle = value;
-                    Panel.PanelBackStyle = value;
+                    Panel!.PanelBackStyle = value;
                     PerformNeedPaint(true);
                 }
             }
@@ -228,7 +228,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteDoubleRedirect? StateCommon { get; }
 
-        private bool ShouldSerializeStateCommon() => !StateCommon.IsDefault;
+        private bool ShouldSerializeStateCommon() => !StateCommon!.IsDefault;
 
         /// <summary>
         /// Gets access to the disabled group appearance entries.
@@ -238,7 +238,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteDouble? StateDisabled { get; }
 
-        private bool ShouldSerializeStateDisabled() => !StateDisabled.IsDefault;
+        private bool ShouldSerializeStateDisabled() => !StateDisabled!.IsDefault;
 
         /// <summary>
         /// Gets access to the normal group appearance entries.
@@ -248,7 +248,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteDouble? StateNormal { get; }
 
-        private bool ShouldSerializeStateNormal() => !StateNormal.IsDefault;
+        private bool ShouldSerializeStateNormal() => !StateNormal!.IsDefault;
 
         /// <summary>
         /// Get the preferred size of the control based on a proposed size.
@@ -305,7 +305,7 @@ namespace Krypton.Toolkit
                 ForceViewLayout();
 
                 // The inside panel is the client rectangle size
-                return new Rectangle(Panel.Location, Panel.Size);
+                return new Rectangle(Panel!.Location, Panel.Size);
             }
         }
 
@@ -317,7 +317,7 @@ namespace Krypton.Toolkit
         {
             // Request fixed state from the view
             _drawDocker.FixedState = state;
-            Panel.SetFixedState(state);
+            Panel?.SetFixedState(state);
         }
         #endregion
 
@@ -384,11 +384,11 @@ namespace Krypton.Toolkit
             // Push correct palettes into the view
             if (Enabled)
             {
-                _drawDocker.SetPalettes(StateNormal.Back, StateNormal.Border);
+                _drawDocker.SetPalettes(StateNormal!.Back, StateNormal.Border);
             }
             else
             {
-                _drawDocker.SetPalettes(StateDisabled.Back, StateDisabled.Border);
+                _drawDocker.SetPalettes(StateDisabled!.Back, StateDisabled.Border);
             }
 
             _drawDocker.Enabled = Enabled;
@@ -430,7 +430,7 @@ namespace Krypton.Toolkit
             if (IsInitialized || _forcedLayout || (DesignMode && (Panel != null)))
             {
                 Rectangle fillRect = _layoutFill.FillRect;
-                Panel.SetBounds(fillRect.X, fillRect.Y, fillRect.Width, fillRect.Height);
+                Panel?.SetBounds(fillRect.X, fillRect.Y, fillRect.Width, fillRect.Height);
             }
 
             _layingOut = false;
@@ -441,13 +441,13 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">Source of notification.</param>
         /// <param name="e">An NeedLayoutEventArgs containing event data.</param>
-        protected override void OnNeedPaint(object sender, NeedLayoutEventArgs e)
+        protected override void OnNeedPaint(object? sender, NeedLayoutEventArgs e)
         {
             if (IsInitialized || !e.NeedLayout)
             {
                 // As the contained group panel is using our palette storage
                 // we also need to pass on any paint request to it as well
-                Panel.PerformNeedPaint(e.NeedLayout);
+                Panel?.PerformNeedPaint(e.NeedLayout);
             }
             else
             {
@@ -474,7 +474,7 @@ namespace Krypton.Toolkit
         {
             _cornerRoundingRadius = radius ?? GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
 
-            StateCommon.Border.Rounding = _cornerRoundingRadius;
+            StateCommon!.Border.Rounding = _cornerRoundingRadius;
         }
 
         #endregion
