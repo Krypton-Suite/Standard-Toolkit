@@ -36,7 +36,7 @@ namespace Krypton.Ribbon
         private readonly KryptonRibbon _ribbon;
         private readonly ViewDrawRibbonTabList _tabCache;
         private readonly ViewDrawRibbonTabSepList _tabSepCache;
-        private ViewDrawRibbonDesignTab? _viewAddTab;
+        private ViewDrawRibbonDesignTab _viewAddTab;
         private NeedPaintHandler _needPaint;
         private ContextNameList _cachedSelectedContext;
         private Size[] _cachedSizes;
@@ -128,7 +128,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets access to the tabs spare area.
         /// </summary>
-        public ViewLayoutRibbonTabsSpare? GetViewForSpare { get; private set; }
+        public ViewLayoutRibbonTabsSpare GetViewForSpare { get; private set; }
 
         #endregion
 
@@ -138,7 +138,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="ribbonTab">Tab for which view element is needed.</param>
         /// <returns>View element for tab; otherwise null.</returns>
-        public ViewDrawRibbonTab? GetViewForRibbonTab(KryptonRibbonTab? ribbonTab) => ribbonTab == null
+        public ViewDrawRibbonTab GetViewForRibbonTab(KryptonRibbonTab? ribbonTab) => ribbonTab == null
                 ? null
                 : _tabCache.FirstOrDefault(viewTab => viewTab.RibbonTab == ribbonTab);
 
@@ -146,7 +146,7 @@ namespace Krypton.Ribbon
         /// Gets the view element for drawing the first visible ribbon tab.
         /// </summary>
         /// <returns>View element for a tab; otherwise null.</returns>
-        public ViewDrawRibbonTab? GetViewForFirstRibbonTab()
+        public ViewDrawRibbonTab GetViewForFirstRibbonTab()
         {
             foreach (ViewBase child in this)
             {
@@ -164,7 +164,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="ribbonTab">Current ribbon tab to use when searching.</param>
         /// <returns>View element for a tab; otherwise null.</returns>
-        public ViewDrawRibbonTab? GetViewForNextRibbonTab(KryptonRibbonTab ribbonTab)
+        public ViewDrawRibbonTab GetViewForNextRibbonTab(KryptonRibbonTab ribbonTab)
         {
             var found = false;
             foreach (ViewBase child in this)
@@ -194,7 +194,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="ribbonTab">Current ribbon tab to use when searching.</param>
         /// <returns>View element for a tab; otherwise null.</returns>
-        public ViewDrawRibbonTab? GetViewForPreviousRibbonTab(KryptonRibbonTab ribbonTab)
+        public ViewDrawRibbonTab GetViewForPreviousRibbonTab(KryptonRibbonTab ribbonTab)
         {
             var found = false;
             foreach (ViewBase child in Reverse())
@@ -223,7 +223,7 @@ namespace Krypton.Ribbon
         /// Gets the view element for drawing the last visible ribbon tab.
         /// </summary>
         /// <returns>View element for a tab; otherwise null.</returns>
-        public ViewDrawRibbonTab? GetViewForLastRibbonTab()
+        public ViewDrawRibbonTab GetViewForLastRibbonTab()
         {
             foreach (ViewBase child in Reverse())
             {

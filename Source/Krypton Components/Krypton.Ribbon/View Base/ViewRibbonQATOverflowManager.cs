@@ -18,7 +18,7 @@ namespace Krypton.Ribbon
     {
         #region Instance Fields
         private readonly KryptonRibbon _ribbon;
-        private ViewBase? _focusView;
+        private ViewBase _focusView;
         private bool _layingOut;
         #endregion
 
@@ -138,7 +138,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets the view that has the focus.
         /// </summary>
-        public ViewBase? FocusView
+        public ViewBase FocusView
         {
             get => _focusView;
 

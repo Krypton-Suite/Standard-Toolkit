@@ -583,15 +583,13 @@ namespace Krypton.Toolkit
         /// <inheritdoc />
         protected override void OnPaint(PaintEventArgs e)
         {
-            if (_palette != null)
-            {
-                // Get the renderer associated with this palette
-                IRenderer renderer = _palette.GetRenderer();
+            // Get the renderer associated with this palette
+            IRenderer renderer = _palette.GetRenderer();
 
-                // Create the rendering context that is passed into all renderer calls
-                using var renderContext = new RenderContext(this, e.Graphics, e.ClipRectangle, renderer);
-                // Set the style we want picked up from the base palette
-                var (barPaletteState, barState) = GetBarPaletteState();
+            // Create the rendering context that is passed into all renderer calls
+            using var renderContext = new RenderContext(this, e.Graphics, e.ClipRectangle, renderer);
+            // Set the style we want picked up from the base palette
+            var (barPaletteState, barState) = GetBarPaletteState();
 
                 // Draw the background of the entire control over the entire client area. 
                 using (GraphicsPath path = CreateRectGraphicsPath(ClientRectangle))
@@ -604,126 +602,128 @@ namespace Krypton.Toolkit
                         panelState, _mementoBackClientPanel);
                 }
 
-                //////////////////////////////////////////////////////////////////////////////////
-                // In case the border has a rounded effect we need to get the background path   //
-                // to draw from the border part of the renderer. It will return a path that is  //
-                // appropriate for use drawing within the border settings.                      //
-                //////////////////////////////////////////////////////////////////////////////////
-                using (GraphicsPath fullLozengePath = renderer.RenderStandardBorder.GetBackPath(renderContext,
-                           ClientRectangle,
-                           barPaletteState.PaletteBorder!,
-                           Orientation,
-                           barState))
-                {
-                    // Ask renderer to draw the background
-                    _mementoBackProgressBar = renderer.RenderStandardBack.DrawBack(renderContext, ClientRectangle,
-                        fullLozengePath, barPaletteState.PaletteBack,
-                        Orientation, barState, _mementoBackProgressBar);
-                    using var region = new Region(fullLozengePath);
-                    // Set the clipping region, So that "Small" rounded values do not escape the draw area
-                    e.Graphics.SetClip(region, CombineMode.Replace);
-                }
-
-                // Create a rectangle inset
-                Rectangle innerRect = ClientRectangle;
-                var maximumRange = (Maximum - Minimum);
-                if (_style == ProgressBarStyle.Marquee)
-                {
-                    float ratio = 1.0f / maximumRange;
-                    int half = (int)(3 * ratio);
-                    int lower = Math.Max(_marqueeLocation - Minimum - half, Minimum);
-                    int higher = Math.Min(lower + half, maximumRange);
-                    switch (Orientation)
-                    {
-                        case VisualOrientation.Top:
-                        case VisualOrientation.Bottom:
-                            {
-                                int width = innerRect.Width;
-
-                                innerRect.X += (int)(ratio * width * lower);
-                                innerRect.Width = (int)(ratio * width * higher);
-                                // Now do special clipping handling for curved borders
-                                if (innerRect.Right > ClientRectangle.Right)
-                                {
-                                    innerRect.Width -= (innerRect.Right - ClientRectangle.Right);
-                                }
-                                if (innerRect.X > ClientRectangle.Right)
-                                {
-                                    innerRect.X = ClientRectangle.Right;
-                                }
-                            }
-                            break;
-
-                        case VisualOrientation.Left:
-                        case VisualOrientation.Right:
-                            {
-                                int height = innerRect.Height;
-
-                                innerRect.Y += (int)(ratio * height * lower);
-                                innerRect.Height = (int)(ratio * height * higher);
-                                // Now do special clipping handling for curved borders
-                                if (innerRect.Bottom > ClientRectangle.Bottom)
-                                {
-                                    innerRect.Height -= (innerRect.Bottom - ClientRectangle.Bottom);
-                                }
-
-                                if (innerRect.Y > ClientRectangle.Bottom)
-                                {
-                                    innerRect.Y = ClientRectangle.Bottom;
-                                }
-                            }
-                            break;
-                    }
-                }
-                else
-                {
-                    // Draw the value offset
-                    float v = (Value - Minimum);
-                    float ratio = v / maximumRange;
-                    switch (Orientation)
-                    {
-                        case VisualOrientation.Top:
-                        case VisualOrientation.Bottom:
-                            innerRect.Width = (int)(ratio * innerRect.Width);
-                            if (RightToLeft == RightToLeft.Yes)
-                            {
-                                innerRect.X = ClientRectangle.Right - innerRect.Width;
-                            }
-
-                            break;
-
-                        case VisualOrientation.Left:
-                        case VisualOrientation.Right:
-                            innerRect.Height = (int)(ratio * innerRect.Height);
-                            if (RightToLeft == RightToLeft.Yes)
-                            {
-                                innerRect.Y = ClientRectangle.Bottom - innerRect.Height;
-                            }
-
-                            break;
-                    }
-                }
-
-                using (GraphicsPath valueLozengePath = renderer.RenderStandardBorder.GetBackPath(renderContext,
-                           innerRect,
-                           barPaletteState.PaletteBorder!,
-                           Orientation,
-                           barState))
-                {
-                    // Ask renderer to Fill the Progress lozenge
-                    _mementoBackProgressValue = renderer.RenderStandardBack.DrawBack(renderContext, innerRect, valueLozengePath, _stateBackValue,
-                        Orientation, barState, _mementoBackProgressValue);
-                }
-
-                // Now we draw the border of the inner area
-                renderer.RenderStandardBorder.DrawBorder(renderContext, ClientRectangle, barPaletteState.PaletteBorder!,
-                    Orientation, barState);
-
-                // Last of all we draw the content over the top of the border and background
-                renderer.RenderStandardContent.DrawContent(renderContext, ClientRectangle,
-                    barPaletteState.PaletteContent!, _mementoContent!,
-                    Orientation, barState, false, true, false);
+            //////////////////////////////////////////////////////////////////////////////////
+            // In case the border has a rounded effect we need to get the background path   //
+            // to draw from the border part of the renderer. It will return a path that is  //
+            // appropriate for use drawing within the border settings.                      //
+            //////////////////////////////////////////////////////////////////////////////////
+            using (GraphicsPath fullLozengePath = renderer.RenderStandardBorder.GetBackPath(renderContext,
+                       ClientRectangle,
+                       barPaletteState.PaletteBorder!,
+                       Orientation,
+                       barState))
+            {
+                // Ask renderer to draw the background
+                using var gh = new GraphicsHint(renderContext.Graphics, barPaletteState.PaletteBorder.GetBorderGraphicsHint(barState));
+                _mementoBackProgressBar = renderer.RenderStandardBack.DrawBack(renderContext, ClientRectangle,
+                    fullLozengePath, barPaletteState.PaletteBack,
+                    Orientation, barState, _mementoBackProgressBar);
+                using var region = new Region(fullLozengePath);
+                // Set the clipping region, So that "Small" rounded values do not escape the draw area
+                e.Graphics.SetClip(region, CombineMode.Replace);
             }
+
+            // Create a rectangle inset
+            Rectangle innerRect = ClientRectangle;
+            var maximumRange = (Maximum - Minimum);
+            if (_style == ProgressBarStyle.Marquee)
+            {
+                float ratio = 1.0f / maximumRange;
+                int half = (int)(3 * ratio);
+                int lower = Math.Max(_marqueeLocation - Minimum - half, Minimum);
+                int higher = Math.Min(lower + half, maximumRange);
+                switch (Orientation)
+                {
+                    case VisualOrientation.Top:
+                    case VisualOrientation.Bottom:
+                    {
+                        int width = innerRect.Width;
+
+                        innerRect.X += (int)(ratio * width * lower);
+                        innerRect.Width = (int)(ratio * width * higher);
+                        // Now do special clipping handling for curved borders
+                        if (innerRect.Right > ClientRectangle.Right)
+                        {
+                            innerRect.Width -= (innerRect.Right - ClientRectangle.Right);
+                        }
+                        if (innerRect.X > ClientRectangle.Right)
+                        {
+                            innerRect.X = ClientRectangle.Right;
+                        }
+                    }
+                        break;
+
+                    case VisualOrientation.Left:
+                    case VisualOrientation.Right:
+                    {
+                        int height = innerRect.Height;
+
+                        innerRect.Y += (int)(ratio * height * lower);
+                        innerRect.Height = (int)(ratio * height * higher);
+                        // Now do special clipping handling for curved borders
+                        if (innerRect.Bottom > ClientRectangle.Bottom)
+                        {
+                            innerRect.Height -= (innerRect.Bottom - ClientRectangle.Bottom);
+                        }
+
+                        if (innerRect.Y > ClientRectangle.Bottom)
+                        {
+                            innerRect.Y = ClientRectangle.Bottom;
+                        }
+                    }
+                        break;
+                }
+            }
+            else
+            {
+                // Draw the value offset
+                float v = (Value - Minimum);
+                float ratio = v / maximumRange;
+                switch (Orientation)
+                {
+                    case VisualOrientation.Top:
+                    case VisualOrientation.Bottom:
+                        innerRect.Width = (int)(ratio * innerRect.Width);
+                        if (RightToLeft == RightToLeft.Yes)
+                        {
+                            innerRect.X = ClientRectangle.Right - innerRect.Width;
+                        }
+
+                        break;
+
+                    case VisualOrientation.Left:
+                    case VisualOrientation.Right:
+                        innerRect.Height = (int)(ratio * innerRect.Height);
+                        if (RightToLeft == RightToLeft.Yes)
+                        {
+                            innerRect.Y = ClientRectangle.Bottom - innerRect.Height;
+                        }
+
+                        break;
+                }
+            }
+
+            using (GraphicsPath valueLozengePath = renderer.RenderStandardBorder.GetBackPath(renderContext,
+                       innerRect,
+                       barPaletteState.PaletteBorder!,
+                       Orientation,
+                       barState))
+            {
+                using var gh = new GraphicsHint(renderContext.Graphics,
+                    barPaletteState.PaletteBorder.GetBorderGraphicsHint(PaletteState.Normal));
+                // Ask renderer to Fill the Progress lozenge
+                _mementoBackProgressValue = renderer.RenderStandardBack.DrawBack(renderContext, innerRect, valueLozengePath, _stateBackValue,
+                    Orientation, barState, _mementoBackProgressValue);
+            }
+
+            // Now we draw the border of the inner area
+            renderer.RenderStandardBorder.DrawBorder(renderContext, ClientRectangle, barPaletteState.PaletteBorder,
+                Orientation, barState);
+
+            // Last of all we draw the content over the top of the border and background
+            renderer.RenderStandardContent.DrawContent(renderContext, ClientRectangle,
+                    barPaletteState.PaletteContent, _mementoContent,
+                    Orientation, barState, false, true, false);
 
             base.OnPaint(e);
         }

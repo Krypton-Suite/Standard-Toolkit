@@ -479,7 +479,7 @@ namespace Krypton.Toolkit
         protected override void OnPaint(PaintEventArgs e)
         {
             // sets the smoothing mode to none
-            e.Graphics.SmoothingMode = SmoothingMode.None;
+            using var gh = new GraphicsHint(e.Graphics, PaletteGraphicsHint.None);
 
             // save client rectangle
             Rectangle rect = ClientRectangle;

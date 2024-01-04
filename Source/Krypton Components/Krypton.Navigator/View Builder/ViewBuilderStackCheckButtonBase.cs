@@ -22,7 +22,7 @@ namespace Krypton.Navigator
         #endregion
 
         #region Instance Fields
-        protected ViewLayoutPageShow? _oldRoot;
+        protected ViewLayoutPageShow _oldRoot;
         protected ViewLayoutDocker _viewLayout;
         protected ViewLayoutScrollViewport _viewScrollViewport;
         private PageToNavCheckButton? _pageLookup;

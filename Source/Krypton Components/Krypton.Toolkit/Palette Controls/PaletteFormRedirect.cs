@@ -15,11 +15,11 @@ namespace Krypton.Toolkit
     /// <summary>
     /// Redirect storage for PaletteForm states.
     /// </summary>
-    public class PaletteFormRedirect : PaletteDoubleRedirect,
+    public class PaletteFormRedirect : PaletteFormDoubleRedirect,
                                        IPaletteMetric
     {
         #region Instance Fields
-        private readonly PaletteRedirect? _redirect;
+        private readonly PaletteRedirect _redirect;
         private InheritBool _overlayHeaders;
 
         #endregion
@@ -54,10 +54,10 @@ namespace Krypton.Toolkit
             Debug.Assert(redirectHeader != null);
             
             // Remember the redirect reference
-            _redirect = redirectForm;
+            _redirect = redirectForm!;
 
             // Create the palette storage
-            Header = new PaletteHeaderButtonRedirect(redirectHeader, PaletteBackStyle.HeaderForm, PaletteBorderStyle.HeaderForm, PaletteContentStyle.HeaderForm, needPaint);
+            Header = new PaletteHeaderButtonRedirect(redirectHeader!, PaletteBackStyle.HeaderForm, PaletteBorderStyle.HeaderForm, PaletteContentStyle.HeaderForm, needPaint);
 
             // Default other values
             _overlayHeaders = InheritBool.Inherit;

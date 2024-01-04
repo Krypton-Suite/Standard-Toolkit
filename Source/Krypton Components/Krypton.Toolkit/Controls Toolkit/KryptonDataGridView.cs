@@ -1194,7 +1194,7 @@ namespace Krypton.Toolkit
 
                         // Update the back interceptor class
                         _backInherit.SetInherit(paletteBack, e.CellStyle);
-
+                        using var gh = new GraphicsHint(renderContext.Graphics, _borderForced.GetBorderGraphicsHint(PaletteState.Normal));
                         IDisposable? unused = Renderer.RenderStandardBack.DrawBack(renderContext, tempCellBackBounds, borderPath, _backInherit, VisualOrientation.Top, state, null);
 
                         // We never save the memento for reuse later
@@ -1203,6 +1203,7 @@ namespace Krypton.Toolkit
                         Renderer.RenderStandardBorder.DrawBorder(renderContext, tempCellBounds, _borderForced, VisualOrientation.Top, state);
 
                         // Must remember to release resources!
+                        gh.Dispose();
                         borderPath.Dispose();
 
                         switch (e)

@@ -209,13 +209,13 @@ namespace Krypton.Ribbon
         /// Gets the first focus item from the item.
         /// </summary>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        ViewBase? GetFirstFocusItem();
+        ViewBase GetFirstFocusItem();
 
         /// <summary>
         /// Gets the last focus item from the item.
         /// </summary>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        ViewBase? GetLastFocusItem();
+        ViewBase GetLastFocusItem();
 
         /// <summary>
         /// Gets the next focus item based on the current item as provided.
@@ -223,7 +223,7 @@ namespace Krypton.Ribbon
         /// <param name="current">The view that is currently focused.</param>
         /// <param name="matched">Has the current focus item been matched yet.</param>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        ViewBase? GetNextFocusItem(ViewBase current, ref bool matched);
+        ViewBase GetNextFocusItem(ViewBase current, ref bool matched);
 
         /// <summary>
         /// Gets the previous focus item based on the current item as provided.
@@ -231,7 +231,7 @@ namespace Krypton.Ribbon
         /// <param name="current">The view that is currently focused.</param>
         /// <param name="matched">Has the current focus item been matched yet.</param>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        ViewBase? GetPreviousFocusItem(ViewBase current, ref bool matched);
+        ViewBase GetPreviousFocusItem(ViewBase current, ref bool matched);
 
         /// <summary>
         /// Gets the array of group level key tips.
@@ -267,13 +267,13 @@ namespace Krypton.Ribbon
         /// Gets the first focus item from the container.
         /// </summary>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        ViewBase? GetFirstFocusItem();
+        ViewBase GetFirstFocusItem();
 
         /// <summary>
         /// Gets the last focus item from the container.
         /// </summary>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        ViewBase? GetLastFocusItem();
+        ViewBase GetLastFocusItem();
 
         /// <summary>
         /// Gets the next focus item based on the current item as provided.
@@ -281,7 +281,7 @@ namespace Krypton.Ribbon
         /// <param name="current">The view that is currently focused.</param>
         /// <param name="matched">Has the current focus item been matched yet.</param>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        ViewBase? GetNextFocusItem(ViewBase current, ref bool matched);
+        ViewBase GetNextFocusItem(ViewBase current, ref bool matched);
 
         /// <summary>
         /// Gets the previous focus item based on the current item as provided.
@@ -289,7 +289,7 @@ namespace Krypton.Ribbon
         /// <param name="current">The view that is currently focused.</param>
         /// <param name="matched">Has the current focus item been matched yet.</param>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        ViewBase? GetPreviousFocusItem(ViewBase current, ref bool matched);
+        ViewBase GetPreviousFocusItem(ViewBase current, ref bool matched);
 
         /// <summary>
         /// Gets the array of group level key tips.

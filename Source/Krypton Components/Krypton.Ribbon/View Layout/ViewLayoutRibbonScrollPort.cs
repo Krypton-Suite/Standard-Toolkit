@@ -68,7 +68,7 @@ namespace Krypton.Ribbon
                 Control? c = _ribbon.GetControllerControl(this);
 
                 // Grab the view manager handling the focus view
-                ViewBase? focusView = null;
+                ViewBase focusView = null;
                 switch (c)
                 {
                     case VisualPopupGroup popGroup:
@@ -337,9 +337,9 @@ namespace Krypton.Ribbon
         /// Gets the first focus item within the scroll port.
         /// </summary>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase? GetFirstFocusItem()
+        public ViewBase GetFirstFocusItem()
         {
-            ViewBase? view = null;
+            ViewBase view = null;
 
             // If we contain a groups layout
             if (_viewFiller is ViewLayoutRibbonGroups groups)
@@ -363,9 +363,9 @@ namespace Krypton.Ribbon
         /// Gets the last focus item within the scroll port.
         /// </summary>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase? GetLastFocusItem()
+        public ViewBase GetLastFocusItem()
         {
-            ViewBase? view = null;
+            ViewBase view = null;
 
             // If we contain a groups layout
             if (_viewFiller is ViewLayoutRibbonGroups groups)
@@ -390,9 +390,9 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="current">The view that is currently focused.</param>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase? GetNextFocusItem(ViewBase current)
+        public ViewBase GetNextFocusItem(ViewBase current)
         {
-            ViewBase? view = null;
+            ViewBase view = null;
 
             // If we contain a groups layout
             if (_viewFiller is ViewLayoutRibbonGroups groups)
@@ -417,9 +417,9 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="current">The view that is currently focused.</param>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase? GetPreviousFocusItem(ViewBase current)
+        public ViewBase GetPreviousFocusItem(ViewBase current)
         {
-            ViewBase? view = null;
+            ViewBase view = null;
 
             // If we contain a groups layout
             if (_viewFiller is ViewLayoutRibbonGroups groups)
@@ -611,7 +611,7 @@ namespace Krypton.Ribbon
                 if (_ribbon.SelectedTab != null)
                 {
                     // Cast to correct type
-                    ViewBase? viewTab = layoutTabs.GetViewForRibbonTab(_ribbon.SelectedTab);
+                    ViewBase viewTab = layoutTabs.GetViewForRibbonTab(_ribbon.SelectedTab);
 
                     // If a scroll change is required to bring it into view
                     if (ScrollIntoView(viewTab!.ClientRectangle, false))

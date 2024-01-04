@@ -160,7 +160,7 @@ namespace Krypton.Ribbon
         {
             // Find the next item in sequence
             var matched = false;
-            ViewBase? view = ViewGroup.GetNextFocusItem(ViewPopupManager!.FocusView!, ref matched);
+            ViewBase view = ViewGroup.GetNextFocusItem(ViewPopupManager!.FocusView!, ref matched);
 
             // Rotate around to the first item
             if (view == null)
@@ -183,7 +183,7 @@ namespace Krypton.Ribbon
         {
             // Find the previous item in sequence
             var matched = false;
-            ViewBase? view = ViewGroup.GetPreviousFocusItem(ViewPopupManager?.FocusView!, ref matched);
+            ViewBase view = ViewGroup.GetPreviousFocusItem(ViewPopupManager?.FocusView!, ref matched);
 
             // Rotate around to the last item
             if (view == null)
@@ -363,7 +363,7 @@ namespace Krypton.Ribbon
         protected override bool ProcessDialogKey(Keys keyData)
         {
             // Grab the view manager handling the focus view
-            ViewBase? focusView = ((GetViewManager() as ViewRibbonPopupGroupManager)!).FocusView;
+            ViewBase focusView = ((GetViewManager() as ViewRibbonPopupGroupManager)!).FocusView;
 
             // When in keyboard mode...
             if (focusView != null)

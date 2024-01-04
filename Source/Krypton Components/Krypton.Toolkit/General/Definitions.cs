@@ -128,7 +128,7 @@ namespace Krypton.Toolkit
         /// Get the current view associated with the button spec.
         /// </summary>
         /// <returns>View element reference.</returns>
-        ViewBase? GetView();
+        ViewBase GetView();
 
         /// <summary>
         /// Gets a value indicating if the associated view is enabled.

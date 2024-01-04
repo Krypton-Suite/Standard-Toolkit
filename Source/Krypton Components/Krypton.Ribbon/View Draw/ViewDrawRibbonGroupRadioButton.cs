@@ -129,7 +129,7 @@ namespace Krypton.Ribbon
         /// Gets the first focus item from the item.
         /// </summary>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase? GetFirstFocusItem()
+        public ViewBase GetFirstFocusItem()
         {
             // Only take focus if we are visible and enabled
             if (GroupRadioButton is { Visible: true, Enabled: true })
@@ -148,7 +148,7 @@ namespace Krypton.Ribbon
         /// Gets the last focus item from the item.
         /// </summary>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase? GetLastFocusItem()
+        public ViewBase GetLastFocusItem()
         {
             // Only take focus if we are visible and enabled
             if (GroupRadioButton is { Visible: true, Enabled: true })
@@ -169,7 +169,7 @@ namespace Krypton.Ribbon
         /// <param name="current">The view that is currently focused.</param>
         /// <param name="matched">Has the current focus item been matched yet.</param>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase? GetNextFocusItem(ViewBase current, ref bool matched)
+        public ViewBase GetNextFocusItem(ViewBase current, ref bool matched)
         {
             // Do we match the current item?
             matched = (current == _viewLarge) || (current == _viewMediumSmall);
@@ -184,7 +184,7 @@ namespace Krypton.Ribbon
         /// <param name="current">The view that is currently focused.</param>
         /// <param name="matched">Has the current focus item been matched yet.</param>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase? GetPreviousFocusItem(ViewBase current, ref bool matched)
+        public ViewBase GetPreviousFocusItem(ViewBase current, ref bool matched)
         {
             // Do we match the current item?
             matched = (current == _viewLarge) || (current == _viewMediumSmall);

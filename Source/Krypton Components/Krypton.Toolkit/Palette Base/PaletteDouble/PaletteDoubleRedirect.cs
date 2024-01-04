@@ -19,13 +19,18 @@ namespace Krypton.Toolkit
                                          IPaletteDouble
     {
         #region Instance Fields
-        private PaletteBack _back;
-        private PaletteBorder _border;
-        private PaletteBackInheritRedirect _backInherit;
+        protected PaletteBack _back;
+        protected PaletteBorder _border;
+        protected PaletteBackInheritRedirect _backInherit;
 
         #endregion
 
         #region Identity
+
+        protected PaletteDoubleRedirect()
+        {
+        }
+
         /// <summary>
         /// Initialize a new instance of the PaletteDoubleRedirect class.
         /// </summary>
@@ -49,7 +54,7 @@ namespace Krypton.Toolkit
         public PaletteDoubleRedirect(PaletteRedirect redirect,
                                      PaletteBackStyle backStyle,
                                      PaletteBorderStyle borderStyle,
-                                     NeedPaintHandler needPaint)
+                                     NeedPaintHandler? needPaint)
         {
             // Store the inherit instances
             var backInherit = new PaletteBackInheritRedirect(redirect, backStyle);
@@ -275,13 +280,13 @@ namespace Krypton.Toolkit
 
         #endregion
 
-        #region Private
-        private void Construct(PaletteRedirect redirect,
+        #region protected
+        protected void Construct(PaletteRedirect redirect,
                                PaletteBack back,
                                PaletteBackInheritRedirect backInherit,
                                PaletteBorder border,
                                PaletteBorderInheritRedirect borderInherit,
-                               NeedPaintHandler needPaint)
+                               NeedPaintHandler? needPaint)
         {
             NeedPaint = needPaint;
             _backInherit = backInherit;

@@ -119,7 +119,6 @@ namespace Krypton.Toolkit
             // Create the internal panel used for containing content
             Panel = new KryptonGroupPanel(this, StateCommon, StateDisabled, StateNormal, OnGroupPanelPaint!)
             {
-
                 // Make sure the panel back style always mimics our back style
                 PanelBackStyle = PaletteBackStyle.ControlClient
             };
@@ -150,7 +149,6 @@ namespace Krypton.Toolkit
             _drawDocker = new ViewDrawDocker(StateNormal.Back, StateNormal.Border, StateNormal,
                                              PaletteMetricBool.HeaderGroupOverlay)
             {
-
                 // Layout child view on top of the border space
                 IgnoreBorderSpace = true,
 

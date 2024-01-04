@@ -3,6 +3,8 @@
 =======
 
 ## 2024-11-xx - Build 2411 - November 2024
+* Resolved [#1255](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1255),Why does `CornerRoundingRadius` override the KRyptonForm StateCommon.Border.Rounding value
+* Resolved [#1252](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1252),Using V80, Setting a "Fat" Form border leads to poor layout
 * Implemented [#327](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1220), (Name) and other Standard-Properties in KryptonContextMenu Items Editor
 * Resolved [#1247](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1247),`VisualMessageBoxForm` Throws Exception when run from Example Code
 * Implemented [#1220](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1220), Is it time to bring over `KryptonToast`s

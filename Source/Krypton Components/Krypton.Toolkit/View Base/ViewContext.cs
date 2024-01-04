@@ -66,8 +66,8 @@ namespace Krypton.Toolkit
         /// <param name="graphics">Graphics instance for drawing.</param>
         /// <param name="renderer">Rendering provider.</param>
         public ViewContext(ViewManager? manager,
-                           Control control,
-                           Control alignControl,
+                           Control? control,
+                           Control? alignControl,
                            Graphics? graphics,
                            IRenderer renderer)
         {
@@ -135,7 +135,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the owning control associated with rendering.
         /// </summary>
-        public Control Control
+        public Control? Control
         {
             [DebuggerStepThrough]
             get;
@@ -145,7 +145,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the control to use when aligning elements.
         /// </summary>
-        public Control AlignControl
+        public Control? AlignControl
         {
             [DebuggerStepThrough]
             get;
@@ -164,7 +164,7 @@ namespace Krypton.Toolkit
                 {
                     // If the control has been created...
                     // ReSharper disable once ConvertIfStatementToConditionalTernaryExpression
-                    if (Control.IsHandleCreated)
+                    if (Control is { IsHandleCreated : true })
                     {
                         // Get the graphics instance from the control
                         _graphics = Control.CreateGraphics();
@@ -188,7 +188,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the owning top level control associated with rendering.
         /// </summary>
-        public Control TopControl
+        public Control? TopControl
         {
             get 
             {
@@ -196,17 +196,17 @@ namespace Krypton.Toolkit
                 if (_topControl == null)
                 {
                     // Cache the top most owning control
-                    _topControl = Control.TopLevelControl;
+                    _topControl = Control?.TopLevelControl;
 
                     // If no top level control was found...
                     // (this happens at design time)
                     if (_topControl == null)
                     {
                         // Start searching from the control
-                        Control parentControl = Control;
+                        Control? parentControl = Control;
 
                         // Climb the parent chain to the top
-                        while (parentControl.Parent != null)
+                        while (parentControl?.Parent != null)
                         {
                             // Stop at the first Form instance found
                             if (parentControl is Form)

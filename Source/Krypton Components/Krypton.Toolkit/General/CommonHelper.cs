@@ -545,13 +545,13 @@ namespace Krypton.Toolkit
         public static PaletteDrawBorders OrientateDrawBorders(PaletteDrawBorders borders,
                                                               VisualOrientation orientation)
         {
-            // No need to perform an change for top orientation
+            // No need to perform a change for top orientation
             if (orientation == VisualOrientation.Top)
             {
                 return borders;
             }
 
-            // No need to change the All or None values
+            // No need to change All or None values
             if (borders is PaletteDrawBorders.All or PaletteDrawBorders.None)
             {
                 return borders;
@@ -583,8 +583,8 @@ namespace Krypton.Toolkit
                     {
                         ret |= PaletteDrawBorders.Left;
                     }
-
                     break;
+
                 case VisualOrientation.Left:
                     // Rotate one anti-clockwise
                     if (HasTopBorder(borders))
@@ -606,8 +606,8 @@ namespace Krypton.Toolkit
                     {
                         ret |= PaletteDrawBorders.Top;
                     }
-
                     break;
+
                 case VisualOrientation.Right:
                     // Rotate sides one clockwise
                     if (HasTopBorder(borders))
@@ -629,8 +629,8 @@ namespace Krypton.Toolkit
                     {
                         ret |= PaletteDrawBorders.Bottom;
                     }
-
                     break;
+
                 default:
                     // Should never happen!
                     Debug.Assert(false);
@@ -1174,28 +1174,28 @@ namespace Krypton.Toolkit
         /// <returns>Border sizing.</returns>
         public static Padding GetWindowBorders(CreateParams cp, KryptonForm? form)
         {
+            int xOffset = 0;
+            int yOffset = 0;
+
+            if (form is { StateCommon.Border: PaletteFormBorder formBorder } kryptonForm)
+            {
+                var (xOffset1, yOffset1) = formBorder.BorderWidths(kryptonForm.FormBorderStyle);
+                xOffset = xOffset1;
+                yOffset = yOffset1;
+            }
+
             var rect = new PI.RECT
             {
                 // Start with a zero sized rectangle
-                left = 0,
-                right = 0,
-                top = 0,
-                bottom = 0
+                left = -xOffset,
+                right = xOffset,
+                top = -yOffset,
+                bottom = yOffset
             };
             // Adjust rectangle to add on the borders required
             PI.AdjustWindowRectEx(ref rect, cp.Style, false, cp.ExStyle);
             // Return the per side border values
-            if (form is { UseThemeFormChromeBorderWidth: false })
-            {
-                // https://github.com/Krypton-Suite/Standard-Toolkit/issues/139
-                int xPad = PI.GetSystemMetrics(PI.SM_.CXFIXEDFRAME);
-                int yPad = PI.GetSystemMetrics(PI.SM_.CYFIXEDFRAME);
-                return new Padding(xPad, -rect.top, xPad, yPad);
-            }
-            else
-            {
-                return new Padding(-rect.left, -rect.top, rect.right, rect.bottom);
-            }
+            return new Padding(-rect.left, -rect.top, rect.right, rect.bottom);
         }
 
         /// <summary>

@@ -388,13 +388,15 @@ namespace Krypton.Toolkit
 
             // Need a render context for accessing the renderer
             using var context = new RenderContext(this, null, ClientRectangle, Renderer);
+            using var gh = new GraphicsHint(context.Graphics,
+                _provider.ProviderStateCommon.ControlOuter.Border.GetBorderGraphicsHint(PaletteState.Normal));
             // Grab a path that is the outside edge of the border
             Rectangle borderRect = ClientRectangle;
-            GraphicsPath borderPath1 = Renderer?.RenderStandardBorder.GetOutsideBorderPath(context, borderRect, _provider.ProviderStateCommon.ControlOuter.Border, VisualOrientation.Top, PaletteState.Normal)!;
+            GraphicsPath borderPath1 = Renderer.RenderStandardBorder.GetOutsideBorderPath(context, borderRect, _provider.ProviderStateCommon.ControlOuter.Border, VisualOrientation.Top, PaletteState.Normal);
             borderRect.Inflate(-1, -1);
-            GraphicsPath borderPath2 = Renderer?.RenderStandardBorder.GetOutsideBorderPath(context, borderRect, _provider.ProviderStateCommon.ControlOuter.Border, VisualOrientation.Top, PaletteState.Normal)!;
+            GraphicsPath borderPath2 = Renderer.RenderStandardBorder.GetOutsideBorderPath(context, borderRect, _provider.ProviderStateCommon.ControlOuter.Border, VisualOrientation.Top, PaletteState.Normal);
             borderRect.Inflate(-1, -1);
-            GraphicsPath borderPath3 = Renderer?.RenderStandardBorder.GetOutsideBorderPath(context, borderRect, _provider.ProviderStateCommon.ControlOuter.Border, VisualOrientation.Top, PaletteState.Normal)!;
+            GraphicsPath borderPath3 = Renderer.RenderStandardBorder.GetOutsideBorderPath(context, borderRect, _provider.ProviderStateCommon.ControlOuter.Border, VisualOrientation.Top, PaletteState.Normal);
 
             // Update the region of the popup to be the border path
             Region = new Region(borderPath1);

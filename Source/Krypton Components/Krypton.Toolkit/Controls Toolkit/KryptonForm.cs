@@ -70,7 +70,7 @@ namespace Krypton.Toolkit
 
         #region Instance Fields
 
-        private readonly FormFixedButtonSpecCollection? _buttonSpecsFixed;
+        private readonly FormFixedButtonSpecCollection _buttonSpecsFixed;
         private readonly ButtonSpecManagerDraw _buttonManager;
         private VisualPopupToolTip? _visualPopupToolTip;
         private readonly ViewDrawForm _drawDocker;
@@ -95,7 +95,6 @@ namespace Krypton.Toolkit
         private StatusStrip? _statusStrip;
         private Bitmap? _cacheBitmap;
         private Icon? _cacheIcon;
-        private float _cornerRoundingRadius;
         private Control? _activeControl;
         private KryptonFormTitleStyle _titleStyle;
         //private IntegratedToolBarValues _integratedToolBarValues;
@@ -159,6 +158,13 @@ namespace Krypton.Toolkit
 
             // Create a null element that takes up all remaining space
             _layoutNull = new ViewLayoutNull();
+            //// Create the internal panel used for containing content
+            //Panel = new KryptonPanel(this, StateCommon, StateDisabled, StateNormal, OnPanelPaint!)
+            //{
+            //    // Make sure the panel back style always mimics our back style
+            //    PanelBackStyle = PaletteBackStyle.ControlClient
+            //};
+            //_layoutFill = new ViewLayoutFill(Panel);  // TODO For the Panel in a form
 
             // Create the root element that contains the title bar and null filler
             _drawDocker = new ViewDrawForm(StateActive.Back, StateActive.Border)
@@ -188,9 +194,6 @@ namespace Krypton.Toolkit
 
             // Create the view manager instance
             ViewManager = new ViewManager(this, _drawDocker);
-
-            // Set the CornerRoundingRadius to 'GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE', default value
-            _cornerRoundingRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
 
             _titleStyle = KryptonFormTitleStyle.Inherit;
 
@@ -275,6 +278,10 @@ namespace Krypton.Toolkit
                 if (_allowFormChrome != value)
                 {
                     _allowFormChrome = value;
+                    if (StateCommon!.Border is PaletteFormBorder formBorder)
+                    {
+                        formBorder.UseThemeFormChromeBorderWidth = value;
+                    }
 
                     // Do we want to switch on/off the custom chrome?
                     UpdateUseThemeFormChromeBorderWidthDecision();
@@ -605,16 +612,6 @@ namespace Krypton.Toolkit
             }
         }
 
-        /// <summary>Gets or sets the corner rounding radius.</summary>
-        /// <value>The corner rounding radius.</value>
-        [DefaultValue(GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE),
-         Description(@"Defines the corner roundness on the current window (-1 is the default look).")]
-        public float CornerRoundingRadius
-        {
-            get => _cornerRoundingRadius;
-            set => SetCornerRoundingRadius(value);
-        }
-
         /// <summary>Gets or sets the active control on the container control.</summary>
         [DefaultValue(null),
          Description(@"Defines an active control for this window.")]
@@ -700,17 +697,6 @@ namespace Krypton.Toolkit
             _drawHeading.DrawCanvas = false;
 
             ViewManager?.Paint(context);
-        }
-
-        /// <summary>
-        /// Raises the <see cref="E:System.Windows.Forms.Control.Paint" /> event.
-        /// </summary>
-        /// <param name="e">A <see cref="T:System.Windows.Forms.PaintEventArgs" /> that contains the event data.</param>
-        protected override void OnPaint(PaintEventArgs e)
-        {
-            StateCommon.Border.Rounding = CornerRoundingRadius;
-
-            base.OnPaint(e);
         }
 
         /// <summary>
@@ -1740,14 +1726,6 @@ namespace Krypton.Toolkit
                     break;
             }
         }
-
-        private void SetCornerRoundingRadius(float? radius)
-        {
-            _cornerRoundingRadius = radius ?? GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
-
-            StateCommon.Border.Rounding = _cornerRoundingRadius;
-        }
-
         #endregion
 
         #region Drop Shadow Methods

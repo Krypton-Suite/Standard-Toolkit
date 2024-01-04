@@ -11,6 +11,8 @@
 #endregion
 
 // ReSharper disable RedundantNullableFlowAttribute
+using static System.Windows.Forms.AxHost;
+
 namespace Krypton.Navigator
 {
     internal class VisualPopupPage : VisualPopup
@@ -141,20 +143,19 @@ namespace Krypton.Navigator
             Rectangle borderRect = ClientRectangle;
             if (_navigator.StateNormal?.HeaderGroup != null)
             {
-                if (Renderer != null)
-                {
-                    GraphicsPath borderPath1 = Renderer.RenderStandardBorder.GetOutsideBorderPath(context, borderRect, _navigator.StateNormal.HeaderGroup.Border, VisualOrientation.Top, PaletteState.Normal);
-                    borderRect.Inflate(-1, -1);
-                    GraphicsPath borderPath2 = Renderer.RenderStandardBorder.GetOutsideBorderPath(context, borderRect, _navigator.StateNormal.HeaderGroup.Border, VisualOrientation.Top, PaletteState.Normal);
-                    borderRect.Inflate(-1, -1);
-                    GraphicsPath borderPath3 = Renderer.RenderStandardBorder.GetOutsideBorderPath(context, borderRect, _navigator.StateNormal.HeaderGroup.Border, VisualOrientation.Top, PaletteState.Normal);
+                using var gh = new GraphicsHint( context.Graphics,
+                    _navigator.StateNormal.HeaderGroup.Border.GetBorderGraphicsHint(PaletteState.Normal));
+                GraphicsPath borderPath1 = Renderer.RenderStandardBorder.GetOutsideBorderPath(context, borderRect, _navigator.StateNormal.HeaderGroup.Border, VisualOrientation.Top, PaletteState.Normal);
+                borderRect.Inflate(-1, -1);
+                GraphicsPath borderPath2 = Renderer.RenderStandardBorder.GetOutsideBorderPath(context, borderRect, _navigator.StateNormal.HeaderGroup.Border, VisualOrientation.Top, PaletteState.Normal);
+                borderRect.Inflate(-1, -1);
+                GraphicsPath borderPath3 = Renderer.RenderStandardBorder.GetOutsideBorderPath(context, borderRect, _navigator.StateNormal.HeaderGroup.Border, VisualOrientation.Top, PaletteState.Normal);
 
-                    // Update the region of the popup to be the border path
-                    Region = new Region(borderPath1);
+                // Update the region of the popup to be the border path
+                Region = new Region(borderPath1);
 
-                    // Inform the shadow to use the same paths for drawing the shadow
-                    DefineShadowPaths(borderPath1, borderPath2, borderPath3);
-                }
+                // Inform the shadow to use the same paths for drawing the shadow
+                DefineShadowPaths(borderPath1, borderPath2, borderPath3);
             }
         }
         #endregion

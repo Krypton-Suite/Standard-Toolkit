@@ -26,7 +26,7 @@ namespace Krypton.Ribbon
         private readonly KryptonRibbon _ribbon;
         private readonly ViewDrawRibbonQATBorder _border;
         private readonly ViewLayoutRibbonQATFromRibbon _borderContents;
-        private readonly ViewDrawRibbonQATExtraButtonMini? _extraButton;
+        private readonly ViewDrawRibbonQATExtraButtonMini _extraButton;
         private readonly ViewLayoutSeparator _extraSeparator;
         #endregion
 
@@ -165,10 +165,10 @@ namespace Krypton.Ribbon
         /// Gets the view element for the first visible and enabled quick access toolbar button.
         /// </summary>
         /// <returns></returns>
-        public ViewBase? GetFirstQATView()
+        public ViewBase GetFirstQATView()
         {
             // Find the first qat button
-            ViewBase? view = _borderContents.GetFirstQATView() ?? _extraButton;
+            ViewBase view = _borderContents.GetFirstQATView() ?? _extraButton;
 
             // If defined then use the extra button
 
@@ -181,7 +181,7 @@ namespace Krypton.Ribbon
         /// Gets the view element for the first visible and enabled quick access toolbar button.
         /// </summary>
         /// <returns></returns>
-        public ViewBase? GetLastQATView() =>
+        public ViewBase GetLastQATView() =>
             // Last view is the extra button if defined
             _extraButton ?? _borderContents.GetLastQATView();
 
@@ -195,9 +195,9 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="qatButton">Search for entry after this view.</param>
         /// <returns>ViewBase if found; otherwise false.</returns>
-        public ViewBase? GetNextQATView(ViewBase qatButton)
+        public ViewBase GetNextQATView(ViewBase qatButton)
         {
-            ViewBase? view = _borderContents.GetNextQATView(qatButton);
+            ViewBase view = _borderContents.GetNextQATView(qatButton);
 
             // If no qat button is found and not already at the extra button
             if ((view == null) && (_extraButton != qatButton))
@@ -215,7 +215,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="qatButton">Search for entry after this view.</param>
         /// <returns>ViewBase if found; otherwise false.</returns>
-        public ViewBase? GetPreviousQATView(ViewBase qatButton) =>
+        public ViewBase GetPreviousQATView(ViewBase qatButton) =>
             // If on the extra button then find the right most qat button instead
             qatButton == _extraButton ? _borderContents.GetLastQATView() : _borderContents.GetPreviousQATView(qatButton);
 

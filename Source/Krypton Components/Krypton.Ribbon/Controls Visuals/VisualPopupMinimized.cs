@@ -100,7 +100,7 @@ namespace Krypton.Ribbon
         /// </summary>
         public void SetFirstFocusItem()
         {
-            ViewBase? newView = _ribbon.GroupsArea.ViewGroups.GetFirstFocusItem();
+            ViewBase newView = _ribbon.GroupsArea.ViewGroups.GetFirstFocusItem();
 
             // Make the item the new focus for the popup
             if (newView != null)
@@ -116,7 +116,7 @@ namespace Krypton.Ribbon
         /// <returns>ViewBase of item; otherwise false.</returns>
         public void SetLastFocusItem()
         {
-            ViewBase? newView = _ribbon.GroupsArea.ViewGroups.GetLastFocusItem();
+            ViewBase newView = _ribbon.GroupsArea.ViewGroups.GetLastFocusItem();
 
             // Make the item the new focus for the popup
             if (newView != null)
@@ -132,7 +132,7 @@ namespace Krypton.Ribbon
         public void SetNextFocusItem()
         {
             // Find the next item in sequence
-            ViewBase? newView = _ribbon.GroupsArea.ViewGroups.GetNextFocusItem(ViewRibbonManager!.FocusView!);
+            ViewBase newView = _ribbon.GroupsArea.ViewGroups.GetNextFocusItem(ViewRibbonManager!.FocusView!);
 
             // Rotate around to the first item
             if (newView == null)
@@ -152,7 +152,7 @@ namespace Krypton.Ribbon
         public void SetPreviousFocusItem()
         {
             // Find the previous item in sequence
-            ViewBase? newView = _ribbon.GroupsArea.ViewGroups.GetPreviousFocusItem(ViewRibbonManager!.FocusView!);
+            ViewBase newView = _ribbon.GroupsArea.ViewGroups.GetPreviousFocusItem(ViewRibbonManager!.FocusView!);
 
             // Rotate around to the last item
             if (newView == null)
@@ -285,7 +285,7 @@ namespace Krypton.Ribbon
                 popupSize.Height);
 
             // Get the view element for the currently selected tab
-            ViewDrawRibbonTab? viewTab = tabsArea.LayoutTabs.GetViewForRibbonTab(_ribbon.SelectedTab);
+            ViewDrawRibbonTab viewTab = tabsArea.LayoutTabs.GetViewForRibbonTab(_ribbon.SelectedTab);
 
             // Convert the view tab client area to screen coordinates
             Rectangle viewTabRect = _ribbon.RectangleToScreen(viewTab!.ClientRectangle!);

@@ -71,7 +71,7 @@ namespace Krypton.Toolkit
             NeedPaint = needPaint;
 
             // Remember references
-            Control = control;
+            Control = control!;
             _redirector = redirector!;
             _variableSpecs = variableSpecs;
             _fixedSpecs = fixedSpecs;
@@ -106,7 +106,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the owning control.
         /// </summary>
-        public Control? Control { get; }
+        public Control Control { get; }
 
         /// <summary>
         /// Gets and sets the associated tooltip manager.
@@ -447,7 +447,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="align">Edge of buttons caller is interested in searching.</param>
         /// <returns>ViewDrawButton reference; otherwise false.</returns>
-        public virtual ViewDrawButton? GetFirstVisibleViewButton(PaletteRelativeEdgeAlign align) => (_specLookup.Values
+        public virtual ViewDrawButton GetFirstVisibleViewButton(PaletteRelativeEdgeAlign align) => (_specLookup.Values
                 .Where(specView => specView.ViewButton != null && specView.ViewCenter.Visible && specView.ViewButton.Enabled)
                 .Where(specView => specView.ButtonSpec.Edge == align)
                 .Select(specView => specView.ViewButton))
@@ -459,7 +459,7 @@ namespace Krypton.Toolkit
         /// <param name="align">Edge of buttons caller is interested in searching.</param>
         /// <param name="current">Current button that is the marker for searching.</param>
         /// <returns>ViewDrawButton reference; otherwise false.</returns>
-        public virtual ViewDrawButton? GetNextVisibleViewButton(PaletteRelativeEdgeAlign align,
+        public virtual ViewDrawButton GetNextVisibleViewButton(PaletteRelativeEdgeAlign align,
                                                                ViewDrawButton current)
         {
             var found = false;
@@ -493,7 +493,7 @@ namespace Krypton.Toolkit
         /// <param name="align">Edge of buttons caller is interested in searching.</param>
         /// <param name="current">Current button that is the marker for searching.</param>
         /// <returns>ViewDrawButton reference; otherwise false.</returns>
-        public virtual ViewDrawButton? GetPreviousVisibleViewButton(PaletteRelativeEdgeAlign align,
+        public virtual ViewDrawButton GetPreviousVisibleViewButton(PaletteRelativeEdgeAlign align,
                                                                    ViewDrawButton current)
         {
             var specLookups = new ButtonSpecView[_specLookup.Count];
@@ -531,7 +531,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="align">Edge of buttons caller is interested in searching.</param>
         /// <returns>ViewDrawButton reference; otherwise false.</returns>
-        public virtual ViewDrawButton? GetLastVisibleViewButton(PaletteRelativeEdgeAlign align)
+        public virtual ViewDrawButton GetLastVisibleViewButton(PaletteRelativeEdgeAlign align)
         {
             var specLookups = new ButtonSpecView[_specLookup.Count];
             _specLookup.Values.CopyTo(specLookups, 0);

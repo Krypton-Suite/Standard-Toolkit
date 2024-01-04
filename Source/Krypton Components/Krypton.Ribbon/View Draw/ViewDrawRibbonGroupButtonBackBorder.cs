@@ -689,6 +689,7 @@ namespace Krypton.Ribbon
                 Rectangle enclosingRect = CommonHelper.ApplyPadding(VisualOrientation.Top, rect, borderPadding);
 
                 // Render the background inside the border path
+                using var gh = new GraphicsHint(context.Graphics, _paletteBorder.GetBorderGraphicsHint(PaletteState.Normal));
                 _mementoBack = context.Renderer.RenderStandardBack.DrawBack(context, enclosingRect, borderPath,
                     paletteBack, VisualOrientation.Top,
                     state, _mementoBack);

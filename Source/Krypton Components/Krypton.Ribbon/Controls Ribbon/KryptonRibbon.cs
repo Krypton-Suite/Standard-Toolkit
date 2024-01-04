@@ -64,7 +64,7 @@ namespace Krypton.Ribbon
         private bool _altDown;
         private int _altUpCount;
         private int _keyboardAltUpCount;
-        private ViewBase? _focusView;
+        private ViewBase _focusView;
         private KeyTipControl? _keyTipControlE;
         private KeyTipControl? _keyTipControlD;
         private KeyTipMode _keyTipMode;
@@ -1558,7 +1558,7 @@ namespace Krypton.Ribbon
         /// <param name="e">An EventArgs that contains the event data.</param>
         protected override void OnGotFocus(EventArgs e)
         {
-            ViewBase? newFocus = null;
+            ViewBase newFocus = null;
 
             if (SelectedTab != null)
             {
@@ -2194,7 +2194,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        internal ViewBase? GetFirstQATView()
+        internal ViewBase GetFirstQATView()
         {
             switch (QATLocation)
             {
@@ -2211,7 +2211,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        internal ViewBase? GetLastQATView()
+        internal ViewBase GetLastQATView()
         {
             switch (QATLocation)
             {
@@ -2228,9 +2228,9 @@ namespace Krypton.Ribbon
             }
         }
 
-        internal ViewBase? GetNextQATView(ViewBase qatView, bool tab)
+        internal ViewBase GetNextQATView(ViewBase qatView, bool tab)
         {
-            ViewBase? view = null;
+            ViewBase view = null;
 
             switch (QATLocation)
             {
@@ -2281,9 +2281,9 @@ namespace Krypton.Ribbon
             return view;
         }
 
-        internal ViewBase? GetPreviousQATView(ViewBase qatView)
+        internal ViewBase GetPreviousQATView(ViewBase qatView)
         {
-            ViewBase? view = null;
+            ViewBase view = null;
 
             switch (QATLocation)
             {
@@ -2526,7 +2526,7 @@ namespace Krypton.Ribbon
 
         internal Rectangle KeyTipToScreen(ViewBase? view) => view!.OwningControl!.RectangleToScreen(view.ClientRectangle);
 
-        internal ViewBase? FocusView
+        internal ViewBase FocusView
         {
             get => _focusView;
 
