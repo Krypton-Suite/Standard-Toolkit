@@ -1,6 +1,6 @@
 ﻿namespace TestForm
 {
-    partial class Form4
+    partial class GroupBoxTest
     {
         /// <summary>
         /// Required designer variable.
@@ -71,8 +71,7 @@
             // kryptonNavigator1
             // 
             this.kryptonNavigator1.ControlKryptonFormFeatures = false;
-            this.kryptonNavigator1.Location = new System.Drawing.Point(635, 41);
-            this.kryptonNavigator1.Margin = new System.Windows.Forms.Padding(4);
+            this.kryptonNavigator1.Location = new System.Drawing.Point(508, 33);
             this.kryptonNavigator1.Name = "kryptonNavigator1";
             this.kryptonNavigator1.NavigatorMode = Krypton.Navigator.NavigatorMode.BarTabGroup;
             this.kryptonNavigator1.Owner = null;
@@ -91,10 +90,9 @@
             this.kryptonPage3.AutoHiddenSlideSize = new System.Drawing.Size(200, 200);
             this.kryptonPage3.Flags = 65534;
             this.kryptonPage3.LastVisibleSet = true;
-            this.kryptonPage3.Margin = new System.Windows.Forms.Padding(4);
-            this.kryptonPage3.MinimumSize = new System.Drawing.Size(200, 62);
+            this.kryptonPage3.MinimumSize = new System.Drawing.Size(160, 50);
             this.kryptonPage3.Name = "kryptonPage3";
-            this.kryptonPage3.Size = new System.Drawing.Size(248, 119);
+            this.kryptonPage3.Size = new System.Drawing.Size(248, 124);
             this.kryptonPage3.Text = "kryptonPage3";
             this.kryptonPage3.ToolTipTitle = "Page ToolTip";
             this.kryptonPage3.UniqueName = "a9189fdf28634a62853973875dd71869";
@@ -104,10 +102,9 @@
             this.kryptonPage4.AutoHiddenSlideSize = new System.Drawing.Size(200, 200);
             this.kryptonPage4.Flags = 65534;
             this.kryptonPage4.LastVisibleSet = true;
-            this.kryptonPage4.Margin = new System.Windows.Forms.Padding(4);
-            this.kryptonPage4.MinimumSize = new System.Drawing.Size(200, 62);
+            this.kryptonPage4.MinimumSize = new System.Drawing.Size(160, 50);
             this.kryptonPage4.Name = "kryptonPage4";
-            this.kryptonPage4.Size = new System.Drawing.Size(200, 123);
+            this.kryptonPage4.Size = new System.Drawing.Size(160, 98);
             this.kryptonPage4.Text = "kryptonPage4";
             this.kryptonPage4.ToolTipTitle = "Page ToolTip";
             this.kryptonPage4.UniqueName = "801c2ddef54f4384b79d26af7bf1e74a";
@@ -117,10 +114,9 @@
             this.kryptonPage5.AutoHiddenSlideSize = new System.Drawing.Size(200, 200);
             this.kryptonPage5.Flags = 65534;
             this.kryptonPage5.LastVisibleSet = true;
-            this.kryptonPage5.Margin = new System.Windows.Forms.Padding(4);
-            this.kryptonPage5.MinimumSize = new System.Drawing.Size(200, 62);
+            this.kryptonPage5.MinimumSize = new System.Drawing.Size(160, 50);
             this.kryptonPage5.Name = "kryptonPage5";
-            this.kryptonPage5.Size = new System.Drawing.Size(200, 123);
+            this.kryptonPage5.Size = new System.Drawing.Size(160, 98);
             this.kryptonPage5.Text = "kryptonPage5";
             this.kryptonPage5.ToolTipTitle = "Page ToolTip";
             this.kryptonPage5.UniqueName = "cb41c8b434b24d5cb168a330b0a8b375";
@@ -131,8 +127,8 @@
             // 
             // kryptonGroupBox1
             // 
-            this.kryptonGroupBox1.Location = new System.Drawing.Point(65, 66);
-            this.kryptonGroupBox1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.kryptonGroupBox1.Location = new System.Drawing.Point(52, 53);
+            this.kryptonGroupBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.kryptonGroupBox1.Name = "kryptonGroupBox1";
             // 
             // kryptonGroupBox1.Panel
@@ -140,7 +136,7 @@
             this.kryptonGroupBox1.Panel.Controls.Add(this.kryptonThemeComboBox3);
             this.kryptonGroupBox1.Panel.Controls.Add(this.kryptonComboBox1);
             this.kryptonGroupBox1.Panel.Controls.Add(this.kryptonCheckBox1);
-            this.kryptonGroupBox1.Size = new System.Drawing.Size(277, 255);
+            this.kryptonGroupBox1.Size = new System.Drawing.Size(222, 204);
             this.kryptonGroupBox1.TabIndex = 1;
             // 
             // kryptonThemeComboBox3
@@ -148,31 +144,32 @@
             this.kryptonThemeComboBox3.DisplayMember = "Key";
             this.kryptonThemeComboBox3.DropDownWidth = 121;
             this.kryptonThemeComboBox3.IntegralHeight = false;
-            this.kryptonThemeComboBox3.Location = new System.Drawing.Point(28, 174);
+            this.kryptonThemeComboBox3.Location = new System.Drawing.Point(22, 139);
+            this.kryptonThemeComboBox3.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.kryptonThemeComboBox3.Name = "kryptonThemeComboBox3";
-            this.kryptonThemeComboBox3.Size = new System.Drawing.Size(121, 25);
+            this.kryptonThemeComboBox3.Size = new System.Drawing.Size(97, 20);
             this.kryptonThemeComboBox3.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.kryptonThemeComboBox3.TabIndex = 2;
             this.kryptonThemeComboBox3.ValueMember = "Value";
             // 
             // kryptonComboBox1
             // 
-            this.kryptonComboBox1.DropDownWidth = 121;
+            this.kryptonComboBox1.DropDownWidth = 216;
             this.kryptonComboBox1.IntegralHeight = false;
-            this.kryptonComboBox1.Location = new System.Drawing.Point(28, 98);
-            this.kryptonComboBox1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.kryptonComboBox1.Location = new System.Drawing.Point(22, 78);
+            this.kryptonComboBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.kryptonComboBox1.Name = "kryptonComboBox1";
-            this.kryptonComboBox1.Size = new System.Drawing.Size(216, 32);
+            this.kryptonComboBox1.Size = new System.Drawing.Size(173, 27);
             this.kryptonComboBox1.StateCommon.ComboBox.Content.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.kryptonComboBox1.TabIndex = 1;
             this.kryptonComboBox1.Text = "kryptonComboBox1";
             // 
             // kryptonCheckBox1
             // 
-            this.kryptonCheckBox1.Location = new System.Drawing.Point(45, 23);
-            this.kryptonCheckBox1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.kryptonCheckBox1.Location = new System.Drawing.Point(36, 18);
+            this.kryptonCheckBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.kryptonCheckBox1.Name = "kryptonCheckBox1";
-            this.kryptonCheckBox1.Size = new System.Drawing.Size(152, 24);
+            this.kryptonCheckBox1.Size = new System.Drawing.Size(167, 19);
             this.kryptonCheckBox1.TabIndex = 0;
             this.kryptonCheckBox1.Values.Text = "kryptonCheckBox1";
             // 
@@ -191,19 +188,21 @@
             // kryptonPanel1
             // 
             this.kryptonPanel1.Controls.Add(this.kryptonThemeComboBox1);
-            this.kryptonPanel1.Location = new System.Drawing.Point(502, 254);
+            this.kryptonPanel1.Location = new System.Drawing.Point(402, 203);
+            this.kryptonPanel1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.kryptonPanel1.Name = "kryptonPanel1";
-            this.kryptonPanel1.Size = new System.Drawing.Size(371, 207);
+            this.kryptonPanel1.Size = new System.Drawing.Size(297, 166);
             this.kryptonPanel1.TabIndex = 2;
             // 
             // kryptonThemeComboBox1
             // 
             this.kryptonThemeComboBox1.DisplayMember = "Key";
-            this.kryptonThemeComboBox1.DropDownWidth = 121;
+            this.kryptonThemeComboBox1.DropDownWidth = 250;
             this.kryptonThemeComboBox1.IntegralHeight = false;
-            this.kryptonThemeComboBox1.Location = new System.Drawing.Point(65, 93);
+            this.kryptonThemeComboBox1.Location = new System.Drawing.Point(52, 74);
+            this.kryptonThemeComboBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.kryptonThemeComboBox1.Name = "kryptonThemeComboBox1";
-            this.kryptonThemeComboBox1.Size = new System.Drawing.Size(250, 32);
+            this.kryptonThemeComboBox1.Size = new System.Drawing.Size(200, 27);
             this.kryptonThemeComboBox1.StateCommon.ComboBox.Content.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.kryptonThemeComboBox1.StateCommon.Item.Content.ShortText.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.kryptonThemeComboBox1.TabIndex = 0;
@@ -211,13 +210,14 @@
             // 
             // kryptonGroupBox2
             // 
-            this.kryptonGroupBox2.Location = new System.Drawing.Point(83, 363);
+            this.kryptonGroupBox2.Location = new System.Drawing.Point(66, 290);
+            this.kryptonGroupBox2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.kryptonGroupBox2.Name = "kryptonGroupBox2";
             // 
             // kryptonGroupBox2.Panel
             // 
             this.kryptonGroupBox2.Panel.Controls.Add(this.kryptonThemeComboBox2);
-            this.kryptonGroupBox2.Size = new System.Drawing.Size(150, 150);
+            this.kryptonGroupBox2.Size = new System.Drawing.Size(120, 120);
             this.kryptonGroupBox2.TabIndex = 3;
             // 
             // kryptonThemeComboBox2
@@ -225,33 +225,34 @@
             this.kryptonThemeComboBox2.DisplayMember = "Key";
             this.kryptonThemeComboBox2.DropDownWidth = 121;
             this.kryptonThemeComboBox2.IntegralHeight = false;
-            this.kryptonThemeComboBox2.Location = new System.Drawing.Point(27, 27);
+            this.kryptonThemeComboBox2.Location = new System.Drawing.Point(22, 22);
+            this.kryptonThemeComboBox2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.kryptonThemeComboBox2.Name = "kryptonThemeComboBox2";
-            this.kryptonThemeComboBox2.Size = new System.Drawing.Size(121, 25);
+            this.kryptonThemeComboBox2.Size = new System.Drawing.Size(97, 20);
             this.kryptonThemeComboBox2.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.kryptonThemeComboBox2.TabIndex = 0;
             this.kryptonThemeComboBox2.ValueMember = "Value";
             // 
             // kryptonGroup1
             // 
-            this.kryptonGroup1.Location = new System.Drawing.Point(286, 385);
+            this.kryptonGroup1.Location = new System.Drawing.Point(229, 308);
+            this.kryptonGroup1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.kryptonGroup1.Name = "kryptonGroup1";
-            this.kryptonGroup1.Size = new System.Drawing.Size(150, 150);
+            this.kryptonGroup1.Size = new System.Drawing.Size(120, 120);
             this.kryptonGroup1.TabIndex = 4;
             // 
-            // Form4
+            // GroupBoxTest
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(120F, 120F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-            this.ClientSize = new System.Drawing.Size(1067, 554);
+            this.ClientSize = new System.Drawing.Size(854, 443);
             this.Controls.Add(this.kryptonGroup1);
             this.Controls.Add(this.kryptonGroupBox2);
             this.Controls.Add(this.kryptonPanel1);
             this.Controls.Add(this.kryptonGroupBox1);
             this.Controls.Add(this.kryptonNavigator1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.Margin = new System.Windows.Forms.Padding(4);
-            this.Name = "Form4";
+            this.Name = "GroupBoxTest";
             this.Text = "Form4";
             this.TopMost = true;
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;

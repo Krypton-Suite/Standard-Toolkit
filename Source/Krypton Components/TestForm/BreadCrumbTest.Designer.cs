@@ -1,6 +1,6 @@
 ﻿namespace TestForm
 {
-    partial class Form2
+    partial class BreadCrumbTest
     {
         /// <summary>
         /// Required designer variable.

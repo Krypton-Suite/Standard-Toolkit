@@ -2,9 +2,9 @@
 
 namespace TestForm
 {
-    public partial class Form4 : KryptonForm
+    public partial class GroupBoxTest : KryptonForm
     {
-        public Form4()
+        public GroupBoxTest()
         {
             InitializeComponent();
         }

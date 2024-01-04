@@ -4,9 +4,9 @@ using Krypton.Toolkit;
 
 namespace TestForm
 {
-    public partial class Form5 : KryptonForm
+    public partial class ThemeTest : KryptonForm
     {
-        public Form5()
+        public ThemeTest()
         {
             InitializeComponent();
         }
