@@ -30,7 +30,7 @@ namespace Krypton.Ribbon
         #region Instance Fields
         private readonly KryptonRibbon _ribbon;
         private readonly KryptonRibbonGroupCluster _ribbonCluster;
-        private ViewDrawRibbonDesignCluster? _viewAddItem;
+        private ViewDrawRibbonDesignCluster _viewAddItem;
         private readonly ViewDrawRibbonGroupClusterSeparator _startSep;
         private readonly ViewDrawRibbonGroupClusterSeparator _endSep;
         private readonly PaletteBorderEdge _paletteBorderEdge;
@@ -129,9 +129,9 @@ namespace Krypton.Ribbon
         /// Gets the first focus item from the container.
         /// </summary>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase? GetFirstFocusItem()
+        public ViewBase GetFirstFocusItem()
         {
-            ViewBase? view = null;
+            ViewBase view = null;
 
             // Scan all the children, which must be items
             foreach (ViewBase child in this)
@@ -162,9 +162,9 @@ namespace Krypton.Ribbon
         /// Gets the last focus item from the container.
         /// </summary>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase? GetLastFocusItem()
+        public ViewBase GetLastFocusItem()
         {
-            ViewBase? view = null;
+            ViewBase view = null;
 
             // Scan all the children, which must be items
             foreach (ViewBase child in Reverse())
@@ -197,9 +197,9 @@ namespace Krypton.Ribbon
         /// <param name="current">The view that is currently focused.</param>
         /// <param name="matched">Has the current focus item been matched yet.</param>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase? GetNextFocusItem(ViewBase current, ref bool matched)
+        public ViewBase GetNextFocusItem(ViewBase current, ref bool matched)
         {
-            ViewBase? view = null;
+            ViewBase view = null;
 
             // Scan all the children, which must be containers
             foreach (ViewBase child in this)
@@ -233,9 +233,9 @@ namespace Krypton.Ribbon
         /// <param name="current">The view that is currently focused.</param>
         /// <param name="matched">Has the current focus item been matched yet.</param>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase? GetPreviousFocusItem(ViewBase current, ref bool matched)
+        public ViewBase GetPreviousFocusItem(ViewBase current, ref bool matched)
         {
-            ViewBase? view = null;
+            ViewBase view = null;
 
             // Scan all the children, which must be containers
             foreach (ViewBase child in Reverse())

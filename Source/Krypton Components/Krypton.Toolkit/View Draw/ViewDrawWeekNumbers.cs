@@ -10,6 +10,8 @@
  */
 #endregion
 
+using static System.Windows.Forms.AxHost;
+
 namespace Krypton.Toolkit
 {
     /// <summary>
@@ -234,6 +236,7 @@ namespace Krypton.Toolkit
                     // Do we need to draw the border?
                     if (paletteTriple.PaletteBorder.GetBorderDraw(paletteState) == InheritBool.True)
                     {
+                        using var gh = new GraphicsHint(context.Graphics, paletteTriple.PaletteBorder.GetBorderGraphicsHint(paletteState));
                         context.Renderer.RenderStandardBorder.DrawBorder(context, drawRectWeek, paletteTriple.PaletteBorder, VisualOrientation.Top, paletteState);
                     }
 

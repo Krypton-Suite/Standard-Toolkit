@@ -52,45 +52,4 @@ namespace Krypton.Toolkit
         }
         #endregion
     }
-
-    /// <summary>
-    /// Set the SmoothingMode=None until instance disposed.
-    /// </summary>
-    public class AntiAliasNone : GlobalId,
-                                 IDisposable
-    {
-        #region Instance Fields
-        private readonly Graphics _g;
-        private readonly SmoothingMode _old;
-        #endregion
-
-        #region Identity
-        /// <summary>
-        /// Initialize a new instance of the AntiAliasNone class.
-        /// </summary>
-        /// <param name="g">Graphics instance.</param>
-        public AntiAliasNone(Graphics g)
-        {
-            _g = g;
-            _old = _g.SmoothingMode;
-            _g.SmoothingMode = SmoothingMode.None;
-        }
-
-        /// <summary>
-        /// Revert the SmoothingMode back to original setting.
-        /// </summary>
-        public void Dispose()
-        {
-            if (_g != null)
-            {
-                try
-                {
-                    _g.SmoothingMode = _old;
-                }
-                catch { }
-            }
-            GC.SuppressFinalize(this);
-        }
-        #endregion
-    }
 }

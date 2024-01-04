@@ -635,8 +635,7 @@ namespace Krypton.Toolkit
                 g.DrawLine(p, innerRect.Right, innerRect.Y, innerRect.Right, innerRect.Bottom);
             }
 
-            g.SmoothingMode = SmoothingMode.AntiAlias;
-
+            using var gh = new GraphicsHint(g, PaletteGraphicsHint.AntiAlias);
             // draw border
             using (var p = new Pen(thumbColours[index, 0]))
             {
@@ -645,8 +644,6 @@ namespace Krypton.Toolkit
                     g.DrawPath(p, path);
                 }
             }
-
-            g.SmoothingMode = SmoothingMode.None;
         }
 
         /// <summary>
@@ -722,8 +719,7 @@ namespace Krypton.Toolkit
                 g.DrawLine(p, innerRect.X, innerRect.Bottom, innerRect.Right, innerRect.Bottom);
             }
 
-            g.SmoothingMode = SmoothingMode.AntiAlias;
-
+            using var gh = new GraphicsHint(g, PaletteGraphicsHint.AntiAlias);
             // draw border
             using (var p = new Pen(thumbColours[index, 0]))
             {
@@ -732,8 +728,6 @@ namespace Krypton.Toolkit
                     g.DrawPath(p, path);
                 }
             }
-
-            g.SmoothingMode = SmoothingMode.None;
         }
 
         /// <summary>

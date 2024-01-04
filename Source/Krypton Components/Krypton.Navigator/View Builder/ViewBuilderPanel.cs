@@ -18,7 +18,7 @@ namespace Krypton.Navigator
     internal class ViewBuilderPanel : ViewBuilderBase
     {
         #region Instance Fields
-        private ViewBase? _oldRoot;
+        private ViewBase _oldRoot;
         private ViewDrawPanel _drawPanel;
         #endregion
 

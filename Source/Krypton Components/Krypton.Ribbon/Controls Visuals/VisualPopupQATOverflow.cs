@@ -128,7 +128,7 @@ namespace Krypton.Ribbon
         public void SetNextFocusItem()
         {
             // Find the next item in sequence
-            ViewBase? view = ViewQATContents.GetNextQATView(ViewOverflowManager!.FocusView!);
+            ViewBase view = ViewQATContents.GetNextQATView(ViewOverflowManager!.FocusView!);
 
             // Rotate around to the first item
             if (view == null)
@@ -150,7 +150,7 @@ namespace Krypton.Ribbon
         public void SetPreviousFocusItem()
         {
             // Find the previous item in sequence
-            ViewBase? view = ViewQATContents.GetPreviousQATView(ViewOverflowManager!.FocusView!);
+            ViewBase view = ViewQATContents.GetPreviousQATView(ViewOverflowManager!.FocusView!);
 
             // Rotate around to the last item
             if (view == null)

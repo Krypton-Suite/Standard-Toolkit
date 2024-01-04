@@ -339,7 +339,7 @@ namespace Krypton.Toolkit
         {
             if (PaletteBorder != null)
             {
-                return context.Renderer?.RenderStandardBorder.GetOutsideBorderPath(context, ClientRectangle,
+                return context.Renderer.RenderStandardBorder.GetOutsideBorderPath(context, ClientRectangle,
                                                                                   PaletteBorder, Orientation,
                                                                                   State);
             }
@@ -707,6 +707,7 @@ namespace Krypton.Toolkit
             Rectangle enclosingRect = CommonHelper.ApplyPadding(Orientation, rect, borderPadding);
 
             // Render the background inside the border path
+            using var gh = new GraphicsHint(context.Graphics, paletteBorder.GetBorderGraphicsHint(state));
             _mementoBack = context.Renderer.RenderStandardBack.DrawBack(context, enclosingRect, borderPath, paletteBack, Orientation, state, _mementoBack);
 
             borderPath.Dispose();

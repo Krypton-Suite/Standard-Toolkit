@@ -99,7 +99,7 @@ namespace Krypton.Ribbon
         /// Gets the first focus item within the currently selected tab.
         /// </summary>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase? GetFirstFocusItem()
+        public ViewBase GetFirstFocusItem()
         {
             if ((Ribbon.SelectedTab != null) &&
                 _tabToView.ContainsKey(Ribbon.SelectedTab))
@@ -118,7 +118,7 @@ namespace Krypton.Ribbon
         /// Gets the last focus item within the currently selected tab.
         /// </summary>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase? GetLastFocusItem()
+        public ViewBase GetLastFocusItem()
         {
             if ((Ribbon.SelectedTab != null) &&
                 _tabToView.ContainsKey(Ribbon.SelectedTab))
@@ -138,7 +138,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="current">The view that is currently focused.</param>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase? GetNextFocusItem(ViewBase current)
+        public ViewBase GetNextFocusItem(ViewBase current)
         {
             if ((Ribbon.SelectedTab != null) &&
                 _tabToView.ContainsKey(Ribbon.SelectedTab))
@@ -158,7 +158,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="current">The view that is currently focused.</param>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase? GetPreviousFocusItem(ViewBase current)
+        public ViewBase GetPreviousFocusItem(ViewBase current)
         {
             if ((Ribbon.SelectedTab != null) &&
                 _tabToView.ContainsKey(Ribbon.SelectedTab))

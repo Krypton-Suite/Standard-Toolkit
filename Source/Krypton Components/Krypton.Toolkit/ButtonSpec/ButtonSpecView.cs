@@ -126,7 +126,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the view centering that contains the button.
         /// </summary>
-        public ViewDrawButton? ViewButton { get; }
+        public ViewDrawButton ViewButton { get; }
 
         /// <summary>
         /// Gets access to the remapping palette.
@@ -138,8 +138,8 @@ namespace Krypton.Toolkit
         /// </summary>
         public bool DrawButtonSpecOnComposition
         {
-            get => ViewButton?.DrawButtonComposition ?? false;
-            set => ViewButton!.DrawButtonComposition = value;
+            get => ViewButton.DrawButtonComposition;
+            set => ViewButton.DrawButtonComposition = value;
         }
 
         /// <summary>
@@ -201,19 +201,16 @@ namespace Krypton.Toolkit
             }
 
             // Only make change if the values have changed
-            if (ViewButton != null)
+            if (newEnabled != ViewButton.Enabled)
             {
-                if (newEnabled != ViewButton.Enabled)
-                {
-                    ViewButton.Enabled = newEnabled;
-                    changed = true;
-                }
+                ViewButton.Enabled = newEnabled;
+                changed = true;
+            }
 
-                if (newDependent != ViewButton.DependantEnabledState)
-                {
-                    ViewButton.DependantEnabledState = newDependent;
-                    changed = true;
-                }
+            if (newDependent != ViewButton.DependantEnabledState)
+            {
+                ViewButton.DependantEnabledState = newDependent;
+                changed = true;
             }
 
             return changed;
@@ -245,7 +242,7 @@ namespace Krypton.Toolkit
             }
 
             // Only make change if the value has changed
-            if (ViewButton != null && newChecked != ViewButton.Checked)
+            if (newChecked != ViewButton.Checked)
             {
                 ViewButton.Checked = newChecked;
                 return true;
@@ -261,8 +258,7 @@ namespace Krypton.Toolkit
         /// </summary>
         public void UpdateShowDrop()
         {
-            if (ButtonSpec is ButtonSpecAny buttonSpecAny
-                && ViewButton != null)
+            if (ButtonSpec is ButtonSpecAny buttonSpecAny)
             {
                 ViewButton.DropDown = buttonSpecAny.ShowDrop;
                 ViewButton.Splitter = buttonSpecAny.ShowDrop;
@@ -382,7 +378,6 @@ namespace Krypton.Toolkit
                 // ButtonSpec's used to drop menu's if they had a context menu;
                 // BUT; Disable default action, if this is a drop button and it is clicked
                 bool performDefaultClick = !(ButtonSpec is ButtonSpecAny { ShowDrop: true }
-                                             && ViewButton != null
                                              && ViewButton.SplitRectangle.Contains(e.Location));
 
                 if (performDefaultClick)
@@ -392,7 +387,7 @@ namespace Krypton.Toolkit
                 }
 
                 // Does the button spec define a krypton context menu?
-                if ((ButtonSpec.KryptonContextMenu != null) && (ViewButton != null))
+                if (ButtonSpec.KryptonContextMenu != null)
                 {
                     performFinishDelegate = false;
                     // Convert from control coordinates to screen coordinates
@@ -414,7 +409,7 @@ namespace Krypton.Toolkit
                         _finishDelegate?.Invoke(this, EventArgs.Empty);
                     }
                 }
-                else if ((ButtonSpec.ContextMenuStrip != null) && (ViewButton != null))
+                else if (ButtonSpec.ContextMenuStrip != null)
                 {
                     performFinishDelegate = false;
                     // Set the correct renderer for the menu strip

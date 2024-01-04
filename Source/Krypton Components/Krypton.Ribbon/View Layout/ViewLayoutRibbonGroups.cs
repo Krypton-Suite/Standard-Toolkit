@@ -182,9 +182,9 @@ namespace Krypton.Ribbon
         /// Gets the first focus item from the groups.
         /// </summary>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase? GetFirstFocusItem()
+        public ViewBase GetFirstFocusItem()
         {
-            ViewBase? view = null;
+            ViewBase view = null;
 
             // Search each group until one of them returns a focus item
             foreach (ViewDrawRibbonGroup group in _groupToView.Values)
@@ -205,9 +205,9 @@ namespace Krypton.Ribbon
         /// Gets the last focus item from the groups.
         /// </summary>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase? GetLastFocusItem()
+        public ViewBase GetLastFocusItem()
         {
-            ViewBase? view = null;
+            ViewBase view = null;
 
             var groups = new ViewDrawRibbonGroup[_groupToView.Count];
             _groupToView.Values.CopyTo(groups, 0);
@@ -232,9 +232,9 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="current">The view that is currently focused.</param>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase? GetNextFocusItem(ViewBase current)
+        public ViewBase GetNextFocusItem(ViewBase current)
         {
-            ViewBase? view = null;
+            ViewBase view = null;
             var matched = false;
 
             // Search each group until one of them returns a focus item
@@ -260,9 +260,9 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="current">The view that is currently focused.</param>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase? GetPreviousFocusItem(ViewBase current)
+        public ViewBase GetPreviousFocusItem(ViewBase current)
         {
-            ViewBase? view = null;
+            ViewBase view = null;
             var matched = false;
 
             var groups = new ViewDrawRibbonGroup[_groupToView.Count];

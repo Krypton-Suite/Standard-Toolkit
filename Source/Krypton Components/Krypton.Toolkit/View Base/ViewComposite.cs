@@ -189,7 +189,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="item">ViewBase reference.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public override void Add(ViewBase? item)
+        public override void Add(ViewBase item)
         {
             // We do not allow null references in the collection
             if (item == null)

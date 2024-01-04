@@ -319,7 +319,7 @@ namespace Krypton.Toolkit
 
                             using (Graphics g = Graphics.FromHdc(hdc))
                             {
-                                g.SmoothingMode = SmoothingMode.AntiAlias;
+                                using var gh = new GraphicsHint(g, PaletteGraphicsHint.AntiAlias);
                                 var lineColor = KryptonManager.CurrentGlobalPalette!.GetBorderColor1(PaletteBorderStyle.ControlGroupBox, PaletteState.Normal);
                                 DrawRoundedRectangle(g, new Pen(lineColor), new Point(0, 10),
                                     control.Size - new Size(1, 11), 5);
@@ -520,7 +520,7 @@ namespace Krypton.Toolkit
 
         private static void DrawRoundedRectangle(Graphics g, Pen pen, Point location, Size size, int radius)
         {
-            g.SmoothingMode = SmoothingMode.AntiAlias;
+            using var gh = new GraphicsHint(g, PaletteGraphicsHint.AntiAlias);
             var roundRect = new RoundedRectangleF(size.Width, size.Height, radius, location.X, location.Y);
             g.DrawPath(pen, roundRect.Path);
         }

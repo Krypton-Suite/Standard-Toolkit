@@ -559,7 +559,7 @@ namespace Krypton.Toolkit
         [Description(@"Border width.")]
         [DefaultValue(-1)]
         [RefreshProperties(RefreshProperties.All)]
-        public int Width
+        public virtual int Width
         {
             get => _storage?.BorderWidth ?? -1;
 

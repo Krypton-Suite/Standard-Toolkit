@@ -455,6 +455,7 @@ namespace Krypton.Toolkit
                             {
                                 using GraphicsPath path = context.Renderer.RenderStandardBorder.GetBackPath(context, drawRectCell, paletteTriple.PaletteBorder, 
                                     VisualOrientation.Top, paletteState);
+                                using var gh = new GraphicsHint(context.Graphics, paletteTriple.PaletteBorder.GetBorderGraphicsHint(paletteState));
                                 context.Renderer.RenderStandardBack.DrawBack(context, drawRectCell, path, paletteTriple.PaletteBack, VisualOrientation.Top, paletteState, null);
                             }
 

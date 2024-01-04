@@ -439,6 +439,7 @@ namespace Krypton.Ribbon
 
             // Need a render context for accessing the renderer
             using var context = new RenderContext(this, null, ClientRectangle, Renderer);
+            using var gh = new GraphicsHint(context.Graphics, _drawOutsideBorder.GetBorderGraphicsHint(PaletteState.Normal));
             // Grab a path that is the outside edge of the border
             Rectangle borderRect = ClientRectangle;
             GraphicsPath borderPath1 = Renderer!.RenderStandardBorder.GetOutsideBorderPath(context, borderRect, _drawOutsideBorder, VisualOrientation.Top, PaletteState.Normal);
