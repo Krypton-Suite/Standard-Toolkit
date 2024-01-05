@@ -723,7 +723,7 @@ namespace Krypton.Toolkit
         private readonly ViewLayoutDocker _drawDockerInner;
         private readonly ViewDrawDocker _drawDockerOuter;
         private readonly ViewLayoutFill _layoutFill;
-        private readonly InternalNumericUpDown? _numericUpDown;
+        private readonly InternalNumericUpDown _numericUpDown;
         private InputControlStyle _inputControlStyle;
         private ButtonStyle _upDownButtonStyle;
         private SubclassEdit? _subclassEdit;
@@ -951,7 +951,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         [EditorBrowsable(EditorBrowsableState.Always)]
         [Browsable(false)]
-        public NumericUpDown? NumericUpDown => _numericUpDown;
+        public NumericUpDown NumericUpDown => _numericUpDown;
 
         /// <summary>
         /// Gets access to the contained input control.
@@ -959,7 +959,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         [EditorBrowsable(EditorBrowsableState.Always)]
         [Browsable(false)]
-        public Control? ContainedControl => NumericUpDown!;
+        public Control ContainedControl => NumericUpDown!;
 
         /// <summary>
         /// Gets a value indicating whether the control has input focus.

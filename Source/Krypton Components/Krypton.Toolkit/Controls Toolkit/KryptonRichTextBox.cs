@@ -307,7 +307,7 @@ namespace Krypton.Toolkit
         private readonly ViewLayoutDocker _drawDockerInner;
         private readonly ViewDrawDocker _drawDockerOuter;
         private readonly ViewLayoutFill _layoutFill;
-        private readonly InternalRichTextBox? _richTextBox;
+        private readonly InternalRichTextBox _richTextBox;
         private InputControlStyle _inputControlStyle;
         private bool? _fixedActive;
         private bool _forcedLayout;
@@ -600,7 +600,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         [EditorBrowsable(EditorBrowsableState.Always)]
         [Browsable(false)]
-        public RichTextBox? RichTextBox => _richTextBox;
+        public RichTextBox RichTextBox => _richTextBox;
 
         /// <summary>
         /// Gets access to the contained input control.
@@ -608,7 +608,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         [EditorBrowsable(EditorBrowsableState.Always)]
         [Browsable(false)]
-        public Control? ContainedControl => RichTextBox!;
+        public Control ContainedControl => RichTextBox!;
 
         /// <summary>
         /// Gets a value indicating whether the control has input focus.

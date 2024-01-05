@@ -325,7 +325,7 @@ namespace Krypton.Toolkit
         private readonly ViewLayoutDocker _drawDockerInner;
         private readonly ViewDrawDocker _drawDockerOuter;
         private readonly ViewLayoutFill _layoutFill;
-        private readonly InternalTextBox? _textBox;
+        private readonly InternalTextBox _textBox;
         private InputControlStyle _inputControlStyle;
         private bool? _fixedActive;
         private bool _forcedLayout;
@@ -654,7 +654,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         [EditorBrowsable(EditorBrowsableState.Always)]
         [Browsable(false)]
-        public TextBox? TextBox => _textBox;
+        public TextBox TextBox => _textBox;
 
         /// <summary>
         /// Gets access to the contained input control.
@@ -662,7 +662,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         [EditorBrowsable(EditorBrowsableState.Always)]
         [Browsable(false)]
-        public Control? ContainedControl => TextBox;
+        public Control ContainedControl => TextBox;
 
         /// <summary>
         /// Gets and sets a value indicating if the control is automatically sized.

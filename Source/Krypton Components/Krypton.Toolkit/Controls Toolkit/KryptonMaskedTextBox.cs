@@ -316,7 +316,7 @@ namespace Krypton.Toolkit
         private readonly ViewLayoutDocker _drawDockerInner;
         private readonly ViewDrawDocker _drawDockerOuter;
         private readonly ViewLayoutFill _layoutFill;
-        private readonly InternalMaskedTextBox? _maskedTextBox;
+        private readonly InternalMaskedTextBox _maskedTextBox;
         private InputControlStyle _inputControlStyle;
         private bool? _fixedActive;
         private bool _forcedLayout;
@@ -601,7 +601,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         [EditorBrowsable(EditorBrowsableState.Always)]
         [Browsable(false)]
-        public MaskedTextBox? MaskedTextBox => _maskedTextBox;
+        public MaskedTextBox MaskedTextBox => _maskedTextBox;
 
         /// <summary>
         /// Gets access to the contained input control.
@@ -609,7 +609,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         [EditorBrowsable(EditorBrowsableState.Always)]
         [Browsable(false)]
-        public Control? ContainedControl => MaskedTextBox;
+        public Control ContainedControl => MaskedTextBox;
 
         /// <summary>
         /// Gets a value indicating whether the control has input focus.

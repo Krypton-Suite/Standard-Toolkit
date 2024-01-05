@@ -30,7 +30,7 @@ namespace Krypton.Toolkit
         private class InternalTreeView : TreeView
         {
             #region Static Fields
-            private static MethodInfo _miRI;
+            private static MethodInfo? _miRI;
             #endregion
 
             #region Instance Fields
@@ -214,13 +214,13 @@ namespace Krypton.Toolkit
             /// Raises the TrackMouseEnter event.
             /// </summary>
             /// <param name="e">An EventArgs containing the event data.</param>
-            protected virtual void OnTrackMouseEnter(EventArgs e) => TrackMouseEnter?.Invoke(this, e);
+            private void OnTrackMouseEnter(EventArgs e) => TrackMouseEnter?.Invoke(this, e);
 
             /// <summary>
             /// Raises the TrackMouseLeave event.
             /// </summary>
             /// <param name="e">An EventArgs containing the event data.</param>
-            protected virtual void OnTrackMouseLeave(EventArgs e) => TrackMouseLeave?.Invoke(this, e);
+            private void OnTrackMouseLeave(EventArgs e) => TrackMouseLeave?.Invoke(this, e);
             #endregion
 
             #region Private
@@ -229,7 +229,7 @@ namespace Krypton.Toolkit
                 var ps = new PI.PAINTSTRUCT();
 
                 // Do we need to BeginPaint or just take the given HDC?
-                var hdc = m.WParam == IntPtr.Zero ? PI.BeginPaint(Handle, ref ps) : m.WParam;
+                IntPtr hdc = m.WParam == IntPtr.Zero ? PI.BeginPaint(Handle, ref ps) : m.WParam;
 
                 // Create bitmap that all drawing occurs onto, then we can blit it later to remove flicker
                 Rectangle realRect = CommonHelper.RealClientRectangle(Handle);
@@ -237,7 +237,7 @@ namespace Krypton.Toolkit
                 // No point drawing when one of the dimensions is zero
                 if (realRect is { Width: > 0, Height: > 0 })
                 {
-                    var hBitmap = PI.CreateCompatibleBitmap(hdc, realRect.Width, realRect.Height);
+                    IntPtr hBitmap = PI.CreateCompatibleBitmap(hdc, realRect.Width, realRect.Height);
 
                     // If we managed to get a compatible bitmap
                     if (hBitmap != IntPtr.Zero)
@@ -273,7 +273,7 @@ namespace Krypton.Toolkit
                                 }
 
                                 // Replace given DC with the screen DC for base window proc drawing
-                                var beforeDC = m.WParam;
+                                IntPtr beforeDC = m.WParam;
                                 m.WParam = _screenDC;
                                 DefWndProc(ref m);
                                 m.WParam = beforeDC;
@@ -304,10 +304,10 @@ namespace Krypton.Toolkit
 
         private readonly PaletteTripleOverride _overrideNormal;
         private readonly PaletteTripleOverride _overrideTracking;
-        private readonly PaletteTripleOverride _overridePressed;
+        private readonly PaletteTripleOverride _overrideMultiSelect;
         private readonly PaletteTripleOverride _overrideCheckedNormal;
         private readonly PaletteTripleOverride _overrideCheckedTracking;
-        private readonly PaletteTripleOverride _overrideCheckedPressed;
+        private readonly PaletteTripleOverride _overrideCheckedMultiSelect;
         private readonly PaletteNodeOverride _overrideNormalNode;
         private readonly PaletteRedirectTreeView? _redirectImages;
         private readonly ViewDrawDocker _drawDockerOuter;
@@ -320,7 +320,7 @@ namespace Krypton.Toolkit
         private readonly ViewLayoutCenter _layoutImageCenterState;
         private readonly ViewLayoutSeparator _layoutImage;
         private readonly ViewLayoutSeparator _layoutImageState;
-        private readonly InternalTreeView? _treeView;
+        private readonly InternalTreeView _treeView;
         private readonly FixedContentValue? _contentValues;
         private bool? _fixedActive;
         private ButtonStyle _style;
@@ -333,7 +333,7 @@ namespace Krypton.Toolkit
         private bool _isRecreating; // https://github.com/Krypton-Suite/Standard-Toolkit/issues/777
         private float _cornerRoundingRadius;
         private float _nodeCornerRoundingRadius;
-
+        private bool _multiSelect;
         #endregion
 
         #region Events
@@ -422,7 +422,7 @@ namespace Krypton.Toolkit
         public event TreeNodeMouseClickEventHandler? NodeMouseClick;
 
         /// <summary>
-        /// Occurs when a node is double clicked with the mouse.
+        /// Occurs when a node is double-clicked with the mouse.
         /// </summary>
         [Category(@"Behavior")]
         [Description(@"Occurs when a node is double clicked with the mouse.")]
@@ -550,18 +550,18 @@ namespace Krypton.Toolkit
 
             OverrideFocus = new PaletteTreeNodeTripleRedirect(Redirector, PaletteBackStyle.ButtonListItem, PaletteBorderStyle.ButtonListItem, PaletteContentStyle.ButtonListItem, NeedPaintDelegate);
             StateTracking = new PaletteTreeNodeTriple(StateCommon.Node, NeedPaintDelegate);
-            StatePressed = new PaletteTreeNodeTriple(StateCommon.Node, NeedPaintDelegate);
+            StateMultiSelect = new PaletteTreeNodeTriple(StateCommon.Node, NeedPaintDelegate);
             StateCheckedNormal = new PaletteTreeNodeTriple(StateCommon.Node, NeedPaintDelegate);
             StateCheckedTracking = new PaletteTreeNodeTriple(StateCommon.Node, NeedPaintDelegate);
-            StateCheckedPressed = new PaletteTreeNodeTriple(StateCommon.Node, NeedPaintDelegate);
+            StateCheckedMultiSelect = new PaletteTreeNodeTriple(StateCommon.Node, NeedPaintDelegate);
 
             // Create the override handling classes
             _overrideNormal = new PaletteTripleOverride(OverrideFocus.Node, StateNormal.Node, PaletteState.FocusOverride);
             _overrideTracking = new PaletteTripleOverride(OverrideFocus.Node, StateTracking.Node, PaletteState.FocusOverride);
-            _overridePressed = new PaletteTripleOverride(OverrideFocus.Node, StatePressed.Node, PaletteState.FocusOverride);
+            _overrideMultiSelect = new PaletteTripleOverride(OverrideFocus.Node, StateMultiSelect.Node, PaletteState.FocusOverride);
             _overrideCheckedNormal = new PaletteTripleOverride(OverrideFocus.Node, StateCheckedNormal.Node, PaletteState.FocusOverride);
             _overrideCheckedTracking = new PaletteTripleOverride(OverrideFocus.Node, StateCheckedTracking.Node, PaletteState.FocusOverride);
-            _overrideCheckedPressed = new PaletteTripleOverride(OverrideFocus.Node, StateCheckedPressed.Node, PaletteState.FocusOverride);
+            _overrideCheckedMultiSelect = new PaletteTripleOverride(OverrideFocus.Node, StateCheckedMultiSelect.Node, PaletteState.FocusOverride);
             _overrideNormalNode = new PaletteNodeOverride(_overrideNormal);
 
             // Create the check box image drawer and place inside element so it is always centered
@@ -592,9 +592,9 @@ namespace Krypton.Toolkit
             // Create the draw element for owner drawing individual items
             _contentValues = new FixedContentValue();
             _drawButton = new ViewDrawButton(StateDisabled.Node, _overrideNormalNode,
-                                             _overrideTracking, _overridePressed,
+                                             _overrideTracking, _overrideMultiSelect,
                                              _overrideCheckedNormal, _overrideCheckedTracking,
-                                             _overrideCheckedPressed,
+                                             _overrideCheckedMultiSelect,
                                              new PaletteMetricRedirect(Redirector),
                                              _contentValues, VisualOrientation.Top, false);
 
@@ -713,7 +713,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         [EditorBrowsable(EditorBrowsableState.Always)]
         [Browsable(false)]
-        public TreeView? TreeView => _treeView;
+        public TreeView TreeView => _treeView;
 
         /// <summary>
         /// Gets access to the contained input control.
@@ -721,7 +721,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         [EditorBrowsable(EditorBrowsableState.Always)]
         [Browsable(false)]
-        public Control? ContainedControl => TreeView;
+        public Control ContainedControl => TreeView;
 
         /// <summary>
         /// Gets or sets the text for the control.
@@ -762,7 +762,7 @@ namespace Krypton.Toolkit
         public override Font Font
         {
             get => base.Font;
-            set => base.Font = value;
+            set => base.Font = value!;
         }
 
         /// <summary>
@@ -812,9 +812,7 @@ namespace Krypton.Toolkit
                 }
             }
         }
-
         private bool ShouldSerializeItemHeight() => !_itemHeightDefault;
-
         private void ResetItemHeight()
         {
             _itemHeightDefault = true;
@@ -832,6 +830,27 @@ namespace Krypton.Toolkit
             get => _treeView.CheckBoxes;
             set => _treeView.CheckBoxes = value;
         }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether check boxes are Displayed next to the tree nodes in the tree view control.
+        /// </summary>
+        [Category(@"Appearance")]
+        [Description(@"Indicates whether 'MultiSelect' is implemented on Selection")]
+        [DefaultValue(false)]
+        public bool MultiSelect
+        {
+            get => _multiSelect || CheckBoxes;
+            set 
+            { 
+                _multiSelect = value;
+                // Force redraw of current options
+                var checkedNodes = CheckedNodes;
+                CheckedNodes = checkedNodes;
+            }
+        }
+
+        private bool ShouldSerializeMultiSelect() => _multiSelect;
+        private void ResetMultiSelect() => _multiSelect = false;
 
         /// <summary>
         /// Gets or sets a value indicating whether the selection highlight spans the width of the tree view control.
@@ -989,13 +1008,43 @@ namespace Krypton.Toolkit
         /// Gets or sets the tree node that is currently selected in the tree view control.
         /// </summary>
         [Category(@"Appearance")]
-        [Description(@"Note that is currently selected.")]
+        [Description(@"Node that is currently selected.")]
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public TreeNode SelectedNode
+        public TreeNode? SelectedNode
         {
             get => _treeView.SelectedNode;
             set => _treeView.SelectedNode = value;
+        }
+
+        /// <summary>
+        /// Gets or sets the tree node that is currently selected in the tree view control.
+        /// </summary>
+        [Category(@"Appearance")]
+        [Description(@"Node(s) that have check set; Will used in MultiSelect as well.")]
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public List<TreeNode> CheckedNodes
+        {
+            get => TreeView.Nodes.Cast<TreeNode>().Where(node => node.Checked).ToList();
+            set
+            {
+                foreach (TreeNode node in TreeView.Nodes)
+                {
+                    node.Checked = false;
+                }
+
+                foreach (TreeNode node in value)
+                {
+                    node.Checked = true;
+                    if (!MultiSelect)
+                    {
+                        // Only do the first one !
+                        break;
+                    }
+                }
+                PerformNeedPaint(false);
+            }
         }
 
         /// <summary>
@@ -1287,11 +1336,11 @@ namespace Krypton.Toolkit
         /// Gets access to the pressed item appearance entries.
         /// </summary>
         [Category(@"Visuals")]
-        [Description(@"Overrides for defining pressed item appearance.")]
+        [Description(@"Overrides for defining (Multi) Select item appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteTreeNodeTriple StatePressed { get; }
+        public PaletteTreeNodeTriple StateMultiSelect { get; }
 
-        private bool ShouldSerializeStatePressed() => !StatePressed.IsDefault;
+        private bool ShouldSerializeStateMultiSelect() => !StateMultiSelect.IsDefault;
 
         /// <summary>
         /// Gets access to the normal checked item appearance entries.
@@ -1317,11 +1366,11 @@ namespace Krypton.Toolkit
         /// Gets access to the pressed checked item appearance entries.
         /// </summary>
         [Category(@"Visuals")]
-        [Description(@"Overrides for defining pressed checked item appearance.")]
+        [Description(@"Overrides for defining (Multi) Select checked item appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteTreeNodeTriple StateCheckedPressed { get; }
+        public PaletteTreeNodeTriple StateCheckedMultiSelect { get; }
 
-        private bool ShouldSerializeStateCheckedPressed() => !StateCheckedPressed.IsDefault;
+        private bool ShouldSerializeStateCheckedMultiSelect() => !StateCheckedMultiSelect.IsDefault;
 
         /// <summary>
         /// Gets and sets Determines if the control is always active or only when the mouse is over the control or has focus.
@@ -1508,6 +1557,11 @@ namespace Krypton.Toolkit
         {
             if (!_isRecreating)
             {
+                if (_multiSelect)
+                {
+                    e.Node.Checked = !e.Node.Checked;
+                }
+
                 AfterSelect?.Invoke(this, e);
             }
         }
@@ -2082,17 +2136,39 @@ namespace Krypton.Toolkit
                 {
                     _drawButton.Checked = true;
 
-                    buttonState = (e.State & TreeNodeStates.Hot) == TreeNodeStates.Hot
-                        ? PaletteState.CheckedTracking
-                        : PaletteState.CheckedNormal;
+                    if ((e.State & TreeNodeStates.Hot) == TreeNodeStates.Hot)
+                    {
+                        buttonState = PaletteState.CheckedTracking;
+                    }
+                    else if (e.Node.Checked)
+                    {
+                        buttonState = _layoutCheckBoxStack.Visible
+                            ? PaletteState.CheckedPressed
+                            : PaletteState.Pressed;
+                    }
+                    else
+                    {
+                        buttonState = PaletteState.CheckedNormal;
+                    }
                 }
                 else
                 {
                     _drawButton.Checked = false;
 
-                    buttonState = (e.State & TreeNodeStates.Hot) == TreeNodeStates.Hot
-                        ? PaletteState.Tracking
-                        : PaletteState.Normal;
+                    if ((e.State & TreeNodeStates.Hot) == TreeNodeStates.Hot)
+                    {
+                        buttonState = PaletteState.Tracking;
+                    }
+                    else if (e.Node.Checked)
+                    {
+                        buttonState = _layoutCheckBoxStack.Visible
+                            ? PaletteState.CheckedPressed
+                            : PaletteState.Pressed;
+                    }
+                    else
+                    {
+                        buttonState = PaletteState.Normal;
+                    }
                 }
 
                 // Do we need to show item as having the focus
@@ -2100,10 +2176,10 @@ namespace Krypton.Toolkit
 
                 _overrideNormal.Apply = hasFocus;
                 _overrideTracking.Apply = hasFocus;
-                _overridePressed.Apply = hasFocus;
+                _overrideMultiSelect.Apply = hasFocus;
                 _overrideCheckedTracking.Apply = hasFocus;
                 _overrideCheckedNormal.Apply = hasFocus;
-                _overrideCheckedPressed.Apply = hasFocus;
+                _overrideCheckedMultiSelect.Apply = hasFocus;
             }
 
             // Update the view with the calculated state
