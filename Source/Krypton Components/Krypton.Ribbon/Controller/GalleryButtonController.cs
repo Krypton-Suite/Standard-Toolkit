@@ -25,7 +25,7 @@ namespace Krypton.Ribbon
         private bool _pressed;
         private bool _mouseOver;
         private NeedPaintHandler? _needPaint;
-        private readonly Timer? _repeatTimer;
+        private readonly Timer _repeatTimer;
 
         #endregion
 
@@ -50,7 +50,7 @@ namespace Krypton.Ribbon
             Debug.Assert(target != null);
 
             Target = target!;
-            NeedPaint = needPaint!;
+            NeedPaint = needPaint;
 
             if (repeatTimer)
             {
@@ -74,7 +74,7 @@ namespace Krypton.Ribbon
                 _pressed = false;
                 _mouseOver = false;
                 UpdateTargetState(new Point(int.MaxValue, int.MaxValue));
-                _repeatTimer?.Stop();
+                _repeatTimer.Stop();
             }
         }
         #endregion
@@ -117,7 +117,7 @@ namespace Krypton.Ribbon
                 if (Target.Enabled)
                 {
                     OnClick(new MouseEventArgs(MouseButtons.Left, 1, pt.X, pt.Y, 0));
-                    _repeatTimer?.Start();
+                    _repeatTimer.Start();
                 }
             }
 
@@ -137,7 +137,7 @@ namespace Krypton.Ribbon
             {
                 _pressed = false;
                 UpdateTargetState(pt);
-                _repeatTimer?.Stop();
+                _repeatTimer.Stop();
             }
         }
 
@@ -154,7 +154,7 @@ namespace Krypton.Ribbon
                 _pressed = false;
                 _mouseOver = false;
                 UpdateTargetState(c);
-                _repeatTimer?.Stop();
+                _repeatTimer.Stop();
             }
         }
 
@@ -237,14 +237,17 @@ namespace Krypton.Ribbon
         /// <param name="pt">Mouse point.</param>
         protected virtual void UpdateTargetState(Point pt)
         {
-            // By default the button is in the normal state
+            // By default, the button is in the normal state
             PaletteState newState;
 
             // If the button is disabled then show as disabled
             if (!Target.Enabled)
             {
                 newState = PaletteState.Disabled;
-                _repeatTimer?.Stop();
+                _repeatTimer.Stop();
+
+                // Repeats will crash the application, below should solve this
+                _repeatTimer.Dispose();
             }
             else
             {
@@ -284,7 +287,7 @@ namespace Krypton.Ribbon
             }
             else
             {
-                _repeatTimer?.Stop();
+                _repeatTimer.Stop();
             }
         }
 
