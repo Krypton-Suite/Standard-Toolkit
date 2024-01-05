@@ -299,7 +299,7 @@ namespace Krypton.Toolkit
         [Category(@"Appearance")]
         [Description(@"The Left or Top panel in the KryptonSplitContainer.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public KryptonSplitterPanel? Panel1 { get; }
+        public KryptonSplitterPanel Panel1 { get; }
 
         /// <summary>
         /// Gets and sets the minium size of panel1.
@@ -403,7 +403,7 @@ namespace Krypton.Toolkit
         [Category(@"Appearance")]
         [Description(@"The Right or Bottom panel in the KryptonSplitContainer.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public KryptonSplitterPanel? Panel2 { get; }
+        public KryptonSplitterPanel Panel2 { get; }
 
         /// <summary>
         /// Gets and sets the minium size of panel2.

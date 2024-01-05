@@ -952,7 +952,7 @@ namespace Krypton.Toolkit
         private readonly ViewDrawCheckBox _drawCheckBox;
         private readonly ViewLayoutFill _layoutFill;
         private readonly ViewDrawButton _drawButton;
-        private readonly InternalCheckedListBox? _listBox;
+        private readonly InternalCheckedListBox _listBox;
         private readonly FixedContentValue? _contentValues;
         private bool? _fixedActive;
         private ButtonStyle _style;
@@ -1256,7 +1256,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         [EditorBrowsable(EditorBrowsableState.Always)]
         [Browsable(false)]
-        public ListBox? ListBox => _listBox;
+        public ListBox ListBox => _listBox;
 
         /// <summary>
         /// Gets access to the contained input control.

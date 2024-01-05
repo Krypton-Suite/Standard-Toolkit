@@ -3,6 +3,7 @@
 =======
 
 ## 2024-11-xx - Build 2411 - November 2024
+* Resolved / Implemented [#215](https://github.com/Krypton-Suite/Standard-Toolkit/issues/215), `KryptonTreeView` Multi Node Select
 * Resolved [#1249](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1249), Ribbon Form Bars are no longer Drawn with the theme colouring
 * Resolved [#1255](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1255), Why does `CornerRoundingRadius` override the KRyptonForm StateCommon.Border.Rounding value
 * Resolved [#1252](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1252),Using V80, Setting a "Fat" Form border leads to poor layout

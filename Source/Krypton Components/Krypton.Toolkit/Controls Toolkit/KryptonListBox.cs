@@ -349,7 +349,7 @@ namespace Krypton.Toolkit
         private readonly ViewDrawDocker _drawDockerOuter;
         private readonly ViewLayoutFill _layoutFill;
         private readonly ViewDrawButton _drawButton;
-        private readonly InternalListBox? _listBox;
+        private readonly InternalListBox _listBox;
         private readonly FixedContentValue? _contentValues;
         private bool? _fixedActive;
         private ButtonStyle _style;
@@ -659,7 +659,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         [EditorBrowsable(EditorBrowsableState.Always)]
         [Browsable(false)]
-        public ListBox? ListBox => _listBox;
+        public ListBox ListBox => _listBox;
 
         /// <summary>
         /// Gets access to the contained input control.
@@ -667,7 +667,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         [EditorBrowsable(EditorBrowsableState.Always)]
         [Browsable(false)]
-        public Control? ContainedControl => ListBox!;
+        public Control ContainedControl => ListBox!;
 
         /// <summary>
         /// Gets or sets the text for the control.

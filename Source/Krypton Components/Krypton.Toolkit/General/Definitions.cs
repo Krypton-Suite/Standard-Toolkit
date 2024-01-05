@@ -406,7 +406,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the contained input control.
         /// </summary>
-        Control? ContainedControl { get; }
+        Control ContainedControl { get; }
     }
     #endregion
 

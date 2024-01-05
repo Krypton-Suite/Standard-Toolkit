@@ -187,6 +187,9 @@ There are list of changes that have occurred during the development of the V90.#
 - [#124](https://github.com/Krypton-Suite/Standard-Toolkit/issues/124), When setting AllowFormChrome = false, then the Form Bar should still be Theme rendered
   - `AllowFormChrome` has been removed and replaced with `UseThemeFormChromeBorderWidth` to better explain what it is doing
   - It means that a theme can get closer to "Material Design", and that the Title bar can still be themed (And rounded)
+- [#215](https://github.com/Krypton-Suite/Standard-Toolkit/issues/215), `KryptonTreeView` Multi Node Select
+  - Designer values named `State####Pressed` have changed to `State#####MultiSelect` to reflect usage
+  - New ReeView Designer value `MultiSelect` allows drawing of selected items and retrieval via `CheckedNodes`
 
 ### Support for .NET 6/7
 As of V90.##, support for .NET 6 and 7 has been removed due to their release cadences.
