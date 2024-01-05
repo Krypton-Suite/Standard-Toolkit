@@ -18,5 +18,10 @@ namespace TestForm
         {
             InitializeComponent();
         }
+
+        private void krcbAllowFormIntegrate_CheckedChanged(object sender, EventArgs e)
+        {
+            kryptonRibbon1.AllowFormIntegrate = krcbAllowFormIntegrate.Checked;
+        }
     }
 }

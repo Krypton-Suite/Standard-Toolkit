@@ -26,6 +26,7 @@ namespace Krypton.Ribbon
         private bool _mouseOver;
         private NeedPaintHandler? _needPaint;
         private readonly Timer _repeatTimer;
+
         #endregion
 
         #region Events
@@ -49,7 +50,7 @@ namespace Krypton.Ribbon
             Debug.Assert(target != null);
 
             Target = target!;
-            NeedPaint = needPaint!;
+            NeedPaint = needPaint;
 
             if (repeatTimer)
             {
@@ -236,7 +237,7 @@ namespace Krypton.Ribbon
         /// <param name="pt">Mouse point.</param>
         protected virtual void UpdateTargetState(Point pt)
         {
-            // By default the button is in the normal state
+            // By default, the button is in the normal state
             PaletteState newState;
 
             // If the button is disabled then show as disabled
@@ -244,6 +245,9 @@ namespace Krypton.Ribbon
             {
                 newState = PaletteState.Disabled;
                 _repeatTimer.Stop();
+
+                // Repeats will crash the application, below should solve this
+                _repeatTimer.Dispose();
             }
             else
             {

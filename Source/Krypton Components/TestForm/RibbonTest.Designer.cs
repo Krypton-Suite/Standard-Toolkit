@@ -39,18 +39,21 @@
             this.kryptonRibbonGroupButton4 = new Krypton.Ribbon.KryptonRibbonGroupButton();
             this.kryptonRibbonGroupButton5 = new Krypton.Ribbon.KryptonRibbonGroupButton();
             this.kryptonRibbonGroupGallery1 = new Krypton.Ribbon.KryptonRibbonGroupGallery();
+            this.kryptonPanel1 = new Krypton.Toolkit.KryptonPanel();
+            this.krcbAllowFormIntegrate = new Krypton.Ribbon.KryptonRibbonGroupCheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonRibbon1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
             this.SuspendLayout();
             // 
             // kryptonRibbon1
             // 
-            this.kryptonRibbon1.AllowFormIntegrate = true;
             this.kryptonRibbon1.InDesignHelperMode = true;
             this.kryptonRibbon1.Name = "kryptonRibbon1";
             this.kryptonRibbon1.RibbonTabs.AddRange(new Krypton.Ribbon.KryptonRibbonTab[] {
             this.kryptonRibbonTab1});
+            this.kryptonRibbon1.SelectedContext = null;
             this.kryptonRibbon1.SelectedTab = this.kryptonRibbonTab1;
-            this.kryptonRibbon1.Size = new System.Drawing.Size(800, 115);
+            this.kryptonRibbon1.Size = new System.Drawing.Size(802, 115);
             this.kryptonRibbon1.TabIndex = 0;
             // 
             // kryptonRibbonTab1
@@ -76,21 +79,37 @@
             // 
             this.kryptonRibbonGroupLines1.Items.AddRange(new Krypton.Ribbon.KryptonRibbonGroupItem[] {
             this.kryptonRibbonGroupButton4,
-            this.kryptonRibbonGroupButton5});
+            this.kryptonRibbonGroupButton5,
+            this.krcbAllowFormIntegrate});
             // 
             // kryptonRibbonGroupGallery1
             // 
             this.kryptonRibbonGroupGallery1.ImageList = null;
             // 
+            // kryptonPanel1
+            // 
+            this.kryptonPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.kryptonPanel1.Location = new System.Drawing.Point(0, 115);
+            this.kryptonPanel1.Name = "kryptonPanel1";
+            this.kryptonPanel1.Size = new System.Drawing.Size(802, 337);
+            this.kryptonPanel1.TabIndex = 1;
+            // 
+            // krcbAllowFormIntegrate
+            // 
+            this.krcbAllowFormIntegrate.TextLine1 = "Allow Form Integrate";
+            this.krcbAllowFormIntegrate.CheckedChanged += new System.EventHandler(this.krcbAllowFormIntegrate_CheckedChanged);
+            // 
             // RibbonTest
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(802, 452);
+            this.Controls.Add(this.kryptonPanel1);
             this.Controls.Add(this.kryptonRibbon1);
             this.Name = "RibbonTest";
             this.Text = "Form3";
             ((System.ComponentModel.ISupportInitialize)(this.kryptonRibbon1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -109,5 +128,7 @@
         private Krypton.Ribbon.KryptonRibbonGroupButton kryptonRibbonGroupButton4;
         private Krypton.Ribbon.KryptonRibbonGroupButton kryptonRibbonGroupButton5;
         private Krypton.Ribbon.KryptonRibbonGroupGallery kryptonRibbonGroupGallery1;
+        private Krypton.Toolkit.KryptonPanel kryptonPanel1;
+        private Krypton.Ribbon.KryptonRibbonGroupCheckBox krcbAllowFormIntegrate;
     }
 }
