@@ -205,7 +205,7 @@ namespace Krypton.Ribbon
             // toggle minimized mode and also when to exit keyboard access mode
             Application.AddMessageFilter(this);
 
-            _allowFormIntegrate = true;
+            _allowFormIntegrate = Environment.OSVersion.Version.Major >= 6 || Environment.OSVersion.Version.Major < 10;
         }
 
         /// <summary>
@@ -432,7 +432,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Resets the AllowFormIntegrate property to its default value.
         /// </summary>
-        public void ResetAllowFormIntegrate() => _allowFormIntegrate = true; // https://github.com/Krypton-Suite/Standard-Toolkit/issues/929
+        public void ResetAllowFormIntegrate() => _allowFormIntegrate = Environment.OSVersion.Version.Major >= 6 || Environment.OSVersion.Version.Major < 10; // https://github.com/Krypton-Suite/Standard-Toolkit/issues/929
 
 
         /// <summary>
@@ -2614,7 +2614,7 @@ namespace Krypton.Ribbon
             ShowMinimizeButton = true;
             QATLocation = QATLocation.Above;
             QATUserChange = true;
-            _allowFormIntegrate = true;
+            _allowFormIntegrate = Environment.OSVersion.Version.Major >= 6 || Environment.OSVersion.Version.Major < 10;
             //ResetAllowFormIntegrate();
             LostFocusLosesKeyboard = true;
 
