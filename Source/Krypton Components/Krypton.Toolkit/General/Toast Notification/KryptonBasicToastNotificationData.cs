@@ -7,19 +7,37 @@
  */
 #endregion
 
+using ContentAlignment = System.Drawing.ContentAlignment;
+
 namespace Krypton.Toolkit
 {
     public struct KryptonBasicToastNotificationData
     {
         #region Public
 
+        /// <summary>Gets or sets the use fade.</summary>
+        /// <value>The use fade.</value>
         public bool? UseFade { get; set; }
 
+        /// <summary>Gets or sets the top most.</summary>
+        /// <value>The top most.</value>
         public bool? TopMost { get; set; }
 
         /// <summary>Gets or sets the show close box.</summary>
         /// <value>The show close box.</value>
         public bool? ShowCloseBox { get; set; }
+
+        /// <summary>Gets or sets the notification title alignment.</summary>
+        /// <value>The notification title alignment.</value>
+        public ContentAlignment? NotificationTitleAlignment { get; set; }
+
+        /// <summary>Gets or sets the notification content font.</summary>
+        /// <value>The notification content font.</value>
+        public Font? NotificationContentFont { get; set; }
+
+        /// <summary>Gets or sets the notification title font.</summary>
+        /// <value>The notification title font.</value>
+        public Font? NotificationTitleFont { get; set; }
 
         /// <summary>Gets or sets the count down seconds.</summary>
         /// <value>The count down seconds.</value>

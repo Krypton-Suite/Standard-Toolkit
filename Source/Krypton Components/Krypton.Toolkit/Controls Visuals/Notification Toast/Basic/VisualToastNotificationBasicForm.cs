@@ -7,6 +7,7 @@
  */
 #endregion
 
+using ContentAlignment = System.Drawing.ContentAlignment;
 using Timer = System.Windows.Forms.Timer;
 
 namespace Krypton.Toolkit
@@ -42,6 +43,8 @@ namespace Krypton.Toolkit
             DoubleBuffered = true;
 
             UpdateFadeValues();
+
+            UpdateFonts();
         }
 
         #endregion
@@ -53,11 +56,23 @@ namespace Krypton.Toolkit
             kwlblContent.Text = _basicToastNotificationData.NotificationContent;
 
             kwlblHeader.Text = _basicToastNotificationData.NotificationTitle;
+
+            kwlblHeader.TextAlign =
+                _basicToastNotificationData.NotificationTitleAlignment ?? ContentAlignment.MiddleCenter;
         }
 
         private void UpdateFadeValues()
         {
             FadeValues.FadingEnabled = _basicToastNotificationData.UseFade ?? false;
+        }
+
+        private void UpdateFonts()
+        {
+            kwlblContent.StateCommon.Font = _basicToastNotificationData.NotificationContentFont ??
+                                KryptonManager.CurrentGlobalPalette.BaseFont;
+
+            kwlblHeader.StateCommon.Font = _basicToastNotificationData.NotificationTitleFont ??
+                               new Font(KryptonManager.CurrentGlobalPalette.BaseFont.FontFamily, 11f, FontStyle.Bold);
         }
 
         private void UpdateIcon()
