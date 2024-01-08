@@ -13,16 +13,36 @@ namespace Krypton.Toolkit
     {
         #region Public
 
+        public bool? UseFade { get; set; }
+
+        public bool? TopMost { get; set; }
+
+        /// <summary>Gets or sets the show close box.</summary>
+        /// <value>The show close box.</value>
         public bool? ShowCloseBox { get; set; }
 
+        /// <summary>Gets or sets the count down seconds.</summary>
+        /// <value>The count down seconds.</value>
         public int? CountDownSeconds { get; set; }
 
+        /// <summary>Gets or sets the content of the notification.</summary>
+        /// <value>The content of the notification.</value>
         public string NotificationContent { get; set; }
 
+        /// <summary>Gets or sets the notification title.</summary>
+        /// <value>The notification title.</value>
         public string? NotificationTitle { get; set; }
 
-        public Image? CustomImage { get; set; }
+        /// <summary>Gets or sets the custom image.</summary>
+        /// <value>The custom image.</value>
+        public Bitmap? CustomImage { get; set; }
 
+        /// <summary>Gets or sets the notification location.</summary>
+        /// <value>The notification location.</value>
+        public Point? NotificationLocation { get; set; }
+
+        /// <summary>Gets or sets the notification icon.</summary>
+        /// <value>The notification icon.</value>
         public KryptonToastNotificationIcon? NotificationIcon { get; set; }
 
         #endregion

@@ -25,20 +25,6 @@ namespace Krypton.Toolkit
 
         #endregion
 
-        #region Public
-
-        //public bool? ShowCloseBox { get; set; }
-
-        //public int? CountDownSeconds { get; private set; }
-
-        //public string NotificationContent { get; private set; }
-
-        //public string? NotificationTitle { get; private set; }
-
-        //public KryptonToastNotificationIcon? NotificationIcon { get; private set; }
-
-        #endregion
-
         #region Identity
 
         /// <summary>Initializes a new instance of the <see cref="VisualToastNotificationBasicForm" /> class.</summary>
@@ -47,16 +33,6 @@ namespace Krypton.Toolkit
         {
             _basicToastNotificationData = data;
 
-            //ShowCloseBox = _basicToastNotificationData.ShowCloseBox ?? false;
-
-            //CountDownSeconds = _basicToastNotificationData.CountDownSeconds ?? 60;
-
-            //NotificationContent = _basicToastNotificationData.NotificationContent;
-
-            //NotificationTitle = _basicToastNotificationData.NotificationTitle ?? string.Empty;
-
-            //NotificationIcon = _basicToastNotificationData.NotificationIcon ?? KryptonToastNotificationIcon.None;
-
             InitializeComponent();
 
             GotFocus += VisualToastNotificationBasicForm_GotFocus;
@@ -64,6 +40,8 @@ namespace Krypton.Toolkit
             Resize += VisualToastNotificationBasicForm_Resize;
 
             DoubleBuffered = true;
+
+            UpdateFadeValues();
         }
 
         #endregion
@@ -75,6 +53,11 @@ namespace Krypton.Toolkit
             kwlblContent.Text = _basicToastNotificationData.NotificationContent;
 
             kwlblHeader.Text = _basicToastNotificationData.NotificationTitle;
+        }
+
+        private void UpdateFadeValues()
+        {
+            FadeValues.FadingEnabled = _basicToastNotificationData.UseFade ?? false;
         }
 
         private void UpdateIcon()
@@ -140,6 +123,14 @@ namespace Krypton.Toolkit
                     SetIcon(ToastNotificationImageResources.Toast_Notification_Ok_128_x_128);
                     break;
                 case KryptonToastNotificationIcon.Custom:
+                    if (_basicToastNotificationData.CustomImage != null)
+                    {
+                        SetIcon(new Bitmap(_basicToastNotificationData.CustomImage));
+                    }
+                    else
+                    {
+                        pbxIcon.Visible = false;
+                    }
                     break;
                 case null:
                     SetIcon(null);
@@ -153,8 +144,8 @@ namespace Krypton.Toolkit
 
         private void UpdateLocation()
         {
-            //Once loaded, position the form to the bottom left of the screen with added padding
-            Location = new Point(Screen.PrimaryScreen.WorkingArea.Width - Width - 5,
+            //Once loaded, position the form, or position it to the bottom left of the screen with added padding
+            Location = _basicToastNotificationData.NotificationLocation ?? new Point(Screen.PrimaryScreen.WorkingArea.Width - Width - 5,
                 Screen.PrimaryScreen.WorkingArea.Height - Height - 5);
         }
 
@@ -184,11 +175,16 @@ namespace Krypton.Toolkit
 
         private void kbtnDismiss_Click(object sender, EventArgs e) => Close();
 
-        private void ShowCloseButton() => CloseBox = _basicToastNotificationData.ShowCloseBox ?? false;
+        private void ShowCloseButton()
+        {
+            CloseBox = _basicToastNotificationData.ShowCloseBox ?? false;
+
+            FormBorderStyle = CloseBox ? FormBorderStyle.Fixed3D : FormBorderStyle.None;
+        }
 
         public new void Show()
         {
-            //TopMost = true;
+            TopMost = _basicToastNotificationData.TopMost ?? true;
 
             //Opacity = 0;
 
