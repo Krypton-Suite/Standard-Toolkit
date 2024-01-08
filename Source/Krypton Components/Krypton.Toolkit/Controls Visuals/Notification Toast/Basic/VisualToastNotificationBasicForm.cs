@@ -236,7 +236,7 @@ namespace Krypton.Toolkit
 
         internal static void ShowToast(KryptonBasicToastNotificationData toastNotificationData)
         {
-            VisualToastNotificationBasicForm kt = new VisualToastNotificationBasicForm(toastNotificationData);
+            var kt = new VisualToastNotificationBasicForm(toastNotificationData);
 
             kt.Show();
         }
