@@ -341,24 +341,20 @@ namespace TestForm
 
         private void kryptonButton10_Click(object sender, EventArgs e)
         {
-            KryptonToastData toastData = new KryptonToastData();
+            KryptonBasicToastNotificationData toastNotificationData = new KryptonBasicToastNotificationData()
+            {
+                CountDownSeconds = 60,
+                NotificationContent = @"This is a test",
+                NotificationIcon = KryptonToastNotificationIcon.Information,
+                NotificationTitle = @"Hello World"
+            };
 
-            toastData.CountDownSeconds = 60;
-
-            toastData.NotificationContentText = @"Hello world";
-
-            toastData.Title = @"Test";
-
-            toastData.ToastNotificationInputAreaType = KryptonToastNotificationInputAreaType.None;
-
-            //toastData.
-
-            KryptonToast.Show(toastData);
+            KryptonToastNotification.ShowBasicNotification(toastNotificationData);
         }
 
         private void kryptonButton11_Click(object sender, EventArgs e)
         {
-            KryptonMessageBox.Show((string)null, @"Test with no Text");
+            KryptonMessageBox.Show(string.Empty, @"Test with no Text");
         }
 
         private void kryptonButton12_Click(object sender, EventArgs e)

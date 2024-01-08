@@ -20,6 +20,7 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
 
+        private bool _synchronizeDropDownWidth;
         private Font? _font;
         private Color _color1;
         internal Padding _padding;
@@ -39,12 +40,13 @@ namespace Krypton.Toolkit
             Debug.Assert(inherit != null);
 
             // Remember inheritance
-            Inherit = inherit;
+            Inherit = inherit!;
 
             // Store the provided paint notification delegate
             NeedPaint = needPaint;
 
             // Default the initial values
+            _synchronizeDropDownWidth = false;
             _font = null;
             _color1 = Color.Empty;
             _padding = CommonHelper.InheritPadding;
@@ -57,11 +59,11 @@ namespace Krypton.Toolkit
         /// Gets a value indicating if all values are default.
         /// </summary>
         [Browsable(false)]
-        public override bool IsDefault => (Font == null) &&
+        public override bool IsDefault =>  (SynchronizeDropDownWidth == null) &&
+                                           (Font == null) &&
                                            (Color1.IsEmpty) &&
                                            Padding.Equals(CommonHelper.InheritPadding)
-                                           && (TextH == PaletteRelativeAlign.Inherit)
-                                            ;
+                                           && (TextH == PaletteRelativeAlign.Inherit);
 
         #endregion
 
@@ -80,10 +82,37 @@ namespace Krypton.Toolkit
         public virtual void PopulateFromBase(PaletteState state)
         {
             // Get the values and set into storage
+            SynchronizeDropDownWidth = false;
             Font = GetContentShortTextFont(state);
             Color1 = GetContentShortTextColor1(state);
             Padding = GetContentPadding(state);
         }
+        #endregion
+
+        #region SynchronizeDropDownWidth
+
+        /// <summary>Gets or sets a value indicating whether [synchronize drop down width].</summary>
+        /// <value><c>true</c> if [synchronize drop down width]; otherwise, <c>false</c>.</value>
+        [KryptonPersist(false)]
+        [Category(@"Visuals")]
+        [Description(@"Adjust the drop-down width, based on the controls width.")]
+        [DefaultValue(null)]
+        [AllowNull]
+        public bool SynchronizeDropDownWidth
+        {
+            get => _synchronizeDropDownWidth;
+            
+            set
+            {
+                if (_synchronizeDropDownWidth != value)
+                {
+                    _synchronizeDropDownWidth = value;
+
+                    PerformNeedPaint(true);
+                }
+            }
+        }
+
         #endregion
 
         #region Draw
