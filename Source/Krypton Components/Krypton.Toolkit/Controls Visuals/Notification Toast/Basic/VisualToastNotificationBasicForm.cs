@@ -138,14 +138,9 @@ namespace Krypton.Toolkit
                     SetIcon(ToastNotificationImageResources.Toast_Notification_Ok_128_x_128);
                     break;
                 case KryptonToastNotificationIcon.Custom:
-                    if (_basicToastNotificationData.CustomImage != null)
-                    {
-                        SetIcon(new Bitmap(_basicToastNotificationData.CustomImage));
-                    }
-                    else
-                    {
-                        pbxIcon.Visible = false;
-                    }
+                    SetIcon(_basicToastNotificationData.CustomImage != null
+                        ? new Bitmap(_basicToastNotificationData.CustomImage)
+                        : null);
                     break;
                 case null:
                     SetIcon(null);
