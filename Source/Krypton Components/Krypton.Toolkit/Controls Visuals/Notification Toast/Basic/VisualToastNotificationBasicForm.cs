@@ -69,10 +69,11 @@ namespace Krypton.Toolkit
         private void UpdateFonts()
         {
             kwlblContent.StateCommon.Font = _basicToastNotificationData.NotificationContentFont ??
-                                KryptonManager.CurrentGlobalPalette.BaseFont;
+                                            KryptonManager.CurrentGlobalPalette.BaseFont;
 
             kwlblHeader.StateCommon.Font = _basicToastNotificationData.NotificationTitleFont ??
-                               new Font(KryptonManager.CurrentGlobalPalette.BaseFont.FontFamily, 11f, FontStyle.Bold);
+                                           new Font(KryptonManager.CurrentGlobalPalette.BaseFont.FontFamily, 11f,
+                                               FontStyle.Bold);
         }
 
         private void UpdateIcon()
