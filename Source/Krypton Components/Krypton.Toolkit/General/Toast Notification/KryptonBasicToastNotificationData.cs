@@ -45,7 +45,7 @@ namespace Krypton.Toolkit
 
         /// <summary>Gets or sets the content of the notification.</summary>
         /// <value>The content of the notification.</value>
-        public string NotificationContent { get; set; }
+        public string? NotificationContent { get; set; }
 
         /// <summary>Gets or sets the notification title.</summary>
         /// <value>The notification title.</value>

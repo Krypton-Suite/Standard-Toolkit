@@ -26,6 +26,8 @@ namespace Krypton.Toolkit
 
 		private PaletteMode _defaultPalette;
 
+        private KryptonManager? _manager;
+
 		#endregion
 
 		#region Public
@@ -81,12 +83,15 @@ namespace Krypton.Toolkit
 		[DefaultValue(null)]
 		public KryptonCustomPaletteBase? KryptonCustomPalette { get; set; }
 
-		//[EditorBrowsable(EditorBrowsableState.Never)]
-		public KryptonManager Manager
-		{
-			get;
+		[Category(@"Data")]
+		[Description(@"")]
+		[DefaultValue(null)]
+        public KryptonManager? Manager
+        {
+            get => _manager;
 
-		} = new KryptonManager();
+			set => _manager = value;
+        }
 
 		#endregion
 
@@ -96,6 +101,8 @@ namespace Krypton.Toolkit
 		public KryptonThemeComboBox()
 		{
 			_reportSelectedThemeIndex = false;
+
+            _manager = new KryptonManager();
 
 			DropDownStyle = ComboBoxStyle.DropDownList;
 			foreach (var kvp in PaletteModeStrings.SupportedThemesMap)
@@ -119,7 +126,7 @@ namespace Krypton.Toolkit
 		/// <returns>
 		///   <br />
 		/// </returns>
-		public PaletteMode ReturnPaletteMode() => Manager.GlobalPaletteMode;
+		public PaletteMode ReturnPaletteMode() => Manager!.GlobalPaletteMode;
 
 		// TODO: Refresh the theme names if the values have been altered
 
@@ -137,7 +144,7 @@ namespace Krypton.Toolkit
 		/// <inheritdoc />
 		protected override void OnSelectedIndexChanged(EventArgs e)
 		{
-			ThemeManager.ApplyTheme(Text!, Manager);
+			ThemeManager.ApplyTheme(Text!, Manager!);
 
 			ThemeSelectedIndex = SelectedIndex;
 
@@ -146,7 +153,7 @@ namespace Krypton.Toolkit
 				&& (KryptonCustomPalette != null)
 			   )
 			{
-				Manager.GlobalCustomPalette = KryptonCustomPalette;
+				Manager!.GlobalCustomPalette = KryptonCustomPalette;
 			}
 
 			if (_reportSelectedThemeIndex)

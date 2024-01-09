@@ -113,6 +113,11 @@ namespace Krypton.Toolkit
             }
         }
 
+        private bool ShouldSerializeSynchronizeDropDownWidth() => _synchronizeDropDownWidth != true;
+
+        /// <summary>Resets the value of the synchronize drop down.</summary>
+        private void ResetSynchronizeDropDownWidth() => _synchronizeDropDownWidth = false;
+
         #endregion
 
         #region Draw

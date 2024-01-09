@@ -466,8 +466,9 @@ namespace Krypton.Toolkit
                     return PaletteProfessionalOffice2003;
                 case PaletteMode.Office2007Blue:
                     return PaletteOffice2007Blue;
-                case PaletteMode.Office2007DarkGray:
-                    return PaletteOffice2007DarkGray;
+                // TODO: Re-enable this once completed
+                // case PaletteMode.Office2007DarkGray:
+                // return PaletteOffice2007DarkGray;
                 case PaletteMode.Office2007BlueDarkMode:
                     return PaletteOffice2007BlueDarkMode;
                 case PaletteMode.Office2007BlueLightMode:
@@ -481,9 +482,10 @@ namespace Krypton.Toolkit
                 case PaletteMode.Office2007White:
                     return PaletteOffice2007White;
                 case PaletteMode.Office2007Black:
-                    return PaletteOffice2007Black;
-                case PaletteMode.Office2010DarkGray:
-                    return PaletteOffice2010DarkGray;
+                    return PaletteOffice2007Black; 
+                // TODO: Re-enable this once completed
+                // case PaletteMode.Office2010DarkGray:
+                // return PaletteOffice2010DarkGray;
                 case PaletteMode.Office2007BlackDarkMode:
                     return PaletteOffice2007BlackDarkMode;
                 case PaletteMode.Office2010Blue:
@@ -504,10 +506,11 @@ namespace Krypton.Toolkit
                     return PaletteOffice2010Black;
                 case PaletteMode.Office2010BlackDarkMode:
                     return PaletteOffice2010BlackDarkMode;
-                case PaletteMode.Office2013DarkGray:
-                    return PaletteOffice2013DarkGray;
-                case PaletteMode.Office2013LightGray:
-                    return PaletteOffice2013LightGray;
+                // TODO: Re-enable this once completed
+                // case PaletteMode.Office2013DarkGray:
+                // return PaletteOffice2013DarkGray;
+                // case PaletteMode.Office2013LightGray:
+                // return PaletteOffice2013LightGray;
                 case PaletteMode.Office2013White:
                     return PaletteOffice2013White;
                 case PaletteMode.SparkleBlue:
@@ -538,8 +541,9 @@ namespace Krypton.Toolkit
                     return PaletteMicrosoft365BlueLightMode;
                 case PaletteMode.Microsoft365Blue:
                     return PaletteMicrosoft365Blue;
-                case PaletteMode.Microsoft365DarkGray:
-                    return PaletteMicrosoft365DarkGray;
+                // TODO: Re-enable this once completed
+                // case PaletteMode.Microsoft365DarkGray:
+                // return PaletteMicrosoft365DarkGray;
                 case PaletteMode.Microsoft365Silver:
                     return PaletteMicrosoft365Silver;
                 case PaletteMode.Microsoft365SilverDarkMode:

@@ -18,7 +18,7 @@ namespace Krypton.Toolkit
 
         private int _time;
 
-        private Timer? _timer;
+        private Timer _timer;
 
         private SoundPlayer? _soundPlayer;
 
@@ -53,7 +53,7 @@ namespace Krypton.Toolkit
 
         private void UpdateText()
         {
-            kwlblContent.Text = _basicToastNotificationData.NotificationContent;
+            kwlblContent.Text = _basicToastNotificationData.NotificationContent ?? null;
 
             kwlblHeader.Text = _basicToastNotificationData.NotificationTitle;
 
@@ -61,19 +61,25 @@ namespace Krypton.Toolkit
                 _basicToastNotificationData.NotificationTitleAlignment ?? ContentAlignment.MiddleCenter;
         }
 
-        private void UpdateFadeValues()
-        {
-            FadeValues.FadingEnabled = _basicToastNotificationData.UseFade ?? false;
-        }
+        private void UpdateFadeValues() => FadeValues.FadingEnabled = _basicToastNotificationData.UseFade ?? false;
 
         private void UpdateFonts()
         {
             kwlblContent.StateCommon.Font = _basicToastNotificationData.NotificationContentFont ??
                                             KryptonManager.CurrentGlobalPalette.BaseFont;
 
-            kwlblHeader.StateCommon.Font = _basicToastNotificationData.NotificationTitleFont ??
-                                           new Font(KryptonManager.CurrentGlobalPalette.BaseFont.FontFamily, 11f,
+            if (_basicToastNotificationData.NotificationTitleFont != null)
+            {
+                kwlblContent.LabelStyle = LabelStyle.NormalControl;
+
+                kwlblHeader.StateCommon.Font = _basicToastNotificationData.NotificationTitleFont ??
+                                               new Font(KryptonManager.CurrentGlobalPalette.BaseFont.FontFamily, 11f,
                                                FontStyle.Bold);
+            }
+            else
+            {
+                kwlblHeader.LabelStyle = LabelStyle.TitleControl;
+            }
         }
 
         private void UpdateIcon()
@@ -87,6 +93,11 @@ namespace Krypton.Toolkit
                     SetIcon(ToastNotificationImageResources.Toast_Notification_Hand_128_x_128);
                     break;
                 case KryptonToastNotificationIcon.SystemHand:
+#if NET8_0_OR_GREATER
+                    //SetIcon(GraphicsExtensions.ScaleImage());
+#else
+                    SetIcon(GraphicsExtensions.ScaleImage(SystemIcons.Hand.ToBitmap(), 128,128));
+#endif
                     break;
                 case KryptonToastNotificationIcon.Question:
                     SetIcon(ToastNotificationImageResources.Toast_Notification_Question_128_x_128);
@@ -166,7 +177,7 @@ namespace Krypton.Toolkit
 
             ShowCloseButton();
 
-            _timer?.Start();
+            _timer.Start();
 
             _soundPlayer?.Play();
         }

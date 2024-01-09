@@ -159,13 +159,6 @@ namespace TestForm
         //    kryptonCustomPaletteBase1.Export();
         //}
 
-        private void kryptonThemeComboBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            KryptonMessageBox.Show(
-                $"Selected Theme Index: {kryptonThemeComboBox1.SelectedIndex} - Theme Name: {kryptonThemeComboBox1.Text}",
-                "Test", KryptonMessageBoxButtons.OK, KryptonMessageBoxIcon.Information);
-        }
-
         private void kryptonButton8_Click(object sender, EventArgs e)
         {
             KryptonAboutBoxData aboutBoxData = new KryptonAboutBoxData()
