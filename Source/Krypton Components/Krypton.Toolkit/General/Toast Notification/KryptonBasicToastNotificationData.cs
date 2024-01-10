@@ -17,7 +17,7 @@ namespace Krypton.Toolkit
 
         /// <summary>Gets or sets the use fade.</summary>
         /// <value>The use fade.</value>
-        public bool? UseFade { get; set; }
+        public bool UseFade { get; set; }
 
         /// <summary>Gets or sets the top most.</summary>
         /// <value>The top most.</value>
@@ -62,6 +62,17 @@ namespace Krypton.Toolkit
         /// <summary>Gets or sets the notification icon.</summary>
         /// <value>The notification icon.</value>
         public KryptonToastNotificationIcon? NotificationIcon { get; set; }
+
+        #endregion
+
+        #region Identity
+
+        /// <summary>Initializes a new instance of the <see cref="KryptonBasicToastNotificationData" /> struct.</summary>
+        public KryptonBasicToastNotificationData()
+        {
+            // Defaults, when needed
+            UseFade = false;
+        }
 
         #endregion
     }

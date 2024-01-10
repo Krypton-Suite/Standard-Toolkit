@@ -53,7 +53,7 @@ namespace Krypton.Toolkit
 
         private void UpdateText()
         {
-            kwlblContent.Text = _basicToastNotificationData.NotificationContent ?? null;
+            kwlblContent.Text = _basicToastNotificationData.NotificationContent ?? string.Empty;
 
             kwlblHeader.Text = _basicToastNotificationData.NotificationTitle;
 
@@ -61,7 +61,7 @@ namespace Krypton.Toolkit
                 _basicToastNotificationData.NotificationTitleAlignment ?? ContentAlignment.MiddleCenter;
         }
 
-        private void UpdateFadeValues() => FadeValues.FadingEnabled = _basicToastNotificationData.UseFade ?? false;
+        private void UpdateFadeValues() => FadeValues.FadingEnabled = _basicToastNotificationData.UseFade;
 
         private void UpdateFonts()
         {

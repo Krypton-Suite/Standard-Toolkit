@@ -59,7 +59,7 @@ namespace Krypton.Toolkit
         /// Gets a value indicating if all values are default.
         /// </summary>
         [Browsable(false)]
-        public override bool IsDefault =>  (SynchronizeDropDownWidth == null) &&
+        public override bool IsDefault =>  (SynchronizeDropDownWidth == false) &&
                                            (Font == null) &&
                                            (Color1.IsEmpty) &&
                                            Padding.Equals(CommonHelper.InheritPadding)
@@ -96,8 +96,7 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category(@"Visuals")]
         [Description(@"Adjust the drop-down width, based on the controls width.")]
-        [DefaultValue(null)]
-        [AllowNull]
+        [DefaultValue(false)]
         public bool SynchronizeDropDownWidth
         {
             get => _synchronizeDropDownWidth;
