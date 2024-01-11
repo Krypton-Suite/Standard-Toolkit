@@ -383,5 +383,19 @@ namespace TestForm
                 ktxtCustomImagePath.Text = Path.GetFullPath(openFileDialog.FileName);
             }
         }
+
+        private void kryptonButton13_Click(object sender, EventArgs e)
+        {
+            KryptonBasicToastNotificationData toastNotificationDataNoCustomImage = new KryptonBasicToastNotificationData()
+            {
+                ShowCloseBox = kryptonCheckBox2.Checked,
+                CountDownSeconds = 60,
+                NotificationContent = @"This is a test",
+                NotificationIcon = KryptonToastNotificationIcon.Information,
+                NotificationTitle = @"Hello World"
+            };
+
+            KryptonToastNotification.ShowBasicProgressBarNotification(toastNotificationDataNoCustomImage);
+        }
     }
 }

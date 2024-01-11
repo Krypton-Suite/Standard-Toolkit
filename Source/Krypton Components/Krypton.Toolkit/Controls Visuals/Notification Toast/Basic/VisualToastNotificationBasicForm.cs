@@ -22,6 +22,8 @@ namespace Krypton.Toolkit
 
         private SoundPlayer? _soundPlayer;
 
+        private PaletteBase _palette;
+
         private readonly KryptonBasicToastNotificationData _basicToastNotificationData;
 
         #endregion
@@ -72,9 +74,8 @@ namespace Krypton.Toolkit
             {
                 kwlblContent.LabelStyle = LabelStyle.NormalControl;
 
-                kwlblHeader.StateCommon.Font = _basicToastNotificationData.NotificationTitleFont ??
-                                               new Font(KryptonManager.CurrentGlobalPalette.BaseFont.FontFamily, 11f,
-                                               FontStyle.Bold);
+                kwlblHeader.StateCommon.Font =
+                    _basicToastNotificationData.NotificationTitleFont ?? _palette.Header1ShortFont;
             }
             else
             {

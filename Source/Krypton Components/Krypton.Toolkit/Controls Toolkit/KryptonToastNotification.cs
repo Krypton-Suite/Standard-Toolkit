@@ -19,6 +19,9 @@ namespace Krypton.Toolkit
         public static void ShowBasicNotification(KryptonBasicToastNotificationData toastNotificationData) =>
             VisualToastNotificationBasicForm.ShowToast(toastNotificationData);
 
+        public static void ShowBasicProgressBarNotification(KryptonBasicToastNotificationData toastNotificationData) =>
+            VisualToastNotificationBasicWithProgressBarForm.ShowToast(toastNotificationData);
+
         #endregion
     }
 }
