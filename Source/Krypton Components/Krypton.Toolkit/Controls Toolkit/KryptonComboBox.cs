@@ -836,7 +836,7 @@ namespace Krypton.Toolkit
         private bool _alwaysActive;
         private int _cachedHeight;
         private int _hoverIndex;
-        private float _cornerRoundingRadius;
+
         #endregion
 
         #region Events
@@ -1161,9 +1161,6 @@ namespace Krypton.Toolkit
             _comboBox.Font = triple.PaletteContent.GetContentShortTextFont(PaletteState.Tracking)!;
             AutoCompleteMode = AutoCompleteMode.None;
             AutoCompleteSource = AutoCompleteSource.None;
-
-            // Set `CornerRoundingRadius' to 'GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE' (-1)
-            _cornerRoundingRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
         }
 
         /// <summary>
@@ -1195,20 +1192,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Public
-        /// <summary>Gets or sets the corner rounding radius.</summary>
-        /// <value>The corner rounding radius.</value>
-        [Category(@"Visuals")]
-        [Description(@"Gets or sets the corner rounding radius.")]
-        [DefaultValue(GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE)]
-        public float CornerRoundingRadius
-        {
-            get => _cornerRoundingRadius;
-
-            set => SetCornerRoundingRadius(value);
-        }
-
-        private bool ShouldSerializeCornerRoundingRadius() => _cornerRoundingRadius != GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
-
+        
         /// <summary>
         /// Gets access to the common textbox appearance entries that other states can override.
         /// </summary>
@@ -2428,6 +2412,11 @@ namespace Krypton.Toolkit
                 ForceControlLayout();
             }
 
+            if (StateCommon.ComboBox.Content.SynchronizeDropDownWidth)
+            {
+                DropDownWidth = Size.Width;
+            }
+
             base.OnPaint(e);
             Paint?.Invoke(this, e!);
         }
@@ -3149,13 +3138,6 @@ namespace Krypton.Toolkit
         private void OnDoubleClick(object sender, EventArgs e) => base.OnDoubleClick(e);
 
         private void OnMouseDoubleClick(object sender, MouseEventArgs e) => base.OnMouseDoubleClick(e);
-
-        private void SetCornerRoundingRadius(float? radius)
-        {
-            _cornerRoundingRadius = radius ?? GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
-
-            StateCommon.ComboBox.Border.Rounding = _cornerRoundingRadius;
-        }
 
         private void UpdateDropDownWidth(Size value) => DropDownWidth = value.Width;
 

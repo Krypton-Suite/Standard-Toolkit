@@ -34,11 +34,11 @@ namespace Krypton.Toolkit
         ProfessionalOffice2003,
 
         // ToDo: Re-enable when the gray themes are completed
-        /// <summary>
+        /* /// <summary>
         /// Specifies the dark Gray color variant of the Office 2007 appearance.
         /// </summary>
         Office2007DarkGray,
-        /*
+        
             /// <summary>
             /// Specifies the light Gray color variant of the Office 2007 appearance.
             /// </summary>
@@ -90,11 +90,12 @@ namespace Krypton.Toolkit
         Office2007BlackDarkMode,
 
         // ToDo: Re-enable when the gray themes are completed
-        /// <summary>
+        /*
+         /// <summary>
         /// Specifies the dark Gray color variant of the Office 2010 appearance.
         /// </summary>
         Office2010DarkGray,
-        /*
+        
             /// <summary>
             /// Specifies the light Gray color variant of the Office 2010 appearance.
             /// </summary>
@@ -146,7 +147,7 @@ namespace Krypton.Toolkit
         Office2010BlackDarkMode,
 
         // ToDo: Re-enable when the gray themes are completed
-        /// <summary>
+        /*/// <summary>
         /// Specifies the dark Gray color variant of the Office 2013 appearance.
         /// </summary>
         Office2013DarkGray,
@@ -154,18 +155,18 @@ namespace Krypton.Toolkit
         /// Specifies the light Gray color variant of the Office 2013 appearance.
         /// </summary>
         Office2013LightGray,
-
+        */
         /// <summary>
         /// Specifies the White color variant of the Office 2013 appearance.
         /// </summary>
         Office2013White,
 
         // ToDo: Re-enable when the gray themes are completed
-        /// <summary>
+        /*/// <summary>
         /// Specifies the dark Gray color variant of the Microsoft 365 appearance.
         /// </summary>
         Microsoft365DarkGray,
-        /*
+        
             /// <summary>
             /// Specifies the light Gray color variant of the Microsoft 365 appearance.
             /// </summary>
