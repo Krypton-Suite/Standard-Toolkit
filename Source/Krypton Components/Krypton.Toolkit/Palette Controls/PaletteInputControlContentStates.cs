@@ -103,7 +103,7 @@ namespace Krypton.Toolkit
             
             set
             {
-                if (_synchronizeDropDownWidth != value)
+                if (value != _synchronizeDropDownWidth)
                 {
                     _synchronizeDropDownWidth = value;
 
