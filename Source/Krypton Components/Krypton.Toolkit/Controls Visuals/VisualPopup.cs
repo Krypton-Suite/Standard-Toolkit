@@ -451,7 +451,7 @@ namespace Krypton.Toolkit
                         _layoutDirty = false;
 
                         // Ask the view to perform a layout
-                        ViewManager.Layout(Renderer!);
+                        ViewManager.Layout(Renderer);
 
                     } while (_layoutDirty && (max-- > 0));
                 }
@@ -493,7 +493,7 @@ namespace Krypton.Toolkit
                     }
 
                     // Ask the view to repaint the visual structure
-                    ViewManager.Paint(Renderer!, e);
+                    ViewManager.Paint(Renderer, e);
 
                     // Request for a refresh has been serviced
                     _refresh = false;

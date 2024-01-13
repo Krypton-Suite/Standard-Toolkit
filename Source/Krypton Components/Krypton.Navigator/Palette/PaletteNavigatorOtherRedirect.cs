@@ -53,13 +53,13 @@ namespace Krypton.Navigator
                                                             PaletteContentStyle.ButtonNavigatorMini,
                                                             needPaint);
 
-            Tab = new PaletteTabTripleRedirect(redirectTab!,
+            Tab = new PaletteTabTripleRedirect(redirectTab,
                                                        PaletteBackStyle.TabHighProfile,
                                                        PaletteBorderStyle.TabHighProfile,
                                                        PaletteContentStyle.TabHighProfile,
                                                        needPaint);
 
-            RibbonTab = new PaletteRibbonTabContentRedirect(redirectRibbonTab!, needPaint);
+            RibbonTab = new PaletteRibbonTabContentRedirect(redirectRibbonTab, needPaint);
         }
         #endregion
 

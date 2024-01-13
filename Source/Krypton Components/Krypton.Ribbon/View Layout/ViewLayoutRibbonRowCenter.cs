@@ -20,8 +20,8 @@ namespace Krypton.Ribbon
     internal class ViewLayoutRibbonRowCenter : ViewComposite
     {
         #region Type Definitions
-        private class ItemToView : Dictionary<IRibbonGroupItem, ViewBase> { }
-        private class ViewToSize : Dictionary<ViewBase, Size> { }
+        private class ItemToView : Dictionary<IRibbonGroupItem, ViewBase>;
+        private class ViewToSize : Dictionary<ViewBase, Size>;
         #endregion
 
         #region Instance Fields
@@ -78,15 +78,19 @@ namespace Krypton.Ribbon
                 case GroupItemSize.Small:
                     _viewToSmall.Clear();
                     break;
+
                 case GroupItemSize.Medium:
                     _viewToMedium.Clear();
                     break;
+
                 case GroupItemSize.Large:
                     _viewToLarge.Clear();
                     break;
+
                 default:
-                    // Should never happen!
+    // Should never happen!
                     Debug.Assert(false);
+                    DebugTools.NotImplemented(CurrentSize.ToString());
                     break;
             }
 

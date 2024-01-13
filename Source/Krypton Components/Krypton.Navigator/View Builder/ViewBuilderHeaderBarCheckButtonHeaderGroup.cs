@@ -79,9 +79,9 @@ namespace Krypton.Navigator
             };
 
             // Place the bar inside a header style area
-            _viewHeadingBar = new ViewDrawDocker(Navigator.StateNormal!.HeaderGroup!.HeaderBar.Back,
-                                                 Navigator.StateNormal!.HeaderGroup!.HeaderBar.Border,
-                                                 Navigator.StateNormal!.HeaderGroup!.HeaderBar,
+            _viewHeadingBar = new ViewDrawDocker(Navigator.StateNormal.HeaderGroup.HeaderBar.Back,
+                                                 Navigator.StateNormal.HeaderGroup.HeaderBar.Border,
+                                                 Navigator.StateNormal.HeaderGroup.HeaderBar,
                                                  PaletteMetricBool.None,
                                                  PaletteMetricPadding.HeaderGroupPaddingSecondary,
                                                  VisualOrientation.Top)
@@ -90,7 +90,7 @@ namespace Krypton.Navigator
             };
 
             // Construct the viewlet instance
-            _headerGroup = new ViewletHeaderGroup(Navigator, Redirector!, NeedPaintDelegate);
+            _headerGroup = new ViewletHeaderGroup(Navigator, Redirector, NeedPaintDelegate);
 
             // Create and initialize the standard header group view elements
             _viewGroup = _headerGroup.Construct(_oldRoot);

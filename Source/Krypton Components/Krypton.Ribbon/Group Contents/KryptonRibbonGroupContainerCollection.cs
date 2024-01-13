@@ -18,10 +18,13 @@ namespace Krypton.Ribbon
     public class KryptonRibbonGroupContainerCollection : TypedRestrictCollection<KryptonRibbonGroupContainer>
     {
         #region Static Fields
-        private static readonly Type[] _types = { typeof(KryptonRibbonGroupLines),
+        private static readonly Type[] _types =
+        [
+            typeof(KryptonRibbonGroupLines),
                                                              typeof(KryptonRibbonGroupTriple),
                                                              typeof(KryptonRibbonGroupSeparator),
-                                                             typeof(KryptonRibbonGroupGallery)};
+                                                             typeof(KryptonRibbonGroupGallery)
+        ];
         #endregion
 
         #region Restrict

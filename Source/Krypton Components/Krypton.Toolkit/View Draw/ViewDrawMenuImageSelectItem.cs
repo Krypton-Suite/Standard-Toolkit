@@ -154,7 +154,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">The state for which the image is needed.</param>
         /// <returns>Image value.</returns>
-        public virtual Image? GetImage(PaletteState state) => (_imageList != null) && (_imageIndex >= 0) ? _imageList.Images[_imageIndex] : null;
+        public virtual Image GetImage(PaletteState state) => (_imageList != null) && (_imageIndex >= 0) ? _imageList.Images[_imageIndex] : null;
 
         /// <summary>
         /// Gets the image color that should be transparent.

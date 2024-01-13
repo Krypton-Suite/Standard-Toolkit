@@ -18,8 +18,8 @@ namespace Krypton.Toolkit
     public class PaletteRedirectBorderEdge : PaletteRedirect
     {
         #region Instance Fields
-        private PaletteBorderEdge? _disabled;
-        private PaletteBorderEdge? _normal;
+        private PaletteBorderEdge _disabled;
+        private PaletteBorderEdge _normal;
         #endregion
 
         #region Identity
@@ -39,8 +39,8 @@ namespace Krypton.Toolkit
         /// <param name="disabled">Redirection for disabled state requests.</param>
         /// <param name="normal">Redirection for normal state requests.</param>
         public PaletteRedirectBorderEdge(PaletteBase target,
-                                         PaletteBorderEdge? disabled,
-                                         PaletteBorderEdge? normal)
+                                         PaletteBorderEdge disabled,
+                                         PaletteBorderEdge normal)
             : base(target)
         {
             // Remember state specific inheritance
@@ -83,7 +83,7 @@ namespace Krypton.Toolkit
         /// <returns>InheritBool value.</returns>
         public override InheritBool GetBorderDraw(PaletteBorderStyle style, PaletteState state)
         {
-            PaletteBorderEdge? inherit = GetInherit(state);
+            PaletteBorderEdge inherit = GetInherit(state);
 
             return inherit?.GetBackDraw(state) ?? Target?.GetBorderDraw(style, state) ?? InheritBool.Inherit;
         }
@@ -104,7 +104,7 @@ namespace Krypton.Toolkit
         /// <returns>PaletteGraphicsHint value.</returns>
         public override PaletteGraphicsHint GetBorderGraphicsHint(PaletteBorderStyle style, PaletteState state)
         {
-            PaletteBorderEdge? inherit = GetInherit(state);
+            PaletteBorderEdge inherit = GetInherit(state);
 
             return inherit?.GetBackGraphicsHint(state) ?? Target?.GetBorderGraphicsHint(style, state) ?? PaletteGraphicsHint.Inherit;
         }
@@ -117,7 +117,7 @@ namespace Krypton.Toolkit
         /// <returns>Color value.</returns>
         public override Color GetBorderColor1(PaletteBorderStyle style, PaletteState state)
         {
-            PaletteBorderEdge? inherit = GetInherit(state);
+            PaletteBorderEdge inherit = GetInherit(state);
 
             return inherit?.GetBackColor1(state) ?? Target?.GetBorderColor1(style, state) ?? Color.Empty;
         }
@@ -130,7 +130,7 @@ namespace Krypton.Toolkit
         /// <returns>Color value.</returns>
         public override Color GetBorderColor2(PaletteBorderStyle style, PaletteState state)
         {
-            PaletteBorderEdge? inherit = GetInherit(state);
+            PaletteBorderEdge inherit = GetInherit(state);
 
             return inherit?.GetBackColor2(state) ?? Target?.GetBorderColor2(style, state) ?? Color.Empty;
         }
@@ -143,7 +143,7 @@ namespace Krypton.Toolkit
         /// <returns>Color drawing style.</returns>
         public override PaletteColorStyle GetBorderColorStyle(PaletteBorderStyle style, PaletteState state)
         {
-            PaletteBorderEdge? inherit = GetInherit(state);
+            PaletteBorderEdge inherit = GetInherit(state);
 
             return inherit?.GetBackColorStyle(state) ?? Target?.GetBorderColorStyle(style, state) ?? PaletteColorStyle.Inherit;
         }
@@ -156,7 +156,7 @@ namespace Krypton.Toolkit
         /// <returns>Color alignment style.</returns>
         public override PaletteRectangleAlign GetBorderColorAlign(PaletteBorderStyle style, PaletteState state)
         {
-            PaletteBorderEdge? inherit = GetInherit(state);
+            PaletteBorderEdge inherit = GetInherit(state);
 
             return inherit?.GetBackColorAlign(state) ?? Target?.GetBorderColorAlign(style, state) ?? PaletteRectangleAlign.Inherit;
         }
@@ -169,7 +169,7 @@ namespace Krypton.Toolkit
         /// <returns>Angle used for color drawing.</returns>
         public override float GetBorderColorAngle(PaletteBorderStyle style, PaletteState state)
         {
-            PaletteBorderEdge? inherit = GetInherit(state);
+            PaletteBorderEdge inherit = GetInherit(state);
 
             return inherit?.GetBackColorAngle(state) ?? Target?.GetBorderColorAngle(style, state) ?? 0.0f;
         }
@@ -182,7 +182,7 @@ namespace Krypton.Toolkit
         /// <returns>Integer width.</returns>
         public override int GetBorderWidth(PaletteBorderStyle style, PaletteState state)
         {
-            PaletteBorderEdge? inherit = GetInherit(state);
+            PaletteBorderEdge inherit = GetInherit(state);
 
             return inherit?.GetBorderWidth(state) ?? Target?.GetBorderWidth(style, state) ?? 0;
         }
@@ -203,7 +203,7 @@ namespace Krypton.Toolkit
         /// <returns>Image instance.</returns>
         public override Image? GetBorderImage(PaletteBorderStyle style, PaletteState state)
         {
-            PaletteBorderEdge? inherit = GetInherit(state);
+            PaletteBorderEdge inherit = GetInherit(state);
 
             return inherit?.GetBackImage(state) ?? Target?.GetBorderImage(style, state);
         }
@@ -216,7 +216,7 @@ namespace Krypton.Toolkit
         /// <returns>Image style value.</returns>
         public override PaletteImageStyle GetBorderImageStyle(PaletteBorderStyle style, PaletteState state)
         {
-            PaletteBorderEdge? inherit = GetInherit(state);
+            PaletteBorderEdge inherit = GetInherit(state);
 
             return inherit?.GetBackImageStyle(state) ?? Target?.GetBorderImageStyle(style, state) ?? PaletteImageStyle.Inherit;
         }
@@ -229,14 +229,14 @@ namespace Krypton.Toolkit
         /// <returns>Image alignment style.</returns>
         public override PaletteRectangleAlign GetBorderImageAlign(PaletteBorderStyle style, PaletteState state)
         {
-            PaletteBorderEdge? inherit = GetInherit(state);
+            PaletteBorderEdge inherit = GetInherit(state);
 
             return inherit?.GetBackImageAlign(state) ?? Target?.GetBorderImageAlign(style, state) ?? PaletteRectangleAlign.Inherit;
         }
         #endregion
 
         #region Implementation
-        private PaletteBorderEdge? GetInherit(PaletteState state)
+        private PaletteBorderEdge GetInherit(PaletteState state)
         {
             switch (state)
             {
@@ -245,9 +245,9 @@ namespace Krypton.Toolkit
                 case PaletteState.Normal:
                     return _normal;
                 default:
-                    // Should never happen!
+    // Should never happen!
                     Debug.Assert(false);
-                    return null;
+                    throw DebugTools.NotImplemented(state.ToString());
             }
         }
         #endregion

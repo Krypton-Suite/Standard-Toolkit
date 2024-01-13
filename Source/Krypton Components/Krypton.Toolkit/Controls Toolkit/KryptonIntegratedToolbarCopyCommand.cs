@@ -31,6 +31,7 @@ namespace Krypton.Toolkit
 
 		private Image? _pressedImage;
 
+
 		#endregion
 
 		#region Public

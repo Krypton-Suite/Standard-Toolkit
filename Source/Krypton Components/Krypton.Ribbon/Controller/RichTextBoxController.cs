@@ -43,9 +43,9 @@ namespace Krypton.Ribbon
             Debug.Assert(richTextBox != null);
             Debug.Assert(target != null);
 
-            _ribbon = ribbon!;
-            _richTextBox = richTextBox!;
-            _target = target!;
+            _ribbon = ribbon;
+            _richTextBox = richTextBox;
+            _target = target;
         }
         #endregion
 

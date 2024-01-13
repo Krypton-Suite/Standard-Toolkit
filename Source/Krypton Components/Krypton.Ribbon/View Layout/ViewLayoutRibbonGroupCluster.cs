@@ -22,9 +22,9 @@ namespace Krypton.Ribbon
 
     {
         #region Type Definitions
-        private class ItemToView : Dictionary<IRibbonGroupItem, ViewBase> { }
-        private class ViewToEdge : Dictionary<ViewBase, ViewDrawRibbonGroupClusterEdge> { }
-        private class ViewToSize : Dictionary<ViewBase, Size> { }
+        private class ItemToView : Dictionary<IRibbonGroupItem, ViewBase>;
+        private class ViewToEdge : Dictionary<ViewBase, ViewDrawRibbonGroupClusterEdge>;
+        private class ViewToSize : Dictionary<ViewBase, Size>;
         #endregion
 
         #region Instance Fields
@@ -61,8 +61,8 @@ namespace Krypton.Ribbon
             Debug.Assert(needPaint != null);
 
             // Cache references
-            _ribbon = ribbon!;
-            _ribbonCluster = ribbonCluster!;
+            _ribbon = ribbon;
+            _ribbonCluster = ribbonCluster;
             _needPaint = needPaint;
             _currentSize = GroupItemSize.Medium;
 
@@ -93,7 +93,7 @@ namespace Krypton.Ribbon
             // At design time we want to track the mouse and show feedback
             if (_ribbon.InDesignMode)
             {
-                var controller = new ViewHightlightController(this, needPaint!);
+                var controller = new ViewHightlightController(this, needPaint);
                 controller.ContextClick += OnContextClick;
                 MouseController = controller;
             }
@@ -397,7 +397,7 @@ namespace Krypton.Ribbon
             Debug.Assert(context != null);
 
             // Store the provided client area
-            ClientRectangle = context!.DisplayRectangle;
+            ClientRectangle = context.DisplayRectangle;
 
             // Define visible state of the separators
             _startSep.Visible = _startSepVisible && (_lastShape == PaletteRibbonShape.Office2010);

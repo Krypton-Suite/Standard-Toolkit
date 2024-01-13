@@ -57,7 +57,7 @@ namespace Krypton.Toolkit
                               IPaletteTriple paletteNormal,
                               IPaletteTriple paletteTracking,
                               IPaletteTriple palettePressed,
-                              IPaletteMetric? paletteMetric,
+                              IPaletteMetric paletteMetric,
                               IContentValues? buttonValues,
                               VisualOrientation orientation,
                               bool useMnemonic)
@@ -88,7 +88,7 @@ namespace Krypton.Toolkit
                               IPaletteTriple paletteCheckedNormal,
                               IPaletteTriple paletteCheckedTracking,
                               IPaletteTriple paletteCheckedPressed,
-                              IPaletteMetric? paletteMetric,
+                              IPaletteMetric paletteMetric,
                               IContentValues? buttonValues,
                               VisualOrientation orientation,
                               bool useMnemonic)
@@ -317,8 +317,8 @@ namespace Krypton.Toolkit
         {
             get => base.Enabled;
 
-            set 
-            { 
+            set
+            {
                 base.Enabled = value;
 
                 if (Enabled && (ElementState == PaletteState.Disabled))
@@ -350,7 +350,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="borderBackOrient">Orientation of the button border and background..</param>
         /// <param name="contentOrient">Orientation of the button contents.</param>
-        public void SetOrientation(VisualOrientation borderBackOrient, 
+        public void SetOrientation(VisualOrientation borderBackOrient,
                                    VisualOrientation contentOrient)
         {
             _drawCanvas.Orientation = borderBackOrient;
@@ -427,10 +427,10 @@ namespace Krypton.Toolkit
             Debug.Assert(palettePressed != null);
 
             // Remember the new palette settings
-            _paletteDisabled = paletteDisabled!; 
-            _paletteNormal = paletteNormal!;
-            _paletteTracking = paletteTracking!;
-            _palettePressed = palettePressed!;
+            _paletteDisabled = paletteDisabled;
+            _paletteNormal = paletteNormal;
+            _paletteTracking = paletteTracking;
+            _palettePressed = palettePressed;
 
             // Must force update of palettes to use latest ones provided
             _forcePaletteUpdate = true;
@@ -451,9 +451,9 @@ namespace Krypton.Toolkit
             Debug.Assert(paletteCheckedPressed != null);
 
             // Remember the new palette settings
-            _paletteCheckedNormal = paletteCheckedNormal!;
-            _paletteCheckedTracking = paletteCheckedTracking!;
-            _paletteCheckedPressed = paletteCheckedPressed!;
+            _paletteCheckedNormal = paletteCheckedNormal;
+            _paletteCheckedTracking = paletteCheckedTracking;
+            _paletteCheckedPressed = paletteCheckedPressed;
 
             // Must force update of palettes to use latest ones provided
             _forcePaletteUpdate = true;
@@ -471,10 +471,10 @@ namespace Krypton.Toolkit
             Debug.Assert(context != null);
 
             // Ensure that child elements have correct palette state
-            CheckPaletteState(context!);
+            CheckPaletteState(context);
 
             // Ask the renderer to evaluate the given palette
-            return _drawCanvas.EvalTransparentPaint(context!);
+            return _drawCanvas.EvalTransparentPaint(context);
         }
         #endregion
 
@@ -489,10 +489,10 @@ namespace Krypton.Toolkit
             Debug.Assert(_drawCanvas != null);
 
             // Ensure that child elements have correct palette state
-            CheckPaletteState(context!);
+            CheckPaletteState(context);
 
             // Delegate work to the child canvas
-            return _drawCanvas!.GetPreferredSize(context!);
+            return _drawCanvas.GetPreferredSize(context);
         }
 
         /// <summary>
@@ -581,10 +581,10 @@ namespace Krypton.Toolkit
             Debug.Assert(context != null);
 
             // Ensure that child elements have correct palette state
-            CheckPaletteState(context!);
+            CheckPaletteState(context);
 
             // Let base class perform standard rendering
-            base.Render(context!);
+            base.Render(context);
         }
         #endregion
 
@@ -665,6 +665,7 @@ namespace Krypton.Toolkit
                     default:
                         // Should never happen!
                         Debug.Assert(false);
+                        DebugTools.NotImplemented(buttonState.ToString());
                         break;
                 }
 

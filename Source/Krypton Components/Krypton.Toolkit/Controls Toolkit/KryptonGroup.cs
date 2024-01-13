@@ -31,7 +31,6 @@ namespace Krypton.Toolkit
         private readonly ViewLayoutFill _layoutFill;
         private bool _forcedLayout;
         private bool _layingOut;
-        private float _cornerRoundingRadius;
 
         #endregion
 
@@ -44,7 +43,7 @@ namespace Krypton.Toolkit
             SetStyle(ControlStyles.SupportsTransparentBackColor | ControlStyles.OptimizedDoubleBuffer, true);
 
             // Create the palette storage
-            StateCommon = new PaletteDoubleRedirect(Redirector!, PaletteBackStyle.ControlClient, PaletteBorderStyle.ControlClient, NeedPaintDelegate);
+            StateCommon = new PaletteDoubleRedirect(Redirector, PaletteBackStyle.ControlClient, PaletteBorderStyle.ControlClient, NeedPaintDelegate);
             StateDisabled = new PaletteDouble(StateCommon, NeedPaintDelegate);
             StateNormal = new PaletteDouble(StateCommon, NeedPaintDelegate);
 
@@ -73,25 +72,10 @@ namespace Krypton.Toolkit
 
             // Add panel to the controls collection
             ((KryptonReadOnlyControls)Controls).AddInternal(Panel);
-
-            _cornerRoundingRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
         }
         #endregion
 
         #region Public
-
-        /// <summary>Gets or sets the corner rounding radius.</summary>
-        /// <value>The corner rounding radius.</value>
-        [Category(@"Visuals")]
-        [Description(@"Gets or sets the corner rounding radius.")]
-        [DefaultValue(GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE)]
-        public float CornerRoundingRadius
-        {
-            get => _cornerRoundingRadius;
-
-            set => SetCornerRoundingRadius(value);
-        }
-
         /// <summary>
         /// Gets and sets the name of the control.
         /// </summary>
@@ -104,7 +88,7 @@ namespace Krypton.Toolkit
             set
             {
                 base.Name = value;
-                Panel!.Name = $"{value}.Panel";
+                Panel.Name = $"{value}.Panel";
             }
         }
 
@@ -180,11 +164,11 @@ namespace Krypton.Toolkit
         [Description(@"Border style.")]
         public PaletteBorderStyle GroupBorderStyle
         {
-            get => StateCommon!.BorderStyle;
+            get => StateCommon.BorderStyle;
 
             set
             {
-                if (StateCommon!.BorderStyle != value)
+                if (StateCommon.BorderStyle != value)
                 {
                     StateCommon.BorderStyle = value;
                     PerformNeedPaint(true);
@@ -203,14 +187,14 @@ namespace Krypton.Toolkit
         [Description(@"Background style.")]
         public PaletteBackStyle GroupBackStyle
         {
-            get => StateCommon!.BackStyle;
+            get => StateCommon.BackStyle;
 
             set
             {
-                if (StateCommon!.BackStyle != value)
+                if (StateCommon.BackStyle != value)
                 {
                     StateCommon.BackStyle = value;
-                    Panel!.PanelBackStyle = value;
+                    Panel.PanelBackStyle = value;
                     PerformNeedPaint(true);
                 }
             }
@@ -226,9 +210,9 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Overrides for defining common group appearance that other states can override.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteDoubleRedirect? StateCommon { get; }
+        public PaletteDoubleRedirect StateCommon { get; }
 
-        private bool ShouldSerializeStateCommon() => !StateCommon!.IsDefault;
+        private bool ShouldSerializeStateCommon() => !StateCommon.IsDefault;
 
         /// <summary>
         /// Gets access to the disabled group appearance entries.
@@ -305,7 +289,7 @@ namespace Krypton.Toolkit
                 ForceViewLayout();
 
                 // The inside panel is the client rectangle size
-                return new Rectangle(Panel!.Location, Panel.Size);
+                return new Rectangle(Panel.Location, Panel.Size);
             }
         }
 
@@ -469,14 +453,6 @@ namespace Krypton.Toolkit
                 PerformNeedPaint(true);
             }
         }
-
-        private void SetCornerRoundingRadius(float? radius)
-        {
-            _cornerRoundingRadius = radius ?? GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
-
-            StateCommon!.Border.Rounding = _cornerRoundingRadius;
-        }
-
         #endregion
     }
 }

@@ -53,17 +53,17 @@ namespace Krypton.Toolkit
         #region Colour Arrays
 
         private static readonly Color[] _trackBarColors =
-        {
+        [
             Color.FromArgb(116, 150, 194), // Tick marks
             Color.FromArgb(116, 150, 194), // Top track
             Color.FromArgb(152, 190, 241), // Bottom track
             Color.FromArgb(142, 180, 231), // Fill track
             Color.FromArgb(64, Color.White), // Outside position
             Color.FromArgb(63, 101, 152) // Border (normal) position
-        };
+        ];
 
         private static readonly Color[] _schemeVisualStudioColors =
-        {
+        [
             Color.FromArgb(0, 0, 0), // TextLabelControl
             Color.FromArgb(0, 0, 0), // TextButtonNormal
             Color.FromArgb(0, 0, 0), // TextButtonChecked
@@ -290,7 +290,7 @@ namespace Krypton.Toolkit
             Color.FromArgb(200, 219, 240), // ButtonNavigatorChecked1
             Color.FromArgb(177, 201, 228), // ButtonNavigatorChecked2
             Color.FromArgb(201, 217, 239) // ToolTipBottom                                                                      
-        };
+        ];
 
         #endregion
 
@@ -313,8 +313,8 @@ namespace Krypton.Toolkit
                 TransparentColor = Color.Magenta
             };
             _galleryButtonList.Images.AddStrip(GalleryImageResources.Gallery2010);
-            _radioButtonArray = new Image[]
-            {
+            _radioButtonArray =
+            [
                 Office2010RadioButtonImageResources.RadioButton2010BlueD,
                 Office2010RadioButtonImageResources.RadioButton2010BlueN,
                 Office2010RadioButtonImageResources.RadioButton2010BlueT,
@@ -323,11 +323,15 @@ namespace Krypton.Toolkit
                 Office2010RadioButtonImageResources.RadioButton2010BlueNC,
                 Office2010RadioButtonImageResources.RadioButton2010BlueTC,
                 Office2010RadioButtonImageResources.RadioButton2010BluePC
-            };
+            ];
         }
 
         /// <summary>Initializes a new instance of the <see cref="PaletteVisualStudio2010Microsoft365Variation" /> class.</summary>
-        public PaletteVisualStudio2010Microsoft365Variation() : base(_schemeVisualStudioColors, _checkBoxList, _galleryButtonList, _radioButtonArray, _trackBarColors) { }
+        public PaletteVisualStudio2010Microsoft365Variation() 
+            : base(_schemeVisualStudioColors, _checkBoxList, _galleryButtonList, _radioButtonArray, _trackBarColors)
+        {
+            ThemeName = nameof(PaletteVisualStudio2010Microsoft365Variation);
+        }
 
         #endregion
 
@@ -336,13 +340,13 @@ namespace Krypton.Toolkit
         /// Gets a drop down button image appropriate for the provided state.
         /// </summary>
         /// <param name="state">PaletteState for which image is required.</param>
-        public override Image? GetDropDownButtonImage(PaletteState state) => state != PaletteState.Disabled ? _blueDropDownButton : base.GetDropDownButtonImage(state);
+        public override Image GetDropDownButtonImage(PaletteState state) => state != PaletteState.Disabled ? _blueDropDownButton : base.GetDropDownButtonImage(state);
 
         /// <summary>
         /// Gets an image indicating a sub-menu on a context menu item.
         /// </summary>
         /// <returns>Appropriate image for drawing; otherwise null.</returns>
-        public override Image? GetContextMenuSubMenuImage() => _contextMenuSubMenu;
+        public override Image GetContextMenuSubMenuImage() => _contextMenuSubMenu;
 
         #endregion
 

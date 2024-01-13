@@ -209,7 +209,7 @@ namespace Krypton.Toolkit
                     // Update the display text
                     if (!string.IsNullOrEmpty(formattedValue?.ToString()))
                     {
-                        _shortTextValue.ShortText = formattedValue!.ToString();
+                        _shortTextValue.ShortText = formattedValue.ToString();
                     }
                     else
                     {

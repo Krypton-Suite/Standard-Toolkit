@@ -65,7 +65,7 @@ namespace Krypton.Toolkit
             NeedPaint = needPaint;
 
             // Remember target for state changes
-            _target = target!;
+            _target = target;
             _paletteDisabled = paletteDisabled;
             _paletteNormal = paletteNormal;
             _paletteTracking = paletteTracking;
@@ -411,7 +411,7 @@ namespace Krypton.Toolkit
         /// <param name="pt">Mouse point.</param>
         protected void UpdateTargetState(Point pt)
         {
-            // By default the button is in the normal state
+            // By default, the button is in the normal state
             PaletteState newState;
 
             // If the button is disabled then show as disabled
@@ -466,8 +466,9 @@ namespace Krypton.Toolkit
                     _target.SetPalette(_palettePressed);
                     break;
                 default:
-                    // Should never happen!
+    // Should never happen!
                     Debug.Assert(false);
+                    DebugTools.NotImplemented(_target.State.ToString());
                     break;
             }
 

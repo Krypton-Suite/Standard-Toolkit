@@ -118,7 +118,7 @@ namespace Krypton.Toolkit
             _linkLabelCommand = linkLabelCommand ?? new KryptonCommand();
             _contentLinkArea = string.IsNullOrEmpty(text)
                 ? new LinkArea(0, 0)
-                : contentLinkArea ?? new LinkArea(0, text!.Length);
+                : contentLinkArea ?? new LinkArea(0, text.Length);
             _linkLaunchArgument = linkLaunchArgument ?? new ProcessStartInfo();
             _messageTextAlignment = messageTextAlignment ?? ContentAlignment.MiddleLeft;
             _forceUseOfOperatingSystemIcons = forceUseOfOperatingSystemIcons ?? false;
@@ -340,7 +340,7 @@ namespace Krypton.Toolkit
                         else if (!string.IsNullOrEmpty(_applicationPath))
                         {
                             Image? sourceImage = GraphicsExtensions.ExtractIconFromFilePath(_applicationPath)?.ToBitmap();
-                            Image? scaledImage = GraphicsExtensions.ScaleImage(sourceImage, new Size(32, 32));
+                            Image scaledImage = GraphicsExtensions.ScaleImage(sourceImage, new Size(32, 32));
 
                             _messageIcon.Image = scaledImage;
                         }
@@ -459,7 +459,7 @@ namespace Krypton.Toolkit
                         {
                             Image? sourceImage = GraphicsExtensions.ExtractIconFromFilePath(_applicationPath)
                                 ?.ToBitmap();
-                            Image? scaledImage = GraphicsExtensions.ScaleImage(sourceImage, new Size(32, 32));
+                            Image scaledImage = GraphicsExtensions.ScaleImage(sourceImage, new Size(32, 32));
 
                             _messageIcon.Image = scaledImage;
                         }
@@ -538,7 +538,7 @@ namespace Krypton.Toolkit
                         else if (!string.IsNullOrEmpty(_applicationPath))
                         {
                             Image? sourceImage = GraphicsExtensions.ExtractIconFromFilePath(_applicationPath)?.ToBitmap();
-                            Image? scaledImage = GraphicsExtensions.ScaleImage(sourceImage, new Size(32, 32));
+                            Image scaledImage = GraphicsExtensions.ScaleImage(sourceImage, new Size(32, 32));
 
                             _messageIcon.Image = scaledImage;
                         }
@@ -653,7 +653,7 @@ namespace Krypton.Toolkit
                         else if (!string.IsNullOrEmpty(_applicationPath))
                         {
                             Image? sourceImage = GraphicsExtensions.ExtractIconFromFilePath(_applicationPath)?.ToBitmap();
-                            Image? scaledImage = GraphicsExtensions.ScaleImage(sourceImage, new Size(32, 32));
+                            Image scaledImage = GraphicsExtensions.ScaleImage(sourceImage, new Size(32, 32));
 
                             _messageIcon.Image = scaledImage;
                         }
@@ -1017,8 +1017,8 @@ namespace Krypton.Toolkit
                     Control? control = FromHandle(owner.Handle);
 
                     var mInfoMethod = control!.GetType().GetMethod(nameof(OnHelpRequested), BindingFlags.Instance | BindingFlags.NonPublic,
-                        Type.DefaultBinder, new[] { typeof(HelpEventArgs) }, null)!;
-                    mInfoMethod.Invoke(control, new object[] { new HelpEventArgs(MousePosition) });
+                        Type.DefaultBinder, [typeof(HelpEventArgs)], null)!;
+                    mInfoMethod.Invoke(control, [new HelpEventArgs(MousePosition)]);
                     if (_helpInfo != null)
                     {
                         if (string.IsNullOrWhiteSpace(_helpInfo.HelpFilePath))
@@ -1058,8 +1058,8 @@ namespace Krypton.Toolkit
                     Control? control = FromHandle(_showOwner.Handle);
 
                     var mInfoMethod = control!.GetType().GetMethod(nameof(OnHelpRequested), BindingFlags.Instance | BindingFlags.NonPublic,
-                        Type.DefaultBinder, new[] { typeof(HelpEventArgs) }, null)!;
-                    mInfoMethod.Invoke(control, new object[] { new HelpEventArgs(MousePosition) });
+                        Type.DefaultBinder, [typeof(HelpEventArgs)], null)!;
+                    mInfoMethod.Invoke(control, [new HelpEventArgs(MousePosition)]);
                     if (_helpInfo != null)
                     {
                         if (string.IsNullOrWhiteSpace(_helpInfo.HelpFilePath))

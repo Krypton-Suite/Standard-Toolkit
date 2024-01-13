@@ -247,7 +247,7 @@ namespace Krypton.Navigator
 
                 // Create correct drag feedback class and start it up
                 ResolveDragFeedback();
-                _dragFeedback?.Start(StateCommon, _dragRenderer!, _pageDragEndData, _dragTargets!);
+                _dragFeedback?.Start(StateCommon, _dragRenderer, _pageDragEndData, _dragTargets!);
             }
             else
             {

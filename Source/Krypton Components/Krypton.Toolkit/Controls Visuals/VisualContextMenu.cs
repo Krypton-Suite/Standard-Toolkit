@@ -431,7 +431,7 @@ namespace Krypton.Toolkit
             };
 
             var layoutDocker = new ViewLayoutDocker();
-            Padding outerPadding = _provider.ProviderRedirector!.GetMetricPadding(PaletteState.Normal, PaletteMetricPadding.ContextMenuItemOuter);
+            Padding outerPadding = _provider.ProviderRedirector.GetMetricPadding(PaletteState.Normal, PaletteMetricPadding.ContextMenuItemOuter);
             layoutDocker.Add(new ViewLayoutSeparator(outerPadding.Top), ViewDockStyle.Top);
             layoutDocker.Add(new ViewLayoutSeparator(outerPadding.Bottom), ViewDockStyle.Bottom);
             layoutDocker.Add(new ViewLayoutSeparator(outerPadding.Left), ViewDockStyle.Left);
@@ -462,7 +462,7 @@ namespace Krypton.Toolkit
             {
                 // Find the preferred size which fits exactly the calculated contents size
                 using var context = new ViewLayoutContext(this, Renderer);
-                return ViewManager!.Root!.GetPreferredSize(context);
+                return ViewManager!.Root.GetPreferredSize(context);
             }
             finally
             {
@@ -487,7 +487,7 @@ namespace Krypton.Toolkit
                 _palette = palette;
 
                 // Update redirector to use palette as source for obtaining values
-                Redirector!.Target = _palette;
+                Redirector.Target = _palette;
 
                 // Get the renderer associated with the palette
                 Renderer = _palette.GetRenderer();

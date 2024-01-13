@@ -28,7 +28,7 @@ namespace Krypton.Navigator
                                        ViewManager manager,
                                        PaletteRedirect redirector) =>
             // Let base class perform common operations
-            base.Construct(navigator, manager, redirector!);
+            base.Construct(navigator, manager, redirector);
 
         /// <summary>
         /// Gets a value indicating if the mode is a tab strip style mode.
@@ -111,7 +111,7 @@ namespace Krypton.Navigator
             };
 
             // Create the top level panel and put a layout docker inside it
-            _drawPanel = new ViewDrawPanel(Navigator.StateNormal!.Back)
+            _drawPanel = new ViewDrawPanel(Navigator.StateNormal.Back)
             {
                 _layoutPanelDocker
             };

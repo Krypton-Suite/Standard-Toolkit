@@ -249,11 +249,11 @@ namespace Krypton.Toolkit
         [Description(@"Separator background style.")]
         public PaletteBackStyle ContainerBackStyle
         {
-            get => StateCommon!.BackStyle;
+            get => StateCommon.BackStyle;
 
             set
             {
-                if (StateCommon!.BackStyle != value)
+                if (StateCommon.BackStyle != value)
                 {
                     StateCommon.BackStyle = value;
                     PerformNeedPaint(true);
@@ -296,9 +296,9 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Overrides for defining common separator appearance that other states can override.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteSplitContainerRedirect? StateCommon { get; }
+        public PaletteSplitContainerRedirect StateCommon { get; }
 
-        private bool ShouldSerializeStateCommon() => !StateCommon!.IsDefault;
+        private bool ShouldSerializeStateCommon() => !StateCommon.IsDefault;
 
         /// <summary>
         /// Gets access to the disabled separator appearance.

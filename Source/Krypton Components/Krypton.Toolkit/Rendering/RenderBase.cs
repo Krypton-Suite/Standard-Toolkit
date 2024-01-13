@@ -28,60 +28,52 @@ namespace Krypton.Toolkit
         #region Static Fields
         private static readonly object _threadLock = new object();
 
-        private static readonly ColorMatrix _matrixGrayScale = new ColorMatrix(new[]
-        {
-            new[] { 0.3f, 0.3f, 0.3f, 0, 0 }, new[] { 0.59f, 0.59f, 0.59f, 0, 0 },
-            new[] { 0.11f, 0.11f, 0.11f, 0, 0 }, new float[] { 0, 0, 0, 1, 0 }, new float[] { 0, 0, 0, 0, 1 }
-        });
+        private static readonly ColorMatrix _matrixGrayScale = new ColorMatrix([
+            [0.3f, 0.3f, 0.3f, 0, 0], [0.59f, 0.59f, 0.59f, 0, 0],
+            [0.11f, 0.11f, 0.11f, 0, 0], [0, 0, 0, 1, 0], [0, 0, 0, 0, 1]
+        ]);
 
-        private static readonly ColorMatrix _matrixGrayScaleRed = new ColorMatrix(new[]
-        {
-            new float[] { 1, 0, 0, 0, 0 }, new[] { 0, 0.59f, 0.59f, 0, 0 }, new[] { 0, 0.11f, 0.11f, 0, 0 },
-            new float[] { 0, 0, 0, 1, 0 }, new float[] { 0, 0, 0, 0, 1 }
-        });
+        private static readonly ColorMatrix _matrixGrayScaleRed = new ColorMatrix([
+            [1, 0, 0, 0, 0], [0, 0.59f, 0.59f, 0, 0], [0, 0.11f, 0.11f, 0, 0],
+            [0, 0, 0, 1, 0], [0, 0, 0, 0, 1]
+        ]);
 
-        private static readonly ColorMatrix _matrixGrayScaleGreen = new ColorMatrix(new[]
-        {
-            new[] { 0.3f, 0, 0.3f, 0, 0 }, new float[] { 0, 1, 0, 0, 0 }, new[] { 0.11f, 0, 0.11f, 0, 0 },
-            new float[] { 0, 0, 0, 1, 0 }, new float[] { 0, 0, 0, 0, 1 }
-        });
+        private static readonly ColorMatrix _matrixGrayScaleGreen = new ColorMatrix([
+            [0.3f, 0, 0.3f, 0, 0], [0, 1, 0, 0, 0], [0.11f, 0, 0.11f, 0, 0],
+            [0, 0, 0, 1, 0], [0, 0, 0, 0, 1]
+        ]);
 
-        private static readonly ColorMatrix _matrixGrayScaleBlue = new ColorMatrix(new[]
-        {
-            new[] { 0.3f, 0.3f, 0, 0, 0 }, new[] { 0.59f, 0.59f, 0, 0, 0 }, new float[] { 0, 0, 1, 0, 0 },
-            new float[] { 0, 0, 0, 1, 0 }, new float[] { 0, 0, 0, 0, 1 }
-        });
+        private static readonly ColorMatrix _matrixGrayScaleBlue = new ColorMatrix([
+            [0.3f, 0.3f, 0, 0, 0], [0.59f, 0.59f, 0, 0, 0], [0, 0, 1, 0, 0],
+            [0, 0, 0, 1, 0], [0, 0, 0, 0, 1]
+        ]);
 
-        private static readonly ColorMatrix _matrixLight = new ColorMatrix(new[]
-        {
-            new float[] { 1, 0, 0, 0, 0 }, new float[] { 0, 1, 0, 0, 0 }, new float[] { 0, 0, 1, 0, 0 },
-            new float[] { 0, 0, 0, 1, 0 }, new[] { 0.1f, 0.1f, 0.1f, 0, 1 }
-        });
+        private static readonly ColorMatrix _matrixLight = new ColorMatrix([
+            [1, 0, 0, 0, 0], [0, 1, 0, 0, 0], [0, 0, 1, 0, 0],
+            [0, 0, 0, 1, 0], [0.1f, 0.1f, 0.1f, 0, 1]
+        ]);
 
-        private static readonly ColorMatrix _matrixLightLight = new ColorMatrix(new[]
-        {
-            new float[] { 1, 0, 0, 0, 0 }, new float[] { 0, 1, 0, 0, 0 }, new float[] { 0, 0, 1, 0, 0 },
-            new float[] { 0, 0, 0, 1, 0 }, new[] { 0.2f, 0.2f, 0.2f, 0, 1 }
-        });
+        private static readonly ColorMatrix _matrixLightLight = new ColorMatrix([
+            [1, 0, 0, 0, 0], [0, 1, 0, 0, 0], [0, 0, 1, 0, 0],
+            [0, 0, 0, 1, 0], [0.2f, 0.2f, 0.2f, 0, 1]
+        ]);
 
-        private static readonly ColorMatrix _matrixDark = new ColorMatrix(new[]
-        {
-            new float[] { 1, 0, 0, 0, 0 }, new float[] { 0, 1, 0, 0, 0 }, new float[] { 0, 0, 1, 0, 0 },
-            new float[] { 0, 0, 0, 1, 0 }, new[] { -0.1f, -0.1f, -0.1f, 0, 1 }
-        });
+        private static readonly ColorMatrix _matrixDark = new ColorMatrix([
+            [1, 0, 0, 0, 0], [0, 1, 0, 0, 0], [0, 0, 1, 0, 0],
+            [0, 0, 0, 1, 0], [-0.1f, -0.1f, -0.1f, 0, 1]
+        ]);
 
-        private static readonly ColorMatrix _matrixDarkDark = new ColorMatrix(new[]
-        {
-            new float[] { 1, 0, 0, 0, 0 }, new float[] { 0, 1, 0, 0, 0 }, new float[] { 0, 0, 1, 0, 0 },
-            new float[] { 0, 0, 0, 1, 0 }, new[] { -0.25f, -0.25f, -0.25f, 0, 1 }
-        });
+        private static readonly ColorMatrix _matrixDarkDark = new ColorMatrix([
+            [1, 0, 0, 0, 0], [0, 1, 0, 0, 0], [0, 0, 1, 0, 0],
+            [0, 0, 0, 1, 0], [-0.25f, -0.25f, -0.25f, 0, 1]
+        ]);
         #endregion
 
         #region IRenderer
         /// <summary>
         /// Gets the standard border renderer.
         /// </summary>
-        public IRenderBorder RenderStandardBorder 
+        public IRenderBorder RenderStandardBorder
         {
             [DebuggerStepThrough]
             get => this;
@@ -126,7 +118,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the glyph renderer.
         /// </summary>
-        public IRenderGlyph RenderGlyph 
+        public IRenderGlyph RenderGlyph
         {
             [DebuggerStepThrough]
             get => this;
@@ -176,7 +168,7 @@ namespace Krypton.Toolkit
                                                           IPaletteBorder palette,
                                                           VisualOrientation orientation,
                                                           PaletteState state);
-        
+
         /// <summary>
         /// Generate a graphics path that is in the middle of the border.
         /// </summary>
@@ -186,8 +178,8 @@ namespace Krypton.Toolkit
         /// <param name="orientation">Visual orientation of the border.</param>
         /// <param name="state">State associated with rendering.</param>
         /// <returns>GraphicsPath instance.</returns>
-        public abstract GraphicsPath GetBorderPath(RenderContext context, 
-                                                   Rectangle rect, 
+        public abstract GraphicsPath GetBorderPath(RenderContext context,
+                                                   Rectangle rect,
                                                    IPaletteBorder palette,
                                                    VisualOrientation orientation,
                                                    PaletteState state);
@@ -206,7 +198,7 @@ namespace Krypton.Toolkit
                                                  IPaletteBorder palette,
                                                  VisualOrientation orientation,
                                                  PaletteState state);
-        
+
         /// <summary>
         /// Draw border on the inside edge of the specified rectangle.
         /// </summary>
@@ -215,8 +207,8 @@ namespace Krypton.Toolkit
         /// <param name="palette">Palette used for drawing.</param>
         /// <param name="orientation">Visual orientation of the border.</param>
         /// <param name="state">State associated with rendering.</param>
-        public abstract void DrawBorder(RenderContext context, 
-                                        Rectangle rect, 
+        public abstract void DrawBorder(RenderContext context,
+                                        Rectangle rect,
                                         IPaletteBorder palette,
                                         VisualOrientation orientation,
                                         PaletteState state);
@@ -233,9 +225,9 @@ namespace Krypton.Toolkit
         /// <param name="orientation">Visual orientation of the background.</param>
         /// <param name="state">State associated with rendering.</param>
         /// <param name="memento">Cache used for drawing.</param>
-        public abstract IDisposable? DrawBack(RenderContext context, 
+        public abstract IDisposable? DrawBack(RenderContext context,
                                              Rectangle rect,
-                                             GraphicsPath path, 
+                                             GraphicsPath path,
                                              IPaletteBack palette,
                                              VisualOrientation orientation,
                                              PaletteState state,
@@ -280,7 +272,7 @@ namespace Krypton.Toolkit
                                                   IContentValues values,
                                                   VisualOrientation orientation,
                                                   PaletteState state,
-                                                  bool composition, 
+                                                  bool composition,
                                                   bool glowing);
 
         /// <summary>
@@ -499,7 +491,7 @@ namespace Krypton.Toolkit
                                                              Color baseColor1,
                                                              Color baseColor2,
                                                              IDisposable memento);
-        
+
         /// <summary>
         /// Perform drawing of a ribbon cluster edge.
         /// </summary>
@@ -662,7 +654,7 @@ namespace Krypton.Toolkit
                                                            Rectangle cellRect,
                                                            IPaletteContent? paletteContent,
                                                            PaletteState state);
-        
+
 
         /// <summary>
         /// Perform drawing of a ribbon dialog box launcher glyph.
@@ -835,8 +827,8 @@ namespace Krypton.Toolkit
                                                  Size positionSize,
                                                  int minimum,
                                                  int maximum,
-                                                 int frequency);    
- 
+                                                 int frequency);
+
         /// <summary>
         /// Draw the track bar track glyph.
         /// </summary>
@@ -987,9 +979,9 @@ namespace Krypton.Toolkit
                     case PaletteImageEffect.DarkDark:
                         attribs.SetColorMatrix(_matrixDarkDark);
                         break;
-                    case PaletteImageEffect.Inherit:
-                        // Should never happen!
+                    case PaletteImageEffect.Inherit:                            // Should never happen!
                         Debug.Assert(false);
+                        DebugTools.NotImplemented(effect.ToString());
                         break;
                 }
 

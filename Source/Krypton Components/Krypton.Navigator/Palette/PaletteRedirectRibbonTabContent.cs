@@ -792,9 +792,9 @@ namespace Krypton.Navigator
                 case PaletteState.FocusOverride:
                     return _focusOverrideBack;
                 default:
-                    // Should never happen!
+    // Should never happen!
                     Debug.Assert(false);
-                    throw new ArgumentOutOfRangeException(nameof(state), @"state must be PaletteState value.");
+                    throw DebugTools.NotImplemented(state.ToString());
             }
         }
 
@@ -817,9 +817,9 @@ namespace Krypton.Navigator
                 case PaletteState.FocusOverride:
                     return _focusOverrideText;
                 default:
-                    // Should never happen!
+    // Should never happen!
                     Debug.Assert(false);
-                    throw new ArgumentOutOfRangeException(nameof(state), @"state must be PaletteState value.");
+                    throw DebugTools.NotImplemented(state.ToString());
             }
         }
 
@@ -842,9 +842,9 @@ namespace Krypton.Navigator
                 case PaletteState.FocusOverride:
                     return _focusOverrideContent;
                 default:
-                    // Should never happen!
+    // Should never happen!
                     Debug.Assert(false);
-                    throw new ArgumentOutOfRangeException(nameof(state), @"state must be PaletteState value.");
+                    throw DebugTools.NotImplemented(state.ToString());
             }
         }
         #endregion

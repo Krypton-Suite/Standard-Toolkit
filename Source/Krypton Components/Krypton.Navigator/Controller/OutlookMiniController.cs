@@ -352,7 +352,7 @@ namespace Krypton.Navigator
         /// <param name="pt">Mouse point.</param>
         protected void UpdateTargetState(Point pt)
         {
-            // By default the button is in the normal state
+            // By default, the button is in the normal state
             PaletteState newState;
 
             // When disabled the button itself is shown as normal, the 

@@ -45,7 +45,7 @@ namespace Krypton.Toolkit
             Debug.Assert(redirect != null);
 
             // Remember the redirect reference
-            _redirect = redirect!;
+            _redirect = redirect;
         }
         #endregion
 

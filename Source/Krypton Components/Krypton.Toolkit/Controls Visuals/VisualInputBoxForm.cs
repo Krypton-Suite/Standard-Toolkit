@@ -88,7 +88,7 @@ namespace Krypton.Toolkit
 
             if (_inputBoxData.CueTypeface != null)
             {
-                _textBoxResponse.CueHint.Font = _inputBoxData.CueTypeface ?? KryptonManager.CurrentGlobalPalette!.BaseFont;
+                _textBoxResponse.CueHint.Font = _inputBoxData.CueTypeface ?? KryptonManager.CurrentGlobalPalette.BaseFont;
             }
         }
 

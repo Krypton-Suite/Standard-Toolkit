@@ -100,7 +100,7 @@ namespace Krypton.Toolkit
             Debug.Assert(inherit != null);
 
             // Remember inheritance
-            _inherit = inherit!;
+            _inherit = inherit;
 
             // Store the provided paint notification delegate
             NeedPaint = needPaint;
@@ -604,11 +604,11 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category(@"Visuals")]
         [Description(@"How much to round the border corners.")]
-        [DefaultValue(GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE)]
+        [DefaultValue(GlobalStaticValues.DEFAULT_PRIMARY_CORNER_ROUNDING_VALUE)]
         [RefreshProperties(RefreshProperties.All)]
         public float Rounding
         {
-            get => _storage?.BorderRounding ?? GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
+            get => _storage?.BorderRounding ?? GlobalStaticValues.DEFAULT_PRIMARY_CORNER_ROUNDING_VALUE;
 
             set
             {
@@ -623,7 +623,7 @@ namespace Krypton.Toolkit
                 }
                 else
                 {
-                    if (value != GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE)
+                    if (value != GlobalStaticValues.DEFAULT_PRIMARY_CORNER_ROUNDING_VALUE)
                     {
                         _storage = new InternalStorage
                         {
@@ -636,8 +636,8 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void ResetRounding() => Rounding = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
-        private bool ShouldSerializeRounding() => Rounding != GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
+        private void ResetRounding() => Rounding = GlobalStaticValues.DEFAULT_PRIMARY_CORNER_ROUNDING_VALUE;
+        private bool ShouldSerializeRounding() => Rounding != GlobalStaticValues.DEFAULT_PRIMARY_CORNER_ROUNDING_VALUE;
 
         /// <summary>
         /// Gets the border rounding.

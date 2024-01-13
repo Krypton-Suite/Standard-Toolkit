@@ -53,9 +53,9 @@ namespace Krypton.Toolkit
             Debug.Assert(colorBlock != null);
             Debug.Assert(needPaint != null);
 
-            ViewManager = viewManager!;
-            _target = target!;
-            _menuColorBlock = colorBlock!;
+            ViewManager = viewManager;
+            _target = target;
+            _menuColorBlock = colorBlock;
             NeedPaint = needPaint;
 
             // Set initial display state

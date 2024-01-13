@@ -121,23 +121,6 @@ namespace Krypton.Toolkit
             }
         }
 
-        /// <summary>Gets or sets the corner radius.</summary>
-        /// <value>The corner radius.</value>
-        [DefaultValue(GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE)]
-        public float StateCommonCornerRoundingRadius
-        {
-            get => _comboBox.StateCommon.ComboBox.Border.Rounding;
-
-            set
-            {
-                if (_comboBox.StateCommon.ComboBox.Border.Rounding != value)
-                {
-                    _service.OnComponentChanged(_comboBox, null, _comboBox.StateCommon.ComboBox.Border.Rounding, value);
-
-                    _comboBox.StateCommon.ComboBox.Border.Rounding = value;
-                }
-            }
-        }
         #endregion
 
         #region Public Override
@@ -159,7 +142,6 @@ namespace Krypton.Toolkit
                 actions.Add(new DesignerActionPropertyItem(nameof(DropDownStyle), @"Drop Down Style", nameof(Appearance), @"The combobox drop down style."));
                 actions.Add(new DesignerActionPropertyItem(nameof(InputControlStyle), @"Style", nameof(Appearance), @"ComboBox display style."));
                 actions.Add(new DesignerActionPropertyItem(nameof(Font), nameof(Font), nameof(Appearance), @"The font for the combobox."));
-                actions.Add(new DesignerActionPropertyItem(nameof(StateCommonCornerRoundingRadius), @"State Common Corner Rounding Radius", nameof(Appearance), @"The corner rounding radius of the control."));
                 actions.Add(new DesignerActionHeaderItem(@"Visuals"));
                 actions.Add(new DesignerActionPropertyItem(nameof(PaletteMode), @"Palette", @"Visuals", @"Palette applied to drawing"));
             }

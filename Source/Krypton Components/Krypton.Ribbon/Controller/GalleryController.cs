@@ -43,9 +43,9 @@ namespace Krypton.Ribbon
             Debug.Assert(gallery != null);
             Debug.Assert(target != null);
 
-            _ribbon = ribbon!;
-            _gallery = gallery!;
-            _target = target!;
+            _ribbon = ribbon;
+            _gallery = gallery;
+            _target = target;
         }
         #endregion
 

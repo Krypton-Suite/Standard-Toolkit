@@ -84,7 +84,7 @@ namespace Krypton.Toolkit
 
             //Init Colors
             // hot state
-            thumbColours[0, 0] = _palette!.GetBorderColor1(PaletteBorderStyle.ButtonStandalone, PaletteState.Normal); //Color.FromArgb(96, 111, 148); // border color
+            thumbColours[0, 0] = _palette.GetBorderColor1(PaletteBorderStyle.ButtonStandalone, PaletteState.Normal); //Color.FromArgb(96, 111, 148); // border color
             thumbColours[0, 1] = _palette.GetBackColor2(PaletteBackStyle.ButtonStandalone, PaletteState.Normal); //Color.FromArgb(232, 233, 233); // left/top start color
             thumbColours[0, 2] = _palette.GetBackColor1(PaletteBackStyle.ButtonStandalone, PaletteState.Normal); //Color.FromArgb(230, 233, 241); // left/top end color
             thumbColours[0, 3] = _palette.GetBackColor2(PaletteBackStyle.ButtonStandalone, PaletteState.Normal); //Color.FromArgb(233, 237, 242); // right/bottom line color
@@ -328,14 +328,13 @@ namespace Krypton.Toolkit
             // adjust alpha channel of grip image
             using var attr = new ImageAttributes();
             attr.SetColorMatrix(
-                new ColorMatrix(new[]
-                {
-                    new[] { 1F, 0, 0, 0, 0 },
-                    new[] { 0, 1F, 0, 0, 0 },
-                    new[] { 0, 0, 1F, 0, 0 },
-                    new[] { 0, 0, 0,  .8F, 0 },
-                    new[] { 0, 0, 0, 0, 1F }
-                }),
+                new ColorMatrix([
+                    [1F, 0, 0, 0, 0],
+                    [0, 1F, 0, 0, 0],
+                    [0, 0, 1F, 0, 0],
+                    [0, 0, 0,  .8F, 0],
+                    [0, 0, 0, 0, 1F]
+                ]),
                 ColorMatrixFlag.Default,
                 ColorAdjustType.Bitmap
             );
@@ -603,13 +602,13 @@ namespace Krypton.Toolkit
                     thumbColours[index, 5], LinearGradientMode.Horizontal);
                 brush.InterpolationColors = new ColorBlend(3)
                 {
-                    Colors = new[]
-                    {
+                    Colors =
+                    [
                         thumbColours[index, 4],
                         thumbColours[index, 6],
                         thumbColours[index, 5]
-                    },
-                    Positions = new[] { 0f, .5f, 1f }
+                    ],
+                    Positions = [0f, .5f, 1f]
                 };
 
                 g.FillRectangle(brush, r);
@@ -687,13 +686,13 @@ namespace Krypton.Toolkit
                     thumbColours[index, 5], LinearGradientMode.Vertical);
                 brush.InterpolationColors = new ColorBlend(3)
                 {
-                    Colors = new[]
-                    {
+                    Colors =
+                    [
                         thumbColours[index, 4],
                         thumbColours[index, 6],
                         thumbColours[index, 5]
-                    },
-                    Positions = new[] { 0f, .5f, 1f }
+                    ],
+                    Positions = [0f, .5f, 1f]
                 };
 
                 g.FillRectangle(brush, r);
@@ -823,11 +822,13 @@ namespace Krypton.Toolkit
                 {
                     var blend = new ColorBlend(3)
                     {
-                        Positions = new[] { 0f, .5f, 1f },
-                        Colors = new[] {
+                        Positions = [0f, .5f, 1f],
+                        Colors =
+                        [
                             arrowBorderColours[2],
                             arrowBorderColours[3],
-                            arrowBorderColours[0] }
+                            arrowBorderColours[0]
+                        ]
                     };
 
                     brush.InterpolationColors = blend;

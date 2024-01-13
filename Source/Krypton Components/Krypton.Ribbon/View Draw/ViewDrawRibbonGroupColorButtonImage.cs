@@ -100,7 +100,7 @@ namespace Krypton.Ribbon
         {
             get
             {
-                Image? newImage;
+                Image newImage;
                 if (_ribbonColorButton.KryptonCommand != null)
                 {
                     newImage = _large ? _ribbonColorButton.KryptonCommand.ImageLarge : _ribbonColorButton.KryptonCommand.ImageSmall;

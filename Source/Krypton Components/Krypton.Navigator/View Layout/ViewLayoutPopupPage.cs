@@ -34,8 +34,8 @@ namespace Krypton.Navigator
             Debug.Assert(navigator != null);
             Debug.Assert(page != null);
 
-            _navigator = navigator!;
-            _page = page!;
+            _navigator = navigator;
+            _page = page;
         }
 
         /// <summary>
@@ -56,7 +56,7 @@ namespace Krypton.Navigator
         public override Size GetPreferredSize([DisallowNull] ViewLayoutContext context)
         {
             Debug.Assert(context != null);
-            return _page.GetPreferredSize(context!.DisplayRectangle.Size);
+            return _page.GetPreferredSize(context.DisplayRectangle.Size);
         }
 
         /// <summary>
@@ -68,7 +68,7 @@ namespace Krypton.Navigator
             Debug.Assert(context != null);
 
             // We take on all the available display area
-            ClientRectangle = context!.DisplayRectangle;
+            ClientRectangle = context.DisplayRectangle;
 
             // Are we allowed to layout child controls?
             if (!context.ViewManager!.DoNotLayoutControls)

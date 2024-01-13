@@ -25,7 +25,7 @@ namespace Krypton.Toolkit
         /// <param name="inheritSeparator">Source for inheriting separator defaulted values.</param>
         /// <param name="inheritMetric">Source for inheriting separator metric values.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public PaletteSplitContainer(IPaletteDouble? inheritSplitContainer,
+        public PaletteSplitContainer(IPaletteDouble inheritSplitContainer,
                                      IPaletteDouble? inheritSeparator,
                                      IPaletteMetric? inheritMetric,
                                      NeedPaintHandler needPaint)

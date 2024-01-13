@@ -14,21 +14,11 @@ namespace Krypton.Toolkit
 {
     public class GlobalStaticValues
     {
-        // Used for 'Material' themes
-        public const float MATERIAL_THEME_CORNER_ROUNDING_VALUE = -1f;
+        /// Used for 'Material' themes
+        public const float DEFAULT_MATERIAL_THEME_CORNER_ROUNDING_VALUE = -1f;
 
-        // Used for the default control corners
-        public const float PRIMARY_CORNER_ROUNDING_VALUE = -1f;
-
-        // Used for text controls
-        public const float PRIMARY_CORNER_TEXT_CONTROLS_ROUNDING_VALUE = -1f;
-
-        // Used for nodes etc
-        public const float SECONDARY_CORNER_ROUNDING_VALUE = -1f;
-
-        public const float MAXIMUM_PRIMARY_CORNER_ROUNDING_VALUE = 25f;
-
-        public const float MAXIMUM_SECONDARY_CORNER_ROUNDING_VALUE = 25f;
+        /// Used for the default control corners
+        public const float DEFAULT_PRIMARY_CORNER_ROUNDING_VALUE = -1f;
 
         public static UACShieldIconSize DEFAULT_UAC_SHIELD_ICON_SIZE = UACShieldIconSize.ExtraSmall;
 

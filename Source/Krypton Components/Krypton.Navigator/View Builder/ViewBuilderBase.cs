@@ -89,8 +89,8 @@ namespace Krypton.Navigator
             Debug.Assert(_constructed == false);
 
             // Save provided references
-            Navigator = navigator!;
-            ViewManager = manager!;
+            Navigator = navigator;
+            ViewManager = manager;
             Redirector = redirector;
             _constructed = true;
 
@@ -107,7 +107,7 @@ namespace Krypton.Navigator
             Debug.Assert(Navigator != null, $"{nameof(Navigator)} != null");
 
             // Unhook from the navigator events
-            Navigator!.ViewBuilderPropertyChanged -= OnViewBuilderPropertyChanged;
+            Navigator.ViewBuilderPropertyChanged -= OnViewBuilderPropertyChanged;
 
             // No longer constructed
             _constructed = false;
@@ -725,11 +725,11 @@ namespace Krypton.Navigator
                     }
 
                     Debug.Assert(Navigator.StateCommon.HeaderGroup != null, "Navigator.StateCommon.HeaderGroup != null");
-                    Navigator.StateCommon!.HeaderGroup!.BackStyle = Navigator.Group.GroupBackStyle;
+                    Navigator.StateCommon!.HeaderGroup.BackStyle = Navigator.Group.GroupBackStyle;
                     Navigator.PerformNeedPaint(true);
                     break;
                 case @"GroupBorderStyle":
-                    Navigator!.StateCommon!.HeaderGroup!.BorderStyle = Navigator.Group.GroupBorderStyle;
+                    Navigator.StateCommon!.HeaderGroup.BorderStyle = Navigator.Group.GroupBorderStyle;
                     Navigator.PerformNeedPaint(true);
                     break;
             }
@@ -785,9 +785,9 @@ namespace Krypton.Navigator
                 case NavigatorMode.Panel:
                     return new ViewBuilderPanel();
                 default:
-                    // Should never happen!
+    // Should never happen!
                     Debug.Assert(false);
-                    throw new ArgumentOutOfRangeException(nameof(mode));
+                    throw DebugTools.NotImplemented(mode.ToString());
             }
         }
         #endregion

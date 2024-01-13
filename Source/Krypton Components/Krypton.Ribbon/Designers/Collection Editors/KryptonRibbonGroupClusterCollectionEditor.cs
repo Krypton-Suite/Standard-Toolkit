@@ -28,7 +28,10 @@ namespace Krypton.Ribbon
         /// Gets the data types that this collection editor can contain. 
         /// </summary>
         /// <returns>An array of data types that this collection can contain.</returns>
-        protected override Type[] CreateNewItemTypes() => new[] { typeof(KryptonRibbonGroupClusterButton),
-                                typeof(KryptonRibbonGroupClusterColorButton)};
+        protected override Type[] CreateNewItemTypes() =>
+        [
+            typeof(KryptonRibbonGroupClusterButton),
+                                typeof(KryptonRibbonGroupClusterColorButton)
+        ];
     }
 }

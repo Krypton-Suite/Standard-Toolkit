@@ -116,7 +116,7 @@ namespace Krypton.Navigator
         {
             Debug.Assert(navigator != null);
 
-            Navigator = navigator!;
+            Navigator = navigator;
             _page = page;
             _lastClick = DateTime.Now.AddDays(-1);
 
@@ -154,7 +154,7 @@ namespace Krypton.Navigator
                                                                    new[] { PaletteMetricInt.PageButtonInset },
                                                                    new[] { PaletteMetricInt.PageButtonInset },
                                                                    new[] { PaletteMetricPadding.PageButtonPadding },
-                                                                   Navigator.CreateToolStripRenderer!,
+                                                                   Navigator.CreateToolStripRenderer,
                                                                    null)
                 {
 
@@ -257,16 +257,16 @@ namespace Krypton.Navigator
 
                     if (_page != null)
                     {
-                        _overrideDisabled.SetPalettes(_page.OverrideFocus.CheckButton, _page.StateDisabled!.CheckButton);
-                        _overrideNormal.SetPalettes(_page.OverrideFocus.CheckButton, _page.StateNormal!.CheckButton);
+                        _overrideDisabled.SetPalettes(_page.OverrideFocus.CheckButton, _page.StateDisabled.CheckButton);
+                        _overrideNormal.SetPalettes(_page.OverrideFocus.CheckButton, _page.StateNormal.CheckButton);
                         _overrideTracking.SetPalettes(_page.OverrideFocus.CheckButton, _page.StateTracking.CheckButton);
                         _overridePressed.SetPalettes(_page.OverrideFocus.CheckButton, _page.StatePressed.CheckButton);
                         _overrideSelected.SetPalettes(_page.OverrideFocus.CheckButton, _page.StateSelected.CheckButton);
                     }
                     else
                     {
-                        _overrideDisabled.SetPalettes(Navigator.OverrideFocus.CheckButton, Navigator.StateDisabled!.CheckButton);
-                        _overrideNormal.SetPalettes(Navigator.OverrideFocus.CheckButton, Navigator.StateNormal!.CheckButton);
+                        _overrideDisabled.SetPalettes(Navigator.OverrideFocus.CheckButton, Navigator.StateDisabled.CheckButton);
+                        _overrideNormal.SetPalettes(Navigator.OverrideFocus.CheckButton, Navigator.StateNormal.CheckButton);
                         _overrideTracking.SetPalettes(Navigator.OverrideFocus.CheckButton, Navigator.StateTracking.CheckButton);
                         _overridePressed.SetPalettes(Navigator.OverrideFocus.CheckButton, Navigator.StatePressed.CheckButton);
                         _overrideSelected.SetPalettes(Navigator.OverrideFocus.CheckButton, Navigator.StateSelected.CheckButton);
@@ -315,7 +315,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="state">The state for which the image is needed.</param>
         /// <returns>Image value.</returns>
-        public abstract Image? GetImage(PaletteState state);
+        public abstract Image GetImage(PaletteState state);
 
         /// <summary>
         /// Gets the image color that should be transparent.

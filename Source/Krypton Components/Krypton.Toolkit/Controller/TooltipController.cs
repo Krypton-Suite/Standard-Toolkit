@@ -39,8 +39,8 @@ namespace Krypton.Toolkit
             Debug.Assert(targetElement != null);
 
             // Remember incoming references
-            _manager = manager!;
-            _targetElement = targetElement!;
+            _manager = manager;
+            _targetElement = targetElement;
             _targetController = targetController;
         }
         #endregion

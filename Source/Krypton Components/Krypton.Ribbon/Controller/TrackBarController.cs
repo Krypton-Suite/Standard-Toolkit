@@ -43,9 +43,9 @@ namespace Krypton.Ribbon
             Debug.Assert(trackBar != null);
             Debug.Assert(target != null);
 
-            _ribbon = ribbon!;
-            _trackBar = trackBar!;
-            _target = target!;
+            _ribbon = ribbon;
+            _trackBar = trackBar;
+            _target = target;
         }
         #endregion
 

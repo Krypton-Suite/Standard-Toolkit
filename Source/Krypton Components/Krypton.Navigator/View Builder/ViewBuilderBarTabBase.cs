@@ -70,8 +70,10 @@ namespace Krypton.Navigator
             {
                 case VisualOrientation.Top:
                     return VisualOrientation.Top;
+
                 case VisualOrientation.Bottom:
                     return VisualOrientation.Bottom;
+
                 case VisualOrientation.Left:
                     if (CommonHelper.GetRightToLeftLayout(Navigator) &&
                         (Navigator.RightToLeft == RightToLeft.Yes))
@@ -82,6 +84,7 @@ namespace Krypton.Navigator
                     {
                         return VisualOrientation.Left;
                     }
+
                 case VisualOrientation.Right:
                     if (CommonHelper.GetRightToLeftLayout(Navigator) &&
                         (Navigator.RightToLeft == RightToLeft.Yes))
@@ -92,9 +95,11 @@ namespace Krypton.Navigator
                     {
                         return VisualOrientation.Right;
                     }
+
                 default:
-                    // Should never happen!
+    // Should never happen!
                     Debug.Assert(false);
+                    DebugTools.NotImplemented(Navigator.Bar.BarOrientation.ToString());
                     return VisualOrientation.Top;
             }
         }
@@ -156,7 +161,7 @@ namespace Krypton.Navigator
             TabBorderStyle tabBorderStyle = Navigator.Bar.TabBorderStyle;
 
             // Update the border style of each check button
-            foreach (ViewDrawNavCheckButtonTab tab in _pageLookup!.Values!)
+            foreach (ViewDrawNavCheckButtonTab tab in _pageLookup!.Values)
             {
                 tab.TabBorderStyle = tabBorderStyle;
             }

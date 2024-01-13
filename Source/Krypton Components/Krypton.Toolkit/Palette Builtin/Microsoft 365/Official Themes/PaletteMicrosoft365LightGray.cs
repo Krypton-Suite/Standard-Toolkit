@@ -18,6 +18,6 @@ namespace Krypton.Toolkit
         {
         }
 
-        public override Image? GetContextMenuSubMenuImage() => throw new NotImplementedException();
+        public override Image GetContextMenuSubMenuImage() => throw new NotImplementedException();
     }
 }

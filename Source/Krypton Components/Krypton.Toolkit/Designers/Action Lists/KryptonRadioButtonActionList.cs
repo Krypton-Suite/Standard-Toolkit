@@ -141,7 +141,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the radio button image.
         /// </summary>
-        public Image? Image
+        public Image Image
         {
             get => _radioButton.Values.Image;
 

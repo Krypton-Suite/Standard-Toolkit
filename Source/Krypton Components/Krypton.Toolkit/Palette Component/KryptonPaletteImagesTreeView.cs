@@ -19,8 +19,8 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
         private PaletteRedirect? _redirect;
-        private Image? _plus;
-        private Image? _minus;
+        private Image _plus;
+        private Image _minus;
         #endregion
 
         #region Identity
@@ -84,7 +84,7 @@ namespace Krypton.Toolkit
         [Description(@"Image for use when a node is collapsed.")]
         [DefaultValue(null)]
         [RefreshProperties(RefreshProperties.All)]
-        public Image? Plus
+        public Image Plus
         {
             get => _plus;
 
@@ -113,7 +113,7 @@ namespace Krypton.Toolkit
         [Description(@"Image for use when a node is expanded.")]
         [DefaultValue(null)]
         [RefreshProperties(RefreshProperties.All)]
-        public Image? Minus
+        public Image Minus
         {
             get => _minus;
 

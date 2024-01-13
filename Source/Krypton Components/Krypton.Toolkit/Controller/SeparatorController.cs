@@ -203,7 +203,7 @@ namespace Krypton.Toolkit
         {
             Debug.Assert(source != null);
 
-            _source = source!;
+            _source = source;
             _splitCursors = splitCursors;
             _drawIndicator = drawIndicator;
         }
@@ -682,7 +682,7 @@ namespace Krypton.Toolkit
         {
             Debug.Assert(controller != null);
 
-            _controller = controller!;
+            _controller = controller;
         }
         #endregion
 

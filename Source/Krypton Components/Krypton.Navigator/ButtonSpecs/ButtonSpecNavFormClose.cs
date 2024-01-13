@@ -88,7 +88,7 @@ namespace Krypton.Navigator
                 {
                     var mea = (MouseEventArgs)e;
 
-                    if (GetView()!.ClientRectangle.Contains(mea.Location))
+                    if (GetView().ClientRectangle.Contains(mea.Location))
                     {
                         PropertyInfo? propertyInfo = typeof(Form).GetProperty(nameof(CloseReason),
                             BindingFlags.Instance | BindingFlags.SetProperty | BindingFlags.NonPublic);

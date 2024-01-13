@@ -20,8 +20,11 @@ namespace Krypton.Ribbon
     public class KryptonRibbonGroupClusterCollection : TypedRestrictCollection<KryptonRibbonGroupItem>
     {
         #region Static Fields
-        private static readonly Type[] _types = { typeof(KryptonRibbonGroupClusterButton),
-                                                             typeof(KryptonRibbonGroupClusterColorButton)};
+        private static readonly Type[] _types =
+        [
+            typeof(KryptonRibbonGroupClusterButton),
+                                                             typeof(KryptonRibbonGroupClusterColorButton)
+        ];
         #endregion
 
         #region Restrict

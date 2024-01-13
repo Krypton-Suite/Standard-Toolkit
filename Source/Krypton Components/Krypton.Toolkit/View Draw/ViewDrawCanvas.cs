@@ -22,7 +22,7 @@ namespace Krypton.Toolkit
         #region Instance Fields
         internal IPaletteBack? _paletteBack;
         internal IPaletteBorder? _paletteBorder;
-        internal IPaletteMetric? _paletteMetric;
+        internal IPaletteMetric _paletteMetric;
         internal PaletteMetricPadding _metricPadding;
         private IDisposable? _mementoBack;
         private PaletteBorderInheritForced? _borderForced;
@@ -58,7 +58,7 @@ namespace Krypton.Toolkit
         /// <param name="orientation">Visual orientation of the content.</param>
         public ViewDrawCanvas(IPaletteBack? paletteBack,
                               IPaletteBorder? paletteBorder,
-                              IPaletteMetric? paletteMetric,
+                              IPaletteMetric paletteMetric,
                               PaletteMetricPadding metricPadding,
                               VisualOrientation orientation)
         {
@@ -127,7 +127,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the currently used metric palette.
         /// </summary>
-        public IPaletteMetric? PaletteMetric
+        public IPaletteMetric PaletteMetric
         {
             [DebuggerStepThrough]
             get => _paletteMetric;
@@ -152,7 +152,7 @@ namespace Krypton.Toolkit
         /// <param name="paletteMetric">Palette source for the metric.</param>
         public virtual void SetPalettes([DisallowNull] IPaletteBack paletteBack, 
             [DisallowNull]IPaletteBorder paletteBorder,
-                                        IPaletteMetric? paletteMetric)
+                                        IPaletteMetric paletteMetric)
         {
             Debug.Assert(paletteBorder != null);
             Debug.Assert(paletteBack != null);
@@ -168,7 +168,7 @@ namespace Krypton.Toolkit
             }
             else
             {
-                _borderForced.SetInherit(paletteBorder!);
+                _borderForced.SetInherit(paletteBorder);
             }
 
             _paletteMetric = paletteMetric;
@@ -344,7 +344,7 @@ namespace Krypton.Toolkit
             Debug.Assert(context != null);
 
             // Ask the renderer to evaluate the given palette
-            return context!.Renderer.EvalTransparentPaint(_paletteBack, _paletteBorder, State);
+            return context.Renderer.EvalTransparentPaint(_paletteBack, _paletteBorder, State);
         }
 
         #endregion
@@ -583,11 +583,11 @@ namespace Krypton.Toolkit
                 // Render the border over the background and children
                 if (DrawTabBorder)
                 {
-                    context!.Renderer.RenderTabBorder.DrawTabBorder(context, ClientRectangle, _paletteBorder, Orientation, State, TabBorderStyle);
+                    context.Renderer.RenderTabBorder.DrawTabBorder(context, ClientRectangle, _paletteBorder, Orientation, State, TabBorderStyle);
                 }
                 else
                 {
-                    context!.Renderer.RenderStandardBorder.DrawBorder(context, ClientRectangle, _paletteBorder, Orientation, State);
+                    context.Renderer.RenderStandardBorder.DrawBorder(context, ClientRectangle, _paletteBorder, Orientation, State);
                 }
             }
         }

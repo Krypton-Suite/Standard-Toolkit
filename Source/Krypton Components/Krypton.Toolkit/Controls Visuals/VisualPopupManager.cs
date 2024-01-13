@@ -18,7 +18,7 @@ namespace Krypton.Toolkit
     public class VisualPopupManager : IMessageFilter
     {
         #region Type Declarations
-        private class PopupStack : Stack<VisualPopup> { }
+        private class PopupStack : Stack<VisualPopup>;
         #endregion
 
         #region Static Fields
@@ -132,7 +132,7 @@ namespace Krypton.Toolkit
         public void StartTracking([DisallowNull] VisualPopup popup)
         {
             Debug.Assert(popup != null);
-            Debug.Assert(!popup!.IsDisposed);
+            Debug.Assert(!popup.IsDisposed);
             Debug.Assert(popup.IsHandleCreated);
             Debug.Assert(_suspended == 0);
 

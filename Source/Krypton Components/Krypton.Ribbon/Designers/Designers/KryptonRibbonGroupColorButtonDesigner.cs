@@ -462,8 +462,9 @@ namespace Krypton.Ribbon
                     case KryptonRibbonGroupLines lines:
                         return lines.Items;
                     default:
-                        // Should never happen!
+    // Should never happen!
                         Debug.Assert(false);
+                        DebugTools.NotImplemented(_ribbonColorButton.RibbonContainer.ToString());
                         return null;
                 }
             }

@@ -27,11 +27,11 @@ namespace Krypton.Ribbon
         #endregion
 
         #region Type Definitions
-        private class ItemToView : Dictionary<IRibbonGroupItem, ViewBase> { }
-        private class ViewToItem : Dictionary<ViewBase, IRibbonGroupItem> { }
-        private class ViewToGap : Dictionary<ViewBase, int> { }
-        private class SizeList : List<Size> { }
-        private class ViewList : List<ViewBase> { }
+        private class ItemToView : Dictionary<IRibbonGroupItem, ViewBase>;
+        private class ViewToItem : Dictionary<ViewBase, IRibbonGroupItem>;
+        private class ViewToGap : Dictionary<ViewBase, int>;
+        private class SizeList : List<Size>;
+        private class ViewList : List<ViewBase>;
         #endregion
 
         #region Instance Fields
@@ -76,9 +76,9 @@ namespace Krypton.Ribbon
             Debug.Assert(needPaint != null);
 
             // Cache references
-            _ribbon = ribbon!;
-            _ribbonLines = ribbonLines!;
-            _needPaint = needPaint!;
+            _ribbon = ribbon;
+            _ribbonLines = ribbonLines;
+            _needPaint = needPaint;
 
             // Associate the component with this view element for design time selection
             Component = _ribbonLines;
@@ -97,7 +97,7 @@ namespace Krypton.Ribbon
             _viewToSmallGap = new ViewToGap();
 
             // Get the initial size used for sizing and positioning
-            ApplySize(ribbonLines!.ItemSizeCurrent);
+            ApplySize(ribbonLines.ItemSizeCurrent);
 
             // Hook into changes in the ribbon triple definition
             _ribbonLines.PropertyChanged += OnLinesPropertyChanged;
@@ -106,7 +106,7 @@ namespace Krypton.Ribbon
             // At design time we want to track the mouse and show feedback
             if (_ribbon.InDesignMode)
             {
-                var controller = new ViewHightlightController(this, needPaint!);
+                var controller = new ViewHightlightController(this, needPaint);
                 controller.ContextClick += OnContextClick;
                 MouseController = controller;
             }
@@ -586,8 +586,9 @@ namespace Krypton.Ribbon
                 case GroupItemSize.Small:
                     return SmallPreferredSize(totalWidth);
                 default:
-                    // Should never happen!
+    // Should never happen!
                     Debug.Assert(false);
+                    DebugTools.NotImplemented(_currentSize.ToString());
                     return Size.Empty;
             }
         }
@@ -601,7 +602,7 @@ namespace Krypton.Ribbon
             Debug.Assert(context != null);
 
             // Store the provided client area
-            ClientRectangle = context!.DisplayRectangle;
+            ClientRectangle = context.DisplayRectangle;
 
             // Are there any children to layout?
             if (Count > 0)
@@ -612,15 +613,19 @@ namespace Krypton.Ribbon
                     case GroupItemSize.Large:
                         LargeMediumLayout(context, ref _split1Large);
                         break;
+
                     case GroupItemSize.Medium:
                         LargeMediumLayout(context, ref _split1Medium);
                         break;
+
                     case GroupItemSize.Small:
                         SmallLayout(context);
                         break;
+
                     default:
-                        // Should never happen!
+    // Should never happen!
                         Debug.Assert(false);
+                        DebugTools.NotImplemented(_currentSize.ToString());
                         break;
                 }
             }
@@ -681,21 +686,25 @@ namespace Krypton.Ribbon
                     _viewToGap = _viewToLargeGap;
                     itemSize = GroupItemSize.Medium;
                     break;
+
                 case GroupItemSize.Medium:
                     _sizeList = _sizeMediumList;
                     _viewList = _viewMediumList;
                     _viewToGap = _viewToMediumGap;
                     itemSize = GroupItemSize.Small;
                     break;
+
                 case GroupItemSize.Small:
                     _sizeList = _sizeSmallList;
                     _viewList = _viewSmallList;
                     _viewToGap = _viewToSmallGap;
                     itemSize = GroupItemSize.Small;
                     break;
+
                 default:
-                    // Should never happen!
+    // Should never happen!
                     Debug.Assert(false);
+                    DebugTools.NotImplemented(size.ToString());
                     break;
             }
 

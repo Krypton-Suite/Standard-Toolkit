@@ -18,10 +18,10 @@ namespace Krypton.Toolkit
     public class PaletteRedirectDoubleMetric : PaletteRedirectDouble
     {
         #region Instance Fields
-        private IPaletteMetric? _disabled;
-        private IPaletteMetric? _normal;
-        private IPaletteMetric? _pressed;
-        private IPaletteMetric? _tracking;
+        private IPaletteMetric _disabled;
+        private IPaletteMetric _normal;
+        private IPaletteMetric _pressed;
+        private IPaletteMetric _tracking;
         #endregion
 
         #region Identity
@@ -43,8 +43,8 @@ namespace Krypton.Toolkit
         /// <param name="normal">Redirection for normal state requests.</param>
         /// <param name="normalMetric">Redirection for normal metric requests.</param>
         public PaletteRedirectDoubleMetric(PaletteBase target,
-                                           IPaletteDouble? disabled, IPaletteMetric? disableMetric,
-                                           IPaletteDouble? normal, IPaletteMetric? normalMetric)
+                                           IPaletteDouble disabled, IPaletteMetric disableMetric,
+                                           IPaletteDouble normal, IPaletteMetric normalMetric)
             : base(target, disabled, normal)
         {
             // Remember state specific inheritance
@@ -61,10 +61,10 @@ namespace Krypton.Toolkit
         /// <param name="disableMetric">Redirection for disabled metric requests.</param>
         /// <param name="normal">Redirection for normal state requests.</param>
         /// <param name="normalMetric">Redirection for normal metric requests.</param>
-        public void SetRedirectStates(IPaletteDouble? disabled,
-                                      IPaletteMetric? disableMetric,
-                                      IPaletteDouble? normal,
-                                      IPaletteMetric? normalMetric)
+        public void SetRedirectStates(IPaletteDouble disabled,
+                                      IPaletteMetric disableMetric,
+                                      IPaletteDouble normal,
+                                      IPaletteMetric normalMetric)
         {
             base.SetRedirectStates(disabled, normal);
 
@@ -85,14 +85,14 @@ namespace Krypton.Toolkit
         /// <param name="pressedMetric">Redirection for pressed metric requests.</param>
         /// <param name="tracking">Redirection for tracking state requests.</param>
         /// <param name="trackingMetric">Redirection for tracking metric requests.</param>
-        public void SetRedirectStates(IPaletteDouble? disabled,
-                                      IPaletteMetric? disableMetric,
-                                      IPaletteDouble? normal,
-                                      IPaletteMetric? normalMetric,
-                                      IPaletteDouble? pressed,
-                                      IPaletteMetric? pressedMetric,
-                                      IPaletteDouble? tracking,
-                                      IPaletteMetric? trackingMetric)
+        public void SetRedirectStates(IPaletteDouble disabled,
+                                      IPaletteMetric disableMetric,
+                                      IPaletteDouble normal,
+                                      IPaletteMetric normalMetric,
+                                      IPaletteDouble pressed,
+                                      IPaletteMetric pressedMetric,
+                                      IPaletteDouble tracking,
+                                      IPaletteMetric trackingMetric)
         {
             base.SetRedirectStates(disabled, normal, pressed, tracking);
 
@@ -160,7 +160,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Implementation
-        private IPaletteMetric? GetInherit(PaletteState state)
+        private IPaletteMetric GetInherit(PaletteState state)
         {
             switch (state)
             {
@@ -173,9 +173,9 @@ namespace Krypton.Toolkit
                 case PaletteState.Tracking:
                     return _tracking;
                 default:
-                    // Should never happen!
+    // Should never happen!
                     Debug.Assert(false);
-                    return null;
+                    throw DebugTools.NotImplemented(state.ToString());
             }
         }
         #endregion

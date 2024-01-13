@@ -37,7 +37,7 @@ namespace Krypton.Navigator
             // Store the provided paint notification delegate
             NeedPaint = needPaint;
 
-            _drawRedirect = new PaletteRibbonDoubleRedirect(redirect!,
+            _drawRedirect = new PaletteRibbonDoubleRedirect(redirect,
                                                             PaletteRibbonBackStyle.RibbonTab,
                                                             PaletteRibbonTextStyle.RibbonTab,
                                                             needPaint);

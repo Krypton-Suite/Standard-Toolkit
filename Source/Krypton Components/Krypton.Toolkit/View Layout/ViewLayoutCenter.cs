@@ -19,7 +19,7 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
         private Padding _rectPadding;
-        private readonly IPaletteMetric? _paletteMetric;
+        private readonly IPaletteMetric _paletteMetric;
 
         #endregion
 
@@ -47,7 +47,7 @@ namespace Krypton.Toolkit
         /// <param name="paletteMetric">Target for recovering metric values.</param>
         /// <param name="metricPadding">Metric to use for border padding.</param>
         /// <param name="orientation">Orientation of the element.</param>
-        public ViewLayoutCenter(IPaletteMetric? paletteMetric,
+        public ViewLayoutCenter(IPaletteMetric paletteMetric,
                                 PaletteMetricPadding metricPadding,
                                 VisualOrientation orientation)
             : this(paletteMetric, metricPadding, orientation, null)
@@ -61,7 +61,7 @@ namespace Krypton.Toolkit
         /// <param name="metricPadding">Metric to use for border padding.</param>
         /// <param name="orientation">Orientation of the element.</param>
         /// <param name="childElement">Optional element to add as child.</param>
-        public ViewLayoutCenter(IPaletteMetric? paletteMetric,
+        public ViewLayoutCenter(IPaletteMetric paletteMetric,
                                 PaletteMetricPadding metricPadding,
                                 VisualOrientation orientation,
                                 ViewBase? childElement)

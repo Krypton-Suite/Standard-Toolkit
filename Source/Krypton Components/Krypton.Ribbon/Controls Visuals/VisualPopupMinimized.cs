@@ -46,8 +46,8 @@ namespace Krypton.Ribbon
             Debug.Assert(captionArea != null);
 
             // Remember incoming references
-            _ribbon = ribbon!;
-            _captionArea = captionArea!;
+            _ribbon = ribbon;
+            _captionArea = captionArea;
         }
 
         /// <summary>
@@ -132,7 +132,7 @@ namespace Krypton.Ribbon
         public void SetNextFocusItem()
         {
             // Find the next item in sequence
-            ViewBase newView = _ribbon.GroupsArea.ViewGroups.GetNextFocusItem(ViewRibbonManager!.FocusView!);
+            ViewBase newView = _ribbon.GroupsArea.ViewGroups.GetNextFocusItem(ViewRibbonManager!.FocusView);
 
             // Rotate around to the first item
             if (newView == null)
@@ -152,7 +152,7 @@ namespace Krypton.Ribbon
         public void SetPreviousFocusItem()
         {
             // Find the previous item in sequence
-            ViewBase newView = _ribbon.GroupsArea.ViewGroups.GetPreviousFocusItem(ViewRibbonManager!.FocusView!);
+            ViewBase newView = _ribbon.GroupsArea.ViewGroups.GetPreviousFocusItem(ViewRibbonManager!.FocusView);
 
             // Rotate around to the last item
             if (newView == null)
@@ -288,7 +288,7 @@ namespace Krypton.Ribbon
             ViewDrawRibbonTab viewTab = tabsArea.LayoutTabs.GetViewForRibbonTab(_ribbon.SelectedTab);
 
             // Convert the view tab client area to screen coordinates
-            Rectangle viewTabRect = _ribbon.RectangleToScreen(viewTab!.ClientRectangle!);
+            Rectangle viewTabRect = _ribbon.RectangleToScreen(viewTab.ClientRectangle);
 
             // Get the screen that the tab is mostly within
             Screen screen = Screen.FromRectangle(viewTabRect);

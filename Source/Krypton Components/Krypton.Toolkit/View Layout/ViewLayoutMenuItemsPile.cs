@@ -18,7 +18,7 @@ namespace Krypton.Toolkit
     public class ViewLayoutMenuItemsPile : ViewLayoutPile
     {
         #region Type Definitions
-        private class ColumnToWidth : Dictionary<int, int> { }
+        private class ColumnToWidth : Dictionary<int, int>;
         #endregion
 
         #region Instance Fields

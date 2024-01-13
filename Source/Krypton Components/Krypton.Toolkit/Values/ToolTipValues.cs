@@ -35,7 +35,7 @@ namespace Krypton.Toolkit
         }
 
         /// <inheritdoc />
-        protected override Image? GetImageDefault() => null;
+        protected override Image GetImageDefault() => null;
 
         #region EnableToolTips
         /// <summary>

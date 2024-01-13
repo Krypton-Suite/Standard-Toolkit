@@ -43,9 +43,9 @@ namespace Krypton.Ribbon
             Debug.Assert(domainUpDown != null);
             Debug.Assert(target != null);
 
-            _ribbon = ribbon!;
-            _domainUpDown = domainUpDown!;
-            _target = target!;
+            _ribbon = ribbon;
+            _domainUpDown = domainUpDown;
+            _target = target;
         }
         #endregion
 

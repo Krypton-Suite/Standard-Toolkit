@@ -10,6 +10,8 @@
  */
 #endregion
 
+using System.Windows.Forms.VisualStyles;
+
 namespace Krypton.Navigator
 {
     /// <summary>
@@ -49,6 +51,7 @@ namespace Krypton.Navigator
                 case ButtonDisplay.ShowEnabled:
                     // Always show
                     return true;
+
                 case ButtonDisplay.Logic:
                     // Use button display logic to determine actual operation
                     switch (Navigator.Button.ButtonDisplayLogic)
@@ -60,13 +63,16 @@ namespace Krypton.Navigator
                         case ButtonDisplayLogic.ContextNextPrevious:
                             return true;
                         default:
-                            // Should never happen!
+    // Should never happen!
                             Debug.Assert(false);
+                            DebugTools.NotImplemented(Navigator.Button.ButtonDisplayLogic.ToString());
                             return false;
                     }
+
                 default:
-                    // Should never happen!
+    // Should never happen!
                     Debug.Assert(false);
+                    DebugTools.NotImplemented(Navigator.Button.ContextButtonDisplay.ToString());
                     return false;
             }
         }
@@ -91,8 +97,9 @@ namespace Krypton.Navigator
                     // Only enabled if there is a selected page
                     return (Navigator.SelectedPage != null ? ButtonEnabled.True : ButtonEnabled.False);
                 default:
-                    // Should never happen!
+    // Should never happen!
                     Debug.Assert(false);
+                    DebugTools.NotImplemented(Navigator.Button.ContextButtonDisplay.ToString());
                     return ButtonEnabled.False;
             }
 

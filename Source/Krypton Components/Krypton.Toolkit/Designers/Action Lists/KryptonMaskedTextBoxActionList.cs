@@ -121,23 +121,6 @@ namespace Krypton.Toolkit
             }
         }
 
-        /// <summary>Gets or sets the corner radius.</summary>
-        /// <value>The corner radius.</value>
-        [DefaultValue(GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE)]
-        public float StateCommonCornerRoundingRadius
-        {
-            get => _maskedTextBox.StateCommon.Border.Rounding;
-
-            set
-            {
-                if (_maskedTextBox.StateCommon.Border.Rounding != value)
-                {
-                    _service.OnComponentChanged(_maskedTextBox, null, _maskedTextBox.StateCommon.Border.Rounding, value);
-
-                    _maskedTextBox.StateCommon.Border.Rounding = value;
-                }
-            }
-        }
         #endregion
 
         #region Public Override
@@ -158,7 +141,6 @@ namespace Krypton.Toolkit
                 actions.Add(new DesignerActionPropertyItem(nameof(KryptonContextMenu), @"Krypton Context Menu", nameof(Appearance), @"The Krypton Context Menu for the control."));
                 actions.Add(new DesignerActionPropertyItem(nameof(InputControlStyle), @"Style", nameof(Appearance), @"TextBox display style."));
                 actions.Add(new DesignerActionPropertyItem(nameof(Font), nameof(Font), nameof(Appearance), @"Modifies the font of the control."));
-                actions.Add(new DesignerActionPropertyItem(nameof(StateCommonCornerRoundingRadius), @"State Common Corner Rounding Radius", nameof(Appearance), @"The corner rounding radius of the control."));
                 actions.Add(new DesignerActionHeaderItem(nameof(MaskedTextBox)));
                 actions.Add(new DesignerActionPropertyItem(nameof(Mask), nameof(Mask), nameof(MaskedTextBox), @"Input mask."));
                 actions.Add(new DesignerActionHeaderItem(@"Visuals"));

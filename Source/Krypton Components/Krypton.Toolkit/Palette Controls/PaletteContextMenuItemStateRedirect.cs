@@ -108,7 +108,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the item split appearance entries.
         /// </summary>
-        public PaletteDoubleRedirect? ItemSplit { get; }
+        public PaletteDoubleRedirect ItemSplit { get; }
 
         #endregion
 

@@ -40,7 +40,7 @@ namespace Krypton.Navigator
             _oldRoot = ViewManager?.Root!;
 
             // Construct the viewlet instance
-            _headerGroup = new ViewletHeaderGroup(navigator, redirector!, NeedPaintDelegate);
+            _headerGroup = new ViewletHeaderGroup(navigator, redirector, NeedPaintDelegate);
 
             // Create and initialize all objects
             ViewBase newRoot = _headerGroup.Construct(_oldRoot);
@@ -184,7 +184,7 @@ namespace Krypton.Navigator
             }
 
             // Let base class do standard work
-            base.PageAppearanceChanged(page!, property!);
+            base.PageAppearanceChanged(page, property);
         }
 
         /// <summary>

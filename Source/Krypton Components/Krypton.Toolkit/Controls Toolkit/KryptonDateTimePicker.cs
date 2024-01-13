@@ -88,7 +88,6 @@ namespace Krypton.Toolkit
         private bool _alwaysActive;
         private bool _userSetDateTime;
         private bool _dropDownMonthChanged;
-        private float _cornerRoundingRadius;
         private object? _rawDateTime;
         private int _cachedHeight;
         #endregion
@@ -216,7 +215,7 @@ namespace Krypton.Toolkit
             ButtonSpecs = new DateTimePickerButtonSpecCollection(this);
 
             // Create the palette storage
-            StateCommon = new PaletteInputControlTripleRedirect(Redirector!, PaletteBackStyle.InputControlStandalone, PaletteBorderStyle.InputControlStandalone, PaletteContentStyle.InputControlStandalone, NeedPaintDelegate);
+            StateCommon = new PaletteInputControlTripleRedirect(Redirector, PaletteBackStyle.InputControlStandalone, PaletteBorderStyle.InputControlStandalone, PaletteContentStyle.InputControlStandalone, NeedPaintDelegate);
             StateDisabled = new PaletteInputControlTripleStates(StateCommon, NeedPaintDelegate);
             StateNormal = new PaletteInputControlTripleStates(StateCommon, NeedPaintDelegate);
             StateActive = new PaletteInputControlTripleStates(StateCommon, NeedPaintDelegate);
@@ -257,9 +256,9 @@ namespace Krypton.Toolkit
             _paletteUpDown = new PaletteTripleToPalette(Redirector, PaletteBackStyle.ButtonInputControl, PaletteBorderStyle.ButtonInputControl, PaletteContentStyle.ButtonInputControl);
 
             // Create buttons for drawing the drop down and up/down buttons
-            _buttonDropDown = new ViewDrawDateTimeButton(this, _paletteDropDown, new PaletteMetricRedirect(Redirector!), this, ViewDrawDateTimeButton.DrawDateTimeGlyph.DropDownButton, NeedPaintDelegate, false);
-            _buttonUp = new ViewDrawDateTimeButton(this, _paletteUpDown, new PaletteMetricRedirect(Redirector!), this, ViewDrawDateTimeButton.DrawDateTimeGlyph.UpButton, NeedPaintDelegate, true);
-            _buttonDown = new ViewDrawDateTimeButton(this, _paletteUpDown, new PaletteMetricRedirect(Redirector!), this, ViewDrawDateTimeButton.DrawDateTimeGlyph.DownButton, NeedPaintDelegate, true);
+            _buttonDropDown = new ViewDrawDateTimeButton(this, _paletteDropDown, new PaletteMetricRedirect(Redirector), this, ViewDrawDateTimeButton.DrawDateTimeGlyph.DropDownButton, NeedPaintDelegate, false);
+            _buttonUp = new ViewDrawDateTimeButton(this, _paletteUpDown, new PaletteMetricRedirect(Redirector), this, ViewDrawDateTimeButton.DrawDateTimeGlyph.UpButton, NeedPaintDelegate, true);
+            _buttonDown = new ViewDrawDateTimeButton(this, _paletteUpDown, new PaletteMetricRedirect(Redirector), this, ViewDrawDateTimeButton.DrawDateTimeGlyph.DownButton, NeedPaintDelegate, true);
             _buttonDropDown.Click += OnDropDownClick;
             _buttonUp.Click += OnUpClick;
             _buttonDown.Click += OnDownClick;
@@ -290,12 +289,12 @@ namespace Krypton.Toolkit
             ViewManager = new ViewManager(this, _drawDockerOuter);
 
             // Create button specification collection manager
-            _buttonManager = new ButtonSpecManagerDraw(this, Redirector!, ButtonSpecs, null,
-                                                       new[] { _drawDockerOuter },
-                                                       new IPaletteMetric[] { StateCommon },
-                                                       new[] { PaletteMetricInt.HeaderButtonEdgeInsetPrimary },
-                                                       new[] { PaletteMetricPadding.HeaderButtonPaddingPrimary },
-                                                       CreateToolStripRenderer!,
+            _buttonManager = new ButtonSpecManagerDraw(this, Redirector, ButtonSpecs, null,
+                [_drawDockerOuter],
+                [StateCommon],
+                [PaletteMetricInt.HeaderButtonEdgeInsetPrimary],
+                [PaletteMetricPadding.HeaderButtonPaddingPrimary],
+                                                       CreateToolStripRenderer,
                                                        NeedPaintDelegate);
 
             // Create the manager for handling tooltips
@@ -306,9 +305,6 @@ namespace Krypton.Toolkit
 
             // Update alignment to match current RightToLeft settings
             UpdateForRightToLeft();
-
-            // Set `CornerRoundingRadius' to 'GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE' (-1)
-            _cornerRoundingRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
         }
 
         /// <summary>
@@ -331,18 +327,6 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Public
-        /// <summary>Gets or sets the corner rounding radius.</summary>
-        /// <value>The corner rounding radius.</value>
-        [Category(@"Visuals")]
-        [Description(@"Gets or sets the corner rounding radius.")]
-        [DefaultValue(GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE)]
-        public float CornerRoundingRadius
-        {
-            get => _cornerRoundingRadius;
-
-            set => SetCornerRoundingRadius(value);
-        }
-
         /// <summary>
         /// Gets or sets the background color for the control.
         /// </summary>
@@ -1360,7 +1344,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Tab state.</param>
         /// <returns>Image.</returns>
-        public Image? GetImage(PaletteState state) => null;
+        public Image GetImage(PaletteState state) => null;
 
         /// <summary>
         /// Gets the image color that should be interpreted as transparent.
@@ -2053,7 +2037,7 @@ namespace Krypton.Toolkit
                         if (AllowButtonSpecToolTips)
                         {
                             // Create a helper object to provide tooltip values
-                            var buttonSpecMapping = new ButtonSpecToContent(Redirector!, buttonSpec);
+                            var buttonSpecMapping = new ButtonSpecToContent(Redirector, buttonSpec);
 
                             // Is there actually anything to show for the tooltip
                             if (buttonSpecMapping.HasContent)
@@ -2076,7 +2060,7 @@ namespace Krypton.Toolkit
                         }
 
                         // Create the actual tooltip popup object
-                        _visualPopupToolTip = new VisualPopupToolTip(Redirector!,
+                        _visualPopupToolTip = new VisualPopupToolTip(Redirector,
                                                                      sourceContent,
                                                                      Renderer,
                                                                      PaletteBackStyle.ControlToolTip,
@@ -2288,14 +2272,6 @@ namespace Krypton.Toolkit
             // Not showing a popup page any more
             _visualPopupToolTip = null;
         }
-
-        private void SetCornerRoundingRadius(float? radius)
-        {
-            _cornerRoundingRadius = radius ?? GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
-
-            StateCommon.Border.Rounding = _cornerRoundingRadius;
-        }
-
         #endregion
     }
 

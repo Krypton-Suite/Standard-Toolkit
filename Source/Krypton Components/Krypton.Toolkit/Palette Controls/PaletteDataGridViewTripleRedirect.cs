@@ -44,7 +44,7 @@ namespace Krypton.Toolkit
 
             // Store the provided paint notification delegate
             NeedPaint = needPaint;
-            
+
             // Store the inherit instances
             _backInherit = new PaletteBackInheritRedirect(redirect, backStyle);
             _borderInherit = new PaletteBorderInheritRedirect(redirect, borderStyle);
@@ -196,8 +196,9 @@ namespace Krypton.Toolkit
                               PaletteContentStyle.ButtonCustom3);
                     break;
                 default:
-                    // Should never happen!
+    // Should never happen!
                     Debug.Assert(false);
+                    DebugTools.NotImplemented(buttonStyle.ToString());
                     break;
             }
         }
@@ -256,8 +257,9 @@ namespace Krypton.Toolkit
                         PaletteContentStyle.HeaderCustom3);
                     break;
                 default:
-                    // Should never happen!
+    // Should never happen!
                     Debug.Assert(false);
+                    DebugTools.NotImplemented(headerStyle.ToString());
                     break;
             }
         }

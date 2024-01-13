@@ -37,19 +37,19 @@ namespace Krypton.Ribbon
             Debug.Assert(ribbon != null);
 
             // Remember references needed later
-            _ribbon = ribbon!;
+            _ribbon = ribbon;
 
             // Create a view element for drawing the group
-            _viewQAT = new ViewDrawRibbonQATOverflow(ribbon!, NeedPaintDelegate);
+            _viewQAT = new ViewDrawRibbonQATOverflow(ribbon, NeedPaintDelegate);
 
             // Create and add the element used to synch and draw the actual contents
-            ViewQATContents = new ViewLayoutRibbonQATFromOverflow(this, ribbon!,
+            ViewQATContents = new ViewLayoutRibbonQATFromOverflow(this, ribbon,
                                                                    NeedPaintDelegate,
                                                                    true, contents);
             _viewQAT.Add(ViewQATContents);
 
             // Attach the root to the view manager instance
-            ViewManager = new ViewRibbonQATOverflowManager(ribbon!, this, ViewQATContents, _viewQAT);
+            ViewManager = new ViewRibbonQATOverflowManager(ribbon, this, ViewQATContents, _viewQAT);
         }
 
         /// <summary>
@@ -128,7 +128,7 @@ namespace Krypton.Ribbon
         public void SetNextFocusItem()
         {
             // Find the next item in sequence
-            ViewBase view = ViewQATContents.GetNextQATView(ViewOverflowManager!.FocusView!);
+            ViewBase view = ViewQATContents.GetNextQATView(ViewOverflowManager!.FocusView);
 
             // Rotate around to the first item
             if (view == null)
@@ -150,7 +150,7 @@ namespace Krypton.Ribbon
         public void SetPreviousFocusItem()
         {
             // Find the previous item in sequence
-            ViewBase view = ViewQATContents.GetPreviousQATView(ViewOverflowManager!.FocusView!);
+            ViewBase view = ViewQATContents.GetPreviousQATView(ViewOverflowManager!.FocusView);
 
             // Rotate around to the last item
             if (view == null)

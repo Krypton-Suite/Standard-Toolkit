@@ -200,7 +200,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the month calendar common appearance entries.
         /// </summary>
-        public PaletteMonthCalendarRedirect? StateCommon => _monthCalendar.StateCommon;
+        public PaletteMonthCalendarRedirect StateCommon => _monthCalendar.StateCommon;
 
         /// <summary>
         /// Gets access to the month calendar normal appearance entries.

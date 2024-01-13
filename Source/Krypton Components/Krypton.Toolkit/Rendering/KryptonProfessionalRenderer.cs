@@ -104,7 +104,7 @@ namespace Krypton.Toolkit
                                                 OldColor = transparentColor,
                                                 NewColor = Color.Transparent
                                             };
-                                            attribs.SetRemapTable(new[] { remap });
+                                            attribs.SetRemapTable([remap]);
 
                                             // Phew, actually draw the darn thing
                                             e.Graphics.DrawImage(paletteImage, e.ImageRectangle,

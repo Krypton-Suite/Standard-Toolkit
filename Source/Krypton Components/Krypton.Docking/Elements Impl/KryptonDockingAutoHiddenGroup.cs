@@ -650,8 +650,7 @@ namespace Krypton.Docking
         private void OnAutoHiddenGroupTabClicked(object sender, KryptonPageEventArgs e)
         {
             // The auto hidden group contains proxy pages and not the real pages
-            var proxyPage = e.Item as KryptonAutoHiddenProxyPage;
-            if (proxyPage != null)
+            if (e.Item is KryptonAutoHiddenProxyPage proxyPage)
             {
                 OnPageClicked(new KryptonPageEventArgs(proxyPage.Page, e.Index));
             }
@@ -660,8 +659,7 @@ namespace Krypton.Docking
         private void OnAutoHiddenGroupHoverStart(object sender, KryptonPageEventArgs e)
         {
             // The auto hidden group contains proxy pages and not the real pages
-            var proxyPage = e.Item as KryptonAutoHiddenProxyPage;
-            if (proxyPage != null)
+            if (e.Item is KryptonAutoHiddenProxyPage proxyPage)
             {
                 OnPageHoverStart(new KryptonPageEventArgs(proxyPage.Page, e.Index));
             }

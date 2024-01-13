@@ -75,7 +75,7 @@ namespace Krypton.Toolkit
 
         #region RoundedEdges
         /// <summary>
-        /// Gets a value indicating if rounded egdes are required.
+        /// Gets a value indicating if rounded edges are required.
         /// </summary>
         public override InheritBool UseRoundedEdges => _roundedEdges;
 
@@ -618,11 +618,6 @@ namespace Krypton.Toolkit
         #region Implementation
         private static void DefineFonts()
         {
-            // Release existing resources
-            _menuToolFont?.Dispose();
-
-            _statusFont?.Dispose();
-
             // Create new font using system information
             // TODO: Should be using base font
             _menuToolFont = new Font("Segoe UI", SystemFonts.MenuFont.SizeInPoints, FontStyle.Regular);

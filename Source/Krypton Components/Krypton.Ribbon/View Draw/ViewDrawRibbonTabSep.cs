@@ -36,8 +36,8 @@ namespace Krypton.Ribbon
         {
             _fadeBlend = new Blend
             {
-                Factors = new[] { 0.0f, 1.0f, 1.0f },
-                Positions = new[] { 0.0f, 0.33f, 1.0f }
+                Factors = [0.0f, 1.0f, 1.0f],
+                Positions = [0.0f, 0.33f, 1.0f]
             };
         }
 
@@ -49,7 +49,7 @@ namespace Krypton.Ribbon
             : base(SEP_WIDTH, true)
         {
             Debug.Assert(palette != null);
-            _palette = palette!;
+            _palette = palette;
         }
 
         /// <summary>

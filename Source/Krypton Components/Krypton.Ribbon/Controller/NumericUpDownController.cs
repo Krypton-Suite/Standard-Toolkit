@@ -43,9 +43,9 @@ namespace Krypton.Ribbon
             Debug.Assert(numericUpDown != null);
             Debug.Assert(target != null);
 
-            _ribbon = ribbon!;
-            _numericUpDown = numericUpDown!;
-            _target = target!;
+            _ribbon = ribbon;
+            _numericUpDown = numericUpDown;
+            _target = target;
         }
         #endregion
 

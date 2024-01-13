@@ -28,7 +28,7 @@ namespace Krypton.Navigator
                                        ViewManager manager,
                                        PaletteRedirect redirector) =>
             // Let base class perform common operations
-            base.Construct(navigator, manager, redirector!);
+            base.Construct(navigator, manager, redirector);
 
         /// <summary>
         /// Gets a value indicating if the mode is a tab strip style mode.
@@ -93,7 +93,7 @@ namespace Krypton.Navigator
             // Create a canvas for containing the selected page and put old root inside it
             if (Navigator.StateNormal != null)
             {
-                _drawGroup = new ViewDrawCanvas(Navigator.StateNormal.HeaderGroup!.Back,
+                _drawGroup = new ViewDrawCanvas(Navigator.StateNormal.HeaderGroup.Back,
                     Navigator.StateNormal.HeaderGroup.Border, VisualOrientation.Top)
                 {
                     _layoutPanelDocker

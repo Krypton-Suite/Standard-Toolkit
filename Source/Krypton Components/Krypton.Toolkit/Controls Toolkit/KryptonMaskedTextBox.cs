@@ -324,7 +324,6 @@ namespace Krypton.Toolkit
         private bool _mouseOver;
         private bool _alwaysActive;
         private bool _trackingMouseEnter;
-        private float _cornerRoundingRadius;
         private int _cachedHeight;
 
         #endregion
@@ -505,10 +504,10 @@ namespace Krypton.Toolkit
 
             // Create button specification collection manager
             _buttonManager = new ButtonSpecManagerLayout(this, Redirector, ButtonSpecs, null,
-                                                         new[] { _drawDockerInner },
-                                                         new IPaletteMetric[] { StateCommon },
-                                                         new[] { PaletteMetricInt.HeaderButtonEdgeInsetInputControl },
-                                                         new[] { PaletteMetricPadding.HeaderButtonPaddingInputControl },
+                [_drawDockerInner],
+                [StateCommon],
+                [PaletteMetricInt.HeaderButtonEdgeInsetInputControl],
+                [PaletteMetricPadding.HeaderButtonPaddingInputControl],
                                                          CreateToolStripRenderer,
                                                          NeedPaintDelegate);
 
@@ -520,8 +519,6 @@ namespace Krypton.Toolkit
 
             // Add text box to the controls collection
             ((KryptonReadOnlyControls)Controls).AddInternal(_maskedTextBox);
-
-            _cornerRoundingRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
         }
 
         /// <summary>
@@ -544,18 +541,6 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Public
-
-        /// <summary>Gets or sets the corner rounding radius.</summary>
-        /// <value>The corner rounding radius.</value>
-        [Category(@"Visuals")]
-        [Description(@"Gets or sets the corner rounding radius.")]
-        [DefaultValue(GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE)]
-        public float CornerRoundingRadius
-        {
-            get => _cornerRoundingRadius;
-            set => SetCornerRoundingRadius(value);
-        }
-
         /// <summary>
         /// Hint text placed into empty control
         /// </summary>
@@ -1957,14 +1942,6 @@ namespace Krypton.Toolkit
                 }
             }
         }
-
-        private void SetCornerRoundingRadius(float? radius)
-        {
-            _cornerRoundingRadius = radius ?? GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
-
-            StateCommon.Border.Rounding = _cornerRoundingRadius;
-        }
-
         #endregion
     }
 }

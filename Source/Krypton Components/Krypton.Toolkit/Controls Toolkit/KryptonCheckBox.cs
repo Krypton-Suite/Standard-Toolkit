@@ -119,8 +119,8 @@ namespace Krypton.Toolkit
             Images = new CheckBoxImages(NeedPaintDelegate);
 
             // Create palette redirector
-            _paletteCommonRedirect = new PaletteContentInheritRedirect(Redirector!, PaletteContentStyle.LabelNormalPanel);
-            _paletteCheckBoxImages = new PaletteRedirectCheckBox(Redirector!, Images);
+            _paletteCommonRedirect = new PaletteContentInheritRedirect(Redirector, PaletteContentStyle.LabelNormalPanel);
+            _paletteCheckBoxImages = new PaletteRedirectCheckBox(Redirector, Images);
 
             // Create the palette provider
             StateCommon = new PaletteContent(_paletteCommonRedirect, NeedPaintDelegate);
@@ -572,7 +572,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">The state for which the image is needed.</param>
         /// <returns>Image value.</returns>
-        public Image? GetImage(PaletteState state) => KryptonCommand?.ImageSmall ?? Values.GetImage(state);
+        public Image GetImage(PaletteState state) => KryptonCommand?.ImageSmall ?? Values.GetImage(state);
 
         /// <summary>
         /// Gets the image color that should be transparent.

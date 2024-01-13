@@ -626,21 +626,21 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="style">Style of button spec.</param>
         /// <returns>String value.</returns>
-        string? GetButtonSpecShortText(PaletteButtonSpecStyle style);
+        string GetButtonSpecShortText(PaletteButtonSpecStyle style);
 
         /// <summary>
         /// Gets the long text to display for the button.
         /// </summary>
         /// <param name="style">Style of button spec.</param>
         /// <returns>String value.</returns>
-        string? GetButtonSpecLongText(PaletteButtonSpecStyle style);
+        string GetButtonSpecLongText(PaletteButtonSpecStyle style);
 
         /// <summary>
         /// Gets the tooltip title text to display for the button.
         /// </summary>
         /// <param name="style">Style of button spec.</param>
         /// <returns>String value.</returns>
-        string? GetButtonSpecToolTipTitle(PaletteButtonSpecStyle style);
+        string GetButtonSpecToolTipTitle(PaletteButtonSpecStyle style);
 
         /// <summary>
         /// Gets the color to remap from the image to the container foreground.

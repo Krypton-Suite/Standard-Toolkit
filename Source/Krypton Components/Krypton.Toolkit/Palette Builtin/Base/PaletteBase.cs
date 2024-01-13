@@ -88,8 +88,6 @@ namespace Krypton.Toolkit
             // Inherit means we need to calculate the value next time it is requested
             _dragFeedback = PaletteDragFeedback.Inherit;
 
-            ThemeName = string.Empty;
-
             BaseFont = _defaultFontStyle;
         }
         #endregion
@@ -706,7 +704,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="expanded">Is the node expanded</param>
         /// <returns>Appropriate image for drawing; otherwise null.</returns>
-        public abstract Image? GetTreeViewImage(bool expanded);
+        public abstract Image GetTreeViewImage(bool expanded);
 
         /// <summary>
         /// Gets a check box image appropriate for the provided state.
@@ -716,7 +714,7 @@ namespace Krypton.Toolkit
         /// <param name="tracking">Is the check box being hot tracked.</param>
         /// <param name="pressed">Is the check box being pressed.</param>
         /// <returns>Appropriate image for drawing; otherwise null.</returns>
-        public abstract Image? GetCheckBoxImage(bool enabled, CheckState checkState, bool tracking, bool pressed);
+        public abstract Image GetCheckBoxImage(bool enabled, CheckState checkState, bool tracking, bool pressed);
 
         /// <summary>
         /// Gets a check box image appropriate for the provided state.
@@ -726,31 +724,31 @@ namespace Krypton.Toolkit
         /// <param name="tracking">Is the radio button being hot tracked.</param>
         /// <param name="pressed">Is the radio button being pressed.</param>
         /// <returns>Appropriate image for drawing; otherwise null.</returns>
-        public abstract Image? GetRadioButtonImage(bool enabled, bool checkState, bool tracking, bool pressed);
+        public abstract Image GetRadioButtonImage(bool enabled, bool checkState, bool tracking, bool pressed);
 
         /// <summary>
         /// Gets a drop down button image appropriate for the provided state.
         /// </summary>
         /// <param name="state">PaletteState for which image is required.</param>
-        public abstract Image? GetDropDownButtonImage(PaletteState state);
+        public abstract Image GetDropDownButtonImage(PaletteState state);
 
         /// <summary>
         /// Gets a checked image appropriate for a context menu item.
         /// </summary>
         /// <returns>Appropriate image for drawing; otherwise null.</returns>
-        public abstract Image? GetContextMenuCheckedImage();
+        public abstract Image GetContextMenuCheckedImage();
 
         /// <summary>
         /// Gets a indeterminate image appropriate for a context menu item.
         /// </summary>
         /// <returns>Appropriate image for drawing; otherwise null.</returns>
-        public abstract Image? GetContextMenuIndeterminateImage();
+        public abstract Image GetContextMenuIndeterminateImage();
 
         /// <summary>
         /// Gets an image indicating a sub-menu on a context menu item.
         /// </summary>
         /// <returns>Appropriate image for drawing; otherwise null.</returns>
-        public abstract Image? GetContextMenuSubMenuImage();
+        public abstract Image GetContextMenuSubMenuImage();
 
         /// <summary>
         /// Gets a check box image appropriate for the provided state.
@@ -758,7 +756,7 @@ namespace Krypton.Toolkit
         /// <param name="button">Enum of the button to fetch.</param>
         /// <param name="state">State of the button to fetch.</param>
         /// <returns>Appropriate image for drawing; otherwise null.</returns>
-        public abstract Image? GetGalleryButtonImage(PaletteRibbonGalleryButton button, PaletteState state);
+        public abstract Image GetGalleryButtonImage(PaletteRibbonGalleryButton button, PaletteState state);
         #endregion
 
         #region ButtonSpec
@@ -812,9 +810,9 @@ namespace Krypton.Toolkit
                 case PaletteButtonSpecStyle.Print:
                 case PaletteButtonSpecStyle.QuickPrint:
                 default:
-                    // Should never happen!
+    // Should never happen!
                     Debug.Assert(false);
-                    return null;
+                    throw DebugTools.NotImplemented(style.ToString());
             }
         }
 
@@ -877,8 +875,9 @@ namespace Krypton.Toolkit
                 case PaletteButtonSpecStyle.QuickPrint:
                     return Color.Empty;
                 default:
-                    // Should never happen!
+    // Should never happen!
                     Debug.Assert(false);
+                    DebugTools.NotImplemented(style.ToString());
                     return Color.Empty;
             }
         }
@@ -888,7 +887,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="style">Style of button spec.</param>
         /// <returns>String value.</returns>
-        public virtual string? GetButtonSpecShortText(PaletteButtonSpecStyle style)
+        public virtual string GetButtonSpecShortText(PaletteButtonSpecStyle style)
         {
             switch (style)
             {
@@ -932,9 +931,9 @@ namespace Krypton.Toolkit
                 case PaletteButtonSpecStyle.QuickPrint:
                     return string.Empty;
                 default:
-                    // Should never happen!
+    // Should never happen!
                     Debug.Assert(false);
-                    return null;
+                    throw DebugTools.NotImplemented(style.ToString());
             }
         }
 
@@ -943,7 +942,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="style">Style of button spec.</param>
         /// <returns>String value.</returns>
-        public virtual string? GetButtonSpecLongText(PaletteButtonSpecStyle style)
+        public virtual string GetButtonSpecLongText(PaletteButtonSpecStyle style)
         {
             switch (style)
             {
@@ -987,9 +986,9 @@ namespace Krypton.Toolkit
                 case PaletteButtonSpecStyle.QuickPrint:
                     return string.Empty;
                 default:
-                    // Should never happen!
+    // Should never happen!
                     Debug.Assert(false);
-                    return null;
+                    throw DebugTools.NotImplemented(style.ToString());
             }
         }
 
@@ -998,7 +997,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="style">Style of button spec.</param>
         /// <returns>String value.</returns>
-        public virtual string? GetButtonSpecToolTipTitle(PaletteButtonSpecStyle style)
+        public virtual string GetButtonSpecToolTipTitle(PaletteButtonSpecStyle style)
         {
             switch (style)
             {
@@ -1051,9 +1050,9 @@ namespace Krypton.Toolkit
                 case PaletteButtonSpecStyle.QuickPrint:
                     return string.Empty;
                 default:
-                    // Should never happen!
+    // Should never happen!
                     Debug.Assert(false);
-                    return null;
+                    throw DebugTools.NotImplemented(style.ToString());
             }
         }
 
@@ -1107,8 +1106,9 @@ namespace Krypton.Toolkit
                 case PaletteButtonSpecStyle.RibbonExpand:
                     return Color.Black;
                 default:
-                    // Should never happen!
+    // Should never happen!
                     Debug.Assert(false);
+                    DebugTools.NotImplemented(style.ToString());
                     return Color.Empty;
             }
         }
@@ -1162,8 +1162,9 @@ namespace Krypton.Toolkit
                 case PaletteButtonSpecStyle.RibbonExpand:
                     return Color.Magenta;
                 default:
-                    // Should never happen!
+    // Should never happen!
                     Debug.Assert(false);
+                    DebugTools.NotImplemented(style.ToString());
                     return Color.Empty;
             }
         }
@@ -1219,8 +1220,9 @@ namespace Krypton.Toolkit
                 case PaletteButtonSpecStyle.QuickPrint:
                     return PaletteButtonStyle.ButtonSpec;
                 default:
-                    // Should never happen!
+    // Should never happen!
                     Debug.Assert(false);
+                    DebugTools.NotImplemented(style.ToString());
                     return PaletteButtonStyle.ButtonSpec;
             }
         }
@@ -1274,8 +1276,9 @@ namespace Krypton.Toolkit
                 case PaletteButtonSpecStyle.QuickPrint:
                     return HeaderLocation.PrimaryHeader;
                 default:
-                    // Should never happen!
+    // Should never happen!
                     Debug.Assert(false);
+                    DebugTools.NotImplemented(style.ToString());
                     return HeaderLocation.PrimaryHeader;
             }
         }
@@ -1329,8 +1332,9 @@ namespace Krypton.Toolkit
                 case PaletteButtonSpecStyle.QuickPrint:
                     return PaletteRelativeEdgeAlign.Far;
                 default:
-                    // Should never happen!
+    // Should never happen!
                     Debug.Assert(false);
+                    DebugTools.NotImplemented(style.ToString());
                     return PaletteRelativeEdgeAlign.Far;
             }
         }
@@ -1385,8 +1389,9 @@ namespace Krypton.Toolkit
                 case PaletteButtonSpecStyle.Previous:
                     return PaletteButtonOrientation.Auto;
                 default:
-                    // Should never happen!
+    // Should never happen!
                     Debug.Assert(false);
+                    DebugTools.NotImplemented(style.ToString());
                     return PaletteButtonOrientation.Auto;
             }
         }
@@ -1712,13 +1717,14 @@ namespace Krypton.Toolkit
 
         /// <summary>Gets or sets the base palette font.</summary>
         /// <value>The base palette font.</value>
-        [DisallowNull, Description(@"Gets or sets the base palette font.")]
+        [Description(@"Gets or sets the base palette font.")]
+        [DisallowNull]
         public Font BaseFont
         {
             get => _baseFont;
 
-            set 
-            { 
+            set
+            {
                 _baseFont = value;
                 DefineFonts();
                 // Call an event to force repaint style things
@@ -1730,7 +1736,8 @@ namespace Krypton.Toolkit
 
         /// <summary>Gets or sets the name of the theme.</summary>
         /// <value>The name of the theme.</value>
-        [DisallowNull, Description(@"Gets or sets the name of the theme.")]
+        [Description(@"Gets or sets the name of the theme.")]
+        [DisallowNull]
         public string ThemeName { get; set; }
 
         /// <summary>Gets or sets the type of the base palette.</summary>

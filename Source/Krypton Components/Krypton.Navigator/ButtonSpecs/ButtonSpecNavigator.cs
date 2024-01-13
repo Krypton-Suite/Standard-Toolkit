@@ -10,6 +10,8 @@
  */
 #endregion
 
+using System.Windows.Forms.VisualStyles;
+
 namespace Krypton.Navigator
 {
     /// <summary>
@@ -110,8 +112,9 @@ namespace Krypton.Navigator
                 case PaletteNavButtonSpecStyle.RibbonExpand:
                     return PaletteButtonSpecStyle.RibbonExpand;
                 default:
-                    // Should never happen!
+    // Should never happen!
                     Debug.Assert(false);
+                    DebugTools.NotImplemented(type.ToString());
                     return PaletteButtonSpecStyle.Generic;
             }
         }
@@ -161,8 +164,9 @@ namespace Krypton.Navigator
                 case PaletteButtonSpecStyle.RibbonExpand:
                     return PaletteNavButtonSpecStyle.RibbonExpand;
                 default:
-                    // Should never happen!
+    // Should never happen!
                     Debug.Assert(false);
+                    DebugTools.NotImplemented(type.ToString());
                     return PaletteNavButtonSpecStyle.Generic;
             }
         }

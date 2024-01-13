@@ -51,9 +51,9 @@ namespace Krypton.Ribbon
             Debug.Assert(layout != null);
 
             MousePoint = CommonHelper.NullPoint;
-            _target = target!;
-            _layout = layout!;
-            NeedPaint = needPaint!;
+            _target = target;
+            _layout = layout;
+            NeedPaint = needPaint;
         }
         #endregion
 
@@ -396,7 +396,7 @@ namespace Krypton.Ribbon
         /// <param name="pt">Mouse point.</param>
         protected virtual void UpdateTargetState(Point pt)
         {
-            // By default the button is in the normal state
+            // By default, the button is in the normal state
             PaletteState newState;
 
             // If the button is disabled then show as disabled

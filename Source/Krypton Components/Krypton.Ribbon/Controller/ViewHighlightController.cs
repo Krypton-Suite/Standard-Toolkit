@@ -50,8 +50,8 @@ namespace Krypton.Ribbon
             Debug.Assert(target != null);
             Debug.Assert(needPaint != null);
 
-            Target = target!;
-            NeedPaint = needPaint!;
+            Target = target;
+            NeedPaint = needPaint;
         }
         #endregion
 

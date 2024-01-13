@@ -45,23 +45,23 @@ namespace Krypton.Ribbon
             Debug.Assert(ribbonGroup != null);
 
             // Remember references needed later
-            _ribbon = ribbon!;
-            _ribbonGroup = ribbonGroup!;
+            _ribbon = ribbon;
+            _ribbonGroup = ribbonGroup;
 
             // Create a view element for drawing the group
-            ViewGroup = new ViewDrawRibbonGroup(ribbon!, ribbonGroup!, NeedPaintDelegate)
+            ViewGroup = new ViewDrawRibbonGroup(ribbon, ribbonGroup, NeedPaintDelegate)
             {
                 Collapsed = false
             };
 
             // Create the background that will contain the actual group instance
-            _viewBackground = new ViewDrawRibbonGroupsBorder(ribbon!, true, NeedPaintDelegate)
+            _viewBackground = new ViewDrawRibbonGroupsBorder(ribbon, true, NeedPaintDelegate)
             {
                 ViewGroup
             };
 
             // Attach the root to the view manager instance
-            ViewManager = new ViewRibbonPopupGroupManager(this, ribbon!, _viewBackground, ViewGroup, NeedPaintDelegate);
+            ViewManager = new ViewRibbonPopupGroupManager(this, ribbon, _viewBackground, ViewGroup, NeedPaintDelegate);
 
             // Create and add a hidden button to act as the focus target
             _hiddenFocusTarget = new Button
@@ -160,7 +160,7 @@ namespace Krypton.Ribbon
         {
             // Find the next item in sequence
             var matched = false;
-            ViewBase view = ViewGroup.GetNextFocusItem(ViewPopupManager!.FocusView!, ref matched);
+            ViewBase view = ViewGroup.GetNextFocusItem(ViewPopupManager!.FocusView, ref matched);
 
             // Rotate around to the first item
             if (view == null)

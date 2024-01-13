@@ -229,7 +229,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Implementation
-        private IPaletteRibbonGeneral? GetInherit(PaletteState state)
+        private IPaletteRibbonGeneral GetInherit(PaletteState state)
         {
             switch (state)
             {
@@ -242,9 +242,9 @@ namespace Krypton.Toolkit
                 case PaletteState.Tracking:
                     return _tracking;
                 default:
-                    // Should never happen!
+    // Should never happen!
                     Debug.Assert(false);
-                    return null;
+                    throw DebugTools.NotImplemented(state.ToString());
             }
         }
         #endregion

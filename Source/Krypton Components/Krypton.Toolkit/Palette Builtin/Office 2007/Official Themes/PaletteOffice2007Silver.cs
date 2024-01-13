@@ -43,14 +43,18 @@ namespace Krypton.Toolkit
         private static readonly Image _silverHelpDisabled = Office2007ControlBoxResources.Office2007HelpIconDisabled;
         private static readonly Image _silverHelpPressed = Office2007ControlBoxResources.Office2007HelpIconPressed;
         private static readonly Image _contextMenuSubMenu = GenericImageResources.SilverContextMenuSub;
-        private static readonly Color[] _trackBarColors = { Color.FromArgb(130, 130, 130),      // Tick marks
+        private static readonly Color[] _trackBarColors =
+        [
+            Color.FromArgb(130, 130, 130),      // Tick marks
                                                                         Color.FromArgb(156, 160, 165),      // Top track
                                                                         Color.FromArgb(226, 220, 235),      // Bottom track
                                                                         Color.FromArgb(196, 190, 205),      // Fill track
                                                                         Color.FromArgb(64, Color.White),    // Outside position
                                                                         Color.FromArgb(80, 81, 82)          // Border (normal) position
-                                                                      };
-        private static readonly Color[] _schemeOfficeColors = { Color.FromArgb( 56,  63,  70),    // TextLabelControl
+        ];
+        private static readonly Color[] _schemeOfficeColors =
+        [
+            Color.FromArgb( 56,  63,  70),    // TextLabelControl
                                                                       Color.FromArgb( 56,  63,  70),    // TextButtonNormal
                                                                       Color.Black,                      // TextButtonChecked
                                                                       Color.FromArgb(141, 148, 157),    // ButtonNormalBorder1
@@ -263,7 +267,7 @@ namespace Krypton.Toolkit
                                                                       Color.Empty,                      // RibbonGroupBorder4
                                                                       Color.Empty,                      // RibbonDropArrowLight
                                                                       Color.Empty // RibbonDropArrowDark
-                                                                };
+        ];
         #endregion
 
         #region Identity
@@ -282,8 +286,8 @@ namespace Krypton.Toolkit
                 TransparentColor = Color.Magenta
             };
             _galleryButtonList.Images.AddStrip(GalleryImageResources.GallerySilverBlack);
-            _radioButtonArray = new Image[]
-            {
+            _radioButtonArray =
+            [
                 Office2007RadioButtonImageResources.RadioButton2007BlueD,
                 Office2007RadioButtonImageResources.RadioButton2007SilverN,
                 Office2007RadioButtonImageResources.RadioButton2007SilverT,
@@ -292,7 +296,7 @@ namespace Krypton.Toolkit
                 Office2007RadioButtonImageResources.RadioButton2007SilverNC,
                 Office2007RadioButtonImageResources.RadioButton2007SilverTC,
                 Office2007RadioButtonImageResources.RadioButton2007SilverPC
-            };
+            ];
         }
 
         /// <summary>
@@ -328,13 +332,13 @@ namespace Krypton.Toolkit
         /// Gets a drop down button image appropriate for the provided state.
         /// </summary>
         /// <param name="state">PaletteState for which image is required.</param>
-        public override Image? GetDropDownButtonImage(PaletteState state) => state != PaletteState.Disabled ? _silverDropDownButton : base.GetDropDownButtonImage(state);
+        public override Image GetDropDownButtonImage(PaletteState state) => state != PaletteState.Disabled ? _silverDropDownButton : base.GetDropDownButtonImage(state);
 
         /// <summary>
         /// Gets an image indicating a sub-menu on a context menu item.
         /// </summary>
         /// <returns>Appropriate image for drawing; otherwise null.</returns>
-        public override Image? GetContextMenuSubMenuImage() => _contextMenuSubMenu;
+        public override Image GetContextMenuSubMenuImage() => _contextMenuSubMenu;
 
         #endregion
 

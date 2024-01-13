@@ -82,7 +82,7 @@ namespace Krypton.Toolkit
         {
             Debug.Assert(container != null);
 
-            Owner = container!;
+            Owner = container;
         }
         #endregion
 

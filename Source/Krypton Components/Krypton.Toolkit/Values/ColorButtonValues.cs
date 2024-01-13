@@ -26,9 +26,9 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Instance Fields
-        private Image? _image;
-        private Image? _sourceImage;
-        private Image? _compositeImage;
+        private Image _image;
+        private Image _sourceImage;
+        private Image _compositeImage;
         private Color _transparent;
         private string? _text;
         private string _extraText;
@@ -92,7 +92,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Button image.")]
         [RefreshProperties(RefreshProperties.All)]
-        public Image? Image
+        public Image Image
         {
             get => _image;
 
@@ -319,10 +319,10 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">The state for which the image is needed.</param>
         /// <returns>Image value.</returns>
-        public virtual Image? GetImage(PaletteState state)
+        public virtual Image GetImage(PaletteState state)
         {
             // Try and find a state specific image
-            Image? image = state switch
+            Image image = state switch
             {
                 PaletteState.Disabled => ImageStates.ImageDisabled,
                 PaletteState.Normal => ImageStates.ImageNormal,

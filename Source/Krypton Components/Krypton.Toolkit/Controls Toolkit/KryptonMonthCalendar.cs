@@ -60,11 +60,6 @@ namespace Krypton.Toolkit
         private int _maxSelectionCount;
         private int _scrollChange;
         private bool _hasFocus;
-        private float _cornerRoundingRadius;
-        private float _dayCornerRoundingRadius;
-        private float _dayOfWeekCornerRoundingRadius;
-        private float _headerCornerRoundingRadius;
-
         #endregion
 
         #region Events
@@ -240,67 +235,10 @@ namespace Krypton.Toolkit
             BoldedDatesList = [];
             _scrollChange = 0;
             _todayFormat = "d";
-
-            _cornerRoundingRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
-
-            _dayCornerRoundingRadius = GlobalStaticValues.SECONDARY_CORNER_ROUNDING_VALUE;
-
-            _dayOfWeekCornerRoundingRadius = GlobalStaticValues.SECONDARY_CORNER_ROUNDING_VALUE;
-
-            _headerCornerRoundingRadius = GlobalStaticValues.SECONDARY_CORNER_ROUNDING_VALUE;
         }
         #endregion
 
         #region Public
-
-        /// <summary>Gets or sets the corner rounding radius.</summary>
-        /// <value>The corner rounding radius.</value>
-        [Category(@"Visuals")]
-        [Description(@"Gets or sets the corner rounding radius.")]
-        [DefaultValue(GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE)]
-        public float CornerRoundingRadius
-        {
-            get => _cornerRoundingRadius;
-
-            set => SetCornerRoundingRadius(value);
-        }
-
-        /// <summary>Gets or sets the day corner rounding radius.</summary>
-        /// <value>The day corner rounding radius.</value>
-        [Category(@"Visuals")]
-        [Description(@"Gets or sets the day corner rounding radius.")]
-        [DefaultValue(GlobalStaticValues.SECONDARY_CORNER_ROUNDING_VALUE)]
-        public float DayCornerRoundingRadius
-        {
-            get => _dayCornerRoundingRadius;
-
-            set => SetDayCornerRoundingRadius(value);
-        }
-
-        /// <summary>Gets or sets the day of week corner rounding radius.</summary>
-        /// <value>The day of week corner rounding radius.</value>
-        [Category(@"Visuals")]
-        [Description(@"Gets or sets the day of week corner rounding radius.")]
-        [DefaultValue(GlobalStaticValues.SECONDARY_CORNER_ROUNDING_VALUE)]
-        public float DayOfWeekCornerRoundingRadius
-        {
-            get => _dayOfWeekCornerRoundingRadius;
-
-            set => SetDayOfWeekCornerRoundingRadius(value);
-        }
-
-        /// <summary>Gets or sets the header corner rounding radius.</summary>
-        /// <value>The header corner rounding radius.</value>
-        [Category(@"Visuals")]
-        [Description(@"Gets or sets the header corner rounding radius.")]
-        [DefaultValue(GlobalStaticValues.SECONDARY_CORNER_ROUNDING_VALUE)]
-        public float HeaderCornerRoundingRadius
-        {
-            get => _headerCornerRoundingRadius;
-
-            set => SetHeaderCornerRoundingRadius(value);
-        }
-
         /// <summary>
         /// Gets or sets the text associated with this control.
         /// </summary>
@@ -396,13 +334,14 @@ namespace Krypton.Toolkit
         [DefaultValue("d")]
         [RefreshProperties(RefreshProperties.Repaint)]
         [Localizable(true)]
+        [DisallowNull]
         public string TodayFormat
         {
             get => _todayFormat;
 
             set
             {
-                if ((_todayFormat != value) && (value != null))
+                if (_todayFormat != value)
                 {
                     _todayFormat = value;
                     PerformNeedPaint(true);
@@ -437,17 +376,13 @@ namespace Krypton.Toolkit
         /// </summary>
         [Category(@"Behavior")]
         [Description(@"Today's date.")]
+        [DisallowNull]
         public DateTime TodayDate
         {
             get => _todayDate;
 
             set
             {
-                if (value == null)
-                {
-                    value = DateTime.Now.Date;
-                }
-
                 _todayDate = value;
                 PerformNeedPaint(true);
             }
@@ -794,11 +729,11 @@ namespace Krypton.Toolkit
         [Description(@"Background style for the month calendar.")]
         public PaletteBackStyle ControlBackStyle
         {
-            get => StateCommon!.BackStyle;
+            get => StateCommon.BackStyle;
 
             set
             {
-                if (StateCommon!.BackStyle != value)
+                if (StateCommon.BackStyle != value)
                 {
                     StateCommon.BackStyle = value;
                     PerformNeedPaint(true);
@@ -817,11 +752,11 @@ namespace Krypton.Toolkit
         [Description(@"Border style for the month calendar.")]
         public PaletteBorderStyle ControlBorderStyle
         {
-            get => StateCommon!.BorderStyle;
+            get => StateCommon.BorderStyle;
 
             set
             {
-                if (StateCommon!.BorderStyle != value)
+                if (StateCommon.BorderStyle != value)
                 {
                     StateCommon.BorderStyle = value;
                     PerformNeedPaint(true);
@@ -871,7 +806,7 @@ namespace Krypton.Toolkit
                 if (_dayStyle != value)
                 {
                     _dayStyle = value;
-                    StateCommon!.DayStyle = value;
+                    StateCommon.DayStyle = value;
                     OverrideBolded.DayStyle = value;
                     OverrideFocus.DayStyle = value;
                     OverrideToday.DayStyle = value;
@@ -898,7 +833,7 @@ namespace Krypton.Toolkit
                 if (_dayOfWeekStyle != value)
                 {
                     _dayOfWeekStyle = value;
-                    StateCommon!.DayOfWeekStyle = value;
+                    StateCommon.DayOfWeekStyle = value;
                     PerformNeedPaint(true);
                 }
             }
@@ -1005,9 +940,9 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Overrides for defining common month calendar appearance that other states can override.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteMonthCalendarRedirect? StateCommon { get; }
+        public PaletteMonthCalendarRedirect StateCommon { get; }
 
-        private bool ShouldSerializeStateCommon() => !StateCommon!.IsDefault;
+        private bool ShouldSerializeStateCommon() => !StateCommon.IsDefault;
 
         /// <summary>
         /// Gets access to the month calendar disabled appearance entries.
@@ -1843,36 +1778,5 @@ namespace Krypton.Toolkit
         private void UpdateFocusOverride(bool focus) => _hasFocus = focus;
         #endregion
 
-        #region Implementation
-
-        private void SetCornerRoundingRadius(float? radius)
-        {
-            _cornerRoundingRadius = radius ?? GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
-
-            StateCommon!.Border.Rounding = _cornerRoundingRadius;
-        }
-
-        private void SetDayCornerRoundingRadius(float? radius)
-        {
-            _dayCornerRoundingRadius = radius ?? GlobalStaticValues.SECONDARY_CORNER_ROUNDING_VALUE;
-
-            StateCommon!.Day.Border.Rounding = _dayCornerRoundingRadius;
-        }
-
-        private void SetDayOfWeekCornerRoundingRadius(float? radius)
-        {
-            _dayOfWeekCornerRoundingRadius = radius ?? GlobalStaticValues.SECONDARY_CORNER_ROUNDING_VALUE;
-
-            StateCommon!.DayOfWeek.Border.Rounding = _dayOfWeekCornerRoundingRadius;
-        }
-
-        private void SetHeaderCornerRoundingRadius(float? radius)
-        {
-            _headerCornerRoundingRadius = radius ?? GlobalStaticValues.SECONDARY_CORNER_ROUNDING_VALUE;
-
-            StateCommon!.Header.Border.Rounding = _headerCornerRoundingRadius;
-        }
-
-        #endregion
     }
 }
