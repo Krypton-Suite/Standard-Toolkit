@@ -2410,6 +2410,11 @@ namespace Krypton.Toolkit
                 ForceControlLayout();
             }
 
+            if (StateCommon.ComboBox.Content.SynchronizeDropDownWidth)
+            {
+                DropDownWidth = Size.Width;
+            }
+
             base.OnPaint(e);
             Paint?.Invoke(this, e!);
         }

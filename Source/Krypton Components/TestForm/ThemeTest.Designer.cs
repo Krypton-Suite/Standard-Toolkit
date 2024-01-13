@@ -40,15 +40,23 @@
             this.kryptonManager1 = new Krypton.Toolkit.KryptonManager(this.components);
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator = new System.Windows.Forms.ToolStripSeparator();
+            this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.printToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.printPreviewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.undoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.redoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.cutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.copyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.pasteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.selectAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -68,43 +76,35 @@
             this.kryptonProgressBarToolStripItem1 = new Krypton.Toolkit.KryptonProgressBarToolStripItem();
             this.toolStripProgressBar1 = new System.Windows.Forms.ToolStripProgressBar();
             this.buttonSpecAny1 = new Krypton.Toolkit.ButtonSpecAny();
+            this.kryptonCommand1 = new Krypton.Toolkit.KryptonCommand();
             this.buttonSpecAny2 = new Krypton.Toolkit.ButtonSpecAny();
+            this.kryptonCommand2 = new Krypton.Toolkit.KryptonCommand();
             this.buttonSpecAny3 = new Krypton.Toolkit.ButtonSpecAny();
+            this.kryptonCommand3 = new Krypton.Toolkit.KryptonCommand();
             this.buttonSpecAny4 = new Krypton.Toolkit.ButtonSpecAny();
+            this.kryptonCommand4 = new Krypton.Toolkit.KryptonCommand();
             this.buttonSpecAny5 = new Krypton.Toolkit.ButtonSpecAny();
+            this.kryptonCommand5 = new Krypton.Toolkit.KryptonCommand();
             this.buttonSpecAny6 = new Krypton.Toolkit.ButtonSpecAny();
+            this.kryptonCommand6 = new Krypton.Toolkit.KryptonCommand();
             this.buttonSpecAny7 = new Krypton.Toolkit.ButtonSpecAny();
+            this.kryptonCommand7 = new Krypton.Toolkit.KryptonCommand();
             this.buttonSpecAny8 = new Krypton.Toolkit.ButtonSpecAny();
+            this.kryptonCommand8 = new Krypton.Toolkit.KryptonCommand();
             this.buttonSpecAny9 = new Krypton.Toolkit.ButtonSpecAny();
+            this.kryptonCommand9 = new Krypton.Toolkit.KryptonCommand();
             this.buttonSpecAny10 = new Krypton.Toolkit.ButtonSpecAny();
+            this.kryptonCommand10 = new Krypton.Toolkit.KryptonCommand();
             this.buttonSpecAny11 = new Krypton.Toolkit.ButtonSpecAny();
+            this.kryptonCommand11 = new Krypton.Toolkit.KryptonCommand();
             this.buttonSpecAny12 = new Krypton.Toolkit.ButtonSpecAny();
+            this.kryptonCommand12 = new Krypton.Toolkit.KryptonCommand();
             this.buttonSpecAny13 = new Krypton.Toolkit.ButtonSpecAny();
+            this.kryptonCommand13 = new Krypton.Toolkit.KryptonCommand();
             this.buttonSpecAny14 = new Krypton.Toolkit.ButtonSpecAny();
+            this.kryptonCommand14 = new Krypton.Toolkit.KryptonCommand();
             this.buttonSpecAny15 = new Krypton.Toolkit.ButtonSpecAny();
             this.kryptonCommand15 = new Krypton.Toolkit.KryptonCommand();
-            this.kryptonCommand1 = new Krypton.Toolkit.KryptonCommand();
-            this.kryptonCommand2 = new Krypton.Toolkit.KryptonCommand();
-            this.kryptonCommand3 = new Krypton.Toolkit.KryptonCommand();
-            this.kryptonCommand4 = new Krypton.Toolkit.KryptonCommand();
-            this.kryptonCommand5 = new Krypton.Toolkit.KryptonCommand();
-            this.kryptonCommand6 = new Krypton.Toolkit.KryptonCommand();
-            this.kryptonCommand7 = new Krypton.Toolkit.KryptonCommand();
-            this.kryptonCommand8 = new Krypton.Toolkit.KryptonCommand();
-            this.kryptonCommand9 = new Krypton.Toolkit.KryptonCommand();
-            this.kryptonCommand10 = new Krypton.Toolkit.KryptonCommand();
-            this.kryptonCommand11 = new Krypton.Toolkit.KryptonCommand();
-            this.kryptonCommand12 = new Krypton.Toolkit.KryptonCommand();
-            this.kryptonCommand13 = new Krypton.Toolkit.KryptonCommand();
-            this.kryptonCommand14 = new Krypton.Toolkit.KryptonCommand();
-            this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.printToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.printPreviewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.cutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.copyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.pasteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
             this.kryptonPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonThemeComboBox1)).BeginInit();
@@ -126,7 +126,7 @@
             this.kryptonPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kryptonPanel1.Location = new System.Drawing.Point(0, 0);
             this.kryptonPanel1.Name = "kryptonPanel1";
-            this.kryptonPanel1.Size = new System.Drawing.Size(800, 372);
+            this.kryptonPanel1.Size = new System.Drawing.Size(808, 380);
             this.kryptonPanel1.TabIndex = 0;
             // 
             // kryptonRichTextBox1
@@ -143,6 +143,7 @@
             this.kryptonThemeComboBox1.IntegralHeight = false;
             this.kryptonThemeComboBox1.Location = new System.Drawing.Point(13, 135);
             this.kryptonThemeComboBox1.Name = "kryptonThemeComboBox1";
+            this.kryptonThemeComboBox1.ReportSelectedThemeIndex = false;
             this.kryptonThemeComboBox1.Size = new System.Drawing.Size(201, 20);
             this.kryptonThemeComboBox1.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.kryptonThemeComboBox1.TabIndex = 12;
@@ -210,7 +211,7 @@
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(4, 2, 0, 2);
-            this.menuStrip1.Size = new System.Drawing.Size(800, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(808, 24);
             this.menuStrip1.TabIndex = 1;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -231,10 +232,37 @@
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
             this.fileToolStripMenuItem.Text = "&File";
             // 
+            // newToolStripMenuItem
+            // 
+            this.newToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("newToolStripMenuItem.Image")));
+            this.newToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.newToolStripMenuItem.Name = "newToolStripMenuItem";
+            this.newToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(150, 26);
+            this.newToolStripMenuItem.Text = "&New";
+            // 
+            // openToolStripMenuItem
+            // 
+            this.openToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("openToolStripMenuItem.Image")));
+            this.openToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.openToolStripMenuItem.Name = "openToolStripMenuItem";
+            this.openToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(150, 26);
+            this.openToolStripMenuItem.Text = "&Open";
+            // 
             // toolStripSeparator
             // 
             this.toolStripSeparator.Name = "toolStripSeparator";
             this.toolStripSeparator.Size = new System.Drawing.Size(147, 6);
+            // 
+            // saveToolStripMenuItem
+            // 
+            this.saveToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("saveToolStripMenuItem.Image")));
+            this.saveToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
+            this.saveToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(150, 26);
+            this.saveToolStripMenuItem.Text = "&Save";
             // 
             // saveAsToolStripMenuItem
             // 
@@ -246,6 +274,23 @@
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
             this.toolStripSeparator1.Size = new System.Drawing.Size(147, 6);
+            // 
+            // printToolStripMenuItem
+            // 
+            this.printToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("printToolStripMenuItem.Image")));
+            this.printToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.printToolStripMenuItem.Name = "printToolStripMenuItem";
+            this.printToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.P)));
+            this.printToolStripMenuItem.Size = new System.Drawing.Size(150, 26);
+            this.printToolStripMenuItem.Text = "&Print";
+            // 
+            // printPreviewToolStripMenuItem
+            // 
+            this.printPreviewToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("printPreviewToolStripMenuItem.Image")));
+            this.printPreviewToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.printPreviewToolStripMenuItem.Name = "printPreviewToolStripMenuItem";
+            this.printPreviewToolStripMenuItem.Size = new System.Drawing.Size(150, 26);
+            this.printPreviewToolStripMenuItem.Text = "Print Pre&view";
             // 
             // toolStripSeparator2
             // 
@@ -291,6 +336,33 @@
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
             this.toolStripSeparator3.Size = new System.Drawing.Size(145, 6);
+            // 
+            // cutToolStripMenuItem
+            // 
+            this.cutToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("cutToolStripMenuItem.Image")));
+            this.cutToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.cutToolStripMenuItem.Name = "cutToolStripMenuItem";
+            this.cutToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.X)));
+            this.cutToolStripMenuItem.Size = new System.Drawing.Size(148, 26);
+            this.cutToolStripMenuItem.Text = "Cu&t";
+            // 
+            // copyToolStripMenuItem
+            // 
+            this.copyToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("copyToolStripMenuItem.Image")));
+            this.copyToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.copyToolStripMenuItem.Name = "copyToolStripMenuItem";
+            this.copyToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
+            this.copyToolStripMenuItem.Size = new System.Drawing.Size(148, 26);
+            this.copyToolStripMenuItem.Text = "&Copy";
+            // 
+            // pasteToolStripMenuItem
+            // 
+            this.pasteToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("pasteToolStripMenuItem.Image")));
+            this.pasteToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.pasteToolStripMenuItem.Name = "pasteToolStripMenuItem";
+            this.pasteToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.V)));
+            this.pasteToolStripMenuItem.Size = new System.Drawing.Size(148, 26);
+            this.pasteToolStripMenuItem.Text = "&Paste";
             // 
             // toolStripSeparator4
             // 
@@ -379,17 +451,17 @@
             this.kryptonPanel2.Controls.Add(this.kryptonLabel2);
             this.kryptonPanel2.Controls.Add(this.kryptonButton1);
             this.kryptonPanel2.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.kryptonPanel2.Location = new System.Drawing.Point(0, 372);
+            this.kryptonPanel2.Location = new System.Drawing.Point(0, 380);
             this.kryptonPanel2.Name = "kryptonPanel2";
             this.kryptonPanel2.PanelBackStyle = Krypton.Toolkit.PaletteBackStyle.PanelAlternate;
-            this.kryptonPanel2.Size = new System.Drawing.Size(800, 50);
+            this.kryptonPanel2.Size = new System.Drawing.Size(808, 50);
             this.kryptonPanel2.TabIndex = 1;
             // 
             // kryptonLabel2
             // 
             this.kryptonLabel2.Location = new System.Drawing.Point(13, 15);
             this.kryptonLabel2.Name = "kryptonLabel2";
-            this.kryptonLabel2.Size = new System.Drawing.Size(88, 20);
+            this.kryptonLabel2.Size = new System.Drawing.Size(127, 19);
             this.kryptonLabel2.TabIndex = 1;
             this.kryptonLabel2.Values.Text = "kryptonLabel2";
             // 
@@ -401,10 +473,10 @@
             this.toolStripStatusLabel1,
             this.kryptonProgressBarToolStripItem1,
             this.toolStripProgressBar1});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 422);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 430);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.ManagerRenderMode;
-            this.statusStrip1.Size = new System.Drawing.Size(800, 28);
+            this.statusStrip1.Size = new System.Drawing.Size(808, 28);
             this.statusStrip1.TabIndex = 2;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -436,11 +508,23 @@
             this.buttonSpecAny1.KryptonCommand = this.kryptonCommand1;
             this.buttonSpecAny1.UniqueName = "f605d0a8865e404f8bfe158508b3a4de";
             // 
+            // kryptonCommand1
+            // 
+            this.kryptonCommand1.AssignedButtonSpec = this.buttonSpecAny1;
+            this.kryptonCommand1.CommandType = Krypton.Toolkit.KryptonCommandType.IntegratedToolBarNewCommand;
+            this.kryptonCommand1.ImageSmall = ((System.Drawing.Image)(resources.GetObject("kryptonCommand1.ImageSmall")));
+            // 
             // buttonSpecAny2
             // 
             this.buttonSpecAny2.Enabled = Krypton.Toolkit.ButtonEnabled.True;
             this.buttonSpecAny2.KryptonCommand = this.kryptonCommand2;
             this.buttonSpecAny2.UniqueName = "1ff2817dc9fc40da882c6b5f99e326fd";
+            // 
+            // kryptonCommand2
+            // 
+            this.kryptonCommand2.AssignedButtonSpec = this.buttonSpecAny2;
+            this.kryptonCommand2.CommandType = Krypton.Toolkit.KryptonCommandType.IntegratedToolBarOpenCommand;
+            this.kryptonCommand2.ImageSmall = ((System.Drawing.Image)(resources.GetObject("kryptonCommand2.ImageSmall")));
             // 
             // buttonSpecAny3
             // 
@@ -448,11 +532,23 @@
             this.buttonSpecAny3.KryptonCommand = this.kryptonCommand3;
             this.buttonSpecAny3.UniqueName = "c2ee7f9823c9495393353da22e5e33b4";
             // 
+            // kryptonCommand3
+            // 
+            this.kryptonCommand3.AssignedButtonSpec = this.buttonSpecAny3;
+            this.kryptonCommand3.CommandType = Krypton.Toolkit.KryptonCommandType.IntegratedToolBarSaveCommand;
+            this.kryptonCommand3.ImageSmall = ((System.Drawing.Image)(resources.GetObject("kryptonCommand3.ImageSmall")));
+            // 
             // buttonSpecAny4
             // 
             this.buttonSpecAny4.Enabled = Krypton.Toolkit.ButtonEnabled.True;
             this.buttonSpecAny4.KryptonCommand = this.kryptonCommand4;
             this.buttonSpecAny4.UniqueName = "c524f280d6f04baaafd5e8e9495fd09d";
+            // 
+            // kryptonCommand4
+            // 
+            this.kryptonCommand4.AssignedButtonSpec = this.buttonSpecAny4;
+            this.kryptonCommand4.CommandType = Krypton.Toolkit.KryptonCommandType.IntegratedToolBarSaveAllCommand;
+            this.kryptonCommand4.ImageSmall = ((System.Drawing.Image)(resources.GetObject("kryptonCommand4.ImageSmall")));
             // 
             // buttonSpecAny5
             // 
@@ -460,11 +556,23 @@
             this.buttonSpecAny5.KryptonCommand = this.kryptonCommand5;
             this.buttonSpecAny5.UniqueName = "8ef2facb6eda4780b0646c9101a41a55";
             // 
+            // kryptonCommand5
+            // 
+            this.kryptonCommand5.AssignedButtonSpec = this.buttonSpecAny5;
+            this.kryptonCommand5.CommandType = Krypton.Toolkit.KryptonCommandType.IntegratedToolBarSaveAsCommand;
+            this.kryptonCommand5.ImageSmall = ((System.Drawing.Image)(resources.GetObject("kryptonCommand5.ImageSmall")));
+            // 
             // buttonSpecAny6
             // 
             this.buttonSpecAny6.Enabled = Krypton.Toolkit.ButtonEnabled.True;
             this.buttonSpecAny6.KryptonCommand = this.kryptonCommand6;
             this.buttonSpecAny6.UniqueName = "21524c805767427193d30d8593526f93";
+            // 
+            // kryptonCommand6
+            // 
+            this.kryptonCommand6.AssignedButtonSpec = this.buttonSpecAny6;
+            this.kryptonCommand6.CommandType = Krypton.Toolkit.KryptonCommandType.IntegratedToolBarCutCommand;
+            this.kryptonCommand6.ImageSmall = ((System.Drawing.Image)(resources.GetObject("kryptonCommand6.ImageSmall")));
             // 
             // buttonSpecAny7
             // 
@@ -472,11 +580,23 @@
             this.buttonSpecAny7.KryptonCommand = this.kryptonCommand7;
             this.buttonSpecAny7.UniqueName = "88f66da3c04f4b47a620df157cef2e70";
             // 
+            // kryptonCommand7
+            // 
+            this.kryptonCommand7.AssignedButtonSpec = this.buttonSpecAny7;
+            this.kryptonCommand7.CommandType = Krypton.Toolkit.KryptonCommandType.IntegratedToolBarCopyCommand;
+            this.kryptonCommand7.ImageSmall = ((System.Drawing.Image)(resources.GetObject("kryptonCommand7.ImageSmall")));
+            // 
             // buttonSpecAny8
             // 
             this.buttonSpecAny8.Enabled = Krypton.Toolkit.ButtonEnabled.True;
             this.buttonSpecAny8.KryptonCommand = this.kryptonCommand8;
             this.buttonSpecAny8.UniqueName = "0b34a05f7f864d05aba8e89529d152e0";
+            // 
+            // kryptonCommand8
+            // 
+            this.kryptonCommand8.AssignedButtonSpec = this.buttonSpecAny8;
+            this.kryptonCommand8.CommandType = Krypton.Toolkit.KryptonCommandType.IntegratedToolBarPasteCommand;
+            this.kryptonCommand8.ImageSmall = ((System.Drawing.Image)(resources.GetObject("kryptonCommand8.ImageSmall")));
             // 
             // buttonSpecAny9
             // 
@@ -484,11 +604,23 @@
             this.buttonSpecAny9.KryptonCommand = this.kryptonCommand9;
             this.buttonSpecAny9.UniqueName = "9694cb140466450db01fa4319a373fe7";
             // 
+            // kryptonCommand9
+            // 
+            this.kryptonCommand9.AssignedButtonSpec = this.buttonSpecAny9;
+            this.kryptonCommand9.CommandType = Krypton.Toolkit.KryptonCommandType.IntegratedToolBarUndoCommand;
+            this.kryptonCommand9.ImageSmall = ((System.Drawing.Image)(resources.GetObject("kryptonCommand9.ImageSmall")));
+            // 
             // buttonSpecAny10
             // 
             this.buttonSpecAny10.Enabled = Krypton.Toolkit.ButtonEnabled.True;
             this.buttonSpecAny10.KryptonCommand = this.kryptonCommand10;
             this.buttonSpecAny10.UniqueName = "6642cbcd7389428dba083557733d1033";
+            // 
+            // kryptonCommand10
+            // 
+            this.kryptonCommand10.AssignedButtonSpec = this.buttonSpecAny10;
+            this.kryptonCommand10.CommandType = Krypton.Toolkit.KryptonCommandType.IntegratedToolBarRedoCommand;
+            this.kryptonCommand10.ImageSmall = ((System.Drawing.Image)(resources.GetObject("kryptonCommand10.ImageSmall")));
             // 
             // buttonSpecAny11
             // 
@@ -496,11 +628,23 @@
             this.buttonSpecAny11.KryptonCommand = this.kryptonCommand11;
             this.buttonSpecAny11.UniqueName = "74db3c2b6178400c8ec6ed14a0a394c0";
             // 
+            // kryptonCommand11
+            // 
+            this.kryptonCommand11.AssignedButtonSpec = this.buttonSpecAny11;
+            this.kryptonCommand11.CommandType = Krypton.Toolkit.KryptonCommandType.IntegratedToolBarPageSetupCommand;
+            this.kryptonCommand11.ImageSmall = ((System.Drawing.Image)(resources.GetObject("kryptonCommand11.ImageSmall")));
+            // 
             // buttonSpecAny12
             // 
             this.buttonSpecAny12.Enabled = Krypton.Toolkit.ButtonEnabled.True;
             this.buttonSpecAny12.KryptonCommand = this.kryptonCommand12;
             this.buttonSpecAny12.UniqueName = "50ac1cab058249d4a3dd90ff75c757e0";
+            // 
+            // kryptonCommand12
+            // 
+            this.kryptonCommand12.AssignedButtonSpec = this.buttonSpecAny12;
+            this.kryptonCommand12.CommandType = Krypton.Toolkit.KryptonCommandType.IntegratedToolBarPrintPreviewCommand;
+            this.kryptonCommand12.ImageSmall = ((System.Drawing.Image)(resources.GetObject("kryptonCommand12.ImageSmall")));
             // 
             // buttonSpecAny13
             // 
@@ -508,11 +652,23 @@
             this.buttonSpecAny13.KryptonCommand = this.kryptonCommand13;
             this.buttonSpecAny13.UniqueName = "546c7b4153cf4bf49e900f02acbddf57";
             // 
+            // kryptonCommand13
+            // 
+            this.kryptonCommand13.AssignedButtonSpec = this.buttonSpecAny13;
+            this.kryptonCommand13.CommandType = Krypton.Toolkit.KryptonCommandType.IntegratedToolBarPrintCommand;
+            this.kryptonCommand13.ImageSmall = ((System.Drawing.Image)(resources.GetObject("kryptonCommand13.ImageSmall")));
+            // 
             // buttonSpecAny14
             // 
             this.buttonSpecAny14.Enabled = Krypton.Toolkit.ButtonEnabled.True;
             this.buttonSpecAny14.KryptonCommand = this.kryptonCommand14;
             this.buttonSpecAny14.UniqueName = "7156d4510a29499cb0eb26ea230e36b9";
+            // 
+            // kryptonCommand14
+            // 
+            this.kryptonCommand14.AssignedButtonSpec = this.buttonSpecAny14;
+            this.kryptonCommand14.CommandType = Krypton.Toolkit.KryptonCommandType.IntegratedToolBarQuickPrintCommand;
+            this.kryptonCommand14.ImageSmall = ((System.Drawing.Image)(resources.GetObject("kryptonCommand14.ImageSmall")));
             // 
             // buttonSpecAny15
             // 
@@ -523,161 +679,6 @@
             // kryptonCommand15
             // 
             this.kryptonCommand15.AssignedButtonSpec = this.buttonSpecAny15;
-            // 
-            // kryptonCommand1
-            // 
-            this.kryptonCommand1.AssignedButtonSpec = this.buttonSpecAny1;
-            this.kryptonCommand1.CommandType = Krypton.Toolkit.KryptonCommandType.IntegratedToolBarNewCommand;
-            this.kryptonCommand1.ImageSmall = ((System.Drawing.Image)(resources.GetObject("kryptonCommand1.ImageSmall")));
-            // 
-            // kryptonCommand2
-            // 
-            this.kryptonCommand2.AssignedButtonSpec = this.buttonSpecAny2;
-            this.kryptonCommand2.CommandType = Krypton.Toolkit.KryptonCommandType.IntegratedToolBarOpenCommand;
-            this.kryptonCommand2.ImageSmall = ((System.Drawing.Image)(resources.GetObject("kryptonCommand2.ImageSmall")));
-            // 
-            // kryptonCommand3
-            // 
-            this.kryptonCommand3.AssignedButtonSpec = this.buttonSpecAny3;
-            this.kryptonCommand3.CommandType = Krypton.Toolkit.KryptonCommandType.IntegratedToolBarSaveCommand;
-            this.kryptonCommand3.ImageSmall = ((System.Drawing.Image)(resources.GetObject("kryptonCommand3.ImageSmall")));
-            // 
-            // kryptonCommand4
-            // 
-            this.kryptonCommand4.AssignedButtonSpec = this.buttonSpecAny4;
-            this.kryptonCommand4.CommandType = Krypton.Toolkit.KryptonCommandType.IntegratedToolBarSaveAllCommand;
-            this.kryptonCommand4.ImageSmall = ((System.Drawing.Image)(resources.GetObject("kryptonCommand4.ImageSmall")));
-            // 
-            // kryptonCommand5
-            // 
-            this.kryptonCommand5.AssignedButtonSpec = this.buttonSpecAny5;
-            this.kryptonCommand5.CommandType = Krypton.Toolkit.KryptonCommandType.IntegratedToolBarSaveAsCommand;
-            this.kryptonCommand5.ImageSmall = ((System.Drawing.Image)(resources.GetObject("kryptonCommand5.ImageSmall")));
-            // 
-            // kryptonCommand6
-            // 
-            this.kryptonCommand6.AssignedButtonSpec = this.buttonSpecAny6;
-            this.kryptonCommand6.CommandType = Krypton.Toolkit.KryptonCommandType.IntegratedToolBarCutCommand;
-            this.kryptonCommand6.ImageSmall = ((System.Drawing.Image)(resources.GetObject("kryptonCommand6.ImageSmall")));
-            // 
-            // kryptonCommand7
-            // 
-            this.kryptonCommand7.AssignedButtonSpec = this.buttonSpecAny7;
-            this.kryptonCommand7.CommandType = Krypton.Toolkit.KryptonCommandType.IntegratedToolBarCopyCommand;
-            this.kryptonCommand7.ImageSmall = ((System.Drawing.Image)(resources.GetObject("kryptonCommand7.ImageSmall")));
-            // 
-            // kryptonCommand8
-            // 
-            this.kryptonCommand8.AssignedButtonSpec = this.buttonSpecAny8;
-            this.kryptonCommand8.CommandType = Krypton.Toolkit.KryptonCommandType.IntegratedToolBarPasteCommand;
-            this.kryptonCommand8.ImageSmall = ((System.Drawing.Image)(resources.GetObject("kryptonCommand8.ImageSmall")));
-            // 
-            // kryptonCommand9
-            // 
-            this.kryptonCommand9.AssignedButtonSpec = this.buttonSpecAny9;
-            this.kryptonCommand9.CommandType = Krypton.Toolkit.KryptonCommandType.IntegratedToolBarUndoCommand;
-            this.kryptonCommand9.ImageSmall = ((System.Drawing.Image)(resources.GetObject("kryptonCommand9.ImageSmall")));
-            // 
-            // kryptonCommand10
-            // 
-            this.kryptonCommand10.AssignedButtonSpec = this.buttonSpecAny10;
-            this.kryptonCommand10.CommandType = Krypton.Toolkit.KryptonCommandType.IntegratedToolBarRedoCommand;
-            this.kryptonCommand10.ImageSmall = ((System.Drawing.Image)(resources.GetObject("kryptonCommand10.ImageSmall")));
-            // 
-            // kryptonCommand11
-            // 
-            this.kryptonCommand11.AssignedButtonSpec = this.buttonSpecAny11;
-            this.kryptonCommand11.CommandType = Krypton.Toolkit.KryptonCommandType.IntegratedToolBarPageSetupCommand;
-            this.kryptonCommand11.ImageSmall = ((System.Drawing.Image)(resources.GetObject("kryptonCommand11.ImageSmall")));
-            // 
-            // kryptonCommand12
-            // 
-            this.kryptonCommand12.AssignedButtonSpec = this.buttonSpecAny12;
-            this.kryptonCommand12.CommandType = Krypton.Toolkit.KryptonCommandType.IntegratedToolBarPrintPreviewCommand;
-            this.kryptonCommand12.ImageSmall = ((System.Drawing.Image)(resources.GetObject("kryptonCommand12.ImageSmall")));
-            // 
-            // kryptonCommand13
-            // 
-            this.kryptonCommand13.AssignedButtonSpec = this.buttonSpecAny13;
-            this.kryptonCommand13.CommandType = Krypton.Toolkit.KryptonCommandType.IntegratedToolBarPrintCommand;
-            this.kryptonCommand13.ImageSmall = ((System.Drawing.Image)(resources.GetObject("kryptonCommand13.ImageSmall")));
-            // 
-            // kryptonCommand14
-            // 
-            this.kryptonCommand14.AssignedButtonSpec = this.buttonSpecAny14;
-            this.kryptonCommand14.CommandType = Krypton.Toolkit.KryptonCommandType.IntegratedToolBarQuickPrintCommand;
-            this.kryptonCommand14.ImageSmall = ((System.Drawing.Image)(resources.GetObject("kryptonCommand14.ImageSmall")));
-            // 
-            // newToolStripMenuItem
-            // 
-            this.newToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("newToolStripMenuItem.Image")));
-            this.newToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.newToolStripMenuItem.Name = "newToolStripMenuItem";
-            this.newToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
-            this.newToolStripMenuItem.Size = new System.Drawing.Size(150, 26);
-            this.newToolStripMenuItem.Text = "&New";
-            // 
-            // openToolStripMenuItem
-            // 
-            this.openToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("openToolStripMenuItem.Image")));
-            this.openToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(150, 26);
-            this.openToolStripMenuItem.Text = "&Open";
-            // 
-            // saveToolStripMenuItem
-            // 
-            this.saveToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("saveToolStripMenuItem.Image")));
-            this.saveToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(150, 26);
-            this.saveToolStripMenuItem.Text = "&Save";
-            // 
-            // printToolStripMenuItem
-            // 
-            this.printToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("printToolStripMenuItem.Image")));
-            this.printToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.printToolStripMenuItem.Name = "printToolStripMenuItem";
-            this.printToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.P)));
-            this.printToolStripMenuItem.Size = new System.Drawing.Size(150, 26);
-            this.printToolStripMenuItem.Text = "&Print";
-            // 
-            // printPreviewToolStripMenuItem
-            // 
-            this.printPreviewToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("printPreviewToolStripMenuItem.Image")));
-            this.printPreviewToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.printPreviewToolStripMenuItem.Name = "printPreviewToolStripMenuItem";
-            this.printPreviewToolStripMenuItem.Size = new System.Drawing.Size(150, 26);
-            this.printPreviewToolStripMenuItem.Text = "Print Pre&view";
-            // 
-            // cutToolStripMenuItem
-            // 
-            this.cutToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("cutToolStripMenuItem.Image")));
-            this.cutToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.cutToolStripMenuItem.Name = "cutToolStripMenuItem";
-            this.cutToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.X)));
-            this.cutToolStripMenuItem.Size = new System.Drawing.Size(148, 26);
-            this.cutToolStripMenuItem.Text = "Cu&t";
-            // 
-            // copyToolStripMenuItem
-            // 
-            this.copyToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("copyToolStripMenuItem.Image")));
-            this.copyToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.copyToolStripMenuItem.Name = "copyToolStripMenuItem";
-            this.copyToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
-            this.copyToolStripMenuItem.Size = new System.Drawing.Size(148, 26);
-            this.copyToolStripMenuItem.Text = "&Copy";
-            // 
-            // pasteToolStripMenuItem
-            // 
-            this.pasteToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("pasteToolStripMenuItem.Image")));
-            this.pasteToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.pasteToolStripMenuItem.Name = "pasteToolStripMenuItem";
-            this.pasteToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.V)));
-            this.pasteToolStripMenuItem.Size = new System.Drawing.Size(148, 26);
-            this.pasteToolStripMenuItem.Text = "&Paste";
             // 
             // ThemeTest
             // 
@@ -698,7 +699,7 @@
             this.ButtonSpecs.Add(this.buttonSpecAny13);
             this.ButtonSpecs.Add(this.buttonSpecAny14);
             this.ButtonSpecs.Add(this.buttonSpecAny15);
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(808, 458);
             this.Controls.Add(this.kryptonPanel1);
             this.Controls.Add(this.kryptonPanel2);
             this.Controls.Add(this.statusStrip1);

@@ -1,6 +1,8 @@
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Drawing;
+using System.IO;
 using System.Reflection;
 using System.Windows.Forms;
 
@@ -156,13 +158,6 @@ namespace TestForm
         //{
         //    kryptonCustomPaletteBase1.Export();
         //}
-
-        private void kryptonThemeComboBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            KryptonMessageBox.Show(
-                $"Selected Theme Index: {kryptonThemeComboBox1.SelectedIndex} - Theme Name: {kryptonThemeComboBox1.Text}",
-                "Test", KryptonMessageBoxButtons.OK, KryptonMessageBoxIcon.Information);
-        }
 
         private void kryptonButton8_Click(object sender, EventArgs e)
         {
@@ -341,24 +336,35 @@ namespace TestForm
 
         private void kryptonButton10_Click(object sender, EventArgs e)
         {
-            KryptonToastData toastData = new KryptonToastData();
+            KryptonBasicToastNotificationData toastNotificationDataNoCustomImage = new KryptonBasicToastNotificationData()
+            {
+                ShowCloseBox = kryptonCheckBox2.Checked,
+                CountDownSeconds = 60,
+                NotificationContent = @"This is a test",
+                NotificationIcon = KryptonToastNotificationIcon.Information,
+                NotificationTitle = @"Hello World"
+            };
 
-            toastData.CountDownSeconds = 60;
+            //KryptonBasicToastNotificationData toastNotificationDataCustomImage = new KryptonBasicToastNotificationData()
+            //{
+            //    ShowCloseBox = kryptonCheckBox2.Checked,
+            //    CountDownSeconds = 60,
+            //    NotificationContent = @"This is a test",
+            //    NotificationIcon = KryptonToastNotificationIcon.Custom,
+            //    CustomImage = new Bitmap(ktxtCustomImagePath.Text),
+            //    NotificationTitle = @"Hello World"
+            //};
 
-            toastData.NotificationContentText = @"Hello world";
+            KryptonToastNotification.ShowBasicNotification(toastNotificationDataNoCustomImage);
 
-            toastData.Title = @"Test";
-
-            toastData.ToastNotificationInputAreaType = KryptonToastNotificationInputAreaType.None;
-
-            //toastData.
-
-            KryptonToast.Show(toastData);
+        //    KryptonToastNotification.ShowBasicNotification(string.IsNullOrEmpty(ktxtCustomImagePath.Text)
+        //        ? toastNotificationDataNoCustomImage
+        //        : toastNotificationDataCustomImage);
         }
 
         private void kryptonButton11_Click(object sender, EventArgs e)
         {
-            KryptonMessageBox.Show((string)null, @"Test with no Text");
+            KryptonMessageBox.Show(string.Empty, @"Test with no Text");
         }
 
         private void kryptonButton12_Click(object sender, EventArgs e)
@@ -366,6 +372,30 @@ namespace TestForm
             FadeFormTest fadeForm = new FadeFormTest();
 
             fadeForm.ShowDialog();
+        }
+
+        private void kcmdOpenImage_Execute(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                ktxtCustomImagePath.Text = Path.GetFullPath(openFileDialog.FileName);
+            }
+        }
+
+        private void kryptonButton13_Click(object sender, EventArgs e)
+        {
+            KryptonBasicToastNotificationData toastNotificationDataNoCustomImage = new KryptonBasicToastNotificationData()
+            {
+                ShowCloseBox = kryptonCheckBox2.Checked,
+                CountDownSeconds = 60,
+                NotificationContent = @"This is a test",
+                NotificationIcon = KryptonToastNotificationIcon.Information,
+                NotificationTitle = @"Hello World"
+            };
+
+            KryptonToastNotification.ShowBasicProgressBarNotification(toastNotificationDataNoCustomImage);
         }
     }
 }

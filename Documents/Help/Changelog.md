@@ -4,6 +4,8 @@
 
 ## 2024-11-xx - Build 2411 - November 2024
 * Resolved [#1268](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1268), **[Breaking Change]** Many Krypton Controls have a CornerRoundingRadius that overrides the State#### Node Rounding values. Please remove!
+* Resolved [#1245](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1245), Visual Studio do not open Form after Nuget-Package-Update
+* Resolved [#1243](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1243), Krypton Navigator - Outlook Full Nav Mode
 * Resolved / Implemented [#215](https://github.com/Krypton-Suite/Standard-Toolkit/issues/215), **[Breaking Change]** `KryptonTreeView` Multi Node Select
 * Resolved [#1249](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1249), Ribbon Form Bars are no longer Drawn with the theme colouring
 * Resolved [#1255](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1255), **[Breaking Change]** Why does `CornerRoundingRadius` override the KRyptonForm StateCommon.Border.Rounding value

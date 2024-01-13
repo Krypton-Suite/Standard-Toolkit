@@ -12,190 +12,225 @@
 
 namespace Krypton.Toolkit
 {
-    /// <summary>Allows the user to change themes using a <see cref="KryptonComboBox"/>.</summary>
-    /// <seealso cref="KryptonComboBox" />
-    public class KryptonThemeComboBox : KryptonComboBox
-    {
-        #region Instance Fields
+	/// <summary>Allows the user to change themes using a <see cref="KryptonComboBox"/>.</summary>
+	/// <seealso cref="KryptonComboBox" />
+	public class KryptonThemeComboBox : KryptonComboBox
+	{
+		#region Instance Fields
 
-        private int _selectedIndex;
+		private bool _reportSelectedThemeIndex;
 
-        private readonly int _defaultPaletteIndex = (int)PaletteMode.Microsoft365Blue;
+		private int _selectedIndex;
 
-        private PaletteMode _defaultPalette;
+		private readonly int? _defaultPaletteIndex = (int)PaletteMode.Microsoft365Blue;
 
-        #endregion
+		private PaletteMode _defaultPalette;
 
-        #region Public
+        private KryptonManager? _manager;
+
+		#endregion
+
+		#region Public
+
+		/// <summary>Gets or sets a value indicating whether [report selected theme index].</summary>
+		/// <value><c>true</c> if [report selected theme index]; otherwise, <c>false</c>.</value>
+		public bool ReportSelectedThemeIndex
+		{
+			get => _reportSelectedThemeIndex;
+
+			set => _reportSelectedThemeIndex = value;
+		}
 
 		/// <summary>Gets or sets the default palette mode.</summary>
-        /// <value>The default palette mode.</value>
-        [Category(@"Visuals")]
-        [Description(@"The default palette mode.")]
-        [DefaultValue(PaletteMode.Microsoft365Blue)]
-        public PaletteMode DefaultPalette
+		/// <value>The default palette mode.</value>
+		[Category(@"Visuals")]
+		[Description(@"The default palette mode.")]
+		[DefaultValue(PaletteMode.Microsoft365Blue)]
+		public PaletteMode DefaultPalette
+		{
+			get => _defaultPalette;
+
+			set
+			{
+				_defaultPalette = value;
+
+				UpdateDefaultPaletteIndex(value);
+			}
+		}
+
+		/// <summary>
+		/// Gets and sets the ThemeSelectedIndex.
+		/// </summary>
+		[Category(@"Visuals")]
+		[Description(@"Theme Selected Index. (Default = `Office 365 - Blue`)")]
+		[DefaultValue((int)PaletteMode.Microsoft365Blue)]
+		public int ThemeSelectedIndex
+		{
+			get => _selectedIndex = _defaultPaletteIndex ?? 30;
+
+			private set => _selectedIndex = SelectedIndex = value;
+		}
+
+		private void ResetThemeSelectedIndex() => _selectedIndex = _defaultPaletteIndex ?? 30;
+
+		private bool ShouldSerializeThemeSelectedIndex() => _selectedIndex != _defaultPaletteIndex;
+
+		/// <summary>
+		/// Gets and sets the ThemeSelectedIndex.
+		/// </summary>
+		[Category(@"Visuals")]
+		[Description(@"Custom Theme to use when `Custom` is selected")]
+		[DefaultValue(null)]
+		public KryptonCustomPaletteBase? KryptonCustomPalette { get; set; }
+
+		[Category(@"Data")]
+		[Description(@"")]
+		[DefaultValue(null)]
+        public KryptonManager? Manager
         {
-            get => _defaultPalette;
+            get => _manager;
 
-            set
-            {
-                _defaultPalette = value;
-
-                UpdateDefaultPaletteIndex(value);
-            }
+			set => _manager = value;
         }
 
-        /// <summary>
-        /// Gets and sets the ThemeSelectedIndex.
-        /// </summary>
-        [Category(@"Visuals")]
-        [Description(@"Theme Selected Index. (Default = `Office 365 - Blue`)")]
-        [DefaultValue((int)PaletteMode.Microsoft365Blue)]
-        public int ThemeSelectedIndex
-        {
-            get => _selectedIndex = _defaultPaletteIndex;
+		#endregion
 
-            private set => _selectedIndex = SelectedIndex = value;
-        }
+		#region Identity
 
-        private void ResetThemeSelectedIndex() => _selectedIndex = _defaultPaletteIndex;
+		/// <summary>Initializes a new instance of the <see cref="KryptonThemeComboBox" /> class.</summary>
+		public KryptonThemeComboBox()
+		{
+			_reportSelectedThemeIndex = false;
 
-        private bool ShouldSerializeThemeSelectedIndex() => _selectedIndex != _defaultPaletteIndex;
+            _manager = new KryptonManager();
 
-        /// <summary>
-        /// Gets and sets the ThemeSelectedIndex.
-        /// </summary>
-        [Category(@"Visuals")]
-        [Description(@"Custom Theme to use when `Custom` is selected")]
-        [DefaultValue(null)]
-        public KryptonCustomPaletteBase? KryptonCustomPalette { get; set; }
+			DropDownStyle = ComboBoxStyle.DropDownList;
+			foreach (var kvp in PaletteModeStrings.SupportedThemesMap)
+			{
+				Items.Add(kvp.Key);
+			}
+			Text = ThemeManager.ReturnPaletteModeAsString(PaletteMode.Microsoft365Blue);
+			_selectedIndex = SelectedIndex = _defaultPaletteIndex ?? 30;
 
-        //[EditorBrowsable(EditorBrowsableState.Never)]
-        public KryptonManager Manager
-        {
-            get;
+			_defaultPalette = PaletteMode.Microsoft365Blue;
 
-        } = new KryptonManager();
+			Debug.Assert(_selectedIndex == _defaultPaletteIndex, $@"Microsoft365Blue needs to be at the index position of {_defaultPaletteIndex} for backward compatibility");
+		}
+		#endregion
 
-        #endregion
+		#region Implementation
 
-        #region Identity
+		private void UpdateDefaultPaletteIndex(PaletteMode mode) => ThemeSelectedIndex = (int)mode + 1;
 
-        /// <summary>Initializes a new instance of the <see cref="KryptonThemeComboBox" /> class.</summary>
-        public KryptonThemeComboBox()
-        {
-            DropDownStyle = ComboBoxStyle.DropDownList;
-            foreach (var kvp in PaletteModeStrings.SupportedThemesMap)
-            {
-                Items.Add(kvp.Key);
-            }
-            Text = ThemeManager.ReturnPaletteModeAsString(PaletteMode.Microsoft365Blue);
-            _selectedIndex = SelectedIndex = _defaultPaletteIndex;
+		/// <summary>Returns the palette mode.</summary>
+		/// <returns>
+		///   <br />
+		/// </returns>
+		public PaletteMode ReturnPaletteMode() => Manager!.GlobalPaletteMode;
 
-            _defaultPalette = PaletteMode.Microsoft365Blue;
+		// TODO: Refresh the theme names if the values have been altered
 
-            Debug.Assert(_selectedIndex == _defaultPaletteIndex, $@"Microsoft365Blue needs to be at the index position of {_defaultPaletteIndex} for backward compatibility");
-        }
-        #endregion
+		#endregion
 
-        #region Implementation
+		#region Protected Overrides
 
-        private void UpdateDefaultPaletteIndex(PaletteMode mode) => ThemeSelectedIndex = (int)mode + 1;
+		/// <inheritdoc />
+		protected override void OnCreateControl()
+		{
+			base.OnCreateControl();
+			SelectedIndex = _selectedIndex;
+		}
 
-        /// <summary>Returns the palette mode.</summary>
-        /// <returns>
-        ///   <br />
-        /// </returns>
-        public PaletteMode ReturnPaletteMode() => Manager.GlobalPaletteMode;
+		/// <inheritdoc />
+		protected override void OnSelectedIndexChanged(EventArgs e)
+		{
+			ThemeManager.ApplyTheme(Text!, Manager!);
 
-        // TODO: Refresh the theme names if the values have been altered
+			ThemeSelectedIndex = SelectedIndex;
 
-        #endregion
+			base.OnSelectedIndexChanged(e);
+			if ((ThemeManager.GetThemeManagerMode(Text!) == PaletteMode.Custom)
+				&& (KryptonCustomPalette != null)
+			   )
+			{
+				Manager!.GlobalCustomPalette = KryptonCustomPalette;
+			}
 
-        #region Protected Overrides
+			if (_reportSelectedThemeIndex)
+			{
+				KryptonMessageBox.Show($@"The index for '{SelectedItem}' is {SelectedIndex}", @"Theme Index", KryptonMessageBoxButtons.OK, KryptonMessageBoxIcon.SystemInformation);
+			}
+		}
 
-        /// <inheritdoc />
-        protected override void OnCreateControl()
-        {
-            base.OnCreateControl();
-            SelectedIndex = _selectedIndex;
-        }
+		#endregion
 
-        /// <inheritdoc />
-        protected override void OnSelectedIndexChanged(EventArgs e)
-        {
-            ThemeManager.ApplyTheme(Text, Manager);
+		#region Removed Designer Visibility
+		/// <summary>
+		/// Gets and sets the text associated with the control.
+		/// </summary>
+		[Browsable(false)]
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		[AllowNull]
+		public override string? Text
+		{
+			get => base.Text;
+			set => base.Text = value;
+		}
 
-            ThemeSelectedIndex = SelectedIndex;
+		/// <summary>Gets or sets the format specifier characters that indicate how a value is to be Displayed.</summary>
+		[Browsable(false)]
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		public new string FormatString
+		{
+			get => base.FormatString;
 
-            base.OnSelectedIndexChanged(e);
-            if ((ThemeManager.GetThemeManagerMode(Text) == PaletteMode.Custom)
-                && (KryptonCustomPalette != null)
-               )
-            {
-                Manager.GlobalCustomPalette= KryptonCustomPalette;
-            }
-        }
+			set => base.FormatString = value;
+		}
 
-        #endregion
+		/// <summary>
+		/// Gets and sets the appearance and functionality of the KryptonComboBox.
+		/// </summary>
+		[Browsable(false)]
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		public new ComboBoxStyle DropDownStyle
+		{
+			get => base.DropDownStyle;
+			set => base.DropDownStyle = value;
+		}
 
-        #region Removed Designer Visibility
-        /// <summary>
-        /// Gets and sets the text associated associated with the control.
-        /// </summary>
-        [Browsable(false)]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        [AllowNull]
-        public override string Text
-        {
-            get => base.Text;
-            set => base.Text = value;
-        }
+		/// <summary>
+		/// Gets or sets the items in the KryptonComboBox.
+		/// </summary>
+		[Browsable(false)]
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		public new ComboBox.ObjectCollection Items => base.Items;
 
-        /// <summary>
-        /// Gets and sets the appearance and functionality of the KryptonComboBox.
-        /// </summary>
-        [Browsable(false)]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public new ComboBoxStyle DropDownStyle
-        {
-            get => base.DropDownStyle;
-            set => base.DropDownStyle = value;
-        }
+		/// <summary>Gets or sets the draw mode of the combobox.</summary>
+		/// <value>The draw mode of the combobox.</value>
+		[Browsable(false)]
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		public new DrawMode DrawMode
+		{
+			get => base.DrawMode;
+			set => base.DrawMode = value;
+		}
 
-        /// <summary>
-        /// Gets or sets the items in the KryptonComboBox.
-        /// </summary>
-        [Browsable(false)]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public new ComboBox.ObjectCollection Items => base.Items;
+		/// <summary>
+		/// Gets or sets the StringCollection to use when the AutoCompleteSource property is set to CustomSource.
+		/// </summary>
+		[Browsable(false)]
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		public new AutoCompleteStringCollection AutoCompleteCustomSource
+		{
+			get => base.AutoCompleteCustomSource;
+			set => base.AutoCompleteCustomSource = value;
+		}
 
-        /// <summary>Gets or sets the draw mode of the combobox.</summary>
-        /// <value>The draw mode of the combobox.</value>
-        [Browsable(false)]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public new DrawMode DrawMode
-        {
-            get => base.DrawMode;
-            set => base.DrawMode = value;
-        }
+		[Browsable(false)]
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		public new int SelectedIndex { get => base.SelectedIndex; set => base.SelectedIndex = value; }
 
-        /// <summary>
-        /// Gets or sets the StringCollection to use when the AutoCompleteSource property is set to CustomSource.
-        /// </summary>
-        [Browsable(false)]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public new AutoCompleteStringCollection AutoCompleteCustomSource
-        {
-            get => base.AutoCompleteCustomSource;
-            set => base.AutoCompleteCustomSource = value;
-        }
-
-        [Browsable(false)]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public new int SelectedIndex { get => base.SelectedIndex; set => base.SelectedIndex = value; }
-
-        #endregion
-    }
+		#endregion
+	}
 
 }

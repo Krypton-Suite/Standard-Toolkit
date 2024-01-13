@@ -79,7 +79,7 @@ namespace Krypton.Toolkit
         }
 
 
-        internal VisualMessageBoxForm(IWin32Window? showOwner, string? text, string caption,
+        internal VisualMessageBoxForm(IWin32Window? showOwner, string text, string caption,
                                        KryptonMessageBoxButtons buttons,
                                        KryptonMessageBoxIcon icon,
                                        KryptonMessageBoxDefaultButton defaultButton,

@@ -17,7 +17,7 @@ namespace Krypton.Toolkit
 
         private bool _isDismissButton;
 
-        private VisualBasicToastForm? _basicToast;
+        private VisualToastNotificationBasicForm? _basicToast;
 
         #endregion
 
@@ -47,7 +47,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        public VisualBasicToastForm? BasicToastForm
+        public VisualToastNotificationBasicForm? BasicToastForm
         {
             get => _basicToast;
 
