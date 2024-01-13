@@ -19,7 +19,7 @@ namespace Krypton.Toolkit
                                IPaletteMetric
     {
         #region Instance Fields
-        private IPaletteMetric? _inherit;
+        private IPaletteMetric _inherit;
 
         #endregion
 
@@ -60,7 +60,7 @@ namespace Krypton.Toolkit
         /// Sets the inheritance parent.
         /// </summary>
         /// <param name="inheritHeader">Source for inheriting.</param>
-        public void SetInherit(PaletteForm? inheritHeader)
+        public void SetInherit(PaletteForm inheritHeader)
         {
             base.SetInherit(inheritHeader);
             _inherit = inheritHeader;

@@ -371,13 +371,13 @@ namespace Krypton.Toolkit
                     break;
             }
 
-            // By default all the children need to draw all their borders
+            // By default, all the children need to draw all their borders
             var leftEdges = PaletteDrawBorders.All;
             var rightEdges = PaletteDrawBorders.All;
             var topEdges = PaletteDrawBorders.All;
             var bottomEdges = PaletteDrawBorders.All;
             var fillEdges = PaletteDrawBorders.All;
-            
+
             // Position all except the filler
             foreach (ViewBase child in Reverse()
                          .Where(child => child.Visible && (GetDock(child) != ViewDockStyle.Fill))
@@ -524,6 +524,7 @@ namespace Krypton.Toolkit
                             return ViewDockStyle.Right;
                     }
                     break;
+
                 case VisualOrientation.Right:
                     switch (style)
                     {
@@ -537,6 +538,7 @@ namespace Krypton.Toolkit
                             return ViewDockStyle.Left;
                     }
                     break;
+
                 case VisualOrientation.Bottom:
                     switch (style)
                     {
@@ -551,8 +553,9 @@ namespace Krypton.Toolkit
                     }
                     break;
                 default:
-                    // Should never happen!
+    // Should never happen!
                     Debug.Assert(false);
+                    DebugTools.NotImplemented(Orientation.ToString());
                     break;
             }
 

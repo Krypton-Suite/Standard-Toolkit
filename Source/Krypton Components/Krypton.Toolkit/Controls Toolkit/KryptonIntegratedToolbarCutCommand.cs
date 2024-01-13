@@ -86,7 +86,7 @@ namespace Krypton.Toolkit
         /// <param name="disabledImage">The disabled image.</param>
         /// <param name="normalImage">The normal image.</param>
         /// <param name="pressedImage">The pressed image.</param>
-        private void AddImageStates(Image? activeImage, Image disabledImage, Image normalImage, Image? pressedImage)
+        private void AddImageStates(Image activeImage, Image disabledImage, Image normalImage, Image pressedImage)
         {
             if (_cutButtonSpec != null)
             {

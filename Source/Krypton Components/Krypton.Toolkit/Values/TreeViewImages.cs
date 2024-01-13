@@ -18,8 +18,8 @@ namespace Krypton.Toolkit
     public class TreeViewImages : Storage
     {
         #region Instance Fields
-        private Image? _plus;
-        private Image? _minus;
+        private Image _plus;
+        private Image _minus;
         #endregion
 
         #region Identity
@@ -65,7 +65,7 @@ namespace Krypton.Toolkit
         [Description(@"Image used to expand a tree node.")]
         [DefaultValue(null)]
         [RefreshProperties(RefreshProperties.All)]
-        public Image? Plus
+        public Image Plus
         {
             get => _plus;
 
@@ -94,7 +94,7 @@ namespace Krypton.Toolkit
         [Description(@"Image used to collapse a tree node.")]
         [DefaultValue(null)]
         [RefreshProperties(RefreshProperties.All)]
-        public Image? Minus
+        public Image Minus
         {
             get => _minus;
 

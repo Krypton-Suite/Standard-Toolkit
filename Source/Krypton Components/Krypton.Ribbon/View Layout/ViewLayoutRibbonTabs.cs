@@ -20,9 +20,9 @@ namespace Krypton.Ribbon
     internal class ViewLayoutRibbonTabs : ViewComposite
     {
         #region Type Definitions
-        private class ViewDrawRibbonTabList : List<ViewDrawRibbonTab> { }
-        private class ViewDrawRibbonTabSepList : List<ViewDrawRibbonTabSep> { }
-        private class ContextNameList : List<string> { }
+        private class ViewDrawRibbonTabList : List<ViewDrawRibbonTab>;
+        private class ViewDrawRibbonTabSepList : List<ViewDrawRibbonTabSep>;
+        private class ContextNameList : List<string>;
         #endregion
 
         #region Static Fields
@@ -62,8 +62,8 @@ namespace Krypton.Ribbon
             Debug.Assert(needPaint != null);
 
             // Cache references
-            _ribbon = ribbon!;
-            _needPaint = needPaint!;
+            _ribbon = ribbon;
+            _needPaint = needPaint;
 
             // Create cache of draw elements
             _tabCache = [];
@@ -443,7 +443,7 @@ namespace Krypton.Ribbon
             SyncChildrenToRibbonTabs();
 
             // We take on all the available display area
-            ClientRectangle = context!.DisplayRectangle;
+            ClientRectangle = context.DisplayRectangle;
 
             var x = ClientLocation.X;
 

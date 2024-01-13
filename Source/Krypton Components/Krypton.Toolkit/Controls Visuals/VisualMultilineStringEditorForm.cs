@@ -39,9 +39,9 @@ namespace Krypton.Toolkit
         {
             InitializeComponent();
 
-            _contents = contents ?? new string[] { string.Empty };
+            _contents = contents ?? [string.Empty];
 
-            _collection = collection ?? new StringCollection();
+            _collection = collection ?? [];
 
             _useRichTextBox = useRichTextBox ?? true;
 
@@ -172,10 +172,10 @@ namespace Krypton.Toolkit
                 foreach (var line in krtbContents.Lines)
                 {
                     // TODO: This is not right.. It will only have the last line it !
-                    _contents = new string[]
-                    {
+                    _contents =
+                    [
                         line
-                    };
+                    ];
                 }
             }
             else
@@ -183,10 +183,10 @@ namespace Krypton.Toolkit
                 foreach (var line in ktxtStringCollection.Lines)
                 {
                     // TODO: This is not right.. It will only have the last line it !
-                    _contents = new string[]
-                    {
+                    _contents =
+                    [
                         line
-                    };
+                    ];
                 }
             }
         }

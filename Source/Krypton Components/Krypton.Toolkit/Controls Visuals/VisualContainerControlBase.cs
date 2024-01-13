@@ -154,7 +154,7 @@ namespace Krypton.Toolkit
                 _palette = null;
                 Renderer = null!;
                 _localPalette = null;
-                Redirector!.Target = null!;
+                Redirector.Target = null!;
             }
 
             base.Dispose(disposing);
@@ -1124,11 +1124,11 @@ namespace Krypton.Toolkit
                     _miPTB = typeof(Control).GetMethod(nameof(PaintTransparentBackground),
                                                        BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.InvokeMethod,
                                                        null, CallingConventions.HasThis,
-                                                       new[] { typeof(PaintEventArgs), typeof(Rectangle), typeof(Region) },
+                                                       [typeof(PaintEventArgs), typeof(Rectangle), typeof(Region)],
                                                        null)!;
                 }
 
-                _miPTB.Invoke(this, new object[] { e!, ClientRectangle, null! });
+                _miPTB.Invoke(this, [e!, ClientRectangle, null!]);
             }
             else
             {

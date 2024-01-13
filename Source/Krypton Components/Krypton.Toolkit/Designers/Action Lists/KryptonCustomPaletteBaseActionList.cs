@@ -141,7 +141,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnExportToBinaryClick(object sender, EventArgs e) => DebugTools.NotImplemented(@"OnExportToBinaryClick", @"KryptonCustomPaletteBaseActionList", 105);
+        private void OnExportToBinaryClick(object sender, EventArgs e) => throw DebugTools.NotImplemented(@"Not Implemented");
 
         #endregion
     }

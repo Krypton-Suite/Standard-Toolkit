@@ -10,6 +10,8 @@
  */
 #endregion
 
+using static System.Windows.Forms.AxHost;
+
 namespace Krypton.Docking
 {
     /// <summary>
@@ -37,8 +39,9 @@ namespace Krypton.Docking
                 case DockingEdge.Right:
                     return (opposite ? DockStyle.Left : DockStyle.Right);
                 default:
-                    // Should never happen!
+    // Should never happen!
                     Debug.Assert(false);
+                    DebugTools.NotImplemented(edge.ToString());
                     return DockStyle.Top;
             }
         }

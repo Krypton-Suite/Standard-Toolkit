@@ -23,7 +23,7 @@ namespace Krypton.Toolkit
         #region Instance Fields
         private string _shortText;
         private string? _longText;
-        private Image? _image;
+        private Image _image;
         private Color _imageTransparentColor;
 
         #endregion
@@ -73,7 +73,7 @@ namespace Krypton.Toolkit
         /// <param name="image">Initial image value.</param>
         public KryptonListItem(string shortText,
                                string longText,
-                               Image? image)
+                               Image image)
             : this(shortText, longText, image, Color.Empty)
         {
         }
@@ -87,7 +87,7 @@ namespace Krypton.Toolkit
         /// <param name="imageTransparentColor">Initial transparent image color.</param>
         public KryptonListItem(string shortText,
                                string? longText,
-                               Image? image,
+                               Image image,
                                Color imageTransparentColor)
         {
             _shortText = shortText;
@@ -161,7 +161,7 @@ namespace Krypton.Toolkit
         [Category(@"Appearance")]
         [Description(@"Image associated with item.")]
         [Localizable(true)]
-        public Image? Image
+        public Image Image
         {
             get => _image;
 
@@ -228,7 +228,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">The state for which the image is needed.</param>
         /// <returns>Image value.</returns>
-        public Image? GetImage(PaletteState state) => _image;
+        public Image GetImage(PaletteState state) => _image;
 
         /// <summary>
         /// Gets the image color that should be transparent.

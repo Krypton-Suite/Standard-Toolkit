@@ -181,7 +181,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Internal
-        internal void SetPaletteRedirect(PaletteDoubleRedirect? redirector) => _redirectImageColumn?.SetRedirectStates(redirector, redirector);
+        internal void SetPaletteRedirect(PaletteDoubleRedirect redirector) => _redirectImageColumn?.SetRedirectStates(redirector, redirector);
 
         #endregion
     }

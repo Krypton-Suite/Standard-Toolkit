@@ -311,13 +311,13 @@ namespace Krypton.Navigator
             {
                 // Default to no space between each child item
                 // If we have a metric provider then get the child gap to use
-                var gap = _paletteMetric?.GetMetricInt(State, _metricGap) ?? context!.Renderer!.RenderTabBorder.GetTabBorderSpacingGap(TabBorderStyle);
+                var gap = _paletteMetric?.GetMetricInt(State, _metricGap) ?? context.Renderer.RenderTabBorder.GetTabBorderSpacingGap(TabBorderStyle);
 
                 // Line spacing gap can never be less than zero
                 var lineGap = (gap < 0 ? 0 : gap);
 
                 // Do we need to apply right to left by positioning children in reverse order?
-                var reversed = (IsOneLine && !BarVertical && (context!.Control.RightToLeft == RightToLeft.Yes));
+                var reversed = (IsOneLine && !BarVertical && (context.Control.RightToLeft == RightToLeft.Yes));
 
                 // Allocate caching for size of each child element
                 _childSizes = new Size[Count];
@@ -342,7 +342,7 @@ namespace Krypton.Navigator
                         }
 
                         // Ask child for it's own preferred size
-                        _childSizes[i] = child.GetPreferredSize(context!);
+                        _childSizes[i] = child.GetPreferredSize(context);
 
                         // Enforce the minimum and maximum sizes
                         if (ItemVertical)
@@ -390,6 +390,7 @@ namespace Krypton.Navigator
                             }
                         }
                         break;
+
                     case BarItemSizing.SameWidth:
                         if (!BarVertical)
                         {
@@ -412,6 +413,7 @@ namespace Krypton.Navigator
                             }
                         }
                         break;
+
                     case BarItemSizing.SameWidthAndHeight:
                         for (var i = 0; i < _childSizes.Length; i++)
                         {
@@ -421,9 +423,11 @@ namespace Krypton.Navigator
                             }
                         }
                         break;
+
                     default:
-                        // Should never happen!
+    // Should never happen!
                         Debug.Assert(false);
+                        DebugTools.NotImplemented(BarItemSizing.ToString());
                         break;
                 }
 
@@ -454,7 +458,7 @@ namespace Krypton.Navigator
 
                             // Does this item extend beyond visible line? 
                             // (unless first item, we always have at least one item on a line)
-                            if (!IsOneLine && (yPos > 0) && ((yPos + yAdd) > context!.DisplayRectangle.Height))
+                            if (!IsOneLine && (yPos > 0) && ((yPos + yAdd) > context.DisplayRectangle.Height))
                             {
                                 // Remember the line metrics
                                 _lineDetails.Add(new LineDetails(yPos, lineWidth, startIndex, itemCount));
@@ -495,7 +499,7 @@ namespace Krypton.Navigator
                     yMaxPos = Math.Max(yPos, yMaxPos);
 
                     // If we extended past end of the line
-                    if (yMaxPos > context!.DisplayRectangle.Height)
+                    if (yMaxPos > context.DisplayRectangle.Height)
                     {
                         // If the mode requires we do not extend over the line
                         if (BarMultiline is BarMultiline.Shrinkline or BarMultiline.Exactline)
@@ -615,7 +619,7 @@ namespace Krypton.Navigator
 
                             // Does this item extend beyond visible line? 
                             // (unless first item, we always have at least one item on a line)
-                            if (!IsOneLine && (xPos > 0) && ((xPos + xAdd) > context!.DisplayRectangle.Width))
+                            if (!IsOneLine && (xPos > 0) && ((xPos + xAdd) > context.DisplayRectangle.Width))
                             {
                                 // Remember the line metrics
                                 _lineDetails.Add(new LineDetails(xPos, lineHeight, startIndex, itemCount));
@@ -656,7 +660,7 @@ namespace Krypton.Navigator
                     xMaxPos = Math.Max(xPos, xMaxPos);
 
                     // If we extended past end of the line
-                    if (xMaxPos > context!.DisplayRectangle.Width)
+                    if (xMaxPos > context.DisplayRectangle.Width)
                     {
                         // If the mode requires we do not extend over the line
                         if (BarMultiline is BarMultiline.Shrinkline or BarMultiline.Exactline)
@@ -819,7 +823,7 @@ namespace Krypton.Navigator
             Debug.Assert(context != null);
 
             // We take on all the available display area
-            ClientRectangle = context!.DisplayRectangle;
+            ClientRectangle = context.DisplayRectangle;
 
             // Start laying out children from the top left
 
@@ -828,7 +832,7 @@ namespace Krypton.Navigator
             {
                 // Default to no space between each child item
                 // If we have a metric provider then get the child gap to use
-                var gap = _paletteMetric?.GetMetricInt(State, _metricGap) ?? context.Renderer!.RenderTabBorder.GetTabBorderSpacingGap(TabBorderStyle);
+                var gap = _paletteMetric?.GetMetricInt(State, _metricGap) ?? context.Renderer.RenderTabBorder.GetTabBorderSpacingGap(TabBorderStyle);
 
                 // Line spacing gap can never be less than zero
                 var lineGap = (gap < 0 ? 0 : gap);
@@ -1021,17 +1025,21 @@ namespace Krypton.Navigator
             {
                 case RelativePositionAlign.Near:
                     return reversePosition ? ClientRectangle.Right : ClientLocation.X;
+
                 case RelativePositionAlign.Center:
                     return reversePosition
                         ? ClientRectangle.Right - ((ClientRectangle.Width - lineDetails.InlineLength) / 2)
                         : ClientLocation.X + ((ClientRectangle.Width - lineDetails.InlineLength) / 2);
+
                 case RelativePositionAlign.Far:
                     return reversePosition
                         ? ClientRectangle.Right - (ClientRectangle.Width - lineDetails.InlineLength)
                         : ClientLocation.X + (ClientRectangle.Width - lineDetails.InlineLength);
+
                 default:
-                    // Should never happen!
+    // Should never happen!
                     Debug.Assert(false);
+                    DebugTools.NotImplemented(align.ToString());
                     return ClientLocation.X;
             }
         }
@@ -1060,6 +1068,7 @@ namespace Krypton.Navigator
             {
                 case RelativePositionAlign.Near:
                     return reversePosition ? ClientRectangle.Bottom : ClientLocation.Y;
+
                 case RelativePositionAlign.Center:
                     if (reversePosition)
                     {
@@ -1069,6 +1078,7 @@ namespace Krypton.Navigator
                     {
                         return ClientLocation.Y + ((ClientRectangle.Height - lineDetails.InlineLength) / 2);
                     }
+
                 case RelativePositionAlign.Far:
                     if (reversePosition)
                     {
@@ -1078,9 +1088,11 @@ namespace Krypton.Navigator
                     {
                         return ClientLocation.Y + (ClientRectangle.Height - lineDetails.InlineLength);
                     }
+
                 default:
-                    // Should never happen!
+    // Should never happen!
                     Debug.Assert(false);
+                    DebugTools.NotImplemented(align.ToString());
                     return ClientLocation.Y;
             }
         }

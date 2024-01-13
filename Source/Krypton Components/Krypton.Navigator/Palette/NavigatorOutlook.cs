@@ -49,14 +49,14 @@ namespace Krypton.Navigator
             Debug.Assert(navigator != null);
 
             // Remember back reference
-            _navigator = navigator!;
+            _navigator = navigator;
 
             // Store the provided paint notification delegate
             NeedPaint = needPaint;
 
             // Create compound objects
-            Full = new NavigatorOutlookFull(navigator!, needPaint);
-            Mini = new NavigatorOutlookMini(navigator!, needPaint);
+            Full = new NavigatorOutlookFull(navigator, needPaint);
+            Mini = new NavigatorOutlookMini(navigator, needPaint);
 
             // Default values
             _checkButtonStyle = ButtonStyle.NavigatorStack;

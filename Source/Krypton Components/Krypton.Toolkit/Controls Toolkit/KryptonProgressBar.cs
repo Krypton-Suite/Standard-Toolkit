@@ -33,7 +33,6 @@ namespace Krypton.Toolkit
         private IDisposable? _mementoBackProgressBar;
         private IDisposable? _mementoBackProgressValue;
         private bool _useValueAsText;
-        private float _cornerRoundingRadius;
         private int _marqueeSpeed;
         private int _maximum;
         private int _minimum;
@@ -111,7 +110,6 @@ namespace Krypton.Toolkit
                     Color1 = Color.Green
                 }
             };
-            SetCornerRoundingRadius(null);
             StateDisabled = new PaletteTriple(StateCommon, OnNeedPaintHandler);
             ((PaletteBack)StateDisabled.PaletteBack).ColorStyle = PaletteColorStyle.OneNote;
             StateNormal = new PaletteTriple(StateCommon, OnNeedPaintHandler);
@@ -446,19 +444,6 @@ namespace Krypton.Toolkit
         public override string ToString() =>
             $"{base.ToString()}, Minimum: {Minimum.ToString(CultureInfo.CurrentCulture)}, Maximum: {Maximum.ToString(CultureInfo.CurrentCulture)}, Value: {Value.ToString(CultureInfo.CurrentCulture)}";
 
-        /// <summary>Gets or sets the corner rounding radius.</summary>
-        /// <value>The corner rounding radius.</value>
-        [Category(@"Visuals")]
-        [Description(@"Gets or sets the corner rounding radius.")]
-        [RefreshProperties(RefreshProperties.Repaint)]
-        [DefaultValue(GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE)]
-        public float CornerRoundingRadius
-        {
-            get => _cornerRoundingRadius;
-
-            set => SetCornerRoundingRadius(value);
-        }
-
         /// <summary>
         /// Gets and sets the visual orientation of the control.
         /// </summary>
@@ -520,7 +505,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">The state for which the image is needed.</param>
         /// <returns>Image value.</returns>
-        public Image? GetImage(PaletteState state) => Values.GetImage(state);
+        public Image GetImage(PaletteState state) => Values.GetImage(state);
 
         /// <summary>
         /// Gets the image colour that should be transparent.
@@ -781,14 +766,6 @@ namespace Krypton.Toolkit
 
         // Palette indicates we might need to repaint, so lets do it
         private void OnPalettePaint(object sender, PaletteLayoutEventArgs e) => Invalidate();
-
-        private void SetCornerRoundingRadius(float? radius)
-        {
-            _cornerRoundingRadius = radius ?? GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
-
-            StateCommon.Border.Rounding = _cornerRoundingRadius;
-        }
-
         private void OnLabelTextChanged(object sender, EventArgs e) => OnTextChanged(EventArgs.Empty);
 
         private void StartMarquee()

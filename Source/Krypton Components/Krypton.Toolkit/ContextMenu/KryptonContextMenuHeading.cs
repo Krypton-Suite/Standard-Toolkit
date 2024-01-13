@@ -26,7 +26,7 @@ namespace Krypton.Toolkit
         #region Instance Fields
         private string _text;
         private string? _extraText;
-        private Image? _image;
+        private Image _image;
         private Color _imageTransparentColor;
         private readonly PaletteRedirectTriple _redirectHeading;
         #endregion
@@ -187,7 +187,7 @@ namespace Krypton.Toolkit
         [Description(@"Heading menu item image.")]
         [Localizable(true)]
         [DefaultValue(null)]
-        public Image? Image
+        public Image Image
         {
             get => _image;
 

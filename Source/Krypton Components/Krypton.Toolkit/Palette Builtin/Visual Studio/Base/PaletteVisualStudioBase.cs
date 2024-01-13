@@ -161,34 +161,34 @@ namespace Krypton.Toolkit
         #region Color Arrays
 
         private static readonly Color[] _appButtonNormal =
-        {
+        [
             Color.FromArgb(243, 245, 248),
             Color.FromArgb(214, 220, 231),
             Color.FromArgb(188, 198, 211),
             Color.FromArgb(254, 254, 255),
             Color.FromArgb(206, 213, 225)
-        };
+        ];
 
         private static readonly Color[] _appButtonTrack =
-        {
+        [
             Color.FromArgb(255, 251, 230),
             Color.FromArgb(248, 230, 143),
             Color.FromArgb(238, 213, 126),
             Color.FromArgb(254, 247, 129),
             Color.FromArgb(240, 201, 41)
-        };
+        ];
 
         private static readonly Color[] _appButtonPressed =
-        {
+        [
             Color.FromArgb(235, 227, 196),
             Color.FromArgb(228, 198, 149),
             Color.FromArgb(166, 97, 7),
             Color.FromArgb(242, 155, 57),
             Color.FromArgb(236, 136, 9)
-        };
+        ];
 
         private static readonly Color[] _buttonBorderColors =
-        {
+        [
             Color.FromArgb(180, 180, 180), // Button, Disabled, Border
             Color.FromArgb(205, 230, 247), // Button, Tracking, Border 1
             Color.FromArgb(205, 230, 247), // Button, Tracking, Border 2
@@ -196,10 +196,10 @@ namespace Krypton.Toolkit
             Color.FromArgb(146, 192, 244), // Button, Pressed, Border 2
             Color.FromArgb(146, 192, 244), // Button, Checked, Border 1
             Color.FromArgb(146, 192, 244) // Button, Checked, Border 2
-        };
+        ];
 
         private static readonly Color[] _buttonBackColors =
-        {
+        [
             Color.FromArgb(250, 250, 250), // Button, Disabled, Back 1
             Color.FromArgb(250, 250, 250), // Button, Disabled, Back 2
             Color.FromArgb(205, 230, 247), // Button, Tracking, Back 1
@@ -210,7 +210,7 @@ namespace Krypton.Toolkit
             Color.FromArgb(146, 192, 244), // Button, Checked, Back 2
             Color.FromArgb(255, 225, 104), // Button, Checked Tracking, Back 1
             Color.FromArgb(255, 249, 196) // Button, Checked Tracking, Back 2
-        };
+        ];
 
         #endregion
 
@@ -218,7 +218,7 @@ namespace Krypton.Toolkit
 
         #region Instance Fields
 
-        private KryptonColorTableVisualStudio _table;
+        private KryptonColorTableVisualStudio? _table;
 
         private readonly Color[] _ribbonColours;
 
@@ -240,12 +240,15 @@ namespace Krypton.Toolkit
         public PaletteVisualStudioBase([DisallowNull] Color[] schemeColours,
             [DisallowNull] ImageList checkBoxList,
             [DisallowNull] ImageList galleryButtonList,
-            [DisallowNull] Image[] radioButtonArray, Color[] trackBarColours)
+            [DisallowNull] Image[] radioButtonArray, 
+            Color[] trackBarColours)
         {
             Debug.Assert(schemeColours != null);
             Debug.Assert(checkBoxList != null);
             Debug.Assert(galleryButtonList != null);
             Debug.Assert(radioButtonArray != null);
+
+            ThemeName = nameof(PaletteVisualStudioBase);
 
             if (schemeColours != null)
             {
@@ -403,7 +406,7 @@ namespace Krypton.Toolkit
                     PaletteState.Disabled => style == PaletteBorderStyle.TabLowProfile ? Color.Empty : _disabledBorder,
                     PaletteState.Normal or PaletteState.Tracking or PaletteState.Pressed => style == PaletteBorderStyle.TabLowProfile ? Color.Empty : _ribbonColours[(int)SchemeOfficeColors.ButtonNormalBorder],
                     PaletteState.CheckedNormal or PaletteState.CheckedPressed or PaletteState.CheckedTracking => _ribbonColours[(int)SchemeOfficeColors.ControlBorder],
-                    _ => throw new ArgumentOutOfRangeException(nameof(state))
+                    _ => throw DebugTools.NotImplemented(state.ToString())
                 },
                 PaletteBorderStyle.TabDock => state switch
                 {
@@ -411,14 +414,14 @@ namespace Krypton.Toolkit
                     PaletteState.Normal => _ribbonColours[(int)SchemeOfficeColors.ButtonNormalBorder],
                     PaletteState.Tracking or PaletteState.Pressed => _buttonBorderColors[2],
                     PaletteState.CheckedNormal or PaletteState.CheckedPressed or PaletteState.CheckedTracking => _ribbonColours[(int)SchemeOfficeColors.ControlBorder],
-                    _ => throw new ArgumentOutOfRangeException(nameof(state))
+                    _ => throw DebugTools.NotImplemented(state.ToString())
                 },
                 PaletteBorderStyle.TabDockAutoHidden => state switch
                 {
                     PaletteState.Disabled => _disabledBorder,
                     PaletteState.Normal or PaletteState.CheckedNormal => _ribbonColours[(int)SchemeOfficeColors.ButtonNormalBorder],
                     PaletteState.Tracking or PaletteState.CheckedTracking or PaletteState.Pressed or PaletteState.CheckedPressed => _buttonBorderColors[2],
-                    _ => throw new ArgumentOutOfRangeException(nameof(state))
+                    _ => throw DebugTools.NotImplemented(state.ToString())
                 },
                 PaletteBorderStyle.HeaderCalendar => state == PaletteState.Disabled
 ? _ribbonColours[(int)SchemeOfficeColors.HeaderPrimaryBack1]
@@ -453,7 +456,7 @@ namespace Krypton.Toolkit
                     PaletteState.CheckedNormal => _ribbonColours[(int)SchemeOfficeColors.FormButtonBorderCheck],
                     PaletteState.Tracking or PaletteState.CheckedTracking => _ribbonColours[(int)SchemeOfficeColors.FormButtonBorderTrack],
                     PaletteState.Pressed or PaletteState.CheckedPressed => _ribbonColours[(int)SchemeOfficeColors.FormButtonBorderPressed],
-                    _ => throw new ArgumentOutOfRangeException(nameof(state))
+                    _ => throw DebugTools.NotImplemented(state.ToString())
                 },
                 PaletteBorderStyle.ButtonFormClose => state switch
                 {
@@ -461,7 +464,7 @@ namespace Krypton.Toolkit
                     PaletteState.CheckedNormal => _formCloseBorderCheckedNormal,
                     PaletteState.Tracking or PaletteState.CheckedTracking => _formCloseBorderTracking,
                     PaletteState.Pressed or PaletteState.CheckedPressed => _formCloseBorderPressed,
-                    _ => throw new ArgumentOutOfRangeException(nameof(state))
+                    _ => throw DebugTools.NotImplemented(state.ToString())
                 },
                 PaletteBorderStyle.ButtonGallery or PaletteBorderStyle.ButtonStandalone or PaletteBorderStyle.ButtonAlternate or PaletteBorderStyle.ButtonLowProfile or PaletteBorderStyle.ButtonBreadCrumb or PaletteBorderStyle.ButtonListItem or PaletteBorderStyle.ButtonCommand or PaletteBorderStyle.ButtonButtonSpec or PaletteBorderStyle.ButtonCluster or PaletteBorderStyle.ButtonCustom1 or PaletteBorderStyle.ButtonCustom2 or PaletteBorderStyle.ButtonCustom3 or PaletteBorderStyle.ContextMenuItemHighlight => state switch
                 {
@@ -476,7 +479,7 @@ namespace Krypton.Toolkit
                     PaletteState.Tracking => _buttonBorderColors[1],
                     PaletteState.Pressed or PaletteState.CheckedPressed => _buttonBorderColors[3],
                     PaletteState.CheckedTracking => _buttonBorderColors[3],
-                    _ => throw new ArgumentOutOfRangeException(nameof(state))
+                    _ => throw DebugTools.NotImplemented(state.ToString())
                 },
                 PaletteBorderStyle.ButtonInputControl => state switch
                 {
@@ -484,7 +487,7 @@ namespace Krypton.Toolkit
                     PaletteState.Normal or PaletteState.CheckedNormal or PaletteState.CheckedTracking => _ribbonColours[(int)SchemeOfficeColors.ButtonNormalBorder],
                     PaletteState.Tracking => _buttonBorderColors[1],
                     PaletteState.Pressed or PaletteState.CheckedPressed => _buttonBorderColors[3],
-                    _ => throw new ArgumentOutOfRangeException(nameof(state))
+                    _ => throw DebugTools.NotImplemented(state.ToString())
                 },
                 PaletteBorderStyle.ButtonCalendarDay => state switch
                 {
@@ -495,7 +498,7 @@ namespace Krypton.Toolkit
                     PaletteState.Tracking => _buttonBackColors[2],
                     PaletteState.Pressed or PaletteState.CheckedPressed => _buttonBackColors[4],
                     PaletteState.CheckedTracking => _buttonBackColors[8],
-                    _ => throw new ArgumentOutOfRangeException(nameof(state))
+                    _ => throw DebugTools.NotImplemented(state.ToString())
                 },
                 PaletteBorderStyle.ButtonNavigatorStack or PaletteBorderStyle.ButtonNavigatorOverflow or PaletteBorderStyle.ButtonNavigatorMini => _ribbonColours[(int)SchemeOfficeColors.ButtonNavigatorBorder],
                 _ => throw new ArgumentOutOfRangeException(nameof(style))
@@ -531,7 +534,7 @@ namespace Krypton.Toolkit
                     PaletteState.Disabled => style == PaletteBorderStyle.TabLowProfile ? Color.Empty : _disabledBorder,
                     PaletteState.Normal or PaletteState.Tracking or PaletteState.Pressed => style == PaletteBorderStyle.TabLowProfile ? Color.Empty : _ribbonColours[(int)SchemeOfficeColors.ButtonNormalBorder],
                     PaletteState.CheckedNormal or PaletteState.CheckedPressed or PaletteState.CheckedTracking => _ribbonColours[(int)SchemeOfficeColors.ControlBorder],
-                    _ => throw new ArgumentOutOfRangeException(nameof(state))
+                    _ => throw DebugTools.NotImplemented(state.ToString())
                 },
                 PaletteBorderStyle.TabDock => state switch
                 {
@@ -539,14 +542,14 @@ namespace Krypton.Toolkit
                     PaletteState.Normal => _ribbonColours[(int)SchemeOfficeColors.ButtonNormalBorder],
                     PaletteState.Tracking or PaletteState.Pressed => _buttonBorderColors[2],
                     PaletteState.CheckedNormal or PaletteState.CheckedPressed or PaletteState.CheckedTracking => _ribbonColours[(int)SchemeOfficeColors.ControlBorder],
-                    _ => throw new ArgumentOutOfRangeException(nameof(state))
+                    _ => throw DebugTools.NotImplemented(state.ToString())
                 },
                 PaletteBorderStyle.TabDockAutoHidden => state switch
                 {
                     PaletteState.Disabled => _disabledBorder,
                     PaletteState.Normal or PaletteState.CheckedNormal => _ribbonColours[(int)SchemeOfficeColors.ButtonNormalBorder],
                     PaletteState.Tracking or PaletteState.CheckedTracking or PaletteState.Pressed or PaletteState.CheckedPressed => _buttonBorderColors[2],
-                    _ => throw new ArgumentOutOfRangeException(nameof(state))
+                    _ => throw DebugTools.NotImplemented(state.ToString())
                 },
                 PaletteBorderStyle.HeaderForm => state == PaletteState.Disabled
 ? _ribbonColours[(int)SchemeOfficeColors.FormBorderHeaderInactive]
@@ -581,7 +584,7 @@ namespace Krypton.Toolkit
                     PaletteState.CheckedNormal => _ribbonColours[(int)SchemeOfficeColors.FormButtonBorderCheck],
                     PaletteState.Tracking or PaletteState.CheckedTracking => _ribbonColours[(int)SchemeOfficeColors.FormButtonBorderTrack],
                     PaletteState.Pressed or PaletteState.CheckedPressed => _ribbonColours[(int)SchemeOfficeColors.FormButtonBorderPressed],
-                    _ => throw new ArgumentOutOfRangeException(nameof(state))
+                    _ => throw DebugTools.NotImplemented(state.ToString())
                 },
                 PaletteBorderStyle.ButtonFormClose => state switch
                 {
@@ -589,7 +592,7 @@ namespace Krypton.Toolkit
                     PaletteState.CheckedNormal => _formCloseBorderCheckedNormal,
                     PaletteState.Tracking or PaletteState.CheckedTracking => _formCloseBorderTracking,
                     PaletteState.Pressed or PaletteState.CheckedPressed => _formCloseBorderPressed,
-                    _ => throw new ArgumentOutOfRangeException(nameof(state))
+                    _ => throw DebugTools.NotImplemented(state.ToString())
                 },
                 PaletteBorderStyle.ButtonGallery or PaletteBorderStyle.ButtonStandalone or PaletteBorderStyle.ButtonAlternate or PaletteBorderStyle.ButtonLowProfile or PaletteBorderStyle.ButtonBreadCrumb or PaletteBorderStyle.ButtonListItem or PaletteBorderStyle.ButtonCommand or PaletteBorderStyle.ButtonButtonSpec or PaletteBorderStyle.ButtonCluster or PaletteBorderStyle.ButtonCustom1 or PaletteBorderStyle.ButtonCustom2 or PaletteBorderStyle.ButtonCustom3 or PaletteBorderStyle.ContextMenuItemHighlight => state switch
                 {
@@ -602,7 +605,7 @@ namespace Krypton.Toolkit
                     PaletteState.Tracking => _buttonBorderColors[2],
                     PaletteState.Pressed or PaletteState.CheckedPressed => _buttonBorderColors[4],
                     PaletteState.CheckedTracking => _buttonBorderColors[4],
-                    _ => throw new ArgumentOutOfRangeException(nameof(state))
+                    _ => throw DebugTools.NotImplemented(state.ToString())
                 },
                 PaletteBorderStyle.ButtonInputControl => state switch
                 {
@@ -610,7 +613,7 @@ namespace Krypton.Toolkit
                     PaletteState.Normal or PaletteState.CheckedNormal or PaletteState.CheckedTracking => _ribbonColours[(int)SchemeOfficeColors.ButtonNormalBorder],
                     PaletteState.Tracking => _buttonBorderColors[2],
                     PaletteState.Pressed or PaletteState.CheckedPressed => _buttonBorderColors[4],
-                    _ => throw new ArgumentOutOfRangeException(nameof(state))
+                    _ => throw DebugTools.NotImplemented(state.ToString())
                 },
                 PaletteBorderStyle.ButtonCalendarDay => state switch
                 {
@@ -621,7 +624,7 @@ namespace Krypton.Toolkit
                     PaletteState.Tracking => _buttonBackColors[2],
                     PaletteState.Pressed or PaletteState.CheckedPressed => _buttonBackColors[4],
                     PaletteState.CheckedTracking => _buttonBackColors[8],
-                    _ => throw new ArgumentOutOfRangeException(nameof(state))
+                    _ => throw DebugTools.NotImplemented(state.ToString())
                 },
                 PaletteBorderStyle.ButtonNavigatorStack or PaletteBorderStyle.ButtonNavigatorOverflow or PaletteBorderStyle.ButtonNavigatorMini => _ribbonColours[(int)SchemeOfficeColors.ButtonNavigatorBorder],
                 _ => throw new ArgumentOutOfRangeException(nameof(style))
@@ -745,7 +748,7 @@ namespace Krypton.Toolkit
             // We do not provide override values
             if (CommonHelper.IsOverrideState(state))
             {
-                return GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
+                return GlobalStaticValues.DEFAULT_PRIMARY_CORNER_ROUNDING_VALUE;
             }
 
             return style switch
@@ -850,7 +853,7 @@ namespace Krypton.Toolkit
         /// <returns>InheritBool value.</returns>
         public override InheritBool GetContentDrawFocus(PaletteContentStyle style, PaletteState state)
         {
-            // By default the focus override shows the focus!
+            // By default, the focus override shows the focus!
             if (state == PaletteState.FocusOverride)
             {
                 return InheritBool.True;
@@ -2084,6 +2087,7 @@ namespace Krypton.Toolkit
                 default:
                     // Should never happen!
                     Debug.Assert(false);
+                    DebugTools.NotImplemented(metric.ToString());
                     break;
             }
 
@@ -2109,6 +2113,7 @@ namespace Krypton.Toolkit
                 default:
                     // Should never happen!
                     Debug.Assert(false);
+                    DebugTools.NotImplemented(metric.ToString());
                     break;
             }
 
@@ -2169,6 +2174,7 @@ namespace Krypton.Toolkit
                 default:
                     // Should never happen!
                     Debug.Assert(false);
+                    DebugTools.NotImplemented(metric.ToString());
                     break;
             }
 
@@ -2182,7 +2188,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="expanded">Is the node expanded</param>
         /// <returns>Appropriate image for drawing; otherwise null.</returns>
-        public override Image? GetTreeViewImage(bool expanded) => expanded ? _treeCollapseBlack : _treeExpandWhite;
+        public override Image GetTreeViewImage(bool expanded) => expanded ? _treeCollapseBlack : _treeExpandWhite;
 
         /// <summary>
         /// Gets a check box image appropriate for the provided state.
@@ -2192,7 +2198,7 @@ namespace Krypton.Toolkit
         /// <param name="tracking">Is the check box being hot tracked.</param>
         /// <param name="pressed">Is the check box being pressed.</param>
         /// <returns>Appropriate image for drawing; otherwise null.</returns>
-        public override Image? GetCheckBoxImage(bool enabled, CheckState checkState, bool tracking, bool pressed)
+        public override Image GetCheckBoxImage(bool enabled, CheckState checkState, bool tracking, bool pressed)
         {
             switch (checkState)
             {
@@ -2249,7 +2255,7 @@ namespace Krypton.Toolkit
         /// <param name="tracking">Is the radio button being hot tracked.</param>
         /// <param name="pressed">Is the radio button being pressed.</param>
         /// <returns>Appropriate image for drawing; otherwise null.</returns>
-        public override Image? GetRadioButtonImage(bool enabled, bool checkState, bool tracking, bool pressed)
+        public override Image GetRadioButtonImage(bool enabled, bool checkState, bool tracking, bool pressed)
         {
             if (!checkState)
             {
@@ -2287,19 +2293,19 @@ namespace Krypton.Toolkit
         /// Gets a drop down button image appropriate for the provided state.
         /// </summary>
         /// <param name="state">PaletteState for which image is required.</param>
-        public override Image? GetDropDownButtonImage(PaletteState state) => _disabledDropDown;
+        public override Image GetDropDownButtonImage(PaletteState state) => _disabledDropDown;
 
         /// <summary>
         /// Gets a checked image appropriate for a context menu item.
         /// </summary>
         /// <returns>Appropriate image for drawing; otherwise null.</returns>
-        public override Image? GetContextMenuCheckedImage() => _contextMenuChecked;
+        public override Image GetContextMenuCheckedImage() => _contextMenuChecked;
 
         /// <summary>
         /// Gets a indeterminate image appropriate for a context menu item.
         /// </summary>
         /// <returns>Appropriate image for drawing; otherwise null.</returns>
-        public override Image? GetContextMenuIndeterminateImage() => _contextMenuIndeterminate;
+        public override Image GetContextMenuIndeterminateImage() => _contextMenuIndeterminate;
 
         /// <summary>
         /// Gets a check box image appropriate for the provided state.
@@ -2307,7 +2313,7 @@ namespace Krypton.Toolkit
         /// <param name="button">Enum of the button to fetch.</param>
         /// <param name="state">State of the button to fetch.</param>
         /// <returns>Appropriate image for drawing; otherwise null.</returns>
-        public override Image? GetGalleryButtonImage(PaletteRibbonGalleryButton button, PaletteState state) => button switch
+        public override Image GetGalleryButtonImage(PaletteRibbonGalleryButton button, PaletteState state) => button switch
         {
             PaletteRibbonGalleryButton.Up => _galleryButtonList.Images[1],
             PaletteRibbonGalleryButton.DropDown => _galleryButtonList.Images[2],
@@ -2397,7 +2403,7 @@ namespace Krypton.Toolkit
                 default:
                     // Should never happen!
                     Debug.Assert(false);
-                    return null;
+                    throw DebugTools.NotImplemented(style.ToString());
             }
         }
 
@@ -2422,7 +2428,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
-        public override Font GetRibbonContextTextFont(PaletteState state) => RibbonTabContextFont;
+        public override Font GetRibbonContextTextFont(PaletteState state) => RibbonTabContextFont!;
 
         /// <summary>
         /// Gets the color for the ribbon context text.
@@ -2520,7 +2526,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Font value.</returns>
-        public override Font GetRibbonTextFont(PaletteState state) => RibbonTabFont;
+        public override Font GetRibbonTextFont(PaletteState state) => RibbonTabFont!;
 
         /// <summary>
         /// Gets the rendering hint for the ribbon font.
@@ -2592,6 +2598,7 @@ namespace Krypton.Toolkit
                         default:
                             // Should never happen!
                             Debug.Assert(false);
+                            DebugTools.NotImplemented(state.ToString());
                             break;
                     }
                     break;
@@ -2612,6 +2619,7 @@ namespace Krypton.Toolkit
                         default:
                             // Should never happen!
                             Debug.Assert(false);
+                            DebugTools.NotImplemented(state.ToString());
                             break;
                     }
                     break;
@@ -2636,12 +2644,14 @@ namespace Krypton.Toolkit
                         default:
                             // Should never happen!
                             Debug.Assert(false);
+                            DebugTools.NotImplemented(state.ToString());
                             break;
                     }
                     break;
                 default:
                     // Should never happen!
                     Debug.Assert(false);
+                    DebugTools.NotImplemented(style.ToString());
                     break;
             }
 
@@ -2707,6 +2717,7 @@ namespace Krypton.Toolkit
                         default:
                             // Should never happen!
                             Debug.Assert(false);
+                            DebugTools.NotImplemented(state.ToString());
                             break;
                     }
                     break;
@@ -2722,6 +2733,7 @@ namespace Krypton.Toolkit
                         default:
                             // Should never happen!
                             Debug.Assert(false);
+                            DebugTools.NotImplemented(state.ToString());
                             break;
                     }
                     break;
@@ -2748,12 +2760,14 @@ namespace Krypton.Toolkit
                         default:
                             // Should never happen!
                             Debug.Assert(false);
+                            DebugTools.NotImplemented(state.ToString());
                             break;
                     }
                     break;
                 default:
                     // Should never happen!
                     Debug.Assert(false);
+                    DebugTools.NotImplemented(style.ToString());
                     break;
             }
 
@@ -2800,6 +2814,7 @@ namespace Krypton.Toolkit
                         default:
                             // Should never happen!
                             Debug.Assert(false);
+                            DebugTools.NotImplemented(state.ToString());
                             break;
                     }
                     break;
@@ -2817,6 +2832,7 @@ namespace Krypton.Toolkit
                         default:
                             // Should never happen!
                             Debug.Assert(false);
+                            DebugTools.NotImplemented(state.ToString());
                             break;
                     }
                     break;
@@ -2832,6 +2848,7 @@ namespace Krypton.Toolkit
                         default:
                             // Should never happen!
                             Debug.Assert(false);
+                            DebugTools.NotImplemented(state.ToString());
                             break;
                     }
                     break;
@@ -2857,6 +2874,7 @@ namespace Krypton.Toolkit
                         default:
                             // Should never happen!
                             Debug.Assert(false);
+                            DebugTools.NotImplemented(state.ToString());
                             break;
                     }
                     break;
@@ -2868,6 +2886,7 @@ namespace Krypton.Toolkit
                 default:
                     // Should never happen!
                     Debug.Assert(false);
+                    DebugTools.NotImplemented(style.ToString());
                     break;
             }
 
@@ -2918,6 +2937,7 @@ namespace Krypton.Toolkit
                         default:
                             // Should never happen!
                             Debug.Assert(false);
+                            DebugTools.NotImplemented(state.ToString());
                             break;
                     }
                     break;
@@ -2943,12 +2963,14 @@ namespace Krypton.Toolkit
                         default:
                             // Should never happen!
                             Debug.Assert(false);
+                            DebugTools.NotImplemented(state.ToString());
                             break;
                     }
                     break;
                 default:
                     // Should never happen!
                     Debug.Assert(false);
+                    DebugTools.NotImplemented(state.ToString());
                     break;
             }
 
@@ -2997,6 +3019,7 @@ namespace Krypton.Toolkit
                         default:
                             // Should never happen!
                             Debug.Assert(false);
+                            DebugTools.NotImplemented(state.ToString());
                             break;
                     }
                     break;
@@ -3022,12 +3045,14 @@ namespace Krypton.Toolkit
                         default:
                             // Should never happen!
                             Debug.Assert(false);
+                            DebugTools.NotImplemented(state.ToString());
                             break;
                     }
                     break;
                 default:
                     // Should never happen!
                     Debug.Assert(false);
+                    DebugTools.NotImplemented(style.ToString());
                     break;
             }
 
@@ -3076,6 +3101,7 @@ namespace Krypton.Toolkit
                         default:
                             // Should never happen!
                             Debug.Assert(false);
+                            DebugTools.NotImplemented(state.ToString());
                             break;
                     }
                     break;
@@ -3101,12 +3127,14 @@ namespace Krypton.Toolkit
                         default:
                             // Should never happen!
                             Debug.Assert(false);
+                            DebugTools.NotImplemented(state.ToString());
                             break;
                     }
                     break;
                 default:
                     // Should never happen!
                     Debug.Assert(false);
+                    DebugTools.NotImplemented(style.ToString());
                     break;
             }
 
@@ -3152,6 +3180,7 @@ namespace Krypton.Toolkit
                 default:
                     // Should never happen!
                     Debug.Assert(false);
+                    DebugTools.NotImplemented(style.ToString());
                     break;
             }
 
@@ -3189,6 +3218,7 @@ namespace Krypton.Toolkit
                 default:
                     // Should never happen!
                     Debug.Assert(false);
+                    DebugTools.NotImplemented(element.ToString());
                     break;
             }
 
@@ -3221,11 +3251,12 @@ namespace Krypton.Toolkit
                         PaletteState.Normal => _ribbonColours[(int)SchemeOfficeColors.ButtonNormalBorder],
                         PaletteState.Tracking or PaletteState.FocusOverride => _buttonBorderColors[1],
                         PaletteState.Pressed => _buttonBorderColors[3],
-                        _ => throw new ArgumentOutOfRangeException(nameof(state))
+                        _ => throw DebugTools.NotImplemented(state.ToString())
                     };
                 default:
                     // Should never happen!
                     Debug.Assert(false);
+                    DebugTools.NotImplemented(element.ToString());
                     break;
             }
 
@@ -3260,12 +3291,13 @@ namespace Krypton.Toolkit
                             _ribbonColours[(int)SchemeOfficeColors.ButtonNormalBack1]),
                         PaletteState.Tracking => ControlPaint.Light(_buttonBackColors[2]),
                         PaletteState.Pressed => ControlPaint.Light(_buttonBackColors[4]),
-                        _ => throw new ArgumentOutOfRangeException(nameof(state))
+                        _ => throw DebugTools.NotImplemented(state.ToString())
                     };
 
                 default:
                     // Should never happen!
                     Debug.Assert(false);
+                    DebugTools.NotImplemented(element.ToString());
                     break;
             }
 
@@ -3308,11 +3340,12 @@ namespace Krypton.Toolkit
                         PaletteState.Normal => _ribbonColours[(int)SchemeOfficeColors.ButtonNormalBack1],
                         PaletteState.Tracking or PaletteState.FocusOverride => _buttonBackColors[2],
                         PaletteState.Pressed => _buttonBackColors[4],
-                        _ => throw new ArgumentOutOfRangeException(nameof(state))
+                        _ => throw DebugTools.NotImplemented(state.ToString())
                     };
                 default:
                     // Should never happen!
                     Debug.Assert(false);
+                    DebugTools.NotImplemented(element.ToString());
                     break;
             }
 
@@ -3355,11 +3388,12 @@ namespace Krypton.Toolkit
                         PaletteState.Normal => _ribbonColours[(int)SchemeOfficeColors.ButtonNormalBack2],
                         PaletteState.Tracking or PaletteState.FocusOverride => _buttonBackColors[3],
                         PaletteState.Pressed => _buttonBackColors[5],
-                        _ => throw new ArgumentOutOfRangeException(nameof(state))
+                        _ => throw DebugTools.NotImplemented(state.ToString())
                     };
                 default:
                     // Should never happen!
                     Debug.Assert(false);
+                    DebugTools.NotImplemented(element.ToString());
                     break;
             }
 

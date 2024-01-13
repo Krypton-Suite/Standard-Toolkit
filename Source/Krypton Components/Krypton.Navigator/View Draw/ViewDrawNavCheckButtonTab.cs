@@ -28,8 +28,8 @@ namespace Krypton.Navigator
                                          KryptonPage? page,
                                          VisualOrientation orientation)
             : base(navigator, page, orientation,
-                   page!.StateDisabled!.Tab,
-                   page!.StateNormal!.Tab,
+                   page!.StateDisabled.Tab,
+                   page.StateNormal.Tab,
                    page.StateTracking.Tab,
                    page.StatePressed.Tab,
                    page.StateSelected.Tab,

@@ -108,8 +108,8 @@ namespace Krypton.Toolkit
             // One time creation of the blend for the status strip gradient brush
             _statusStripBlend = new Blend
             {
-                Factors = new[] { 0.0f, 0.0f, 0.0f, 1.0f },
-                Positions = new[] { 0.0f, 0.33f, 0.33f, 1.0f }
+                Factors = [0.0f, 0.0f, 0.0f, 1.0f],
+                Positions = [0.0f, 0.33f, 0.33f, 1.0f]
             };
         }
 

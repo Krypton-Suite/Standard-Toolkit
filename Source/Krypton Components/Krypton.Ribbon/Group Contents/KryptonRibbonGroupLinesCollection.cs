@@ -20,7 +20,9 @@ namespace Krypton.Ribbon
     public class KryptonRibbonGroupLinesCollection : TypedRestrictCollection<KryptonRibbonGroupItem>
     {
         #region Static Fields
-        private static readonly Type[] _types = { typeof(KryptonRibbonGroupButton),
+        private static readonly Type[] _types =
+        [
+            typeof(KryptonRibbonGroupButton),
                                                              typeof(KryptonRibbonGroupColorButton),
                                                              typeof(KryptonRibbonGroupCheckBox),
                                                              typeof(KryptonRibbonGroupComboBox),
@@ -35,7 +37,7 @@ namespace Krypton.Ribbon
                                                              typeof(KryptonRibbonGroupTextBox),
                                                              typeof(KryptonRibbonGroupTrackBar),
                                                              typeof(KryptonRibbonGroupMaskedTextBox)
-        };
+        ];
 
         #endregion
 

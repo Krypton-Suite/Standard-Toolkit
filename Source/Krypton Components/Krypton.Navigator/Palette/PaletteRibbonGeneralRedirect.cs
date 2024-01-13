@@ -39,7 +39,7 @@ namespace Krypton.Navigator
             NeedPaint = needPaint;
 
             // Store the inherit instances
-            _inherit = new PaletteRibbonGeneralInheritRedirect(redirect!);
+            _inherit = new PaletteRibbonGeneralInheritRedirect(redirect);
 
             // Set default values
             _textFont = null;

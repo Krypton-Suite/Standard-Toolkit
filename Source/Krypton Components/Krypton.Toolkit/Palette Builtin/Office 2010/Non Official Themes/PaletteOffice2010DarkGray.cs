@@ -53,18 +53,18 @@ namespace Krypton.Toolkit
 
         #region Colour Arrays
 
-        private static readonly Color[] _trackBarColors = new Color[]
-        {
+        private static readonly Color[] _trackBarColors =
+        [
             Color.FromArgb(170, 170, 170), // Tick marks
             Color.FromArgb(166, 170, 175), // Top track
             Color.FromArgb(226, 220, 235), // Bottom track
             Color.FromArgb(206, 200, 215), // Fill track
             Color.FromArgb(64, Color.White), // Outside position
             Color.FromArgb(80, 81, 82) // Border (normal) position
-        };
+        ];
 
-        private static readonly Color[] _schemeOfficeColors = new Color[]
-        {
+        private static readonly Color[] _schemeOfficeColors =
+        [
             Color.FromArgb(119, 119, 119), // TextLabelControl
             Color.FromArgb(255, 255, 255), // TextButtonNormal
             Color.Black, // TextButtonChecked
@@ -289,7 +289,7 @@ namespace Krypton.Toolkit
             Color.FromArgb(222, 227, 234), // ButtonNavigatorChecked1
             Color.FromArgb(206, 214, 221), // ButtonNavigatorChecked2
             Color.FromArgb(221, 221, 221) // ToolTipBottom                                                                      
-        };
+        ];
 
         #endregion
         #endregion
@@ -310,8 +310,8 @@ namespace Krypton.Toolkit
                 TransparentColor = Color.Magenta
             };
             _galleryButtonList.Images.AddStrip(GalleryImageResources.Gallery2010);
-            _radioButtonArray = new Image[]
-            {
+            _radioButtonArray =
+            [
                 Office2010RadioButtonImageResources.RadioButton2010BlueD,
                 Office2010RadioButtonImageResources.RadioButton2010SilverN,
                 Office2010RadioButtonImageResources.RadioButton2010BlueT,
@@ -320,7 +320,7 @@ namespace Krypton.Toolkit
                 Office2010RadioButtonImageResources.RadioButton2010SilverNC,
                 Office2010RadioButtonImageResources.RadioButton2010SilverTC,
                 Office2010RadioButtonImageResources.RadioButton2010SilverPC
-            };
+            ];
         }
 
         /// <summary>
@@ -341,13 +341,13 @@ namespace Krypton.Toolkit
         /// Gets a drop down button image appropriate for the provided state.
         /// </summary>
         /// <param name="state">PaletteState for which image is required.</param>
-        public override Image? GetDropDownButtonImage(PaletteState state) => state != PaletteState.Disabled ? _silverDropDownButton : base.GetDropDownButtonImage(state);
+        public override Image GetDropDownButtonImage(PaletteState state) => state != PaletteState.Disabled ? _silverDropDownButton : base.GetDropDownButtonImage(state);
 
         /// <summary>
         /// Gets an image indicating a sub-menu on a context menu item.
         /// </summary>
         /// <returns>Appropriate image for drawing; otherwise null.</returns>
-        public override Image? GetContextMenuSubMenuImage() => _contextMenuSubMenu;
+        public override Image GetContextMenuSubMenuImage() => _contextMenuSubMenu;
 
         #endregion
 

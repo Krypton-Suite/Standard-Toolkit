@@ -80,7 +80,7 @@ namespace Krypton.Navigator
             foreach (ButtonSpecView view in ButtonSpecViews)
             {
                 // Cast the remapping palette to the correct type
-                var remapPalette = (ButtonSpecRemapByContentCache)view.RemapPalette!;
+                var remapPalette = (ButtonSpecRemapByContentCache)view.RemapPalette;
                 remapPalette.SetPaletteContent(_paletteContent);
                 remapPalette.SetPaletteState(_paletteState);
             }

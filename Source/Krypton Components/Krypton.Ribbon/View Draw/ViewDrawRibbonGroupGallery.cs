@@ -55,9 +55,9 @@ namespace Krypton.Ribbon
             Debug.Assert(needPaint != null);
 
             // Remember incoming references
-            _ribbon = ribbon!;
-            GroupGallery = ribbonGallery!;
-            _needPaint = needPaint!;
+            _ribbon = ribbon;
+            GroupGallery = ribbonGallery;
+            _needPaint = needPaint;
             _currentSize = GroupGallery.ItemSizeCurrent;
 
             // Create the button view used in small setting
@@ -385,7 +385,7 @@ namespace Krypton.Ribbon
             }
             else
             {
-                return new ItemSizeWidth[] { new ItemSizeWidth(GroupItemSize.Large, NULL_CONTROL_WIDTH) };
+                return [new ItemSizeWidth(GroupItemSize.Large, NULL_CONTROL_WIDTH)];
             }
         }
 
@@ -462,10 +462,10 @@ namespace Krypton.Ribbon
             Debug.Assert(context != null);
 
             // We take on all the available display area
-            ClientRectangle = context!.DisplayRectangle;
+            ClientRectangle = context.DisplayRectangle;
 
             // Are we allowed to change the layout of controls?
-            if (!context!.ViewManager!.DoNotLayoutControls)
+            if (!context.ViewManager!.DoNotLayoutControls)
             {
                 // If we have an actual control, position it with a pixel padding all around
                 LastGallery?.SetBounds(ClientLocation.X + 1,
@@ -500,12 +500,12 @@ namespace Krypton.Ribbon
                     drawRect.Height--;
 
                     // Draw an indication of where the gallery will be
-                    context!.Graphics.FillRectangle(Brushes.Goldenrod, drawRect);
-                    context!.Graphics.DrawRectangle(Pens.Gold, drawRect);
+                    context.Graphics.FillRectangle(Brushes.Goldenrod, drawRect);
+                    context.Graphics.DrawRectangle(Pens.Gold, drawRect);
                 }
             }
 
-            base.Render(context!);
+            base.Render(context);
         }
         #endregion
 

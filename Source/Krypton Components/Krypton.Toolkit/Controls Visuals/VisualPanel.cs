@@ -723,7 +723,7 @@ namespace Krypton.Toolkit
         protected virtual void OnPaletteChanged(EventArgs e)
         {
             // Update the redirector with latest palette
-            Redirector!.Target = _palette;
+            Redirector.Target = _palette;
 
             // A new palette source means we need to layout and redraw
             OnNeedPaint(Palette!, new NeedLayoutEventArgs(true));
@@ -1101,11 +1101,11 @@ namespace Krypton.Toolkit
                     _miPTB = typeof(Control).GetMethod(nameof(PaintTransparentBackground),
                                                        BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.InvokeMethod,
                                                        null, CallingConventions.HasThis,
-                                                       new[] { typeof(PaintEventArgs), typeof(Rectangle), typeof(Region) },
+                                                       [typeof(PaintEventArgs), typeof(Rectangle), typeof(Region)],
                                                        null)!;
                 }
 
-                _miPTB?.Invoke(this, new object[] { e!, ClientRectangle, null! });
+                _miPTB?.Invoke(this, [e!, ClientRectangle, null!]);
             }
             else
             {
@@ -1147,7 +1147,7 @@ namespace Krypton.Toolkit
                 // Update ourself with the new global palette
                 _localPalette = null;
                 SetPalette(KryptonManager.CurrentGlobalPalette);
-                Redirector!.Target = _palette;
+                Redirector.Target = _palette;
 
                 // A new palette source means we need to layout and redraw
                 OnNeedPaint(Palette, new NeedLayoutEventArgs(true));

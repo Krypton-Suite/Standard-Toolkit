@@ -36,7 +36,7 @@ namespace Krypton.Navigator
             Debug.Assert(navigator != null);
 
             // Remember back reference
-            _navigator = navigator!;
+            _navigator = navigator;
         }
 
         /// <summary>
@@ -69,7 +69,7 @@ namespace Krypton.Navigator
             Debug.Assert(context != null);
 
             // We take on all the available display area
-            ClientRectangle = context!.DisplayRectangle;
+            ClientRectangle = context.DisplayRectangle;
 
             // Are we allowed to layout child controls?
             if (!context.ViewManager!.DoNotLayoutControls)

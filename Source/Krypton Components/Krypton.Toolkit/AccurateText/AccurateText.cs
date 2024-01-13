@@ -99,15 +99,19 @@ namespace Krypton.Toolkit
                 case PaletteRelativeAlign.Near:
                     format.Alignment = (rtl == RightToLeft.Yes) ? StringAlignment.Far : StringAlignment.Near;
                     break;
+
                 case PaletteRelativeAlign.Center:
                     format.Alignment = StringAlignment.Center;
                     break;
+
                 case PaletteRelativeAlign.Far:
                     format.Alignment = (rtl == RightToLeft.Yes) ? StringAlignment.Near : StringAlignment.Far;
                     break;
+
                 default:
-                    // Should never happen!
+    // Should never happen!
                     Debug.Assert(false);
+                    DebugTools.NotImplemented(align.ToString());
                     break;
             }
 
@@ -117,24 +121,31 @@ namespace Krypton.Toolkit
                 case PaletteTextTrim.Character:
                     format.Trimming = StringTrimming.Character;
                     break;
+
                 case PaletteTextTrim.EllipsisCharacter:
                     format.Trimming = StringTrimming.EllipsisCharacter;
                     break;
+
                 case PaletteTextTrim.EllipsisPath:
                     format.Trimming = StringTrimming.EllipsisPath;
                     break;
+
                 case PaletteTextTrim.EllipsisWord:
                     format.Trimming = StringTrimming.EllipsisWord;
                     break;
+
                 case PaletteTextTrim.Word:
                     format.Trimming = StringTrimming.Word;
                     break;
+
                 case PaletteTextTrim.Hide:
                     format.Trimming = StringTrimming.None;
                     break;
+
                 default:
-                    // Should never happen!
+    // Should never happen!
                     Debug.Assert(false);
+                    DebugTools.NotImplemented(trim.ToString());
                     break;
             }
 
@@ -144,15 +155,19 @@ namespace Krypton.Toolkit
                 case PaletteTextHotkeyPrefix.None:
                     format.HotkeyPrefix = HotkeyPrefix.None;
                     break;
+
                 case PaletteTextHotkeyPrefix.Hide:
                     format.HotkeyPrefix = HotkeyPrefix.Hide;
                     break;
+
                 case PaletteTextHotkeyPrefix.Show:
                     format.HotkeyPrefix = HotkeyPrefix.Show;
                     break;
+
                 default:
-                    // Should never happen!
+    // Should never happen!
                     Debug.Assert(false);
+                    DebugTools.NotImplemented(prefix.ToString());
                     break;
             }
 

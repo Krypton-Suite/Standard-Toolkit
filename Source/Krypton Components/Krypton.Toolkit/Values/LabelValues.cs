@@ -24,7 +24,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Instance Fields
-        private Image? _image;
+        private Image _image;
         private Color _transparent;
         private string? _text;
         private string _extraText;
@@ -75,7 +75,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Label image.")]
         [RefreshProperties(RefreshProperties.All)]
-        public Image? Image
+        public Image Image
         {
             get => _image;
 
@@ -101,7 +101,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">The state for which the image is needed.</param>
         /// <returns>Image value.</returns>
-        public Image? GetImage(PaletteState state) => Image;
+        public Image GetImage(PaletteState state) => Image;
 
         #endregion
 

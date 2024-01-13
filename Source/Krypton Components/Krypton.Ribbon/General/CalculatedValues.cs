@@ -52,7 +52,7 @@ namespace Krypton.Ribbon
         public CalculatedValues([DisallowNull] KryptonRibbon ribbon)
         {
             Debug.Assert(ribbon != null);
-            _ribbon = ribbon!;
+            _ribbon = ribbon;
 
             _lastShape = PaletteRibbonShape.Inherit;
         }
@@ -221,21 +221,27 @@ namespace Krypton.Ribbon
                 case 1:
                     screenPt = new Point(viewRect.Left + KEYTIP_HOFFSET, viewRect.Top);
                     break;
+
                 case 2:
                     screenPt = new Point(viewRect.Left + KEYTIP_HOFFSET, viewRect.Top + (viewRect.Height / 2) + KEYTIP_VOFFSET_LINE2);
                     break;
+
                 case 3:
                     screenPt = new Point(viewRect.Left + KEYTIP_HOFFSET, viewRect.Bottom);
                     break;
+
                 case 4:
                     screenPt = new Point(viewRect.Left + KEYTIP_HOFFSET, viewRect.Top - KEYTIP_VOFFSET_LINE4);
                     break;
+
                 case 5:
                     screenPt = new Point(viewRect.Left + KEYTIP_HOFFSET, viewRect.Bottom + KEYTIP_VOFFSET_LINE5);
                     break;
+
                 default:
-                    // Should never happen!
+    // Should never happen!
                     Debug.Assert(false);
+                    DebugTools.NotImplemented(groupLine.ToString());
                     screenPt = new Point(viewRect.X, viewRect.Y);
                     break;
             }

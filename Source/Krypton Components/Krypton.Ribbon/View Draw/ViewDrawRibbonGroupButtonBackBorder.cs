@@ -308,6 +308,7 @@ namespace Krypton.Ribbon
                         DrawBorder(_paletteBorder, context, ClientRectangle, PaletteState.Normal);
                     }
                     break;
+
                 case PaletteState.Tracking:
                     // Draw the background for the click and split areas
                     if (Controller.MouseInSplit)
@@ -380,6 +381,7 @@ namespace Krypton.Ribbon
                     // Draw the entire border around the button
                     DrawBorder(_paletteBorder, context, ClientRectangle, PaletteState.Tracking);
                     break;
+
                 case PaletteState.Pressed:
                     // Draw the background for the click and split areas
                     if (Controller.MouseInSplit)
@@ -464,9 +466,11 @@ namespace Krypton.Ribbon
                         DrawBorder(_paletteBorder, context, ClientRectangle, PaletteState.Pressed);
                     }
                     break;
+
                 default:
                     // Should never happen
                     Debug.Assert(false);
+                    DebugTools.NotImplemented(drawState.ToString());
                     break;
             }
         }
@@ -490,6 +494,7 @@ namespace Krypton.Ribbon
                         DrawBorder(_paletteBorder, context, ClientRectangle, PaletteState.Normal);
                     }
                     break;
+
                 case PaletteState.Tracking:
                     // Draw the background for the click and split areas
                     if (Controller.MouseInSplit)
@@ -572,6 +577,7 @@ namespace Krypton.Ribbon
                         DrawBorder(_paletteBorder, context, ClientRectangle, PaletteState.Tracking);
                     }
                     break;
+
                 case PaletteState.Pressed:
                     // Draw the background for the click and split areas
                     if (Controller.MouseInSplit)
@@ -666,9 +672,11 @@ namespace Krypton.Ribbon
                         }
                     }
                     break;
+
                 default:
                     // Should never happen
                     Debug.Assert(false);
+                    DebugTools.NotImplemented(drawState.ToString());
                     break;
             }
         }

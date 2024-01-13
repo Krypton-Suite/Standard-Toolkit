@@ -340,7 +340,7 @@ namespace Krypton.Ribbon
             if ((component != null) && component is not System.Windows.Forms.Control)
             {
                 // Get the designer for the component
-                IDesigner? designer = _designerHost!.GetDesigner(component);
+                IDesigner? designer = _designerHost.GetDesigner(component);
 
                 // Request code for the default event be generated
                 designer?.DoDefaultAction();

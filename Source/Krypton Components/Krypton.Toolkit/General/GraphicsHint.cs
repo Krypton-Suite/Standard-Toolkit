@@ -57,8 +57,9 @@ namespace Krypton.Toolkit
                     break;
 
                 default:
-                    // Should never happen!
+    // Should never happen!
                     Debug.Assert(false);
+                    DebugTools.NotImplemented(hint.ToString());
                     break;
             }
         }

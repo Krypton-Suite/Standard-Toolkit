@@ -58,8 +58,8 @@ namespace Krypton.Ribbon
             Debug.Assert(needPaint != null);
 
             // Remember incoming references
-            _ribbon = ribbon!;
-            GroupCheckBox = ribbonCheckBox!;
+            _ribbon = ribbon;
+            GroupCheckBox = ribbonCheckBox;
             _needPaint = needPaint;
             _currentSize = GroupCheckBox.ItemSizeCurrent;
 
@@ -271,7 +271,7 @@ namespace Krypton.Ribbon
             UpdateItemSizeState();
 
             // We take on all the available display area
-            ClientRectangle = context!.DisplayRectangle;
+            ClientRectangle = context.DisplayRectangle;
 
             // Let child elements layout in given space
             base.Layout(context);
@@ -547,7 +547,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="state"></param>
         /// <returns></returns>
-        public Image? GetImage(PaletteState state) => null;
+        public Image GetImage(PaletteState state) => null;
 
         /// <summary>
         /// Gets the image transparent color.

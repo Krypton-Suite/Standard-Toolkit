@@ -216,7 +216,7 @@ namespace Krypton.Toolkit
             // Create a layout context for calculating size and positioning
             using var context = new ViewContext(this, Control, AlignControl, renderer);
             // Ask the view to perform operation
-            return Root!.EvalTransparentPaint(context);
+            return Root.EvalTransparentPaint(context);
         }
         #endregion
 
@@ -306,7 +306,7 @@ namespace Krypton.Toolkit
         public virtual void Layout([DisallowNull] ViewLayoutContext context)
         {
             Debug.Assert(context != null);
-            Debug.Assert(context!.Renderer != null);
+            Debug.Assert(context.Renderer != null);
             Debug.Assert(Root != null);
 
             // Do nothing if the control is disposed

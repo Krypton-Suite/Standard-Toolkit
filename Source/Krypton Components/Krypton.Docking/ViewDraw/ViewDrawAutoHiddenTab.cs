@@ -32,8 +32,8 @@ namespace Krypton.Docking
         /// <param name="orientation">Visual orientation used for drawing the tab.</param>
         public ViewDrawAutoHiddenTab([DisallowNull] KryptonPage page,
                                      VisualOrientation orientation)
-            : base(page.StateDisabled!.CheckButton,
-                   page.StateNormal!.CheckButton,
+            : base(page.StateDisabled.CheckButton,
+                   page.StateNormal.CheckButton,
                    page.StateTracking.CheckButton,
                    page.StatePressed.CheckButton,
                    null, null, orientation, false)
@@ -57,7 +57,7 @@ namespace Krypton.Docking
         /// </summary>
         /// <param name="state">The state for which the image is needed.</param>
         /// <returns>Image value.</returns>
-        public Image? GetImage(PaletteState state) => Page.ImageSmall;
+        public Image GetImage(PaletteState state) => Page.ImageSmall;
 
         /// <summary>
         /// Gets the image color that should be transparent.

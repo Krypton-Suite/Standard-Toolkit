@@ -104,7 +104,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the button image.
         /// </summary>
-        public Image? Image
+        public Image Image
         {
             get => _button!.CommandLinkImageValues.Image;
 
@@ -144,7 +144,7 @@ namespace Krypton.Toolkit
         public override DesignerActionItemCollection GetSortedActionItems()
         {
             // Create a new collection for holding the single item we want to create
-            DesignerActionItemCollection actions = new DesignerActionItemCollection();
+            DesignerActionItemCollection actions = [];
 
             // This can be null when deleting a control instance at design time
             if (_button != null)

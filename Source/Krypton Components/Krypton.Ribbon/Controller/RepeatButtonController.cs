@@ -51,8 +51,8 @@ namespace Krypton.Ribbon
             Debug.Assert(target != null);
 
             // Remember incoming references
-            _target = target!;
-            _ribbon = ribbon!;
+            _target = target;
+            _ribbon = ribbon;
 
             // Store the provided paint notification delegate
             NeedPaint = needPaint;
@@ -253,7 +253,7 @@ namespace Krypton.Ribbon
         /// <param name="pt">Mouse point.</param>
         protected void UpdateTargetState(Point pt)
         {
-            // By default the button is in the normal state
+            // By default, the button is in the normal state
             PaletteState newState;
 
             // If the button is disabled then show as disabled

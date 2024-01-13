@@ -33,11 +33,7 @@ namespace Krypton.Toolkit
             get
             {
                 // Create a collection of action lists
-                DesignerActionListCollection actionLists = new DesignerActionListCollection
-                {
-                    // Add the button specific list
-                    new KryptonCommandLinkButtonActionList(this)
-                };
+                DesignerActionListCollection actionLists = [new KryptonCommandLinkButtonActionList(this)];
 
                 return actionLists;
             }

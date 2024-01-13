@@ -21,8 +21,8 @@ namespace Krypton.Ribbon
                                                  IRibbonViewGroupContainerView
     {
         #region Type Definitions
-        private class ItemToView : Dictionary<IRibbonGroupItem, ViewBase> { }
-        private class ViewToSize : Dictionary<ViewBase, Size> { }
+        private class ItemToView : Dictionary<IRibbonGroupItem, ViewBase>;
+        private class ViewToSize : Dictionary<ViewBase, Size>;
         #endregion
 
         #region Instance Fields
@@ -55,9 +55,9 @@ namespace Krypton.Ribbon
             Debug.Assert(needPaint != null);
 
             // Cache references
-            _ribbon = ribbon!;
-            _ribbonTriple = ribbonTriple!;
-            _needPaint = needPaint!;
+            _ribbon = ribbon;
+            _ribbonTriple = ribbonTriple;
+            _needPaint = needPaint;
 
             // Associate the component with this view element for design time selection
             Component = _ribbonTriple;
@@ -69,7 +69,7 @@ namespace Krypton.Ribbon
             _largeCache = new ViewToSize();
 
             // Get the initial size used for sizing and positioning
-            SetCurrentSize(ribbonTriple!.ItemSizeCurrent);
+            SetCurrentSize(ribbonTriple.ItemSizeCurrent);
 
             // Hook into changes in the ribbon triple definition
             _ribbonTriple.PropertyChanged += OnTriplePropertyChanged;
@@ -78,7 +78,7 @@ namespace Krypton.Ribbon
             // At design time we want to track the mouse and show feedback
             if (_ribbon.InDesignMode)
             {
-                var controller = new ViewHightlightController(this, needPaint!);
+                var controller = new ViewHightlightController(this, needPaint);
                 controller.ContextClick += OnContextClick;
                 MouseController = controller;
             }
@@ -468,7 +468,7 @@ namespace Krypton.Ribbon
             Debug.Assert(context != null);
 
             // Store the provided client area
-            ClientRectangle = context!.DisplayRectangle;
+            ClientRectangle = context.DisplayRectangle;
 
             // Are we sizing horizontal or vertical?
             var horizontal = _currentSize == GroupItemSize.Large;

@@ -1836,7 +1836,7 @@ namespace Krypton.Docking
                 throw new ArgumentNullException(nameof(kcm));
             }
 
-            // By default there is nothing to display
+            // By default, there is nothing to display
             var retDisplay = false;
 
             // If the page is not located in the hierarchy then there are no options we can provide

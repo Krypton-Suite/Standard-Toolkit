@@ -29,14 +29,14 @@ namespace Krypton.Toolkit
         {
             _rounded1Blend = new Blend
             {
-                Positions = new[] { 0.0f, 0.1f, 1.0f },
-                Factors = new[] { 0.0f, 1.0f, 1.0f }
+                Positions = [0.0f, 0.1f, 1.0f],
+                Factors = [0.0f, 1.0f, 1.0f]
             };
 
             _rounded2Blend = new Blend
             {
-                Positions = new[] { 0.0f, 0.50f, 0.75f, 1.0f },
-                Factors = new[] { 0.0f, 1.0f, 1.0f, 1.0f }
+                Positions = [0.0f, 0.50f, 0.75f, 1.0f],
+                Factors = [0.0f, 1.0f, 1.0f, 1.0f]
             };
         }
         #endregion
@@ -306,7 +306,7 @@ namespace Krypton.Toolkit
                         CenterPoint = ellipseCenter,
                         CenterColor = light ? Color.FromArgb(64, Color.White) : Color.FromArgb(128, Color.White),
                         Blend = _rounded2Blend,
-                        SurroundColors = new[] { Color.Transparent }
+                        SurroundColors = [Color.Transparent]
                     };
                 }
 
@@ -468,7 +468,7 @@ namespace Krypton.Toolkit
                         CenterPoint = ellipseCenter,
                         CenterColor = color2,
                         Blend = _rounded2Blend,
-                        SurroundColors = new[] { Color.Transparent }
+                        SurroundColors = [Color.Transparent]
                     };
                 }
 

@@ -57,14 +57,14 @@ namespace Krypton.Ribbon
         {
             _contextBlend2007 = new Blend
             {
-                Factors = new[] { 0.0f, 0.0f, 1.0f, 1.0f },
-                Positions = new[] { 0.0f, 0.41f, 0.7f, 1.0f }
+                Factors = [0.0f, 0.0f, 1.0f, 1.0f],
+                Positions = [0.0f, 0.41f, 0.7f, 1.0f]
             };
 
             _contextBlend2010 = new Blend
             {
-                Factors = new[] { 0.0f, 1.0f, 1.0f },
-                Positions = new[] { 0.0f, 0.6f, 1.0f }
+                Factors = [0.0f, 1.0f, 1.0f],
+                Positions = [0.0f, 0.6f, 1.0f]
             };
         }
 
@@ -83,9 +83,9 @@ namespace Krypton.Ribbon
             Debug.Assert(needPaint != null);
 
             // Cache incoming values
-            Ribbon = ribbon!;
-            ViewLayoutRibbonTabs = layoutTabs!;
-            _needPaint = needPaint!;
+            Ribbon = ribbon;
+            ViewLayoutRibbonTabs = layoutTabs;
+            _needPaint = needPaint;
 
             // Create overrides for handling a focus state
             _paletteGeneral = Ribbon.StateCommon.RibbonGeneral;
@@ -354,10 +354,10 @@ namespace Krypton.Ribbon
             Debug.Assert(context != null);
 
             // Ensure that child elements have correct palette state
-            CheckPaletteState(context!);
+            CheckPaletteState(context);
 
             // We take on all the available display area
-            ClientRectangle = context!.DisplayRectangle;
+            ClientRectangle = context.DisplayRectangle;
 
             // A change in state always causes a size and layout calculation
             if (_cacheState != State)
@@ -463,7 +463,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="state">Tab state.</param>
         /// <returns>Image.</returns>
-        public Image? GetImage(PaletteState state) => null;
+        public Image GetImage(PaletteState state) => null;
 
         /// <summary>
         /// Gets the image color that should be interpreted as transparent.
@@ -676,27 +676,35 @@ namespace Krypton.Ribbon
                     case PaletteState.Normal:
                         _overrideCurrent = _overrideStateNormal;
                         break;
+
                     case PaletteState.Tracking:
                         _overrideCurrent = _overrideStateTracking;
                         break;
+
                     case PaletteState.CheckedNormal:
                         _overrideCurrent = _overrideStateCheckedNormal;
                         break;
+
                     case PaletteState.CheckedTracking:
                         _overrideCurrent = _overrideStateCheckedTracking;
                         break;
+
                     case PaletteState.ContextTracking:
                         _overrideCurrent = _overrideStateContextTracking;
                         break;
+
                     case PaletteState.ContextCheckedNormal:
                         _overrideCurrent = _overrideStateContextCheckedNormal;
                         break;
+
                     case PaletteState.ContextCheckedTracking:
                         _overrideCurrent = _overrideStateContextCheckedTracking;
                         break;
+
                     default:
-                        // Should never happen!
+    // Should never happen!
                         Debug.Assert(false);
+                        DebugTools.NotImplemented(buttonState.ToString());
                         break;
                 }
 

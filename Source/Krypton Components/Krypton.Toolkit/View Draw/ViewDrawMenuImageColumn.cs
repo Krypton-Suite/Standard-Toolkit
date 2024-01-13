@@ -25,7 +25,7 @@ namespace Krypton.Toolkit
         /// <param name="items">Reference to the owning collection.</param>
         /// <param name="palette">Palette for obtaining drawing values.</param>
         public ViewDrawMenuImageColumn(KryptonContextMenuItems items,
-                                       PaletteDoubleRedirect? palette)
+                                       PaletteDoubleRedirect palette)
             : base(items.StateNormal.Back, items.StateNormal.Border)
         {
             // Give the items collection the redirector to use when inheriting values

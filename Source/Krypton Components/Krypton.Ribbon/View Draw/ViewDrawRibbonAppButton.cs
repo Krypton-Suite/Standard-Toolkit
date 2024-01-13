@@ -45,7 +45,7 @@ namespace Krypton.Ribbon
             SIZE_TOP = new Size((int)(39 * FactorDpiX), (int)(22 * FactorDpiY));
             SIZE_BOTTOM = new Size((int)(39 * FactorDpiX), (int)(17 * FactorDpiY));
 
-            _ribbon = ribbon!;
+            _ribbon = ribbon;
             _bottomHalf = bottomHalf;
             _size = _bottomHalf ? SIZE_BOTTOM : SIZE_TOP;
             _mementos = new IDisposable[3];
@@ -109,7 +109,7 @@ namespace Krypton.Ribbon
             Debug.Assert(context != null);
 
             // We take on all the available display area
-            ClientRectangle = context!.DisplayRectangle;
+            ClientRectangle = context.DisplayRectangle;
             _clipRect = ClientRectangle;
 
             // Update to reflect full size of actual button

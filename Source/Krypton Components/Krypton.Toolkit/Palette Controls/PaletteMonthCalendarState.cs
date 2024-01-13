@@ -22,7 +22,7 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the PaletteMonthCalendarState class.
         /// </summary>
         /// <param name="redirect">inheritance redirection instance.</param>
-        public PaletteMonthCalendarState(PaletteMonthCalendarRedirect? redirect)
+        public PaletteMonthCalendarState(PaletteMonthCalendarRedirect redirect)
             : this(redirect, null)
         {
         }
@@ -32,7 +32,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="redirect">inheritance redirection instance.</param>
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
-        public PaletteMonthCalendarState(PaletteMonthCalendarRedirect? redirect,
+        public PaletteMonthCalendarState(PaletteMonthCalendarRedirect redirect,
                                          NeedPaintHandler needPaint) =>
             Day = new PaletteTriple(redirect.Day, needPaint);
 

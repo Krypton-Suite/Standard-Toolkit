@@ -78,7 +78,7 @@ namespace Krypton.Ribbon
             ProviderCanCloseMenu = true;
             ProviderShowHorz = KryptonContextMenuPositionH.After;
             ProviderShowVert = KryptonContextMenuPositionV.Top;
-            ProviderStateCommon = new PaletteContextMenuRedirect(redirector!, needPaintDelegate);
+            ProviderStateCommon = new PaletteContextMenuRedirect(redirector, needPaintDelegate);
             ProviderStateNormal = new PaletteContextMenuItemState(ProviderStateCommon);
             ProviderStateDisabled = new PaletteContextMenuItemState(ProviderStateCommon);
             ProviderStateHighlight = new PaletteContextMenuItemStateHighlight(ProviderStateCommon);

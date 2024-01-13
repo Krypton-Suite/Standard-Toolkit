@@ -122,7 +122,6 @@
             // 
             this._buttonOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this._buttonOk.AutoSize = true;
-            this._buttonOk.CornerRoundingRadius = -1F;
             this._buttonOk.DialogResult = System.Windows.Forms.DialogResult.OK;
             this._buttonOk.Location = new System.Drawing.Point(213, 0);
             this._buttonOk.Margin = new System.Windows.Forms.Padding(0, 0, 0, 8);
@@ -136,7 +135,6 @@
             // 
             this._buttonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this._buttonCancel.AutoSize = true;
-            this._buttonCancel.CornerRoundingRadius = -1F;
             this._buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this._buttonCancel.Location = new System.Drawing.Point(285, 0);
             this._buttonCancel.Margin = new System.Windows.Forms.Padding(0);

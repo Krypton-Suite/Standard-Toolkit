@@ -19,7 +19,7 @@ namespace Krypton.Toolkit
                                        IPaletteMetric
     {
         #region Instance Fields
-        private PaletteDoubleMetricRedirect? _inherit;
+        private PaletteDoubleMetricRedirect _inherit;
         #endregion
 
         #region Identity
@@ -52,7 +52,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Sets the inheritance parent.
         /// </summary>
-        public void SetInherit(PaletteDoubleMetricRedirect? inherit)
+        public void SetInherit(PaletteDoubleMetricRedirect inherit)
         {
             base.SetInherit(inherit);
             _inherit = inherit;

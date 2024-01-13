@@ -192,7 +192,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the checkbox image.
         /// </summary>
-        public Image? Image
+        public Image Image
         {
             get => _checkBox!.Values.Image;
 

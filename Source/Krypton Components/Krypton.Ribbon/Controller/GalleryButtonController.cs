@@ -49,7 +49,7 @@ namespace Krypton.Ribbon
         {
             Debug.Assert(target != null);
 
-            Target = target!;
+            Target = target;
             NeedPaint = needPaint;
 
             if (repeatTimer)

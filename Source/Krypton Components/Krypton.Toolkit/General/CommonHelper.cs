@@ -12,6 +12,8 @@
 
 // ReSharper disable UnusedMember.Global
 
+using System.Windows.Forms;
+
 namespace Krypton.Toolkit
 {
     #region Delegates
@@ -25,7 +27,7 @@ namespace Krypton.Toolkit
     /// </summary>
     /// <param name="parameter">Operation parameter.</param>
     /// <returns>Operation result.</returns>
-    public delegate object? Operation(object? parameter);
+    public delegate object Operation(object? parameter);
 
     /// <summary>
     /// Signature of a method that returns a ToolStripRenderer instance.
@@ -43,7 +45,8 @@ namespace Krypton.Toolkit
         private const int VK_CONTROL = 0x11;
         private const int VK_MENU = 0x12;
 
-        private static readonly char[] _singleDateFormat = { 'd', 'f', 'F', 'g', 'h', 'H', 'K', 'm', 'M', 's', 't', 'y', 'z' };
+        private static readonly char[] _singleDateFormat = ['d', 'f', 'F', 'g', 'h', 'H', 'K', 'm', 'M', 's', 't', 'y', 'z'
+        ];
         //private static readonly int[] _daysInMonth = new int[12] { 0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334 };
 
         private static int _nextId = 1000;
@@ -85,11 +88,10 @@ namespace Krypton.Toolkit
         {
             [DebuggerStepThrough]
             get;
-        } = new ColorMatrix(new[]
-        {
-            new[] { 0.3f, 0.3f, 0.3f, 0, 0 }, new[] { 0.59f, 0.59f, 0.59f, 0, 0 },
-            new[] { 0.11f, 0.11f, 0.11f, 0, 0 }, new[] { 0, 0, 0, 0.5f, 0 }, new float[] { 0, 0, 0, 0, 1 }
-        });
+        } = new ColorMatrix([
+            [0.3f, 0.3f, 0.3f, 0, 0], [0.59f, 0.59f, 0.59f, 0, 0],
+            [0.11f, 0.11f, 0.11f, 0, 0], [0, 0, 0, 0.5f, 0], [0, 0, 0, 0, 1]
+        ]);
 
         /// <summary>
         /// Gets the next global identifier in sequence.
@@ -151,13 +153,12 @@ namespace Krypton.Toolkit
 
                 // Get any menu item from context strip that matches the shortcut key combination
                 var shortcuts = _cachedShortcutPI!.GetValue(cms, null) as Hashtable;
-                var menuItem = shortcuts![keyData] as ToolStripMenuItem;
 
                 // If we found a match...
-                if (menuItem != null)
+                if (shortcuts![keyData] is ToolStripMenuItem menuItem)
                 {
                     // Get the menu item to process the shortcut
-                    var ret = _cachedShortcutMI!.Invoke(menuItem, new object[] { msg, keyData });
+                    var ret = _cachedShortcutMI!.Invoke(menuItem, [msg, keyData]);
 
                     // Return the 'ProcessCmdKey' result
                     if (ret != null)
@@ -200,8 +201,9 @@ namespace Krypton.Toolkit
                         size.Height += padding.Vertical;
                         break;
                     default:
-                        // Should never happen!
+    // Should never happen!
                         Debug.Assert(false);
+                        DebugTools.NotImplemented(orientation.ToString());
                         break;
                 }
             }
@@ -238,8 +240,9 @@ namespace Krypton.Toolkit
                         size.Height += padding.Horizontal;
                         break;
                     default:
-                        // Should never happen!
+    // Should never happen!
                         Debug.Assert(false);
+                        DebugTools.NotImplemented(orientation.ToString());
                         break;
                 }
             }
@@ -278,8 +281,9 @@ namespace Krypton.Toolkit
                         rect.Height -= padding.Horizontal;
                         break;
                     default:
-                        // Should never happen!
+    // Should never happen!
                         Debug.Assert(false);
+                        DebugTools.NotImplemented(orientation.ToString());
                         break;
                 }
             }
@@ -322,8 +326,9 @@ namespace Krypton.Toolkit
                                              rect.Width - padding.Vertical, rect.Height - padding.Horizontal);
                         break;
                     default:
-                        // Should never happen!
+    // Should never happen!
                         Debug.Assert(false);
+                        DebugTools.NotImplemented(orientation.ToString());
                         break;
                 }
             }
@@ -351,8 +356,9 @@ namespace Krypton.Toolkit
                 case VisualOrientation.Right:
                     return new Padding(padding.Bottom, padding.Left, padding.Top, padding.Right);
                 default:
-                    // Should never happen!
+    // Should never happen!
                     Debug.Assert(false);
+                    DebugTools.NotImplemented(orientation.ToString());
                     return padding;
             }
         }
@@ -412,7 +418,7 @@ namespace Krypton.Toolkit
         /// <param name="op">Delegate of operation to be performed.</param>
         /// <param name="parameter">Parameter to be passed into the operation.</param>
         /// <returns>Result of performing the operation.</returns>
-        public static object? PerformOperation(Operation op, object? parameter)
+        public static object PerformOperation(Operation op, object? parameter)
         {
             // Create a modal window for showing feedback
             using var wait = new ModalWaitDialog();
@@ -443,9 +449,9 @@ namespace Krypton.Toolkit
                 case 2:
                     throw opThread.Exception;
                 default:
-                    // Should never happen!
+    // Should never happen!
                     Debug.Assert(false);
-                    return null;
+                    throw DebugTools.NotImplemented(opThread.State.ToString());
             }
         }
 
@@ -632,8 +638,9 @@ namespace Krypton.Toolkit
                     break;
 
                 default:
-                    // Should never happen!
+    // Should never happen!
                     Debug.Assert(false);
+                    DebugTools.NotImplemented(orientation.ToString());
                     break;
             }
 
@@ -687,8 +694,8 @@ namespace Krypton.Toolkit
                     {
                         ret |= PaletteDrawBorders.Left;
                     }
-
                     break;
+
                 case VisualOrientation.Right:
                     // Rotate one anti-clockwise
                     if (HasTopBorder(borders))
@@ -710,8 +717,8 @@ namespace Krypton.Toolkit
                     {
                         ret |= PaletteDrawBorders.Top;
                     }
-
                     break;
+
                 case VisualOrientation.Left:
                     // Rotate sides one clockwise
                     if (HasTopBorder(borders))
@@ -733,11 +740,12 @@ namespace Krypton.Toolkit
                     {
                         ret |= PaletteDrawBorders.Bottom;
                     }
-
                     break;
+
                 default:
-                    // Should never happen!
+    // Should never happen!
                     Debug.Assert(false);
+                    DebugTools.NotImplemented(orientation.ToString());
                     break;
             }
 
@@ -760,8 +768,9 @@ namespace Krypton.Toolkit
                 case VisualOrientation.Right:
                     return Orientation.Horizontal;
                 default:
-                    // Should never happen!
+    // Should never happen!
                     Debug.Assert(false);
+                    DebugTools.NotImplemented(orientation.ToString());
                     return Orientation.Vertical;
             }
         }
@@ -810,8 +819,9 @@ namespace Krypton.Toolkit
                 case ButtonStyle.Custom3:
                     return PaletteButtonStyle.Custom3;
                 default:
-                    // Should never happen!
+    // Should never happen!
                     Debug.Assert(false);
+                    DebugTools.NotImplemented(style.ToString());
                     return PaletteButtonStyle.Standalone;
             }
         }
@@ -1123,14 +1133,14 @@ namespace Krypton.Toolkit
             Debug.Assert(c != null);
 
             // If the control is already inside a control collection, then remove it
-            if (c!.Parent != null)
+            if (c.Parent != null)
             {
                 RemoveControlFromParent(c);
             }
             // Then must use the internal method for adding a new instance
 
             // If the control collection is one of our internal collections...
-            if (parent!.Controls is KryptonControlCollection cc)
+            if (parent.Controls is KryptonControlCollection cc)
             {
                 cc.AddInternal(c);
             }
@@ -1289,8 +1299,9 @@ namespace Krypton.Toolkit
                 case LabelStyle.Custom3:
                     return PaletteContentStyle.LabelCustom3;
                 default:
-                    // Should never happen!
+    // Should never happen!
                     Debug.Assert(false);
+                    DebugTools.NotImplemented(style.ToString());
                     return PaletteContentStyle.LabelNormalPanel;
             }
         }
@@ -1317,8 +1328,9 @@ namespace Krypton.Toolkit
                 case PaletteTextHint.SystemDefault:
                     return TextRenderingHint.SystemDefault;
                 default:
-                    // Should never happen!
+    // Should never happen!
                     Debug.Assert(false);
+                    DebugTools.NotImplemented(hint.ToString());
                     return TextRenderingHint.SystemDefault;
             }
         }
@@ -1345,8 +1357,9 @@ namespace Krypton.Toolkit
                 case SeparatorStyle.Custom3:
                     return PaletteMetricPadding.SeparatorPaddingCustom3;
                 default:
-                    // Should never happen!
+    // Should never happen!
                     Debug.Assert(false);
+                    DebugTools.NotImplemented(separatorStyle.ToString());
                     return PaletteMetricPadding.SeparatorPaddingLowProfile;
             }
         }

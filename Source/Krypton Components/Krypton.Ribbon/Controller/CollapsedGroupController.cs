@@ -52,9 +52,9 @@ namespace Krypton.Ribbon
             Debug.Assert(target != null);
             Debug.Assert(needPaint != null);
 
-            _ribbon = ribbon!;
-            _target = target!;
-            _needPaint = needPaint!;
+            _ribbon = ribbon;
+            _target = target;
+            _needPaint = needPaint;
         }
         #endregion
 

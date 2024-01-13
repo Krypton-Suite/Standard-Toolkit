@@ -514,7 +514,7 @@ namespace Krypton.Toolkit
             /// </summary>
             /// <param name="state">The state for which the image is needed.</param>
             /// <returns>Image value.</returns>
-            public virtual Image? GetImage(PaletteState state) => null;
+            public virtual Image GetImage(PaletteState state) => null;
 
             /// <summary>
             /// Gets the image color that should be transparent.
@@ -584,7 +584,7 @@ namespace Krypton.Toolkit
                                         // Easier to draw using a graphics instance than a DC!
                                         using Graphics g = Graphics.FromHdc(_screenDC);
                                         // Drawn entire client area in the background color
-                                        using (var backBrush = new SolidBrush(NumericUpDown.NumericUpDown!.BackColor))
+                                        using (var backBrush = new SolidBrush(NumericUpDown.NumericUpDown.BackColor))
                                         {
                                             g.FillRectangle(backBrush, clientRect);
                                         }
@@ -733,8 +733,6 @@ namespace Krypton.Toolkit
         private bool _mouseOver;
         private bool _alwaysActive;
         private bool _trackingMouseEnter;
-        private float _cornerRoundingRadius;
-
         #endregion
 
         #region Events
@@ -873,10 +871,10 @@ namespace Krypton.Toolkit
 
             // Create button specification collection manager
             _buttonManager = new ButtonSpecManagerLayout(this, Redirector, ButtonSpecs, null,
-                                                         new[] { _drawDockerInner },
-                                                         new IPaletteMetric[] { StateCommon },
-                                                         new[] { PaletteMetricInt.HeaderButtonEdgeInsetInputControl },
-                                                         new[] { PaletteMetricPadding.HeaderButtonPaddingInputControl },
+                [_drawDockerInner],
+                [StateCommon],
+                [PaletteMetricInt.HeaderButtonEdgeInsetInputControl],
+                [PaletteMetricPadding.HeaderButtonPaddingInputControl],
                                                          CreateToolStripRenderer,
                                                          NeedPaintDelegate);
 
@@ -888,8 +886,6 @@ namespace Krypton.Toolkit
 
             // Add text box to the controls collection
             ((KryptonReadOnlyControls)Controls).AddInternal(_numericUpDown);
-
-            _cornerRoundingRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
         }
 
         /// <summary>
@@ -915,26 +911,13 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Public
-
-        /// <summary>Gets or sets the corner rounding radius.</summary>
-        /// <value>The corner rounding radius.</value>
-        [Category(@"Visuals")]
-        [Description(@"Gets or sets the corner rounding radius.")]
-        [DefaultValue(GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE)]
-        public float CornerRoundingRadius
-        {
-            get => _cornerRoundingRadius;
-
-            set => SetCornerRoundingRadius(value);
-        }
-
         /// <summary>
         /// Gets and sets if the control is in the tab chain.
         /// </summary>
         public new bool TabStop
         {
-            get => _numericUpDown!.TabStop;
-            set => _numericUpDown!.TabStop = value;
+            get => _numericUpDown.TabStop;
+            set => _numericUpDown.TabStop = value;
         }
 
         /// <summary>
@@ -959,13 +942,13 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         [EditorBrowsable(EditorBrowsableState.Always)]
         [Browsable(false)]
-        public Control ContainedControl => NumericUpDown!;
+        public Control ContainedControl => NumericUpDown;
 
         /// <summary>
         /// Gets a value indicating whether the control has input focus.
         /// </summary>
         [Browsable(false)]
-        public override bool Focused => NumericUpDown!.Focused;
+        public override bool Focused => NumericUpDown.Focused;
 
         /// <summary>
         /// Gets or sets the background color for the control.
@@ -1026,8 +1009,8 @@ namespace Krypton.Toolkit
         [AllowNull]
         public override string Text
         {
-            get => _numericUpDown!.Text;
-            set => _numericUpDown!.Text = value;
+            get => _numericUpDown.Text;
+            set => _numericUpDown.Text = value;
         }
 
         /// <summary>
@@ -1040,7 +1023,7 @@ namespace Krypton.Toolkit
             set
             {
                 base.ContextMenuStrip = value;
-                _numericUpDown!.ContextMenuStrip = value;
+                _numericUpDown.ContextMenuStrip = value;
             }
         }
 
@@ -1053,8 +1036,8 @@ namespace Krypton.Toolkit
         [Browsable(true)]
         public int DecimalPlaces
         {
-            get => _numericUpDown!.DecimalPlaces;
-            set => _numericUpDown!.DecimalPlaces = value;
+            get => _numericUpDown.DecimalPlaces;
+            set => _numericUpDown.DecimalPlaces = value;
         }
 
         /// <summary>
@@ -1065,11 +1048,11 @@ namespace Krypton.Toolkit
         [DefaultValue(false)] // because the default _numericUpDown.DecimalPlaces is zero.
         public bool AllowDecimals
         {
-            get => _numericUpDown!.DecimalPlaces != 0;
+            get => _numericUpDown.DecimalPlaces != 0;
             set
             {
                 if (value
-                    && _numericUpDown!.DecimalPlaces == 0)
+                    && _numericUpDown.DecimalPlaces == 0)
                 {
                     // Only set something if the decimals have not already been set
                     _numericUpDown.DecimalPlaces = 10;
@@ -1077,7 +1060,7 @@ namespace Krypton.Toolkit
                 else
                 {
                     // This is forcing the places to zero
-                    _numericUpDown!.DecimalPlaces = 0;
+                    _numericUpDown.DecimalPlaces = 0;
                 }
             }
         }
@@ -1122,8 +1105,8 @@ namespace Krypton.Toolkit
         [DefaultValue(1.0d)]
         public decimal Increment
         {
-            get => _numericUpDown!.Increment;
-            set => _numericUpDown!.Increment = value;
+            get => _numericUpDown.Increment;
+            set => _numericUpDown.Increment = value;
         }
 
         /// <summary>
@@ -1135,8 +1118,8 @@ namespace Krypton.Toolkit
         [DefaultValue(100.0d)]
         public decimal Maximum
         {
-            get => _numericUpDown!.Maximum;
-            set => _numericUpDown!.Maximum = value;
+            get => _numericUpDown.Maximum;
+            set => _numericUpDown.Maximum = value;
         }
 
         /// <summary>
@@ -1148,8 +1131,8 @@ namespace Krypton.Toolkit
         [DefaultValue(0.0d)]
         public decimal Minimum
         {
-            get => _numericUpDown!.Minimum;
-            set => _numericUpDown!.Minimum = value;
+            get => _numericUpDown.Minimum;
+            set => _numericUpDown.Minimum = value;
         }
 
         /// <summary>
@@ -1161,8 +1144,8 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         public bool ThousandsSeparator
         {
-            get => _numericUpDown!.ThousandsSeparator;
-            set => _numericUpDown!.ThousandsSeparator = value;
+            get => _numericUpDown.ThousandsSeparator;
+            set => _numericUpDown.ThousandsSeparator = value;
         }
 
         /// <summary>
@@ -1174,8 +1157,8 @@ namespace Krypton.Toolkit
         [Bindable(true)]
         public decimal Value
         {
-            get => _numericUpDown!.Value;
-            set => _numericUpDown!.Value = value;
+            get => _numericUpDown.Value;
+            set => _numericUpDown.Value = value;
         }
 
         /// <summary>
@@ -1222,8 +1205,8 @@ namespace Krypton.Toolkit
         [DefaultValue(false)]
         public bool Hexadecimal
         {
-            get => _numericUpDown!.Hexadecimal;
-            set => _numericUpDown!.Hexadecimal = value;
+            get => _numericUpDown.Hexadecimal;
+            set => _numericUpDown.Hexadecimal = value;
         }
 
         /// <summary>
@@ -1235,8 +1218,8 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         public LeftRightAlignment UpDownAlign
         {
-            get => _numericUpDown!.UpDownAlign;
-            set => _numericUpDown!.UpDownAlign = value;
+            get => _numericUpDown.UpDownAlign;
+            set => _numericUpDown.UpDownAlign = value;
         }
 
         /// <summary>
@@ -1247,8 +1230,8 @@ namespace Krypton.Toolkit
         [DefaultValue(true)]
         public bool InterceptArrowKeys
         {
-            get => _numericUpDown!.InterceptArrowKeys;
-            set => _numericUpDown!.InterceptArrowKeys = value;
+            get => _numericUpDown.InterceptArrowKeys;
+            set => _numericUpDown.InterceptArrowKeys = value;
         }
 
         /// <summary>
@@ -1260,8 +1243,8 @@ namespace Krypton.Toolkit
         [DefaultValue(false)]
         public bool ReadOnly
         {
-            get => _numericUpDown!.ReadOnly;
-            set => _numericUpDown!.ReadOnly = value;
+            get => _numericUpDown.ReadOnly;
+            set => _numericUpDown.ReadOnly = value;
         }
 
         /// <summary>
@@ -1422,7 +1405,7 @@ namespace Krypton.Toolkit
         [EditorBrowsable(EditorBrowsableState.Never)]
         public bool IsActive =>
             _fixedActive ?? DesignMode || AlwaysActive ||
-            ContainsFocus || _mouseOver || _numericUpDown!.MouseOver ||
+            ContainsFocus || _mouseOver || _numericUpDown.MouseOver ||
             _subclassEdit is { MouseOver: true } ||
             _subclassButtons is { MouseOver: true };
 
@@ -1516,7 +1499,7 @@ namespace Krypton.Toolkit
                 ForceViewLayout();
 
                 // The inside text box is the client rectangle size
-                return new Rectangle(_numericUpDown!.Location, _numericUpDown.Size);
+                return new Rectangle(_numericUpDown.Location, _numericUpDown.Size);
             }
         }
 
@@ -1586,8 +1569,8 @@ namespace Krypton.Toolkit
         /// </summary>
         protected bool UserEdit
         {
-            get => _numericUpDown!.InternalUserEdit;
-            set => _numericUpDown!.InternalUserEdit = value;
+            get => _numericUpDown.InternalUserEdit;
+            set => _numericUpDown.InternalUserEdit = value;
         }
         #endregion
 
@@ -1847,7 +1830,7 @@ namespace Krypton.Toolkit
                 UpdateStateAndPalettes();
                 IPaletteTriple triple = GetTripleState();
                 PaletteState state = _drawDockerOuter.State;
-                _numericUpDown!.BackColor = triple.PaletteBack.GetBackColor1(state);
+                _numericUpDown.BackColor = triple.PaletteBack.GetBackColor1(state);
                 _numericUpDown.ForeColor = triple.PaletteContent!.GetContentShortTextColor1(state);
 
                 // Only set the font if the numeric up down has been created
@@ -1873,7 +1856,7 @@ namespace Krypton.Toolkit
         /// <param name="e">An EventArgs that contains the event data.</param>
         protected override void OnTabStopChanged(EventArgs e)
         {
-            NumericUpDown!.TabStop = TabStop;
+            NumericUpDown.TabStop = TabStop;
             base.OnTabStopChanged(e);
         }
 
@@ -1883,7 +1866,7 @@ namespace Krypton.Toolkit
         /// <param name="e">An EventArgs that contains the event data.</param>
         protected override void OnCausesValidationChanged(EventArgs e)
         {
-            NumericUpDown!.CausesValidation = CausesValidation;
+            NumericUpDown.CausesValidation = CausesValidation;
             base.OnCausesValidationChanged(e);
         }
 
@@ -1941,7 +1924,7 @@ namespace Krypton.Toolkit
             // If the edit control has been recreated, then release our current subclassing
             if (_subclassEdit != null)
             {
-                if (_numericUpDown!.Controls.Count >= 2)
+                if (_numericUpDown.Controls.Count >= 2)
                 {
                     if (_subclassEdit.Handle != _numericUpDown.Controls[1].Handle)
                     {
@@ -1956,7 +1939,7 @@ namespace Krypton.Toolkit
             // Do we need to subclass the edit control
             if (_subclassEdit == null)
             {
-                if (_numericUpDown!.Controls.Count >= 2)
+                if (_numericUpDown.Controls.Count >= 2)
                 {
                     _subclassEdit = new SubclassEdit(_numericUpDown.Controls[1].Handle, this, _numericUpDown);
                     _subclassEdit.TrackMouseEnter += OnNumericUpDownMouseChange;
@@ -1970,7 +1953,7 @@ namespace Krypton.Toolkit
             // If the buttons have been recreated, then release our current subclassing
             if (_subclassButtons != null)
             {
-                if (_numericUpDown!.Controls.Count >= 1)
+                if (_numericUpDown.Controls.Count >= 1)
                 {
                     if (_subclassButtons.Handle != _numericUpDown.Controls[0].Handle)
                     {
@@ -1984,7 +1967,7 @@ namespace Krypton.Toolkit
 
             if (_subclassButtons == null)
             {
-                if (_numericUpDown!.Controls.Count >= 1)
+                if (_numericUpDown.Controls.Count >= 1)
                 {
                     _subclassButtons = new SubclassButtons(_numericUpDown.Controls[0].Handle, this, _numericUpDown);
                     _subclassButtons.TrackMouseEnter += OnNumericUpDownMouseChange;
@@ -2144,7 +2127,7 @@ namespace Krypton.Toolkit
         private void OnNumericUpDownMouseChange(object sender, EventArgs e)
         {
             // Find new tracking mouse change state
-            var tracking = _numericUpDown!.MouseOver ||
+            var tracking = _numericUpDown.MouseOver ||
                            _subclassEdit is { MouseOver: true } ||
                            _subclassButtons is { MouseOver: true };
 
@@ -2167,14 +2150,6 @@ namespace Krypton.Toolkit
                 }
             }
         }
-
-        private void SetCornerRoundingRadius(float? radius)
-        {
-            _cornerRoundingRadius = radius ?? GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
-
-            StateCommon.Border.Rounding = _cornerRoundingRadius;
-        }
-
         #endregion
     }
 }

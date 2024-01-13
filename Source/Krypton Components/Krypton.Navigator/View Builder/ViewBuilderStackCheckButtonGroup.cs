@@ -48,12 +48,12 @@ namespace Krypton.Navigator
                 // Then use the states defined in the navigator itself
                 if (Navigator.Enabled)
                 {
-                    back = Navigator.StateNormal!.HeaderGroup!.Back;
+                    back = Navigator.StateNormal.HeaderGroup.Back;
                     border = Navigator.StateNormal.HeaderGroup.Border;
                 }
                 else
                 {
-                    back = Navigator.StateDisabled!.HeaderGroup!.Back;
+                    back = Navigator.StateDisabled.HeaderGroup.Back;
                     border = Navigator.StateDisabled.HeaderGroup.Border;
                 }
             }
@@ -62,12 +62,12 @@ namespace Krypton.Navigator
                 // Use states defined in the selected page
                 if (Navigator.SelectedPage.Enabled)
                 {
-                    back = Navigator.SelectedPage!.StateNormal!.HeaderGroup!.Back;
+                    back = Navigator.SelectedPage!.StateNormal.HeaderGroup.Back;
                     border = Navigator.SelectedPage.StateNormal.HeaderGroup.Border;
                 }
                 else
                 {
-                    back = Navigator.SelectedPage!.StateDisabled!.HeaderGroup!.Back;
+                    back = Navigator.SelectedPage!.StateDisabled.HeaderGroup.Back;
                     border = Navigator.SelectedPage.StateDisabled.HeaderGroup.Border;
 
                     // If page is disabled then all of view should look disabled
@@ -98,8 +98,8 @@ namespace Krypton.Navigator
             _viewLayout = new ViewLayoutDocker();
 
             // Cache the border edge palette to use
-            PaletteBorderEdge buttonEdgePalette = (Navigator.Enabled ? Navigator.StateNormal!.BorderEdge :
-                                                                       Navigator.StateDisabled!.BorderEdge);
+            PaletteBorderEdge buttonEdgePalette = (Navigator.Enabled ? Navigator.StateNormal.BorderEdge :
+                                                                       Navigator.StateDisabled.BorderEdge);
 
             // Create the scrolling viewport and pass in the _viewLayout as the content to scroll
             _viewScrollViewport = new ViewLayoutScrollViewport(Navigator, _viewLayout, buttonEdgePalette, null,
@@ -113,7 +113,7 @@ namespace Krypton.Navigator
             _viewScrollViewport.MakeParent(Navigator.ChildPanel!);
 
             // Create the top level group view
-            _viewGroup = new ViewDrawDocker(Navigator.StateNormal!.HeaderGroup!.Back,
+            _viewGroup = new ViewDrawDocker(Navigator.StateNormal.HeaderGroup.Back,
                                             Navigator.StateNormal.HeaderGroup.Border)
             {
 
@@ -122,7 +122,7 @@ namespace Krypton.Navigator
             };
 
             // Put the old root as the filler inside the group
-            _viewLayout.Add(_oldRoot!, ViewDockStyle.Fill);
+            _viewLayout.Add(_oldRoot, ViewDockStyle.Fill);
 
             // Define the top level view to become the new root
             return _viewGroup;

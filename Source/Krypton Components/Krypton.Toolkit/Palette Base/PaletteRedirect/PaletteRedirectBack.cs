@@ -248,14 +248,14 @@ namespace Krypton.Toolkit
         /// <returns>Image alignment style.</returns>
         public override PaletteRectangleAlign GetBackImageAlign(PaletteBackStyle style, PaletteState state)
         {
-            IPaletteBack? inherit = GetInherit(state);
+            IPaletteBack inherit = GetInherit(state);
 
             return inherit?.GetBackImageAlign(state) ?? Target.GetBackImageAlign(style, state);
         }
         #endregion
 
         #region Implementation
-        private IPaletteBack? GetInherit(PaletteState state)
+        private IPaletteBack GetInherit(PaletteState state)
         {
             switch (state)
             {
@@ -278,9 +278,10 @@ namespace Krypton.Toolkit
                 case PaletteState.NormalDefaultOverride:
                     return _normalDefaultOverride;
                 default:
-                    // Should never happen!
+    // Should never happen!
                     Debug.Assert(false);
-                    return null;
+                    throw DebugTools.NotImplemented(state.ToString());
+
             }
         }
         #endregion

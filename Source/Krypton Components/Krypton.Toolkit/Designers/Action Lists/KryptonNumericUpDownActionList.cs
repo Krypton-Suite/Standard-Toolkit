@@ -154,24 +154,6 @@ namespace Krypton.Toolkit
                 }
             }
         }
-
-        /// <summary>Gets or sets the corner radius.</summary>
-        /// <value>The corner radius.</value>
-        [DefaultValue(GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE)]
-        public float StateCommonCornerRoundingRadius
-        {
-            get => _numericUpDown.StateCommon.Border.Rounding;
-
-            set
-            {
-                if (_numericUpDown.StateCommon.Border.Rounding != value)
-                {
-                    _service.OnComponentChanged(_numericUpDown, null, _numericUpDown.StateCommon.Border.Rounding, value);
-
-                    _numericUpDown.StateCommon.Border.Rounding = value;
-                }
-            }
-        }
         #endregion
 
         #region Public Override
@@ -192,7 +174,6 @@ namespace Krypton.Toolkit
                 actions.Add(new DesignerActionPropertyItem(nameof(KryptonContextMenu), @"Krypton Context Menu", nameof(Appearance), @"The Krypton Context Menu for the control."));
                 actions.Add(new DesignerActionPropertyItem(nameof(InputControlStyle), @"Style", nameof(Appearance), @"NumericUpDown display style."));
                 actions.Add(new DesignerActionPropertyItem(nameof(Font), nameof(Font), nameof(Appearance), @"The numeric up down font."));
-                actions.Add(new DesignerActionPropertyItem(nameof(StateCommonCornerRoundingRadius), @"State Common Corner Rounding Radius", nameof(Appearance), @"The corner rounding radius of the control."));
                 actions.Add(new DesignerActionHeaderItem(@"Data"));
                 actions.Add(new DesignerActionPropertyItem(nameof(Increment), nameof(Increment), @"Data", @"NumericUpDown increment value."));
                 actions.Add(new DesignerActionPropertyItem(nameof(Maximum), nameof(Maximum), @"Data", @"NumericUpDown maximum value."));

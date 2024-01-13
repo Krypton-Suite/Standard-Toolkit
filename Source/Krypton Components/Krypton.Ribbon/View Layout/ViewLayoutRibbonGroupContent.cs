@@ -21,7 +21,7 @@ namespace Krypton.Ribbon
                                                   IRibbonViewGroupSize
     {
         #region Type Definitions
-        private class ContainerToView : Dictionary<IRibbonGroupContainer, ViewBase> { }
+        private class ContainerToView : Dictionary<IRibbonGroupContainer, ViewBase>;
         #endregion
 
         #region Static Fields
@@ -56,9 +56,9 @@ namespace Krypton.Ribbon
             Debug.Assert(needPaint != null);
 
             // Cache references
-            _ribbon = ribbon!;
-            _ribbonGroup = ribbonGroup!;
-            _needPaint = needPaint!;
+            _ribbon = ribbon;
+            _ribbonGroup = ribbonGroup;
+            _needPaint = needPaint;
 
             // Use hashtable to store relationships
             _containerToView = new ContainerToView();
@@ -628,7 +628,7 @@ namespace Krypton.Ribbon
             Debug.Assert(context != null);
 
             // We take on all the available display area and then remove our constant padding
-            ClientRectangle = CommonHelper.ApplyPadding(Orientation.Horizontal, context!.DisplayRectangle, _padding);
+            ClientRectangle = CommonHelper.ApplyPadding(Orientation.Horizontal, context.DisplayRectangle, _padding);
 
             var x = ClientLocation.X;
 

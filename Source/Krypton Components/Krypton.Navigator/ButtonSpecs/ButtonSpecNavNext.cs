@@ -10,6 +10,8 @@
  */
 #endregion
 
+using System.Windows.Forms.VisualStyles;
+
 namespace Krypton.Navigator
 {
     /// <summary>
@@ -56,13 +58,15 @@ namespace Krypton.Navigator
                         case ButtonDisplayLogic.ContextNextPrevious:
                             return true;
                         default:
-                            // Should never happen!
+    // Should never happen!
                             Debug.Assert(false);
+                            DebugTools.NotImplemented(Navigator.Button.ButtonDisplayLogic.ToString());
                             return false;
                     }
                 default:
-                    // Should never happen!
+    // Should never happen!
                     Debug.Assert(false);
+                    DebugTools.NotImplemented(Navigator.Button.NextButtonDisplay.ToString());
                     return false;
             }
         }
@@ -86,8 +90,9 @@ namespace Krypton.Navigator
                 case ButtonDisplay.Logic:
                     return Navigator.ViewBuilder!.NextActionEnabled(Navigator.Button.NextButtonAction);
                 default:
-                    // Should never happen!
+    // Should never happen!
                     Debug.Assert(false);
+                    DebugTools.NotImplemented(Navigator.Button.NextButtonDisplay.ToString());
                     return ButtonEnabled.False;
             }
 

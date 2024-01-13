@@ -87,7 +87,7 @@ namespace Krypton.Navigator
             Debug.Assert(pageDragEndData != null);
             Debug.Assert(dragTargets != null);
 
-            PaletteDragDrop = paletteDragDrop!;
+            PaletteDragDrop = paletteDragDrop;
             Renderer = renderer;
             PageDragEndData = pageDragEndData;
             DragTargets = dragTargets;

@@ -186,7 +186,7 @@ namespace Krypton.Ribbon
             }
 
             // Return the one possible size allowed
-            return new ItemSizeWidth[] { new ItemSizeWidth(GroupItemSize.Large, _preferredSize.Width) };
+            return [new ItemSizeWidth(GroupItemSize.Large, _preferredSize.Width)];
         }
 
         /// <summary>

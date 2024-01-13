@@ -397,7 +397,7 @@ namespace Krypton.Ribbon
         /// </summary>
         protected void UpdateTargetState()
         {
-            // By default the button is in the normal state
+            // By default, the button is in the normal state
             var newState = PaletteState.Normal;
 
             // Only allow another state if the ribbon is enabled

@@ -151,11 +151,13 @@ namespace Krypton.Toolkit
             _itemMoreColors = new KryptonContextMenuItem(/*@"&More Colors..."*/ KryptonManager.Strings.GlobalColorStrings.MoreColors, OnClickMoreColors);
             _itemsMoreColors = new KryptonContextMenuItems();
             _itemsMoreColors.Items.Add(_itemMoreColors);
-            _kryptonContextMenu.Items.AddRange(new KryptonContextMenuItemBase[] { _separatorTheme, _headingTheme, _colorsTheme,
+            _kryptonContextMenu.Items.AddRange([
+                _separatorTheme, _headingTheme, _colorsTheme,
                                                                                   _separatorStandard, _headingStandard, _colorsStandard,
                                                                                   _separatorRecent, _headingRecent, _colorsRecent,
                                                                                   _separatorNoColor, _itemsNoColor,
-                                                                                  _separatorMoreColors, _itemsMoreColors});
+                                                                                  _separatorMoreColors, _itemsMoreColors
+            ]);
 
             // Create content storage
             Values = CreateButtonValues(NeedPaintDelegate);
@@ -186,7 +188,7 @@ namespace Krypton.Toolkit
                                              _overrideNormal,
                                              _overrideTracking,
                                              _overridePressed,
-                                             new PaletteMetricRedirect(Redirector!),
+                                             new PaletteMetricRedirect(Redirector),
                                              this,
                                              VisualOrientation.Top,
                                              UseMnemonic)
@@ -705,7 +707,7 @@ namespace Krypton.Toolkit
                     else
                     {
                         _wasEnabled = Enabled;
-                        _wasImage = Values.Image!;
+                        _wasImage = Values.Image;
                     }
 
                     _command = value;
@@ -867,7 +869,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">The state for which the image is needed.</param>
         /// <returns>Image value.</returns>
-        public Image? GetImage(PaletteState state) => Values.GetImage(state);
+        public Image GetImage(PaletteState state) => Values.GetImage(state);
 
         /// <summary>
         /// Gets the image color that should be transparent.
@@ -1421,7 +1423,7 @@ namespace Krypton.Toolkit
                 // Each column is just a single color
                 for (var i = 0; i < _recentColors.Count; i++)
                 {
-                    colors[i] = new[] { _recentColors[i] };
+                    colors[i] = [_recentColors[i]];
                 }
 
                 _colorsRecent.SetCustomColors(colors);

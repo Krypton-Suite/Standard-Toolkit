@@ -274,7 +274,7 @@ namespace Krypton.Toolkit
 
             }
 
-            _miColumnCommonChange.Invoke(DataGridView, new object[] { columnIndex });
+            _miColumnCommonChange.Invoke(DataGridView, [columnIndex]);
         }
 
         private void SetUseColumnTextForLinkValueInternal(object instance, bool value)

@@ -37,8 +37,7 @@ namespace Krypton.Ribbon
             {
                 TransparentColor = Color.Magenta
             };
-            _imageList.Images.AddRange(new Image[]
-            {
+            _imageList.Images.AddRange([
                 GenericImageResources.KryptonRibbonGroupButton,
                 GenericImageResources.KryptonRibbonGroupColorButton,
                 GenericImageResources.KryptonRibbonGroupCheckBox,
@@ -54,7 +53,7 @@ namespace Krypton.Ribbon
                 GenericImageResources.KryptonRibbonGroupDomainUpDown,
                 GenericImageResources.KryptonRibbonGroupDateTimePicker,
                 GenericImageResources.KryptonRibbonGroupTrackBar
-            });
+            ]);
         }
 
         /// <summary>

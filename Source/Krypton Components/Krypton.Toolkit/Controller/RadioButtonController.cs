@@ -48,8 +48,8 @@ namespace Krypton.Toolkit
             NeedPaint = needPaint;
 
             // Remember target for state changes
-            _target = target!;
-            _top = top!;
+            _target = target;
+            _top = top;
         }
         #endregion
 

@@ -18,9 +18,9 @@ namespace Krypton.Toolkit
     public class ViewLayoutCrumbs : ViewComposite, IContentValues
     {
         #region Type Definitions
-        private class CrumbToButton : Dictionary<KryptonBreadCrumbItem, ViewDrawButton> { }
-        private class ButtonToCrumb : Dictionary<ViewDrawButton, KryptonBreadCrumbItem> { }
-        private class MenuItemToCrumb : Dictionary<KryptonContextMenuItem, KryptonBreadCrumbItem> { }
+        private class CrumbToButton : Dictionary<KryptonBreadCrumbItem, ViewDrawButton>;
+        private class ButtonToCrumb : Dictionary<ViewDrawButton, KryptonBreadCrumbItem>;
+        private class MenuItemToCrumb : Dictionary<KryptonContextMenuItem, KryptonBreadCrumbItem>;
         #endregion
 
         #region Instance Fields
@@ -288,7 +288,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">The state for which the image is needed.</param>
         /// <returns>Image value.</returns>
-        public Image? GetImage(PaletteState state) => _kryptonBreadCrumb.GetRedirector().GetButtonSpecImage(PaletteButtonSpecStyle.ArrowLeft, state);
+        public Image GetImage(PaletteState state) => _kryptonBreadCrumb.GetRedirector().GetButtonSpecImage(PaletteButtonSpecStyle.ArrowLeft, state);
 
         /// <summary>
         /// Gets the image color that should be transparent.

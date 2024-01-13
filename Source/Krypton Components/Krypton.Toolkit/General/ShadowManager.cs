@@ -232,7 +232,7 @@ namespace Krypton.Toolkit
                     using (var pgb = new PathGradientBrush(gp)
                     {
                         CenterColor = _shadowValues.Colour,
-                        SurroundColors = new[] { Color.Transparent },
+                        SurroundColors = [Color.Transparent],
                         CenterPoint = new PointF(blurOffset, blurOffset)
                     })
                     {

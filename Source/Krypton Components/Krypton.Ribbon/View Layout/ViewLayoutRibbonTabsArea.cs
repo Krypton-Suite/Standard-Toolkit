@@ -106,12 +106,12 @@ namespace Krypton.Ribbon
             Debug.Assert(needPaintDelegate != null);
 
             // Remember incoming references
-            _ribbon = ribbon!;
-            _captionArea = captionArea!;
+            _ribbon = ribbon;
+            _captionArea = captionArea;
             _appButtonController = _captionArea.AppButtonController;
             _appTabController = _captionArea.AppTabController;
-            _layoutContexts = layoutContexts!;
-            NeedPaintDelegate = needPaintDelegate!;
+            _layoutContexts = layoutContexts;
+            NeedPaintDelegate = needPaintDelegate;
 
             // Default other state
             _setVisible = true;
@@ -529,11 +529,11 @@ namespace Krypton.Ribbon
             // Create button specification collection manager
             PaletteRedirect aeroOverrideText = new PaletteRedirectRibbonAeroOverride(_ribbon, redirect);
             ButtonSpecManager = new ButtonSpecManagerLayoutRibbon(_ribbon, aeroOverrideText, _ribbon.ButtonSpecs, _buttonSpecsFixed,
-                                                               new[] { tabsDocker },
-                                                               new IPaletteMetric[] { _ribbon.StateCommon },
-                                                               new[] { PaletteMetricInt.HeaderButtonEdgeInsetPrimary },
-                                                               new[] { PaletteMetricPadding.RibbonButtonPadding },
-                                                               _ribbon.CreateToolStripRenderer!,
+                [tabsDocker],
+                [_ribbon.StateCommon],
+                [PaletteMetricInt.HeaderButtonEdgeInsetPrimary],
+                [PaletteMetricPadding.RibbonButtonPadding],
+                                                               _ribbon.CreateToolStripRenderer,
                                                                NeedPaintDelegate);
 
             // Create the manager for handling tooltips
@@ -854,7 +854,7 @@ namespace Krypton.Ribbon
                                     if (_ribbon.AllowButtonSpecToolTips)
                                     {
                                         // Create a helper object to provide tooltip values
-                                        var buttonSpecMapping = new ButtonSpecToContent(_ribbon.GetRedirector()!, buttonSpec);
+                                        var buttonSpecMapping = new ButtonSpecToContent(_ribbon.GetRedirector(), buttonSpec);
 
                                         // Is there actually anything to show for the tooltip
                                         if (buttonSpecMapping.HasContent)
@@ -901,7 +901,7 @@ namespace Krypton.Ribbon
                         _visualPopupToolTip?.Dispose();
 
                         // Create the actual tooltip popup object
-                        _visualPopupToolTip = new VisualPopupToolTip(_ribbon.GetRedirector()!,
+                        _visualPopupToolTip = new VisualPopupToolTip(_ribbon.GetRedirector(),
                                                                      sourceContent,
                                                                      _ribbon.Renderer,
                                                                      PaletteBackStyle.ControlToolTip,

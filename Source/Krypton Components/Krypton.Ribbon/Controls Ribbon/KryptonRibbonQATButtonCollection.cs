@@ -20,7 +20,7 @@ namespace Krypton.Ribbon
     public class KryptonRibbonQATButtonCollection : TypedRestrictCollection<Component>
     {
         #region Static Fields
-        private static readonly Type[] _types = { typeof(IQuickAccessToolbarButton) };
+        private static readonly Type[] _types = [typeof(IQuickAccessToolbarButton)];
         #endregion
 
         #region Restrict

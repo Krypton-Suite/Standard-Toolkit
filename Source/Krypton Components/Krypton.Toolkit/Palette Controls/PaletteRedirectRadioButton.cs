@@ -56,7 +56,7 @@ namespace Krypton.Toolkit
         /// <param name="tracking">Is the radio button being hot tracked.</param>
         /// <param name="pressed">Is the radio button being pressed.</param>
         /// <returns>Appropriate image for drawing; otherwise null.</returns>
-        public override Image? GetRadioButtonImage(bool enabled, 
+        public override Image GetRadioButtonImage(bool enabled, 
                                                   bool checkState, 
                                                   bool tracking, 
                                                   bool pressed)

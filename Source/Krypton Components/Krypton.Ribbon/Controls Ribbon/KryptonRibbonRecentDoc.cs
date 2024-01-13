@@ -25,7 +25,7 @@ namespace Krypton.Ribbon
     public class KryptonRibbonRecentDoc : Component
     {
         #region Instance Fields
-        private Image? _image;
+        private Image _image;
         private Color _imageTransparentColor;
         private string _text;
         private string _extraText;
@@ -114,7 +114,7 @@ namespace Krypton.Ribbon
         [Description(@"Image for the recent document entry.")]
         [RefreshProperties(RefreshProperties.All)]
         [DefaultValue(null)]
-        public Image? Image
+        public Image Image
         {
             get => _image;
 

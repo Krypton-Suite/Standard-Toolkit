@@ -98,7 +98,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Overrides for defining disabled separator appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteSeparatorPadding? StateDisabled { get; }
+        public PaletteSeparatorPadding StateDisabled { get; }
 
         private bool ShouldSerializeStateDisabled() => !StateDisabled.IsDefault;
 
@@ -112,7 +112,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Overrides for defining normal separator appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteSeparatorPadding? StateNormal { get; }
+        public PaletteSeparatorPadding StateNormal { get; }
 
         private bool ShouldSerializeStateNormal() => !StateNormal.IsDefault;
 
@@ -126,7 +126,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Overrides for defining hot tracking separator appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteSeparatorPadding? StateTracking { get; }
+        public PaletteSeparatorPadding StateTracking { get; }
 
         private bool ShouldSerializeStateTracking() => !StateTracking.IsDefault;
 
@@ -140,7 +140,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Overrides for defining pressed separator appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteSeparatorPadding? StatePressed { get; }
+        public PaletteSeparatorPadding StatePressed { get; }
 
         private bool ShouldSerializeStatePressed() => !StatePressed.IsDefault;
 

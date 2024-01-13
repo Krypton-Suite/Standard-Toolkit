@@ -18,7 +18,7 @@ namespace Krypton.Toolkit
     public class PaletteDataGridViewRedirect : Storage
     {
         #region Instance Fields
-        private readonly PaletteDoubleRedirect? _background;
+        private readonly PaletteDoubleRedirect _background;
         private readonly PaletteDataGridViewTripleRedirect _dataCell;
         private readonly PaletteDataGridViewTripleRedirect _headerColumn;
         private readonly PaletteDataGridViewTripleRedirect _headerRow;
@@ -167,7 +167,7 @@ namespace Krypton.Toolkit
 
         private bool ShouldSerializeBackground() => !_background.IsDefault;
 
-        internal IPaletteDouble? BackgroundDouble => _background;
+        internal IPaletteDouble BackgroundDouble => _background;
 
         #endregion
 

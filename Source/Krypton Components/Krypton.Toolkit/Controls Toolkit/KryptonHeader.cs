@@ -50,7 +50,6 @@ namespace Krypton.Toolkit
         private readonly ViewDrawDocker _drawDocker;
         private readonly ViewDrawContent _drawContent;
         private readonly ButtonSpecManagerDraw? _buttonManager;
-        private float _cornerRoundingRadius;
         private VisualPopupToolTip? _visualPopupToolTip;
 
         #endregion
@@ -76,7 +75,7 @@ namespace Krypton.Toolkit
             ButtonSpecs = new HeaderButtonSpecCollection(this);
 
             // Create the palette storage
-            StateCommon = new PaletteHeaderRedirect(Redirector!, PaletteBackStyle.HeaderPrimary, PaletteBorderStyle.HeaderPrimary, PaletteContentStyle.HeaderPrimary, NeedPaintDelegate);
+            StateCommon = new PaletteHeaderRedirect(Redirector, PaletteBackStyle.HeaderPrimary, PaletteBorderStyle.HeaderPrimary, PaletteContentStyle.HeaderPrimary, NeedPaintDelegate);
             StateDisabled = new PaletteTripleMetric(StateCommon, NeedPaintDelegate);
             StateNormal = new PaletteTripleMetric(StateCommon, NeedPaintDelegate);
 
@@ -89,11 +88,11 @@ namespace Krypton.Toolkit
             ViewManager = new ViewManager(this, _drawDocker);
 
             // Create button specification collection manager
-            _buttonManager = new ButtonSpecManagerDraw(this, Redirector!, ButtonSpecs, null,
-                                                       new[] { _drawDocker },
-                                                       new IPaletteMetric[] { StateCommon },
-                                                       new[] { PaletteMetricInt.HeaderButtonEdgeInsetPrimary },
-                                                       new[] { PaletteMetricPadding.HeaderButtonPaddingPrimary },
+            _buttonManager = new ButtonSpecManagerDraw(this, Redirector, ButtonSpecs, null,
+                [_drawDocker],
+                [StateCommon],
+                [PaletteMetricInt.HeaderButtonEdgeInsetPrimary],
+                [PaletteMetricPadding.HeaderButtonPaddingPrimary],
                                                        CreateToolStripRenderer,
                                                        NeedPaintDelegate);
 
@@ -106,8 +105,6 @@ namespace Krypton.Toolkit
             // We want to be auto sized by default, but not the property default!
             AutoSize = true;
             AutoSizeMode = AutoSizeMode.GrowAndShrink;
-
-            _cornerRoundingRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
         }
 
         /// <summary>
@@ -130,19 +127,6 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Public
-
-        /// <summary>Gets or sets the corner rounding radius.</summary>
-        /// <value>The corner rounding radius.</value>
-        [Category(@"Visuals")]
-        [Description(@"Gets or sets the corner rounding radius.")]
-        [DefaultValue(GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE)]
-        public float CornerRoundingRadius
-        {
-            get => _cornerRoundingRadius;
-
-            set => SetCornerRoundingRadius(value);
-        }
-
         /// <summary>
         /// Gets and sets the automatic resize of the control to fit contents.
         /// </summary>
@@ -324,8 +308,9 @@ namespace Krypton.Toolkit
                             _buttonManager?.SetDockerMetrics(_drawDocker, StateCommon, PaletteMetricInt.HeaderButtonEdgeInsetCustom3, PaletteMetricPadding.HeaderButtonPaddingCustom3);
                             break;
                         default:
-                            // Should never happen!
+    // Should never happen!
                             Debug.Assert(false);
+                            DebugTools.NotImplemented(_style.ToString());
                             break;
                     }
 
@@ -540,7 +525,7 @@ namespace Krypton.Toolkit
                         if (AllowButtonSpecToolTips)
                         {
                             // Create a helper object to provide tooltip values
-                            var buttonSpecMapping = new ButtonSpecToContent(Redirector!, buttonSpec);
+                            var buttonSpecMapping = new ButtonSpecToContent(Redirector, buttonSpec);
 
                             // Is there actually anything to show for the tooltip
                             if (buttonSpecMapping.HasContent)
@@ -563,7 +548,7 @@ namespace Krypton.Toolkit
                         }
 
                         // Create the actual tooltip popup object
-                        _visualPopupToolTip = new VisualPopupToolTip(Redirector!,
+                        _visualPopupToolTip = new VisualPopupToolTip(Redirector,
                                                                      sourceContent,
                                                                      Renderer,
                                                                      PaletteBackStyle.ControlToolTip,
@@ -591,14 +576,6 @@ namespace Krypton.Toolkit
             // Not showing a popup page any more
             _visualPopupToolTip = null;
         }
-
-        private void SetCornerRoundingRadius(float? radius)
-        {
-            _cornerRoundingRadius = radius ?? GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
-
-            StateCommon.Border.Rounding = _cornerRoundingRadius;
-        }
-
         #endregion
     }
 }

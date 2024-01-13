@@ -51,9 +51,9 @@ namespace Krypton.Ribbon
             Debug.Assert(target != null);
             Debug.Assert(needPaint != null);
 
-            Ribbon = ribbon!;
-            Target = target!;
-            _needPaint = needPaint!;
+            Ribbon = ribbon;
+            Target = target;
+            _needPaint = needPaint;
 
             _updateTimer = new Timer
             {
@@ -246,7 +246,7 @@ namespace Krypton.Ribbon
         /// </summary>
         protected virtual void UpdateTargetState()
         {
-            // By default the button is in the normal state
+            // By default, the button is in the normal state
             var newState = PaletteState.Normal;
 
             // Only allow another state if the ribbon is enabled

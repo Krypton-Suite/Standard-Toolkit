@@ -99,7 +99,7 @@ namespace Krypton.Ribbon
         {
             get
             {
-                Image? newImage = _ribbonColorButton.KryptonCommand != null
+                Image newImage = _ribbonColorButton.KryptonCommand != null
                     ? _ribbonColorButton.KryptonCommand.ImageSmall
                     : _ribbonColorButton.ImageSmall;
 

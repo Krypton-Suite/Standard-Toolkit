@@ -55,12 +55,12 @@ namespace Krypton.Navigator
             Debug.Assert(backupContent != null);
 
             // Remember values
-            _primaryBack = primaryBack!;
-            _primaryText = primaryText!;
-            _primaryContent = primaryContent!;
-            _backupBack = backupBack!;
-            _backupText = backupText!;
-            _backupContent = backupContent!;
+            _primaryBack = primaryBack;
+            _primaryText = primaryText;
+            _primaryContent = primaryContent;
+            _backupBack = backupBack;
+            _backupText = backupText;
+            _backupContent = backupContent;
 
             // Default state
             Apply = false;

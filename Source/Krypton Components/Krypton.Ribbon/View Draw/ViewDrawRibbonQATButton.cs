@@ -236,7 +236,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="state">Tab state.</param>
         /// <returns>Image.</returns>
-        public Image? GetImage(PaletteState state)
+        public Image GetImage(PaletteState state)
         {
             if (_cachedImage == null)
             {

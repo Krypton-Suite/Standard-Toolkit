@@ -33,7 +33,7 @@ namespace Krypton.Toolkit
             Debug.Assert(baseKCT != null);
 
             // Remember the base used for inheriting
-            _baseKCT = baseKCT!;
+            _baseKCT = baseKCT;
 
             // Always assume the same use of system colors
             UseSystemColors = _baseKCT.UseSystemColors;
@@ -1256,7 +1256,7 @@ namespace Krypton.Toolkit
 
         #region UseRoundedEdges
         /// <summary>
-        /// Gets a value indicating if rounded egdes are required.
+        /// Gets a value indicating if rounded edges are required.
         /// </summary>
         public override InheritBool UseRoundedEdges => InternalUseRoundedEdges == InheritBool.Inherit ? BaseKCT.UseRoundedEdges : InternalUseRoundedEdges;
 

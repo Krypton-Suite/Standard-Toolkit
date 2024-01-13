@@ -70,11 +70,11 @@ namespace Krypton.Ribbon
             Debug.Assert(buttonDown != null);
             Debug.Assert(buttonContext != null);
 
-            _gallery = gallery!;
-            _needPaint = needPaint!;
-            _buttonUp = buttonUp!;
-            _buttonDown = buttonDown!;
-            _buttonContext = buttonContext!;
+            _gallery = gallery;
+            _needPaint = needPaint;
+            _buttonUp = buttonUp;
+            _buttonDown = buttonDown;
+            _buttonContext = buttonContext;
             _bringIntoView = -1;
             ScrollIntoView = true;
 
@@ -371,7 +371,7 @@ namespace Krypton.Ribbon
             if (Count > 0)
             {
                 // Ask child for its own preferred size
-                preferredSize = this[0]!.GetPreferredSize(context!);
+                preferredSize = this[0]!.GetPreferredSize(context);
 
                 // Find preferred size from the preferred item size
                 preferredSize.Width *= _gallery.PreferredItemSize.Width;

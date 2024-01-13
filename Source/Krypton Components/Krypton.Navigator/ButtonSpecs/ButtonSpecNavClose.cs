@@ -10,6 +10,8 @@
  */
 #endregion
 
+using System.Windows.Forms.VisualStyles;
+
 namespace Krypton.Navigator
 {
     /// <summary>
@@ -48,8 +50,9 @@ namespace Krypton.Navigator
                 case ButtonDisplay.Logic:
                     return true;
                 default:
-                    // Should never happen!
+    // Should never happen!
                     Debug.Assert(false);
+                    DebugTools.NotImplemented(Navigator.Button.CloseButtonDisplay.ToString());
                     return false;
             }
         }
@@ -74,8 +77,9 @@ namespace Krypton.Navigator
                     // Only enabled if a page is selected
                     return (Navigator.SelectedPage != null) ? ButtonEnabled.True : ButtonEnabled.False;
                 default:
-                    // Should never happen!
+    // Should never happen!
                     Debug.Assert(false);
+                    DebugTools.NotImplemented(Navigator.Button.CloseButtonDisplay.ToString());
                     return ButtonEnabled.False;
             }
         }

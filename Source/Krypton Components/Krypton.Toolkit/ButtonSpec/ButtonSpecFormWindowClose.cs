@@ -106,7 +106,7 @@ namespace Krypton.Toolkit
                 {
                     // Only if the mouse is still within the button bounds do we perform action
                     var mea = (MouseEventArgs)e;
-                    if (GetView()!.ClientRectangle.Contains(mea.Location))
+                    if (GetView().ClientRectangle.Contains(mea.Location))
                     {
                         PropertyInfo pi = typeof(Form).GetProperty(nameof(CloseReason),
                                                                     BindingFlags.Instance |

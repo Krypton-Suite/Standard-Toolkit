@@ -4,7 +4,5 @@
 
 namespace System.Runtime.InteropServices
 {
-    internal class LibraryImportAttribute : Attribute
-    {
-    }
+    internal class LibraryImportAttribute : Attribute;
 }

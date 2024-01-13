@@ -26,7 +26,7 @@ namespace Krypton.Toolkit
             /// <summary>
             /// Simple class to reduce the length of declarations!
             /// </summary>
-            protected class DictItemBase : Dictionary<KryptonContextMenuItemBase, KryptonContextMenuItemBase> { }
+            protected class DictItemBase : Dictionary<KryptonContextMenuItemBase, KryptonContextMenuItemBase>;
 
             /// <summary>
             /// Tree node that is attached to a context menu item.
@@ -290,7 +290,7 @@ namespace Krypton.Toolkit
                 // imageList
                 // 
                 _imageList.TransparentColor = Color.Magenta;
-                _imageList.Images.AddRange(new Image[]{
+                _imageList.Images.AddRange([
                     GenericKryptonImageResources.KryptonContextMenuColorColumns,
                     GenericKryptonImageResources.KryptonContextMenuHeading,
                     GenericKryptonImageResources.KryptonContextMenuItem,
@@ -306,7 +306,7 @@ namespace Krypton.Toolkit
                     GenericKryptonImageResources.KryptonContextMenuImageSelect,
                     GenericKryptonImageResources.KryptonMonthCalendar,
                     GenericKryptonImageResources.KryptonComboBox
-                });
+                ]);
 
                 // TODO: Do these need updating?
                 _imageList.Images.SetKeyName(0, "KryptonContextMenuColorColumns.bmp");

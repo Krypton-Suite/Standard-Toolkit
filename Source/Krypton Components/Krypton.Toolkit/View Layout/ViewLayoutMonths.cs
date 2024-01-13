@@ -97,10 +97,10 @@ namespace Krypton.Toolkit
             // Using a button spec manager to add the buttons to the header
             ButtonSpecs = new MonthCalendarButtonSpecCollection(this);
             ButtonManager = new ButtonSpecManagerDraw(Calendar.CalendarControl, redirector, ButtonSpecs, null,
-                                                       new[] { _drawHeader },
-                                                       new IPaletteMetric[] { Calendar.StateCommon },
-                                                       new[] { PaletteMetricInt.HeaderButtonEdgeInsetCalendar },
-                                                       new[] { PaletteMetricPadding.None },
+                [_drawHeader],
+                [Calendar.StateCommon],
+                [PaletteMetricInt.HeaderButtonEdgeInsetCalendar],
+                [PaletteMetricPadding.None],
                                                        Calendar.GetToolStripDelegate, _needPaintDelegate);
 
             // Create the manager for handling tooltips
@@ -596,7 +596,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">The state for which the image is needed.</param>
         /// <returns>Image value.</returns>
-        public Image? GetImage(PaletteState state) => null;
+        public Image GetImage(PaletteState state) => null;
 
         /// <summary>
         /// Gets the image color that should be transparent.

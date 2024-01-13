@@ -76,70 +76,70 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>InheritBool value.</returns>
-        public override InheritBool GetBackDraw(PaletteState state) => _redirect!.GetBackDraw(Style, state);
+        public override InheritBool GetBackDraw(PaletteState state) => _redirect.GetBackDraw(Style, state);
 
         /// <summary>
         /// Gets the graphics drawing hint.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>PaletteGraphicsHint value.</returns>
-        public override PaletteGraphicsHint GetBackGraphicsHint(PaletteState state) => _redirect!.GetBackGraphicsHint(Style, state);
+        public override PaletteGraphicsHint GetBackGraphicsHint(PaletteState state) => _redirect.GetBackGraphicsHint(Style, state);
 
         /// <summary>
         /// Gets the first background color from the redirector.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public override Color GetBackColor1(PaletteState state) => _redirect!.GetBackColor1(Style, state);
+        public override Color GetBackColor1(PaletteState state) => _redirect.GetBackColor1(Style, state);
 
         /// <summary>
         /// Gets the second back color from the redirector.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public override Color GetBackColor2(PaletteState state) => _redirect!.GetBackColor2(Style, state);
+        public override Color GetBackColor2(PaletteState state) => _redirect.GetBackColor2(Style, state);
 
         /// <summary>
         /// Gets the color drawing style from the redirector.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color drawing style.</returns>
-        public override PaletteColorStyle GetBackColorStyle(PaletteState state) => _redirect!.GetBackColorStyle(Style, state);
+        public override PaletteColorStyle GetBackColorStyle(PaletteState state) => _redirect.GetBackColorStyle(Style, state);
 
         /// <summary>
         /// Gets the color alignment style from the redirector.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color alignment style.</returns>
-        public override PaletteRectangleAlign GetBackColorAlign(PaletteState state) => _redirect!.GetBackColorAlign(Style, state);
+        public override PaletteRectangleAlign GetBackColorAlign(PaletteState state) => _redirect.GetBackColorAlign(Style, state);
 
         /// <summary>
         /// Gets the color background angle from the redirector.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Angle used for color drawing.</returns>
-        public override float GetBackColorAngle(PaletteState state) => _redirect!.GetBackColorAngle(Style, state);
+        public override float GetBackColorAngle(PaletteState state) => _redirect.GetBackColorAngle(Style, state);
 
         /// <summary>
         /// Gets a background image from the redirector.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image instance.</returns>
-        public override Image? GetBackImage(PaletteState state) => _redirect!.GetBackImage(Style, state);
+        public override Image? GetBackImage(PaletteState state) => _redirect.GetBackImage(Style, state);
 
         /// <summary>
         /// Gets the background image style from the redirector.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image style value.</returns>
-        public override PaletteImageStyle GetBackImageStyle(PaletteState state) => _redirect!.GetBackImageStyle(Style, state);
+        public override PaletteImageStyle GetBackImageStyle(PaletteState state) => _redirect.GetBackImageStyle(Style, state);
 
         /// <summary>
         /// Gets the image alignment style from the redirector.
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image alignment style.</returns>
-        public override PaletteRectangleAlign GetBackImageAlign(PaletteState state) => _redirect!.GetBackImageAlign(Style, state);
+        public override PaletteRectangleAlign GetBackImageAlign(PaletteState state) => _redirect.GetBackImageAlign(Style, state);
 
         #endregion
     }

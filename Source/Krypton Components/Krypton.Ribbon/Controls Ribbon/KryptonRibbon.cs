@@ -2194,7 +2194,7 @@ namespace Krypton.Ribbon
             }
         }
 
-        internal ViewBase GetFirstQATView()
+        internal ViewBase? GetFirstQATView()
         {
             switch (QATLocation)
             {
@@ -2205,13 +2205,14 @@ namespace Krypton.Ribbon
                 case QATLocation.Hidden:
                     return null;
                 default:
-                    // Should never happen!
+    // Should never happen!
                     Debug.Assert(false);
+                    DebugTools.NotImplemented(QATLocation.ToString());
                     return null;
             }
         }
 
-        internal ViewBase GetLastQATView()
+        internal ViewBase? GetLastQATView()
         {
             switch (QATLocation)
             {
@@ -2222,15 +2223,16 @@ namespace Krypton.Ribbon
                 case QATLocation.Hidden:
                     return null;
                 default:
-                    // Should never happen!
+    // Should never happen!
                     Debug.Assert(false);
+                    DebugTools.NotImplemented(QATLocation.ToString());
                     return null;
             }
         }
 
-        internal ViewBase GetNextQATView(ViewBase qatView, bool tab)
+        internal ViewBase? GetNextQATView(ViewBase qatView, bool tab)
         {
-            ViewBase view = null;
+            ViewBase? view = null;
 
             switch (QATLocation)
             {
@@ -2281,9 +2283,9 @@ namespace Krypton.Ribbon
             return view;
         }
 
-        internal ViewBase GetPreviousQATView(ViewBase qatView)
+        internal ViewBase? GetPreviousQATView(ViewBase qatView)
         {
-            ViewBase view = null;
+            ViewBase? view = null;
 
             switch (QATLocation)
             {
@@ -2966,7 +2968,7 @@ namespace Krypton.Ribbon
                                     {
                                         // We need to call the protected select method in order to have 
                                         // it perform an internal select of the first/last ordered item
-                                        _containerSelect.Invoke(next, new object[] { true, forward });
+                                        _containerSelect.Invoke(next, [true, forward]);
                                         return true;
                                     }
                                 }
@@ -3143,7 +3145,7 @@ namespace Krypton.Ribbon
             Debug.Assert(qatButton != null);
 
             // Stop tracking changes in button properties
-            qatButton!.PropertyChanged -= OnQATButtonPropertyChanged;
+            qatButton.PropertyChanged -= OnQATButtonPropertyChanged;
 
             // Remove the back-reference
             qatButton.SetRibbon(null);

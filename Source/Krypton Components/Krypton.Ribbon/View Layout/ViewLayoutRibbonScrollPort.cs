@@ -36,7 +36,7 @@ namespace Krypton.Ribbon
                 : base(ribbon)
             {
                 Debug.Assert(ribbon != null);
-                _ribbon = ribbon!;
+                _ribbon = ribbon;
 
                 // Create and add a hidden button to act as the focus target
                 _hiddenFocusTarget = new Button
@@ -160,10 +160,10 @@ namespace Krypton.Ribbon
             Debug.Assert(needPaintDelegate != null);
 
             // Remember initial settings
-            _ribbon = ribbon!;
+            _ribbon = ribbon;
             _orientation = orientation;
-            _viewFiller = viewFiller!;
-            _needPaintDelegate = needPaintDelegate!;
+            _viewFiller = viewFiller;
+            _needPaintDelegate = needPaintDelegate;
             _scrollSpeed = scrollSpeed;
             _ribbonTabs = viewFiller as ViewLayoutRibbonTabs;
 
@@ -174,9 +174,9 @@ namespace Krypton.Ribbon
             // filler are clipped to the control size. This is needed if the child view
             // contains controls and need clipping inside this area and so prevent them
             // from drawing over the end scrollers.
-            _viewControlContent = new RibbonViewControl(ribbon!);
+            _viewControlContent = new RibbonViewControl(ribbon);
             _viewControlContent.PaintBackground += OnViewControlPaintBackground;
-            ViewLayoutControl = new ViewLayoutControl(_viewControlContent, ribbon!, _viewFiller);
+            ViewLayoutControl = new ViewLayoutControl(_viewControlContent, ribbon, _viewFiller);
 
             // Removed because of this
             // https://github.com/Krypton-Suite/Standard-Toolkit/issues/372
@@ -189,8 +189,8 @@ namespace Krypton.Ribbon
             //}
 
             // Create the two scrollers used when not enough space for filler
-            _nearScroller = new ViewLayoutRibbonScroller(ribbon!, NearOrientation, insetForTabs, needPaintDelegate!);
-            _farScroller = new ViewLayoutRibbonScroller(ribbon!, FarOrientation, insetForTabs, needPaintDelegate!);
+            _nearScroller = new ViewLayoutRibbonScroller(ribbon, NearOrientation, insetForTabs, needPaintDelegate);
+            _farScroller = new ViewLayoutRibbonScroller(ribbon, FarOrientation, insetForTabs, needPaintDelegate);
 
             // Hook into scroller events
             _nearScroller.Click += OnNearClick;
@@ -459,7 +459,7 @@ namespace Krypton.Ribbon
             Enabled = _ribbon.Enabled;
 
             // We take on all the available display area
-            ClientRectangle = context!.DisplayRectangle;
+            ClientRectangle = context.DisplayRectangle;
 
             Rectangle layoutRect = ClientRectangle;
             var controlRect = new Rectangle(Point.Empty, ClientSize);
@@ -614,7 +614,7 @@ namespace Krypton.Ribbon
                     ViewBase viewTab = layoutTabs.GetViewForRibbonTab(_ribbon.SelectedTab);
 
                     // If a scroll change is required to bring it into view
-                    if (ScrollIntoView(viewTab!.ClientRectangle, false))
+                    if (ScrollIntoView(viewTab.ClientRectangle, false))
                     {
                         // Call ourself again to take change into account
                         Layout(context);
@@ -660,7 +660,7 @@ namespace Krypton.Ribbon
                     }
                     else
                     {
-                        child.Render(context!);
+                        child.Render(context);
                     }
                 }
             }
@@ -721,11 +721,14 @@ namespace Krypton.Ribbon
                 {
                     case Orientation.Horizontal:
                         return VisualOrientation.Left;
+
                     case Orientation.Vertical:
                         return VisualOrientation.Top;
+
                     default:
-                        // Should never happen!
+    // Should never happen!
                         Debug.Assert(false);
+                        DebugTools.NotImplemented(Orientation.ToString());
                         return VisualOrientation.Left;
                 }
             }
@@ -739,11 +742,14 @@ namespace Krypton.Ribbon
                 {
                     case Orientation.Horizontal:
                         return VisualOrientation.Right;
+
                     case Orientation.Vertical:
                         return VisualOrientation.Bottom;
+
                     default:
-                        // Should never happen!
+    // Should never happen!
                         Debug.Assert(false);
+                        DebugTools.NotImplemented(Orientation.ToString());
                         return VisualOrientation.Right;
                 }
             }

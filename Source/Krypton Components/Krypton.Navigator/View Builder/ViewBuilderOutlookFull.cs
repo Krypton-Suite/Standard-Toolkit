@@ -81,12 +81,12 @@ namespace Krypton.Navigator
             if (Navigator.SelectedPage == null)
             {
                 // Then use the states defined in the navigator itself
-                buttonEdge = Navigator.Enabled ? Navigator.StateNormal!.BorderEdge : Navigator.StateDisabled!.BorderEdge;
+                buttonEdge = Navigator.Enabled ? Navigator.StateNormal.BorderEdge : Navigator.StateDisabled.BorderEdge;
             }
             else
             {
                 // Use states defined in the selected page
-                buttonEdge = Navigator.SelectedPage.Enabled ? Navigator.SelectedPage.StateNormal!.BorderEdge : Navigator.SelectedPage.StateDisabled!.BorderEdge;
+                buttonEdge = Navigator.SelectedPage.Enabled ? Navigator.SelectedPage.StateNormal.BorderEdge : Navigator.SelectedPage.StateDisabled.BorderEdge;
             }
 
             // Update the main view elements
@@ -176,8 +176,8 @@ namespace Krypton.Navigator
             };
 
             // Cache the border edge palette to use
-            PaletteBorderEdge buttonEdgePalette = (Navigator.Enabled ? Navigator.StateNormal!.BorderEdge :
-                                                                       Navigator.StateDisabled!.BorderEdge);
+            PaletteBorderEdge buttonEdgePalette = (Navigator.Enabled ? Navigator.StateNormal.BorderEdge :
+                                                                       Navigator.StateDisabled.BorderEdge);
 
             // Create the scrolling viewport and pass in the _viewLayout as the content to scroll
             _viewOutlook = new ViewLayoutOutlookFull(this, Navigator, _viewLayout, buttonEdgePalette, null, PaletteMetricPadding.None,

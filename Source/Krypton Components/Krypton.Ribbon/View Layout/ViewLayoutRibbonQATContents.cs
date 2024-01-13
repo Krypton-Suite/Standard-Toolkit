@@ -20,7 +20,7 @@ namespace Krypton.Ribbon
     internal abstract class ViewLayoutRibbonQATContents : ViewComposite
     {
         #region Classes
-        private class QATButtonToView : Dictionary<IQuickAccessToolbarButton, ViewDrawRibbonQATButton> { }
+        private class QATButtonToView : Dictionary<IQuickAccessToolbarButton, ViewDrawRibbonQATButton>;
         #endregion
 
         #region Instance Fields
@@ -45,8 +45,8 @@ namespace Krypton.Ribbon
             Debug.Assert(ribbon != null);
             Debug.Assert(needPaint != null);
 
-            Ribbon = ribbon!;
-            _needPaint = needPaint!;
+            Ribbon = ribbon;
+            _needPaint = needPaint;
 
             // Create initial lookup table
             _qatButtonToView = new QATButtonToView();
@@ -54,7 +54,7 @@ namespace Krypton.Ribbon
             // Create the extra button for customization/overflow
             if (showExtraButton)
             {
-                _extraButton = new ViewDrawRibbonQATExtraButton(ribbon!, needPaint!);
+                _extraButton = new ViewDrawRibbonQATExtraButton(ribbon, needPaint);
                 _extraButton.ClickAndFinish += OnExtraButtonClick;
             }
         }
@@ -261,7 +261,7 @@ namespace Krypton.Ribbon
             SyncChildren(true);
 
             // We take on all the available display area
-            ClientRectangle = context!.DisplayRectangle;
+            ClientRectangle = context.DisplayRectangle;
 
             var x = ClientLocation.X;
             var right = ClientRectangle.Right;

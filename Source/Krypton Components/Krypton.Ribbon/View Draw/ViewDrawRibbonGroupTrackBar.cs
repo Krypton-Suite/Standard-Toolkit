@@ -45,10 +45,10 @@ namespace Krypton.Ribbon
             Debug.Assert(needPaint != null);
 
             // Remember incoming references
-            _ribbon = ribbon!;
-            GroupTrackBar = ribbonTrackBar!;
-            _needPaint = needPaint!;
-            _currentSize = GroupTrackBar.ItemSizeCurrent!;
+            _ribbon = ribbon;
+            GroupTrackBar = ribbonTrackBar;
+            _needPaint = needPaint;
+            _currentSize = GroupTrackBar.ItemSizeCurrent;
 
             // Hook into the textbox events
             GroupTrackBar.MouseEnterControl += OnMouseEnterControl;
@@ -301,10 +301,10 @@ namespace Krypton.Ribbon
             Debug.Assert(context != null);
 
             // We take on all the available display area
-            ClientRectangle = context!.DisplayRectangle;
+            ClientRectangle = context.DisplayRectangle;
 
             // Are we allowed to change the layout of controls?
-            if (!context!.ViewManager!.DoNotLayoutControls)
+            if (!context.ViewManager!.DoNotLayoutControls)
             {
                 // If we have an actual control, position it with a pixel padding all around
                 LastTrackBar?.SetBounds(ClientLocation.X + 1,
@@ -339,8 +339,8 @@ namespace Krypton.Ribbon
                     drawRect.Height--;
 
                     // Draw an indication of where the textbox will be
-                    context!.Graphics.FillRectangle(Brushes.Goldenrod, drawRect);
-                    context!.Graphics.DrawRectangle(Pens.Gold, drawRect);
+                    context.Graphics.FillRectangle(Brushes.Goldenrod, drawRect);
+                    context.Graphics.DrawRectangle(Pens.Gold, drawRect);
                 }
             }
         }

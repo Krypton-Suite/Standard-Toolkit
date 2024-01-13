@@ -97,10 +97,10 @@ namespace Krypton.Toolkit
 
             // Using a button spec manager to add the buttons to the header
             _buttonManager = new ButtonSpecManagerDraw(_calendar.CalendarControl, redirector, null, _buttonSpecs,
-                                                       new[] { _drawHeader },
-                                                       new IPaletteMetric[] { _calendar.StateCommon },
-                                                       new[] { PaletteMetricInt.HeaderButtonEdgeInsetCalendar },
-                                                       new[] { PaletteMetricPadding.None },
+                [_drawHeader],
+                [_calendar.StateCommon],
+                [PaletteMetricInt.HeaderButtonEdgeInsetCalendar],
+                [PaletteMetricPadding.None],
                                                        _calendar.GetToolStripDelegate, needPaintDelegate);
 
             // Create stacks for holding display items
@@ -266,7 +266,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">The state for which the image is needed.</param>
         /// <returns>Image value.</returns>
-        public Image? GetImage(PaletteState state) => null;
+        public Image GetImage(PaletteState state) => null;
 
         /// <summary>
         /// Gets the image color that should be transparent.
