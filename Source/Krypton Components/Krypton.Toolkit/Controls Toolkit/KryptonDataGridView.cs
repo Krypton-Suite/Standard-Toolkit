@@ -10,6 +10,8 @@
  */
 #endregion
 
+using static System.Windows.Forms.AxHost;
+
 namespace Krypton.Toolkit
 {
     /// <summary>
@@ -23,8 +25,8 @@ namespace Krypton.Toolkit
     public class KryptonDataGridView : DataGridView
     {
         #region Type Declaractions
-        private class ColumnHeaderCache : Dictionary<int, bool> { }
-        private class RowHeaderCache : Dictionary<int, Rectangle> { }
+        private class ColumnHeaderCache : Dictionary<int, bool>;
+        private class RowHeaderCache : Dictionary<int, Rectangle>;
         #endregion
 
         #region Classes
@@ -49,7 +51,7 @@ namespace Krypton.Toolkit
             /// </summary>
             /// <param name="state">The state for which the image is needed.</param>
             /// <returns>Image value.</returns>
-            public Image? GetImage(PaletteState state) => null;
+            public Image GetImage(PaletteState state) => null;
 
             /// <summary>
             /// Gets the image color that should be transparent.
@@ -957,7 +959,7 @@ namespace Krypton.Toolkit
         protected virtual void OnPaletteChanged(EventArgs e)
         {
             // Update the redirector with latest palette
-            Redirector!.Target = _palette;
+            Redirector.Target = _palette;
 
             // A new palette source means we need to layout and redraw
             OnNeedPaint(Palette, new NeedLayoutEventArgs(true));
@@ -971,7 +973,7 @@ namespace Krypton.Toolkit
         /// <returns>True if paint required; otherwise false.</returns>
         protected virtual bool EvalTransparentPaint() =>
             // Do we have a manager to use for asking about painting?
-            ViewManager != null && ViewManager.EvalTransparentPaint(Renderer!);
+            ViewManager != null && ViewManager.EvalTransparentPaint(Renderer);
 
         /// <summary>
         /// Work out if this control needs to use Invoke to force a repaint.
@@ -1184,7 +1186,7 @@ namespace Krypton.Toolkit
                         _borderForced.MaxBorderEdges = GetCellMaxBorderEdges(e.CellBounds, e.ColumnIndex, e.RowIndex);
 
                         // Get the padding used to decide how to draw the background
-                        Padding borderPadding = Renderer!.RenderStandardBorder.GetBorderRawPadding(_borderForced, state, VisualOrientation.Top);
+                        Padding borderPadding = Renderer.RenderStandardBorder.GetBorderRawPadding(_borderForced, state, VisualOrientation.Top);
 
                         // Get the border path used to limit drawing of the background
                         GraphicsPath borderPath = Renderer.RenderStandardBorder.GetBackPath(renderContext, tempCellBounds, _borderForced, VisualOrientation.Top, state);
@@ -1249,7 +1251,7 @@ namespace Krypton.Toolkit
                             // If this is a row header cell
                             case { RowIndex: >= 0, ColumnIndex: -1 }:
                                 {
-                                    // By default there is no glyph needed for the row
+                                    // By default, there is no glyph needed for the row
                                     var glyph = GridRowGlyph.None;
 
                                     // Find the correct glyph that should be drawn
@@ -1444,7 +1446,7 @@ namespace Krypton.Toolkit
                                 if (e.FormattedValue != null)
                                 {
                                     // Use the display value of the header cell
-                                    _shortTextValue.ShortText = e!.FormattedValue.ToString();
+                                    _shortTextValue.ShortText = e.FormattedValue.ToString();
 
                                     using var layoutContext = new ViewLayoutContext(this, Renderer);
                                     // If a column header cell...
@@ -1675,7 +1677,7 @@ namespace Krypton.Toolkit
         private void SetupViewAndStates()
         {
             // Create the state storage objects
-            StateCommon = new PaletteDataGridViewRedirect(Redirector!, NeedPaintDelegate);
+            StateCommon = new PaletteDataGridViewRedirect(Redirector, NeedPaintDelegate);
             StateDisabled = new PaletteDataGridViewAll(StateCommon, NeedPaintDelegate);
             StateNormal = new PaletteDataGridViewAll(StateCommon, NeedPaintDelegate);
             StateTracking = new PaletteDataGridViewHeaders(StateCommon, NeedPaintDelegate);
@@ -2160,6 +2162,7 @@ namespace Krypton.Toolkit
 
             // Should never happen!
             Debug.Assert(false);
+            DebugTools.NotImplemented(textH.ToString());
             return DataGridViewContentAlignment.MiddleLeft;
         }
 
@@ -2233,7 +2236,7 @@ namespace Krypton.Toolkit
                         _layoutDirty = false;
 
                         // Ask the view to perform a layout
-                        ViewManager.Layout(Renderer!);
+                        ViewManager.Layout(Renderer);
 
                     } while (_layoutDirty && (max-- > 0));
 
@@ -2272,11 +2275,11 @@ namespace Krypton.Toolkit
                                     var editedValue = cell.GetEditedFormattedValue(cell.RowIndex, DataGridViewDataErrorContexts.Display) as string;
                                     if (!string.IsNullOrEmpty(editedValue))
                                     {
-                                        _toolTipText = TruncateToolTipText(editedValue!);
+                                        _toolTipText = TruncateToolTipText(editedValue);
                                     }
                                 }
                             }
-                            else if ((cell.RowIndex == -1) && (cell.ColumnIndex != -1) && _columnCache.ContainsKey(cell.ColumnIndex)!)
+                            else if ((cell.RowIndex == -1) && (cell.ColumnIndex != -1) && _columnCache.ContainsKey(cell.ColumnIndex))
                             {
                                 // If for a column cell and the contents do not fit...
                                 if (!_columnCache[cell.ColumnIndex])
@@ -2286,7 +2289,7 @@ namespace Krypton.Toolkit
                                         var editedValue = cell.GetEditedFormattedValue(cell.RowIndex, DataGridViewDataErrorContexts.Display) as string;
                                         if (!string.IsNullOrEmpty(editedValue))
                                         {
-                                            _toolTipText = TruncateToolTipText(editedValue!);
+                                            _toolTipText = TruncateToolTipText(editedValue);
                                         }
                                     }
                                     catch
@@ -2363,7 +2366,7 @@ namespace Krypton.Toolkit
                     _visualPopupToolTip?.Dispose();
 
                     // Create the actual tooltip popup object
-                    _visualPopupToolTip = new VisualPopupToolTip(Redirector!,
+                    _visualPopupToolTip = new VisualPopupToolTip(Redirector,
                                                                  new ToolTipContent(_toolTipText),
                                                                  Renderer,
                                                                  PaletteBackStyle.ControlToolTip,
@@ -2390,7 +2393,7 @@ namespace Krypton.Toolkit
                                                                            BindingFlags.GetField)!;
             }
 
-            return _miGCI.Invoke(this, new object[] { column, row }) as DataGridViewCell;
+            return _miGCI.Invoke(this, [column, row]) as DataGridViewCell;
         }
 
         private string GetToolTipText(DataGridViewCell? cell, int row)
@@ -2406,7 +2409,7 @@ namespace Krypton.Toolkit
 
             try
             {
-                return _miGTTT.Invoke(cell, new object[] { row }) as string ?? string.Empty;
+                return _miGTTT.Invoke(cell, [row]) as string ?? string.Empty;
             }
             catch
             {
@@ -2427,7 +2430,7 @@ namespace Krypton.Toolkit
 
             try
             {
-                return _miGET.Invoke(cell, new object[] { row }) as string ?? string.Empty;
+                return _miGET.Invoke(cell, [row]) as string ?? string.Empty;
             }
             catch
             {
@@ -2461,7 +2464,7 @@ namespace Krypton.Toolkit
                                                                                  BindingFlags.GetField)!;
             }
 
-            return (int)_miGPW.Invoke(cell, new object[] { cell!.RowIndex, cell.OwningRow.Height });
+            return (int)_miGPW.Invoke(cell, [cell!.RowIndex, cell.OwningRow.Height]);
         }
 
         private int GetCellPreferredHeight(DataGridViewCell? cell)
@@ -2475,7 +2478,7 @@ namespace Krypton.Toolkit
                                                                                   BindingFlags.GetField)!;
             }
 
-            return (int)_miGPH.Invoke(cell, new object[] { cell!.RowIndex, cell.OwningColumn.Width });
+            return (int)_miGPH.Invoke(cell, [cell!.RowIndex, cell.OwningColumn.Width]);
         }
 
         private string DismissBaseToolTips()
@@ -2489,7 +2492,7 @@ namespace Krypton.Toolkit
                                                                            BindingFlags.GetField)!;
             }
 
-            return _miATT.Invoke(this, new object[] { false, string.Empty, -1, -1 }) as string ?? string.Empty;
+            return _miATT.Invoke(this, [false, string.Empty, -1, -1]) as string ?? string.Empty;
         }
 
         private string TruncateToolTipText(string toolTipText)
@@ -2548,11 +2551,11 @@ namespace Krypton.Toolkit
                     _miPTB = typeof(Control).GetMethod(nameof(PaintTransparentBackground),
                                                        BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.InvokeMethod,
                                                        null, CallingConventions.HasThis,
-                                                       new[] { typeof(PaintEventArgs), typeof(Rectangle), typeof(Region) },
+                                                       [typeof(PaintEventArgs), typeof(Rectangle), typeof(Region)],
                                                        null)!;
                 }
 
-                _miPTB.Invoke(this, new object[] { new PaintEventArgs(g, clipRect), ClientRectangle, null! });
+                _miPTB.Invoke(this, [new PaintEventArgs(g, clipRect), ClientRectangle, null!]);
             }
         }
 
@@ -2589,7 +2592,7 @@ namespace Krypton.Toolkit
                 // Update ourself with the new global palette
                 _localPalette = null;
                 SetPalette(KryptonManager.CurrentGlobalPalette);
-                Redirector!.Target = _palette;
+                Redirector.Target = _palette;
                 SyncCellStylesWithPalette();
 
                 // A new palette source means we need to layout and redraw
@@ -2597,7 +2600,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnUserPreferenceChanged(object sender, UserPreferenceChangedEventArgs e) => OnNeedResyncPaint(Palette!, new NeedLayoutEventArgs(true));
+        private void OnUserPreferenceChanged(object sender, UserPreferenceChangedEventArgs e) => OnNeedResyncPaint(Palette, new NeedLayoutEventArgs(true));
 
         private void OnSyncPropertyChanged(object sender, EventArgs e) =>
             // Ensure the current cell style values are in sync with the new palette 

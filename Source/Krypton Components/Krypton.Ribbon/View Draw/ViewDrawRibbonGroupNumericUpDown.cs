@@ -45,9 +45,9 @@ namespace Krypton.Ribbon
             Debug.Assert(needPaint != null);
 
             // Remember incoming references
-            _ribbon = ribbon!;
-            GroupNumericUpDown = ribbonNumericUpDown!;
-            _needPaint = needPaint!;
+            _ribbon = ribbon;
+            GroupNumericUpDown = ribbonNumericUpDown;
+            _needPaint = needPaint;
             _currentSize = GroupNumericUpDown.ItemSizeCurrent;
 
             // Hook into the numeric up-down events
@@ -301,7 +301,7 @@ namespace Krypton.Ribbon
             Debug.Assert(context != null);
 
             // We take on all the available display area
-            ClientRectangle = context!.DisplayRectangle;
+            ClientRectangle = context.DisplayRectangle;
 
             // Are we allowed to change the layout of controls?
             if (!context.ViewManager!.DoNotLayoutControls)

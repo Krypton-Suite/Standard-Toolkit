@@ -62,7 +62,7 @@ namespace Krypton.Ribbon
         public RibbonAppButton([DisallowNull] KryptonRibbon ribbon)
         {
             Debug.Assert(ribbon != null);
-            _ribbon = ribbon!;
+            _ribbon = ribbon;
 
             // Default values
             _appButtonMenuItems = new KryptonContextMenuItems
@@ -70,7 +70,7 @@ namespace Krypton.Ribbon
                 ImageColumn = false
             };
             _appButtonImage = _defaultAppImage;
-            AppButtonSpecs = new AppMenuButtonSpecCollection(ribbon!);
+            AppButtonSpecs = new AppMenuButtonSpecCollection(ribbon);
             AppButtonRecentDocs = [];
             AppButtonToolTipTitle = string.Empty;
             AppButtonToolTipBody = string.Empty;
@@ -341,7 +341,7 @@ namespace Krypton.Ribbon
         [Description(@"Display image associated ToolTip.")]
         [DefaultValue(null)]
         [Localizable(true)]
-        public Image? AppButtonToolTipImage { get; set; }
+        public Image AppButtonToolTipImage { get; set; }
 
         #endregion
 

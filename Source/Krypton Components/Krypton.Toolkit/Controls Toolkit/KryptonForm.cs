@@ -11,6 +11,8 @@
 #endregion
 
 // ReSharper disable InconsistentNaming
+using static System.Windows.Forms.AxHost;
+
 namespace Krypton.Toolkit
 {
     /// <summary>
@@ -93,7 +95,7 @@ namespace Krypton.Toolkit
         private bool _lastNotNormal;
         private bool _useDropShadow;
         private StatusStrip? _statusStrip;
-        private Bitmap? _cacheBitmap;
+        private Bitmap _cacheBitmap;
         private Icon? _cacheIcon;
         private Control? _activeControl;
         private KryptonFormTitleStyle _titleStyle;
@@ -175,10 +177,10 @@ namespace Krypton.Toolkit
 
             // Create button specification collection manager
             _buttonManager = new ButtonSpecManagerDraw(this, Redirector, ButtonSpecs, _buttonSpecsFixed,
-                                                       new[] { _drawHeading },
-                                                       new IPaletteMetric[] { StateCommon.Header },
-                                                       new[] { PaletteMetricInt.HeaderButtonEdgeInsetForm },
-                                                       new[] { PaletteMetricPadding.HeaderButtonPaddingForm },
+                [_drawHeading],
+                [StateCommon.Header],
+                [PaletteMetricInt.HeaderButtonEdgeInsetForm],
+                [PaletteMetricPadding.HeaderButtonPaddingForm],
                                                        CreateToolStripRenderer,
                                                        OnButtonManagerNeedPaint!);
 
@@ -736,7 +738,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Form state.</param>
         /// <returns>Image.</returns>
-        public Image? GetImage(PaletteState state)
+        public Image GetImage(PaletteState state)
         {
             Icon? displayIcon = GetDefinedIcon();
 
@@ -1290,34 +1292,41 @@ namespace Krypton.Toolkit
                                                     PaletteMetricInt.HeaderButtonEdgeInsetDockInactive,
                                                     PaletteMetricPadding.HeaderButtonPaddingDockInactive);
                     break;
+
                 case HeaderStyle.Form:
                     _buttonManager.SetDockerMetrics(drawDocker, palette,
                                                     PaletteMetricInt.HeaderButtonEdgeInsetForm,
                                                     PaletteMetricPadding.HeaderButtonPaddingForm);
                     break;
+
                 case HeaderStyle.Calendar:
                     _buttonManager.SetDockerMetrics(drawDocker, palette,
                                                     PaletteMetricInt.HeaderButtonEdgeInsetCalendar,
                                                     PaletteMetricPadding.HeaderButtonPaddingCalendar);
                     break;
+
                 case HeaderStyle.Custom1:
                     _buttonManager.SetDockerMetrics(drawDocker, palette,
                                                     PaletteMetricInt.HeaderButtonEdgeInsetCustom1,
                                                     PaletteMetricPadding.HeaderButtonPaddingCustom1);
                     break;
+
                 case HeaderStyle.Custom2:
                     _buttonManager.SetDockerMetrics(drawDocker, palette,
                                                     PaletteMetricInt.HeaderButtonEdgeInsetCustom2,
                                                     PaletteMetricPadding.HeaderButtonPaddingCustom2);
                     break;
+
                 case HeaderStyle.Custom3:
                     _buttonManager.SetDockerMetrics(drawDocker, palette,
                         PaletteMetricInt.HeaderButtonEdgeInsetCustom3,
                         PaletteMetricPadding.HeaderButtonPaddingCustom3);
                     break;
+
                 default:
-                    // Should never happen!
+    // Should never happen!
                     Debug.Assert(false);
+                    DebugTools.NotImplemented(style.ToString());
                     break;
             }
         }
@@ -1605,7 +1614,7 @@ namespace Krypton.Toolkit
                         if (AllowButtonSpecToolTips)
                         {
                             // Create a helper object to provide tooltip values
-                            var buttonSpecMapping = new ButtonSpecToContent(Redirector!, buttonSpec);
+                            var buttonSpecMapping = new ButtonSpecToContent(Redirector, buttonSpec);
 
                             // Is there actually anything to show for the tooltip
                             if (buttonSpecMapping.HasContent)

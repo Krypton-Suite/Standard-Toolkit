@@ -27,7 +27,7 @@ namespace Krypton.Toolkit
         private bool _autoClose;
         private string _text;
         private string? _extraText;
-        private Image? _image;
+        private Image _image;
         private Color _imageTransparentColor;
         private readonly PaletteContentInheritRedirect _stateNormalRedirect;
         private readonly PaletteContentInheritRedirect _stateVisitedRedirect;
@@ -284,7 +284,7 @@ namespace Krypton.Toolkit
         [Description(@"Link label image.")]
         [DefaultValue(null)]
         [Localizable(true)]
-        public Image? Image
+        public Image Image
         {
             get => _image;
 

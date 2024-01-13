@@ -34,7 +34,7 @@ namespace Krypton.Toolkit
         private string _text;
         private string _extraText;
         private string _shortcutKeyDisplayString;
-        private Image? _image;
+        private Image _image;
         private Color _imageTransparentColor;
         private CheckState _checkState;
         private Keys _shortcutKeys;
@@ -114,7 +114,7 @@ namespace Krypton.Toolkit
         /// <param name="initialImage">Initial image.</param>
         /// <param name="clickHandler">Click handler.</param>
         public KryptonContextMenuItem(string initialText,
-                                      Image? initialImage,
+                                      Image initialImage,
                                       EventHandler? clickHandler)
             : this(initialText, initialImage, clickHandler, Keys.None)
         {
@@ -128,7 +128,7 @@ namespace Krypton.Toolkit
         /// <param name="clickHandler">Click handler.</param>
         /// <param name="shortcut">Shortcut key combination.</param>
         public KryptonContextMenuItem(string initialText,
-                                      Image? initialImage,
+                                      Image initialImage,
                                       EventHandler? clickHandler,
                                       Keys shortcut)
         {
@@ -278,7 +278,7 @@ namespace Krypton.Toolkit
         [DefaultValue(null)]
         [Localizable(true)]
         [Bindable(true)]
-        public Image? Image
+        public Image Image
         {
             get => _image;
 

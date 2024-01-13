@@ -641,7 +641,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="expanded">Is the node expanded</param>
         /// <returns>Appropriate image for drawing; otherwise null.</returns>
-        public override Image? GetTreeViewImage(bool expanded) => _target.GetTreeViewImage(expanded);
+        public override Image GetTreeViewImage(bool expanded) => _target.GetTreeViewImage(expanded);
 
         /// <summary>
         /// Gets a check box image appropriate for the provided state.
@@ -651,7 +651,7 @@ namespace Krypton.Toolkit
         /// <param name="tracking">Is the check box being hot tracked.</param>
         /// <param name="pressed">Is the check box being pressed.</param>
         /// <returns>Appropriate image for drawing; otherwise null.</returns>
-        public override Image? GetCheckBoxImage(bool enabled, CheckState checkState, bool tracking, bool pressed) => _target.GetCheckBoxImage(enabled, checkState, tracking, pressed);
+        public override Image GetCheckBoxImage(bool enabled, CheckState checkState, bool tracking, bool pressed) => _target.GetCheckBoxImage(enabled, checkState, tracking, pressed);
 
         /// <summary>
         /// Gets a check box image appropriate for the provided state.
@@ -661,31 +661,31 @@ namespace Krypton.Toolkit
         /// <param name="tracking">Is the radio button being hot tracked.</param>
         /// <param name="pressed">Is the radio button being pressed.</param>
         /// <returns>Appropriate image for drawing; otherwise null.</returns>
-        public override Image? GetRadioButtonImage(bool enabled, bool checkState, bool tracking, bool pressed) => _target.GetRadioButtonImage(enabled, checkState, tracking, pressed);
+        public override Image GetRadioButtonImage(bool enabled, bool checkState, bool tracking, bool pressed) => _target.GetRadioButtonImage(enabled, checkState, tracking, pressed);
 
         /// <summary>
         /// Gets a drop down button image appropriate for the provided state.
         /// </summary>
         /// <param name="state">PaletteState for which image is required.</param>
-        public override Image? GetDropDownButtonImage(PaletteState state) => _target.GetDropDownButtonImage(state);
+        public override Image GetDropDownButtonImage(PaletteState state) => _target.GetDropDownButtonImage(state);
 
         /// <summary>
         /// Gets a checked image appropriate for a context menu item.
         /// </summary>
         /// <returns>Appropriate image for drawing; otherwise null.</returns>
-        public override Image? GetContextMenuCheckedImage() => _target.GetContextMenuCheckedImage();
+        public override Image GetContextMenuCheckedImage() => _target.GetContextMenuCheckedImage();
 
         /// <summary>
         /// Gets a indeterminate image appropriate for a context menu item.
         /// </summary>
         /// <returns>Appropriate image for drawing; otherwise null.</returns>
-        public override Image? GetContextMenuIndeterminateImage() => _target.GetContextMenuIndeterminateImage();
+        public override Image GetContextMenuIndeterminateImage() => _target.GetContextMenuIndeterminateImage();
 
         /// <summary>
         /// Gets an image indicating a sub-menu on a context menu item.
         /// </summary>
         /// <returns>Appropriate image for drawing; otherwise null.</returns>
-        public override Image? GetContextMenuSubMenuImage() => _target!.GetContextMenuSubMenuImage();
+        public override Image GetContextMenuSubMenuImage() => _target!.GetContextMenuSubMenuImage();
 
         /// <summary>
         /// Gets a check box image appropriate for the provided state.
@@ -693,7 +693,7 @@ namespace Krypton.Toolkit
         /// <param name="button">Enum of the button to fetch.</param>
         /// <param name="state">State of the button to fetch.</param>
         /// <returns>Appropriate image for drawing; otherwise null.</returns>
-        public override Image? GetGalleryButtonImage(PaletteRibbonGalleryButton button, PaletteState state) => _target.GetGalleryButtonImage(button, state);
+        public override Image GetGalleryButtonImage(PaletteRibbonGalleryButton button, PaletteState state) => _target.GetGalleryButtonImage(button, state);
 
         #endregion
 
@@ -725,21 +725,21 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="style">Style of button spec.</param>
         /// <returns>String value.</returns>
-        public override string? GetButtonSpecShortText(PaletteButtonSpecStyle style) => _target.GetButtonSpecShortText(style);
+        public override string GetButtonSpecShortText(PaletteButtonSpecStyle style) => _target.GetButtonSpecShortText(style);
 
         /// <summary>
         /// Gets the long text to display for the button.
         /// </summary>
         /// <param name="style">Style of button spec.</param>
         /// <returns>String value.</returns>
-        public override string? GetButtonSpecLongText(PaletteButtonSpecStyle style) => _target.GetButtonSpecLongText(style);
+        public override string GetButtonSpecLongText(PaletteButtonSpecStyle style) => _target.GetButtonSpecLongText(style);
 
         /// <summary>
         /// Gets the tooltip title text to display for the button.
         /// </summary>
         /// <param name="style">Style of button spec.</param>
         /// <returns>String value.</returns>
-        public override string? GetButtonSpecToolTipTitle(PaletteButtonSpecStyle style) => _target!.GetButtonSpecToolTipTitle(style);
+        public override string GetButtonSpecToolTipTitle(PaletteButtonSpecStyle style) => _target!.GetButtonSpecToolTipTitle(style);
 
         /// <summary>
         /// Gets the color to remap from the image to the container foreground.

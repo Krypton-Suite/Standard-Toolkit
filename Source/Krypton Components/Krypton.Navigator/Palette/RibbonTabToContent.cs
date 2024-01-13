@@ -34,8 +34,8 @@ namespace Krypton.Navigator
             Debug.Assert(ribbonTabText != null);
             Debug.Assert(content != null);
 
-            _ribbonGeneral = ribbonGeneral!;
-            PaletteRibbonText = ribbonTabText!;
+            _ribbonGeneral = ribbonGeneral;
+            PaletteRibbonText = ribbonTabText;
             PaletteContent = content;
         }
         #endregion

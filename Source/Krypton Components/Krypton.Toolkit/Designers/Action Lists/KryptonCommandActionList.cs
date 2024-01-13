@@ -50,7 +50,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        public Image? ImageSmall
+        public Image ImageSmall
         {
             get => _command.ImageSmall;
 
@@ -65,7 +65,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        public Image? ImageLarge
+        public Image ImageLarge
         {
             get => _command.ImageLarge;
 

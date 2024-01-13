@@ -338,8 +338,6 @@ namespace Krypton.Toolkit
         private bool _showEllipsisButton;
         //private bool _isInAlphaNumericMode;
         private readonly ButtonSpecAny _editorButton;
-        private float _cornerRoundingRadius;
-
         #endregion
 
         #region Events
@@ -457,11 +455,11 @@ namespace Krypton.Toolkit
             ButtonSpecs = new TextBoxButtonSpecCollection(this);
 
             // Create the palette storage
-            StateCommon = new PaletteInputControlTripleRedirect(Redirector!, PaletteBackStyle.InputControlStandalone, PaletteBorderStyle.InputControlStandalone, PaletteContentStyle.InputControlStandalone, NeedPaintDelegate);
+            StateCommon = new PaletteInputControlTripleRedirect(Redirector, PaletteBackStyle.InputControlStandalone, PaletteBorderStyle.InputControlStandalone, PaletteContentStyle.InputControlStandalone, NeedPaintDelegate);
             StateDisabled = new PaletteInputControlTripleStates(StateCommon, NeedPaintDelegate);
             StateNormal = new PaletteInputControlTripleStates(StateCommon, NeedPaintDelegate);
             StateActive = new PaletteInputControlTripleStates(StateCommon, NeedPaintDelegate);
-            CueHint = new PaletteCueHintText(Redirector!, NeedPaintDelegate);
+            CueHint = new PaletteCueHintText(Redirector, NeedPaintDelegate);
 
             // Create the internal text box used for containing content
             _textBox = new InternalTextBox(this);
@@ -505,11 +503,11 @@ namespace Krypton.Toolkit
             ViewManager = new ViewManager(this, _drawDockerOuter);
 
             // Create button specification collection manager
-            _buttonManager = new ButtonSpecManagerLayout(this, Redirector!, ButtonSpecs, null,
-                                                         new[] { _drawDockerInner },
-                                                         new IPaletteMetric[] { StateCommon },
-                                                         new[] { PaletteMetricInt.HeaderButtonEdgeInsetInputControl },
-                                                         new[] { PaletteMetricPadding.HeaderButtonPaddingInputControl },
+            _buttonManager = new ButtonSpecManagerLayout(this, Redirector, ButtonSpecs, null,
+                [_drawDockerInner],
+                [StateCommon],
+                [PaletteMetricInt.HeaderButtonEdgeInsetInputControl],
+                [PaletteMetricPadding.HeaderButtonPaddingInputControl],
                                                          CreateToolStripRenderer,
                                                          NeedPaintDelegate);
 
@@ -530,8 +528,6 @@ namespace Krypton.Toolkit
 
             // Add text box to the controls collection
             ((KryptonReadOnlyControls)Controls).AddInternal(_textBox);
-
-            _cornerRoundingRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
 
             //_isInAlphaNumericMode = false;
 
@@ -566,15 +562,6 @@ namespace Krypton.Toolkit
         [Category(@"Data"), DefaultValue(false), Description(@"Only allow numerical input.")]
         public bool IsInAlphaNumericMode { get => _isInAlphaNumericMode; set { _isInAlphaNumericMode = value; SetIsInAlphaNumericMode(this); } }
         */
-
-        /// <summary>Gets or sets the corner rounding radius.</summary>
-        /// <value>The corner rounding radius.</value>
-        [Category(@"Visuals"), DefaultValue(GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE), Description(@"Defines the corner roundness on the current window (-1 is the default look).")]
-        public float CornerRoundingRadius
-        {
-            get => _cornerRoundingRadius;
-            set => SetCornerRoundingRadius(value);
-        }
 
         /// <summary>
         /// Gets access to the common textbox appearance entries that other states can override.
@@ -611,8 +598,8 @@ namespace Krypton.Toolkit
         /// </summary>
         public new bool TabStop
         {
-            get => _textBox!.TabStop;
-            set => _textBox!.TabStop = value;
+            get => _textBox.TabStop;
+            set => _textBox.TabStop = value;
         }
 
         /// <summary>
@@ -692,7 +679,7 @@ namespace Krypton.Toolkit
         /// Gets a value indicating whether the control has input focus.
         /// </summary>
         [Browsable(false)]
-        public override bool Focused => TextBox!.Focused;
+        public override bool Focused => TextBox.Focused;
 
         /// <summary>
         /// Gets or sets the background color for the control.
@@ -749,8 +736,8 @@ namespace Krypton.Toolkit
         [AllowNull]
         public override string Text
         {
-            get => _textBox!.Text;
-            set => _textBox!.Text = value;
+            get => _textBox.Text;
+            set => _textBox.Text = value;
         }
 
         /// <summary>
@@ -763,7 +750,7 @@ namespace Krypton.Toolkit
             set
             {
                 base.ContextMenuStrip = value;
-                _textBox!.ContextMenuStrip = value;
+                _textBox.ContextMenuStrip = value;
             }
         }
 
@@ -772,14 +759,14 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public bool CanUndo => _textBox!.CanUndo;
+        public bool CanUndo => _textBox.CanUndo;
 
         /// <summary>
         /// Gets a value indicating whether the contents have changed since last last.
         /// </summary>
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public bool Modified => _textBox!.Modified;
+        public bool Modified => _textBox.Modified;
 
         /// <summary>
         /// Gets and sets the selected text within the control.
@@ -788,8 +775,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public string SelectedText
         {
-            get => _textBox!.SelectedText;
-            set => _textBox!.SelectedText = value;
+            get => _textBox.SelectedText;
+            set => _textBox.SelectedText = value;
         }
 
         /// <summary>
@@ -799,8 +786,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public int SelectionLength
         {
-            get => _textBox!.SelectionLength;
-            set => _textBox!.SelectionLength = value;
+            get => _textBox.SelectionLength;
+            set => _textBox.SelectionLength = value;
         }
 
         /// <summary>
@@ -810,8 +797,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public int SelectionStart
         {
-            get => _textBox!.SelectionStart;
-            set => _textBox!.SelectionStart = value;
+            get => _textBox.SelectionStart;
+            set => _textBox.SelectionStart = value;
         }
 
         /// <summary>
@@ -819,7 +806,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public int TextLength => _textBox!.TextLength;
+        public int TextLength => _textBox.TextLength;
 
         /// <summary>
         /// Gets or sets a value indicating whether mnemonics will fire button spec buttons.
@@ -872,8 +859,8 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         public string[] Lines
         {
-            get => _textBox!.Lines;
-            set => _textBox!.Lines = value;
+            get => _textBox.Lines;
+            set => _textBox.Lines = value;
         }
 
         /// <summary>
@@ -885,8 +872,8 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         public ScrollBars ScrollBars
         {
-            get => _textBox!.ScrollBars;
-            set => _textBox!.ScrollBars = value;
+            get => _textBox.ScrollBars;
+            set => _textBox.ScrollBars = value;
         }
 
         /// <summary>
@@ -898,8 +885,8 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         public HorizontalAlignment TextAlign
         {
-            get => _textBox!.TextAlign;
-            set => _textBox!.TextAlign = value;
+            get => _textBox.TextAlign;
+            set => _textBox.TextAlign = value;
         }
 
         /// <summary>
@@ -911,8 +898,8 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         public bool WordWrap
         {
-            get => _textBox!.WordWrap;
-            set => _textBox!.WordWrap = value;
+            get => _textBox.WordWrap;
+            set => _textBox.WordWrap = value;
         }
 
         /// <summary>
@@ -925,11 +912,11 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         public bool Multiline
         {
-            get => _textBox!.Multiline;
+            get => _textBox.Multiline;
 
             set
             {
-                if (_textBox!.Multiline != value)
+                if (_textBox.Multiline != value)
                 {
                     _textBox.Multiline = value;
 
@@ -950,8 +937,8 @@ namespace Krypton.Toolkit
         [DefaultValue(false)]
         public bool AcceptsReturn
         {
-            get => _textBox!.AcceptsReturn;
-            set => _textBox!.AcceptsReturn = value;
+            get => _textBox.AcceptsReturn;
+            set => _textBox.AcceptsReturn = value;
         }
 
         /// <summary>
@@ -962,8 +949,8 @@ namespace Krypton.Toolkit
         [DefaultValue(false)]
         public bool AcceptsTab
         {
-            get => _textBox!.AcceptsTab;
-            set => _textBox!.AcceptsTab = value;
+            get => _textBox.AcceptsTab;
+            set => _textBox.AcceptsTab = value;
         }
 
         /// <summary>
@@ -974,8 +961,8 @@ namespace Krypton.Toolkit
         [DefaultValue(CharacterCasing.Normal)]
         public CharacterCasing CharacterCasing
         {
-            get => _textBox!.CharacterCasing;
-            set => _textBox!.CharacterCasing = value;
+            get => _textBox.CharacterCasing;
+            set => _textBox.CharacterCasing = value;
         }
 
         /// <summary>
@@ -986,8 +973,8 @@ namespace Krypton.Toolkit
         [DefaultValue(true)]
         public bool HideSelection
         {
-            get => _textBox!.HideSelection;
-            set => _textBox!.HideSelection = value;
+            get => _textBox.HideSelection;
+            set => _textBox.HideSelection = value;
         }
 
         /// <summary>
@@ -999,8 +986,8 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         public int MaxLength
         {
-            get => _textBox!.MaxLength;
-            set => _textBox!.MaxLength = value;
+            get => _textBox.MaxLength;
+            set => _textBox.MaxLength = value;
         }
 
         /// <summary>
@@ -1012,8 +999,8 @@ namespace Krypton.Toolkit
         [DefaultValue(false)]
         public bool ReadOnly
         {
-            get => _textBox!.ReadOnly;
-            set => _textBox!.ReadOnly = value;
+            get => _textBox.ReadOnly;
+            set => _textBox.ReadOnly = value;
         }
 
         /// <summary>
@@ -1024,8 +1011,8 @@ namespace Krypton.Toolkit
         [DefaultValue(true)]
         public bool ShortcutsEnabled
         {
-            get => _textBox!.ShortcutsEnabled;
-            set => _textBox!.ShortcutsEnabled = value;
+            get => _textBox.ShortcutsEnabled;
+            set => _textBox.ShortcutsEnabled = value;
         }
 
         /// <summary>
@@ -1038,8 +1025,8 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         public char PasswordChar
         {
-            get => _textBox!.PasswordChar;
-            set => _textBox!.PasswordChar = value;
+            get => _textBox.PasswordChar;
+            set => _textBox.PasswordChar = value;
         }
 
         /// <summary>
@@ -1051,8 +1038,8 @@ namespace Krypton.Toolkit
         [DefaultValue(false)]
         public bool UseSystemPasswordChar
         {
-            get => _textBox!.UseSystemPasswordChar;
-            set => _textBox!.UseSystemPasswordChar = value;
+            get => _textBox.UseSystemPasswordChar;
+            set => _textBox.UseSystemPasswordChar = value;
         }
 
         /// <summary>
@@ -1090,8 +1077,8 @@ namespace Krypton.Toolkit
         [Browsable(true)]
         public AutoCompleteStringCollection AutoCompleteCustomSource
         {
-            get => _textBox!.AutoCompleteCustomSource;
-            set => _textBox!.AutoCompleteCustomSource = value;
+            get => _textBox.AutoCompleteCustomSource;
+            set => _textBox.AutoCompleteCustomSource = value;
         }
 
         /// <summary>
@@ -1103,8 +1090,8 @@ namespace Krypton.Toolkit
         [Browsable(true)]
         public AutoCompleteMode AutoCompleteMode
         {
-            get => _textBox!.AutoCompleteMode;
-            set => _textBox!.AutoCompleteMode = value;
+            get => _textBox.AutoCompleteMode;
+            set => _textBox.AutoCompleteMode = value;
         }
 
         /// <summary>
@@ -1116,8 +1103,8 @@ namespace Krypton.Toolkit
         [Browsable(true)]
         public AutoCompleteSource AutoCompleteSource
         {
-            get => _textBox!.AutoCompleteSource;
-            set => _textBox!.AutoCompleteSource = value;
+            get => _textBox.AutoCompleteSource;
+            set => _textBox.AutoCompleteSource = value;
         }
 
         /// <summary>
@@ -1247,41 +1234,41 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="pt">The location from which to seek the nearest character.</param>
         /// <returns>The character at the specified location.</returns>
-        public int GetCharFromPosition(Point pt) => _textBox!.GetCharFromPosition(pt);
+        public int GetCharFromPosition(Point pt) => _textBox.GetCharFromPosition(pt);
 
         /// <summary>
         /// Retrieves the index of the character nearest to the specified location.
         /// </summary>
         /// <param name="pt">The location to search.</param>
         /// <returns>The zero-based character index at the specified location.</returns>
-        public int GetCharIndexFromPosition(Point pt) => _textBox!.GetCharIndexFromPosition(pt);
+        public int GetCharIndexFromPosition(Point pt) => _textBox.GetCharIndexFromPosition(pt);
 
         /// <summary>
         /// Retrieves the index of the first character of a given line.
         /// </summary>
         /// <param name="lineNumber">The line for which to get the index of its first character.</param>
         /// <returns>The zero-based character index in the specified line.</returns>
-        public int GetFirstCharIndexFromLine(int lineNumber) => _textBox!.GetFirstCharIndexFromLine(lineNumber);
+        public int GetFirstCharIndexFromLine(int lineNumber) => _textBox.GetFirstCharIndexFromLine(lineNumber);
 
         /// <summary>
         /// Retrieves the index of the first character of the current line.
         /// </summary>
         /// <returns>The zero-based character index in the current line.</returns>
-        public int GetFirstCharIndexOfCurrentLine() => _textBox!.GetFirstCharIndexOfCurrentLine();
+        public int GetFirstCharIndexOfCurrentLine() => _textBox.GetFirstCharIndexOfCurrentLine();
 
         /// <summary>
         /// Retrieves the line number from the specified character position within the text of the RichTextBox control.
         /// </summary>
         /// <param name="index">The character index position to search.</param>
         /// <returns>The zero-based line number in which the character index is located.</returns>
-        public int GetLineFromCharIndex(int index) => _textBox!.GetLineFromCharIndex(index);
+        public int GetLineFromCharIndex(int index) => _textBox.GetLineFromCharIndex(index);
 
         /// <summary>
         /// Retrieves the location within the control at the specified character index.
         /// </summary>
         /// <param name="index">The index of the character for which to retrieve the location.</param>
         /// <returns>The location of the specified character.</returns>
-        public Point GetPositionFromCharIndex(int index) => _textBox!.GetPositionFromCharIndex(index);
+        public Point GetPositionFromCharIndex(int index) => _textBox.GetPositionFromCharIndex(index);
 
         /// <summary>
         /// Sets the fixed state of the control.
@@ -1369,7 +1356,7 @@ namespace Krypton.Toolkit
                 ForceViewLayout();
 
                 // The inside text box is the client rectangle size
-                return new Rectangle(_textBox!.Location, _textBox.Size);
+                return new Rectangle(_textBox.Location, _textBox.Size);
             }
         }
 
@@ -1634,7 +1621,7 @@ namespace Krypton.Toolkit
             {
                 Rectangle fillRect = _layoutFill.FillRect;
                 //  for centering the inner text field vertically
-                var y = Height / 2 - _textBox!.Height / 2;
+                var y = Height / 2 - _textBox.Height / 2;
 
                 _textBox.SetBounds(fillRect.X, y, fillRect.Width, fillRect.Height);
             }
@@ -1768,7 +1755,7 @@ namespace Krypton.Toolkit
         /// <param name="e">An EventArgs that contains the event data.</param>
         protected override void OnTabStopChanged(EventArgs e)
         {
-            TextBox!.TabStop = TabStop;
+            TextBox.TabStop = TabStop;
             base.OnTabStopChanged(e);
         }
 
@@ -1778,7 +1765,7 @@ namespace Krypton.Toolkit
         /// <param name="e">An EventArgs that contains the event data.</param>
         protected override void OnCausesValidationChanged(EventArgs e)
         {
-            TextBox!.CausesValidation = CausesValidation;
+            TextBox.CausesValidation = CausesValidation;
             base.OnCausesValidationChanged(e);
         }
 
@@ -1987,7 +1974,7 @@ namespace Krypton.Toolkit
         private void OnTextBoxMouseChange(object sender, EventArgs e)
         {
             // Change in tracking state?
-            if (_textBox!.MouseOver != _trackingMouseEnter)
+            if (_textBox.MouseOver != _trackingMouseEnter)
             {
                 _trackingMouseEnter = _textBox.MouseOver;
 
@@ -2015,13 +2002,6 @@ namespace Krypton.Toolkit
             // ReSharper disable RedundantBaseQualifier
             base.OnClick(e);
         // ReSharper restore RedundantBaseQualifier
-
-        private void SetCornerRoundingRadius(float? radius)
-        {
-            _cornerRoundingRadius = radius ?? GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
-
-            StateCommon.Border.Rounding = _cornerRoundingRadius;
-        }
 
         private void SetIsInAlphaNumericMode(KryptonTextBox owner)
         {

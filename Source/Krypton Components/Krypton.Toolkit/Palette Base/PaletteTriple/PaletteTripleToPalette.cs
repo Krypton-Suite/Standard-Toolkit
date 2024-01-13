@@ -163,8 +163,9 @@ namespace Krypton.Toolkit
                               PaletteContentStyle.ButtonCustom3);
                     break;
                 default:
-                    // Should never happen!
+    // Should never happen!
                     Debug.Assert(false);
+                    DebugTools.NotImplemented(buttonStyle.ToString());
                     break;
             }
         }

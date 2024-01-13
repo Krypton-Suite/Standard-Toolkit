@@ -36,7 +36,7 @@ namespace Krypton.Ribbon
         private bool _checked;
         private string _textLine;
         private string _keyTip;
-        private Image? _imageSmall;
+        private Image _imageSmall;
         private GroupItemSize _itemSizeMax;
         private GroupItemSize _itemSizeMin;
         private GroupItemSize _itemSizeCurrent;
@@ -156,7 +156,7 @@ namespace Krypton.Ribbon
         [Category(@"Appearance")]
         [Description(@"Small button image.")]
         [RefreshProperties(RefreshProperties.All)]
-        public Image? ImageSmall
+        public Image ImageSmall
         {
             get => _imageSmall;
 
@@ -696,13 +696,16 @@ namespace Krypton.Ribbon
                             case GroupButtonType.Check:
                                 PerformClick();
                                 return true;
+
                             case GroupButtonType.DropDown:
                             case GroupButtonType.Split:
                                 PerformDropDown();
                                 return true;
+
                             default:
-                                // Should never happen!
+    // Should never happen!
                                 Debug.Assert(false);
+                                DebugTools.NotImplemented(ButtonType.ToString());
                                 break;
                         }
 

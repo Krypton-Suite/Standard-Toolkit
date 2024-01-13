@@ -153,7 +153,7 @@ namespace Krypton.Toolkit
                         {
                             insideLighten.CenterPoint = ellipseCenter;
                             insideLighten.CenterColor = Color.White;
-                            insideLighten.SurroundColors = new[] { Color.Transparent };
+                            insideLighten.SurroundColors = [Color.Transparent];
                             g.FillPath(insideLighten, ellipsePath);
                         }
                     }
@@ -256,7 +256,7 @@ namespace Krypton.Toolkit
                 using var insideLighten = new PathGradientBrush(ellipsePath);
                 insideLighten.CenterPoint = ellipseCenter;
                 insideLighten.CenterColor = Color.FromArgb(96, Color.White);
-                insideLighten.SurroundColors = new[] { Color.Transparent };
+                insideLighten.SurroundColors = [Color.Transparent];
                 g.FillPath(insideLighten, ellipsePath);
             }
         }
@@ -319,20 +319,20 @@ namespace Krypton.Toolkit
         {
             _stripBlend = new Blend
             {
-                Positions = new[] { 0.0f, 0.33f, 0.66f, 1.0f },
-                Factors = new[] { 0.0f, 0.5f, 0.8f, 1.0f }
+                Positions = [0.0f, 0.33f, 0.66f, 1.0f],
+                Factors = [0.0f, 0.5f, 0.8f, 1.0f]
             };
 
             _separatorDarkBlend = new Blend
             {
-                Positions = new[] { 0.0f, 0.5f, 1.0f },
-                Factors = new[] { 0.2f, 1f, 0.2f }
+                Positions = [0.0f, 0.5f, 1.0f],
+                Factors = [0.2f, 1f, 0.2f]
             };
 
             _separatorLightBlend = new Blend
             {
-                Positions = new[] { 0.0f, 0.5f, 1.0f },
-                Factors = new[] { 0.1f, 0.6f, 0.1f }
+                Positions = [0.0f, 0.5f, 1.0f],
+                Factors = [0.1f, 0.6f, 0.1f]
             };
         }
 
@@ -1305,7 +1305,7 @@ namespace Krypton.Toolkit
                 var b = rect.Bottom;
 
                 using var marginPen = new Pen(Color.FromArgb(80, KCT.MenuBorder));
-                marginPen.DashPattern = new float[] { 2, 2 };
+                marginPen.DashPattern = [2, 2];
                 g.DrawLine(marginPen, l, t, l, b);
             }
             else
@@ -1315,7 +1315,7 @@ namespace Krypton.Toolkit
                 var r = rect.Right - (rtl ? horizontalInset : 0);
 
                 using var marginPen = new Pen(Color.FromArgb(80, KCT.MenuBorder));
-                marginPen.DashPattern = new float[] { 2, 2 };
+                marginPen.DashPattern = [2, 2];
                 g.DrawLine(marginPen, l, y, r, y);
             }
         }

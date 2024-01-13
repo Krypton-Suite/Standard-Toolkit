@@ -98,7 +98,7 @@ namespace Krypton.Toolkit
             AllowDragging = false;
             _dragging = false;
             ClickOnDown = false;
-            Target = target!;
+            Target = target;
             Repeat = false;
             NeedPaint = needPaint;
         }
@@ -748,7 +748,7 @@ namespace Krypton.Toolkit
         /// <param name="pt">Mouse point.</param>
         protected virtual void UpdateTargetState(Point pt)
         {
-            // By default the button is in the normal state
+            // By default, the button is in the normal state
             PaletteState newState;
 
             // If the button is disabled then show as disabled

@@ -263,7 +263,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Implementation
-        private IPaletteRibbonBack? GetBackInherit(PaletteState state)
+        private IPaletteRibbonBack GetBackInherit(PaletteState state)
         {
             switch (state)
             {
@@ -282,13 +282,13 @@ namespace Krypton.Toolkit
                 case PaletteState.FocusOverride:
                     return _focusOverrideBack;
                 default:
-                    // Should never happen!
+    // Should never happen!
                     Debug.Assert(false);
-                    return null;
+                    throw DebugTools.NotImplemented(state.ToString());
             }
         }
 
-        private IPaletteRibbonText? GetTextInherit(PaletteState state)
+        private IPaletteRibbonText GetTextInherit(PaletteState state)
         {
             switch (state)
             {
@@ -307,9 +307,9 @@ namespace Krypton.Toolkit
                 case PaletteState.FocusOverride:
                     return _focusOverrideText;
                 default:
-                    // Should never happen!
+    // Should never happen!
                     Debug.Assert(false);
-                    return null;
+                    throw DebugTools.NotImplemented(state.ToString());
             }
         }
         #endregion

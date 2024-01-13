@@ -19,8 +19,8 @@ namespace Krypton.Toolkit
     public abstract class ButtonSpecManagerBase : GlobalId
     {
         #region Type Definitions
-        internal class ButtonSpecLookup : Dictionary<ButtonSpec, ButtonSpecView> { }
-        internal class ListSpacers : List<ViewLayoutMetricSpacer> { }
+        internal class ButtonSpecLookup : Dictionary<ButtonSpec, ButtonSpecView>;
+        internal class ListSpacers : List<ViewLayoutMetricSpacer>;
         #endregion
 
         #region Instance Fields
@@ -71,15 +71,15 @@ namespace Krypton.Toolkit
             NeedPaint = needPaint;
 
             // Remember references
-            Control = control!;
-            _redirector = redirector!;
+            Control = control;
+            _redirector = redirector;
             _variableSpecs = variableSpecs;
             _fixedSpecs = fixedSpecs;
             _viewMetrics = viewMetrics;
             _viewMetricIntOutside = viewMetricIntOutside;
             _viewMetricIntInside = viewMetricIntInside;
             _viewMetricPaddings = viewMetricPaddings;
-            _getRenderer = getRenderer!;
+            _getRenderer = getRenderer;
 
             if (_viewMetrics != null)
             {
@@ -652,7 +652,7 @@ namespace Krypton.Toolkit
         /// <param name="buttonSpec">ButtonSpec instance.</param>
         /// <returns>ButtonSpecView derived class.</returns>
         protected virtual ButtonSpecView CreateButtonSpecView([DisallowNull] PaletteRedirect redirector,
-                                                              IPaletteMetric? viewPaletteMetric,
+                                                              IPaletteMetric viewPaletteMetric,
                                                               PaletteMetricPadding viewMetricPadding,
                                                               ButtonSpec buttonSpec) =>
             new ButtonSpecView(redirector, viewPaletteMetric, viewMetricPadding, this, buttonSpec);
@@ -776,7 +776,7 @@ namespace Krypton.Toolkit
                 _specLookup.Add(buttonSpec, buttonView);
 
                 // Update the button with the same orientation as the view header
-                buttonView.ViewButton!.Orientation = CalculateOrientation(DockerOrientation(viewDockerIndex),
+                buttonView.ViewButton.Orientation = CalculateOrientation(DockerOrientation(viewDockerIndex),
                                                                          buttonSpec.GetOrientation(_redirector));
 
                 buttonView.ViewCenter.Orientation = DockerOrientation(viewDockerIndex);
@@ -853,8 +853,9 @@ namespace Krypton.Toolkit
                 case HeaderLocation.SecondaryHeader:
                     return 1;
                 default:
-                    // Should never happen!
+    // Should never happen!
                     Debug.Assert(false);
+                    DebugTools.NotImplemented(location.ToString());
                     break;
             }
 

@@ -190,6 +190,9 @@ There are list of changes that have occurred during the development of the V90.#
 - [#215](https://github.com/Krypton-Suite/Standard-Toolkit/issues/215), `KryptonTreeView` Multi Node Select
   - Designer values named `State####Pressed` have changed to `State#####MultiSelect` to reflect usage
   - New ReeView Designer value `MultiSelect` allows drawing of selected items and retrieval via `CheckedNodes`
+- [#1268](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1268),  Many Krypton Controls have a `CornerRoundingRadius` that overrides the State#### Node Rounding values. Please remove!
+  - `CornerRoundingRadius` overrides **ONLY** the `StateCommon.Border.Rounding` which is incorrect.
+  - All `CornerRoundingRadius` have been removed
 
 ### Support for .NET 6/7
 As of V90.##, support for .NET 6 and 7 has been removed due to their release cadences.

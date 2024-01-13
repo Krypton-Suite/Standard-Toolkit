@@ -38,7 +38,7 @@ namespace Krypton.Navigator
             Debug.Assert(navigator != null);
 
             // Remember back reference to owning control
-            _navigator = navigator!;
+            _navigator = navigator;
 
             // Set initial values to the default
             _mapImage = GetMapImageDefault();
@@ -52,7 +52,7 @@ namespace Krypton.Navigator
         /// Gets the default image value.
         /// </summary>
         /// <returns>Image reference.</returns>
-        protected override Image? GetImageDefault() => null;
+        protected override Image GetImageDefault() => null;
 
         /// <summary>
         /// Gets the default image mapping value.
@@ -91,7 +91,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="state">State for which the image is needed.</param>
         /// <returns>Image value.</returns>
-        public override Image? GetImage(PaletteState state)
+        public override Image GetImage(PaletteState state)
         {
             // If there is no selected page to map from or if the
             // mapping indicates to always use the static image

@@ -215,11 +215,11 @@ namespace Krypton.Ribbon
         private void CreateButtonManager(RibbonAppButton appButton)
         {
             _buttonManager = new ButtonSpecManagerLayoutAppButton((ViewContextMenuManager)ViewManager!,
-                                                                  this, Redirector!, appButton.AppButtonSpecs, null,
-                                                                  new[] { _viewButtonSpecDocker },
-                                                                  new IPaletteMetric[] { _ribbon.StateCommon },
-                                                                  new[] { PaletteMetricInt.None },
-                                                                  new[] { PaletteMetricPadding.RibbonAppButton },
+                                                                  this, Redirector, appButton.AppButtonSpecs, null,
+                                                                  [_viewButtonSpecDocker],
+                                                                  [_ribbon.StateCommon],
+                                                                  [PaletteMetricInt.None],
+                                                                  [PaletteMetricPadding.RibbonAppButton],
                                                                   CreateToolStripRenderer!,
                                                                   OnButtonSpecPaint);
 
@@ -442,7 +442,7 @@ namespace Krypton.Ribbon
             using var gh = new GraphicsHint(context.Graphics, _drawOutsideBorder.GetBorderGraphicsHint(PaletteState.Normal));
             // Grab a path that is the outside edge of the border
             Rectangle borderRect = ClientRectangle;
-            GraphicsPath borderPath1 = Renderer!.RenderStandardBorder.GetOutsideBorderPath(context, borderRect, _drawOutsideBorder, VisualOrientation.Top, PaletteState.Normal);
+            GraphicsPath borderPath1 = Renderer.RenderStandardBorder.GetOutsideBorderPath(context, borderRect, _drawOutsideBorder, VisualOrientation.Top, PaletteState.Normal);
             borderRect.Inflate(-1, -1);
             GraphicsPath borderPath2 = Renderer.RenderStandardBorder.GetOutsideBorderPath(context, borderRect, _drawOutsideBorder, VisualOrientation.Top, PaletteState.Normal);
             borderRect.Inflate(-1, -1);
@@ -475,7 +475,7 @@ namespace Krypton.Ribbon
             {
                 // Find the preferred size which fits exactly the calculated contents size
                 using var context = new ViewLayoutContext(this, Renderer);
-                return ViewManager!.Root!.GetPreferredSize(context);
+                return ViewManager!.Root.GetPreferredSize(context);
             }
             finally
             {

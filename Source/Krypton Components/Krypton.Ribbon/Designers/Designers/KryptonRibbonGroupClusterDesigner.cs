@@ -166,9 +166,9 @@ namespace Krypton.Ribbon
                 var lines = _ribbonCluster.RibbonContainer as KryptonRibbonGroupLines;
 
                 moveFirst = lines!.Items!.IndexOf(_ribbonCluster) > 0;
-                movePrev = lines!.Items!.IndexOf(_ribbonCluster) > 0;
-                moveNext = lines!.Items!.IndexOf(_ribbonCluster) < (lines.Items.Count - 1);
-                moveLast = lines!.Items!.IndexOf(_ribbonCluster) < (lines.Items.Count - 1);
+                movePrev = lines.Items!.IndexOf(_ribbonCluster) > 0;
+                moveNext = lines.Items!.IndexOf(_ribbonCluster) < (lines.Items.Count - 1);
+                moveLast = lines.Items!.IndexOf(_ribbonCluster) < (lines.Items.Count - 1);
                 clearItems = _ribbonCluster.Items.Count > 0;
             }
 
@@ -207,7 +207,7 @@ namespace Krypton.Ribbon
 
                     // Move position of the cluster
                     lines!.Items!.Remove(_ribbonCluster);
-                    lines!.Items!.Insert(0, _ribbonCluster);
+                    lines.Items!.Insert(0, _ribbonCluster);
                     UpdateVerbStatus();
 
                     RaiseComponentChanged(propertyItems, null, null);
@@ -240,8 +240,8 @@ namespace Krypton.Ribbon
                     // Move position of the cluster
                     var index = lines!.Items!.IndexOf(_ribbonCluster) - 1;
                     index = Math.Max(index, 0);
-                    lines!.Items!.Remove(_ribbonCluster);
-                    lines!.Items!.Insert(index, _ribbonCluster);
+                    lines.Items!.Remove(_ribbonCluster);
+                    lines.Items!.Insert(index, _ribbonCluster);
                     UpdateVerbStatus();
 
                     RaiseComponentChanged(propertyItems, null, null);
@@ -274,8 +274,8 @@ namespace Krypton.Ribbon
                     // Move position of the cluster
                     var index = lines!.Items!.IndexOf(_ribbonCluster) + 1;
                     index = Math.Min(index, lines.Items.Count - 1);
-                    lines!.Items!.Remove(_ribbonCluster);
-                    lines!.Items!.Insert(index, _ribbonCluster);
+                    lines.Items!.Remove(_ribbonCluster);
+                    lines.Items!.Insert(index, _ribbonCluster);
                     UpdateVerbStatus();
 
                     RaiseComponentChanged(propertyItems, null, null);
@@ -307,7 +307,7 @@ namespace Krypton.Ribbon
 
                     // Move position of the cluster
                     lines!.Items!.Remove(_ribbonCluster);
-                    lines!.Items!.Insert(lines!.Items!.Count, _ribbonCluster);
+                    lines.Items!.Insert(lines.Items!.Count, _ribbonCluster);
                     UpdateVerbStatus();
 
                     RaiseComponentChanged(propertyItems, null, null);

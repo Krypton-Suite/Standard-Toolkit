@@ -14,7 +14,7 @@
 
 namespace Krypton.Ribbon
 {
-    internal class KeyTipInfoList : List<KeyTipInfo> {}
+    internal class KeyTipInfoList : List<KeyTipInfo>;
 
     internal class KeyTipInfo
     {

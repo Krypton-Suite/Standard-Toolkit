@@ -54,9 +54,9 @@ namespace Krypton.Toolkit
             Debug.Assert(linkLabel != null);
             Debug.Assert(needPaint != null);
 
-            ViewManager = viewManager!;
-            _target = target!;
-            _menuLinkLabel = linkLabel!;
+            ViewManager = viewManager;
+            _target = target;
+            _menuLinkLabel = linkLabel;
             NeedPaint = needPaint;
         }
         #endregion

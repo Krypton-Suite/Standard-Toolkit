@@ -54,9 +54,9 @@ namespace Krypton.Toolkit
             Debug.Assert(radioButton != null);
             Debug.Assert(needPaint != null);
 
-            ViewManager = viewManager!;
-            _target = target!;
-            _menuRadioButton = radioButton!;
+            ViewManager = viewManager;
+            _target = target;
+            _menuRadioButton = radioButton;
             NeedPaint = needPaint;
         }
         #endregion

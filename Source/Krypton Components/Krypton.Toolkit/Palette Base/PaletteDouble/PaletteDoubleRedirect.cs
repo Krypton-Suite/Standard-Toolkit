@@ -169,8 +169,9 @@ namespace Krypton.Toolkit
                     SetStyles(PaletteBackStyle.SeparatorCustom3, PaletteBorderStyle.SeparatorCustom3);
                     break;
                 default:
-                    // Should never happen!
+    // Should never happen!
                     Debug.Assert(false);
+                    DebugTools.NotImplemented(separatorStyle.ToString());
                     break;
             }
         }
@@ -190,8 +191,9 @@ namespace Krypton.Toolkit
                     SetStyles(PaletteBackStyle.InputControlRibbon, PaletteBorderStyle.InputControlRibbon);
                     break;
                 default:
-                    // Should never happen!
+    // Should never happen!
                     Debug.Assert(false);
+                    DebugTools.NotImplemented(inputControlStyle.ToString());
                     break;
             }
         }

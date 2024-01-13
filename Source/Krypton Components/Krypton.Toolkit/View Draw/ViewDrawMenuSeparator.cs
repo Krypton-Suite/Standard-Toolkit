@@ -24,7 +24,7 @@ namespace Krypton.Toolkit
         /// <param name="separator">Reference to owning separator entry.</param>
         /// <param name="palette">Palette for obtaining drawing values.</param>
         public ViewDrawMenuSeparator([DisallowNull] KryptonContextMenuSeparator separator,
-                                     PaletteDoubleRedirect? palette)
+                                     PaletteDoubleRedirect palette)
             : base(separator.StateNormal.Back, separator.StateNormal.Border)
         {
             // Draw the separator by default

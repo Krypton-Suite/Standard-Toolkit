@@ -28,8 +28,8 @@ namespace Krypton.Toolkit
                                        ICloneable
     {
         #region Instance Fields
-        private Image? _image;
-        private Image? _toolTipImage;
+        private Image _image;
+        private Image _toolTipImage;
         private Color _colorMap;
         private Color _imageTransparentColor;
         private Color _toolTipImageTransparentColor;
@@ -177,7 +177,7 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         [Category(@"Appearance")]
         [Description(@"Button image.")]
-        public Image? Image
+        public Image Image
         {
             get => _image;
 
@@ -289,7 +289,7 @@ namespace Krypton.Toolkit
         [Category(@"ToolTip")]
         [Description(@"Button tooltip image.")]
         [DefaultValue(null)]
-        public Image? ToolTipImage
+        public Image ToolTipImage
         {
             get => _toolTipImage;
 
@@ -746,9 +746,9 @@ namespace Krypton.Toolkit
         /// <param name="palette">Palette to use for inheriting values.</param>
         /// <param name="state">State for which an image is needed.</param>
         /// <returns>Button image.</returns>
-        public virtual Image? GetImage(PaletteBase? palette, PaletteState state)
+        public virtual Image GetImage(PaletteBase? palette, PaletteState state)
         {
-            Image? image = null;
+            Image image = null;
 
             // Prefer to get image from the command first
             if (KryptonCommand != null)
@@ -990,11 +990,14 @@ namespace Krypton.Toolkit
             {
                 case PaletteRelativeEdgeAlign.Near:
                     return RelativeEdgeAlign.Near;
+
                 case PaletteRelativeEdgeAlign.Far:
                     return RelativeEdgeAlign.Far;
+
                 default:
-                    // Should never happen!
+    // Should never happen!
                     Debug.Assert(false);
+                    DebugTools.NotImplemented(paletteRelativeEdgeAlign.ToString());
                     return RelativeEdgeAlign.Far;
             }
         }
@@ -1010,17 +1013,23 @@ namespace Krypton.Toolkit
             {
                 case PaletteButtonOrientation.Auto:
                     return ButtonOrientation.Auto;
+
                 case PaletteButtonOrientation.FixedBottom:
                     return ButtonOrientation.FixedBottom;
+
                 case PaletteButtonOrientation.FixedLeft:
                     return ButtonOrientation.FixedLeft;
+
                 case PaletteButtonOrientation.FixedRight:
                     return ButtonOrientation.FixedRight;
+
                 case PaletteButtonOrientation.FixedTop:
                     return ButtonOrientation.FixedTop;
+
                 default:
-                    // Should never happen!
+    // Should never happen!
                     Debug.Assert(false);
+                    DebugTools.NotImplemented(paletteButtonOrientation.ToString());
                     return ButtonOrientation.Auto;
             }
         }
@@ -1069,8 +1078,9 @@ namespace Krypton.Toolkit
                 case PaletteButtonStyle.Custom3:
                     return ButtonStyle.Custom3;
                 default:
-                    // Should never happen!
+    // Should never happen!
                     Debug.Assert(false);
+                    DebugTools.NotImplemented(paletteButtonStyle.ToString());
                     return ButtonStyle.Standalone;
             }
         }

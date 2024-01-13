@@ -52,7 +52,7 @@ namespace Krypton.Toolkit
         public PaletteContextMenuItemState(PaletteDoubleMetricRedirect? redirectItemHighlight,
                                            PaletteTripleJustImageRedirect redirectItemImage,
                                            PaletteContentInheritRedirect redirectItemShortcutText,
-                                           PaletteDoubleRedirect? redirectItemSplit,
+                                           PaletteDoubleRedirect redirectItemSplit,
                                            PaletteContentInheritRedirect redirectItemTextStandard,
                                            PaletteContentInheritRedirect redirectItemTextAlternate)
         {
@@ -115,7 +115,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Overrides for defining item highlight appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteDoubleMetric? ItemHighlight { get; }
+        public PaletteDoubleMetric ItemHighlight { get; }
 
         private bool ShouldSerializeItemHighlight() => !ItemHighlight.IsDefault;
 
@@ -157,7 +157,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Overrides for defining item split appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteDouble? ItemSplit { get; }
+        public PaletteDouble ItemSplit { get; }
 
         private bool ShouldSerializeItemSplit() => !ItemSplit.IsDefault;
 

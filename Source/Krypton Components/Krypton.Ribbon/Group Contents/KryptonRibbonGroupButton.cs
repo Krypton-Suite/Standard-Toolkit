@@ -729,13 +729,16 @@ namespace Krypton.Ribbon
                             case GroupButtonType.Check:
                                 PerformClick();
                                 return true;
+
                             case GroupButtonType.DropDown:
                             case GroupButtonType.Split:
                                 PerformDropDown();
                                 return true;
+
                             default:
-                                // Should never happen!
+    // Should never happen!
                                 Debug.Assert(false);
+                                DebugTools.NotImplemented(ButtonType.ToString());
                                 break;
                         }
 

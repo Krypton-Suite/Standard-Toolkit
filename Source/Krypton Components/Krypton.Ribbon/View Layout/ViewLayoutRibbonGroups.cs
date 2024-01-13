@@ -20,8 +20,8 @@ namespace Krypton.Ribbon
     internal class ViewLayoutRibbonGroups : ViewComposite
     {
         #region Classes
-        private class GroupToView : Dictionary<KryptonRibbonGroup, ViewDrawRibbonGroup> { }
-        private class ViewDrawRibbonGroupSepList : List<ViewLayoutRibbonSeparator> { }
+        private class GroupToView : Dictionary<KryptonRibbonGroup, ViewDrawRibbonGroup>;
+        private class ViewDrawRibbonGroupSepList : List<ViewLayoutRibbonSeparator>;
         #endregion
 
         #region Statis Fields
@@ -58,8 +58,8 @@ namespace Krypton.Ribbon
 
             // Cache references
             _ribbon = ribbon;
-            _ribbonTab = ribbonTab!;
-            _needPaint = needPaint!;
+            _ribbonTab = ribbonTab;
+            _needPaint = needPaint;
 
             // Create initial lookup table
             _groupToView = new GroupToView();
@@ -308,7 +308,7 @@ namespace Krypton.Ribbon
             Debug.Assert(context != null);
 
             // We take on all the available display area
-            ClientRectangle = context!.DisplayRectangle;
+            ClientRectangle = context.DisplayRectangle;
 
             var x = ClientLocation.X;
 

@@ -36,7 +36,7 @@ namespace Krypton.Navigator
         protected override void CreateCheckItemView()
         {
             // Create a canvas for containing the selected page and put old root inside it
-            _drawGroup = new ViewDrawCanvas(Navigator.StateNormal!.HeaderGroup!.Back,
+            _drawGroup = new ViewDrawCanvas(Navigator.StateNormal.HeaderGroup.Back,
                                             Navigator.StateNormal.HeaderGroup.Border,
                                             VisualOrientation.Top)
             {

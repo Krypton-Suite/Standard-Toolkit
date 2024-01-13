@@ -43,9 +43,9 @@ namespace Krypton.Ribbon
             Debug.Assert(dateTimePicker != null);
             Debug.Assert(target != null);
 
-            _ribbon = ribbon!;
-            _dateTimePicker = dateTimePicker!;
-            _target = target!;
+            _ribbon = ribbon;
+            _dateTimePicker = dateTimePicker;
+            _target = target;
         }
         #endregion
 

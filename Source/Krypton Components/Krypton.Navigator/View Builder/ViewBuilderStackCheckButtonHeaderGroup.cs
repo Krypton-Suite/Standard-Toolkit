@@ -214,8 +214,8 @@ namespace Krypton.Navigator
             _viewLayout = new ViewLayoutDocker();
 
             // Cache the border edge palette to use
-            PaletteBorderEdge buttonEdgePalette = (Navigator.Enabled ? Navigator.StateNormal!.BorderEdge :
-                                                                       Navigator.StateDisabled!.BorderEdge);
+            PaletteBorderEdge buttonEdgePalette = (Navigator.Enabled ? Navigator.StateNormal.BorderEdge :
+                                                                       Navigator.StateDisabled.BorderEdge);
 
             // Create the scrolling viewport and pass in the _viewLayout as the content to scroll
             _viewScrollViewport = new ViewLayoutScrollViewport(Navigator, _viewLayout, buttonEdgePalette, null,
@@ -229,11 +229,11 @@ namespace Krypton.Navigator
             _viewScrollViewport.MakeParent(Navigator.ChildPanel!);
 
             // Create the header group and fill with the view layout
-            _headerGroup = new ViewletHeaderGroup(Navigator, Redirector!, NeedPaintDelegate);
+            _headerGroup = new ViewletHeaderGroup(Navigator, Redirector, NeedPaintDelegate);
             ViewBase newRoot = _headerGroup.Construct(_viewScrollViewport);
 
             // Put the old root as the filler inside stack elements
-            _viewLayout.Add(_oldRoot!, ViewDockStyle.Fill);
+            _viewLayout.Add(_oldRoot, ViewDockStyle.Fill);
 
             return newRoot;
         }

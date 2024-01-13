@@ -57,13 +57,13 @@ namespace Krypton.Workspace
                 /// Gets access to the disabled page appearance entries.
                 /// </summary>
                 [Category(@"Visuals")]
-                public PaletteNavigator? StateDisabled => _item.StateDisabled;
+                public PaletteNavigator StateDisabled => _item.StateDisabled;
 
                 /// <summary>
                 /// Gets access to the normal page appearance entries.
                 /// </summary>
                 [Category(@"Visuals")]
-                public PaletteNavigator? StateNormal => _item.StateNormal;
+                public PaletteNavigator StateNormal => _item.StateNormal;
 
                 /// <summary>
                 /// Gets access to the tracking page appearance entries.
@@ -127,7 +127,7 @@ namespace Krypton.Workspace
                 /// </summary>
                 [Category(@"Appearance")]
                 [DefaultValue(null)]
-                public Bitmap? ImageSmall
+                public Bitmap ImageSmall
                 {
                     get => _item.ImageSmall;
                     set => _item.ImageSmall = value;
@@ -138,7 +138,7 @@ namespace Krypton.Workspace
                 /// </summary>
                 [Category(@"Appearance")]
                 [DefaultValue(null)]
-                public Bitmap? ImageMedium
+                public Bitmap ImageMedium
                 {
                     get => _item.ImageMedium;
                     set => _item.ImageMedium = value;
@@ -149,7 +149,7 @@ namespace Krypton.Workspace
                 /// </summary>
                 [Category(@"Appearance")]
                 [DefaultValue(null)]
-                public Bitmap? ImageLarge
+                public Bitmap ImageLarge
                 {
                     get => _item.ImageLarge;
                     set => _item.ImageLarge = value;
@@ -160,7 +160,7 @@ namespace Krypton.Workspace
                 /// </summary>
                 [Category(@"Appearance")]
                 [DefaultValue(null)]
-                public Bitmap? ToolTipImage
+                public Bitmap ToolTipImage
                 {
                     get => _item.ToolTipImage;
                     set => _item.ToolTipImage = value;
@@ -440,13 +440,13 @@ namespace Krypton.Workspace
                 /// Gets access to the disabled navigator appearance entries.
                 /// </summary>
                 [Category(@"Visuals")]
-                public PaletteNavigator? StateDisabled => _item.StateDisabled;
+                public PaletteNavigator StateDisabled => _item.StateDisabled;
 
                 /// <summary>
                 /// Gets access to the normal navigator appearance entries.
                 /// </summary>
                 [Category(@"Visuals")]
-                public PaletteNavigator? StateNormal => _item.StateNormal;
+                public PaletteNavigator StateNormal => _item.StateNormal;
 
                 /// <summary>
                 /// Gets access to the tracking navigator appearance entries.
@@ -1234,8 +1234,7 @@ namespace Krypton.Workspace
                     NodeToType(node, out var isNodePage, out var isNodeCell, out var isNodeSequence);
 
                     // Find the next node compatible as target for the selected node
-                    var nextNode = NextNode(node) as MenuTreeNode;
-                    if (nextNode != null)
+                    if (NextNode(node) is MenuTreeNode nextNode)
                     {
                         NodeToType(nextNode, out var isNextPage, out var isNextCell, out var isNextSequence);
 

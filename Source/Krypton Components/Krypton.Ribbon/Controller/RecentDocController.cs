@@ -45,9 +45,9 @@ namespace Krypton.Ribbon
             Debug.Assert(menuItem != null);
             Debug.Assert(needPaint != null);
 
-            ViewManager = viewManager!;
-            _menuItem = menuItem!;
-            NeedPaint = needPaint!;
+            ViewManager = viewManager;
+            _menuItem = menuItem;
+            NeedPaint = needPaint;
         }
         #endregion
 
@@ -361,7 +361,7 @@ namespace Krypton.Ribbon
         private void NormalState()
         {
             _menuItem.ElementState = PaletteState.Normal;
-            _menuItem.SetPalettes(_menuItem.Provider.ProviderStateNormal.ItemHighlight!.Back,
+            _menuItem.SetPalettes(_menuItem.Provider.ProviderStateNormal.ItemHighlight.Back,
                                   _menuItem.Provider.ProviderStateNormal.ItemHighlight.Border);
 
             PerformNeedPaint(false);

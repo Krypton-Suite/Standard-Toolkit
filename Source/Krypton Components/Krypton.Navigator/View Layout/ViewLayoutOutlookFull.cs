@@ -50,7 +50,7 @@ namespace Krypton.Navigator
                    vertical, needPaintDelegate)
         {
             Debug.Assert(viewBuilder != null);
-            ViewBuilder = viewBuilder!;
+            ViewBuilder = viewBuilder;
         }
 
         /// <summary>

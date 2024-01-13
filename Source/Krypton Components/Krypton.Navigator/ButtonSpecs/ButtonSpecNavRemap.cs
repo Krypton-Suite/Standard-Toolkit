@@ -134,7 +134,7 @@ namespace Krypton.Navigator
         {
             Debug.Assert(buttonSpec != null);
 
-            _buttonSpec = buttonSpec!;
+            _buttonSpec = buttonSpec;
             _remapTarget = remapTarget;
         }
         #endregion
@@ -319,8 +319,9 @@ namespace Krypton.Navigator
                 case ButtonSpecRemapTarget.TabCustom3:
                     return base.GetContentShortTextColor1(PaletteContentStyle.TabCustom3, state);
                 default:
-                    // Should never happen!
+    // Should never happen!
                     Debug.Assert(false);
+                    DebugTools.NotImplemented(_remapTarget.ToString());
                     return Color.Black;
             }
         }

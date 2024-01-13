@@ -14,7 +14,7 @@ namespace Krypton.Toolkit
     {
         #region Static Fields
 
-        private static readonly Image? DEFAULT_IMAGE = /*MessageBoxImageResources.GenericQuestion;*/ GraphicsExtensions.ScaleImage(GraphicsExtensions.ExtractIcon(Libraries.Shell32, 16805, true)?.ToBitmap(), 32, 32);
+        private static readonly Image DEFAULT_IMAGE = /*MessageBoxImageResources.GenericQuestion;*/ GraphicsExtensions.ScaleImage(GraphicsExtensions.ExtractIcon(Libraries.Shell32, 16805, true)?.ToBitmap(), 32, 32);
 
         private static readonly Image DEFAULT_WINDOWS_11_IMAGE = CommandLinkImageResources.Windows_11_CommandLink_Arrow;
 
@@ -28,7 +28,7 @@ namespace Krypton.Toolkit
 
         private Color _transparencyKey;
 
-        private Image? _image;
+        private Image _image;
 
         private UACShieldIconSize _uacShieldIconSize;
 
@@ -101,7 +101,7 @@ namespace Krypton.Toolkit
         [Description("The image.")]
         [RefreshProperties(RefreshProperties.All)]
         //[DefaultValue(typeof(Image), @"DEFAULT_IMAGE")]
-        public Image? Image
+        public Image Image
         {
             get => _image;
             set
@@ -172,7 +172,7 @@ namespace Krypton.Toolkit
         #region Implementation
 
         /// <inheritdoc />
-        public Image? GetImage(PaletteState state) => Image;
+        public Image GetImage(PaletteState state) => Image;
 
         /// <inheritdoc />
         public Color GetImageTransparentColor(PaletteState state) => ImageTransparentColor;

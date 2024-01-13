@@ -45,7 +45,7 @@ namespace Krypton.Ribbon
         private Rectangle _selectedRect;
         private Color _selectedColor;
         private Color _emptyBorderColor;
-        private Image? _imageSmall;
+        private Image _imageSmall;
         private KryptonCommand? _command;
         private GroupItemSize _itemSizeMax;
         private GroupItemSize _itemSizeMin;
@@ -178,11 +178,13 @@ namespace Krypton.Ribbon
             _itemMoreColors = new KryptonContextMenuItem("&More Colors...", OnClickMoreColors);
             _itemsMoreColors = new KryptonContextMenuItems();
             _itemsMoreColors.Items.Add(_itemMoreColors);
-            _kryptonContextMenu.Items.AddRange(new KryptonContextMenuItemBase[] { _separatorTheme, _headingTheme, _colorsTheme,
+            _kryptonContextMenu.Items.AddRange([
+                _separatorTheme, _headingTheme, _colorsTheme,
                                                                                   _separatorStandard, _headingStandard, _colorsStandard,
                                                                                   _separatorRecent, _headingRecent, _colorsRecent,
                                                                                   _separatorNoColor, _itemsNoColor,
-                                                                                  _separatorMoreColors, _itemsMoreColors});
+                                                                                  _separatorMoreColors, _itemsMoreColors
+            ]);
         }
         #endregion
 
@@ -303,7 +305,7 @@ namespace Krypton.Ribbon
         [Category(@"Appearance")]
         [Description(@"Small color button image.")]
         [RefreshProperties(RefreshProperties.All)]
-        public Image? ImageSmall
+        public Image ImageSmall
         {
             get => _imageSmall;
 
@@ -1002,13 +1004,16 @@ namespace Krypton.Ribbon
                             case GroupButtonType.Check:
                                 PerformClick();
                                 return true;
+
                             case GroupButtonType.DropDown:
                             case GroupButtonType.Split:
                                 PerformDropDown();
                                 return true;
+
                             default:
-                                // Should never happen!
+    // Should never happen!
                                 Debug.Assert(false);
+                                DebugTools.NotImplemented(ButtonType.ToString());
                                 break;
                         }
 
@@ -1149,7 +1154,7 @@ namespace Krypton.Ribbon
                 // Each column is just a single color
                 for (var i = 0; i < _recentColors.Count; i++)
                 {
-                    colors[i] = new[] { _recentColors[i] };
+                    colors[i] = [_recentColors[i]];
                 }
 
                 _colorsRecent.SetCustomColors(colors);

@@ -1953,7 +1953,7 @@ namespace Krypton.Toolkit
                 }
 
                 // Remember the new palette
-                _palette = palette!;
+                _palette = palette;
 
                 // Get the renderer associated with the palette
                 Renderer = _palette.GetRenderer();

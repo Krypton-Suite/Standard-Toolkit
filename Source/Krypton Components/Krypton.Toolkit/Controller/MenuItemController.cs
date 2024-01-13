@@ -40,8 +40,8 @@ namespace Krypton.Toolkit
             Debug.Assert(menuItem != null);
             Debug.Assert(needPaint != null);
 
-            ViewManager = viewManager!;
-            _menuItem = menuItem!;
+            ViewManager = viewManager;
+            _menuItem = menuItem;
             NeedPaint = needPaint;
         }
         #endregion
@@ -431,7 +431,7 @@ namespace Krypton.Toolkit
             {
                 _menuItem.ElementState = PaletteState.Tracking;
                 _menuItem.SplitSeparator.ElementState = PaletteState.Tracking;
-                _menuItem.SplitSeparator.SetPalettes(_menuItem.KryptonContextMenuItem.StateHighlight.ItemSplit!.Back,
+                _menuItem.SplitSeparator.SetPalettes(_menuItem.KryptonContextMenuItem.StateHighlight.ItemSplit.Back,
                                                      _menuItem.KryptonContextMenuItem.StateHighlight.ItemSplit.Border);
                 _menuItem.SetPalettes(_menuItem.KryptonContextMenuItem.StateHighlight.ItemHighlight.Back,
                                       _menuItem.KryptonContextMenuItem.StateHighlight.ItemHighlight.Border);
@@ -440,9 +440,9 @@ namespace Krypton.Toolkit
             {
                 _menuItem.ElementState = PaletteState.Disabled;
                 _menuItem.SplitSeparator.ElementState = PaletteState.Disabled;
-                _menuItem.SplitSeparator.SetPalettes(_menuItem.KryptonContextMenuItem.StateDisabled.ItemSplit!.Back,
+                _menuItem.SplitSeparator.SetPalettes(_menuItem.KryptonContextMenuItem.StateDisabled.ItemSplit.Back,
                                                      _menuItem.KryptonContextMenuItem.StateDisabled.ItemSplit.Border);
-                _menuItem.SetPalettes(_menuItem.KryptonContextMenuItem.StateDisabled.ItemHighlight!.Back,
+                _menuItem.SetPalettes(_menuItem.KryptonContextMenuItem.StateDisabled.ItemHighlight.Back,
                                       _menuItem.KryptonContextMenuItem.StateDisabled.ItemHighlight.Border);
             }
 
@@ -453,9 +453,9 @@ namespace Krypton.Toolkit
         {
             _menuItem.ElementState = PaletteState.Normal;
             _menuItem.SplitSeparator.ElementState = PaletteState.Normal;
-            _menuItem.SplitSeparator.SetPalettes(_menuItem.KryptonContextMenuItem.StateNormal.ItemSplit!.Back,
+            _menuItem.SplitSeparator.SetPalettes(_menuItem.KryptonContextMenuItem.StateNormal.ItemSplit.Back,
                                                  _menuItem.KryptonContextMenuItem.StateNormal.ItemSplit.Border);
-            _menuItem.SetPalettes(_menuItem.KryptonContextMenuItem.StateNormal.ItemHighlight!.Back,
+            _menuItem.SetPalettes(_menuItem.KryptonContextMenuItem.StateNormal.ItemHighlight.Back,
                                   _menuItem.KryptonContextMenuItem.StateNormal.ItemHighlight.Border);
 
             PerformNeedPaint(false);

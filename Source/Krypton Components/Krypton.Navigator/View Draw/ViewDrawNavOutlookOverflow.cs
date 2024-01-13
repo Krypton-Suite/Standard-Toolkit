@@ -55,7 +55,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="state">The state for which the image is needed.</param>
         /// <returns>Image value.</returns>
-        public override Image? GetImage(PaletteState state) => Page?.GetImageMapping(Navigator.Outlook.Full.OverflowMapImage);
+        public override Image GetImage(PaletteState state) => Page?.GetImageMapping(Navigator.Outlook.Full.OverflowMapImage);
 
         /// <summary>
         /// Gets the content short text.

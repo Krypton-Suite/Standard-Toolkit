@@ -67,10 +67,6 @@ namespace Krypton.Toolkit
         private bool _collapsed;
         private readonly bool _ignoreLayout;
         private bool _layingOut;
-        private float _cornerRoundingRadius;
-        private float _headerPrimaryCornerRoundingRadius;
-        private float _headerSecondaryCornerRoundingRadius;
-
         #endregion
 
         #region Events
@@ -112,7 +108,7 @@ namespace Krypton.Toolkit
             ButtonSpecs.Removed += OnButtonSpecRemoved;
 
             // Create the palette storage
-            StateCommon = new PaletteHeaderGroupRedirect(Redirector!, NeedPaintDelegate);
+            StateCommon = new PaletteHeaderGroupRedirect(Redirector, NeedPaintDelegate);
             StateDisabled = new PaletteHeaderGroup(StateCommon, StateCommon.HeaderPrimary, StateCommon.HeaderSecondary, NeedPaintDelegate);
             StateNormal = new PaletteHeaderGroup(StateCommon, StateCommon.HeaderPrimary, StateCommon.HeaderSecondary, NeedPaintDelegate);
 
@@ -168,11 +164,11 @@ namespace Krypton.Toolkit
             ViewManager = new ViewManager(this, _drawDocker);
 
             // Create button specification collection manager
-            _buttonManager = new ButtonSpecManagerDraw(this, Redirector!, ButtonSpecs, null,
-                                                       new[] { _drawHeading1, _drawHeading2 },
-                                                       new IPaletteMetric[] { StateCommon.HeaderPrimary, StateCommon.HeaderSecondary },
-                                                       new[] { PaletteMetricInt.HeaderButtonEdgeInsetPrimary, PaletteMetricInt.HeaderButtonEdgeInsetSecondary },
-                                                       new[] { PaletteMetricPadding.HeaderButtonPaddingPrimary, PaletteMetricPadding.HeaderButtonPaddingSecondary },
+            _buttonManager = new ButtonSpecManagerDraw(this, Redirector, ButtonSpecs, null,
+                [_drawHeading1, _drawHeading2],
+                [StateCommon.HeaderPrimary, StateCommon.HeaderSecondary],
+                [PaletteMetricInt.HeaderButtonEdgeInsetPrimary, PaletteMetricInt.HeaderButtonEdgeInsetSecondary],
+                [PaletteMetricPadding.HeaderButtonPaddingPrimary, PaletteMetricPadding.HeaderButtonPaddingSecondary],
                                                        CreateToolStripRenderer,
                                                        NeedPaintDelegate);
 
@@ -199,12 +195,6 @@ namespace Krypton.Toolkit
             ((KryptonReadOnlyControls)Controls).AddInternal(Panel);
 
             _ignoreLayout = false;
-
-            _cornerRoundingRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
-
-            _headerPrimaryCornerRoundingRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
-
-            _headerSecondaryCornerRoundingRadius = GlobalStaticValues.SECONDARY_CORNER_ROUNDING_VALUE;
         }
 
         /// <summary>
@@ -242,43 +232,6 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Public
-
-        /// <summary>Gets or sets the corner rounding radius.</summary>
-        /// <value>The corner rounding radius.</value>
-        [Category(@"Visuals")]
-        [Description(@"Gets or sets the corner rounding radius.")]
-        [DefaultValue(GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE)]
-        public float CornerRoundingRadius
-        {
-            get => _cornerRoundingRadius;
-
-            set => SetCornerRoundingRadius(value);
-        }
-
-        /// <summary>Gets or sets the header primary corner rounding radius.</summary>
-        /// <value>The header primary corner rounding radius.</value>
-        [Category(@"Visuals")]
-        [Description(@"Gets or sets the header primary corner rounding radius.")]
-        [DefaultValue(GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE)]
-        public float HeaderPrimaryCornerRoundingRadius
-        {
-            get => _headerPrimaryCornerRoundingRadius;
-
-            set => SetHeaderPrimaryCornerRoundingRadius(value);
-        }
-
-        /// <summary>Gets or sets the header secondary corner rounding radius.</summary>
-        /// <value>The header secondary corner rounding radius.</value>
-        [Category(@"Visuals")]
-        [Description(@"Gets or sets the corner rounding radius.")]
-        [DefaultValue(GlobalStaticValues.SECONDARY_CORNER_ROUNDING_VALUE)]
-        public float HeaderSecondaryCornerRoundingRadius
-        {
-            get => _headerSecondaryCornerRoundingRadius;
-
-            set => SetHeaderSecondaryCornerRoundingRadius(value);
-        }
-
         /// <summary>
         /// Gets and sets the name of the control.
         /// </summary>
@@ -291,7 +244,7 @@ namespace Krypton.Toolkit
             set
             {
                 base.Name = value;
-                Panel!.Name = $"{value}.Panel";
+                Panel.Name = $"{value}.Panel";
             }
         }
 
@@ -429,7 +382,7 @@ namespace Krypton.Toolkit
                     {
                         _collapsed = value;
                         _layoutFill.Visible = !value;
-                        Panel!.Visible = !value;
+                        Panel.Visible = !value;
                         ReapplyVisible();
                         OnCollapsedChanged(EventArgs.Empty);
                         PerformNeedPaint(false);
@@ -499,11 +452,11 @@ namespace Krypton.Toolkit
         [Description(@"Border style.")]
         public PaletteBorderStyle GroupBorderStyle
         {
-            get => StateCommon!.BorderStyle;
+            get => StateCommon.BorderStyle;
 
             set
             {
-                if (StateCommon!.BorderStyle != value)
+                if (StateCommon.BorderStyle != value)
                 {
                     StateCommon.BorderStyle = value;
                     PerformNeedPaint(true);
@@ -522,14 +475,14 @@ namespace Krypton.Toolkit
         [Description(@"Background style.")]
         public PaletteBackStyle GroupBackStyle
         {
-            get => StateCommon!.BackStyle;
+            get => StateCommon.BackStyle;
 
             set
             {
-                if (StateCommon!.BackStyle != value)
+                if (StateCommon.BackStyle != value)
                 {
                     StateCommon.BackStyle = value;
-                    Panel!.PanelBackStyle = value;
+                    Panel.PanelBackStyle = value;
                     PerformNeedPaint(true);
                 }
             }
@@ -553,7 +506,7 @@ namespace Krypton.Toolkit
                 if (_style1 != value)
                 {
                     _style1 = value;
-                    SetHeaderStyle(_drawHeading1, StateCommon!.HeaderPrimary, _style1);
+                    SetHeaderStyle(_drawHeading1, StateCommon.HeaderPrimary, _style1);
                     PerformNeedPaint(true);
                 }
             }
@@ -577,7 +530,7 @@ namespace Krypton.Toolkit
                 if (_style2 != value)
                 {
                     _style2 = value;
-                    SetHeaderStyle(_drawHeading2, StateCommon!.HeaderSecondary, _style2);
+                    SetHeaderStyle(_drawHeading2, StateCommon.HeaderSecondary, _style2);
                     PerformNeedPaint(true);
                 }
             }
@@ -679,9 +632,9 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Overrides for defining common header group appearance that other states can override.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteHeaderGroupRedirect? StateCommon { get; }
+        public PaletteHeaderGroupRedirect StateCommon { get; }
 
-        private bool ShouldSerializeStateCommon() => !StateCommon!.IsDefault;
+        private bool ShouldSerializeStateCommon() => !StateCommon.IsDefault;
 
         /// <summary>
         /// Gets access to the disabled header group appearance entries.
@@ -778,7 +731,7 @@ namespace Krypton.Toolkit
                 ForceViewLayout();
 
                 // The inside panel is the client rectangle size
-                return new Rectangle(Panel!.Location, Panel.Size);
+                return new Rectangle(Panel.Location, Panel.Size);
             }
         }
 
@@ -790,7 +743,7 @@ namespace Krypton.Toolkit
         {
             // Request fixed state from the view
             _drawDocker.FixedState = state;
-            Panel?.SetFixedState(state);
+            Panel.SetFixedState(state);
         }
 
         /// <summary>
@@ -847,7 +800,7 @@ namespace Krypton.Toolkit
         /// </summary>
         protected void ForceControlLayout()
         {
-            // Usually the layout will not occur if currently initializing but
+            // Usually the layout will not occur if currently initializing, but
             // we need to force the layout processing because otherwise the size
             // of the panel controls will not have been calculated when controls
             // are added to the panels. That would then cause problems with
@@ -923,17 +876,14 @@ namespace Krypton.Toolkit
 
                 // Only use layout logic if control is fully initialized or if being forced
                 // to allow a relayout or if in design mode.
-                if (Panel != null)
+                if (IsInitialized || _forcedLayout || DesignMode )
                 {
-                    if (IsInitialized || _forcedLayout || DesignMode )
-                    {
-                        Rectangle fillRect = _layoutFill.FillRect;
+                    Rectangle fillRect = _layoutFill.FillRect;
 
-                        Panel.SetBounds(fillRect.X,
-                            fillRect.Y,
-                            fillRect.Width,
-                            fillRect.Height);
-                    }
+                    Panel.SetBounds(fillRect.X,
+                        fillRect.Y,
+                        fillRect.Width,
+                        fillRect.Height);
                 }
             }
 
@@ -1046,7 +996,7 @@ namespace Krypton.Toolkit
             {
                 // As the contained group panel is using our palette storage
                 // we also need to pass on any paint request to it as well
-                Panel?.PerformNeedPaint(e.NeedLayout);
+                Panel.PerformNeedPaint(e.NeedLayout);
             }
             else
             {
@@ -1138,7 +1088,7 @@ namespace Krypton.Toolkit
                         if (AllowButtonSpecToolTips)
                         {
                             // Create a helper object to provide tooltip values
-                            var buttonSpecMapping = new ButtonSpecToContent(Redirector!, buttonSpec);
+                            var buttonSpecMapping = new ButtonSpecToContent(Redirector, buttonSpec);
 
                             // Is there actually anything to show for the tooltip
                             if (buttonSpecMapping.HasContent)
@@ -1161,7 +1111,7 @@ namespace Krypton.Toolkit
                         }
 
                         // Create the actual tooltip popup object
-                        _visualPopupToolTip = new VisualPopupToolTip(Redirector!,
+                        _visualPopupToolTip = new VisualPopupToolTip(Redirector,
                                                                      sourceContent,
                                                                      Renderer,
                                                                      PaletteBackStyle.ControlToolTip,
@@ -1185,7 +1135,7 @@ namespace Krypton.Toolkit
             var popupToolTip = (VisualPopupToolTip)sender;
             popupToolTip.Disposed -= OnVisualPopupToolTipDisposed;
 
-            // Not showing a popup page any more
+            // Not showing a popup page anymore
             _visualPopupToolTip = null;
         }
 
@@ -1320,8 +1270,9 @@ namespace Krypton.Toolkit
                         PaletteMetricPadding.HeaderButtonPaddingCustom3);
                     break;
                 default:
-                    // Should never happen!
+    // Should never happen!
                     Debug.Assert(false);
+                    DebugTools.NotImplemented(style.ToString());
                     break;
             }
         }
@@ -1351,8 +1302,9 @@ namespace Krypton.Toolkit
                         secondaryVisible = true;
                         break;
                     default:
-                        // Should never happen!
+    // Should never happen!
                         Debug.Assert(false);
+                        DebugTools.NotImplemented(CollapseTarget.ToString());
                         break;
                 }
             }
@@ -1360,28 +1312,6 @@ namespace Krypton.Toolkit
             _drawHeading1.Visible = primaryVisible;
             _drawHeading2.Visible = secondaryVisible;
         }
-
-        private void SetCornerRoundingRadius(float? radius)
-        {
-            _cornerRoundingRadius = radius ?? GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
-
-            StateCommon!.Border.Rounding = _cornerRoundingRadius;
-        }
-
-        private void SetHeaderPrimaryCornerRoundingRadius(float? radius)
-        {
-            _headerPrimaryCornerRoundingRadius = radius ?? GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
-
-            StateCommon!.Border.Rounding = _headerPrimaryCornerRoundingRadius;
-        }
-
-        private void SetHeaderSecondaryCornerRoundingRadius(float? radius)
-        {
-            _headerSecondaryCornerRoundingRadius = radius ?? GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
-
-            StateCommon!.Border.Rounding = _headerSecondaryCornerRoundingRadius;
-        }
-
         #endregion
 
         #region Implementation Static

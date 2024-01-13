@@ -48,14 +48,14 @@ namespace Krypton.Ribbon
             Debug.Assert(ribbon != null);
             Debug.Assert(ribbonGallery != null);
 
-            _ribbon = ribbon!;
-            _ribbonGallery = ribbonGallery!;
+            _ribbon = ribbon;
+            _ribbonGallery = ribbonGallery;
             _firstText = firstText;
 
             // Use a class to convert from ribbon group to content interface
-            _contentProvider = new RibbonGroupNormalDisabledTextToContent(ribbon!.StateCommon.RibbonGeneral,
-                                                                          ribbon!.StateNormal.RibbonGroupButtonText,
-                                                                          ribbon!.StateDisabled.RibbonGroupButtonText);
+            _contentProvider = new RibbonGroupNormalDisabledTextToContent(ribbon.StateCommon.RibbonGeneral,
+                                                                          ribbon.StateNormal.RibbonGroupButtonText,
+                                                                          ribbon.StateDisabled.RibbonGroupButtonText);
         }        
 
         /// <summary>
@@ -152,7 +152,7 @@ namespace Krypton.Ribbon
             Debug.Assert(context != null);
 
             // We take on all the available display area
-            ClientRectangle = context!.DisplayRectangle;
+            ClientRectangle = context.DisplayRectangle;
 
             // A change in state always causes a size and layout calculation
             if (_cacheState != State)
@@ -221,7 +221,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="state">Tab state.</param>
         /// <returns>Image.</returns>
-        public Image? GetImage(PaletteState state) => null;
+        public Image GetImage(PaletteState state) => null;
 
         /// <summary>
         /// Gets the image color that should be interpreted as transparent.

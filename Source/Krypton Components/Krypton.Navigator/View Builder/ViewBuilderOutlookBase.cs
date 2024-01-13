@@ -42,8 +42,8 @@ namespace Krypton.Navigator
         #region Static Fields
 
         private const int SEPARATOR_LENGTH = 7;
-        private static readonly Bitmap? _moreButtons;
-        private static readonly Bitmap? _fewerButtons;
+        private static readonly Bitmap _moreButtons;
+        private static readonly Bitmap _fewerButtons;
         #endregion
 
         #region Instance Fields
@@ -79,7 +79,7 @@ namespace Krypton.Navigator
 
             // Get the resource streams containing the images
             Stream? streamBlueUp = myAssembly!.GetManifestResourceStream(@"Krypton.Navigator.Resources.BlueUp.bmp");
-            Stream? streamBlueDown = myAssembly!.GetManifestResourceStream(@"Krypton.Navigator.Resources.BlueDown.bmp");
+            Stream? streamBlueDown = myAssembly.GetManifestResourceStream(@"Krypton.Navigator.Resources.BlueDown.bmp");
 
             // Load the bitmap from stream
             if (streamBlueUp != null)
@@ -153,7 +153,7 @@ namespace Krypton.Navigator
                     KryptonPage page = Navigator.Pages[i];
 
                     // Is this page in the stack?
-                    if (_pageStackLookup != null && _pageStackLookup.ContainsKey(page)!)
+                    if (_pageStackLookup != null && _pageStackLookup.ContainsKey(page))
                     {
                         // Get the page related view elements
                         ViewDrawNavCheckButtonBase checkButton = _pageStackLookup[page];
@@ -369,7 +369,7 @@ namespace Krypton.Navigator
             if (Navigator.SelectedPage != null)
             {
                 // We should have a view for representing the page
-                if (_pageStackLookup != null && _pageStackLookup.ContainsKey(Navigator.SelectedPage)!)
+                if (_pageStackLookup != null && _pageStackLookup.ContainsKey(Navigator.SelectedPage))
                 {
                     // Get the check button used to represent the selected page
                     ViewDrawNavCheckButtonBase selected = _pageStackLookup[Navigator.SelectedPage];
@@ -493,7 +493,7 @@ namespace Krypton.Navigator
             }
 
             // Let base class do standard work
-            base.PageAppearanceChanged(page!, property!);
+            base.PageAppearanceChanged(page, property);
         }
 
         /// <summary>
@@ -533,31 +533,31 @@ namespace Krypton.Navigator
                     buttonEdge = Navigator.Enabled ? Navigator.StateNormal?.BorderEdge : Navigator.StateDisabled?.BorderEdge;
 
                     // Update the separator view to use the navigator state objects
-                    _viewSeparator.SetPalettes(Navigator.StateDisabled!.Separator!, Navigator.StateNormal!.Separator!,
-                                               Navigator.StateTracking.Separator!, Navigator.StatePressed.Separator!,
-                                               Navigator.StateDisabled!.Separator!, Navigator.StateNormal!.Separator!,
-                                               Navigator.StateTracking.Separator!, Navigator.StatePressed.Separator!);
+                    _viewSeparator.SetPalettes(Navigator.StateDisabled!.Separator, Navigator.StateNormal!.Separator,
+                                               Navigator.StateTracking.Separator, Navigator.StatePressed.Separator,
+                                               Navigator.StateDisabled.Separator, Navigator.StateNormal.Separator,
+                                               Navigator.StateTracking.Separator, Navigator.StatePressed.Separator);
                 }
                 else
                 {
                     // Use states defined in the selected page
                     if (Navigator.SelectedPage.Enabled)
                     {
-                        buttonEdge = Navigator.SelectedPage.StateNormal!.BorderEdge;
+                        buttonEdge = Navigator.SelectedPage.StateNormal.BorderEdge;
                     }
                     else
                     {
-                        buttonEdge = Navigator.SelectedPage.StateDisabled!.BorderEdge;
+                        buttonEdge = Navigator.SelectedPage.StateDisabled.BorderEdge;
 
                         // If page is disabled then all of view should look disabled
                         checkEnabled = false;
                     }
 
                     // Update the separator view to use the page state objects
-                    _viewSeparator.SetPalettes(Navigator.SelectedPage.StateDisabled!.Separator!, Navigator.SelectedPage.StateNormal!.Separator!,
-                                               Navigator.SelectedPage.StateTracking.Separator!, Navigator.SelectedPage.StatePressed.Separator!,
-                                               Navigator.SelectedPage.StateDisabled!.Separator!, Navigator.SelectedPage.StateNormal!.Separator!,
-                                               Navigator.SelectedPage.StateTracking.Separator!, Navigator.SelectedPage.StatePressed.Separator!);
+                    _viewSeparator.SetPalettes(Navigator.SelectedPage.StateDisabled.Separator, Navigator.SelectedPage.StateNormal.Separator,
+                                               Navigator.SelectedPage.StateTracking.Separator, Navigator.SelectedPage.StatePressed.Separator,
+                                               Navigator.SelectedPage.StateDisabled.Separator, Navigator.SelectedPage.StateNormal.Separator,
+                                               Navigator.SelectedPage.StateTracking.Separator, Navigator.SelectedPage.StatePressed.Separator);
                 }
 
                 // Update each of the border edge palettes
@@ -1045,7 +1045,7 @@ namespace Krypton.Navigator
                 foreach (var page in Navigator.Pages)
                 {
                     // Double check that it exists in the lookup
-                    if (_pageOverflowLookup.ContainsKey(page)!)
+                    if (_pageOverflowLookup.ContainsKey(page))
                     {
                         // Construct state by concatenating visible values
                         ret += (_pageOverflowLookup[page].Visible ? "T" : "F");
@@ -1178,7 +1178,7 @@ namespace Krypton.Navigator
             _viewOverflowLayout.Add(sep, ViewDockStyle.Left);
 
             // Create the header that contains the overflow items
-            _viewOverflowBar = new ViewDrawDocker(Navigator.StateNormal!.HeaderGroup!.HeaderOverflow.Back,
+            _viewOverflowBar = new ViewDrawDocker(Navigator.StateNormal.HeaderGroup.HeaderOverflow.Back,
                                                   Navigator.StateNormal.HeaderGroup.HeaderOverflow.Border,
                                                   Navigator.StateNormal.HeaderGroup.HeaderOverflow,
                                                   PaletteMetricBool.None,
@@ -1638,15 +1638,15 @@ namespace Krypton.Navigator
             ViewDockStyle dockFar = (stackOrient == Orientation.Vertical ? ViewDockStyle.Bottom : ViewDockStyle.Right);
 
             // Cache the border edge palette to use
-            PaletteBorderEdge buttonEdgePalette = (Navigator.Enabled ? Navigator.StateNormal!.BorderEdge :
-                                                                       Navigator.StateDisabled!.BorderEdge);
+            PaletteBorderEdge buttonEdgePalette = (Navigator.Enabled ? Navigator.StateNormal.BorderEdge :
+                                                                       Navigator.StateDisabled.BorderEdge);
 
             // Create the separator and its edge view
-            _viewSeparatorEdge = new ViewDrawBorderEdge(Navigator.StateNormal!.BorderEdge, buttonEdgeOrient);
-            _viewSeparator = new ViewDrawSeparator(Navigator.StateDisabled!.Separator!, Navigator.StateNormal.Separator!,
-                                                   Navigator.StateTracking.Separator!, Navigator.StatePressed.Separator!,
-                                                   Navigator.StateDisabled!.Separator!, Navigator.StateNormal!.Separator!,
-                                                   Navigator.StateTracking.Separator!, Navigator.StatePressed.Separator!,
+            _viewSeparatorEdge = new ViewDrawBorderEdge(Navigator.StateNormal.BorderEdge, buttonEdgeOrient);
+            _viewSeparator = new ViewDrawSeparator(Navigator.StateDisabled.Separator, Navigator.StateNormal.Separator,
+                                                   Navigator.StateTracking.Separator, Navigator.StatePressed.Separator,
+                                                   Navigator.StateDisabled.Separator, Navigator.StateNormal.Separator,
+                                                   Navigator.StateTracking.Separator, Navigator.StatePressed.Separator,
                                                    PaletteMetricPadding.SeparatorPaddingHighInternalProfile, buttonEdgeOrient)
             {
 
@@ -1746,7 +1746,7 @@ namespace Krypton.Navigator
                                                                new[] { PaletteMetricInt.HeaderButtonEdgeInsetInputControl },
                                                                new[] { PaletteMetricInt.HeaderButtonEdgeInsetInputControl },
                                                                new[] { PaletteMetricPadding.None },
-                                                               Navigator.CreateToolStripRenderer!,
+                                                               Navigator.CreateToolStripRenderer,
                                                                NeedPaintDelegate);
         }
 
@@ -1875,8 +1875,8 @@ namespace Krypton.Navigator
                 checkButtonOverflow.Checked = (Navigator.SelectedPage == e.Item);
 
                 // Find the border edge palette to use
-                PaletteBorderEdge buttonEdgePalette = (Navigator.Enabled ? Navigator.StateNormal!.BorderEdge :
-                                                                           Navigator.StateDisabled!.BorderEdge);
+                PaletteBorderEdge buttonEdgePalette = (Navigator.Enabled ? Navigator.StateNormal.BorderEdge :
+                                                                           Navigator.StateDisabled.BorderEdge);
 
                 // Create the border edge for use next to the check button
                 var buttonEdge = new ViewDrawBorderEdge(buttonEdgePalette, Navigator.Outlook.Orientation)
@@ -2034,17 +2034,23 @@ namespace Krypton.Navigator
                     return Navigator.Outlook.Orientation == Orientation.Vertical
                         ? VisualOrientation.Top
                         : VisualOrientation.Left;
+
                 case ButtonOrientation.FixedTop:
                     return VisualOrientation.Top;
+
                 case ButtonOrientation.FixedBottom:
                     return VisualOrientation.Bottom;
+
                 case ButtonOrientation.FixedLeft:
                     return VisualOrientation.Left;
+
                 case ButtonOrientation.FixedRight:
                     return VisualOrientation.Right;
+
                 default:
-                    // Should never happen!
+    // Should never happen!
                     Debug.Assert(false);
+                    DebugTools.NotImplemented(Navigator.Outlook.ItemOrientation.ToString());
                     return VisualOrientation.Top;
             }
         }

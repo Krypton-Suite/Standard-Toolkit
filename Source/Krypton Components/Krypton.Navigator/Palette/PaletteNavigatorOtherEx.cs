@@ -27,7 +27,7 @@ namespace Krypton.Navigator
                                        NeedPaintHandler needPaint)
             : base(redirect, needPaint) =>
             // Create the palette storage
-            Separator = new PaletteSeparatorPadding(redirect!.Separator!, redirect!.Separator!, needPaint);
+            Separator = new PaletteSeparatorPadding(redirect!.Separator!, redirect.Separator!, needPaint);
 
         #endregion
 
@@ -37,7 +37,7 @@ namespace Krypton.Navigator
         /// </summary>
         [Browsable(false)]
         public override bool IsDefault => base.IsDefault &&
-                                          Separator!.IsDefault!;
+                                          Separator.IsDefault;
 
         #endregion
 
@@ -60,9 +60,9 @@ namespace Krypton.Navigator
         [Category(@"Visuals")]
         [Description(@"Overrides for defining separator appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteSeparatorPadding? Separator { get; }
+        public PaletteSeparatorPadding Separator { get; }
 
-        private bool ShouldSerializeSeparator() => !Separator!.IsDefault!;
+        private bool ShouldSerializeSeparator() => !Separator.IsDefault;
 
         #endregion
     }

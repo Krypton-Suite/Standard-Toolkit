@@ -67,9 +67,9 @@ namespace Krypton.Ribbon
             Debug.Assert(target != null);
             Debug.Assert(needPaint != null);
 
-            _ribbon = ribbon!;
-            _target = target!;
-            NeedPaint = needPaint!;
+            _ribbon = ribbon;
+            _target = target;
+            NeedPaint = needPaint;
 
             // Default other fields
             ButtonType = GroupButtonType.Push;
@@ -523,7 +523,7 @@ namespace Krypton.Ribbon
         /// <param name="pt">Mouse point.</param>
         protected void UpdateTargetState(Point pt)
         {
-            // By default the button is in the normal state
+            // By default, the button is in the normal state
             PaletteState newState;
 
             // When disabled the button itself is shown as normal, the 

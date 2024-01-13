@@ -119,18 +119,18 @@ namespace Krypton.Navigator
             if (Navigator.SelectedPage == null)
             {
                 // Then use the state defined in the navigator itself
-                back = (Navigator.Enabled ? Navigator.StateNormal?.Back : Navigator.StateDisabled!.Back)!;
+                back = (Navigator.Enabled ? Navigator.StateNormal?.Back : Navigator.StateDisabled.Back)!;
             }
             else
             {
                 // Use state defined in the selected page
                 if (Navigator.SelectedPage.Enabled)
                 {
-                    back = Navigator.SelectedPage.StateNormal!.Back;
+                    back = Navigator.SelectedPage.StateNormal.Back;
                 }
                 else
                 {
-                    back = Navigator.SelectedPage.StateDisabled!.Back;
+                    back = Navigator.SelectedPage.StateDisabled.Back;
 
                     // If page is disabled then all of view should look disabled
                     enabled = false;
@@ -169,7 +169,7 @@ namespace Krypton.Navigator
             _drawPanel.Clear();
 
             // Put the old root back again
-            ViewManager!.Root = _oldRoot!;
+            ViewManager!.Root = _oldRoot;
 
             // Let base class perform common operations
             base.Destruct();
@@ -194,7 +194,7 @@ namespace Krypton.Navigator
                 case @"GroupBackStyle":
                     if (Navigator.StateCommon != null)
                     {
-                        Navigator.StateCommon.HeaderGroup!.BackStyle = Navigator.Group.GroupBackStyle;
+                        Navigator.StateCommon.HeaderGroup.BackStyle = Navigator.Group.GroupBackStyle;
                     }
                     Navigator.PerformNeedPaint(true);
                     break;

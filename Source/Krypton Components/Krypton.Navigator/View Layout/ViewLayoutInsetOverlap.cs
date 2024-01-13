@@ -32,7 +32,7 @@ namespace Krypton.Navigator
             Debug.Assert(drawCanvas != null);
 
             // Remember source of the rounding values
-            _drawCanvas = drawCanvas!;
+            _drawCanvas = drawCanvas;
 
             // Default other state
             Orientation = VisualOrientation.Top;
@@ -97,17 +97,17 @@ namespace Krypton.Navigator
             Debug.Assert(context != null);
 
             // Get the preferred size requested by the children
-            Size size = base.GetPreferredSize(context!);
+            Size size = base.GetPreferredSize(context);
 
             // Apply the rounding in the appropriate orientation
             if (Orientation is VisualOrientation.Top or VisualOrientation.Bottom)
             {
-                size.Width += Convert.ToInt32(Rounding) * 2;
+                size.Width += Convert.ToInt32(Rounding * 2);
                 size.Height += BorderWidth;
             }
             else
             {
-                size.Height += Convert.ToInt32(Rounding) * 2;
+                size.Height += Convert.ToInt32(Rounding * 2);
                 size.Width += BorderWidth;
             }
 
@@ -123,7 +123,7 @@ namespace Krypton.Navigator
             Debug.Assert(context != null);
 
             // We take on all the available display area
-            ClientRectangle = context!.DisplayRectangle;
+            ClientRectangle = context.DisplayRectangle;
 
             // Find the rectangle available to each child by removing the rounding
             RectangleF childRectF = ClientRectangle;

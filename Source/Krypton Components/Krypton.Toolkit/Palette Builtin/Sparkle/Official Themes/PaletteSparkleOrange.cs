@@ -21,30 +21,44 @@ namespace Krypton.Toolkit
         private static readonly ImageList _checkBoxList;
         private static readonly Image[] _radioButtonArray;
 
-        private static readonly Color[] _appButtonNormal = { Color.FromArgb(243, 245, 248),
+        private static readonly Color[] _appButtonNormal =
+        [
+            Color.FromArgb(243, 245, 248),
                                                                          Color.FromArgb(214, 220, 231),
                                                                          Color.FromArgb(188, 198, 211),
                                                                          Color.FromArgb(254, 254, 255),
-                                                                         Color.FromArgb(206, 213, 225) };
+                                                                         Color.FromArgb(206, 213, 225)
+        ];
 
-        private static readonly Color[] _appButtonTrack = { Color.FromArgb(245, 239, 215),
+        private static readonly Color[] _appButtonTrack =
+        [
+            Color.FromArgb(245, 239, 215),
                                                                         Color.FromArgb(238, 214, 146),
                                                                         Color.FromArgb(201, 155, 60),
                                                                         Color.FromArgb(248, 201, 93),
-                                                                        Color.FromArgb(238, 168, 25) };
+                                                                        Color.FromArgb(238, 168, 25)
+        ];
 
-        private static readonly Color[] _appButtonPressed = { Color.FromArgb(235, 227, 196),
+        private static readonly Color[] _appButtonPressed =
+        [
+            Color.FromArgb(235, 227, 196),
                                                                           Color.FromArgb(228, 198, 149),
                                                                           Color.FromArgb(166, 97, 7),
                                                                           Color.FromArgb(242, 155, 57),
-                                                                          Color.FromArgb(236, 136, 9) };
+                                                                          Color.FromArgb(236, 136, 9)
+        ];
 
-        private static readonly Color[] _ribbonGroupCollapsedBorderContextTracking = { Color.FromArgb(128, 196, 184, 168),
+        private static readonly Color[] _ribbonGroupCollapsedBorderContextTracking =
+        [
+            Color.FromArgb(128, 196, 184, 168),
                                                                                                    Color.FromArgb(196, 184, 169),
                                                                                                    Color.FromArgb(48, 255, 255, 255),
-                                                                                                   Color.FromArgb(220, 207, 192) };
+                                                                                                   Color.FromArgb(220, 207, 192)
+        ];
 
-        private static readonly Color[] _sparkleColors = { Color.FromArgb(99, 108, 135),        // 0 _colorDark99
+        private static readonly Color[] _sparkleColors =
+        [
+            Color.FromArgb(99, 108, 135),        // 0 _colorDark99
                                                                        Color.FromArgb(86, 94, 118),         // 1 _colorDark86
                                                                        Color.FromArgb(72, 81, 102),         // 2 _colorDark72
                                                                        Color.FromArgb(45, 45, 45),          // 3 _colorDark45
@@ -82,9 +96,11 @@ namespace Krypton.Toolkit
                                                                        Color.FromArgb(213, 120, 82),        // 35 _ribbonFrameBack4
                                                                        Color.FromArgb(213, 110, 72),        // 36 _contextCheckedTabFill
                                                                        Color.FromArgb(255, 20, 10) // 37 _focusTabFill
-                                                                     };
+        ];
 
-        private static readonly Color[] _ribbonColors = { Color.FromArgb( 92,  83,  76),    // TextLabelControl
+        private static readonly Color[] _ribbonColors =
+        [
+            Color.FromArgb( 92,  83,  76),    // TextLabelControl
                                                                       Color.FromArgb( 70,  70,  70),    // TextButtonNormal
                                                                       Color.Black,                      // TextButtonChecked
                                                                       Color.FromArgb(133, 135, 137),    // ButtonNormalBorder1
@@ -295,7 +311,7 @@ namespace Krypton.Toolkit
                                                                       Color.Empty,                      // RibbonTabTracking4
                                                                       Color.Empty,                      // RibbonGroupBorder3
                                                                       Color.Empty // RibbonGroupBorder4
-                                                                    };
+        ];
 
         #endregion
 
@@ -308,8 +324,8 @@ namespace Krypton.Toolkit
                 ColorDepth = ColorDepth.Depth24Bit
             };
             _checkBoxList.Images.AddStrip(CheckBoxStripResources.CheckBoxStripSparkleOrange);
-            _radioButtonArray = new Image[]
-            {
+            _radioButtonArray =
+            [
                 SparkleRadioButtonImageResources.RadioButtonSparkleD,
                 SparkleRadioButtonImageResources.RadioButtonSparkleN,
                 SparkleRadioButtonImageResources.RadioButtonSparkleOrangeT,
@@ -318,7 +334,7 @@ namespace Krypton.Toolkit
                 SparkleRadioButtonImageResources.RadioButtonSparkleOrangeNC,
                 SparkleRadioButtonImageResources.RadioButtonSparkleOrangeTC,
                 SparkleRadioButtonImageResources.RadioButtonSparkleOrangePC
-            };
+            ];
         }
 
         /// <summary>
@@ -330,6 +346,7 @@ namespace Krypton.Toolkit
                    _ribbonGroupCollapsedBorderContextTracking,
                    _checkBoxList, _radioButtonArray)
         {
+            ThemeName = nameof(PaletteSparkleOrange);
         }
         #endregion
     }

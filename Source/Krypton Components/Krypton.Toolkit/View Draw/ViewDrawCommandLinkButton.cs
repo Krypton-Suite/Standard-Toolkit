@@ -504,6 +504,7 @@ namespace Krypton.Toolkit
                     default:
                         // Should never happen!
                         Debug.Assert(false);
+                        DebugTools.NotImplemented(buttonState.ToString());
                         break;
                 }
 

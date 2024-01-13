@@ -37,13 +37,12 @@ namespace Krypton.Ribbon
             {
                 TransparentColor = Color.Magenta
             };
-            _imageList.Images.AddRange(new Image[]
-            {
+            _imageList.Images.AddRange([
                 GenericImageResources.KryptonRibbonGroupTriple,
                 GenericImageResources.KryptonRibbonGroupLines,
                 GenericImageResources.KryptonRibbonGroupSeparator,
                 GenericImageResources.KryptonGallery
-            });
+            ]);
         }
 
         /// <summary>

@@ -160,7 +160,7 @@ namespace Krypton.Toolkit
                 _palette = null;
                 Renderer = null!;
                 _localCustomPalette = null;
-                Redirector!.Target = null;
+                Redirector.Target = null;
             }
 
             base.Dispose(disposing);
@@ -677,7 +677,7 @@ namespace Krypton.Toolkit
         protected virtual void OnPaletteChanged(EventArgs e)
         {
             // Update the redirector with latest palette
-            Redirector!.Target = _palette;
+            Redirector.Target = _palette;
 
             // Need to recalculate anything relying on the palette
             DirtyPaletteCounter++;
@@ -1056,7 +1056,7 @@ namespace Krypton.Toolkit
                 // Update self with the new global palette
                 _localCustomPalette = null;
                 SetPalette(KryptonManager.CurrentGlobalPalette);
-                Redirector!.Target = _palette;
+                Redirector.Target = _palette;
 
                 // Need to recalculate anything relying on the palette
                 DirtyPaletteCounter++;
@@ -1206,11 +1206,11 @@ namespace Krypton.Toolkit
                     _miPTB = typeof(Control).GetMethod(nameof(PaintTransparentBackground),
                                                        BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.InvokeMethod,
                                                        null, CallingConventions.HasThis,
-                                                       new[] { typeof(PaintEventArgs), typeof(Rectangle), typeof(Region) },
+                                                       [typeof(PaintEventArgs), typeof(Rectangle), typeof(Region)],
                                                        null)!;
                 }
 
-                _miPTB.Invoke(this, new object[] { e!, ClientRectangle, null! });
+                _miPTB.Invoke(this, [e!, ClientRectangle, null!]);
             }
             else
             {
@@ -1292,7 +1292,7 @@ namespace Krypton.Toolkit
 
                     // Create the actual tooltip popup object
                     // ReSharper disable once UseObjectOrCollectionInitializer
-                    visualBasePopupToolTip = new VisualPopupToolTip(Redirector!,
+                    visualBasePopupToolTip = new VisualPopupToolTip(Redirector,
                         ToolTipValues,
                         Renderer,
                         PaletteBackStyle.ControlToolTip,

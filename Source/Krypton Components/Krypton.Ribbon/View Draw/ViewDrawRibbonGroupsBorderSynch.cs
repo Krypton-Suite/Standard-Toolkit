@@ -20,7 +20,7 @@ namespace Krypton.Ribbon
     internal class ViewDrawRibbonGroupsBorderSynch : ViewDrawRibbonGroupsBorder
     {
         #region Classes
-        private class TabToView : Dictionary<KryptonRibbonTab, ViewLayoutRibbonScrollPort> { }
+        private class TabToView : Dictionary<KryptonRibbonTab, ViewLayoutRibbonScrollPort>;
         #endregion
 
         #region Static Fields

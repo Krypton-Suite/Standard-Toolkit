@@ -37,11 +37,11 @@ namespace Krypton.Navigator
             base.Construct(navigator, manager, redirector);
 
             // Get the current root element
-            _oldRoot = ViewManager!.Root!;
+            _oldRoot = ViewManager!.Root;
 
             // Create a canvas for the border and background using current enabled state
-            _drawCanvas = new ViewDrawCanvas(Navigator.StateNormal!.HeaderGroup!.Back,
-                                             Navigator.StateNormal!.HeaderGroup!.Border,
+            _drawCanvas = new ViewDrawCanvas(Navigator.StateNormal.HeaderGroup.Back,
+                                             Navigator.StateNormal.HeaderGroup.Border,
                                              VisualOrientation.Top)
             {
 
@@ -131,13 +131,13 @@ namespace Krypton.Navigator
                 // Then use the states defined in the navigator itself
                 if (Navigator.Enabled)
                 {
-                    back = Navigator.StateNormal!.HeaderGroup!.Back;
-                    border = Navigator.StateNormal!.HeaderGroup!.Border;
+                    back = Navigator.StateNormal.HeaderGroup.Back;
+                    border = Navigator.StateNormal.HeaderGroup.Border;
                 }
                 else
                 {
-                    back = Navigator.StateDisabled!.HeaderGroup!.Back;
-                    border = Navigator.StateDisabled!.HeaderGroup!.Border;
+                    back = Navigator.StateDisabled.HeaderGroup.Back;
+                    border = Navigator.StateDisabled.HeaderGroup.Border;
                 }
             }
             else
@@ -145,12 +145,12 @@ namespace Krypton.Navigator
                 // Use states defined in the selected page
                 if (Navigator.SelectedPage.Enabled)
                 {
-                    back = Navigator.SelectedPage!.StateNormal!.HeaderGroup!.Back;
+                    back = Navigator.SelectedPage!.StateNormal.HeaderGroup.Back;
                     border = Navigator.SelectedPage.StateNormal.HeaderGroup.Border;
                 }
                 else
                 {
-                    back = Navigator.SelectedPage!.StateDisabled!.HeaderGroup!.Back;
+                    back = Navigator.SelectedPage!.StateDisabled.HeaderGroup.Back;
                     border = Navigator.SelectedPage.StateDisabled.HeaderGroup.Border;
 
                     // If page is disabled then all of view should look disabled

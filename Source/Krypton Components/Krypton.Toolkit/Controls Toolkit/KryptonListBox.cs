@@ -147,7 +147,7 @@ namespace Krypton.Toolkit
             }
 
             /// <summary>
-            /// Force the remeasure of items so they are sized correctly.
+            /// Force the remeasure of items, so they are sized correctly.
             /// </summary>
             public void RefreshItemSizes()
             {
@@ -360,9 +360,6 @@ namespace Krypton.Toolkit
         private bool _alwaysActive;
         private bool _forcedLayout;
         private bool _trackingMouseEnter;
-        private float _cornerRoundingRadius;
-        private float _itemCornerRoundingRadius;
-
         #endregion
 
         #region Events
@@ -602,10 +599,6 @@ namespace Krypton.Toolkit
 
             // Add list box to the controls collection
             ((KryptonReadOnlyControls)Controls).AddInternal(_listBox);
-
-            _cornerRoundingRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
-
-            _itemCornerRoundingRadius = GlobalStaticValues.SECONDARY_CORNER_ROUNDING_VALUE;
         }
 
         private void OnListBoxClick(object sender, EventArgs e) =>
@@ -628,31 +621,6 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Public
-
-        /// <summary>Gets or sets the corner rounding radius.</summary>
-        /// <value>The corner rounding radius.</value>
-        [Category(@"Visuals")]
-        [Description(@"Gets or sets the corner rounding radius.")]
-        [DefaultValue(GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE)]
-        public float CornerRoundingRadius
-        {
-            get => _cornerRoundingRadius;
-
-            set => SetCornerRoundingRadius(value);
-        }
-
-        /// <summary>Gets or sets the item corner rounding radius.</summary>
-        /// <value>The item corner rounding radius.</value>
-        [Category(@"Visuals")]
-        [Description(@"Gets or sets the item corner rounding radius.")]
-        [DefaultValue(GlobalStaticValues.SECONDARY_CORNER_ROUNDING_VALUE)]
-        public float ItemCornerRoundingRadius
-        {
-            get => _itemCornerRoundingRadius;
-
-            set => SetItemCornerRoundingRadius(value);
-        }
-
         /// <summary>
         /// Gets access to the contained ListBox instance.
         /// </summary>
@@ -667,7 +635,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         [EditorBrowsable(EditorBrowsableState.Always)]
         [Browsable(false)]
-        public Control ContainedControl => ListBox!;
+        public Control ContainedControl => ListBox;
 
         /// <summary>
         /// Gets or sets the text for the control.
@@ -747,8 +715,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public int SelectedIndex
         {
-            get => _listBox!.SelectedIndex;
-            set => _listBox!.SelectedIndex = value;
+            get => _listBox.SelectedIndex;
+            set => _listBox.SelectedIndex = value;
         }
 
         /// <summary>
@@ -761,8 +729,8 @@ namespace Krypton.Toolkit
         [DefaultValue(null)]
         public object? SelectedValue
         {
-            get => _listBox!.SelectedValue;
-            set => _listBox!.SelectedValue = value;
+            get => _listBox.SelectedValue;
+            set => _listBox.SelectedValue = value;
         }
 
         /// <summary>
@@ -770,7 +738,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public ListBox.SelectedIndexCollection SelectedIndices => _listBox!.SelectedIndices;
+        public ListBox.SelectedIndexCollection SelectedIndices => _listBox.SelectedIndices;
 
         /// <summary>
         /// Gets or sets the currently selected item in the KryptonListBox.
@@ -780,8 +748,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public object? SelectedItem
         {
-            get => _listBox!.SelectedItem;
-            set => _listBox!.SelectedItem = value;
+            get => _listBox.SelectedItem;
+            set => _listBox.SelectedItem = value;
         }
 
         /// <summary>
@@ -789,7 +757,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public ListBox.SelectedObjectCollection SelectedItems => _listBox!.SelectedItems;
+        public ListBox.SelectedObjectCollection SelectedItems => _listBox.SelectedItems;
 
         /// <summary>
         /// Gets or sets the index of the first visible item in the KryptonListBox.
@@ -798,8 +766,8 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public int TopIndex
         {
-            get => _listBox!.TopIndex;
-            set => _listBox!.TopIndex = value;
+            get => _listBox.TopIndex;
+            set => _listBox.TopIndex = value;
         }
 
         /// <summary>
@@ -818,7 +786,7 @@ namespace Krypton.Toolkit
                     _style = value;
                     StateCommon?.Item.SetStyles(_style);
                     OverrideFocus.Item.SetStyles(_style);
-                    _listBox?.Recreate();
+                    _listBox.Recreate();
                     PerformNeedPaint(true);
                 }
             }
@@ -837,8 +805,8 @@ namespace Krypton.Toolkit
         [DefaultValue(0)]
         public virtual int HorizontalExtent
         {
-            get => _listBox!.HorizontalExtent;
-            set => _listBox!.HorizontalExtent = value;
+            get => _listBox.HorizontalExtent;
+            set => _listBox.HorizontalExtent = value;
         }
 
         /// <summary>
@@ -850,8 +818,8 @@ namespace Krypton.Toolkit
         [DefaultValue(false)]
         public virtual bool HorizontalScrollbar
         {
-            get => _listBox!.HorizontalScrollbar;
-            set => _listBox!.HorizontalScrollbar = value;
+            get => _listBox.HorizontalScrollbar;
+            set => _listBox.HorizontalScrollbar = value;
         }
 
         /// <summary>
@@ -863,8 +831,8 @@ namespace Krypton.Toolkit
         [DefaultValue(false)]
         public virtual bool ScrollAlwaysVisible
         {
-            get => _listBox!.ScrollAlwaysVisible;
-            set => _listBox!.ScrollAlwaysVisible = value;
+            get => _listBox.ScrollAlwaysVisible;
+            set => _listBox.ScrollAlwaysVisible = value;
         }
 
         /// <summary>
@@ -875,8 +843,8 @@ namespace Krypton.Toolkit
         [DefaultValue(SelectionMode.One)]
         public virtual SelectionMode SelectionMode
         {
-            get => _listBox!.SelectionMode;
-            set => _listBox!.SelectionMode = value;
+            get => _listBox.SelectionMode;
+            set => _listBox.SelectionMode = value;
         }
 
         /// <summary>
@@ -887,8 +855,8 @@ namespace Krypton.Toolkit
         [DefaultValue(false)]
         public virtual bool Sorted
         {
-            get => _listBox!.Sorted;
-            set => _listBox!.Sorted = value;
+            get => _listBox.Sorted;
+            set => _listBox.Sorted = value;
         }
 
         /// <summary>
@@ -900,8 +868,8 @@ namespace Krypton.Toolkit
         [DefaultValue("")]
         public virtual string ValueMember
         {
-            get => _listBox!.ValueMember;
-            set => _listBox!.ValueMember = value;
+            get => _listBox.ValueMember;
+            set => _listBox.ValueMember = value;
         }
 
         /// <summary>
@@ -914,8 +882,8 @@ namespace Krypton.Toolkit
         [DefaultValue(null)]
         public virtual object? DataSource
         {
-            get => _listBox!.DataSource;
-            set => _listBox!.DataSource = value;
+            get => _listBox.DataSource;
+            set => _listBox.DataSource = value;
         }
 
         /// <summary>
@@ -928,8 +896,8 @@ namespace Krypton.Toolkit
         [DefaultValue("")]
         public virtual string DisplayMember
         {
-            get => _listBox!.DisplayMember;
-            set => _listBox!.DisplayMember = value;
+            get => _listBox.DisplayMember;
+            set => _listBox.DisplayMember = value;
         }
 
         /// <summary>
@@ -941,7 +909,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         [MergableProperty(false)]
         [Localizable(true)]
-        public virtual ListBox.ObjectCollection Items => _listBox!.Items;
+        public virtual ListBox.ObjectCollection Items => _listBox.Items;
 
         /// <summary>
         /// Gets or sets the format specifier characters that indicate how a value is to be Displayed.
@@ -952,8 +920,8 @@ namespace Krypton.Toolkit
         [DefaultValue("")]
         public string FormatString
         {
-            get => _listBox!.FormatString;
-            set => _listBox!.FormatString = value;
+            get => _listBox.FormatString;
+            set => _listBox.FormatString = value;
         }
 
         /// <summary>
@@ -963,8 +931,8 @@ namespace Krypton.Toolkit
         [DefaultValue(false)]
         public bool FormattingEnabled
         {
-            get => _listBox!.FormattingEnabled;
-            set => _listBox!.FormattingEnabled = value;
+            get => _listBox.FormattingEnabled;
+            set => _listBox.FormattingEnabled = value;
         }
 
         /// <summary>
@@ -974,14 +942,14 @@ namespace Krypton.Toolkit
         [Description(@"Style used to draw the background.")]
         public PaletteBackStyle BackStyle
         {
-            get => StateCommon!.BackStyle;
+            get => StateCommon.BackStyle;
 
             set
             {
-                if (StateCommon!.BackStyle != value)
+                if (StateCommon.BackStyle != value)
                 {
                     StateCommon.BackStyle = value;
-                    _listBox?.Recreate();
+                    _listBox.Recreate();
                     PerformNeedPaint(true);
                 }
             }
@@ -998,14 +966,14 @@ namespace Krypton.Toolkit
         [Description(@"Style used to draw the border.")]
         public PaletteBorderStyle BorderStyle
         {
-            get => StateCommon!.BorderStyle;
+            get => StateCommon.BorderStyle;
 
             set
             {
-                if (StateCommon!.BorderStyle != value)
+                if (StateCommon.BorderStyle != value)
                 {
                     StateCommon.BorderStyle = value;
-                    _listBox?.Recreate();
+                    _listBox.Recreate();
                     PerformNeedPaint(true);
                 }
             }
@@ -1031,9 +999,9 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Overrides for defining common appearance that other states can override.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteListStateRedirect? StateCommon { get; }
+        public PaletteListStateRedirect StateCommon { get; }
 
-        private bool ShouldSerializeStateCommon() => !StateCommon!.IsDefault;
+        private bool ShouldSerializeStateCommon() => !StateCommon.IsDefault;
 
         /// <summary>
         /// Gets access to the disabled appearance entries.
@@ -1138,14 +1106,14 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Unselects all items in the KryptonListBox.
         /// </summary>
-        public void ClearSelected() => _listBox?.ClearSelected();
+        public void ClearSelected() => _listBox.ClearSelected();
 
         /// <summary>
         /// Finds the first item in the list box that starts with the specified string.
         /// </summary>
         /// <param name="str">The String to search for.</param>
         /// <returns>The zero-based index of the first item found; returns -1 if no match is found.</returns>
-        public int FindString(string str) => _listBox!.FindString(str);
+        public int FindString(string str) => _listBox.FindString(str);
 
         /// <summary>
         /// Finds the first item after the given index which starts with the given string. The search is not case sensitive.
@@ -1153,14 +1121,14 @@ namespace Krypton.Toolkit
         /// <param name="str">The String to search for.</param>
         /// <param name="startIndex">The zero-based index of the item before the first item to be searched. Set to -1 to search from the beginning of the control.</param>
         /// <returns>The zero-based index of the first item found; returns -1 if no match is found, or 0 if the s parameter specifies Empty.</returns>
-        public int FindString(string str, int startIndex) => _listBox!.FindString(str, startIndex);
+        public int FindString(string str, int startIndex) => _listBox.FindString(str, startIndex);
 
         /// <summary>
         /// Finds the first item in the list box that matches the specified string.
         /// </summary>
         /// <param name="str">The String to search for.</param>
         /// <returns>The zero-based index of the first item found; returns -1 if no match is found.</returns>
-        public int FindStringExact(string str) => _listBox!.FindStringExact(str);
+        public int FindStringExact(string str) => _listBox.FindStringExact(str);
 
         /// <summary>
         /// Finds the first item after the specified index that matches the specified string.
@@ -1168,35 +1136,35 @@ namespace Krypton.Toolkit
         /// <param name="str">The String to search for.</param>
         /// <param name="startIndex">The zero-based index of the item before the first item to be searched. Set to -1 to search from the beginning of the control.</param>
         /// <returns>The zero-based index of the first item found; returns -1 if no match is found, or 0 if the s parameter specifies Empty.</returns>
-        public int FindStringExact(string str, int startIndex) => _listBox!.FindStringExact(str, startIndex);
+        public int FindStringExact(string str, int startIndex) => _listBox.FindStringExact(str, startIndex);
 
         /// <summary>
         /// Returns the height of an item in the KryptonListBox.
         /// </summary>
         /// <param name="index">The index of the item to return the height of.</param>
         /// <returns>The height, in pixels, of the item at the specified index.</returns>
-        public int GetItemHeight(int index) => _listBox!.GetItemHeight(index);
+        public int GetItemHeight(int index) => _listBox.GetItemHeight(index);
 
         /// <summary>
         /// Returns the bounding rectangle for an item in the KryptonListBox.
         /// </summary>
         /// <param name="index">The zero-based index of item whose bounding rectangle you want to return.</param>
         /// <returns>A Rectangle that represents the bounding rectangle for the specified item.</returns>
-        public Rectangle GetItemRectangle(int index) => _listBox!.GetItemRectangle(index);
+        public Rectangle GetItemRectangle(int index) => _listBox.GetItemRectangle(index);
 
         /// <summary>
         /// Returns a value indicating whether the specified item is selected.
         /// </summary>
         /// <param name="index">The zero-based index of the item that determines whether it is selected.</param>
         /// <returns>true if the specified item is currently selected in the KryptonListBox; otherwise, false.</returns>
-        public bool GetSelected(int index) => _listBox!.GetSelected(index);
+        public bool GetSelected(int index) => _listBox.GetSelected(index);
 
         /// <summary>
         /// Returns the zero-based index of the item at the specified coordinates.
         /// </summary>
         /// <param name="p">A Point object containing the coordinates used to obtain the item index.</param>
         /// <returns>The zero-based index of the item found at the specified coordinates; returns ListBox.NoMatches if no match is found.</returns>
-        public int IndexFromPoint(Point p) => _listBox!.IndexFromPoint(p);
+        public int IndexFromPoint(Point p) => _listBox.IndexFromPoint(p);
 
         /// <summary>
         /// Returns the zero-based index of the item at the specified coordinates.
@@ -1204,31 +1172,31 @@ namespace Krypton.Toolkit
         /// <param name="x">The x-coordinate of the location to search.</param>
         /// <param name="y">The y-coordinate of the location to search.</param>
         /// <returns>The zero-based index of the item found at the specified coordinates; returns ListBox.NoMatches if no match is found.</returns>
-        public int IndexFromPoint(int x, int y) => _listBox!.IndexFromPoint(x, y);
+        public int IndexFromPoint(int x, int y) => _listBox.IndexFromPoint(x, y);
 
         /// <summary>
         /// Selects or clears the selection for the specified item in a KryptonListBox. 
         /// </summary>
         /// <param name="index">The zero-based index of the item in a KryptonListBox to select or clear the selection for.</param>
         /// <param name="value">true to select the specified item; otherwise, false.</param>
-        public void SetSelected(int index, bool value) => _listBox?.SetSelected(index, value);
+        public void SetSelected(int index, bool value) => _listBox.SetSelected(index, value);
 
         /// <summary>
         /// Returns the text representation of the specified item.
         /// </summary>
         /// <param name="item">The object from which to get the contents to display.</param>
         /// <returns>If the DisplayMember property is not specified, the value returned by GetItemText is the value of the item's ToString method. Otherwise, the method returns the string value of the member specified in the DisplayMember property for the object specified in the item parameter.</returns>
-        public string? GetItemText(object? item) => _listBox?.GetItemText(item);
+        public string? GetItemText(object? item) => _listBox.GetItemText(item);
 
         /// <summary>
         /// Maintains performance while items are added to the ListBox one at a time by preventing the control from drawing until the EndUpdate method is called.
         /// </summary>
-        public void BeginUpdate() => _listBox?.BeginUpdate();
+        public void BeginUpdate() => _listBox.BeginUpdate();
 
         /// <summary>
         /// Resumes painting the ListBox control after painting is suspended by the BeginUpdate method. 
         /// </summary>
-        public void EndUpdate() => _listBox?.EndUpdate();
+        public void EndUpdate() => _listBox.EndUpdate();
 
         /// <summary>
         /// Sets the fixed state of the control.
@@ -1241,18 +1209,18 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public bool IsActive => _fixedActive ?? DesignMode || AlwaysActive || ContainsFocus || _mouseOver || _listBox!.MouseOver;
+        public bool IsActive => _fixedActive ?? DesignMode || AlwaysActive || ContainsFocus || _mouseOver || _listBox.MouseOver;
 
         /// <summary>
         /// Sets input focus to the control.
         /// </summary>
         /// <returns>true if the input focus request was successful; otherwise, false.</returns>
-        public new bool Focus() => ListBox != null && ListBox.Focus();
+        public new bool Focus() => ListBox.Focus();
 
         /// <summary>
         /// Activates the control.
         /// </summary>
-        public new void Select() => ListBox?.Select();
+        public new void Select() => ListBox.Select();
         #endregion
 
         #region Protected
@@ -1340,9 +1308,9 @@ namespace Krypton.Toolkit
         /// <param name="e">An EventArgs that contains the event data.</param>
         protected override void OnPaletteChanged(EventArgs e)
         {
-            _listBox?.Recreate();
-            _listBox?.RefreshItemSizes();
-            _listBox?.Invalidate();
+            _listBox.Recreate();
+            _listBox.RefreshItemSizes();
+            _listBox.Invalidate();
             base.OnPaletteChanged(e);
         }
 
@@ -1353,7 +1321,7 @@ namespace Krypton.Toolkit
         /// <param name="e">An NeedLayoutEventArgs containing event data.</param>
         protected override void OnPaletteNeedPaint(object sender, NeedLayoutEventArgs e)
         {
-            _listBox?.RefreshItemSizes();
+            _listBox.RefreshItemSizes();
             base.OnPaletteChanged(e);
         }
 
@@ -1407,7 +1375,7 @@ namespace Krypton.Toolkit
         /// <param name="e">An EventArgs that contains the event data.</param>
         protected override void OnTabStopChanged(EventArgs e)
         {
-            ListBox!.TabStop = TabStop;
+            ListBox.TabStop = TabStop;
             base.OnTabStopChanged(e);
         }
 
@@ -1417,7 +1385,7 @@ namespace Krypton.Toolkit
         /// <param name="e">An EventArgs that contains the event data.</param>
         protected override void OnCausesValidationChanged(EventArgs e)
         {
-            ListBox!.CausesValidation = CausesValidation;
+            ListBox.CausesValidation = CausesValidation;
             base.OnCausesValidationChanged(e);
         }
 
@@ -1475,7 +1443,7 @@ namespace Krypton.Toolkit
         {
             if (IsHandleCreated && !e.NeedLayout)
             {
-                _listBox?.Invalidate();
+                _listBox.Invalidate();
             }
             else
             {
@@ -1497,10 +1465,10 @@ namespace Krypton.Toolkit
 
             // Only use layout logic if control is fully initialized or if being forced
             // to allow a relayout or if in design mode.
-            if (IsHandleCreated || _forcedLayout || (DesignMode && (_listBox != null)))
+            if (IsHandleCreated || _forcedLayout || (DesignMode))
             {
                 Rectangle fillRect = _layoutFill.FillRect;
-                _listBox?.SetBounds(fillRect.X, fillRect.Y, fillRect.Width, fillRect.Height);
+                _listBox.SetBounds(fillRect.X, fillRect.Y, fillRect.Width, fillRect.Height);
             }
         }
 
@@ -1512,7 +1480,7 @@ namespace Krypton.Toolkit
         {
             _mouseOver = true;
             PerformNeedPaint(true);
-            _listBox?.Invalidate();
+            _listBox.Invalidate();
             base.OnMouseEnter(e);
         }
 
@@ -1524,7 +1492,7 @@ namespace Krypton.Toolkit
         {
             _mouseOver = false;
             PerformNeedPaint(true);
-            _listBox?.Invalidate();
+            _listBox.Invalidate();
             base.OnMouseLeave(e);
         }
 
@@ -1542,7 +1510,7 @@ namespace Krypton.Toolkit
             {
                 // Get the correct palette settings to use
                 IPaletteDouble doubleState = GetDoubleState();
-                _listBox!.ViewDrawPanel.SetPalettes(doubleState.PaletteBack);
+                _listBox.ViewDrawPanel.SetPalettes(doubleState.PaletteBack);
                 _drawDockerOuter.SetPalettes(doubleState.PaletteBack, doubleState.PaletteBorder!);
                 _drawDockerOuter.Enabled = Enabled;
 
@@ -1586,7 +1554,7 @@ namespace Krypton.Toolkit
             else
             {
                 // Is the mouse over the item about to be drawn
-                var mouseOver = (e.Index >= 0) && (e.Index == _listBox!.MouseIndex);
+                var mouseOver = (e.Index >= 0) && (e.Index == _listBox.MouseIndex);
 
                 // If selected then show as a checked item
                 if (((e.State & DrawItemState.Selected) == DrawItemState.Selected) &&
@@ -1642,14 +1610,14 @@ namespace Krypton.Toolkit
                         using (var context = new ViewLayoutContext(this, Renderer))
                         {
                             context.DisplayRectangle = e.Bounds;
-                            _listBox?.ViewDrawPanel.Layout(context);
+                            _listBox.ViewDrawPanel.Layout(context);
                             _drawButton.Layout(context);
                         }
 
                         // Ask the view element to actually draw
                         using (var context = new RenderContext(this, g, e.Bounds, Renderer))
                         {
-                            _listBox?.ViewDrawPanel.Render(context);
+                            _listBox.ViewDrawPanel.Render(context);
                             _drawButton.Render(context);
                         }
 
@@ -1695,7 +1663,7 @@ namespace Krypton.Toolkit
             else
             {
                 // Get the text string for the item
-                _contentValues!.ShortText = _listBox?.GetItemText(Items[index]);
+                _contentValues!.ShortText = _listBox.GetItemText(Items[index]);
                 _contentValues.LongText = null;
                 _contentValues.Image = null;
                 _contentValues.ImageTransparentColor = Color.Empty;
@@ -1710,14 +1678,14 @@ namespace Krypton.Toolkit
 
         private void OnListBoxSelectedIndexChanged(object sender, EventArgs e)
         {
-            switch (_listBox!.SelectionMode)
+            switch (_listBox.SelectionMode)
             {
                 case SelectionMode.One:
                     if (_lastSelectedIndex != _listBox.SelectedIndex)
                     {
                         _lastSelectedIndex = _listBox.SelectedIndex;
                         UpdateStateAndPalettes();
-                        _listBox?.Invalidate();
+                        _listBox.Invalidate();
                         OnSelectedIndexChanged(e);
                     }
                     break;
@@ -1730,15 +1698,15 @@ namespace Krypton.Toolkit
                         _listBox.SelectedIndices.CopyTo(_lastSelectedColl, 0);
 
                         UpdateStateAndPalettes();
-                        _listBox?.Invalidate();
+                        _listBox.Invalidate();
                         OnSelectedIndexChanged(e);
                     }
                     break;
             }
         }
 
-        private bool SelectedIndicesChanged(int[] left,
-                                            ListBox.SelectedIndexCollection right)
+        private bool SelectedIndicesChanged(int[]? left,
+                                            ListBox.SelectedIndexCollection? right)
         {
             // First time around the left can be null
             if ((left == null) && (right != null))
@@ -1759,7 +1727,7 @@ namespace Krypton.Toolkit
         private void OnListBoxSelectedValueChanged(object sender, EventArgs e)
         {
             UpdateStateAndPalettes();
-            _listBox?.Invalidate();
+            _listBox.Invalidate();
             OnSelectedValueChanged(e);
         }
 
@@ -1774,7 +1742,7 @@ namespace Krypton.Toolkit
         private void OnListBoxGotFocus(object sender, EventArgs e)
         {
             UpdateStateAndPalettes();
-            _listBox?.Invalidate();
+            _listBox.Invalidate();
             PerformNeedPaint(true);
             OnGotFocus(e);
         }
@@ -1782,7 +1750,7 @@ namespace Krypton.Toolkit
         private void OnListBoxLostFocus(object sender, EventArgs e)
         {
             UpdateStateAndPalettes();
-            _listBox?.Invalidate();
+            _listBox.Invalidate();
             PerformNeedPaint(true);
             OnLostFocus(e);
         }
@@ -1802,7 +1770,7 @@ namespace Krypton.Toolkit
         private void OnListBoxMouseChange(object sender, EventArgs e)
         {
             // Change in tracking state?
-            if (_listBox!.MouseOver != _trackingMouseEnter)
+            if (_listBox.MouseOver != _trackingMouseEnter)
             {
                 _trackingMouseEnter = _listBox.MouseOver;
 
@@ -1823,20 +1791,6 @@ namespace Krypton.Toolkit
         private void OnDoubleClick(object sender, EventArgs e) => base.OnDoubleClick(e);
 
         private void OnMouseDoubleClick(object sender, MouseEventArgs e) => base.OnMouseDoubleClick(e);
-
-        private void SetCornerRoundingRadius(float? radius)
-        {
-            _cornerRoundingRadius = radius ?? GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
-
-            StateCommon!.Border.Rounding = _cornerRoundingRadius;
-        }
-
-        private void SetItemCornerRoundingRadius(float? radius)
-        {
-            _itemCornerRoundingRadius = radius ?? GlobalStaticValues.SECONDARY_CORNER_ROUNDING_VALUE;
-
-            StateCommon!.Item.Border.Rounding = _itemCornerRoundingRadius;
-        }
 
         #endregion
     }

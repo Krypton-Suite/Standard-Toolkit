@@ -32,7 +32,7 @@ namespace Krypton.Ribbon
             : base(PaletteButtonSpecStyle.PendantMin)
         {
             Debug.Assert(ribbon != null);
-            _ribbon = ribbon!;
+            _ribbon = ribbon;
         }
         #endregion
 

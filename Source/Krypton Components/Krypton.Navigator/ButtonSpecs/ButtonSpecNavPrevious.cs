@@ -33,7 +33,7 @@ namespace Krypton.Navigator
         /// Gets the button visible value.
         /// </summary>
         /// <param name="palette">Palette to use for inheriting values.</param>
-        /// <returns>Button visibiliy.</returns>
+        /// <returns>Button visibility.</returns>
         public override bool GetVisible(PaletteBase palette)
         {
             switch (Navigator.Button.PreviousButtonDisplay)
@@ -41,10 +41,12 @@ namespace Krypton.Navigator
                 case ButtonDisplay.Hide:
                     // Always hide
                     return false;
+
                 case ButtonDisplay.ShowDisabled:
                 case ButtonDisplay.ShowEnabled:
                     // Always show
                     return true;
+
                 case ButtonDisplay.Logic:
                     // Use button display logic to determine actual operation
                     switch (Navigator.Button.ButtonDisplayLogic)
@@ -56,13 +58,16 @@ namespace Krypton.Navigator
                         case ButtonDisplayLogic.ContextNextPrevious:
                             return true;
                         default:
-                            // Should never happen!
+    // Should never happen!
                             Debug.Assert(false);
+                            DebugTools.NotImplemented(Navigator.Button.ButtonDisplayLogic.ToString());
                             return false;
                     }
+
                 default:
-                    // Should never happen!
+    // Should never happen!
                     Debug.Assert(false);
+                    DebugTools.NotImplemented(Navigator.Button.PreviousButtonDisplay.ToString());
                     return false;
             }
         }
@@ -86,8 +91,9 @@ namespace Krypton.Navigator
                 case ButtonDisplay.Logic:
                     return Navigator.ViewBuilder!.PreviousActionEnabled(Navigator.Button.PreviousButtonAction);
                 default:
-                    // Should never happen!
+    // Should never happen!
                     Debug.Assert(false);
+                    DebugTools.NotImplemented(Navigator.Button.PreviousButtonDisplay.ToString());
                     return ButtonEnabled.False;
             }
         }

@@ -12,7 +12,5 @@
 
 namespace Krypton.Toolkit
 {
-    internal class KryptonFormActionList
-    {
-    }
+    internal class KryptonFormActionList;
 }

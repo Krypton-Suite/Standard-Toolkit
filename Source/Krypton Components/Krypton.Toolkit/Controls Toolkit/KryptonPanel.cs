@@ -27,7 +27,7 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
 
-        private readonly PaletteDoubleRedirect? _stateCommon;
+        private readonly PaletteDoubleRedirect _stateCommon;
         private readonly PaletteDouble? _stateDisabled;
         private readonly PaletteDouble? _stateNormal;
         #endregion
@@ -54,7 +54,7 @@ namespace Krypton.Toolkit
         /// <param name="stateCommon">Common appearance state to inherit from.</param>
         /// <param name="stateDisabled">Disabled appearance state.</param>
         /// <param name="stateNormal">Normal appearance state.</param>
-        public KryptonPanel([DisallowNull] PaletteDoubleRedirect? stateCommon,
+        public KryptonPanel([DisallowNull] PaletteDoubleRedirect stateCommon,
                             [DisallowNull] PaletteDouble stateDisabled,
                             [DisallowNull] PaletteDouble stateNormal)
         {
@@ -81,11 +81,11 @@ namespace Krypton.Toolkit
         [Description(@"Panel style.")]
         public PaletteBackStyle PanelBackStyle
         {
-            get => _stateCommon!.BackStyle;
+            get => _stateCommon.BackStyle;
 
             set
             {
-                if (_stateCommon!.BackStyle != value)
+                if (_stateCommon.BackStyle != value)
                 {
                     _stateCommon.BackStyle = value;
                     PerformNeedPaint(true);
@@ -103,9 +103,9 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Overrides for defining common panel appearance that other states can override.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteBack StateCommon => _stateCommon!.Back;
+        public PaletteBack StateCommon => _stateCommon.Back;
 
-        private bool ShouldSerializeStateCommon() => !_stateCommon!.Back.IsDefault;
+        private bool ShouldSerializeStateCommon() => !_stateCommon.Back.IsDefault;
 
         /// <summary>
         /// Gets access to the disabled panel appearance.

@@ -12,26 +12,39 @@
 
 namespace Krypton.Toolkit
 {
-    internal static class DebugTools
+    /// <summary>
+    /// Allow Krypton to be improved by getting help from users
+    /// </summary>
+    public static class DebugTools
     {
         #region Implementation
-        internal static void NotImplemented(string methodSignature, string className, int lineNumber = 0)
+
+        /// <summary>
+        /// Allow Krypton to be improved by getting help from users
+        /// </summary>
+        public static Exception NotImplemented(string outOfRange,
+            [CallerFilePath] string callingFilePath = "",
+            [CallerLineNumber] int lineNumber = 0,
+            [CallerMemberName] string? callingMethod = "")
         {
-            KryptonCommand linkCommand = new KryptonCommand();
+            var linkCommand = new KryptonCommand();
 
-            linkCommand.Execute += (sender, args) => { Process.Start(@"https://github.com/Krypton-Suite/Standard-Toolkit/issues/new/choose"); };
+            linkCommand.Execute += (sender, args) =>
+            {
+                Process.Start(@"https://github.com/Krypton-Suite/Standard-Toolkit/issues/new/choose");
+            };
 
-            if (lineNumber > 0)
+            KryptonMessageBox.Show(
+                $"If you are seeing this message, please submit a new bug report here.\n\nAdditional details:-\nMethod Signature: {callingMethod}\nFunction: {callingMethod}\nFile: {callingFilePath}\nLine Number: {lineNumber}",
+                "Not Implemented", KryptonMessageBoxButtons.OK, KryptonMessageBoxIcon.Error,
+                contentAreaType: MessageBoxContentAreaType.LinkLabel, actionButtonCommand: linkCommand,
+                contentLinkArea: new LinkArea(64, 67));
+            return new ArgumentOutOfRangeException(outOfRange)
             {
-                KryptonMessageBox.Show($"If you are seeing this message, please submit a new bug report here.\n\nAdditional details:-\nMethod Signature: {methodSignature}\nClass Name: {className}\nLine Number: {lineNumber}",
-                    "Not Implemented", KryptonMessageBoxButtons.OK, KryptonMessageBoxIcon.Error, contentAreaType: MessageBoxContentAreaType.LinkLabel, actionButtonCommand: linkCommand, contentLinkArea: new LinkArea(64, 67));
-            }
-            else
-            {
-                KryptonMessageBox.Show($"If you are seeing this message, please submit a new bug report here.\n\nAdditional details:-\nMethod Signature: {methodSignature}\nClass Name: {className}",
-                    "Not Implemented", KryptonMessageBoxButtons.OK, KryptonMessageBoxIcon.Error);
-            }
+                Source = callingMethod,
+            };
         }
+
         #endregion
     }
 }

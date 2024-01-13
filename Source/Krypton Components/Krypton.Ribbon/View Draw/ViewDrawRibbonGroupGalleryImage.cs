@@ -37,7 +37,7 @@ namespace Krypton.Ribbon
         {
             Debug.Assert(ribbonGallery != null);
 
-            _ribbonGallery = ribbonGallery!;
+            _ribbonGallery = ribbonGallery;
             _largeSize = new Size((int)(32 * FactorDpiX), (int)(32 * FactorDpiY));
         }        
 

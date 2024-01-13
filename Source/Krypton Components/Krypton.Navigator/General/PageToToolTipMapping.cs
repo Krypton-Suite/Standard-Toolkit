@@ -39,7 +39,7 @@ namespace Krypton.Navigator
         {
             Debug.Assert(page != null);
 
-            _page = page!;
+            _page = page;
             _mapImage = mapImage;
             _mapText = mapText;
             _mapExtraText = mapExtraText;
@@ -62,7 +62,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="state">The state for which the image is needed.</param>
         /// <returns>Image value.</returns>
-        public Image? GetImage(PaletteState state) => _page.GetImageMapping(_mapImage);
+        public Image GetImage(PaletteState state) => _page.GetImageMapping(_mapImage);
 
         /// <summary>
         /// Gets the image color that should be transparent.

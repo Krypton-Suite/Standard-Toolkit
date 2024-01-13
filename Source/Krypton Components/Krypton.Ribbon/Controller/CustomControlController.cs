@@ -43,9 +43,9 @@ namespace Krypton.Ribbon
             Debug.Assert(customControl != null);
             Debug.Assert(customControl != null);
 
-            _ribbon = ribbon!;
-            _customControl = customControl!;
-            _target = target!;
+            _ribbon = ribbon;
+            _customControl = customControl;
+            _target = target;
         }
         #endregion
 
@@ -167,7 +167,7 @@ namespace Krypton.Ribbon
                 case Keys.Tab:
                 case Keys.Right:
                     // Get the next focus item for the currently selected page
-                    newView = ribbon.GroupsArea.ViewGroups.GetNextFocusItem(_target) ?? ribbon.TabsArea.ButtonSpecManager!.GetFirstVisibleViewButton(PaletteRelativeEdgeAlign.Far)!;
+                    newView = ribbon.GroupsArea.ViewGroups.GetNextFocusItem(_target) ?? ribbon.TabsArea.ButtonSpecManager!.GetFirstVisibleViewButton(PaletteRelativeEdgeAlign.Far);
 
                     // Move across to any far defined buttons
 

@@ -38,7 +38,6 @@ namespace Krypton.Toolkit
         private bool _captionVisible;
         private readonly bool _ignoreLayout;
         private bool _layingOut;
-        private float _cornerRoundingRadius;
         #endregion
 
         #region Identity
@@ -60,7 +59,7 @@ namespace Krypton.Toolkit
             Values.TextChanged += OnValuesTextChanged;
 
             // Create the palette storage
-            StateCommon = new PaletteGroupBoxRedirect(Redirector!, NeedPaintDelegate);
+            StateCommon = new PaletteGroupBoxRedirect(Redirector, NeedPaintDelegate);
             StateDisabled = new PaletteGroupBox(StateCommon, NeedPaintDelegate);
             StateNormal = new PaletteGroupBox(StateCommon, NeedPaintDelegate);
 
@@ -104,8 +103,6 @@ namespace Krypton.Toolkit
             ((KryptonReadOnlyControls)Controls).AddInternal(Panel);
 
             _ignoreLayout = false;
-
-            _cornerRoundingRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
         }
 
         /// <summary>
@@ -137,19 +134,6 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Public
-
-        /// <summary>Gets or sets the corner rounding radius.</summary>
-        /// <value>The corner rounding radius.</value>
-        [Category(@"Visuals")]
-        [Description(@"Gets or sets the corner rounding radius.")]
-        [DefaultValue(GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE)]
-        public float CornerRoundingRadius
-        {
-            get => _cornerRoundingRadius;
-
-            set => SetCornerRoundingRadius(value);
-        }
-
         /// <summary>
         /// Gets and sets the name of the control.
         /// </summary>
@@ -162,7 +146,7 @@ namespace Krypton.Toolkit
             set
             {
                 base.Name = value;
-                Panel!.Name = $"{value}.Panel";
+                Panel.Name = $"{value}.Panel";
             }
         }
 
@@ -284,11 +268,11 @@ namespace Krypton.Toolkit
         [DefaultValue(PaletteBorderStyle.ControlGroupBox)]
         public PaletteBorderStyle GroupBorderStyle
         {
-            get => StateCommon!.BorderStyle;
+            get => StateCommon.BorderStyle;
 
             set
             {
-                if (StateCommon!.BorderStyle != value)
+                if (StateCommon.BorderStyle != value)
                 {
                     StateCommon.BorderStyle = value;
                     PerformNeedPaint(true);
@@ -308,14 +292,14 @@ namespace Krypton.Toolkit
         [DefaultValue(PaletteBackStyle.ControlGroupBox)]
         public PaletteBackStyle GroupBackStyle
         {
-            get => StateCommon!.BackStyle;
+            get => StateCommon.BackStyle;
 
             set
             {
-                if (StateCommon!.BackStyle != value)
+                if (StateCommon.BackStyle != value)
                 {
                     StateCommon.BackStyle = value;
-                    Panel!.PanelBackStyle = value;
+                    Panel.PanelBackStyle = value;
                     PerformNeedPaint(true);
                 }
             }
@@ -340,7 +324,7 @@ namespace Krypton.Toolkit
                 if (_captionStyle != value)
                 {
                     _captionStyle = value;
-                    StateCommon!.ContentStyle = CommonHelper.ContentStyleFromLabelStyle(_captionStyle);
+                    StateCommon.ContentStyle = CommonHelper.ContentStyleFromLabelStyle(_captionStyle);
                     PerformNeedPaint(true);
                 }
             }
@@ -484,9 +468,9 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Overrides for defining common header group appearance that other states can override.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteGroupBoxRedirect? StateCommon { get; }
+        public PaletteGroupBoxRedirect StateCommon { get; }
 
-        private bool ShouldSerializeStateCommon() => !StateCommon!.IsDefault;
+        private bool ShouldSerializeStateCommon() => !StateCommon.IsDefault;
 
         /// <summary>
         /// Gets access to the disabled header group appearance entries.
@@ -573,7 +557,7 @@ namespace Krypton.Toolkit
                 ForceViewLayout();
 
                 // The inside panel is the client rectangle size
-                return new Rectangle(Panel!.Location, Panel.Size);
+                return new Rectangle(Panel.Location, Panel.Size);
             }
         }
 
@@ -809,14 +793,6 @@ namespace Krypton.Toolkit
         }
 
         private void ReapplyVisible() => _drawContent.Visible = _captionVisible;
-
-        private void SetCornerRoundingRadius(float? radius)
-        {
-            _cornerRoundingRadius = radius ?? GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
-
-            StateCommon!.Border.Rounding = _cornerRoundingRadius;
-        }
-
         #endregion
 
         #region Implementation Static

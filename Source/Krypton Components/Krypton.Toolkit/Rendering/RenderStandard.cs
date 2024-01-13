@@ -10,8 +10,6 @@
  */
 #endregion
 
-using static System.Windows.Forms.AxHost;
-
 namespace Krypton.Toolkit
 {
     /// <summary>
@@ -129,206 +127,206 @@ namespace Krypton.Toolkit
         {
             _linear25Blend = new Blend
             {
-                Factors = new[] { 0.0f, 0.0f, 0.0f, 1.0f },
-                Positions = new[] { 0.0f, 0.25f, 0.25f, 1.0f }
+                Factors = [0.0f, 0.0f, 0.0f, 1.0f],
+                Positions = [0.0f, 0.25f, 0.25f, 1.0f]
             };
 
             _linear33Blend = new Blend
             {
-                Factors = new[] { 0.0f, 0.0f, 0.0f, 1.0f },
-                Positions = new[] { 0.0f, 0.33f, 0.33f, 1.0f }
+                Factors = [0.0f, 0.0f, 0.0f, 1.0f],
+                Positions = [0.0f, 0.33f, 0.33f, 1.0f]
             };
 
             _linear40Blend = new Blend
             {
-                Factors = new[] { 0.0f, 0.0f, 0.0f, 1.0f },
-                Positions = new[] { 0.0f, 0.40f, 0.40f, 1.0f }
+                Factors = [0.0f, 0.0f, 0.0f, 1.0f],
+                Positions = [0.0f, 0.40f, 0.40f, 1.0f]
             };
 
             _linear50Blend = new Blend
             {
-                Factors = new[] { 0.0f, 0.0f, 0.0f, 1.0f },
-                Positions = new[] { 0.0f, 0.50f, 0.50f, 1.0f }
+                Factors = [0.0f, 0.0f, 0.0f, 1.0f],
+                Positions = [0.0f, 0.50f, 0.50f, 1.0f]
             };
 
             _linearShadowBlend = new Blend
             {
-                Factors = new[] { 0.0f, 1.0f, 1.0f },
-                Positions = new[] { 0.0f, 0.30f, 1.0f }
+                Factors = [0.0f, 1.0f, 1.0f],
+                Positions = [0.0f, 0.30f, 1.0f]
             };
 
             _switch25Blend = new Blend
             {
-                Factors = new[] { 0.0f, 0.0f, 1.0f, 1.0f },
-                Positions = new[] { 0.0f, 0.25f, 0.25f, 1.0f }
+                Factors = [0.0f, 0.0f, 1.0f, 1.0f],
+                Positions = [0.0f, 0.25f, 0.25f, 1.0f]
             };
 
             _switch33Blend = new Blend
             {
-                Factors = new[] { 0.0f, 0.0f, 1.0f, 1.0f },
-                Positions = new[] { 0.0f, 0.33f, 0.33f, 1.0f }
+                Factors = [0.0f, 0.0f, 1.0f, 1.0f],
+                Positions = [0.0f, 0.33f, 0.33f, 1.0f]
             };
 
             _switch50Blend = new Blend
             {
-                Factors = new[] { 0.0f, 0.0f, 1.0f, 1.0f },
-                Positions = new[] { 0.0f, 0.5f, 0.5f, 1.0f }
+                Factors = [0.0f, 0.0f, 1.0f, 1.0f],
+                Positions = [0.0f, 0.5f, 0.5f, 1.0f]
             };
 
             _switch90Blend = new Blend
             {
-                Factors = new[] { 0.0f, 0.0f, 0.0f, 1.0f },
-                Positions = new[] { 0.0f, 0.90f, 0.90f, 1.0f }
+                Factors = [0.0f, 0.0f, 0.0f, 1.0f],
+                Positions = [0.0f, 0.90f, 0.90f, 1.0f]
             };
 
             _halfCutBlend = new Blend
             {
-                Factors = new[] { 0.0f, 0.50f, 1.0f, 0.05f },
-                Positions = new[] { 0.0f, 0.45f, 0.45f, 1.0f }
+                Factors = [0.0f, 0.50f, 1.0f, 0.05f],
+                Positions = [0.0f, 0.45f, 0.45f, 1.0f]
             };
 
             _quarterPhaseBlend = new Blend
             {
-                Factors = new[] { 0.0f, 0.0f, 0.25f, 0.70f, 1.0f, 1.0f },
-                Positions = new[] { 0.0f, 0.10f, 0.20f, 0.30f, 0.5f, 1.0f }
+                Factors = [0.0f, 0.0f, 0.25f, 0.70f, 1.0f, 1.0f],
+                Positions = [0.0f, 0.10f, 0.20f, 0.30f, 0.5f, 1.0f]
             };
 
             _oneNoteBlend = new Blend
             {
-                Factors = new[] { 0.15f, 0.75f, 1.0f, 1.0f },
-                Positions = new[] { 0.0f, 0.45f, 0.45f, 1.0f }
+                Factors = [0.15f, 0.75f, 1.0f, 1.0f],
+                Positions = [0.0f, 0.45f, 0.45f, 1.0f]
             };
 
             _rounding2Blend = new Blend
             {
-                Factors = new[] { 0.8f, 0.2f, 0f, 0.07f, 1.0f },
-                Positions = new[] { 0.0f, 0.33f, 0.33f, 0.43f, 1.0f }
+                Factors = [0.8f, 0.2f, 0f, 0.07f, 1.0f],
+                Positions = [0.0f, 0.33f, 0.33f, 0.43f, 1.0f]
             };
 
             _rounding3Blend = new Blend
             {
-                Factors = new[] { 1.0f, 0.7f, 0.7f, 0f, 0.1f, 0.55f, 1.0f, 1.0f },
-                Positions = new[] { 0.0f, 0.16f, 0.33f, 0.35f, 0.51f, 0.85f, 0.85f, 1.0f }
+                Factors = [1.0f, 0.7f, 0.7f, 0f, 0.1f, 0.55f, 1.0f, 1.0f],
+                Positions = [0.0f, 0.16f, 0.33f, 0.35f, 0.51f, 0.85f, 0.85f, 1.0f]
             };
 
             _rounding4Blend = new Blend
             {
-                Factors = new[] { 1.0f, 0.78f, 0.48f, 1.0f, 1.0f },
-                Positions = new[] { 0.0f, 0.33f, 0.33f, 0.90f, 1.0f }
+                Factors = [1.0f, 0.78f, 0.48f, 1.0f, 1.0f],
+                Positions = [0.0f, 0.33f, 0.33f, 0.90f, 1.0f]
             };
 
             _rounding5Blend = new Blend
             {
-                Factors = new[] { 0.0f, 0.0f, 1.0f, 1.0f },
-                Positions = new[] { 0.0f, 0.20f, 0.84f, 1.0f }
+                Factors = [0.0f, 0.0f, 1.0f, 1.0f],
+                Positions = [0.0f, 0.20f, 0.84f, 1.0f]
             };
 
             _ribbonInBlend = new Blend
             {
-                Factors = new[] { 0.66f, 1.0f, 0.0f },
-                Positions = new[] { 0.0f, 0.50f, 1.0f }
+                Factors = [0.66f, 1.0f, 0.0f],
+                Positions = [0.0f, 0.50f, 1.0f]
             };
 
             _ribbonOutBlend = new Blend
             {
-                Factors = new[] { 0.2f, 1.0f, 0.0f },
-                Positions = new[] { 0.0f, 0.50f, 1.0f }
+                Factors = [0.2f, 1.0f, 0.0f],
+                Positions = [0.0f, 0.50f, 1.0f]
             };
 
             _ribbonTopBlend = new Blend
             {
-                Factors = new[] { 0.0f, 1.0f, 1.0f, 0.0f },
-                Positions = new[] { 0.0f, 0.2f, 0.8f, 1.0f }
+                Factors = [0.0f, 1.0f, 1.0f, 0.0f],
+                Positions = [0.0f, 0.2f, 0.8f, 1.0f]
             };
 
             _ribbonGroup1Blend = new Blend
             {
-                Factors = new[] { 0.0f, 0.0f, 0.6f, 1.0f },
-                Positions = new[] { 0.0f, 0.18f, 0.75f, 1.0f }
+                Factors = [0.0f, 0.0f, 0.6f, 1.0f],
+                Positions = [0.0f, 0.18f, 0.75f, 1.0f]
             };
 
             _ribbonGroup2Blend = new Blend
             {
-                Factors = new[] { 0.0f, 0.5f, 1.0f, 1.0f },
-                Positions = new[] { 0.0f, 0.18f, 0.2f, 1.0f }
+                Factors = [0.0f, 0.5f, 1.0f, 1.0f],
+                Positions = [0.0f, 0.18f, 0.2f, 1.0f]
             };
 
             _ribbonGroup3Blend = new Blend
             {
-                Factors = new[] { 0.0f, 0.0f, 1.0f, 0.0f, 0.0f },
-                Positions = new[] { 0.0f, 0.90f, 0.97f, 0.97f, 1.0f }
+                Factors = [0.0f, 0.0f, 1.0f, 0.0f, 0.0f],
+                Positions = [0.0f, 0.90f, 0.97f, 0.97f, 1.0f]
             };
 
             _ribbonGroup4Blend = new Blend
             {
-                Factors = new[] { 0.0f, 0.4f, 1.0f, 1.0f },
-                Positions = new[] { 0.0f, 0.045f, 0.33f, 1.0f }
+                Factors = [0.0f, 0.4f, 1.0f, 1.0f],
+                Positions = [0.0f, 0.045f, 0.33f, 1.0f]
             };
 
             _ribbonGroup5Blend = new Blend
             {
-                Factors = new[] { 0.0f, 0.0f, 1.0f },
-                Positions = new[] { 0.0f, 0.5f, 1.0f }
+                Factors = [0.0f, 0.0f, 1.0f],
+                Positions = [0.0f, 0.5f, 1.0f]
             };
 
             _ribbonGroup6Blend = new Blend
             {
-                Factors = new[] { 0.0f, 0.0f, 1.0f },
-                Positions = new[] { 0.0f, 0.4f, 1.0f }
+                Factors = [0.0f, 0.0f, 1.0f],
+                Positions = [0.0f, 0.4f, 1.0f]
             };
 
             _ribbonGroup7Blend = new Blend
             {
-                Factors = new[] { 0.0f, 1.0f, 1.0f, 0.0f },
-                Positions = new[] { 0.0f, 0.15f, 0.85f, 1.0f }
+                Factors = [0.0f, 1.0f, 1.0f, 0.0f],
+                Positions = [0.0f, 0.15f, 0.85f, 1.0f]
             };
 
             _ribbonGroup8Blend = new Blend
             {
-                Factors = new[] { 0.0f, 0.0f, 1.0f },
-                Positions = new[] { 0.0f, 0.85f, 1.0f }
+                Factors = [0.0f, 0.0f, 1.0f],
+                Positions = [0.0f, 0.85f, 1.0f]
             };
 
             _ribbonGroup9Blend = new Blend
             {
-                Factors = new[] { 0.0f, 0.5f, 0.75f, 0.9f, 1.0f },
-                Positions = new[] { 0.0f, 0.25f, 0.50f, 0.75f, 1.0f }
+                Factors = [0.0f, 0.5f, 0.75f, 0.9f, 1.0f],
+                Positions = [0.0f, 0.25f, 0.50f, 0.75f, 1.0f]
             };
 
             _ribbonGroupArea3 = new Blend
             {
-                Factors = new[] { 1.0f, 0.0f, 0.0f, 1.0f },
-                Positions = new[] { 0.0f, 0.1f, 0.85f, 1.0f }
+                Factors = [1.0f, 0.0f, 0.0f, 1.0f],
+                Positions = [0.0f, 0.1f, 0.85f, 1.0f]
             };
 
             _ribbonTabSelected1Blend = new Blend
             {
-                Factors = new[] { 0.0f, 0.0f, 0.0f, 1.0f, 1.0f },
-                Positions = new[] { 0.0f, 0.50f, 0.50f, 0.9f, 1.0f }
+                Factors = [0.0f, 0.0f, 0.0f, 1.0f, 1.0f],
+                Positions = [0.0f, 0.50f, 0.50f, 0.9f, 1.0f]
             };
 
             _ribbonTabSelected2Blend = new Blend
             {
-                Factors = new[] { 0.0f, 1.0f, 1.0f },
-                Positions = new[] { 0.0f, 0.75f, 1.0f }
+                Factors = [0.0f, 1.0f, 1.0f],
+                Positions = [0.0f, 0.75f, 1.0f]
             };
 
             _ribbonTabTopBlend = new Blend
             {
-                Factors = new[] { 0.0f, 1.0f, 1.0f },
-                Positions = new[] { 0.0f, 0.2f, 1.0f }
+                Factors = [0.0f, 1.0f, 1.0f],
+                Positions = [0.0f, 0.2f, 1.0f]
             };
 
             _ribbonAppButtonBlend = new Blend
             {
-                Factors = new[] { 0.0f, 0.0f, 0.5f, 1.0f, 1.0f },
-                Positions = new[] { 0.0f, 0.1f, 0.5f, 0.5f, 1.0f }
+                Factors = [0.0f, 0.0f, 0.5f, 1.0f, 1.0f],
+                Positions = [0.0f, 0.1f, 0.5f, 0.5f, 1.0f]
             };
 
             _dragRoundedInsideBlend = new Blend
             {
-                Factors = new[] { 0.05f, 0.2f, 0.5f, 1.0f },
-                Positions = new[] { 0.0f, 0.5f, 0.5f, 1.0f }
+                Factors = [0.05f, 0.2f, 0.5f, 1.0f],
+                Positions = [0.0f, 0.5f, 0.5f, 1.0f]
             };
 
             _paleShadowPen = new Pen(Color.FromArgb(6, Color.Black));
@@ -768,7 +766,7 @@ namespace Krypton.Toolkit
                     {
                         if (colorStyle == PaletteColorStyle.Dashed)
                         {
-                            borderPen.DashPattern = new float[] { 2, 2 };
+                            borderPen.DashPattern = [2, 2];
                         }
 
                         using var gh = new GraphicsHint(context.Graphics, paletteBorder.GetBorderGraphicsHint(state));
@@ -1843,6 +1841,7 @@ namespace Krypton.Toolkit
                 default:
                     // Should never happen!
                     Debug.Assert(false);
+                    DebugTools.NotImplemented(tabBorderStyle.ToString());
                     break;
             }
 
@@ -2150,6 +2149,7 @@ namespace Krypton.Toolkit
                 default:
                     // Should never happen!
                     Debug.Assert(false);
+                    DebugTools.NotImplemented(backColorStyle.ToString());
                     break;
             }
 
@@ -2342,7 +2342,7 @@ namespace Krypton.Toolkit
             }
 
             // Grab an image appropriate to the state
-            Image? drawImage = palette.GetCheckBoxImage(enabled, checkState, tracking, pressed);
+            Image drawImage = palette.GetCheckBoxImage(enabled, checkState, tracking, pressed);
 
             // If no image from the palette then get a system check box
             if (drawImage == null)
@@ -2393,7 +2393,7 @@ namespace Krypton.Toolkit
             }
 
             // Grab an image appropriate to the state
-            Image? drawImage = palette.GetCheckBoxImage(enabled, checkState, tracking, pressed);
+            Image drawImage = palette.GetCheckBoxImage(enabled, checkState, tracking, pressed);
 
             // If no image from the palette then get a system check box
             if (drawImage == null)
@@ -2434,7 +2434,7 @@ namespace Krypton.Toolkit
                                                          bool pressed)
         {
             // Grab an image appropriate to the state
-            Image? drawImage = palette.GetRadioButtonImage(enabled, checkState, tracking, pressed);
+            Image drawImage = palette.GetRadioButtonImage(enabled, checkState, tracking, pressed);
 
             if (drawImage == null)
             {
@@ -2484,7 +2484,7 @@ namespace Krypton.Toolkit
             }
 
             // Grab an image appropriate to the state
-            Image? drawImage = palette.GetRadioButtonImage(enabled, checkState, tracking, pressed);
+            Image drawImage = palette.GetRadioButtonImage(enabled, checkState, tracking, pressed);
 
             // If no image from the palette then get a system radio button
             if (drawImage == null)
@@ -2521,7 +2521,7 @@ namespace Krypton.Toolkit
                                                             VisualOrientation orientation)
         {
             // Grab an image appropriate to the state
-            Image? drawImage = palette?.GetDropDownButtonImage(state);
+            Image drawImage = palette?.GetDropDownButtonImage(state);
 
             // Get the image defined size
             Size imageSize = Size.Empty;
@@ -2570,7 +2570,7 @@ namespace Krypton.Toolkit
             }
 
             // Grab an image appropriate to the state
-            Image? drawImage = palette.GetDropDownButtonImage(state);
+            Image drawImage = palette.GetDropDownButtonImage(state);
             if (drawImage != null)
             {
                 DrawImageHelper(context, drawImage, Color.Empty,
@@ -3106,7 +3106,7 @@ namespace Krypton.Toolkit
                         OldColor = Color.Black,
                         NewColor = CommonHelper.MergeColors(imageColor, 0.75f, Color.Transparent, 0.25f)
                     };
-                    attribs.SetRemapTable(new[] { cm }, ColorAdjustType.Bitmap);
+                    attribs.SetRemapTable([cm], ColorAdjustType.Bitmap);
 
                     context.Graphics.DrawImage(sortImage,
                                                new Rectangle(x, y, sortImage.Width, sortImage.Height),
@@ -3186,7 +3186,7 @@ namespace Krypton.Toolkit
                         OldColor = Color.Black,
                         NewColor = CommonHelper.MergeColors(imageColor, 0.75f, Color.Transparent, 0.25f)
                     };
-                    attribs.SetRemapTable(new[] { cm }, ColorAdjustType.Bitmap);
+                    attribs.SetRemapTable([cm], ColorAdjustType.Bitmap);
 
                     context.Graphics.DrawImage(rowImage,
                                                new Rectangle(x, y, rowImage.Width, rowImage.Height),
@@ -3702,13 +3702,14 @@ namespace Krypton.Toolkit
         private GraphicsPath CreatePositionPathsBoth(Rectangle drawRect)
         {
             var path = new GraphicsPath();
-            path.AddLines(new PointF[]{
+            path.AddLines([
                 new PointF(drawRect.X + 0.75f, drawRect.Y), new PointF(drawRect.Right - 1.75f, drawRect.Y),
                 new PointF(drawRect.Right - 1.0f, drawRect.Y + 0.75f),
                 new PointF(drawRect.Right - 1.0f, drawRect.Bottom - 2.0f),
                 new PointF(drawRect.Right - 2.0f, drawRect.Bottom - 1.0f),
                 new PointF(drawRect.X + 1.0f, drawRect.Bottom - 1.0f), new PointF(drawRect.X, drawRect.Bottom - 2.0f),
-                new PointF(drawRect.X, drawRect.Y + 0.75f), new PointF(drawRect.X + 0.75f, drawRect.Y)});
+                new PointF(drawRect.X, drawRect.Y + 0.75f), new PointF(drawRect.X + 0.75f, drawRect.Y)
+            ]);
 
             return path;
         }
@@ -3732,12 +3733,13 @@ namespace Krypton.Toolkit
             var half = ((float)drawRect.Width / 2) - 0.5f;
 
             var path = new GraphicsPath();
-            path.AddLines(new PointF[]{
+            path.AddLines([
                 new PointF(drawRect.X + half, drawRect.Y), new PointF(drawRect.Right - 1.0f, drawRect.Y + +half),
                 new PointF(drawRect.Right - 1.0f, drawRect.Bottom - 2.0f),
                 new PointF(drawRect.Right - 2.0f, drawRect.Bottom - 1.0f),
                 new PointF(drawRect.X + 1.0f, drawRect.Bottom - 1.0f), new PointF(drawRect.X, drawRect.Bottom - 2.0f),
-                new PointF(drawRect.X, drawRect.Y + half), new PointF(drawRect.X + half, drawRect.Y)});
+                new PointF(drawRect.X, drawRect.Y + half), new PointF(drawRect.X + half, drawRect.Y)
+            ]);
             return path;
         }
 
@@ -3759,13 +3761,14 @@ namespace Krypton.Toolkit
             var half = ((float)drawRect.Width / 2) - 0.5f;
 
             var path = new GraphicsPath();
-            path.AddLines(new PointF[]{
+            path.AddLines([
                 new PointF(drawRect.X + 0.75f, drawRect.Y), new PointF(drawRect.Right - 1.75f, drawRect.Y),
                 new PointF(drawRect.Right - 1.0f, drawRect.Y + 0.75f),
                 new PointF(drawRect.Right - 1.0f, drawRect.Bottom - half - 1.0f),
                 new PointF(drawRect.X + half, drawRect.Bottom - 1.0f),
                 new PointF(drawRect.X, drawRect.Bottom - half - 1.0f), new PointF(drawRect.X, drawRect.Y + 0.75f),
-                new PointF(drawRect.X + 0.75f, drawRect.Y)});
+                new PointF(drawRect.X + 0.75f, drawRect.Y)
+            ]);
             return path;
         }
 
@@ -3787,12 +3790,13 @@ namespace Krypton.Toolkit
             var half = ((float)drawRect.Height / 2) - 0.5f;
 
             var path = new GraphicsPath();
-            path.AddLines(new PointF[]{
+            path.AddLines([
                 new PointF(drawRect.X + 0.75f, drawRect.Y), new PointF(drawRect.Right - half - 1.0f, drawRect.Y),
                 new PointF(drawRect.Right - 1.0f, drawRect.Y + half),
                 new PointF(drawRect.Right - half - 1.0f, drawRect.Bottom - 1.0f),
                 new PointF(drawRect.X + 1.0f, drawRect.Bottom - 1.0f), new PointF(drawRect.X, drawRect.Bottom - 2.0f),
-                new PointF(drawRect.X, drawRect.Y + 0.75f), new PointF(drawRect.X + 0.75f, drawRect.Y)});
+                new PointF(drawRect.X, drawRect.Y + 0.75f), new PointF(drawRect.X + 0.75f, drawRect.Y)
+            ]);
             return path;
         }
 
@@ -3815,13 +3819,14 @@ namespace Krypton.Toolkit
             var half = ((float)drawRect.Height / 2) - 0.5f;
 
             var path = new GraphicsPath();
-            path.AddLines(new PointF[]{
+            path.AddLines([
                 new PointF(drawRect.Right - 1.75f, drawRect.Y), new PointF(drawRect.Right - 1.0f, drawRect.Y + 0.75f),
                 new PointF(drawRect.Right - 1.0f, drawRect.Bottom - 2.0f),
                 new PointF(drawRect.Right - 2.0f, drawRect.Bottom - 1.0f),
                 new PointF(drawRect.X + half, drawRect.Bottom - 1.0f),
                 new PointF(drawRect.X, drawRect.Bottom - half - 1.0f), new PointF(drawRect.X + half, drawRect.Y),
-                new PointF(drawRect.Right - 1.75f, drawRect.Y)});
+                new PointF(drawRect.Right - 1.75f, drawRect.Y)
+            ]);
 
             return path;
         }
@@ -4545,6 +4550,7 @@ namespace Krypton.Toolkit
                 default:
                     // Should never happen!
                     Debug.Assert(false);
+                    DebugTools.NotImplemented(tabBorderStyle.ToString());
                     break;
             }
         }
@@ -5621,7 +5627,7 @@ namespace Krypton.Toolkit
             using var borderBrush = new PathGradientBrush(path);
             borderBrush.Blend = _linearShadowBlend;
             borderBrush.CenterColor = backColor1;
-            borderBrush.SurroundColors = new[] { backColor2 };
+            borderBrush.SurroundColors = [backColor2];
             context.Graphics.FillPath(borderBrush, path);
         }
         #endregion
@@ -5991,7 +5997,7 @@ namespace Krypton.Toolkit
 
         private static int[] AllocatedColumnWidths(Size[,] allocation, int rowIndex)
         {
-            int[] colWidths = { 0, 0, 0 };
+            int[] colWidths = [0, 0, 0];
 
             for (var col = 0; col < 3; col++)
             {
@@ -6021,7 +6027,7 @@ namespace Krypton.Toolkit
 
         private static int[] AllocatedRowHeights(Size[,] allocation)
         {
-            int[] rowHeights = { 0, 0, 0 };
+            int[] rowHeights = [0, 0, 0];
 
             for (var row = 0; row < 3; row++)
             {
@@ -6726,11 +6732,13 @@ namespace Krypton.Toolkit
             if (dragData.ShowBack)
             {
                 // Create points for a polygon
-                Point[] pts = {
+                Point[] pts =
+                [
                     new Point(0, 29), new Point(23, 29), new Point(29, 23), new Point(29, 0), new Point(57, 0),
                     new Point(57, 23), new Point(63, 29), new Point(87, 29), new Point(87, 57), new Point(63, 57),
                     new Point(57, 63), new Point(57, 87), new Point(29, 87), new Point(29, 63), new Point(23, 57),
-                    new Point(0, 57)};
+                    new Point(0, 57)
+                ];
 
                 // Fill this area with a solid colour
                 g.FillPolygon(insideBrush, pts);
@@ -6757,10 +6765,12 @@ namespace Krypton.Toolkit
             else if (dragData is { ShowLeft: true, ShowRight: true })
             {
                 // Create points for a polygon
-                Point[] pts = {
+                Point[] pts =
+                [
                     new Point(0, 29), new Point(23, 29), new Point(29, 23), new Point(57, 23), new Point(63, 29),
                     new Point(87, 29), new Point(87, 57), new Point(63, 57), new Point(57, 63), new Point(29, 63),
-                    new Point(23, 57), new Point(0, 57)};
+                    new Point(23, 57), new Point(0, 57)
+                ];
 
                 // Fill this area with a solid colour
                 g.FillPolygon(insideBrush, pts);
@@ -6795,10 +6805,12 @@ namespace Krypton.Toolkit
             else if (dragData is { ShowTop: true, ShowBottom: true })
             {
                 // Create points for a polygon
-                Point[] pts = {
+                Point[] pts =
+                [
                     new Point(23, 29), new Point(29, 23), new Point(29, 0), new Point(57, 0), new Point(57, 23),
                     new Point(63, 29), new Point(63, 57), new Point(57, 63), new Point(57, 87), new Point(29, 87),
-                    new Point(29, 63), new Point(23, 57)};
+                    new Point(29, 63), new Point(23, 57)
+                ];
 
                 // Fill this area with a solid colour
                 g.FillPolygon(insideBrush, pts);
@@ -6832,9 +6844,11 @@ namespace Krypton.Toolkit
             else if (dragData.ShowMiddle)
             {
                 // Only draw the background for the middle square
-                Point[] pts = {
+                Point[] pts =
+                [
                     new Point(23, 29), new Point(29, 23), new Point(57, 23), new Point(63, 29), new Point(63, 57),
-                    new Point(57, 63), new Point(29, 63), new Point(23, 57)};
+                    new Point(57, 63), new Point(29, 63), new Point(23, 57)
+                ];
 
                 g.FillPolygon(insideBrush, pts);
                 g.DrawPolygon(borderPen, pts);
@@ -7351,9 +7365,12 @@ namespace Krypton.Toolkit
                     innerRect.Height -= 3;
                     var halfHeight = innerRect.Height / 2;
                     cache.BorderRect = innerRect;
-                    cache.BorderPoints = new Point[] { new Point(innerRect.X, rect.Y),
+                    cache.BorderPoints =
+                    [
+                        new Point(innerRect.X, rect.Y),
                         new Point(innerRect.X, innerRect.Bottom), new Point(innerRect.Right, innerRect.Bottom),
-                        new Point(innerRect.Right, innerRect.Top) };
+                        new Point(innerRect.Right, innerRect.Top)
+                    ];
                     cache.BackRect1 = new Rectangle(innerRect.X, innerRect.Y, rect.Width, halfHeight);
                     cache.BackRect2 = innerRect with { Y = innerRect.Y + halfHeight, Height = innerRect.Height - halfHeight };
                     cache.BackBrush1 = new LinearGradientBrush(new RectangleF(cache.BackRect1.X - 1, cache.BackRect1.Y - 1, cache.BackRect1.Width + 2, cache.BackRect1.Height + 1), c3, c4, 90f);
@@ -7664,7 +7681,7 @@ namespace Krypton.Toolkit
                 PointF centerPoint = new PointF(cache.EllipseRect.Left + (cache.EllipseRect.Width / 2),
                     cache.EllipseRect.Top + (cache.EllipseRect.Height / 2));
                 cache.EllipseBrush.CenterPoint = centerPoint;
-                cache.EllipseBrush.SurroundColors = new[] { Color.Transparent };
+                cache.EllipseBrush.SurroundColors = [Color.Transparent];
             }
 
             RectangleF vertRectF = new RectangleF(rect.Left - 1, rect.Top + 2, rect.Width + 2, rect.Height - 2);
@@ -7760,7 +7777,7 @@ namespace Krypton.Toolkit
                 PointF centerPoint = new PointF(cache.EllipseRect.Left + (cache.EllipseRect.Width / 2),
                     cache.EllipseRect.Top + (cache.EllipseRect.Height / 2));
                 cache.EllipseBrush.CenterPoint = centerPoint;
-                cache.EllipseBrush.SurroundColors = new[] { Color.Transparent };
+                cache.EllipseBrush.SurroundColors = [Color.Transparent];
             }
 
             RectangleF vertRectF = new RectangleF(rect.Left + 2, rect.Top - 1, rect.Width - 2, rect.Height + 2);
@@ -7857,7 +7874,7 @@ namespace Krypton.Toolkit
                 PointF centerPoint = new PointF(cache.EllipseRect.Left + (cache.EllipseRect.Width / 2),
                     cache.EllipseRect.Top + (cache.EllipseRect.Height / 2));
                 cache.EllipseBrush.CenterPoint = centerPoint;
-                cache.EllipseBrush.SurroundColors = new[] { Color.Transparent };
+                cache.EllipseBrush.SurroundColors = [Color.Transparent];
             }
 
             RectangleF vertRectF = new RectangleF(rect.Left, rect.Top - 1, rect.Width - 2, rect.Height + 2);
@@ -7954,7 +7971,7 @@ namespace Krypton.Toolkit
                 PointF centerPoint = new PointF(cache.EllipseRect.Left + (cache.EllipseRect.Width / 2),
                     cache.EllipseRect.Bottom - (cache.EllipseRect.Height / 2));
                 cache.EllipseBrush.CenterPoint = centerPoint;
-                cache.EllipseBrush.SurroundColors = new[] { Color.Transparent };
+                cache.EllipseBrush.SurroundColors = [Color.Transparent];
             }
 
             RectangleF vertRectF = new RectangleF(rect.Left - 1, rect.Top, rect.Width + 2, rect.Height - 2);
@@ -8700,7 +8717,7 @@ namespace Krypton.Toolkit
                 PointF centerPoint = new PointF(cache.EllipseRect.Left + (cache.EllipseRect.Width / 2),
                     cache.EllipseRect.Top + (cache.EllipseRect.Height / 2));
                 cache.EllipseBrush.CenterPoint = centerPoint;
-                cache.EllipseBrush.SurroundColors = new[] { Color.Transparent };
+                cache.EllipseBrush.SurroundColors = [Color.Transparent];
             }
 
             cache.InsideBrush = new SolidBrush(insideColor);
@@ -8758,7 +8775,7 @@ namespace Krypton.Toolkit
                 PointF centerPoint = new PointF(cache.EllipseRect.Left + (cache.EllipseRect.Width / 2),
                     cache.EllipseRect.Top + (cache.EllipseRect.Height / 2));
                 cache.EllipseBrush.CenterPoint = centerPoint;
-                cache.EllipseBrush.SurroundColors = new[] { Color.Transparent };
+                cache.EllipseBrush.SurroundColors = [Color.Transparent];
             }
 
             cache.InsideBrush = new SolidBrush(insideColor);
@@ -8816,7 +8833,7 @@ namespace Krypton.Toolkit
                 PointF centerPoint = new PointF(cache.EllipseRect.Left + (cache.EllipseRect.Width / 2),
                     cache.EllipseRect.Top + (cache.EllipseRect.Height / 2));
                 cache.EllipseBrush.CenterPoint = centerPoint;
-                cache.EllipseBrush.SurroundColors = new[] { Color.Transparent };
+                cache.EllipseBrush.SurroundColors = [Color.Transparent];
             }
 
             cache.InsideBrush = new SolidBrush(insideColor);
@@ -8874,7 +8891,7 @@ namespace Krypton.Toolkit
                 PointF centerPoint = new PointF(cache.EllipseRect.Left + (cache.EllipseRect.Width / 2),
                     cache.EllipseRect.Bottom - 1 - (cache.EllipseRect.Height / 2));
                 cache.EllipseBrush.CenterPoint = centerPoint;
-                cache.EllipseBrush.SurroundColors = new[] { Color.Transparent };
+                cache.EllipseBrush.SurroundColors = [Color.Transparent];
             }
 
             cache.InsideBrush = new SolidBrush(insideColor);
@@ -10346,8 +10363,8 @@ namespace Krypton.Toolkit
 
             if (!pressed)
             {
-                Color[] colorsUpperHalf = { topDark, topMedium, topLight, topLight, topMedium, topDark };
-                float[] posUpperHalf = { 0.0f, 0.2f, 0.4f, 0.6f, 0.8f, 1.0f };
+                Color[] colorsUpperHalf = [topDark, topMedium, topLight, topLight, topMedium, topDark];
+                float[] posUpperHalf = [0.0f, 0.2f, 0.4f, 0.6f, 0.8f, 1.0f];
 
                 ColorBlend blendUpperHalf = new ColorBlend
                 {
@@ -10389,10 +10406,10 @@ namespace Krypton.Toolkit
                                                             Color bottomLight,
                                                             Color bottomMedium)
         {
-            Color[] colorsLowerHalf = { bottomDark, bottomMedium, bottomLight, bottomLight, bottomMedium, bottomDark };
+            Color[] colorsLowerHalf = [bottomDark, bottomMedium, bottomLight, bottomLight, bottomMedium, bottomDark];
 
             var posLowerHalf = state == PaletteState.Pressed
-                ? new[] { 0.0f, 0.3f, 0.5f, 0.5f, 0.7f, 1.0f }
+                ? [0.0f, 0.3f, 0.5f, 0.5f, 0.7f, 1.0f]
                 : new[] { 0.0f, 0.2f, 0.4f, 0.6f, 0.8f, 1.0f };
 
             ColorBlend blendLowerHalf = new ColorBlend
@@ -10436,7 +10453,7 @@ namespace Krypton.Toolkit
                 path.AddEllipse(rectBottomGlow);
                 using PathGradientBrush pathGradient = new PathGradientBrush(path);
                 pathGradient.CenterColor = topLight;
-                pathGradient.SurroundColors = new[] { Color.FromArgb(100, bottomLight) };
+                pathGradient.SurroundColors = [Color.FromArgb(100, bottomLight)];
                 g.FillEllipse(pathGradient, rectBottomGlow);
             }
         }
@@ -10462,14 +10479,17 @@ namespace Krypton.Toolkit
 
             using LinearGradientBrush brushUpperGlow = new LinearGradientBrush(memento.RectUpperGlow, Color.Transparent,
                 Color.Transparent, LinearGradientMode.Horizontal);
-            Color[] colorsUpperGlow = { Color.FromArgb(180, bottomDark),
+            Color[] colorsUpperGlow =
+            [
+                Color.FromArgb(180, bottomDark),
                 Color.FromArgb(mediumTransparency, bottomMedium),
                 Color.FromArgb(lightTransparency, bottomLight),
                 Color.FromArgb(lightTransparency, bottomLight),
                 Color.FromArgb(mediumTransparency, bottomMedium),
-                Color.FromArgb(180, bottomDark) };
+                Color.FromArgb(180, bottomDark)
+            ];
 
-            float[] posUpperGlow = { 0.0f, 0.2f, 0.4f, 0.6f, 0.8f, 1.0f };
+            float[] posUpperGlow = [0.0f, 0.2f, 0.4f, 0.6f, 0.8f, 1.0f];
 
             ColorBlend blendUpperGlow = new ColorBlend
             {
@@ -10707,7 +10727,7 @@ namespace Krypton.Toolkit
                     trackingPath.AddEllipse(rect with { Y = rect.Y + (rect.Height / 2), Width = rect.Width - 3 });
                     cache.TrackHighlightBrush = new PathGradientBrush(trackingPath)
                     {
-                        SurroundColors = new[] { Color.Transparent },
+                        SurroundColors = [Color.Transparent],
                         CenterColor = cache.C3,//(dark ? (rect.Width > 50 ? _whiten60 : _whiten45) : _whiten160),
                         CenterPoint = new PointF(rect.X + ((rect.Width - 3) / 2), rect.Height)
                     };
@@ -11958,7 +11978,7 @@ namespace Krypton.Toolkit
             public bool DrawImage;
             public bool DrawShortText;
             public bool DrawLongText;
-            public Image? Image;
+            public Image Image;
             public Color ImageTransparentColor;
             public Rectangle ImageRect;
             public PaletteTextTrim ShortTextTrimming;

@@ -1065,7 +1065,7 @@ namespace Krypton.Ribbon
                         // Can the combo box take the focus
                         if (LastComboBox is { CanFocus: true })
                         {
-                            LastComboBox.ComboBox!.Focus();
+                            LastComboBox.ComboBox.Focus();
                         }
 
                         return true;

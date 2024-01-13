@@ -815,8 +815,7 @@ namespace Krypton.Docking
             if (ApplyDockingCloseAction || ApplyDockingPinAction)
             {
                 // Get access to the cached state for this cell
-                var cell = sender as KryptonWorkspaceCell;
-                if (cell != null)
+                if (sender is KryptonWorkspaceCell cell)
                 {
                     CachedCellState cellState = _lookupCellState[cell];
 

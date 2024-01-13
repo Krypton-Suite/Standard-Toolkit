@@ -34,10 +34,10 @@ namespace Krypton.Toolkit
             Debug.Assert(context != null);
 
             // Remember incoming context
-            _context = context!;
+            _context = context;
 
             // Remember staring setting
-            _startControl = context!.Control;
+            _startControl = context.Control;
 
             // Update with correct control
             _context.Control = control;

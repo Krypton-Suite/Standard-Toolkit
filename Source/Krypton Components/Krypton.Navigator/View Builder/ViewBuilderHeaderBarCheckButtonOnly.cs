@@ -83,7 +83,7 @@ namespace Krypton.Navigator
             };
 
             // Place the bar inside a header style area
-            _viewHeadingBar = new ViewDrawDocker(Navigator.StateNormal!.HeaderGroup!.HeaderBar.Back,
+            _viewHeadingBar = new ViewDrawDocker(Navigator.StateNormal.HeaderGroup.HeaderBar.Back,
                                                  Navigator.StateNormal.HeaderGroup.HeaderBar.Border,
                                                  Navigator.StateNormal.HeaderGroup.HeaderBar,
                                                  PaletteMetricBool.None,

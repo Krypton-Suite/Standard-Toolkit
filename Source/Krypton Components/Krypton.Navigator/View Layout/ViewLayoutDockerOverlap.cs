@@ -39,9 +39,9 @@ namespace Krypton.Navigator
             Debug.Assert(layoutTabs != null);
 
             // Remember provided references
-            _drawCanvas = drawCanvas!;
-            _layoutOverlap = layoutOverlap!;
-            _layoutTabs = layoutTabs!;
+            _drawCanvas = drawCanvas;
+            _layoutOverlap = layoutOverlap;
+            _layoutTabs = layoutTabs;
         }
 
         /// <summary>

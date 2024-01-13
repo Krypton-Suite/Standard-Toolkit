@@ -331,8 +331,6 @@ namespace Krypton.Toolkit
         private bool _forcedLayout;
         private bool _trackingMouseEnter;
         private bool _isRecreating; // https://github.com/Krypton-Suite/Standard-Toolkit/issues/777
-        private float _cornerRoundingRadius;
-        private float _nodeCornerRoundingRadius;
         private bool _multiSelect;
         #endregion
 
@@ -564,7 +562,7 @@ namespace Krypton.Toolkit
             _overrideCheckedMultiSelect = new PaletteTripleOverride(OverrideFocus.Node, StateCheckedMultiSelect.Node, PaletteState.FocusOverride);
             _overrideNormalNode = new PaletteNodeOverride(_overrideNormal);
 
-            // Create the check box image drawer and place inside element so it is always centered
+            // Create the checkbox image drawer and place inside element so it is always centered
             _drawCheckBox = new ViewDrawCheckBox(_redirectImages);
             var layoutCheckBox = new ViewLayoutCenter
             {
@@ -665,10 +663,6 @@ namespace Krypton.Toolkit
 
             // Add tree view to the controls collection
             ((KryptonReadOnlyControls)Controls).AddInternal(_treeView);
-
-            _cornerRoundingRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
-
-            _nodeCornerRoundingRadius = GlobalStaticValues.SECONDARY_CORNER_ROUNDING_VALUE;
         }
 
         private void OnTreeClick(object sender, EventArgs e) => OnClick(e);
@@ -688,25 +682,6 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Public
-
-        /// <summary>Gets or sets the corner rounding radius.</summary>
-        /// <value>The corner rounding radius.</value>
-        [Category(@"Visuals"), DefaultValue(GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE), Description(@"Defines the corner roundness on the current window (-1 is the default look).")]
-        public float CornerRoundingRadius
-        {
-            get => _cornerRoundingRadius;
-            set => SetCornerRoundingRadius(value);
-        }
-
-        /// <summary>Gets or sets the node corner rounding radius.</summary>
-        /// <value>The node corner rounding radius.</value>
-        [Category(@"Visuals"), DefaultValue(GlobalStaticValues.SECONDARY_CORNER_ROUNDING_VALUE), Description(@"Defines the node corner roundness on the current window (-1 is the default look).")]
-        public float NodeCornerRoundingRadius
-        {
-            get => _nodeCornerRoundingRadius;
-            set => SetNodeCornerRoundingRadius(value);
-        }
-
         /// <summary>
         /// Gets access to the contained TreeView instance.
         /// </summary>
@@ -1263,7 +1238,7 @@ namespace Krypton.Toolkit
         private bool ShouldSerializePlusMinusImages() => !PlusMinusImages.IsDefault;
 
         /// <summary>
-        /// Gets access to the check box image value overrides.
+        /// Gets access to the checkbox image value overrides.
         /// </summary>
         [Category(@"Visuals")]
         [Description(@"CheckBox image value overrides.")]
@@ -1471,12 +1446,12 @@ namespace Krypton.Toolkit
         /// Sets input focus to the control.
         /// </summary>
         /// <returns>true if the input focus request was successful; otherwise, false.</returns>
-        public new bool Focus() => TreeView != null && TreeView.Focus();
+        public new bool Focus() => TreeView.Focus();
 
         /// <summary>
         /// Activates the control.
         /// </summary>
-        public new void Select() => TreeView?.Select();
+        public new void Select() => TreeView.Select();
         #endregion
 
         #region Protected
@@ -1852,7 +1827,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">Source of notification.</param>
         /// <param name="e">An NeedLayoutEventArgs containing event data.</param>
-        protected override void OnNeedPaint(object sender, NeedLayoutEventArgs e)
+        protected override void OnNeedPaint(object? sender, NeedLayoutEventArgs e)
         {
             if (IsHandleCreated && !e.NeedLayout)
             {
@@ -1879,7 +1854,7 @@ namespace Krypton.Toolkit
 
             // Only use layout logic if control is fully initialized or if being forced
             // to allow a relayout or if in design mode.
-            if (IsHandleCreated || _forcedLayout || (DesignMode && (_treeView != null)))
+            if (IsHandleCreated || _forcedLayout || (DesignMode))
             {
                 Rectangle fillRect = _layoutFill.FillRect;
                 _treeView.SetBounds(fillRect.X, fillRect.Y, fillRect.Width, fillRect.Height);
@@ -2112,7 +2087,7 @@ namespace Krypton.Toolkit
 
             _layoutImageCenterState.Visible = drawStateImage != null;
 
-            // Do we need the check box?
+            // Do we need the checkbox?
             _layoutCheckBoxStack.Visible = (StateImageList == null)
                                       && CheckBoxes
                                       && (kryptonNode?.IsCheckBoxVisible != false);
@@ -2121,7 +2096,7 @@ namespace Krypton.Toolkit
                 _drawCheckBox.CheckState = e.Node.Checked ? CheckState.Checked : CheckState.Unchecked;
             }
 
-            // By default the button is in the normal state
+            // By default, the button is in the normal state
             PaletteState buttonState;
 
             // Is this item disabled
@@ -2245,7 +2220,7 @@ namespace Krypton.Toolkit
                             _treeView.ViewDrawPanel.Render(context);
                         }
 
-                        // Do we have a indent area for drawing plus/minus/lines?
+                        // Do we have an indent area for drawing plus/minus/lines?
                         if (indentBounds.X >= 0)
                         {
                             // Do we draw lines between nodes?
@@ -2296,7 +2271,7 @@ namespace Krypton.Toolkit
                             // Do we draw any plus/minus images in indent bounds?
                             if (ShowPlusMinus && (e.Node.Nodes.Count > 0))
                             {
-                                Image? drawImage = _redirectImages.GetTreeViewImage(e.Node.IsExpanded);
+                                Image drawImage = _redirectImages!.GetTreeViewImage(e.Node.IsExpanded);
                                 if (drawImage != null)
                                 {
                                     g.DrawImage(drawImage, new Rectangle(indentBounds.X + ((indentBounds.Width - drawImage.Width) / 2) - 1,
@@ -2477,20 +2452,6 @@ namespace Krypton.Toolkit
         private void OnDoubleClick(object sender, EventArgs e) => base.OnDoubleClick(e);
 
         private void OnMouseDoubleClick(object sender, MouseEventArgs e) => base.OnMouseDoubleClick(e);
-
-        private void SetCornerRoundingRadius(float? radius)
-        {
-            _cornerRoundingRadius = radius ?? GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
-
-            StateCommon.Border.Rounding = _cornerRoundingRadius;
-        }
-
-        private void SetNodeCornerRoundingRadius(float? radius)
-        {
-            _nodeCornerRoundingRadius = radius ?? GlobalStaticValues.SECONDARY_CORNER_ROUNDING_VALUE;
-
-            StateCommon.Node.Border.Rounding = _nodeCornerRoundingRadius;
-        }
 
         #endregion
 

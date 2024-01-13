@@ -91,7 +91,7 @@ namespace Krypton.Navigator
             };
 
             // Create the top level panel and put a layout docker inside it
-            _drawPanel = new ViewDrawPanel(Navigator.StateNormal!.Back)
+            _drawPanel = new ViewDrawPanel(Navigator.StateNormal.Back)
             {
                 _layoutPanelDocker
             };

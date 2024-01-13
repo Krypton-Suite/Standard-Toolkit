@@ -29,8 +29,10 @@ namespace Krypton.Ribbon
         protected override Type[] CreateNewItemTypes() =>
             // Bug https://github.com/Krypton-Suite/Standard-Toolkit/issues/66
             // For some reason in .Net5 onwards, the following function is not called
-            new[] { typeof(KryptonRibbonGroupLines),
+            [
+                typeof(KryptonRibbonGroupLines),
                 typeof(KryptonRibbonGroupTriple),
-                typeof(KryptonRibbonGroupSeparator) };
+                typeof(KryptonRibbonGroupSeparator)
+            ];
     }
 }

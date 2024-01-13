@@ -43,8 +43,8 @@ namespace Krypton.Navigator
             NeedPaint = needPaint;
 
             // Create storage that maps onto the inherit instances
-            _paletteTabDraw = new PaletteRibbonDouble(paletteBack!, paletteText!, needPaint);
-            _paletteContent = new PaletteNavContent(paletteContent!, needPaint);
+            _paletteTabDraw = new PaletteRibbonDouble(paletteBack, paletteText, needPaint);
+            _paletteContent = new PaletteNavContent(paletteContent, needPaint);
         }
         #endregion
 

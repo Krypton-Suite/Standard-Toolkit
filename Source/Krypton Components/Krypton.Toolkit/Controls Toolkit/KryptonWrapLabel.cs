@@ -609,13 +609,13 @@ namespace Krypton.Toolkit
                     _miPtb = typeof(Control).GetMethod("PaintTransparentBackground",
                                                        BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.InvokeMethod,
                                                        null, CallingConventions.HasThis,
-                                                       new[] { typeof(PaintEventArgs), typeof(Rectangle), typeof(Region) },
+                                                       [typeof(PaintEventArgs), typeof(Rectangle), typeof(Region)],
                                                        null);
                 }
 
                 if (pEvent != null)
                 {
-                    _miPtb?.Invoke(this, new object[] { pEvent, ClientRectangle, null });
+                    _miPtb?.Invoke(this, [pEvent, ClientRectangle, null]);
                 }
             }
             else

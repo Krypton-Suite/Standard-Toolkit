@@ -728,13 +728,13 @@ namespace Krypton.Ribbon
             CAPTION_TEXT_GAPS = (int)(FactorDpiX * 10);        // 4 below and 6 above
             MIN_SELF_HEIGHT = (int)(FactorDpiY * 28);          // Min height to show application button and the mini bar and context tabs
             // Remember incoming references
-            _ribbon = ribbon!;
-            _compositionArea = compositionArea!;
-            _needPaintDelegate = needPaintDelegate!;
+            _ribbon = ribbon;
+            _compositionArea = compositionArea;
+            _needPaintDelegate = needPaintDelegate;
             _needIntegratedDelegate = OnIntegratedNeedPaint;
 
             // Create a special redirector for overriding the border setting
-            _redirect = new PaletteCaptionRedirect(redirect!);
+            _redirect = new PaletteCaptionRedirect(redirect);
 
             CreateViewElements();
             SetupParentMonitoring();
@@ -1059,7 +1059,7 @@ namespace Krypton.Ribbon
             Debug.Assert(context != null);
 
             // Enforce the minimum height
-            Size preferredSize = base.GetPreferredSize(context!);
+            Size preferredSize = base.GetPreferredSize(context);
             preferredSize.Height = Math.Max(_calculatedHeight, preferredSize.Height);
 
             return preferredSize;

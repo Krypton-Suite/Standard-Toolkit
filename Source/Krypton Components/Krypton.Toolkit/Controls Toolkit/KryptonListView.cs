@@ -32,8 +32,6 @@ namespace Krypton.Toolkit
         private PaletteMode _paletteMode;
         private bool _layoutDirty;
         private bool _refreshAll;
-        private float _cornerRoundingRadius;
-        private float _itemCornerRoundingRadius;
         private readonly IntPtr _screenDC;
 
         private readonly PaletteTripleOverride _overrideNormal;
@@ -208,10 +206,6 @@ namespace Krypton.Toolkit
             StateCommon.Item.Content.ShortText.MultiLine = InheritBool.True;
             StateCommon.Item.Content.ShortText.MultiLineH = PaletteRelativeAlign.Center;
             StateCommon.Item.Content.ShortText.TextH = PaletteRelativeAlign.Center;
-
-            _cornerRoundingRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
-
-            _itemCornerRoundingRadius = GlobalStaticValues.SECONDARY_CORNER_ROUNDING_VALUE;
         }
 
         /// <summary>
@@ -251,30 +245,6 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Public
-
-        /// <summary>Gets or sets the corner rounding radius.</summary>
-        /// <value>The corner rounding radius.</value>
-        [Category(@"Visuals")]
-        [Description(@"Gets or sets the corner rounding radius.")]
-        [DefaultValue(GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE)]
-        public float CornerRoundingRadius
-        {
-            get => _cornerRoundingRadius;
-
-            set => SetCornerRoundingRadius(value);
-        }
-
-        /// <summary>Gets or sets the item corner rounding radius.</summary>
-        /// <value>The item corner rounding radius.</value>
-        [Category(@"Visuals")]
-        [Description(@"Gets or sets the item corner rounding radius.")]
-        [DefaultValue(GlobalStaticValues.SECONDARY_CORNER_ROUNDING_VALUE)]
-        public float ItemCornerRoundingRadius
-        {
-            get => _itemCornerRoundingRadius;
-
-            set => SetItemCornerRoundingRadius(value);
-        }
 
         /// <summary>Gets and sets the custom palette implementation.</summary>
         [Category(@"Visuals")]
@@ -343,6 +313,7 @@ namespace Krypton.Toolkit
         [EditorBrowsable(EditorBrowsableState.Never)]
         public bool IsActive => _fixedActive ?? DesignMode || AlwaysActive || ContainsFocus || _mouseOver;
 
+        /// <inheritdoc cref="ListView.OwnerDraw"/>>
         public new bool OwnerDraw
         {
             get => base.OwnerDraw; // Should be true!
@@ -665,6 +636,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Others Overrides
+        /// <inheritdoc />
         protected override void OnSelectedIndexChanged(EventArgs e)
         {
             UpdateStateAndPalettes();
@@ -740,6 +712,7 @@ namespace Krypton.Toolkit
             }
         }
 
+        /// <inheritdoc />
         protected override void OnGotFocus(EventArgs e)
         {
             UpdateStateAndPalettes();
@@ -747,6 +720,7 @@ namespace Krypton.Toolkit
             base.OnGotFocus(e);
         }
 
+        /// <inheritdoc />
         protected override void OnLostFocus(EventArgs e)
         {
             UpdateStateAndPalettes();
@@ -754,6 +728,7 @@ namespace Krypton.Toolkit
             base.OnLostFocus(e);
         }
 
+        /// <inheritdoc />
         protected override void OnEnabledChanged(EventArgs e)
         {
             UpdateStateAndPalettes();
@@ -761,6 +736,7 @@ namespace Krypton.Toolkit
             base.OnEnabledChanged(e);
         }
 
+        /// <inheritdoc />
         protected override void OnMouseEnter(EventArgs e)
         {
             if (!_mouseOver)
@@ -772,6 +748,7 @@ namespace Krypton.Toolkit
             base.OnMouseEnter(e);
         }
 
+        /// <inheritdoc />
         protected override void OnMouseLeave(EventArgs e)
         {
             if (_mouseOver)
@@ -810,6 +787,7 @@ namespace Krypton.Toolkit
             base.Dispose(disposing);
         }
 
+        /// <inheritdoc />
         protected override void OnNotifyMessage(Message m)
         {
             if (m.Msg != 0x14)
@@ -828,11 +806,11 @@ namespace Krypton.Toolkit
         [Description(@"Style used to draw the background.")]
         public PaletteBackStyle BackStyle
         {
-            get => StateCommon!.BackStyle;
+            get => StateCommon.BackStyle;
 
             set
             {
-                if (StateCommon!.BackStyle != value)
+                if (StateCommon.BackStyle != value)
                 {
                     StateCommon.BackStyle = value;
                     PerformNeedPaint(true);
@@ -851,11 +829,11 @@ namespace Krypton.Toolkit
         [Description(@"Style used to draw the border.")]
         public new PaletteBorderStyle BorderStyle
         {
-            get => StateCommon!.BorderStyle;
+            get => StateCommon.BorderStyle;
 
             set
             {
-                if (StateCommon!.BorderStyle != value)
+                if (StateCommon.BorderStyle != value)
                 {
                     StateCommon.BorderStyle = value;
                     PerformNeedPaint(true);
@@ -885,6 +863,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public CheckBoxImages Images { get; }
 
+        /// <inheritdoc cref="ListView.View"/>
         [Category(@"Appearance")]
         [DefaultValue(View.LargeIcon)]
         [Description(@"Selects a subset of the view types that can be shown.")]
@@ -909,12 +888,12 @@ namespace Krypton.Toolkit
                     case View.List:
                         throw new NotSupportedException(@"Use the Krypton ListBox for this view type");
                     case View.LargeIcon:
-                        StateCommon!.Item.Content.ShortText.MultiLineH = PaletteRelativeAlign.Center;
+                        StateCommon.Item.Content.ShortText.MultiLineH = PaletteRelativeAlign.Center;
                         StateCommon.Item.Content.ShortText.TextH = PaletteRelativeAlign.Center;
                         break;
                     case View.SmallIcon:
                     case View.Tile:
-                        StateCommon!.Item.Content.ShortText.MultiLineH = PaletteRelativeAlign.Inherit;
+                        StateCommon.Item.Content.ShortText.MultiLineH = PaletteRelativeAlign.Inherit;
                         StateCommon.Item.Content.ShortText.TextH = PaletteRelativeAlign.Inherit;
                         break;
                 }
@@ -929,9 +908,9 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Overrides for defining common appearance that other states can override.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteListStateRedirect? StateCommon { get; }
+        public PaletteListStateRedirect StateCommon { get; }
 
-        private bool ShouldSerializeStateCommon() => !StateCommon!.IsDefault;
+        private bool ShouldSerializeStateCommon() => !StateCommon.IsDefault;
 
         /// <summary>
         /// Gets access to the disabled appearance entries.
@@ -1234,24 +1213,6 @@ namespace Krypton.Toolkit
         /// </summary>
         protected virtual void ContextMenuClosed()
         {
-        }
-
-        #endregion
-
-        #region Implementation
-
-        private void SetCornerRoundingRadius(float? radius)
-        {
-            _cornerRoundingRadius = radius ?? GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
-
-            StateCommon!.Border.Rounding = _cornerRoundingRadius;
-        }
-
-        private void SetItemCornerRoundingRadius(float? radius)
-        {
-            _itemCornerRoundingRadius = radius ?? GlobalStaticValues.SECONDARY_CORNER_ROUNDING_VALUE;
-
-            StateCommon!.Item.Border.Rounding = _itemCornerRoundingRadius;
         }
 
         #endregion

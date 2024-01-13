@@ -27,48 +27,73 @@ namespace Krypton.Toolkit
 
         private static readonly Color[][] _noneScheme = Array.Empty<Color[]>();
 
-        private static readonly Color[][] _mono2Scheme = { new[] { Color.White }, 
-                                                                         new[] { Color.Black } };
+        private static readonly Color[][] _mono2Scheme =
+        [
+            [Color.White],
+            [Color.Black]
+        ];
 
-        private static readonly Color[][] _mono8Scheme = { new[] { Color.White                   }, 
-                                                                         new[] { Color.Silver                  },
-                                                                         new[] { Color.FromArgb(160, 160, 160) },
-                                                                         new[] { Color.Gray                    },
-                                                                         new[] { Color.FromArgb( 96,  96,  96) },
-                                                                         new[] { Color.FromArgb( 64,  64,  64) },
-                                                                         new[] { Color.FromArgb( 32,  32,  32) },
-                                                                         new[] { Color.Black }};
+        private static readonly Color[][] _mono8Scheme =
+        [
+            [Color.White],
+            [Color.Silver],
+            [Color.FromArgb(160, 160, 160)],
+            [Color.Gray],
+            [Color.FromArgb( 96,  96,  96)],
+            [Color.FromArgb( 64,  64,  64)],
+            [Color.FromArgb( 32,  32,  32)],
+            [Color.Black]
+        ];
 
-        private static readonly Color[][] _basic16Scheme = { new[] { Color.White,   Color.Black  }, 
-                                                                           new[] { Color.Silver,  Color.Gray   }, 
-                                                                           new[] { Color.Red,     Color.Maroon }, 
-                                                                           new[] { Color.Yellow,  Color.Olive  }, 
-                                                                           new[] { Color.Lime,    Color.Green  }, 
-                                                                           new[] { Color.Cyan,    Color.Teal   }, 
-                                                                           new[] { Color.Blue,    Color.Navy   }, 
-                                                                           new[] { Color.Fuchsia, Color.Purple } }; 
+        private static readonly Color[][] _basic16Scheme =
+        [
+            [Color.White,   Color.Black],
+            [Color.Silver,  Color.Gray],
+            [Color.Red,     Color.Maroon],
+            [Color.Yellow,  Color.Olive],
+            [Color.Lime,    Color.Green],
+            [Color.Cyan,    Color.Teal],
+            [Color.Blue,    Color.Navy],
+            [Color.Fuchsia, Color.Purple]
+        ]; 
 
-        private static readonly Color[][] _officeStandardScheme = { new[] { Color.FromArgb(192,   0,   0) }, 
-                                                                                  new[] { Color.Red                     }, 
-                                                                                  new[] { Color.FromArgb(255, 192,   0) }, 
-                                                                                  new[] { Color.Yellow                  }, 
-                                                                                  new[] { Color.FromArgb(146, 208,  80) }, 
-                                                                                  new[] { Color.FromArgb(  0, 176,  80) }, 
-                                                                                  new[] { Color.FromArgb(  0, 176, 240) }, 
-                                                                                  new[] { Color.FromArgb(  0, 112, 192) }, 
-                                                                                  new[] { Color.FromArgb(  0,  32,  96) }, 
-                                                                                  new[] { Color.FromArgb(112,  48, 160) } };
+        private static readonly Color[][] _officeStandardScheme =
+        [
+            [Color.FromArgb(192,   0,   0)],
+            [Color.Red],
+            [Color.FromArgb(255, 192,   0)],
+            [Color.Yellow],
+            [Color.FromArgb(146, 208,  80)],
+            [Color.FromArgb(  0, 176,  80)],
+            [Color.FromArgb(  0, 176, 240)],
+            [Color.FromArgb(  0, 112, 192)],
+            [Color.FromArgb(  0,  32,  96)],
+            [Color.FromArgb(112,  48, 160)]
+        ];
     
-        private static readonly Color[][] _officeThemeScheme = { new[] { Color.White,                   Color.FromArgb(242, 242, 242), Color.FromArgb(216, 216, 216), Color.FromArgb(191, 191, 191), Color.FromArgb(165, 165, 165), Color.Gray                    }, 
-                                                                               new[] { Color.Black,                   Color.FromArgb(127, 127, 127), Color.FromArgb( 89,  89,  89), Color.FromArgb( 63,  63,  63), Color.FromArgb( 38,  38,  38), Color.FromArgb( 12,  12,  12) }, 
-                                                                               new[] { Color.FromArgb(238, 236, 225), Color.FromArgb(221, 217, 195), Color.FromArgb(196, 189, 151), Color.FromArgb(147, 137,  83), Color.FromArgb( 73,  68,  41), Color.FromArgb( 29,  27,  16) }, 
-                                                                               new[] { Color.FromArgb( 31,  73, 125), Color.FromArgb(198, 217, 240), Color.FromArgb(141, 179, 226), Color.FromArgb( 84, 141, 212), Color.FromArgb( 23,  54,  93), Color.FromArgb( 15,  36,  62) }, 
-                                                                               new[] { Color.FromArgb( 79, 129, 189), Color.FromArgb(219, 229, 241), Color.FromArgb(184, 204, 228), Color.FromArgb(149, 179, 215), Color.FromArgb( 54,  96, 146), Color.FromArgb( 36,  64,  97) }, 
-                                                                               new[] { Color.FromArgb(192,  80,  77), Color.FromArgb(242, 220, 219), Color.FromArgb(229, 185, 183), Color.FromArgb(217, 150, 148), Color.FromArgb(149,  55,  52), Color.FromArgb( 99,  36,  35) }, 
-                                                                               new[] { Color.FromArgb(155, 187,  89), Color.FromArgb(235, 241, 221), Color.FromArgb(215, 227, 188), Color.FromArgb(195, 214, 155), Color.FromArgb(118, 146,  60), Color.FromArgb( 79,  97,  40) }, 
-                                                                               new[] { Color.FromArgb(128, 100, 162), Color.FromArgb(229, 224, 236), Color.FromArgb(204, 193, 217), Color.FromArgb(178, 162, 199), Color.FromArgb( 95,  73, 122), Color.FromArgb( 63,  49,  81) }, 
-                                                                               new[] { Color.FromArgb( 75, 172, 198), Color.FromArgb(219, 238, 243), Color.FromArgb(183, 221, 232), Color.FromArgb(146, 205, 220), Color.FromArgb( 49, 133, 155), Color.FromArgb( 32,  88, 103) }, 
-                                                                               new[] { Color.FromArgb(247, 150,  70), Color.FromArgb(253, 234, 218), Color.FromArgb(251, 213, 181), Color.FromArgb(250, 192, 143), Color.FromArgb(227, 108,   9), Color.FromArgb(151,  72,   6) } };
+        private static readonly Color[][] _officeThemeScheme =
+        [
+            [Color.White,                   Color.FromArgb(242, 242, 242), Color.FromArgb(216, 216, 216), Color.FromArgb(191, 191, 191), Color.FromArgb(165, 165, 165), Color.Gray
+            ],
+            [Color.Black,                   Color.FromArgb(127, 127, 127), Color.FromArgb( 89,  89,  89), Color.FromArgb( 63,  63,  63), Color.FromArgb( 38,  38,  38), Color.FromArgb( 12,  12,  12)
+            ],
+            [Color.FromArgb(238, 236, 225), Color.FromArgb(221, 217, 195), Color.FromArgb(196, 189, 151), Color.FromArgb(147, 137,  83), Color.FromArgb( 73,  68,  41), Color.FromArgb( 29,  27,  16)
+            ],
+            [Color.FromArgb( 31,  73, 125), Color.FromArgb(198, 217, 240), Color.FromArgb(141, 179, 226), Color.FromArgb( 84, 141, 212), Color.FromArgb( 23,  54,  93), Color.FromArgb( 15,  36,  62)
+            ],
+            [Color.FromArgb( 79, 129, 189), Color.FromArgb(219, 229, 241), Color.FromArgb(184, 204, 228), Color.FromArgb(149, 179, 215), Color.FromArgb( 54,  96, 146), Color.FromArgb( 36,  64,  97)
+            ],
+            [Color.FromArgb(192,  80,  77), Color.FromArgb(242, 220, 219), Color.FromArgb(229, 185, 183), Color.FromArgb(217, 150, 148), Color.FromArgb(149,  55,  52), Color.FromArgb( 99,  36,  35)
+            ],
+            [Color.FromArgb(155, 187,  89), Color.FromArgb(235, 241, 221), Color.FromArgb(215, 227, 188), Color.FromArgb(195, 214, 155), Color.FromArgb(118, 146,  60), Color.FromArgb( 79,  97,  40)
+            ],
+            [Color.FromArgb(128, 100, 162), Color.FromArgb(229, 224, 236), Color.FromArgb(204, 193, 217), Color.FromArgb(178, 162, 199), Color.FromArgb( 95,  73, 122), Color.FromArgb( 63,  49,  81)
+            ],
+            [Color.FromArgb( 75, 172, 198), Color.FromArgb(219, 238, 243), Color.FromArgb(183, 221, 232), Color.FromArgb(146, 205, 220), Color.FromArgb( 49, 133, 155), Color.FromArgb( 32,  88, 103)
+            ],
+            [Color.FromArgb(247, 150,  70), Color.FromArgb(253, 234, 218), Color.FromArgb(251, 213, 181), Color.FromArgb(250, 192, 143), Color.FromArgb(227, 108,   9), Color.FromArgb(151,  72,   6)
+            ]
+        ];
         #endregion
 
         #region Instance Fields

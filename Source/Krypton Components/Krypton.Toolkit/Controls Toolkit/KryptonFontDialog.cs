@@ -87,13 +87,13 @@ namespace Krypton.Toolkit
             {
                 // internal bool GetOption(int option) => (uint) (this.options & option) > 0U;
                 var funcSetOption = typeof(FontDialog).GetMethod(@"GetOption", BindingFlags.NonPublic | BindingFlags.Instance);
-                return (bool)funcSetOption!.Invoke(this, new object[] { 0x02 });
+                return (bool)funcSetOption!.Invoke(this, [0x02]);
             }
             set
             {
                 //internal void SetOption(int option, bool value)
                 var funcSetOption = typeof(FontDialog).GetMethod(@"SetOption", BindingFlags.NonPublic | BindingFlags.Instance);
-                funcSetOption!.Invoke(this, new object[] { 0x02, value });
+                funcSetOption!.Invoke(this, [0x02, value]);
             }
         }
 

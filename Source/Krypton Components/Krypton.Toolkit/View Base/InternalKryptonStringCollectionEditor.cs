@@ -110,7 +110,6 @@ namespace Krypton.Toolkit
             // kbtnOk
             // 
             kbtnOk.Anchor = ((AnchorStyles)((AnchorStyles.Bottom | AnchorStyles.Right)));
-            kbtnOk.CornerRoundingRadius = -1F;
             kbtnOk.DialogResult = DialogResult.OK;
             kbtnOk.Location = new Point(382, 13);
             kbtnOk.Name = "kbtnOk";
@@ -122,7 +121,6 @@ namespace Krypton.Toolkit
             // kbtnCancel
             // 
             kbtnCancel.Anchor = ((AnchorStyles)((AnchorStyles.Bottom | AnchorStyles.Right)));
-            kbtnCancel.CornerRoundingRadius = -1F;
             kbtnCancel.DialogResult = DialogResult.Cancel;
             kbtnCancel.Location = new Point(478, 13);
             kbtnCancel.Name = "kbtnCancel";
@@ -163,19 +161,21 @@ namespace Krypton.Toolkit
             // 
             // kcmRichTextBoxMenu
             // 
-            kcmRichTextBoxMenu.Items.AddRange(new KryptonContextMenuItemBase[] {
-            kryptonContextMenuItems1});
+            kcmRichTextBoxMenu.Items.AddRange([
+                kryptonContextMenuItems1
+            ]);
             // 
             // kryptonContextMenuItems1
             // 
-            kryptonContextMenuItems1.Items.AddRange(new KryptonContextMenuItemBase[] {
-            kryptonContextMenuItem1,
+            kryptonContextMenuItems1.Items.AddRange([
+                kryptonContextMenuItem1,
             kryptonContextMenuSeparator1,
             kryptonContextMenuItem2,
             kryptonContextMenuSeparator2,
             kryptonContextMenuItem3,
             kryptonContextMenuSeparator5,
-            kryptonContextMenuItem7});
+            kryptonContextMenuItem7
+            ]);
             // 
             // kryptonContextMenuItem1
             // 
@@ -236,19 +236,21 @@ namespace Krypton.Toolkit
             // 
             // kcmTextBoxMenu
             // 
-            kcmTextBoxMenu.Items.AddRange(new KryptonContextMenuItemBase[] {
-            kryptonContextMenuItems2});
+            kcmTextBoxMenu.Items.AddRange([
+                kryptonContextMenuItems2
+            ]);
             // 
             // kryptonContextMenuItems2
             // 
-            kryptonContextMenuItems2.Items.AddRange(new KryptonContextMenuItemBase[] {
-            kryptonContextMenuItem4,
+            kryptonContextMenuItems2.Items.AddRange([
+                kryptonContextMenuItem4,
             kryptonContextMenuSeparator3,
             kryptonContextMenuItem5,
             kryptonContextMenuSeparator4,
             kryptonContextMenuItem6,
             kryptonContextMenuSeparator6,
-            kryptonContextMenuItem8});
+            kryptonContextMenuItem8
+            ]);
             // 
             // kryptonContextMenuItem4
             // 

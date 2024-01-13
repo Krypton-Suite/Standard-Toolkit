@@ -51,7 +51,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="state">The state for which the image is needed.</param>
         /// <returns>Image value.</returns>
-        public Image? GetImage(PaletteState state) => _qatButton.GetToolTipImage();
+        public Image GetImage(PaletteState state) => _qatButton.GetToolTipImage();
 
         /// <summary>
         /// Gets the image color that should be transparent.

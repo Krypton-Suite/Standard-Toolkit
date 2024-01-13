@@ -51,7 +51,7 @@ namespace Krypton.Toolkit
         /// <param name="paletteMetric">Palette source for metrics.</param>
         public ViewDrawDocker(IPaletteBack paletteBack,
                               IPaletteBorder paletteBorder,
-                              IPaletteMetric? paletteMetric)
+                              IPaletteMetric paletteMetric)
             : this(paletteBack, paletteBorder, paletteMetric, PaletteMetricBool.None)
         {
         }
@@ -65,7 +65,7 @@ namespace Krypton.Toolkit
         /// <param name="metricOverlay">Metric to use for border overlay.</param>
         public ViewDrawDocker(IPaletteBack? paletteBack,
                               IPaletteBorder? paletteBorder,
-                              IPaletteMetric? paletteMetric,
+                              IPaletteMetric paletteMetric,
                               PaletteMetricBool metricOverlay)
             : this(paletteBack, paletteBorder,
                    paletteMetric, metricOverlay,
@@ -84,7 +84,7 @@ namespace Krypton.Toolkit
         /// <param name="orientation">Visual orientation of the content.</param>
         public ViewDrawDocker(IPaletteBack? paletteBack,
                               IPaletteBorder? paletteBorder,
-                              IPaletteMetric? paletteMetric,
+                              IPaletteMetric paletteMetric,
                               PaletteMetricBool metricOverlay,
                               PaletteMetricPadding metricPadding,
                               VisualOrientation orientation)
@@ -840,6 +840,7 @@ namespace Krypton.Toolkit
                 default:
                     // Should never happen!
                     Debug.Assert(false);
+                    DebugTools.NotImplemented(Orientation.ToString());
                     break;
             }
 
