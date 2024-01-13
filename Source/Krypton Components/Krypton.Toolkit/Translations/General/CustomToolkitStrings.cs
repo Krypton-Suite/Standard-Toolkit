@@ -35,7 +35,6 @@ namespace Krypton.Toolkit
         private const string DEFAULT_RESET = @"&Reset"; // Accelerator key - R
         private const string DEFAULT_SYSTEM_INFORMATION = "S&ystem Information";
         private const string DEFAULT_CURRENT_THEME = @"Current Theme";
-        private const string DEFAULT_DISMISS = @"D&ismiss";
 
         // Note: The following may not be needed...
         /*private const string DEFAULT_MORE_DETAILS = "M&ore Details...";
@@ -83,8 +82,7 @@ namespace Krypton.Toolkit
                                  OkToAll.Equals(DEFAULT_OK_TO_ALL) &&
                                  Reset.Equals(DEFAULT_RESET) &&
                                  SystemInformation.Equals(DEFAULT_SYSTEM_INFORMATION) &&
-                                 CurrentTheme.Equals(DEFAULT_CURRENT_THEME) &&
-                                 Dismiss.Equals(DEFAULT_DISMISS);
+                                 CurrentTheme.Equals(DEFAULT_CURRENT_THEME);
 
         /// <summary>Resets the values.</summary>
         public void ResetValues()
@@ -109,7 +107,6 @@ namespace Krypton.Toolkit
             Reset = DEFAULT_RESET;
             SystemInformation = DEFAULT_SYSTEM_INFORMATION;
             CurrentTheme = DEFAULT_CURRENT_THEME;
-            Dismiss = DEFAULT_DISMISS;
         }
 
         /// <summary>Gets or sets the collapse string used in expandable footers.</summary>
@@ -272,13 +269,6 @@ namespace Krypton.Toolkit
         [Description(@"Current theme string used for custom situations.")]
         [DefaultValue(DEFAULT_CURRENT_THEME)]
         public string CurrentTheme { get; set; }
-
-        /// <summary>Gets or sets the dismiss string used for custom situations.</summary>
-        [Localizable(true)]
-        [Category(@"Visuals")]
-        [Description(@"Dismiss string used for custom situations.")]
-        [DefaultValue(DEFAULT_DISMISS)]
-        public string Dismiss { get; set; }
 
         #endregion
     }

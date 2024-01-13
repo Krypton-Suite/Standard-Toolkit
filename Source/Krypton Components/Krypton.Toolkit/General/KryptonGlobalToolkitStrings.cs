@@ -359,6 +359,20 @@ namespace Krypton.Toolkit
         private bool ShouldSerializeInputControlStyleStrings() => !InputControlStyles.IsDefault;
         private void ResetInputControlStyleStrings() => InputControlStyles.Reset();
 
+        /// <summary>Gets the krypton toast notification strings.</summary>
+        /// <value>The krypton toast notification strings.</value>
+        [Category(@"Visuals")]
+        [Description(@"Collection of toast notificaion strings.")]
+        [MergableProperty(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        [Localizable(true)]
+        public KryptonToastNotificationStrings KryptonToastNotificationStrings => ToastNotificationStrings;
+
+        private bool ShouldSerializeKryptonToastNotificationStrings() => !ToastNotificationStrings.IsDefault;
+
+        /// <summary>Resets the krypton toast notification strings.</summary>
+        public void ResetKryptonToastNotificationStrings() => ToastNotificationStrings.Reset();
+
         #endregion
 
         #region Static Strings
@@ -491,6 +505,10 @@ namespace Krypton.Toolkit
         /// <value>The scroll bar strings.</value>
         public static KryptonScrollBarStrings ScrollBarStrings { get; } = new KryptonScrollBarStrings();
 
+        /// <summary>Gets the toast notification strings.</summary>
+        /// <value>The toast notification strings.</value>
+        public KryptonToastNotificationStrings ToastNotificationStrings { get; } = new KryptonToastNotificationStrings();
+
         #endregion
 
         #region Identity
@@ -510,35 +528,36 @@ namespace Krypton.Toolkit
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public bool IsDefault => !(ShouldSerializeCustomStrings() ||
-       ShouldSerializeGeneralStrings() ||
-       ShouldSerializeColorStrings() ||
-       ShouldSerializePaletteModeStrings() ||
-       ShouldSerializeButtonSpecStyleStrings() ||
-       ShouldSerializeGridViewStyleStrings() ||
-       ShouldSerializeGridStyleStrings() ||
-       ShouldSerializeHeaderGroupCollapsedTargetStrings() ||
-       ShouldSerializeHeaderStyleStrings() ||
-       ShouldSerializeInputControlStyleStrings() ||
-       ShouldSerializeIntegratedToolBarStrings() ||
-       ShouldSerializeKryptonLinkBehaviorStrings() ||
-       ShouldSerializePaletteBackStyleStrings() ||
-       ShouldSerializePaletteBorderStyleStrings() ||
-       //ShouldSerializePaletteButtonOrientationStrings() ||
-       ShouldSerializePaletteButtonSpecStyleStrings() ||
-       ShouldSerializePaletteButtonStyleStrings() ||
-       ShouldSerializePaletteContentStyleStrings() ||
-       ShouldSerializePaletteImageEffectStrings() ||
-       ShouldSerializePaletteImageStyleStrings() ||
-       ShouldSerializePaletteTextTrimStrings() ||
-       ShouldSerializePlacementModeStrings() ||
-       ShouldSerializeSeparatorStyleStrings() ||
-       ShouldSerializeTabBorderStyleStrings() ||
-       ShouldSerializeTabStyleStrings() ||
-       ShouldSerializeToastNotificationIconStrings() ||
-       ShouldSerializeKryptonAboutBoxBasicApplicationInformationStrings() ||
-       ShouldSerializeKryptonAboutBoxStrings() ||
-       ShouldSerializeKryptonMiscellaneousThemeStrings() ||
-       ShouldSerializeKryptonScrollBarStrings());
+                                   ShouldSerializeGeneralStrings() ||
+                                   ShouldSerializeColorStrings() ||
+                                   ShouldSerializePaletteModeStrings() ||
+                                   ShouldSerializeButtonSpecStyleStrings() ||
+                                   ShouldSerializeGridViewStyleStrings() ||
+                                   ShouldSerializeGridStyleStrings() ||
+                                   ShouldSerializeHeaderGroupCollapsedTargetStrings() ||
+                                   ShouldSerializeHeaderStyleStrings() ||
+                                   ShouldSerializeInputControlStyleStrings() ||
+                                   ShouldSerializeIntegratedToolBarStrings() ||
+                                   ShouldSerializeKryptonLinkBehaviorStrings() ||
+                                   ShouldSerializePaletteBackStyleStrings() ||
+                                   ShouldSerializePaletteBorderStyleStrings() ||
+                                   //ShouldSerializePaletteButtonOrientationStrings() ||
+                                   ShouldSerializePaletteButtonSpecStyleStrings() ||
+                                   ShouldSerializePaletteButtonStyleStrings() ||
+                                   ShouldSerializePaletteContentStyleStrings() ||
+                                   ShouldSerializePaletteImageEffectStrings() ||
+                                   ShouldSerializePaletteImageStyleStrings() ||
+                                   ShouldSerializePaletteTextTrimStrings() ||
+                                   ShouldSerializePlacementModeStrings() ||
+                                   ShouldSerializeSeparatorStyleStrings() ||
+                                   ShouldSerializeTabBorderStyleStrings() ||
+                                   ShouldSerializeTabStyleStrings() ||
+                                   ShouldSerializeToastNotificationIconStrings() ||
+                                   ShouldSerializeKryptonAboutBoxBasicApplicationInformationStrings() ||
+                                   ShouldSerializeKryptonAboutBoxStrings() ||
+                                   ShouldSerializeKryptonMiscellaneousThemeStrings() ||
+                                   ShouldSerializeKryptonScrollBarStrings() ||
+                                   ShouldSerializeKryptonToastNotificationStrings());
 
         /// <summary>Resets this instance.</summary>
         public void Reset()
@@ -602,6 +621,8 @@ namespace Krypton.Toolkit
             ResetKryptonMiscellaneousThemeStrings();
 
             ResetKryptonScrollBarStrings();
+
+            ResetKryptonToastNotificationStrings();
         }
 
         #endregion

@@ -2110,10 +2110,11 @@ namespace Krypton.Toolkit
     public enum KryptonToastNotificationInputAreaType
     {
         None = 0,
-        DomainDropDown = 1,
-        NumericDropDown = 2,
-        MaskedTextBox = 3,
-        TextBox = 4
+        ComboBox = 1,
+        DomainDropDown = 2,
+        NumericDropDown = 3,
+        MaskedTextBox = 4,
+        TextBox = 5
     }
 
     #endregion

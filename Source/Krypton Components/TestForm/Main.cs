@@ -336,30 +336,9 @@ namespace TestForm
 
         private void kryptonButton10_Click(object sender, EventArgs e)
         {
-            KryptonBasicToastNotificationData toastNotificationDataNoCustomImage = new KryptonBasicToastNotificationData()
-            {
-                ShowCloseBox = kryptonCheckBox2.Checked,
-                CountDownSeconds = 60,
-                NotificationContent = @"This is a test",
-                NotificationIcon = KryptonToastNotificationIcon.Information,
-                NotificationTitle = @"Hello World"
-            };
+           ToastNotificationTest toastNotificationTest = new ToastNotificationTest();
 
-            //KryptonBasicToastNotificationData toastNotificationDataCustomImage = new KryptonBasicToastNotificationData()
-            //{
-            //    ShowCloseBox = kryptonCheckBox2.Checked,
-            //    CountDownSeconds = 60,
-            //    NotificationContent = @"This is a test",
-            //    NotificationIcon = KryptonToastNotificationIcon.Custom,
-            //    CustomImage = new Bitmap(ktxtCustomImagePath.Text),
-            //    NotificationTitle = @"Hello World"
-            //};
-
-            KryptonToastNotification.ShowBasicNotification(toastNotificationDataNoCustomImage);
-
-        //    KryptonToastNotification.ShowBasicNotification(string.IsNullOrEmpty(ktxtCustomImagePath.Text)
-        //        ? toastNotificationDataNoCustomImage
-        //        : toastNotificationDataCustomImage);
+           toastNotificationTest.ShowDialog();
         }
 
         private void kryptonButton11_Click(object sender, EventArgs e)
@@ -376,26 +355,7 @@ namespace TestForm
 
         private void kcmdOpenImage_Execute(object sender, EventArgs e)
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-
-            if (openFileDialog.ShowDialog() == DialogResult.OK)
-            {
-                ktxtCustomImagePath.Text = Path.GetFullPath(openFileDialog.FileName);
-            }
-        }
-
-        private void kryptonButton13_Click(object sender, EventArgs e)
-        {
-            KryptonBasicToastNotificationData toastNotificationDataNoCustomImage = new KryptonBasicToastNotificationData()
-            {
-                ShowCloseBox = kryptonCheckBox2.Checked,
-                CountDownSeconds = 60,
-                NotificationContent = @"This is a test",
-                NotificationIcon = KryptonToastNotificationIcon.Information,
-                NotificationTitle = @"Hello World"
-            };
-
-            KryptonToastNotification.ShowBasicProgressBarNotification(toastNotificationDataNoCustomImage);
+          
         }
     }
 }
