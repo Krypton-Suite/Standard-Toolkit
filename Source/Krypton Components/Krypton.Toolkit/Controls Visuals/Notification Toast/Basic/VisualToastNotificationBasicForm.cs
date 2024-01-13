@@ -217,7 +217,7 @@ namespace Krypton.Toolkit
 
             if (_basicToastNotificationData.CountDownSeconds != 0)
             {
-                kbtnDismiss.Text = $@"{KryptonManager.Strings.CustomStrings.Dismiss} ({_basicToastNotificationData.CountDownSeconds - _time})";
+                kbtnDismiss.Text = $@"{KryptonManager.Strings.ToastNotificationStrings.Dismiss} ({_basicToastNotificationData.CountDownSeconds - _time})";
 
                 _timer = new Timer();
 
@@ -227,7 +227,7 @@ namespace Krypton.Toolkit
                 {
                     _time++;
 
-                    kbtnDismiss.Text = $@"{KryptonManager.Strings.CustomStrings.Dismiss} ({_basicToastNotificationData.CountDownSeconds - _time})";
+                    kbtnDismiss.Text = $@"{KryptonManager.Strings.ToastNotificationStrings.Dismiss} ({_basicToastNotificationData.CountDownSeconds - _time})";
 
                     if (_time == _basicToastNotificationData.CountDownSeconds)
                     {

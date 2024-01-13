@@ -31,11 +31,8 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
             this.kryptonPanel1 = new Krypton.Toolkit.KryptonPanel();
-            this.kryptonButton13 = new Krypton.Toolkit.KryptonButton();
             this.kryptonThemeComboBox1 = new Krypton.Toolkit.KryptonThemeComboBox();
             this.kryptonComboBox1 = new Krypton.Toolkit.KryptonComboBox();
-            this.ktxtCustomImagePath = new Krypton.Toolkit.KryptonTextBox();
-            this.kryptonCheckBox2 = new Krypton.Toolkit.KryptonCheckBox();
             this.kryptonButton12 = new Krypton.Toolkit.KryptonButton();
             this.kryptonCheckBox1 = new Krypton.Toolkit.KryptonCheckBox();
             this.kryptonButton11 = new Krypton.Toolkit.KryptonButton();
@@ -98,11 +95,8 @@
             // 
             // kryptonPanel1
             // 
-            this.kryptonPanel1.Controls.Add(this.kryptonButton13);
             this.kryptonPanel1.Controls.Add(this.kryptonThemeComboBox1);
             this.kryptonPanel1.Controls.Add(this.kryptonComboBox1);
-            this.kryptonPanel1.Controls.Add(this.ktxtCustomImagePath);
-            this.kryptonPanel1.Controls.Add(this.kryptonCheckBox2);
             this.kryptonPanel1.Controls.Add(this.kryptonButton12);
             this.kryptonPanel1.Controls.Add(this.kryptonCheckBox1);
             this.kryptonPanel1.Controls.Add(this.kryptonButton11);
@@ -141,16 +135,6 @@
             this.kryptonPanel1.Size = new System.Drawing.Size(1198, 837);
             this.kryptonPanel1.TabIndex = 0;
             // 
-            // kryptonButton13
-            // 
-            this.kryptonButton13.Location = new System.Drawing.Point(14, 510);
-            this.kryptonButton13.Margin = new System.Windows.Forms.Padding(2);
-            this.kryptonButton13.Name = "kryptonButton13";
-            this.kryptonButton13.Size = new System.Drawing.Size(182, 24);
-            this.kryptonButton13.TabIndex = 45;
-            this.kryptonButton13.Values.Text = "Toast";
-            this.kryptonButton13.Click += new System.EventHandler(this.kryptonButton13_Click);
-            // 
             // kryptonThemeComboBox1
             // 
             this.kryptonThemeComboBox1.DropDownWidth = 436;
@@ -173,27 +157,9 @@
             this.kryptonComboBox1.TabIndex = 44;
             this.kryptonComboBox1.Text = "kryptonComboBox1";
             // 
-            // ktxtCustomImagePath
-            // 
-            this.ktxtCustomImagePath.Location = new System.Drawing.Point(387, 445);
-            this.ktxtCustomImagePath.Name = "ktxtCustomImagePath";
-            this.ktxtCustomImagePath.ShowEllipsisButton = true;
-            this.ktxtCustomImagePath.Size = new System.Drawing.Size(245, 23);
-            this.ktxtCustomImagePath.TabIndex = 43;
-            // 
-            // kryptonCheckBox2
-            // 
-            this.kryptonCheckBox2.Checked = true;
-            this.kryptonCheckBox2.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.kryptonCheckBox2.Location = new System.Drawing.Point(204, 445);
-            this.kryptonCheckBox2.Name = "kryptonCheckBox2";
-            this.kryptonCheckBox2.Size = new System.Drawing.Size(176, 19);
-            this.kryptonCheckBox2.TabIndex = 42;
-            this.kryptonCheckBox2.Values.Text = "Show Close Button";
-            // 
             // kryptonButton12
             // 
-            this.kryptonButton12.Location = new System.Drawing.Point(14, 482);
+            this.kryptonButton12.Location = new System.Drawing.Point(15, 473);
             this.kryptonButton12.Margin = new System.Windows.Forms.Padding(2);
             this.kryptonButton12.Name = "kryptonButton12";
             this.kryptonButton12.Size = new System.Drawing.Size(182, 24);
@@ -680,11 +646,8 @@
         private Krypton.Toolkit.KryptonButton kryptonButton11;
         private Krypton.Toolkit.KryptonCheckBox kryptonCheckBox1;
         private Krypton.Toolkit.KryptonButton kryptonButton12;
-        private Krypton.Toolkit.KryptonCheckBox kryptonCheckBox2;
-        private Krypton.Toolkit.KryptonTextBox ktxtCustomImagePath;
         private Krypton.Toolkit.KryptonCommand kcmdOpenImage;
         private Krypton.Toolkit.KryptonComboBox kryptonComboBox1;
         private Krypton.Toolkit.KryptonThemeComboBox kryptonThemeComboBox1;
-        private Krypton.Toolkit.KryptonButton kryptonButton13;
     }
 }

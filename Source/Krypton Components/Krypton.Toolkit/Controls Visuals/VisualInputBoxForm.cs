@@ -19,7 +19,7 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
 
-        private KryptonInputBoxData _inputBoxData;
+        private readonly KryptonInputBoxData _inputBoxData;
 
         #endregion
 

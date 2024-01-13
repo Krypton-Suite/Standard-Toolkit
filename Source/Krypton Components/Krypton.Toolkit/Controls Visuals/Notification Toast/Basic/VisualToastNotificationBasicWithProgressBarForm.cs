@@ -180,7 +180,7 @@ namespace Krypton.Toolkit
 
             _soundPlayer?.Play();
 
-            kbtnDismiss.Text = KryptonManager.Strings.CustomStrings.Dismiss;
+            kbtnDismiss.Text = KryptonManager.Strings.ToastNotificationStrings.Dismiss;
         }
 
         private void VisualToastNotificationBasicWithProgressBarForm_Resize(object sender, EventArgs e)
