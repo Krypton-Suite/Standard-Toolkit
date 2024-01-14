@@ -80,14 +80,14 @@ namespace Krypton.Toolkit
 
 		/// <summary>Updates the image.</summary>
 		/// <param name="helpImage">The help image.</param>
-		private void UpdateImage(Image helpImage) => ImageSmall = helpImage;
+		private void UpdateImage(Image? helpImage) => ImageSmall = helpImage;
 
 		/// <summary>Adds the image states.</summary>
 		/// <param name="activeImage">The active image.</param>
 		/// <param name="disabledImage">The disabled image.</param>
 		/// <param name="normalImage">The normal image.</param>
 		/// <param name="pressedImage">The pressed image.</param>
-		private void AddImageStates(Image? activeImage, Image disabledImage, Image normalImage, Image? pressedImage)
+		private void AddImageStates(Image? activeImage, Image? disabledImage, Image? normalImage, Image? pressedImage)
 		{
 			if (_copyButtonSpec != null)
 			{
@@ -115,7 +115,7 @@ namespace Krypton.Toolkit
 
 		/// <summary>Updates the disabled image.</summary>
 		/// <param name="disabledImage">The disabled image.</param>
-		private void UpdateDisabledImage(Image disabledImage)
+		private void UpdateDisabledImage(Image? disabledImage)
 		{
 			_disabledImage = disabledImage;
 
@@ -127,7 +127,7 @@ namespace Krypton.Toolkit
 
 		/// <summary>Updates the normal image.</summary>
 		/// <param name="normalImage">The normal image.</param>
-		private void UpdateNormalImage(Image normalImage)
+		private void UpdateNormalImage(Image? normalImage)
 		{
 			_normalImage = normalImage;
 
@@ -139,7 +139,7 @@ namespace Krypton.Toolkit
 
 		/// <summary>Updates the pressed image.</summary>
 		/// <param name="pressedImage">The pressed image.</param>
-		private void UpdatePressedImage(Image pressedImage)
+		private void UpdatePressedImage(Image? pressedImage)
 		{
 			_pressedImage = pressedImage;
 

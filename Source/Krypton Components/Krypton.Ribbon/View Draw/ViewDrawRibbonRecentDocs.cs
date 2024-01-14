@@ -78,7 +78,7 @@ namespace Krypton.Ribbon
         public override Size GetPreferredSize(ViewLayoutContext context) =>
             context.Renderer.RenderStandardContent.GetContentPreferredSize(context, _contentProvider, this,
                 VisualOrientation.Top,
-                PaletteState.Normal, false, false);
+                PaletteState.Normal);
 
         /// <summary>
         /// Perform a layout of the elements.
@@ -102,7 +102,7 @@ namespace Krypton.Ribbon
             _memento = context.Renderer.RenderStandardContent.LayoutContent(context, ClientRectangle, 
                                                                             _contentProvider, this,
                                                                             VisualOrientation.Top, 
-                                                                            PaletteState.Normal, false, false);
+                                                                            PaletteState.Normal);
         }
         #endregion
 
@@ -119,7 +119,7 @@ namespace Krypton.Ribbon
                 context.Renderer.RenderStandardContent.DrawContent(context, ClientRectangle,
                     _contentProvider, _memento,
                     VisualOrientation.Top,
-                    PaletteState.Normal, false, false, true);
+                    PaletteState.Normal, true);
             }
         }
         #endregion
@@ -130,7 +130,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="state">Tab state.</param>
         /// <returns>Image.</returns>
-        public Image GetImage(PaletteState state) => null;
+        public Image? GetImage(PaletteState state) => null;
 
         /// <summary>
         /// Gets the image color that should be interpreted as transparent.

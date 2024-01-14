@@ -28,14 +28,14 @@ namespace Krypton.Toolkit
 
         #region Image Array
 
-        private static readonly Image[] _radioButtonArray;
+        private static readonly Image?[] _radioButtonArray;
 
         #endregion
 
         #region Images
 
-        private static readonly Image _silverDropDownButton = Office2010ArrowResources.Office2010BlueDropDownButton;
-        private static readonly Image _contextMenuSubMenu = Office2010ArrowResources.Office2010BlueContextMenuSub;
+        private static readonly Image? _silverDropDownButton = Office2010ArrowResources.Office2010BlueDropDownButton;
+        private static readonly Image? _contextMenuSubMenu = Office2010ArrowResources.Office2010BlueContextMenuSub;
         private static readonly Image _formCloseNormal = Office2010ControlBoxResources.Office2010SilverCloseNormal;
         private static readonly Image _formCloseDisabled = Office2010ControlBoxResources.Office2010SilverCloseDisabled;
         private static readonly Image _formCloseActive = Office2010ControlBoxResources.Office2010SilverCloseActive;
@@ -420,13 +420,13 @@ namespace Krypton.Toolkit
         /// Gets a drop down button image appropriate for the provided state.
         /// </summary>
         /// <param name="state">PaletteState for which image is required.</param>
-        public override Image GetDropDownButtonImage(PaletteState state) => state != PaletteState.Disabled ? _silverDropDownButton : base.GetDropDownButtonImage(state);
+        public override Image? GetDropDownButtonImage(PaletteState state) => state != PaletteState.Disabled ? _silverDropDownButton : base.GetDropDownButtonImage(state);
 
         /// <summary>
         /// Gets an image indicating a sub-menu on a context menu item.
         /// </summary>
         /// <returns>Appropriate image for drawing; otherwise null.</returns>
-        public override Image GetContextMenuSubMenuImage() => _contextMenuSubMenu;
+        public override Image? GetContextMenuSubMenuImage() => _contextMenuSubMenu;
 
         #endregion
 

@@ -39,7 +39,7 @@ namespace Krypton.Navigator
         /// Gets the default image value.
         /// </summary>
         /// <returns>Image reference.</returns>
-        protected override Image GetImageDefault() => null;
+        protected override Image? GetImageDefault() => null;
 
         /// <summary>
         /// Gets the default heading value.

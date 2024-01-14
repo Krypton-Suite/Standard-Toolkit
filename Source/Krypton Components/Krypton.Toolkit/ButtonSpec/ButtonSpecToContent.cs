@@ -54,7 +54,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">The state for which the image is needed.</param>
         /// <returns>Image value.</returns>
-        public Image GetImage(PaletteState state) => _buttonSpec.ToolTipImage;
+        public Image? GetImage(PaletteState state) => _buttonSpec.ToolTipImage;
 
         /// <summary>
         /// Gets the image color that should be transparent.

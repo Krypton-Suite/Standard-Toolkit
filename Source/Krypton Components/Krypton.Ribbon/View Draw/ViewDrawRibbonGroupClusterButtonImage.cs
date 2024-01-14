@@ -60,7 +60,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets the image to be drawn.
         /// </summary>
-        protected override Image DrawImage => _ribbonButton.KryptonCommand != null ? _ribbonButton.KryptonCommand.ImageSmall : _ribbonButton.ImageSmall;
+        protected override Image? DrawImage => _ribbonButton.KryptonCommand != null ? _ribbonButton.KryptonCommand.ImageSmall : _ribbonButton.ImageSmall;
 
         #endregion
     }

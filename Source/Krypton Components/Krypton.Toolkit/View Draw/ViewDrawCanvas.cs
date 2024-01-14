@@ -366,16 +366,6 @@ namespace Krypton.Toolkit
                 throw new ArgumentNullException(nameof(context));
             }
 
-            // Ensure any content children have correct composition setting
-            foreach (ViewBase child in this)
-            {
-                if (child is ViewDrawContent viewContent)
-                {
-                    viewContent.DrawContentOnComposition = DrawCanvasOnComposition;
-                    viewContent.Glowing = viewContent.DrawContentOnComposition;
-                }
-            }
-
             // Let base class find preferred size of the children
             Size preferredSize = base.GetPreferredSize(context);
 
@@ -432,20 +422,6 @@ namespace Krypton.Toolkit
 
             // Apply the padding to the client rectangle
             context.DisplayRectangle = CommonHelper.ApplyPadding(Orientation, ClientRectangle, padding);
-
-            // Ensure any content children have correct composition setting
-            foreach (ViewBase child in this)
-            {
-                if (child is ViewDrawContent viewContent)
-                {
-                    // Do we need to draw the background?
-                    var drawBackground = DrawCanvas && (_paletteBack.GetBackDraw(State) == InheritBool.True);
-
-                    // Update the content accordingly
-                    viewContent.DrawContentOnComposition = DrawCanvasOnComposition && !drawBackground;
-                    viewContent.Glowing = viewContent.DrawContentOnComposition;
-                }
-            }
 
             // Let child elements layout
             base.Layout(context);

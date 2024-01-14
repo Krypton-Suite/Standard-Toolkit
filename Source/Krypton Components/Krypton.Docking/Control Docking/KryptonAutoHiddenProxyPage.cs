@@ -98,7 +98,7 @@ namespace Krypton.Docking
         /// <summary>
         /// Gets and sets the small image for the page.
         /// </summary>
-        public override Bitmap ImageSmall
+        public override Bitmap? ImageSmall
         {
             get => Page.ImageSmall;
 
@@ -108,7 +108,7 @@ namespace Krypton.Docking
         /// <summary>
         /// Gets and sets the medium image for the page.
         /// </summary>
-        public override Bitmap ImageMedium
+        public override Bitmap? ImageMedium
         {
             get => Page.ImageMedium;
 
@@ -118,7 +118,7 @@ namespace Krypton.Docking
         /// <summary>
         /// Gets and sets the large image for the page.
         /// </summary>
-        public override Bitmap ImageLarge
+        public override Bitmap? ImageLarge
         {
             get => Page.ImageLarge;
 
@@ -128,7 +128,7 @@ namespace Krypton.Docking
         /// <summary>
         /// Gets and sets the page tooltip image.
         /// </summary>
-        public override Bitmap ToolTipImage
+        public override Bitmap? ToolTipImage
         {
             get => Page.ToolTipImage;
 
@@ -208,7 +208,7 @@ namespace Krypton.Docking
         /// </summary>
         /// <param name="mapping">Image mapping.</param>
         /// <returns>Image reference.</returns>
-        public override Image GetImageMapping(MapKryptonPageImage mapping) => Page.GetImageMapping(mapping);
+        public override Image? GetImageMapping(MapKryptonPageImage mapping) => Page.GetImageMapping(mapping);
 
         /// <summary>
         /// Gets and sets the set of page flags.

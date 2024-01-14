@@ -315,7 +315,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="state">The state for which the image is needed.</param>
         /// <returns>Image value.</returns>
-        public abstract Image GetImage(PaletteState state);
+        public abstract Image? GetImage(PaletteState state);
 
         /// <summary>
         /// Gets the image color that should be transparent.

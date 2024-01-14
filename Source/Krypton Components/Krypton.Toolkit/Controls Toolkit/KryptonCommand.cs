@@ -34,8 +34,8 @@ namespace Krypton.Toolkit
         private string _extraText;
         private string _textLine1;
         private string _textLine2;
-        private Image _imageSmall;
-        private Image _imageLarge;
+        private Image? _imageSmall;
+        private Image? _imageLarge;
         private Color _imageTransparentColor;
         private KryptonCommandType _commandType;
 
@@ -285,7 +285,7 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         [Category(@"Appearance")]
         [Description(@"Command small image.")]
-        public Image ImageSmall
+        public Image? ImageSmall
         {
             get => _imageSmall;
 
@@ -310,7 +310,7 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         [Category(@"Appearance")]
         [Description(@"Command large image.")]
-        public Image ImageLarge
+        public Image? ImageLarge
         {
             get => _imageLarge;
 
@@ -1536,7 +1536,7 @@ namespace Krypton.Toolkit
 
         /// <summary>Updates the image.</summary>
         /// <param name="helpImage">The help image.</param>
-        private void UpdateImage(Image helpImage) => ImageSmall = helpImage;
+        private void UpdateImage(Image? helpImage) => ImageSmall = helpImage;
 
         /// <summary>Sets the text.</summary>
         /// <param name="value">The value.</param>

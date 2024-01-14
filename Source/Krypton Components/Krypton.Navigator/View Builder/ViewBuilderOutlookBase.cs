@@ -42,8 +42,8 @@ namespace Krypton.Navigator
         #region Static Fields
 
         private const int SEPARATOR_LENGTH = 7;
-        private static readonly Bitmap _moreButtons;
-        private static readonly Bitmap _fewerButtons;
+        private static readonly Bitmap? _moreButtons;
+        private static readonly Bitmap? _fewerButtons;
         #endregion
 
         #region Instance Fields

@@ -1028,17 +1028,13 @@ namespace Krypton.Toolkit
         /// <param name="values">Content values.</param>
         /// <param name="orientation">Visual orientation of the content.</param>
         /// <param name="state">State associated with rendering.</param>
-        /// <param name="composition">Should draw on a composition element.</param>
-        /// <param name="glowing">If composition, should glowing be drawn.</param>
         /// <exception cref="ArgumentNullException"></exception>
         /// <returns>Preferred size.</returns>
         public override Size GetContentPreferredSize([DisallowNull] ViewLayoutContext context,
             [DisallowNull] IPaletteContent palette,
             [DisallowNull] IContentValues values,
-                                                     VisualOrientation orientation,
-                                                     PaletteState state,
-                                                     bool composition,
-                                                     bool glowing)
+            VisualOrientation orientation,
+            PaletteState state)
         {
             Debug.Assert(context != null);
             Debug.Assert(palette != null);
@@ -1080,8 +1076,8 @@ namespace Krypton.Toolkit
 
             // Allocate space for each required content in turn
             AllocateImageSpace(memento, palette, values, state, displayRect, rtl, ref allocation);
-            AllocateShortTextSpace(context, context.Graphics, memento, palette, values, state, displayRect, rtl, spacingGap, ref allocation, composition, glowing);
-            AllocateLongTextSpace(context, context.Graphics, memento, palette, values, state, displayRect, rtl, spacingGap, ref allocation, composition, glowing);
+            AllocateShortTextSpace(context, context.Graphics, memento, palette, values, state, displayRect, rtl, spacingGap, ref allocation);
+            AllocateLongTextSpace(context, context.Graphics, memento, palette, values, state, displayRect, rtl, spacingGap, ref allocation);
 
             // Add up total allocated for rows and columns
             var allocatedWidth = AllocatedTotalWidth(allocation, -1, -1, spacingGap);
@@ -1127,18 +1123,14 @@ namespace Krypton.Toolkit
         /// <param name="values">Content values.</param>
         /// <param name="orientation">Visual orientation of the content.</param>
         /// <param name="state">State associated with rendering.</param>
-        /// <param name="composition">Should draw on a composition element.</param>
-        /// <param name="glowing">If composition, should glowing be drawn.</param>
         /// <exception cref="ArgumentNullException"></exception>
         /// <returns>Memento with cached information.</returns>
         public override IDisposable LayoutContent([DisallowNull] ViewLayoutContext context,
-                                                  Rectangle availableRect,
-                                                  [DisallowNull] IPaletteContent palette,
-                                                  [DisallowNull] IContentValues values,
-                                                  VisualOrientation orientation,
-                                                  PaletteState state,
-                                                  bool composition,
-                                                  bool glowing)
+            Rectangle availableRect,
+            [DisallowNull] IPaletteContent palette,
+            [DisallowNull] IContentValues values,
+            VisualOrientation orientation,
+            PaletteState state)
         {
             Debug.Assert(context != null);
             Debug.Assert(palette != null);
@@ -1208,8 +1200,8 @@ namespace Krypton.Toolkit
 
             // Allocate space for each required content in turn
             AllocateImageSpace(memento, palette, values, state, availableRect, rtl, ref allocation);
-            AllocateShortTextSpace(context, context.Graphics, memento, palette, values, state, availableRect, rtl, spacingGap, ref allocation, composition, glowing);
-            AllocateLongTextSpace(context, context.Graphics, memento, palette, values, state, availableRect, rtl, spacingGap, ref allocation, composition, glowing);
+            AllocateShortTextSpace(context, context.Graphics, memento, palette, values, state, availableRect, rtl, spacingGap, ref allocation);
+            AllocateLongTextSpace(context, context.Graphics, memento, palette, values, state, availableRect, rtl, spacingGap, ref allocation);
 
             // Find the width of the columns and heights of the rows
             var colWidths = AllocatedColumnWidths(allocation, -1);
@@ -1285,19 +1277,15 @@ namespace Krypton.Toolkit
         /// <param name="memento">Cached values from layout call.</param>
         /// <param name="orientation">Visual orientation of the content.</param>
         /// <param name="state">State associated with rendering.</param>
-        /// <param name="composition">Drawing onto a composition element.</param>
-        /// <param name="glowing">If composition should glowing be drawn.</param>
         /// <param name="allowFocusRect">Allow drawing of focus rectangle.</param>
         /// <exception cref="ArgumentNullException"></exception>
         public override void DrawContent([DisallowNull] RenderContext context,
-                                         Rectangle displayRect,
-                                         [DisallowNull] IPaletteContent palette,
-                                         [DisallowNull] IDisposable memento,
-                                         VisualOrientation orientation,
-                                         PaletteState state,
-                                         bool composition,
-                                         bool glowing,
-                                         bool allowFocusRect)
+            Rectangle displayRect,
+            [DisallowNull] IPaletteContent palette,
+            [DisallowNull] IDisposable memento,
+            VisualOrientation orientation,
+            PaletteState state,
+            bool allowFocusRect)
         {
             Debug.Assert(context != null);
             Debug.Assert(memento != null);
@@ -1353,8 +1341,6 @@ namespace Krypton.Toolkit
                             standard.ShortTextRect,
                             context.Control.RightToLeft,
                             standard.Orientation,
-                            composition,
-                            glowing,
                             state,
                             standard.ShortTextMemento))
                     {
@@ -1367,8 +1353,6 @@ namespace Krypton.Toolkit
                             standard.ShortTextRect,
                             context.Control.RightToLeft,
                             standard.Orientation,
-                            composition,
-                            glowing,
                             state,
                             standard.ShortTextMemento);
                     }
@@ -1390,8 +1374,6 @@ namespace Krypton.Toolkit
                             standard.ShortTextRect,
                             context.Control.RightToLeft,
                             standard.Orientation,
-                            composition,
-                            glowing,
                             state,
                             standard.ShortTextMemento))
                     {
@@ -1403,8 +1385,6 @@ namespace Krypton.Toolkit
                             standard.ShortTextRect,
                             context.Control.RightToLeft,
                             standard.Orientation,
-                            composition,
-                            glowing,
                             state,
                             standard.ShortTextMemento);
                     }
@@ -1432,8 +1412,6 @@ namespace Krypton.Toolkit
                             standard.LongTextRect,
                             context.Control.RightToLeft,
                             standard.Orientation,
-                            composition,
-                            glowing,
                             state,
                             standard.LongTextMemento))
                     {
@@ -1445,8 +1423,6 @@ namespace Krypton.Toolkit
                             standard.LongTextRect,
                             context.Control.RightToLeft,
                             standard.Orientation,
-                            composition,
-                            glowing,
                             state,
                             standard.LongTextMemento);
                     }
@@ -1468,8 +1444,6 @@ namespace Krypton.Toolkit
                             standard.LongTextRect,
                             context.Control.RightToLeft,
                             standard.Orientation,
-                            composition,
-                            glowing,
                             state,
                             standard.LongTextMemento))
                     {
@@ -1481,8 +1455,6 @@ namespace Krypton.Toolkit
                             standard.LongTextRect,
                             context.Control.RightToLeft,
                             standard.Orientation,
-                            composition,
-                            glowing,
                             state,
                             standard.LongTextMemento);
                     }
@@ -2018,6 +1990,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region RenderRibbon Overrides
+
         /// <summary>
         /// Draw the background of a ribbon element.
         /// </summary>
@@ -2027,16 +2000,14 @@ namespace Krypton.Toolkit
         /// <param name="state">State associated with rendering.</param>
         /// <param name="palette">Palette used for sourcing settings.</param>
         /// <param name="orientation">Orientation for drawing.</param>
-        /// <param name="composition">Drawing onto a composition element.</param>
         /// <param name="memento">Cached values to use when drawing.</param>
         public override IDisposable? DrawRibbonBack(PaletteRibbonShape shape,
-                                                   RenderContext context,
-                                                   Rectangle rect,
-                                                   PaletteState state,
-                                                   IPaletteRibbonBack palette,
-                                                   VisualOrientation orientation,
-                                                   bool composition,
-                                                   IDisposable? memento)
+            RenderContext context,
+            Rectangle rect,
+            PaletteState state,
+            IPaletteRibbonBack palette,
+            VisualOrientation orientation,
+            IDisposable? memento)
         {
             // Note is the incoming state is detailed we are drawing inside a popip
             var showingInPopup = (state & PaletteState.FocusOverride) == PaletteState.FocusOverride;
@@ -2071,9 +2042,9 @@ namespace Krypton.Toolkit
                 case PaletteRibbonColorStyle.RibbonQATFullbarSquare:
                     return DrawRibbonQATFullbarSquare(context, rect, state, palette, memento);
                 case PaletteRibbonColorStyle.RibbonQATMinibarSingle:
-                    return DrawRibbonQATMinibarSingle(context, rect, state, palette, composition, memento);
+                    return DrawRibbonQATMinibarSingle(context, rect, state, palette, memento);
                 case PaletteRibbonColorStyle.RibbonQATMinibarDouble:
-                    return DrawRibbonQATMinibarDouble(context, rect, state, palette, composition, memento);
+                    return DrawRibbonQATMinibarDouble(context, rect, state, palette, memento);
                 case PaletteRibbonColorStyle.RibbonQATOverflow:
                     return DrawRibbonQATOverflow(shape, context, rect, state, palette, memento);
                 case PaletteRibbonColorStyle.RibbonGroupGradientOne:
@@ -2342,7 +2313,7 @@ namespace Krypton.Toolkit
             }
 
             // Grab an image appropriate to the state
-            Image drawImage = palette.GetCheckBoxImage(enabled, checkState, tracking, pressed);
+            Image? drawImage = palette.GetCheckBoxImage(enabled, checkState, tracking, pressed);
 
             // If no image from the palette then get a system check box
             if (drawImage == null)
@@ -2393,7 +2364,7 @@ namespace Krypton.Toolkit
             }
 
             // Grab an image appropriate to the state
-            Image drawImage = palette.GetCheckBoxImage(enabled, checkState, tracking, pressed);
+            Image? drawImage = palette.GetCheckBoxImage(enabled, checkState, tracking, pressed);
 
             // If no image from the palette then get a system check box
             if (drawImage == null)
@@ -2434,7 +2405,7 @@ namespace Krypton.Toolkit
                                                          bool pressed)
         {
             // Grab an image appropriate to the state
-            Image drawImage = palette.GetRadioButtonImage(enabled, checkState, tracking, pressed);
+            Image? drawImage = palette.GetRadioButtonImage(enabled, checkState, tracking, pressed);
 
             if (drawImage == null)
             {
@@ -2484,7 +2455,7 @@ namespace Krypton.Toolkit
             }
 
             // Grab an image appropriate to the state
-            Image drawImage = palette.GetRadioButtonImage(enabled, checkState, tracking, pressed);
+            Image? drawImage = palette.GetRadioButtonImage(enabled, checkState, tracking, pressed);
 
             // If no image from the palette then get a system radio button
             if (drawImage == null)
@@ -2521,7 +2492,7 @@ namespace Krypton.Toolkit
                                                             VisualOrientation orientation)
         {
             // Grab an image appropriate to the state
-            Image drawImage = palette?.GetDropDownButtonImage(state);
+            Image? drawImage = palette?.GetDropDownButtonImage(state);
 
             // Get the image defined size
             Size imageSize = Size.Empty;
@@ -2570,7 +2541,7 @@ namespace Krypton.Toolkit
             }
 
             // Grab an image appropriate to the state
-            Image drawImage = palette.GetDropDownButtonImage(state);
+            Image? drawImage = palette.GetDropDownButtonImage(state);
             if (drawImage != null)
             {
                 DrawImageHelper(context, drawImage, Color.Empty,
@@ -5739,19 +5710,28 @@ namespace Krypton.Toolkit
                                                                                displayRect.Height * ratio);
                     }
 
-                    // Cache the size of the image
-                    memento.ImageRect.Size = memento.Image.Size;
+                    if (memento.Image != null)
+                    {
+                        // Cache the size of the image
+                        memento.ImageRect.Size = memento.Image.Size;
 
-                    // Convert from alignment enums to integers
-                    var alignHIndex = RightToLeftIndex(rtl, paletteContent.GetContentImageH(state));
-                    var alignVIndex = (int)paletteContent.GetContentImageV(state);
+                        // Convert from alignment enums to integers
+                        var alignHIndex = RightToLeftIndex(rtl, paletteContent.GetContentImageH(state));
+                        var alignVIndex = (int)paletteContent.GetContentImageV(state);
 
-                    // Bump the allocated space in the destination grid cell
-                    allocation[alignHIndex, alignVIndex].Width += memento.ImageRect.Width;
-                    allocation[alignHIndex, alignVIndex].Height += memento.ImageRect.Height;
+                        // Bump the allocated space in the destination grid cell
+                        allocation[alignHIndex, alignVIndex].Width += memento.ImageRect.Width;
+                        allocation[alignHIndex, alignVIndex].Height += memento.ImageRect.Height;
 
-                    // Yes, we do want to draw the image/icon
-                    memento.DrawImage = true;
+                        // Yes, we do want to draw the image/icon
+                        memento.DrawImage = true;
+                    }
+                    else
+                    {
+                        // Image is not valid, so do not use it!
+                        //memento.Image = null;
+                        memento.DrawImage = false;
+                    }
                 }
                 catch
                 {
@@ -5771,9 +5751,7 @@ namespace Krypton.Toolkit
                                                    Rectangle displayRect,
                                                    RightToLeft rtl,
                                                    int spacingGap,
-                                                   ref Size[,] allocation,
-                                                   bool composition,
-                                                   bool glowing)
+                                                   ref Size[,] allocation)
         {
             // By default, we cannot draw the text
             memento.DrawShortText = false;
@@ -5824,8 +5802,6 @@ namespace Krypton.Toolkit
                 paletteContent.GetContentShortTextMultiLineH(state),
                 paletteContent.GetContentShortTextPrefix(state),
                 memento.ShortTextHint,
-                composition,
-                glowing,
                 fontChanged);
 
             // Space required for short text starts with the text width itself
@@ -5858,9 +5834,7 @@ namespace Krypton.Toolkit
                                                   Rectangle displayRect,
                                                   RightToLeft rtl,
                                                   int spacingGap,
-                                                  ref Size[,] allocation,
-                                                  bool composition,
-                                                  bool glowing)
+                                                  ref Size[,] allocation)
         {
             // By default, we cannot draw the text
             memento.DrawLongText = false;
@@ -5908,8 +5882,6 @@ namespace Krypton.Toolkit
                                                                      paletteContent.GetContentLongTextMultiLineH(state),
                                                                      paletteContent.GetContentLongTextPrefix(state),
                                                                      memento.LongTextHint,
-                                                                     composition,
-                                                                     glowing,
                                                                      fontChanged);
 
                 // Space required for long text starts with the text width itself
@@ -11296,7 +11268,6 @@ namespace Krypton.Toolkit
                                                                  Rectangle rect,
                                                                  PaletteState state,
                                                                  IPaletteRibbonBack palette,
-                                                                 bool composition,
                                                                  IDisposable memento)
         {
             if (rect is { Width: > 0, Height: > 0 })
@@ -11389,27 +11360,18 @@ namespace Krypton.Toolkit
                 }
 
                 using AntiAlias aa = new AntiAlias(context.Graphics);
-                if (!composition)
-                {
-                    // Draw the light borders
-                    context.Graphics.DrawPath(cache.LightPen, cache.TopRight1);
-                    context.Graphics.DrawPath(cache.LightPen, cache.BottomLeft1);
+                // Draw the light borders
+                context.Graphics.DrawPath(cache.LightPen, cache.TopRight1);
+                context.Graphics.DrawPath(cache.LightPen, cache.BottomLeft1);
 
-                    // Draw the inside background and main border
-                    context.Graphics.FillPath(cache.InnerBrush, cache.BorderPath);
-                    context.Graphics.DrawPath(cache.BorderPen, cache.BorderPath);
+                // Draw the inside background and main border
+                context.Graphics.FillPath(cache.InnerBrush, cache.BorderPath);
+                context.Graphics.DrawPath(cache.BorderPen, cache.BorderPath);
 
-                    // Overdraw top for lighter effect
-                    context.Graphics.DrawLine(cache.WhitenPen, rect.Left + 10, rect.Top + 2, rect.Right - 10, rect.Top + 2);
-                    context.Graphics.DrawLine(cache.WhitenPen, rect.Left + 12, rect.Top + 3, rect.Right - 8, rect.Top + 3);
-                    context.Graphics.DrawLine(cache.WhitenPen, rect.Left + 14, rect.Top + 4, rect.Right - 7, rect.Top + 4);
-                }
-                else
-                {
-                    // Fill with a semi-transparent background/border
-                    context.Graphics.FillPath(_compositionBrush, cache.BorderPath);
-                    context.Graphics.DrawPath(_compositionPen, cache.BorderPath);
-                }
+                // Overdraw top for lighter effect
+                context.Graphics.DrawLine(cache.WhitenPen, rect.Left + 10, rect.Top + 2, rect.Right - 10, rect.Top + 2);
+                context.Graphics.DrawLine(cache.WhitenPen, rect.Left + 12, rect.Top + 3, rect.Right - 8, rect.Top + 3);
+                context.Graphics.DrawLine(cache.WhitenPen, rect.Left + 14, rect.Top + 4, rect.Right - 7, rect.Top + 4);
             }
 
             return memento;
@@ -11422,7 +11384,6 @@ namespace Krypton.Toolkit
                                                                  Rectangle rect,
                                                                  PaletteState state,
                                                                  IPaletteRibbonBack palette,
-                                                                 bool composition,
                                                                  IDisposable memento)
         {
             if (rect is { Width: > 0, Height: > 0 })
@@ -11516,22 +11477,13 @@ namespace Krypton.Toolkit
                 }
 
                 using AntiAlias aa = new AntiAlias(context.Graphics);
-                if (!composition)
-                {
-                    // Draw the light borders
-                    context.Graphics.DrawPath(cache.LightPen, cache.TopRight1);
-                    context.Graphics.DrawPath(cache.LightPen, cache.BottomLeft1);
+                // Draw the light borders
+                context.Graphics.DrawPath(cache.LightPen, cache.TopRight1);
+                context.Graphics.DrawPath(cache.LightPen, cache.BottomLeft1);
 
-                    // Draw the inside background and main border
-                    context.Graphics.FillPath(cache.InnerBrush, cache.BorderPath);
-                    context.Graphics.DrawPath(cache.BorderPen, cache.BorderPath);
-                }
-                else
-                {
-                    // Fill with a semi-transparent background/border
-                    context.Graphics.FillPath(_compositionBrush, cache.BorderPath);
-                    context.Graphics.DrawPath(_compositionPen, cache.BorderPath);
-                }
+                // Draw the inside background and main border
+                context.Graphics.FillPath(cache.InnerBrush, cache.BorderPath);
+                context.Graphics.DrawPath(cache.BorderPen, cache.BorderPath);
             }
 
             return memento;
@@ -11978,7 +11930,7 @@ namespace Krypton.Toolkit
             public bool DrawImage;
             public bool DrawShortText;
             public bool DrawLongText;
-            public Image Image;
+            public Image? Image;
             public Color ImageTransparentColor;
             public Rectangle ImageRect;
             public PaletteTextTrim ShortTextTrimming;

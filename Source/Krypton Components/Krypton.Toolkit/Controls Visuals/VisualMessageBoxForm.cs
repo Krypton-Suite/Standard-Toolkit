@@ -340,7 +340,7 @@ namespace Krypton.Toolkit
                         else if (!string.IsNullOrEmpty(_applicationPath))
                         {
                             Image? sourceImage = GraphicsExtensions.ExtractIconFromFilePath(_applicationPath)?.ToBitmap();
-                            Image scaledImage = GraphicsExtensions.ScaleImage(sourceImage, new Size(32, 32));
+                            Image? scaledImage = GraphicsExtensions.ScaleImage(sourceImage, new Size(32, 32));
 
                             _messageIcon.Image = scaledImage;
                         }
@@ -459,7 +459,7 @@ namespace Krypton.Toolkit
                         {
                             Image? sourceImage = GraphicsExtensions.ExtractIconFromFilePath(_applicationPath)
                                 ?.ToBitmap();
-                            Image scaledImage = GraphicsExtensions.ScaleImage(sourceImage, new Size(32, 32));
+                            Image? scaledImage = GraphicsExtensions.ScaleImage(sourceImage, new Size(32, 32));
 
                             _messageIcon.Image = scaledImage;
                         }
@@ -538,7 +538,7 @@ namespace Krypton.Toolkit
                         else if (!string.IsNullOrEmpty(_applicationPath))
                         {
                             Image? sourceImage = GraphicsExtensions.ExtractIconFromFilePath(_applicationPath)?.ToBitmap();
-                            Image scaledImage = GraphicsExtensions.ScaleImage(sourceImage, new Size(32, 32));
+                            Image? scaledImage = GraphicsExtensions.ScaleImage(sourceImage, new Size(32, 32));
 
                             _messageIcon.Image = scaledImage;
                         }
@@ -653,7 +653,7 @@ namespace Krypton.Toolkit
                         else if (!string.IsNullOrEmpty(_applicationPath))
                         {
                             Image? sourceImage = GraphicsExtensions.ExtractIconFromFilePath(_applicationPath)?.ToBitmap();
-                            Image scaledImage = GraphicsExtensions.ScaleImage(sourceImage, new Size(32, 32));
+                            Image? scaledImage = GraphicsExtensions.ScaleImage(sourceImage, new Size(32, 32));
 
                             _messageIcon.Image = scaledImage;
                         }

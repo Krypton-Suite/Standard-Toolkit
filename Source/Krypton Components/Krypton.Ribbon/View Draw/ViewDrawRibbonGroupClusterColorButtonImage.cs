@@ -23,7 +23,7 @@ namespace Krypton.Ribbon
         #region Instance Fields
         private readonly Size _smallSize;// = new Size(16, 16);
         private readonly KryptonRibbonGroupClusterColorButton _ribbonColorButton;
-        private Image _compositeImage;
+        private Image? _compositeImage;
         private Color _selectedColor;
         private Color _emptyBorderColor;
         private Rectangle _selectedRect;
@@ -95,11 +95,11 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets the image to be drawn.
         /// </summary>
-        protected override Image DrawImage
+        protected override Image? DrawImage
         {
             get
             {
-                Image newImage = _ribbonColorButton.KryptonCommand != null
+                Image? newImage = _ribbonColorButton.KryptonCommand != null
                     ? _ribbonColorButton.KryptonCommand.ImageSmall
                     : _ribbonColorButton.ImageSmall;
 

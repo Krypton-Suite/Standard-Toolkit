@@ -112,7 +112,7 @@ namespace Krypton.Toolkit
                 _dayMementos[i]?.Dispose();
 
                 _dayMementos[i] = context.Renderer.RenderStandardContent.LayoutContent(context, layoutRect, _calendar.StateNormal.DayOfWeek.Content, this, 
-                                                                                       VisualOrientation.Top, state, false,false);
+                                                                                       VisualOrientation.Top, state);
 
                 // Move across to next day
                 layoutRect.X += _months.SizeDays.Width;
@@ -144,7 +144,7 @@ namespace Krypton.Toolkit
                 {
                     context.Renderer.RenderStandardContent.DrawContent(context, drawRect,
                         _calendar.StateNormal.DayOfWeek.Content, _dayMementos[day % 7],
-                        VisualOrientation.Top, state, false, false, true);
+                        VisualOrientation.Top, state, true);
                 }
 
                 // Move across to next day
@@ -159,7 +159,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">The state for which the image is needed.</param>
         /// <returns>Image value.</returns>
-        public Image GetImage(PaletteState state) => null;
+        public Image? GetImage(PaletteState state) => null;
 
         /// <summary>
         /// Gets the image color that should be transparent.

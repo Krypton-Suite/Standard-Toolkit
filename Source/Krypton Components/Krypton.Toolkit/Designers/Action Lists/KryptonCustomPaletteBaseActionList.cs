@@ -140,9 +140,6 @@ namespace Krypton.Toolkit
                 ExceptionHandler.CaptureException(exc);
             }
         }
-
-        private void OnExportToBinaryClick(object sender, EventArgs e) => throw DebugTools.NotImplemented(@"Not Implemented");
-
         #endregion
     }
 }

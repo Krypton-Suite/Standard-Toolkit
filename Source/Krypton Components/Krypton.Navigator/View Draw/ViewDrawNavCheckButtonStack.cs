@@ -59,7 +59,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="state">The state for which the image is needed.</param>
         /// <returns>Image value.</returns>
-        public override Image GetImage(PaletteState state) => Page?.GetImageMapping(Navigator.Stack.StackMapImage);
+        public override Image? GetImage(PaletteState state) => Page?.GetImageMapping(Navigator.Stack.StackMapImage);
 
         /// <summary>
         /// Gets the content short text.

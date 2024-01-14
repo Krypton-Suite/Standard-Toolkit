@@ -192,8 +192,7 @@ namespace Krypton.Ribbon
                 drawRect.Width += borderPadding.Horizontal;
                 drawRect.Height += borderPadding.Vertical;
             }
-            else if (Ribbon.CaptionArea.DrawCaptionOnComposition &&
-                     (Ribbon.RibbonShape == PaletteRibbonShape.Office2010))
+            else if (Ribbon.RibbonShape == PaletteRibbonShape.Office2010)
             {
                 // Prevent the left and right edges from being drawn
                 drawRect.X -= 1;
@@ -201,7 +200,7 @@ namespace Krypton.Ribbon
             }
 
             // Use renderer to draw the tab background
-            _memento = context.Renderer.RenderRibbon.DrawRibbonBack(Ribbon.RibbonShape, context, drawRect, State, this, VisualOrientation.Top, false, _memento);
+            _memento = context.Renderer.RenderRibbon.DrawRibbonBack(Ribbon.RibbonShape, context, drawRect, State, this, VisualOrientation.Top, _memento);
         }
         #endregion
 

@@ -24,8 +24,6 @@ namespace Krypton.Toolkit
                                        IKryptonDebug
     {
         #region Static Fields
-
-        private const int DEFAULT_COMPOSITION_HEIGHT = 30;
         private static readonly bool _themedApp;
         #endregion
 
@@ -34,11 +32,8 @@ namespace Krypton.Toolkit
         private bool _windowActive;
         private bool _trackingMouse;
         private bool _useThemeFormChromeBorderWidth;
-        private bool _allowComposition;
-        private bool _insideUpdateComposition;
         private bool _captured;
         private bool _disposing;
-        private int _compositionHeight;
         private int _ignoreCount;
         private KryptonCustomPaletteBase? _localCustomPalette;
         private PaletteBase _palette;
@@ -48,7 +43,7 @@ namespace Krypton.Toolkit
         private ShadowManager _shadowManager;
         private BlurValues _blurValues;
         private BlurManager _blurManager;
-        private readonly object lockObject = new ();
+        private readonly object lockObject = new();
         #endregion
 
         #region Events
@@ -119,8 +114,6 @@ namespace Krypton.Toolkit
             // We need to layout the view
             NeedLayout = true;
 
-            // Default the composition height
-            _compositionHeight = DEFAULT_COMPOSITION_HEIGHT;
             CloseBox = true;
 
             // Create constant target for resolving palette delegates
@@ -243,20 +236,8 @@ namespace Krypton.Toolkit
                                 // Assume that we can apply custom chrome
                                 _useThemeFormChromeBorderWidth = true;
 
-                                // Retest if composition should be applied
-                                UpdateComposition();
-
-                                // When using composition we do not remove the theme
-                                if (!ApplyComposition)
-                                {
-                                    // Remove any theme that is currently drawing chrome
-                                    PI.SetWindowTheme(Handle, string.Empty, string.Empty);
-                                }
-                                else
-                                {
-                                    // Force a WM_NCCALCSIZE to update for composition
-                                    PI.SetWindowTheme(Handle, null, null);
-                                }
+                                // Remove any theme that is currently drawing chrome
+                                PI.SetWindowTheme(Handle, string.Empty, string.Empty);
 
                                 // Call virtual method for initializing own chrome
                                 WindowChromeStart();
@@ -272,9 +253,6 @@ namespace Krypton.Toolkit
                     {
                         try
                         {
-                            // Retest if composition should be applied
-                            UpdateComposition();
-
                             // Restore the application to previous theme setting
                             PI.SetWindowTheme(Handle, null, null);
 
@@ -304,54 +282,6 @@ namespace Krypton.Toolkit
         [DefaultValue(true)]
         [Description("Form Close Button Visiblity: This will also Hide the System Menu `Close` and disable the `Alt+F4` action")]
         public bool CloseBox { [DebuggerStepThrough] get; set; }
-
-        /// <summary>
-        /// Gets a value indicating if composition is being applied.
-        /// </summary>
-        [Browsable(false)]
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public bool ApplyComposition { get; private set; }
-
-        /// <summary>
-        /// Gets a value indicating if composition is allowed to be applied to custom chrome.
-        /// </summary>
-        [Browsable(false)]
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public bool AllowComposition
-        {
-            get => _allowComposition;
-
-            set
-            {
-                if (_allowComposition != value)
-                {
-                    _allowComposition = value;
-
-                    // If custom chrome is not enabled, then no need to make changes
-                    //if (ApplyCustomChrome)
-                    {
-                        UpdateComposition();
-                    }
-                }
-            }
-        }
-
-        /// <summary>
-        /// used to update the size of the composition area.
-        /// </summary>
-        [Browsable(false)]
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        public void RecalculateComposition() => UpdateComposition();
-
-        /// <summary>
-        /// Gets and sets the interface to the composition interface cooperating with the form.
-        /// </summary>
-        [Browsable(false)]
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public IKryptonComposition? Composition { get; set; }
 
         /// <summary>
         /// Gets or sets the palette to be applied.
@@ -667,26 +597,6 @@ namespace Krypton.Toolkit
 
         #endregion
 
-        #region Public Chrome
-        /// <summary>
-        /// Perform layout on behalf of the composition element using our root element.
-        /// </summary>
-        /// <param name="context">Layout context.</param>
-        /// <param name="compRect">Rectangle for composition element.</param>
-        public virtual void WindowChromeCompositionLayout(ViewLayoutContext context,
-                                                          Rectangle compRect)
-        {
-        }
-
-        /// <summary>
-        /// Perform painting on behalf of the composition element using our root element.
-        /// </summary>
-        /// <param name="context">Rendering context.</param>
-        public virtual void WindowChromeCompositionPaint(RenderContext context)
-        {
-        }
-        #endregion
-
         #region Public IKryptonDebug
         /// <summary>
         /// Reset the internal counters.
@@ -753,7 +663,7 @@ namespace Krypton.Toolkit
 
             // Now adjust to take into account the top and left borders
             Padding borders = RealWindowBorders;
-            clientPt.Offset(borders.Left, ApplyComposition ? 0 : borders.Top);
+            clientPt.Offset(borders.Left, borders.Top);
 
             return clientPt;
         }
@@ -903,28 +813,6 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>
-        /// Performs the work of setting the specified bounds of this control.
-        /// </summary>
-        /// <param name="x">The new Left property value of the control.</param>
-        /// <param name="y">The new Top property value of the control.</param>
-        /// <param name="width">The new Width property value of the control.</param>
-        /// <param name="height">The new Height property value of the control.</param>
-        /// <param name="specified">A bitwise combination of the BoundsSpecified values.</param>
-        protected override void SetBoundsCore(int x, int y, int width, int height, BoundsSpecified specified)
-        {
-            var updatedHeight = height;
-
-            // With the Aero glass appearance we need to reduce height by the top border, 
-            // otherwise each time the window is maximized and restored it grows in size
-            if (ApplyComposition && (FormBorderStyle != FormBorderStyle.None))
-            {
-                updatedHeight = height - RealWindowBorders.Top;
-            }
-
-            base.SetBoundsCore(x, y, width, updatedHeight, specified);
-        }
-
-        /// <summary>
         /// Raises the Activated event.
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
@@ -942,28 +830,6 @@ namespace Krypton.Toolkit
         {
             WindowActive = false;
             base.OnDeactivate(e);
-        }
-
-        /// <summary>
-        /// Raises the PaintBackground event.
-        /// </summary>
-        /// <param name="e">A PaintEventArgs containing event data.</param>
-        protected override void OnPaintBackground(PaintEventArgs e)
-        {
-            // If drawing with custom chrome and composition
-            if (/*ApplyCustomChrome &&*/ ApplyComposition)
-            {
-                var compositionRect = new Rectangle(0, 0, Width, _compositionHeight);
-
-                // Draw the extended area inside the client in black, this ensures
-                // it is treated as transparent by the desktop window manager
-                e.Graphics.FillRectangle(Brushes.Black, compositionRect);
-
-                // Exclude the composition area from the rest of the background painting
-                e.Graphics.SetClip(compositionRect, CombineMode.Exclude);
-            }
-
-            base.OnPaintBackground(e);
         }
 
         /// <summary>
@@ -1090,27 +956,13 @@ namespace Krypton.Toolkit
                 throw new ArgumentNullException(nameof(e));
             }
 
-            // Do nothing unless we are applying custom chrome
-            //if (ApplyCustomChrome)
+            // Do we need to recalc the border size as well as invalidate?
+            if (e.NeedLayout)
             {
-                // If using composition drawing
-                if (ApplyComposition
-                    && Composition != null)
-                {
-                    // Ask the composition element top handle need paint event
-                    Composition.CompNeedPaint(e.NeedLayout);
-                }
-                else
-                {
-                    // Do we need to recalc the border size as well as invalidate?
-                    if (e.NeedLayout)
-                    {
-                        NeedLayout = true;
-                    }
-
-                    InvalidateNonClient();
-                }
+                NeedLayout = true;
             }
+
+            InvalidateNonClient();
         }
 
         /// <summary>
@@ -1152,27 +1004,29 @@ namespace Krypton.Toolkit
                 switch (m.Msg)
                 {
                     case PI.WM_.NCPAINT:
-                        if (!ApplyComposition)
-                        {
-                            processed = _ignoreCount > 0 || OnWM_NCPAINT(ref m);
-                        }
+                        processed = _ignoreCount > 0 || OnWM_NCPAINT(ref m);
                         break;
-                    case PI.WM_.NCHITTEST:
-                        processed = ApplyComposition ? OnCompWM_NCHITTEST(ref m) : OnWM_NCHITTEST(ref m);
 
+                    case PI.WM_.NCHITTEST:
+                        processed = OnWM_NCHITTEST(ref m);
                         break;
+
                     case PI.WM_.NCACTIVATE:
                         processed = OnWM_NCACTIVATE(ref m);
                         break;
+
                     case PI.WM_.NCMOUSEMOVE:
                         processed = OnWM_NCMOUSEMOVE(ref m);
                         break;
+
                     case PI.WM_.NCLBUTTONDOWN:
                         processed = OnWM_NCLBUTTONDOWN(ref m);
                         break;
+
                     case PI.WM_.NCLBUTTONUP:
                         processed = OnWM_NCLBUTTONUP(ref m);
                         break;
+
                     case PI.WM_.MOUSEMOVE:
                         if (_captured)
                         {
@@ -1185,21 +1039,15 @@ namespace Krypton.Toolkit
                         {
                             processed = OnWM_LBUTTONUP(ref m);
                         }
-
                         break;
+
                     case PI.WM_.NCMOUSELEAVE:
                         if (!_captured)
                         {
                             processed = OnWM_NCMOUSELEAVE(ref m);
                         }
-
-                        if (ApplyComposition
-                            && Composition != null)
-                        {
-                            // Must repaint the composition area not that mouse has left
-                            Composition.CompNeedPaint(true);
-                        }
                         break;
+
                     case PI.WM_.NCLBUTTONDBLCLK:
                         processed = OnWM_NCLBUTTONDBLCLK(ref m);
                         break;
@@ -1317,15 +1165,6 @@ namespace Krypton.Toolkit
                 // Extract the Win32 NCCALCSIZE_PARAMS structure from LPARAM
                 PI.NCCALCSIZE_PARAMS calcsize = (PI.NCCALCSIZE_PARAMS)m.GetLParam(typeof(PI.NCCALCSIZE_PARAMS))!;
 
-                // If using composition in the custom chrome
-                if (ApplyComposition)
-                {
-                    // Do not provide any border at the top, instead we extend the glass
-                    // at the top into the client area so that we can custom draw onto the
-                    // extended glass area. 
-                    borders.Top = 0;
-                }
-
                 // Reduce provided RECT by the borders
                 calcsize.rectProposed.left += borders.Left;
                 calcsize.rectProposed.top += borders.Top;
@@ -1374,49 +1213,13 @@ namespace Krypton.Toolkit
             Point windowPoint = ScreenToWindow(screenPoint);
 
             // Perform hit testing
-            m.Result = WindowChromeHitTest(windowPoint, false);
+            m.Result = WindowChromeHitTest(windowPoint);
 
             // Message processed, do not pass onto base class for processing
             return true;
         }
 
-        /// <summary>
-        /// Process the WM_NCHITTEST message when overriding window chrome.
-        /// </summary>
-        /// <param name="m">A Windows-based message.</param>
-        /// <returns>True if the message was processed; otherwise false.</returns>
-        protected virtual bool OnCompWM_NCHITTEST(ref Message m)
-        {
-            // Let the desktop window manager process it first
-            PI.Dwm.DwmDefWindowProc(m.HWnd, m.Msg, m.WParam, m.LParam, out var result);
-            m.Result = result;
-
-            // If no result returned then let the base window routine process it
-            if (m.Result == (IntPtr)PI.HT.NOWHERE)
-            {
-                DefWndProc(ref m);
-            }
-
-            // If the window proc has decided it is in the CAPTION or CLIENT areas
-            // then we might have something of our own in that area that we want to
-            // override the return value for. So process it ourself.
-            if (m.Result == (IntPtr)PI.HT.CAPTION
-                    || m.Result == (IntPtr)PI.HT.CLIENT)
-            {
-                // Extract the point in screen coordinates
-                var screenPoint = new Point((int)m.LParam.ToInt64());
-
-                // Convert to window coordinates
-                Point windowPoint = ScreenToWindow(screenPoint);
-
-                // Perform hit testing
-                m.Result = WindowChromeHitTest(windowPoint, true);
-            }
-
-            // Message processed, do not pass onto base class for processing
-            return true;
-        }
-
+        
         /// <summary>
         /// Process the WM_NCACTIVATE message when overriding window chrome.
         /// </summary>
@@ -1427,21 +1230,18 @@ namespace Krypton.Toolkit
             // Cache the new active state
             WindowActive = m.WParam == (IntPtr)1;
 
-            if (!ApplyComposition)
+            // The first time an MDI child gets an WM_NCACTIVATE, let it process as normal
+            if ((MdiParent != null) && !_activated)
             {
-                // The first time an MDI child gets an WM_NCACTIVATE, let it process as normal
-                if ((MdiParent != null) && !_activated)
-                {
-                    _activated = true;
-                }
-                else
-                {
-                    // Allow default processing of activation change
-                    m.Result = (IntPtr)1;
+                _activated = true;
+            }
+            else
+            {
+                // Allow default processing of activation change
+                m.Result = (IntPtr)1;
 
-                    // Message processed, do not pass onto base class for processing
-                    return true;
-                }
+                // Message processed, do not pass onto base class for processing
+                return true;
             }
 
             return false;
@@ -1476,12 +1276,6 @@ namespace Krypton.Toolkit
 
             // Convert to window coordinates
             Point windowPoint = ScreenToWindow(screenPoint);
-
-            // In composition, we need to adjust for the left window border
-            if (ApplyComposition)
-            {
-                windowPoint.X -= RealWindowBorders.Left;
-            }
 
             // Perform actual mouse movement actions
             WindowChromeNonClientMouseMove(windowPoint);
@@ -1529,12 +1323,6 @@ namespace Krypton.Toolkit
             // Convert to window coordinates
             Point windowPoint = ScreenToWindow(screenPoint);
 
-            // In composition, we need to adjust for the left window border
-            if (ApplyComposition)
-            {
-                windowPoint.X -= RealWindowBorders.Left;
-            }
-
             // Perform actual mouse down processing
             return WindowChromeLeftMouseDown(windowPoint);
         }
@@ -1551,12 +1339,6 @@ namespace Krypton.Toolkit
 
             // Convert to window coordinates
             Point windowPoint = ScreenToWindow(screenPoint);
-
-            // In composition, we need to adjust for the left window border
-            if (ApplyComposition)
-            {
-                windowPoint.X -= RealWindowBorders.Left;
-            }
 
             // Perform actual mouse up processing
             return WindowChromeLeftMouseUp(windowPoint);
@@ -1783,9 +1565,8 @@ namespace Krypton.Toolkit
         /// Perform hit testing.
         /// </summary>
         /// <param name="pt">Point in window coordinates.</param>
-        /// <param name="composition">Are we performing composition</param>
         /// <returns></returns>
-        protected virtual IntPtr WindowChromeHitTest(Point pt, bool composition) => (IntPtr)PI.HT.CLIENT;
+        protected virtual IntPtr WindowChromeHitTest(Point pt) => (IntPtr)PI.HT.CLIENT;
 
         /// <summary>
         /// Perform painting of the window chrome.
@@ -1840,69 +1621,6 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Implementation
-        private void UpdateComposition()
-        {
-            if (!_insideUpdateComposition)
-            {
-                // Prevent reentrancy
-                _insideUpdateComposition = true;
-
-                // Are we allowed to apply composition to the window
-                var applyComposition = !DesignMode &&
-                                       TopLevel &&
-                                       //ApplyCustomChrome &&
-                                       AllowComposition &&
-                                       DWM.IsCompositionEnabled;
-
-                // Only need to process changes in value
-                if (ApplyComposition != applyComposition)
-                {
-                    ApplyComposition = applyComposition;
-
-                    // If we are compositing then show the composition interface
-                    if (Composition != null)
-                    {
-                        Composition.CompVisible = ApplyComposition;
-                        Composition.CompOwnerForm = this;
-                        _compositionHeight = Composition.CompHeight;
-                    }
-                    else
-                    {
-                        _compositionHeight = DEFAULT_COMPOSITION_HEIGHT;
-                    }
-
-                    // With composition, we extend the top into the client area
-                    DWM.ExtendFrameIntoClientArea(Handle, new Padding(0, ApplyComposition ? _compositionHeight : 0, 0, 0));
-
-                    // A change in composition when using custom chrome must turn custom chrome
-                    // off and on again to have it reprocess correctly to the new composition state
-                    //if (ApplyCustomChrome)
-                    {
-                        UseThemeFormChromeBorderWidth = false;
-                        UseThemeFormChromeBorderWidth = true;
-                    }
-                }
-                else if (ApplyComposition)
-                {
-                    var newCompHeight = DEFAULT_COMPOSITION_HEIGHT;
-                    if (Composition != null)
-                    {
-                        newCompHeight = Composition.CompHeight;
-                    }
-
-                    // Check if there is a change in the composition height
-                    if (newCompHeight != _compositionHeight)
-                    {
-                        // Apply the new height requirement
-                        _compositionHeight = newCompHeight;
-                        DWM.ExtendFrameIntoClientArea(Handle, new Padding(0, ApplyComposition ? _compositionHeight : 0, 0, 0));
-                    }
-                }
-
-                _insideUpdateComposition = false;
-            }
-        }
-
         private void OnGlobalPaletteChanged(object sender, EventArgs e)
         {
             // We only care if we are using the global palette
@@ -1932,7 +1650,6 @@ namespace Krypton.Toolkit
                 case UserPreferenceCategory.General:
                 case UserPreferenceCategory.Window:
                 case UserPreferenceCategory.Desktop:
-                    UpdateComposition();
                     PerformNeedPaint(true);
                     break;
             }

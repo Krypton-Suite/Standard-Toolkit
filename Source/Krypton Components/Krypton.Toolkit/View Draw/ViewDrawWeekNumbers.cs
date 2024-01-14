@@ -181,7 +181,7 @@ namespace Krypton.Toolkit
                     IPaletteTriple paletteTriple = Enabled ? _calendar.StateNormal.Day : _calendar.StateDisabled.Day;
 
                     _dayMementos[j] = context.Renderer.RenderStandardContent.LayoutContent(context, layoutRectWeek, paletteTriple.PaletteContent,
-                                                                                           this, VisualOrientation.Top, paletteState, false, false);
+                                                                                           this, VisualOrientation.Top, paletteState);
                 }
 
                 // Move to next week
@@ -244,7 +244,7 @@ namespace Krypton.Toolkit
                     if (paletteTriple.PaletteContent.GetContentDraw(paletteState) == InheritBool.True)
                     {
                         context.Renderer.RenderStandardContent.DrawContent(context, drawRectWeek, paletteTriple.PaletteContent, _dayMementos[j],
-                                                                           VisualOrientation.Top, paletteState, false,false, true);
+                                                                           VisualOrientation.Top, paletteState, true);
                     }
                 }
 
@@ -262,7 +262,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">The state for which the image is needed.</param>
         /// <returns>Image value.</returns>
-        public Image GetImage(PaletteState state) => null;
+        public Image? GetImage(PaletteState state) => null;
 
         /// <summary>
         /// Gets the image color that should be transparent.

@@ -11,7 +11,7 @@ namespace Krypton.Toolkit
 {
     public abstract class PaletteVisualStudio2022LightMode : PaletteVisualStudioBase
     {
-        protected PaletteVisualStudio2022LightMode(Color[] schemeColours, ImageList checkBoxList, ImageList galleryButtonList, Image[] radioButtonArray, Color[] trackBarColours) 
+        protected PaletteVisualStudio2022LightMode(Color[] schemeColours, ImageList checkBoxList, ImageList galleryButtonList, Image?[] radioButtonArray, Color[] trackBarColours) 
             : base(schemeColours, checkBoxList, galleryButtonList, radioButtonArray, trackBarColours)
         {
             ThemeName = nameof(PaletteVisualStudio2022LightMode);

@@ -26,9 +26,9 @@ namespace Krypton.Toolkit
 
         #region Images
 
-        private static readonly Image[] _radioButtonArray;
-        private static readonly Image _blueDropDownButton = Office2010ArrowResources.Office2010BlueDropDownButton;
-        private static readonly Image _contextMenuSubMenu = Office2010ArrowResources.Office2010BlueContextMenuSub;
+        private static readonly Image?[] _radioButtonArray;
+        private static readonly Image? _blueDropDownButton = Office2010ArrowResources.Office2010BlueDropDownButton;
+        private static readonly Image? _contextMenuSubMenu = Office2010ArrowResources.Office2010BlueContextMenuSub;
         private static readonly Image _formCloseNormal = Office2010ControlBoxResources.Office2010BlueCloseNormal;
         private static readonly Image _formCloseDisabled = Office2010ControlBoxResources.Office2010BlueCloseDisabled;
         private static readonly Image _formCloseActive = Office2010ControlBoxResources.Office2010BlueCloseActive;
@@ -407,7 +407,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">PaletteState for which image is required.</param>
         /// <returns></returns>
-        public override Image GetDropDownButtonImage(PaletteState state) => state != PaletteState.Disabled ? _blueDropDownButton : base.GetDropDownButtonImage(state);
+        public override Image? GetDropDownButtonImage(PaletteState state) => state != PaletteState.Disabled ? _blueDropDownButton : base.GetDropDownButtonImage(state);
 
         /// <summary>
         /// Gets an image indicating a sub-menu on a context menu item.
@@ -415,7 +415,7 @@ namespace Krypton.Toolkit
         /// <returns>
         /// Appropriate image for drawing; otherwise null.
         /// </returns>
-        public override Image GetContextMenuSubMenuImage() => _contextMenuSubMenu;
+        public override Image? GetContextMenuSubMenuImage() => _contextMenuSubMenu;
 
         #endregion
 
@@ -606,10 +606,10 @@ namespace Krypton.Toolkit
 
         #region Images
 
-        private static readonly Image _treeExpandWhite = TreeItemImageResources.TreeExpandWhite;
-        private static readonly Image _treeCollapseBlack = TreeItemImageResources.TreeCollapseBlack;
+        private static readonly Image? _treeExpandWhite = TreeItemImageResources.TreeExpandWhite;
+        private static readonly Image? _treeCollapseBlack = TreeItemImageResources.TreeCollapseBlack;
 
-        private static readonly Image _disabledDropDown = DropDownArrowImageResources.DisabledDropDownButton;
+        private static readonly Image? _disabledDropDown = DropDownArrowImageResources.DisabledDropDownButton;
         private static readonly Image _buttonSpecClose = ProfessionalButtonSpecResources.ProfessionalCloseButton;
         private static readonly Image _buttonSpecContext = GenericProfessionalImageResources.ProfessionalContextButton;
         private static readonly Image _buttonSpecNext = GenericProfessionalImageResources.ProfessionalNextButton;
@@ -628,8 +628,8 @@ namespace Krypton.Toolkit
         private static readonly Image _buttonSpecWorkspaceRestore = GenericProfessionalImageResources.ProfessionalRestore;
         private static readonly Image _buttonSpecRibbonMinimize = RibbonArrowImageResources.RibbonUp2010;
         private static readonly Image _buttonSpecRibbonExpand = RibbonArrowImageResources.RibbonDown2010;
-        private static readonly Image _contextMenuChecked = GenericOffice2007ImageResources.Office2007Checked;
-        private static readonly Image _contextMenuIndeterminate = GenericOffice2007ImageResources.Office2007Indeterminate;
+        private static readonly Image? _contextMenuChecked = GenericOffice2007ImageResources.Office2007Checked;
+        private static readonly Image? _contextMenuIndeterminate = GenericOffice2007ImageResources.Office2007Indeterminate;
 
         #region Integrated Tool Bar Images
 
@@ -770,7 +770,7 @@ namespace Krypton.Toolkit
         private readonly Color[] _trackBarColours;
         private readonly ImageList _checkBoxList;
         private readonly ImageList _galleryButtonList;
-        private readonly Image[] _radioButtonArray;
+        private readonly Image?[] _radioButtonArray;
         #endregion
 
         #region Constructor        
@@ -785,7 +785,7 @@ namespace Krypton.Toolkit
         protected PaletteMicrosoft365BlueDarkModeBase([DisallowNull] Color[] schemeColours,
             [DisallowNull] ImageList checkBoxList,
             [DisallowNull] ImageList galleryButtonList,
-            [DisallowNull] Image[] radioButtonArray, Color[] trackBarColours)
+            [DisallowNull] Image?[] radioButtonArray, Color[] trackBarColours)
         {
             Debug.Assert(schemeColours != null);
             Debug.Assert(checkBoxList != null);
@@ -1165,13 +1165,13 @@ namespace Krypton.Toolkit
                         PaletteState.Normal => _ribbonColours[(int)SchemeOfficeColors.ButtonNormalBack1],
                         PaletteState.NormalDefaultOverride => _ribbonColours[(int)SchemeOfficeColors.ButtonNormalDefaultBack1],
                         PaletteState.CheckedNormal => style == PaletteBackStyle.ButtonInputControl
-    ? _ribbonColours[(int)SchemeOfficeColors.ButtonNormalBack1]
-    : _buttonBackColors[6],
+                                                    ? _ribbonColours[(int)SchemeOfficeColors.ButtonNormalBack1]
+                                                    : _buttonBackColors[6],
                         PaletteState.Tracking => _buttonBackColors[2],
                         PaletteState.Pressed or PaletteState.CheckedPressed => _buttonBackColors[4],
                         PaletteState.CheckedTracking => style == PaletteBackStyle.ButtonInputControl
-    ? _ribbonColours[(int)SchemeOfficeColors.ButtonNormalBack1]
-    : _buttonBackColors[8],
+                                                            ? _ribbonColours[(int)SchemeOfficeColors.ButtonNormalBack1]
+                                                            : _buttonBackColors[8],
                         _ => throw DebugTools.NotImplemented(state.ToString())
                     };
                 case PaletteBackStyle.ButtonNavigatorStack:
@@ -1434,16 +1434,16 @@ namespace Krypton.Toolkit
                         PaletteState.Disabled => style == PaletteBackStyle.ButtonGallery ? _ribbonColours[(int)SchemeOfficeColors.RibbonGalleryBack1] : _buttonBackColors[1],
                         PaletteState.Normal => _ribbonColours[(int)SchemeOfficeColors.ButtonNormalBack2],
                         PaletteState.NormalDefaultOverride => style is PaletteBackStyle.ButtonLowProfile or PaletteBackStyle.ButtonBreadCrumb or PaletteBackStyle.ButtonListItem or PaletteBackStyle.ButtonCommand or PaletteBackStyle.ButtonButtonSpec or PaletteBackStyle.ContextMenuItemHighlight
-    ? Color.Empty
-    : _ribbonColours[(int)SchemeOfficeColors.ButtonNormalDefaultBack2],
+                                                            ? Color.Empty
+                                                            : _ribbonColours[(int)SchemeOfficeColors.ButtonNormalDefaultBack2],
                         PaletteState.CheckedNormal => style == PaletteBackStyle.ButtonInputControl
-    ? _ribbonColours[(int)SchemeOfficeColors.ButtonNormalBack2]
-    : _buttonBackColors[7],
+                                                    ? _ribbonColours[(int)SchemeOfficeColors.ButtonNormalBack2]
+                                                    : _buttonBackColors[7],
                         PaletteState.Tracking => _buttonBackColors[3],
                         PaletteState.Pressed or PaletteState.CheckedPressed => _buttonBackColors[5],
                         PaletteState.CheckedTracking => style == PaletteBackStyle.ButtonInputControl
-    ? _ribbonColours[(int)SchemeOfficeColors.ButtonNormalBack1]
-    : _buttonBackColors[9],
+                                                        ? _ribbonColours[(int)SchemeOfficeColors.ButtonNormalBack1]
+                                                        : _buttonBackColors[9],
                         _ => throw DebugTools.NotImplemented(state.ToString())
                     };
 
@@ -1796,11 +1796,11 @@ namespace Krypton.Toolkit
                     _ => throw DebugTools.NotImplemented(state.ToString())
                 },
                 PaletteBorderStyle.HeaderCalendar => state == PaletteState.Disabled
-    ? _ribbonColours[(int)SchemeOfficeColors.HeaderPrimaryBack1]
-    : _ribbonColours[(int)SchemeOfficeColors.HeaderPrimaryBack2],
+                                                    ? _ribbonColours[(int)SchemeOfficeColors.HeaderPrimaryBack1]
+                                                    : _ribbonColours[(int)SchemeOfficeColors.HeaderPrimaryBack2],
                 PaletteBorderStyle.HeaderForm => state == PaletteState.Disabled
-    ? _ribbonColours[(int)SchemeOfficeColors.FormBorderHeaderInactive]
-    : _ribbonColours[(int)SchemeOfficeColors.FormBorderHeaderActive],
+                                                ? _ribbonColours[(int)SchemeOfficeColors.FormBorderHeaderInactive]
+                                                : _ribbonColours[(int)SchemeOfficeColors.FormBorderHeaderActive],
                 PaletteBorderStyle.SeparatorLowProfile or PaletteBorderStyle.SeparatorHighInternalProfile or PaletteBorderStyle.SeparatorHighProfile or PaletteBorderStyle.SeparatorCustom1 or PaletteBorderStyle.SeparatorCustom2 or PaletteBorderStyle.SeparatorCustom3 or PaletteBorderStyle.HeaderPrimary or PaletteBorderStyle.HeaderDockInactive or PaletteBorderStyle.HeaderDockActive or PaletteBorderStyle.HeaderSecondary or PaletteBorderStyle.HeaderCustom1 or PaletteBorderStyle.HeaderCustom2 or PaletteBorderStyle.HeaderCustom3 or PaletteBorderStyle.ControlClient or PaletteBorderStyle.ControlAlternate or PaletteBorderStyle.ControlGroupBox or PaletteBorderStyle.ControlCustom1 or PaletteBorderStyle.ControlCustom2 or PaletteBorderStyle.ControlCustom3 or PaletteBorderStyle.GridHeaderColumnList or PaletteBorderStyle.GridHeaderColumnSheet or PaletteBorderStyle.GridHeaderColumnCustom1 or PaletteBorderStyle.GridHeaderColumnCustom2 or PaletteBorderStyle.GridHeaderColumnCustom3 or PaletteBorderStyle.GridHeaderRowList or PaletteBorderStyle.GridHeaderRowSheet or PaletteBorderStyle.GridHeaderRowCustom1 or PaletteBorderStyle.GridHeaderRowCustom2 or PaletteBorderStyle.GridHeaderRowCustom3 => state == PaletteState.Disabled ? _disabledBorder : _ribbonColours[(int)SchemeOfficeColors.ControlBorder],
                 PaletteBorderStyle.ContextMenuHeading or PaletteBorderStyle.ContextMenuItemImageColumn => _contextMenuHeadingBorder,
                 PaletteBorderStyle.ContextMenuSeparator or PaletteBorderStyle.ContextMenuItemSplit => state switch
@@ -1820,8 +1820,8 @@ namespace Krypton.Toolkit
                 PaletteBorderStyle.ContextMenuInner => _contextMenuBack,
                 PaletteBorderStyle.ControlToolTip => state == PaletteState.Disabled ? _disabledBorder : _toolTipBorder,
                 PaletteBorderStyle.FormMain or PaletteBorderStyle.FormCustom1 or PaletteBorderStyle.FormCustom2 or PaletteBorderStyle.FormCustom3 => state == PaletteState.Disabled
-    ? _ribbonColours[(int)SchemeOfficeColors.FormBorderInactive]
-    : _ribbonColours[(int)SchemeOfficeColors.FormBorderActive],
+                                                    ? _ribbonColours[(int)SchemeOfficeColors.FormBorderInactive]
+                                                    : _ribbonColours[(int)SchemeOfficeColors.FormBorderActive],
                 PaletteBorderStyle.ButtonForm => state switch
                 {
                     PaletteState.Disabled or PaletteState.Normal or PaletteState.NormalDefaultOverride => Color.Empty,
@@ -1845,8 +1845,8 @@ namespace Krypton.Toolkit
                                                    : _buttonBorderColors[0],
                     PaletteState.Normal => _ribbonColours[(int)SchemeOfficeColors.ButtonNormalBorder],
                     PaletteState.NormalDefaultOverride => style is PaletteBorderStyle.ButtonLowProfile or PaletteBorderStyle.ButtonBreadCrumb or PaletteBorderStyle.ButtonListItem or PaletteBorderStyle.ButtonCommand or PaletteBorderStyle.ButtonButtonSpec or PaletteBorderStyle.ContextMenuItemHighlight
-    ? Color.Empty
-    : _ribbonColours[(int)SchemeOfficeColors.ButtonNormalDefaultBorder],
+                                                            ? Color.Empty
+                                                            : _ribbonColours[(int)SchemeOfficeColors.ButtonNormalDefaultBorder],
                     PaletteState.CheckedNormal => _buttonBorderColors[5],
                     PaletteState.Tracking => _buttonBorderColors[1],
                     PaletteState.Pressed or PaletteState.CheckedPressed => _buttonBorderColors[3],
@@ -1925,12 +1925,12 @@ namespace Krypton.Toolkit
                     _ => throw DebugTools.NotImplemented(state.ToString())
                 },
                 PaletteBorderStyle.HeaderForm => state == PaletteState.Disabled
-    ? _ribbonColours[(int)SchemeOfficeColors.FormBorderHeaderInactive]
-    : _ribbonColours[(int)SchemeOfficeColors.FormBorderHeaderActive],
+                                                ? _ribbonColours[(int)SchemeOfficeColors.FormBorderHeaderInactive]
+                                                : _ribbonColours[(int)SchemeOfficeColors.FormBorderHeaderActive],
                 PaletteBorderStyle.SeparatorLowProfile or PaletteBorderStyle.SeparatorHighInternalProfile or PaletteBorderStyle.SeparatorHighProfile or PaletteBorderStyle.SeparatorCustom1 or PaletteBorderStyle.SeparatorCustom2 or PaletteBorderStyle.SeparatorCustom3 or PaletteBorderStyle.HeaderPrimary or PaletteBorderStyle.HeaderDockInactive or PaletteBorderStyle.HeaderDockActive or PaletteBorderStyle.HeaderSecondary or PaletteBorderStyle.HeaderCustom1 or PaletteBorderStyle.HeaderCustom2 or PaletteBorderStyle.HeaderCustom3 or PaletteBorderStyle.ControlClient or PaletteBorderStyle.ControlAlternate or PaletteBorderStyle.ControlGroupBox or PaletteBorderStyle.ControlCustom1 or PaletteBorderStyle.ControlCustom2 or PaletteBorderStyle.ControlCustom3 or PaletteBorderStyle.GridHeaderColumnList or PaletteBorderStyle.GridHeaderColumnSheet or PaletteBorderStyle.GridHeaderColumnCustom1 or PaletteBorderStyle.GridHeaderColumnCustom2 or PaletteBorderStyle.GridHeaderColumnCustom3 or PaletteBorderStyle.GridHeaderRowList or PaletteBorderStyle.GridHeaderRowSheet or PaletteBorderStyle.GridHeaderRowCustom1 or PaletteBorderStyle.GridHeaderRowCustom2 or PaletteBorderStyle.GridHeaderRowCustom3 => state == PaletteState.Disabled ? _disabledBorder : _ribbonColours[(int)SchemeOfficeColors.ControlBorder],
                 PaletteBorderStyle.HeaderCalendar => state == PaletteState.Disabled
-    ? _ribbonColours[(int)SchemeOfficeColors.HeaderPrimaryBack1]
-    : _ribbonColours[(int)SchemeOfficeColors.HeaderPrimaryBack2],
+                                                    ? _ribbonColours[(int)SchemeOfficeColors.HeaderPrimaryBack1]
+                                                    : _ribbonColours[(int)SchemeOfficeColors.HeaderPrimaryBack2],
                 PaletteBorderStyle.ContextMenuHeading or PaletteBorderStyle.ContextMenuItemImageColumn => _contextMenuHeadingBorder,
                 PaletteBorderStyle.ContextMenuSeparator or PaletteBorderStyle.ContextMenuItemSplit => state switch
                 {
@@ -1949,8 +1949,8 @@ namespace Krypton.Toolkit
                 PaletteBorderStyle.ContextMenuInner => _contextMenuBack,
                 PaletteBorderStyle.ControlToolTip => state == PaletteState.Disabled ? _disabledBorder : _toolTipBorder,
                 PaletteBorderStyle.FormMain or PaletteBorderStyle.FormCustom1 or PaletteBorderStyle.FormCustom2 or PaletteBorderStyle.FormCustom3 => state == PaletteState.Disabled
-    ? _ribbonColours[(int)SchemeOfficeColors.FormBorderInactive]
-    : _ribbonColours[(int)SchemeOfficeColors.FormBorderActive],
+                                                    ? _ribbonColours[(int)SchemeOfficeColors.FormBorderInactive]
+                                                    : _ribbonColours[(int)SchemeOfficeColors.FormBorderActive],
                 PaletteBorderStyle.ButtonForm => state switch
                 {
                     PaletteState.Disabled or PaletteState.Normal or PaletteState.NormalDefaultOverride => Color.Empty,
@@ -3456,7 +3456,7 @@ namespace Krypton.Toolkit
                 case PaletteMetricInt.None:
                     return 0;
                 default:
-    // Should never happen!
+                    // Should never happen!
                     Debug.Assert(false);
                     DebugTools.NotImplemented(metric.ToString());
                     break;
@@ -3482,7 +3482,7 @@ namespace Krypton.Toolkit
                 case PaletteMetricBool.TreeViewLines:
                     return InheritBool.False;
                 default:
-    // Should never happen!
+                    // Should never happen!
                     Debug.Assert(false);
                     DebugTools.NotImplemented(metric.ToString());
                     break;
@@ -3543,7 +3543,7 @@ namespace Krypton.Toolkit
                 case PaletteMetricPadding.ContextMenuItemOuter:
                     return Padding.Empty;
                 default:
-    // Should never happen!
+                    // Should never happen!
                     Debug.Assert(false);
                     DebugTools.NotImplemented(metric.ToString());
                     break;
@@ -3559,7 +3559,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="expanded">Is the node expanded</param>
         /// <returns>Appropriate image for drawing; otherwise null.</returns>
-        public override Image GetTreeViewImage(bool expanded) => expanded ? _treeCollapseBlack : _treeExpandWhite;
+        public override Image? GetTreeViewImage(bool expanded) => expanded ? _treeCollapseBlack : _treeExpandWhite;
 
         /// <summary>
         /// Gets a check box image appropriate for the provided state.
@@ -3569,7 +3569,7 @@ namespace Krypton.Toolkit
         /// <param name="tracking">Is the check box being hot tracked.</param>
         /// <param name="pressed">Is the check box being pressed.</param>
         /// <returns>Appropriate image for drawing; otherwise null.</returns>
-        public override Image GetCheckBoxImage(bool enabled, CheckState checkState, bool tracking, bool pressed)
+        public override Image? GetCheckBoxImage(bool enabled, CheckState checkState, bool tracking, bool pressed)
         {
             switch (checkState)
             {
@@ -3626,7 +3626,7 @@ namespace Krypton.Toolkit
         /// <param name="tracking">Is the radio button being hot tracked.</param>
         /// <param name="pressed">Is the radio button being pressed.</param>
         /// <returns>Appropriate image for drawing; otherwise null.</returns>
-        public override Image GetRadioButtonImage(bool enabled, bool checkState, bool tracking, bool pressed)
+        public override Image? GetRadioButtonImage(bool enabled, bool checkState, bool tracking, bool pressed)
         {
             if (!checkState)
             {
@@ -3664,19 +3664,19 @@ namespace Krypton.Toolkit
         /// Gets a drop down button image appropriate for the provided state.
         /// </summary>
         /// <param name="state">PaletteState for which image is required.</param>
-        public override Image GetDropDownButtonImage(PaletteState state) => _disabledDropDown;
+        public override Image? GetDropDownButtonImage(PaletteState state) => _disabledDropDown;
 
         /// <summary>
         /// Gets a checked image appropriate for a context menu item.
         /// </summary>
         /// <returns>Appropriate image for drawing; otherwise null.</returns>
-        public override Image GetContextMenuCheckedImage() => _contextMenuChecked;
+        public override Image? GetContextMenuCheckedImage() => _contextMenuChecked;
 
         /// <summary>
         /// Gets a indeterminate image appropriate for a context menu item.
         /// </summary>
         /// <returns>Appropriate image for drawing; otherwise null.</returns>
-        public override Image GetContextMenuIndeterminateImage() => _contextMenuIndeterminate;
+        public override Image? GetContextMenuIndeterminateImage() => _contextMenuIndeterminate;
 
         /// <summary>
         /// Gets a check box image appropriate for the provided state.
@@ -3684,7 +3684,7 @@ namespace Krypton.Toolkit
         /// <param name="button">Enum of the button to fetch.</param>
         /// <param name="state">State of the button to fetch.</param>
         /// <returns>Appropriate image for drawing; otherwise null.</returns>
-        public override Image GetGalleryButtonImage(PaletteRibbonGalleryButton button, PaletteState state) => button switch
+        public override Image? GetGalleryButtonImage(PaletteRibbonGalleryButton button, PaletteState state) => button switch
         {
             PaletteRibbonGalleryButton.Up => _galleryButtonList.Images[1],
             PaletteRibbonGalleryButton.DropDown => _galleryButtonList.Images[2],
@@ -3772,7 +3772,7 @@ namespace Krypton.Toolkit
                 case PaletteButtonSpecStyle.Generic:
                     return null!;   // TODO: Work out why is this is allowed to be null 
                 default:
-    // Should never happen!
+                    // Should never happen!
                     Debug.Assert(false);
                     throw DebugTools.NotImplemented(style.ToString());
             }
@@ -3967,7 +3967,7 @@ namespace Krypton.Toolkit
                         case PaletteState.ContextPressed:
                             return PaletteRibbonColorStyle.RibbonGroupNormalBorderSepPressedLight;
                         default:
-    // Should never happen!
+                            // Should never happen!
                             Debug.Assert(false);
                             DebugTools.NotImplemented(state.ToString());
                             break;
@@ -3988,7 +3988,7 @@ namespace Krypton.Toolkit
                         case PaletteState.FocusOverride:
                             return PaletteRibbonColorStyle.RibbonTabFocus2010;
                         default:
-    // Should never happen!
+                            // Should never happen!
                             Debug.Assert(false);
                             DebugTools.NotImplemented(state.ToString());
                             break;
@@ -4013,14 +4013,14 @@ namespace Krypton.Toolkit
                         case PaletteState.ContextCheckedTracking:
                             return PaletteRibbonColorStyle.RibbonTabSelected2010;
                         default:
-    // Should never happen!
+                            // Should never happen!
                             Debug.Assert(false);
                             DebugTools.NotImplemented(state.ToString());
                             break;
                     }
                     break;
                 default:
-    // Should never happen!
+                    // Should never happen!
                     Debug.Assert(false);
                     DebugTools.NotImplemented(style.ToString());
                     break;
@@ -4086,7 +4086,7 @@ namespace Krypton.Toolkit
                         case PaletteState.ContextPressed:
                             return _ribbonColours[(int)SchemeOfficeColors.RibbonGroupBorder1];
                         default:
-    // Should never happen!
+                            // Should never happen!
                             Debug.Assert(false);
                             DebugTools.NotImplemented(state.ToString());
                             break;
@@ -4102,7 +4102,7 @@ namespace Krypton.Toolkit
                         case PaletteState.Pressed:
                             return _appButtonPressed[0];
                         default:
-    // Should never happen!
+                            // Should never happen!
                             Debug.Assert(false);
                             DebugTools.NotImplemented(state.ToString());
                             break;
@@ -4129,14 +4129,14 @@ namespace Krypton.Toolkit
                         case PaletteState.Normal:
                             return Color.Empty;
                         default:
-    // Should never happen!
+                            // Should never happen!
                             Debug.Assert(false);
                             DebugTools.NotImplemented(state.ToString());
                             break;
                     }
                     break;
                 default:
-    // Should never happen!
+                    // Should never happen!
                     Debug.Assert(false);
                     DebugTools.NotImplemented(style.ToString());
                     break;
@@ -4183,7 +4183,7 @@ namespace Krypton.Toolkit
                         case PaletteState.ContextTracking:
                             return _ribbonColours[(int)SchemeOfficeColors.RibbonGroupTitleTracking2];
                         default:
-    // Should never happen!
+                            // Should never happen!
                             Debug.Assert(false);
                             DebugTools.NotImplemented(state.ToString());
                             break;
@@ -4201,7 +4201,7 @@ namespace Krypton.Toolkit
                         case PaletteState.ContextPressed:
                             return _ribbonColours[(int)SchemeOfficeColors.RibbonGroupBorder2];
                         default:
-    // Should never happen!
+                            // Should never happen!
                             Debug.Assert(false);
                             DebugTools.NotImplemented(state.ToString());
                             break;
@@ -4217,7 +4217,7 @@ namespace Krypton.Toolkit
                         case PaletteState.Pressed:
                             return _appButtonPressed[1];
                         default:
-    // Should never happen!
+                            // Should never happen!
                             Debug.Assert(false);
                             DebugTools.NotImplemented(state.ToString());
                             break;
@@ -4243,7 +4243,7 @@ namespace Krypton.Toolkit
                         case PaletteState.Normal:
                             return Color.Empty;
                         default:
-    // Should never happen!
+                            // Should never happen!
                             Debug.Assert(false);
                             DebugTools.NotImplemented(state.ToString());
                             break;
@@ -4255,7 +4255,7 @@ namespace Krypton.Toolkit
                 case PaletteRibbonBackStyle.RibbonGroupCollapsedBack:
                     return Color.Empty;
                 default:
-    // Should never happen!
+                    // Should never happen!
                     Debug.Assert(false);
                     DebugTools.NotImplemented(style.ToString());
                     break;
@@ -4306,7 +4306,7 @@ namespace Krypton.Toolkit
                         case PaletteState.Pressed:
                             return _appButtonPressed[2];
                         default:
-    // Should never happen!
+                            // Should never happen!
                             Debug.Assert(false);
                             DebugTools.NotImplemented(state.ToString());
                             break;
@@ -4332,14 +4332,14 @@ namespace Krypton.Toolkit
                         case PaletteState.Normal:
                             return Color.Empty;
                         default:
-    // Should never happen!
+                            // Should never happen!
                             Debug.Assert(false);
                             DebugTools.NotImplemented(state.ToString());
                             break;
                     }
                     break;
                 default:
-    // Should never happen!
+                    // Should never happen!
                     Debug.Assert(false);
                     DebugTools.NotImplemented(style.ToString());
                     break;
@@ -4388,7 +4388,7 @@ namespace Krypton.Toolkit
                         case PaletteState.Pressed:
                             return _appButtonPressed[3];
                         default:
-    // Should never happen!
+                            // Should never happen!
                             Debug.Assert(false);
                             DebugTools.NotImplemented(state.ToString());
                             break;
@@ -4414,14 +4414,14 @@ namespace Krypton.Toolkit
                         case PaletteState.Normal:
                             return Color.Empty;
                         default:
-    // Should never happen!
+                            // Should never happen!
                             Debug.Assert(false);
                             DebugTools.NotImplemented(state.ToString());
                             break;
                     }
                     break;
                 default:
-    // Should never happen!
+                    // Should never happen!
                     Debug.Assert(false);
                     DebugTools.NotImplemented(style.ToString());
                     break;
@@ -4470,7 +4470,7 @@ namespace Krypton.Toolkit
                         case PaletteState.Pressed:
                             return _appButtonPressed[4];
                         default:
-    // Should never happen!
+                            // Should never happen!
                             Debug.Assert(false);
                             DebugTools.NotImplemented(state.ToString());
                             break;
@@ -4496,14 +4496,14 @@ namespace Krypton.Toolkit
                         case PaletteState.Normal:
                             return Color.Empty;
                         default:
-    // Should never happen!
+                            // Should never happen!
                             Debug.Assert(false);
                             DebugTools.NotImplemented(state.ToString());
                             break;
                     }
                     break;
                 default:
-    // Should never happen!
+                    // Should never happen!
                     Debug.Assert(false);
                     DebugTools.NotImplemented(style.ToString());
                     break;
@@ -4549,7 +4549,7 @@ namespace Krypton.Toolkit
                     return state == PaletteState.Disabled ? _disabledText : _ribbonColours[(int)SchemeOfficeColors.RibbonGroupCollapsedText];
 
                 default:
-    // Should never happen!
+                    // Should never happen!
                     Debug.Assert(false);
                     DebugTools.NotImplemented(state.ToString());
                     break;
@@ -4587,7 +4587,7 @@ namespace Krypton.Toolkit
                         _ => _trackBarColours[4]
                     };
                 default:
-    // Should never happen!
+                    // Should never happen!
                     Debug.Assert(false);
                     DebugTools.NotImplemented(element.ToString());
                     break;
@@ -4625,7 +4625,7 @@ namespace Krypton.Toolkit
                         _ => throw DebugTools.NotImplemented(state.ToString())
                     };
                 default:
-    // Should never happen!
+                    // Should never happen!
                     Debug.Assert(false);
                     DebugTools.NotImplemented(element.ToString());
                     break;
@@ -4666,7 +4666,7 @@ namespace Krypton.Toolkit
                     };
 
                 default:
-    // Should never happen!
+                    // Should never happen!
                     Debug.Assert(false);
                     DebugTools.NotImplemented(element.ToString());
                     break;
@@ -4714,7 +4714,7 @@ namespace Krypton.Toolkit
                         _ => throw DebugTools.NotImplemented(state.ToString())
                     };
                 default:
-    // Should never happen!
+                    // Should never happen!
                     Debug.Assert(false);
                     DebugTools.NotImplemented(element.ToString());
                     break;
@@ -4762,7 +4762,7 @@ namespace Krypton.Toolkit
                         _ => throw DebugTools.NotImplemented(state.ToString())
                     };
                 default:
-    // Should never happen!
+                    // Should never happen!
                     Debug.Assert(false);
                     DebugTools.NotImplemented(element.ToString());
                     break;

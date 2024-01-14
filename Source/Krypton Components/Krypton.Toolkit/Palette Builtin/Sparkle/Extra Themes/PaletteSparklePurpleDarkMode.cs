@@ -19,7 +19,7 @@ namespace Krypton.Toolkit
     {
         #region Static Fields
         private static readonly ImageList _checkBoxList;
-        private static readonly Image[] _radioButtonArray;
+        private static readonly Image?[] _radioButtonArray;
 
         private static readonly Color[] _appButtonNormal =
         [

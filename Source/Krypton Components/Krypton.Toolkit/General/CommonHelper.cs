@@ -12,8 +12,6 @@
 
 // ReSharper disable UnusedMember.Global
 
-using System.Windows.Forms;
-
 namespace Krypton.Toolkit
 {
     #region Delegates
@@ -201,7 +199,7 @@ namespace Krypton.Toolkit
                         size.Height += padding.Vertical;
                         break;
                     default:
-    // Should never happen!
+                        // Should never happen!
                         Debug.Assert(false);
                         DebugTools.NotImplemented(orientation.ToString());
                         break;
@@ -240,7 +238,7 @@ namespace Krypton.Toolkit
                         size.Height += padding.Horizontal;
                         break;
                     default:
-    // Should never happen!
+                        // Should never happen!
                         Debug.Assert(false);
                         DebugTools.NotImplemented(orientation.ToString());
                         break;
@@ -281,7 +279,7 @@ namespace Krypton.Toolkit
                         rect.Height -= padding.Horizontal;
                         break;
                     default:
-    // Should never happen!
+                        // Should never happen!
                         Debug.Assert(false);
                         DebugTools.NotImplemented(orientation.ToString());
                         break;
@@ -326,7 +324,7 @@ namespace Krypton.Toolkit
                                              rect.Width - padding.Vertical, rect.Height - padding.Horizontal);
                         break;
                     default:
-    // Should never happen!
+                        // Should never happen!
                         Debug.Assert(false);
                         DebugTools.NotImplemented(orientation.ToString());
                         break;
@@ -356,7 +354,7 @@ namespace Krypton.Toolkit
                 case VisualOrientation.Right:
                     return new Padding(padding.Bottom, padding.Left, padding.Top, padding.Right);
                 default:
-    // Should never happen!
+                    // Should never happen!
                     Debug.Assert(false);
                     DebugTools.NotImplemented(orientation.ToString());
                     return padding;
@@ -449,7 +447,7 @@ namespace Krypton.Toolkit
                 case 2:
                     throw opThread.Exception;
                 default:
-    // Should never happen!
+                    // Should never happen!
                     Debug.Assert(false);
                     throw DebugTools.NotImplemented(opThread.State.ToString());
             }
@@ -638,7 +636,7 @@ namespace Krypton.Toolkit
                     break;
 
                 default:
-    // Should never happen!
+                    // Should never happen!
                     Debug.Assert(false);
                     DebugTools.NotImplemented(orientation.ToString());
                     break;
@@ -743,7 +741,7 @@ namespace Krypton.Toolkit
                     break;
 
                 default:
-    // Should never happen!
+                    // Should never happen!
                     Debug.Assert(false);
                     DebugTools.NotImplemented(orientation.ToString());
                     break;
@@ -768,7 +766,7 @@ namespace Krypton.Toolkit
                 case VisualOrientation.Right:
                     return Orientation.Horizontal;
                 default:
-    // Should never happen!
+                    // Should never happen!
                     Debug.Assert(false);
                     DebugTools.NotImplemented(orientation.ToString());
                     return Orientation.Vertical;
@@ -819,7 +817,7 @@ namespace Krypton.Toolkit
                 case ButtonStyle.Custom3:
                     return PaletteButtonStyle.Custom3;
                 default:
-    // Should never happen!
+                    // Should never happen!
                     Debug.Assert(false);
                     DebugTools.NotImplemented(style.ToString());
                     return PaletteButtonStyle.Standalone;
@@ -1299,7 +1297,7 @@ namespace Krypton.Toolkit
                 case LabelStyle.Custom3:
                     return PaletteContentStyle.LabelCustom3;
                 default:
-    // Should never happen!
+                    // Should never happen!
                     Debug.Assert(false);
                     DebugTools.NotImplemented(style.ToString());
                     return PaletteContentStyle.LabelNormalPanel;
@@ -1328,7 +1326,7 @@ namespace Krypton.Toolkit
                 case PaletteTextHint.SystemDefault:
                     return TextRenderingHint.SystemDefault;
                 default:
-    // Should never happen!
+                    // Should never happen!
                     Debug.Assert(false);
                     DebugTools.NotImplemented(hint.ToString());
                     return TextRenderingHint.SystemDefault;
@@ -1357,7 +1355,7 @@ namespace Krypton.Toolkit
                 case SeparatorStyle.Custom3:
                     return PaletteMetricPadding.SeparatorPaddingCustom3;
                 default:
-    // Should never happen!
+                    // Should never happen!
                     Debug.Assert(false);
                     DebugTools.NotImplemented(separatorStyle.ToString());
                     return PaletteMetricPadding.SeparatorPaddingLowProfile;
@@ -1624,13 +1622,15 @@ namespace Krypton.Toolkit
         /// <param name="trgtHeight"></param>
         /// <returns></returns>
         /// <exception >thrown if targets are negative</exception>
-        public static Bitmap ScaleImageForSizedDisplay(Image src, float trgtWidth, float trgtHeight)
+        public static Bitmap? ScaleImageForSizedDisplay(Image? src, float trgtWidth, float trgtHeight)
         {
-            if (trgtWidth <= 0 || trgtHeight <= 0)
+            if (trgtWidth <= 1.0 || trgtHeight <= 1.0)
             {
                 // For some reason, in the designer it can send a rect that has a negative size element,
                 // therefore the targets will also be negative
-                return new Bitmap(0, 0);    // This will throw an exception
+                // Also When collapsing / expanding ribbons the `trgtHeight` will > 0 BUT < 1.0
+                //return new Bitmap(0, 0);    // This will throw an exception
+                return null;
             }
 
             var newImage = new Bitmap((int)trgtWidth, (int)trgtHeight);

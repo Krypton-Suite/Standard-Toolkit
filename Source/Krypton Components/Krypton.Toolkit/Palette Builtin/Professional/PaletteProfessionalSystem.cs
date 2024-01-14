@@ -98,11 +98,11 @@ namespace Krypton.Toolkit
         private static readonly Image _pendantExpandI = ProfessionalPendantImageResources.ProfessionalPendantExpandDisabled;
         private static readonly Image _pendantMinimizeA = ProfessionalPendantImageResources.ProfessionalPendantMinimizeNormal;
         private static readonly Image _pendantMinimizeI = ProfessionalPendantImageResources.ProfessionalPendantMinimizeDisabled;
-        private static readonly Image _contextMenuChecked = GenericProfessionalImageResources.SystemChecked;
-        private static readonly Image _contextMenuIndeterminate = GenericProfessionalImageResources.SystemIndeterminate;
-        private static readonly Image _contextMenuSubMenu = GenericProfessionalImageResources.SystemContextMenuSub;
-        private static readonly Image _treeExpandPlus = TreeItemImageResources.TreeExpandPlus;
-        private static readonly Image _treeCollapseMinus = TreeItemImageResources.TreeCollapseMinus;
+        private static readonly Image? _contextMenuChecked = GenericProfessionalImageResources.SystemChecked;
+        private static readonly Image? _contextMenuIndeterminate = GenericProfessionalImageResources.SystemIndeterminate;
+        private static readonly Image? _contextMenuSubMenu = GenericProfessionalImageResources.SystemContextMenuSub;
+        private static readonly Image? _treeExpandPlus = TreeItemImageResources.TreeExpandPlus;
+        private static readonly Image? _treeCollapseMinus = TreeItemImageResources.TreeCollapseMinus;
 
         #region Toolbar Images
 
@@ -181,8 +181,8 @@ namespace Krypton.Toolkit
 
         #region Instance Fields
         private KryptonProfessionalKCT? _table;
-        private Image _disabledDropDownImage;
-        private Image _normalDropDownImage;
+        private Image? _disabledDropDownImage;
+        private Image? _normalDropDownImage;
         //private Color _disabledDropDownColor;
         //private Color _normalDropDownColor;
         private Color[] _ribbonColors;
@@ -2745,7 +2745,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="expanded">Is the node expanded</param>
         /// <returns>Appropriate image for drawing; otherwise null.</returns>
-        public override Image GetTreeViewImage(bool expanded) => expanded ? _treeCollapseMinus : _treeExpandPlus;
+        public override Image? GetTreeViewImage(bool expanded) => expanded ? _treeCollapseMinus : _treeExpandPlus;
 
         /// <summary>
         /// Gets a check box image appropriate for the provided state.
@@ -2755,7 +2755,7 @@ namespace Krypton.Toolkit
         /// <param name="tracking">Is the check box being hot tracked.</param>
         /// <param name="pressed">Is the check box being pressed.</param>
         /// <returns>Appropriate image for drawing; otherwise null.</returns>
-        public override Image GetCheckBoxImage(bool enabled, CheckState checkState, bool tracking, bool pressed) => null;
+        public override Image? GetCheckBoxImage(bool enabled, CheckState checkState, bool tracking, bool pressed) => null;
 
         /// <summary>
         /// Gets a check box image appropriate for the provided state.
@@ -2765,13 +2765,13 @@ namespace Krypton.Toolkit
         /// <param name="tracking">Is the radio button being hot tracked.</param>
         /// <param name="pressed">Is the radio button being pressed.</param>
         /// <returns>Appropriate image for drawing; otherwise null.</returns>
-        public override Image GetRadioButtonImage(bool enabled, bool checkState, bool tracking, bool pressed) => null;
+        public override Image? GetRadioButtonImage(bool enabled, bool checkState, bool tracking, bool pressed) => null;
 
         /// <summary>
         /// Gets a drop down button image appropriate for the provided state.
         /// </summary>
         /// <param name="state">PaletteState for which image is required.</param>
-        public override Image GetDropDownButtonImage(PaletteState state)
+        public override Image? GetDropDownButtonImage(PaletteState state)
         {
             if (state != PaletteState.Disabled)
             {
@@ -2791,19 +2791,19 @@ namespace Krypton.Toolkit
         /// Gets a checked image appropriate for a context menu item.
         /// </summary>
         /// <returns>Appropriate image for drawing; otherwise null.</returns>
-        public override Image GetContextMenuCheckedImage() => _contextMenuChecked;
+        public override Image? GetContextMenuCheckedImage() => _contextMenuChecked;
 
         /// <summary>
         /// Gets a indeterminate image appropriate for a context menu item.
         /// </summary>
         /// <returns>Appropriate image for drawing; otherwise null.</returns>
-        public override Image GetContextMenuIndeterminateImage() => _contextMenuIndeterminate;
+        public override Image? GetContextMenuIndeterminateImage() => _contextMenuIndeterminate;
 
         /// <summary>
         /// Gets an image indicating a sub-menu on a context menu item.
         /// </summary>
         /// <returns>Appropriate image for drawing; otherwise null.</returns>
-        public override Image GetContextMenuSubMenuImage() => _contextMenuSubMenu;
+        public override Image? GetContextMenuSubMenuImage() => _contextMenuSubMenu;
 
         /// <summary>
         /// Gets a check box image appropriate for the provided state.
@@ -2811,7 +2811,7 @@ namespace Krypton.Toolkit
         /// <param name="button">Enum of the button to fetch.</param>
         /// <param name="state">State of the button to fetch.</param>
         /// <returns>Appropriate image for drawing; otherwise null.</returns>
-        public override Image GetGalleryButtonImage(PaletteRibbonGalleryButton button, PaletteState state) => button switch
+        public override Image? GetGalleryButtonImage(PaletteRibbonGalleryButton button, PaletteState state) => button switch
         {
             PaletteRibbonGalleryButton.Down => _galleryImageDown ??= CreateGalleryDownImage(SystemColors.ControlText),
             PaletteRibbonGalleryButton.DropDown => _galleryImageDropDown ??= CreateGalleryDropDownImage(SystemColors.ControlText),
@@ -4222,10 +4222,10 @@ namespace Krypton.Toolkit
             _appButtonPressed = [highlight1, pressed4, ColorTable.CheckPressedBackground, highlight2, pressed4];
         }
 
-        private Image CreateDropDownImage(Color color)
+        private Image? CreateDropDownImage(Color color)
         {
             // Create image that has an alpha channel
-            Image image = new Bitmap(9, 9, PixelFormat.Format32bppArgb);
+            Image? image = new Bitmap(9, 9, PixelFormat.Format32bppArgb);
 
             // Use a graphics instance for drawing the image
             using Graphics g = Graphics.FromImage(image);

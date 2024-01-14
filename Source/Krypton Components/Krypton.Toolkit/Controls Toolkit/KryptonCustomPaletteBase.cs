@@ -15,8 +15,6 @@ using System.Xml.Xsl;
 
 using Krypton.Toolkit.Properties;
 
-using static System.Windows.Forms.AxHost;
-
 
 namespace Krypton.Toolkit
 {
@@ -1292,7 +1290,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="expanded">Is the node expanded</param>
         /// <returns>Appropriate image for drawing; otherwise null.</returns>
-        public override Image GetTreeViewImage(bool expanded) =>
+        public override Image? GetTreeViewImage(bool expanded) =>
             // Not found, then inherit from target
             (expanded ? Images.TreeView.Minus : Images.TreeView.Plus) ?? _redirector.GetTreeViewImage(expanded);
 
@@ -1304,9 +1302,9 @@ namespace Krypton.Toolkit
         /// <param name="tracking">Is the check box being hot tracked.</param>
         /// <param name="pressed">Is the check box being pressed.</param>
         /// <returns>Appropriate image for drawing; otherwise null.</returns>
-        public override Image GetCheckBoxImage(bool enabled, CheckState checkState, bool tracking, bool pressed)
+        public override Image? GetCheckBoxImage(bool enabled, CheckState checkState, bool tracking, bool pressed)
         {
-            Image retImage = null;
+            Image? retImage = null;
 
             // Get the state specific image
             switch (checkState)
@@ -1385,9 +1383,9 @@ namespace Krypton.Toolkit
         /// <param name="tracking">Is the radio button being hot tracked.</param>
         /// <param name="pressed">Is the radio button being pressed.</param>
         /// <returns>Appropriate image for drawing; otherwise null.</returns>
-        public override Image GetRadioButtonImage(bool enabled, bool checkState, bool tracking, bool pressed)
+        public override Image? GetRadioButtonImage(bool enabled, bool checkState, bool tracking, bool pressed)
         {
-            Image retImage;
+            Image? retImage;
 
             // Get the state specific image
             if (!checkState)
@@ -1440,10 +1438,10 @@ namespace Krypton.Toolkit
         /// Gets a drop down button image appropriate for the provided state.
         /// </summary>
         /// <param name="state">PaletteState for which image is required.</param>
-        public override Image GetDropDownButtonImage(PaletteState state)
+        public override Image? GetDropDownButtonImage(PaletteState state)
         {
             // Grab state specific image
-            Image retImage = state switch
+            Image? retImage = state switch
             {
                 PaletteState.Disabled => Images.DropDownButton.Disabled,
                 PaletteState.Normal => Images.DropDownButton.Normal,
@@ -1463,9 +1461,9 @@ namespace Krypton.Toolkit
         /// Gets a checked image appropriate for a context menu item.
         /// </summary>
         /// <returns>Appropriate image for drawing; otherwise null.</returns>
-        public override Image GetContextMenuCheckedImage()
+        public override Image? GetContextMenuCheckedImage()
         {
-            Image retImage = Images.ContextMenu.Checked;
+            Image? retImage = Images.ContextMenu.Checked;
 
             // If nothing found then use the base palette
             return retImage ?? _redirector.GetContextMenuCheckedImage();
@@ -1475,9 +1473,9 @@ namespace Krypton.Toolkit
         /// Gets a indeterminate image appropriate for a context menu item.
         /// </summary>
         /// <returns>Appropriate image for drawing; otherwise null.</returns>
-        public override Image GetContextMenuIndeterminateImage()
+        public override Image? GetContextMenuIndeterminateImage()
         {
-            Image retImage = Images.ContextMenu.Indeterminate;
+            Image? retImage = Images.ContextMenu.Indeterminate;
 
             // If nothing found then use the base palette
             return retImage ?? _redirector.GetContextMenuIndeterminateImage();
@@ -1487,9 +1485,9 @@ namespace Krypton.Toolkit
         /// Gets an image indicating a sub-menu on a context menu item.
         /// </summary>
         /// <returns>Appropriate image for drawing; otherwise null.</returns>
-        public override Image GetContextMenuSubMenuImage()
+        public override Image? GetContextMenuSubMenuImage()
         {
-            Image retImage = Images.ContextMenu.SubMenu;
+            Image? retImage = Images.ContextMenu.SubMenu;
 
             // If nothing found then use the base palette
             return retImage ?? _redirector.GetContextMenuSubMenuImage();
@@ -1501,9 +1499,9 @@ namespace Krypton.Toolkit
         /// <param name="button">Enum of the button to fetch.</param>
         /// <param name="state">State of the button to fetch.</param>
         /// <returns>Appropriate image for drawing; otherwise null.</returns>
-        public override Image GetGalleryButtonImage(PaletteRibbonGalleryButton button, PaletteState state)
+        public override Image? GetGalleryButtonImage(PaletteRibbonGalleryButton button, PaletteState state)
         {
-            Image retImage = null;
+            Image? retImage = null;
             KryptonPaletteImagesGalleryButton images = button switch
             {
                 PaletteRibbonGalleryButton.Up => Images.GalleryButtons.Up,
@@ -3852,7 +3850,7 @@ namespace Krypton.Toolkit
                         case PaletteState.FocusOverride:
                             return TrackBar.OverrideFocus.Tick;
                         default:
-    // Should never happen!
+                            // Should never happen!
                             Debug.Assert(false);
                             throw DebugTools.NotImplemented(state.ToString());
                     }
@@ -3867,7 +3865,7 @@ namespace Krypton.Toolkit
                         case PaletteState.FocusOverride:
                             return TrackBar.OverrideFocus.Track;
                         default:
-    // Should never happen!
+                            // Should never happen!
                             Debug.Assert(false);
                             throw DebugTools.NotImplemented(state.ToString());
                     }
@@ -3886,13 +3884,13 @@ namespace Krypton.Toolkit
                         case PaletteState.FocusOverride:
                             return TrackBar.OverrideFocus.Position;
                         default:
-    // Should never happen!
+                            // Should never happen!
                             Debug.Assert(false);
                             throw DebugTools.NotImplemented(state.ToString());
                     }
 
                 default:
-    // Should never happen!
+                    // Should never happen!
                     Debug.Assert(false);
                     throw DebugTools.NotImplemented(element.ToString());
             }
@@ -3941,7 +3939,7 @@ namespace Krypton.Toolkit
                 case PaletteRibbonBackStyle.RibbonGalleryBorder:
                     return Ribbon.RibbonGalleryBorder;
                 default:
-    // Should never happen!
+                    // Should never happen!
                     Debug.Assert(false);
                     throw DebugTools.NotImplemented(style.ToString());
             }
@@ -3972,7 +3970,7 @@ namespace Krypton.Toolkit
                 case PaletteState.FocusOverride:
                     return ribbonTab.OverrideFocus;
                 default:
-    // Should never happen!
+                    // Should never happen!
                     Debug.Assert(false);
                     throw DebugTools.NotImplemented(state.ToString());
             }
@@ -3990,7 +3988,7 @@ namespace Krypton.Toolkit
                 case PaletteState.Pressed:
                     return ribbonAppButton.StatePressed;
                 default:
-    // Should never happen!
+                    // Should never happen!
                     Debug.Assert(false);
                     throw DebugTools.NotImplemented(state.ToString());
             }
@@ -4015,7 +4013,7 @@ namespace Krypton.Toolkit
                 case PaletteState.ContextTracking:
                     return ribbonGroupArea.StateContextTracking;
                 default:
-    // Should never happen!
+                    // Should never happen!
                     Debug.Assert(false);
                     throw DebugTools.NotImplemented(state.ToString());
             }
@@ -4035,7 +4033,7 @@ namespace Krypton.Toolkit
                 case PaletteState.ContextTracking:
                     return ribbonGroupNormalBorder.StateContextTracking;
                 default:
-    // Should never happen!
+                    // Should never happen!
                     Debug.Assert(false);
                     throw DebugTools.NotImplemented(state.ToString());
             }
@@ -4055,7 +4053,7 @@ namespace Krypton.Toolkit
                 case PaletteState.ContextTracking:
                     return ribbonGroupNormalTitle.StateContextTracking;
                 default:
-    // Should never happen!
+                    // Should never happen!
                     Debug.Assert(false);
                     throw DebugTools.NotImplemented(state.ToString());
             }
@@ -4077,7 +4075,7 @@ namespace Krypton.Toolkit
                 case PaletteState.ContextPressed:
                     return ribbonGroupCollapsedBorder.StateContextTracking;
                 default:
-    // Should never happen!
+                    // Should never happen!
                     Debug.Assert(false);
                     throw DebugTools.NotImplemented(state.ToString());
             }
@@ -4099,7 +4097,7 @@ namespace Krypton.Toolkit
                 case PaletteState.ContextPressed:
                     return ribbonGroupCollapsedBack.StateContextTracking;
                 default:
-    // Should never happen!
+                    // Should never happen!
                     Debug.Assert(false);
                     throw DebugTools.NotImplemented(state.ToString());
             }
@@ -4121,7 +4119,7 @@ namespace Krypton.Toolkit
                 case PaletteState.ContextPressed:
                     return ribbonGroupCollapsedFrameBorder.StateContextTracking;
                 default:
-    // Should never happen!
+                    // Should never happen!
                     Debug.Assert(false);
                     throw DebugTools.NotImplemented(state.ToString());
             }
@@ -4143,7 +4141,7 @@ namespace Krypton.Toolkit
                 case PaletteState.ContextPressed:
                     return ribbonGroupCollapsedFrameBack.StateContextTracking;
                 default:
-    // Should never happen!
+                    // Should never happen!
                     Debug.Assert(false);
                     throw DebugTools.NotImplemented(state.ToString());
             }
@@ -4160,7 +4158,7 @@ namespace Krypton.Toolkit
                 case PaletteState.Disabled:
                     return ribbonQATMinibar.StateInactive;
                 default:
-    // Should never happen!
+                    // Should never happen!
                     Debug.Assert(false);
                     throw DebugTools.NotImplemented(state.ToString());
             }
@@ -4190,7 +4188,7 @@ namespace Krypton.Toolkit
                 case PaletteRibbonTextStyle.RibbonTab:
                     return GetPaletteRibbonText(Ribbon.RibbonTab, state);
                 default:
-    // Should never happen!
+                    // Should never happen!
                     Debug.Assert(false);
                     throw DebugTools.NotImplemented(state.ToString());
             }
@@ -4218,7 +4216,7 @@ namespace Krypton.Toolkit
                 case PaletteState.FocusOverride:
                     return ribbonTab.OverrideFocus;
                 default:
-    // Should never happen!
+                    // Should never happen!
                     Debug.Assert(false);
                     throw DebugTools.NotImplemented(state.ToString());
             }
@@ -4234,7 +4232,7 @@ namespace Krypton.Toolkit
                 case PaletteState.Tracking:
                     return ribbonGroupNormalTitle.StateTracking;
                 default:
-    // Should never happen!
+                    // Should never happen!
                     Debug.Assert(false);
                     throw DebugTools.NotImplemented(state.ToString());
             }
@@ -4250,7 +4248,7 @@ namespace Krypton.Toolkit
                 case PaletteState.Tracking:
                     return ribbonGroupCollapsedText.StateTracking;
                 default:
-    // Should never happen!
+                    // Should never happen!
                     Debug.Assert(false);
                     throw DebugTools.NotImplemented(state.ToString());
             }
@@ -4266,7 +4264,7 @@ namespace Krypton.Toolkit
                 case PaletteState.Disabled:
                     return ribbonGroupButtonText.StateDisabled;
                 default:
-    // Should never happen!
+                    // Should never happen!
                     Debug.Assert(false);
                     throw DebugTools.NotImplemented(state.ToString());
             }
@@ -4325,7 +4323,7 @@ namespace Krypton.Toolkit
                 case PaletteButtonSpecStyle.RibbonExpand:
                     return ButtonSpecs.RibbonExpand;
                 default:
-    // Should never happen!
+                    // Should never happen!
                     Debug.Assert(false);
                     throw DebugTools.NotImplemented(style.ToString());
             }
@@ -4529,7 +4527,7 @@ namespace Krypton.Toolkit
                 case PaletteBackStyle.ContextMenuSeparator:
                     return ContextMenu.StateCommon.Separator.Back;
                 default:
-    // Should never happen!
+                    // Should never happen!
                     Debug.Assert(false);
                     throw DebugTools.NotImplemented(style.ToString());
             }
@@ -4711,7 +4709,7 @@ namespace Krypton.Toolkit
                 case PaletteBorderStyle.ContextMenuSeparator:
                     return ContextMenu.StateCommon.Separator.Border;
                 default:
-    // Should never happen!
+                    // Should never happen!
                     throw DebugTools.NotImplemented(style.ToString());
             }
         }
@@ -4878,7 +4876,7 @@ namespace Krypton.Toolkit
                 case PaletteContentStyle.ContextMenuItemTextStandard:
                     return GetPaletteContentContextMenuItemTextStandard(state);
                 default:
-    // Should never happen!
+                    // Should never happen!
                     Debug.Assert(false);
                     throw DebugTools.NotImplemented(style.ToString());
             }
@@ -4993,7 +4991,7 @@ namespace Krypton.Toolkit
                 case PaletteState.CheckedPressed:
                     return button.StateCheckedPressed;
                 default:
-    // Should never happen!
+                    // Should never happen!
                     Debug.Assert(false);
                     throw DebugTools.NotImplemented(state.ToString());
             }
@@ -5103,7 +5101,7 @@ namespace Krypton.Toolkit
                 case PaletteState.CheckedPressed:
                     return button.StateCheckedPressed;
                 default:
-    // Should never happen!
+                    // Should never happen!
                     Debug.Assert(false);
                     throw DebugTools.NotImplemented(state.ToString());
             }
@@ -5126,7 +5124,7 @@ namespace Krypton.Toolkit
                 case PaletteState.ContextPressed:
                     return inputControl.StateContextPressed;
                 default:
-    // Should never happen!
+                    // Should never happen!
                     Debug.Assert(false);
                     throw DebugTools.NotImplemented(state.ToString());
             }
@@ -5221,7 +5219,7 @@ namespace Krypton.Toolkit
                 case PaletteState.CheckedPressed:
                     return button.StateSelected;
                 default:
-    // Should never happen!
+                    // Should never happen!
                     Debug.Assert(false);
                     throw DebugTools.NotImplemented(state.ToString());
             }
@@ -5272,7 +5270,7 @@ namespace Krypton.Toolkit
                 case PaletteState.Pressed:
                     return separator.StatePressed;
                 default:
-    // Should never happen!
+                    // Should never happen!
                     Debug.Assert(false);
                     throw DebugTools.NotImplemented(state.ToString());
             }
@@ -5301,7 +5299,7 @@ namespace Krypton.Toolkit
                 case PaletteState.Normal:
                     return control.StateNormal;
                 default:
-    // Should never happen!
+                    // Should never happen!
                     Debug.Assert(false);
                     throw DebugTools.NotImplemented(state.ToString());
             }
@@ -5323,7 +5321,7 @@ namespace Krypton.Toolkit
                 case PaletteState.Normal:
                     return grid.StateNormal.Background;
                 default:
-    // Should never happen!
+                    // Should never happen!
                     Debug.Assert(false);
                     throw DebugTools.NotImplemented(state.ToString());
             }
@@ -5344,7 +5342,7 @@ namespace Krypton.Toolkit
                 case PaletteState.CheckedNormal:
                     return grid.StateSelected.HeaderColumn.Back;
                 default:
-    // Should never happen!
+                    // Should never happen!
                     Debug.Assert(false);
                     throw DebugTools.NotImplemented(state.ToString());
             }
@@ -5365,7 +5363,7 @@ namespace Krypton.Toolkit
                 case PaletteState.CheckedNormal:
                     return grid.StateSelected.HeaderRow.Back;
                 default:
-    // Should never happen!
+                    // Should never happen!
                     Debug.Assert(false);
                     throw DebugTools.NotImplemented(state.ToString());
             }
@@ -5382,7 +5380,7 @@ namespace Krypton.Toolkit
                 case PaletteState.CheckedNormal:
                     return grid.StateSelected.DataCell.Back;
                 default:
-    // Should never happen!
+                    // Should never happen!
                     Debug.Assert(false);
                     throw DebugTools.NotImplemented(state.ToString());
             }
@@ -5403,7 +5401,7 @@ namespace Krypton.Toolkit
                 case PaletteState.CheckedNormal:
                     return grid.StateSelected.HeaderColumn.Border;
                 default:
-    // Should never happen!
+                    // Should never happen!
                     Debug.Assert(false);
                     throw DebugTools.NotImplemented(state.ToString());
             }
@@ -5424,7 +5422,7 @@ namespace Krypton.Toolkit
                 case PaletteState.CheckedNormal:
                     return grid.StateSelected.HeaderRow.Border;
                 default:
-    // Should never happen!
+                    // Should never happen!
                     Debug.Assert(false);
                     throw DebugTools.NotImplemented(state.ToString());
             }
@@ -5441,7 +5439,7 @@ namespace Krypton.Toolkit
                 case PaletteState.CheckedNormal:
                     return grid.StateSelected.DataCell.Border;
                 default:
-    // Should never happen!
+                    // Should never happen!
                     Debug.Assert(false);
                     throw DebugTools.NotImplemented(state.ToString());
             }
@@ -5463,7 +5461,7 @@ namespace Krypton.Toolkit
                 case PaletteState.CheckedNormal:
                     return grid.StateSelected.HeaderColumn.Content;
                 default:
-    // Should never happen!
+                    // Should never happen!
                     Debug.Assert(false);
                     throw DebugTools.NotImplemented(state.ToString());
             }
@@ -5484,7 +5482,7 @@ namespace Krypton.Toolkit
                 case PaletteState.CheckedNormal:
                     return grid.StateSelected.HeaderRow.Content;
                 default:
-    // Should never happen!
+                    // Should never happen!
                     Debug.Assert(false);
                     throw DebugTools.NotImplemented(state.ToString());
             }
@@ -5501,7 +5499,7 @@ namespace Krypton.Toolkit
                 case PaletteState.CheckedNormal:
                     return grid.StateSelected.DataCell.Content;
                 default:
-    // Should never happen!
+                    // Should never happen!
                     Debug.Assert(false);
                     throw DebugTools.NotImplemented(state.ToString());
             }
@@ -5523,7 +5521,7 @@ namespace Krypton.Toolkit
                 case PaletteState.Normal:
                     return form.StateActive;
                 default:
-    // Should never happen!
+                    // Should never happen!
                     Debug.Assert(false);
                     throw DebugTools.NotImplemented(state.ToString());
             }
@@ -5559,7 +5557,7 @@ namespace Krypton.Toolkit
                 case PaletteState.Normal:
                     return header.StateNormal;
                 default:
-    // Should never happen!
+                    // Should never happen!
                     Debug.Assert(false);
                     throw DebugTools.NotImplemented(state.ToString());
             }
@@ -5574,7 +5572,7 @@ namespace Krypton.Toolkit
                 case PaletteState.Normal:
                     return panel.StateNormal;
                 default:
-    // Should never happen!
+                    // Should never happen!
                     Debug.Assert(false);
                     throw DebugTools.NotImplemented(state.ToString());
             }
@@ -5599,7 +5597,7 @@ namespace Krypton.Toolkit
                 case PaletteState.LinkPressedOverride:
                     return label.OverridePressed;
                 default:
-    // Should never happen!
+                    // Should never happen!
                     Debug.Assert(false);
                     throw DebugTools.NotImplemented(state.ToString());
             }
@@ -5616,7 +5614,7 @@ namespace Krypton.Toolkit
                 case PaletteState.Tracking:
                     return ContextMenu.StateHighlight.ItemSplit.Back;
                 default:
-    // Should never happen!
+                    // Should never happen!
                     Debug.Assert(false);
                     throw DebugTools.NotImplemented(state.ToString());
             }
@@ -5633,7 +5631,7 @@ namespace Krypton.Toolkit
                 case PaletteState.Tracking:
                     return ContextMenu.StateHighlight.ItemHighlight.Back;
                 default:
-    // Should never happen!
+                    // Should never happen!
                     Debug.Assert(false);
                     throw DebugTools.NotImplemented(state.ToString());
             }
@@ -5650,7 +5648,7 @@ namespace Krypton.Toolkit
                 case PaletteState.CheckedNormal:
                     return ContextMenu.StateChecked.ItemImage.Back;
                 default:
-    // Should never happen!
+                    // Should never happen!
                     Debug.Assert(false);
                     throw DebugTools.NotImplemented(state.ToString());
             }
@@ -5667,7 +5665,7 @@ namespace Krypton.Toolkit
                 case PaletteState.Tracking:
                     return ContextMenu.StateHighlight.ItemHighlight.Border;
                 default:
-    // Should never happen!
+                    // Should never happen!
                     Debug.Assert(false);
                     throw DebugTools.NotImplemented(state.ToString());
             }
@@ -5684,7 +5682,7 @@ namespace Krypton.Toolkit
                 case PaletteState.Tracking:
                     return ContextMenu.StateHighlight.ItemSplit.Border;
                 default:
-    // Should never happen!
+                    // Should never happen!
                     Debug.Assert(false);
                     throw DebugTools.NotImplemented(state.ToString());
             }
@@ -5701,7 +5699,7 @@ namespace Krypton.Toolkit
                 case PaletteState.CheckedNormal:
                     return ContextMenu.StateChecked.ItemImage.Border;
                 default:
-    // Should never happen!
+                    // Should never happen!
                     Debug.Assert(false);
                     throw DebugTools.NotImplemented(state.ToString());
             }
@@ -5718,7 +5716,7 @@ namespace Krypton.Toolkit
                 case PaletteState.CheckedNormal:
                     return ContextMenu.StateChecked.ItemImage.Content;
                 default:
-    // Should never happen!
+                    // Should never happen!
                     Debug.Assert(false);
                     throw DebugTools.NotImplemented(state.ToString());
             }
@@ -5733,7 +5731,7 @@ namespace Krypton.Toolkit
                 case PaletteState.Normal:
                     return ContextMenu.StateNormal.ItemShortcutText;
                 default:
-    // Should never happen!
+                    // Should never happen!
                     Debug.Assert(false);
                     throw DebugTools.NotImplemented(state.ToString());
             }
@@ -5748,7 +5746,7 @@ namespace Krypton.Toolkit
                 case PaletteState.Normal:
                     return ContextMenu.StateNormal.ItemTextAlternate;
                 default:
-    // Should never happen!
+                    // Should never happen!
                     Debug.Assert(false);
                     throw DebugTools.NotImplemented(state.ToString());
             }
@@ -5763,7 +5761,7 @@ namespace Krypton.Toolkit
                 case PaletteState.Normal:
                     return ContextMenu.StateNormal.ItemTextStandard;
                 default:
-    // Should never happen!
+                    // Should never happen!
                     Debug.Assert(false);
                     throw DebugTools.NotImplemented(state.ToString());
             }

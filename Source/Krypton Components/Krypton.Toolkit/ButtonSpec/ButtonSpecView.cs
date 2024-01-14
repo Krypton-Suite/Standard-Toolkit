@@ -134,15 +134,6 @@ namespace Krypton.Toolkit
         public PaletteRedirect RemapPalette { get; }
 
         /// <summary>
-        /// Gets and sets the composition setting for the button.
-        /// </summary>
-        public bool DrawButtonSpecOnComposition
-        {
-            get => ViewButton.DrawButtonComposition;
-            set => ViewButton.DrawButtonComposition = value;
-        }
-
-        /// <summary>
         /// Requests a repaint and optional layout be performed.
         /// </summary>
         /// <param name="needLayout">Does the palette change require a layout.</param>
@@ -331,7 +322,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">The state for which the image is needed.</param>
         /// <returns>Image value.</returns>
-        public Image GetImage(PaletteState state)
+        public Image? GetImage(PaletteState state)
         {
             // Get value from button spec passing inheritance redirector
             var baseImage = ButtonSpec.GetImage(_redirector, state);

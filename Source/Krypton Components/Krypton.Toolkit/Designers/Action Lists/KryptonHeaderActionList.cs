@@ -107,7 +107,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the header image.
         /// </summary>
-        public Image Image
+        public Image? Image
         {
             get => _header.Values.Image;
 

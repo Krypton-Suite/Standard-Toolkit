@@ -2271,7 +2271,7 @@ namespace Krypton.Toolkit
                             // Do we draw any plus/minus images in indent bounds?
                             if (ShowPlusMinus && (e.Node.Nodes.Count > 0))
                             {
-                                Image drawImage = _redirectImages!.GetTreeViewImage(e.Node.IsExpanded);
+                                Image? drawImage = _redirectImages!.GetTreeViewImage(e.Node.IsExpanded);
                                 if (drawImage != null)
                                 {
                                     g.DrawImage(drawImage, new Rectangle(indentBounds.X + ((indentBounds.Width - drawImage.Width) / 2) - 1,

@@ -16,10 +16,10 @@ namespace Krypton.Toolkit
     {
         //private static readonly string _themeName;
 
-        public PaletteOffice2007LightGray(string themeName, Color[] schemeColors, ImageList checkBoxList, ImageList galleryButtonList, Image[] radioButtonArray, Color[] trackBarColors) : base(themeName, schemeColors, checkBoxList, galleryButtonList, radioButtonArray, trackBarColors)
+        public PaletteOffice2007LightGray(string themeName, Color[] schemeColors, ImageList checkBoxList, ImageList galleryButtonList, Image?[] radioButtonArray, Color[] trackBarColors) : base(themeName, schemeColors, checkBoxList, galleryButtonList, radioButtonArray, trackBarColors)
         {
         }
 
-        public override Image GetContextMenuSubMenuImage() => throw new NotImplementedException();
+        public override Image? GetContextMenuSubMenuImage() => throw new NotImplementedException();
     }
 }

@@ -56,12 +56,12 @@ namespace Krypton.Toolkit
         /// <param name="tracking">Is the check box being hot tracked.</param>
         /// <param name="pressed">Is the check box being pressed.</param>
         /// <returns>Appropriate image for drawing; otherwise null.</returns>
-        public override Image GetCheckBoxImage(bool enabled, 
+        public override Image? GetCheckBoxImage(bool enabled, 
                                                CheckState checkState, 
                                                bool tracking, 
                                                bool pressed)
         {
-            Image retImage;
+            Image? retImage;
 
             // Get the state specific image
             switch (checkState)

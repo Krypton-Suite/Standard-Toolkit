@@ -163,7 +163,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resolves the correct image to use from the menu item.
         /// </summary>
-        public Image ResolveImage => _cachedCommand != null ? _cachedCommand.ImageSmall : KryptonContextMenuCheckButton.Image;
+        public Image? ResolveImage => _cachedCommand != null ? _cachedCommand.ImageSmall : KryptonContextMenuCheckButton.Image;
 
         #endregion
 

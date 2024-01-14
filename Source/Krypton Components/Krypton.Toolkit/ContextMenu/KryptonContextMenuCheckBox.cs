@@ -31,7 +31,7 @@ namespace Krypton.Toolkit
         private bool _enabled;
         private string _text;
         private string? _extraText;
-        private Image _image;
+        private Image? _image;
         private Color _imageTransparentColor;
         private CheckState _checkState;
         private readonly PaletteContentInheritRedirect _stateCommonRedirect;
@@ -230,7 +230,7 @@ namespace Krypton.Toolkit
         [Description(@"Check box image.")]
         [DefaultValue(null)]
         [Localizable(true)]
-        public Image Image
+        public Image? Image
         {
             get => _image;
 

@@ -60,7 +60,7 @@ namespace Krypton.Toolkit
         /// <param name="xmlWriter">Xml writer to save information into.</param>
         /// <param name="name">Name of image to save.</param>
         /// <param name="image">Image to persist.</param>
-        public static void ImageToXmlCData(XmlWriter xmlWriter, string name, Bitmap image)
+        public static void ImageToXmlCData(XmlWriter xmlWriter, string name, Bitmap? image)
         {
             // Only store if we have an actual image to persist
             if (image != null)
@@ -83,7 +83,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="xmlReader">Xml reader to load information from.</param>
         /// <returns>Image that was recreated.</returns>
-        public static Bitmap XmlCDataToImage(XmlReader xmlReader)
+        public static Bitmap? XmlCDataToImage(XmlReader xmlReader)
         {
             // Convert the content of the element into base64
             var bytes = Convert.FromBase64String(xmlReader.ReadContentAsString());

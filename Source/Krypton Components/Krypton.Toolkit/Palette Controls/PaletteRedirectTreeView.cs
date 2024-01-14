@@ -59,9 +59,9 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="expanded">Is the node expanded</param>
         /// <returns>Appropriate image for drawing; otherwise null.</returns>
-        public override Image GetTreeViewImage(bool expanded)
+        public override Image? GetTreeViewImage(bool expanded)
         {
-            Image retImage = (expanded ? _plusMinusImages.Minus : _plusMinusImages.Plus) ?? Target.GetTreeViewImage(expanded);
+            Image? retImage = (expanded ? _plusMinusImages.Minus : _plusMinusImages.Plus) ?? Target.GetTreeViewImage(expanded);
 
             // Not found, then inherit from target
 
@@ -76,12 +76,12 @@ namespace Krypton.Toolkit
         /// <param name="tracking">Is the check box being hot tracked.</param>
         /// <param name="pressed">Is the check box being pressed.</param>
         /// <returns>Appropriate image for drawing; otherwise null.</returns>
-        public override Image GetCheckBoxImage(bool enabled,
+        public override Image? GetCheckBoxImage(bool enabled,
                                                CheckState checkState,
                                                bool tracking,
                                                bool pressed)
         {
-            Image retImage;
+            Image? retImage;
 
             // Get the state specific image
             switch (checkState)

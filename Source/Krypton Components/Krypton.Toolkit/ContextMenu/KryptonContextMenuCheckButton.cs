@@ -30,7 +30,7 @@ namespace Krypton.Toolkit
         private bool _enabled;
         private string _text;
         private string _extraText;
-        private Image _image;
+        private Image? _image;
         private Color _imageTransparentColor;
         private ButtonStyle _style;
         private KryptonCommand? _command;
@@ -223,7 +223,7 @@ namespace Krypton.Toolkit
         [Description(@"Check box image.")]
         [DefaultValue(null)]
         [Localizable(true)]
-        public Image Image
+        public Image? Image
         {
             get => _image;
 

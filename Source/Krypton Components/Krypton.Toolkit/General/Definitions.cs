@@ -27,7 +27,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">The state for which the image is needed.</param>
         /// <returns>Image value.</returns>
-        Image GetImage(PaletteState state);
+        Image? GetImage(PaletteState state);
 
         /// <summary>
         /// Gets the image color that should be transparent.
@@ -67,7 +67,7 @@ namespace Krypton.Toolkit
         /// <param name="palette">Palette to use for inheriting values.</param>
         /// <param name="state">State for which an image is needed.</param>
         /// <returns>Button image.</returns>
-        Image GetImage(PaletteBase? palette, PaletteState state);
+        Image? GetImage(PaletteBase? palette, PaletteState state);
 
         /// <summary>
         /// Gets the button image transparent color.
@@ -464,12 +464,12 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the command small image.
         /// </summary>
-        Image ImageSmall { get; set; }
+        Image? ImageSmall { get; set; }
 
         /// <summary>
         /// Gets and sets the command large image.
         /// </summary>
-        Image ImageLarge { get; set; }
+        Image? ImageLarge { get; set; }
 
         /// <summary>
         /// Gets and sets the command image transparent color.
@@ -727,43 +727,9 @@ namespace Krypton.Toolkit
     }
     #endregion
 
-    #region IKryptonComposition
-    /// <summary>
-    /// Exposes interface for visual form to cooperate with a view for composition.
-    /// </summary>
-    public interface IKryptonComposition
-    {
-        /// <summary>
-        /// Gets the pixel height of the composition extension into the client area.
-        /// </summary>
-        int CompHeight { get; }
-
-        /// <summary>
-        /// Should painting be performed for the selection glyph.
-        /// </summary>
-        bool CompVisible { get; set; }
-
-        /// <summary>
-        /// Gets and sets the form that owns the composition.
-        /// </summary>
-        VisualForm CompOwnerForm { get; set; }
-
-        /// <summary>
-        /// Request a repaint and optional layout.
-        /// </summary>
-        /// <param name="needLayout">Is a layout required.</param>
-        void CompNeedPaint(bool needLayout);
-
-        /// <summary>
-        /// Gets the handle of the composition element control.
-        /// </summary>
-        IntPtr CompHandle { get; }
-    }
-    #endregion
-
     #region IKryptonDesignObject
     /// <summary>
-    /// Exposes interface for visual form to cooperate with a view for composition.
+    /// Exposes interface for visual form to cooperate with a view for Designers.
     /// </summary>
     public interface IKryptonDesignObject
     {

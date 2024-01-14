@@ -71,7 +71,7 @@ namespace Krypton.Toolkit
             PaletteContextMenuItemState menuItemState = ItemEnabled ? KryptonContextMenuItem.StateNormal : KryptonContextMenuItem.StateDisabled;
 
             // Calculate the image to show inside in the image column
-            Image itemColumnImage = ResolveImage;
+            Image? itemColumnImage = ResolveImage;
             Color itemImageTransparent = ResolveImageTransparentColor;
 
             // If no image found then...
@@ -247,7 +247,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Resolves the correct image to use from the menu item.
         /// </summary>
-        public Image ResolveImage
+        public Image? ResolveImage
         {
             get
             {
@@ -503,7 +503,7 @@ namespace Krypton.Toolkit
             // If we have image display
             if (_fixedImage != null)
             {
-                Image itemColumnImage = ResolveImage;
+                Image? itemColumnImage = ResolveImage;
                 Color itemImageTransparent = ResolveImageTransparentColor;
 
                 // If no image found then...
