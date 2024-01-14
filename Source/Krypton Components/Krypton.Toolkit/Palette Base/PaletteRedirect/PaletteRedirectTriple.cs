@@ -1123,7 +1123,7 @@ namespace Krypton.Toolkit
                 case PaletteState.ContextTracking:
                     return _contextTracking;
                 default:
-    // Should never happen!
+                    // Should never happen!
                     Debug.Assert(false);
                     throw DebugTools.NotImplemented(state.ToString());
             }

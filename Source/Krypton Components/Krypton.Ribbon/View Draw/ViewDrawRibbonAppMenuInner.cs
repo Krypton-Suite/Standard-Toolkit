@@ -67,7 +67,7 @@ namespace Krypton.Ribbon
             // Draw the application menu outer background
             _memento = context.Renderer.RenderRibbon.DrawRibbonBack(_ribbon.RibbonShape, context, ClientRectangle, State,
                                                                     _ribbon.StateCommon.RibbonAppMenuInner,
-                                                                    VisualOrientation.Top, false, _memento);
+                                                                    VisualOrientation.Top, _memento);
         #endregion
     }
 }

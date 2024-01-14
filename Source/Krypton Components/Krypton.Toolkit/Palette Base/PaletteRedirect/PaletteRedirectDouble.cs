@@ -516,7 +516,7 @@ namespace Krypton.Toolkit
                 case PaletteState.NormalDefaultOverride:
                     return _normalDefaultOverride;
                 default:
-    // Should never happen!
+                    // Should never happen!
                     Debug.Assert(false);
                     throw DebugTools.NotImplemented(state.ToString());
             }

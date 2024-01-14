@@ -227,11 +227,8 @@ namespace Krypton.Ribbon
                 palette = _ribbon.StateCommon.RibbonQATFullbar;
             }
 
-            // Decide if we need to draw onto a composition area
-            var composition = OwnerForm is { ApplyComposition: true };
-
             // Perform actual drawing
-            _memento = context.Renderer.RenderRibbon.DrawRibbonBack(_ribbon.RibbonShape, context, drawRect, state, palette, VisualOrientation.Top, composition, _memento);
+            _memento = context.Renderer.RenderRibbon.DrawRibbonBack(_ribbon.RibbonShape, context, drawRect, state, palette, VisualOrientation.Top, _memento);
         }
         #endregion
 

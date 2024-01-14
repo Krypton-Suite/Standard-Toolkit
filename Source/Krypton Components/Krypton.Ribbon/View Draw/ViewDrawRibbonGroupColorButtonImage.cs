@@ -25,7 +25,7 @@ namespace Krypton.Ribbon
         private readonly Size _largeSize;//new Size(32, 32);
         private readonly KryptonRibbonGroupColorButton _ribbonColorButton;
         private readonly bool _large;
-        private Image _compositeImage;
+        private Image? _compositeImage;
         private Color _selectedColor;
         private Color _emptyBorderColor;
         private Rectangle _selectedRectSmall;
@@ -96,11 +96,11 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets the image to be drawn.
         /// </summary>
-        protected override Image DrawImage
+        protected override Image? DrawImage
         {
             get
             {
-                Image newImage;
+                Image? newImage;
                 if (_ribbonColorButton.KryptonCommand != null)
                 {
                     newImage = _large ? _ribbonColorButton.KryptonCommand.ImageLarge : _ribbonColorButton.KryptonCommand.ImageSmall;

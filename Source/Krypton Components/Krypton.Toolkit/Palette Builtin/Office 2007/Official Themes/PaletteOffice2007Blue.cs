@@ -20,8 +20,8 @@ namespace Krypton.Toolkit
         #region Static Fields
         private static readonly ImageList _checkBoxList;
         private static readonly ImageList _galleryButtonList;
-        private static readonly Image[] _radioButtonArray;
-        private static readonly Image _blueDropDownButton = GenericImageResources.BlueDropDownButton;
+        private static readonly Image?[] _radioButtonArray;
+        private static readonly Image? _blueDropDownButton = GenericImageResources.BlueDropDownButton;
         private static readonly Image _blueCloseNormal = Office2007ControlBoxResources.Office2007ControlBoxBlueCloseNormal;
         private static readonly Image _blueCloseActive = Office2007ControlBoxResources.Office2007ControlBoxBlueCloseActive;
         private static readonly Image _blueCloseDisabled = Office2007ControlBoxResources.Office2007ControlBoxBlueCloseDisabled;
@@ -42,7 +42,7 @@ namespace Krypton.Toolkit
         private static readonly Image _blueHelpActive = Office2007ControlBoxResources.Office2007HelpIconHover;
         private static readonly Image _blueHelpDisabled = Office2007ControlBoxResources.Office2007HelpIconDisabled;
         private static readonly Image _blueHelpPressed = Office2007ControlBoxResources.Office2007HelpIconPressed;
-        private static readonly Image _contextMenuSubMenu = GenericImageResources.BlueContextMenuSub;
+        private static readonly Image? _contextMenuSubMenu = GenericImageResources.BlueContextMenuSub;
         private static readonly Color[] _trackBarColors =
         [
             Color.FromArgb(116, 150, 194),      // Tick marks
@@ -332,13 +332,13 @@ namespace Krypton.Toolkit
         /// Gets a drop down button image appropriate for the provided state.
         /// </summary>
         /// <param name="state">PaletteState for which image is required.</param>
-        public override Image GetDropDownButtonImage(PaletteState state) => state != PaletteState.Disabled ? _blueDropDownButton : base.GetDropDownButtonImage(state);
+        public override Image? GetDropDownButtonImage(PaletteState state) => state != PaletteState.Disabled ? _blueDropDownButton : base.GetDropDownButtonImage(state);
 
         /// <summary>
         /// Gets an image indicating a sub-menu on a context menu item.
         /// </summary>
         /// <returns>Appropriate image for drawing; otherwise null.</returns>
-        public override Image GetContextMenuSubMenuImage() => _contextMenuSubMenu;
+        public override Image? GetContextMenuSubMenuImage() => _contextMenuSubMenu;
 
         #endregion
 

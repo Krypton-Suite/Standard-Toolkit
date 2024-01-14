@@ -63,9 +63,9 @@ namespace Krypton.Toolkit
 
         #region Images
 
-        private static readonly Image _disabledDropDown = DropDownArrowImageResources.DisabledDropDownButton2;
-        private static readonly Image _disabledDropUp = DropDownArrowImageResources.DisabledDropUpButton;
-        private static readonly Image _disabledGalleryDrop = GalleryImageResources.DisabledGalleryDropButton;
+        private static readonly Image? _disabledDropDown = DropDownArrowImageResources.DisabledDropDownButton2;
+        private static readonly Image? _disabledDropUp = DropDownArrowImageResources.DisabledDropUpButton;
+        private static readonly Image? _disabledGalleryDrop = GalleryImageResources.DisabledGalleryDropButton;
         private static readonly Image _buttonSpecClose = GenericWhiteImageResources.WhiteCloseButton;
         private static readonly Image _buttonSpecContext = GenericWhiteImageResources.WhiteContextButton;
         private static readonly Image _buttonSpecNext = GenericWhiteImageResources.WhiteNextButton;
@@ -84,10 +84,10 @@ namespace Krypton.Toolkit
         private static readonly Image _buttonSpecWorkspaceRestore = GenericWhiteImageResources.WhiteRestore;
         private static readonly Image _buttonSpecRibbonMinimize = GenericWhiteImageResources.WhitePendantRibbonMinimize;
         private static readonly Image _buttonSpecRibbonExpand = GenericWhiteImageResources.WhitePendantRibbonExpand;
-        private static readonly Image _sparkleDropDownOutlineButton = GenericSparkleImageResources.SparkleDropDownOutlineButton;
-        private static readonly Image _sparkleDropDownButton = GenericSparkleImageResources.SparkleDropDownButton;
-        private static readonly Image _sparkleDropUpButton = GenericSparkleImageResources.SparkleDropUpButton;
-        private static readonly Image _sparkleGalleryDropButton = GenericSparkleImageResources.SparkleGalleryDropButton;
+        private static readonly Image? _sparkleDropDownOutlineButton = GenericSparkleImageResources.SparkleDropDownOutlineButton;
+        private static readonly Image? _sparkleDropDownButton = GenericSparkleImageResources.SparkleDropDownButton;
+        private static readonly Image? _sparkleDropUpButton = GenericSparkleImageResources.SparkleDropUpButton;
+        private static readonly Image? _sparkleGalleryDropButton = GenericSparkleImageResources.SparkleGalleryDropButton;
         private static readonly Image _sparkleCloseA = SparkleControlBoxResources.SparkleButtonCloseNormal;
         private static readonly Image _sparkleCloseI = SparkleControlBoxResources.SparkleButtonCloseDisabled;
         private static readonly Image _sparkleMaxA = SparkleControlBoxResources.SparkleButtonMaxNormal;
@@ -100,11 +100,11 @@ namespace Krypton.Toolkit
         private static readonly Image _sparkleHelpHover = Office2010ControlBoxResources.Office2010HelpIconHover;
         private static readonly Image _sparkleHelpPressed = Office2010ControlBoxResources.Office2010HelpIconPressed;
         private static readonly Image _sparkleHelpI = Office2010ControlBoxResources.Office2010HelpIconDisabled;
-        private static readonly Image _contextMenuChecked = GenericSparkleImageResources.SparkleGrayChecked;
-        private static readonly Image _contextMenuIndeterminate = SparkleRadioButtonImageResources.RadioButtonSparkleGrayIndeterminate;
-        private static readonly Image _contextMenuSubMenu = GenericImageResources.BlackContextMenuSub;
-        private static readonly Image _treeExpandWhite = TreeItemImageResources.TreeExpandWhite;
-        private static readonly Image _treeCollapseBlack = TreeItemImageResources.TreeCollapseBlack;
+        private static readonly Image? _contextMenuChecked = GenericSparkleImageResources.SparkleGrayChecked;
+        private static readonly Image? _contextMenuIndeterminate = SparkleRadioButtonImageResources.RadioButtonSparkleGrayIndeterminate;
+        private static readonly Image? _contextMenuSubMenu = GenericImageResources.BlackContextMenuSub;
+        private static readonly Image? _treeExpandWhite = TreeItemImageResources.TreeExpandWhite;
+        private static readonly Image? _treeCollapseBlack = TreeItemImageResources.TreeCollapseBlack;
 
         #region Integrated Tool Bar Images
 
@@ -202,7 +202,7 @@ namespace Krypton.Toolkit
         private readonly Color[] _appButtonPressed;
         private readonly Color[] _ribbonGroupCollapsedBorderContextTracking;
         private readonly ImageList _checkBoxList;
-        private readonly Image[] _radioButtonArray;
+        private readonly Image?[] _radioButtonArray;
         #endregion
 
         #region Identity
@@ -224,7 +224,7 @@ namespace Krypton.Toolkit
                                   Color[] appButtonPressed,
                                   Color[] ribbonGroupCollapsedBorderContextTracking,
                                   ImageList checkBoxList,
-                                  Image[] radioButtonArray)
+                                  Image?[] radioButtonArray)
         {
             // Save colors for use in the color table
             ThemeName = nameof(PaletteSparkleBase);
@@ -2984,7 +2984,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="expanded">Is the node expanded</param>
         /// <returns>Appropriate image for drawing; otherwise null.</returns>
-        public override Image GetTreeViewImage(bool expanded) => expanded ? _treeCollapseBlack : _treeExpandWhite;
+        public override Image? GetTreeViewImage(bool expanded) => expanded ? _treeCollapseBlack : _treeExpandWhite;
 
         /// <summary>
         /// Gets a check box image appropriate for the provided state.
@@ -2994,7 +2994,7 @@ namespace Krypton.Toolkit
         /// <param name="tracking">Is the check box being hot tracked.</param>
         /// <param name="pressed">Is the check box being pressed.</param>
         /// <returns>Appropriate image for drawing; otherwise null.</returns>
-        public override Image GetCheckBoxImage(bool enabled, CheckState checkState, bool tracking, bool pressed)
+        public override Image? GetCheckBoxImage(bool enabled, CheckState checkState, bool tracking, bool pressed)
         {
             switch (checkState)
             {
@@ -3051,7 +3051,7 @@ namespace Krypton.Toolkit
         /// <param name="tracking">Is the radio button being hot tracked.</param>
         /// <param name="pressed">Is the radio button being pressed.</param>
         /// <returns>Appropriate image for drawing; otherwise null.</returns>
-        public override Image GetRadioButtonImage(bool enabled, bool checkState, bool tracking, bool pressed)
+        public override Image? GetRadioButtonImage(bool enabled, bool checkState, bool tracking, bool pressed)
         {
             if (!checkState)
             {
@@ -3089,25 +3089,25 @@ namespace Krypton.Toolkit
         /// Gets a drop down button image appropriate for the provided state.
         /// </summary>
         /// <param name="state">PaletteState for which image is required.</param>
-        public override Image GetDropDownButtonImage(PaletteState state) => state == PaletteState.Disabled ? _disabledDropDown : _sparkleDropDownOutlineButton;
+        public override Image? GetDropDownButtonImage(PaletteState state) => state == PaletteState.Disabled ? _disabledDropDown : _sparkleDropDownOutlineButton;
 
         /// <summary>
         /// Gets a checked image appropriate for a context menu item.
         /// </summary>
         /// <returns>Appropriate image for drawing; otherwise null.</returns>
-        public override Image GetContextMenuCheckedImage() => _contextMenuChecked;
+        public override Image? GetContextMenuCheckedImage() => _contextMenuChecked;
 
         /// <summary>
         /// Gets a indeterminate image appropriate for a context menu item.
         /// </summary>
         /// <returns>Appropriate image for drawing; otherwise null.</returns>
-        public override Image GetContextMenuIndeterminateImage() => _contextMenuIndeterminate;
+        public override Image? GetContextMenuIndeterminateImage() => _contextMenuIndeterminate;
 
         /// <summary>
         /// Gets an image indicating a sub-menu on a context menu item.
         /// </summary>
         /// <returns>Appropriate image for drawing; otherwise null.</returns>
-        public override Image GetContextMenuSubMenuImage() => _contextMenuSubMenu;
+        public override Image? GetContextMenuSubMenuImage() => _contextMenuSubMenu;
 
         /// <summary>
         /// Gets a check box image appropriate for the provided state.
@@ -3115,7 +3115,7 @@ namespace Krypton.Toolkit
         /// <param name="button">Enum of the button to fetch.</param>
         /// <param name="state">State of the button to fetch.</param>
         /// <returns>Appropriate image for drawing; otherwise null.</returns>
-        public override Image GetGalleryButtonImage(PaletteRibbonGalleryButton button, PaletteState state) => button switch
+        public override Image? GetGalleryButtonImage(PaletteRibbonGalleryButton button, PaletteState state) => button switch
         {
             PaletteRibbonGalleryButton.Up => state == PaletteState.Disabled ? _disabledDropUp : _sparkleDropUpButton,
             PaletteRibbonGalleryButton.DropDown => state == PaletteState.Disabled ? _disabledGalleryDrop : _sparkleGalleryDropButton,

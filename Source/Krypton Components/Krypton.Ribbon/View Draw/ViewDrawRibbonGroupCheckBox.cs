@@ -547,7 +547,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="state"></param>
         /// <returns></returns>
-        public Image GetImage(PaletteState state) => null;
+        public Image? GetImage(PaletteState state) => null;
 
         /// <summary>
         /// Gets the image transparent color.

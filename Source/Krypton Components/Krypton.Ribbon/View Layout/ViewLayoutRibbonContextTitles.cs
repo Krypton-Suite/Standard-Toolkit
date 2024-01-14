@@ -120,7 +120,7 @@ namespace Krypton.Ribbon
                 Point rightTab = tabContext.GetRightScreenPosition();
 
                 // If our position is above the ribbon control we must be in the chrome
-                if (_captionArea is { UsingCustomChrome: true, KryptonForm.ApplyComposition: false })
+                if (_captionArea is { UsingCustomChrome: true})
                 {
                     var leftPadding = _captionArea.RealWindowBorders.Left;
                     leftTab.X += leftPadding;

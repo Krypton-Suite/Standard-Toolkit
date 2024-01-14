@@ -235,6 +235,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region RenderStandardContent
+
         /// <summary>
         /// Get the preferred size for drawing the content.
         /// </summary>
@@ -243,16 +244,12 @@ namespace Krypton.Toolkit
         /// <param name="values">Content values.</param>
         /// <param name="orientation">Visual orientation of the content.</param>
         /// <param name="state">State associated with rendering.</param>
-        /// <param name="composition">Drawing onto a composition element.</param>
-        /// <param name="glowing">If composition, should glowing be drawn.</param>
         /// <returns>Preferred size.</returns>
         public abstract Size GetContentPreferredSize(ViewLayoutContext context,
-                                                     IPaletteContent palette,
-                                                     IContentValues values,
-                                                     VisualOrientation orientation,
-                                                     PaletteState state,
-                                                     bool composition,
-                                                     bool glowing);
+            IPaletteContent palette,
+            IContentValues values,
+            VisualOrientation orientation,
+            PaletteState state);
 
         /// <summary>
         /// Perform layout calculations on the provided content.
@@ -263,17 +260,13 @@ namespace Krypton.Toolkit
         /// <param name="values">Content values.</param>
         /// <param name="orientation">Visual orientation of the content.</param>
         /// <param name="state">State associated with rendering.</param>
-        /// <param name="composition">Drawing onto a composition element.</param>
-        /// <param name="glowing">If composition, should glowing be drawn.</param>
         /// <returns>Memento with cached information.</returns>
         public abstract IDisposable LayoutContent(ViewLayoutContext context,
-                                                  Rectangle availableRect,
-                                                  IPaletteContent palette,
-                                                  IContentValues values,
-                                                  VisualOrientation orientation,
-                                                  PaletteState state,
-                                                  bool composition,
-                                                  bool glowing);
+            Rectangle availableRect,
+            IPaletteContent palette,
+            IContentValues values,
+            VisualOrientation orientation,
+            PaletteState state);
 
         /// <summary>
         /// Perform draw of content using provided memento.
@@ -284,18 +277,14 @@ namespace Krypton.Toolkit
         /// <param name="memento">Cached values from layout call.</param>
         /// <param name="orientation">Visual orientation of the content.</param>
         /// <param name="state">State associated with rendering.</param>
-        /// <param name="composition">Drawing onto a composition element.</param>
-        /// <param name="glowing">If composition, should glowing be drawn.</param>
         /// <param name="allowFocusRect">Allow drawing of focus rectangle.</param>
         public abstract void DrawContent(RenderContext context,
-                                         Rectangle displayRect,
-                                         IPaletteContent palette,
-                                         IDisposable memento,
-                                         VisualOrientation orientation,
-                                         PaletteState state,
-                                         bool composition,
-                                         bool glowing,
-                                         bool allowFocusRect);
+            Rectangle displayRect,
+            IPaletteContent palette,
+            IDisposable memento,
+            VisualOrientation orientation,
+            PaletteState state,
+            bool allowFocusRect);
 
         /// <summary>
         /// Request the calculated display of the image.
@@ -422,6 +411,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region RenderRibbon
+
         /// <summary>
         /// Draw the background of a ribbon element.
         /// </summary>
@@ -431,16 +421,14 @@ namespace Krypton.Toolkit
         /// <param name="state">State associated with rendering.</param>
         /// <param name="palette">Palette used for sourcing settings.</param>
         /// <param name="orientation">Orientation for drawing.</param>
-        /// <param name="composition">Drawing onto a composition element.</param>
         /// <param name="memento">Cached values to use when drawing.</param>
         public abstract IDisposable? DrawRibbonBack(PaletteRibbonShape shape,
-                                                   RenderContext context,
-                                                   Rectangle rect,
-                                                   PaletteState state,
-                                                   IPaletteRibbonBack palette,
-                                                   VisualOrientation orientation,
-                                                   bool composition,
-                                                   IDisposable? memento);
+            RenderContext context,
+            Rectangle rect,
+            PaletteState state,
+            IPaletteRibbonBack palette,
+            VisualOrientation orientation,
+            IDisposable? memento);
 
         /// <summary>
         /// Draw a context ribbon tab title.
@@ -927,7 +915,7 @@ namespace Krypton.Toolkit
         /// <param name="remapNew">New color for remap.</param>
         /// <exception cref="ArgumentNullException"></exception>
         protected static void DrawImageHelper([DisallowNull] ViewContext context,
-                                              Image image,
+                                              Image? image,
                                               Color remapTransparent,
                                               Rectangle imageRect,
                                               VisualOrientation orientation,

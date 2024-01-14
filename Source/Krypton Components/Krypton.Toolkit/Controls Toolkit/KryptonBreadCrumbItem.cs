@@ -180,7 +180,7 @@ namespace Krypton.Toolkit
         /// <param name="image">Initial image value.</param>
         public KryptonBreadCrumbItem(string shortText,
                                      string longText,
-                                     Image image)
+                                     Image? image)
             : this(shortText, longText, image, Color.Empty)
         {
         }
@@ -194,7 +194,7 @@ namespace Krypton.Toolkit
         /// <param name="imageTransparentColor">Initial transparent image color.</param>
         public KryptonBreadCrumbItem(string shortText,
                                      string? longText,
-                                     Image image,
+                                     Image? image,
                                      Color imageTransparentColor)
             : base(shortText, longText, image, imageTransparentColor) =>
             // Create child collection

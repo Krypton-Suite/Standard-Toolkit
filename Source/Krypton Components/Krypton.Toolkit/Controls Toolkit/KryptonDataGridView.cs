@@ -51,7 +51,7 @@ namespace Krypton.Toolkit
             /// </summary>
             /// <param name="state">The state for which the image is needed.</param>
             /// <returns>Image value.</returns>
-            public Image GetImage(PaletteState state) => null;
+            public Image? GetImage(PaletteState state) => null;
 
             /// <summary>
             /// Gets the image color that should be transparent.
@@ -1455,7 +1455,7 @@ namespace Krypton.Toolkit
                                         // Find size needed to show header text fully
                                         Size prefSize = Renderer.RenderStandardContent.GetContentPreferredSize(
                                             layoutContext, _contentInherit, _shortTextValue,
-                                            VisualOrientation.Top, state, false, false);
+                                            VisualOrientation.Top, state);
 
                                         var contentsFit = (prefSize.Width <= tempCellBounds.Width) &&
                                                           (prefSize.Height <= tempCellBounds.Height);
@@ -1475,12 +1475,12 @@ namespace Krypton.Toolkit
                                     using IDisposable memento = Renderer.RenderStandardContent.LayoutContent(
                                         layoutContext, tempCellBounds,
                                         _contentInherit, _shortTextValue,
-                                        VisualOrientation.Top, state, false, false);
+                                        VisualOrientation.Top, state);
                                     // Perform actual drawing of the content
                                     Renderer.RenderStandardContent.DrawContent(renderContext, tempCellBounds,
                                         _contentInherit, memento,
                                         VisualOrientation.Top,
-                                        state, false, false, true);
+                                        state, true);
                                 }
 
                                 // Blit the image onto the screen

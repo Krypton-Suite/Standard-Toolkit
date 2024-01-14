@@ -14,10 +14,10 @@ namespace Krypton.Toolkit
 {
     public class PaletteMicrosoft365LightGray : PaletteMicrosoft365Base
     {
-        public PaletteMicrosoft365LightGray(Color[] schemeColours, ImageList checkBoxList, ImageList galleryButtonList, Image[] radioButtonArray, Color[] trackBarColours) : base(schemeColours, checkBoxList, galleryButtonList, radioButtonArray, trackBarColours)
+        public PaletteMicrosoft365LightGray(Color[] schemeColours, ImageList checkBoxList, ImageList galleryButtonList, Image?[] radioButtonArray, Color[] trackBarColours) : base(schemeColours, checkBoxList, galleryButtonList, radioButtonArray, trackBarColours)
         {
         }
 
-        public override Image GetContextMenuSubMenuImage() => throw new NotImplementedException();
+        public override Image? GetContextMenuSubMenuImage() => throw new NotImplementedException();
     }
 }

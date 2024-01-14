@@ -133,11 +133,7 @@ namespace Krypton.Ribbon
             }
 
             // If integrated into the caption area then get the caption area height
-            var borders = Padding.Empty;
-            if (ownerForm is { ApplyComposition: false })
-            {
-                borders = ownerForm.RealWindowBorders;
-            }
+            var borders =  ownerForm.RealWindowBorders;
 
             var keyTipList = new KeyTipInfoList();
 

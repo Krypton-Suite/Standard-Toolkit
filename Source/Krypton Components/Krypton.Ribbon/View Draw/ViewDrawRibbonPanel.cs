@@ -63,9 +63,9 @@ namespace Krypton.Ribbon
         /// <param name="context">Rendering context.</param>
         public override void RenderBefore(RenderContext context)
         {
-            // If we are rendering using desktop window composition and using the Office 2010 shape 
+            // If we are rendering the Office 2010 shape 
             // of ribbon then we need to draw the tabs area as part of the window chromw
-            if (DrawOnComposition && _ribbon.RibbonShape is PaletteRibbonShape.Office2010 or PaletteRibbonShape.Office2013 or PaletteRibbonShape.Microsoft365 or PaletteRibbonShape.VisualStudio)
+            if ( _ribbon.RibbonShape is PaletteRibbonShape.Office2010 or PaletteRibbonShape.Office2013 or PaletteRibbonShape.Microsoft365 or PaletteRibbonShape.VisualStudio)
             {
                 var tabsHeight = _ribbon.TabsArea.ClientHeight;
 
@@ -95,11 +95,10 @@ namespace Krypton.Ribbon
         /// <param name="sender">Sender of the message..</param>
         public void PaintRectangle(Graphics? g, Rectangle rect, bool edges, Control? sender)
         {
-            // If we are rendering using desktop window composition and using the Office 2010 shape 
+            // If we are rendering using the Office 2010 shape 
             // of ribbon then we need to draw the tabs area as part of the window chrome
             // Not for 2007
-            if (DrawOnComposition
-                && _ribbon.RibbonShape is PaletteRibbonShape.Office2010 or PaletteRibbonShape.VisualStudio2010 or PaletteRibbonShape.Office2013 or PaletteRibbonShape.Microsoft365 or PaletteRibbonShape.VisualStudio
+            if (_ribbon.RibbonShape is PaletteRibbonShape.Office2010 or PaletteRibbonShape.VisualStudio2010 or PaletteRibbonShape.Office2013 or PaletteRibbonShape.Microsoft365 or PaletteRibbonShape.VisualStudio
                 )
             {
                 if (edges)
@@ -150,9 +149,5 @@ namespace Krypton.Ribbon
         }
         #endregion
 
-        #region Implementation
-        private bool DrawOnComposition => _ribbon is { CaptionArea.DrawCaptionOnComposition: true };
-
-        #endregion
     }
 }

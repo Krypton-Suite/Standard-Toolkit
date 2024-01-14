@@ -505,7 +505,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">The state for which the image is needed.</param>
         /// <returns>Image value.</returns>
-        public Image GetImage(PaletteState state) => Values.GetImage(state);
+        public Image? GetImage(PaletteState state) => Values.GetImage(state);
 
         /// <summary>
         /// Gets the image colour that should be transparent.
@@ -559,7 +559,7 @@ namespace Krypton.Toolkit
                 // Ask the renderer to work out how the Content values will be laid out and
                 // return a memento object that we cache for use when actually performing painting
                 _mementoContent = renderer.RenderStandardContent.LayoutContent(viewContext, ClientRectangle, barPaletteState.PaletteContent!,
-                    this, Orientation, barState, false, true);
+                    this, Orientation, barState);
             }
 
             base.OnLayout(e);
@@ -708,7 +708,7 @@ namespace Krypton.Toolkit
             // Last of all we draw the content over the top of the border and background
             renderer.RenderStandardContent.DrawContent(renderContext, ClientRectangle,
                     barPaletteState.PaletteContent, _mementoContent,
-                    Orientation, barState, false, true, false);
+                    Orientation, barState, false);
 
             base.OnPaint(e);
         }

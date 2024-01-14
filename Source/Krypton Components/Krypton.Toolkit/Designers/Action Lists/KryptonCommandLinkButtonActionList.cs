@@ -104,7 +104,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the button image.
         /// </summary>
-        public Image Image
+        public Image? Image
         {
             get => _button!.CommandLinkImageValues.Image;
 

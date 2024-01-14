@@ -125,7 +125,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets and sets the page tooltip image.
         /// </summary>
-        public Bitmap ToolTipImage
+        public Bitmap? ToolTipImage
         {
             get => _page.ToolTipImage;
 
@@ -142,7 +142,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets and sets the small page image.
         /// </summary>
-        public Bitmap ImageSmall
+        public Bitmap? ImageSmall
         {
             get => _page.ImageSmall;
 
@@ -159,7 +159,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets and sets the medium page image.
         /// </summary>
-        public Bitmap ImageMedium
+        public Bitmap? ImageMedium
         {
             get => _page.ImageMedium;
 
@@ -176,7 +176,7 @@ namespace Krypton.Navigator
         /// <summary>
         /// Gets and sets the large page image.
         /// </summary>
-        public Bitmap ImageLarge
+        public Bitmap? ImageLarge
         {
             get => _page.ImageLarge;
 

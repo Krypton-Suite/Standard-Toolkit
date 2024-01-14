@@ -27,8 +27,8 @@ namespace Krypton.Ribbon
     public class KryptonRibbonGroupColorButton : KryptonRibbonGroupItem
     {
         #region Static Fields
-        private static readonly Image _defaultButtonImageSmall = GenericImageResources.ButtonColorImageSmall;
-        private static readonly Image _defaultButtonImageLarge = GenericImageResources.ButtonColorImageLarge;
+        private static readonly Image? _defaultButtonImageSmall = GenericImageResources.ButtonColorImageSmall;
+        private static readonly Image? _defaultButtonImageLarge = GenericImageResources.ButtonColorImageLarge;
         #endregion
 
         #region Instance Fields
@@ -45,8 +45,8 @@ namespace Krypton.Ribbon
         private Rectangle _selectedRectLarge;
         private Color _selectedColor;
         private Color _emptyBorderColor;
-        private Image _imageSmall;
-        private Image _imageLarge;
+        private Image? _imageSmall;
+        private Image? _imageLarge;
         private string _textLine1;
         private string _textLine2;
         private string _keyTip;
@@ -284,7 +284,7 @@ namespace Krypton.Ribbon
         [Category(@"Appearance")]
         [Description(@"Small color button image.")]
         [RefreshProperties(RefreshProperties.All)]
-        public Image ImageSmall
+        public Image? ImageSmall
         {
             get => _imageSmall;
 
@@ -308,7 +308,7 @@ namespace Krypton.Ribbon
         [Category(@"Appearance")]
         [Description(@"Large color button image.")]
         [RefreshProperties(RefreshProperties.All)]
-        public Image ImageLarge
+        public Image? ImageLarge
         {
             get => _imageLarge;
 

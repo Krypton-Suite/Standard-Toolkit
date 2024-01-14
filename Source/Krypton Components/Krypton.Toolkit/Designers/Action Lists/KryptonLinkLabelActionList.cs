@@ -149,7 +149,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the link label image.
         /// </summary>
-        public Image Image
+        public Image? Image
         {
             get => _linkLabel.Values.Image;
 

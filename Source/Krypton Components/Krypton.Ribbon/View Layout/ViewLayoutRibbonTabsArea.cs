@@ -216,9 +216,6 @@ namespace Krypton.Ribbon
                             {
                                 _ribbon.MainPanel.Visible = show;
                                 _captionArea.PreventIntegration = !show;
-
-                                // Need to recalcualte the composition and so the client area that is turned into glass
-                                _captionArea.KryptonForm?.RecalculateComposition();
                             }
                         }
                         else
@@ -367,8 +364,8 @@ namespace Krypton.Ribbon
             _layoutContexts.Layout(context);
             context.DisplayRectangle = temp;
 
-            // If using custom chrome but not using the composition (which does not need an extra draw)
-            if (_captionArea is { UsingCustomChrome: true, KryptonForm.ApplyComposition: false })
+            // If using custom chrome 
+            if (_captionArea is { UsingCustomChrome: true })
             {
                 _paintCount = _captionArea.KryptonForm.PaintCount;
                 _invalidateTimer.Start();

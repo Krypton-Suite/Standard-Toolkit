@@ -415,7 +415,7 @@ namespace Krypton.Ribbon
         /// Gets and sets the image for the item ToolTip.
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public Image GetToolTipImage() => ToolTipImage!;
+        public Image? GetToolTipImage() => ToolTipImage!;
 
         /// <summary>
         /// Gets and sets the color to draw as transparent in the ToolTipImage.

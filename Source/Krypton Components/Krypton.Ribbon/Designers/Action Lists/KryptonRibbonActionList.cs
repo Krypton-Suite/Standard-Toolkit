@@ -39,14 +39,6 @@ namespace Krypton.Ribbon
 
         #region Public
 
-        /// <summary>Gets or sets a value indicating whether [allow form integrate].</summary>
-        /// <value><c>true</c> if [allow form integrate]; otherwise, <c>false</c>.</value>
-        public bool AllowFormIntegrate
-        {
-            get => _ribbon!.AllowFormIntegrate;
-            set => _ribbon!.AllowFormIntegrate = value;
-        }
-
         /// <summary>
         /// Gets and sets use of design time helpers.
         /// </summary>
@@ -91,7 +83,6 @@ namespace Krypton.Ribbon
                 actions.Add(new DesignerActionHeaderItem("Design"));
                 actions.Add(new DesignerActionPropertyItem(nameof(InDesignHelperMode), "Design Helpers", "Design", "Show design time helpers for creating items."));
                 actions.Add(new DesignerActionHeaderItem("Visuals"));
-                actions.Add(new DesignerActionPropertyItem(nameof(AllowFormIntegrate), "Allow Form Integration", "Visuals", "Integrate with operating system chrome instead of Krypton Palette."));
                 actions.Add(new DesignerActionPropertyItem(nameof(PaletteMode), "Palette", "Visuals", "Palette applied to drawing"));
             }
 

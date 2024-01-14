@@ -20,11 +20,11 @@ namespace Krypton.Toolkit
         #region Instance Fields
         private readonly PaletteRibbonGalleryButton _button;
         private PaletteRedirect? _redirect;
-        private Image _common;
-        private Image _disabled;
-        private Image _normal;
-        private Image _tracking;
-        private Image _pressed;
+        private Image? _common;
+        private Image? _disabled;
+        private Image? _normal;
+        private Image? _tracking;
+        private Image? _pressed;
         #endregion
 
         #region Identity
@@ -96,7 +96,7 @@ namespace Krypton.Toolkit
         [Description(@"Common image that other gallery button images inherit from.")]
         [DefaultValue(null)]
         [RefreshProperties(RefreshProperties.All)]
-        public Image Common
+        public Image? Common
         {
             get => _common;
 
@@ -125,7 +125,7 @@ namespace Krypton.Toolkit
         [Description(@"Image for use when the gallery button is disabled.")]
         [DefaultValue(null)]
         [RefreshProperties(RefreshProperties.All)]
-        public Image Disabled
+        public Image? Disabled
         {
             get => _disabled;
 
@@ -154,7 +154,7 @@ namespace Krypton.Toolkit
         [Description(@"Image for use when the gallery button is normal.")]
         [DefaultValue(null)]
         [RefreshProperties(RefreshProperties.All)]
-        public Image Normal
+        public Image? Normal
         {
             get => _normal;
 
@@ -183,7 +183,7 @@ namespace Krypton.Toolkit
         [Description(@"Image for use when the gallery button is hot tracking.")]
         [DefaultValue(null)]
         [RefreshProperties(RefreshProperties.All)]
-        public Image Tracking
+        public Image? Tracking
         {
             get => _tracking;
 
@@ -212,7 +212,7 @@ namespace Krypton.Toolkit
         [Description(@"Image for use when the gallery button is pressed.")]
         [DefaultValue(null)]
         [RefreshProperties(RefreshProperties.All)]
-        public Image Pressed
+        public Image? Pressed
         {
             get => _pressed;
 

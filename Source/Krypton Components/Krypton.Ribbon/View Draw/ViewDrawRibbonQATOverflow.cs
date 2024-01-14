@@ -124,7 +124,6 @@ namespace Krypton.Ribbon
                                                                     PaletteState.Normal,
                                                                     _ribbon.StateCommon.RibbonQATOverflow,
                                                                     VisualOrientation.Top,
-                                                                    false,
                                                                     _memento);
         #endregion
     }
