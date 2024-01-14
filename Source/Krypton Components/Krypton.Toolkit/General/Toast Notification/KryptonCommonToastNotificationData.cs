@@ -11,7 +11,7 @@ using ContentAlignment = System.Drawing.ContentAlignment;
 
 namespace Krypton.Toolkit
 {
-    public struct KryptonUserInputToastNotificationData
+    public struct KryptonCommonToastNotificationData
     {
         #region Public
 
@@ -67,29 +67,15 @@ namespace Krypton.Toolkit
         /// <value>The notification icon.</value>
         public KryptonToastNotificationIcon? NotificationIcon { get; set; }
 
-        public KryptonToastNotificationInputAreaType? NotificationInputAreaType { get; set; } 
-
-        public string? ToastNotificationCueText { get; set; }
-
-        public ComboBox.ObjectCollection UserInputItemCollection { get; set; }
-
-        public ArrayList UserInputList { get; set; }
-
-        public int? SelectedIndex { get; set; }
-
         #endregion
 
         #region Identity
 
-        /// <summary>Initializes a new instance of the <see cref="KryptonUserInputToastNotificationData" /> struct.</summary>
-        public KryptonUserInputToastNotificationData()
+        /// <summary>Initializes a new instance of the <see cref="KryptonCommonToastNotificationData" /> struct.</summary>
+        public KryptonCommonToastNotificationData()
         {
-            // Defaults, when needed
             UseFade = false;
-
             ReportToastLocation = false;
-
-            SelectedIndex = 0;
         }
 
         #endregion

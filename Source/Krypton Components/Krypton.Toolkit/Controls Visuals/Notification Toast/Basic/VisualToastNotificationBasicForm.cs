@@ -172,9 +172,16 @@ namespace Krypton.Toolkit
                 Screen.PrimaryScreen.WorkingArea.Height - Height - 5);
         }
 
+        private void ReportToastLocation()
+        {
+            klblToastLocation.Text = _basicToastNotificationData.ReportToastLocation ? $"Location: X: {Location.X}, Y: {Location.Y}" : string.Empty;
+        }
+
         private void VisualToastNotificationBasicForm_Load(object sender, EventArgs e)
         {
             UpdateLocation();
+
+            ReportToastLocation();
 
             ShowCloseButton();
 

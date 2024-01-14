@@ -336,9 +336,9 @@ namespace TestForm
 
         private void kryptonButton10_Click(object sender, EventArgs e)
         {
-           ToastNotificationTest toastNotificationTest = new ToastNotificationTest();
+           ToastNotificationTestChoice toastNotification = new ToastNotificationTestChoice();
 
-           toastNotificationTest.ShowDialog();
+           toastNotification.Show();
         }
 
         private void kryptonButton11_Click(object sender, EventArgs e)

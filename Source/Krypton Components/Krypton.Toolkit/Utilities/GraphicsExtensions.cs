@@ -75,7 +75,7 @@ namespace Krypton.Toolkit
         /// <param name="sourceImage">The image to resize.</param>
         /// <param name="imageSize">The size that you want to resize the image to.</param>
         /// <returns>The resized image.</returns>
-        public static Bitmap ScaleImage(Image? sourceImage, Size? imageSize)
+        public static Bitmap? ScaleImage(Image? sourceImage, Size? imageSize)
         {
             try
             {
@@ -116,7 +116,7 @@ namespace Krypton.Toolkit
         /// <param name="image">The image.</param>
         /// <param name="width">The width.</param>
         /// <param name="height">The height.</param>
-        public static Bitmap ScaleImage(Image? image, int width, int height) => ScaleImage(image, new Size(width, height));
+        public static Bitmap? ScaleImage(Image? image, int width, int height) => ScaleImage(image, new Size(width, height));
 
         /// <summary>Sets the icon.</summary>
         /// <param name="image">The image.</param>
@@ -157,6 +157,8 @@ namespace Krypton.Toolkit
             }
             catch (Exception ex)
             {
+                ExceptionHandler.CaptureException(ex);
+
                 // /* EXTRACT ICON ERROR */
                 //// BUBBLE UP
                 //throw new ApplicationException("Could not extract icon", ex);
@@ -174,6 +176,14 @@ namespace Krypton.Toolkit
                 }
             }
         }
+
+        /// <summary>Gets the size of the screen.</summary>
+        /// <returns></returns>
+        public static Size GetScreenSize() => new Size(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
+
+        /// <summary>Gets the working area.</summary>
+        /// <returns></returns>
+        public static Rectangle GetWorkingArea() => Screen.PrimaryScreen.WorkingArea;
     }
     #endregion
 }

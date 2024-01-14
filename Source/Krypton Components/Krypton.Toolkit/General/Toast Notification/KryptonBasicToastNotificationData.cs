@@ -27,6 +27,10 @@ namespace Krypton.Toolkit
         /// <value>The show close box.</value>
         public bool? ShowCloseBox { get; set; }
 
+        /// <summary>Gets or sets the report toast location.</summary>
+        /// <value>The report toast location.</value>
+        public bool ReportToastLocation { get; set; }
+
         /// <summary>Gets or sets the notification title alignment.</summary>
         /// <value>The notification title alignment.</value>
         public ContentAlignment? NotificationTitleAlignment { get; set; }
@@ -72,6 +76,8 @@ namespace Krypton.Toolkit
         {
             // Defaults, when needed
             UseFade = false;
+
+            ReportToastLocation = false;
         }
 
         #endregion

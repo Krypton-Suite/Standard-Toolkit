@@ -12,7 +12,7 @@ using Timer = System.Windows.Forms.Timer;
 
 namespace Krypton.Toolkit
 {
-    internal partial class VisualToastNotificationUserInputForm : KryptonForm
+    internal partial class VisualToastNotificationUserInputWithProgressBarForm : KryptonForm
     {
         #region Instance Fields
 
@@ -32,15 +32,15 @@ namespace Krypton.Toolkit
 
         #region Identity
 
-        public VisualToastNotificationUserInputForm(KryptonUserInputToastNotificationData toastNotificationData)
+        public VisualToastNotificationUserInputWithProgressBarForm(KryptonUserInputToastNotificationData toastNotificationData)
         {
             _toastNotificationData = toastNotificationData;
 
             InitializeComponent();
 
-            Resize += VisualToastNotificationUserInputForm_Resize;
+            Resize += VisualToastNotificationUserInputWithProgressBarForm_Resize;
 
-            GotFocus += VisualToastNotificationUserInputForm_GotFocus;
+            GotFocus += VisualToastNotificationUserInputWithProgressBarForm_GotFocus;
         }
 
         #endregion
@@ -262,7 +262,34 @@ namespace Krypton.Toolkit
             FormBorderStyle = CloseBox ? FormBorderStyle.Fixed3D : FormBorderStyle.None;
         }
 
-        private void VisualToastNotificationUserInputForm_Load(object sender, EventArgs e)
+        private void SetUserInputFocus(KryptonToastNotificationInputAreaType inputAreaType)
+        {
+            switch (inputAreaType)
+            {
+                case KryptonToastNotificationInputAreaType.None:
+                    kbtnDismiss.Focus();
+                    break;
+                case KryptonToastNotificationInputAreaType.ComboBox:
+                    kcmbUserInput.Focus();
+                    break;
+                case KryptonToastNotificationInputAreaType.DomainDropDown:
+                    kdudUserInput.Focus();
+                    break;
+                case KryptonToastNotificationInputAreaType.NumericDropDown:
+                    knudUserInput.Focus();
+                    break;
+                case KryptonToastNotificationInputAreaType.MaskedTextBox:
+                    kmtxtUserInput.Focus();
+                    break;
+                case KryptonToastNotificationInputAreaType.TextBox:
+                    ktxtUserInput.Focus();
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(inputAreaType), inputAreaType, null);
+            }
+        }
+
+        private void VisualToastNotificationUserInputWithProgressBarForm_Load(object sender, EventArgs e)
         {
             UpdateIcon();
 
@@ -275,14 +302,56 @@ namespace Krypton.Toolkit
             _timer.Start();
 
             _soundPlayer?.Play();
+
+            kbtnDismiss.Text = KryptonManager.Strings.KryptonToastNotificationStrings.Dismiss;
         }
 
-        private void VisualToastNotificationUserInputForm_GotFocus(object sender, EventArgs e)
+        private void knudUserInput_ValueChanged(object sender, EventArgs e)
         {
-            kbtnDismiss.Focus();
+
         }
 
-        private void VisualToastNotificationUserInputForm_Resize(object sender, EventArgs e)
+        private void kmtxtUserInput_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void kdudUserInput_SelectedItemChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void kdudUserInput_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void kdtpUserInput_ValueChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void kdtpUserInput_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void kcmbUserInput_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void kcmbUserInput_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void VisualToastNotificationUserInputWithProgressBarForm_GotFocus(object sender, EventArgs e)
+        {
+            SetUserInputFocus(_toastNotificationData.NotificationInputAreaType ?? KryptonToastNotificationInputAreaType.None);
+        }
+
+        private void VisualToastNotificationUserInputWithProgressBarForm_Resize(object sender, EventArgs e)
         {
             if (WindowState == FormWindowState.Maximized)
             {
@@ -297,56 +366,9 @@ namespace Krypton.Toolkit
             Close();
         }
 
-        private void ktxtUserInput_TextChanged(object sender, EventArgs e)
-        {
-            _userResponse = ktxtUserInput.Text;
-        }
-
-        private void knudUserInput_ValueChanged(object sender, EventArgs e)
-        {
-            _userResponse = knudUserInput.Value.ToString(CultureInfo.InvariantCulture);
-        }
-
-        private void kmtxtUserInput_TextChanged(object sender, EventArgs e)
-        {
-            _userResponse = kmtxtUserInput.Text;
-        }
-
-        private void kdudUserInput_SelectedItemChanged(object sender, EventArgs e)
-        {
-            _userResponse = kdudUserInput.Text;
-        }
-
-        private void kdudUserInput_TextChanged(object sender, EventArgs e)
-        {
-            _userResponse = kdudUserInput.Text;
-        }
-
-        private void kdtpUserInput_ValueChanged(object sender, EventArgs e)
-        {
-            _userResponse = kdtpUserInput.Value.ToString(CultureInfo.InvariantCulture);
-        }
-
-        private void kdtpUserInput_TextChanged(object sender, EventArgs e)
-        {
-            _userResponse = kdtpUserInput.Value.ToString(CultureInfo.InvariantCulture);
-        }
-
-        private void kcmbUserInput_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            _userResponse = kcmbUserInput.Text!;
-        }
-
-        private void kcmbUserInput_TextChanged(object sender, EventArgs e)
-        {
-            _userResponse = kcmbUserInput.Text!;
-        }
-
-        public new DialogResult ShowDialog()
+        private new DialogResult ShowDialog()
         {
             TopMost = _toastNotificationData.TopMost ?? true;
-
-            //Opacity = 0;
 
             UpdateText();
 
@@ -354,7 +376,11 @@ namespace Krypton.Toolkit
 
             if (_toastNotificationData.CountDownSeconds != 0)
             {
-                kbtnDismiss.Text = $@"{KryptonManager.Strings.ToastNotificationStrings.Dismiss} ({_toastNotificationData.CountDownSeconds - _time})";
+                kpbCountDown.Maximum = _toastNotificationData.CountDownSeconds ?? 100;
+
+                kpbCountDown.Value = kpbCountDown.Maximum;
+
+                kpbCountDown.Text = $@"{_toastNotificationData.CountDownSeconds - _time}";
 
                 _timer = new Timer();
 
@@ -364,24 +390,29 @@ namespace Krypton.Toolkit
                 {
                     _time++;
 
-                    kbtnDismiss.Text = $@"{KryptonManager.Strings.ToastNotificationStrings.Dismiss} ({_toastNotificationData.CountDownSeconds - _time})";
+                    //kpbCountDown.Increment(1);
 
-                    if (_time == _toastNotificationData.CountDownSeconds)
+                    kpbCountDown.Value = kpbCountDown.Value - 1;
+
+                    kpbCountDown.Text = $@"{_toastNotificationData.CountDownSeconds - _time}";
+
+                    if (kpbCountDown.Value == kpbCountDown.Minimum)
                     {
                         _timer.Stop();
 
                         Close();
+
+                        DialogResult = DialogResult.Cancel;
                     }
                 };
             }
-
 
             return base.ShowDialog();
         }
 
         internal static string InternalShow(KryptonUserInputToastNotificationData toastNotificationData)
         {
-            using var toast = new VisualToastNotificationUserInputForm(toastNotificationData);
+            using var toast = new VisualToastNotificationUserInputWithProgressBarForm(toastNotificationData);
 
             return toast.ShowDialog() == DialogResult.OK ? toast.UserResponse : string.Empty;
         }

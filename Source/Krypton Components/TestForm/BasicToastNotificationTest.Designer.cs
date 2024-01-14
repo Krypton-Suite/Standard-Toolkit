@@ -1,6 +1,6 @@
 ﻿namespace TestForm
 {
-    partial class ToastNotificationTest
+    partial class BasicToastNotificationTest
     {
         /// <summary>
         /// Required designer variable.
@@ -32,6 +32,14 @@
             this.kbtnShow = new Krypton.Toolkit.KryptonButton();
             this.kryptonBorderEdge1 = new Krypton.Toolkit.KryptonBorderEdge();
             this.kryptonPanel2 = new Krypton.Toolkit.KryptonPanel();
+            this.kchkReportLocation = new Krypton.Toolkit.KryptonCheckBox();
+            this.kryptonGroupBox1 = new Krypton.Toolkit.KryptonGroupBox();
+            this.klblStartLocationX = new Krypton.Toolkit.KryptonLabel();
+            this.kchkSetDefaultLocation = new Krypton.Toolkit.KryptonCheckBox();
+            this.klblStartLocation = new Krypton.Toolkit.KryptonLabel();
+            this.knudStartLocationY = new Krypton.Toolkit.KryptonNumericUpDown();
+            this.knudStartLocationX = new Krypton.Toolkit.KryptonNumericUpDown();
+            this.klblStartLocationY = new Krypton.Toolkit.KryptonLabel();
             this.kchkShowProgressBar = new Krypton.Toolkit.KryptonCheckBox();
             this.kcmbToastTitleAlignment = new Krypton.Toolkit.KryptonComboBox();
             this.knudCountdownSeconds = new Krypton.Toolkit.KryptonNumericUpDown();
@@ -53,6 +61,10 @@
             this.kryptonPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel2)).BeginInit();
             this.kryptonPanel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonGroupBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonGroupBox1.Panel)).BeginInit();
+            this.kryptonGroupBox1.Panel.SuspendLayout();
+            this.kryptonGroupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kcmbToastTitleAlignment)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.kcmbToastIcon)).BeginInit();
             this.SuspendLayout();
@@ -62,10 +74,10 @@
             this.kryptonPanel1.Controls.Add(this.kbtnShow);
             this.kryptonPanel1.Controls.Add(this.kryptonBorderEdge1);
             this.kryptonPanel1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.kryptonPanel1.Location = new System.Drawing.Point(0, 412);
+            this.kryptonPanel1.Location = new System.Drawing.Point(0, 430);
             this.kryptonPanel1.Name = "kryptonPanel1";
             this.kryptonPanel1.PanelBackStyle = Krypton.Toolkit.PaletteBackStyle.PanelAlternate;
-            this.kryptonPanel1.Size = new System.Drawing.Size(812, 50);
+            this.kryptonPanel1.Size = new System.Drawing.Size(830, 50);
             this.kryptonPanel1.TabIndex = 0;
             // 
             // kbtnShow
@@ -83,11 +95,13 @@
             this.kryptonBorderEdge1.Dock = System.Windows.Forms.DockStyle.Top;
             this.kryptonBorderEdge1.Location = new System.Drawing.Point(0, 0);
             this.kryptonBorderEdge1.Name = "kryptonBorderEdge1";
-            this.kryptonBorderEdge1.Size = new System.Drawing.Size(812, 1);
+            this.kryptonBorderEdge1.Size = new System.Drawing.Size(830, 1);
             this.kryptonBorderEdge1.Text = "kryptonBorderEdge1";
             // 
             // kryptonPanel2
             // 
+            this.kryptonPanel2.Controls.Add(this.kchkReportLocation);
+            this.kryptonPanel2.Controls.Add(this.kryptonGroupBox1);
             this.kryptonPanel2.Controls.Add(this.kchkShowProgressBar);
             this.kryptonPanel2.Controls.Add(this.kcmbToastTitleAlignment);
             this.kryptonPanel2.Controls.Add(this.knudCountdownSeconds);
@@ -108,8 +122,124 @@
             this.kryptonPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kryptonPanel2.Location = new System.Drawing.Point(0, 0);
             this.kryptonPanel2.Name = "kryptonPanel2";
-            this.kryptonPanel2.Size = new System.Drawing.Size(812, 412);
+            this.kryptonPanel2.Size = new System.Drawing.Size(830, 430);
             this.kryptonPanel2.TabIndex = 1;
+            // 
+            // kchkReportLocation
+            // 
+            this.kchkReportLocation.Location = new System.Drawing.Point(187, 248);
+            this.kchkReportLocation.Name = "kchkReportLocation";
+            this.kchkReportLocation.Size = new System.Drawing.Size(110, 20);
+            this.kchkReportLocation.TabIndex = 23;
+            this.kchkReportLocation.Values.Text = "Report Location";
+            this.kchkReportLocation.CheckedChanged += new System.EventHandler(this.kchkReportLocation_CheckedChanged);
+            // 
+            // kryptonGroupBox1
+            // 
+            this.kryptonGroupBox1.Location = new System.Drawing.Point(365, 13);
+            this.kryptonGroupBox1.Name = "kryptonGroupBox1";
+            // 
+            // kryptonGroupBox1.Panel
+            // 
+            this.kryptonGroupBox1.Panel.Controls.Add(this.klblStartLocationX);
+            this.kryptonGroupBox1.Panel.Controls.Add(this.kchkSetDefaultLocation);
+            this.kryptonGroupBox1.Panel.Controls.Add(this.klblStartLocation);
+            this.kryptonGroupBox1.Panel.Controls.Add(this.knudStartLocationY);
+            this.kryptonGroupBox1.Panel.Controls.Add(this.knudStartLocationX);
+            this.kryptonGroupBox1.Panel.Controls.Add(this.klblStartLocationY);
+            this.kryptonGroupBox1.Size = new System.Drawing.Size(443, 146);
+            this.kryptonGroupBox1.TabIndex = 22;
+            // 
+            // klblStartLocationX
+            // 
+            this.klblStartLocationX.Enabled = false;
+            this.klblStartLocationX.Location = new System.Drawing.Point(12, 73);
+            this.klblStartLocationX.Name = "klblStartLocationX";
+            this.klblStartLocationX.Size = new System.Drawing.Size(20, 20);
+            this.klblStartLocationX.TabIndex = 23;
+            this.klblStartLocationX.Values.Text = "X:";
+            // 
+            // kchkSetDefaultLocation
+            // 
+            this.kchkSetDefaultLocation.Location = new System.Drawing.Point(12, 11);
+            this.kchkSetDefaultLocation.Name = "kchkSetDefaultLocation";
+            this.kchkSetDefaultLocation.Size = new System.Drawing.Size(133, 20);
+            this.kchkSetDefaultLocation.TabIndex = 22;
+            this.kchkSetDefaultLocation.Values.Text = "Set Default Location";
+            // 
+            // klblStartLocation
+            // 
+            this.klblStartLocation.Enabled = false;
+            this.klblStartLocation.Location = new System.Drawing.Point(12, 47);
+            this.klblStartLocation.Name = "klblStartLocation";
+            this.klblStartLocation.Size = new System.Drawing.Size(89, 20);
+            this.klblStartLocation.TabIndex = 18;
+            this.klblStartLocation.Values.Text = "Start Location:";
+            // 
+            // knudStartLocationY
+            // 
+            this.knudStartLocationY.Enabled = false;
+            this.knudStartLocationY.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.knudStartLocationY.Location = new System.Drawing.Point(193, 73);
+            this.knudStartLocationY.Maximum = new decimal(new int[] {
+            180,
+            0,
+            0,
+            0});
+            this.knudStartLocationY.Minimum = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
+            this.knudStartLocationY.Name = "knudStartLocationY";
+            this.knudStartLocationY.Size = new System.Drawing.Size(120, 22);
+            this.knudStartLocationY.TabIndex = 21;
+            this.knudStartLocationY.Value = new decimal(new int[] {
+            60,
+            0,
+            0,
+            0});
+            // 
+            // knudStartLocationX
+            // 
+            this.knudStartLocationX.Enabled = false;
+            this.knudStartLocationX.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.knudStartLocationX.Location = new System.Drawing.Point(38, 73);
+            this.knudStartLocationX.Maximum = new decimal(new int[] {
+            180,
+            0,
+            0,
+            0});
+            this.knudStartLocationX.Minimum = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
+            this.knudStartLocationX.Name = "knudStartLocationX";
+            this.knudStartLocationX.Size = new System.Drawing.Size(120, 22);
+            this.knudStartLocationX.TabIndex = 19;
+            this.knudStartLocationX.Value = new decimal(new int[] {
+            60,
+            0,
+            0,
+            0});
+            // 
+            // klblStartLocationY
+            // 
+            this.klblStartLocationY.Enabled = false;
+            this.klblStartLocationY.Location = new System.Drawing.Point(164, 73);
+            this.klblStartLocationY.Name = "klblStartLocationY";
+            this.klblStartLocationY.Size = new System.Drawing.Size(23, 20);
+            this.klblStartLocationY.TabIndex = 20;
+            this.klblStartLocationY.Values.Text = " Y:";
             // 
             // kchkShowProgressBar
             // 
@@ -202,6 +332,7 @@
             this.kchkShowCloseBox.Size = new System.Drawing.Size(110, 20);
             this.kchkShowCloseBox.TabIndex = 9;
             this.kchkShowCloseBox.Values.Text = "Show Close Box";
+            this.kchkShowCloseBox.CheckedChanged += new System.EventHandler(this.kchkShowCloseBox_CheckedChanged);
             // 
             // kchkTopMost
             // 
@@ -220,6 +351,7 @@
             this.kchkUseFade.Size = new System.Drawing.Size(73, 20);
             this.kchkUseFade.TabIndex = 7;
             this.kchkUseFade.Values.Text = "Use Fade";
+            this.kchkUseFade.CheckedChanged += new System.EventHandler(this.kchkUseFade_CheckedChanged);
             // 
             // ktxtCustomToastIconPath
             // 
@@ -285,14 +417,14 @@
             this.kryptonLabel1.TabIndex = 0;
             this.kryptonLabel1.Values.Text = "Title:";
             // 
-            // ToastNotificationTest
+            // BasicToastNotificationTest
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(812, 462);
+            this.ClientSize = new System.Drawing.Size(830, 480);
             this.Controls.Add(this.kryptonPanel2);
             this.Controls.Add(this.kryptonPanel1);
-            this.Name = "ToastNotificationTest";
+            this.Name = "BasicToastNotificationTest";
             this.Text = "ToastNotificationTest";
             this.Load += new System.EventHandler(this.ToastNotificationTest_Load);
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).EndInit();
@@ -301,6 +433,11 @@
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel2)).EndInit();
             this.kryptonPanel2.ResumeLayout(false);
             this.kryptonPanel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonGroupBox1.Panel)).EndInit();
+            this.kryptonGroupBox1.Panel.ResumeLayout(false);
+            this.kryptonGroupBox1.Panel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonGroupBox1)).EndInit();
+            this.kryptonGroupBox1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.kcmbToastTitleAlignment)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.kcmbToastIcon)).EndInit();
             this.ResumeLayout(false);
@@ -330,5 +467,13 @@
         private Krypton.Toolkit.KryptonNumericUpDown knudCountdownSeconds;
         private Krypton.Toolkit.KryptonLabel kryptonLabel5;
         private Krypton.Toolkit.KryptonCheckBox kchkShowProgressBar;
+        private Krypton.Toolkit.KryptonLabel klblStartLocation;
+        private Krypton.Toolkit.KryptonLabel klblStartLocationY;
+        private Krypton.Toolkit.KryptonNumericUpDown knudStartLocationX;
+        private Krypton.Toolkit.KryptonNumericUpDown knudStartLocationY;
+        private Krypton.Toolkit.KryptonGroupBox kryptonGroupBox1;
+        private Krypton.Toolkit.KryptonCheckBox kchkSetDefaultLocation;
+        private Krypton.Toolkit.KryptonLabel klblStartLocationX;
+        private Krypton.Toolkit.KryptonCheckBox kchkReportLocation;
     }
 }
