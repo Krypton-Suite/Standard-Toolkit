@@ -124,7 +124,7 @@ namespace Krypton.Ribbon
                 // Ask the renderer for the contents preferred size
                 _preferredSize = context.Renderer.RenderStandardContent.GetContentPreferredSize(context, _contentProvider, 
                                                                                                 this, VisualOrientation.Top,
-                                                                                                State, false, false);
+                                                                                                State);
 
                 // Subtract the extra space used to ensure it draws
                 _heightExtra = (_ribbon.CalculatedValues.DrawFontHeight - _ribbon.CalculatedValues.RawFontHeight) * 2;
@@ -183,7 +183,7 @@ namespace Krypton.Ribbon
                 _memento = context.Renderer.RenderStandardContent.LayoutContent(context, drawRect,
                                                                                 _contentProvider, this,
                                                                                 VisualOrientation.Top,
-                                                                                PaletteState.Normal, false, false);
+                                                                                PaletteState.Normal);
 
                 // Cache values that are needed to decide if layout is needed
                 _displayRect = ClientRectangle;
@@ -211,7 +211,7 @@ namespace Krypton.Ribbon
                 context.Renderer.RenderStandardContent.DrawContent(context, drawRect,
                                                                    _contentProvider, _memento,
                                                                    VisualOrientation.Top,
-                                                                   State, false, false, true);
+                                                                   State, true);
             }
         }
         #endregion
@@ -222,7 +222,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="state">Tab state.</param>
         /// <returns>Image.</returns>
-        public Image GetImage(PaletteState state) => null;
+        public Image? GetImage(PaletteState state) => null;
 
         /// <summary>
         /// Gets the image color that should be interpreted as transparent.

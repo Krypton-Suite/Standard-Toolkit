@@ -785,7 +785,7 @@ namespace Krypton.Navigator
                 case NavigatorMode.Panel:
                     return new ViewBuilderPanel();
                 default:
-    // Should never happen!
+                    // Should never happen!
                     Debug.Assert(false);
                     throw DebugTools.NotImplemented(mode.ToString());
             }

@@ -322,7 +322,7 @@ namespace Krypton.Toolkit
                     if (!skip)
                     {
                         _dayMementos[index] = context.Renderer.RenderStandardContent.LayoutContent(context, layoutRectDay, paletteTriple.PaletteContent,
-                                                                                                   this, VisualOrientation.Top, paletteState, false, false);
+                                                                                                   this, VisualOrientation.Top, paletteState);
 
                         // Track the maximum date displayed for this month (exclude disabled days that are shown for
                         // information but cannot actually be selected themselves as part of a multi selection action)
@@ -469,7 +469,7 @@ namespace Krypton.Toolkit
                             if (paletteTriple.PaletteContent.GetContentDraw(paletteState) == InheritBool.True)
                             {
                                 context.Renderer.RenderStandardContent.DrawContent(context, drawRectDay, paletteTriple.PaletteContent, _dayMementos[index],
-                                                                                   VisualOrientation.Top, paletteState, false, false, true);
+                                                                                   VisualOrientation.Top, paletteState, true);
                             }
                         }
                     }
@@ -497,7 +497,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">The state for which the image is needed.</param>
         /// <returns>Image value.</returns>
-        public Image GetImage(PaletteState state) => null;
+        public Image? GetImage(PaletteState state) => null;
 
         /// <summary>
         /// Gets the image color that should be transparent.

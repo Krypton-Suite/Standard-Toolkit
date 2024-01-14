@@ -230,13 +230,13 @@ namespace Krypton.Ribbon
 
         #region IContentValues
 
-        private Image _cachedImage;
+        private Image? _cachedImage;
         /// <summary>
         /// Gets the image used for the ribbon tab.
         /// </summary>
         /// <param name="state">Tab state.</param>
         /// <returns>Image.</returns>
-        public Image GetImage(PaletteState state)
+        public Image? GetImage(PaletteState state)
         {
             if (_cachedImage == null)
             {

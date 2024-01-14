@@ -27,7 +27,7 @@ namespace Krypton.Ribbon
     public class KryptonRibbonGroupClusterButton : KryptonRibbonGroupItem
     {
         #region Static Fields
-        private static readonly Image _defaultButtonImageSmall = GenericImageResources.ButtonImageSmall;
+        private static readonly Image? _defaultButtonImageSmall = GenericImageResources.ButtonImageSmall;
         #endregion
 
         #region Instance Fields
@@ -36,7 +36,7 @@ namespace Krypton.Ribbon
         private bool _checked;
         private string _textLine;
         private string _keyTip;
-        private Image _imageSmall;
+        private Image? _imageSmall;
         private GroupItemSize _itemSizeMax;
         private GroupItemSize _itemSizeMin;
         private GroupItemSize _itemSizeCurrent;
@@ -156,7 +156,7 @@ namespace Krypton.Ribbon
         [Category(@"Appearance")]
         [Description(@"Small button image.")]
         [RefreshProperties(RefreshProperties.All)]
-        public Image ImageSmall
+        public Image? ImageSmall
         {
             get => _imageSmall;
 

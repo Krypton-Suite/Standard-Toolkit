@@ -221,14 +221,7 @@ namespace Krypton.Toolkit
         /// Requests that all the buttons have state refreshed.
         /// </summary>
         /// <returns>True if a state change was made.</returns>
-        public bool RefreshButtons() => RefreshButtons(false);
-
-        /// <summary>
-        /// Requests that all the buttons have state refreshed.
-        /// </summary>
-        /// <param name="composition">Composition value for the spec view.</param>
-        /// <returns>True if a state change was made.</returns>
-        public bool RefreshButtons(bool composition)
+        public bool RefreshButtons()
         {
             var changed = false;
 
@@ -240,7 +233,6 @@ namespace Krypton.Toolkit
                 changed |= buttonView.UpdateEnabled();
                 changed |= buttonView.UpdateChecked();
                 buttonView.UpdateShowDrop();
-                buttonView.DrawButtonSpecOnComposition = composition;
             }
 
             return changed;

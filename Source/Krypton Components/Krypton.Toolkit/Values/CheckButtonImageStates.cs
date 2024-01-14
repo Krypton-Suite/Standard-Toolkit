@@ -18,9 +18,9 @@ namespace Krypton.Toolkit
     public class CheckButtonImageStates : ButtonImageStates
     {
         #region Instance Fields
-        private Image _imageCheckedNormal;
-        private Image _imageCheckedPressed;
-        private Image _imageCheckedTracking;
+        private Image? _imageCheckedNormal;
+        private Image? _imageCheckedPressed;
+        private Image? _imageCheckedTracking;
         #endregion
 
         #region IsDefault
@@ -47,7 +47,7 @@ namespace Krypton.Toolkit
         [EditorBrowsable(EditorBrowsableState.Always)]
         [Browsable(true)]
         [DefaultValue(null)]
-        public override Image ImageCheckedNormal
+        public override Image? ImageCheckedNormal
         {
             get => _imageCheckedNormal;
 
@@ -81,7 +81,7 @@ namespace Krypton.Toolkit
         [EditorBrowsable(EditorBrowsableState.Always)]
         [Browsable(true)]
         [DefaultValue(null)]
-        public override Image ImageCheckedPressed
+        public override Image? ImageCheckedPressed
         {
             get => _imageCheckedPressed;
 
@@ -115,7 +115,7 @@ namespace Krypton.Toolkit
         [EditorBrowsable(EditorBrowsableState.Always)]
         [Browsable(true)]
         [DefaultValue(null)]
-        public override Image ImageCheckedTracking
+        public override Image? ImageCheckedTracking
         {
             get => _imageCheckedTracking;
 

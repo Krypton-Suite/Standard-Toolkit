@@ -38,7 +38,7 @@ namespace Krypton.Toolkit
         private Color _selectedColor;
         private Color _emptyBorderColor;
         private readonly List<Color> _recentColors;
-        private Image _wasImage;
+        private Image? _wasImage;
         private bool _wasEnabled;
         private bool _isDefault;
         private bool _useMnemonic;
@@ -869,7 +869,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">The state for which the image is needed.</param>
         /// <returns>Image value.</returns>
-        public Image GetImage(PaletteState state) => Values.GetImage(state);
+        public Image? GetImage(PaletteState state) => Values.GetImage(state);
 
         /// <summary>
         /// Gets the image color that should be transparent.

@@ -174,7 +174,7 @@ namespace Krypton.Toolkit
 
         /// <summary>Gets or sets the image.</summary>
         /// <value>The image.</value>
-        public Image Image
+        public Image? Image
         {
             get => _groupBox.Values.Image;
 

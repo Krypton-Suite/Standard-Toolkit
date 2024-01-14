@@ -38,7 +38,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="target">Initial palette target for redirection.</param>
         public PaletteRedirectRibbonDouble(PaletteBase target)
-            : this(target, 
+            : this(target,
                    null, null, null, null, null, null,
                    null, null, null, null, null, null)
         {
@@ -282,7 +282,7 @@ namespace Krypton.Toolkit
                 case PaletteState.FocusOverride:
                     return _focusOverrideBack;
                 default:
-    // Should never happen!
+                    // Should never happen!
                     Debug.Assert(false);
                     throw DebugTools.NotImplemented(state.ToString());
             }
@@ -307,7 +307,7 @@ namespace Krypton.Toolkit
                 case PaletteState.FocusOverride:
                     return _focusOverrideText;
                 default:
-    // Should never happen!
+                    // Should never happen!
                     Debug.Assert(false);
                     throw DebugTools.NotImplemented(state.ToString());
             }

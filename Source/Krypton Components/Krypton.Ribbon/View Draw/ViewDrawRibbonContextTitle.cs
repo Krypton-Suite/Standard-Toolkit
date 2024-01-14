@@ -6,9 +6,6 @@
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
- *  
- *  Modified: Monday 12th April, 2021 @ 18:00 GMT
- *
  */
 #endregion
 
@@ -33,7 +30,6 @@ namespace Krypton.Ribbon
         private IDisposable? _mementoContentShadow2;
         private Rectangle _textRect;
         private readonly int TEXT_SIDE_GAP; // = 4;
-        private readonly int TEXT_SIDE_GAP_COMPOSITION; // = 2;
         private readonly int TEXT_BOTTOM_GAP; // = 3;
         #endregion
 
@@ -42,7 +38,7 @@ namespace Krypton.Ribbon
         /// Initialize a new instance of the ViewDrawRibbonContextTitle class.
         /// </summary>
         /// <param name="ribbon">Source ribbon control.</param>
-        /// <param name="inherit">Source for inheriting the ribbon bacgkground colors.</param>
+        /// <param name="inherit">Source for inheriting the ribbon background colors.</param>
         public ViewDrawRibbonContextTitle([DisallowNull] KryptonRibbon ribbon,
                                           [DisallowNull] IPaletteRibbonBack inherit)
         {
@@ -50,15 +46,14 @@ namespace Krypton.Ribbon
             Debug.Assert(inherit != null);
 
             TEXT_SIDE_GAP = (int)(4 * FactorDpiX);
-            TEXT_SIDE_GAP_COMPOSITION = (int)(2 * FactorDpiX);
             TEXT_BOTTOM_GAP = (int)(3 * FactorDpiY);
 
             // Remember incoming references
-            _inherit = inherit;
-            _ribbon = ribbon;
+            _inherit = inherit!;
+            _ribbon = ribbon!;
 
             // Use a class to convert from ribbon tab to content interface
-            _contentProvider = new ContextToContent(ribbon.StateCommon.RibbonGeneral);
+            _contentProvider = new ContextToContent(_ribbon.StateCommon.RibbonGeneral);
         }
 
         /// <summary>
@@ -110,7 +105,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets the context to display.
         /// </summary>
-        public ContextTabSet ContextTabSet
+        public ContextTabSet? ContextTabSet
         {
             get => _context;
 
@@ -152,7 +147,7 @@ namespace Krypton.Ribbon
         {
             Debug.Assert(context != null);
 
-            ClientRectangle = context.DisplayRectangle;
+            ClientRectangle = context!.DisplayRectangle;
 
             // We always extend an extra pixel downwards to draw over the containers border
             var adjustRect = new Rectangle(ClientRectangle.X, ClientRectangle.Y, ClientWidth, ClientHeight + 1);
@@ -212,20 +207,17 @@ namespace Krypton.Ribbon
 
                 _contentProvider.OverrideTextColor = Color.FromArgb(128, ControlPaint.Dark(GetRibbonBackColor1(PaletteState.Normal)));
 
-                if (DrawOnComposition)
-                {
-                    _contentProvider.OverrideTextHint = PaletteTextHint.SingleBitPerPixelGridFit;
-                }
+                _contentProvider.OverrideTextHint = PaletteTextHint.SingleBitPerPixelGridFit;
 
                 _mementoContentShadow1 = context.Renderer.RenderStandardContent.LayoutContent(context, shadowTextRect1,
                                                                                              _contentProvider, this,
                                                                                              VisualOrientation.Top,
-                                                                                             PaletteState.Normal, false, false);
+                                                                                             PaletteState.Normal);
 
                 _mementoContentShadow2 = context.Renderer.RenderStandardContent.LayoutContent(context, shadowTextRect2,
                                                                                              _contentProvider, this,
                                                                                              VisualOrientation.Top,
-                                                                                             PaletteState.Normal, false, false);
+                                                                                             PaletteState.Normal);
                 _contentProvider.OverrideTextColor = Color.Empty;
             }
 
@@ -233,7 +225,7 @@ namespace Krypton.Ribbon
             _mementoContentText = context.Renderer.RenderStandardContent.LayoutContent(context, _textRect,
                                                                                        _contentProvider, this,
                                                                                        VisualOrientation.Top,
-                                                                                       PaletteState.Normal, false, false);
+                                                                                       PaletteState.Normal);
 
             _contentProvider.OverrideTextHint = PaletteTextHint.Inherit;
         }
@@ -259,20 +251,17 @@ namespace Krypton.Ribbon
 
                 _contentProvider.OverrideTextColor = Color.FromArgb(128, ControlPaint.Dark(GetRibbonBackColor1(PaletteState.Normal)));
 
-                if (DrawOnComposition)
-                {
-                    _contentProvider.OverrideTextHint = PaletteTextHint.SingleBitPerPixelGridFit;
-                }
+                _contentProvider.OverrideTextHint = PaletteTextHint.SingleBitPerPixelGridFit;
 
                 context.Renderer.RenderStandardContent.DrawContent(context, shadowTextRect1,
                                                                    _contentProvider, _mementoContentShadow1,
                                                                    VisualOrientation.Top,
-                                                                   state, false, false, true);
+                                                                   state, true);
 
                 context.Renderer.RenderStandardContent.DrawContent(context, shadowTextRect2,
                                                                    _contentProvider, _mementoContentShadow2,
                                                                    VisualOrientation.Top,
-                                                                   state, false, false, true);
+                                                                   state, true);
 
                 _contentProvider.OverrideTextColor = Color.Empty;
 
@@ -282,32 +271,25 @@ namespace Krypton.Ribbon
                     context.Renderer.RenderStandardContent.DrawContent(context, _textRect,
                         _contentProvider, _mementoContentText,
                         VisualOrientation.Top,
-                        state, false, false, true);
+                        state, true);
                 }
 
                 _contentProvider.OverrideTextHint = PaletteTextHint.Inherit;
             }
             else
             {
-                if (DrawOnComposition)
-                {
-                    RenderOnComposition(context);
-                }
-                else
-                {
-                    PaletteState state = _ribbon.Enabled ? PaletteState.Normal : PaletteState.Disabled;
+                PaletteState state = _ribbon.Enabled ? PaletteState.Normal : PaletteState.Disabled;
 
-                    // Use renderer to draw the tab background
-                    _mementoBack = context.Renderer.RenderRibbon.DrawRibbonTabContextTitle(_ribbon.RibbonShape, context, ClientRectangle, _ribbon.StateCommon.RibbonGeneral, this, _mementoBack);
+                // Use renderer to draw the tab background
+                _mementoBack = context.Renderer.RenderRibbon.DrawRibbonTabContextTitle(_ribbon.RibbonShape, context, ClientRectangle, _ribbon.StateCommon.RibbonGeneral, this, _mementoBack);
 
-                    // Use renderer to draw the text content
-                    if (_mementoContentText != null)
-                    {
-                        context.Renderer.RenderStandardContent.DrawContent(context, _textRect,
-                            _contentProvider, _mementoContentText,
-                            VisualOrientation.Top,
-                            state, DrawOnComposition, DrawOnComposition, true);
-                    }
+                // Use renderer to draw the text content
+                if (_mementoContentText != null)
+                {
+                    context.Renderer.RenderStandardContent.DrawContent(context, _textRect,
+                        _contentProvider, _mementoContentText,
+                        VisualOrientation.Top,
+                        state, true);
                 }
             }
         }
@@ -413,98 +395,6 @@ namespace Krypton.Ribbon
         #endregion
 
         #region Implementation
-        private void RenderOnComposition(RenderContext context)
-        {
-            // Convert the clipping rectangle from floating to int version
-            RectangleF rectClipF = context.Graphics.ClipBounds;
-            var rectClip = new Rectangle((int)rectClipF.X, (int)rectClipF.Y, (int)rectClipF.Width,
-                (int)rectClipF.Height);
-
-            // No point drawing unless some of the client fits into the clipping area
-            if (rectClip.IntersectsWith(ClientRectangle))
-            {
-                // Get the hDC for the graphics instance and create a memory DC
-                var gDC = context.Graphics.GetHdc();
-                var mDC = PI.CreateCompatibleDC(gDC);
-
-                var bmi = new PI.BITMAPINFO();
-                bmi.biSize = (uint)Marshal.SizeOf(bmi);
-                bmi.biWidth = ClientWidth;
-                bmi.biHeight = -ClientHeight;
-                bmi.biCompression = 0;
-                bmi.biBitCount = 32;
-                bmi.biPlanes = 1;
-
-                // Create a device independant bitmp and select into the memory DC
-                var hDIB = PI.CreateDIBSection(gDC, ref bmi, 0, out _, IntPtr.Zero, 0);
-                PI.SelectObject(mDC, hDIB);
-
-                // To call the renderer we need to convert from Win32 HDC to Graphics object
-                using (Graphics bitmapG = Graphics.FromHdc(mDC))
-                {
-                    var renderClientRect = new Rectangle(0, 0, ClientWidth, ClientHeight);
-
-                    // Create new render context that uses the bitmap graphics instance
-                    using (var bitmapContext = new RenderContext(context.Control,
-                               bitmapG, renderClientRect, context.Renderer))
-                    {
-                        // Finally we get the renderer to draw the background for the bitmap
-                        _mementoBack = context.Renderer.RenderRibbon.DrawRibbonTabContextTitle(_ribbon.RibbonShape, bitmapContext, renderClientRect, _ribbon.StateCommon.RibbonGeneral, this, _mementoBack);
-                    }
-                }
-
-                // Select the font for use when drawing
-                var hFont = _contentProvider.GetContentShortTextFont(State).ToHfont();
-                PI.SelectObject(mDC, hFont);
-
-                // Get renderer for the correct state
-                var renderer = new VisualStyleRenderer(VisualStyleElement.Window.Caption.Active);
-
-                // Create structures needed for theme drawing call
-                var textBounds = new PI.RECT
-                {
-                    left = TEXT_SIDE_GAP_COMPOSITION,
-                    top = 0,
-                    right = ClientWidth - (TEXT_SIDE_GAP_COMPOSITION * 2),
-                    bottom = ClientHeight
-                };
-                var dttOpts = new PI.DTTOPTS
-                {
-                    dwSize = Marshal.SizeOf(typeof(PI.DTTOPTS)),
-                    dwFlags = PI.DTT_COMPOSITED | PI.DTT_GLOWSIZE | PI.DTT_TEXTCOLOR,
-                    crText = ColorTranslator.ToWin32(SystemColors.ActiveCaptionText),
-                    iGlowSize = _ribbon.Enabled ? 12 : 2
-                };
-
-                // Always draw text centered
-                const TextFormatFlags TEXT_FORMAT = TextFormatFlags.SingleLine |
-                                                   TextFormatFlags.HorizontalCenter |
-                                                   TextFormatFlags.VerticalCenter |
-                                                   TextFormatFlags.EndEllipsis;
-
-                // Perform actual drawing
-                PI.DrawThemeTextEx(renderer.Handle,
-                                   mDC, 0, 0,
-                                   GetShortText(), -1, (int)TEXT_FORMAT,
-                                   ref textBounds, ref dttOpts);
-
-                // Copy to foreground
-                PI.BitBlt(gDC,
-                          ClientLocation.X, ClientLocation.Y,
-                          ClientWidth, ClientHeight,
-                          mDC, 0, 0, 0x00CC0020);
-
-                // Dispose of allocated objects
-                PI.DeleteObject(hFont);
-                PI.DeleteObject(hDIB);
-                PI.DeleteDC(mDC);
-
-                // Must remember to release the hDC
-                context.Graphics.ReleaseHdc(gDC);
-            }
-        }
-
-        private bool DrawOnComposition => _ribbon is { CaptionArea.DrawCaptionOnComposition: true };
 
         private Color CheckForContextColor() =>
             // We need an associated context
@@ -518,7 +408,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="state">Tab state.</param>
         /// <returns>Image.</returns>
-        public Image GetImage(PaletteState state) => null;
+        public Image? GetImage(PaletteState state) => null;
 
         /// <summary>
         /// Gets the image color that should be interpreted as transparent.

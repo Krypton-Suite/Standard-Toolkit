@@ -52,10 +52,10 @@ namespace Krypton.Navigator
         private string _toolTipTitle;
         private string _toolTipBody;
         private string _uniqueName;
-        private Bitmap _imageSmall;
-        private Bitmap _imageMedium;
-        private Bitmap _imageLarge;
-        private Bitmap _toolTipImage;
+        private Bitmap? _imageSmall;
+        private Bitmap? _imageMedium;
+        private Bitmap? _imageLarge;
+        private Bitmap? _toolTipImage;
         private Color _toolTipImageTransparentColor;
         private bool _setVisible;
         private LabelStyle _toolTipStyle;
@@ -165,7 +165,7 @@ namespace Krypton.Navigator
         /// <remarks>
         /// If Min Size not set in the Embedded control, then will default to 150, 50
         /// </remarks>
-        public KryptonPage(string text, Bitmap imageSmall, string? uniqueName)
+        public KryptonPage(string text, Bitmap? imageSmall, string? uniqueName)
             : this(text, imageSmall, uniqueName, new Size(150, 50))
         {
 
@@ -178,7 +178,7 @@ namespace Krypton.Navigator
         /// <param name="imageSmall">Initial small image.</param>
         /// <param name="uniqueName">Initial unique name.</param>
         /// <param name="minSize">Min Size of dragged docked control, if not set by Embedded</param>
-        public KryptonPage(string text, Bitmap imageSmall, string? uniqueName, Size minSize)
+        public KryptonPage(string text, Bitmap? imageSmall, string? uniqueName, Size minSize)
         {
             // Default properties
             Text = text;
@@ -490,7 +490,7 @@ namespace Krypton.Navigator
         [Description(@"The small image that represents the page.")]
         [Localizable(true)]
         [DefaultValue(null)]
-        public virtual Bitmap ImageSmall
+        public virtual Bitmap? ImageSmall
         {
             [DebuggerStepThrough]
             get => _imageSmall;
@@ -517,7 +517,7 @@ namespace Krypton.Navigator
         [Description(@"The medium image that represents the page.")]
         [Localizable(true)]
         [DefaultValue(null)]
-        public virtual Bitmap ImageMedium
+        public virtual Bitmap? ImageMedium
         {
             [DebuggerStepThrough]
             get => _imageMedium;
@@ -544,7 +544,7 @@ namespace Krypton.Navigator
         [Description(@"The large image that represents the page.")]
         [Localizable(true)]
         [DefaultValue(null)]
-        public virtual Bitmap ImageLarge
+        public virtual Bitmap? ImageLarge
         {
             [DebuggerStepThrough]
             get => _imageLarge;
@@ -571,7 +571,7 @@ namespace Krypton.Navigator
         [Category(@"Appearance")]
         [Description(@"Page tooltip image.")]
         [DefaultValue(null)]
-        public virtual Bitmap ToolTipImage
+        public virtual Bitmap? ToolTipImage
         {
             get => _toolTipImage;
 
@@ -1087,9 +1087,9 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="mapping">Image mapping.</param>
         /// <returns>Image reference.</returns>
-        public virtual Image GetImageMapping(MapKryptonPageImage mapping)
+        public virtual Image? GetImageMapping(MapKryptonPageImage mapping)
         {
-            Image ret = null;
+            Image? ret = null;
 
             // Recover the first preference value
             switch (mapping)

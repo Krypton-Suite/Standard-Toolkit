@@ -704,7 +704,7 @@ namespace Krypton.Toolkit
                 case PaletteState.LinkPressedOverride:
                     return _linkPressedOverride;
                 default:
-    // Should never happen!
+                    // Should never happen!
                     Debug.Assert(false);
                     throw DebugTools.NotImplemented(state.ToString());
             }

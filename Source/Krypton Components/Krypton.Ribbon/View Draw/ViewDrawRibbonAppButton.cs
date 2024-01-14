@@ -170,28 +170,31 @@ namespace Krypton.Ribbon
             if (_ribbon.RibbonAppButton.AppButtonImage != null)
             {
                 // We always draw the image a 24x24 image (if dpi = 1!)
-                var localImage = _ribbon.RibbonAppButton.AppButtonImage;
+                Image? localImage = _ribbon.RibbonAppButton.AppButtonImage;
                 localImage = CommonHelper.ScaleImageForSizedDisplay(localImage, localImage.Width * FactorDpiX,
                     localImage.Height * FactorDpiY);
 
-                var imageRect = new Rectangle(ClientLocation.X + (int)(7 * FactorDpiX),
-                    ClientLocation.Y + (int)(6 * FactorDpiY), (int)(24 * FactorDpiX), (int)(24 * FactorDpiY));
-
-                if (_ribbon.Enabled)
+                if (localImage != null)
                 {
-                    context.Graphics.DrawImage(localImage, imageRect);
-                }
-                else
-                {
-                    // Use a color matrix to convert to black and white
-                    using var attribs = new ImageAttributes();
-                    attribs.SetColorMatrix(CommonHelper.MatrixDisabled);
+                    var imageRect = new Rectangle(ClientLocation.X + (int)(7 * FactorDpiX),
+                        ClientLocation.Y + (int)(6 * FactorDpiY), (int)(24 * FactorDpiX), (int)(24 * FactorDpiY));
 
-                    context.Graphics.DrawImage(localImage,
-                        imageRect, 0, 0,
-                        localImage.Width,
-                        localImage.Height,
-                        GraphicsUnit.Pixel, attribs);
+                    if (_ribbon.Enabled)
+                    {
+                        context.Graphics.DrawImage(localImage, imageRect);
+                    }
+                    else
+                    {
+                        // Use a color matrix to convert to black and white
+                        using var attribs = new ImageAttributes();
+                        attribs.SetColorMatrix(CommonHelper.MatrixDisabled);
+
+                        context.Graphics.DrawImage(localImage,
+                            imageRect, 0, 0,
+                            localImage.Width,
+                            localImage.Height,
+                            GraphicsUnit.Pixel, attribs);
+                    }
                 }
             }
 

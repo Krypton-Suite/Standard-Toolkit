@@ -35,7 +35,7 @@ namespace Krypton.Toolkit
         /// <param name="imageTransparentColor">Initial image transparent color value.</param>
         public FixedContentValue(string? shortText,
                                  string? longText,
-                                 Image image,
+                                 Image? image,
                                  Color imageTransparentColor)
         {
             ShortText = shortText;
@@ -80,7 +80,7 @@ namespace Krypton.Toolkit
         [Category(@"Appearance")]
         [Description(@"Image associated with item.")]
         [Localizable(true)]
-        public Image Image { get; set; }
+        public Image? Image { get; set; }
 
         private bool ShouldSerializeImage() => Image != null;
 
@@ -111,7 +111,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">The state for which the image is needed.</param>
         /// <returns>Image value.</returns>
-        public Image GetImage(PaletteState state) => Image;
+        public Image? GetImage(PaletteState state) => Image;
 
         /// <summary>
         /// Gets the image color that should be transparent.

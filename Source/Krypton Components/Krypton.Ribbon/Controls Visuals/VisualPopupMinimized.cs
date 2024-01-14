@@ -180,7 +180,7 @@ namespace Krypton.Ribbon
 
             // If the base class wants to end tracking and not inside the ribbon control
             return base.DoesCurrentMouseDownEndAllTracking(m, pt) &&
-                   !_ribbon.ClientRectangleWithoutComposition.Contains(ribbonPt) &&
+                   !_ribbon.ClientRectangle.Contains(ribbonPt) &&
                    _captionArea.DoesCurrentMouseDownEndAllTracking(screenPt);
         }
 

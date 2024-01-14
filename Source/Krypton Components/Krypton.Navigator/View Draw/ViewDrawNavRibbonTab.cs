@@ -358,7 +358,6 @@ namespace Krypton.Navigator
                                                                                    State,
                                                                                    _currentBack,
                                                                                    _borderBackOrient,
-                                                                                   false,
                                                                                    _mementos[mementoIndex]);
 
             // Let base class draw the child items
@@ -378,7 +377,7 @@ namespace Krypton.Navigator
         /// </summary>
         /// <param name="state">The state for which the image is needed.</param>
         /// <returns>Image value.</returns>
-        public Image GetImage(PaletteState state) => Page!.GetImageMapping(Navigator.Bar.BarMapImage);
+        public Image? GetImage(PaletteState state) => Page!.GetImageMapping(Navigator.Bar.BarMapImage);
 
         /// <summary>
         /// Gets the image color that should be transparent.

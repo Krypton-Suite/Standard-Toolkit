@@ -74,7 +74,7 @@ namespace Krypton.Toolkit
                 /// </summary>
                 [Category(@"Appearance")]
                 [DefaultValue(null)]
-                public Image Image
+                public Image? Image
                 {
                     get => _item.Image;
                     set => _item.Image = value;

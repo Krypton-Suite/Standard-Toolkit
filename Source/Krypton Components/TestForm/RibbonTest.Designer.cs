@@ -40,7 +40,6 @@
             this.kryptonRibbonGroupButton5 = new Krypton.Ribbon.KryptonRibbonGroupButton();
             this.kryptonRibbonGroupGallery1 = new Krypton.Ribbon.KryptonRibbonGroupGallery();
             this.kryptonPanel1 = new Krypton.Toolkit.KryptonPanel();
-            this.krcbAllowFormIntegrate = new Krypton.Ribbon.KryptonRibbonGroupCheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonRibbon1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
             this.SuspendLayout();
@@ -79,8 +78,7 @@
             // 
             this.kryptonRibbonGroupLines1.Items.AddRange(new Krypton.Ribbon.KryptonRibbonGroupItem[] {
             this.kryptonRibbonGroupButton4,
-            this.kryptonRibbonGroupButton5,
-            this.krcbAllowFormIntegrate});
+            this.kryptonRibbonGroupButton5});
             // 
             // kryptonRibbonGroupGallery1
             // 
@@ -93,11 +91,6 @@
             this.kryptonPanel1.Name = "kryptonPanel1";
             this.kryptonPanel1.Size = new System.Drawing.Size(802, 337);
             this.kryptonPanel1.TabIndex = 1;
-            // 
-            // krcbAllowFormIntegrate
-            // 
-            this.krcbAllowFormIntegrate.TextLine1 = "Allow Form Integrate";
-            this.krcbAllowFormIntegrate.CheckedChanged += new System.EventHandler(this.krcbAllowFormIntegrate_CheckedChanged);
             // 
             // RibbonTest
             // 
@@ -129,6 +122,5 @@
         private Krypton.Ribbon.KryptonRibbonGroupButton kryptonRibbonGroupButton5;
         private Krypton.Ribbon.KryptonRibbonGroupGallery kryptonRibbonGroupGallery1;
         private Krypton.Toolkit.KryptonPanel kryptonPanel1;
-        private Krypton.Ribbon.KryptonRibbonGroupCheckBox krcbAllowFormIntegrate;
     }
 }

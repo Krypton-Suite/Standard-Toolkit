@@ -36,13 +36,6 @@ namespace Krypton.Toolkit
         /// <returns>Button visibility.</returns>
         public override bool GetVisible(PaletteBase palette)
         {
-            // We do not show if the custom chrome is combined with composition,
-            // in which case the form buttons are handled by the composition
-            if (KryptonForm is { ApplyComposition: true })
-            {
-                return false;
-            }
-
             // The maximize button is never present on tool windows
             switch (KryptonForm.FormBorderStyle)
             {

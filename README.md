@@ -193,6 +193,9 @@ There are list of changes that have occurred during the development of the V90.#
 - [#1268](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1268),  Many Krypton Controls have a `CornerRoundingRadius` that overrides the State#### Node Rounding values. Please remove!
   - `CornerRoundingRadius` overrides **ONLY** the `StateCommon.Border.Rounding` which is incorrect.
   - All `CornerRoundingRadius` have been removed
+- [#1269](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1269),  Remove AllowFormIntegrate to give consistent experience on all supported OS's 
+  - Please check the images inthe issue.
+  - To fix: just remove `AllowFormIntegrate` from your deisgner files
 
 ### Support for .NET 6/7
 As of V90.##, support for .NET 6 and 7 has been removed due to their release cadences.

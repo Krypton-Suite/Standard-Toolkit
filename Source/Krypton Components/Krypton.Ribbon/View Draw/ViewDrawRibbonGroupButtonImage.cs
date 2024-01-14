@@ -65,7 +65,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets the image to be drawn.
         /// </summary>
-        protected override Image DrawImage
+        protected override Image? DrawImage
         {
             get
             {

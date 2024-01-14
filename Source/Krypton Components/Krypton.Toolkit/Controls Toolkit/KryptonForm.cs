@@ -95,7 +95,7 @@ namespace Krypton.Toolkit
         private bool _lastNotNormal;
         private bool _useDropShadow;
         private StatusStrip? _statusStrip;
-        private Bitmap _cacheBitmap;
+        private Bitmap? _cacheBitmap;
         private Icon? _cacheIcon;
         private Control? _activeControl;
         private KryptonFormTitleStyle _titleStyle;
@@ -664,42 +664,6 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Public Chrome
-        /// <summary>
-        /// Perform layout on behalf of the composition element using our root element.
-        /// </summary>
-        /// <param name="context">Layout context.</param>
-        /// <param name="compRect">Rectangle for composition element.</param>
-        public override void WindowChromeCompositionLayout(ViewLayoutContext context,
-                                                           Rectangle compRect)
-        {
-            // Update buttons so the min/max/close and custom button 
-            // specs have visible states set to the correct values. For
-            // the form level buttons this means they are hidden.
-            _buttonManager.RefreshButtons(true);
-
-            // Tell the content to draw itself on a composition surface
-            _drawContent.DrawContentOnComposition = true;
-            _drawContent.Glowing = true;
-
-            // Update the fixed header area to that provided
-            _headingFixedSize.FixedSize = new Size(compRect.Height, compRect.Height);
-
-            // Perform actual layout of the element tree
-            ViewManager?.Layout(context);
-        }
-
-        /// <summary>
-        /// Perform painting on behalf of the composition element using our root element.
-        /// </summary>
-        /// <param name="context">Rendering context.</param>
-        public override void WindowChromeCompositionPaint(RenderContext context)
-        {
-            // We do not draw background of form or header
-            _drawDocker.DrawCanvas = false;
-            _drawHeading.DrawCanvas = false;
-
-            ViewManager?.Paint(context);
-        }
 
         /// <summary>
         /// Gets a value indicating if the provided point is inside the minimize button.
@@ -738,7 +702,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Form state.</param>
         /// <returns>Image.</returns>
-        public Image GetImage(PaletteState state)
+        public Image? GetImage(PaletteState state)
         {
             Icon? displayIcon = GetDefinedIcon();
 
@@ -1027,9 +991,8 @@ namespace Krypton.Toolkit
         /// Perform hit testing.
         /// </summary>
         /// <param name="pt">Point in window coordinates.</param>
-        /// <param name="composition">Are we performing composition.</param>
         /// <returns></returns>
-        protected override IntPtr WindowChromeHitTest(Point pt, bool composition)
+        protected override IntPtr WindowChromeHitTest(Point pt)
         {
             Point originalPt = pt;
             if (CustomCaptionArea.Contains(pt))
@@ -1037,22 +1000,19 @@ namespace Krypton.Toolkit
                 return new IntPtr(PI.HT.CAPTION);
             }
 
-            if (!composition)
+            // Is the mouse over any of the min/max/close buttons?
+            if (_buttonManager.GetButtonRectangle(ButtonSpecMin).Contains(pt)
+                || _buttonManager.GetButtonRectangle(ButtonSpecMax).Contains(pt)
+                || _buttonManager.GetButtonRectangle(ButtonSpecClose).Contains(pt))
             {
-                // Is the mouse over any of the min/max/close buttons?
-                if (_buttonManager.GetButtonRectangle(ButtonSpecMin).Contains(pt)
-                    || _buttonManager.GetButtonRectangle(ButtonSpecMax).Contains(pt)
-                    || _buttonManager.GetButtonRectangle(ButtonSpecClose).Contains(pt))
-                {
-                    // Get the mouse controller for this button
-                    ViewBase? viewBase = ViewManager?.Root?.ViewFromPoint(pt);
-                    IMouseController? controller = viewBase?.FindMouseController();
+                // Get the mouse controller for this button
+                ViewBase? viewBase = ViewManager?.Root?.ViewFromPoint(pt);
+                IMouseController? controller = viewBase?.FindMouseController();
 
-                    // Ensure the button shows as 'normal' state when mouse not over and pressed
-                    if (controller is ButtonController buttonController)
-                    {
-                        buttonController.NonClientAsNormal = true;
-                    }
+                // Ensure the button shows as 'normal' state when mouse not over and pressed
+                if (controller is ButtonController buttonController)
+                {
+                    buttonController.NonClientAsNormal = true;
                 }
             }
 
@@ -1167,7 +1127,7 @@ namespace Krypton.Toolkit
                 mouseView = mouseView.Parent;
             }
 
-            return base.WindowChromeHitTest(originalPt, composition);
+            return base.WindowChromeHitTest(originalPt);
         }
 
         /// <summary>
@@ -1198,11 +1158,6 @@ namespace Krypton.Toolkit
                 // Convert to window coordinates
                 Point windowPoint = ScreenToWindow(screenPoint);
 
-                // In composition we need to adjust for the left window border
-                if (ApplyComposition)
-                {
-                    windowPoint.X -= RealWindowBorders.Left;
-                }
 
                 // Is the mouse over the Application icon image area
                 if (_drawContent.ImageRectangle(context).Contains(windowPoint))
@@ -1324,7 +1279,7 @@ namespace Krypton.Toolkit
                     break;
 
                 default:
-    // Should never happen!
+                    // Should never happen!
                     Debug.Assert(false);
                     DebugTools.NotImplemented(style.ToString());
                     break;
@@ -1374,10 +1329,6 @@ namespace Krypton.Toolkit
                     // Update the heading to have a height matching the window requirements
                     Padding windowBorders = RealWindowBorders;
                     _headingFixedSize.FixedSize = new Size(windowBorders.Top, windowBorders.Top);
-
-                    // The content is definitely not being drawn on a composition
-                    _drawContent.DrawContentOnComposition = false;
-                    _drawContent.Glowing = false;
 
                     // A change in window state since last time requires a layout
                     if (_lastWindowState != GetWindowState())

@@ -64,7 +64,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Color value.</returns>
-        public override Color  GetRibbonDisabledDark(PaletteState state)
+        public override Color GetRibbonDisabledDark(PaletteState state)
         {
             IPaletteRibbonGeneral inherit = GetInherit(state);
 
@@ -242,7 +242,7 @@ namespace Krypton.Toolkit
                 case PaletteState.Tracking:
                     return _tracking;
                 default:
-    // Should never happen!
+                    // Should never happen!
                     Debug.Assert(false);
                     throw DebugTools.NotImplemented(state.ToString());
             }

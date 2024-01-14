@@ -28,13 +28,13 @@ namespace Krypton.Toolkit
 
         #region Image Array
 
-        private static readonly Image[] _radioButtonArray;
+        private static readonly Image?[] _radioButtonArray;
 
         #endregion
 
         #region Images
 
-        private static readonly Image _blackDropDownButton = GenericImageResources.BlackDropDownButton;
+        private static readonly Image? _blackDropDownButton = GenericImageResources.BlackDropDownButton;
         private static readonly Image _blackCloseNormal = Office2007ControlBoxResources.Office2007ControlBoxBlackCloseNormal;
         private static readonly Image _blackCloseActive = Office2007ControlBoxResources.Office2007ControlBoxBlackCloseActive;
         private static readonly Image _blackCloseDisabled = Office2007ControlBoxResources.Office2007ControlBoxBlackCloseDisabled;
@@ -57,7 +57,7 @@ namespace Krypton.Toolkit
         private static readonly Image _blackHelpPressed = Office2007ControlBoxResources.Office2007HelpIconPressed;
         private static readonly Image _blackRibbonMinimize = GenericImageResources.BlackButtonCollapse;
         private static readonly Image _blackRibbonExpand = GenericImageResources.BlackButtonExpand;
-        private static readonly Image _contextMenuSubMenu = GenericImageResources.BlackContextMenuSub;
+        private static readonly Image? _contextMenuSubMenu = GenericImageResources.BlackContextMenuSub;
 
         #endregion
 
@@ -521,13 +521,13 @@ namespace Krypton.Toolkit
         /// Gets a drop down button image appropriate for the provided state.
         /// </summary>
         /// <param name="state">PaletteState for which image is required.</param>
-        public override Image GetDropDownButtonImage(PaletteState state) => state != PaletteState.Disabled ? _blackDropDownButton : base.GetDropDownButtonImage(state);
+        public override Image? GetDropDownButtonImage(PaletteState state) => state != PaletteState.Disabled ? _blackDropDownButton : base.GetDropDownButtonImage(state);
 
         /// <summary>
         /// Gets an image indicating a sub-menu on a context menu item.
         /// </summary>
         /// <returns>Appropriate image for drawing; otherwise null.</returns>
-        public override Image GetContextMenuSubMenuImage() => _contextMenuSubMenu;
+        public override Image? GetContextMenuSubMenuImage() => _contextMenuSubMenu;
 
         #endregion
 

@@ -75,7 +75,7 @@ namespace Krypton.Toolkit
         /// <param name="sourceImage">The image to resize.</param>
         /// <param name="imageSize">The size that you want to resize the image to.</param>
         /// <returns>The resized image.</returns>
-        public static Bitmap ScaleImage(Image? sourceImage, Size? imageSize)
+        public static Bitmap? ScaleImage(Image? sourceImage, Size? imageSize)
         {
             try
             {
@@ -116,7 +116,7 @@ namespace Krypton.Toolkit
         /// <param name="image">The image.</param>
         /// <param name="width">The width.</param>
         /// <param name="height">The height.</param>
-        public static Bitmap ScaleImage(Image? image, int width, int height) => ScaleImage(image, new Size(width, height));
+        public static Bitmap? ScaleImage(Image? image, int width, int height) => ScaleImage(image, new Size(width, height));
 
         /// <summary>Sets the icon.</summary>
         /// <param name="image">The image.</param>

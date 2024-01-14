@@ -20,12 +20,12 @@ namespace Krypton.Toolkit
     {
         #region Static Fields
 
-        private static readonly Image _defaultImage = GenericImageResources.KryptonLogoGeneric;
+        private static readonly Image? _defaultImage = GenericImageResources.KryptonLogoGeneric;
 
         #endregion
 
         #region Instance Fields
-        private Image _image;
+        private Image? _image;
         private Color _transparent;
         private string? _heading;
         private string _description;
@@ -74,7 +74,7 @@ namespace Krypton.Toolkit
         /// Gets the default image value.
         /// </summary>
         /// <returns>Image reference.</returns>
-        protected virtual Image GetImageDefault() => _defaultImage;
+        protected virtual Image? GetImageDefault() => _defaultImage;
 
         /// <summary>
         /// Gets the default heading value.
@@ -97,7 +97,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Heading image.")]
         [RefreshProperties(RefreshProperties.All)]
-        public Image Image
+        public Image? Image
         {
             get => _image;
 
@@ -123,7 +123,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="state">The state for which the image is needed.</param>
         /// <returns>Image value.</returns>
-        public virtual Image GetImage(PaletteState state) => Image;
+        public virtual Image? GetImage(PaletteState state) => Image;
 
         #endregion
 

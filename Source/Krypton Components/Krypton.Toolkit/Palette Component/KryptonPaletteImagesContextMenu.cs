@@ -19,9 +19,9 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
         private PaletteRedirect? _redirect;
-        private Image _checked;
-        private Image _indeterminate;
-        private Image _subMenu;
+        private Image? _checked;
+        private Image? _indeterminate;
+        private Image? _subMenu;
         #endregion
 
         #region Identity
@@ -88,7 +88,7 @@ namespace Krypton.Toolkit
         [Description(@"Image for use with a checked menu item.")]
         [DefaultValue(null)]
         [RefreshProperties(RefreshProperties.All)]
-        public Image Checked
+        public Image? Checked
         {
             get => _checked;
 
@@ -117,7 +117,7 @@ namespace Krypton.Toolkit
         [Description(@"Image for use with an indeterminate menu item.")]
         [DefaultValue(null)]
         [RefreshProperties(RefreshProperties.All)]
-        public Image Indeterminate
+        public Image? Indeterminate
         {
             get => _indeterminate;
 
@@ -146,7 +146,7 @@ namespace Krypton.Toolkit
         [Description(@"Image indicating a sub-menu on a context menu item.")]
         [DefaultValue(null)]
         [RefreshProperties(RefreshProperties.All)]
-        public Image SubMenu
+        public Image? SubMenu
         {
             get => _subMenu;
 

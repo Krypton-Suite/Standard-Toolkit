@@ -36,7 +36,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// The icon of the tooltip.
         /// </summary>
-        public Image Icon { get; set; }
+        public Image? Icon { get; set; }
 
         /// <summary>
         /// Gets whether the instance is empty.

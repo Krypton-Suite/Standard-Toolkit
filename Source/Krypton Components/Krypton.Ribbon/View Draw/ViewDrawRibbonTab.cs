@@ -117,7 +117,7 @@ namespace Krypton.Ribbon
             Component = _ribbonTab;
 
             // Create and add the draw content for display inside the tab
-            Add(new ViewDrawContent(_contentProvider, this, VisualOrientation.Top, true, false));
+            Add(new ViewDrawContent(_contentProvider, this, VisualOrientation.Top));
 
             // Create the state specific memento array
             _mementos = new IDisposable[Enum.GetValues(typeof(PaletteState)).Length];
@@ -423,16 +423,14 @@ namespace Krypton.Ribbon
                         RenderBefore2010ContextTab(context, cts);
                     }
 
-                    //_paletteContextCurrent.LightBackground = _ribbon.CaptionArea.DrawCaptionOnComposition;
-                    _paletteContextCurrent.LightBackground = Ribbon.CaptionArea!.DrawCaptionOnComposition
-                                                             && KryptonManager.CurrentGlobalPaletteMode.ToString()
+                    _paletteContextCurrent.LightBackground = KryptonManager.CurrentGlobalPaletteMode.ToString()
                                                                  .StartsWith(PaletteMode.Office2010Black.ToString());
                     break;
             }
 
             // Use renderer to draw the tab background
             var mementoIndex = StateIndex(State);
-            _mementos[mementoIndex] = context.Renderer.RenderRibbon.DrawRibbonBack(Ribbon.RibbonShape, context, ClientRectangle, State, _paletteContextCurrent, VisualOrientation.Top, false, _mementos[mementoIndex]);
+            _mementos[mementoIndex] = context.Renderer.RenderRibbon.DrawRibbonBack(Ribbon.RibbonShape, context, ClientRectangle, State, _paletteContextCurrent, VisualOrientation.Top, _mementos[mementoIndex]);
         }
 
         /// <summary>
@@ -463,7 +461,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="state">Tab state.</param>
         /// <returns>Image.</returns>
-        public Image GetImage(PaletteState state) => null;
+        public Image? GetImage(PaletteState state) => null;
 
         /// <summary>
         /// Gets the image color that should be interpreted as transparent.

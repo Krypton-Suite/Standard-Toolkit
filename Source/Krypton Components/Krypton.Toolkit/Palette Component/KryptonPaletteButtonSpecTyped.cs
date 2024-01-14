@@ -18,7 +18,7 @@ namespace Krypton.Toolkit
     public class KryptonPaletteButtonSpecTyped : KryptonPaletteButtonSpecBase
     {
         #region Instance Fields
-        private Image _image;
+        private Image? _image;
         private string _text;
         private string _extraText;
         private string _toolTipTitle;
@@ -104,7 +104,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Button image.")]
         [DefaultValue(null)]
-        public Image Image
+        public Image? Image
         {
             get => _image;
 
@@ -403,7 +403,7 @@ namespace Krypton.Toolkit
                                                  PaletteState state)
         {
             // Try and recover a state specific image
-            Image image = state switch
+            Image? image = state switch
             {
                 PaletteState.Disabled => ImageStates.ImageDisabled,
                 PaletteState.Normal => ImageStates.ImageNormal,

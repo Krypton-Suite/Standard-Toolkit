@@ -4037,9 +4037,9 @@ namespace Krypton.Workspace
             return dict;
         }
 
-        private static Bitmap ReadOptionalImageElement(XmlReader xmlReader, string name)
+        private static Bitmap? ReadOptionalImageElement(XmlReader xmlReader, string name)
         {
-            Bitmap retImage = null;
+            Bitmap? retImage = null;
 
             // Is the optional element present?
             if (xmlReader.Name == name)

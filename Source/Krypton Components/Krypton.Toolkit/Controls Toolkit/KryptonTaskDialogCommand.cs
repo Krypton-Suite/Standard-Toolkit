@@ -27,7 +27,7 @@ namespace Krypton.Toolkit
         private bool _enabled;
         private string _text;
         private string _extraText;
-        private Image _image;
+        private Image? _image;
         private Color _imageTransparentColor;
         private DialogResult _dialogResult;
 
@@ -179,7 +179,7 @@ namespace Krypton.Toolkit
         [Localizable(true)]
         [Category(@"Appearance")]
         [Description(@"Command small image.")]
-        public Image Image
+        public Image? Image
         {
             get => _image;
 
@@ -254,7 +254,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the command small image.
         /// </summary>
-        Image IKryptonCommand.ImageSmall
+        Image? IKryptonCommand.ImageSmall
         {
             get => Image;
             set => Image = value;
@@ -263,7 +263,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets and sets the command large image.
         /// </summary>
-        Image IKryptonCommand.ImageLarge
+        Image? IKryptonCommand.ImageLarge
         {
             get => null;
             set { }

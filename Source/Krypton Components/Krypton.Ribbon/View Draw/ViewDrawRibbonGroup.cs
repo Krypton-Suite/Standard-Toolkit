@@ -743,13 +743,13 @@ namespace Krypton.Ribbon
             {
                 _paletteContextBackArea.SetInherit(paletteBackArea);
                 _mementoRibbonBackArea = context.Renderer.RenderRibbon.DrawRibbonBack(_ribbon.RibbonShape, context,
-                    drawRect, elementState, _paletteContextBackArea, VisualOrientation.Top, false,
+                    drawRect, elementState, _paletteContextBackArea, VisualOrientation.Top,
                     _mementoRibbonBackArea);
             }
 
             // Draw the group border
             _paletteContextBorder.SetInherit(paletteBorder);
-            _mementoRibbonBackBorder = context.Renderer.RenderRibbon.DrawRibbonBack(_ribbon.RibbonShape, context, drawRect, elementState, _paletteContextBorder, VisualOrientation.Top, false, _mementoRibbonBackBorder);
+            _mementoRibbonBackBorder = context.Renderer.RenderRibbon.DrawRibbonBack(_ribbon.RibbonShape, context, drawRect, elementState, _paletteContextBorder, VisualOrientation.Top, _mementoRibbonBackBorder);
 
             // Reduce the drawing rectangle to just the title area
             Rectangle titleRect = drawRect;
@@ -767,7 +767,7 @@ namespace Krypton.Ribbon
             }
 
             // Draw the group title
-            _mementoRibbonBack2 = context.Renderer.RenderRibbon.DrawRibbonBack(_ribbon.RibbonShape, context, titleRect, State, paletteTitle, VisualOrientation.Top, false, _mementoRibbonBack2);
+            _mementoRibbonBack2 = context.Renderer.RenderRibbon.DrawRibbonBack(_ribbon.RibbonShape, context, titleRect, State, paletteTitle, VisualOrientation.Top, _mementoRibbonBack2);
         }
 
         private void RenderCollapsedBefore(RenderContext context)
@@ -818,14 +818,14 @@ namespace Krypton.Ribbon
 
             // Draw the group border
             _paletteContextBorder.SetInherit(paletteBorder);
-            _mementoRibbonBackBorder = context.Renderer.RenderRibbon.DrawRibbonBack(_ribbon.RibbonShape, context, drawRect, State, _paletteContextBorder, VisualOrientation.Top, false, _mementoRibbonBackBorder);
+            _mementoRibbonBackBorder = context.Renderer.RenderRibbon.DrawRibbonBack(_ribbon.RibbonShape, context, drawRect, State, _paletteContextBorder, VisualOrientation.Top, _mementoRibbonBackBorder);
             //_mementoRibbonBackArea = context.Renderer.RenderRibbon.DrawRibbonBack(_ribbon.RibbonShape, context, drawRect, State, _paletteContextBorder, VisualOrientation.Top, false, _mementoRibbonBackArea);
 
             Rectangle backRect = drawRect;
             backRect.Inflate(-2, -2);
 
             // Draw the inside background
-            _mementoRibbonBack2 = context.Renderer.RenderRibbon.DrawRibbonBack(_ribbon.RibbonShape, context, backRect, State, paletteBack, VisualOrientation.Top, false, _mementoRibbonBack2);
+            _mementoRibbonBack2 = context.Renderer.RenderRibbon.DrawRibbonBack(_ribbon.RibbonShape, context, backRect, State, paletteBack, VisualOrientation.Top, _mementoRibbonBack2);
         }
 
         private void RenderCollapsedPressedBefore(RenderContext context)
@@ -880,13 +880,13 @@ namespace Krypton.Ribbon
 
                         // Draw the group border
                         _paletteContextBorder.SetInherit(paletteBorder);
-                        _mementoRibbonBackBorder = context.Renderer.RenderRibbon.DrawRibbonBack(_ribbon.RibbonShape, context, drawRect, state, _paletteContextBorder, VisualOrientation.Top, false, _mementoRibbonBackBorder);
+                        _mementoRibbonBackBorder = context.Renderer.RenderRibbon.DrawRibbonBack(_ribbon.RibbonShape, context, drawRect, state, _paletteContextBorder, VisualOrientation.Top, _mementoRibbonBackBorder);
 
                         Rectangle backRect = drawRect;
                         backRect.Inflate(-2, -2);
 
                         // Draw the inside background
-                        _mementoRibbonBack2 = context.Renderer.RenderRibbon.DrawRibbonBack(_ribbon.RibbonShape, context, backRect, state, paletteBack, VisualOrientation.Top, false, _mementoRibbonBack2);
+                        _mementoRibbonBack2 = context.Renderer.RenderRibbon.DrawRibbonBack(_ribbon.RibbonShape, context, backRect, state, paletteBack, VisualOrientation.Top, _mementoRibbonBack2);
                     }
                     break;
             }

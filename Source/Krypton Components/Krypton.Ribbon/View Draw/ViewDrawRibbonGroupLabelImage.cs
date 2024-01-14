@@ -66,7 +66,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets the image to be drawn.
         /// </summary>
-        protected override Image DrawImage => _large ? _ribbonLabel.ImageLarge : _ribbonLabel.ImageSmall;
+        protected override Image? DrawImage => _large ? _ribbonLabel.ImageLarge : _ribbonLabel.ImageSmall;
 
         #endregion
     }

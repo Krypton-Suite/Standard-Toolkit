@@ -49,8 +49,7 @@ namespace Krypton.Ribbon
             if ((style == PaletteContentStyle.ButtonButtonSpec) && (state == PaletteState.Normal))
             {
                 // If the ribbon is showing in office 2010 style and using glass
-                if (_ribbon.CaptionArea.DrawCaptionOnComposition
-                    && RibbonShapeIs2010OrHigher())
+                if (RibbonShapeIs2010OrHigher())
                 {
                     return LightBackground(base.GetContentShortTextColor1(style, state));
                 }
@@ -71,8 +70,7 @@ namespace Krypton.Ribbon
             if ((style == PaletteContentStyle.ButtonButtonSpec) && (state == PaletteState.Normal))
             {
                 // If the ribbon is showing in office 2010 style and using glass
-                if (_ribbon.CaptionArea.DrawCaptionOnComposition
-                    && RibbonShapeIs2010OrHigher())
+                if (RibbonShapeIs2010OrHigher())
                 {
                     return LightBackground(base.GetContentShortTextColor2(style, state));
                 }
@@ -95,8 +93,7 @@ namespace Krypton.Ribbon
             if ((style == PaletteContentStyle.ButtonButtonSpec) && (state == PaletteState.Normal))
             {
                 // If the ribbon is showing in office 2010 style and using glass
-                if (_ribbon.CaptionArea.DrawCaptionOnComposition
-                    && RibbonShapeIs2010OrHigher())
+                if ( RibbonShapeIs2010OrHigher())
                 {
                     return LightBackground(base.GetContentLongTextColor1(style, state));
                 }
@@ -117,8 +114,7 @@ namespace Krypton.Ribbon
             if ((style == PaletteContentStyle.ButtonButtonSpec) && (state == PaletteState.Normal))
             {
                 // If the ribbon is showing in office 2010 style and using glass
-                if (_ribbon.CaptionArea.DrawCaptionOnComposition
-                    && RibbonShapeIs2010OrHigher())
+                if ( RibbonShapeIs2010OrHigher())
                 {
                     return LightBackground(base.GetContentLongTextColor2(style, state));
                 }

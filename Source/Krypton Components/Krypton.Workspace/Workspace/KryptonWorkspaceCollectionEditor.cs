@@ -127,7 +127,7 @@ namespace Krypton.Workspace
                 /// </summary>
                 [Category(@"Appearance")]
                 [DefaultValue(null)]
-                public Bitmap ImageSmall
+                public Bitmap? ImageSmall
                 {
                     get => _item.ImageSmall;
                     set => _item.ImageSmall = value;
@@ -138,7 +138,7 @@ namespace Krypton.Workspace
                 /// </summary>
                 [Category(@"Appearance")]
                 [DefaultValue(null)]
-                public Bitmap ImageMedium
+                public Bitmap? ImageMedium
                 {
                     get => _item.ImageMedium;
                     set => _item.ImageMedium = value;
@@ -149,7 +149,7 @@ namespace Krypton.Workspace
                 /// </summary>
                 [Category(@"Appearance")]
                 [DefaultValue(null)]
-                public Bitmap ImageLarge
+                public Bitmap? ImageLarge
                 {
                     get => _item.ImageLarge;
                     set => _item.ImageLarge = value;
@@ -160,7 +160,7 @@ namespace Krypton.Workspace
                 /// </summary>
                 [Category(@"Appearance")]
                 [DefaultValue(null)]
-                public Bitmap ToolTipImage
+                public Bitmap? ToolTipImage
                 {
                     get => _item.ToolTipImage;
                     set => _item.ToolTipImage = value;

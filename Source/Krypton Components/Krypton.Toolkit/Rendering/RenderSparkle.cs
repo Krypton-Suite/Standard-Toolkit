@@ -47,6 +47,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region RenderRibbon Overrides
+
         /// <summary>
         /// Draw the background of a ribbon element.
         /// </summary>
@@ -56,16 +57,14 @@ namespace Krypton.Toolkit
         /// <param name="state">State associated with rendering.</param>
         /// <param name="palette">Palette used for sourcing settings.</param>
         /// <param name="orientation">Orientation for drawing.</param>
-        /// <param name="composition">Drawing onto a composition element.</param>
         /// <param name="memento">Cached values to use when drawing.</param>
         public override IDisposable? DrawRibbonBack(PaletteRibbonShape shape,
-                                                   RenderContext context,
-                                                   Rectangle rect,
-                                                   PaletteState state,
-                                                   IPaletteRibbonBack palette,
-                                                   VisualOrientation orientation,
-                                                   bool composition,
-                                                   IDisposable? memento)
+            RenderContext context,
+            Rectangle rect,
+            PaletteState state,
+            IPaletteRibbonBack palette,
+            VisualOrientation orientation,
+            IDisposable? memento)
         {
             // Note is the incoming state is detailed we are drawing inside a popup
             var showingInPopup = (state & PaletteState.FocusOverride) == PaletteState.FocusOverride;
@@ -79,7 +78,7 @@ namespace Krypton.Toolkit
                 PaletteRibbonColorStyle.RibbonGroupNormalBorderTracking => DrawRibbonGroupNormalBorder(context, rect, state, palette, true, false, memento),
                 PaletteRibbonColorStyle.RibbonGroupAreaBorder => DrawRibbonGroupAreaBorder1And2(context, rect, state, palette, false, true, memento),
                 PaletteRibbonColorStyle.RibbonGroupAreaBorder2 => DrawRibbonGroupAreaBorder1And2(context, rect, state, palette, true, true, memento),
-                _ => base.DrawRibbonBack(shape, context, rect, state, palette, orientation, composition, memento)
+                _ => base.DrawRibbonBack(shape, context, rect, state, palette, orientation, memento)
             };
         }
 

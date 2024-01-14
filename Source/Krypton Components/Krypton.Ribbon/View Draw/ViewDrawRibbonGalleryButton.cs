@@ -110,7 +110,7 @@ namespace Krypton.Ribbon
             // Grab the required size for the content images
             context.Renderer.RenderStandardContent.GetContentPreferredSize(context, _paletteContent, 
                 this, VisualOrientation.Top,
-                State, false, false);
+                State);
 
         /// <summary>
         /// Perform a layout of the elements.
@@ -134,7 +134,7 @@ namespace Krypton.Ribbon
             _mementoContent = context.Renderer.RenderStandardContent.LayoutContent(context, ClientRectangle, 
                                                                                    _paletteContent, this, 
                                                                                    VisualOrientation.Top,
-                                                                                   State, false, false);
+                                                                                   State);
         }
         #endregion
 
@@ -173,7 +173,7 @@ namespace Krypton.Ribbon
             {
                 context.Renderer.RenderStandardContent.DrawContent(context, ClientRectangle, _paletteContent, 
                     _mementoContent, VisualOrientation.Top, 
-                    State, false, false,  false);
+                    State,  false);
             }
 
             // Are we allowed to draw border?
@@ -238,7 +238,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="state">The state for which the image is needed.</param>
         /// <returns>Image value.</returns>
-        public virtual Image GetImage(PaletteState state)
+        public virtual Image? GetImage(PaletteState state)
         {
             // Find the correct collection of images
             GalleryButtonImages? images = null;
@@ -256,7 +256,7 @@ namespace Krypton.Ribbon
             }
 
             // Get image based on state
-            Image image = null;
+            Image? image = null;
             if (images != null)
             {
                 switch (State)

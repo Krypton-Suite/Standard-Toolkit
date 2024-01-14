@@ -341,7 +341,7 @@ namespace Krypton.Ribbon
         [Description(@"Display image associated ToolTip.")]
         [DefaultValue(null)]
         [Localizable(true)]
-        public Image AppButtonToolTipImage { get; set; }
+        public Image? AppButtonToolTipImage { get; set; }
 
         #endregion
 
