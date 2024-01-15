@@ -1,22 +1,19 @@
 ﻿#region BSD License
 /*
- * 
- * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
- *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
- * 
+ *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
- *  
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2024 - 2024. All rights reserved.
+ *
  */
 #endregion
 
-// ReSharper disable InconsistentNaming
-// ReSharper disable UnusedParameter.Local
+using static System.Windows.Forms.Design.AxImporter;
+
 using ContentAlignment = System.Drawing.ContentAlignment;
 
 namespace Krypton.Toolkit
 {
-    internal partial class VisualMessageBoxForm : KryptonForm
+    internal partial class VisualMessageBoxRtlAwareForm : KryptonForm
     {
         #region Instance Fields
 
@@ -32,6 +29,7 @@ namespace Krypton.Toolkit
         private readonly bool? _showCloseButton;
 
         private readonly KryptonMessageBoxDefaultButton _defaultButton;
+        //private readonly MessageBoxOptions _options; // https://github.com/Krypton-Suite/Standard-Toolkit/issues/313
 
         // If help information provided, or we are not a service/default desktop application then grab an owner for showing the message box
         private readonly IWin32Window? _showOwner;
@@ -72,30 +70,29 @@ namespace Krypton.Toolkit
 
         #region Identity
 
-        public VisualMessageBoxForm()
+        public VisualMessageBoxRtlAwareForm()
         {
             InitializeComponent();
         }
 
-
-        internal VisualMessageBoxForm(IWin32Window? showOwner, string text, string caption,
-                                       KryptonMessageBoxButtons buttons,
-                                       KryptonMessageBoxIcon icon,
-                                       KryptonMessageBoxDefaultButton defaultButton,
-                                       HelpInfo? helpInfo, bool? showCtrlCopy,
-                                       bool? showHelpButton,
-                                       bool? showActionButton, string? actionButtonText,
-                                       KryptonCommand? actionButtonCommand,
-                                       Image? applicationImage,
-                                       string? applicationPath,
-                                       MessageBoxContentAreaType? contentAreaType,
-                                       KryptonCommand? linkLabelCommand,
-                                       ProcessStartInfo? linkLaunchArgument,
-                                       LinkArea? contentLinkArea,
-                                       ContentAlignment? messageTextAlignment,
-                                       bool? forceUseOfOperatingSystemIcons, string? checkBoxText,
-                                       bool? isCheckBoxChecked, CheckState? checkBoxCheckState,
-                                       bool? showCloseButton)
+        public VisualMessageBoxRtlAwareForm(IWin32Window? showOwner, string text, string caption,
+            KryptonMessageBoxButtons buttons,
+            KryptonMessageBoxIcon icon,
+            KryptonMessageBoxDefaultButton defaultButton,
+            HelpInfo? helpInfo, bool? showCtrlCopy,
+            bool? showHelpButton,
+            bool? showActionButton, string? actionButtonText,
+            KryptonCommand? actionButtonCommand,
+            Image? applicationImage,
+            string? applicationPath,
+            MessageBoxContentAreaType? contentAreaType,
+            KryptonCommand? linkLabelCommand,
+            ProcessStartInfo? linkLaunchArgument,
+            LinkArea? contentLinkArea,
+            ContentAlignment? messageTextAlignment,
+            bool? forceUseOfOperatingSystemIcons, string? checkBoxText,
+            bool? isCheckBoxChecked, CheckState? checkBoxCheckState,
+            bool? showCloseButton)
         {
             // Store incoming values
             _text = text ?? string.Empty;
@@ -152,18 +149,14 @@ namespace Krypton.Toolkit
             ShowCloseButton(showCloseButton);
         }
 
-        public VisualMessageBoxForm(KryptonMessageBoxData messageBoxData)
+        public VisualMessageBoxRtlAwareForm(KryptonMessageBoxData messageBoxData)
         {
-            // Store incoming values
             _messageBoxData = messageBoxData;
 
-            // Create the form contents
             InitializeComponent();
 
-            RightToLeftLayout = _messageBoxData.Options.HasFlag(MessageBoxOptions.RtlReading);
-
             // Update contents to match requirements
-            UpdateText(_messageBoxData.Caption, _messageBoxData.MessageText, _messageBoxData.Options, _messageBoxData.MessageContentAreaType);
+            UpdateText(_messageBoxData.Caption, _messageBoxData.MessageText, _messageBoxData.MessageContentAreaType);
             UpdateIcon(_messageBoxData.Icon);
             UpdateButtons(_messageBoxData.Buttons);
             UpdateDefault(_messageBoxData.DefaultButton);
@@ -196,11 +189,11 @@ namespace Krypton.Toolkit
             UpdateSizing(_messageBoxData.Owner);
         }
 
-        #endregion Identity
+        #endregion
 
         #region Implementation
 
-        private void UpdateText(string caption, string? text, MessageBoxOptions options, MessageBoxContentAreaType? contentAreaType)
+        private void UpdateText(string caption, string? text, MessageBoxContentAreaType? contentAreaType)
         {
             // Set the text of the form
             Text = string.IsNullOrEmpty(caption) ? string.Empty : caption.Split(Environment.NewLine.ToCharArray())[0];
@@ -209,25 +202,12 @@ namespace Krypton.Toolkit
             {
                 case MessageBoxContentAreaType.Normal:
                     kwlblMessageText.Text = text;
-
-                    kwlblMessageText.RightToLeft = options.HasFlag(MessageBoxOptions.RightAlign) ? RightToLeft.Yes :
-                        options.HasFlag(MessageBoxOptions.RtlReading) ? RightToLeft.Inherit : RightToLeft.No;
                     break;
                 case MessageBoxContentAreaType.LinkLabel:
                     klwlblMessageText.Text = text;
-
-                    klwlblMessageText.RightToLeft = options.HasFlag(MessageBoxOptions.RightAlign)
-                        ?
-                        RightToLeft.Yes
-                        : options.HasFlag(MessageBoxOptions.RtlReading)
-                            ? RightToLeft.Inherit
-                            : RightToLeft.No;
                     break;
                 case null:
                     kwlblMessageText.Text = text;
-
-                    kwlblMessageText.RightToLeft = options.HasFlag(MessageBoxOptions.RightAlign) ? RightToLeft.Yes :
-                        options.HasFlag(MessageBoxOptions.RtlReading) ? RightToLeft.Inherit : RightToLeft.No;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(contentAreaType), contentAreaType, null);
@@ -1371,28 +1351,28 @@ namespace Krypton.Toolkit
 
         private static void SetCheckBoxChecked(bool? isChecked)
         {
-            var messageBox = new VisualMessageBoxForm();
+            var messageBox = new VisualMessageBoxRtlAwareForm();
 
             messageBox.kchkMessageboxCheckBox.Checked = isChecked ?? false;
         }
 
         public static bool GetCheckBoxChecked()
         {
-            var messageBox = new VisualMessageBoxForm();
+            var messageBox = new VisualMessageBoxRtlAwareForm();
 
             return messageBox.kchkMessageboxCheckBox.Checked;
         }
 
         private static void SetCheckBoxCheckedState(CheckState? checkState)
         {
-            var messageBox = new VisualMessageBoxForm();
+            var messageBox = new VisualMessageBoxRtlAwareForm();
 
             messageBox.kchkMessageboxCheckBox.CheckState = checkState ?? CheckState.Unchecked;
         }
 
         public static CheckState GetCheckBoxCheckedState()
         {
-            var messageBox = new VisualMessageBoxForm();
+            var messageBox = new VisualMessageBoxRtlAwareForm();
 
             return messageBox.kchkMessageboxCheckBox.CheckState;
         }
@@ -1411,124 +1391,6 @@ namespace Krypton.Toolkit
 
         #endregion
 
-        #endregion
-    }
-
-    #region Types
-    public class HelpInfo
-    {
-        #region Identity
-
-        /// <summary>
-        /// Initialize a new instance of the HelpInfo class.
-        /// </summary>
-        /// <param name="helpFilePath">Value for HelpFilePath.</param>
-        /// <param name="keyword">Value for Keyword</param>
-        public HelpInfo(string? helpFilePath = null, string? keyword = null)
-        : this(helpFilePath, keyword, !string.IsNullOrWhiteSpace(keyword) ? HelpNavigator.Topic : HelpNavigator.TableOfContents, null)
-        {
-        }
-
-        /// <summary>
-        /// Initialize a new instance of the HelpInfo class.
-        /// </summary>
-        /// <param name="helpFilePath">Value for HelpFilePath.</param>
-        /// <param name="navigator">Value for Navigator</param>
-        /// <param name="param"></param>
-        public HelpInfo(string? helpFilePath, HelpNavigator navigator, object? param = null)
-            : this(helpFilePath, null, navigator, param)
-        {
-        }
-
-        /// <summary>
-        /// Initialize a new instance of the HelpInfo class.
-        /// </summary>
-        /// <param name="helpFilePath">Value for HelpFilePath.</param>
-        /// <param name="navigator">Value for Navigator</param>
-        /// <param name="keyword">Value for Keyword</param>
-        /// <param name="param"></param>
-        private HelpInfo(string? helpFilePath, string? keyword, HelpNavigator navigator, object? param)
-        {
-            HelpFilePath = helpFilePath ?? string.Empty;
-            Keyword = keyword ?? string.Empty;
-            Navigator = navigator;
-            Param = param;
-        }
-        #endregion
-
-        #region Properties
-        /// <summary>
-        /// Gets the HelpFilePath property.
-        /// </summary>
-        public string HelpFilePath { get; }
-
-        /// <summary>
-        /// Gets the Keyword property.
-        /// </summary>
-        public string Keyword { get; }
-
-        /// <summary>
-        /// Gets the Navigator property.
-        /// </summary>
-        public HelpNavigator Navigator { get; }
-
-        /// <summary>
-        /// Gets the Param property.
-        /// </summary>
-        public object? Param { get; }
-
-        #endregion
-    }
-
-    #endregion
-
-    [ToolboxItem(false)]
-    [DesignTimeVisible(false)]
-    internal class MessageButton : KryptonButton
-    {
-        #region Identity
-        public MessageButton()
-        {
-            IgnoreAltF4 = false;
-            Visible = false;
-            Enabled = false;
-        }
-
-        /// <summary>
-        /// Gets and sets the ignoring of Alt+F4
-        /// </summary>
-        public bool IgnoreAltF4 { get; set; }
-
-        #endregion
-
-        #region Protected
-        /// <summary>
-        /// Processes Windows messages.
-        /// </summary>
-        /// <param name="m">The Windows Message to process. </param>
-        protected override void WndProc(ref Message m)
-        {
-            switch (m.Msg)
-            {
-                case PI.WM_.KEYDOWN:
-                case PI.WM_.SYSKEYDOWN:
-                    if (IgnoreAltF4)
-                    {
-                        // Extract the keys being pressed
-                        var keys = (Keys)(int)m.WParam.ToInt64();
-
-                        // If the user standard combination ALT + F4
-                        if ((keys == Keys.F4) && ((ModifierKeys & Keys.Alt) == Keys.Alt))
-                        {
-                            // Eat the message, so standard window proc does not close the window
-                            return;
-                        }
-                    }
-                    break;
-            }
-
-            base.WndProc(ref m);
-        }
         #endregion
     }
 }
