@@ -12,7 +12,7 @@ using Timer = System.Windows.Forms.Timer;
 
 namespace Krypton.Toolkit
 {
-    internal partial class VisualToastNotificationBasicWithProgressBarForm : KryptonForm
+    internal partial class VisualToastNotificationBasicForm : KryptonForm
     {
         #region Instance Fields
 
@@ -30,15 +30,17 @@ namespace Krypton.Toolkit
 
         #region Identity
 
-        public VisualToastNotificationBasicWithProgressBarForm(KryptonBasicToastNotificationData data)
+        /// <summary>Initializes a new instance of the <see cref="VisualToastNotificationBasicForm" /> class.</summary>
+        /// <param name="data">The data.</param>
+        public VisualToastNotificationBasicForm(KryptonBasicToastNotificationData data)
         {
             _basicToastNotificationData = data;
 
             InitializeComponent();
 
-            GotFocus += VisualToastNotificationBasicWithProgressBarForm_GotFocus;
+            GotFocus += VisualToastNotificationBasicForm_GotFocus;
 
-            Resize += VisualToastNotificationBasicWithProgressBarForm_Resize;
+            Resize += VisualToastNotificationBasicForm_Resize;
 
             DoubleBuffered = true;
 
@@ -53,11 +55,11 @@ namespace Krypton.Toolkit
 
         private void UpdateText()
         {
-            kwlblNotificationContent.Text = _basicToastNotificationData.NotificationContent ?? string.Empty;
+            kwlblContent.Text = _basicToastNotificationData.NotificationContent ?? string.Empty;
 
-            kwlblNotificationTitle.Text = _basicToastNotificationData.NotificationTitle;
+            kwlblHeader.Text = _basicToastNotificationData.NotificationTitle;
 
-            kwlblNotificationTitle.TextAlign =
+            kwlblHeader.TextAlign =
                 _basicToastNotificationData.NotificationTitleAlignment ?? ContentAlignment.MiddleCenter;
         }
 
@@ -65,19 +67,19 @@ namespace Krypton.Toolkit
 
         private void UpdateFonts()
         {
-            kwlblNotificationContent.StateCommon.Font = _basicToastNotificationData.NotificationContentFont ??
+            kwlblContent.StateCommon.Font = _basicToastNotificationData.NotificationContentFont ??
                                             KryptonManager.CurrentGlobalPalette.BaseFont;
 
             if (_basicToastNotificationData.NotificationTitleFont != null)
             {
-                kwlblNotificationContent.LabelStyle = LabelStyle.NormalControl;
+                kwlblContent.LabelStyle = LabelStyle.NormalControl;
 
-                kwlblNotificationTitle.StateCommon.Font =
+                kwlblHeader.StateCommon.Font =
                     _basicToastNotificationData.NotificationTitleFont ?? _palette.Header1ShortFont;
             }
             else
             {
-                kwlblNotificationTitle.LabelStyle = LabelStyle.TitleControl;
+                kwlblHeader.LabelStyle = LabelStyle.TitleControl;
             }
         }
 
@@ -95,7 +97,7 @@ namespace Krypton.Toolkit
 #if NET8_0_OR_GREATER
                     //SetIcon(GraphicsExtensions.ScaleImage());
 #else
-                    SetIcon(GraphicsExtensions.ScaleImage(SystemIcons.Hand.ToBitmap(), 128, 128));
+                    SetIcon(GraphicsExtensions.ScaleImage(SystemIcons.Hand.ToBitmap(), 128,128));
 #endif
                     break;
                 case KryptonToastNotificationIcon.Question:
@@ -161,7 +163,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void SetIcon(Bitmap? image) => pbxImage.Image = image;
+        private void SetIcon(Bitmap? image) => pbxIcon.Image = image;
 
         private void UpdateLocation()
         {
@@ -170,20 +172,25 @@ namespace Krypton.Toolkit
                 Screen.PrimaryScreen.WorkingArea.Height - Height - 5);
         }
 
-        private void VisualToastNotificationBasicWithProgressBarForm_Load(object sender, EventArgs e)
+        private void ReportToastLocation()
+        {
+            klblToastLocation.Text = _basicToastNotificationData.ReportToastLocation ? $"Location: X: {Location.X}, Y: {Location.Y}" : string.Empty;
+        }
+
+        private void VisualToastNotificationBasicForm_Load(object sender, EventArgs e)
         {
             UpdateLocation();
+
+            ReportToastLocation();
 
             ShowCloseButton();
 
             _timer.Start();
 
             _soundPlayer?.Play();
-
-            kbtnDismiss.Text = KryptonManager.Strings.ToastNotificationStrings.Dismiss;
         }
 
-        private void VisualToastNotificationBasicWithProgressBarForm_Resize(object sender, EventArgs e)
+        private void VisualToastNotificationBasicForm_Resize(object sender, EventArgs e)
         {
             if (WindowState == FormWindowState.Maximized)
             {
@@ -191,21 +198,20 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void VisualToastNotificationBasicWithProgressBarForm_GotFocus(object sender, EventArgs e)
+        private void VisualToastNotificationBasicForm_GotFocus(object sender, EventArgs e)
         {
             kbtnDismiss.Focus();
         }
 
-        private void kbtnDismiss_Click(object sender, EventArgs e)
-        {
-            Close();
-        }
+        private void kbtnDismiss_Click(object sender, EventArgs e) => Close();
 
         private void ShowCloseButton()
         {
             CloseBox = _basicToastNotificationData.ShowCloseBox ?? false;
 
-            FormBorderStyle = CloseBox ? FormBorderStyle.Fixed3D : FormBorderStyle.None;
+            FormBorderStyle = CloseBox ? FormBorderStyle.Fixed3D : FormBorderStyle.FixedSingle;
+
+            ControlBox = _basicToastNotificationData.ShowCloseBox ?? false;
         }
 
         public new void Show()
@@ -220,11 +226,7 @@ namespace Krypton.Toolkit
 
             if (_basicToastNotificationData.CountDownSeconds != 0)
             {
-                kpbCountDown.Maximum = _basicToastNotificationData.CountDownSeconds ?? 100;
-
-                    kpbCountDown.Value = kpbCountDown.Maximum;
-
-                kpbCountDown.Text = $@"{_basicToastNotificationData.CountDownSeconds - _time}";
+                kbtnDismiss.Text = $@"{KryptonManager.Strings.ToastNotificationStrings.Dismiss} ({_basicToastNotificationData.CountDownSeconds - _time})";
 
                 _timer = new Timer();
 
@@ -234,13 +236,9 @@ namespace Krypton.Toolkit
                 {
                     _time++;
 
-                    //kpbCountDown.Increment(1);
+                    kbtnDismiss.Text = $@"{KryptonManager.Strings.ToastNotificationStrings.Dismiss} ({_basicToastNotificationData.CountDownSeconds - _time})";
 
-                    kpbCountDown.Value = kpbCountDown.Value - 1;
-
-                    kpbCountDown.Text = $@"{_basicToastNotificationData.CountDownSeconds - _time}";
-
-                    if (kpbCountDown.Value == kpbCountDown.Minimum)
+                    if (_time == _basicToastNotificationData.CountDownSeconds)
                     {
                         _timer.Stop();
 
@@ -255,7 +253,7 @@ namespace Krypton.Toolkit
 
         internal static void ShowToast(KryptonBasicToastNotificationData toastNotificationData)
         {
-            var kt = new VisualToastNotificationBasicWithProgressBarForm(toastNotificationData);
+            var kt = new VisualToastNotificationBasicForm(toastNotificationData);
 
             kt.Show();
         }

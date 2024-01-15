@@ -259,7 +259,9 @@ namespace Krypton.Toolkit
         {
             CloseBox = _toastNotificationData.ShowCloseBox ?? false;
 
-            FormBorderStyle = CloseBox ? FormBorderStyle.Fixed3D : FormBorderStyle.None;
+            FormBorderStyle = CloseBox ? FormBorderStyle.Fixed3D : FormBorderStyle.FixedSingle;
+
+            ControlBox = _toastNotificationData.ShowCloseBox ?? false;
         }
 
         private void VisualToastNotificationUserInputForm_Load(object sender, EventArgs e)
