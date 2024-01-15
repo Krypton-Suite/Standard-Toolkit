@@ -21,8 +21,17 @@
 
         #region Implementation
 
-        private static string InternalShow(KryptonInputBoxData inputBoxData) =>
-            VisualInputBoxForm.InternalShow(inputBoxData);
+        internal static string InternalShow(KryptonInputBoxData inputBoxData)
+        {
+            if (inputBoxData.UseRtlReading is { } or true)
+            {
+                return VisualInputBoxRtlAwareForm.InternalShow(inputBoxData);
+            }
+            else
+            {
+                return VisualInputBoxForm.InternalShow(inputBoxData);
+            }
+        }
 
         #endregion
     }

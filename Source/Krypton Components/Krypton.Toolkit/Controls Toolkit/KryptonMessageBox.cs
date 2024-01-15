@@ -423,7 +423,7 @@ namespace Krypton.Toolkit
 
             // Show message box window as a modal dialog and then dispose of it after-wards
 
-            if (options == MessageBoxOptions.RightAlign | options == MessageBoxOptions.RtlReading)
+            if (options is MessageBoxOptions.RightAlign or MessageBoxOptions.RtlReading)
             {
                 using var kmbrtl = new VisualMessageBoxRtlAwareForm(showOwner, text, caption, buttons, icon,
                     defaultButton, helpInfo, showCtrlCopy, showHelpButton,
@@ -461,8 +461,7 @@ namespace Krypton.Toolkit
 
             IWin32Window? showOwner = ValidateOptions(messageBoxData.Owner, messageBoxData.Options, messageBoxData.HelpInfo);
 
-            if (messageBoxData.Options == MessageBoxOptions.RightAlign |
-                messageBoxData.Options == MessageBoxOptions.RtlReading)
+            if (messageBoxData.Options is MessageBoxOptions.RightAlign or MessageBoxOptions.RtlReading)
             {
                 using var kmbrtl = new VisualMessageBoxRtlAwareForm(messageBoxData);
 

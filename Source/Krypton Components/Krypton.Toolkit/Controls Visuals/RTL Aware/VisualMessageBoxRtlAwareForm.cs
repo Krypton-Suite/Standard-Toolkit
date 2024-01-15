@@ -7,8 +7,6 @@
  */
 #endregion
 
-using static System.Windows.Forms.Design.AxImporter;
-
 using ContentAlignment = System.Drawing.ContentAlignment;
 
 namespace Krypton.Toolkit
