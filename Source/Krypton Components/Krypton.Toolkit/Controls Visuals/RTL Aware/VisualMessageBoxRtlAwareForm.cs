@@ -95,7 +95,7 @@ namespace Krypton.Toolkit
             bool? showCloseButton)
         {
             // Store incoming values
-            _text = text ?? string.Empty;
+            _text = text;
             _caption = caption;
             _buttons = buttons;
             _kryptonMessageBoxIcon = icon;
