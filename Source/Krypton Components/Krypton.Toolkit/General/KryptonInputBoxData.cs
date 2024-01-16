@@ -14,6 +14,8 @@ namespace Krypton.Toolkit
     {
         #region Public
 
+        public bool? UseRtlReading { get; set; }
+
         /// <summary>Gets or sets the owner of the <see cref="VisualInputBoxForm"/>.</summary>
         /// <value>The owner of the <see cref="VisualInputBoxForm"/>.</value>
         public IWin32Window? Owner { get; set; }
@@ -45,6 +47,15 @@ namespace Krypton.Toolkit
         /// <summary>Gets or sets the use password option.</summary>
         /// <value>The use password option.</value>
         public bool? UsePasswordOption { get; set; }
+
+        #endregion
+
+        #region Identity
+
+        public KryptonInputBoxData()
+        {
+            UseRtlReading = false;
+        }
 
         #endregion
     }

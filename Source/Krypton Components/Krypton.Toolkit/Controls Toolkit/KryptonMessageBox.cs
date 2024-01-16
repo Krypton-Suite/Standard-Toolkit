@@ -422,18 +422,37 @@ namespace Krypton.Toolkit
             IWin32Window? showOwner = ValidateOptions(owner, options, helpInfo);
 
             // Show message box window as a modal dialog and then dispose of it after-wards
-            using var kmb = new VisualMessageBoxForm(showOwner, text, caption, buttons, icon,
-                                                      defaultButton, options, helpInfo, showCtrlCopy, showHelpButton,
-                                                      showActionButton, actionButtonText,
-                                                      actionButtonCommand, applicationImage, applicationPath,
-                                                      contentAreaType, linkLabelCommand,
-                                                      linkLaunchArgument, contentLinkArea, messageTextAlignment,
-                                                      forceUseOfOperatingSystemIcons, checkBoxText, isCheckBoxChecked,
-                                                      checkBoxCheckState, showCloseButton);
 
-            kmb.StartPosition = showOwner == null ? FormStartPosition.CenterScreen : FormStartPosition.CenterParent;
+            if (options is MessageBoxOptions.RightAlign or MessageBoxOptions.RtlReading)
+            {
+                using var kmbrtl = new VisualMessageBoxRtlAwareForm(showOwner, text, caption, buttons, icon,
+                    defaultButton, helpInfo, showCtrlCopy, showHelpButton,
+                    showActionButton, actionButtonText,
+                    actionButtonCommand, applicationImage, applicationPath,
+                    contentAreaType, linkLabelCommand,
+                    linkLaunchArgument, contentLinkArea, messageTextAlignment,
+                    forceUseOfOperatingSystemIcons, checkBoxText, isCheckBoxChecked,
+                    checkBoxCheckState, showCloseButton);
 
-            return kmb.ShowDialog(showOwner);
+                kmbrtl.StartPosition = showOwner == null ? FormStartPosition.CenterScreen : FormStartPosition.CenterParent;
+
+                return kmbrtl.ShowDialog(showOwner);
+            }
+            else
+            {
+                using var kmb = new VisualMessageBoxForm(showOwner, text, caption, buttons, icon,
+                    defaultButton, helpInfo, showCtrlCopy, showHelpButton,
+                    showActionButton, actionButtonText,
+                    actionButtonCommand, applicationImage, applicationPath,
+                    contentAreaType, linkLabelCommand,
+                    linkLaunchArgument, contentLinkArea, messageTextAlignment,
+                    forceUseOfOperatingSystemIcons, checkBoxText, isCheckBoxChecked,
+                    checkBoxCheckState, showCloseButton);
+
+                kmb.StartPosition = showOwner == null ? FormStartPosition.CenterScreen : FormStartPosition.CenterParent;
+
+                return kmb.ShowDialog(showOwner);
+            }
         }
 
         private static DialogResult ShowCore(KryptonMessageBoxData messageBoxData)
@@ -442,11 +461,22 @@ namespace Krypton.Toolkit
 
             IWin32Window? showOwner = ValidateOptions(messageBoxData.Owner, messageBoxData.Options, messageBoxData.HelpInfo);
 
-            using var kmb = new VisualMessageBoxForm(messageBoxData);
+            if (messageBoxData.Options is MessageBoxOptions.RightAlign or MessageBoxOptions.RtlReading)
+            {
+                using var kmbrtl = new VisualMessageBoxRtlAwareForm(messageBoxData);
 
-            kmb.StartPosition = showOwner == null ? FormStartPosition.CenterScreen : FormStartPosition.CenterParent;
+                kmbrtl.StartPosition = showOwner == null ? FormStartPosition.CenterScreen : FormStartPosition.CenterParent;
 
-            return kmb.ShowDialog(showOwner);
+                return kmbrtl.ShowDialog(showOwner);
+            }
+            else
+            {
+                using var kmb = new VisualMessageBoxForm(messageBoxData);
+
+                kmb.StartPosition = showOwner == null ? FormStartPosition.CenterScreen : FormStartPosition.CenterParent;
+
+                return kmb.ShowDialog(showOwner);
+            }
         }
 
         #region WinForm Compatibility

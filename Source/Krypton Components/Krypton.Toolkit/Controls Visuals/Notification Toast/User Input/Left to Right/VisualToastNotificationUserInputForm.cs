@@ -259,7 +259,9 @@ namespace Krypton.Toolkit
         {
             CloseBox = _toastNotificationData.ShowCloseBox ?? false;
 
-            FormBorderStyle = CloseBox ? FormBorderStyle.Fixed3D : FormBorderStyle.None;
+            FormBorderStyle = CloseBox ? FormBorderStyle.Fixed3D : FormBorderStyle.FixedSingle;
+
+            ControlBox = _toastNotificationData.ShowCloseBox ?? false;
         }
 
         private void VisualToastNotificationUserInputForm_Load(object sender, EventArgs e)
@@ -292,7 +294,54 @@ namespace Krypton.Toolkit
 
         private void kbtnDismiss_Click(object sender, EventArgs e)
         {
+            DialogResult = DialogResult.Cancel;
+
             Close();
+        }
+
+        private void ktxtUserInput_TextChanged(object sender, EventArgs e)
+        {
+            _userResponse = ktxtUserInput.Text;
+        }
+
+        private void knudUserInput_ValueChanged(object sender, EventArgs e)
+        {
+            _userResponse = knudUserInput.Value.ToString(CultureInfo.InvariantCulture);
+        }
+
+        private void kmtxtUserInput_TextChanged(object sender, EventArgs e)
+        {
+            _userResponse = kmtxtUserInput.Text;
+        }
+
+        private void kdudUserInput_SelectedItemChanged(object sender, EventArgs e)
+        {
+            _userResponse = kdudUserInput.Text;
+        }
+
+        private void kdudUserInput_TextChanged(object sender, EventArgs e)
+        {
+            _userResponse = kdudUserInput.Text;
+        }
+
+        private void kdtpUserInput_ValueChanged(object sender, EventArgs e)
+        {
+            _userResponse = kdtpUserInput.Value.ToString(CultureInfo.InvariantCulture);
+        }
+
+        private void kdtpUserInput_TextChanged(object sender, EventArgs e)
+        {
+            _userResponse = kdtpUserInput.Value.ToString(CultureInfo.InvariantCulture);
+        }
+
+        private void kcmbUserInput_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            _userResponse = kcmbUserInput.Text!;
+        }
+
+        private void kcmbUserInput_TextChanged(object sender, EventArgs e)
+        {
+            _userResponse = kcmbUserInput.Text!;
         }
 
         public new DialogResult ShowDialog()

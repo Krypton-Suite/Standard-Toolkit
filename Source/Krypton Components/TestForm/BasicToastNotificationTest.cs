@@ -12,13 +12,14 @@ using Krypton.Toolkit;
 
 namespace TestForm
 {
-    public partial class ToastNotificationTest : KryptonForm
+    public partial class BasicToastNotificationTest : KryptonForm
     {
         #region Instance Fields
 
         private bool _showCloseBox;
         private bool _topMost;
         private bool _useFade;
+        private bool _reportToastLocation;
         private ContentAlignment _titleAlignment;
         private Font _contentFont;
         private Font _titleFont;
@@ -29,7 +30,7 @@ namespace TestForm
 
         #endregion
 
-        public ToastNotificationTest()
+        public BasicToastNotificationTest()
         {
 
             InitializeComponent();
@@ -47,6 +48,23 @@ namespace TestForm
                 NotificationTitleFont = _titleFont,
                 NotificationIcon = _notificationIcon,
                 NotificationLocation = null,
+                NotificationTitleAlignment = _titleAlignment,
+                TopMost = _topMost,
+                UseFade = _useFade,
+                ShowCloseBox = _showCloseBox,
+                ReportToastLocation = _reportToastLocation
+            };
+
+            KryptonBasicToastNotificationData notificationDataWithLocation = new KryptonBasicToastNotificationData()
+            {
+                CountDownSeconds = _countDownSeconds,
+                CustomImage = null,
+                NotificationContent = _notificationContentText,
+                NotificationTitle = _notificationTitleText,
+                NotificationContentFont = _contentFont,
+                NotificationTitleFont = _titleFont,
+                NotificationIcon = _notificationIcon,
+                NotificationLocation = new Point((int)knudStartLocationX.Value, (int)knudStartLocationY.Value),
                 NotificationTitleAlignment = _titleAlignment,
                 TopMost = _topMost,
                 UseFade = _useFade,
@@ -69,6 +87,7 @@ namespace TestForm
             _showCloseBox = false;
             _topMost = true;
             _useFade = false;
+            _reportToastLocation = false;
             _titleAlignment = ContentAlignment.MiddleCenter;
             _contentFont = null;
             _titleFont = null;
@@ -90,6 +109,14 @@ namespace TestForm
             }
 
             kcmbToastTitleAlignment.SelectedIndex = 4;
+
+            knudStartLocationX.Maximum = GraphicsExtensions.GetWorkingArea().Width;
+
+            knudStartLocationX.Value = GraphicsExtensions.GetWorkingArea().Width - Width - 5;
+
+            knudStartLocationY.Maximum = GraphicsExtensions.GetWorkingArea().Height;
+
+            knudStartLocationY.Value = GraphicsExtensions.GetWorkingArea().Height - Height - 5;
         }
 
         private void kbtnContentFont_Click(object sender, EventArgs e)
@@ -119,7 +146,7 @@ namespace TestForm
 
         private void ktxtToastContent_TextChanged(object sender, EventArgs e)
         {
-            _notificationContentText = ktxtToastContent.Text;
+            _notificationContentText = $"{ktxtToastContent.Text}\n\nLocation:";
         }
 
         private void kcmbToastIcon_SelectedIndexChanged(object sender, EventArgs e)
@@ -135,6 +162,21 @@ namespace TestForm
         private void knudCountdownSeconds_ValueChanged(object sender, EventArgs e)
         {
             _countDownSeconds = (int)knudCountdownSeconds.Value;
+        }
+
+        private void kchkReportLocation_CheckedChanged(object sender, EventArgs e)
+        {
+            _reportToastLocation = kchkReportLocation.Checked;
+        }
+
+        private void kchkShowCloseBox_CheckedChanged(object sender, EventArgs e)
+        {
+            _showCloseBox = kchkShowCloseBox.Checked;
+        }
+
+        private void kchkUseFade_CheckedChanged(object sender, EventArgs e)
+        {
+            _useFade = kchkUseFade.Checked;
         }
     }
 }

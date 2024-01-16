@@ -49,7 +49,7 @@
             this._panelMessage.Dock = System.Windows.Forms.DockStyle.Fill;
             this._panelMessage.Location = new System.Drawing.Point(0, 0);
             this._panelMessage.Name = "_panelMessage";
-            this._panelMessage.Size = new System.Drawing.Size(350, 106);
+            this._panelMessage.Size = new System.Drawing.Size(362, 118);
             this._panelMessage.TabIndex = 1;
             // 
             // _tableLayoutPanel1
@@ -144,18 +144,18 @@
             this._buttonCancel.TabIndex = 2;
             this._buttonCancel.Values.Text = "Cance&l";
             // 
-            // KryptonInputBoxForm
+            // VisualInputBoxForm
             // 
             this.AcceptButton = this._buttonOk;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this._buttonCancel;
-            this.ClientSize = new System.Drawing.Size(350, 106);
+            this.ClientSize = new System.Drawing.Size(362, 118);
             this.Controls.Add(this._panelMessage);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "KryptonInputBoxForm";
+            this.Name = "VisualInputBoxForm";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;

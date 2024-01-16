@@ -11,7 +11,7 @@ using ContentAlignment = System.Drawing.ContentAlignment;
 
 namespace Krypton.Toolkit
 {
-    public struct KryptonBasicToastNotificationData
+    public struct KryptonCommonToastNotificationData
     {
         #region Public
 
@@ -71,12 +71,10 @@ namespace Krypton.Toolkit
 
         #region Identity
 
-        /// <summary>Initializes a new instance of the <see cref="KryptonBasicToastNotificationData" /> struct.</summary>
-        public KryptonBasicToastNotificationData()
+        /// <summary>Initializes a new instance of the <see cref="KryptonCommonToastNotificationData" /> struct.</summary>
+        public KryptonCommonToastNotificationData()
         {
-            // Defaults, when needed
             UseFade = false;
-
             ReportToastLocation = false;
         }
 

@@ -132,9 +132,10 @@ namespace Krypton.Toolkit
 
         #region Identity
 
+        /// <summary>Initializes a new instance of the <see cref="KryptonMessageBoxData" /> struct.</summary>
         public KryptonMessageBoxData()
         {
-
+            ShowCloseButton = true;
         }
 
         #endregion

@@ -2118,6 +2118,16 @@ namespace Krypton.Toolkit
 
     #endregion
 
+    #region Enum KryptonToastNotificationAlignment
+
+    public enum KryptonToastNotificationAlignment
+    {
+        LeftToRight = 0,
+        RightToLeft = 1
+    }
+
+    #endregion
+
     #region Enum ToolkitType
 
     public enum ToolkitType
