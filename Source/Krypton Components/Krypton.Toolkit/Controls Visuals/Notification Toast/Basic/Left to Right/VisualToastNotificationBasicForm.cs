@@ -42,7 +42,11 @@ namespace Krypton.Toolkit
 
             Resize += VisualToastNotificationBasicForm_Resize;
 
+            LocationChanged += VisualToastNotificationBasicForm_LocationChanged;
+
             DoubleBuffered = true;
+
+            UpdateBorderColors();
 
             UpdateFadeValues();
 
@@ -61,6 +65,13 @@ namespace Krypton.Toolkit
 
             kwlblHeader.TextAlign =
                 _basicToastNotificationData.NotificationTitleAlignment ?? ContentAlignment.MiddleCenter;
+        }
+
+        private void UpdateBorderColors()
+        {
+            StateCommon!.Border.Color1 = _basicToastNotificationData.BorderColor1 ?? Color.Empty;
+
+            StateCommon.Border.Color2 = _basicToastNotificationData.BorderColor2 ?? Color.Empty;
         }
 
         private void UpdateFadeValues() => FadeValues.FadingEnabled = _basicToastNotificationData.UseFade;
@@ -97,7 +108,7 @@ namespace Krypton.Toolkit
 #if NET8_0_OR_GREATER
                     //SetIcon(GraphicsExtensions.ScaleImage());
 #else
-                    SetIcon(GraphicsExtensions.ScaleImage(SystemIcons.Hand.ToBitmap(), 128,128));
+                    SetIcon(GraphicsExtensions.ScaleImage(SystemIcons.Hand.ToBitmap(), 128, 128));
 #endif
                     break;
                 case KryptonToastNotificationIcon.Question:
@@ -172,10 +183,7 @@ namespace Krypton.Toolkit
                 Screen.PrimaryScreen.WorkingArea.Height - Height - 5);
         }
 
-        private void ReportToastLocation()
-        {
-            klblToastLocation.Text = _basicToastNotificationData.ReportToastLocation ? $"Location: X: {Location.X}, Y: {Location.Y}" : string.Empty;
-        }
+        private void ReportToastLocation() => klblToastLocation.Text = _basicToastNotificationData.ReportToastLocation ? $"Location: X: {Location.X}, Y: {Location.Y}" : string.Empty;
 
         private void VisualToastNotificationBasicForm_Load(object sender, EventArgs e)
         {
@@ -201,6 +209,14 @@ namespace Krypton.Toolkit
         private void VisualToastNotificationBasicForm_GotFocus(object sender, EventArgs e)
         {
             kbtnDismiss.Focus();
+        }
+
+        private void VisualToastNotificationBasicForm_LocationChanged(object sender, EventArgs e)
+        {
+            if (_basicToastNotificationData.ReportToastLocation)
+            {
+                ReportToastLocation();
+            }
         }
 
         private void kbtnDismiss_Click(object sender, EventArgs e) => Close();

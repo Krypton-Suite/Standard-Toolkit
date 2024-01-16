@@ -41,6 +41,8 @@ namespace Krypton.Toolkit
             Resize += VisualToastNotificationUserInputForm_Resize;
 
             GotFocus += VisualToastNotificationUserInputForm_GotFocus;
+
+            UpdateBorderColors();
         }
 
         #endregion
@@ -61,6 +63,13 @@ namespace Krypton.Toolkit
 
             kwlNotificationTitle.TextAlign =
                 _toastNotificationData.NotificationTitleAlignment ?? ContentAlignment.MiddleCenter;
+        }
+
+        private void UpdateBorderColors()
+        {
+            StateCommon!.Border.Color1 = _toastNotificationData.BorderColor1 ?? Color.Empty;
+
+            StateCommon.Border.Color2 = _toastNotificationData.BorderColor2 ?? Color.Empty;
         }
 
         private void UpdateFadeValues() => FadeValues.FadingEnabled = _toastNotificationData.UseFade;
@@ -241,8 +250,36 @@ namespace Krypton.Toolkit
                         ktxtUserInput.CueHint.CueHintText = _toastNotificationData.ToastNotificationCueText!;
                     }
                     break;
-                default:
+            }
+        }
+
+        private void SetUserInputFocus(KryptonToastNotificationInputAreaType? inputAreaType)
+        {
+            switch (inputAreaType)
+            {
+                case KryptonToastNotificationInputAreaType.None:
+                    kbtnDismiss.Focus();
                     break;
+                case KryptonToastNotificationInputAreaType.ComboBox:
+                    kcmbUserInput.Focus();
+                    break;
+                case KryptonToastNotificationInputAreaType.DomainDropDown:
+                    kdudUserInput.Focus();
+                    break;
+                case KryptonToastNotificationInputAreaType.NumericDropDown:
+                    knudUserInput.Focus();
+                    break;
+                case KryptonToastNotificationInputAreaType.MaskedTextBox:
+                    kmtxtUserInput.Focus();
+                    break;
+                case KryptonToastNotificationInputAreaType.TextBox:
+                    ktxtUserInput.Focus();
+                    break;
+                case null:
+                    kbtnDismiss.Focus();
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(inputAreaType), inputAreaType, null);
             }
         }
 
@@ -281,7 +318,14 @@ namespace Krypton.Toolkit
 
         private void VisualToastNotificationUserInputForm_GotFocus(object sender, EventArgs e)
         {
-            kbtnDismiss.Focus();
+            if (_toastNotificationData.FocusOnUserInputArea is { } or false)
+            {
+                kbtnDismiss.Focus();
+            }
+            else if (_toastNotificationData.FocusOnUserInputArea is { } or true)
+            {
+                SetUserInputFocus(_toastNotificationData.NotificationInputAreaType);
+            }
         }
 
         private void VisualToastNotificationUserInputForm_Resize(object sender, EventArgs e)
@@ -376,7 +420,6 @@ namespace Krypton.Toolkit
                     }
                 };
             }
-
 
             return base.ShowDialog();
         }

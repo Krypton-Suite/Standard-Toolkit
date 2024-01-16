@@ -40,7 +40,11 @@ namespace Krypton.Toolkit
 
             Resize += VisualToastNotificationBasicWithProgressBarForm_Resize;
 
+            LocationChanged += VisualToastNotificationBasicWithProgressBarForm_LocationChanged;
+
             DoubleBuffered = true;
+
+            UpdateBorderColors();
 
             UpdateFadeValues();
 
@@ -59,6 +63,13 @@ namespace Krypton.Toolkit
 
             kwlblNotificationTitle.TextAlign =
                 _basicToastNotificationData.NotificationTitleAlignment ?? ContentAlignment.MiddleCenter;
+        }
+
+        private void UpdateBorderColors()
+        {
+            StateCommon!.Border.Color1 = _basicToastNotificationData.BorderColor1 ?? Color.Empty;
+
+            StateCommon.Border.Color2 = _basicToastNotificationData.BorderColor2 ?? Color.Empty;
         }
 
         private void UpdateFadeValues() => FadeValues.FadingEnabled = _basicToastNotificationData.UseFade;
@@ -195,6 +206,16 @@ namespace Krypton.Toolkit
         {
             kbtnDismiss.Focus();
         }
+
+        private void VisualToastNotificationBasicWithProgressBarForm_LocationChanged(object sender, EventArgs e)
+        {
+            if (_basicToastNotificationData.ReportToastLocation)
+            {
+                ReportToastLocation();
+            }
+        }
+
+        private void ReportToastLocation() => klblToastLocation.Text = _basicToastNotificationData.ReportToastLocation ? $"Location: X: {Location.X}, Y: {Location.Y}" : string.Empty;
 
         private void kbtnDismiss_Click(object sender, EventArgs e)
         {

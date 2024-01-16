@@ -20,6 +20,9 @@ namespace TestForm
         private bool _topMost;
         private bool _useFade;
         private bool _reportToastLocation;
+        private bool _useRtlReading;
+        private Color _borderColor1;
+        private Color _borderColor2;
         private ContentAlignment _titleAlignment;
         private Font _contentFont;
         private Font _titleFont;
@@ -52,7 +55,10 @@ namespace TestForm
                 TopMost = _topMost,
                 UseFade = _useFade,
                 ShowCloseBox = _showCloseBox,
-                ReportToastLocation = _reportToastLocation
+                ReportToastLocation = _reportToastLocation,
+                BorderColor1 = _borderColor1,
+                BorderColor2 = _borderColor2,
+                UseRtlReading = _useRtlReading
             };
 
             KryptonBasicToastNotificationData notificationDataWithLocation = new KryptonBasicToastNotificationData()
@@ -95,6 +101,12 @@ namespace TestForm
             _notificationIcon = KryptonToastNotificationIcon.Information;
             _notificationTitleText = ktxtToastTitle.Text;
             _notificationContentText = ktxtToastContent.Text;
+            _borderColor1 = Color.Empty;
+            _borderColor2 = Color.Empty;
+            _useRtlReading = false;
+
+            kcbtnBorderColor1.SelectedColor = Color.Empty;
+            kcbtnBorderColor2.SelectedColor = Color.Empty;
 
             foreach (var value in Enum.GetValues(typeof(KryptonToastNotificationIcon)))
             {
@@ -177,6 +189,21 @@ namespace TestForm
         private void kchkUseFade_CheckedChanged(object sender, EventArgs e)
         {
             _useFade = kchkUseFade.Checked;
+        }
+
+        private void kcbtnBorderColor1_SelectedColorChanged(object sender, ColorEventArgs e)
+        {
+            _borderColor1 = e.Color;
+        }
+
+        private void kcbtnBorderColor2_SelectedColorChanged(object sender, ColorEventArgs e)
+        {
+            _borderColor2 = e.Color;
+        }
+
+        private void kchkUseRTL_CheckedChanged(object sender, EventArgs e)
+        {
+            _useRtlReading = kchkUseRTL.Checked;
         }
     }
 }
