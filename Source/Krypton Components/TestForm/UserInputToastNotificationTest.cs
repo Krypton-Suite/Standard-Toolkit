@@ -8,9 +8,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+using Krypton.Toolkit;
+
 namespace TestForm
 {
-    public partial class UserInputToastNotificationTest : Form
+    public partial class UserInputToastNotificationTest : KryptonForm
     {
         public UserInputToastNotificationTest()
         {

@@ -24,7 +24,7 @@ namespace Krypton.Toolkit
 
         public static Size DEFAULT_UAC_SHIELD_ICON_CUSTOM_SIZE = new Size(16, 16);
 
-        internal const int GLOBAL_BUTTON_PADDING = 10;
+        public const int GLOBAL_BUTTON_PADDING = 10;
 
         // Used for version reporting
         internal static string DEFAULT_DOCKING_FILE = @"Krypton.Docking.dll";
@@ -33,6 +33,6 @@ namespace Krypton.Toolkit
         internal static string DEFAULT_TOOLKIT_FILE = @"Krypton.Toolkit.dll";
         internal static string DEFAULT_WORKSPACE_FILE = @"Krypton.Workspace.dll";
 
-        internal static readonly int OS_MAJOR_VERSION = Environment.OSVersion.Version.Major;
+        public static readonly int OS_MAJOR_VERSION = Environment.OSVersion.Version.Major;
     }
 }

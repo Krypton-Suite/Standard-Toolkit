@@ -25,5 +25,12 @@ namespace TestForm
 
             basicToastNotification.Show();
         }
+
+        private void kbtnUserInputNotification_Click(object sender, EventArgs e)
+        {
+            UserInputToastNotificationTest inputToastNotification = new UserInputToastNotificationTest();
+
+            inputToastNotification.Show();
+        }
     }
 }
