@@ -31,9 +31,25 @@ namespace Krypton.Toolkit
         /// <value>Reports the toast location.</value>
         public bool ReportToastLocation { get; set; }
 
+        /// <summary>Gets or sets a value indicating whether [use RTL reading].</summary>
+        /// <value><c>true</c> if [use RTL reading]; otherwise, <c>false</c>.</value>
+        public bool UseRtlReading { get; set; }
+
+        /// <summary>Gets or sets the focus on user input area.</summary>
+        /// <value>The focus on user input area.</value>
+        public bool? FocusOnUserInputArea { get; set; }
+
         /// <summary>Gets or sets the notification title alignment.</summary>
         /// <value>The notification title alignment.</value>
         public ContentAlignment? NotificationTitleAlignment { get; set; }
+
+        /// <summary>Gets or sets the first border color.</summary>
+        /// <value>The first border color.</value>
+        public Color? BorderColor1 { get; set; }
+
+        /// <summary>Gets or sets the second border color.</summary>
+        /// <value>The second border color.</value>
+        public Color? BorderColor2 { get; set; }
 
         /// <summary>Gets or sets the notification content font.</summary>
         /// <value>The notification content font.</value>
@@ -67,14 +83,24 @@ namespace Krypton.Toolkit
         /// <value>The notification icon.</value>
         public KryptonToastNotificationIcon? NotificationIcon { get; set; }
 
-        public KryptonToastNotificationInputAreaType? NotificationInputAreaType { get; set; } 
+        /// <summary>Gets or sets the type of the notification input area.</summary>
+        /// <value>The type of the notification input area.</value>
+        public KryptonToastNotificationInputAreaType? NotificationInputAreaType { get; set; }
 
+        /// <summary>Gets or sets the toast notification cue text.</summary>
+        /// <value>The toast notification cue text.</value>
         public string? ToastNotificationCueText { get; set; }
 
+        /// <summary>Gets or sets the user input item collection.</summary>
+        /// <value>The user input item collection.</value>
         public ComboBox.ObjectCollection UserInputItemCollection { get; set; }
 
+        /// <summary>Gets or sets the user input list.</summary>
+        /// <value>The user input list.</value>
         public ArrayList UserInputList { get; set; }
 
+        /// <summary>Gets or sets the index of the selected user input.</summary>
+        /// <value>The index of the selected user input.</value>
         public int? SelectedIndex { get; set; }
 
         #endregion
@@ -88,6 +114,12 @@ namespace Krypton.Toolkit
             UseFade = false;
 
             ReportToastLocation = false;
+
+            UseRtlReading = false;
+
+            BorderColor1 = Color.Empty;
+
+            BorderColor2 = Color.Empty;
 
             SelectedIndex = 0;
         }

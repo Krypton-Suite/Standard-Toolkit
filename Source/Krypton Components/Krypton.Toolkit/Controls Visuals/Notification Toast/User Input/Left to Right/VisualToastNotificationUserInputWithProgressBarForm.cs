@@ -41,6 +41,8 @@ namespace Krypton.Toolkit
             Resize += VisualToastNotificationUserInputWithProgressBarForm_Resize;
 
             GotFocus += VisualToastNotificationUserInputWithProgressBarForm_GotFocus;
+
+            UpdateBorderColors();
         }
 
         #endregion
@@ -61,6 +63,13 @@ namespace Krypton.Toolkit
 
             kwlNotificationTitle.TextAlign =
                 _toastNotificationData.NotificationTitleAlignment ?? ContentAlignment.MiddleCenter;
+        }
+
+        private void UpdateBorderColors()
+        {
+            StateCommon!.Border.Color1 = _toastNotificationData.BorderColor1 ?? Color.Empty;
+
+            StateCommon.Border.Color2 = _toastNotificationData.BorderColor2 ?? Color.Empty;
         }
 
         private void UpdateFadeValues() => FadeValues.FadingEnabled = _toastNotificationData.UseFade;
@@ -241,8 +250,6 @@ namespace Krypton.Toolkit
                         ktxtUserInput.CueHint.CueHintText = _toastNotificationData.ToastNotificationCueText!;
                     }
                     break;
-                default:
-                    break;
             }
         }
 
@@ -264,7 +271,7 @@ namespace Krypton.Toolkit
             ControlBox = _toastNotificationData.ShowCloseBox ?? false;
         }
 
-        private void SetUserInputFocus(KryptonToastNotificationInputAreaType inputAreaType)
+        private void SetUserInputFocus(KryptonToastNotificationInputAreaType? inputAreaType)
         {
             switch (inputAreaType)
             {
@@ -285,6 +292,9 @@ namespace Krypton.Toolkit
                     break;
                 case KryptonToastNotificationInputAreaType.TextBox:
                     ktxtUserInput.Focus();
+                    break;
+                case null:
+                    kbtnDismiss.Focus();
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(inputAreaType), inputAreaType, null);

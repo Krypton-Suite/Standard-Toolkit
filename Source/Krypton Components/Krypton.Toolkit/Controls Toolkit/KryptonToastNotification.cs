@@ -26,5 +26,25 @@ namespace Krypton.Toolkit
             VisualToastNotificationUserInputForm.InternalShow(toastNotificationData);
 
         #endregion
+
+        #region Implementation
+
+        internal static void InternalShowBasicNotification(KryptonBasicToastNotificationData toastNotificationData)
+        {
+            if (toastNotificationData.UseRtlReading)
+            {
+                var ktbnRTL = new VisualToastNotificationBasicRtlAwareForm(toastNotificationData);
+
+                ktbnRTL.Show();
+            }
+            else
+            {
+                var kbtn = new VisualToastNotificationBasicForm(toastNotificationData);
+
+                kbtn.Show();
+            }
+        }
+
+        #endregion
     }
 }

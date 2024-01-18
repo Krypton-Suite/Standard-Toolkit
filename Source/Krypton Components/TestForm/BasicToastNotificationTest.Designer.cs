@@ -28,10 +28,14 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(BasicToastNotificationTest));
             this.kryptonPanel1 = new Krypton.Toolkit.KryptonPanel();
             this.kbtnShow = new Krypton.Toolkit.KryptonButton();
             this.kryptonBorderEdge1 = new Krypton.Toolkit.KryptonBorderEdge();
             this.kryptonPanel2 = new Krypton.Toolkit.KryptonPanel();
+            this.kchkUseRTL = new Krypton.Toolkit.KryptonCheckBox();
+            this.kcbtnBorderColor2 = new Krypton.Toolkit.KryptonColorButton();
+            this.kcbtnBorderColor1 = new Krypton.Toolkit.KryptonColorButton();
             this.kchkReportLocation = new Krypton.Toolkit.KryptonCheckBox();
             this.kryptonGroupBox1 = new Krypton.Toolkit.KryptonGroupBox();
             this.klblStartLocationX = new Krypton.Toolkit.KryptonLabel();
@@ -74,15 +78,15 @@
             this.kryptonPanel1.Controls.Add(this.kbtnShow);
             this.kryptonPanel1.Controls.Add(this.kryptonBorderEdge1);
             this.kryptonPanel1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.kryptonPanel1.Location = new System.Drawing.Point(0, 430);
+            this.kryptonPanel1.Location = new System.Drawing.Point(0, 464);
             this.kryptonPanel1.Name = "kryptonPanel1";
             this.kryptonPanel1.PanelBackStyle = Krypton.Toolkit.PaletteBackStyle.PanelAlternate;
-            this.kryptonPanel1.Size = new System.Drawing.Size(830, 50);
+            this.kryptonPanel1.Size = new System.Drawing.Size(864, 50);
             this.kryptonPanel1.TabIndex = 0;
             // 
             // kbtnShow
             // 
-            this.kbtnShow.Location = new System.Drawing.Point(702, 13);
+            this.kbtnShow.Location = new System.Drawing.Point(732, 13);
             this.kbtnShow.Name = "kbtnShow";
             this.kbtnShow.Size = new System.Drawing.Size(90, 25);
             this.kbtnShow.TabIndex = 1;
@@ -95,11 +99,14 @@
             this.kryptonBorderEdge1.Dock = System.Windows.Forms.DockStyle.Top;
             this.kryptonBorderEdge1.Location = new System.Drawing.Point(0, 0);
             this.kryptonBorderEdge1.Name = "kryptonBorderEdge1";
-            this.kryptonBorderEdge1.Size = new System.Drawing.Size(830, 1);
+            this.kryptonBorderEdge1.Size = new System.Drawing.Size(864, 1);
             this.kryptonBorderEdge1.Text = "kryptonBorderEdge1";
             // 
             // kryptonPanel2
             // 
+            this.kryptonPanel2.Controls.Add(this.kchkUseRTL);
+            this.kryptonPanel2.Controls.Add(this.kcbtnBorderColor2);
+            this.kryptonPanel2.Controls.Add(this.kcbtnBorderColor1);
             this.kryptonPanel2.Controls.Add(this.kchkReportLocation);
             this.kryptonPanel2.Controls.Add(this.kryptonGroupBox1);
             this.kryptonPanel2.Controls.Add(this.kchkShowProgressBar);
@@ -122,8 +129,41 @@
             this.kryptonPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kryptonPanel2.Location = new System.Drawing.Point(0, 0);
             this.kryptonPanel2.Name = "kryptonPanel2";
-            this.kryptonPanel2.Size = new System.Drawing.Size(830, 430);
+            this.kryptonPanel2.Size = new System.Drawing.Size(864, 464);
             this.kryptonPanel2.TabIndex = 1;
+            // 
+            // kchkUseRTL
+            // 
+            this.kchkUseRTL.Location = new System.Drawing.Point(365, 197);
+            this.kchkUseRTL.Name = "kchkUseRTL";
+            this.kchkUseRTL.Size = new System.Drawing.Size(67, 20);
+            this.kchkUseRTL.TabIndex = 26;
+            this.kchkUseRTL.Values.Text = "Use RTL";
+            this.kchkUseRTL.CheckedChanged += new System.EventHandler(this.kchkUseRTL_CheckedChanged);
+            // 
+            // kcbtnBorderColor2
+            // 
+            this.kcbtnBorderColor2.CustomColorPreviewShape = Krypton.Toolkit.KryptonColorButtonCustomColorPreviewShape.Circle;
+            this.kcbtnBorderColor2.Location = new System.Drawing.Point(537, 166);
+            this.kcbtnBorderColor2.Name = "kcbtnBorderColor2";
+            this.kcbtnBorderColor2.Size = new System.Drawing.Size(166, 25);
+            this.kcbtnBorderColor2.TabIndex = 25;
+            this.kcbtnBorderColor2.Values.Image = ((System.Drawing.Image)(resources.GetObject("kcbtnBorderColor2.Values.Image")));
+            this.kcbtnBorderColor2.Values.RoundedCorners = 8;
+            this.kcbtnBorderColor2.Values.Text = "Border Color 2";
+            this.kcbtnBorderColor2.SelectedColorChanged += new System.EventHandler<Krypton.Toolkit.ColorEventArgs>(this.kcbtnBorderColor2_SelectedColorChanged);
+            // 
+            // kcbtnBorderColor1
+            // 
+            this.kcbtnBorderColor1.CustomColorPreviewShape = Krypton.Toolkit.KryptonColorButtonCustomColorPreviewShape.Circle;
+            this.kcbtnBorderColor1.Location = new System.Drawing.Point(365, 166);
+            this.kcbtnBorderColor1.Name = "kcbtnBorderColor1";
+            this.kcbtnBorderColor1.Size = new System.Drawing.Size(166, 25);
+            this.kcbtnBorderColor1.TabIndex = 24;
+            this.kcbtnBorderColor1.Values.Image = ((System.Drawing.Image)(resources.GetObject("kcbtnBorderColor1.Values.Image")));
+            this.kcbtnBorderColor1.Values.RoundedCorners = 8;
+            this.kcbtnBorderColor1.Values.Text = "Border Color 1";
+            this.kcbtnBorderColor1.SelectedColorChanged += new System.EventHandler<Krypton.Toolkit.ColorEventArgs>(this.kcbtnBorderColor1_SelectedColorChanged);
             // 
             // kchkReportLocation
             // 
@@ -421,7 +461,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(830, 480);
+            this.ClientSize = new System.Drawing.Size(864, 514);
             this.Controls.Add(this.kryptonPanel2);
             this.Controls.Add(this.kryptonPanel1);
             this.Name = "BasicToastNotificationTest";
@@ -475,5 +515,8 @@
         private Krypton.Toolkit.KryptonCheckBox kchkSetDefaultLocation;
         private Krypton.Toolkit.KryptonLabel klblStartLocationX;
         private Krypton.Toolkit.KryptonCheckBox kchkReportLocation;
+        private Krypton.Toolkit.KryptonColorButton kcbtnBorderColor1;
+        private Krypton.Toolkit.KryptonColorButton kcbtnBorderColor2;
+        private Krypton.Toolkit.KryptonCheckBox kchkUseRTL;
     }
 }

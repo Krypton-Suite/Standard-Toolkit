@@ -30,12 +30,14 @@
         {
             this.kryptonPanel1 = new Krypton.Toolkit.KryptonPanel();
             this.kbtnBasicNotification = new Krypton.Toolkit.KryptonButton();
+            this.kbtnUserInputNotification = new Krypton.Toolkit.KryptonButton();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
             this.kryptonPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // kryptonPanel1
             // 
+            this.kryptonPanel1.Controls.Add(this.kbtnUserInputNotification);
             this.kryptonPanel1.Controls.Add(this.kbtnBasicNotification);
             this.kryptonPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kryptonPanel1.Location = new System.Drawing.Point(0, 0);
@@ -49,15 +51,23 @@
             this.kbtnBasicNotification.Name = "kbtnBasicNotification";
             this.kbtnBasicNotification.Size = new System.Drawing.Size(291, 25);
             this.kbtnBasicNotification.TabIndex = 0;
-            this.kbtnBasicNotification.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kbtnBasicNotification.Values.Text = "Basic Notification";
             this.kbtnBasicNotification.Click += new System.EventHandler(this.kbtnBasicNotification_Click);
+            // 
+            // kbtnUserInputNotification
+            // 
+            this.kbtnUserInputNotification.Location = new System.Drawing.Point(13, 44);
+            this.kbtnUserInputNotification.Name = "kbtnUserInputNotification";
+            this.kbtnUserInputNotification.Size = new System.Drawing.Size(291, 25);
+            this.kbtnUserInputNotification.TabIndex = 1;
+            this.kbtnUserInputNotification.Values.Text = "User Input Notification";
+            this.kbtnUserInputNotification.Click += new System.EventHandler(this.kbtnUserInputNotification_Click);
             // 
             // ToastNotificationTestChoice
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(316, 225);
+            this.ClientSize = new System.Drawing.Size(318, 227);
             this.Controls.Add(this.kryptonPanel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.MaximizeBox = false;
@@ -73,5 +83,6 @@
 
         private Krypton.Toolkit.KryptonPanel kryptonPanel1;
         private Krypton.Toolkit.KryptonButton kbtnBasicNotification;
+        private Krypton.Toolkit.KryptonButton kbtnUserInputNotification;
     }
 }

@@ -31,6 +31,18 @@ namespace Krypton.Toolkit
         /// <value>Reports the toast location.</value>
         public bool ReportToastLocation { get; set; }
 
+        /// <summary>Gets or sets a value indicating whether [use RTL reading].</summary>
+        /// <value><c>true</c> if [use RTL reading]; otherwise, <c>false</c>.</value>
+        public bool UseRtlReading { get; set; }
+
+        /// <summary>Gets or sets the first border color.</summary>
+        /// <value>The first border color.</value>
+        public Color? BorderColor1 { get; set; }
+
+        /// <summary>Gets or sets the second border color.</summary>
+        /// <value>The second border color.</value>
+        public Color? BorderColor2 { get; set; }
+
         /// <summary>Gets or sets the notification title alignment.</summary>
         /// <value>The notification title alignment.</value>
         public ContentAlignment? NotificationTitleAlignment { get; set; }
@@ -78,6 +90,12 @@ namespace Krypton.Toolkit
             UseFade = false;
 
             ReportToastLocation = false;
+
+            UseRtlReading = false;
+
+            BorderColor1 = Color.Empty;
+
+            BorderColor2 = Color.Empty;
         }
 
         #endregion
