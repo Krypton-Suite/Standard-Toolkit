@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -58,7 +58,7 @@ namespace Krypton.Ribbon
         public AppButtonMenuProvider(ViewContextMenuManager viewManager,
                                      KryptonContextMenuItemCollection menuCollection,
                                      ViewLayoutStack viewColumns,
-                                     PaletteBase palette,
+                                     PaletteBase? palette,
                                      PaletteMode paletteMode,
                                      PaletteRedirect redirector,
                                      NeedPaintHandler needPaintDelegate)
@@ -78,7 +78,7 @@ namespace Krypton.Ribbon
             ProviderCanCloseMenu = true;
             ProviderShowHorz = KryptonContextMenuPositionH.After;
             ProviderShowVert = KryptonContextMenuPositionV.Top;
-            ProviderStateCommon = new PaletteContextMenuRedirect(redirector!, needPaintDelegate);
+            ProviderStateCommon = new PaletteContextMenuRedirect(redirector, needPaintDelegate);
             ProviderStateNormal = new PaletteContextMenuItemState(ProviderStateCommon);
             ProviderStateDisabled = new PaletteContextMenuItemState(ProviderStateCommon);
             ProviderStateHighlight = new PaletteContextMenuItemStateHighlight(ProviderStateCommon);
@@ -251,7 +251,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets access to the custom palette.
         /// </summary>
-        public PaletteBase ProviderPalette { get; }
+        public PaletteBase? ProviderPalette { get; }
 
         /// <summary>
         /// Gets access to the palette mode.

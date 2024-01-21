@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -178,10 +178,10 @@ namespace Krypton.Ribbon
             backRect.Inflate(-1, -1);
 
             // Draw the background for the group image area
-            _memento1 = context.Renderer.RenderRibbon.DrawRibbonBack(_ribbon.RibbonShape, context, backRect, State, paletteBack, VisualOrientation.Top, false, _memento1);
+            _memento1 = context.Renderer.RenderRibbon.DrawRibbonBack(_ribbon.RibbonShape, context, backRect, State, paletteBack, VisualOrientation.Top, _memento1);
 
             // Draw the border around the group image area
-            _memento2 = context.Renderer.RenderRibbon.DrawRibbonBack(_ribbon.RibbonShape, context, ClientRectangle, State, paletteBorder, VisualOrientation.Top, false, _memento2);
+            _memento2 = context.Renderer.RenderRibbon.DrawRibbonBack(_ribbon.RibbonShape, context, ClientRectangle, State, paletteBorder, VisualOrientation.Top, _memento2);
 
             // If we have an image for drawing
             if (_ribbonGroup.Image != null)

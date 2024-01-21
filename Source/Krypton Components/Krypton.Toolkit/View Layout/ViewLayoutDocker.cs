@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
  *  
  */
 #endregion
@@ -371,13 +371,13 @@ namespace Krypton.Toolkit
                     break;
             }
 
-            // By default all the children need to draw all their borders
+            // By default, all the children need to draw all their borders
             var leftEdges = PaletteDrawBorders.All;
             var rightEdges = PaletteDrawBorders.All;
             var topEdges = PaletteDrawBorders.All;
             var bottomEdges = PaletteDrawBorders.All;
             var fillEdges = PaletteDrawBorders.All;
-            
+
             // Position all except the filler
             foreach (ViewBase child in Reverse()
                          .Where(child => child.Visible && (GetDock(child) != ViewDockStyle.Fill))
@@ -524,6 +524,7 @@ namespace Krypton.Toolkit
                             return ViewDockStyle.Right;
                     }
                     break;
+
                 case VisualOrientation.Right:
                     switch (style)
                     {
@@ -537,6 +538,7 @@ namespace Krypton.Toolkit
                             return ViewDockStyle.Left;
                     }
                     break;
+
                 case VisualOrientation.Bottom:
                     switch (style)
                     {
@@ -551,8 +553,9 @@ namespace Krypton.Toolkit
                     }
                     break;
                 default:
-                    // Should never happen!
+    // Should never happen!
                     Debug.Assert(false);
+                    DebugTools.NotImplemented(Orientation.ToString());
                     break;
             }
 

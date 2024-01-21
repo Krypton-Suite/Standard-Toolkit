@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -46,8 +46,8 @@ namespace Krypton.Ribbon
             Debug.Assert(captionArea != null);
 
             // Remember incoming references
-            _ribbon = ribbon!;
-            _captionArea = captionArea!;
+            _ribbon = ribbon;
+            _captionArea = captionArea;
         }
 
         /// <summary>
@@ -100,7 +100,7 @@ namespace Krypton.Ribbon
         /// </summary>
         public void SetFirstFocusItem()
         {
-            ViewBase? newView = _ribbon.GroupsArea.ViewGroups.GetFirstFocusItem();
+            ViewBase newView = _ribbon.GroupsArea.ViewGroups.GetFirstFocusItem();
 
             // Make the item the new focus for the popup
             if (newView != null)
@@ -116,7 +116,7 @@ namespace Krypton.Ribbon
         /// <returns>ViewBase of item; otherwise false.</returns>
         public void SetLastFocusItem()
         {
-            ViewBase? newView = _ribbon.GroupsArea.ViewGroups.GetLastFocusItem();
+            ViewBase newView = _ribbon.GroupsArea.ViewGroups.GetLastFocusItem();
 
             // Make the item the new focus for the popup
             if (newView != null)
@@ -132,7 +132,7 @@ namespace Krypton.Ribbon
         public void SetNextFocusItem()
         {
             // Find the next item in sequence
-            ViewBase? newView = _ribbon.GroupsArea.ViewGroups.GetNextFocusItem(ViewRibbonManager!.FocusView!);
+            ViewBase newView = _ribbon.GroupsArea.ViewGroups.GetNextFocusItem(ViewRibbonManager!.FocusView);
 
             // Rotate around to the first item
             if (newView == null)
@@ -152,7 +152,7 @@ namespace Krypton.Ribbon
         public void SetPreviousFocusItem()
         {
             // Find the previous item in sequence
-            ViewBase? newView = _ribbon.GroupsArea.ViewGroups.GetPreviousFocusItem(ViewRibbonManager!.FocusView!);
+            ViewBase newView = _ribbon.GroupsArea.ViewGroups.GetPreviousFocusItem(ViewRibbonManager!.FocusView);
 
             // Rotate around to the last item
             if (newView == null)
@@ -180,7 +180,7 @@ namespace Krypton.Ribbon
 
             // If the base class wants to end tracking and not inside the ribbon control
             return base.DoesCurrentMouseDownEndAllTracking(m, pt) &&
-                   !_ribbon.ClientRectangleWithoutComposition.Contains(ribbonPt) &&
+                   !_ribbon.ClientRectangle.Contains(ribbonPt) &&
                    _captionArea.DoesCurrentMouseDownEndAllTracking(screenPt);
         }
 
@@ -285,10 +285,10 @@ namespace Krypton.Ribbon
                 popupSize.Height);
 
             // Get the view element for the currently selected tab
-            ViewDrawRibbonTab? viewTab = tabsArea.LayoutTabs.GetViewForRibbonTab(_ribbon.SelectedTab);
+            ViewDrawRibbonTab viewTab = tabsArea.LayoutTabs.GetViewForRibbonTab(_ribbon.SelectedTab);
 
             // Convert the view tab client area to screen coordinates
-            Rectangle viewTabRect = _ribbon.RectangleToScreen(viewTab!.ClientRectangle!);
+            Rectangle viewTabRect = _ribbon.RectangleToScreen(viewTab.ClientRectangle);
 
             // Get the screen that the tab is mostly within
             Screen screen = Screen.FromRectangle(viewTabRect);

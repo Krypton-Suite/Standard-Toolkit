@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
  *  
  */
 #endregion
@@ -132,8 +132,8 @@ namespace Krypton.Toolkit
             StatePressed = new PaletteSeparatorPadding(StateCommon.Separator, StateCommon.Separator, NeedPaintDelegate);
 
             // Our view contains just a simple canvas that covers entire client area and a separator view
-            _drawSeparator = new ViewDrawSeparator(StateDisabled.Separator, StateNormal.Separator, StateTracking, StatePressed,
-                                                   StateDisabled.Separator, StateNormal.Separator, StateTracking, StatePressed,
+            _drawSeparator = new ViewDrawSeparator(StateDisabled.Separator!, StateNormal.Separator!, StateTracking, StatePressed,
+                                                   StateDisabled.Separator!, StateNormal.Separator!, StateTracking, StatePressed,
                                                     PaletteMetricPadding.SeparatorPaddingLowProfile, Orientation.Vertical);
 
             // Get the separator to fill the entire client area
@@ -228,7 +228,7 @@ namespace Krypton.Toolkit
         public override Font Font
         {
             get => base.Font;
-            set => base.Font = value;
+            set => base.Font = value!;
         }
 
         /// <summary>
@@ -279,7 +279,7 @@ namespace Krypton.Toolkit
                 if (_style != value)
                 {
                     _style = value;
-                    StateCommon.Separator.SetStyles(_style);
+                    StateCommon?.Separator.SetStyles(_style);
                     _drawSeparator.MetricPadding = CommonHelper.SeparatorStyleToMetricPadding(_style);
                     PerformNeedPaint(true);
                 }
@@ -296,7 +296,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Overrides for defining common separator appearance that other states can override.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteSplitContainerRedirect? StateCommon { get; }
+        public PaletteSplitContainerRedirect StateCommon { get; }
 
         private bool ShouldSerializeStateCommon() => !StateCommon.IsDefault;
 
@@ -328,7 +328,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteSeparatorPadding? StateTracking { get; }
 
-        private bool ShouldSerializeStateTracking() => !StateTracking.IsDefault;
+        private bool ShouldSerializeStateTracking() => !StateTracking!.IsDefault;
 
         /// <summary>
         /// Gets access to the pressed separator appearance entries.
@@ -338,7 +338,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PaletteSeparatorPadding? StatePressed { get; }
 
-        private bool ShouldSerializeStatePressed() => !StatePressed.IsDefault;
+        private bool ShouldSerializeStatePressed() => !StatePressed!.IsDefault;
 
         /// <summary>
         /// Gets and sets the thickness of the splitter.

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -110,7 +110,7 @@ namespace Krypton.Ribbon
             // Grab the required size for the content images
             context.Renderer.RenderStandardContent.GetContentPreferredSize(context, _paletteContent, 
                 this, VisualOrientation.Top,
-                State, false, false);
+                State);
 
         /// <summary>
         /// Perform a layout of the elements.
@@ -134,7 +134,7 @@ namespace Krypton.Ribbon
             _mementoContent = context.Renderer.RenderStandardContent.LayoutContent(context, ClientRectangle, 
                                                                                    _paletteContent, this, 
                                                                                    VisualOrientation.Top,
-                                                                                   State, false, false);
+                                                                                   State);
         }
         #endregion
 
@@ -173,7 +173,7 @@ namespace Krypton.Ribbon
             {
                 context.Renderer.RenderStandardContent.DrawContent(context, ClientRectangle, _paletteContent, 
                     _mementoContent, VisualOrientation.Top, 
-                    State, false, false,  false);
+                    State,  false);
             }
 
             // Are we allowed to draw border?

@@ -2,7 +2,7 @@
 /*
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
  *  
  */
 #endregion
@@ -118,21 +118,72 @@ namespace Krypton.Toolkit
         /// <param name="height">The height.</param>
         public static Bitmap? ScaleImage(Image? image, int width, int height) => ScaleImage(image, new Size(width, height));
 
-        // TODO: Remove, as this is redundant
-        //public enum IconType
-        //{
-        //    Warning = 101,
-        //    Help = 102,
-        //    Error = 103,
-        //    Info = 104,
-        //    Shield = 106
-        //}
-
         /// <summary>Sets the icon.</summary>
         /// <param name="image">The image.</param>
         /// <param name="size">The size.</param>
         public static Image SetIcon(Image image, Size size) => new Bitmap(image, size);
-    }
 
+        /// <summary>Extracts an icon from a DLL.
+        /// Code from https://www.pinvoke.net/default.aspx/shell32.extracticonex
+        /// </summary>
+        /// <param name="filePath">The file path to ingest.</param>
+        /// <param name="imageIndex">Index of the image.</param>
+        /// <param name="largeIcon">if set to <c>true</c> [large icon].</param>
+        /// <returns>A specified icon from a chosen DLL file.</returns>
+        public static Icon? ExtractIcon(string filePath, int imageIndex, bool largeIcon = true)
+        {
+            if (string.IsNullOrEmpty(filePath))
+            {
+                throw new ArgumentNullException(nameof(filePath));
+            }
+            var hIconEx = new IntPtr[] { IntPtr.Zero };
+            try
+            {
+                int readIconCount = largeIcon 
+                    ? ImageNativeMethods.ExtractIconEx(filePath, -imageIndex, hIconEx, null, 1) 
+                    : ImageNativeMethods.ExtractIconEx(filePath, -imageIndex, null, hIconEx, 1);
+                if (readIconCount > 0 && hIconEx[0] != IntPtr.Zero)
+                {
+                    // GET FIRST EXTRACTED ICON
+                    Icon extractedIcon = (Icon)Icon.FromHandle(hIconEx[0]).Clone();
+
+                    return extractedIcon;
+                }
+                else
+                {
+                    // NO ICONS READ
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler.CaptureException(ex);
+
+                // /* EXTRACT ICON ERROR */
+                //// BUBBLE UP
+                //throw new ApplicationException("Could not extract icon", ex);
+                return null;
+            }
+            finally
+            {
+                // RELEASE RESOURCES
+                foreach (IntPtr ptr in hIconEx)
+                {
+                    if (ptr != IntPtr.Zero)
+                    {
+                        ImageNativeMethods.DestroyIcon(ptr);
+                    }
+                }
+            }
+        }
+
+        /// <summary>Gets the size of the screen.</summary>
+        /// <returns></returns>
+        public static Size GetScreenSize() => new Size(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
+
+        /// <summary>Gets the working area.</summary>
+        /// <returns></returns>
+        public static Rectangle GetWorkingArea() => Screen.PrimaryScreen.WorkingArea;
+    }
     #endregion
 }

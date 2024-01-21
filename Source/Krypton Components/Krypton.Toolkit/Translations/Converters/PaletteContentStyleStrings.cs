@@ -2,7 +2,7 @@
 /*
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2023 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2023 - 2024. All rights reserved. 
  *  
  */
 #endregion
@@ -113,7 +113,7 @@ namespace Krypton.Toolkit
                                  ButtonBreadCrumb.Equals(DEFAULT_PALETTE_CONTENT_STYLE_BUTTON_BREAD_CRUMB) &&
                                  ButtonCalendarDay.Equals(DEFAULT_PALETTE_CONTENT_STYLE_BUTTON_CALENDAR_DAY) &&
                                  ButtonCluster.Equals(DEFAULT_PALETTE_CONTENT_STYLE_BUTTON_CLUSTER) &&
-                                 ButtonGallery.Equals(DEFAULT_PALETTE_CONTENT_STYLE_BUTTON_GALLERY) &&
+                                 !ShouldSerializeButtonGallery() &&
                                  ButtonNavigatorStack.Equals(DEFAULT_PALETTE_CONTENT_STYLE_BUTTON_NAVIGATOR_STACK) &&
                                  ButtonNavigatorOverflow.Equals(DEFAULT_PALETTE_CONTENT_STYLE_BUTTON_NAVIGATOR_OVERFLOW) &&
                                  ButtonNavigatorMini.Equals(DEFAULT_PALETTE_CONTENT_STYLE_BUTTON_NAVIGATOR_MINI) &&
@@ -130,10 +130,9 @@ namespace Krypton.Toolkit
                                  ContextMenuItemTextAlternate.Equals(DEFAULT_PALETTE_CONTENT_STYLE_CONTEXT_MENU_ITEM_TEXT_ALTERNATE) &&
                                  ContextMenuItemShortcutText.Equals(DEFAULT_PALETTE_CONTENT_STYLE_CONTEXT_MENU_ITEM_SHORTCUT_TEXT) &&
                                  GridHeaderColumnList.Equals(DEFAULT_PALETTE_CONTENT_STYLE_GRID_HEADER_COLUMN_LIST) &&
-                                 GridHeaderRowList.Equals(DEFAULT_PALETTE_CONTENT_STYLE_GRID_HEADER_ROW_LIST) &&
                                  GridDataCellList.Equals(DEFAULT_PALETTE_CONTENT_STYLE_GRID_DATA_CELL_LIST) &&
                                  GridHeaderColumnSheet.Equals(DEFAULT_PALETTE_CONTENT_STYLE_GRID_HEADER_COLUMN_SHEET) &&
-                                 GridHeaderRowList.Equals(DEFAULT_PALETTE_CONTENT_STYLE_GRID_HEADER_ROW_LIST) &&
+                                 !ShouldSerializeGridHeaderRowList() &&
                                  GridDataCellSheet.Equals(DEFAULT_PALETTE_CONTENT_STYLE_GRID_DATA_CELL_SHEET) &&
                                  GridHeaderColumnCustom1.Equals(DEFAULT_PALETTE_CONTENT_STYLE_GRID_HEADER_COLUMN_CUSTOM1) &&
                                  GridHeaderColumnCustom2.Equals(DEFAULT_PALETTE_CONTENT_STYLE_GRID_HEADER_COLUMN_CUSTOM2) &&
@@ -230,7 +229,7 @@ namespace Krypton.Toolkit
 
             GridHeaderColumnList = DEFAULT_PALETTE_CONTENT_STYLE_GRID_HEADER_COLUMN_LIST;
 
-            GridHeaderRowList = DEFAULT_PALETTE_CONTENT_STYLE_GRID_HEADER_ROW_LIST;
+            ResetGridHeaderRowList();
 
             GridDataCellList = DEFAULT_PALETTE_CONTENT_STYLE_GRID_DATA_CELL_LIST;
 
@@ -380,7 +379,9 @@ namespace Krypton.Toolkit
         [Description(@"The gallery palette button content style.")]
         [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_BUTTON_GALLERY)]
         [RefreshProperties(RefreshProperties.All)]
-        public string ButtonGallery { get; set; }
+        public string ButtonGallery { get; set; } = DEFAULT_PALETTE_CONTENT_STYLE_BUTTON_GALLERY;
+        private bool ShouldSerializeButtonGallery() => ButtonGallery != DEFAULT_PALETTE_CONTENT_STYLE_BUTTON_GALLERY;
+        private void ResetButtonGallery() => ButtonGallery = DEFAULT_PALETTE_CONTENT_STYLE_BUTTON_GALLERY;
 
         /// <summary>Gets or sets the navigator stack palette button content style string.</summary>
         [Category(@"Visuals")]
@@ -504,9 +505,11 @@ namespace Krypton.Toolkit
         /// <summary>Gets or sets the header row list grid style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The header row list grid style.")]
-        [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_GRID_HEADER_ROW_CUSTOM1)]
+        [DefaultValue(DEFAULT_PALETTE_CONTENT_STYLE_GRID_HEADER_ROW_LIST)]
         [RefreshProperties(RefreshProperties.All)]
-        public string GridHeaderRowList { get; set; }
+        public string GridHeaderRowList { get; set; } = DEFAULT_PALETTE_CONTENT_STYLE_GRID_HEADER_ROW_LIST;
+        private bool ShouldSerializeGridHeaderRowList() => GridHeaderRowList != DEFAULT_PALETTE_CONTENT_STYLE_GRID_HEADER_ROW_LIST;
+        private void ResetGridHeaderRowList() => GridHeaderRowList = DEFAULT_PALETTE_CONTENT_STYLE_GRID_HEADER_ROW_LIST;
 
         /// <summary>Gets or sets the data cell list grid style string.</summary>
         [Category(@"Visuals")]

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
  *  
  */
 #endregion
@@ -240,23 +240,6 @@ namespace Krypton.Toolkit
             }
         }
 
-        /// <summary>Gets or sets the corner radius.</summary>
-        /// <value>The corner radius.</value>
-        [DefaultValue(GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE)]
-        public float StateCommonCornerRoundingRadius
-        {
-            get => _dropButton.StateCommon.Border.Rounding;
-
-            set
-            {
-                if (_dropButton.StateCommon.Border.Rounding != value)
-                {
-                    _service.OnComponentChanged(_dropButton, null, _dropButton.StateCommon.Border.Rounding, value);
-
-                    _dropButton.StateCommon.Border.Rounding = value;
-                }
-            }
-        }
         #endregion
 
         #region Public Override
@@ -282,7 +265,6 @@ namespace Krypton.Toolkit
                 actions.Add(new DesignerActionPropertyItem(nameof(DropDownOrientation), nameof(DropDownOrientation), nameof(Appearance), @"DropDown orientation"));
                 actions.Add(new DesignerActionPropertyItem(nameof(StateCommonShortTextFont), @"State Common Short Text Font", nameof(Appearance), @"The State Common Short Text Font."));
                 actions.Add(new DesignerActionPropertyItem(nameof(StateCommonLongTextFont), @"State Common State Common Long Text Font", nameof(Appearance), @"The State Common State Common Long Text Font."));
-                actions.Add(new DesignerActionPropertyItem(nameof(StateCommonCornerRoundingRadius), @"State Common Corner Rounding Radius", nameof(Appearance), @"The corner rounding radius of the control."));
                 actions.Add(new DesignerActionHeaderItem(@"Values"));
                 actions.Add(new DesignerActionPropertyItem(nameof(Text), nameof(Text), @"Values", @"Button text"));
                 actions.Add(new DesignerActionPropertyItem(nameof(ExtraText), nameof(ExtraText), @"Values", @"Button extra text"));

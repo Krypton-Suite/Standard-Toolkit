@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
  *  
  */
 #endregion
@@ -205,16 +205,12 @@ namespace Krypton.Toolkit
         /// <param name="values">Content values.</param>
         /// <param name="orientation">Visual orientation of the content.</param>
         /// <param name="state">State associated with rendering.</param>
-        /// <param name="composition">Drawing onto a composition element.</param>
-        /// <param name="glowing">If composition, should glowing be drawn.</param>
         /// <returns>Preferred size.</returns>
         Size GetContentPreferredSize(ViewLayoutContext context,
                                      IPaletteContent palette,
                                      IContentValues values,
                                      VisualOrientation orientation,
-                                     PaletteState state,
-                                     bool composition,
-                                     bool glowing);
+                                     PaletteState state);
 
         /// <summary>
         /// Perform layout calculations on the provided content.
@@ -225,17 +221,13 @@ namespace Krypton.Toolkit
         /// <param name="values">Content values.</param>
         /// <param name="orientation">Visual orientation of the content.</param>
         /// <param name="state">State associated with rendering.</param>
-        /// <param name="composition">Drawing onto a composition element.</param>
-        /// <param name="glowing">If composition, should glowing be drawn.</param>
         /// <returns>Memento with cached information.</returns>
         IDisposable LayoutContent(ViewLayoutContext context,
                                   Rectangle availableRect,
                                   IPaletteContent palette,
                                   IContentValues values,
                                   VisualOrientation orientation,
-                                  PaletteState state,
-                                  bool composition,
-                                  bool glowing);
+                                  PaletteState state);
 
         /// <summary>
         /// Perform draw of content using provided memento.
@@ -246,8 +238,6 @@ namespace Krypton.Toolkit
         /// <param name="memento">Cached values from layout call.</param>
         /// <param name="orientation">Visual orientation of the content.</param>
         /// <param name="state">State associated with rendering.</param>
-        /// <param name="composition">Drawing onto a composition element.</param>
-        /// <param name="glowing">If composition, should glowing be drawn.</param>
         /// <param name="allowFocusRect">Allow drawing of focus rectangle.</param>
         void DrawContent(RenderContext context,
                          Rectangle displayRect,
@@ -255,8 +245,6 @@ namespace Krypton.Toolkit
                          IDisposable memento,
                          VisualOrientation orientation,
                          PaletteState state,
-                         bool composition,
-                         bool glowing,
                          bool allowFocusRect);
 
         /// <summary>
@@ -405,7 +393,6 @@ namespace Krypton.Toolkit
         /// <param name="state">State associated with rendering.</param>
         /// <param name="palette">Palette used for sourcing settings.</param>
         /// <param name="orientation">Orientation for drawing.</param>
-        /// <param name="composition">Drawing onto a composition element.</param>
         /// <param name="memento">Cached values to use when drawing.</param>
         IDisposable? DrawRibbonBack(PaletteRibbonShape shape,
                                    RenderContext context,
@@ -413,7 +400,6 @@ namespace Krypton.Toolkit
                                    PaletteState state,
                                    IPaletteRibbonBack palette,
                                    VisualOrientation orientation,
-                                   bool composition,
                                    IDisposable? memento);
 
         /// <summary>

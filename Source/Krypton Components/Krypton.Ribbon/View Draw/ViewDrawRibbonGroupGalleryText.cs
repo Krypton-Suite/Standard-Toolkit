@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -24,7 +24,7 @@ namespace Krypton.Ribbon
         private readonly KryptonRibbon _ribbon;
         private readonly KryptonRibbonGroupGallery _ribbonGallery;
         private readonly RibbonGroupNormalDisabledTextToContent _contentProvider;
-        private IDisposable _memento;
+        private IDisposable? _memento;
         private readonly bool _firstText;
         private int _heightExtra;
         private Size _preferredSize;
@@ -124,7 +124,7 @@ namespace Krypton.Ribbon
                 // Ask the renderer for the contents preferred size
                 _preferredSize = context.Renderer.RenderStandardContent.GetContentPreferredSize(context, _contentProvider, 
                                                                                                 this, VisualOrientation.Top,
-                                                                                                State, false, false);
+                                                                                                State);
 
                 // Subtract the extra space used to ensure it draws
                 _heightExtra = (_ribbon.CalculatedValues.DrawFontHeight - _ribbon.CalculatedValues.RawFontHeight) * 2;
@@ -182,7 +182,7 @@ namespace Krypton.Ribbon
                 _memento = context.Renderer.RenderStandardContent.LayoutContent(context, drawRect,
                                                                                 _contentProvider, this,
                                                                                 VisualOrientation.Top, 
-                                                                                PaletteState.Normal, false, false);
+                                                                                PaletteState.Normal);
 
                 // Cache values that are needed to decide if layout is needed
                 _displayRect = ClientRectangle;
@@ -210,7 +210,7 @@ namespace Krypton.Ribbon
                 context.Renderer.RenderStandardContent.DrawContent(context, drawRect,
                     _contentProvider, _memento,
                     VisualOrientation.Top,
-                    State, false, false, true);
+                    State, true);
             }
         }
         #endregion

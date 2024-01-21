@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
  *  
  */
 #endregion
@@ -62,10 +62,10 @@ namespace Krypton.Navigator
         /// <summary>
         /// Initialize a new instance of the DragManager class.
         /// </summary>
-        public DragManager()
+        public DragManager(PaletteBase? target = null)
         {
-            _redirector = new PaletteRedirect();
-            StateCommon = new PaletteDragDrop(null, null);
+            _redirector = new PaletteRedirect(target);
+            StateCommon = new PaletteDragDrop(target, null);
             _paletteMode = PaletteMode.Global;
             DragTargetProviders = new DragTargetProviderCollection();
             _dragTargets = new DragTargetList();
@@ -247,7 +247,7 @@ namespace Krypton.Navigator
 
                 // Create correct drag feedback class and start it up
                 ResolveDragFeedback();
-                _dragFeedback?.Start(StateCommon, _dragRenderer!, _pageDragEndData, _dragTargets!);
+                _dragFeedback?.Start(StateCommon, _dragRenderer, _pageDragEndData, _dragTargets!);
             }
             else
             {

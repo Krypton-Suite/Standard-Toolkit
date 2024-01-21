@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -106,12 +106,12 @@ namespace Krypton.Ribbon
             Debug.Assert(needPaintDelegate != null);
 
             // Remember incoming references
-            _ribbon = ribbon!;
-            _captionArea = captionArea!;
+            _ribbon = ribbon;
+            _captionArea = captionArea;
             _appButtonController = _captionArea.AppButtonController;
             _appTabController = _captionArea.AppTabController;
-            _layoutContexts = layoutContexts!;
-            NeedPaintDelegate = needPaintDelegate!;
+            _layoutContexts = layoutContexts;
+            NeedPaintDelegate = needPaintDelegate;
 
             // Default other state
             _setVisible = true;
@@ -181,8 +181,8 @@ namespace Krypton.Ribbon
         /// </summary>
         public void HookToolTipHandling()
         {
-            LayoutAppButton.MouseController = new ToolTipController(_ribbon.TabsArea.ButtonSpecManager.ToolTipManager, LayoutAppButton, _appButtonController);
-            LayoutAppTab.MouseController = new ToolTipController(_ribbon.TabsArea.ButtonSpecManager.ToolTipManager, LayoutAppTab, _appTabController);
+            LayoutAppButton.MouseController = new ToolTipController(_ribbon.TabsArea.ButtonSpecManager?.ToolTipManager!, LayoutAppButton, _appButtonController);
+            LayoutAppTab.MouseController = new ToolTipController(_ribbon.TabsArea?.ButtonSpecManager!.ToolTipManager!, LayoutAppTab, _appTabController);
         }
         #endregion
 
@@ -216,9 +216,6 @@ namespace Krypton.Ribbon
                             {
                                 _ribbon.MainPanel.Visible = show;
                                 _captionArea.PreventIntegration = !show;
-
-                                // Need to recalcualte the composition and so the client area that is turned into glass
-                                _captionArea.KryptonForm?.RecalculateComposition();
                             }
                         }
                         else
@@ -232,7 +229,7 @@ namespace Krypton.Ribbon
                                 // If using custom chrome
                                 if (_captionArea.UsingCustomChrome)
                                 {
-                                    _paintCount = _captionArea.KryptonForm.PaintCount;
+                                    _paintCount = _captionArea.KryptonForm!.PaintCount;
                                     _invalidateTimer.Start();
                                 }
                             }
@@ -367,8 +364,8 @@ namespace Krypton.Ribbon
             _layoutContexts.Layout(context);
             context.DisplayRectangle = temp;
 
-            // If using custom chrome but not using the composition (which does not need an extra draw)
-            if (_captionArea is { UsingCustomChrome: true, KryptonForm.ApplyComposition: false })
+            // If using custom chrome 
+            if (_captionArea is { UsingCustomChrome: true })
             {
                 _paintCount = _captionArea.KryptonForm.PaintCount;
                 _invalidateTimer.Start();
@@ -529,10 +526,10 @@ namespace Krypton.Ribbon
             // Create button specification collection manager
             PaletteRedirect aeroOverrideText = new PaletteRedirectRibbonAeroOverride(_ribbon, redirect);
             ButtonSpecManager = new ButtonSpecManagerLayoutRibbon(_ribbon, aeroOverrideText, _ribbon.ButtonSpecs, _buttonSpecsFixed,
-                                                               new[] { tabsDocker },
-                                                               new IPaletteMetric[] { _ribbon.StateCommon },
-                                                               new[] { PaletteMetricInt.HeaderButtonEdgeInsetPrimary },
-                                                               new[] { PaletteMetricPadding.RibbonButtonPadding },
+                [tabsDocker],
+                [_ribbon.StateCommon],
+                [PaletteMetricInt.HeaderButtonEdgeInsetPrimary],
+                [PaletteMetricPadding.RibbonButtonPadding],
                                                                _ribbon.CreateToolStripRenderer,
                                                                NeedPaintDelegate);
 
@@ -584,13 +581,13 @@ namespace Krypton.Ribbon
 
         private void OnRibbonFormActivated(object sender, EventArgs e)
         {
-            _ribbon.ViewRibbonManager.Active();
+            _ribbon.ViewRibbonManager?.Active();
             _ribbon.UpdateBackStyle();
         }
 
         private void OnRibbonFormDeactivate(object sender, EventArgs e)
         {
-            _ribbon.ViewRibbonManager.Inactive();
+            _ribbon.ViewRibbonManager?.Inactive();
             _ribbon.UpdateBackStyle();
         }
 
@@ -624,7 +621,7 @@ namespace Krypton.Ribbon
 
             // We never want the mdi child window to have a system menu, we provide the 
             // pendant buttons as part of the ribbon and so replace the need for it.
-            PI.SetMenu(new HandleRef(_ribbon, topForm.Handle), NullHandleRef);
+            PI.SetMenu(new HandleRef(_ribbon, topForm!.Handle), NullHandleRef);
 
             if (_activeMdiChild != null)
             {
@@ -720,12 +717,12 @@ namespace Krypton.Ribbon
                                                           _ribbon.LocalCustomPalette, _ribbon.PaletteMode,
                                                           _ribbon.GetRedirector(),
                                                           appRectTop, appRectBottom,
-                                                          _appButtonController.Keyboard);
+                                                          _appButtonController!.Keyboard);
 
                         // Need to know when the visual control is removed
                         _appMenu.Disposed += OnAppMenuDisposed;
 
-                        // Adjust the screen rect of the app button/tab, so we show half way down the button
+                        // Adjust the screen rect of the app button/tab, so we show half-way down the button
                         appRectShow.X -= 3;
                         appRectShow.Height = 0;
 

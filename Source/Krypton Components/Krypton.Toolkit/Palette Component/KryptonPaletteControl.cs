@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
  *  
  */
 #endregion
@@ -42,9 +42,9 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Overrides for defining common control appearance that other states can override.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteDoubleRedirect? StateCommon => _stateCommon;
+        public PaletteDoubleRedirect StateCommon => _stateCommon;
 
-        private bool ShouldSerializeStateCommon() => !_stateCommon!.IsDefault;
+        private bool ShouldSerializeStateCommon() => !_stateCommon.IsDefault;
 
         #endregion
 
@@ -56,9 +56,9 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Overrides for defining disabled control appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteDouble? StateDisabled => _stateDisabled;
+        public PaletteDouble StateDisabled => _stateDisabled;
 
-        private bool ShouldSerializeStateDisabled() => !_stateDisabled!.IsDefault;
+        private bool ShouldSerializeStateDisabled() => !_stateDisabled.IsDefault;
 
         #endregion
 
@@ -70,9 +70,9 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Overrides for defining normal control appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteDouble? StateNormal => _stateNormal;
+        public PaletteDouble StateNormal => _stateNormal;
 
-        private bool ShouldSerializeStateNormal() => !_stateNormal!.IsDefault;
+        private bool ShouldSerializeStateNormal() => !_stateNormal.IsDefault;
 
         #endregion
     }

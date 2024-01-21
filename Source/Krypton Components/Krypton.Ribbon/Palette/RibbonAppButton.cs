@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
  *  
  */
 #endregion
@@ -18,7 +18,7 @@ namespace Krypton.Ribbon
     public class RibbonAppButton : Storage
     {
         #region Static Fields
-        private static readonly Image _defaultAppImage = GenericImageResources.AppButtonDefault;
+        private static readonly Image? _defaultAppImage = GenericImageResources.AppButtonDefault;
         private const string DEFAULT_APP_TEXT = @"File";
         private static readonly Color _defaultAppBaseColorDark = Color.FromArgb(31, 72, 161);
         private static readonly Color _defaultAppBaseColorLight = Color.FromArgb(84, 158, 243);
@@ -45,7 +45,7 @@ namespace Krypton.Ribbon
 
         #region Instance Fields
         private readonly KryptonRibbon _ribbon;
-        private Image _appButtonImage;
+        private Image? _appButtonImage;
         private readonly KryptonContextMenuItems _appButtonMenuItems;
         private bool _appButtonVisible;
         private Color _appButtonBaseColorDark;
@@ -121,7 +121,7 @@ namespace Krypton.Ribbon
         [Category(@"Values")]
         [Description(@"Application button image.")]
         [RefreshProperties(RefreshProperties.All)]
-        public Image AppButtonImage
+        public Image? AppButtonImage
         {
             get => _appButtonImage;
 

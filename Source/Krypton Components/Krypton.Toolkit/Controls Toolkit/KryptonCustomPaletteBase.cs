@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
  *  
  */
 #endregion
@@ -31,8 +31,8 @@ namespace Krypton.Toolkit
     public class KryptonCustomPaletteBase : PaletteBase
     {
         #region Type Definitions
-        private class ImageDictionary : Dictionary<Bitmap, string> { }
-        private class ImageReverseDictionary : Dictionary<string, Bitmap> { }
+        private class ImageDictionary : Dictionary<Bitmap, string>;
+        private class ImageReverseDictionary : Dictionary<string, Bitmap>;
         #endregion
 
         #region Constants
@@ -44,11 +44,10 @@ namespace Krypton.Toolkit
         #region Instance Fields
 
         private int _suspendCount;
-        private IRenderer _baseRenderer;
+        private IRenderer? _baseRenderer;
         private RendererMode _baseRenderMode;
         private PaletteBase _basePalette;
         //private PaletteMode _basePaletteMode;
-        private InheritBool _allowFormChrome;
         private readonly PaletteRedirect _redirector;
         private readonly NeedPaintHandler _needPaintDelegate;
 
@@ -72,9 +71,6 @@ namespace Krypton.Toolkit
 
             // Create the redirector for passing requests onto the inherited palette
             _redirector = new PaletteRedirect(_basePalette);
-
-            // Set default value of properties
-            _allowFormChrome = InheritBool.Inherit;
 
             // Create the storage for the common states
             Common = new KryptonPaletteCommon(_redirector, _needPaintDelegate);
@@ -110,14 +106,11 @@ namespace Krypton.Toolkit
             ButtonSpecs.ButtonSpecChanged += OnButtonSpecChanged;
 
             // Hook to palette events
-            if (_basePalette != null)
-            {
-                ToolMenuStatus = new KryptonPaletteTMS(this, _basePalette.ColorTable, OnMenuToolStatusPaint);
-                _basePalette.PalettePaint += OnPalettePaint;
-                _basePalette.ButtonSpecChanged += OnButtonSpecChanged;
-                _basePalette.BasePaletteChanged += OnBasePaletteChanged;
-                _basePalette.BaseRendererChanged += OnBaseRendererChanged;
-            }
+            ToolMenuStatus = new KryptonPaletteTMS(this, _basePalette.ColorTable, OnMenuToolStatusPaint);
+            _basePalette.PalettePaint += OnPalettePaint;
+            _basePalette.ButtonSpecChanged += OnButtonSpecChanged;
+            _basePalette.BasePaletteChanged += OnBasePaletteChanged;
+            _basePalette.BaseRendererChanged += OnBaseRendererChanged;
         }
 
         /// <summary>
@@ -147,43 +140,30 @@ namespace Krypton.Toolkit
             if (disposing)
             {
                 // Must unhook from the palette paint event
-                if (_basePalette != null)
-                {
-                    _basePalette.PalettePaint -= OnPalettePaint;
-                    _basePalette.ButtonSpecChanged -= OnButtonSpecChanged;
-                    _basePalette.BasePaletteChanged -= OnBasePaletteChanged;
-                    _basePalette.BaseRendererChanged -= OnBaseRendererChanged;
-                }
+                _basePalette.PalettePaint -= OnPalettePaint;
+                _basePalette.ButtonSpecChanged -= OnButtonSpecChanged;
+                _basePalette.BasePaletteChanged -= OnBasePaletteChanged;
+                _basePalette.BaseRendererChanged -= OnBaseRendererChanged;
             }
 
             base.Dispose(disposing);
         }
         #endregion
 
-        #region AllowFormChrome
+        #region UseThemeFormChromeBorderWidth
         /// <summary>
-        /// Gets or sets a value indicating if KryptonForm instances should show custom chrome.
+        /// Gets or sets a value indicating if KryptonForm instances should UseThemeFormChromeBorderWidth.
         /// </summary>
         [KryptonPersist(false)]
         [Category(@"Visuals")]
-        [Description(@"Should KryptonForm instances show custom chrome.")]
+        [Description(@"Should KryptonForm instances UseThemeFormChromeBorderWidth.")]
         [DefaultValue(InheritBool.Inherit)]
-        public InheritBool AllowFormChrome
+        public new InheritBool UseThemeFormChromeBorderWidth
         {
-            get => _allowFormChrome;
+            get => _basePalette.UseThemeFormChromeBorderWidth;
 
-            set
-            {
-                if (_allowFormChrome != value)
-                {
-                    _allowFormChrome = value;
-                    OnAllowFormChromeChanged(this, EventArgs.Empty);
-                }
-            }
+            set => _basePalette.UseThemeFormChromeBorderWidth = value;
         }
-
-        private bool ShouldSerializeAllowFormChrome() => AllowFormChrome != InheritBool.Inherit;
-
         #endregion
 
         #region ButtonSpecs
@@ -541,17 +521,9 @@ namespace Krypton.Toolkit
         => _baseRenderMode switch
         {
             RendererMode.Inherit => _basePalette.GetRenderer(),
-            RendererMode.Custom => _baseRenderer,
+            RendererMode.Custom => _baseRenderer!,
             _ => KryptonManager.GetRendererForMode(_baseRenderMode)
         };
-        #endregion
-
-        #region IPalette
-        /// <summary>
-        /// Gets a value indicating if KryptonForm instances should show custom chrome.
-        /// </summary>
-        /// <returns>InheritBool value.</returns>
-        public override InheritBool GetAllowFormChrome() => AllowFormChrome == InheritBool.Inherit ? _basePalette.GetAllowFormChrome() : AllowFormChrome;
         #endregion
 
         #region PaletteBase Back
@@ -631,7 +603,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image instance.</returns>
         public override Image? GetBackImage(PaletteBackStyle style, PaletteState state)
-        => GetPaletteBack(style, state).GetBackImage(state);
+        => GetPaletteBack(style, state)?.GetBackImage(state);
 
         /// <summary>
         /// Gets the background image style.
@@ -750,7 +722,7 @@ namespace Krypton.Toolkit
         /// <param name="state">Palette value should be applicable to this state.</param>
         /// <returns>Image instance.</returns>
         public override Image? GetBorderImage(PaletteBorderStyle style, PaletteState state)
-        => GetPaletteBorder(style, state).GetBorderImage(state);
+        => GetPaletteBorder(style, state)?.GetBorderImage(state);
 
         /// <summary>
         /// Gets the border image style.
@@ -1586,7 +1558,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="style">Style of button spec.</param>
         /// <returns>String value.</returns>
-        public override string? GetButtonSpecShortText(PaletteButtonSpecStyle style)
+        public override string GetButtonSpecShortText(PaletteButtonSpecStyle style)
         => GetPaletteButtonSpec(style).GetButtonSpecShortText(style);
 
         /// <summary>
@@ -1594,7 +1566,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="style">Style of button spec.</param>
         /// <returns>String value.</returns>
-        public override string? GetButtonSpecLongText(PaletteButtonSpecStyle style)
+        public override string GetButtonSpecLongText(PaletteButtonSpecStyle style)
         => GetPaletteButtonSpec(style).GetButtonSpecLongText(style);
 
         /// <summary>
@@ -1602,7 +1574,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="style">Style of button spec.</param>
         /// <returns>String value.</returns>
-        public override string? GetButtonSpecToolTipTitle(PaletteButtonSpecStyle style)
+        public override string GetButtonSpecToolTipTitle(PaletteButtonSpecStyle style)
         => GetPaletteButtonSpec(style).GetButtonSpecToolTipTitle(style);
 
         /// <summary>
@@ -2206,7 +2178,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="stream">Stream that contains an XmlDocument.</param>
         public void Import(Stream stream) =>
-            // By default the import is silent
+            // By default, the import is silent
             Import(stream, true);
 
         /// <summary>
@@ -2347,7 +2319,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="byteArray">ByteArray that was returning from exporting palette.</param>
         public void Import(byte[] byteArray) =>
-            // By default the import is silent
+            // By default, the import is silent
             Import(byteArray, true);
 
         /// <summary>
@@ -2545,7 +2517,7 @@ namespace Krypton.Toolkit
         /// <param name="stream">Destination stream for exporting.</param>
         /// <param name="ignoreDefaults">Should default values be exported.</param>
         public void Export(Stream stream, bool ignoreDefaults) =>
-            // By default the export is silent
+            // By default, the export is silent
             Export(stream, ignoreDefaults, true);
 
         /// <summary>
@@ -2758,7 +2730,7 @@ namespace Krypton.Toolkit
         //                    // Fire events to indicate a change in palette values
         //                    OnBasePaletteChanged(this, EventArgs.Empty);
         //                    OnBaseRendererChanged(this, EventArgs.Empty);
-        //                    OnAllowFormChromeChanged(this, EventArgs.Empty);
+        //                    OnUseThemeFormChromeBorderWidthChanged(this, EventArgs.Empty);
         //                    OnButtonSpecChanged(this, EventArgs.Empty);
         //                    OnPalettePaint(this, new PaletteLayoutEventArgs(true, true));
         //                    break;
@@ -2821,7 +2793,7 @@ namespace Krypton.Toolkit
                     // Indicate the palette values have changed
                     OnBasePaletteChanged(this, EventArgs.Empty);
                     OnBaseRendererChanged(this, EventArgs.Empty);
-                    OnAllowFormChromeChanged(this, EventArgs.Empty);
+                    OnUseThemeFormChromeBorderWidthChanged(this, EventArgs.Empty);
                     OnButtonSpecChanged(this, EventArgs.Empty);
                     OnPalettePaint(this, new PaletteLayoutEventArgs(true, true));
                 }
@@ -2858,14 +2830,9 @@ namespace Krypton.Toolkit
                             _baseRenderMode = value;
 
                             // If inheriting then we do not need a base renderer
-                            if (value == RendererMode.Inherit)
-                            {
-                                _baseRenderer = null;
-                            }
-                            else
-                            {
-                                _baseRenderer = KryptonManager.GetRendererForMode(_baseRenderMode);
-                            }
+                            _baseRenderer = value == RendererMode.Inherit
+                                ? null
+                                : KryptonManager.GetRendererForMode(_baseRenderMode);
 
                             // Fire events to indicate a change in palette values
                             // (because renderer has changed the palette need redrawing)
@@ -2887,7 +2854,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Custom renderer to be used with this palette.")]
         [DefaultValue(null)]
-        public IRenderer BaseRenderer
+        public IRenderer? BaseRenderer
         {
             get => _baseRenderer;
 
@@ -2922,20 +2889,29 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [DisallowNull]
         public new Font BaseFont
-        { get => _basePalette!.BaseFont; set => _basePalette!.BaseFont = value; }
-        private new void ResetBaseFont() => _basePalette!.ResetBaseFont();
-        private new bool ShouldSerializeBaseFont() => _basePalette!.ShouldSerializeBaseFont();
+        {
+            get => _basePalette.BaseFont;
+            set => _basePalette.BaseFont = value;
+        }
+        private new void ResetBaseFont() => _basePalette.ResetBaseFont();
+        private new bool ShouldSerializeBaseFont() => _basePalette.ShouldSerializeBaseFont();
 
         /// <inheritdoc />
         [Browsable(false)]
         [DisallowNull]
         public new string ThemeName
-        { get => _basePalette!.ThemeName; set => _basePalette!.ThemeName = value; }
+        {
+            get => _basePalette.ThemeName;
+            set => _basePalette.ThemeName = value;
+        }
 
         /// <inheritdoc />
         [Browsable(false)]
         public new BasePaletteType BasePaletteType
-        { get => _basePalette!.BasePaletteType; set => _basePalette!.BasePaletteType = value; }
+        {
+            get => _basePalette.BasePaletteType;
+            set => _basePalette.BasePaletteType = value;
+        }
         #endregion
 
         #region Protected
@@ -2959,16 +2935,16 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>
-        /// Raises the AllowFormChromeChanged event.
+        /// Raises the UseThemeFormChromeBorderWidthChanged event.
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">An EventArgs containing event data.</param>
-        protected override void OnAllowFormChromeChanged(object sender, EventArgs e)
+        protected override void OnUseThemeFormChromeBorderWidthChanged(object sender, EventArgs e)
         {
             // Can only generate change events if not suspended
             if (_suspendCount == 0)
             {
-                base.OnAllowFormChromeChanged(this, e);
+                base.OnUseThemeFormChromeBorderWidthChanged(this, e);
             }
         }
 
@@ -3075,10 +3051,6 @@ namespace Krypton.Toolkit
             ResetObjectToDefault(this, true);
 
             // Ask each part of the palette to populate itself
-            if (_basePalette != null)
-            {
-                _allowFormChrome = _basePalette.GetAllowFormChrome();
-            }
             ButtonStyles.PopulateFromBase(Common);
             CalendarDay.PopulateFromBase();
             ButtonSpecs.PopulateFromBase();
@@ -3393,10 +3365,9 @@ namespace Krypton.Toolkit
                             // Cast attribute to the correct type
 
                             // Check if there is an element matching the property
-                            var childElement = element?.SelectSingleNode(prop.Name) as XmlElement;
 
                             // Can only import if a matching XML element is found
-                            if (childElement != null)
+                            if (element?.SelectSingleNode(prop.Name) is XmlElement childElement)
                             {
                                 // Should we navigate down inside the property?
                                 if (persistAttribute.Navigate)
@@ -3494,10 +3465,10 @@ namespace Krypton.Toolkit
                             var name = imageElement.GetAttribute(@"Name");
 
                             // Grab the CDATA section that contains the base64 value
-                            var cdata = (XmlCDataSection)imageElement.ChildNodes[0];
+                            var cdata = imageElement.ChildNodes[0] as XmlCDataSection;
 
                             // Convert to back from a string to bytes
-                            var bytes = Convert.FromBase64String(cdata.Value);
+                            var bytes = Convert.FromBase64String(cdata!.Value);
 
                             // Convert the bytes back into an Image
                             using var memory = new MemoryStream(bytes);
@@ -3865,7 +3836,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Implementation GetPalette
-        private PaletteElementColor? GetTrackBar(PaletteElement element, PaletteState state)
+        private PaletteElementColor GetTrackBar(PaletteElement element, PaletteState state)
         {
             switch (element)
             {
@@ -3881,9 +3852,9 @@ namespace Krypton.Toolkit
                         default:
                             // Should never happen!
                             Debug.Assert(false);
-                            DebugTools.NotImplemented("GetTrackBar(PaletteElement element, PaletteState state)", "KryptonPalette.cs");
-                            return null;
+                            throw DebugTools.NotImplemented(state.ToString());
                     }
+
                 case PaletteElement.TrackBarTrack:
                     switch (state)
                     {
@@ -3896,9 +3867,9 @@ namespace Krypton.Toolkit
                         default:
                             // Should never happen!
                             Debug.Assert(false);
-                            DebugTools.NotImplemented("GetTrackBar(PaletteElement element, PaletteState state)", "KryptonPalette.cs");
-                            return null;
+                            throw DebugTools.NotImplemented(state.ToString());
                     }
+
                 case PaletteElement.TrackBarPosition:
                     switch (state)
                     {
@@ -3915,14 +3886,13 @@ namespace Krypton.Toolkit
                         default:
                             // Should never happen!
                             Debug.Assert(false);
-                            DebugTools.NotImplemented("GetTrackBar(PaletteElement element, PaletteState state)", "KryptonPalette.cs");
-                            return null;
+                            throw DebugTools.NotImplemented(state.ToString());
                     }
+
                 default:
                     // Should never happen!
                     Debug.Assert(false);
-                    DebugTools.NotImplemented("GetTrackBar(PaletteElement element, PaletteState state)", "KryptonPalette.cs");
-                    return null;
+                    throw DebugTools.NotImplemented(element.ToString());
             }
         }
 
@@ -3930,7 +3900,7 @@ namespace Krypton.Toolkit
 
         private IPaletteRibbonGeneral GetPaletteRibbonGeneral(PaletteState state) => Ribbon.RibbonGeneral;
 
-        private IPaletteRibbonBack? GetPaletteRibbonBack(PaletteRibbonBackStyle style, PaletteState state)
+        private IPaletteRibbonBack GetPaletteRibbonBack(PaletteRibbonBackStyle style, PaletteState state)
         {
             switch (style)
             {
@@ -3971,11 +3941,11 @@ namespace Krypton.Toolkit
                 default:
                     // Should never happen!
                     Debug.Assert(false);
-                    return null;
+                    throw DebugTools.NotImplemented(style.ToString());
             }
         }
 
-        private IPaletteRibbonBack? GetPaletteRibbonBack(KryptonPaletteRibbonTab ribbonTab,
+        private IPaletteRibbonBack GetPaletteRibbonBack(KryptonPaletteRibbonTab ribbonTab,
                                                         PaletteState state)
         {
             switch (state)
@@ -4002,11 +3972,11 @@ namespace Krypton.Toolkit
                 default:
                     // Should never happen!
                     Debug.Assert(false);
-                    return null;
+                    throw DebugTools.NotImplemented(state.ToString());
             }
         }
 
-        private IPaletteRibbonBack? GetPaletteRibbonBack(KryptonPaletteRibbonAppButton ribbonAppButton,
+        private IPaletteRibbonBack GetPaletteRibbonBack(KryptonPaletteRibbonAppButton ribbonAppButton,
                                                         PaletteState state)
         {
             switch (state)
@@ -4020,11 +3990,11 @@ namespace Krypton.Toolkit
                 default:
                     // Should never happen!
                     Debug.Assert(false);
-                    return null;
+                    throw DebugTools.NotImplemented(state.ToString());
             }
         }
 
-        private IPaletteRibbonBack? GetPaletteRibbonBack(KryptonPaletteRibbonGroupArea ribbonGroupArea,
+        private IPaletteRibbonBack GetPaletteRibbonBack(KryptonPaletteRibbonGroupArea ribbonGroupArea,
                                                         PaletteState state)
         {
             switch (state)
@@ -4045,11 +4015,11 @@ namespace Krypton.Toolkit
                 default:
                     // Should never happen!
                     Debug.Assert(false);
-                    return null;
+                    throw DebugTools.NotImplemented(state.ToString());
             }
         }
 
-        private IPaletteRibbonBack? GetPaletteRibbonBack(KryptonPaletteRibbonGroupNormalBorder ribbonGroupNormalBorder,
+        private IPaletteRibbonBack GetPaletteRibbonBack(KryptonPaletteRibbonGroupNormalBorder ribbonGroupNormalBorder,
                                                         PaletteState state)
         {
             switch (state)
@@ -4065,11 +4035,11 @@ namespace Krypton.Toolkit
                 default:
                     // Should never happen!
                     Debug.Assert(false);
-                    return null;
+                    throw DebugTools.NotImplemented(state.ToString());
             }
         }
 
-        private IPaletteRibbonBack? GetPaletteRibbonBack(KryptonPaletteRibbonGroupNormalTitle ribbonGroupNormalTitle,
+        private IPaletteRibbonBack GetPaletteRibbonBack(KryptonPaletteRibbonGroupNormalTitle ribbonGroupNormalTitle,
                                                         PaletteState state)
         {
             switch (state)
@@ -4085,11 +4055,11 @@ namespace Krypton.Toolkit
                 default:
                     // Should never happen!
                     Debug.Assert(false);
-                    return null;
+                    throw DebugTools.NotImplemented(state.ToString());
             }
         }
 
-        private IPaletteRibbonBack? GetPaletteRibbonBack(KryptonPaletteRibbonGroupCollapsedBorder ribbonGroupCollapsedBorder,
+        private IPaletteRibbonBack GetPaletteRibbonBack(KryptonPaletteRibbonGroupCollapsedBorder ribbonGroupCollapsedBorder,
                                                         PaletteState state)
         {
             switch (state)
@@ -4107,11 +4077,11 @@ namespace Krypton.Toolkit
                 default:
                     // Should never happen!
                     Debug.Assert(false);
-                    return null;
+                    throw DebugTools.NotImplemented(state.ToString());
             }
         }
 
-        private IPaletteRibbonBack? GetPaletteRibbonBack(KryptonPaletteRibbonGroupCollapsedBack ribbonGroupCollapsedBack,
+        private IPaletteRibbonBack GetPaletteRibbonBack(KryptonPaletteRibbonGroupCollapsedBack ribbonGroupCollapsedBack,
                                                         PaletteState state)
         {
             switch (state)
@@ -4129,11 +4099,11 @@ namespace Krypton.Toolkit
                 default:
                     // Should never happen!
                     Debug.Assert(false);
-                    return null;
+                    throw DebugTools.NotImplemented(state.ToString());
             }
         }
 
-        private IPaletteRibbonBack? GetPaletteRibbonBack(KryptonPaletteRibbonGroupCollapsedFrameBorder ribbonGroupCollapsedFrameBorder,
+        private IPaletteRibbonBack GetPaletteRibbonBack(KryptonPaletteRibbonGroupCollapsedFrameBorder ribbonGroupCollapsedFrameBorder,
                                                         PaletteState state)
         {
             switch (state)
@@ -4151,11 +4121,11 @@ namespace Krypton.Toolkit
                 default:
                     // Should never happen!
                     Debug.Assert(false);
-                    return null;
+                    throw DebugTools.NotImplemented(state.ToString());
             }
         }
 
-        private IPaletteRibbonBack? GetPaletteRibbonBack(KryptonPaletteRibbonGroupCollapsedFrameBack ribbonGroupCollapsedFrameBack,
+        private IPaletteRibbonBack GetPaletteRibbonBack(KryptonPaletteRibbonGroupCollapsedFrameBack ribbonGroupCollapsedFrameBack,
                                                         PaletteState state)
         {
             switch (state)
@@ -4173,11 +4143,11 @@ namespace Krypton.Toolkit
                 default:
                     // Should never happen!
                     Debug.Assert(false);
-                    return null;
+                    throw DebugTools.NotImplemented(state.ToString());
             }
         }
 
-        private IPaletteRibbonBack? GetPaletteRibbonBack(KryptonPaletteRibbonQATMinibar ribbonQATMinibar,
+        private IPaletteRibbonBack GetPaletteRibbonBack(KryptonPaletteRibbonQATMinibar ribbonQATMinibar,
                                                         PaletteState state)
         {
             switch (state)
@@ -4190,11 +4160,11 @@ namespace Krypton.Toolkit
                 default:
                     // Should never happen!
                     Debug.Assert(false);
-                    return null;
+                    throw DebugTools.NotImplemented(state.ToString());
             }
         }
 
-        private IPaletteRibbonText? GetPaletteRibbonText(PaletteRibbonTextStyle style,
+        private IPaletteRibbonText GetPaletteRibbonText(PaletteRibbonTextStyle style,
                                                         PaletteState state)
         {
             switch (style)
@@ -4220,11 +4190,11 @@ namespace Krypton.Toolkit
                 default:
                     // Should never happen!
                     Debug.Assert(false);
-                    return null;
+                    throw DebugTools.NotImplemented(state.ToString());
             }
         }
 
-        private IPaletteRibbonText? GetPaletteRibbonText(KryptonPaletteRibbonTab ribbonTab,
+        private IPaletteRibbonText GetPaletteRibbonText(KryptonPaletteRibbonTab ribbonTab,
                                                         PaletteState state)
         {
             switch (state)
@@ -4248,11 +4218,11 @@ namespace Krypton.Toolkit
                 default:
                     // Should never happen!
                     Debug.Assert(false);
-                    return null;
+                    throw DebugTools.NotImplemented(state.ToString());
             }
         }
 
-        private IPaletteRibbonText? GetPaletteRibbonText(KryptonPaletteRibbonGroupNormalTitle ribbonGroupNormalTitle,
+        private IPaletteRibbonText GetPaletteRibbonText(KryptonPaletteRibbonGroupNormalTitle ribbonGroupNormalTitle,
                                                         PaletteState state)
         {
             switch (state)
@@ -4264,11 +4234,11 @@ namespace Krypton.Toolkit
                 default:
                     // Should never happen!
                     Debug.Assert(false);
-                    return null;
+                    throw DebugTools.NotImplemented(state.ToString());
             }
         }
 
-        private IPaletteRibbonText? GetPaletteRibbonText(KryptonPaletteRibbonGroupCollapsedText ribbonGroupCollapsedText,
+        private IPaletteRibbonText GetPaletteRibbonText(KryptonPaletteRibbonGroupCollapsedText ribbonGroupCollapsedText,
                                                         PaletteState state)
         {
             switch (state)
@@ -4280,11 +4250,11 @@ namespace Krypton.Toolkit
                 default:
                     // Should never happen!
                     Debug.Assert(false);
-                    return null;
+                    throw DebugTools.NotImplemented(state.ToString());
             }
         }
 
-        private IPaletteRibbonText? GetPaletteRibbonText(KryptonPaletteRibbonGroupBaseText ribbonGroupButtonText,
+        private IPaletteRibbonText GetPaletteRibbonText(KryptonPaletteRibbonGroupBaseText ribbonGroupButtonText,
                                                         PaletteState state)
         {
             switch (state)
@@ -4296,11 +4266,11 @@ namespace Krypton.Toolkit
                 default:
                     // Should never happen!
                     Debug.Assert(false);
-                    return null;
+                    throw DebugTools.NotImplemented(state.ToString());
             }
         }
 
-        private IPaletteButtonSpec? GetPaletteButtonSpec(PaletteButtonSpecStyle style)
+        private IPaletteButtonSpec GetPaletteButtonSpec(PaletteButtonSpecStyle style)
         {
             switch (style)
             {
@@ -4355,11 +4325,11 @@ namespace Krypton.Toolkit
                 default:
                     // Should never happen!
                     Debug.Assert(false);
-                    return null;
+                    throw DebugTools.NotImplemented(style.ToString());
             }
         }
 
-        private IPaletteBack? GetPaletteBack(PaletteBackStyle style, PaletteState state)
+        private IPaletteBack GetPaletteBack(PaletteBackStyle style, PaletteState state)
         {
             // Update the redirectors
             Common.StateCommon.BackStyle = style;
@@ -4559,11 +4529,11 @@ namespace Krypton.Toolkit
                 default:
                     // Should never happen!
                     Debug.Assert(false);
-                    return null;
+                    throw DebugTools.NotImplemented(style.ToString());
             }
         }
 
-        private PaletteBorder? GetPaletteBorder(PaletteBorderStyle style, PaletteState state)
+        private PaletteBorder GetPaletteBorder(PaletteBorderStyle style, PaletteState state)
         {
             // Must update the redirector values used if the palette source is used
             Common.StateCommon.BorderStyle = style;
@@ -4740,12 +4710,11 @@ namespace Krypton.Toolkit
                     return ContextMenu.StateCommon.Separator.Border;
                 default:
                     // Should never happen!
-                    Debug.Assert(false);
-                    return null;
+                    throw DebugTools.NotImplemented(style.ToString());
             }
         }
 
-        private IPaletteContent? GetPaletteContent(PaletteContentStyle style, PaletteState state)
+        private IPaletteContent GetPaletteContent(PaletteContentStyle style, PaletteState state)
         {
             // Must update the redirector values used if the palette source is used
             Common.StateCommon.ContentStyle = style;
@@ -4909,11 +4878,11 @@ namespace Krypton.Toolkit
                 default:
                     // Should never happen!
                     Debug.Assert(false);
-                    return null;
+                    throw DebugTools.NotImplemented(style.ToString());
             }
         }
 
-        private IPaletteBack? GetPaletteBackButton(KryptonPaletteCheckButton button, PaletteState state)
+        private IPaletteBack GetPaletteBackButton(KryptonPaletteCheckButton button, PaletteState state)
         {
             // Have to special case states that do not derive from PaletteTriple
             switch (state)
@@ -4928,7 +4897,7 @@ namespace Krypton.Toolkit
                     return CalendarDay.OverrideToday.Back;
                 default:
                     {
-                        PaletteTriple? buttonState = GetPaletteButton(button, state);
+                        PaletteTriple buttonState = GetPaletteButton(button, state);
                         if (buttonState != null)
                         {
                             return buttonState.Back;
@@ -4937,13 +4906,13 @@ namespace Krypton.Toolkit
                         {
                             // Should never happen!
                             Debug.Assert(false);
-                            return null;
+                            throw DebugTools.NotImplemented(state.ToString());
                         }
                     }
             }
         }
 
-        private PaletteBorder? GetPaletteBorderButton(KryptonPaletteCheckButton button, PaletteState state)
+        private PaletteBorder GetPaletteBorderButton(KryptonPaletteCheckButton button, PaletteState state)
         {
             // Have to special case states that do not derive from PaletteTriple
             switch (state)
@@ -4958,7 +4927,7 @@ namespace Krypton.Toolkit
                     return CalendarDay.OverrideToday.Border;
                 default:
                     {
-                        PaletteTriple? buttonState = GetPaletteButton(button, state);
+                        PaletteTriple buttonState = GetPaletteButton(button, state);
                         if (buttonState != null)
                         {
                             return buttonState.Border;
@@ -4967,13 +4936,13 @@ namespace Krypton.Toolkit
                         {
                             // Should never happen!
                             Debug.Assert(false);
-                            return null;
+                            throw DebugTools.NotImplemented(state.ToString());
                         }
                     }
             }
         }
 
-        private PaletteContent? GetPaletteContentButton(KryptonPaletteCheckButton button, PaletteState state)
+        private PaletteContent GetPaletteContentButton(KryptonPaletteCheckButton button, PaletteState state)
         {
             // Have to special case states that do not derive from PaletteTriple
             switch (state)
@@ -4988,7 +4957,7 @@ namespace Krypton.Toolkit
                     return CalendarDay.OverrideToday.Content;
                 default:
                     {
-                        PaletteTriple? buttonState = GetPaletteButton(button, state);
+                        PaletteTriple buttonState = GetPaletteButton(button, state);
                         if (buttonState != null)
                         {
                             return buttonState.Content;
@@ -4997,13 +4966,13 @@ namespace Krypton.Toolkit
                         {
                             // Should never happen!
                             Debug.Assert(false);
-                            return null;
+                            throw DebugTools.NotImplemented(state.ToString());
                         }
                     }
             }
         }
 
-        private PaletteTriple? GetPaletteButton(KryptonPaletteCheckButton button, PaletteState state)
+        private PaletteTriple GetPaletteButton(KryptonPaletteCheckButton button, PaletteState state)
         {
             switch (state)
             {
@@ -5024,11 +4993,11 @@ namespace Krypton.Toolkit
                 default:
                     // Should never happen!
                     Debug.Assert(false);
-                    return null;
+                    throw DebugTools.NotImplemented(state.ToString());
             }
         }
 
-        private IPaletteBack? GetPaletteBackCalendarDay(KryptonPaletteCalendarDay button, PaletteState state)
+        private IPaletteBack GetPaletteBackCalendarDay(KryptonPaletteCalendarDay button, PaletteState state)
         {
             // Have to special case states that do not derive from PaletteTriple
             switch (state)
@@ -5041,7 +5010,7 @@ namespace Krypton.Toolkit
                     return button.OverrideToday.Back;
                 default:
                     {
-                        PaletteTriple? buttonState = GetPaletteCalendarDay(button, state);
+                        PaletteTriple buttonState = GetPaletteCalendarDay(button, state);
                         if (buttonState != null)
                         {
                             return buttonState.Back;
@@ -5050,13 +5019,13 @@ namespace Krypton.Toolkit
                         {
                             // Should never happen!
                             Debug.Assert(false);
-                            return null;
+                            throw DebugTools.NotImplemented(state.ToString());
                         }
                     }
             }
         }
 
-        private PaletteBorder? GetPaletteBorderCalendarDay(KryptonPaletteCalendarDay button, PaletteState state)
+        private PaletteBorder GetPaletteBorderCalendarDay(KryptonPaletteCalendarDay button, PaletteState state)
         {
             // Have to special case states that do not derive from PaletteTriple
             switch (state)
@@ -5069,7 +5038,7 @@ namespace Krypton.Toolkit
                     return button.OverrideToday.Border;
                 default:
                     {
-                        PaletteTriple? buttonState = GetPaletteCalendarDay(button, state);
+                        PaletteTriple buttonState = GetPaletteCalendarDay(button, state);
                         if (buttonState != null)
                         {
                             return buttonState.Border;
@@ -5078,13 +5047,13 @@ namespace Krypton.Toolkit
                         {
                             // Should never happen!
                             Debug.Assert(false);
-                            return null;
+                            throw DebugTools.NotImplemented(state.ToString());
                         }
                     }
             }
         }
 
-        private PaletteContent? GetPaletteContentCalendarDay(KryptonPaletteCalendarDay button, PaletteState state)
+        private PaletteContent GetPaletteContentCalendarDay(KryptonPaletteCalendarDay button, PaletteState state)
         {
             // Have to special case states that do not derive from PaletteTriple
             switch (state)
@@ -5097,7 +5066,7 @@ namespace Krypton.Toolkit
                     return button.OverrideToday.Content;
                 default:
                     {
-                        PaletteTriple? buttonState = GetPaletteCalendarDay(button, state);
+                        PaletteTriple buttonState = GetPaletteCalendarDay(button, state);
                         if (buttonState != null)
                         {
                             return buttonState.Content;
@@ -5106,13 +5075,13 @@ namespace Krypton.Toolkit
                         {
                             // Should never happen!
                             Debug.Assert(false);
-                            return null;
+                            throw DebugTools.NotImplemented(state.ToString());
                         }
                     }
             }
         }
 
-        private PaletteTriple? GetPaletteCalendarDay(KryptonPaletteCalendarDay button, PaletteState state)
+        private PaletteTriple GetPaletteCalendarDay(KryptonPaletteCalendarDay button, PaletteState state)
         {
             switch (state)
             {
@@ -5134,11 +5103,11 @@ namespace Krypton.Toolkit
                 default:
                     // Should never happen!
                     Debug.Assert(false);
-                    return null;
+                    throw DebugTools.NotImplemented(state.ToString());
             }
         }
 
-        private PaletteTriple? GetPaletteInputControl(KryptonPaletteInputControl inputControl, PaletteState state)
+        private PaletteTriple GetPaletteInputControl(KryptonPaletteInputControl inputControl, PaletteState state)
         {
             switch (state)
             {
@@ -5157,11 +5126,11 @@ namespace Krypton.Toolkit
                 default:
                     // Should never happen!
                     Debug.Assert(false);
-                    return null;
+                    throw DebugTools.NotImplemented(state.ToString());
             }
         }
 
-        private IPaletteBack? GetPaletteBackTab(KryptonPaletteTabButton button, PaletteState state)
+        private IPaletteBack GetPaletteBackTab(KryptonPaletteTabButton button, PaletteState state)
         {
             // Have to special case states that do not derive from PaletteTriple
             switch (state)
@@ -5170,7 +5139,7 @@ namespace Krypton.Toolkit
                     return button.OverrideFocus.Back;
                 default:
                     {
-                        PaletteTabTriple? buttonState = GetPaletteTab(button, state);
+                        PaletteTabTriple buttonState = GetPaletteTab(button, state);
                         if (buttonState != null)
                         {
                             return buttonState.Back;
@@ -5179,13 +5148,13 @@ namespace Krypton.Toolkit
                         {
                             // Should never happen!
                             Debug.Assert(false);
-                            return null;
+                            throw DebugTools.NotImplemented(state.ToString());
                         }
                     }
             }
         }
 
-        private PaletteBorder? GetPaletteBorderTab(KryptonPaletteTabButton button, PaletteState state)
+        private PaletteBorder GetPaletteBorderTab(KryptonPaletteTabButton button, PaletteState state)
         {
             // Have to special case states that do not derive from PaletteTriple
             switch (state)
@@ -5194,7 +5163,7 @@ namespace Krypton.Toolkit
                     return button.OverrideFocus.Border;
                 default:
                     {
-                        PaletteTabTriple? buttonState = GetPaletteTab(button, state);
+                        PaletteTabTriple buttonState = GetPaletteTab(button, state);
                         if (buttonState != null)
                         {
                             return buttonState.Border;
@@ -5203,13 +5172,13 @@ namespace Krypton.Toolkit
                         {
                             // Should never happen!
                             Debug.Assert(false);
-                            return null;
+                            throw DebugTools.NotImplemented(state.ToString());
                         }
                     }
             }
         }
 
-        private PaletteContent? GetPaletteContentTab(KryptonPaletteTabButton button, PaletteState state)
+        private PaletteContent GetPaletteContentTab(KryptonPaletteTabButton button, PaletteState state)
         {
             // Have to special case states that do not derive from PaletteTriple
             switch (state)
@@ -5218,7 +5187,7 @@ namespace Krypton.Toolkit
                     return button.OverrideFocus.Content;
                 default:
                     {
-                        PaletteTabTriple? buttonState = GetPaletteTab(button, state);
+                        PaletteTabTriple buttonState = GetPaletteTab(button, state);
                         if (buttonState != null)
                         {
                             return buttonState.Content;
@@ -5227,13 +5196,13 @@ namespace Krypton.Toolkit
                         {
                             // Should never happen!
                             Debug.Assert(false);
-                            return null;
+                            throw DebugTools.NotImplemented(state.ToString());
                         }
                     }
             }
         }
 
-        private PaletteTabTriple? GetPaletteTab(KryptonPaletteTabButton button, PaletteState state)
+        private PaletteTabTriple GetPaletteTab(KryptonPaletteTabButton button, PaletteState state)
         {
             switch (state)
             {
@@ -5252,13 +5221,13 @@ namespace Krypton.Toolkit
                 default:
                     // Should never happen!
                     Debug.Assert(false);
-                    return null;
+                    throw DebugTools.NotImplemented(state.ToString());
             }
         }
 
-        private PaletteBack? GetPaletteBackSeparator(KryptonPaletteSeparator separator, PaletteState state)
+        private PaletteBack GetPaletteBackSeparator(KryptonPaletteSeparator separator, PaletteState state)
         {
-            PaletteSeparatorPadding? separatorState = GetPaletteSeparator(separator, state);
+            PaletteSeparatorPadding separatorState = GetPaletteSeparator(separator, state);
 
             if (separatorState != null)
             {
@@ -5268,13 +5237,13 @@ namespace Krypton.Toolkit
             {
                 // Should never happen!
                 Debug.Assert(false);
-                return null;
+                throw DebugTools.NotImplemented("separatorState == null");
             }
         }
 
-        private PaletteBorder? GetPaletteBorderSeparator(KryptonPaletteSeparator separator, PaletteState state)
+        private PaletteBorder GetPaletteBorderSeparator(KryptonPaletteSeparator separator, PaletteState state)
         {
-            PaletteSeparatorPadding? separatorState = GetPaletteSeparator(separator, state);
+            PaletteSeparatorPadding separatorState = GetPaletteSeparator(separator, state);
 
             if (separatorState != null)
             {
@@ -5284,11 +5253,11 @@ namespace Krypton.Toolkit
             {
                 // Should never happen!
                 Debug.Assert(false);
-                return null;
+                throw DebugTools.NotImplemented("separatorState == null");
             }
         }
 
-        private PaletteSeparatorPadding? GetPaletteSeparator(KryptonPaletteSeparator separator, PaletteState state)
+        private PaletteSeparatorPadding GetPaletteSeparator(KryptonPaletteSeparator separator, PaletteState state)
         {
             switch (state)
             {
@@ -5303,43 +5272,25 @@ namespace Krypton.Toolkit
                 default:
                     // Should never happen!
                     Debug.Assert(false);
-                    return null;
+                    throw DebugTools.NotImplemented(state.ToString());
             }
         }
 
-        private PaletteBack? GetPaletteBackControl(KryptonPaletteControl control, PaletteState state)
+        private PaletteBack GetPaletteBackControl(KryptonPaletteControl control, PaletteState state)
         {
-            PaletteDouble? controlState = GetPaletteControl(control, state);
+            PaletteDouble controlState = GetPaletteControl(control, state);
 
-            if (controlState != null)
-            {
-                return controlState.Back;
-            }
-            else
-            {
-                // Should never happen!
-                Debug.Assert(false);
-                return null;
-            }
+            return controlState.Back;
         }
 
-        private PaletteBorder? GetPaletteBorderControl(KryptonPaletteControl control, PaletteState state)
+        private PaletteBorder GetPaletteBorderControl(KryptonPaletteControl control, PaletteState state)
         {
-            PaletteDouble? controlState = GetPaletteControl(control, state);
+            PaletteDouble controlState = GetPaletteControl(control, state);
 
-            if (controlState != null)
-            {
-                return controlState.Border;
-            }
-            else
-            {
-                // Should never happen!
-                Debug.Assert(false);
-                return null;
-            }
+            return controlState.Border;
         }
 
-        private PaletteDouble? GetPaletteControl(KryptonPaletteControl control, PaletteState state)
+        private PaletteDouble GetPaletteControl(KryptonPaletteControl control, PaletteState state)
         {
             switch (state)
             {
@@ -5350,27 +5301,18 @@ namespace Krypton.Toolkit
                 default:
                     // Should never happen!
                     Debug.Assert(false);
-                    return null;
+                    throw DebugTools.NotImplemented(state.ToString());
             }
         }
 
-        private PaletteBack? GetPaletteBackForm(KryptonPaletteForm form, PaletteState state)
+        private PaletteBack GetPaletteBackForm(KryptonPaletteForm form, PaletteState state)
         {
-            PaletteDouble? controlState = GetPaletteForm(form, state);
+            PaletteDouble controlState = GetPaletteForm(form, state);
 
-            if (controlState != null)
-            {
-                return controlState.Back;
-            }
-            else
-            {
-                // Should never happen!
-                Debug.Assert(false);
-                return null;
-            }
+            return controlState.Back;
         }
 
-        private PaletteBack? GetPaletteBackGridBackground(KryptonPaletteGrid grid, PaletteState state)
+        private PaletteBack GetPaletteBackGridBackground(KryptonPaletteGrid grid, PaletteState state)
         {
             switch (state)
             {
@@ -5381,11 +5323,11 @@ namespace Krypton.Toolkit
                 default:
                     // Should never happen!
                     Debug.Assert(false);
-                    return null;
+                    throw DebugTools.NotImplemented(state.ToString());
             }
         }
 
-        private PaletteBack? GetPaletteBackGridHeaderColumn(KryptonPaletteGrid grid, PaletteState state)
+        private PaletteBack GetPaletteBackGridHeaderColumn(KryptonPaletteGrid grid, PaletteState state)
         {
             switch (state)
             {
@@ -5402,11 +5344,11 @@ namespace Krypton.Toolkit
                 default:
                     // Should never happen!
                     Debug.Assert(false);
-                    return null;
+                    throw DebugTools.NotImplemented(state.ToString());
             }
         }
 
-        private PaletteBack? GetPaletteBackGridHeaderRow(KryptonPaletteGrid grid, PaletteState state)
+        private PaletteBack GetPaletteBackGridHeaderRow(KryptonPaletteGrid grid, PaletteState state)
         {
             switch (state)
             {
@@ -5423,11 +5365,11 @@ namespace Krypton.Toolkit
                 default:
                     // Should never happen!
                     Debug.Assert(false);
-                    return null;
+                    throw DebugTools.NotImplemented(state.ToString());
             }
         }
 
-        private PaletteBack? GetPaletteBackGridDataCell(KryptonPaletteGrid grid, PaletteState state)
+        private PaletteBack GetPaletteBackGridDataCell(KryptonPaletteGrid grid, PaletteState state)
         {
             switch (state)
             {
@@ -5440,11 +5382,11 @@ namespace Krypton.Toolkit
                 default:
                     // Should never happen!
                     Debug.Assert(false);
-                    return null;
+                    throw DebugTools.NotImplemented(state.ToString());
             }
         }
 
-        private PaletteBorder? GetPaletteBorderGridHeaderColumn(KryptonPaletteGrid grid, PaletteState state)
+        private PaletteBorder GetPaletteBorderGridHeaderColumn(KryptonPaletteGrid grid, PaletteState state)
         {
             switch (state)
             {
@@ -5461,11 +5403,11 @@ namespace Krypton.Toolkit
                 default:
                     // Should never happen!
                     Debug.Assert(false);
-                    return null;
+                    throw DebugTools.NotImplemented(state.ToString());
             }
         }
 
-        private PaletteBorder? GetPaletteBorderGridHeaderRow(KryptonPaletteGrid grid, PaletteState state)
+        private PaletteBorder GetPaletteBorderGridHeaderRow(KryptonPaletteGrid grid, PaletteState state)
         {
             switch (state)
             {
@@ -5482,11 +5424,11 @@ namespace Krypton.Toolkit
                 default:
                     // Should never happen!
                     Debug.Assert(false);
-                    return null;
+                    throw DebugTools.NotImplemented(state.ToString());
             }
         }
 
-        private PaletteBorder? GetPaletteBorderGridDataCell(KryptonPaletteGrid grid, PaletteState state)
+        private PaletteBorder GetPaletteBorderGridDataCell(KryptonPaletteGrid grid, PaletteState state)
         {
             switch (state)
             {
@@ -5499,12 +5441,12 @@ namespace Krypton.Toolkit
                 default:
                     // Should never happen!
                     Debug.Assert(false);
-                    return null;
+                    throw DebugTools.NotImplemented(state.ToString());
             }
         }
 
 
-        private IPaletteContent? GetPaletteContentGridHeaderColumn(KryptonPaletteGrid grid, PaletteState state)
+        private IPaletteContent GetPaletteContentGridHeaderColumn(KryptonPaletteGrid grid, PaletteState state)
         {
             switch (state)
             {
@@ -5521,11 +5463,11 @@ namespace Krypton.Toolkit
                 default:
                     // Should never happen!
                     Debug.Assert(false);
-                    return null;
+                    throw DebugTools.NotImplemented(state.ToString());
             }
         }
 
-        private IPaletteContent? GetPaletteContentGridHeaderRow(KryptonPaletteGrid grid, PaletteState state)
+        private IPaletteContent GetPaletteContentGridHeaderRow(KryptonPaletteGrid grid, PaletteState state)
         {
             switch (state)
             {
@@ -5542,11 +5484,11 @@ namespace Krypton.Toolkit
                 default:
                     // Should never happen!
                     Debug.Assert(false);
-                    return null;
+                    throw DebugTools.NotImplemented(state.ToString());
             }
         }
 
-        private IPaletteContent? GetPaletteContentGridDataCell(KryptonPaletteGrid grid, PaletteState state)
+        private IPaletteContent GetPaletteContentGridDataCell(KryptonPaletteGrid grid, PaletteState state)
         {
             switch (state)
             {
@@ -5559,27 +5501,18 @@ namespace Krypton.Toolkit
                 default:
                     // Should never happen!
                     Debug.Assert(false);
-                    return null;
+                    throw DebugTools.NotImplemented(state.ToString());
             }
         }
 
-        private PaletteBorder? GetPaletteBorderForm(KryptonPaletteForm form, PaletteState state)
+        private PaletteBorder GetPaletteBorderForm(KryptonPaletteForm form, PaletteState state)
         {
-            PaletteDouble? controlState = GetPaletteForm(form, state);
+            PaletteDouble controlState = GetPaletteForm(form, state);
 
-            if (controlState != null)
-            {
-                return controlState.Border;
-            }
-            else
-            {
-                // Should never happen!
-                Debug.Assert(false);
-                return null;
-            }
+            return controlState.Border;
         }
 
-        private PaletteDouble? GetPaletteForm(KryptonPaletteForm form, PaletteState state)
+        private PaletteDouble GetPaletteForm(KryptonPaletteForm form, PaletteState state)
         {
             switch (state)
             {
@@ -5590,59 +5523,32 @@ namespace Krypton.Toolkit
                 default:
                     // Should never happen!
                     Debug.Assert(false);
-                    return null;
+                    throw DebugTools.NotImplemented(state.ToString());
             }
         }
 
-        private PaletteBack? GetPaletteBackHeader(KryptonPaletteHeader header, PaletteState state)
+        private PaletteBack GetPaletteBackHeader(KryptonPaletteHeader header, PaletteState state)
         {
-            PaletteTriple? headerState = GetPaletteHeader(header, state);
+            PaletteTriple headerState = GetPaletteHeader(header, state);
 
-            if (headerState != null)
-            {
-                return headerState.Back;
-            }
-            else
-            {
-                // Should never happen!
-                Debug.Assert(false);
-                return null;
-            }
+            return headerState.Back;
         }
 
-        private PaletteBorder? GetPaletteBorderHeader(KryptonPaletteHeader header, PaletteState state)
+        private PaletteBorder GetPaletteBorderHeader(KryptonPaletteHeader header, PaletteState state)
         {
-            PaletteTriple? headerState = GetPaletteHeader(header, state);
+            PaletteTriple headerState = GetPaletteHeader(header, state);
 
-            if (headerState != null)
-            {
-                return headerState.Border;
-            }
-            else
-            {
-                // Should never happen!
-                Debug.Assert(false);
-                return null;
-            }
+            return headerState.Border;
         }
 
-        private PaletteContent? GetPaletteContentHeader(KryptonPaletteHeader header, PaletteState state)
+        private PaletteContent GetPaletteContentHeader(KryptonPaletteHeader header, PaletteState state)
         {
-            PaletteTriple? headerState = GetPaletteHeader(header, state);
+            PaletteTriple headerState = GetPaletteHeader(header, state);
 
-            if (headerState != null)
-            {
-                return headerState.Content;
-            }
-            else
-            {
-                // Should never happen!
-                Debug.Assert(false);
-                return null;
-            }
+            return headerState.Content;
         }
 
-        private PaletteTriple? GetPaletteHeader(KryptonPaletteHeader header, PaletteState state)
+        private PaletteTriple GetPaletteHeader(KryptonPaletteHeader header, PaletteState state)
         {
             switch (state)
             {
@@ -5653,11 +5559,11 @@ namespace Krypton.Toolkit
                 default:
                     // Should never happen!
                     Debug.Assert(false);
-                    return null;
+                    throw DebugTools.NotImplemented(state.ToString());
             }
         }
 
-        private PaletteBack? GetPalettePanel(KryptonPalettePanel panel, PaletteState state)
+        private PaletteBack GetPalettePanel(KryptonPalettePanel panel, PaletteState state)
         {
             switch (state)
             {
@@ -5668,11 +5574,11 @@ namespace Krypton.Toolkit
                 default:
                     // Should never happen!
                     Debug.Assert(false);
-                    return null;
+                    throw DebugTools.NotImplemented(state.ToString());
             }
         }
 
-        private PaletteContent? GetPaletteLabel(KryptonPaletteLabel label, PaletteState state)
+        private PaletteContent GetPaletteLabel(KryptonPaletteLabel label, PaletteState state)
         {
             switch (state)
             {
@@ -5693,11 +5599,11 @@ namespace Krypton.Toolkit
                 default:
                     // Should never happen!
                     Debug.Assert(false);
-                    return null;
+                    throw DebugTools.NotImplemented(state.ToString());
             }
         }
 
-        private PaletteBack? GetPaletteBackContextMenuItemSplit(PaletteState state)
+        private PaletteBack GetPaletteBackContextMenuItemSplit(PaletteState state)
         {
             switch (state)
             {
@@ -5710,11 +5616,11 @@ namespace Krypton.Toolkit
                 default:
                     // Should never happen!
                     Debug.Assert(false);
-                    return null;
+                    throw DebugTools.NotImplemented(state.ToString());
             }
         }
 
-        private PaletteBack? GetPaletteBackContextMenuItemHighlight(PaletteState state)
+        private PaletteBack GetPaletteBackContextMenuItemHighlight(PaletteState state)
         {
             switch (state)
             {
@@ -5727,11 +5633,11 @@ namespace Krypton.Toolkit
                 default:
                     // Should never happen!
                     Debug.Assert(false);
-                    return null;
+                    throw DebugTools.NotImplemented(state.ToString());
             }
         }
 
-        private PaletteBack? GetPaletteBackContextMenuItemImage(PaletteState state)
+        private PaletteBack GetPaletteBackContextMenuItemImage(PaletteState state)
         {
             switch (state)
             {
@@ -5744,11 +5650,11 @@ namespace Krypton.Toolkit
                 default:
                     // Should never happen!
                     Debug.Assert(false);
-                    return null;
+                    throw DebugTools.NotImplemented(state.ToString());
             }
         }
 
-        private PaletteBorder? GetPaletteBorderContextMenuItemHighlight(PaletteState state)
+        private PaletteBorder GetPaletteBorderContextMenuItemHighlight(PaletteState state)
         {
             switch (state)
             {
@@ -5761,11 +5667,11 @@ namespace Krypton.Toolkit
                 default:
                     // Should never happen!
                     Debug.Assert(false);
-                    return null;
+                    throw DebugTools.NotImplemented(state.ToString());
             }
         }
 
-        private PaletteBorder? GetPaletteBorderContextMenuItemSplit(PaletteState state)
+        private PaletteBorder GetPaletteBorderContextMenuItemSplit(PaletteState state)
         {
             switch (state)
             {
@@ -5778,11 +5684,11 @@ namespace Krypton.Toolkit
                 default:
                     // Should never happen!
                     Debug.Assert(false);
-                    return null;
+                    throw DebugTools.NotImplemented(state.ToString());
             }
         }
 
-        private PaletteBorder? GetPaletteBorderContextMenuItemImage(PaletteState state)
+        private PaletteBorder GetPaletteBorderContextMenuItemImage(PaletteState state)
         {
             switch (state)
             {
@@ -5795,11 +5701,11 @@ namespace Krypton.Toolkit
                 default:
                     // Should never happen!
                     Debug.Assert(false);
-                    return null;
+                    throw DebugTools.NotImplemented(state.ToString());
             }
         }
 
-        private PaletteContent? GetPaletteContentContextMenuItemImage(PaletteState state)
+        private PaletteContent GetPaletteContentContextMenuItemImage(PaletteState state)
         {
             switch (state)
             {
@@ -5812,11 +5718,11 @@ namespace Krypton.Toolkit
                 default:
                     // Should never happen!
                     Debug.Assert(false);
-                    return null;
+                    throw DebugTools.NotImplemented(state.ToString());
             }
         }
 
-        private PaletteContent? GetPaletteContentContextMenuItemShortcutText(PaletteState state)
+        private PaletteContent GetPaletteContentContextMenuItemShortcutText(PaletteState state)
         {
             switch (state)
             {
@@ -5827,11 +5733,11 @@ namespace Krypton.Toolkit
                 default:
                     // Should never happen!
                     Debug.Assert(false);
-                    return null;
+                    throw DebugTools.NotImplemented(state.ToString());
             }
         }
 
-        private IPaletteContent? GetPaletteContentContextMenuTextAlternate(PaletteState state)
+        private IPaletteContent GetPaletteContentContextMenuTextAlternate(PaletteState state)
         {
             switch (state)
             {
@@ -5842,11 +5748,11 @@ namespace Krypton.Toolkit
                 default:
                     // Should never happen!
                     Debug.Assert(false);
-                    return null;
+                    throw DebugTools.NotImplemented(state.ToString());
             }
         }
 
-        private IPaletteContent? GetPaletteContentContextMenuItemTextStandard(PaletteState state)
+        private IPaletteContent GetPaletteContentContextMenuItemTextStandard(PaletteState state)
         {
             switch (state)
             {
@@ -5857,7 +5763,7 @@ namespace Krypton.Toolkit
                 default:
                     // Should never happen!
                     Debug.Assert(false);
-                    return null;
+                    throw DebugTools.NotImplemented(state.ToString());
             }
         }
         #endregion

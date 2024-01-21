@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
  *  
  */
 #endregion
@@ -51,7 +51,6 @@ namespace Krypton.Toolkit
         private bool _skipNextOpen;
         //private bool _showSplitOption;
         //private bool _useOSUACShieldIcon;
-        private float _cornerRoundingRadius;
         private Size _customUACShieldSize;
         private UACShieldIconSize _uacShieldIconSize;
         private Rectangle _dropDownRectangle;
@@ -108,7 +107,7 @@ namespace Krypton.Toolkit
                                              _overrideNormal,
                                              _overrideTracking,
                                              _overridePressed,
-                                             new PaletteMetricRedirect(Redirector!),
+                                             new PaletteMetricRedirect(Redirector),
                                              this,
                                              Orientation,
                                              UseMnemonic)
@@ -139,9 +138,6 @@ namespace Krypton.Toolkit
 
             _customUACShieldSize = GlobalStaticValues.DEFAULT_UAC_SHIELD_ICON_CUSTOM_SIZE;
 
-            // Set `CornerRoundingRadius' to 'GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE' (-1)
-            CornerRoundingRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
-
             _skipNextOpen = false;
 
             _dropDownRectangle = new Rectangle();
@@ -149,18 +145,6 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Public
-        /// <summary>Gets or sets the corner rounding radius.</summary>
-        /// <value>The corner rounding radius.</value>
-        [Category(@"Visuals")]
-        [Description(@"Gets or sets the corner rounding radius.")]
-        [DefaultValue(GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE)]
-        public float CornerRoundingRadius
-        {
-            get => _cornerRoundingRadius;
-
-            set => SetCornerRoundingRadius(value);
-        }
-
         /// <summary>
         /// Gets and sets the automatic resize of the control to fit contents.
         /// </summary>
@@ -782,14 +766,9 @@ namespace Krypton.Toolkit
 
             PaletteBase palette = KryptonManager.CurrentGlobalPalette;
 
-            Pen shadow = SystemPens.ButtonShadow, face = SystemPens.ButtonFace;
+            var shadow = new Pen(palette.ColorTable.GripDark);
 
-            if (palette != null)
-            {
-                shadow = new Pen(palette.ColorTable.GripDark);
-
-                face = new Pen(palette.ColorTable.GripLight);
-            }
+            var face = new Pen(palette.ColorTable.GripLight);
 
             if (RightToLeft == RightToLeft.Yes)
             {
@@ -815,6 +794,7 @@ namespace Krypton.Toolkit
             #endregion
         }
 
+        /// <inheritdoc />
         protected override bool IsInputKey(Keys keyData)
         {
             if (keyData.Equals(Keys.Down) && Values.ShowSplitOption)
@@ -827,6 +807,7 @@ namespace Krypton.Toolkit
             }
         }
 
+        /// <inheritdoc />
         protected override void OnKeyDown(KeyEventArgs e)
         {
             if (Values.ShowSplitOption && e.KeyCode.Equals(Keys.Down))
@@ -837,6 +818,7 @@ namespace Krypton.Toolkit
             base.OnKeyDown(e);
         }
 
+        /// <inheritdoc />
         protected override void OnMouseDown(MouseEventArgs e)
         {
             if (!Values.ShowSplitOption)
@@ -855,6 +837,7 @@ namespace Krypton.Toolkit
             }
         }
 
+        /// <inheritdoc />
         protected override void OnMouseUp(MouseEventArgs e)
         {
             if (!Values.ShowSplitOption)
@@ -959,13 +942,6 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void SetCornerRoundingRadius(float? radius)
-        {
-            _cornerRoundingRadius = radius ?? GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
-
-            StateCommon.Border.Rounding = _cornerRoundingRadius;
-        }
-
         #region Splitter Stuff
 
         /// <summary>Paints the drop-down arrow.</summary>
@@ -1026,8 +1002,7 @@ namespace Krypton.Toolkit
 
         private void KryptonContextMenu_Closed(object sender, ToolStripDropDownClosedEventArgs e)
         {
-            var kcm = sender as KryptonContextMenu;
-            if (kcm != null)
+            if (sender is KryptonContextMenu kcm)
             {
                 kcm.Closed -= KryptonContextMenu_Closed;
             }
@@ -1040,8 +1015,7 @@ namespace Krypton.Toolkit
 
         private void ContextMenuStrip_Closing(object sender, ToolStripDropDownClosingEventArgs e)
         {
-            var cms = sender as ContextMenuStrip;
-            if (cms != null)
+            if (sender is ContextMenuStrip cms)
             {
                 cms.Closing -= ContextMenuStrip_Closing;
             }

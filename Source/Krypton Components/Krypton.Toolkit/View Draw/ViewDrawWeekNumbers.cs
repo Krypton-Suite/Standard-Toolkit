@@ -5,10 +5,12 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
  *  
  */
 #endregion
+
+using static System.Windows.Forms.AxHost;
 
 namespace Krypton.Toolkit
 {
@@ -179,7 +181,7 @@ namespace Krypton.Toolkit
                     IPaletteTriple paletteTriple = Enabled ? _calendar.StateNormal.Day : _calendar.StateDisabled.Day;
 
                     _dayMementos[j] = context.Renderer.RenderStandardContent.LayoutContent(context, layoutRectWeek, paletteTriple.PaletteContent,
-                                                                                           this, VisualOrientation.Top, paletteState, false, false);
+                                                                                           this, VisualOrientation.Top, paletteState);
                 }
 
                 // Move to next week
@@ -234,6 +236,7 @@ namespace Krypton.Toolkit
                     // Do we need to draw the border?
                     if (paletteTriple.PaletteBorder.GetBorderDraw(paletteState) == InheritBool.True)
                     {
+                        using var gh = new GraphicsHint(context.Graphics, paletteTriple.PaletteBorder.GetBorderGraphicsHint(paletteState));
                         context.Renderer.RenderStandardBorder.DrawBorder(context, drawRectWeek, paletteTriple.PaletteBorder, VisualOrientation.Top, paletteState);
                     }
 
@@ -241,7 +244,7 @@ namespace Krypton.Toolkit
                     if (paletteTriple.PaletteContent.GetContentDraw(paletteState) == InheritBool.True)
                     {
                         context.Renderer.RenderStandardContent.DrawContent(context, drawRectWeek, paletteTriple.PaletteContent, _dayMementos[j],
-                                                                           VisualOrientation.Top, paletteState, false,false, true);
+                                                                           VisualOrientation.Top, paletteState, true);
                     }
                 }
 

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
  *  
  */
 #endregion
@@ -19,7 +19,7 @@ namespace Krypton.Toolkit
                                      IMouseController
     {
         #region Instance Fields
-        private readonly ToolTipManager _manager;
+        private readonly ToolTipManager? _manager;
         private readonly ViewBase _targetElement;
         private readonly IMouseController? _targetController;
         #endregion
@@ -39,8 +39,8 @@ namespace Krypton.Toolkit
             Debug.Assert(targetElement != null);
 
             // Remember incoming references
-            _manager = manager!;
-            _targetElement = targetElement!;
+            _manager = manager;
+            _targetElement = targetElement;
             _targetController = targetController;
         }
         #endregion
@@ -52,7 +52,7 @@ namespace Krypton.Toolkit
         /// <param name="c">Reference to the source control instance.</param>
         public void MouseEnter(Control c)
         {
-            _manager.MouseEnter(_targetElement, c);
+            _manager?.MouseEnter(_targetElement, c);
 
             _targetController?.MouseEnter(c);
         }
@@ -64,7 +64,7 @@ namespace Krypton.Toolkit
         /// <param name="pt">Mouse position relative to control.</param>
         public void MouseMove(Control c, Point pt)
         {
-            _manager.MouseMove(_targetElement, c, pt);
+            _manager?.MouseMove(_targetElement, c, pt);
 
             _targetController?.MouseMove(c, pt);
         }
@@ -78,7 +78,7 @@ namespace Krypton.Toolkit
         /// <returns>True if capturing input; otherwise false.</returns>
         public bool MouseDown(Control c, Point pt, MouseButtons button)
         {
-            _manager.MouseDown(_targetElement, c, pt, button);
+            _manager?.MouseDown(_targetElement, c, pt, button);
 
             return _targetController != null && _targetController.MouseDown(c, pt, button);
         }
@@ -91,7 +91,7 @@ namespace Krypton.Toolkit
         /// <param name="button">Mouse button released.</param>
         public void MouseUp(Control c, Point pt, MouseButtons button)
         {
-            _manager.MouseUp(_targetElement, c, pt, button);
+            _manager?.MouseUp(_targetElement, c, pt, button);
 
             _targetController?.MouseUp(c, pt, button);
         }
@@ -103,7 +103,7 @@ namespace Krypton.Toolkit
         /// <param name="next">Reference to view that is next to have the mouse.</param>
         public void MouseLeave(Control c, ViewBase? next)
         {
-            _manager.MouseLeave(_targetElement, c, next);
+            _manager?.MouseLeave(_targetElement, c, next);
 
             _targetController?.MouseLeave(c, next);
         }
@@ -114,7 +114,7 @@ namespace Krypton.Toolkit
         /// <param name="pt">Mouse position relative to control.</param>
         public void DoubleClick(Point pt)
         {
-            _manager.DoubleClick(_targetElement, pt);
+            _manager?.DoubleClick(_targetElement, pt);
 
             _targetController?.DoubleClick(pt);
         }

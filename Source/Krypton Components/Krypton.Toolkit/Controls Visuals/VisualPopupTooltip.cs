@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
  *  
  */
 #endregion
@@ -36,7 +36,7 @@ namespace Krypton.Toolkit
             IContentValues contentValues,
             IRenderer renderer,
             bool shadow)
-            : this(redirector!, contentValues, renderer,
+            : this(redirector, contentValues, renderer,
                 PaletteBackStyle.ControlToolTip,
                 PaletteBorderStyle.ControlToolTip,
                 PaletteContentStyle.LabelToolTip,
@@ -66,7 +66,7 @@ namespace Krypton.Toolkit
             Debug.Assert(contentValues != null);
 
             // Remember references needed later
-            _contentValues = contentValues!;
+            _contentValues = contentValues;
 
             // Create the triple redirector needed by view elements
             _palette = new PaletteTripleMetricRedirect(redirector, backStyle, borderStyle, contentStyle, NeedPaintDelegate);
@@ -236,13 +236,14 @@ namespace Krypton.Toolkit
 
             // Need a render context for accessing the renderer
             using var context = new RenderContext(this, null, ClientRectangle, Renderer);
+            using var gh = new GraphicsHint(context.Graphics, _palette.Border.GetBorderGraphicsHint(PaletteState.Normal));
             // Grab a path that is the outside edge of the border
             Rectangle borderRect = ClientRectangle;
-            GraphicsPath borderPath1 = Renderer?.RenderStandardBorder.GetOutsideBorderPath(context, borderRect, _palette.Border, VisualOrientation.Top, PaletteState.Normal)!;
+            GraphicsPath borderPath1 = Renderer.RenderStandardBorder.GetOutsideBorderPath(context, borderRect, _palette.Border, VisualOrientation.Top, PaletteState.Normal);
             borderRect.Inflate(-1, -1);
-            GraphicsPath borderPath2 = Renderer?.RenderStandardBorder.GetOutsideBorderPath(context, borderRect, _palette.Border, VisualOrientation.Top, PaletteState.Normal)!;
+            GraphicsPath borderPath2 = Renderer.RenderStandardBorder.GetOutsideBorderPath(context, borderRect, _palette.Border, VisualOrientation.Top, PaletteState.Normal);
             borderRect.Inflate(-1, -1);
-            GraphicsPath borderPath3 = Renderer?.RenderStandardBorder.GetOutsideBorderPath(context, borderRect, _palette.Border, VisualOrientation.Top, PaletteState.Normal)!;
+            GraphicsPath borderPath3 = Renderer.RenderStandardBorder.GetOutsideBorderPath(context, borderRect, _palette.Border, VisualOrientation.Top, PaletteState.Normal);
 
             // Update the region of the popup to be the border path
             Region = new Region(borderPath1);

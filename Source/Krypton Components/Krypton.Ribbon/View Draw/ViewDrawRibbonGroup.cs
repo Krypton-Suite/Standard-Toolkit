@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -221,9 +221,9 @@ namespace Krypton.Ribbon
         /// Gets the first focus item from the group.
         /// </summary>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase? GetFirstFocusItem()
+        public ViewBase GetFirstFocusItem()
         {
-            ViewBase? view = Collapsed ? _layoutCollapsedMain : _layoutNormalContent.GetFirstFocusItem();
+            ViewBase view = Collapsed ? _layoutCollapsedMain : _layoutNormalContent.GetFirstFocusItem();
 
             return view;
         }
@@ -234,9 +234,9 @@ namespace Krypton.Ribbon
         /// Gets the last focus item from the group.
         /// </summary>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase? GetLastFocusItem()
+        public ViewBase GetLastFocusItem()
         {
-            ViewBase? view = Collapsed ? _layoutCollapsedMain : _layoutNormalContent.GetLastFocusItem();
+            ViewBase view = Collapsed ? _layoutCollapsedMain : _layoutNormalContent.GetLastFocusItem();
 
             return view;
         }
@@ -249,9 +249,9 @@ namespace Krypton.Ribbon
         /// <param name="current">The view that is currently focused.</param>
         /// <param name="matched">Has the current focus item been matched yet.</param>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase? GetNextFocusItem(ViewBase current, ref bool matched)
+        public ViewBase GetNextFocusItem(ViewBase current, ref bool matched)
         {
-            ViewBase? view = null;
+            ViewBase view = null;
 
             if (Collapsed)
             {
@@ -280,9 +280,9 @@ namespace Krypton.Ribbon
         /// <param name="current">The view that is currently focused.</param>
         /// <param name="matched">Has the current focus item been matched yet.</param>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase? GetPreviousFocusItem(ViewBase current, ref bool matched)
+        public ViewBase GetPreviousFocusItem(ViewBase current, ref bool matched)
         {
-            ViewBase? view = null;
+            ViewBase view = null;
 
             if (Collapsed)
             {
@@ -465,7 +465,7 @@ namespace Krypton.Ribbon
         /// Update the group with the provided sizing solution.
         /// </summary>
         /// <param name="size">Solution size.</param>
-        public void SetSolutionSize(ItemSizeWidth[] size)
+        public void SetSolutionSize(ItemSizeWidth[]? size)
         {
             // Should we become collapsed?
             Collapsed = size == null;
@@ -743,13 +743,13 @@ namespace Krypton.Ribbon
             {
                 _paletteContextBackArea.SetInherit(paletteBackArea);
                 _mementoRibbonBackArea = context.Renderer.RenderRibbon.DrawRibbonBack(_ribbon.RibbonShape, context,
-                    drawRect, elementState, _paletteContextBackArea, VisualOrientation.Top, false,
+                    drawRect, elementState, _paletteContextBackArea, VisualOrientation.Top,
                     _mementoRibbonBackArea);
             }
 
             // Draw the group border
             _paletteContextBorder.SetInherit(paletteBorder);
-            _mementoRibbonBackBorder = context.Renderer.RenderRibbon.DrawRibbonBack(_ribbon.RibbonShape, context, drawRect, elementState, _paletteContextBorder, VisualOrientation.Top, false, _mementoRibbonBackBorder);
+            _mementoRibbonBackBorder = context.Renderer.RenderRibbon.DrawRibbonBack(_ribbon.RibbonShape, context, drawRect, elementState, _paletteContextBorder, VisualOrientation.Top, _mementoRibbonBackBorder);
 
             // Reduce the drawing rectangle to just the title area
             Rectangle titleRect = drawRect;
@@ -767,7 +767,7 @@ namespace Krypton.Ribbon
             }
 
             // Draw the group title
-            _mementoRibbonBack2 = context.Renderer.RenderRibbon.DrawRibbonBack(_ribbon.RibbonShape, context, titleRect, State, paletteTitle, VisualOrientation.Top, false, _mementoRibbonBack2);
+            _mementoRibbonBack2 = context.Renderer.RenderRibbon.DrawRibbonBack(_ribbon.RibbonShape, context, titleRect, State, paletteTitle, VisualOrientation.Top, _mementoRibbonBack2);
         }
 
         private void RenderCollapsedBefore(RenderContext context)
@@ -818,14 +818,14 @@ namespace Krypton.Ribbon
 
             // Draw the group border
             _paletteContextBorder.SetInherit(paletteBorder);
-            _mementoRibbonBackBorder = context.Renderer.RenderRibbon.DrawRibbonBack(_ribbon.RibbonShape, context, drawRect, State, _paletteContextBorder, VisualOrientation.Top, false, _mementoRibbonBackBorder);
+            _mementoRibbonBackBorder = context.Renderer.RenderRibbon.DrawRibbonBack(_ribbon.RibbonShape, context, drawRect, State, _paletteContextBorder, VisualOrientation.Top, _mementoRibbonBackBorder);
             //_mementoRibbonBackArea = context.Renderer.RenderRibbon.DrawRibbonBack(_ribbon.RibbonShape, context, drawRect, State, _paletteContextBorder, VisualOrientation.Top, false, _mementoRibbonBackArea);
 
             Rectangle backRect = drawRect;
             backRect.Inflate(-2, -2);
 
             // Draw the inside background
-            _mementoRibbonBack2 = context.Renderer.RenderRibbon.DrawRibbonBack(_ribbon.RibbonShape, context, backRect, State, paletteBack, VisualOrientation.Top, false, _mementoRibbonBack2);
+            _mementoRibbonBack2 = context.Renderer.RenderRibbon.DrawRibbonBack(_ribbon.RibbonShape, context, backRect, State, paletteBack, VisualOrientation.Top, _mementoRibbonBack2);
         }
 
         private void RenderCollapsedPressedBefore(RenderContext context)
@@ -849,6 +849,7 @@ namespace Krypton.Ribbon
                             Rectangle enclosingRect = CommonHelper.ApplyPadding(VisualOrientation.Top, ClientRectangle, borderPadding);
 
                             // Render the background inside the border path
+                            using var gh = new GraphicsHint(context.Graphics, paletteBorder.GetBorderGraphicsHint(PaletteState.Normal));
                             _mementoStandardBack = context.Renderer.RenderStandardBack.DrawBack(context, enclosingRect, borderPath,
                                 paletteBack, VisualOrientation.Top,
                                 PaletteState.Pressed, _mementoStandardBack);
@@ -879,13 +880,13 @@ namespace Krypton.Ribbon
 
                         // Draw the group border
                         _paletteContextBorder.SetInherit(paletteBorder);
-                        _mementoRibbonBackBorder = context.Renderer.RenderRibbon.DrawRibbonBack(_ribbon.RibbonShape, context, drawRect, state, _paletteContextBorder, VisualOrientation.Top, false, _mementoRibbonBackBorder);
+                        _mementoRibbonBackBorder = context.Renderer.RenderRibbon.DrawRibbonBack(_ribbon.RibbonShape, context, drawRect, state, _paletteContextBorder, VisualOrientation.Top, _mementoRibbonBackBorder);
 
                         Rectangle backRect = drawRect;
                         backRect.Inflate(-2, -2);
 
                         // Draw the inside background
-                        _mementoRibbonBack2 = context.Renderer.RenderRibbon.DrawRibbonBack(_ribbon.RibbonShape, context, backRect, state, paletteBack, VisualOrientation.Top, false, _mementoRibbonBack2);
+                        _mementoRibbonBack2 = context.Renderer.RenderRibbon.DrawRibbonBack(_ribbon.RibbonShape, context, backRect, state, paletteBack, VisualOrientation.Top, _mementoRibbonBack2);
                     }
                     break;
             }

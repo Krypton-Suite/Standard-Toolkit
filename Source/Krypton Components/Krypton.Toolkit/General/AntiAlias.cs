@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
  *  
  */
 #endregion
@@ -33,47 +33,6 @@ namespace Krypton.Toolkit
             _g = g;
             _old = _g!.SmoothingMode;
             _g.SmoothingMode = SmoothingMode.AntiAlias;
-        }
-
-        /// <summary>
-        /// Revert the SmoothingMode back to original setting.
-        /// </summary>
-        public void Dispose()
-        {
-            if (_g != null)
-            {
-                try
-                {
-                    _g.SmoothingMode = _old;
-                }
-                catch { }
-            }
-            GC.SuppressFinalize(this);
-        }
-        #endregion
-    }
-
-    /// <summary>
-    /// Set the SmoothingMode=None until instance disposed.
-    /// </summary>
-    public class AntiAliasNone : GlobalId,
-                                 IDisposable
-    {
-        #region Instance Fields
-        private readonly Graphics _g;
-        private readonly SmoothingMode _old;
-        #endregion
-
-        #region Identity
-        /// <summary>
-        /// Initialize a new instance of the AntiAliasNone class.
-        /// </summary>
-        /// <param name="g">Graphics instance.</param>
-        public AntiAliasNone(Graphics g)
-        {
-            _g = g;
-            _old = _g.SmoothingMode;
-            _g.SmoothingMode = SmoothingMode.None;
         }
 
         /// <summary>

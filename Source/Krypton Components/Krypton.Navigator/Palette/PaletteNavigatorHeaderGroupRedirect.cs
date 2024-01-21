@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
  *  
  */
 #endregion
@@ -25,7 +25,7 @@ namespace Krypton.Navigator
         /// <param name="needPaint">Delegate for notifying paint requests.</param>
         public PaletteNavigatorHeaderGroupRedirect(PaletteRedirect redirect,
                                                    NeedPaintHandler needPaint)
-            : this(redirect, redirect, redirect, redirect!, redirect!, needPaint)
+            : this(redirect, redirect, redirect, redirect, redirect, needPaint)
         {
         }
 
@@ -44,15 +44,15 @@ namespace Krypton.Navigator
                                                    [DisallowNull] PaletteRedirect redirectHeaderBar,
                                                    [DisallowNull] PaletteRedirect redirectHeaderOverflow,
                                                    NeedPaintHandler needPaint)
-            : base(redirectHeaderGroup!, redirectHeaderPrimary!,
-                   redirectHeaderSecondary!, needPaint)
+            : base(redirectHeaderGroup, redirectHeaderPrimary,
+                   redirectHeaderSecondary, needPaint)
         {
             Debug.Assert(redirectHeaderBar != null);
             Debug.Assert(redirectHeaderOverflow != null);
 
             // Create the palette storage
-            HeaderBar = new PaletteHeaderPaddingRedirect(redirectHeaderBar!, PaletteBackStyle.HeaderSecondary, PaletteBorderStyle.HeaderSecondary, PaletteContentStyle.HeaderSecondary, needPaint);
-            HeaderOverflow = new PaletteHeaderPaddingRedirect(redirectHeaderOverflow!, PaletteBackStyle.ButtonNavigatorStack, PaletteBorderStyle.HeaderSecondary, PaletteContentStyle.HeaderSecondary, needPaint);
+            HeaderBar = new PaletteHeaderPaddingRedirect(redirectHeaderBar, PaletteBackStyle.HeaderSecondary, PaletteBorderStyle.HeaderSecondary, PaletteContentStyle.HeaderSecondary, needPaint);
+            HeaderOverflow = new PaletteHeaderPaddingRedirect(redirectHeaderOverflow, PaletteBackStyle.ButtonNavigatorStack, PaletteBorderStyle.HeaderSecondary, PaletteContentStyle.HeaderSecondary, needPaint);
         }
         #endregion
 

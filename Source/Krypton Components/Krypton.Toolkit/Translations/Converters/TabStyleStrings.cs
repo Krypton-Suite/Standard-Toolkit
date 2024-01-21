@@ -2,7 +2,7 @@
 /*
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2023 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2023 - 2024. All rights reserved. 
  *  
  */
 #endregion
@@ -131,7 +131,7 @@ namespace Krypton.Toolkit
         /// <summary>Gets or sets the OneNote tab style string.</summary>
         [Category(@"Visuals")]
         [Description(@"The OneNote tab style.")]
-        [DefaultValue(DEFAULT_TAB_STYLE_CUSTOM1)]
+        [DefaultValue(DEFAULT_TAB_STYLE_ONE_NOTE)]
         [RefreshProperties(RefreshProperties.All)]
         public string OneNote { get; set; }
 

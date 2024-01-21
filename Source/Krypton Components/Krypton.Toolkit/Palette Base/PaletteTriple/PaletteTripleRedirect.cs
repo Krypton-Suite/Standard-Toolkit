@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
  *  
  */
 #endregion
@@ -38,7 +38,7 @@ namespace Krypton.Toolkit
             : this(null, backStyle, borderStyle, contentStyle, null)
         {
         }
-        
+
         /// <summary>
         /// Initialize a new instance of the PaletteTripleRedirect class.
         /// </summary>
@@ -66,11 +66,11 @@ namespace Krypton.Toolkit
                                      PaletteBackStyle backStyle,
                                      PaletteBorderStyle borderStyle,
                                      PaletteContentStyle contentStyle,
-                                     NeedPaintHandler needPaint)
+                                     NeedPaintHandler? needPaint)
         {
             // Store the provided paint notification delegate
             NeedPaint = needPaint;
-            
+
             // Store the inherit instances
             _backInherit = new PaletteBackInheritRedirect(redirect, backStyle);
             _borderInherit = new PaletteBorderInheritRedirect(redirect, borderStyle);
@@ -227,8 +227,9 @@ namespace Krypton.Toolkit
                               PaletteContentStyle.ButtonCustom3);
                     break;
                 default:
-                    // Should never happen!
+    // Should never happen!
                     Debug.Assert(false);
+                    DebugTools.NotImplemented(buttonStyle.ToString());
                     break;
             }
         }
@@ -287,8 +288,9 @@ namespace Krypton.Toolkit
                         PaletteContentStyle.HeaderCustom3);
                     break;
                 default:
-                    // Should never happen!
+    // Should never happen!
                     Debug.Assert(false);
+                    DebugTools.NotImplemented(headerStyle.ToString());
                     break;
             }
         }

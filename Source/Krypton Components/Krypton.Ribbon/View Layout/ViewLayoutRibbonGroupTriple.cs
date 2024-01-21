@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -21,8 +21,8 @@ namespace Krypton.Ribbon
                                                  IRibbonViewGroupContainerView
     {
         #region Type Definitions
-        private class ItemToView : Dictionary<IRibbonGroupItem, ViewBase> { }
-        private class ViewToSize : Dictionary<ViewBase, Size> { }
+        private class ItemToView : Dictionary<IRibbonGroupItem, ViewBase>;
+        private class ViewToSize : Dictionary<ViewBase, Size>;
         #endregion
 
         #region Instance Fields
@@ -113,9 +113,9 @@ namespace Krypton.Ribbon
         /// Gets the first focus item from the container.
         /// </summary>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase? GetFirstFocusItem()
+        public ViewBase GetFirstFocusItem()
         {
-            ViewBase? view = null;
+            ViewBase view = null;
 
             // Scan all the children, which must be items
             foreach (ViewBase child in this)
@@ -146,9 +146,9 @@ namespace Krypton.Ribbon
         /// Gets the last focus item from the container.
         /// </summary>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase? GetLastFocusItem()
+        public ViewBase GetLastFocusItem()
         {
-            ViewBase? view = null;
+            ViewBase view = null;
 
             // Scan all the children, which must be items
             foreach (ViewBase child in Reverse())
@@ -181,9 +181,9 @@ namespace Krypton.Ribbon
         /// <param name="current">The view that is currently focused.</param>
         /// <param name="matched">Has the current focus item been matched yet.</param>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase? GetNextFocusItem(ViewBase current, ref bool matched)
+        public ViewBase GetNextFocusItem(ViewBase current, ref bool matched)
         {
-            ViewBase? view = null;
+            ViewBase view = null;
 
             // Scan all the children, which must be items
             foreach (ViewBase child in this)
@@ -217,9 +217,9 @@ namespace Krypton.Ribbon
         /// <param name="current">The view that is currently focused.</param>
         /// <param name="matched">Has the current focus item been matched yet.</param>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase? GetPreviousFocusItem(ViewBase current, ref bool matched)
+        public ViewBase GetPreviousFocusItem(ViewBase current, ref bool matched)
         {
-            ViewBase? view = null;
+            ViewBase view = null;
 
             // Scan all the children, which must be containers
             foreach (ViewBase child in Reverse())
@@ -400,10 +400,10 @@ namespace Krypton.Ribbon
             // Find total width and maximum height across all child elements
             for (var i = 0; i < Count; i++)
             {
-                ViewBase child = this[i];
+                ViewBase? child = this[i];
 
                 // Only interested in visible items
-                if (child.Visible)
+                if (child!.Visible)
                 {
                     // Cache preferred size of the child
                     Size childSize = child.GetPreferredSize(context);
@@ -489,10 +489,10 @@ namespace Krypton.Ribbon
                 // Position each item from left/top to right/bottom 
                 for (var i = 0; i < Count; i++)
                 {
-                    ViewBase child = this[i];
+                    ViewBase? child = this[i];
 
                     // We only position visible items
-                    if (child.Visible)
+                    if (child!.Visible)
                     {
                         // Get the cached size of this view
                         var childSize = Size.Empty;
@@ -515,7 +515,7 @@ namespace Krypton.Ribbon
                             context.DisplayRectangle = new Rectangle(x, y, childSize.Width, ClientHeight);
 
                             // Position the element
-                            this[i].Layout(context);
+                            this[i]?.Layout(context);
 
                             // Move across to next position (add 1 extra as the spacing gap)
                             x += childSize.Width + 1;
@@ -537,7 +537,7 @@ namespace Krypton.Ribbon
                             }
 
                             // Position the element
-                            this[i].Layout(context);
+                            this[i]?.Layout(context);
 
                             // Move down to next position
                             y += childSize.Height;
@@ -633,7 +633,7 @@ namespace Krypton.Ribbon
             var regenerate = new ItemToView();
 
             // Add a view element for each group item
-            foreach (IRibbonGroupItem item in _ribbonTriple.Items)
+            foreach (IRibbonGroupItem item in _ribbonTriple.Items!)
             {
                 ViewBase itemView;
 

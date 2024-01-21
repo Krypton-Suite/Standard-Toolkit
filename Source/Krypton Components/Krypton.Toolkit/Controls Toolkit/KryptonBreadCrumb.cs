@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
  *  
  */
 #endregion
@@ -46,8 +46,7 @@ namespace Krypton.Toolkit
 
         #region Instance Fields
 
-        private bool _dropDownNavigaton;
-        private float _cornerRoundingRadius;
+        private bool _dropDownNavigation;
         private readonly ViewDrawDocker _drawDocker;
         private readonly ButtonSpecManagerDraw? _buttonManager;
         private VisualPopupToolTip? _visualPopupToolTip;
@@ -97,7 +96,7 @@ namespace Krypton.Toolkit
 
             // Set default values
             _selectedItem = null;
-            _dropDownNavigaton = true;
+            _dropDownNavigation = true;
             _buttonStyle = ButtonStyle.BreadCrumb;
             RootItem = new KryptonBreadCrumbItem("Root");
             RootItem.PropertyChanged += OnCrumbItemChanged;
@@ -125,12 +124,12 @@ namespace Krypton.Toolkit
             ViewManager = new ViewManager(this, _drawDocker);
 
             // Create button specification collection manager
-            _buttonManager = new ButtonSpecManagerDraw(this, Redirector!, ButtonSpecs, null,
-                                                       new[] { _drawDocker },
-                                                       new IPaletteMetric[] { StateCommon },
-                                                       new[] { PaletteMetricInt.HeaderButtonEdgeInsetPrimary },
-                                                       new[] { PaletteMetricPadding.None },
-                                                       CreateToolStripRenderer!,
+            _buttonManager = new ButtonSpecManagerDraw(this, Redirector, ButtonSpecs, null,
+                [_drawDocker],
+                [StateCommon],
+                [PaletteMetricInt.HeaderButtonEdgeInsetPrimary],
+                [PaletteMetricPadding.None],
+                                                       CreateToolStripRenderer,
                                                        NeedPaintDelegate);
 
             // Create the manager for handling tooltips
@@ -138,8 +137,6 @@ namespace Krypton.Toolkit
             ToolTipManager.ShowToolTip += OnShowToolTip;
             ToolTipManager.CancelToolTip += OnCancelToolTip;
             _buttonManager.ToolTipManager = ToolTipManager;
-
-            _cornerRoundingRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
         }
 
         /// <summary>
@@ -186,18 +183,6 @@ namespace Krypton.Toolkit
 
             // Raise event to show control is now initialized
             OnInitialized(EventArgs.Empty);
-        }
-
-        /// <summary>Gets or sets the corner rounding radius.</summary>
-        /// <value>The corner rounding radius.</value>
-        [Category(@"Visuals")]
-        [Description(@"Gets or sets the corner rounding radius.")]
-        [DefaultValue(GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE)]
-        public float CornerRoundingRadius
-        {
-            get => _cornerRoundingRadius;
-
-            set => SetCornerRoundingRadius(value);
         }
 
         /// <summary>
@@ -290,13 +275,13 @@ namespace Krypton.Toolkit
         [DefaultValue(true)]
         public bool DropDownNavigation
         {
-            get => _dropDownNavigaton;
+            get => _dropDownNavigation;
 
             set
             {
-                if (_dropDownNavigaton != value)
+                if (_dropDownNavigation != value)
                 {
-                    _dropDownNavigaton = value;
+                    _dropDownNavigation = value;
                     PerformNeedPaint(true);
                 }
             }
@@ -325,11 +310,11 @@ namespace Krypton.Toolkit
         [Description(@"Background style for the control.")]
         public PaletteBackStyle ControlBackStyle
         {
-            get => StateCommon!.BackStyle;
+            get => StateCommon.BackStyle;
 
             set
             {
-                if (StateCommon!.BackStyle != value)
+                if (StateCommon.BackStyle != value)
                 {
                     StateCommon.BackStyle = value;
                     PerformNeedPaint(true);
@@ -355,7 +340,7 @@ namespace Krypton.Toolkit
                 if (_buttonStyle != value)
                 {
                     _buttonStyle = value;
-                    StateCommon!.BreadCrumb.SetStyles(value);
+                    StateCommon.BreadCrumb.SetStyles(value);
                     PerformNeedPaint(true);
                 }
             }
@@ -373,11 +358,11 @@ namespace Krypton.Toolkit
         [DefaultValue(PaletteBorderStyle.ControlClient)]
         public PaletteBorderStyle ControlBorderStyle
         {
-            get => StateCommon!.BorderStyle;
+            get => StateCommon.BorderStyle;
 
             set
             {
-                if (StateCommon!.BorderStyle != value)
+                if (StateCommon.BorderStyle != value)
                 {
                     StateCommon.BorderStyle = value;
                     PerformNeedPaint(true);
@@ -437,9 +422,9 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Overrides for defining common bread crumb appearance that other states can override.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteBreadCrumbRedirect? StateCommon { get; }
+        public PaletteBreadCrumbRedirect StateCommon { get; }
 
-        private bool ShouldSerializeStateCommon() => !StateCommon!.IsDefault;
+        private bool ShouldSerializeStateCommon() => !StateCommon.IsDefault;
 
         /// <summary>
         /// Gets access to the disabled appearance entries.
@@ -642,7 +627,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Internal
-        internal PaletteBreadCrumbRedirect? GetStateCommon() => StateCommon;
+        internal PaletteBreadCrumbRedirect GetStateCommon() => StateCommon;
 
         internal PaletteRedirect GetRedirector() => Redirector;
 
@@ -705,7 +690,7 @@ namespace Krypton.Toolkit
                         if (AllowButtonSpecToolTips)
                         {
                             // Create a helper object to provide tooltip values
-                            var buttonSpecMapping = new ButtonSpecToContent(Redirector!, buttonSpec);
+                            var buttonSpecMapping = new ButtonSpecToContent(Redirector, buttonSpec);
 
                             // Is there actually anything to show for the tooltip
                             if (buttonSpecMapping.HasContent)
@@ -728,7 +713,7 @@ namespace Krypton.Toolkit
                         }
 
                         // Create the actual tooltip popup object
-                        _visualPopupToolTip = new VisualPopupToolTip(Redirector!,
+                        _visualPopupToolTip = new VisualPopupToolTip(Redirector,
                                                                      sourceContent,
                                                                      Renderer,
                                                                      PaletteBackStyle.ControlToolTip,
@@ -756,14 +741,6 @@ namespace Krypton.Toolkit
             // Not showing a popup page any more
             _visualPopupToolTip = null;
         }
-
-        private void SetCornerRoundingRadius(float? radius)
-        {
-            _cornerRoundingRadius = radius ?? GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
-
-            StateCommon!.Border.Rounding = _cornerRoundingRadius;
-        }
-
         #endregion
     }
 }

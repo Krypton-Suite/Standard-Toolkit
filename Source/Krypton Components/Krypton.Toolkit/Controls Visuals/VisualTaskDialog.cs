@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
  *  
  */
 #endregion
@@ -64,12 +64,6 @@ namespace Krypton.Toolkit
             }
             #endregion
         }
-        #endregion
-
-        #region Static Fields
-
-        private const int BUTTON_GAP = 10;
-
         #endregion
 
         #region Instance Fields
@@ -332,7 +326,7 @@ namespace Krypton.Toolkit
                 maxButtonSize.Width = Math.Min(Math.Max(maxButtonSize.Width, 150), 400);
 
                 // Position the radio buttons in a vertical stack and size owning panel
-                var offset = new Point(BUTTON_GAP - 1, 2);
+                var offset = new Point(GlobalStaticValues.GLOBAL_BUTTON_PADDING - 1, 2);
                 foreach (KryptonRadioButton button in _panelMainRadio.Controls)
                 {
                     button.Location = offset;
@@ -387,7 +381,7 @@ namespace Krypton.Toolkit
                 maxButtonSize.Width = Math.Min(Math.Max(maxButtonSize.Width, 150), 400);
 
                 // Position the buttons in a vertical stack and size owning panel
-                var offset = new Point(BUTTON_GAP - 1, 2);
+                var offset = new Point(GlobalStaticValues.GLOBAL_BUTTON_PADDING - 1, 2);
                 foreach (KryptonButton button in _panelMainCommands.Controls)
                 {
                     button.Location = offset;
@@ -766,7 +760,7 @@ namespace Krypton.Toolkit
             // Resize panel containing the main text
             Padding panelMessagePadding = _panelMainText.Padding;
             _panelMainText.Width = Math.Max(_messageText.Size.Width, messageContentSize.Width) + panelMessagePadding.Horizontal;
-            _panelMainText.Height = _messageText.Size.Height + messageContentSize.Height + panelMessagePadding.Vertical + BUTTON_GAP;
+            _panelMainText.Height = _messageText.Size.Height + messageContentSize.Height + panelMessagePadding.Vertical + GlobalStaticValues.GLOBAL_BUTTON_PADDING;
 
             // Position the content label below the main label
             _messageContent.Location = new Point(_messageText.Left + 2, _messageText.Bottom);
@@ -786,7 +780,7 @@ namespace Krypton.Toolkit
                 return Size.Empty;
             }
 
-            return _panelMainRadio.Size with { Width = _panelMainRadio.Size.Width + BUTTON_GAP + 2 };
+            return _panelMainRadio.Size with { Width = _panelMainRadio.Size.Width + GlobalStaticValues.GLOBAL_BUTTON_PADDING + 2 };
         }
 
         private Size UpdateCommandSizing()
@@ -799,7 +793,7 @@ namespace Krypton.Toolkit
                 return Size.Empty;
             }
 
-            return _panelMainCommands.Size with { Width = _panelMainCommands.Size.Width + BUTTON_GAP + 2 };
+            return _panelMainCommands.Size with { Width = _panelMainCommands.Size.Width + GlobalStaticValues.GLOBAL_BUTTON_PADDING + 2 };
         }
 
         private Size UpdateSpacerSizing()
@@ -818,7 +812,7 @@ namespace Krypton.Toolkit
             {
                 numButtons++;
                 Size buttonCancelSize = _buttonClose.GetPreferredSize(Size.Empty);
-                maxButtonSize.Width = Math.Max(maxButtonSize.Width, buttonCancelSize.Width + BUTTON_GAP);
+                maxButtonSize.Width = Math.Max(maxButtonSize.Width, buttonCancelSize.Width + GlobalStaticValues.GLOBAL_BUTTON_PADDING);
                 maxButtonSize.Height = Math.Max(maxButtonSize.Height, buttonCancelSize.Height);
             }
 
@@ -826,7 +820,7 @@ namespace Krypton.Toolkit
             {
                 numButtons++;
                 Size buttonRetrySize = _buttonRetry.GetPreferredSize(Size.Empty);
-                maxButtonSize.Width = Math.Max(maxButtonSize.Width, buttonRetrySize.Width + BUTTON_GAP);
+                maxButtonSize.Width = Math.Max(maxButtonSize.Width, buttonRetrySize.Width + GlobalStaticValues.GLOBAL_BUTTON_PADDING);
                 maxButtonSize.Height = Math.Max(maxButtonSize.Height, buttonRetrySize.Height);
             }
 
@@ -834,7 +828,7 @@ namespace Krypton.Toolkit
             {
                 numButtons++;
                 Size buttonCancelSize = _buttonCancel.GetPreferredSize(Size.Empty);
-                maxButtonSize.Width = Math.Max(maxButtonSize.Width, buttonCancelSize.Width + BUTTON_GAP);
+                maxButtonSize.Width = Math.Max(maxButtonSize.Width, buttonCancelSize.Width + GlobalStaticValues.GLOBAL_BUTTON_PADDING);
                 maxButtonSize.Height = Math.Max(maxButtonSize.Height, buttonCancelSize.Height);
             }
 
@@ -842,7 +836,7 @@ namespace Krypton.Toolkit
             {
                 numButtons++;
                 Size buttonNoSize = _buttonNo.GetPreferredSize(Size.Empty);
-                maxButtonSize.Width = Math.Max(maxButtonSize.Width, buttonNoSize.Width + BUTTON_GAP);
+                maxButtonSize.Width = Math.Max(maxButtonSize.Width, buttonNoSize.Width + GlobalStaticValues.GLOBAL_BUTTON_PADDING);
                 maxButtonSize.Height = Math.Max(maxButtonSize.Height, buttonNoSize.Height);
             }
 
@@ -850,7 +844,7 @@ namespace Krypton.Toolkit
             {
                 numButtons++;
                 Size buttonYesSize = _buttonYes.GetPreferredSize(Size.Empty);
-                maxButtonSize.Width = Math.Max(maxButtonSize.Width, buttonYesSize.Width + BUTTON_GAP);
+                maxButtonSize.Width = Math.Max(maxButtonSize.Width, buttonYesSize.Width + GlobalStaticValues.GLOBAL_BUTTON_PADDING);
                 maxButtonSize.Height = Math.Max(maxButtonSize.Height, buttonYesSize.Height);
             }
 
@@ -858,54 +852,54 @@ namespace Krypton.Toolkit
             {
                 numButtons++;
                 Size buttonOKSize = _buttonOK.GetPreferredSize(Size.Empty);
-                maxButtonSize.Width = Math.Max(maxButtonSize.Width, buttonOKSize.Width + BUTTON_GAP);
+                maxButtonSize.Width = Math.Max(maxButtonSize.Width, buttonOKSize.Width + GlobalStaticValues.GLOBAL_BUTTON_PADDING);
                 maxButtonSize.Height = Math.Max(maxButtonSize.Height, buttonOKSize.Height);
             }
 
 
             // Start positioning buttons from right edge
-            var right = _panelButtons.Right - BUTTON_GAP;
+            var right = _panelButtons.Right - GlobalStaticValues.GLOBAL_BUTTON_PADDING;
 
             if ((_commonButtons & TaskDialogButtons.Close) == TaskDialogButtons.Close)
             {
-                _buttonClose.Location = new Point(right - maxButtonSize.Width, BUTTON_GAP);
+                _buttonClose.Location = new Point(right - maxButtonSize.Width, GlobalStaticValues.GLOBAL_BUTTON_PADDING);
                 _buttonClose.Size = maxButtonSize;
-                right -= maxButtonSize.Width + BUTTON_GAP;
+                right -= maxButtonSize.Width + GlobalStaticValues.GLOBAL_BUTTON_PADDING;
             }
 
             if ((_commonButtons & TaskDialogButtons.Retry) == TaskDialogButtons.Retry)
             {
-                _buttonRetry.Location = new Point(right - maxButtonSize.Width, BUTTON_GAP);
+                _buttonRetry.Location = new Point(right - maxButtonSize.Width, GlobalStaticValues.GLOBAL_BUTTON_PADDING);
                 _buttonRetry.Size = maxButtonSize;
-                right -= maxButtonSize.Width + BUTTON_GAP;
+                right -= maxButtonSize.Width + GlobalStaticValues.GLOBAL_BUTTON_PADDING;
             }
 
             if ((_commonButtons & TaskDialogButtons.Cancel) == TaskDialogButtons.Cancel)
             {
-                _buttonCancel.Location = new Point(right - maxButtonSize.Width, BUTTON_GAP);
+                _buttonCancel.Location = new Point(right - maxButtonSize.Width, GlobalStaticValues.GLOBAL_BUTTON_PADDING);
                 _buttonCancel.Size = maxButtonSize;
-                right -= maxButtonSize.Width + BUTTON_GAP;
+                right -= maxButtonSize.Width + GlobalStaticValues.GLOBAL_BUTTON_PADDING;
             }
 
             if ((_commonButtons & TaskDialogButtons.No) == TaskDialogButtons.No)
             {
-                _buttonNo.Location = new Point(right - maxButtonSize.Width, BUTTON_GAP);
+                _buttonNo.Location = new Point(right - maxButtonSize.Width, GlobalStaticValues.GLOBAL_BUTTON_PADDING);
                 _buttonNo.Size = maxButtonSize;
-                right -= maxButtonSize.Width + BUTTON_GAP;
+                right -= maxButtonSize.Width + GlobalStaticValues.GLOBAL_BUTTON_PADDING;
             }
 
             if ((_commonButtons & TaskDialogButtons.Yes) == TaskDialogButtons.Yes)
             {
-                _buttonYes.Location = new Point(right - maxButtonSize.Width, BUTTON_GAP);
+                _buttonYes.Location = new Point(right - maxButtonSize.Width, GlobalStaticValues.GLOBAL_BUTTON_PADDING);
                 _buttonYes.Size = maxButtonSize;
-                right -= maxButtonSize.Width + BUTTON_GAP;
+                right -= maxButtonSize.Width + GlobalStaticValues.GLOBAL_BUTTON_PADDING;
             }
 
             if ((_commonButtons & TaskDialogButtons.OK) == TaskDialogButtons.OK)
             {
-                _buttonOK.Location = new Point(right - maxButtonSize.Width, BUTTON_GAP);
+                _buttonOK.Location = new Point(right - maxButtonSize.Width, GlobalStaticValues.GLOBAL_BUTTON_PADDING);
                 _buttonOK.Size = maxButtonSize;
-                right -= maxButtonSize.Width + BUTTON_GAP;
+                right -= maxButtonSize.Width + GlobalStaticValues.GLOBAL_BUTTON_PADDING;
             }
 
             var checkboxSize = Size.Empty;
@@ -924,22 +918,22 @@ namespace Krypton.Toolkit
                 else
                 {
                     _panelButtons.Visible = true;
-                    _checkBox.Location = new Point(BUTTON_GAP, BUTTON_GAP);
-                    return new Size(checkboxSize.Width + (BUTTON_GAP * 2), checkboxSize.Height + (BUTTON_GAP * 2));
+                    _checkBox.Location = new Point(GlobalStaticValues.GLOBAL_BUTTON_PADDING, GlobalStaticValues.GLOBAL_BUTTON_PADDING);
+                    return new Size(checkboxSize.Width + (GlobalStaticValues.GLOBAL_BUTTON_PADDING * 2), checkboxSize.Height + (GlobalStaticValues.GLOBAL_BUTTON_PADDING * 2));
                 }
             }
             else
             {
                 _panelButtons.Visible = true;
 
-                var panelButtonSize = new Size((maxButtonSize.Width * numButtons) + (BUTTON_GAP * (numButtons + 1)),
-                    maxButtonSize.Height + (BUTTON_GAP * 2));
+                var panelButtonSize = new Size((maxButtonSize.Width * numButtons) + (GlobalStaticValues.GLOBAL_BUTTON_PADDING * (numButtons + 1)),
+                    maxButtonSize.Height + (GlobalStaticValues.GLOBAL_BUTTON_PADDING * 2));
 
                 if (!checkboxSize.IsEmpty)
                 {
                     panelButtonSize.Width += checkboxSize.Width;
-                    panelButtonSize.Height = Math.Max(panelButtonSize.Height, checkboxSize.Height + (BUTTON_GAP * 2));
-                    _checkBox.Location = new Point(BUTTON_GAP, (panelButtonSize.Height - checkboxSize.Height) / 2);
+                    panelButtonSize.Height = Math.Max(panelButtonSize.Height, checkboxSize.Height + (GlobalStaticValues.GLOBAL_BUTTON_PADDING * 2));
+                    _checkBox.Location = new Point(GlobalStaticValues.GLOBAL_BUTTON_PADDING, (panelButtonSize.Height - checkboxSize.Height) / 2);
                 }
 
                 return panelButtonSize;
@@ -979,14 +973,14 @@ namespace Krypton.Toolkit
 
             if ((_footerIcon != KryptonMessageBoxIcon.None) || (_customFooterIcon != null))
             {
-                requiredSize.Width += _iconFooter.Width + BUTTON_GAP;
+                requiredSize.Width += _iconFooter.Width + GlobalStaticValues.GLOBAL_BUTTON_PADDING;
                 requiredSize.Height = Math.Max(requiredSize.Height, _iconFooter.Size.Height);
             }
 
             if (requiredSize.Width > 0)
             {
-                requiredSize.Width += BUTTON_GAP * 2;
-                requiredSize.Height += BUTTON_GAP * 2;
+                requiredSize.Width += GlobalStaticValues.GLOBAL_BUTTON_PADDING * 2;
+                requiredSize.Height += GlobalStaticValues.GLOBAL_BUTTON_PADDING * 2;
             }
 
             // Do we have anything to show?
@@ -996,12 +990,12 @@ namespace Krypton.Toolkit
             if (requiredSize.Width > 0)
             {
                 _panelFooter.Size = requiredSize;
-                var offset = BUTTON_GAP;
+                var offset = GlobalStaticValues.GLOBAL_BUTTON_PADDING;
 
                 if ((_footerIcon != KryptonMessageBoxIcon.None) || (_customFooterIcon != null))
                 {
                     _iconFooter.Location = new Point(offset, (requiredSize.Height - _iconFooter.Height) / 2);
-                    offset += _iconFooter.Width + (BUTTON_GAP / 2);
+                    offset += _iconFooter.Width + (GlobalStaticValues.GLOBAL_BUTTON_PADDING / 2);
                 }
 
                 if (!string.IsNullOrEmpty(_footerText))
@@ -1038,12 +1032,12 @@ namespace Krypton.Toolkit
             Close();
 
             // Update the result code from the command button
-            var button = (KryptonButton)sender;
-            DialogResult = button.DialogResult;
+            var button = sender as KryptonButton;
+            DialogResult = button!.DialogResult;
 
             // Invoke any event handlers from the command button
-            var command = (KryptonTaskDialogCommand)button.Tag;
-            command.PerformExecute();
+            var command = button.Tag as KryptonTaskDialogCommand;
+            command?.PerformExecute();
         }
 
         private void OnTaskDialogFormClosing(object sender, FormClosingEventArgs e)

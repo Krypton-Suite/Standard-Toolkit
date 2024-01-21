@@ -2,7 +2,7 @@
 /*
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2023 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2023 - 2024. All rights reserved. 
  *  
  */
 #endregion
@@ -133,7 +133,7 @@ namespace Krypton.Toolkit
                 { DEFAULT_PALETTE_MICROSOFT_365_WHITE, PaletteMode.Microsoft365White },
                 { DEFAULT_PALETTE_MICROSOFT_365_BLACK, PaletteMode.Microsoft365Black },
                 { DEFAULT_PALETTE_MICROSOFT_365_BLACK_DARK_MODE, PaletteMode.Microsoft365BlackDarkMode },
-                { DEFAULT_PALETTE_MICROSOFT_365_DARK_GRAY, PaletteMode.Microsoft365DarkGray },
+                //{ DEFAULT_PALETTE_MICROSOFT_365_DARK_GRAY, PaletteMode.Microsoft365DarkGray },
                 //{ PaletteModeStrings.DEFAULT_PALETTE_MICROSOFT_365_LIGHT_GRAY, PaletteMode.Microsoft365LightGray },
                 { DEFAULT_PALETTE_VISUAL_STUDIO_2010_RENDER_2007, PaletteMode.VisualStudio2010Render2007 },
                 { DEFAULT_PALETTE_VISUAL_STUDIO_2010_RENDER_2010, PaletteMode.VisualStudio2010Render2010 },

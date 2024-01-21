@@ -5,10 +5,12 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
  *  
  */
 #endregion
+
+using static System.Windows.Forms.AxHost;
 
 namespace Krypton.Toolkit
 {
@@ -20,7 +22,7 @@ namespace Krypton.Toolkit
         #region Instance Fields
         internal IPaletteBack? _paletteBack;
         internal IPaletteBorder? _paletteBorder;
-        internal IPaletteMetric? _paletteMetric;
+        internal IPaletteMetric _paletteMetric;
         internal PaletteMetricPadding _metricPadding;
         private IDisposable? _mementoBack;
         private PaletteBorderInheritForced? _borderForced;
@@ -56,7 +58,7 @@ namespace Krypton.Toolkit
         /// <param name="orientation">Visual orientation of the content.</param>
         public ViewDrawCanvas(IPaletteBack? paletteBack,
                               IPaletteBorder? paletteBorder,
-                              IPaletteMetric? paletteMetric,
+                              IPaletteMetric paletteMetric,
                               PaletteMetricPadding metricPadding,
                               VisualOrientation orientation)
         {
@@ -125,7 +127,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the currently used metric palette.
         /// </summary>
-        public IPaletteMetric? PaletteMetric
+        public IPaletteMetric PaletteMetric
         {
             [DebuggerStepThrough]
             get => _paletteMetric;
@@ -150,7 +152,7 @@ namespace Krypton.Toolkit
         /// <param name="paletteMetric">Palette source for the metric.</param>
         public virtual void SetPalettes([DisallowNull] IPaletteBack paletteBack, 
             [DisallowNull]IPaletteBorder paletteBorder,
-                                        IPaletteMetric? paletteMetric)
+                                        IPaletteMetric paletteMetric)
         {
             Debug.Assert(paletteBorder != null);
             Debug.Assert(paletteBack != null);
@@ -166,7 +168,7 @@ namespace Krypton.Toolkit
             }
             else
             {
-                _borderForced.SetInherit(paletteBorder!);
+                _borderForced.SetInherit(paletteBorder);
             }
 
             _paletteMetric = paletteMetric;
@@ -321,7 +323,7 @@ namespace Krypton.Toolkit
         {
             if (_paletteBorder != null)
             {
-                return context.Renderer?.RenderStandardBorder.GetOutsideBorderPath(context, ClientRectangle,
+                return context.Renderer.RenderStandardBorder.GetOutsideBorderPath(context, ClientRectangle,
                                                                                   _paletteBorder, Orientation,
                                                                                   State);
             }
@@ -342,7 +344,7 @@ namespace Krypton.Toolkit
             Debug.Assert(context != null);
 
             // Ask the renderer to evaluate the given palette
-            return context!.Renderer.EvalTransparentPaint(_paletteBack, _paletteBorder, State);
+            return context.Renderer.EvalTransparentPaint(_paletteBack, _paletteBorder, State);
         }
 
         #endregion
@@ -362,16 +364,6 @@ namespace Krypton.Toolkit
             if (context == null)
             {
                 throw new ArgumentNullException(nameof(context));
-            }
-
-            // Ensure any content children have correct composition setting
-            foreach (ViewBase child in this)
-            {
-                if (child is ViewDrawContent viewContent)
-                {
-                    viewContent.DrawContentOnComposition = DrawCanvasOnComposition;
-                    viewContent.Glowing = viewContent.DrawContentOnComposition;
-                }
             }
 
             // Let base class find preferred size of the children
@@ -431,20 +423,6 @@ namespace Krypton.Toolkit
             // Apply the padding to the client rectangle
             context.DisplayRectangle = CommonHelper.ApplyPadding(Orientation, ClientRectangle, padding);
 
-            // Ensure any content children have correct composition setting
-            foreach (ViewBase child in this)
-            {
-                if (child is ViewDrawContent viewContent)
-                {
-                    // Do we need to draw the background?
-                    var drawBackground = DrawCanvas && (_paletteBack.GetBackDraw(State) == InheritBool.True);
-
-                    // Update the content accordingly
-                    viewContent.DrawContentOnComposition = DrawCanvasOnComposition && !drawBackground;
-                    viewContent.Glowing = viewContent.DrawContentOnComposition;
-                }
-            }
-
             // Let child elements layout
             base.Layout(context);
 
@@ -494,6 +472,7 @@ namespace Krypton.Toolkit
                 Rectangle enclosingRect = CommonHelper.ApplyPadding(Orientation, ClientRectangle, borderPadding);
 
                 // Render the background inside the border path
+                using var gh = new GraphicsHint(context.Graphics, _paletteBorder.GetBorderGraphicsHint(State));
                 _mementoBack = context.Renderer.RenderStandardBack.DrawBack(context, enclosingRect, borderPath, _paletteBack, Orientation, State, _mementoBack);
 
                 borderPath.Dispose();

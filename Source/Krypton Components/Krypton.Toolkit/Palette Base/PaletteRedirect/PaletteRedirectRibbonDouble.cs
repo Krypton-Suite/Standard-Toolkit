@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
  *  
  */
 #endregion
@@ -38,7 +38,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="target">Initial palette target for redirection.</param>
         public PaletteRedirectRibbonDouble(PaletteBase target)
-            : this(target, 
+            : this(target,
                    null, null, null, null, null, null,
                    null, null, null, null, null, null)
         {
@@ -263,7 +263,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Implementation
-        private IPaletteRibbonBack? GetBackInherit(PaletteState state)
+        private IPaletteRibbonBack GetBackInherit(PaletteState state)
         {
             switch (state)
             {
@@ -284,11 +284,11 @@ namespace Krypton.Toolkit
                 default:
                     // Should never happen!
                     Debug.Assert(false);
-                    return null;
+                    throw DebugTools.NotImplemented(state.ToString());
             }
         }
 
-        private IPaletteRibbonText? GetTextInherit(PaletteState state)
+        private IPaletteRibbonText GetTextInherit(PaletteState state)
         {
             switch (state)
             {
@@ -309,7 +309,7 @@ namespace Krypton.Toolkit
                 default:
                     // Should never happen!
                     Debug.Assert(false);
-                    return null;
+                    throw DebugTools.NotImplemented(state.ToString());
             }
         }
         #endregion

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
  *  
  */
 #endregion
@@ -100,7 +100,7 @@ namespace Krypton.Toolkit
             Debug.Assert(inherit != null);
 
             // Remember inheritance
-            _inherit = inherit!;
+            _inherit = inherit;
 
             // Store the provided paint notification delegate
             NeedPaint = needPaint;
@@ -559,7 +559,7 @@ namespace Krypton.Toolkit
         [Description(@"Border width.")]
         [DefaultValue(-1)]
         [RefreshProperties(RefreshProperties.All)]
-        public int Width
+        public virtual int Width
         {
             get => _storage?.BorderWidth ?? -1;
 
@@ -604,11 +604,11 @@ namespace Krypton.Toolkit
         [KryptonPersist(false)]
         [Category(@"Visuals")]
         [Description(@"How much to round the border corners.")]
-        [DefaultValue(GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE)]
+        [DefaultValue(GlobalStaticValues.DEFAULT_PRIMARY_CORNER_ROUNDING_VALUE)]
         [RefreshProperties(RefreshProperties.All)]
         public float Rounding
         {
-            get => _storage?.BorderRounding ?? GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
+            get => _storage?.BorderRounding ?? GlobalStaticValues.DEFAULT_PRIMARY_CORNER_ROUNDING_VALUE;
 
             set
             {
@@ -623,7 +623,7 @@ namespace Krypton.Toolkit
                 }
                 else
                 {
-                    if (value != -1f)
+                    if (value != GlobalStaticValues.DEFAULT_PRIMARY_CORNER_ROUNDING_VALUE)
                     {
                         _storage = new InternalStorage
                         {
@@ -635,6 +635,9 @@ namespace Krypton.Toolkit
                 }
             }
         }
+
+        private void ResetRounding() => Rounding = GlobalStaticValues.DEFAULT_PRIMARY_CORNER_ROUNDING_VALUE;
+        private bool ShouldSerializeRounding() => Rounding != GlobalStaticValues.DEFAULT_PRIMARY_CORNER_ROUNDING_VALUE;
 
         /// <summary>
         /// Gets the border rounding.

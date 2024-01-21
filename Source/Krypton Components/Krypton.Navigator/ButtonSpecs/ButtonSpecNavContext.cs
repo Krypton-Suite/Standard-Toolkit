@@ -5,10 +5,12 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
  *  
  */
 #endregion
+
+using System.Windows.Forms.VisualStyles;
 
 namespace Krypton.Navigator
 {
@@ -49,6 +51,7 @@ namespace Krypton.Navigator
                 case ButtonDisplay.ShowEnabled:
                     // Always show
                     return true;
+
                 case ButtonDisplay.Logic:
                     // Use button display logic to determine actual operation
                     switch (Navigator.Button.ButtonDisplayLogic)
@@ -60,13 +63,16 @@ namespace Krypton.Navigator
                         case ButtonDisplayLogic.ContextNextPrevious:
                             return true;
                         default:
-                            // Should never happen!
+    // Should never happen!
                             Debug.Assert(false);
+                            DebugTools.NotImplemented(Navigator.Button.ButtonDisplayLogic.ToString());
                             return false;
                     }
+
                 default:
-                    // Should never happen!
+    // Should never happen!
                     Debug.Assert(false);
+                    DebugTools.NotImplemented(Navigator.Button.ContextButtonDisplay.ToString());
                     return false;
             }
         }
@@ -91,8 +97,9 @@ namespace Krypton.Navigator
                     // Only enabled if there is a selected page
                     return (Navigator.SelectedPage != null ? ButtonEnabled.True : ButtonEnabled.False);
                 default:
-                    // Should never happen!
+    // Should never happen!
                     Debug.Assert(false);
+                    DebugTools.NotImplemented(Navigator.Button.ContextButtonDisplay.ToString());
                     return ButtonEnabled.False;
             }
 

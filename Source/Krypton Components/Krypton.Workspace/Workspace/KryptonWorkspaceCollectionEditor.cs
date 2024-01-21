@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
  *  
  */
 #endregion
@@ -57,13 +57,13 @@ namespace Krypton.Workspace
                 /// Gets access to the disabled page appearance entries.
                 /// </summary>
                 [Category(@"Visuals")]
-                public PaletteNavigator? StateDisabled => _item.StateDisabled;
+                public PaletteNavigator StateDisabled => _item.StateDisabled;
 
                 /// <summary>
                 /// Gets access to the normal page appearance entries.
                 /// </summary>
                 [Category(@"Visuals")]
-                public PaletteNavigator? StateNormal => _item.StateNormal;
+                public PaletteNavigator StateNormal => _item.StateNormal;
 
                 /// <summary>
                 /// Gets access to the tracking page appearance entries.
@@ -440,13 +440,13 @@ namespace Krypton.Workspace
                 /// Gets access to the disabled navigator appearance entries.
                 /// </summary>
                 [Category(@"Visuals")]
-                public PaletteNavigator? StateDisabled => _item.StateDisabled;
+                public PaletteNavigator StateDisabled => _item.StateDisabled;
 
                 /// <summary>
                 /// Gets access to the normal navigator appearance entries.
                 /// </summary>
                 [Category(@"Visuals")]
-                public PaletteNavigator? StateNormal => _item.StateNormal;
+                public PaletteNavigator StateNormal => _item.StateNormal;
 
                 /// <summary>
                 /// Gets access to the tracking navigator appearance entries.
@@ -1234,8 +1234,7 @@ namespace Krypton.Workspace
                     NodeToType(node, out var isNodePage, out var isNodeCell, out var isNodeSequence);
 
                     // Find the next node compatible as target for the selected node
-                    var nextNode = NextNode(node) as MenuTreeNode;
-                    if (nextNode != null)
+                    if (NextNode(node) is MenuTreeNode nextNode)
                     {
                         NodeToType(nextNode, out var isNextPage, out var isNextCell, out var isNextSequence);
 

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
  *  
  */
 #endregion
@@ -19,8 +19,8 @@ namespace Krypton.Toolkit
     public abstract class ButtonSpecManagerBase : GlobalId
     {
         #region Type Definitions
-        internal class ButtonSpecLookup : Dictionary<ButtonSpec, ButtonSpecView> { }
-        internal class ListSpacers : List<ViewLayoutMetricSpacer> { }
+        internal class ButtonSpecLookup : Dictionary<ButtonSpec, ButtonSpecView>;
+        internal class ListSpacers : List<ViewLayoutMetricSpacer>;
         #endregion
 
         #region Instance Fields
@@ -72,14 +72,14 @@ namespace Krypton.Toolkit
 
             // Remember references
             Control = control;
-            _redirector = redirector!;
+            _redirector = redirector;
             _variableSpecs = variableSpecs;
             _fixedSpecs = fixedSpecs;
             _viewMetrics = viewMetrics;
             _viewMetricIntOutside = viewMetricIntOutside;
             _viewMetricIntInside = viewMetricIntInside;
             _viewMetricPaddings = viewMetricPaddings;
-            _getRenderer = getRenderer!;
+            _getRenderer = getRenderer;
 
             if (_viewMetrics != null)
             {
@@ -106,7 +106,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the owning control.
         /// </summary>
-        public Control? Control { get; }
+        public Control Control { get; }
 
         /// <summary>
         /// Gets and sets the associated tooltip manager.
@@ -221,14 +221,7 @@ namespace Krypton.Toolkit
         /// Requests that all the buttons have state refreshed.
         /// </summary>
         /// <returns>True if a state change was made.</returns>
-        public bool RefreshButtons() => RefreshButtons(false);
-
-        /// <summary>
-        /// Requests that all the buttons have state refreshed.
-        /// </summary>
-        /// <param name="composition">Composition value for the spec view.</param>
-        /// <returns>True if a state change was made.</returns>
-        public bool RefreshButtons(bool composition)
+        public bool RefreshButtons()
         {
             var changed = false;
 
@@ -240,7 +233,6 @@ namespace Krypton.Toolkit
                 changed |= buttonView.UpdateEnabled();
                 changed |= buttonView.UpdateChecked();
                 buttonView.UpdateShowDrop();
-                buttonView.DrawButtonSpecOnComposition = composition;
             }
 
             return changed;
@@ -447,7 +439,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="align">Edge of buttons caller is interested in searching.</param>
         /// <returns>ViewDrawButton reference; otherwise false.</returns>
-        public virtual ViewDrawButton? GetFirstVisibleViewButton(PaletteRelativeEdgeAlign align) => (_specLookup.Values
+        public virtual ViewDrawButton GetFirstVisibleViewButton(PaletteRelativeEdgeAlign align) => (_specLookup.Values
                 .Where(specView => specView.ViewButton != null && specView.ViewCenter.Visible && specView.ViewButton.Enabled)
                 .Where(specView => specView.ButtonSpec.Edge == align)
                 .Select(specView => specView.ViewButton))
@@ -459,7 +451,7 @@ namespace Krypton.Toolkit
         /// <param name="align">Edge of buttons caller is interested in searching.</param>
         /// <param name="current">Current button that is the marker for searching.</param>
         /// <returns>ViewDrawButton reference; otherwise false.</returns>
-        public virtual ViewDrawButton? GetNextVisibleViewButton(PaletteRelativeEdgeAlign align,
+        public virtual ViewDrawButton GetNextVisibleViewButton(PaletteRelativeEdgeAlign align,
                                                                ViewDrawButton current)
         {
             var found = false;
@@ -493,7 +485,7 @@ namespace Krypton.Toolkit
         /// <param name="align">Edge of buttons caller is interested in searching.</param>
         /// <param name="current">Current button that is the marker for searching.</param>
         /// <returns>ViewDrawButton reference; otherwise false.</returns>
-        public virtual ViewDrawButton? GetPreviousVisibleViewButton(PaletteRelativeEdgeAlign align,
+        public virtual ViewDrawButton GetPreviousVisibleViewButton(PaletteRelativeEdgeAlign align,
                                                                    ViewDrawButton current)
         {
             var specLookups = new ButtonSpecView[_specLookup.Count];
@@ -531,7 +523,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="align">Edge of buttons caller is interested in searching.</param>
         /// <returns>ViewDrawButton reference; otherwise false.</returns>
-        public virtual ViewDrawButton? GetLastVisibleViewButton(PaletteRelativeEdgeAlign align)
+        public virtual ViewDrawButton GetLastVisibleViewButton(PaletteRelativeEdgeAlign align)
         {
             var specLookups = new ButtonSpecView[_specLookup.Count];
             _specLookup.Values.CopyTo(specLookups, 0);
@@ -652,7 +644,7 @@ namespace Krypton.Toolkit
         /// <param name="buttonSpec">ButtonSpec instance.</param>
         /// <returns>ButtonSpecView derived class.</returns>
         protected virtual ButtonSpecView CreateButtonSpecView([DisallowNull] PaletteRedirect redirector,
-                                                              IPaletteMetric? viewPaletteMetric,
+                                                              IPaletteMetric viewPaletteMetric,
                                                               PaletteMetricPadding viewMetricPadding,
                                                               ButtonSpec buttonSpec) =>
             new ButtonSpecView(redirector, viewPaletteMetric, viewMetricPadding, this, buttonSpec);
@@ -776,7 +768,7 @@ namespace Krypton.Toolkit
                 _specLookup.Add(buttonSpec, buttonView);
 
                 // Update the button with the same orientation as the view header
-                buttonView.ViewButton!.Orientation = CalculateOrientation(DockerOrientation(viewDockerIndex),
+                buttonView.ViewButton.Orientation = CalculateOrientation(DockerOrientation(viewDockerIndex),
                                                                          buttonSpec.GetOrientation(_redirector));
 
                 buttonView.ViewCenter.Orientation = DockerOrientation(viewDockerIndex);
@@ -853,8 +845,9 @@ namespace Krypton.Toolkit
                 case HeaderLocation.SecondaryHeader:
                     return 1;
                 default:
-                    // Should never happen!
+    // Should never happen!
                     Debug.Assert(false);
+                    DebugTools.NotImplemented(location.ToString());
                     break;
             }
 

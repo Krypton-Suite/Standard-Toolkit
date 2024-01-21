@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
  *  
  */
 #endregion
@@ -848,7 +848,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Implementation
-        private IPaletteBack? GetInheritBack(PaletteBackStyle style, PaletteState state)
+        private IPaletteBack GetInheritBack(PaletteBackStyle style, PaletteState state)
         {
             switch (state)
             {
@@ -881,6 +881,7 @@ namespace Krypton.Toolkit
                             return _grid.StateDisabled.HeaderRow.Back;
                     }
                     break;
+
                 case PaletteState.Normal:
                     switch (style)
                     {
@@ -910,6 +911,7 @@ namespace Krypton.Toolkit
                             return _grid.StateNormal.HeaderRow.Back;
                     }
                     break;
+
                 case PaletteState.Pressed:
                     switch (style)
                     {
@@ -927,6 +929,7 @@ namespace Krypton.Toolkit
                             return _grid.StatePressed.HeaderRow.Back;
                     }
                     break;
+
                 case PaletteState.Tracking:
                     switch (style)
                     {
@@ -944,6 +947,7 @@ namespace Krypton.Toolkit
                             return _grid.StateTracking.HeaderRow.Back;
                     }
                     break;
+
                 case PaletteState.CheckedNormal:
                     switch (style)
                     {
@@ -971,10 +975,10 @@ namespace Krypton.Toolkit
 
             // Should never happen!
             Debug.Assert(false);
-            return null;
+            throw DebugTools.NotImplemented(state.ToString());
         }
 
-        private IPaletteBorder? GetInheritBorder(PaletteBorderStyle style, PaletteState state)
+        private IPaletteBorder GetInheritBorder(PaletteBorderStyle style, PaletteState state)
         {
             switch (state)
             {
@@ -1001,6 +1005,7 @@ namespace Krypton.Toolkit
                             return _grid.StateDisabled.HeaderRow.Border;
                     }
                     break;
+
                 case PaletteState.Normal:
                     switch (style)
                     {
@@ -1024,6 +1029,7 @@ namespace Krypton.Toolkit
                             return _grid.StateNormal.HeaderRow.Border;
                     }
                     break;
+
                 case PaletteState.Pressed:
                     switch (style)
                     {
@@ -1041,6 +1047,7 @@ namespace Krypton.Toolkit
                             return _grid.StatePressed.HeaderRow.Border;
                     }
                     break;
+
                 case PaletteState.Tracking:
                     switch (style)
                     {
@@ -1058,6 +1065,7 @@ namespace Krypton.Toolkit
                             return _grid.StateTracking.HeaderRow.Border;
                     }
                     break;
+
                 case PaletteState.CheckedNormal:
                     switch (style)
                     {
@@ -1085,10 +1093,10 @@ namespace Krypton.Toolkit
 
             // Should never happen!
             Debug.Assert(false);
-            return null;
+            throw DebugTools.NotImplemented(state.ToString());
         }
 
-        private IPaletteContent? GetInheritContent(PaletteContentStyle style, PaletteState state)
+        private IPaletteContent GetInheritContent(PaletteContentStyle style, PaletteState state)
         {
             switch (state)
             {
@@ -1115,6 +1123,7 @@ namespace Krypton.Toolkit
                             return _grid.StateDisabled.HeaderRow.Content;
                     }
                     break;
+
                 case PaletteState.Normal:
                     switch (style)
                     {
@@ -1138,6 +1147,7 @@ namespace Krypton.Toolkit
                             return _grid.StateNormal.HeaderRow.Content;
                     }
                     break;
+
                 case PaletteState.Pressed:
                     switch (style)
                     {
@@ -1155,6 +1165,7 @@ namespace Krypton.Toolkit
                             return _grid.StatePressed.HeaderRow.Content;
                     }
                     break;
+
                 case PaletteState.Tracking:
                     switch (style)
                     {
@@ -1172,6 +1183,7 @@ namespace Krypton.Toolkit
                             return _grid.StateTracking.HeaderRow.Content;
                     }
                     break;
+
                 case PaletteState.CheckedNormal:
                     switch (style)
                     {
@@ -1199,7 +1211,7 @@ namespace Krypton.Toolkit
 
             // Should never happen!
             Debug.Assert(false);
-            return null;
+            throw DebugTools.NotImplemented(state.ToString());
         }
         #endregion
     }

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -38,14 +38,6 @@ namespace Krypton.Ribbon
         #endregion
 
         #region Public
-
-        /// <summary>Gets or sets a value indicating whether [allow form integrate].</summary>
-        /// <value><c>true</c> if [allow form integrate]; otherwise, <c>false</c>.</value>
-        public bool AllowFormIntegrate
-        {
-            get => _ribbon!.AllowFormIntegrate;
-            set => _ribbon!.AllowFormIntegrate = value;
-        }
 
         /// <summary>
         /// Gets and sets use of design time helpers.
@@ -91,7 +83,6 @@ namespace Krypton.Ribbon
                 actions.Add(new DesignerActionHeaderItem("Design"));
                 actions.Add(new DesignerActionPropertyItem(nameof(InDesignHelperMode), "Design Helpers", "Design", "Show design time helpers for creating items."));
                 actions.Add(new DesignerActionHeaderItem("Visuals"));
-                actions.Add(new DesignerActionPropertyItem(nameof(AllowFormIntegrate), "Allow Form Integration", "Visuals", "Integrate with operating system chrome instead of Krypton Palette."));
                 actions.Add(new DesignerActionPropertyItem(nameof(PaletteMode), "Palette", "Visuals", "Palette applied to drawing"));
             }
 

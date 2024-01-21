@@ -1,7 +1,7 @@
 ﻿#region BSD License
 /*
  *   BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2023 - 2023. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2023 - 2024. All rights reserved.
  *
  */
 #endregion
@@ -25,20 +25,20 @@ namespace Krypton.Toolkit
         {
             _ribbonGroup5Blend = new Blend
             {
-                Factors = new[] { 0.0f, 0.0f, 1.0f },
-                Positions = new[] { 0.0f, 0.5f, 1.0f }
+                Factors = [0.0f, 0.0f, 1.0f],
+                Positions = [0.0f, 0.5f, 1.0f]
             };
 
             _ribbonGroup6Blend = new Blend
             {
-                Factors = new[] { 0.0f, 0.0f, 0.75f, 1.0f },
-                Positions = new[] { 0.0f, 0.1f, 0.45f, 1.0f }
+                Factors = [0.0f, 0.0f, 0.75f, 1.0f],
+                Positions = [0.0f, 0.1f, 0.45f, 1.0f]
             };
 
             _ribbonGroup7Blend = new Blend
             {
-                Factors = new[] { 0.0f, 1.0f, 1.0f, 0.0f },
-                Positions = new[] { 0.0f, 0.15f, 0.85f, 1.0f }
+                Factors = [0.0f, 1.0f, 1.0f, 0.0f],
+                Positions = [0.0f, 0.15f, 0.85f, 1.0f]
             };
         }
         #endregion

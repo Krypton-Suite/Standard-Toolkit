@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
  *  
  */
 #endregion
@@ -18,7 +18,7 @@ namespace Krypton.Toolkit
     public class ViewLayoutFill : ViewLayoutNull
     {
         #region Instance Fields
-        private readonly Control? _control;
+        private readonly Control _control;
 
         #endregion
 
@@ -34,7 +34,7 @@ namespace Krypton.Toolkit
         /// Initialize a new instance of the ViewLayoutNull class.
         /// </summary>
         /// <param name="control">Control to position in fill location.</param>
-        public ViewLayoutFill(Control? control) => _control = control;
+        public ViewLayoutFill(Control control) => _control = control;
 
         /// <summary>
         /// Obtains the String representation of this instance.

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
  *  
  */
 #endregion
@@ -28,25 +28,26 @@ namespace Krypton.Toolkit
         {
             _ribbonGroup5Blend = new Blend
             {
-                Factors = new[] { 0.0f, 0.0f, 1.0f },
-                Positions = new[] { 0.0f, 0.5f, 1.0f }
+                Factors = [0.0f, 0.0f, 1.0f],
+                Positions = [0.0f, 0.5f, 1.0f]
             };
 
             _ribbonGroup6Blend = new Blend
             {
-                Factors = new[] { 0.0f, 0.0f, 0.75f, 1.0f },
-                Positions = new[] { 0.0f, 0.1f, 0.45f, 1.0f }
+                Factors = [0.0f, 0.0f, 0.75f, 1.0f],
+                Positions = [0.0f, 0.1f, 0.45f, 1.0f]
             };
 
             _ribbonGroup7Blend = new Blend
             {
-                Factors = new[] { 0.0f, 1.0f, 1.0f, 0.0f },
-                Positions = new[] { 0.0f, 0.15f, 0.85f, 1.0f }
+                Factors = [0.0f, 1.0f, 1.0f, 0.0f],
+                Positions = [0.0f, 0.15f, 0.85f, 1.0f]
             };
         }
         #endregion
 
         #region RenderRibbon Overrides
+
         /// <summary>
         /// Draw the background of a ribbon element.
         /// </summary>
@@ -56,16 +57,14 @@ namespace Krypton.Toolkit
         /// <param name="state">State associated with rendering.</param>
         /// <param name="palette">Palette used for sourcing settings.</param>
         /// <param name="orientation">Orientation for drawing.</param>
-        /// <param name="composition">Drawing onto a composition element.</param>
         /// <param name="memento">Cached values to use when drawing.</param>
         public override IDisposable? DrawRibbonBack(PaletteRibbonShape shape,
-                                                   RenderContext context,
-                                                   Rectangle rect,
-                                                   PaletteState state,
-                                                   IPaletteRibbonBack palette,
-                                                   VisualOrientation orientation,
-                                                   bool composition,
-                                                   IDisposable? memento)
+            RenderContext context,
+            Rectangle rect,
+            PaletteState state,
+            IPaletteRibbonBack palette,
+            VisualOrientation orientation,
+            IDisposable? memento)
         {
             // Note is the incoming state is detailed we are drawing inside a popup
             var showingInPopup = (state & PaletteState.FocusOverride) == PaletteState.FocusOverride;
@@ -79,7 +78,7 @@ namespace Krypton.Toolkit
                 PaletteRibbonColorStyle.RibbonGroupNormalBorderTracking => DrawRibbonGroupNormalBorder(context, rect, state, palette, true, false, memento),
                 PaletteRibbonColorStyle.RibbonGroupAreaBorder => DrawRibbonGroupAreaBorder1And2(context, rect, state, palette, false, true, memento),
                 PaletteRibbonColorStyle.RibbonGroupAreaBorder2 => DrawRibbonGroupAreaBorder1And2(context, rect, state, palette, true, true, memento),
-                _ => base.DrawRibbonBack(shape, context, rect, state, palette, orientation, composition, memento)
+                _ => base.DrawRibbonBack(shape, context, rect, state, palette, orientation, memento)
             };
         }
 

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
  *  
  */
 #endregion
@@ -51,7 +51,7 @@ namespace Krypton.Toolkit
         /// <param name="paletteMetric">Palette source for metrics.</param>
         public ViewDrawDocker(IPaletteBack paletteBack,
                               IPaletteBorder paletteBorder,
-                              IPaletteMetric? paletteMetric)
+                              IPaletteMetric paletteMetric)
             : this(paletteBack, paletteBorder, paletteMetric, PaletteMetricBool.None)
         {
         }
@@ -65,7 +65,7 @@ namespace Krypton.Toolkit
         /// <param name="metricOverlay">Metric to use for border overlay.</param>
         public ViewDrawDocker(IPaletteBack? paletteBack,
                               IPaletteBorder? paletteBorder,
-                              IPaletteMetric? paletteMetric,
+                              IPaletteMetric paletteMetric,
                               PaletteMetricBool metricOverlay)
             : this(paletteBack, paletteBorder,
                    paletteMetric, metricOverlay,
@@ -84,7 +84,7 @@ namespace Krypton.Toolkit
         /// <param name="orientation">Visual orientation of the content.</param>
         public ViewDrawDocker(IPaletteBack? paletteBack,
                               IPaletteBorder? paletteBorder,
-                              IPaletteMetric? paletteMetric,
+                              IPaletteMetric paletteMetric,
                               PaletteMetricBool metricOverlay,
                               PaletteMetricPadding metricPadding,
                               VisualOrientation orientation)
@@ -840,6 +840,7 @@ namespace Krypton.Toolkit
                 default:
                     // Should never happen!
                     Debug.Assert(false);
+                    DebugTools.NotImplemented(Orientation.ToString());
                     break;
             }
 

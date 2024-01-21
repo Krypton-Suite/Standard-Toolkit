@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
  *  
  */
 #endregion
@@ -626,21 +626,21 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="style">Style of button spec.</param>
         /// <returns>String value.</returns>
-        string? GetButtonSpecShortText(PaletteButtonSpecStyle style);
+        string GetButtonSpecShortText(PaletteButtonSpecStyle style);
 
         /// <summary>
         /// Gets the long text to display for the button.
         /// </summary>
         /// <param name="style">Style of button spec.</param>
         /// <returns>String value.</returns>
-        string? GetButtonSpecLongText(PaletteButtonSpecStyle style);
+        string GetButtonSpecLongText(PaletteButtonSpecStyle style);
 
         /// <summary>
         /// Gets the tooltip title text to display for the button.
         /// </summary>
         /// <param name="style">Style of button spec.</param>
         /// <returns>String value.</returns>
-        string? GetButtonSpecToolTipTitle(PaletteButtonSpecStyle style);
+        string GetButtonSpecToolTipTitle(PaletteButtonSpecStyle style);
 
         /// <summary>
         /// Gets the color to remap from the image to the container foreground.

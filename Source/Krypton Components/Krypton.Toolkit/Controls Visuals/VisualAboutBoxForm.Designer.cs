@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.kpnlButtons = new Krypton.Toolkit.KryptonPanel();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.kbtnOk = new Krypton.Toolkit.KryptonButton();
@@ -170,10 +171,10 @@
             this.kpnlButtons.Controls.Add(this.tableLayoutPanel1);
             this.kpnlButtons.Controls.Add(this.kryptonBorderEdge1);
             this.kpnlButtons.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.kpnlButtons.Location = new System.Drawing.Point(0, 400);
+            this.kpnlButtons.Location = new System.Drawing.Point(0, 404);
             this.kpnlButtons.Name = "kpnlButtons";
             this.kpnlButtons.PanelBackStyle = Krypton.Toolkit.PaletteBackStyle.PanelAlternate;
-            this.kpnlButtons.Size = new System.Drawing.Size(800, 50);
+            this.kpnlButtons.Size = new System.Drawing.Size(804, 50);
             this.kpnlButtons.TabIndex = 0;
             // 
             // tableLayoutPanel1
@@ -190,13 +191,13 @@
             this.tableLayoutPanel1.RowCount = 1;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 49F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(800, 49);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(804, 49);
             this.tableLayoutPanel1.TabIndex = 3;
             // 
             // kbtnOk
             // 
             this.kbtnOk.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.kbtnOk.Location = new System.Drawing.Point(700, 12);
+            this.kbtnOk.Location = new System.Drawing.Point(704, 12);
             this.kbtnOk.Margin = new System.Windows.Forms.Padding(10);
             this.kbtnOk.Name = "kbtnOk";
             this.kbtnOk.Size = new System.Drawing.Size(90, 25);
@@ -207,7 +208,7 @@
             // kbtnSystemInformation
             // 
             this.kbtnSystemInformation.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.kbtnSystemInformation.Location = new System.Drawing.Point(519, 12);
+            this.kbtnSystemInformation.Location = new System.Drawing.Point(523, 12);
             this.kbtnSystemInformation.Margin = new System.Windows.Forms.Padding(10);
             this.kbtnSystemInformation.Name = "kbtnSystemInformation";
             this.kbtnSystemInformation.Size = new System.Drawing.Size(161, 25);
@@ -221,7 +222,7 @@
             this.kryptonBorderEdge1.Dock = System.Windows.Forms.DockStyle.Top;
             this.kryptonBorderEdge1.Location = new System.Drawing.Point(0, 0);
             this.kryptonBorderEdge1.Name = "kryptonBorderEdge1";
-            this.kryptonBorderEdge1.Size = new System.Drawing.Size(800, 1);
+            this.kryptonBorderEdge1.Size = new System.Drawing.Size(804, 1);
             this.kryptonBorderEdge1.Text = "kryptonBorderEdge1";
             // 
             // kpnlMain
@@ -230,7 +231,7 @@
             this.kpnlMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kpnlMain.Location = new System.Drawing.Point(0, 0);
             this.kpnlMain.Name = "kpnlMain";
-            this.kpnlMain.Size = new System.Drawing.Size(800, 400);
+            this.kpnlMain.Size = new System.Drawing.Size(804, 404);
             this.kpnlMain.TabIndex = 1;
             // 
             // khgMain
@@ -606,6 +607,7 @@
             this.kryptonThemeComboBox1.Location = new System.Drawing.Point(5, 300);
             this.kryptonThemeComboBox1.Margin = new System.Windows.Forms.Padding(5);
             this.kryptonThemeComboBox1.Name = "kryptonThemeComboBox1";
+            this.kryptonThemeComboBox1.ReportSelectedThemeIndex = false;
             this.kryptonThemeComboBox1.Size = new System.Drawing.Size(767, 21);
             this.kryptonThemeComboBox1.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.kryptonThemeComboBox1.TabIndex = 0;
@@ -732,6 +734,7 @@
             this.ktcmbCurrentTheme.Location = new System.Drawing.Point(79, 275);
             this.ktcmbCurrentTheme.Margin = new System.Windows.Forms.Padding(5);
             this.ktcmbCurrentTheme.Name = "ktcmbCurrentTheme";
+            this.ktcmbCurrentTheme.ReportSelectedThemeIndex = false;
             this.ktcmbCurrentTheme.Size = new System.Drawing.Size(693, 21);
             this.ktcmbCurrentTheme.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.ktcmbCurrentTheme.TabIndex = 3;
@@ -1051,7 +1054,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(804, 454);
             this.Controls.Add(this.kpnlMain);
             this.Controls.Add(this.kpnlButtons);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;

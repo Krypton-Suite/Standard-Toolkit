@@ -2,7 +2,7 @@
 /*
  *  
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2023 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2023 - 2024. All rights reserved. 
  *  
  */
 #endregion
@@ -394,6 +394,20 @@ namespace Krypton.Toolkit
         /// <summary>Resets the krypton scroll bar strings.</summary>
         public void ResetKryptonScrollBarStrings() => ScrollBarStrings.Reset();
 
+        /// <summary>Gets the krypton toast notification strings.</summary>
+        /// <value>The krypton toast notification strings.</value>
+        [Category(@"Visuals")]
+        [Description(@"Collection of toast notificaion strings.")]
+        [MergableProperty(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        [Localizable(true)]
+        public KryptonToastNotificationStrings KryptonToastNotificationStrings => ToastNotificationStrings;
+
+        private bool ShouldSerializeKryptonToastNotificationStrings() => !ToastNotificationStrings.IsDefault;
+
+        /// <summary>Resets the krypton toast notification strings.</summary>
+        public void ResetKryptonToastNotificationStrings() => ToastNotificationStrings.Reset();
+
         #endregion
 
         #region Static Strings
@@ -507,6 +521,8 @@ namespace Krypton.Toolkit
         /// <value>The scroll bar strings.</value>
         public static KryptonScrollBarStrings ScrollBarStrings { get; } = new();
 
+        public static KryptonToastNotificationStrings ToastNotificationStrings { get; } = new();
+
         #endregion
 
         #region Identity
@@ -546,7 +562,8 @@ namespace Krypton.Toolkit
                                    ShouldSerializeSeparatorStyleStrings() ||
                                    ShouldSerializeTabBorderStyleStrings() ||
                                    ShouldSerializeTabStyleStrings() ||
-                                   ShouldSerializeKryptonScrollBarStrings());
+                                   ShouldSerializeKryptonScrollBarStrings() ||
+                                   ShouldSerializeKryptonToastNotificationStrings());
 
         #endregion
 
@@ -638,6 +655,8 @@ namespace Krypton.Toolkit
             ResetTabStyleStrings();
 
             ResetKryptonScrollBarStrings();
+
+            ResetKryptonToastNotificationStrings();
         }
 
         #endregion

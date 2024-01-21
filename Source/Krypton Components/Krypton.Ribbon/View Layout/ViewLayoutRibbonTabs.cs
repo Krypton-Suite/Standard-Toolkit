@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -20,9 +20,9 @@ namespace Krypton.Ribbon
     internal class ViewLayoutRibbonTabs : ViewComposite
     {
         #region Type Definitions
-        private class ViewDrawRibbonTabList : List<ViewDrawRibbonTab> { }
-        private class ViewDrawRibbonTabSepList : List<ViewDrawRibbonTabSep> { }
-        private class ContextNameList : List<string> { }
+        private class ViewDrawRibbonTabList : List<ViewDrawRibbonTab>;
+        private class ViewDrawRibbonTabSepList : List<ViewDrawRibbonTabSep>;
+        private class ContextNameList : List<string>;
         #endregion
 
         #region Static Fields
@@ -36,7 +36,7 @@ namespace Krypton.Ribbon
         private readonly KryptonRibbon _ribbon;
         private readonly ViewDrawRibbonTabList _tabCache;
         private readonly ViewDrawRibbonTabSepList _tabSepCache;
-        private ViewDrawRibbonDesignTab? _viewAddTab;
+        private ViewDrawRibbonDesignTab _viewAddTab;
         private NeedPaintHandler _needPaint;
         private ContextNameList _cachedSelectedContext;
         private Size[] _cachedSizes;
@@ -120,7 +120,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets the parent control.
         /// </summary>
-        public Control ParentControl { get; set; }
+        public Control? ParentControl { get; set; }
 
         #endregion
 
@@ -128,7 +128,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets access to the tabs spare area.
         /// </summary>
-        public ViewLayoutRibbonTabsSpare? GetViewForSpare { get; private set; }
+        public ViewLayoutRibbonTabsSpare GetViewForSpare { get; private set; }
 
         #endregion
 
@@ -138,7 +138,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="ribbonTab">Tab for which view element is needed.</param>
         /// <returns>View element for tab; otherwise null.</returns>
-        public ViewDrawRibbonTab? GetViewForRibbonTab(KryptonRibbonTab? ribbonTab) => ribbonTab == null
+        public ViewDrawRibbonTab GetViewForRibbonTab(KryptonRibbonTab? ribbonTab) => ribbonTab == null
                 ? null
                 : _tabCache.FirstOrDefault(viewTab => viewTab.RibbonTab == ribbonTab);
 
@@ -146,7 +146,7 @@ namespace Krypton.Ribbon
         /// Gets the view element for drawing the first visible ribbon tab.
         /// </summary>
         /// <returns>View element for a tab; otherwise null.</returns>
-        public ViewDrawRibbonTab? GetViewForFirstRibbonTab()
+        public ViewDrawRibbonTab GetViewForFirstRibbonTab()
         {
             foreach (ViewBase child in this)
             {
@@ -164,7 +164,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="ribbonTab">Current ribbon tab to use when searching.</param>
         /// <returns>View element for a tab; otherwise null.</returns>
-        public ViewDrawRibbonTab? GetViewForNextRibbonTab(KryptonRibbonTab ribbonTab)
+        public ViewDrawRibbonTab GetViewForNextRibbonTab(KryptonRibbonTab ribbonTab)
         {
             var found = false;
             foreach (ViewBase child in this)
@@ -194,7 +194,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="ribbonTab">Current ribbon tab to use when searching.</param>
         /// <returns>View element for a tab; otherwise null.</returns>
-        public ViewDrawRibbonTab? GetViewForPreviousRibbonTab(KryptonRibbonTab ribbonTab)
+        public ViewDrawRibbonTab GetViewForPreviousRibbonTab(KryptonRibbonTab ribbonTab)
         {
             var found = false;
             foreach (ViewBase child in Reverse())
@@ -223,7 +223,7 @@ namespace Krypton.Ribbon
         /// Gets the view element for drawing the last visible ribbon tab.
         /// </summary>
         /// <returns>View element for a tab; otherwise null.</returns>
-        public ViewDrawRibbonTab? GetViewForLastRibbonTab()
+        public ViewDrawRibbonTab GetViewForLastRibbonTab()
         {
             foreach (ViewBase child in Reverse())
             {
@@ -254,13 +254,13 @@ namespace Krypton.Ribbon
                 {
 
                     // Get the screen location of the view tab
-                    Rectangle tabRect = viewTab.OwningControl.RectangleToScreen(viewTab.ClientRectangle);
+                    Rectangle tabRect = viewTab.OwningControl!.RectangleToScreen(viewTab.ClientRectangle);
 
                     // The keytip should be centered on the bottom center of the view
                     var screenPt = new Point(tabRect.Left + (tabRect.Width / 2), tabRect.Bottom + 2);
 
                     // Create new key tip that invokes the tab controller when selected
-                    keyTipList.Add(new KeyTipInfo(true, viewTab.RibbonTab.KeyTip,
+                    keyTipList.Add(new KeyTipInfo(true, viewTab.RibbonTab!.KeyTip,
                                                   screenPt, viewTab.ClientRectangle,
                                                   viewTab.KeyTipTarget));
                 }
@@ -357,10 +357,10 @@ namespace Krypton.Ribbon
             // Find total width and maximum height across all child elements
             for (var i = 0; i < Count; i++)
             {
-                ViewBase child = this[i];
+                ViewBase? child = this[i];
 
                 // Only interested in visible items
-                if (child.Visible)
+                if (child!.Visible)
                 {
                     // Cache preferred size of the child
                     _cachedSizes[i] = child.GetPreferredSize(context);
@@ -484,7 +484,7 @@ namespace Krypton.Ribbon
                         }
 
                         // Position the element
-                        this[i].Layout(context);
+                        this[i]?.Layout(context);
 
                         // Move across to next position
                         x += layoutSizes[i].Width;
@@ -511,12 +511,12 @@ namespace Krypton.Ribbon
             }
 
             // We have an owning form we need to update the custom area it treats as a caption
-            if (_ribbon.CaptionArea.KryptonForm != null)
+            if (_ribbon.CaptionArea?.KryptonForm != null)
             {
                 if (!customCaptionRect.IsEmpty)
                 {
                     // Convert the rectangle to the owning form coordinates
-                    customCaptionRect = ParentControl.RectangleToScreen(customCaptionRect);
+                    customCaptionRect = ParentControl!.RectangleToScreen(customCaptionRect);
                     customCaptionRect = _ribbon.CaptionArea.KryptonForm.RectangleToClient(customCaptionRect);
                 }
 
@@ -627,7 +627,7 @@ namespace Krypton.Ribbon
                         // Create tab set when first needed, otherwise this tab must be the last one
                         if (cts == null)
                         {
-                            cts = new ContextTabSet(drawTab, _ribbon.RibbonContexts[ribbonTab.ContextName]);
+                            cts = new ContextTabSet(drawTab, _ribbon.RibbonContexts[ribbonTab.ContextName]!);
                         }
                         else
                         {
@@ -784,7 +784,7 @@ namespace Krypton.Ribbon
             // In design mode 
             if (_ribbon.InDesignHelperMode)
             {
-                // All all the defined ribbon contexts
+                // All the defined ribbon contexts
                 foreach (KryptonRibbonContext context in _ribbon.RibbonContexts)
                 {
                     _cachedSelectedContext.Add(context.ContextName);

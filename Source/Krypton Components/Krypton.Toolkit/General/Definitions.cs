@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
  *  
  */
 #endregion
@@ -102,7 +102,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="palette">Palette to use for inheriting values.</param>
         /// <returns>Color value.</returns>
-        Color GetColorMap(PaletteBase palette);
+        Color GetColorMap(PaletteBase? palette);
 
         /// <summary>
         /// Gets the button visibility.
@@ -128,7 +128,7 @@ namespace Krypton.Toolkit
         /// Get the current view associated with the button spec.
         /// </summary>
         /// <returns>View element reference.</returns>
-        ViewBase? GetView();
+        ViewBase GetView();
 
         /// <summary>
         /// Gets a value indicating if the associated view is enabled.
@@ -292,7 +292,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the custom palette.
         /// </summary>
-        PaletteBase ProviderPalette { get; }
+        PaletteBase? ProviderPalette { get; }
 
         /// <summary>
         /// Gets access to the palette mode.
@@ -612,7 +612,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the month calendar common appearance entries.
         /// </summary>
-        PaletteMonthCalendarRedirect? StateCommon { get; }
+        PaletteMonthCalendarRedirect StateCommon { get; }
 
         /// <summary>
         /// Gets access to the month calendar normal appearance entries.
@@ -727,43 +727,9 @@ namespace Krypton.Toolkit
     }
     #endregion
 
-    #region IKryptonComposition
-    /// <summary>
-    /// Exposes interface for visual form to cooperate with a view for composition.
-    /// </summary>
-    public interface IKryptonComposition
-    {
-        /// <summary>
-        /// Gets the pixel height of the composition extension into the client area.
-        /// </summary>
-        int CompHeight { get; }
-
-        /// <summary>
-        /// Should painting be performed for the selection glyph.
-        /// </summary>
-        bool CompVisible { get; set; }
-
-        /// <summary>
-        /// Gets and sets the form that owns the composition.
-        /// </summary>
-        VisualForm CompOwnerForm { get; set; }
-
-        /// <summary>
-        /// Request a repaint and optional layout.
-        /// </summary>
-        /// <param name="needLayout">Is a layout required.</param>
-        void CompNeedPaint(bool needLayout);
-
-        /// <summary>
-        /// Gets the handle of the composition element control.
-        /// </summary>
-        IntPtr CompHandle { get; }
-    }
-    #endregion
-
     #region IKryptonDesignObject
     /// <summary>
-    /// Exposes interface for visual form to cooperate with a view for composition.
+    /// Exposes interface for visual form to cooperate with a view for Designers.
     /// </summary>
     public interface IKryptonDesignObject
     {
@@ -1739,14 +1705,14 @@ namespace Krypton.Toolkit
     #endregion
 
     #region Type ViewDockStyleLookup
-    internal class ViewDockStyleLookup : Dictionary<ViewBase, ViewDockStyle> { }
+    internal class ViewDockStyleLookup : Dictionary<ViewBase, ViewDockStyle>;
     #endregion
 
     #region Type DateTimeList
     /// <summary>
     /// Manage a list of DateTime instances.
     /// </summary>
-    public class DateTimeList : List<DateTime> { }
+    public class DateTimeList : List<DateTime>;
     #endregion
 
     #region Type MonthCalendarButtonSpecCollection
@@ -1873,6 +1839,295 @@ namespace Krypton.Toolkit
 
     #endregion
 
+    #region Enum KryptonMessageBoxIcon
+
+    /// <summary>Specifies the icon type for <see cref="T:KryptonMessageBox"/>.</summary>
+    // ToDo: Fix converter, as it throws errors...
+    //[TypeConverter(typeof(KryptonMessageBoxIconConverter))]
+    public enum KryptonMessageBoxIcon
+    {
+        /// <summary>Specify no icon.</summary>
+        None = 0,
+
+        /// <summary>Specify a hand icon.</summary>
+        Hand = 1,
+
+        /// <summary>Specify the system hand icon.</summary>
+        SystemHand = MessageBoxIcon.Hand,
+
+        /// <summary>Specify a question icon.</summary>
+        Question = 2,
+
+        /// <summary>Specify the system question icon.</summary>
+        SystemQuestion = MessageBoxIcon.Question,
+
+        /// <summary>Specify an exclamation icon.</summary>
+        Exclamation = 3,
+
+        /// <summary>Specify the system exclamation icon.</summary>
+        SystemExclamation = MessageBoxIcon.Exclamation,
+
+        /// <summary>Specify an asterisk icon.</summary>
+        Asterisk = 4,
+
+        /// <summary>Specify the system asterisk icon.</summary>
+        SystemAsterisk = MessageBoxIcon.Asterisk,
+
+        /// <summary>Specify a stop icon.</summary>
+        Stop = 5,
+
+        /// <summary>Specify the system stop icon.</summary>
+        SystemStop = MessageBoxIcon.Stop,
+
+        /// <summary>Specify a error icon.</summary>
+        Error = 6,
+
+        /// <summary>Specify the system error icon.</summary>
+        SystemError = MessageBoxIcon.Error,
+
+        /// <summary>Specify a warning icon.</summary>
+        Warning = 7,
+
+        /// <summary>Specify the system warning icon.</summary>
+        SystemWarning = MessageBoxIcon.Warning,
+
+        /// <summary>Specify an information icon.</summary>
+        Information = 8,
+
+        /// <summary>Specify the system information icon.</summary>
+        SystemInformation = MessageBoxIcon.Information,
+
+        /// <summary>Specify a UAC shield icon.</summary>
+        Shield = 9,
+
+        /// <summary>Specify a Windows logo icon.</summary>
+        WindowsLogo = 10,
+
+        /// <summary>Specify your application icon.</summary>
+        Application = 11,
+
+        /// <summary>Specify the default system application icon. See <see cref="SystemIcons.Application"/>.</summary>
+        SystemApplication = 12
+    }
+
+    #endregion
+
+    #region Enum KryptonMessageBoxButtons
+
+    /// <summary>Specifies constants defining which buttons to display on a <see cref="T:KryptonMessageBox" />.</summary>
+    public enum KryptonMessageBoxButtons
+    {
+        /// <summary>
+        ///  Specifies that the message box contains an OK button.
+        /// </summary>
+        OK = MessageBoxButtons.OK,
+
+        /// <summary>
+        ///  Specifies that the message box contains OK and Cancel buttons.
+        /// </summary>
+        OKCancel = MessageBoxButtons.OKCancel,
+
+        /// <summary>
+        ///  Specifies that the message box contains Abort, Retry, and Ignore buttons.
+        /// </summary>
+        AbortRetryIgnore = MessageBoxButtons.AbortRetryIgnore,
+
+        /// <summary>
+        ///  Specifies that the message box contains Yes, No, and Cancel buttons.
+        /// </summary>
+        YesNoCancel = MessageBoxButtons.YesNoCancel,
+
+        /// <summary>
+        ///  Specifies that the message box contains Yes and No buttons.
+        /// </summary>
+        YesNo = MessageBoxButtons.YesNo,
+
+        /// <summary>
+        ///  Specifies that the message box contains Retry and Cancel buttons.
+        /// </summary>
+        RetryCancel = MessageBoxButtons.RetryCancel,
+
+        /// <summary>
+        ///  Specifies that the message box contains Cancel, Try Again, and Continue buttons.
+        /// </summary>
+#if NET60_OR_GREATER
+            CancelTryContinue = MessageBoxButtons.CancelTryContinue
+#else
+        CancelTryContinue = 0x00000006
+#endif
+    }
+
+    #endregion
+
+    #region Enum KryptonMessageBoxDefaultButton
+
+    /// <summary>Specifies constants defining the default button on a <seealso cref="T:KryptonMessageBox"/>.</summary>
+    public enum KryptonMessageBoxDefaultButton
+    {
+        /// <summary>The first button on the message box is the default button.</summary>
+        Button1 = 0,
+
+        /// <summary>The second button on the message box is the default button.</summary>
+        Button2 = 256,
+
+        /// <summary>The third button on the message box is the default button.</summary>
+        Button3 = 512,
+
+        /// <summary>Specifies that the Help button on the message box should be the default button.</summary>
+        Button4 = 768,
+
+        /// <summary>The accelerator button.</summary>
+        Button5 = 1024
+    }
+
+    #endregion
+
+    #region Enum KryptonToastNotificationIcon
+
+    [TypeConverter(typeof(KryptonToastNotificationIconConverter))]
+    public enum KryptonToastNotificationIcon
+    {
+        /// <summary>Specify no icon.</summary>
+        None = 0,
+
+        /// <summary>Specify a hand icon.</summary>
+        Hand = 1,
+
+        /// <summary>Specify the system hand icon.</summary>
+        SystemHand = MessageBoxIcon.Hand,
+
+        /// <summary>Specify a question icon.</summary>
+        Question = 2,
+
+        /// <summary>Specify the system question icon.</summary>
+        SystemQuestion = MessageBoxIcon.Question,
+
+        /// <summary>Specify an exclamation icon.</summary>
+        Exclamation = 3,
+
+        /// <summary>Specify the system exclamation icon.</summary>
+        SystemExclamation = MessageBoxIcon.Exclamation,
+
+        /// <summary>Specify an asterisk icon.</summary>
+        Asterisk = 4,
+
+        /// <summary>Specify the system asterisk icon.</summary>
+        SystemAsterisk = MessageBoxIcon.Asterisk,
+
+        /// <summary>Specify a stop icon.</summary>
+        Stop = 5,
+
+        /// <summary>Specify the system stop icon.</summary>
+        SystemStop = MessageBoxIcon.Stop,
+
+        /// <summary>Specify a error icon.</summary>
+        Error = 6,
+
+        /// <summary>Specify the system error icon.</summary>
+        SystemError = MessageBoxIcon.Error,
+
+        /// <summary>Specify a warning icon.</summary>
+        Warning = 7,
+
+        /// <summary>Specify the system warning icon.</summary>
+        SystemWarning = MessageBoxIcon.Warning,
+
+        /// <summary>Specify an information icon.</summary>
+        Information = 8,
+
+        /// <summary>Specify the system information icon.</summary>
+        SystemInformation = MessageBoxIcon.Information,
+
+        /// <summary>Specify a UAC shield icon.</summary>
+        Shield = 9,
+
+        /// <summary>Specify a Windows logo icon.</summary>
+        WindowsLogo = 10,
+
+        /// <summary>Specify your application icon.</summary>
+        Application = 11,
+
+        /// <summary>Specify the default system application icon. See <see cref="SystemIcons.Application"/>.</summary>
+        SystemApplication = 12,
+
+        /// <summary>Specify an ok icon.</summary>
+        Ok = 13,
+
+        /// <summary>Specify a custom icon.</summary>
+        Custom = 14,
+    }
+
+    #endregion
+
+    #region Enum KryptonToastNotificationContentAreaType
+
+    public enum KryptonToastNotificationContentAreaType
+    {
+        RichTextBox = 0,
+        MultiLineTextBox = 1,
+        WrapLinkLabel = 2,
+        WrapLabel = 3
+    }
+
+    #endregion
+
+    #region Enum KryptonToastNotificationInputAreaType
+
+    public enum KryptonToastNotificationInputAreaType
+    {
+        None = 0,
+        ComboBox = 1,
+        DomainDropDown = 2,
+        NumericDropDown = 3,
+        MaskedTextBox = 4,
+        TextBox = 5
+    }
+
+    #endregion
+
+    #region Enum KryptonToastNotificationActionButton
+
+    public enum KryptonToastNotificationActionButton
+    {
+        Button1 = 0,
+        Button2 = 1,
+        //Button3 = 2
+    }
+
+    #endregion
+
+    #region Enum KryptonToastNotificationActionType
+
+    public enum KryptonToastNotificationActionType
+    {
+        Default = 0,
+        Dismiss = 1,
+        LaunchProcess = 2,
+        Open = 3
+    }
+
+    #endregion
+
+    #region Enum KryptonToastNotificationDismissButtonLocation
+
+    public enum KryptonToastNotificationDismissButtonLocation
+    {
+        Left = 0,
+        Right = 1,
+    }
+
+    #endregion
+
+    #region Enum KryptonToastNotificationAlignment
+
+    public enum KryptonToastNotificationAlignment
+    {
+        LeftToRight = 0,
+        RightToLeft = 1
+    }
+
+    #endregion
+
     #region Enum ToolkitType
 
     public enum ToolkitType
@@ -1916,6 +2171,80 @@ namespace Krypton.Toolkit
         FileInformation = 2,
         Theme = 3,
         ToolkitInformation = 4
+    }
+
+    #endregion
+
+    #region Enum FormFadeDirection
+
+    public enum FormFadeDirection
+    {
+        In = 0,
+        Out = 1
+    }
+
+    #endregion
+
+    #region Enum FadeSpeedChoice
+
+    /// <summary>
+    /// Chooses the fading speed of a <see cref="VisualForm"/>
+    /// </summary>
+    public enum FadeSpeedChoice
+    {
+        /// <summary>
+        /// Use the slowest fade speed possible. This is tied to the corresponding float value in <see cref="KryptonFormFadeSpeed"/>, which is 1.
+        /// </summary>
+        Slowest = 0,
+        /// <summary>
+        /// Use the second-slowest fade speed possible. This is tied to the corresponding float value in <see cref="KryptonFormFadeSpeed"/>, which is 10.
+        /// </summary>
+        Slower = 1,
+        /// <summary>
+        /// Use the third-slowest fade speed possible. This is tied to the corresponding float value in <see cref="KryptonFormFadeSpeed"/>, which is 25.
+        /// </summary>
+        Slow = 2,
+        /// <summary>
+        /// Use a normal fade speed. This is tied to the corresponding float value in <see cref="KryptonFormFadeSpeed"/>, which is 50.
+        /// </summary>
+        Normal = 3,
+        /// <summary>
+        /// Use a fast fading speed. This is tied to the corresponding float value in <see cref="KryptonFormFadeSpeed"/>, which is 60.
+        /// </summary>
+        Fast = 4,
+        /// <summary>
+        /// Use a slightly faster fading speed. This is tied to the corresponding float value in <see cref="KryptonFormFadeSpeed"/>, which is 75.
+        /// </summary>
+        Faster = 5,
+        /// <summary>
+        /// Use the fastest fading speed possible. This is tied to the corresponding float value in <see cref="KryptonFormFadeSpeed"/>, which is 100.
+        /// </summary>
+        Fastest = 6,
+        /// <summary>
+        /// Define your own fading speed.
+        /// </summary>
+        Custom = 7
+    }
+
+    #endregion
+
+    #region Enum KryptonMessageBoxResult
+
+    /// <summary>
+    /// Options for <see cref="KryptonMessageBox"/>.
+    /// </summary>
+    public enum KryptonMessageBoxResult : int
+    {
+        None = DialogResult.None,
+        Ok = DialogResult.OK,
+        Cancel = DialogResult.Cancel,
+        Abort = DialogResult.Abort,
+        Retry = DialogResult.Retry,
+        Ignore = DialogResult.Ignore,
+        Yes = DialogResult.Yes,
+        No = DialogResult.No,
+        Checked = 0x000003EE, // 1006
+        Indeterminate = 0x000003EF // 1007
     }
 
     #endregion

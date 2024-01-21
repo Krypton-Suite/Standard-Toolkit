@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
  *  
  */
 #endregion
@@ -71,7 +71,7 @@ namespace Krypton.Navigator
             Debug.Assert(navigator != null);
             Debug.Assert(page != null);
 
-            Navigator = navigator!;
+            Navigator = navigator;
             Page = page;
             _lastClick = DateTime.Now.AddDays(-1);
 
@@ -111,7 +111,7 @@ namespace Krypton.Navigator
 
             // Create overrides for handling a focus state
             _paletteGeneral = Navigator.StateCommon!.RibbonGeneral;
-            _overrideStateNormal = new PaletteRibbonTabContentInheritOverride(Page!.OverrideFocus.RibbonTab.TabDraw, Page!.OverrideFocus.RibbonTab.TabDraw, Page.OverrideFocus.RibbonTab.Content, Page.StateNormal!.RibbonTab.TabDraw, Page.StateNormal.RibbonTab.TabDraw, Page.StateNormal.RibbonTab.Content, PaletteState.FocusOverride);
+            _overrideStateNormal = new PaletteRibbonTabContentInheritOverride(Page!.OverrideFocus.RibbonTab.TabDraw, Page!.OverrideFocus.RibbonTab.TabDraw, Page.OverrideFocus.RibbonTab.Content, Page.StateNormal.RibbonTab.TabDraw, Page.StateNormal.RibbonTab.TabDraw, Page.StateNormal.RibbonTab.Content, PaletteState.FocusOverride);
             _overrideStateTracking = new PaletteRibbonTabContentInheritOverride(Page.OverrideFocus.RibbonTab.TabDraw, Page.OverrideFocus.RibbonTab.TabDraw, Page.OverrideFocus.RibbonTab.Content, Page.StateTracking.RibbonTab.TabDraw, Page.StateTracking.RibbonTab.TabDraw, Page.StateTracking.RibbonTab.Content, PaletteState.FocusOverride);
             _overrideStatePressed = new PaletteRibbonTabContentInheritOverride(Page.OverrideFocus.RibbonTab.TabDraw, Page.OverrideFocus.RibbonTab.TabDraw, Page.OverrideFocus.RibbonTab.Content, Page.StatePressed.RibbonTab.TabDraw, Page.StatePressed.RibbonTab.TabDraw, Page.StatePressed.RibbonTab.Content, PaletteState.FocusOverride);
             _overrideStateSelected = new PaletteRibbonTabContentInheritOverride(Page.OverrideFocus.RibbonTab.TabDraw, Page.OverrideFocus.RibbonTab.TabDraw, Page.OverrideFocus.RibbonTab.Content, Page.StateSelected.RibbonTab.TabDraw, Page.StateSelected.RibbonTab.TabDraw, Page.StateSelected.RibbonTab.Content, PaletteState.FocusOverride);
@@ -137,7 +137,7 @@ namespace Krypton.Navigator
                                                                new[] { PaletteMetricInt.PageButtonInset },
                                                                new[] { PaletteMetricInt.PageButtonInset },
                                                                new[] { PaletteMetricPadding.PageButtonPadding },
-                                                               Navigator.CreateToolStripRenderer!,
+                                                               Navigator.CreateToolStripRenderer,
                                                                OnNeedPaint)
             {
 
@@ -352,13 +352,12 @@ namespace Krypton.Navigator
 
             // Use renderer to draw the tab background
             var mementoIndex = StateIndex(State);
-            _mementos[mementoIndex] = context.Renderer!.RenderRibbon.DrawRibbonBack(_lastRibbonShape,
+            _mementos[mementoIndex] = context.Renderer.RenderRibbon.DrawRibbonBack(_lastRibbonShape,
                                                                                    context,
                                                                                    CommonHelper.ApplyPadding(_borderBackOrient, ClientRectangle, _drawBorder),
                                                                                    State,
                                                                                    _currentBack,
                                                                                    _borderBackOrient,
-                                                                                   false,
                                                                                    _mementos[mementoIndex]);
 
             // Let base class draw the child items
@@ -513,25 +512,29 @@ namespace Krypton.Navigator
             switch (buttonState)
             {
                 case PaletteState.Disabled:
-                    _currentText = Navigator.StateDisabled!.RibbonTab.TabDraw;
+                    _currentText = Navigator.StateDisabled.RibbonTab.TabDraw;
                     _currentBack = Navigator.StateDisabled.RibbonTab.TabDraw;
                     _currentContent = Navigator.StateDisabled.RibbonTab.Content;
                     break;
+
                 case PaletteState.Normal:
                     _currentText = _overrideStateNormal;
                     _currentBack = _overrideStateNormal;
                     _currentContent = _overrideStateNormal;
                     break;
+
                 case PaletteState.Tracking:
                     _currentText = _overrideStateTracking;
                     _currentBack = _overrideStateTracking;
                     _currentContent = _overrideStateTracking;
                     break;
+
                 case PaletteState.Pressed:
                     _currentText = _overrideStatePressed;
                     _currentBack = _overrideStatePressed;
                     _currentContent = _overrideStatePressed;
                     break;
+
                 case PaletteState.CheckedNormal:
                 case PaletteState.CheckedTracking:
                 case PaletteState.CheckedPressed:
@@ -539,9 +542,11 @@ namespace Krypton.Navigator
                     _currentBack = _overrideStateSelected;
                     _currentContent = _overrideStateSelected;
                     break;
+
                 default:
-                    // Should never happen!
+    // Should never happen!
                     Debug.Assert(false);
+                    DebugTools.NotImplemented(buttonState.ToString());
                     break;
             }
 

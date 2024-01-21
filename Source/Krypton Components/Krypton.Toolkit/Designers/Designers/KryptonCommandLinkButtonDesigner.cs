@@ -2,7 +2,7 @@
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved.
  *
  */
 #endregion
@@ -33,11 +33,7 @@ namespace Krypton.Toolkit
             get
             {
                 // Create a collection of action lists
-                DesignerActionListCollection actionLists = new DesignerActionListCollection
-                {
-                    // Add the button specific list
-                    new KryptonCommandLinkButtonActionList(this)
-                };
+                DesignerActionListCollection actionLists = [new KryptonCommandLinkButtonActionList(this)];
 
                 return actionLists;
             }

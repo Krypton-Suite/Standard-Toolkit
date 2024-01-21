@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
  *  
  */
 #endregion
@@ -34,8 +34,8 @@ namespace Krypton.Toolkit
         private bool _evalTransparent;
         private bool _globalEvents;
         private Size _lastLayoutSize;
-        private PaletteBase _localPalette;
-        private PaletteBase _palette;
+        private PaletteBase? _localPalette;
+        private PaletteBase? _palette;
         private PaletteMode _paletteMode;
         private readonly SimpleCall _refreshCall;
         private KryptonContextMenu? _kryptonContextMenu;
@@ -353,7 +353,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Custom palette applied to drawing.")]
         [DefaultValue(null)]
-        public PaletteBase Palette
+        public PaletteBase? Palette
         {
             [DebuggerStepThrough]
             get => _localPalette;
@@ -364,7 +364,7 @@ namespace Krypton.Toolkit
                 if (_localPalette != value)
                 {
                     // Remember the starting palette
-                    PaletteBase old = _localPalette;
+                    PaletteBase? old = _localPalette;
 
                     // Use the provided palette value
                     SetPalette(value);
@@ -410,7 +410,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public IRenderer Renderer
+        public IRenderer? Renderer
         {
             [DebuggerStepThrough]
             get;
@@ -636,7 +636,7 @@ namespace Krypton.Toolkit
         /// <param name="sender">Source of notification.</param>
         /// <param name="e">An NeedLayoutEventArgs containing event data.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        protected void OnNeedPaint(object sender, [DisallowNull] NeedLayoutEventArgs e)
+        protected void OnNeedPaint(object? sender, [DisallowNull] NeedLayoutEventArgs e)
         {
             Debug.Assert(e != null);
 
@@ -704,7 +704,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public PaletteBase GetResolvedPalette() => _palette;
+        public PaletteBase GetResolvedPalette() => _palette!;
 
         #endregion
 
@@ -723,10 +723,10 @@ namespace Krypton.Toolkit
         protected virtual void OnPaletteChanged(EventArgs e)
         {
             // Update the redirector with latest palette
-            Redirector!.Target = _palette;
+            Redirector.Target = _palette;
 
             // A new palette source means we need to layout and redraw
-            OnNeedPaint(Palette, new NeedLayoutEventArgs(true));
+            OnNeedPaint(Palette!, new NeedLayoutEventArgs(true));
 
             PaletteChanged?.Invoke(this, e);
         }
@@ -1060,7 +1060,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Implementation
-        private void SetPalette(PaletteBase palette)
+        private void SetPalette(PaletteBase? palette)
         {
             if (palette != _palette)
             {
@@ -1101,11 +1101,11 @@ namespace Krypton.Toolkit
                     _miPTB = typeof(Control).GetMethod(nameof(PaintTransparentBackground),
                                                        BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.InvokeMethod,
                                                        null, CallingConventions.HasThis,
-                                                       new[] { typeof(PaintEventArgs), typeof(Rectangle), typeof(Region) },
+                                                       [typeof(PaintEventArgs), typeof(Rectangle), typeof(Region)],
                                                        null)!;
                 }
 
-                _miPTB?.Invoke(this, new object[] { e!, ClientRectangle, null! });
+                _miPTB?.Invoke(this, [e!, ClientRectangle, null!]);
             }
             else
             {
@@ -1147,7 +1147,7 @@ namespace Krypton.Toolkit
                 // Update ourself with the new global palette
                 _localPalette = null;
                 SetPalette(KryptonManager.CurrentGlobalPalette);
-                Redirector!.Target = _palette;
+                Redirector.Target = _palette;
 
                 // A new palette source means we need to layout and redraw
                 OnNeedPaint(Palette, new NeedLayoutEventArgs(true));

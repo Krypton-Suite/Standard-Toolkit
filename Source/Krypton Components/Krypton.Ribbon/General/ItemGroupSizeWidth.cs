@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -70,7 +70,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="width">Width available for sizing a group.</param>
         /// <param name="sizing">Sizing information for applying to group.</param>
-        public GroupSizeWidth(int width, ItemSizeWidth[] sizing)
+        public GroupSizeWidth(int width, ItemSizeWidth[]? sizing)
         {
             Width = width;
             Sizing = sizing;
@@ -86,7 +86,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets and sets the array of sizing information for group.
         /// </summary>
-        public ItemSizeWidth[] Sizing { get; set; }
+        public ItemSizeWidth[]? Sizing { get; set; }
 
         #endregion
     }

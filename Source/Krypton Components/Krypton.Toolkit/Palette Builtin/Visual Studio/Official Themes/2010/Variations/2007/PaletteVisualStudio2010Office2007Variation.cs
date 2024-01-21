@@ -2,7 +2,7 @@
 /*
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2023 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2023 - 2024. All rights reserved. 
  *  
  */
 #endregion
@@ -24,9 +24,9 @@ namespace Krypton.Toolkit
 
         #region Images
 
-        private static readonly Image[] _radioButtonArray;
-        private static readonly Image _blueDropDownButton = Office2010ArrowResources.Office2010BlueDropDownButton;
-        private static readonly Image _contextMenuSubMenu = Office2010ArrowResources.Office2010BlueContextMenuSub;
+        private static readonly Image?[] _radioButtonArray;
+        private static readonly Image? _blueDropDownButton = Office2010ArrowResources.Office2010BlueDropDownButton;
+        private static readonly Image? _contextMenuSubMenu = Office2010ArrowResources.Office2010BlueContextMenuSub;
         private static readonly Image _formCloseNormal = Office2010ControlBoxResources.Office2010BlueCloseNormal;
         private static readonly Image _formCloseDisabled = Office2010ControlBoxResources.Office2010BlueCloseDisabled;
         private static readonly Image _formCloseActive = Office2010ControlBoxResources.Office2010BlueCloseActive;
@@ -53,17 +53,17 @@ namespace Krypton.Toolkit
         #region Colour Arrays
 
         private static readonly Color[] _trackBarColors =
-        {
+        [
             Color.FromArgb(116, 150, 194), // Tick marks
             Color.FromArgb(116, 150, 194), // Top track
             Color.FromArgb(152, 190, 241), // Bottom track
             Color.FromArgb(142, 180, 231), // Fill track
             Color.FromArgb(64, Color.White), // Outside position
             Color.FromArgb(63, 101, 152) // Border (normal) position
-        };
+        ];
 
         private static readonly Color[] _schemeVisualStudioColors =
-        {
+        [
             Color.FromArgb(0, 0, 0), // TextLabelControl
             Color.FromArgb(0, 0, 0), // TextButtonNormal
             Color.FromArgb(0, 0, 0), // TextButtonChecked
@@ -290,7 +290,7 @@ namespace Krypton.Toolkit
             Color.FromArgb(200, 219, 240), // ButtonNavigatorChecked1
             Color.FromArgb(177, 201, 228), // ButtonNavigatorChecked2
             Color.FromArgb(201, 217, 239) // ToolTipBottom                                                                      
-        };
+        ];
 
         #endregion
 
@@ -313,8 +313,8 @@ namespace Krypton.Toolkit
                 TransparentColor = Color.Magenta
             };
             _galleryButtonList.Images.AddStrip(GalleryImageResources.Gallery2010);
-            _radioButtonArray = new Image[]
-            {
+            _radioButtonArray =
+            [
                 Office2010RadioButtonImageResources.RadioButton2010BlueD,
                 Office2010RadioButtonImageResources.RadioButton2010BlueN,
                 Office2010RadioButtonImageResources.RadioButton2010BlueT,
@@ -323,11 +323,15 @@ namespace Krypton.Toolkit
                 Office2010RadioButtonImageResources.RadioButton2010BlueNC,
                 Office2010RadioButtonImageResources.RadioButton2010BlueTC,
                 Office2010RadioButtonImageResources.RadioButton2010BluePC
-            };
+            ];
         }
 
         /// <summary>Initializes a new instance of the <see cref="PaletteVisualStudio2010Office2007Variation" /> class.</summary>
-        public PaletteVisualStudio2010Office2007Variation() : base(_schemeVisualStudioColors, _checkBoxList, _galleryButtonList, _radioButtonArray, _trackBarColors) { }
+        public PaletteVisualStudio2010Office2007Variation()
+            : base(_schemeVisualStudioColors, _checkBoxList, _galleryButtonList, _radioButtonArray, _trackBarColors)
+        {
+            ThemeName = nameof(PaletteVisualStudio2010Office2007Variation);
+        }
 
         #endregion
 
@@ -354,45 +358,49 @@ namespace Krypton.Toolkit
         /// <param name="state">State for which image is required.</param>
         /// <returns>Image value.</returns>
         public override Image? GetButtonSpecImage(PaletteButtonSpecStyle style,
-                                                 PaletteState state) => style switch
-                                                 {
-                                                     PaletteButtonSpecStyle.FormClose => state switch
-                                                     {
-                                                         PaletteState.Tracking => _formCloseActive,
-                                                         PaletteState.Normal => _formCloseNormal,
-                                                         PaletteState.Pressed => _formClosePressed,
-                                                         _ => _formCloseDisabled
-                                                     },
-                                                     PaletteButtonSpecStyle.FormMin => state switch
-                                                     {
-                                                         PaletteState.Normal => _formMinimiseNormal,
-                                                         PaletteState.Tracking => _formMinimiseActive,
-                                                         PaletteState.Pressed => _formMinimisePressed,
-                                                         _ => _formMinimiseDisabled
-                                                     },
-                                                     PaletteButtonSpecStyle.FormMax => state switch
-                                                     {
-                                                         PaletteState.Normal => _formMaximiseNormal,
-                                                         PaletteState.Tracking => _formMaximiseActive,
-                                                         PaletteState.Pressed => _formMaximisePressed,
-                                                         _ => _formMaximiseDisabled
-                                                     },
-                                                     PaletteButtonSpecStyle.FormRestore => state switch
-                                                     {
-                                                         PaletteState.Normal => _formRestoreNormal,
-                                                         PaletteState.Tracking => _formRestoreActive,
-                                                         PaletteState.Pressed => _formRestorePressed,
-                                                         _ => _formRestoreDisabled
-                                                     },
-                                                     PaletteButtonSpecStyle.FormHelp => state switch
-                                                     {
-                                                         PaletteState.Tracking => _formHelpActive,
-                                                         PaletteState.Pressed => _formHelpPressed,
-                                                         PaletteState.Normal => _formHelpNormal,
-                                                         _ => _formHelpDisabled
-                                                     },
-                                                     _ => base.GetButtonSpecImage(style, state)
-                                                 };
+                                                 PaletteState state)
+        {
+            return style switch
+            {
+                PaletteButtonSpecStyle.FormClose => state switch
+                {
+                    PaletteState.Tracking => _formCloseActive,
+                    PaletteState.Normal => _formCloseNormal,
+                    PaletteState.Pressed => _formClosePressed,
+                    _ => _formCloseDisabled
+                },
+                PaletteButtonSpecStyle.FormMin => state switch
+                {
+                    PaletteState.Normal => _formMinimiseNormal,
+                    PaletteState.Tracking => _formMinimiseActive,
+                    PaletteState.Pressed => _formMinimisePressed,
+                    _ => _formMinimiseDisabled
+                },
+                PaletteButtonSpecStyle.FormMax => state switch
+                {
+                    PaletteState.Normal => _formMaximiseNormal,
+                    PaletteState.Tracking => _formMaximiseActive,
+                    PaletteState.Pressed => _formMaximisePressed,
+                    _ => _formMaximiseDisabled
+                },
+                PaletteButtonSpecStyle.FormRestore => state switch
+                {
+                    PaletteState.Normal => _formRestoreNormal,
+                    PaletteState.Tracking => _formRestoreActive,
+                    PaletteState.Pressed => _formRestorePressed,
+                    _ => _formRestoreDisabled
+                },
+                PaletteButtonSpecStyle.FormHelp => state switch
+                {
+                    PaletteState.Tracking => _formHelpActive,
+                    PaletteState.Pressed => _formHelpPressed,
+                    PaletteState.Normal => _formHelpNormal,
+                    _ => _formHelpDisabled
+                },
+                _ => base.GetButtonSpecImage(style, state)
+            };
+        }
+
         #endregion
     }
 }

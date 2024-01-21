@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
  *  
  */
 #endregion
@@ -47,8 +47,8 @@ namespace Krypton.Toolkit
         /// <param name="orientation">Visual orientation of the content.</param>
         public ViewDrawSeparator([DisallowNull] IPaletteDouble paletteDisabled, [DisallowNull] IPaletteDouble paletteNormal,
                                  [DisallowNull] IPaletteDouble paletteTracking, [DisallowNull] IPaletteDouble palettePressed,
-                                 [DisallowNull] IPaletteMetric metricDisabled,  [DisallowNull] IPaletteMetric metricNormal,
-                                 [DisallowNull] IPaletteMetric metricTracking,  [DisallowNull] IPaletteMetric metricPressed,
+                                 [DisallowNull] IPaletteMetric metricDisabled, [DisallowNull] IPaletteMetric metricNormal,
+                                 [DisallowNull] IPaletteMetric metricTracking, [DisallowNull] IPaletteMetric metricPressed,
                                  PaletteMetricPadding metricPadding,
                                  Orientation orientation)
         {
@@ -204,7 +204,7 @@ namespace Krypton.Toolkit
             CheckPaletteState();
 
             // Apply padding needed outside the border of the separator
-            Rectangle rect = CommonHelper.ApplyPadding(Orientation, ClientRectangle, 
+            Rectangle rect = CommonHelper.ApplyPadding(Orientation, ClientRectangle,
                                                        _metric.GetMetricPadding(ElementState, MetricPadding));
 
             // Ask the renderer to perform drawing of the separator glyph
@@ -240,7 +240,7 @@ namespace Krypton.Toolkit
                 default:
                     // Should never happen!
                     Debug.Assert(false);
-                    break;
+                    throw DebugTools.NotImplemented(state.ToString());
             }
         }
         #endregion

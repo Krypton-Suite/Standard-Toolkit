@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
  *  
  */
 #endregion
@@ -22,7 +22,7 @@ namespace Krypton.Navigator
         #endregion
 
         #region Instance Fields
-        protected ViewLayoutPageShow? _oldRoot;
+        protected ViewLayoutPageShow _oldRoot;
         protected ViewLayoutDocker _viewLayout;
         protected ViewLayoutScrollViewport _viewScrollViewport;
         private PageToNavCheckButton? _pageLookup;
@@ -191,7 +191,7 @@ namespace Krypton.Navigator
             Debug.Assert(property != null);
 
             // We are only interested if the page is visible
-            if (page!.LastVisibleSet)
+            if (page.LastVisibleSet)
             {
                 switch (property)
                 {
@@ -208,7 +208,7 @@ namespace Krypton.Navigator
             }
 
             // Let base class do standard work
-            base.PageAppearanceChanged(page, property!);
+            base.PageAppearanceChanged(page, property);
         }
 
         /// <summary>
@@ -228,18 +228,18 @@ namespace Krypton.Navigator
                 if (Navigator.SelectedPage == null)
                 {
                     // Then use the states defined in the navigator itself
-                    buttonEdge = Navigator.Enabled ? Navigator.StateNormal!.BorderEdge : Navigator.StateDisabled!.BorderEdge;
+                    buttonEdge = Navigator.Enabled ? Navigator.StateNormal.BorderEdge : Navigator.StateDisabled.BorderEdge;
                 }
                 else
                 {
                     // Use states defined in the selected page
                     if (Navigator.SelectedPage.Enabled)
                     {
-                        buttonEdge = Navigator.SelectedPage.StateNormal!.BorderEdge;
+                        buttonEdge = Navigator.SelectedPage.StateNormal.BorderEdge;
                     }
                     else
                     {
-                        buttonEdge = Navigator.SelectedPage.StateDisabled!.BorderEdge;
+                        buttonEdge = Navigator.SelectedPage.StateDisabled.BorderEdge;
 
                         // If page is disabled then all of view should look disabled
                         checkEnabled = false;
@@ -277,7 +277,7 @@ namespace Krypton.Navigator
             DestructStackCheckButtonView();
 
             // Put the old root back again
-            ViewManager!.Root = _oldRoot!;
+            ViewManager!.Root = _oldRoot;
 
             // Let base class perform common operations
             base.Destruct();
@@ -514,7 +514,7 @@ namespace Krypton.Navigator
         protected virtual ViewBase? CreateStackCheckButtonView()
         {
             // Set the initial preferred direction for the selected page
-            _oldRoot!.SetMinimumAsPreferred(!Navigator.AutoSize);
+            _oldRoot.SetMinimumAsPreferred(!Navigator.AutoSize);
 
             // Derived class should return something more useful!
             return null;
@@ -525,7 +525,7 @@ namespace Krypton.Navigator
         /// </summary>
         protected virtual void DestructStackCheckButtonView() =>
             // Reset the preferred direction handling to original setting
-            _oldRoot!.SetMinimumAsPreferred(false);
+            _oldRoot.SetMinimumAsPreferred(false);
 
         /// <summary>
         /// Allow operations to occur after main construct actions.
@@ -561,7 +561,7 @@ namespace Krypton.Navigator
                     break;
                 case @"StackOrientation":
                     // We only use minimum values if not calculating based on auto sizing
-                    _oldRoot!.SetMinimumAsPreferred(!Navigator.AutoSize);
+                    _oldRoot.SetMinimumAsPreferred(!Navigator.AutoSize);
                     _viewScrollViewport.VerticalViewport = (Navigator.Stack.StackOrientation == Orientation.Vertical);
                     ReorderCheckButtons();
                     Navigator.PerformNeedPaint(true);
@@ -598,8 +598,8 @@ namespace Krypton.Navigator
             ViewDockStyle dockFar = (stackOrient == Orientation.Vertical ? ViewDockStyle.Bottom : ViewDockStyle.Right);
 
             // Cache the border edge palette to use
-            PaletteBorderEdge buttonEdgePalette = (Navigator.Enabled ? Navigator.StateNormal!.BorderEdge :
-                                                                       Navigator.StateDisabled!.BorderEdge);
+            PaletteBorderEdge buttonEdgePalette = (Navigator.Enabled ? Navigator.StateNormal.BorderEdge :
+                                                                       Navigator.StateDisabled.BorderEdge);
 
             // Start stacking from the top/left if not explicitly set to be far aligned
             var dockTopLeft = (alignment != RelativePositionAlign.Far);
@@ -727,7 +727,7 @@ namespace Krypton.Navigator
             if ((Navigator.SelectedPage != null) && (_pageLookup != null))
             {
                 // We should have a view for representing the page
-                if (_pageLookup.ContainsKey(Navigator.SelectedPage)!)
+                if (_pageLookup.ContainsKey(Navigator.SelectedPage))
                 {
                     // Get the associated view element for the page
                     ViewDrawNavCheckButtonBase checkButton = _pageLookup[Navigator.SelectedPage];
@@ -786,8 +786,8 @@ namespace Krypton.Navigator
                 checkButton.Checked = (Navigator.SelectedPage == e.Item);
 
                 // Find the border edge palette to use
-                PaletteBorderEdge buttonEdgePalette = (Navigator.Enabled ? Navigator.StateNormal!.BorderEdge :
-                                                                           Navigator.StateDisabled!.BorderEdge);
+                PaletteBorderEdge buttonEdgePalette = (Navigator.Enabled ? Navigator.StateNormal.BorderEdge :
+                                                                           Navigator.StateDisabled.BorderEdge);
 
                 // Create the border edge for use next to the check button
                 var buttonEdge = new ViewDrawBorderEdge(buttonEdgePalette, Navigator.Stack.StackOrientation)
@@ -919,17 +919,23 @@ namespace Krypton.Navigator
                     return Navigator.Stack.StackOrientation == Orientation.Vertical
                         ? VisualOrientation.Top
                         : VisualOrientation.Left;
+
                 case ButtonOrientation.FixedTop:
                     return VisualOrientation.Top;
+
                 case ButtonOrientation.FixedBottom:
                     return VisualOrientation.Bottom;
+
                 case ButtonOrientation.FixedLeft:
                     return VisualOrientation.Left;
+
                 case ButtonOrientation.FixedRight:
                     return VisualOrientation.Right;
+
                 default:
-                    // Should never happen!
+    // Should never happen!
                     Debug.Assert(false);
+                    DebugTools.NotImplemented(Navigator.Stack.ItemOrientation.ToString());
                     return VisualOrientation.Top;
             }
         }
@@ -943,7 +949,7 @@ namespace Krypton.Navigator
 
         private void OnAutoSizeChanged(object sender, EventArgs e) =>
             // Only use minimum instead of preferred if not using AutoSize
-            _oldRoot!.SetMinimumAsPreferred(!Navigator.AutoSize);
+            _oldRoot.SetMinimumAsPreferred(!Navigator.AutoSize);
 
         private void OnViewportAnimation(object sender, EventArgs e) => Navigator.PerformNeedPaint(true);
 

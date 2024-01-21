@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
  *  
  */
 #endregion
@@ -18,10 +18,10 @@ namespace Krypton.Toolkit
     public class PaletteRedirectDoubleMetric : PaletteRedirectDouble
     {
         #region Instance Fields
-        private IPaletteMetric? _disabled;
-        private IPaletteMetric? _normal;
-        private IPaletteMetric? _pressed;
-        private IPaletteMetric? _tracking;
+        private IPaletteMetric _disabled;
+        private IPaletteMetric _normal;
+        private IPaletteMetric _pressed;
+        private IPaletteMetric _tracking;
         #endregion
 
         #region Identity
@@ -43,8 +43,8 @@ namespace Krypton.Toolkit
         /// <param name="normal">Redirection for normal state requests.</param>
         /// <param name="normalMetric">Redirection for normal metric requests.</param>
         public PaletteRedirectDoubleMetric(PaletteBase target,
-                                           IPaletteDouble? disabled, IPaletteMetric? disableMetric,
-                                           IPaletteDouble? normal, IPaletteMetric? normalMetric)
+                                           IPaletteDouble disabled, IPaletteMetric disableMetric,
+                                           IPaletteDouble normal, IPaletteMetric normalMetric)
             : base(target, disabled, normal)
         {
             // Remember state specific inheritance
@@ -61,10 +61,10 @@ namespace Krypton.Toolkit
         /// <param name="disableMetric">Redirection for disabled metric requests.</param>
         /// <param name="normal">Redirection for normal state requests.</param>
         /// <param name="normalMetric">Redirection for normal metric requests.</param>
-        public void SetRedirectStates(IPaletteDouble? disabled,
-                                      IPaletteMetric? disableMetric,
-                                      IPaletteDouble? normal,
-                                      IPaletteMetric? normalMetric)
+        public void SetRedirectStates(IPaletteDouble disabled,
+                                      IPaletteMetric disableMetric,
+                                      IPaletteDouble normal,
+                                      IPaletteMetric normalMetric)
         {
             base.SetRedirectStates(disabled, normal);
 
@@ -85,14 +85,14 @@ namespace Krypton.Toolkit
         /// <param name="pressedMetric">Redirection for pressed metric requests.</param>
         /// <param name="tracking">Redirection for tracking state requests.</param>
         /// <param name="trackingMetric">Redirection for tracking metric requests.</param>
-        public void SetRedirectStates(IPaletteDouble? disabled,
-                                      IPaletteMetric? disableMetric,
-                                      IPaletteDouble? normal,
-                                      IPaletteMetric? normalMetric,
-                                      IPaletteDouble? pressed,
-                                      IPaletteMetric? pressedMetric,
-                                      IPaletteDouble? tracking,
-                                      IPaletteMetric? trackingMetric)
+        public void SetRedirectStates(IPaletteDouble disabled,
+                                      IPaletteMetric disableMetric,
+                                      IPaletteDouble normal,
+                                      IPaletteMetric normalMetric,
+                                      IPaletteDouble pressed,
+                                      IPaletteMetric pressedMetric,
+                                      IPaletteDouble tracking,
+                                      IPaletteMetric trackingMetric)
         {
             base.SetRedirectStates(disabled, normal, pressed, tracking);
 
@@ -160,7 +160,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Implementation
-        private IPaletteMetric? GetInherit(PaletteState state)
+        private IPaletteMetric GetInherit(PaletteState state)
         {
             switch (state)
             {
@@ -175,7 +175,7 @@ namespace Krypton.Toolkit
                 default:
                     // Should never happen!
                     Debug.Assert(false);
-                    return null;
+                    throw DebugTools.NotImplemented(state.ToString());
             }
         }
         #endregion

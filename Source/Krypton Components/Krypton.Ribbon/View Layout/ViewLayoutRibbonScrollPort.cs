@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -24,7 +24,7 @@ namespace Krypton.Ribbon
         {
             #region Instance Fields
             private readonly KryptonRibbon _ribbon;
-            private readonly Button _hiddenFocusTarget;
+            private readonly Button? _hiddenFocusTarget;
             #endregion
 
             #region Identity
@@ -65,22 +65,22 @@ namespace Krypton.Ribbon
             protected override bool ProcessDialogKey(Keys keyData)
             {
                 // Grab the controlling control that is a parent
-                Control c = _ribbon.GetControllerControl(this);
+                Control? c = _ribbon.GetControllerControl(this);
 
                 // Grab the view manager handling the focus view
-                ViewBase? focusView = null;
+                ViewBase focusView = null;
                 switch (c)
                 {
                     case VisualPopupGroup popGroup:
                     {
-                        var manager = (ViewRibbonPopupGroupManager)popGroup.GetViewManager();
-                        focusView = manager.FocusView;
+                        var manager = popGroup.GetViewManager() as ViewRibbonPopupGroupManager;
+                        focusView = manager?.FocusView;
                         break;
                     }
                     case VisualPopupMinimized minimized:
                     {
-                        var manager = (ViewRibbonMinimizedManager)minimized.GetViewManager();
-                        focusView = manager.FocusView;
+                        var manager = minimized.GetViewManager() as ViewRibbonMinimizedManager;
+                        focusView = manager?.FocusView;
                         break;
                     }
                 }
@@ -124,7 +124,7 @@ namespace Krypton.Ribbon
         private readonly ViewBase _viewFiller;
         private readonly ViewLayoutRibbonScroller _nearScroller;
         private readonly ViewLayoutRibbonScroller _farScroller;
-        private readonly ViewLayoutRibbonTabs _ribbonTabs;
+        private readonly ViewLayoutRibbonTabs? _ribbonTabs;
         private readonly RibbonViewControl _viewControlContent;
         private Rectangle _viewClipRect;
         private int _scrollOffset;
@@ -170,7 +170,7 @@ namespace Krypton.Ribbon
             // Default to left hand scroll position
             _scrollOffset = 0;
 
-            // Place the child view inside a actual control, so that the contents of the 
+            // Place the child view inside an actual control, so that the contents of the 
             // filler are clipped to the control size. This is needed if the child view
             // contains controls and need clipping inside this area and so prevent them
             // from drawing over the end scrollers.
@@ -337,9 +337,9 @@ namespace Krypton.Ribbon
         /// Gets the first focus item within the scroll port.
         /// </summary>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase? GetFirstFocusItem()
+        public ViewBase GetFirstFocusItem()
         {
-            ViewBase? view = null;
+            ViewBase view = null;
 
             // If we contain a groups layout
             if (_viewFiller is ViewLayoutRibbonGroups groups)
@@ -363,9 +363,9 @@ namespace Krypton.Ribbon
         /// Gets the last focus item within the scroll port.
         /// </summary>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase? GetLastFocusItem()
+        public ViewBase GetLastFocusItem()
         {
-            ViewBase? view = null;
+            ViewBase view = null;
 
             // If we contain a groups layout
             if (_viewFiller is ViewLayoutRibbonGroups groups)
@@ -390,9 +390,9 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="current">The view that is currently focused.</param>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase? GetNextFocusItem(ViewBase current)
+        public ViewBase GetNextFocusItem(ViewBase current)
         {
-            ViewBase? view = null;
+            ViewBase view = null;
 
             // If we contain a groups layout
             if (_viewFiller is ViewLayoutRibbonGroups groups)
@@ -417,9 +417,9 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="current">The view that is currently focused.</param>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase? GetPreviousFocusItem(ViewBase current)
+        public ViewBase GetPreviousFocusItem(ViewBase current)
         {
-            ViewBase? view = null;
+            ViewBase view = null;
 
             // If we contain a groups layout
             if (_viewFiller is ViewLayoutRibbonGroups groups)
@@ -464,13 +464,13 @@ namespace Krypton.Ribbon
             Rectangle layoutRect = ClientRectangle;
             var controlRect = new Rectangle(Point.Empty, ClientSize);
 
-            // Reset the the view control layout offset to be zero again
+            // Reset the view control layout offset to be zero again
             ViewLayoutControl.LayoutOffset = Point.Empty;
 
             // Ask the view control the size it would like to be, this is the requested filler
             // size of the control. If it wants more than we can give then scroll buttons are
             // needed, otherwise we can give it the requested size and any extra available.
-            _ribbon.GetViewManager().DoNotLayoutControls = true;
+            _ribbon.GetViewManager()!.DoNotLayoutControls = true;
             ViewLayoutControl.GetPreferredSize(context);
 
             // Ensure context has the correct control
@@ -480,7 +480,7 @@ namespace Krypton.Ribbon
                 _viewFiller.Layout(context);
             }
 
-            _ribbon.GetViewManager().DoNotLayoutControls = false;
+            _ribbon.GetViewManager()!.DoNotLayoutControls = false;
             Size fillerSize = _viewFiller.ClientSize;
 
             // Limit check the scroll offset
@@ -645,13 +645,13 @@ namespace Krypton.Ribbon
                         // New clipping region is at most our own client size
                         using var combineRegion = new Region(_viewClipRect);
                         // Remember the current clipping region
-                        Region clipRegion = context.Graphics.Clip.Clone();
+                        Region clipRegion = context?.Graphics.Clip.Clone()!;
 
                         // Reduce clipping region down by the existing clipping region
                         combineRegion.Intersect(clipRegion);
 
                         // Use new region that restricts drawing to our client size only
-                        context.Graphics.Clip = combineRegion;
+                        context!.Graphics.Clip = combineRegion;
 
                         child.Render(context);
 
@@ -721,11 +721,14 @@ namespace Krypton.Ribbon
                 {
                     case Orientation.Horizontal:
                         return VisualOrientation.Left;
+
                     case Orientation.Vertical:
                         return VisualOrientation.Top;
+
                     default:
-                        // Should never happen!
+    // Should never happen!
                         Debug.Assert(false);
+                        DebugTools.NotImplemented(Orientation.ToString());
                         return VisualOrientation.Left;
                 }
             }
@@ -739,11 +742,14 @@ namespace Krypton.Ribbon
                 {
                     case Orientation.Horizontal:
                         return VisualOrientation.Right;
+
                     case Orientation.Vertical:
                         return VisualOrientation.Bottom;
+
                     default:
-                        // Should never happen!
+    // Should never happen!
                         Debug.Assert(false);
+                        DebugTools.NotImplemented(Orientation.ToString());
                         return VisualOrientation.Right;
                 }
             }

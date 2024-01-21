@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
  *  
  */
 #endregion
@@ -216,7 +216,7 @@ namespace Krypton.Toolkit
             // Create a layout context for calculating size and positioning
             using var context = new ViewContext(this, Control, AlignControl, renderer);
             // Ask the view to perform operation
-            return Root!.EvalTransparentPaint(context);
+            return Root.EvalTransparentPaint(context);
         }
         #endregion
 
@@ -306,7 +306,7 @@ namespace Krypton.Toolkit
         public virtual void Layout([DisallowNull] ViewLayoutContext context)
         {
             Debug.Assert(context != null);
-            Debug.Assert(context!.Renderer != null);
+            Debug.Assert(context.Renderer != null);
             Debug.Assert(Root != null);
 
             // Do nothing if the control is disposed

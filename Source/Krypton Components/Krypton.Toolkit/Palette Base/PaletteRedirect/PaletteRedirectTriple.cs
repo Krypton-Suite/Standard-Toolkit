@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
  *  
  */
 #endregion
@@ -18,18 +18,18 @@ namespace Krypton.Toolkit
     public class PaletteRedirectTriple : PaletteRedirect
     {
         #region Instance Fields
-        private IPaletteTriple? _disabled;
-        private IPaletteTriple? _normal;
-        private IPaletteTriple? _pressed;
-        private IPaletteTriple? _tracking;
-        private IPaletteTriple? _checkedNormal;
-        private IPaletteTriple? _checkedPressed;
-        private IPaletteTriple? _checkedTracking;
-        private IPaletteTriple? _focusOverride;
-        private IPaletteTriple? _normalDefaultOverride;
-        private readonly IPaletteTriple? _contextNormal;
-        private readonly IPaletteTriple? _contextPressed;
-        private readonly IPaletteTriple? _contextTracking;
+        private IPaletteTriple _disabled;
+        private IPaletteTriple _normal;
+        private IPaletteTriple _pressed;
+        private IPaletteTriple _tracking;
+        private IPaletteTriple _checkedNormal;
+        private IPaletteTriple _checkedPressed;
+        private IPaletteTriple _checkedTracking;
+        private IPaletteTriple _focusOverride;
+        private IPaletteTriple _normalDefaultOverride;
+        private readonly IPaletteTriple _contextNormal;
+        private readonly IPaletteTriple _contextPressed;
+        private readonly IPaletteTriple _contextTracking;
         #endregion
 
         #region Identity
@@ -140,15 +140,15 @@ namespace Krypton.Toolkit
         /// <param name="focusOverride">Redirection for focus override state requests.</param>
         /// <param name="normalDefaultOverride">Redirection for normal default override state requests.</param>
         public PaletteRedirectTriple(PaletteBase target,
-                                     IPaletteTriple? disabled,
-                                     IPaletteTriple? normal,
-                                     IPaletteTriple? pressed,
-                                     IPaletteTriple? tracking,
-                                     IPaletteTriple? checkedNormal,
-                                     IPaletteTriple? checkedPressed,
-                                     IPaletteTriple? checkedTracking,
-                                     IPaletteTriple? focusOverride,
-                                     IPaletteTriple? normalDefaultOverride)
+                                     IPaletteTriple disabled,
+                                     IPaletteTriple normal,
+                                     IPaletteTriple pressed,
+                                     IPaletteTriple tracking,
+                                     IPaletteTriple checkedNormal,
+                                     IPaletteTriple checkedPressed,
+                                     IPaletteTriple checkedTracking,
+                                     IPaletteTriple focusOverride,
+                                     IPaletteTriple normalDefaultOverride)
             : base(target)
         {
             // Remember state specific inheritance
@@ -197,7 +197,7 @@ namespace Krypton.Toolkit
                                               IPaletteTriple checkedPressed,
                                               IPaletteTriple checkedTracking,
                                               IPaletteTriple focusOverride,
-                                              IPaletteTriple? normalDefaultOverride)
+                                              IPaletteTriple normalDefaultOverride)
         {
             _disabled = disabled;
             _normal = normal;
@@ -238,7 +238,7 @@ namespace Krypton.Toolkit
         /// <returns>InheritBool value.</returns>
         public override InheritBool GetBackDraw(PaletteBackStyle style, PaletteState state)
         {
-            IPaletteTriple? inherit = GetInherit(state);
+            IPaletteTriple inherit = GetInherit(state);
 
             return inherit != null ? inherit.PaletteBack.GetBackDraw(state) : Target!.GetBackDraw(style, state);
         }
@@ -251,7 +251,7 @@ namespace Krypton.Toolkit
         /// <returns>PaletteGraphicsHint value.</returns>
         public override PaletteGraphicsHint GetBackGraphicsHint(PaletteBackStyle style, PaletteState state)
         {
-            IPaletteTriple? inherit = GetInherit(state);
+            IPaletteTriple inherit = GetInherit(state);
 
             return inherit != null ? inherit.PaletteBack.GetBackGraphicsHint(state) : Target!.GetBackGraphicsHint(style, state);
         }
@@ -264,7 +264,7 @@ namespace Krypton.Toolkit
         /// <returns>Color value.</returns>
         public override Color GetBackColor1(PaletteBackStyle style, PaletteState state)
         {
-            IPaletteTriple? inherit = GetInherit(state);
+            IPaletteTriple inherit = GetInherit(state);
 
             return inherit != null ? inherit.PaletteBack.GetBackColor1(state) : Target!.GetBackColor1(style, state);
         }
@@ -277,7 +277,7 @@ namespace Krypton.Toolkit
         /// <returns>Color value.</returns>
         public override Color GetBackColor2(PaletteBackStyle style, PaletteState state)
         {
-            IPaletteTriple? inherit = GetInherit(state);
+            IPaletteTriple inherit = GetInherit(state);
 
             return inherit != null ? inherit.PaletteBack.GetBackColor2(state) : Target!.GetBackColor2(style, state);
         }
@@ -290,7 +290,7 @@ namespace Krypton.Toolkit
         /// <returns>Color drawing style.</returns>
         public override PaletteColorStyle GetBackColorStyle(PaletteBackStyle style, PaletteState state)
         {
-            IPaletteTriple? inherit = GetInherit(state);
+            IPaletteTriple inherit = GetInherit(state);
 
             return inherit != null ? inherit.PaletteBack.GetBackColorStyle(state) : Target!.GetBackColorStyle(style, state);
         }
@@ -303,7 +303,7 @@ namespace Krypton.Toolkit
         /// <returns>Color alignment style.</returns>
         public override PaletteRectangleAlign GetBackColorAlign(PaletteBackStyle style, PaletteState state)
         {
-            IPaletteTriple? inherit = GetInherit(state);
+            IPaletteTriple inherit = GetInherit(state);
 
             return inherit != null ? inherit.PaletteBack.GetBackColorAlign(state) : Target!.GetBackColorAlign(style, state);
         }
@@ -316,7 +316,7 @@ namespace Krypton.Toolkit
         /// <returns>Angle used for color drawing.</returns>
         public override float GetBackColorAngle(PaletteBackStyle style, PaletteState state)
         {
-            IPaletteTriple? inherit = GetInherit(state);
+            IPaletteTriple inherit = GetInherit(state);
 
             return inherit != null ? inherit.PaletteBack.GetBackColorAngle(state) : Target!.GetBackColorAngle(style, state);
         }
@@ -329,7 +329,7 @@ namespace Krypton.Toolkit
         /// <returns>Image instance.</returns>
         public override Image? GetBackImage(PaletteBackStyle style, PaletteState state)
         {
-            IPaletteTriple? inherit = GetInherit(state);
+            IPaletteTriple inherit = GetInherit(state);
 
             return inherit != null ? inherit.PaletteBack.GetBackImage(state) : Target!.GetBackImage(style, state);
         }
@@ -342,7 +342,7 @@ namespace Krypton.Toolkit
         /// <returns>Image style value.</returns>
         public override PaletteImageStyle GetBackImageStyle(PaletteBackStyle style, PaletteState state)
         {
-            IPaletteTriple? inherit = GetInherit(state);
+            IPaletteTriple inherit = GetInherit(state);
 
             return inherit != null ? inherit.PaletteBack.GetBackImageStyle(state) : Target!.GetBackImageStyle(style, state);
         }
@@ -355,7 +355,7 @@ namespace Krypton.Toolkit
         /// <returns>Image alignment style.</returns>
         public override PaletteRectangleAlign GetBackImageAlign(PaletteBackStyle style, PaletteState state)
         {
-            IPaletteTriple? inherit = GetInherit(state);
+            IPaletteTriple inherit = GetInherit(state);
 
             return inherit != null ? inherit.PaletteBack.GetBackImageAlign(state) : Target!.GetBackImageAlign(style, state);
         }
@@ -370,7 +370,7 @@ namespace Krypton.Toolkit
         /// <returns>InheritBool value.</returns>
         public override InheritBool GetBorderDraw(PaletteBorderStyle style, PaletteState state)
         {
-            IPaletteTriple? inherit = GetInherit(state);
+            IPaletteTriple inherit = GetInherit(state);
 
             return inherit != null ? inherit.PaletteBorder!.GetBorderDraw(state) : Target!.GetBorderDraw(style, state);
         }
@@ -383,7 +383,7 @@ namespace Krypton.Toolkit
         /// <returns>PaletteDrawBorders value.</returns>
         public override PaletteDrawBorders GetBorderDrawBorders(PaletteBorderStyle style, PaletteState state)
         {
-            IPaletteTriple? inherit = GetInherit(state);
+            IPaletteTriple inherit = GetInherit(state);
 
             return inherit != null ? inherit.PaletteBorder!.GetBorderDrawBorders(state) : Target!.GetBorderDrawBorders(style, state);
         }
@@ -396,7 +396,7 @@ namespace Krypton.Toolkit
         /// <returns>PaletteGraphicsHint value.</returns>
         public override PaletteGraphicsHint GetBorderGraphicsHint(PaletteBorderStyle style, PaletteState state)
         {
-            IPaletteTriple? inherit = GetInherit(state);
+            IPaletteTriple inherit = GetInherit(state);
 
             return inherit != null ? inherit.PaletteBorder!.GetBorderGraphicsHint(state) : Target!.GetBorderGraphicsHint(style, state);
         }
@@ -409,7 +409,7 @@ namespace Krypton.Toolkit
         /// <returns>Color value.</returns>
         public override Color GetBorderColor1(PaletteBorderStyle style, PaletteState state)
         {
-            IPaletteTriple? inherit = GetInherit(state);
+            IPaletteTriple inherit = GetInherit(state);
 
             return inherit != null ? inherit.PaletteBorder!.GetBorderColor1(state) : Target!.GetBorderColor1(style, state);
         }
@@ -422,7 +422,7 @@ namespace Krypton.Toolkit
         /// <returns>Color value.</returns>
         public override Color GetBorderColor2(PaletteBorderStyle style, PaletteState state)
         {
-            IPaletteTriple? inherit = GetInherit(state);
+            IPaletteTriple inherit = GetInherit(state);
 
             return inherit != null ? inherit.PaletteBorder!.GetBorderColor2(state) : Target!.GetBorderColor2(style, state);
         }
@@ -435,7 +435,7 @@ namespace Krypton.Toolkit
         /// <returns>Color drawing style.</returns>
         public override PaletteColorStyle GetBorderColorStyle(PaletteBorderStyle style, PaletteState state)
         {
-            IPaletteTriple? inherit = GetInherit(state);
+            IPaletteTriple inherit = GetInherit(state);
 
             return inherit != null ? inherit.PaletteBorder!.GetBorderColorStyle(state) : Target!.GetBorderColorStyle(style, state);
         }
@@ -448,7 +448,7 @@ namespace Krypton.Toolkit
         /// <returns>Color alignment style.</returns>
         public override PaletteRectangleAlign GetBorderColorAlign(PaletteBorderStyle style, PaletteState state)
         {
-            IPaletteTriple? inherit = GetInherit(state);
+            IPaletteTriple inherit = GetInherit(state);
 
             return inherit != null ? inherit.PaletteBorder!.GetBorderColorAlign(state) : Target!.GetBorderColorAlign(style, state);
         }
@@ -461,7 +461,7 @@ namespace Krypton.Toolkit
         /// <returns>Angle used for color drawing.</returns>
         public override float GetBorderColorAngle(PaletteBorderStyle style, PaletteState state)
         {
-            IPaletteTriple? inherit = GetInherit(state);
+            IPaletteTriple inherit = GetInherit(state);
 
             return inherit != null ? inherit.PaletteBorder!.GetBorderColorAngle(state) : Target!.GetBorderColorAngle(style, state);
         }
@@ -474,7 +474,7 @@ namespace Krypton.Toolkit
         /// <returns>Integer width.</returns>
         public override int GetBorderWidth(PaletteBorderStyle style, PaletteState state)
         {
-            IPaletteTriple? inherit = GetInherit(state);
+            IPaletteTriple inherit = GetInherit(state);
 
             return inherit != null ? inherit.PaletteBorder!.GetBorderWidth(state) : Target!.GetBorderWidth(style, state);
         }
@@ -487,7 +487,7 @@ namespace Krypton.Toolkit
         /// <returns>Float rounding.</returns>
         public override float GetBorderRounding(PaletteBorderStyle style, PaletteState state)
         {
-            IPaletteTriple? inherit = GetInherit(state);
+            IPaletteTriple inherit = GetInherit(state);
 
             return inherit != null ? inherit.PaletteBorder!.GetBorderRounding(state) : Target!.GetBorderRounding(style, state);
         }
@@ -500,7 +500,7 @@ namespace Krypton.Toolkit
         /// <returns>Image instance.</returns>
         public override Image? GetBorderImage(PaletteBorderStyle style, PaletteState state)
         {
-            IPaletteTriple? inherit = GetInherit(state);
+            IPaletteTriple inherit = GetInherit(state);
 
             return inherit != null ? inherit.PaletteBorder!.GetBorderImage(state) : Target!.GetBorderImage(style, state);
         }
@@ -513,7 +513,7 @@ namespace Krypton.Toolkit
         /// <returns>Image style value.</returns>
         public override PaletteImageStyle GetBorderImageStyle(PaletteBorderStyle style, PaletteState state)
         {
-            IPaletteTriple? inherit = GetInherit(state);
+            IPaletteTriple inherit = GetInherit(state);
 
             return inherit != null ? inherit.PaletteBorder!.GetBorderImageStyle(state) : Target!.GetBorderImageStyle(style, state);
         }
@@ -526,7 +526,7 @@ namespace Krypton.Toolkit
         /// <returns>Image alignment style.</returns>
         public override PaletteRectangleAlign GetBorderImageAlign(PaletteBorderStyle style, PaletteState state)
         {
-            IPaletteTriple? inherit = GetInherit(state);
+            IPaletteTriple inherit = GetInherit(state);
 
             return inherit != null ? inherit.PaletteBorder!.GetBorderImageAlign(state) : Target!.GetBorderImageAlign(style, state);
         }
@@ -541,7 +541,7 @@ namespace Krypton.Toolkit
         /// <returns>InheritBool value.</returns>
         public override InheritBool GetContentDraw(PaletteContentStyle style, PaletteState state)
         {
-            IPaletteTriple? inherit = GetInherit(state);
+            IPaletteTriple inherit = GetInherit(state);
 
             return inherit != null ? inherit.PaletteContent!.GetContentDraw(state) : Target!.GetContentDraw(style, state);
         }
@@ -554,7 +554,7 @@ namespace Krypton.Toolkit
         /// <returns>InheritBool value.</returns>
         public override InheritBool GetContentDrawFocus(PaletteContentStyle style, PaletteState state)
         {
-            IPaletteTriple? inherit = GetInherit(state);
+            IPaletteTriple inherit = GetInherit(state);
 
             return inherit != null ? inherit.PaletteContent!.GetContentDrawFocus(state) : Target!.GetContentDrawFocus(style, state);
         }
@@ -567,7 +567,7 @@ namespace Krypton.Toolkit
         /// <returns>RelativeAlignment value.</returns>
         public override PaletteRelativeAlign GetContentImageH(PaletteContentStyle style, PaletteState state)
         {
-            IPaletteTriple? inherit = GetInherit(state);
+            IPaletteTriple inherit = GetInherit(state);
 
             return inherit != null ? inherit.PaletteContent!.GetContentImageH(state) : Target!.GetContentImageH(style, state);
         }
@@ -580,7 +580,7 @@ namespace Krypton.Toolkit
         /// <returns>RelativeAlignment value.</returns>
         public override PaletteRelativeAlign GetContentImageV(PaletteContentStyle style, PaletteState state)
         {
-            IPaletteTriple? inherit = GetInherit(state);
+            IPaletteTriple inherit = GetInherit(state);
 
             return inherit != null ? inherit.PaletteContent!.GetContentImageV(state) : Target!.GetContentImageV(style, state);
         }
@@ -593,7 +593,7 @@ namespace Krypton.Toolkit
         /// <returns>PaletteImageEffect value.</returns>
         public override PaletteImageEffect GetContentImageEffect(PaletteContentStyle style, PaletteState state)
         {
-            IPaletteTriple? inherit = GetInherit(state);
+            IPaletteTriple inherit = GetInherit(state);
 
             return inherit != null ? inherit.PaletteContent!.GetContentImageEffect(state) : Target!.GetContentImageEffect(style, state);
         }
@@ -606,7 +606,7 @@ namespace Krypton.Toolkit
         /// <returns>Color value.</returns>
         public override Color GetContentImageColorMap(PaletteContentStyle style, PaletteState state)
         {
-            IPaletteTriple? inherit = GetInherit(state);
+            IPaletteTriple inherit = GetInherit(state);
 
             return inherit != null ? inherit.PaletteContent!.GetContentImageColorMap(state) : Target!.GetContentImageColorMap(style, state);
         }
@@ -619,7 +619,7 @@ namespace Krypton.Toolkit
         /// <returns>Color value.</returns>
         public override Color GetContentImageColorTo(PaletteContentStyle style, PaletteState state)
         {
-            IPaletteTriple? inherit = GetInherit(state);
+            IPaletteTriple inherit = GetInherit(state);
 
             return inherit != null ? inherit.PaletteContent!.GetContentImageColorTo(state) : Target!.GetContentImageColorTo(style, state);
         }
@@ -632,7 +632,7 @@ namespace Krypton.Toolkit
         /// <returns>Font value.</returns>
         public override Font? GetContentShortTextFont(PaletteContentStyle style, PaletteState state)
         {
-            IPaletteTriple? inherit = GetInherit(state);
+            IPaletteTriple inherit = GetInherit(state);
 
             return inherit != null ? inherit.PaletteContent!.GetContentShortTextFont(state) : Target!.GetContentShortTextFont(style, state);
         }
@@ -645,7 +645,7 @@ namespace Krypton.Toolkit
         /// <returns>PaletteTextHint value.</returns>
         public override PaletteTextHint GetContentShortTextHint(PaletteContentStyle style, PaletteState state)
         {
-            IPaletteTriple? inherit = GetInherit(state);
+            IPaletteTriple inherit = GetInherit(state);
 
             return inherit != null ? inherit.PaletteContent!.GetContentShortTextHint(state) : Target!.GetContentShortTextHint(style, state);
         }
@@ -658,7 +658,7 @@ namespace Krypton.Toolkit
         /// <returns>PaletteTextPrefix value.</returns>
         public override PaletteTextHotkeyPrefix GetContentShortTextPrefix(PaletteContentStyle style, PaletteState state)
         {
-            IPaletteTriple? inherit = GetInherit(state);
+            IPaletteTriple inherit = GetInherit(state);
 
             return inherit != null ? inherit.PaletteContent!.GetContentShortTextPrefix(state) : Target!.GetContentShortTextPrefix(style, state);
         }
@@ -671,7 +671,7 @@ namespace Krypton.Toolkit
         /// <returns>InheritBool value.</returns>
         public override InheritBool GetContentShortTextMultiLine(PaletteContentStyle style, PaletteState state)
         {
-            IPaletteTriple? inherit = GetInherit(state);
+            IPaletteTriple inherit = GetInherit(state);
 
             return inherit != null
                 ? inherit.PaletteContent!.GetContentShortTextMultiLine(state)
@@ -686,7 +686,7 @@ namespace Krypton.Toolkit
         /// <returns>PaletteTextTrim value.</returns>
         public override PaletteTextTrim GetContentShortTextTrim(PaletteContentStyle style, PaletteState state)
         {
-            IPaletteTriple? inherit = GetInherit(state);
+            IPaletteTriple inherit = GetInherit(state);
 
             return inherit != null ? inherit.PaletteContent!.GetContentShortTextTrim(state) : Target!.GetContentShortTextTrim(style, state);
         }
@@ -699,7 +699,7 @@ namespace Krypton.Toolkit
         /// <returns>RelativeAlignment value.</returns>
         public override PaletteRelativeAlign GetContentShortTextH(PaletteContentStyle style, PaletteState state)
         {
-            IPaletteTriple? inherit = GetInherit(state);
+            IPaletteTriple inherit = GetInherit(state);
 
             return inherit != null ? inherit.PaletteContent!.GetContentShortTextH(state) : Target!.GetContentShortTextH(style, state);
         }
@@ -712,7 +712,7 @@ namespace Krypton.Toolkit
         /// <returns>RelativeAlignment value.</returns>
         public override PaletteRelativeAlign GetContentShortTextV(PaletteContentStyle style, PaletteState state)
         {
-            IPaletteTriple? inherit = GetInherit(state);
+            IPaletteTriple inherit = GetInherit(state);
 
             return inherit != null ? inherit.PaletteContent!.GetContentShortTextV(state) : Target!.GetContentShortTextV(style, state);
         }
@@ -725,7 +725,7 @@ namespace Krypton.Toolkit
         /// <returns>RelativeAlignment value.</returns>
         public override PaletteRelativeAlign GetContentShortTextMultiLineH(PaletteContentStyle style, PaletteState state)
         {
-            IPaletteTriple? inherit = GetInherit(state);
+            IPaletteTriple inherit = GetInherit(state);
 
             return inherit != null
                 ? inherit.PaletteContent!.GetContentShortTextMultiLineH(state)
@@ -740,7 +740,7 @@ namespace Krypton.Toolkit
         /// <returns>Color value.</returns>
         public override Color GetContentShortTextColor1(PaletteContentStyle style, PaletteState state)
         {
-            IPaletteTriple? inherit = GetInherit(state);
+            IPaletteTriple inherit = GetInherit(state);
 
             return inherit != null ? inherit.PaletteContent!.GetContentShortTextColor1(state) : Target!.GetContentShortTextColor1(style, state);
         }
@@ -753,7 +753,7 @@ namespace Krypton.Toolkit
         /// <returns>Color value.</returns>
         public override Color GetContentShortTextColor2(PaletteContentStyle style, PaletteState state)
         {
-            IPaletteTriple? inherit = GetInherit(state);
+            IPaletteTriple inherit = GetInherit(state);
 
             return inherit != null ? inherit.PaletteContent!.GetContentShortTextColor2(state) : Target!.GetContentShortTextColor2(style, state);
         }
@@ -766,7 +766,7 @@ namespace Krypton.Toolkit
         /// <returns>Color drawing style.</returns>
         public override PaletteColorStyle GetContentShortTextColorStyle(PaletteContentStyle style, PaletteState state)
         {
-            IPaletteTriple? inherit = GetInherit(state);
+            IPaletteTriple inherit = GetInherit(state);
 
             return inherit != null
                 ? inherit.PaletteContent!.GetContentShortTextColorStyle(state)
@@ -781,7 +781,7 @@ namespace Krypton.Toolkit
         /// <returns>Color alignment style.</returns>
         public override PaletteRectangleAlign GetContentShortTextColorAlign(PaletteContentStyle style, PaletteState state)
         {
-            IPaletteTriple? inherit = GetInherit(state);
+            IPaletteTriple inherit = GetInherit(state);
 
             return inherit != null
                 ? inherit.PaletteContent!.GetContentShortTextColorAlign(state)
@@ -796,7 +796,7 @@ namespace Krypton.Toolkit
         /// <returns>Angle used for color drawing.</returns>
         public override float GetContentShortTextColorAngle(PaletteContentStyle style, PaletteState state)
         {
-            IPaletteTriple? inherit = GetInherit(state);
+            IPaletteTriple inherit = GetInherit(state);
 
             return inherit != null
                 ? inherit.PaletteContent!.GetContentShortTextColorAngle(state)
@@ -811,7 +811,7 @@ namespace Krypton.Toolkit
         /// <returns>Image instance.</returns>
         public override Image? GetContentShortTextImage(PaletteContentStyle style, PaletteState state)
         {
-            IPaletteTriple? inherit = GetInherit(state);
+            IPaletteTriple inherit = GetInherit(state);
 
             return inherit != null ? inherit.PaletteContent!.GetContentShortTextImage(state) : Target!.GetContentShortTextImage(style, state);
         }
@@ -824,7 +824,7 @@ namespace Krypton.Toolkit
         /// <returns>Image style value.</returns>
         public override PaletteImageStyle GetContentShortTextImageStyle(PaletteContentStyle style, PaletteState state)
         {
-            IPaletteTriple? inherit = GetInherit(state);
+            IPaletteTriple inherit = GetInherit(state);
 
             return inherit != null
                 ? inherit.PaletteContent!.GetContentShortTextImageStyle(state)
@@ -839,7 +839,7 @@ namespace Krypton.Toolkit
         /// <returns>Image alignment style.</returns>
         public override PaletteRectangleAlign GetContentShortTextImageAlign(PaletteContentStyle style, PaletteState state)
         {
-            IPaletteTriple? inherit = GetInherit(state);
+            IPaletteTriple inherit = GetInherit(state);
 
             return inherit != null
                 ? inherit.PaletteContent!.GetContentShortTextImageAlign(state)
@@ -854,7 +854,7 @@ namespace Krypton.Toolkit
         /// <returns>Font value.</returns>
         public override Font? GetContentLongTextFont(PaletteContentStyle style, PaletteState state)
         {
-            IPaletteTriple? inherit = GetInherit(state);
+            IPaletteTriple inherit = GetInherit(state);
 
             return inherit != null ? inherit.PaletteContent!.GetContentLongTextFont(state) : Target!.GetContentLongTextFont(style, state);
         }
@@ -867,7 +867,7 @@ namespace Krypton.Toolkit
         /// <returns>PaletteTextHint value.</returns>
         public override PaletteTextHint GetContentLongTextHint(PaletteContentStyle style, PaletteState state)
         {
-            IPaletteTriple? inherit = GetInherit(state);
+            IPaletteTriple inherit = GetInherit(state);
 
             return inherit != null ? inherit.PaletteContent!.GetContentLongTextHint(state) : Target!.GetContentLongTextHint(style, state);
         }
@@ -880,7 +880,7 @@ namespace Krypton.Toolkit
         /// <returns>InheritBool value.</returns>
         public override InheritBool GetContentLongTextMultiLine(PaletteContentStyle style, PaletteState state)
         {
-            IPaletteTriple? inherit = GetInherit(state);
+            IPaletteTriple inherit = GetInherit(state);
 
             return inherit != null ? inherit.PaletteContent!.GetContentLongTextMultiLine(state) : Target!.GetContentLongTextMultiLine(style, state);
         }
@@ -893,7 +893,7 @@ namespace Krypton.Toolkit
         /// <returns>PaletteTextTrim value.</returns>
         public override PaletteTextTrim GetContentLongTextTrim(PaletteContentStyle style, PaletteState state)
         {
-            IPaletteTriple? inherit = GetInherit(state);
+            IPaletteTriple inherit = GetInherit(state);
 
             return inherit != null ? inherit.PaletteContent!.GetContentLongTextTrim(state) : Target!.GetContentLongTextTrim(style, state);
         }
@@ -906,7 +906,7 @@ namespace Krypton.Toolkit
         /// <returns>PaletteTextPrefix value.</returns>
         public override PaletteTextHotkeyPrefix GetContentLongTextPrefix(PaletteContentStyle style, PaletteState state)
         {
-            IPaletteTriple? inherit = GetInherit(state);
+            IPaletteTriple inherit = GetInherit(state);
 
             return inherit != null ? inherit.PaletteContent!.GetContentLongTextPrefix(state) : Target!.GetContentLongTextPrefix(style, state);
         }
@@ -919,7 +919,7 @@ namespace Krypton.Toolkit
         /// <returns>RelativeAlignment value.</returns>
         public override PaletteRelativeAlign GetContentLongTextH(PaletteContentStyle style, PaletteState state)
         {
-            IPaletteTriple? inherit = GetInherit(state);
+            IPaletteTriple inherit = GetInherit(state);
 
             return inherit != null ? inherit.PaletteContent!.GetContentLongTextH(state) : Target!.GetContentLongTextH(style, state);
         }
@@ -932,7 +932,7 @@ namespace Krypton.Toolkit
         /// <returns>RelativeAlignment value.</returns>
         public override PaletteRelativeAlign GetContentLongTextV(PaletteContentStyle style, PaletteState state)
         {
-            IPaletteTriple? inherit = GetInherit(state);
+            IPaletteTriple inherit = GetInherit(state);
 
             return inherit != null ? inherit.PaletteContent!.GetContentLongTextV(state) : Target!.GetContentLongTextV(style, state);
         }
@@ -945,7 +945,7 @@ namespace Krypton.Toolkit
         /// <returns>RelativeAlignment value.</returns>
         public override PaletteRelativeAlign GetContentLongTextMultiLineH(PaletteContentStyle style, PaletteState state)
         {
-            IPaletteTriple? inherit = GetInherit(state);
+            IPaletteTriple inherit = GetInherit(state);
 
             return inherit != null
                 ? inherit.PaletteContent!.GetContentLongTextMultiLineH(state)
@@ -960,7 +960,7 @@ namespace Krypton.Toolkit
         /// <returns>Color value.</returns>
         public override Color GetContentLongTextColor1(PaletteContentStyle style, PaletteState state)
         {
-            IPaletteTriple? inherit = GetInherit(state);
+            IPaletteTriple inherit = GetInherit(state);
 
             return inherit != null ? inherit.PaletteContent!.GetContentLongTextColor1(state) : Target!.GetContentLongTextColor1(style, state);
         }
@@ -973,7 +973,7 @@ namespace Krypton.Toolkit
         /// <returns>Color value.</returns>
         public override Color GetContentLongTextColor2(PaletteContentStyle style, PaletteState state)
         {
-            IPaletteTriple? inherit = GetInherit(state);
+            IPaletteTriple inherit = GetInherit(state);
 
             return inherit != null ? inherit.PaletteContent!.GetContentLongTextColor2(state) : Target!.GetContentLongTextColor2(style, state);
         }
@@ -986,7 +986,7 @@ namespace Krypton.Toolkit
         /// <returns>Color drawing style.</returns>
         public override PaletteColorStyle GetContentLongTextColorStyle(PaletteContentStyle style, PaletteState state)
         {
-            IPaletteTriple? inherit = GetInherit(state);
+            IPaletteTriple inherit = GetInherit(state);
 
             return inherit != null
                 ? inherit.PaletteContent!.GetContentLongTextColorStyle(state)
@@ -1001,7 +1001,7 @@ namespace Krypton.Toolkit
         /// <returns>Color alignment style.</returns>
         public override PaletteRectangleAlign GetContentLongTextColorAlign(PaletteContentStyle style, PaletteState state)
         {
-            IPaletteTriple? inherit = GetInherit(state);
+            IPaletteTriple inherit = GetInherit(state);
 
             return inherit != null
                 ? inherit.PaletteContent!.GetContentLongTextColorAlign(state)
@@ -1016,7 +1016,7 @@ namespace Krypton.Toolkit
         /// <returns>Angle used for color drawing.</returns>
         public override float GetContentLongTextColorAngle(PaletteContentStyle style, PaletteState state)
         {
-            IPaletteTriple? inherit = GetInherit(state);
+            IPaletteTriple inherit = GetInherit(state);
 
             return inherit != null
                 ? inherit.PaletteContent!.GetContentLongTextColorAngle(state)
@@ -1031,7 +1031,7 @@ namespace Krypton.Toolkit
         /// <returns>Image instance.</returns>
         public override Image? GetContentLongTextImage(PaletteContentStyle style, PaletteState state)
         {
-            IPaletteTriple? inherit = GetInherit(state);
+            IPaletteTriple inherit = GetInherit(state);
 
             return inherit != null ? inherit.PaletteContent!.GetContentLongTextImage(state) : Target!.GetContentLongTextImage(style, state);
         }
@@ -1044,7 +1044,7 @@ namespace Krypton.Toolkit
         /// <returns>Image style value.</returns>
         public override PaletteImageStyle GetContentLongTextImageStyle(PaletteContentStyle style, PaletteState state)
         {
-            IPaletteTriple? inherit = GetInherit(state);
+            IPaletteTriple inherit = GetInherit(state);
 
             return inherit != null
                 ? inherit.PaletteContent!.GetContentLongTextImageStyle(state)
@@ -1059,7 +1059,7 @@ namespace Krypton.Toolkit
         /// <returns>Image alignment style.</returns>
         public override PaletteRectangleAlign GetContentLongTextImageAlign(PaletteContentStyle style, PaletteState state)
         {
-            IPaletteTriple? inherit = GetInherit(state);
+            IPaletteTriple inherit = GetInherit(state);
 
             return inherit != null
                 ? inherit.PaletteContent!.GetContentLongTextImageAlign(state)
@@ -1074,7 +1074,7 @@ namespace Krypton.Toolkit
         /// <returns>Padding value.</returns>
         public override Padding GetContentPadding(PaletteContentStyle style, PaletteState state)
         {
-            IPaletteTriple? inherit = GetInherit(state);
+            IPaletteTriple inherit = GetInherit(state);
 
             return inherit != null ? inherit.PaletteContent!.GetContentPadding(state) : Target!.GetContentPadding(style, state);
         }
@@ -1087,14 +1087,14 @@ namespace Krypton.Toolkit
         /// <returns>Integer value.</returns>
         public override int GetContentAdjacentGap(PaletteContentStyle style, PaletteState state)
         {
-            IPaletteTriple? inherit = GetInherit(state);
+            IPaletteTriple inherit = GetInherit(state);
 
             return inherit != null ? inherit.PaletteContent!.GetContentAdjacentGap(state) : Target!.GetContentAdjacentGap(style, state);
         }
         #endregion
 
         #region Implementation
-        private IPaletteTriple? GetInherit(PaletteState state)
+        private IPaletteTriple GetInherit(PaletteState state)
         {
             switch (state)
             {
@@ -1125,7 +1125,7 @@ namespace Krypton.Toolkit
                 default:
                     // Should never happen!
                     Debug.Assert(false);
-                    return null;
+                    throw DebugTools.NotImplemented(state.ToString());
             }
         }
         #endregion

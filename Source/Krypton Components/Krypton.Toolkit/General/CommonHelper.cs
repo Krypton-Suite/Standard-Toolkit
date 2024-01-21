@@ -5,12 +5,13 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
  *  
  */
 #endregion
 
 // ReSharper disable UnusedMember.Global
+
 namespace Krypton.Toolkit
 {
     #region Delegates
@@ -24,7 +25,7 @@ namespace Krypton.Toolkit
     /// </summary>
     /// <param name="parameter">Operation parameter.</param>
     /// <returns>Operation result.</returns>
-    public delegate object? Operation(object? parameter);
+    public delegate object Operation(object? parameter);
 
     /// <summary>
     /// Signature of a method that returns a ToolStripRenderer instance.
@@ -42,7 +43,8 @@ namespace Krypton.Toolkit
         private const int VK_CONTROL = 0x11;
         private const int VK_MENU = 0x12;
 
-        private static readonly char[] _singleDateFormat = { 'd', 'f', 'F', 'g', 'h', 'H', 'K', 'm', 'M', 's', 't', 'y', 'z' };
+        private static readonly char[] _singleDateFormat = ['d', 'f', 'F', 'g', 'h', 'H', 'K', 'm', 'M', 's', 't', 'y', 'z'
+        ];
         //private static readonly int[] _daysInMonth = new int[12] { 0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334 };
 
         private static int _nextId = 1000;
@@ -84,11 +86,10 @@ namespace Krypton.Toolkit
         {
             [DebuggerStepThrough]
             get;
-        } = new ColorMatrix(new[]
-        {
-            new[] { 0.3f, 0.3f, 0.3f, 0, 0 }, new[] { 0.59f, 0.59f, 0.59f, 0, 0 },
-            new[] { 0.11f, 0.11f, 0.11f, 0, 0 }, new[] { 0, 0, 0, 0.5f, 0 }, new float[] { 0, 0, 0, 0, 1 }
-        });
+        } = new ColorMatrix([
+            [0.3f, 0.3f, 0.3f, 0, 0], [0.59f, 0.59f, 0.59f, 0, 0],
+            [0.11f, 0.11f, 0.11f, 0, 0], [0, 0, 0, 0.5f, 0], [0, 0, 0, 0, 1]
+        ]);
 
         /// <summary>
         /// Gets the next global identifier in sequence.
@@ -150,13 +151,12 @@ namespace Krypton.Toolkit
 
                 // Get any menu item from context strip that matches the shortcut key combination
                 var shortcuts = _cachedShortcutPI!.GetValue(cms, null) as Hashtable;
-                var menuItem = shortcuts![keyData] as ToolStripMenuItem;
 
                 // If we found a match...
-                if (menuItem != null)
+                if (shortcuts![keyData] is ToolStripMenuItem menuItem)
                 {
                     // Get the menu item to process the shortcut
-                    var ret = _cachedShortcutMI!.Invoke(menuItem, new object[] { msg, keyData });
+                    var ret = _cachedShortcutMI!.Invoke(menuItem, [msg, keyData]);
 
                     // Return the 'ProcessCmdKey' result
                     if (ret != null)
@@ -201,6 +201,7 @@ namespace Krypton.Toolkit
                     default:
                         // Should never happen!
                         Debug.Assert(false);
+                        DebugTools.NotImplemented(orientation.ToString());
                         break;
                 }
             }
@@ -239,6 +240,7 @@ namespace Krypton.Toolkit
                     default:
                         // Should never happen!
                         Debug.Assert(false);
+                        DebugTools.NotImplemented(orientation.ToString());
                         break;
                 }
             }
@@ -279,6 +281,7 @@ namespace Krypton.Toolkit
                     default:
                         // Should never happen!
                         Debug.Assert(false);
+                        DebugTools.NotImplemented(orientation.ToString());
                         break;
                 }
             }
@@ -323,6 +326,7 @@ namespace Krypton.Toolkit
                     default:
                         // Should never happen!
                         Debug.Assert(false);
+                        DebugTools.NotImplemented(orientation.ToString());
                         break;
                 }
             }
@@ -352,6 +356,7 @@ namespace Krypton.Toolkit
                 default:
                     // Should never happen!
                     Debug.Assert(false);
+                    DebugTools.NotImplemented(orientation.ToString());
                     return padding;
             }
         }
@@ -411,7 +416,7 @@ namespace Krypton.Toolkit
         /// <param name="op">Delegate of operation to be performed.</param>
         /// <param name="parameter">Parameter to be passed into the operation.</param>
         /// <returns>Result of performing the operation.</returns>
-        public static object? PerformOperation(Operation op, object? parameter)
+        public static object PerformOperation(Operation op, object? parameter)
         {
             // Create a modal window for showing feedback
             using var wait = new ModalWaitDialog();
@@ -444,7 +449,7 @@ namespace Krypton.Toolkit
                 default:
                     // Should never happen!
                     Debug.Assert(false);
-                    return null;
+                    throw DebugTools.NotImplemented(opThread.State.ToString());
             }
         }
 
@@ -544,13 +549,13 @@ namespace Krypton.Toolkit
         public static PaletteDrawBorders OrientateDrawBorders(PaletteDrawBorders borders,
                                                               VisualOrientation orientation)
         {
-            // No need to perform an change for top orientation
+            // No need to perform a change for top orientation
             if (orientation == VisualOrientation.Top)
             {
                 return borders;
             }
 
-            // No need to change the All or None values
+            // No need to change All or None values
             if (borders is PaletteDrawBorders.All or PaletteDrawBorders.None)
             {
                 return borders;
@@ -582,8 +587,8 @@ namespace Krypton.Toolkit
                     {
                         ret |= PaletteDrawBorders.Left;
                     }
-
                     break;
+
                 case VisualOrientation.Left:
                     // Rotate one anti-clockwise
                     if (HasTopBorder(borders))
@@ -605,8 +610,8 @@ namespace Krypton.Toolkit
                     {
                         ret |= PaletteDrawBorders.Top;
                     }
-
                     break;
+
                 case VisualOrientation.Right:
                     // Rotate sides one clockwise
                     if (HasTopBorder(borders))
@@ -628,11 +633,12 @@ namespace Krypton.Toolkit
                     {
                         ret |= PaletteDrawBorders.Bottom;
                     }
-
                     break;
+
                 default:
                     // Should never happen!
                     Debug.Assert(false);
+                    DebugTools.NotImplemented(orientation.ToString());
                     break;
             }
 
@@ -686,8 +692,8 @@ namespace Krypton.Toolkit
                     {
                         ret |= PaletteDrawBorders.Left;
                     }
-
                     break;
+
                 case VisualOrientation.Right:
                     // Rotate one anti-clockwise
                     if (HasTopBorder(borders))
@@ -709,8 +715,8 @@ namespace Krypton.Toolkit
                     {
                         ret |= PaletteDrawBorders.Top;
                     }
-
                     break;
+
                 case VisualOrientation.Left:
                     // Rotate sides one clockwise
                     if (HasTopBorder(borders))
@@ -732,11 +738,12 @@ namespace Krypton.Toolkit
                     {
                         ret |= PaletteDrawBorders.Bottom;
                     }
-
                     break;
+
                 default:
                     // Should never happen!
                     Debug.Assert(false);
+                    DebugTools.NotImplemented(orientation.ToString());
                     break;
             }
 
@@ -761,6 +768,7 @@ namespace Krypton.Toolkit
                 default:
                     // Should never happen!
                     Debug.Assert(false);
+                    DebugTools.NotImplemented(orientation.ToString());
                     return Orientation.Vertical;
             }
         }
@@ -811,6 +819,7 @@ namespace Krypton.Toolkit
                 default:
                     // Should never happen!
                     Debug.Assert(false);
+                    DebugTools.NotImplemented(style.ToString());
                     return PaletteButtonStyle.Standalone;
             }
         }
@@ -1116,20 +1125,20 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="parent">Parent control.</param>
         /// <param name="c">Control to be added.</param>
-        public static void AddControlToParent([DisallowNull] Control parent, [DisallowNull] Control c)
+        public static void AddControlToParent([DisallowNull] Control parent, [DisallowNull] Control? c)
         {
             Debug.Assert(parent != null);
             Debug.Assert(c != null);
 
             // If the control is already inside a control collection, then remove it
-            if (c!.Parent != null)
+            if (c.Parent != null)
             {
                 RemoveControlFromParent(c);
             }
             // Then must use the internal method for adding a new instance
 
             // If the control collection is one of our internal collections...
-            if (parent!.Controls is KryptonControlCollection cc)
+            if (parent.Controls is KryptonControlCollection cc)
             {
                 cc.AddInternal(c);
             }
@@ -1144,7 +1153,7 @@ namespace Krypton.Toolkit
         /// Remove the provided control from its parent collection.
         /// </summary>
         /// <param name="c">Control to be removed.</param>
-        public static void RemoveControlFromParent([DisallowNull] Control c)
+        public static void RemoveControlFromParent([DisallowNull] Control? c)
         {
             Debug.Assert(c != null);
 
@@ -1169,21 +1178,30 @@ namespace Krypton.Toolkit
         /// Gets the size of the borders requested by the real window.
         /// </summary>
         /// <param name="cp">Window style parameters.</param>
+        /// <param name="form">Optional VisualForm base to detect usage of Chrome drawing</param>
         /// <returns>Border sizing.</returns>
-        public static Padding GetWindowBorders(CreateParams cp)
+        public static Padding GetWindowBorders(CreateParams cp, KryptonForm? form)
         {
+            int xOffset = 0;
+            int yOffset = 0;
+
+            if (form is { StateCommon.Border: PaletteFormBorder formBorder } kryptonForm)
+            {
+                var (xOffset1, yOffset1) = formBorder.BorderWidths(kryptonForm.FormBorderStyle);
+                xOffset = xOffset1;
+                yOffset = yOffset1;
+            }
+
             var rect = new PI.RECT
             {
                 // Start with a zero sized rectangle
-                left = 0,
-                right = 0,
-                top = 0,
-                bottom = 0
+                left = -xOffset,
+                right = xOffset,
+                top = -yOffset,
+                bottom = yOffset
             };
-
             // Adjust rectangle to add on the borders required
             PI.AdjustWindowRectEx(ref rect, cp.Style, false, cp.ExStyle);
-
             // Return the per side border values
             return new Padding(-rect.left, -rect.top, rect.right, rect.bottom);
         }
@@ -1281,6 +1299,7 @@ namespace Krypton.Toolkit
                 default:
                     // Should never happen!
                     Debug.Assert(false);
+                    DebugTools.NotImplemented(style.ToString());
                     return PaletteContentStyle.LabelNormalPanel;
             }
         }
@@ -1309,6 +1328,7 @@ namespace Krypton.Toolkit
                 default:
                     // Should never happen!
                     Debug.Assert(false);
+                    DebugTools.NotImplemented(hint.ToString());
                     return TextRenderingHint.SystemDefault;
             }
         }
@@ -1337,6 +1357,7 @@ namespace Krypton.Toolkit
                 default:
                     // Should never happen!
                     Debug.Assert(false);
+                    DebugTools.NotImplemented(separatorStyle.ToString());
                     return PaletteMetricPadding.SeparatorPaddingLowProfile;
             }
         }
@@ -1390,7 +1411,7 @@ namespace Krypton.Toolkit
                 retObj = TypeDescriptor.CreateInstance(host, itemType, null!, null!);
             }
 
-            return retObj;
+            return retObj ?? false;
         }
 
         /// <summary>
@@ -1600,13 +1621,16 @@ namespace Krypton.Toolkit
         /// <param name="trgtWidth"></param>
         /// <param name="trgtHeight"></param>
         /// <returns></returns>
-        public static Bitmap ScaleImageForSizedDisplay(Image src, float trgtWidth, float trgtHeight)
+        /// <exception >thrown if targets are negative</exception>
+        public static Bitmap? ScaleImageForSizedDisplay(Image? src, float trgtWidth, float trgtHeight)
         {
-            if (trgtWidth <= 0 || trgtHeight <= 0)
+            if (trgtWidth <= 1.0 || trgtHeight <= 1.0)
             {
                 // For some reason, in the designer it can send a rect that has a negative size element,
                 // therefore the targets will also be negative
-                return new Bitmap(0, 0);
+                // Also When collapsing / expanding ribbons the `trgtHeight` will > 0 BUT < 1.0
+                //return new Bitmap(0, 0);    // This will throw an exception
+                return null;
             }
 
             var newImage = new Bitmap((int)trgtWidth, (int)trgtHeight);

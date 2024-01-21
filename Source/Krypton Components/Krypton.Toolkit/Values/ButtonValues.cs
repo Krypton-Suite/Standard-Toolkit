@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
  *  
  */
 #endregion
@@ -19,7 +19,7 @@ namespace Krypton.Toolkit
                                 IContentValues
     {
         #region Static Fields
-        private const string _defaultText = nameof(Button);
+        private const string DEFAULT_TEXT = nameof(Button);
         private static readonly string _defaultExtraText = string.Empty;
         #endregion
 
@@ -58,7 +58,7 @@ namespace Krypton.Toolkit
             _image = null;
             _transparent = Color.Empty;
             _dropDownArrowColor = Color.Empty;
-            _text = _defaultText;
+            _text = DEFAULT_TEXT;
             _extraText = _defaultExtraText;
             _useAsDialogButton = false;
             _useAsUACElevationButton = false;
@@ -82,7 +82,7 @@ namespace Krypton.Toolkit
                                            (DropDownArrowColor == Color.Empty) &&
                                            //(UACShieldIconSize == UACShieldIconSize.ExtraSmall)
                                            (ImageTransparentColor == Color.Empty) &&
-                                           (Text == _defaultText) &&
+                                           (Text == DEFAULT_TEXT) &&
                                            (ExtraText == _defaultExtraText);
 
         #endregion
@@ -194,12 +194,12 @@ namespace Krypton.Toolkit
             }
         }
 
-        private bool ShouldSerializeText() => Text != _defaultText;
+        private bool ShouldSerializeText() => Text != DEFAULT_TEXT;
 
         /// <summary>
         /// Resets the Text property to its default value.
         /// </summary>
-        public void ResetText() => Text = _defaultText;
+        public void ResetText() => Text = DEFAULT_TEXT;
         #endregion
 
         #region ExtraText

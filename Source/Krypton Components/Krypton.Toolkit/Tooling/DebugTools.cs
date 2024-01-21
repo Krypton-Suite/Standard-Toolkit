@@ -5,33 +5,41 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
  *  
  */
 #endregion
 
 namespace Krypton.Toolkit
 {
-    internal static class DebugTools
+    /// <summary>
+    /// Allow Krypton to be improved by getting help from users
+    /// </summary>
+    public static class DebugTools
     {
         #region Implementation
-        internal static void NotImplemented(string methodSignature, string className, int lineNumber = 0)
+
+        /// <summary>
+        /// Allow Krypton to be improved by getting help from users
+        /// </summary>
+        public static Exception NotImplemented(string outOfRange,
+            [CallerFilePath] string callingFilePath = "",
+            [CallerLineNumber] int lineNumber = 0,
+            [CallerMemberName] string? callingMethod = "")
         {
-            KryptonCommand linkCommand = new KryptonCommand();
-
-            linkCommand.Execute += (sender, args) => { Process.Start(@"https://github.com/Krypton-Suite/Standard-Toolkit/issues/new/choose"); };
-
-            if (lineNumber > 0)
+            // Do not use `KryptonMessageBox` as this will cause palette's to go into recurrent loop 
+            if ( DialogResult.Yes == MessageBox.Show(
+                $"If you are seeing this message, please submit a new bug report here.\n\nAdditional details:-\nMethod Signature: {callingMethod}\nFunction: {callingMethod}\nFile: {callingFilePath}\nLine Number: {lineNumber}",
+                "Not Implemented - Please submit ?", MessageBoxButtons.YesNo, MessageBoxIcon.Error, MessageBoxDefaultButton.Button2) )
             {
-                KryptonMessageBox.Show($"If you are seeing this message, please submit a new bug report here.\n\nAdditional details:-\nMethod Signature: {methodSignature}\nClass Name: {className}\nLine Number: {lineNumber}",
-                    "Not Implemented", KryptonMessageBoxButtons.OK, KryptonMessageBoxIcon.Error, contentAreaType: MessageBoxContentAreaType.LinkLabel, actionButtonCommand: linkCommand, contentLinkArea: new LinkArea(64, 67));
+                Process.Start(@"https://github.com/Krypton-Suite/Standard-Toolkit/issues/new/choose");
             }
-            else
+            return new ArgumentOutOfRangeException(outOfRange)
             {
-                KryptonMessageBox.Show($"If you are seeing this message, please submit a new bug report here.\n\nAdditional details:-\nMethod Signature: {methodSignature}\nClass Name: {className}",
-                    "Not Implemented", KryptonMessageBoxButtons.OK, KryptonMessageBoxIcon.Error);
-            }
+                Source = callingMethod,
+            };
         }
+
         #endregion
     }
 }

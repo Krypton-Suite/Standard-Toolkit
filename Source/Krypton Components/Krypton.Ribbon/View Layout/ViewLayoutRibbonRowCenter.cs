@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -20,8 +20,8 @@ namespace Krypton.Ribbon
     internal class ViewLayoutRibbonRowCenter : ViewComposite
     {
         #region Type Definitions
-        private class ItemToView : Dictionary<IRibbonGroupItem, ViewBase> { }
-        private class ViewToSize : Dictionary<ViewBase, Size> { }
+        private class ItemToView : Dictionary<IRibbonGroupItem, ViewBase>;
+        private class ViewToSize : Dictionary<ViewBase, Size>;
         #endregion
 
         #region Instance Fields
@@ -78,15 +78,19 @@ namespace Krypton.Ribbon
                 case GroupItemSize.Small:
                     _viewToSmall.Clear();
                     break;
+
                 case GroupItemSize.Medium:
                     _viewToMedium.Clear();
                     break;
+
                 case GroupItemSize.Large:
                     _viewToLarge.Clear();
                     break;
+
                 default:
-                    // Should never happen!
+    // Should never happen!
                     Debug.Assert(false);
+                    DebugTools.NotImplemented(CurrentSize.ToString());
                     break;
             }
 

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
  *  
  */
 #endregion
@@ -39,7 +39,7 @@ namespace Krypton.Toolkit
             [DisallowNull] PaletteRedirect redirector,
                                      ButtonSpecCollectionBase? variableSpecs,
                                      ButtonSpecCollectionBase? fixedSpecs,
-                                     ViewDrawDocker[] viewDockers,
+            [DisallowNull] ViewDrawDocker[] viewDockers,
                                      IPaletteMetric[] viewMetrics,
                                      PaletteMetricInt[] viewMetricInt,
                                      PaletteMetricPadding[] viewMetricPaddings,
@@ -141,15 +141,7 @@ namespace Krypton.Toolkit
             ViewDrawDocker viewDocker = _viewDockers[i];
 
             // Find the child that is used to fill docker
-            foreach (ViewBase child in viewDocker)
-            {
-                if (viewDocker.GetDock(child) == ViewDockStyle.Fill)
-                {
-                    return child as ViewDrawContent;
-                }
-            }
-
-            return null;
+            return (from child in viewDocker where viewDocker.GetDock(child) == ViewDockStyle.Fill select child as ViewDrawContent).FirstOrDefault();
         }
 
         /// <summary>
@@ -167,7 +159,7 @@ namespace Krypton.Toolkit
             // Get the indexed docker
             ViewDrawDocker viewDocker = _viewDockers[i];
 
-            // By default add to the end of the children
+            // By default, add to the end of the children
             var insertIndex = viewDocker.Count;
 
             // If using spacers, then insert before the first spacer

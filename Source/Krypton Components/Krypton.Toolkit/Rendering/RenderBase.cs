@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
  *  
  */
 #endregion
@@ -28,60 +28,52 @@ namespace Krypton.Toolkit
         #region Static Fields
         private static readonly object _threadLock = new object();
 
-        private static readonly ColorMatrix _matrixGrayScale = new ColorMatrix(new[]
-        {
-            new[] { 0.3f, 0.3f, 0.3f, 0, 0 }, new[] { 0.59f, 0.59f, 0.59f, 0, 0 },
-            new[] { 0.11f, 0.11f, 0.11f, 0, 0 }, new float[] { 0, 0, 0, 1, 0 }, new float[] { 0, 0, 0, 0, 1 }
-        });
+        private static readonly ColorMatrix _matrixGrayScale = new ColorMatrix([
+            [0.3f, 0.3f, 0.3f, 0, 0], [0.59f, 0.59f, 0.59f, 0, 0],
+            [0.11f, 0.11f, 0.11f, 0, 0], [0, 0, 0, 1, 0], [0, 0, 0, 0, 1]
+        ]);
 
-        private static readonly ColorMatrix _matrixGrayScaleRed = new ColorMatrix(new[]
-        {
-            new float[] { 1, 0, 0, 0, 0 }, new[] { 0, 0.59f, 0.59f, 0, 0 }, new[] { 0, 0.11f, 0.11f, 0, 0 },
-            new float[] { 0, 0, 0, 1, 0 }, new float[] { 0, 0, 0, 0, 1 }
-        });
+        private static readonly ColorMatrix _matrixGrayScaleRed = new ColorMatrix([
+            [1, 0, 0, 0, 0], [0, 0.59f, 0.59f, 0, 0], [0, 0.11f, 0.11f, 0, 0],
+            [0, 0, 0, 1, 0], [0, 0, 0, 0, 1]
+        ]);
 
-        private static readonly ColorMatrix _matrixGrayScaleGreen = new ColorMatrix(new[]
-        {
-            new[] { 0.3f, 0, 0.3f, 0, 0 }, new float[] { 0, 1, 0, 0, 0 }, new[] { 0.11f, 0, 0.11f, 0, 0 },
-            new float[] { 0, 0, 0, 1, 0 }, new float[] { 0, 0, 0, 0, 1 }
-        });
+        private static readonly ColorMatrix _matrixGrayScaleGreen = new ColorMatrix([
+            [0.3f, 0, 0.3f, 0, 0], [0, 1, 0, 0, 0], [0.11f, 0, 0.11f, 0, 0],
+            [0, 0, 0, 1, 0], [0, 0, 0, 0, 1]
+        ]);
 
-        private static readonly ColorMatrix _matrixGrayScaleBlue = new ColorMatrix(new[]
-        {
-            new[] { 0.3f, 0.3f, 0, 0, 0 }, new[] { 0.59f, 0.59f, 0, 0, 0 }, new float[] { 0, 0, 1, 0, 0 },
-            new float[] { 0, 0, 0, 1, 0 }, new float[] { 0, 0, 0, 0, 1 }
-        });
+        private static readonly ColorMatrix _matrixGrayScaleBlue = new ColorMatrix([
+            [0.3f, 0.3f, 0, 0, 0], [0.59f, 0.59f, 0, 0, 0], [0, 0, 1, 0, 0],
+            [0, 0, 0, 1, 0], [0, 0, 0, 0, 1]
+        ]);
 
-        private static readonly ColorMatrix _matrixLight = new ColorMatrix(new[]
-        {
-            new float[] { 1, 0, 0, 0, 0 }, new float[] { 0, 1, 0, 0, 0 }, new float[] { 0, 0, 1, 0, 0 },
-            new float[] { 0, 0, 0, 1, 0 }, new[] { 0.1f, 0.1f, 0.1f, 0, 1 }
-        });
+        private static readonly ColorMatrix _matrixLight = new ColorMatrix([
+            [1, 0, 0, 0, 0], [0, 1, 0, 0, 0], [0, 0, 1, 0, 0],
+            [0, 0, 0, 1, 0], [0.1f, 0.1f, 0.1f, 0, 1]
+        ]);
 
-        private static readonly ColorMatrix _matrixLightLight = new ColorMatrix(new[]
-        {
-            new float[] { 1, 0, 0, 0, 0 }, new float[] { 0, 1, 0, 0, 0 }, new float[] { 0, 0, 1, 0, 0 },
-            new float[] { 0, 0, 0, 1, 0 }, new[] { 0.2f, 0.2f, 0.2f, 0, 1 }
-        });
+        private static readonly ColorMatrix _matrixLightLight = new ColorMatrix([
+            [1, 0, 0, 0, 0], [0, 1, 0, 0, 0], [0, 0, 1, 0, 0],
+            [0, 0, 0, 1, 0], [0.2f, 0.2f, 0.2f, 0, 1]
+        ]);
 
-        private static readonly ColorMatrix _matrixDark = new ColorMatrix(new[]
-        {
-            new float[] { 1, 0, 0, 0, 0 }, new float[] { 0, 1, 0, 0, 0 }, new float[] { 0, 0, 1, 0, 0 },
-            new float[] { 0, 0, 0, 1, 0 }, new[] { -0.1f, -0.1f, -0.1f, 0, 1 }
-        });
+        private static readonly ColorMatrix _matrixDark = new ColorMatrix([
+            [1, 0, 0, 0, 0], [0, 1, 0, 0, 0], [0, 0, 1, 0, 0],
+            [0, 0, 0, 1, 0], [-0.1f, -0.1f, -0.1f, 0, 1]
+        ]);
 
-        private static readonly ColorMatrix _matrixDarkDark = new ColorMatrix(new[]
-        {
-            new float[] { 1, 0, 0, 0, 0 }, new float[] { 0, 1, 0, 0, 0 }, new float[] { 0, 0, 1, 0, 0 },
-            new float[] { 0, 0, 0, 1, 0 }, new[] { -0.25f, -0.25f, -0.25f, 0, 1 }
-        });
+        private static readonly ColorMatrix _matrixDarkDark = new ColorMatrix([
+            [1, 0, 0, 0, 0], [0, 1, 0, 0, 0], [0, 0, 1, 0, 0],
+            [0, 0, 0, 1, 0], [-0.25f, -0.25f, -0.25f, 0, 1]
+        ]);
         #endregion
 
         #region IRenderer
         /// <summary>
         /// Gets the standard border renderer.
         /// </summary>
-        public IRenderBorder RenderStandardBorder 
+        public IRenderBorder RenderStandardBorder
         {
             [DebuggerStepThrough]
             get => this;
@@ -126,7 +118,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets the glyph renderer.
         /// </summary>
-        public IRenderGlyph RenderGlyph 
+        public IRenderGlyph RenderGlyph
         {
             [DebuggerStepThrough]
             get => this;
@@ -176,7 +168,7 @@ namespace Krypton.Toolkit
                                                           IPaletteBorder palette,
                                                           VisualOrientation orientation,
                                                           PaletteState state);
-        
+
         /// <summary>
         /// Generate a graphics path that is in the middle of the border.
         /// </summary>
@@ -186,8 +178,8 @@ namespace Krypton.Toolkit
         /// <param name="orientation">Visual orientation of the border.</param>
         /// <param name="state">State associated with rendering.</param>
         /// <returns>GraphicsPath instance.</returns>
-        public abstract GraphicsPath GetBorderPath(RenderContext context, 
-                                                   Rectangle rect, 
+        public abstract GraphicsPath GetBorderPath(RenderContext context,
+                                                   Rectangle rect,
                                                    IPaletteBorder palette,
                                                    VisualOrientation orientation,
                                                    PaletteState state);
@@ -206,7 +198,7 @@ namespace Krypton.Toolkit
                                                  IPaletteBorder palette,
                                                  VisualOrientation orientation,
                                                  PaletteState state);
-        
+
         /// <summary>
         /// Draw border on the inside edge of the specified rectangle.
         /// </summary>
@@ -215,8 +207,8 @@ namespace Krypton.Toolkit
         /// <param name="palette">Palette used for drawing.</param>
         /// <param name="orientation">Visual orientation of the border.</param>
         /// <param name="state">State associated with rendering.</param>
-        public abstract void DrawBorder(RenderContext context, 
-                                        Rectangle rect, 
+        public abstract void DrawBorder(RenderContext context,
+                                        Rectangle rect,
                                         IPaletteBorder palette,
                                         VisualOrientation orientation,
                                         PaletteState state);
@@ -233,9 +225,9 @@ namespace Krypton.Toolkit
         /// <param name="orientation">Visual orientation of the background.</param>
         /// <param name="state">State associated with rendering.</param>
         /// <param name="memento">Cache used for drawing.</param>
-        public abstract IDisposable? DrawBack(RenderContext context, 
+        public abstract IDisposable? DrawBack(RenderContext context,
                                              Rectangle rect,
-                                             GraphicsPath path, 
+                                             GraphicsPath path,
                                              IPaletteBack palette,
                                              VisualOrientation orientation,
                                              PaletteState state,
@@ -243,6 +235,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region RenderStandardContent
+
         /// <summary>
         /// Get the preferred size for drawing the content.
         /// </summary>
@@ -251,16 +244,12 @@ namespace Krypton.Toolkit
         /// <param name="values">Content values.</param>
         /// <param name="orientation">Visual orientation of the content.</param>
         /// <param name="state">State associated with rendering.</param>
-        /// <param name="composition">Drawing onto a composition element.</param>
-        /// <param name="glowing">If composition, should glowing be drawn.</param>
         /// <returns>Preferred size.</returns>
         public abstract Size GetContentPreferredSize(ViewLayoutContext context,
-                                                     IPaletteContent palette,
-                                                     IContentValues values,
-                                                     VisualOrientation orientation,
-                                                     PaletteState state,
-                                                     bool composition,
-                                                     bool glowing);
+            IPaletteContent palette,
+            IContentValues values,
+            VisualOrientation orientation,
+            PaletteState state);
 
         /// <summary>
         /// Perform layout calculations on the provided content.
@@ -271,17 +260,13 @@ namespace Krypton.Toolkit
         /// <param name="values">Content values.</param>
         /// <param name="orientation">Visual orientation of the content.</param>
         /// <param name="state">State associated with rendering.</param>
-        /// <param name="composition">Drawing onto a composition element.</param>
-        /// <param name="glowing">If composition, should glowing be drawn.</param>
         /// <returns>Memento with cached information.</returns>
         public abstract IDisposable LayoutContent(ViewLayoutContext context,
-                                                  Rectangle availableRect,
-                                                  IPaletteContent palette,
-                                                  IContentValues values,
-                                                  VisualOrientation orientation,
-                                                  PaletteState state,
-                                                  bool composition, 
-                                                  bool glowing);
+            Rectangle availableRect,
+            IPaletteContent palette,
+            IContentValues values,
+            VisualOrientation orientation,
+            PaletteState state);
 
         /// <summary>
         /// Perform draw of content using provided memento.
@@ -292,18 +277,14 @@ namespace Krypton.Toolkit
         /// <param name="memento">Cached values from layout call.</param>
         /// <param name="orientation">Visual orientation of the content.</param>
         /// <param name="state">State associated with rendering.</param>
-        /// <param name="composition">Drawing onto a composition element.</param>
-        /// <param name="glowing">If composition, should glowing be drawn.</param>
         /// <param name="allowFocusRect">Allow drawing of focus rectangle.</param>
         public abstract void DrawContent(RenderContext context,
-                                         Rectangle displayRect,
-                                         IPaletteContent palette,
-                                         IDisposable memento,
-                                         VisualOrientation orientation,
-                                         PaletteState state,
-                                         bool composition,
-                                         bool glowing,
-                                         bool allowFocusRect);
+            Rectangle displayRect,
+            IPaletteContent palette,
+            IDisposable memento,
+            VisualOrientation orientation,
+            PaletteState state,
+            bool allowFocusRect);
 
         /// <summary>
         /// Request the calculated display of the image.
@@ -430,6 +411,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region RenderRibbon
+
         /// <summary>
         /// Draw the background of a ribbon element.
         /// </summary>
@@ -439,16 +421,14 @@ namespace Krypton.Toolkit
         /// <param name="state">State associated with rendering.</param>
         /// <param name="palette">Palette used for sourcing settings.</param>
         /// <param name="orientation">Orientation for drawing.</param>
-        /// <param name="composition">Drawing onto a composition element.</param>
         /// <param name="memento">Cached values to use when drawing.</param>
         public abstract IDisposable? DrawRibbonBack(PaletteRibbonShape shape,
-                                                   RenderContext context,
-                                                   Rectangle rect,
-                                                   PaletteState state,
-                                                   IPaletteRibbonBack palette,
-                                                   VisualOrientation orientation,
-                                                   bool composition,
-                                                   IDisposable? memento);
+            RenderContext context,
+            Rectangle rect,
+            PaletteState state,
+            IPaletteRibbonBack palette,
+            VisualOrientation orientation,
+            IDisposable? memento);
 
         /// <summary>
         /// Draw a context ribbon tab title.
@@ -499,7 +479,7 @@ namespace Krypton.Toolkit
                                                              Color baseColor1,
                                                              Color baseColor2,
                                                              IDisposable memento);
-        
+
         /// <summary>
         /// Perform drawing of a ribbon cluster edge.
         /// </summary>
@@ -662,7 +642,7 @@ namespace Krypton.Toolkit
                                                            Rectangle cellRect,
                                                            IPaletteContent? paletteContent,
                                                            PaletteState state);
-        
+
 
         /// <summary>
         /// Perform drawing of a ribbon dialog box launcher glyph.
@@ -835,8 +815,8 @@ namespace Krypton.Toolkit
                                                  Size positionSize,
                                                  int minimum,
                                                  int maximum,
-                                                 int frequency);    
- 
+                                                 int frequency);
+
         /// <summary>
         /// Draw the track bar track glyph.
         /// </summary>
@@ -935,7 +915,7 @@ namespace Krypton.Toolkit
         /// <param name="remapNew">New color for remap.</param>
         /// <exception cref="ArgumentNullException"></exception>
         protected static void DrawImageHelper([DisallowNull] ViewContext context,
-                                              Image image,
+                                              Image? image,
                                               Color remapTransparent,
                                               Rectangle imageRect,
                                               VisualOrientation orientation,
@@ -987,9 +967,9 @@ namespace Krypton.Toolkit
                     case PaletteImageEffect.DarkDark:
                         attribs.SetColorMatrix(_matrixDarkDark);
                         break;
-                    case PaletteImageEffect.Inherit:
-                        // Should never happen!
+                    case PaletteImageEffect.Inherit:                            // Should never happen!
                         Debug.Assert(false);
+                        DebugTools.NotImplemented(effect.ToString());
                         break;
                 }
 

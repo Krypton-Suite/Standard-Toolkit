@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -26,7 +26,7 @@ namespace Krypton.Ribbon
         private readonly KryptonRibbon _ribbon;
         private readonly KryptonRibbonGroup _ribbonGroup;
         private readonly ViewDrawRibbonGroupsBorder _viewBackground;
-        private readonly Button _hiddenFocusTarget;
+        private readonly Button? _hiddenFocusTarget;
         #endregion
 
         #region Identity
@@ -45,23 +45,23 @@ namespace Krypton.Ribbon
             Debug.Assert(ribbonGroup != null);
 
             // Remember references needed later
-            _ribbon = ribbon!;
-            _ribbonGroup = ribbonGroup!;
+            _ribbon = ribbon;
+            _ribbonGroup = ribbonGroup;
 
             // Create a view element for drawing the group
-            ViewGroup = new ViewDrawRibbonGroup(ribbon!, ribbonGroup!, NeedPaintDelegate)
+            ViewGroup = new ViewDrawRibbonGroup(ribbon, ribbonGroup, NeedPaintDelegate)
             {
                 Collapsed = false
             };
 
             // Create the background that will contain the actual group instance
-            _viewBackground = new ViewDrawRibbonGroupsBorder(ribbon!, true, NeedPaintDelegate)
+            _viewBackground = new ViewDrawRibbonGroupsBorder(ribbon, true, NeedPaintDelegate)
             {
                 ViewGroup
             };
 
             // Attach the root to the view manager instance
-            ViewManager = new ViewRibbonPopupGroupManager(this, ribbon!, _viewBackground, ViewGroup, NeedPaintDelegate);
+            ViewManager = new ViewRibbonPopupGroupManager(this, ribbon, _viewBackground, ViewGroup, NeedPaintDelegate);
 
             // Create and add a hidden button to act as the focus target
             _hiddenFocusTarget = new Button
@@ -160,7 +160,7 @@ namespace Krypton.Ribbon
         {
             // Find the next item in sequence
             var matched = false;
-            ViewBase? view = ViewGroup.GetNextFocusItem(ViewPopupManager!.FocusView!, ref matched);
+            ViewBase view = ViewGroup.GetNextFocusItem(ViewPopupManager!.FocusView, ref matched);
 
             // Rotate around to the first item
             if (view == null)
@@ -183,7 +183,7 @@ namespace Krypton.Ribbon
         {
             // Find the previous item in sequence
             var matched = false;
-            ViewBase? view = ViewGroup.GetPreviousFocusItem(ViewPopupManager?.FocusView!, ref matched);
+            ViewBase view = ViewGroup.GetPreviousFocusItem(ViewPopupManager?.FocusView!, ref matched);
 
             // Rotate around to the last item
             if (view == null)
@@ -363,7 +363,7 @@ namespace Krypton.Ribbon
         protected override bool ProcessDialogKey(Keys keyData)
         {
             // Grab the view manager handling the focus view
-            ViewBase? focusView = ((GetViewManager() as ViewRibbonPopupGroupManager)!).FocusView;
+            ViewBase focusView = ((GetViewManager() as ViewRibbonPopupGroupManager)!).FocusView;
 
             // When in keyboard mode...
             if (focusView != null)

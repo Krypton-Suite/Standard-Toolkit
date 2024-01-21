@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
  *  
  */
 #endregion
@@ -322,7 +322,7 @@ namespace Krypton.Toolkit
                     if (!skip)
                     {
                         _dayMementos[index] = context.Renderer.RenderStandardContent.LayoutContent(context, layoutRectDay, paletteTriple.PaletteContent,
-                                                                                                   this, VisualOrientation.Top, paletteState, false, false);
+                                                                                                   this, VisualOrientation.Top, paletteState);
 
                         // Track the maximum date displayed for this month (exclude disabled days that are shown for
                         // information but cannot actually be selected themselves as part of a multi selection action)
@@ -455,6 +455,7 @@ namespace Krypton.Toolkit
                             {
                                 using GraphicsPath path = context.Renderer.RenderStandardBorder.GetBackPath(context, drawRectCell, paletteTriple.PaletteBorder, 
                                     VisualOrientation.Top, paletteState);
+                                using var gh = new GraphicsHint(context.Graphics, paletteTriple.PaletteBorder.GetBorderGraphicsHint(paletteState));
                                 context.Renderer.RenderStandardBack.DrawBack(context, drawRectCell, path, paletteTriple.PaletteBack, VisualOrientation.Top, paletteState, null);
                             }
 
@@ -468,7 +469,7 @@ namespace Krypton.Toolkit
                             if (paletteTriple.PaletteContent.GetContentDraw(paletteState) == InheritBool.True)
                             {
                                 context.Renderer.RenderStandardContent.DrawContent(context, drawRectDay, paletteTriple.PaletteContent, _dayMementos[index],
-                                                                                   VisualOrientation.Top, paletteState, false, false, true);
+                                                                                   VisualOrientation.Top, paletteState, true);
                             }
                         }
                     }

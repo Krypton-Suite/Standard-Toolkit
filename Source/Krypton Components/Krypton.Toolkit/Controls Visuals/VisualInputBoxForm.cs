@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
  *  
  */
 #endregion
@@ -18,13 +18,9 @@ namespace Krypton.Toolkit
     public partial class VisualInputBoxForm : KryptonForm
     {
         #region Instance Fields
-        private bool _usePasswordOption;
-        private Color _cueColour;
-        private string _prompt;
-        private string _caption;
-        private string _defaultResponse;
-        private string _cueText;
-        private Font? _cueTypeface;
+
+        private readonly KryptonInputBoxData _inputBoxData;
+
         #endregion
 
         #region Identity
@@ -38,24 +34,12 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>Initializes a new instance of the <see cref="VisualInputBoxForm" /> class.</summary>
-        /// <param name="prompt">The prompt.</param>
-        /// <param name="caption">The caption.</param>
-        /// <param name="defaultResponse">The default response.</param>
-        /// <param name="cueText">The cue text.</param>
-        /// <param name="cueColour">The cue colour.</param>
-        /// <param name="cueTypeface">The cue typeface.</param>
-        /// <param name="usePasswordOption">if set to <c>true</c> [use password option].</param>
-        public VisualInputBoxForm(string prompt,
-                                   string caption,
-                                   string defaultResponse,
-                                   string cueText,
-                                   Color cueColour,
-                                   Font? cueTypeface,
-                                   bool usePasswordOption)
+        /// <param name="inputBoxData">The input box data.</param>
+        public VisualInputBoxForm(KryptonInputBoxData inputBoxData)
         {
             InitializeComponent();
 
-            StoreValues(prompt, caption, defaultResponse, cueText, cueColour, cueTypeface, usePasswordOption);
+            _inputBoxData = inputBoxData;
 
             // Update contents to match requirements
             UpdateText();
@@ -69,39 +53,13 @@ namespace Krypton.Toolkit
 
         #region Implementation
 
-        private void StoreValues(string prompt, string caption, string defaultResponse, string cueText, Color cueColour,
-                                 Font? cueTypeface, bool usePasswordOption)
-        {
-            _prompt = prompt;
-
-            _caption = caption;
-
-            _defaultResponse = defaultResponse;
-
-            _cueText = cueText;
-
-            _cueColour = cueColour;
-
-            _cueTypeface = cueTypeface;
-
-            _usePasswordOption = usePasswordOption;
-        }
-
-        internal static string InternalShow(IWin32Window? owner,
-            string prompt,
-            string caption,
-            string defaultResponse,
-            string cueText,
-            Color cueColour,
-            Font? cueTypeface,
-            bool usePasswordOption)
+        internal static string InternalShow(KryptonInputBoxData inputBoxData)
         {
             // If do not have an owner passed in then get the active window and use that instead
-            IWin32Window? showOwner = owner ?? FromHandle(PI.GetActiveWindow());
+            IWin32Window? showOwner = inputBoxData.Owner ?? FromHandle(PI.GetActiveWindow());
 
             // Show input box window as a modal dialog and then dispose of it afterwards
-            using var ib = new VisualInputBoxForm(prompt, caption, defaultResponse, cueText, cueColour,
-                cueTypeface, usePasswordOption);
+            using var ib = new VisualInputBoxForm(inputBoxData);
             ib.StartPosition = showOwner == null ? FormStartPosition.CenterScreen : FormStartPosition.CenterParent;
 
             return ib.ShowDialog(showOwner) == DialogResult.OK
@@ -113,24 +71,24 @@ namespace Krypton.Toolkit
 
         private void UpdateText()
         {
-            Text = _caption;
-            _labelPrompt.Text = _prompt;
-            _textBoxResponse.Text = _defaultResponse;
-            _textBoxResponse.UseSystemPasswordChar = _usePasswordOption;
+            Text = _inputBoxData.Caption;
+            _labelPrompt.Text = _inputBoxData.Prompt;
+            _textBoxResponse.Text = _inputBoxData.DefaultResponse;
+            _textBoxResponse.UseSystemPasswordChar = _inputBoxData.UsePasswordOption ?? false;
         }
 
         private void UpdateCue()
         {
-            _textBoxResponse.CueHint.CueHintText = _cueText;
+            _textBoxResponse.CueHint.CueHintText = _inputBoxData.CueText;
 
-            if (!_cueColour.IsEmpty)
+            if (_inputBoxData.CueColor != null || _inputBoxData.CueColor != Color.Transparent || _inputBoxData.CueColor != Color.Empty)
             {
-                _textBoxResponse.CueHint.Color1 = _cueColour;
+                _textBoxResponse.CueHint.Color1 = _inputBoxData.CueColor ?? Color.Gray;
             }
 
-            if (_cueTypeface != null)
+            if (_inputBoxData.CueTypeface != null)
             {
-                _textBoxResponse.CueHint.Font = _cueTypeface;
+                _textBoxResponse.CueHint.Font = _inputBoxData.CueTypeface ?? KryptonManager.CurrentGlobalPalette.BaseFont;
             }
         }
 

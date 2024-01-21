@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
  *  
  */
 #endregion
@@ -34,31 +34,31 @@ namespace Krypton.Toolkit
             Debug.Assert(redirector != null);
 
             // Create exposed button specifications
-            Common = new KryptonPaletteButtonSpecTyped(redirector!);
-            Generic = new KryptonPaletteButtonSpecTyped(redirector!);
-            Close = new KryptonPaletteButtonSpecTyped(redirector!);
-            Context = new KryptonPaletteButtonSpecTyped(redirector!);
-            Next = new KryptonPaletteButtonSpecTyped(redirector!);
-            Previous = new KryptonPaletteButtonSpecTyped(redirector!);
-            ArrowLeft = new KryptonPaletteButtonSpecTyped(redirector!);
-            ArrowRight = new KryptonPaletteButtonSpecTyped(redirector!);
-            ArrowUp = new KryptonPaletteButtonSpecTyped(redirector!);
-            ArrowDown = new KryptonPaletteButtonSpecTyped(redirector!);
-            DropDown = new KryptonPaletteButtonSpecTyped(redirector!);
-            PinVertical = new KryptonPaletteButtonSpecTyped(redirector!);
-            PinHorizontal = new KryptonPaletteButtonSpecTyped(redirector!);
-            FormClose = new KryptonPaletteButtonSpecTyped(redirector!);
-            FormMax = new KryptonPaletteButtonSpecTyped(redirector!);
-            FormMin = new KryptonPaletteButtonSpecTyped(redirector!);
-            FormRestore = new KryptonPaletteButtonSpecTyped(redirector!);
-            FormHelp = new KryptonPaletteButtonSpecTyped(redirector!);
-            PendantClose = new KryptonPaletteButtonSpecTyped(redirector!);
-            PendantMin = new KryptonPaletteButtonSpecTyped(redirector!);
-            PendantRestore = new KryptonPaletteButtonSpecTyped(redirector!);
-            WorkspaceMaximize = new KryptonPaletteButtonSpecTyped(redirector!);
-            WorkspaceRestore = new KryptonPaletteButtonSpecTyped(redirector!);
-            RibbonMinimize = new KryptonPaletteButtonSpecTyped(redirector!);
-            RibbonExpand = new KryptonPaletteButtonSpecTyped(redirector!);
+            Common = new KryptonPaletteButtonSpecTyped(redirector);
+            Generic = new KryptonPaletteButtonSpecTyped(redirector);
+            Close = new KryptonPaletteButtonSpecTyped(redirector);
+            Context = new KryptonPaletteButtonSpecTyped(redirector);
+            Next = new KryptonPaletteButtonSpecTyped(redirector);
+            Previous = new KryptonPaletteButtonSpecTyped(redirector);
+            ArrowLeft = new KryptonPaletteButtonSpecTyped(redirector);
+            ArrowRight = new KryptonPaletteButtonSpecTyped(redirector);
+            ArrowUp = new KryptonPaletteButtonSpecTyped(redirector);
+            ArrowDown = new KryptonPaletteButtonSpecTyped(redirector);
+            DropDown = new KryptonPaletteButtonSpecTyped(redirector);
+            PinVertical = new KryptonPaletteButtonSpecTyped(redirector);
+            PinHorizontal = new KryptonPaletteButtonSpecTyped(redirector);
+            FormClose = new KryptonPaletteButtonSpecTyped(redirector);
+            FormMax = new KryptonPaletteButtonSpecTyped(redirector);
+            FormMin = new KryptonPaletteButtonSpecTyped(redirector);
+            FormRestore = new KryptonPaletteButtonSpecTyped(redirector);
+            FormHelp = new KryptonPaletteButtonSpecTyped(redirector);
+            PendantClose = new KryptonPaletteButtonSpecTyped(redirector);
+            PendantMin = new KryptonPaletteButtonSpecTyped(redirector);
+            PendantRestore = new KryptonPaletteButtonSpecTyped(redirector);
+            WorkspaceMaximize = new KryptonPaletteButtonSpecTyped(redirector);
+            WorkspaceRestore = new KryptonPaletteButtonSpecTyped(redirector);
+            RibbonMinimize = new KryptonPaletteButtonSpecTyped(redirector);
+            RibbonExpand = new KryptonPaletteButtonSpecTyped(redirector);
 
             // Create redirector for inheriting from style specific to style common
             var redirectCommon = new PaletteRedirectButtonSpec(redirector, Common);

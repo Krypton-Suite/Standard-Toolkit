@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
  *  
  */
 #endregion
@@ -57,7 +57,7 @@ namespace Krypton.Toolkit
         /// <param name="orientation">Visual orientation of the content.</param>
         public ViewDrawSplitCanvas(IPaletteBack paletteBack,
                                    IPaletteBorder paletteBorder,
-                                   IPaletteMetric? paletteMetric,
+                                   IPaletteMetric paletteMetric,
                                    PaletteMetricPadding metricPadding,
                                    VisualOrientation orientation)
         {
@@ -139,7 +139,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the currently used metric palette.
         /// </summary>
-        public IPaletteMetric? PaletteMetric
+        public IPaletteMetric PaletteMetric
         {
             [DebuggerStepThrough]
             get;
@@ -201,7 +201,7 @@ namespace Krypton.Toolkit
         /// <param name="paletteMetric">Palette source for the metric.</param>
         public virtual void SetPalettes([DisallowNull] IPaletteBack paletteBack, 
                                         [DisallowNull] IPaletteBorder paletteBorder,
-                                        IPaletteMetric? paletteMetric)
+                                        IPaletteMetric paletteMetric)
         {
             Debug.Assert(paletteBorder != null);
             Debug.Assert(paletteBack != null);
@@ -321,14 +321,6 @@ namespace Krypton.Toolkit
 
         #endregion
 
-        #region DrawOnComposition
-        /// <summary>
-        /// Gets and sets a value indicating if the canvas is drawing on composition.
-        /// </summary>
-        public bool DrawCanvasOnComposition { get; set; }
-
-        #endregion
-
         #region GetOuterBorderPath
         /// <summary>
         /// Gets a path that describes the outside of the border.
@@ -339,7 +331,7 @@ namespace Krypton.Toolkit
         {
             if (PaletteBorder != null)
             {
-                return context.Renderer?.RenderStandardBorder.GetOutsideBorderPath(context, ClientRectangle,
+                return context.Renderer.RenderStandardBorder.GetOutsideBorderPath(context, ClientRectangle,
                                                                                   PaletteBorder, Orientation,
                                                                                   State);
             }
@@ -380,16 +372,6 @@ namespace Krypton.Toolkit
             if (context == null)
             {
                 throw new ArgumentNullException(nameof(context));
-            }
-
-            // Ensure any content children have correct composition setting
-            foreach (ViewBase child in this)
-            {
-                if (child is ViewDrawContent viewContent)
-                {
-                    viewContent.DrawContentOnComposition = DrawCanvasOnComposition;
-                    viewContent.Glowing = viewContent.DrawContentOnComposition;
-                }
             }
 
             // Let base class find preferred size of the children
@@ -448,20 +430,6 @@ namespace Krypton.Toolkit
 
             // Apply the padding to the client rectangle
             context.DisplayRectangle = CommonHelper.ApplyPadding(Orientation, ClientRectangle, padding);
-
-            // Ensure any content children have correct composition setting
-            foreach (ViewBase child in this)
-            {
-                if (child is ViewDrawContent viewContent)
-                {
-                    // Do we need to draw the background?
-                    var drawBackground = DrawCanvas && (PaletteBack.GetBackDraw(State) == InheritBool.True);
-
-                    // Update the content accordingly
-                    viewContent.DrawContentOnComposition = DrawCanvasOnComposition && !drawBackground;
-                    viewContent.Glowing = viewContent.DrawContentOnComposition;
-                }
-            }
 
             // Let child elements layout
             base.Layout(context);
@@ -707,6 +675,7 @@ namespace Krypton.Toolkit
             Rectangle enclosingRect = CommonHelper.ApplyPadding(Orientation, rect, borderPadding);
 
             // Render the background inside the border path
+            using var gh = new GraphicsHint(context.Graphics, paletteBorder.GetBorderGraphicsHint(state));
             _mementoBack = context.Renderer.RenderStandardBack.DrawBack(context, enclosingRect, borderPath, paletteBack, Orientation, state, _mementoBack);
 
             borderPath.Dispose();

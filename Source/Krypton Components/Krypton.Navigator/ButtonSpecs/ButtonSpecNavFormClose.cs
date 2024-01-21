@@ -2,7 +2,7 @@
 /*
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2023 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2023 - 2024. All rights reserved. 
  *  
  */
 #endregion
@@ -61,13 +61,6 @@ namespace Krypton.Navigator
 
         public override bool GetVisible(PaletteBase palette)
         {
-            // We do not show if the custom chrome is combined with composition,
-            // in which case the form buttons are handled by the composition
-            if (_navigator.Owner!.ApplyComposition && _navigator.Owner.ApplyCustomChrome)
-            {
-                return false;
-            }
-
             // Have all buttons been turned off?
             return _navigator.Owner.ControlBox && _navigator.Owner.CloseBox;
         }
@@ -88,7 +81,7 @@ namespace Krypton.Navigator
                 {
                     var mea = (MouseEventArgs)e;
 
-                    if (GetView()!.ClientRectangle.Contains(mea.Location))
+                    if (GetView().ClientRectangle.Contains(mea.Location))
                     {
                         PropertyInfo? propertyInfo = typeof(Form).GetProperty(nameof(CloseReason),
                             BindingFlags.Instance | BindingFlags.SetProperty | BindingFlags.NonPublic);

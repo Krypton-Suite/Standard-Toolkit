@@ -2,18 +2,19 @@
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved.
  *
  */
 #endregion
 
+// ReSharper disable InconsistentNaming
 namespace Krypton.Toolkit
 {
     public class CommandLinkImageValues : Storage, IContentValues
     {
         #region Static Fields
 
-        private static readonly Image DEFAULT_IMAGE = MessageBoxImageResources.GenericQuestion;
+        private static readonly Image? DEFAULT_IMAGE = /*MessageBoxImageResources.GenericQuestion;*/ GraphicsExtensions.ScaleImage(GraphicsExtensions.ExtractIcon(Libraries.Shell32, 16805, true)?.ToBitmap(), 32, 32);
 
         private static readonly Image DEFAULT_WINDOWS_11_IMAGE = CommandLinkImageResources.Windows_11_CommandLink_Arrow;
 
@@ -70,13 +71,10 @@ namespace Krypton.Toolkit
                 }
             }
         }
-
-        private bool ShouldSerializeDisplayUACShield() => !DisplayUACShield;
-
-        public void ResetDisplayUACShield() => DisplayUACShield = false;
+        private bool ShouldSerializeDisplayUACShield() => _displayUACShield;
+        private void ResetDisplayUACShield() => DisplayUACShield = false;
 
         /// <summary>Gets and sets the heading image transparent color.</summary>
-        [Localizable(true)]
         [Category("Visuals")]
         [Description("Image transparent color.")]
         [RefreshProperties(RefreshProperties.All)]
@@ -94,19 +92,15 @@ namespace Krypton.Toolkit
                 }
             }
         }
-
-        private bool ShouldSerializeImageTransparentColor() => ImageTransparentColor != Color.Empty;
-
-        /// <summary>Resets the ImageTransparentColor property to its default value.</summary>
-        public void ResetImageTransparentColor() => ImageTransparentColor = Color.Empty;
+        private bool ShouldSerializeImageTransparentColor() => _transparencyKey != Color.Empty;
+        private void ResetImageTransparentColor() => ImageTransparentColor = Color.Empty;
 
         /// <summary>Gets or sets the image.</summary>
         /// <value>The image.</value>
-        [Localizable(true)]
         [Category("Visuals")]
         [Description("The image.")]
         [RefreshProperties(RefreshProperties.All)]
-        //[DefaultValue()]
+        //[DefaultValue(typeof(Image), @"DEFAULT_IMAGE")]
         public Image? Image
         {
             get => _image;
@@ -118,31 +112,13 @@ namespace Krypton.Toolkit
                     PerformNeedPaint(true);
                 }
             }
-
         }
-
-        private bool ShouldSerializeImage() => Image != DEFAULT_WINDOWS_11_IMAGE;
-
-        public void ResetImage()
+        private bool ShouldSerializeImage() => _image != DEFAULT_IMAGE;
+        private void ResetImage()
         {
-            //if (OSUtilities.IsWindowsEleven)
-            //{
-            //    Image = DEFAULT_WINDOWS_11_IMAGE;
-            //}
-            //else if (OSUtilities.IsWindowsTen)
-            //{
-            //    Image = DEFAULT_WINDOWS_10_IMAGE;
-            //}
-            //else if (OSUtilities.IsWindowsEightPointOne || OSUtilities.IsWindowsEight || OSUtilities.IsWindowsSeven)
-            //{
+            Image = DEFAULT_IMAGE;
 
-            //}
-            //else
-            //{
-            //    Image = DEFAULT_IMAGE;
-            //}
-
-            Image = DEFAULT_WINDOWS_11_IMAGE;
+            // Image = DEFAULT_WINDOWS_11_IMAGE;
         }
 
         [DefaultValue(UACShieldIconSize.Small), Description(@"")]
@@ -157,10 +133,8 @@ namespace Krypton.Toolkit
                 ShowUACShieldImage(_displayUACShield, value);
             }
         }
-
-        private bool ShouldSerializeUACShieldIconSize() => UACShieldIconSize != UACShieldIconSize.Small;
-
-        public void ResetUACShieldIconSize() => UACShieldIconSize = UACShieldIconSize.Small;
+        private bool ShouldSerializeUACShieldIconSize() => _uacShieldIconSize != UACShieldIconSize.Small;
+        private void ResetUACShieldIconSize() => UACShieldIconSize = UACShieldIconSize.Small;
 
         #endregion
 
@@ -187,10 +161,11 @@ namespace Krypton.Toolkit
 
         /// <inheritdoc />
         [Browsable(false)]
-        public override bool IsDefault => (DisplayUACShield.Equals(false) &&
-                                           Image!.Equals(DEFAULT_IMAGE) &&
-                                           ImageTransparentColor.Equals(Color.Empty) &&
-                                           UACShieldIconSize.Equals(UACShieldIconSize.Small));
+        public override bool IsDefault => (!ShouldSerializeDisplayUACShield() &&
+                                           !ShouldSerializeImage() &&
+                                           !ShouldSerializeImageTransparentColor() &&
+                                           !ShouldSerializeUACShieldIconSize()
+                                           );
 
         #endregion
 
@@ -217,15 +192,14 @@ namespace Krypton.Toolkit
         {
             if (showUACShield)
             {
-                int h = height ?? 16, w = width ?? 16;
-
                 Image shield = SystemIcons.Shield.ToBitmap();
 
                 switch (shieldIconSize)
                 {
                     //case UACShieldIconSize.Custom:
+                    //    {int h = height ?? 16, w = width ?? 16;
                     //    Values.Image = GraphicsExtensions.ScaleImage(shield, w, h);
-                    //    break;
+                    //    }break;
                     case UACShieldIconSize.ExtraSmall:
                         Image = GraphicsExtensions.ScaleImage(shield, 16, 16);
                         break;
@@ -251,7 +225,8 @@ namespace Krypton.Toolkit
             }
             else
             {
-                Image = null;
+                // TODO: This should revert to the original image !
+                //Image = null;
             }
         }
 

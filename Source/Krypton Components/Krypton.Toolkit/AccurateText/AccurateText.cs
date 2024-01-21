@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
  *  
  */
 #endregion
@@ -42,8 +42,6 @@ namespace Krypton.Toolkit
         /// <param name="align">How to align multi-line text.</param>
         /// <param name="prefix">How to process prefix characters.</param>
         /// <param name="hint">Rendering hint.</param>
-        /// <param name="composition">Should draw on a composition element.</param>
-        /// <param name="glowing">When on composition draw with glowing.</param>
         /// <param name="disposeFont">Dispose of font when finished with it.</param>
         /// <exception cref="ArgumentNullException"></exception>
         /// <returns>A memento used to draw the text.</returns>
@@ -55,8 +53,6 @@ namespace Krypton.Toolkit
                                                         PaletteRelativeAlign align,
                                                         PaletteTextHotkeyPrefix prefix,
                                                         TextRenderingHint hint,
-                                                        bool composition,
-                                                        bool glowing,
                                                         bool disposeFont)
         {
             Debug.Assert(g != null);
@@ -99,15 +95,19 @@ namespace Krypton.Toolkit
                 case PaletteRelativeAlign.Near:
                     format.Alignment = (rtl == RightToLeft.Yes) ? StringAlignment.Far : StringAlignment.Near;
                     break;
+
                 case PaletteRelativeAlign.Center:
                     format.Alignment = StringAlignment.Center;
                     break;
+
                 case PaletteRelativeAlign.Far:
                     format.Alignment = (rtl == RightToLeft.Yes) ? StringAlignment.Near : StringAlignment.Far;
                     break;
+
                 default:
-                    // Should never happen!
+    // Should never happen!
                     Debug.Assert(false);
+                    DebugTools.NotImplemented(align.ToString());
                     break;
             }
 
@@ -117,24 +117,31 @@ namespace Krypton.Toolkit
                 case PaletteTextTrim.Character:
                     format.Trimming = StringTrimming.Character;
                     break;
+
                 case PaletteTextTrim.EllipsisCharacter:
                     format.Trimming = StringTrimming.EllipsisCharacter;
                     break;
+
                 case PaletteTextTrim.EllipsisPath:
                     format.Trimming = StringTrimming.EllipsisPath;
                     break;
+
                 case PaletteTextTrim.EllipsisWord:
                     format.Trimming = StringTrimming.EllipsisWord;
                     break;
+
                 case PaletteTextTrim.Word:
                     format.Trimming = StringTrimming.Word;
                     break;
+
                 case PaletteTextTrim.Hide:
                     format.Trimming = StringTrimming.None;
                     break;
+
                 default:
-                    // Should never happen!
+    // Should never happen!
                     Debug.Assert(false);
+                    DebugTools.NotImplemented(trim.ToString());
                     break;
             }
 
@@ -144,15 +151,19 @@ namespace Krypton.Toolkit
                 case PaletteTextHotkeyPrefix.None:
                     format.HotkeyPrefix = HotkeyPrefix.None;
                     break;
+
                 case PaletteTextHotkeyPrefix.Hide:
                     format.HotkeyPrefix = HotkeyPrefix.Hide;
                     break;
+
                 case PaletteTextHotkeyPrefix.Show:
                     format.HotkeyPrefix = HotkeyPrefix.Show;
                     break;
+
                 default:
-                    // Should never happen!
+    // Should never happen!
                     Debug.Assert(false);
+                    DebugTools.NotImplemented(prefix.ToString());
                     break;
             }
 
@@ -174,11 +185,6 @@ namespace Krypton.Toolkit
                         // Declare a proposed size with dimensions set to the maximum integer value.
                         var proposedSize = new Size(int.MaxValue, int.MaxValue);
                         textSize = g.MeasureString(text, font, proposedSize, format);
-
-                        if (composition && glowing) //Seb
-                        {
-                            textSize.Width += GLOW_EXTRA_WIDTH;
-                        }
                     }
                     catch
                     {
@@ -200,10 +206,8 @@ namespace Krypton.Toolkit
         /// <param name="rect">Rectangle to draw text inside.</param>
         /// <param name="rtl">Right to left setting for control.</param>
         /// <param name="orientation">Orientation for drawing text.</param>
-        /// <param name="memento">Memento containing text context.</param>
         /// <param name="state">State of the source element.</param>
-        /// <param name="composition">Should draw on a composition element.</param>
-        /// <param name="glowing">When on composition draw with glowing.</param>
+        /// <param name="memento">Memento containing text context.</param>
         /// <exception cref="ArgumentNullException"></exception>
         /// <returns>True if draw succeeded; False is draw produced an error.</returns>
         public static bool DrawString([DisallowNull] Graphics g,
@@ -211,8 +215,6 @@ namespace Krypton.Toolkit
                                       Rectangle rect,
                                       RightToLeft rtl,
                                       VisualOrientation orientation,
-                                      bool composition,
-                                      bool glowing,
                                       PaletteState state,
                                       [DisallowNull] AccurateTextMemento memento)
         {
@@ -287,26 +289,8 @@ namespace Krypton.Toolkit
 
                     try
                     {
-                        switch (Application.RenderWithVisualStyles)
-                        {
-                            case true when composition && glowing:
-                                DrawCompositionGlowingText(g, memento.Text, memento.Font, rect, state,
-                                    SystemColors.ActiveCaptionText, true);
-                                break;
-                            case true when composition:
-                            {
-                                //Check if correct in all cases
-                                var tmpBrush = brush as SolidBrush;
-                                Color tmpColor = tmpBrush?.Color ?? SystemColors.ActiveCaptionText;
 
-                                DrawCompositionText(g, memento.Text, memento.Font, rect, state,
-                                    tmpColor, true, memento.Format);
-                                break;
-                            }
-                            default:
                                 g.DrawString(memento.Text, memento.Font, brush, rect, memento.Format);
-                                break;
-                        }
                     }
                     catch
                     {
@@ -350,221 +334,6 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Implementation
-        /// <summary>
-        /// Draw text with a glowing background, for use on a composition element.
-        /// </summary>
-        /// <param name="g">Graphics reference.</param>
-        /// <param name="text">Text to be drawn.</param>
-        /// <param name="font">Font to use for text.</param>
-        /// <param name="bounds">Bounding area for the text.</param>
-        /// <param name="state">State of the source element.</param>
-        /// <param name="color"><see cref="Color"/> of the text.</param>
-        /// <param name="copyBackground">Should existing background be copied into the bitmap.</param>
-        public static void DrawCompositionGlowingText(Graphics? g,
-                                                      string text,
-                                                      Font? font,
-                                                      Rectangle bounds,
-                                                      PaletteState state,
-                                                      Color color,
-                                                      bool copyBackground)
-        {
-            // Get the hDC for the graphics instance and create a memory DC
-            var gDC = g?.GetHdc() ?? IntPtr.Zero;
-            try
-            {
-                var mDC = PI.CreateCompatibleDC(gDC);
-
-                var bmi = new PI.BITMAPINFO
-                {
-                    biWidth = bounds.Width,
-                    biHeight = -(bounds.Height + (GLOW_EXTRA_HEIGHT * 2)),
-                    biCompression = 0,
-                    biBitCount = 32,
-                    biPlanes = 1
-                };
-                bmi.biSize = (uint) Marshal.SizeOf(bmi);
-
-
-                // Create a device independent bitmap and select into the memory DC
-                var hDIB = PI.CreateDIBSection(gDC, ref bmi, 0, out _, IntPtr.Zero, 0);
-                PI.SelectObject(mDC, hDIB);
-
-                if (copyBackground)
-                {
-                    // Copy existing background into the bitmap
-                    PI.BitBlt(mDC, 0, 0, bounds.Width, bounds.Height + (GLOW_EXTRA_HEIGHT * 2),
-                              gDC, bounds.X, bounds.Y - GLOW_EXTRA_HEIGHT, 0x00CC0020);
-                }
-
-                // Select the font for use when drawing
-                var hFont = font.ToHfont();
-                PI.SelectObject(mDC, hFont);
-
-                // Get renderer for the correct state
-                var renderer = new VisualStyleRenderer(state == PaletteState.Normal
-                    ? VisualStyleElement.Window.Caption.Active
-                    : VisualStyleElement.Window.Caption.Inactive);
-
-                // Create structures needed for theme drawing call
-                var textBounds = new PI.RECT
-                {
-                    left = 0,
-                    top = 0,
-                    right = bounds.Right - bounds.Left,
-                    bottom = bounds.Bottom - bounds.Top + (GLOW_EXTRA_HEIGHT * 2)
-                };
-                var dttOpts = new PI.DTTOPTS
-                {
-                    dwSize = Marshal.SizeOf(typeof(PI.DTTOPTS)),
-                    dwFlags = PI.DTT_COMPOSITED | PI.DTT_GLOWSIZE | PI.DTT_TEXTCOLOR,
-                    crText = ColorTranslator.ToWin32(color),
-                    iGlowSize = 11
-                };
-
-                // Always draw text centered
-                const TextFormatFlags TEXT_FORMAT = TextFormatFlags.SingleLine |
-                                                   TextFormatFlags.HorizontalCenter |
-                                                   TextFormatFlags.VerticalCenter |
-                                                   TextFormatFlags.EndEllipsis;
-
-                // Perform actual drawing
-                PI.DrawThemeTextEx(renderer.Handle,
-                                   mDC, 0, 0,
-                                   text, -1, (int)TEXT_FORMAT,
-                                   ref textBounds, ref dttOpts);
-
-                // Copy to foreground
-                PI.BitBlt(gDC,
-                          bounds.Left, bounds.Top - GLOW_EXTRA_HEIGHT,
-                          bounds.Width, bounds.Height + (GLOW_EXTRA_HEIGHT * 2),
-                          mDC, 0, 0, 0x00CC0020);
-
-                // Dispose of allocated objects
-                PI.DeleteObject(hFont);
-                PI.DeleteObject(hDIB);
-                PI.DeleteDC(mDC);              
-            }
-            catch
-            {
-                // ignored
-            }
-            finally
-            {
-                // Must remember to release the hDC
-                g?.ReleaseHdc(gDC);
-            }
-        }
-
-        /// <summary>
-        /// Draw text without a glowing background, for use on a composition element.
-        /// </summary>
-        /// <param name="g">Graphics reference.</param>
-        /// <param name="text">Text to be drawn.</param>
-        /// <param name="font">Font to use for text.</param>
-        /// <param name="bounds">Bounding area for the text.</param>
-        /// <param name="state">State of the source element.</param>
-        /// <param name="color"><see cref="Color"/> of the text.</param>
-        /// <param name="copyBackground">Should existing background be copied into the bitmap.</param>
-        /// <param name="sf">StringFormat of the memento.</param>
-        public static void DrawCompositionText(Graphics? g,
-                                                      string text,
-                                                      Font? font,
-                                                      Rectangle bounds,
-                                                      PaletteState state,
-                                                      Color color,
-                                                      bool copyBackground,
-                                                      StringFormat sf)
-        {
-            // Get the hDC for the graphics instance and create a memory DC
-            var gDC = g?.GetHdc() ?? IntPtr.Zero;
-            try
-            {
-                var mDC = PI.CreateCompatibleDC(gDC);
-
-                var bmi = new PI.BITMAPINFO
-                {
-                    biWidth = bounds.Width,
-                    biHeight = -bounds.Height,
-                    biCompression = 0,
-                    biBitCount = 32,
-                    biPlanes = 1
-                };
-                bmi.biSize = (uint)Marshal.SizeOf(bmi);
-
-                // Create a device independent bitmap and select into the memory DC
-                var hDIB = PI.CreateDIBSection(gDC, ref bmi, 0, out _, IntPtr.Zero, 0);
-                PI.SelectObject(mDC, hDIB);
-
-                if (copyBackground)
-                {
-                    // Copy existing background into the bitmap
-                    PI.BitBlt(mDC, 0, 0, bounds.Width, bounds.Height,
-                              gDC, bounds.X, bounds.Y, 0x00CC0020);
-                }
-
-                // Select the font for use when drawing
-                var hFont = font.ToHfont();
-                PI.SelectObject(mDC, hFont);
-
-                // Get renderer for the correct state
-                var renderer = new VisualStyleRenderer(state == PaletteState.Normal
-                    ? VisualStyleElement.Window.Caption.Active
-                    : VisualStyleElement.Window.Caption.Inactive);
-
-                // Create structures needed for theme drawing call
-                var textBounds = new PI.RECT
-                {
-                    left = 0,
-                    top = 0,
-                    right = bounds.Right - bounds.Left,
-                    bottom = bounds.Bottom - bounds.Top
-                };
-                var dttOpts = new PI.DTTOPTS
-                {
-                    dwSize = Marshal.SizeOf(typeof(PI.DTTOPTS)),
-                    dwFlags = PI.DTT_COMPOSITED | PI.DTT_TEXTCOLOR,
-                    crText = ColorTranslator.ToWin32(color)
-                };
-
-                // Always draw text centered
-                TextFormatFlags textFormat = TextFormatFlags.SingleLine |
-                                             TextFormatFlags.HorizontalCenter |
-                                             TextFormatFlags.VerticalCenter;
-                ////Seb   |  TextFormatFlags.EndEllipsis;
-
-
-                // Perform actual drawing
-                //PI.DrawThemeTextEx(renderer.Handle,
-                //                   mDC, 0, 0,
-                //                   text, -1, (int)StringFormatToFlags(sf),
-                //                   ref textBounds, ref dttOpts);
-                PI.DrawThemeTextEx(renderer.Handle,
-                                  mDC, 0, 0,
-                                  text, -1, (int)textFormat,
-                                  ref textBounds, ref dttOpts);
-
-                // Copy to foreground
-                PI.BitBlt(gDC,
-                          bounds.Left, bounds.Top,
-                          bounds.Width, bounds.Height,
-                          mDC, 0, 0, 0x00CC0020);
-
-                // Dispose of allocated objects
-                PI.DeleteObject(hFont);
-                PI.DeleteObject(hDIB);
-                PI.DeleteDC(mDC);
-            }
-            catch
-            {
-                // ignored
-            }
-            finally
-            {
-                // Must remember to release the hDC
-                g?.ReleaseHdc(gDC);
-            }
-        }
-
         private static StringFormat FlagsToStringFormat(TextFormatFlags flags)
         {
             var sf = new StringFormat();

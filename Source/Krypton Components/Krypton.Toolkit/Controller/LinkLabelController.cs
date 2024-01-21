@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
  *  
  */
 #endregion
@@ -65,7 +65,7 @@ namespace Krypton.Toolkit
             NeedPaint = needPaint;
 
             // Remember target for state changes
-            _target = target!;
+            _target = target;
             _paletteDisabled = paletteDisabled;
             _paletteNormal = paletteNormal;
             _paletteTracking = paletteTracking;
@@ -411,7 +411,7 @@ namespace Krypton.Toolkit
         /// <param name="pt">Mouse point.</param>
         protected void UpdateTargetState(Point pt)
         {
-            // By default the button is in the normal state
+            // By default, the button is in the normal state
             PaletteState newState;
 
             // If the button is disabled then show as disabled
@@ -466,8 +466,9 @@ namespace Krypton.Toolkit
                     _target.SetPalette(_palettePressed);
                     break;
                 default:
-                    // Should never happen!
+    // Should never happen!
                     Debug.Assert(false);
+                    DebugTools.NotImplemented(_target.State.ToString());
                     break;
             }
 

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
  *  
  */
 #endregion
@@ -116,7 +116,7 @@ namespace Krypton.Navigator
         {
             Debug.Assert(navigator != null);
 
-            Navigator = navigator!;
+            Navigator = navigator;
             _page = page;
             _lastClick = DateTime.Now.AddDays(-1);
 
@@ -154,7 +154,7 @@ namespace Krypton.Navigator
                                                                    new[] { PaletteMetricInt.PageButtonInset },
                                                                    new[] { PaletteMetricInt.PageButtonInset },
                                                                    new[] { PaletteMetricPadding.PageButtonPadding },
-                                                                   Navigator.CreateToolStripRenderer!,
+                                                                   Navigator.CreateToolStripRenderer,
                                                                    null)
                 {
 
@@ -257,16 +257,16 @@ namespace Krypton.Navigator
 
                     if (_page != null)
                     {
-                        _overrideDisabled.SetPalettes(_page.OverrideFocus.CheckButton, _page.StateDisabled!.CheckButton);
-                        _overrideNormal.SetPalettes(_page.OverrideFocus.CheckButton, _page.StateNormal!.CheckButton);
+                        _overrideDisabled.SetPalettes(_page.OverrideFocus.CheckButton, _page.StateDisabled.CheckButton);
+                        _overrideNormal.SetPalettes(_page.OverrideFocus.CheckButton, _page.StateNormal.CheckButton);
                         _overrideTracking.SetPalettes(_page.OverrideFocus.CheckButton, _page.StateTracking.CheckButton);
                         _overridePressed.SetPalettes(_page.OverrideFocus.CheckButton, _page.StatePressed.CheckButton);
                         _overrideSelected.SetPalettes(_page.OverrideFocus.CheckButton, _page.StateSelected.CheckButton);
                     }
                     else
                     {
-                        _overrideDisabled.SetPalettes(Navigator.OverrideFocus.CheckButton, Navigator.StateDisabled!.CheckButton);
-                        _overrideNormal.SetPalettes(Navigator.OverrideFocus.CheckButton, Navigator.StateNormal!.CheckButton);
+                        _overrideDisabled.SetPalettes(Navigator.OverrideFocus.CheckButton, Navigator.StateDisabled.CheckButton);
+                        _overrideNormal.SetPalettes(Navigator.OverrideFocus.CheckButton, Navigator.StateNormal.CheckButton);
                         _overrideTracking.SetPalettes(Navigator.OverrideFocus.CheckButton, Navigator.StateTracking.CheckButton);
                         _overridePressed.SetPalettes(Navigator.OverrideFocus.CheckButton, Navigator.StatePressed.CheckButton);
                         _overrideSelected.SetPalettes(Navigator.OverrideFocus.CheckButton, Navigator.StateSelected.CheckButton);

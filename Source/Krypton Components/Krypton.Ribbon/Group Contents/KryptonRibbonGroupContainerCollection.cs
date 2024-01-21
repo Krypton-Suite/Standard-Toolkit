@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
  *  
  */
 #endregion
@@ -18,10 +18,13 @@ namespace Krypton.Ribbon
     public class KryptonRibbonGroupContainerCollection : TypedRestrictCollection<KryptonRibbonGroupContainer>
     {
         #region Static Fields
-        private static readonly Type[] _types = { typeof(KryptonRibbonGroupLines),
+        private static readonly Type[] _types =
+        [
+            typeof(KryptonRibbonGroupLines),
                                                              typeof(KryptonRibbonGroupTriple),
                                                              typeof(KryptonRibbonGroupSeparator),
-                                                             typeof(KryptonRibbonGroupGallery)};
+                                                             typeof(KryptonRibbonGroupGallery)
+        ];
         #endregion
 
         #region Restrict

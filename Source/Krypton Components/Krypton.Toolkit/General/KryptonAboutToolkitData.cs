@@ -2,14 +2,14 @@
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2023 - 2023. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2023 - 2024. All rights reserved.
  *
  */
 #endregion
 
 namespace Krypton.Toolkit
 {
-    /// <summary>Contains the information used for creating a new <see cref="VisualAboutToolkitForm"/>.</summary>
+    /// <summary>Contains the toolkit information used for creating a new <see cref="VisualAboutBoxForm"/>.</summary>
     public struct KryptonAboutToolkitData
     {
         #region Static Fields

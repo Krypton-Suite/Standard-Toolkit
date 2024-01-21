@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
  *  
  */
 #endregion
@@ -70,7 +70,7 @@ namespace Krypton.Toolkit
         /// <param name="enabled">Enabled state of the context menu.</param>
         /// <param name="keyboardActivated">Was the context menu activate by a keyboard action.</param>
         public VisualContextMenu(KryptonContextMenu contextMenu,
-                                 PaletteBase palette,
+                                 PaletteBase? palette,
                                  PaletteMode paletteMode,
                                  PaletteRedirect redirector,
                                  PaletteRedirectContextMenu redirectorImages,
@@ -93,7 +93,7 @@ namespace Krypton.Toolkit
 
             // Create provider instance
             _provider = new ContextMenuProvider(contextMenu, (ViewContextMenuManager)ViewManager, _viewColumns,
-                                                palette, paletteMode, redirector, redirectorImages,
+                                                palette!, paletteMode, redirector, redirectorImages,
                                                 NeedPaintDelegate, enabled);
 
             _provider.Closing += OnProviderClosing;
@@ -388,13 +388,15 @@ namespace Krypton.Toolkit
 
             // Need a render context for accessing the renderer
             using var context = new RenderContext(this, null, ClientRectangle, Renderer);
+            using var gh = new GraphicsHint(context.Graphics,
+                _provider.ProviderStateCommon.ControlOuter.Border.GetBorderGraphicsHint(PaletteState.Normal));
             // Grab a path that is the outside edge of the border
             Rectangle borderRect = ClientRectangle;
-            GraphicsPath borderPath1 = Renderer?.RenderStandardBorder.GetOutsideBorderPath(context, borderRect, _provider.ProviderStateCommon.ControlOuter.Border, VisualOrientation.Top, PaletteState.Normal)!;
+            GraphicsPath borderPath1 = Renderer.RenderStandardBorder.GetOutsideBorderPath(context, borderRect, _provider.ProviderStateCommon.ControlOuter.Border, VisualOrientation.Top, PaletteState.Normal);
             borderRect.Inflate(-1, -1);
-            GraphicsPath borderPath2 = Renderer?.RenderStandardBorder.GetOutsideBorderPath(context, borderRect, _provider.ProviderStateCommon.ControlOuter.Border, VisualOrientation.Top, PaletteState.Normal)!;
+            GraphicsPath borderPath2 = Renderer.RenderStandardBorder.GetOutsideBorderPath(context, borderRect, _provider.ProviderStateCommon.ControlOuter.Border, VisualOrientation.Top, PaletteState.Normal);
             borderRect.Inflate(-1, -1);
-            GraphicsPath borderPath3 = Renderer?.RenderStandardBorder.GetOutsideBorderPath(context, borderRect, _provider.ProviderStateCommon.ControlOuter.Border, VisualOrientation.Top, PaletteState.Normal)!;
+            GraphicsPath borderPath3 = Renderer.RenderStandardBorder.GetOutsideBorderPath(context, borderRect, _provider.ProviderStateCommon.ControlOuter.Border, VisualOrientation.Top, PaletteState.Normal);
 
             // Update the region of the popup to be the border path
             Region = new Region(borderPath1);
@@ -429,7 +431,7 @@ namespace Krypton.Toolkit
             };
 
             var layoutDocker = new ViewLayoutDocker();
-            Padding outerPadding = _provider.ProviderRedirector!.GetMetricPadding(PaletteState.Normal, PaletteMetricPadding.ContextMenuItemOuter);
+            Padding outerPadding = _provider.ProviderRedirector.GetMetricPadding(PaletteState.Normal, PaletteMetricPadding.ContextMenuItemOuter);
             layoutDocker.Add(new ViewLayoutSeparator(outerPadding.Top), ViewDockStyle.Top);
             layoutDocker.Add(new ViewLayoutSeparator(outerPadding.Bottom), ViewDockStyle.Bottom);
             layoutDocker.Add(new ViewLayoutSeparator(outerPadding.Left), ViewDockStyle.Left);
@@ -460,7 +462,7 @@ namespace Krypton.Toolkit
             {
                 // Find the preferred size which fits exactly the calculated contents size
                 using var context = new ViewLayoutContext(this, Renderer);
-                return ViewManager!.Root!.GetPreferredSize(context);
+                return ViewManager!.Root.GetPreferredSize(context);
             }
             finally
             {
@@ -485,10 +487,10 @@ namespace Krypton.Toolkit
                 _palette = palette;
 
                 // Update redirector to use palette as source for obtaining values
-                Redirector!.Target = _palette;
+                Redirector.Target = _palette;
 
                 // Get the renderer associated with the palette
-                Renderer = _palette?.GetRenderer();
+                Renderer = _palette.GetRenderer();
 
                 // Hook to new palette events
                 if (_palette != null)
@@ -502,7 +504,7 @@ namespace Krypton.Toolkit
 
         private void OnBaseChanged(object sender, EventArgs e) =>
             // Change in base renderer or base palette require we fetch the latest renderer
-            Renderer = _palette?.GetRenderer();
+            Renderer = _palette.GetRenderer();
 
         private void OnProviderClosing(object sender, CancelEventArgs e) => _contextMenu?.OnClosing(e);
 

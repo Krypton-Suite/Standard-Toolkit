@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
  *  
  */
 #endregion
@@ -638,9 +638,9 @@ namespace Krypton.Navigator
         [Category(@"Visuals")]
         [Description(@"Overrides for defining disabled navigator appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteNavigator? StateDisabled { get; private set; }
+        public PaletteNavigator StateDisabled { get; private set; }
 
-        private bool ShouldSerializeStateDisabled() => !StateDisabled!.IsDefault;
+        private bool ShouldSerializeStateDisabled() => !StateDisabled.IsDefault;
 
         /// <summary>
         /// Gets access to the normal navigator appearance entries.
@@ -648,9 +648,9 @@ namespace Krypton.Navigator
         [Category(@"Visuals")]
         [Description(@"Overrides for defining normal navigator appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteNavigator? StateNormal { get; private set; }
+        public PaletteNavigator StateNormal { get; private set; }
 
-        private bool ShouldSerializeStateNormal() => !StateNormal!.IsDefault;
+        private bool ShouldSerializeStateNormal() => !StateNormal.IsDefault;
 
         /// <summary>
         /// Gets access to the tracking navigator appearance entries.
@@ -716,7 +716,7 @@ namespace Krypton.Navigator
 
                         // Ask the view builder to create new view based on new mode
                         ViewBuilder = ViewBuilderBase.CreateViewBuilder(_mode);
-                        ViewBuilder.Construct(this, ViewManager!, Redirector!);
+                        ViewBuilder.Construct(this, ViewManager!, Redirector);
 
                         // Need to layout the new view
                         if (!IsInitializing)
@@ -860,7 +860,7 @@ namespace Krypton.Navigator
         /// </summary>
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public ToolTipManager ToolTipManager { get; private set; }
+        public ToolTipManager? ToolTipManager { get; private set; }
 
         #endregion
 
@@ -1125,7 +1125,7 @@ namespace Krypton.Navigator
 
                 // Ask the view builder to create new view based on new mode
                 ViewBuilder = ViewBuilderBase.CreateViewBuilder(_mode);
-                ViewBuilder.Construct(this, ViewManager!, Redirector!);
+                ViewBuilder.Construct(this, ViewManager!, Redirector);
 
                 if (LayoutOnInitialized)
                 {
@@ -1619,14 +1619,15 @@ namespace Krypton.Navigator
                                 case CloseButtonAction.None:
                                     // Do nothing
                                     break;
+
                                 case CloseButtonAction.RemovePage:
                                     // If the page still exists after the event then remove it
                                     if (Pages.Contains(e.Item))
                                     {
                                         Pages.Remove(e.Item);
                                     }
-
                                     break;
+
                                 case CloseButtonAction.RemovePageAndDispose:
                                     // If the page still exists after the event
                                     if (Pages.Contains(e.Item))
@@ -1637,19 +1638,20 @@ namespace Krypton.Navigator
                                         // Dispose of its resources
                                         e.Item.Dispose();
                                     }
-
                                     break;
+
                                 case CloseButtonAction.HidePage:
                                     // If the page still exists after the event then hide it
                                     if (Pages.Contains(e.Item))
                                     {
                                         e.Item.Hide();
                                     }
-
                                     break;
+
                                 default:
-                                    // Should never happen!
+    // Should never happen!
                                     Debug.Assert(false);
+                                    DebugTools.NotImplemented(e.Action.ToString());
                                     break;
                             }
                         }
@@ -1834,7 +1836,7 @@ namespace Krypton.Navigator
 
         internal void InternalForceViewLayout() => ForceViewLayout();
 
-        internal ToolTipManager HoverManager { get; private set; }
+        internal ToolTipManager? HoverManager { get; private set; }
 
         internal bool InternalDesignMode => DesignMode;
 
@@ -1909,7 +1911,7 @@ namespace Krypton.Navigator
             Debug.Assert(page != null);
 
             // Get the index of the page
-            var pos = Pages.IndexOf(page!);
+            var pos = Pages.IndexOf(page);
 
             // Search backwards towards start of pages collection
             for (var i = pos - 1; i >= 0; i--)
@@ -1929,7 +1931,7 @@ namespace Krypton.Navigator
             Debug.Assert(page != null);
 
             // Get the index of the page
-            var pos = Pages.IndexOf(page!);
+            var pos = Pages.IndexOf(page);
 
             // Search towards end of pages collection
             for (var i = pos + 1; i < Pages.Count; i++)
@@ -2205,9 +2207,9 @@ namespace Krypton.Navigator
             if (StateCommon != null && StateDisabled != null && StateNormal != null)
             {
                 ChildPanel = new KryptonGroupPanel(this,
-                    StateCommon.HeaderGroup!,
-                    StateDisabled.HeaderGroup!,
-                    StateNormal.HeaderGroup!,
+                    StateCommon.HeaderGroup,
+                    StateDisabled.HeaderGroup,
+                    StateNormal.HeaderGroup,
                     OnGroupPanelPaint!)
                 {
                     // Make sure the panel back style always mimics our back style

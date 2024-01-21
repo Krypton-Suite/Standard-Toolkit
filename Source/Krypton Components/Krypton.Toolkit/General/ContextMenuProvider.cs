@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
  *  
  */
 #endregion
@@ -88,7 +88,7 @@ namespace Krypton.Toolkit
         public ContextMenuProvider(KryptonContextMenu contextMenu,
                                    ViewContextMenuManager viewManager,
                                    ViewLayoutStack viewColumns,
-                                   PaletteBase palette,
+                                   PaletteBase? palette,
                                    PaletteMode paletteMode,
                                    PaletteRedirect redirector,
                                    PaletteRedirectContextMenu redirectorImages,
@@ -132,7 +132,7 @@ namespace Krypton.Toolkit
         /// <param name="enabled">Enabled state of the context menu.</param>
         public ContextMenuProvider(ViewContextMenuManager viewManager,
                                    ViewLayoutStack viewColumns,
-                                   PaletteBase palette,
+                                   PaletteBase? palette,
                                    PaletteMode paletteMode,
                                    PaletteContextMenuRedirect stateCommon,
                                    PaletteContextMenuItemState stateDisabled,
@@ -305,7 +305,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets access to the custom palette.
         /// </summary>
-        public PaletteBase ProviderPalette { get; }
+        public PaletteBase? ProviderPalette { get; }
 
         /// <summary>
         /// Gets access to the palette mode.

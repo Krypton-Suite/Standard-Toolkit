@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
  *  
  */
 #endregion
@@ -44,11 +44,13 @@ namespace Krypton.Toolkit
                                         KryptonCommand? linkAreaCommand = null,
                                         ProcessStartInfo? linkLaunchArgument = null,
                                         LinkArea? contentLinkArea = null,
-                                        ContentAlignment? messageTextAlignment = ContentAlignment.MiddleLeft) =>
+                                        ContentAlignment? messageTextAlignment = ContentAlignment.MiddleLeft,
+                                        bool? showCloseButton = null) =>
             ShowCore(null, text, caption, KryptonMessageBoxButtons.OK, KryptonMessageBoxIcon.None,
                      KryptonMessageBoxDefaultButton.Button4, 0, null, showCtrlCopy,
                      null, null, @"", null, null, @"",
-                     contentAreaType, linkAreaCommand, linkLaunchArgument, contentLinkArea, messageTextAlignment, null);
+                     contentAreaType, linkAreaCommand, linkLaunchArgument, contentLinkArea, messageTextAlignment, null,
+                     null, null, null, showCloseButton);
 
         /// <summary>
         /// Displays a message box in front+center of the application and with the specified text, caption and buttons.
@@ -66,13 +68,15 @@ namespace Krypton.Toolkit
                                         KryptonCommand? linkAreaCommand = null,
                                         ProcessStartInfo? linkLaunchArgument = null,
                                         LinkArea? contentLinkArea = null,
-                                        ContentAlignment? messageTextAlignment = ContentAlignment.MiddleLeft) =>
+                                        ContentAlignment? messageTextAlignment = ContentAlignment.MiddleLeft,
+                                        bool? showCloseButton = null) =>
             ShowCore(null, text, @"", KryptonMessageBoxButtons.OK, KryptonMessageBoxIcon.None,
                      KryptonMessageBoxDefaultButton.Button4, 0,
                      null, showCtrlCopy, false, null, @"",
                      null, null, @"",
                      contentAreaType, linkAreaCommand, linkLaunchArgument,
-                     contentLinkArea, messageTextAlignment, null);
+                     contentLinkArea, messageTextAlignment, null, null, null,
+                     null, showCloseButton);
 
         /// <summary>
         /// Displays a message box in front+center of the specified object and with the specified text, caption, buttons, icon, default button, and options.
@@ -91,12 +95,15 @@ namespace Krypton.Toolkit
                                         KryptonCommand? linkAreaCommand = null,
                                         ProcessStartInfo? linkLaunchArgument = null,
                                         LinkArea? contentLinkArea = null,
-                                        ContentAlignment? messageTextAlignment = ContentAlignment.MiddleLeft) =>
+                                        ContentAlignment? messageTextAlignment = ContentAlignment.MiddleLeft,
+                                        bool? showCloseButton = null) =>
             ShowCore(owner, text, @"", KryptonMessageBoxButtons.OK, KryptonMessageBoxIcon.None,
                      KryptonMessageBoxDefaultButton.Button4, 0, null, showCtrlCopy,
                      false, null, @"", null,
                      null, @"",
-                     contentAreaType, linkAreaCommand, linkLaunchArgument, contentLinkArea, messageTextAlignment, null);
+                     contentAreaType, linkAreaCommand, linkLaunchArgument, contentLinkArea, 
+                     messageTextAlignment, null, null, null,
+                     null, showCloseButton);
 
         /// <summary>
         /// Displays a message box in front+center of the specified object and with the specified text, caption, buttons, icon, default button, and options.
@@ -111,17 +118,20 @@ namespace Krypton.Toolkit
         /// <param name="contentLinkArea">Specifies the area within the <see cref="KryptonLinkWrapLabel"/> to be regarded as a link. See <see cref="LinkArea"/>.</param>
         /// <param name="messageTextAlignment">Specifies how the message text should be aligned. See <see cref="System.Drawing.ContentAlignment"/> for supported values.</param>
         /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
-        public static DialogResult Show(IWin32Window? owner, string text, string caption, bool? showCtrlCopy = null,
+        public static DialogResult Show(IWin32Window? owner, string? text, string caption, bool? showCtrlCopy = null,
                                         MessageBoxContentAreaType? contentAreaType = null,
                                         KryptonCommand? linkAreaCommand = null,
                                         ProcessStartInfo? linkLaunchArgument = null,
                                         LinkArea? contentLinkArea = null,
-                                        ContentAlignment? messageTextAlignment = ContentAlignment.MiddleLeft) =>
+                                        ContentAlignment? messageTextAlignment = ContentAlignment.MiddleLeft,
+                                        bool? showCloseButton = null) =>
             ShowCore(owner, text, caption, KryptonMessageBoxButtons.OK, KryptonMessageBoxIcon.None,
                      KryptonMessageBoxDefaultButton.Button4, 0, null, showCtrlCopy,
                      false, null, @"", null,
                      null, @"",
-                     contentAreaType, linkAreaCommand, linkLaunchArgument, contentLinkArea, messageTextAlignment, null);
+                     contentAreaType, linkAreaCommand, linkLaunchArgument, contentLinkArea,
+                     messageTextAlignment, null, null, null,
+                     null, showCloseButton);
 
         /// <summary>
         /// Displays a message box in front+center of the application and with the specified text, caption and buttons.
@@ -142,14 +152,15 @@ namespace Krypton.Toolkit
                                         KryptonCommand? linkAreaCommand = null,
                                         ProcessStartInfo? linkLaunchArgument = null,
                                         LinkArea? contentLinkArea = null,
-                                        ContentAlignment? messageTextAlignment = ContentAlignment.MiddleLeft) =>
+                                        ContentAlignment? messageTextAlignment = ContentAlignment.MiddleLeft, bool? showCloseButton = null) =>
                                        ShowCore(null, text, caption, buttons, KryptonMessageBoxIcon.None,
                                                 KryptonMessageBoxDefaultButton.Button1, 0,
                                                 new HelpInfo(@"", 0, null), showCtrlCopy,
                                                 null, null, @"",
                                                 null, null, @"",
                                                 contentAreaType, linkAreaCommand, linkLaunchArgument,
-                                                contentLinkArea, messageTextAlignment, null);
+                                                contentLinkArea, messageTextAlignment, null,
+                                                null, null, null, showCloseButton);
 
         /// <summary>
         /// Displays a message box in front+center of the application and with the specified text, caption, buttons, icon, default button, and options.
@@ -180,21 +191,23 @@ namespace Krypton.Toolkit
                                          KryptonMessageBoxDefaultButton defaultButton = KryptonMessageBoxDefaultButton.Button4,
                                          MessageBoxOptions options = 0, bool displayHelpButton = false,
                                          bool? showCtrlCopy = null, bool? showHelpButton = null, bool? showActionButton = null,
-                                         string? actionButtonText = @"", KryptonCommand? actionButtonCommand = null,
+                                         string actionButtonText = @"", KryptonCommand? actionButtonCommand = null,
                                          ProcessStartInfo? linkLaunchArgument = null, Image? applicationImage = null,
-                                         string? applicationPath = @"",
+                                         string applicationPath = @"",
                                          MessageBoxContentAreaType? contentAreaType = null,
                                          KryptonCommand? linkAreaCommand = null,
                                          LinkArea? contentLinkArea = null,
                                          ContentAlignment? messageTextAlignment = ContentAlignment.MiddleLeft,
-                                         bool? forceUseOfOperatingSystemIcons = null)
+                                         bool? forceUseOfOperatingSystemIcons = null,
+                                         bool? showCloseButton = null)
             =>
                 ShowCore(null, text, caption, buttons, icon, defaultButton, options,
                          displayHelpButton ? new HelpInfo() : null, showCtrlCopy,
                          showHelpButton, showActionButton,
                          actionButtonText, actionButtonCommand, applicationImage, applicationPath,
                          contentAreaType, linkAreaCommand, linkLaunchArgument,
-                         contentLinkArea, messageTextAlignment, forceUseOfOperatingSystemIcons);
+                         contentLinkArea, messageTextAlignment, forceUseOfOperatingSystemIcons, null,
+                         null, null, showCloseButton);
 
 
         /// <summary>
@@ -227,22 +240,27 @@ namespace Krypton.Toolkit
                                         KryptonMessageBoxDefaultButton defaultButton = KryptonMessageBoxDefaultButton.Button4,
                                         MessageBoxOptions options = 0, bool displayHelpButton = false,
                                         bool? showCtrlCopy = null, bool? showHelpButton = null,
-                                        bool? showActionButton = null, string? actionButtonText = @"",
+                                        bool? showActionButton = null, string actionButtonText = @"",
                                         KryptonCommand? actionButtonCommand = null, Image? applicationImage = null,
-                                        string? applicationPath = @"",
+                                        string applicationPath = @"",
                                         MessageBoxContentAreaType? contentAreaType = null,
                                         KryptonCommand? linkAreaCommand = null,
                                         ProcessStartInfo? linkLaunchArgument = null,
                                         LinkArea? contentLinkArea = null,
                                         ContentAlignment? messageTextAlignment = ContentAlignment.MiddleLeft,
-                                        bool? forceUseOfOperatingSystemIcons = null)
+                                        bool? forceUseOfOperatingSystemIcons = null, 
+                                        string? checkBoxText = null,
+                                        bool? isCheckBoxChecked = null,
+                                        CheckState? checkBoxCheckState = null,
+                                        bool? showCloseButton = null)
             =>
                 ShowCore(owner, text, caption, buttons, icon, defaultButton, options,
                          displayHelpButton ? new HelpInfo() : null, showCtrlCopy,
                          showHelpButton, showActionButton, actionButtonText,
                          actionButtonCommand, applicationImage, applicationPath,
                          contentAreaType, linkAreaCommand, linkLaunchArgument,
-                         contentLinkArea, messageTextAlignment, forceUseOfOperatingSystemIcons);
+                         contentLinkArea, messageTextAlignment, forceUseOfOperatingSystemIcons,
+                         checkBoxText, isCheckBoxChecked, checkBoxCheckState, showCloseButton);
 
         /// <param name="text">The text to display in the message box.</param>
         /// <param name="caption" >The text to display in the title bar of the message box. default="string.Empty"</param>
@@ -269,23 +287,26 @@ namespace Krypton.Toolkit
         /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
         public static DialogResult Show(string text, string caption, KryptonMessageBoxButtons buttons,
                                         KryptonMessageBoxIcon icon, KryptonMessageBoxDefaultButton defaultButton,
-                                        MessageBoxOptions options, string? helpFilePath,
+                                        MessageBoxOptions options, string helpFilePath,
                                         HelpNavigator navigator, object? param, bool? showCtrlCopy = null,
                                         bool? showHelpButton = null, bool? showActionButton = null,
-                                        string? actionButtonText = @"", KryptonCommand? actionButtonCommand = null,
-                                        Image? applicationImage = null, string? applicationPath = @"",
+                                        string actionButtonText = @"", KryptonCommand? actionButtonCommand = null,
+                                        Image? applicationImage = null, string applicationPath = @"",
                                         MessageBoxContentAreaType? contentAreaType = null,
                                         KryptonCommand? linkAreaCommand = null,
                                         ProcessStartInfo? linkLaunchArgument = null,
                                         LinkArea? contentLinkArea = null,
                                         ContentAlignment? messageTextAlignment = ContentAlignment.MiddleLeft,
-                                        bool? forceUseOfOperatingSystemIcons = null)
+                                        bool? forceUseOfOperatingSystemIcons = null, string? checkBoxText = null,
+                                        bool? isCheckBoxChecked = null, CheckState? checkBoxCheckState = null,
+                                        bool? showCloseButton = null)
             => ShowCore(null, text, caption, buttons, icon, defaultButton, options,
                         new HelpInfo(helpFilePath, navigator, param), showCtrlCopy,
                         showHelpButton, showActionButton, actionButtonText,
                         actionButtonCommand, applicationImage, applicationPath,
                         contentAreaType, linkAreaCommand, linkLaunchArgument,
-                        contentLinkArea, messageTextAlignment, forceUseOfOperatingSystemIcons);
+                        contentLinkArea, messageTextAlignment, forceUseOfOperatingSystemIcons,
+                        checkBoxText, isCheckBoxChecked, checkBoxCheckState, showCloseButton);
 
         /// <summary>
         /// Displays a message box with the specified text, caption, buttons, icon, default button, options, and Help button, using the specified Help file, HelpNavigator, and Help topic.
@@ -319,26 +340,29 @@ namespace Krypton.Toolkit
                                         KryptonMessageBoxIcon icon,
                                         KryptonMessageBoxDefaultButton defaultButton,
                                         MessageBoxOptions options,
-                                        string? helpFilePath, HelpNavigator navigator,
+                                        string helpFilePath, HelpNavigator navigator,
                                         object? param, bool? showCtrlCopy = null,
                                         bool? showHelpButton = null,
                                         bool? showActionButton = null,
-                                        string? actionButtonText = @"",
+                                        string actionButtonText = @"",
                                         KryptonCommand? actionButtonCommand = null,
                                         Image? applicationImage = null,
-                                        string? applicationPath = @"",
+                                        string applicationPath = @"",
                                         MessageBoxContentAreaType? contentAreaType = null,
                                         KryptonCommand? linkAreaCommand = null,
                                         ProcessStartInfo? linkLaunchArgument = null,
                                         LinkArea? contentLinkArea = null,
                                         ContentAlignment? messageTextAlignment = ContentAlignment.MiddleLeft,
-                                        bool? forceUseOfOperatingSystemIcons = null)
+                                        bool? forceUseOfOperatingSystemIcons = null, string? checkBoxText = null,
+                                        bool? isCheckBoxChecked = null, CheckState? checkBoxCheckState = null,
+                                        bool? showCloseButton = null)
             => ShowCore(owner, text, caption, buttons, icon, defaultButton, options,
                         new HelpInfo(helpFilePath, navigator, param),
                         showCtrlCopy, showHelpButton, showActionButton,
                         actionButtonText, actionButtonCommand, applicationImage,
                         applicationPath, contentAreaType, linkAreaCommand,
-                        linkLaunchArgument, contentLinkArea, messageTextAlignment, forceUseOfOperatingSystemIcons);
+                        linkLaunchArgument, contentLinkArea, messageTextAlignment, forceUseOfOperatingSystemIcons,
+                        checkBoxText, isCheckBoxChecked, checkBoxCheckState, showCloseButton);
 
         /// <summary>Displays a message box with the specified text, caption, buttons, icon, default button, options, and Help button, using the specified Help file, HelpNavigator, and Help topic.</summary>
         /// <param name="messageBoxData">The message box data.</param>
@@ -374,7 +398,7 @@ namespace Krypton.Toolkit
         /// <param name="forceUseOfOperatingSystemIcons">If set to true, the <see cref="VisualMessageBoxForm"/> will use standard operating system icons.</param>
         /// <returns>One of the System.Windows.Forms.DialogResult values.</returns>
         private static DialogResult ShowCore(IWin32Window? owner,
-                                             string text, string caption,
+                                             string? text, string caption,
                                              KryptonMessageBoxButtons buttons,
                                              KryptonMessageBoxIcon icon,
                                              KryptonMessageBoxDefaultButton defaultButton,
@@ -389,24 +413,46 @@ namespace Krypton.Toolkit
                                              ProcessStartInfo? linkLaunchArgument,
                                              LinkArea? contentLinkArea,
                                              ContentAlignment? messageTextAlignment,
-                                             bool? forceUseOfOperatingSystemIcons)
+                                             bool? forceUseOfOperatingSystemIcons, string? checkBoxText,
+                                             bool? isCheckBoxChecked, CheckState? checkBoxCheckState,
+                                             bool? showCloseButton)
         {
             caption = string.IsNullOrEmpty(caption) ? @" " : caption;
 
             IWin32Window? showOwner = ValidateOptions(owner, options, helpInfo);
 
-            // Show message box window as a modal dialog and then dispose of it afterwards
-            using var kmb = new VisualMessageBoxForm(showOwner, text, caption, buttons, icon,
-                                                      defaultButton, options, helpInfo, showCtrlCopy, showHelpButton,
-                                                      showActionButton, actionButtonText,
-                                                      actionButtonCommand, applicationImage, applicationPath,
-                                                      contentAreaType, linkLabelCommand,
-                                                      linkLaunchArgument, contentLinkArea, messageTextAlignment,
-                                                      forceUseOfOperatingSystemIcons);
+            // Show message box window as a modal dialog and then dispose of it after-wards
 
-            kmb.StartPosition = showOwner == null ? FormStartPosition.CenterScreen : FormStartPosition.CenterParent;
+            if (options is MessageBoxOptions.RightAlign or MessageBoxOptions.RtlReading)
+            {
+                using var kmbrtl = new VisualMessageBoxRtlAwareForm(showOwner, text, caption, buttons, icon,
+                    defaultButton, helpInfo, showCtrlCopy, showHelpButton,
+                    showActionButton, actionButtonText,
+                    actionButtonCommand, applicationImage, applicationPath,
+                    contentAreaType, linkLabelCommand,
+                    linkLaunchArgument, contentLinkArea, messageTextAlignment,
+                    forceUseOfOperatingSystemIcons, checkBoxText, isCheckBoxChecked,
+                    checkBoxCheckState, showCloseButton);
 
-            return kmb.ShowDialog(showOwner);
+                kmbrtl.StartPosition = showOwner == null ? FormStartPosition.CenterScreen : FormStartPosition.CenterParent;
+
+                return kmbrtl.ShowDialog(showOwner);
+            }
+            else
+            {
+                using var kmb = new VisualMessageBoxForm(showOwner, text, caption, buttons, icon,
+                    defaultButton, helpInfo, showCtrlCopy, showHelpButton,
+                    showActionButton, actionButtonText,
+                    actionButtonCommand, applicationImage, applicationPath,
+                    contentAreaType, linkLabelCommand,
+                    linkLaunchArgument, contentLinkArea, messageTextAlignment,
+                    forceUseOfOperatingSystemIcons, checkBoxText, isCheckBoxChecked,
+                    checkBoxCheckState, showCloseButton);
+
+                kmb.StartPosition = showOwner == null ? FormStartPosition.CenterScreen : FormStartPosition.CenterParent;
+
+                return kmb.ShowDialog(showOwner);
+            }
         }
 
         private static DialogResult ShowCore(KryptonMessageBoxData messageBoxData)
@@ -415,11 +461,22 @@ namespace Krypton.Toolkit
 
             IWin32Window? showOwner = ValidateOptions(messageBoxData.Owner, messageBoxData.Options, messageBoxData.HelpInfo);
 
-            using var kmb = new VisualMessageBoxForm(messageBoxData);
+            if (messageBoxData.Options is MessageBoxOptions.RightAlign or MessageBoxOptions.RtlReading)
+            {
+                using var kmbrtl = new VisualMessageBoxRtlAwareForm(messageBoxData);
 
-            kmb.StartPosition = showOwner == null ? FormStartPosition.CenterScreen : FormStartPosition.CenterParent;
+                kmbrtl.StartPosition = showOwner == null ? FormStartPosition.CenterScreen : FormStartPosition.CenterParent;
 
-            return kmb.ShowDialog(showOwner);
+                return kmbrtl.ShowDialog(showOwner);
+            }
+            else
+            {
+                using var kmb = new VisualMessageBoxForm(messageBoxData);
+
+                kmb.StartPosition = showOwner == null ? FormStartPosition.CenterScreen : FormStartPosition.CenterParent;
+
+                return kmb.ShowDialog(showOwner);
+            }
         }
 
         #region WinForm Compatibility

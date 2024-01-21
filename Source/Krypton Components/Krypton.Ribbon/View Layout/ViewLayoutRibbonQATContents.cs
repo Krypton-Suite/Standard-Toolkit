@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -20,14 +20,14 @@ namespace Krypton.Ribbon
     internal abstract class ViewLayoutRibbonQATContents : ViewComposite
     {
         #region Classes
-        private class QATButtonToView : Dictionary<IQuickAccessToolbarButton, ViewDrawRibbonQATButton> { }
+        private class QATButtonToView : Dictionary<IQuickAccessToolbarButton, ViewDrawRibbonQATButton>;
         #endregion
 
         #region Instance Fields
 
         private readonly NeedPaintHandler _needPaint;
         private QATButtonToView _qatButtonToView;
-        private ViewDrawRibbonQATExtraButton? _extraButton;
+        private ViewDrawRibbonQATExtraButton _extraButton;
 
         #endregion
 
@@ -133,11 +133,7 @@ namespace Krypton.Ribbon
             }
 
             // If integrated into the caption area then get the caption area height
-            var borders = Padding.Empty;
-            if (ownerForm is { ApplyComposition: false })
-            {
-                borders = ownerForm.RealWindowBorders;
-            }
+            var borders =  ownerForm.RealWindowBorders;
 
             var keyTipList = new KeyTipInfoList();
 
@@ -203,19 +199,19 @@ namespace Krypton.Ribbon
             // Find total width and maximum height across all child elements
             for (var i = 0; i < Count; i++)
             {
-                ViewBase child = this[i];
+                ViewBase? child = this[i];
 
                 // Only interested in visible items that are not the extra button
                 if (child != _extraButton)
                 {
                     // Cast child to correct type
-                    var view = (ViewDrawRibbonQATButton)child;
+                    var view = child as ViewDrawRibbonQATButton;
 
                     // If the quick access toolbar button wants to be visible
-                    if (view.QATButton.GetVisible() || Ribbon.InDesignHelperMode)
+                    if (view!.QATButton.GetVisible() || Ribbon.InDesignHelperMode)
                     {
                         // Cache preferred size of the child
-                        Size childSize = child.GetPreferredSize(context);
+                        Size childSize = child!.GetPreferredSize(context);
 
                         // Only need extra processing for children that have some width
                         if (childSize.Width > 0)
@@ -286,15 +282,15 @@ namespace Krypton.Ribbon
                 // Position each item from left to right taking up entire height
                 for (var i = 0; i < Count; i++)
                 {
-                    ViewBase child = this[i];
+                    ViewBase? child = this[i];
 
-                    // We only position visible items and we always ignore the extra button
+                    // We only position visible items, and we always ignore the extra button
                     if (child != _extraButton)
                     {
-                        if (child.Visible)
+                        if (child!.Visible)
                         {
                             // Cache preferred size of the child
-                            Size childSize = this[i].GetPreferredSize(context);
+                            Size childSize = this[i]!.GetPreferredSize(context);
 
                             // Is there enough width for this item to be displayed
                             if ((childSize.Width + x) <= right)
@@ -303,7 +299,7 @@ namespace Krypton.Ribbon
                                 context.DisplayRectangle = new Rectangle(x, y, childSize.Width, height);
 
                                 // Position the element
-                                this[i].Layout(context);
+                                this[i]!.Layout(context);
 
                                 // Move across to next position
                                 x += childSize.Width;
@@ -386,7 +382,7 @@ namespace Krypton.Ribbon
         /// Gets the view element for the first visible and enabled quick access toolbar button.
         /// </summary>
         /// <returns>ViewBase if found; otherwise false.</returns>
-        public ViewBase? GetFirstQATView()
+        public ViewBase GetFirstQATView()
         {
             // Scan all the buttons looking for one that is enabled and visible
             foreach (ViewBase qatView in _qatButtonToView.Values)
@@ -407,7 +403,7 @@ namespace Krypton.Ribbon
         /// Gets the view element for the first visible and enabled quick access toolbar button.
         /// </summary>
         /// <returns></returns>
-        public ViewBase? GetLastQATView()
+        public ViewBase GetLastQATView()
         {
             // If showing the extra button, then use that
             if (_extraButton != null)
@@ -442,7 +438,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="qatButton">Search for entry after this view.</param>
         /// <returns>ViewBase if found; otherwise false.</returns>
-        public ViewBase? GetNextQATView(ViewBase qatButton)
+        public ViewBase GetNextQATView(ViewBase qatButton)
         {
             var found = false;
 
@@ -475,7 +471,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="qatButton">Search for entry after this view.</param>
         /// <returns>ViewBase if found; otherwise false.</returns>
-        public ViewBase? GetPreviousQATView(ViewBase? qatButton)
+        public ViewBase GetPreviousQATView(ViewBase qatButton)
         {
             // If the provided view is the extra button, then implicitly already found previous entry
             var found = (qatButton != null) && (qatButton == _extraButton);
@@ -529,7 +525,7 @@ namespace Krypton.Ribbon
             foreach (IQuickAccessToolbarButton qatButton in qatButtons)
             {
                 // Get the currently cached view for the button
-                if (!_qatButtonToView.TryGetValue(qatButton, out ViewDrawRibbonQATButton view))
+                if (!_qatButtonToView.TryGetValue(qatButton, out var view))
                 {
                     // If a new button, create a view for it now
                     view = new ViewDrawRibbonQATButton(Ribbon, qatButton, _needPaint);

@@ -2,7 +2,7 @@
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved.
  *
  */
 #endregion
@@ -81,7 +81,7 @@ namespace Krypton.Toolkit
             // Create the palette storage
             StateCommon = new PaletteTripleRedirect(Redirector, PaletteBackStyle.ButtonCommand, PaletteBorderStyle.ButtonCommand, PaletteContentStyle.ButtonCommand, NeedPaintDelegate);
             PaletteContentText contentShortText = StateCommon.Content.ShortText;
-            contentShortText.Font = new Font(@"Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            contentShortText.Font = KryptonManager.CurrentGlobalPalette.BaseFont; //new Font(@"Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             contentShortText.TextH = PaletteRelativeAlign.Near;
             contentShortText.TextV = PaletteRelativeAlign.Center;
             StateCommon.Content.LongText.TextH = PaletteRelativeAlign.Near;
@@ -110,7 +110,7 @@ namespace Krypton.Toolkit
                                              _overrideNormal,
                                              _overrideTracking,
                                              _overridePressed,
-                                             new PaletteMetricRedirect(Redirector!),
+                                             new PaletteMetricRedirect(Redirector),
                                              CommandLinkImageValues, CommandLinkTextValues,
                                              Orientation,
                                              UseMnemonic)

@@ -2,7 +2,7 @@
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2023 - 2023. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2023 - 2024. All rights reserved.
  *
  */
 #endregion
@@ -22,7 +22,7 @@ namespace Krypton.Toolkit
 
         /// <summary>Gets or sets the message text.</summary>
         /// <value>The message text.</value>
-        public string MessageText { get; set; }
+        public string? MessageText { get; set; }
 
         /// <summary>Gets or sets the window caption.</summary>
         /// <value>The window caption.</value>
@@ -112,13 +112,30 @@ namespace Krypton.Toolkit
         /// <value>The help parameters.</value>
         public object? HelpParameters { get; set; }
 
+        /// <summary>Gets or sets the CheckBox text.</summary>
+        /// <value>The CheckBox text.</value>
+        public string? CheckBoxText { get; set; }
+
+        /// <summary>Gets or sets the CheckBox checked value.</summary>
+        /// <value>The CheckBox checked value.</value>
+        public bool? IsCheckBoxChecked { get; set; }
+
+        /// <summary>Gets or sets the state of the CheckBox <see cref="CheckState"/>.</summary>
+        /// <value>The state of the CheckBox <see cref="CheckState"/>.</value>
+        public CheckState? CheckBoxCheckState { get; set; }
+
+        public bool? UseCheckBoxThreeState { get; set; }
+
+        public bool? ShowCloseButton { get; set; }
+
         #endregion
 
         #region Identity
 
+        /// <summary>Initializes a new instance of the <see cref="KryptonMessageBoxData" /> struct.</summary>
         public KryptonMessageBoxData()
         {
-
+            ShowCloseButton = true;
         }
 
         #endregion

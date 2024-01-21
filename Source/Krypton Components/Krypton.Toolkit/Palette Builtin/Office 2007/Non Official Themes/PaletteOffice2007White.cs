@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
  *  
  */
 #endregion
@@ -17,8 +17,8 @@ namespace Krypton.Toolkit
         #region Static Fields
         private static readonly ImageList _checkBoxList;
         private static readonly ImageList _galleryButtonList;
-        private static readonly Image[] _radioButtonArray;
-        private static readonly Image _silverDropDownButton = GenericImageResources.SilverDropDownButton;
+        private static readonly Image?[] _radioButtonArray;
+        private static readonly Image? _silverDropDownButton = GenericImageResources.SilverDropDownButton;
         private static readonly Image _silverCloseNormal = Office2007ControlBoxResources.Office2007ControlBoxSilverCloseNormal;
         private static readonly Image _silverCloseActive = Office2007ControlBoxResources.Office2007ControlBoxSilverCloseActive;
         private static readonly Image _silverCloseDisabled = Office2007ControlBoxResources.Office2007ControlBoxSilverCloseDisabled;
@@ -39,15 +39,19 @@ namespace Krypton.Toolkit
         private static readonly Image _silverHelpActive = Office2007ControlBoxResources.Office2007HelpIconHover;
         private static readonly Image _silverHelpDisabled = Office2007ControlBoxResources.Office2007HelpIconDisabled;
         private static readonly Image _silverHelpPressed = Office2007ControlBoxResources.Office2007HelpIconPressed;
-        private static readonly Image _contextMenuSubMenu = GenericImageResources.SilverContextMenuSub;
-        private static readonly Color[] _trackBarColors = new Color[] { Color.Red,      // Tick marks
+        private static readonly Image? _contextMenuSubMenu = GenericImageResources.SilverContextMenuSub;
+        private static readonly Color[] _trackBarColors =
+        [
+            Color.Red,      // Tick marks
                                                                         Color.FromArgb(166, 170, 175),      // Top track
                                                                         Color.FromArgb(226, 220, 235),      // Bottom track
                                                                         Color.FromArgb(206, 200, 215),      // Fill track
                                                                         Color.FromArgb(64, Color.White),    // Outside position
                                                                         Color.FromArgb(80, 81, 82)          // Border (normal) position
-                                                                      };
-        private static readonly Color[] _schemeOfficeColors = new Color[] { Color.FromArgb( 59,  59,  59),    // TextLabelControl
+        ];
+        private static readonly Color[] _schemeOfficeColors =
+        [
+            Color.FromArgb( 59,  59,  59),    // TextLabelControl
                                                                       Color.FromArgb( 59,  59,  59),    // TextButtonNormal
                                                                       Color.Black,                      // TextButtonChecked
                                                                       Color.FromArgb(170, 170, 170),    // ButtonNormalBorder1 -n
@@ -273,7 +277,7 @@ namespace Krypton.Toolkit
                                                                       Color.FromArgb(222, 227, 234),    // ButtonNavigatorChecked1
                                                                       Color.FromArgb(206, 214, 221),    // ButtonNavigatorChecked2
                                                                       Color.FromArgb(221, 221, 221) // ToolTipBottom                                                                      
-        };
+        ];
         #endregion
 
         #region Identity
@@ -292,8 +296,8 @@ namespace Krypton.Toolkit
                 TransparentColor = Color.Magenta
             };
             _galleryButtonList.Images.AddStrip(GalleryImageResources.GallerySilverBlack);
-            _radioButtonArray = new Image[]
-            {
+            _radioButtonArray =
+            [
                 Office2007RadioButtonImageResources.RadioButton2007BlueD,
                 Office2007RadioButtonImageResources.RadioButton2007SilverN,
                 Office2007RadioButtonImageResources.RadioButton2007SilverT,
@@ -302,7 +306,7 @@ namespace Krypton.Toolkit
                 Office2007RadioButtonImageResources.RadioButton2007SilverNC,
                 Office2007RadioButtonImageResources.RadioButton2007SilverTC,
                 Office2007RadioButtonImageResources.RadioButton2007SilverPC
-            };
+            ];
         }
 
         /// <summary>

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
  *  
  */
 #endregion
@@ -221,7 +221,7 @@ namespace Krypton.Navigator
         protected override void CreateCheckItemView()
         {
             // Create the two headers and header content
-            _viewContentPrimary = new ViewDrawContent(Navigator.StateNormal!.HeaderGroup!.HeaderPrimary.Content,
+            _viewContentPrimary = new ViewDrawContent(Navigator.StateNormal.HeaderGroup.HeaderPrimary.Content,
                                                       Navigator.Header.HeaderValuesPrimary,
                                                       VisualOrientation.Top);
 
@@ -343,19 +343,19 @@ namespace Krypton.Navigator
             {
                 // Then use the states defined in the navigator itself
                 SetPalettes((Navigator.Enabled
-                    ? Navigator.StateNormal!.HeaderGroup
-                    : Navigator.StateDisabled!.HeaderGroup)!);
+                    ? Navigator.StateNormal.HeaderGroup
+                    : Navigator.StateDisabled.HeaderGroup));
             }
             else
             {
                 // Use states defined in the selected page
                 if (Navigator.SelectedPage.Enabled)
                 {
-                    SetPalettes(Navigator.SelectedPage!.StateNormal!.HeaderGroup!);
+                    SetPalettes(Navigator.SelectedPage!.StateNormal.HeaderGroup);
                 }
                 else
                 {
-                    SetPalettes(Navigator.SelectedPage!.StateDisabled!.HeaderGroup!);
+                    SetPalettes(Navigator.SelectedPage!.StateDisabled.HeaderGroup);
 
                     // If page is disabled then all of view should look disabled
                     enabled = false;
@@ -415,12 +415,12 @@ namespace Krypton.Navigator
             switch (e.PropertyName)
             {
                 case @"HeaderStylePrimary":
-                    SetHeaderStyle(_viewHeadingPrimary, Navigator.StateCommon!.HeaderGroup!.HeaderPrimary, Navigator.Header.HeaderStylePrimary);
+                    SetHeaderStyle(_viewHeadingPrimary, Navigator.StateCommon!.HeaderGroup.HeaderPrimary, Navigator.Header.HeaderStylePrimary);
                     UpdateStatePalettes();
                     Navigator.PerformNeedPaint(true);
                     break;
                 case @"HeaderStyleSecondary":
-                    SetHeaderStyle(_viewHeadingSecondary, Navigator.StateCommon!.HeaderGroup!.HeaderSecondary, Navigator.Header.HeaderStyleSecondary);
+                    SetHeaderStyle(_viewHeadingSecondary, Navigator.StateCommon!.HeaderGroup.HeaderSecondary, Navigator.Header.HeaderStyleSecondary);
                     UpdateStatePalettes();
                     Navigator.PerformNeedPaint(true);
                     break;
@@ -478,12 +478,12 @@ namespace Krypton.Navigator
 
         protected override void CreateButtonSpecManager() =>
             // Create button specification collection manager
-            _buttonManager = new ButtonSpecManagerDraw(Navigator, Redirector!, Navigator.Button.ButtonSpecs, Navigator.FixedSpecs,
+            _buttonManager = new ButtonSpecManagerDraw(Navigator, Redirector, Navigator.Button.ButtonSpecs, Navigator.FixedSpecs,
                                                        new[] { _viewHeadingPrimary, _viewHeadingSecondary },
-                                                       new IPaletteMetric[] { Navigator.StateCommon!.HeaderGroup!.HeaderPrimary, Navigator.StateCommon.HeaderGroup.HeaderSecondary },
+                                                       new IPaletteMetric[] { Navigator.StateCommon!.HeaderGroup.HeaderPrimary, Navigator.StateCommon.HeaderGroup.HeaderSecondary },
                                                        new[] { PaletteMetricInt.HeaderButtonEdgeInsetPrimary, PaletteMetricInt.HeaderButtonEdgeInsetSecondary },
                                                        new[] { PaletteMetricPadding.HeaderButtonPaddingPrimary, PaletteMetricPadding.HeaderButtonPaddingSecondary },
-                                                       Navigator.CreateToolStripRenderer!,
+                                                       Navigator.CreateToolStripRenderer,
                                                        NeedPaintDelegate)
             {
 
@@ -493,7 +493,7 @@ namespace Krypton.Navigator
 
         private void UpdateHeaders()
         {
-            SetHeaderStyle(_viewHeadingPrimary, Navigator.StateCommon!.HeaderGroup!.HeaderPrimary, Navigator.Header.HeaderStylePrimary);
+            SetHeaderStyle(_viewHeadingPrimary, Navigator.StateCommon!.HeaderGroup.HeaderPrimary, Navigator.Header.HeaderStylePrimary);
             SetHeaderStyle(_viewHeadingSecondary, Navigator.StateCommon.HeaderGroup.HeaderSecondary, Navigator.Header.HeaderStyleSecondary);
             SetHeaderPosition(_viewHeadingPrimary, _viewContentPrimary, Navigator.Header.HeaderPositionPrimary);
             SetHeaderPosition(_viewHeadingSecondary, _viewContentSecondary, Navigator.Header.HeaderPositionSecondary);
@@ -512,41 +512,51 @@ namespace Krypton.Navigator
                                                     PaletteMetricInt.HeaderButtonEdgeInsetPrimary,
                                                     PaletteMetricPadding.HeaderButtonPaddingPrimary);
                     break;
+
                 case HeaderStyle.Secondary:
                     _buttonManager?.SetDockerMetrics(drawDocker, palette,
                                                     PaletteMetricInt.HeaderButtonEdgeInsetSecondary,
                                                     PaletteMetricPadding.HeaderButtonPaddingSecondary);
                     break;
+
                 case HeaderStyle.DockActive:
                     _buttonManager?.SetDockerMetrics(drawDocker, palette,
                                                     PaletteMetricInt.HeaderButtonEdgeInsetDockActive,
                                                     PaletteMetricPadding.HeaderButtonPaddingDockActive);
                     break;
+
                 case HeaderStyle.DockInactive:
                     _buttonManager?.SetDockerMetrics(drawDocker, palette,
                                                     PaletteMetricInt.HeaderButtonEdgeInsetDockInactive,
                                                     PaletteMetricPadding.HeaderButtonPaddingDockInactive);
                     break;
+
                 case HeaderStyle.Form:
                     _buttonManager?.SetDockerMetrics(drawDocker, palette,
                                                     PaletteMetricInt.HeaderButtonEdgeInsetForm,
                                                     PaletteMetricPadding.HeaderButtonPaddingForm);
                     break;
+
                 case HeaderStyle.Calendar:
                     _buttonManager?.SetDockerMetrics(drawDocker, palette, PaletteMetricInt.HeaderButtonEdgeInsetCalendar, PaletteMetricPadding.HeaderButtonPaddingCalendar);
                     break;
+
                 case HeaderStyle.Custom1:
                     _buttonManager?.SetDockerMetrics(drawDocker, palette, PaletteMetricInt.HeaderButtonEdgeInsetCustom1, PaletteMetricPadding.HeaderButtonPaddingCustom1);
                     break;
+
                 case HeaderStyle.Custom2:
                     _buttonManager?.SetDockerMetrics(drawDocker, palette, PaletteMetricInt.HeaderButtonEdgeInsetCustom2, PaletteMetricPadding.HeaderButtonPaddingCustom2);
                     break;
+
                 case HeaderStyle.Custom3:
                     _buttonManager?.SetDockerMetrics(drawDocker, palette, PaletteMetricInt.HeaderButtonEdgeInsetCustom3, PaletteMetricPadding.HeaderButtonPaddingCustom3);
                     break;
+
                 default:
-                    // Should never happen!
+    // Should never happen!
                     Debug.Assert(false);
+                    DebugTools.NotImplemented(style.ToString());
                     break;
             }
         }
@@ -580,7 +590,7 @@ namespace Krypton.Navigator
             }
         }
 
-        private void SetPalettes([DisallowNull] PaletteHeaderGroup? palette)
+        private void SetPalettes([DisallowNull] PaletteHeaderGroup palette)
         {
             _viewHeadingPrimary.SetPalettes(palette.HeaderPrimary.Back, palette.HeaderPrimary.Border, palette.HeaderPrimary);
             _viewHeadingSecondary.SetPalettes(palette.HeaderSecondary.Back, palette.HeaderSecondary.Border, palette.HeaderSecondary);

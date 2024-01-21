@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
  *  
  */
 #endregion
@@ -125,7 +125,7 @@ namespace Krypton.Toolkit
             _progressTimer.Tick += ProgressTimerTick;
 
             // no image margin in context menu
-            _contextMenu.ShowImageMargin = false;
+            _contextMenu!.ShowImageMargin = false;
             ContextMenuStrip = _contextMenu;
 
             _maximum = 100;
@@ -461,7 +461,7 @@ namespace Krypton.Toolkit
         /// <param name="e">The <see cref="ScrollEventArgs"/> that contains the event data.</param>
         protected virtual void OnScroll(ScrollEventArgs e) =>
             // if event handler is attached - raise scroll event
-            Scroll.Invoke(this, e);
+            Scroll?.Invoke(this, e);
 
         /// <summary>
         /// Paints the background of the control.
@@ -479,7 +479,7 @@ namespace Krypton.Toolkit
         protected override void OnPaint(PaintEventArgs e)
         {
             // sets the smoothing mode to none
-            e.Graphics.SmoothingMode = SmoothingMode.None;
+            using var gh = new GraphicsHint(e.Graphics, PaletteGraphicsHint.None);
 
             // save client rectangle
             Rectangle rect = ClientRectangle;

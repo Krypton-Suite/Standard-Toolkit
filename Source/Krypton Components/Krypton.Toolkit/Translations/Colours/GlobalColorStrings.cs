@@ -2,7 +2,7 @@
 /*
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2023 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2023 - 2024. All rights reserved. 
  *  
  */
 #endregion
@@ -51,7 +51,7 @@ namespace Krypton.Toolkit
         /// <returns>True if all values are defaulted; otherwise false.</returns>
         [Browsable(false)]
         public bool IsDefault => Color.Equals(DEFAULT_COLOR) &&
-                                 Color.Equals(DEFAULT_COLORS) &&
+                                 Colors.Equals(DEFAULT_COLORS) &&
                                  MoreColors.Equals(DEFAULT_MORE_COLORS) &&
                                  ThemeColors.Equals(DEFAULT_THEME_COLORS) &&
                                  StandardColors.Equals(DEFAULT_STANDARD_COLORS) &&

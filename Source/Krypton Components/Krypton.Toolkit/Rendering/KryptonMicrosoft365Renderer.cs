@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
  *  
  */
 #endregion
@@ -157,7 +157,7 @@ namespace Krypton.Toolkit
                         {
                             insideLighten.CenterPoint = ellipseCenter;
                             insideLighten.CenterColor = Color.White;
-                            insideLighten.SurroundColors = new[] { Color.Transparent };
+                            insideLighten.SurroundColors = [Color.Transparent];
                             g.FillPath(insideLighten, ellipsePath);
                         }
                     }
@@ -260,7 +260,7 @@ namespace Krypton.Toolkit
                 using var insideLighten = new PathGradientBrush(ellipsePath);
                 insideLighten.CenterPoint = ellipseCenter;
                 insideLighten.CenterColor = Color.FromArgb(96, Color.White);
-                insideLighten.SurroundColors = new[] { Color.Transparent };
+                insideLighten.SurroundColors = [Color.Transparent];
                 g.FillPath(insideLighten, ellipsePath);
             }
         }
@@ -323,20 +323,20 @@ namespace Krypton.Toolkit
         {
             _stripBlend = new Blend
             {
-                Positions = new[] { 0.0f, 0.33f, 0.66f, 1.0f },
-                Factors = new[] { 0.0f, 0.5f, 0.8f, 1.0f }
+                Positions = [0.0f, 0.33f, 0.66f, 1.0f],
+                Factors = [0.0f, 0.5f, 0.8f, 1.0f]
             };
 
             _separatorDarkBlend = new Blend
             {
-                Positions = new[] { 0.0f, 0.5f, 1.0f },
-                Factors = new[] { 0.2f, 1f, 0.2f }
+                Positions = [0.0f, 0.5f, 1.0f],
+                Factors = [0.2f, 1f, 0.2f]
             };
 
             _separatorLightBlend = new Blend
             {
-                Positions = new[] { 0.0f, 0.5f, 1.0f },
-                Factors = new[] { 0.1f, 0.6f, 0.1f }
+                Positions = [0.0f, 0.5f, 1.0f],
+                Factors = [0.1f, 0.6f, 0.1f]
             };
         }
 
@@ -1309,7 +1309,7 @@ namespace Krypton.Toolkit
                 var b = rect.Bottom;
 
                 using var marginPen = new Pen(Color.FromArgb(80, KCT.MenuBorder));
-                marginPen.DashPattern = new float[] { 2, 2 };
+                marginPen.DashPattern = [2, 2];
                 g.DrawLine(marginPen, l, t, l, b);
             }
             else
@@ -1319,7 +1319,7 @@ namespace Krypton.Toolkit
                 var r = rect.Right - (rtl ? horizontalInset : 0);
 
                 using var marginPen = new Pen(Color.FromArgb(80, KCT.MenuBorder));
-                marginPen.DashPattern = new float[] { 2, 2 };
+                marginPen.DashPattern = [2, 2];
                 g.DrawLine(marginPen, l, y, r, y);
             }
         }

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -57,64 +57,6 @@ namespace Krypton.Ribbon
         public override Size GetPreferredSize(ViewLayoutContext context)
         {
             var preferredSize = Size.Empty;
-
-            // We need an owning form to perform calculations
-            if (CompOwnerForm is { ApplyCustomChrome: true, ApplyComposition: true })
-                // We only have size if custom chrome is being used with composition
-            {
-                try
-                {
-                    // Create structure that will be populated by call to WM_GETTITLEBARINFOEX
-                    var tbi = new PI.TITLEBARINFOEX();
-                    tbi.cbSize = (uint) Marshal.SizeOf(tbi);
-
-                    // Ask the window for the title bar information
-                    PI.SendMessage(CompOwnerForm.Handle, PI.WM_.GETTITLEBARINFOEX, IntPtr.Zero, ref tbi);
-
-                    // Find width of the button rectangle
-                    var closeWidth = tbi.rcCloseButton.right - tbi.rcCloseButton.left;
-                    var helpWidth = tbi.rcHelpButton.right - tbi.rcHelpButton.left;
-                    var minWidth = tbi.rcMinimizeButton.right - tbi.rcMinimizeButton.left;
-                    var maxWidth = tbi.rcMaximizeButton.right - tbi.rcMaximizeButton.left;
-
-                    var clientWidth = CompOwnerForm.ClientSize.Width;
-                    var clientScreenRight = CompOwnerForm.RectangleToScreen(CompOwnerForm.ClientRectangle).Right;
-                    var leftMost = clientScreenRight;
-
-                    // Find the left most button edge (start with right side of client area)
-                    if ((closeWidth > 0) && (closeWidth < clientWidth))
-                    {
-                        leftMost = Math.Min(leftMost, tbi.rcCloseButton.left);
-                    }
-
-                    if ((helpWidth > 0) && (helpWidth < clientWidth))
-                    {
-                        leftMost = Math.Min(leftMost, tbi.rcHelpButton.left);
-                    }
-
-                    if ((minWidth > 0) && (minWidth < clientWidth))
-                    {
-                        leftMost = Math.Min(leftMost, tbi.rcMinimizeButton.left);
-                    }
-
-                    if ((maxWidth > 0) && (maxWidth < clientWidth))
-                    {
-                        leftMost = Math.Min(leftMost, tbi.rcMaximizeButton.left);
-                    }
-
-                    // Our width is the distance between the left most button edge and the right
-                    // side of the client area (this space the buttons are taking up). Plus a small
-                    // extra gap between the first button and the caption elements to its left.
-                    _width = clientScreenRight - leftMost + SPACING_GAP;
-
-                    preferredSize.Width = _width;
-                }
-                catch(ObjectDisposedException)
-                {
-                    // Asking for the WM_GETTITLEBARINFOEX can cause exception if the form level
-                    // Icon has already been disposed. This happens in rare circumstances.
-                }
-            }
 
             return preferredSize;
         }

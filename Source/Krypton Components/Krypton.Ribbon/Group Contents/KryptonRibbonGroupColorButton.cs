@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -27,8 +27,8 @@ namespace Krypton.Ribbon
     public class KryptonRibbonGroupColorButton : KryptonRibbonGroupItem
     {
         #region Static Fields
-        private static readonly Image _defaultButtonImageSmall = GenericImageResources.ButtonColorImageSmall;
-        private static readonly Image _defaultButtonImageLarge = GenericImageResources.ButtonColorImageLarge;
+        private static readonly Image? _defaultButtonImageSmall = GenericImageResources.ButtonColorImageSmall;
+        private static readonly Image? _defaultButtonImageLarge = GenericImageResources.ButtonColorImageLarge;
         #endregion
 
         #region Instance Fields
@@ -185,11 +185,13 @@ namespace Krypton.Ribbon
             _itemMoreColors = new KryptonContextMenuItem("&More Colors...", OnClickMoreColors);
             _itemsMoreColors = new KryptonContextMenuItems();
             _itemsMoreColors.Items.Add(_itemMoreColors);
-            _kryptonContextMenu.Items.AddRange(new KryptonContextMenuItemBase[] { _separatorTheme, _headingTheme, _colorsTheme,
+            _kryptonContextMenu.Items.AddRange([
+                _separatorTheme, _headingTheme, _colorsTheme,
                                                                                   _separatorStandard, _headingStandard, _colorsStandard,
                                                                                   _separatorRecent, _headingRecent, _colorsRecent,
                                                                                   _separatorNoColor, _itemsNoColor,
-                                                                                  _separatorMoreColors, _itemsMoreColors});
+                                                                                  _separatorMoreColors, _itemsMoreColors
+            ]);
         }
         #endregion
 
@@ -1058,13 +1060,16 @@ namespace Krypton.Ribbon
                             case GroupButtonType.Check:
                                 PerformClick();
                                 return true;
+
                             case GroupButtonType.DropDown:
                             case GroupButtonType.Split:
                                 PerformDropDown();
                                 return true;
+
                             default:
-                                // Should never happen!
+    // Should never happen!
                                 Debug.Assert(false);
+                                DebugTools.NotImplemented(ButtonType.ToString());
                                 break;
                         }
 
@@ -1205,7 +1210,7 @@ namespace Krypton.Ribbon
                 // Each column is just a single color
                 for (var i = 0; i < _recentColors.Count; i++)
                 {
-                    colors[i] = new[] { _recentColors[i] };
+                    colors[i] = [_recentColors[i]];
                 }
 
                 _colorsRecent.SetCustomColors(colors);

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
  *  
  */
 #endregion
@@ -19,9 +19,9 @@ namespace Krypton.Toolkit
     {
         #region Instance Fields
         private Image? _image;
-        private string? _text;
-        private string? _extraText;
-        private string? _toolTipTitle;
+        private string _text;
+        private string _extraText;
+        private string _toolTipTitle;
         private Color _colorMap;
         private bool _allowInheritImage;
         private bool _allowInheritText;
@@ -151,7 +151,7 @@ namespace Krypton.Toolkit
         [Description(@"Button text.")]
         [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
         [DefaultValue("")]
-        public string? Text
+        public string Text
         {
             get => _text;
 
@@ -184,7 +184,7 @@ namespace Krypton.Toolkit
         [Description(@"Button extra text.")]
         [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
         [DefaultValue("")]
-        public string? ExtraText
+        public string ExtraText
         {
             get => _extraText;
 
@@ -217,7 +217,7 @@ namespace Krypton.Toolkit
         [Description(@"Button tooltip title text.")]
         [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
         [DefaultValue("")]
-        public string? ToolTipTitle
+        public string ToolTipTitle
         {
             get => _toolTipTitle;
 
@@ -426,23 +426,23 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="style">Style of button spec.</param>
         /// <returns>String value.</returns>
-        public override string? GetButtonSpecShortText(PaletteButtonSpecStyle style) =>
-            (Text!.Length > 0) || !AllowInheritText ? Text : base.GetButtonSpecShortText(style);
+        public override string GetButtonSpecShortText(PaletteButtonSpecStyle style) =>
+            (Text.Length > 0) || !AllowInheritText ? Text : base.GetButtonSpecShortText(style);
 
         /// <summary>
         /// Gets the long text to display for the button.
         /// </summary>
         /// <param name="style">Style of button spec.</param>
         /// <returns>String value.</returns>
-        public override string? GetButtonSpecLongText(PaletteButtonSpecStyle style) =>
-            (ExtraText!.Length > 0) || !AllowInheritExtraText ? ExtraText : base.GetButtonSpecLongText(style);
+        public override string GetButtonSpecLongText(PaletteButtonSpecStyle style) =>
+            (ExtraText.Length > 0) || !AllowInheritExtraText ? ExtraText : base.GetButtonSpecLongText(style);
 
         /// <summary>
         /// Gets the tooltip title text to display for the button.
         /// </summary>
         /// <param name="style">Style of button spec.</param>
         /// <returns>String value.</returns>
-        public override string? GetButtonSpecToolTipTitle(PaletteButtonSpecStyle style) => (ToolTipTitle!.Length > 0) || !AllowInheritToolTipTitle ? ToolTipTitle : base.GetButtonSpecToolTipTitle(style);
+        public override string GetButtonSpecToolTipTitle(PaletteButtonSpecStyle style) => (ToolTipTitle.Length > 0) || !AllowInheritToolTipTitle ? ToolTipTitle : base.GetButtonSpecToolTipTitle(style);
 
         /// <summary>
         /// Gets the color to remap from the image to the container foreground.

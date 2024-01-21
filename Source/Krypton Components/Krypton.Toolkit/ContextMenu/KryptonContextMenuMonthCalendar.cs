@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
  *  
  */
 #endregion
@@ -851,7 +851,7 @@ namespace Krypton.Toolkit
                 if (_dayStyle != value)
                 {
                     _dayStyle = value;
-                    StateCommon!.DayStyle = value;
+                    StateCommon.DayStyle = value;
                     OverrideFocus.DayStyle = value;
                     OverrideBolded.DayStyle = value;
                     OverrideToday.DayStyle = value;
@@ -880,7 +880,7 @@ namespace Krypton.Toolkit
                 if (_dayOfWeekStyle != value)
                 {
                     _dayOfWeekStyle = value;
-                    StateCommon!.DayOfWeekStyle = value;
+                    StateCommon.DayOfWeekStyle = value;
                     OnPropertyChanged(new PropertyChangedEventArgs(nameof(DayOfWeekStyle)));
                 }
             }
@@ -930,9 +930,9 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Overrides for defining common month calendar appearance that other states can override.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteMonthCalendarRedirect? StateCommon { get; }
+        public PaletteMonthCalendarRedirect StateCommon { get; }
 
-        private bool ShouldSerializeStateCommon() => !StateCommon!.IsDefault;
+        private bool ShouldSerializeStateCommon() => !StateCommon.IsDefault;
 
         /// <summary>
         /// Gets access to the month calendar disabled appearance entries.

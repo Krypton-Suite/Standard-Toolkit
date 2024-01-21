@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
  *  
  */
 #endregion
@@ -55,7 +55,7 @@ namespace Krypton.Toolkit
         /// <param name="renderer">Drawing renderer.</param>
         /// <param name="shadow">Does the popup need a shadow effect.</param>
         public VisualPopup(ViewManager viewManager,
-                           IRenderer renderer,
+                           IRenderer? renderer,
                            bool shadow)
         {
             #region Default ControlStyle Values
@@ -90,7 +90,7 @@ namespace Krypton.Toolkit
             SetStyle(ControlStyles.Selectable, false);
 
             // Cache incoming references
-            Renderer = renderer;
+            Renderer = renderer!;
             ViewManager = viewManager;
 
             // Setup the need paint delegate
@@ -285,14 +285,14 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public ToolStripRenderer? CreateToolStripRenderer() => Renderer?.RenderToolStrip(GetResolvedPalette());
+        public ToolStripRenderer? CreateToolStripRenderer() => Renderer.RenderToolStrip(GetResolvedPalette()!);
 
         /// <summary>
         /// Gets the resolved palette to actually use when drawing.
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public virtual PaletteBase GetResolvedPalette() => null;
+        public virtual PaletteBase? GetResolvedPalette() => null;
 
         /// <summary>
         /// Gets access to the current renderer.
@@ -451,7 +451,7 @@ namespace Krypton.Toolkit
                         _layoutDirty = false;
 
                         // Ask the view to perform a layout
-                        ViewManager.Layout(Renderer!);
+                        ViewManager.Layout(Renderer);
 
                     } while (_layoutDirty && (max-- > 0));
                 }
@@ -493,7 +493,7 @@ namespace Krypton.Toolkit
                     }
 
                     // Ask the view to repaint the visual structure
-                    ViewManager.Paint(Renderer!, e);
+                    ViewManager.Paint(Renderer, e);
 
                     // Request for a refresh has been serviced
                     _refresh = false;

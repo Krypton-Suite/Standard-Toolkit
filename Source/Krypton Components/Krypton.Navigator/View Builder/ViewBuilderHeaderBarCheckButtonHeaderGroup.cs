@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
  *  
  */
 #endregion
@@ -79,9 +79,9 @@ namespace Krypton.Navigator
             };
 
             // Place the bar inside a header style area
-            _viewHeadingBar = new ViewDrawDocker(Navigator.StateNormal!.HeaderGroup!.HeaderBar.Back,
-                                                 Navigator.StateNormal!.HeaderGroup!.HeaderBar.Border,
-                                                 Navigator.StateNormal!.HeaderGroup!.HeaderBar,
+            _viewHeadingBar = new ViewDrawDocker(Navigator.StateNormal.HeaderGroup.HeaderBar.Back,
+                                                 Navigator.StateNormal.HeaderGroup.HeaderBar.Border,
+                                                 Navigator.StateNormal.HeaderGroup.HeaderBar,
                                                  PaletteMetricBool.None,
                                                  PaletteMetricPadding.HeaderGroupPaddingSecondary,
                                                  VisualOrientation.Top)
@@ -90,7 +90,7 @@ namespace Krypton.Navigator
             };
 
             // Construct the viewlet instance
-            _headerGroup = new ViewletHeaderGroup(Navigator, Redirector!, NeedPaintDelegate);
+            _headerGroup = new ViewletHeaderGroup(Navigator, Redirector, NeedPaintDelegate);
 
             // Create and initialize the standard header group view elements
             _viewGroup = _headerGroup.Construct(_oldRoot);

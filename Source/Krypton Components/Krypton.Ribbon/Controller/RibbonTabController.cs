@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -58,8 +58,8 @@ namespace Krypton.Ribbon
             Debug.Assert(target != null);
 
             // Remember incoming references
-            _target = target!;
-            _ribbon = ribbon!;
+            _target = target;
+            _ribbon = ribbon;
 
             // Store the provided paint notification delegate
             NeedPaint = needPaint;
@@ -224,7 +224,7 @@ namespace Krypton.Ribbon
         /// <param name="e">A KeyEventArgs that contains the event data.</param>
         public void KeyDown(Control c, KeyEventArgs e)
         {
-            ViewBase? newView = null;
+            ViewBase newView = null;
             Keys keyData = e.KeyData;
 
             // When there is no selected tab then tab and shift+tab become right and left
@@ -454,7 +454,7 @@ namespace Krypton.Ribbon
         /// <param name="pt">Mouse point.</param>
         protected void UpdateTargetState(Point pt)
         {
-            // By default the button is in the normal state
+            // By default, the button is in the normal state
             PaletteState newState;
 
             // If the button is disabled then show as disabled

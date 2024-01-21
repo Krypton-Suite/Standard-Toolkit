@@ -1,7 +1,7 @@
 ﻿#region BSD License
 /*
  *   BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2023 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2023 - 2024. All rights reserved. 
  *  
  */
 #endregion
@@ -231,8 +231,8 @@ namespace Krypton.Toolkit
             // One time creation of the blend for the status strip gradient brush
             _statusStripBlend = new Blend
             {
-                Positions = new[] { 0.0f, 0.25f, 0.25f, 0.57f, 0.86f, 1.0f },
-                Factors = new[] { 0.1f, 0.6f, 1.0f, 0.4f, 0.0f, 0.95f }
+                Positions = [0.0f, 0.25f, 0.25f, 0.57f, 0.86f, 1.0f],
+                Factors = [0.1f, 0.6f, 1.0f, 0.4f, 0.0f, 0.95f]
             };
         }
 
@@ -726,7 +726,7 @@ namespace Krypton.Toolkit
                             // Get the window borders
 
                             // Finally check that the actual form is using custom chrome
-                            if (kryptonForm.ApplyCustomChrome)
+                            //if (kryptonForm.ApplyCustomChrome)
                             {
                                 // Extend down into the bottom border
                                 backRect.Height += kryptonForm.RealWindowBorders.Bottom;

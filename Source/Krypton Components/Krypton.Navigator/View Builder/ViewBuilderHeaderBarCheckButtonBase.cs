@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
  *  
  */
 #endregion
@@ -63,7 +63,7 @@ namespace Krypton.Navigator
                                                                      new[] { PaletteMetricInt.BarButtonEdgeInside },
                                                                      new[] { PaletteMetricInt.BarButtonEdgeOutside },
                                                                      new[] { PaletteMetricPadding.BarButtonPadding },
-                                                                     Navigator.CreateToolStripRenderer!,
+                                                                     Navigator.CreateToolStripRenderer,
                                                                      NeedPaintDelegate,
                                                                      GetRemappingPaletteContent(),
                                                                      GetRemappingPaletteState())
@@ -78,7 +78,7 @@ namespace Krypton.Navigator
         /// </summary>
         protected override void PostCreate()
         {
-            SetHeaderStyle(_viewHeadingBar, Navigator.StateCommon!.HeaderGroup!.HeaderBar, Navigator.Header.HeaderStyleBar);
+            SetHeaderStyle(_viewHeadingBar, Navigator.StateCommon!.HeaderGroup.HeaderBar, Navigator.Header.HeaderStyleBar);
             _viewHeadingBar.Visible = Navigator.Header.HeaderVisibleBar;
             base.PostCreate();
         }
@@ -88,7 +88,7 @@ namespace Krypton.Navigator
         /// </summary>
         public override void UpdateStatePalettes()
         {
-            PaletteNavigator? paletteState;
+            PaletteNavigator paletteState;
 
             // If whole navigator is disabled then all views are disabled
             var enabled = Navigator.Enabled;
@@ -137,7 +137,7 @@ namespace Krypton.Navigator
             switch (e.PropertyName)
             {
                 case @"HeaderStyleBar":
-                    SetHeaderStyle(_viewHeadingBar, Navigator.StateCommon!.HeaderGroup!.HeaderBar, Navigator.Header.HeaderStyleBar);
+                    SetHeaderStyle(_viewHeadingBar, Navigator.StateCommon!.HeaderGroup.HeaderBar, Navigator.Header.HeaderStyleBar);
                     UpdateStatePalettes();
                     Navigator.PerformNeedPaint(true);
                     break;
@@ -233,8 +233,8 @@ namespace Krypton.Navigator
         }
 
         private IPaletteContent GetRemappingPaletteContent() => Navigator.Enabled
-            ? Navigator.StateNormal!.HeaderGroup!.HeaderBar.Content
-            : Navigator.StateDisabled!.HeaderGroup!.HeaderBar.Content;
+            ? Navigator.StateNormal.HeaderGroup.HeaderBar.Content
+            : Navigator.StateDisabled.HeaderGroup.HeaderBar.Content;
 
         private PaletteState GetRemappingPaletteState() =>
             Navigator.Enabled ? PaletteState.Normal : PaletteState.Disabled;

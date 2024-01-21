@@ -2,7 +2,7 @@
 /*
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2021 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2021 - 2024. All rights reserved. 
  *  
  */
 #endregion
@@ -48,7 +48,7 @@ namespace Krypton.Toolkit
         {
             _embed = embed;
             // Gain access to the global palette
-            var igp = KryptonManager.CurrentGlobalPalette!;
+            var igp = KryptonManager.CurrentGlobalPalette;
             _backColour = igp.GetBackColor1(PaletteBackStyle.PanelClient, PaletteState.Normal);
             _defaultFontColour = igp.GetContentShortTextColor1(PaletteContentStyle.LabelNormalPanel, PaletteState.Normal);
             _inputFontColour = igp.GetContentShortTextColor1(PaletteContentStyle.InputControlStandalone, PaletteState.Normal);
@@ -319,8 +319,8 @@ namespace Krypton.Toolkit
 
                             using (Graphics g = Graphics.FromHdc(hdc))
                             {
-                                g.SmoothingMode = SmoothingMode.AntiAlias;
-                                var lineColor = KryptonManager.CurrentGlobalPalette!.GetBorderColor1(PaletteBorderStyle.ControlGroupBox, PaletteState.Normal);
+                                using var gh = new GraphicsHint(g, PaletteGraphicsHint.AntiAlias);
+                                var lineColor = KryptonManager.CurrentGlobalPalette.GetBorderColor1(PaletteBorderStyle.ControlGroupBox, PaletteState.Normal);
                                 DrawRoundedRectangle(g, new Pen(lineColor), new Point(0, 10),
                                     control.Size - new Size(1, 11), 5);
                                 var font = KryptonManager.CurrentGlobalPalette.GetContentShortTextFont(PaletteContentStyle.LabelNormalPanel, PaletteState.Normal);
@@ -365,7 +365,7 @@ namespace Krypton.Toolkit
                         // Buttons with these styles are always drawn with the default system colors.
                         // Drawing push buttons requires several different brushes-face, highlight, and shadow
                         // but the WM_CTLCOLORBTN message allows only one brush to be returned.
-                        var fontColour = KryptonManager.CurrentGlobalPalette!.GetContentShortTextColor1(PaletteContentStyle.ButtonStandalone, PaletteState.Normal);
+                        var fontColour = KryptonManager.CurrentGlobalPalette.GetContentShortTextColor1(PaletteContentStyle.ButtonStandalone, PaletteState.Normal);
                         var backColour = KryptonManager.CurrentGlobalPalette.GetBackColor1(PaletteBackStyle.ButtonStandalone, PaletteState.Normal);
                         PI.SetTextColor(wParam, ColorTranslator.ToWin32(fontColour));
                         PI.SetDCBrushColor(wParam, ColorTranslator.ToWin32(backColour));
@@ -520,7 +520,7 @@ namespace Krypton.Toolkit
 
         private static void DrawRoundedRectangle(Graphics g, Pen pen, Point location, Size size, int radius)
         {
-            g.SmoothingMode = SmoothingMode.AntiAlias;
+            using var gh = new GraphicsHint(g, PaletteGraphicsHint.AntiAlias);
             var roundRect = new RoundedRectangleF(size.Width, size.Height, radius, location.X, location.Y);
             g.DrawPath(pen, roundRect.Path);
         }

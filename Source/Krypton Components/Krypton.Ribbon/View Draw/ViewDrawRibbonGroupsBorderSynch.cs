@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -20,7 +20,7 @@ namespace Krypton.Ribbon
     internal class ViewDrawRibbonGroupsBorderSynch : ViewDrawRibbonGroupsBorder
     {
         #region Classes
-        private class TabToView : Dictionary<KryptonRibbonTab, ViewLayoutRibbonScrollPort> { }
+        private class TabToView : Dictionary<KryptonRibbonTab, ViewLayoutRibbonScrollPort>;
         #endregion
 
         #region Static Fields
@@ -99,7 +99,7 @@ namespace Krypton.Ribbon
         /// Gets the first focus item within the currently selected tab.
         /// </summary>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase? GetFirstFocusItem()
+        public ViewBase GetFirstFocusItem()
         {
             if ((Ribbon.SelectedTab != null) &&
                 _tabToView.ContainsKey(Ribbon.SelectedTab))
@@ -118,7 +118,7 @@ namespace Krypton.Ribbon
         /// Gets the last focus item within the currently selected tab.
         /// </summary>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase? GetLastFocusItem()
+        public ViewBase GetLastFocusItem()
         {
             if ((Ribbon.SelectedTab != null) &&
                 _tabToView.ContainsKey(Ribbon.SelectedTab))
@@ -138,7 +138,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="current">The view that is currently focused.</param>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase? GetNextFocusItem(ViewBase current)
+        public ViewBase GetNextFocusItem(ViewBase current)
         {
             if ((Ribbon.SelectedTab != null) &&
                 _tabToView.ContainsKey(Ribbon.SelectedTab))
@@ -158,7 +158,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="current">The view that is currently focused.</param>
         /// <returns>ViewBase of item; otherwise false.</returns>
-        public ViewBase? GetPreviousFocusItem(ViewBase current)
+        public ViewBase GetPreviousFocusItem(ViewBase current)
         {
             if ((Ribbon.SelectedTab != null) &&
                 _tabToView.ContainsKey(Ribbon.SelectedTab))

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -38,7 +38,7 @@ namespace Krypton.Ribbon
             Debug.Assert(ribbon != null);
 
             _preferredBorder = new Padding((int)(17 * FactorDpiX), (int)(4 * FactorDpiY), (int)(17 * FactorDpiX), (int)(3 * FactorDpiY));
-            _ribbon = ribbon!;
+            _ribbon = ribbon;
             _mementos = new IDisposable[4];
 
             // Use a class to convert from application tab to content interface
@@ -90,7 +90,7 @@ namespace Krypton.Ribbon
             Debug.Assert(context != null);
 
             // Get base class calculated preferred size
-            Size preferredSize = base.GetPreferredSize(context!);
+            Size preferredSize = base.GetPreferredSize(context);
 
             // Add on the fixed border extra
             preferredSize.Width += _preferredBorder.Horizontal;
@@ -108,7 +108,7 @@ namespace Krypton.Ribbon
             Debug.Assert(context != null);
 
             // We take on all the available display area
-            ClientRectangle = context!.DisplayRectangle;
+            ClientRectangle = context.DisplayRectangle;
             base.Layout(context);
         }
         #endregion

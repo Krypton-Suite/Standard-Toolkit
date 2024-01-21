@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
  *  
  */
 #endregion
@@ -28,14 +28,14 @@ namespace Krypton.Toolkit
 
         #region Image Array
 
-        private static readonly Image[] _radioButtonArray;
+        private static readonly Image?[] _radioButtonArray;
 
         #endregion
 
         #region Images
 
-        private static readonly Image _blackDropDownButton = Office2010ArrowResources.Office2010BlackDropDownButton;
-        private static readonly Image _contextMenuSubMenu = Office2010ArrowResources.Office2010BlackContextMenuSub;
+        private static readonly Image? _blackDropDownButton = Office2010ArrowResources.Office2010BlackDropDownButton;
+        private static readonly Image? _contextMenuSubMenu = Office2010ArrowResources.Office2010BlackContextMenuSub;
         private static readonly Image _formCloseNormal = Office2010ControlBoxResources.Office2010BlackCloseNormal;
         private static readonly Image _formCloseDisabled = Office2010ControlBoxResources.Office2010BlackCloseDisabled;
         private static readonly Image _formCloseActive = Office2010ControlBoxResources.Office2010BlackCloseActive;
@@ -68,17 +68,17 @@ namespace Krypton.Toolkit
         #region Colour Arrays
 
         private static readonly Color[] _trackBarColors =
-        {
+        [
             Color.FromArgb(17, 17, 17), // Tick marks
             Color.FromArgb(37, 37, 37), // Top track
             Color.FromArgb(174, 174, 174), // Bottom track
             Color.FromArgb(131, 132, 132), // Fill track
             Color.FromArgb(64, Color.White), // Outside position
             Color.FromArgb(35, 35, 35) // Border (normal) position
-        };
+        ];
 
         private static readonly Color[] _schemeOfficeColors =
-        {
+        [
             Color.FromArgb(255, 255, 255), // (76, 83, 92), // TextLabelControl
             Color.Black, // TextButtonNormal
             Color.Black, // TextButtonChecked
@@ -313,7 +313,7 @@ namespace Krypton.Toolkit
             Color.FromArgb(91, 91, 91), // ButtonNavigatorChecked1
             Color.FromArgb(73, 73, 73), // ButtonNavigatorChecked2
             Color.FromArgb(201, 201, 201) // ToolTipBottom                                                                      
-        };
+        ];
 
         #endregion
 
@@ -335,8 +335,8 @@ namespace Krypton.Toolkit
                 TransparentColor = Color.Magenta
             };
             _galleryButtonList.Images.AddStrip(GalleryImageResources.Gallery2010);
-            _radioButtonArray = new Image[]
-            {
+            _radioButtonArray =
+            [
                 Office2010RadioButtonImageResources.RadioButton2010BlueD,
                 Office2010RadioButtonImageResources.RadioButton2010SilverN,
                 Office2010RadioButtonImageResources.RadioButton2010BlueT,
@@ -345,7 +345,7 @@ namespace Krypton.Toolkit
                 Office2010RadioButtonImageResources.RadioButton2010SilverNC,
                 Office2010RadioButtonImageResources.RadioButton2010SilverTC,
                 Office2010RadioButtonImageResources.RadioButton2010SilverPC
-            };
+            ];
         }
 
         /// <summary>

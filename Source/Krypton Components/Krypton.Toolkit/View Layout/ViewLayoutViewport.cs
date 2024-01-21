@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
  *  
  */
 #endregion
@@ -296,7 +296,7 @@ namespace Krypton.Toolkit
         /// </summary>
         public bool CanScrollNext
         {
-            get 
+            get
             {
                 var limit = 0;
                 var offset = 0;
@@ -638,7 +638,7 @@ namespace Krypton.Toolkit
 
         private RelativePositionAlign AlignmentRTL
         {
-            get 
+            get
             {
                 // Do we need to reverse the alignment or account for right to left?
                 if (Horizontal && (_rightToLeft == RightToLeft.Yes))
@@ -658,7 +658,7 @@ namespace Krypton.Toolkit
 
         private RelativePositionAlign CounterAlignmentRTL
         {
-            get 
+            get
             {
                 // Do we need to reverse the alignment or account for right to left?
                 if (!Horizontal && (_rightToLeft == RightToLeft.Yes) && _rightToLeftLayout)
@@ -745,6 +745,7 @@ namespace Krypton.Toolkit
                     default:
                         // Should never happen!
                         Debug.Assert(false);
+                        DebugTools.NotImplemented(orientation.ToString());
                         break;
                 }
             }
@@ -841,7 +842,7 @@ namespace Krypton.Toolkit
                 _animationTimer.Start();
             }
         }
-        
+
         private Point OffsetForChildRect(Rectangle rect)
         {
             // Begin by using the current offset
@@ -849,7 +850,7 @@ namespace Krypton.Toolkit
 
             // Find how far to over position the viewport
             var overs = 0;
-            
+
             // We might not be provided with metrics, so only use if reference provided
             if (_paletteMetrics != null)
             {

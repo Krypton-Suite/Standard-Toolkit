@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -45,7 +45,7 @@ namespace Krypton.Ribbon
             SIZE_TOP = new Size((int)(39 * FactorDpiX), (int)(22 * FactorDpiY));
             SIZE_BOTTOM = new Size((int)(39 * FactorDpiX), (int)(17 * FactorDpiY));
 
-            _ribbon = ribbon!;
+            _ribbon = ribbon;
             _bottomHalf = bottomHalf;
             _size = _bottomHalf ? SIZE_BOTTOM : SIZE_TOP;
             _mementos = new IDisposable[3];
@@ -164,34 +164,37 @@ namespace Krypton.Ribbon
             }
 
             // Draw the background
-            _mementos[memento] = context.Renderer.RenderRibbon.DrawRibbonApplicationButton(_ribbon.RibbonShape, context, ClientRectangle, State, palette, _mementos[memento]);
+            _mementos[memento] = context.Renderer.RenderRibbon.DrawRibbonApplicationButton(_ribbon.RibbonShape, context, ClientRectangle, State, palette, _mementos[memento]!);
 
             // If there is an application button to be drawn
             if (_ribbon.RibbonAppButton.AppButtonImage != null)
             {
                 // We always draw the image a 24x24 image (if dpi = 1!)
-                var localImage = _ribbon.RibbonAppButton.AppButtonImage;
+                Image? localImage = _ribbon.RibbonAppButton.AppButtonImage;
                 localImage = CommonHelper.ScaleImageForSizedDisplay(localImage, localImage.Width * FactorDpiX,
                     localImage.Height * FactorDpiY);
 
-                var imageRect = new Rectangle(ClientLocation.X + (int)(7 * FactorDpiX),
-                    ClientLocation.Y + (int)(6 * FactorDpiY), (int)(24 * FactorDpiX), (int)(24 * FactorDpiY));
-
-                if (_ribbon.Enabled)
+                if (localImage != null)
                 {
-                    context.Graphics.DrawImage(localImage, imageRect);
-                }
-                else
-                {
-                    // Use a color matrix to convert to black and white
-                    using var attribs = new ImageAttributes();
-                    attribs.SetColorMatrix(CommonHelper.MatrixDisabled);
+                    var imageRect = new Rectangle(ClientLocation.X + (int)(7 * FactorDpiX),
+                        ClientLocation.Y + (int)(6 * FactorDpiY), (int)(24 * FactorDpiX), (int)(24 * FactorDpiY));
 
-                    context.Graphics.DrawImage(localImage,
-                        imageRect, 0, 0,
-                        localImage.Width,
-                        localImage.Height,
-                        GraphicsUnit.Pixel, attribs);
+                    if (_ribbon.Enabled)
+                    {
+                        context.Graphics.DrawImage(localImage, imageRect);
+                    }
+                    else
+                    {
+                        // Use a color matrix to convert to black and white
+                        using var attribs = new ImageAttributes();
+                        attribs.SetColorMatrix(CommonHelper.MatrixDisabled);
+
+                        context.Graphics.DrawImage(localImage,
+                            imageRect, 0, 0,
+                            localImage.Width,
+                            localImage.Height,
+                            GraphicsUnit.Pixel, attribs);
+                    }
                 }
             }
 

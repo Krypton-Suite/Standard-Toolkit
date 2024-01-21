@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
  *  
  */
 #endregion
@@ -58,9 +58,9 @@ namespace Krypton.Toolkit
         public event EventHandler<PaletteLayoutEventArgs>? PalettePaint;
 
         /// <summary>
-        /// Occurs when the AllowFormChrome setting changes.
+        /// Occurs when the UseThemeFormChromeBorderWidth setting changes.
         /// </summary>
-        public event EventHandler? AllowFormChromeChanged;
+        public event EventHandler? UseThemeFormChromeBorderWidthChanged;
 
         /// <summary>
         /// Occurs when the BasePalette/BasePaletteMode setting changes.
@@ -88,18 +88,36 @@ namespace Krypton.Toolkit
             // Inherit means we need to calculate the value next time it is requested
             _dragFeedback = PaletteDragFeedback.Inherit;
 
-            ThemeName = string.Empty;
-
             BaseFont = _defaultFontStyle;
         }
         #endregion
 
-        #region AllowFormChrome
+        #region UseThemeFormChromeBorderWidth
+        private InheritBool _allowFormChrome = InheritBool.True;
+
         /// <summary>
-        /// Gets a value indicating if KryptonForm instances should show custom chrome.
+        /// Gets or sets a value indicating if KryptonForm instances should UseThemeFormChromeBorderWidth.
         /// </summary>
         /// <returns>InheritBool value.</returns>
-        public abstract InheritBool GetAllowFormChrome();
+        [KryptonPersist(false)]
+        [Category(@"Visuals")]
+        [Description(@"Should KryptonForm instances UseThemeFormChromeBorderWidth.")]
+        [DefaultValue(InheritBool.Inherit)]
+        public virtual InheritBool UseThemeFormChromeBorderWidth
+        {
+            get => _allowFormChrome;
+
+            set
+            {
+                if (_allowFormChrome != value)
+                {
+                    _allowFormChrome = value;
+                    OnUseThemeFormChromeBorderWidthChanged(this, EventArgs.Empty);
+                }
+            }
+        }
+        private void ResetUseThemeFormChromeBorderWidth() => UseThemeFormChromeBorderWidth = InheritBool.True;
+        private bool ShouldSerializeUseThemeFormChromeBorderWidth() => UseThemeFormChromeBorderWidth != InheritBool.True;
         #endregion
 
         #region Renderer
@@ -794,7 +812,7 @@ namespace Krypton.Toolkit
                 default:
                     // Should never happen!
                     Debug.Assert(false);
-                    return null;
+                    throw DebugTools.NotImplemented(style.ToString());
             }
         }
 
@@ -859,6 +877,7 @@ namespace Krypton.Toolkit
                 default:
                     // Should never happen!
                     Debug.Assert(false);
+                    DebugTools.NotImplemented(style.ToString());
                     return Color.Empty;
             }
         }
@@ -868,7 +887,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="style">Style of button spec.</param>
         /// <returns>String value.</returns>
-        public virtual string? GetButtonSpecShortText(PaletteButtonSpecStyle style)
+        public virtual string GetButtonSpecShortText(PaletteButtonSpecStyle style)
         {
             switch (style)
             {
@@ -914,7 +933,7 @@ namespace Krypton.Toolkit
                 default:
                     // Should never happen!
                     Debug.Assert(false);
-                    return null;
+                    throw DebugTools.NotImplemented(style.ToString());
             }
         }
 
@@ -923,7 +942,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="style">Style of button spec.</param>
         /// <returns>String value.</returns>
-        public virtual string? GetButtonSpecLongText(PaletteButtonSpecStyle style)
+        public virtual string GetButtonSpecLongText(PaletteButtonSpecStyle style)
         {
             switch (style)
             {
@@ -969,7 +988,7 @@ namespace Krypton.Toolkit
                 default:
                     // Should never happen!
                     Debug.Assert(false);
-                    return null;
+                    throw DebugTools.NotImplemented(style.ToString());
             }
         }
 
@@ -978,7 +997,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="style">Style of button spec.</param>
         /// <returns>String value.</returns>
-        public virtual string? GetButtonSpecToolTipTitle(PaletteButtonSpecStyle style)
+        public virtual string GetButtonSpecToolTipTitle(PaletteButtonSpecStyle style)
         {
             switch (style)
             {
@@ -1033,7 +1052,7 @@ namespace Krypton.Toolkit
                 default:
                     // Should never happen!
                     Debug.Assert(false);
-                    return null;
+                    throw DebugTools.NotImplemented(style.ToString());
             }
         }
 
@@ -1089,6 +1108,7 @@ namespace Krypton.Toolkit
                 default:
                     // Should never happen!
                     Debug.Assert(false);
+                    DebugTools.NotImplemented(style.ToString());
                     return Color.Empty;
             }
         }
@@ -1144,6 +1164,7 @@ namespace Krypton.Toolkit
                 default:
                     // Should never happen!
                     Debug.Assert(false);
+                    DebugTools.NotImplemented(style.ToString());
                     return Color.Empty;
             }
         }
@@ -1201,6 +1222,7 @@ namespace Krypton.Toolkit
                 default:
                     // Should never happen!
                     Debug.Assert(false);
+                    DebugTools.NotImplemented(style.ToString());
                     return PaletteButtonStyle.ButtonSpec;
             }
         }
@@ -1256,6 +1278,7 @@ namespace Krypton.Toolkit
                 default:
                     // Should never happen!
                     Debug.Assert(false);
+                    DebugTools.NotImplemented(style.ToString());
                     return HeaderLocation.PrimaryHeader;
             }
         }
@@ -1311,6 +1334,7 @@ namespace Krypton.Toolkit
                 default:
                     // Should never happen!
                     Debug.Assert(false);
+                    DebugTools.NotImplemented(style.ToString());
                     return PaletteRelativeEdgeAlign.Far;
             }
         }
@@ -1367,6 +1391,7 @@ namespace Krypton.Toolkit
                 default:
                     // Should never happen!
                     Debug.Assert(false);
+                    DebugTools.NotImplemented(style.ToString());
                     return PaletteButtonOrientation.Auto;
             }
         }
@@ -1692,13 +1717,14 @@ namespace Krypton.Toolkit
 
         /// <summary>Gets or sets the base palette font.</summary>
         /// <value>The base palette font.</value>
-        [DisallowNull, Description(@"Gets or sets the base palette font.")]
+        [Description(@"Gets or sets the base palette font.")]
+        [DisallowNull]
         public Font BaseFont
         {
             get => _baseFont;
 
-            set 
-            { 
+            set
+            {
                 _baseFont = value;
                 DefineFonts();
                 // Call an event to force repaint style things
@@ -1710,7 +1736,8 @@ namespace Krypton.Toolkit
 
         /// <summary>Gets or sets the name of the theme.</summary>
         /// <value>The name of the theme.</value>
-        [DisallowNull, Description(@"Gets or sets the name of the theme.")]
+        [Description(@"Gets or sets the name of the theme.")]
+        [DisallowNull]
         public string ThemeName { get; set; }
 
         /// <summary>Gets or sets the type of the base palette.</summary>
@@ -1941,14 +1968,14 @@ namespace Krypton.Toolkit
 
         #endregion
 
-        #region OnAllowFormChromeChanged
+        #region OnUseThemeFormChromeBorderWidthChanged
 
         /// <summary>
-        /// Raises the AllowFormChromeChanged event.
+        /// Raises the UseThemeFormChromeBorderWidthChanged event.
         /// </summary>
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">An EventArgs containing event data.</param>
-        protected virtual void OnAllowFormChromeChanged(object sender, EventArgs e) => AllowFormChromeChanged?.Invoke(this, e);
+        protected virtual void OnUseThemeFormChromeBorderWidthChanged(object sender, EventArgs e) => UseThemeFormChromeBorderWidthChanged?.Invoke(this, e);
 
         #endregion
 

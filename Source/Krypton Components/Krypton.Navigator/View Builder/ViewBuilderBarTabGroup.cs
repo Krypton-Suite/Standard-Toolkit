@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
  *  
  */
 #endregion
@@ -36,7 +36,7 @@ namespace Krypton.Navigator
         protected override void CreateCheckItemView()
         {
             // Create a canvas for containing the selected page and put old root inside it
-            _drawGroup = new ViewDrawCanvas(Navigator!.StateNormal!.HeaderGroup!.Back,
+            _drawGroup = new ViewDrawCanvas(Navigator.StateNormal.HeaderGroup.Back,
                                             Navigator.StateNormal.HeaderGroup.Border,
                                             VisualOrientation.Top)
             {
@@ -50,7 +50,7 @@ namespace Krypton.Navigator
             _layoutBar = layoutBar;
 
             // Create the scroll spacer that restricts display
-            _layoutBarViewport = new ViewLayoutViewport(Navigator!.StateCommon!.Bar,
+            _layoutBarViewport = new ViewLayoutViewport(Navigator.StateCommon!.Bar,
                                                         PaletteMetricPadding.BarPaddingTabs,
                                                         PaletteMetricInt.CheckButtonGap,
                                                         Navigator.Bar.BarOrientation,

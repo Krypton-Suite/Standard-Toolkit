@@ -49,7 +49,7 @@
             this._panelMessage.Dock = System.Windows.Forms.DockStyle.Fill;
             this._panelMessage.Location = new System.Drawing.Point(0, 0);
             this._panelMessage.Name = "_panelMessage";
-            this._panelMessage.Size = new System.Drawing.Size(350, 106);
+            this._panelMessage.Size = new System.Drawing.Size(362, 118);
             this._panelMessage.TabIndex = 1;
             // 
             // _tableLayoutPanel1
@@ -122,7 +122,6 @@
             // 
             this._buttonOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this._buttonOk.AutoSize = true;
-            this._buttonOk.CornerRoundingRadius = -1F;
             this._buttonOk.DialogResult = System.Windows.Forms.DialogResult.OK;
             this._buttonOk.Location = new System.Drawing.Point(213, 0);
             this._buttonOk.Margin = new System.Windows.Forms.Padding(0, 0, 0, 8);
@@ -136,7 +135,6 @@
             // 
             this._buttonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this._buttonCancel.AutoSize = true;
-            this._buttonCancel.CornerRoundingRadius = -1F;
             this._buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this._buttonCancel.Location = new System.Drawing.Point(285, 0);
             this._buttonCancel.Margin = new System.Windows.Forms.Padding(0);
@@ -146,18 +144,18 @@
             this._buttonCancel.TabIndex = 2;
             this._buttonCancel.Values.Text = "Cance&l";
             // 
-            // KryptonInputBoxForm
+            // VisualInputBoxForm
             // 
             this.AcceptButton = this._buttonOk;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this._buttonCancel;
-            this.ClientSize = new System.Drawing.Size(350, 106);
+            this.ClientSize = new System.Drawing.Size(362, 118);
             this.Controls.Add(this._panelMessage);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "KryptonInputBoxForm";
+            this.Name = "VisualInputBoxForm";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;

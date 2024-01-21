@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
  *  
  */
 #endregion
@@ -60,9 +60,9 @@ namespace Krypton.Toolkit
         /// <param name="calendar">Reference to calendar provider.</param>
         /// <param name="redirector">Redirector for getting values.</param>
         /// <param name="needPaintDelegate">Delegate for requesting paint changes.</param>
-        public ViewLayoutMonths(IContextMenuProvider provider,
-                                KryptonContextMenuMonthCalendar monthCalendar,
-                                ViewContextMenuManager viewManager,
+        public ViewLayoutMonths(IContextMenuProvider? provider,
+                                KryptonContextMenuMonthCalendar? monthCalendar,
+                                ViewContextMenuManager? viewManager,
                                 IKryptonMonthCalendar calendar,
                                 PaletteRedirect redirector,
                                 NeedPaintHandler needPaintDelegate)
@@ -97,10 +97,10 @@ namespace Krypton.Toolkit
             // Using a button spec manager to add the buttons to the header
             ButtonSpecs = new MonthCalendarButtonSpecCollection(this);
             ButtonManager = new ButtonSpecManagerDraw(Calendar.CalendarControl, redirector, ButtonSpecs, null,
-                                                       new[] { _drawHeader },
-                                                       new IPaletteMetric[] { Calendar.StateCommon },
-                                                       new[] { PaletteMetricInt.HeaderButtonEdgeInsetCalendar },
-                                                       new[] { PaletteMetricPadding.None },
+                [_drawHeader],
+                [Calendar.StateCommon],
+                [PaletteMetricInt.HeaderButtonEdgeInsetCalendar],
+                [PaletteMetricPadding.None],
                                                        Calendar.GetToolStripDelegate, _needPaintDelegate);
 
             // Create the manager for handling tooltips
@@ -866,13 +866,13 @@ namespace Krypton.Toolkit
             _shortText = _dayMeasure;
 
             // Find sizes required for the different 
-            Size normalSize = context.Renderer.RenderStandardContent.GetContentPreferredSize(context, Calendar.StateNormal.Day.Content, this, VisualOrientation.Top, PaletteState.Normal, false, false);
-            Size disabledSize = context.Renderer.RenderStandardContent.GetContentPreferredSize(context, Calendar.StateDisabled.Day.Content, this, VisualOrientation.Top, PaletteState.Disabled, false, false);
-            Size trackingSize = context.Renderer.RenderStandardContent.GetContentPreferredSize(context, Calendar.StateTracking.Day.Content, this, VisualOrientation.Top, PaletteState.Disabled, false, false);
-            Size pressedSize = context.Renderer.RenderStandardContent.GetContentPreferredSize(context, Calendar.StatePressed.Day.Content, this, VisualOrientation.Top, PaletteState.Disabled, false, false);
-            Size checkedNormalSize = context.Renderer.RenderStandardContent.GetContentPreferredSize(context, Calendar.StateCheckedNormal.Day.Content, this, VisualOrientation.Top, PaletteState.Disabled, false, false);
-            Size checkedTrackingSize = context.Renderer.RenderStandardContent.GetContentPreferredSize(context, Calendar.StateCheckedTracking.Day.Content, this, VisualOrientation.Top, PaletteState.Disabled, false, false);
-            Size checkedPressedSize = context.Renderer.RenderStandardContent.GetContentPreferredSize(context, Calendar.StateCheckedPressed.Day.Content, this, VisualOrientation.Top, PaletteState.Disabled, false, false);
+            Size normalSize = context.Renderer.RenderStandardContent.GetContentPreferredSize(context, Calendar.StateNormal.Day.Content, this, VisualOrientation.Top, PaletteState.Normal);
+            Size disabledSize = context.Renderer.RenderStandardContent.GetContentPreferredSize(context, Calendar.StateDisabled.Day.Content, this, VisualOrientation.Top, PaletteState.Disabled);
+            Size trackingSize = context.Renderer.RenderStandardContent.GetContentPreferredSize(context, Calendar.StateTracking.Day.Content, this, VisualOrientation.Top, PaletteState.Disabled);
+            Size pressedSize = context.Renderer.RenderStandardContent.GetContentPreferredSize(context, Calendar.StatePressed.Day.Content, this, VisualOrientation.Top, PaletteState.Disabled);
+            Size checkedNormalSize = context.Renderer.RenderStandardContent.GetContentPreferredSize(context, Calendar.StateCheckedNormal.Day.Content, this, VisualOrientation.Top, PaletteState.Disabled);
+            Size checkedTrackingSize = context.Renderer.RenderStandardContent.GetContentPreferredSize(context, Calendar.StateCheckedTracking.Day.Content, this, VisualOrientation.Top, PaletteState.Disabled);
+            Size checkedPressedSize = context.Renderer.RenderStandardContent.GetContentPreferredSize(context, Calendar.StateCheckedPressed.Day.Content, this, VisualOrientation.Top, PaletteState.Disabled);
 
             // Find largest size required
             normalSize.Width = Math.Max(normalSize.Width, Math.Max(disabledSize.Width, Math.Max(trackingSize.Width, Math.Max(pressedSize.Width, Math.Max(checkedNormalSize.Width, Math.Max(checkedTrackingSize.Width, checkedPressedSize.Width))))));
@@ -886,14 +886,14 @@ namespace Krypton.Toolkit
             _shortText = "A";
 
             // Find sizes required for the different 
-            Size shortNormalSize = context.Renderer.RenderStandardContent.GetContentPreferredSize(context, Calendar.StateNormal.DayOfWeek.Content, this, VisualOrientation.Top, PaletteState.Normal, false, false);
-            Size shortDisabledSize = context.Renderer.RenderStandardContent.GetContentPreferredSize(context, Calendar.StateDisabled.DayOfWeek.Content, this, VisualOrientation.Top, PaletteState.Disabled, false, false);
+            Size shortNormalSize = context.Renderer.RenderStandardContent.GetContentPreferredSize(context, Calendar.StateNormal.DayOfWeek.Content, this, VisualOrientation.Top, PaletteState.Normal);
+            Size shortDisabledSize = context.Renderer.RenderStandardContent.GetContentPreferredSize(context, Calendar.StateDisabled.DayOfWeek.Content, this, VisualOrientation.Top, PaletteState.Disabled);
 
             _shortText = $"A{_dayOfWeekMeasure}";
 
             // Find sizes required for the different 
-            Size fullNormalSize = context.Renderer.RenderStandardContent.GetContentPreferredSize(context, Calendar.StateNormal.DayOfWeek.Content, this, VisualOrientation.Top, PaletteState.Normal, false, false);
-            Size fullDisabledSize = context.Renderer.RenderStandardContent.GetContentPreferredSize(context, Calendar.StateDisabled.DayOfWeek.Content, this, VisualOrientation.Top, PaletteState.Disabled, false, false);
+            Size fullNormalSize = context.Renderer.RenderStandardContent.GetContentPreferredSize(context, Calendar.StateNormal.DayOfWeek.Content, this, VisualOrientation.Top, PaletteState.Normal);
+            Size fullDisabledSize = context.Renderer.RenderStandardContent.GetContentPreferredSize(context, Calendar.StateDisabled.DayOfWeek.Content, this, VisualOrientation.Top, PaletteState.Disabled);
 
             // Find largest size required (subtract a fudge factor of 3 pixels as Graphics.MeasureString is always too big)
             fullNormalSize.Width = Math.Max(fullNormalSize.Width - shortNormalSize.Width - 3, fullDisabledSize.Width - shortDisabledSize.Width - 3);

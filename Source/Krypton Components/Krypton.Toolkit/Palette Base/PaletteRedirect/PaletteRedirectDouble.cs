@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
  *  
  */
 #endregion
@@ -18,15 +18,15 @@ namespace Krypton.Toolkit
     public class PaletteRedirectDouble : PaletteRedirect
     {
         #region Instance Fields
-        private IPaletteDouble? _disabled;
-        private IPaletteDouble? _normal;
-        private IPaletteDouble? _pressed;
-        private IPaletteDouble? _tracking;
-        private IPaletteDouble? _checkedNormal;
-        private IPaletteDouble? _checkedPressed;
-        private IPaletteDouble? _checkedTracking;
-        private IPaletteDouble? _focusOverride;
-        private IPaletteDouble? _normalDefaultOverride;
+        private IPaletteDouble _disabled;
+        private IPaletteDouble _normal;
+        private IPaletteDouble _pressed;
+        private IPaletteDouble _tracking;
+        private IPaletteDouble _checkedNormal;
+        private IPaletteDouble _checkedPressed;
+        private IPaletteDouble _checkedTracking;
+        private IPaletteDouble _focusOverride;
+        private IPaletteDouble _normalDefaultOverride;
         #endregion
 
         #region Identity
@@ -54,8 +54,8 @@ namespace Krypton.Toolkit
         /// <param name="disabled">Redirection for disabled state requests.</param>
         /// <param name="normal">Redirection for normal state requests.</param>
         public PaletteRedirectDouble(PaletteBase target,
-                                     IPaletteDouble? disabled,
-                                     IPaletteDouble? normal)
+                                     IPaletteDouble disabled,
+                                     IPaletteDouble normal)
             : this(target, disabled, normal, null, null, null, null, null, null, null)
         {
         }
@@ -69,10 +69,10 @@ namespace Krypton.Toolkit
         /// <param name="pressed">Redirection for pressed state requests.</param>
         /// <param name="tracking">Redirection for tracking state requests.</param>
         public PaletteRedirectDouble(PaletteBase target,
-                                     IPaletteDouble? disabled,
-                                     IPaletteDouble? normal,
-                                     IPaletteDouble? pressed,
-                                     IPaletteDouble? tracking)
+                                     IPaletteDouble disabled,
+                                     IPaletteDouble normal,
+                                     IPaletteDouble pressed,
+                                     IPaletteDouble tracking)
             : this(target, disabled, normal, pressed, tracking, null, null, null, null, null)
         {
         }
@@ -91,15 +91,15 @@ namespace Krypton.Toolkit
         /// <param name="focusOverride">Redirection for focus override state requests.</param>
         /// <param name="normalDefaultOverride">Redirection for normal default override state requests.</param>
         public PaletteRedirectDouble(PaletteBase target,
-                                     IPaletteDouble? disabled,
-                                     IPaletteDouble? normal,
-                                     IPaletteDouble? pressed,
-                                     IPaletteDouble? tracking,
-                                     IPaletteDouble? checkedNormal,
-                                     IPaletteDouble? checkedPressed,
-                                     IPaletteDouble? checkedTracking,
-                                     IPaletteDouble? focusOverride,
-                                     IPaletteDouble? normalDefaultOverride)
+                                     IPaletteDouble disabled,
+                                     IPaletteDouble normal,
+                                     IPaletteDouble pressed,
+                                     IPaletteDouble tracking,
+                                     IPaletteDouble checkedNormal,
+                                     IPaletteDouble checkedPressed,
+                                     IPaletteDouble checkedTracking,
+                                     IPaletteDouble focusOverride,
+                                     IPaletteDouble normalDefaultOverride)
             : base(target)
         {
             // Remember state specific inheritance
@@ -121,8 +121,8 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="disabled">Redirection for disabled state requests.</param>
         /// <param name="normal">Redirection for normal state requests.</param>
-        public virtual void SetRedirectStates(IPaletteDouble? disabled,
-                                              IPaletteDouble? normal)
+        public virtual void SetRedirectStates(IPaletteDouble disabled,
+                                              IPaletteDouble normal)
         {
             _disabled = disabled;
             _normal = normal;
@@ -137,10 +137,10 @@ namespace Krypton.Toolkit
         /// <param name="normal">Redirection for normal state requests.</param>
         /// <param name="pressed">Redirection for pressed state requests.</param>
         /// <param name="tracking">Redirection for tracking state requests.</param>
-        public virtual void SetRedirectStates(IPaletteDouble? disabled,
-                                              IPaletteDouble? normal,
-                                              IPaletteDouble? pressed,
-                                              IPaletteDouble? tracking)
+        public virtual void SetRedirectStates(IPaletteDouble disabled,
+                                              IPaletteDouble normal,
+                                              IPaletteDouble pressed,
+                                              IPaletteDouble tracking)
         {
             _disabled = disabled;
             _normal = normal;
@@ -176,7 +176,7 @@ namespace Krypton.Toolkit
         /// <returns>InheritBool value.</returns>
         public override InheritBool GetBackDraw(PaletteBackStyle style, PaletteState state)
         {
-            IPaletteDouble? inherit = GetInherit(state);
+            IPaletteDouble inherit = GetInherit(state);
 
             return inherit != null
                 ? inherit.PaletteBack.GetBackDraw(state)
@@ -191,7 +191,7 @@ namespace Krypton.Toolkit
         /// <returns>PaletteGraphicsHint value.</returns>
         public override PaletteGraphicsHint GetBackGraphicsHint(PaletteBackStyle style, PaletteState state)
         {
-            IPaletteDouble? inherit = GetInherit(state);
+            IPaletteDouble inherit = GetInherit(state);
 
             return inherit != null
                 ? inherit.PaletteBack.GetBackGraphicsHint(state)
@@ -206,7 +206,7 @@ namespace Krypton.Toolkit
         /// <returns>Color value.</returns>
         public override Color GetBackColor1(PaletteBackStyle style, PaletteState state)
         {
-            IPaletteDouble? inherit = GetInherit(state);
+            IPaletteDouble inherit = GetInherit(state);
 
             return inherit != null
                 ? inherit.PaletteBack.GetBackColor1(state)
@@ -221,7 +221,7 @@ namespace Krypton.Toolkit
         /// <returns>Color value.</returns>
         public override Color GetBackColor2(PaletteBackStyle style, PaletteState state)
         {
-            IPaletteDouble? inherit = GetInherit(state);
+            IPaletteDouble inherit = GetInherit(state);
 
             return inherit != null
                 ? inherit.PaletteBack.GetBackColor2(state)
@@ -236,7 +236,7 @@ namespace Krypton.Toolkit
         /// <returns>Color drawing style.</returns>
         public override PaletteColorStyle GetBackColorStyle(PaletteBackStyle style, PaletteState state)
         {
-            IPaletteDouble? inherit = GetInherit(state);
+            IPaletteDouble inherit = GetInherit(state);
 
             return inherit != null
                 ? inherit.PaletteBack.GetBackColorStyle(state)
@@ -251,7 +251,7 @@ namespace Krypton.Toolkit
         /// <returns>Color alignment style.</returns>
         public override PaletteRectangleAlign GetBackColorAlign(PaletteBackStyle style, PaletteState state)
         {
-            IPaletteDouble? inherit = GetInherit(state);
+            IPaletteDouble inherit = GetInherit(state);
 
             return inherit != null
                 ? inherit.PaletteBack.GetBackColorAlign(state)
@@ -266,7 +266,7 @@ namespace Krypton.Toolkit
         /// <returns>Angle used for color drawing.</returns>
         public override float GetBackColorAngle(PaletteBackStyle style, PaletteState state)
         {
-            IPaletteDouble? inherit = GetInherit(state);
+            IPaletteDouble inherit = GetInherit(state);
 
             return inherit != null
                 ? inherit.PaletteBack.GetBackColorAngle(state)
@@ -281,7 +281,7 @@ namespace Krypton.Toolkit
         /// <returns>Image instance.</returns>
         public override Image? GetBackImage(PaletteBackStyle style, PaletteState state)
         {
-            IPaletteDouble? inherit = GetInherit(state);
+            IPaletteDouble inherit = GetInherit(state);
 
             return inherit != null
                 ? inherit.PaletteBack.GetBackImage(state)
@@ -296,7 +296,7 @@ namespace Krypton.Toolkit
         /// <returns>Image style value.</returns>
         public override PaletteImageStyle GetBackImageStyle(PaletteBackStyle style, PaletteState state)
         {
-            IPaletteDouble? inherit = GetInherit(state);
+            IPaletteDouble inherit = GetInherit(state);
 
             return inherit != null
                 ? inherit.PaletteBack.GetBackImageStyle(state)
@@ -311,7 +311,7 @@ namespace Krypton.Toolkit
         /// <returns>Image alignment style.</returns>
         public override PaletteRectangleAlign GetBackImageAlign(PaletteBackStyle style, PaletteState state)
         {
-            IPaletteDouble? inherit = GetInherit(state);
+            IPaletteDouble inherit = GetInherit(state);
 
             return inherit != null
                 ? inherit.PaletteBack.GetBackImageAlign(state)
@@ -328,7 +328,7 @@ namespace Krypton.Toolkit
         /// <returns>InheritBool value.</returns>
         public override InheritBool GetBorderDraw(PaletteBorderStyle style, PaletteState state)
         {
-            IPaletteDouble? inherit = GetInherit(state);
+            IPaletteDouble inherit = GetInherit(state);
 
             return inherit != null
                 ? inherit.PaletteBorder!.GetBorderDraw(state)
@@ -343,7 +343,7 @@ namespace Krypton.Toolkit
         /// <returns>PaletteDrawBorders value.</returns>
         public override PaletteDrawBorders GetBorderDrawBorders(PaletteBorderStyle style, PaletteState state)
         {
-            IPaletteDouble? inherit = GetInherit(state);
+            IPaletteDouble inherit = GetInherit(state);
 
             return inherit != null ? inherit.PaletteBorder!.GetBorderDrawBorders(state) : Target!.GetBorderDrawBorders(style, state);
         }
@@ -356,7 +356,7 @@ namespace Krypton.Toolkit
         /// <returns>PaletteGraphicsHint value.</returns>
         public override PaletteGraphicsHint GetBorderGraphicsHint(PaletteBorderStyle style, PaletteState state)
         {
-            IPaletteDouble? inherit = GetInherit(state);
+            IPaletteDouble inherit = GetInherit(state);
 
             return inherit != null ? inherit.PaletteBorder!.GetBorderGraphicsHint(state) : Target!.GetBorderGraphicsHint(style, state);
         }
@@ -369,7 +369,7 @@ namespace Krypton.Toolkit
         /// <returns>Color value.</returns>
         public override Color GetBorderColor1(PaletteBorderStyle style, PaletteState state)
         {
-            IPaletteDouble? inherit = GetInherit(state);
+            IPaletteDouble inherit = GetInherit(state);
 
             return inherit != null ? inherit.PaletteBorder!.GetBorderColor1(state) : Target!.GetBorderColor1(style, state);
         }
@@ -382,7 +382,7 @@ namespace Krypton.Toolkit
         /// <returns>Color value.</returns>
         public override Color GetBorderColor2(PaletteBorderStyle style, PaletteState state)
         {
-            IPaletteDouble? inherit = GetInherit(state);
+            IPaletteDouble inherit = GetInherit(state);
 
             return inherit != null ? inherit.PaletteBorder!.GetBorderColor2(state) : Target!.GetBorderColor2(style, state);
         }
@@ -395,7 +395,7 @@ namespace Krypton.Toolkit
         /// <returns>Color drawing style.</returns>
         public override PaletteColorStyle GetBorderColorStyle(PaletteBorderStyle style, PaletteState state)
         {
-            IPaletteDouble? inherit = GetInherit(state);
+            IPaletteDouble inherit = GetInherit(state);
 
             return inherit != null ? inherit.PaletteBorder!.GetBorderColorStyle(state) : Target!.GetBorderColorStyle(style, state);
         }
@@ -408,7 +408,7 @@ namespace Krypton.Toolkit
         /// <returns>Color alignment style.</returns>
         public override PaletteRectangleAlign GetBorderColorAlign(PaletteBorderStyle style, PaletteState state)
         {
-            IPaletteDouble? inherit = GetInherit(state);
+            IPaletteDouble inherit = GetInherit(state);
 
             return inherit != null ? inherit.PaletteBorder!.GetBorderColorAlign(state) : Target!.GetBorderColorAlign(style, state);
         }
@@ -421,7 +421,7 @@ namespace Krypton.Toolkit
         /// <returns>Angle used for color drawing.</returns>
         public override float GetBorderColorAngle(PaletteBorderStyle style, PaletteState state)
         {
-            IPaletteDouble? inherit = GetInherit(state);
+            IPaletteDouble inherit = GetInherit(state);
 
             return inherit != null ? inherit.PaletteBorder!.GetBorderColorAngle(state) : Target!.GetBorderColorAngle(style, state);
         }
@@ -434,7 +434,7 @@ namespace Krypton.Toolkit
         /// <returns>Integer width.</returns>
         public override int GetBorderWidth(PaletteBorderStyle style, PaletteState state)
         {
-            IPaletteDouble? inherit = GetInherit(state);
+            IPaletteDouble inherit = GetInherit(state);
 
             return inherit != null ? inherit.PaletteBorder!.GetBorderWidth(state) : Target!.GetBorderWidth(style, state);
         }
@@ -447,7 +447,7 @@ namespace Krypton.Toolkit
         /// <returns>Float rounding.</returns>
         public override float GetBorderRounding(PaletteBorderStyle style, PaletteState state)
         {
-            IPaletteDouble? inherit = GetInherit(state);
+            IPaletteDouble inherit = GetInherit(state);
 
             return inherit != null ? inherit.PaletteBorder!.GetBorderRounding(state) : Target!.GetBorderRounding(style, state);
         }
@@ -460,7 +460,7 @@ namespace Krypton.Toolkit
         /// <returns>Image instance.</returns>
         public override Image? GetBorderImage(PaletteBorderStyle style, PaletteState state)
         {
-            IPaletteDouble? inherit = GetInherit(state);
+            IPaletteDouble inherit = GetInherit(state);
 
             return inherit != null ? inherit.PaletteBorder!.GetBorderImage(state) : Target!.GetBorderImage(style, state);
         }
@@ -473,7 +473,7 @@ namespace Krypton.Toolkit
         /// <returns>Image style value.</returns>
         public override PaletteImageStyle GetBorderImageStyle(PaletteBorderStyle style, PaletteState state)
         {
-            IPaletteDouble? inherit = GetInherit(state);
+            IPaletteDouble inherit = GetInherit(state);
 
             return inherit != null ? inherit.PaletteBorder!.GetBorderImageStyle(state) : Target!.GetBorderImageStyle(style, state);
         }
@@ -486,14 +486,14 @@ namespace Krypton.Toolkit
         /// <returns>Image alignment style.</returns>
         public override PaletteRectangleAlign GetBorderImageAlign(PaletteBorderStyle style, PaletteState state)
         {
-            IPaletteDouble? inherit = GetInherit(state);
+            IPaletteDouble inherit = GetInherit(state);
 
             return inherit != null ? inherit.PaletteBorder!.GetBorderImageAlign(state) : Target!.GetBorderImageAlign(style, state);
         }
         #endregion
 
         #region Implementation
-        private IPaletteDouble? GetInherit(PaletteState state)
+        private IPaletteDouble GetInherit(PaletteState state)
         {
             switch (state)
             {
@@ -518,7 +518,7 @@ namespace Krypton.Toolkit
                 default:
                     // Should never happen!
                     Debug.Assert(false);
-                    return null;
+                    throw DebugTools.NotImplemented(state.ToString());
             }
         }
         #endregion

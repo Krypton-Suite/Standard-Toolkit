@@ -1,7 +1,7 @@
 ﻿#region BSD License
 /*
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2021 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2021 - 2024. All rights reserved. 
  */
 #endregion
 
@@ -63,6 +63,7 @@ global using Krypton.Toolkit.ResourceFiles.Pin;
 global using Krypton.Toolkit.ResourceFiles.RadioButtons;
 global using Krypton.Toolkit.ResourceFiles.SizeGripStyles;
 global using Krypton.Toolkit.ResourceFiles.TaskDialog;
+global using Krypton.Toolkit.ResourceFiles.ToastNotification;
 global using Krypton.Toolkit.ResourceFiles.Toolbars;
 global using Krypton.Toolkit.ResourceFiles.TreeItems;
 global using Krypton.Toolkit.ResourceFiles.UAC;

@@ -2,7 +2,7 @@
 /*
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2023 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2023 - 2024. All rights reserved. 
  *  
  */
 #endregion
@@ -147,7 +147,7 @@ namespace Krypton.Ribbon
 
             // Setup the array of properties we override
             var attributes = Array.Empty<Attribute>();
-            string[] strArray = { nameof(Visible), nameof(Enabled) };
+            string[] strArray = [nameof(Visible), nameof(Enabled)];
 
             // Adjust our list of properties
             for (var i = 0; i < strArray.Length; i++)
@@ -470,8 +470,9 @@ namespace Krypton.Ribbon
                     case KryptonRibbonGroupLines lines:
                         return lines.Items;
                     default:
-                        // Should never happen!
+    // Should never happen!
                         Debug.Assert(false);
+                        DebugTools.NotImplemented(_ribbonThemeComboBox.RibbonContainer.ToString());
                         return null;
                 }
             }

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -25,7 +25,7 @@ namespace Krypton.Ribbon
         private readonly Size _largeSize;//new Size(32, 32);
         private readonly KryptonRibbonGroupColorButton _ribbonColorButton;
         private readonly bool _large;
-        private Image _compositeImage;
+        private Image? _compositeImage;
         private Color _selectedColor;
         private Color _emptyBorderColor;
         private Rectangle _selectedRectSmall;
@@ -96,7 +96,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets the image to be drawn.
         /// </summary>
-        protected override Image DrawImage
+        protected override Image? DrawImage
         {
             get
             {

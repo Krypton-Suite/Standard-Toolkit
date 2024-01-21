@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
  *  
  */
 #endregion
@@ -118,7 +118,7 @@ namespace Krypton.Navigator
         private void RenderChildren(RenderContext context, bool drawChecked)
         {
             // Use tab style to decide what order the children are drawn in
-            var orderedChildren = context.Renderer!.RenderTabBorder.GetTabBorderLeftDrawing(TabBorderStyle) ? this : Reverse();
+            var orderedChildren = context.Renderer.RenderTabBorder.GetTabBorderLeftDrawing(TabBorderStyle) ? this : Reverse();
 
             // Ask each child to render in turn
             foreach (ViewBase child in orderedChildren)

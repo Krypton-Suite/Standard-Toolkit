@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
  *  
  */
 #endregion
@@ -205,7 +205,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Overrides for defining item image column appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteDoubleRedirect? ItemImageColumn { get; }
+        public PaletteDoubleRedirect ItemImageColumn { get; }
 
         private bool ShouldSerializeItemImageColumn() => !ItemImageColumn.IsDefault;
 
@@ -231,7 +231,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Overrides for defining item split appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteDoubleRedirect? ItemSplit { get; }
+        public PaletteDoubleRedirect ItemSplit { get; }
 
         private bool ShouldSerializeItemSplit() => !ItemSplit.IsDefault;
 
@@ -271,7 +271,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Overrides for defining separator items appearance.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PaletteDoubleRedirect? Separator { get; }
+        public PaletteDoubleRedirect Separator { get; }
 
         private bool ShouldSerializeSeparator() => !Separator.IsDefault;
 

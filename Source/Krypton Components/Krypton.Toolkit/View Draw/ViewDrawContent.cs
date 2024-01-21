@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
  *  
  */
 #endregion
@@ -44,33 +44,6 @@ namespace Krypton.Toolkit
             Orientation = orientation;
 
             // Default other state
-            DrawContentOnComposition = false;
-            Glowing = false;
-            TestForFocusCues = false;
-        }
-
-        /// <summary>
-        /// Initialize a new instance of the ViewDrawContent class.
-        /// </summary>
-        /// <param name="paletteContent">Palette source for the content.</param>
-        /// <param name="values">Reference to actual content values.</param>
-        /// <param name="orientation">Visual orientation of the content.</param>
-        /// <param name="composition">Draw on composition.</param>
-        /// <param name="glowing">If composition, should glowing be drawn.</param>
-        public ViewDrawContent(IPaletteContent? paletteContent,
-                               IContentValues values,
-                               VisualOrientation orientation,
-                               bool composition,
-                               bool glowing)
-        {
-            // Cache the starting values
-            _paletteContent = paletteContent;
-            Values = values;
-            Orientation = orientation;
-
-            // Default other state
-            DrawContentOnComposition = composition;
-            Glowing = glowing;
             TestForFocusCues = false;
         }
 
@@ -100,22 +73,6 @@ namespace Krypton.Toolkit
 
             base.Dispose(disposing);
         }
-        #endregion
-
-        #region DrawContentOnComposition
-        /// <summary>
-        /// Gets and sets the composition value.
-        /// </summary>
-        public bool DrawContentOnComposition { get; set; }
-
-        #endregion
-
-        #region Glowing
-        /// <summary>
-        /// Gets ans sets the glowing value.
-        /// </summary>
-        public bool Glowing { get; set; }
-
         #endregion
 
         #region TestForFocusCues
@@ -327,9 +284,7 @@ namespace Krypton.Toolkit
                                                                                                _paletteContent,
                                                                                                Values,
                                                                                                Orientation,
-                                                                                               State,
-                                                                                               DrawContentOnComposition,
-                                                                                               Glowing);
+                                                                                               State);
             }
 
             return preferredSize;
@@ -370,9 +325,7 @@ namespace Krypton.Toolkit
                                                                                 _paletteContent,
                                                                                 Values,
                                                                                 Orientation,
-                                                                                State,
-                                                                                DrawContentOnComposition,
-                                                                                Glowing);
+                                                                                State);
             }
         }
         #endregion
@@ -404,8 +357,6 @@ namespace Krypton.Toolkit
                                                                    _memento,
                                                                    Orientation,
                                                                    State,
-                                                                   DrawContentOnComposition,
-                                                                   Glowing,
                                                                    allowFocusRect);
             }
         }

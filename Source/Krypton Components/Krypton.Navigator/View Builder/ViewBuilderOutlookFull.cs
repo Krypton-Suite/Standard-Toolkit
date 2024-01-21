@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
  *  
  */
 #endregion
@@ -81,12 +81,12 @@ namespace Krypton.Navigator
             if (Navigator.SelectedPage == null)
             {
                 // Then use the states defined in the navigator itself
-                buttonEdge = Navigator.Enabled ? Navigator.StateNormal!.BorderEdge : Navigator.StateDisabled!.BorderEdge;
+                buttonEdge = Navigator.Enabled ? Navigator.StateNormal.BorderEdge : Navigator.StateDisabled.BorderEdge;
             }
             else
             {
                 // Use states defined in the selected page
-                buttonEdge = Navigator.SelectedPage.Enabled ? Navigator.SelectedPage.StateNormal!.BorderEdge : Navigator.SelectedPage.StateDisabled!.BorderEdge;
+                buttonEdge = Navigator.SelectedPage.Enabled ? Navigator.SelectedPage.StateNormal.BorderEdge : Navigator.SelectedPage.StateDisabled.BorderEdge;
             }
 
             // Update the main view elements
@@ -176,8 +176,8 @@ namespace Krypton.Navigator
             };
 
             // Cache the border edge palette to use
-            PaletteBorderEdge buttonEdgePalette = (Navigator.Enabled ? Navigator.StateNormal!.BorderEdge :
-                                                                       Navigator.StateDisabled!.BorderEdge);
+            PaletteBorderEdge buttonEdgePalette = (Navigator.Enabled ? Navigator.StateNormal.BorderEdge :
+                                                                       Navigator.StateDisabled.BorderEdge);
 
             // Create the scrolling viewport and pass in the _viewLayout as the content to scroll
             _viewOutlook = new ViewLayoutOutlookFull(this, Navigator, _viewLayout, buttonEdgePalette, null, PaletteMetricPadding.None,

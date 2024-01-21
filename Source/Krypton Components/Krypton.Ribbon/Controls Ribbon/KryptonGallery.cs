@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -110,7 +110,7 @@ namespace Krypton.Ribbon
             DropButtonRanges = [];
 
             // Create the palette storage
-            StateCommon = new PaletteGalleryRedirect(Redirector!, NeedPaintDelegate);
+            StateCommon = new PaletteGalleryRedirect(Redirector, NeedPaintDelegate);
             StateNormal = new PaletteGalleryState(StateCommon, NeedPaintDelegate);
             StateDisabled = new PaletteGalleryState(StateCommon, NeedPaintDelegate);
             StateActive = new PaletteGalleryState(StateCommon, NeedPaintDelegate);
@@ -129,7 +129,7 @@ namespace Krypton.Ribbon
             // The draw layout that contains the actual selection images
             _backBorder = new PaletteGalleryBackBorder(StateNormal);
             _drawDocker = new ViewDrawDocker(_backBorder, _backBorder);
-            _drawItems = new ViewLayoutRibbonGalleryItems(Redirector!, this, NeedPaintDelegate, _buttonUp, _buttonDown, _buttonContext);
+            _drawItems = new ViewLayoutRibbonGalleryItems(Redirector, this, NeedPaintDelegate, _buttonUp, _buttonDown, _buttonContext);
             _drawDocker.Add(_drawItems, ViewDockStyle.Fill);
 
             // Top level layout view
@@ -643,7 +643,7 @@ namespace Krypton.Ribbon
         /// </summary>
         /// <param name="sender">Source of notification.</param>
         /// <param name="e">An NeedLayoutEventArgs containing event data.</param>
-        protected override void OnNeedPaint(object sender, NeedLayoutEventArgs e)
+        protected override void OnNeedPaint(object? sender, NeedLayoutEventArgs e)
         {
             if (IsHandleCreated)
             {

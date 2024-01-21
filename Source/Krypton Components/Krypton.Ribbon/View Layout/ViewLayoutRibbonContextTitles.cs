@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -21,9 +21,7 @@ namespace Krypton.Ribbon
     {
         #region Classes
 
-        private class ViewDrawRibbonContextTitleList : List<ViewDrawRibbonContextTitle>
-        {
-        };
+        private class ViewDrawRibbonContextTitleList : List<ViewDrawRibbonContextTitle>;
 
         #endregion
 
@@ -105,7 +103,7 @@ namespace Krypton.Ribbon
             ClientRectangle = context.DisplayRectangle;
 
             // Find any filler child
-            ViewBase filler = this.FirstOrDefault(child => GetDock(child) == ViewDockStyle.Fill);
+            ViewBase? filler = this.FirstOrDefault(child => GetDock(child) == ViewDockStyle.Fill);
 
             var xLeftMost = ClientRectangle.Right;
             var xRightMost = ClientRectangle.Left;
@@ -122,7 +120,7 @@ namespace Krypton.Ribbon
                 Point rightTab = tabContext.GetRightScreenPosition();
 
                 // If our position is above the ribbon control we must be in the chrome
-                if (_captionArea is { UsingCustomChrome: true, KryptonForm.ApplyComposition: false })
+                if (_captionArea is { UsingCustomChrome: true})
                 {
                     var leftPadding = _captionArea.RealWindowBorders.Left;
                     leftTab.X += leftPadding;
@@ -214,9 +212,9 @@ namespace Krypton.Ribbon
             for (var i = 0; i < ViewLayoutRibbonTabs.ContextTabSets.Count; i++)
             {
                 ViewDrawRibbonContextTitle viewContext = _contextTitlesCache[i];
-                var viewController = (ContextTitleController)viewContext.MouseController;
+                var viewController = viewContext.MouseController as ContextTitleController;
                 viewContext.ContextTabSet = ViewLayoutRibbonTabs.ContextTabSets[i];
-                viewController.ContextTabSet = viewContext.ContextTabSet;
+                viewController!.ContextTabSet = viewContext.ContextTabSet;
                 Add(viewContext);
             }
 

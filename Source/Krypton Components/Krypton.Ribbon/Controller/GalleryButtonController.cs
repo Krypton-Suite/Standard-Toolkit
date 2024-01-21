@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -25,7 +25,8 @@ namespace Krypton.Ribbon
         private bool _pressed;
         private bool _mouseOver;
         private NeedPaintHandler? _needPaint;
-        private readonly Timer _repeatTimer;
+        private Timer? _repeatTimer;
+
         #endregion
 
         #region Events
@@ -49,7 +50,7 @@ namespace Krypton.Ribbon
             Debug.Assert(target != null);
 
             Target = target!;
-            NeedPaint = needPaint!;
+            NeedPaint = needPaint;
 
             if (repeatTimer)
             {
@@ -73,7 +74,7 @@ namespace Krypton.Ribbon
                 _pressed = false;
                 _mouseOver = false;
                 UpdateTargetState(new Point(int.MaxValue, int.MaxValue));
-                _repeatTimer.Stop();
+                _repeatTimer?.Stop();
             }
         }
         #endregion
@@ -116,7 +117,7 @@ namespace Krypton.Ribbon
                 if (Target.Enabled)
                 {
                     OnClick(new MouseEventArgs(MouseButtons.Left, 1, pt.X, pt.Y, 0));
-                    _repeatTimer.Start();
+                    _repeatTimer?.Start();
                 }
             }
 
@@ -136,7 +137,7 @@ namespace Krypton.Ribbon
             {
                 _pressed = false;
                 UpdateTargetState(pt);
-                _repeatTimer.Stop();
+                _repeatTimer?.Stop();
             }
         }
 
@@ -153,7 +154,9 @@ namespace Krypton.Ribbon
                 _pressed = false;
                 _mouseOver = false;
                 UpdateTargetState(c);
-                _repeatTimer.Stop();
+                // Have to check for null Because:
+                // when moving from a gallery to the Expand tooltip button it would throw an exception !
+                _repeatTimer?.Stop();
             }
         }
 
@@ -236,14 +239,18 @@ namespace Krypton.Ribbon
         /// <param name="pt">Mouse point.</param>
         protected virtual void UpdateTargetState(Point pt)
         {
-            // By default the button is in the normal state
+            // By default, the button is in the normal state
             PaletteState newState;
 
             // If the button is disabled then show as disabled
             if (!Target.Enabled)
             {
                 newState = PaletteState.Disabled;
-                _repeatTimer.Stop();
+                _repeatTimer?.Stop();
+
+                // Repeats will crash the application, below should solve this
+                _repeatTimer?.Dispose();
+                _repeatTimer = null;
             }
             else
             {
@@ -283,7 +290,7 @@ namespace Krypton.Ribbon
             }
             else
             {
-                _repeatTimer.Stop();
+                _repeatTimer?.Stop();
             }
         }
 

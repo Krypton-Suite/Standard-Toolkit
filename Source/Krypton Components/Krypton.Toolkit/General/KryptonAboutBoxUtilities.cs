@@ -2,7 +2,7 @@
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2023 - 2023. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2023 - 2024. All rights reserved.
  *
  */
 #endregion
@@ -34,38 +34,45 @@ namespace Krypton.Toolkit
             {
                 return File.GetLastWriteTime(assembly.Location);
             }
-            catch (Exception e)
+            catch
             {
                 return DateTime.MaxValue;
             }
         }
 
-        public static DateTime AssemblyBuildDate(Assembly assembly, bool forceFileDate)
+        public static DateTime AssemblyBuildDate(Assembly? assembly, bool forceFileDate)
         {
-            Version assemblyVersion = assembly.GetName().Version;
-
-            DateTime dateTime;
-
-            if (forceFileDate)
+            if (assembly != null)
             {
-                dateTime = AssemblyLastWriteTime(assembly);
-            }
-            else
-            {
-                dateTime = DateTime.Parse(@"01/01/1970").AddDays(assemblyVersion.Build).AddSeconds(assemblyVersion.Revision * 2);
+                Version assemblyVersion = assembly.GetName().Version;
 
-                if (TimeZone.IsDaylightSavingTime(dateTime, TimeZone.CurrentTimeZone.GetDaylightChanges(dateTime.Year)))
-                {
-                    dateTime = dateTime.AddHours(1);
-                }
+                DateTime dateTime;
 
-                if (dateTime > DateTime.Now || assemblyVersion.Build < 730 || assemblyVersion.Revision == 0)
+                if (forceFileDate)
                 {
                     dateTime = AssemblyLastWriteTime(assembly);
                 }
-            }
+                else
+                {
+                    dateTime = DateTime.Parse(@"01/01/1970").AddDays(assemblyVersion.Build).AddSeconds(assemblyVersion.Revision * 2);
 
-            return dateTime;
+                    if (TimeZone.IsDaylightSavingTime(dateTime, TimeZone.CurrentTimeZone.GetDaylightChanges(dateTime.Year)))
+                    {
+                        dateTime = dateTime.AddHours(1);
+                    }
+
+                    if (dateTime > DateTime.Now || assemblyVersion.Build < 730 || assemblyVersion.Revision == 0)
+                    {
+                        dateTime = AssemblyLastWriteTime(assembly);
+                    }
+                }
+
+                return dateTime;
+            }
+            else
+            {
+                return DateTime.Now;
+            }
         }
 
         public static NameValueCollection AssemblyAttribs(Assembly assembly)
@@ -167,11 +174,11 @@ namespace Krypton.Toolkit
             // codebase
             try
             {
-                nvc.Add("CodeBase", assembly.CodeBase.Replace("file:///", ""));
+                nvc.Add("CodeBase", assembly.EscapedCodeBase.Replace("file:///", ""));
             }
             catch (NotSupportedException)
             {
-                nvc.Add("CodeBase", "(not supported)");
+                nvc.Add("CodeBasee", "(not supported)");
             }
             // build date
             var dt = AssemblyBuildDate(assembly, false);
@@ -239,11 +246,11 @@ namespace Krypton.Toolkit
         {
             AppDomain domain = AppDomain.CurrentDomain;
 
-            string _entryAssemblyName = Assembly.GetEntryAssembly()!.GetName().Name;
+            string entryAssemblyName = Assembly.GetEntryAssembly()!.GetName().Name;
 
-            string _executingAssemblyName = Assembly.GetExecutingAssembly().GetName().Name;
+            string executingAssemblyName = Assembly.GetExecutingAssembly().GetName().Name;
 
-            string _callingAssemblyName = Assembly.GetCallingAssembly().GetName().Name;
+            string callingAssemblyName = Assembly.GetCallingAssembly().GetName().Name;
 
             Populate(dataStore, KryptonManager.Strings.KryptonAboutBoxBasicApplicationInformationStrings.ApplicationName, Assembly.GetEntryAssembly()!.GetName().Name);
 
@@ -266,23 +273,23 @@ namespace Krypton.Toolkit
 
             Populate(dataStore, string.Empty, string.Empty);
 
-            Populate(dataStore, KryptonManager.Strings.KryptonAboutBoxBasicApplicationInformationStrings.EntryAssembly, _entryAssemblyName);
+            Populate(dataStore, KryptonManager.Strings.KryptonAboutBoxBasicApplicationInformationStrings.EntryAssembly, entryAssemblyName);
 
-            Populate(dataStore, KryptonManager.Strings.KryptonAboutBoxBasicApplicationInformationStrings.ExecutingAssembly, _executingAssemblyName);
+            Populate(dataStore, KryptonManager.Strings.KryptonAboutBoxBasicApplicationInformationStrings.ExecutingAssembly, executingAssemblyName);
 
-            Populate(dataStore, KryptonManager.Strings.KryptonAboutBoxBasicApplicationInformationStrings.CallingAssembly, _callingAssemblyName);
+            Populate(dataStore, KryptonManager.Strings.KryptonAboutBoxBasicApplicationInformationStrings.CallingAssembly, callingAssemblyName);
         }
 
         public static void PopulateAssemblies(KryptonComboBox assemblyList, KryptonDataGridView dataStore)
         {
-            string _entryAssemblyName = Assembly.GetEntryAssembly()!.GetName().Name;
+            string entryAssemblyName = Assembly.GetEntryAssembly()!.GetName().Name;
 
             foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
             {
                 PopulateAssemblySummary(assembly, dataStore, assemblyList);
             }
 
-            assemblyList.SelectedIndex = assemblyList.FindStringExact(_entryAssemblyName);
+            assemblyList.SelectedIndex = assemblyList.FindStringExact(entryAssemblyName);
         }
 
         private static void PopulateAssemblySummary(Assembly assembly, KryptonDataGridView dataStore, KryptonComboBox assemblyItems)

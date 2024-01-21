@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
  *  
  */
 #endregion
@@ -36,8 +36,8 @@ namespace Krypton.Toolkit
         {
             _glassFadeBlend = new Blend
             {
-                Positions = new[] { 0.0f, 0.33f, 0.66f, 1.0f },
-                Factors = new[] { 0.0f, 0.0f, 0.8f, 1.0f }
+                Positions = [0.0f, 0.33f, 0.66f, 1.0f],
+                Factors = [0.0f, 0.0f, 0.8f, 1.0f]
             };
         }
         #endregion
@@ -1052,7 +1052,7 @@ namespace Krypton.Toolkit
                     {
                         CenterColor = ControlPaint.Light(color3),
                         CenterPoint = centerPoint,
-                        SurroundColors = new[] { color2 }
+                        SurroundColors = [color2]
                     };
                 }
             }
@@ -1191,7 +1191,7 @@ namespace Krypton.Toolkit
                     {
                         CenterColor = color2,
                         CenterPoint = new PointF(doubleRect.X + (doubleRect.Width / 2), doubleRect.Y + (doubleRect.Height / 2)),
-                        SurroundColors = new[] { color1 }
+                        SurroundColors = [color1]
                     };
                     cacheThis.MainRect = mainRect;
                 }
@@ -1271,7 +1271,7 @@ namespace Krypton.Toolkit
                     {
                         CenterColor = color2,
                         CenterPoint = new PointF(drawRect.X + (drawRect.Width / 2), drawRect.Y + (drawRect.Height / 2)),
-                        SurroundColors = new[] { Color.Transparent }
+                        SurroundColors = [Color.Transparent]
                     };
                 }
 

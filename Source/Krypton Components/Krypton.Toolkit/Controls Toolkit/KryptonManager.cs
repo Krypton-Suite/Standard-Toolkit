@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
  *  
  */
 #endregion
@@ -25,7 +25,7 @@ namespace Krypton.Toolkit
         #region Static Fields
         // Initialize the global state
         private static bool _globalApplyToolstrips = true;
-        private static bool _globalAllowFormChrome = true;
+        private static bool _globalUseThemeFormChromeBorderWidth = true;
         internal static bool _globalUseKryptonFileDialogs = true;
         private static Font? _baseFont;
 
@@ -141,11 +141,11 @@ namespace Krypton.Toolkit
         public static event EventHandler? GlobalPaletteChanged;
 
         /// <summary>
-        /// Occurs when the AllowFormChrome property changes.
+        /// Occurs when the UseThemeFormChromeBorderWidth property changes.
         /// </summary>
         [Category(@"Property Changed")]
-        [Description(@"Occurs when the value of the GlobalAllowFormChrome property is changed.")]
-        public static event EventHandler? GlobalAllowFormChromeChanged;
+        [Description(@"Occurs when the value of the GlobalUseThemeFormChromeBorderWidth property is changed.")]
+        public static event EventHandler? GlobalUseThemeFormChromeBorderWidthChanged;
         #endregion
 
         #region Identity
@@ -203,14 +203,16 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Have any of the global values been modified
         /// </summary>
+        [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public bool IsDefault => !(ShouldSerializeGlobalCustomPalette() ||
                                    ShouldSerializeGlobalApplyToolstrips() ||
-                                   ShouldSerializeGlobalAllowFormChrome() ||
+                                   ShouldSerializeGlobalUseThemeFormChromeBorderWidth() ||
                                    ShouldSerializeToolkitStrings() ||
                                    ShouldSerializeUseKryptonFileDialogs() ||
-                                   ShouldSerializeBaseFont()
+                                   ShouldSerializeBaseFont() ||
+                                   ShouldSerializeGlobalPaletteMode()
                                    );
 
         /// <summary>
@@ -220,10 +222,11 @@ namespace Krypton.Toolkit
         {
             ResetGlobalCustomPalette();
             ResetGlobalApplyToolstrips();
-            ResetGlobalAllowFormChrome();
+            ResetGlobalUseThemeFormChromeBorderWidth();
             ResetToolkitStrings();
             ResetUseKryptonFileDialogs();
             ResetBaseFont();
+            ResetGlobalPaletteMode();
         }
 
         /// <summary>
@@ -325,13 +328,12 @@ namespace Krypton.Toolkit
             }
         }
 
-        internal void ResetBaseFont()
+        private void ResetBaseFont()
         {
             _baseFont = null;
             CurrentGlobalPalette.ResetBaseFont();
         }
-
-        internal bool ShouldSerializeBaseFont() => _baseFont != null;
+        private bool ShouldSerializeBaseFont() => _baseFont != null;
 
         /// <summary>
         /// Gets or sets a value indicating if the palette colors are applied to the tool-strips.
@@ -362,18 +364,18 @@ namespace Krypton.Toolkit
 
 
         /// <summary>
-        /// Gets or sets a value indicating if KryptonForm instances are allowed to show custom chrome.
+        /// Gets or sets a value indicating if KryptonForm instances are allowed to UseThemeFormChromeBorderWidth.
         /// </summary>
         [Category(@"Visuals")]
-        [Description(@"Should KryptonForm instances be allowed to show custom chrome.")]
+        [Description(@"Should KryptonForm instances be allowed to UseThemeFormChromeBorderWidth.")]
         [DefaultValue(true)]
-        public bool GlobalAllowFormChrome
+        public bool GlobalUseThemeFormChromeBorderWidth
         {
-            get => AllowFormChrome;
-            set => AllowFormChrome = value;
+            get => UseThemeFormChromeBorderWidth;
+            set => UseThemeFormChromeBorderWidth = value;
         }
-        private bool ShouldSerializeGlobalAllowFormChrome() => !GlobalAllowFormChrome;
-        private void ResetGlobalAllowFormChrome() => GlobalAllowFormChrome = true;
+        private bool ShouldSerializeGlobalUseThemeFormChromeBorderWidth() => !GlobalUseThemeFormChromeBorderWidth;
+        private void ResetGlobalUseThemeFormChromeBorderWidth() => GlobalUseThemeFormChromeBorderWidth = true;
 
         /// <summary>Gets the toolkit strings that can be localised.</summary>
         [Category(@"Data")]
@@ -425,24 +427,24 @@ namespace Krypton.Toolkit
         }
         #endregion
 
-        #region Static AllowFormChrome
+        #region Static UseThemeFormChromeBorderWidth
         /// <summary>
         /// Gets and sets the global flag that decides if form chrome should be customized.
         /// </summary>
-        public static bool AllowFormChrome
+        public static bool UseThemeFormChromeBorderWidth
         {
-            get => _globalAllowFormChrome;
+            get => _globalUseThemeFormChromeBorderWidth;
 
             set
             {
                 // Only interested if the value changes
-                if (_globalAllowFormChrome != value)
+                if (_globalUseThemeFormChromeBorderWidth != value)
                 {
                     // Use new value
-                    _globalAllowFormChrome = value;
+                    _globalUseThemeFormChromeBorderWidth = value;
 
                     // Fire change event
-                    OnGlobalAllowFormChromeChanged(EventArgs.Empty);
+                    OnGlobalUseThemeFormChromeBorderWidthChanged(EventArgs.Empty);
                 }
             }
         }
@@ -464,8 +466,9 @@ namespace Krypton.Toolkit
                     return PaletteProfessionalOffice2003;
                 case PaletteMode.Office2007Blue:
                     return PaletteOffice2007Blue;
-                case PaletteMode.Office2007DarkGray:
-                    return PaletteOffice2007DarkGray;
+                // TODO: Re-enable this once completed
+                // case PaletteMode.Office2007DarkGray:
+                // return PaletteOffice2007DarkGray;
                 case PaletteMode.Office2007BlueDarkMode:
                     return PaletteOffice2007BlueDarkMode;
                 case PaletteMode.Office2007BlueLightMode:
@@ -479,9 +482,10 @@ namespace Krypton.Toolkit
                 case PaletteMode.Office2007White:
                     return PaletteOffice2007White;
                 case PaletteMode.Office2007Black:
-                    return PaletteOffice2007Black;
-                case PaletteMode.Office2010DarkGray:
-                    return PaletteOffice2010DarkGray;
+                    return PaletteOffice2007Black; 
+                // TODO: Re-enable this once completed
+                // case PaletteMode.Office2010DarkGray:
+                // return PaletteOffice2010DarkGray;
                 case PaletteMode.Office2007BlackDarkMode:
                     return PaletteOffice2007BlackDarkMode;
                 case PaletteMode.Office2010Blue:
@@ -502,10 +506,11 @@ namespace Krypton.Toolkit
                     return PaletteOffice2010Black;
                 case PaletteMode.Office2010BlackDarkMode:
                     return PaletteOffice2010BlackDarkMode;
-                case PaletteMode.Office2013DarkGray:
-                    return PaletteOffice2013DarkGray;
-                case PaletteMode.Office2013LightGray:
-                    return PaletteOffice2013LightGray;
+                // TODO: Re-enable this once completed
+                // case PaletteMode.Office2013DarkGray:
+                // return PaletteOffice2013DarkGray;
+                // case PaletteMode.Office2013LightGray:
+                // return PaletteOffice2013LightGray;
                 case PaletteMode.Office2013White:
                     return PaletteOffice2013White;
                 case PaletteMode.SparkleBlue:
@@ -536,8 +541,9 @@ namespace Krypton.Toolkit
                     return PaletteMicrosoft365BlueLightMode;
                 case PaletteMode.Microsoft365Blue:
                     return PaletteMicrosoft365Blue;
-                case PaletteMode.Microsoft365DarkGray:
-                    return PaletteMicrosoft365DarkGray;
+                // TODO: Re-enable this once completed
+                // case PaletteMode.Microsoft365DarkGray:
+                // return PaletteMicrosoft365DarkGray;
                 case PaletteMode.Microsoft365Silver:
                     return PaletteMicrosoft365Silver;
                 case PaletteMode.Microsoft365SilverDarkMode:
@@ -1003,7 +1009,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private static void OnGlobalAllowFormChromeChanged(EventArgs e) => GlobalAllowFormChromeChanged?.Invoke(null, e);
+        private static void OnGlobalUseThemeFormChromeBorderWidthChanged(EventArgs e) => GlobalUseThemeFormChromeBorderWidthChanged?.Invoke(null, e);
 
         private static void OnGlobalPaletteChanged(EventArgs e)
         {

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
  *  
  */
 #endregion
@@ -127,206 +127,206 @@ namespace Krypton.Toolkit
         {
             _linear25Blend = new Blend
             {
-                Factors = new[] { 0.0f, 0.0f, 0.0f, 1.0f },
-                Positions = new[] { 0.0f, 0.25f, 0.25f, 1.0f }
+                Factors = [0.0f, 0.0f, 0.0f, 1.0f],
+                Positions = [0.0f, 0.25f, 0.25f, 1.0f]
             };
 
             _linear33Blend = new Blend
             {
-                Factors = new[] { 0.0f, 0.0f, 0.0f, 1.0f },
-                Positions = new[] { 0.0f, 0.33f, 0.33f, 1.0f }
+                Factors = [0.0f, 0.0f, 0.0f, 1.0f],
+                Positions = [0.0f, 0.33f, 0.33f, 1.0f]
             };
 
             _linear40Blend = new Blend
             {
-                Factors = new[] { 0.0f, 0.0f, 0.0f, 1.0f },
-                Positions = new[] { 0.0f, 0.40f, 0.40f, 1.0f }
+                Factors = [0.0f, 0.0f, 0.0f, 1.0f],
+                Positions = [0.0f, 0.40f, 0.40f, 1.0f]
             };
 
             _linear50Blend = new Blend
             {
-                Factors = new[] { 0.0f, 0.0f, 0.0f, 1.0f },
-                Positions = new[] { 0.0f, 0.50f, 0.50f, 1.0f }
+                Factors = [0.0f, 0.0f, 0.0f, 1.0f],
+                Positions = [0.0f, 0.50f, 0.50f, 1.0f]
             };
 
             _linearShadowBlend = new Blend
             {
-                Factors = new[] { 0.0f, 1.0f, 1.0f },
-                Positions = new[] { 0.0f, 0.30f, 1.0f }
+                Factors = [0.0f, 1.0f, 1.0f],
+                Positions = [0.0f, 0.30f, 1.0f]
             };
 
             _switch25Blend = new Blend
             {
-                Factors = new[] { 0.0f, 0.0f, 1.0f, 1.0f },
-                Positions = new[] { 0.0f, 0.25f, 0.25f, 1.0f }
+                Factors = [0.0f, 0.0f, 1.0f, 1.0f],
+                Positions = [0.0f, 0.25f, 0.25f, 1.0f]
             };
 
             _switch33Blend = new Blend
             {
-                Factors = new[] { 0.0f, 0.0f, 1.0f, 1.0f },
-                Positions = new[] { 0.0f, 0.33f, 0.33f, 1.0f }
+                Factors = [0.0f, 0.0f, 1.0f, 1.0f],
+                Positions = [0.0f, 0.33f, 0.33f, 1.0f]
             };
 
             _switch50Blend = new Blend
             {
-                Factors = new[] { 0.0f, 0.0f, 1.0f, 1.0f },
-                Positions = new[] { 0.0f, 0.5f, 0.5f, 1.0f }
+                Factors = [0.0f, 0.0f, 1.0f, 1.0f],
+                Positions = [0.0f, 0.5f, 0.5f, 1.0f]
             };
 
             _switch90Blend = new Blend
             {
-                Factors = new[] { 0.0f, 0.0f, 0.0f, 1.0f },
-                Positions = new[] { 0.0f, 0.90f, 0.90f, 1.0f }
+                Factors = [0.0f, 0.0f, 0.0f, 1.0f],
+                Positions = [0.0f, 0.90f, 0.90f, 1.0f]
             };
 
             _halfCutBlend = new Blend
             {
-                Factors = new[] { 0.0f, 0.50f, 1.0f, 0.05f },
-                Positions = new[] { 0.0f, 0.45f, 0.45f, 1.0f }
+                Factors = [0.0f, 0.50f, 1.0f, 0.05f],
+                Positions = [0.0f, 0.45f, 0.45f, 1.0f]
             };
 
             _quarterPhaseBlend = new Blend
             {
-                Factors = new[] { 0.0f, 0.0f, 0.25f, 0.70f, 1.0f, 1.0f },
-                Positions = new[] { 0.0f, 0.10f, 0.20f, 0.30f, 0.5f, 1.0f }
+                Factors = [0.0f, 0.0f, 0.25f, 0.70f, 1.0f, 1.0f],
+                Positions = [0.0f, 0.10f, 0.20f, 0.30f, 0.5f, 1.0f]
             };
 
             _oneNoteBlend = new Blend
             {
-                Factors = new[] { 0.15f, 0.75f, 1.0f, 1.0f },
-                Positions = new[] { 0.0f, 0.45f, 0.45f, 1.0f }
+                Factors = [0.15f, 0.75f, 1.0f, 1.0f],
+                Positions = [0.0f, 0.45f, 0.45f, 1.0f]
             };
 
             _rounding2Blend = new Blend
             {
-                Factors = new[] { 0.8f, 0.2f, 0f, 0.07f, 1.0f },
-                Positions = new[] { 0.0f, 0.33f, 0.33f, 0.43f, 1.0f }
+                Factors = [0.8f, 0.2f, 0f, 0.07f, 1.0f],
+                Positions = [0.0f, 0.33f, 0.33f, 0.43f, 1.0f]
             };
 
             _rounding3Blend = new Blend
             {
-                Factors = new[] { 1.0f, 0.7f, 0.7f, 0f, 0.1f, 0.55f, 1.0f, 1.0f },
-                Positions = new[] { 0.0f, 0.16f, 0.33f, 0.35f, 0.51f, 0.85f, 0.85f, 1.0f }
+                Factors = [1.0f, 0.7f, 0.7f, 0f, 0.1f, 0.55f, 1.0f, 1.0f],
+                Positions = [0.0f, 0.16f, 0.33f, 0.35f, 0.51f, 0.85f, 0.85f, 1.0f]
             };
 
             _rounding4Blend = new Blend
             {
-                Factors = new[] { 1.0f, 0.78f, 0.48f, 1.0f, 1.0f },
-                Positions = new[] { 0.0f, 0.33f, 0.33f, 0.90f, 1.0f }
+                Factors = [1.0f, 0.78f, 0.48f, 1.0f, 1.0f],
+                Positions = [0.0f, 0.33f, 0.33f, 0.90f, 1.0f]
             };
 
             _rounding5Blend = new Blend
             {
-                Factors = new[] { 0.0f, 0.0f, 1.0f, 1.0f },
-                Positions = new[] { 0.0f, 0.20f, 0.84f, 1.0f }
+                Factors = [0.0f, 0.0f, 1.0f, 1.0f],
+                Positions = [0.0f, 0.20f, 0.84f, 1.0f]
             };
 
             _ribbonInBlend = new Blend
             {
-                Factors = new[] { 0.66f, 1.0f, 0.0f },
-                Positions = new[] { 0.0f, 0.50f, 1.0f }
+                Factors = [0.66f, 1.0f, 0.0f],
+                Positions = [0.0f, 0.50f, 1.0f]
             };
 
             _ribbonOutBlend = new Blend
             {
-                Factors = new[] { 0.2f, 1.0f, 0.0f },
-                Positions = new[] { 0.0f, 0.50f, 1.0f }
+                Factors = [0.2f, 1.0f, 0.0f],
+                Positions = [0.0f, 0.50f, 1.0f]
             };
 
             _ribbonTopBlend = new Blend
             {
-                Factors = new[] { 0.0f, 1.0f, 1.0f, 0.0f },
-                Positions = new[] { 0.0f, 0.2f, 0.8f, 1.0f }
+                Factors = [0.0f, 1.0f, 1.0f, 0.0f],
+                Positions = [0.0f, 0.2f, 0.8f, 1.0f]
             };
 
             _ribbonGroup1Blend = new Blend
             {
-                Factors = new[] { 0.0f, 0.0f, 0.6f, 1.0f },
-                Positions = new[] { 0.0f, 0.18f, 0.75f, 1.0f }
+                Factors = [0.0f, 0.0f, 0.6f, 1.0f],
+                Positions = [0.0f, 0.18f, 0.75f, 1.0f]
             };
 
             _ribbonGroup2Blend = new Blend
             {
-                Factors = new[] { 0.0f, 0.5f, 1.0f, 1.0f },
-                Positions = new[] { 0.0f, 0.18f, 0.2f, 1.0f }
+                Factors = [0.0f, 0.5f, 1.0f, 1.0f],
+                Positions = [0.0f, 0.18f, 0.2f, 1.0f]
             };
 
             _ribbonGroup3Blend = new Blend
             {
-                Factors = new[] { 0.0f, 0.0f, 1.0f, 0.0f, 0.0f },
-                Positions = new[] { 0.0f, 0.90f, 0.97f, 0.97f, 1.0f }
+                Factors = [0.0f, 0.0f, 1.0f, 0.0f, 0.0f],
+                Positions = [0.0f, 0.90f, 0.97f, 0.97f, 1.0f]
             };
 
             _ribbonGroup4Blend = new Blend
             {
-                Factors = new[] { 0.0f, 0.4f, 1.0f, 1.0f },
-                Positions = new[] { 0.0f, 0.045f, 0.33f, 1.0f }
+                Factors = [0.0f, 0.4f, 1.0f, 1.0f],
+                Positions = [0.0f, 0.045f, 0.33f, 1.0f]
             };
 
             _ribbonGroup5Blend = new Blend
             {
-                Factors = new[] { 0.0f, 0.0f, 1.0f },
-                Positions = new[] { 0.0f, 0.5f, 1.0f }
+                Factors = [0.0f, 0.0f, 1.0f],
+                Positions = [0.0f, 0.5f, 1.0f]
             };
 
             _ribbonGroup6Blend = new Blend
             {
-                Factors = new[] { 0.0f, 0.0f, 1.0f },
-                Positions = new[] { 0.0f, 0.4f, 1.0f }
+                Factors = [0.0f, 0.0f, 1.0f],
+                Positions = [0.0f, 0.4f, 1.0f]
             };
 
             _ribbonGroup7Blend = new Blend
             {
-                Factors = new[] { 0.0f, 1.0f, 1.0f, 0.0f },
-                Positions = new[] { 0.0f, 0.15f, 0.85f, 1.0f }
+                Factors = [0.0f, 1.0f, 1.0f, 0.0f],
+                Positions = [0.0f, 0.15f, 0.85f, 1.0f]
             };
 
             _ribbonGroup8Blend = new Blend
             {
-                Factors = new[] { 0.0f, 0.0f, 1.0f },
-                Positions = new[] { 0.0f, 0.85f, 1.0f }
+                Factors = [0.0f, 0.0f, 1.0f],
+                Positions = [0.0f, 0.85f, 1.0f]
             };
 
             _ribbonGroup9Blend = new Blend
             {
-                Factors = new[] { 0.0f, 0.5f, 0.75f, 0.9f, 1.0f },
-                Positions = new[] { 0.0f, 0.25f, 0.50f, 0.75f, 1.0f }
+                Factors = [0.0f, 0.5f, 0.75f, 0.9f, 1.0f],
+                Positions = [0.0f, 0.25f, 0.50f, 0.75f, 1.0f]
             };
 
             _ribbonGroupArea3 = new Blend
             {
-                Factors = new[] { 1.0f, 0.0f, 0.0f, 1.0f },
-                Positions = new[] { 0.0f, 0.1f, 0.85f, 1.0f }
+                Factors = [1.0f, 0.0f, 0.0f, 1.0f],
+                Positions = [0.0f, 0.1f, 0.85f, 1.0f]
             };
 
             _ribbonTabSelected1Blend = new Blend
             {
-                Factors = new[] { 0.0f, 0.0f, 0.0f, 1.0f, 1.0f },
-                Positions = new[] { 0.0f, 0.50f, 0.50f, 0.9f, 1.0f }
+                Factors = [0.0f, 0.0f, 0.0f, 1.0f, 1.0f],
+                Positions = [0.0f, 0.50f, 0.50f, 0.9f, 1.0f]
             };
 
             _ribbonTabSelected2Blend = new Blend
             {
-                Factors = new[] { 0.0f, 1.0f, 1.0f },
-                Positions = new[] { 0.0f, 0.75f, 1.0f }
+                Factors = [0.0f, 1.0f, 1.0f],
+                Positions = [0.0f, 0.75f, 1.0f]
             };
 
             _ribbonTabTopBlend = new Blend
             {
-                Factors = new[] { 0.0f, 1.0f, 1.0f },
-                Positions = new[] { 0.0f, 0.2f, 1.0f }
+                Factors = [0.0f, 1.0f, 1.0f],
+                Positions = [0.0f, 0.2f, 1.0f]
             };
 
             _ribbonAppButtonBlend = new Blend
             {
-                Factors = new[] { 0.0f, 0.0f, 0.5f, 1.0f, 1.0f },
-                Positions = new[] { 0.0f, 0.1f, 0.5f, 0.5f, 1.0f }
+                Factors = [0.0f, 0.0f, 0.5f, 1.0f, 1.0f],
+                Positions = [0.0f, 0.1f, 0.5f, 0.5f, 1.0f]
             };
 
             _dragRoundedInsideBlend = new Blend
             {
-                Factors = new[] { 0.05f, 0.2f, 0.5f, 1.0f },
-                Positions = new[] { 0.0f, 0.5f, 0.5f, 1.0f }
+                Factors = [0.05f, 0.2f, 0.5f, 1.0f],
+                Positions = [0.0f, 0.5f, 0.5f, 1.0f]
             };
 
             _paleShadowPen = new Pen(Color.FromArgb(6, Color.Black));
@@ -600,7 +600,6 @@ namespace Krypton.Toolkit
                                         CommonHelper.OrientateDrawBorders(palette.GetBorderDrawBorders(state), orientation),
                                         palette.GetBorderWidth(state),
                                         palette.GetBorderRounding(state),
-                                        palette.GetBorderGraphicsHint(state) == PaletteGraphicsHint.AntiAlias,
                                         0);
         }
 
@@ -644,7 +643,6 @@ namespace Krypton.Toolkit
                                         CommonHelper.OrientateDrawBorders(palette.GetBorderDrawBorders(state), orientation),
                                         palette.GetBorderWidth(state),
                                         palette.GetBorderRounding(state),
-                                        palette.GetBorderGraphicsHint(state) == PaletteGraphicsHint.AntiAlias,
                                         0);
         }
 
@@ -688,7 +686,6 @@ namespace Krypton.Toolkit
                                         CommonHelper.OrientateDrawBorders(palette.GetBorderDrawBorders(state), orientation),
                                         palette.GetBorderWidth(state),
                                         palette.GetBorderRounding(state),
-                                        palette.GetBorderGraphicsHint(state) == PaletteGraphicsHint.AntiAlias,
                                         0);
         }
 
@@ -697,18 +694,18 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="context">Rendering context.</param>
         /// <param name="rect">Target rectangle.</param>
-        /// <param name="palette">Palette used for drawing.</param>
+        /// <param name="paletteBorder">Palette used for drawing.</param>
         /// <param name="orientation">Visual orientation of the border.</param>
         /// <param name="state">State associated with rendering.</param>
         /// <exception cref="ArgumentNullException"></exception>
         public override void DrawBorder([DisallowNull] RenderContext context,
                                         Rectangle rect,
-                                        [DisallowNull] IPaletteBorder palette,
+                                        [DisallowNull] IPaletteBorder paletteBorder,
                                         VisualOrientation orientation,
                                         PaletteState state)
         {
             Debug.Assert(context != null);
-            Debug.Assert(palette != null);
+            Debug.Assert(paletteBorder != null);
 
             // Validate parameter references
             if (context == null)
@@ -716,38 +713,36 @@ namespace Krypton.Toolkit
                 throw new ArgumentNullException(nameof(context));
             }
 
-            if (palette == null)
+            if (paletteBorder == null)
             {
-                throw new ArgumentNullException(nameof(palette));
+                throw new ArgumentNullException(nameof(paletteBorder));
             }
 
             Debug.Assert(context.Control != null);
             Debug.Assert(!context.Control!.IsDisposed);
 
-            PaletteDrawBorders borders = palette.GetBorderDrawBorders(state);
+            PaletteDrawBorders borders = paletteBorder.GetBorderDrawBorders(state);
 
             // Is there anything to actually draw?
             if (rect is { Width: > 0, Height: > 0 } && CommonHelper.HasABorder(borders))
             {
                 // Only use anti aliasing if the border is rounded
-                SmoothingMode smoothMode = palette.GetBorderRounding(state) > 0 ? SmoothingMode.AntiAlias : SmoothingMode.Default;
+                SmoothingMode smoothMode = paletteBorder.GetBorderRounding(state) > 0 ? SmoothingMode.AntiAlias : SmoothingMode.Default;
 
                 // We want to draw using anti aliasing for a nice smooth effect
-                using var hint = new GraphicsHint(context.Graphics, palette.GetBorderGraphicsHint(state));
+                using var hint = new GraphicsHint(context.Graphics, paletteBorder.GetBorderGraphicsHint(state));
                 // Cache commonly used values
-                var borderWidth = palette.GetBorderWidth(state);
-
-                // Get the orientation correct borders value
-                borders = CommonHelper.OrientateDrawBorders(borders, orientation);
+                var borderWidth = paletteBorder.GetBorderWidth(state);
 
                 // Is there any border to actually draw?
                 if (borderWidth > 0)
                 {
+                    // Get the orientation correct borders value
+                    borders = CommonHelper.OrientateDrawBorders(borders, orientation);
                     using var clip = new Clipping(context.Graphics, rect);
                     // We always create the first border path variant
-                    GraphicsPath borderPath0 = CreateBorderBackPath(true, true, rect, borders, borderWidth,
-                        palette.GetBorderRounding(state),
-                        smoothMode == SmoothingMode.AntiAlias, 0);
+                    using GraphicsPath borderPath0 = CreateBorderBackPath(true, true, rect, borders, borderWidth,
+                        paletteBorder.GetBorderRounding(state), 0);
 
                     GraphicsPath? borderPath1 = null;
 
@@ -755,26 +750,26 @@ namespace Krypton.Toolkit
                     if (borders is PaletteDrawBorders.TopBottom or PaletteDrawBorders.LeftRight)
                     {
                         borderPath1 = CreateBorderBackPath(true, true, rect, borders, borderWidth,
-                            palette.GetBorderRounding(state),
-                            smoothMode == SmoothingMode.AntiAlias, 1);
+                            paletteBorder.GetBorderRounding(state), 1);
                     }
 
                     // Get the rectangle to use when dealing with gradients
-                    Rectangle gradientRect = context.GetAlignedRectangle(palette.GetBorderColorAlign(state), rect);
+                    Rectangle gradientRect = context.GetAlignedRectangle(paletteBorder.GetBorderColorAlign(state), rect);
 
                     // Use standard helper routine to create appropriate color brush
-                    PaletteColorStyle colorStyle = palette.GetBorderColorStyle(state);
+                    PaletteColorStyle colorStyle = paletteBorder.GetBorderColorStyle(state);
                     using (var borderPen =
                            new Pen(
-                               CreateColorBrush(gradientRect, palette.GetBorderColor1(state),
-                                   palette.GetBorderColor2(state), colorStyle, palette.GetBorderColorAngle(state),
+                               CreateColorBrush(gradientRect, paletteBorder.GetBorderColor1(state),
+                                   paletteBorder.GetBorderColor2(state), colorStyle, paletteBorder.GetBorderColorAngle(state),
                                    orientation), borderWidth))
                     {
                         if (colorStyle == PaletteColorStyle.Dashed)
                         {
-                            borderPen.DashPattern = new float[] { 2, 2 };
+                            borderPen.DashPattern = [2, 2];
                         }
 
+                        using var gh = new GraphicsHint(context.Graphics, paletteBorder.GetBorderGraphicsHint(state));
                         context.Graphics.DrawPath(borderPen, borderPath0);
 
                         // Optionally also draw the second path
@@ -784,14 +779,14 @@ namespace Krypton.Toolkit
                         }
                     }
 
-                    Image? borderImage = palette.GetBorderImage(state);
-                    PaletteImageStyle borderImageStyle = palette.GetBorderImageStyle(state);
+                    Image? borderImage = paletteBorder.GetBorderImage(state);
+                    PaletteImageStyle borderImageStyle = paletteBorder.GetBorderImageStyle(state);
 
                     // Do we need to draw the image?
                     if (ShouldDrawImage(borderImage))
                     {
                         // Get the rectangle to use when dealing with gradients
-                        Rectangle imageRect = context.GetAlignedRectangle(palette.GetBorderImageAlign(state), rect);
+                        Rectangle imageRect = context.GetAlignedRectangle(paletteBorder.GetBorderImageAlign(state), rect);
 
                         // Use standard helper routine to create appropriate image brush
                         using var borderPen = new Pen(CreateImageBrush(imageRect, borderImage!, borderImageStyle),
@@ -806,8 +801,6 @@ namespace Krypton.Toolkit
                     }
 
                     // Remember to dispose of resources
-                    borderPath0.Dispose();
-
                     borderPath1?.Dispose();
                 }
             }
@@ -1035,17 +1028,13 @@ namespace Krypton.Toolkit
         /// <param name="values">Content values.</param>
         /// <param name="orientation">Visual orientation of the content.</param>
         /// <param name="state">State associated with rendering.</param>
-        /// <param name="composition">Should draw on a composition element.</param>
-        /// <param name="glowing">If composition, should glowing be drawn.</param>
         /// <exception cref="ArgumentNullException"></exception>
         /// <returns>Preferred size.</returns>
         public override Size GetContentPreferredSize([DisallowNull] ViewLayoutContext context,
             [DisallowNull] IPaletteContent palette,
             [DisallowNull] IContentValues values,
-                                                     VisualOrientation orientation,
-                                                     PaletteState state,
-                                                     bool composition,
-                                                     bool glowing)
+            VisualOrientation orientation,
+            PaletteState state)
         {
             Debug.Assert(context != null);
             Debug.Assert(palette != null);
@@ -1087,8 +1076,8 @@ namespace Krypton.Toolkit
 
             // Allocate space for each required content in turn
             AllocateImageSpace(memento, palette, values, state, displayRect, rtl, ref allocation);
-            AllocateShortTextSpace(context, context.Graphics, memento, palette, values, state, displayRect, rtl, spacingGap, ref allocation, composition, glowing);
-            AllocateLongTextSpace(context, context.Graphics, memento, palette, values, state, displayRect, rtl, spacingGap, ref allocation, composition, glowing);
+            AllocateShortTextSpace(context, context.Graphics, memento, palette, values, state, displayRect, rtl, spacingGap, ref allocation);
+            AllocateLongTextSpace(context, context.Graphics, memento, palette, values, state, displayRect, rtl, spacingGap, ref allocation);
 
             // Add up total allocated for rows and columns
             var allocatedWidth = AllocatedTotalWidth(allocation, -1, -1, spacingGap);
@@ -1134,18 +1123,14 @@ namespace Krypton.Toolkit
         /// <param name="values">Content values.</param>
         /// <param name="orientation">Visual orientation of the content.</param>
         /// <param name="state">State associated with rendering.</param>
-        /// <param name="composition">Should draw on a composition element.</param>
-        /// <param name="glowing">If composition, should glowing be drawn.</param>
         /// <exception cref="ArgumentNullException"></exception>
         /// <returns>Memento with cached information.</returns>
         public override IDisposable LayoutContent([DisallowNull] ViewLayoutContext context,
-                                                  Rectangle availableRect,
-                                                  [DisallowNull] IPaletteContent palette,
-                                                  [DisallowNull] IContentValues values,
-                                                  VisualOrientation orientation,
-                                                  PaletteState state,
-                                                  bool composition,
-                                                  bool glowing)
+            Rectangle availableRect,
+            [DisallowNull] IPaletteContent palette,
+            [DisallowNull] IContentValues values,
+            VisualOrientation orientation,
+            PaletteState state)
         {
             Debug.Assert(context != null);
             Debug.Assert(palette != null);
@@ -1215,8 +1200,8 @@ namespace Krypton.Toolkit
 
             // Allocate space for each required content in turn
             AllocateImageSpace(memento, palette, values, state, availableRect, rtl, ref allocation);
-            AllocateShortTextSpace(context, context.Graphics, memento, palette, values, state, availableRect, rtl, spacingGap, ref allocation, composition, glowing);
-            AllocateLongTextSpace(context, context.Graphics, memento, palette, values, state, availableRect, rtl, spacingGap, ref allocation, composition, glowing);
+            AllocateShortTextSpace(context, context.Graphics, memento, palette, values, state, availableRect, rtl, spacingGap, ref allocation);
+            AllocateLongTextSpace(context, context.Graphics, memento, palette, values, state, availableRect, rtl, spacingGap, ref allocation);
 
             // Find the width of the columns and heights of the rows
             var colWidths = AllocatedColumnWidths(allocation, -1);
@@ -1292,19 +1277,15 @@ namespace Krypton.Toolkit
         /// <param name="memento">Cached values from layout call.</param>
         /// <param name="orientation">Visual orientation of the content.</param>
         /// <param name="state">State associated with rendering.</param>
-        /// <param name="composition">Drawing onto a composition element.</param>
-        /// <param name="glowing">If composition should glowing be drawn.</param>
         /// <param name="allowFocusRect">Allow drawing of focus rectangle.</param>
         /// <exception cref="ArgumentNullException"></exception>
         public override void DrawContent([DisallowNull] RenderContext context,
-                                         Rectangle displayRect,
-                                         [DisallowNull] IPaletteContent palette,
-                                         [DisallowNull] IDisposable memento,
-                                         VisualOrientation orientation,
-                                         PaletteState state,
-                                         bool composition,
-                                         bool glowing,
-                                         bool allowFocusRect)
+            Rectangle displayRect,
+            [DisallowNull] IPaletteContent palette,
+            [DisallowNull] IDisposable memento,
+            VisualOrientation orientation,
+            PaletteState state,
+            bool allowFocusRect)
         {
             Debug.Assert(context != null);
             Debug.Assert(memento != null);
@@ -1360,8 +1341,6 @@ namespace Krypton.Toolkit
                             standard.ShortTextRect,
                             context.Control.RightToLeft,
                             standard.Orientation,
-                            composition,
-                            glowing,
                             state,
                             standard.ShortTextMemento))
                     {
@@ -1374,8 +1353,6 @@ namespace Krypton.Toolkit
                             standard.ShortTextRect,
                             context.Control.RightToLeft,
                             standard.Orientation,
-                            composition,
-                            glowing,
                             state,
                             standard.ShortTextMemento);
                     }
@@ -1397,8 +1374,6 @@ namespace Krypton.Toolkit
                             standard.ShortTextRect,
                             context.Control.RightToLeft,
                             standard.Orientation,
-                            composition,
-                            glowing,
                             state,
                             standard.ShortTextMemento))
                     {
@@ -1410,8 +1385,6 @@ namespace Krypton.Toolkit
                             standard.ShortTextRect,
                             context.Control.RightToLeft,
                             standard.Orientation,
-                            composition,
-                            glowing,
                             state,
                             standard.ShortTextMemento);
                     }
@@ -1439,8 +1412,6 @@ namespace Krypton.Toolkit
                             standard.LongTextRect,
                             context.Control.RightToLeft,
                             standard.Orientation,
-                            composition,
-                            glowing,
                             state,
                             standard.LongTextMemento))
                     {
@@ -1452,8 +1423,6 @@ namespace Krypton.Toolkit
                             standard.LongTextRect,
                             context.Control.RightToLeft,
                             standard.Orientation,
-                            composition,
-                            glowing,
                             state,
                             standard.LongTextMemento);
                     }
@@ -1475,8 +1444,6 @@ namespace Krypton.Toolkit
                             standard.LongTextRect,
                             context.Control.RightToLeft,
                             standard.Orientation,
-                            composition,
-                            glowing,
                             state,
                             standard.LongTextMemento))
                     {
@@ -1488,8 +1455,6 @@ namespace Krypton.Toolkit
                             standard.LongTextRect,
                             context.Control.RightToLeft,
                             standard.Orientation,
-                            composition,
-                            glowing,
                             state,
                             standard.LongTextMemento);
                     }
@@ -1848,6 +1813,7 @@ namespace Krypton.Toolkit
                 default:
                     // Should never happen!
                     Debug.Assert(false);
+                    DebugTools.NotImplemented(tabBorderStyle.ToString());
                     break;
             }
 
@@ -2024,6 +1990,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region RenderRibbon Overrides
+
         /// <summary>
         /// Draw the background of a ribbon element.
         /// </summary>
@@ -2033,16 +2000,14 @@ namespace Krypton.Toolkit
         /// <param name="state">State associated with rendering.</param>
         /// <param name="palette">Palette used for sourcing settings.</param>
         /// <param name="orientation">Orientation for drawing.</param>
-        /// <param name="composition">Drawing onto a composition element.</param>
         /// <param name="memento">Cached values to use when drawing.</param>
         public override IDisposable? DrawRibbonBack(PaletteRibbonShape shape,
-                                                   RenderContext context,
-                                                   Rectangle rect,
-                                                   PaletteState state,
-                                                   IPaletteRibbonBack palette,
-                                                   VisualOrientation orientation,
-                                                   bool composition,
-                                                   IDisposable? memento)
+            RenderContext context,
+            Rectangle rect,
+            PaletteState state,
+            IPaletteRibbonBack palette,
+            VisualOrientation orientation,
+            IDisposable? memento)
         {
             // Note is the incoming state is detailed we are drawing inside a popip
             var showingInPopup = (state & PaletteState.FocusOverride) == PaletteState.FocusOverride;
@@ -2077,9 +2042,9 @@ namespace Krypton.Toolkit
                 case PaletteRibbonColorStyle.RibbonQATFullbarSquare:
                     return DrawRibbonQATFullbarSquare(context, rect, state, palette, memento);
                 case PaletteRibbonColorStyle.RibbonQATMinibarSingle:
-                    return DrawRibbonQATMinibarSingle(context, rect, state, palette, composition, memento);
+                    return DrawRibbonQATMinibarSingle(context, rect, state, palette, memento);
                 case PaletteRibbonColorStyle.RibbonQATMinibarDouble:
-                    return DrawRibbonQATMinibarDouble(context, rect, state, palette, composition, memento);
+                    return DrawRibbonQATMinibarDouble(context, rect, state, palette, memento);
                 case PaletteRibbonColorStyle.RibbonQATOverflow:
                     return DrawRibbonQATOverflow(shape, context, rect, state, palette, memento);
                 case PaletteRibbonColorStyle.RibbonGroupGradientOne:
@@ -2155,6 +2120,7 @@ namespace Krypton.Toolkit
                 default:
                     // Should never happen!
                     Debug.Assert(false);
+                    DebugTools.NotImplemented(backColorStyle.ToString());
                     break;
             }
 
@@ -2300,6 +2266,7 @@ namespace Krypton.Toolkit
                 VisualOrientation vo = (orientation == Orientation.Horizontal) ? VisualOrientation.Top : VisualOrientation.Left;
 
                 // Render the background inside the border path
+                using var gh = new GraphicsHint(context.Graphics, paletteBorder.GetBorderGraphicsHint(state));
                 context.Renderer.RenderStandardBack.DrawBack(context, enclosingRect, borderPath, paletteBack, vo, state, null);
             }
 
@@ -2745,62 +2712,62 @@ namespace Krypton.Toolkit
             {
                 default:
                 case PaletteRibbonShape.Office2007:
-                {
-                    using (Pen darkPen = new Pen(paletteGeneral.GetRibbonGroupDialogDark(state)),
-                           lightPen = new Pen(paletteGeneral.GetRibbonGroupDialogLight(state)))
                     {
-                        context.Graphics.DrawLine(darkPen, displayRect.Left, displayRect.Top + 5, displayRect.Left,
-                            displayRect.Top);
-                        context.Graphics.DrawLine(darkPen, displayRect.Left, displayRect.Top, displayRect.Left + 5,
-                            displayRect.Top);
-                        context.Graphics.DrawLine(lightPen, displayRect.Left + 1, displayRect.Top + 5,
-                            displayRect.Left + 1, displayRect.Top + 1);
-                        context.Graphics.DrawLine(lightPen, displayRect.Left + 1, displayRect.Top + 1,
-                            displayRect.Left + 5, displayRect.Top + 1);
-                        context.Graphics.DrawLine(lightPen, displayRect.Right - 1, displayRect.Bottom - 5,
-                            displayRect.Right - 1, displayRect.Bottom - 1);
-                        context.Graphics.DrawLine(lightPen, displayRect.Right - 1, displayRect.Bottom - 1,
-                            displayRect.Right - 4, displayRect.Bottom - 1);
-                        context.Graphics.DrawLine(lightPen, displayRect.Right - 1, displayRect.Bottom - 1,
-                            displayRect.Right - 4, displayRect.Bottom - 5);
-                        context.Graphics.DrawLine(darkPen, displayRect.Right - 5, displayRect.Bottom - 2,
-                            displayRect.Right - 2, displayRect.Bottom - 2);
-                        context.Graphics.DrawLine(darkPen, displayRect.Right - 4, displayRect.Bottom - 3,
-                            displayRect.Right - 3, displayRect.Bottom - 3);
-                        context.Graphics.DrawLine(darkPen, displayRect.Right - 2, displayRect.Bottom - 2,
-                            displayRect.Right - 2, displayRect.Bottom - 5);
-                        context.Graphics.DrawLine(darkPen, displayRect.Right - 3, displayRect.Bottom - 3,
-                            displayRect.Right - 3, displayRect.Bottom - 4);
-                        context.Graphics.DrawLine(darkPen, displayRect.Right - 5, displayRect.Bottom - 5,
-                            displayRect.Right - 3, displayRect.Bottom - 3);
+                        using (Pen darkPen = new Pen(paletteGeneral.GetRibbonGroupDialogDark(state)),
+                               lightPen = new Pen(paletteGeneral.GetRibbonGroupDialogLight(state)))
+                        {
+                            context.Graphics.DrawLine(darkPen, displayRect.Left, displayRect.Top + 5, displayRect.Left,
+                                displayRect.Top);
+                            context.Graphics.DrawLine(darkPen, displayRect.Left, displayRect.Top, displayRect.Left + 5,
+                                displayRect.Top);
+                            context.Graphics.DrawLine(lightPen, displayRect.Left + 1, displayRect.Top + 5,
+                                displayRect.Left + 1, displayRect.Top + 1);
+                            context.Graphics.DrawLine(lightPen, displayRect.Left + 1, displayRect.Top + 1,
+                                displayRect.Left + 5, displayRect.Top + 1);
+                            context.Graphics.DrawLine(lightPen, displayRect.Right - 1, displayRect.Bottom - 5,
+                                displayRect.Right - 1, displayRect.Bottom - 1);
+                            context.Graphics.DrawLine(lightPen, displayRect.Right - 1, displayRect.Bottom - 1,
+                                displayRect.Right - 4, displayRect.Bottom - 1);
+                            context.Graphics.DrawLine(lightPen, displayRect.Right - 1, displayRect.Bottom - 1,
+                                displayRect.Right - 4, displayRect.Bottom - 5);
+                            context.Graphics.DrawLine(darkPen, displayRect.Right - 5, displayRect.Bottom - 2,
+                                displayRect.Right - 2, displayRect.Bottom - 2);
+                            context.Graphics.DrawLine(darkPen, displayRect.Right - 4, displayRect.Bottom - 3,
+                                displayRect.Right - 3, displayRect.Bottom - 3);
+                            context.Graphics.DrawLine(darkPen, displayRect.Right - 2, displayRect.Bottom - 2,
+                                displayRect.Right - 2, displayRect.Bottom - 5);
+                            context.Graphics.DrawLine(darkPen, displayRect.Right - 3, displayRect.Bottom - 3,
+                                displayRect.Right - 3, displayRect.Bottom - 4);
+                            context.Graphics.DrawLine(darkPen, displayRect.Right - 5, displayRect.Bottom - 5,
+                                displayRect.Right - 3, displayRect.Bottom - 3);
+                        }
                     }
-                }
                     break;
                 case PaletteRibbonShape.Office2010:
-                {
-                    var dialogBrush = new LinearGradientBrush(
-                        new RectangleF(displayRect.X - 1, displayRect.Y - 1, displayRect.Width + 2,
-                            displayRect.Height + 2), paletteGeneral.GetRibbonGroupDialogLight(state),
-                        paletteGeneral.GetRibbonGroupDialogDark(state), 45f);
-
-                    using (var dialogPen = new Pen(dialogBrush))
                     {
-                        context.Graphics.DrawLine(dialogPen, displayRect.Left, displayRect.Top + 5, displayRect.Left,
-                            displayRect.Top);
-                        context.Graphics.DrawLine(dialogPen, displayRect.Left, displayRect.Top, displayRect.Left + 5,
-                            displayRect.Top);
-                        context.Graphics.DrawLine(dialogPen, displayRect.Right - 5, displayRect.Bottom - 2,
-                            displayRect.Right - 2, displayRect.Bottom - 2);
-                        context.Graphics.DrawLine(dialogPen, displayRect.Right - 4, displayRect.Bottom - 3,
-                            displayRect.Right - 3, displayRect.Bottom - 3);
-                        context.Graphics.DrawLine(dialogPen, displayRect.Right - 2, displayRect.Bottom - 2,
-                            displayRect.Right - 2, displayRect.Bottom - 5);
-                        context.Graphics.DrawLine(dialogPen, displayRect.Right - 3, displayRect.Bottom - 3,
-                            displayRect.Right - 3, displayRect.Bottom - 4);
-                        context.Graphics.DrawLine(dialogPen, displayRect.Right - 5, displayRect.Bottom - 5,
-                            displayRect.Right - 3, displayRect.Bottom - 3);
+                        var dialogBrush = new LinearGradientBrush(
+                            new RectangleF(displayRect.X - 1, displayRect.Y - 1, displayRect.Width + 2,
+                                displayRect.Height + 2), paletteGeneral.GetRibbonGroupDialogLight(state),
+                            paletteGeneral.GetRibbonGroupDialogDark(state), 45f);
+
+                        using (var dialogPen = new Pen(dialogBrush))
+                        {
+                            context.Graphics.DrawLine(dialogPen, displayRect.Left, displayRect.Top + 5, displayRect.Left,
+                                displayRect.Top);
+                            context.Graphics.DrawLine(dialogPen, displayRect.Left, displayRect.Top, displayRect.Left + 5,
+                                displayRect.Top);
+                            context.Graphics.DrawLine(dialogPen, displayRect.Right - 5, displayRect.Bottom - 2,
+                                displayRect.Right - 2, displayRect.Bottom - 2);
+                            context.Graphics.DrawLine(dialogPen, displayRect.Right - 4, displayRect.Bottom - 3,
+                                displayRect.Right - 3, displayRect.Bottom - 3);
+                            context.Graphics.DrawLine(dialogPen, displayRect.Right - 2, displayRect.Bottom - 2,
+                                displayRect.Right - 2, displayRect.Bottom - 5);
+                            context.Graphics.DrawLine(dialogPen, displayRect.Right - 3, displayRect.Bottom - 3,
+                                displayRect.Right - 3, displayRect.Bottom - 4);
+                            context.Graphics.DrawLine(dialogPen, displayRect.Right - 5, displayRect.Bottom - 5,
+                                displayRect.Right - 3, displayRect.Bottom - 3);
+                        }
                     }
-                }
                     break;
             }
         }
@@ -2844,37 +2811,37 @@ namespace Krypton.Toolkit
             {
                 default:
                 case PaletteRibbonShape.Office2007:
-                {
-                    using (Pen darkPen = new Pen(darkColor),
-                           lightPen = new Pen(lightColor))
                     {
-                        context.Graphics.DrawLine(darkPen, displayRect.Left, displayRect.Top, displayRect.Left + 4,
-                            displayRect.Top);
-                        context.Graphics.DrawLine(darkPen, displayRect.Left + 1, displayRect.Top + 1,
-                            displayRect.Left + 3, displayRect.Top + 1);
-                        context.Graphics.DrawLine(darkPen, displayRect.Left + 2, displayRect.Top + 1,
-                            displayRect.Left + 2, displayRect.Top + 2);
-                        context.Graphics.DrawLine(lightPen, displayRect.Left, displayRect.Top + 1, displayRect.Left + 2,
-                            displayRect.Top + 3);
-                        context.Graphics.DrawLine(lightPen, displayRect.Left + 2, displayRect.Top + 3,
-                            displayRect.Left + 4, displayRect.Top + 1);
+                        using (Pen darkPen = new Pen(darkColor),
+                               lightPen = new Pen(lightColor))
+                        {
+                            context.Graphics.DrawLine(darkPen, displayRect.Left, displayRect.Top, displayRect.Left + 4,
+                                displayRect.Top);
+                            context.Graphics.DrawLine(darkPen, displayRect.Left + 1, displayRect.Top + 1,
+                                displayRect.Left + 3, displayRect.Top + 1);
+                            context.Graphics.DrawLine(darkPen, displayRect.Left + 2, displayRect.Top + 1,
+                                displayRect.Left + 2, displayRect.Top + 2);
+                            context.Graphics.DrawLine(lightPen, displayRect.Left, displayRect.Top + 1, displayRect.Left + 2,
+                                displayRect.Top + 3);
+                            context.Graphics.DrawLine(lightPen, displayRect.Left + 2, displayRect.Top + 3,
+                                displayRect.Left + 4, displayRect.Top + 1);
+                        }
                     }
-                }
                     break;
                 case PaletteRibbonShape.Office2010:
-                {
-                    using (var fillBrush = new LinearGradientBrush(
-                               new RectangleF(displayRect.X - 1, displayRect.Y - 1, displayRect.Width + 2,
-                                   displayRect.Height + 2), lightColor, darkColor, 45f))
                     {
-                        context.Graphics.FillPolygon(fillBrush, new Point[]
+                        using (var fillBrush = new LinearGradientBrush(
+                                   new RectangleF(displayRect.X - 1, displayRect.Y - 1, displayRect.Width + 2,
+                                       displayRect.Height + 2), lightColor, darkColor, 45f))
                         {
+                            context.Graphics.FillPolygon(fillBrush, new Point[]
+                            {
                             new Point(displayRect.Left - 1, displayRect.Top - 1),
                             new Point(displayRect.Left + 2, displayRect.Top + 3),
                             new Point(displayRect.Left + 5, displayRect.Top)
-                        });
+                            });
+                        }
                     }
-                }
                     break;
             }
         }
@@ -3035,36 +3002,36 @@ namespace Krypton.Toolkit
             {
                 default:
                 case PaletteRibbonShape.Office2007:
-                {
-                    using (Pen darkPen = new Pen(darkColor),
-                           lightPen = new Pen(lightColor))
                     {
-                        context.Graphics.DrawLine(lightPen, x, displayRect.Top + 2, x, displayRect.Bottom - 3);
-                        context.Graphics.DrawLine(darkPen, x + 1, displayRect.Top + 2, x + 1, displayRect.Bottom - 3);
-                    }
-                }
-                    break;
-                case PaletteRibbonShape.Office2010:
-                {
-                    using (LinearGradientBrush darkBrush =
-                           new LinearGradientBrush(
-                               new RectangleF(displayRect.X, displayRect.Y - 1, displayRect.Width,
-                                   displayRect.Height + 2), Color.FromArgb(72, darkColor), darkColor, 90f),
-                           lightBrush = new LinearGradientBrush(
-                               new RectangleF(displayRect.X - 1, displayRect.Y - 1,
-                                   displayRect.Width + 2, displayRect.Height + 2),
-                               Color.FromArgb(128, lightColor), lightColor, 90f))
-                    {
-                        darkBrush.SetSigmaBellShape(0.5f);
-                        lightBrush.SetSigmaBellShape(0.5f);
-
-                        using (var darkPen = new Pen(darkBrush))
+                        using (Pen darkPen = new Pen(darkColor),
+                               lightPen = new Pen(lightColor))
                         {
-                            context.Graphics.FillRectangle(lightBrush, x, displayRect.Top, 3, displayRect.Height);
-                            context.Graphics.DrawLine(darkPen, x + 1, displayRect.Top, x + 1, displayRect.Bottom - 1);
+                            context.Graphics.DrawLine(lightPen, x, displayRect.Top + 2, x, displayRect.Bottom - 3);
+                            context.Graphics.DrawLine(darkPen, x + 1, displayRect.Top + 2, x + 1, displayRect.Bottom - 3);
                         }
                     }
-                }
+                    break;
+                case PaletteRibbonShape.Office2010:
+                    {
+                        using (LinearGradientBrush darkBrush =
+                               new LinearGradientBrush(
+                                   new RectangleF(displayRect.X, displayRect.Y - 1, displayRect.Width,
+                                       displayRect.Height + 2), Color.FromArgb(72, darkColor), darkColor, 90f),
+                               lightBrush = new LinearGradientBrush(
+                                   new RectangleF(displayRect.X - 1, displayRect.Y - 1,
+                                       displayRect.Width + 2, displayRect.Height + 2),
+                                   Color.FromArgb(128, lightColor), lightColor, 90f))
+                        {
+                            darkBrush.SetSigmaBellShape(0.5f);
+                            lightBrush.SetSigmaBellShape(0.5f);
+
+                            using (var darkPen = new Pen(darkBrush))
+                            {
+                                context.Graphics.FillRectangle(lightBrush, x, displayRect.Top, 3, displayRect.Height);
+                                context.Graphics.DrawLine(darkPen, x + 1, displayRect.Top, x + 1, displayRect.Bottom - 1);
+                            }
+                        }
+                    }
                     break;
             }
         }
@@ -3110,7 +3077,7 @@ namespace Krypton.Toolkit
                         OldColor = Color.Black,
                         NewColor = CommonHelper.MergeColors(imageColor, 0.75f, Color.Transparent, 0.25f)
                     };
-                    attribs.SetRemapTable(new[] { cm }, ColorAdjustType.Bitmap);
+                    attribs.SetRemapTable([cm], ColorAdjustType.Bitmap);
 
                     context.Graphics.DrawImage(sortImage,
                                                new Rectangle(x, y, sortImage.Width, sortImage.Height),
@@ -3190,7 +3157,7 @@ namespace Krypton.Toolkit
                         OldColor = Color.Black,
                         NewColor = CommonHelper.MergeColors(imageColor, 0.75f, Color.Transparent, 0.25f)
                     };
-                    attribs.SetRemapTable(new[] { cm }, ColorAdjustType.Bitmap);
+                    attribs.SetRemapTable([cm], ColorAdjustType.Bitmap);
 
                     context.Graphics.DrawImage(rowImage,
                                                new Rectangle(x, y, rowImage.Width, rowImage.Height),
@@ -3657,8 +3624,8 @@ namespace Krypton.Toolkit
                 }
             }
 
-            if ((outside != null) 
-                && (border != null) 
+            if ((outside != null)
+                && (border != null)
                 && (inside != null)
                 )
             {
@@ -3706,13 +3673,14 @@ namespace Krypton.Toolkit
         private GraphicsPath CreatePositionPathsBoth(Rectangle drawRect)
         {
             var path = new GraphicsPath();
-            path.AddLines(new PointF[]{
+            path.AddLines([
                 new PointF(drawRect.X + 0.75f, drawRect.Y), new PointF(drawRect.Right - 1.75f, drawRect.Y),
                 new PointF(drawRect.Right - 1.0f, drawRect.Y + 0.75f),
                 new PointF(drawRect.Right - 1.0f, drawRect.Bottom - 2.0f),
                 new PointF(drawRect.Right - 2.0f, drawRect.Bottom - 1.0f),
                 new PointF(drawRect.X + 1.0f, drawRect.Bottom - 1.0f), new PointF(drawRect.X, drawRect.Bottom - 2.0f),
-                new PointF(drawRect.X, drawRect.Y + 0.75f), new PointF(drawRect.X + 0.75f, drawRect.Y)});
+                new PointF(drawRect.X, drawRect.Y + 0.75f), new PointF(drawRect.X + 0.75f, drawRect.Y)
+            ]);
 
             return path;
         }
@@ -3736,12 +3704,13 @@ namespace Krypton.Toolkit
             var half = ((float)drawRect.Width / 2) - 0.5f;
 
             var path = new GraphicsPath();
-            path.AddLines(new PointF[]{
+            path.AddLines([
                 new PointF(drawRect.X + half, drawRect.Y), new PointF(drawRect.Right - 1.0f, drawRect.Y + +half),
                 new PointF(drawRect.Right - 1.0f, drawRect.Bottom - 2.0f),
                 new PointF(drawRect.Right - 2.0f, drawRect.Bottom - 1.0f),
                 new PointF(drawRect.X + 1.0f, drawRect.Bottom - 1.0f), new PointF(drawRect.X, drawRect.Bottom - 2.0f),
-                new PointF(drawRect.X, drawRect.Y + half), new PointF(drawRect.X + half, drawRect.Y)});
+                new PointF(drawRect.X, drawRect.Y + half), new PointF(drawRect.X + half, drawRect.Y)
+            ]);
             return path;
         }
 
@@ -3763,13 +3732,14 @@ namespace Krypton.Toolkit
             var half = ((float)drawRect.Width / 2) - 0.5f;
 
             var path = new GraphicsPath();
-            path.AddLines(new PointF[]{
+            path.AddLines([
                 new PointF(drawRect.X + 0.75f, drawRect.Y), new PointF(drawRect.Right - 1.75f, drawRect.Y),
                 new PointF(drawRect.Right - 1.0f, drawRect.Y + 0.75f),
                 new PointF(drawRect.Right - 1.0f, drawRect.Bottom - half - 1.0f),
                 new PointF(drawRect.X + half, drawRect.Bottom - 1.0f),
                 new PointF(drawRect.X, drawRect.Bottom - half - 1.0f), new PointF(drawRect.X, drawRect.Y + 0.75f),
-                new PointF(drawRect.X + 0.75f, drawRect.Y)});
+                new PointF(drawRect.X + 0.75f, drawRect.Y)
+            ]);
             return path;
         }
 
@@ -3791,12 +3761,13 @@ namespace Krypton.Toolkit
             var half = ((float)drawRect.Height / 2) - 0.5f;
 
             var path = new GraphicsPath();
-            path.AddLines(new PointF[]{
+            path.AddLines([
                 new PointF(drawRect.X + 0.75f, drawRect.Y), new PointF(drawRect.Right - half - 1.0f, drawRect.Y),
                 new PointF(drawRect.Right - 1.0f, drawRect.Y + half),
                 new PointF(drawRect.Right - half - 1.0f, drawRect.Bottom - 1.0f),
                 new PointF(drawRect.X + 1.0f, drawRect.Bottom - 1.0f), new PointF(drawRect.X, drawRect.Bottom - 2.0f),
-                new PointF(drawRect.X, drawRect.Y + 0.75f), new PointF(drawRect.X + 0.75f, drawRect.Y)});
+                new PointF(drawRect.X, drawRect.Y + 0.75f), new PointF(drawRect.X + 0.75f, drawRect.Y)
+            ]);
             return path;
         }
 
@@ -3819,13 +3790,14 @@ namespace Krypton.Toolkit
             var half = ((float)drawRect.Height / 2) - 0.5f;
 
             var path = new GraphicsPath();
-            path.AddLines(new PointF[]{
+            path.AddLines([
                 new PointF(drawRect.Right - 1.75f, drawRect.Y), new PointF(drawRect.Right - 1.0f, drawRect.Y + 0.75f),
                 new PointF(drawRect.Right - 1.0f, drawRect.Bottom - 2.0f),
                 new PointF(drawRect.Right - 2.0f, drawRect.Bottom - 1.0f),
                 new PointF(drawRect.X + half, drawRect.Bottom - 1.0f),
                 new PointF(drawRect.X, drawRect.Bottom - half - 1.0f), new PointF(drawRect.X + half, drawRect.Y),
-                new PointF(drawRect.Right - 1.75f, drawRect.Y)});
+                new PointF(drawRect.Right - 1.75f, drawRect.Y)
+            ]);
 
             return path;
         }
@@ -3838,7 +3810,6 @@ namespace Krypton.Toolkit
                                                          PaletteDrawBorders borders,
                                                          int borderWidth,
                                                          float borderRounding,
-                                                         bool smoothing,
                                                          int variant)
         {
             var borderPath = new GraphicsPath();
@@ -3957,8 +3928,8 @@ namespace Krypton.Toolkit
                 // If the width is an odd number then need to reduce by 1 in each dimension
                 if (forBorder && middle && ((width % 2) == 1))
                 {
-                    rect.Width -= 1;
-                    rect.Height -= 1;
+                    rect.Width--;
+                    rect.Height--;
                 }
 
                 // Just add a simple rectangle as a quick way of adding four lines
@@ -3996,8 +3967,8 @@ namespace Krypton.Toolkit
                                                      int variant)
         {
             // Reduce the width and height by 1 pixel for drawing into rectangle
-            rect.Width -= 1;
-            rect.Height -= 1;
+            rect.Width--;
+            rect.Height--;
 
             // Add only the border for drawing
             switch (borders)
@@ -4085,8 +4056,8 @@ namespace Krypton.Toolkit
                                                      int variant)
         {
             // Reduce the width and height by 1 pixel for drawing into rectangle
-            rect.Width -= 1;
-            rect.Height -= 1;
+            rect.Width--;
+            rect.Height--;
 
             // We create the path using a floating point rectangle
             var rectF = new RectangleF(rect.X, rect.Y, rect.Width, rect.Height);
@@ -4550,6 +4521,7 @@ namespace Krypton.Toolkit
                 default:
                     // Should never happen!
                     Debug.Assert(false);
+                    DebugTools.NotImplemented(tabBorderStyle.ToString());
                     break;
             }
         }
@@ -5247,8 +5219,7 @@ namespace Krypton.Toolkit
         }
 
         private static Brush CreateImageBrush(Rectangle rect,
-            [DisallowNull] Image image,
-                                              PaletteImageStyle imageStyle)
+            [DisallowNull] Image image, PaletteImageStyle imageStyle)
         {
             // Create brush based on the provided image
             var brush = new TextureBrush(image);
@@ -5342,15 +5313,11 @@ namespace Krypton.Toolkit
                 (Math.Round(rectF.Width) != rectF.Width) ||
                 (Math.Round(rectF.Height) != rectF.Height))
             {
-                var x = (int)Math.Round(rectF.X);
-                var y = (int)Math.Round(rectF.Y);
-                var width = (int)Math.Round(rectF.Width + 1 + (rectF.X - x));
-                var height = (int)Math.Round(rectF.Height + 1 + (rectF.Y - y));
-                rect = new Rectangle(x, y, width, height);
+                rect = Rectangle.Round(rectF);
             }
             else
             {
-                rect = new Rectangle((int)rectF.X, (int)rectF.Y, (int)rectF.Width, (int)rectF.Height);
+                rect = Rectangle.Truncate(rectF);
             }
 
             using Brush backBrush1 = CreateColorBrush(gradientRect, backColor1, backColor1, PaletteColorStyle.Solid, 0f, VisualOrientation.Top),
@@ -5409,15 +5376,13 @@ namespace Krypton.Toolkit
             using (var clip = new Clipping(context.Graphics, path))
             {
                 // Draw the second color as the offset background
-                using (var backBrush = CreateColorBrush(gradientRect,
-                                                          backColor2,
-                                                          backColor2,
-                                                          backColorStyle,
-                                                          backColorAngle,
-                                                          orientation))
-                {
-                    context.Graphics.FillPath(backBrush, insetPath);
-                }
+                using var backBrush = CreateColorBrush(gradientRect,
+                    backColor2,
+                    backColor2,
+                    backColorStyle,
+                    backColorAngle,
+                    orientation);
+                context.Graphics.FillPath(backBrush, insetPath);
             }
 
             // Dispose of created resources
@@ -5539,15 +5504,13 @@ namespace Krypton.Toolkit
             }
 
             // Draw the second color as the offset background
-            using (Brush backBrush = CreateColorBrush(gradientRect,
-                       backColor1,
-                       backColor2,
-                       PaletteColorStyle.Rounded,
-                       backColorAngle,
-                       orientation))
-            {
-                context.Graphics.FillRectangle(backBrush, rect);
-            }
+            using Brush backBrush = CreateColorBrush(gradientRect,
+                backColor1,
+                backColor2,
+                PaletteColorStyle.Rounded,
+                backColorAngle,
+                orientation);
+            context.Graphics.FillRectangle(backBrush, rect);
         }
 
         private void DrawBackRounded4(RenderContext context,
@@ -5632,13 +5595,11 @@ namespace Krypton.Toolkit
             }
 
             // Use path gradient to give the outside of the area a shadow effect
-            using (var borderBrush = new PathGradientBrush(path))
-            {
-                borderBrush.Blend = _linearShadowBlend;
-                borderBrush.CenterColor = backColor1;
-                borderBrush.SurroundColors = new[] { backColor2 };
-                context.Graphics.FillPath(borderBrush, path);
-            }
+            using var borderBrush = new PathGradientBrush(path);
+            borderBrush.Blend = _linearShadowBlend;
+            borderBrush.CenterColor = backColor1;
+            borderBrush.SurroundColors = [backColor2];
+            context.Graphics.FillPath(borderBrush, path);
         }
         #endregion
 
@@ -5729,6 +5690,14 @@ namespace Krypton.Toolkit
             {
                 try
                 {
+                    if ((displayRect.Width < 0)
+                        || (displayRect.Height < 0)
+                        )
+                    {
+                        // Target area is not valid
+                        memento.DrawImage = false;
+                        return;
+                    }
                     // Check for enough space to show all of the image
                     if ((displayRect.Width < memento.Image.Width)
                         || (displayRect.Height < memento.Image.Height)
@@ -5741,24 +5710,33 @@ namespace Krypton.Toolkit
                                                                                displayRect.Height * ratio);
                     }
 
-                    // Cache the size of the image
-                    memento.ImageRect.Size = memento.Image.Size;
+                    if (memento.Image != null)
+                    {
+                        // Cache the size of the image
+                        memento.ImageRect.Size = memento.Image.Size;
 
-                    // Convert from alignment enums to integers
-                    var alignHIndex = RightToLeftIndex(rtl, paletteContent.GetContentImageH(state));
-                    var alignVIndex = (int)paletteContent.GetContentImageV(state);
+                        // Convert from alignment enums to integers
+                        var alignHIndex = RightToLeftIndex(rtl, paletteContent.GetContentImageH(state));
+                        var alignVIndex = (int)paletteContent.GetContentImageV(state);
 
-                    // Bump the allocated space in the destination grid cell
-                    allocation[alignHIndex, alignVIndex].Width += memento.ImageRect.Width;
-                    allocation[alignHIndex, alignVIndex].Height += memento.ImageRect.Height;
+                        // Bump the allocated space in the destination grid cell
+                        allocation[alignHIndex, alignVIndex].Width += memento.ImageRect.Width;
+                        allocation[alignHIndex, alignVIndex].Height += memento.ImageRect.Height;
 
-                    // Yes, we do want to draw the image/icon
-                    memento.DrawImage = true;
+                        // Yes, we do want to draw the image/icon
+                        memento.DrawImage = true;
+                    }
+                    else
+                    {
+                        // Image is not valid, so do not use it!
+                        //memento.Image = null;
+                        memento.DrawImage = false;
+                    }
                 }
                 catch
                 {
                     // Image is not valid, so do not use it!
-                    memento.Image = null;
+                    //memento.Image = null;
                     memento.DrawImage = false;
                 }
             }
@@ -5773,9 +5751,7 @@ namespace Krypton.Toolkit
                                                    Rectangle displayRect,
                                                    RightToLeft rtl,
                                                    int spacingGap,
-                                                   ref Size[,] allocation,
-                                                   bool composition,
-                                                   bool glowing)
+                                                   ref Size[,] allocation)
         {
             // By default, we cannot draw the text
             memento.DrawShortText = false;
@@ -5826,8 +5802,6 @@ namespace Krypton.Toolkit
                 paletteContent.GetContentShortTextMultiLineH(state),
                 paletteContent.GetContentShortTextPrefix(state),
                 memento.ShortTextHint,
-                composition,
-                glowing,
                 fontChanged);
 
             // Space required for short text starts with the text width itself
@@ -5860,9 +5834,7 @@ namespace Krypton.Toolkit
                                                   Rectangle displayRect,
                                                   RightToLeft rtl,
                                                   int spacingGap,
-                                                  ref Size[,] allocation,
-                                                  bool composition,
-                                                  bool glowing)
+                                                  ref Size[,] allocation)
         {
             // By default, we cannot draw the text
             memento.DrawLongText = false;
@@ -5910,8 +5882,6 @@ namespace Krypton.Toolkit
                                                                      paletteContent.GetContentLongTextMultiLineH(state),
                                                                      paletteContent.GetContentLongTextPrefix(state),
                                                                      memento.LongTextHint,
-                                                                     composition,
-                                                                     glowing,
                                                                      fontChanged);
 
                 // Space required for long text starts with the text width itself
@@ -5999,7 +5969,7 @@ namespace Krypton.Toolkit
 
         private static int[] AllocatedColumnWidths(Size[,] allocation, int rowIndex)
         {
-            int[] colWidths = { 0, 0, 0 };
+            int[] colWidths = [0, 0, 0];
 
             for (var col = 0; col < 3; col++)
             {
@@ -6029,7 +5999,7 @@ namespace Krypton.Toolkit
 
         private static int[] AllocatedRowHeights(Size[,] allocation)
         {
-            int[] rowHeights = { 0, 0, 0 };
+            int[] rowHeights = [0, 0, 0];
 
             for (var row = 0; row < 3; row++)
             {
@@ -6579,13 +6549,13 @@ namespace Krypton.Toolkit
                                                 Rectangle drawRect,
                                                 int rounding)
         {
-            using var aa = new AntiAlias(context.Graphics);
+            using var gh = new GraphicsHint(context.Graphics, PaletteGraphicsHint.HighSpeed);
             var rectBoundsF =
                 new RectangleF(drawRect.X - 1, drawRect.Y - 1, drawRect.Width + 2, drawRect.Height + 1);
             var rectInside =
                 new Rectangle(drawRect.X + 2, drawRect.Y + 2, drawRect.Width - 4, drawRect.Height - 4);
-            using GraphicsPath borderPath = CreateBorderBackPath(true, true, drawRect, PaletteDrawBorders.All, 1, rounding, true, 0),
-                insidePath = CreateBorderBackPath(true, true, rectInside, PaletteDrawBorders.All, 1, rounding - 1, true, 0);
+            using GraphicsPath borderPath = CreateBorderBackPath(true, true, drawRect, PaletteDrawBorders.All, 1, rounding, 0),
+                insidePath = CreateBorderBackPath(true, true, rectInside, PaletteDrawBorders.All, 1, rounding - 1, 0);
             using (var borderBrush = new SolidBrush(Color.FromArgb(196, Color.White)))
             {
                 context.Graphics.FillPath(borderBrush, borderPath);
@@ -6734,11 +6704,13 @@ namespace Krypton.Toolkit
             if (dragData.ShowBack)
             {
                 // Create points for a polygon
-                Point[] pts = {
+                Point[] pts =
+                [
                     new Point(0, 29), new Point(23, 29), new Point(29, 23), new Point(29, 0), new Point(57, 0),
                     new Point(57, 23), new Point(63, 29), new Point(87, 29), new Point(87, 57), new Point(63, 57),
                     new Point(57, 63), new Point(57, 87), new Point(29, 87), new Point(29, 63), new Point(23, 57),
-                    new Point(0, 57)};
+                    new Point(0, 57)
+                ];
 
                 // Fill this area with a solid colour
                 g.FillPolygon(insideBrush, pts);
@@ -6765,10 +6737,12 @@ namespace Krypton.Toolkit
             else if (dragData is { ShowLeft: true, ShowRight: true })
             {
                 // Create points for a polygon
-                Point[] pts = {
+                Point[] pts =
+                [
                     new Point(0, 29), new Point(23, 29), new Point(29, 23), new Point(57, 23), new Point(63, 29),
                     new Point(87, 29), new Point(87, 57), new Point(63, 57), new Point(57, 63), new Point(29, 63),
-                    new Point(23, 57), new Point(0, 57)};
+                    new Point(23, 57), new Point(0, 57)
+                ];
 
                 // Fill this area with a solid colour
                 g.FillPolygon(insideBrush, pts);
@@ -6803,10 +6777,12 @@ namespace Krypton.Toolkit
             else if (dragData is { ShowTop: true, ShowBottom: true })
             {
                 // Create points for a polygon
-                Point[] pts = {
+                Point[] pts =
+                [
                     new Point(23, 29), new Point(29, 23), new Point(29, 0), new Point(57, 0), new Point(57, 23),
                     new Point(63, 29), new Point(63, 57), new Point(57, 63), new Point(57, 87), new Point(29, 87),
-                    new Point(29, 63), new Point(23, 57)};
+                    new Point(29, 63), new Point(23, 57)
+                ];
 
                 // Fill this area with a solid colour
                 g.FillPolygon(insideBrush, pts);
@@ -6840,9 +6816,11 @@ namespace Krypton.Toolkit
             else if (dragData.ShowMiddle)
             {
                 // Only draw the background for the middle square
-                Point[] pts = {
+                Point[] pts =
+                [
                     new Point(23, 29), new Point(29, 23), new Point(57, 23), new Point(63, 29), new Point(63, 57),
-                    new Point(57, 63), new Point(29, 63), new Point(23, 57)};
+                    new Point(57, 63), new Point(29, 63), new Point(23, 57)
+                ];
 
                 g.FillPolygon(insideBrush, pts);
                 g.DrawPolygon(borderPen, pts);
@@ -7359,9 +7337,12 @@ namespace Krypton.Toolkit
                     innerRect.Height -= 3;
                     var halfHeight = innerRect.Height / 2;
                     cache.BorderRect = innerRect;
-                    cache.BorderPoints = new Point[] { new Point(innerRect.X, rect.Y),
+                    cache.BorderPoints =
+                    [
+                        new Point(innerRect.X, rect.Y),
                         new Point(innerRect.X, innerRect.Bottom), new Point(innerRect.Right, innerRect.Bottom),
-                        new Point(innerRect.Right, innerRect.Top) };
+                        new Point(innerRect.Right, innerRect.Top)
+                    ];
                     cache.BackRect1 = new Rectangle(innerRect.X, innerRect.Y, rect.Width, halfHeight);
                     cache.BackRect2 = innerRect with { Y = innerRect.Y + halfHeight, Height = innerRect.Height - halfHeight };
                     cache.BackBrush1 = new LinearGradientBrush(new RectangleF(cache.BackRect1.X - 1, cache.BackRect1.Y - 1, cache.BackRect1.Width + 2, cache.BackRect1.Height + 1), c3, c4, 90f);
@@ -7672,7 +7653,7 @@ namespace Krypton.Toolkit
                 PointF centerPoint = new PointF(cache.EllipseRect.Left + (cache.EllipseRect.Width / 2),
                     cache.EllipseRect.Top + (cache.EllipseRect.Height / 2));
                 cache.EllipseBrush.CenterPoint = centerPoint;
-                cache.EllipseBrush.SurroundColors = new[] { Color.Transparent };
+                cache.EllipseBrush.SurroundColors = [Color.Transparent];
             }
 
             RectangleF vertRectF = new RectangleF(rect.Left - 1, rect.Top + 2, rect.Width + 2, rect.Height - 2);
@@ -7768,7 +7749,7 @@ namespace Krypton.Toolkit
                 PointF centerPoint = new PointF(cache.EllipseRect.Left + (cache.EllipseRect.Width / 2),
                     cache.EllipseRect.Top + (cache.EllipseRect.Height / 2));
                 cache.EllipseBrush.CenterPoint = centerPoint;
-                cache.EllipseBrush.SurroundColors = new[] { Color.Transparent };
+                cache.EllipseBrush.SurroundColors = [Color.Transparent];
             }
 
             RectangleF vertRectF = new RectangleF(rect.Left + 2, rect.Top - 1, rect.Width - 2, rect.Height + 2);
@@ -7865,7 +7846,7 @@ namespace Krypton.Toolkit
                 PointF centerPoint = new PointF(cache.EllipseRect.Left + (cache.EllipseRect.Width / 2),
                     cache.EllipseRect.Top + (cache.EllipseRect.Height / 2));
                 cache.EllipseBrush.CenterPoint = centerPoint;
-                cache.EllipseBrush.SurroundColors = new[] { Color.Transparent };
+                cache.EllipseBrush.SurroundColors = [Color.Transparent];
             }
 
             RectangleF vertRectF = new RectangleF(rect.Left, rect.Top - 1, rect.Width - 2, rect.Height + 2);
@@ -7962,7 +7943,7 @@ namespace Krypton.Toolkit
                 PointF centerPoint = new PointF(cache.EllipseRect.Left + (cache.EllipseRect.Width / 2),
                     cache.EllipseRect.Bottom - (cache.EllipseRect.Height / 2));
                 cache.EllipseBrush.CenterPoint = centerPoint;
-                cache.EllipseBrush.SurroundColors = new[] { Color.Transparent };
+                cache.EllipseBrush.SurroundColors = [Color.Transparent];
             }
 
             RectangleF vertRectF = new RectangleF(rect.Left - 1, rect.Top, rect.Width + 2, rect.Height - 2);
@@ -8708,7 +8689,7 @@ namespace Krypton.Toolkit
                 PointF centerPoint = new PointF(cache.EllipseRect.Left + (cache.EllipseRect.Width / 2),
                     cache.EllipseRect.Top + (cache.EllipseRect.Height / 2));
                 cache.EllipseBrush.CenterPoint = centerPoint;
-                cache.EllipseBrush.SurroundColors = new[] { Color.Transparent };
+                cache.EllipseBrush.SurroundColors = [Color.Transparent];
             }
 
             cache.InsideBrush = new SolidBrush(insideColor);
@@ -8766,7 +8747,7 @@ namespace Krypton.Toolkit
                 PointF centerPoint = new PointF(cache.EllipseRect.Left + (cache.EllipseRect.Width / 2),
                     cache.EllipseRect.Top + (cache.EllipseRect.Height / 2));
                 cache.EllipseBrush.CenterPoint = centerPoint;
-                cache.EllipseBrush.SurroundColors = new[] { Color.Transparent };
+                cache.EllipseBrush.SurroundColors = [Color.Transparent];
             }
 
             cache.InsideBrush = new SolidBrush(insideColor);
@@ -8824,7 +8805,7 @@ namespace Krypton.Toolkit
                 PointF centerPoint = new PointF(cache.EllipseRect.Left + (cache.EllipseRect.Width / 2),
                     cache.EllipseRect.Top + (cache.EllipseRect.Height / 2));
                 cache.EllipseBrush.CenterPoint = centerPoint;
-                cache.EllipseBrush.SurroundColors = new[] { Color.Transparent };
+                cache.EllipseBrush.SurroundColors = [Color.Transparent];
             }
 
             cache.InsideBrush = new SolidBrush(insideColor);
@@ -8882,7 +8863,7 @@ namespace Krypton.Toolkit
                 PointF centerPoint = new PointF(cache.EllipseRect.Left + (cache.EllipseRect.Width / 2),
                     cache.EllipseRect.Bottom - 1 - (cache.EllipseRect.Height / 2));
                 cache.EllipseBrush.CenterPoint = centerPoint;
-                cache.EllipseBrush.SurroundColors = new[] { Color.Transparent };
+                cache.EllipseBrush.SurroundColors = [Color.Transparent];
             }
 
             cache.InsideBrush = new SolidBrush(insideColor);
@@ -10213,9 +10194,9 @@ namespace Krypton.Toolkit
 
                     LinearGradientBrush underlineBrush =
                         new LinearGradientBrush(borderRect, Color.Transparent, Color.FromArgb(200, c2), 0f)
-                    {
-                        Blend = _ribbonGroup7Blend
-                    };
+                        {
+                            Blend = _ribbonGroup7Blend
+                        };
                     cache.UnderlinePen = new Pen(underlineBrush);
 
                     cache.FillBrush = new LinearGradientBrush(borderRect, Color.FromArgb(196, c2), Color.Transparent, 270f)
@@ -10354,8 +10335,8 @@ namespace Krypton.Toolkit
 
             if (!pressed)
             {
-                Color[] colorsUpperHalf = { topDark, topMedium, topLight, topLight, topMedium, topDark };
-                float[] posUpperHalf = { 0.0f, 0.2f, 0.4f, 0.6f, 0.8f, 1.0f };
+                Color[] colorsUpperHalf = [topDark, topMedium, topLight, topLight, topMedium, topDark];
+                float[] posUpperHalf = [0.0f, 0.2f, 0.4f, 0.6f, 0.8f, 1.0f];
 
                 ColorBlend blendUpperHalf = new ColorBlend
                 {
@@ -10397,10 +10378,10 @@ namespace Krypton.Toolkit
                                                             Color bottomLight,
                                                             Color bottomMedium)
         {
-            Color[] colorsLowerHalf = { bottomDark, bottomMedium, bottomLight, bottomLight, bottomMedium, bottomDark };
+            Color[] colorsLowerHalf = [bottomDark, bottomMedium, bottomLight, bottomLight, bottomMedium, bottomDark];
 
             var posLowerHalf = state == PaletteState.Pressed
-                ? new[] { 0.0f, 0.3f, 0.5f, 0.5f, 0.7f, 1.0f }
+                ? [0.0f, 0.3f, 0.5f, 0.5f, 0.7f, 1.0f]
                 : new[] { 0.0f, 0.2f, 0.4f, 0.6f, 0.8f, 1.0f };
 
             ColorBlend blendLowerHalf = new ColorBlend
@@ -10444,7 +10425,7 @@ namespace Krypton.Toolkit
                 path.AddEllipse(rectBottomGlow);
                 using PathGradientBrush pathGradient = new PathGradientBrush(path);
                 pathGradient.CenterColor = topLight;
-                pathGradient.SurroundColors = new[] { Color.FromArgb(100, bottomLight) };
+                pathGradient.SurroundColors = [Color.FromArgb(100, bottomLight)];
                 g.FillEllipse(pathGradient, rectBottomGlow);
             }
         }
@@ -10470,14 +10451,17 @@ namespace Krypton.Toolkit
 
             using LinearGradientBrush brushUpperGlow = new LinearGradientBrush(memento.RectUpperGlow, Color.Transparent,
                 Color.Transparent, LinearGradientMode.Horizontal);
-            Color[] colorsUpperGlow = { Color.FromArgb(180, bottomDark),
+            Color[] colorsUpperGlow =
+            [
+                Color.FromArgb(180, bottomDark),
                 Color.FromArgb(mediumTransparency, bottomMedium),
                 Color.FromArgb(lightTransparency, bottomLight),
                 Color.FromArgb(lightTransparency, bottomLight),
                 Color.FromArgb(mediumTransparency, bottomMedium),
-                Color.FromArgb(180, bottomDark) };
+                Color.FromArgb(180, bottomDark)
+            ];
 
-            float[] posUpperGlow = { 0.0f, 0.2f, 0.4f, 0.6f, 0.8f, 1.0f };
+            float[] posUpperGlow = [0.0f, 0.2f, 0.4f, 0.6f, 0.8f, 1.0f];
 
             ColorBlend blendUpperGlow = new ColorBlend
             {
@@ -10715,7 +10699,7 @@ namespace Krypton.Toolkit
                     trackingPath.AddEllipse(rect with { Y = rect.Y + (rect.Height / 2), Width = rect.Width - 3 });
                     cache.TrackHighlightBrush = new PathGradientBrush(trackingPath)
                     {
-                        SurroundColors = new[] { Color.Transparent },
+                        SurroundColors = [Color.Transparent],
                         CenterColor = cache.C3,//(dark ? (rect.Width > 50 ? _whiten60 : _whiten45) : _whiten160),
                         CenterPoint = new PointF(rect.X + ((rect.Width - 3) / 2), rect.Height)
                     };
@@ -11284,7 +11268,6 @@ namespace Krypton.Toolkit
                                                                  Rectangle rect,
                                                                  PaletteState state,
                                                                  IPaletteRibbonBack palette,
-                                                                 bool composition,
                                                                  IDisposable memento)
         {
             if (rect is { Width: > 0, Height: > 0 })
@@ -11377,27 +11360,18 @@ namespace Krypton.Toolkit
                 }
 
                 using AntiAlias aa = new AntiAlias(context.Graphics);
-                if (!composition)
-                {
-                    // Draw the light borders
-                    context.Graphics.DrawPath(cache.LightPen, cache.TopRight1);
-                    context.Graphics.DrawPath(cache.LightPen, cache.BottomLeft1);
+                // Draw the light borders
+                context.Graphics.DrawPath(cache.LightPen, cache.TopRight1);
+                context.Graphics.DrawPath(cache.LightPen, cache.BottomLeft1);
 
-                    // Draw the inside background and main border
-                    context.Graphics.FillPath(cache.InnerBrush, cache.BorderPath);
-                    context.Graphics.DrawPath(cache.BorderPen, cache.BorderPath);
+                // Draw the inside background and main border
+                context.Graphics.FillPath(cache.InnerBrush, cache.BorderPath);
+                context.Graphics.DrawPath(cache.BorderPen, cache.BorderPath);
 
-                    // Overdraw top for lighter effect
-                    context.Graphics.DrawLine(cache.WhitenPen, rect.Left + 10, rect.Top + 2, rect.Right - 10, rect.Top + 2);
-                    context.Graphics.DrawLine(cache.WhitenPen, rect.Left + 12, rect.Top + 3, rect.Right - 8, rect.Top + 3);
-                    context.Graphics.DrawLine(cache.WhitenPen, rect.Left + 14, rect.Top + 4, rect.Right - 7, rect.Top + 4);
-                }
-                else
-                {
-                    // Fill with a semi-transparent background/border
-                    context.Graphics.FillPath(_compositionBrush, cache.BorderPath);
-                    context.Graphics.DrawPath(_compositionPen, cache.BorderPath);
-                }
+                // Overdraw top for lighter effect
+                context.Graphics.DrawLine(cache.WhitenPen, rect.Left + 10, rect.Top + 2, rect.Right - 10, rect.Top + 2);
+                context.Graphics.DrawLine(cache.WhitenPen, rect.Left + 12, rect.Top + 3, rect.Right - 8, rect.Top + 3);
+                context.Graphics.DrawLine(cache.WhitenPen, rect.Left + 14, rect.Top + 4, rect.Right - 7, rect.Top + 4);
             }
 
             return memento;
@@ -11410,7 +11384,6 @@ namespace Krypton.Toolkit
                                                                  Rectangle rect,
                                                                  PaletteState state,
                                                                  IPaletteRibbonBack palette,
-                                                                 bool composition,
                                                                  IDisposable memento)
         {
             if (rect is { Width: > 0, Height: > 0 })
@@ -11504,22 +11477,13 @@ namespace Krypton.Toolkit
                 }
 
                 using AntiAlias aa = new AntiAlias(context.Graphics);
-                if (!composition)
-                {
-                    // Draw the light borders
-                    context.Graphics.DrawPath(cache.LightPen, cache.TopRight1);
-                    context.Graphics.DrawPath(cache.LightPen, cache.BottomLeft1);
+                // Draw the light borders
+                context.Graphics.DrawPath(cache.LightPen, cache.TopRight1);
+                context.Graphics.DrawPath(cache.LightPen, cache.BottomLeft1);
 
-                    // Draw the inside background and main border
-                    context.Graphics.FillPath(cache.InnerBrush, cache.BorderPath);
-                    context.Graphics.DrawPath(cache.BorderPen, cache.BorderPath);
-                }
-                else
-                {
-                    // Fill with a semi-transparent background/border
-                    context.Graphics.FillPath(_compositionBrush, cache.BorderPath);
-                    context.Graphics.DrawPath(_compositionPen, cache.BorderPath);
-                }
+                // Draw the inside background and main border
+                context.Graphics.FillPath(cache.InnerBrush, cache.BorderPath);
+                context.Graphics.DrawPath(cache.BorderPen, cache.BorderPath);
             }
 
             return memento;

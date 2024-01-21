@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
  *  
  */
 #endregion
@@ -89,8 +89,8 @@ namespace Krypton.Navigator
             Debug.Assert(_constructed == false);
 
             // Save provided references
-            Navigator = navigator!;
-            ViewManager = manager!;
+            Navigator = navigator;
+            ViewManager = manager;
             Redirector = redirector;
             _constructed = true;
 
@@ -107,7 +107,7 @@ namespace Krypton.Navigator
             Debug.Assert(Navigator != null, $"{nameof(Navigator)} != null");
 
             // Unhook from the navigator events
-            Navigator!.ViewBuilderPropertyChanged -= OnViewBuilderPropertyChanged;
+            Navigator.ViewBuilderPropertyChanged -= OnViewBuilderPropertyChanged;
 
             // No longer constructed
             _constructed = false;
@@ -725,11 +725,11 @@ namespace Krypton.Navigator
                     }
 
                     Debug.Assert(Navigator.StateCommon.HeaderGroup != null, "Navigator.StateCommon.HeaderGroup != null");
-                    Navigator.StateCommon!.HeaderGroup!.BackStyle = Navigator.Group.GroupBackStyle;
+                    Navigator.StateCommon!.HeaderGroup.BackStyle = Navigator.Group.GroupBackStyle;
                     Navigator.PerformNeedPaint(true);
                     break;
                 case @"GroupBorderStyle":
-                    Navigator!.StateCommon!.HeaderGroup!.BorderStyle = Navigator.Group.GroupBorderStyle;
+                    Navigator.StateCommon!.HeaderGroup.BorderStyle = Navigator.Group.GroupBorderStyle;
                     Navigator.PerformNeedPaint(true);
                     break;
             }
@@ -787,7 +787,7 @@ namespace Krypton.Navigator
                 default:
                     // Should never happen!
                     Debug.Assert(false);
-                    throw new ArgumentOutOfRangeException(nameof(mode));
+                    throw DebugTools.NotImplemented(mode.ToString());
             }
         }
         #endregion

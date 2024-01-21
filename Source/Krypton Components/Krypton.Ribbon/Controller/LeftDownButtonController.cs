@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -51,9 +51,9 @@ namespace Krypton.Ribbon
             Debug.Assert(target != null);
             Debug.Assert(needPaint != null);
 
-            Ribbon = ribbon!;
-            Target = target!;
-            _needPaint = needPaint!;
+            Ribbon = ribbon;
+            Target = target;
+            _needPaint = needPaint;
 
             _updateTimer = new Timer
             {
@@ -246,7 +246,7 @@ namespace Krypton.Ribbon
         /// </summary>
         protected virtual void UpdateTargetState()
         {
-            // By default the button is in the normal state
+            // By default, the button is in the normal state
             var newState = PaletteState.Normal;
 
             // Only allow another state if the ribbon is enabled

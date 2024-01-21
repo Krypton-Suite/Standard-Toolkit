@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -47,7 +47,7 @@ namespace Krypton.Ribbon
         /// <param name="keyboardActivated">Was the context menu activated by a keyboard action.</param>
         public VisualPopupAppMenu(KryptonRibbon ribbon,
                                   RibbonAppButton appButton,
-                                  PaletteBase palette,
+                                  PaletteBase? palette,
                                   PaletteMode paletteMode,
                                   PaletteRedirect redirector,
                                   Rectangle rectAppButtonTopHalf,
@@ -215,11 +215,11 @@ namespace Krypton.Ribbon
         private void CreateButtonManager(RibbonAppButton appButton)
         {
             _buttonManager = new ButtonSpecManagerLayoutAppButton((ViewContextMenuManager)ViewManager!,
-                                                                  this, Redirector!, appButton.AppButtonSpecs, null,
-                                                                  new[] { _viewButtonSpecDocker },
-                                                                  new IPaletteMetric[] { _ribbon.StateCommon },
-                                                                  new[] { PaletteMetricInt.None },
-                                                                  new[] { PaletteMetricPadding.RibbonAppButton },
+                                                                  this, Redirector, appButton.AppButtonSpecs, null,
+                                                                  [_viewButtonSpecDocker],
+                                                                  [_ribbon.StateCommon],
+                                                                  [PaletteMetricInt.None],
+                                                                  [PaletteMetricPadding.RibbonAppButton],
                                                                   CreateToolStripRenderer!,
                                                                   OnButtonSpecPaint);
 
@@ -439,9 +439,10 @@ namespace Krypton.Ribbon
 
             // Need a render context for accessing the renderer
             using var context = new RenderContext(this, null, ClientRectangle, Renderer);
+            using var gh = new GraphicsHint(context.Graphics, _drawOutsideBorder.GetBorderGraphicsHint(PaletteState.Normal));
             // Grab a path that is the outside edge of the border
             Rectangle borderRect = ClientRectangle;
-            GraphicsPath borderPath1 = Renderer!.RenderStandardBorder.GetOutsideBorderPath(context, borderRect, _drawOutsideBorder, VisualOrientation.Top, PaletteState.Normal);
+            GraphicsPath borderPath1 = Renderer.RenderStandardBorder.GetOutsideBorderPath(context, borderRect, _drawOutsideBorder, VisualOrientation.Top, PaletteState.Normal);
             borderRect.Inflate(-1, -1);
             GraphicsPath borderPath2 = Renderer.RenderStandardBorder.GetOutsideBorderPath(context, borderRect, _drawOutsideBorder, VisualOrientation.Top, PaletteState.Normal);
             borderRect.Inflate(-1, -1);
@@ -474,7 +475,7 @@ namespace Krypton.Ribbon
             {
                 // Find the preferred size which fits exactly the calculated contents size
                 using var context = new ViewLayoutContext(this, Renderer);
-                return ViewManager!.Root!.GetPreferredSize(context);
+                return ViewManager!.Root.GetPreferredSize(context);
             }
             finally
             {

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
  *  
  */
 #endregion
@@ -214,8 +214,8 @@ namespace Krypton.Navigator
             _viewLayout = new ViewLayoutDocker();
 
             // Cache the border edge palette to use
-            PaletteBorderEdge buttonEdgePalette = (Navigator.Enabled ? Navigator.StateNormal!.BorderEdge :
-                                                                       Navigator.StateDisabled!.BorderEdge);
+            PaletteBorderEdge buttonEdgePalette = (Navigator.Enabled ? Navigator.StateNormal.BorderEdge :
+                                                                       Navigator.StateDisabled.BorderEdge);
 
             // Create the scrolling viewport and pass in the _viewLayout as the content to scroll
             _viewScrollViewport = new ViewLayoutScrollViewport(Navigator, _viewLayout, buttonEdgePalette, null,
@@ -229,11 +229,11 @@ namespace Krypton.Navigator
             _viewScrollViewport.MakeParent(Navigator.ChildPanel!);
 
             // Create the header group and fill with the view layout
-            _headerGroup = new ViewletHeaderGroup(Navigator, Redirector!, NeedPaintDelegate);
+            _headerGroup = new ViewletHeaderGroup(Navigator, Redirector, NeedPaintDelegate);
             ViewBase newRoot = _headerGroup.Construct(_viewScrollViewport);
 
             // Put the old root as the filler inside stack elements
-            _viewLayout.Add(_oldRoot!, ViewDockStyle.Fill);
+            _viewLayout.Add(_oldRoot, ViewDockStyle.Fill);
 
             return newRoot;
         }

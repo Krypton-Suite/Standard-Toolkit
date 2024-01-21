@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
  *  
  */
 #endregion
@@ -303,7 +303,7 @@ namespace Krypton.Toolkit
         #region Instance Fields
 
         private VisualPopupToolTip? _visualPopupToolTip;
-        private readonly ButtonSpecManagerLayout _buttonManager;
+        private readonly ButtonSpecManagerLayout? _buttonManager;
         private readonly ViewLayoutDocker _drawDockerInner;
         private readonly ViewDrawDocker _drawDockerOuter;
         private readonly ViewLayoutFill _layoutFill;
@@ -316,8 +316,6 @@ namespace Krypton.Toolkit
         private bool _alwaysActive;
         private bool _trackingMouseEnter;
         private bool _firstPaint;
-        private float _cornerRoundingRadius;
-
         #endregion
 
         #region Events
@@ -510,10 +508,10 @@ namespace Krypton.Toolkit
 
             // Create button specification collection manager
             _buttonManager = new ButtonSpecManagerLayout(this, Redirector, ButtonSpecs, null,
-                                                         new[] { _drawDockerInner },
-                                                         new IPaletteMetric[] { StateCommon },
-                                                         new[] { PaletteMetricInt.HeaderButtonEdgeInsetInputControl },
-                                                         new[] { PaletteMetricPadding.HeaderButtonPaddingInputControl },
+                [_drawDockerInner],
+                [StateCommon],
+                [PaletteMetricInt.HeaderButtonEdgeInsetInputControl],
+                [PaletteMetricPadding.HeaderButtonPaddingInputControl],
                                                          CreateToolStripRenderer,
                                                          NeedPaintDelegate);
 
@@ -529,15 +527,13 @@ namespace Krypton.Toolkit
             // Update the back/fore/font from the palette settings
             UpdateStateAndPalettes();
             _richTextBox.BackColor = StateActive.PaletteBack.GetBackColor1(PaletteState.Tracking);
-            _richTextBox.ForeColor = StateActive.PaletteContent.GetContentShortTextColor1(PaletteState.Tracking);
+            _richTextBox.ForeColor = StateActive.PaletteContent!.GetContentShortTextColor1(PaletteState.Tracking);
 
             // Only set the font if the rich text box has been created
             if (_richTextBox.Handle != IntPtr.Zero)
             {
-                _richTextBox.Font = StateActive.PaletteContent.GetContentShortTextFont(PaletteState.Tracking);
+                _richTextBox.Font = StateActive.PaletteContent.GetContentShortTextFont(PaletteState.Tracking)!;
             }
-
-            _cornerRoundingRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
         }
 
         /// <summary>
@@ -552,7 +548,7 @@ namespace Krypton.Toolkit
                 OnCancelToolTip(this, EventArgs.Empty);
 
                 // Remember to pull down the manager instance
-                _buttonManager.Destruct();
+                _buttonManager?.Destruct();
             }
 
             base.Dispose(disposing);
@@ -560,16 +556,6 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Public
-
-        /// <summary>Gets or sets the corner rounding radius.</summary>
-        /// <value>The corner rounding radius.</value>
-        [Category(@"Visuals"), DefaultValue(GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE), Description(@"Defines the corner roundness on the current window (-1 is the default look).")]
-        public float CornerRoundingRadius
-        {
-            get => _cornerRoundingRadius;
-            set => SetCornerRoundingRadius(value);
-        }
-
         [Category(@"Visuals")]
         [Description(@"Set a watermark/prompt message for the user.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
@@ -600,7 +586,7 @@ namespace Krypton.Toolkit
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         [EditorBrowsable(EditorBrowsableState.Always)]
         [Browsable(false)]
-        public RichTextBox? RichTextBox => _richTextBox;
+        public RichTextBox RichTextBox => _richTextBox;
 
         /// <summary>
         /// Gets access to the contained input control.
@@ -661,7 +647,7 @@ namespace Krypton.Toolkit
         public override Font Font
         {
             get => base.Font;
-            set => base.Font = value;
+            set => base.Font = value!;
         }
 
         /// <summary>
@@ -762,14 +748,14 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public string RedoActionName => _richTextBox.RedoActionName;
+        public string? RedoActionName => _richTextBox.RedoActionName;
 
         /// <summary>
         /// Gets and sets the name of the action to be undone.
         /// </summary>
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public string UndoActionName => _richTextBox.UndoActionName;
+        public string? UndoActionName => _richTextBox.UndoActionName;
 
         /// <summary>
         /// Gets and sets if keyboard shortcuts are enabled.
@@ -1057,11 +1043,11 @@ namespace Krypton.Toolkit
         [DefaultValue(true)]
         public bool UseMnemonic
         {
-            get => _buttonManager.UseMnemonic;
+            get => _buttonManager!.UseMnemonic;
 
             set
             {
-                if (_buttonManager.UseMnemonic != value)
+                if (_buttonManager!.UseMnemonic != value)
                 {
                     _buttonManager.UseMnemonic = value;
                     PerformNeedPaint(true);
@@ -1385,32 +1371,32 @@ namespace Krypton.Toolkit
         /// Appends text to the current text of a rich text box.
         /// </summary>
         /// <param name="text">The text to append to the current contents of the text box.</param>
-        public void AppendText(string text) => _richTextBox.AppendText(text);
+        public void AppendText(string text) => _richTextBox?.AppendText(text);
 
         /// <summary>
         /// Clears all text from the text box control.
         /// </summary>
-        public void Clear() => _richTextBox.Clear();
+        public void Clear() => _richTextBox?.Clear();
 
         /// <summary>
         /// Clears information about the most recent operation from the undo buffer of the rich text box. 
         /// </summary>
-        public void ClearUndo() => _richTextBox.ClearUndo();
+        public void ClearUndo() => _richTextBox?.ClearUndo();
 
         /// <summary>
         /// Copies the current selection in the text box to the Clipboard.
         /// </summary>
-        public void Copy() => _richTextBox.Copy();
+        public void Copy() => _richTextBox?.Copy();
 
         /// <summary>
         /// Moves the current selection in the text box to the Clipboard.
         /// </summary>
-        public void Cut() => _richTextBox.Cut();
+        public void Cut() => _richTextBox?.Cut();
 
         /// <summary>
         /// Specifies that the value of the SelectionLength property is zero so that no characters are selected in the control.
         /// </summary>
-        public void DeselectAll() => _richTextBox.DeselectAll();
+        public void DeselectAll() => _richTextBox?.DeselectAll();
 
         /// <summary>
         /// Determines whether you can paste information from the Clipboard in the specified data format.
@@ -1541,60 +1527,60 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Replaces the current selection in the text box with the contents of the Clipboard.
         /// </summary>
-        public void Paste() => _richTextBox.Paste();
+        public void Paste() => _richTextBox?.Paste();
 
         /// <summary>
         /// Undoes the last edit operation in the text box.
         /// </summary>
-        public void Undo() => _richTextBox.Undo();
+        public void Undo() => _richTextBox?.Undo();
 
         /// <summary>
         /// Pastes the contents of the Clipboard in the specified Clipboard format.
         /// </summary>
         /// <param name="clipFormat">The Clipboard format in which the data should be obtained from the Clipboard.</param>
-        public void Paste(DataFormats.Format clipFormat) => _richTextBox.Paste(clipFormat);
+        public void Paste(DataFormats.Format clipFormat) => _richTextBox?.Paste(clipFormat);
 
         /// <summary>
         /// Reapplies the last operation that was undone in the control.
         /// </summary>
-        public void Redo() => _richTextBox.Redo();
+        public void Redo() => _richTextBox?.Redo();
 
         /// <summary>
         /// Saves the contents of the RichTextBox to a rich text format (RTF) file.
         /// </summary>
         /// <param name="path">The name and location of the file to save.</param>
-        public void SaveFile(string path) => _richTextBox.SaveFile(path);
+        public void SaveFile(string path) => _richTextBox?.SaveFile(path);
 
         /// <summary>
         /// Saves the contents of a RichTextBox control to an open data stream.
         /// </summary>
         /// <param name="data">The data stream that contains the file to save to.</param>
         /// <param name="fileType">One of the RichTextBoxStreamType values.</param>
-        public void SaveFile(Stream data, RichTextBoxStreamType fileType) => _richTextBox.SaveFile(data, fileType);
+        public void SaveFile(Stream data, RichTextBoxStreamType fileType) => _richTextBox?.SaveFile(data, fileType);
 
         /// <summary>
         /// Saves the contents of the KryptonRichTextBox to a specific type of file.
         /// </summary>
         /// <param name="path">The name and location of the file to save.</param>
         /// <param name="fileType">One of the RichTextBoxStreamType values.</param>
-        public void SaveFile(string path, RichTextBoxStreamType fileType) => _richTextBox.SaveFile(path, fileType);
+        public void SaveFile(string path, RichTextBoxStreamType fileType) => _richTextBox?.SaveFile(path, fileType);
 
         /// <summary>
         /// Scrolls the contents of the control to the current caret position.
         /// </summary>
-        public void ScrollToCaret() => _richTextBox.ScrollToCaret();
+        public void ScrollToCaret() => _richTextBox?.ScrollToCaret();
 
         /// <summary>
         /// Selects a range of text in the control.
         /// </summary>
         /// <param name="start">The position of the first character in the current text selection within the text box.</param>
         /// <param name="length">The number of characters to select.</param>
-        public void Select(int start, int length) => _richTextBox.Select(start, length);
+        public void Select(int start, int length) => _richTextBox?.Select(start, length);
 
         /// <summary>
         /// Selects all text in the control.
         /// </summary>
-        public void SelectAll() => _richTextBox.SelectAll();
+        public void SelectAll() => _richTextBox?.SelectAll();
 
         /// <summary>
         /// Sets the fixed state of the control.
@@ -1727,9 +1713,9 @@ namespace Krypton.Toolkit
         /// <param name="pt">Mouse location.</param>
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        public Component DesignerComponentFromPoint(Point pt) =>
+        public Component? DesignerComponentFromPoint(Point pt) =>
             // Ignore call as view builder is already destructed
-            IsDisposed ? null : ViewManager.ComponentFromPoint(pt);
+            IsDisposed ? null : ViewManager?.ComponentFromPoint(pt);
 
         // Ask the current view for a decision
         /// <summary>
@@ -1868,7 +1854,7 @@ namespace Krypton.Toolkit
             _drawDockerOuter.Enabled = Enabled;
 
             // Update state to reflect change in enabled state
-            _buttonManager.RefreshButtons();
+            _buttonManager?.RefreshButtons();
 
             PerformNeedPaint(true);
 
@@ -1942,11 +1928,11 @@ namespace Krypton.Toolkit
             if (!IsDisposed && !Disposing)
             {
                 // Update with latest content padding for placing around the contained text box control
-                Padding contentPadding = GetTripleState().PaletteContent.GetContentPadding(_drawDockerOuter.State);
+                Padding contentPadding = GetTripleState().PaletteContent!.GetContentPadding(_drawDockerOuter.State);
                 _layoutFill.DisplayPadding = contentPadding;
             }
 
-            // Let base class calulcate fill rectangle
+            // Let base class calculate fill rectangle
             base.OnLayout(levent);
 
             if (!IsDisposed && !Disposing)
@@ -1956,7 +1942,7 @@ namespace Krypton.Toolkit
                 if (_forcedLayout || (DesignMode && (_richTextBox != null)))
                 {
                     Rectangle fillRect = _layoutFill.FillRect;
-                    _richTextBox.SetBounds(fillRect.X, fillRect.Y, fillRect.Width, fillRect.Height);
+                    _richTextBox?.SetBounds(fillRect.X, fillRect.Y, fillRect.Width, fillRect.Height);
                 }
             }
         }
@@ -1969,7 +1955,7 @@ namespace Krypton.Toolkit
         {
             _mouseOver = true;
             PerformNeedPaint(true);
-            _richTextBox.Invalidate();
+            _richTextBox?.Invalidate();
             base.OnMouseEnter(e);
         }
 
@@ -1981,7 +1967,7 @@ namespace Krypton.Toolkit
         {
             _mouseOver = false;
             PerformNeedPaint(true);
-            _richTextBox.Invalidate();
+            _richTextBox?.Invalidate();
             base.OnMouseLeave(e);
         }
 
@@ -1992,7 +1978,7 @@ namespace Krypton.Toolkit
         protected override void OnGotFocus(EventArgs e)
         {
             base.OnGotFocus(e);
-            _richTextBox.Focus();
+            _richTextBox?.Focus();
         }
 
         /// <summary>
@@ -2005,11 +1991,11 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">Source of notification.</param>
         /// <param name="e">An NeedLayoutEventArgs containing event data.</param>
-        protected override void OnNeedPaint(object sender, NeedLayoutEventArgs e)
+        protected override void OnNeedPaint(object? sender, NeedLayoutEventArgs e)
         {
             if (!e.NeedLayout)
             {
-                _richTextBox.Invalidate();
+                _richTextBox?.Invalidate();
             }
             else
             {
@@ -2024,12 +2010,12 @@ namespace Krypton.Toolkit
                 PaletteState state = _drawDockerOuter.State;
 
                 Color backColor = triple.PaletteBack.GetBackColor1(state);
-                if (_richTextBox.BackColor != backColor)
+                if (_richTextBox!.BackColor != backColor)
                 {
                     _richTextBox.BackColor = backColor;
                 }
 
-                Color foreColor = triple.PaletteContent.GetContentShortTextColor1(state);
+                Color foreColor = triple.PaletteContent!.GetContentShortTextColor1(state);
                 if (_richTextBox.ForeColor != foreColor)
                 {
                     _richTextBox.ForeColor = foreColor;
@@ -2039,7 +2025,7 @@ namespace Krypton.Toolkit
                 Font? font = triple.PaletteContent.GetContentShortTextFont(state);
                 if ((_richTextBox.Handle != IntPtr.Zero) && !_richTextBox.Font.Equals(font))
                 {
-                    _richTextBox.Font = font;
+                    _richTextBox.Font = font!;
                 }
             }
 
@@ -2109,7 +2095,7 @@ namespace Krypton.Toolkit
         {
             // Get the correct palette settings to use
             IPaletteTriple tripleState = GetTripleState();
-            _drawDockerOuter.SetPalettes(tripleState.PaletteBack, tripleState.PaletteBorder);
+            _drawDockerOuter.SetPalettes(tripleState.PaletteBack, tripleState.PaletteBorder!);
 
             // Update enabled state
             _drawDockerOuter.Enabled = Enabled;
@@ -2152,7 +2138,7 @@ namespace Krypton.Toolkit
             {
                 // Needed to prevent character turds being left behind
                 // Oh, and to get rid of the initial cuetext drawing ;-)
-                _richTextBox.Invalidate();
+                _richTextBox?.Invalidate();
             }
 
             OnTextChanged(e);
@@ -2222,7 +2208,7 @@ namespace Krypton.Toolkit
                     var shadow = true;
 
                     // Find the button spec associated with the tooltip request
-                    ButtonSpec? buttonSpec = _buttonManager.ButtonSpecFromView(e.Target);
+                    ButtonSpec? buttonSpec = _buttonManager?.ButtonSpecFromView(e.Target);
 
                     // If the tooltip is for a button spec
                     if (buttonSpec != null)
@@ -2282,14 +2268,6 @@ namespace Krypton.Toolkit
             // Not showing a popup page any more
             _visualPopupToolTip = null;
         }
-
-        private void SetCornerRoundingRadius(float? radius)
-        {
-            _cornerRoundingRadius = radius ?? GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
-
-            StateCommon.Border.Rounding = _cornerRoundingRadius;
-        }
-
         #endregion
     }
 }

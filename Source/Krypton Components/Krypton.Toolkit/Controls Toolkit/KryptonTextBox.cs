@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
  *  
  */
 #endregion
@@ -238,7 +238,7 @@ namespace Krypton.Toolkit
                                         using var foreBrush = new SolidBrush(ForeColor);
                                         g.DrawString(drawString,
                                             _kryptonTextBox.GetTripleState().PaletteContent?
-                                                .GetContentShortTextFont(PaletteState.Disabled), foreBrush,
+                                                .GetContentShortTextFont(PaletteState.Disabled)!, foreBrush,
                                             new RectangleF(rect.left, rect.top, rect.right - rect.left,
                                                 rect.bottom - rect.top),
                                             stringFormat);
@@ -338,8 +338,6 @@ namespace Krypton.Toolkit
         private bool _showEllipsisButton;
         //private bool _isInAlphaNumericMode;
         private readonly ButtonSpecAny _editorButton;
-        private float _cornerRoundingRadius;
-
         #endregion
 
         #region Events
@@ -457,7 +455,7 @@ namespace Krypton.Toolkit
             ButtonSpecs = new TextBoxButtonSpecCollection(this);
 
             // Create the palette storage
-            StateCommon = new PaletteInputControlTripleRedirect(Redirector!, PaletteBackStyle.InputControlStandalone, PaletteBorderStyle.InputControlStandalone, PaletteContentStyle.InputControlStandalone, NeedPaintDelegate);
+            StateCommon = new PaletteInputControlTripleRedirect(Redirector, PaletteBackStyle.InputControlStandalone, PaletteBorderStyle.InputControlStandalone, PaletteContentStyle.InputControlStandalone, NeedPaintDelegate);
             StateDisabled = new PaletteInputControlTripleStates(StateCommon, NeedPaintDelegate);
             StateNormal = new PaletteInputControlTripleStates(StateCommon, NeedPaintDelegate);
             StateActive = new PaletteInputControlTripleStates(StateCommon, NeedPaintDelegate);
@@ -506,10 +504,10 @@ namespace Krypton.Toolkit
 
             // Create button specification collection manager
             _buttonManager = new ButtonSpecManagerLayout(this, Redirector, ButtonSpecs, null,
-                                                         new[] { _drawDockerInner },
-                                                         new IPaletteMetric[] { StateCommon },
-                                                         new[] { PaletteMetricInt.HeaderButtonEdgeInsetInputControl },
-                                                         new[] { PaletteMetricPadding.HeaderButtonPaddingInputControl },
+                [_drawDockerInner],
+                [StateCommon],
+                [PaletteMetricInt.HeaderButtonEdgeInsetInputControl],
+                [PaletteMetricPadding.HeaderButtonPaddingInputControl],
                                                          CreateToolStripRenderer,
                                                          NeedPaintDelegate);
 
@@ -530,8 +528,6 @@ namespace Krypton.Toolkit
 
             // Add text box to the controls collection
             ((KryptonReadOnlyControls)Controls).AddInternal(_textBox);
-
-            _cornerRoundingRadius = GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
 
             //_isInAlphaNumericMode = false;
 
@@ -566,15 +562,6 @@ namespace Krypton.Toolkit
         [Category(@"Data"), DefaultValue(false), Description(@"Only allow numerical input.")]
         public bool IsInAlphaNumericMode { get => _isInAlphaNumericMode; set { _isInAlphaNumericMode = value; SetIsInAlphaNumericMode(this); } }
         */
-
-        /// <summary>Gets or sets the corner rounding radius.</summary>
-        /// <value>The corner rounding radius.</value>
-        [Category(@"Visuals"), DefaultValue(GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE), Description(@"Defines the corner roundness on the current window (-1 is the default look).")]
-        public float CornerRoundingRadius
-        {
-            get => _cornerRoundingRadius;
-            set => SetCornerRoundingRadius(value);
-        }
 
         /// <summary>
         /// Gets access to the common textbox appearance entries that other states can override.
@@ -715,7 +702,7 @@ namespace Krypton.Toolkit
         public override Font Font
         {
             get => base.Font;
-            set => base.Font = value;
+            set => base.Font = value!;
         }
 
         /// <summary>
@@ -829,11 +816,11 @@ namespace Krypton.Toolkit
         [DefaultValue(true)]
         public bool UseMnemonic
         {
-            get => _buttonManager.UseMnemonic;
+            get => _buttonManager!.UseMnemonic;
 
             set
             {
-                if (_buttonManager.UseMnemonic != value)
+                if (_buttonManager!.UseMnemonic != value)
                 {
                     _buttonManager.UseMnemonic = value;
                     PerformNeedPaint(true);
@@ -1188,59 +1175,59 @@ namespace Krypton.Toolkit
         /// Appends text to the current text of a rich text box.
         /// </summary>
         /// <param name="text">The text to append to the current contents of the text box.</param>
-        public void AppendText(string text) => _textBox.AppendText(text);
+        public void AppendText(string text) => _textBox?.AppendText(text);
 
         /// <summary>
         /// Clears all text from the text box control.
         /// </summary>
-        public void Clear() => _textBox.Clear();
+        public void Clear() => _textBox?.Clear();
 
         /// <summary>
         /// Clears information about the most recent operation from the undo buffer of the rich text box. 
         /// </summary>
-        public void ClearUndo() => _textBox.ClearUndo();
+        public void ClearUndo() => _textBox?.ClearUndo();
 
         /// <summary>
         /// Copies the current selection in the text box to the Clipboard.
         /// </summary>
-        public void Copy() => _textBox.Copy();
+        public void Copy() => _textBox?.Copy();
 
         /// <summary>
         /// Moves the current selection in the text box to the Clipboard.
         /// </summary>
-        public void Cut() => _textBox.Cut();
+        public void Cut() => _textBox?.Cut();
 
         /// <summary>
         /// Replaces the current selection in the text box with the contents of the Clipboard.
         /// </summary>
-        public void Paste() => _textBox.Paste();
+        public void Paste() => _textBox?.Paste();
 
         /// <summary>
         /// Scrolls the contents of the control to the current caret position.
         /// </summary>
-        public void ScrollToCaret() => _textBox.ScrollToCaret();
+        public void ScrollToCaret() => _textBox?.ScrollToCaret();
 
         /// <summary>
         /// Selects a range of text in the control.
         /// </summary>
         /// <param name="start">The position of the first character in the current text selection within the text box.</param>
         /// <param name="length">The number of characters to select.</param>
-        public void Select(int start, int length) => _textBox.Select(start, length);
+        public void Select(int start, int length) => _textBox?.Select(start, length);
 
         /// <summary>
         /// Selects all text in the control.
         /// </summary>
-        public void SelectAll() => _textBox.SelectAll();
+        public void SelectAll() => _textBox?.SelectAll();
 
         /// <summary>
         /// Undoes the last edit operation in the text box.
         /// </summary>
-        public void Undo() => _textBox.Undo();
+        public void Undo() => _textBox?.Undo();
 
         /// <summary>
         /// Specifies that the value of the SelectionLength property is zero so that no characters are selected in the control.
         /// </summary>
-        public void DeselectAll() => _textBox.DeselectAll();
+        public void DeselectAll() => _textBox?.DeselectAll();
 
         /// <summary>
         /// Retrieves the character that is closest to the specified location within the control.
@@ -1301,18 +1288,18 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public bool IsActive => _fixedActive ?? DesignMode || AlwaysActive || ContainsFocus || _mouseOver || _textBox.MouseOver;
+        public bool IsActive => _textBox != null && (_fixedActive ?? DesignMode || AlwaysActive || ContainsFocus || _mouseOver || _textBox.MouseOver);
 
         /// <summary>
         /// Sets input focus to the control.
         /// </summary>
         /// <returns>true if the input focus request was successful; otherwise, false.</returns>
-        public new bool Focus() => TextBox.Focus() == true;
+        public new bool Focus() => TextBox?.Focus() == true;
 
         /// <summary>
         /// Activates the control.
         /// </summary>
-        public new void Select() => TextBox.Select();
+        public new void Select() => TextBox?.Select();
 
         /// <summary>
         /// Get the preferred size of the control based on a proposed size.
@@ -1399,7 +1386,7 @@ namespace Krypton.Toolkit
         [Browsable(false)]
         public Component? DesignerComponentFromPoint(Point pt) =>
             // Ignore call as view builder is already destructed
-            IsDisposed ? null : ViewManager.ComponentFromPoint(pt);
+            IsDisposed ? null : ViewManager?.ComponentFromPoint(pt);
 
         // Ask the current view for a decision
         /// <summary>
@@ -1565,7 +1552,7 @@ namespace Krypton.Toolkit
         protected override void OnGotFocus(EventArgs e)
         {
             base.OnGotFocus(e);
-            _textBox.Focus();
+            _textBox?.Focus();
         }
 
         /// <summary>
@@ -1648,7 +1635,7 @@ namespace Krypton.Toolkit
         {
             _mouseOver = true;
             PerformNeedPaint(true);
-            _textBox.Invalidate();
+            _textBox?.Invalidate();
             base.OnMouseEnter(e);
         }
 
@@ -1660,7 +1647,7 @@ namespace Krypton.Toolkit
         {
             _mouseOver = false;
             PerformNeedPaint(true);
-            _textBox.Invalidate();
+            _textBox?.Invalidate();
             base.OnMouseLeave(e);
         }
 
@@ -1713,11 +1700,11 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="sender">Source of notification.</param>
         /// <param name="e">An NeedLayoutEventArgs containing event data.</param>
-        protected override void OnNeedPaint(object sender, NeedLayoutEventArgs e)
+        protected override void OnNeedPaint(object? sender, NeedLayoutEventArgs e)
         {
             if (IsHandleCreated && !e.NeedLayout)
             {
-                _textBox.Invalidate();
+                _textBox?.Invalidate();
             }
             else
             {
@@ -1730,14 +1717,14 @@ namespace Krypton.Toolkit
                 UpdateStateAndPalettes();
                 IPaletteTriple triple = GetTripleState();
                 PaletteState state = _drawDockerOuter.State;
-                _textBox.BackColor = triple.PaletteBack.GetBackColor1(state);
-                _textBox.ForeColor = triple.PaletteContent.GetContentShortTextColor1(state);
+                _textBox!.BackColor = triple.PaletteBack.GetBackColor1(state);
+                _textBox.ForeColor = triple.PaletteContent!.GetContentShortTextColor1(state);
 
                 // Only set the font if the text box has been created
                 Font? font = triple.PaletteContent.GetContentShortTextFont(state);
                 if ((_textBox.Handle != IntPtr.Zero) && !_textBox.Font.Equals(font))
                 {
-                    _textBox.Font = font;
+                    _textBox.Font = font!;
                 }
             }
 
@@ -1823,7 +1810,7 @@ namespace Krypton.Toolkit
         {
             // Get the correct palette settings to use
             IPaletteTriple tripleState = GetTripleState();
-            _drawDockerOuter.SetPalettes(tripleState.PaletteBack, tripleState.PaletteBorder);
+            _drawDockerOuter.SetPalettes(tripleState.PaletteBack, tripleState.PaletteBorder!);
 
             // Update enabled state
             _drawDockerOuter.Enabled = Enabled;
@@ -1951,12 +1938,12 @@ namespace Krypton.Toolkit
 
                             if (AllowButtonSpecToolTipPriority)
                             {
-                                visualBasePopupToolTip.Dispose();
+                                visualBasePopupToolTip?.Dispose();
                             }
                         }
 
                         // Create the actual tooltip popup object
-                        _visualPopupToolTip = new VisualPopupToolTip(Redirector,
+                        _visualPopupToolTip = new VisualPopupToolTip(Redirector!,
                                                                      sourceContent,
                                                                      Renderer,
                                                                      PaletteBackStyle.ControlToolTip,
@@ -2015,13 +2002,6 @@ namespace Krypton.Toolkit
             // ReSharper disable RedundantBaseQualifier
             base.OnClick(e);
         // ReSharper restore RedundantBaseQualifier
-
-        private void SetCornerRoundingRadius(float? radius)
-        {
-            _cornerRoundingRadius = radius ?? GlobalStaticValues.PRIMARY_CORNER_ROUNDING_VALUE;
-
-            StateCommon.Border.Rounding = _cornerRoundingRadius;
-        }
 
         private void SetIsInAlphaNumericMode(KryptonTextBox owner)
         {

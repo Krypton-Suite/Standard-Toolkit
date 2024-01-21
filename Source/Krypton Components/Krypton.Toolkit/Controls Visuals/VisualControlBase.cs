@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
  *  
  */
 #endregion
@@ -31,8 +31,8 @@ namespace Krypton.Toolkit
         private bool _paintTransparent;
         private bool _evalTransparent;
         private bool _globalEvents;
-        private KryptonCustomPaletteBase _localCustomPalette;
-        private PaletteBase _palette;
+        private KryptonCustomPaletteBase? _localCustomPalette;
+        private PaletteBase? _palette;
         private PaletteMode _paletteMode;
         private readonly SimpleCall _refreshCall;
         private readonly SimpleCall _layoutCall;
@@ -160,7 +160,7 @@ namespace Krypton.Toolkit
                 _palette = null;
                 Renderer = null!;
                 _localCustomPalette = null;
-                Redirector!.Target = null;
+                Redirector.Target = null;
             }
 
             base.Dispose(disposing);
@@ -262,7 +262,7 @@ namespace Krypton.Toolkit
                         _layoutDirty = false;
 
                         // Ask the view to perform a layout
-                        ViewManager.Layout(Renderer!);
+                        ViewManager.Layout(Renderer);
 
                     } while (_layoutDirty && (max-- > 0));
                 }
@@ -318,10 +318,10 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"Custom palette applied to drawing.")]
         [DefaultValue(null)]
-        public KryptonCustomPaletteBase LocalCustomPalette
+        public KryptonCustomPaletteBase? LocalCustomPalette
         {
             [DebuggerStepThrough]
-            get => _localCustomPalette;
+            get => _localCustomPalette!;
 
             set
             {
@@ -329,7 +329,7 @@ namespace Krypton.Toolkit
                 if (_localCustomPalette != value)
                 {
                     // Remember the starting palette
-                    PaletteBase old = _localCustomPalette;
+                    PaletteBase? old = _localCustomPalette;
 
                     // Use the provided palette value
                     SetPalette(value);
@@ -387,7 +387,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public ToolStripRenderer? CreateToolStripRenderer() => Renderer?.RenderToolStrip(GetResolvedPalette());
+        public ToolStripRenderer CreateToolStripRenderer() => Renderer.RenderToolStrip(GetResolvedPalette());
 
         /// <summary>
         /// Gets or sets the background image displayed in the control.
@@ -423,7 +423,7 @@ namespace Krypton.Toolkit
         /// </summary>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public PaletteBase GetResolvedPalette() => _palette;
+        public PaletteBase GetResolvedPalette() => _palette!;
 
         /// <summary>
         /// Gets and sets the dirty palette counter.
@@ -506,7 +506,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="pt">Point to lookup.</param>
         /// <returns>ViewBase associated with the point.</returns>
-        public ViewBase? ViewFromPoint(Point pt) => ViewManager?.Root?.ViewFromPoint(pt);
+        public ViewBase? ViewFromPoint(Point pt) => ViewManager?.Root.ViewFromPoint(pt);
 
         #endregion
 
@@ -555,7 +555,7 @@ namespace Krypton.Toolkit
                 if (ViewManager != null)
                 {
                     // Ask the view to perform a layout
-                    ViewManager.Layout(Renderer!);
+                    ViewManager.Layout(Renderer);
 
                     return true;
                 }
@@ -613,7 +613,7 @@ namespace Krypton.Toolkit
         /// <returns>True to allow; otherwise false.</returns>
         protected bool CanProcessMnemonic()
         {
-            Control c = this;
+            Control? c = this;
 
             // Test each control in parent chain
             while (c != null)
@@ -625,7 +625,7 @@ namespace Krypton.Toolkit
                 }
 
                 // Move up one level
-                c = c.Parent;
+                c = c.Parent!;
             }
 
             // Every control in chain is visible and enabled, so allow mnemonics
@@ -641,7 +641,7 @@ namespace Krypton.Toolkit
         /// <returns>True if paint required; otherwise false.</returns>
         protected virtual bool EvalTransparentPaint() =>
             // Do we have a manager to use for asking about painting?
-            ViewManager != null && ViewManager.EvalTransparentPaint(Renderer!);
+            ViewManager != null && ViewManager.EvalTransparentPaint(Renderer);
 
         /// <summary>
         /// Work out if this control needs to use Invoke to force a repaint.
@@ -677,7 +677,7 @@ namespace Krypton.Toolkit
         protected virtual void OnPaletteChanged(EventArgs e)
         {
             // Update the redirector with latest palette
-            Redirector!.Target = _palette;
+            Redirector.Target = _palette;
 
             // Need to recalculate anything relying on the palette
             DirtyPaletteCounter++;
@@ -706,7 +706,7 @@ namespace Krypton.Toolkit
         /// <param name="sender">Source of notification.</param>
         /// <param name="e">An NeedLayoutEventArgs containing event data.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        protected virtual void OnNeedPaint(object sender, [DisallowNull] NeedLayoutEventArgs e)
+        protected virtual void OnNeedPaint(object? sender, [DisallowNull] NeedLayoutEventArgs e)
         {
             Debug.Assert(e != null);
 
@@ -816,7 +816,7 @@ namespace Krypton.Toolkit
                         _layoutDirty = false;
 
                         // Ask the view to perform a layout
-                        ViewManager.Layout(Renderer!);
+                        ViewManager.Layout(Renderer);
 
                     } while (_layoutDirty && (max-- > 0));
                 }
@@ -861,7 +861,7 @@ namespace Krypton.Toolkit
                     PaintTransparentBackground(e);
 
                     // Ask the view to repaint the visual structure
-                    ViewManager.Paint(Renderer!, e);
+                    ViewManager.Paint(Renderer, e);
 
                     // Request for a refresh has been serviced
                     _refresh = false;
@@ -1056,7 +1056,7 @@ namespace Krypton.Toolkit
                 // Update self with the new global palette
                 _localCustomPalette = null;
                 SetPalette(KryptonManager.CurrentGlobalPalette);
-                Redirector!.Target = _palette;
+                Redirector.Target = _palette;
 
                 // Need to recalculate anything relying on the palette
                 DirtyPaletteCounter++;
@@ -1157,7 +1157,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Implementation
-        private void SetPalette(PaletteBase palette)
+        private void SetPalette(PaletteBase? palette)
         {
             if (palette != _palette)
             {
@@ -1189,7 +1189,7 @@ namespace Krypton.Toolkit
 
         private void OnBaseChanged(object sender, EventArgs e) =>
             // Change in base renderer or base palette require we fetch the latest renderer
-            Renderer = _palette?.GetRenderer();
+            Renderer = _palette?.GetRenderer()!;
 
         private void PaintTransparentBackground(PaintEventArgs? e)
         {
@@ -1206,11 +1206,11 @@ namespace Krypton.Toolkit
                     _miPTB = typeof(Control).GetMethod(nameof(PaintTransparentBackground),
                                                        BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.InvokeMethod,
                                                        null, CallingConventions.HasThis,
-                                                       new[] { typeof(PaintEventArgs), typeof(Rectangle), typeof(Region) },
+                                                       [typeof(PaintEventArgs), typeof(Rectangle), typeof(Region)],
                                                        null)!;
                 }
 
-                _miPTB.Invoke(this, new object[] { e!, ClientRectangle, null! });
+                _miPTB.Invoke(this, [e!, ClientRectangle, null!]);
             }
             else
             {
@@ -1257,10 +1257,10 @@ namespace Krypton.Toolkit
         private void OnContextMenuStripOpening(object sender, CancelEventArgs e)
         {
             // Get the actual strip instance
-            ContextMenuStrip cms = base.ContextMenuStrip;
+            ContextMenuStrip? cms = base.ContextMenuStrip;
 
             // Make sure it has the correct renderer
-            cms.Renderer = CreateToolStripRenderer()!;
+            cms!.Renderer = CreateToolStripRenderer();
         }
 
         private void OnKryptonContextMenuDisposed(object sender, EventArgs e) =>
@@ -1292,7 +1292,7 @@ namespace Krypton.Toolkit
 
                     // Create the actual tooltip popup object
                     // ReSharper disable once UseObjectOrCollectionInitializer
-                    visualBasePopupToolTip = new VisualPopupToolTip(Redirector!,
+                    visualBasePopupToolTip = new VisualPopupToolTip(Redirector,
                         ToolTipValues,
                         Renderer,
                         PaletteBackStyle.ControlToolTip,

@@ -2,7 +2,7 @@
 /*
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2021 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2021 - 2024. All rights reserved. 
  *  
  */
 #endregion
@@ -17,7 +17,7 @@ namespace Krypton.Toolkit
     public class KryptonPropertyGrid : PropertyGrid
     {
         #region Variables
-        private PaletteBase _palette;
+        private PaletteBase? _palette;
 
         private readonly PaletteRedirect? _paletteRedirect;
         private readonly PaletteInputControlTripleRedirect _stateCommon;
@@ -79,7 +79,7 @@ namespace Krypton.Toolkit
             }
 
             _palette = KryptonManager.CurrentGlobalPalette;
-            _paletteRedirect.Target = _palette;
+            _paletteRedirect!.Target = _palette;
 
             if (_palette != null)
             {
@@ -104,7 +104,7 @@ namespace Krypton.Toolkit
         {
             ToolStripRenderer = ToolStripManager.Renderer;
 
-            HelpBackColor = _palette.ColorTable.MenuStripGradientBegin;
+            HelpBackColor = _palette!.ColorTable.MenuStripGradientBegin;
 
             HelpForeColor = _palette.ColorTable.ToolStripText;
 
@@ -112,10 +112,10 @@ namespace Krypton.Toolkit
 
             CategoryForeColor = _palette.ColorTable.ToolStripDropDownBackground;
 
-            var normalFont = _stateNormal.PaletteContent.GetContentShortTextFont(PaletteState.ContextNormal);
-            var disabledFont = _stateDisabled.PaletteContent.GetContentShortTextFont(PaletteState.Disabled);
+            var normalFont = _stateNormal.PaletteContent?.GetContentShortTextFont(PaletteState.ContextNormal);
+            var disabledFont = _stateDisabled.PaletteContent?.GetContentShortTextFont(PaletteState.Disabled);
 
-            Font = Enabled ? normalFont : disabledFont;
+            Font = (Enabled ? normalFont : disabledFont)!;
             BackColor = _stateNormal.PaletteBack.GetBackColor1(Enabled? PaletteState.Normal : PaletteState.Disabled);
 
             ControlCollection controlsCollection = Controls;
@@ -127,22 +127,22 @@ namespace Krypton.Toolkit
                 {
                     state = PaletteState.FocusOverride;
                     triple = _stateActive;
-                    control.Font = _stateActive.PaletteContent.GetContentShortTextFont(PaletteState.FocusOverride);
+                    control.Font = _stateActive.PaletteContent?.GetContentShortTextFont(PaletteState.FocusOverride)!;
                 }
                 else if (control.Enabled)
                 {
                     state = PaletteState.ContextNormal;
                     triple = _stateNormal;
-                    control.Font = normalFont;
+                    control.Font = normalFont!;
                 }
                 else
                 {
                     state = PaletteState.Disabled;
                     triple = _stateDisabled;
-                    control.Font = disabledFont;
+                    control.Font = disabledFont!;
                 }
 
-                control.ForeColor = triple.PaletteContent.GetContentShortTextColor1(state);
+                control.ForeColor = triple.PaletteContent!.GetContentShortTextColor1(state);
                 control.BackColor = triple.PaletteBack.GetBackColor1(state);
             }
 

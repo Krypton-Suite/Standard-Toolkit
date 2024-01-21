@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -50,8 +50,8 @@ namespace Krypton.Ribbon
             {
                 //_compBlend.Positions = new float[] { 0.0f, 0.4f, 1.0f };
                 //_compBlend.Factors = new float[] { 0.0f, 0.87f, 1.0f };
-                Positions = new[] { 0.0f, 0.2f, 0.4f, 0.6f, 0.8f, 1.0f },
-                Factors = new[] { 0.0f, 0.10f, 0.25f, 0.50f, 0.70f, 0.80f }
+                Positions = [0.0f, 0.2f, 0.4f, 0.6f, 0.8f, 1.0f],
+                Factors = [0.0f, 0.10f, 0.25f, 0.50f, 0.70f, 0.80f]
             };
         }
         #endregion
@@ -63,9 +63,9 @@ namespace Krypton.Ribbon
         /// <param name="context">Rendering context.</param>
         public override void RenderBefore(RenderContext context)
         {
-            // If we are rendering using desktop window composition and using the Office 2010 shape 
+            // If we are rendering the Office 2010 shape 
             // of ribbon then we need to draw the tabs area as part of the window chromw
-            if (DrawOnComposition && _ribbon.RibbonShape is PaletteRibbonShape.Office2010 or PaletteRibbonShape.Office2013 or PaletteRibbonShape.Microsoft365 or PaletteRibbonShape.VisualStudio)
+            if ( _ribbon.RibbonShape is PaletteRibbonShape.Office2010 or PaletteRibbonShape.Office2013 or PaletteRibbonShape.Microsoft365 or PaletteRibbonShape.VisualStudio)
             {
                 var tabsHeight = _ribbon.TabsArea.ClientHeight;
 
@@ -95,11 +95,10 @@ namespace Krypton.Ribbon
         /// <param name="sender">Sender of the message..</param>
         public void PaintRectangle(Graphics? g, Rectangle rect, bool edges, Control? sender)
         {
-            // If we are rendering using desktop window composition and using the Office 2010 shape 
+            // If we are rendering using the Office 2010 shape 
             // of ribbon then we need to draw the tabs area as part of the window chrome
             // Not for 2007
-            if (DrawOnComposition
-                && _ribbon.RibbonShape is PaletteRibbonShape.Office2010 or PaletteRibbonShape.VisualStudio2010 or PaletteRibbonShape.Office2013 or PaletteRibbonShape.Microsoft365 or PaletteRibbonShape.VisualStudio
+            if (_ribbon.RibbonShape is PaletteRibbonShape.Office2010 or PaletteRibbonShape.VisualStudio2010 or PaletteRibbonShape.Office2013 or PaletteRibbonShape.Microsoft365 or PaletteRibbonShape.VisualStudio
                 )
             {
                 if (edges)
@@ -150,9 +149,5 @@ namespace Krypton.Ribbon
         }
         #endregion
 
-        #region Implementation
-        private bool DrawOnComposition => _ribbon is { CaptionArea.DrawCaptionOnComposition: true };
-
-        #endregion
     }
 }

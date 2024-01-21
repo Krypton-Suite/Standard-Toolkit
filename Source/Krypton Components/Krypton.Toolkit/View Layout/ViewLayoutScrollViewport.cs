@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
  *  
  */
 #endregion
@@ -148,7 +148,7 @@ namespace Krypton.Toolkit
         /// Make the provided control parented to ourself.
         /// </summary>
         /// <param name="c">Control to reparent.</param>
-        public void MakeParent(Control c) =>
+        public void MakeParent(Control? c) =>
             // Ask the view control to perform reparenting
             ViewControl.MakeParent(c);
 
@@ -160,7 +160,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="newParent">Control to become parent.</param>
         /// <param name="c">Control to reparent.</param>
-        public void RevertParent(Control newParent, Control c)
+        public void RevertParent(Control newParent, Control? c)
         {
             // Remove control from current collection
             CommonHelper.RemoveControlFromParent(c);

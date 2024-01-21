@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
  *  
  */
 #endregion
@@ -1836,7 +1836,7 @@ namespace Krypton.Docking
                 throw new ArgumentNullException(nameof(kcm));
             }
 
-            // By default there is nothing to display
+            // By default, there is nothing to display
             var retDisplay = false;
 
             // If the page is not located in the hierarchy then there are no options we can provide
@@ -4094,7 +4094,7 @@ namespace Krypton.Docking
         }
 
         private void OnStringPropertyChanged(object sender, PropertyChangedEventArgs e) =>
-            // Piggy back the name of the changed property in the unique name parameter
+            // Piggyback the name of the changed property in the unique name parameter
             PropogateAction(DockingPropogateAction.StringChanged, new[] { e.PropertyName });
 
         private void OnDropDownWorkspaceClicked(object sender, EventArgs e)

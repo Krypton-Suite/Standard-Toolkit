@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -143,7 +143,7 @@ namespace Krypton.Ribbon
                 _memento = context.Renderer.RenderStandardContent.LayoutContent(context, ClientRectangle,
                                                                                 _contentProvider, this,
                                                                                 VisualOrientation.Top, 
-                                                                                PaletteState.Normal, false, false);
+                                                                                PaletteState.Normal);
                 
                 // Cache values that are needed to decide if layout is needed
                 _displayRect = ClientRectangle;
@@ -165,7 +165,7 @@ namespace Krypton.Ribbon
                 context.Renderer.RenderStandardContent.DrawContent(context, ClientRectangle,
                     _contentProvider, _memento,
                     VisualOrientation.Top,
-                    PaletteState.Normal, false, false, true);
+                    PaletteState.Normal, true);
             }
         }
         #endregion

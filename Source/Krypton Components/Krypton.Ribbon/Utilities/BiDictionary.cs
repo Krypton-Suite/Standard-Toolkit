@@ -1,7 +1,7 @@
 ﻿#region BSD License
 /*
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2022 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2022 - 2024. All rights reserved. 
  *  
  */
 #endregion
@@ -51,13 +51,13 @@ namespace Krypton.Ribbon
         public TSecond GetByFirst(TFirst first)
         {
             _firstToSecond.TryGetValue(first, out var second);
-            return second;
+            return second!;
         }
 
         public TFirst GetBySecond(TSecond second)
         {
             _secondToFirst.TryGetValue(second, out var first);
-            return first;
+            return first!;
         }
 
         public ICollection<TFirst> GetAllFirsts() => _firstToSecond.Keys;

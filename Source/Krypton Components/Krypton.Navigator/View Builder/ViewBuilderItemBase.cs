@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2023. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
  *  
  */
 #endregion
@@ -43,7 +43,7 @@ namespace Krypton.Navigator
                                         PaletteRedirect redirector)
         {
             // Let base class perform common operations
-            base.Construct(navigator, manager, redirector!);
+            base.Construct(navigator, manager, redirector);
 
             // Get the current root element
             _oldRoot = ViewManager?.Root!;
@@ -249,7 +249,7 @@ namespace Krypton.Navigator
             }
 
             // Let base class do standard work
-            base.PageAppearanceChanged(page!, property!);
+            base.PageAppearanceChanged(page, property);
         }
 
         /// <summary>
@@ -257,7 +257,7 @@ namespace Krypton.Navigator
         /// </summary>
         public override void UpdateStatePalettes()
         {
-            PaletteNavigator? paletteState;
+            PaletteNavigator paletteState;
             PaletteNavigatorRedirect? paletteCommon;
 
             // If whole navigator is disabled then all views are disabled
@@ -294,7 +294,7 @@ namespace Krypton.Navigator
             // Only update the group if we have one
             if (_drawGroup != null)
             {
-                _drawGroup.SetPalettes(paletteState!.HeaderGroup!.Back, paletteState.HeaderGroup.Border);
+                _drawGroup.SetPalettes(paletteState.HeaderGroup.Back, paletteState.HeaderGroup.Border);
 
                 _drawGroup.Enabled = enabled;
             }
@@ -302,7 +302,7 @@ namespace Krypton.Navigator
             // Only update the panel if we have one
             if (_drawPanel != null)
             {
-                _drawPanel.SetPalettes(paletteState!.Back);
+                _drawPanel.SetPalettes(paletteState.Back);
                 _drawPanel.Enabled = Navigator.Enabled;
             }
 
@@ -310,7 +310,7 @@ namespace Krypton.Navigator
             _layoutBar.SetMetrics(paletteCommon?.Bar);
             _layoutBarViewport.SetMetrics(paletteCommon!.Bar);
 
-            _buttonManager?.SetDockerMetrics(_layoutBarDocker, paletteCommon!.Bar);
+            _buttonManager?.SetDockerMetrics(_layoutBarDocker, paletteCommon.Bar);
 
             // Let base class perform common actions
             base.UpdateStatePalettes();
@@ -700,7 +700,7 @@ namespace Krypton.Navigator
                                                                new[] { PaletteMetricInt.BarButtonEdgeInside },
                                                                new[] { PaletteMetricInt.BarButtonEdgeOutside },
                                                                new[] { PaletteMetricPadding.BarButtonPadding },
-                                                               Navigator.CreateToolStripRenderer!,
+                                                               Navigator.CreateToolStripRenderer,
                                                                NeedPaintDelegate)
             {
                 // Hook up the tooltip manager so that tooltips can be generated
@@ -817,6 +817,7 @@ namespace Krypton.Navigator
                         case VisualOrientation.Top:
                         case VisualOrientation.Bottom:
                             return VisualOrientation.Top;
+
                         case VisualOrientation.Left:
                             if (CommonHelper.GetRightToLeftLayout(Navigator) &&
                                 (Navigator.RightToLeft == RightToLeft.Yes))
@@ -827,6 +828,7 @@ namespace Krypton.Navigator
                             {
                                 return VisualOrientation.Left;
                             }
+
                         case VisualOrientation.Right:
                             if (CommonHelper.GetRightToLeftLayout(Navigator) &&
                                 (Navigator.RightToLeft == RightToLeft.Yes))
@@ -837,22 +839,30 @@ namespace Krypton.Navigator
                             {
                                 return VisualOrientation.Right;
                             }
+
                         default:
-                            // Should never happen!
+    // Should never happen!
                             Debug.Assert(false);
+                            DebugTools.NotImplemented(orientation.ToString());
                             return VisualOrientation.Top;
                     }
+
                 case ButtonOrientation.FixedTop:
                     return VisualOrientation.Top;
+
                 case ButtonOrientation.FixedBottom:
                     return VisualOrientation.Bottom;
+
                 case ButtonOrientation.FixedLeft:
                     return VisualOrientation.Left;
+
                 case ButtonOrientation.FixedRight:
                     return VisualOrientation.Right;
+
                 default:
-                    // Should never happen!
+    // Should never happen!
                     Debug.Assert(false);
+                    DebugTools.NotImplemented(Navigator.Bar.ItemOrientation.ToString());
                     return VisualOrientation.Top;
             }
         }

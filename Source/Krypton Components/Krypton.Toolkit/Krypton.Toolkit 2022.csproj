@@ -374,6 +374,11 @@
             <AutoGen>True</AutoGen>
             <DependentUpon>TaskDialogImageResources.resx</DependentUpon>
         </Compile>
+        <Compile Update="ResourceFiles\ToastNotification\ToastNotificationImageResources.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>ToastNotificationImageResources.resx</DependentUpon>
+        </Compile>
         <Compile Update="ResourceFiles\Toolbars\GenericToolbarImageResources.Designer.cs">
             <DesignTime>True</DesignTime>
             <AutoGen>True</AutoGen>
@@ -773,6 +778,10 @@
         <EmbeddedResource Update="ResourceFiles\TaskDialog\TaskDialogImageResources.resx">
             <Generator>ResXFileCodeGenerator</Generator>
             <LastGenOutput>TaskDialogImageResources.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="ResourceFiles\ToastNotification\ToastNotificationImageResources.resx">
+          <Generator>ResXFileCodeGenerator</Generator>
+          <LastGenOutput>ToastNotificationImageResources.Designer.cs</LastGenOutput>
         </EmbeddedResource>
         <EmbeddedResource Update="ResourceFiles\Toolbars\GenericToolbarImageResources.resx">
             <Generator>ResXFileCodeGenerator</Generator>
