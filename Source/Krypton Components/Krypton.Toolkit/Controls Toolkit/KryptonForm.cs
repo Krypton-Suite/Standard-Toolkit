@@ -11,8 +11,8 @@
 #endregion
 
 // ReSharper disable InconsistentNaming
-using static System.Windows.Forms.AxHost;
 
+// ReSharper disable UnusedMember.Global
 namespace Krypton.Toolkit
 {
     /// <summary>
@@ -99,9 +99,6 @@ namespace Krypton.Toolkit
         private Icon? _cacheIcon;
         private Control? _activeControl;
         private KryptonFormTitleStyle _titleStyle;
-        //private IntegratedToolBarValues _integratedToolBarValues;
-        //private IntegratedToolbarManager _integratedToolbarManager;
-
         #endregion
 
         #region Identity
@@ -354,9 +351,7 @@ namespace Krypton.Toolkit
                 }
             }
         }
-
         private bool ShouldSerializeFormTitleAlign() => _formTitleAlign != PaletteRelativeAlign.Near;
-
         private void ResetFormTitleAlign() => _formTitleAlign = PaletteRelativeAlign.Near;
 
         /// <summary>
@@ -637,29 +632,6 @@ namespace Krypton.Toolkit
         [DefaultValue(KryptonFormTitleStyle.Inherit),
          Description(@"Arranges the current window title alignment.")]
         public KryptonFormTitleStyle TitleStyle { get => _titleStyle; set { _titleStyle = value; UpdateTitleStyle(value); } }
-
-        /*/// <summary>Gets or sets the integrated tool bar values.</summary>
-        /// <value>The integrated tool bar values.</value>
-        [Category(@"Visuals")]
-        [Description(@"Handles the integrated toolbar.")]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public IntegratedToolBarValues IntegratedToolBarValues
-        {
-            [DebuggerStepThrough]
-            get => _integratedToolBarValues;
-
-            set
-            {
-                _integratedToolBarValues = value;
-
-                _integratedToolbarManager = new IntegratedToolbarManager(this, _integratedToolBarValues);
-            }
-        }
-
-        private bool ShouldSerializeIntegratedToolBarValues() => !_integratedToolBarValues.IsDefault;
-
-        /// <summary>Resets the integrated tool bar values.</summary>
-        public void ResetIntegratedToolBarValues() => _integratedToolBarValues.Reset();*/
 
         #endregion
 

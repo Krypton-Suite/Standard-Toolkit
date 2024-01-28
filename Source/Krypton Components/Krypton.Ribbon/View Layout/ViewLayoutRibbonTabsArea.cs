@@ -253,6 +253,15 @@ namespace Krypton.Ribbon
 
             // If no app button then need separator to stop first tab being to close to the left edge
             _layoutAppButtonSep.Visible = !LayoutAppButton.Visible;
+            ViewDrawRibbonCaptionArea? viewDrawRibbonCaptionArea = _ribbon.CaptionArea;
+            if (viewDrawRibbonCaptionArea?.KryptonForm != null)
+            {
+                if (viewDrawRibbonCaptionArea.KryptonForm.CloseBox != _ribbon.RibbonAppButton.FormCloseBoxVisible)
+                {
+                    viewDrawRibbonCaptionArea.KryptonForm.CloseBox = _ribbon.RibbonAppButton.FormCloseBoxVisible;
+                    viewDrawRibbonCaptionArea.PerformFormChromeCheck();
+                }
+            }
         }
         #endregion
 

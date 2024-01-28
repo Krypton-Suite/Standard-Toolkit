@@ -72,7 +72,7 @@ namespace Krypton.Ribbon
         /// </summary>
         [Category(@"Action")]
         [Description(@"Occurs when user invokes the drop down menu.")]
-        public event EventHandler<GalleryDropMenuEventArgs> GalleryDropMenu;
+        public event EventHandler<GalleryDropMenuEventArgs>? GalleryDropMenu;
 
         /// <summary>
         /// Occurs after the value of a property has changed.
@@ -690,7 +690,7 @@ namespace Krypton.Ribbon
         /// Raises the GalleryDropMenu event.
         /// </summary>
         /// <param name="e">An GalleryDropMenuEventArgs containing the event data.</param>
-        protected virtual void OnGalleryDropMenu(GalleryDropMenuEventArgs e) => GalleryDropMenu.Invoke(this, e);
+        protected virtual void OnGalleryDropMenu(GalleryDropMenuEventArgs e) => GalleryDropMenu?.Invoke(this, e);
 
         /// <summary>
         /// Raises the GotFocus event.

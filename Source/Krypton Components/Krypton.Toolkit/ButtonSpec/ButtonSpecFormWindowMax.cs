@@ -51,7 +51,7 @@ namespace Krypton.Toolkit
             }
 
             // Has the minimize/maximize buttons been turned off?
-            return KryptonForm.MinimizeBox || KryptonForm.MaximizeBox;
+            return KryptonForm.MaximizeBox || KryptonForm.MinimizeBox;
         }
 
         /// <summary>

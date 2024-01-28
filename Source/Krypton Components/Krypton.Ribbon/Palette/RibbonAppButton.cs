@@ -48,6 +48,7 @@ namespace Krypton.Ribbon
         private Image? _appButtonImage;
         private readonly KryptonContextMenuItems _appButtonMenuItems;
         private bool _appButtonVisible;
+        private bool _formCloseBoxVisible;
         private Color _appButtonBaseColorDark;
         private Color _appButtonBaseColorLight;
         private Color _appButtonTextColor;
@@ -62,7 +63,7 @@ namespace Krypton.Ribbon
         public RibbonAppButton([DisallowNull] KryptonRibbon ribbon)
         {
             Debug.Assert(ribbon != null);
-            _ribbon = ribbon;
+            _ribbon = ribbon!;
 
             // Default values
             _appButtonMenuItems = new KryptonContextMenuItems
@@ -70,7 +71,7 @@ namespace Krypton.Ribbon
                 ImageColumn = false
             };
             _appButtonImage = _defaultAppImage;
-            AppButtonSpecs = new AppMenuButtonSpecCollection(ribbon);
+            AppButtonSpecs = new AppMenuButtonSpecCollection(_ribbon);
             AppButtonRecentDocs = [];
             AppButtonToolTipTitle = string.Empty;
             AppButtonToolTipBody = string.Empty;
@@ -80,6 +81,7 @@ namespace Krypton.Ribbon
             AppButtonMaxRecentSize = new Size(350, 350);
             AppButtonShowRecentDocs = true;
             _appButtonVisible = true;
+            _formCloseBoxVisible = false;
             _appButtonBaseColorDark = _defaultAppBaseColorDark;
             _appButtonBaseColorLight = _defaultAppBaseColorLight;
             _appButtonTextColor = Color.White;
@@ -109,7 +111,8 @@ namespace Krypton.Ribbon
                                            (AppButtonToolTipImageTransparentColor == Color.Empty) &&
                                            (AppButtonToolTipStyle == LabelStyle.SuperTip) &&
                                            AppButtonVisible
-                                           && !IgnoreDoubleClickClose;
+                                           && !IgnoreDoubleClickClose
+                                           && !FormCloseBoxVisible;
 
         #endregion
 
@@ -407,6 +410,33 @@ namespace Krypton.Ribbon
                     {
                         _ribbon.TabsArea.AppButtonVisibleChanged();
                         _ribbon.CaptionArea.AppButtonVisibleChanged();
+                        _ribbon.CaptionArea.PerformFormChromeCheck();
+                    }
+                }
+            }
+        }
+        #endregion
+
+        #region FormCloseBoxVisible
+        /// <summary>
+        /// Gets and sets if the Form CloseBox button is shown.
+        /// </summary>
+        [Category(@"Visuals")]
+        [Description(@"Determine if the Form CloseBox button is shown.")]
+        [DefaultValue(false)]
+        public bool FormCloseBoxVisible
+        {
+            get => _formCloseBoxVisible;
+
+            set
+            {
+                if (_formCloseBoxVisible != value)
+                {
+                    _formCloseBoxVisible = value;
+
+                    if (_ribbon.CaptionArea != null)
+                    {
+                        _ribbon.CaptionArea.KryptonForm!.CloseBox = value;
                         _ribbon.CaptionArea.PerformFormChromeCheck();
                     }
                 }
