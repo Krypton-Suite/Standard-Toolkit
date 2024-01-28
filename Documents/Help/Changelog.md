@@ -3,6 +3,7 @@
 =======
 
 ## 2024-11-xx - Build 2411 - November 2024
+* Resolved [#1266](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1266), **[Regression]** **[Breaking Change]** Since V 5.400, the QAT button is supposed to perform the close, therefore the Close Form button should not be visible
 * Resolved [#313](https://github.com/Krypton-Suite/Standard-Toolkit/issues/313), **[Regression]** `KryptonMessagebox` is not RTL compliant
 * Resolved [#1269](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1269), **[Breaking Change]** Remove AllowFormIntegrate to give consistent experience on all supported OS's 
 * Resolved [#1268](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1268), **[Breaking Change]** Many Krypton Controls have a CornerRoundingRadius that overrides the State#### Node Rounding values. Please remove!

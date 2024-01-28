@@ -194,8 +194,10 @@ There are list of changes that have occurred during the development of the V90.#
   - `CornerRoundingRadius` overrides **ONLY** the `StateCommon.Border.Rounding` which is incorrect.
   - All `CornerRoundingRadius` have been removed
 - [#1269](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1269),  Remove AllowFormIntegrate to give consistent experience on all supported OS's 
-  - Please check the images inthe issue.
+  - Please check the images in the issue.
   - To fix: just remove `AllowFormIntegrate` from your deisgner files
+- [#1266](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1266), Since V 5.400, the QAT button is supposed to perform the close, therefore the Close Form button should not be visible
+  - The RibbonAppButton has a new Designer field for setting the "Form Close Visible" to off by default
 
 ### Support for .NET 6/7
 As of V90.##, support for .NET 6 and 7 has been removed due to their release cadences.
