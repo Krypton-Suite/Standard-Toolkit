@@ -1040,6 +1040,7 @@ namespace Krypton.Toolkit
                 case PaletteBackStyle.SeparatorCustom1:
                 case PaletteBackStyle.SeparatorCustom2:
                 case PaletteBackStyle.SeparatorCustom3:
+                case PaletteBackStyle.Control:
                 case PaletteBackStyle.PanelClient:
                     // Note: Alter these to control the backgrounds
                     if (state == PaletteState.Disabled)

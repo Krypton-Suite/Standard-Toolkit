@@ -120,8 +120,8 @@ namespace Krypton.Ribbon
             }
 
             // Get access to the services
-            _designerHost = (IDesignerHost)GetService(typeof(IDesignerHost));
-            _changeService = (IComponentChangeService)GetService(typeof(IComponentChangeService));
+            _designerHost = GetService(typeof(IDesignerHost)) as IDesignerHost;
+            _changeService = GetService(typeof(IComponentChangeService)) as IComponentChangeService;
 
             // We need to know when we are being removed/changed
             _changeService.ComponentRemoving += OnComponentRemoving;
