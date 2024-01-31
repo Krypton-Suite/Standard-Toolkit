@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.kryptonNavigator1 = new Krypton.Navigator.KryptonNavigator();
             this.kryptonPage3 = new Krypton.Navigator.KryptonPage();
             this.kryptonPage4 = new Krypton.Navigator.KryptonPage();
@@ -128,7 +129,7 @@
             // kryptonGroupBox1
             // 
             this.kryptonGroupBox1.Location = new System.Drawing.Point(52, 53);
-            this.kryptonGroupBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.kryptonGroupBox1.Margin = new System.Windows.Forms.Padding(2);
             this.kryptonGroupBox1.Name = "kryptonGroupBox1";
             // 
             // kryptonGroupBox1.Panel
@@ -142,22 +143,23 @@
             // kryptonThemeComboBox3
             // 
             this.kryptonThemeComboBox3.DisplayMember = "Key";
-            this.kryptonThemeComboBox3.DropDownWidth = 121;
+            this.kryptonThemeComboBox3.DropDownWidth = 97;
             this.kryptonThemeComboBox3.IntegralHeight = false;
             this.kryptonThemeComboBox3.Location = new System.Drawing.Point(22, 139);
-            this.kryptonThemeComboBox3.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.kryptonThemeComboBox3.Margin = new System.Windows.Forms.Padding(2);
             this.kryptonThemeComboBox3.Name = "kryptonThemeComboBox3";
-            this.kryptonThemeComboBox3.Size = new System.Drawing.Size(97, 20);
+            this.kryptonThemeComboBox3.ReportSelectedThemeIndex = false;
+            this.kryptonThemeComboBox3.Size = new System.Drawing.Size(97, 21);
             this.kryptonThemeComboBox3.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.kryptonThemeComboBox3.TabIndex = 2;
             this.kryptonThemeComboBox3.ValueMember = "Value";
             // 
             // kryptonComboBox1
             // 
-            this.kryptonComboBox1.DropDownWidth = 216;
+            this.kryptonComboBox1.DropDownWidth = 173;
             this.kryptonComboBox1.IntegralHeight = false;
             this.kryptonComboBox1.Location = new System.Drawing.Point(22, 78);
-            this.kryptonComboBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.kryptonComboBox1.Margin = new System.Windows.Forms.Padding(2);
             this.kryptonComboBox1.Name = "kryptonComboBox1";
             this.kryptonComboBox1.Size = new System.Drawing.Size(173, 27);
             this.kryptonComboBox1.StateCommon.ComboBox.Content.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -167,9 +169,9 @@
             // kryptonCheckBox1
             // 
             this.kryptonCheckBox1.Location = new System.Drawing.Point(36, 18);
-            this.kryptonCheckBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.kryptonCheckBox1.Margin = new System.Windows.Forms.Padding(2);
             this.kryptonCheckBox1.Name = "kryptonCheckBox1";
-            this.kryptonCheckBox1.Size = new System.Drawing.Size(167, 19);
+            this.kryptonCheckBox1.Size = new System.Drawing.Size(125, 20);
             this.kryptonCheckBox1.TabIndex = 0;
             this.kryptonCheckBox1.Values.Text = "kryptonCheckBox1";
             // 
@@ -189,7 +191,7 @@
             // 
             this.kryptonPanel1.Controls.Add(this.kryptonThemeComboBox1);
             this.kryptonPanel1.Location = new System.Drawing.Point(402, 203);
-            this.kryptonPanel1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.kryptonPanel1.Margin = new System.Windows.Forms.Padding(2);
             this.kryptonPanel1.Name = "kryptonPanel1";
             this.kryptonPanel1.Size = new System.Drawing.Size(297, 166);
             this.kryptonPanel1.TabIndex = 2;
@@ -197,11 +199,12 @@
             // kryptonThemeComboBox1
             // 
             this.kryptonThemeComboBox1.DisplayMember = "Key";
-            this.kryptonThemeComboBox1.DropDownWidth = 250;
+            this.kryptonThemeComboBox1.DropDownWidth = 200;
             this.kryptonThemeComboBox1.IntegralHeight = false;
             this.kryptonThemeComboBox1.Location = new System.Drawing.Point(52, 74);
-            this.kryptonThemeComboBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.kryptonThemeComboBox1.Margin = new System.Windows.Forms.Padding(2);
             this.kryptonThemeComboBox1.Name = "kryptonThemeComboBox1";
+            this.kryptonThemeComboBox1.ReportSelectedThemeIndex = false;
             this.kryptonThemeComboBox1.Size = new System.Drawing.Size(200, 27);
             this.kryptonThemeComboBox1.StateCommon.ComboBox.Content.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.kryptonThemeComboBox1.StateCommon.Item.Content.ShortText.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -211,7 +214,7 @@
             // kryptonGroupBox2
             // 
             this.kryptonGroupBox2.Location = new System.Drawing.Point(66, 290);
-            this.kryptonGroupBox2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.kryptonGroupBox2.Margin = new System.Windows.Forms.Padding(2);
             this.kryptonGroupBox2.Name = "kryptonGroupBox2";
             // 
             // kryptonGroupBox2.Panel
@@ -223,12 +226,13 @@
             // kryptonThemeComboBox2
             // 
             this.kryptonThemeComboBox2.DisplayMember = "Key";
-            this.kryptonThemeComboBox2.DropDownWidth = 121;
+            this.kryptonThemeComboBox2.DropDownWidth = 97;
             this.kryptonThemeComboBox2.IntegralHeight = false;
             this.kryptonThemeComboBox2.Location = new System.Drawing.Point(22, 22);
-            this.kryptonThemeComboBox2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.kryptonThemeComboBox2.Margin = new System.Windows.Forms.Padding(2);
             this.kryptonThemeComboBox2.Name = "kryptonThemeComboBox2";
-            this.kryptonThemeComboBox2.Size = new System.Drawing.Size(97, 20);
+            this.kryptonThemeComboBox2.ReportSelectedThemeIndex = false;
+            this.kryptonThemeComboBox2.Size = new System.Drawing.Size(97, 21);
             this.kryptonThemeComboBox2.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.kryptonThemeComboBox2.TabIndex = 0;
             this.kryptonThemeComboBox2.ValueMember = "Value";
@@ -236,7 +240,7 @@
             // kryptonGroup1
             // 
             this.kryptonGroup1.Location = new System.Drawing.Point(229, 308);
-            this.kryptonGroup1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.kryptonGroup1.Margin = new System.Windows.Forms.Padding(2);
             this.kryptonGroup1.Name = "kryptonGroup1";
             this.kryptonGroup1.Size = new System.Drawing.Size(120, 120);
             this.kryptonGroup1.TabIndex = 4;
@@ -245,15 +249,14 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-            this.ClientSize = new System.Drawing.Size(854, 443);
+            this.ClientSize = new System.Drawing.Size(856, 445);
             this.Controls.Add(this.kryptonGroup1);
             this.Controls.Add(this.kryptonGroupBox2);
             this.Controls.Add(this.kryptonPanel1);
             this.Controls.Add(this.kryptonGroupBox1);
             this.Controls.Add(this.kryptonNavigator1);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "GroupBoxTest";
-            this.Text = "Form4";
+            this.Text = "Group Box";
             this.TopMost = true;
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             ((System.ComponentModel.ISupportInitialize)(this.kryptonNavigator1)).EndInit();

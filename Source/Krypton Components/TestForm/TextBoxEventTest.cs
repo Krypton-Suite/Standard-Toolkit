@@ -8,13 +8,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-using Krypton.Toolkit;
-
 namespace TestForm
 {
-    public partial class MenuToolBarStatusStripTest : KryptonForm
+    public partial class TextBoxEventTest : Form
     {
-        public MenuToolBarStatusStripTest()
+        public TextBoxEventTest()
         {
             InitializeComponent();
         }
