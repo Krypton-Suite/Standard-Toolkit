@@ -437,7 +437,7 @@ namespace Krypton.Ribbon
                     if (_ribbon.CaptionArea != null)
                     {
                         _ribbon.CaptionArea.KryptonForm!.CloseBox = value;
-                        _ribbon.CaptionArea?.PerformFormChromeCheck();
+                        _ribbon.CaptionArea.PerformFormChromeCheck();
                     }
                 }
             }
