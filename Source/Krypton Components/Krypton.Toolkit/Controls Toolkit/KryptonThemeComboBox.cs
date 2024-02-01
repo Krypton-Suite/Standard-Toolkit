@@ -26,7 +26,7 @@ namespace Krypton.Toolkit
 
 		private PaletteMode _defaultPalette;
 
-        private KryptonManager? _manager;
+		private KryptonManager? _manager;
 
 		#endregion
 
@@ -86,12 +86,12 @@ namespace Krypton.Toolkit
 		[Category(@"Data")]
 		[Description(@"")]
 		[DefaultValue(null)]
-        public KryptonManager? Manager
-        {
-            get => _manager;
+		public KryptonManager? Manager
+		{
+			get => _manager;
 
 			set => _manager = value;
-        }
+		}
 
 		#endregion
 
@@ -102,7 +102,7 @@ namespace Krypton.Toolkit
 		{
 			_reportSelectedThemeIndex = false;
 
-            _manager = new KryptonManager();
+			_manager = new KryptonManager();
 
 			DropDownStyle = ComboBoxStyle.DropDownList;
 			foreach (var kvp in PaletteModeStrings.SupportedThemesMap)

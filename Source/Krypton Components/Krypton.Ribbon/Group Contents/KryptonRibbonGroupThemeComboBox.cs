@@ -24,6 +24,8 @@ namespace Krypton.Ribbon
     {
         #region Instance Fields
 
+        private bool _synchronizeDropDownWidth;
+
         private int _selectedIndex;
 
         private readonly int _defaultPaletteIndex = (int)PaletteMode.Microsoft365Blue;
@@ -33,6 +35,21 @@ namespace Krypton.Ribbon
         #endregion
 
         #region Public
+
+        public bool SynchronizeDropDownWidth
+        {
+            get => _synchronizeDropDownWidth;
+
+            set
+            {
+                if (value != _synchronizeDropDownWidth)
+                {
+                    _synchronizeDropDownWidth = value;
+
+                    UpdateDropDownWidth(MaximumSize);
+                }
+            }
+        }
 
         /// <summary>Gets or sets the default palette mode.</summary>
         /// <value>The default palette mode.</value>
@@ -87,6 +104,7 @@ namespace Krypton.Ribbon
         /// <summary>Initializes a new instance of the <see cref="KryptonRibbonGroupThemeComboBox" /> class.</summary>
         public KryptonRibbonGroupThemeComboBox()
         {
+            _synchronizeDropDownWidth = false;
             DropDownStyle = ComboBoxStyle.DropDownList;
             DisplayMember = "Key";
             ValueMember = "Value";
@@ -113,6 +131,8 @@ namespace Krypton.Ribbon
         ///   <br />
         /// </returns>
         public PaletteMode ReturnPaletteMode() => Manager.GlobalPaletteMode;
+
+        private void UpdateDropDownWidth(Size size) => DropDownWidth = size.Width;
 
         #endregion
 

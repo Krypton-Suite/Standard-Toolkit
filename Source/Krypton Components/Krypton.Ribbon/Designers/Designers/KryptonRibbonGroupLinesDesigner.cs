@@ -41,6 +41,7 @@ namespace Krypton.Ribbon
         private DesignerVerb _addDomainUpDownVerb;
         private DesignerVerb _addDateTimePickerVerb;
         private DesignerVerb _addTrackBarVerb;
+        private DesignerVerb _addThemeComboBoxVerb;
         private DesignerVerb _clearItemsVerb;
         private DesignerVerb _deleteLinesVerb;
         private ContextMenuStrip? _cms;
@@ -74,6 +75,7 @@ namespace Krypton.Ribbon
         private ToolStripMenuItem _addDomainUpDownMenu;
         private ToolStripMenuItem _addDateTimePickerMenu;
         private ToolStripMenuItem _addTrackBarMenu;
+        private ToolStripMenuItem _addThemeComboBoxMenu;
         private ToolStripMenuItem _clearItemsMenu;
         private ToolStripMenuItem _deleteLinesMenu;
         #endregion
@@ -118,6 +120,7 @@ namespace Krypton.Ribbon
                 _ribbonLines.DesignTimeAddDomainUpDown += OnAddDomainUpDown;
                 _ribbonLines.DesignTimeAddDateTimePicker += OnAddDateTimePicker;
                 _ribbonLines.DesignTimeAddTrackBar += OnAddTrackBar;
+                _ribbonLines.DesignTimeAddThemeComboBox += OnAddThemeComboBox;
                 _ribbonLines.DesignTimeContextMenu += OnContextMenu;
             }
 
@@ -184,6 +187,7 @@ namespace Krypton.Ribbon
                     _ribbonLines.DesignTimeAddDateTimePicker -= OnAddDateTimePicker;
                     _ribbonLines.DesignTimeContextMenu -= OnContextMenu;
                     _ribbonLines.DesignTimeAddTrackBar -= OnAddTrackBar;
+                    _ribbonLines.DesignTimeAddThemeComboBox -= OnAddThemeComboBox;
                     _changeService.ComponentRemoving -= OnComponentRemoving;
                     _changeService.ComponentChanged -= OnComponentChanged;
                 }
@@ -223,25 +227,35 @@ namespace Krypton.Ribbon
                 _addDomainUpDownVerb = new DesignerVerb(@"Add DomainUpDown", OnAddDomainUpDown);
                 _addDateTimePickerVerb = new DesignerVerb(@"Add DateTimePicker", OnAddDateTimePicker);
                 _addTrackBarVerb = new DesignerVerb(@"Add TrackBar", OnAddTrackBar);
+                _addThemeComboBoxVerb = new DesignerVerb("Add Theme ComboBox", OnAddThemeComboBox);
                 _clearItemsVerb = new DesignerVerb(@"Clear Items", OnClearItems);
                 _deleteLinesVerb = new DesignerVerb(@"Delete Lines", OnDeleteLines);
-                _verbs.AddRange(new[] { _toggleHelpersVerb, _moveFirstVerb, _movePrevVerb, _moveNextVerb, _moveLastVerb,
-                                                     _addButtonVerb, 
-                                                     _addCheckBoxVerb, 
-                                                     _addClusterVerb, 
-                                                     _addColorButtonVerb, 
-                                                     _addComboBoxVerb, 
-                                                     _addCustomControlVerb, 
-                                                     _addDateTimePickerVerb, 
-                                                     _addDomainUpDownVerb, 
-                                                     _addLabelVerb, 
-                                                     _addNumericUpDownVerb, 
-                                                     _addMaskedTextBoxVerb,
-                                                     _addRadioButtonVerb, 
-                                                     _addRichTextBoxVerb, 
-                                                     _addTextBoxVerb, 
-                                                     _addTrackBarVerb, 
-                                                     _clearItemsVerb, _deleteLinesVerb });
+                _verbs.AddRange(new[]
+                {
+                    _toggleHelpersVerb,
+                    _moveFirstVerb, 
+                    _movePrevVerb, 
+                    _moveNextVerb, 
+                    _moveLastVerb,
+                    _addButtonVerb,
+                    _addCheckBoxVerb,
+                    _addClusterVerb,
+                    _addColorButtonVerb,
+                    _addComboBoxVerb,
+                    _addCustomControlVerb,
+                    _addDateTimePickerVerb,
+                    _addDomainUpDownVerb,
+                    _addLabelVerb,
+                    _addNumericUpDownVerb,
+                    _addMaskedTextBoxVerb,
+                    _addRadioButtonVerb,
+                    _addRichTextBoxVerb,
+                    _addTextBoxVerb,
+                    _addTrackBarVerb,
+                    _addThemeComboBoxVerb,
+                    _clearItemsVerb,
+                    _deleteLinesVerb
+                });
             }
 
             var moveFirst = false;
@@ -791,6 +805,32 @@ namespace Krypton.Ribbon
             }
         }
 
+        private void OnAddThemeComboBox(object sender, EventArgs e)
+        {
+            if ((_ribbonLines.Ribbon != null) && _ribbonLines.RibbonGroup!.Items.Contains(_ribbonLines))
+            {
+                DesignerTransaction transaction = _designerHost.CreateTransaction("KryptonRibbonGroupLines AddThemeComboBox");
+
+                try
+                {
+                    MemberDescriptor propertyItems = TypeDescriptor.GetProperties(_ribbonLines)[@"Items"];
+
+                    RaiseComponentChanging(propertyItems);
+
+                    var tcb = (KryptonRibbonGroupThemeComboBox)_designerHost.CreateComponent(
+                        typeof(KryptonRibbonGroupThemeComboBox));
+
+                    _ribbonLines.Items.Add(tcb);
+
+                    RaiseComponentChanged(propertyItems, null, null);
+                }
+                finally
+                {
+                    transaction?.Commit();
+                }
+            }
+        }
+
         private void OnAddCluster(object sender, EventArgs e)
         {
             if ((_ribbonLines.Ribbon != null) && _ribbonLines.RibbonGroup.Items.Contains(_ribbonLines))
@@ -1022,30 +1062,40 @@ namespace Krypton.Ribbon
                     _addRichTextBoxMenu = new ToolStripMenuItem("Add RichTextBox", GenericImageResources.KryptonRibbonGroupRichTextBox, OnAddRichTextBox);
                     _addTextBoxMenu = new ToolStripMenuItem("Add TextBox", GenericImageResources.KryptonRibbonGroupTextBox, OnAddTextBox);
                     _addTrackBarMenu = new ToolStripMenuItem("Add TrackBar", GenericImageResources.KryptonRibbonGroupTrackBar, OnAddTrackBar);
+                    _addThemeComboBoxMenu = new ToolStripMenuItem("Add ThemeComboBox", GenericImageResources.KryptonRibbonGroupComboBox, OnAddThemeComboBox);
                     _clearItemsMenu = new ToolStripMenuItem("Clear Items", null, OnClearItems);
                     _deleteLinesMenu = new ToolStripMenuItem("Delete Lines", GenericImageResources.Delete, OnDeleteLines);
-                    _cms.Items.AddRange(new ToolStripItem[] { _toggleHelpersMenu, new ToolStripSeparator(),
-                                                              _visibleMenu, _maximumSizeMenu, _minimumSizeMenu, new ToolStripSeparator(),
-                                                              _moveFirstMenu, _movePreviousMenu, _moveNextMenu, _moveLastMenu, new ToolStripSeparator(),
-                                                              _moveToGroupMenu, new ToolStripSeparator(),
-                                                              _addButtonMenu, 
-                                                              _addCheckBoxMenu, 
-                                                              _addClusterMenu, 
-                                                              _addColorButtonMenu, 
-                                                              _addComboBoxMenu, 
-                                                              _addCustomControlMenu, 
-                                                              _addDateTimePickerMenu, 
-                                                              _addDomainUpDownMenu, 
-                                                              _addLabelMenu, 
-                                                              _addMaskedTextBoxMenu, 
-                                                              _addNumericUpDownMenu, 
-                                                              _addRadioButtonMenu, 
-                                                              _addRichTextBoxMenu, 
-                                                              _addTextBoxMenu, 
-                                                              _addTrackBarMenu, 
-                                                              new ToolStripSeparator(),
-                                                              _clearItemsMenu, new ToolStripSeparator(),
-                                                              _deleteLinesMenu });
+                    _cms.Items.AddRange(new ToolStripItem[]
+                    {
+                        _toggleHelpersMenu, new ToolStripSeparator(),
+                        _visibleMenu, 
+                        _maximumSizeMenu,
+                        _minimumSizeMenu, new ToolStripSeparator(),
+                        _moveFirstMenu, 
+                        _movePreviousMenu,
+                        _moveNextMenu, 
+                        _moveLastMenu, new ToolStripSeparator(),
+                        _moveToGroupMenu, new ToolStripSeparator(),
+                        _addButtonMenu,
+                        _addCheckBoxMenu,
+                        _addClusterMenu,
+                        _addColorButtonMenu,
+                        _addComboBoxMenu,
+                        _addCustomControlMenu,
+                        _addDateTimePickerMenu,
+                        _addDomainUpDownMenu,
+                        _addLabelMenu,
+                        _addMaskedTextBoxMenu,
+                        _addNumericUpDownMenu,
+                        _addRadioButtonMenu,
+                        _addRichTextBoxMenu,
+                        _addTextBoxMenu,
+                        _addTrackBarMenu,
+                        _addThemeComboBoxMenu,
+                        new ToolStripSeparator(),
+                        _clearItemsMenu, new ToolStripSeparator(),
+                        _deleteLinesMenu
+                    });
 
                     // Ensure add images have correct transparent background
                     _addButtonMenu.ImageTransparentColor = Color.Magenta;
@@ -1063,6 +1113,7 @@ namespace Krypton.Ribbon
                     _addDomainUpDownMenu.ImageTransparentColor = Color.Magenta;
                     _addDateTimePickerMenu.ImageTransparentColor = Color.Magenta;
                     _addTrackBarMenu.ImageTransparentColor = Color.Magenta;
+                    _addThemeComboBoxMenu.ImageTransparentColor = Color.Magenta;
                 }
 
                 // Update verbs to work out correct enable states

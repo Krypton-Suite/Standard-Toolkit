@@ -408,7 +408,7 @@ namespace Krypton.Ribbon
 
                     if (_ribbon.CaptionArea != null)
                     {
-                        _ribbon.TabsArea.AppButtonVisibleChanged();
+                        _ribbon.TabsArea?.AppButtonVisibleChanged();
                         _ribbon.CaptionArea.AppButtonVisibleChanged();
                         _ribbon.CaptionArea.PerformFormChromeCheck();
                     }
@@ -436,7 +436,11 @@ namespace Krypton.Ribbon
 
                     if (_ribbon.CaptionArea != null)
                     {
-                        _ribbon.CaptionArea.KryptonForm!.CloseBox = value;
+                        if (_ribbon.CaptionArea.KryptonForm != null)
+                        {
+                            _ribbon.CaptionArea.KryptonForm.CloseBox = value;
+                        }
+
                         _ribbon.CaptionArea.PerformFormChromeCheck();
                     }
                 }
