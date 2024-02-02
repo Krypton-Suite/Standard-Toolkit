@@ -10,8 +10,6 @@
  */
 #endregion
 
-using System.Drawing.Drawing2D;
-
 namespace Krypton.Toolkit
 {
     /// <summary></summary>
@@ -212,7 +210,7 @@ namespace Krypton.Toolkit
             Color.FromArgb(255, 90, 90), // LinkPressedOverridePanel
             Color.White, // TextLabelPanel
             //Color.FromArgb(226, 226, 226),    // RibbonTabTextNormal
-            Color.White, // RibbonTabTextNormal
+            Color.Black, // RibbonTabTextNormal
             Color.Black, // RibbonTabTextChecked
             Color.FromArgb(32, 32, 32), // RibbonTabSelected1
             Color.FromArgb(201, 201, 201), // RibbonTabSelected2
@@ -360,7 +358,7 @@ namespace Krypton.Toolkit
             Color.FromArgb(82, 82, 82), // RibbonGroupBorder3
             Color.FromArgb(176, 176, 176), // RibbonGroupBorder4
             Color.FromArgb(178, 178, 178), // RibbonGroupBorder5
-            Color.FromArgb(36, 36, 36), // RibbonGroupTitleText
+            Color.White, // FromArgb(36, 36, 36), // RibbonGroupTitleText
             Color.FromArgb(155, 157, 160), // RibbonDropArrowLight
             Color.FromArgb(27, 29, 40), // RibbonDropArrowDark
             Color.FromArgb(137, 137, 137), // HeaderDockInactiveBack1

@@ -3,6 +3,8 @@
 =======
 
 ## 2024-11-xx - Build 2411 - November 2024
+* Resolved [#876](https://github.com/Krypton-Suite/Standard-Toolkit/issues/876), **[Regression]** `Office 365 - Black` does not display text correctly
+* Resolved [#1308](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1308), `RibbonAppButton.cs` - **FormCloseBoxVisible**: null reference exception
 * Resolved [#1266](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1266), **[Regression]** **[Breaking Change]** Since V 5.400, the QAT button is supposed to perform the close, therefore the Close Form button should not be visible
 * Resolved [#313](https://github.com/Krypton-Suite/Standard-Toolkit/issues/313), **[Regression]** `KryptonMessagebox` is not RTL compliant
 * Resolved [#1269](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1269), **[Breaking Change]** Remove AllowFormIntegrate to give consistent experience on all supported OS's 

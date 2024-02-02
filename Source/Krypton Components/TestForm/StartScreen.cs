@@ -126,5 +126,12 @@ namespace TestForm
 
             Close();
         }
+
+        private void kbtnTreeView_Click(object sender, EventArgs e)
+        {
+            TreeViewExample treeViewExample = new TreeViewExample();
+
+            treeViewExample.Show();
+        }
     }
 }

@@ -10,9 +10,6 @@
  */
 #endregion
 
-using System.Drawing.Drawing2D;
-using System.Xml.Linq;
-
 namespace Krypton.Toolkit
 {
     #region Class: PaletteMicrosoft365BlackDarkMode
@@ -255,7 +252,7 @@ namespace Krypton.Toolkit
             Color.FromArgb(222, 225, 229), // RibbonGroupFrameInside2
             Color.FromArgb(214, 218, 223), // RibbonGroupFrameInside3
             Color.FromArgb(222, 225, 230), // RibbonGroupFrameInside4
-            Color.FromArgb(70, 70, 70), // RibbonGroupCollapsedText         
+            Color.FromArgb(255, 255, 255), // RibbonGroupCollapsedText (Old value 70, 70, 70)
             Color.FromArgb(158, 163, 172), // AlternatePressedBack1
             Color.FromArgb(212, 215, 216), // AlternatePressedBack2
             Color.FromArgb(124, 125, 125), // AlternatePressedBorder1
@@ -346,6 +343,8 @@ namespace Krypton.Toolkit
             Color.Empty, // RibbonTabTracking4
             Color.Empty, // RibbonGroupBorder3
             Color.Empty, // RibbonGroupBorder4
+            Color.Empty, // RibbonGroupBorder5
+            Color.FromArgb(255, 255, 255), // RibbonGroupTitleText
             Color.FromArgb(225, 225, 225), // RibbonDropArrowLight
             Color.FromArgb(103, 103, 103), // RibbonDropArrowDark
             Color.FromArgb(137, 137, 137), // HeaderDockInactiveBack1
