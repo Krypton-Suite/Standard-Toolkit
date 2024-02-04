@@ -148,11 +148,11 @@ namespace Krypton.Toolkit
                         _shortTextValue.ShortText = col.Text;
                     }
                 }
-                else if (FormattedValue != null ? !string.IsNullOrEmpty(FormattedValue.ToString()) : false)
+                else if (!string.IsNullOrEmpty(FormattedValue?.ToString()))
                 {
                     if (_shortTextValue != null)
                     {
-                        _shortTextValue.ShortText = FormattedValue != null ? FormattedValue.ToString() : null;
+                        _shortTextValue.ShortText = FormattedValue?.ToString();
                     }
                 }
                 else
@@ -264,11 +264,11 @@ namespace Krypton.Toolkit
                             _shortTextValue.ShortText = col.Text;
                         }
                     }
-                    else if (FormattedValue != null ? !string.IsNullOrEmpty(FormattedValue.ToString()) : false)
+                    else if (!string.IsNullOrEmpty(FormattedValue?.ToString()))
                     {
                         if (_shortTextValue != null)
                         {
-                            _shortTextValue.ShortText = FormattedValue != null ? FormattedValue.ToString() : null;
+                            _shortTextValue.ShortText = FormattedValue?.ToString();
                         }
                     }
                     else

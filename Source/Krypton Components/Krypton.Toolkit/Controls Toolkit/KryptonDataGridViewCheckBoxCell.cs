@@ -265,7 +265,7 @@ namespace Krypton.Toolkit
                 }
 
                 // Grab the internal property implemented by base class
-                return (ButtonState)_piButtonState?.GetValue(this, null)!;
+                return _piButtonState?.GetValue(this, null) is ButtonState ? (ButtonState)_piButtonState.GetValue(this, null) : ButtonState.Normal;
             }
         }
 
@@ -303,7 +303,7 @@ namespace Krypton.Toolkit
 
                 // Grab the internal property implemented by base class
                 // ReSharper disable RedundantBaseQualifier
-                return (Point)_piMouseEnteredCellAddress?.GetValue(base.DataGridView, null)!;
+                return _piMouseEnteredCellAddress?.GetValue(DataGridView, null) is Point ? (Point)_piMouseEnteredCellAddress.GetValue(DataGridView, null)! : default;
                 // ReSharper restore RedundantBaseQualifier
             }
         }
