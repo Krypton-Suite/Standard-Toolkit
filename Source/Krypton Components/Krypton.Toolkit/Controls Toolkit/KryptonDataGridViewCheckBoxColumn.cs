@@ -108,7 +108,11 @@ namespace Krypton.Toolkit
             {
                 if (FalseValue != value)
                 {
-                    CheckBoxCellTemplate.FalseValue = value;
+                    if (CheckBoxCellTemplate != null)
+                    {
+                        CheckBoxCellTemplate.FalseValue = value;
+                    }
+
                     if (DataGridView != null)
                     {
                         DataGridViewRowCollection rows = DataGridView.Rows;
@@ -143,7 +147,11 @@ namespace Krypton.Toolkit
             {
                 if (IndeterminateValue != value)
                 {
-                    CheckBoxCellTemplate.IndeterminateValue = value;
+                    if (CheckBoxCellTemplate != null)
+                    {
+                        CheckBoxCellTemplate.IndeterminateValue = value;
+                    }
+
                     if (DataGridView != null)
                     {
                         DataGridViewRowCollection rows = DataGridView.Rows;
@@ -178,7 +186,11 @@ namespace Krypton.Toolkit
             {
                 if (TrueValue != value)
                 {
-                    CheckBoxCellTemplate.TrueValue = value;
+                    if (CheckBoxCellTemplate != null)
+                    {
+                        CheckBoxCellTemplate.TrueValue = value;
+                    }
+
                     if (DataGridView != null)
                     {
                         DataGridViewRowCollection rows = DataGridView.Rows;
@@ -210,7 +222,11 @@ namespace Krypton.Toolkit
             {
                 if (ThreeState != value)
                 {
-                    CheckBoxCellTemplate.ThreeState = value;
+                    if (CheckBoxCellTemplate != null)
+                    {
+                        CheckBoxCellTemplate.ThreeState = value;
+                    }
+
                     if (DataGridView != null)
                     {
                         DataGridViewRowCollection rows = DataGridView.Rows;
@@ -243,7 +259,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Private
-        private KryptonDataGridViewCheckBoxCell? CheckBoxCellTemplate => (KryptonDataGridViewCheckBoxCell)CellTemplate;
+        private KryptonDataGridViewCheckBoxCell? CheckBoxCellTemplate => CellTemplate as KryptonDataGridViewCheckBoxCell;
 
         private bool ShouldSerializeCellTemplate()
         {

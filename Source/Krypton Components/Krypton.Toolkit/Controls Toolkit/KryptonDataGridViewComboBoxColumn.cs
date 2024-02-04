@@ -56,7 +56,7 @@ namespace Krypton.Toolkit
         {
             var cloned = base.Clone() as KryptonDataGridViewComboBoxColumn;
 
-            cloned.Items.AddRange(Items);
+            cloned?.Items.AddRange(Items);
 
             // Convert collection of strings to an array
             var strings = new string[AutoCompleteCustomSource.Count];
@@ -65,9 +65,9 @@ namespace Krypton.Toolkit
                 strings[i] = AutoCompleteCustomSource[i];
             }
 
-            cloned.AutoCompleteCustomSource.AddRange(strings);
+            cloned?.AutoCompleteCustomSource.AddRange(strings);
 
-            return cloned;
+            return cloned!;
         }
         #endregion
 

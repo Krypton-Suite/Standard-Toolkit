@@ -58,9 +58,9 @@ namespace Krypton.Toolkit
                 strings[i] = Items[i];
             }
 
-            cloned.Items.AddRange(strings);
+            cloned?.Items.AddRange(strings);
 
-            return cloned;
+            return cloned!;
         }
         #endregion
 

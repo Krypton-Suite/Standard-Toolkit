@@ -62,7 +62,7 @@ namespace Krypton.Toolkit
         {
             var cloned = base.Clone() as KryptonDataGridViewDateTimePickerColumn;
 
-            cloned.CalendarAnnuallyBoldedDates = CalendarAnnuallyBoldedDates;
+            cloned!.CalendarAnnuallyBoldedDates = CalendarAnnuallyBoldedDates;
             cloned.CalendarMonthlyBoldedDates = CalendarMonthlyBoldedDates;
             cloned.CalendarBoldedDates = CalendarBoldedDates;
 

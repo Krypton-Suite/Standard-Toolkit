@@ -104,7 +104,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Clones a DataGridViewDateTimePickerCell cell, copies all the custom properties.
         /// </summary>
-        public override object Clone()
+        public override object? Clone()
         {
             var dateTimeCell = base.Clone() as KryptonDataGridViewDateTimePickerCell;
             if (dateTimeCell != null)
@@ -537,7 +537,7 @@ namespace Krypton.Toolkit
         /// <param name="formattedValueTypeConverter">A TypeConverter associated with the formatted value type that provides custom conversion from the value type, or null if no such custom conversion is needed.</param>
         /// <param name="context">A bitwise combination of DataGridViewDataErrorContexts values describing the context in which the formatted value is needed.</param>
         /// <returns></returns>
-        protected override object GetFormattedValue(object value, int rowIndex,
+        protected override object? GetFormattedValue(object value, int rowIndex,
             ref DataGridViewCellStyle cellStyle,
             TypeConverter valueTypeConverter,
             TypeConverter formattedValueTypeConverter,
@@ -567,7 +567,7 @@ namespace Krypton.Toolkit
         /// <param name="formattedValueTypeConverter">A TypeConverter for the display value type, or null to use the default converter.</param>
         /// <param name="valueTypeConverter">A TypeConverter for the cell value type, or null to use the default converter.</param>
         /// <returns></returns>
-        public override object ParseFormattedValue(object formattedValue,
+        public override object? ParseFormattedValue(object formattedValue,
             DataGridViewCellStyle cellStyle,
             TypeConverter formattedValueTypeConverter,
             TypeConverter valueTypeConverter)
@@ -614,16 +614,16 @@ namespace Krypton.Toolkit
         /// </summary>
         protected override Rectangle GetErrorIconBounds(Graphics graphics, DataGridViewCellStyle cellStyle, int rowIndex)
         {
-            const int ButtonsWidth = 16;
+            const int BUTTONS_WIDTH = 16;
 
             Rectangle errorIconBounds = base.GetErrorIconBounds(graphics, cellStyle, rowIndex);
             if (DataGridView.RightToLeft == RightToLeft.Yes)
             {
-                errorIconBounds.X = errorIconBounds.Left + ButtonsWidth;
+                errorIconBounds.X = errorIconBounds.Left + BUTTONS_WIDTH;
             }
             else
             {
-                errorIconBounds.X = errorIconBounds.Left - ButtonsWidth;
+                errorIconBounds.X = errorIconBounds.Left - BUTTONS_WIDTH;
             }
 
             return errorIconBounds;
@@ -642,9 +642,9 @@ namespace Krypton.Toolkit
             Size preferredSize = base.GetPreferredSize(graphics, cellStyle, rowIndex, constraintSize);
             if (constraintSize.Width == 0)
             {
-                const int ButtonsWidth = 16; // Account for the width of the up/down buttons.
-                const int ButtonMargin = 8;  // Account for some blank pixels between the text and buttons.
-                preferredSize.Width += ButtonsWidth + ButtonMargin;
+                const int BUTTONS_WIDTH = 16; // Account for the width of the up/down buttons.
+                const int BUTTON_MARGIN = 8;  // Account for some blank pixels between the text and buttons.
+                preferredSize.Width += BUTTONS_WIDTH + BUTTON_MARGIN;
             }
 
             return preferredSize;
@@ -702,7 +702,7 @@ namespace Krypton.Toolkit
 
         #region Private
 
-        private KryptonDataGridViewDateTimePickerEditingControl EditingDateTimePicker =>
+        private KryptonDataGridViewDateTimePickerEditingControl? EditingDateTimePicker =>
             DataGridView.EditingControl as KryptonDataGridViewDateTimePickerEditingControl;
 
         private Rectangle GetAdjustedEditingControlBounds(Rectangle editingControlBounds,
@@ -758,7 +758,7 @@ namespace Krypton.Toolkit
             _showCheckBox = value;
             if (OwnsEditingDateTimePicker(rowIndex))
             {
-                EditingDateTimePicker.ShowCheckBox = value;
+                EditingDateTimePicker!.ShowCheckBox = value;
             }
         }
 
@@ -767,7 +767,7 @@ namespace Krypton.Toolkit
             _showUpDown = value;
             if (OwnsEditingDateTimePicker(rowIndex))
             {
-                EditingDateTimePicker.ShowUpDown = value;
+                EditingDateTimePicker!.ShowUpDown = value;
             }
         }
 
@@ -776,7 +776,7 @@ namespace Krypton.Toolkit
             _autoShift = value;
             if (OwnsEditingDateTimePicker(rowIndex))
             {
-                EditingDateTimePicker.AutoShift = value;
+                EditingDateTimePicker!.AutoShift = value;
             }
         }
 
@@ -785,7 +785,7 @@ namespace Krypton.Toolkit
             _checked = value;
             if (OwnsEditingDateTimePicker(rowIndex))
             {
-                EditingDateTimePicker.Checked = value;
+                EditingDateTimePicker!.Checked = value;
             }
         }
 
@@ -794,7 +794,7 @@ namespace Krypton.Toolkit
             _customFormat = value;
             if (OwnsEditingDateTimePicker(rowIndex))
             {
-                EditingDateTimePicker.CustomFormat = value;
+                EditingDateTimePicker!.CustomFormat = value;
             }
         }
 
@@ -803,7 +803,7 @@ namespace Krypton.Toolkit
             _customNullText = value;
             if (OwnsEditingDateTimePicker(rowIndex))
             {
-                EditingDateTimePicker.CustomNullText = value;
+                EditingDateTimePicker!.CustomNullText = value;
             }
         }
 
@@ -812,7 +812,7 @@ namespace Krypton.Toolkit
             _maxDate = value;
             if (OwnsEditingDateTimePicker(rowIndex))
             {
-                EditingDateTimePicker.MaxDate = value;
+                EditingDateTimePicker!.MaxDate = value;
             }
         }
 
@@ -821,7 +821,7 @@ namespace Krypton.Toolkit
             _minDate = value;
             if (OwnsEditingDateTimePicker(rowIndex))
             {
-                EditingDateTimePicker.MinDate = value;
+                EditingDateTimePicker!.MinDate = value;
             }
         }
 
@@ -830,7 +830,7 @@ namespace Krypton.Toolkit
             _format = value;
             if (OwnsEditingDateTimePicker(rowIndex))
             {
-                EditingDateTimePicker.Format = value;
+                EditingDateTimePicker!.Format = value;
             }
         }
 
@@ -839,7 +839,7 @@ namespace Krypton.Toolkit
             _calendarCloseOnTodayClick = value;
             if (OwnsEditingDateTimePicker(rowIndex))
             {
-                EditingDateTimePicker.CalendarCloseOnTodayClick = value;
+                EditingDateTimePicker!.CalendarCloseOnTodayClick = value;
             }
         }
 
@@ -848,7 +848,7 @@ namespace Krypton.Toolkit
             _calendarDimensions = value;
             if (OwnsEditingDateTimePicker(rowIndex))
             {
-                EditingDateTimePicker.CalendarDimensions = value;
+                EditingDateTimePicker!.CalendarDimensions = value;
             }
         }
 
@@ -857,7 +857,7 @@ namespace Krypton.Toolkit
             _calendarFirstDayOfWeek = value;
             if (OwnsEditingDateTimePicker(rowIndex))
             {
-                EditingDateTimePicker.CalendarFirstDayOfWeek = value;
+                EditingDateTimePicker!.CalendarFirstDayOfWeek = value;
             }
         }
 
@@ -866,7 +866,7 @@ namespace Krypton.Toolkit
             _calendarShowToday = value;
             if (OwnsEditingDateTimePicker(rowIndex))
             {
-                EditingDateTimePicker.CalendarShowToday = value;
+                EditingDateTimePicker!.CalendarShowToday = value;
             }
         }
 
@@ -875,7 +875,7 @@ namespace Krypton.Toolkit
             _calendarShowTodayCircle = value;
             if (OwnsEditingDateTimePicker(rowIndex))
             {
-                EditingDateTimePicker.CalendarShowTodayCircle = value;
+                EditingDateTimePicker!.CalendarShowTodayCircle = value;
             }
         }
 
@@ -884,7 +884,7 @@ namespace Krypton.Toolkit
             _calendarShowWeekNumbers = value;
             if (OwnsEditingDateTimePicker(rowIndex))
             {
-                EditingDateTimePicker.CalendarShowWeekNumbers = value;
+                EditingDateTimePicker!.CalendarShowWeekNumbers = value;
             }
         }
 
@@ -893,7 +893,7 @@ namespace Krypton.Toolkit
             _calendarTodayText = value;
             if (OwnsEditingDateTimePicker(rowIndex))
             {
-                EditingDateTimePicker.CalendarTodayText = value;
+                EditingDateTimePicker!.CalendarTodayText = value;
             }
         }
 
@@ -902,7 +902,7 @@ namespace Krypton.Toolkit
             _calendarTodayDate = value;
             if (OwnsEditingDateTimePicker(rowIndex))
             {
-                EditingDateTimePicker.CalendarTodayDate = value;
+                EditingDateTimePicker!.CalendarTodayDate = value;
             }
         }
         #endregion

@@ -1223,7 +1223,7 @@ namespace Krypton.Toolkit
                                     // If this column supports icons, see if it has any.
                                     if (Columns[e.ColumnIndex] is IIconCell iconColumn)
                                     {
-                                        foreach (IconSpec spec in iconColumn.IconSpecs)
+                                        foreach (IconSpec? spec in iconColumn.IconSpecs)
                                         {
                                             if (spec.Icon == null)
                                             {
@@ -1335,7 +1335,7 @@ namespace Krypton.Toolkit
                                     // If this cell supports icons, see if it has any.
                                     if (Rows[e.RowIndex].Cells[e.ColumnIndex] is IIconCell iconColumn)
                                     {
-                                        foreach (IconSpec spec in iconColumn.IconSpecs)
+                                        foreach (IconSpec? spec in iconColumn.IconSpecs)
                                         {
                                             if (spec.Icon == null)
                                             {

@@ -303,7 +303,9 @@ namespace Krypton.Toolkit
 
                 // Grab the internal property implemented by base class
                 // ReSharper disable RedundantBaseQualifier
-                return _piMouseEnteredCellAddress?.GetValue(DataGridView, null) is Point ? (Point)_piMouseEnteredCellAddress.GetValue(DataGridView, null)! : default;
+                return _piMouseEnteredCellAddress?.GetValue(DataGridView, null) is Point
+                    ? (Point)_piMouseEnteredCellAddress.GetValue(DataGridView, null)!
+                    : default;
                 // ReSharper restore RedundantBaseQualifier
             }
         }

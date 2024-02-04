@@ -167,7 +167,7 @@ namespace Krypton.Toolkit
 
         #region Private
 
-        private KryptonDataGridViewDomainUpDownEditingControl EditingDomainUpDown => DataGridView.EditingControl as KryptonDataGridViewDomainUpDownEditingControl;
+        private KryptonDataGridViewDomainUpDownEditingControl? EditingDomainUpDown => DataGridView.EditingControl as KryptonDataGridViewDomainUpDownEditingControl;
 
         private Rectangle GetAdjustedEditingControlBounds(Rectangle editingControlBounds,
             DataGridViewCellStyle cellStyle)

@@ -77,7 +77,7 @@ namespace Krypton.Toolkit
         public override object Clone()
         {
             var cloned = base.Clone() as KryptonDataGridViewTextBoxCell;
-            foreach (IconSpec sp in IconSpecs)
+            foreach (IconSpec? sp in IconSpecs)
             {
                 cloned.IconSpecs.Add(sp.Clone() as IconSpec);
             }
@@ -308,6 +308,6 @@ namespace Krypton.Toolkit
         [Category(@"Data")]
         [Description(@"Set of extra icons to appear with control.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public List<IconSpec> IconSpecs { get; } = [];
+        public List<IconSpec?> IconSpecs { get; } = [];
     }
 }

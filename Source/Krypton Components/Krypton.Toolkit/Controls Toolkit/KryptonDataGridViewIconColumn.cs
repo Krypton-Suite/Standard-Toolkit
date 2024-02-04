@@ -81,7 +81,7 @@ namespace Krypton.Toolkit
         /// Gets the list of icon specifications.
         /// </summary>
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        List<IconSpec> IconSpecs
+        List<IconSpec?> IconSpecs
         {
             get;
         }
@@ -108,12 +108,12 @@ namespace Krypton.Toolkit
         {
             var cloned = base.Clone() as KryptonDataGridViewIconColumn;
 
-            foreach (IconSpec sp in IconSpecs)
+            foreach (IconSpec? sp in IconSpecs)
             {
-                cloned.IconSpecs.Add(sp.Clone() as IconSpec);
+                cloned?.IconSpecs.Add(sp?.Clone() as IconSpec);
             }
 
-            return cloned;
+            return cloned!;
         }
 
         /// <summary>
@@ -122,7 +122,7 @@ namespace Krypton.Toolkit
         [Category(@"Data")]
         [Description(@"Set of extra icons to appear with control.")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public List<IconSpec> IconSpecs { get; }
+        public List<IconSpec?> IconSpecs { get; }
 
     }
 

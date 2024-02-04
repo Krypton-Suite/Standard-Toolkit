@@ -19,7 +19,7 @@ namespace Krypton.Toolkit
     public class KryptonDataGridViewLinkCell : DataGridViewLinkCell
     {
         #region Static Fields
-        private static PropertyInfo _piLinkState;
+        private static PropertyInfo? _piLinkState;
         #endregion
 
         #region Instance Fields
@@ -145,7 +145,7 @@ namespace Krypton.Toolkit
                 }
 
                 // Position the button element inside the available cell area
-                using var layoutContext = new ViewLayoutContext(kDGV!, kDGV?.Renderer);
+                using var layoutContext = new ViewLayoutContext(kDGV!, kDGV?.Renderer!);
                 // Define the available area for layout
                 layoutContext.DisplayRectangle = new Rectangle(0, 0, int.MaxValue, int.MaxValue);
 
@@ -209,7 +209,7 @@ namespace Krypton.Toolkit
                     // Update the display text
                     if (!string.IsNullOrEmpty(formattedValue?.ToString()))
                     {
-                        _shortTextValue.ShortText = formattedValue.ToString();
+                        _shortTextValue.ShortText = formattedValue?.ToString();
                     }
                     else
                     {
@@ -340,7 +340,7 @@ namespace Krypton.Toolkit
             if (_viewLabel == null)
             {
                 // Create helper object to get all values from the DGV redirector
-                _palette = new PaletteContentToPalette(kDGV.Redirector, PaletteContentStyle.LabelNormalPanel);
+                _palette = new PaletteContentToPalette(kDGV?.Redirector!, PaletteContentStyle.LabelNormalPanel);
                 _inheritBehavior = new LinkLabelBehaviorInherit(_palette, KryptonLinkBehavior.AlwaysUnderline);
                 _overrideVisited = new PaletteContentInheritOverride(_palette, _inheritBehavior, PaletteState.LinkNotVisitedOverride, true);
                 _overridePressed = new PaletteContentInheritOverride(_palette, _overrideVisited, PaletteState.LinkPressedOverride, false);
@@ -394,7 +394,9 @@ namespace Krypton.Toolkit
                 }
 
                 // Grab the internal property implemented by base class
-                return (LinkState)_piLinkState.GetValue(this, null);
+                return _piLinkState?.GetValue(this, null) is LinkState
+                    ? (LinkState)_piLinkState.GetValue(this, null)
+                    : LinkState.Normal;
             }
         }
         #endregion

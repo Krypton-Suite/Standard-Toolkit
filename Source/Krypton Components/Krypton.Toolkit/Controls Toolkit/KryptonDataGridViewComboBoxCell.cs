@@ -272,7 +272,7 @@ namespace Krypton.Toolkit
             {
                 if (_dataSource != value)
                 {
-                    SetDataSource(RowIndex, value);
+                    SetDataSource(RowIndex, value!);
                     OnCommonChange();
                 }
             }
@@ -398,13 +398,13 @@ namespace Krypton.Toolkit
 
         #region Private
 
-        private KryptonDataGridViewComboBoxEditingControl EditingComboBox => DataGridView.EditingControl as KryptonDataGridViewComboBoxEditingControl;
+        private KryptonDataGridViewComboBoxEditingControl? EditingComboBox => DataGridView.EditingControl as KryptonDataGridViewComboBoxEditingControl;
 
         private static Rectangle GetAdjustedEditingControlBounds(Rectangle editingControlBounds,
             DataGridViewCellStyle cellStyle)
         {
             // Adjust the vertical location of the editing control:
-            var preferredHeight = _paintingComboBox.GetPreferredSize(_sizeLarge).Height + 2;
+            var preferredHeight = _paintingComboBox!.GetPreferredSize(_sizeLarge).Height + 2;
             if (preferredHeight < editingControlBounds.Height)
             {
                 switch (cellStyle.Alignment)
@@ -455,7 +455,7 @@ namespace Krypton.Toolkit
             _dropDownStyle = value;
             if (OwnsEditingComboBox(rowIndex))
             {
-                EditingComboBox.DropDownStyle = value;
+                EditingComboBox!.DropDownStyle = value;
             }
         }
 
@@ -464,7 +464,7 @@ namespace Krypton.Toolkit
             _maxDropDownItems = value;
             if (OwnsEditingComboBox(rowIndex))
             {
-                EditingComboBox.MaxDropDownItems = value;
+                EditingComboBox!.MaxDropDownItems = value;
             }
         }
 
@@ -473,7 +473,7 @@ namespace Krypton.Toolkit
             _dropDownHeight = value;
             if (OwnsEditingComboBox(rowIndex))
             {
-                EditingComboBox.DropDownHeight = value;
+                EditingComboBox!.DropDownHeight = value;
             }
         }
 
@@ -482,7 +482,7 @@ namespace Krypton.Toolkit
             _dropDownWidth = value;
             if (OwnsEditingComboBox(rowIndex))
             {
-                EditingComboBox.DropDownWidth = value;
+                EditingComboBox!.DropDownWidth = value;
             }
         }
 
@@ -491,7 +491,7 @@ namespace Krypton.Toolkit
             _autoCompleteMode = value;
             if (OwnsEditingComboBox(rowIndex))
             {
-                EditingComboBox.AutoCompleteMode = value;
+                EditingComboBox!.AutoCompleteMode = value;
             }
         }
 
@@ -500,7 +500,7 @@ namespace Krypton.Toolkit
             _autoCompleteSource = value;
             if (OwnsEditingComboBox(rowIndex))
             {
-                EditingComboBox.AutoCompleteSource = value;
+                EditingComboBox!.AutoCompleteSource = value;
             }
         }
 
@@ -509,7 +509,7 @@ namespace Krypton.Toolkit
             _displayMember = value;
             if (OwnsEditingComboBox(rowIndex))
             {
-                EditingComboBox.DisplayMember = value;
+                EditingComboBox!.DisplayMember = value;
             }
         }
 
@@ -518,7 +518,7 @@ namespace Krypton.Toolkit
             _valueMember = value;
             if (OwnsEditingComboBox(rowIndex))
             {
-                EditingComboBox.ValueMember = value;
+                EditingComboBox!.ValueMember = value;
             }
         }
 
@@ -527,7 +527,7 @@ namespace Krypton.Toolkit
             _dataSource = value;
             if (OwnsEditingComboBox(rowIndex))
             {
-                EditingComboBox.DataSource = value;
+                EditingComboBox!.DataSource = value;
             }
         }
         #endregion
