@@ -19,8 +19,8 @@ namespace Krypton.Toolkit
     public class KryptonDataGridViewButtonColumn : KryptonDataGridViewIconColumn
     {
         #region Static Fields
-        private MethodInfo _miColumnCommonChange;
-        private PropertyInfo _piUseColumnTextForButtonValueInternal;
+        private MethodInfo? _miColumnCommonChange;
+        private PropertyInfo? _piUseColumnTextForButtonValueInternal;
         #endregion
 
         #region Instance Fields
@@ -66,8 +66,13 @@ namespace Krypton.Toolkit
         {
             // Create a new instance
             var clone = base.Clone() as KryptonDataGridViewButtonColumn;
-            clone.Text = Text;
-            return clone;
+         
+            if (clone != null)
+            {
+                clone.Text = Text;
+            }
+
+            return clone!;
         }
         #endregion
 
@@ -153,7 +158,7 @@ namespace Krypton.Toolkit
         public bool UseColumnTextForButtonValue
         {
             get =>
-                ((KryptonDataGridViewButtonCell)CellTemplate)?.UseColumnTextForButtonValue ?? throw new InvalidOperationException(@"KryptonDataGridViewButtonColumn cell template required");
+                (CellTemplate as KryptonDataGridViewButtonCell)?.UseColumnTextForButtonValue ?? throw new InvalidOperationException(@"KryptonDataGridViewButtonColumn cell template required");
 
             set
             {
@@ -186,13 +191,13 @@ namespace Krypton.Toolkit
         public ButtonStyle ButtonStyle
         {
             get =>
-                ((KryptonDataGridViewButtonCell)CellTemplate)?.ButtonStyle ?? throw new InvalidOperationException(@"KryptonDataGridViewButtonColumn cell template required");
+                (CellTemplate as KryptonDataGridViewButtonCell)?.ButtonStyle ?? throw new InvalidOperationException(@"KryptonDataGridViewButtonColumn cell template required");
 
             set
             {
                 if (ButtonStyle != value)
                 {
-                    ((KryptonDataGridViewButtonCell)CellTemplate).ButtonStyleInternal = value;
+                    ((CellTemplate as KryptonDataGridViewButtonCell)!).ButtonStyleInternal = value;
                     if (DataGridView != null)
                     {
                         DataGridViewRowCollection rows = DataGridView.Rows;
@@ -241,7 +246,7 @@ namespace Krypton.Toolkit
 
             }
 
-            _miColumnCommonChange.Invoke(DataGridView, [columnIndex]);
+            _miColumnCommonChange?.Invoke(DataGridView, [columnIndex]);
         }
 
         private void SetUseColumnTextForButtonValueInternal(object instance, bool value)
@@ -256,7 +261,7 @@ namespace Krypton.Toolkit
 
             }
 
-            _piUseColumnTextForButtonValueInternal.SetValue(instance, value, null);
+            _piUseColumnTextForButtonValueInternal?.SetValue(instance, value, null);
         }
         #endregion
     }

@@ -18,9 +18,9 @@ namespace Krypton.Toolkit
     public class KryptonDataGridViewButtonCell : DataGridViewButtonCell
     {
         #region Static Fields
-        private static PropertyInfo _piButtonState;
-        private static PropertyInfo _piMouseEnteredCellAddress;
-        private static FieldInfo _fiMouseInContentBounds;
+        private static PropertyInfo? _piButtonState;
+        private static PropertyInfo? _piMouseEnteredCellAddress;
+        private static FieldInfo? _fiMouseInContentBounds;
         #endregion
 
         #region Instance Fields
@@ -143,15 +143,24 @@ namespace Krypton.Toolkit
                 // Update the display text
                 if ((kDGV.Columns[ColumnIndex] is KryptonDataGridViewButtonColumn { UseColumnTextForButtonValue: true } col) && !kDGV.Rows[rowIndex].IsNewRow)
                 {
-                    _shortTextValue.ShortText = col.Text;
+                    if (_shortTextValue != null)
+                    {
+                        _shortTextValue.ShortText = col.Text;
+                    }
                 }
-                else if (!string.IsNullOrEmpty(FormattedValue?.ToString()))
+                else if (FormattedValue != null ? !string.IsNullOrEmpty(FormattedValue.ToString()) : false)
                 {
-                    _shortTextValue.ShortText = FormattedValue.ToString();
+                    if (_shortTextValue != null)
+                    {
+                        _shortTextValue.ShortText = FormattedValue != null ? FormattedValue.ToString() : null;
+                    }
                 }
                 else
                 {
-                    _shortTextValue.ShortText = string.Empty;
+                    if (_shortTextValue != null)
+                    {
+                        _shortTextValue.ShortText = string.Empty;
+                    }
                 }
 
                 // Position the button element inside the available cell area
@@ -250,15 +259,24 @@ namespace Krypton.Toolkit
                             UseColumnTextForButtonValue: true
                         } col) && !kDgv.Rows[rowIndex].IsNewRow)
                     {
-                        _shortTextValue.ShortText = col.Text;
+                        if (_shortTextValue != null)
+                        {
+                            _shortTextValue.ShortText = col.Text;
+                        }
                     }
-                    else if (!string.IsNullOrEmpty(FormattedValue?.ToString()))
+                    else if (FormattedValue != null ? !string.IsNullOrEmpty(FormattedValue.ToString()) : false)
                     {
-                        _shortTextValue.ShortText = FormattedValue.ToString();
+                        if (_shortTextValue != null)
+                        {
+                            _shortTextValue.ShortText = FormattedValue != null ? FormattedValue.ToString() : null;
+                        }
                     }
                     else
                     {
-                        _shortTextValue.ShortText = string.Empty;
+                        if (_shortTextValue != null)
+                        {
+                            _shortTextValue.ShortText = string.Empty;
+                        }
                     }
 
                     // Prevent button overlapping the bottom/right border
@@ -356,7 +374,7 @@ namespace Krypton.Toolkit
                 }
 
                 // Grab the internal property implemented by base class
-                return (ButtonState)_piButtonState.GetValue(this, null);
+                return (ButtonState)(_piButtonState != null ? _piButtonState.GetValue(this, null) : null)!;
             }
         }
 
@@ -374,7 +392,11 @@ namespace Krypton.Toolkit
                 }
 
                 // Grab the internal property implemented by base class
-                return (bool)_fiMouseInContentBounds.GetValue(this);
+                return _fiMouseInContentBounds != null
+                    ? (bool)_fiMouseInContentBounds.GetValue(this) != null
+                        ? (bool)_fiMouseInContentBounds.GetValue(this)
+                        : false
+                    : false;
             }
         }
 
@@ -394,7 +416,7 @@ namespace Krypton.Toolkit
 
                 // Grab the internal property implemented by base class
                 // ReSharper disable RedundantBaseQualifier
-                return (Point)_piMouseEnteredCellAddress.GetValue(base.DataGridView, null);
+                return (Point)(_piMouseEnteredCellAddress != null ? _piMouseEnteredCellAddress.GetValue(DataGridView, null) : null)!;
                 // ReSharper restore RedundantBaseQualifier
             }
         }

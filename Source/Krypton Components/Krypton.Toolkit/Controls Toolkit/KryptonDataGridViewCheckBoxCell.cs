@@ -18,9 +18,9 @@ namespace Krypton.Toolkit
     public class KryptonDataGridViewCheckBoxCell : DataGridViewCheckBoxCell
     {
         #region Static Fields
-        private static PropertyInfo _piButtonState;
-        private static PropertyInfo _piMouseEnteredCellAddress;
-        private static FieldInfo _fiMouseInContentBounds;
+        private static PropertyInfo? _piButtonState;
+        private static PropertyInfo? _piMouseEnteredCellAddress;
+        private static FieldInfo? _fiMouseInContentBounds;
         #endregion
 
         #region Instance Fields
@@ -75,7 +75,7 @@ namespace Krypton.Toolkit
         {
             try
             {
-                var kDGV = (KryptonDataGridView)DataGridView;
+                var kDGV = DataGridView as KryptonDataGridView;
 
                 // Is this cell the currently active cell
                 var currentCell = (rowIndex == DataGridView.CurrentCellAddress.Y) &&
@@ -91,7 +91,7 @@ namespace Krypton.Toolkit
                 var pressed = currentCell && ((ButtonStateInternal & ButtonState.Pushed) == ButtonState.Pushed);
 
                 // Find out the requested size of the check box drawing
-                using var viewContent = new ViewLayoutContext(kDGV, kDGV.Renderer);
+                using var viewContent = new ViewLayoutContext(kDGV!, kDGV!.Renderer);
                 Size checkBoxSize = kDGV.Renderer.RenderGlyph.GetCheckBoxPreferredSize(viewContent,
                     kDGV.Redirector,
                     kDGV.Enabled,
@@ -265,7 +265,7 @@ namespace Krypton.Toolkit
                 }
 
                 // Grab the internal property implemented by base class
-                return (ButtonState)_piButtonState.GetValue(this, null);
+                return (ButtonState)_piButtonState?.GetValue(this, null)!;
             }
         }
 
@@ -283,7 +283,7 @@ namespace Krypton.Toolkit
                 }
 
                 // Grab the internal property implemented by base class
-                return (bool)_fiMouseInContentBounds.GetValue(this);
+                return (bool)_fiMouseInContentBounds?.GetValue(this)!;
             }
         }
 
@@ -303,7 +303,7 @@ namespace Krypton.Toolkit
 
                 // Grab the internal property implemented by base class
                 // ReSharper disable RedundantBaseQualifier
-                return (Point)_piMouseEnteredCellAddress.GetValue(base.DataGridView, null);
+                return (Point)_piMouseEnteredCellAddress?.GetValue(base.DataGridView, null)!;
                 // ReSharper restore RedundantBaseQualifier
             }
         }

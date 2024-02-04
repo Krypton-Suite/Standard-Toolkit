@@ -139,7 +139,7 @@ namespace Krypton.Toolkit
 
         private static readonly Color[] _schemeOfficeColors =
         [
-            Color.FromArgb(255, 255, 255), // (76, 83, 92), // TextLabelControl
+            Color.FromArgb(76, 83, 92), // (255, 255, 255), // TextLabelControl
             Color.Black, // TextButtonNormal
             Color.Black, // TextButtonChecked
             Color.FromArgb(106, 106, 106), // ButtonNormalBorder1
@@ -293,18 +293,12 @@ namespace Krypton.Toolkit
             Color.FromArgb(174, 174, 175), // RibbonQATButtonLight                                                      
             Color.FromArgb(161, 161, 161), // RibbonQATOverflow1                                                      
             Color.FromArgb(68, 68, 68), // RibbonQATOverflow2                                                      
-            Color.FromArgb(82, 82,
-                82), // RibbonGroupSeparatorDark                                                      
-            Color.FromArgb(190, 190,
-                190), // RibbonGroupSeparatorLight                                                      
-            Color.FromArgb(210, 217,
-                219), // ButtonClusterButtonBack1                                                      
-            Color.FromArgb(214, 222,
-                223), // ButtonClusterButtonBack2                                                      
-            Color.FromArgb(179, 188,
-                191), // ButtonClusterButtonBorder1                                                      
-            Color.FromArgb(145, 156,
-                159), // ButtonClusterButtonBorder2                                                      
+            Color.FromArgb(82, 82, 82), // RibbonGroupSeparatorDark                                                      
+            Color.FromArgb(190, 190, 190), // RibbonGroupSeparatorLight                                                      
+            Color.FromArgb(210, 217, 219), // ButtonClusterButtonBack1                                                      
+            Color.FromArgb(214, 222, 223), // ButtonClusterButtonBack2                                                      
+            Color.FromArgb(179, 188, 191), // ButtonClusterButtonBorder1                                                      
+            Color.FromArgb(145, 156, 159), // ButtonClusterButtonBorder2                                                      
             Color.FromArgb(235, 235, 235), // NavigatorMiniBackColor                                                    
             Color.FromArgb(205, 205, 205), // GridListNormal1                                                    
             Color.FromArgb(166, 166, 166), // GridListNormal2                                                    

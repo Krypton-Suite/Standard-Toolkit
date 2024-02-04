@@ -3,6 +3,7 @@
 =======
 
 ## 2024-11-xx - Build 2411 - November 2024
+* Resolved [#1280](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1280), `KryptonDataGridView` - NullReferenceException
 * Resolved [#876](https://github.com/Krypton-Suite/Standard-Toolkit/issues/876), **[Regression]** `Office 365 - Black` does not display text correctly
 * Resolved [#1308](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1308), `RibbonAppButton.cs` - **FormCloseBoxVisible**: null reference exception
 * Resolved [#1266](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1266), **[Regression]** **[Breaking Change]** Since V 5.400, the QAT button is supposed to perform the close, therefore the Close Form button should not be visible
