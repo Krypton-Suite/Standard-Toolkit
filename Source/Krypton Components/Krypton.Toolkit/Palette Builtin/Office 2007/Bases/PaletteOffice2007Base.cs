@@ -3742,7 +3742,6 @@ namespace Krypton.Toolkit
         };
         #endregion
 
-
         #region ButtonSpec
 
         /// <summary>
