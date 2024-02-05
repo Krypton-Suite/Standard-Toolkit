@@ -88,7 +88,7 @@ namespace Krypton.Toolkit
         {
             if (_verbCollection != null)
             {
-                _resetVerb.Enabled = _manager!.GlobalPaletteMode.Equals(PaletteMode.Microsoft365Blue);
+                _resetVerb.Enabled = !_manager!.GlobalPaletteMode.Equals(PaletteMode.Microsoft365Blue);
             }
         }
 
