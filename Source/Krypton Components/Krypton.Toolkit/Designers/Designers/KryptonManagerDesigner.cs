@@ -118,7 +118,7 @@ namespace Krypton.Toolkit
                 {
                     _manager.GlobalPaletteMode = PaletteMode.Microsoft365Blue;
 
-                    _service?.OnComponentChanged(_manager, null, null, null);
+                    _service?.OnComponentChanged(_manager, null, _manager.GlobalPaletteMode, PaletteMode.Microsoft365Blue);
 
                     UpdateVerbStatus();
                 }
