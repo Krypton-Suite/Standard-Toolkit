@@ -37,6 +37,10 @@ namespace Krypton.Toolkit
             _manager = component as KryptonManager;
 
             _service = GetService(typeof(IComponentChangeService)) as IComponentChangeService;
+
+            _service.ComponentRemoving += OnComponentRemoving;
+
+            _service.ComponentChanged += OnComponentChanged;
         }
 
         /// <summary>
@@ -77,6 +81,24 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Implementation
+
+        private void UpdateVerbStatus()
+        {
+            if (_verbCollection != null)
+            {
+                _resetVerb.Enabled = _manager!.GlobalPaletteMode.Equals(PaletteMode.Microsoft365Blue);
+            }
+        }
+
+        private void OnComponentChanged(object sender, ComponentChangedEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void OnComponentRemoving(object sender, ComponentEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
 
         private void OnReset(object sender, EventArgs e)
         {

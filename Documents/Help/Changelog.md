@@ -3,6 +3,7 @@
 =======
 
 ## 2024-11-xx - Build 2411 - November 2024
+* Resolved [#1316](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1316), `KryptonCustomPaletteBase` Import fails if XML contains images (fix courtesy of [tobitege](https://github.com/tobitege))
 * Resolved [#1280](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1280), `KryptonDataGridView` - NullReferenceException
 * Resolved [#876](https://github.com/Krypton-Suite/Standard-Toolkit/issues/876), **[Regression]** `Office 365 - Black` does not display text correctly
 * Resolved [#1308](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1308), `RibbonAppButton.cs` - **FormCloseBoxVisible**: null reference exception
