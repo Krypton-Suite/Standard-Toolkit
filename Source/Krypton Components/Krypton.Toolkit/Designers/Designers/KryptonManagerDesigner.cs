@@ -74,6 +74,8 @@ namespace Krypton.Toolkit
                     _verbCollection.AddRange(new DesignerVerb[] { _resetVerb });
                 }
 
+                UpdateVerbStatus();
+
                 return _verbCollection;
             }
         }
@@ -90,10 +92,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private void OnComponentChanged(object sender, ComponentChangedEventArgs e)
-        {
-            throw new NotImplementedException();
-        }
+        private void OnComponentChanged(object sender, ComponentChangedEventArgs e) => UpdateVerbStatus();
 
         private void OnComponentRemoving(object sender, ComponentEventArgs e)
         {
