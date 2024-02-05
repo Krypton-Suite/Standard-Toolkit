@@ -14,7 +14,31 @@ namespace Krypton.Toolkit
 {
     internal class KryptonManagerDesigner : ComponentDesigner
     {
+        #region Instance Fields
+
+        private DesignerVerbCollection _verbCollection;
+
+        private DesignerVerb _resetVerb;
+
+        private KryptonManager? _manager;
+
+        private IComponentChangeService? _service;
+
+        #endregion
+
         #region Public Overrides
+
+        public override void Initialize([DisallowNull] IComponent component)
+        {
+            base.Initialize(component);
+
+            Debug.Assert(component != null);
+
+            _manager = component as KryptonManager;
+
+            _service = GetService(typeof(IComponentChangeService)) as IComponentChangeService;
+        }
+
         /// <summary>
         ///  Gets the design-time action lists supported by the component associated with the designer.
         /// </summary>
@@ -32,6 +56,33 @@ namespace Krypton.Toolkit
                 return actionLists;
             }
         }
+
+        public override DesignerVerbCollection Verbs
+        {
+            get
+            {
+                if (_verbCollection == null)
+                {
+                    _verbCollection = [];
+
+                    _resetVerb = new DesignerVerb(@"Reset to Default Theme", OnReset);
+
+                    _verbCollection.AddRange(new DesignerVerb[] { _resetVerb });
+                }
+
+                return _verbCollection;
+            }
+        }
+
+        #endregion
+
+        #region Implementation
+
+        private void OnReset(object sender, EventArgs e)
+        {
+            DebugTools.NotImplemented("");
+        }
+
         #endregion
     }
 }
