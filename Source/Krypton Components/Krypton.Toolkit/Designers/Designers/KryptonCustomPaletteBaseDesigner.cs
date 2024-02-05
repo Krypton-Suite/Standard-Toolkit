@@ -87,7 +87,7 @@ namespace Krypton.Toolkit
         
     #endregion
 
-    #region Implementation
+        #region Implementation
 
         private void OnUpgrade(object sender, EventArgs e)
         {

@@ -80,7 +80,26 @@ namespace Krypton.Toolkit
 
         private void OnReset(object sender, EventArgs e)
         {
-            DebugTools.NotImplemented("");
+            if (_manager != null)
+            {
+                KryptonMessageBoxData data = new KryptonMessageBoxData()
+                {
+                    MessageText =
+                        @"This will reset the current theme back to 'Microsoft 365 - Blue'. Do you want to continue?",
+                    Caption = @"Reset Theme",
+                    Icon = KryptonMessageBoxIcon.Question,
+                    Buttons = KryptonMessageBoxButtons.YesNo
+                };
+
+                DialogResult result = KryptonMessageBox.Show(data);
+
+                if (result == DialogResult.Yes)
+                {
+                    _manager.GlobalPaletteMode = PaletteMode.Microsoft365Blue;
+
+                    _service?.OnComponentChanged(_manager, null, null, null);
+                }
+            }
         }
 
         #endregion
