@@ -3381,17 +3381,8 @@ namespace Krypton.Toolkit
                                             }
                                             else
                                             {
-                                                // Have we already encountered the image?
-                                                if (imageCache.ContainsKey(valueValue))
-                                                {
-                                                    // Push the image from the cache into the property
-                                                    prop.SetValue(obj, valueValue, null);
-                                                }
-                                                else
-                                                {
-                                                    // Cannot find image to set to empty
-                                                    prop.SetValue(obj, null, null);
-                                                }
+                                                // If image exists in dictionary, push the image from the cache into the property, else null.
+                                                prop.SetValue(obj, imageCache.TryGetValue(valueValue, out var imageValue) ? imageValue : null, null);
                                             }
                                         }
                                         else
