@@ -3391,7 +3391,7 @@ namespace Krypton.Toolkit
                                         var valueValue = childElement.GetAttribute(@"Value");
 
                                         // We special case the loading of images
-                                        if (prop.PropertyType.Equals(typeof(Image)))
+                                        if (prop.PropertyType == typeof(Image))
                                         {
                                             if (valueValue.Length == 0)
                                             {
