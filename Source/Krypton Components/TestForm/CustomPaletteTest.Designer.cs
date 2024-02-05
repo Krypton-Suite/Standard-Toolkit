@@ -42,7 +42,7 @@
             // 
             // kryptonCustomPaletteBase1
             // 
-            this.kryptonCustomPaletteBase1.BaseFont = new System.Drawing.Font("Lucida Console", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.kryptonCustomPaletteBase1.BaseFont = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.kryptonCustomPaletteBase1.BasePaletteType = Krypton.Toolkit.BasePaletteType.Custom;
             this.kryptonCustomPaletteBase1.ThemeName = null;
             this.kryptonCustomPaletteBase1.UseThemeFormChromeBorderWidth = Krypton.Toolkit.InheritBool.True;
@@ -50,7 +50,6 @@
             // kryptonManager1
             // 
             this.kryptonManager1.BaseFont = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.kryptonManager1.GlobalPaletteMode = Krypton.Toolkit.PaletteMode.SparkleOrange;
             // 
             // kryptonNavigator1
             // 
@@ -75,7 +74,7 @@
             this.kryptonPage1.LastVisibleSet = true;
             this.kryptonPage1.MinimumSize = new System.Drawing.Size(150, 50);
             this.kryptonPage1.Name = "kryptonPage1";
-            this.kryptonPage1.Size = new System.Drawing.Size(248, 125);
+            this.kryptonPage1.Size = new System.Drawing.Size(248, 123);
             this.kryptonPage1.Text = "kryptonPage1";
             this.kryptonPage1.ToolTipTitle = "Page ToolTip";
             this.kryptonPage1.UniqueName = "d2d2119b0d3440ccb89a15ef9e8f67ec";
@@ -96,7 +95,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(780, 430);
+            this.ClientSize = new System.Drawing.Size(764, 414);
             this.Controls.Add(this.kryptonNavigator1);
             this.Name = "CustomPaletteTest";
             this.Text = "CustomPaletteTest";
