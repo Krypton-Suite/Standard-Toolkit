@@ -46,7 +46,7 @@ namespace Krypton.Toolkit
         private int _suspendCount;
         private IRenderer? _baseRenderer;
         private RendererMode _baseRenderMode;
-        private PaletteBase _basePalette;
+        private PaletteBase? _basePalette;
         //private PaletteMode _basePaletteMode;
         private readonly PaletteRedirect _redirector;
         private readonly NeedPaintHandler _needPaintDelegate;
@@ -807,7 +807,8 @@ namespace Krypton.Toolkit
         public override Color GetContentImageColorTo(PaletteContentStyle style, PaletteState state)
         => GetPaletteContent(style, state).GetContentImageColorTo(state);
 
-        public override Color GetContentImageColorTransparent(PaletteContentStyle style, PaletteState state) => throw new NotImplementedException();
+        public override Color GetContentImageColorTransparent(PaletteContentStyle style, PaletteState state) =>
+            throw new NotImplementedException();
 
         /// <summary>
         /// Gets the font for the short text.
@@ -1435,7 +1436,7 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>
-        /// Gets a drop down button image appropriate for the provided state.
+        /// Gets a drop-down button image appropriate for the provided state.
         /// </summary>
         /// <param name="state">PaletteState for which image is required.</param>
         public override Image? GetDropDownButtonImage(PaletteState state)
@@ -1523,7 +1524,7 @@ namespace Krypton.Toolkit
             retImage ??= images.Common;
 
             // If nothing found then use the base palette
-            return retImage ?? _redirector?.GetGalleryButtonImage(button, state);
+            return retImage ?? _redirector.GetGalleryButtonImage(button, state);
         }
         #endregion
 
@@ -1585,7 +1586,8 @@ namespace Krypton.Toolkit
         public override Color GetButtonSpecColorMap(PaletteButtonSpecStyle style)
         => GetPaletteButtonSpec(style).GetButtonSpecColorMap(style);
 
-        public override Color GetButtonSpecColorTransparent(PaletteButtonSpecStyle style) => throw new NotImplementedException();
+        public override Color GetButtonSpecColorTransparent(PaletteButtonSpecStyle style) =>
+            throw new NotImplementedException();
 
         /// <summary>
         /// Gets the button style used for drawing the button.
@@ -1950,7 +1952,7 @@ namespace Krypton.Toolkit
                 else
                 {
                     // Perform the reset operation on a separate worker thread
-                    CommonHelper.PerformOperation(ResetOperation, null);
+                    CommonHelper.PerformOperation(ResetOperation!, null);
 
                     KryptonMessageBox.Show("Reset of palette is completed.",
                                     "Palette Reset",
@@ -2019,20 +2021,18 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Import palette settings from an xml file.
         /// </summary>
-        /// <returns>Fullpath of imported filename; otherwise empty string.</returns>
+        /// <returns>Full path of imported filename; otherwise empty string.</returns>
         public string Import(bool silent = false)
         {
             string paletteFileName = string.Empty;
             if (KryptonManager._globalUseKryptonFileDialogs)
             {
-                using var kofd = new KryptonOpenFileDialog
-                {
-                    CheckFileExists = true,
-                    CheckPathExists = true,
-                    DefaultExt = @"xml",
-                    Filter = @"Palette files (*.xml)|*.xml|All files (*.*)|(*.*)",
-                    Title = @"Load Custom Palette"
-                };
+                using var kofd = new KryptonOpenFileDialog();
+                kofd.CheckFileExists = true;
+                kofd.CheckPathExists = true;
+                kofd.DefaultExt = @"xml";
+                kofd.Filter = @"Palette files (*.xml)|*.xml|All files (*.*)|(*.*)";
+                kofd.Title = @"Load Custom Palette";
 
                 if (kofd.ShowDialog() == DialogResult.OK)
                 {
@@ -2044,15 +2044,13 @@ namespace Krypton.Toolkit
             }
             else
             {
-                using var dialog = new OpenFileDialog
-                {
-                    // Palette files are just XML documents
-                    CheckFileExists = true,
-                    CheckPathExists = true,
-                    DefaultExt = @"xml",
-                    Filter = @"Palette files (*.xml)|*.xml|All files (*.*)|(*.*)",
-                    Title = @"Load Palette"
-                };
+                using var dialog = new OpenFileDialog();
+                // Palette files are just XML documents
+                dialog.CheckFileExists = true;
+                dialog.CheckPathExists = true;
+                dialog.DefaultExt = @"xml";
+                dialog.Filter = @"Palette files (*.xml)|*.xml|All files (*.*)|(*.*)";
+                dialog.Title = @"Load Palette";
 
                 // Get the actual file selected by the user
                 if (dialog.ShowDialog() == DialogResult.OK)
@@ -2135,7 +2133,7 @@ namespace Krypton.Toolkit
                 else
                 {
                     // Perform the import operation on a separate worker thread
-                    ret = CommonHelper.PerformOperation(ImportFromFile, filename) as string;
+                    ret = CommonHelper.PerformOperation(ImportFromFile!, filename) as string;
 
                     KryptonMessageBox.Show($"Import from file '{filename}' completed.",
                                     @"Palette Import",
@@ -2257,11 +2255,9 @@ namespace Krypton.Toolkit
             using var reader = new StringReader(xml);
             using var writer = new StringWriter();
             using var xmlTextReader = new XmlTextReader(reader);
-            using var xmlTextWriter = new XmlTextWriter(writer)
-            {
-                Formatting = Formatting.Indented,
-                Indentation = 4
-            };
+            using var xmlTextWriter = new XmlTextWriter(writer);
+            xmlTextWriter.Formatting = Formatting.Indented;
+            xmlTextWriter.Indentation = 4;
 
             transform.Transform(xmlTextReader, xmlTextWriter);
 
@@ -2747,7 +2743,7 @@ namespace Krypton.Toolkit
         [Category(@"Visuals")]
         [Description(@"KryptonPalette used to inherit from.")]
         [DefaultValue(null)]
-        public PaletteBase BasePalette
+        public PaletteBase? BasePalette
         {
             get => _basePalette;
 
@@ -3605,7 +3601,7 @@ namespace Krypton.Toolkit
                                 childElement.SetAttribute(nameof(Type), TypeToString(prop.PropertyType));
 
                                 // We special case the saving of images
-                                if (prop.PropertyType.Equals(typeof(Image)))
+                                if (prop.PropertyType == typeof(Image))
                                 {
                                     if (childObj == null)
                                     {
@@ -3664,7 +3660,7 @@ namespace Krypton.Toolkit
             {
                 try
                 {
-                    // Convert the Image into base64 so it can be used in xml
+                    // Convert the Image into base64, so it can be used in xml
                     using var memory = new MemoryStream();
 
                     var imageFormat = entry.Key.RawFormat;
@@ -3742,7 +3738,7 @@ namespace Krypton.Toolkit
                             }
                             else
                             {
-                                // Only default value if not part of a populate operation or we are part of a populate
+                                // Only default value if not part of a populate operation, or we are part of a populate
                                 // operation and the persist property indicates it can be reset in a populate scenario
                                 if (!populate || persist.Populate)
                                 {
@@ -5788,7 +5784,7 @@ namespace Krypton.Toolkit
             // Only raise the need to paint if updates have not been suspended
             if (_suspendCount == 0)
             {
-                // Changing the krypton control colors does not effect the menu/tool/status areas
+                // Changing the krypton control colors does not affect the menu/tool/status areas
                 OnPalettePaint(this, new PaletteLayoutEventArgs(e.NeedLayout, false));
             }
         }
