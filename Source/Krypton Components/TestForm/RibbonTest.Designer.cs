@@ -30,6 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(RibbonTest));
             this.kryptonRibbon1 = new Krypton.Ribbon.KryptonRibbon();
+            this.kryptonContextMenuItems1 = new Krypton.Toolkit.KryptonContextMenuItems();
             this.kryptonRibbonTab1 = new Krypton.Ribbon.KryptonRibbonTab();
             this.kryptonRibbonGroup1 = new Krypton.Ribbon.KryptonRibbonGroup();
             this.kryptonRibbonGroupTriple1 = new Krypton.Ribbon.KryptonRibbonGroupTriple();
@@ -47,7 +48,6 @@
             this.kryptonRibbonTab2 = new Krypton.Ribbon.KryptonRibbonTab();
             this.kryptonRibbonTab3 = new Krypton.Ribbon.KryptonRibbonTab();
             this.kryptonPanel1 = new Krypton.Toolkit.KryptonPanel();
-            this.kryptonContextMenuItems1 = new Krypton.Toolkit.KryptonContextMenuItems();
             this.kcmdClose = new Krypton.Toolkit.KryptonCommand();
             this.kryptonContextMenuItems2 = new Krypton.Toolkit.KryptonContextMenuItems();
             this.kryptonContextMenuItem2 = new Krypton.Toolkit.KryptonContextMenuItem();
@@ -60,14 +60,13 @@
             this.kryptonRibbon1.InDesignHelperMode = true;
             this.kryptonRibbon1.Name = "kryptonRibbon1";
             this.kryptonRibbon1.RibbonAppButton.AppButtonMenuItems.AddRange(new Krypton.Toolkit.KryptonContextMenuItemBase[] {
-            ((Krypton.Toolkit.KryptonContextMenuItemBase)(this.kryptonContextMenuItems1))});
+            this.kryptonContextMenuItems1});
             this.kryptonRibbon1.RibbonTabs.AddRange(new Krypton.Ribbon.KryptonRibbonTab[] {
             this.kryptonRibbonTab1,
             this.kryptonRibbonTab2,
             this.kryptonRibbonTab3});
-            this.kryptonRibbon1.SelectedContext = null;
             this.kryptonRibbon1.SelectedTab = this.kryptonRibbonTab1;
-            this.kryptonRibbon1.Size = new System.Drawing.Size(818, 143);
+            this.kryptonRibbon1.Size = new System.Drawing.Size(822, 113);
             this.kryptonRibbon1.TabIndex = 0;
             // 
             // kryptonRibbonTab1
@@ -112,7 +111,7 @@
             this.kryptonRibbonGroupThemeComboBox1.DisplayMember = "Key";
             this.kryptonRibbonGroupThemeComboBox1.DropDownWidth = 200;
             this.kryptonRibbonGroupThemeComboBox1.FormattingEnabled = false;
-            this.kryptonRibbonGroupThemeComboBox1.ItemHeight = 15;
+            this.kryptonRibbonGroupThemeComboBox1.ItemHeight = 14;
             this.kryptonRibbonGroupThemeComboBox1.MaximumSize = new System.Drawing.Size(200, 0);
             this.kryptonRibbonGroupThemeComboBox1.MinimumSize = new System.Drawing.Size(200, 0);
             this.kryptonRibbonGroupThemeComboBox1.SynchronizeDropDownWidth = true;
@@ -121,9 +120,9 @@
             // kryptonPanel1
             // 
             this.kryptonPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.kryptonPanel1.Location = new System.Drawing.Point(0, 143);
+            this.kryptonPanel1.Location = new System.Drawing.Point(0, 113);
             this.kryptonPanel1.Name = "kryptonPanel1";
-            this.kryptonPanel1.Size = new System.Drawing.Size(818, 325);
+            this.kryptonPanel1.Size = new System.Drawing.Size(822, 359);
             this.kryptonPanel1.TabIndex = 1;
             // 
             // kcmdClose
@@ -140,7 +139,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(818, 468);
+            this.ClientSize = new System.Drawing.Size(822, 472);
             this.CloseBox = false;
             this.Controls.Add(this.kryptonPanel1);
             this.Controls.Add(this.kryptonRibbon1);

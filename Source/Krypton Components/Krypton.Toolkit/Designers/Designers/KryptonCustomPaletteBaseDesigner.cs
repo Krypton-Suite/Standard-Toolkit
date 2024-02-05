@@ -14,7 +14,34 @@ namespace Krypton.Toolkit
 {
     internal class KryptonCustomPaletteBaseDesigner : ComponentDesigner
     {
+        #region Instance Fields
+
+        private DesignerVerbCollection _verbCollection;
+        private DesignerVerb _resetVerb;
+        private DesignerVerb _populateVerb;
+        private DesignerVerb _importVerb;
+        private DesignerVerb _exportVerb;
+        private DesignerVerb _upgradeVerb;
+
+        private KryptonCustomPaletteBase? _palette;
+
+        private IComponentChangeService? _service;
+
+        #endregion
+
         #region Public Overrides
+
+        public override void Initialize([DisallowNull] IComponent component)
+        {
+            base.Initialize(component);
+
+            Debug.Assert(component != null);
+
+            _palette = component as KryptonCustomPaletteBase;
+
+            _service = GetService(typeof(IComponentChangeService)) as IComponentChangeService;
+        }
+
         /// <summary>
         ///  Gets the design-time action lists supported by the component associated with the designer.
         /// </summary>
@@ -32,6 +59,107 @@ namespace Krypton.Toolkit
                 return actionLists;
             }
         }
+
+        public override DesignerVerbCollection Verbs
+        {
+            get
+            {
+                if (_verbCollection == null)
+                {
+                    _verbCollection = [];
+
+                    _resetVerb = new DesignerVerb(@"Reset to Defaults", OnReset);
+
+                    _populateVerb = new DesignerVerb(@"Populate from Base", OnPopulate);
+
+                    _importVerb = new DesignerVerb(@"Import from XML File...", OnImport);
+
+                    _exportVerb = new DesignerVerb(@"Export to XML File...", OnExport);
+
+                    _upgradeVerb = new DesignerVerb(@"Upgrade Palette", OnUpgrade);
+
+                    _verbCollection.AddRange(new DesignerVerb[] { _resetVerb, _populateVerb, _importVerb, _exportVerb, _upgradeVerb});
+                }
+
+                return _verbCollection;
+            }
+        }
+        
+    #endregion
+
+    #region Implementation
+
+        private void OnUpgrade(object sender, EventArgs e)
+        {
+            try
+            {
+                using var ofd = new OpenFileDialog /*KryptonOpenFileDialog*/
+                {
+                    CheckFileExists = true,
+                    CheckPathExists = true,
+                    DefaultExt = @"xml",
+                    Filter = @"Palette files (*.xml)|*.xml|All files (*.*)|(*.*)",
+                    Title = @"Load Custom Palette"
+                };
+
+                string paletteFileName = (ofd.ShowDialog() == DialogResult.OK)
+                    ? ofd.FileName
+                    : string.Empty;
+
+                if (string.IsNullOrWhiteSpace(paletteFileName))
+                {
+                    return;
+                }
+
+                _palette?.ImportWithUpgrade(File.OpenRead(paletteFileName));
+            }
+            catch (Exception exc)
+            {
+                ExceptionHandler.CaptureException(exc);
+            }
+        }
+
+        private void OnExport(object sender, EventArgs e) => _palette?.ActionListExport();
+
+        private void OnImport(object sender, EventArgs e)
+        {
+            if (_palette != null)
+            {
+                _palette.ActionListImport();
+                _service?.OnComponentChanged(_palette, null, null, null);
+            }
+        }
+
+        private void OnPopulate(object sender, EventArgs e)
+        {
+            if (_palette != null)
+            {
+                if (KryptonMessageBox.Show(@"Are you sure you want to populate from the base?",
+                        @"Populate From Base",
+                        KryptonMessageBoxButtons.YesNo,
+                        KryptonMessageBoxIcon.Warning) == DialogResult.Yes)
+                {
+                    _palette.PopulateFromBase(false);
+                    _service?.OnComponentChanged(_palette, null, null, null);
+                }
+            }
+        }
+
+        private void OnReset(object sender, EventArgs e)
+        {
+            if (_palette != null)
+            {
+                if (KryptonMessageBox.Show(@"Are you sure you want to reset the palette?",
+                        @"Palette Reset",
+                        KryptonMessageBoxButtons.YesNo,
+                        KryptonMessageBoxIcon.Warning) == DialogResult.Yes)
+                {
+                    _palette.ResetToDefaults(false);
+                    _service?.OnComponentChanged(_palette, null, null, null);
+                }
+            }
+        }
+
         #endregion
     }
 }
