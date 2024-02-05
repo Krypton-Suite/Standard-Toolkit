@@ -355,7 +355,7 @@ namespace Krypton.Ribbon
             if (e.Component == _ribbon)
             {
                 // Need access to host in order to delete a component
-                var host = (IDesignerHost)GetService(typeof(IDesignerHost));
+                var host = GetService(typeof(IDesignerHost)) as IDesignerHost;
 
                 // We need to remove all the button spec instances
                 for (var i = _ribbon!.ButtonSpecs.Count - 1; i >= 0; i--)
