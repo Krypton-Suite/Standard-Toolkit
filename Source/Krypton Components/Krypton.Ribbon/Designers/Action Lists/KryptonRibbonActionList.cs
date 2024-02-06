@@ -18,7 +18,7 @@ namespace Krypton.Ribbon
     {
         #region Instance Fields
         private readonly KryptonRibbon? _ribbon;
-        private readonly IComponentChangeService _service;
+        private readonly IComponentChangeService? _service;
         #endregion
 
         #region Identity
@@ -33,7 +33,7 @@ namespace Krypton.Ribbon
             _ribbon = (KryptonRibbon)owner.Component;
 
             // Cache service used to notify when a property has changed
-            _service = (IComponentChangeService)GetService(typeof(IComponentChangeService));
+            _service = GetService(typeof(IComponentChangeService)) as IComponentChangeService;
         }
         #endregion
 
@@ -59,7 +59,7 @@ namespace Krypton.Ribbon
             {
                 if (_ribbon!.PaletteMode != value)
                 {
-                    _service.OnComponentChanged(_ribbon, null, _ribbon.PaletteMode, value);
+                    _service?.OnComponentChanged(_ribbon, null, _ribbon.PaletteMode, value);
                     _ribbon.PaletteMode = value;
                 }
             }

@@ -110,7 +110,7 @@ namespace Krypton.Toolkit
 				Items.Add(kvp.Key);
 			}
 			Text = ThemeManager.ReturnPaletteModeAsString(PaletteMode.Microsoft365Blue);
-			_selectedIndex = SelectedIndex = _defaultPaletteIndex ?? 30;
+			_selectedIndex = SelectedIndex = _defaultPaletteIndex ?? GlobalStaticValues.GLOBAL_DEFAULT_THEME_INDEX;
 
 			_defaultPalette = PaletteMode.Microsoft365Blue;
 
