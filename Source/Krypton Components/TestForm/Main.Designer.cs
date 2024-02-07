@@ -30,7 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
-            Krypton.Toolkit.KryptonInputBoxData kryptonInputBoxData2 = new Krypton.Toolkit.KryptonInputBoxData();
+            Krypton.Toolkit.KryptonInputBoxData kryptonInputBoxData1 = new Krypton.Toolkit.KryptonInputBoxData();
             this.kryptonPanel1 = new Krypton.Toolkit.KryptonPanel();
             this.kryptonThemeComboBox1 = new Krypton.Toolkit.KryptonThemeComboBox();
             this.kryptonComboBox1 = new Krypton.Toolkit.KryptonComboBox();
@@ -558,16 +558,16 @@
             // 
             // kryptonInputBoxManager1
             // 
-            kryptonInputBoxData2.Caption = null;
-            kryptonInputBoxData2.CueColor = null;
-            kryptonInputBoxData2.CueText = null;
-            kryptonInputBoxData2.CueTypeface = null;
-            kryptonInputBoxData2.DefaultResponse = null;
-            kryptonInputBoxData2.Owner = null;
-            kryptonInputBoxData2.Prompt = null;
-            kryptonInputBoxData2.UsePasswordOption = null;
-            kryptonInputBoxData2.UseRtlReading = false;
-            this.kryptonInputBoxManager1.InputBoxData = kryptonInputBoxData2;
+            kryptonInputBoxData1.Caption = null;
+            kryptonInputBoxData1.CueColor = null;
+            kryptonInputBoxData1.CueText = null;
+            kryptonInputBoxData1.CueTypeface = null;
+            kryptonInputBoxData1.DefaultResponse = null;
+            kryptonInputBoxData1.Owner = null;
+            kryptonInputBoxData1.Prompt = null;
+            kryptonInputBoxData1.UsePasswordOption = null;
+            kryptonInputBoxData1.UseRtlReading = false;
+            this.kryptonInputBoxManager1.InputBoxData = kryptonInputBoxData1;
             // 
             // kcmdOpenImage
             // 
@@ -588,19 +588,19 @@
             this.ButtonSpecs.Add(this.buttonSpecAny8);
             this.ButtonSpecs.Add(this.buttonSpecAny9);
             this.ButtonSpecs.Add(this.buttonSpecAny10);
-            this.ClientSize = new System.Drawing.Size(1210, 849);
+            this.ClientSize = new System.Drawing.Size(1214, 853);
             this.Controls.Add(this.kryptonPanel1);
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "Main";
             this.Text = "Form1";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).EndInit();
-            //this.kryptonPanel1.ResumeLayout(false);
+            this.kryptonPanel1.ResumeLayout(false);
             this.kryptonPanel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonThemeComboBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonComboBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonCheckSet1)).EndInit();
-            //this.ResumeLayout(false);
+            this.ResumeLayout(false);
 
         }
 

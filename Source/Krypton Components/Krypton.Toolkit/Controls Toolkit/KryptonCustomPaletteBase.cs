@@ -2025,14 +2025,12 @@ namespace Krypton.Toolkit
             string paletteFileName = string.Empty;
             if (KryptonManager._globalUseKryptonFileDialogs)
             {
-                using var kofd = new KryptonOpenFileDialog
-                {
-                    CheckFileExists = true,
-                    CheckPathExists = true,
-                    DefaultExt = @"xml",
-                    Filter = @"Palette files (*.xml)|*.xml|All files (*.*)|(*.*)",
-                    Title = @"Load Custom Palette"
-                };
+                using var kofd = new KryptonOpenFileDialog();
+                kofd.CheckFileExists = true;
+                kofd.CheckPathExists = true;
+                kofd.DefaultExt = @"xml";
+                kofd.Filter = @"Palette files (*.xml)|*.xml|All files (*.*)|(*.*)";
+                kofd.Title = @"Load Custom Palette";
 
                 if (kofd.ShowDialog() == DialogResult.OK)
                 {
@@ -2044,15 +2042,13 @@ namespace Krypton.Toolkit
             }
             else
             {
-                using var dialog = new OpenFileDialog
-                {
-                    // Palette files are just XML documents
-                    CheckFileExists = true,
-                    CheckPathExists = true,
-                    DefaultExt = @"xml",
-                    Filter = @"Palette files (*.xml)|*.xml|All files (*.*)|(*.*)",
-                    Title = @"Load Palette"
-                };
+                using var dialog = new OpenFileDialog();
+                // Palette files are just XML documents
+                dialog.CheckFileExists = true;
+                dialog.CheckPathExists = true;
+                dialog.DefaultExt = @"xml";
+                dialog.Filter = @"Palette files (*.xml)|*.xml|All files (*.*)|(*.*)";
+                dialog.Title = @"Load Palette";
 
                 // Get the actual file selected by the user
                 if (dialog.ShowDialog() == DialogResult.OK)
@@ -2077,15 +2073,13 @@ namespace Krypton.Toolkit
         {
             string paletteFileName = string.Empty;
 
-            using var dialog = new OpenFileDialog
-            {
-                // Palette files are just XML documents
-                CheckFileExists = true,
-                CheckPathExists = true,
-                DefaultExt = @"xml",
-                Filter = @"Palette files (*.xml)|*.xml|All files (*.*)|(*.*)",
-                Title = @"Load Palette"
-            };
+            using var dialog = new OpenFileDialog();
+            // Palette files are just XML documents
+            dialog.CheckFileExists = true;
+            dialog.CheckPathExists = true;
+            dialog.DefaultExt = @"xml";
+            dialog.Filter = @"Palette files (*.xml)|*.xml|All files (*.*)|(*.*)";
+            dialog.Title = @"Load Palette";
 
             // Get the actual file selected by the user
             if (dialog.ShowDialog() == DialogResult.OK)
@@ -2135,7 +2129,7 @@ namespace Krypton.Toolkit
                 else
                 {
                     // Perform the import operation on a separate worker thread
-                    ret = CommonHelper.PerformOperation(ImportFromFile, filename) as string;
+                    ret = CommonHelper.PerformOperation(ImportFromFile!, filename) as string;
 
                     KryptonMessageBox.Show($"Import from file '{filename}' completed.",
                                     @"Palette Import",
@@ -2257,11 +2251,9 @@ namespace Krypton.Toolkit
             using var reader = new StringReader(xml);
             using var writer = new StringWriter();
             using var xmlTextReader = new XmlTextReader(reader);
-            using var xmlTextWriter = new XmlTextWriter(writer)
-            {
-                Formatting = Formatting.Indented,
-                Indentation = 4
-            };
+            using var xmlTextWriter = new XmlTextWriter(writer);
+            xmlTextWriter.Formatting = Formatting.Indented;
+            xmlTextWriter.Indentation = 4;
 
             transform.Transform(xmlTextReader, xmlTextWriter);
 
@@ -2287,7 +2279,7 @@ namespace Krypton.Toolkit
                 else
                 {
                     // Perform the import operation on a separate worker thread
-                    CommonHelper.PerformOperation(ImportFromStream, stream);
+                    CommonHelper.PerformOperation(ImportFromStream!, stream);
 
                     KryptonMessageBox.Show(@"Import completed with success.",
                                     @"Palette Import",
@@ -2341,7 +2333,7 @@ namespace Krypton.Toolkit
                 else
                 {
                     // Perform the import operation on a separate worker thread
-                    CommonHelper.PerformOperation(ImportFromByteArray, byteArray);
+                    CommonHelper.PerformOperation(ImportFromByteArray!, byteArray);
 
                     KryptonMessageBox.Show(@"Import completed with success.",
                                     @"Palette Import",
@@ -2376,13 +2368,11 @@ namespace Krypton.Toolkit
         {
             if (KryptonManager._globalUseKryptonFileDialogs)
             {
-                using var ksfd = new KryptonSaveFileDialog
-                {
-                    OverwritePrompt = true,
-                    DefaultExt = @"xml",
-                    Filter = @"Palette files (*.xml)|*.xml|All files (*.*)|(*.*)",
-                    Title = @"Save Palette As"
-                };
+                using var ksfd = new KryptonSaveFileDialog();
+                ksfd.OverwritePrompt = true;
+                ksfd.DefaultExt = @"xml";
+                ksfd.Filter = @"Palette files (*.xml)|*.xml|All files (*.*)|(*.*)";
+                ksfd.Title = @"Save Palette As";
 
                 if (ksfd.ShowDialog() == DialogResult.OK)
                 {
@@ -2396,14 +2386,12 @@ namespace Krypton.Toolkit
             }
             else
             {
-                using var dialog = new SaveFileDialog
-                {
-                    // Palette files are just xml documents
-                    OverwritePrompt = true,
-                    DefaultExt = @"xml",
-                    Filter = @"Palette files (*.xml)|*.xml|All files (*.*)|(*.*)",
-                    Title = @"Save Palette As"
-                };
+                using var dialog = new SaveFileDialog();
+                // Palette files are just xml documents
+                dialog.OverwritePrompt = true;
+                dialog.DefaultExt = @"xml";
+                dialog.Filter = @"Palette files (*.xml)|*.xml|All files (*.*)|(*.*)";
+                dialog.Title = @"Save Palette As";
 
                 // Get the actual file selected by the user
                 if (dialog.ShowDialog() == DialogResult.OK)
@@ -2422,17 +2410,15 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>Export palette settings to a user specified xml file. For use with action list.</summary>
-        /// <returns>Fullpath of exported filename; otherwise empty string.</returns>
+        /// <returns>Full path of exported filename; otherwise empty string.</returns>
         internal string? ActionListExport()
         {
-            using var dialog = new SaveFileDialog
-            {
-                // Palette files are just xml documents
-                OverwritePrompt = true,
-                DefaultExt = @"xml",
-                Filter = @"Palette files (*.xml)|*.xml|All files (*.*)|(*.*)",
-                Title = @"Save Palette As"
-            };
+            using var dialog = new SaveFileDialog();
+            // Palette files are just xml documents
+            dialog.OverwritePrompt = true;
+            dialog.DefaultExt = @"xml";
+            dialog.Filter = @"Palette files (*.xml)|*.xml|All files (*.*)|(*.*)";
+            dialog.Title = @"Save Palette As";
 
             // Get the actual file selected by the user
             if (dialog.ShowDialog() == DialogResult.OK)
@@ -2454,7 +2440,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="filename">Filename to create or overwrite.</param>
         /// <param name="ignoreDefaults">Should default values be exported.</param>
-        /// <returns>Fullpath of exported filename; otherwise empty string.</returns>
+        /// <returns>Full path of exported filename; otherwise empty string.</returns>
         public string? Export(string filename, bool ignoreDefaults)
         => Export(filename, ignoreDefaults, true);
 
@@ -2464,7 +2450,7 @@ namespace Krypton.Toolkit
         /// <param name="filename">Filename to create or overwrite.</param>
         /// <param name="ignoreDefaults">Should default values be exported.</param>
         /// <param name="silent">Silent mode provides no user interface feedback.</param>
-        /// <returns>Fullpath of exported filename; otherwise empty string.</returns>
+        /// <returns>Full path of exported filename; otherwise empty string.</returns>
         public string? Export(string filename, bool ignoreDefaults, bool silent)
         {
             string? ret;
@@ -2481,7 +2467,7 @@ namespace Krypton.Toolkit
                 else
                 {
                     // Perform the import operation on a separate worker thread
-                    ret = CommonHelper.PerformOperation(ExportToFile,
+                    ret = CommonHelper.PerformOperation(ExportToFile!,
                         new object[] { filename, ignoreDefaults }) as string;
 
                     KryptonMessageBox.Show($"Export to file '{filename}' completed.",
@@ -2540,7 +2526,7 @@ namespace Krypton.Toolkit
                 else
                 {
                     // Perform the import operation on a separate worker thread
-                    CommonHelper.PerformOperation(ExportToStream,
+                    CommonHelper.PerformOperation(ExportToStream!,
                                                   new object[] { stream, ignoreDefaults });
 
                     KryptonMessageBox.Show(@"Export completed with success.",
@@ -2596,7 +2582,7 @@ namespace Krypton.Toolkit
                 else
                 {
                     // Perform the import operation on a separate worker thread
-                    ret = CommonHelper.PerformOperation(ExportToByteArray,
+                    ret = CommonHelper.PerformOperation(ExportToByteArray!,
                         new object[] { ignoreDefaults }) as byte[];
 
                     KryptonMessageBox.Show(@"Export completed with success.",
@@ -3312,6 +3298,7 @@ namespace Krypton.Toolkit
                 doc.AppendChild(doc.CreateComment("Created by exporting the settings of a KryptonPalette instance."));
                 doc.AppendChild(doc.CreateComment("For more information about Krypton visit https://github.com/Krypton-Suite/Standard-Toolkit"));
                 doc.AppendChild(doc.CreateComment("WARNING: Modifying this file may render it invalid for importing."));
+                doc.AppendChild(doc.CreateComment($@"Date created: {DateTime.Now.ToLongDateString()}"));
 
                 // Create a root node with version and the date information, by 
                 // having a version number the loading of older version is easier
@@ -3391,7 +3378,7 @@ namespace Krypton.Toolkit
                                         var valueValue = childElement.GetAttribute(@"Value");
 
                                         // We special case the loading of images
-                                        if (prop.PropertyType.Equals(typeof(Image)))
+                                        if (prop.PropertyType == typeof(Image))
                                         {
                                             if (valueValue.Length == 0)
                                             {
@@ -3400,17 +3387,20 @@ namespace Krypton.Toolkit
                                             }
                                             else
                                             {
-                                                // Have we already encountered the image?
-                                                if (imageCache.ContainsKey(valueValue))
-                                                {
-                                                    // Push the image from the cache into the property
-                                                    prop.SetValue(obj, valueValue, null);
-                                                }
-                                                else
-                                                {
-                                                    // Cannot find image to set to empty
-                                                    prop.SetValue(obj, null, null);
-                                                }
+                                                /*// Have we already encountered the image?
+                                                        if (imageCache.ContainsKey(valueValue))
+                                                        {
+                                                            // Push the image from the cache into the property
+                                                            prop.SetValue(obj, valueValue, null);
+                                                        }
+                                                        else
+                                                        {
+                                                            // Cannot find image to set to empty
+                                                            prop.SetValue(obj, null, null);
+                                                        }*/
+
+                                                // If image exists in dictionary, push the image from the cache into the property, else null.
+                                                prop.SetValue(obj, imageCache.TryGetValue(valueValue, out var imageValue) ? imageValue : null, null);
                                             }
                                         }
                                         else
@@ -3602,7 +3592,7 @@ namespace Krypton.Toolkit
                                 childElement.SetAttribute(nameof(Type), TypeToString(prop.PropertyType));
 
                                 // We special case the saving of images
-                                if (prop.PropertyType.Equals(typeof(Image)))
+                                if (prop.PropertyType == typeof(Image))
                                 {
                                     if (childObj == null)
                                     {
@@ -3739,7 +3729,7 @@ namespace Krypton.Toolkit
                             }
                             else
                             {
-                                // Only default value if not part of a populate operation or we are part of a populate
+                                // Only default value if not part of a populate operation, or we are part of a populate
                                 // operation and the persist property indicates it can be reset in a populate scenario
                                 if (!populate || persist.Populate)
                                 {
