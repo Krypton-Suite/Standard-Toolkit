@@ -31,6 +31,7 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(StartScreen));
             this.kryptonPanel1 = new Krypton.Toolkit.KryptonPanel();
+            this.kbtnTreeView = new Krypton.Toolkit.KryptonButton();
             this.kbtnExit = new Krypton.Toolkit.KryptonButton();
             this.kbtnFormBorder = new Krypton.Toolkit.KryptonButton();
             this.kbtnToast = new Krypton.Toolkit.KryptonButton();
@@ -48,7 +49,6 @@
             this.kbtnBreadCrumb = new Krypton.Toolkit.KryptonButton();
             this.kryptonThemeComboBox1 = new Krypton.Toolkit.KryptonThemeComboBox();
             this.kryptonManager1 = new Krypton.Toolkit.KryptonManager(this.components);
-            this.kbtnTreeView = new Krypton.Toolkit.KryptonButton();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
             this.kryptonPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonThemeComboBox1)).BeginInit();
@@ -76,8 +76,17 @@
             this.kryptonPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kryptonPanel1.Location = new System.Drawing.Point(0, 0);
             this.kryptonPanel1.Name = "kryptonPanel1";
-            this.kryptonPanel1.Size = new System.Drawing.Size(443, 302);
+            this.kryptonPanel1.Size = new System.Drawing.Size(451, 310);
             this.kryptonPanel1.TabIndex = 0;
+            // 
+            // kbtnTreeView
+            // 
+            this.kbtnTreeView.Location = new System.Drawing.Point(13, 257);
+            this.kbtnTreeView.Name = "kbtnTreeView";
+            this.kbtnTreeView.Size = new System.Drawing.Size(204, 25);
+            this.kbtnTreeView.TabIndex = 16;
+            this.kbtnTreeView.Values.Text = "TreeView";
+            this.kbtnTreeView.Click += new System.EventHandler(this.kbtnTreeView_Click);
             // 
             // kbtnExit
             // 
@@ -228,23 +237,15 @@
             // 
             // kryptonManager1
             // 
+            this.kryptonManager1.BaseFont = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.kryptonManager1.GlobalPaletteMode = Krypton.Toolkit.PaletteMode.SparkleOrange;
-            // 
-            // kbtnTreeView
-            // 
-            this.kbtnTreeView.Location = new System.Drawing.Point(13, 257);
-            this.kbtnTreeView.Name = "kbtnTreeView";
-            this.kbtnTreeView.Size = new System.Drawing.Size(204, 25);
-            this.kbtnTreeView.TabIndex = 16;
-            this.kbtnTreeView.Values.Text = "TreeView";
-            this.kbtnTreeView.Click += new System.EventHandler(this.kbtnTreeView_Click);
             // 
             // StartScreen
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.kbtnExit;
-            this.ClientSize = new System.Drawing.Size(443, 302);
+            this.ClientSize = new System.Drawing.Size(451, 310);
             this.Controls.Add(this.kryptonPanel1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;

@@ -22,7 +22,7 @@ namespace Krypton.Toolkit
 
 		private int _selectedIndex;
 
-		private readonly int? _defaultPaletteIndex = (int)PaletteMode.Microsoft365Blue;
+		private readonly int? _defaultPaletteIndex = GlobalStaticValues.GLOBAL_DEFAULT_THEME_INDEX;
 
 		private PaletteMode _defaultPalette;
 

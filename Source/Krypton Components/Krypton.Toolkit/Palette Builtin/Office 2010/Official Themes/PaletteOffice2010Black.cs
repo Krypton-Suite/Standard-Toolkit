@@ -79,8 +79,8 @@ namespace Krypton.Toolkit
 
         private static readonly Color[] _schemeOfficeColors =
         [
-            Color.FromArgb(255, 255, 255), // (76, 83, 92), // TextLabelControl
-            Color.Black, // TextButtonNormal
+            Color.FromArgb(70, 70, 70), // (76, 83, 92), // TextLabelControl
+            Color.FromArgb(70, 70, 70), // TextButtonNormal
             Color.Black, // TextButtonChecked
             Color.FromArgb(106, 106, 106), // ButtonNormalBorder1
             Color.FromArgb(94, 94, 94), // ButtonNormalDefaultBorder
@@ -149,7 +149,6 @@ namespace Krypton.Toolkit
             Color.Violet, // LinkVisitedOverridePanel
             Color.FromArgb(255, 90, 90), // LinkPressedOverridePanel
             Color.White, // TextLabelPanel
-            //Color.FromArgb(226, 226, 226),    // RibbonTabTextNormal
             Color.White, // RibbonTabTextNormal
             Color.Black, // RibbonTabTextChecked
             Color.FromArgb(94, 94, 94), // RibbonTabSelected1
@@ -263,14 +262,14 @@ namespace Krypton.Toolkit
             Color.FromArgb(218, 220, 221), // GridDataCellBorder
             Color.FromArgb(183, 219, 255), // GridDataCellSelected
             //Color.Black,    
-            Color.FromArgb(255, 255, 255), // InputControlTextNormal
+            Color.FromArgb(70, 70, 70), // InputControlTextNormal
             Color.FromArgb(168, 168, 168), // InputControlTextDisabled
             Color.FromArgb(132, 132, 132), // InputControlBorderNormal
             Color.FromArgb(187, 187, 187), // InputControlBorderDisabled
-            Color.FromArgb(38, 38, 38), // InputControlBackNormal
+            Color.White, // InputControlBackNormal
             Color.FromArgb(240, 240, 240), // InputControlBackDisabled
             Color.FromArgb(192, 192, 192), // InputControlBackInactive
-            Color.Black, // InputDropDownNormal1
+            Color.White, // InputDropDownNormal1
             Color.Transparent, // InputDropDownNormal2
             Color.FromArgb(172, 168, 153), // InputDropDownDisabled1
             Color.Transparent, // InputDropDownDisabled2

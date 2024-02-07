@@ -2248,4 +2248,14 @@ namespace Krypton.Toolkit
     }
 
     #endregion
+
+    #region Enum RightToLeftLayout
+
+    public enum RightToLeftLayout
+    {
+        LeftToRight = 0,
+        RightToLeft = 1
+    }
+
+    #endregion
 }

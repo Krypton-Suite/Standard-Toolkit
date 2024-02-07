@@ -1,14 +1,14 @@
 ﻿#region BSD License
 /*
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2023 - 2024. All rights reserved. 
- *  
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2023 - 2024. All rights reserved.
+ *
  */
 #endregion
 
 namespace Krypton.Toolkit
 {
-    internal partial class VisualThemeBrowserForm : KryptonForm
+    internal partial class VisualThemeBrowserFormRtlAware : KryptonForm
     {
         #region Instance Fields
 
@@ -22,13 +22,13 @@ namespace Krypton.Toolkit
 
         #region Identity
 
-        /// <summary>Initializes a new instance of the <see cref="VisualThemeBrowserForm" /> class.</summary>
+        /// <summary>Initializes a new instance of the <see cref="VisualThemeBrowserFormRtlAware" /> class.</summary>
         /// <param name="startPosition">The start position.</param>
         /// <param name="startIndex">The start index.</param>
         /// <param name="windowTitle">The window title.</param>
         /// <param name="showImportButton">The show import button.</param>
         /// <param name="showSilentOption">The show silent option.</param>
-        public VisualThemeBrowserForm(FormStartPosition startPosition = FormStartPosition.CenterScreen, int? startIndex = (int)PaletteMode.Microsoft365Blue, string? windowTitle = null, bool? showImportButton = null, bool? showSilentOption = null)
+        public VisualThemeBrowserFormRtlAware(FormStartPosition startPosition = FormStartPosition.CenterScreen, int? startIndex = (int)PaletteMode.Microsoft365Blue, string? windowTitle = null, bool? showImportButton = null, bool? showSilentOption = null)
         {
             InitializeComponent();
 
@@ -59,9 +59,9 @@ namespace Krypton.Toolkit
 
             StartPosition = _formStartPosition;
 
-            //klbThemeList.SelectedIndex = _startIndex;
+            klbThemeList.SelectedIndex = _startIndex;
 
-            klblDescription.Text = KryptonManager.Strings.KryptonMiscellaneousThemeStrings.ThemeBrowserDescription;
+            klblHeader.Text = KryptonManager.Strings.KryptonMiscellaneousThemeStrings.ThemeBrowserDescription;
 
             kbtnImport.Text = KryptonManager.Strings.KryptonMiscellaneousThemeStrings.Import;
 
@@ -69,12 +69,12 @@ namespace Krypton.Toolkit
 
             kbtnCancel.Text = KryptonManager.Strings.GeneralStrings.Cancel;
 
-            kbtnOK.Text = KryptonManager.Strings.GeneralStrings.OK;
+            kbtnOk.Text = KryptonManager.Strings.GeneralStrings.OK;
         }
 
         private void kbtnImport_Click(object sender, EventArgs e) => kcpbCustom.Import(kchkSilent.Checked);
 
-        private void KryptonThemeBrowserForm_Load(object sender, EventArgs e)
+        private void VisualThemeBrowserFormRtlAware_Load(object sender, EventArgs e)
         {
             foreach (var themeName in ThemeManager.SupportedInternalThemeNames)
             {
@@ -87,10 +87,6 @@ namespace Krypton.Toolkit
             klbThemeList.SelectedItem = _startIndex;
         }
 
-        private void kbtnOK_Click(object sender, EventArgs e) => DialogResult = DialogResult.OK;
-
-        private void kbtnCancel_Click(object sender, EventArgs e) => DialogResult = DialogResult.Cancel;
-
         private void klbThemeList_SelectedIndexChanged(object sender, EventArgs e)
         {
             ThemeManager.ApplyTheme(klbThemeList.GetItemText(klbThemeList.SelectedItem)!, new());
@@ -98,7 +94,11 @@ namespace Krypton.Toolkit
             SetIndexText($@"{klbThemeList.GetItemText(klbThemeList.SelectedItem)} - Index: {klbThemeList.SelectedIndex}");
         }
 
-        private void SetIndexText(string v) => klblSelectedIndex.Text = v;
+        private void SetIndexText(string value) => klblHeader.Text = value;
+
+        private void kbtnCancel_Click(object sender, EventArgs e) => DialogResult = DialogResult.Cancel;
+
+        private void kbtnOk_Click(object sender, EventArgs e) => DialogResult = DialogResult.OK;
 
         #endregion
     }

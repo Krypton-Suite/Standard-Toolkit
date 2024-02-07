@@ -75,6 +75,10 @@ namespace Krypton.Toolkit
         /// <value>The notification location.</value>
         public Point? NotificationLocation { get; set; }
 
+        /// <summary>Gets or sets the right to left layout.</summary>
+        /// <value>The right to left layout.</value>
+        public RightToLeftLayout? RightToLeftLayout { get; set; }
+
         /// <summary>Gets or sets the notification icon.</summary>
         /// <value>The notification icon.</value>
         public KryptonToastNotificationIcon? NotificationIcon { get; set; }
@@ -96,6 +100,8 @@ namespace Krypton.Toolkit
             BorderColor1 = Color.Empty;
 
             BorderColor2 = Color.Empty;
+
+            RightToLeftLayout = Toolkit.RightToLeftLayout.LeftToRight;
         }
 
         #endregion
