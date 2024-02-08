@@ -19,7 +19,7 @@
 
 #endregion
 
-namespace Krypton.Toolkit.Utilities
+namespace Krypton.Toolkit
 {
     internal class OutlookGridLanguageManager
     {

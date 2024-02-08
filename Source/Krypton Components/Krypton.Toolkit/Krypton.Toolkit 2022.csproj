@@ -374,6 +374,11 @@
           <AutoGen>True</AutoGen>
           <DependentUpon>SizeGripStyleResources.resx</DependentUpon>
         </Compile>
+        <Compile Update="ResourceFiles\Sort\SortingImageResources.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>SortingImageResources.resx</DependentUpon>
+        </Compile>
         <Compile Update="ResourceFiles\Stars\StarImageResources.Designer.cs">
             <DesignTime>True</DesignTime>
             <AutoGen>True</AutoGen>
@@ -788,6 +793,10 @@
         <EmbeddedResource Update="ResourceFiles\SizeGripStyles\SizeGripStyleResources.resx">
           <Generator>ResXFileCodeGenerator</Generator>
           <LastGenOutput>SizeGripStyleResources.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="ResourceFiles\Sort\SortingImageResources.resx">
+          <Generator>ResXFileCodeGenerator</Generator>
+          <LastGenOutput>SortingImageResources.Designer.cs</LastGenOutput>
         </EmbeddedResource>
         <EmbeddedResource Update="ResourceFiles\Stars\StarImageResources.resx">
             <Generator>ResXFileCodeGenerator</Generator>

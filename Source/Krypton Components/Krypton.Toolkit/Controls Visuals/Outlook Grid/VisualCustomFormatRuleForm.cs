@@ -19,8 +19,6 @@
 
 #endregion
 
-using Krypton.Toolkit.Utilities;
-
 namespace Krypton.Toolkit
 {
     internal partial class VisualCustomFormatRuleForm : KryptonForm
