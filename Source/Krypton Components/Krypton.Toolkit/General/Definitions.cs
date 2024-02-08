@@ -2258,4 +2258,82 @@ namespace Krypton.Toolkit
     }
 
     #endregion
+
+    #region Enum DateInterval
+
+    /// <summary>
+    /// Enum of Date interval for the OutlookGridDateTimeGroup
+    /// </summary>
+    public enum DateInterval
+    {
+        /// <summary>
+        /// Day
+        /// </summary>
+        Day,
+
+        /// <summary>
+        /// Month
+        /// </summary>
+        Month,
+
+        /// <summary>
+        /// Quarter
+        /// </summary>
+        Quarter,
+
+        /// <summary>
+        /// Year
+        /// </summary>
+        Year,
+
+        /// <summary>
+        /// Smart : intelligent grouping like Outlook for dates
+        /// </summary>
+        Smart
+    }
+
+    #endregion
+
+    #region Enum EnumConditionalFormatType
+
+    /// <summary>
+    /// Conditional Formatting type
+    /// </summary>
+    public enum EnumConditionalFormatType
+    {
+        /// <summary>
+        /// Two scale color
+        /// </summary>
+        TwoColoursRange,
+        /// <summary>
+        /// Three scale color
+        /// </summary>
+        ThreeColoursRange,
+        /// <summary>
+        /// Bar
+        /// </summary>
+        Bar
+    }
+
+    #endregion
+
+    #region Enum FillMode
+
+    /// <summary>
+    /// Grid filling mode
+    /// </summary>
+    public enum FillMode
+    {
+        /// <summary>
+        /// The grid contains only groups (faster).
+        /// </summary>
+        GroupsOnly,
+
+        /// <summary>
+        /// The grid contains groups and nodes (no choice, choose this one !)
+        /// </summary>
+        GroupsAndNodes
+    }
+
+    #endregion
 }
