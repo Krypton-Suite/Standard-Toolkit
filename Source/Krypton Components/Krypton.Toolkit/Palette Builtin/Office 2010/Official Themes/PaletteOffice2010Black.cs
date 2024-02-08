@@ -63,7 +63,8 @@ namespace Krypton.Toolkit
         private static readonly Image _buttonSpecRibbonExpand = RibbonArrowImageResources.RibbonDown2010Black;
 
         #endregion
-        private static readonly Color _disabledRibbonText = Color.FromArgb(205, 205, 205);
+
+        private static readonly Color _disabledText = Color.FromArgb(167, 167, 167);
 
         #region Colour Arrays
 
@@ -699,26 +700,40 @@ namespace Krypton.Toolkit
         {
             switch (style)
             {
+                case PaletteRibbonTextStyle.RibbonAppMenuDocsTitle:
+                case PaletteRibbonTextStyle.RibbonAppMenuDocsEntry:
+                    return _schemeOfficeColors[(int)SchemeOfficeColors.AppButtonMenuDocsText];
                 case PaletteRibbonTextStyle.RibbonGroupNormalTitle:
-                    if (state == PaletteState.Disabled)
+                    return state switch
                     {
-                        return _disabledRibbonText;
-                    }
+                        PaletteState.Disabled => _disabledText,
+                        _ => _schemeOfficeColors[(int)SchemeOfficeColors.RibbonGroupTitleText]
+                    };
 
-                    break;
+                case PaletteRibbonTextStyle.RibbonTab:
+                    return state switch
+                    {
+                        PaletteState.Disabled => _disabledText,
+                        PaletteState.CheckedNormal or PaletteState.CheckedPressed or PaletteState.CheckedTracking or PaletteState.ContextCheckedNormal or PaletteState.ContextCheckedTracking or PaletteState.FocusOverride => _schemeOfficeColors[(int)SchemeOfficeColors.RibbonTabTextChecked],
+                        _ => _schemeOfficeColors[(int)SchemeOfficeColors.RibbonTabTextNormal]
+                    };
+
+                case PaletteRibbonTextStyle.RibbonGroupCollapsedText:
+                    return _schemeOfficeColors[(int)SchemeOfficeColors.RibbonGroupCollapsedText];
                 case PaletteRibbonTextStyle.RibbonGroupButtonText:
                 case PaletteRibbonTextStyle.RibbonGroupLabelText:
                 case PaletteRibbonTextStyle.RibbonGroupCheckBoxText:
                 case PaletteRibbonTextStyle.RibbonGroupRadioButtonText:
-                    if (state == PaletteState.Disabled)
-                    {
-                        return _disabledRibbonText;
-                    }
+                    return state == PaletteState.Disabled ? _disabledText : _schemeOfficeColors[(int)SchemeOfficeColors.RibbonGroupCollapsedText];
 
+                default:
+                    // Should never happen!
+                    Debug.Assert(false);
+                    DebugTools.NotImplemented(style.ToString());
                     break;
             }
 
-            return base.GetRibbonTextColor(style, state);
+            return Color.Red;
         }
         #endregion
 
