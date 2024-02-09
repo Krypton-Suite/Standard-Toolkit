@@ -9,6 +9,8 @@
 
 namespace Krypton.Toolkit
 {
+    /// <summary>Exposes a set of localised strings, used by <see cref="T:KryptonOutlookGrid"/> and its components.</summary>
+    /// <seealso cref="GlobalId"/>
     [TypeConverter(typeof(ExpandableObjectConverter))]
     public class KryptonOutlookGridStrings : GlobalId
     {
