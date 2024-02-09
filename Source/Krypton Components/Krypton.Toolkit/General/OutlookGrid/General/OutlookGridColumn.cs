@@ -86,6 +86,21 @@ namespace Krypton.Toolkit
             GroupIndex = groupIndex;
             SortIndex = sortIndex;
         }
+
+        /// <summary>Initializes a new instance of the <see cref="OutlookGridColumn" /> class.</summary>
+        /// <param name="dataGridViewColumn">The data grid view column.</param>
+        /// <param name="group">The group.</param>
+        /// <param name="sortOrder">The sort order.</param>
+        /// <param name="groupIndex">Index of the group.</param>
+        /// <param name="sortIndex">Index of the sort.</param>
+        public OutlookGridColumn(DataGridViewColumn dataGridViewColumn, IOutlookGridGroup? group, SortOrder sortOrder, int groupIndex, int sortIndex)
+        {
+            DataGridViewColumn = dataGridViewColumn;
+            GroupingType = group;
+            SortDirection = sortOrder;
+            GroupIndex = groupIndex;
+            SortIndex = sortIndex;
+        }
         #endregion
 
         #region Properties

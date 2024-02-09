@@ -1104,7 +1104,7 @@ namespace Krypton.Toolkit
 
         private void OnTwoColorsCustomClick(object sender, EventArgs e)
         {
-            VisualCustomFormatRuleForm fm = new VisualCustomFormatRuleForm(EnumConditionalFormatType.TwoColoursRange);
+            VisualCustomFormatRuleForm fm = new VisualCustomFormatRuleForm(EnumConditionalFormatType.TwoColorsRange);
             fm.ShowDialog();
             if (fm.DialogResult == DialogResult.OK)
             {
@@ -1112,12 +1112,12 @@ namespace Krypton.Toolkit
                 ConditionalFormatting? format = _formatConditions.Where(x => x.ColumnName == col.Name).FirstOrDefault();
                 if (format == null)
                 {
-                    ConditionalFormatting newformat = new(col.DataGridViewColumn.Name, EnumConditionalFormatType.TwoColoursRange, new TwoColorsParams(fm.MinimumColor, fm.MaximumColor));
+                    ConditionalFormatting newformat = new(col.DataGridViewColumn.Name, EnumConditionalFormatType.TwoColorsRange, new TwoColorsParams(fm.MinimumColor, fm.MaximumColor));
                     _formatConditions.Add(newformat);
                 }
                 else
                 {
-                    format.FormatType = EnumConditionalFormatType.TwoColoursRange;
+                    format.FormatType = EnumConditionalFormatType.TwoColorsRange;
                     format.FormatParams = new TwoColorsParams(fm.MinimumColor, fm.MaximumColor);
                 }
                 Fill();
@@ -1128,7 +1128,7 @@ namespace Krypton.Toolkit
 
         private void OnThreeColorsCustomClick(object sender, EventArgs e)
         {
-            VisualCustomFormatRuleForm fm = new VisualCustomFormatRuleForm(EnumConditionalFormatType.ThreeColoursRange);
+            VisualCustomFormatRuleForm fm = new VisualCustomFormatRuleForm(EnumConditionalFormatType.ThreeColorsRange);
             fm.ShowDialog();
             if (fm.DialogResult == DialogResult.OK)
             {
@@ -1136,12 +1136,12 @@ namespace Krypton.Toolkit
                 ConditionalFormatting? format = _formatConditions.Where(x => x.ColumnName == col.Name).FirstOrDefault();
                 if (format == null)
                 {
-                    ConditionalFormatting newformat = new(col.DataGridViewColumn.Name, EnumConditionalFormatType.ThreeColoursRange, new ThreeColorsParams(Color.FromArgb(248, 105, 107), Color.FromArgb(255, 235, 132), Color.FromArgb(99, 190, 123)));
+                    ConditionalFormatting newformat = new(col.DataGridViewColumn.Name, EnumConditionalFormatType.ThreeColorsRange, new ThreeColorsParams(Color.FromArgb(248, 105, 107), Color.FromArgb(255, 235, 132), Color.FromArgb(99, 190, 123)));
                     _formatConditions.Add(newformat);
                 }
                 else
                 {
-                    format.FormatType = EnumConditionalFormatType.ThreeColoursRange;
+                    format.FormatType = EnumConditionalFormatType.ThreeColorsRange;
                     format.FormatParams = new ThreeColorsParams(Color.FromArgb(248, 105, 107), Color.FromArgb(255, 235, 132), Color.FromArgb(99, 190, 123));
                 }
                 Fill();
@@ -1922,42 +1922,42 @@ namespace Krypton.Toolkit
                 tmpTag.Add(new(EnumConditionalFormatType.Bar, new BarParams(Color.FromArgb(255, 56, 185), true)));
 
                 imgListFormatting.Images.Add(OutlookGridImageResources.TwoColors_white_blue_32);
-                tmpTag.Add(new(EnumConditionalFormatType.TwoColoursRange, new TwoColorsParams(Color.White, Color.FromArgb(76, 118, 255))));
+                tmpTag.Add(new(EnumConditionalFormatType.TwoColorsRange, new TwoColorsParams(Color.White, Color.FromArgb(76, 118, 255))));
                 imgListFormatting.Images.Add(OutlookGridImageResources.TwoColors_blue_white_32);
-                tmpTag.Add(new(EnumConditionalFormatType.TwoColoursRange, new TwoColorsParams(Color.FromArgb(76, 118, 255), Color.White)));
+                tmpTag.Add(new(EnumConditionalFormatType.TwoColorsRange, new TwoColorsParams(Color.FromArgb(76, 118, 255), Color.White)));
                 imgListFormatting.Images.Add(OutlookGridImageResources.TwoColors_white_green_32);
-                tmpTag.Add(new(EnumConditionalFormatType.TwoColoursRange, new TwoColorsParams(Color.White, Color.FromArgb(95, 173, 123))));
+                tmpTag.Add(new(EnumConditionalFormatType.TwoColorsRange, new TwoColorsParams(Color.White, Color.FromArgb(95, 173, 123))));
                 imgListFormatting.Images.Add(OutlookGridImageResources.TwoColors_green_white_32);
-                tmpTag.Add(new(EnumConditionalFormatType.TwoColoursRange, new TwoColorsParams(Color.FromArgb(95, 173, 123), Color.White)));
+                tmpTag.Add(new(EnumConditionalFormatType.TwoColorsRange, new TwoColorsParams(Color.FromArgb(95, 173, 123), Color.White)));
                 imgListFormatting.Images.Add(OutlookGridImageResources.TwoColors_white_red_32);
-                tmpTag.Add(new(EnumConditionalFormatType.TwoColoursRange, new TwoColorsParams(Color.White, Color.FromArgb(248, 108, 103))));
+                tmpTag.Add(new(EnumConditionalFormatType.TwoColorsRange, new TwoColorsParams(Color.White, Color.FromArgb(248, 108, 103))));
                 imgListFormatting.Images.Add(OutlookGridImageResources.TwoColors_red_white_32);
-                tmpTag.Add(new(EnumConditionalFormatType.TwoColoursRange, new TwoColorsParams(Color.FromArgb(248, 108, 103), Color.White)));
+                tmpTag.Add(new(EnumConditionalFormatType.TwoColorsRange, new TwoColorsParams(Color.FromArgb(248, 108, 103), Color.White)));
                 imgListFormatting.Images.Add(OutlookGridImageResources.TwoColors_white_yellow_32);
-                tmpTag.Add(new(EnumConditionalFormatType.TwoColoursRange, new TwoColorsParams(Color.White, Color.FromArgb(255, 185, 56))));
+                tmpTag.Add(new(EnumConditionalFormatType.TwoColorsRange, new TwoColorsParams(Color.White, Color.FromArgb(255, 185, 56))));
                 imgListFormatting.Images.Add(OutlookGridImageResources.TwoColors_yellow_white_32);
-                tmpTag.Add(new(EnumConditionalFormatType.TwoColoursRange, new TwoColorsParams(Color.FromArgb(255, 185, 56), Color.White)));
+                tmpTag.Add(new(EnumConditionalFormatType.TwoColorsRange, new TwoColorsParams(Color.FromArgb(255, 185, 56), Color.White)));
                 imgListFormatting.Images.Add(OutlookGridImageResources.TwoColors_white_violet_32);
-                tmpTag.Add(new(EnumConditionalFormatType.TwoColoursRange, new TwoColorsParams(Color.White, Color.FromArgb(185, 56, 255))));
+                tmpTag.Add(new(EnumConditionalFormatType.TwoColorsRange, new TwoColorsParams(Color.White, Color.FromArgb(185, 56, 255))));
                 imgListFormatting.Images.Add(OutlookGridImageResources.TwoColors_violet_white_32);
-                tmpTag.Add(new(EnumConditionalFormatType.TwoColoursRange, new TwoColorsParams(Color.FromArgb(185, 56, 255), Color.White)));
+                tmpTag.Add(new(EnumConditionalFormatType.TwoColorsRange, new TwoColorsParams(Color.FromArgb(185, 56, 255), Color.White)));
                 imgListFormatting.Images.Add(OutlookGridImageResources.TwoColors_white_pink_32);
-                tmpTag.Add(new(EnumConditionalFormatType.TwoColoursRange, new TwoColorsParams(Color.White, Color.FromArgb(255, 56, 185))));
+                tmpTag.Add(new(EnumConditionalFormatType.TwoColorsRange, new TwoColorsParams(Color.White, Color.FromArgb(255, 56, 185))));
                 imgListFormatting.Images.Add(OutlookGridImageResources.TwoColors_pink_white_32);
-                tmpTag.Add(new(EnumConditionalFormatType.TwoColoursRange, new TwoColorsParams(Color.FromArgb(255, 56, 185), Color.White)));
+                tmpTag.Add(new(EnumConditionalFormatType.TwoColorsRange, new TwoColorsParams(Color.FromArgb(255, 56, 185), Color.White)));
 
                 imgListFormatting.Images.Add(OutlookGridImageResources.ThreeColors_green_yellow_red_32);
-                tmpTag.Add(new(EnumConditionalFormatType.ThreeColoursRange, new ThreeColorsParams(Color.FromArgb(84, 179, 112), Color.FromArgb(252, 229, 130), Color.FromArgb(243, 120, 97))));
+                tmpTag.Add(new(EnumConditionalFormatType.ThreeColorsRange, new ThreeColorsParams(Color.FromArgb(84, 179, 112), Color.FromArgb(252, 229, 130), Color.FromArgb(243, 120, 97))));
                 imgListFormatting.Images.Add(OutlookGridImageResources.ThreeColors_red_yellow_green_32);
-                tmpTag.Add(new(EnumConditionalFormatType.ThreeColoursRange, new ThreeColorsParams(Color.FromArgb(243, 120, 97), Color.FromArgb(252, 229, 130), Color.FromArgb(84, 179, 112))));
+                tmpTag.Add(new(EnumConditionalFormatType.ThreeColorsRange, new ThreeColorsParams(Color.FromArgb(243, 120, 97), Color.FromArgb(252, 229, 130), Color.FromArgb(84, 179, 112))));
                 imgListFormatting.Images.Add(OutlookGridImageResources.ThreeColors_green_white_red_32);
-                tmpTag.Add(new(EnumConditionalFormatType.ThreeColoursRange, new ThreeColorsParams(Color.FromArgb(84, 179, 112), Color.White, Color.FromArgb(243, 120, 97))));
+                tmpTag.Add(new(EnumConditionalFormatType.ThreeColorsRange, new ThreeColorsParams(Color.FromArgb(84, 179, 112), Color.White, Color.FromArgb(243, 120, 97))));
                 imgListFormatting.Images.Add(OutlookGridImageResources.ThreeColors_red_white_green_32);
-                tmpTag.Add(new(EnumConditionalFormatType.ThreeColoursRange, new ThreeColorsParams(Color.FromArgb(243, 120, 97), Color.White, Color.FromArgb(84, 179, 112))));
+                tmpTag.Add(new(EnumConditionalFormatType.ThreeColorsRange, new ThreeColorsParams(Color.FromArgb(243, 120, 97), Color.White, Color.FromArgb(84, 179, 112))));
                 imgListFormatting.Images.Add(OutlookGridImageResources.ThreeColors_blue_white_red_32);
-                tmpTag.Add(new(EnumConditionalFormatType.ThreeColoursRange, new ThreeColorsParams(Color.FromArgb(134, 166, 253), Color.White, Color.FromArgb(243, 120, 97))));
+                tmpTag.Add(new(EnumConditionalFormatType.ThreeColorsRange, new ThreeColorsParams(Color.FromArgb(134, 166, 253), Color.White, Color.FromArgb(243, 120, 97))));
                 imgListFormatting.Images.Add(OutlookGridImageResources.ThreeColors_red_white_blue_32);
-                tmpTag.Add(new(EnumConditionalFormatType.ThreeColoursRange, new ThreeColorsParams(Color.FromArgb(243, 120, 97), Color.White, Color.FromArgb(134, 166, 253))));
+                tmpTag.Add(new(EnumConditionalFormatType.ThreeColorsRange, new ThreeColorsParams(Color.FromArgb(243, 120, 97), Color.White, Color.FromArgb(134, 166, 253))));
 
 
                 it = null;
@@ -2015,7 +2015,7 @@ namespace Krypton.Toolkit
                         bars
                         });
                     }
-                    else if (names[i] == EnumConditionalFormatType.TwoColoursRange.ToString())
+                    else if (names[i] == EnumConditionalFormatType.TwoColorsRange.ToString())
                     {
                         it.Image = OutlookGridImageResources.color2scale_generic_16;
 
@@ -2042,7 +2042,7 @@ namespace Krypton.Toolkit
                         twoColors = new(new KryptonContextMenuItemBase[] { sep1, it2 });
                         it.Items.Add(twoColors);
                     }
-                    else if (names[i] == EnumConditionalFormatType.ThreeColoursRange.ToString())
+                    else if (names[i] == EnumConditionalFormatType.ThreeColorsRange.ToString())
                     {
                         it.Image = OutlookGridImageResources.color3scale_generic_16;
 
@@ -2671,7 +2671,7 @@ namespace Krypton.Toolkit
                                     ((BarParams)fCell.FormatParams).ProportionValue = ColorFormatting.ConvertBar((double)list[i].Cells[formatColumn].Value, _formatConditions[j].MinValue, _formatConditions[j].MaxValue);
                                 }
                                 break;
-                            case EnumConditionalFormatType.TwoColoursRange:
+                            case EnumConditionalFormatType.TwoColorsRange:
                                 if (typeColumn == typeof(TimeSpan))
                                 {
                                     ((TwoColorsParams)fCell.FormatParams).ValueColor = ColorFormatting.ConvertTwoRange(((TimeSpan)list[i].Cells[formatColumn].Value).TotalMinutes, _formatConditions[j].MinValue, _formatConditions[j].MaxValue, (TwoColorsParams)_formatConditions[j].FormatParams);
@@ -2688,7 +2688,7 @@ namespace Krypton.Toolkit
                                 }
                                 //list[i].Cells[formatColumn].Style.SelectionBackColor = list[i].Cells[formatColumn].Style.BackColor;
                                 break;
-                            case EnumConditionalFormatType.ThreeColoursRange:
+                            case EnumConditionalFormatType.ThreeColorsRange:
                                 if (typeColumn == typeof(TimeSpan))
                                 {
                                     ((ThreeColorsParams)fCell.FormatParams).ValueColor = ColorFormatting.ConvertThreeRange(((TimeSpan)list[i].Cells[formatColumn].Value).TotalMinutes, _formatConditions[j].MinValue, _formatConditions[j].MaxValue, (ThreeColorsParams)_formatConditions[j].FormatParams);

@@ -63,11 +63,11 @@ namespace Krypton.Toolkit
         /// <summary>
         /// The text associated for the group text (1 item)
         /// </summary>
-        private string _oneItemText;
+        private string? _oneItemText;
         /// <summary>
         /// The text associated for the group text (XXX items)
         /// </summary>
-        private string _xXxItemsText;
+        private string? _xXxItemsText;
         /// <summary>
         /// Allows the column to be hidden when it is grouped by
         /// </summary>
@@ -258,7 +258,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the text associated to One Item
         /// </summary>
-        public virtual string OneItemText
+        public virtual string? OneItemText
         {
             get => _oneItemText;
             set => _oneItemText = value;
@@ -267,7 +267,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the text associated to several Items
         /// </summary>
-        public virtual string XxxItemsText
+        public virtual string? XxxItemsText
         {
             get => _xXxItemsText;
             set => _xXxItemsText = value;

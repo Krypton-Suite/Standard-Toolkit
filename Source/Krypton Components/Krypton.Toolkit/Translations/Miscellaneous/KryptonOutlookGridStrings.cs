@@ -472,7 +472,7 @@ namespace Krypton.Toolkit
         public string Unknown { get; set; }
 
         /// <summary>Gets or sets the number of items string for the KryptonOutlookGrid.</summary>
-        public string NumberOfItems { get; set; }
+        public string? NumberOfItems { get; set; }
 
         /// <summary>Gets or sets the year string for the KryptonOutlookGrid.</summary>
         public string Year { get; set; }

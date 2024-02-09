@@ -2304,11 +2304,11 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Two scale color
         /// </summary>
-        TwoColoursRange,
+        TwoColorsRange,
         /// <summary>
         /// Three scale color
         /// </summary>
-        ThreeColoursRange,
+        ThreeColorsRange,
         /// <summary>
         /// Bar
         /// </summary>

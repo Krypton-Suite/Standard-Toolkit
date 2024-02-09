@@ -48,7 +48,7 @@ namespace Krypton.Toolkit
         /// <value>
         /// The Conditional Formatting parameters.
         /// </value>
-        public IFormatParams FormatParams { get; set; }
+        public IFormatParams? FormatParams { get; set; }
         /// <summary>
         /// Gets or sets the minimum value.
         /// </summary>
@@ -90,7 +90,7 @@ namespace Krypton.Toolkit
         /// <param name="columnName">Name of the column.</param>
         /// <param name="formatType">Type of the Conditional Formatting.</param>
         /// <param name="formatParams">The Conditional Formatting parameters.</param>
-        public ConditionalFormatting(string columnName, EnumConditionalFormatType formatType, IFormatParams formatParams)
+        public ConditionalFormatting(string columnName, EnumConditionalFormatType formatType, IFormatParams? formatParams)
         {
             ColumnName = columnName;
             FormatType = formatType;

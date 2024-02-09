@@ -86,12 +86,12 @@ namespace Krypton.Toolkit
         /// <summary>
         /// The text associated for the group text (1 item)
         /// </summary>
-        string OneItemText { get; set; }
+        string? OneItemText { get; set; }
 
         /// <summary>
         /// The text associated for the group text (XXX items)
         /// </summary>
-        string XxxItemsText { get; set; }
+        string? XxxItemsText { get; set; }
 
         /// <summary>
         /// Allows the column to be hidden when it is grouped by

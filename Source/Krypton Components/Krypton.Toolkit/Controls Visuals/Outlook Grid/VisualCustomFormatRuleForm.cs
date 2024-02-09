@@ -128,14 +128,14 @@ namespace Krypton.Toolkit
         {
             switch (conditionalFormatType)
             {
-                case EnumConditionalFormatType.TwoColoursRange:
+                case EnumConditionalFormatType.TwoColorsRange:
                     klblFill.Visible = false;
                     kcmbFillMode.Visible = false;
                     kcolbtnMinimumColor.Visible = true;
                     kcolbtnIntermediateColor.Visible = false;
                     kcolbtnMaximumColor.Visible = true;
                     break;
-                case EnumConditionalFormatType.ThreeColoursRange:
+                case EnumConditionalFormatType.ThreeColorsRange:
                     klblFill.Visible = false;
                     kcmbFillMode.Visible = false;
                     kcolbtnMinimumColor.Visible = true;
@@ -181,14 +181,14 @@ namespace Krypton.Toolkit
                         e.Graphics.DrawRectangle(pen, rect);
                     }
                     break;
-                case EnumConditionalFormatType.TwoColoursRange:
+                case EnumConditionalFormatType.TwoColorsRange:
                     // Draw the background gradient.
                     using (LinearGradientBrush br = new LinearGradientBrush(e.ClipRectangle, _minimumColor, _maximumColor, LinearGradientMode.Horizontal))
                     {
                         e.Graphics.FillRectangle(br, e.ClipRectangle);
                     }
                     break;
-                case EnumConditionalFormatType.ThreeColoursRange:
+                case EnumConditionalFormatType.ThreeColorsRange:
                     // Draw the background gradient.              
                     using (LinearGradientBrush br = new LinearGradientBrush(e.ClipRectangle, _minimumColor, _maximumColor, LinearGradientMode.Horizontal))
                     {

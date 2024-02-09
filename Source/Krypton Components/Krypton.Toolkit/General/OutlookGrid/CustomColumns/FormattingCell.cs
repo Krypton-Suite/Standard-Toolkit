@@ -151,13 +151,13 @@ namespace Krypton.Toolkit
                         }
 
                         break;
-                    case EnumConditionalFormatType.TwoColoursRange:
+                    case EnumConditionalFormatType.TwoColorsRange:
                         TwoColorsParams? twCpar = FormatParams as TwoColorsParams;
                         Style.BackColor = twCpar!.ValueColor;
                         //  if (ContrastTextColor)
                         Style.ForeColor = ContrastColor(twCpar.ValueColor);
                         break;
-                    case EnumConditionalFormatType.ThreeColoursRange:
+                    case EnumConditionalFormatType.ThreeColorsRange:
                         ThreeColorsParams? thCpar = FormatParams as ThreeColorsParams;
                         Style.BackColor = thCpar!.ValueColor;
                         Style.ForeColor = ContrastColor(thCpar.ValueColor);
