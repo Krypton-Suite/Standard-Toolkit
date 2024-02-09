@@ -148,15 +148,10 @@ namespace Krypton.Toolkit
 
         #region Implements
 
-        /// <summary>
-        /// Defines Equals methode (interface IEquatable)
-        /// </summary>
+        /// <summary>Defines Equals method (interface IEquatable)</summary>
         /// <param name="other">The OutlookGridColumn to compare with</param>
         /// <returns></returns>
-        public bool Equals(OutlookGridColumn other)
-        {
-            return DataGridViewColumn.Name.Equals(other.DataGridViewColumn.Name);
-        }
+        public bool Equals(OutlookGridColumn other) => DataGridViewColumn.Name.Equals(other.DataGridViewColumn.Name);
 
         #endregion
     }

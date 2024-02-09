@@ -503,7 +503,7 @@ namespace Krypton.Toolkit
         protected override void OnMouseMove(MouseEventArgs e)
         {
             // while we are expanding and collapsing a node mouse moves are
-            // supressed to keep selections from being messed up.
+            // suppressed to keep selections from being messed up.
             if (!InExpandCollapseMouseCapture)
             {
                 bool dragDropDone = false;
@@ -634,8 +634,7 @@ namespace Krypton.Toolkit
                             //*************************************************
                             //'SourceColumn' is null after the line of code
                             //below executes... Why? This works fine for rows!!
-                            string? r = drgevent.Data.GetData(typeof(string)) as string;
-                            if (r != null)
+                            if (drgevent.Data.GetData(typeof(string)) is string r)
                             {
                                 string[] res = r.Split('|');
                                 DataGridViewColumn? sourceColumn = Columns[res[0]];

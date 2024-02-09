@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.Expando;
 using System.Text;
@@ -12,13 +13,11 @@ using System.Windows.Forms;
 using System.Xml;
 using Krypton.Toolkit;
 
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.Rebar;
-
 namespace TestForm
 {
     public partial class OutlookGridTest : KryptonForm
     {
-        private bool expand = true;
+        private bool _expand = true;
         private static Random _random = new Random();
 
         public OutlookGridTest()
@@ -50,24 +49,25 @@ namespace TestForm
             tokensList.Add(null);
 
             Random random = new Random();
-            //.Next permet de retourner un nombre aléatoire contenu dans la plage spécifiée entre parenthèses.
+
+            // Returns a random number within the range specified in parentheses.
             XmlDocument doc = new XmlDocument();
-            doc.Load("invoices.xml");
+            doc.Load(@"invoices.xml");
             IFormatProvider culture = new CultureInfo("en-US", true);
-            foreach (XmlNode customer in doc.SelectNodes("//invoice")) //TODO for instead foreach for perfs...
+            foreach (XmlNode customer in doc.SelectNodes("//invoice")!) //TODO for instead foreach for perfs...
             {
                 try
                 {
                     row = new OutlookGridRow();
                     row.CreateCells(kryptonOutlookGrid1, new object[] {
-                        customer["CustomerID"].InnerText,
-                        customer["CustomerName"].InnerText,
-                        customer["Address"].InnerText,
-                        customer["City"].InnerText,
-                        new TextAndImage(customer["Country"].InnerText,GetFlag(customer["Country"].InnerText)),
-                        DateTime.Parse(customer["OrderDate"].InnerText,culture),
-                        customer["ProductName"].InnerText,
-                        double.Parse(customer["Price"].InnerText, CultureInfo.InvariantCulture), //We put a float the formatting in design does the rest
+                        customer["CustomerID"]!.InnerText,
+                        customer["CustomerName"]!.InnerText,
+                        customer["Address"]!.InnerText,
+                        customer["City"]!.InnerText,
+                        new TextAndImage(customer["Country"]!.InnerText,GetFlag(customer["Country"]!.InnerText)),
+                        DateTime.Parse(customer["OrderDate"]!.InnerText,culture),
+                        customer["ProductName"]!.InnerText,
+                        double.Parse(customer["Price"]!.InnerText, CultureInfo.InvariantCulture), //We put a float the formatting in design does the rest
                         (double)random.Next(101) /100,
                         tokensList[random.Next(5)]
                     });
@@ -76,13 +76,13 @@ namespace TestForm
                         //Sub row
                         OutlookGridRow row2 = new OutlookGridRow();
                         row2.CreateCells(kryptonOutlookGrid1, new object[] {
-                            customer["CustomerID"].InnerText + " 2",
-                            customer["CustomerName"].InnerText + " 2",
-                            customer["Address"].InnerText + "2",
-                            customer["City"].InnerText + " 2",
-                            new TextAndImage(customer["Country"].InnerText,GetFlag(customer["Country"].InnerText)),
+                            customer["CustomerID"]!.InnerText + " 2",
+                            customer["CustomerName"]!.InnerText + " 2",
+                            customer["Address"]!.InnerText + "2",
+                            customer["City"]!.InnerText + " 2",
+                            new TextAndImage(customer["Country"]!.InnerText,GetFlag(customer["Country"]!.InnerText)),
                             DateTime.Now,
-                            customer["ProductName"].InnerText + " 2",
+                            customer["ProductName"]!.InnerText + " 2",
                             (double)random.Next(1000),
                             (double)random.Next(101) /100,
                             tokensList[random.Next(5)]
@@ -95,7 +95,7 @@ namespace TestForm
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Gasp...Something went wrong ! " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    KryptonMessageBox.Show("Gasp...Something went wrong ! " + ex.Message, "Error", KryptonMessageBoxButtons.OK, KryptonMessageBoxIcon.Error);
                 }
             }
 
@@ -119,7 +119,7 @@ namespace TestForm
             LoadData();
         }
 
-        private Image GetFlag(string country)
+        private Image? GetFlag(string country)
         {
             //Icons from http://365icon.com/icon-styles/ethnic/classic2/
 
@@ -174,14 +174,14 @@ namespace TestForm
 
         private void kryptonOutlookGrid1_Resize(object sender, EventArgs e)
         {
-            int PreferredTotalWidth = 0;
+            int preferredTotalWidth = 0;
             //Calculate the total preferred width
             foreach (DataGridViewColumn c in kryptonOutlookGrid1.Columns)
             {
-                PreferredTotalWidth += Math.Min(c.GetPreferredWidth(DataGridViewAutoSizeColumnMode.DisplayedCells, true), 250);
+                preferredTotalWidth += Math.Min(c.GetPreferredWidth(DataGridViewAutoSizeColumnMode.DisplayedCells, true), 250);
             }
 
-            if (kryptonOutlookGrid1.Width > PreferredTotalWidth)
+            if (kryptonOutlookGrid1.Width > preferredTotalWidth)
             {
                 kryptonOutlookGrid1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
                 kryptonOutlookGrid1.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.DisplayedCells);
@@ -198,7 +198,7 @@ namespace TestForm
 
         private void kryptonOutlookGrid1_GroupImageClick(object sender, OutlookGridGroupImageEventArgs e)
         {
-            MessageBox.Show("Group Image clicked for group row : " + e.Row.Group.Text);
+            KryptonMessageBox.Show("Group Image clicked for group row : " + e.Row.Group!.Text);
         }
 
         private void bsahgLoad_Click(object sender, EventArgs e)
@@ -215,12 +215,12 @@ namespace TestForm
 
         private void bsahgToggle_Click(object sender, EventArgs e)
         {
-            if (expand)
+            if (_expand)
                 kryptonOutlookGrid1.ExpandAllNodes();
             else
                 kryptonOutlookGrid1.CollapseAllNodes();
 
-            expand = !expand;
+            _expand = !_expand;
         }
     }
 }
