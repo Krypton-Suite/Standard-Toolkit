@@ -2593,7 +2593,7 @@ namespace Krypton.Ribbon
             _backPanelInherit = new PaletteBackInheritRedirect(Redirector, PaletteBackStyle.PanelClient);
 
             // Create the background panel for the entire ribbon area and the groups area when minimized
-            MainPanel = new ViewDrawRibbonPanel(this, _backPanelInherit, NeedPaintDelegate);
+            MainPanel = new ViewDrawRibbonPanel(this, _backPanelInherit, NeedPaintDelegate, StateCommon.RibbonGeneral);
             _drawMinimizedPanel = new ViewDrawPanel(_backPanelInherit);
 
             // Create layout docker for the entire ribbon control

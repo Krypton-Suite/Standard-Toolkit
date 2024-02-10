@@ -29,6 +29,9 @@ namespace Krypton.Ribbon
         private readonly KryptonRibbon _ribbon;
         private readonly NeedPaintHandler _paintDelegate;
         private readonly Blend _compBlend;
+
+        private readonly IPaletteRibbonGeneral _palette;
+
         #endregion
 
         #region Identity
@@ -38,13 +41,16 @@ namespace Krypton.Ribbon
         /// <param name="ribbon">Reference to owning ribbon instance.</param>
         /// <param name="paletteBack">Reference to palette for obtaining background colors.</param>
         /// <param name="paintDelegate">Delegate for generating repaints.</param>
+        /// <param name="palette">Source for palette values.</param>
         public ViewDrawRibbonPanel(KryptonRibbon ribbon,
                                    IPaletteBack paletteBack,
-                                   NeedPaintHandler paintDelegate)
+                                   NeedPaintHandler paintDelegate,
+                                   IPaletteRibbonGeneral palette)
             : base(paletteBack)
         {
             _ribbon = ribbon;
             _paintDelegate = paintDelegate;
+            _palette = palette;
 
             _compBlend = new Blend
             {
@@ -125,9 +131,10 @@ namespace Krypton.Ribbon
                     case PaletteRibbonShape.VisualStudio2010:
                         {
                             //Adjust Color of the gradient
-                            Color gradientColor = KryptonManager.CurrentGlobalPaletteMode.ToString().StartsWith( PaletteMode.Office2010Black.ToString())
-                                ? Color.FromArgb(39, 39, 39)
-                                : Color.White;
+                            Color gradientColor = KryptonManager.CurrentGlobalPaletteMode.ToString()
+                                .StartsWith(PaletteMode.Office2010Black.ToString())
+                                ? _palette.GetRibbonMinimizeBarDark(PaletteState.Normal) //Color.FromArgb(39, 39, 39)
+                                : _palette.GetRibbonMinimizeBarLight(PaletteState.Normal); //Color.White;
 
                             using var backBrush = new LinearGradientBrush(
                                 rect with { Y = rect.Y - 1, Height = rect.Height + 1 }, Color.Transparent,
@@ -140,7 +147,8 @@ namespace Krypton.Ribbon
                     case PaletteRibbonShape.Microsoft365:
                     case PaletteRibbonShape.VisualStudio:
                         {
-                            using var backBrush = new SolidBrush(Color.White);
+                            // ToDo: Adjust for 'dark mode' themes
+                            using var backBrush = new SolidBrush(_palette.GetRibbonMinimizeBarLight(PaletteState.Normal)/*Color.White*/);
                             g.FillRectangle(backBrush, rect with { Height = rect.Height - 1 });
                             break;
                         }
