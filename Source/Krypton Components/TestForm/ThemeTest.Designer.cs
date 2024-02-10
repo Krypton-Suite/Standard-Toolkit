@@ -62,6 +62,9 @@
             this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.customizeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.themeBrowserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.leftToRightToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.rightToLeftToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contentsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.indexToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -126,7 +129,7 @@
             this.kryptonPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kryptonPanel1.Location = new System.Drawing.Point(0, 0);
             this.kryptonPanel1.Name = "kryptonPanel1";
-            this.kryptonPanel1.Size = new System.Drawing.Size(808, 380);
+            this.kryptonPanel1.Size = new System.Drawing.Size(760, 332);
             this.kryptonPanel1.TabIndex = 0;
             // 
             // kryptonRichTextBox1
@@ -211,7 +214,7 @@
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(4, 2, 0, 2);
-            this.menuStrip1.Size = new System.Drawing.Size(808, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(760, 24);
             this.menuStrip1.TabIndex = 1;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -387,14 +390,39 @@
             // customizeToolStripMenuItem
             // 
             this.customizeToolStripMenuItem.Name = "customizeToolStripMenuItem";
-            this.customizeToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
+            this.customizeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.customizeToolStripMenuItem.Text = "&Customize";
             // 
             // optionsToolStripMenuItem
             // 
+            this.optionsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.themeBrowserToolStripMenuItem});
             this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
-            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
+            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.optionsToolStripMenuItem.Text = "&Options";
+            // 
+            // themeBrowserToolStripMenuItem
+            // 
+            this.themeBrowserToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.leftToRightToolStripMenuItem,
+            this.rightToLeftToolStripMenuItem});
+            this.themeBrowserToolStripMenuItem.Name = "themeBrowserToolStripMenuItem";
+            this.themeBrowserToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.themeBrowserToolStripMenuItem.Text = "Theme Browser";
+            // 
+            // leftToRightToolStripMenuItem
+            // 
+            this.leftToRightToolStripMenuItem.Name = "leftToRightToolStripMenuItem";
+            this.leftToRightToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.leftToRightToolStripMenuItem.Text = "Left to Right";
+            this.leftToRightToolStripMenuItem.Click += new System.EventHandler(this.leftToRightToolStripMenuItem_Click);
+            // 
+            // rightToLeftToolStripMenuItem
+            // 
+            this.rightToLeftToolStripMenuItem.Name = "rightToLeftToolStripMenuItem";
+            this.rightToLeftToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.rightToLeftToolStripMenuItem.Text = "Right to Left";
+            this.rightToLeftToolStripMenuItem.Click += new System.EventHandler(this.rightToLeftToolStripMenuItem_Click);
             // 
             // helpToolStripMenuItem
             // 
@@ -451,10 +479,10 @@
             this.kryptonPanel2.Controls.Add(this.kryptonLabel2);
             this.kryptonPanel2.Controls.Add(this.kryptonButton1);
             this.kryptonPanel2.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.kryptonPanel2.Location = new System.Drawing.Point(0, 380);
+            this.kryptonPanel2.Location = new System.Drawing.Point(0, 332);
             this.kryptonPanel2.Name = "kryptonPanel2";
             this.kryptonPanel2.PanelBackStyle = Krypton.Toolkit.PaletteBackStyle.PanelAlternate;
-            this.kryptonPanel2.Size = new System.Drawing.Size(808, 50);
+            this.kryptonPanel2.Size = new System.Drawing.Size(760, 50);
             this.kryptonPanel2.TabIndex = 1;
             // 
             // kryptonLabel2
@@ -473,10 +501,10 @@
             this.toolStripStatusLabel1,
             this.kryptonProgressBarToolStripItem1,
             this.toolStripProgressBar1});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 430);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 382);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.ManagerRenderMode;
-            this.statusStrip1.Size = new System.Drawing.Size(808, 28);
+            this.statusStrip1.Size = new System.Drawing.Size(760, 28);
             this.statusStrip1.TabIndex = 2;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -699,12 +727,13 @@
             this.ButtonSpecs.Add(this.buttonSpecAny13);
             this.ButtonSpecs.Add(this.buttonSpecAny14);
             this.ButtonSpecs.Add(this.buttonSpecAny15);
-            this.ClientSize = new System.Drawing.Size(808, 458);
+            this.ClientSize = new System.Drawing.Size(760, 410);
             this.Controls.Add(this.kryptonPanel1);
             this.Controls.Add(this.kryptonPanel2);
             this.Controls.Add(this.statusStrip1);
             this.Name = "ThemeTest";
             this.Text = "Form5";
+            this.UseThemeFormChromeBorderWidth = false;
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).EndInit();
             this.kryptonPanel1.ResumeLayout(false);
             this.kryptonPanel1.PerformLayout();
@@ -798,5 +827,8 @@
         private Krypton.Toolkit.KryptonCommand kryptonCommand15;
         private Krypton.Toolkit.KryptonThemeComboBox kryptonThemeComboBox1;
         private Krypton.Toolkit.KryptonRichTextBox kryptonRichTextBox1;
+        private System.Windows.Forms.ToolStripMenuItem themeBrowserToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem leftToRightToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem rightToLeftToolStripMenuItem;
     }
 }

@@ -126,5 +126,12 @@ namespace TestForm
 
             treeViewExample.Show();
         }
+
+        private void kbtnOutlookGrid_Click(object sender, EventArgs e)
+        {
+            OutlookGridTest outlookGridTest = new OutlookGridTest();
+
+            outlookGridTest.Show();
+        }
     }
 }

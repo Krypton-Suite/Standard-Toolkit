@@ -139,8 +139,8 @@ namespace Krypton.Toolkit
 
         private static readonly Color[] _schemeOfficeColors =
         [
-            Color.FromArgb(255, 255, 255), // (76, 83, 92), // TextLabelControl
-            Color.Black, // TextButtonNormal
+            Color.FromArgb(70, 70, 70), // (76, 83, 92), // TextLabelControl
+            Color.FromArgb(70, 70, 70), // TextButtonNormal
             Color.Black, // TextButtonChecked
             Color.FromArgb(106, 106, 106), // ButtonNormalBorder1
             Color.FromArgb(32, 32, 32), // ButtonNormalDefaultBorder
@@ -210,7 +210,7 @@ namespace Krypton.Toolkit
             Color.FromArgb(255, 90, 90), // LinkPressedOverridePanel
             Color.White, // TextLabelPanel
             //Color.FromArgb(226, 226, 226),    // RibbonTabTextNormal
-            Color.Black, // RibbonTabTextNormal
+            Color.FromArgb(70, 70, 70), // RibbonTabTextNormal
             Color.Black, // RibbonTabTextChecked
             Color.FromArgb(32, 32, 32), // RibbonTabSelected1
             Color.FromArgb(201, 201, 201), // RibbonTabSelected2
@@ -322,7 +322,7 @@ namespace Krypton.Toolkit
             Color.FromArgb(245, 210, 87), // GridSheetRowSelected
             Color.FromArgb(218, 220, 221), // GridDataCellBorder
             Color.FromArgb(183, 219, 255), // GridDataCellSelected
-            Color.Black, // InputControlTextNormal
+            Color.FromArgb(70, 70, 70), // InputControlTextNormal
             Color.White, // InputControlTextDisabled
             Color.FromArgb(132, 132, 132), // InputControlBorderNormal
             Color.FromArgb(187, 187, 187), // InputControlBorderDisabled
@@ -371,8 +371,7 @@ namespace Krypton.Toolkit
             Color.FromArgb(148, 148, 143), // ButtonNavigatorPressed2
             Color.FromArgb(91, 91, 91), // ButtonNavigatorChecked1
             Color.FromArgb(73, 73, 73), // ButtonNavigatorChecked2
-            Color.FromArgb(201, 201,
-                201) // ToolTipBottom                                                                      
+            Color.FromArgb(201, 201, 201) // ToolTipBottom                                                                      
         ];
 
         #endregion

@@ -38,7 +38,7 @@ namespace Krypton.Toolkit
 
             _service = GetService(typeof(IComponentChangeService)) as IComponentChangeService;
 
-            _service.ComponentRemoving += OnComponentRemoving;
+            //_service.ComponentRemoving += OnComponentRemoving;
 
             _service.ComponentChanged += OnComponentChanged;
         }

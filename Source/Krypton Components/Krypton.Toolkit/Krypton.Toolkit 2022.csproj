@@ -329,6 +329,16 @@
             <AutoGen>True</AutoGen>
             <DependentUpon>MessageBoxImageResources.resx</DependentUpon>
         </Compile>
+        <Compile Update="ResourceFiles\OutlookGrid\OutlookGridImageResources.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>OutlookGridImageResources.resx</DependentUpon>
+        </Compile>
+        <Compile Update="ResourceFiles\OutlookGrid\OutlookGridStringResources.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>OutlookGridStringResources.resx</DependentUpon>
+        </Compile>
         <Compile Update="ResourceFiles\Pendants\ProfessionalPendantImageResources.Designer.cs">
             <DesignTime>True</DesignTime>
             <AutoGen>True</AutoGen>
@@ -363,6 +373,11 @@
           <DesignTime>True</DesignTime>
           <AutoGen>True</AutoGen>
           <DependentUpon>SizeGripStyleResources.resx</DependentUpon>
+        </Compile>
+        <Compile Update="ResourceFiles\Sort\SortingImageResources.Designer.cs">
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+          <DependentUpon>SortingImageResources.resx</DependentUpon>
         </Compile>
         <Compile Update="ResourceFiles\Stars\StarImageResources.Designer.cs">
             <DesignTime>True</DesignTime>
@@ -743,6 +758,14 @@
             <Generator>ResXFileCodeGenerator</Generator>
             <LastGenOutput>MessageBoxImageResources.Designer.cs</LastGenOutput>
         </EmbeddedResource>
+        <EmbeddedResource Update="ResourceFiles\OutlookGrid\OutlookGridImageResources.resx">
+          <Generator>ResXFileCodeGenerator</Generator>
+          <LastGenOutput>OutlookGridImageResources.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="ResourceFiles\OutlookGrid\OutlookGridStringResources.resx">
+          <Generator>ResXFileCodeGenerator</Generator>
+          <LastGenOutput>OutlookGridStringResources.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
         <EmbeddedResource Update="ResourceFiles\Pendants\ProfessionalPendantImageResources.resx">
             <Generator>ResXFileCodeGenerator</Generator>
             <LastGenOutput>ProfessionalPendantImageResources.Designer.cs</LastGenOutput>
@@ -770,6 +793,10 @@
         <EmbeddedResource Update="ResourceFiles\SizeGripStyles\SizeGripStyleResources.resx">
           <Generator>ResXFileCodeGenerator</Generator>
           <LastGenOutput>SizeGripStyleResources.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="ResourceFiles\Sort\SortingImageResources.resx">
+          <Generator>ResXFileCodeGenerator</Generator>
+          <LastGenOutput>SortingImageResources.Designer.cs</LastGenOutput>
         </EmbeddedResource>
         <EmbeddedResource Update="ResourceFiles\Stars\StarImageResources.resx">
             <Generator>ResXFileCodeGenerator</Generator>

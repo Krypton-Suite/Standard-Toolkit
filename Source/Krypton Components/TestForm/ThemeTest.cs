@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows.Forms;
 
 using Krypton.Toolkit;
 
@@ -21,6 +22,16 @@ namespace TestForm
         {
             kryptonProgressBarToolStripItem1.Value = ktrkProgressValues.Value;
             toolStripProgressBar1.Value = ktrkProgressValues.Value;
+        }
+
+        private void leftToRightToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            KryptonThemeBrowser.Show(FormStartPosition.CenterParent, GlobalStaticValues.GLOBAL_DEFAULT_THEME_INDEX);
+        }
+
+        private void rightToLeftToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            KryptonThemeBrowser.Show(FormStartPosition.CenterParent, Krypton.Toolkit.RightToLeftLayout.RightToLeft);
         }
     }
 }

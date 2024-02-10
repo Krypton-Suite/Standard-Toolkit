@@ -1,0 +1,323 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="EARLIERDURINGTHISMONTH" xml:space="preserve">
+    <value>Earlier during this month</value>
+  </data>
+  <data name="LATERDURINGTHISMONTH" xml:space="preserve">
+    <value>Later during this month</value>
+  </data>
+  <data name="BEFOREPREVIOUSMONTH" xml:space="preserve">
+    <value>Before previous month</value>
+  </data>
+  <data name="AFTERNEXTMONTH" xml:space="preserve">
+    <value>After next month</value>
+  </data>
+  <data name="THREEWEEKSAGO" xml:space="preserve">
+    <value>Three weeks ago</value>
+  </data>
+  <data name="INTHREEWEEKS" xml:space="preserve">
+    <value>In three weeks</value>
+  </data>
+  <data name="INTWOWEEKS" xml:space="preserve">
+    <value>In two weeks</value>
+  </data>
+  <data name="NEXTMONTH" xml:space="preserve">
+    <value>Next month</value>
+  </data>
+  <data name="NEXTWEEK" xml:space="preserve">
+    <value>Next Week</value>
+  </data>
+  <data name="PREVIOUSWEEK" xml:space="preserve">
+    <value>Previous week</value>
+  </data>
+  <data name="PREVIOUSMONTH" xml:space="preserve">
+    <value>Previous month</value>
+  </data>
+  <data name="TODAY" xml:space="preserve">
+    <value>Today</value>
+  </data>
+  <data name="TOMORROW" xml:space="preserve">
+    <value>Tomorrow</value>
+  </data>
+  <data name="TWOWEEKSAGO" xml:space="preserve">
+    <value>Two weeks ago</value>
+  </data>
+  <data name="YESTERDAY" xml:space="preserve">
+    <value>Yesterday</value>
+  </data>
+  <data name="DRAGCOLUMNTOGROUP" xml:space="preserve">
+    <value>Drag a column header here to group by that column</value>
+  </data>
+  <data name="BESTFITALL" xml:space="preserve">
+    <value>Best fit (all columns)</value>
+  </data>
+  <data name="CLEARGROUPING" xml:space="preserve">
+    <value>Clear grouping</value>
+  </data>
+  <data name="CLEARSORTING" xml:space="preserve">
+    <value>Clear sorting</value>
+  </data>
+  <data name="FULLCOLLAPSE" xml:space="preserve">
+    <value>Full collapse</value>
+  </data>
+  <data name="FULLEXPAND" xml:space="preserve">
+    <value>Full expand</value>
+  </data>
+  <data name="GROUP" xml:space="preserve">
+    <value>Group by this column</value>
+  </data>
+  <data name="HIDEGROUPBOX" xml:space="preserve">
+    <value>Hide GroupBox</value>
+  </data>
+  <data name="SHOWGROUPBOX" xml:space="preserve">
+    <value>Show GroupBox</value>
+  </data>
+  <data name="SORTASCENDING" xml:space="preserve">
+    <value>Sort ascending</value>
+  </data>
+  <data name="SORTDESCENDING" xml:space="preserve">
+    <value>Sort descending</value>
+  </data>
+  <data name="UNGROUP" xml:space="preserve">
+    <value>Ungroup</value>
+  </data>
+  <data name="BESTFIT" xml:space="preserve">
+    <value>Best fit</value>
+  </data>
+  <data name="NODATE" xml:space="preserve">
+    <value>No date</value>
+  </data>
+  <data name="AlphabeticGroupText" xml:space="preserve">
+    <value>Alphabetic</value>
+  </data>
+  <data name="DateGroupText" xml:space="preserve">
+    <value>Date</value>
+  </data>
+  <data name="OneItem" xml:space="preserve">
+    <value>1 item</value>
+  </data>
+  <data name="XXXItems" xml:space="preserve">
+    <value> items</value>
+  </data>
+  <data name="YearGroupText" xml:space="preserve">
+    <value>Year</value>
+  </data>
+  <data name="COLUMNS" xml:space="preserve">
+    <value>Columns</value>
+  </data>
+  <data name="COLLAPSE" xml:space="preserve">
+    <value>Collapse</value>
+  </data>
+  <data name="EXPAND" xml:space="preserve">
+    <value>Expand</value>
+  </data>
+  <data name="GROUPINTERVAL" xml:space="preserve">
+    <value>Group interval</value>
+  </data>
+  <data name="Q1" xml:space="preserve">
+    <value>Q1</value>
+  </data>
+  <data name="Q2" xml:space="preserve">
+    <value>Q2</value>
+  </data>
+  <data name="Q3" xml:space="preserve">
+    <value>Q3</value>
+  </data>
+  <data name="Q4" xml:space="preserve">
+    <value>Q4</value>
+  </data>
+  <data name="Day" xml:space="preserve">
+    <value>Day</value>
+    <comment>Enum</comment>
+  </data>
+  <data name="Month" xml:space="preserve">
+    <value>Month</value>
+    <comment>Enum</comment>
+  </data>
+  <data name="Quarter" xml:space="preserve">
+    <value>Quarter</value>
+    <comment>Enum</comment>
+  </data>
+  <data name="Smart" xml:space="preserve">
+    <value>Smart</value>
+    <comment>Enum</comment>
+  </data>
+  <data name="Year" xml:space="preserve">
+    <value>Year</value>
+    <comment>Enum</comment>
+  </data>
+  <data name="SORTBYSUMMARYCOUNT" xml:space="preserve">
+    <value>Sort by summary count</value>
+  </data>
+  <data name="UNKNOWN" xml:space="preserve">
+    <value>Unknown</value>
+  </data>
+  <data name="CONDITIONALFORMATTING" xml:space="preserve">
+    <value>Conditional formatting</value>
+  </data>
+  <data name="Bar" xml:space="preserve">
+    <value>Data Bars</value>
+    <comment>Enum</comment>
+  </data>
+  <data name="GradientFill" xml:space="preserve">
+    <value>Gradient Fill</value>
+  </data>
+  <data name="SolidFill" xml:space="preserve">
+    <value>Solid Fill</value>
+  </data>
+  <data name="ThreeColorsRange" xml:space="preserve">
+    <value>Three Color Scale</value>
+    <comment>Enum</comment>
+  </data>
+  <data name="TwoColorsRange" xml:space="preserve">
+    <value>Two Color Scale</value>
+    <comment>Enum</comment>
+  </data>
+  <data name="ClearRules" xml:space="preserve">
+    <value>Clear rules...</value>
+  </data>
+  <data name="CustomThreeDots" xml:space="preserve">
+    <value>Custom...</value>
+  </data>
+  <data name="Other" xml:space="preserve">
+    <value>Other</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="Finish" xml:space="preserve">
+    <value>Finish</value>
+  </data>
+  <data name="PaletteCustom" xml:space="preserve">
+    <value>Custom...</value>
+  </data>
+  <data name="PaletteCustomHeading" xml:space="preserve">
+    <value>Custom palettes</value>
+  </data>
+  <data name="EARLIERTHISYEAR" xml:space="preserve">
+    <value>Earlier this year</value>
+  </data>
+  <data name="OLDER" xml:space="preserve">
+    <value>Older</value>
+  </data>
+  <data name="PREVIOUSYEAR" xml:space="preserve">
+    <value>Previous year</value>
+  </data>
+</root>
