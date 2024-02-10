@@ -40,7 +40,7 @@ namespace Krypton.Toolkit
 
         public OutlookGridLanguageManager()
         {
-            _rm = new ResourceManager("Krypton.Toolkit.ResourceFiles.OutlookGrid.OutlookGridStringResources", Assembly.GetExecutingAssembly());
+            _rm = new ResourceManager("Krypton.Toolkit.ResourceFiles.OutlookGrid.Strings.OutlookGridStringResources", Assembly.GetExecutingAssembly());
             _ci = Thread.CurrentThread.CurrentCulture; //CultureInfo.CurrentCulture;
         }
 

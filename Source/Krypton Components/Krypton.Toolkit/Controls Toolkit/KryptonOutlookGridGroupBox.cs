@@ -971,7 +971,7 @@ namespace Krypton.Toolkit
                 _menuSeparator1 = new();
                 _menuExpand = new(KryptonManager.Strings.KryptonOutlookGridStrings.Expand, ElementsImageResources.element_plus_16, OnGroupExpand);
                 _menuCollapse = new(KryptonManager.Strings.KryptonOutlookGridStrings.Collapse, ElementsImageResources.element_minus_16, OnGroupCollapse);
-                _menuUnGroup = new(KryptonManager.Strings.KryptonOutlookGridStrings.UnGroup, ElementsImageResources.element_delete, OnUngroup);
+                _menuUnGroup = new(KryptonManager.Strings.KryptonOutlookGridStrings.Ungroup, ElementsImageResources.element_delete, OnUngroup);
                 _menuSeparator2 = new();
                 _menuFullExpand = new(KryptonManager.Strings.KryptonOutlookGridStrings.FullExpand, ElementsImageResources.elements_plus_16, OnFullExpand);
                 _menuFullCollapse = new(KryptonManager.Strings.KryptonOutlookGridStrings.FullCollapse, ElementsImageResources.elements_minus_16, OnFullCollapse);

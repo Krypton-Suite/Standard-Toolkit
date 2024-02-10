@@ -334,7 +334,7 @@
           <AutoGen>True</AutoGen>
           <DependentUpon>OutlookGridImageResources.resx</DependentUpon>
         </Compile>
-        <Compile Update="ResourceFiles\OutlookGrid\OutlookGridStringResources.Designer.cs">
+        <Compile Update="ResourceFiles\OutlookGrid\Strings\OutlookGridStringResources.Designer.cs">
           <DesignTime>True</DesignTime>
           <AutoGen>True</AutoGen>
           <DependentUpon>OutlookGridStringResources.resx</DependentUpon>
@@ -762,7 +762,7 @@
           <Generator>ResXFileCodeGenerator</Generator>
           <LastGenOutput>OutlookGridImageResources.Designer.cs</LastGenOutput>
         </EmbeddedResource>
-        <EmbeddedResource Update="ResourceFiles\OutlookGrid\OutlookGridStringResources.resx">
+        <EmbeddedResource Update="ResourceFiles\OutlookGrid\Strings\OutlookGridStringResources.resx">
           <Generator>ResXFileCodeGenerator</Generator>
           <LastGenOutput>OutlookGridStringResources.Designer.cs</LastGenOutput>
         </EmbeddedResource>

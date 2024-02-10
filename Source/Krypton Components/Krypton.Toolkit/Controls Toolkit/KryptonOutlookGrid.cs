@@ -1845,7 +1845,7 @@ namespace Krypton.Toolkit
                 _menuCollapse = new(KryptonManager.Strings.KryptonOutlookGridStrings.Collapse, ElementsImageResources.element_minus_16, OnGroupCollapse);
                 _menuSeparator4 = new();
                 _menuGroupByThisColumn = new(KryptonManager.Strings.KryptonOutlookGridStrings.Group, ElementsImageResources.element, OnGroupByThisColumn);
-                _menuUngroupByThisColumn = new(KryptonManager.Strings.KryptonOutlookGridStrings.UnGroup, ElementsImageResources.element_delete, OnUnGroupByThisColumn);
+                _menuUngroupByThisColumn = new(KryptonManager.Strings.KryptonOutlookGridStrings.Ungroup, ElementsImageResources.element_delete, OnUnGroupByThisColumn);
                 _menuShowGroupBox = new(KryptonManager.Strings.KryptonOutlookGridStrings.ShowGroupBox, null, OnShowGroupBox);
                 _menuHideGroupBox = new(KryptonManager.Strings.KryptonOutlookGridStrings.HideGroupBox, null, OnHideGroupBox);
                 _menuSeparator2 = new();
