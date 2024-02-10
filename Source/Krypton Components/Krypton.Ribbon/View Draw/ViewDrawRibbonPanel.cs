@@ -70,7 +70,7 @@ namespace Krypton.Ribbon
         public override void RenderBefore(RenderContext context)
         {
             // If we are rendering the Office 2010 shape 
-            // of ribbon then we need to draw the tabs area as part of the window chromw
+            // of ribbon then we need to draw the tabs area as part of the window chrome
             if ( _ribbon.RibbonShape is PaletteRibbonShape.Office2010 or PaletteRibbonShape.Office2013 or PaletteRibbonShape.Microsoft365 or PaletteRibbonShape.VisualStudio)
             {
                 var tabsHeight = _ribbon.TabsArea.ClientHeight;
@@ -148,8 +148,19 @@ namespace Krypton.Ribbon
                     case PaletteRibbonShape.VisualStudio:
                         {
                             // ToDo: Adjust for 'dark mode' themes
-                            using var backBrush = new SolidBrush(_palette.GetRibbonMinimizeBarLight(PaletteState.Normal)/*Color.White*/);
-                            g.FillRectangle(backBrush, rect with { Height = rect.Height - 1 });
+                            if (KryptonManager.CurrentGlobalPalette.ToString().Contains("DarkMode"))
+                            {
+                                using var backBrushDark = new SolidBrush(_palette.GetRibbonMinimizeBarDark(PaletteState.Normal));
+
+                                g.FillRectangle(backBrushDark, rect with { Height = rect.Height - 1});
+                            }
+                            else
+                            {
+                                using var backBrush = new SolidBrush(_palette.GetRibbonMinimizeBarLight(PaletteState.Normal) /*Color.White*/);
+
+                                g.FillRectangle(backBrush, rect with { Height = rect.Height - 1 });
+                            }
+
                             break;
                         }
                 }
