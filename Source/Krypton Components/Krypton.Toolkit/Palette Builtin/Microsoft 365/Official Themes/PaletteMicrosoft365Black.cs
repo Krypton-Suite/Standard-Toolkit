@@ -210,7 +210,7 @@ namespace Krypton.Toolkit
             Color.FromArgb(255, 90, 90), // LinkPressedOverridePanel
             Color.White, // TextLabelPanel
             //Color.FromArgb(226, 226, 226),    // RibbonTabTextNormal
-            Color.FromArgb(70, 70, 70), // RibbonTabTextNormal
+            Color.White, // RibbonTabTextNormal
             Color.Black, // RibbonTabTextChecked
             Color.FromArgb(32, 32, 32), // RibbonTabSelected1
             Color.FromArgb(201, 201, 201), // RibbonTabSelected2
