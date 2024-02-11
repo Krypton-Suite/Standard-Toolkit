@@ -238,7 +238,7 @@
             // kryptonManager1
             // 
             this.kryptonManager1.BaseFont = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.kryptonManager1.GlobalPaletteMode = Krypton.Toolkit.PaletteMode.SparkleOrange;
+            this.kryptonManager1.GlobalPaletteMode = Krypton.Toolkit.PaletteMode.Office2010SilverLightMode;
             // 
             // kryptonThemeComboBox1
             // 

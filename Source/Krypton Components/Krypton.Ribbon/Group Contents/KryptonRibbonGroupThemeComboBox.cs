@@ -36,6 +36,7 @@ namespace Krypton.Ribbon
 
         #region Public
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public bool SynchronizeDropDownWidth
         {
             get => _synchronizeDropDownWidth;
@@ -56,6 +57,7 @@ namespace Krypton.Ribbon
         [Category(@"Visuals")]
         [Description(@"The default palette mode.")]
         [DefaultValue(PaletteMode.Microsoft365Blue)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public PaletteMode DefaultPalette
         {
             get => _defaultPalette;
@@ -72,6 +74,7 @@ namespace Krypton.Ribbon
         [Category(@"Visuals")]
         [Description(@"Theme Selected Index. (Default = `Office 365 - Blue`)")]
         [DefaultValue((int)PaletteMode.Microsoft365Blue)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public int ThemeSelectedIndex
         {
             get => _selectedIndex;
