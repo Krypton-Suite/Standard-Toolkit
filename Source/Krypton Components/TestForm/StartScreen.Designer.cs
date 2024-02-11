@@ -31,6 +31,7 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(StartScreen));
             this.kryptonPanel1 = new Krypton.Toolkit.KryptonPanel();
+            this.kbtnOutlookGrid = new Krypton.Toolkit.KryptonButton();
             this.kbtnTreeView = new Krypton.Toolkit.KryptonButton();
             this.kbtnExit = new Krypton.Toolkit.KryptonButton();
             this.kbtnFormBorder = new Krypton.Toolkit.KryptonButton();
@@ -47,9 +48,8 @@
             this.kbtnFadeForm = new Krypton.Toolkit.KryptonButton();
             this.kbtnCommandLinkButtons = new Krypton.Toolkit.KryptonButton();
             this.kbtnBreadCrumb = new Krypton.Toolkit.KryptonButton();
-            this.kryptonThemeComboBox1 = new Krypton.Toolkit.KryptonThemeComboBox();
             this.kryptonManager1 = new Krypton.Toolkit.KryptonManager(this.components);
-            this.kbtnOutlookGrid = new Krypton.Toolkit.KryptonButton();
+            this.kryptonThemeComboBox1 = new Krypton.Toolkit.KryptonThemeComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
             this.kryptonPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonThemeComboBox1)).BeginInit();
@@ -57,6 +57,7 @@
             // 
             // kryptonPanel1
             // 
+            this.kryptonPanel1.Controls.Add(this.kryptonThemeComboBox1);
             this.kryptonPanel1.Controls.Add(this.kbtnOutlookGrid);
             this.kryptonPanel1.Controls.Add(this.kbtnTreeView);
             this.kryptonPanel1.Controls.Add(this.kbtnExit);
@@ -74,12 +75,20 @@
             this.kryptonPanel1.Controls.Add(this.kbtnFadeForm);
             this.kryptonPanel1.Controls.Add(this.kbtnCommandLinkButtons);
             this.kryptonPanel1.Controls.Add(this.kbtnBreadCrumb);
-            this.kryptonPanel1.Controls.Add(this.kryptonThemeComboBox1);
             this.kryptonPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kryptonPanel1.Location = new System.Drawing.Point(0, 0);
             this.kryptonPanel1.Name = "kryptonPanel1";
-            this.kryptonPanel1.Size = new System.Drawing.Size(459, 343);
+            this.kryptonPanel1.Size = new System.Drawing.Size(437, 359);
             this.kryptonPanel1.TabIndex = 0;
+            // 
+            // kbtnOutlookGrid
+            // 
+            this.kbtnOutlookGrid.Location = new System.Drawing.Point(223, 164);
+            this.kbtnOutlookGrid.Name = "kbtnOutlookGrid";
+            this.kbtnOutlookGrid.Size = new System.Drawing.Size(204, 25);
+            this.kbtnOutlookGrid.TabIndex = 17;
+            this.kbtnOutlookGrid.Values.Text = "Outlook Grid";
+            this.kbtnOutlookGrid.Click += new System.EventHandler(this.kbtnOutlookGrid_Click);
             // 
             // kbtnTreeView
             // 
@@ -226,37 +235,27 @@
             this.kbtnBreadCrumb.Values.Text = "BreadCrumb";
             this.kbtnBreadCrumb.Click += new System.EventHandler(this.kbtnBreadCrumb_Click);
             // 
-            // kryptonThemeComboBox1
-            // 
-            this.kryptonThemeComboBox1.DropDownWidth = 414;
-            this.kryptonThemeComboBox1.IntegralHeight = false;
-            this.kryptonThemeComboBox1.Location = new System.Drawing.Point(13, 13);
-            this.kryptonThemeComboBox1.Name = "kryptonThemeComboBox1";
-            this.kryptonThemeComboBox1.ReportSelectedThemeIndex = false;
-            this.kryptonThemeComboBox1.Size = new System.Drawing.Size(414, 21);
-            this.kryptonThemeComboBox1.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
-            this.kryptonThemeComboBox1.TabIndex = 0;
-            // 
             // kryptonManager1
             // 
             this.kryptonManager1.BaseFont = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.kryptonManager1.GlobalPaletteMode = Krypton.Toolkit.PaletteMode.SparkleOrange;
+            this.kryptonManager1.GlobalPaletteMode = Krypton.Toolkit.PaletteMode.Office2010SilverLightMode;
             // 
-            // kbtnOutlookGrid
+            // kryptonThemeComboBox1
             // 
-            this.kbtnOutlookGrid.Location = new System.Drawing.Point(223, 164);
-            this.kbtnOutlookGrid.Name = "kbtnOutlookGrid";
-            this.kbtnOutlookGrid.Size = new System.Drawing.Size(204, 25);
-            this.kbtnOutlookGrid.TabIndex = 17;
-            this.kbtnOutlookGrid.Values.Text = "Outlook Grid";
-            this.kbtnOutlookGrid.Click += new System.EventHandler(this.kbtnOutlookGrid_Click);
+            this.kryptonThemeComboBox1.DropDownWidth = 121;
+            this.kryptonThemeComboBox1.IntegralHeight = false;
+            this.kryptonThemeComboBox1.Location = new System.Drawing.Point(13, 13);
+            this.kryptonThemeComboBox1.Name = "kryptonThemeComboBox1";
+            this.kryptonThemeComboBox1.Size = new System.Drawing.Size(414, 21);
+            this.kryptonThemeComboBox1.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
+            this.kryptonThemeComboBox1.TabIndex = 18;
             // 
             // StartScreen
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.kbtnExit;
-            this.ClientSize = new System.Drawing.Size(459, 343);
+            this.ClientSize = new System.Drawing.Size(437, 359);
             this.Controls.Add(this.kryptonPanel1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
@@ -280,7 +279,6 @@
         private Krypton.Toolkit.KryptonButton kbtnFadeForm;
         private Krypton.Toolkit.KryptonButton kbtnCommandLinkButtons;
         private Krypton.Toolkit.KryptonButton kbtnBreadCrumb;
-        private Krypton.Toolkit.KryptonThemeComboBox kryptonThemeComboBox1;
         private Krypton.Toolkit.KryptonButton kbtnAboutBox;
         private Krypton.Toolkit.KryptonButton kbtnButtons;
         private Krypton.Toolkit.KryptonManager kryptonManager1;
@@ -293,5 +291,6 @@
         private Krypton.Toolkit.KryptonButton kbtnExit;
         private Krypton.Toolkit.KryptonButton kbtnTreeView;
         private Krypton.Toolkit.KryptonButton kbtnOutlookGrid;
+        private Krypton.Toolkit.KryptonThemeComboBox kryptonThemeComboBox1;
     }
 }

@@ -36,6 +36,11 @@ namespace Krypton.Ribbon
 
         #region Public
 
+        /// <summary>Gets or sets a value indicating whether [synchronize drop down width].</summary>
+        /// <value><c>true</c> if [synchronize drop down width]; otherwise, <c>false</c>.</value>
+        [Category(@"Visuals")]
+        [Description(@"Synchronizes the drop-down width, with the width of the control.")]
+        [DefaultValue(false)]
         public bool SynchronizeDropDownWidth
         {
             get => _synchronizeDropDownWidth;
@@ -72,6 +77,7 @@ namespace Krypton.Ribbon
         [Category(@"Visuals")]
         [Description(@"Theme Selected Index. (Default = `Office 365 - Blue`)")]
         [DefaultValue((int)PaletteMode.Microsoft365Blue)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public int ThemeSelectedIndex
         {
             get => _selectedIndex;

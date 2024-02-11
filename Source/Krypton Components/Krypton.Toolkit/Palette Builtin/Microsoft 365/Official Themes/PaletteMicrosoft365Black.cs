@@ -210,7 +210,7 @@ namespace Krypton.Toolkit
             Color.FromArgb(255, 90, 90), // LinkPressedOverridePanel
             Color.White, // TextLabelPanel
             //Color.FromArgb(226, 226, 226),    // RibbonTabTextNormal
-            Color.FromArgb(70, 70, 70), // RibbonTabTextNormal
+            Color.White, // RibbonTabTextNormal
             Color.Black, // RibbonTabTextChecked
             Color.FromArgb(32, 32, 32), // RibbonTabSelected1
             Color.FromArgb(201, 201, 201), // RibbonTabSelected2
@@ -242,8 +242,8 @@ namespace Krypton.Toolkit
             Color.FromArgb(123, 125, 125), // RibbonGroupDialogLight
             Color.Empty, // RibbonGroupTitleTracking1
             Color.Empty, // RibbonGroupTitleTracking2
-            Color.FromArgb(78, 78, 78), // RibbonMinimizeBarDark
-            Color.FromArgb(110, 110, 110), // RibbonMinimizeBarLight
+            Color.FromArgb(61, 61, 61), // RibbonMinimizeBarDark
+            Color.FromArgb(99, 99, 99), // RibbonMinimizeBarLight
             Color.Empty, // RibbonGroupCollapsedBorder1
             Color.Empty, // RibbonGroupCollapsedBorder2
             Color.Empty, // RibbonGroupCollapsedBorder3

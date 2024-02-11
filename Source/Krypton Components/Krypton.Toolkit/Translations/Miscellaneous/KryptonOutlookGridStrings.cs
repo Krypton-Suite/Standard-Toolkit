@@ -58,8 +58,6 @@ namespace Krypton.Toolkit
 
         private const string DEFAULT_EXPAND = @"Expand";
 
-        private const string DEFAULT_FINISH = @"Finish";
-
         private const string DEFAULT_FULL_COLLAPSE = @"Full collapse";
 
         private const string DEFAULT_FULL_EXPAND = @"Full expand";
@@ -162,12 +160,6 @@ namespace Krypton.Toolkit
 
         private const string DEFAULT_SUNDAY = @"Sunday";
 
-        private const string DEFAULT_MINIMUM_COLOUR = @"Min Colour";
-
-        private const string DEFAULT_MEDIUM_COLOUR = @"Medium Colour";
-
-        private const string DEFAULT_MAXIMUM_COLOUR = @"Max Colour";
-
         #endregion
 
         #region Custom Format Window
@@ -203,81 +195,83 @@ namespace Krypton.Toolkit
 
         [Browsable(false)]
         public bool IsDefault => // OutlookGrid Component
-                                 AfterNextMonth.Equals(DEFAULT_AFTER_NEXT_MONTH) &&
-                                 AlphabeticGroupText.Equals(DEFAULT_ALPHABETIC_GROUP_TEXT) &&
-                                 Bar.Equals(DEFAULT_BAR) &&
-                                 BeforePreviousMonth.Equals(DEFAULT_BEFORE_PREVIOUS_MONTH) &&
-                                 BestFitAll.Equals(DEFAULT_BEST_FIT_ALL) &&
-                                 BestFit.Equals(DEFAULT_BEST_FIT) &&
-                                 Cancel.Equals(DEFAULT_CANCEL) &&
-                                 ClearGrouping.Equals(DEFAULT_CLEAR_GROUPING) &&
-                                 ClearRules.Equals(DEFAULT_CLEAR_RULES) &&
-                                 ClearSorting.Equals(DEFAULT_CLEAR_SORTING) &&
-                                 Collapse.Equals(DEFAULT_COLLAPSE) &&
-                                 Columns.Equals(DEFAULT_COLUMNS) &&
-                                 ConditionalFormatting.Equals(DEFAULT_CONDITIONAL_FORMATTING) &&
-                                 CustomThreeDots.Equals(DEFAULT_CUSTOM_THREE_DOTS) &&
-                                 DateGroupText.Equals(DEFAULT_DATE_GROUP_TEXT) &&
-                                 Day.Equals(DEFAULT_DAY) &&
-                                 DragColumnToGroup.Equals(DEFAULT_DRAG_COLUMN_TO_GROUP) &&
-                                 EarlierDuringThisMonth.Equals(DEFAULT_EARLIER_DURING_THIS_MONTH) &&
-                                 EarlierDuringThisYear.Equals(DEFAULT_EARLIER_THIS_YEAR) &&
-                                 Expand.Equals(DEFAULT_EXPAND) &&
-                                 Finish.Equals(DEFAULT_FINISH) &&
-                                 FullCollapse.Equals(DEFAULT_FULL_COLLAPSE) &&
-                                 FullExpand.Equals(DEFAULT_FULL_EXPAND) &&
-                                 GradientFill.Equals(DEFAULT_GRADIENT_FILL) &&
-                                 Group.Equals(DEFAULT_GROUP) &&
-                                 GroupInterval.Equals(DEFAULT_GROUP_INTERVAL) &&
-                                 HideGroupBox.Equals(DEFAULT_HIDE_GROUP_BOX) &&
-                                 InThreeWeeks.Equals(DEFAULT_IN_THREE_WEEKS) &&
-                                 InTwoWeeks.Equals(DEFAULT_IN_TWO_WEEKS) &&
-                                 LaterDuringThisMonth.Equals(DEFAULT_LATER_DURING_THIS_MONTH) &&
-                                 Month.Equals(DEFAULT_MONTH) &&
-                                 NextMonth.Equals(DEFAULT_NEXT_MONTH) &&
-                                 NextWeek.Equals(DEFAULT_NEXT_WEEK) &&
-                                 NoDate.Equals(DEFAULT_NO_DATE) &&
-                                 Older.Equals(DEFAULT_OLDER) &&
-                                 OneItem.Equals(DEFAULT_ONE_ITEM) &&
-                                 Other.Equals(DEFAULT_OTHER) &&
-                                 PaletteCustom.Equals(DEFAULT_PALETTE_CUSTOM) &&
-                                 PaletteCustomHeading.Equals(DEFAULT_PALETTE_CUSTOM_HEADING) &&
-                                 PreviousMonth.Equals(DEFAULT_PREVIOUS_MONTH) &&
-                                 PreviousWeek.Equals(DEFAULT_PREVIOUS_WEEK) &&
-                                 PreviousYear.Equals(DEFAULT_PREVIOUS_YEAR) &&
-                                 QuarterOne.Equals(DEFAULT_QUARTER_ONE) &&
-                                 QuarterTwo.Equals(DEFAULT_QUARTER_TWO) &&
-                                 QuarterThree.Equals(DEFAULT_QUARTER_THREE) &&
-                                 QuarterFour.Equals(DEFAULT_QUARTER_FOUR) &&
-                                 Quarter.Equals(DEFAULT_QUARTER) &&
-                                 ShowGroupBox.Equals(DEFAULT_SHOW_GROUP_BOX) &&
-                                 Smart.Equals(DEFAULT_SMART) &&
-                                 SolidFill.Equals(DEFAULT_SOLID_FILL) &&
-                                 SortAscending.Equals(DEFAULT_SORT_ASCENDING) &&
-                                 SortBySummaryCount.Equals(DEFAULT_SORT_BY_SUMMARY_COUNT) &&
-                                 SortDescending.Equals(DEFAULT_SORT_DESCENDING) &&
-                                 ThreeColorsRange.Equals(DEFAULT_THREE_COLORS_RANGE) &&
-                                 ThreeWeeksAgo.Equals(DEFAULT_THREE_WEEKS_AGO) &&
-                                 Today.Equals(DEFAULT_TODAY) &&
-                                 Tomorrow.Equals(DEFAULT_TOMORROW) &&
-                                 TwoColorsRange.Equals(DEFAULT_TWO_COLORS_RANGE) &&
-                                 TwoWeeksAgo.Equals(DEFAULT_TWO_WEEKS_AGO) &&
-                                 UnGroup.Equals(DEFAULT_UNGROUP) &&
-                                 Unknown.Equals(DEFAULT_UNKNOWN) &&
-                                 NumberOfItems.Equals(DEFAULT_NUMBER_OF_ITEMS) &&
-                                 Year.Equals(DEFAULT_YEAR) &&
-                                 YearGroupText.Equals(DEFAULT_YEAR_GROUP_TEXT) &&
-                                 Yesterday.Equals(DEFAULT_YESTERDAY) &&
-                                 Monday.Equals(DEFAULT_MONDAY) &&
-                                 Tuesday.Equals(DEFAULT_TUESDAY) &&
-                                 Wednesday.Equals(DEFAULT_WEDNESDAY) &&
-                                 Thursday.Equals(DEFAULT_THURSDAY) &&
-                                 Friday.Equals(DEFAULT_FRIDAY) &&
-                                 Saturday.Equals(DEFAULT_SATURDAY) &&
-                                 Sunday.Equals(DEFAULT_SUNDAY) &&
-                                 MinimumColour.Equals(DEFAULT_MINIMUM_COLOUR) &&
-                                 MediumColour.Equals(DEFAULT_MEDIUM_COLOUR) &&
-                                 MaximumColour.Equals(DEFAULT_MAXIMUM_COLOUR);
+            AfterNextMonth.Equals(DEFAULT_AFTER_NEXT_MONTH) &&
+            AlphabeticGroupText.Equals(DEFAULT_ALPHABETIC_GROUP_TEXT) &&
+            Bar.Equals(DEFAULT_BAR) &&
+            BeforePreviousMonth.Equals(DEFAULT_BEFORE_PREVIOUS_MONTH) &&
+            BestFitAll.Equals(DEFAULT_BEST_FIT_ALL) &&
+            BestFit.Equals(DEFAULT_BEST_FIT) &&
+            ClearGrouping.Equals(DEFAULT_CLEAR_GROUPING) &&
+            ClearRules.Equals(DEFAULT_CLEAR_RULES) &&
+            ClearSorting.Equals(DEFAULT_CLEAR_SORTING) &&
+            Collapse.Equals(DEFAULT_COLLAPSE) &&
+            Columns.Equals(DEFAULT_COLUMNS) &&
+            ConditionalFormatting.Equals(DEFAULT_CONDITIONAL_FORMATTING) &&
+            CustomThreeDots.Equals(DEFAULT_CUSTOM_THREE_DOTS) &&
+            DateGroupText.Equals(DEFAULT_DATE_GROUP_TEXT) &&
+            Day.Equals(DEFAULT_DAY) &&
+            DragColumnToGroup.Equals(DEFAULT_DRAG_COLUMN_TO_GROUP) &&
+            EarlierDuringThisMonth.Equals(DEFAULT_EARLIER_DURING_THIS_MONTH) &&
+            EarlierDuringThisYear.Equals(DEFAULT_EARLIER_THIS_YEAR) &&
+            Expand.Equals(DEFAULT_EXPAND) &&
+            FullCollapse.Equals(DEFAULT_FULL_COLLAPSE) &&
+            FullExpand.Equals(DEFAULT_FULL_EXPAND) &&
+            GradientFill.Equals(DEFAULT_GRADIENT_FILL) &&
+            Group.Equals(DEFAULT_GROUP) &&
+            GroupInterval.Equals(DEFAULT_GROUP_INTERVAL) &&
+            HideGroupBox.Equals(DEFAULT_HIDE_GROUP_BOX) &&
+            InThreeWeeks.Equals(DEFAULT_IN_THREE_WEEKS) &&
+            InTwoWeeks.Equals(DEFAULT_IN_TWO_WEEKS) &&
+            LaterDuringThisMonth.Equals(DEFAULT_LATER_DURING_THIS_MONTH) &&
+            Month.Equals(DEFAULT_MONTH) &&
+            NextMonth.Equals(DEFAULT_NEXT_MONTH) &&
+            NextWeek.Equals(DEFAULT_NEXT_WEEK) &&
+            NoDate.Equals(DEFAULT_NO_DATE) &&
+            Older.Equals(DEFAULT_OLDER) &&
+            OneItem.Equals(DEFAULT_ONE_ITEM) &&
+            Other.Equals(DEFAULT_OTHER) &&
+            PaletteCustom.Equals(DEFAULT_PALETTE_CUSTOM) &&
+            PaletteCustomHeading.Equals(DEFAULT_PALETTE_CUSTOM_HEADING) &&
+            PreviousMonth.Equals(DEFAULT_PREVIOUS_MONTH) &&
+            PreviousWeek.Equals(DEFAULT_PREVIOUS_WEEK) &&
+            PreviousYear.Equals(DEFAULT_PREVIOUS_YEAR) &&
+            QuarterOne.Equals(DEFAULT_QUARTER_ONE) &&
+            QuarterTwo.Equals(DEFAULT_QUARTER_TWO) &&
+            QuarterThree.Equals(DEFAULT_QUARTER_THREE) &&
+            QuarterFour.Equals(DEFAULT_QUARTER_FOUR) &&
+            Quarter.Equals(DEFAULT_QUARTER) &&
+            ShowGroupBox.Equals(DEFAULT_SHOW_GROUP_BOX) &&
+            Smart.Equals(DEFAULT_SMART) &&
+            SolidFill.Equals(DEFAULT_SOLID_FILL) &&
+            SortAscending.Equals(DEFAULT_SORT_ASCENDING) &&
+            SortBySummaryCount.Equals(DEFAULT_SORT_BY_SUMMARY_COUNT) &&
+            SortDescending.Equals(DEFAULT_SORT_DESCENDING) &&
+            ThreeColorsRange.Equals(DEFAULT_THREE_COLORS_RANGE) &&
+            ThreeWeeksAgo.Equals(DEFAULT_THREE_WEEKS_AGO) &&
+            Today.Equals(DEFAULT_TODAY) &&
+            Tomorrow.Equals(DEFAULT_TOMORROW) &&
+            TwoColorsRange.Equals(DEFAULT_TWO_COLORS_RANGE) &&
+            TwoWeeksAgo.Equals(DEFAULT_TWO_WEEKS_AGO) &&
+            Ungroup.Equals(DEFAULT_UNGROUP) &&
+            Unknown.Equals(DEFAULT_UNKNOWN) &&
+            NumberOfItems.Equals(DEFAULT_NUMBER_OF_ITEMS) &&
+            Year.Equals(DEFAULT_YEAR) &&
+            YearGroupText.Equals(DEFAULT_YEAR_GROUP_TEXT) &&
+            Yesterday.Equals(DEFAULT_YESTERDAY) &&
+            Monday.Equals(DEFAULT_MONDAY) &&
+            Tuesday.Equals(DEFAULT_TUESDAY) &&
+            Wednesday.Equals(DEFAULT_WEDNESDAY) &&
+            Thursday.Equals(DEFAULT_THURSDAY) &&
+            Friday.Equals(DEFAULT_FRIDAY) &&
+            Saturday.Equals(DEFAULT_SATURDAY) &&
+            Sunday.Equals(DEFAULT_SUNDAY) &&
+            CustomFormatWindowTitle.Equals(DEFAULT_CUSTOM_FORMAT_WINDOW_TITLE) &&
+            CustomFormatFillLabelText.Equals(DEFAULT_CUSTOM_FORMAT_FORMAT) &&
+            CustomFormatPreviewLabelText.Equals(DEFAULT_CUSTOM_FORMAT_PREVIEW) &&
+            CustomFormatMinimumColorButtonText.Equals(DEFAULT_CUSTOM_FORMAT_MINIMUM_COLOR) &&
+            CustomFormatIntermediateColorButtonText.Equals(DEFAULT_CUSTOM_FORMAT_INTERMEDIATE_COLOR) &&
+            CustomFormatMaximumColorButtonText.Equals(DEFAULT_CUSTOM_FORMAT_MAXIMUM_COLOR) &&
+            CustomFormatFillLabelText.Equals(DEFAULT_CUSTOM_FORMAT_FILL);       
 
         #endregion
 
@@ -288,240 +282,838 @@ namespace Krypton.Toolkit
         /// <summary>Gets or sets the after next month string for the KryptonOutlookGrid.</summary>
         [Localizable(true)]
         [Category(@"Visuals")]
-        [Description(@"AfterNextMonth string used for Krypton Outlook Grid.")]
+        [Description(@"After Next Month string used for Krypton Outlook Grid.")]
         [DefaultValue(DEFAULT_AFTER_NEXT_MONTH)]
         [RefreshProperties(RefreshProperties.All)]
-        public string? AfterNextMonth { get; set; }
+        public string AfterNextMonth { get; set; }
 
         /// <summary>Gets or sets the alphabetic group string for the KryptonOutlookGrid.</summary>
+        [Localizable(true)]
+        [Category(@"Visuals")]
+        [Description(@"Alphabetic Group Text string used for Krypton Outlook Grid.")]
+        [DefaultValue(DEFAULT_ALPHABETIC_GROUP_TEXT)]
+        [RefreshProperties(RefreshProperties.All)]
         public string AlphabeticGroupText { get; set; }
 
         /// <summary>Gets or sets the bar string for the KryptonOutlookGrid.</summary>
+        [Localizable(true)]
+        [Category(@"Visuals")]
+        [Description(@"Bar string used for Krypton Outlook Grid.")]
+        [DefaultValue(DEFAULT_BAR)]
+        [RefreshProperties(RefreshProperties.All)]
         public string Bar { get; set; }
 
         /// <summary>Gets or sets the before previous month string for the KryptonOutlookGrid.</summary>
-        public string? BeforePreviousMonth { get; set; }
+        [Localizable(true)]
+        [Category(@"Visuals")]
+        [Description(@"Before Previous Month string used for Krypton Outlook Grid.")]
+        [DefaultValue(DEFAULT_BEFORE_PREVIOUS_MONTH)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string BeforePreviousMonth { get; set; }
 
         /// <summary>Gets or sets the best fit all string for the KryptonOutlookGrid.</summary>
+        [Localizable(true)]
+        [Category(@"Visuals")]
+        [Description(@"Best Fit All string used for Krypton Outlook Grid.")]
+        [DefaultValue(DEFAULT_BEST_FIT_ALL)]
+        [RefreshProperties(RefreshProperties.All)]
         public string BestFitAll { get; set; }
 
         /// <summary>Gets or sets the best fit string for the KryptonOutlookGrid.</summary>
-        public string BestFit { get; set; }
-
-        /// <summary>Gets or sets the cancel string for the KryptonOutlookGrid.</summary>
-        public string Cancel { get; set; }
+        [Localizable(true)]
+        [Category(@"Visuals")]
+        [Description(@"Best Fit string used for Krypton Outlook Grid.")]
+        [DefaultValue(DEFAULT_BEST_FIT)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string BestFit
+        {
+            get; set;
+        }
 
         /// <summary>Gets or sets the clear grouping string for the KryptonOutlookGrid.</summary>
-        public string ClearGrouping { get; set; }
+        [Localizable(true)]
+        [Category(@"Visuals")]
+        [Description(@"Clear Grouping string used for Krypton Outlook Grid.")]
+        [DefaultValue(DEFAULT_CLEAR_GROUPING)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string ClearGrouping
+        {
+            get; set;
+        }
 
         /// <summary>Gets or sets the clear rules string for the KryptonOutlookGrid.</summary>
-        public string ClearRules { get; set; }
+        [Localizable(true)]
+        [Category(@"Visuals")]
+        [Description(@"Clear Rules string used for Krypton Outlook Grid.")]
+        [DefaultValue(DEFAULT_CLEAR_RULES)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string ClearRules
+        {
+            get; set;
+        }
 
         /// <summary>Gets or sets the clear sorting string for the KryptonOutlookGrid.</summary>
-        public string ClearSorting { get; set; }
+        [Localizable(true)]
+        [Category(@"Visuals")]
+        [Description(@"Clear Sorting string used for Krypton Outlook Grid.")]
+        [DefaultValue(DEFAULT_CLEAR_SORTING)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string ClearSorting
+        {
+            get; set;
+        }
 
         /// <summary>Gets or sets the collapse string for the KryptonOutlookGrid.</summary>
-        public string Collapse { get; set; }
+        [Localizable(true)]
+        [Category(@"Visuals")]
+        [Description(@"Collapse string used for Krypton Outlook Grid.")]
+        [DefaultValue(DEFAULT_COLLAPSE)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string Collapse
+        {
+            get; set;
+        }
 
         /// <summary>Gets or sets the columns string for the KryptonOutlookGrid.</summary>
-        public string Columns { get; set; }
+        [Localizable(true)]
+        [Category(@"Visuals")]
+        [Description(@"Columns string used for Krypton Outlook Grid.")]
+        [DefaultValue(DEFAULT_COLUMNS)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string Columns
+        {
+            get; set;
+        }
 
         /// <summary>Gets or sets the conditional formatting string for the KryptonOutlookGrid.</summary>
-        public string ConditionalFormatting { get; set; }
+        [Localizable(true)]
+        [Category(@"Visuals")]
+        [Description(@"Conditional Formatting string used for Krypton Outlook Grid.")]
+        [DefaultValue(DEFAULT_CONDITIONAL_FORMATTING)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string ConditionalFormatting
+        {
+            get; set;
+        }
 
         /// <summary>Gets or sets the custom three dots string for the KryptonOutlookGrid.</summary>
-        public string CustomThreeDots { get; set; }
+        [Localizable(true)]
+        [Category(@"Visuals")]
+        [Description(@"Custom Three Dots string used for Krypton Outlook Grid.")]
+        [DefaultValue(DEFAULT_CUSTOM_THREE_DOTS)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string CustomThreeDots
+        {
+            get; set;
+        }
 
         /// <summary>Gets or sets the date group text string for the KryptonOutlookGrid.</summary>
-        public string DateGroupText { get; set; }
+        [Localizable(true)]
+        [Category(@"Visuals")]
+        [Description(@"Date Group Text string used for Krypton Outlook Grid.")]
+        [DefaultValue(DEFAULT_DATE_GROUP_TEXT)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string DateGroupText
+        {
+            get; set;
+        }
 
         /// <summary>Gets or sets the day string for the KryptonOutlookGrid.</summary>
-        public string Day { get; set; }
+        [Localizable(true)]
+        [Category(@"Visuals")]
+        [Description(@"Day string used for Krypton Outlook Grid.")]
+        [DefaultValue(DEFAULT_DAY)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string Day
+        {
+            get; set;
+        }
 
         /// <summary>Gets or sets the drag column to group string for the KryptonOutlookGrid.</summary>
-        public string DragColumnToGroup { get; set; }
+        [Localizable(true)]
+        [Category(@"Visuals")]
+        [Description(@"Drag Column to Group string used for Krypton Outlook Grid.")]
+        [DefaultValue(DEFAULT_DRAG_COLUMN_TO_GROUP)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string DragColumnToGroup
+        {
+            get; set;
+        }
 
         /// <summary>Gets or sets the earlier during this month string for the KryptonOutlookGrid.</summary>
-        public string? EarlierDuringThisMonth { get; set; }
+        [Localizable(true)]
+        [Category(@"Visuals")]
+        [Description(@"Earlier During this Month string used for Krypton Outlook Grid.")]
+        [DefaultValue(DEFAULT_EARLIER_DURING_THIS_MONTH)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string EarlierDuringThisMonth
+        {
+            get; set;
+        }
 
         /// <summary>Gets or sets the earlier during this year string for the KryptonOutlookGrid.</summary>
-        public string? EarlierDuringThisYear { get; set; }
+        [Localizable(true)]
+        [Category(@"Visuals")]
+        [Description(@"Earlier During this Year string used for Krypton Outlook Grid.")]
+        [DefaultValue(DEFAULT_EARLIER_THIS_YEAR)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string EarlierDuringThisYear
+        {
+            get; set;
+        }
 
         /// <summary>Gets or sets the expand string for the KryptonOutlookGrid.</summary>
-        public string Expand { get; set; }
-
-        /// <summary>Gets or sets the finish string for the KryptonOutlookGrid.</summary>
-        public string Finish { get; set; }
+        [Localizable(true)]
+        [Category(@"Visuals")]
+        [Description(@"Expand string used for Krypton Outlook Grid.")]
+        [DefaultValue(DEFAULT_EXPAND)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string Expand
+        {
+            get; set;
+        }
 
         /// <summary>Gets or sets the full collapse string for the KryptonOutlookGrid.</summary>
-        public string FullCollapse { get; set; }
+        [Localizable(true)]
+        [Category(@"Visuals")]
+        [Description(@"Full Collapse string used for Krypton Outlook Grid.")]
+        [DefaultValue(DEFAULT_FULL_COLLAPSE)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string FullCollapse
+        {
+            get; set;
+        }
 
         /// <summary>Gets or sets the full expand string for the KryptonOutlookGrid.</summary>
-        public string FullExpand { get; set; }
+        [Localizable(true)]
+        [Category(@"Visuals")]
+        [Description(@"Full Expand string used for Krypton Outlook Grid.")]
+        [DefaultValue(DEFAULT_FULL_EXPAND)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string FullExpand
+        {
+            get; set;
+        }
 
         /// <summary>Gets or sets the gradient fill string for the KryptonOutlookGrid.</summary>
-        public string GradientFill { get; set; }
+        [Localizable(true)]
+        [Category(@"Visuals")]
+        [Description(@"Gradient Fill string used for Krypton Outlook Grid.")]
+        [DefaultValue(DEFAULT_GRADIENT_FILL)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string GradientFill
+        {
+            get; set;
+        }
 
         /// <summary>Gets or sets the group string for the KryptonOutlookGrid.</summary>
-        public string Group { get; set; }
+        [Localizable(true)]
+        [Category(@"Visuals")]
+        [Description(@"Group string used for Krypton Outlook Grid.")]
+        [DefaultValue(DEFAULT_GROUP)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string Group
+        {
+            get; set;
+        }
 
         /// <summary>Gets or sets the group interval string for the KryptonOutlookGrid.</summary>
-        public string GroupInterval { get; set; }
+        [Localizable(true)]
+        [Category(@"Visuals")]
+        [Description(@"Group Interval string used for Krypton Outlook Grid.")]
+        [DefaultValue(DEFAULT_GROUP_INTERVAL)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string GroupInterval
+        {
+            get; set;
+        }
 
         /// <summary>Gets or sets the hide group box string for the KryptonOutlookGrid.</summary>
-        public string HideGroupBox { get; set; }
+        [Localizable(true)]
+        [Category(@"Visuals")]
+        [Description(@"Header Group string used for Krypton Outlook Grid.")]
+        [DefaultValue(DEFAULT_HIDE_GROUP_BOX)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string HideGroupBox
+        {
+            get; set;
+        }
 
         /// <summary>Gets or sets the in three weeks string for the KryptonOutlookGrid.</summary>
-        public string? InThreeWeeks { get; set; }
+        [Localizable(true)]
+        [Category(@"Visuals")]
+        [Description(@"In Three Weeks string used for Krypton Outlook Grid.")]
+        [DefaultValue(DEFAULT_IN_THREE_WEEKS)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string InThreeWeeks
+        {
+            get; set;
+        }
 
         /// <summary>Gets or sets the in two weeks string for the KryptonOutlookGrid.</summary>
-        public string? InTwoWeeks { get; set; }
+        [Localizable(true)]
+        [Category(@"Visuals")]
+        [Description(@"In Two Weeks string used for Krypton Outlook Grid.")]
+        [DefaultValue(DEFAULT_IN_TWO_WEEKS)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string InTwoWeeks
+        {
+            get; set;
+        }
 
-        /// <summary>Gets or sets the later during this month string for the KryptonOutlookGrid.</summary>
-        public string? LaterDuringThisMonth { get; set; }
+        /// <summary>Gets or sets the Later during this month string for the KryptonOutlookGrid.</summary>
+        [Localizable(true)]
+        [Category(@"Visuals")]
+        [Description(@"Later During this Month string used for Krypton Outlook Grid.")]
+        [DefaultValue(DEFAULT_LATER_DURING_THIS_MONTH)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string LaterDuringThisMonth
+        {
+            get; set;
+        }
 
         /// <summary>Gets or sets the month string for the KryptonOutlookGrid.</summary>
-        public string Month { get; set; }
+        [Localizable(true)]
+        [Category(@"Visuals")]
+        [Description(@"Month string used for Krypton Outlook Grid.")]
+        [DefaultValue(DEFAULT_MONTH)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string Month
+        {
+            get; set;
+        }
 
         /// <summary>Gets or sets the next month string for the KryptonOutlookGrid.</summary>
-        public string? NextMonth { get; set; }
+        [Localizable(true)]
+        [Category(@"Visuals")]
+        [Description(@"Next Month string used for Krypton Outlook Grid.")]
+        [DefaultValue(DEFAULT_NEXT_MONTH)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string NextMonth
+        {
+            get; set;
+        }
 
         /// <summary>Gets or sets the next week string for the KryptonOutlookGrid.</summary>
-        public string? NextWeek { get; set; }
+        [Localizable(true)]
+        [Category(@"Visuals")]
+        [Description(@"Next Week string used for Krypton Outlook Grid.")]
+        [DefaultValue(DEFAULT_NEXT_WEEK)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string NextWeek
+        {
+            get; set;
+        }
 
         /// <summary>Gets or sets the no date string for the KryptonOutlookGrid.</summary>
-        public string? NoDate { get; set; }
+        [Localizable(true)]
+        [Category(@"Visuals")]
+        [Description(@"No Date string used for Krypton Outlook Grid.")]
+        [DefaultValue(DEFAULT_NO_DATE)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string NoDate
+        {
+            get; set;
+        }
 
         /// <summary>Gets or sets the older string for the KryptonOutlookGrid.</summary>
-        public string? Older { get; set; }
+        [Localizable(true)]
+        [Category(@"Visuals")]
+        [Description(@"Older string used for Krypton Outlook Grid.")]
+        [DefaultValue(DEFAULT_OLDER)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string Older
+        {
+            get; set;
+        }
 
         /// <summary>Gets or sets the one item string for the KryptonOutlookGrid.</summary>
-        public string OneItem { get; set; }
+        [Localizable(true)]
+        [Category(@"Visuals")]
+        [Description(@"One Item string used for Krypton Outlook Grid.")]
+        [DefaultValue(DEFAULT_ONE_ITEM)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string OneItem
+        {
+            get; set;
+        }
 
         /// <summary>Gets or sets the other string for the KryptonOutlookGrid.</summary>
-        public string Other { get; set; }
+        [Localizable(true)]
+        [Category(@"Visuals")]
+        [Description(@"Other string used for Krypton Outlook Grid.")]
+        [DefaultValue(DEFAULT_OTHER)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string Other
+        {
+            get; set;
+        }
 
         /// <summary>Gets or sets the palette custom string for the KryptonOutlookGrid.</summary>
-        public string PaletteCustom { get; set; }
+        [Localizable(true)]
+        [Category(@"Visuals")]
+        [Description(@"Palette Custom string used for Krypton Outlook Grid.")]
+        [DefaultValue(DEFAULT_PALETTE_CUSTOM)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string PaletteCustom
+        {
+            get; set;
+        }
 
         /// <summary>Gets or sets the palette custom heading string for the KryptonOutlookGrid.</summary>
-        public string PaletteCustomHeading { get; set; }
+        [Localizable(true)]
+        [Category(@"Visuals")]
+        [Description(@"Palette Custom Heading string used for Krypton Outlook Grid.")]
+        [DefaultValue(DEFAULT_PALETTE_CUSTOM_HEADING)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string PaletteCustomHeading
+        {
+            get; set;
+        }
 
         /// <summary>Gets or sets the previous month string for the KryptonOutlookGrid.</summary>
-        public string? PreviousMonth { get; set; }
+        [Localizable(true)]
+        [Category(@"Visuals")]
+        [Description(@"Previous Month string used for Krypton Outlook Grid.")]
+        [DefaultValue(DEFAULT_PREVIOUS_MONTH)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string PreviousMonth
+        {
+            get; set;
+        }
 
         /// <summary>Gets or sets the previous week string for the KryptonOutlookGrid.</summary>
-        public string? PreviousWeek { get; set; }
+        [Localizable(true)]
+        [Category(@"Visuals")]
+        [Description(@"Previous Week string used for Krypton Outlook Grid.")]
+        [DefaultValue(DEFAULT_PREVIOUS_WEEK)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string PreviousWeek
+        {
+            get; set;
+        }
 
         /// <summary>Gets or sets the previous year string for the KryptonOutlookGrid.</summary>
-        public string? PreviousYear { get; set; }
+        [Localizable(true)]
+        [Category(@"Visuals")]
+        [Description(@"Previous Year string used for Krypton Outlook Grid.")]
+        [DefaultValue(DEFAULT_PREVIOUS_YEAR)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string PreviousYear
+        {
+            get; set;
+        }
 
         /// <summary>Gets or sets the quarter one string for the KryptonOutlookGrid.</summary>
-        public string QuarterOne { get; set; }
+        [Localizable(true)]
+        [Category(@"Visuals")]
+        [Description(@"Quarter One string used for Krypton Outlook Grid.")]
+        [DefaultValue(DEFAULT_QUARTER_ONE)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string QuarterOne
+        {
+            get; set;
+        }
 
         /// <summary>Gets or sets the quarter two string for the KryptonOutlookGrid.</summary>
-        public string QuarterTwo { get; set; }
+        [Localizable(true)]
+        [Category(@"Visuals")]
+        [Description(@"Quarter Two string used for Krypton Outlook Grid.")]
+        [DefaultValue(DEFAULT_QUARTER_TWO)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string QuarterTwo
+        {
+            get; set;
+        }
 
         /// <summary>Gets or sets the quarter three string for the KryptonOutlookGrid.</summary>
-        public string QuarterThree { get; set; }
+        [Localizable(true)]
+        [Category(@"Visuals")]
+        [Description(@"Quarter Three string used for Krypton Outlook Grid.")]
+        [DefaultValue(DEFAULT_QUARTER_THREE)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string QuarterThree
+        {
+            get; set;
+        }
 
         /// <summary>Gets or sets the quarter four string for the KryptonOutlookGrid.</summary>
-        public string QuarterFour { get; set; }
+        [Localizable(true)]
+        [Category(@"Visuals")]
+        [Description(@"Quarter Four string used for Krypton Outlook Grid.")]
+        [DefaultValue(DEFAULT_QUARTER_FOUR)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string QuarterFour
+        {
+            get; set;
+        }
 
         /// <summary>Gets or sets the quarter string for the KryptonOutlookGrid.</summary>
-        public string Quarter { get; set; }
+        [Localizable(true)]
+        [Category(@"Visuals")]
+        [Description(@"Quarter string used for Krypton Outlook Grid.")]
+        [DefaultValue(DEFAULT_QUARTER)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string Quarter
+        {
+            get; set;
+        }
 
         /// <summary>Gets or sets the show group box string for the KryptonOutlookGrid.</summary>
-        public string ShowGroupBox { get; set; }
+        [Localizable(true)]
+        [Category(@"Visuals")]
+        [Description(@"Show Group Box string used for Krypton Outlook Grid.")]
+        [DefaultValue(DEFAULT_SHOW_GROUP_BOX)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string ShowGroupBox
+        {
+            get; set;
+        }
 
         /// <summary>Gets or sets the smart string for the KryptonOutlookGrid.</summary>
-        public string Smart { get; set; }
+        [Localizable(true)]
+        [Category(@"Visuals")]
+        [Description(@"Smart string used for Krypton Outlook Grid.")]
+        [DefaultValue(DEFAULT_SMART)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string Smart
+        {
+            get; set;
+        }
 
         /// <summary>Gets or sets the solid fill string for the KryptonOutlookGrid.</summary>
-        public string SolidFill { get; set; }
+        [Localizable(true)]
+        [Category(@"Visuals")]
+        [Description(@"Solid Fill string used for Krypton Outlook Grid.")]
+        [DefaultValue(DEFAULT_SOLID_FILL)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string SolidFill
+        {
+            get; set;
+        }
 
         /// <summary>Gets or sets the sort ascending string for the KryptonOutlookGrid.</summary>
-        public string SortAscending { get; set; }
+        [Localizable(true)]
+        [Category(@"Visuals")]
+        [Description(@"Sort Ascending string used for Krypton Outlook Grid.")]
+        [DefaultValue(DEFAULT_SORT_ASCENDING)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string SortAscending
+        {
+            get; set;
+        }
 
         /// <summary>Gets or sets the sort by summary count string for the KryptonOutlookGrid.</summary>
-        public string SortBySummaryCount { get; set; }
+        [Localizable(true)]
+        [Category(@"Visuals")]
+        [Description(@"Sort by Summary Count string used for Krypton Outlook Grid.")]
+        [DefaultValue(DEFAULT_SORT_BY_SUMMARY_COUNT)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string SortBySummaryCount
+        {
+            get; set;
+        }
 
         /// <summary>Gets or sets the sort descending string for the KryptonOutlookGrid.</summary>
-        public string SortDescending { get; set; }
+        [Localizable(true)]
+        [Category(@"Visuals")]
+        [Description(@"Sort Descending string used for Krypton Outlook Grid.")]
+        [DefaultValue(DEFAULT_SORT_DESCENDING)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string SortDescending
+        {
+            get; set;
+        }
 
         /// <summary>Gets or sets the three colors range string for the KryptonOutlookGrid.</summary>
-        public string ThreeColorsRange { get; set; }
+        [Localizable(true)]
+        [Category(@"Visuals")]
+        [Description(@"Three Colors Range string used for Krypton Outlook Grid.")]
+        [DefaultValue(DEFAULT_THREE_COLORS_RANGE)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string ThreeColorsRange
+        {
+            get; set;
+        }
 
         /// <summary>Gets or sets the three weeks ago string for the KryptonOutlookGrid.</summary>
-        public string? ThreeWeeksAgo { get; set; }
+        [Localizable(true)]
+        [Category(@"Visuals")]
+        [Description(@"Three Weeks Ago string used for Krypton Outlook Grid.")]
+        [DefaultValue(DEFAULT_THREE_WEEKS_AGO)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string ThreeWeeksAgo
+        {
+            get; set;
+        }
 
         /// <summary>Gets or sets the today string for the KryptonOutlookGrid.</summary>
-        public string? Today { get; set; }
+        [Localizable(true)]
+        [Category(@"Visuals")]
+        [Description(@"Today string used for Krypton Outlook Grid.")]
+        [DefaultValue(DEFAULT_TODAY)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string Today
+        {
+            get; set;
+        }
 
         /// <summary>Gets or sets the tomorrow string for the KryptonOutlookGrid.</summary>
-        public string? Tomorrow { get; set; }
+        [Localizable(true)]
+        [Category(@"Visuals")]
+        [Description(@"Tomorrow string used for Krypton Outlook Grid.")]
+        [DefaultValue(DEFAULT_TOMORROW)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string Tomorrow
+        {
+            get; set;
+        }
 
         /// <summary>Gets or sets the two colors range string for the KryptonOutlookGrid.</summary>
-        public string TwoColorsRange { get; set; }
+        [Localizable(true)]
+        [Category(@"Visuals")]
+        [Description(@"Two Colors Range string used for Krypton Outlook Grid.")]
+        [DefaultValue(DEFAULT_TWO_COLORS_RANGE)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string TwoColorsRange
+        {
+            get; set;
+        }
 
         /// <summary>Gets or sets the two weeks ago string for the KryptonOutlookGrid.</summary>
-        public string? TwoWeeksAgo { get; set; }
+        [Localizable(true)]
+        [Category(@"Visuals")]
+        [Description(@"Two Weeks Ago string used for Krypton Outlook Grid.")]
+        [DefaultValue(DEFAULT_TWO_WEEKS_AGO)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string TwoWeeksAgo
+        {
+            get; set;
+        }
 
-        /// <summary>Gets or sets the UnGroup string for the KryptonOutlookGrid.</summary>
-        public string UnGroup { get; set; }
+        /// <summary>Gets or sets the Ungroup string for the KryptonOutlookGrid.</summary>
+        [Localizable(true)]
+        [Category(@"Visuals")]
+        [Description(@"Ungroup string used for Krypton Outlook Grid.")]
+        [DefaultValue(DEFAULT_UNGROUP)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string Ungroup
+        {
+            get; set;
+        }
 
         /// <summary>Gets or sets the unknown string for the KryptonOutlookGrid.</summary>
-        public string Unknown { get; set; }
+        [Localizable(true)]
+        [Category(@"Visuals")]
+        [Description(@"Unknown string used for Krypton Outlook Grid.")]
+        [DefaultValue(DEFAULT_UNKNOWN)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string Unknown
+        {
+            get; set;
+        }
 
         /// <summary>Gets or sets the number of items string for the KryptonOutlookGrid.</summary>
-        public string? NumberOfItems { get; set; }
+        [Localizable(true)]
+        [Category(@"Visuals")]
+        [Description(@"Number of Items string used for Krypton Outlook Grid.")]
+        [DefaultValue(DEFAULT_NUMBER_OF_ITEMS)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string NumberOfItems
+        {
+            get; set;
+        }
 
         /// <summary>Gets or sets the year string for the KryptonOutlookGrid.</summary>
-        public string Year { get; set; }
+        [Localizable(true)]
+        [Category(@"Visuals")]
+        [Description(@"Year string used for Krypton Outlook Grid.")]
+        [DefaultValue(DEFAULT_YEAR)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string Year
+        {
+            get; set;
+        }
 
         /// <summary>Gets or sets the year group text string for the KryptonOutlookGrid.</summary>
-        public string YearGroupText { get; set; }
+        [Localizable(true)]
+        [Category(@"Visuals")]
+        [Description(@"Year Group Text string used for Krypton Outlook Grid.")]
+        [DefaultValue(DEFAULT_YEAR_GROUP_TEXT)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string YearGroupText
+        {
+            get; set;
+        }
 
         /// <summary>Gets or sets the yesterday string for the KryptonOutlookGrid.</summary>
-        public string? Yesterday { get; set; }
+        [Localizable(true)]
+        [Category(@"Visuals")]
+        [Description(@"Yesterday string used for Krypton Outlook Grid.")]
+        [DefaultValue(DEFAULT_YESTERDAY)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string Yesterday
+        {
+            get; set;
+        }
 
-        public string? Monday { get; set; }
+        /// <summary>Gets or sets the Monday string for the KryptonOutlookGrid.</summary>
+        [Localizable(true)]
+        [Category(@"Visuals")]
+        [Description(@"Monday string used for Krypton Outlook Grid.")]
+        [DefaultValue(DEFAULT_MONDAY)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string Monday
+        {
+            get; set;
+        }
 
-        public string? Tuesday { get; set; }
+        /// <summary>Gets or sets the Tuesday string for the KryptonOutlookGrid.</summary>
+        [Localizable(true)]
+        [Category(@"Visuals")]
+        [Description(@"Tuesday string used for Krypton Outlook Grid.")]
+        [DefaultValue(DEFAULT_TUESDAY)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string Tuesday
+        {
+            get; set;
+        }
 
-        public string? Wednesday { get; set; }
+        /// <summary>Gets or sets the Wednesday string for the KryptonOutlookGrid.</summary>
+        [Localizable(true)]
+        [Category(@"Visuals")]
+        [Description(@"Wednesday string used for Krypton Outlook Grid.")]
+        [DefaultValue(DEFAULT_WEDNESDAY)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string Wednesday
+        {
+            get; set;
+        }
 
-        public string? Thursday { get; set; }
+        /// <summary>Gets or sets the Thursday string for the KryptonOutlookGrid.</summary>
+        [Localizable(true)]
+        [Category(@"Visuals")]
+        [Description(@"Thursday string used for Krypton Outlook Grid.")]
+        [DefaultValue(DEFAULT_THURSDAY)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string Thursday
+        {
+            get; set;
+        }
 
-        public string? Friday { get; set; }
+        /// <summary>Gets or sets the Friday string for the KryptonOutlookGrid.</summary>
+        [Localizable(true)]
+        [Category(@"Visuals")]
+        [Description(@"Friday string used for Krypton Outlook Grid.")]
+        [DefaultValue(DEFAULT_FRIDAY)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string Friday
+        {
+            get; set;
+        }
 
-        public string? Saturday { get; set; }
+        /// <summary>Gets or sets the Saturday string for the KryptonOutlookGrid.</summary>
+        [Localizable(true)]
+        [Category(@"Visuals")]
+        [Description(@"Saturday string used for Krypton Outlook Grid.")]
+        [DefaultValue(DEFAULT_SATURDAY)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string Saturday
+        {
+            get; set;
+        }
 
-        public string Sunday { get; set; }
-
-        public string MinimumColour { get; set; }
-
-        public string MediumColour { get; set; }
-
-        public string MaximumColour { get; set; }
+        /// <summary>Gets or sets the Sunday string for the KryptonOutlookGrid.</summary>
+        [Localizable(true)]
+        [Category(@"Visuals")]
+        [Description(@"Sunday string used for Krypton Outlook Grid.")]
+        [DefaultValue(DEFAULT_SUNDAY)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string Sunday
+        {
+            get; set;
+        }
 
         #endregion
 
         #region Custom Format Window
 
-        public string CustomFormatWindowTitle { get; set; }
+        /// <summary>Gets or sets the custom format window title string for the KryptonOutlookGrid.</summary>
+        [Localizable(true)]
+        [Category(@"Visuals")]
+        [Description(@"Custom Format Window Title string used for Krypton Outlook Grid.")]
+        [DefaultValue(DEFAULT_CUSTOM_FORMAT_WINDOW_TITLE)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string CustomFormatWindowTitle
+        {
+            get; set;
+        }
 
-        public string CustomFormatLabelText { get; set; }
+        /// <summary>Gets or sets the format label string for the KryptonOutlookGrid.</summary>
+        [Localizable(true)]
+        [Category(@"Visuals")]
+        [Description(@"Format label string used for Krypton Outlook Grid.")]
+        [DefaultValue(DEFAULT_CUSTOM_FORMAT_FORMAT)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string CustomFormatLabelText
+        {
+            get; set;
+        }
 
-        public string CustomFormatPreviewLabelText { get; set; }
+        /// <summary>Gets or sets the preview label string for the KryptonOutlookGrid.</summary>
+        [Localizable(true)]
+        [Category(@"Visuals")]
+        [Description(@"Preview label string used for Krypton Outlook Grid.")]
+        [DefaultValue(DEFAULT_CUSTOM_FORMAT_PREVIEW)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string CustomFormatPreviewLabelText
+        {
+            get; set;
+        }
 
-        public string CustomFormatMinimumColorButtonText { get; set; }
+        /// <summary>Gets or sets the minimum color button text string for the KryptonOutlookGrid.</summary>
+        [Localizable(true)]
+        [Category(@"Visuals")]
+        [Description(@"Minimum color button text string used for Krypton Outlook Grid.")]
+        [DefaultValue(DEFAULT_CUSTOM_FORMAT_MINIMUM_COLOR)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string CustomFormatMinimumColorButtonText
+        {
+            get; set;
+        }
 
-        public string CustomFormatIntermediateColorButtonText { get; set; }
+        /// <summary>Gets or sets the intermediate color button text string for the KryptonOutlookGrid.</summary>
+        [Localizable(true)]
+        [Category(@"Visuals")]
+        [Description(@"Intermediate color button text string used for Krypton Outlook Grid.")]
+        [DefaultValue(DEFAULT_CUSTOM_FORMAT_INTERMEDIATE_COLOR)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string CustomFormatIntermediateColorButtonText
+        {
+            get; set;
+        }
 
-        public string CustomFormatMaximumColorButtonText { get; set; }
+        /// <summary>Gets or sets the maximum color button text string for the KryptonOutlookGrid.</summary>
+        [Localizable(true)]
+        [Category(@"Visuals")]
+        [Description(@"Maximum color button text string used for Krypton Outlook Grid.")]
+        [DefaultValue(DEFAULT_CUSTOM_FORMAT_MAXIMUM_COLOR)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string CustomFormatMaximumColorButtonText
+        {
+            get; set;
+        }
 
-        public string CustomFormatFillLabelText { get; set; }
+        /// <summary>Gets or sets the fill label string for the KryptonOutlookGrid.</summary>
+        [Localizable(true)]
+        [Category(@"Visuals")]
+        [Description(@"Fill label string used for Krypton Outlook Grid.")]
+        [DefaultValue(DEFAULT_CUSTOM_FORMAT_FILL)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string CustomFormatFillLabelText
+        {
+            get; set;
+        }
 
         #endregion
 
@@ -529,6 +1121,7 @@ namespace Krypton.Toolkit
 
         #region Implementation
 
+        /// <summary>Resets this instance.</summary>
         public void Reset()
         {
             #region OutlookGrid Component
@@ -544,8 +1137,6 @@ namespace Krypton.Toolkit
             BestFitAll = DEFAULT_BEST_FIT_ALL;
 
             BestFit = DEFAULT_BEST_FIT;
-
-            Cancel = DEFAULT_CANCEL;
 
             ClearGrouping = DEFAULT_CLEAR_GROUPING;
 
@@ -572,8 +1163,6 @@ namespace Krypton.Toolkit
             EarlierDuringThisYear = DEFAULT_EARLIER_THIS_YEAR;
 
             Expand = DEFAULT_EXPAND;
-
-            Finish = DEFAULT_FINISH;
 
             FullCollapse = DEFAULT_FULL_COLLAPSE;
 
@@ -651,7 +1240,7 @@ namespace Krypton.Toolkit
 
             TwoWeeksAgo = DEFAULT_TWO_WEEKS_AGO;
 
-            UnGroup = DEFAULT_UNGROUP;
+            Ungroup = DEFAULT_UNGROUP;
 
             Unknown = DEFAULT_UNKNOWN;
 
@@ -677,11 +1266,23 @@ namespace Krypton.Toolkit
 
             Sunday = DEFAULT_SUNDAY;
 
-            MinimumColour = DEFAULT_MINIMUM_COLOUR;
+            #endregion
 
-            MediumColour = DEFAULT_MEDIUM_COLOUR;
+            #region Custom Format Window
 
-            MaximumColour = DEFAULT_MAXIMUM_COLOUR;
+            CustomFormatWindowTitle = DEFAULT_CUSTOM_FORMAT_WINDOW_TITLE;
+
+            CustomFormatFillLabelText = DEFAULT_CUSTOM_FORMAT_FILL;
+
+            CustomFormatLabelText = DEFAULT_CUSTOM_FORMAT_FORMAT;
+
+            CustomFormatPreviewLabelText = DEFAULT_CUSTOM_FORMAT_PREVIEW;
+
+            CustomFormatMaximumColorButtonText = DEFAULT_CUSTOM_FORMAT_MAXIMUM_COLOR;
+
+            CustomFormatIntermediateColorButtonText = DEFAULT_CUSTOM_FORMAT_INTERMEDIATE_COLOR;
+
+            CustomFormatMaximumColorButtonText = DEFAULT_CUSTOM_FORMAT_MAXIMUM_COLOR;
 
             #endregion
         }

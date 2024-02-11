@@ -64,6 +64,7 @@ namespace Krypton.Toolkit
 		[Category(@"Visuals")]
 		[Description(@"Theme Selected Index. (Default = `Office 365 - Blue`)")]
 		[DefaultValue((int)PaletteMode.Microsoft365Blue)]
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public int ThemeSelectedIndex
 		{
 			get => _selectedIndex = _defaultPaletteIndex ?? 30;

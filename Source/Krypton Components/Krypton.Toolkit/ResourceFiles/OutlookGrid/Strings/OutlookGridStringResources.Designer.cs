@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Krypton.Toolkit.ResourceFiles.OutlookGrid {
+namespace Krypton.Toolkit.ResourceFiles.OutlookGrid.Strings {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace Krypton.Toolkit.ResourceFiles.OutlookGrid {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Krypton.Toolkit.ResourceFiles.OutlookGrid.OutlookGridStringResources", typeof(OutlookGridStringResources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Krypton.Toolkit.ResourceFiles.OutlookGrid.Strings.OutlookGridStringResources", typeof(OutlookGridStringResources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
