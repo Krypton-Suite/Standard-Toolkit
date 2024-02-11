@@ -34,6 +34,7 @@ namespace Krypton.Toolkit
 
 		/// <summary>Gets or sets a value indicating whether [report selected theme index].</summary>
 		/// <value><c>true</c> if [report selected theme index]; otherwise, <c>false</c>.</value>
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public bool ReportSelectedThemeIndex
 		{
 			get => _reportSelectedThemeIndex;
@@ -46,6 +47,7 @@ namespace Krypton.Toolkit
 		[Category(@"Visuals")]
 		[Description(@"The default palette mode.")]
 		[DefaultValue(PaletteMode.Microsoft365Blue)]
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public PaletteMode DefaultPalette
 		{
 			get => _defaultPalette;
@@ -64,6 +66,7 @@ namespace Krypton.Toolkit
 		[Category(@"Visuals")]
 		[Description(@"Theme Selected Index. (Default = `Office 365 - Blue`)")]
 		[DefaultValue((int)PaletteMode.Microsoft365Blue)]
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public int ThemeSelectedIndex
 		{
 			get => _selectedIndex = _defaultPaletteIndex ?? 30;
