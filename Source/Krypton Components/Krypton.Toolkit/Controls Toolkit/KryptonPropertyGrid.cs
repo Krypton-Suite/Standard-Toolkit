@@ -11,7 +11,7 @@ using System.Windows.Forms;
 
 namespace Krypton.Toolkit
 {
-    /// <summary>A property grid control that supports the Krypton render.</summary>
+    ///<summary>A property grid control that supports the Krypton render.</summary>
     [Description(@"A property grid control that supports the Krypton render.")]
     [Designer(typeof(KryptonPropertyGridDesigner))]
     [ToolboxBitmap(typeof(PropertyGrid), "ToolboxBitmaps.KryptonPropertyGridVersion2.bmp")]
@@ -31,6 +31,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Constructor
+        ///<summary>A property grid control that supports the Krypton render.</summary>
         public KryptonPropertyGrid()
         {
             SetStyle(ControlStyles.UserPaint
@@ -62,10 +63,19 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Public
-
         /// <summary>Refreshes the colours.</summary>
         public void RefreshColours() => InitColours();
+        #endregion
 
+        #region Protected Overrides
+        /// <inheritdoc />
+        protected override void Dispose(bool disposing)
+        {
+            // Unhook from the static events, otherwise we cannot be garbage collected
+            KryptonManager.GlobalPaletteChanged -= OnGlobalPaletteChanged;
+
+            base.Dispose(disposing);
+        }
         #endregion
 
         #region Krypton
@@ -87,9 +97,7 @@ namespace Krypton.Toolkit
             {
                 _palette.PalettePaint += OnPalettePaint;
                 //repaint with new values
-
                 InitColours();
-
             }
 
             Invalidate();
