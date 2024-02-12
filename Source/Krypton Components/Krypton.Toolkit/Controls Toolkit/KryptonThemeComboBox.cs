@@ -84,7 +84,6 @@ namespace Krypton.Toolkit
         private int ThemeSelectedIndex
         {
             get => _selectedIndex = _defaultPaletteIndex ?? 30;
-
             set => _selectedIndex = SelectedIndex = value;
         }
 
@@ -106,7 +105,6 @@ namespace Krypton.Toolkit
         public KryptonManager? Manager
         {
             get => _manager;
-
             set => _manager = value;
         }
 
@@ -117,17 +115,26 @@ namespace Krypton.Toolkit
         /// <summary>Initializes a new instance of the <see cref="KryptonThemeComboBox" /> class.</summary>
         public KryptonThemeComboBox()
         {
+            #if DEBUG
+            _reportSelectedThemeIndex = true;
+            #else
             _reportSelectedThemeIndex = false;
-
+            #endif
             _manager = new KryptonManager();
 
+            var defaultThemeName = ThemeManager.ReturnPaletteModeAsString(PaletteMode.Microsoft365Blue);
+            _defaultPaletteIndex = 30; // was 24 which is wrong!
             DropDownStyle = ComboBoxStyle.DropDownList;
             foreach (var kvp in PaletteModeStrings.SupportedThemesMap)
             {
                 Items.Add(kvp.Key);
+                if (kvp.Key == defaultThemeName)
+                {
+                    _defaultPaletteIndex = Items.Count - 1;
+                }
             }
-            base.Text = ThemeManager.ReturnPaletteModeAsString(PaletteMode.Microsoft365Blue);
-            _selectedIndex = SelectedIndex = _defaultPaletteIndex ?? GlobalStaticValues.GLOBAL_DEFAULT_THEME_INDEX;
+            base.Text = defaultThemeName;
+            _selectedIndex = SelectedIndex = (int)_defaultPaletteIndex;
 
             _defaultPalette = PaletteMode.Microsoft365Blue;
 
@@ -164,9 +171,7 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>Returns the palette mode.</summary>
-        /// <returns>
-        ///   <br />
-        /// </returns>
+        /// <returns>PaletteMode of the Manager</returns>
         public PaletteMode ReturnPaletteMode() => Manager!.GlobalPaletteMode;
 
         // TODO: Refresh the theme names if the values have been altered
@@ -179,6 +184,16 @@ namespace Krypton.Toolkit
         protected override void OnCreateControl()
         {
             base.OnCreateControl();
+            // At this point, a potential new Manager is assigned (by Designer file)
+            // If its GlobalPaletteMode is not Custom or Global, set the combo's text:
+            var mgrMode = ReturnPaletteMode();
+            if (mgrMode != PaletteMode.Custom && mgrMode != PaletteMode.Global)
+            {
+                var selectedText = ThemeManager.ReturnPaletteModeAsString(mgrMode);
+                // this triggers below OnSelectedIndexChanged
+                base.Text = selectedText;
+                return;
+            }
             SelectedIndex = _selectedIndex;
         }
 
@@ -199,7 +214,9 @@ namespace Krypton.Toolkit
 
             if (_reportSelectedThemeIndex)
             {
-                KryptonMessageBox.Show($@"The index for '{SelectedItem}' is {SelectedIndex}", @"Theme Index", KryptonMessageBoxButtons.OK, KryptonMessageBoxIcon.SystemInformation);
+                //KryptonMessageBox.Show($@"The index for '{SelectedItem}' is {SelectedIndex}",
+                //  @"Theme Index", KryptonMessageBoxButtons.OK, KryptonMessageBoxIcon.SystemInformation);
+                Debug.WriteLine($@"The index for '{SelectedItem}' is {SelectedIndex}");
             }
         }
 
