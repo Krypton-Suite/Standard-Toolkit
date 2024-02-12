@@ -86,7 +86,6 @@ namespace TestForm
             //
             // kryptonThemeComboBox1
             //
-            this.kryptonThemeComboBox1.DefaultPalette = Krypton.Toolkit.PaletteMode.Office365Blue;
             this.kryptonThemeComboBox1.DropDownWidth = 552;
             this.kryptonThemeComboBox1.IntegralHeight = false;
             this.kryptonThemeComboBox1.Location = new System.Drawing.Point(17, 16);
@@ -101,7 +100,7 @@ namespace TestForm
             // kryptonManager1
             //
             this.kryptonManager1.BaseFont = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.kryptonManager1.GlobalPaletteMode = Krypton.Toolkit.PaletteMode.Office2010White;
+            this.kryptonManager1.GlobalPaletteMode = Krypton.Toolkit.PaletteMode.Microsoft365Blue;
             //
             // kbtnOutlookGrid
             //
