@@ -187,7 +187,7 @@ namespace Krypton.Toolkit
             Color.FromArgb(0, 0, 0), // FormButtonBack1Pressed
             Color.FromArgb(65, 83, 102), // FormButtonBack2Pressed
             Color.White, // TextButtonFormNormal
-            Color.White, // TextButtonFormTracking
+            Color.Black, // TextButtonFormTracking
             Color.White, // TextButtonFormPressed
             Color.White, // LinkNotVisitedOverrideControl
             Color.Purple, // LinkVisitedOverrideControl

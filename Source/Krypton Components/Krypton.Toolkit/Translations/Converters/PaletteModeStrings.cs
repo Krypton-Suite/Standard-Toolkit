@@ -112,7 +112,7 @@ namespace Krypton.Toolkit
                 { DEFAULT_PALETTE_OFFICE_2010_BLACK_DARK_MODE, PaletteMode.Office2010BlackDarkMode },
                 //{ DEFAULT_PALETTE_OFFICE_2010_DARK_GRAY, PaletteMode.Office2010DarkGray },
                 //{ PaletteModeStrings.DEFAULT_PALETTE_OFFICE_2010_LIGHT_GRAY, PaletteMode.Office2010LightGray },
-                //{ DEFAULT_PALETTE_OFFICE_2013_DARK_GRAY, PaletteMode.Office2013DarkGray },
+                { DEFAULT_PALETTE_OFFICE_2013_DARK_GRAY, PaletteMode.Office2013DarkGray },
                 //{ PaletteModeStrings.DEFAULT_PALETTE_OFFICE_2013_LIGHT_GRAY, PaletteMode.Office2013LightGray },
                 { DEFAULT_PALETTE_OFFICE_2013_WHITE, PaletteMode.Office2013White },
                 { DEFAULT_PALETTE_SPARKLE_BLUE, PaletteMode.SparkleBlue },
@@ -158,11 +158,13 @@ namespace Krypton.Toolkit
 
         #region Identity
 
+        /// <summary>Initializes a new instance of the <see cref="PaletteModeStrings" /> class.</summary>
         public PaletteModeStrings()
         {
             Reset();
         }
 
+        /// <inheritdoc />
         public override string ToString() => !IsDefault ? "Modified" : string.Empty;
 
         #endregion
