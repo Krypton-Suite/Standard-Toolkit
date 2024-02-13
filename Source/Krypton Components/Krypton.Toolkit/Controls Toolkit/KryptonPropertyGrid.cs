@@ -139,7 +139,9 @@ namespace Krypton.Toolkit
                 {
                     state = PaletteState.ContextNormal;
                     triple = _stateNormal;
-                    control.Font = normalFont!;
+                    // tobitege commented out to avoid unrecoverable exception in System.Drawing
+                    // when toggling theme back and forth
+                    //control.Font = normalFont!;
                 }
                 else
                 {
