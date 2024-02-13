@@ -147,11 +147,11 @@ namespace Krypton.Toolkit
         Office2010BlackDarkMode,
 
         // ToDo: Re-enable when the gray themes are completed
-        /*/// <summary>
+        /// <summary>
         /// Specifies the dark Gray color variant of the Office 2013 appearance.
         /// </summary>
         Office2013DarkGray,
-        /// <summary>
+        /*/// <summary>
         /// Specifies the light Gray color variant of the Office 2013 appearance.
         /// </summary>
         Office2013LightGray,
