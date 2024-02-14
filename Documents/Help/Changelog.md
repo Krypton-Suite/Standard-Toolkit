@@ -3,6 +3,7 @@
 =======
 
 ## 2024-11-xx - Build 2411 - November 2024
+* Resolved [#1331](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1331), Fix white menu text in White themes (2010, 2013, 365); fixes to `KryptonPropertyGrid` and `KryptonThemeComboBox` with regard to theme switching
 * Resolved [#1313](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1313), White background in tabs area
 * Implement [#1309](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1309), Is it time to bring over `KryptonOutlookGrid`
 * Resolved [#1316](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1316), `KryptonCustomPaletteBase` Import fails if XML contains images (fix courtesy of [tobitege](https://github.com/tobitege))

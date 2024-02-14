@@ -1,15 +1,17 @@
 ﻿#region BSD License
 /*
- * 
+ *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2021 - 2024. All rights reserved. 
- *  
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2021 - 2024. All rights reserved.
+ *
  */
 #endregion
 
+using System.Windows.Forms;
+
 namespace Krypton.Toolkit
 {
-    /// <summary>A property grid control that supports the Krypton render.</summary>
+    ///<summary>A property grid control that supports the Krypton render.</summary>
     [Description(@"A property grid control that supports the Krypton render.")]
     [Designer(typeof(KryptonPropertyGridDesigner))]
     [ToolboxBitmap(typeof(PropertyGrid), "ToolboxBitmaps.KryptonPropertyGridVersion2.bmp")]
@@ -29,6 +31,7 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Constructor
+        ///<summary>A property grid control that supports the Krypton render.</summary>
         public KryptonPropertyGrid()
         {
             SetStyle(ControlStyles.UserPaint
@@ -60,10 +63,19 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Public
-
         /// <summary>Refreshes the colours.</summary>
         public void RefreshColours() => InitColours();
+        #endregion
 
+        #region Protected Overrides
+        /// <inheritdoc />
+        protected override void Dispose(bool disposing)
+        {
+            // Unhook from the static events, otherwise we cannot be garbage collected
+            KryptonManager.GlobalPaletteChanged -= OnGlobalPaletteChanged;
+
+            base.Dispose(disposing);
+        }
         #endregion
 
         #region Krypton
@@ -85,9 +97,7 @@ namespace Krypton.Toolkit
             {
                 _palette.PalettePaint += OnPalettePaint;
                 //repaint with new values
-
                 InitColours();
-
             }
 
             Invalidate();
@@ -104,13 +114,9 @@ namespace Krypton.Toolkit
         {
             ToolStripRenderer = ToolStripManager.Renderer;
 
-            HelpBackColor = _palette!.ColorTable.MenuStripGradientBegin;
+            LineColor = _palette!.ColorTable.ToolStripGradientMiddle;
 
-            HelpForeColor = _palette.ColorTable.ToolStripText;
-
-            LineColor = _palette.ColorTable.ToolStripGradientMiddle;
-
-            CategoryForeColor = _palette.ColorTable.ToolStripDropDownBackground;
+            CategoryForeColor = _palette!.ColorTable.ToolStripDropDownBackground;
 
             var normalFont = _stateNormal.PaletteContent?.GetContentShortTextFont(PaletteState.ContextNormal);
             var disabledFont = _stateDisabled.PaletteContent?.GetContentShortTextFont(PaletteState.Disabled);
@@ -118,11 +124,11 @@ namespace Krypton.Toolkit
             Font = (Enabled ? normalFont : disabledFont)!;
             BackColor = _stateNormal.PaletteBack.GetBackColor1(Enabled? PaletteState.Normal : PaletteState.Disabled);
 
-            ControlCollection controlsCollection = Controls;
+            var controlsCollection = Controls;
+            var state = PaletteState.ContextNormal;
+            IPaletteTriple triple = _stateNormal;
             foreach (Control control in controlsCollection)
             {
-                IPaletteTriple triple;
-                PaletteState state;
                 if (control.Focused)
                 {
                     state = PaletteState.FocusOverride;
@@ -133,7 +139,9 @@ namespace Krypton.Toolkit
                 {
                     state = PaletteState.ContextNormal;
                     triple = _stateNormal;
-                    control.Font = normalFont!;
+                    // tobitege commented out to avoid unrecoverable exception in System.Drawing
+                    // when toggling theme back and forth
+                    //control.Font = normalFont!;
                 }
                 else
                 {
@@ -146,8 +154,27 @@ namespace Krypton.Toolkit
                 control.BackColor = triple.PaletteBack.GetBackColor1(state);
             }
 
-            Invalidate();
+            // Original code caused several themes to have white-on-white text.
+            // This has been tested as working against all schemes and fixes all previously
+            // observed white-on-white/low-contrast colors!
+            // Needed to be moved below the loop!
+            HelpForeColor = ContrastColor(HelpBackColor);
+            ViewForeColor = ContrastColor(ViewBackColor);
 
+            Invalidate();
+        }
+
+        private static Color ContrastColor(Color color)
+        {
+            // Counting the perceptive luminance
+            var a = 1
+                     - (((0.299 * color.R)
+                         + ((0.587 * color.G) + (0.114 * color.B)))
+                        / 255);
+            var d = a < 0.5 ? 0 : 255;
+
+            //  dark colours - white font and vice versa
+            return Color.FromArgb(d, d, d);
         }
 
         #endregion
