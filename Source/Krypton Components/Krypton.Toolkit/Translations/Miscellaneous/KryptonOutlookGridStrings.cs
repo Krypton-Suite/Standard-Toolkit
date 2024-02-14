@@ -7,6 +7,7 @@
  */
 #endregion
 
+// ReSharper disable InconsistentNaming
 namespace Krypton.Toolkit
 {
     /// <summary>Exposes a set of localised strings, used by <see cref="T:KryptonOutlookGrid"/> and its components.</summary>
@@ -180,6 +181,18 @@ namespace Krypton.Toolkit
 
         #endregion
 
+        #region XML Nodes
+
+        private const string DEFAULT_NODE_CONDITION_TEXT = @"Condition";
+
+        private const string DEFAULT_NODE_COLUMN_NAME_TEXT = @"ColumnName";
+
+        private const string DEFAULT_NODE_FORMAT_TYPE_TEXT = @"FormatType";
+
+        private const string DEFAULT_NODE_FORMAT_PARAMS_TEXT = @"FormatParams";
+
+        #endregion
+
         #endregion
 
         #region Identity
@@ -271,7 +284,11 @@ namespace Krypton.Toolkit
             CustomFormatMinimumColorButtonText.Equals(DEFAULT_CUSTOM_FORMAT_MINIMUM_COLOR) &&
             CustomFormatIntermediateColorButtonText.Equals(DEFAULT_CUSTOM_FORMAT_INTERMEDIATE_COLOR) &&
             CustomFormatMaximumColorButtonText.Equals(DEFAULT_CUSTOM_FORMAT_MAXIMUM_COLOR) &&
-            CustomFormatFillLabelText.Equals(DEFAULT_CUSTOM_FORMAT_FILL);       
+            CustomFormatFillLabelText.Equals(DEFAULT_CUSTOM_FORMAT_FILL) &&
+            ConditionXMLNodeText.Equals(DEFAULT_NODE_CONDITION_TEXT) &&
+            ColumnNameXMLNodeText.Equals(DEFAULT_NODE_COLUMN_NAME_TEXT) &&
+            FormatParamsXMLNodeText.Equals(DEFAULT_NODE_FORMAT_PARAMS_TEXT) &&
+            FormatTypeXMLNodeText.Equals(DEFAULT_NODE_FORMAT_TYPE_TEXT);
 
         #endregion
 
@@ -1117,6 +1134,42 @@ namespace Krypton.Toolkit
 
         #endregion
 
+        #region XML Nodes
+
+        /// <summary>Gets or sets the condition XML node string for the KryptonOutlookGrid.</summary>
+        [Localizable(true)]
+        [Category(@"Visuals")]
+        [Description(@"Condition XML node string used for Krypton Outlook Grid.")]
+        [DefaultValue(DEFAULT_NODE_CONDITION_TEXT)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string ConditionXMLNodeText { get; set; }
+
+        /// <summary>Gets or sets the column name XML node string for the KryptonOutlookGrid.</summary>
+        [Localizable(true)]
+        [Category(@"Visuals")]
+        [Description(@"ColumnName XML node string used for Krypton Outlook Grid.")]
+        [DefaultValue(DEFAULT_NODE_COLUMN_NAME_TEXT)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string ColumnNameXMLNodeText { get; set; }
+
+        /// <summary>Gets or sets the format type XML node string for the KryptonOutlookGrid.</summary>
+        [Localizable(true)]
+        [Category(@"Visuals")]
+        [Description(@"FormatType XML node string used for Krypton Outlook Grid.")]
+        [DefaultValue(DEFAULT_NODE_FORMAT_TYPE_TEXT)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string FormatTypeXMLNodeText { get; set; }
+
+        /// <summary>Gets or sets the format params XML node string for the KryptonOutlookGrid.</summary>
+        [Localizable(true)]
+        [Category(@"Visuals")]
+        [Description(@"FormatParams XML node string used for Krypton Outlook Grid.")]
+        [DefaultValue(DEFAULT_NODE_FORMAT_PARAMS_TEXT)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string FormatParamsXMLNodeText { get; set; }
+
+        #endregion
+
         #endregion
 
         #region Implementation
@@ -1283,6 +1336,18 @@ namespace Krypton.Toolkit
             CustomFormatIntermediateColorButtonText = DEFAULT_CUSTOM_FORMAT_INTERMEDIATE_COLOR;
 
             CustomFormatMaximumColorButtonText = DEFAULT_CUSTOM_FORMAT_MAXIMUM_COLOR;
+
+            #endregion
+
+            #region XML Nodes
+
+            ConditionXMLNodeText = DEFAULT_NODE_CONDITION_TEXT;
+
+            ColumnNameXMLNodeText = DEFAULT_NODE_COLUMN_NAME_TEXT;
+
+            FormatTypeXMLNodeText = DEFAULT_NODE_FORMAT_TYPE_TEXT;
+
+            FormatParamsXMLNodeText = DEFAULT_NODE_FORMAT_PARAMS_TEXT;
 
             #endregion
         }
