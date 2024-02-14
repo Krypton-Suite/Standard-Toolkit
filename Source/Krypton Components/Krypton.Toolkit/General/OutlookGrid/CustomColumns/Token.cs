@@ -76,7 +76,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="other"></param>
         /// <returns></returns>
-        public int CompareTo(Token other) => Text.CompareTo(other.Text);
+        public int CompareTo(Token? other) => Text.CompareTo(other.Text);
 
         #endregion
 

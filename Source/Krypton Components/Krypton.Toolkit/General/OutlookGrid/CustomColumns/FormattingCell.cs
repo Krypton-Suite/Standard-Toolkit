@@ -61,7 +61,7 @@ namespace Krypton.Toolkit
 
         public FormattingCell(DataGridViewCell cell) => _cell = cell;
 
-        public FormattingCell(KryptonDataGridViewTextBoxCell textBoxCell) : base()
+        public FormattingCell(KryptonDataGridViewTextBoxCell textBoxCell)
         {
 
         }
@@ -77,7 +77,7 @@ namespace Krypton.Toolkit
         /// <returns></returns>
         private Color ContrastColor(Color color)
         {
-            int d = 0;
+            int d;
             //  Counting the perceptive luminance - human eye favors green color... 
             double a = 1 - (0.299 * color.R + (0.587 * color.G + 0.114 * color.B)) / 255;
 

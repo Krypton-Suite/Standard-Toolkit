@@ -34,7 +34,7 @@ namespace Krypton.Toolkit
         /// <param name="columnText">The display text of the column.</param>
         /// <param name="sort">The column sort order.</param>
         /// <param name="groupingType">The name of the used OutlookGridGroup mode.</param>
-        public OutlookGridGroupBoxColumn(string columnName, string columnText, SortOrder sort, string groupingType)
+        public OutlookGridGroupBoxColumn(string? columnName, string? columnText, SortOrder sort, string groupingType)
         {
             Text = columnText;
             ColumnName = columnName;
@@ -52,7 +52,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the HeaderText of the column.
         /// </summary>
-        public string Text { get; set; }
+        public string? Text { get; set; }
         /// <summary>
         /// Gets or sets the boolean that indicates if the column is in a pressed state.
         /// </summary>
@@ -64,7 +64,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the associated column name
         /// </summary>
-        public string ColumnName { get; set; }
+        public string? ColumnName { get; set; }
         /// <summary>
         /// Gets or sets the boolean that indicates if the column is currently being dragged.
         /// </summary>
@@ -80,7 +80,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the date interval if the grouping type is OutlookDateTimeGroup
         /// </summary>
-        public string GroupInterval { get; set; }
+        public string? GroupInterval { get; set; }
         /// <summary>
         /// Gets or sets the boolean that indicates if the column should be grouped by using the count value
         /// </summary>
@@ -94,10 +94,8 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="other">The OutlookGridGroupBoxColumn to compare with.</param>
         /// <returns>True or False.</returns>
-        public bool Equals(OutlookGridGroupBoxColumn other)
-        {
-            return ColumnName.Equals(other.ColumnName);
-        }
+        public bool Equals(OutlookGridGroupBoxColumn other) => ColumnName!.Equals(other.ColumnName);
+
         #endregion
     }
 }

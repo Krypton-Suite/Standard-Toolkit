@@ -31,7 +31,7 @@ namespace Krypton.Toolkit
 
         public int Compare(IOutlookGridGroup x, IOutlookGridGroup y)
         {
-            int compareResult = 0;
+            int compareResult;
             try
             {
                 int orderModifier = x.Column.SortDirection == SortOrder.Ascending ? 1 : -1;

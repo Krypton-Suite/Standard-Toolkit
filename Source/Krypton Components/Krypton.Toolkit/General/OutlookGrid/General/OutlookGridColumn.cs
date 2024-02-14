@@ -36,10 +36,10 @@ namespace Krypton.Toolkit
         /// <param name="groupIndex">The column's position in grouping and at which level.</param>
         /// <param name="sortIndex">the column's position among sorted columns.</param>
         /// <param name="comparer">The comparer if needed.</param>
-        public OutlookGridColumn(DataGridViewColumn col, IOutlookGridGroup group, SortOrder sortDirection, int groupIndex, int sortIndex, IComparer comparer)
+        public OutlookGridColumn(DataGridViewColumn? col, IOutlookGridGroup group, SortOrder sortDirection, int groupIndex, int sortIndex, IComparer? comparer)
         {
             DataGridViewColumn = col;
-            Name = col.Name;
+            Name = col?.Name;
             GroupingType = group;
             SortDirection = sortDirection;
             GroupIndex = groupIndex;
@@ -57,7 +57,7 @@ namespace Krypton.Toolkit
         /// <param name="groupIndex">The column's position in grouping and at which level.</param>
         /// <param name="sortIndex">the column's position among sorted columns.</param>
         /// <param name="comparer">The comparer if needed</param>
-        public OutlookGridColumn(string columnName, DataGridViewColumn col, IOutlookGridGroup group, SortOrder sortDirection, int groupIndex, int sortIndex, IComparer comparer)
+        public OutlookGridColumn(string? columnName, DataGridViewColumn? col, IOutlookGridGroup? group, SortOrder sortDirection, int groupIndex, int sortIndex, IComparer? comparer)
         {
             DataGridViewColumn = col;
             Name = columnName;
@@ -77,7 +77,7 @@ namespace Krypton.Toolkit
         /// <param name="sortDirection">The sort direction.</param>
         /// <param name="groupIndex">The column's position in grouping and at which level.</param>
         /// <param name="sortIndex">the column's position among sorted columns.</param>
-        public OutlookGridColumn(string columnName, DataGridViewColumn col, IOutlookGridGroup group, SortOrder sortDirection, int groupIndex, int sortIndex)
+        public OutlookGridColumn(string columnName, DataGridViewColumn? col, IOutlookGridGroup group, SortOrder sortDirection, int groupIndex, int sortIndex)
         {
             DataGridViewColumn = col;
             Name = columnName;
@@ -93,7 +93,7 @@ namespace Krypton.Toolkit
         /// <param name="sortOrder">The sort order.</param>
         /// <param name="groupIndex">Index of the group.</param>
         /// <param name="sortIndex">Index of the sort.</param>
-        public OutlookGridColumn(DataGridViewColumn dataGridViewColumn, IOutlookGridGroup? group, SortOrder sortOrder, int groupIndex, int sortIndex)
+        public OutlookGridColumn(DataGridViewColumn? dataGridViewColumn, IOutlookGridGroup? group, SortOrder sortOrder, int groupIndex, int sortIndex)
         {
             DataGridViewColumn = dataGridViewColumn;
             GroupingType = group;
@@ -107,7 +107,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the column name
         /// </summary>
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
         /// <summary>
         /// Gets or sets if the column is grouped
@@ -122,7 +122,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the associated DataGridViewColumn
         /// </summary>
-        public DataGridViewColumn DataGridViewColumn { get; set; }
+        public DataGridViewColumn? DataGridViewColumn { get; set; }
 
         /// <summary>
         /// Gets or sets the group
@@ -142,7 +142,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the custom row comparer, if needed.
         /// </summary>
-        public IComparer RowsComparer { get; set; }
+        public IComparer? RowsComparer { get; set; }
 
         #endregion
 
@@ -151,7 +151,7 @@ namespace Krypton.Toolkit
         /// <summary>Defines Equals method (interface IEquatable)</summary>
         /// <param name="other">The OutlookGridColumn to compare with</param>
         /// <returns></returns>
-        public bool Equals(OutlookGridColumn other) => DataGridViewColumn.Name.Equals(other.DataGridViewColumn.Name);
+        public bool Equals(OutlookGridColumn other) => DataGridViewColumn!.Name.Equals(other.DataGridViewColumn?.Name);
 
         #endregion
     }

@@ -120,7 +120,7 @@ namespace Krypton.Toolkit
             int plus = 0;
             //if (hasChildNodes)
             //    plus = 15;
-            Style.Padding = new(_defaultPadding.Left + level * INDENT_WIDTH + INDENT_MARGIN + plus,
+            Style.Padding = new Padding(_defaultPadding.Left + level * INDENT_WIDTH + INDENT_MARGIN + plus,
                 _defaultPadding.Top, _defaultPadding.Right, _defaultPadding.Bottom);
         }
 

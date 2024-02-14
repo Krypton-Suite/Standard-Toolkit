@@ -59,7 +59,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// The picture associated to the group
         /// </summary>
-        private Image _groupImage;
+        private Image? _groupImage;
         /// <summary>
         /// The text associated for the group text (1 item)
         /// </summary>
@@ -249,7 +249,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the picture.
         /// </summary>
-        public virtual Image GroupImage
+        public virtual Image? GroupImage
         {
             get => _groupImage;
             set => _groupImage = value;

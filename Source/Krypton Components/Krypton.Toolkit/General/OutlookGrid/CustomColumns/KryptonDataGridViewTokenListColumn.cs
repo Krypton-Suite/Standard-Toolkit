@@ -32,7 +32,6 @@ namespace Krypton.Toolkit
         /// Constructor
         /// </summary>
         public KryptonDataGridViewTokenListColumn()
-            : base()
         {
             CellTemplate = new TokenListCell();
             DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;

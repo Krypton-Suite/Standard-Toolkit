@@ -73,7 +73,7 @@ namespace TestForm
             grid.GroupBox!.Visible = true;
             grid.HideColumnOnGrouping = false;
 
-            grid.FillMode = FillMode.GroupsAndNodes; //treemode enabled;
+            grid.FillMode = GridFillMode.GroupsAndNodes; //treemode enabled;
             grid.ShowLines = true;
 
             _activeColumns = new SandBoxGridColumn[] {
@@ -89,7 +89,7 @@ namespace TestForm
                 SandBoxGridColumn.ColumnToken
             };
 
-            DataGridViewColumn[] columnsToAdd = new DataGridViewColumn[10]
+            DataGridViewColumn?[] columnsToAdd = new DataGridViewColumn[10]
             {
             SetupColumn(SandBoxGridColumn.ColumnCustomerId),
             SetupColumn(SandBoxGridColumn.ColumnCustomerName),
@@ -147,7 +147,7 @@ namespace TestForm
 
             //Initialize
             int nbColsInFile = doc.XPathSelectElements("//Column").Count();
-            DataGridViewColumn[] columnsToAdd = new DataGridViewColumn[nbColsInFile];
+            DataGridViewColumn?[] columnsToAdd = new DataGridViewColumn[nbColsInFile];
             SandBoxGridColumn[] enumCols = new SandBoxGridColumn[nbColsInFile];
             OutlookGridColumn[] outlookColumnsToAdd = new OutlookGridColumn[columnsToAdd.Length];
             SortedList<int, int> hash = new SortedList<int, int>();// (DisplayIndex , Index)
@@ -289,7 +289,7 @@ namespace TestForm
         /// </summary>
         /// <param name="colType"></param>
         /// <returns></returns>
-        private DataGridViewColumn SetupColumn(SandBoxGridColumn colType)
+        private DataGridViewColumn? SetupColumn(SandBoxGridColumn colType)
         {
             DataGridViewColumn? column;
             switch (colType)

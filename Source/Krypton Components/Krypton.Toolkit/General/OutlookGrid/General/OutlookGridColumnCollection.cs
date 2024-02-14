@@ -54,7 +54,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="columnName">The column name.</param>
         /// <returns>OutlookGridColumn</returns>
-        public OutlookGridColumn this[string columnName] => Find(c => c.DataGridViewColumn.Name.Equals(columnName));
+        public OutlookGridColumn this[string? columnName] => Find(c => c.DataGridViewColumn.Name.Equals(columnName));
 
         /// <summary>
         /// Gets or Sets the maximum GroupIndex in the collection
@@ -131,7 +131,7 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="name">The name of the column.</param>
         /// <returns>The associated OutlookGridColumn.</returns>
-        public OutlookGridColumn FindFromColumnName(string name) => this.FirstOrDefault(x => x.Name == name);
+        public OutlookGridColumn FindFromColumnName(string? name) => this.FirstOrDefault(x => x.Name == name);
 
         /// <summary>
         /// Gets a list of columns which are sorted and not grouped.

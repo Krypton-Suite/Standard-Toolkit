@@ -58,7 +58,7 @@ namespace Krypton.Toolkit
         /// <param name="max">The maximum.</param>
         /// <param name="par">The 2color parameters.</param>
         /// <returns></returns>
-        public static Color ConvertTwoRange(double value, double min, double max, TwoColorsParams par)
+        public static Color ConvertTwoRange(double value, double min, double max, TwoColorsParams? par)
         {
             ColorHelper.HSVColor a = ColorToHSV(par.MinimumColor);
             ColorHelper.HSVColor b = ColorToHSV(par.MaximumColor);
@@ -85,9 +85,9 @@ namespace Krypton.Toolkit
         /// <param name="max">The maximum.</param>
         /// <param name="par">The 3color parameters.</param>
         /// <returns></returns>
-        public static Color ConvertThreeRange(double value, double min, double max, ThreeColorsParams par)
+        public static Color ConvertThreeRange(double value, double min, double max, ThreeColorsParams? par)
         {
-            ColorHelper.HSVColor a = ColorToHSV(par.MinimumColor);
+            ColorHelper.HSVColor a = ColorToHSV(par!.MinimumColor);
             ColorHelper.HSVColor b = ColorToHSV(par.MinimumColor);
             ColorHelper.HSVColor c = ColorToHSV(par.MinimumColor);
 

@@ -19,6 +19,7 @@
 
 #endregion
 
+// ReSharper disable InconsistentNaming
 namespace Krypton.Toolkit
 {
     /// <summary>
@@ -197,7 +198,7 @@ namespace Krypton.Toolkit
 
                 int i = (int)varH; //Or ... vari = floor( varh )
                 float var1 = v * (1f - s);
-                float var2 = v * (1f - s * (varH - (float)i));
+                float var2 = v * (1f - s * (varH - i));
                 float var3 = v * (1f - s * (1f - (varH - i)));
 
                 switch (i)
@@ -303,7 +304,7 @@ namespace Krypton.Toolkit
                 }
             }
 
-            return new(h * 360f, s, v);
+            return new HSVColor(h * 360f, s, v);
         }
 
 
@@ -480,7 +481,7 @@ namespace Krypton.Toolkit
                 }
             }
 
-            return new(h * 360f, s, l);
+            return new HSLColor(h * 360f, s, l);
         }
 
     }

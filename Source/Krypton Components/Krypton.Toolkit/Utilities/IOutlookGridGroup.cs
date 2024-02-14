@@ -81,7 +81,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Image associated to the group if any
         /// </summary>
-        Image GroupImage { get; set; }
+        Image? GroupImage { get; set; }
 
         /// <summary>
         /// The text associated for the group text (1 item)

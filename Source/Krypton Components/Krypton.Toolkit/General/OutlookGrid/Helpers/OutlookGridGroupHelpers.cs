@@ -259,7 +259,7 @@ namespace Krypton.Toolkit
             }
             char[] a = s.ToCharArray();
             a[0] = char.ToUpper(a[0]);
-            return new(a);
+            return new string(a);
         }
 
         /// <summary>

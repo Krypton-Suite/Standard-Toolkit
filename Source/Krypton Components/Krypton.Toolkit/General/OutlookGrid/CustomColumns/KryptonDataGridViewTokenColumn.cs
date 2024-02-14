@@ -32,7 +32,6 @@ namespace Krypton.Toolkit
         /// Constructor
         /// </summary>
         public KryptonDataGridViewTokenColumn()
-            : base()
         {
             CellTemplate = new TokenCell();
 

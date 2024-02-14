@@ -38,7 +38,6 @@ namespace Krypton.Toolkit
         /// Constructor
         /// </summary>
         public TokenListCell()
-            : base()
         {
             //Value type is an integer. 
             //Formatted value type is an image since we derive from the ImageCell 

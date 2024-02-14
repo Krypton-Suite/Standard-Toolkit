@@ -103,11 +103,12 @@ namespace Krypton.Toolkit
 
         internal void Persist(XmlWriter writer)
         {
+            // ToDo: Use localised strings
             writer.WriteStartElement("Condition");
             writer.WriteElementString("ColumnName", ColumnName);
             writer.WriteElementString("FormatType", FormatType.ToString());
             writer.WriteStartElement("FormatParams");
-            FormatParams.Persist(writer);
+            FormatParams?.Persist(writer);
             writer.WriteEndElement(); //FormatParams
             //No need to persist min/max Value.
             writer.WriteEndElement(); //Condition

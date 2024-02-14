@@ -39,7 +39,7 @@ namespace TestForm
             List<OutlookGridRow> l = new List<OutlookGridRow>();
             kryptonOutlookGrid1.SuspendLayout();
             kryptonOutlookGrid1.ClearInternalRows();
-            kryptonOutlookGrid1.FillMode = FillMode.GroupsAndNodes;
+            kryptonOutlookGrid1.FillMode = GridFillMode.GroupsAndNodes;
 
             List<Token> tokensList = new List<Token>();
             tokensList.Add(new Token("Best seller", Color.Orange, Color.Black));

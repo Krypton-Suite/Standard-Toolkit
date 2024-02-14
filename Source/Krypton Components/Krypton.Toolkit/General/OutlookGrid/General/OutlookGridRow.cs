@@ -202,9 +202,8 @@ namespace Krypton.Toolkit
         /// Constructor
         /// </summary>
         /// <param name="group">The group the row is associated to.</param>
-        /// <param name="isGroupRow">Determines if it a group row.</param>
+        /// <param name="isGroupRow">Determines if it is a group row.</param>
         public OutlookGridRow(IOutlookGridGroup? group, bool isGroupRow)
-            : base()
         {
             _group = group;
             _isGroupRow = isGroupRow;
@@ -259,7 +258,7 @@ namespace Krypton.Toolkit
             {
                 KryptonOutlookGrid grid = (KryptonOutlookGrid)DataGridView;
                 int rowHeadersWidth = grid.RowHeadersVisible ? grid.RowHeadersWidth : 0;
-                int groupLevelIndentation = _group.Level * GlobalStaticValues.GroupLevelMultiplier;
+                int groupLevelIndentation = _group!.Level * GlobalStaticValues.GroupLevelMultiplier;
 
                 int gridwidth = grid.Columns.GetColumnsWidth(DataGridViewElementStates.Visible);
                 Rectangle myRowBounds = rowBounds;
@@ -279,7 +278,7 @@ namespace Krypton.Toolkit
                     using (GraphicsPath path = grid.Renderer.RenderStandardBorder.GetBackPath(renderContext, myRowBounds, paletteBorder, VisualOrientation.Top, PaletteState.Normal))
                     {
                         //Back
-                        IDisposable unused = grid.Renderer.RenderStandardBack.DrawBack(renderContext,
+                        IDisposable? unused = grid.Renderer.RenderStandardBack.DrawBack(renderContext,
                             myRowBounds,
                             path,
                             paletteBack,
@@ -373,12 +372,12 @@ namespace Krypton.Toolkit
                 int offsetText = rowHeadersWidth - grid.HorizontalScrollingOffset + 18 + imageoffset + groupLevelIndentation;
                 if (KryptonManager.CurrentGlobalPalette.GetRenderer() == KryptonManager.RenderOffice2013)
                 {
-                    TextRenderer.DrawText(graphics, _group.Text, grid.GridPalette.GetContentShortTextFont(PaletteContentStyle.LabelBoldControl, state), new Rectangle(offsetText, rowBounds.Bottom - GlobalStaticValues.Office2013OffsetHeight, rowBounds.Width - offsetText, rowBounds.Height), grid.GridPalette.GetContentShortTextColor1(PaletteContentStyle.LabelNormalControl, state),
+                    TextRenderer.DrawText(graphics, _group.Text, grid.GridPalette?.GetContentShortTextFont(PaletteContentStyle.LabelBoldControl, state), new Rectangle(offsetText, rowBounds.Bottom - GlobalStaticValues.Office2013OffsetHeight, rowBounds.Width - offsetText, rowBounds.Height), grid.GridPalette!.GetContentShortTextColor1(PaletteContentStyle.LabelNormalControl, state),
                                  TextFormatFlags.EndEllipsis | TextFormatFlags.SingleLine | TextFormatFlags.PreserveGraphicsClipping);
                 }
                 else
                 {
-                    TextRenderer.DrawText(graphics, _group.Text, grid.GridPalette.GetContentShortTextFont(PaletteContentStyle.LabelBoldControl, state), new Rectangle(offsetText, rowBounds.Bottom - GlobalStaticValues.DefaultOffsetHeight, rowBounds.Width - offsetText, rowBounds.Height), grid.GridPalette.GetContentShortTextColor1(PaletteContentStyle.LabelNormalControl, state),
+                    TextRenderer.DrawText(graphics, _group.Text, grid.GridPalette?.GetContentShortTextFont(PaletteContentStyle.LabelBoldControl, state), new Rectangle(offsetText, rowBounds.Bottom - GlobalStaticValues.DefaultOffsetHeight, rowBounds.Width - offsetText, rowBounds.Height), grid.GridPalette!.GetContentShortTextColor1(PaletteContentStyle.LabelNormalControl, state),
                                    TextFormatFlags.EndEllipsis | TextFormatFlags.SingleLine | TextFormatFlags.PreserveGraphicsClipping);
                 }
 
@@ -435,11 +434,14 @@ namespace Krypton.Toolkit
                 {
                     if (c.Value != null)
                     {
-                        res += c.Value.ToString() ?? string.Empty;
+                        res += c.Value.ToString();
                     }
                 }
             }
-            catch { }
+            catch
+            {
+                return string.Empty;
+            }
             return res;
         }
 
@@ -456,7 +458,7 @@ namespace Krypton.Toolkit
         public bool IsAParentCollapsed(IOutlookGridGroup? gr, int i)
         {
             i++;
-            if (gr.ParentGroup != null)
+            if (gr?.ParentGroup != null)
             {
                 //if it is not the original group but it is one parent and if it is collapsed just stop here
                 //no need to look further to the parents (one of the parents can be expanded...)
@@ -472,15 +474,12 @@ namespace Krypton.Toolkit
             }
             else
             {
-                //if 1 that means there is no parent
-                if (i == 1)
+                return i switch
                 {
-                    return false;
-                }
-                else
-                {
-                    return gr.Collapsed;
-                }
+                    //if 1 that means there is no parent
+                    1 => false,
+                    _ => gr!.Collapsed
+                };
             }
         }
 
@@ -495,9 +494,9 @@ namespace Krypton.Toolkit
         {
             i++;
             //Console.WriteLine(row.ToString());
-            if (row.ParentNode != null)
+            if (row?.ParentNode != null)
             {
-                //if it is not the original group but it is one parent and if it is collapsed just stop here
+                //if it is not the original group, but it is one parent and if it is collapsed just stop here
                 //no need to look further to the parents (one of the parents can be expanded...)
                 if (row.ParentNode.Collapsed)
                 {
@@ -514,13 +513,13 @@ namespace Krypton.Toolkit
                 { return false; }
                 else //return the final parent collapsed state
                 {
-                    if (row._group != null)
+                    if (row?._group != null)
                     {
                         return row.Collapsed || row._group.Collapsed || IsAParentCollapsed(row._group, 0);
                     }
                     else
                     {
-                        return row.Collapsed;
+                        return row!.Collapsed;
                     }
 
                 }
@@ -536,7 +535,7 @@ namespace Krypton.Toolkit
         }
 
         /// <summary>
-        /// Collaspe the group the row belongs to.
+        /// Collapse the group the row belongs to.
         /// </summary>
         public void CollapseGroup()
         {
@@ -547,7 +546,7 @@ namespace Krypton.Toolkit
         {
             if (IsGroupRow)
             {
-                Group.Collapsed = collapsed;
+                Group!.Collapsed = collapsed;
 
                 //this is a workaround to make the grid re-calculate it's contents and backgroun bounds
                 // so the background is updated correctly.
@@ -627,7 +626,7 @@ namespace Krypton.Toolkit
             int rowHeadersWidth = grid.RowHeadersVisible ? grid.RowHeadersWidth : 0;
             int l = e.X + grid.GetCellDisplayRectangle(e.ColumnIndex, e.RowIndex, false).Left;
             if (_isGroupRow &&
-                l >= rowBounds.Left + rowHeadersWidth - grid.HorizontalScrollingOffset + 4 + _group.Level * GlobalStaticValues.GroupLevelMultiplier &&
+                l >= rowBounds.Left + rowHeadersWidth - grid.HorizontalScrollingOffset + 4 + _group!.Level * GlobalStaticValues.GroupLevelMultiplier &&
                 l <= rowBounds.Left + rowHeadersWidth - grid.HorizontalScrollingOffset + 4 + _group.Level * GlobalStaticValues.GroupLevelMultiplier + 11 &&
                 e.Y >= rowBounds.Height - 18 &&
                 e.Y <= rowBounds.Height - 7)
@@ -675,14 +674,14 @@ namespace Krypton.Toolkit
                 return false;
             }
 
-            if (!_isGroupRow || _group.GroupImage == null)
+            if (!_isGroupRow || _group?.GroupImage == null)
             {
                 return false;
             }
 
 
-            KryptonOutlookGrid grid = (KryptonOutlookGrid)DataGridView;
-            Rectangle rowBounds = grid.GetRowDisplayRectangle(Index, false);
+            KryptonOutlookGrid? grid = DataGridView as KryptonOutlookGrid;
+            Rectangle rowBounds = grid!.GetRowDisplayRectangle(Index, false);
 
             int rowHeadersWidth = grid.RowHeadersVisible ? grid.RowHeadersWidth : 0;
             int l = e.X + grid.GetCellDisplayRectangle(e.ColumnIndex, e.RowIndex, false).Left;

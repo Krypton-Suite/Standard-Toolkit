@@ -54,7 +54,6 @@ namespace Krypton.Toolkit
         /// Initializes a new instance of the <see cref="OutlookGridDateTimeGroup"/> class.
         /// </summary>
         public OutlookGridDateTimeGroup()
-            : base()
         {
             AllowHiddenWhenGrouped = true;
             Interval = DateInterval.Smart;
@@ -78,7 +77,7 @@ namespace Krypton.Toolkit
         ///<summary>
         ///Gets or sets the displayed text.
         ///</summary>
-        public override string Text => $"{Column.DataGridViewColumn.HeaderText}: {Value} ({(ItemCount == 1 ? OneItemText : ItemCount + XxxItemsText)})";
+        public override string Text => $"{Column.DataGridViewColumn?.HeaderText}: {Value} ({(ItemCount == 1 ? OneItemText : ItemCount + XxxItemsText)})";
 
         /// <summary>
         /// Gets or sets the Date value
