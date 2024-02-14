@@ -1,12 +1,12 @@
 ﻿#region BSD License
 /*
- * 
+ *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
- * 
+ *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved. 
- *  
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2024. All rights reserved.
+ *
  */
 #endregion
 
@@ -184,7 +184,7 @@ namespace Krypton.Toolkit
             container.Add(this);
         }
 
-        /// <summary> 
+        /// <summary>
         /// Clean up any resources being used.
         /// </summary>
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
@@ -244,9 +244,8 @@ namespace Krypton.Toolkit
                 {
                     if (value != PaletteMode.Custom)
                     {
-                        CurrentGlobalPalette = GetPaletteForMode(value);
                         // Get a reference to the standard palette from its name
-                        SetPalette(CurrentGlobalPalette);
+                        SetPalette(GetPaletteForMode(value));
                     }
                     CurrentGlobalPaletteMode = value;
                     if (_baseFont != null)
@@ -482,7 +481,7 @@ namespace Krypton.Toolkit
                 case PaletteMode.Office2007White:
                     return PaletteOffice2007White;
                 case PaletteMode.Office2007Black:
-                    return PaletteOffice2007Black; 
+                    return PaletteOffice2007Black;
                 // TODO: Re-enable this once completed
                 // case PaletteMode.Office2010DarkGray:
                 // return PaletteOffice2010DarkGray;
