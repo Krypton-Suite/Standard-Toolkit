@@ -78,7 +78,7 @@
             this.kryptonPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kryptonPanel1.Location = new System.Drawing.Point(0, 0);
             this.kryptonPanel1.Name = "kryptonPanel1";
-            this.kryptonPanel1.Size = new System.Drawing.Size(449, 371);
+            this.kryptonPanel1.Size = new System.Drawing.Size(445, 367);
             this.kryptonPanel1.TabIndex = 0;
             // 
             // kryptonThemeComboBox1
@@ -249,14 +249,14 @@
             // kryptonManager1
             // 
             this.kryptonManager1.BaseFont = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.kryptonManager1.GlobalPaletteMode = Krypton.Toolkit.PaletteMode.Office2013DarkGray;
+            this.kryptonManager1.GlobalPaletteMode = Krypton.Toolkit.PaletteMode.Office2010SilverLightMode;
             // 
             // StartScreen
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.kbtnExit;
-            this.ClientSize = new System.Drawing.Size(449, 371);
+            this.ClientSize = new System.Drawing.Size(445, 367);
             this.Controls.Add(this.kryptonPanel1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
