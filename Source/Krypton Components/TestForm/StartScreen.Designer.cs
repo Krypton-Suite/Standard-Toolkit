@@ -52,6 +52,7 @@ namespace TestForm
             this.kbtnFadeForm = new Krypton.Toolkit.KryptonButton();
             this.kbtnCommandLinkButtons = new Krypton.Toolkit.KryptonButton();
             this.kbtnBreadCrumb = new Krypton.Toolkit.KryptonButton();
+            this.kryptonManager1 = new Krypton.Toolkit.KryptonManager(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
             this.kryptonPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonThemeComboBox1)).BeginInit();
@@ -101,7 +102,20 @@ namespace TestForm
             //
             this.kryptonManager1.BaseFont = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.kryptonManager1.GlobalPaletteMode = Krypton.Toolkit.PaletteMode.Microsoft365Blue;
-            //
+            this.kryptonPanel1.Size = new System.Drawing.Size(449, 371);
+            this.kryptonPanel1.TabIndex = 0;
+            // 
+            // kryptonThemeComboBox1
+            // 
+            this.kryptonThemeComboBox1.DropDownWidth = 414;
+            this.kryptonThemeComboBox1.IntegralHeight = false;
+            this.kryptonThemeComboBox1.Location = new System.Drawing.Point(13, 13);
+            this.kryptonThemeComboBox1.Name = "kryptonThemeComboBox1";
+            this.kryptonThemeComboBox1.ReportSelectedThemeIndex = false;
+            this.kryptonThemeComboBox1.Size = new System.Drawing.Size(414, 21);
+            this.kryptonThemeComboBox1.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
+            this.kryptonThemeComboBox1.TabIndex = 18;
+            // 
             // kbtnOutlookGrid
             //
             this.kbtnOutlookGrid.Location = new System.Drawing.Point(297, 202);
@@ -273,6 +287,12 @@ namespace TestForm
             this.kbtnBreadCrumb.Values.Text = "BreadCrumb";
             this.kbtnBreadCrumb.Click += new System.EventHandler(this.kbtnBreadCrumb_Click);
             //
+            // 
+            // kryptonManager1
+            // 
+            this.kryptonManager1.BaseFont = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.kryptonManager1.GlobalPaletteMode = Krypton.Toolkit.PaletteMode.Office2013DarkGray;
+            // 
             // StartScreen
             //
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);

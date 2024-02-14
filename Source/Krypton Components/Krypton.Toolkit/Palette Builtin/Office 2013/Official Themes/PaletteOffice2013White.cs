@@ -302,6 +302,7 @@ namespace Krypton.Toolkit
         ];
 
         #endregion
+
         #endregion
 
         #region Identity
