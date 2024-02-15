@@ -13,7 +13,7 @@ namespace Krypton.Toolkit
     {
         #region Implementation
 
-        public static void EnableAcrylic(IWin32Window owner, Color blurColor)
+        /*public static void EnableAcrylic(IWin32Window owner, Color blurColor)
         {
             if (owner is null)
             {
@@ -38,7 +38,7 @@ namespace Krypton.Toolkit
             }
         }
 
-        private static uint ToAbgr(Color color) => ((uint)color.A << 24) | ((uint)color.B << 16) | ((uint)color.G << 8) | color.R;
+        private static uint ToAbgr(Color color) => ((uint)color.A << 24) | ((uint)color.B << 16) | ((uint)color.G << 8) | color.R;*/
 
         #endregion
     }

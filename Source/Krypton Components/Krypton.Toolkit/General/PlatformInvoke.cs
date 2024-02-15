@@ -4559,15 +4559,16 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
 
         #region For Acrylic
 
+        /*
         // The following code comes from https://stackoverflow.com/questions/56481230/how-to-create-windows-10-acrylic-transparency-effect-in-winform-c-sharp
         // Discovered via:
         // https://withinrafael.com/2015/07/08/adding-the-aero-glass-blur-to-your-windows-10-apps/
         // https://github.com/riverar/sample-win32-acrylicblur/blob/917adc277c7258307799327d12262ebd47fd0308/MainWindow.xaml.cs
 
         [DllImport(Libraries.User32)]
-        public static extern int SetWindowCompositionAttribute(HandleRef hWnd, in WindowCompositionAttributeData data);
+        public static extern int SetWindowCompositionAttribute(HandleRef hWnd, IntPtr WindowCompositionAttributeData data);
 
-        public unsafe struct WindowCompositionAttributeData
+        public IntPtr struct WindowCompositionAttributeData
         {
             public WCA Attribute;
             public void* Data;
@@ -4595,7 +4596,7 @@ BS_ICON or BS_BITMAP set? 	BM_SETIMAGE called? 	Result
             public uint AccentFlags;
             public uint GradientColor;
             public uint AnimationId;
-        }
+        }*/
 
         #endregion
 
