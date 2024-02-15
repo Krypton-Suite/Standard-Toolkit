@@ -49,14 +49,14 @@ namespace Krypton.Toolkit
 
             try
             {
-                for (int i = 0; i < _sortColumnIndexAndOrder.Count; i++)
+                for (var i = 0; i < _sortColumnIndexAndOrder.Count; i++)
                 {
                     if (compareResult == 0)
                     {
                         orderModifier = _sortColumnIndexAndOrder[i].Item2 == SortOrder.Ascending ? 1 : -1;
 
-                        object o1 = x.Cells[_sortColumnIndexAndOrder[i].Item1].Value;
-                        object o2 = y.Cells[_sortColumnIndexAndOrder[i].Item1].Value;
+                        var o1 = x.Cells[_sortColumnIndexAndOrder[i].Item1].Value;
+                        var o2 = y.Cells[_sortColumnIndexAndOrder[i].Item1].Value;
                         if (_sortColumnIndexAndOrder[i].Item3 != null)
                         {
                             compareResult = _sortColumnIndexAndOrder[i].Item3.Compare(o1, o2) * orderModifier;
@@ -75,59 +75,59 @@ namespace Krypton.Toolkit
                             {
                                 if (o1 is string)
                                 {
-                                    compareResult = string.Compare(o1.ToString(), o2.ToString()) * orderModifier;
+                                    compareResult = string.CompareOrdinal(o1.ToString(), o2!.ToString()) * orderModifier;
                                 }
                                 else if (o1 is DateTime)
                                 {
-                                    compareResult = ((DateTime)o1).CompareTo((DateTime)o2) * orderModifier;
+                                    compareResult = ((DateTime)o1).CompareTo((DateTime)o2!) * orderModifier;
                                 }
                                 else if (o1 is int)
                                 {
-                                    compareResult = ((int)o1).CompareTo((int)o2) * orderModifier;
+                                    compareResult = ((int)o1).CompareTo((int)o2!) * orderModifier;
                                 }
                                 else if (o1 is bool)
                                 {
-                                    bool b1 = (bool)o1;
-                                    bool b2 = (bool)o2;
-                                    compareResult = (b1 == b2 ? 0 : b1 == true ? 1 : -1) * orderModifier;
+                                    var b1 = (bool)o1;
+                                    var b2 = (bool)o2!;
+                                    compareResult = (b1 == b2 ? 0 : b1 ? 1 : -1) * orderModifier;
                                 }
                                 else if (o1 is float)
                                 {
-                                    float n1 = (float)o1;
-                                    float n2 = (float)o2;
+                                    var n1 = (float)o1;
+                                    var n2 = (float)o2!;
                                     compareResult = (n1 > n2 ? 1 : n1 < n2 ? -1 : 0) * orderModifier;
                                 }
                                 else if (o1 is double)
                                 {
-                                    double n1 = (double)o1;
-                                    double n2 = (double)o2;
+                                    var n1 = (double)o1;
+                                    var n2 = (double)o2!;
                                     compareResult = (n1 > n2 ? 1 : n1 < n2 ? -1 : 0) * orderModifier;
                                 }
                                 else if (o1 is decimal)
                                 {
-                                    decimal d1 = (decimal)o1;
-                                    decimal d2 = (decimal)o2;
+                                    var d1 = (decimal)o1;
+                                    var d2 = (decimal)o2!;
                                     compareResult = (d1 > d2 ? 1 : d1 < d2 ? -1 : 0) * orderModifier;
                                 }
                                 else if (o1 is long)
                                 {
-                                    long n1 = (long)o1;
-                                    long n2 = (long)o2;
+                                    var n1 = (long)o1;
+                                    var n2 = (long)o2!;
                                     compareResult = (n1 > n2 ? 1 : n1 < n2 ? -1 : 0) * orderModifier;
                                 }
                                 else if (o1 is TimeSpan)
                                 {
-                                    TimeSpan t1 = (TimeSpan)o1;
-                                    TimeSpan t2 = (TimeSpan)o2;
+                                    var t1 = (TimeSpan)o1;
+                                    var t2 = (TimeSpan)o2!;
                                     compareResult = (t1 > t2 ? 1 : t1 < t2 ? -1 : 0) * orderModifier;
                                 }
                                 else if (o1 is TextAndImage)
                                 {
-                                    compareResult = ((TextAndImage)o1).CompareTo((TextAndImage)o2) * orderModifier;
+                                    compareResult = ((TextAndImage)o1).CompareTo(o2 as TextAndImage) * orderModifier;
                                 }
                                 else if (o1 is Token)
                                 {
-                                    compareResult = ((Token)o1).CompareTo((Token)o2) * orderModifier;
+                                    compareResult = ((Token)o1).CompareTo(o2 as Token) * orderModifier;
                                 }
                             }
                         }

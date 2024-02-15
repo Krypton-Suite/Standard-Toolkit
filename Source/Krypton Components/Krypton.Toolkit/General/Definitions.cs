@@ -2317,12 +2317,12 @@ namespace Krypton.Toolkit
 
     #endregion
 
-    #region Enum FillMode
+    #region Enum GridFillMode
 
     /// <summary>
     /// Grid filling mode
     /// </summary>
-    public enum FillMode
+    public enum GridFillMode
     {
         /// <summary>
         /// The grid contains only groups (faster).

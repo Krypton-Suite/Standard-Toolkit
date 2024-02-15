@@ -25,6 +25,10 @@ namespace Krypton.Toolkit
     {
         #region Static Fields
         private static readonly bool _themedApp;
+
+        // To avoid lag when Acrylic is in use
+        public const int WS_EX_NOREDIRECTIONBITMAP = 0x00200000;
+
         #endregion
 
         #region Instance Fields
@@ -172,6 +176,12 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Public
+
+        /*public AcrylicValues AcrylicValues { get; } = new AcrylicValues();
+
+        private void ResetAcrylicValues() => AcrylicValues.Reset();
+
+        private bool ShouldSerializeAcrylicValues() => !AcrylicValues.IsDefault;*/
 
         /// <summary>
         /// Gets the DpiX of the view.
@@ -757,6 +767,19 @@ namespace Krypton.Toolkit
         #endregion
 
         #region Protected Override
+
+        //protected override CreateParams CreateParams
+        //{
+        //    get
+        //    {
+        //        CreateParams cp = base.CreateParams;
+
+        //        cp.ExStyle |= WS_EX_NOREDIRECTIONBITMAP;
+
+        //        return cp;
+        //    }
+        //}
+
         /// <summary>
         /// Raises the HandleCreated event.
         /// </summary>
@@ -774,6 +797,11 @@ namespace Krypton.Toolkit
             {
                 //
             }
+
+            //if (AcrylicValues.EnableAcrylic)
+            //{
+            //    WindowUtilities.EnableAcrylic(this, AcrylicValues.AcrylicColor);
+            //}
 
             base.OnHandleCreated(e);
         }
@@ -851,6 +879,14 @@ namespace Krypton.Toolkit
         protected override void OnPaint(PaintEventArgs e)
         {
             base.OnPaint(e);
+        }
+
+        protected override void OnPaintBackground(PaintEventArgs e)
+        {
+            //if (AcrylicValues.EnableAcrylic)
+            //{
+            //    e.Graphics.Clear(Color.Transparent);
+            //}
         }
 
         protected override void OnLoad(EventArgs e)

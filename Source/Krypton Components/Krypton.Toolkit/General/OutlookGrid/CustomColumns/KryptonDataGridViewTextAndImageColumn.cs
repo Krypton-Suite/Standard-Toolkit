@@ -48,7 +48,7 @@ namespace Krypton.Toolkit
         public KryptonDataGridViewTextAndImageColumn()
             : base(new KryptonDataGridViewTextAndImageCell())
         {
-            _buttonSpecs = new(this);
+            _buttonSpecs = new DataGridViewColumnSpecCollection(this);
             SortMode = DataGridViewColumnSortMode.Automatic;
         }
 
@@ -71,10 +71,10 @@ namespace Krypton.Toolkit
         /// Create a cloned copy of the column.
         /// </summary>
         /// <returns></returns>
-        public override object Clone()
+        public override object? Clone()
         {
-            KryptonDataGridViewTextAndImageColumn cloned = base.Clone() as KryptonDataGridViewTextAndImageColumn;
-            cloned._imageValue = _imageValue;
+            KryptonDataGridViewTextAndImageColumn? cloned = base.Clone() as KryptonDataGridViewTextAndImageColumn;
+            cloned!._imageValue = _imageValue;
             cloned._imageSize = _imageSize;
             // Move the button specs over to the new clone
             foreach (ButtonSpec bs in ButtonSpecs)
@@ -151,8 +151,7 @@ namespace Krypton.Toolkit
                         int count = rows.Count;
                         for (int i = 0; i < count; i++)
                         {
-                            DataGridViewTextBoxCell cell = rows.SharedRow(i).Cells[Index] as DataGridViewTextBoxCell;
-                            if (cell != null)
+                            if (rows.SharedRow(i).Cells[Index] is DataGridViewTextBoxCell cell)
                             {
                                 cell.MaxInputLength = value;
                             }

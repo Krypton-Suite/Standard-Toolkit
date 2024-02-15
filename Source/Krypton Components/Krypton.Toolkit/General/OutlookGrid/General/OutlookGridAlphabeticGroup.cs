@@ -60,7 +60,7 @@ namespace Krypton.Toolkit
         /// <summary>
         /// Gets or sets the displayed text.
         /// </summary>
-        public override string Text => $"{Column.DataGridViewColumn.HeaderText}: {Value} ({(ItemCount == 1 ? OneItemText : ItemCount + XxxItemsText)})";
+        public override string Text => $"{Column.DataGridViewColumn?.HeaderText}: {Value} ({(ItemCount == 1 ? OneItemText : ItemCount + XxxItemsText)})";
 
         /// <summary>
         /// Gets or sets the Alphabetic value
@@ -125,7 +125,7 @@ namespace Krypton.Toolkit
 
             if (obj is OutlookGridAlphabeticGroup)
             {
-                return string.Compare(Value.ToString(), ((OutlookGridAlphabeticGroup)obj).Value.ToString()) *
+                return string.CompareOrdinal(Value?.ToString(), (obj as OutlookGridAlphabeticGroup)?.Value?.ToString()) *
                        orderModifier;
             }
             else

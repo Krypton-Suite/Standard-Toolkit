@@ -37,7 +37,6 @@ namespace Krypton.Toolkit
 
         /// <summary>Initializes a new instance of the <see cref="KryptonDataGridViewTextAndImageCell" /> class.</summary>
         public KryptonDataGridViewTextAndImageCell()
-            : base()
         {
         }
 
@@ -102,13 +101,13 @@ namespace Krypton.Toolkit
                 if (Image != value)
                 {
                     _imageValue = value;
-                    _imageSize = value.Size;
+                    _imageSize = value!.Size;
 
                     //if (this.InheritedStyle != null)
                     //{
                     Padding inheritedPadding = Style.Padding;
                     //Padding inheritedPadding = this.InheritedStyle.Padding;
-                    Style.Padding = new(_imageSize.Width + 2,
+                    Style.Padding = new Padding(_imageSize.Width + 2,
                         inheritedPadding.Top, inheritedPadding.Right,
                         inheritedPadding.Bottom);
                     //}
@@ -140,7 +139,7 @@ namespace Krypton.Toolkit
             if (Value != null && (Value as TextAndImage)?.Image != null)
             {
                 Padding inheritedPadding = Style.Padding;
-                Style.Padding = new(_imageSize.Width + 2,
+                Style.Padding = new Padding(_imageSize.Width + 2,
                     inheritedPadding.Top, inheritedPadding.Right,
                     inheritedPadding.Bottom);
                 //To be in phase with highlight feature who forces the style.

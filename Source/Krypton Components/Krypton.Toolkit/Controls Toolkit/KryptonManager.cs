@@ -506,8 +506,8 @@ namespace Krypton.Toolkit
                 case PaletteMode.Office2010BlackDarkMode:
                     return PaletteOffice2010BlackDarkMode;
                 // TODO: Re-enable this once completed
-                case PaletteMode.Office2013DarkGray:
-                    return PaletteOffice2013DarkGray;
+                // case PaletteMode.Office2013DarkGray:
+                // return PaletteOffice2013DarkGray;
                 // case PaletteMode.Office2013LightGray:
                 // return PaletteOffice2013LightGray;
                 case PaletteMode.Office2013White:

@@ -40,6 +40,7 @@
 * [Known Issues & Workarounds](#known-issues--workarounds)
 	* [Introduction](#introduction)
 	* [What is this Repository About?](#what-is-this-repository-about)
+	* [Contributing to this project](#contributing-to-this-project)
 	* [Individual Components](#individual-components)
 		* [Krypton Toolkit](#krypton-toolkit)
 		* [Krypton Ribbon](#krypton-ribbon)
@@ -281,6 +282,10 @@ The Krypton Suite contains user interface components designed to make it quick a
 - New versions of NuGet packages can be obtained via this [link](https://www.nuget.org/profiles/Krypton_Suite), or via your package manager by searching `Krypton.`.
 - New, major versions are released annually, with patches if needed released throughout that period. Version 80 is expected to release in November 2023.
 - For tips on how to build the toolkit for yourself, please read the following [article](https://github.com/Krypton-Suite/Documentation/blob/main/Documents/Development/How-to-Build.md).
+
+## Contributing to this project
+
+If you want to contribute to this project, please follow [these](https://github.com/Krypton-Suite/Documentation/blob/main/Documents/Development/How-to-Create-a-Pull-Request.md) guidelines. All contributions are welcome!
 
 ## Individual Components
 

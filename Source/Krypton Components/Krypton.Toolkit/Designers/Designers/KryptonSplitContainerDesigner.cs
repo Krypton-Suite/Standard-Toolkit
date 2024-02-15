@@ -126,9 +126,15 @@ namespace Krypton.Toolkit
             get
             {
                 // Create a collection of action lists
-                DesignerActionListCollection actionLists = [new KryptonSplitContainerActionList(this)];
+                DesignerActionListCollection actionList = new DesignerActionListCollection();
 
-                return actionLists;
+                actionList.Add(new KryptonSplitContainerActionList(this));
+
+                return actionList;
+
+                /*DesignerActionListCollection actionLists = [new KryptonSplitContainerActionList(this)];
+
+                return actionLists;*/
             }
         }
         #endregion

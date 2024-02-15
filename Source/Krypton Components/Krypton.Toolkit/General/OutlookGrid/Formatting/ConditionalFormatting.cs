@@ -103,11 +103,11 @@ namespace Krypton.Toolkit
 
         internal void Persist(XmlWriter writer)
         {
-            writer.WriteStartElement("Condition");
-            writer.WriteElementString("ColumnName", ColumnName);
-            writer.WriteElementString("FormatType", FormatType.ToString());
-            writer.WriteStartElement("FormatParams");
-            FormatParams.Persist(writer);
+            writer.WriteStartElement(KryptonManager.Strings.KryptonOutlookGridStrings.ConditionXMLNodeText);
+            writer.WriteElementString(KryptonManager.Strings.KryptonOutlookGridStrings.ColumnNameXMLNodeText, ColumnName);
+            writer.WriteElementString(KryptonManager.Strings.KryptonOutlookGridStrings.FormatTypeXMLNodeText, FormatType.ToString());
+            writer.WriteStartElement(KryptonManager.Strings.KryptonOutlookGridStrings.FormatParamsXMLNodeText);
+            FormatParams?.Persist(writer);
             writer.WriteEndElement(); //FormatParams
             //No need to persist min/max Value.
             writer.WriteEndElement(); //Condition

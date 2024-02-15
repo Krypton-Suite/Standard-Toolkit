@@ -94,7 +94,7 @@
             // 
             this.kryptonOutlookGrid1.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.kryptonOutlookGrid1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.kryptonOutlookGrid1.FillMode = Krypton.Toolkit.FillMode.GroupsOnly;
+            this.kryptonOutlookGrid1.FillMode = Krypton.Toolkit.GridFillMode.GroupsOnly;
             this.kryptonOutlookGrid1.GroupCollection = outlookGridGroupCollection2;
             this.kryptonOutlookGrid1.Location = new System.Drawing.Point(0, 46);
             this.kryptonOutlookGrid1.Name = "kryptonOutlookGrid1";

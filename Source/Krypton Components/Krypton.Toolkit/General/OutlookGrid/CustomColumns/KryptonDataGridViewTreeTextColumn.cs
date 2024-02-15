@@ -33,7 +33,6 @@ namespace Krypton.Toolkit
         /// Initializes a new instance of the <see cref="KryptonDataGridViewTreeTextColumn"/> class.
         /// </summary>
         public KryptonDataGridViewTreeTextColumn()
-            : base()
         {
             CellTemplate = new KryptonDataGridViewTreeTextCell();
         }
