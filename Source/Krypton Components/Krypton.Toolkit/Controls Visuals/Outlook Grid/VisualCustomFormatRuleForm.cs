@@ -252,7 +252,7 @@ namespace Krypton.Toolkit
 
         private void kcmbFormatStyle_SelectedIndexChanged(object sender, EventArgs e)
         {
-            var tag = ((KryptonListItem)kcmbFormatStyle.Items[kcmbFormatStyle.SelectedIndex]).Tag;
+            var tag = (kcmbFormatStyle.Items[kcmbFormatStyle.SelectedIndex] as KryptonListItem)?.Tag;
 
             if (tag != null)
             {
