@@ -29,7 +29,7 @@ namespace Krypton.Ribbon
         private readonly Padding _preferredPaddingL; // = new(1, 3, 1, 3);
         private readonly Padding _layoutPaddingL; // = new(1);
         private readonly Padding _outerPaddingL; // = new(0, 2, 0, 2);
-        private readonly Padding _paddingMS; // = new(0, 2, 0, 2);
+        private readonly Padding _paddingMs; // = new(0, 2, 0, 2);
         #endregion
 
         #region Identity
@@ -73,12 +73,12 @@ namespace Krypton.Ribbon
         {
             Debug.Assert(ribbonTriple != null);
 
-            _ribbonTriple = ribbonTriple;
+            _ribbonTriple = ribbonTriple!;
             CurrentSize = currentSize;
             _preferredPaddingL = new Padding((int)(1 * FactorDpiX), (int)(3 * FactorDpiY), (int)(1 * FactorDpiX), (int)(3 * FactorDpiY));
             _layoutPaddingL = new Padding((int)(1 * FactorDpiX), (int)(1 * FactorDpiY), (int)(1 * FactorDpiX), (int)(1 * FactorDpiY));
             _outerPaddingL = new Padding(0, (int)(2 * FactorDpiY), 0, (int)(2 * FactorDpiY));
-            _paddingMS = new Padding(0, (int)(2 * FactorDpiY), 0, (int)(2 * FactorDpiY));
+            _paddingMs = new Padding(0, (int)(2 * FactorDpiY), 0, (int)(2 * FactorDpiY));
         }
 
         /// <summary>
@@ -109,7 +109,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets the padding to use when calculating the preferred size.
         /// </summary>
-        protected override Padding PreferredPadding => CurrentSize == GroupItemSize.Large ? _preferredPaddingL : _paddingMS;
+        protected override Padding PreferredPadding => CurrentSize == GroupItemSize.Large ? _preferredPaddingL : _paddingMs;
 
         /// <summary>
         /// Gets the padding to use when laying out the view.
@@ -119,7 +119,7 @@ namespace Krypton.Ribbon
         /// <summary>
         /// Gets the padding to shrink the client area by when laying out.
         /// </summary>
-        protected override Padding OuterPadding => CurrentSize == GroupItemSize.Large ? _outerPaddingL : _paddingMS;
+        protected override Padding OuterPadding => CurrentSize == GroupItemSize.Large ? _outerPaddingL : _paddingMs;
 
         /// <summary>
         /// Raises the Click event.

@@ -48,6 +48,7 @@ namespace Krypton.Toolkit
         internal const string DEFAULT_PALETTE_MICROSOFT_365_SILVER = @"Microsoft 365 - Silver";
         internal const string DEFAULT_PALETTE_MICROSOFT_365_WHITE = @"Microsoft 365 - White";
         internal const string DEFAULT_PALETTE_MICROSOFT_365_BLACK_DARK_MODE = @"Microsoft 365 - Black (Dark Mode)";
+        internal const string DEFAULT_PALETTE_MICROSOFT_365_BLACK_DARK_MODE_ALTERNATE = @"Microsoft 365 - Black (Dark Mode - Alternate)";
         internal const string DEFAULT_PALETTE_MICROSOFT_365_BLUE_DARK_MODE = @"Microsoft 365 - Blue (Dark Mode)";
         internal const string DEFAULT_PALETTE_MICROSOFT_365_SILVER_DARK_MODE = @"Microsoft 365 - Silver (Dark Mode)";
         internal const string DEFAULT_PALETTE_MICROSOFT_365_DARK_GRAY = @"Microsoft 365 - Dark Gray";
@@ -133,6 +134,7 @@ namespace Krypton.Toolkit
                 { DEFAULT_PALETTE_MICROSOFT_365_WHITE, PaletteMode.Microsoft365White },
                 { DEFAULT_PALETTE_MICROSOFT_365_BLACK, PaletteMode.Microsoft365Black },
                 { DEFAULT_PALETTE_MICROSOFT_365_BLACK_DARK_MODE, PaletteMode.Microsoft365BlackDarkMode },
+                { DEFAULT_PALETTE_MICROSOFT_365_BLACK_DARK_MODE_ALTERNATE, PaletteMode.Microsoft365BlackDarkModeAlternate},
                 //{ DEFAULT_PALETTE_MICROSOFT_365_DARK_GRAY, PaletteMode.Microsoft365DarkGray },
                 //{ PaletteModeStrings.DEFAULT_PALETTE_MICROSOFT_365_LIGHT_GRAY, PaletteMode.Microsoft365LightGray },
                 { DEFAULT_PALETTE_VISUAL_STUDIO_2010_RENDER_2007, PaletteMode.VisualStudio2010Render2007 },
@@ -207,6 +209,7 @@ namespace Krypton.Toolkit
             Office2013White.Equals(DEFAULT_PALETTE_OFFICE_2013_WHITE) &&
             Microsoft365Black.Equals(DEFAULT_PALETTE_MICROSOFT_365_BLACK) &&
             Microsoft365BlackDarkMode.Equals(DEFAULT_PALETTE_MICROSOFT_365_BLACK_DARK_MODE) &&
+            Microsoft365BlackDarkModeAlternate.Equals(DEFAULT_PALETTE_MICROSOFT_365_BLACK_DARK_MODE_ALTERNATE) &&
             Microsoft365Blue.Equals(DEFAULT_PALETTE_MICROSOFT_365_BLUE) &&
             Microsoft365BlueDarkMode.Equals(DEFAULT_PALETTE_MICROSOFT_365_BLUE_DARK_MODE) &&
             Microsoft365BlueLightMode.Equals(DEFAULT_PALETTE_MICROSOFT_365_BLUE_LIGHT_MODE) &&
@@ -292,6 +295,8 @@ namespace Krypton.Toolkit
 
             Microsoft365BlackDarkMode = DEFAULT_PALETTE_MICROSOFT_365_BLACK_DARK_MODE;
 
+            Microsoft365BlackDarkModeAlternate = DEFAULT_PALETTE_MICROSOFT_365_BLACK_DARK_MODE_ALTERNATE;
+
             Microsoft365Blue = DEFAULT_PALETTE_MICROSOFT_365_BLUE;
 
             Microsoft365BlueDarkMode = DEFAULT_PALETTE_MICROSOFT_365_BLUE_DARK_MODE;
@@ -360,6 +365,8 @@ namespace Krypton.Toolkit
         [DefaultValue(DEFAULT_PALETTE_OFFICE_2003)]
         [RefreshProperties(RefreshProperties.All)]
         public string Professional2003 { get; set; }
+
+        #region Office 2007
 
         /// <summary>Gets or sets the Office 2007 Black palette name string.</summary>
         [Localizable(true)]
@@ -449,6 +456,10 @@ namespace Krypton.Toolkit
         [RefreshProperties(RefreshProperties.All)]
         public string Office2007LightGray { get; set; }
 
+        #endregion
+
+        #region Office 2010
+
         /// <summary>Gets or sets the Office 2010 Black palette name string.</summary>
         [Localizable(true)]
         [Category(@"Visuals")]
@@ -537,6 +548,10 @@ namespace Krypton.Toolkit
         [RefreshProperties(RefreshProperties.All)]
         public string Office2010LightGray { get; set; }
 
+        #endregion
+
+        #region Office 2013
+
         /// <summary>Gets or sets the Office 2013 White palette name string.</summary>
         [Localizable(true)]
         [Category(@"Visuals")]
@@ -560,6 +575,10 @@ namespace Krypton.Toolkit
         [DefaultValue(DEFAULT_PALETTE_OFFICE_2013_LIGHT_GRAY)]
         [RefreshProperties(RefreshProperties.All)]
         public string Office2013LightGray { get; set; }
+
+        #endregion
+
+        #region Microsoft 365
 
         /// <summary>Gets or sets the Microsoft 365 Black palette name string.</summary>
         [Localizable(true)]
@@ -600,6 +619,14 @@ namespace Krypton.Toolkit
         [DefaultValue(DEFAULT_PALETTE_MICROSOFT_365_BLACK_DARK_MODE)]
         [RefreshProperties(RefreshProperties.All)]
         public string Microsoft365BlackDarkMode { get; set; }
+
+        /// <summary>Gets or sets the Microsoft 365 Black (Dark Mode - Alternate) palette name string.</summary>
+        [Localizable(true)]
+        [Category(@"Visuals")]
+        [Description(@"The Microsoft 365 Black (Dark Mode - Alternate) palette name.")]
+        [DefaultValue(DEFAULT_PALETTE_MICROSOFT_365_BLACK_DARK_MODE_ALTERNATE)]
+        [RefreshProperties(RefreshProperties.All)]
+        public string Microsoft365BlackDarkModeAlternate { get; set; }
 
         /// <summary>Gets or sets the Microsoft 365 Blue (Dark Mode) palette name string.</summary>
         [Localizable(true)]
@@ -648,6 +675,10 @@ namespace Krypton.Toolkit
         [DefaultValue(DEFAULT_PALETTE_MICROSOFT_365_LIGHT_GRAY)]
         [RefreshProperties(RefreshProperties.All)]
         public string Microsoft365LightGray { get; set; }
+
+        #endregion
+
+        #region Sparkle
 
         /// <summary>Gets or sets the Sparkle Blue palette name string.</summary>
         [Localizable(true)]
@@ -721,6 +752,10 @@ namespace Krypton.Toolkit
         [RefreshProperties(RefreshProperties.All)]
         public string SparklePurpleLightMode { get; set; }
 
+        #endregion
+
+        #region Visual Studio
+
         /// <summary>Gets or sets the Visual Studio 2010 with 2007 renderer palette name string.</summary>
         [Localizable(true)]
         [Category(@"Visuals")]
@@ -752,6 +787,8 @@ namespace Krypton.Toolkit
         [DefaultValue(DEFAULT_PALETTE_VISUAL_STUDIO_2010_RENDER_365)]
         [RefreshProperties(RefreshProperties.All)]
         public string VisualStudio2010With365Renderer { get; set; }
+
+        #endregion
 
         #endregion
 

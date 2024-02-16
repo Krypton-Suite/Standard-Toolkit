@@ -49,13 +49,13 @@ namespace Krypton.Ribbon
             Debug.Assert(ribbon != null);
 
             // Remember incoming references
-            _ribbon = ribbon;
+            _ribbon = ribbon!;
 
             // Create delegate used to process end of click action
             _finishDelegate = ClickFinished;
 
             // Attach a controller to this element for the pressing of the button
-            var controller = new QATExtraButtonController(ribbon, this, needPaint);
+            var controller = new QATExtraButtonController(ribbon!, this, needPaint);
             controller.Click += OnClick;
             MouseController = controller;
             SourceController = controller;
@@ -133,7 +133,7 @@ namespace Krypton.Ribbon
             Debug.Assert(context != null);
 
             // We take on all the available display area
-            ClientRectangle = context.DisplayRectangle;
+            ClientRectangle = context!.DisplayRectangle;
         }
         #endregion
 
@@ -148,28 +148,28 @@ namespace Krypton.Ribbon
             Enabled = _ribbon.Enabled;
 
             IPaletteBack paletteBack = _ribbon.StateCommon.RibbonGroupDialogButton.PaletteBack;
-            IPaletteBorder paletteBorder = _ribbon.StateCommon.RibbonGroupDialogButton.PaletteBorder;
+            IPaletteBorder? paletteBorder = _ribbon.StateCommon.RibbonGroupDialogButton.PaletteBorder;
             IPaletteRibbonGeneral paletteGeneral = _ribbon.StateCommon.RibbonGeneral;
 
             // Do we need to draw the background?
             if (paletteBack.GetBackDraw(State) == InheritBool.True)
             {
                 // Get the border path which the background is clipped to drawing within
-                using GraphicsPath borderPath = context.Renderer.RenderStandardBorder.GetBackPath(context, ClientRectangle, paletteBorder, VisualOrientation.Top, State);
-                Padding borderPadding = context.Renderer.RenderStandardBorder.GetBorderRawPadding(paletteBorder, State, VisualOrientation.Top);
+                using GraphicsPath borderPath = context.Renderer.RenderStandardBorder.GetBackPath(context, ClientRectangle, paletteBorder!, VisualOrientation.Top, State);
+                Padding borderPadding = context.Renderer.RenderStandardBorder.GetBorderRawPadding(paletteBorder!, State, VisualOrientation.Top);
 
                 // Apply the padding depending on the orientation
                 Rectangle enclosingRect = CommonHelper.ApplyPadding(VisualOrientation.Top, ClientRectangle, borderPadding);
 
                 // Render the background inside the border path
-                using var gh = new GraphicsHint(context.Graphics, paletteBorder.GetBorderGraphicsHint(PaletteState.Normal));
+                using var gh = new GraphicsHint(context.Graphics, paletteBorder!.GetBorderGraphicsHint(PaletteState.Normal));
                 _mementoBack = context.Renderer.RenderStandardBack.DrawBack(context, enclosingRect, borderPath,
                     paletteBack, VisualOrientation.Top,
                     State, _mementoBack);
             }
 
             // Do we need to draw the border?
-            if (paletteBorder.GetBorderDraw(State) == InheritBool.True)
+            if (paletteBorder?.GetBorderDraw(State) == InheritBool.True)
             {
                 context.Renderer.RenderStandardBorder.DrawBorder(context, ClientRectangle, paletteBorder, 
                     VisualOrientation.Top, State);
@@ -195,7 +195,7 @@ namespace Krypton.Ribbon
         private void ClickFinished(object sender, EventArgs e)
         {
             // Get access to our mouse controller
-            var controller = (LeftDownButtonController)MouseController;
+            var controller = MouseController as LeftDownButtonController;
 
             // Remove the fixed pressed appearance
             controller?.RemoveFixed();

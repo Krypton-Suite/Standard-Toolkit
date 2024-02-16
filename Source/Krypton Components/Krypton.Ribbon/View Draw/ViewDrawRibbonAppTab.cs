@@ -38,7 +38,7 @@ namespace Krypton.Ribbon
             Debug.Assert(ribbon != null);
 
             _preferredBorder = new Padding((int)(17 * FactorDpiX), (int)(4 * FactorDpiY), (int)(17 * FactorDpiX), (int)(3 * FactorDpiY));
-            _ribbon = ribbon;
+            _ribbon = ribbon!;
             _mementos = new IDisposable[4];
 
             // Use a class to convert from application tab to content interface
@@ -90,7 +90,7 @@ namespace Krypton.Ribbon
             Debug.Assert(context != null);
 
             // Get base class calculated preferred size
-            Size preferredSize = base.GetPreferredSize(context);
+            Size preferredSize = base.GetPreferredSize(context!);
 
             // Add on the fixed border extra
             preferredSize.Width += _preferredBorder.Horizontal;
@@ -108,7 +108,7 @@ namespace Krypton.Ribbon
             Debug.Assert(context != null);
 
             // We take on all the available display area
-            ClientRectangle = context.DisplayRectangle;
+            ClientRectangle = context!.DisplayRectangle;
             base.Layout(context);
         }
         #endregion

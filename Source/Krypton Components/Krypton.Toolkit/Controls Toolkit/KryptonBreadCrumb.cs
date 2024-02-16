@@ -115,7 +115,7 @@ namespace Krypton.Toolkit
 
             // Our view contains background and border with crumbs inside
             _layoutCrumbs = new ViewLayoutCrumbs(this, NeedPaintDelegate);
-            _drawDocker = new ViewDrawDocker(StateNormal.Back, StateNormal.Border, null)
+            _drawDocker = new ViewDrawDocker(StateNormal.Back, StateNormal.Border, null!)
             {
                 { _layoutCrumbs, ViewDockStyle.Fill }
             };

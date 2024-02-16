@@ -62,14 +62,14 @@ namespace Krypton.Ribbon
             base.RenderAfter(renderContext);
 
             // Convert our rectangle to the screen
-            Rectangle screenRect = renderContext.TopControl.RectangleToScreen(renderContext.TopControl.ClientRectangle);
+            Rectangle screenRect = renderContext.TopControl!.RectangleToScreen(renderContext.TopControl.ClientRectangle);
 
             // If the fixed rectangle is in our showing area and at the top
             if (screenRect.Contains(_fixedScreenRect) && (screenRect.Y == _fixedScreenRect.Y))
             {
                 // Position the element appropriately
                 using (var layoutContext =
-                       new ViewLayoutContext(renderContext.Control, renderContext.Renderer))
+                       new ViewLayoutContext(renderContext.Control!, renderContext.Renderer))
                 {
                     layoutContext.DisplayRectangle = renderContext.TopControl.RectangleToClient(_fixedScreenRect);
                     _fixedElement.Layout(layoutContext);

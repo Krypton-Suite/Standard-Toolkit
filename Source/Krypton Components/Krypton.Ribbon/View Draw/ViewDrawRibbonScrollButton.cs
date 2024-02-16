@@ -88,7 +88,7 @@ namespace Krypton.Ribbon
             Debug.Assert(context != null);
 
             // We take on all the available display area
-            ClientRectangle = context.DisplayRectangle;
+            ClientRectangle = context!.DisplayRectangle;
         }
         #endregion
 
@@ -112,7 +112,7 @@ namespace Krypton.Ribbon
             using GraphicsPath borderPath = CreateBorderPath(ClientRectangle),
                 shadowPath = CreateBorderPath(shadowRect);
             // Are we allowed to draw a border?
-            if (_ribbon.StateCommon.RibbonScroller.PaletteBorder.GetBorderDraw(State) == InheritBool.True)
+            if (_ribbon.StateCommon.RibbonScroller.PaletteBorder!.GetBorderDraw(State) == InheritBool.True)
             {
                 // Draw the border shadow
                 using var aa = new AntiAlias(context.Graphics);
@@ -129,7 +129,7 @@ namespace Krypton.Ribbon
             }
 
             // Are we allowed to draw the content?
-            if (_ribbon.StateCommon.RibbonScroller.PaletteContent.GetContentDraw(State) == InheritBool.True)
+            if (_ribbon.StateCommon.RibbonScroller.PaletteContent!.GetContentDraw(State) == InheritBool.True)
             {
                 // Get the text color from palette
                 Color textColor = _ribbon.StateCommon.RibbonScroller.PaletteContent.GetContentShortTextColor1(State);
@@ -201,7 +201,7 @@ namespace Krypton.Ribbon
             // Create path that describes the arrow in orientation needed
             using GraphicsPath arrowPath = CreateArrowPath(rect);
             using var arrowBrush = new SolidBrush(textColor);
-            g.FillPath(arrowBrush, arrowPath);
+            g?.FillPath(arrowBrush, arrowPath);
         }
 
         private GraphicsPath CreateArrowPath(Rectangle rect)

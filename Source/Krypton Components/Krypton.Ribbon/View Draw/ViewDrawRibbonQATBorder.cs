@@ -56,7 +56,7 @@ namespace Krypton.Ribbon
             _fullbarBorderPadding_2010 = new Padding((int)(2 * FactorDpiX), (int)(2 * FactorDpiY), (int)(2 * FactorDpiX), (int)(2 * FactorDpiY));
             _noBorderPadding = new Padding((int)(1 * FactorDpiX), 0, (int)(1 * FactorDpiX), 0);
             // Remember incoming references
-            _ribbon = ribbon;
+            _ribbon = ribbon!;
             _minibar = minibar;
             OverlapAppButton = true;
         }
@@ -153,7 +153,7 @@ namespace Krypton.Ribbon
         {
             Debug.Assert(context != null);
 
-            Rectangle clientRect = context.DisplayRectangle;
+            Rectangle clientRect = context!.DisplayRectangle;
 
             // For the minibar we have to position ourself at bottom of available area
             if (_minibar)

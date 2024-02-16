@@ -32,7 +32,7 @@ namespace Krypton.Ribbon
         public ViewDrawRibbonDropArrow([DisallowNull] KryptonRibbon ribbon)
         {
             Debug.Assert(ribbon != null);
-            _ribbon = ribbon;
+            _ribbon = ribbon!;
             _arrowSize = new Size((int)(5 * FactorDpiX), (int)(4 * FactorDpiY));
         }
 
@@ -62,7 +62,7 @@ namespace Krypton.Ribbon
             Debug.Assert(context != null);
 
             // We take on all the available display area
-            ClientRectangle = context.DisplayRectangle;
+            ClientRectangle = context!.DisplayRectangle;
         }
         #endregion
 

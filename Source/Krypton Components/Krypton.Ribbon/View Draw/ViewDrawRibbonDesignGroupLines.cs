@@ -15,7 +15,7 @@
 namespace Krypton.Ribbon
 {
     /// <summary>
-    /// Draws an design time only for adding a new item to a lines container.
+    /// Draws a design time only for adding a new item to a lines' container.
     /// </summary>
     internal class ViewDrawRibbonDesignGroupLines : ViewDrawRibbonDesignBase
     {
@@ -71,7 +71,7 @@ namespace Krypton.Ribbon
         {
             Debug.Assert(ribbonLines != null);
 
-            _ribbonLines = ribbonLines;
+            _ribbonLines = ribbonLines!;
             CurrentSize = currentSize;
             _padding = new Padding(0, (int)(2 * FactorDpiY), (int)(2 * FactorDpiX), (int)(4 * FactorDpiY));
         }

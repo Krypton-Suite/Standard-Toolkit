@@ -51,6 +51,8 @@ namespace Krypton.Toolkit
 
         #region Identity
 
+        /// <summary>Initializes a new instance of the <see cref="VisualCustomFormatRuleForm" /> class.</summary>
+        /// <param name="conditionalFormatType">Type of the conditional format.</param>
         public VisualCustomFormatRuleForm(EnumConditionalFormatType conditionalFormatType)
         {
             InitializeComponent();

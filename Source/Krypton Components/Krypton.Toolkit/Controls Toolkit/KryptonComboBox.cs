@@ -1359,7 +1359,7 @@ namespace Krypton.Toolkit
         /// </summary>
         public override string? Text
         {
-            get => _comboBox?.Text;
+            get => _comboBox.Text;
             set => _comboBox.Text = value;
         }
 
@@ -1961,29 +1961,29 @@ namespace Krypton.Toolkit
         /// </summary>
         /// <param name="item">The object from which to get the contents to display.</param>
         /// <returns>If the DisplayMember property is not specified, the value returned by GetItemText is the value of the item's ToString method. Otherwise, the method returns the string value of the member specified in the DisplayMember property for the object specified in the item parameter.</returns>
-        public string? GetItemText(object? item) => _comboBox?.GetItemText(item);
+        public string? GetItemText(object? item) => _comboBox.GetItemText(item);
 
         /// <summary>
         /// Selects a range of text in the control.
         /// </summary>
         /// <param name="start">The position of the first character in the current text selection within the text box.</param>
         /// <param name="length">The number of characters to select.</param>
-        public void Select(int start, int length) => _comboBox?.Select(start, length);
+        public void Select(int start, int length) => _comboBox.Select(start, length);
 
         /// <summary>
         /// Selects all text in the control.
         /// </summary>
-        public void SelectAll() => _comboBox?.SelectAll();
+        public void SelectAll() => _comboBox.SelectAll();
 
         /// <summary>
         /// Maintains performance when items are added to the ComboBox one at a time.
         /// </summary>
-        public void BeginUpdate() => _comboBox?.BeginUpdate();
+        public void BeginUpdate() => _comboBox.BeginUpdate();
 
         /// <summary>
         /// Resumes painting the ComboBox control after painting is suspended by the BeginUpdate method. 
         /// </summary>
-        public void EndUpdate() => _comboBox?.EndUpdate();
+        public void EndUpdate() => _comboBox.EndUpdate();
 
         /// <summary>
         /// Sets the fixed state of the control.
@@ -2440,7 +2440,7 @@ namespace Krypton.Toolkit
         {
             _mouseOver = true;
             PerformNeedPaint(false);
-            _comboBox?.Invalidate();
+            _comboBox.Invalidate();
             base.OnMouseEnter(e);
         }
 
@@ -2452,7 +2452,7 @@ namespace Krypton.Toolkit
         {
             _mouseOver = false;
             PerformNeedPaint(false);
-            _comboBox?.Invalidate();
+            _comboBox.Invalidate();
             base.OnMouseLeave(e);
         }
 
@@ -2463,7 +2463,7 @@ namespace Krypton.Toolkit
         protected override void OnGotFocus(EventArgs e)
         {
             base.OnGotFocus(e);
-            _comboBox?.Focus();
+            _comboBox.Focus();
         }
 
         /// <summary>
@@ -2481,8 +2481,8 @@ namespace Krypton.Toolkit
                 _comboBox.BackColor = triple.PaletteBack.GetBackColor1(state);
                 _comboBox.ForeColor = triple.PaletteContent!.GetContentShortTextColor1(state);
                 _comboBox.Font = triple.PaletteContent.GetContentShortTextFont(state)!;
-                _comboBox?.ClearAppThemed();
-                _comboHolder.BackColor = _comboBox!.BackColor;
+                _comboBox.ClearAppThemed();
+                _comboHolder.BackColor = _comboBox.BackColor;
             }
 
             base.OnUserPreferenceChanged(sender, e);
@@ -2571,7 +2571,7 @@ namespace Krypton.Toolkit
         {
             if (!e.NeedLayout)
             {
-                _comboBox?.Invalidate();
+                _comboBox.Invalidate();
             }
             else if (!DroppedDown)
             {
@@ -2583,7 +2583,7 @@ namespace Krypton.Toolkit
                 UpdateStateAndPalettes();
                 IPaletteTriple triple = GetComboBoxTripleState();
                 PaletteState state = _drawDockerOuter.State;
-                _comboBox!.BackColor = triple.PaletteBack.GetBackColor1(state);
+                _comboBox.BackColor = triple.PaletteBack.GetBackColor1(state);
                 _comboBox.ForeColor = triple.PaletteContent!.GetContentShortTextColor1(state);
                 _comboBox.Font = triple.PaletteContent.GetContentShortTextFont(state)!;
                 _comboHolder.BackColor = _comboBox.BackColor;
@@ -2599,7 +2599,7 @@ namespace Krypton.Toolkit
         protected override void OnPaletteChanged(EventArgs e)
         {
             base.OnPaletteChanged(e);
-            _comboBox?.Invalidate();
+            _comboBox.Invalidate();
         }
 
         /// <summary>
@@ -2610,7 +2610,7 @@ namespace Krypton.Toolkit
         protected override void OnPaletteNeedPaint(object sender, NeedLayoutEventArgs e)
         {
             base.OnPaletteChanged(e);
-            _comboBox?.Invalidate();
+            _comboBox.Invalidate();
         }
 
         /// <summary>
@@ -2891,7 +2891,7 @@ namespace Krypton.Toolkit
             else
             {
                 // Get the text string for the item
-                _contentValues!.ShortText = _comboBox?.GetItemText(Items[index]);
+                _contentValues!.ShortText = _comboBox.GetItemText(Items[index]);
                 _contentValues.LongText = null;
                 _contentValues.Image = null;
                 _contentValues.ImageTransparentColor = Color.Empty;
@@ -2930,7 +2930,7 @@ namespace Krypton.Toolkit
             }
 
             PerformNeedPaint(false);
-            _comboBox?.Invalidate();
+            _comboBox.Invalidate();
         }
 
         private void OnComboBoxGotFocus(object sender, EventArgs e)
@@ -2948,7 +2948,7 @@ namespace Krypton.Toolkit
 
             base.OnGotFocus(e);
             PerformNeedPaint(false);
-            _comboBox?.Invalidate();
+            _comboBox.Invalidate();
         }
 
         private void OnComboBoxLostFocus(object sender, EventArgs e)
@@ -2963,7 +2963,7 @@ namespace Krypton.Toolkit
             base.OnLostFocus(e);
             // ReSharper restore RedundantBaseQualifier
             PerformNeedPaint(false);
-            _comboBox?.Invalidate();
+            _comboBox.Invalidate();
         }
 
         private void OnComboBoxTextChanged(object sender, EventArgs e) => OnTextChanged(e);
@@ -3019,7 +3019,7 @@ namespace Krypton.Toolkit
         {
             UpdateEditControl();
             PerformNeedPaint(false);
-            _comboBox?.Invalidate();
+            _comboBox.Invalidate();
             OnSelectedValueChanged(e);
         }
 
